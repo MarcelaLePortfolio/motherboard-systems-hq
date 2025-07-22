@@ -1,48 +1,10 @@
-import sqlite3 from "sqlite3";
-import { open } from "sqlite";
-import fs from "fs/promises";
-import { askBrain } from "./utils/askBrain.js";
+import { askBrain } from "./utils/askBrain";
 
-async function runEffie() {
-  const db = await open({
-    filename: "memory/agent_memory.db",
-    driver: sqlite3.Database
-  });
-
-  const tasks = await db.all(
-    `SELECT id, step FROM compiled_tasks WHERE executed = 0 ORDER BY timestamp ASC LIMIT 5`
-  );
-
-  if (tasks.length === 0) {
-    console.log("🟡 Effie: No tasks to execute.");
-    await db.close();
-    return;
+export async function routeToEffie(task: string): Promise<string> {
+  try {
+    const result = await askBrain(task);
+    return `🖥️ Effie’s output:\n${result}`;
+  } catch (err: any) {
+    return `❌ Effie error: ${err.message || err}`;
   }
-
-  for (const task of tasks) {
-    const { id, step } = task;
-    let result = "";
-
-    if (step.toLowerCase().includes("check my disk space")) {
-      const { size } = await fs.stat("/");
-      result = `💾 Effie: Disk check complete. Root size approx ${size} bytes`;
-    } else if (step.toLowerCase().includes("organize my screenshots")) {
-      result = `🗂 Effie: Simulated organizing screenshots folder`;
-    } else {
-      try {
-        const brainCmd = await askBrain(step);
-        result = `🧠 Effie ran brain-suggested command: ${brainCmd}`;
-      } catch (e) {
-        result = `[BLOCKED] ${e.toString()}`;
-      }
-    }
-
-    await db.run(`UPDATE compiled_tasks SET executed = 1 WHERE id = ?`, id);
-    await db.run(`INSERT INTO logs (agent, message) VALUES (?, ?)`, 'effie', result);
-    console.log(result);
-  }
-
-  await db.close();
 }
-
-runEffie().catch(console.error);
