@@ -1,10 +1,10 @@
-<0067matilda.b> [note:marcela] 🎨 Tone surface controls initiated.
-- Matilda will apply output harmonization rules when surfacing multi-agent logs.
-- Three-tier surface styles:
-  ▸ raw (unaltered)
-  ▸ friendly (neutral technical)
-  ▸ interpreted (brand-flavored)
+<0067matilda.d> [note:marcela] 🧩 Surface modes formalized for future toggle.
+- Tone mediation now integrated into orchestration roadmap.
+- Matilda will provide:
+  ▸ raw = direct logs
+  ▸ friendly = human-readable summaries
+  ▸ interpreted = brand-flavored communication
 
-🛠 Pending implementation:
-- Configurable mode selector per invocation or session
-- Phrasebank for interpreted summaries, aligned to brand tone
+🛠 Awaiting:
+- Runtime switch to select tone mode
+- Harmonized phrasing layer for interpreted outputs
