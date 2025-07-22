@@ -1,10 +1,11 @@
-<0067matilda.d> [note:marcela] <0001f9e9> Surface modes formalized for future toggle.
-- Tone mediation now integrated into orchestration roadmap.
-- Matilda will provide:
-  ▸ raw = direct logs
-  ▸ friendly = human-readable summaries
-  ▸ interpreted = brand-flavored communication
+<0069matilda.a> [note:marcela] 🧠 Agent awareness layer activated.
+- Matilda will track agent states via memory/agent_status.json.
+- Enables future retry, chaining, and routing logic based on real-time readiness.
 
-🛠 Awaiting:
-- Runtime switch to select tone mode
-- Harmonized phrasing layer for interpreted outputs
+🧩 State types:
+  ▸ idle – agent available for task
+  ▸ running – currently executing
+  ▸ error – failed last task, awaiting instruction
+  ▸ cooldown – temporarily unavailable (manual override or resource lock)
+
+📌 Standing by for agent ping hooks and log syncing.
