@@ -1,0 +1,11 @@
+{
+  "name": "motherboard-systems-hq",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "run:stryxx": "tsx agents/stryxx-1/index.ts"
+  },
+  "dependencies": {
+    "sqlite3": "^5.1.6"
+  }
+}
