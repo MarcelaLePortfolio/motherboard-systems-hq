@@ -1,17 +1,16 @@
-<0072matilda.t> [note:marcela] <0001fa11> Preemptive adjustment logic activated.
-- Matilda now scans metacognitive memory before execution to refine task plan:
-  ▸ Pulls patterns from insight_log.json and behavior_tags.json
-  ▸ Warns user or adjusts tone/strategy if high-risk conditions detected
-  ▸ Suggests delegation, escalation suppression, or tone softening in advance
+<0072matilda.u> [note:marcela] <0001fa13> Reflection engine activated.
+- Matilda now appends reflections to each completed task:
+  ▸ Was the goal met? Were there surprises?
+  ▸ Could the process be improved next time?
+  ▸ Did assumptions cause inefficiencies or errors?
 
-- New behaviors:
-  ▸ preflight_adjustments.json – stores pre-task refinements with rationale
-  ▸ task_planner consults command_map.json + insight_log before plan lock
-  ▸ audit_flags trigger override requests if prior risk tags match
+- New file: reflection_log.json
+  ▸ Stores timestamped task_id, outcome, key reflections
+  ▸ Links to related insight_log, memory_trace, and hypothesis (if available)
 
-- Effect:
-  ▸ Reduces likelihood of repeated failure patterns
-  ▸ Adds guardrails for fragile or ethically risky goals
-  ▸ Improves learning loop from past task outcomes
+- Behavior:
+  ▸ Runs post-completion (success or failure)
+  ▸ Learns whether user adjustments were required
+  ▸ Contributes to long-term strategy tuning and meta-pattern detection
 
-<0001fa12> Command intelligence tier complete. Cleared to begin external interface linking or dashboard rendering.
+<0001fa14> Next: install prompt debugger for phrasing and breakdown diagnostics.
