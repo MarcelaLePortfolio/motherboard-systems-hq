@@ -1,17 +1,15 @@
-<0072matilda.q> [note:marcela] <0001fa0d> Command schema evolution logic initialized.
-- Matilda now interprets and evolves incoming commands via:
-  ▸ task_type recognition (creative, support, deployment, triage, etc.)
-  ▸ command_map.json pattern routing and overrides
-  ▸ schema-aware task tree generation
+<0072matilda.s> [note:marcela] <0001fa0f> Real-time self-adjustment logic activated.
+- Matilda now modifies task strategy during execution via:
+  ▸ tone recalibration if affect_flags shift mid-task
+  ▸ retry plan override if suppression_audit signals loop risk
+  ▸ early escalation trigger if shared_registry confirms cross-agent stalling
 
-- New memory systems:
-  ▸ command_map.json – links goal phrases to handling logic
-  ▸ schema_versions.json – stores formatting changes over time
-  ▸ task_tree_cache.json – stores multi-step interpretations of past goals
+- New runtime flags:
+  ▸ live_adjustment_applied: true
+  ▸ adjustment_reason: logged from trace, memory, or audit signal
 
-- Behavior features:
-  ▸ Automatically refines vague input into structured subtasks
-  ▸ Flags unknown or deprecated command styles for review
-  ▸ Supports fallback path suggestion if goal is unsupported
+- Mid-task logging:
+  ▸ Updates memory_trace.json and tone_strategy.json live
+  ▸ Affects claim decisions, tone shifts, and delegation routing
 
-<0001fa0e> Next: integrate real-time command feedback loop and adaptive refinement logic.
+<0001fa10> Next: expand insight_log learning to suggest adjustments preemptively.
