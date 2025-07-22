@@ -1,6 +1,9 @@
-<0072matilda.ae> [devlog:cade] ✅ External I/O scaffolds added – import/export hook logic in place.
-- external/export_hooks.json: defines what can be sent out and when
-- external/import_queue.json: holds incoming tasks or memory entries
-- external/io_trace_log.json: logs all transactions
+<0072matilda.af> [devlog:cade] ✅ Scenario Playback UI logic scaffolded.
+- Key data scaffolds:
+  ▸ playback_index.json lists available replays
+  ▸ session_snapshots folder holds memory+reflection traces
+  ▸ annotations.json allows commentary, scoring, or label overlays
 
-📌 Next: optional dashboard buttons or trigger conditions for specific use cases.
+- UI (pending): scenario_timeline.tsx, tone_shift_overlay.tsx, agent_commentary.tsx
+
+�� Playback system allows session reconstruction, agent critique, and teachable moments.
