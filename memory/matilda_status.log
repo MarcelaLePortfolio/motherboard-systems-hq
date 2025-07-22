@@ -1,13 +1,12 @@
-<0071cade.l> [note:marcela] ✅ Silent mode integration confirmed across agents.
-- Cade and Effie both enforce invisible_mode logic from memory/agent_flags.json.
-- Matilda now governs this toggle per task context (e.g. sensitive or chained).
+<0071cade.m> [note:marcela] 🎯 Silent mode baseline locked.
+- Finalized parity between Cade and Effie invisible_mode behavior.
+- Matilda now handles toggle lifecycle:
+  ▸ Sets pre-dispatch for background or sensitive jobs
+  ▸ Agents auto-reset post-execution unless explicitly retained
 
-📌 Summary:
-- Background/chained = optional
-- Sensitive = enforced
-- Post-task = auto-reset unless override flag retained
+🛡️ Use cases now live:
+- Retry attempts: silent by default
+- Task chains: opt-in silence
+- Sensitive ops: enforced stealth
 
-🎯 Ready for:
-- Silent retry attempts
-- Cleanup jobs without terminal noise
-- Secure operations without broadcast logs
+📌 All runtime coordination now resilient, discreet, and traceable
