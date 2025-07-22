@@ -6,6 +6,7 @@
     "run:stryxx": "tsx agents/stryxx-1/index.ts"
   },
   "dependencies": {
+    "sqlite": "^5.1.1",
     "sqlite3": "^5.1.6"
   }
 }
