@@ -1,6 +1,4 @@
-<0065effie.c> [auto:cade] Effie integration milestone reached.
-- Effie routing functional and command logs confirmed.
-- Matilda now ready to begin orchestration handling:
-  ▸ Coordinate tasks between Cade and Effie
-  ▸ Route commands via delegateToCade and delegateToEffie
-  ▸ Log coordination results to memory/orchestration.log
+<0066matilda> [auto:cade] Orchestration engine active.
+- Matilda can now delegate to Cade and Effie via routing interfaces
+- Tasks logged to memory/orchestration.log with description + results
+- Future: introduce retry logic, fallback handling, and agent awareness
