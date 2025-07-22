@@ -1,10 +1,11 @@
-<0070effie.k> [note:marcela] ✅ Effie full orchestration validated.
-- All agent coordination layers confirmed:
-  ▸ Safeguard enforcement
-  ▸ State sync via job pings
-  ▸ Retry logic (single-attempt queue)
-  ▸ Chained task support
-  ▸ Structured failure payloads for escalation
+<0071effie.k> [note:marcela] 🫥 Invisible mode integrated.
+- Effie now respects memory/agent_flags.json → invisible_mode toggle.
+- Silences terminal/logging output for select task types.
 
-📌 All orchestration behaviors now traceable, testable, and extensible.
-🧪 Pending: Mock failure test for final confirmation of runtime recovery loop
+✅ Optional for:
+- Background + chained jobs
+
+🔐 Enforced for:
+- Sensitive ops with tag: "sensitive": true
+
+📌 Matilda may pre-toggle this flag; Effie will auto-reset post-run unless persistently enabled.

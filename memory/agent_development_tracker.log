@@ -1,13 +1,22 @@
-<0070effie.j> [devlog:cade] ✅ Effie orchestration validated.
-- All coordination hooks implemented:
-  ▸ Safeguards enforced
-  ▸ Job status pings live
-  ▸ Structured error payloads routed
-  ▸ Retry logic wired
-  ▸ Task chaining enabled
+<0071effie.k> [devlog:cade] 🫥 Invisible mode toggle added.
+- Effie now supports silent operation mode controlled via memory/agent_flags.json.
+- Toggle suppresses logging and terminal output for designated tasks.
 
-🧪 Final checkpoint:
-- Simulated failure test will verify:
-  ▸ Retry queue population
-  ▸ Retry lockout logic
-  ▸ Matilda escalation pathways
+✅ Optional use:
+- Silent background routines
+- Chained task hygiene
+
+🔐 Mandatory use:
+- Sensitive operations with tag: "sensitive": true
+- Auto-enforces invisible_mode = true during execution
+
+📁 Flag structure:
+{
+  "effie": {
+    "invisible_mode": false
+  }
+}
+
+📌 Next:
+- Matilda can flip flag before dispatch
+- Effie will restore to false after task unless override set
