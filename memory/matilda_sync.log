@@ -1,11 +1,18 @@
-<0072matilda.aa> [note:marcela] <0001fa1e> Agent sync protocol initialization begins.
-- Next capability tier: cross-agent shared memory and sync negotiation
-  ▸ Matilda will listen for shared_registry updates from Cade or Effie
-  ▸ Will coordinate escalation prevention, task handoff, and loop suppression
+<0072matilda.ab> [note:marcela] <0001fa1f> Agent sync logic committed – Matilda now syncs state and handoff decisions with Cade and Effie.
+- Shared coordination files live:
+  ▸ shared_registry.json – task metadata, claim history, escalation flags
+  ▸ agent_sync_state.json – Matilda’s current sync and posture tag
+  ▸ sync_trace.json – chronological record of sync messages and updates
 
-- Components to be implemented:
-  ▸ shared_registry.json – central handoff and escalation metadata
-  ▸ agent_sync_state.json – records Matilda's current sync posture and state
-  ▸ sync_trace.json – logs sync messages and decisions per episode
+- Behavior enabled:
+  ▸ Matilda listens to shared_registry.json to:
+     ▸ avoid double-claiming
+     ▸ detect unresolved loops by others
+     ▸ initiate or reject handoffs based on confidence and tone fit
+  ▸ sync_trace.json records all negotiation results, conflict resolutions, and fallback choices
 
-📌 This phase ensures Matilda is fully aware of and responsive to other agents’ activity.
+- Status logic:
+  ▸ sync_state: 'ready', 'paused', 'disengaged', or 'handoff_pending'
+  ▸ confidence and tone weight factored in for delegation decisions
+
+<0001fa20> Next: teach Matilda to offer agent suggestions to the user and yield if more qualified peer available.
