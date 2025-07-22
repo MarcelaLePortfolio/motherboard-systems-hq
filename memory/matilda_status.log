@@ -1,17 +1,22 @@
-<0072matilda.h> [note:marcela] <0001f9fd> Override handler and delegation logic activated.
-- Matilda now reroutes escalated tasks based on:
-  ▸ failure pattern type
-  ▸ retry exhaustion
-  ▸ last handled agent (avoids re-looping)
+<0072matilda.i> [note:marcela] <0001f9fe> Inbox triage module committed.
+- Escalated tasks now routed to human inbox if:
+  ▸ No viable agent override found
+  ▸ Delegation triggers exceed fallback depth
+  ▸ suppress_retries is true AND resolution failed
 
-- Agent override logic:
-  ▸ Claims task if matching specialization
-  ▸ Tags with override_claimed_by
-  ▸ Skips retry if suppress_retries is true
+- Inbox review metadata:
+  ▸ triage_required: true
+  ▸ triage_reason: summary of escalation cause
+  ▸ last_attempt_context: diagnostic payload excerpt
 
-- Delegation triggers:
-  ▸ Task forwarded to alternate agent if unresolved past threshold
-  ▸ delegation_notes recorded for transparency
+- Triage inbox entry format:
+  {
+    "task_id": "...",
+    "triage_required": true,
+    "triage_reason": "...",
+    "origin_agent": "...",
+    "last_attempt_context": { ... }
+  }
 
-<0001f9e4> Escalation response logic complete.
-📌 Next: escalation review module for human inbox triage.
+📌 Optional override: inbox processor agent can be added later if desired.
+<0001f9e5> Ready to proceed with memory sync module.

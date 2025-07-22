@@ -1,9 +1,12 @@
-<0072matilda.h> [devlog:cade] ✅ Override & handoff logic committed.
-- Agent claim routing now operational:
-  ▸ intelligent assignment based on prior agent, failure mode, claim availability
+<0072matilda.i> [devlog:cade] ✅ Inbox triage module live.
+- Triage queue now populated when:
+  ▸ Agent claim logic fails
+  ▸ Delegation fallback exhausted
+  ▸ Retry suppression blocks auto-resolution
 
-- suppression & delegation fields active:
-  ▸ suppress_retries respected in loop-prone tasks
-  ▸ delegation_notes now auto-filled if fallback triggered
+- Inbox schema added:
+  ▸ triage_required
+  ▸ triage_reason
+  ▸ last_attempt_context
 
-📌 Escalation resolution complete. Inbox triage module is next step.
+📌 Module complete. Proceeding to memory sync logic next.
