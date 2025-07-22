@@ -1,12 +1,7 @@
-<0072matilda.d> [devlog:cade] 🛠️ Matilda retry dispatch logic queued.
-- Requeue trigger fires only if:
-  ▸ Not sensitive (or override:true)
-  ▸ attempts < max_attempts
-  ▸ retry window elapsed (or override:true)
+<0072matilda.e> [devlog:cade] ✅ Retry registry hygiene sweep logic outlined.
+- Matilda to purge:
+  ▸ Completed task entries
+  ▸ Expired retry candidates (based on max time window)
+  ▸ Exhausted retries (if max_attempts hit with no override)
 
-✅ Action on valid retry:
-- Structured requeue task emitted
-- Retry registry updated
-- Outcome logged per task
-
-📌 Next: mock test to validate requeue + suppression logic
+�� Next: define sweep interval and test cleanup pass
