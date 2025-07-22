@@ -1,12 +1,12 @@
-<0070matilda.b> [note:marcela] ✅ Task chaining logic scaffolded.
-- Matilda now supports follow-up command scheduling via chained_tasks.json.
-- When agent completes a task and returns to "idle" without error, chained task is automatically dispatched.
+<0070effie.h> [note:marcela] ✅ Effie resilience layer live.
+- Effie now emits structured error payloads on failure.
+- Each failure includes context, reason, and timestamp for Matilda interpretation.
 
-🧠 Behavior:
-- Chained commands are queued at execution time, not stored permanently
-- Chaining suppressed if agent enters "error" or "cooldown"
-- Supports future expansion to multi-step flows
+🧠 Matilda orchestration gains:
+- Distinction between fatal errors and suppressible failures
+- Retry suppression via override flags
+- Session-stable fallback routines possible
 
-📌 Ready for:
-- Writing initial chaining memory file
-- Linking chained tasks to primary commands by session or job ID
+📌 Awaiting:
+- Mock failure test for error flow validation
+- Matilda override memory structure (resilience_flags.json or similar)
