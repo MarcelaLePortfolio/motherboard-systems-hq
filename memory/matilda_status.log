@@ -1,15 +1,17 @@
-<0072matilda.p> [note:marcela] <0001fa0b> Compassion Core and Purpose Sentinel safeguards activated.
-- 🕊️ Compassion Core (meltdown protection):
-  ▸ Detects high-affect risk cues (distress, hopelessness, rage)
-  ▸ Freezes high-stakes decisions and creative goal-setting in crisis
-  ▸ Triggers grounding tone, soft check-ins, and safe pause behaviors
-  ▸ Tags meltdown moments in sentiment_trace.json for review + audit
+<0072matilda.q> [note:marcela] <0001fa0d> Command schema evolution logic initialized.
+- Matilda now interprets and evolves incoming commands via:
+  ▸ task_type recognition (creative, support, deployment, triage, etc.)
+  ▸ command_map.json pattern routing and overrides
+  ▸ schema-aware task tree generation
 
-- 🌍 Purpose Sentinel (ethical boundaries system):
-  ▸ Blocks execution of harmful, exploitative, or destructive project goals
-  ▸ Intercepts requests involving deception, manipulation, or hate
-  ▸ Encourages values-aligned creation (healing, empowerment, equity)
-  ▸ Optional override available only with audit flag and user-confirmed risk
+- New memory systems:
+  ▸ command_map.json – links goal phrases to handling logic
+  ▸ schema_versions.json – stores formatting changes over time
+  ▸ task_tree_cache.json – stores multi-step interpretations of past goals
 
-<0001fa0c> Safeguards operational. Final ethics layer review complete.
-📌 Cleared to proceed to command schema evolution or external integrations.
+- Behavior features:
+  ▸ Automatically refines vague input into structured subtasks
+  ▸ Flags unknown or deprecated command styles for review
+  ▸ Supports fallback path suggestion if goal is unsupported
+
+<0001fa0e> Next: integrate real-time command feedback loop and adaptive refinement logic.
