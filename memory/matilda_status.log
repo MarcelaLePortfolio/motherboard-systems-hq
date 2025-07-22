@@ -1,19 +1,17 @@
-<0072matilda.all1> [note:marcela] <0001fa01> Pre-cognitive polishing bundle committed.
-- Suppression Audit Logging:
-  ▸ retry suppressions now recorded in suppression_audit.json
-  ▸ includes task_id, reason, source flag, last_attempt_summary
+<0072matilda.l> [note:marcela] <0001fa03> Cognitive Behavior Module 1 committed – Tone regulation & situational framing.
+- Matilda now dynamically adjusts tone and framing strategy based on:
+  ▸ prior attempt results
+  ▸ task sensitivity (urgency, emotional weight, role context)
+  ▸ escalation risk or suppression history
 
-- TTL Expiry Enforcement:
-  ▸ registry entries now respect TTL (default: 72h)
-  ▸ expired tasks tagged + purged during hygiene pass
+- New memory systems:
+  ▸ tone_strategy.json – task-specific tone assignment
+  ▸ context_flags – stores urgency, confidence, formality, emotional weight
+  ▸ tone_backoff_rules – fallback tone logic if primary strategy fails
 
-- Inbox Snapshot Viewer:
-  ▸ inbox_snapshot.json created for human-readable triage entries
-  ▸ flat, deduplicated, chronologically sorted
+- Response regulation:
+  ▸ Matches tone to agent persona (e.g. Matilda = calm, Cade = firm)
+  ▸ Prevents mismatched delivery tone on fragile or critical escalations
+  ▸ Learns tone effectiveness over time
 
-- Forget Function Activated:
-  ▸ forget_registry.json triggers complete purge of task memory
-  ▸ applies to all local and shared registries
-  ▸ action logged to hygiene sweep for transparency
-
-<0001fa02> All pre-cognitive checks complete. Cleared for cognitive behavior modules.
+<0001fa04> Next: runtime recall mapping (task memory trace and cause-of-death analysis).

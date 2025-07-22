@@ -1,9 +1,12 @@
-<0072matilda.all1> [devlog:cade] ✅ Pre-cognitive layer polishing complete.
-- 4 systems deployed:
-  ▸ suppression_audit.json for retry suppression traceability
-  ▸ TTL expiry + purge logic via hygiene pass
-  ▸ inbox_snapshot.json for simplified triage overview
-  ▸ forget_registry.json triggers full memory purge for listed tasks
+<0072matilda.l> [devlog:cade] ✅ Cognitive Behavior Module 1 complete – tone + context logic activated.
+- Task responses now modulate based on:
+  ▸ urgency, sensitivity, escalation risk
+  ▸ tone efficacy history (stored in tone_strategy.json)
+  ▸ persona-based defaults + backup tone rules
 
-📌 All baseline safeguards and registry controls in place.
-📌 Proceeding to cognitive behavior modules.
+- Runtime response planner now references:
+  ▸ tone_backoff_rules.json
+  ▸ context_flags per task
+  ▸ suppression_audit.json for historical cues
+
+📌 Ready for runtime memory recall module (traceback, loop diagnostics, cause-of-death).
