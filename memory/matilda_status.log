@@ -1,11 +1,10 @@
-<0069effie.f> [note:marcela] <0001f7e1> Effie status pings queued for lifecycle sync.
-- Effie will begin updating agent_status.json during execution:
-  ▸ "running" at start
-  ▸ "idle", "error", or "cooldown" at completion
+<0069effie.g> [note:marcela] ✅ Effie lifecycle hooks live.
+- Effie now writes to memory/agent_status.json on job start and completion.
+- State pings include timestamps for orchestration timing decisions.
 
-🧠 Matilda will interpret these in real time to:
-- Suppress commands if busy
-- Retry intelligently if errored
-- Chain tasks once idle
+🧠 Matilda now actively reads this data to:
+- Block simultaneous jobs
+- Trigger retry or reroute flows
+- Chain follow-up tasks when agent returns to idle
 
-📌 Cade hooks pending; Effie baseline comes first
+📌 Cade state sync pending next
