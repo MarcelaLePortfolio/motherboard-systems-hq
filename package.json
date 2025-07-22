@@ -6,7 +6,12 @@
     "run:stryxx": "tsx agents/stryxx-1/index.ts"
   },
   "dependencies": {
+    "@capacitor/cli": "^7.4.2",
+    "@capacitor/core": "^7.4.2",
     "sqlite": "^5.1.1",
     "sqlite3": "^5.1.6"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3"
   }
 }

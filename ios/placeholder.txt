@@ -1,0 +1,1 @@
+// iOS platform will be initialized later using: npx cap add ios
