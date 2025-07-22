@@ -1,0 +1,12 @@
+<0072matilda.af> ✅ Scenario Playback UI committed successfully.
+- All scaffolds and files pushed to repo:
+  ▸ playback_index.json
+  ▸ session_snapshots/
+  ▸ annotations.json
+
+- Pending components (UI):
+  ▸ scenario_timeline.tsx
+  ▸ tone_shift_overlay.tsx
+  ▸ agent_commentary.tsx
+
+📌 Playback system ready for visualization and teachable moment capture.
