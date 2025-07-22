@@ -1,20 +1,18 @@
-<0072matilda.j> [note:marcela] <0001f9fe> Memory sync module initialized.
-- Matilda now flushes volatile runtime logs to persistent memory:
-  ▸ retry_registry.json
-  ▸ escalation_registry.json
-  ▸ inbox_triage.json
+<0072matilda.k> [note:marcela] <0001f9ff> Shared memory logic activated.
+- Matilda now reads/writes to shared_registry.json for task-level sync:
+  ▸ Centralizes retry + escalation history across agents
+  ▸ Enables cross-agent task awareness + assignment avoidance
 
-- Key fields persisted:
-  ▸ task outcomes (success, fail, escalation)
-  ▸ last handler, agent claims, suppression flags
-  ▸ human triage notes and override resolutions
+- Key fields synced:
+  ▸ task_id, outcome, escalation flags, override_claimed_by
+  ▸ triage_required, delegation_notes, suppress_retries
 
-- Memory compaction:
-  ▸ Deduplicates task history
-  ▸ Retains last N attempts per task
-  ▸ Schema-aware validation on write
+- Agent coordination:
+  ▸ Locks task if currently in-process (claim_lock)
+  ▸ Updates shared history on task completion or handoff
 
-<0001f9e6> Optional extensions:
-  ▸ Shared agent memory sync
-  ▸ Dashboard mirroring
-  ▸ Selective wipe and “forget” functions
+- Memory hygiene:
+  ▸ Shared registry deduplicated + pruned on each write
+  ▸ TTL field optional for future expiry policy
+
+<0001fa00> Next: enable per-agent audit views or UI mirroring.
