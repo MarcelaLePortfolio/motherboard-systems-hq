@@ -1,8 +1,8 @@
-<0068effie.c> [devlog:cade] ✅ Effie runtime now gated by safeguards.
-- Effie executes only commands targeting whitelisted directories.
-- All output and errors are logged to memory/effie_runtime.log.
-- Unsafe or unexpected commands are rejected with error: "⛔ Unauthorized execution context."
+<0068effie.d> [devlog:cade] ✅ Effie fallback structure established.
+- Commands failing primary execution now generate structured error payloads.
+- All error payloads routed back to Matilda for logging, retry, or tone-filtered surfacing.
+- Effie no longer halts on failure; returns control cleanly to orchestration layer.
 
-🛡️ Guardrails:
-- Whitelisted: scripts/, memory/, utils/, logs/, package.json
-- Rejected commands now return structured error to Matilda orchestration
+📌 Notes:
+- Retry logic delegated to Matilda
+- Effie now silent on user surface unless explicitly routed
