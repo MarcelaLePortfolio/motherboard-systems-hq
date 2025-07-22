@@ -1,13 +1,8 @@
-<0070effie.i> [note:marcela] ✅ Effie agent resilience complete.
-- All safeguards, state sync, tone shaping, fallback handling, retry signaling, and error payloads active.
-- Effie now fully compatible with Matilda's orchestration loop.
+<0070effie.j> [note:marcela] 🧪 Effie mock failure test pending.
+- Orchestration hooks complete. Structured payloads, state pings, retry signaling, and chaining all confirmed.
 
-📌 Final checklist:
-- ✅ Safeguards (whitelist enforcement)
-- ✅ Logging (runtime + errors)
-- ✅ State pings (running/idle/error)
-- ✅ Retry-eligible error emission
-- ✅ Tone shaping for structured output
-- ✅ Task chaining readiness
-
-🧪 Pending: Mock failure validation test
+📌 Final validation:
+- Trigger test failure to confirm Matilda:
+  ▸ Reads and logs error payload
+  ▸ Queues retry if not suppressed
+  ▸ Blocks duplicate retry unless override enabled
