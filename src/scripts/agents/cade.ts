@@ -67,6 +67,49 @@ export async function cadeCommandRouter(command: string, args?: any) {
         return { status: 'error', message: err.message };
       }
 
+    case 'edit env':
+      try {
+        const envPath = path.resolve('.env.local');
+        const envContent = await readFile(envPath, 'utf8');
+        const lines = envContent.split('\n');
+        const keyIndex = lines.findIndex(line => line.startsWith(`${args.key}=`));
+
+        if (args.action === 'set') {
+          const newLine = `${args.key}=${args.value}`;
+          if (keyIndex >= 0) {
+            lines[keyIndex] = newLine;
+          } else {
+            lines.push(newLine);
+          }
+        } else if (args.action === 'delete' && keyIndex >= 0) {
+          lines.splice(keyIndex, 1);
+        }
+
+        await writeFile(envPath, lines.join('\n'), 'utf8');
+        return { status: 'success', result: { message: `Env ${args.action} successful` } };
+      } catch (err: any) {
+        return { status: 'error', message: err.message };
+      }
+
+    case 'git pull':
+      try {
+        const { stdout } = await execAsync('git pull');
+        return { status: 'success', result: { output: stdout.trim() } };
+      } catch (err: any) {
+        return { status: 'error', message: err.message };
+      }
+
+    case 'git commit and push':
+      try {
+        const message = args?.message || 'Automated commit from Cade';
+        await execAsync('git add .');
+        await execAsync(`git commit -m "${message}"`);
+        const { stdout } = await execAsync('git push');
+        return { status: 'success', result: { output: stdout.trim() } };
+      } catch (err: any) {
+        return { status: 'error', message: err.message };
+      }
+
     case 'package':
       try {
         const results = [];
