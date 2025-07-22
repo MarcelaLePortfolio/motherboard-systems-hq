@@ -1,12 +1,15 @@
-<0071cade.o> [note:marcela] 📦 Silent execution layer closed.
-- Invisible mode now fully implemented, toggle-governed, and runtime-tested.
-- All agent flows respect Matilda’s discretion directives.
+<0072matilda.a> [note:marcela] 🎯 Matilda orchestration phase active.
+- Effie + Cade silent execution logic complete and validated.
+- Transitioning Matilda to retry logic, queue hygiene, and escalation awareness.
 
-🔒 Operational coverage:
-- Background retries = silent default
-- Chained tasks = silent if tagged
-- Sensitive ops = enforced silence
-- Visibility flags = reset post-run unless persist:true
+📌 Phase 2: Retry Intelligence – Checklist
+- [ ] Log retry-eligible failures from agent output
+- [ ] Suppress duplicate retries unless override:true
+- [ ] Silently requeue tasks when eligible
+- [ ] Track retry count per task
+- [ ] Allow override flag for forced retry
 
-🧼 Next:
-- Enable queue sweeps, silent cleanup routines, and escalation lockouts
+🧠 Memory-driven orchestration now in scope:
+- Task memory
+- Retry lockouts
+- Future escalation triggers
