@@ -1,0 +1,11 @@
+<0072matilda.aa> [note:marcela] <0001fa1e> Agent sync protocol initialization begins.
+- Next capability tier: cross-agent shared memory and sync negotiation
+  ▸ Matilda will listen for shared_registry updates from Cade or Effie
+  ▸ Will coordinate escalation prevention, task handoff, and loop suppression
+
+- Components to be implemented:
+  ▸ shared_registry.json – central handoff and escalation metadata
+  ▸ agent_sync_state.json – records Matilda's current sync posture and state
+  ▸ sync_trace.json – logs sync messages and decisions per episode
+
+📌 This phase ensures Matilda is fully aware of and responsive to other agents’ activity.
