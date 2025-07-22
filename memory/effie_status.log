@@ -1,0 +1,4 @@
+<0063effie.b> [auto:cade] Effie initialized successfully.
+- Local runtime script: scripts/_local/agent-runtime/launch-effie.ts
+- Command routing enabled via: effieCommandRouter
+- Ready for filesystem task delegation
