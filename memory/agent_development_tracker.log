@@ -1,7 +1,9 @@
-<0070matilda.a> [devlog:marcela] Retry logic baseline added.
-- Matilda now supports one-shot retry when an agent returns from "error" to "idle".
-- Retries are pulled from a temp command cache if last state was failure.
+<0070matilda.b> [devlog:marcela] Chaining logic initialized.
+- Matilda now maintains a temporary chained_tasks.json file.
+- Tasks listed here are auto-executed when the agent returns to "idle" without error.
 
-📁 Future logic:
-- Retry queue is distinct from chaining queue
-- Retry is suppressed if failure marked resolved downstream
+📁 Structure:
+- memory/chained_tasks.json = { agent: [commands...] }
+- Tasks cleared once executed or if agent fails current task
+
+📌 Next: connect chaining to structured command orchestration

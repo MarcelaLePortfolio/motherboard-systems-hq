@@ -1,12 +1,12 @@
-<0070matilda.a> [note:marcela] ✅ Retry logic integration underway.
-- Matilda now checks agent_status.json for "error" state after failed jobs.
-- If error state is detected, original command is queued for retry once agent is "idle".
+<0070matilda.b> [note:marcela] ✅ Task chaining logic scaffolded.
+- Matilda now supports follow-up command scheduling via chained_tasks.json.
+- When agent completes a task and returns to "idle" without error, chained task is automatically dispatched.
 
-🛠 Behavior:
-- One retry attempt per error unless overridden
-- Retry queue is separate from chained task stack
-- No retries occur if fallback behavior marked "handled"
+🧠 Behavior:
+- Chained commands are queued at execution time, not stored permanently
+- Chaining suppressed if agent enters "error" or "cooldown"
+- Supports future expansion to multi-step flows
 
-�� Next:
-- Add chained_tasks.json for follow-up task logic
-- Implement chaining only when agent returns to idle without errors
+📌 Ready for:
+- Writing initial chaining memory file
+- Linking chained tasks to primary commands by session or job ID
