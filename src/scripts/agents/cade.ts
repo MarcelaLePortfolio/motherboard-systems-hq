@@ -1,29 +1,12 @@
-import path from 'path';
-import { exec as execAsync } from 'child_process';
+import { exec as execCallback } from 'child_process';
 import { readFile, writeFile } from 'fs/promises';
-import type { AgentResponse } from '../../lib/types';
+import path from 'path';
+import { promisify } from 'util';
 
-export async function cadeCommandRouter(command: string, args?: Record<string, any>): Promise<AgentResponse> {
+const execAsync = promisify(execCallback);
+
+export async function cadeCommandRouter(command: string, args?: Record<string, any>) {
   switch (command.toLowerCase()) {
-    case 'run diagnostics':
-      return {
-        status: 'success',
-        result: {
-          system: 'Cade',
-          diagnostics: '✅ All systems operational',
-          timestamp: new Date().toISOString()
-        }
-      };
-
-    case 'list files':
-      try {
-        const directory = args?.directory || '.';
-        const { stdout } = await execAsync(`ls -lh "${directory}"`);
-        return { status: 'success', result: { output: stdout.trim() } };
-      } catch (err: any) {
-        return { status: 'error', message: err.message };
-      }
-
     case 'read file':
       try {
         const filepath = path.resolve(args?.path || 'scripts', 'README.md');
