@@ -72,36 +72,20 @@ export async function cadeCommandRouter(command: string, args?: any) {
         const envPath = path.resolve('.env.local');
         const envContent = await readFile(envPath, 'utf8');
         const lines = envContent.split('\n');
-        const keyIndex = lines.findIndex(line => line.startsWith(`${args.key}=`));
-
-        if (args.action === 'set') {
-          const newLine = `${args.key}=${args.value}`;
-          if (keyIndex >= 0) {
-            lines[keyIndex] = newLine;
-          } else {
-            lines.push(newLine);
-          }
-        } else if (args.action === 'delete' && keyIndex >= 0) {
-          lines.splice(keyIndex, 1);
-        }
-
-        await writeFile(envPath, lines.join('\n'), 'utf8');
-        return { status: 'success', result: { message: `Env ${args.action} successful` } };
-      } catch (err: any) {
-        return { status: 'error', message: err.message };
-      }
-
-    case 'git pull':
-      try {
-        const { stdout } = await execAsync('git pull');
-        return { status: 'success', result: { output: stdout.trim() } };
+        const newVar = `${args?.key}=${args?.value}`;
+        const updatedLines = lines.filter(line => !line.startsWith(`${args?.key}=`));
+        updatedLines.push(newVar);
+        await writeFile(envPath, updatedLines.join('\n'), 'utf8');
+        return { status: 'success', result: { message: `Set ${args?.key} in .env.local` } };
       } catch (err: any) {
         return { status: 'error', message: err.message };
       }
 
     case 'git commit and push':
       try {
-        const message = args?.message || 'Automated commit from Cade';
+        const msg = args?.message || 'Automated commit';
+        const tag = '[auto:cade]';
+        const message = msg.includes(tag) ? msg : `${tag} ${msg}`;
         await execAsync('git add .');
         await execAsync(`git commit -m "${message}"`);
         const { stdout } = await execAsync('git push');
