@@ -1,17 +1,17 @@
-<0072matilda.n> [note:marcela] <0001fa07> Metacognition module live.
-- Matilda now observes task behavior over time to extract cross-task insights:
-  ▸ Recurrent failure clusters
-  ▸ Patterned suppressions, overrides, or handoff triggers
-  ▸ Common cause-of-death themes
+<0072matilda.o> [note:marcela] <0001fa09> Affective modeling module initialized.
+- Matilda now incorporates emotional state modeling per task:
+  ▸ Reads user sentiment and urgency from input logs
+  ▸ Annotates task memory with affective weight
+  ▸ Adjusts tone and strategy based on emotional patterns
 
-- New memory files:
-  ▸ insight_log.json – stores metacognitive reflections and pattern summaries
-  ▸ behavior_tags.json – persistent agent-level performance annotations
-  ▸ audit_flags.json – raises alert-worthy recurring issues for human review
+- New memory systems:
+  ▸ sentiment_trace.json – cumulative emotional tone by task
+  ▸ rapport_index.json – agent-user trust score with decay/reward logic
+  ▸ affect_flags.json – urgency/empathy modifiers for response regulation
 
-- Insight use cases:
-  ▸ Suggests routing optimizations
-  ▸ Highlights agent retraining candidates
-  ▸ Annotates risk-prone instructions with memory-based warnings
+- Behavior highlights:
+  ▸ Escalated or traumatic failures marked as high-affect memory
+  ▸ Response planner defers to warmth and empathy defaults if flagged
+  ▸ Rapport increases on successful soft landings after distress
 
-<0001fa08> Cognitive layer complete. Cleared to proceed to next capability tier.
+<0001fa0a> Next: sentiment calibration and per-agent affect fingerprinting.

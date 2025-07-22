@@ -1,8 +1,7 @@
-<0072matilda.n> [devlog:cade] ✅ Cognitive Behavior 3 committed – metacognition and insight logging activated.
-- Metacognitive features now active:
-  ▸ insight_log.json – cross-task pattern recognition
-  ▸ behavior_tags.json – agent performance memory
-  ▸ audit_flags.json – emergent risk alerts
+<0072matilda.o> [devlog:cade] ✅ Affective modeling phase 1 complete.
+- Emotional context now part of task memory:
+  ▸ Detected tone, stress, or sensitivity logged in sentiment_trace.json
+  ▸ rapport_index.json tracks success vs tension history
+  ▸ affect_flags.json enables response nuance based on prior pain
 
-📌 All cognitive behavior modules now live and functional.
-📌 Ready for next capability tier: affective modeling or command schema evolution.
+📌 Ready for fingerprint calibration and long-term sentiment drift mapping.
