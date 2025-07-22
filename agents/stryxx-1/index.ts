@@ -10,7 +10,6 @@ async function runSTRYXX(input: string) {
 
   const { steps } = compileInstruction(input);
 
-  // Assign a mock priority score (can be replaced with smarter logic)
   const prioritized = steps.map((step, i) => ({
     step,
     priority: steps.length - i
@@ -34,7 +33,6 @@ async function runSTRYXX(input: string) {
   console.log("✅ STRYXX-1: Compiled, prioritized, and logged tasks.");
 }
 
-// Example input for now
 if (process.argv[2]) {
   runSTRYXX(process.argv.slice(2).join(" ")).catch(console.error);
 } else {
