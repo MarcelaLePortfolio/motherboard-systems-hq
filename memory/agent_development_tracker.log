@@ -1,8 +1,11 @@
-<0068effie.e> [devlog:cade] ✅ Effie tone shaping mode honored.
-- Effie now applies Matilda’s selected tone filter to all structured responses.
-- Supports three-tier output modes: raw, friendly, interpreted.
-- Logs routed via Matilda now return pre-formatted text based on mode context.
+<0069matilda.a> [devlog:marcela] 🧠 Agent state tracking scaffold initiated.
+- Matilda will maintain awareness of Cade and Effie’s current status.
+- Enables smarter orchestration: prevents command overlap, supports retry eligibility, unlocks chaining logic.
 
-📌 Final note:
-- Effie’s full operational stack complete
-- Standing by for joint test with Cade + Matilda
+📁 New structure:
+- memory/agent_status.json → real-time agent status (idle, running, error, cooldown, etc.)
+- Agents will ping status on job start/end/error.
+
+📌 Next:
+- Add status ping logic to Effie + Cade runners
+- Write initial memory file with boot states
