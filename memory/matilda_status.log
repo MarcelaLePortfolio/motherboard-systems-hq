@@ -1,14 +1,9 @@
-<0072matilda.c> [note:marcela] 🎯 Retry queue logic pass initiated.
-- Matilda now parses retry_registry.json to evaluate:
-  ▸ Attempt count vs max_attempts
-  ▸ Time since last_attempt
-  ▸ override:true enforcement
-  ▸ sensitive:true → suppress
+<0072matilda.d> [note:marcela] 🔁 Requeue trigger logic now queued for implementation.
+- On valid retry condition, Matilda will:
+  ▸ Emit structured task requeue payload
+  ▸ Reset retry_registry last_attempt
+  ▸ Increment attempt count
+  ▸ Log outcome (requeued vs suppressed)
 
-📌 Next logic layer:
-- Requeue eligible task if:
-  ▸ Not suppressed AND
-  ▸ Attempts < max AND
-  ▸ Retry delay window passed OR override active
-
-🧠 Memory now governs retry filtering and requeue eligibility.
+🧠 Eligible requeues are now routed silently unless tagged for notice.
+📌 Retry loop resilience now in motion.

@@ -1,12 +1,12 @@
-<0072matilda.c> [devlog:cade] ✅ Retry filtering logic outlined for Matilda.
-- Eligibility conditions:
+<0072matilda.d> [devlog:cade] 🛠️ Matilda retry dispatch logic queued.
+- Requeue trigger fires only if:
+  ▸ Not sensitive (or override:true)
   ▸ attempts < max_attempts
-  ▸ (timestamp now - last_attempt) > delay_window
-  ▸ not sensitive unless override:true
+  ▸ retry window elapsed (or override:true)
 
-🔁 Matilda will:
-- Log skipped retries with reason
-- Emit requeue signal for eligible entries
-- Reset task metadata on retry attempt
+✅ Action on valid retry:
+- Structured requeue task emitted
+- Retry registry updated
+- Outcome logged per task
 
-📌 Requeue logic to be coded next.
+📌 Next: mock test to validate requeue + suppression logic
