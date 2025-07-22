@@ -1,17 +1,17 @@
-<0072matilda.x> [note:marcela] <0001fa19> Interface memory bridge logic initialized.
-- Matilda now exposes cognition hooks to the interface layer:
-  ▸ Human-facing memory trace summaries
-  ▸ Real-time affect + tone visualization
-  ▸ Explanation on response changes or suppressions
+<0072matilda.y> [note:marcela] <0001fa1b> Inspector module rendering initiated.
+- UI components now reflect Matilda’s cognition in real time:
+  ▸ 🧠 Memory Trace Viewer – step history for each task
+  ▸ �� Tone Monitor – shows live tone/affect labels with shifts
+  ▸ 🔎 Reason Overlay – user-facing justification for any change in behavior
 
-- New systems:
-  ▸ interface_cache.json – sanitized data from core memory exposed to UI
-  ▸ explanation_log.json – per-response summaries (tone, reason, prior events)
-  ▸ insight_render_map.json – maps internal events to renderable status tags
+- Render systems:
+  ▸ memory_trace_widget.tsx
+  ▸ tone_overlay.tsx
+  ▸ explanation_popover.tsx
 
-- Behavior:
-  ▸ Allows operator or user dashboard to show memory-driven behavior
-  ▸ Supports reflection review, debugging, and training UI
-  ▸ Maintains full privacy control over user input fields
+- User benefits:
+  ▸ Transparency into how decisions evolve
+  ▸ Debugging visibility for operators
+  ▸ Memory-aware trust building and sentiment safety
 
-<0001fa1a> Next: Render interface widgets and inspector modules.
+<0001fa1c> Final rendering modules in progress – user dashboard hooks and layout control next.
