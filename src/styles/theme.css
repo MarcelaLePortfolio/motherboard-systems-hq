@@ -1,0 +1,71 @@
+:root {
+  --font: system-ui, sans-serif;
+  --radius: 0.5rem;
+  --space: 1rem;
+
+  --bg: #ffffff;
+  --text: #111111;
+  --primary: #633CFF;
+  --gray: #f5f5f5;
+  --border: #e0e0e0;
+}
+
+body {
+  margin: 0;
+  padding: var(--space);
+  font-family: var(--font);
+  background-color: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+}
+
+h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: var(--space);
+}
+
+form {
+  max-width: 640px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space);
+}
+
+textarea {
+  padding: var(--space);
+  font-family: var(--font);
+  font-size: 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  resize: vertical;
+}
+
+button {
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  padding: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+button:hover {
+  background-color: #4f2ed2;
+}
+
+pre {
+  background: var(--gray);
+  padding: var(--space);
+  border-radius: var(--radius);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.loader {
+  text-align: center;
+  font-style: italic;
+  margin-top: var(--space);
+}
