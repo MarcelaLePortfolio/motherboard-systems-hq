@@ -1,11 +1,12 @@
-<0072matilda.b> [devlog:cade] ✅ Retry registry initialized for Matilda.
-- retry_registry.json tracks all retry-eligible task attempts.
-- Core fields supported:
-  ▸ agent
-  ▸ attempts
-  ▸ last_attempt
-  ▸ max_attempts
-  ▸ sensitive
-  ▸ override
+<0072matilda.c> [devlog:cade] ✅ Retry filtering logic outlined for Matilda.
+- Eligibility conditions:
+  ▸ attempts < max_attempts
+  ▸ (timestamp now - last_attempt) > delay_window
+  ▸ not sensitive unless override:true
 
-📌 Proceeding to queue check logic + conditional retry flow.
+🔁 Matilda will:
+- Log skipped retries with reason
+- Emit requeue signal for eligible entries
+- Reset task metadata on retry attempt
+
+📌 Requeue logic to be coded next.

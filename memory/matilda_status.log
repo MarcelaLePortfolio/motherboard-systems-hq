@@ -1,11 +1,14 @@
-<0072matilda.b> [note:marcela] 🧠 Retry memory registry initialized.
-- memory/retry_registry.json scaffolded to track task retries per agent.
-- Supports:
-  ▸ attempt count
-  ▸ last_attempt timestamp
-  ▸ max_attempts threshold
-  ▸ override enforcement
-  ▸ sensitive task suppression
+<0072matilda.c> [note:marcela] 🎯 Retry queue logic pass initiated.
+- Matilda now parses retry_registry.json to evaluate:
+  ▸ Attempt count vs max_attempts
+  ▸ Time since last_attempt
+  ▸ override:true enforcement
+  ▸ sensitive:true → suppress
 
-📌 Retry evaluation now possible on structured failure receipt.
-Next: integrate retry queue logic + suppression filter.
+📌 Next logic layer:
+- Requeue eligible task if:
+  ▸ Not suppressed AND
+  ▸ Attempts < max AND
+  ▸ Retry delay window passed OR override active
+
+🧠 Memory now governs retry filtering and requeue eligibility.
