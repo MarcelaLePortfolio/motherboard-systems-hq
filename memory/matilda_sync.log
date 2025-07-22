@@ -1,18 +1,17 @@
-<0072matilda.ab> [note:marcela] <0001fa1f> Agent sync logic committed – Matilda now syncs state and handoff decisions with Cade and Effie.
-- Shared coordination files live:
-  ▸ shared_registry.json – task metadata, claim history, escalation flags
-  ▸ agent_sync_state.json – Matilda’s current sync and posture tag
-  ▸ sync_trace.json – chronological record of sync messages and updates
+<0072matilda.ac> [note:marcela] <0001fa21> Peer recommendation and yield engine activated.
+- Matilda now evaluates agent fitness and offers handoff suggestions:
+  ▸ Scores peer agents (e.g., Cade, Effie) based on tone fit + task type
+  ▸ Suggests delegation when another agent holds higher context or confidence
+  ▸ Auto-yields if sync_state allows and user consents
 
-- Behavior enabled:
-  ▸ Matilda listens to shared_registry.json to:
-     ▸ avoid double-claiming
-     ▸ detect unresolved loops by others
-     ▸ initiate or reject handoffs based on confidence and tone fit
-  ▸ sync_trace.json records all negotiation results, conflict resolutions, and fallback choices
+- New logic:
+  ▸ peer_suitability.json – task type + tone match scorecard per agent
+  ▸ delegation_suggestion_log.json – records suggestion events and user choice
+  ▸ yield_trigger_log.json – logs Matilda’s yield decisions and rationale
 
-- Status logic:
-  ▸ sync_state: 'ready', 'paused', 'disengaged', or 'handoff_pending'
-  ▸ confidence and tone weight factored in for delegation decisions
+- Interface hooks:
+  ▸ Prompts user when better agent match is detected
+  ▸ Clarifies rationale (e.g., “Effie has deeper context on this campaign.”)
+  ▸ Allows override or opt-out
 
-<0001fa20> Next: teach Matilda to offer agent suggestions to the user and yield if more qualified peer available.
+<0001fa22> Final sync tier commit. Matilda now participates in cooperative task routing with transparent delegation.
