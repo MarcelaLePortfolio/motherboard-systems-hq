@@ -1,11 +1,13 @@
 import { exec as execCallback } from 'child_process';
-import { readFile, writeFile } from 'fs/promises';
+import { promises as fs } from 'fs';
 import path from 'path';
-import { promisify } from 'util';
+import os from 'os';
+import util from 'util';
 
-const execAsync = promisify(execCallback);
+const execAsync = util.promisify(execCallback);
+const { readFile, writeFile, rename, unlink } = fs;
 
-export async function cadeCommandRouter(command: string, args?: Record<string, any>) {
+export async function cadeCommandRouter(command: string, args?: any) {
   switch (command.toLowerCase()) {
     case 'read file':
       try {
@@ -31,6 +33,49 @@ export async function cadeCommandRouter(command: string, args?: Record<string, a
         const filepath = path.resolve(args?.path || 'scripts', 'test.sh');
         const { stdout } = await execAsync(`bash "${filepath}"`);
         return { status: 'success', result: { output: stdout.trim() } };
+      } catch (err: any) {
+        return { status: 'error', message: err.message };
+      }
+
+    case 'move file':
+      try {
+        const fromPath = path.resolve(args?.from);
+        const toPath = path.resolve(args?.to);
+        await rename(fromPath, toPath);
+        return { status: 'success', result: { message: `Moved to ${toPath}` } };
+      } catch (err: any) {
+        return { status: 'error', message: err.message };
+      }
+
+    case 'delete file':
+      try {
+        const targetPath = path.resolve(args?.path);
+        await unlink(targetPath);
+        return { status: 'success', result: { message: `Deleted ${targetPath}` } };
+      } catch (err: any) {
+        return { status: 'error', message: err.message };
+      }
+
+    case 'open url':
+      try {
+        const url = args?.url;
+        if (!url) throw new Error('Missing URL argument.');
+        const opener = os.platform() === 'darwin' ? 'open' : os.platform() === 'win32' ? 'start ""' : 'xdg-open';
+        await execAsync(`${opener} "${url}"`);
+        return { status: 'success', result: { message: `Opened ${url}` } };
+      } catch (err: any) {
+        return { status: 'error', message: err.message };
+      }
+
+    case 'package':
+      try {
+        const results = [];
+        for (const step of args?.steps || []) {
+          const { command, args: stepArgs } = step;
+          const result = await cadeCommandRouter(command, stepArgs);
+          results.push(result);
+        }
+        return { status: 'success', result: results };
       } catch (err: any) {
         return { status: 'error', message: err.message };
       }
