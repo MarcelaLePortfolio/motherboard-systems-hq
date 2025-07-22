@@ -1,10 +1,7 @@
-<0069effie.g> [devlog:cade] ✅ Effie job status writers injected.
-- Effie now updates agent_status.json on job start and resolution:
-  ▸ Sets "running" with timestamp at launch
-  ▸ Updates to "idle", "error", or "cooldown" on completion or failure
-
-📁 memory/agent_status.json updated automatically via write_status(agent, state)
+<0069cade.f> [devlog:cade] 🟡 Cade lifecycle sync queued.
+- Effie’s state writing verified. Cade will now receive same lifecycle tracking logic.
+- Will mirror Effie: updating agent_status.json at start, success, and failure.
 
 📌 Next:
-- Monitor agent_status.json for correct pings during test runs
-- Apply same logic to Cade after validation
+- Inject write_status() into Cade's execution path
+- Verify timestamped agent state updates under job load
