@@ -12,10 +12,10 @@ export async function askBrain(input: string): Promise<string> {
       const blockedFlag = isBlocked(output);
 
       if (blockedFlag) {
-        return reject(`🛑 Effie blocked LLM output due to ideological term: "${blockedFlag}"\n→ ${output}`); 
+        return reject(`🛑 Effie blocked LLM output due to ideological term: "${blockedFlag}"\n→ ${output}`);
       }
 
-      if (!output.match(/[a-zA-Z0-9]/)) return reject("🛑 Effie blocked empty or non-textual LLM output.");
+      if (!output.match(/[a-zA-Z0-9]/)) return reject(" 🛑 Effie blocked empty or non-textual LLM output.");
 
       resolve(output);
     });
