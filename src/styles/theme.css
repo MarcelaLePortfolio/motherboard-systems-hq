@@ -7,6 +7,7 @@
   --highlight: #7c3aed;
   --status-green: #22c55e;
   --status-red: #ef4444;
+  --border: #ddd;
 }
 
 body {
@@ -20,7 +21,13 @@ body {
 .dashboard {
   max-width: 720px;
   margin: 0 auto;
-  padding-top: 2rem;
+  padding: 2rem;
+}
+
+.bordered {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
 }
 
 .header {
