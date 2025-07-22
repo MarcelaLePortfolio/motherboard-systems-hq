@@ -1,9 +1,9 @@
-<0067matilda.c> [note:marcela] 🎨 Tone control surfaces queued for implementation.
-- Matilda will harmonize indirect tone from Effie and Cade across 3 output modes:
-  ▸ raw: unfiltered agent logs
-  ▸ friendly: plain neutral phrasing
-  ▸ interpreted: polished brand tone
+<0068effie.a> [devlog:cade] ✅ Effie command intake loop online.
+- Effie now continuously pulls commands from orchestration layer.
+- Routes instructions using route_command().
+- Mirrors intake behavior of Cade; prepares for queue polling layer.
 
-📌 Next steps:
-- Add config flag to invocation interface
-- Build phrasebank for interpreted summaries
+📌 Next:
+- Validate command queue polling trigger
+- Add background loop interval
+- Proceed to safeguard layers
