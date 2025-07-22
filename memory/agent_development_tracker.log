@@ -1,8 +1,8 @@
-<0072matilda.ac> [devlog:cade] ✅ Peer yield engine live – Matilda now suggests and initiates delegation.
-- Behavior includes:
-  ▸ peer_suitability.json – per-task fitness scoring
-  ▸ delegation_suggestion_log.json – user-facing prompts
-  ▸ yield_trigger_log.json – auto-yield with full memory trail
+<0072matilda.ad> [devlog:cade] ✅ Agent naming personalization enabled.
+- user_preferences.json initialized:
+  ▸ show_agent_nicknames toggle (default: false)
+  ▸ agent_aliases object for nickname mapping
 
-📌 Matilda now operates as part of a live agent mesh with soft suggestion and autonomous retreat.
-📌 Sync architecture complete. Ready for final runtime behaviors or mission lock.
+- Matilda respects nickname visibility setting and aliases on display
+
+📌 Framework ready for integration into onboarding and UI settings.

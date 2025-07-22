@@ -1,18 +1,14 @@
-<0072matilda.z> [note:marcela] <0001fa1d> Final rendering modules and dashboard logic committed.
-- Matilda now displays cognition overlays in a centralized operator dashboard:
-  ▸ Task list panel with live status and tone tags
-  ▸ Reflection viewer and sentiment arc over time
-  ▸ Memory dive links for each task (trace, audit, insight)
+<0072matilda.ad> [note:marcela] <0001fa23> Agent personalization logic scaffolded.
+- Matilda now supports user preference for agent naming style:
+  ▸ Defaults to role-based identifiers (e.g., "Strategic Assistant")
+  ▸ Optional toggle for friendly nicknames ("Matilda", "Effie", "Cade")
 
-- UI Modules:
-  ▸ operator_dashboard.tsx
-  ▸ task_sentiment_graph.tsx
-  ▸ task_reflection_panel.tsx
+- New memory file:
+  ▸ user_preferences.json
+    - show_agent_nicknames: false (default)
+    - agent_aliases: maps internal names to optional nicknames
 
-- Capabilities:
-  ▸ Human-readable output for every cognitive scaffold
-  ▸ Post-task summaries and emotion charts
-  ▸ Filter by task type, risk tag, or unresolved status
+- Onboarding prompt:
+  ▸ “Would you like me to introduce myself and the other agents by name? I can either stick with professional role titles, or we can use more personal nicknames.”
 
-📌 Matilda’s inspector system is fully deployed.
-📌 Cleared for agent sync logic or runtime usage wrap-up.
+📌 Clears path for full settings panel and user-configurable environment.
