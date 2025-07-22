@@ -1,12 +1,12 @@
-<0072matilda.l> [devlog:cade] ✅ Cognitive Behavior Module 1 complete – tone + context logic activated.
-- Task responses now modulate based on:
-  ▸ urgency, sensitivity, escalation risk
-  ▸ tone efficacy history (stored in tone_strategy.json)
-  ▸ persona-based defaults + backup tone rules
+<0072matilda.m> [devlog:cade] ✅ Cognitive Behavior 2 complete – task memory trace and cause-of-death diagnostics active.
+- New memory systems:
+  ▸ memory_trace.json – task lifecycle record
+  ▸ cause_of_death.json – final error report for unresolved tasks
+  ▸ attempt_snapshots – time-bound record of final N attempts
 
-- Runtime response planner now references:
-  ▸ tone_backoff_rules.json
-  ▸ context_flags per task
-  ▸ suppression_audit.json for historical cues
+- Logic enabled for:
+  ▸ forensic-style review
+  ▸ escalation and retry loop detection
+  ▸ auditability and debugging insights
 
-📌 Ready for runtime memory recall module (traceback, loop diagnostics, cause-of-death).
+📌 Ready to begin metacognitive module for cross-task patterns and insight logging.

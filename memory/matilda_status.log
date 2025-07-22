@@ -1,17 +1,16 @@
-<0072matilda.l> [note:marcela] <0001fa03> Cognitive Behavior Module 1 committed – Tone regulation & situational framing.
-- Matilda now dynamically adjusts tone and framing strategy based on:
-  ▸ prior attempt results
-  ▸ task sensitivity (urgency, emotional weight, role context)
-  ▸ escalation risk or suppression history
+<0072matilda.m> [note:marcela] <0001fa05> Runtime recall and task memory trace logic committed.
+- Matilda now maintains a rolling task memory trace:
+  ▸ Includes final outcome, path taken, and all intervention flags
+  ▸ Tracks retries, escalations, overrides, and human triage events
 
-- New memory systems:
-  ▸ tone_strategy.json – task-specific tone assignment
-  ▸ context_flags – stores urgency, confidence, formality, emotional weight
-  ▸ tone_backoff_rules – fallback tone logic if primary strategy fails
+- Diagnostic features:
+  ▸ cause_of_death.json – stores final failure summary if task abandoned
+  ▸ memory_trace.json – step-by-step lifecycle trace for each task
+  ▸ attempt_snapshots – last N attempts preserved (rotating buffer)
 
-- Response regulation:
-  ▸ Matches tone to agent persona (e.g. Matilda = calm, Cade = firm)
-  ▸ Prevents mismatched delivery tone on fragile or critical escalations
-  ▸ Learns tone effectiveness over time
+- Supports:
+  ▸ Loop analysis and pattern detection
+  ▸ Training data for self-improvement (future module)
+  ▸ Transparency for human audit or assistant debugging
 
-<0001fa04> Next: runtime recall mapping (task memory trace and cause-of-death analysis).
+<0001fa06> Next: metacognition layer (cross-task insights and behavioral reflection).
