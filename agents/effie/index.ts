@@ -10,7 +10,7 @@ async function runEffie() {
   });
 
   const tasks = await db.all(
-    \`SELECT id, step FROM compiled_tasks WHERE executed = 0 ORDER BY timestamp ASC LIMIT 5\`
+    `SELECT id, step FROM compiled_tasks WHERE executed = 0 ORDER BY timestamp ASC LIMIT 5`
   );
 
   if (tasks.length === 0) {
@@ -25,20 +25,20 @@ async function runEffie() {
 
     if (step.toLowerCase().includes("check my disk space")) {
       const { size } = await fs.stat("/");
-      result = \`💾 Effie: Disk check complete. Root size approx \${size} bytes\`;
+      result = `💾 Effie: Disk check complete. Root size approx ${size} bytes`;
     } else if (step.toLowerCase().includes("organize my screenshots")) {
-      result = \`🗂 Effie: Simulated organizing screenshots folder\`;
+      result = `🗂 Effie: Simulated organizing screenshots folder`;
     } else {
       try {
         const brainCmd = await askBrain(step);
-        result = \`🧠 Effie ran brain-suggested command: \${brainCmd}\`;
+        result = `🧠 Effie ran brain-suggested command: ${brainCmd}`;
       } catch (e) {
-        result = \`[BLOCKED] \${e.toString()}\`;
+        result = `[BLOCKED] ${e.toString()}`;
       }
     }
 
-    await db.run(\`UPDATE compiled_tasks SET executed = 1 WHERE id = ?\`, id);
-    await db.run(\`INSERT INTO logs (agent, message) VALUES (?, ?)\`, 'effie', result);
+    await db.run(`UPDATE compiled_tasks SET executed = 1 WHERE id = ?`, id);
+    await db.run(`INSERT INTO logs (agent, message) VALUES (?, ?)`, 'effie', result);
     console.log(result);
   }
 
