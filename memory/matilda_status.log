@@ -1,14 +1,17 @@
-<0072matilda.h> [note:marcela] <0001f9fc> Override and delegation logic outlined.
-- Agents may now claim escalated tasks:
-  ▸ Based on specialization, last handler, and escalation type
-  ▸ Avoids repeat assignment to same failing agent
-  ▸ Respects suppression flags for retry-abuse prevention
+<0072matilda.h> [note:marcela] <0001f9fd> Override handler and delegation logic activated.
+- Matilda now reroutes escalated tasks based on:
+  ▸ failure pattern type
+  ▸ retry exhaustion
+  ▸ last handled agent (avoids re-looping)
 
-- New registry fields:
-  ▸ override_claimed_by – assigned resolver
-  ▸ suppress_retries – bool set for hard failure patterns
-  ▸ delegation_notes – context on routing or agent fallback
+- Agent override logic:
+  ▸ Claims task if matching specialization
+  ▸ Tags with override_claimed_by
+  ▸ Skips retry if suppress_retries is true
 
-- Upcoming:
-  ▸ Finalize override handler
-  ▸ Activate handoff delegation triggers
+- Delegation triggers:
+  ▸ Task forwarded to alternate agent if unresolved past threshold
+  ▸ delegation_notes recorded for transparency
+
+<0001f9e4> Escalation response logic complete.
+📌 Next: escalation review module for human inbox triage.

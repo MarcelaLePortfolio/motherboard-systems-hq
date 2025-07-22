@@ -1,8 +1,9 @@
-<0072matilda.h> [devlog:cade] ✅ Override behaviors outlined.
-- Registry schema updated:
-  ▸ override_claimed_by
-  ▸ suppress_retries
-  ▸ delegation_notes
+<0072matilda.h> [devlog:cade] ✅ Override & handoff logic committed.
+- Agent claim routing now operational:
+  ▸ intelligent assignment based on prior agent, failure mode, claim availability
 
-- Escalation resolution routing logic ready to implement.
-📌 Next: activate override handler and finalize cross-agent handoffs.
+- suppression & delegation fields active:
+  ▸ suppress_retries respected in loop-prone tasks
+  ▸ delegation_notes now auto-filled if fallback triggered
+
+📌 Escalation resolution complete. Inbox triage module is next step.
