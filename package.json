@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
+    "dev": "astro dev",
     "run:stryxx": "tsx agents/stryxx-1/index.ts"
   },
   "dependencies": {
