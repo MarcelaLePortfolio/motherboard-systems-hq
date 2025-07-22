@@ -1,15 +1,11 @@
-<0072matilda.a> [note:marcela] 🎯 Matilda orchestration phase active.
-- Effie + Cade silent execution logic complete and validated.
-- Transitioning Matilda to retry logic, queue hygiene, and escalation awareness.
+<0072matilda.b> [note:marcela] 🧠 Retry memory registry initialized.
+- memory/retry_registry.json scaffolded to track task retries per agent.
+- Supports:
+  ▸ attempt count
+  ▸ last_attempt timestamp
+  ▸ max_attempts threshold
+  ▸ override enforcement
+  ▸ sensitive task suppression
 
-📌 Phase 2: Retry Intelligence – Checklist
-- [ ] Log retry-eligible failures from agent output
-- [ ] Suppress duplicate retries unless override:true
-- [ ] Silently requeue tasks when eligible
-- [ ] Track retry count per task
-- [ ] Allow override flag for forced retry
-
-🧠 Memory-driven orchestration now in scope:
-- Task memory
-- Retry lockouts
-- Future escalation triggers
+📌 Retry evaluation now possible on structured failure receipt.
+Next: integrate retry queue logic + suppression filter.

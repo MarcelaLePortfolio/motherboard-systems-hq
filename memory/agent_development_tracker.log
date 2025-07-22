@@ -1,13 +1,11 @@
-<0071cade.o> [devlog:cade] ✅ Silent execution finalized.
-- Cade and Effie now fully support invisible_mode toggle with automatic reset.
-- Matilda governs visibility state per task profile (chained, sensitive, retry, etc.)
+<0072matilda.b> [devlog:cade] ✅ Retry registry initialized for Matilda.
+- retry_registry.json tracks all retry-eligible task attempts.
+- Core fields supported:
+  ▸ agent
+  ▸ attempts
+  ▸ last_attempt
+  ▸ max_attempts
+  ▸ sensitive
+  ▸ override
 
-🔍 Orchestration behavior:
-- { "sensitive": true } → enforced silence
-- Retry + chained = optional silence
-- Post-task: flags auto-reset unless override provided
-
-📌 Ready for:
-- Queue hygiene routines
-- Escalation suppression
-- Silent fallback chaining
+📌 Proceeding to queue check logic + conditional retry flow.
