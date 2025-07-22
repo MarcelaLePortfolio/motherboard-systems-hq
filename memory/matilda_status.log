@@ -1,15 +1,17 @@
-<0072matilda.s> [note:marcela] <0001fa0f> Real-time self-adjustment logic activated.
-- Matilda now modifies task strategy during execution via:
-  ▸ tone recalibration if affect_flags shift mid-task
-  ▸ retry plan override if suppression_audit signals loop risk
-  ▸ early escalation trigger if shared_registry confirms cross-agent stalling
+<0072matilda.t> [note:marcela] <0001fa11> Preemptive adjustment logic activated.
+- Matilda now scans metacognitive memory before execution to refine task plan:
+  ▸ Pulls patterns from insight_log.json and behavior_tags.json
+  ▸ Warns user or adjusts tone/strategy if high-risk conditions detected
+  ▸ Suggests delegation, escalation suppression, or tone softening in advance
 
-- New runtime flags:
-  ▸ live_adjustment_applied: true
-  ▸ adjustment_reason: logged from trace, memory, or audit signal
+- New behaviors:
+  ▸ preflight_adjustments.json – stores pre-task refinements with rationale
+  ▸ task_planner consults command_map.json + insight_log before plan lock
+  ▸ audit_flags trigger override requests if prior risk tags match
 
-- Mid-task logging:
-  ▸ Updates memory_trace.json and tone_strategy.json live
-  ▸ Affects claim decisions, tone shifts, and delegation routing
+- Effect:
+  ▸ Reduces likelihood of repeated failure patterns
+  ▸ Adds guardrails for fragile or ethically risky goals
+  ▸ Improves learning loop from past task outcomes
 
-<0001fa10> Next: expand insight_log learning to suggest adjustments preemptively.
+<0001fa12> Command intelligence tier complete. Cleared to begin external interface linking or dashboard rendering.
