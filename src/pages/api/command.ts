@@ -1,11 +1,13 @@
 import type { APIRoute } from 'astro';
 
+export const prerender = false;
+
 export const POST: APIRoute = async ({ request }) => {
   try {
-    const raw = await request.text(); // 🔍 raw body
+    const raw = await request.text();
     console.log(`📦 Raw request body: ${raw}`);
 
-    const { agent, command } = JSON.parse(raw); // then parse manually
+    const { agent, command } = JSON.parse(raw);
 
     console.log(`📡 Received command for ${agent}: ${command}`);
 
