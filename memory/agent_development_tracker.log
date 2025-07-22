@@ -1,8 +1,8 @@
-<0072matilda.v> [devlog:cade] ✅ Advanced Cognitive 2 committed – prompt debugger live.
-- New files:
-  ▸ prompt_diagnostics.json – input analysis by component
-  ▸ phrasing_alerts.json – flags recurring user input breakdowns
-  ▸ correction_suggestions.json – phrasing alternatives tested or suggested
+<0072matilda.w> [devlog:cade] ✅ Advanced Cognitive 3 committed – chain-of-thought scaffolding live.
+- New capabilities:
+  ▸ hypothesis_chain.json stores nested reasoning per task
+  ▸ scaffold_trace.json logs subgoal lineage and task splits
+  ▸ logic_gap_flags.json highlights broken or circular thought paths
 
-📌 Enables clearer prompting, better schema alignment, and tone refinement.
-📌 Next: complex task scaffolding + intermediate hypothesis planning.
+📌 Matilda now handles ambiguous, multi-step requests with structured reflection and learning.
+📌 Cognitive architecture complete. Interface layer next.

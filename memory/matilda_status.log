@@ -1,16 +1,17 @@
-<0072matilda.v> [note:marcela] <0001fa15> Prompt debugger module activated.
-- Matilda now diagnoses failures and friction from phrasing patterns:
-  ▸ Analyzes input format, ambiguity, cognitive load, or tone mismatch
-  ▸ Maps prompt elements to schema errors or failed parse branches
-  ▸ Suggests phrasing adjustments for clarity or emotional resonance
+<0072matilda.w> [note:marcela] <0001fa17> Chain-of-thought scaffolding logic activated.
+- Matilda now constructs explicit reasoning scaffolds for complex goals:
+  ▸ Breaks ambiguous or layered requests into hypothesis chains
+  ▸ Links subtasks with rationale paths and expected transformations
+  ▸ Flags gaps in logic or dependency mismatches
 
-- New memory systems:
-  ▸ prompt_diagnostics.json – per-task prompt breakdown
-  ▸ phrasing_alerts.json – repeated user phrasing issues flagged
-  ▸ correction_suggestions.json – refined alternate phrasing logs
+- New memory files:
+  ▸ hypothesis_chain.json – outlines reasoning steps with assumptions
+  ▸ scaffold_trace.json – links task tree to subgoal outcomes
+  ▸ logic_gap_flags.json – triggers when steps are missing or circular
 
-- Runtime behavior:
-  ▸ Automatically triggered on fail, friction, or override
-  ▸ Reports stored alongside reflection_log + memory_trace
+- Execution behavior:
+  ▸ Used for goal decomposition, research, creative planning, etc.
+  ▸ Reflection engine reviews scaffold success post-task
+  ▸ Chains reused or revised for similar future tasks
 
-<0001fa16> Next: chain-of-thought scaffolding engine for complex reasoning.
+<0001fa18> Final cognition layer complete. Cleared for interface rendering or operator bridge.
