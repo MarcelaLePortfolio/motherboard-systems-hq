@@ -1,6 +1,27 @@
 ---
-import AgentStatusRow from '../components/AgentStatusRow.tsx';
-import TaskList from '../components/TaskList.tsx';
+import React from 'react';
+import { Fragment } from 'react';
+import { renderToString } from 'react-dom/server';
+
+const agents = [
+  { name: 'Matilda', emoji: '📡', status: 'online' },
+  { name: 'Cade', emoji: '🛠️', status: 'online' },
+  { name: 'Effie', emoji: '🖥️', status: 'online' },
+];
+
+function AgentStatusRow() {
+  return (
+    <div className="flex justify-around mb-4">
+      {agents.map((agent) => (
+        <div key={agent.name} className="flex items-center space-x-2">
+          <span className="text-xl">{agent.emoji}</span>
+          <span className="text-sm font-medium">{agent.name}</span>
+          <span className={`w-2 h-2 rounded-full ${agent.status === 'online' ? 'bg-green-500' : 'bg-gray-400'}`}></span>
+        </div>
+      ))}
+    </div>
+  );
+}
 ---
 
 <!DOCTYPE html>
@@ -14,8 +35,10 @@ import TaskList from '../components/TaskList.tsx';
     <main class="max-w-2xl mx-auto">
       <h1 class="text-3xl font-bold mb-4">Motherboard Systems HQ</h1>
 
-      <!-- React agent status row (hydrated) -->
-      <AgentStatusRow client:only="react" />
+      <!-- Full inline AgentStatusRow rendered at runtime -->
+      <div client:only="react">
+        <AgentStatusRow />
+      </div>
 
       <div class="mt-10">
         <div class="flex space-x-6 justify-center border-b pb-2 mb-3 font-medium">
@@ -25,8 +48,6 @@ import TaskList from '../components/TaskList.tsx';
         </div>
 
         <h2 class="text-xl font-semibold mb-4">Project Tracker</h2>
-        <!-- React task list (hydrated) -->
-        <TaskList client:only="react" />
       </div>
     </main>
   </body>
