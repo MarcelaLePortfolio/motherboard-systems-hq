@@ -1,10 +1,9 @@
-<0067matilda> [note:marcela] 🎭 Matilda assigned tone harmonization role.
-- Acknowledges “indirect personality bleed” from Effie and Cade via logs and coordination messages.
-- Will adapt log surfaces when interacting with users:
-  ▸ raw (verbatim logs)
-  ▸ friendly (neutralized tone)
-  ▸ interpreted (brand voice rephrased)
+<0067matilda.c> [note:marcela] 🎨 Tone control surfaces queued for implementation.
+- Matilda will harmonize indirect tone from Effie and Cade across 3 output modes:
+  ▸ raw: unfiltered agent logs
+  ▸ friendly: plain neutral phrasing
+  ▸ interpreted: polished brand tone
 
-📌 Pending:
-- Configuration flag for tone smoothing layer
-- Standard phrasing library for interpreted summaries
+📌 Next steps:
+- Add config flag to invocation interface
+- Build phrasebank for interpreted summaries
