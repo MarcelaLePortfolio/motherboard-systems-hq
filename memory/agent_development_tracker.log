@@ -1,13 +1,13 @@
-<0071cade.k> [devlog:cade] 🛡️ Cade invisible mode toggle integrated.
-- Cade now respects memory/agent_flags.json → invisible_mode setting.
-- Terminal and runtime logging suppressed when toggle is true.
+<0071cade.o> [devlog:cade] ✅ Silent execution finalized.
+- Cade and Effie now fully support invisible_mode toggle with automatic reset.
+- Matilda governs visibility state per task profile (chained, sensitive, retry, etc.)
 
-✅ Optional for:
-- Background and chained job flows
+🔍 Orchestration behavior:
+- { "sensitive": true } → enforced silence
+- Retry + chained = optional silence
+- Post-task: flags auto-reset unless override provided
 
-🔐 Enforced for:
-- Jobs flagged with { "sensitive": true }
-
-📌 Behavior:
-- Matilda sets flag before dispatch
-- Cade resets invisible_mode to false post-task unless persistently set
+📌 Ready for:
+- Queue hygiene routines
+- Escalation suppression
+- Silent fallback chaining
