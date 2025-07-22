@@ -1,8 +1,8 @@
-<0068effie.b> [devlog:cade] ✅ Effie queue polling operational.
-- Effie now checks orchestration command queue at intervals.
-- Polls using background loop to detect and process new commands.
-- Structure in place for optional backoff, interval tuning, or conditional pacing.
+<0068effie.c> [devlog:cade] ✅ Effie runtime now gated by safeguards.
+- Effie executes only commands targeting whitelisted directories.
+- All output and errors are logged to memory/effie_runtime.log.
+- Unsafe or unexpected commands are rejected with error: "⛔ Unauthorized execution context."
 
-📌 Next:
-- Move to interval config and idle handling
-- Begin safeguard layer: whitelisted folders + optional shell fallback
+🛡️ Guardrails:
+- Whitelisted: scripts/, memory/, utils/, logs/, package.json
+- Rejected commands now return structured error to Matilda orchestration
