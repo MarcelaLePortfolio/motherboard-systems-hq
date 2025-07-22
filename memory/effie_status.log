@@ -1,4 +1,4 @@
-<0064effie.b> [auto:cade] Effie fully operational.
-- Core filesystem functions verified.
-- Argument checks and error logging confirmed.
-- Awaiting integration into command routing tree with Matilda + Cade.
+<0065effie> [auto:cade] Effie routing now active.
+- Receives delegated ops via delegateToEffie().
+- Commands logged to memory/effie_routed_commands.log.
+- Next: validate multi-agent orchestration (Matilda ↔ Effie ↔ Cade).
