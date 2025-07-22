@@ -1,15 +1,18 @@
 ---
 import AgentStatusRow from '../components/AgentStatusRow.tsx';
+import TaskList from '../components/TaskList.tsx';
 ---
 
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Motherboard Systems HQ</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Motherboard Systems HQ</title>
   </head>
-  <body class="bg-white text-black font-sans">
-    <main class="max-w-2xl mx-auto p-6">
+  <body class="bg-white text-black p-6">
+    <main class="max-w-2xl mx-auto">
+      <h1 class="text-3xl font-bold mb-4">Motherboard Systems HQ</h1>
+
       <AgentStatusRow client:load />
 
       <div class="mt-10">
@@ -20,26 +23,7 @@ import AgentStatusRow from '../components/AgentStatusRow.tsx';
         </div>
 
         <h2 class="text-xl font-semibold mb-4">Project Tracker</h2>
-        <ul class="space-y-3">
-          {
-            [
-              { label: "Design new homepage", color: "bg-blue-600" },
-              { label: "Prepare investor presentation", color: "bg-blue-600" },
-              { label: "Implement authentication", color: "bg-teal-400" },
-              { label: "Conduct user interviews", color: "bg-gray-400" },
-            ].map(task => (
-              <li class="flex items-center justify-between">
-                <div class="flex items-center space-x-3">
-                  <span class={`w-3 h-3 rounded-full ${task.color}`}></span>
-                  <span>{task.label}</span>
-                </div>
-                <button class="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-50">
-                  Request Modification
-                </button>
-              </li>
-            ))
-          }
-        </ul>
+        <TaskList client:load />
       </div>
     </main>
   </body>
