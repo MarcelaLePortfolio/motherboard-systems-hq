@@ -1,22 +1,20 @@
-<0072matilda.i> [note:marcela] <0001f9fe> Inbox triage module committed.
-- Escalated tasks now routed to human inbox if:
-  ▸ No viable agent override found
-  ▸ Delegation triggers exceed fallback depth
-  ▸ suppress_retries is true AND resolution failed
+<0072matilda.j> [note:marcela] <0001f9fe> Memory sync module initialized.
+- Matilda now flushes volatile runtime logs to persistent memory:
+  ▸ retry_registry.json
+  ▸ escalation_registry.json
+  ▸ inbox_triage.json
 
-- Inbox review metadata:
-  ▸ triage_required: true
-  ▸ triage_reason: summary of escalation cause
-  ▸ last_attempt_context: diagnostic payload excerpt
+- Key fields persisted:
+  ▸ task outcomes (success, fail, escalation)
+  ▸ last handler, agent claims, suppression flags
+  ▸ human triage notes and override resolutions
 
-- Triage inbox entry format:
-  {
-    "task_id": "...",
-    "triage_required": true,
-    "triage_reason": "...",
-    "origin_agent": "...",
-    "last_attempt_context": { ... }
-  }
+- Memory compaction:
+  ▸ Deduplicates task history
+  ▸ Retains last N attempts per task
+  ▸ Schema-aware validation on write
 
-📌 Optional override: inbox processor agent can be added later if desired.
-<0001f9e5> Ready to proceed with memory sync module.
+<0001f9e6> Optional extensions:
+  ▸ Shared agent memory sync
+  ▸ Dashboard mirroring
+  ▸ Selective wipe and “forget” functions

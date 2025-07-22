@@ -1,12 +1,9 @@
-<0072matilda.i> [devlog:cade] ✅ Inbox triage module live.
-- Triage queue now populated when:
-  ▸ Agent claim logic fails
-  ▸ Delegation fallback exhausted
-  ▸ Retry suppression blocks auto-resolution
+<0072matilda.j> [devlog:cade] ✅ Memory sync logic active.
+- Runtime state now flushed to disk every 10 minutes (configurable).
+- Persistent fields:
+  ▸ escalation + retry history
+  ▸ override and claim resolutions
+  ▸ triage inputs + outcome
 
-- Inbox schema added:
-  ▸ triage_required
-  ▸ triage_reason
-  ▸ last_attempt_context
-
-📌 Module complete. Proceeding to memory sync logic next.
+- Schema validation included on write.
+📌 Module stable. Proceeding to shared memory logic (optional).
