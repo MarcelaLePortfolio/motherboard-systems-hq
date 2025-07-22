@@ -1,9 +1,10 @@
-<0067effiecade> [note:marcela] 🎭 Indirect tone surface acknowledged.
-- Effie and Cade may influence perceived experience through logs, fallbacks, and inter-agent replies.
-- Matilda will assume role of tone harmonizer when relaying agent outputs to user-facing surfaces.
+<0067matilda.b> [note:marcela] 🎨 Tone surface controls initiated.
+- Matilda will apply output harmonization rules when surfacing multi-agent logs.
+- Three-tier surface styles:
+  ▸ raw (unaltered)
+  ▸ friendly (neutral technical)
+  ▸ interpreted (brand-flavored)
 
-🧠 Design Note:
-- Orchestration logs, error summaries, and coordination narratives will preserve technical accuracy while optionally applying brand tone smoothing.
-- Matilda’s log surface layer can be configured per context: raw, friendly, or interpreted.
-
-✅ Standing by for sophistication layering on Effie and Cade to apply personality filters.
+🛠 Pending implementation:
+- Configurable mode selector per invocation or session
+- Phrasebank for interpreted summaries, aligned to brand tone
