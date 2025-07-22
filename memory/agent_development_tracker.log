@@ -1,8 +1,11 @@
-<0072matilda.f> [devlog:cade] ✅ Hygiene scheduler enabled – reporting active.
-- Interval: 15 minutes (cron-style loop)
-- Sweep summary includes:
-  ▸ entries removed
-  ▸ retention rationale
-  ▸ exhaust count
+<0072matilda.g> [devlog:cade] ✅ Escalation tagging logic queued.
+- Escalation tags:
+  ▸ soft_escalation – silent elevation for complex failures
+  ▸ hard_escalation – surfaced attention needed
 
-📌 Registry now auto-cleans on schedule. Queue report stable.
+- Trigger logic:
+  ▸ Max attempts hit with unchanging failure type
+  ▸ Repeated retry resets without progress
+  ▸ Cross-agent suppression threshold exceeded
+
+📌 Next step: implement tag logic and escalation_registry writer

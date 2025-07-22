@@ -1,9 +1,20 @@
-<0072matilda.f> [note:marcela] <0001f9f9> Hygiene scheduler and summary reporting activated.
-- Queue hygiene sweep now runs every 15 minutes.
-- Matilda emits sweep summary to log per interval:
-  ▸ expired entries cleared
-  ▸ exhausted retries tagged
-  ▸ successful completions purged
+<0072matilda.g> [note:marcela] <0001f9fa> Escalation tagging logic outlined.
+- Matilda will flag entries in retry_registry.json if:
+  ▸ Max attempts are exhausted AND issue pattern matches known persistent errors
+  ▸ Task remains unresolved across consecutive sweeps
+  ▸ Retry interval is frequently reset without resolution (loop suspicion)
 
-<0001f9e0> Registry is now kept lean and noise-free by design.
-📌 Escalation tagging layer next.
+- Flags applied:
+  ▸ ⚠️ soft_escalation – for silent review or agent retry override
+  ▸ 🔥 hard_escalation – triggers surfaced alert or cross-agent attention
+
+- Logging:
+  ▸ Escalated items are copied to escalation_registry.json
+  ▸ Status summaries are appended to hygiene log reports
+
+📌 Supports:
+- Stuck task identification
+- Agent handoff logic
+- Retry abuse detection
+
+<0001f9e2> Next: implement tag conditions and escalation_registry writing
