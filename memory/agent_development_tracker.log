@@ -1,7 +1,8 @@
-<0072matilda.e> [devlog:cade] ✅ Retry registry hygiene sweep logic outlined.
-- Matilda to purge:
-  ▸ Completed task entries
-  ▸ Expired retry candidates (based on max time window)
-  ▸ Exhausted retries (if max_attempts hit with no override)
+<0072matilda.f> [devlog:cade] ✅ Hygiene scheduler enabled – reporting active.
+- Interval: 15 minutes (cron-style loop)
+- Sweep summary includes:
+  ▸ entries removed
+  ▸ retention rationale
+  ▸ exhaust count
 
-📌 Next: define sweep interval and test cleanup pass
+📌 Registry now auto-cleans on schedule. Queue report stable.

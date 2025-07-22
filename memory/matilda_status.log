@@ -1,12 +1,9 @@
-<0072matilda.e> [note:marcela] <0001f9f9> Queue hygiene sweep logic initiated.
-- Matilda will periodically scan retry_registry.json to:
-  ▸ Clear expired retry entries
-  ▸ Remove records after successful completion
-  ▸ Suppress logs for exhausted retries
+<0072matilda.f> [note:marcela] 🧹 Hygiene scheduler and summary reporting activated.
+- Queue hygiene sweep now runs every 15 minutes.
+- Matilda emits sweep summary to log per interval:
+  ▸ expired entries cleared
+  ▸ exhausted retries tagged
+  ▸ successful completions purged
 
-📌 Supports:
-- Registry cleanup
-- Retry exhaustion tagging
-- Prevention of stale task noise
-
-<0001f9e1> Next: expiration windows and hygiene trigger setup
+🧠 Registry is now kept lean and noise-free by design.
+📌 Escalation tagging layer next.
