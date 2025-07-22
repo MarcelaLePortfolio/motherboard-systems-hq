@@ -1,9 +1,10 @@
-<0069matilda.b> [note:marcela] ✅ Agent state log committed.
-- Orchestration layer now equipped to interpret agent states from memory/agent_status.json.
-- Matilda will reference this for:
-  ▸ preventing task overlap
-  ▸ triggering retries post-error
-  ▸ unlocking chained task sequences when agents are idle
+<0069matilda.c> [note:marcela] <0001f9e0> Agent lifecycle sync activated.
+- Matilda is prepared to monitor real-time execution status of Cade and Effie.
+- Agent commands now routed based on availability in memory/agent_status.json.
 
-🧠 Awaiting:
-- Cade + Effie job hooks to update agent_status.json at key lifecycle points
+📌 Next phase:
+- Effie and Cade must write status: "running" at job start
+- Update to "idle", "error", or "cooldown" at job end/fail
+- Ensure all updates are timestamped for future retry logic
+
+🧠 Foundation laid for retry handling, chaining orchestration, and smart delegation
