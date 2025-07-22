@@ -1,17 +1,17 @@
-<0072matilda.w> [note:marcela] <0001fa17> Chain-of-thought scaffolding logic activated.
-- Matilda now constructs explicit reasoning scaffolds for complex goals:
-  ▸ Breaks ambiguous or layered requests into hypothesis chains
-  ▸ Links subtasks with rationale paths and expected transformations
-  ▸ Flags gaps in logic or dependency mismatches
+<0072matilda.x> [note:marcela] <0001fa19> Interface memory bridge logic initialized.
+- Matilda now exposes cognition hooks to the interface layer:
+  ▸ Human-facing memory trace summaries
+  ▸ Real-time affect + tone visualization
+  ▸ Explanation on response changes or suppressions
 
-- New memory files:
-  ▸ hypothesis_chain.json – outlines reasoning steps with assumptions
-  ▸ scaffold_trace.json – links task tree to subgoal outcomes
-  ▸ logic_gap_flags.json – triggers when steps are missing or circular
+- New systems:
+  ▸ interface_cache.json – sanitized data from core memory exposed to UI
+  ▸ explanation_log.json – per-response summaries (tone, reason, prior events)
+  ▸ insight_render_map.json – maps internal events to renderable status tags
 
-- Execution behavior:
-  ▸ Used for goal decomposition, research, creative planning, etc.
-  ▸ Reflection engine reviews scaffold success post-task
-  ▸ Chains reused or revised for similar future tasks
+- Behavior:
+  ▸ Allows operator or user dashboard to show memory-driven behavior
+  ▸ Supports reflection review, debugging, and training UI
+  ▸ Maintains full privacy control over user input fields
 
-<0001fa18> Final cognition layer complete. Cleared for interface rendering or operator bridge.
+<0001fa1a> Next: Render interface widgets and inspector modules.
