@@ -1,11 +1,10 @@
-<0069matilda.b> [devlog:marcela] ✅ Agent state log entry complete.
-- Matilda now recognizes agent availability states:
-  ▸ idle
-  ▸ running
-  ▸ error
-  ▸ cooldown
+<0069matilda.c> [devlog:marcela] 🧠 Agent ping hook integration next.
+- Matilda state memory is now in sync and actively referenced during orchestration.
+- Agent availability prevents command overlap, sets up for retry and chaining logic.
 
-📁 memory/agent_status.json holds real-time agent data.
-📌 Next:
-- Hook Effie and Cade runners to update status on job start, finish, and failure.
-- Use state for smart retry and command chaining logic.
+📌 Implementation next steps:
+- Cade + Effie to send "status: running" on job start
+- Update to "idle", "error", or "cooldown" on completion/failure
+- Time-stamped agent_status.json writes
+
+🎯 Goal: Full lifecycle awareness across active agents
