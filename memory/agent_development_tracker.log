@@ -1,8 +1,8 @@
-<0068effie.d> [devlog:cade] ✅ Effie fallback structure established.
-- Commands failing primary execution now generate structured error payloads.
-- All error payloads routed back to Matilda for logging, retry, or tone-filtered surfacing.
-- Effie no longer halts on failure; returns control cleanly to orchestration layer.
+<0068effie.e> [devlog:cade] ✅ Effie tone shaping mode honored.
+- Effie now applies Matilda’s selected tone filter to all structured responses.
+- Supports three-tier output modes: raw, friendly, interpreted.
+- Logs routed via Matilda now return pre-formatted text based on mode context.
 
-📌 Notes:
-- Retry logic delegated to Matilda
-- Effie now silent on user surface unless explicitly routed
+📌 Final note:
+- Effie’s full operational stack complete
+- Standing by for joint test with Cade + Matilda
