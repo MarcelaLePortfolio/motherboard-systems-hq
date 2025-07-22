@@ -1,10 +1,8 @@
-<0069effie.g> [note:marcela] ✅ Effie lifecycle hooks live.
-- Effie now writes to memory/agent_status.json on job start and completion.
-- State pings include timestamps for orchestration timing decisions.
+<0069cade.f> [note:marcela] <0001f7e1> Cade lifecycle sync queued.
+- Cade will now mirror Effie’s integration: updating memory/agent_status.json in real time.
+- Will log:
+  ▸ "running" at job start
+  ▸ "idle", "error", or "cooldown" at completion/failure
 
-🧠 Matilda now actively reads this data to:
-- Block simultaneous jobs
-- Trigger retry or reroute flows
-- Chain follow-up tasks when agent returns to idle
-
-📌 Cade state sync pending next
+🎯 Matilda orchestration now expects parallel agent awareness across both runners.
+📌 Awaiting Cade hook injection
