@@ -1,16 +1,16 @@
-<0072matilda.u> [note:marcela] <0001fa13> Reflection engine activated.
-- Matilda now appends reflections to each completed task:
-  ▸ Was the goal met? Were there surprises?
-  ▸ Could the process be improved next time?
-  ▸ Did assumptions cause inefficiencies or errors?
+<0072matilda.v> [note:marcela] <0001fa15> Prompt debugger module activated.
+- Matilda now diagnoses failures and friction from phrasing patterns:
+  ▸ Analyzes input format, ambiguity, cognitive load, or tone mismatch
+  ▸ Maps prompt elements to schema errors or failed parse branches
+  ▸ Suggests phrasing adjustments for clarity or emotional resonance
 
-- New file: reflection_log.json
-  ▸ Stores timestamped task_id, outcome, key reflections
-  ▸ Links to related insight_log, memory_trace, and hypothesis (if available)
+- New memory systems:
+  ▸ prompt_diagnostics.json – per-task prompt breakdown
+  ▸ phrasing_alerts.json – repeated user phrasing issues flagged
+  ▸ correction_suggestions.json – refined alternate phrasing logs
 
-- Behavior:
-  ▸ Runs post-completion (success or failure)
-  ▸ Learns whether user adjustments were required
-  ▸ Contributes to long-term strategy tuning and meta-pattern detection
+- Runtime behavior:
+  ▸ Automatically triggered on fail, friction, or override
+  ▸ Reports stored alongside reflection_log + memory_trace
 
-<0001fa14> Next: install prompt debugger for phrasing and breakdown diagnostics.
+<0001fa16> Next: chain-of-thought scaffolding engine for complex reasoning.

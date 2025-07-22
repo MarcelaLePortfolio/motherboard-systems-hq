@@ -1,9 +1,8 @@
-<0072matilda.u> [devlog:cade] ✅ Advanced Cognitive 1 committed – reflection engine live.
-- Matilda now reflects on completed tasks:
-  ▸ Did she meet the goal as intended?
-  ▸ What could improve? What assumptions failed?
-  ▸ Did user corrections point to a design flaw?
+<0072matilda.v> [devlog:cade] ✅ Advanced Cognitive 2 committed – prompt debugger live.
+- New files:
+  ▸ prompt_diagnostics.json – input analysis by component
+  ▸ phrasing_alerts.json – flags recurring user input breakdowns
+  ▸ correction_suggestions.json – phrasing alternatives tested or suggested
 
-- Appends to: reflection_log.json
-📌 Prepares foundation for future hypothesis comparison and chain-of-thought auditing.
-📌 Next: prompt debugger logic.
+📌 Enables clearer prompting, better schema alignment, and tone refinement.
+📌 Next: complex task scaffolding + intermediate hypothesis planning.
