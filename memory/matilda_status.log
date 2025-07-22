@@ -1,11 +1,12 @@
-<0071cade.n> [note:marcela] ✅ Silent mode runtime flows confirmed stable.
-- Effie and Cade now operate discreetly when invisible_mode is active.
-- Matilda dynamically toggles this flag per task profile.
+<0071cade.o> [note:marcela] 📦 Silent execution layer closed.
+- Invisible mode now fully implemented, toggle-governed, and runtime-tested.
+- All agent flows respect Matilda’s discretion directives.
 
-📌 All silent execution flows now complete:
-- ✅ Retry attempts = silent default
-- ✅ Chained follow-ups = optional silence
-- ✅ Sensitive ops = enforced silence
-- ✅ Post-task reset = automatic unless persist flag active
+🔒 Operational coverage:
+- Background retries = silent default
+- Chained tasks = silent if tagged
+- Sensitive ops = enforced silence
+- Visibility flags = reset post-run unless persist:true
 
-🎯 Ready for escalation testing, fallback prompts, and queued hygiene dispatches
+🧼 Next:
+- Enable queue sweeps, silent cleanup routines, and escalation lockouts
