@@ -27,5 +27,5 @@ export async function ask(task: string): Promise<string> {
     return await routeToCade(task);
   }
 
-  return `<0001f9e0> Matilda received: "${task}" — but isn't sure how to route it yet.`;
+  return `<0001f9e0> Matilda received: "\${task}" — but isn't sure how to route it yet.`;
 }
