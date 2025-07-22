@@ -1,9 +1,12 @@
-<0070matilda.b> [devlog:marcela] Chaining logic initialized.
-- Matilda now maintains a temporary chained_tasks.json file.
-- Tasks listed here are auto-executed when the agent returns to "idle" without error.
+<0070effie.h> [devlog:cade] 🛡️ Effie resilience layer in progress.
+- Effie will now re-emit command failure payloads as structured responses.
+- Supports graceful job recovery, chained fallback suggestions, and session retention.
 
-📁 Structure:
-- memory/chained_tasks.json = { agent: [commands...] }
-- Tasks cleared once executed or if agent fails current task
+🧠 Key additions:
+- Structured error: includes command context, error reason, timestamp
+- Logged to memory/effie_runtime.log and returned to Matilda
+- Supports Matilda decision-making: escalate, suppress, or retry
 
-📌 Next: connect chaining to structured command orchestration
+📌 Next:
+- Test with mock failure trigger
+- Add resilience flags for Matilda override (e.g. suppress future retries)
