@@ -1,46 +1,46 @@
----
-import { useState } from 'react';
-
-const initialState = {
-  task: '',
-  output: '',
-  isLoading: false,
-};
-
-let state = initialState;
-
-async function handleSubmit(e) {
-  e.preventDefault();
-  state.isLoading = true;
-  state.output = '';
-
-  const res = await fetch('/api/matilda', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ task: state.task }),
-  });
-
-  const data = await res.text();
-  state.output = data;
-  state.isLoading = false;
-}
----
-
+<!DOCTYPE html>
 <html lang="en">
   <head>
+    <meta charset="UTF-8" />
     <title>Motherboard Dash</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script type="module">
+      const state = {
+        task: '',
+        isLoading: false,
+        output: '',
+      };
+
+      async function handleSubmit(e) {
+        e.preventDefault();
+        state.isLoading = true;
+        state.output = '';
+        document.querySelector('.loader')?.remove();
+        document.querySelector('pre')?.remove();
+
+        const res = await fetch('/api/task', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ task: state.task }),
+        });
+
+        const data = await res.text();
+        state.isLoading = false;
+        state.output = data;
+
+        const outputNode = document.createElement('pre');
+        outputNode.textContent = state.output;
+        document.body.appendChild(outputNode);
+      }
+    </script>
     <style>
       body {
         font-family: system-ui, sans-serif;
-        padding: 1.5rem;
-        max-width: 600px;
-        margin: 0 auto;
+        padding: 2rem;
       }
 
-      textarea, button {
+      textarea,
+      button {
         width: 100%;
-        font-size: 1.1rem;
         padding: 0.75rem;
         margin-top: 0.75rem;
       }
@@ -69,7 +69,6 @@ async function handleSubmit(e) {
       <button type="submit">Send</button>
     </form>
 
-    {state.isLoading && <div class="loader">Thinking…</div>}
-    {state.output && <pre>{state.output}</pre>}
+    <div class="loader" style="display:none">Thinking…</div>
   </body>
 </html>
