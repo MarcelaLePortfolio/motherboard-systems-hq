@@ -1,10 +1,10 @@
-<0069matilda.c> [note:marcela] <0001f9e0> Agent lifecycle sync activated.
-- Matilda is prepared to monitor real-time execution status of Cade and Effie.
-- Agent commands now routed based on availability in memory/agent_status.json.
+<0069matilda.d> [note:marcela] ✅ Lifecycle sync committed.
+- Matilda now actively references agent_status.json for orchestration decisions.
+- Effie and Cade must now emit status pings on job start, completion, and failure.
 
-📌 Next phase:
-- Effie and Cade must write status: "running" at job start
-- Update to "idle", "error", or "cooldown" at job end/fail
-- Ensure all updates are timestamped for future retry logic
+🎯 Ready for:
+- Retry logic based on "error" states
+- Task chaining once agents return to "idle"
+- Runtime suppression if agent is in "cooldown"
 
-🧠 Foundation laid for retry handling, chaining orchestration, and smart delegation
+🛠 Next build phase will embed status writers in agent runners
