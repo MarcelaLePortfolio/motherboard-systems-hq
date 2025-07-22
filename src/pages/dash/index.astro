@@ -1,0 +1,75 @@
+---
+import { useState } from 'react';
+
+const initialState = {
+  task: '',
+  output: '',
+  isLoading: false,
+};
+
+let state = initialState;
+
+async function handleSubmit(e) {
+  e.preventDefault();
+  state.isLoading = true;
+  state.output = '';
+
+  const res = await fetch('/api/matilda', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ task: state.task }),
+  });
+
+  const data = await res.text();
+  state.output = data;
+  state.isLoading = false;
+}
+---
+
+<html lang="en">
+  <head>
+    <title>Motherboard Dash</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        padding: 1.5rem;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      textarea, button {
+        width: 100%;
+        font-size: 1.1rem;
+        padding: 0.75rem;
+        margin-top: 0.75rem;
+      }
+
+      pre {
+        background: #f5f5f5;
+        padding: 1rem;
+        white-space: pre-wrap;
+        word-break: break-word;
+        margin-top: 1rem;
+      }
+
+      .loader {
+        text-align: center;
+        padding-top: 1rem;
+        font-style: italic;
+      }
+    </style>
+  </head>
+  <body>
+    <h1><0001f9e0> Motherboard Dash</h1>
+    <form onsubmit="return handleSubmit(event)">
+      <label for="task">What do you want to do?</label>
+      <textarea id="task" rows="4" placeholder="e.g. Restart Cade server…" required
+        oninput="state.task = this.value"></textarea>
+      <button type="submit">Send</button>
+    </form>
+
+    {state.isLoading && <div class="loader">Thinking…</div>}
+    {state.output && <pre>{state.output}</pre>}
+  </body>
+</html>
