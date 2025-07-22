@@ -1,10 +1,9 @@
 import { exec } from 'child_process';
-import { readFile, writeFile } from 'fs/promises';
 import { promisify } from 'util';
+import { readFile, writeFile } from 'fs/promises';
 import path from 'path';
 
 const execAsync = promisify(exec);
-const ALLOWED_DIRS = ['scripts', 'src', 'memory', '.'];
 
 export async function cadeCommandRouter(command: string) {
   switch (command.toLowerCase()) {
@@ -21,7 +20,10 @@ export async function cadeCommandRouter(command: string) {
     case 'list files':
       try {
         const { stdout } = await execAsync('ls -lh');
-        return { status: 'success', result: { output: stdout.trim() } };
+        return {
+          status: 'success',
+          result: { output: stdout.trim() }
+        };
       } catch (err: any) {
         return { status: 'error', message: err.message };
       }
@@ -47,7 +49,7 @@ export async function cadeCommandRouter(command: string) {
     case 'launch script':
       try {
         const filepath = path.resolve('scripts', 'test.sh');
-        const { stdout } = await execAsync(`bash ${filepath}`);
+        const { stdout } = await execAsync(`bash "${filepath}"`);
         return { status: 'success', result: { output: stdout.trim() } };
       } catch (err: any) {
         return { status: 'error', message: err.message };
