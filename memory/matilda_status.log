@@ -1,14 +1,16 @@
-<0072matilda.ad> [note:marcela] <0001fa23> Agent personalization logic scaffolded.
-- Matilda now supports user preference for agent naming style:
-  ▸ Defaults to role-based identifiers (e.g., "Strategic Assistant")
-  ▸ Optional toggle for friendly nicknames ("Matilda", "Effie", "Cade")
+<0072matilda.ae> [note:marcela] <0001fa24> External I/O hook logic scaffolded.
+- Matilda now supports structured import/export to external systems:
+  ▸ Exports include memory_trace, reflection_log, tone_strategy, etc.
+  ▸ Imports validated before being merged into active memory
 
-- New memory file:
-  ▸ user_preferences.json
-    - show_agent_nicknames: false (default)
-    - agent_aliases: maps internal names to optional nicknames
+- New files:
+  ▸ external/export_hooks.json – export targets and trigger rules
+  ▸ external/import_queue.json – incoming external payloads for review
+  ▸ external/io_trace_log.json – history of all I/O operations
 
-- Onboarding prompt:
-  ▸ “Would you like me to introduce myself and the other agents by name? I can either stick with professional role titles, or we can use more personal nicknames.”
+- Behavior:
+  ▸ Exports can target Notion, Airtable, JSON bundle, etc. (integration pending)
+  ▸ Imports paused for user confirmation or automated review
+  ▸ All actions logged for audit and recovery
 
-📌 Clears path for full settings panel and user-configurable environment.
+📌 Ready for integration into dashboards or automation systems.

@@ -1,8 +1,6 @@
-<0072matilda.ad> [devlog:cade] ✅ Agent naming personalization enabled.
-- user_preferences.json initialized:
-  ▸ show_agent_nicknames toggle (default: false)
-  ▸ agent_aliases object for nickname mapping
+<0072matilda.ae> [devlog:cade] ✅ External I/O scaffolds added – import/export hook logic in place.
+- external/export_hooks.json: defines what can be sent out and when
+- external/import_queue.json: holds incoming tasks or memory entries
+- external/io_trace_log.json: logs all transactions
 
-- Matilda respects nickname visibility setting and aliases on display
-
-📌 Framework ready for integration into onboarding and UI settings.
+📌 Next: optional dashboard buttons or trigger conditions for specific use cases.
