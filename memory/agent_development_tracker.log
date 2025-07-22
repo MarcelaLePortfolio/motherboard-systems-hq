@@ -1,12 +1,8 @@
-<0072matilda.m> [devlog:cade] ✅ Cognitive Behavior 2 complete – task memory trace and cause-of-death diagnostics active.
-- New memory systems:
-  ▸ memory_trace.json – task lifecycle record
-  ▸ cause_of_death.json – final error report for unresolved tasks
-  ▸ attempt_snapshots – time-bound record of final N attempts
+<0072matilda.n> [devlog:cade] ✅ Cognitive Behavior 3 committed – metacognition and insight logging activated.
+- Metacognitive features now active:
+  ▸ insight_log.json – cross-task pattern recognition
+  ▸ behavior_tags.json – agent performance memory
+  ▸ audit_flags.json – emergent risk alerts
 
-- Logic enabled for:
-  ▸ forensic-style review
-  ▸ escalation and retry loop detection
-  ▸ auditability and debugging insights
-
-📌 Ready to begin metacognitive module for cross-task patterns and insight logging.
+📌 All cognitive behavior modules now live and functional.
+📌 Ready for next capability tier: affective modeling or command schema evolution.

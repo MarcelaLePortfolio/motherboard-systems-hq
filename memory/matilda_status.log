@@ -1,16 +1,17 @@
-<0072matilda.m> [note:marcela] <0001fa05> Runtime recall and task memory trace logic committed.
-- Matilda now maintains a rolling task memory trace:
-  ▸ Includes final outcome, path taken, and all intervention flags
-  ▸ Tracks retries, escalations, overrides, and human triage events
+<0072matilda.n> [note:marcela] <0001fa07> Metacognition module live.
+- Matilda now observes task behavior over time to extract cross-task insights:
+  ▸ Recurrent failure clusters
+  ▸ Patterned suppressions, overrides, or handoff triggers
+  ▸ Common cause-of-death themes
 
-- Diagnostic features:
-  ▸ cause_of_death.json – stores final failure summary if task abandoned
-  ▸ memory_trace.json – step-by-step lifecycle trace for each task
-  ▸ attempt_snapshots – last N attempts preserved (rotating buffer)
+- New memory files:
+  ▸ insight_log.json – stores metacognitive reflections and pattern summaries
+  ▸ behavior_tags.json – persistent agent-level performance annotations
+  ▸ audit_flags.json – raises alert-worthy recurring issues for human review
 
-- Supports:
-  ▸ Loop analysis and pattern detection
-  ▸ Training data for self-improvement (future module)
-  ▸ Transparency for human audit or assistant debugging
+- Insight use cases:
+  ▸ Suggests routing optimizations
+  ▸ Highlights agent retraining candidates
+  ▸ Annotates risk-prone instructions with memory-based warnings
 
-<0001fa06> Next: metacognition layer (cross-task insights and behavioral reflection).
+<0001fa08> Cognitive layer complete. Cleared to proceed to next capability tier.
