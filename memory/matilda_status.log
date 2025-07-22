@@ -1,18 +1,19 @@
-<0072matilda.k> [note:marcela] <0001f9ff> Shared memory logic activated.
-- Matilda now reads/writes to shared_registry.json for task-level sync:
-  ▸ Centralizes retry + escalation history across agents
-  ▸ Enables cross-agent task awareness + assignment avoidance
+<0072matilda.all1> [note:marcela] <0001fa01> Pre-cognitive polishing bundle committed.
+- Suppression Audit Logging:
+  ▸ retry suppressions now recorded in suppression_audit.json
+  ▸ includes task_id, reason, source flag, last_attempt_summary
 
-- Key fields synced:
-  ▸ task_id, outcome, escalation flags, override_claimed_by
-  ▸ triage_required, delegation_notes, suppress_retries
+- TTL Expiry Enforcement:
+  ▸ registry entries now respect TTL (default: 72h)
+  ▸ expired tasks tagged + purged during hygiene pass
 
-- Agent coordination:
-  ▸ Locks task if currently in-process (claim_lock)
-  ▸ Updates shared history on task completion or handoff
+- Inbox Snapshot Viewer:
+  ▸ inbox_snapshot.json created for human-readable triage entries
+  ▸ flat, deduplicated, chronologically sorted
 
-- Memory hygiene:
-  ▸ Shared registry deduplicated + pruned on each write
-  ▸ TTL field optional for future expiry policy
+- Forget Function Activated:
+  ▸ forget_registry.json triggers complete purge of task memory
+  ▸ applies to all local and shared registries
+  ▸ action logged to hygiene sweep for transparency
 
-<0001fa00> Next: enable per-agent audit views or UI mirroring.
+<0001fa02> All pre-cognitive checks complete. Cleared for cognitive behavior modules.

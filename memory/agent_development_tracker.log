@@ -1,10 +1,9 @@
-<0072matilda.k> [devlog:cade] ✅ Shared memory sync committed.
-- New file: shared_registry.json (global agent memory)
-- Sync includes:
-  ▸ retry/escalation record
-  ▸ override resolution + triage status
-  ▸ agent locks + last handler snapshot
+<0072matilda.all1> [devlog:cade] ✅ Pre-cognitive layer polishing complete.
+- 4 systems deployed:
+  ▸ suppression_audit.json for retry suppression traceability
+  ▸ TTL expiry + purge logic via hygiene pass
+  ▸ inbox_snapshot.json for simplified triage overview
+  ▸ forget_registry.json triggers full memory purge for listed tasks
 
-- Locking logic added to prevent double-claim across agents.
-
-📌 Module stable. Ready to begin UI mirroring or TTL expiry next.
+📌 All baseline safeguards and registry controls in place.
+📌 Proceeding to cognitive behavior modules.
