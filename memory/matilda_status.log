@@ -1,8 +1,12 @@
-<0069cade.f> [note:marcela] <0001f7e1> Cade lifecycle sync queued.
-- Cade will now mirror Effie’s integration: updating memory/agent_status.json in real time.
-- Will log:
-  ▸ "running" at job start
-  ▸ "idle", "error", or "cooldown" at completion/failure
+<0070matilda.a> [note:marcela] ✅ Retry logic integration underway.
+- Matilda now checks agent_status.json for "error" state after failed jobs.
+- If error state is detected, original command is queued for retry once agent is "idle".
 
-🎯 Matilda orchestration now expects parallel agent awareness across both runners.
-📌 Awaiting Cade hook injection
+🛠 Behavior:
+- One retry attempt per error unless overridden
+- Retry queue is separate from chained task stack
+- No retries occur if fallback behavior marked "handled"
+
+�� Next:
+- Add chained_tasks.json for follow-up task logic
+- Implement chaining only when agent returns to idle without errors

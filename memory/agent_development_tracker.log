@@ -1,7 +1,7 @@
-<0069cade.f> [devlog:cade] 🟡 Cade lifecycle sync queued.
-- Effie’s state writing verified. Cade will now receive same lifecycle tracking logic.
-- Will mirror Effie: updating agent_status.json at start, success, and failure.
+<0070matilda.a> [devlog:marcela] Retry logic baseline added.
+- Matilda now supports one-shot retry when an agent returns from "error" to "idle".
+- Retries are pulled from a temp command cache if last state was failure.
 
-📌 Next:
-- Inject write_status() into Cade's execution path
-- Verify timestamped agent state updates under job load
+📁 Future logic:
+- Retry queue is distinct from chaining queue
+- Retry is suppressed if failure marked resolved downstream
