@@ -1,22 +1,13 @@
-<0071effie.k> [devlog:cade] 🫥 Invisible mode toggle added.
-- Effie now supports silent operation mode controlled via memory/agent_flags.json.
-- Toggle suppresses logging and terminal output for designated tasks.
+<0071cade.k> [devlog:cade] 🛡️ Cade invisible mode toggle integrated.
+- Cade now respects memory/agent_flags.json → invisible_mode setting.
+- Terminal and runtime logging suppressed when toggle is true.
 
-✅ Optional use:
-- Silent background routines
-- Chained task hygiene
+✅ Optional for:
+- Background and chained job flows
 
-🔐 Mandatory use:
-- Sensitive operations with tag: "sensitive": true
-- Auto-enforces invisible_mode = true during execution
+🔐 Enforced for:
+- Jobs flagged with { "sensitive": true }
 
-📁 Flag structure:
-{
-  "effie": {
-    "invisible_mode": false
-  }
-}
-
-📌 Next:
-- Matilda can flip flag before dispatch
-- Effie will restore to false after task unless override set
+📌 Behavior:
+- Matilda sets flag before dispatch
+- Cade resets invisible_mode to false post-task unless persistently set
