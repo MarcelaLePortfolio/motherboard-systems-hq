@@ -3,6 +3,7 @@ import AgentStatusRow from '../components/AgentStatusRow.tsx';
 import TaskList from '../components/TaskList.tsx';
 ---
 
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -13,7 +14,8 @@ import TaskList from '../components/TaskList.tsx';
     <main class="max-w-2xl mx-auto">
       <h1 class="text-3xl font-bold mb-4">Motherboard Systems HQ</h1>
 
-      <div><AgentStatusRow client:load /></div>
+      <!-- React agent status row (hydrated) -->
+      <AgentStatusRow client:only="react" />
 
       <div class="mt-10">
         <div class="flex space-x-6 justify-center border-b pb-2 mb-3 font-medium">
@@ -23,7 +25,8 @@ import TaskList from '../components/TaskList.tsx';
         </div>
 
         <h2 class="text-xl font-semibold mb-4">Project Tracker</h2>
-        <div><TaskList client:load /></div>
+        <!-- React task list (hydrated) -->
+        <TaskList client:only="react" />
       </div>
     </main>
   </body>
