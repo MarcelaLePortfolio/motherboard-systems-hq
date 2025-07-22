@@ -4,4 +4,4 @@
   ▸ Expired retry candidates (based on max time window)
   ▸ Exhausted retries (if max_attempts hit with no override)
 
-�� Next: define sweep interval and test cleanup pass
+📌 Next: define sweep interval and test cleanup pass

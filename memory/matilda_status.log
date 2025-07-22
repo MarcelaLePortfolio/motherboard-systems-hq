@@ -1,4 +1,4 @@
-<0072matilda.e> [note:marcela] 🧹 Queue hygiene sweep logic initiated.
+<0072matilda.e> [note:marcela] <0001f9f9> Queue hygiene sweep logic initiated.
 - Matilda will periodically scan retry_registry.json to:
   ▸ Clear expired retry entries
   ▸ Remove records after successful completion
