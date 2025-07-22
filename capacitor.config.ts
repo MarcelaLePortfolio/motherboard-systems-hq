@@ -1,7 +1,7 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.marketingmother.motherboard',
+  appId: 'com.motherboardsystems.motherboard',
   appName: 'Motherboard',
   webDir: 'dist',
   bundledWebRuntime: false,
