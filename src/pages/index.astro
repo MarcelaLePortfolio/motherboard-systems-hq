@@ -6,10 +6,12 @@ import AgentStatusRow from '../components/AgentStatusRow.tsx';
   <head>
     <meta charset="UTF-8" />
     <title>Motherboard Systems HQ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body class="bg-white text-black px-6 py-8 font-sans">
-    <main class="max-w-3xl mx-auto">
-      <AgentStatusRow />
+  <body class="bg-white text-black font-sans">
+    <main class="max-w-2xl mx-auto p-6">
+      <AgentStatusRow client:load />
+
       <div class="mt-10">
         <div class="flex space-x-6 justify-center border-b pb-2 mb-3 font-medium">
           <button class="text-violet-600 border-b-2 border-violet-600 pb-1">Project Activity</button>
