@@ -1,81 +1,49 @@
 ---
-import { useState } from 'preact/hooks';
+--- 
 
-const state = {
-  task: '',
-  output: '',
-  isLoading: false,
-};
+<head>
+  <title>Motherboard Dash</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 1rem;
+      max-width: 600px;
+      margin: auto;
+    }
 
-async function handleSubmit(event: SubmitEvent) {
-  event.preventDefault();
-  state.isLoading = true;
-  state.output = '';
+    textarea,
+    button {
+      width: 100%;
+      padding: 0.75rem;
+      margin-top: 0.75rem;
+    }
 
-  try {
-    const response = await fetch('/api/task', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ task: state.task }),
-    });
+    pre {
+      background: #f5f5f5;
+      padding: 1rem;
+      white-space: pre-wrap;
+      word-break: break-word;
+      margin-top: 1rem;
+    }
 
-    const data = await response.text();
-    state.output = data;
-  } catch (err) {
-    state.output = `❌ Error: ${err.message}`;
-  } finally {
-    state.isLoading = false;
-  }
-}
----
+    .loader {
+      text-align: center;
+      padding-top: 1rem;
+      font-style: italic;
+    }
+  </style>
+</head>
 
-<html>
-  <head>
-    <title>Motherboard Dash</title>
-    <style>
-      body {
-        font-family: sans-serif;
-        padding: 1rem;
-        max-width: 600px;
-        margin: auto;
-      }
+<body>
+  <h1>&lt;0001f9e0&gt; Motherboard Dash</h1>
+  <form onsubmit="handleSubmit(event)">
+    <label for="task">What do you want to do?</label>
+    <textarea id="task" rows="4" placeholder="e.g. Restart Cade server…" required></textarea>
+    <button type="submit">Send</button>
+  </form>
 
-      textarea,
-      button {
-        width: 100%;
-        padding: 0.75rem;
-        margin-top: 0.75rem;
-      }
+  <div class="loader" style="display: none;">Thinking…</div>
+  <pre></pre>
 
-      pre {
-        background: #f5f5f5;
-        padding: 1rem;
-        white-space: pre-wrap;
-        word-break: break-word;
-        margin-top: 1rem;
-      }
-
-      .loader {
-        text-align: center;
-        padding-top: 1rem;
-        font-style: italic;
-      }
-    </style>
-    <script type="module" src="/dash.js"></script>
-    <script type="module" src="/dash.js"></script>
-    <script type="module" src="/dash.js"></script>
-    <script type="module" src="/dash.js"></script>
-  </head>
-  <body>
-    <h1><0001f9e0> Motherboard Dash</h1>
-    <form onsubmit="return handleSubmit(event)">
-      <label for="task">What do you want to do?</label>
-      <textarea id="task" rows="4" placeholder="e.g. Restart Cade server…" required
-        oninput="state.task = this.value"></textarea>
-      <button type="submit">Send</button>
-    </form>
-
-    {state.isLoading && <div class="loader">Thinking…</div>}
-    {state.output && <pre>{state.output}</pre>}
-  </body>
-</html>
+  <script type="module" src="/dash.js"></script>
+</body>
