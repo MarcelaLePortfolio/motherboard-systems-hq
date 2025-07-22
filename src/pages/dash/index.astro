@@ -8,22 +8,47 @@ import "../../styles/theme.css";
     <title>Motherboard Dash</title>
   </head>
   <body>
-    <main class="dashboard-container">
-      <header class="dashboard-header">
+    <main class="dashboard">
+      <header class="header">
         <h1>Motherboard Dash</h1>
-        <p class="dashboard-subtitle">Command Console</p>
+        <p class="subtitle">Command Console</p>
       </header>
 
-      <form onsubmit="handleSubmit(event)">
+      <section class="status-row">
+        <div class="status-indicator" data-agent="Cade">�� Cade: <span class="status-dot online"></span></div>
+        <div class="status-indicator" data-agent="Effie">💻 Effie: <span class="status-dot offline"></span></div>
+        <div class="status-indicator" data-agent="Matilda">🛰️ Matilda: <span class="status-dot online"></span></div>
+      </section>
+
+      <form onsubmit="handleSubmit(event)" class="command-form">
         <label for="task">What do you want to do?</label>
         <textarea id="task" rows="4" placeholder="e.g. Restart Cade server..." required></textarea>
         <button type="submit">Send</button>
       </form>
 
+      <section class="quick-actions">
+        <button onclick="runPreset('pm2 restart cade')">🔁 Restart Cade</button>
+        <button onclick="runPreset('pm2 logs')">📄 View Logs</button>
+        <button onclick="runPreset('uptime')">⏱ Check Uptime</button>
+      </section>
+
+      <section class="queued-tasks">
+        <h2>Queued Tasks</h2>
+        <ul id="task-queue">
+          <!-- JS will populate -->
+        </ul>
+      </section>
+
       <div class="loader" style="display: none;">Thinking…</div>
-      <pre></pre>
+      <pre id="output"></pre>
     </main>
 
     <script type="module" src="/dash.js"></script>
+    <script>
+      function runPreset(command) {
+        document.getElementById('task').value = command;
+        document.querySelector('.command-form').requestSubmit();
+      }
+    </script>
   </body>
 </html>
