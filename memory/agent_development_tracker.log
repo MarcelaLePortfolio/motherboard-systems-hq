@@ -1,10 +1,7 @@
-<0069matilda.c> [devlog:marcela] 🧠 Agent ping hook integration next.
-- Matilda state memory is now in sync and actively referenced during orchestration.
-- Agent availability prevents command overlap, sets up for retry and chaining logic.
+<0069effie.f> [devlog:cade] 🟡 Agent state ping integration begins.
+- Effie will begin updating memory/agent_status.json on job lifecycle events.
+- Each state update includes status ("running", "idle", "error", "cooldown") and timestamp.
 
-📌 Implementation next steps:
-- Cade + Effie to send "status: running" on job start
-- Update to "idle", "error", or "cooldown" on completion/failure
-- Time-stamped agent_status.json writes
-
-🎯 Goal: Full lifecycle awareness across active agents
+📌 Next steps:
+- Inject write_status() into Effie’s job start, success, and failure branches
+- Mirror logic in Cade after Effie baseline confirmed
