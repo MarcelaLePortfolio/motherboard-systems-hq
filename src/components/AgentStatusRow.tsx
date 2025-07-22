@@ -3,7 +3,7 @@ import React from 'react';
 const agents = [
   { name: 'Matilda', emoji: '📡', status: 'online' },
   { name: 'Cade', emoji: '🛠️', status: 'online' },
-  { name: 'Effie', emoji: '🧾', status: 'online' },
+  { name: 'Effie', emoji: '🖥️', status: 'online' },
 ];
 
 export default function AgentStatusRow() {
