@@ -1,7 +1,7 @@
 import React from 'react';
 
 const agents = [
-  { name: 'Cade', icon: '🧰', status: 'online' },
+  { name: 'Cade', icon: '🛠️', status: 'online' },
   { name: 'Effie', icon: '🖥️', status: 'offline' },
   { name: 'Matilda', icon: '🛰️', status: 'online' },
 ];
