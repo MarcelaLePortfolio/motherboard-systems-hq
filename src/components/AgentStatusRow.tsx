@@ -3,7 +3,7 @@ import React from 'react';
 const agents = [
   { name: 'Cade', icon: '🧰', status: 'online' },
   { name: 'Effie', icon: '🖥️', status: 'offline' },
-  { name: 'Matilda', icon: '🪶', status: 'online' },
+  { name: 'Matilda', icon: '🛰️', status: 'online' },
 ];
 
 const statusColor = {
