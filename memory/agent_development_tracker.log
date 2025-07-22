@@ -1,4 +1,11 @@
-<0066matilda.c> [auto:cade] ✅ Matilda orchestration engine deployed.
-- Delegates multi-step tasks across Cade and Effie
-- Logs task description and results to memory/orchestration.log
-- Next: implement retry logic, fallback flows, and agent status awareness
+<0067effiecade> [note:marcela] 🎭 Indirect personality surface audit activated.
+- Though Effie and Cade are not user-facing, their logs, fallback messages, and orchestration replies carry implicit tone.
+- This introduces a new design vector: "indirect personality bleed."
+
+🧠 Implications:
+- Logs, error messages, retry logic, and fallback phrasing should now be audited for tone.
+- Decide per agent: neutral, lightly stylized, or distinctly voiced.
+- Option: Matilda can translate raw logs into a unified tone when surfacing to user.
+
+🚧 To Do:
+- Apply this principle during upcoming sophistication layering for Effie + Cade.
