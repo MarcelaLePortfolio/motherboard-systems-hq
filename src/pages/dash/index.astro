@@ -1,41 +1,43 @@
-<!DOCTYPE html>
-<html lang="en">
+---
+import { useState } from 'preact/hooks';
+
+const state = {
+  task: '',
+  output: '',
+  isLoading: false,
+};
+
+async function handleSubmit(event: SubmitEvent) {
+  event.preventDefault();
+  state.isLoading = true;
+  state.output = '';
+
+  try {
+    const response = await fetch('/api/task', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ task: state.task }),
+    });
+
+    const data = await response.text();
+    state.output = data;
+  } catch (err) {
+    state.output = `❌ Error: ${err.message}`;
+  } finally {
+    state.isLoading = false;
+  }
+}
+---
+
+<html>
   <head>
-    <meta charset="UTF-8" />
     <title>Motherboard Dash</title>
-    <script type="module">
-      const state = {
-        task: '',
-        isLoading: false,
-        output: '',
-      };
-
-      async function handleSubmit(e) {
-        e.preventDefault();
-        state.isLoading = true;
-        state.output = '';
-        document.querySelector('.loader')?.remove();
-        document.querySelector('pre')?.remove();
-
-        const res = await fetch('/api/task', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ task: state.task }),
-        });
-
-        const data = await res.text();
-        state.isLoading = false;
-        state.output = data;
-
-        const outputNode = document.createElement('pre');
-        outputNode.textContent = state.output;
-        document.body.appendChild(outputNode);
-      }
-    </script>
     <style>
       body {
-        font-family: system-ui, sans-serif;
-        padding: 2rem;
+        font-family: sans-serif;
+        padding: 1rem;
+        max-width: 600px;
+        margin: auto;
       }
 
       textarea,
@@ -69,6 +71,7 @@
       <button type="submit">Send</button>
     </form>
 
-    <div class="loader" style="display:none">Thinking…</div>
+    {state.isLoading && <div class="loader">Thinking…</div>}
+    {state.output && <pre>{state.output}</pre>}
   </body>
 </html>
