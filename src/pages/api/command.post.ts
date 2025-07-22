@@ -1,19 +1,30 @@
 import type { APIRoute } from 'astro';
 
 export const POST: APIRoute = async ({ request }) => {
-  const { agent, command } = await request.json();
+  try {
+    const { agent, command } = await request.json();
 
-  console.log(`📡 Received command: ${command} from agent: ${agent}`);
+    console.log(`📡 Received command for ${agent}: ${command}`);
 
-  // Simulate handling logic
-  return new Response(JSON.stringify({
-    status: 'received',
-    agent,
-    command
-  }), {
-    status: 200,
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  });
+    return new Response(JSON.stringify({
+      status: 'success',
+      received: { agent, command }
+    }), {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+  } catch (err) {
+    console.error('❌ Error in /api/command POST handler:', err);
+    return new Response(JSON.stringify({
+      status: 'error',
+      message: 'Invalid request format or internal error.'
+    }), {
+      status: 500,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+  }
 };
