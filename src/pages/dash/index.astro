@@ -1,49 +1,45 @@
----
----
+<html>
+  <head>
+    <title>Motherboard Dash</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        padding: 1rem;
+        max-width: 600px;
+        margin: auto;
+      }
+      textarea,
+      button {
+        width: 100%;
+        padding: 0.75rem;
+        margin-top: 0.75rem;
+      }
+      pre {
+        background: #f5f5f5;
+        padding: 1rem;
+        white-space: pre-wrap;
+        word-break: break-word;
+        margin-top: 1rem;
+      }
+      .loader {
+        text-align: center;
+        padding-top: 1rem;
+        font-style: italic;
+      }
+    </style>
+  </head>
 
-<head>
-  <title>Motherboard Dash</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      padding: 1rem;
-      max-width: 600px;
-      margin: auto;
-    }
+  <body>
+    <h1>&lt;0001f9e0&gt; Motherboard Dash</h1>
+    <form onsubmit="handleSubmit(event)">
+      <label for="task">What do you want to do?</label>
+      <textarea id="task" rows="4" placeholder="e.g. Restart Cade server..." required></textarea>
+      <button type="submit">Send</button>
+    </form>
 
-    textarea,
-    button {
-      width: 100%;
-      padding: 0.75rem;
-      margin-top: 0.75rem;
-    }
+    <div class="loader" style="display: none;">Thinking…</div>
+    <pre></pre>
 
-    pre {
-      background: #f5f5f5;
-      padding: 1rem;
-      white-space: pre-wrap;
-      word-break: break-word;
-      margin-top: 1rem;
-    }
-
-    .loader {
-      text-align: center;
-      padding-top: 1rem;
-      font-style: italic;
-    }
-  </style>
-</head>
-
-<body>
-  <h1>&lt;0001f9e0&gt; Motherboard Dash</h1>
-  <form onsubmit="handleSubmit(event)">
-    <label for="task">What do you want to do?</label>
-    <textarea id="task" rows="4" placeholder="e.g. Restart Cade server…" required></textarea>
-    <button type="submit">Send</button>
-  </form>
-
-  <div class="loader" style="display: none;">Thinking…</div>
-  <pre></pre>
-
-  <script type="module" src="/dash.js"></script>
-</body>
+    <script type="module" src="/dash.js"></script>
+  </body>
+</html>
