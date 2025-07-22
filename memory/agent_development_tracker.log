@@ -1,9 +1,8 @@
-<0068effie.a> [devlog:cade] ✅ Effie command intake loop online.
-- Effie now continuously pulls commands from orchestration layer.
-- Routes instructions using route_command().
-- Mirrors intake behavior of Cade; prepares for queue polling layer.
+<0068effie.b> [devlog:cade] ✅ Effie queue polling operational.
+- Effie now checks orchestration command queue at intervals.
+- Polls using background loop to detect and process new commands.
+- Structure in place for optional backoff, interval tuning, or conditional pacing.
 
 📌 Next:
-- Validate command queue polling trigger
-- Add background loop interval
-- Proceed to safeguard layers
+- Move to interval config and idle handling
+- Begin safeguard layer: whitelisted folders + optional shell fallback
