@@ -1,17 +1,15 @@
-<0072matilda.af> [note:marcela] <0001fa24> Scenario Playback UI scaffolded.
-- Matilda now supports playback and visualization of past sessions:
-  ▸ Loads prior task from memory_trace, reflection_log, and scaffold_trace
-  ▸ Reconstructs user interaction timeline and agent decisions
-  ▸ Highlights tone shifts, memory updates, and sync events
+<0072matilda.ag> [note:marcela] <0001fa24> In-chat visual preview support scaffolded.
+- Matilda now renders image previews inline within chat UI:
+  ▸ Detects visual files from Cade in /visual_previews/
+  ▸ Responds with commentary + attached image
+  ▸ Supports alt text and optional next-step buttons
 
-- New files:
-  ▸ playback/playback_index.json – stores available scenarios and metadata
-  ▸ playback/session_snapshots/ – directory of JSON snapshots by session
-  ▸ playback/annotations.json – optional labels for training or audit
+- New systems:
+  ▸ public/visual_previews/ – folder for mockups, diagrams, etc.
+  ▸ visual_previews/preview_registry.json – maps visuals to agent output and task lineage
 
-- Intended UI Modules:
-  ▸ scenario_timeline.tsx – chronological replay of session flow
-  ▸ tone_shift_overlay.tsx – visual cue of affect/tone shifts
-  ▸ agent_commentary.tsx – Matilda’s self-reflections and rationale mid-task
+- Future support:
+  ▸ Auto-captioning via reflection engine
+  ▸ User tagging or refinement requests inline
 
-📌 Playback engine enables review, audit, and even training of future agents or users.
+📌 Cleanest preview experience – just like ChatGPT renders images inline.

@@ -1,9 +1,7 @@
-<0072matilda.af> [devlog:cade] ✅ Scenario Playback UI logic scaffolded.
-- Key data scaffolds:
-  ▸ playback_index.json lists available replays
-  ▸ session_snapshots folder holds memory+reflection traces
-  ▸ annotations.json allows commentary, scoring, or label overlays
+<0072matilda.ag> [devlog:cade] ✅ In-chat visual preview system scaffolded.
+- New structure:
+  ▸ public/visual_previews/ – image assets served to UI
+  ▸ visual_previews/preview_registry.json – maps images to task, agent, and reflection event
 
-- UI (pending): scenario_timeline.tsx, tone_shift_overlay.tsx, agent_commentary.tsx
-
-�� Playback system allows session reconstruction, agent critique, and teachable moments.
+- Matilda now embeds visuals inline with commentary
+📌 UI-ready preview layer complete. Connected to Cade’s build outputs.
