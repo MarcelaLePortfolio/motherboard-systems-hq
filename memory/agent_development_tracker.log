@@ -1,11 +1,9 @@
-<0072matilda.g> [devlog:cade] ✅ Escalation tagging logic queued.
-- Escalation tags:
-  ▸ soft_escalation – silent elevation for complex failures
-  ▸ hard_escalation – surfaced attention needed
+<0072matilda.g> [devlog:cade] ✅ Escalation tagging layer live.
+- Registry tagging live for:
+  ▸ retry_loop
+  ▸ persistent_failure
+  ▸ cross-agent overflow
 
-- Trigger logic:
-  ▸ Max attempts hit with unchanging failure type
-  ▸ Repeated retry resets without progress
-  ▸ Cross-agent suppression threshold exceeded
+- escalation_registry.json now generated if escalation occurs
 
-📌 Next step: implement tag logic and escalation_registry writer
+📌 Next: implement override logic (agent claims, suppressions, handoffs)

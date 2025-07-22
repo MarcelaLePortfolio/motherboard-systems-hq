@@ -1,20 +1,11 @@
-<0072matilda.g> [note:marcela] <0001f9fa> Escalation tagging logic outlined.
-- Matilda will flag entries in retry_registry.json if:
-  ▸ Max attempts are exhausted AND issue pattern matches known persistent errors
-  ▸ Task remains unresolved across consecutive sweeps
-  ▸ Retry interval is frequently reset without resolution (loop suspicion)
+<0072matilda.g> [note:marcela] <0001f9fb> Escalation tagging logic committed.
+- Matilda now detects and tags escalation cases in retry_registry.json
+  ▸ Applies ⚠️ soft_escalation for suspected retry loops or edge patterns
+  ▸ Applies 🔥 hard_escalation for max attempts with persistent errors
 
-- Flags applied:
-  ▸ ⚠️ soft_escalation – for silent review or agent retry override
-  ▸ 🔥 hard_escalation – triggers surfaced alert or cross-agent attention
+- Escalated entries:
+  ▸ Written to escalation_registry.json
+  ▸ Included in hygiene pass summaries
+  ▸ Eligible for override/handoff handling in future modules
 
-- Logging:
-  ▸ Escalated items are copied to escalation_registry.json
-  ▸ Status summaries are appended to hygiene log reports
-
-📌 Supports:
-- Stuck task identification
-- Agent handoff logic
-- Retry abuse detection
-
-<0001f9e2> Next: implement tag conditions and escalation_registry writing
+<0001f9e3> Next: define override behaviors and agent delegation logic.
