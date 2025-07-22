@@ -1,7 +1,10 @@
-<0069effie.f> [devlog:cade] 🟡 Agent state ping integration begins.
-- Effie will begin updating memory/agent_status.json on job lifecycle events.
-- Each state update includes status ("running", "idle", "error", "cooldown") and timestamp.
+<0069effie.g> [devlog:cade] ✅ Effie job status writers injected.
+- Effie now updates agent_status.json on job start and resolution:
+  ▸ Sets "running" with timestamp at launch
+  ▸ Updates to "idle", "error", or "cooldown" on completion or failure
 
-📌 Next steps:
-- Inject write_status() into Effie’s job start, success, and failure branches
-- Mirror logic in Cade after Effie baseline confirmed
+📁 memory/agent_status.json updated automatically via write_status(agent, state)
+
+📌 Next:
+- Monitor agent_status.json for correct pings during test runs
+- Apply same logic to Cade after validation
