@@ -8,15 +8,21 @@ import "../../styles/theme.css";
     <title>Motherboard Dash</title>
   </head>
   <body>
-    <h1><0001f9e0> Motherboard Dash</h1>
-    <form onsubmit="handleSubmit(event)">
-      <label for="task">What do you want to do?</label>
-      <textarea id="task" rows="4" placeholder="e.g. Restart Cade server..." required></textarea>
-      <button type="submit">Send</button>
-    </form>
+    <main class="dashboard-container">
+      <header class="dashboard-header">
+        <h1>Motherboard Dash</h1>
+        <p class="dashboard-subtitle">Command Console</p>
+      </header>
 
-    <div class="loader" style="display: none;">Thinking…</div>
-    <pre></pre>
+      <form onsubmit="handleSubmit(event)">
+        <label for="task">What do you want to do?</label>
+        <textarea id="task" rows="4" placeholder="e.g. Restart Cade server..." required></textarea>
+        <button type="submit">Send</button>
+      </form>
+
+      <div class="loader" style="display: none;">Thinking…</div>
+      <pre></pre>
+    </main>
 
     <script type="module" src="/dash.js"></script>
   </body>
