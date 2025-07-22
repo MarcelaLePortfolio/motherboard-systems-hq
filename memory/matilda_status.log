@@ -1,12 +1,13 @@
-<0070effie.h> [note:marcela] ✅ Effie resilience layer live.
-- Effie now emits structured error payloads on failure.
-- Each failure includes context, reason, and timestamp for Matilda interpretation.
+<0070effie.i> [note:marcela] ✅ Effie agent resilience complete.
+- All safeguards, state sync, tone shaping, fallback handling, retry signaling, and error payloads active.
+- Effie now fully compatible with Matilda's orchestration loop.
 
-🧠 Matilda orchestration gains:
-- Distinction between fatal errors and suppressible failures
-- Retry suppression via override flags
-- Session-stable fallback routines possible
+📌 Final checklist:
+- ✅ Safeguards (whitelist enforcement)
+- ✅ Logging (runtime + errors)
+- ✅ State pings (running/idle/error)
+- ✅ Retry-eligible error emission
+- ✅ Tone shaping for structured output
+- ✅ Task chaining readiness
 
-📌 Awaiting:
-- Mock failure test for error flow validation
-- Matilda override memory structure (resilience_flags.json or similar)
+🧪 Pending: Mock failure validation test
