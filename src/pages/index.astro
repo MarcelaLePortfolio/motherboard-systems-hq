@@ -1,7 +1,7 @@
 ---
+import ChatbotWrapper from "../components/ChatbotWrapper.astro";
 import HelloReact from "../components/HelloReact.tsx";
 import OpsStreamTickerWrapper from "../components/OpsStreamTickerWrapper.astro";
-import Chatbot from "../components/Chatbot.tsx";
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -9,14 +9,14 @@ import Chatbot from "../components/Chatbot.tsx";
     <title>Motherboard Dash</title>
     <meta charset="UTF-8" />
   </head>
-  <body style="background-color: white; color: black; font-family: sans-serif; padding: 2rem">
+  <body style="background-color: white; color: black; font-family: sans-serif; padding: 2rem;">
     <div style="text-align: center;">
       <h1>🧠 Motherboard Dash</h1>
       <p><em>Command Console</em></p>
     </div>
 
     <div style="margin: 2rem auto; max-width: 800px;">
-      <Chatbot client:only="react" />
+      <ChatbotWrapper />
     </div>
 
     <div style="margin: 2rem auto; max-width: 800px;">
