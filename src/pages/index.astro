@@ -1,42 +1,56 @@
 ---
-import ChatbotWrapper from "../components/ChatbotWrapper.tsx";
-import ProjectTracker from "../components/ProjectTracker.tsx";
-import Tabs from "../components/Tabs.tsx";
-import Tick from "../components/Tick.tsx";
-import Badge from "../components/Badge.tsx";
+import HelloReact from "../components/HelloReact.tsx";
+import OpsStreamTickerWrapper from "../components/OpsStreamTickerWrapper.astro";
+import ChatBotUI from "../components/ChatBotUI.astro";
 ---
-
+<!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
     <title>Motherboard Dash</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8" />
+    <style>
+      body {
+        margin: 0;
+        font-family: system-ui, sans-serif;
+        background-color: #f5f5f5;
+        color: #333;
+      }
+      .frame {
+        max-width: 960px;
+        margin: 2rem auto;
+        background: white;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+        border-radius: 12px;
+        padding: 2rem;
+      }
+      .title {
+        text-align: center;
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+      }
+      .subtitle {
+        text-align: center;
+        font-size: 1.2rem;
+        font-weight: 500;
+        margin-bottom: 2rem;
+        color: #666;
+      }
+    </style>
   </head>
-  <body style="margin: 0; font-family: sans-serif; background: #f0f2f5;">
-    <main style="max-width: 1000px; margin: 2rem auto; padding: 2rem; background: white; border-radius: 12px; box-shadow: 0 0 40px rgba(0,0,0,0.05); display: flex; flex-direction: column; gap: 2rem;">
-      <header style="text-align: center;">
-        <h1 style="font-size: 2.5rem; margin-bottom: 0;">Motherboard Dash</h1>
-        <p style="color: #666; margin-top: 0;">Command Console</p>
-      </header>
+  <body>
+    <main class="frame">
+      <div class="title">Motherboard Dash</div>
+      <div class="subtitle">Command Console</div>
 
-      <section style="background: #fafafa; border: 1px solid #ddd; border-radius: 10px; padding: 1rem; max-height: 400px; overflow-y: auto;">
-        <ChatbotWrapper client:only="react" />
-      </section>
+      <!-- Chat UI -->
+      <ChatBotUI />
 
-      <section style="background: #e6fff2; padding: 1rem; border-radius: 10px;">
-        <Badge client:only="react" />
-      </section>
+      <!-- React Ticker -->
+      <OpsStreamTickerWrapper />
 
-      <section style="display: flex; justify-content: center;">
-        <Tick client:only="react" />
-      </section>
-
-      <section style="background: #f9f9f9; border: 1px solid #ccc; border-radius: 10px; padding: 1rem;">
-        <Tabs client:only="react" />
-        <div style="margin-top: 1rem;">
-          <ProjectTracker client:only="react" />
-        </div>
-      </section>
+      <!-- HelloReact still present for hydration test if needed -->
+      <!-- <HelloReact client:only="react" /> -->
     </main>
   </body>
 </html>
