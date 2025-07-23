@@ -1,7 +1,6 @@
 ---
-// ✅ Stable layout: chatbot + ticker + placeholder log
+// 🔒 Reverting to last confirmed stable: Chatbot only + log placeholder
 import ChatbotWrapper from '../components/ChatbotWrapper.astro'
-import Ticker from '../components/Ticker.astro'
 ---
 
 <html lang="en">
@@ -14,7 +13,9 @@ import Ticker from '../components/Ticker.astro'
 
     <ChatbotWrapper />
 
-    <Ticker />
+    <div style="margin-top: 1.5rem; background-color: black; color: white; padding: 0.5rem; font-family: monospace;">
+      LIVE OP LOG: Systems nominal • AI Core synced • Dashboard stable
+    </div>
 
     <p style="margin-top: 2rem; color: #444;">
       Agent Ops and Runtime Logs will appear here shortly.
