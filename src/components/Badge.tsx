@@ -4,7 +4,7 @@ const Badge = () => {
   return (
     <div
       style={{
-        backgroundColor: "#10B981", // emerald-500
+        backgroundColor: "#1F2937", // neutral-800 for a more refined dark tone
         padding: "0.75rem 1.25rem",
         borderRadius: "0.5rem",
         color: "white",
@@ -12,9 +12,10 @@ const Badge = () => {
         fontSize: "1rem",
         display: "inline-block",
         textAlign: "center",
+        maxWidth: "100%",
       }}
     >
-      ✅ Hello from React!
+      🛰️ Systems Console Active
     </div>
   );
 };
