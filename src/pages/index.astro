@@ -1,5 +1,5 @@
 ---
-import ChatbotWrapper from "../components/ChatbotWrapper.astro";
+import ChatbotWrapper from "../components/ChatbotWrapper.tsx";
 import ProjectTracker from "../components/ProjectTracker.tsx";
 import Tabs from "../components/Tabs.tsx";
 import Tick from "../components/Tick.tsx";
@@ -20,7 +20,7 @@ import Badge from "../components/Badge.tsx";
       </header>
 
       <section style="background: #fafafa; border: 1px solid #ddd; border-radius: 10px; padding: 1rem; max-height: 400px; overflow-y: auto;">
-        <ChatbotWrapper />
+        <ChatbotWrapper client:only="react" />
       </section>
 
       <section style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
