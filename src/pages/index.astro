@@ -1,53 +1,30 @@
 ---
-import ChatbotWrapper from "../components/ChatbotWrapper.tsx";
-import HelloReact from "../components/HelloReact.tsx";
-import OpsStreamTickerWrapper from "../components/OpsStreamTickerWrapper.astro";
+import ChatbotWrapper from '../components/ChatbotWrapper.astro'
+import OpsStatus from '../components/OpsStatus.tsx'
+import ProjectTabs from '../components/ProjectTabs.tsx'
 ---
-<!DOCTYPE html>
+
 <html lang="en">
   <head>
-    <title>Motherboard Dash</title>
     <meta charset="UTF-8" />
+    <title>Motherboard Dash</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body style="background-color: white; color: black; font-family: sans-serif; padding: 2rem;">
-    <div style="text-align: center;">
-      <h1>🧠 Motherboard Dash</h1>
-      <p><em>Command Console</em></p>
-    </div>
+  <body style="background-color: #f7f7f7; font-family: system-ui, sans-serif; margin: 0; padding: 4rem 0;">
+    <div style="background: white; max-width: 800px; margin: 0 auto; border-radius: 16px; padding: 2rem; box-shadow: 0 2px 12px rgba(0,0,0,0.05);">
+      <h1 style="text-align: center; font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem;">Motherboard Dash</h1>
+      <p style="text-align: center; color: #666; font-style: italic; margin-top: 0;">Command Console</p>
 
-    <div style="margin: 2rem auto; max-width: 800px;">
-      <ChatbotWrapper client:only="react" />
-    </div>
-
-    <div style="margin: 2rem auto; max-width: 800px;">
-      <HelloReact client:only="react" />
-    </div>
-
-    <div style="margin: 1rem auto; text-align: center;">
-      <OpsStreamTickerWrapper />
-    </div>
-
-    <div style="margin: 2rem auto; max-width: 800px; background-color: #fafafa; border-radius: 12px; padding: 1.5rem;">
-      <div style="display: flex; justify-content: center; gap: 1.5rem; margin-bottom: 1rem; font-weight: bold;">
-        <span style="color: #4f00ff; border-bottom: 2px solid #4f00ff;">Project Activity</span>
-        <span>Tasks</span>
-        <span>Settings</span>
+      <div style="margin-top: 2rem;">
+        <ChatbotWrapper />
       </div>
 
-      <div>
-        <h3>Project Tracker</h3>
-        <div style="display: flex; justify-content: space-between; margin-bottom: 0.75rem;">
-          <span>🟣 Design new homepage</span><button>Request Modification</button>
-        </div>
-        <div style="display: flex; justify-content: space-between; margin-bottom: 0.75rem;">
-          <span>🔵 Prepare investor presentation</span><button>Request Modification</button>
-        </div>
-        <div style="display: flex; justify-content: space-between; margin-bottom: 0.75rem;">
-          <span>🟢 Implement authentication</span><button>Request Modification</button>
-        </div>
-        <div style="display: flex; justify-content: space-between;">
-          <span>⚪ Conduct user interviews</span><button>Request Modification</button>
-        </div>
+      <div style="margin-top: 2.5rem;">
+        <OpsStatus />
+      </div>
+
+      <div style="margin-top: 2rem;">
+        <ProjectTabs />
       </div>
     </div>
   </body>
