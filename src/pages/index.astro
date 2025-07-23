@@ -2,44 +2,60 @@
 import ChatbotUI from "../components/ChatbotUI.astro";
 import OpsStreamTickerWrapper from "../components/OpsStreamTickerWrapper.astro";
 ---
-<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <title>Motherboard Dash</title>
     <style>
+      :root {
+        --bg: #f3f4f6;
+        --fg: #000;
+        --frame: #fff;
+        --radius: 0.75rem;
+        --shadow: 0 0 0.5rem rgba(0,0,0,0.06);
+      }
+      * {
+        box-sizing: border-box;
+      }
       body {
         margin: 0;
-        background-color: #f3f4f6;
-        font-family: sans-serif;
+        background: var(--bg);
+        font-family: system-ui, sans-serif;
+        color: var(--fg);
       }
-      main {
+      .frame {
         max-width: 960px;
-        margin: 2rem auto;
-        background: white;
-        border-radius: 8px;
-        box-shadow: 0 0 12px rgba(0,0,0,0.05);
+        margin: 3rem auto;
         padding: 2rem;
+        background: var(--frame);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
       }
-      h1, h2 {
-        text-align: center;
+      h1 {
         margin: 0;
+        font-size: 1.75rem;
+        text-align: center;
       }
       h2 {
+        margin-top: 0.5rem;
+        font-weight: normal;
+        text-align: center;
         color: #666;
         font-size: 1rem;
-        margin-bottom: 2rem;
+      }
+      .bottom {
+        margin-top: 2rem;
       }
     </style>
   </head>
   <body>
-    <main>
+    <div class="frame">
       <h1>Motherboard Dash</h1>
       <h2>Command Console</h2>
       <ChatbotUI />
-      <div style="margin-top: 2rem;">
+      <div class="bottom">
         <OpsStreamTickerWrapper />
       </div>
-    </main>
+    </div>
   </body>
 </html>
