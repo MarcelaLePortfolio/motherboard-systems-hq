@@ -1,15 +1,20 @@
 ---
 import TestHydrate from "../components/TestHydrate.tsx";
 ---
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
-    <title>Hydration Test</title>
+    <title>React Hydration Isolation Test</title>
   </head>
   <body class="bg-white text-black">
-    <TestHydrate client:load />
+    <div class="border border-purple-500 p-4 mb-4 bg-purple-100 text-black font-bold">
+      🚨 Isolated Test: The React TestHydrate component should appear below with console log.
+    </div>
+
+    <TestHydrate client:only="react" />
 
     <div style="margin-top:2rem">
-      ✅ If the purple box appears and DevTools Console shows "React component hydrated!", React is working.
+      ✅ If the purple box appears and console logs "React component hydrated!", hydration succeeded.
     </div>
   </body>
 </html>
