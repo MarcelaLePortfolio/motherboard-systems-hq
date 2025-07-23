@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 const ChatInterface: React.FC = () => {
   const [messages, setMessages] = useState<{ role: string; content: string }[]>([
@@ -8,6 +8,7 @@ const ChatInterface: React.FC = () => {
     },
   ]);
   const [input, setInput] = useState("");
+  const chatLogRef = useRef<HTMLDivElement>(null);
 
   const sendMessage = () => {
     if (!input.trim()) return;
@@ -24,16 +25,35 @@ const ChatInterface: React.FC = () => {
     }, 500);
   };
 
+  useEffect(() => {
+    if (chatLogRef.current) {
+      chatLogRef.current.scrollTop = chatLogRef.current.scrollHeight;
+    }
+  }, [messages]);
+
   return (
-    <div style={{
-      background: "white",
-      borderRadius: "1rem",
-      boxShadow: "0 0 0 1px #e0e0e0",
-      padding: "1rem",
-      marginBottom: "2rem",
-      maxWidth: "100%",
-    }}>
-      <div>
+    <div
+      style={{
+        background: "white",
+        borderRadius: "1rem",
+        boxShadow: "0 0 0 1px #e0e0e0",
+        padding: "1rem",
+        marginBottom: "2rem",
+        maxWidth: "100%",
+        height: "400px",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
+      <div
+        ref={chatLogRef}
+        style={{
+          overflowY: "auto",
+          flexGrow: 1,
+          marginBottom: "1rem",
+          paddingRight: "0.5rem",
+        }}
+      >
         {messages.map((msg, idx) => (
           <div
             key={idx}
@@ -49,7 +69,7 @@ const ChatInterface: React.FC = () => {
           </div>
         ))}
       </div>
-      <div style={{ display: "flex", marginTop: "1rem", alignItems: "center" }}>
+      <div style={{ display: "flex", alignItems: "center" }}>
         <input
           type="text"
           placeholder="Send a message..."
@@ -77,7 +97,7 @@ const ChatInterface: React.FC = () => {
             cursor: "pointer",
             display: "flex",
             alignItems: "center",
-            justifyContent: "center"
+            justifyContent: "center",
           }}
         >
           📩
