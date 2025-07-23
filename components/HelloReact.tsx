@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 export default function HelloReact() {
   useEffect(() => {
-    console.log("✅ HelloReact hydrated!");
+    console.log("✅ HelloReact mounted");
   }, []);
 
   return (
