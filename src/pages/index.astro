@@ -1,25 +1,25 @@
 ---
 import ChatbotWrapper from "../components/ChatbotWrapper.astro";
-import OpsStreamTickerWrapper from "../components/OpsStreamTickerWrapper.astro";
+import ProjectStack from "../components/ProjectStack.astro";
 ---
-<!DOCTYPE html>
+
 <html lang="en">
   <head>
     <title>Motherboard Dash</title>
     <meta charset="UTF-8" />
   </head>
-  <body style="margin: 0; font-family: sans-serif; background: #fdfdfd;">
-    <main style="padding: 2rem; max-width: 800px; margin: auto;">
-      <h1 style="text-align: center; margin-bottom: 0.5rem;">Motherboard Dash</h1>
-      <h2 style="text-align: center; font-weight: normal; margin-bottom: 2rem;">Command Console</h2>
+  <body class="bg-gray-100 text-center p-8 font-sans">
+    <main class="max-w-2xl mx-auto space-y-6">
+      <h1 class="text-3xl font-bold">Motherboard Dash</h1>
+      <p class="text-lg text-gray-600">Command Console</p>
 
       <ChatbotWrapper />
 
-      <OpsStreamTickerWrapper />
-
-      <div style="margin-top: 2rem; color: #888; font-size: 0.85rem; text-align: center;">
-        Agent Ops and Runtime Logs will appear here shortly.
+      <div class="bg-black text-white font-mono text-sm py-2 px-4 rounded">
+        LIVE OP LOG: Systems nominal • AI Core synced • Dashboard stable
       </div>
+
+      <ProjectStack />
     </main>
   </body>
 </html>
