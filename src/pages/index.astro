@@ -1,7 +1,7 @@
 ---
 import ChatbotWrapper from '../components/ChatbotWrapper.astro';
-import ReactComponent from '../components/ReactComponent';
 import ProjectTabs from '../components/ProjectTabs.astro';
+import ReactComponent from '../components/ReactComponent';
 ---
 
 <html>
@@ -34,7 +34,7 @@ import ProjectTabs from '../components/ProjectTabs.astro';
       }
       .ticker {
         margin-top: 2rem;
-        margin-bottom: 2rem;
+        margin-bottom: 1rem;
       }
     </style>
   </head>
@@ -46,7 +46,7 @@ import ProjectTabs from '../components/ProjectTabs.astro';
       <ChatbotWrapper />
 
       <div class="ticker">
-        <ReactComponent client:load />
+        <ReactComponent client:only="react" />
       </div>
 
       <ProjectTabs />
