@@ -38,41 +38,43 @@ import OpsStreamTickerWrapper from "../components/OpsStreamTickerWrapper.astro";
       }
 
       .chat-wrapper {
-        background: #fff;
-        border-radius: 0.75rem;
-        border: 1px solid #ddd;
-        margin-bottom: 1.5rem;
-        overflow: hidden;
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 1rem;
+        padding: 1.25rem;
+        margin-bottom: 2rem;
       }
 
-      .chat-message {
-        padding: 1rem;
+      .chat-history {
+        margin-bottom: 1rem;
+        padding: 0.5rem 0.75rem;
+        background: #f9fafb;
+        border-radius: 0.5rem;
         font-size: 0.95rem;
-        border-bottom: 1px solid #eee;
+        border: 1px solid #eee;
       }
 
-      .chat-input {
+      .chat-row {
         display: flex;
-        padding: 1rem;
-        border-top: 1px solid #eee;
+        gap: 0.5rem;
       }
 
-      .chat-input input {
-        flex: 1;
+      .chat-row input[type="text"] {
+        flex-grow: 1;
         padding: 0.75rem 1rem;
         border: 1px solid #ccc;
         border-radius: 0.5rem 0 0 0.5rem;
-        outline: none;
+        font-size: 0.95rem;
       }
 
-      .chat-input button {
+      .chat-row button {
         background: #5b21b6;
-        color: white;
         border: none;
-        border-radius: 0 0.5rem 0.5rem 0;
+        color: white;
         padding: 0 1.25rem;
-        cursor: pointer;
+        border-radius: 0 0.5rem 0.5rem 0;
         font-size: 1.25rem;
+        cursor: pointer;
       }
 
       .hello-box {
@@ -81,7 +83,7 @@ import OpsStreamTickerWrapper from "../components/OpsStreamTickerWrapper.astro";
         border-radius: 0.5rem;
         font-size: 0.875rem;
         color: #444;
-        margin-bottom: 1.5rem;
+        margin: 2rem 0 1rem;
       }
 
       .ticker-bar {
@@ -155,8 +157,8 @@ import OpsStreamTickerWrapper from "../components/OpsStreamTickerWrapper.astro";
 
     <div class="console-box">
       <div class="chat-wrapper">
-        <div class="chat-message"><strong>🧠 Motherboard:</strong> Our marketing campaign is still in progress.</div>
-        <div class="chat-input">
+        <div class="chat-history"><strong>🧠 Motherboard:</strong> Our marketing campaign is still in progress.</div>
+        <div class="chat-row">
           <input type="text" placeholder="Send a message..." />
           <button>📨</button>
         </div>
