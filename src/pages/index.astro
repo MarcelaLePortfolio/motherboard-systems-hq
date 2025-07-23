@@ -7,19 +7,19 @@ import ChatbotWrapper from "../components/ChatbotWrapper.astro";
     <title>Motherboard Dash</title>
     <meta charset="UTF-8" />
   </head>
-  <body class="bg-gray-100 min-h-screen flex items-center justify-center">
-    <main class="w-full max-w-4xl mx-auto p-6 space-y-6">
-      <div class="bg-white p-8 rounded-xl shadow-md text-center space-y-2">
-        <h1 class="text-4xl font-bold">Motherboard Dash</h1>
-        <p class="text-lg text-gray-600">Command Console</p>
+  <body class="bg-gray-100 min-h-screen py-12 px-4">
+    <main class="max-w-5xl mx-auto space-y-6">
+      <div class="bg-white p-8 rounded-xl shadow text-center">
+        <h1 class="text-4xl font-bold text-gray-900">Motherboard Dash</h1>
+        <p class="text-lg text-gray-600 mt-2">Command Console</p>
       </div>
 
-      <div class="bg-white p-6 rounded-xl shadow-md space-y-4">
+      <div class="bg-white p-6 rounded-xl shadow space-y-4">
         <ChatbotWrapper />
-
-        <div class="bg-black text-white text-sm font-mono py-2 px-4 rounded">
+        <div class="bg-black text-white text-sm font-mono py-2 px-4 rounded text-center">
           LIVE OP LOG: Systems nominal • AI Core synced • Dashboard stable
         </div>
+        <p class="text-center text-gray-500 text-sm">Agent Ops and Runtime Logs will appear here shortly.</p>
       </div>
     </main>
   </body>
