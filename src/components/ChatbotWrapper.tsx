@@ -23,8 +23,7 @@ export default function ChatbotWrapper() {
       borderRadius: "12px",
       padding: "1rem",
       backgroundColor: "#f8f8f8",
-      maxHeight: "300px",
-      overflow: "hidden",
+      height: "300px",
       display: "flex",
       flexDirection: "column"
     }}>
@@ -33,10 +32,10 @@ export default function ChatbotWrapper() {
         style={{
           flex: 1,
           overflowY: "auto",
-          marginBottom: "1rem",
-          padding: "0.5rem",
           backgroundColor: "#fff",
-          borderRadius: "8px"
+          borderRadius: "8px",
+          padding: "0.5rem",
+          marginBottom: "1rem"
         }}
       >
         {messages.map((msg, idx) => (
