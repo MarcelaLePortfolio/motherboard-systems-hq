@@ -1,7 +1,6 @@
 ---
-import HelloReact from "../components/HelloReact.tsx";
 import OpsStreamTickerWrapper from "../components/OpsStreamTickerWrapper.astro";
-import ChatConsole from "../components/ChatConsole.tsx";
+import Chatbot from "../components/Chatbot.tsx";
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -9,21 +8,48 @@ import ChatConsole from "../components/ChatConsole.tsx";
     <title>Motherboard Dash</title>
     <meta charset="UTF-8" />
   </head>
-  <body style="background-color: white; color: black; font-family: sans-serif; padding: 2rem">
-    <div style="text-align: center; margin-bottom: 2rem">
-      <h1 style="font-size: 2rem; margin-bottom: 0.25rem">🧠 Motherboard Dash</h1>
-      <p style="color: gray; font-style: italic;">Command Console</p>
-    </div>
+  <body style="background-color: #fff; color: black; font-family: sans-serif; padding: 2rem;">
+    <main style="max-width: 800px; margin: 0 auto;">
+      <div style="text-align: center; margin-bottom: 1rem;">
+        <h1 style="font-size: 2rem; font-weight: bold;">🧠 Motherboard Dash</h1>
+        <p style="font-style: italic; color: #555;">Command Console</p>
+      </div>
 
-    <div style="max-width: 850px; margin: 0 auto">
-      <!-- ✅ Chat UI Full Component -->
-      <ChatConsole client:only="react" />
+      <!-- ✅ Chatbot with fixed height and scrolling -->
+      <section style="background: #f8f8f8; border-radius: 1rem; padding: 1rem; margin-bottom: 2rem;">
+        <div style="max-height: 320px; overflow-y: auto; display: flex; flex-direction: column; gap: 0.5rem; padding-right: 0.5rem;">
+          <Chatbot />
+        </div>
+      </section>
 
-      <!-- ✅ React test bar -->
-      <HelloReact client:only="react" />
+      <!-- ✅ React hydration check -->
+      <div style="background: #0dbb86; color: white; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem;">
+        ✅ Hello from React!
+      </div>
 
-      <!-- ✅ Ops Ticker -->
-      <OpsStreamTickerWrapper />
-    </div>
+      <!-- ✅ Ops Stream ticker -->
+      <div style="text-align: center; margin-bottom: 2rem;">
+        <OpsStreamTickerWrapper />
+      </div>
+
+      <!-- ✅ Tabs + Tracker -->
+      <div style="padding: 1rem; background: #f9f9f9; border-radius: 0.75rem;">
+        <nav style="margin-bottom: 1rem; display: flex; gap: 1.5rem; justify-content: center;">
+          <span style="font-weight: bold; color: purple; text-decoration: underline;">Project Activity</span>
+          <span>Tasks</span>
+          <span>Settings</span>
+        </nav>
+
+        <section>
+          <h3 style="margin-bottom: 0.75rem;">Project Tracker</h3>
+          <ul style="list-style: none; padding: 0;">
+            <li style="margin-bottom: 0.5rem;">🟣 Design new homepage <button>Request Modification</button></li>
+            <li style="margin-bottom: 0.5rem;">🔵 Prepare investor presentation <button>Request Modification</button></li>
+            <li style="margin-bottom: 0.5rem;">🟢 Implement authentication <button>Request Modification</button></li>
+            <li style="margin-bottom: 0.5rem;">⚪ Conduct user interviews <button>Request Modification</button></li>
+          </ul>
+        </section>
+      </div>
+    </main>
   </body>
 </html>
