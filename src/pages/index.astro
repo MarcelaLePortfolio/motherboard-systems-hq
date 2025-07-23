@@ -1,5 +1,4 @@
 ---
-import HelloReact from "../components/HelloReact.tsx";
 import OpsStreamTickerWrapper from "../components/OpsStreamTickerWrapper.astro";
 import ChatBotUI from "../components/ChatBotUI.astro";
 ---
@@ -43,14 +42,10 @@ import ChatBotUI from "../components/ChatBotUI.astro";
       <div class="title">Motherboard Dash</div>
       <div class="subtitle">Command Console</div>
 
-      <!-- Chat UI -->
       <ChatBotUI />
-
-      <!-- React Ticker -->
-      <OpsStreamTickerWrapper />
-
-      <!-- HelloReact still present for hydration test if needed -->
-      <!-- <HelloReact client:only="react" /> -->
+      <div style="margin-top: 2rem;">
+        <OpsStreamTickerWrapper />
+      </div>
     </main>
   </body>
 </html>
