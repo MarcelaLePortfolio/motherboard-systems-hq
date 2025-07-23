@@ -1,51 +1,43 @@
 ---
 ---
-// Styled Project Tracker – full faux-interactive layout
+// Fully styled faux-interactive Project Tracker
 <section style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #ddd;">
   <h2 style="text-align: center; font-size: 1.75rem; font-weight: 600; margin-bottom: 1.5rem;">Project Tracker</h2>
 
-  <div style="max-width: 800px; margin: 0 auto; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); background-color: #fdfdfd;">
-    <!-- Header Row -->
-    <div style="display: flex; background: #f1f1f1; padding: 0.75rem 1rem; font-weight: bold; font-size: 0.85rem; color: #333;">
-      <div style="flex: 1;">Agent</div>
-      <div style="flex: 2;">Status</div>
-      <div style="flex: 1; text-align: right;">Actions</div>
+  <div style="max-width: 900px; margin: 0 auto; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); background-color: #fff;">
+    <!-- Header -->
+    <div style="display: flex; justify-content: space-between; background: #f0f0f0; padding: 0.75rem 1rem; font-weight: bold; font-size: 0.9rem; color: #333;">
+      <div style="width: 25%;">Agent</div>
+      <div style="width: 50%;">Status</div>
+      <div style="width: 25%; text-align: right;">Actions</div>
     </div>
 
-    <!-- Cade -->
-    <div style="display: flex; align-items: center; padding: 1rem; border-top: 1px solid #eee;">
-      <div style="flex: 1;">🤖 <strong>Cade</strong></div>
-      <div style="flex: 2;">
-        <div style="margin-bottom: 4px;">
-          <span style="background: #d4edda; color: #155724; font-size: 0.85rem; padding: 2px 8px; border-radius: 5px;">Runtime verified</span>
-        </div>
-        <small style="color: #555;">Awaiting persistent memory</small>
+    <!-- Agent Rows -->
+    <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; border-top: 1px solid #eee;">
+      <div style="width: 25%;"><strong>🤖 Cade</strong></div>
+      <div style="width: 50%;">
+        <div style="margin-bottom: 0.3rem;"><span style="background: #d4edda; color: #155724; padding: 0.25rem 0.5rem; font-size: 0.85rem; border-radius: 5px;">Runtime verified</span></div>
+        <small style="color: #666;">Awaiting persistent memory</small>
       </div>
-      <div style="flex: 1; text-align: right;">
-        <button disabled style="padding: 6px 12px; font-size: 0.8rem; border-radius: 5px; border: none; background: #eee; color: #888; margin-left: 0.5rem; cursor: not-allowed;">Logs</button>
-        <button disabled style="padding: 6px 12px; font-size: 0.8rem; border-radius: 5px; border: none; background: #eee; color: #888; margin-left: 0.5rem; cursor: not-allowed;">Deploy</button>
-      </div>
-    </div>
-
-    <!-- Effie -->
-    <div style="display: flex; align-items: center; padding: 1rem; border-top: 1px solid #eee;">
-      <div style="flex: 1;">💻 <strong>Effie</strong></div>
-      <div style="flex: 2;">
-        <span style="background: #fff3cd; color: #856404; font-size: 0.85rem; padding: 2px 8px; border-radius: 5px;">UI under refinement</span>
-      </div>
-      <div style="flex: 1; text-align: right;">
-        <button disabled style="padding: 6px 12px; font-size: 0.8rem; border-radius: 5px; border: none; background: #eee; color: #888; margin-left: 0.5rem; cursor: not-allowed;">Modify</button>
+      <div style="width: 25%; text-align: right;">
+        <button style="padding: 0.4rem 0.75rem; font-size: 0.8rem; border-radius: 5px; background: #eee; color: #999; border: none; margin-left: 0.3rem;" disabled>Logs</button>
+        <button style="padding: 0.4rem 0.75rem; font-size: 0.8rem; border-radius: 5px; background: #eee; color: #999; border: none; margin-left: 0.3rem;" disabled>Deploy</button>
       </div>
     </div>
 
-    <!-- Matilda -->
-    <div style="display: flex; align-items: center; padding: 1rem; border-top: 1px solid #eee;">
-      <div style="flex: 1;">🧠 <strong>Matilda</strong></div>
-      <div style="flex: 2;">
-        <span style="background: #f8d7da; color: #721c24; font-size: 0.85rem; padding: 2px 8px; border-radius: 5px;">Needs scripting + system prompts</span>
+    <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; border-top: 1px solid #eee;">
+      <div style="width: 25%;"><strong>💻 Effie</strong></div>
+      <div style="width: 50%;"><span style="background: #fff3cd; color: #856404; padding: 0.25rem 0.5rem; font-size: 0.85rem; border-radius: 5px;">UI under refinement</span></div>
+      <div style="width: 25%; text-align: right;">
+        <button style="padding: 0.4rem 0.75rem; font-size: 0.8rem; border-radius: 5px; background: #eee; color: #999; border: none; margin-left: 0.3rem;" disabled>Modify</button>
       </div>
-      <div style="flex: 1; text-align: right;">
-        <button disabled style="padding: 6px 12px; font-size: 0.8rem; border-radius: 5px; border: none; background: #eee; color: #888; margin-left: 0.5rem; cursor: not-allowed;">Plan</button>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; border-top: 1px solid #eee;">
+      <div style="width: 25%;"><strong>🧠 Matilda</strong></div>
+      <div style="width: 50%;"><span style="background: #f8d7da; color: #721c24; padding: 0.25rem 0.5rem; font-size: 0.85rem; border-radius: 5px;">Needs scripting + system prompts</span></div>
+      <div style="width: 25%; text-align: right;">
+        <button style="padding: 0.4rem 0.75rem; font-size: 0.8rem; border-radius: 5px; background: #eee; color: #999; border: none; margin-left: 0.3rem;" disabled>Plan</button>
       </div>
     </div>
   </div>
