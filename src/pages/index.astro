@@ -1,29 +1,14 @@
 ---
-import AgentStatusRow from '../components/AgentStatusRow.tsx';
+import HelloReact from "../components/HelloReact.tsx";
 ---
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Motherboard Systems HQ</title>
+    <title>Hello React</title>
   </head>
-  <body class="bg-white text-black p-6">
-    <main class="max-w-2xl mx-auto">
-      <h1 class="text-3xl font-bold mb-4">Motherboard Systems HQ</h1>
-
-      <AgentStatusRow client:only="react" />
-
-      <div class="mt-10">
-        <div class="flex space-x-6 justify-center border-b pb-2 mb-3 font-medium">
-          <button class="text-violet-600 border-b-2 border-violet-600 pb-1">Project Activity</button>
-          <button class="text-gray-600">Tasks</button>
-          <button class="text-gray-600">Settings</button>
-        </div>
-
-        <h2 class="text-xl font-semibold mb-4">Project Tracker</h2>
-      </div>
-    </main>
+  <body style="background-color: white; color: black; padding: 2rem">
+    <div style="margin-bottom: 1rem; font-weight: bold;">🚨 React Test: HelloReact component below</div>
+    <HelloReact client:only="react" />
+    <div style="margin-top: 2rem;">If this works, you’ll see a green box above and a console log ✅</div>
   </body>
 </html>

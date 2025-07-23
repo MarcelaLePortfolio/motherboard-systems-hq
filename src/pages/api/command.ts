@@ -1,4 +1,5 @@
 import type { APIRoute } from 'astro';
+import { dispatchCommand } from '../../lib/dispatch';
 
 export const prerender = false;
 
@@ -8,14 +9,12 @@ export const POST: APIRoute = async ({ request }) => {
     console.log(`📦 Raw request body: ${raw}`);
 
     const { agent, command } = JSON.parse(raw);
+    console.log(`📡 Dispatching to ${agent}: ${command}`);
 
-    console.log(`📡 Received command for ${agent}: ${command}`);
+    const response = await dispatchCommand(agent, command);
 
-    return new Response(JSON.stringify({
-      status: 'success',
-      received: { agent, command }
-    }), {
-      status: 200,
+    return new Response(JSON.stringify(response), {
+      status: response.status === 'success' ? 200 : 400,
       headers: {
         'Content-Type': 'application/json'
       }
