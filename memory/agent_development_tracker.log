@@ -1,7 +1,6 @@
-<0072matilda.am> [devlog:cade] ✅ Inspector Dashboard UI scaffolds deployed.
-- Modules scaffolded:
-  ▸ live_memory_viewer.tsx – JSON viewer for active trace + runtime
-  ▸ reflection_overlay.tsx – displays self-commentary and analysis
-  ▸ playback_browser.tsx – loads session_snapshots from disk
+<0072matilda.an> [devlog:cade] ✅ Ops Stream UI scaffolded.
+- “BTS Activity” renamed to “Ops Stream”
+- Live ticker bar added for active task reporting
+- Full archive link to agent logs
 
-📌 Inspector view offers transparency and session insight for internal use or dev diagnostics.
+📌 Lightweight operations tracker visible in main dashboard.

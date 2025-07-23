@@ -1,12 +1,12 @@
-<0072matilda.am> [note:marcela] <0001fa2a> Inspector Dashboard UI scaffolded – Live Viewer, Reflection Overlay, Playback Browser active.
-- Included Modules:
-  ▸ ✅ Live Memory Viewer – view current trace, preferences, runtime state
-  ▸ ✅ Reflection Overlay – stream of recent reflections and tone analysis
-  ▸ ✅ Playback Snapshot Browser – browse historical sessions and open snapshots
+<0072matilda.an> [note:marcela] <0001fa2b> Ops Stream scaffolded – live ticker for real-time agent activity added.
+- Updates:
+  ▸ Replaced “BTS activity” with “Ops Stream” for professional tone
+  ▸ Ops Stream ticker shows most recent action across all agents
+  ▸ Link provided to full historical activity panel
 
-- New frontend files (scaffolded):
-  ▸ ui/inspector_dashboard/live_memory_viewer.tsx
-  ▸ ui/inspector_dashboard/reflection_overlay.tsx
-  ▸ ui/inspector_dashboard/playback_browser.tsx
+- UI Notes:
+  ▸ Positioned above project tracker for visibility
+  ▸ Minimalist ticker aesthetic to avoid clutter
+  ▸ Tied into chaining_runtime_log and agent_development_tracker
 
-📌 Core tools for debugging, training, and real-time system insight now live.
+📌 Real-time awareness layer renamed and scaffolded for cleaner UX.
