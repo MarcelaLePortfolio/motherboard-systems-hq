@@ -1,9 +1,7 @@
-<0072matilda.ak> [devlog:cade] ✅ Privacy framework scaffolded.
-- Memory Wipe:
-  ▸ “Forget Me” clears memory/user_*.json and logs the event
-- Audit View:
-  ▸ Scaffold for browsing reflection_log, memory_trace, and command history
-- Biometric Lock:
-  ▸ biometric_lock_enabled toggle now available in privacy/user_privacy_flags.json
+<0072matilda.al> [devlog:cade] ✅ Selective memory deletion + search tool scaffolded.
+- Features:
+  ▸ Keyword search across reflection_log, memory_trace, user_preferences, etc.
+  ▸ Users can delete individual entries directly from UI
+  ▸ All deletions recorded in privacy/selective_deletion_log.json
 
-📌 Next: wire to dashboard UI and confirm biometric auth support in device OS.
+📌 Full precision memory control now ready for dashboard integration.

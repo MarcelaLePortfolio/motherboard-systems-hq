@@ -1,12 +1,10 @@
-<0072matilda.ak> [note:marcela] <0001fa28> Privacy controls scaffolded – memory wipe, audit log access, and biometric lock support added.
-- New features:
-  ▸ “Forget Me” button clears all user memory files on request
-  ▸ Audit log viewer scaffolded for users to see session history
-  ▸ Biometric lock flag added (Face ID / Touch ID support pending front-end)
+<0072matilda.al> [note:marcela] <0001fa29> Selective Memory Deletion + Search UX scaffolded.
+- Memory audit viewer now supports:
+  ▸ Keyword-based memory search across all key logs
+  ▸ Inline memory result previews with delete option
+  ▸ User can erase individual memory entries with a single click
 
-- New files:
-  ▸ privacy/erase_trigger_log.json – tracks each memory wipe event
-  ▸ privacy/audit_access_log.json – records when audit view is used
-  ▸ privacy/user_privacy_flags.json – settings like biometric_lock_enabled
+- New system:
+  ▸ privacy/selective_deletion_log.json – tracks selective deletes with timestamp and optional rationale
 
-📌 Lays groundwork for full user trust UX – control, transparency, and security.
+📌 Enables full transparency and control over individual memory traces.
