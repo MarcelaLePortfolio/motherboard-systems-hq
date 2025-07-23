@@ -1,35 +1,35 @@
 ---
 ---
-// Faux-interactive project tracker UI layout
-<div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid #ddd;">
-  <h2 style="text-align: center; font-size: 1.25rem; font-weight: bold; margin-bottom: 1rem;">Project Tracker</h2>
+// Styled faux-interactive project tracker layout with visual polish
+<div style="margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid #ccc;">
+  <h2 style="text-align: center; font-size: 1.5rem; font-weight: 600; margin-bottom: 1.25rem;">Project Tracker</h2>
 
-  <div style="display: grid; grid-template-columns: 1fr 2fr 1fr; gap: 1rem; max-width: 700px; margin: 0 auto; font-size: 0.95rem;">
+  <div style="display: grid; grid-template-columns: 1fr 2fr 1fr; gap: 1.25rem; max-width: 750px; margin: 0 auto; font-size: 0.95rem; align-items: center;">
     <!-- Header Row -->
-    <div style="font-weight: bold;">Agent</div>
-    <div style="font-weight: bold;">Status</div>
-    <div style="font-weight: bold;">Actions</div>
+    <div style="font-weight: bold; text-transform: uppercase; color: #666;">Agent</div>
+    <div style="font-weight: bold; text-transform: uppercase; color: #666;">Status</div>
+    <div style="font-weight: bold; text-transform: uppercase; color: #666;">Actions</div>
 
     <!-- Cade -->
     <div>📌 <strong>Cade</strong></div>
-    <div><span style="background: #e6f4ea; color: #1e4620; padding: 2px 6px; border-radius: 4px;">Runtime verified</span>, awaiting persistent memory</div>
+    <div><span style="background: #e6f4ea; color: #1e4620; padding: 4px 8px; border-radius: 6px; font-size: 0.85rem;">Runtime verified</span><br><small style="color: #555;">Awaiting persistent memory</small></div>
     <div>
-      <button style="font-size: 0.8rem; padding: 4px 8px; background: #eee; border: 1px solid #ccc; border-radius: 4px; cursor: not-allowed;">Logs</button>
-      <button style="font-size: 0.8rem; padding: 4px 8px; background: #eee; border: 1px solid #ccc; border-radius: 4px; cursor: not-allowed; margin-left: 6px;">Deploy</button>
+      <button disabled style="padding: 5px 10px; background: #f4f4f4; border: 1px solid #ccc; border-radius: 5px; font-size: 0.8rem; cursor: not-allowed;">Logs</button>
+      <button disabled style="padding: 5px 10px; margin-left: 6px; background: #f4f4f4; border: 1px solid #ccc; border-radius: 5px; font-size: 0.8rem; cursor: not-allowed;">Deploy</button>
     </div>
 
     <!-- Effie -->
     <div>📌 <strong>Effie</strong></div>
-    <div><span style="background: #fff3cd; color: #856404; padding: 2px 6px; border-radius: 4px;">Desktop UI under refinement</span></div>
+    <div><span style="background: #fff3cd; color: #856404; padding: 4px 8px; border-radius: 6px; font-size: 0.85rem;">UI under refinement</span></div>
     <div>
-      <button style="font-size: 0.8rem; padding: 4px 8px; background: #eee; border: 1px solid #ccc; border-radius: 4px; cursor: not-allowed;">Modify</button>
+      <button disabled style="padding: 5px 10px; background: #f4f4f4; border: 1px solid #ccc; border-radius: 5px; font-size: 0.8rem; cursor: not-allowed;">Modify</button>
     </div>
 
     <!-- Matilda -->
     <div>📌 <strong>Matilda</strong></div>
-    <div><span style="background: #f8d7da; color: #721c24; padding: 2px 6px; border-radius: 4px;">Awaiting emotional scripting + prompts</span></div>
+    <div><span style="background: #f8d7da; color: #721c24; padding: 4px 8px; border-radius: 6px; font-size: 0.85rem;">Needs scripting & system prompts</span></div>
     <div>
-      <button style="font-size: 0.8rem; padding: 4px 8px; background: #eee; border: 1px solid #ccc; border-radius: 4px; cursor: not-allowed;">Plan</button>
+      <button disabled style="padding: 5px 10px; background: #f4f4f4; border: 1px solid #ccc; border-radius: 5px; font-size: 0.8rem; cursor: not-allowed;">Plan</button>
     </div>
   </div>
 </div>
