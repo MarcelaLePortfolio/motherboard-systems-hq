@@ -1,6 +1,7 @@
 ---
-import OpsStreamTickerWrapper from "../components/OpsStreamTickerWrapper.astro";
 import ChatBotUI from "../components/ChatBotUI.astro";
+import OpsStreamTickerWrapper from "../components/OpsStreamTickerWrapper.astro";
+import HelloReact from "../components/HelloReact.tsx";
 ---
 <html lang="en">
   <head>
@@ -20,19 +21,21 @@ import ChatBotUI from "../components/ChatBotUI.astro";
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
         border-radius: 12px;
         padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
       }
       .title {
         text-align: center;
         font-size: 2rem;
         font-weight: 700;
-        margin-bottom: 1rem;
       }
       .subtitle {
         text-align: center;
         font-size: 1.2rem;
         font-weight: 500;
-        margin-bottom: 2rem;
         color: #666;
+        margin-bottom: 1rem;
       }
     </style>
   </head>
@@ -42,9 +45,10 @@ import ChatBotUI from "../components/ChatBotUI.astro";
       <div class="subtitle">Command Console</div>
 
       <ChatBotUI client:only="astro" />
-      <div style="margin-top: 2rem;">
-        <OpsStreamTickerWrapper client:only="astro" />
-      </div>
+
+      <HelloReact client:only="react" />
+
+      <OpsStreamTickerWrapper client:only="astro" />
     </main>
   </body>
 </html>
