@@ -23,8 +23,8 @@ import ProjectTracker from "../components/ProjectTracker.astro";
         border: 1px solid #30363d;
         border-radius: 12px;
         padding: 2rem;
-        background-color: #161b22;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        background-color: #1c2128;
+        box-shadow: 0 0 12px rgba(0, 0, 0, 0.4);
       }
 
       h1, p {
@@ -46,6 +46,13 @@ import ProjectTracker from "../components/ProjectTracker.astro";
         background-color: #30363d;
         margin: 2rem 0;
       }
+
+      .light-panel {
+        background-color: #21262d;
+        border-radius: 8px;
+        padding: 1rem;
+        border: 1px solid #30363d;
+      }
     </style>
   </head>
   <body>
@@ -55,7 +62,9 @@ import ProjectTracker from "../components/ProjectTracker.astro";
 
       <div class="divider"></div>
 
-      <ChatbotWrapper />
+      <div class="light-panel">
+        <ChatbotWrapper />
+      </div>
 
       <div class="divider"></div>
 
@@ -63,7 +72,9 @@ import ProjectTracker from "../components/ProjectTracker.astro";
 
       <div class="divider"></div>
 
-      <ProjectTracker />
+      <div class="light-panel">
+        <ProjectTracker />
+      </div>
 
       <div class="divider"></div>
 
