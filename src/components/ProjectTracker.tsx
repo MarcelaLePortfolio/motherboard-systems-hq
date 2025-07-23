@@ -9,13 +9,12 @@ export default function ProjectTracker() {
   ];
 
   return (
-    <div className="mt-6 bg-white p-6 rounded-xl shadow-md">
-      <div className="flex justify-center space-x-8 mb-4">
-        <span className="font-medium text-purple-600 underline">Project Activity</span>
-        <span className="text-gray-500">Tasks</span>
-        <span className="text-gray-500">Settings</span>
+    <div className="p-6 rounded-xl bg-white shadow-md">
+      <div className="flex justify-center gap-6 mb-4 text-sm font-medium">
+        <span className="text-purple-600 underline">Project Activity</span>
+        <span className="text-gray-400">Tasks</span>
+        <span className="text-gray-400">Settings</span>
       </div>
-
       <div className="space-y-4">
         {tasks.map(({ label, color }, index) => (
           <div key={index} className="flex justify-between items-center">
