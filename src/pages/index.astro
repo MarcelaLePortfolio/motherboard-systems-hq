@@ -1,24 +1,24 @@
 ---
-// 🔒 Reverting to last confirmed stable: Chatbot only + log placeholder
-import ChatbotWrapper from '../components/ChatbotWrapper.astro'
+import ChatbotWrapper from "../components/ChatbotWrapper.astro";
+import Ticker from "../components/Ticker.astro";
+import AgentLog from "../components/AgentLog.astro";
 ---
-
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <title>Motherboard Dash</title>
+    <meta charset="UTF-8" />
   </head>
-  <body style="font-family: system-ui, sans-serif; margin: 0; padding: 2rem;">
-    <h1 style="margin-bottom: 0.25rem;">Motherboard Dash</h1>
-    <p style="margin-top: 0; margin-bottom: 2rem;">Command Console</p>
+  <body style="background-color: white; color: black; font-family: sans-serif; padding: 2rem">
+    <div style="max-width: 900px; margin: 0 auto; border: 1px solid #ccc; border-radius: 12px; padding: 2rem;">
+      <h1 style="text-align: center; font-size: 2rem;">Motherboard Dash</h1>
+      <p style="text-align: center; color: #888;">Command Console</p>
 
-    <ChatbotWrapper />
+      <ChatbotWrapper />
 
-    <div style="margin-top: 1.5rem; background-color: black; color: white; padding: 0.5rem; font-family: monospace;">
-      LIVE OP LOG: Systems nominal • AI Core synced • Dashboard stable
+      <Ticker />
+
+      <AgentLog />
     </div>
-
-    <p style="margin-top: 2rem; color: #444;">
-      Agent Ops and Runtime Logs will appear here shortly.
-    </p>
   </body>
 </html>
