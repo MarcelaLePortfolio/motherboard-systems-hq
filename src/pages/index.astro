@@ -19,18 +19,18 @@ import Badge from "../components/Badge.tsx";
         <p style="color: #666; margin-top: 0;">Command Console</p>
       </header>
 
-      <section style="background: #fafafa; border: 1px solid #ddd; border-radius: 10px; padding: 1rem;">
-        <Chatbot />
+      <section style="background: #fafafa; border: 1px solid #ddd; border-radius: 10px; padding: 1rem; max-height: 400px; overflow-y: auto;">
+        <Chatbot client:only="react" />
       </section>
 
       <section style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
-        <Badge />
-        <Tick />
+        <Badge client:only="react" />
+        <Tick client:only="react" />
       </section>
 
       <section style="background: #fff; border: 1px solid #ddd; border-radius: 10px; padding: 1rem;">
-        <Tabs />
-        <ProjectTracker />
+        <Tabs client:only="react" />
+        <ProjectTracker client:only="react" />
       </section>
     </main>
   </body>
