@@ -41,9 +41,9 @@ import ChatBotUI from "../components/ChatBotUI.astro";
       <div class="title">Motherboard Dash</div>
       <div class="subtitle">Command Console</div>
 
-      <ChatBotUI />
+      <ChatBotUI client:only="astro" />
       <div style="margin-top: 2rem;">
-        <OpsStreamTickerWrapper />
+        <OpsStreamTickerWrapper client:only="astro" />
       </div>
     </main>
   </body>
