@@ -1,54 +1,126 @@
 ---
-import OpsStreamTickerWrapper from "../components/OpsStreamTickerWrapper.astro";
-import ChatInterface from "../components/ChatInterface.tsx";
+import Chatbot from "../components/Chatbot.tsx";
+import HelloReact from "../components/HelloReact.tsx";
+import OpsStreamTicker from "../components/OpsStreamTicker.tsx";
 ---
-<!DOCTYPE html>
+
 <html lang="en">
   <head>
     <title>Motherboard Dash</title>
     <meta charset="UTF-8" />
+    <style>
+      body {
+        background-color: white;
+        font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 2rem;
+        background-color: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+
+      .tabs {
+        display: flex;
+        justify-content: center;
+        gap: 1.5rem;
+        margin-top: 1rem;
+        font-weight: 500;
+      }
+
+      .tabs a {
+        text-decoration: none;
+        color: black;
+      }
+
+      .tabs a.active {
+        color: #4f00ff;
+        border-bottom: 2px solid #4f00ff;
+        padding-bottom: 2px;
+      }
+
+      .project-tracker {
+        margin-top: 1rem;
+        background-color: #fafafa;
+        padding: 1.5rem;
+        border-radius: 12px;
+      }
+
+      .project-tracker h3 {
+        margin-bottom: 1rem;
+      }
+
+      .project-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.75rem;
+      }
+
+      .chat-wrapper {
+        margin-bottom: 2rem;
+      }
+
+      .ops-ticker {
+        margin-top: 2rem;
+        display: flex;
+        justify-content: center;
+      }
+    </style>
   </head>
-  <body style="background-color: #fff; color: black; font-family: sans-serif; padding: 2rem;">
-    <main style="max-width: 900px; margin: 0 auto;">
-      <!-- ✅ Title & Subtitle -->
-      <div style="text-align: center; margin-bottom: 2rem;">
-        <h1 style="font-size: 2.25rem; font-weight: bold;">🧠 Motherboard Dash</h1>
-        <p style="font-style: italic; color: #555;">Command Console</p>
+
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>🧠 Motherboard Dash</h1>
+        <p><em>Command Console</em></p>
       </div>
 
-      <!-- ✅ Chat Interface -->
-      <div style="margin-bottom: 2rem;">
-        <ChatInterface client:only="react" />
+      <div class="chat-wrapper">
+        <Chatbot client:only="react" />
       </div>
 
-      <!-- ✅ Hydration bar -->
-      <div style="background: #0dbb86; color: white; padding: 1rem; border-radius: 0.5rem; margin-bottom: 2rem; text-align: center;">
-        ✅ Hello from React!
+      <HelloReact client:only="react" />
+
+      <div class="ops-ticker">
+        <OpsStreamTicker client:only="react" />
       </div>
 
-      <!-- ✅ Ticker -->
-      <div style="text-align: center; margin-bottom: 2rem;">
-        <OpsStreamTickerWrapper />
+      <div class="tabs">
+        <a href="#" class="active">Project Activity</a>
+        <a href="#">Tasks</a>
+        <a href="#">Settings</a>
       </div>
 
-      <!-- ✅ Tabbed Project Tracker -->
-      <div style="padding: 1rem; background: #f9f9f9; border-radius: 0.75rem;">
-        <nav style="margin-bottom: 1rem; display: flex; gap: 1.5rem; justify-content: center;">
-          <span style="font-weight: bold; color: purple; text-decoration: underline;">Project Activity</span>
-          <span>Tasks</span>
-          <span>Settings</span>
-        </nav>
-
-        <section>
-          <h3 style="margin-bottom: 0.75rem;">Project Tracker</h3>
-          <ul style="list-style: none; padding: 0;">
-            <li style="margin-bottom: 0.5rem;">🟣 Design new homepage <button>Request Modification</button></li>
-            <li style="margin-bottom: 0.5rem;">🔵 Prepare investor presentation <button>Request Modification</button></li>
-            <li style="margin-bottom: 0.5rem;">🟢 Implement authentication <button>Request Modification</button></li>
-            <li style="margin-bottom: 0.5rem;">⚪ Conduct user interviews <button>Request Modification</button></li>
-          </ul>
-        </section>
+      <div class="project-tracker">
+        <h3>Project Tracker</h3>
+        <div class="project-item">
+          <span>🟣 Design new homepage</span>
+          <button>Request Modification</button>
+        </div>
+        <div class="project-item">
+          <span>🔵 Prepare investor presentation</span>
+          <button>Request Modification</button>
+        </div>
+        <div class="project-item">
+          <span>🟢 Implement authentication</span>
+          <button>Request Modification</button>
+        </div>
+        <div class="project-item">
+          <span>⚪ Conduct user interviews</span>
+          <button>Request Modification</button>
+        </div>
       </div>
-    </main>
+    </div>
   </body>
 </html>
