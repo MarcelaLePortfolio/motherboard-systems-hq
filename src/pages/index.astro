@@ -1,14 +1,24 @@
 ---
 import HelloReact from "../components/HelloReact.tsx";
+import OpsStreamTickerWrapper from "../components/OpsStreamTickerWrapper.astro";
 ---
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Hello React</title>
+    <title>Motherboard Systems HQ</title>
+    <meta charset="UTF-8" />
   </head>
-  <body style="background-color: white; color: black; padding: 2rem">
-    <div style="margin-bottom: 1rem; font-weight: bold;">🚨 React Test: HelloReact component below</div>
+  <body style="background-color: white; color: black; font-family: sans-serif; padding: 2rem">
+    <div style="margin-bottom: 1rem; font-weight: bold;">💻 Dashboard UI Reloaded</div>
+
+    <!-- ✅ HelloReact test still visible -->
     <HelloReact client:only="react" />
-    <div style="margin-top: 2rem;">If this works, you’ll see a green box above and a console log ✅</div>
+
+    <!-- �� Reintroduced OpsStreamTicker -->
+    <OpsStreamTickerWrapper />
+
+    <div style="margin-top: 2rem; font-size: 0.9rem; color: #666;">
+      If you see both boxes above (green & blue), React hydration and UI restoration succeeded.
+    </div>
   </body>
 </html>
