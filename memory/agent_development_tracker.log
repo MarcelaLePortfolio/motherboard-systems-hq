@@ -1,7 +1,7 @@
-<0072matilda.al> [devlog:cade] ✅ Selective memory deletion + search tool scaffolded.
-- Features:
-  ▸ Keyword search across reflection_log, memory_trace, user_preferences, etc.
-  ▸ Users can delete individual entries directly from UI
-  ▸ All deletions recorded in privacy/selective_deletion_log.json
+<0072matilda.am> [devlog:cade] ✅ Inspector Dashboard UI scaffolds deployed.
+- Modules scaffolded:
+  ▸ live_memory_viewer.tsx – JSON viewer for active trace + runtime
+  ▸ reflection_overlay.tsx – displays self-commentary and analysis
+  ▸ playback_browser.tsx – loads session_snapshots from disk
 
-📌 Full precision memory control now ready for dashboard integration.
+📌 Inspector view offers transparency and session insight for internal use or dev diagnostics.

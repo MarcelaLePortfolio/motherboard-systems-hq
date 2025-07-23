@@ -1,10 +1,12 @@
-<0072matilda.al> [note:marcela] <0001fa29> Selective Memory Deletion + Search UX scaffolded.
-- Memory audit viewer now supports:
-  ▸ Keyword-based memory search across all key logs
-  ▸ Inline memory result previews with delete option
-  ▸ User can erase individual memory entries with a single click
+<0072matilda.am> [note:marcela] <0001fa2a> Inspector Dashboard UI scaffolded – Live Viewer, Reflection Overlay, Playback Browser active.
+- Included Modules:
+  ▸ ✅ Live Memory Viewer – view current trace, preferences, runtime state
+  ▸ ✅ Reflection Overlay – stream of recent reflections and tone analysis
+  ▸ ✅ Playback Snapshot Browser – browse historical sessions and open snapshots
 
-- New system:
-  ▸ privacy/selective_deletion_log.json – tracks selective deletes with timestamp and optional rationale
+- New frontend files (scaffolded):
+  ▸ ui/inspector_dashboard/live_memory_viewer.tsx
+  ▸ ui/inspector_dashboard/reflection_overlay.tsx
+  ▸ ui/inspector_dashboard/playback_browser.tsx
 
-📌 Enables full transparency and control over individual memory traces.
+📌 Core tools for debugging, training, and real-time system insight now live.
