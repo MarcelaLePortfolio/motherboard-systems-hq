@@ -1,6 +1,6 @@
 ---
 import OpsStreamTickerWrapper from "../components/OpsStreamTickerWrapper.astro";
-import MotherboardChat from "../components/MotherboardChat.tsx";
+import ChatInterface from "../components/ChatInterface.tsx";
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -9,20 +9,20 @@ import MotherboardChat from "../components/MotherboardChat.tsx";
     <meta charset="UTF-8" />
   </head>
   <body style="background-color: #fff; color: black; font-family: sans-serif; padding: 2rem;">
-    <main style="max-width: 800px; margin: 0 auto;">
+    <main style="max-width: 900px; margin: 0 auto;">
       <!-- ✅ Title & Subtitle -->
       <div style="text-align: center; margin-bottom: 2rem;">
         <h1 style="font-size: 2.25rem; font-weight: bold;">🧠 Motherboard Dash</h1>
         <p style="font-style: italic; color: #555;">Command Console</p>
       </div>
 
-      <!-- ✅ Chatbot container -->
-      <section style="background: #fafafa; border-radius: 1rem; padding: 1rem; margin-bottom: 2rem; box-shadow: 0 0 0 1px #eee;">
-        <MotherboardChat client:only="react" />
+      <!-- ✅ Chat container -->
+      <section style="margin-bottom: 2rem;">
+        <ChatInterface client:only="react" />
       </section>
 
-      <!-- ✅ React green hydration bar -->
-      <div style="background: #0dbb86; color: white; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1.5rem; text-align: center;">
+      <!-- ✅ Hydration bar -->
+      <div style="background: #0dbb86; color: white; padding: 1rem; border-radius: 0.5rem; margin-bottom: 2rem; text-align: center;">
         ✅ Hello from React!
       </div>
 
