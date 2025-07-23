@@ -1,18 +1,12 @@
-<0072matilda.ai> [note:marcela] <0001fa26> Onboarding and personalization logic scaffolded.
-- Matilda now initiates structured user onboarding with opt-in settings:
-  ▸ Greets first-time users with role explanation and nickname preference
-  ▸ Offers toggles for:
-     ▸ show_agent_nicknames
-     ▸ consent_to_memory_trace
-     ▸ enable_visual_previews
+<0072matilda.aj> [note:marcela] <0001fa27> Visual toggle hidden by default – now defaults to enabled.
+- Updated onboarding logic:
+  ▸ enable_visual_previews defaults to true
+  ▸ Toggle exists in user_preferences.json but is not shown to most users
+  ▸ May be exposed later in enterprise or advanced UI settings
 
-- Data stored in:
-  ▸ user_preferences.json (updated live on toggle)
-  ▸ onboarding_log.json – session metadata, timestamp, and settings chosen
+- Reasoning:
+  ▸ Visuals are local-only, with no outbound network activity
+  ▸ Previews enhance transparency, reduce ambiguity, and support teachable UX
+  ▸ No privacy risk or performance drag in normal use
 
-- Hooks for UI:
-  ▸ Friendly welcome text from Matilda
-  ▸ “Would you like me to introduce myself and the other agents by name?”
-  ▸ Checkbox-style toggle controls (to be wired into front-end)
-
-📌 Foundation set for rich onboarding UX and personal configuration memory.
+📌 UX streamlined – visual previews now always on unless explicitly disabled.
