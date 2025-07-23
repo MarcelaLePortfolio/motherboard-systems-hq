@@ -3,21 +3,19 @@ import HelloReact from "../components/HelloReact.tsx";
 import OpsStreamTickerWrapper from "../components/OpsStreamTickerWrapper.astro";
 import ChatbotUI from "../components/ChatbotUI.astro";
 ---
-<html lang="en">
-  <head>
-    <title>Motherboard Dash</title>
-    <meta charset="UTF-8" />
-  </head>
-  <body style="margin: 0; background-color: #f3f4f6; font-family: sans-serif;">
-    <main style="max-width: 960px; margin: 2rem auto; background: white; border-radius: 8px; box-shadow: 0 0 12px rgba(0,0,0,0.05); padding: 2rem;">
-      <h1 style="text-align: center; margin-bottom: 0.25rem;">Motherboard Dash</h1>
-      <h2 style="text-align: center; margin-top: 0; color: #666; font-size: 1rem;">Command Console</h2>
+<head>
+  <title>Motherboard Dash</title>
+  <meta charset="UTF-8" />
+</head>
+<body style="margin: 0; background-color: #f3f4f6; font-family: sans-serif;">
+  <main style="max-width: 960px; margin: 2rem auto; background: white; border-radius: 8px; box-shadow: 0 0 12px rgba(0,0,0,0.05); padding: 2rem;">
+    <h1 style="text-align: center; margin-bottom: 0.25rem;">Motherboard Dash</h1>
+    <h2 style="text-align: center; margin-top: 0; color: #666; font-size: 1rem;">Command Console</h2>
 
-      <ChatbotUI />
+    <ChatbotUI />
 
-      <div style="margin-top: 2rem;">
-        <OpsStreamTickerWrapper />
-      </div>
-    </main>
-  </body>
-</html>
+    <div style="margin-top: 2rem;">
+      <OpsStreamTickerWrapper />
+    </div>
+  </main>
+</body>
