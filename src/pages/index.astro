@@ -1,55 +1,25 @@
 ---
-import ChatbotWrapper from '../components/ChatbotWrapper.astro';
-import ProjectTabs from '../components/ProjectTabs.astro';
-import ReactComponent from '../components/ReactComponent';
+import ChatbotWrapper from "../components/ChatbotWrapper.astro";
+import OpsStreamTickerWrapper from "../components/OpsStreamTickerWrapper.astro";
 ---
-
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
     <title>Motherboard Dash</title>
-    <style>
-      body {
-        margin: 0;
-        font-family: system-ui, sans-serif;
-        background-color: #f2f2f2;
-      }
-      .container {
-        max-width: 800px;
-        margin: 3rem auto;
-        padding: 2rem;
-        background-color: white;
-        border-radius: 12px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-      }
-      .title {
-        text-align: center;
-        margin-bottom: 0.5rem;
-        font-size: 2rem;
-        font-weight: bold;
-      }
-      .subtitle {
-        text-align: center;
-        margin-bottom: 2rem;
-        color: #666;
-      }
-      .ticker {
-        margin-top: 2rem;
-        margin-bottom: 1rem;
-      }
-    </style>
+    <meta charset="UTF-8" />
   </head>
-  <body>
-    <div class="container">
-      <div class="title">Motherboard Dash</div>
-      <div class="subtitle">Command Console</div>
+  <body style="margin: 0; font-family: sans-serif; background: #fdfdfd;">
+    <main style="padding: 2rem; max-width: 800px; margin: auto;">
+      <h1 style="text-align: center; margin-bottom: 0.5rem;">Motherboard Dash</h1>
+      <h2 style="text-align: center; font-weight: normal; margin-bottom: 2rem;">Command Console</h2>
 
       <ChatbotWrapper />
 
-      <div class="ticker">
-        <ReactComponent client:only="react" />
-      </div>
+      <OpsStreamTickerWrapper />
 
-      <ProjectTabs />
-    </div>
+      <div style="margin-top: 2rem; color: #888; font-size: 0.85rem; text-align: center;">
+        Agent Ops and Runtime Logs will appear here shortly.
+      </div>
+    </main>
   </body>
 </html>
