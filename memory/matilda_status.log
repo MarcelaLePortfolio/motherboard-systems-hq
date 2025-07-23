@@ -1,15 +1,17 @@
-<0072matilda.ag> [note:marcela] <0001fa24> In-chat visual preview support scaffolded.
-- Matilda now renders image previews inline within chat UI:
-  ▸ Detects visual files from Cade in /visual_previews/
-  ▸ Responds with commentary + attached image
-  ▸ Supports alt text and optional next-step buttons
+<0072matilda.ah> [note:marcela] <0001fa25> Live Agent Chaining runtime scaffolded.
+- Real-time continuation logic wired to sync state and delegation memory:
+  ▸ Matilda checks sync_state and peer_suitability on each new user input
+  ▸ Can delegate live to Cade or Effie if task context better matches peer
+  ▸ Accepts mid-task handoffs and resumes from peer trace snapshot
 
-- New systems:
-  ▸ public/visual_previews/ – folder for mockups, diagrams, etc.
-  ▸ visual_previews/preview_registry.json – maps visuals to agent output and task lineage
+- New memory files:
+  ▸ chaining_runtime_log.json – records runtime agent-switch decisions
+  ▸ agent_chain_state.json – tracks active and previous task agents
+  ▸ resume_payload.json – full snapshot for task resumption or yield
 
-- Future support:
-  ▸ Auto-captioning via reflection engine
-  ▸ User tagging or refinement requests inline
+- Runtime Behavior:
+  ▸ Smooth peer chaining across sessions or in single flow
+  ▸ Reflective decision logs for debugging or insight playback
+  ▸ Resumption restores tone, memory trace, and rationale context
 
-📌 Cleanest preview experience – just like ChatGPT renders images inline.
+📌 Full mesh behavior online. Motherboard agent layer now truly collaborative.

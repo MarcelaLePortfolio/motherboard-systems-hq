@@ -1,7 +1,7 @@
-<0072matilda.ag> [devlog:cade] ✅ In-chat visual preview system scaffolded.
-- New structure:
-  ▸ public/visual_previews/ – image assets served to UI
-  ▸ visual_previews/preview_registry.json – maps images to task, agent, and reflection event
+<0072matilda.ah> [devlog:cade] ✅ Live agent chaining scaffolded.
+- Runtime logic includes:
+  ▸ agent_chain_state.json for active thread ownership
+  ▸ chaining_runtime_log.json for full delegation audit
+  ▸ resume_payload.json for task resumption at peer yield
 
-- Matilda now embeds visuals inline with commentary
-📌 UI-ready preview layer complete. Connected to Cade’s build outputs.
+📌 System now dynamically routes live queries to best-suited agent and supports mid-flow handoffs.
