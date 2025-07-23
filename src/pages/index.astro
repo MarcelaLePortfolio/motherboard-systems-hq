@@ -6,10 +6,10 @@ import OpsStreamTickerWrapper from "../components/OpsStreamTickerWrapper.astro";
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Motherboard Systems HQ</title>
+    <title>Motherboard Dash</title>
     <style>
       body {
-        background-color: #fff;
+        background: #fff;
         color: #111;
         font-family: system-ui, sans-serif;
         padding: 2rem;
@@ -21,29 +21,38 @@ import OpsStreamTickerWrapper from "../components/OpsStreamTickerWrapper.astro";
         display: flex;
         align-items: center;
         gap: 0.5rem;
+        justify-content: center;
       }
 
       .subheader {
-        margin-top: 0.25rem;
+        text-align: center;
         font-size: 0.95rem;
         color: #666;
+        margin-top: 0.25rem;
       }
 
       .console-box {
-        background: #f9f9f9;
-        border: 1px solid #e5e7eb;
+        background: #fafafa;
         border-radius: 1rem;
         padding: 2rem;
-        max-width: 760px;
+        max-width: 700px;
         margin: 2rem auto;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        box-shadow: 0 6px 24px rgba(0, 0, 0, 0.05);
+      }
+
+      .react-debug {
+        background: #e5e7eb;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        font-size: 0.875rem;
+        color: #444;
+        margin-bottom: 1rem;
       }
 
       .ticker-bar {
         display: flex;
         justify-content: center;
-        margin-top: 1rem;
-        margin-bottom: 2rem;
+        margin: 1rem 0 2rem 0;
       }
 
       .tab-row {
@@ -51,7 +60,7 @@ import OpsStreamTickerWrapper from "../components/OpsStreamTickerWrapper.astro";
         justify-content: center;
         gap: 2rem;
         font-weight: 500;
-        margin-top: 1.5rem;
+        margin-top: 1rem;
       }
 
       .tab-row span.active {
@@ -62,16 +71,16 @@ import OpsStreamTickerWrapper from "../components/OpsStreamTickerWrapper.astro";
 
       .input-box {
         display: flex;
-        border: 1px solid #e5e7eb;
+        border: 1px solid #ccc;
         border-radius: 0.5rem;
         margin-top: 1.5rem;
+        overflow: hidden;
       }
 
       .input-box input {
         flex: 1;
         border: none;
         padding: 0.75rem;
-        border-radius: 0.5rem 0 0 0.5rem;
         font-size: 1rem;
         outline: none;
       }
@@ -81,42 +90,52 @@ import OpsStreamTickerWrapper from "../components/OpsStreamTickerWrapper.astro";
         color: white;
         border: none;
         padding: 0 1rem;
-        border-radius: 0 0.5rem 0.5rem 0;
         cursor: pointer;
+        font-size: 1.2rem;
       }
 
       .tracker {
         margin-top: 2rem;
-        font-size: 1rem;
+      }
+
+      .tracker-title {
+        font-weight: bold;
+        margin-bottom: 1rem;
       }
 
       .tracker ul {
         list-style: none;
         padding: 0;
-        margin-top: 1rem;
       }
 
       .tracker li {
         display: flex;
         justify-content: space-between;
-        padding: 0.75rem 0;
-        border-bottom: 1px solid #e5e7eb;
+        align-items: center;
+        margin-bottom: 0.75rem;
+        font-size: 1rem;
+      }
+
+      .tracker li span {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .tracker li button {
+        font-size: 0.875rem;
+        background: #f3f4f6;
+        border: 1px solid #ccc;
+        padding: 0.25rem 0.75rem;
+        border-radius: 0.25rem;
+        cursor: pointer;
       }
 
       .footer {
+        text-align: center;
+        margin-top: 3rem;
         font-size: 0.8rem;
         color: #999;
-        text-align: center;
-        margin-top: 4rem;
-      }
-
-      .react-debug {
-        background: #f3f4f6;
-        padding: 0.5rem 1rem;
-        font-size: 0.875rem;
-        border-radius: 0.5rem;
-        color: #555;
-        margin-bottom: 1rem;
       }
     </style>
   </head>
@@ -145,7 +164,7 @@ import OpsStreamTickerWrapper from "../components/OpsStreamTickerWrapper.astro";
       </div>
 
       <div class="tracker">
-        <div><strong>Project Tracker</strong></div>
+        <div class="tracker-title">Project Tracker</div>
         <ul>
           <li>
             <span>🟣 Design new homepage</span>
