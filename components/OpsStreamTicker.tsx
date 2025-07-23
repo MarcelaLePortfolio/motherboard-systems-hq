@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 
 export default function OpsStreamTicker() {
   useEffect(() => {
-    console.log("✅ OpsStreamTicker hydrated and rendered");
+    console.log("✅ OpsStreamTicker hydrated");
   }, []);
 
   return (

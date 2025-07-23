@@ -1,5 +1,5 @@
 ---
-import OpsStreamTicker from "../components/OpsStreamTicker";
+import OpsStreamTickerWrapper from "../components/OpsStreamTickerWrapper.astro";
 ---
 <html lang="en">
   <head>
@@ -7,10 +7,10 @@ import OpsStreamTicker from "../components/OpsStreamTicker";
   </head>
   <body class="bg-white text-black">
     <div class="border border-yellow-400 p-3 mb-4 font-bold text-sm bg-yellow-100 text-black">
-      🚨 Placeholder: OpsStreamTicker appears below (using client:visible)
+      🚨 Wrapper Test: If hydration works, ticker will appear below
     </div>
 
-    <OpsStreamTicker client:visible />
+    <OpsStreamTickerWrapper />
 
     <main class="max-w-5xl mx-auto p-6">
       <h1 class="text-2xl font-bold mb-4">📋 Project Tracker</h1>
