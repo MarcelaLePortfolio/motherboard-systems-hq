@@ -1,61 +1,9 @@
 ---
-import ChatbotUI from "../components/ChatbotUI.astro";
-import OpsStreamTickerWrapper from "../components/OpsStreamTickerWrapper.astro";
+import ChatbotUI from "../components/ChatbotUI.tsx";
+import FrameLayout from "../layouts/FrameLayout.astro";
 ---
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Motherboard Dash</title>
-    <style>
-      :root {
-        --bg: #f3f4f6;
-        --fg: #000;
-        --frame: #fff;
-        --radius: 0.75rem;
-        --shadow: 0 0 0.5rem rgba(0,0,0,0.06);
-      }
-      * {
-        box-sizing: border-box;
-      }
-      body {
-        margin: 0;
-        background: var(--bg);
-        font-family: system-ui, sans-serif;
-        color: var(--fg);
-      }
-      .frame {
-        max-width: 960px;
-        margin: 3rem auto;
-        padding: 2rem;
-        background: var(--frame);
-        border-radius: var(--radius);
-        box-shadow: var(--shadow);
-      }
-      h1 {
-        margin: 0;
-        font-size: 1.75rem;
-        text-align: center;
-      }
-      h2 {
-        margin-top: 0.5rem;
-        font-weight: normal;
-        text-align: center;
-        color: #666;
-        font-size: 1rem;
-      }
-      .bottom {
-        margin-top: 2rem;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="frame">
-      <h1>Motherboard Dash</h1>
-      <h2>Command Console</h2>
-      <ChatbotUI />
-      <div class="bottom">
-        <OpsStreamTickerWrapper />
-      </div>
-    </div>
-  </body>
-</html>
+<FrameLayout title="Motherboard Dash" subtitle="Command Console">
+  <div style="height: 450px; overflow: hidden; padding-bottom: 1rem;">
+    <ChatbotUI client:only="react" />
+  </div>
+</FrameLayout>
