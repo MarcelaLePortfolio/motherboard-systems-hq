@@ -1,7 +1,8 @@
-<0072matilda.ah> [devlog:cade] ✅ Live agent chaining scaffolded.
-- Runtime logic includes:
-  ▸ agent_chain_state.json for active thread ownership
-  ▸ chaining_runtime_log.json for full delegation audit
-  ▸ resume_payload.json for task resumption at peer yield
+<0072matilda.ai> [devlog:cade] ✅ Onboarding scaffolded – preference capture and first-use logic online.
+- user_preferences.json updated with new keys:
+  ▸ consent_to_memory_trace
+  ▸ enable_visual_previews
 
-📌 System now dynamically routes live queries to best-suited agent and supports mid-flow handoffs.
+- onboarding_log.json created to track session start, user choices, and versioning
+
+📌 UI integration ready. Session context now bootstraps from user preferences on launch.

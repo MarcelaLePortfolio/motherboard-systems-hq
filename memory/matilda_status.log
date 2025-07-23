@@ -1,17 +1,18 @@
-<0072matilda.ah> [note:marcela] <0001fa25> Live Agent Chaining runtime scaffolded.
-- Real-time continuation logic wired to sync state and delegation memory:
-  ▸ Matilda checks sync_state and peer_suitability on each new user input
-  ▸ Can delegate live to Cade or Effie if task context better matches peer
-  ▸ Accepts mid-task handoffs and resumes from peer trace snapshot
+<0072matilda.ai> [note:marcela] <0001fa26> Onboarding and personalization logic scaffolded.
+- Matilda now initiates structured user onboarding with opt-in settings:
+  ▸ Greets first-time users with role explanation and nickname preference
+  ▸ Offers toggles for:
+     ▸ show_agent_nicknames
+     ▸ consent_to_memory_trace
+     ▸ enable_visual_previews
 
-- New memory files:
-  ▸ chaining_runtime_log.json – records runtime agent-switch decisions
-  ▸ agent_chain_state.json – tracks active and previous task agents
-  ▸ resume_payload.json – full snapshot for task resumption or yield
+- Data stored in:
+  ▸ user_preferences.json (updated live on toggle)
+  ▸ onboarding_log.json – session metadata, timestamp, and settings chosen
 
-- Runtime Behavior:
-  ▸ Smooth peer chaining across sessions or in single flow
-  ▸ Reflective decision logs for debugging or insight playback
-  ▸ Resumption restores tone, memory trace, and rationale context
+- Hooks for UI:
+  ▸ Friendly welcome text from Matilda
+  ▸ “Would you like me to introduce myself and the other agents by name?”
+  ▸ Checkbox-style toggle controls (to be wired into front-end)
 
-📌 Full mesh behavior online. Motherboard agent layer now truly collaborative.
+📌 Foundation set for rich onboarding UX and personal configuration memory.
