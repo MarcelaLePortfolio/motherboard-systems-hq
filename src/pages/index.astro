@@ -13,23 +13,23 @@ import Badge from "../components/Badge.tsx";
     <title>Motherboard Dash</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body style="margin: 0; font-family: sans-serif; background: #f9f9f9;">
-    <main style="max-width: 960px; margin: 0 auto; padding: 2rem; display: flex; flex-direction: column; gap: 2rem;">
+  <body style="margin: 0; font-family: sans-serif; background: #f4f4f4;">
+    <main style="max-width: 1024px; margin: 2rem auto; padding: 2rem; display: flex; flex-direction: column; gap: 2rem; background: white; border-radius: 16px; box-shadow: 0 0 30px rgba(0,0,0,0.05);">
       <header style="text-align: center;">
         <h1 style="margin: 0; font-size: 2.5rem; font-weight: bold;">Motherboard Dash</h1>
-        <p style="font-style: italic; color: #666;">Command Console</p>
+        <p style="font-style: italic; color: #888;">Command Console</p>
       </header>
 
-      <section style="border-radius: 10px; background: white; box-shadow: 0 0 10px rgba(0,0,0,0.05); padding: 1rem;">
+      <section style="border: 1px solid #e5e7eb; border-radius: 12px; padding: 1rem; background: #f9f9f9;">
         <Chatbot />
       </section>
 
-      <section style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+      <section style="display: flex; flex-direction: column; align-items: center; gap: 1rem;">
         <Badge />
         <Tick />
       </section>
 
-      <section style="border-radius: 10px; background: white; box-shadow: 0 0 10px rgba(0,0,0,0.05); padding: 1rem;">
+      <section style="border: 1px solid #e5e7eb; border-radius: 12px; padding: 1rem; background: #fff;">
         <Tabs />
         <ProjectTracker />
       </section>
