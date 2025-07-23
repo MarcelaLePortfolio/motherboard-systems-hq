@@ -2,23 +2,32 @@
 import HelloReact from "../components/HelloReact.tsx";
 import OpsStreamTickerWrapper from "../components/OpsStreamTickerWrapper.astro";
 ---
-<!DOCTYPE html>
 <html lang="en">
   <head>
     <title>Motherboard Systems HQ</title>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body style="background-color: white; color: black; font-family: sans-serif; padding: 2rem">
-    <div style="margin-bottom: 1rem; font-weight: bold;">💻 Dashboard UI Reloaded</div>
+  <body class="bg-gray-100 text-black font-sans">
+    <header class="bg-white shadow p-4 flex justify-between items-center">
+      <h1 class="text-xl font-bold">🧠 Motherboard Systems HQ</h1>
+      <div class="text-sm text-gray-500">Operational Interface</div>
+    </header>
 
-    <!-- ✅ HelloReact test still visible -->
-    <HelloReact client:only="react" />
+    <main class="p-4 space-y-4">
+      <!-- ✅ React hydration tests -->
+      <HelloReact client:only="react" />
+      <OpsStreamTickerWrapper />
 
-    <!-- 🔄 Reintroduced OpsStreamTicker -->
-    <OpsStreamTickerWrapper />
+      <!-- 🧩 Placeholder for original dashboard UI -->
+      <section class="p-4 bg-white border rounded shadow">
+        <p class="font-semibold">📦 Dashboard module content will be restored here...</p>
+        <p class="text-sm text-gray-600 mt-1">This confirms hydration works — safe to reintroduce full UI next.</p>
+      </section>
+    </main>
 
-    <div style="margin-top: 2rem; font-size: 0.9rem; color: #666;">
-      If you see both boxes above (green & blue), React hydration and UI restoration succeeded.
-    </div>
+    <footer class="text-xs text-center text-gray-500 mt-8 p-4">
+      © 2025 Motherboard Systems HQ
+    </footer>
   </body>
 </html>
