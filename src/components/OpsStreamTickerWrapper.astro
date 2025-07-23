@@ -1,7 +1,8 @@
 ---
 import OpsStreamTicker from "./OpsStreamTicker.tsx";
 ---
-
-<div style="margin-top: 2rem;">
-  <OpsStreamTicker client:only="react" />
+<div style="margin-top: 2rem; display: flex; justify-content: center;">
+  <div style="background: transparent;"> <!-- Removed green background -->
+    <OpsStreamTicker client:only="react" />
+  </div>
 </div>
