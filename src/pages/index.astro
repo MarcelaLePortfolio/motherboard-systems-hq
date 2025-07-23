@@ -1,5 +1,6 @@
 ---
-import ChatbotWrapper from '../components/ChatbotWrapper.astro';
+import ChatbotWrapper from "../components/ChatbotWrapper.astro";
+import OpsStreamTickerWrapper from "../components/OpsStreamTickerWrapper.astro";
 ---
 
 <html lang="en">
@@ -8,10 +9,13 @@ import ChatbotWrapper from '../components/ChatbotWrapper.astro';
     <meta charset="UTF-8" />
   </head>
   <body class="bg-gray-100 font-sans">
-    <div class="max-w-4xl mx-auto mt-12 p-8 bg-white rounded-2xl shadow-xl">
-      <h1 class="text-4xl font-bold text-center text-gray-800 mb-2">Motherboard Dash</h1>
-      <p class="text-center text-gray-500 mb-8 italic">Command Console</p>
+    <div class="max-w-4xl mx-auto mt-12 p-8 bg-white rounded-2xl shadow-xl space-y-6">
+      <div>
+        <h1 class="text-4xl font-bold text-center text-gray-800">Motherboard Dash</h1>
+        <p class="text-center text-gray-500 italic">Command Console</p>
+      </div>
       <ChatbotWrapper />
+      <OpsStreamTickerWrapper />
     </div>
   </body>
 </html>
