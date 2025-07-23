@@ -1,23 +1,24 @@
 ---
-import ChatbotWrapper from "../components/ChatbotWrapper.astro";
+import HelloReact from "../components/HelloReact.tsx";
 import OpsStreamTickerWrapper from "../components/OpsStreamTickerWrapper.astro";
+import ChatbotUI from "../components/ChatbotUI.astro";
 ---
-
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <title>Motherboard Dash</title>
     <meta charset="UTF-8" />
   </head>
-  <body class="bg-gray-100 font-sans">
-    <div class="max-w-4xl mx-auto mt-12 p-8 bg-white rounded-2xl shadow-xl space-y-6">
-      <div>
-        <h1 class="text-4xl font-bold text-center text-gray-800">Motherboard Dash</h1>
-        <p class="text-center text-gray-500 italic">Command Console</p>
-      </div>
-      <ChatbotWrapper />
-      <div class="overflow-hidden rounded-lg shadow">
+  <body style="margin: 0; background-color: #f3f4f6; font-family: sans-serif;">
+    <main style="max-width: 960px; margin: 2rem auto; background: white; border-radius: 8px; box-shadow: 0 0 12px rgba(0,0,0,0.05); padding: 2rem;">
+      <h1 style="text-align: center; margin-bottom: 0.25rem;">Motherboard Dash</h1>
+      <h2 style="text-align: center; margin-top: 0; color: #666; font-size: 1rem;">Command Console</h2>
+
+      <ChatbotUI />
+
+      <div style="margin-top: 2rem;">
         <OpsStreamTickerWrapper />
       </div>
-    </div>
+    </main>
   </body>
 </html>
