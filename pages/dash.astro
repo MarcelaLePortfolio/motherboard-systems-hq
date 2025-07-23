@@ -1,5 +1,28 @@
 ---
-import DashboardHome from "../pages/dashboard/index.tsx";
+import OpsStreamTicker from "../components/OpsStreamTicker";
 ---
 
-<DashboardHome />
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Motherboard Ops Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body class="min-h-screen bg-white text-black">
+    <OpsStreamTicker client:load />
+
+    <main class="max-w-5xl mx-auto p-6">
+      <h1 class="text-2xl font-bold mb-4">📋 Project Tracker</h1>
+      <ul class="space-y-3 mt-6">
+        {["Design new homepage", "Implement auth", "Deploy agents"].map((task, i) => (
+          <li key={i} class="bg-gray-100 p-4 rounded-md flex justify-between items-center">
+            <span>{task}</span>
+            <button class="text-sm px-3 py-1 bg-white border border-gray-400 rounded hover:bg-gray-200">
+              Modify
+            </button>
+          </li>
+        ))}
+      </ul>
+    </main>
+  </body>
+</html>
