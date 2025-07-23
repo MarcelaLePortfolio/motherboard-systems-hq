@@ -1,5 +1,5 @@
 ---
-import ChatBotUI from "../components/ChatBotUI.astro";
+import ChatbotWrapper from "../components/ChatbotWrapper.astro";
 import OpsStreamTickerWrapper from "../components/OpsStreamTickerWrapper.astro";
 import HelloReact from "../components/HelloReact.tsx";
 ---
@@ -44,7 +44,7 @@ import HelloReact from "../components/HelloReact.tsx";
       <div class="title">Motherboard Dash</div>
       <div class="subtitle">Command Console</div>
 
-      <ChatBotUI client:only="astro" />
+      <ChatbotWrapper client:only="astro" />
 
       <HelloReact client:only="react" />
 
