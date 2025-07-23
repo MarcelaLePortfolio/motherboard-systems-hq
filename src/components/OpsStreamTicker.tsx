@@ -1,18 +1,19 @@
 import { useEffect } from "react";
-
 export default function OpsStreamTicker() {
   useEffect(() => {
     console.log("✅ OpsStreamTicker mounted");
   }, []);
   return (
     <div style={{
-      backgroundColor: "transparent",
+      backgroundColor: "#1a1a1a",
+      color: "white",
       padding: "0.5rem 1rem",
-      fontWeight: "bold",
-      color: "#10b981",
-      borderTop: "2px solid #10b981",
+      fontFamily: "monospace",
+      fontSize: "0.875rem",
+      borderTop: "1px solid #333",
+      borderBottom: "1px solid #333"
     }}>
-      ✅ Ops Stream Ticker Active
+      LIVE OP LOG: Systems nominal • AI Core synced • Dashboard stable
     </div>
   );
 }
