@@ -1,6 +1,6 @@
 ---
 import OpsStreamTickerWrapper from "../components/OpsStreamTickerWrapper.astro";
-import ChatInterface from "../components/ChatInterface.tsx";
+import Chatbot from "../components/Chatbot.tsx";
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -16,10 +16,10 @@ import ChatInterface from "../components/ChatInterface.tsx";
         <p style="font-style: italic; color: #555;">Command Console</p>
       </div>
 
-      <!-- ✅ Chat container -->
-      <section style="margin-bottom: 2rem;">
-        <ChatInterface client:only="react" />
-      </section>
+      <!-- ✅ Chatbot Component -->
+      <div style="margin-bottom: 2rem;">
+        <Chatbot client:only="react" />
+      </div>
 
       <!-- ✅ Hydration bar -->
       <div style="background: #0dbb86; color: white; padding: 1rem; border-radius: 0.5rem; margin-bottom: 2rem; text-align: center;">
