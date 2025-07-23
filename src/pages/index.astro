@@ -1,7 +1,7 @@
 ---
 import HelloReact from "../components/HelloReact.tsx";
 import OpsStreamTickerWrapper from "../components/OpsStreamTickerWrapper.astro";
-import ChatbotWrapper from "../components/ChatbotWrapper.tsx";
+import Chatbot from "../components/Chatbot.tsx";
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -16,7 +16,7 @@ import ChatbotWrapper from "../components/ChatbotWrapper.tsx";
     </div>
 
     <div style="margin: 2rem auto; max-width: 800px;">
-      <ChatbotWrapper client:only="react" />
+      <Chatbot client:only="react" />
     </div>
 
     <div style="margin: 2rem auto; max-width: 800px;">
