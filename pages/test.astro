@@ -1,0 +1,15 @@
+---
+import TestHydrate from "../components/TestHydrate.tsx";
+---
+<html>
+  <head>
+    <title>Hydration Test</title>
+  </head>
+  <body class="bg-white text-black">
+    <TestHydrate client:load />
+
+    <div style="margin-top:2rem">
+      ✅ If the purple box appears and DevTools Console shows "React component hydrated!", React is working.
+    </div>
+  </body>
+</html>
