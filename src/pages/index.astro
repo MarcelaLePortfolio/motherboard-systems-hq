@@ -10,27 +10,28 @@ import MotherboardChat from "../components/MotherboardChat.tsx";
   </head>
   <body style="background-color: #fff; color: black; font-family: sans-serif; padding: 2rem;">
     <main style="max-width: 800px; margin: 0 auto;">
-      <div style="text-align: center; margin-bottom: 1rem;">
-        <h1 style="font-size: 2rem; font-weight: bold;">🧠 Motherboard Dash</h1>
+      <!-- ✅ Title & Subtitle -->
+      <div style="text-align: center; margin-bottom: 2rem;">
+        <h1 style="font-size: 2.25rem; font-weight: bold;">🧠 Motherboard Dash</h1>
         <p style="font-style: italic; color: #555;">Command Console</p>
       </div>
 
-      <!-- ✅ Chat container with fixed height + overflow scroll -->
-      <section style="background: #f9f9f9; border-radius: 1rem; padding: 1rem; margin-bottom: 2rem; box-shadow: 0 0 0 1px #eee;">
+      <!-- ✅ Chatbot container -->
+      <section style="background: #fafafa; border-radius: 1rem; padding: 1rem; margin-bottom: 2rem; box-shadow: 0 0 0 1px #eee;">
         <MotherboardChat client:only="react" />
       </section>
 
-      <!-- ✅ React hydration signal -->
-      <div style="background: #0dbb86; color: white; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem;">
+      <!-- ✅ React green hydration bar -->
+      <div style="background: #0dbb86; color: white; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1.5rem; text-align: center;">
         ✅ Hello from React!
       </div>
 
-      <!-- ✅ OpsStream ticker -->
+      <!-- ✅ Ticker -->
       <div style="text-align: center; margin-bottom: 2rem;">
         <OpsStreamTickerWrapper />
       </div>
 
-      <!-- ✅ Tracker -->
+      <!-- ✅ Tabbed Project Tracker -->
       <div style="padding: 1rem; background: #f9f9f9; border-radius: 0.75rem;">
         <nav style="margin-bottom: 1rem; display: flex; gap: 1.5rem; justify-content: center;">
           <span style="font-weight: bold; color: purple; text-decoration: underline;">Project Activity</span>
