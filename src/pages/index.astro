@@ -23,12 +23,15 @@ import Badge from "../components/Badge.tsx";
         <ChatbotWrapper client:only="react" />
       </section>
 
-      <section style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+      <section style="background: #e6fff2; padding: 1rem; border-radius: 10px;">
         <Badge client:only="react" />
+      </section>
+
+      <section style="display: flex; justify-content: center;">
         <Tick client:only="react" />
       </section>
 
-      <section style="background: #fff; border: 1px solid #ddd; border-radius: 10px; padding: 1rem;">
+      <section style="background: #f9f9f9; border: 1px solid #ccc; border-radius: 10px; padding: 1rem;">
         <Tabs client:only="react" />
         <div style="margin-top: 1rem;">
           <ProjectTracker client:only="react" />
