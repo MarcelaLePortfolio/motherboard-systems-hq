@@ -1,6 +1,9 @@
-<0072matilda.aj> [devlog:cade] ✅ Visual preview toggle hidden – now defaults to true, not shown in onboarding.
-- enable_visual_previews retained in user_preferences.json
-- Default: true
-- Toggle UI hidden from onboarding flow unless explicitly exposed
+<0072matilda.ak> [devlog:cade] ✅ Privacy framework scaffolded.
+- Memory Wipe:
+  ▸ “Forget Me” clears memory/user_*.json and logs the event
+- Audit View:
+  ▸ Scaffold for browsing reflection_log, memory_trace, and command history
+- Biometric Lock:
+  ▸ biometric_lock_enabled toggle now available in privacy/user_privacy_flags.json
 
-📌 Keeps experience streamlined while preserving advanced override support.
+📌 Next: wire to dashboard UI and confirm biometric auth support in device OS.

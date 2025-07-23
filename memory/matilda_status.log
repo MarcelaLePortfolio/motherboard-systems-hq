@@ -1,12 +1,12 @@
-<0072matilda.aj> [note:marcela] <0001fa27> Visual toggle hidden by default – now defaults to enabled.
-- Updated onboarding logic:
-  ▸ enable_visual_previews defaults to true
-  ▸ Toggle exists in user_preferences.json but is not shown to most users
-  ▸ May be exposed later in enterprise or advanced UI settings
+<0072matilda.ak> [note:marcela] <0001fa28> Privacy controls scaffolded – memory wipe, audit log access, and biometric lock support added.
+- New features:
+  ▸ “Forget Me” button clears all user memory files on request
+  ▸ Audit log viewer scaffolded for users to see session history
+  ▸ Biometric lock flag added (Face ID / Touch ID support pending front-end)
 
-- Reasoning:
-  ▸ Visuals are local-only, with no outbound network activity
-  ▸ Previews enhance transparency, reduce ambiguity, and support teachable UX
-  ▸ No privacy risk or performance drag in normal use
+- New files:
+  ▸ privacy/erase_trigger_log.json – tracks each memory wipe event
+  ▸ privacy/audit_access_log.json – records when audit view is used
+  ▸ privacy/user_privacy_flags.json – settings like biometric_lock_enabled
 
-📌 UX streamlined – visual previews now always on unless explicitly disabled.
+📌 Lays groundwork for full user trust UX – control, transparency, and security.
