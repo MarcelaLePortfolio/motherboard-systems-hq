@@ -1,0 +1,20 @@
+---
+import OpsStreamTicker from "../components/OpsStreamTicker.tsx";
+---
+<html lang="en">
+  <head>
+    <title>Ops Test</title>
+  </head>
+  <body class="bg-white text-black">
+    <div class="p-3 mb-4 font-bold text-sm bg-green-100 text-black border border-green-500">
+      🧪 Test Page: Direct client:load hydration of OpsStreamTicker below
+    </div>
+
+    <OpsStreamTicker client:load />
+
+    <main class="max-w-5xl mx-auto p-6">
+      <p>If you see a gray ticker above, hydration worked.</p>
+      <p>Also check DevTools Console for ✅ hydration log.</p>
+    </main>
+  </body>
+</html>
