@@ -4,38 +4,60 @@
   <meta charset="UTF-8" />
   <title>Motherboard Dash UI</title>
   <style>
+    :root {
+      --primary-color: #111;
+      --bg-color: #fff;
+      --accent: #3B82F6;
+      --gray-light: #f5f5f5;
+      --gray-dark: #ccc;
+    }
+
     body {
       margin: 0;
       font-family: 'Inter', sans-serif;
-      background: #ffffff;
-      color: #111;
+      background: var(--bg-color);
+      color: var(--primary-color);
+      display: flex;
+      justify-content: center;
+    }
+
+    .dashboard-wrapper {
+      width: 100%;
+      max-width: 900px;
     }
 
     header {
-      background: #f5f5f5;
-      padding: 20px;
-      border-bottom: 1px solid #ddd;
+      background: var(--gray-light);
+      padding: 24px;
+      border-bottom: 1px solid var(--gray-dark);
     }
 
     header h1 {
       margin: 0;
-      font-size: 24px;
+      font-size: 28px;
     }
 
     .command-console {
-      padding: 10px 20px;
+      padding: 16px 24px;
       font-size: 16px;
-      font-weight: bold;
-      border-bottom: 1px solid #eee;
+      font-weight: 600;
+      border-bottom: 1px solid var(--gray-light);
     }
 
     .agent-status {
       display: flex;
-      justify-content: space-around;
-      padding: 12px 20px;
+      justify-content: space-between;
+      padding: 16px 24px;
       font-size: 14px;
       background: #fafafa;
       border-bottom: 1px solid #eee;
+    }
+
+    .agent-status div {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 500;
     }
 
     .ops-stream {
@@ -45,9 +67,9 @@
       overflow: hidden;
       display: flex;
       align-items: center;
-      padding-left: 16px;
+      padding-left: 24px;
       border-bottom: 1px solid #ddd;
-      background: #fefefe;
+      background: #fdfdfd;
     }
 
     .log-ticker-item {
@@ -78,72 +100,94 @@
     }
 
     .chat-section {
-      padding: 20px;
+      padding: 24px;
       border-bottom: 1px solid #eee;
+      display: flex;
+      gap: 12px;
     }
 
     .chat-input {
-      width: 100%;
+      flex: 1;
       padding: 12px;
       font-size: 14px;
       border: 1px solid #ccc;
       border-radius: 6px;
     }
 
+    .chat-send {
+      padding: 12px 16px;
+      background: var(--accent);
+      border: none;
+      color: white;
+      font-size: 14px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
     .tabs {
       display: flex;
-      border-bottom: 1px solid #ddd;
-      margin-top: 20px;
+      border-bottom: 2px solid #eee;
     }
 
     .tab {
       flex: 1;
-      padding: 12px;
+      padding: 16px;
       text-align: center;
       cursor: pointer;
-      font-weight: bold;
-      background: #fafafa;
+      font-weight: 600;
+      background: #f9f9f9;
+      border-right: 1px solid #eee;
+      transition: background 0.2s;
+    }
+
+    .tab:last-child {
+      border-right: none;
     }
 
     .tab:hover {
-      background: #f0f0f0;
+      background: #f1f1f1;
     }
 
     .tab-content {
-      padding: 20px;
+      padding: 24px;
+      background: #fff;
+      border-top: none;
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <h1>Motherboard Dash</h1>
-  </header>
+  <div class="dashboard-wrapper">
+    <header>
+      <h1>Motherboard Dash</h1>
+    </header>
 
-  <div class="command-console">Command Console</div>
+    <div class="command-console">Command Console</div>
 
-  <div class="agent-status">
-    <div>🧠 Matilda 🟢</div>
-    <div>💻 Cade 🟢</div>
-    <div>🖱️ Effie 🟢</div>
-  </div>
+    <div class="agent-status">
+      <div>🧠 Matilda <span style="color: green;">●</span></div>
+      <div>💻 Cade <span style="color: green;">●</span></div>
+      <div>🖱️ Effie <span style="color: green;">●</span></div>
+    </div>
 
-  <div class="ops-stream">
-    <span id="log" class="log-ticker-item">Initializing Ops Stream...</span>
-  </div>
+    <div class="ops-stream">
+      <span id="log" class="log-ticker-item">Initializing Ops Stream...</span>
+    </div>
 
-  <div class="chat-section">
-    <input class="chat-input" placeholder="Type a command..." />
-  </div>
+    <div class="chat-section">
+      <input class="chat-input" placeholder="Type a command..." />
+      <button class="chat-send">Send</button>
+    </div>
 
-  <div class="tabs">
-    <div class="tab">Project Tracker</div>
-    <div class="tab">Tasks</div>
-    <div class="tab">Settings</div>
-  </div>
+    <div class="tabs">
+      <div class="tab">Project Tracker</div>
+      <div class="tab">Tasks</div>
+      <div class="tab">Settings</div>
+    </div>
 
-  <div class="tab-content">
-    <p>[Tab content placeholder]</p>
+    <div class="tab-content">
+      <p>[Tab content placeholder]</p>
+    </div>
   </div>
 
   <script>
@@ -169,10 +213,7 @@
       currentIndex = (currentIndex + 1) % logs.length;
     }
 
-    // Initial update
     updateLog();
-
-    // Rotate every 4 seconds to match animation duration
     setInterval(updateLog, 4000);
   </script>
 
