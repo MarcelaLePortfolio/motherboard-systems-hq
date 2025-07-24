@@ -1,8 +1,156 @@
-// ... [HTML/CSS omitted for brevity] ...
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Motherboard Dash</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #121212;
+      color: #f1f1f1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem;
+      margin: 0;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+    .status-bar {
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    .ticker {
+      font-style: italic;
+      margin-bottom: 1rem;
+      animation: ticker-fade 4s linear infinite;
+    }
+    @keyframes ticker-fade {
+      0% { opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+    .console-title {
+      font-weight: bold;
+      font-size: 1.2rem;
+      margin: 1rem 0 0.5rem;
+      text-align: center;
+    }
+    #messages {
+      width: 100%;
+      max-width: 600px;
+      height: 300px;
+      background: #1e1e1e;
+      border: 1px solid #333;
+      padding: 1rem;
+      overflow-y: auto;
+      margin-bottom: 1rem;
+    }
+    .message {
+      margin-bottom: 0.5rem;
+      line-height: 1.4;
+    }
+    .user {
+      color: #90caf9;
+    }
+    .bot {
+      color: #f48fb1;
+    }
+    form {
+      display: flex;
+      width: 100%;
+      max-width: 600px;
+    }
+    input {
+      flex: 1;
+      padding: 0.5rem;
+      border: none;
+      font-size: 1rem;
+    }
+    button {
+      padding: 0.5rem 1rem;
+      border: none;
+      background: #f48fb1;
+      color: #121212;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .tabs {
+      margin-top: 2rem;
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+    }
+    .tab {
+      background: #1e1e1e;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      border: 1px solid #333;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Motherboard Dash</h1>
+  <div class="status-bar">
+    Matilda: Online Effie: Ready Cade: Active
+  </div>
+  <div class="ticker" id="ticker">Cade: Monitoring systems...</div>
+  <div class="console-title">Command Console</div>
+  <div id="messages"></div>
+  <form id="chat-form">
+    <input id="user-input" placeholder="Type a message to Matilda..." autocomplete="off" />
+    <button type="submit">Send</button>
+  </form>
+  <div class="tabs">
+    <div class="tab">Project Tracker</div>
+    <div class="tab">Agent Activity</div>
+    <div class="tab">Settings</div>
+  </div>
+
+  <script>
+    const tickerEl = document.getElementById("ticker");
+    const tickerLogs = [
+      "Cade: Monitoring systems...",
+      "Matilda: Initializing protocols...",
+      "Effie: Syncing desktop agents...",
+      "Cade: Deployed script successfully."
+    ];
+    let logIndex = 0;
+    setInterval(() => {
+      tickerEl.textContent = tickerLogs[logIndex];
+      logIndex = (logIndex + 1) % tickerLogs.length;
+    }, 4000);
+
+    const form = document.getElementById("chat-form");
+    const input = document.getElementById("user-input");
+    const messages = document.getElementById("messages");
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const userText = input.value.trim();
+      if (!userText) return;
+
+      const userMsg = document.createElement("div");
+      userMsg.className = "message user";
+      userMsg.textContent = "You: " + userText;
+      messages.appendChild(userMsg);
+
+      const botMsg = document.createElement("div");
+      botMsg.className = "message bot";
+      botMsg.textContent = "Matilda: " + getMatildaResponse(userText);
+      messages.appendChild(botMsg);
+
+      input.value = "";
+      messages.scrollTop = messages.scrollHeight;
+    });
 
     function getMatildaResponse(input) {
       const text = input.toLowerCase();
-
       if (text.includes("hey") && text.includes("girl")) return "Hey gorgeous! ✨ What’s the vibe today?";
       if (text.includes("hi") || text.includes("hello")) return "Hello darling. 💁‍♀️";
       if (text.includes("how are you")) return "Recharged and radiant. How about you?";
@@ -33,5 +181,6 @@
 
       return "Tell me more, I’m listening with all circuits.";
     }
-
-// ... [script closure]
+  </script>
+</body>
+</html>
