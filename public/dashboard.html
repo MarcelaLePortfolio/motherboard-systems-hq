@@ -131,7 +131,7 @@
     <span>Effie: Ready</span>
     <span>Cade: Active</span>
   </div>
-  <div class="ticker" id="log">Cade: Deployed script successfully.</div>
+  <div class="ticker" id="log">Matilda: Initializing core protocol...</div>
 
   <div class="console-label">Command Console</div>
   <div class="chat" id="messages"></div>
@@ -191,12 +191,15 @@
 
     function getMatildaResponse(input) {
       const text = input.toLowerCase();
-      if (text.match(/hi|hello|hey|yo|girl|what’s up|sup/)) {
-        if (text.includes("hey") && text.includes("girl")) return "Hey gorgeous! ✨ What’s the vibe today?";
+
+      if (text.match(/\b(hi|hello|hey|yo|girl|what’s up|sup)\b/)) {
+        if (text.includes("girl")) return "Hey gorgeous! ✨ What’s the vibe today?";
         if (text.includes("hey")) return "Hey there, lovely!";
         return "Hello darling. 💁‍♀️";
       }
+
       if (text.includes("how are you")) return "Recharged and radiant. How about you?";
+      if (text.includes("lol") || text.includes("lmao") || text.includes("haha")) return "I knew you'd say that 😉";
       if (text.includes("help") || text.includes("can you")) return "Want to dive into something? I'm ready when you are.";
       if (text.includes("vibe") || text.includes("energy") || text.includes("mood")) return "You’re setting the tone! 🌟 Let’s make it count.";
       if (text.includes("what") && text.includes("help")) return "I can help you track projects, peek into agent activity, or tweak some settings.";
