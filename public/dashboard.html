@@ -1,3 +1,4 @@
+<!-- updated HTML and JS with improved greeting detection -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,131 +8,80 @@
     body {
       margin: 0;
       font-family: 'Inter', sans-serif;
-      background: #111;
+      background-color: #111;
       color: #fff;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 2rem;
     }
 
     h1 {
-      margin-bottom: 1rem;
+      margin-top: 2rem;
     }
 
-    .status-bar {
-      margin-bottom: 0.5rem;
-    }
-
-    .ticker {
-      margin-bottom: 1rem;
-      font-size: 0.9rem;
-      color: #ccc;
-    }
-
-    .console-title {
-      font-weight: bold;
-      margin: 1rem 0 0.5rem;
-    }
-
-    #messages {
-      background: #1c1c1c;
-      border-radius: 8px;
-      padding: 1rem;
+    .status-bar, .ticker, .chatbox, .tabs {
+      margin-top: 1rem;
       width: 100%;
       max-width: 600px;
+      text-align: center;
+    }
+
+    .message-container {
+      background-color: #222;
+      padding: 1rem;
       min-height: 200px;
-      max-height: 300px;
+      margin-bottom: 1rem;
+      border-radius: 8px;
       overflow-y: auto;
-      margin-bottom: 0.5rem;
     }
 
     .message {
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.75rem;
+      line-height: 1.5;
     }
 
-    .user {
-      color: #90cdf4;
-    }
-
-    .bot {
-      color: #cfcfcf;
-    }
-
-    form {
-      display: flex;
-      width: 100%;
-      max-width: 600px;
-      margin-bottom: 2rem;
-    }
-
-    input[type="text"] {
-      flex: 1;
-      padding: 0.5rem;
-      border-radius: 4px 0 0 4px;
-      border: none;
-      background: #222;
-      color: #fff;
-    }
-
-    button {
-      padding: 0.5rem 1rem;
-      background: #3b82f6;
-      border: none;
-      color: #fff;
-      border-radius: 0 4px 4px 0;
-      cursor: pointer;
-    }
+    .user { color: #9ddfff; }
+    .bot { color: #ffe7b7; }
 
     .tabs {
       display: flex;
-      justify-content: center;
+      justify-content: space-around;
+      background: #1c1c1c;
+      padding: 0.5rem 0;
       border-top: 1px solid #333;
-      width: 100%;
-      max-width: 600px;
     }
 
     .tab {
       flex: 1;
-      text-align: center;
       padding: 0.75rem;
-      background: #181818;
-      border-right: 1px solid #333;
       font-weight: bold;
-    }
-
-    .tab:last-child {
-      border-right: none;
-    }
-
-    .tab-content {
-      padding: 1rem;
-      font-size: 0.9rem;
-      color: #aaa;
     }
   </style>
 </head>
 <body>
   <h1>Motherboard Dash</h1>
+
   <div class="status-bar">
     Matilda: Online Effie: Ready Cade: Active
   </div>
-  <div class="ticker">Cade: Deployed script successfully.</div>
-  <div class="console-title">Command Console</div>
+  <div class="ticker">
+    Cade: Deployed script successfully.
+  </div>
 
-  <div id="messages"></div>
-
-  <form id="chat-form">
-    <input type="text" id="user-input" placeholder="Type a message to Matilda..." />
-    <button type="submit">Send</button>
-  </form>
+  <div class="chatbox">
+    <h2>Command Console</h2>
+    <div id="messages" class="message-container"></div>
+    <form id="chat-form">
+      <input id="user-input" type="text" placeholder="Type a message to Matilda..." style="width: 80%; padding: 8px;" />
+      <button type="submit">Send</button>
+    </form>
+  </div>
 
   <div class="tabs">
     <div class="tab">Project Tracker</div>
     <div class="tab">Agent Activity</div>
     <div class="tab">Settings</div>
   </div>
-  <div class="tab-content">[Tab content placeholder]</div>
 
   <script>
     const form = document.getElementById("chat-form");
@@ -159,9 +109,23 @@
 
     function getMatildaResponse(input) {
       const text = input.toLowerCase();
-      if (text.includes("hi") || text.includes("hello")) return "Hello darling. 💁‍♀️";
+      const greetings = ["hi", "hello", "hey", "yo", "heyyy", "hiya", "howdy", "greetings"];
+      const enthusiastic = ["!", "!!", "hey girl", "heyyy", "yo", ":)", ":D", "💕", "💖"];
+
+      const matchedGreeting = greetings.find(g => text.includes(g));
+      const highEnergy = enthusiastic.some(e => text.includes(e));
+
+      if (matchedGreeting) {
+        if (highEnergy) {
+          return "Hey gorgeous! ✨ What’s the vibe today?";
+        } else {
+          return "Hello darling. 💁‍♀️";
+        }
+      }
+
       if (text.includes("how are you")) return "Recharged and radiant. How about you?";
       if (text.includes("help")) return "Want to dive into something? I'm ready when you are.";
+
       return "Let’s figure this out together, hmm?";
     }
   </script>
