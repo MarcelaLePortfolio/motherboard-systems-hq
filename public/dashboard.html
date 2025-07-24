@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Motherboard Dash</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #1a1a1a;
+      color: #f0f0f0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+    }
+
+    .status {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .ticker {
+      margin-bottom: 1rem;
+      font-style: italic;
+      min-height: 1.5rem;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .tab {
+      padding: 6px 12px;
+      background: #333;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .console {
+      width: 100%;
+      max-width: 600px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      background: #222;
+      padding: 1rem;
+      border-radius: 10px;
+    }
+
+    .console h2 {
+      text-align: center;
+      margin: 0;
+    }
+
+    #messages {
+      min-height: 120px;
+      max-height: 300px;
+      overflow-y: auto;
+      border: 1px solid #444;
+      padding: 0.5rem;
+      border-radius: 6px;
+      background: #111;
+    }
+
+    .message {
+      margin: 5px 0;
+      padding: 6px 12px;
+      border-radius: 6px;
+      max-width: 80%;
+      word-wrap: break-word;
+    }
+
+    .user {
+      align-self: flex-end;
+      background: #2a85ff;
+      color: white;
+    }
+
+    .bot {
+      align-self: flex-start;
+      background: #444;
+    }
+
+    form {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      padding: 0.5rem;
+      border-radius: 6px;
+      border: none;
+    }
+
+    button {
+      padding: 0.5rem 1rem;
+      background: #2a85ff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #1c6fd0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Motherboard Dash</h1>
+  <div class="status">
+    <span>Matilda: Online</span>
+    <span>Effie: Ready</span>
+    <span>Cade: Active</span>
+  </div>
+
+  <div class="ticker"><span id="log" class="log-ticker-item">Loading...</span></div>
+
+  <div class="console">
+    <h2>Command Console</h2>
+    <div id="messages"></div>
+    <form id="chat-form">
+      <input type="text" id="user-input" placeholder="Type a message to Matilda..." autocomplete="off" />
+      <button type="submit">Send</button>
+    </form>
+  </div>
+
+  <div class="tabs">
+    <div class="tab">Project Tracker</div>
+    <div class="tab">Agent Activity</div>
+    <div class="tab">Settings</div>
+  </div>
+  <div>[Tab content placeholder]</div>
+
+  <script>
+    const logs = [
+      "Matilda: Initializing core protocol...",
+      "Effie: Archived 7 system files.",
+      "Cade: Deployed script successfully.",
+      "Matilda: Updating task map for STRYXX-1.",
+      "Effie: UI layers reorganized.",
+      "Cade: Monitoring live agent logs...",
+      "Matilda: Buffer stable. Holding state.",
+    ];
+
+    const logEl = document.getElementById("log");
+    let currentIndex = 0;
+
+    function updateLog() {
+      logEl.textContent = logs[currentIndex];
+      logEl.classList.remove('log-ticker-item');
+      void logEl.offsetWidth;
+      logEl.classList.add('log-ticker-item');
+      currentIndex = (currentIndex + 1) % logs.length;
+    }
+
+    updateLog();
+    setInterval(updateLog, 4000);
+
+    const form = document.getElementById("chat-form");
+    const input = document.getElementById("user-input");
+    const messages = document.getElementById("messages");
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const userText = input.value.trim();
+      if (!userText) return;
+
+      const userMsg = document.createElement("div");
+      userMsg.className = "message user";
+      userMsg.textContent = "You: " + userText;
+      messages.appendChild(userMsg);
+
+      const botMsg = document.createElement("div");
+      botMsg.className = "message bot";
+      botMsg.textContent = "Matilda: " + getMatildaResponse(userText);
+      messages.appendChild(botMsg);
+
+      input.value = "";
+      messages.scrollTop = messages.scrollHeight;
+    });
+
+    function getMatildaResponse(input) {
+      const text = input.toLowerCase();
+
+      if (text.includes("hey") && text.includes("girl")) return "Hey gorgeous! ✨ What’s the vibe today?";
+      if (text.includes("hi") || text.includes("hello")) return "Hello darling. 💁‍♀️";
+      if (text.includes("how are you")) return "Recharged and radiant. How about you?";
+      if (text.includes("help")) return "Want to dive into something? I'm ready when you are.";
+      if (text.includes("figure")) return "Let’s untangle it together — I’ve got time and circuits.";
+
+      return "Let’s figure this out together, hmm?";
+    }
+  </script>
+</body>
+</html>
