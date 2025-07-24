@@ -25,7 +25,7 @@
       display: flex;
       justify-content: center;
       gap: 1rem;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
     }
 
     .agent-box {
@@ -36,38 +36,8 @@
     }
 
     .ticker-container {
-      position: relative;
-      width: 100%;
-      max-width: 600px;
-      height: 30px;
-      overflow: hidden;
+      font-size: 0.9rem;
       margin-bottom: 20px;
-    }
-
-    .ticker-text {
-      position: absolute;
-      width: 100%;
-      text-align: center;
-      animation: slideUpContinuous 4s ease-in-out infinite;
-    }
-
-    @keyframes slideUpContinuous {
-      0% {
-        transform: translateY(100%);
-        opacity: 0;
-      }
-      10% {
-        transform: translateY(0);
-        opacity: 1;
-      }
-      90% {
-        transform: translateY(0);
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(-100%);
-        opacity: 0;
-      }
     }
 
     h2 {
@@ -146,7 +116,7 @@
   </div>
 
   <div class="ticker-container">
-    <div id="log" class="ticker-text">Initializing stream...</div>
+    <div id="log">Cade: Monitoring live agent logs...</div>
   </div>
 
   <h2>Command Console</h2>
@@ -157,38 +127,17 @@
   </form>
 
   <script>
-    const logs = [
-      "Matilda: Initializing core protocol...",
-      "Effie: Archived 7 system files.",
-      "Cade: Deployed script successfully.",
-      "Matilda: Updating task map for STRYXX-1.",
-      "Effie: UI layers reorganized.",
-      "Cade: Monitoring live agent logs...",
-      "Matilda: Buffer stable. Holding state.",
-    ];
+    const input = document.getElementById("input");
+    const messages = document.getElementById("messages");
 
-    const logEl = document.getElementById("log");
-    let currentIndex = 0;
-
-    function updateLog() {
-      logEl.textContent = logs[currentIndex];
-      logEl.classList.remove("ticker-text"); // restart animation
-      void logEl.offsetWidth;
-      logEl.classList.add("ticker-text");
-
-      currentIndex = (currentIndex + 1) % logs.length;
+    function isCommand(text) {
+      return /(run|execute|start|effie|cade)\b/i.test(text);
     }
-
-    updateLog();
-    setInterval(updateLog, 4000);
 
     function handleSubmit(event) {
       event.preventDefault();
-      const input = document.getElementById("input");
       const userText = input.value.trim();
       if (!userText) return;
-
-      const messages = document.getElementById("messages");
 
       const userMsg = document.createElement("div");
       userMsg.className = "message user-message";
@@ -197,9 +146,14 @@
 
       const botMsg = document.createElement("div");
       botMsg.className = "message bot-message";
-      botMsg.textContent = "Matilda received: “" + userText + "”";
-      messages.appendChild(botMsg);
 
+      if (isCommand(userText)) {
+        botMsg.textContent = "Matilda: I’ve passed that to the right agent 💾";
+      } else {
+        botMsg.textContent = "Matilda: Of course, sweetheart. What else is on your mind?";
+      }
+
+      messages.appendChild(botMsg);
       input.value = "";
       messages.scrollTop = messages.scrollHeight;
     }
