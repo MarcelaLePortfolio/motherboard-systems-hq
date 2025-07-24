@@ -1,4 +1,4 @@
-<!-- updated HTML and JS with improved greeting detection -->
+<!-- update greeting logic to avoid overlap with 'how are you' -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -109,21 +109,21 @@
 
     function getMatildaResponse(input) {
       const text = input.toLowerCase();
+
+      if (text.includes("how are you")) return "Recharged and radiant. How about you?";
+
       const greetings = ["hi", "hello", "hey", "yo", "heyyy", "hiya", "howdy", "greetings"];
-      const enthusiastic = ["!", "!!", "hey girl", "heyyy", "yo", ":)", ":D", "💕", "💖"];
+      const enthusiastic = ["!", "!!", "hey girl", "heyyy", "yo", ":)", ":d", "💕", "💖"];
 
       const matchedGreeting = greetings.find(g => text.includes(g));
       const highEnergy = enthusiastic.some(e => text.includes(e));
 
       if (matchedGreeting) {
-        if (highEnergy) {
-          return "Hey gorgeous! ✨ What’s the vibe today?";
-        } else {
-          return "Hello darling. 💁‍♀️";
-        }
+        return highEnergy
+          ? "Hey gorgeous! ✨ What’s the vibe today?"
+          : "Hello darling. 💁‍♀️";
       }
 
-      if (text.includes("how are you")) return "Recharged and radiant. How about you?";
       if (text.includes("help")) return "Want to dive into something? I'm ready when you are.";
 
       return "Let’s figure this out together, hmm?";
