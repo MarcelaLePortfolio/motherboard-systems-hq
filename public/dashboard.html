@@ -198,8 +198,10 @@
       if (text.includes("how are you")) return "Recharged and radiant. How about you?";
       if (text.includes("help")) return "Want to dive into something? I'm ready when you are.";
       if (text.includes("figure")) return "Let’s untangle it together — I’ve got time and circuits.";
-
-      return "Let’s figure this out together, hmm?";
+      if (text.includes("vibe") || text.includes("magical")) return "✨ Sounds divine! Let’s make magic.";
+      if (text.includes("lol") || text.includes("lmao") || text.includes("haha")) return "�� You’re hilarious. What’s next?";
+      
+      return "Tell me more, I’m listening with all circuits.";
     }
   </script>
 </body>
