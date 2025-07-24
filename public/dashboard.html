@@ -1,205 +1,239 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Motherboard Dash UI</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Inter', sans-serif;
-      background: #f9f9f9;
-      color: #111;
-    }
-    .dashboard-wrapper {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 24px;
-    }
-    .command-console {
-      font-weight: bold;
-      margin-bottom: 12px;
-    }
-    .agent-status-row {
-      display: flex;
-      gap: 24px;
-      margin-bottom: 12px;
-    }
-    .agent-status {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-weight: 500;
-    }
-    .ops-stream {
-      height: 24px;
-      font-size: 14px;
-      margin-bottom: 16px;
-      color: #333;
-    }
-    .chat-section {
-      border-bottom: 1px solid #eee;
-      padding-bottom: 24px;
-      margin-bottom: 24px;
-    }
-    .chat-messages {
-      background: #fff;
-      border: 1px solid #ccc;
-      height: 200px;
-      overflow-y: auto;
-      padding: 12px;
-      margin-bottom: 12px;
-      border-radius: 6px;
-    }
-    .message {
-      padding: 6px 10px;
-      margin-bottom: 8px;
-      max-width: 80%;
-      border-radius: 8px;
-      font-size: 14px;
-    }
-    .user-message {
-      background: #d0ebff;
-      align-self: flex-end;
-      margin-left: auto;
-    }
-    .bot-message {
-      background: #e6e6e6;
-      align-self: flex-start;
-    }
-    .chat-input {
-      display: flex;
-      gap: 8px;
-    }
-    .chat-input input {
-      flex: 1;
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-    }
-    .chat-input button {
-      padding: 8px 16px;
-      background: #3a86ff;
-      border: none;
-      border-radius: 6px;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    .tabs {
-      display: flex;
-      gap: 0;
-    }
-    .tab {
-      flex: 1;
-      text-align: center;
-      padding: 12px;
-      border: 1px solid #ddd;
-      border-right: none;
-      font-weight: bold;
-      background: #f2f2f2;
-      cursor: pointer;
-    }
-    .tab:last-child {
-      border-right: 1px solid #ddd;
-    }
-    .tab-content {
-      padding: 24px;
-    }
-    .log-ticker-item {
-      animation: slideUpContinuous 4s ease-in-out infinite;
-      white-space: nowrap;
-    }
-    @keyframes slideUpContinuous {
-      0% {
-        transform: translateY(100%);
-        opacity: 0;
+  <head>
+    <meta charset="UTF-8" />
+    <title>Motherboard Dash</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: 'Inter', sans-serif;
+        background: #f9f9f9;
+        color: #111;
+        display: flex;
+        justify-content: center;
       }
-      10% {
-        transform: translateY(0%);
-        opacity: 1;
+
+      .dashboard-wrapper {
+        width: 100%;
+        max-width: 960px;
+        padding: 24px;
       }
-      90% {
-        transform: translateY(0%);
-        opacity: 1;
+
+      .command-console {
+        font-weight: bold;
+        margin-bottom: 16px;
+        font-size: 16px;
       }
-      100% {
-        transform: translateY(-100%);
-        opacity: 0;
+
+      .agent-status,
+      .ops-stream,
+      .log-ticker {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 12px;
       }
-    }
-  </style>
-</head>
-<body>
-  <div class="dashboard-wrapper">
-    <h2>Motherboard Dash</h2>
-    <div class="command-console">Command Console</div>
-    <div class="agent-status-row">
-      <div class="agent-status">🧠 Matilda <span style="color:green;">●</span></div>
-      <div class="agent-status">🛠️ Cade <span style="color:green;">●</span></div>
-      <div class="agent-status">🖥️ Effie <span style="color:green;">●</span></div>
-    </div>
-    <div class="ops-stream">
-      <span id="log" class="log-ticker-item"></span>
-    </div>
-    <div class="chat-section">
-      <div class="chat-messages" id="messages"></div>
-      <div class="chat-input">
-        <input type="text" id="chat-input" placeholder="Type a command..." />
-        <button onclick="sendMessage()">Send</button>
+
+      .agent-status > div {
+        margin: 0 16px;
+        font-weight: 500;
+      }
+
+      .log-ticker {
+        height: 24px;
+        color: #444;
+        font-size: 14px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .log-ticker-item {
+        position: absolute;
+        width: 100%;
+        text-align: center;
+        animation: slideUpContinuous 4s ease-in-out infinite;
+      }
+
+      @keyframes slideUpContinuous {
+        0% {
+          transform: translateY(100%);
+          opacity: 0;
+        }
+        10% {
+          transform: translateY(0);
+          opacity: 1;
+        }
+        90% {
+          transform: translateY(0);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-100%);
+          opacity: 0;
+        }
+      }
+
+      .chat-section {
+        border: 1px solid #ccc;
+        background: white;
+        border-radius: 6px;
+        padding: 12px;
+        margin-bottom: 16px;
+      }
+
+      .chat-messages {
+        height: 200px;
+        overflow-y: auto;
+        margin-bottom: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .message {
+        padding: 8px 12px;
+        border-radius: 12px;
+        max-width: 70%;
+        word-wrap: break-word;
+      }
+
+      .user-message {
+        background-color: #e0f3ff;
+        align-self: flex-end;
+      }
+
+      .bot-message {
+        background-color: #f1f1f1;
+        align-self: flex-start;
+      }
+
+      .chat-input-row {
+        display: flex;
+        gap: 8px;
+      }
+
+      input[type="text"] {
+        flex: 1;
+        padding: 8px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+      }
+
+      button {
+        padding: 8px 16px;
+        background: #3b82f6;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      .tabs {
+        display: flex;
+        border-top: 1px solid #eee;
+        margin-top: 16px;
+      }
+
+      .tab {
+        flex: 1;
+        text-align: center;
+        padding: 12px 0;
+        font-weight: 600;
+        background: #f7f7f7;
+        border-right: 1px solid #ddd;
+      }
+
+      .tab:last-child {
+        border-right: none;
+      }
+
+      .tab-content {
+        padding: 16px;
+        background: white;
+        border: 1px solid #eee;
+        border-top: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="dashboard-wrapper">
+      <div class="command-console">Command Console</div>
+
+      <div class="agent-status">
+        <div>🧠 Matilda <span style="color: green;">●</span></div>
+        <div>🛠 Cade <span style="color: green;">●</span></div>
+        <div>🧊 Effie <span style="color: green;">●</span></div>
+      </div>
+
+      <div class="ops-stream">
+        <div class="log-ticker">
+          <span id="log" class="log-ticker-item">[Loading...]</span>
+        </div>
+      </div>
+
+      <div class="chat-section">
+        <div id="messages" class="chat-messages"></div>
+        <div class="chat-input-row">
+          <input type="text" id="commandInput" placeholder="Type a command..." />
+          <button onclick="sendMessage()">Send</button>
+        </div>
+      </div>
+
+      <div class="tabs">
+        <div class="tab">Project Tracker</div>
+        <div class="tab">Tasks</div>
+        <div class="tab">Settings</div>
+      </div>
+
+      <div class="tab-content">
+        [Tab content placeholder]
       </div>
     </div>
-    <div class="tabs">
-      <div class="tab">Project Tracker</div>
-      <div class="tab">Tasks</div>
-      <div class="tab">Settings</div>
-    </div>
-    <div class="tab-content">
-      [Tab content placeholder]
-    </div>
-  </div>
 
-  <script>
-    const logs = [
-      "Matilda: Initializing core protocol...",
-      "Effie: Archived 7 system files.",
-      "Cade: Deployed script successfully.",
-      "Matilda: Updating task map for STRYXX-1.",
-      "Effie: UI layers reorganized.",
-      "Cade: Monitoring live agent logs...",
-      "Matilda: Buffer stable. Holding state.",
-    ];
-    const logEl = document.getElementById('log');
-    let currentIndex = 0;
+    <script>
+      const logs = [
+        "Matilda: Initializing core protocol...",
+        "Effie: Archived 7 system files.",
+        "Cade: Deployed script successfully.",
+        "Matilda: Updating task map for STRYXX-1.",
+        "Effie: UI layers reorganized.",
+        "Cade: Monitoring live agent logs...",
+        "Matilda: Buffer stable. Holding state.",
+      ];
 
-    function updateLog() {
-      logEl.textContent = logs[currentIndex];
-      logEl.classList.remove('log-ticker-item'); // Restart animation
-      void logEl.offsetWidth; // Force reflow
-      logEl.classList.add('log-ticker-item');
-      currentIndex = (currentIndex + 1) % logs.length;
-    }
-    updateLog();
-    setInterval(updateLog, 4000);
+      const logEl = document.getElementById("log");
+      let currentIndex = 0;
 
-    function sendMessage() {
-      const input = document.getElementById("chat-input");
-      const userText = input.value.trim();
-      if (!userText) return;
-      const messages = document.getElementById("messages");
+      function updateLog() {
+        logEl.textContent = logs[currentIndex];
+        logEl.classList.remove("log-ticker-item");
+        void logEl.offsetWidth;
+        logEl.classList.add("log-ticker-item");
+        currentIndex = (currentIndex + 1) % logs.length;
+      }
 
-      const userMsg = document.createElement('div');
-      userMsg.className = 'message user-message';
-      userMsg.textContent = userText;
-      messages.appendChild(userMsg);
+      updateLog();
+      setInterval(updateLog, 4000);
 
-      const botMsg = document.createElement('div');
-      botMsg.className = 'message bot-message';
-      botMsg.textContent = "Matilda received: “" + userText + "”";
-      messages.appendChild(botMsg);
+      function sendMessage() {
+        const input = document.getElementById("commandInput");
+        const messages = document.getElementById("messages");
+        const userText = input.value.trim();
+        if (!userText) return;
 
-      input.value = '';
-      messages.scrollTop = messages.scrollHeight;
-    }
-  </script>
-</body>
+        const userMsg = document.createElement("div");
+        userMsg.className = "message user-message";
+        userMsg.textContent = userText;
+        messages.appendChild(userMsg);
+
+        const botMsg = document.createElement("div");
+        botMsg.className = "message bot-message";
+        botMsg.textContent = "Matilda received: “" + userText + "”";
+        messages.appendChild(botMsg);
+
+        input.value = "";
+        messages.scrollTop = messages.scrollHeight;
+      }
+    </script>
+  </body>
 </html>
