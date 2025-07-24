@@ -102,6 +102,37 @@
     .chat-section {
       padding: 24px;
       border-bottom: 1px solid #eee;
+    }
+
+    .chat-messages {
+      max-height: 200px;
+      overflow-y: auto;
+      margin-bottom: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .message {
+      max-width: 70%;
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 14px;
+    }
+
+    .user-message {
+      align-self: flex-end;
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .bot-message {
+      align-self: flex-start;
+      background: #f0f0f0;
+      color: #111;
+    }
+
+    .chat-form {
       display: flex;
       gap: 12px;
     }
@@ -175,8 +206,13 @@
     </div>
 
     <div class="chat-section">
-      <input class="chat-input" placeholder="Type a command..." />
-      <button class="chat-send">Send</button>
+      <div class="chat-messages" id="chat-messages">
+        <!-- Messages will appear here -->
+      </div>
+      <form class="chat-form" onsubmit="sendMessage(event)">
+        <input class="chat-input" id="chat-input" placeholder="Type a command..." />
+        <button class="chat-send" type="submit">Send</button>
+      </form>
     </div>
 
     <div class="tabs">
@@ -206,15 +242,35 @@
 
     function updateLog() {
       logEl.textContent = logs[currentIndex];
-      logEl.classList.remove('log-ticker-item'); // Restart animation
-      void logEl.offsetWidth; // Force reflow
+      logEl.classList.remove('log-ticker-item');
+      void logEl.offsetWidth;
       logEl.classList.add('log-ticker-item');
-
       currentIndex = (currentIndex + 1) % logs.length;
     }
 
     updateLog();
     setInterval(updateLog, 4000);
+
+    function sendMessage(event) {
+      event.preventDefault();
+      const input = document.getElementById('chat-input');
+      const messages = document.getElementById('chat-messages');
+      const userText = input.value.trim();
+      if (!userText) return;
+
+      const userMsg = document.createElement('div');
+      userMsg.className = 'message user-message';
+      userMsg.textContent = userText;
+      messages.appendChild(userMsg);
+
+      const botMsg = document.createElement('div');
+      botMsg.className = 'message bot-message';
+      botMsg.textContent = "Matilda received: “" + userText + "”";
+      messages.appendChild(botMsg);
+
+      input.value = '';
+      messages.scrollTop = messages.scrollHeight;
+    }
   </script>
 
 </body>
