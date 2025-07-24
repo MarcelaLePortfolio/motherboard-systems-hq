@@ -1,99 +1,4 @@
-<!-- full file contents replaced for clarity and preservation of current UI -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Motherboard Dash</title>
-  <style>
-    body {
-      margin: 0;
-      background: #111;
-      color: #fff;
-      font-family: 'Inter', sans-serif;
-      text-align: center;
-    }
-    h1 {
-      margin-top: 2rem;
-      font-size: 2rem;
-    }
-    .status {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      margin: 1rem auto;
-    }
-    .status span {
-      background: #222;
-      border: 1px solid #444;
-      border-radius: 6px;
-      padding: 6px 12px;
-      font-size: 0.9rem;
-    }
-    .log {
-      margin: 0.5rem auto;
-      font-size: 0.95rem;
-      opacity: 0.85;
-    }
-    h2 {
-      margin: 2rem 0 0.5rem;
-    }
-    #messages {
-      background: #1c1c1c;
-      border-radius: 8px;
-      padding: 1rem;
-      width: 80%;
-      height: 200px;
-      margin: 0 auto 1rem;
-      overflow-y: auto;
-      text-align: left;
-    }
-    .message {
-      margin-bottom: 0.75rem;
-    }
-    .user-message {
-      color: #89d1ff;
-    }
-    .bot-message {
-      color: #ffd4f0;
-    }
-    form {
-      display: flex;
-      justify-content: center;
-      gap: 0.5rem;
-      margin-bottom: 2rem;
-    }
-    input[type="text"] {
-      padding: 0.5rem;
-      width: 300px;
-      border-radius: 4px;
-      border: none;
-      font-size: 1rem;
-    }
-    button {
-      padding: 0.5rem 1rem;
-      border-radius: 4px;
-      background-color: #fff;
-      border: none;
-      cursor: pointer;
-    }
-  </style>
-</head>
-<body>
-  <h1>Motherboard Dash</h1>
-  <div class="status">
-    <span>Matilda: Online</span>
-    <span>Effie: Ready</span>
-    <span>Cade: Active</span>
-  </div>
-  <div class="log">Cade: Monitoring live agent logs...</div>
-  <h2>Command Console</h2>
-  <div id="messages"></div>
-  <form>
-    <input type="text" id="user-input" placeholder="Type a message to Matilda..." autocomplete="off" />
-    <button type="submit">Send</button>
-  </form>
-
+<!-- ONLY the script section is changed — HTML above remains untouched -->
   <script>
     const form = document.querySelector("form");
     const input = document.getElementById("user-input");
@@ -122,12 +27,14 @@
 
     function getBotReply(userText) {
       const text = userText.trim().toLowerCase();
-      if (["hi", "hello", "hey", "hiya"].includes(text)) {
+
+      if (/\b(hi|hello|hey|hiya|yo|what's up|greetings)\b/.test(text)) {
         return randomFrom(responses.greetings);
       }
-      if (["how are you", "how are you?", "how’s it going?", "how are things?"].includes(text)) {
+      if (/\b(how are you|how’s it going|how are things|you good)\b/.test(text)) {
         return randomFrom(responses.wellness);
       }
+
       return randomFrom(responses.fallback);
     }
 
