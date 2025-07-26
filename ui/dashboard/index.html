@@ -4,20 +4,37 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Motherboard Dash</title>
-  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
   <div class="dashboard-wrapper">
     <h1>Executive Agent Status</h1>
     <div class="agent-status">
-      <div class="agent">🧠 Matilda <span class="status-dot"></span></div>
-      <div class="agent">🛠️ Cade <span class="status-dot"></span></div>
-      <div class="agent">🖥 Effie <span class="status-dot"></span></div>
+      <div class="agent">🧠 Matilda <span class="status-dot" id="matilda-indicator"></span></div>
+      <div class="agent">🛠️ Cade <span class="status-dot" id="cade-indicator"></span></div>
+      <div class="agent">🖥 Effie <span class="status-dot" id="effie-indicator"></span></div>
     </div>
   </div>
   <script>
-    console.log("✅ inline test – JS is running");
+    console.log("✅ inline script running");
+
+    async function fetchAgentStatus() {
+      console.log("🔄 Fetching agent status...");
+      try {
+        const res = await fetch("/agent-status.json");
+        const data = await res.json();
+        console.log("📡 Agent status data:", data);
+
+        document.getElementById("matilda-indicator").style.backgroundColor = data.matilda === "online" ? "green" : "red";
+        document.getElementById("cade-indicator").style.backgroundColor = data.cade === "online" ? "green" : "red";
+        document.getElementById("effie-indicator").style.backgroundColor = data.effie === "online" ? "green" : "red";
+      } catch (err) {
+        console.error("❌ Error fetching agent status:", err);
+      }
+    }
+
+    fetchAgentStatus();
+    setInterval(fetchAgentStatus, 5000);
   </script>
-  <script src="/dash.js"></script>
 </body>
 </html>
