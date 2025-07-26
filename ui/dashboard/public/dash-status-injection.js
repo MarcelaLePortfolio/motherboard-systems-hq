@@ -1,20 +1,12 @@
-// ✅ Fallback Agent Dot Injection via Name Match
-const agentStatusMap = {
-  matilda: { label: "Running", color: "green" },
-  cade: { label: "Error", color: "red" },
-  effie: { label: "Stopped", color: "gray" },
-};
-
-document.querySelectorAll(".agent").forEach(agentDiv => {
-  const labelText = agentDiv.textContent.toLowerCase();
-  for (const [name, { label, color }] of Object.entries(agentStatusMap)) {
-    if (labelText.includes(name)) {
-      const dot = agentDiv.querySelector("span");
-      if (dot) {
-        dot.style.backgroundColor = color;
-        agentDiv.title = label;
-        console.log(`✅ ${name} dot painted ${color}`);
+fetch('agent-status.json')
+  .then(res => res.json())
+  .then(statuses => {
+    Object.entries(statuses).forEach(([agent, state]) => {
+      const el = document.getElementById(`status-${agent}`);
+      if (el) {
+        el.style.color = state === "online" ? "limegreen" : "gray";
+        el.textContent = state;
       }
-    }
-  }
-});
+    });
+  })
+  .catch(err => console.error("Failed to load agent statuses", err));
