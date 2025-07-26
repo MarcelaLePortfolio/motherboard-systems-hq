@@ -1,8 +1,12 @@
 import express from "express";
 import path from "path";
+import { fileURLToPath } from "url";
 
 const app = express();
 const port = 3000;
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const dashboardPath = path.join(__dirname, "../../ui/dashboard");
 app.use("/ui/dashboard", express.static(dashboardPath));
@@ -12,5 +16,5 @@ app.get("/", (_, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`🟢 Server live at http://localhost:${port}/ui/dashboard/`);
+  console.log(`<0001f7e2> Server live at http://localhost:${port}/ui/dashboard/`);
 });
