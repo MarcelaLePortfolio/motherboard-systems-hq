@@ -1,0 +1,6 @@
+<0072matilda.an> [devlog:cade] ✅ Ops Stream UI scaffolded.
+- “BTS Activity” renamed to “Ops Stream”
+- Live ticker bar added for active task reporting
+- Full archive link to agent logs
+
+📌 Lightweight operations tracker visible in main dashboard.

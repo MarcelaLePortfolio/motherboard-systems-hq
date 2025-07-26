@@ -1,0 +1,6 @@
+{"task_id":"T001","affect":"neutral","rapport_delta":1}
+{"task_id":"T002","affect":"frustrated","rapport_delta":-1}
+{"task_id":"T003","affect":"distress","rapport_delta":-1}
+{"task_id":"T003","meltdown_confirmed":true,"context":"I don’t even want to be here anymore."}
+{"task_id":"T004","affect":"neutral","rapport_delta":-1}
+{"task_id":"T005","affect":"anxious","rapport_delta":-1}

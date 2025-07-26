@@ -1,0 +1,13 @@
+Motherboard Systems – Attribution and Compliance Statement
+
+The Motherboard Systems project, including all constituent AI agents (such as the Strategic Assistant, Backend Automation Agent, and Desktop Operator), is an independently developed AI framework constructed by the team at Motherboard Systems. It operates via a custom local runtime with no embedded models, hosted inference, or external services from OpenAI.
+
+This system architecture—including its cognitive scaffolds, memory logic, agent behaviors, and runtime operations—is entirely self-hosted and deployed without the use of OpenAI API keys or model access.
+
+Throughout the development process, OpenAI’s ChatGPT was consulted as a creative assistant, ideation partner, and technical advisor. However, no ChatGPT outputs are redistributed, and the production runtime is completely independent of OpenAI infrastructure.
+
+Motherboard Systems does not impersonate or claim affiliation with OpenAI or any of its offerings. It is a private system intended for internal use and optional licensed distribution under user-defined terms.
+
+This development adheres to OpenAI’s Terms of Use with regard to attribution, export control, API key security, and platform representation.
+
+— Motherboard Systems
