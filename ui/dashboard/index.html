@@ -1,77 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Executive Agent Dashboard</title>
-  <style>
-    body {
-      font-family: system-ui, sans-serif;
-      margin: 2rem;
-      background: #111;
-      color: #eee;
-    }
-    h1 {
-      margin-bottom: 1rem;
-      font-size: 1.6rem;
-    }
-    .agent {
-      margin: 0.5rem 0;
-      font-size: 1.1rem;
-    }
-    .agent span {
-      display: inline-block;
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      margin-right: 0.6rem;
-      background-color: gray;
-    }
-  </style>
-</head>
-<body>
-  <h1>Executive Agent Status</h1>
-  <div class="agent"><span></span> 🧠 Matilda</div>
-  <div class="agent"><span></span> 🛠️ Cade</div>
-  <div class="agent"><span></span> 🖥 Effie</div>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Executive Agent Dashboard</title>
+    <link rel="stylesheet" href="./public/dash.css" />
+    <script src="./public/dash.js" defer></script>
+  </head>
+  <body>
+    <main>
+      <div class="ops-stream">
+        <marquee behavior="scroll" direction="left" scrollamount="6">
+          🧠 Matilda: Sync complete · 🛠 Cade: Watching backup state · 🖥 Effie: Project tracker loaded
+        </marquee>
+      </div>
 
-  <script>
-    // 🛠️ DEBUG AGENT STATUS FETCH + DOM MATCH
-    fetch("./agent-status.json")
-      .then((res) => res.json())
-      .then((statusMap) => {
-        console.log("📦 Loaded agent-status.json:", statusMap);
+      <div class="agent-status">
+        <div class="agent"><span></span> 🧠 Matilda</div>
+        <div class="agent"><span></span> 🛠️ Cade</div>
+        <div class="agent"><span></span> 🖥 Effie</div>
+      </div>
 
-        const agentColorMap = {
-          online: "green",
-          stopped: "gray",
-          errored: "red",
-          unknown: "goldenrod"
-        };
+      <div class="command-input">
+        <input type="text" placeholder="Enter command..." />
+      </div>
 
-        const agents = {
-          matilda: "🧠 Matilda",
-          cade: "🛠️ Cade",
-          effie: "🖥 Effie"
-        };
-
-        document.querySelectorAll(".agent").forEach((el, i) => {
-          const label = el.textContent.trim();
-          for (const [key, expectedLabel] of Object.entries(agents)) {
-            if (label.includes(expectedLabel)) {
-              const span = el.querySelector("span");
-              const status = statusMap[key] || "unknown";
-              const color = agentColorMap[status] || "goldenrod";
-              if (span) {
-                span.style.backgroundColor = color;
-                el.title = `${expectedLabel} – ${status}`;
-              }
-            }
-          }
-        });
-      })
-      .catch((err) => {
-        console.error("❌ Failed to fetch or paint agent statuses:", err);
-      });
-  </script>
-</body>
+      <div class="project-tracker">
+        <h2>Active Projects</h2>
+        <ul>
+          <li>Marketing Mother’s Helper · v1.3.0-beta</li>
+          <li>Motherboard Systems HQ · Agent sync test</li>
+        </ul>
+      </div>
+    </main>
+  </body>
 </html>
