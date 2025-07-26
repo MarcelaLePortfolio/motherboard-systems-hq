@@ -1,37 +1,43 @@
-// dash.js – includes basic command submission wiring
-
 document.addEventListener("DOMContentLoaded", () => {
-  const input = document.getElementById("commandInput");
+  fetch("./agent-status.json")
+    .then((res) => res.json())
+    .then((statusMap) => {
+      console.log("📦 Loaded agent-status.json:", statusMap);
 
-  input.addEventListener("keydown", async (event) => {
-    if (event.key === "Enter") {
-      const value = input.value.trim();
+      const agentColorMap = {
+        online: "green",
+        stopped: "gray",
+        errored: "red",
+        unknown: "goldenrod"
+      };
 
-      // Simple command detection: must start with known patterns
-      const isCommand = /^(matilda:|cade:|effie:|run |cd |open |\/|\>)/i.test(value);
+      const agents = {
+        matilda: "🧠 Matilda",
+        cade: "🛠️ Cade",
+        effie: "🖥 Effie"
+      };
 
-      if (isCommand) {
-        await submitCommand(value);
-        input.value = "";
-      }
-    }
-  });
-});
+      document.querySelectorAll(".agent").forEach((el, i) => {
+        const label = el.textContent.trim();
+        console.log(`🔍 Agent[${i}]:`, label);
 
-async function submitCommand(command) {
-  try {
-    const res = await fetch("/api/command", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ command }),
+        for (const [key, expectedLabel] of Object.entries(agents)) {
+          if (label.includes(expectedLabel)) {
+            const span = el.querySelector("span");
+            const status = statusMap[key] || "unknown";
+            const color = agentColorMap[status] || "goldenrod";
+            if (span) {
+              span.style.backgroundColor = color;
+              el.title = `${expectedLabel} – ${status}`;
+              console.log(`✅ ${expectedLabel} → ${status} → ${color}`);
+            } else {
+              console.warn(`⚠️ No span found for ${expectedLabel}`);
+            }
+          }
+        }
+      });
+    })
+    .catch((err) => {
+      console.error("❌ Failed to fetch or paint agent statuses:", err);
     });
-
-    if (!res.ok) {
-      console.error("Command failed:", await res.text());
-    } else {
-      console.log("Command submitted:", command);
-    }
-  } catch (err) {
-    console.error("Command error:", err);
-  }
-}
+});
