@@ -1,29 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
   <title>Executive Agent Dashboard</title>
   <style>
     body {
       font-family: system-ui, sans-serif;
-      padding: 2rem;
+      margin: 2rem;
       background: #111;
       color: #eee;
     }
     h1 {
       margin-bottom: 1rem;
-      font-size: 1.5rem;
+      font-size: 1.6rem;
     }
     .agent {
       margin: 0.5rem 0;
+      font-size: 1.1rem;
     }
     .agent span {
       display: inline-block;
-      width: 10px;
-      height: 10px;
+      width: 12px;
+      height: 12px;
       border-radius: 50%;
-      margin-right: 0.5rem;
+      margin-right: 0.6rem;
       background-color: gray;
     }
   </style>
@@ -34,6 +34,44 @@
   <div class="agent"><span></span> 🛠️ Cade</div>
   <div class="agent"><span></span> 🖥 Effie</div>
 
-  <script src="./dash.js"></script>
+  <script>
+    // 🛠️ DEBUG AGENT STATUS FETCH + DOM MATCH
+    fetch("./agent-status.json")
+      .then((res) => res.json())
+      .then((statusMap) => {
+        console.log("📦 Loaded agent-status.json:", statusMap);
+
+        const agentColorMap = {
+          online: "green",
+          stopped: "gray",
+          errored: "red",
+          unknown: "goldenrod"
+        };
+
+        const agents = {
+          matilda: "🧠 Matilda",
+          cade: "🛠️ Cade",
+          effie: "🖥 Effie"
+        };
+
+        document.querySelectorAll(".agent").forEach((el, i) => {
+          const label = el.textContent.trim();
+          for (const [key, expectedLabel] of Object.entries(agents)) {
+            if (label.includes(expectedLabel)) {
+              const span = el.querySelector("span");
+              const status = statusMap[key] || "unknown";
+              const color = agentColorMap[status] || "goldenrod";
+              if (span) {
+                span.style.backgroundColor = color;
+                el.title = `${expectedLabel} – ${status}`;
+              }
+            }
+          }
+        });
+      })
+      .catch((err) => {
+        console.error("❌ Failed to fetch or paint agent statuses:", err);
+      });
+  </script>
 </body>
 </html>
