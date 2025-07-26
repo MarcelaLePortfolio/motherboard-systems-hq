@@ -2,34 +2,19 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Executive Agent Dashboard</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      background: #111;
-      color: #eee;
-      padding: 2rem;
-    }
-    .agent {
-      margin-bottom: 1rem;
-      font-size: 1.2rem;
-    }
-    .status-dot {
-      display: inline-block;
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      margin-left: 0.5rem;
-      background-color: gray;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Motherboard Dash</title>
+  <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
-  <h1>Executive Agent Status</h1>
-  <div class="agent">🧠 Matilda <span class="status-dot"></span></div>
-  <div class="agent">🛠️ Cade <span class="status-dot"></span></div>
-  <div class="agent">🖥 Effie <span class="status-dot"></span></div>
-
+  <div class="dashboard-wrapper">
+    <h1>Executive Agent Status</h1>
+    <div class="agent-status">
+      <div class="agent">🧠 Matilda <span class="status-dot"></span></div>
+      <div class="agent">🛠️ Cade <span class="status-dot"></span></div>
+      <div class="agent">🖥 Effie <span class="status-dot"></span></div>
+    </div>
+  </div>
   <script src="./dash.js"></script>
 </body>
 </html>
