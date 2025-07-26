@@ -10,11 +10,14 @@ const __dirname = path.dirname(__filename);
 
 const dashboardPath = path.join(__dirname, "../../ui/dashboard");
 app.use("/ui/dashboard", express.static(dashboardPath));
+app.use("/styles.css", express.static(path.join(dashboardPath, "styles.css")));
+app.use("/dash.js", express.static(path.join(dashboardPath, "dash.js")));
+app.use("/agent-status.json", express.static(path.join(dashboardPath, "agent-status.json")));
 
 app.get("/", (_, res) => {
-  res.send(`<h1>✅ Dev server running.</h1><p>Go to <a href="/ui/dashboard/">/ui/dashboard/</a></p>`);
+  res.sendFile(path.join(dashboardPath, "index.html"));
 });
 
 app.listen(port, () => {
-  console.log(`<0001f7e2> Server live at http://localhost:${port}/ui/dashboard/`);
+  console.log(`<0001f9fd> Server live at http://localhost:${port}/`);
 });
