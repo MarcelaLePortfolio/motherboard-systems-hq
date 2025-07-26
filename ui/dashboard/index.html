@@ -1,30 +1,16 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Agent Status Dashboard</title>
-    <style>
-      body {
-        font-family: sans-serif;
-        background: #111;
-        color: white;
-        padding: 2rem;
-      }
-      .agent {
-        margin-bottom: 1rem;
-      }
-      .status {
-        font-weight: bold;
-        margin-left: 1rem;
-        color: gray;
-      }
-    </style>
-  </head>
-  <body>
-    <h1>Executive Agent Status</h1>
-    <div class="agent">🧠 Matilda – <span class="status" id="status-matilda">unknown</span></div>
-    <div class="agent">🛠️ Cade – <span class="status" id="status-cade">unknown</span></div>
-    <div class="agent">🖱 Effie – <span class="status" id="status-effie">unknown</span></div>
-    <script src="dash-status-injection.js"></script>
-  </body>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Executive Agent Status</title>
+  <script src="public/dash-status-injection.js" defer></script>
+</head>
+<body>
+  <h1>Executive Agent Status</h1>
+  <div id="agent-status">
+    <p>🧠 Matilda – <span id="matilda-status">loading...</span></p>
+    <p>🛠️ Cade – <span id="cade-status">loading...</span></p>
+    <p>🖱 Effie – <span id="effie-status">loading...</span></p>
+  </div>
+</body>
 </html>
