@@ -1,36 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Executive Agent Dashboard</title>
-    <link rel="stylesheet" href="./public/dash.css" />
-    <script src="./public/dash.js" defer></script>
-  </head>
-  <body>
-    <main>
-      <div class="ops-stream">
-        <marquee behavior="scroll" direction="left" scrollamount="6">
-          🧠 Matilda: Sync complete · 🛠 Cade: Watching backup state · 🖥 Effie: Project tracker loaded
-        </marquee>
-      </div>
+<head>
+  <meta charset="UTF-8" />
+  <title>Executive Agent Dashboard</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #111;
+      color: #eee;
+      padding: 2rem;
+    }
+    .agent {
+      margin-bottom: 1rem;
+      font-size: 1.2rem;
+    }
+    .status-dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-left: 0.5rem;
+      background-color: gray;
+    }
+  </style>
+</head>
+<body>
+  <h1>Executive Agent Status</h1>
+  <div class="agent">🧠 Matilda <span class="status-dot"></span></div>
+  <div class="agent">🛠️ Cade <span class="status-dot"></span></div>
+  <div class="agent">🖥 Effie <span class="status-dot"></span></div>
 
-      <div class="agent-status">
-        <div class="agent"><span></span> 🧠 Matilda</div>
-        <div class="agent"><span></span> 🛠️ Cade</div>
-        <div class="agent"><span></span> 🖥 Effie</div>
-      </div>
-
-      <div class="command-input">
-        <input type="text" placeholder="Enter command..." />
-      </div>
-
-      <div class="project-tracker">
-        <h2>Active Projects</h2>
-        <ul>
-          <li>Marketing Mother’s Helper · v1.3.0-beta</li>
-          <li>Motherboard Systems HQ · Agent sync test</li>
-        </ul>
-      </div>
-    </main>
-  </body>
+  <script src="./dash.js"></script>
+</body>
 </html>
