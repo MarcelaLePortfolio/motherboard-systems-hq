@@ -1,5 +1,8 @@
-fetch('agent-status.json')
-  .then(res => res.json())
+fetch('./agent-status.json')
+  .then(res => {
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return res.json();
+  })
   .then(statuses => {
     Object.entries(statuses).forEach(([agent, state]) => {
       const el = document.getElementById(`status-${agent}`);
@@ -9,4 +12,7 @@ fetch('agent-status.json')
       }
     });
   })
-  .catch(err => console.error("Failed to load agent statuses", err));
+  .catch(err => {
+    console.error("Failed to load agent statuses", err);
+    document.body.insertAdjacentHTML('beforeend', `<p style="color: red;">⚠️ Could not load agent-status.json</p>`);
+  });
