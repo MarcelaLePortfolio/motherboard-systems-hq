@@ -2,15 +2,37 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Executive Agent Status</title>
-  <script src="public/dash-status-injection.js" defer></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Executive Agent Dashboard</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      padding: 2rem;
+      background: #111;
+      color: #eee;
+    }
+    h1 {
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+    }
+    .agent {
+      margin: 0.5rem 0;
+    }
+    .agent span {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 0.5rem;
+    }
+  </style>
 </head>
 <body>
   <h1>Executive Agent Status</h1>
-  <div id="agent-status">
-    <p>🧠 Matilda – <span id="matilda-status">loading...</span></p>
-    <p>🛠️ Cade – <span id="cade-status">loading...</span></p>
-    <p>🖱 Effie – <span id="effie-status">loading...</span></p>
-  </div>
+  <div class="agent"><span></span> 🧠 Matilda</div>
+  <div class="agent"><span></span> 🛠️ Cade</div>
+  <div class="agent"><span></span> 🖥 Effie</div>
+
+  <script src="./dash.js"></script>
 </body>
 </html>
