@@ -1,15 +1,25 @@
-import { execSync } from "child_process";
-import http from "http";
+/**
+ * Dev server with strict agent status:
+ * ✅ Shows green ONLY if PM2 online + HTTP heartbeat responds
+ */
 import { createServer } from "http";
+import { execSync } from "child_process";
 import { join } from "path";
 import { existsSync, readFileSync } from "fs";
+import http from "http";
 
-const UI_DIR = join(process.cwd(), "ui/dashboard");
 const PORT = 3000;
+const UI_DIR = join(process.cwd(), "ui", "dashboard");
 
-async function pingAgent(port: number) {
-  return new Promise<boolean>((resolve) => {
-    const req = http.get({ hostname: "localhost", port, path: "/", timeout: 1000 }, (res) => {
+const HEARTBEAT_PORTS: Record<string, number> = {
+  matilda: 3014,
+  cade: 3012,
+  effie: 3013,
+};
+
+function pingAgent(port: number): Promise<boolean> {
+  return new Promise((resolve) => {
+    const req = http.get({ hostname: "127.0.0.1", port, path: "/", timeout: 1000 }, (res) => {
       resolve(res.statusCode === 200);
     });
     req.on("error", () => resolve(false));
@@ -21,21 +31,27 @@ async function pingAgent(port: number) {
 }
 
 async function getAgentStatus() {
-  const statusMap = { matilda: "offline", cade: "offline", effie: "offline" };
+  const statusMap: Record<string, string> = { matilda: "offline", cade: "offline", effie: "offline" };
+
   try {
     const raw = execSync("pm2 jlist").toString();
     const list = JSON.parse(raw);
 
+    // Step 1: Mark online if PM2 shows status as "online"
+    const pm2Online: Record<string, boolean> = {};
     for (const proc of list) {
-      const name = proc.name.toLowerCase();
-      if (statusMap[name] !== undefined) {
-        statusMap[name] = "online"; // base on PM2 first
+      if (proc.pm2_env?.status === "online") {
+        pm2Online[proc.name.toLowerCase()] = true;
       }
     }
 
-    // ✅ Confirm HTTP heartbeat
-    if (await pingAgent(3012)) statusMap.cade = "online";
-    if (await pingAgent(3013)) statusMap.effie = "online";
+    // Step 2: Strict check – only mark green if PM2 online AND heartbeat responds
+    for (const agent of Object.keys(statusMap)) {
+      const port = HEARTBEAT_PORTS[agent];
+      if (pm2Online[agent] && port && await pingAgent(port)) {
+        statusMap[agent] = "online";
+      }
+    }
 
     return statusMap;
   } catch (err) {
@@ -70,5 +86,5 @@ createServer(async (req, res) => {
     res.end("Not Found");
   }
 }).listen(PORT, () => {
-  console.log(`✅ Dev server with HTTP heartbeat checks running at http://localhost:${PORT}`);
+  console.log(`✅ Dev server with STRICT agent checks running at http://localhost:${PORT}`);
 });
