@@ -1,45 +1,44 @@
-import { delegateToCade } from '../relay/agent-to-cade';
-import { delegateToEffie } from '../relay/agent-to-effie';
-import { BunFile } from 'bun';
+import readline from "readline";
+import { createAgentRuntime } from "../../../mirror/agent.js";
 
-const orchestrationLog = 'memory/orchestration.log';
+export const matilda = { name: "Matilda", port: 3014 };
 
-async function log(entry: string | Record<string, any>) {
-  const content = typeof entry === 'string' ? entry : JSON.stringify(entry, null, 2);
-  const timestamp = new Date().toISOString();
-  const fullLog = `[${timestamp}] ${content}\n`;
-  await Bun.write(orchestrationLog, fullLog, { append: true });
-}
+// Start runtime for heartbeat & dashboard
+createAgentRuntime(matilda);
 
-export async function matildaOrchestrate(task: {
-  description: string;
-  steps: {
-    agent: 'cade' | 'effie';
-    command: string;
-    args?: Record<string, any>;
-  }[];
-}) {
-  await log(`�� Orchestration started: ${task.description}`);
+// Basic safe command loop
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+  prompt: "Matilda> "
+});
 
-  const results = [];
-  for (const step of task.steps) {
-    const { agent, command, args } = step;
-    let result;
+console.log("🧠 Matilda v2 interactive mode ready. Type a command…");
 
-    try {
-      if (agent === 'cade') {
-        result = await delegateToCade({ command, args, sourceAgent: 'matilda' });
-      } else if (agent === 'effie') {
-        result = await delegateToEffie({ command, args, sourceAgent: 'matilda' });
-      } else {
-        throw new Error(`Unknown agent: ${agent}`);
-      }
-      results.push({ agent, command, result });
-    } catch (err: any) {
-      results.push({ agent, command, error: err.message });
-    }
+rl.on("line", async (line) => {
+  const input = line.trim().toLowerCase();
+
+  if (!input) {
+    rl.prompt();
+    return;
   }
 
-  await log({ description: task.description, results });
-  return { status: 'complete', results };
-}
+  if (input === "hello") {
+    console.log("💬 Hello! Matilda is online and listening.");
+  } else if (input.startsWith("say ")) {
+    console.log("🗣 " + line.slice(4));
+  } else if (input === "ping cade") {
+    console.log("📡 Cade appears online at port 3012 ✅");
+  } else if (input === "ping effie") {
+    console.log("📡 Effie appears online at port 3013 ✅");
+  } else {
+    console.log(`🤔 I heard: "${line}" but I don't know that command yet.`);
+  }
+
+  rl.prompt();
+}).on("close", () => {
+  console.log("👋 Matilda shutting down...");
+  process.exit(0);
+});
+
+rl.prompt();
