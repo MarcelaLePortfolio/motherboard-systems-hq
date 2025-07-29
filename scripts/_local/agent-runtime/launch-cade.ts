@@ -1,7 +1,7 @@
 import { pathToFileURL } from "url";
-import { fileURLToPath } from "url";
-import { dirname, resolve } from "path";
+import { resolve } from "path";
 
-// Dynamically resolve to absolute file URL
-const agentPath = pathToFileURL(resolve(process.cwd(), "src/scripts/agents/cade.ts")).href;
-await import(agentPath);
+const agentFile = resolve(process.cwd(), "src/scripts/agents/cade.ts");
+console.log("🔹 Launching Cade from", agentFile);
+
+await import(pathToFileURL(agentFile).href);
