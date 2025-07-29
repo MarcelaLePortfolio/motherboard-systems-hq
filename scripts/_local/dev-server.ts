@@ -1,37 +1,38 @@
+#!/usr/bin/env tsx
 /**
- * Dev Server with PM2 Health Integration
- * --------------------------------------
- * Serves dashboard files and provides /agent-status.json
- * that reflects actual PM2 process health.
+ * Dev Server with Accurate PM2 Status
  */
-
 import { createServer } from "http";
 import { readFileSync, existsSync } from "fs";
-import { execSync } from "child_process";
 import { join } from "path";
+import { execSync } from "child_process";
 
 const PORT = 3000;
-const ROOT = process.cwd();
-const UI_DIR = join(ROOT, "ui", "dashboard");
+const UI_DIR = join(process.cwd(), "ui", "dashboard");
 
 function getAgentStatus() {
   try {
-    const raw = execSync("pm2 jlist", { encoding: "utf-8" });
-    const list = JSON.parse(raw);
+    const output = execSync("pm2 jlist", { encoding: "utf-8" });
+    const list = JSON.parse(output);
 
-    const statusMap: Record<string, string> = { matilda: "offline", cade: "offline", effie: "offline" };
+    const statusMap: Record<string, string> = {
+      matilda: "offline",
+      cade: "offline",
+      effie: "offline",
+    };
 
-    for (const proc of list) {
-      const name = (proc.name || "").toLowerCase();
-      const status = proc.pm2_env?.status || "stopped";
+    for (const app of list) {
+      const name = app.name?.toLowerCase();
+      const status = app.pm2_env?.status || "stopped";
 
-      if (name.includes("matilda")) statusMap.matilda = status === "online" ? "online" : "offline";
-      if (name.includes("cade")) statusMap.cade = status === "online" ? "online" : "offline";
-      if (name.includes("effie")) statusMap.effie = status === "online" ? "online" : "offline";
+      if (name?.includes("matilda")) statusMap.matilda = status === "online" ? "online" : "offline";
+      if (name?.includes("cade")) statusMap.cade = status === "online" ? "online" : "offline";
+      if (name?.includes("effie")) statusMap.effie = status === "online" ? "online" : "offline";
     }
 
     return statusMap;
   } catch (err) {
+    console.error("❌ Failed to fetch PM2 status:", err);
     return { matilda: "offline", cade: "offline", effie: "offline" };
   }
 }
@@ -44,7 +45,6 @@ createServer((req, res) => {
     return;
   }
 
-  // serve dashboard static files
   let filePath = join(UI_DIR, req.url || "/");
   if (filePath.endsWith("/")) filePath += "index.html";
 
@@ -58,13 +58,10 @@ createServer((req, res) => {
 
     res.writeHead(200, { "Content-Type": mime });
     res.end(readFileSync(filePath));
-  } else if (req.url === "/favicon.ico") {
-    res.writeHead(204); // no content
-    res.end();
   } else {
     res.writeHead(404);
     res.end("Not Found");
   }
 }).listen(PORT, () => {
-  console.log(`✅ Dev server with PM2 health check running at http://localhost:${PORT}`);
+  console.log(`✅ Dev server with accurate PM2 status running at http://localhost:${PORT}`);
 });
