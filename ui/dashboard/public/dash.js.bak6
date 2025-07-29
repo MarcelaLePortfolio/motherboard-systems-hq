@@ -1,0 +1,58 @@
+// ✅ Log Ticker
+const logs = [
+  "Matilda: Systems green ✅",
+  "Effie: UI layers reorganized 🧩",
+  "Cade: Monitoring live agent logs 📡",
+  "Matilda: Buffer stable. Holding state 💾",
+  "Effie: No user conflicts detected 👥",
+  "Cade: Rebuilding runtime environment 🔁",
+];
+
+const logEl = document.getElementById("log");
+let currentIndex = 0;
+
+function updateLog() {
+  logEl.textContent = logs[currentIndex];
+  logEl.classList.remove("log-ticker-item");
+  void logEl.offsetWidth;
+  logEl.classList.add("log-ticker-item");
+  currentIndex = (currentIndex + 1) % logs.length;
+}
+updateLog();
+setInterval(updateLog, 4000);
+
+// ✅ Agent Status Dots – Direct Text Match
+window.addEventListener("DOMContentLoaded", () => {
+  fetch("/agent-status.json")
+    .then((res) => res.json())
+    .then((statusMap) => {
+      const colorMap = {
+        online: "green",
+        stopped: "gray",
+        errored: "red",
+        error: "red",
+        unknown: "gray",
+      };
+
+      const agents = {
+        matilda: document.querySelector(".agent:has-text('Matilda') span"),
+        cade: document.querySelector(".agent:has-text('Cade') span"),
+        effie: document.querySelector(".agent:has-text('Effie') span"),
+      };
+
+      for (const [agent, el] of Object.entries(agents)) {
+        const status = statusMap[agent] || "unknown";
+        const color = colorMap[status] || "gray";
+        if (el) {
+          el.style.backgroundColor = color;
+          el.title = `${agent}: ${status}`;
+        } else {
+          console.warn(`⚠️ Missing dot element for ${agent}`);
+        }
+        console.log(`🧪 ${agent}: ${status} → ${color}`);
+      }
+    })
+    .catch((err) => {
+      console.error("❌ Failed to load agent statuses:", err);
+    });
+});

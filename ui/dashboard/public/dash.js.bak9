@@ -1,0 +1,57 @@
+// ✅ Log Ticker
+const logs = [
+  "Matilda: Systems green ✅",
+  "Effie: UI layers reorganized 🧩",
+  "Cade: Monitoring live agent logs 📡",
+  "Matilda: Buffer stable. Holding state 💾",
+  "Effie: No user conflicts detected 👥",
+  "Cade: Rebuilding runtime environment 🔁",
+];
+
+const logEl = document.getElementById("log");
+let currentIndex = 0;
+
+function updateLog() {
+  logEl.textContent = logs[currentIndex];
+  logEl.classList.remove("log-ticker-item");
+  void logEl.offsetWidth;
+  logEl.classList.add("log-ticker-item");
+  currentIndex = (currentIndex + 1) % logs.length;
+}
+updateLog();
+setInterval(updateLog, 4000);
+
+// ✅ Hardcoded Agent Status Dot Injection
+const agents = document.querySelectorAll(".agent");
+const statusColors = ["green", "red", "gray"]; // Matilda, Cade, Effie
+const statusTitles = ["Running", "Error", "Stopped"];
+
+agents.forEach((el, idx) => {
+  const dot = el.querySelector("span");
+  if (dot) {
+    dot.style.backgroundColor = statusColors[idx];
+    dot.title = statusTitles[idx];
+  } else {
+    console.warn(`⚠️ Dot missing for agent index ${idx}`);
+  }
+});
+// ✅ Fallback Agent Dot Injection via Name Match
+const agentStatusMap = {
+  matilda: { label: "Running", color: "green" },
+  cade: { label: "Error", color: "red" },
+  effie: { label: "Stopped", color: "gray" },
+};
+
+document.querySelectorAll(".agent").forEach(agentDiv => {
+  const labelText = agentDiv.textContent.toLowerCase();
+  for (const [name, { label, color }] of Object.entries(agentStatusMap)) {
+    if (labelText.includes(name)) {
+      const dot = agentDiv.querySelector("span");
+      if (dot) {
+        dot.style.backgroundColor = color;
+        agentDiv.title = label;
+        console.log(`✅ ${name} dot painted ${color}`);
+      }
+    }
+  }
+});
