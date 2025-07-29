@@ -1,5 +1,5 @@
 /**
- * Cade Launcher – Fixed Import Path to Root Mirror
+ * Cade Launcher – Corrected Import Path
  */
 import { createAgentRuntime } from "../../../mirror/agent";
 import { cade } from "../../agents/cade";
