@@ -1,19 +1,27 @@
 import readline from "readline";
-import { createAgentRuntime } from "../../../mirror/agent.js";
+import http from "http";
+import { createAgentRuntime } from "../../mirror/agent.js";
 
 export const matilda = { name: "Matilda", port: 3014 };
 
-// Start runtime for heartbeat & dashboard
+// Start runtime and heartbeat
 createAgentRuntime(matilda);
 
-// Basic safe command loop
+http.createServer((req, res) => {
+  res.writeHead(200, { "Content-Type": "application/json" });
+  res.end(JSON.stringify({ status: "online", agent: "matilda" }));
+}).listen(matilda.port, () => {
+  console.log(`🌐 Matilda heartbeat listening on port ${matilda.port}`);
+});
+
+// Basic interactive CLI
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
   prompt: "Matilda> "
 });
 
-console.log("🧠 Matilda v2 interactive mode ready. Type a command…");
+console.log("<0001f9e0> Matilda v2 interactive mode ready. Type a command…");
 
 rl.on("line", async (line) => {
   const input = line.trim().toLowerCase();
