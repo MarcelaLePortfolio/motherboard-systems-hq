@@ -1,45 +1,52 @@
-#!/usr/bin/env tsx
-/**
- * Dev Server with Accurate PM2 Status
- */
-import { createServer } from "http";
-import { readFileSync, existsSync } from "fs";
-import { join } from "path";
 import { execSync } from "child_process";
+import http from "http";
+import { createServer } from "http";
+import { join } from "path";
+import { existsSync, readFileSync } from "fs";
 
+const UI_DIR = join(process.cwd(), "ui/dashboard");
 const PORT = 3000;
-const UI_DIR = join(process.cwd(), "ui", "dashboard");
 
-function getAgentStatus() {
+async function pingAgent(port: number) {
+  return new Promise<boolean>((resolve) => {
+    const req = http.get({ hostname: "localhost", port, path: "/", timeout: 1000 }, (res) => {
+      resolve(res.statusCode === 200);
+    });
+    req.on("error", () => resolve(false));
+    req.on("timeout", () => {
+      req.destroy();
+      resolve(false);
+    });
+  });
+}
+
+async function getAgentStatus() {
+  const statusMap = { matilda: "offline", cade: "offline", effie: "offline" };
   try {
-    const output = execSync("pm2 jlist", { encoding: "utf-8" });
-    const list = JSON.parse(output);
+    const raw = execSync("pm2 jlist").toString();
+    const list = JSON.parse(raw);
 
-    const statusMap: Record<string, string> = {
-      matilda: "offline",
-      cade: "offline",
-      effie: "offline",
-    };
-
-    for (const app of list) {
-      const name = app.name?.toLowerCase();
-      const status = app.pm2_env?.status || "stopped";
-
-      if (name?.includes("matilda")) statusMap.matilda = status === "online" ? "online" : "offline";
-      if (name?.includes("cade")) statusMap.cade = status === "online" ? "online" : "offline";
-      if (name?.includes("effie")) statusMap.effie = status === "online" ? "online" : "offline";
+    for (const proc of list) {
+      const name = proc.name.toLowerCase();
+      if (statusMap[name] !== undefined) {
+        statusMap[name] = "online"; // base on PM2 first
+      }
     }
+
+    // ✅ Confirm HTTP heartbeat
+    if (await pingAgent(3012)) statusMap.cade = "online";
+    if (await pingAgent(3013)) statusMap.effie = "online";
 
     return statusMap;
   } catch (err) {
     console.error("❌ Failed to fetch PM2 status:", err);
-    return { matilda: "offline", cade: "offline", effie: "offline" };
+    return statusMap;
   }
 }
 
-createServer((req, res) => {
+createServer(async (req, res) => {
   if (req.url === "/agent-status.json") {
-    const status = getAgentStatus();
+    const status = await getAgentStatus();
     res.writeHead(200, { "Content-Type": "application/json" });
     res.end(JSON.stringify(status));
     return;
@@ -63,5 +70,5 @@ createServer((req, res) => {
     res.end("Not Found");
   }
 }).listen(PORT, () => {
-  console.log(`✅ Dev server with accurate PM2 status running at http://localhost:${PORT}`);
+  console.log(`✅ Dev server with HTTP heartbeat checks running at http://localhost:${PORT}`);
 });
