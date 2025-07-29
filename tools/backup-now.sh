@@ -1,23 +1,19 @@
 #!/bin/bash
-# 🧰 Create a full backup of the Motherboard Systems HQ folder to Desktop
-TIMESTAMP=$(date +"%Y%m%d_%H%M")
-DEST="$HOME/Desktop/MOTHERBOARD_SYSTEMS_BACKUP_$TIMESTAMP.zip"
-SRC="$HOME/Desktop/Motherboard Systems HQ"
+# Backup script (with hidden files) for Motherboard_Systems_HQ
+
+TS=$(date +"%Y%m%d_%H%M")
+SRC="$HOME/Desktop/Motherboard_Systems_HQ"
+DEST="$HOME/Desktop/MOTHERBOARD_SYSTEMS_BACKUP_${TS}.zip"
 
 if [ ! -d "$SRC" ]; then
   echo "❌ Project folder not found at: $SRC"
   exit 1
 fi
 
-echo "📦 Creating backup: $DEST"
+cd "$HOME/Desktop"
+# ✅ Include hidden files (dotglob)
+cp -R "$SRC" Motherboard_Systems_HQ_tmp
+zip -r -q "$DEST" Motherboard_Systems_HQ_tmp
+rm -rf Motherboard_Systems_HQ_tmp
 
-if [ "$1" == "--include-hidden" ]; then
-  echo "🕵️ Including hidden files (excluding .git)..."
-  cd "$SRC/.." || exit 1
-  zip -r -q "$DEST" "Motherboard Systems HQ" -x "Motherboard Systems HQ/.git/*"
-else
-  cd "$SRC/.." || exit 1
-  zip -r -q "$DEST" "Motherboard Systems HQ"
-fi
-
-echo "✅ Backup created at $DEST"
+echo "✅ Backup complete: $DEST"
