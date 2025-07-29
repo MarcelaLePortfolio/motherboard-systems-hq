@@ -1,5 +1,5 @@
 /**
- * Mirror Agent stub with HTTP heartbeat on fixed ports
+ * Mirror Agent stub with HTTP heartbeat on fixed ports + all-path response
  */
 import http from "http";
 
@@ -21,8 +21,9 @@ export function createAgentRuntime(agent: any) {
 
   if (port) {
     http.createServer((req, res) => {
+      // Respond OK for any path
       res.writeHead(200, { "Content-Type": "application/json" });
-      res.end(JSON.stringify({ status: "online", agent: name }));
+      res.end(JSON.stringify({ status: "online", agent: name, path: req.url }));
     }).listen(port, () => {
       console.log(`🌐 ${name} stub server listening on port ${port}`);
     });
