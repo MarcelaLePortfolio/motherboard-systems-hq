@@ -1,6 +1,7 @@
 import http from "http";
 import { createAgentRuntime } from "../../mirror/agent.js";
 
+console.log("✅ Cade heartbeat script executing...");
 export const cade = { name: "Cade", port: 3012 };
 createAgentRuntime(cade);
 

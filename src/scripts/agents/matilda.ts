@@ -1,6 +1,7 @@
 import http from "http";
 import { createAgentRuntime } from "../../mirror/agent.js";
 
+console.log("✅ Matilda heartbeat script executing...");
 export const matilda = { name: "Matilda", port: 3014 };
 createAgentRuntime(matilda);
 
