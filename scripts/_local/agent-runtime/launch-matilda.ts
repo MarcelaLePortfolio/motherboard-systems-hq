@@ -1,1 +1,1 @@
-import "../../src/scripts/agents/matilda.ts";
+import "file://$PWD/src/scripts/agents/matilda.ts";
