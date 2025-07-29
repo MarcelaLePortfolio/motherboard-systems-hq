@@ -1,7 +1,7 @@
 /**
- * Effie Launcher – Corrected Import Path
+ * Effie Launcher – Explicit .ts Import
  */
-import { createAgentRuntime } from "../../../mirror/agent";
+import { createAgentRuntime } from "../../../mirror/agent.ts";
 import { effie } from "../../agents/effie";
 
 createAgentRuntime(effie);

@@ -1,7 +1,7 @@
 /**
- * Cade Launcher – Corrected Import Path
+ * Cade Launcher – Explicit .ts Import
  */
-import { createAgentRuntime } from "../../../mirror/agent";
+import { createAgentRuntime } from "../../../mirror/agent.ts";
 import { cade } from "../../agents/cade";
 
 createAgentRuntime(cade);
