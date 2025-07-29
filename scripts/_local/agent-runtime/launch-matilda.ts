@@ -1,1 +1,1 @@
-import "../..//src/scripts/agents/matilda.js";
+import "../../src/scripts/agents/matilda.ts";

@@ -1,1 +1,1 @@
-import "../..//src/scripts/agents/effie.js";
+import "../../src/scripts/agents/effie.ts";

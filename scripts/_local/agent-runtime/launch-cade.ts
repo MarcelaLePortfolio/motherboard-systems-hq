@@ -1,1 +1,1 @@
-import "../..//src/scripts/agents/cade.js";
+import "../../src/scripts/agents/cade.ts";
