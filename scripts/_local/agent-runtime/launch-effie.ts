@@ -1,11 +1,7 @@
 /**
-
-Effie Launcher – Fixed Import Path
-
-Starts Effie using the shared createAgentRuntime wrapper.
-*/
-
-import { createAgentRuntime } from "../../mirror/agent";
-import { effie } from "../../agents/effie"; // ✅ Corrected path
+ * Effie Launcher – Fixed Import Path to Root Mirror
+ */
+import { createAgentRuntime } from "../../../mirror/agent";
+import { effie } from "../../agents/effie";
 
 createAgentRuntime(effie);
