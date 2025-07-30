@@ -1,64 +1,92 @@
 import fs from 'fs';
-import path from 'path';
 import readline from 'readline';
 
-// ✅ Hardcode canonical absolute path to avoid PM2 cwd issues
-const projectRoot = '/Users/marcela-dev/Desktop/Motherboard_Systems_HQ';
-const memoryDir = path.join(projectRoot, 'memory');
-const taskFile = path.join(memoryDir, 'chained_tasks.json');
+const MEMORY_DIR = '/Users/marcela-dev/Desktop/memory';
+const TASK_FILE = `${MEMORY_DIR}/chained_tasks.json`;
+const LOG_FILE = `${MEMORY_DIR}/matilda_task_log.txt`;
 
-// 🔹 Self-heal: create memory folder and file if missing
-if (!fs.existsSync(memoryDir)) fs.mkdirSync(memoryDir, { recursive: true });
-if (!fs.existsSync(taskFile)) fs.writeFileSync(taskFile, '[]', 'utf-8');
+if (!fs.existsSync(MEMORY_DIR)) fs.mkdirSync(MEMORY_DIR, { recursive: true });
 
 interface Task {
+  id: number;
   description: string;
-  status: 'pending' | 'done';
-  createdAt: string;
-  updatedAt?: string;
+  status: 'pending' | 'running' | 'done' | 'error';
+  started?: string;
+  finished?: string;
+  result?: string;
 }
 
-function loadTasks(): Task[] {
-  try { return JSON.parse(fs.readFileSync(taskFile, 'utf-8')); }
-  catch { return []; }
+let tasks: Task[] = [];
+if (fs.existsSync(TASK_FILE)) {
+  tasks = JSON.parse(fs.readFileSync(TASK_FILE, 'utf-8'));
 }
 
-function saveTasks(tasks: Task[]) {
-  fs.writeFileSync(taskFile, JSON.stringify(tasks, null, 2));
+// Utility: persist tasks
+function saveTasks() {
+  fs.writeFileSync(TASK_FILE, JSON.stringify(tasks, null, 2));
 }
 
+// Utility: log to history
+function logHistory(message: string) {
+  const line = `[${new Date().toISOString()}] ${message}\n`;
+  fs.appendFileSync(LOG_FILE, line);
+  console.log(line.trim());
+}
+
+// Add a new task
 function addTask(description: string) {
-  const tasks = loadTasks();
-  tasks.push({ description, status: 'pending', createdAt: new Date().toISOString() });
-  saveTasks(tasks);
-  console.log(`➕ Task added: ${description}`);
+  const newTask: Task = { id: Date.now(), description, status: 'pending' };
+  tasks.push(newTask);
+  saveTasks();
+  logHistory(`🆕 Added task: ${description}`);
 }
 
+// Show current tasks
 function showTasks() {
-  const tasks = loadTasks();
-  if (tasks.length === 0) return console.log('📭 No tasks yet.');
-  tasks.forEach((t, i) => console.log(`${i + 1}. [${t.status}] ${t.description}`));
+  console.table(tasks.map(t => ({
+    id: t.id,
+    desc: t.description,
+    status: t.status,
+    started: t.started || '',
+    finished: t.finished || ''
+  })));
 }
 
+// Execute next pending task
 function runNextTask() {
-  const tasks = loadTasks();
   const next = tasks.find(t => t.status === 'pending');
-  if (!next) return console.log('🎉 All tasks completed!');
-  console.log(`🚀 Running task: ${next.description}`);
-  next.status = 'done';
-  next.updatedAt = new Date().toISOString();
-  saveTasks(tasks);
-  console.log(`🏁 Completed task: ${next.description}`);
+  if (!next) {
+    console.log('✅ No pending tasks.');
+    return;
+  }
+
+  next.status = 'running';
+  next.started = new Date().toISOString();
+  saveTasks();
+  logHistory(`🚀 Running task: ${next.description}`);
+
+  try {
+    // Simulate execution
+    const result = `Matilda executed: ${next.description}`;
+    next.result = result;
+    next.status = 'done';
+    next.finished = new Date().toISOString();
+    saveTasks();
+    logHistory(`✅ Completed task: ${next.description}`);
+  } catch (err) {
+    next.status = 'error';
+    next.finished = new Date().toISOString();
+    next.result = (err as Error).message;
+    saveTasks();
+    logHistory(`❌ Task failed: ${next.description} - ${(err as Error).message}`);
+  }
 }
 
+// Auto-run loop every 30s
 function autoRunLoop() {
   setInterval(() => {
-    const tasks = loadTasks();
     const next = tasks.find(t => t.status === 'pending');
-    if (next) {
-      console.log(`🤖 Auto-running task: ${next.description}`);
-      runNextTask();
-    }
+    if (next) runNextTask();
   }, 30000);
 }
 
@@ -79,7 +107,6 @@ rl.on('line', (input) => {
       console.log('👋 Shutting down Matilda...');
       rl.close();
       process.exit(0);
-      break;
     default:
       console.log(`Matilda (echo): ${input}`);
   }
