@@ -6,10 +6,10 @@ MISSING=0
 
 CRITICAL_ITEMS=(
   # 1️⃣ Agents
-  "agents/cade.ts"
-  "agents/effie.ts"
-  "agents/matilda.mts"
-  "src/scripts/agents/matilda.mts"
+  "scripts/agents/cade.ts"
+  "scripts/agents/effie.ts"
+  "scripts/agents/matilda.mts"
+  "scripts/agents/matilda.mts"
 
   # 2️⃣ UI / Dashboard
   "ui/dashboard/index.html"
