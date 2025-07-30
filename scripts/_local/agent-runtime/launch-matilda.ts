@@ -1,62 +1,112 @@
-import path from "path";
 import fs from "fs";
-import http from "http";
+import path from "path";
 import readline from "readline";
 
-// ✅ Async IIFE to avoid top-level await crash
-(async () => {
-  console.log("🚀 Launching Matilda agent with heartbeat...");
+const memoryDir = path.resolve(process.cwd(), "memory");
+const tasksFile = path.join(memoryDir, "chained_tasks.json");
+const logFile = path.join(memoryDir, "chaining_runtime_log.json");
 
-  // 💚 Heartbeat server
-  const matildaHeartbeatPort = 3014;
-  http.createServer((req, res) => {
-    res.writeHead(200, { "Content-Type": "application/json" });
-    res.end(JSON.stringify({ status: "online", agent: "matilda", path: req.url }));
-  }).listen(matildaHeartbeatPort, () => {
-    console.log(`💚 Matilda heartbeat listening on port ${matildaHeartbeatPort}`);
-  });
+interface Task {
+  id: string;
+  description: string;
+  status: "pending" | "in-progress" | "done";
+  createdAt: string;
+  updatedAt: string;
+}
 
-  // 🖥️ CLI Setup
-  const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
-  console.log("🤖 Matilda ready for local chat + orchestration. Type 'exit' to quit.");
-
-  async function matildaOrchestrate(task: { description: string; steps: any[] }) {
-    console.log("🎬 Simulated orchestration:", task);
-    return { ok: true, steps: task.steps.length };
+function loadTasks(): Task[] {
+  try {
+    return JSON.parse(fs.readFileSync(tasksFile, "utf-8"));
+  } catch {
+    return [];
   }
+}
 
-  async function handleInput(input: string) {
-    const lower = input.toLowerCase().trim();
-    if (!input || lower === "exit") {
-      console.log("👋 Matilda shutting down.");
+function saveTasks(tasks: Task[]) {
+  fs.writeFileSync(tasksFile, JSON.stringify(tasks, null, 2));
+}
+
+function logAction(action: string, detail: any = {}) {
+  const timestamp = new Date().toISOString();
+  const logEntry = { timestamp, action, ...detail };
+
+  let logs: any[] = [];
+  try {
+    logs = JSON.parse(fs.readFileSync(logFile, "utf-8"));
+  } catch {}
+  logs.push(logEntry);
+  fs.writeFileSync(logFile, JSON.stringify(logs, null, 2));
+}
+
+function addTask(description: string) {
+  const tasks = loadTasks();
+  const newTask: Task = {
+    id: Date.now().toString(),
+    description,
+    status: "pending",
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  };
+  tasks.push(newTask);
+  saveTasks(tasks);
+  logAction("task-added", { task: newTask });
+  console.log(`✅ Task added: ${description}`);
+}
+
+function showTasks() {
+  const tasks = loadTasks();
+  if (tasks.length === 0) {
+    console.log("📭 No tasks in queue.");
+    return;
+  }
+  console.log("📋 Current tasks:");
+  tasks.forEach((t) => console.log(`- [${t.status}] ${t.id}: ${t.description}`));
+}
+
+function runNextTask() {
+  const tasks = loadTasks();
+  const next = tasks.find((t) => t.status === "pending");
+  if (!next) {
+    console.log("🎉 No pending tasks!");
+    return;
+  }
+  next.status = "done";
+  next.updatedAt = new Date().toISOString();
+  saveTasks(tasks);
+  logAction("task-completed", { task: next });
+  console.log(`🏁 Completed task: ${next.description}`);
+}
+
+// CLI
+console.log("🤖 Matilda Orchestration Mode Ready!");
+console.log("Commands: add-task <desc>, show-tasks, run-next, exit");
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+rl.on("line", (input) => {
+  const [cmd, ...rest] = input.trim().split(" ");
+  const arg = rest.join(" ");
+
+  switch (cmd) {
+    case "add-task":
+      addTask(arg);
+      break;
+    case "show-tasks":
+      showTasks();
+      break;
+    case "run-next":
+      runNextTask();
+      break;
+    case "exit":
+      console.log("👋 Shutting down Matilda...");
+      rl.close();
       process.exit(0);
-    }
-
-    // Delegate task to Cade/Effie
-    if (lower.startsWith("cade:") || lower.startsWith("effie:")) {
-      const [agent] = lower.split(":");
-      const task = { description: input, steps: [{ agent, command: "echo", args: { text: input } }] };
-      const result = await matildaOrchestrate(task);
-      console.log("🎯 Orchestration result:", result);
-      return;
-    }
-
-    // Local LLM via Ollama (no API key required)
-    try {
-      const res = await fetch("http://127.0.0.1:11434/api/generate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ model: "llama3", prompt: input, stream: false }),
-      });
-      const data = await res.json();
-      console.log("💬 Matilda:", data.response?.trim() || "(no response)");
-    } catch (e) {
-      console.error("⚠️ Local LLM error:", e);
-    }
+      break;
+    default:
+      console.log(`Matilda (echo): ${input}`);
+      logAction("echo", { input });
   }
-
-  rl.on("line", handleInput);
-
-  // Keep Node alive for PM2
-  setInterval(() => {}, 1000);
-})();
+});
