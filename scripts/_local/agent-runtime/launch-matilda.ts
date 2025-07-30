@@ -2,12 +2,12 @@ import fs from 'fs';
 import path from 'path';
 import readline from 'readline';
 
-// Canonical memory path
+// ✅ Canonical project root & memory path
 const projectRoot = path.join(process.env.HOME || '', 'Desktop', 'Motherboard_Systems_HQ');
 const memoryDir = path.join(projectRoot, 'memory');
 const taskFile = path.join(memoryDir, 'chained_tasks.json');
 
-// Ensure memory folder & task file exist
+// Ensure memory folder & file exist
 if (!fs.existsSync(memoryDir)) fs.mkdirSync(memoryDir, { recursive: true });
 if (!fs.existsSync(taskFile)) fs.writeFileSync(taskFile, '[]', 'utf-8');
 
@@ -19,36 +19,33 @@ interface Task {
 }
 
 function loadTasks(): Task[] {
-  try {
-    return JSON.parse(fs.readFileSync(taskFile, 'utf-8'));
-  } catch {
-    fs.writeFileSync(taskFile, '[]', 'utf-8');
-    return [];
-  }
+  try { return JSON.parse(fs.readFileSync(taskFile, 'utf-8')); }
+  catch { return []; }
 }
 
 function saveTasks(tasks: Task[]) {
   fs.writeFileSync(taskFile, JSON.stringify(tasks, null, 2), 'utf-8');
 }
 
-function addTask(desc: string) {
+function addTask(description: string) {
   const tasks = loadTasks();
-  const task: Task = { description: desc, status: 'pending', createdAt: new Date().toISOString() };
+  const task: Task = { description, status: 'pending', createdAt: new Date().toISOString() };
   tasks.push(task);
   saveTasks(tasks);
-  console.log(`📝 Added task: ${desc}`);
+  console.log(`✅ Task added: ${description}`);
 }
 
 function showTasks() {
   const tasks = loadTasks();
-  if (!tasks.length) return console.log('�� No tasks in queue.');
-  tasks.forEach((t, i) => console.log(`${i + 1}. [${t.status}] ${t.description}`));
+  if (!tasks.length) return console.log('📭 No tasks found.');
+  console.log('📋 Task List:');
+  tasks.forEach((t, i) => console.log(`${i + 1}. ${t.description} - ${t.status}`));
 }
 
 function runNextTask() {
   const tasks = loadTasks();
   const next = tasks.find(t => t.status === 'pending');
-  if (!next) return console.log('✅ All tasks completed!');
+  if (!next) return console.log('🎉 All tasks completed!');
   console.log(`🚀 Running task: ${next.description}`);
   next.status = 'done';
   next.updatedAt = new Date().toISOString();
@@ -56,7 +53,6 @@ function runNextTask() {
   console.log(`🏁 Completed task: ${next.description}`);
 }
 
-// Auto-loop to run pending tasks
 function autoRunLoop() {
   setInterval(() => {
     const tasks = loadTasks();
@@ -68,7 +64,7 @@ function autoRunLoop() {
   }, 30000);
 }
 
-// CLI interface
+// CLI
 console.log('🤖 Matilda Orchestration Mode Ready!');
 console.log('Commands: add-task <desc>, show-tasks, run-next, exit');
 
@@ -78,15 +74,9 @@ rl.on('line', (input) => {
   const arg = rest.join(' ');
 
   switch (cmd) {
-    case 'add-task':
-      addTask(arg);
-      break;
-    case 'show-tasks':
-      showTasks();
-      break;
-    case 'run-next':
-      runNextTask();
-      break;
+    case 'add-task': addTask(arg); break;
+    case 'show-tasks': showTasks(); break;
+    case 'run-next': runNextTask(); break;
     case 'exit':
       console.log('👋 Shutting down Matilda...');
       rl.close();
