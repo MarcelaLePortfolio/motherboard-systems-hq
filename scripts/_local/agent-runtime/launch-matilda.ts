@@ -2,8 +2,8 @@ import fs from 'fs';
 import path from 'path';
 import readline from 'readline';
 
-// ✅ Canonical project memory path
-const projectRoot = path.join(process.env.HOME || '', 'Desktop', 'Motherboard_Systems_HQ');
+// ✅ Hardcode canonical absolute path to avoid PM2 cwd issues
+const projectRoot = '/Users/marcela-dev/Desktop/Motherboard_Systems_HQ';
 const memoryDir = path.join(projectRoot, 'memory');
 const taskFile = path.join(memoryDir, 'chained_tasks.json');
 
@@ -24,22 +24,20 @@ function loadTasks(): Task[] {
 }
 
 function saveTasks(tasks: Task[]) {
-  fs.writeFileSync(taskFile, JSON.stringify(tasks, null, 2), 'utf-8');
+  fs.writeFileSync(taskFile, JSON.stringify(tasks, null, 2));
 }
 
 function addTask(description: string) {
   const tasks = loadTasks();
-  const task: Task = { description, status: 'pending', createdAt: new Date().toISOString() };
-  tasks.push(task);
+  tasks.push({ description, status: 'pending', createdAt: new Date().toISOString() });
   saveTasks(tasks);
-  console.log(`✅ Task added: ${description}`);
+  console.log(`➕ Task added: ${description}`);
 }
 
 function showTasks() {
   const tasks = loadTasks();
-  if (!tasks.length) return console.log('📭 No tasks found.');
-  console.log('📋 Task List:');
-  tasks.forEach((t, i) => console.log(`${i + 1}. ${t.description} - ${t.status}`));
+  if (tasks.length === 0) return console.log('📭 No tasks yet.');
+  tasks.forEach((t, i) => console.log(`${i + 1}. [${t.status}] ${t.description}`));
 }
 
 function runNextTask() {
