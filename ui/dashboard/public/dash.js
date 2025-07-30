@@ -8,7 +8,6 @@ fetch("./agent-status.json")
       online: "green",
       stopped: "gray",
       errored: "red",
-      offline: "gray",
       unknown: "goldenrod"
     };
 

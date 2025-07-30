@@ -1,1 +1,0 @@
-// Android platform will be initialized later using: npx cap add android

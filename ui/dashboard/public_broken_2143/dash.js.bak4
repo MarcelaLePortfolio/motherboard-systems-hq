@@ -1,0 +1,124 @@
+// --- TICKER
+const logs = [
+  "Matilda: Initializing core protocol...",
+  "Effie: Archived 7 system files.",
+  "Cade: Deployed script successfully.",
+  "Matilda: Updating task map for STRYXX-1.",
+  "Effie: UI layers reorganized.",
+  "Cade: Monitoring live agent logs...",
+  "Matilda: Buffer stable. Holding state.",
+];
+
+const logEl = document.getElementById("log");
+let currentIndex = 0;
+
+function updateLog() {
+  logEl.textContent = logs[currentIndex];
+  logEl.classList.remove("log-ticker-item");
+  void logEl.offsetWidth;
+  logEl.classList.add("log-ticker-item");
+  currentIndex = (currentIndex + 1) % logs.length;
+}
+
+updateLog();
+setInterval(updateLog, 4000);
+
+// --- DEBUGGING: STATUS WIRING ---
+fetch("/agent-status.json")
+  .then(res => {
+    if (!res.ok) throw new Error("❌ Fetch failed: " + res.status);
+    return res.json();
+  })
+  .then(statusMap => {
+    console.log("✅ Loaded statusMap:", statusMap);
+
+    const colorMap = {
+      online: "green",
+      stopped: "gray",
+      errored: "red",
+      error: "red",
+      idle: "goldenrod",
+      unknown: "gray",
+    };
+
+    const labelMap = {
+      online: "Running",
+      stopped: "Stopped",
+      errored: "Error",
+      error: "Error",
+      idle: "Idle",
+      unknown: "Unknown",
+    };
+
+    const agents = ["matilda", "cade", "effie"];
+
+    agents.forEach(agent => {
+      const containers = document.querySelectorAll(".agent");
+      containers.forEach(container => {
+        if (container.textContent.toLowerCase().includes(agent)) {
+          const dot = container.querySelector("span");
+          const status = statusMap[agent] || "unknown";
+          console.log(`🔍 Updating ${agent}: ${status}`);
+          if (dot) {
+            dot.style.backgroundColor = colorMap[status];
+            container.title = `${agent.charAt(0).toUpperCase() + agent.slice(1)} – ${labelMap[status]}`;
+          } else {
+            console.warn(`⚠️ No dot for ${agent}`);
+          }
+        }
+      });
+    });
+  })
+  .catch(err => console.error("🚨 Agent status wiring error:", err));
+
+// --- ✅ LIVE STATUS DOT PATCH (agent-status.json sync) ---
+fetch('/agent-status.json')
+  .then((res) => res.json())
+  .then((data) => {
+    const colorMap = {
+      online: "green",
+      stopped: "gray",
+      errored: "red",
+      unknown: "gray"
+    };
+
+    Object.entries(data).forEach(([agent, status]) => {
+      const container = document.querySelector(`.agent:has(:contains(${agent.charAt(0).toUpperCase() + agent.slice(1)}))`);
+      const dot = container?.querySelector("span");
+      if (dot) {
+        dot.style.backgroundColor = colorMap[status] || "gray";
+        container.title = `${agent.charAt(0).toUpperCase() + agent.slice(1)}: ${status}`;
+      } else {
+        console.warn(`⚠️ No DOM match for ${agent}`);
+      }
+    });
+  })
+  .catch((err) => console.error("❌ Failed to fetch agent statuses:", err));
+
+// --- ✅ FINAL PATCH: Direct DOM lookup by agent name (bulletproof match)
+fetch('/agent-status.json')
+  .then(res => res.json())
+  .then(data => {
+    const colorMap = {
+      online: "green",
+      stopped: "gray",
+      errored: "red",
+      error: "red",
+      unknown: "gray"
+    };
+
+    for (const [agent, status] of Object.entries(data)) {
+      const label = agent.charAt(0).toUpperCase() + agent.slice(1);
+      const containers = document.querySelectorAll(".agent");
+      containers.forEach(container => {
+        if (container.textContent.includes(label)) {
+          const dot = container.querySelector("span");
+          if (dot) {
+            dot.style.backgroundColor = colorMap[status] || "gray";
+            container.title = `${label}: ${status}`;
+          }
+        }
+      });
+    }
+  })
+  .catch(err => console.error("❌ Status fetch failed:", err));
