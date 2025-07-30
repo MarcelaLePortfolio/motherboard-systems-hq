@@ -2,60 +2,61 @@ import fs from 'fs';
 import path from 'path';
 import readline from 'readline';
 
-// Define project root and memory paths
-const PROJECT_ROOT = path.join(__dirname, '../../../..', 'Motherboard_Systems_HQ');
-const MEMORY_DIR = path.join(PROJECT_ROOT, 'memory');
-const TASK_FILE = path.join(MEMORY_DIR, 'chained_tasks.json');
-const LOG_FILE = path.join(MEMORY_DIR, 'matilda_orchestration.log');
+// Canonical memory path
+const projectRoot = path.join(process.env.HOME || '', 'Desktop', 'Motherboard_Systems_HQ');
+const memoryDir = path.join(projectRoot, 'memory');
+const taskFile = path.join(memoryDir, 'chained_tasks.json');
 
-// Ensure directories and files exist
-if (!fs.existsSync(MEMORY_DIR)) fs.mkdirSync(MEMORY_DIR, { recursive: true });
-if (!fs.existsSync(TASK_FILE)) fs.writeFileSync(TASK_FILE, '[]');
-if (!fs.existsSync(LOG_FILE)) fs.writeFileSync(LOG_FILE, '');
+// Ensure memory folder & task file exist
+if (!fs.existsSync(memoryDir)) fs.mkdirSync(memoryDir, { recursive: true });
+if (!fs.existsSync(taskFile)) fs.writeFileSync(taskFile, '[]', 'utf-8');
 
-// Utility functions
-function loadTasks() {
-  return JSON.parse(fs.readFileSync(TASK_FILE, 'utf-8'));
-}
-function saveTasks(tasks) {
-  fs.writeFileSync(TASK_FILE, JSON.stringify(tasks, null, 2));
-}
-function logAction(action: string, payload: any = {}) {
-  const entry = { time: new Date().toISOString(), action, payload };
-  fs.appendFileSync(LOG_FILE, JSON.stringify(entry) + '\n');
+interface Task {
+  description: string;
+  status: 'pending' | 'done';
+  createdAt: string;
+  updatedAt?: string;
 }
 
-// Task functions
-function addTask(description: string) {
+function loadTasks(): Task[] {
+  try {
+    return JSON.parse(fs.readFileSync(taskFile, 'utf-8'));
+  } catch {
+    fs.writeFileSync(taskFile, '[]', 'utf-8');
+    return [];
+  }
+}
+
+function saveTasks(tasks: Task[]) {
+  fs.writeFileSync(taskFile, JSON.stringify(tasks, null, 2), 'utf-8');
+}
+
+function addTask(desc: string) {
   const tasks = loadTasks();
-  const task = { id: Date.now(), description, status: 'pending', createdAt: new Date().toISOString() };
+  const task: Task = { description: desc, status: 'pending', createdAt: new Date().toISOString() };
   tasks.push(task);
   saveTasks(tasks);
-  logAction('task-added', { task });
-  console.log(`📝 Task added: ${description}`);
+  console.log(`📝 Added task: ${desc}`);
 }
 
 function showTasks() {
   const tasks = loadTasks();
-  console.log('📋 Current Tasks:', tasks);
+  if (!tasks.length) return console.log('�� No tasks in queue.');
+  tasks.forEach((t, i) => console.log(`${i + 1}. [${t.status}] ${t.description}`));
 }
 
 function runNextTask() {
   const tasks = loadTasks();
   const next = tasks.find(t => t.status === 'pending');
-  if (!next) {
-    console.log('✅ All tasks completed!');
-    return;
-  }
+  if (!next) return console.log('✅ All tasks completed!');
   console.log(`🚀 Running task: ${next.description}`);
   next.status = 'done';
   next.updatedAt = new Date().toISOString();
   saveTasks(tasks);
-  logAction('task-completed', { task: next });
   console.log(`🏁 Completed task: ${next.description}`);
 }
 
-// Autonomous loop
+// Auto-loop to run pending tasks
 function autoRunLoop() {
   setInterval(() => {
     const tasks = loadTasks();
@@ -67,7 +68,7 @@ function autoRunLoop() {
   }, 30000);
 }
 
-// CLI
+// CLI interface
 console.log('🤖 Matilda Orchestration Mode Ready!');
 console.log('Commands: add-task <desc>, show-tasks, run-next, exit');
 
@@ -93,9 +94,7 @@ rl.on('line', (input) => {
       break;
     default:
       console.log(`Matilda (echo): ${input}`);
-      logAction('echo', { input });
   }
 });
 
-// Start autonomous loop
 autoRunLoop();
