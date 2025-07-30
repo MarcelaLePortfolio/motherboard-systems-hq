@@ -39,3 +39,7 @@ Motherboard_Restore_*/
 
 # Misc
 Thumbs.db
+# Ignore auto-generated status/log files
+ui/dashboard/public/agent-status.json
+ui/dashboard/public/matilda-log.json
+Users/
