@@ -2,12 +2,12 @@ import fs from 'fs';
 import path from 'path';
 import readline from 'readline';
 
-// ✅ Canonical project root & memory path
+// ✅ Force canonical memory path inside the project folder
 const projectRoot = path.join(process.env.HOME || '', 'Desktop', 'Motherboard_Systems_HQ');
 const memoryDir = path.join(projectRoot, 'memory');
 const taskFile = path.join(memoryDir, 'chained_tasks.json');
 
-// Ensure memory folder & file exist
+// �� Ensure memory folder & file exist (self-heal)
 if (!fs.existsSync(memoryDir)) fs.mkdirSync(memoryDir, { recursive: true });
 if (!fs.existsSync(taskFile)) fs.writeFileSync(taskFile, '[]', 'utf-8');
 
