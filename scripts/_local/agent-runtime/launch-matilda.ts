@@ -2,66 +2,49 @@ import fs from 'fs';
 import path from 'path';
 import readline from 'readline';
 
-// Paths
-const PROJECT_ROOT = path.resolve(__dirname, '../../../..');
+// Define project root and memory paths
+const PROJECT_ROOT = path.join(__dirname, '../../../..', 'Motherboard_Systems_HQ');
 const MEMORY_DIR = path.join(PROJECT_ROOT, 'memory');
 const TASK_FILE = path.join(MEMORY_DIR, 'chained_tasks.json');
-const LOG_FILE = path.join(MEMORY_DIR, 'agent_development_tracker.log');
+const LOG_FILE = path.join(MEMORY_DIR, 'matilda_orchestration.log');
 
-// Types
-interface Task {
-  description: string;
-  status: 'pending' | 'done';
-  createdAt: string;
-  updatedAt?: string;
+// Ensure directories and files exist
+if (!fs.existsSync(MEMORY_DIR)) fs.mkdirSync(MEMORY_DIR, { recursive: true });
+if (!fs.existsSync(TASK_FILE)) fs.writeFileSync(TASK_FILE, '[]');
+if (!fs.existsSync(LOG_FILE)) fs.writeFileSync(LOG_FILE, '');
+
+// Utility functions
+function loadTasks() {
+  return JSON.parse(fs.readFileSync(TASK_FILE, 'utf-8'));
 }
-
-// Helpers
-function loadTasks(): Task[] {
-  if (!fs.existsSync(TASK_FILE)) return [];
-  try {
-    return JSON.parse(fs.readFileSync(TASK_FILE, 'utf-8'));
-  } catch {
-    return [];
-  }
-}
-
-function saveTasks(tasks: Task[]) {
+function saveTasks(tasks) {
   fs.writeFileSync(TASK_FILE, JSON.stringify(tasks, null, 2));
 }
-
-function logAction(action: string, data: any) {
-  const line = `[${new Date().toISOString()}] ${action}: ${JSON.stringify(data)}\n`;
-  fs.appendFileSync(LOG_FILE, line);
+function logAction(action: string, payload: any = {}) {
+  const entry = { time: new Date().toISOString(), action, payload };
+  fs.appendFileSync(LOG_FILE, JSON.stringify(entry) + '\n');
 }
 
-// Core Functions
-function addTask(desc: string) {
+// Task functions
+function addTask(description: string) {
   const tasks = loadTasks();
-  const task: Task = { description: desc, status: 'pending', createdAt: new Date().toISOString() };
+  const task = { id: Date.now(), description, status: 'pending', createdAt: new Date().toISOString() };
   tasks.push(task);
   saveTasks(tasks);
-  logAction('task-added', task);
-  console.log(`➕ Task added: ${desc}`);
+  logAction('task-added', { task });
+  console.log(`📝 Task added: ${description}`);
 }
 
 function showTasks() {
   const tasks = loadTasks();
-  if (!tasks.length) {
-    console.log('📭 No tasks in queue.');
-    return;
-  }
-  console.log('📝 Task Queue:');
-  tasks.forEach((t, i) => {
-    console.log(`${i + 1}. [${t.status}] ${t.description}`);
-  });
+  console.log('📋 Current Tasks:', tasks);
 }
 
 function runNextTask() {
   const tasks = loadTasks();
   const next = tasks.find(t => t.status === 'pending');
   if (!next) {
-    console.log('✅ No pending tasks.');
+    console.log('✅ All tasks completed!');
     return;
   }
   console.log(`🚀 Running task: ${next.description}`);
@@ -81,7 +64,7 @@ function autoRunLoop() {
       console.log(`🤖 Auto-running task: ${next.description}`);
       runNextTask();
     }
-  }, 30000); // every 30 seconds
+  }, 30000);
 }
 
 // CLI
