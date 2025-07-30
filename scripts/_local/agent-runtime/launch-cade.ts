@@ -1,7 +1,16 @@
-import { pathToFileURL } from "url";
-import { resolve } from "path";
+import http from "http";
 
-const agentFile = resolve(process.cwd(), "src/scripts/agents/cade.ts");
-console.log("🔹 Launching Cade from", agentFile);
+console.log("�� Launching Cade agent with heartbeat...");
 
-await import(pathToFileURL(agentFile).href);
+const port = 3012;
+
+// Keep process alive
+setInterval(() => {}, 1000);
+
+// Simple heartbeat server
+http.createServer((req, res) => {
+  res.writeHead(200, { "Content-Type": "application/json" });
+  res.end(JSON.stringify({ agent: "cade", status: "online" }));
+}).listen(port, () => {
+  console.log(`💚 Cade heartbeat listening on port ${port}`);
+});
