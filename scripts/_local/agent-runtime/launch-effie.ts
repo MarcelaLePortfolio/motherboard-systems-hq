@@ -1,16 +1,15 @@
-import http from "http";
+import { createAgentRuntime } from "../../mirror/agent";
+import { effie } from "../../agents/effie";
+import fs from "fs";
 
-console.log("🚀 Launching Effie agent with heartbeat...");
+createAgentRuntime(effie);
 
-const port = 3013;
-
-// Keep process alive
-setInterval(() => {}, 1000);
-
-// Simple heartbeat server
-http.createServer((req, res) => {
-  res.writeHead(200, { "Content-Type": "application/json" });
-  res.end(JSON.stringify({ agent: "effie", status: "online" }));
-}).listen(port, () => {
-  console.log(`💚 Effie heartbeat listening on port ${port}`);
-});
+try {
+  fs.appendFileSync(
+    "ui/dashboard/ticker-events.log",
+    `{"timestamp":"${Math.floor(Date.now()/1000)}","agent":"effie","event":"agent-online"}\n`
+  );
+  console.log("🟢 Effie ticker event emitted: agent-online");
+} catch (err) {
+  console.error("❌ Failed to emit Effie ticker event:", err);
+}

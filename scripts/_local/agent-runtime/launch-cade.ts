@@ -1,16 +1,15 @@
-import http from "http";
+import { createAgentRuntime } from "../../mirror/agent";
+import { cade } from "../../agents/cade";
+import fs from "fs";
 
-console.log("�� Launching Cade agent with heartbeat...");
+createAgentRuntime(cade);
 
-const port = 3012;
-
-// Keep process alive
-setInterval(() => {}, 1000);
-
-// Simple heartbeat server
-http.createServer((req, res) => {
-  res.writeHead(200, { "Content-Type": "application/json" });
-  res.end(JSON.stringify({ agent: "cade", status: "online" }));
-}).listen(port, () => {
-  console.log(`💚 Cade heartbeat listening on port ${port}`);
-});
+try {
+  fs.appendFileSync(
+    "ui/dashboard/ticker-events.log",
+    `{"timestamp":"${Math.floor(Date.now()/1000)}","agent":"cade","event":"agent-online"}\n`
+  );
+  console.log("🟢 Cade ticker event emitted: agent-online");
+} catch (err) {
+  console.error("❌ Failed to emit Cade ticker event:", err);
+}
