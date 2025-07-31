@@ -1,42 +1,18 @@
 #!/bin/bash
-set -e
+# =========================================
+# Matilda Backup Script
+# =========================================
 
-PROJECT_DIR="$HOME/Desktop/Motherboard_Systems_HQ"
-BACKUP_DIR="$PROJECT_DIR"
-ARCHIVE_DIR="$PROJECT_DIR/Backups/Archive"
-LOG_DIR="$PROJECT_DIR/Backups/Logs"
+# Create timestamped backup zip
+mkdir -p Backups
+timestamp=$(date +%Y%m%d_%H%M)
+zip_file="Backups/Motherboard_Backup_${timestamp}.zip"
 
-mkdir -p "$ARCHIVE_DIR" "$LOG_DIR"
+echo "📦 Creating backup at $zip_file ..."
+zip -r "$zip_file" . -x "node_modules/*" "Backups/*" "*.log"
 
-TIMESTAMP=$(date +%Y%m%d_%H%M)
-ZIP_NAME="MOTHERBOARD_SYSTEMS_BACKUP_${TIMESTAMP}.zip"
-ZIP_PATH="$BACKUP_DIR/$ZIP_NAME"
-LOG_FILE="$LOG_DIR/backup_${TIMESTAMP}.log"
+# Rotate backups (keep last 10)
+ls -t Backups/Motherboard_Backup_*.zip | tail -n +11 | xargs rm -f
 
-echo "📦 Starting backup at $(date)" | tee -a "$LOG_FILE"
-
-# Create zip, excluding archives and top-level .log/.txt files
-cd "$PROJECT_DIR/.."
-zip -r "$ZIP_PATH" "Motherboard_Systems_HQ" \
-  -x "Motherboard_Systems_HQ/Backups/Archive/*" \
-  -x "Motherboard_Systems_HQ/*.zip" \
-  -x "Motherboard_Systems_HQ/*.log" \
-  -x "Motherboard_Systems_HQ/*.txt" \
-  | tee -a "$LOG_FILE"
-
-echo "✅ Backup complete: $ZIP_PATH" | tee -a "$LOG_FILE"
-
-# Move old zip backups to archive if >2 exist
-cd "$BACKUP_DIR"
-ls -tp MOTHERBOARD_SYSTEMS_BACKUP_*.zip 2>/dev/null | tail -n +3 | while read old_zip; do
-  mv "$old_zip" "$ARCHIVE_DIR/" && echo "↪️ Moved old backup to archive: $old_zip" | tee -a "$LOG_FILE"
-done
-
-# Rotate logs: keep last 10 of both .log and .txt
-cd "$LOG_DIR"
-ls -t MOTHERBOARD_*.txt backup_*.log MOTHERBOARD_*.log 2>/dev/null | tail -n +11 | xargs -I {} rm -- "{}" || true
-
-# ✅ Call the cleanup script to enforce no desktop logs remain
-"$PROJECT_DIR/scripts/_local/agent-runtime/matilda-backup-cleanup.sh" | tee -a "$LOG_FILE"
-
-echo "<0001f9f9> Log rotation + cleanup complete." | tee -a "$LOG_FILE"
+# ✅ Event emitter for dashboard ticker
+echo "{\"timestamp\":\"$(date +%s)\",\"agent\":\"matilda\",\"event\":\"backup-complete\"}" >> ui/dashboard/ticker-events.log
