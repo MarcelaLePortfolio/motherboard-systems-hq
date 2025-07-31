@@ -9,9 +9,9 @@ async function fetchTickerEvents() {
 
     const container = document.getElementById("log");
     if (!container) return;
-
     container.innerHTML = "";
-    events.slice(-10).forEach(ev => {
+
+    events.forEach(ev => {
       const row = document.createElement("div");
       row.className = "ticker-item";
 
