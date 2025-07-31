@@ -1,31 +1,28 @@
 #!/usr/bin/env node
 
-// 🔹 Matilda Auto Deploy Patch Script with Heartbeat Logging
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
+const { execSync } = require('child_process');
 
-const PROJECT_DIR = process.env.HOME + "/Desktop/Motherboard_Systems_HQ";
-const UI_SRC = path.join(PROJECT_DIR, "ui/dashboard");
-const SERVE_ROOT = path.join(UI_SRC, "serve-root");
-const LOG_FILE = path.join(UI_SRC, "public/matilda-log.json");
-const CHECKSUM_FILE = path.join(PROJECT_DIR, "memory/last_ui_checksum.txt");
+const PROJECT_DIR = process.env.HOME + '/Desktop/Motherboard_Systems_HQ';
+const UI_SRC = path.join(PROJECT_DIR, 'ui/dashboard');
+const CHECKSUM_FILE = path.join(PROJECT_DIR, 'ui/dashboard/.last_checksum');
+const LOG_FILE = path.join(PROJECT_DIR, 'Backups/Logs/matilda_auto_deploy.json');
 
 function getChecksum(dir) {
-  const crypto = require('crypto');
-  const hash = crypto.createHash('sha256');
-
-  function walkSync(currentDirPath) {
-    fs.readdirSync(currentDirPath).forEach(function (name) {
-      const filePath = path.join(currentDirPath, name);
-      const stat = fs.statSync(filePath);
-      if (stat.isFile()) {
-        hash.update(fs.readFileSync(filePath));
-      } else if (stat.isDirectory()) {
-        walkSync(filePath);
+  const hash = crypto.createHash('md5');
+  function walkSync(currentPath) {
+    fs.readdirSync(currentPath).forEach(file => {
+      const fullPath = path.join(currentPath, file);
+      const stat = fs.statSync(fullPath);
+      if (stat.isDirectory()) {
+        walkSync(fullPath);
+      } else {
+        hash.update(fs.readFileSync(fullPath));
       }
     });
   }
-
   walkSync(UI_SRC);
   return hash.digest('hex');
 }
@@ -39,7 +36,7 @@ function appendLog(message) {
     logs = [];
   }
   logs.push(`[${timestamp}] ${message}`);
-  fs.writeFileSync(LOG_FILE, JSON.stringify(logs.slice(-200), null, 2)); // keep last 200 entries
+  fs.writeFileSync(LOG_FILE, JSON.stringify(logs.slice(-200), null, 2));
 }
 
 (async () => {
@@ -51,12 +48,14 @@ function appendLog(message) {
     console.log("Deploying updated UI...");
 
     // run deploy-ui.sh
-    require('child_process').execSync(`${PROJECT_DIR}/tools/deploy-ui.sh`, { stdio: 'inherit' });
+    execSync(`${PROJECT_DIR}/tools/deploy-ui.sh`, { stdio: 'inherit' });
 
     fs.writeFileSync(CHECKSUM_FILE, newChecksum);
     appendLog("✅ Auto-deploy complete!");
+    execSync(`node "${PROJECT_DIR}/tools/log-to-ticker.js" "✅ Auto-deploy complete!"`);
   } else {
     // Heartbeat log if no changes
     appendLog("🔹 Auto-deploy check complete — no UI changes detected");
+    execSync(`node "${PROJECT_DIR}/tools/log-to-ticker.js" "🔹 Auto-deploy heartbeat"`);
   }
 })();
