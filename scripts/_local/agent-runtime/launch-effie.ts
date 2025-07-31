@@ -1,10 +1,15 @@
 import fs from "fs";
 
-fs.appendFileSync(
-  "ui/dashboard/ticker-events.log",
-  `{"timestamp":"${Math.floor(Date.now()/1000)}","agent":"effie","event":"agent-online"}\n`
-);
-console.log("🟢 Effie ticker event emitted: agent-online");
+function emitOnline() {
+  const ts = Math.floor(Date.now() / 1000);
+  const event = `{"timestamp":"${ts}","agent":"effie","event":"agent-online"}\n`;
+  fs.appendFileSync("ui/dashboard/ticker-events.log", event);
+  console.log("💚 Effie ticker event emitted: agent-online");
+}
 
-// Keep process alive so PM2 shows online
+// Emit immediately and every 60 seconds
+emitOnline();
+setInterval(emitOnline, 60000);
+
+// Keep process alive for PM2
 setInterval(() => {}, 60000);
