@@ -5,11 +5,13 @@ async function fetchTickerEvents() {
   try {
     const res = await fetch(TICKER_URL);
     const events = await res.json();
-    const container = document.getElementById("ticker");
+    console.log("📡 Ticker events:", events);
+
+    const container = document.getElementById("log");
     if (!container) return;
 
     container.innerHTML = "";
-    events.forEach(ev => {
+    events.slice(-10).forEach(ev => {
       const row = document.createElement("div");
       row.className = "ticker-item";
 
@@ -17,8 +19,8 @@ async function fetchTickerEvents() {
       const color = ev.agent === "cade" ? "#0af"
                   : ev.agent === "effie" ? "#ff0"
                   : "#0f0";
-      const icon = ev.agent === "cade" ? "🛠" 
-                 : ev.agent === "effie" ? "🖥" 
+      const icon = ev.agent === "cade" ? "🛠"
+                 : ev.agent === "effie" ? "🖥"
                  : "🧠";
 
       row.innerHTML = `
