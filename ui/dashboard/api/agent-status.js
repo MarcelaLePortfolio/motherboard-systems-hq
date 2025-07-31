@@ -1,54 +1,54 @@
-#!/usr/bin/env node
-// =========================================
-// Authentic Agent Status Endpoint
-// =========================================
-// Reads ticker-events.log and reports online/offline for Cade, Effie, Matilda
-// Agent is considered online if last "agent-online" event < 3 min ago
-// =========================================
+import express from "express";
+import fs from "fs";
 
-const fs = require('fs');
-const http = require('http');
-const path = require('path');
+const app = express();
+const PORT = 3081;
 
-const LOG_PATH = path.join(__dirname, '..', 'ticker-events.log');
-const PORT = 3081; // different from ticker endpoint
-
-function getAgentStatus() {
+// Existing status endpoint
+app.get("/", (req, res) => {
   const now = Math.floor(Date.now() / 1000);
-  const cutoff = 3 * 60; // 3 minutes
-  const agents = { cade: 'offline', effie: 'offline', matilda: 'offline' };
+
+  // Basic logic: consider agent online if last heartbeat < 70s
+  let status = { cade: "offline", effie: "offline", matilda: "offline" };
 
   try {
-    const data = fs.readFileSync(LOG_PATH, 'utf-8')
-      .trim()
-      .split('\n')
-      .filter(Boolean)
+    const lines = fs.readFileSync("ui/dashboard/ticker-events.log", "utf-8")
+      .trim().split("\n")
+      .slice(-200)
       .map(line => JSON.parse(line));
 
-    // Reverse iterate to find last online event per agent
-    for (let i = data.length - 1; i >= 0; i--) {
-      const ev = data[i];
-      if (agents[ev.agent] === 'offline' && ev.event === 'agent-online') {
-        if ((now - ev.timestamp) < cutoff) {
-          agents[ev.agent] = 'online';
-        }
+    const lastSeen = { cade: 0, effie: 0, matilda: 0 };
+    lines.forEach(ev => {
+      if (ev.agent in lastSeen && ev.event === "agent-online") {
+        lastSeen[ev.agent] = Math.max(lastSeen[ev.agent], parseInt(ev.timestamp));
       }
-      // stop if all found
-      if (Object.values(agents).every(v => v !== 'offline')) break;
-    }
+    });
 
+    Object.keys(lastSeen).forEach(agent => {
+      if (now - lastSeen[agent] <= 70) status[agent] = "online";
+    });
   } catch (err) {
-    console.error("❌ Failed to read ticker log:", err.message);
+    console.error("⚠️ Status read error:", err.message);
   }
 
-  return { ...agents, timestamp: now };
-}
+  status.timestamp = now;
+  res.json(status);
+});
 
-http.createServer((req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Content-Type', 'application/json');
-  res.writeHead(200);
-  res.end(JSON.stringify(getAgentStatus(), null, 2));
-}).listen(PORT, () => {
-  console.log(`📡 Agent status endpoint running on http://localhost:${PORT}`);
+// ✅ New ticker endpoint
+app.get("/ticker", (req, res) => {
+  try {
+    const lines = fs.readFileSync("ui/dashboard/ticker-events.log", "utf-8")
+      .trim()
+      .split("\n")
+      .slice(-50)
+      .map(JSON.parse);
+    res.json(lines);
+  } catch {
+    res.json([]);
+  }
+});
+
+app.listen(PORT, () => {
+  console.log(`✅ Status & Ticker API running at http://localhost:${PORT}`);
 });
