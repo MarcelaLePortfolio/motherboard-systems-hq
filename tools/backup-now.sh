@@ -34,6 +34,9 @@ done
 
 # Rotate logs: keep last 10 of both .log and .txt
 cd "$LOG_DIR"
-ls -t *.log MOTHERBOARD_*.txt 2>/dev/null | tail -n +11 | xargs -I {} rm -- "{}" || true
+ls -t MOTHERBOARD_*.txt backup_*.log MOTHERBOARD_*.log 2>/dev/null | tail -n +11 | xargs -I {} rm -- "{}" || true
 
-echo "🧹 Log rotation complete. Only 10 newest logs retained." | tee -a "$LOG_FILE"
+# ✅ Call the cleanup script to enforce no desktop logs remain
+"$PROJECT_DIR/scripts/_local/agent-runtime/matilda-backup-cleanup.sh" | tee -a "$LOG_FILE"
+
+echo "<0001f9f9> Log rotation + cleanup complete." | tee -a "$LOG_FILE"
