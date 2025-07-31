@@ -1,0 +1,17 @@
+#ticker {
+  font-family: monospace;
+  background: #111;
+  color: #0f0;
+  padding: 0.5rem;
+  overflow-y: hidden;
+  height: 8rem;
+}
+
+.ticker-item {
+  animation: tickerFadeIn 0.5s ease;
+}
+
+@keyframes tickerFadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
