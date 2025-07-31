@@ -1,54 +1,55 @@
-import express from "express";
+import http from "http";
 import fs from "fs";
+import url from "url";
 
-const app = express();
 const PORT = 3081;
 
-// Existing status endpoint
-app.get("/", (req, res) => {
-  const now = Math.floor(Date.now() / 1000);
+function getStatus() {
+  const log = fs.readFileSync("ui/dashboard/ticker-events.log", "utf-8")
+    .trim()
+    .split("\n")
+    .slice(-50)
+    .map(line => JSON.parse(line));
 
-  // Basic logic: consider agent online if last heartbeat < 70s
-  let status = { cade: "offline", effie: "offline", matilda: "offline" };
-
-  try {
-    const lines = fs.readFileSync("ui/dashboard/ticker-events.log", "utf-8")
-      .trim().split("\n")
-      .slice(-200)
-      .map(line => JSON.parse(line));
-
-    const lastSeen = { cade: 0, effie: 0, matilda: 0 };
-    lines.forEach(ev => {
-      if (ev.agent in lastSeen && ev.event === "agent-online") {
-        lastSeen[ev.agent] = Math.max(lastSeen[ev.agent], parseInt(ev.timestamp));
-      }
-    });
-
-    Object.keys(lastSeen).forEach(agent => {
-      if (now - lastSeen[agent] <= 70) status[agent] = "online";
-    });
-  } catch (err) {
-    console.error("⚠️ Status read error:", err.message);
+  const latest = { cade: "offline", effie: "offline", matilda: "offline" };
+  for (let i = log.length - 1; i >= 0; i--) {
+    const ev = log[i];
+    if (ev.event === "agent-online" && latest[ev.agent] === "offline") {
+      latest[ev.agent] = "online";
+    }
   }
 
-  status.timestamp = now;
-  res.json(status);
-});
+  return { ...latest, timestamp: Math.floor(Date.now() / 1000) };
+}
 
-// ✅ New ticker endpoint
-app.get("/ticker", (req, res) => {
-  try {
-    const lines = fs.readFileSync("ui/dashboard/ticker-events.log", "utf-8")
+const server = http.createServer((req, res) => {
+  const parsed = url.parse(req.url, true);
+
+  // ✅ Add CORS headers
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+  if (req.method === "OPTIONS") {
+    res.writeHead(200);
+    res.end();
+    return;
+  }
+
+  if (parsed.pathname === "/ticker") {
+    const log = fs.readFileSync("ui/dashboard/ticker-events.log", "utf-8")
       .trim()
       .split("\n")
-      .slice(-50)
-      .map(JSON.parse);
-    res.json(lines);
-  } catch {
-    res.json([]);
+      .slice(-20)
+      .map(line => JSON.parse(line));
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify(log));
+  } else {
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify(getStatus()));
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`✅ Status & Ticker API running at http://localhost:${PORT}`);
-});
+server.listen(PORT, () =>
+  console.log(`✅ Status & Ticker API running with CORS at http://localhost:${PORT}`)
+);
