@@ -31,7 +31,7 @@ async function fetchTickerEvents() {
         <span style="color:#333;">[${ev.event}]</span>
       `;
       container.appendChild(row);
-    });
+    container.scrollTop = container.scrollHeight;    });
   } catch (err) {
     console.error("❌ Failed to fetch ticker events:", err);
   }
