@@ -7,7 +7,7 @@ async function fetchTickerEvents() {
     const events = await res.json();
     console.log("📡 Ticker events:", events);
 
-    const container = document.getElementById("log");
+    const container = document.getElementById("ticker");
     if (!container) return;
     container.innerHTML = "";
 
