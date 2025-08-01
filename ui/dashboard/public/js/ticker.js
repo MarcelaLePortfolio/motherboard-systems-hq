@@ -23,10 +23,10 @@ function showNextEvent() {
 
   const time = new Date(ev.timestamp * 1000).toLocaleTimeString();
 
-  // Shades of gray/black for minimalist elegance
-  const agentColor = "#222";   // almost black
+  // Swapped colors: event is now darker, agent is lighter gray
+  const agentColor = "#999";   // lighter gray
   const timeColor = "#666";    // medium gray
-  const eventColor = "#999";   // lighter gray
+  const eventColor = "#222";   // almost black
 
   container.innerHTML = `
     <div class="ticker-item">
