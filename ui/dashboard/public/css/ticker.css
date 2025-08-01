@@ -8,29 +8,32 @@
   border-radius: 4px;
   margin: 8px 0 16px 0;
   scroll-behavior: smooth;
-  width: 100%;
 }
 
 .ticker-item {
   display: flex;
-  justify-content: flex-start;  /* Logs remain left-aligned */
+  justify-content: space-between;
   align-items: center;
-  gap: 2rem;
-  line-height: 1.3rem;
-  padding: 1px 0;
-  opacity: 0;
-  transform: translateY(5px);
-  animation: fadeSlideIn 0.4s ease forwards;
+  width: 100%;        /* Full width */
+  white-space: nowrap; /* No wrapping */
+  line-height: 1.5rem;
+  padding: 2px 0;
 }
 
-/* Only the first placeholder is centered */
-#log .ticker-item:first-child:only-child {
-  justify-content: center;
+.ticker-item .agent {
+  font-weight: bold;
+  min-width: 7rem;
 }
 
-@keyframes fadeSlideIn {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.ticker-item .time {
+  color: #999;
+  min-width: 6rem;
+  text-align: right;
+}
+
+.ticker-item .event {
+  color: #ffa500;
+  text-align: left;
+  flex-grow: 1;
+  padding-left: 1rem;
 }
