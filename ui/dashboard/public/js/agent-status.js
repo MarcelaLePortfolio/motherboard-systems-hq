@@ -1,15 +1,15 @@
 document.addEventListener('DOMContentLoaded', async () => {
-  const STATUS_FILE = 'memory/agent_status.json';
+  // Adjust this path if dashboard is not at project root
+  const STATUS_FILE = '/memory/agent_status.json';
 
   function pulse(el) {
-    el.classList.remove('pulse');
-    void el.offsetWidth; // trigger reflow
     el.classList.add('pulse');
+    setTimeout(() => el.classList.remove('pulse'), 1000);
   }
 
   async function fetchStatus() {
     try {
-      const res = await fetch(STATUS_FILE + '?_=' + Date.now());
+      const res = await fetch(STATUS_FILE + '?_=' + Date.now(), { cache: 'no-store' });
       const data = await res.json();
 
       ['cade','effie','matilda'].forEach(agent => {
@@ -24,12 +24,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         const wasOnline = el.dataset.status === 'online';
         el.dataset.status = isAlive ? 'online' : 'offline';
 
-        el.textContent = isAlive ? '🟢 Online' : '⚫ Offline';
+        el.textContent = isAlive ? '💚 Online' : '⚫ Offline';
         el.style.color = isAlive ? 'limegreen' : 'gray';
 
-        if (isAlive && !wasOnline) {
-          pulse(el); // animate when coming online
-        }
+        if (isAlive && !wasOnline) pulse(el);
       });
     } catch (err) {
       console.error('Status fetch failed', err);
