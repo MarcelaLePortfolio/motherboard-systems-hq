@@ -13,14 +13,14 @@
 .ticker-item {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  gap: 2rem;             /* spacing between agent, time, and event */
+  justify-content: center;  /* Center horizontally */
+  gap: 2rem;                /* spacing between agent, time, and event */
   line-height: 1.3rem;
   padding: 2px 0;
   opacity: 0;
   transform: translateY(5px);
   animation: fadeSlideIn 0.4s ease forwards;
-  white-space: nowrap;   /* prevent line breaks */
+  white-space: nowrap;      /* prevent line breaks */
 }
 
 @keyframes fadeSlideIn {
