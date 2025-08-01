@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', async () => {
-  const STATUS_FILE = 'memory/agent_status.json';
+  const STATUS_FILE = '../memory/agent_status.json';
 
   function pulse(el) {
     el.classList.add('pulse');
