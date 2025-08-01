@@ -13,8 +13,8 @@
 
 .ticker-item {
   display: flex;
-  justify-content: center;  /* Center horizontally */
-  align-items: center;       /* Center vertically */
+  justify-content: flex-start;  /* Logs remain left-aligned */
+  align-items: center;
   gap: 2rem;
   line-height: 1.3rem;
   padding: 1px 0;
@@ -23,10 +23,9 @@
   animation: fadeSlideIn 0.4s ease forwards;
 }
 
-#log .ticker-item:first-child {
-  opacity: 1;               /* Always visible immediately */
-  transform: none;
-  animation: none;           /* No fade for "Initializing..." */
+/* Only the first placeholder is centered */
+#log .ticker-item:first-child:only-child {
+  justify-content: center;
 }
 
 @keyframes fadeSlideIn {
