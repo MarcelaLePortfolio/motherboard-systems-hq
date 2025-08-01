@@ -1,6 +1,12 @@
 document.addEventListener('DOMContentLoaded', async () => {
   const STATUS_FILE = 'memory/agent_status.json';
 
+  function pulse(el) {
+    el.classList.remove('pulse');
+    void el.offsetWidth; // trigger reflow
+    el.classList.add('pulse');
+  }
+
   async function fetchStatus() {
     try {
       const res = await fetch(STATUS_FILE + '?_=' + Date.now());
@@ -15,8 +21,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         const last = info.lastHeartbeat || 0;
         const isAlive = (now - last <= 10) && info.status === 'online';
 
+        const wasOnline = el.dataset.status === 'online';
+        el.dataset.status = isAlive ? 'online' : 'offline';
+
         el.textContent = isAlive ? '🟢 Online' : '⚫ Offline';
         el.style.color = isAlive ? 'limegreen' : 'gray';
+
+        if (isAlive && !wasOnline) {
+          pulse(el); // animate when coming online
+        }
       });
     } catch (err) {
       console.error('Status fetch failed', err);
