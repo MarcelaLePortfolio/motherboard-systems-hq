@@ -23,16 +23,16 @@ function showNextEvent() {
 
   const time = new Date(ev.timestamp * 1000).toLocaleTimeString();
 
-  // Bolder colors
-  const color = ev.agent === "cade" ? "#00c8ff"  // brighter blue
-              : ev.agent === "effie" ? "#ffd700" // bold gold
-              : "#00ff00";                       // vivid green
+  // Shades of gray/black for minimalist elegance
+  const agentColor = "#222";   // almost black
+  const timeColor = "#666";    // medium gray
+  const eventColor = "#999";   // lighter gray
 
   container.innerHTML = `
     <div class="ticker-item">
-      <span style="color:${color}; font-weight:bold;">${ev.agent.toUpperCase()}</span>
-      <span style="color:#fff;">${time}</span>
-      <span style="color:#ff6600;">[${ev.event}]</span>
+      <span style="color:${agentColor};">${ev.agent.toUpperCase()}</span>
+      <span style="color:${timeColor};">${time}</span>
+      <span style="color:${eventColor};">[${ev.event}]</span>
     </div>
   `;
 }

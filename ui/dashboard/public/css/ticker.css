@@ -1,7 +1,7 @@
 #ticker {
-  font-family: monospace;
-  background: transparent;  /* Clean look */
-  color: #0f0;
+  font-family: "Inter", sans-serif;
+  background: transparent;  /* Minimalist, no bar */
+  color: #333;
   height: 1.5rem;
   overflow: hidden;
   display: flex;
@@ -12,7 +12,9 @@
 .ticker-item {
   animation: tickerFadeSlide 4s ease-in-out forwards;
   white-space: nowrap;
-  font-weight: bold; /* Make everything a bit bolder */
+  font-weight: 400;      /* Daintier font weight */
+  font-size: 0.9rem;     /* Slightly smaller font */
+  letter-spacing: 0.5px; /* Elegant spacing */
 }
 
 @keyframes tickerFadeSlide {
