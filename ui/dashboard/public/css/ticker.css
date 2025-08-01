@@ -1,6 +1,6 @@
 #ticker {
   font-family: monospace;
-  background: #000; /* Simple legible background */
+  background: #000;
   color: #0f0;
   padding: 0.5rem;
   height: 6rem;
@@ -12,15 +12,15 @@
 
 .ticker-item {
   display: flex;
+  justify-content: center; /* Center horizontally */
   align-items: center;
-  justify-content: center;  /* Center horizontally */
-  gap: 2rem;                /* spacing between agent, time, and event */
+  gap: 2rem;
   line-height: 1.3rem;
   padding: 2px 0;
   opacity: 0;
   transform: translateY(5px);
   animation: fadeSlideIn 0.4s ease forwards;
-  white-space: nowrap;      /* prevent line breaks */
+  white-space: nowrap;
 }
 
 @keyframes fadeSlideIn {
