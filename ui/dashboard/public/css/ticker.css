@@ -2,7 +2,7 @@
   font-family: monospace;
   background: #000;
   color: #0f0;
-  padding: 0.5rem;
+  padding: 0.5rem 1rem;
   height: 6rem;
   overflow-y: auto;
   border-radius: 4px;
@@ -11,29 +11,25 @@
 }
 
 .ticker-item {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 8rem 6rem 1fr; /* Agent | Time | Event */
+  gap: 1rem;
   align-items: center;
-  width: 100%;        /* Full width */
-  white-space: nowrap; /* No wrapping */
-  line-height: 1.5rem;
+  white-space: nowrap;
+  line-height: 1.4rem;
   padding: 2px 0;
 }
 
 .ticker-item .agent {
   font-weight: bold;
-  min-width: 7rem;
 }
 
 .ticker-item .time {
   color: #999;
-  min-width: 6rem;
-  text-align: right;
+  text-align: center;
 }
 
 .ticker-item .event {
   color: #ffa500;
   text-align: left;
-  flex-grow: 1;
-  padding-left: 1rem;
 }

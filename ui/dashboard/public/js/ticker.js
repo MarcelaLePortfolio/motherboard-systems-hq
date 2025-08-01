@@ -10,11 +10,6 @@ async function fetchTickerEvents() {
     const container = document.getElementById("log");
     if (!container) return;
 
-    // Remove placeholder if it's the only child and logs are coming
-    if (container.children.length === 1 && container.children[0].textContent.includes("Initializing")) {
-      container.innerHTML = "";
-    }
-
     const newEvents = events.filter(ev => ev.timestamp > lastTimestamp);
     if (newEvents.length === 0) return;
 
@@ -22,18 +17,24 @@ async function fetchTickerEvents() {
       const row = document.createElement("div");
       row.className = "ticker-item";
 
-      const time = new Date(ev.timestamp * 1000).toLocaleTimeString();
-      const color = ev.agent === "cade" ? "#0af"
-                  : ev.agent === "effie" ? "#ff0"
-                  : "#0f0";
+      const agent = document.createElement("span");
+      agent.className = "agent";
+      agent.style.color = ev.agent === "cade" ? "#0af"
+                       : ev.agent === "effie" ? "#ff0"
+                       : "#0f0";
+      agent.textContent = ev.agent.toUpperCase();
 
-      row.innerHTML = `
-        <span style="color:${color}; font-weight:bold; width:7rem; display:inline-block;">
-          ${ev.agent.toUpperCase()}
-        </span>
-        <span style="color:#999; width:5rem; display:inline-block;">${time}</span>
-        <span style="color:#ffa500;">[${ev.event}]</span>
-      `;
+      const time = document.createElement("span");
+      time.className = "time";
+      time.textContent = new Date(ev.timestamp * 1000).toLocaleTimeString();
+
+      const event = document.createElement("span");
+      event.className = "event";
+      event.textContent = `[${ev.event}]`;
+
+      row.appendChild(agent);
+      row.appendChild(time);
+      row.appendChild(event);
 
       container.appendChild(row);
       container.scrollTop = container.scrollHeight;
