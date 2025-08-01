@@ -1,10 +1,10 @@
 import fs from 'fs';
 import readline from 'readline';
+import path from 'path';
 
-const TICKER_LOG = './ui/dashboard/ticker-events.log';
-const STATUS_FILE = './memory/agent_status.json';
+const STATUS_FILE = path.resolve('memory/agent_status.json');
+const TICKER_LOG = path.resolve('ui/dashboard/ticker-events.log');
 
-// Utility to log to ticker
 function logEvent(agent, event) {
   const entry = JSON.stringify({
     timestamp: Math.floor(Date.now() / 1000),
@@ -14,17 +14,19 @@ function logEvent(agent, event) {
   fs.appendFileSync(TICKER_LOG, entry + "\n");
 }
 
-// Update agent status JSON
 function setStatus(status) {
-  let current = {};
-  if (fs.existsSync(STATUS_FILE)) {
-    try { current = JSON.parse(fs.readFileSync(STATUS_FILE, 'utf8')); } catch {}
-  }
-  current.cade = status;
-  fs.writeFileSync(STATUS_FILE, JSON.stringify(current, null, 2));
+  const now = Math.floor(Date.now() / 1000);
+  let data = {};
+  try { data = JSON.parse(fs.readFileSync(STATUS_FILE, 'utf-8')); } catch {}
+  data.cade = { status, lastHeartbeat: now };
+  fs.writeFileSync(STATUS_FILE, JSON.stringify(data, null, 2));
 }
 
-// Handle exit cleanly
+function heartbeat() {
+  setStatus('online');
+}
+
+// Graceful shutdown
 function shutdown() {
   logEvent('cade', '❌ Cade offline');
   setStatus('offline');
@@ -33,11 +35,12 @@ function shutdown() {
 process.on('SIGINT', shutdown);
 process.on('SIGTERM', shutdown);
 
-// Mark online at startup
+// Initial online mark + heartbeat loop
 logEvent('cade', '💚 Cade online');
 setStatus('online');
+setInterval(heartbeat, 5000); // heartbeat every 5 seconds
 
-// Cade's reasoning loop
+// Cade Reasoning Loop
 async function startCade() {
   console.log("🤖 Cade Reasoning Mode Started — Enter high-level goals:");
 
