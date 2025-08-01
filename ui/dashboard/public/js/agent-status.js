@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', async () => {
-  // Adjust this path if dashboard is not at project root
   const STATUS_FILE = 'memory/agent_status.json';
 
   function pulse(el) {
@@ -9,7 +8,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   async function fetchStatus() {
     try {
-      const res = await fetch(STATUS_FILE + '?_=' + Date.now(), { cache: 'no-store' });
+      const url = STATUS_FILE + '?_=' + Date.now();  // Cache buster
+      const res = await fetch(url, {
+        cache: 'no-store',
+        headers: { 'Cache-Control': 'no-cache' }
+      });
       const data = await res.json();
 
       ['cade','effie','matilda'].forEach(agent => {
@@ -23,7 +26,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         const wasOnline = el.dataset.status === 'online';
         el.dataset.status = isAlive ? 'online' : 'offline';
-
         el.textContent = isAlive ? '💚 Online' : '⚫ Offline';
         el.style.color = isAlive ? 'limegreen' : 'gray';
 
