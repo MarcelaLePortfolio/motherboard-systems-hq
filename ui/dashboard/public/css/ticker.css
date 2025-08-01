@@ -1,40 +1,22 @@
 #ticker {
   font-family: monospace;
-  background: #000;
+  background: transparent;  /* No visible bar */
   color: #0f0;
-  padding: 0.5rem 1rem;
-  height: 6rem;
-  overflow-y: auto;
-  border-radius: 4px;
-  margin: 8px auto 16px auto; /* Center ticker bar itself */
-  scroll-behavior: smooth;
+  height: 1.5rem;
+  overflow: hidden;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
 }
 
 .ticker-item {
-  display: grid;
-  grid-template-columns: 8rem 6rem 1fr; /* Agent | Time | Event */
-  gap: 1rem;
-  align-items: center;
-  justify-items: center; /* Center each cell */
+  animation: tickerFadeSlide 4s ease-in-out forwards;
   white-space: nowrap;
-  line-height: 1.4rem;
-  padding: 2px 0;
-  width: 100%;
-  max-width: 800px; /* Restrict width for nicer centering */
-  text-align: center;
 }
 
-.ticker-item .agent {
-  font-weight: bold;
-}
-
-.ticker-item .time {
-  color: #999;
-}
-
-.ticker-item .event {
-  color: #ffa500;
+@keyframes tickerFadeSlide {
+  0%   { opacity: 0; transform: translateY(5px); }
+  10%  { opacity: 1; transform: translateY(0); }
+  90%  { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-5px); }
 }
