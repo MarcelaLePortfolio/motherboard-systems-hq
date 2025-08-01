@@ -8,37 +8,35 @@ async function fetchTickerEvents() {
     const events = await res.json();
     console.log("📡 Ticker events:", events);
 
-    // Update buffer
     eventsBuffer = events;
   } catch (err) {
     console.error("❌ Failed to fetch ticker events:", err);
   }
 }
 
-// Rotate one event at a time
 function showNextEvent() {
   const container = document.getElementById("log");
   if (!container || eventsBuffer.length === 0) return;
 
-  // Cycle through events
   const ev = eventsBuffer[lastIndex % eventsBuffer.length];
   lastIndex++;
 
   const time = new Date(ev.timestamp * 1000).toLocaleTimeString();
-  const color = ev.agent === "cade" ? "#0af"
-              : ev.agent === "effie" ? "#ff0"
-              : "#0f0";
+
+  // Bolder colors
+  const color = ev.agent === "cade" ? "#00c8ff"  // brighter blue
+              : ev.agent === "effie" ? "#ffd700" // bold gold
+              : "#00ff00";                       // vivid green
 
   container.innerHTML = `
     <div class="ticker-item">
       <span style="color:${color}; font-weight:bold;">${ev.agent.toUpperCase()}</span>
-      <span style="color:#999;">${time}</span>
-      <span style="color:#ffa500;">[${ev.event}]</span>
+      <span style="color:#fff;">${time}</span>
+      <span style="color:#ff6600;">[${ev.event}]</span>
     </div>
   `;
 }
 
-// Poll logs and rotate every few seconds
 setInterval(fetchTickerEvents, POLL_INTERVAL_MS);
 setInterval(showNextEvent, 4000);
 

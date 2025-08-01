@@ -1,6 +1,6 @@
 #ticker {
   font-family: monospace;
-  background: transparent;  /* No visible bar */
+  background: transparent;  /* Clean look */
   color: #0f0;
   height: 1.5rem;
   overflow: hidden;
@@ -12,6 +12,7 @@
 .ticker-item {
   animation: tickerFadeSlide 4s ease-in-out forwards;
   white-space: nowrap;
+  font-weight: bold; /* Make everything a bit bolder */
 }
 
 @keyframes tickerFadeSlide {
