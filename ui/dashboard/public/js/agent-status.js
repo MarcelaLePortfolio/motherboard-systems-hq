@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const info = data[agent] || {};
         const now = Math.floor(Date.now() / 1000);
         const last = info.lastHeartbeat || 0;
-        const isAlive = (now - last <= 10) && info.status === 'online';
+        const isAlive = (now - last <= 3) && info.status === 'online';
 
         const wasOnline = el.dataset.status === 'online';
         el.dataset.status = isAlive ? 'online' : 'offline';
