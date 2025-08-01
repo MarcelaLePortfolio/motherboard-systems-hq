@@ -1,7 +1,8 @@
 import fs from 'fs';
 import readline from 'readline';
 
-const TICKER_LOG = 'ui/dashboard/ticker-events.log';
+const TICKER_LOG = './ui/dashboard/ticker-events.log';
+const STATUS_FILE = './memory/agent_status.json';
 
 // Utility to log to ticker
 function logEvent(agent, event) {
@@ -12,6 +13,29 @@ function logEvent(agent, event) {
   });
   fs.appendFileSync(TICKER_LOG, entry + "\n");
 }
+
+// Update agent status JSON
+function setStatus(status) {
+  let current = {};
+  if (fs.existsSync(STATUS_FILE)) {
+    try { current = JSON.parse(fs.readFileSync(STATUS_FILE, 'utf8')); } catch {}
+  }
+  current.cade = status;
+  fs.writeFileSync(STATUS_FILE, JSON.stringify(current, null, 2));
+}
+
+// Handle exit cleanly
+function shutdown() {
+  logEvent('cade', '❌ Cade offline');
+  setStatus('offline');
+  process.exit();
+}
+process.on('SIGINT', shutdown);
+process.on('SIGTERM', shutdown);
+
+// Mark online at startup
+logEvent('cade', '💚 Cade online');
+setStatus('online');
 
 // Cade's reasoning loop
 async function startCade() {
@@ -28,7 +52,6 @@ async function startCade() {
 
     logEvent("cade", `Received goal: "${goal}"`);
 
-    // Simulate reasoning (Phase 1)
     const steps = [
       `Analyze goal: "${goal}"`,
       `Break into smaller actionable steps`,
