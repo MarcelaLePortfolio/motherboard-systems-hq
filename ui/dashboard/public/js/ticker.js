@@ -10,6 +10,11 @@ async function fetchTickerEvents() {
     const container = document.getElementById("log");
     if (!container) return;
 
+    // Remove placeholder if it's the only child and logs are coming
+    if (container.children.length === 1 && container.children[0].textContent.includes("Initializing")) {
+      container.innerHTML = "";
+    }
+
     const newEvents = events.filter(ev => ev.timestamp > lastTimestamp);
     if (newEvents.length === 0) return;
 
@@ -23,14 +28,15 @@ async function fetchTickerEvents() {
                   : "#0f0";
 
       row.innerHTML = `
-        <span style="color:${color}; font-weight:bold;">${ev.agent.toUpperCase()}</span>
-        <span style="color:#999;">${time}</span>
+        <span style="color:${color}; font-weight:bold; width:7rem; display:inline-block;">
+          ${ev.agent.toUpperCase()}
+        </span>
+        <span style="color:#999; width:5rem; display:inline-block;">${time}</span>
         <span style="color:#ffa500;">[${ev.event}]</span>
       `;
 
       container.appendChild(row);
       container.scrollTop = container.scrollHeight;
-
       lastTimestamp = Math.max(lastTimestamp, ev.timestamp);
     });
   } catch (err) {
