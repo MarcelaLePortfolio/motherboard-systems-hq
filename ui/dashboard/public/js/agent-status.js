@@ -8,7 +8,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   async function fetchStatus() {
     try {
-      const res = await fetch(`${STATUS_FILE}?_=${Date.now()}`, { cache: 'no-store' });
+      // Force bypass cache every time
+      const res = await fetch(`${STATUS_FILE}?t=${Date.now()}`, { cache: 'no-store' });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
 
       ['cade','effie','matilda'].forEach(agent => {
@@ -26,15 +28,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         el.textContent = isAlive ? '💚 Online' : '⚫ Offline';
         el.style.color = isAlive ? 'limegreen' : 'gray';
 
-        if (isAlive && !wasOnline) {
-          pulse(el);
-        }
+        // Pulse on transition to online
+        if (isAlive && !wasOnline) pulse(el);
       });
     } catch (err) {
-      console.error('Status fetch failed', err);
+      console.error('Status fetch failed:', err);
     }
   }
 
-  setInterval(fetchStatus, 5000);
+  setInterval(fetchStatus, 3000); // Poll every 3 seconds
   fetchStatus();
 });
