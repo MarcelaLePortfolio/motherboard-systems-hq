@@ -6,8 +6,11 @@
   height: 6rem;
   overflow-y: auto;
   border-radius: 4px;
-  margin: 8px 0 16px 0;
+  margin: 8px auto 16px auto; /* Center ticker bar itself */
   scroll-behavior: smooth;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .ticker-item {
@@ -15,9 +18,13 @@
   grid-template-columns: 8rem 6rem 1fr; /* Agent | Time | Event */
   gap: 1rem;
   align-items: center;
+  justify-items: center; /* Center each cell */
   white-space: nowrap;
   line-height: 1.4rem;
   padding: 2px 0;
+  width: 100%;
+  max-width: 800px; /* Restrict width for nicer centering */
+  text-align: center;
 }
 
 .ticker-item .agent {
@@ -26,10 +33,8 @@
 
 .ticker-item .time {
   color: #999;
-  text-align: center;
 }
 
 .ticker-item .event {
   color: #ffa500;
-  text-align: left;
 }
