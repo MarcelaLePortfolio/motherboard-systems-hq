@@ -8,19 +8,25 @@
   border-radius: 4px;
   margin: 8px 0 16px 0;
   scroll-behavior: smooth;
-  width: 100%;          /* Full width */
+  width: 100%;
 }
 
 .ticker-item {
   display: flex;
-  justify-content: center; /* Center logs horizontally */
-  align-items: center;
+  justify-content: center;  /* Center horizontally */
+  align-items: center;       /* Center vertically */
   gap: 2rem;
   line-height: 1.3rem;
   padding: 1px 0;
   opacity: 0;
   transform: translateY(5px);
   animation: fadeSlideIn 0.4s ease forwards;
+}
+
+#log .ticker-item:first-child {
+  opacity: 1;               /* Always visible immediately */
+  transform: none;
+  animation: none;           /* No fade for "Initializing..." */
 }
 
 @keyframes fadeSlideIn {
