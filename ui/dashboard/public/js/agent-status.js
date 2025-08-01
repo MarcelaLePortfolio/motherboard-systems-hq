@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', async () => {
   // Adjust this path if dashboard is not at project root
-  const STATUS_FILE = '/memory/agent_status.json';
+  const STATUS_FILE = 'memory/agent_status.json';
 
   function pulse(el) {
     el.classList.add('pulse');
