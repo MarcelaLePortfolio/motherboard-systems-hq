@@ -4,6 +4,7 @@ async function fetchAgentStatus() {
   const data = await res.json();
   const container = document.getElementById("agent-status");
   if (!container) return;
+
   container.innerHTML = "";
   Object.keys(data).forEach((agent) => {
     const info = data[agent];
@@ -23,6 +24,7 @@ async function fetchOpsStream() {
   const data = await res.json();
   const container = document.getElementById("ops-stream");
   if (!container) return;
+
   container.innerHTML = "";
   data.slice().reverse().forEach((log) => {
     const div = document.createElement("div");
