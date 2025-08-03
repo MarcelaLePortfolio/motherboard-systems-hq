@@ -141,6 +141,134 @@
     }
   </style>
 </head>
+<body>
+<!-- 🔹 Live Agent & Ops Stream at Top --> 
+<div id="agent-status"></div> 
+<div id="ops-stream"></div> 
+
+  <div class="dashboard-wrapper">
+    <h1>Motherboard Dash</h1>
+
+    <div class="section-title">Executive Agent Status</div>
+
+    <div class="agent-status">
+      <div class="agent">🧠 Matilda <span class="status-dot" id="matilda-indicator"></span></div>
+      <div class="agent">🛠️ Cade <span class="status-dot" id="cade-indicator"></span></div>
+      <div class="agent">🖥 Effie <span class="status-dot" id="effie-indicator"></span></div>
+    </div>
+
+    <div class="ops-stream">
+      <div id="log" class="log-ticker-item">Initializing dashboard...</div>
+    </div>
+
+    <div class="chat-section">
+      <div id="messages" class="messages"></div>
+      <div class="input-row">
+        <input type="text" id="input" placeholder="Type a command..." />
+        <button onclick="sendMessage()">Send</button>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <div class="tab">Project Tracker</div>
+      <div class="tab">Tasks</div>
+      <div class="tab">Settings</div>
+    </div>
+    <div class="tab-content">
+      [Tab content placeholder]
+    </div>
+  </div>
+
+  <script>
+    console.log("✅ Dashboard JS executing");
+
+    async function fetchAgentStatus() {
+      try {
+        const res = await fetch("/agent-status.json");
+        const data = await res.json();
+
+        const statuses = {
+          matilda: document.getElementById("matilda-indicator"),
+          cade: document.getElementById("cade-indicator"),
+          effie: document.getElementById("effie-indicator"),
+        };
+
+        for (const [agent, el] of Object.entries(statuses)) {
+          const status = data[agent] || "offline";
+          const color = status === "online" ? "green" :
+                        status === "errored" ? "red" :
+                        "gray";
+          if (el) el.style.backgroundColor = color;
+        }
+      } catch (err) {
+        console.error("❌ Failed to fetch agent status:", err);
+      }
+    }
+
+    fetchAgentStatus();
+    setInterval(fetchAgentStatus, 5000);
+
+    function sendMessage() {
+      const input = document.getElementById("input");
+      const userText = input.value.trim();
+      if (!userText) return;
+
+      const messages = document.getElementById("messages");
+
+      const userMsg = document.createElement("div");
+      userMsg.className = "message user-message";
+      userMsg.textContent = userText;
+      messages.appendChild(userMsg);
+
+      const botMsg = document.createElement("div");
+      botMsg.className = "message bot-message";
+      botMsg.textContent = "Matilda received: “" + userText + "”";
+      messages.appendChild(botMsg);
+
+      input.value = "";
+      messages.scrollTop = messages.scrollHeight;
+    }
+  </script>
+</body>
+</html>
+<script>
+  console.log("✅ Dashboard JS executing");
+
+  async function fetchAgentStatus() {
+    try {
+      const res = await fetch("/agent-status.json");
+      const statusMap = await res.json();
+      console.log("📡 Fetched agent status:", statusMap);
+
+      const colorMap = {
+        online: "green",
+        offline: "red",
+        errored: "orange",
+        unknown: "gray"
+      };
+
+      document.querySelectorAll(".agent").forEach((el) => {
+        const label = el.textContent.trim();
+        const span = el.querySelector("span");
+        if (!span) return;
+
+        let key = "";
+        if (label.includes("Matilda")) key = "matilda";
+        if (label.includes("Cade")) key = "cade";
+        if (label.includes("Effie")) key = "effie";
+
+        const status = statusMap[key] || "unknown";
+        span.style.backgroundColor = colorMap[status] || "gray";
+      });
+
+    } catch (err) {
+      console.error("❌ Error fetching agent status:", err);
+    }
+  }
+
+  fetchAgentStatus();
+  setInterval(fetchAgentStatus, 5000);
+</script>
 <script src="/dashboard.js"></script>
 <link rel="stylesheet" href="/dashboard.css" />
-<body>
+
