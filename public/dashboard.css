@@ -1,0 +1,51 @@
+/* 🌟 Live Dashboard Styling */
+
+#agent-status {
+  display: flex;
+  justify-content: space-around;
+  gap: 24px;
+  width: 100%;
+  max-width: 720px;
+  margin-bottom: 16px;
+}
+
+#agent-status .agent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #222;
+  color: #eee;
+  padding: 8px 12px;
+  border-radius: 8px;
+  width: 30%;
+  text-align: center;
+  transition: 0.3s;
+}
+
+#agent-status .agent-icon {
+  font-size: 1.8rem;
+  margin-bottom: 4px;
+}
+
+#ops-stream {
+  width: 100%;
+  max-width: 720px;
+  background: #111;
+  color: #eee;
+  font-size: 0.85rem;
+  border-radius: 6px;
+  padding: 8px;
+  height: 80px;
+  overflow-y: auto;
+  margin-bottom: 20px;
+}
+
+.ops-log {
+  margin-bottom: 2px;
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
