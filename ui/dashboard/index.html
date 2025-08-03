@@ -142,6 +142,10 @@
   </style>
 </head>
 <body>
+<!-- 🔹 Live Agent & Ops Stream at Top --> 
+<div id="agent-status"></div> 
+<div id="ops-stream"></div> 
+
   <div class="dashboard-wrapper">
     <h1>Motherboard Dash</h1>
 
@@ -265,16 +269,6 @@
   fetchAgentStatus();
   setInterval(fetchAgentStatus, 5000);
 </script>
-
-<!-- 🔹 Live Agent & Ops Stream Injection for Week 1 Demo -->
-<div id="agent-status" style="display:flex;justify-content:space-around;
-  padding:1rem;background:#181818;border-top:1px solid #333;margin-top:1rem;">
-  <!-- JS will inject agent statuses here -->
-</div>
-
-<div id="ops-stream" style="height:200px;overflow-y:auto;padding:1rem;
-  background:#141414;font-size:0.9rem;margin-top:0.5rem;">
-  <!-- JS will inject ops logs here -->
-</div>
-
 <script src="/dashboard.js"></script>
+<link rel="stylesheet" href="/dashboard.css" />
+
