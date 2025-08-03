@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Motherboard Systems HQ – Week 1 Demo</title>
+  <title>Motherboard Systems HQ – Live Agent Demo</title>
+  <link rel="stylesheet" href="/style.css" />
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #101010;
+      background: #0c0c0c;
       color: #eee;
       margin: 0;
       padding: 0;
@@ -38,7 +39,7 @@
       display: block;
     }
     #ops-stream {
-      height: 200px;
+      height: 250px;
       overflow-y: auto;
       padding: 1rem;
       background: #141414;
@@ -51,15 +52,17 @@
   </style>
 </head>
 <body>
-  <header>🛡️ Motherboard Systems HQ – Agent Live Demo</header>
+  <header>🛡️ Motherboard Systems HQ – Live Agent Demo</header>
 
-  <section id="agent-status">
-    <!-- JS will inject agent boxes here -->
-  </section>
+  <main>
+    <section id="agent-status">
+      <!-- JS will inject agent boxes here -->
+    </section>
 
-  <section id="ops-stream">
-    <!-- JS will inject ops logs here -->
-  </section>
+    <section id="ops-stream">
+      <!-- JS will inject ops logs here -->
+    </section>
+  </main>
 
   <script src="/dashboard.js"></script>
 </body>
