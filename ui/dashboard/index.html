@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Motherboard Systems HQ – Week 1 Demo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #101010;
+      color: #eee;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #1f1f1f;
+      padding: 1rem;
+      text-align: center;
+      font-size: 1.5rem;
+    }
+    #agent-status {
+      display: flex;
+      justify-content: space-around;
+      padding: 1rem;
+      background: #181818;
+      border-bottom: 1px solid #333;
+    }
+    .agent {
+      text-align: center;
+      width: 30%;
+      padding: 0.5rem;
+      background: #222;
+      border-radius: 8px;
+      transition: 0.3s;
+    }
+    .agent-icon {
+      font-size: 2rem;
+      display: block;
+    }
+    #ops-stream {
+      height: 200px;
+      overflow-y: auto;
+      padding: 1rem;
+      background: #141414;
+      font-size: 0.9rem;
+    }
+    .ops-log {
+      margin-bottom: 0.3rem;
+      color: #ccc;
+    }
+  </style>
+</head>
+<body>
+  <header>🛡️ Motherboard Systems HQ – Agent Live Demo</header>
+
+  <section id="agent-status">
+    <!-- JS will inject agent boxes here -->
+  </section>
+
+  <section id="ops-stream">
+    <!-- JS will inject ops logs here -->
+  </section>
+
+  <script src="/dashboard.js"></script>
+</body>
+</html>
