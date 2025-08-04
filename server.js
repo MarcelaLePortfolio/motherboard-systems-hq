@@ -156,3 +156,46 @@ app.get("/api/task-history", (req, res) => {
     res.json([]);
   }
 });
+
+// --- 6️⃣ Settings API ---
+app.get("/api/settings", (req, res) => {
+  exec("pm2 jlist", (err, stdout) => {
+    const agents = [];
+    if (!err) {
+      try {
+        const list = JSON.parse(stdout);
+        ["Matilda","Cade","Effie"].forEach(name => {
+          const proc = list.find(p => p.name.toLowerCase().includes(name.toLowerCase()));
+          agents.push({ name, status: proc?.pm2_env?.status || "offline" });
+        });
+      } catch {
+        ["Matilda","Cade","Effie"].forEach(name => agents.push({name,status:"unknown"}));
+      }
+    } else {
+      ["Matilda","Cade","Effie"].forEach(name => agents.push({name,status:"offline"}));
+    }
+
+    res.json({
+      agents,
+      features: {
+        logRetention: 50,
+        theme: "light"
+      }
+    });
+  });
+});
+
+// --- 7️⃣ Agent Control API (Phase 1 Stub) ---
+app.post("/api/agent-control", express.json(), (req, res) => {
+  const { agent, action } = req.body;
+  if (!agent || !action) return res.status(400).json({success:false,message:"Missing agent or action"});
+
+  const cmd = (action === "start")
+    ? `pm2 start scripts/_local/agent-runtime/launch-${agent.toLowerCase()}.ts --interpreter $(which tsx) --name ${agent.toLowerCase()}`
+    : `pm2 stop ${agent.toLowerCase()}`;
+
+  exec(cmd, (err, stdout, stderr) => {
+    if (err) return res.json({ success:false, message:stderr || err.message });
+    res.json({ success:true, message:stdout.trim() });
+  });
+});
