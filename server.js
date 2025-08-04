@@ -60,13 +60,21 @@ const LOG_FILE = path.join(__dirname, "ui/dashboard/ticker-events.log");
 // Ensure log file exists
 if (!fs.existsSync(LOG_FILE)) fs.writeFileSync(LOG_FILE, "");
 
-// Endpoint: Return last 20 lines
+// Endpoint: Return last 20 lines (supports JSON logs)
 app.get("/api/ops-stream", (req, res) => {
   try {
-    const logs = fs.readFileSync(LOG_FILE, "utf-8").trim().split("\n");
+    const logs = fs.readFileSync(LOG_FILE, "utf-8").trim().split("\n").filter(Boolean);
     const events = logs.slice(-20).map(line => {
-      const [time, message] = line.split(" | ");
-      return { time: time || new Date().toLocaleTimeString(), message: message || line };
+      try {
+        const obj = JSON.parse(line);
+        return {
+          time: new Date(parseInt(obj.timestamp) * 1000).toLocaleTimeString(),
+          message: `${obj.agent} | ${obj.event}`
+        };
+      } catch {
+        const [time, message] = line.split(" | ");
+        return { time: time || new Date().toLocaleTimeString(), message: message || line };
+      }
     });
     res.json(events);
   } catch (err) {
