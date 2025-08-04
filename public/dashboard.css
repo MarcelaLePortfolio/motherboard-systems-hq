@@ -1,4 +1,4 @@
-/* 🌟 Week 1 Demo: Bordered Agent Cards + Subtle Glow */
+/* 🌟 Polished Agent Cards + CSS Status Dots */
 
 #agent-status {
   display: flex;
@@ -13,33 +13,32 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: #fafafa;       /* light background like the page */
+  background: #fafafa;
   color: #111;
   padding: 6px 10px;
-  border: 1px solid #ddd;    /* subtle border */
+  border: 1px solid #ddd;
   border-radius: 6px;
   width: 30%;
   text-align: center;
   transition: border-color 0.3s, box-shadow 0.3s;
 }
 
-#agent-status .agent-icon {
-  font-size: 1.4rem;
-  margin-bottom: 2px;
+.status-dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-bottom: 4px;
 }
 
-/* Soft border glow to indicate state */
-#agent-status .agent.online {
-  border-color: #4caf50;
-  box-shadow: 0 0 6px rgba(76, 175, 80, 0.3);
+.status-dot.online {
+  background-color: #4caf50; /* green */
 }
-#agent-status .agent.warning {
-  border-color: #ffb300;
-  box-shadow: 0 0 6px rgba(255, 179, 0, 0.3);
+.status-dot.warning {
+  background-color: #ffb300; /* yellow */
 }
-#agent-status .agent.offline {
-  border-color: #f44336;
-  box-shadow: 0 0 6px rgba(244, 67, 54, 0.3);
+.status-dot.offline {
+  background-color: #f44336; /* red */
 }
 
 /* Compact ticker style */
