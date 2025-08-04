@@ -199,3 +199,25 @@ app.post("/api/agent-control", express.json(), (req, res) => {
     res.json({ success:true, message:stdout.trim() });
   });
 });
+
+// --- 8️⃣ Add Restart Support ---
+app.post("/api/agent-control", express.json(), (req, res) => {
+  const { agent, action } = req.body;
+  if (!agent || !action) return res.status(400).json({success:false,message:"Missing agent or action"});
+
+  let cmd;
+  if (action === "start") {
+    cmd = `pm2 start scripts/_local/agent-runtime/launch-${agent.toLowerCase()}.ts --interpreter $(which tsx) --name ${agent.toLowerCase()}`;
+  } else if (action === "stop") {
+    cmd = `pm2 stop ${agent.toLowerCase()}`;
+  } else if (action === "restart") {
+    cmd = `pm2 restart ${agent.toLowerCase()}`;
+  } else {
+    return res.status(400).json({success:false,message:"Unknown action"});
+  }
+
+  exec(cmd, (err, stdout, stderr) => {
+    if (err) return res.json({ success:false, message:stderr || err.message });
+    res.json({ success:true, message:stdout.trim() });
+  });
+});
