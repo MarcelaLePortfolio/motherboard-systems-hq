@@ -16,38 +16,40 @@ app.use(express.static(path.join(__dirname, "public")));
 // --- 1️⃣ Agent Status via PM2 ---
 app.get("/api/agent-status", (req, res) => {
   exec("pm2 jlist", (err, stdout) => {
-    if (err) return res.json({
-      Matilda: { status: "offline", icon: "🔴" },
-      Cade: { status: "offline", icon: "🔴" },
-      Effie: { status: "offline", icon: "🔴" }
-    });
+    if (err) {
+      return res.json({
+        Matilda: { status: "offline" },
+        Cade: { status: "offline" },
+        Effie: { status: "offline" }
+      });
+    }
 
     try {
       const list = JSON.parse(stdout);
       const statusMap = {
-        Matilda: { status: "offline", icon: "🔴" },
-        Cade: { status: "offline", icon: "🔴" },
-        Effie: { status: "offline", icon: "🔴" }
+        Matilda: { status: "offline" },
+        Cade: { status: "offline" },
+        Effie: { status: "offline" }
       };
       list.forEach(proc => {
         const name = proc.name.toLowerCase();
         const online = proc.pm2_env.status === "online";
-        if (name.includes("matilda")) statusMap.Matilda = { status: online ? "online" : "offline", icon: online ? "��" : "🔴" };
-        if (name.includes("cade")) statusMap.Cade = { status: online ? "online" : "offline", icon: online ? "🟢" : "🔴" };
-        if (name.includes("effie")) statusMap.Effie = { status: online ? "online" : "offline", icon: online ? "🟢" : "🔴" };
+        if (name.includes("matilda")) statusMap.Matilda.status = online ? "online" : "offline";
+        if (name.includes("cade")) statusMap.Cade.status = online ? "online" : "offline";
+        if (name.includes("effie")) statusMap.Effie.status = online ? "online" : "offline";
       });
       res.json(statusMap);
     } catch {
       res.json({
-        Matilda: { status: "offline", icon: "🔴" },
-        Cade: { status: "offline", icon: "🔴" },
-        Effie: { status: "offline", icon: "🔴" }
+        Matilda: { status: "offline" },
+        Cade: { status: "offline" },
+        Effie: { status: "offline" }
       });
     }
   });
 });
 
-// --- 2️⃣ Ops Stream from Log File ---
+// --- 2️⃣ Ops Stream from Real Log File ---
 const LOG_FILE = path.join(__dirname, "ui/dashboard/ticker-events.log");
 if (!fs.existsSync(LOG_FILE)) fs.writeFileSync(LOG_FILE, "");
 
@@ -82,24 +84,21 @@ app.get("/api/project-tracker", (req, res) => {
       try { entry = JSON.parse(line); }
       catch { 
         const parts = line.split(" | ");
-        entry = { event: parts[1] || line, agent: parts[0] || "unknown", timestamp: Date.now()/1000 }; 
+        entry = { event: parts[1] || line, agent: parts[0] || "unknown", timestamp: Math.floor(Date.now()/1000) }; 
       }
 
       if (!entry.event) return;
 
-      // Convert epoch timestamp to local time
       const readableTime = entry.timestamp 
         ? new Date(parseInt(entry.timestamp) * 1000).toLocaleTimeString() 
         : new Date().toLocaleTimeString();
 
-      // Detect task creation and completion
       if (entry.event.startsWith("processing-task:")) {
         const task = entry.event.split(":")[1];
         tasks[task] = { task, status: "in-progress", agent: entry.agent, startTime: readableTime };
       }
       if (entry.event.startsWith("completed-task:")) {
         const task = entry.event.split(":")[1];
-        // Preserve the original start time if exists
         tasks[task] = { task, status: "complete", agent: entry.agent, startTime: tasks[task]?.startTime || readableTime };
       }
     });
