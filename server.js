@@ -47,10 +47,11 @@ app.get("/api/agent-status", (req, res) => {
   });
 });
 
-// --- 2️⃣ Ops Stream from Log File ---
+// --- 2️⃣ Ops Stream from Real Log File ---
 const LOG_FILE = path.join(__dirname, "ui/dashboard/ticker-events.log");
 if (!fs.existsSync(LOG_FILE)) fs.writeFileSync(LOG_FILE, "");
 
+// Returns last 20 logs, parsing JSON if possible
 app.get("/api/ops-stream", (req, res) => {
   try {
     const logs = fs.readFileSync(LOG_FILE, "utf-8").trim().split("\n").filter(Boolean);
@@ -72,7 +73,7 @@ app.get("/api/ops-stream", (req, res) => {
   }
 });
 
-// --- 3️⃣ Project Tracker ---
+// --- 3️⃣ Project Tracker from Log Patterns ---
 app.get("/api/project-tracker", (req, res) => {
   try {
     const logs = fs.readFileSync(LOG_FILE, "utf-8").trim().split("\n").filter(Boolean);
@@ -84,17 +85,17 @@ app.get("/api/project-tracker", (req, res) => {
 
       if (!entry.event) return;
 
-      // Detect task creation and completion
+      // Detect task start
       if (entry.event.startsWith("processing-task:")) {
         const task = entry.event.split(":")[1];
         tasks[task] = { task, status: "in-progress", agent: entry.agent };
       }
+      // Detect task completion
       if (entry.event.startsWith("completed-task:")) {
         const task = entry.event.split(":")[1];
         tasks[task] = { task, status: "complete", agent: entry.agent };
       }
     });
-
     res.json(Object.values(tasks));
   } catch {
     res.json([]);
