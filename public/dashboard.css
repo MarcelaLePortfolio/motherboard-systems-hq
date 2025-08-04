@@ -84,3 +84,15 @@
 .highlight-complete {
   animation: flashComplete 1.2s ease-out;
 }
+
+/* ✨ Pulse animation for online agent dots */
+@keyframes pulseOnline {
+  0% { box-shadow: 0 0 0px rgba(76, 175, 80, 0.4); }
+  50% { box-shadow: 0 0 8px rgba(76, 175, 80, 0.8); }
+  100% { box-shadow: 0 0 0px rgba(76, 175, 80, 0.4); }
+}
+
+.status-dot.online {
+  background:#4caf50;
+  animation: pulseOnline 2.5s infinite ease-in-out;
+}
