@@ -1,4 +1,4 @@
-// --- Polished Auto-Refresh Dashboard Logic ---
+// --- Polished Auto-Refresh Dashboard Logic with Matilda first ---
 let lastLog = "";
 
 async function fetchAgentStatus() {
@@ -8,8 +8,10 @@ async function fetchAgentStatus() {
   if (!container) return;
 
   container.innerHTML = "";
-  Object.keys(data).forEach((agent) => {
+  const displayOrder = ["Matilda", "Cade", "Effie"];
+  displayOrder.forEach((agent) => {
     const info = data[agent];
+    if (!info) return;
     const div = document.createElement("div");
     div.className = `agent ${info.status}`;
     div.innerHTML = `
