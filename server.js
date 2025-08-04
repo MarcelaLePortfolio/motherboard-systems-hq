@@ -74,7 +74,7 @@ app.get("/api/ops-stream", (req, res) => {
   }
 });
 
-// --- 3️⃣ Project Tracker with Start Time ---
+// --- 3️⃣ Project Tracker with Start and Finish Time ---
 app.get("/api/project-tracker", (req, res) => {
   try {
     const logs = fs.readFileSync(LOG_FILE, "utf-8").trim().split("\n").filter(Boolean);
@@ -93,13 +93,28 @@ app.get("/api/project-tracker", (req, res) => {
         ? new Date(parseInt(entry.timestamp) * 1000).toLocaleTimeString() 
         : new Date().toLocaleTimeString();
 
+      // Detect task lifecycle
       if (entry.event.startsWith("processing-task:")) {
         const task = entry.event.split(":")[1];
-        tasks[task] = { task, status: "in-progress", agent: entry.agent, startTime: readableTime };
+        if (!tasks[task]) {
+          tasks[task] = { 
+            task, 
+            status: "in-progress", 
+            agent: entry.agent, 
+            startTime: readableTime 
+          };
+        }
       }
       if (entry.event.startsWith("completed-task:")) {
         const task = entry.event.split(":")[1];
-        tasks[task] = { task, status: "complete", agent: entry.agent, startTime: tasks[task]?.startTime || readableTime };
+        tasks[task] = { 
+          ...tasks[task], 
+          task, 
+          status: "complete", 
+          agent: entry.agent, 
+          startTime: tasks[task]?.startTime || readableTime,
+          endTime: readableTime
+        };
       }
     });
 
