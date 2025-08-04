@@ -1,4 +1,4 @@
-// --- Authentic Dashboard Logic with CSS Dots + Project Tracker with Time ---
+// --- Authentic Dashboard Logic with CSS Dots + Project Tracker w/ full timeline ---
 let lastLog = "";
 
 async function fetchAgentStatus() {
@@ -57,7 +57,11 @@ async function fetchProjectTracker() {
   tasks.forEach(t => {
     const div = document.createElement("div");
     div.className = `task ${t.status}`;
-    div.textContent = `${t.task} — ${t.agent} (${t.status}, started ${t.startTime})`;
+    if (t.status === "complete" && t.endTime) {
+      div.textContent = `${t.task} — ${t.agent} (Complete, ${t.startTime} → ${t.endTime})`;
+    } else {
+      div.textContent = `${t.task} — ${t.agent} (${t.status}, started ${t.startTime})`;
+    }
     container.appendChild(div);
   });
 }
