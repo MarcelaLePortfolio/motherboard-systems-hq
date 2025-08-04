@@ -1,4 +1,4 @@
-/* 🌟 Polished Live Dashboard Styling for Week 1 Demo */
+/* 🌟 Week 1 Demo: Bordered Agent Cards + Subtle Glow */
 
 #agent-status {
   display: flex;
@@ -13,13 +13,14 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: #222;
-  color: #eee;
+  background: #fafafa;       /* light background like the page */
+  color: #111;
   padding: 6px 10px;
-  border-radius: 8px;
+  border: 1px solid #ddd;    /* subtle border */
+  border-radius: 6px;
   width: 30%;
   text-align: center;
-  transition: background-color 0.3s, box-shadow 0.3s;
+  transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 #agent-status .agent-icon {
@@ -27,16 +28,21 @@
   margin-bottom: 2px;
 }
 
+/* Soft border glow to indicate state */
 #agent-status .agent.online {
-  box-shadow: 0 0 8px 2px rgba(0, 255, 0, 0.3);
+  border-color: #4caf50;
+  box-shadow: 0 0 6px rgba(76, 175, 80, 0.3);
 }
 #agent-status .agent.warning {
-  box-shadow: 0 0 8px 2px rgba(255, 215, 0, 0.4);
+  border-color: #ffb300;
+  box-shadow: 0 0 6px rgba(255, 179, 0, 0.3);
 }
 #agent-status .agent.offline {
-  box-shadow: 0 0 8px 2px rgba(255, 0, 0, 0.4);
+  border-color: #f44336;
+  box-shadow: 0 0 6px rgba(244, 67, 54, 0.3);
 }
 
+/* Compact ticker style */
 #ops-stream {
   width: 100%;
   max-width: 720px;
@@ -46,7 +52,7 @@
   border: 1px solid #ddd;
   border-radius: 4px;
   padding: 4px 8px;
-  height: 28px; /* compact ticker */
+  height: 28px;
   overflow: hidden;
   margin-bottom: 16px;
   display: flex;
