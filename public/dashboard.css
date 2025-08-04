@@ -1,4 +1,4 @@
-/* 🌟 Live Dashboard Styling */
+/* 🌟 Live Dashboard Styling - Compact Version */
 
 #agent-status {
   display: flex;
@@ -6,7 +6,7 @@
   gap: 24px;
   width: 100%;
   max-width: 720px;
-  margin-bottom: 16px;
+  margin-bottom: 8px;
 }
 
 #agent-status .agent {
@@ -15,7 +15,7 @@
   align-items: center;
   background: #222;
   color: #eee;
-  padding: 8px 12px;
+  padding: 6px 10px;
   border-radius: 8px;
   width: 30%;
   text-align: center;
@@ -23,29 +23,29 @@
 }
 
 #agent-status .agent-icon {
-  font-size: 1.8rem;
-  margin-bottom: 4px;
+  font-size: 1.4rem;
+  margin-bottom: 2px;
 }
 
 #ops-stream {
   width: 100%;
   max-width: 720px;
-  background: #111;
-  color: #eee;
-  font-size: 0.85rem;
-  border-radius: 6px;
-  padding: 8px;
-  height: 80px;
-  overflow-y: auto;
-  margin-bottom: 20px;
+  font-size: 0.8rem;
+  color: #333;
+  background: #fafafa;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 4px 8px;
+  height: 24px; /* compact ticker style */
+  overflow: hidden;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .ops-log {
-  margin-bottom: 2px;
   animation: fadeIn 0.5s ease-in;
+  white-space: nowrap;
 }
-
-@keyframes fadeIn {
-  from {opacity: 0;}
-  to {opacity: 1;}
-}
+@keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
