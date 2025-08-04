@@ -129,3 +129,30 @@ app.listen(PORT, () => {
   console.log(`✅ Dashboard live on port ${PORT}`);
   console.log(`Endpoints: /api/agent-status /api/ops-stream /api/project-tracker`);
 });
+
+// --- 4️⃣ Task History (for Tasks Tab) ---
+app.get("/api/task-history", (req, res) => {
+  try {
+    const logs = fs.readFileSync(LOG_FILE, "utf-8").trim().split("\n").filter(Boolean);
+    const taskEvents = logs
+      .map(line => {
+        let entry;
+        try { entry = JSON.parse(line); }
+        catch { 
+          const parts = line.split(" | ");
+          entry = { event: parts[1] || line, agent: parts[0] || "unknown", timestamp: Math.floor(Date.now()/1000) }; 
+        }
+        if (!entry.event.includes("task")) return null;
+        return {
+          time: entry.timestamp ? new Date(parseInt(entry.timestamp) * 1000).toLocaleTimeString() : new Date().toLocaleTimeString(),
+          agent: entry.agent,
+          event: entry.event
+        };
+      })
+      .filter(Boolean)
+      .slice(-50); // last 50 task events
+    res.json(taskEvents);
+  } catch {
+    res.json([]);
+  }
+});
