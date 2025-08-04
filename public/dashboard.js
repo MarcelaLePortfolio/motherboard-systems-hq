@@ -77,3 +77,35 @@ setInterval(() => {
 fetchAgentStatus();
 fetchOpsStream();
 fetchProjectTracker();
+
+// --- New: Fetch Task History for Tasks Tab ---
+async function fetchTaskHistory() {
+  const res = await fetch("/api/task-history");
+  const events = await res.json();
+  const container = document.getElementById("task-history");
+  if (!container) return;
+
+  container.innerHTML = "";
+  if (events.length === 0) {
+    container.innerHTML = "<div class='empty'>No task history yet</div>";
+    return;
+  }
+
+  events.forEach(e => {
+    const div = document.createElement("div");
+    div.className = "task-event";
+    div.textContent = `${e.time} | ${e.agent} ${e.event}`;
+    container.appendChild(div);
+  });
+}
+
+// Include in refresh loop
+setInterval(() => {
+  fetchAgentStatus();
+  fetchOpsStream();
+  fetchProjectTracker();
+  fetchTaskHistory();
+}, 5000);
+
+// Initial call
+fetchTaskHistory();
