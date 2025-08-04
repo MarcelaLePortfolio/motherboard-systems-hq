@@ -1,4 +1,4 @@
-// --- Polished Auto-Refresh Dashboard Logic with Matilda first ---
+// --- Authentic Dashboard Logic with CSS Dots ---
 let lastLog = "";
 
 async function fetchAgentStatus() {
@@ -12,13 +12,19 @@ async function fetchAgentStatus() {
   displayOrder.forEach((agent) => {
     const info = data[agent];
     if (!info) return;
+
     const div = document.createElement("div");
-    div.className = `agent ${info.status}`;
-    div.innerHTML = `
-      <span class="agent-icon">${info.icon}</span>
-      <strong>${agent}</strong>
-      <small>${info.status}</small>
-    `;
+    div.className = "agent";
+
+    const dot = document.createElement("span");
+    dot.className = `status-dot ${info.status || "offline"}`;
+
+    const name = document.createElement("strong");
+    name.textContent = agent;
+
+    div.appendChild(dot);
+    div.appendChild(name);
+
     container.appendChild(div);
   });
 }
