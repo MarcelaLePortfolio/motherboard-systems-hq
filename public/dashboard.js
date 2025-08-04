@@ -242,3 +242,54 @@ async function fetchSettings() {
   placeholder.textContent = "Future: log retention, theme toggle, and auto-scroll settings.";
   container.appendChild(placeholder);
 }
+
+// --- Enhance Settings Tab: Context-Aware Buttons ---
+async function fetchSettings() {
+  const res = await fetch("/api/settings");
+  const data = await res.json();
+  const container = document.getElementById("settings-tab");
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  const title = document.createElement("h3");
+  title.textContent = "Agent Runtime Controls";
+  container.appendChild(title);
+
+  data.agents.forEach(agent => {
+    const div = document.createElement("div");
+    div.className = "task"; 
+    div.textContent = `${agent.name} — ${agent.status}`;
+
+    const isOnline = agent.status.toLowerCase() === "online";
+
+    const startBtn = document.createElement("button");
+    startBtn.textContent = "Start";
+    startBtn.style.marginLeft = "8px";
+    startBtn.disabled = isOnline;
+    startBtn.onclick = () => controlAgent(agent.name, "start");
+
+    const stopBtn = document.createElement("button");
+    stopBtn.textContent = "Stop";
+    stopBtn.style.marginLeft = "4px";
+    stopBtn.disabled = !isOnline;
+    stopBtn.onclick = () => controlAgent(agent.name, "stop");
+
+    const restartBtn = document.createElement("button");
+    restartBtn.textContent = "Restart";
+    restartBtn.style.marginLeft = "4px";
+    restartBtn.disabled = !isOnline;
+    restartBtn.onclick = () => controlAgent(agent.name, "restart");
+
+    div.appendChild(startBtn);
+    div.appendChild(stopBtn);
+    div.appendChild(restartBtn);
+
+    container.appendChild(div);
+  });
+
+  const placeholder = document.createElement("div");
+  placeholder.className = "empty";
+  placeholder.textContent = "Future: log retention, theme toggle, and auto-scroll settings.";
+  container.appendChild(placeholder);
+}
