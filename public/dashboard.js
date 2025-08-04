@@ -109,3 +109,28 @@ setInterval(() => {
 
 // Initial call
 fetchTaskHistory();
+
+// Enhance task history color coding
+function renderTaskEvent(e) {
+  const div = document.createElement("div");
+  div.className = "task-event";
+  if (e.event.startsWith("completed-task")) div.classList.add("complete");
+  if (e.event.startsWith("processing-task")) div.classList.add("progress");
+  div.textContent = `${e.time} | ${e.agent} ${e.event}`;
+  return div;
+}
+
+async function fetchTaskHistory() {
+  const res = await fetch("/api/task-history");
+  const events = await res.json();
+  const container = document.getElementById("task-history");
+  if (!container) return;
+
+  container.innerHTML = "";
+  if (events.length === 0) {
+    container.innerHTML = "<div class='empty'>No task history yet</div>";
+    return;
+  }
+
+  events.forEach(e => container.appendChild(renderTaskEvent(e)));
+}
