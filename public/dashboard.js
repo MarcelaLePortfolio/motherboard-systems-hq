@@ -134,3 +134,65 @@ async function fetchTaskHistory() {
 
   events.forEach(e => container.appendChild(renderTaskEvent(e)));
 }
+
+// --- Settings Tab Logic ---
+async function fetchSettings() {
+  const res = await fetch("/api/settings");
+  const data = await res.json();
+  const container = document.getElementById("settings-tab");
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  const title = document.createElement("h3");
+  title.textContent = "Agent Runtime Controls";
+  container.appendChild(title);
+
+  data.agents.forEach(agent => {
+    const div = document.createElement("div");
+    div.className = "task"; // reuse styling
+    div.textContent = `${agent.name} — ${agent.status}`;
+    
+    const startBtn = document.createElement("button");
+    startBtn.textContent = "Start";
+    startBtn.style.marginLeft = "8px";
+    startBtn.onclick = () => controlAgent(agent.name, "start");
+
+    const stopBtn = document.createElement("button");
+    stopBtn.textContent = "Stop";
+    stopBtn.style.marginLeft = "4px";
+    stopBtn.onclick = () => controlAgent(agent.name, "stop");
+
+    div.appendChild(startBtn);
+    div.appendChild(stopBtn);
+
+    container.appendChild(div);
+  });
+
+  const placeholder = document.createElement("div");
+  placeholder.className = "empty";
+  placeholder.textContent = "Future: log retention, theme toggle, direct restart commands.";
+  container.appendChild(placeholder);
+}
+
+async function controlAgent(agent, action) {
+  const res = await fetch("/api/agent-control", {
+    method: "POST",
+    headers: { "Content-Type":"application/json" },
+    body: JSON.stringify({ agent, action })
+  });
+  const data = await res.json();
+  alert(`${agent} ${action}: ${data.success ? "OK" : "Failed"}\n${data.message || ""}`);
+  fetchSettings();
+}
+
+// Include in refresh loop
+setInterval(() => {
+  fetchAgentStatus();
+  fetchOpsStream();
+  fetchProjectTracker();
+  fetchTaskHistory();
+  fetchSettings();
+}, 5000);
+
+fetchSettings();
