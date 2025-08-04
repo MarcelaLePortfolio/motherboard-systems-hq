@@ -47,11 +47,10 @@ app.get("/api/agent-status", (req, res) => {
   });
 });
 
-// --- 2️⃣ Ops Stream from Real Log File ---
+// --- 2️⃣ Ops Stream from Log File ---
 const LOG_FILE = path.join(__dirname, "ui/dashboard/ticker-events.log");
 if (!fs.existsSync(LOG_FILE)) fs.writeFileSync(LOG_FILE, "");
 
-// Returns last 20 logs, parsing JSON if possible
 app.get("/api/ops-stream", (req, res) => {
   try {
     const logs = fs.readFileSync(LOG_FILE, "utf-8").trim().split("\n").filter(Boolean);
@@ -73,7 +72,7 @@ app.get("/api/ops-stream", (req, res) => {
   }
 });
 
-// --- 3️⃣ Project Tracker from Log Patterns ---
+// --- 3️⃣ Project Tracker with Start Time ---
 app.get("/api/project-tracker", (req, res) => {
   try {
     const logs = fs.readFileSync(LOG_FILE, "utf-8").trim().split("\n").filter(Boolean);
@@ -81,21 +80,30 @@ app.get("/api/project-tracker", (req, res) => {
     logs.forEach(line => {
       let entry;
       try { entry = JSON.parse(line); }
-      catch { entry = { event: line.split(" | ")[1] || line, agent: line.split(" | ")[0] || "unknown" }; }
+      catch { 
+        const parts = line.split(" | ");
+        entry = { event: parts[1] || line, agent: parts[0] || "unknown", timestamp: Date.now()/1000 }; 
+      }
 
       if (!entry.event) return;
 
-      // Detect task start
+      // Convert epoch timestamp to local time
+      const readableTime = entry.timestamp 
+        ? new Date(parseInt(entry.timestamp) * 1000).toLocaleTimeString() 
+        : new Date().toLocaleTimeString();
+
+      // Detect task creation and completion
       if (entry.event.startsWith("processing-task:")) {
         const task = entry.event.split(":")[1];
-        tasks[task] = { task, status: "in-progress", agent: entry.agent };
+        tasks[task] = { task, status: "in-progress", agent: entry.agent, startTime: readableTime };
       }
-      // Detect task completion
       if (entry.event.startsWith("completed-task:")) {
         const task = entry.event.split(":")[1];
-        tasks[task] = { task, status: "complete", agent: entry.agent };
+        // Preserve the original start time if exists
+        tasks[task] = { task, status: "complete", agent: entry.agent, startTime: tasks[task]?.startTime || readableTime };
       }
     });
+
     res.json(Object.values(tasks));
   } catch {
     res.json([]);
