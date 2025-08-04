@@ -1,4 +1,4 @@
-// --- Authentic Dashboard Logic with CSS Dots ---
+// --- Authentic Dashboard Logic with CSS Dots + Project Tracker with Time ---
 let lastLog = "";
 
 async function fetchAgentStatus() {
@@ -42,12 +42,34 @@ async function fetchOpsStream() {
   }
 }
 
-// Refresh every 3 seconds
+async function fetchProjectTracker() {
+  const res = await fetch("/api/project-tracker");
+  const tasks = await res.json();
+  const container = document.getElementById("project-tracker");
+  if (!container) return;
+
+  container.innerHTML = "";
+  if (tasks.length === 0) {
+    container.innerHTML = "<div class='empty'>No active tasks</div>";
+    return;
+  }
+
+  tasks.forEach(t => {
+    const div = document.createElement("div");
+    div.className = `task ${t.status}`;
+    div.textContent = `${t.task} — ${t.agent} (${t.status}, started ${t.startTime})`;
+    container.appendChild(div);
+  });
+}
+
+// Refresh every 5 seconds
 setInterval(() => {
   fetchAgentStatus();
   fetchOpsStream();
-}, 3000);
+  fetchProjectTracker();
+}, 5000);
 
 // Initial load
 fetchAgentStatus();
 fetchOpsStream();
+fetchProjectTracker();
