@@ -1,101 +1,91 @@
 const fs = require('fs');
 const path = require('path');
-const https = require('https');
-const http = require('http');
+const fetch = require('node-fetch');
 
 const statePath = path.join(__dirname, '../../../memory/agent_chain_state.json');
 const resumePath = path.join(__dirname, '../../../memory/resume_payload.json');
 
 function log(msg) {
-  console.log(`${new Date().toISOString()} ${msg}`);
+  const timestamp = new Date().toISOString();
+  console.log(`[${timestamp}] ${msg}`);
 }
 
-function writeResume(result) {
-  fs.writeFileSync(resumePath, JSON.stringify(result, null, 2));
+function writeResume(data) {
+  fs.writeFileSync(resumePath, JSON.stringify(data, null, 2));
 }
 
-function readJSON(filePath) {
-  const raw = fs.readFileSync(filePath, 'utf8');
-  return JSON.parse(raw);
+function loadJSON(fileOrUrl) {
+  if (fileOrUrl.startsWith('http://') || fileOrUrl.startsWith('https://')) {
+    return fetch(fileOrUrl).then(res => res.json());
+  } else {
+    const absPath = path.join(__dirname, '../../../', fileOrUrl);
+    return Promise.resolve(JSON.parse(fs.readFileSync(absPath, 'utf8')));
+  }
 }
 
-function fetchJSON(url) {
-  return new Promise((resolve, reject) => {
-    const client = url.startsWith('https') ? https : http;
-    client.get(url, res => {
-      let data = '';
-      res.on('data', chunk => (data += chunk));
-      res.on('end', () => {
-        try {
-          const json = JSON.parse(data);
-          resolve(json);
-        } catch (err) {
-          reject(err);
-        }
-      });
-    }).on('error', err => reject(err));
-  });
+function mergeJSON(values) {
+  if (!Array.isArray(values)) throw new Error('Expected an array of JSON values.');
+  if (values.every(v => Array.isArray(v))) {
+    return values.flat();
+  } else if (values.every(v => typeof v === 'object' && !Array.isArray(v))) {
+    return Object.assign({}, ...values);
+  } else {
+    throw new Error('JSON types must match and be either all arrays or all objects.');
+  }
 }
 
-function handleTask(task) {
+async function handleTask(task) {
   const { type, payload } = task;
 
   switch (type) {
     case 'echo':
-      log(`🗣️ Echo: ${payload.message}`);
-      return { result: payload.message };
+      log(`🔊 Echoing: ${payload.message}`);
+      return { echoed: payload.message };
 
     case 'write_file':
       fs.writeFileSync(path.join(__dirname, '../../../', payload.filename), payload.content);
-      log(`📄 Wrote file: ${payload.filename}`);
-      return { result: `Wrote file: ${payload.filename}` };
+      log(`📝 Wrote to file: ${payload.filename}`);
+      return { result: `Wrote to ${payload.filename}` };
 
     case 'append_log':
       const logLine = `[${new Date().toISOString()}] ${payload.content || 'No content'}`;
       const appendPath = path.join(__dirname, '../../../', payload.filename || 'cade_append_log.txt');
       fs.appendFileSync(appendPath, logLine + '\n');
-      log(`📝 Appended to file: ${appendPath}`);
+      log(`📌 Appended to file: ${appendPath}`);
       return { result: `Appended to ${payload.filename}` };
 
     case 'transform_json': {
-      try {
-        const inputPath = payload.input?.startsWith('http') ? null : path.join(__dirname, '../../../', payload.input);
-        const sourcePromise = inputPath ? Promise.resolve(readJSON(inputPath)) : fetchJSON(payload.input);
+      const inputPath = payload.input;
+      const outputPath = path.join(__dirname, '../../../', payload.output);
+      const jsonData = await loadJSON(inputPath);
 
-        return sourcePromise.then(source => {
-          const transformed = source.map(entry => {
-            if (payload.operation === 'filter_keys') {
-              const filtered = {};
-              payload.keys.forEach(k => {
-                if (entry.hasOwnProperty(k)) filtered[k] = entry[k];
-              });
-              return filtered;
-            }
-
-            if (payload.operation === 'rename_keys') {
-              const renamed = {};
-              Object.keys(entry).forEach(k => {
-                const newKey = payload.mapping[k] || k;
-                renamed[newKey] = entry[k];
-              });
-              return renamed;
-            }
-
-            throw new Error(`Unsupported transform operation: ${payload.operation}`);
-          });
-
-          const outPath = path.join(__dirname, '../../../', payload.output);
-          fs.writeFileSync(outPath, JSON.stringify(transformed, null, 2));
-          log(`🔄 Transformed JSON from ${payload.input} -> ${payload.output}`);
-          return { result: `Transformed JSON and wrote to ${payload.output}` };
-        }).catch(err => {
-          log(`❌ Error fetching or transforming JSON: ${err.message}`);
-          return { error: err.message };
-        });
-      } catch (err) {
-        log(`❌ Error in transform_json: ${err.message}`);
-        return { error: err.message };
+      let transformed;
+      if (payload.operation === 'filter_keys') {
+        transformed = jsonData.map(entry =>
+          Object.fromEntries(payload.keys.map(k => [k, entry[k]]).filter(([_, v]) => v !== undefined))
+        );
+      } else if (payload.operation === 'rename_keys') {
+        transformed = jsonData.map(entry =>
+          Object.fromEntries(Object.entries(entry).map(([k, v]) =>
+            [payload.mapping[k] || k, v]
+          ))
+        );
+      } else {
+        throw new Error(`Unknown transform operation: ${payload.operation}`);
       }
+
+      fs.writeFileSync(outputPath, JSON.stringify(transformed, null, 2));
+      log(`🔄 Transformed JSON with operation: ${payload.operation}`);
+      return { result: `Transformed JSON and wrote to ${payload.output}` };
+    }
+
+    case 'merge_json': {
+      const values = await Promise.all(payload.inputs.map(loadJSON));
+      const merged = mergeJSON(values);
+      const outPath = path.join(__dirname, '../../../', payload.output);
+      fs.writeFileSync(outPath, JSON.stringify(merged, null, 2));
+      log(`🧩 Merged JSON from ${payload.inputs.length} sources`);
+      return { result: `Merged into ${payload.output}` };
     }
 
     default:
