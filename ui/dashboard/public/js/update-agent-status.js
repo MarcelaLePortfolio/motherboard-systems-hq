@@ -7,7 +7,7 @@ async function refreshAgentStatus() {
 
     statuses.forEach(agent => {
       const dot = document.createElement('span');
-      dot.textContent = `${agent.status === 'online' ? '🟢' : '⚪'} ${agent.name}`;
+      dot.textContent = \`\${agent.status === 'online' ? '🟢' : '⚪'} \${agent.name}\`;
       dot.style.marginRight = '16px';
       container.appendChild(dot);
     });
