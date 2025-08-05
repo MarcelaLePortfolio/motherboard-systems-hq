@@ -5,7 +5,7 @@ const statePath = path.join(__dirname, '../../../memory/agent_chain_state.json')
 const resumePath = path.join(__dirname, '../../../memory/resume_payload.json');
 
 function log(msg) {
-  console.log(msg);
+  console.log(`[CADE] ${msg}`);
 }
 
 function writeResume(data) {
@@ -13,14 +13,12 @@ function writeResume(data) {
 }
 
 function transformJSON(payload) {
-  const inputPath = path.join(__dirname, '../../../', payload.input);
-  const outputPath = path.join(__dirname, '../../../', payload.output);
-  const raw = fs.readFileSync(inputPath, 'utf8');
-  const data = JSON.parse(raw);
+  const inPath = path.join(__dirname, '../../../', payload.input);
+  const inputData = JSON.parse(fs.readFileSync(inPath, 'utf8'));
 
   switch (payload.operation) {
     case 'rename_keys':
-      return data.map(item => {
+      return inputData.map(item => {
         const newItem = {};
         for (const key in item) {
           newItem[payload.mapping[key] || key] = item[key];
@@ -28,43 +26,57 @@ function transformJSON(payload) {
         return newItem;
       });
 
+    case 'merge':
+      return Array.isArray(payload.inputs)
+        ? payload.inputs.map(p => JSON.parse(fs.readFileSync(path.join(__dirname, '../../../', p), 'utf8'))).flat()
+        : [];
+
     case 'filter_values':
-      return data.filter(item => item[payload.key] === payload.value);
+      return inputData.filter(item => item[payload.key] === payload.value);
 
     case 'transform_values':
-      return data.map(item => {
-        const value = item[payload.key];
-        if (typeof value !== 'string') return item;
+      return inputData.map(item => {
+        if (typeof item[payload.key] !== 'string') return item;
         switch (payload.transform) {
-          case 'toLowerCase':
-            item[payload.key] = value.toLowerCase();
-            break;
           case 'toUpperCase':
-            item[payload.key] = value.toUpperCase();
+            item[payload.key] = item[payload.key].toUpperCase();
+            break;
+          case 'toLowerCase':
+            item[payload.key] = item[payload.key].toLowerCase();
             break;
           case 'trim':
-            item[payload.key] = value.trim();
+            item[payload.key] = item[payload.key].trim();
             break;
           case 'prefix':
-            item[payload.key] = `${payload.prefix || ''}${value}`;
+            item[payload.key] = `${payload.value || ''}${item[payload.key]}`;
             break;
           case 'suffix':
-            item[payload.key] = `${value}${payload.suffix || ''}`;
+            item[payload.key] = `${item[payload.key]}${payload.value || ''}`;
             break;
         }
         return item;
       });
 
     case 'group_by':
-      return data.reduce((acc, item) => {
-        const groupKey = item[payload.key];
-        if (!acc[groupKey]) acc[groupKey] = [];
-        acc[groupKey].push(item);
+      return inputData.reduce((acc, item) => {
+        const key = item[payload.key];
+        if (!acc[key]) acc[key] = [];
+        acc[key].push(item);
         return acc;
       }, {});
 
+    case 'sort_by':
+      return [...inputData].sort((a, b) => {
+        const aVal = a[payload.key];
+        const bVal = b[payload.key];
+        if (typeof aVal === 'string' && typeof bVal === 'string') {
+          return aVal.localeCompare(bVal);
+        }
+        return aVal > bVal ? 1 : aVal < bVal ? -1 : 0;
+      });
+
     default:
-      throw new Error(`Unknown operation: ${payload.operation}`);
+      throw new Error(`Unsupported operation: ${payload.operation}`);
   }
 }
 
