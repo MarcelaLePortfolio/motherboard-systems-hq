@@ -12,20 +12,31 @@ function log(message) {
 function processTask() {
   const taskPath = path.join(__dirname, '../../../memory/agent_chain_state.json');
   if (!fs.existsSync(taskPath)) {
-    log('❌ No task found for Cade.');
+    log('❌ No task file found for Cade.');
     return;
   }
 
-  const task = JSON.parse(fs.readFileSync(taskPath, 'utf8'));
+  let task;
+  try {
+    task = JSON.parse(fs.readFileSync(taskPath, 'utf8'));
+  } catch (err) {
+    log(`❌ Failed to parse task JSON: ${err.message}`);
+    return;
+  }
+
   log(`🛠️ Cade received task: ${task?.instruction || 'Unknown'}`);
 
-  // Simulate processing the task
-  const result = `✅ Cade completed task: "${task.instruction}"`;
-  log(result);
+  try {
+    // Simulate processing the task
+    const result = `✅ Cade completed task: "${task.instruction}"`;
+    log(result);
 
-  // Save output result
-  const resultPath = path.join(__dirname, '../../../memory/resume_payload.json');
-  fs.writeFileSync(resultPath, JSON.stringify({ result }, null, 2));
+    // Save output result
+    const resultPath = path.join(__dirname, '../../../memory/resume_payload.json');
+    fs.writeFileSync(resultPath, JSON.stringify({ result }, null, 2));
+  } catch (err) {
+    log(`❌ Error during task processing: ${err.message}`);
+  }
 }
 
 processTask();
