@@ -1,37 +1,47 @@
 const fs = require('fs');
 const path = require('path');
-const fetch = require('node-fetch');
+const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 
 const statePath = path.join(__dirname, '../../../memory/agent_chain_state.json');
 const resumePath = path.join(__dirname, '../../../memory/resume_payload.json');
 
-function log(msg) {
+function log(message) {
   const timestamp = new Date().toISOString();
-  console.log(`[${timestamp}] ${msg}`);
+  console.log(`[${timestamp}] ${message}`);
 }
 
-function writeResume(data) {
-  fs.writeFileSync(resumePath, JSON.stringify(data, null, 2));
+function writeResume(payload) {
+  fs.writeFileSync(resumePath, JSON.stringify(payload, null, 2));
 }
 
-function loadJSON(fileOrUrl) {
-  if (fileOrUrl.startsWith('http://') || fileOrUrl.startsWith('https://')) {
-    return fetch(fileOrUrl).then(res => res.json());
-  } else {
-    const absPath = path.join(__dirname, '../../../', fileOrUrl);
-    return Promise.resolve(JSON.parse(fs.readFileSync(absPath, 'utf8')));
-  }
+function filterValues(data, key, value) {
+  return data.filter(entry => entry[key] === value);
+}
+
+function filterKeys(data, keys) {
+  return data.map(entry => {
+    const filtered = {};
+    keys.forEach(k => {
+      if (k in entry) filtered[k] = entry[k];
+    });
+    return filtered;
+  });
+}
+
+function renameKeys(data, mapping) {
+  return data.map(entry => {
+    const renamed = {};
+    for (const key in entry) {
+      renamed[mapping[key] || key] = entry[key];
+    }
+    return renamed;
+  });
 }
 
 function mergeJSON(values) {
-  if (!Array.isArray(values)) throw new Error('Expected an array of JSON values.');
-  if (values.every(v => Array.isArray(v))) {
-    return values.flat();
-  } else if (values.every(v => typeof v === 'object' && !Array.isArray(v))) {
-    return Object.assign({}, ...values);
-  } else {
-    throw new Error('JSON types must match and be either all arrays or all objects.');
-  }
+  const [first, ...rest] = values;
+  if (Array.isArray(first)) return values.flat();
+  return Object.assign({}, ...values);
 }
 
 async function handleTask(task) {
@@ -39,53 +49,72 @@ async function handleTask(task) {
 
   switch (type) {
     case 'echo':
-      log(`🔊 Echoing: ${payload.message}`);
+      log(`📣 ${payload.message}`);
       return { echoed: payload.message };
 
     case 'write_file':
       fs.writeFileSync(path.join(__dirname, '../../../', payload.filename), payload.content);
-      log(`📝 Wrote to file: ${payload.filename}`);
-      return { result: `Wrote to ${payload.filename}` };
+      log(`✍️  Wrote file: ${payload.filename}`);
+      return { result: `Wrote ${payload.filename}` };
 
     case 'append_log':
-      const logLine = `[${new Date().toISOString()}] ${payload.content || 'No content'}`;
-      const appendPath = path.join(__dirname, '../../../', payload.filename || 'cade_append_log.txt');
-      fs.appendFileSync(appendPath, logLine + '\n');
-      log(`📌 Appended to file: ${appendPath}`);
+      fs.appendFileSync(path.join(__dirname, '../../../', payload.filename), `[${new Date().toISOString()}] ${payload.content}\n`);
+      log(`📌 Appended to: ${payload.filename}`);
       return { result: `Appended to ${payload.filename}` };
 
     case 'transform_json': {
-      const inputPath = payload.input;
-      const outputPath = path.join(__dirname, '../../../', payload.output);
-      const jsonData = await loadJSON(inputPath);
+      try {
+        const inputPath = path.join(__dirname, '../../../', payload.input);
+        const outputPath = path.join(__dirname, '../../../', payload.output);
+        const raw = fs.readFileSync(inputPath, 'utf8');
+        let data = JSON.parse(raw);
 
-      let transformed;
-      if (payload.operation === 'filter_keys') {
-        transformed = jsonData.map(entry =>
-          Object.fromEntries(payload.keys.map(k => [k, entry[k]]).filter(([_, v]) => v !== undefined))
-        );
-      } else if (payload.operation === 'rename_keys') {
-        transformed = jsonData.map(entry =>
-          Object.fromEntries(Object.entries(entry).map(([k, v]) =>
-            [payload.mapping[k] || k, v]
-          ))
-        );
-      } else {
-        throw new Error(`Unknown transform operation: ${payload.operation}`);
+        if (payload.operation === 'filter_keys') {
+          data = filterKeys(data, payload.keys);
+        } else if (payload.operation === 'rename_keys') {
+          data = renameKeys(data, payload.mapping);
+        } else if (payload.operation === 'filter_values') {
+          data = filterValues(data, payload.key, payload.value);
+        }
+
+        fs.writeFileSync(outputPath, JSON.stringify(data, null, 2));
+        log(`🔧 Transformed JSON (${payload.operation})`);
+        return { result: `Transformed JSON and wrote to ${payload.output}` };
+      } catch (err) {
+        log(`❌ Error in transform_json: ${err.message}`);
+        return { error: err.message };
       }
+    }
 
-      fs.writeFileSync(outputPath, JSON.stringify(transformed, null, 2));
-      log(`🔄 Transformed JSON with operation: ${payload.operation}`);
-      return { result: `Transformed JSON and wrote to ${payload.output}` };
+    case 'fetch_json': {
+      try {
+        const response = await fetch(payload.url);
+        const data = await response.json();
+        const outPath = path.join(__dirname, '../../../', payload.output);
+        fs.writeFileSync(outPath, JSON.stringify(data, null, 2));
+        log(`🌐 Fetched JSON from ${payload.url}`);
+        return { result: `Fetched and saved to ${payload.output}` };
+      } catch (err) {
+        log(`❌ Error fetching JSON: ${err.message}`);
+        return { error: err.message };
+      }
     }
 
     case 'merge_json': {
-      const values = await Promise.all(payload.inputs.map(loadJSON));
-      const merged = mergeJSON(values);
-      const outPath = path.join(__dirname, '../../../', payload.output);
-      fs.writeFileSync(outPath, JSON.stringify(merged, null, 2));
-      log(`🧩 Merged JSON from ${payload.inputs.length} sources`);
-      return { result: `Merged into ${payload.output}` };
+      try {
+        const values = payload.inputs.map(filename => {
+          const raw = fs.readFileSync(path.join(__dirname, '../../../', filename), 'utf8');
+          return JSON.parse(raw);
+        });
+        const merged = mergeJSON(values);
+        const outPath = path.join(__dirname, '../../../', payload.output);
+        fs.writeFileSync(outPath, JSON.stringify(merged, null, 2));
+        log(`<0001f9e9> Merged JSON from ${payload.inputs.length} sources`);
+        return { result: `Merged into ${payload.output}` };
+      } catch (err) {
+        log(`❌ Error merging JSON: ${err.message}`);
+        return { error: err.message };
+      }
     }
 
     default:
