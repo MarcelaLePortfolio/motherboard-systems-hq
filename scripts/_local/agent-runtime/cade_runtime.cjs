@@ -14,50 +14,18 @@ function writeResume(data) {
   fs.writeFileSync(resumePath, JSON.stringify(data, null, 2));
 }
 
-function filterKeys(data, keys) {
-  if (Array.isArray(data)) {
-    return data.map(item => {
-      const filtered = {};
-      keys.forEach(k => { if (k in item) filtered[k] = item[k]; });
-      return filtered;
-    });
-  } else {
-    const filtered = {};
-    keys.forEach(k => { if (k in data) filtered[k] = data[k]; });
-    return filtered;
-  }
-}
-
-function renameKeys(data, map) {
-  if (Array.isArray(data)) {
-    return data.map(item => {
-      const renamed = {};
-      for (const [oldKey, newKey] of Object.entries(map)) {
-        if (oldKey in item) renamed[newKey] = item[oldKey];
-      }
-      return renamed;
-    });
-  } else {
-    const renamed = {};
-    for (const [oldKey, newKey] of Object.entries(map)) {
-      if (oldKey in data) renamed[newKey] = data[oldKey];
-    }
-    return renamed;
-  }
-}
-
 function handleTask(task) {
-  const { type, payload = {} } = task;
+  const { type, payload } = task;
 
   switch (type) {
     case 'echo':
-      log(`🔊 Echo: ${payload.message || 'No message provided'}`);
-      return { result: payload.message || 'No message provided' };
+      log(`🗣️ ${payload.message}`);
+      return { result: payload.message };
 
     case 'write_file':
       fs.writeFileSync(path.join(__dirname, '../../../', payload.filename), payload.content);
-      log(`📁 Wrote file: ${payload.filename}`);
-      return { result: `Wrote to ${payload.filename}` };
+      log(`📝 Wrote file: ${payload.filename}`);
+      return { result: `Wrote file ${payload.filename}` };
 
     case 'append_log':
       const logLine = `[${new Date().toISOString()}] ${payload.content || 'No content'}`;
@@ -66,22 +34,32 @@ function handleTask(task) {
       log(`📝 Appended to file: ${appendPath}`);
       return { result: `Appended to ${payload.filename}` };
 
-    case 'transform_json':
+    case 'transform_json': {
       try {
         const inputPath = path.join(__dirname, '../../../', payload.input);
         const outputPath = path.join(__dirname, '../../../', payload.output);
-        const jsonData = JSON.parse(fs.readFileSync(inputPath, 'utf8'));
+        const data = JSON.parse(fs.readFileSync(inputPath, 'utf8'));
 
-        let transformed;
+        let result;
         if (payload.operation === 'filter_keys') {
-          transformed = filterKeys(jsonData, payload.keys || []);
+          result = data.map(item =>
+            Object.fromEntries(payload.keys.map(k => [k, item[k]]))
+          );
         } else if (payload.operation === 'rename_keys') {
-          transformed = renameKeys(jsonData, payload.map || {});
+          result = data.map(item => {
+            const renamed = {};
+            for (const [oldKey, newKey] of Object.entries(payload.mapping)) {
+              if (item.hasOwnProperty(oldKey)) {
+                renamed[newKey] = item[oldKey];
+              }
+            }
+            return renamed;
+          });
         } else {
-          throw new Error(`Unknown transform operation: ${payload.operation}`);
+          throw new Error(`Unsupported operation: ${payload.operation}`);
         }
 
-        fs.writeFileSync(outputPath, JSON.stringify(transformed, null, 2));
+        fs.writeFileSync(outputPath, JSON.stringify(result, null, 2));
         log(`🔄 Transformed JSON with operation: ${payload.operation}`);
         return { result: `Transformed JSON and wrote to ${payload.output}` };
 
@@ -89,6 +67,7 @@ function handleTask(task) {
         log(`❌ Error transforming JSON: ${err.message}`);
         return { error: err.message };
       }
+    }
 
     default:
       log(`❌ Unknown task type: ${type}`);
