@@ -1,13 +1,12 @@
 const fs = require('fs');
 const path = require('path');
-const fetch = require('node-fetch');
 
 const statePath = path.join(__dirname, '../../../memory/agent_chain_state.json');
 const resumePath = path.join(__dirname, '../../../memory/resume_payload.json');
 
 function log(msg) {
-  const logPath = path.join(__dirname, '../../../memory/cade_logbook.txt');
-  fs.appendFileSync(logPath, `[${new Date().toISOString()}] ${msg}\n`);
+  console.log(msg);
+  fs.appendFileSync('cade.log', `[${new Date().toISOString()}] ${msg}\n`);
 }
 
 function writeResume(result) {
@@ -15,42 +14,40 @@ function writeResume(result) {
 }
 
 function transformJSON(payload) {
-  const inputPath = path.join(__dirname, '../../../', payload.input);
-  const outputPath = path.join(__dirname, '../../../', payload.output);
-  const data = JSON.parse(fs.readFileSync(inputPath, 'utf8'));
+  const fullInputPath = path.join(__dirname, '../../../', payload.input);
+  const raw = fs.readFileSync(fullInputPath, 'utf8');
+  const data = JSON.parse(raw);
 
-  if (payload.operation === 'transform_values') {
-    const result = data.map(item => {
-      const value = item[payload.key];
-      if (typeof value !== 'string') return item;
+  switch (payload.operation) {
+    case 'transform_values': {
+      const transformFn = getTransformFunction(payload.transform);
+      const transformed = data.map(entry => {
+        if (entry[payload.key] != null) {
+          entry[payload.key] = transformFn(entry[payload.key]);
+        }
+        return entry;
+      });
+      const outPath = path.join(__dirname, '../../../', payload.output);
+      fs.writeFileSync(outPath, JSON.stringify(transformed, null, 2));
+      log(`🔤 Transformed values in key "${payload.key}" with "${payload.transform}"`);
+      return { result: `Transformed values and wrote to ${payload.output}` };
+    }
 
-      switch (payload.action) {
-        case 'toLowerCase':
-          item[payload.key] = value.toLowerCase();
-          break;
-        case 'toUpperCase':
-          item[payload.key] = value.toUpperCase();
-          break;
-        case 'trim':
-          item[payload.key] = value.trim();
-          break;
-        case 'addPrefix':
-          item[payload.key] = `${payload.prefix || ''}${value}`;
-          break;
-        case 'addSuffix':
-          item[payload.key] = `${value}${payload.suffix || ''}`;
-          break;
-      }
-
-      return item;
-    });
-
-    fs.writeFileSync(outputPath, JSON.stringify(result, null, 2));
-    log(`✏️ Transformed values for key '${payload.key}' using '${payload.action}'`);
-    return { result: `Transformed values written to ${payload.output}` };
+    default:
+      log(`❌ Unknown operation: ${payload.operation}`);
+      return { error: `Unknown operation: ${payload.operation}` };
   }
+}
 
-  throw new Error(`Unsupported transform operation: ${payload.operation}`);
+function getTransformFunction(name) {
+  switch (name) {
+    case 'toUpperCase': return str => String(str).toUpperCase();
+    case 'toLowerCase': return str => String(str).toLowerCase();
+    case 'trim': return str => String(str).trim();
+    case 'prefix': return str => payload.prefix + String(str);
+    case 'suffix': return str => String(str) + payload.suffix;
+    default: throw new Error(`Unknown transform: ${name}`);
+  }
 }
 
 function handleTask(task) {
