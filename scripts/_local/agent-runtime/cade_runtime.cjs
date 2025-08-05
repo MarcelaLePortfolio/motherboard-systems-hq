@@ -6,47 +6,65 @@ const resumePath = path.join(__dirname, '../../../memory/resume_payload.json');
 
 function log(msg) {
   console.log(msg);
-  fs.appendFileSync('cade.log', `[${new Date().toISOString()}] ${msg}\n`);
 }
 
-function writeResume(result) {
-  fs.writeFileSync(resumePath, JSON.stringify(result, null, 2));
+function writeResume(data) {
+  fs.writeFileSync(resumePath, JSON.stringify(data, null, 2));
 }
 
 function transformJSON(payload) {
-  const fullInputPath = path.join(__dirname, '../../../', payload.input);
-  const raw = fs.readFileSync(fullInputPath, 'utf8');
+  const inputPath = path.join(__dirname, '../../../', payload.input);
+  const outputPath = path.join(__dirname, '../../../', payload.output);
+  const raw = fs.readFileSync(inputPath, 'utf8');
   const data = JSON.parse(raw);
 
   switch (payload.operation) {
-    case 'transform_values': {
-      const transformFn = getTransformFunction(payload.transform);
-      const transformed = data.map(entry => {
-        if (entry[payload.key] != null) {
-          entry[payload.key] = transformFn(entry[payload.key]);
+    case 'rename_keys':
+      return data.map(item => {
+        const newItem = {};
+        for (const key in item) {
+          newItem[payload.mapping[key] || key] = item[key];
         }
-        return entry;
+        return newItem;
       });
-      const outPath = path.join(__dirname, '../../../', payload.output);
-      fs.writeFileSync(outPath, JSON.stringify(transformed, null, 2));
-      log(`🔤 Transformed values in key "${payload.key}" with "${payload.transform}"`);
-      return { result: `Transformed values and wrote to ${payload.output}` };
-    }
+
+    case 'filter_values':
+      return data.filter(item => item[payload.key] === payload.value);
+
+    case 'transform_values':
+      return data.map(item => {
+        const value = item[payload.key];
+        if (typeof value !== 'string') return item;
+        switch (payload.transform) {
+          case 'toLowerCase':
+            item[payload.key] = value.toLowerCase();
+            break;
+          case 'toUpperCase':
+            item[payload.key] = value.toUpperCase();
+            break;
+          case 'trim':
+            item[payload.key] = value.trim();
+            break;
+          case 'prefix':
+            item[payload.key] = `${payload.prefix || ''}${value}`;
+            break;
+          case 'suffix':
+            item[payload.key] = `${value}${payload.suffix || ''}`;
+            break;
+        }
+        return item;
+      });
+
+    case 'group_by':
+      return data.reduce((acc, item) => {
+        const groupKey = item[payload.key];
+        if (!acc[groupKey]) acc[groupKey] = [];
+        acc[groupKey].push(item);
+        return acc;
+      }, {});
 
     default:
-      log(`❌ Unknown operation: ${payload.operation}`);
-      return { error: `Unknown operation: ${payload.operation}` };
-  }
-}
-
-function getTransformFunction(name) {
-  switch (name) {
-    case 'toUpperCase': return str => String(str).toUpperCase();
-    case 'toLowerCase': return str => String(str).toLowerCase();
-    case 'trim': return str => String(str).trim();
-    case 'prefix': return str => payload.prefix + String(str);
-    case 'suffix': return str => String(str) + payload.suffix;
-    default: throw new Error(`Unknown transform: ${name}`);
+      throw new Error(`Unknown operation: ${payload.operation}`);
   }
 }
 
@@ -54,7 +72,12 @@ function handleTask(task) {
   try {
     switch (task.type) {
       case 'transform_json':
-        return transformJSON(task.payload);
+        const result = transformJSON(task.payload);
+        fs.writeFileSync(
+          path.join(__dirname, '../../../', task.payload.output),
+          JSON.stringify(result, null, 2)
+        );
+        return { result: `Wrote to ${task.payload.output}` };
       default:
         return { error: `Unknown task type: ${task.type}` };
     }
