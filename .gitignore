@@ -1,0 +1,45 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Node.js / pnpm
+node_modules/
+.pnpm/
+.pnpm-debug.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# PM2
+.pm2/
+pm2.log
+pm2.pid
+pm2-dump.log
+
+# Logs & temp
+*.log
+*.tmp
+*.swp
+*.swo
+
+# Backups & archives
+Motherboard_FullBackup_*/
+MOTHERBOARD_SYSTEMS_BACKUP_*.zip
+MOTHERBOARD_BACKUP_LOG_*.txt
+Motherboard_Restore_*/
+
+# Local environment
+.env
+.env.local
+
+# IDE/editor folders
+.vscode/
+.idea/
+
+# Misc
+Thumbs.db
+# Ignore auto-generated status/log files
+ui/dashboard/public/agent-status.json
+ui/dashboard/public/matilda-log.json
+Users/

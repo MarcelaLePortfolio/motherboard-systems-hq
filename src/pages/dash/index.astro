@@ -1,0 +1,177 @@
+---
+import "../../styles/theme.css";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Motherboard Dash</title>
+  </head>
+  <body>
+    <div class="dashboard-container">
+      <header class="header">
+        <h1>Motherboard Dash</h1>
+        <p class="subtitle">Command Console</p>
+      </header>
+
+      <section class="chat-box">
+        <div class="message incoming">What’s the status of our marketing campaign?</div>
+        <div class="message outgoing">Our marketing campaign is still in progress.</div>
+        <form class="chat-input" onsubmit="event.preventDefault()">
+          <input type="text" placeholder="Send a message..." required />
+          <button type="submit">📨</button>
+        </form>
+      </section>
+
+      <nav class="tabs">
+        <button class="tab active">Project Activity</button>
+        <button class="tab">Tasks</button>
+        <button class="tab">Settings</button>
+      </nav>
+
+      <section class="task-tracker">
+        <h2>Project Tracker</h2>
+        <ul>
+          <li><span class="dot blue"></span> Design new homepage <button>Request Modification</button></li>
+          <li><span class="dot blue"></span> Prepare investor presentation <button>Request Modification</button></li>
+          <li><span class="dot teal"></span> Implement authentication <button>Request Modification</button></li>
+          <li><span class="dot gray"></span> Conduct user interviews <button>Request Modification</button></li>
+        </ul>
+      </section>
+    </div>
+
+    <style>
+      .dashboard-container {
+        max-width: 700px;
+        margin: 3rem auto;
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 0 12px rgba(0, 0, 0, 0.08);
+        background: white;
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .subtitle {
+        font-style: italic;
+        color: #888;
+      }
+
+      .chat-box {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 1rem;
+        margin-bottom: 2rem;
+      }
+
+      .message {
+        margin: 0.5rem 0;
+        padding: 0.75rem;
+        border-radius: 8px;
+        max-width: 80%;
+      }
+
+      .incoming {
+        background: #f0f0f0;
+        align-self: flex-start;
+      }
+
+      .outgoing {
+        background: #e0eaff;
+        align-self: flex-end;
+        text-align: right;
+      }
+
+      .chat-input {
+        display: flex;
+        margin-top: 1rem;
+      }
+
+      .chat-input input {
+        flex: 1;
+        padding: 0.5rem 1rem;
+        border: 1px solid #ccc;
+        border-radius: 6px 0 0 6px;
+        font-size: 1rem;
+      }
+
+      .chat-input button {
+        background: #4f2fff;
+        border: none;
+        color: white;
+        padding: 0 1rem;
+        font-size: 1.2rem;
+        border-radius: 0 6px 6px 0;
+        cursor: pointer;
+      }
+
+      .tabs {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-bottom: 1rem;
+      }
+
+      .tab {
+        background: none;
+        border: none;
+        font-weight: bold;
+        cursor: pointer;
+        padding: 0.5rem;
+        border-bottom: 2px solid transparent;
+      }
+
+      .tab.active {
+        border-color: #4f2fff;
+        color: #4f2fff;
+      }
+
+      .task-tracker h2 {
+        font-size: 1.25rem;
+        margin-bottom: 1rem;
+      }
+
+      .task-tracker ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      .task-tracker li {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid #eee;
+      }
+
+      .dot {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        margin-right: 0.5rem;
+      }
+
+      .blue { background: #4f2fff; }
+      .teal { background: #5bd2b6; }
+      .gray { background: #aaa; }
+
+      .task-tracker button {
+        background: white;
+        border: 1px solid #ccc;
+        padding: 0.25rem 0.5rem;
+        border-radius: 6px;
+        font-size: 0.85rem;
+        cursor: pointer;
+      }
+    </style>
+  </body>
+</html>

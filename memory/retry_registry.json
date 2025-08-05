@@ -1,0 +1,10 @@
+{
+  "example_task_000": {
+    "agent": "effie",
+    "attempts": 1,
+    "last_attempt": "2025-07-20T12:34:56Z",
+    "max_attempts": 3,
+    "sensitive": false,
+    "override": false
+  }
+}

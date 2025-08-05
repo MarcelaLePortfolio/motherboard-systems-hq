@@ -1,0 +1,98 @@
+/* 🌟 Polished Agent Cards + CSS Status Dots */
+
+#agent-status {
+  display: flex;
+  justify-content: space-around;
+  gap: 24px;
+  width: 100%;
+  max-width: 720px;
+  margin-bottom: 8px;
+}
+
+#agent-status .agent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #fafafa;
+  color: #111;
+  padding: 6px 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  width: 30%;
+  text-align: center;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.status-dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-bottom: 4px;
+}
+
+.status-dot.online {
+  background-color: #4caf50; /* green */
+}
+.status-dot.warning {
+  background-color: #ffb300; /* yellow */
+}
+.status-dot.offline {
+  background-color: #f44336; /* red */
+}
+
+/* Compact ticker style */
+#ops-stream {
+  width: 100%;
+  max-width: 720px;
+  font-size: 0.85rem;
+  color: #333;
+  background: #fafafa;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 4px 8px;
+  height: 28px;
+  overflow: hidden;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ops-log {
+  animation: fadeIn 0.5s ease-in;
+  white-space: nowrap;
+}
+
+@keyframes fadeIn { 
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+/* ✨ Auto-highlight for new/updated events */
+@keyframes flashNew {
+  0% { background-color: #fff8d1; }
+  100% { background-color: transparent; }
+}
+@keyframes flashComplete {
+  0% { background-color: #d1ffd8; }
+  100% { background-color: transparent; }
+}
+.highlight-new {
+  animation: flashNew 1.2s ease-out;
+}
+.highlight-complete {
+  animation: flashComplete 1.2s ease-out;
+}
+
+/* ✨ Pulse animation for online agent dots */
+@keyframes pulseOnline {
+  0% { box-shadow: 0 0 0px rgba(76, 175, 80, 0.4); }
+  50% { box-shadow: 0 0 8px rgba(76, 175, 80, 0.8); }
+  100% { box-shadow: 0 0 0px rgba(76, 175, 80, 0.4); }
+}
+
+.status-dot.online {
+  background:#4caf50;
+  animation: pulseOnline 2.5s infinite ease-in-out;
+}

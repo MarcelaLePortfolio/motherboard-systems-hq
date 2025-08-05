@@ -1,0 +1,25 @@
+#ticker {
+  font-family: "Inter", sans-serif;
+  background: transparent;  /* Minimalist, no bar */
+  color: #333;
+  height: 1.5rem;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ticker-item {
+  animation: tickerFadeSlide 4s ease-in-out forwards;
+  white-space: nowrap;
+  font-weight: 400;      /* Daintier font weight */
+  font-size: 0.9rem;     /* Slightly smaller font */
+  letter-spacing: 0.5px; /* Elegant spacing */
+}
+
+@keyframes tickerFadeSlide {
+  0%   { opacity: 0; transform: translateY(5px); }
+  10%  { opacity: 1; transform: translateY(0); }
+  90%  { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-5px); }
+}
