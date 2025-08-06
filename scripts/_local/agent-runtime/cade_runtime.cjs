@@ -1,157 +1,148 @@
-const path = require('path'); // Import Node's path module for file path operations
-const fs = require('fs');
+// 🧠 Cade Runtime – Core Task Chain Execution
+// Last updated: <0043cade> Full chain processing with logging and error handling
 
-function log(...args) {
-  console.log(...args);
+const fs = require('fs');
+const path = require('path');
+
+const MEMORY_DIR = path.join(__dirname, '../../../memory');
+const STATE_FILE = path.join(MEMORY_DIR, 'agent_chain_state.json');
+const RESUME_FILE = path.join(MEMORY_DIR, 'agent_chain_resume.json');
+const LOG_FILE = path.join(MEMORY_DIR, 'cade_runtime.log');
+
+// Simple logger with timestamps
+function log(message) {
+  const line = `[${new Date().toISOString()}] ${message}`;
+  console.log(line);
+  fs.appendFileSync(LOG_FILE, line + '\n', 'utf8');
 }
 
-function readJSON(filePath) {
+// Load current task chain state
+function loadTaskChain() {
+  if (!fs.existsSync(STATE_FILE)) {
+    log('❌ No task file found for Cade.');
+    return null;
+  }
   try {
-    const absPath = path.join(__dirname, '../../../', filePath);
-    const content = fs.readFileSync(absPath, 'utf8');
-    return JSON.parse(content);
-  } catch (error) {
-    log(`❌ Failed to read JSON file at ${filePath}: ${error.message}`);
+    const rawData = fs.readFileSync(STATE_FILE, 'utf8');
+    return JSON.parse(rawData);
+  } catch (err) {
+    log(`❌ Failed to parse task JSON: ${err.message}`);
     return null;
   }
 }
 
-function writeJSON(filePath, data) {
-  try {
-    const absPath = path.join(__dirname, '../../../', filePath);
-    fs.writeFileSync(absPath, JSON.stringify(data, null, 2), 'utf8');
-    log(`✅ Wrote JSON to ${filePath}`);
-  } catch (error) {
-    log(`❌ Failed to write JSON file at ${filePath}: ${error.message}`);
-  }
+// Save summary of executed chain
+function saveResumeSummary(chain, results) {
+  const summary = {
+    timestamp: new Date().toISOString(),
+    tasks: chain.map((task, i) => ({
+      type: task.type,
+      status: results[i].status,
+      error: results[i].error || null,
+      outputFile: results[i].outputFile || null
+    }))
+  };
+  fs.writeFileSync(RESUME_FILE, JSON.stringify(summary, null, 2), 'utf8');
+  log(`✅ Resume summary saved to ${RESUME_FILE}`);
 }
 
-function sortBy(array, key) {
-  return array.slice().sort((a, b) => {
-    if (a[key] < b[key]) return -1;
-    if (a[key] > b[key]) return 1;
-    return 0;
-  });
-}
+// Core task handler
+function handleTask(task, inputData) {
+  const type = task.type;
+  let data = inputData || null;
+  let output = null;
 
-function transformValues(array, key, transform) {
-  return array.map(item => {
-    const val = item[key];
-    let newVal = val;
-    switch (transform) {
-      case 'toUpperCase':
-        newVal = typeof val === 'string' ? val.toUpperCase() : val;
-        break;
-      case 'toLowerCase':
-        newVal = typeof val === 'string' ? val.toLowerCase() : val;
-        break;
-      // Add more transformations as needed
-      default:
-        newVal = val;
+  switch (type) {
+    case 'read_file': {
+      const filePath = path.join(MEMORY_DIR, task.file);
+      output = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+      log(`📄 Read file: ${task.file}`);
+      break;
     }
-    return { ...item, [key]: newVal };
-  });
-}
-
-function filterValues(array, key, value) {
-  return array.filter(item => item[key] === value);
-}
-
-function groupBy(array, key) {
-  return array.reduce((acc, item) => {
-    const groupKey = item[key];
-    if (!acc[groupKey]) acc[groupKey] = [];
-    acc[groupKey].push(item);
-    return acc;
-  }, {});
-}
-
-function transformJSON(payload) {
-  log('transformJSON called with payload:', payload);
-  const inputData = readJSON(payload.input);
-  if (!inputData) return { error: `Failed to read input file: ${payload.input}` };
-
-  let result;
-  switch (payload.operation) {
-    case 'sort_by':
-      result = sortBy(inputData, payload.key);
+    case 'write_file': {
+      const filePath = path.join(MEMORY_DIR, task.file);
+      fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf8');
+      output = data;
+      log(`💾 Wrote file: ${task.file}`);
       break;
-    case 'transform_values':
-      result = transformValues(inputData, payload.key, payload.transform);
+    }
+    case 'sort_json': {
+      if (!Array.isArray(data)) throw new Error('Data must be array for sort_json');
+      const key = task.key;
+      output = [...data].sort((a, b) => (a[key] > b[key] ? 1 : -1));
+      log(`🔀 Sorted JSON by key: ${key}`);
       break;
-    case 'filter_values':
-      result = filterValues(inputData, payload.key, payload.value);
+    }
+    case 'filter_json': {
+      if (!Array.isArray(data)) throw new Error('Data must be array for filter_json');
+      const key = task.key;
+      const value = task.value;
+      output = data.filter(item => item[key] === value);
+      log(`🔎 Filtered JSON where ${key}=${value}`);
       break;
-    case 'group_by':
-      result = groupBy(inputData, payload.key);
-      break;
-    default:
-      return { error: `Unknown operation: ${payload.operation}` };
-  }
-
-  writeJSON(payload.output, result);
-  return { success: true, output: payload.output };
-}
-
-function handleTask(task) {
-  try {
-    log('handleTask received:', task);
-    if (Array.isArray(task.chain)) {
-      let lastResult = null;
-      for (const subtask of task.chain) {
-        if (subtask.type === 'transform_json') {
-          lastResult = transformJSON(subtask.payload);
-          if (lastResult.error) return lastResult;
-        } else {
-          return { error: `Unknown task type: ${subtask.type}` };
+    }
+    case 'transform_json': {
+      if (!Array.isArray(data)) throw new Error('Data must be array for transform_json');
+      const key = task.key;
+      const action = task.action || 'uppercase';
+      output = data.map(item => {
+        const newItem = { ...item };
+        if (newItem[key]) {
+          if (action === 'uppercase') newItem[key] = String(newItem[key]).toUpperCase();
+          else if (action === 'lowercase') newItem[key] = String(newItem[key]).toLowerCase();
         }
-      }
-      return lastResult;
+        return newItem;
+      });
+      log(`✨ Transformed JSON key: ${key} with action: ${action}`);
+      break;
     }
-    switch (task.type) {
-      case 'transform_json':
-        return transformJSON(task.payload);
-      default:
-        return { error: `Unknown task type: ${task.type}` };
+    case 'group_json': {
+      if (!Array.isArray(data)) throw new Error('Data must be array for group_json');
+      const key = task.key;
+      output = data.reduce((acc, item) => {
+        const k = item[key] || 'undefined';
+        acc[k] = acc[k] || [];
+        acc[k].push(item);
+        return acc;
+      }, {});
+      log(`📊 Grouped JSON by key: ${key}`);
+      break;
     }
-  } catch (err) {
-    return { error: err.message };
+    default:
+      throw new Error(`Unknown task type: ${type}`);
   }
+
+  return output;
 }
 
-function writeResume(data) {
-  const resumePath = path.join(__dirname, '../../../memory/agent_chain_resume.json');
-  fs.writeFileSync(resumePath, JSON.stringify(data, null, 2), 'utf8');
-  log(`✅ Wrote resume to ${resumePath}`);
+// Execute chain
+function executeChain(chain) {
+  let currentData = null;
+  const results = [];
+
+  for (const task of chain) {
+    try {
+      currentData = handleTask(task, currentData);
+      results.push({ status: 'success', outputFile: task.type === 'write_file' ? task.file : null });
+    } catch (err) {
+      log(`❌ Error processing task "${task.type}": ${err.message}`);
+      results.push({ status: 'failed', error: err.message });
+    }
+  }
+
+  saveResumeSummary(chain, results);
+  log('✅ Task chain execution complete.');
 }
 
+// Main loop
 function processTask() {
-  log('Starting processTask');
-  const statePath = path.join(__dirname, '../../../memory/agent_chain_state.json');
-  if (!fs.existsSync(statePath)) {
-    log('❌ No task file found for Cade.');
+  const chain = loadTaskChain();
+  if (!chain || !Array.isArray(chain)) {
+    log('ℹ️ No valid chain to process.');
     return;
   }
-
-  let task;
-  try {
-    const rawData = fs.readFileSync(statePath, 'utf8');
-    log(`Read task data: ${rawData}`);
-    task = JSON.parse(rawData);
-  } catch (err) {
-    log(`❌ Failed to parse task JSON: ${err.message}`);
-    return;
-  }
-
-  log(`🛠️ Cade received task of type: ${task?.type || 'N/A'}`);
-
-  try {
-    const result = handleTask(task);
-    writeResume(result);
-  } catch (err) {
-    log(`❌ Error during task handling: ${err.message}`);
-    writeResume({ error: err.message });
-  }
+  log(`🛠️ Cade starting chain of ${chain.length} task(s)`);
+  executeChain(chain);
 }
 
 processTask();
