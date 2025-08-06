@@ -7,7 +7,7 @@ const writeResume = (data) => {
   fs.writeFileSync(resumePath, JSON.stringify(data, null, 2));
 };
 
-// Stub for transformJSON to avoid undefined error, replace with your actual implementation
+// Stub for transformJSON - replace with your actual logic
 function transformJSON(payload) {
   log('transformJSON called with payload:', payload);
   return { success: true, payload };
