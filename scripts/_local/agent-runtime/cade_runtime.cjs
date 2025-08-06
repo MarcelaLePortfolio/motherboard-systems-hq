@@ -1,16 +1,20 @@
-const path = require('path');
+const path = require('path'); // Import Node's path module for file path operations
 const fs = require('fs');
-const log = console.log;  // or your logging function
 
-const writeResume = (data) => {
+function log(...args) {
+  console.log(...args);
+}
+
+function writeResume(data) {
   const resumePath = path.join(__dirname, '../../../memory/agent_chain_resume.json');
-  fs.writeFileSync(resumePath, JSON.stringify(data, null, 2));
-};
+  fs.writeFileSync(resumePath, JSON.stringify(data, null, 2), 'utf8');
+  log(`✅ Wrote resume to ${resumePath}`);
+}
 
-// Stub for transformJSON - replace with actual logic as needed
 function transformJSON(payload) {
+  // stub function - implement as needed
   log('transformJSON called with payload:', payload);
-  return { success: true, payload };
+  return { success: true };
 }
 
 function handleTask(task) {
