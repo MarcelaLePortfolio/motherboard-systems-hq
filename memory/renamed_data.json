@@ -1,0 +1,20 @@
+[
+  {
+    "agentName": "Matilda",
+    "function": "delegator",
+    "status": "online",
+    "lastSeen": "2025-08-05T20:00:00Z"
+  },
+  {
+    "agentName": "Cade",
+    "function": "backend",
+    "status": "online",
+    "lastSeen": "2025-08-05T20:01:00Z"
+  },
+  {
+    "agentName": "Effie",
+    "function": "desktop",
+    "status": "offline",
+    "lastSeen": "2025-08-05T20:02:00Z"
+  }
+]

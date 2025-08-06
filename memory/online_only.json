@@ -1,0 +1,14 @@
+[
+  {
+    "name": "Matilda",
+    "role": "delegator",
+    "status": "online",
+    "lastSeen": "2025-08-05T20:00:00Z"
+  },
+  {
+    "name": "Cade",
+    "role": "backend",
+    "status": "online",
+    "lastSeen": "2025-08-05T20:01:00Z"
+  }
+]

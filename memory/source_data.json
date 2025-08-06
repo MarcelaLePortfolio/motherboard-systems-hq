@@ -1,0 +1,5 @@
+[
+  { "name": "Effie", "role": "desktop" },
+  { "name": "Matilda", "role": "delegator" },
+  { "name": "Cade", "role": "backend" }
+]

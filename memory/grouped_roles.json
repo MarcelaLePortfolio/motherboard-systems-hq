@@ -1,0 +1,20 @@
+{
+  "delegator": [
+    {
+      "name": "Matilda",
+      "role": "delegator"
+    }
+  ],
+  "backend": [
+    {
+      "name": "Cade",
+      "role": "backend"
+    }
+  ],
+  "desktop": [
+    {
+      "name": "Effie",
+      "role": "desktop"
+    }
+  ]
+}
