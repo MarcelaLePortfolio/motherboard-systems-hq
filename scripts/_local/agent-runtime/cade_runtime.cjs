@@ -1,5 +1,5 @@
-// 🧠 Cade Runtime – Core Task Chain Execution
-// Last updated: <0043cade> Full chain processing with logging and error handling
+// 🧠 Cade Runtime – Core Task Chain Execution (with auto-cleanup)
+// Last updated: <0044cade> Adds automatic renaming of processed chain to avoid repeated execution
 
 const fs = require('fs');
 const path = require('path');
@@ -132,6 +132,16 @@ function executeChain(chain) {
 
   saveResumeSummary(chain, results);
   log('✅ Task chain execution complete.');
+
+  // Auto-rename the processed chain file to avoid reprocessing
+  try {
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    const processedFile = path.join(MEMORY_DIR, `processed_chain_${timestamp}.json`);
+    fs.renameSync(STATE_FILE, processedFile);
+    log(`🗂️ Task chain file renamed to ${processedFile}`);
+  } catch (err) {
+    log(`⚠️ Failed to rename chain file: ${err.message}`);
+  }
 }
 
 // Main loop
