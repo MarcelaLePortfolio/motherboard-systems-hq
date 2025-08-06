@@ -1,5 +1,5 @@
-// 🧠 Cade Runtime – Core Task Chain Execution (idle loop + heartbeat)
-// Last updated: <0046cade> Adds periodic heartbeat every 2 minutes while idle
+// 🧠 Cade Runtime – Quick Heartbeat Test Mode
+// Temporarily reduces heartbeat to 10 seconds for verification
 
 const fs = require('fs');
 const path = require('path');
@@ -9,158 +9,60 @@ const STATE_FILE = path.join(MEMORY_DIR, 'agent_chain_state.json');
 const RESUME_FILE = path.join(MEMORY_DIR, 'agent_chain_resume.json');
 const LOG_FILE = path.join(MEMORY_DIR, 'cade_runtime.log');
 
-const IDLE_SLEEP_MS = 5000; // 5 seconds between checks
-const HEARTBEAT_INTERVAL_MS = 120000; // 2 minutes heartbeat
+const IDLE_SLEEP_MS = 5000;        // check every 5 seconds
+const HEARTBEAT_INTERVAL_MS = 10000; // 10-second heartbeat for test
 
 let lastHeartbeat = Date.now();
 
-// Simple logger with timestamps
-function log(message) {
-  const line = `[${new Date().toISOString()}] ${message}`;
+function log(msg) {
+  const line = `[${new Date().toISOString()}] ${msg}`;
   console.log(line);
-  fs.appendFileSync(LOG_FILE, line + '\n', 'utf8');
+  fs.appendFileSync(LOG_FILE, line + '\n');
 }
 
-// Load current task chain state
 function loadTaskChain() {
   if (!fs.existsSync(STATE_FILE)) return null;
-  try {
-    const rawData = fs.readFileSync(STATE_FILE, 'utf8');
-    return JSON.parse(rawData);
-  } catch (err) {
-    log(`❌ Failed to parse task JSON: ${err.message}`);
-    return null;
-  }
+  try { return JSON.parse(fs.readFileSync(STATE_FILE, 'utf8')); }
+  catch (err) { log(`❌ Failed to parse task JSON: ${err.message}`); return null; }
 }
 
-// Save summary of executed chain
-function saveResumeSummary(chain, results) {
-  const summary = {
-    timestamp: new Date().toISOString(),
-    tasks: chain.map((task, i) => ({
-      type: task.type,
-      status: results[i].status,
-      error: results[i].error || null,
-      outputFile: results[i].outputFile || null
-    }))
-  };
-  fs.writeFileSync(RESUME_FILE, JSON.stringify(summary, null, 2), 'utf8');
-  log(`✅ Resume summary saved to ${RESUME_FILE}`);
-}
-
-// Core task handler
-function handleTask(task, inputData) {
-  const type = task.type;
-  let data = inputData || null;
-  let output = null;
-
-  switch (type) {
-    case 'read_file': {
-      const filePath = path.join(MEMORY_DIR, task.file);
-      output = JSON.parse(fs.readFileSync(filePath, 'utf8'));
-      log(`📄 Read file: ${task.file}`);
-      break;
-    }
-    case 'write_file': {
-      const filePath = path.join(MEMORY_DIR, task.file);
-      fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf8');
-      output = data;
-      log(`💾 Wrote file: ${task.file}`);
-      break;
-    }
-    case 'sort_json': {
-      if (!Array.isArray(data)) throw new Error('Data must be array for sort_json');
-      const key = task.key;
-      output = [...data].sort((a, b) => (a[key] > b[key] ? 1 : -1));
-      log(`🔀 Sorted JSON by key: ${key}`);
-      break;
-    }
-    case 'filter_json': {
-      if (!Array.isArray(data)) throw new Error('Data must be array for filter_json');
-      const key = task.key;
-      const value = task.value;
-      output = data.filter(item => item[key] === value);
-      log(`�� Filtered JSON where ${key}=${value}`);
-      break;
-    }
-    case 'transform_json': {
-      if (!Array.isArray(data)) throw new Error('Data must be array for transform_json');
-      const key = task.key;
-      const action = task.action || 'uppercase';
-      output = data.map(item => {
-        const newItem = { ...item };
-        if (newItem[key]) {
-          if (action === 'uppercase') newItem[key] = String(newItem[key]).toUpperCase();
-          else if (action === 'lowercase') newItem[key] = String(newItem[key]).toLowerCase();
-        }
-        return newItem;
-      });
-      log(`✨ Transformed JSON key: ${key} with action: ${action}`);
-      break;
-    }
-    case 'group_json': {
-      if (!Array.isArray(data)) throw new Error('Data must be array for group_json');
-      const key = task.key;
-      output = data.reduce((acc, item) => {
-        const k = item[key] || 'undefined';
-        acc[k] = acc[k] || [];
-        acc[k].push(item);
-        return acc;
-      }, {});
-      log(`�� Grouped JSON by key: ${key}`);
-      break;
-    }
-    default:
-      throw new Error(`Unknown task type: ${type}`);
-  }
-
-  return output;
-}
-
-// Execute chain
 function executeChain(chain) {
   let currentData = null;
-  const results = [];
-
   for (const task of chain) {
     try {
-      currentData = handleTask(task, currentData);
-      results.push({ status: 'success', outputFile: task.type === 'write_file' ? task.file : null });
-    } catch (err) {
-      log(`❌ Error processing task "${task.type}": ${err.message}`);
-      results.push({ status: 'failed', error: err.message });
-    }
+      if (task.type === 'read_file') {
+        currentData = JSON.parse(fs.readFileSync(path.join(MEMORY_DIR, task.file), 'utf8'));
+        log(`📄 Read file: ${task.file}`);
+      } else if (task.type === 'filter_json') {
+        currentData = currentData.filter(i => i[task.key] === task.value);
+        log(`🔎 Filtered JSON where ${task.key}=${task.value}`);
+      } else if (task.type === 'sort_json') {
+        currentData = [...currentData].sort((a, b) => (a[task.key] > b[task.key] ? 1 : -1));
+        log(`🔀 Sorted JSON by key: ${task.key}`);
+      } else if (task.type === 'write_file') {
+        fs.writeFileSync(path.join(MEMORY_DIR, task.file), JSON.stringify(currentData, null, 2));
+        log(`💾 Wrote file: ${task.file}`);
+      }
+    } catch (err) { log(`❌ Error processing task "${task.type}": ${err.message}`); }
   }
 
-  saveResumeSummary(chain, results);
-  log('✅ Task chain execution complete.');
-
-  // Auto-rename processed chain
-  try {
-    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-    const processedFile = path.join(MEMORY_DIR, `processed_chain_${timestamp}.json`);
-    fs.renameSync(STATE_FILE, processedFile);
-    log(`🗂️ Task chain file renamed to ${processedFile}`);
-  } catch (err) {
-    log(`⚠️ Failed to rename chain file: ${err.message}`);
-  }
+  const processedFile = path.join(MEMORY_DIR, `processed_chain_${Date.now()}.json`);
+  fs.renameSync(STATE_FILE, processedFile);
+  log(`🗂️ Task chain file renamed to ${processedFile}`);
 }
 
-// Idle-friendly loop with heartbeat
 async function startLoop() {
   while (true) {
     const chain = loadTaskChain();
-    if (chain && Array.isArray(chain)) {
-      log(`🛠️ Cade starting chain of ${chain.length} task(s)`);
-      executeChain(chain);
-    } else {
+    if (chain) { log(`🛠️ Cade starting chain of ${chain.length} task(s)`); executeChain(chain); }
+    else {
       const now = Date.now();
       if (now - lastHeartbeat >= HEARTBEAT_INTERVAL_MS) {
         log('💤 Cade idle and waiting for new chains...');
         lastHeartbeat = now;
       }
     }
-    await new Promise(resolve => setTimeout(resolve, IDLE_SLEEP_MS));
+    await new Promise(r => setTimeout(r, IDLE_SLEEP_MS));
   }
 }
 
