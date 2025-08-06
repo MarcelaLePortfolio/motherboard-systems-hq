@@ -1,45 +1,21 @@
-# macOS
-.DS_Store
-.AppleDouble
-.LSOverride
+memory/agent_chain_state.json
+memory/chaining_runtime_log.json
+memory/resume_payload.json
+memory/agent_chain_resume.json
+memory/agent_resume.json
+memory/cade_logbook.txt
+memory/cade_resume.json
+memory/cade_test_write.txt
+memory/filtered_data.json
+memory/grouped_roles.json
+memory/matilda_runtime_log.json
+memory/online_only.json
+memory/renamed_data.json
+memory/roles_upper.json
+memory/sorted_by_name.json
+memory/source_data.json
 
-# Node.js / pnpm
-node_modules/
-.pnpm/
-.pnpm-debug.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# PM2
-.pm2/
-pm2.log
-pm2.pid
-pm2-dump.log
-
-# Logs & temp
 *.log
 *.tmp
-*.swp
-*.swo
+*.temp
 
-# Backups & archives
-Motherboard_FullBackup_*/
-MOTHERBOARD_SYSTEMS_BACKUP_*.zip
-MOTHERBOARD_BACKUP_LOG_*.txt
-Motherboard_Restore_*/
-
-# Local environment
-.env
-.env.local
-
-# IDE/editor folders
-.vscode/
-.idea/
-
-# Misc
-Thumbs.db
-# Ignore auto-generated status/log files
-ui/dashboard/public/agent-status.json
-ui/dashboard/public/matilda-log.json
-Users/

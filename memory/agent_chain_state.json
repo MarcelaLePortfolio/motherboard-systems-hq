@@ -1,6 +1,4 @@
 {
-  "agent": "matilda",
-  "type": "delegate_chain",
   "chain": [
     {
       "agent": "cade",
