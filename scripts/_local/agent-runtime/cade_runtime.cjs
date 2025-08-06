@@ -1,5 +1,5 @@
-// 🧠 Cade Runtime – Quick Heartbeat Test Mode
-// Temporarily reduces heartbeat to 10 seconds for verification
+// 🧠 Cade Runtime – Core Task Chain Execution (production heartbeat)
+// Last updated: <0048cade> Reverted heartbeat to 2 minutes for normal operation
 
 const fs = require('fs');
 const path = require('path');
@@ -10,7 +10,7 @@ const RESUME_FILE = path.join(MEMORY_DIR, 'agent_chain_resume.json');
 const LOG_FILE = path.join(MEMORY_DIR, 'cade_runtime.log');
 
 const IDLE_SLEEP_MS = 5000;        // check every 5 seconds
-const HEARTBEAT_INTERVAL_MS = 10000; // 10-second heartbeat for test
+const HEARTBEAT_INTERVAL_MS = 120000; // 2-minute heartbeat
 
 let lastHeartbeat = Date.now();
 
