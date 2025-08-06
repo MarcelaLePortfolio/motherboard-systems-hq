@@ -1,5 +1,5 @@
-// 🧠 Cade Runtime – Core Task Chain Execution (with idle-friendly loop)
-// Last updated: <0045cade> Adds idle sleep to reduce log spam and CPU usage
+// 🧠 Cade Runtime – Core Task Chain Execution (idle loop + heartbeat)
+// Last updated: <0046cade> Adds periodic heartbeat every 2 minutes while idle
 
 const fs = require('fs');
 const path = require('path');
@@ -9,7 +9,10 @@ const STATE_FILE = path.join(MEMORY_DIR, 'agent_chain_state.json');
 const RESUME_FILE = path.join(MEMORY_DIR, 'agent_chain_resume.json');
 const LOG_FILE = path.join(MEMORY_DIR, 'cade_runtime.log');
 
-const IDLE_SLEEP_MS = 5000; // 5 seconds between idle checks
+const IDLE_SLEEP_MS = 5000; // 5 seconds between checks
+const HEARTBEAT_INTERVAL_MS = 120000; // 2 minutes heartbeat
+
+let lastHeartbeat = Date.now();
 
 // Simple logger with timestamps
 function log(message) {
@@ -77,7 +80,7 @@ function handleTask(task, inputData) {
       const key = task.key;
       const value = task.value;
       output = data.filter(item => item[key] === value);
-      log(`🔎 Filtered JSON where ${key}=${value}`);
+      log(`�� Filtered JSON where ${key}=${value}`);
       break;
     }
     case 'transform_json': {
@@ -104,7 +107,7 @@ function handleTask(task, inputData) {
         acc[k].push(item);
         return acc;
       }, {});
-      log(`📊 Grouped JSON by key: ${key}`);
+      log(`�� Grouped JSON by key: ${key}`);
       break;
     }
     default:
@@ -143,13 +146,19 @@ function executeChain(chain) {
   }
 }
 
-// Idle-friendly loop
+// Idle-friendly loop with heartbeat
 async function startLoop() {
   while (true) {
     const chain = loadTaskChain();
     if (chain && Array.isArray(chain)) {
       log(`🛠️ Cade starting chain of ${chain.length} task(s)`);
       executeChain(chain);
+    } else {
+      const now = Date.now();
+      if (now - lastHeartbeat >= HEARTBEAT_INTERVAL_MS) {
+        log('💤 Cade idle and waiting for new chains...');
+        lastHeartbeat = now;
+      }
     }
     await new Promise(resolve => setTimeout(resolve, IDLE_SLEEP_MS));
   }
