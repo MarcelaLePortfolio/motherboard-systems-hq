@@ -1,5 +1,5 @@
-// 🧠 Cade Runtime – Core Task Chain Execution (with auto-cleanup)
-// Last updated: <0044cade> Adds automatic renaming of processed chain to avoid repeated execution
+// 🧠 Cade Runtime – Core Task Chain Execution (with idle-friendly loop)
+// Last updated: <0045cade> Adds idle sleep to reduce log spam and CPU usage
 
 const fs = require('fs');
 const path = require('path');
@@ -8,6 +8,8 @@ const MEMORY_DIR = path.join(__dirname, '../../../memory');
 const STATE_FILE = path.join(MEMORY_DIR, 'agent_chain_state.json');
 const RESUME_FILE = path.join(MEMORY_DIR, 'agent_chain_resume.json');
 const LOG_FILE = path.join(MEMORY_DIR, 'cade_runtime.log');
+
+const IDLE_SLEEP_MS = 5000; // 5 seconds between idle checks
 
 // Simple logger with timestamps
 function log(message) {
@@ -18,10 +20,7 @@ function log(message) {
 
 // Load current task chain state
 function loadTaskChain() {
-  if (!fs.existsSync(STATE_FILE)) {
-    log('❌ No task file found for Cade.');
-    return null;
-  }
+  if (!fs.existsSync(STATE_FILE)) return null;
   try {
     const rawData = fs.readFileSync(STATE_FILE, 'utf8');
     return JSON.parse(rawData);
@@ -133,7 +132,7 @@ function executeChain(chain) {
   saveResumeSummary(chain, results);
   log('✅ Task chain execution complete.');
 
-  // Auto-rename the processed chain file to avoid reprocessing
+  // Auto-rename processed chain
   try {
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
     const processedFile = path.join(MEMORY_DIR, `processed_chain_${timestamp}.json`);
@@ -144,15 +143,16 @@ function executeChain(chain) {
   }
 }
 
-// Main loop
-function processTask() {
-  const chain = loadTaskChain();
-  if (!chain || !Array.isArray(chain)) {
-    log('ℹ️ No valid chain to process.');
-    return;
+// Idle-friendly loop
+async function startLoop() {
+  while (true) {
+    const chain = loadTaskChain();
+    if (chain && Array.isArray(chain)) {
+      log(`🛠️ Cade starting chain of ${chain.length} task(s)`);
+      executeChain(chain);
+    }
+    await new Promise(resolve => setTimeout(resolve, IDLE_SLEEP_MS));
   }
-  log(`🛠️ Cade starting chain of ${chain.length} task(s)`);
-  executeChain(chain);
 }
 
-processTask();
+startLoop();
