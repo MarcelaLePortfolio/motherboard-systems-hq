@@ -2,19 +2,24 @@ import fs from 'fs';
 import path from 'path';
 import { execSync } from 'child_process';
 
-const STATE_FILE = path.resolve('memory/agent_chain_state.json');
-
 function log(message) {
-  console.log(`[${new Date().toISOString()}] ${message}`);
+  const timestamp = new Date().toISOString();
+  console.log(`[${timestamp}] ${message}`);
 }
 
 function loadTasks() {
-  if (!fs.existsSync(STATE_FILE)) return null;
+  const taskPath = path.resolve('memory/agent_chain_state.json');
+  if (!fs.existsSync(taskPath)) {
+    log('❌ No task file found for Cade.');
+    return null;
+  }
+
   try {
-    const raw = fs.readFileSync(STATE_FILE, 'utf-8');
+    const raw = fs.readFileSync(taskPath, 'utf8');
+    log(`Read task data: ${raw}`);
     return JSON.parse(raw);
   } catch (err) {
-    log(`❌ Failed to parse task file: ${err.message}`);
+    log(`❌ Failed to parse task JSON: ${err.message}`);
     return null;
   }
 }
@@ -33,7 +38,7 @@ function runTask(task) {
   if (task.type === 'run_shell') {
     try {
       execSync(task.command, { stdio: 'inherit' });
-      log(`💻 Shell executed: ${task.command}`);
+      log(`💻 Shell command executed: ${task.command}`);
       return true;
     } catch (err) {
       log(`❌ Shell command failed: ${task.command}`);
