@@ -12,8 +12,11 @@ export function handleTask(task) {
   }
 
   if (task.type === "generate_file") {
-    const filePath = path.join(outputDir, task.path || "output.txt");
+    const filePath = path.join(process.cwd(), task.path || "output.txt");
     const content = task.content || "";
+    const dirPath = path.dirname(filePath);
+    fs.mkdirSync(dirPath, { recursive: true });
+
     try {
       fs.writeFileSync(filePath, content, "utf8");
       log(`📄 File generated: ${filePath}`);
