@@ -66,7 +66,7 @@ function runAll() {
 
 let lastHash = null;
 
-export function startCadeTaskProcessor() {
+function startCadeTaskProcessor() {
   runAll(); // Run once on startup
 
   setInterval(() => {
@@ -81,3 +81,5 @@ export function startCadeTaskProcessor() {
     }
   }, 3000);
 }
+
+export { startCadeTaskProcessor };
