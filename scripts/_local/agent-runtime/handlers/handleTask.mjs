@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import { execSync } from "child_process";
 
-export function handleTask(task) {
+function handleTask(task) {
   const log = (msg) => console.log(`[${new Date().toISOString()}] ${msg}`);
   const outputDir = path.join(process.cwd(), "scripts/_local/agent-runtime/output");
 
@@ -12,11 +12,8 @@ export function handleTask(task) {
   }
 
   if (task.type === "generate_file") {
-    const filePath = path.join(process.cwd(), task.path || "output.txt");
+    const filePath = path.join(outputDir, task.path || "output.txt");
     const content = task.content || "";
-    const dirPath = path.dirname(filePath);
-    fs.mkdirSync(dirPath, { recursive: true });
-
     try {
       fs.writeFileSync(filePath, content, "utf8");
       log(`📄 File generated: ${filePath}`);
@@ -37,3 +34,5 @@ export function handleTask(task) {
   const dbPath = path.join(process.cwd(), "scripts/_local/agent-runtime/memory/agent_brain.db");
   fs.appendFileSync(dbPath, `[${new Date().toISOString()}] ✅ Task recorded in DB.\n`);
 }
+
+export { handleTask };
