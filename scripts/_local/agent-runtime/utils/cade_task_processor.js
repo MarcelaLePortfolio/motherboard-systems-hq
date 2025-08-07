@@ -57,3 +57,5 @@ export function startCadeTaskProcessor() {
     }
   }
 }
+
+export { startCadeTaskProcessor };
