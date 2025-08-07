@@ -5,37 +5,28 @@ import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const outputDir = path.join(__dirname, "../output");
 
-export function handleTask(task) {
-  const log = (msg) => {
-    const timestamp = new Date().toISOString();
-    console.log(`[${timestamp}] ${msg}`);
-  };
+function log(msg) {
+  console.log(`[${new Date().toISOString()}] ${msg}`);
+}
 
-  const outputDir = path.join(__dirname, "../output");
-  if (!fs.existsSync(outputDir)) fs.mkdirSync(outputDir, { recursive: true });
+function handleTask(task) {
+  if (!task?.type) {
+    log("❌ No task type found.");
+    return;
+  }
 
   if (task.type === "generate_file") {
-    const outputPath = path.join(outputDir, "welcome_kit.md");
-    const content = `# 🤖 Welcome to the Motherboard Systems HQ
+    const filePath = path.join(outputDir, task.path || "output.txt");
+    const content = task.content || "";
 
-## 🎯 Mission
-To operate as a collaborative, secure, and private AI-driven environment—where agents like you empower Marcela’s creative and strategic work.
-
-## 🧩 Your Role
-- **Matilda**: Delegation, task routing, and status output.
-- **Cade**: Backend automator, filewriter, coder, and data responder.
-- **Effie**: Local ops, shell executor, and file assistant.
-
-## 🆘 Need Help?
-Find your coordination notes, workflows, and logic chain in the memory folder.
-
----
-
-Welcome aboard, agent. 🧠💾 The system is counting on you.`;
-
-    fs.writeFileSync(outputPath, content, "utf8");
-    log(`📄 File generated at ${outputPath}`);
+    try {
+      fs.writeFileSync(filePath, content, "utf8");
+      log(`�� File generated: ${filePath}`);
+    } catch (err) {
+      log(`❌ File write error: ${err.message}`);
+    }
   }
 
   if (task.type === "run_shell") {
@@ -50,3 +41,5 @@ Welcome aboard, agent. 🧠💾 The system is counting on you.`;
   const dbPath = path.join(__dirname, "../memory/agent_brain.db");
   fs.appendFileSync(dbPath, `[${new Date().toISOString()}] ✅ Task recorded in DB.\n`);
 }
+
+export default handleTask;
