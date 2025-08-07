@@ -4,36 +4,10 @@
   <meta charset="UTF-8" />
   <title><0001f9e0> Motherboard Systems HQ</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <style>
-    #project-tracker-tabs {
-      display: flex;
-      gap: 0.75rem;
-      margin-bottom: 1rem;
-    }
-    .tab {
-      padding: 0.5rem 1rem;
-      border: none;
-      background-color: #eee;
-      cursor: pointer;
-      font-weight: bold;
-      border-radius: 4px;
-    }
-    .tab:hover {
-      background-color: #ddd;
-    }
-    .tracker-section {
-      border: 1px solid #ccc;
-      padding: 1rem;
-      border-radius: 6px;
-      background-color: #fafafa;
-    }
-    .tracker-section h3 {
-      margin-top: 0;
-    }
-  </style>
 </head>
 <body>
   <div id="project-tracker">
+    <!-- 🔗 Tabs -->
     <div id="project-tracker-tabs">
       <button class="tab" data-target="backlog">Backlog</button>
       <button class="tab" data-target="in-progress">In Progress</button>
@@ -63,6 +37,35 @@
       </ul>
     </div>
   </div>
+
+  <style>
+    #project-tracker-tabs {
+      display: flex;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+    .tab {
+      padding: 0.5rem 1rem;
+      border: none;
+      background-color: #eee;
+      cursor: pointer;
+      font-weight: bold;
+      border-radius: 4px;
+    }
+    .tab:hover {
+      background-color: #ddd;
+    }
+
+    .tracker-section {
+      border: 1px solid #ccc;
+      padding: 1rem;
+      border-radius: 6px;
+      background-color: #fafafa;
+    }
+    .tracker-section h3 {
+      margin-top: 0;
+    }
+  </style>
 
   <script>
     window.addEventListener('DOMContentLoaded', () => {
