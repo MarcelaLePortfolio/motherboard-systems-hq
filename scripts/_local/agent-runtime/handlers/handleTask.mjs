@@ -4,7 +4,6 @@ import { execSync } from "child_process";
 
 function handleTask(task) {
   const log = (msg) => console.log(`[${new Date().toISOString()}] ${msg}`);
-  const outputDir = path.join(process.cwd(), "scripts/_local/agent-runtime/output");
 
   if (!task?.type) {
     log("❌ No task type found.");
@@ -12,9 +11,15 @@ function handleTask(task) {
   }
 
   if (task.type === "generate_file") {
-    const filePath = path.join(outputDir, task.path || "output.txt");
+    const isCustomPath = !!task.path;
+    const filePath = isCustomPath
+      ? path.join(process.cwd(), task.path)
+      : path.join(process.cwd(), "scripts/_local/agent-runtime/output/output.txt");
+
+    const dirPath = path.dirname(filePath);
     const content = task.content || "";
     try {
+      fs.mkdirSync(dirPath, { recursive: true });
       fs.writeFileSync(filePath, content, "utf8");
       log(`📄 File generated: ${filePath}`);
     } catch (err) {
