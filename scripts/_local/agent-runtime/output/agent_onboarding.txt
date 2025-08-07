@@ -1,0 +1,12 @@
+Welcome to Motherboard Systems HQ, Agent!
+
+This guide will help you integrate smoothly into the system.
+
+🧠 Summary: Write a sample onboarding script for new agents
+
+- Report to Matilda for delegation
+- Use Cade for backend tasks
+- Use Effie for local operations
+
+Stay sharp.
+— HQ
