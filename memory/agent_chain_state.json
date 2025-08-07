@@ -1,46 +1,11 @@
-{
-  "chain": [
-    {
-      "agent": "cade",
-      "type": "transform_json",
-      "payload": {
-        "input": "memory/source_data.json",
-        "output": "memory/step1_sorted.json",
-        "operation": "sort_by",
-        "key": "name"
-      }
-    },
-    {
-      "agent": "cade",
-      "type": "transform_json",
-      "payload": {
-        "input": "memory/step1_sorted.json",
-        "output": "memory/step2_roles_upper.json",
-        "operation": "transform_values",
-        "key": "role",
-        "transform": "toUpperCase"
-      }
-    },
-    {
-      "agent": "cade",
-      "type": "transform_json",
-      "payload": {
-        "input": "memory/step2_roles_upper.json",
-        "output": "memory/step3_only_desktop.json",
-        "operation": "filter_values",
-        "key": "role",
-        "value": "DESKTOP"
-      }
-    },
-    {
-      "agent": "cade",
-      "type": "transform_json",
-      "payload": {
-        "input": "memory/step3_only_desktop.json",
-        "output": "memory/final_grouped.json",
-        "operation": "group_by",
-        "key": "role"
-      }
+[
+  {
+    "type": "write_db",
+    "table": "project_tracker",
+    "row": {
+      "agent": "Cade",
+      "status": "DB write ✅ absolute env fix",
+      "timestamp": "2025-08-06T22:55:39Z"
     }
-  ]
-}
+  }
+]

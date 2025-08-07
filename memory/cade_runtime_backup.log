@@ -1,0 +1,417 @@
+[2025-08-06T20:04:33.099Z] ℹ️ No valid chain to process.
+[2025-08-06T20:04:36.184Z] ℹ️ No valid chain to process.
+[2025-08-06T20:04:39.271Z] ℹ️ No valid chain to process.
+[2025-08-06T20:04:42.349Z] ℹ️ No valid chain to process.
+[2025-08-06T20:04:45.428Z] ℹ️ No valid chain to process.
+[2025-08-06T20:04:48.505Z] ℹ️ No valid chain to process.
+[2025-08-06T20:04:51.585Z] ℹ️ No valid chain to process.
+[2025-08-06T20:04:54.649Z] ℹ️ No valid chain to process.
+[2025-08-06T20:04:57.732Z] ℹ️ No valid chain to process.
+[2025-08-06T20:05:00.813Z] ℹ️ No valid chain to process.
+[2025-08-06T20:05:03.892Z] ℹ️ No valid chain to process.
+[2025-08-06T20:05:06.978Z] ℹ️ No valid chain to process.
+[2025-08-06T20:05:10.056Z] ℹ️ No valid chain to process.
+[2025-08-06T20:05:13.140Z] ℹ️ No valid chain to process.
+[2025-08-06T20:05:16.225Z] 🛠️ Cade starting chain of 4 task(s)
+[2025-08-06T20:05:16.225Z] 📄 Read file: sample.json
+[2025-08-06T20:05:16.226Z] 🔎 Filtered JSON where status=active
+[2025-08-06T20:05:16.226Z] 🔀 Sorted JSON by key: priority
+[2025-08-06T20:05:16.226Z] 💾 Wrote file: output.json
+[2025-08-06T20:05:16.226Z] ✅ Resume summary saved to /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/memory/agent_chain_resume.json
+[2025-08-06T20:05:16.226Z] ✅ Task chain execution complete.
+[2025-08-06T20:05:19.333Z] 🛠️ Cade starting chain of 4 task(s)
+[2025-08-06T20:05:19.334Z] 📄 Read file: sample.json
+[2025-08-06T20:05:19.334Z] 🔎 Filtered JSON where status=active
+[2025-08-06T20:05:19.334Z] 🔀 Sorted JSON by key: priority
+[2025-08-06T20:05:19.334Z] 💾 Wrote file: output.json
+[2025-08-06T20:05:19.335Z] ✅ Resume summary saved to /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/memory/agent_chain_resume.json
+[2025-08-06T20:05:19.335Z] ✅ Task chain execution complete.
+[2025-08-06T20:05:20.806Z] 🛠️ Cade starting chain of 4 task(s)
+[2025-08-06T20:05:20.806Z] 📄 Read file: sample.json
+[2025-08-06T20:05:20.807Z] 🔎 Filtered JSON where status=active
+[2025-08-06T20:05:20.807Z] 🔀 Sorted JSON by key: priority
+[2025-08-06T20:05:20.807Z] 💾 Wrote file: output.json
+[2025-08-06T20:05:20.807Z] ✅ Resume summary saved to /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/memory/agent_chain_resume.json
+[2025-08-06T20:05:20.807Z] ✅ Task chain execution complete.
+[2025-08-06T20:05:23.886Z] 🛠️ Cade starting chain of 4 task(s)
+[2025-08-06T20:05:23.887Z] 📄 Read file: sample.json
+[2025-08-06T20:05:23.887Z] 🔎 Filtered JSON where status=active
+[2025-08-06T20:05:23.887Z] 🔀 Sorted JSON by key: priority
+[2025-08-06T20:05:23.887Z] 💾 Wrote file: output.json
+[2025-08-06T20:05:23.887Z] ✅ Resume summary saved to /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/memory/agent_chain_resume.json
+[2025-08-06T20:05:23.887Z] ✅ Task chain execution complete.
+[2025-08-06T20:05:26.946Z] 🛠️ Cade starting chain of 4 task(s)
+[2025-08-06T20:05:26.946Z] 📄 Read file: sample.json
+[2025-08-06T20:05:26.946Z] 🔎 Filtered JSON where status=active
+[2025-08-06T20:05:26.947Z] 🔀 Sorted JSON by key: priority
+[2025-08-06T20:05:26.947Z] 💾 Wrote file: output.json
+[2025-08-06T20:05:26.947Z] ✅ Resume summary saved to /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/memory/agent_chain_resume.json
+[2025-08-06T20:05:26.947Z] ✅ Task chain execution complete.
+[2025-08-06T20:05:30.024Z] 🛠️ Cade starting chain of 4 task(s)
+[2025-08-06T20:05:30.024Z] 📄 Read file: sample.json
+[2025-08-06T20:05:30.024Z] 🔎 Filtered JSON where status=active
+[2025-08-06T20:05:30.025Z] 🔀 Sorted JSON by key: priority
+[2025-08-06T20:05:30.025Z] 💾 Wrote file: output.json
+[2025-08-06T20:05:30.025Z] ✅ Resume summary saved to /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/memory/agent_chain_resume.json
+[2025-08-06T20:05:30.025Z] ✅ Task chain execution complete.
+[2025-08-06T20:05:33.105Z] 🛠️ Cade starting chain of 4 task(s)
+[2025-08-06T20:05:33.106Z] 📄 Read file: sample.json
+[2025-08-06T20:05:33.106Z] 🔎 Filtered JSON where status=active
+[2025-08-06T20:05:33.106Z] 🔀 Sorted JSON by key: priority
+[2025-08-06T20:05:33.106Z] 💾 Wrote file: output.json
+[2025-08-06T20:05:33.106Z] ✅ Resume summary saved to /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/memory/agent_chain_resume.json
+[2025-08-06T20:05:33.106Z] ✅ Task chain execution complete.
+[2025-08-06T20:05:36.187Z] 🛠️ Cade starting chain of 4 task(s)
+[2025-08-06T20:05:36.188Z] 📄 Read file: sample.json
+[2025-08-06T20:05:36.188Z] 🔎 Filtered JSON where status=active
+[2025-08-06T20:05:36.188Z] 🔀 Sorted JSON by key: priority
+[2025-08-06T20:05:36.188Z] 💾 Wrote file: output.json
+[2025-08-06T20:05:36.188Z] ✅ Resume summary saved to /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/memory/agent_chain_resume.json
+[2025-08-06T20:05:36.188Z] ✅ Task chain execution complete.
+[2025-08-06T20:05:39.271Z] 🛠️ Cade starting chain of 4 task(s)
+[2025-08-06T20:05:39.272Z] 📄 Read file: sample.json
+[2025-08-06T20:05:39.272Z] 🔎 Filtered JSON where status=active
+[2025-08-06T20:05:39.272Z] 🔀 Sorted JSON by key: priority
+[2025-08-06T20:05:39.272Z] 💾 Wrote file: output.json
+[2025-08-06T20:05:39.273Z] ✅ Resume summary saved to /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/memory/agent_chain_resume.json
+[2025-08-06T20:05:39.273Z] ✅ Task chain execution complete.
+[2025-08-06T20:05:42.345Z] 🛠️ Cade starting chain of 4 task(s)
+[2025-08-06T20:05:42.346Z] 📄 Read file: sample.json
+[2025-08-06T20:05:42.346Z] 🔎 Filtered JSON where status=active
+[2025-08-06T20:05:42.346Z] 🔀 Sorted JSON by key: priority
+[2025-08-06T20:05:42.346Z] 💾 Wrote file: output.json
+[2025-08-06T20:05:42.346Z] ✅ Resume summary saved to /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/memory/agent_chain_resume.json
+[2025-08-06T20:05:42.346Z] ✅ Task chain execution complete.
+[2025-08-06T20:05:45.475Z] 🛠️ Cade starting chain of 4 task(s)
+[2025-08-06T20:05:45.476Z] 📄 Read file: sample.json
+[2025-08-06T20:05:45.476Z] 🔎 Filtered JSON where status=active
+[2025-08-06T20:05:45.476Z] 🔀 Sorted JSON by key: priority
+[2025-08-06T20:05:45.476Z] 💾 Wrote file: output.json
+[2025-08-06T20:05:45.476Z] ✅ Resume summary saved to /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/memory/agent_chain_resume.json
+[2025-08-06T20:05:45.477Z] ✅ Task chain execution complete.
+[2025-08-06T20:05:48.548Z] 🛠️ Cade starting chain of 4 task(s)
+[2025-08-06T20:05:48.548Z] 📄 Read file: sample.json
+[2025-08-06T20:05:48.548Z] 🔎 Filtered JSON where status=active
+[2025-08-06T20:05:48.549Z] 🔀 Sorted JSON by key: priority
+[2025-08-06T20:05:48.549Z] 💾 Wrote file: output.json
+[2025-08-06T20:05:48.549Z] ✅ Resume summary saved to /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/memory/agent_chain_resume.json
+[2025-08-06T20:05:48.549Z] ✅ Task chain execution complete.
+[2025-08-06T20:05:51.619Z] 🛠️ Cade starting chain of 4 task(s)
+[2025-08-06T20:05:51.620Z] 📄 Read file: sample.json
+[2025-08-06T20:05:51.620Z] 🔎 Filtered JSON where status=active
+[2025-08-06T20:05:51.620Z] 🔀 Sorted JSON by key: priority
+[2025-08-06T20:05:51.620Z] 💾 Wrote file: output.json
+[2025-08-06T20:05:51.620Z] ✅ Resume summary saved to /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/memory/agent_chain_resume.json
+[2025-08-06T20:05:51.620Z] ✅ Task chain execution complete.
+[2025-08-06T20:05:54.702Z] 🛠️ Cade starting chain of 4 task(s)
+[2025-08-06T20:05:54.703Z] 📄 Read file: sample.json
+[2025-08-06T20:05:54.703Z] 🔎 Filtered JSON where status=active
+[2025-08-06T20:05:54.703Z] 🔀 Sorted JSON by key: priority
+[2025-08-06T20:05:54.703Z] 💾 Wrote file: output.json
+[2025-08-06T20:05:54.703Z] ✅ Resume summary saved to /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/memory/agent_chain_resume.json
+[2025-08-06T20:05:54.703Z] ✅ Task chain execution complete.
+[2025-08-06T20:05:57.781Z] 🛠️ Cade starting chain of 4 task(s)
+[2025-08-06T20:05:57.782Z] 📄 Read file: sample.json
+[2025-08-06T20:05:57.782Z] 🔎 Filtered JSON where status=active
+[2025-08-06T20:05:57.782Z] 🔀 Sorted JSON by key: priority
+[2025-08-06T20:05:57.782Z] 💾 Wrote file: output.json
+[2025-08-06T20:05:57.782Z] ✅ Resume summary saved to /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/memory/agent_chain_resume.json
+[2025-08-06T20:05:57.782Z] ✅ Task chain execution complete.
+[2025-08-06T20:06:00.862Z] 🛠️ Cade starting chain of 4 task(s)
+[2025-08-06T20:06:00.863Z] 📄 Read file: sample.json
+[2025-08-06T20:06:00.863Z] 🔎 Filtered JSON where status=active
+[2025-08-06T20:06:00.863Z] 🔀 Sorted JSON by key: priority
+[2025-08-06T20:06:00.863Z] 💾 Wrote file: output.json
+[2025-08-06T20:06:00.863Z] ✅ Resume summary saved to /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/memory/agent_chain_resume.json
+[2025-08-06T20:06:00.863Z] ✅ Task chain execution complete.
+[2025-08-06T20:06:03.945Z] 🛠️ Cade starting chain of 4 task(s)
+[2025-08-06T20:06:03.946Z] 📄 Read file: sample.json
+[2025-08-06T20:06:03.946Z] 🔎 Filtered JSON where status=active
+[2025-08-06T20:06:03.946Z] 🔀 Sorted JSON by key: priority
+[2025-08-06T20:06:03.946Z] 💾 Wrote file: output.json
+[2025-08-06T20:06:03.946Z] ✅ Resume summary saved to /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/memory/agent_chain_resume.json
+[2025-08-06T20:06:03.946Z] ✅ Task chain execution complete.
+[2025-08-06T20:06:07.027Z] 🛠️ Cade starting chain of 4 task(s)
+[2025-08-06T20:06:07.028Z] 📄 Read file: sample.json
+[2025-08-06T20:06:07.028Z] 🔎 Filtered JSON where status=active
+[2025-08-06T20:06:07.028Z] 🔀 Sorted JSON by key: priority
+[2025-08-06T20:06:07.028Z] 💾 Wrote file: output.json
+[2025-08-06T20:06:07.028Z] ✅ Resume summary saved to /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/memory/agent_chain_resume.json
+[2025-08-06T20:06:07.028Z] ✅ Task chain execution complete.
+[2025-08-06T20:06:10.110Z] 🛠️ Cade starting chain of 4 task(s)
+[2025-08-06T20:06:10.111Z] 📄 Read file: sample.json
+[2025-08-06T20:06:10.111Z] 🔎 Filtered JSON where status=active
+[2025-08-06T20:06:10.111Z] 🔀 Sorted JSON by key: priority
+[2025-08-06T20:06:10.111Z] 💾 Wrote file: output.json
+[2025-08-06T20:06:10.111Z] ✅ Resume summary saved to /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/memory/agent_chain_resume.json
+[2025-08-06T20:06:10.112Z] ✅ Task chain execution complete.
+[2025-08-06T20:06:13.194Z] 🛠️ Cade starting chain of 4 task(s)
+[2025-08-06T20:06:13.195Z] 📄 Read file: sample.json
+[2025-08-06T20:06:13.195Z] 🔎 Filtered JSON where status=active
+[2025-08-06T20:06:13.195Z] 🔀 Sorted JSON by key: priority
+[2025-08-06T20:06:13.195Z] 💾 Wrote file: output.json
+[2025-08-06T20:06:13.195Z] ✅ Resume summary saved to /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/memory/agent_chain_resume.json
+[2025-08-06T20:06:13.195Z] ✅ Task chain execution complete.
+[2025-08-06T20:06:16.264Z] 🛠️ Cade starting chain of 4 task(s)
+[2025-08-06T20:06:16.265Z] 📄 Read file: sample.json
+[2025-08-06T20:06:16.265Z] 🔎 Filtered JSON where status=active
+[2025-08-06T20:06:16.265Z] 🔀 Sorted JSON by key: priority
+[2025-08-06T20:06:16.265Z] 💾 Wrote file: output.json
+[2025-08-06T20:06:16.265Z] ✅ Resume summary saved to /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/memory/agent_chain_resume.json
+[2025-08-06T20:06:16.265Z] ✅ Task chain execution complete.
+[2025-08-06T20:06:19.349Z] 🛠️ Cade starting chain of 4 task(s)
+[2025-08-06T20:06:19.350Z] 📄 Read file: sample.json
+[2025-08-06T20:06:19.350Z] 🔎 Filtered JSON where status=active
+[2025-08-06T20:06:19.350Z] 🔀 Sorted JSON by key: priority
+[2025-08-06T20:06:19.350Z] 💾 Wrote file: output.json
+[2025-08-06T20:06:19.350Z] ✅ Resume summary saved to /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/memory/agent_chain_resume.json
+[2025-08-06T20:06:19.350Z] ✅ Task chain execution complete.
+[2025-08-06T20:06:22.433Z] 🛠️ Cade starting chain of 4 task(s)
+[2025-08-06T20:06:22.434Z] 📄 Read file: sample.json
+[2025-08-06T20:06:22.434Z] 🔎 Filtered JSON where status=active
+[2025-08-06T20:06:22.434Z] 🔀 Sorted JSON by key: priority
+[2025-08-06T20:06:22.434Z] 💾 Wrote file: output.json
+[2025-08-06T20:06:22.434Z] ✅ Resume summary saved to /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/memory/agent_chain_resume.json
+[2025-08-06T20:06:22.435Z] ✅ Task chain execution complete.
+[2025-08-06T20:06:25.520Z] 🛠️ Cade starting chain of 4 task(s)
+[2025-08-06T20:06:25.521Z] 📄 Read file: sample.json
+[2025-08-06T20:06:25.521Z] 🔎 Filtered JSON where status=active
+[2025-08-06T20:06:25.521Z] 🔀 Sorted JSON by key: priority
+[2025-08-06T20:06:25.521Z] 💾 Wrote file: output.json
+[2025-08-06T20:06:25.521Z] ✅ Resume summary saved to /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/memory/agent_chain_resume.json
+[2025-08-06T20:06:25.521Z] ✅ Task chain execution complete.
+[2025-08-06T20:06:28.588Z] 🛠️ Cade starting chain of 4 task(s)
+[2025-08-06T20:06:28.589Z] 📄 Read file: sample.json
+[2025-08-06T20:06:28.589Z] 🔎 Filtered JSON where status=active
+[2025-08-06T20:06:28.589Z] 🔀 Sorted JSON by key: priority
+[2025-08-06T20:06:28.589Z] 💾 Wrote file: output.json
+[2025-08-06T20:06:28.589Z] ✅ Resume summary saved to /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/memory/agent_chain_resume.json
+[2025-08-06T20:06:28.589Z] ✅ Task chain execution complete.
+[2025-08-06T20:06:31.671Z] 🛠️ Cade starting chain of 4 task(s)
+[2025-08-06T20:06:31.671Z] 📄 Read file: sample.json
+[2025-08-06T20:06:31.671Z] 🔎 Filtered JSON where status=active
+[2025-08-06T20:06:31.672Z] 🔀 Sorted JSON by key: priority
+[2025-08-06T20:06:31.672Z] 💾 Wrote file: output.json
+[2025-08-06T20:06:31.672Z] ✅ Resume summary saved to /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/memory/agent_chain_resume.json
+[2025-08-06T20:06:31.672Z] ✅ Task chain execution complete.
+[2025-08-06T20:06:34.751Z] 🛠️ Cade starting chain of 4 task(s)
+[2025-08-06T20:06:34.751Z] 📄 Read file: sample.json
+[2025-08-06T20:06:34.751Z] 🔎 Filtered JSON where status=active
+[2025-08-06T20:06:34.752Z] 🔀 Sorted JSON by key: priority
+[2025-08-06T20:06:34.752Z] 💾 Wrote file: output.json
+[2025-08-06T20:06:34.752Z] ✅ Resume summary saved to /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/memory/agent_chain_resume.json
+[2025-08-06T20:06:34.752Z] ✅ Task chain execution complete.
+[2025-08-06T20:06:37.839Z] 🛠️ Cade starting chain of 4 task(s)
+[2025-08-06T20:06:37.839Z] 📄 Read file: sample.json
+[2025-08-06T20:06:37.840Z] 🔎 Filtered JSON where status=active
+[2025-08-06T20:06:37.840Z] 🔀 Sorted JSON by key: priority
+[2025-08-06T20:06:37.840Z] 💾 Wrote file: output.json
+[2025-08-06T20:06:37.840Z] ✅ Resume summary saved to /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/memory/agent_chain_resume.json
+[2025-08-06T20:06:37.840Z] ✅ Task chain execution complete.
+[2025-08-06T20:06:40.912Z] 🛠️ Cade starting chain of 4 task(s)
+[2025-08-06T20:06:40.913Z] 📄 Read file: sample.json
+[2025-08-06T20:06:40.913Z] 🔎 Filtered JSON where status=active
+[2025-08-06T20:06:40.913Z] 🔀 Sorted JSON by key: priority
+[2025-08-06T20:06:40.913Z] 💾 Wrote file: output.json
+[2025-08-06T20:06:40.913Z] ✅ Resume summary saved to /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/memory/agent_chain_resume.json
+[2025-08-06T20:06:40.913Z] ✅ Task chain execution complete.
+[2025-08-06T20:06:43.991Z] 🛠️ Cade starting chain of 4 task(s)
+[2025-08-06T20:06:43.992Z] 📄 Read file: sample.json
+[2025-08-06T20:06:43.992Z] 🔎 Filtered JSON where status=active
+[2025-08-06T20:06:43.992Z] 🔀 Sorted JSON by key: priority
+[2025-08-06T20:06:43.992Z] 💾 Wrote file: output.json
+[2025-08-06T20:06:43.992Z] ✅ Resume summary saved to /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/memory/agent_chain_resume.json
+[2025-08-06T20:06:43.992Z] ✅ Task chain execution complete.
+[2025-08-06T20:06:47.081Z] 🛠️ Cade starting chain of 4 task(s)
+[2025-08-06T20:06:47.081Z] 📄 Read file: sample.json
+[2025-08-06T20:06:47.082Z] 🔎 Filtered JSON where status=active
+[2025-08-06T20:06:47.082Z] 🔀 Sorted JSON by key: priority
+[2025-08-06T20:06:47.082Z] 💾 Wrote file: output.json
+[2025-08-06T20:06:47.082Z] ✅ Resume summary saved to /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/memory/agent_chain_resume.json
+[2025-08-06T20:06:47.082Z] ✅ Task chain execution complete.
+[2025-08-06T20:06:50.165Z] 🛠️ Cade starting chain of 4 task(s)
+[2025-08-06T20:06:50.166Z] 📄 Read file: sample.json
+[2025-08-06T20:06:50.166Z] 🔎 Filtered JSON where status=active
+[2025-08-06T20:06:50.166Z] 🔀 Sorted JSON by key: priority
+[2025-08-06T20:06:50.166Z] 💾 Wrote file: output.json
+[2025-08-06T20:06:50.166Z] ✅ Resume summary saved to /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/memory/agent_chain_resume.json
+[2025-08-06T20:06:50.166Z] ✅ Task chain execution complete.
+[2025-08-06T20:06:50.166Z] 🗂️ Task chain file renamed to /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/memory/processed_chain_2025-08-06T20-06-50-166Z.json
+[2025-08-06T20:06:53.248Z] ❌ No task file found for Cade.
+[2025-08-06T20:06:53.249Z] ℹ️ No valid chain to process.
+[2025-08-06T20:06:56.330Z] ❌ No task file found for Cade.
+[2025-08-06T20:06:56.331Z] ℹ️ No valid chain to process.
+[2025-08-06T20:06:59.413Z] ❌ No task file found for Cade.
+[2025-08-06T20:06:59.414Z] ℹ️ No valid chain to process.
+[2025-08-06T20:07:02.493Z] ❌ No task file found for Cade.
+[2025-08-06T20:07:02.494Z] ℹ️ No valid chain to process.
+[2025-08-06T20:07:05.574Z] ❌ No task file found for Cade.
+[2025-08-06T20:07:05.575Z] ℹ️ No valid chain to process.
+[2025-08-06T20:07:08.654Z] ❌ No task file found for Cade.
+[2025-08-06T20:07:08.655Z] ℹ️ No valid chain to process.
+[2025-08-06T20:07:11.731Z] ❌ No task file found for Cade.
+[2025-08-06T20:07:11.732Z] ℹ️ No valid chain to process.
+[2025-08-06T20:07:14.816Z] ❌ No task file found for Cade.
+[2025-08-06T20:07:14.817Z] ℹ️ No valid chain to process.
+[2025-08-06T20:07:17.901Z] ❌ No task file found for Cade.
+[2025-08-06T20:07:17.901Z] ℹ️ No valid chain to process.
+[2025-08-06T20:07:20.974Z] ❌ No task file found for Cade.
+[2025-08-06T20:07:20.975Z] ℹ️ No valid chain to process.
+[2025-08-06T20:07:24.056Z] ❌ No task file found for Cade.
+[2025-08-06T20:07:24.057Z] ℹ️ No valid chain to process.
+[2025-08-06T20:07:27.136Z] ❌ No task file found for Cade.
+[2025-08-06T20:07:27.136Z] ℹ️ No valid chain to process.
+[2025-08-06T20:07:30.215Z] ❌ No task file found for Cade.
+[2025-08-06T20:07:30.216Z] ℹ️ No valid chain to process.
+[2025-08-06T20:07:33.301Z] ❌ No task file found for Cade.
+[2025-08-06T20:07:33.302Z] ℹ️ No valid chain to process.
+[2025-08-06T20:07:36.382Z] 🛠️ Cade starting chain of 4 task(s)
+[2025-08-06T20:07:36.383Z] 📄 Read file: sample.json
+[2025-08-06T20:07:36.383Z] 🔎 Filtered JSON where status=active
+[2025-08-06T20:07:36.383Z] 🔀 Sorted JSON by key: priority
+[2025-08-06T20:07:36.383Z] 💾 Wrote file: output.json
+[2025-08-06T20:07:36.383Z] ✅ Resume summary saved to /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/memory/agent_chain_resume.json
+[2025-08-06T20:07:36.383Z] ✅ Task chain execution complete.
+[2025-08-06T20:07:36.383Z] 🗂️ Task chain file renamed to /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/memory/processed_chain_2025-08-06T20-07-36-383Z.json
+[2025-08-06T20:07:39.449Z] ❌ No task file found for Cade.
+[2025-08-06T20:07:39.450Z] ℹ️ No valid chain to process.
+[2025-08-06T20:07:39.661Z] ❌ No task file found for Cade.
+[2025-08-06T20:07:39.662Z] ℹ️ No valid chain to process.
+[2025-08-06T20:07:42.746Z] ❌ No task file found for Cade.
+[2025-08-06T20:07:42.746Z] ℹ️ No valid chain to process.
+[2025-08-06T20:07:45.825Z] ❌ No task file found for Cade.
+[2025-08-06T20:07:45.825Z] ℹ️ No valid chain to process.
+[2025-08-06T20:07:48.906Z] ❌ No task file found for Cade.
+[2025-08-06T20:07:48.906Z] ℹ️ No valid chain to process.
+[2025-08-06T20:07:52.014Z] ❌ No task file found for Cade.
+[2025-08-06T20:07:52.015Z] ℹ️ No valid chain to process.
+[2025-08-06T20:07:55.094Z] ❌ No task file found for Cade.
+[2025-08-06T20:07:55.095Z] ℹ️ No valid chain to process.
+[2025-08-06T20:07:58.177Z] ❌ No task file found for Cade.
+[2025-08-06T20:07:58.177Z] ℹ️ No valid chain to process.
+[2025-08-06T20:08:01.262Z] ❌ No task file found for Cade.
+[2025-08-06T20:08:01.262Z] ℹ️ No valid chain to process.
+[2025-08-06T20:08:04.342Z] ❌ No task file found for Cade.
+[2025-08-06T20:08:04.342Z] ℹ️ No valid chain to process.
+[2025-08-06T20:08:07.415Z] ❌ No task file found for Cade.
+[2025-08-06T20:08:07.416Z] ℹ️ No valid chain to process.
+[2025-08-06T20:08:10.500Z] ❌ No task file found for Cade.
+[2025-08-06T20:08:10.501Z] ℹ️ No valid chain to process.
+[2025-08-06T20:08:13.584Z] ❌ No task file found for Cade.
+[2025-08-06T20:08:13.585Z] ℹ️ No valid chain to process.
+[2025-08-06T20:08:16.669Z] ❌ No task file found for Cade.
+[2025-08-06T20:08:16.670Z] ℹ️ No valid chain to process.
+[2025-08-06T20:08:19.752Z] ❌ No task file found for Cade.
+[2025-08-06T20:08:19.753Z] ℹ️ No valid chain to process.
+[2025-08-06T20:08:22.834Z] ❌ No task file found for Cade.
+[2025-08-06T20:08:22.834Z] ℹ️ No valid chain to process.
+[2025-08-06T20:08:25.914Z] ❌ No task file found for Cade.
+[2025-08-06T20:08:25.914Z] ℹ️ No valid chain to process.
+[2025-08-06T20:08:28.997Z] ❌ No task file found for Cade.
+[2025-08-06T20:08:28.998Z] ℹ️ No valid chain to process.
+[2025-08-06T20:08:32.077Z] ❌ No task file found for Cade.
+[2025-08-06T20:08:32.077Z] ℹ️ No valid chain to process.
+[2025-08-06T20:08:35.157Z] ❌ No task file found for Cade.
+[2025-08-06T20:08:35.158Z] ℹ️ No valid chain to process.
+[2025-08-06T20:08:38.239Z] ❌ No task file found for Cade.
+[2025-08-06T20:08:38.240Z] ℹ️ No valid chain to process.
+[2025-08-06T20:08:41.316Z] ❌ No task file found for Cade.
+[2025-08-06T20:08:41.317Z] ℹ️ No valid chain to process.
+[2025-08-06T20:08:44.399Z] ❌ No task file found for Cade.
+[2025-08-06T20:08:44.399Z] ℹ️ No valid chain to process.
+[2025-08-06T20:08:47.468Z] ❌ No task file found for Cade.
+[2025-08-06T20:08:47.468Z] ℹ️ No valid chain to process.
+[2025-08-06T20:08:50.545Z] ❌ No task file found for Cade.
+[2025-08-06T20:08:50.546Z] ℹ️ No valid chain to process.
+[2025-08-06T20:08:53.627Z] ❌ No task file found for Cade.
+[2025-08-06T20:08:53.628Z] ℹ️ No valid chain to process.
+[2025-08-06T20:08:56.709Z] ❌ No task file found for Cade.
+[2025-08-06T20:08:56.710Z] ℹ️ No valid chain to process.
+[2025-08-06T20:08:59.794Z] ❌ No task file found for Cade.
+[2025-08-06T20:08:59.794Z] ℹ️ No valid chain to process.
+[2025-08-06T20:09:02.876Z] ❌ No task file found for Cade.
+[2025-08-06T20:09:02.876Z] ℹ️ No valid chain to process.
+[2025-08-06T20:09:05.959Z] ❌ No task file found for Cade.
+[2025-08-06T20:09:05.960Z] ℹ️ No valid chain to process.
+[2025-08-06T20:09:09.043Z] ❌ No task file found for Cade.
+[2025-08-06T20:09:09.044Z] ℹ️ No valid chain to process.
+[2025-08-06T20:09:12.127Z] ❌ No task file found for Cade.
+[2025-08-06T20:09:12.127Z] ℹ️ No valid chain to process.
+[2025-08-06T20:09:15.206Z] ❌ No task file found for Cade.
+[2025-08-06T20:09:15.206Z] ℹ️ No valid chain to process.
+[2025-08-06T20:09:18.290Z] ❌ No task file found for Cade.
+[2025-08-06T20:09:18.291Z] ℹ️ No valid chain to process.
+[2025-08-06T20:09:21.374Z] ❌ No task file found for Cade.
+[2025-08-06T20:09:21.375Z] ℹ️ No valid chain to process.
+[2025-08-06T20:09:24.457Z] ❌ No task file found for Cade.
+[2025-08-06T20:09:24.458Z] ℹ️ No valid chain to process.
+[2025-08-06T20:09:27.534Z] ❌ No task file found for Cade.
+[2025-08-06T20:09:27.535Z] ℹ️ No valid chain to process.
+[2025-08-06T20:09:30.619Z] ❌ No task file found for Cade.
+[2025-08-06T20:09:30.620Z] ℹ️ No valid chain to process.
+[2025-08-06T20:09:33.705Z] ❌ No task file found for Cade.
+[2025-08-06T20:09:33.706Z] ℹ️ No valid chain to process.
+[2025-08-06T20:09:36.789Z] ❌ No task file found for Cade.
+[2025-08-06T20:09:36.789Z] ℹ️ No valid chain to process.
+[2025-08-06T20:09:39.872Z] ❌ No task file found for Cade.
+[2025-08-06T20:09:39.872Z] ℹ️ No valid chain to process.
+[2025-08-06T20:09:42.959Z] ❌ No task file found for Cade.
+[2025-08-06T20:09:42.959Z] ℹ️ No valid chain to process.
+[2025-08-06T20:09:46.041Z] ❌ No task file found for Cade.
+[2025-08-06T20:09:46.042Z] ℹ️ No valid chain to process.
+[2025-08-06T20:09:49.123Z] ❌ No task file found for Cade.
+[2025-08-06T20:09:49.123Z] ℹ️ No valid chain to process.
+[2025-08-06T20:09:52.203Z] ❌ No task file found for Cade.
+[2025-08-06T20:09:52.204Z] ℹ️ No valid chain to process.
+[2025-08-06T20:09:55.287Z] ❌ No task file found for Cade.
+[2025-08-06T20:09:55.287Z] ℹ️ No valid chain to process.
+[2025-08-06T20:09:58.375Z] ❌ No task file found for Cade.
+[2025-08-06T20:09:58.375Z] ℹ️ No valid chain to process.
+[2025-08-06T20:10:01.456Z] ❌ No task file found for Cade.
+[2025-08-06T20:10:01.457Z] ℹ️ No valid chain to process.
+[2025-08-06T20:10:04.539Z] ❌ No task file found for Cade.
+[2025-08-06T20:10:04.540Z] ℹ️ No valid chain to process.
+[2025-08-06T20:10:07.625Z] ❌ No task file found for Cade.
+[2025-08-06T20:10:07.626Z] ℹ️ No valid chain to process.
+[2025-08-06T20:10:10.710Z] ❌ No task file found for Cade.
+[2025-08-06T20:10:10.711Z] ℹ️ No valid chain to process.
+[2025-08-06T20:10:13.795Z] ❌ No task file found for Cade.
+[2025-08-06T20:10:13.796Z] ℹ️ No valid chain to process.
+[2025-08-06T20:10:16.881Z] ❌ No task file found for Cade.
+[2025-08-06T20:10:16.881Z] ℹ️ No valid chain to process.
+[2025-08-06T20:10:19.962Z] ❌ No task file found for Cade.
+[2025-08-06T20:10:19.962Z] ℹ️ No valid chain to process.
+[2025-08-06T20:10:23.042Z] ❌ No task file found for Cade.
+[2025-08-06T20:10:23.042Z] ℹ️ No valid chain to process.
+[2025-08-06T20:10:26.118Z] ❌ No task file found for Cade.
+[2025-08-06T20:10:26.119Z] ℹ️ No valid chain to process.
+[2025-08-06T20:10:29.191Z] ❌ No task file found for Cade.
+[2025-08-06T20:10:29.191Z] ℹ️ No valid chain to process.
+[2025-08-06T20:10:32.274Z] ❌ No task file found for Cade.
+[2025-08-06T20:10:32.274Z] ℹ️ No valid chain to process.
+[2025-08-06T20:10:35.360Z] ❌ No task file found for Cade.
+[2025-08-06T20:10:35.360Z] ℹ️ No valid chain to process.
+[2025-08-06T20:10:38.432Z] ❌ No task file found for Cade.
+[2025-08-06T20:10:38.432Z] ℹ️ No valid chain to process.
+[2025-08-06T20:10:41.510Z] ❌ No task file found for Cade.
+[2025-08-06T20:10:41.511Z] ℹ️ No valid chain to process.
+[2025-08-06T20:11:04.532Z] 🛠️ Cade starting chain of 4 task(s)
+[2025-08-06T20:11:04.533Z] 📄 Read file: sample.json
+[2025-08-06T20:11:04.533Z] 🔎 Filtered JSON where status=active
+[2025-08-06T20:11:04.533Z] 🔀 Sorted JSON by key: priority
+[2025-08-06T20:11:04.533Z] 💾 Wrote file: output.json
+[2025-08-06T20:11:04.534Z] ✅ Resume summary saved to /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/memory/agent_chain_resume.json
+[2025-08-06T20:11:04.534Z] ✅ Task chain execution complete.
+[2025-08-06T20:11:04.534Z] 🗂️ Task chain file renamed to /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/memory/processed_chain_2025-08-06T20-11-04-534Z.json
+[2025-08-06T20:41:06.390Z] 💤 Cade idle and waiting for new chains...
+[2025-08-06T20:41:16.395Z] 💤 Cade idle and waiting for new chains...
+[2025-08-06T20:41:26.396Z] 💤 Cade idle and waiting for new chains...
+[2025-08-06T20:41:36.399Z] 💤 Cade idle and waiting for new chains...
+[2025-08-06T20:41:46.403Z] 💤 Cade idle and waiting for new chains...
+[2025-08-06T20:41:56.406Z] 💤 Cade idle and waiting for new chains...
+[2025-08-06T20:42:06.411Z] 💤 Cade idle and waiting for new chains...
+[2025-08-06T20:42:16.415Z] 💤 Cade idle and waiting for new chains...
+[2025-08-06T20:42:26.419Z] 💤 Cade idle and waiting for new chains...
+[2025-08-06T20:42:36.423Z] 💤 Cade idle and waiting for new chains...
+[2025-08-06T20:42:46.427Z] 💤 Cade idle and waiting for new chains...
+[2025-08-06T20:42:56.430Z] 💤 Cade idle and waiting for new chains...

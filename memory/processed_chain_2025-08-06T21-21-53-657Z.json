@@ -1,0 +1,6 @@
+[
+  { "type": "read_file", "file": "sample.json" },
+  { "type": "filter_json", "key": "status", "value": "active" },
+  { "type": "sort_json", "key": "priority" },
+  { "type": "write_file", "file": "output.json" }
+]

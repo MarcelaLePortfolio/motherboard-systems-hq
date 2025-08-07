@@ -1,0 +1,640 @@
+[2025-08-07T03:47:47.046Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:47:47.047Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:47:47.047Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:47:47.049Z] ❌ Failed DB write for project_tracker: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:47:47.079Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:47:47.079Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:47:47.079Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:47:47.080Z] ❌ Failed DB write for project_tracker: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:47:47.108Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:47:47.108Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:47:47.108Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:47:47.109Z] ❌ Failed DB write for project_tracker: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:47:47.138Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:47:47.138Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:47:47.138Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:47:47.139Z] ❌ Failed DB write for project_tracker: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:47:47.166Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:47:47.167Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:47:47.167Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:47:47.167Z] ❌ Failed DB write for project_tracker: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:47:47.209Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:47:47.210Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:47:47.210Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:47:47.210Z] ❌ Failed DB write for project_tracker: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:47:47.252Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:47:47.252Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:47:47.252Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:47:47.253Z] ❌ Failed DB write for project_tracker: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:47:47.294Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:47:47.295Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:47:47.295Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:47:47.295Z] ❌ Failed DB write for project_tracker: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:47:47.323Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:47:47.323Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:47:47.323Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:47:47.324Z] ❌ Failed DB write for project_tracker: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:47:47.352Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:47:47.352Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:47:47.352Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:47:47.353Z] ❌ Failed DB write for project_tracker: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:47:47.380Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:47:47.381Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:47:47.381Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:47:47.381Z] ❌ Failed DB write for project_tracker: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:47:47.410Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:47:47.410Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:47:47.410Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:47:47.411Z] ❌ Failed DB write for project_tracker: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:47:47.451Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:47:47.452Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:47:47.452Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:47:47.452Z] ❌ Failed DB write for project_tracker: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:47:47.481Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:47:47.481Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:47:47.481Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:47:47.481Z] ❌ Failed DB write for project_tracker: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:47:47.521Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:47:47.522Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:47:47.522Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:47:47.522Z] ❌ Failed DB write for project_tracker: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:47:47.562Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:47:47.563Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:47:47.563Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:47:47.563Z] ❌ Failed DB write for project_tracker: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:49:04.051Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:49:04.052Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:49:04.052Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:49:04.053Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:49:04.080Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:49:04.081Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:49:04.081Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:49:04.081Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:49:04.108Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:49:04.109Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:49:04.109Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:49:04.109Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:49:04.136Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:49:04.137Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:49:04.137Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:49:04.137Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:49:04.164Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:49:04.164Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:49:04.164Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:49:04.165Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:49:04.191Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:49:04.192Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:49:04.192Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:49:04.192Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:49:04.219Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:49:04.220Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:49:04.220Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:49:04.220Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:49:04.245Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:49:04.245Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:49:04.246Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:49:04.246Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:49:04.271Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:49:04.272Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:49:04.272Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:49:04.272Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:49:04.298Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:49:04.299Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:49:04.299Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:49:04.299Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:49:04.325Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:49:04.326Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:49:04.326Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:49:04.326Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:49:04.352Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:49:04.353Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:49:04.353Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:49:04.353Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:49:04.379Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:49:04.379Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:49:04.379Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:49:04.380Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:49:04.406Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:49:04.406Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:49:04.406Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:49:04.406Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:49:04.432Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:49:04.433Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:49:04.433Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:49:04.433Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:49:04.459Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:49:04.460Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:49:04.460Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:49:04.460Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:50:01.287Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:50:01.288Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:50:01.288Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:50:01.290Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:50:01.317Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:50:01.317Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:50:01.317Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:50:01.318Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:50:01.345Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:50:01.345Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:50:01.345Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:50:01.346Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:50:01.373Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:50:01.373Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:50:01.373Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:50:01.374Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:50:01.401Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:50:01.402Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:50:01.402Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:50:01.402Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:50:01.427Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:50:01.428Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:50:01.428Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:50:01.428Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:50:01.456Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:50:01.456Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:50:01.456Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:50:01.457Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:50:01.482Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:50:01.483Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:50:01.483Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:50:01.483Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:50:01.509Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:50:01.509Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:50:01.509Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:50:01.510Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:50:01.536Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:50:01.536Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:50:01.536Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:50:01.537Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:50:01.563Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:50:01.563Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:50:01.564Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:50:01.564Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:50:01.589Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:50:01.590Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:50:01.590Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:50:01.590Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:50:01.616Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:50:01.616Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:50:01.616Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:50:01.617Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:50:01.643Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:50:01.643Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:50:01.643Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:50:01.643Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:50:01.669Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:50:01.670Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:50:01.670Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:50:01.670Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:50:01.696Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:50:01.696Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:50:01.697Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:50:01.697Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:50:38.485Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:50:38.486Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:50:38.486Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:50:38.488Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:50:38.514Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:50:38.515Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:50:38.515Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:50:38.515Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:50:38.542Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:50:38.543Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:50:38.543Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:50:38.544Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:50:38.571Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:50:38.572Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:50:38.572Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:50:38.572Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:50:38.599Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:50:38.600Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:50:38.600Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:50:38.600Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:50:38.628Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:50:38.628Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:50:38.629Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:50:38.629Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:50:38.660Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:50:38.661Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:50:38.661Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:50:38.661Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:50:38.688Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:50:38.689Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:50:38.689Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:50:38.689Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:50:38.718Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:50:38.719Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:50:38.719Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:50:38.719Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:50:38.745Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:50:38.746Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:50:38.746Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:50:38.746Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:50:38.775Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:50:38.776Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:50:38.776Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:50:38.776Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:50:38.804Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:50:38.805Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:50:38.805Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:50:38.805Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:50:38.832Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:50:38.832Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:50:38.832Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:50:38.833Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:50:38.859Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:50:38.860Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:50:38.860Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:50:38.860Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:50:38.886Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:50:38.887Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:50:38.887Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:50:38.887Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:50:38.913Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:50:38.913Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:50:38.913Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:50:38.913Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:51:00.903Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:51:00.905Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:51:00.905Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:51:00.907Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:51:00.936Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:51:00.937Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:51:00.937Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:51:00.937Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:51:00.967Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:51:00.967Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:51:00.967Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:51:00.968Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:51:00.996Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:51:00.997Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:51:00.997Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:51:00.997Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:51:01.025Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:51:01.026Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:51:01.026Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:51:01.026Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:51:01.056Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:51:01.056Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:51:01.056Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:51:01.057Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:51:01.085Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:51:01.085Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:51:01.085Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:51:01.086Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:51:01.113Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:51:01.113Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:51:01.113Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:51:01.114Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:51:01.141Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:51:01.141Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:51:01.141Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:51:01.141Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:51:01.171Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:51:01.171Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:51:01.171Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:51:01.171Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:51:01.198Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:51:01.199Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:51:01.199Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:51:01.199Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:51:01.225Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:51:01.225Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:51:01.225Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:51:01.226Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:51:01.251Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:51:01.252Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:51:01.252Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:51:01.252Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:51:01.278Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:51:01.279Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:51:01.279Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:51:01.279Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:51:01.305Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:51:01.305Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:51:01.305Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:51:01.306Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type
+[2025-08-07T03:51:01.332Z] DB ready at /Users/marcela-dev/Desktop/Motherboard_Systems_HQ/scripts/_local/agent-runtime/memory/agent_brain.db
+[2025-08-07T03:51:01.332Z] Read task data: {
+  "type": "test_write",
+  "summary": "🔥 Confirming corrected import records in DB"
+}
+
+[2025-08-07T03:51:01.332Z] 🛠 Cade received task of type: test_write
+[2025-08-07T03:51:01.332Z] ❌ Failed DB write: SQLITE_ERROR: table project_tracker has no column named task_type

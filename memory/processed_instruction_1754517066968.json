@@ -1,0 +1,3 @@
+{
+  "instruction": "Fetch a sample JSON from https://jsonplaceholder.typicode.com/todos/1 and save it to memory"
+}
