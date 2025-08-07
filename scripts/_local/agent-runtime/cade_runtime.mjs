@@ -1,9 +1,10 @@
 import fs from 'fs';
 import path from 'path';
-import sqlite3 from 'sqlite3';
 import { fileURLToPath } from 'url';
+import sqlite3 from 'sqlite3';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const logPath = path.join(__dirname, 'cade.log');
 
 function log(message) {
