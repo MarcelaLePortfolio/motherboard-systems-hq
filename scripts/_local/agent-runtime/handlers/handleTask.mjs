@@ -1,17 +1,11 @@
 import fs from "fs";
 import path from "path";
 import { execSync } from "child_process";
-import { fileURLToPath } from "url";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const outputDir = path.join(__dirname, "../output");
+export function handleTask(task) {
+  const log = (msg) => console.log(`[${new Date().toISOString()}] ${msg}`);
+  const outputDir = path.join(process.cwd(), "scripts/_local/agent-runtime/output");
 
-function log(msg) {
-  console.log(`[${new Date().toISOString()}] ${msg}`);
-}
-
-function handleTask(task) {
   if (!task?.type) {
     log("❌ No task type found.");
     return;
@@ -20,10 +14,9 @@ function handleTask(task) {
   if (task.type === "generate_file") {
     const filePath = path.join(outputDir, task.path || "output.txt");
     const content = task.content || "";
-
     try {
       fs.writeFileSync(filePath, content, "utf8");
-      log(`�� File generated: ${filePath}`);
+      log(`📄 File generated: ${filePath}`);
     } catch (err) {
       log(`❌ File write error: ${err.message}`);
     }
@@ -38,8 +31,6 @@ function handleTask(task) {
     }
   }
 
-  const dbPath = path.join(__dirname, "../memory/agent_brain.db");
+  const dbPath = path.join(process.cwd(), "scripts/_local/agent-runtime/memory/agent_brain.db");
   fs.appendFileSync(dbPath, `[${new Date().toISOString()}] ✅ Task recorded in DB.\n`);
 }
-
-export default handleTask;
