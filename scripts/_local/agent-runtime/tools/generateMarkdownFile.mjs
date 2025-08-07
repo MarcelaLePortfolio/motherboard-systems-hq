@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 
-export function generateMarkdownFile(filename: string, content: string) {
+export function generateMarkdownFile(filename, content) {
   const outputDir = path.join(__dirname, "../../../outputs");
   if (!fs.existsSync(outputDir)) {
     fs.mkdirSync(outputDir, { recursive: true });
