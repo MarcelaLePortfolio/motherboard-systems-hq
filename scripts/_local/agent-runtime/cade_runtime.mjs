@@ -1,12 +1,12 @@
 import fs from "fs";
 import path from "path";
-import { handleGenerateFile } from "./handlers/handleGenerateFile.js";
+import { handleGenerateFile } from "./handlers/handleGenerateFile.mjs";
 
 const memoryPath = path.join(__dirname, "memory/agent_chain_state.json");
 
 function log(msg) {
   const ts = new Date().toISOString();
-  console.log(\`[\${ts}] Cade: \${msg}\`);
+  console.log(`[${ts}] Cade: ${msg}`);
 }
 
 function main() {
@@ -20,17 +20,17 @@ function main() {
     const raw = fs.readFileSync(memoryPath, "utf8");
     task = JSON.parse(raw);
   } catch (err) {
-    log(\`❌ Failed to parse task: \${err.message}\`);
+    log(`❌ Failed to parse task: ${err.message}`);
     return;
   }
 
   const { type, summary } = task || {};
-  log(\`📬 Received task of type '\${type}' — \${summary || "No summary"}\`);
+  log(`📬 Received task of type '${type}' — ${summary || "No summary"}`);
 
   if (type === "generate_file") {
     handleGenerateFile(summary);
   } else {
-    log(\`⚠️ Unknown task type: \${type}\`);
+    log(`⚠️ Unknown task type: ${type}`);
   }
 }
 
