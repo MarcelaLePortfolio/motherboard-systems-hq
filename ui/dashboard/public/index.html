@@ -34,14 +34,12 @@
 </head>
 <body>
   <div id="project-tracker">
-    <!-- 🔗 Tabs -->
     <div id="project-tracker-tabs">
       <button class="tab" data-target="backlog">Backlog</button>
       <button class="tab" data-target="in-progress">In Progress</button>
       <button class="tab" data-target="completed">Completed</button>
     </div>
 
-    <!-- 🧱 Sections -->
     <div id="tracker-backlog" class="tracker-section">
       <h3>Backlog</h3>
       <ul>
@@ -67,11 +65,14 @@
   </div>
 
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
+    window.addEventListener('DOMContentLoaded', () => {
+      console.log("✅ DOM ready");
+
       const tabs = document.querySelectorAll('.tab');
       const sections = ['backlog', 'in-progress', 'completed'];
 
       function showSection(target) {
+        console.log("🔀 Switching to section:", target);
         sections.forEach(id => {
           const el = document.getElementById(`tracker-${id}`);
           if (el) el.style.display = (id === target) ? 'block' : 'none';
@@ -81,11 +82,12 @@
       tabs.forEach(tab => {
         tab.addEventListener('click', () => {
           const target = tab.dataset.target;
+          console.log("🖱️ Tab clicked:", target);
           showSection(target);
         });
       });
 
-      showSection('backlog'); // Default tab
+      showSection('backlog');
     });
   </script>
 </body>
