@@ -1,37 +1,39 @@
 import fs from "fs";
 import path from "path";
-import { handleGenerateFile } from "./handlers/handleGenerateFile.mjs";
+import { fileURLToPath } from "url";
+import { handleTask } from "./handlers/handleTask.mjs";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const memoryPath = path.join(__dirname, "memory/agent_chain_state.json");
 
 function log(msg) {
-  const ts = new Date().toISOString();
-  console.log(`[${ts}] Cade: ${msg}`);
+  const timestamp = new Date().toISOString();
+  console.log(`[${timestamp}] ${msg}`);
 }
 
-function main() {
+function readTask() {
   if (!fs.existsSync(memoryPath)) {
-    log("⚠️ No task file found.");
-    return;
+    log("❌ No task file found.");
+    return null;
   }
-
-  let task;
   try {
-    const raw = fs.readFileSync(memoryPath, "utf8");
-    task = JSON.parse(raw);
+    const rawData = fs.readFileSync(memoryPath, "utf8");
+    log(`Read task data: ${rawData}`);
+    return JSON.parse(rawData);
   } catch (err) {
-    log(`❌ Failed to parse task: ${err.message}`);
-    return;
+    log(`❌ Failed to parse task JSON: ${err.message}`);
+    return null;
   }
+}
 
-  const { type, summary } = task || {};
-  log(`📬 Received task of type '${type}' — ${summary || "No summary"}`);
+async function main() {
+  const task = readTask();
+  if (!task) return;
 
-  if (type === "generate_file") {
-    handleGenerateFile(summary);
-  } else {
-    log(`⚠️ Unknown task type: ${type}`);
-  }
+  log(`🛠 Cade received task of type: ${task?.type || "N/A"}`);
+  await handleTask(task);
 }
 
 main();
