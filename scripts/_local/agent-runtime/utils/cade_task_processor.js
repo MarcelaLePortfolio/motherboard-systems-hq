@@ -2,19 +2,19 @@ import fs from 'fs';
 import path from 'path';
 import { execSync } from 'child_process';
 
-const statePath = path.resolve('memory/agent_chain_state.json');
+const STATE_FILE = path.resolve('memory/agent_chain_state.json');
 
 function log(message) {
-  console.log(`[CADE] ${message}`);
+  console.log(`[${new Date().toISOString()}] ${message}`);
 }
 
 function loadTasks() {
+  if (!fs.existsSync(STATE_FILE)) return null;
   try {
-    const raw = fs.readFileSync(statePath, 'utf-8');
-    const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? parsed : [parsed];
+    const raw = fs.readFileSync(STATE_FILE, 'utf-8');
+    return JSON.parse(raw);
   } catch (err) {
-    log('No valid task file or failed to parse JSON.');
+    log(`❌ Failed to parse task file: ${err.message}`);
     return null;
   }
 }
@@ -26,14 +26,14 @@ function runTask(task) {
     const fullPath = path.resolve(task.path);
     fs.mkdirSync(path.dirname(fullPath), { recursive: true });
     fs.writeFileSync(fullPath, task.content || '', 'utf-8');
-    log(`✅ Wrote file to ${task.path}`);
+    log(`📄 File generated: ${fullPath}`);
     return true;
   }
 
   if (task.type === 'run_shell') {
     try {
       execSync(task.command, { stdio: 'inherit' });
-      log(`✅ Ran shell command: ${task.command}`);
+      log(`💻 Shell executed: ${task.command}`);
       return true;
     } catch (err) {
       log(`❌ Shell command failed: ${task.command}`);
@@ -45,11 +45,12 @@ function runTask(task) {
   return false;
 }
 
-export function startCadeTaskProcessor() {
+function runAll() {
   const tasks = loadTasks();
   if (!tasks) return;
+  const taskArray = Array.isArray(tasks) ? tasks : [tasks];
 
-  for (const task of tasks) {
+  for (const task of taskArray) {
     const success = runTask(task);
     if (!success) {
       log('❌ Task chain halted.');
@@ -58,4 +59,20 @@ export function startCadeTaskProcessor() {
   }
 }
 
-export { startCadeTaskProcessor };
+let lastHash = null;
+
+export function startCadeTaskProcessor() {
+  runAll(); // Run once on startup
+
+  setInterval(() => {
+    const tasks = loadTasks();
+    if (!tasks) return;
+
+    const newHash = JSON.stringify(tasks);
+    if (newHash !== lastHash) {
+      lastHash = newHash;
+      log("📡 Change detected — executing task chain");
+      runAll();
+    }
+  }, 3000);
+}
