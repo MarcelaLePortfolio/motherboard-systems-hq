@@ -1,60 +1,26 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Motherboard Systems HQ</title>
-  <link rel="stylesheet" href="dash.css" />
-  <script defer src="js/update-agent-status.js"></script>
-  <script defer src="js/settings-panel.js"></script>
+  <title>🧠 Motherboard Systems HQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
 <body>
-  <h1>🖥️ Motherboard Systems HQ</h1>
-
-  <div id="agent-status" style="margin-bottom: 1rem;"></div>
-
-  <nav style="margin-bottom: 1rem;">
-    <button class="tab-button active" data-tab="settings-panel">⚙️ Settings</button>
-    <button class="tab-button" data-tab="tracker">📋 Tracker</button>
-  </nav>
-
-  <section id="settings-panel" class="tab-content active" style="border-top: 1px solid #ccc; padding-top: 1rem;">
-    <h2>⚙️ Settings Panel</h2>
-    <div id="agent-controls">
-      <div style="margin-bottom: 8px;">
-        <strong>Matilda</strong><br/>
-        <button onclick="controlAgent('matilda','start')">Start</button>
-        <button onclick="controlAgent('matilda','stop')">Stop</button>
-        <button onclick="controlAgent('matilda','restart')">Restart</button>
-      </div>
-      <div style="margin-bottom: 8px;">
-        <strong>Cade</strong><br/>
-        <button onclick="controlAgent('cade','start')">Start</button>
-        <button onclick="controlAgent('cade','stop')">Stop</button>
-        <button onclick="controlAgent('cade','restart')">Restart</button>
-      </div>
-      <div style="margin-bottom: 8px;">
-        <strong>Effie</strong><br/>
-        <button onclick="controlAgent('effie','start')">Start</button>
-        <button onclick="controlAgent('effie','stop')">Stop</button>
-        <button onclick="controlAgent('effie','restart')">Restart</button>
-      </div>
+  <div id="project-tracker">
+    <!-- 🔗 Tabs -->
+    <div id="tabs-placeholder">
+      <!-- Will be filled by: project-tracker-tabs.html -->
+      <!--#include virtual="partials/project-tracker-tabs.html" -->
     </div>
-    <p style="font-size: 0.85rem; color: #888;"><0001f9e0> Buttons are wired locally and simulate PM2 control.</p>
-  </section>
 
-  <section id="tracker" class="tab-content">
-    <h2>📋 Project Tracker (Coming Soon)</h2>
-  </section>
+    <!-- 🧩 Sections -->
+    <div id="sections-placeholder">
+      <!-- Will be filled by: project-tracker-sections.html -->
+      <!--#include virtual="partials/project-tracker-sections.html" -->
+    </div>
+  </div>
 
-  <script>
-    document.querySelectorAll('.tab-button').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
-        document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active')); 
-        btn.classList.add('active');
-        document.getElementById(btn.dataset.tab).classList.add('active');
-      });
-    });
-  </script>
+  <!-- �� Logic -->
+  <script src="script/project-tracker-tabs.js"></script>
 </body>
 </html>
