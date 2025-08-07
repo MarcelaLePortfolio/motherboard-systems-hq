@@ -1,37 +1,25 @@
 import fs from "fs";
 import path from "path";
 import sqlite3 from "sqlite3";
-import { fileURLToPath } from "url";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const log = (msg) => console.log(`[${new Date().toISOString()}] ${msg}`);
+const dbPath = path.join(__dirname, "memory/agent_brain.db");
+const statePath = path.join(__dirname, "memory/agent_chain_state.json");
 
-function log(msg) {
-  const timestamp = new Date().toISOString();
-  console.log(`[${timestamp}] ${msg}`);
-}
-
-const dbPath = path.join(__dirname, "memory", "agent_brain.db");
-const db = new sqlite3.Database(dbPath, (err) => {
-  if (err) {
-    log(`❌ Failed to open DB: ${err.message}`);
-    process.exit(1);
-  }
-  log(`DB ready at ${dbPath}`);
-  continueRuntime();
-});
-
-function continueRuntime() {
-  const statePath = path.join(__dirname, "memory", "agent_chain_state.json");
+function main() {
   if (!fs.existsSync(statePath)) {
-    log("No task file found for Cade.");
+    log("❌ No task file found.");
+    return;
+  }
+
+  const rawData = fs.readFileSync(statePath, "utf8");
+  if (!rawData.trim()) {
+    log("❌ Task file is empty.");
     return;
   }
 
   let task;
   try {
-    const rawData = fs.readFileSync(statePath, "utf8");
-    log(`Read task data: ${rawData}`);
     task = JSON.parse(rawData);
   } catch (err) {
     log(`❌ Failed to parse task JSON: ${err.message}`);
@@ -41,6 +29,7 @@ function continueRuntime() {
   const { type, summary } = task || {};
   log(`🛠 Cade received task of type: ${type}`);
 
+  const db = new sqlite3.Database(dbPath);
   const insertStmt = `INSERT INTO project_tracker (agent, task_type, task_summary, timestamp) VALUES (?, ?, ?, ?)`;
   db.run(insertStmt, ["cade", type || "unknown", summary || "", Date.now()], function (err) {
     if (err) {
@@ -48,6 +37,7 @@ function continueRuntime() {
     } else {
       log("✅ Task recorded in DB.");
     }
+    db.close();
   });
 
   routeTask(type, task);
@@ -57,6 +47,8 @@ function routeTask(type, task) {
   switch (type) {
     case "generate_file":
       return generateFile(task);
+    case "summon_agent":
+      return summonAgent(task);
     default:
       log(`⚠️ No handler for task type: ${type}`);
   }
@@ -73,3 +65,23 @@ function generateFile(task) {
   fs.writeFileSync(outputPath, contents, "utf8");
   log(`📄 File generated at ${outputPath}`);
 }
+
+function summonAgent(task) {
+  const { target, summary } = task;
+  const targetPath = path.join(__dirname, `memory/${target}_chain_state.json`);
+
+  if (!fs.existsSync(path.dirname(targetPath))) {
+    log(`❌ Target memory path not found for agent: ${target}`);
+    return;
+  }
+
+  const payload = {
+    type: "delegated_task",
+    summary: summary || `Summoned by Cade at ${new Date().toISOString()}`
+  };
+
+  fs.writeFileSync(targetPath, JSON.stringify(payload, null, 2), "utf8");
+  log(`📨 Summoned ${target} with task: ${payload.summary}`);
+}
+
+main();
