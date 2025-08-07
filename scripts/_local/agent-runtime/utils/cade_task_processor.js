@@ -1,50 +1,59 @@
-// Cade Task Processor – Guaranteed Logging Mode
 import fs from 'fs';
 import path from 'path';
+import { execSync } from 'child_process';
 
-const TASK_FILE = path.resolve('scripts/_local/agent-runtime/utils/cade_task.json');
-const DASHBOARD_HTML = path.resolve('ui/dashboard/index.html');
-let lastTimestamp = 0;
+const statePath = path.resolve('memory/agent_chain_state.json');
 
-function log(msg) {
-  console.log(`⚡ Cade Task Processor: ${msg}`);
+function log(message) {
+  console.log(`[CADE] ${message}`);
+}
+
+function loadTasks() {
+  try {
+    const raw = fs.readFileSync(statePath, 'utf-8');
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [parsed];
+  } catch (err) {
+    log('No valid task file or failed to parse JSON.');
+    return null;
+  }
+}
+
+function runTask(task) {
+  if (!task?.type) return false;
+
+  if (task.type === 'generate_file') {
+    const fullPath = path.resolve(task.path);
+    fs.mkdirSync(path.dirname(fullPath), { recursive: true });
+    fs.writeFileSync(fullPath, task.content || '', 'utf-8');
+    log(`✅ Wrote file to ${task.path}`);
+    return true;
+  }
+
+  if (task.type === 'run_shell') {
+    try {
+      execSync(task.command, { stdio: 'inherit' });
+      log(`✅ Ran shell command: ${task.command}`);
+      return true;
+    } catch (err) {
+      log(`❌ Shell command failed: ${task.command}`);
+      return false;
+    }
+  }
+
+  log(`❓ Unknown task type: ${task.type}`);
+  return false;
 }
 
 export function startCadeTaskProcessor() {
-  log("Polling every 3s...");
-  setInterval(() => {
-    try {
-      log("Heartbeat - checking for task...");
-      if (!fs.existsSync(TASK_FILE)) return;
+  const tasks = loadTasks();
+  if (!tasks) return;
 
-      const taskData = JSON.parse(fs.readFileSync(TASK_FILE, 'utf-8'));
-      if (!taskData.task || taskData.timestamp <= lastTimestamp) return;
-
-      lastTimestamp = taskData.timestamp;
-      const task = taskData.task;
-      log(`Executing: ${task}`);
-
-      if (task.includes("Append a test line")) {
-        fs.appendFileSync(DASHBOARD_HTML, "\n<!-- Cade was here -->\n");
-        log("✅ Test line appended to index.html");
-      } else if (task.toLowerCase().includes("inject start/stop/restart buttons")) {
-        const snippet = `
-<div class="settings-panel">
-  <div class="button-group">
-    <button id="start-button">Start</button>
-    <button id="stop-button">Stop</button>
-    <button id="restart-button">Restart</button>
-  </div>
-</div>
-<!-- Cade auto-injected buttons -->
-`;
-        fs.appendFileSync(DASHBOARD_HTML, snippet);
-        log("✅ Buttons injected into index.html");
-      } else {
-        log("⚠️ Task not recognized for automated execution");
-      }
-    } catch (err) {
-      log(`❌ Error: ${err.stack}`);
+  for (const task of tasks) {
+    const success = runTask(task);
+    if (!success) {
+      log('❌ Task chain halted.');
+      break;
     }
-  }, 3000);
+  }
 }
