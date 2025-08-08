@@ -1,0 +1,27 @@
+[
+  {
+    "type": "run_shell",
+    "command": "echo 'Hello from Cade!'",
+    "agent": "Cade",
+    "status": "Completed",
+    "timestamp": "2025-08-08T20:58:28Z"
+  },
+  {
+    "type": "write_db",
+    "table": "project_tracker",
+    "row": {
+      "agent": "Matilda",
+      "status": "Backlog - Onboard new project",
+      "timestamp": "2025-08-08T20:58:28Z"
+    },
+    "status": "Pending",
+    "timestamp": "2025-08-08T20:58:28Z"
+  },
+  {
+    "type": "local_task",
+    "task": "Check disk space and report",
+    "agent": "Effie",
+    "status": "Pending",
+    "timestamp": "2025-08-08T20:58:28Z"
+  }
+]

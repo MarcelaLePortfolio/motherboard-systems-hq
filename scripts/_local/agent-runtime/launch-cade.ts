@@ -1,6 +1,6 @@
 import { createAgentRuntime } from "../../mirror/agent.ts";
 import { cade } from "../../agents/cade.ts";
-import { startCadeTaskProcessor } from "./utils/cade_task_processor.js";
+import { startCadeTaskProcessor } from "./utils/cade_task_processor_clean.ts";
 
 // Start Cade runtime
 createAgentRuntime(cade);

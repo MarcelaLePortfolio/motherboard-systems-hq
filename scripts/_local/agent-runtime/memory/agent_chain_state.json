@@ -1,0 +1,23 @@
+[
+  {
+    "type": "run_shell",
+    "command": "echo 'Hello from Cade!'",
+    "agent": "Cade",
+    "status": "Pending",
+    "timestamp": "2025-08-08T10:05:00Z"
+  },
+  {
+    "type": "run_shell",
+    "command": "echo 'Hello from Matilda!'",
+    "agent": "Matilda",
+    "status": "Pending",
+    "timestamp": "2025-08-08T10:10:00Z"
+  },
+  {
+    "type": "run_shell",
+    "command": "echo 'Hello from Effie!'",
+    "agent": "Effie",
+    "status": "Pending",
+    "timestamp": "2025-08-08T10:15:00Z"
+  }
+]
