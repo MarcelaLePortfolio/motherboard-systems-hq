@@ -18,8 +18,6 @@
     "prepare": "husky install"
   },
   "lint-staged": {
-    "*.ts": [
-      "eslint --fix"
-    ]
+    "**/*.{ts,tsx}": "eslint --fix"
   }
 }
