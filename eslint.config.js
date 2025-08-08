@@ -1,11 +1,11 @@
-import js from '@eslint/js';
 import tseslint from 'typescript-eslint';
 import globals from 'globals';
 
 export default [
-  // Ignore junk
   {
+    // Ignore junk + ALL .js for now
     ignores: [
+      '**/*.js',
       'node_modules',
       'dist',
       'build',
@@ -22,11 +22,10 @@ export default [
     ]
   },
 
-  // Baseline
-  js.configs.recommended,
+  // TypeScript baseline only
   ...tseslint.configs.recommended,
 
-  // TS rules (what lint-staged is running)
+  // TS rules
   {
     files: ['**/*.ts','**/*.tsx'],
     languageOptions: {
