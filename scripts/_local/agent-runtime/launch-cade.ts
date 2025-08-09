@@ -1,14 +1,8 @@
-import { createAgentRuntime } from "../../mirror/agent.ts";
-import { cade } from "../../agents/cade.ts";
-import { startCadeTaskProcessor } from "./utils/cade_task_processor_clean.ts";
+import { processOnce } from "../../../src/agents/cade/processor";
 
-// Start Cade runtime
-createAgentRuntime(cade);
-
-// Start the task processor
-startCadeTaskProcessor();
-
-console.log("⚡ Cade runtime started with task processor enabled.");
-
-// Keep the process alive
-setInterval(() => {}, 1 << 30);
+async function main() {
+  setInterval(() => { processOnce().catch(() => {}); }, 2000);
+   
+  console.log("Cade runtime polling memory/agent_chain_state.json every 2s.");
+}
+main();
