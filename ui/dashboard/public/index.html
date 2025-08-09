@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+<<<<<<< HEAD
   <title><0001f9ea> Motherboard Systems HQ</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
@@ -91,7 +92,87 @@
       });
 
       showSection('backlog');
+=======
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Motherboard Dash</title>
+  <link rel="stylesheet" href="/dashboard.css" />
+  <style>
+    body { margin:0; font-family:'Inter',sans-serif; background:#f9f9f9; color:#111; }
+    .dashboard-wrapper { max-width:960px; margin:0 auto; padding:40px 24px; display:flex; flex-direction:column; align-items:center; }
+    h1 { font-size:1.75rem; margin-bottom:16px; }
+    .section-title { font-weight:600; font-size:1rem; text-align:center; margin-bottom:16px; }
+    .agent-status { display:flex; gap:24px; justify-content:center; margin-bottom:16px; }
+    .agent { font-weight:500; display:flex; align-items:center; gap:6px; flex-direction:column; background:#fff; border:1px solid #ddd; border-radius:6px; padding:4px 10px; width:90px; text-align:center; }
+    .status-dot { display:inline-block; width:12px; height:12px; border-radius:50%; margin-bottom:4px; }
+    .status-dot.online { background:#4caf50; }
+    .status-dot.offline { background:#f44336; }
+    .status-dot.warning { background:#ffb300; }
+    #ops-stream { width:100%; max-width:720px; font-size:0.85rem; color:#333; background:#fafafa; border:1px solid #ddd; border-radius:4px; padding:4px 8px; height:28px; overflow:hidden; margin-bottom:16px; display:flex; align-items:center; justify-content:center; }
+    .ops-log { animation:fadeIn 0.5s ease-in; white-space:nowrap; }
+    @keyframes fadeIn { from{opacity:0;} to{opacity:1;} }
+    .tabs { display:flex; width:100%; border-top:1px solid #eee; margin-top:10px; }
+    .tab { flex:1; text-align:center; padding:12px; background:#f6f6f6; font-weight:600; border-right:1px solid #eee; cursor:pointer; }
+    .tab:last-child { border-right:none; }
+    .tab.active { background:#fff; border-bottom:2px solid #3B82F6; }
+    .tab-content { display:none; padding:16px; font-size:0.9rem; width:100%; min-height:150px; background:#fff; border:1px solid #eee; border-top:none; }
+    .tab-content.active { display:block; }
+    .task { background:#fafafa; border:1px solid #ddd; border-radius:4px; padding:4px 8px; margin-bottom:4px; }
+    .task.in-progress { border-left:4px solid #ffb300; }
+    .task.complete { border-left:4px solid #4caf50; }
+    .task-event { padding:2px 4px; font-size:0.85rem; }
+    .task-event.complete { color:#2e7d32; }
+    .task-event.progress { color:#f57c00; }
+    .empty { color:#888; font-style:italic; }
+  </style>
+</head>
+<body>
+  <div class="dashboard-wrapper">
+    <h1>Motherboard Dash</h1>
+    <div class="section-title">Executive Agent Status</div>
+
+    <div class="agent-status" id="agent-status"></div>
+    <div id="ops-stream"><div class="ops-log">Initializing...</div></div>
+
+    <div class="chat-section" style="width:100%; margin-bottom:24px;">
+      <div id="messages" class="messages" style="height:200px; background:white; border:1px solid #ccc; border-radius:6px; padding:12px; margin-bottom:12px; overflow-y:auto; display:flex; flex-direction:column;"></div>
+      <div class="input-row" style="display:flex; gap:8px;">
+        <input type="text" id="input" placeholder="Type a command..." style="flex:1; padding:8px; border:1px solid #ccc; border-radius:4px;"/>
+        <button onclick="sendMessage()" style="background:#3B82F6; color:white; border:none; padding:8px 12px; border-radius:4px; cursor:pointer;">Send</button>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <div class="tab active" data-tab="tracker">Project Tracker</div>
+      <div class="tab" data-tab="tasks">Tasks</div>
+      <div class="tab" data-tab="settings">Settings</div>
+    </div>
+
+    <div class="tab-content active" id="tracker-tab">
+      <div id="project-tracker"></div>
+    </div>
+    <div class="tab-content" id="tasks-tab">
+      <div id="task-history" style="height:200px;overflow-y:auto;border:1px solid #ddd;padding:4px;"></div>
+    </div>
+    <div class="tab-content" id="settings-tab">
+      <div class="empty">Settings placeholder</div>
+    </div>
+  </div>
+
+  <script src="/dashboard.js"></script>
+  <script>
+    // Simple tab switcher
+    document.querySelectorAll(".tab").forEach(tab => {
+      tab.addEventListener("click", () => {
+        document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+        document.querySelectorAll(".tab-content").forEach(tc => tc.classList.remove("active"));
+        tab.classList.add("active");
+        const id = tab.dataset.tab+"-tab";
+        document.getElementById(id).classList.add("active");
+      });
+>>>>>>> cade-hardening
     });
   </script>
 </body>
 </html>
+
+<!-- Cade was here -->

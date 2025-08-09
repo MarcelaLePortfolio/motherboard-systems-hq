@@ -1,4 +1,5 @@
 import { createAgentRuntime } from "../../mirror/agent.ts";
+import { startEffieTaskProcessor } from "./utils/effie_task_processor.ts";
 import { effie } from "../../agents/effie.ts";
 
 // Start Effie runtime
@@ -7,3 +8,5 @@ console.log("💚 Effie runtime started.");
 
 // Keep the process alive
 setInterval(() => {}, 1 << 30);
+
+startEffieTaskProcessor();
