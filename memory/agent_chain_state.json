@@ -1,5 +1,7 @@
 {
   "agent": "Cade",
-  "status": "Idle",
+  "status": "Assigned",
+  "type": "install",
+  "package": "chalk",
   "ts": 0
 }
