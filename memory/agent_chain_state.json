@@ -1,7 +1,7 @@
 {
   "agent": "Cade",
   "status": "Assigned",
-  "type": "install",
-  "package": "chalk",
+  "type": "commit",
+  "message": "🤖 Auto-commit: Cade test run",
   "ts": 0
 }
