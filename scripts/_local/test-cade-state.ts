@@ -1,12 +1,7 @@
 import fs from "fs";
 import path from "path";
-import { fileURLToPath } from "url";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-// Adjusted to walk up to project root before resolving 'memory/agent_chain_state.json'
-const statePath = path.resolve(__dirname, "../../..", "memory/agent_chain_state.json");
+const statePath = path.resolve(process.cwd(), "memory", "agent_chain_state.json");
 
 function log(msg: string) {
   console.log(`[CADE-STATE-TEST] ${msg}`);
