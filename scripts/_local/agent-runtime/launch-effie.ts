@@ -1,6 +1,6 @@
-import { createAgentRuntime } from "../../mirror/agent.ts";
-import { startEffieTaskProcessor } from "./utils/effie_task_processor.ts";
-import { effie } from "../../agents/effie.ts";
+import { createAgentRuntime } from "../../mirror/agent";
+import { startEffieTaskProcessor } from "./utils/effie_task_processor";
+import { effie } from "../../agents/effie";
 
 // Start Effie runtime
 createAgentRuntime(effie);
