@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "start": "pm2 start scripts/_local/agent-runtime/launch-cade.ts --interpreter tsx --name cade",
-    "build": "next build"
+    "build": "pnpm exec next build"
   },
   "dependencies": {
     "chalk": "^5.5.0",
