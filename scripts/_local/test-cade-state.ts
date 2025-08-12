@@ -1,5 +1,7 @@
 import fs from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
+import lockfile from "proper-lockfile";
 
 const statePath = path.resolve(process.cwd(), "memory", "agent_chain_state.json");
 
@@ -7,9 +9,11 @@ function log(msg: string) {
   console.log(`[CADE-STATE-TEST] ${msg}`);
 }
 
-function readState(): any {
+async function readState(): Promise<any> {
   try {
+    const release = await lockfile.lock(statePath);
     const data = fs.readFileSync(statePath, "utf8");
+    release();
     log("✅ State read:");
     console.log(data);
     return JSON.parse(data);
@@ -20,9 +24,11 @@ function readState(): any {
   }
 }
 
-function writeState(newState: any) {
+async function writeState(newState: any) {
   try {
+    const release = await lockfile.lock(statePath);
     fs.writeFileSync(statePath, JSON.stringify(newState, null, 2), "utf8");
+    release();
     log("✅ State written successfully.");
   } catch (err) {
     log("❌ Failed to write state:");
@@ -30,10 +36,10 @@ function writeState(newState: any) {
   }
 }
 
-function testReadWriteCycle() {
+async function testReadWriteCycle() {
   log("🔁 Starting read/write test cycle...");
 
-  const current = readState();
+  const current = await readState();
   if (!current) return;
 
   const updated = {
@@ -42,9 +48,9 @@ function testReadWriteCycle() {
     ts: Date.now()
   };
 
-  writeState(updated);
+  await writeState(updated);
 
-  const verify = readState();
+  const verify = await readState();
   log("🔍 Final verification:");
   console.log(verify);
 }
