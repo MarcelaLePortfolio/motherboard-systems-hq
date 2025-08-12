@@ -27,7 +27,7 @@ function parseArgs(argv: string[]) {
     } else if (!out['_']) {
       out['_'] = a;
     } else {
-      if (!Array.isArray(out["_args"])) { out["_args"] = []; } (out["_args"] as string[]).push(a);
+if (!Array.isArray((out as any)["_args"])) { (out as any)["_args"] = [] as string[]; } ((out as any)["_args"] as string[]).push(String(a));
     }
   }
   return out;
