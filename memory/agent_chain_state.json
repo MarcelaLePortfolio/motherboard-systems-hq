@@ -1,7 +1,7 @@
 {
   "agent": "Cade",
   "status": "Assigned",
-  "type": "commit",
-  "message": "🤖 Auto-commit: Cade test run",
+  "type": "build-ui",
+  "command": "",
   "ts": 0
 }
