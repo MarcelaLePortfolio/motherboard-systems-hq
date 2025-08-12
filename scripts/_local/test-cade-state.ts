@@ -1,5 +1,9 @@
 import fs from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const statePath = path.join(__dirname, "../../../memory/agent_chain_state.json");
 
@@ -31,7 +35,7 @@ function writeState(newState: any) {
 }
 
 function testReadWriteCycle() {
-  log("🔁 Starting read/write test cycle...");
+  log("�� Starting read/write test cycle...");
 
   const current = readState();
   if (!current) return;
