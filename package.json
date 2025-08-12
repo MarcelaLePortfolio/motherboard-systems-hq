@@ -12,5 +12,9 @@
     "proper-lockfile": "^4.1.2",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^7.4.2",
+    "@types/react": "19.1.10"
   }
 }
