@@ -5,7 +5,8 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const statePath = path.join(__dirname, "../../../memory/agent_chain_state.json");
+// Adjusted to walk up to project root before resolving 'memory/agent_chain_state.json'
+const statePath = path.resolve(__dirname, "../../..", "memory/agent_chain_state.json");
 
 function log(msg: string) {
   console.log(`[CADE-STATE-TEST] ${msg}`);
@@ -35,7 +36,7 @@ function writeState(newState: any) {
 }
 
 function testReadWriteCycle() {
-  log("�� Starting read/write test cycle...");
+  log("🔁 Starting read/write test cycle...");
 
   const current = readState();
   if (!current) return;
