@@ -23,8 +23,9 @@ function runShellCommand(command: string): Promise<void> {
         console.error("Shell command error (Matilda):", command, error);
         reject(error);
       } else {
-        console.log("Shell command success (Matilda):", command, 
-Output:", stdout);,
+console.log("Shell command success (Matilda):", command, "Output:", stdout);
+        console.log("Shell command success (Matilda):", command, "Output:", stdout);
+        console.log("Shell command success (Matilda):", command, "Output:", stdout);
         resolve();
       }
     });

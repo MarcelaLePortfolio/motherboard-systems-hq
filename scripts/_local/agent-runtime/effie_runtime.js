@@ -44,3 +44,35 @@ setInterval(heartbeat, 5000);
 
 // --- Effie main loop placeholder ---
 console.log("🤖 Effie Runtime Started — Ready for tasks!");
+
+const QUEUE_DIR = path.resolve("memory/queue");
+
+function scanAndExecuteTasks() {
+  console.log("🔍 Scanning:", QUEUE_DIR);
+  const files = fs.readdirSync(QUEUE_DIR);
+  for (const file of files) {
+    const filePath = path.join(QUEUE_DIR, file);
+    if (!file.endsWith(".json")) continue;
+    let task;
+    try {
+      task = JSON.parse(fs.readFileSync(filePath, "utf8"));
+    } catch (err) {
+      console.error("❌ Failed to parse task file:", file, err);
+      continue;
+    }
+
+    console.log("📦 Task received:", task);
+
+    if (task.type === "read file") {
+      try {
+        const contents = fs.readFileSync(task.path, "utf8");
+        console.log(`📄 Read from ${task.path}:`, contents);
+        fs.unlinkSync(filePath);
+      } catch (err) {
+        console.error("❌ Read failed:", err.message);
+      }
+    }
+  }
+}
+
+setInterval(scanAndExecuteTasks, 3000);

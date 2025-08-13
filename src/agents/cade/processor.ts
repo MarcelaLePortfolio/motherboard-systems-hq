@@ -15,22 +15,19 @@ const QUEUE_DIR = path.join(ROOT, "memory/queue");
 fs.mkdirSync(QUEUE_DIR, { recursive: true });
 
 function log(msg: string) {
-  const line = `[${new Date().toISOString()}] ${msg}
-`;
+  const line = `[${new Date().toISOString()}] ${msg}\n`;
   fs.appendFileSync(path.join(LOG_DIR, "cade.log"), line);
   // eslint-disable-next-line no-console
   console.log(line.trim());
 }
 
 function writeLedger(entry: object) {
-  fs.appendFileSync(LEDGER_PATH, JSON.stringify(entry) + 
-");";);););););
+  fs.appendFileSync(LEDGER_PATH, JSON.stringify(entry) + "\n");
 }
 
 function isDuplicate(taskId: string) {
   if (!fs.existsSync(LEDGER_PATH)) return false;
-  const lines = fs.readFileSync(LEDGER_PATH, "utf8").trim().split(
-").slice(-1000);
+  const lines = fs.readFileSync(LEDGER_PATH, "utf8").trim().split("\n").slice(-1000);
   for (let i = lines.length - 1; i >= 0; i--) {
     try {
       const row = JSON.parse(lines[i]);
@@ -43,7 +40,7 @@ function isDuplicate(taskId: string) {
 async function runShell(task: AnyTaskT) {
   const t = ShellTask.parse(task);
   log(`🛠️ shell: ${t.command} (cwd=${t.cwd || ROOT})`);
-  return await new Promise<{ exitCode: number|null; stdout: string; stderr: string }>((resolve, reject) => {
+  return await new Promise<{ exitCode: number | null; stdout: string; stderr: string }>((resolve, reject) => {
     const child = spawn(t.command, { shell: true, cwd: t.cwd || ROOT, env: process.env });
     let stdout = ""; let stderr = "";
     const to = setTimeout(() => child.kill("SIGTERM"), t.timeoutMs);
@@ -107,11 +104,28 @@ export async function processOnce() {
       return;
     }
     if (!candidate || typeof candidate !== "object" || !candidate.taskId || !candidate.type) {
-      log("�� No runnable task in state file.");
+      log("🟡 No runnable task in state file.");
       return;
     }
 
-    const task = AnyTask.parse(candidate as AnyTaskT);
+if (!candidate || typeof candidate !== "object") {
+  throw new Error("Invalid task object: " + JSON.stringify(candidate));
+}
+
+const taskPath = path.join(ROOT, "memory/queue/test-http-task.json");
+const candidateRaw = fs.readFileSync(taskPath, "utf8");
+try {
+  candidate = JSON.parse(candidateRaw);
+} catch (e) {
+  throw new Error("❌ Invalid JSON in task file: " + e);
+}
+let task: AnyTaskT;
+try {
+  task = AnyTask.parse(candidate);
+} catch (err) {
+  console.error("❌ Failed to parse task with Zod:", err);
+  throw err;
+}
     if (isDuplicate(task.taskId)) { log(`⚠️ Duplicate taskId ${task.taskId}, skipping.`); return; }
 
     log(`📥 Task ${task.taskId} (${task.type})`);
@@ -139,3 +153,6 @@ export async function processOnce() {
     await release();
   }
 }
+await processOnce();
+
+

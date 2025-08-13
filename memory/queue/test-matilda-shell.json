@@ -1,0 +1,6 @@
+{
+  "taskId": "matilda-delegation-test-001",
+  "type": "shell",
+  "command": "echo 'Hello from Matilda 💁‍♀️'",
+  "timeoutMs": 2000
+}
