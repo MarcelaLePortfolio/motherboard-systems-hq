@@ -1,0 +1,99 @@
+/* eslint-disable import/no-commonjs */
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title><0001f9ea> Motherboard Systems HQ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+  <div id="project-tracker">
+    <!-- 🔗 Tabs -->
+    <div id="project-tracker-tabs">
+      <button class="tab" data-target="backlog">Backlog</button>
+      <button class="tab" data-target="in-progress">In Progress</button>
+      <button class="tab" data-target="completed">Completed</button>
+    </div>
+
+    <!-- 📋 Sections -->
+    <div id="tracker-backlog" class="tracker-section">
+      <h3>Backlog</h3>
+      <ul>
+        <li>🛠️ Finish dashboard wiring</li>
+        <li><0001f9e0> Enable memory fallback for agents</li>
+      </ul>
+    </div>
+
+    <div id="tracker-in-progress" class="tracker-section" style="display:none;">
+      <h3>In Progress</h3>
+      <ul>
+        <li>🔁 Cade file generation upgrade</li>
+      </ul>
+    </div>
+
+    <div id="tracker-completed" class="tracker-section" style="display:none;">
+      <h3>Completed</h3>
+      <ul>
+        <li>✅ Agent status logic</li>
+        <li>✅ Project tabs generated</li>
+      </ul>
+    </div>
+  </div>
+
+  <style>
+    #project-tracker-tabs {
+      display: flex;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+    .tab {
+      padding: 0.5rem 1rem;
+      border: none;
+      background-color: #eee;
+      cursor: pointer;
+      font-weight: bold;
+      border-radius: 4px;
+    }
+    .tab:hover {
+      background-color: #ddd;
+    }
+    .tracker-section {
+      border: 1px solid #ccc;
+      padding: 1rem;
+      border-radius: 6px;
+      background-color: #fafafa;
+    }
+    .tracker-section h3 {
+      margin-top: 0;
+    }
+  </style>
+
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      console.log("✅ DOM ready");
+
+      const tabs = document.querySelectorAll('.tab');
+      const sections = ['backlog', 'in-progress', 'completed'];
+
+      function showSection(target) {
+        console.log("🔀 Switching to section:", target);
+        sections.forEach(id => {
+          const el = document.getElementById(`tracker-${id}`);
+          if (el) el.style.display = (id === target) ? 'block' : 'none';
+        });
+      }
+
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          const target = tab.dataset.target;
+          console.log("🖱️ Tab clicked:", target);
+          showSection(target);
+        });
+      });
+
+      showSection('backlog');    });
+  </script>
+</body>
+</html>
+
+<!-- Cade was here -->

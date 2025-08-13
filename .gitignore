@@ -1,0 +1,10 @@
+/* eslint-disable import/no-commonjs */
+.env.local
+Backups/
+Users/
+astro-react-test/node_modules/
+node_modules/
+scripts/_local/agent-runtime/matilda_runtime.cjs
+ui/dashboard/public/agent-status.json
+ui/dashboard/public/matilda-log.json
+scripts/_local/agent-runtime/memory/*.json

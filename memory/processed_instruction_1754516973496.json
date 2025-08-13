@@ -1,0 +1,4 @@
+/* eslint-disable import/no-commonjs */
+{
+  "instruction": "Fetch a sample JSON from the web and save it to memory"
+}

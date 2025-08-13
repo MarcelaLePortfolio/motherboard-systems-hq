@@ -1,0 +1,11 @@
+/* eslint-disable import/no-commonjs */
+{
+  "matilda": {
+    "status": "online",
+    "lastHeartbeat": 1754335566
+  },
+  "effie": {
+    "status": "online",
+    "lastHeartbeat": 1754335566
+  }
+}

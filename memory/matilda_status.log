@@ -1,0 +1,13 @@
+/* eslint-disable import/no-commonjs */
+<0072matilda.an> [note:marcela] <0001fa2b> Ops Stream scaffolded – live ticker for real-time agent activity added.
+- Updates:
+  ▸ Replaced “BTS activity” with “Ops Stream” for professional tone
+  ▸ Ops Stream ticker shows most recent action across all agents
+  ▸ Link provided to full historical activity panel
+
+- UI Notes:
+  ▸ Positioned above project tracker for visibility
+  ▸ Minimalist ticker aesthetic to avoid clutter
+  ▸ Tied into chaining_runtime_log and agent_development_tracker
+
+📌 Real-time awareness layer renamed and scaffolded for cleaner UX.
