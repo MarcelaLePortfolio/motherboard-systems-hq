@@ -1,6 +1,0 @@
-{
-  "taskId": "test-shell-001",
-  "type": "shell",
-  "command": "echo 'Hello from Cade <0001f9e0>'",
-  "timeoutMs": 3000
-}
