@@ -1,3 +1,4 @@
+import 'dotenv-flow/config';
 import "dotenv/config"
  
 import { createAgentRuntime } from "../../mirror/agent.mjs";

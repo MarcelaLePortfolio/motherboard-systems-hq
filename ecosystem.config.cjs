@@ -1,0 +1,13 @@
+module.exports = {
+  apps: [
+    {
+      name: "cade",
+      script: "scripts/_local/agent-runtime/launch-cade.ts",
+      interpreter: "tsx",
+      env: {
+        SUPABASE_URL: "https://jywedbwwaabdotfcsupw.supabase.co",
+        SUPABASE_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp5d2VkYnd3YWFiZG90ZmNzdXB3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ1MTI3MzEsImV4cCI6MjA3MDA4ODczMX0.zsjdV5g_XhI8zXPu8Kva9MtJQH6UdYCSwRvAwj_P-5I"
+      }
+    }
+  ]
+}
