@@ -1,61 +1,46 @@
-/* eslint-disable import/no-commonjs */
-import { readFileSync, writeFileSync } from "fs";
-import { exec } from "child_process";
+import fs from 'fs';
+import path from 'path';
 
-const filePath = "./memory/agent_chain_state.json";
+const taskPath = path.resolve('scripts/_local/memory/effie_task.json');
 
-function loadTasks(): any[] {
+function readTask(): any {
   try {
-    const data = JSON.parse(readFileSync(filePath, "utf-8"));
-    return Array.isArray(data) ? data : [];
+    const raw = fs.readFileSync(taskPath, 'utf8');
+    return JSON.parse(raw);
   } catch {
-    return [];
+    return null;
   }
 }
 
-
-function saveTasks(tasks: any[]) {
-  writeFileSync(filePath, JSON.stringify(tasks, null, 2));
+function clearTask() {
+  try {
+    fs.unlinkSync(taskPath);
+    console.log('🧹 Effie cleared processed task file');
+  } catch {}
 }
 
-function runShellCommand(command: string): Promise<void> {
-  return new Promise((resolve, reject) => {
-    exec(command, (error, stdout, stderr) => {
-      if (error) {
-        console.error("❌ Shell command error (Effie):", command, error);
-        reject(error);
-      } else {
-        console.log(`✅ Shell command success (Effie): ${command}`);
-        console.log(`📤 Output:\n${stdout}`);
-        resolve();
-      }
-    });
-  });
-}
+function processTask(task: any) {
+  if (!task?.type) return;
 
-async function processTasks() {
-  const tasks = loadTasks();
-  let changed = false;
-
-  for (const task of tasks) {
-    if (task.status === "Pending" && task.agent === "Effie" && task.type === "run_shell") {
-      try {
-        await runShellCommand(task.command);
-        task.status = "Completed";
-        changed = true;
-      } catch {
-        task.status = "Failed";
-        changed = true;
-      }
-    }
+  switch (task.type) {
+    case 'log':
+      console.log(`📝 Effie received log: "${task.payload}"`);
+      break;
+    default:
+      console.log(`⚠️ Effie received unknown task type: "${task.type}"`);
   }
 
-  if (changed) saveTasks(tasks);
+  clearTask();
 }
 
-export function startEffieTaskProcessor() {
-  console.log("⚡ Effie Task Processor: Started, polling every 3 seconds...");
-  setInterval(() => {
-    processTasks().catch(console.error);
-  }, 3000);
+function poll() {
+  if (!fs.existsSync(taskPath)) return;
+
+  const task = readTask();
+  if (!task) return;
+
+  processTask(task);
 }
+
+setInterval(poll, 3000);
+console.log('⚡ Effie Task Processor: Polling every 3 seconds...');
