@@ -1,3 +1,4 @@
+import "dotenv/config"
  
 import { createAgentRuntime } from "../../mirror/agent.mjs";
 import { startEffieTaskProcessor } from "./utils/effie_task_processor";
