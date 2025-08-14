@@ -61,11 +61,7 @@ async function processTasks() {
 processTasks();
 setInterval(processTasks, 3000);
 console.log('⚡ Matilda Task Processor: Polling with Supabase fallback...');
-export function startMatildaTaskProcessor() {
-  processTasks();
-  setInterval(processTasks, 3000);
-  console.log('⚡ Matilda Task Processor: Polling with Supabase fallback...');
-}
+
 
 export function startMatildaTaskProcessor() {
   processTasks();
