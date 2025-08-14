@@ -28,7 +28,7 @@ function isUrlSafe(url?: string) {
   return !url.startsWith('file://') && !url.includes('localhost') && !/^(127|10|192\.168)\./.test(url);
 }
 
-export async function cadeCommandRouter(command: string, args?: any) {
+export async function cadeCommandRouter(command: string, args?: any): Promise<any> {
   const normalizedCommand = command.toLowerCase();
 
   if (!ALLOWED_COMMANDS.has(normalizedCommand)) {

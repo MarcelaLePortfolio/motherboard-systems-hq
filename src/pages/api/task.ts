@@ -21,7 +21,7 @@ export const POST: APIRoute = async ({ request }) => {
     });
 
     return new Response(result, { status: 200 });
-  } catch (err: any) {";";";";";";";
+  } catch (err: any) {
     return new Response(`❌ ${err.message || err}`, { status: 500 });
   }
 };

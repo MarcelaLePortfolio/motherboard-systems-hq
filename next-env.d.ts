@@ -1,4 +1,3 @@
-/* eslint-disable import/no-commonjs */
 /// <reference types="next" />
 /// <reference types="next/image-types/global" />
 

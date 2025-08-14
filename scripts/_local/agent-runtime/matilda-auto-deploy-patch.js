@@ -15,7 +15,7 @@ try {
   // ✅ Event emitter for dashboard ticker
   fs.appendFileSync(
     "ui/dashboard/ticker-events.log",
-    `{"timestamp":"${Math.floor(Date.now()/1000)}","agent":"matilda","event":"auto-deploy"}
+    {"timestamp":"${Math.floor(Date.now()/1000)}","agent":"matilda","event":"auto-deploy"}
 
   );
 } catch (err) {

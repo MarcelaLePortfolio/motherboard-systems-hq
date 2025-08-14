@@ -6,7 +6,7 @@ import lockfile from "proper-lockfile";
 
 const statePath = path.resolve(process.cwd(), "memory", "agent_chain_state.json");
 
-function log(msg  string) {
+function log(msg: string) {
   console.log(`[CADE-STATE-TEST] ${msg}`);
 }
 

@@ -16,7 +16,6 @@ const ALLOWED_COMMANDS = new Set([
   'delete file',
   'open url',
   'git commit and push',
-  'package";";";";";";";";";
 ]);
 
 function isPathSafe(p: string) {
@@ -27,15 +26,14 @@ function isUrlSafe(url: string) {
   return !url.startsWith('file://') && !url.includes('localhost') && !/^(127|10|192\.168)\./.test(url);
 }
 
-export async function cadeCommandRouter(command: string, args?: any) {
+export async function cadeCommandRouter(command: string, args?: any): Promise<any> {
   const normalizedCommand = command.toLowerCase();
 
   if (!ALLOWED_COMMANDS.has(normalizedCommand)) {
     return {
       status: 'error',
-      message: `❌ Command "${command}" is not allowed.
-    };
-  }
+      message: `❌ Command "${command}" is not allowed.`
+    };  }
 
   switch (normalizedCommand) {
     case 'read file':
@@ -52,20 +50,20 @@ export async function cadeCommandRouter(command: string, args?: any) {
       try {
         const filepath = path.resolve(args?.path || 'memory', 'agent_notes.txt');
         if (!isPathSafe(filepath)) throw new Error('Unsafe file path.');
-        const content = args?.content || 'Hello from Cade!
-';
+        const content = args?.content || 'Hello from Cade!\n';
         await writeFile(filepath, content, 'utf8');
-        return { status: 'success', result: { message: `Wrote to ${filepath}` } };
+        return { status: 'success', result: { content } };
       } catch (err: any) {
         return { status: 'error', message: err.message };
       }
 
     case 'launch script':
-      try {
+      return { status: 'error', message: '🚫 Launch script not implemented yet.' };
+    case 'run shell script':      try {
         const filepath = path.resolve(args?.path || 'scripts', 'test.sh');
         if (!isPathSafe(filepath)) throw new Error('Unsafe file path.');
-        const { stdout } = await execAsync(`bash "${filepath}"`);
-        return { status: 'success', result: { output: stdout.trim() } };
+        const { stdout } = await execAsync("bash \"" + filepath + "\"");
+        return { status: 'success', result: { stdout } };
       } catch (err: any) {
         return { status: 'error', message: err.message };
       }
@@ -76,7 +74,7 @@ export async function cadeCommandRouter(command: string, args?: any) {
         const toPath = path.resolve(args?.to);
         if (!isPathSafe(fromPath) || !isPathSafe(toPath)) throw new Error('Unsafe file path.');
         await rename(fromPath, toPath);
-        return { status: 'success', result: { message: `Moved to ${toPath}` } };
+        return { status: 'success', result: { message: `Moved file from ${fromPath} to ${toPath}` } };
       } catch (err: any) {
         return { status: 'error', message: err.message };
       }
@@ -86,7 +84,7 @@ export async function cadeCommandRouter(command: string, args?: any) {
         const targetPath = path.resolve(args?.path);
         if (!isPathSafe(targetPath)) throw new Error('Unsafe file path.');
         await unlink(targetPath);
-        return { status: 'success', result: { message: `Deleted ${targetPath}` } };
+        return { status: 'success', result: { message: `Deleted file at ${targetPath}` } };
       } catch (err: any) {
         return { status: 'error', message: err.message };
       }
@@ -96,8 +94,8 @@ export async function cadeCommandRouter(command: string, args?: any) {
         const url = args?.url;
         if (!url || !isUrlSafe(url)) throw new Error('Unsafe or missing URL.');
         const opener = os.platform() === 'darwin' ? 'open' : os.platform() === 'win32' ? 'start ""' : 'xdg-open';
-        await execAsync(`${opener} "${url}"`);
-        return { status: 'success', result: { message: `Opened ${url}` } };
+        await execAsync(opener + " \"" + url + "\"");
+        return { status: 'success', result: { message: `Opened URL: ${url}` } };
       } catch (err: any) {
         return { status: 'error', message: err.message };
       }
@@ -106,11 +104,11 @@ export async function cadeCommandRouter(command: string, args?: any) {
       try {
         const msg = args?.message || 'Automated commit';
         const tag = '[auto:cade]';
-        const message = msg.includes(tag) ? msg : `${tag} ${msg}`;
+        const message = msg.includes(tag) ? msg : tag + " " + msg;
         await execAsync('git add .');
         await execAsync(`git commit -m "${message}"`);
         const { stdout } = await execAsync('git push');
-        return { status: 'success', result: { output: stdout.trim() } };
+        return { status: 'success', result: { stdout } };
       } catch (err: any) {
         return { status: 'error', message: err.message };
       }
@@ -123,7 +121,7 @@ export async function cadeCommandRouter(command: string, args?: any) {
           const result = await cadeCommandRouter(command, stepArgs);
           results.push(result);
         }
-        return { status: 'success', result: results };
+        return { status: 'success', result: { results } };
       } catch (err: any) {
         return { status: 'error', message: err.message };
       }
@@ -131,7 +129,7 @@ export async function cadeCommandRouter(command: string, args?: any) {
     default:
       return {
         status: 'error',
-        message: `Command "${command}" not recognized by Cade.
+        message: `Command "${command}" not recognized by Cade.`
       };
   }
 }

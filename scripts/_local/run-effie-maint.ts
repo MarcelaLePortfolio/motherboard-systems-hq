@@ -1,3 +1,3 @@
  
-import { runMaintenanceOnce } from "../../src/agents/effie/maintenance";
+import { runMaintenanceOnce } from "../../src/agents/effie/maintenance.js";
 runMaintenanceOnce();

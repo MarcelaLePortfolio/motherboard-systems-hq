@@ -17,18 +17,18 @@ export const POST: APIRoute = async ({ request }) => {
     return new Response(JSON.stringify(response), {
       status: response.status === 'success' ? 200 : 400,
       headers: {
-        'Content-Type': 'application/json";";";";";";
+    'Content-Type': 'application/json' 
       }
     });
   } catch (err) {
     console.error('❌ Error in /api/command POST handler:', err);
     return new Response(JSON.stringify({
       status: 'error',
-      message: 'Invalid request format or internal error.
+      message: 'Invalid request format or internal error.' 
     }), {
       status: 500,
       headers: {
-        'Content-Type': 'application/json
+      'Content-Type': 'application/json' 
       }
     });
   }

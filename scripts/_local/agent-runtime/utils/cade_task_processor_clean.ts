@@ -25,7 +25,7 @@ function runShellCommand(command: string): Promise<void> {
         reject(error);
       } else {
         console.log("Shell command success:", command, 
-Output:", stdout);
+"Output:", stdout);
         resolve();
       }
     });

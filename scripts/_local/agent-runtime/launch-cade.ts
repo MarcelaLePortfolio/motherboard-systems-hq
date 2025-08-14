@@ -1,5 +1,5 @@
  
-import { createAgentRuntime } from "../../mirror/agent";
+import { createAgentRuntime } from "../../mirror/agent.mjs";
 import { cade } from "../../agents/cade";
 import { readChainState, writeChainState } from "../utils/chainState";
 import { routeTask } from "../handlers/taskRouter";

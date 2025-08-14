@@ -1,5 +1,5 @@
  
-import { log } from '../utils/log';
+import { log } from '../utils/log.js';
 import { promises as fs } from 'fs';
 //////import path from 'path';
 
@@ -27,7 +27,7 @@ export async function effieCommandRouter(command: string, args?: Record<string, 
 
       case 'list files':
         if (!args?.dir) throw new Error('Missing dir');
-////////        const files = await fs.readdir(args.dir);
+const files = await fs.readdir(args.dir);
         return { status: 'success', result: files };
 
       default:
