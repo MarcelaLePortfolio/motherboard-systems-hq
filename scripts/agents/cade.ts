@@ -1,4 +1,5 @@
-import { supabase } from '../_local/utils/supabaseClient';
+import { getSupabaseClient } from '../_local/utils/supabaseClient';
+const supabase = getSupabaseClient();
 
 export async function cadeCommandRouter(command: string, args: any = {}): Promise<any> {
   switch (command) {
