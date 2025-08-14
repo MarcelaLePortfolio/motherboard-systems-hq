@@ -1,1 +1,10 @@
-{}
+{
+  "tasks": [
+    {
+      "id": "T1",
+      "agent": "effie",
+      "action": "log",
+      "payload": "Hello from Cade."
+    }
+  ]
+}

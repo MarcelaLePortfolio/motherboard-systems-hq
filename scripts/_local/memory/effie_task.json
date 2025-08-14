@@ -1,0 +1,6 @@
+{
+  "type": "log",
+  "payload": "Hello from Cade.",
+  "from": "matilda",
+  "taskId": "T1"
+}
