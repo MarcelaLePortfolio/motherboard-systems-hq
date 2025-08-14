@@ -1,60 +1,39 @@
-/* eslint-disable import/no-commonjs */
-import { readFileSync, writeFileSync } from "fs";
-import { exec } from "child_process";
+import fs from 'fs';
+import path from 'path';
 
-const filePath = "./memory/agent_chain_state.json";
+const chainPath = path.resolve('memory/agent_chain_state.json');
 
-function loadTasks() {
+function readChainState(): any {
   try {
-    return JSON.parse(readFileSync(filePath, "utf-8"));
+    const raw = fs.readFileSync(chainPath, 'utf8');
+    return JSON.parse(raw);
   } catch {
-    return [];
+    return {};
   }
 }
 
-function saveTasks(tasks: any[]) {
-  writeFileSync(filePath, JSON.stringify(tasks, null, 2));
+function writeAgentTask(agent: string, task: any) {
+  const agentPath = path.resolve(`scripts/_local/memory/${agent}_task.json`);
+  fs.writeFileSync(agentPath, JSON.stringify(task, null, 2), 'utf8');
 }
 
-function runShellCommand(command: string): Promise<void> {
-  return new Promise((resolve, reject) => {
-    exec(command, (error, stdout, stderr) => {
-      if (error) {
-        console.error("Shell command error (Matilda):", command, error);
-        reject(error);
-      } else {
-console.log("Shell command success (Matilda):", command, "Output:", stdout);
-        console.log("Shell command success (Matilda):", command, "Output:", stdout);
-        console.log("Shell command success (Matilda):", command, "Output:", stdout);
-        resolve();
-      }
-    });
-  });
-}
+function processTasks() {
+  const state = readChainState();
+  const tasks = state?.tasks;
 
-async function processTasks() {
-  const tasks = loadTasks();
-  let changed = false;
+  if (!Array.isArray(tasks)) return;
 
   for (const task of tasks) {
-    if (task.status === "Pending" && task.agent === "Matilda" && task.type === "run_shell") {
-      try {
-        await runShellCommand(task.command);
-        task.status = "Completed";
-        changed = true;
-      } catch {
-        task.status = "Failed";
-        changed = true;
-      }
-    }
+    if (!task?.agent || !task?.action) continue;
+
+    writeAgentTask(task.agent, {
+      type: task.action,
+      payload: task.payload || null,
+      from: 'matilda',
+      taskId: task.id,
+    });
   }
-
-  if (changed) saveTasks(tasks);
 }
 
-export function startMatildaTaskProcessor() {
-  console.log("⚡ Matilda Task Processor: Started, polling every 3 seconds...");
-  setInterval(() => {
-    processTasks().catch(console.error);
-  }, 3000);
-}
+setInterval(processTasks, 3000);
+console.log('⚡ Matilda Task Processor: Started, polling every 3 seconds...');
