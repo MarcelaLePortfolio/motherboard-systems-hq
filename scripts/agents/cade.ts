@@ -11,6 +11,7 @@ import { runOllamaInference } from '../_local/utils/ollamaClient';
  *  - write to file { path, content }
  *  - summarize { file, maxChunkSize?, outputPath? }
  *  - explain { file, outputPath? }
+ *  - comment { file, outputPath? }
  */
 export async function cadeCommandRouter(command: string, args: any = {}) {
   try {
@@ -118,6 +119,38 @@ export async function cadeCommandRouter(command: string, args: any = {}) {
         }
 
         return { status: 'success', explanation };
+      }
+
+      case 'comment': {
+        const { file, outputPath } = args || {};
+        const safePath = validateSafePath(file);
+        const content = fs.readFileSync(safePath, 'utf-8');
+
+        const prompt = [
+          'You are a helpful TypeScript code assistant.',
+          'Insert inline comments throughout this file to explain:',
+          '- Function purposes',
+          '- Non-obvious logic',
+          '- Assumptions or caveats',
+          '',
+          'Avoid over-commenting trivial things.',
+          'Format output as valid commented TypeScript. Preserve original code structure.',
+          '',
+          '```ts',
+          content,
+          '```'
+        ].join('\n');
+
+        const commentedCode = await runOllamaInference(prompt);
+
+        if (outputPath) {
+          const safeOutput = validateSafePath(outputPath, { allowNonexistent: true, mustBeWithinCwd: true });
+          ensureDir(path.dirname(safeOutput));
+          fs.writeFileSync(safeOutput, commentedCode, 'utf-8');
+          return { status: 'success', commentedPath: safeOutput };
+        }
+
+        return { status: 'success', commented: commentedCode };
       }
 
       default:
