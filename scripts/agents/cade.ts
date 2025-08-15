@@ -10,6 +10,7 @@ import { runOllamaInference } from '../_local/utils/ollamaClient';
  *  - read file { path }
  *  - write to file { path, content }
  *  - summarize { file, maxChunkSize?, outputPath? }
+ *  - explain { file, outputPath? }
  */
 export async function cadeCommandRouter(command: string, args: any = {}) {
   try {
@@ -42,7 +43,6 @@ export async function cadeCommandRouter(command: string, args: any = {}) {
         const safePath = validateSafePath(file);
         const content = fs.readFileSync(safePath, 'utf-8');
 
-        // Map: chunk the file and summarize each chunk
         const chunks = chunkText(content, maxChunkSize);
         const partials: string[] = [];
         let index = 0;
@@ -52,7 +52,6 @@ export async function cadeCommandRouter(command: string, args: any = {}) {
             'You are a precise code/doc summarizer.',
             'Summarize the following content clearly and concisely.',
             'Focus on: purpose, key components/sections, noteworthy details, and any TODOs/risks.',
-            `If code, list important functions/types and their roles.`,
             '',
             `# Chunk ${index}/${chunks.length}`,
             '```',
@@ -65,7 +64,6 @@ export async function cadeCommandRouter(command: string, args: any = {}) {
           partials.push(`## Chunk ${index}\n${partial}`);
         }
 
-        // Reduce: synthesize a single cohesive summary
         const reducePrompt = [
           'Synthesize a cohesive summary from the chunk summaries below.',
           'Keep it structured:',
@@ -89,6 +87,39 @@ export async function cadeCommandRouter(command: string, args: any = {}) {
         return { status: 'success', summary, chunks: chunks.length };
       }
 
+      case 'explain': {
+        const { file, outputPath } = args || {};
+        const safePath = validateSafePath(file);
+        const content = fs.readFileSync(safePath, 'utf-8');
+
+        const prompt = [
+          'You are a technical explainer. Your task is to explain the following code in plain English.',
+          'Do not summarize — explain.',
+          '',
+          'Explain:',
+          '1) The structure of the file',
+          '2) Purpose of each major part',
+          '3) What the code *actually does*',
+          '',
+          'Return a detailed and beginner-friendly walkthrough. Include code references where helpful.',
+          '',
+          '```ts',
+          content,
+          '```'
+        ].join('\n');
+
+        const explanation = await runOllamaInference(prompt);
+
+        if (outputPath) {
+          const safeOutput = validateSafePath(outputPath, { allowNonexistent: true, mustBeWithinCwd: true });
+          ensureDir(path.dirname(safeOutput));
+          fs.writeFileSync(safeOutput, explanation, 'utf-8');
+          return { status: 'success', explanationPath: safeOutput };
+        }
+
+        return { status: 'success', explanation };
+      }
+
       default:
         return { status: 'error', message: `Unknown command: ${command}` };
     }
@@ -97,15 +128,12 @@ export async function cadeCommandRouter(command: string, args: any = {}) {
   }
 }
 
-/** Utilities */
-
 function validateSafePath(inputPath: string, opts: { allowNonexistent?: boolean; mustBeWithinCwd?: boolean } = {}) {
   if (!inputPath || typeof inputPath !== 'string') throw new Error('No file path provided.');
   const resolved = path.resolve(inputPath);
   const cwd = process.cwd();
 
   if (opts.mustBeWithinCwd !== false) {
-    // ensure within project root
     if (!resolved.startsWith(cwd + path.sep) && resolved !== cwd) {
       throw new Error('Unsafe file path.');
     }
