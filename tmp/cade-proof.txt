@@ -1,2 +1,0 @@
-/* eslint-disable import/no-commonjs */
-✅ Cade wrote this at Sat Aug  9 21:06:49 PDT 2025

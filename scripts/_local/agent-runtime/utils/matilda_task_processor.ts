@@ -1,70 +1,39 @@
 import fs from 'fs';
 import path from 'path';
-import { supabase } from '../../utils/supabaseClient';
 
-const fallbackPath = path.resolve('memory/agent_chain_state.json');
+const TASK_FILE = path.join(__dirname, '../../memory/agent_chain_state.json');
 
-async function readChainState(): Promise<any> {
-  try {
-    const { data, error } = await supabase
-      .from('agent_chain_state')
-      .select('data')
-      .eq('id', 'singleton')
-      .single();
+export async function startMatildaTaskProcessor() {
+  console.log('🤖 Matilda task processor active...');
 
-    if (error || !data?.data) throw error;
-    console.log('☁️ Matilda loaded chain state from Supabase');
-    return data.data;
-  } catch {
-    try {
-      const raw = fs.readFileSync(fallbackPath, 'utf8');
-      console.log('📁 Matilda loaded chain state from local fallback');
-      return JSON.parse(raw);
-    } catch {
-      return null;
+  setInterval(() => {
+    console.log('🔍 Checking for task file...');
+    if (!fs.existsSync(TASK_FILE)) {
+      console.log('🕳️ No file found.');
+      return;
     }
-  }
+
+    try {
+      const raw = fs.readFileSync(TASK_FILE, 'utf-8');
+      console.log('📄 Raw file contents:', raw);
+      console.log('🧪 Raw length:', raw.length);
+
+      const task = JSON.parse(raw);
+      console.log('✅ JSON parsed:', task);
+
+      if (task?.agent !== 'Matilda') {
+        console.log(`📭 Task assigned to another agent: ${task?.agent}`);
+        return;
+      }
+
+      console.log(`📩 Received task for Matilda:`, task);
+      routeMatildaTask(task);
+    } catch (err) {
+      console.error('❌ Error parsing or routing task:', err.message);
+    }
+  }, 3000);
 }
 
-function writeAgentTask(agent: string, task: any) {
-  const agentPath = path.resolve(`scripts/_local/memory/${agent}_task.json`);
-  if (fs.existsSync(agentPath)) {
-    console.log(`⚠️ Skipping: ${agent}_task.json already exists`);
-    return;
-  }
-
-  fs.writeFileSync(agentPath, JSON.stringify(task, null, 2), 'utf8');
-  console.log(`📤 Matilda wrote task for ${agent}`);
-}
-
-async function processTasks() {
-  const state = await readChainState();
-  const tasks = state?.tasks;
-
-  if (!Array.isArray(tasks)) {
-    console.log('ℹ️ No tasks to delegate yet');
-    return;
-  }
-
-  for (const task of tasks) {
-    if (!task?.agent || !task?.action) continue;
-
-    writeAgentTask(task.agent, {
-      type: task.action,
-      payload: task.payload || null,
-      from: 'matilda',
-      taskId: task.id,
-    });
-  }
-}
-
-processTasks();
-setInterval(processTasks, 3000);
-console.log('⚡ Matilda Task Processor: Polling with Supabase fallback...');
-
-
-export function startMatildaTaskProcessor() {
-  processTasks();
-  setInterval(processTasks, 3000);
-  console.log('⚡ Matilda Task Processor: Polling with Supabase fallback...');
+function routeMatildaTask(task: any) {
+  console.log('🔀 Matilda (echoing):', task);
 }

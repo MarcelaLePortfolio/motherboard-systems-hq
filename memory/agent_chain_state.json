@@ -1,10 +1,8 @@
 {
-  "tasks": [
-    {
-      "id": "T1",
-      "agent": "effie",
-      "action": "log",
-      "payload": "Hello from Cade."
-    }
-  ]
+  "agent": "Matilda",
+  "type": "backend",
+  "task": "read file",
+  "params": {
+    "path": "memory/test.txt"
+  }
 }

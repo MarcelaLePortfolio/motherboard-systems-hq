@@ -1,22 +1,24 @@
-import { log } from '../../utils/logger';
-import { readFileSync, existsSync } from 'fs';
-import path from 'path';
-
-const taskFilePath = path.resolve('memory/agent_chain_state.json');
+import { log } from '../utils/logger';
+import * as path from 'path';
+import * as fs from 'fs';
 
 function processTask() {
-  log('🔍 Checking for task file...');
-  if (!existsSync(taskFilePath)) {
-    log('❌ No task file found.');
+  const statePath = path.resolve('memory/agent_chain_state.json');
+  log(`📍 Resolved task file path: ${statePath}`);
+
+  if (!fs.existsSync(statePath)) {
+    log('❌ No task file found for Matilda.');
     return;
   }
 
-  const rawData = readFileSync(taskFilePath, 'utf8');
-  log(`📄 Raw task string: ${rawData}`);
-
-  let task: any;
+  let task;
   try {
+    const rawData = fs.readFileSync(statePath, 'utf8');
+    log(`📄 Raw file contents: ${rawData}`);
+    log(`🧪 Raw length: ${rawData.length}`);
     task = JSON.parse(rawData);
+    log(`✅ JSON parsed: ${JSON.stringify(task)}`);
+log(`🧬 Type of task.agent: ${typeof task.agent} | Value: ${task.agent}`);
   } catch (err) {
     log(`❌ Failed to parse task JSON: ${err}`);
     return;
@@ -38,7 +40,6 @@ function processTask() {
   }
 
   log(`✅ Matilda is processing: ${JSON.stringify(task, null, 2)}`);
-  // ... implement Matilda’s task logic here
 }
 
 log('💚 Matilda runtime started.');

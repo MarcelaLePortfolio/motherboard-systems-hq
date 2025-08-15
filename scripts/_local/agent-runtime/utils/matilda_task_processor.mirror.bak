@@ -1,0 +1,51 @@
+const log = console.log;
+import { handleMatildaTask } from './matilda_task_handler';
+import { loadChainState } from '../../../shared/storage/chain_state';
+import { writeJSON } from '../../shared/io/atomic_writer';
+
+export async function startMatildaTaskProcessor() {
+//   logDivider();
+  log('🤖 Matilda starting up...');
+
+  const chainState = await loadChainState('matilda');
+  if (!chainState) {
+    log('❌ No valid chain state for Matilda. Exiting.');
+    return;
+  }
+
+  const task = chainState.task;
+  if (!task) {
+    log('🕊️ No current task assigned to Matilda.');
+    return;
+  }
+
+  log(`🪄 Matilda received task: ${task?.type || 'Unknown'}`);
+
+  try {
+    const result = await handleMatildaTask(task);
+    log(`✅ Task result: ${JSON.stringify(result)}`);
+// 🧹 cleaned placeholder line
+  } catch (err) {
+    log(`❌ Task failed: ${err?.message}`);
+  }
+}
+
+
+function writeToOpsStream(message: string) {
+  const fs = require("fs");
+  const path = require("path");
+  const opsPath = path.join(__dirname, "../../../../ui/dashboard/public/ops-stream.json");
+  const timestamp = new Date().toISOString();
+  const logEntry = { source: "matilda", message, timestamp };
+
+  try {
+    const existing = fs.existsSync(opsPath) ? JSON.parse(fs.readFileSync(opsPath, "utf8")) : [];
+    existing.unshift(logEntry);
+    fs.writeFileSync(opsPath, JSON.stringify(existing.slice(0, 100), null, 2)); // Keep last 100 entries
+  } catch (err) {
+    console.error("Failed to write to ops stream:", err);
+  }
+}
+
+log("�� Matilda starting up...");
+writeToOpsStream("🤖 Matilda boot sequence initiated.");

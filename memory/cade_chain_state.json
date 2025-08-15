@@ -1,0 +1,7 @@
+{
+  "agent": "Cade",
+  "type": "delegate_tasks",
+  "payload": {
+    "trigger": "full-cycle"
+  }
+}
