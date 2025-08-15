@@ -71,19 +71,9 @@ async function pollForTasks() {
   }
 }
 
-export async function cadeCommandRouter(command: string, args?: any): Promise<any> {
+export async function cadeCommandRouter(command: string): Promise<any> {
   switch (command) {
     case 'start delegated task listener':
-    case "echo": {
-      const message = args?.message || "No message provided.";
-      return { status: "success", message };
-    }
-    break;
-    case "echo": {n
-      const message = args?.message || "No message provided.";n
-      return { status: "success", message };n
-    }n
-    break;
       pollForTasks();
       return { status: 'started', message: 'Cade started delegated task polling loop.' };
     default:
