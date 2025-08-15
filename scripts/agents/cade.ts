@@ -1,92 +1,56 @@
-import { getSupabaseClient } from '../_local/utils/supabaseClient';
 import fs from 'fs';
 import path from 'path';
-import { execSync } from 'child_process';
+import { runOllamaInference } from '../_local/utils/ollamaClient';
 
-const supabase = getSupabaseClient();
+export async function cadeCommandRouter(command: string, args: any = {}) {
+  try {
+    switch (command) {
+      case 'echo':
+        return { status: 'success', message: args.message || '' };
 
-function log(msg: string) {
-  console.log(`[CADE] ${msg}`);
-}
-
-async function applyPatchTask(task: any) {
-  const { path: filePath, instructions } = task;
-
-  const absPath = path.join(process.cwd(), filePath);
-  const original = fs.readFileSync(absPath, 'utf8');
-  const updated = `// ✅ Patch validated and committed by Cade.\n` + original;
-
-  const tempPath = absPath + '.tmp';
-  fs.writeFileSync(tempPath, updated);
-
-  const tscCheck = execSync(`npx tsc --noEmit ${tempPath}`).toString();
-  if (tscCheck.includes("error")) {
-    fs.unlinkSync(tempPath);
-    return { status: 'error', message: '❌ Patch failed validation.' };
-  }
-
-  fs.writeFileSync(absPath, updated);
-  fs.unlinkSync(tempPath);
-
-  execSync(`git config user.name "Marcela Gama Le"`);
-  execSync(`git config user.email "marcela-dev@Marcelas-MacBook-Air.local"`);
-  execSync(`git add ${filePath}`);
-  execSync(`git commit -m "✅ Cade auto-committed patch via delegation"`);
-  execSync(`git push`);
-
-  return { status: 'success', message: `✅ Patch applied and committed: ${filePath}` };
-}
-
-async function pollForTasks() {
-  log('🌀 Polling for delegated tasks...');
-
-  while (true) {
-    const { data: tasks, error } = await supabase
-      .from('agent_chain_state')
-      .select('*')
-      .eq('status', 'Assigned')
-      .eq('agent', 'Cade');
-
-    if (error) {
-      log(`❌ Supabase error: ${error.message}`);
-    }
-
-    if (tasks?.length) {
-      for (const task of tasks) {
-        log(`🎯 Received task: ${JSON.stringify(task)}`);
-
-        let result = { status: 'ignored', message: 'Unrecognized task type.' };
-        if (task.type === 'patch') {
-          result = await applyPatchTask(task);
-        }
-
-        await supabase.from('agent_chain_state').update({
-          status: 'Completed',
-          result,
-        }).eq('id', task.id);
+      case 'list files': {
+        const targetDir = args.dir || '.';
+        const resolvedDir = path.resolve(targetDir);
+        const files = fs.readdirSync(resolvedDir);
+        return { status: 'success', files };
       }
-    }
 
-    await new Promise(r => setTimeout(r, 3000)); // Poll every 3 seconds
+      case 'read file': {
+        const safePath = validateSafePath(args.path);
+        const content = fs.readFileSync(safePath, 'utf-8');
+        return { status: 'success', content };
+      }
+
+      case 'write to file': {
+        const safePath = validateSafePath(args.path);
+        fs.writeFileSync(safePath, args.content || '', 'utf-8');
+        return { status: 'success', path: safePath };
+      }
+
+      case 'summarize': {
+        const safePath = validateSafePath(args.file);
+        const content = fs.readFileSync(safePath, 'utf-8');
+        const prompt = `Summarize the following file content clearly and concisely:\n\n${content}`;
+        const summary = await runOllamaInference(prompt);
+        return { status: 'success', summary };
+      }
+
+      default:
+        return { status: 'error', message: `Unknown command: ${command}` };
+    }
+  } catch (err: any) {
+    return { status: 'error', message: err.message };
   }
 }
 
-export async function cadeCommandRouter(command: string, args?: any): Promise<any> {
-  switch (command) {
-    case 'start delegated task listener':
-    case "echo": {
-      const message = args?.message || "No message provided.";
-      return { status: "success", message };
-    }
-    break;
-    case "echo": {n
-      const message = args?.message || "No message provided.";n
-      return { status: "success", message };n
-    }n
-    break;
-      pollForTasks();
-      return { status: 'started', message: 'Cade started delegated task polling loop.' };
-    default:
-      return { status: 'error', message: `❌ Unknown command "${command}"` };
+function validateSafePath(inputPath: string) {
+  if (!inputPath) throw new Error('No file path provided.');
+  const resolvedPath = path.resolve(inputPath);
+  if (!resolvedPath.startsWith(process.cwd())) {
+    throw new Error('Unsafe file path.');
   }
+  if (!fs.existsSync(resolvedPath)) {
+    throw new Error('File does not exist.');
+  }
+  return resolvedPath;
 }
