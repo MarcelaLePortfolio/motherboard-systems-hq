@@ -1,18 +1,48 @@
-import { cadeCommandRouter } from './cade';
+import { log } from '../../utils/logger';
+import { readFileSync, existsSync } from 'fs';
+import path from 'path';
 
-export async function matildaCommandRouter(input: string) {
-  const lower = input.toLowerCase();
+const taskFilePath = path.resolve('memory/agent_chain_state.json');
 
-  if (lower.includes('start full task')) {
-    return await cadeCommandRouter('start full task delegation cycle');
+function processTask() {
+  log('🔍 Checking for task file...');
+  if (!existsSync(taskFilePath)) {
+    log('❌ No task file found.');
+    return;
   }
 
-  if (lower.includes('read chain state')) {
-    return await cadeCommandRouter('read chain state');
+  const rawData = readFileSync(taskFilePath, 'utf8');
+  log(`📄 Raw task string: ${rawData}`);
+
+  let task: any;
+  try {
+    task = JSON.parse(rawData);
+  } catch (err) {
+    log(`❌ Failed to parse task JSON: ${err}`);
+    return;
   }
 
-  return {
-    status: 'ok',
-    message: `🤖 Matilda received your message but didn’t recognize the task.`,
-  };
+  if (!task || typeof task !== 'object') {
+    log(`⚠️ Invalid or empty task object.`);
+    return;
+  }
+
+  if (!task.agent) {
+    log(`⚠️ No agent specified in task, assuming Matilda...`);
+    task.agent = 'Matilda';
+  }
+
+  if (task.agent !== 'Matilda') {
+    log(`📭 Task assigned to another agent: ${task.agent}`);
+    return;
+  }
+
+  log(`✅ Matilda is processing: ${JSON.stringify(task, null, 2)}`);
+  // ... implement Matilda’s task logic here
 }
+
+log('💚 Matilda runtime started.');
+setInterval(() => {
+  log('🤖 Matilda task processor active...');
+  processTask();
+}, 3000);
