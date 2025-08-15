@@ -88,6 +88,7 @@ export async function cadeCommandRouter(command: string, args: any = {}) {
       }
 
       case 'explain': {
+    case 'comment':n      return await commentCodeWithOllama(opts);
         const { file, outputPath } = args || {};
         const safePath = validateSafePath(file);
         const content = fs.readFileSync(safePath, 'utf-8');
