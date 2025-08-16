@@ -1,4 +1,3 @@
-import { refactorCodeWithOllama } from './handlers/refactorCodeWithOllama';
 import fs from 'fs';
 import path from 'path';
 import { runOllamaInference } from '../_local/utils/ollamaClient';
@@ -12,8 +11,6 @@ import { runOllamaInference } from '../_local/utils/ollamaClient';
  *  - write to file { path, content }
  *  - summarize { file, maxChunkSize?, outputPath? }
  *  - explain { file, outputPath? }
- *  - comment { file, outputPath? }
- *  - refactor { file, outputPath? }
  */
 export async function cadeCommandRouter(command: string, args: any = {}) {
   try {
@@ -42,7 +39,7 @@ export async function cadeCommandRouter(command: string, args: any = {}) {
       }
 
       case 'summarize': {
-        const { file, maxChunkSize = 8000, outputPath } = args;
+        const { file, maxChunkSize = 8000, outputPath } = args || {};
         const safePath = validateSafePath(file);
         const content = fs.readFileSync(safePath, 'utf-8');
 
@@ -91,7 +88,11 @@ export async function cadeCommandRouter(command: string, args: any = {}) {
       }
 
       case 'explain': {
-        const { file, outputPath } = args;
+case 'comment':
+  return await commentCodeWithOllama(opts);
+  break;
+    case 'comment':n      return await commentCodeWithOllama(opts);
+        const { file, outputPath } = args || {};
         const safePath = validateSafePath(file);
         const content = fs.readFileSync(safePath, 'utf-8');
 
@@ -121,41 +122,6 @@ export async function cadeCommandRouter(command: string, args: any = {}) {
         }
 
         return { status: 'success', explanation };
-      }
-
-      case 'comment': {
-        const { file, outputPath } = args;
-        const safePath = validateSafePath(file);
-        const content = fs.readFileSync(safePath, 'utf-8');
-
-        const prompt = [
-          'You are a TypeScript expert. Add helpful inline comments to the following code.',
-          '',
-          'Guidelines:',
-          '- Only comment on sections that are non-trivial or may benefit junior developers.',
-          '- Keep spacing readable. Do not clutter every line.',
-          '- Always return valid TypeScript code with the comments in place.',
-          '',
-          'Respond ONLY with the updated code block:',
-          '```ts',
-          content,
-          '```'
-        ].join('\n');
-
-        const commentedCode = await runOllamaInference(prompt);
-
-        if (outputPath) {
-          const safeOutput = validateSafePath(outputPath, { allowNonexistent: true, mustBeWithinCwd: true });
-          ensureDir(path.dirname(safeOutput));
-          fs.writeFileSync(safeOutput, commentedCode, 'utf-8');
-          return { status: 'success', commentedPath: safeOutput };
-        }
-
-        return { status: 'success', commented: commentedCode };
-      }
-
-      case 'refactor': {
-        return await refactorCodeWithOllama(args);
       }
 
       default:
