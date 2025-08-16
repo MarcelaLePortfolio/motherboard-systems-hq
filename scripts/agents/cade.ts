@@ -1,6 +1,11 @@
 import path from 'path';
 import fs from 'fs';
 
+import { generateFileWithOllama } from './handlers/generateFileWithOllama';
+import { summarizeWithOllama } from './handlers/summarizeWithOllama';
+import { explainCodeWithOllama } from './handlers/explainCodeWithOllama';
+import { formatCommentsWithOllama } from './handlers/formatCommentsWithOllama';
+import { commentCodeWithOllama } from './handlers/commentCodeWithOllama';
 import { translateCommentsWithOllama } from './handlers/translateCommentsWithOllama';
 import { convertCodeWithOllama } from './handlers/convertCodeWithOllama';
 import { refactorCodeWithOllama } from './handlers/refactorCodeWithOllama';
@@ -20,6 +25,10 @@ export async function cadeCommandRouter(command: string, args?: any) {
         return await convertCodeWithOllama(args);
       }
 
+      case 'comment': {
+        return await commentCodeWithOllama(args);
+      }
+
       case 'refactor': {
         return await refactorCodeWithOllama(args);
       }
@@ -30,6 +39,22 @@ export async function cadeCommandRouter(command: string, args?: any) {
 
       case 'start agent': {
         return await startAgentWithPM2(args);
+      }
+
+      case 'generate': {
+        return await generateFileWithOllama(args);
+      }
+
+      case 'summarize': {
+        return await summarizeWithOllama(args);
+      }
+
+      case 'explain': {
+        return await explainCodeWithOllama(args);
+      }
+
+      case 'format': {
+        return await formatCommentsWithOllama(args);
       }
 
       default:

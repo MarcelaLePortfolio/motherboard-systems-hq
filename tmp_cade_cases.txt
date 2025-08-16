@@ -1,0 +1,13 @@
+
+    case 'generate': {
+      return await generateFileWithOllama(args);
+    }
+    case 'summarize': {
+      return await summarizeWithOllama(args);
+    }
+    case 'explain': {
+      return await explainCodeWithOllama(args);
+    }
+    case 'format': {
+      return await formatCommentsWithOllama(args);
+    }
