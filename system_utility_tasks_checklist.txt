@@ -1,0 +1,22 @@
+🛠️ System Utility Tasks – Kickoff Checklist
+
+Ready to handle practical runtime commands and expand utility functions for your agents.
+
+Next priority actions:
+1. Dependency Installation
+   • bun install or pnpm add for future dependencies
+
+2. Script Execution & Wrappers
+   • Run or wrap scripts (npm run dev, etc.)
+
+3. Agent Startup & Process Management
+   • PM2 start for Matilda/Effie
+
+4. Status Reporting Utilities
+   • Agent/file status reporters
+
+5. Archival & Recovery Tools
+   • Zip + backup helpers
+
+6. Testing & Validation
+   • Test runner + result reporter
