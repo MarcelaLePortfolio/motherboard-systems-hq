@@ -1,7 +1,9 @@
-import { refactorCodeWithOllama } from './handlers/refactorCodeWithOllama';
+import { convertCodeWithOllama } from './handlers/convertCodeWithOllama';
 import fs from 'fs';
 import path from 'path';
 import { runOllamaInference } from '../_local/utils/ollamaClient';
+import { refactorCodeWithOllama } from './handlers/refactorCodeWithOllama';
+import { translateCommentsWithOllama } from './handlers/translateCommentsWithOllama';
 
 /**
  * Cade Command Router
@@ -14,6 +16,7 @@ import { runOllamaInference } from '../_local/utils/ollamaClient';
  *  - explain { file, outputPath? }
  *  - comment { file, outputPath? }
  *  - refactor { file, outputPath? }
+ *  - translate { file, language, outputPath? }
  */
 export async function cadeCommandRouter(command: string, args: any = {}) {
   try {
@@ -106,9 +109,9 @@ export async function cadeCommandRouter(command: string, args: any = {}) {
           '',
           'Return a detailed and beginner-friendly walkthrough. Include code references where helpful.',
           '',
-          '```ts',
+          "'''ts",
           content,
-          '```'
+          "'''"
         ].join('\n');
 
         const explanation = await runOllamaInference(prompt);
@@ -152,6 +155,10 @@ export async function cadeCommandRouter(command: string, args: any = {}) {
         }
 
         return { status: 'success', commented: commentedCode };
+      }
+
+            case 'translate': {
+        return await translateCommentsWithOllama(args);
       }
 
       case 'refactor': {
