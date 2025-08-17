@@ -18,6 +18,9 @@ import { ensureDir } from '../../_local/utils/fsHelpers';
 export async function cadeCommandRouter(command: string, args?: any) {
   try {
     switch (command) {
+      case 'list files': {
+        return await listFilesWithCade(args);
+      }
       case 'test': {
         return await runTestsWithCade(args);
       }
@@ -50,6 +53,9 @@ export async function cadeCommandRouter(command: string, args?: any) {
       case 'start agent': {
         return { status: 'error', message: `Unknown command: ${command}` };
     switch (command) {
+      case 'list files': {
+        return await listFilesWithCade(args);
+      }
       case 'test': {
         return await runTestsWithCade(args);
       }
@@ -182,4 +188,36 @@ async function runTestsWithCade(_: any) {
   });
 
   return { status: "success", results };
+}
+async function listFilesWithCade(args: any) {
+  const { readdirSync, statSync } = await import("node:fs");
+  const { join, resolve } = await import("node:path");
+  const ROOT = resolve(".");
+
+  function walk(dir: string) {
+    const result: any[] = [];
+    const entries = readdirSync(dir);
+
+    for (const entry of entries) {
+      const fullPath = resolve(dir, entry);
+      if (!fullPath.startsWith(ROOT)) continue;
+
+      const stats = statSync(fullPath);
+      result.push(
+        stats.isDirectory()
+          ? { type: "folder", name: entry, children: walk(fullPath) }
+          : { type: "file", name: entry }
+      );
+    }
+
+    return result;
+  }
+
+  const targetDir = args?.path || ".";
+  try {
+    const tree = walk(targetDir);
+    return { status: "success", tree };
+  } catch (err: any) {
+    return { status: "error", message: err.message };
+  }
 }
