@@ -1,0 +1,37 @@
+    switch (command) {
+      case 'translate': {
+        return await translateCommentsWithOllama(args);
+      }
+      case 'convert': {
+        return await convertCodeWithOllama(args);
+      }
+      case 'comment': {
+        return await commentCodeWithOllama(args);
+      }
+      case 'refactor': {
+        return await refactorCodeWithCade(args);
+      }
+      case 'install dependencies': {
+        return await installDepsWithCade(args);
+      }
+      case 'start agent': {
+        return await startAgentWithPM2(args);
+      }
+      case 'generate': {
+        return await generateFileWithOllama(args);
+      }
+      case 'summarize': {
+        return await summarizeWithOllama(args);
+      }
+      case 'explain': {
+        return await explainCodeWithOllama(args);
+      }
+      case 'format': {
+        return await formatCommentsWithOllama(args);
+      }
+      case 'run command': {
+        return await runCommandWithCade(args);
+      }
+      default:
+        return { status: 'error', message: \`Unknown command: \${command}\` };
+    }

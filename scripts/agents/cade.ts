@@ -5,6 +5,7 @@ import { generateFileWithOllama } from './handlers/generateFileWithOllama';
 import { summarizeWithOllama } from './handlers/summarizeWithOllama';
 import { explainCodeWithOllama } from './handlers/explainCodeWithOllama';
 import { formatCommentsWithOllama } from './handlers/formatCommentsWithOllama';
+import { runCommandWithCade } from './handlers/runCommandWithCade';
 import { commentCodeWithOllama } from './handlers/commentCodeWithOllama';
 import { translateCommentsWithOllama } from './handlers/translateCommentsWithOllama';
 import { convertCodeWithOllama } from './handlers/convertCodeWithOllama';
@@ -38,28 +39,45 @@ export async function cadeCommandRouter(command: string, args?: any) {
       }
 
       case 'start agent': {
+        return { status: 'error', message: `Unknown command: ${command}` };
+    switch (command) {
+      case 'translate': {
+        return await translateCommentsWithOllama(args);
+      }
+      case 'convert': {
+        return await convertCodeWithOllama(args);
+      }
+      case 'comment': {
+        return await commentCodeWithOllama(args);
+      }
+      case 'refactor': {
+        return await refactorCodeWithCade(args);
+      }
+      case 'install dependencies': {
+        return await installDepsWithCade(args);
+      }
+      case 'start agent': {
         return await startAgentWithPM2(args);
       }
-
       case 'generate': {
         return await generateFileWithOllama(args);
       }
-
       case 'summarize': {
         return await summarizeWithOllama(args);
       }
-
       case 'explain': {
         return await explainCodeWithOllama(args);
       }
-
       case 'format': {
         return await formatCommentsWithOllama(args);
       }
-
+      case 'run command': {
+        return await runCommandWithCade(args);
+      }
       default:
-        return { status: 'error', message: `Unknown command: ${command}` };
+        return { status: "error", message: `Unknown command: ${command}` };
     }
+    }    }
   } catch (err: any) {
     return { status: 'error', message: err.message || String(err) };
   }
