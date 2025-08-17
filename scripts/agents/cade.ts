@@ -18,6 +18,9 @@ import { ensureDir } from '../../_local/utils/fsHelpers';
 export async function cadeCommandRouter(command: string, args?: any) {
   try {
     switch (command) {
+    case 'commit changes': {
+      return await commitChangesWithCade(args);
+    }
     case 'delete': {
       return await deleteWithCade(args);
     }
@@ -59,6 +62,9 @@ export async function cadeCommandRouter(command: string, args?: any) {
       case 'start agent': {
         return { status: 'error', message: `Unknown command: ${command}` };
     switch (command) {
+    case 'commit changes': {
+      return await commitChangesWithCade(args);
+    }
     case 'delete': {
       return await deleteWithCade(args);
     }
@@ -251,4 +257,26 @@ async function deleteWithCade(args: any) {
   } catch (err: any) {
     return { status: "error", message: err.message };
   }
+}
+
+async function commitChangesWithCade(args: any) {
+  const { exec } = await import("node:child_process");
+
+  const commitMessage =
+    args?.message?.trim() || "🧠 Cade auto-commit: unspecified changes";
+
+  const commands = `
+    git add . &&
+    git commit -m "${commitMessage.replace(/"/g, '\\"')}"
+  `;
+
+  return new Promise((resolve) => {
+    exec(commands, (err, stdout, stderr) => {
+      if (err) {
+        resolve({ status: "error", message: stderr.trim() || err.message });
+      } else {
+        resolve({ status: "success", message: stdout.trim() });
+      }
+    });
+  });
 }
