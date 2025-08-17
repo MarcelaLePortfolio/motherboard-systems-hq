@@ -18,6 +18,12 @@ import { ensureDir } from '../../_local/utils/fsHelpers';
 export async function cadeCommandRouter(command: string, args?: any) {
   try {
     switch (command) {
+    case 'delete': {
+      return await deleteWithCade(args);
+    }
+    case 'delete': {
+      return await deleteWithCade(args);
+    }
       case 'list files': {
         return await listFilesWithCade(args);
       }
@@ -53,6 +59,12 @@ export async function cadeCommandRouter(command: string, args?: any) {
       case 'start agent': {
         return { status: 'error', message: `Unknown command: ${command}` };
     switch (command) {
+    case 'delete': {
+      return await deleteWithCade(args);
+    }
+    case 'delete': {
+      return await deleteWithCade(args);
+    }
       case 'list files': {
         return await listFilesWithCade(args);
       }
@@ -217,6 +229,25 @@ async function listFilesWithCade(args: any) {
   try {
     const tree = walk(targetDir);
     return { status: "success", tree };
+  } catch (err: any) {
+    return { status: "error", message: err.message };
+  }
+}
+async function deleteWithCade(args: any) {
+  const { rmSync, statSync } = await import("node:fs");
+  const { resolve } = await import("node:path");
+
+  const ROOT = resolve(".");
+  const target = resolve(args?.path || "");
+
+  if (!target.startsWith(ROOT)) {
+    return { status: "error", message: "Unsafe delete path rejected." };
+  }
+
+  try {
+    const stats = statSync(target);
+    rmSync(target, { recursive: stats.isDirectory(), force: true });
+    return { status: "success", message: `🗑️ Deleted: ${target}` };
   } catch (err: any) {
     return { status: "error", message: err.message };
   }
