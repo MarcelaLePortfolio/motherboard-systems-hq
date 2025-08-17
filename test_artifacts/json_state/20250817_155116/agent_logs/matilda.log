@@ -1,0 +1,693 @@
+open /Users/marcela-dev/.cloudflared/matilda.yml: no such file or directory
+Tunnel credentials file '/Users/marcela-dev/.cloudflared/17d1a597-00f2-4404-a613-1c97a8ac9464.json' doesn't exist or is not a file
+2025-08-10T04:16:19Z INF Starting tunnel tunnelID=17d1a597-00f2-4404-a613-1c97a8ac9464
+2025-08-10T04:16:19Z INF Version 2025.7.0 (Checksum 2338d4605adbc66185d44ca1d9cc338be8e6e9ec978d59517ce47f1d9658955d)
+2025-08-10T04:16:19Z INF GOOS: darwin, GOVersion: go1.24.4, GoArch: arm64
+2025-08-10T04:16:19Z INF Settings: map[token:*****]
+2025-08-10T04:16:19Z INF cloudflared will not automatically update if installed by a package manager.
+2025-08-10T04:16:19Z INF Generated Connector ID: 1b4279ae-6671-465c-b2d4-1582d61e2bd3
+2025-08-10T04:16:19Z INF Initial protocol quic
+2025-08-10T04:16:19Z INF ICMP proxy will use 10.0.0.186 as source for IPv4
+2025-08-10T04:16:19Z INF ICMP proxy will use fe80::1cd2:4225:944d:8543 in zone en0 as source for IPv6
+2025-08-10T04:16:19Z INF Created ICMP proxy listening on 10.0.0.186:0
+2025-08-10T04:16:19Z INF ICMP proxy will use 10.0.0.186 as source for IPv4
+2025-08-10T04:16:19Z INF ICMP proxy will use fe80::1cd2:4225:944d:8543 in zone en0 as source for IPv6
+2025-08-10T04:16:19Z INF Starting metrics server on 127.0.0.1:20241/metrics
+2025-08-10T04:16:19Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=0 event=0 ip=198.41.200.13
+2025-08-10T04:16:19Z INF Registered tunnel connection connIndex=0 connection=c98e682f-865e-49d1-a2c6-b0f3c0f9eb00 event=0 ip=198.41.200.13 location=lax01 protocol=quic
+2025-08-10T04:16:19Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=1 event=0 ip=198.41.192.227
+2025-08-10T04:16:19Z INF Registered tunnel connection connIndex=1 connection=2da06d84-b22b-44ed-9fb7-d6cb79214ad1 event=0 ip=198.41.192.227 location=lax08 protocol=quic
+2025-08-10T04:16:20Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=2 event=0 ip=198.41.192.27
+2025-08-10T04:16:20Z INF Registered tunnel connection connIndex=2 connection=75d1c4cb-9420-474a-9cd9-4c66c6189311 event=0 ip=198.41.192.27 location=lax07 protocol=quic
+2025-08-10T04:16:21Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=3 event=0 ip=198.41.200.63
+2025-08-10T04:16:21Z INF Registered tunnel connection connIndex=3 connection=d08a7cb8-a32c-4e2e-bc00-bc709fc324d3 event=0 ip=198.41.200.63 location=lax01 protocol=quic
+Incorrect Usage: flag provided but not defined: -no-autoupdate
+
+NAME:
+  cloudflared tunnel run - Proxy a local web server by running the given tunnel
+
+USAGE:
+  cloudflared tunnel [tunnel command options] run [subcommand options] [TUNNEL]
+
+DESCRIPTION:
+  Runs the tunnel identified by name or UUID, creating highly available connections
+  between your server and the Cloudflare edge. You can provide name or UUID of tunnel to run either as the
+  last command line argument or in the configuration file using "tunnel: TUNNEL".
+
+  This command requires the tunnel credentials file created when "cloudflared tunnel create" was run,
+  however it does not need access to cert.pem from "cloudflared login" if you identify the tunnel by UUID.
+  If you experience other problems running the tunnel, "cloudflared tunnel cleanup" may help by removing
+  any old connection records.
+
+
+TUNNEL COMMAND OPTIONS:
+   --config value           Specifies a config file in YAML format.
+   --origincert value       Path to the certificate generated for your origin when you run cloudflared login. (default: "/Users/marcela-dev/.cloudflared/cert.pem") [$TUNNEL_ORIGIN_CERT]
+   --autoupdate-freq value  Autoupdate frequency. Default is 24h0m0s. (default: 24h0m0s)
+   --no-autoupdate          Disable periodic check for updates, restarting the server with the new version. (default: false) [$NO_AUTOUPDATE]
+   --metrics value          Listen address for metrics reporting. If no address is passed cloudflared will try to bind to [localhost:20241 localhost:20242 localhost:20243 localhost:20244 localhost:20245].
+If all are unavailable, a random port will be used. Note that when running cloudflared from an virtual
+environment the default address binds to all interfaces, hence, it is important to isolate the host
+and virtualized host network stacks from each other (default: "localhost:0") [$TUNNEL_METRICS]
+   --pidfile value                                     Write the application's PID to this file after first successful connection. [$TUNNEL_PIDFILE]
+   --loglevel value                                    Application logging level {debug, info, warn, error, fatal}. At debug level cloudflared will log request URL, method, protocol, content length, as well as, all request and response headers. This can expose sensitive information in your logs. (default: "info") [$TUNNEL_LOGLEVEL]
+   --transport-loglevel value, --proto-loglevel value  Transport logging level(previously called protocol logging level) {debug, info, warn, error, fatal} (default: "info") [$TUNNEL_PROTO_LOGLEVEL, $TUNNEL_TRANSPORT_LOGLEVEL]
+   --logfile value                                     Save application log to this file for reporting issues. [$TUNNEL_LOGFILE]
+   --log-directory value                               Save application log to this directory for reporting issues. [$TUNNEL_LOGDIRECTORY]
+   --trace-output value                                Name of trace output file, generated when cloudflared stops. [$TUNNEL_TRACE_OUTPUT]
+   --output value                                      Output format for the logs (default, json) (default: "default") [$TUNNEL_MANAGEMENT_OUTPUT, $TUNNEL_LOG_OUTPUT]
+  
+SUBCOMMAND OPTIONS:
+  --credentials-file value, --cred-file value  Filepath at which to read/write the tunnel credentials [$TUNNEL_CRED_FILE]
+  --credentials-contents value                 Contents of the tunnel credentials JSON file to use. When provided along with credentials-file, this will take precedence. [$TUNNEL_CRED_CONTENTS]
+  --post-quantum, --pq                         When given creates an experimental post-quantum secure tunnel (default: false) [$TUNNEL_POST_QUANTUM]
+  --features value, -F value                   Opt into various features that are still being developed or tested.  (accepts multiple inputs)
+  --token value                                The Tunnel token. When provided along with credentials, this will take precedence. Also takes precedence over token-file [$TUNNEL_TOKEN]
+  --token-file value                           Filepath at which to read the tunnel token. When provided along with credentials, this will take precedence. [$TUNNEL_TOKEN_FILE]
+  --icmpv4-src value                           Source address to send/receive ICMPv4 messages. If not provided cloudflared will dial a local address to determine the source IP or fallback to 0.0.0.0. [$TUNNEL_ICMPV4_SRC]
+  --icmpv6-src value                           Source address and the interface name to send/receive ICMPv6 messages. If not provided cloudflared will dial a local address to determine the source IP or fallback to ::. [$TUNNEL_ICMPV6_SRC]
+  --max-active-flows value                     Overrides the remote configuration for max active private network flows (TCP/UDP) that this cloudflared instance supports (default: 0) [$TUNNEL_MAX_ACTIVE_FLOWS]
+  --dns-resolver-addrs value                   Overrides the dynamic DNS resolver resolution to use these address:port's instead.  (accepts multiple inputs) [$TUNNEL_DNS_RESOLVER_ADDRS]
+  --url URL                                    Connect to the local webserver at URL. (default: "http://localhost:8080") [$TUNNEL_URL]
+  --hello-world                                Run Hello World Server (default: false) [$TUNNEL_HELLO_WORLD]
+  --socks5 --url                               specify if this tunnel is running as a SOCK5 Server This flag only takes effect if you define your origin with --url and if you do not use ingress rules. The recommended way is to rely on ingress rules and define this property under `originRequest` as per https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/configuration/configuration-file/ingress (default: false) [$TUNNEL_SOCKS]
+  --proxy-connect-timeout --url                HTTP proxy timeout for establishing a new connection This flag only takes effect if you define your origin with --url and if you do not use ingress rules. The recommended way is to rely on ingress rules and define this property under `originRequest` as per https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/configuration/configuration-file/ingress (default: 30s)
+  --proxy-tls-timeout --url                    HTTP proxy timeout for completing a TLS handshake This flag only takes effect if you define your origin with --url and if you do not use ingress rules. The recommended way is to rely on ingress rules and define this property under `originRequest` as per https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/configuration/configuration-file/ingress (default: 10s)
+  --proxy-tcp-keepalive --url                  HTTP proxy TCP keepalive duration This flag only takes effect if you define your origin with --url and if you do not use ingress rules. The recommended way is to rely on ingress rules and define this property under `originRequest` as per https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/configuration/configuration-file/ingress (default: 30s)
+  --proxy-no-happy-eyeballs --url              HTTP proxy should disable "happy eyeballs" for IPv4/v6 fallback This flag only takes effect if you define your origin with --url and if you do not use ingress rules. The recommended way is to rely on ingress rules and define this property under `originRequest` as per https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/configuration/configuration-file/ingress (default: false)
+  --proxy-keepalive-connections --url          HTTP proxy maximum keepalive connection pool size This flag only takes effect if you define your origin with --url and if you do not use ingress rules. The recommended way is to rely on ingress rules and define this property under `originRequest` as per https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/configuration/configuration-file/ingress (default: 100)
+  --proxy-keepalive-timeout --url              HTTP proxy timeout for closing an idle connection This flag only takes effect if you define your origin with --url and if you do not use ingress rules. The recommended way is to rely on ingress rules and define this property under `originRequest` as per https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/configuration/configuration-file/ingress (default: 1m30s)
+  --proxy-connection-timeout value             DEPRECATED. No longer has any effect. (default: 1m30s)
+  --proxy-expect-continue-timeout value        DEPRECATED. No longer has any effect. (default: 1m30s)
+  --http-host-header --url                     Sets the HTTP Host header for the local webserver. This flag only takes effect if you define your origin with --url and if you do not use ingress rules. The recommended way is to rely on ingress rules and define this property under `originRequest` as per https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/configuration/configuration-file/ingress [$TUNNEL_HTTP_HOST_HEADER]
+  --origin-server-name --url                   Hostname on the origin server certificate. This flag only takes effect if you define your origin with --url and if you do not use ingress rules. The recommended way is to rely on ingress rules and define this property under `originRequest` as per https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/configuration/configuration-file/ingress [$TUNNEL_ORIGIN_SERVER_NAME]
+  --unix-socket value                          Path to unix socket to use instead of --url [$TUNNEL_UNIX_SOCKET]
+  --origin-ca-pool --url                       Path to the CA for the certificate of your origin. This option should be used only if your certificate is not signed by Cloudflare. This flag only takes effect if you define your origin with --url and if you do not use ingress rules. The recommended way is to rely on ingress rules and define this property under `originRequest` as per https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/configuration/configuration-file/ingress [$TUNNEL_ORIGIN_CA_POOL]
+  --no-tls-verify --url                        Disables TLS verification of the certificate presented by your origin. Will allow any certificate from the origin to be accepted. Note: The connection from your machine to Cloudflare's Edge is still encrypted. This flag only takes effect if you define your origin with --url and if you do not use ingress rules. The recommended way is to rely on ingress rules and define this property under `originRequest` as per https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/configuration/configuration-file/ingress (default: false) [$NO_TLS_VERIFY]
+  --no-chunked-encoding --url                  Disables chunked transfer encoding; useful if you are running a WSGI server. This flag only takes effect if you define your origin with --url and if you do not use ingress rules. The recommended way is to rely on ingress rules and define this property under `originRequest` as per https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/configuration/configuration-file/ingress (default: false) [$TUNNEL_NO_CHUNKED_ENCODING]
+  --http2-origin                               Enables HTTP/2 origin servers. (default: false) [$TUNNEL_ORIGIN_ENABLE_HTTP2]
+  --bastion                                    Runs as jump host (default: false) [$TUNNEL_BASTION]
+  --proxy-address value                        Listen address for the proxy. (default: "127.0.0.1") [$TUNNEL_PROXY_ADDRESS]
+  --proxy-port value                           Listen port for the proxy. (default: 0) [$TUNNEL_PROXY_PORT]
+  --help, -h                                   show help (default: false)
+  
+tunnel credentials file not found
+2025-08-10T04:43:09Z WRN Failed to serve tunnel connection error="timeout: no recent network activity" connIndex=3 event=0 ip=198.41.200.63
+2025-08-10T04:43:09Z WRN Serve tunnel error error="timeout: no recent network activity" connIndex=3 event=0 ip=198.41.200.63
+2025-08-10T04:43:09Z INF Retrying connection in up to 1s connIndex=3 event=0 ip=198.41.200.63
+2025-08-10T04:43:09Z WRN Failed to serve tunnel connection error="context canceled" connIndex=0 event=0 ip=198.41.200.13
+2025-08-10T04:43:09Z INF Retrying connection in up to 1s connIndex=0 event=0 ip=198.41.200.13
+2025-08-10T04:43:10Z WRN Failed to serve tunnel connection error="context canceled" connIndex=1 event=0 ip=198.41.192.227
+2025-08-10T04:43:10Z INF Retrying connection in up to 1s connIndex=1 event=0 ip=198.41.192.227
+2025-08-10T04:58:16Z WRN Connection terminated error="context canceled" connIndex=1
+2025-08-10T04:58:17Z WRN Failed to serve tunnel connection error="context canceled" connIndex=2 event=0 ip=198.41.192.27
+2025-08-10T04:58:17Z INF Retrying connection in up to 1s connIndex=2 event=0 ip=198.41.192.27
+2025-08-10T04:58:17Z ERR Connection terminated error="context canceled" connIndex=0
+2025-08-10T04:58:18Z ERR Connection terminated error="timeout: no recent network activity" connIndex=3
+2025-08-10T04:58:19Z ERR Connection terminated error="context canceled" connIndex=2
+2025-08-10T04:58:19Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=1 event=0 ip=198.41.192.227
+2025-08-10T04:58:19Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=0 event=0 ip=198.41.200.13
+2025-08-10T04:58:19Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=2 event=0 ip=198.41.192.27
+2025-08-10T04:58:19Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=3 event=0 ip=198.41.200.73
+2025-08-10T04:58:19Z INF Registered tunnel connection connIndex=1 connection=74336675-a8e1-40f7-a7b8-ff9e36970057 event=0 ip=198.41.192.227 location=lax08 protocol=quic
+2025-08-10T04:58:19Z INF Registered tunnel connection connIndex=3 connection=717c1713-6d82-42b5-89dd-1a8479e9cd70 event=0 ip=198.41.200.73 location=lax01 protocol=quic
+2025-08-10T04:58:19Z INF Registered tunnel connection connIndex=0 connection=b9972000-b86a-492d-95fc-83c7e3e5b84d event=0 ip=198.41.200.13 location=lax01 protocol=quic
+2025-08-10T04:58:19Z INF Registered tunnel connection connIndex=2 connection=343932fd-8409-4f7f-8b5d-29a237c0ae03 event=0 ip=198.41.192.27 location=lax07 protocol=quic
+2025-08-10T05:14:58Z WRN Failed to serve tunnel connection error="context canceled" connIndex=2 event=0 ip=198.41.192.27
+2025-08-10T05:14:58Z INF Retrying connection in up to 1s connIndex=2 event=0 ip=198.41.192.27
+2025-08-10T05:30:18Z WRN Failed to serve tunnel connection error="context canceled" connIndex=1 event=0 ip=198.41.192.227
+2025-08-10T05:30:18Z INF Retrying connection in up to 1s connIndex=1 event=0 ip=198.41.192.227
+2025-08-10T05:30:18Z WRN Failed to serve tunnel connection error="context canceled" connIndex=3 event=0 ip=198.41.200.73
+2025-08-10T05:30:18Z INF Retrying connection in up to 1s connIndex=3 event=0 ip=198.41.200.73
+2025-08-10T05:30:18Z ERR Failed to serve tunnel connection error="context canceled" connIndex=0 event=0 ip=198.41.200.13
+2025-08-10T05:30:18Z INF Retrying connection in up to 1s connIndex=0 event=0 ip=198.41.200.13
+2025-08-10T05:30:18Z ERR Connection terminated error="context canceled" connIndex=3
+2025-08-10T05:30:18Z ERR Connection terminated error="context canceled" connIndex=2
+2025-08-10T05:30:19Z ERR Connection terminated error="context canceled" connIndex=0
+2025-08-10T05:30:20Z ERR Connection terminated error="context canceled" connIndex=1
+2025-08-10T05:48:13Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=0 event=0 ip=198.41.200.13
+2025-08-10T05:48:13Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=1 event=0 ip=198.41.192.227
+2025-08-10T05:48:13Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=2 event=0 ip=198.41.192.27
+2025-08-10T05:48:13Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=3 event=0 ip=198.41.200.73
+2025-08-10T05:48:13Z INF Registered tunnel connection connIndex=1 connection=97c2f58d-98fd-4bdf-8991-509f9b05420e event=0 ip=198.41.192.227 location=lax08 protocol=quic
+2025-08-10T05:48:13Z INF Registered tunnel connection connIndex=2 connection=98ab5287-b68d-479e-ac60-4717cf8e7314 event=0 ip=198.41.192.27 location=lax07 protocol=quic
+2025-08-10T05:48:13Z INF Registered tunnel connection connIndex=3 connection=ee1e0fe0-e90a-4bb6-af37-ddc779a419de event=0 ip=198.41.200.73 location=lax01 protocol=quic
+2025-08-10T05:48:13Z INF Registered tunnel connection connIndex=0 connection=736c4d8a-14cc-4392-9de9-e1d9ff9e6133 event=0 ip=198.41.200.13 location=lax01 protocol=quic
+2025-08-10T06:00:56Z WRN Failed to serve tunnel connection error="context canceled" connIndex=0 event=0 ip=198.41.200.13
+2025-08-10T06:00:56Z INF Retrying connection in up to 1s connIndex=0 event=0 ip=198.41.200.13
+2025-08-10T06:00:57Z WRN Connection terminated error="context canceled" connIndex=0
+2025-08-10T06:00:57Z WRN Failed to serve tunnel connection error="context canceled" connIndex=1 event=0 ip=198.41.192.227
+2025-08-10T06:00:57Z INF Retrying connection in up to 1s connIndex=1 event=0 ip=198.41.192.227
+2025-08-10T06:00:57Z WRN Failed to serve tunnel connection error="context canceled" connIndex=2 event=0 ip=198.41.192.27
+2025-08-10T06:00:57Z INF Retrying connection in up to 1s connIndex=2 event=0 ip=198.41.192.27
+2025-08-10T06:00:57Z ERR Failed to serve tunnel connection error="context canceled" connIndex=3 event=0 ip=198.41.200.73
+2025-08-10T06:00:57Z INF Retrying connection in up to 1s connIndex=3 event=0 ip=198.41.200.73
+2025-08-10T06:00:58Z ERR Connection terminated error="context canceled" connIndex=2
+2025-08-10T06:00:58Z ERR Connection terminated error="context canceled" connIndex=1
+2025-08-10T06:00:58Z ERR Connection terminated error="context canceled" connIndex=3
+2025-08-10T06:01:13Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=2 event=0 ip=198.41.192.27
+2025-08-10T06:01:13Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=3 event=0 ip=198.41.200.73
+2025-08-10T06:01:13Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=1 event=0 ip=198.41.192.227
+2025-08-10T06:01:13Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=0 event=0 ip=198.41.200.13
+2025-08-10T06:01:13Z INF Registered tunnel connection connIndex=3 connection=671a875d-6279-457b-a735-fd340fbf55df event=0 ip=198.41.200.73 location=lax01 protocol=quic
+2025-08-10T06:01:13Z INF Registered tunnel connection connIndex=1 connection=a83f4d32-8a6b-4b64-8cf4-6a892dba6609 event=0 ip=198.41.192.227 location=lax08 protocol=quic
+2025-08-10T06:01:13Z INF Registered tunnel connection connIndex=0 connection=929b7f96-0597-4813-a557-2a57e9d3b8c8 event=0 ip=198.41.200.13 location=lax01 protocol=quic
+2025-08-10T06:01:13Z INF Registered tunnel connection connIndex=2 connection=7af3bdc3-09a6-4941-a90b-bebf604c6c80 event=0 ip=198.41.192.27 location=lax07 protocol=quic
+2025-08-10T06:49:50Z WRN Failed to serve tunnel connection error="context canceled" connIndex=0 event=0 ip=198.41.200.13
+2025-08-10T06:49:50Z INF Retrying connection in up to 1s connIndex=0 event=0 ip=198.41.200.13
+2025-08-10T06:49:50Z WRN Connection terminated error="context canceled" connIndex=0
+2025-08-10T07:06:55Z WRN Failed to serve tunnel connection error="context canceled" connIndex=1 event=0 ip=198.41.192.227
+2025-08-10T07:06:55Z INF Retrying connection in up to 1s connIndex=1 event=0 ip=198.41.192.227
+2025-08-10T07:06:55Z WRN Failed to serve tunnel connection error="failed to accept QUIC stream: timeout: no recent network activity" connIndex=2 event=0 ip=198.41.192.27
+2025-08-10T07:06:55Z WRN Serve tunnel error error="failed to accept QUIC stream: timeout: no recent network activity" connIndex=2 event=0 ip=198.41.192.27
+2025-08-10T07:06:55Z INF Retrying connection in up to 1s connIndex=2 event=0 ip=198.41.192.27
+2025-08-10T07:06:56Z WRN Failed to serve tunnel connection error="failed to accept QUIC stream: timeout: no recent network activity" connIndex=3 event=0 ip=198.41.200.73
+2025-08-10T07:06:56Z WRN Serve tunnel error error="failed to accept QUIC stream: timeout: no recent network activity" connIndex=3 event=0 ip=198.41.200.73
+2025-08-10T07:06:56Z INF Retrying connection in up to 1s connIndex=3 event=0 ip=198.41.200.73
+2025-08-10T07:06:57Z ERR Connection terminated error="context canceled" connIndex=1
+2025-08-10T07:06:57Z ERR Connection terminated error="failed to accept QUIC stream: timeout: no recent network activity" connIndex=3
+2025-08-10T07:06:57Z ERR Connection terminated error="failed to accept QUIC stream: timeout: no recent network activity" connIndex=2
+2025-08-10T07:39:43Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=1 event=0 ip=198.41.192.227
+2025-08-10T07:39:43Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=3 event=0 ip=198.41.200.73
+2025-08-10T07:39:43Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=2 event=0 ip=198.41.192.27
+2025-08-10T07:39:43Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=0 event=0 ip=198.41.200.13
+2025-08-10T07:39:43Z INF Registered tunnel connection connIndex=3 connection=b78064e0-17b6-414f-a12c-503c63b871bc event=0 ip=198.41.200.73 location=lax01 protocol=quic
+2025-08-10T07:39:43Z INF Registered tunnel connection connIndex=1 connection=5b352f84-e6c7-481b-b893-3e8f811f2df6 event=0 ip=198.41.192.227 location=lax08 protocol=quic
+2025-08-10T07:39:43Z INF Registered tunnel connection connIndex=2 connection=a4c00cca-ea0f-4f8d-b561-ae7796c46b8b event=0 ip=198.41.192.27 location=lax07 protocol=quic
+2025-08-10T07:39:43Z INF Registered tunnel connection connIndex=0 connection=1b7e6f0f-b8f1-4077-af42-292380db9ff0 event=0 ip=198.41.200.13 location=lax01 protocol=quic
+2025-08-10T07:55:02Z WRN Failed to serve tunnel connection error="context canceled" connIndex=2 event=0 ip=198.41.192.27
+2025-08-10T07:55:02Z INF Retrying connection in up to 1s connIndex=2 event=0 ip=198.41.192.27
+2025-08-10T07:55:02Z WRN Failed to serve tunnel connection error="context canceled" connIndex=1 event=0 ip=198.41.192.227
+2025-08-10T07:55:02Z INF Retrying connection in up to 1s connIndex=1 event=0 ip=198.41.192.227
+2025-08-10T07:55:02Z WRN Failed to serve tunnel connection error="context canceled" connIndex=3 event=0 ip=198.41.200.73
+2025-08-10T07:55:02Z INF Retrying connection in up to 1s connIndex=3 event=0 ip=198.41.200.73
+2025-08-10T07:55:02Z ERR Failed to serve tunnel connection error="context canceled" connIndex=0 event=0 ip=198.41.200.13
+2025-08-10T07:55:02Z INF Retrying connection in up to 1s connIndex=0 event=0 ip=198.41.200.13
+2025-08-10T08:11:45Z ERR Connection terminated error="context canceled" connIndex=3
+2025-08-10T08:11:45Z ERR Connection terminated error="context canceled" connIndex=1
+2025-08-10T08:11:46Z ERR Connection terminated error="context canceled" connIndex=0
+2025-08-10T08:11:46Z ERR Connection terminated error="context canceled" connIndex=2
+2025-08-10T08:48:57Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=1 event=0 ip=198.41.192.227
+2025-08-10T08:48:57Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=2 event=0 ip=198.41.192.27
+2025-08-10T08:48:57Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=3 event=0 ip=198.41.200.73
+2025-08-10T08:48:57Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=0 event=0 ip=198.41.200.13
+2025-08-10T08:48:57Z INF Registered tunnel connection connIndex=3 connection=0bdf925b-919b-445a-b423-3e1e80160cf4 event=0 ip=198.41.200.73 location=lax01 protocol=quic
+2025-08-10T08:48:57Z INF Registered tunnel connection connIndex=1 connection=d7c6a519-1b56-46b4-882e-6ad1e8ecb4e3 event=0 ip=198.41.192.227 location=lax08 protocol=quic
+2025-08-10T08:48:57Z INF Registered tunnel connection connIndex=0 connection=fc8a71ef-a388-4f79-95cc-333972175a74 event=0 ip=198.41.200.13 location=lax01 protocol=quic
+2025-08-10T08:48:57Z INF Registered tunnel connection connIndex=2 connection=0b8f6fc4-cd89-47b8-8c76-646ea9cd3ca0 event=0 ip=198.41.192.27 location=lax07 protocol=quic
+2025-08-10T09:06:06Z WRN Failed to serve tunnel connection error="timeout: no recent network activity" connIndex=0 event=0 ip=198.41.200.13
+2025-08-10T09:06:06Z WRN Serve tunnel error error="timeout: no recent network activity" connIndex=0 event=0 ip=198.41.200.13
+2025-08-10T09:06:06Z INF Retrying connection in up to 1s connIndex=0 event=0 ip=198.41.200.13
+2025-08-10T09:06:07Z WRN Connection terminated error="timeout: no recent network activity" connIndex=0
+2025-08-10T09:23:27Z WRN Failed to serve tunnel connection error="context canceled" connIndex=1 event=0 ip=198.41.192.227
+2025-08-10T09:23:27Z INF Retrying connection in up to 1s connIndex=1 event=0 ip=198.41.192.227
+2025-08-10T09:23:27Z WRN Failed to serve tunnel connection error="context canceled" connIndex=3 event=0 ip=198.41.200.73
+2025-08-10T09:23:27Z WRN Failed to serve tunnel connection error="timeout: no recent network activity" connIndex=2 event=0 ip=198.41.192.27
+2025-08-10T09:23:27Z INF Retrying connection in up to 1s connIndex=3 event=0 ip=198.41.200.73
+2025-08-10T09:23:27Z ERR Serve tunnel error error="timeout: no recent network activity" connIndex=2 event=0 ip=198.41.192.27
+2025-08-10T09:23:27Z INF Retrying connection in up to 1s connIndex=2 event=0 ip=198.41.192.27
+2025-08-10T09:23:27Z ERR Connection terminated error="context canceled" connIndex=3
+2025-08-10T09:23:28Z ERR Connection terminated error="timeout: no recent network activity" connIndex=2
+2025-08-10T09:23:29Z ERR Connection terminated error="context canceled" connIndex=1
+2025-08-10T09:23:44Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=2 event=0 ip=198.41.192.57
+2025-08-10T09:23:44Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=3 event=0 ip=198.41.200.73
+2025-08-10T09:23:44Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=0 event=0 ip=198.41.200.33
+2025-08-10T09:23:44Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=1 event=0 ip=198.41.192.227
+2025-08-10T09:23:44Z INF Registered tunnel connection connIndex=2 connection=717d31ed-3c5f-41dd-bd85-91cfdded2490 event=0 ip=198.41.192.57 location=lax08 protocol=quic
+2025-08-10T09:23:44Z INF Registered tunnel connection connIndex=0 connection=86ef3b1d-367e-48c3-8ef3-0d41710671e8 event=0 ip=198.41.200.33 location=lax06 protocol=quic
+2025-08-10T09:23:44Z INF Registered tunnel connection connIndex=1 connection=4aa458f5-8996-4b13-af6f-9507b2a38f9a event=0 ip=198.41.192.227 location=lax08 protocol=quic
+2025-08-10T09:23:44Z INF Registered tunnel connection connIndex=3 connection=2957a983-a0c1-42a7-9cb1-9acb7bf3d6a2 event=0 ip=198.41.200.73 location=lax01 protocol=quic
+2025-08-10T09:33:44Z WRN Failed to serve tunnel connection error="context canceled" connIndex=2 event=0 ip=198.41.192.57
+2025-08-10T09:33:44Z INF Retrying connection in up to 1s connIndex=2 event=0 ip=198.41.192.57
+2025-08-10T09:33:44Z WRN Failed to serve tunnel connection error="failed to accept QUIC stream: timeout: no recent network activity" connIndex=1 event=0 ip=198.41.192.227
+2025-08-10T09:33:44Z WRN Serve tunnel error error="failed to accept QUIC stream: timeout: no recent network activity" connIndex=1 event=0 ip=198.41.192.227
+2025-08-10T09:33:44Z WRN Failed to serve tunnel connection error="failed to accept QUIC stream: timeout: no recent network activity" connIndex=3 event=0 ip=198.41.200.73
+2025-08-10T09:33:44Z INF Retrying connection in up to 1s connIndex=1 event=0 ip=198.41.192.227
+2025-08-10T09:33:44Z WRN Serve tunnel error error="failed to accept QUIC stream: timeout: no recent network activity" connIndex=3 event=0 ip=198.41.200.73
+2025-08-10T09:33:44Z INF Retrying connection in up to 1s connIndex=3 event=0 ip=198.41.200.73
+2025-08-10T09:33:44Z WRN Failed to serve tunnel connection error="context canceled" connIndex=0 event=0 ip=198.41.200.33
+2025-08-10T09:33:44Z INF Retrying connection in up to 1s connIndex=0 event=0 ip=198.41.200.33
+2025-08-10T09:33:45Z ERR Connection terminated error="context canceled" connIndex=2
+2025-08-10T09:33:45Z ERR Connection terminated error="failed to accept QUIC stream: timeout: no recent network activity" connIndex=1
+2025-08-10T09:33:45Z ERR Connection terminated error="failed to accept QUIC stream: timeout: no recent network activity" connIndex=3
+2025-08-10T09:33:45Z ERR Connection terminated error="context canceled" connIndex=0
+2025-08-10T10:07:31Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=1 event=0 ip=198.41.192.227
+2025-08-10T10:07:31Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=3 event=0 ip=198.41.200.73
+2025-08-10T10:07:31Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=0 event=0 ip=198.41.200.33
+2025-08-10T10:07:31Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=2 event=0 ip=198.41.192.57
+2025-08-10T10:07:31Z INF Registered tunnel connection connIndex=2 connection=1198ff0d-6d88-4ba1-9452-470acaec8bb3 event=0 ip=198.41.192.57 location=lax08 protocol=quic
+2025-08-10T10:07:32Z INF Registered tunnel connection connIndex=0 connection=c98a7075-dd2b-4879-8519-e6602269eaac event=0 ip=198.41.200.33 location=lax06 protocol=quic
+2025-08-10T10:07:32Z INF Registered tunnel connection connIndex=1 connection=3faeb254-e1a6-4290-94b7-433b50c32bd9 event=0 ip=198.41.192.227 location=lax08 protocol=quic
+2025-08-10T10:07:32Z INF Registered tunnel connection connIndex=3 connection=b45b186a-f653-4670-b89b-5764c28b0fe0 event=0 ip=198.41.200.73 location=lax01 protocol=quic
+2025-08-10T10:24:21Z WRN Failed to serve tunnel connection error="context canceled" connIndex=3 event=0 ip=198.41.200.73
+2025-08-10T10:24:21Z INF Retrying connection in up to 1s connIndex=3 event=0 ip=198.41.200.73
+2025-08-10T10:24:21Z WRN Failed to serve tunnel connection error="context canceled" connIndex=0 event=0 ip=198.41.200.33
+2025-08-10T10:24:21Z INF Retrying connection in up to 1s connIndex=0 event=0 ip=198.41.200.33
+2025-08-10T10:24:21Z WRN Failed to serve tunnel connection error="context canceled" connIndex=2 event=0 ip=198.41.192.57
+2025-08-10T10:24:21Z INF Retrying connection in up to 1s connIndex=2 event=0 ip=198.41.192.57
+2025-08-10T10:24:23Z ERR Failed to serve tunnel connection error="context canceled" connIndex=1 event=0 ip=198.41.192.227
+2025-08-10T10:24:23Z INF Retrying connection in up to 1s connIndex=1 event=0 ip=198.41.192.227
+2025-08-10T10:24:23Z ERR Connection terminated error="context canceled" connIndex=3
+2025-08-10T10:24:23Z ERR Connection terminated error="context canceled" connIndex=0
+2025-08-10T10:24:24Z ERR Connection terminated error="context canceled" connIndex=2
+2025-08-10T10:24:24Z ERR Connection terminated error="context canceled" connIndex=1
+2025-08-10T10:34:45Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=2 event=0 ip=198.41.192.57
+2025-08-10T10:34:45Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=3 event=0 ip=198.41.200.73
+2025-08-10T10:34:45Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=0 event=0 ip=198.41.200.33
+2025-08-10T10:34:45Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=1 event=0 ip=198.41.192.227
+2025-08-10T10:34:45Z INF Registered tunnel connection connIndex=1 connection=06fd1833-4fdf-4de9-88ee-5cf14f7cef93 event=0 ip=198.41.192.227 location=lax08 protocol=quic
+2025-08-10T10:34:45Z INF Registered tunnel connection connIndex=2 connection=04206608-fbd5-4a24-aa48-0e66ff554e18 event=0 ip=198.41.192.57 location=lax08 protocol=quic
+2025-08-10T10:34:45Z INF Registered tunnel connection connIndex=0 connection=e01a9718-cfc1-4708-98df-e81f445afef0 event=0 ip=198.41.200.33 location=lax06 protocol=quic
+2025-08-10T10:34:45Z INF Registered tunnel connection connIndex=3 connection=1cc22383-837c-41be-a13c-db090bafe0f0 event=0 ip=198.41.200.73 location=lax01 protocol=quic
+2025-08-10T10:52:19Z WRN Failed to serve tunnel connection error="context canceled" connIndex=1 event=0 ip=198.41.192.227
+2025-08-10T10:52:19Z INF Retrying connection in up to 1s connIndex=1 event=0 ip=198.41.192.227
+2025-08-10T10:52:19Z WRN Failed to serve tunnel connection error="context canceled" connIndex=2 event=0 ip=198.41.192.57
+2025-08-10T10:52:19Z INF Retrying connection in up to 1s connIndex=2 event=0 ip=198.41.192.57
+2025-08-10T10:52:20Z WRN Failed to serve tunnel connection error="context canceled" connIndex=0 event=0 ip=198.41.200.33
+2025-08-10T10:52:20Z INF Retrying connection in up to 1s connIndex=0 event=0 ip=198.41.200.33
+2025-08-10T10:52:20Z ERR Failed to serve tunnel connection error="context canceled" connIndex=3 event=0 ip=198.41.200.73
+2025-08-10T10:52:20Z INF Retrying connection in up to 1s connIndex=3 event=0 ip=198.41.200.73
+2025-08-10T11:09:04Z ERR Connection terminated error="context canceled" connIndex=3
+2025-08-10T11:09:05Z ERR Connection terminated error="context canceled" connIndex=0
+2025-08-10T11:09:05Z ERR Connection terminated error="context canceled" connIndex=2
+2025-08-10T11:09:05Z ERR Connection terminated error="context canceled" connIndex=1
+2025-08-10T12:08:10Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=1 event=0 ip=198.41.192.227
+2025-08-10T12:08:10Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=3 event=0 ip=198.41.200.73
+2025-08-10T12:08:10Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=0 event=0 ip=198.41.200.33
+2025-08-10T12:08:10Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=2 event=0 ip=198.41.192.57
+2025-08-10T12:08:10Z INF Registered tunnel connection connIndex=3 connection=e652242d-8c93-4835-b426-250af4673006 event=0 ip=198.41.200.73 location=lax01 protocol=quic
+2025-08-10T12:08:10Z INF Registered tunnel connection connIndex=1 connection=5ad626f5-decf-43fd-a555-5c2c34f26d21 event=0 ip=198.41.192.227 location=lax08 protocol=quic
+2025-08-10T12:08:10Z INF Registered tunnel connection connIndex=2 connection=36451053-b97a-4ffe-b712-2493f893b922 event=0 ip=198.41.192.57 location=lax08 protocol=quic
+2025-08-10T12:08:10Z INF Registered tunnel connection connIndex=0 connection=83e182ed-18dc-4ab6-8989-20e5f6e9f498 event=0 ip=198.41.200.33 location=lax06 protocol=quic
+2025-08-10T12:36:39Z WRN Failed to serve tunnel connection error="context canceled" connIndex=3 event=0 ip=198.41.200.73
+2025-08-10T12:36:39Z WRN Failed to serve tunnel connection error="failed to accept QUIC stream: timeout: no recent network activity" connIndex=2 event=0 ip=198.41.192.57
+2025-08-10T12:36:39Z WRN Failed to serve tunnel connection error="context canceled" connIndex=1 event=0 ip=198.41.192.227
+2025-08-10T12:36:39Z WRN Serve tunnel error error="failed to accept QUIC stream: timeout: no recent network activity" connIndex=2 event=0 ip=198.41.192.57
+2025-08-10T12:36:39Z INF Retrying connection in up to 1s connIndex=1 event=0 ip=198.41.192.227
+2025-08-10T12:36:39Z INF Retrying connection in up to 1s connIndex=3 event=0 ip=198.41.200.73
+2025-08-10T12:36:39Z INF Retrying connection in up to 1s connIndex=2 event=0 ip=198.41.192.57
+2025-08-10T12:36:39Z ERR Failed to serve tunnel connection error="context canceled" connIndex=0 event=0 ip=198.41.200.33
+2025-08-10T12:36:39Z INF Retrying connection in up to 1s connIndex=0 event=0 ip=198.41.200.33
+2025-08-10T12:36:40Z ERR Connection terminated error="context canceled" connIndex=0
+2025-08-10T12:36:40Z ERR Connection terminated error="failed to accept QUIC stream: timeout: no recent network activity" connIndex=2
+2025-08-10T12:36:40Z ERR Connection terminated error="context canceled" connIndex=1
+2025-08-10T12:36:40Z ERR Connection terminated error="context canceled" connIndex=3
+2025-08-10T13:37:44Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=1 event=0 ip=198.41.192.227
+2025-08-10T13:37:44Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=0 event=0 ip=198.41.200.33
+2025-08-10T13:37:44Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=2 event=0 ip=198.41.192.57
+2025-08-10T13:37:44Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=3 event=0 ip=198.41.200.73
+2025-08-10T13:37:44Z INF Registered tunnel connection connIndex=2 connection=ce4e3dfb-9a4b-4265-9433-79c17619ed96 event=0 ip=198.41.192.57 location=lax08 protocol=quic
+2025-08-10T13:37:44Z INF Registered tunnel connection connIndex=0 connection=69d69561-9706-42b4-b29d-7e5e4048c7db event=0 ip=198.41.200.33 location=lax06 protocol=quic
+2025-08-10T13:37:44Z INF Registered tunnel connection connIndex=3 connection=8f305676-33db-43a6-809a-b48b77518ebd event=0 ip=198.41.200.73 location=lax01 protocol=quic
+2025-08-10T13:37:44Z INF Registered tunnel connection connIndex=1 connection=57968b16-ac77-466d-ab14-67b695365408 event=0 ip=198.41.192.227 location=lax08 protocol=quic
+2025-08-10T13:54:00Z WRN Failed to serve tunnel connection error="context canceled" connIndex=3 event=0 ip=198.41.200.73
+2025-08-10T13:54:00Z INF Retrying connection in up to 1s connIndex=3 event=0 ip=198.41.200.73
+2025-08-10T13:54:00Z WRN Failed to serve tunnel connection error="context canceled" connIndex=2 event=0 ip=198.41.192.57
+2025-08-10T13:54:00Z INF Retrying connection in up to 1s connIndex=2 event=0 ip=198.41.192.57
+2025-08-10T13:54:00Z WRN Failed to serve tunnel connection error="context canceled" connIndex=1 event=0 ip=198.41.192.227
+2025-08-10T13:54:00Z INF Retrying connection in up to 1s connIndex=1 event=0 ip=198.41.192.227
+2025-08-10T13:54:01Z WRN Failed to serve tunnel connection error="context canceled" connIndex=0 event=0 ip=198.41.200.33
+2025-08-10T13:54:01Z INF Retrying connection in up to 1s connIndex=0 event=0 ip=198.41.200.33
+2025-08-10T14:10:56Z ERR Connection terminated error="context canceled" connIndex=1
+2025-08-10T14:10:56Z ERR Connection terminated error="context canceled" connIndex=0
+2025-08-10T14:10:57Z ERR Connection terminated error="context canceled" connIndex=2
+2025-08-10T14:10:57Z ERR Connection terminated error="context canceled" connIndex=3
+2025-08-10T17:41:41Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=3 event=0 ip=198.41.200.73
+2025-08-10T17:41:41Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=2 event=0 ip=198.41.192.57
+2025-08-10T17:41:41Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=0 event=0 ip=198.41.200.33
+2025-08-10T17:41:41Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=1 event=0 ip=198.41.192.227
+2025-08-10T17:41:41Z INF Registered tunnel connection connIndex=0 connection=9c15cbf5-5675-482b-afc6-447a941f74f3 event=0 ip=198.41.200.33 location=lax06 protocol=quic
+2025-08-10T17:41:41Z INF Registered tunnel connection connIndex=1 connection=45e611b3-0412-44ef-bc05-ab214dc51ed4 event=0 ip=198.41.192.227 location=lax08 protocol=quic
+2025-08-10T17:41:41Z INF Registered tunnel connection connIndex=2 connection=73dc3cec-ad5c-4bb3-9045-b511de835368 event=0 ip=198.41.192.57 location=lax08 protocol=quic
+2025-08-10T17:41:41Z INF Registered tunnel connection connIndex=3 connection=d42c226f-0cd7-436d-a4b9-a2bfd42b6c46 event=0 ip=198.41.200.73 location=lax01 protocol=quic
+2025-08-10T18:13:56Z WRN Failed to serve tunnel connection error="failed to accept QUIC stream: timeout: no recent network activity" connIndex=0 event=0 ip=198.41.200.33
+2025-08-10T18:13:56Z WRN Serve tunnel error error="failed to accept QUIC stream: timeout: no recent network activity" connIndex=0 event=0 ip=198.41.200.33
+2025-08-10T18:13:56Z INF Retrying connection in up to 1s connIndex=0 event=0 ip=198.41.200.33
+2025-08-10T18:13:56Z WRN Failed to serve tunnel connection error="context canceled" connIndex=1 event=0 ip=198.41.192.227
+2025-08-10T18:13:56Z INF Retrying connection in up to 1s connIndex=1 event=0 ip=198.41.192.227
+2025-08-10T18:13:56Z WRN Failed to serve tunnel connection error="context canceled" connIndex=2 event=0 ip=198.41.192.57
+2025-08-10T18:13:56Z INF Retrying connection in up to 1s connIndex=2 event=0 ip=198.41.192.57
+2025-08-10T18:13:56Z WRN Failed to serve tunnel connection error="context canceled" connIndex=3 event=0 ip=198.41.200.73
+2025-08-10T18:13:56Z INF Retrying connection in up to 1s connIndex=3 event=0 ip=198.41.200.73
+2025-08-10T18:13:56Z ERR Connection terminated error="context canceled" connIndex=2
+2025-08-10T18:13:57Z ERR Connection terminated error="context canceled" connIndex=1
+2025-08-10T18:13:58Z ERR Connection terminated error="failed to accept QUIC stream: timeout: no recent network activity" connIndex=0
+2025-08-10T18:13:58Z ERR Connection terminated error="context canceled" connIndex=3
+2025-08-10T18:31:27Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=2 event=0 ip=198.41.192.57
+2025-08-10T18:31:27Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=0 event=0 ip=198.41.200.33
+2025-08-10T18:31:27Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=3 event=0 ip=198.41.200.73
+2025-08-10T18:31:27Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=1 event=0 ip=198.41.192.227
+2025-08-10T18:31:27Z INF Registered tunnel connection connIndex=0 connection=d2399b4a-cac7-40e8-be18-b3f4362bb9e8 event=0 ip=198.41.200.33 location=lax06 protocol=quic
+2025-08-10T18:31:27Z INF Registered tunnel connection connIndex=3 connection=ec792ec4-3f21-42f9-b6fc-0c2d3c3d978c event=0 ip=198.41.200.73 location=lax01 protocol=quic
+2025-08-10T18:31:27Z INF Registered tunnel connection connIndex=2 connection=b59207a1-f8a4-4d42-b737-5784302362d3 event=0 ip=198.41.192.57 location=lax08 protocol=quic
+2025-08-10T18:31:27Z INF Registered tunnel connection connIndex=1 connection=28925abc-d901-4fdd-9a1a-57cdf1f8f4bd event=0 ip=198.41.192.227 location=lax08 protocol=quic
+2025-08-10T18:42:45Z WRN Failed to serve tunnel connection error="context canceled" connIndex=1 event=0 ip=198.41.192.227
+2025-08-10T18:42:45Z INF Retrying connection in up to 1s connIndex=1 event=0 ip=198.41.192.227
+2025-08-10T18:42:45Z WRN Failed to serve tunnel connection error="context canceled" connIndex=3 event=0 ip=198.41.200.73
+2025-08-10T18:42:45Z INF Retrying connection in up to 1s connIndex=3 event=0 ip=198.41.200.73
+2025-08-10T18:42:45Z WRN Failed to serve tunnel connection error="context canceled" connIndex=2 event=0 ip=198.41.192.57
+2025-08-10T18:42:45Z INF Retrying connection in up to 1s connIndex=2 event=0 ip=198.41.192.57
+2025-08-10T18:42:45Z ERR Failed to serve tunnel connection error="context canceled" connIndex=0 event=0 ip=198.41.200.33
+2025-08-10T18:42:45Z INF Retrying connection in up to 1s connIndex=0 event=0 ip=198.41.200.33
+2025-08-10T18:42:45Z ERR Connection terminated error="context canceled" connIndex=2
+2025-08-10T18:42:45Z ERR Connection terminated error="context canceled" connIndex=0
+2025-08-10T18:42:46Z ERR Connection terminated error="context canceled" connIndex=1
+2025-08-10T18:42:46Z ERR Connection terminated error="context canceled" connIndex=3
+2025-08-10T19:05:12Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=0 event=0 ip=198.41.200.33
+2025-08-10T19:05:12Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=3 event=0 ip=198.41.200.73
+2025-08-10T19:05:12Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=2 event=0 ip=198.41.192.57
+2025-08-10T19:05:12Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=1 event=0 ip=198.41.192.227
+2025-08-10T19:05:12Z INF Registered tunnel connection connIndex=2 connection=0d2554fd-1e6e-40ac-85dd-9780a89a169b event=0 ip=198.41.192.57 location=lax08 protocol=quic
+2025-08-10T19:05:12Z INF Registered tunnel connection connIndex=0 connection=e659a1c2-a4d4-4029-9d7b-684b38ee632a event=0 ip=198.41.200.33 location=lax06 protocol=quic
+2025-08-10T19:05:12Z INF Registered tunnel connection connIndex=1 connection=34afd66b-bd27-47fa-b740-bee14cdfd671 event=0 ip=198.41.192.227 location=lax08 protocol=quic
+2025-08-10T19:05:12Z INF Registered tunnel connection connIndex=3 connection=e7985d2c-73ca-4fe5-a7c1-53e33887d77e event=0 ip=198.41.200.73 location=lax01 protocol=quic
+2025-08-10T19:24:31Z WRN Failed to serve tunnel connection error="context canceled" connIndex=2 event=0 ip=198.41.192.57
+2025-08-10T19:24:31Z WRN Failed to serve tunnel connection error="context canceled" connIndex=1 event=0 ip=198.41.192.227
+2025-08-10T19:24:31Z INF Retrying connection in up to 1s connIndex=2 event=0 ip=198.41.192.57
+2025-08-10T19:24:31Z INF Retrying connection in up to 1s connIndex=1 event=0 ip=198.41.192.227
+2025-08-10T19:24:32Z WRN Failed to serve tunnel connection error="failed to accept QUIC stream: timeout: no recent network activity" connIndex=3 event=0 ip=198.41.200.73
+2025-08-10T19:24:32Z WRN Serve tunnel error error="failed to accept QUIC stream: timeout: no recent network activity" connIndex=3 event=0 ip=198.41.200.73
+2025-08-10T19:24:32Z INF Retrying connection in up to 1s connIndex=3 event=0 ip=198.41.200.73
+2025-08-10T19:24:32Z WRN Failed to serve tunnel connection error="context canceled" connIndex=0 event=0 ip=198.41.200.33
+2025-08-10T19:24:32Z INF Retrying connection in up to 1s connIndex=0 event=0 ip=198.41.200.33
+2025-08-10T19:35:03Z ERR Connection terminated error="context canceled" connIndex=2
+2025-08-10T19:35:04Z ERR Connection terminated error="context canceled" connIndex=0
+2025-08-10T19:35:04Z ERR Connection terminated error="failed to accept QUIC stream: timeout: no recent network activity" connIndex=3
+2025-08-10T19:35:05Z ERR Connection terminated error="context canceled" connIndex=1
+2025-08-10T21:10:10Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=1 event=0 ip=198.41.192.227
+2025-08-10T21:10:10Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=2 event=0 ip=198.41.192.57
+2025-08-10T21:10:10Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=3 event=0 ip=198.41.200.73
+2025-08-10T21:10:10Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=0 event=0 ip=198.41.200.33
+2025-08-10T21:10:10Z INF Registered tunnel connection connIndex=0 connection=d2e51adb-1707-40ee-84bd-5734119e7bba event=0 ip=198.41.200.33 location=lax06 protocol=quic
+2025-08-10T21:10:10Z INF Registered tunnel connection connIndex=2 connection=d5b13649-c09e-426e-a2ba-59fa109916fa event=0 ip=198.41.192.57 location=lax08 protocol=quic
+2025-08-10T21:10:10Z INF Registered tunnel connection connIndex=3 connection=ed6aedca-7680-4292-a1d0-308ceb7a7030 event=0 ip=198.41.200.73 location=lax01 protocol=quic
+2025-08-10T21:10:10Z INF Registered tunnel connection connIndex=1 connection=791415a5-f2da-406f-995f-0e7319dd3ba4 event=0 ip=198.41.192.227 location=lax08 protocol=quic
+2025-08-10T21:20:50Z WRN Failed to serve tunnel connection error="context canceled" connIndex=3 event=0 ip=198.41.200.73
+2025-08-10T21:20:50Z INF Retrying connection in up to 1s connIndex=3 event=0 ip=198.41.200.73
+2025-08-10T21:20:50Z WRN Failed to serve tunnel connection error="context canceled" connIndex=0 event=0 ip=198.41.200.33
+2025-08-10T21:20:50Z INF Retrying connection in up to 1s connIndex=0 event=0 ip=198.41.200.33
+2025-08-10T21:20:50Z WRN Failed to serve tunnel connection error="context canceled" connIndex=1 event=0 ip=198.41.192.227
+2025-08-10T21:20:50Z INF Retrying connection in up to 1s connIndex=1 event=0 ip=198.41.192.227
+2025-08-10T21:20:50Z WRN Connection terminated error="context canceled" connIndex=3
+2025-08-10T21:20:51Z WRN Connection terminated error="context canceled" connIndex=1
+2025-08-10T21:20:51Z ERR Failed to serve tunnel connection error="context canceled" connIndex=2 event=0 ip=198.41.192.57
+2025-08-10T21:20:51Z INF Retrying connection in up to 1s connIndex=2 event=0 ip=198.41.192.57
+2025-08-10T21:20:52Z ERR Connection terminated error="context canceled" connIndex=0
+2025-08-10T21:20:52Z ERR Connection terminated error="context canceled" connIndex=2
+2025-08-11T02:31:47Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=2 event=0 ip=198.41.192.57
+2025-08-11T02:31:47Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=0 event=0 ip=198.41.200.33
+2025-08-11T02:31:47Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=1 event=0 ip=198.41.192.227
+2025-08-11T02:31:47Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=3 event=0 ip=198.41.200.73
+2025-08-11T02:31:47Z INF Registered tunnel connection connIndex=1 connection=64a1cf3b-7893-4a4b-a550-8af964c460af event=0 ip=198.41.192.227 location=lax08 protocol=quic
+2025-08-11T02:31:47Z INF Registered tunnel connection connIndex=3 connection=ff3396bf-41eb-4b87-aacd-4cb1ba695a97 event=0 ip=198.41.200.73 location=lax01 protocol=quic
+2025-08-11T02:31:47Z INF Registered tunnel connection connIndex=0 connection=155a503a-99ee-420b-9e70-e9d1d0c43ef1 event=0 ip=198.41.200.33 location=lax06 protocol=quic
+2025-08-11T02:31:47Z INF Registered tunnel connection connIndex=2 connection=86959fb7-b9c7-4b77-9b46-3c397500f3c9 event=0 ip=198.41.192.57 location=lax08 protocol=quic
+2025-08-11T02:48:40Z WRN Failed to serve tunnel connection error="context canceled" connIndex=2 event=0 ip=198.41.192.57
+2025-08-11T02:48:40Z INF Retrying connection in up to 1s connIndex=2 event=0 ip=198.41.192.57
+2025-08-11T02:48:40Z WRN Failed to serve tunnel connection error="context canceled" connIndex=0 event=0 ip=198.41.200.33
+2025-08-11T02:48:40Z INF Retrying connection in up to 1s connIndex=0 event=0 ip=198.41.200.33
+2025-08-11T03:04:08Z WRN Connection terminated error="context canceled" connIndex=0
+2025-08-11T03:04:08Z WRN Failed to serve tunnel connection error="context canceled" connIndex=3 event=0 ip=198.41.200.73
+2025-08-11T03:04:08Z INF Retrying connection in up to 1s connIndex=3 event=0 ip=198.41.200.73
+2025-08-11T03:04:08Z ERR Failed to serve tunnel connection error="context canceled" connIndex=1 event=0 ip=198.41.192.227
+2025-08-11T03:04:08Z INF Retrying connection in up to 1s connIndex=1 event=0 ip=198.41.192.227
+2025-08-11T03:04:09Z ERR Connection terminated error="context canceled" connIndex=2
+2025-08-11T03:04:09Z ERR Connection terminated error="context canceled" connIndex=3
+2025-08-11T03:04:09Z ERR Connection terminated error="context canceled" connIndex=1
+2025-08-11T08:51:22Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=1 event=0 ip=198.41.192.227
+2025-08-11T08:51:22Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=3 event=0 ip=198.41.200.73
+2025-08-11T08:51:22Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=0 event=0 ip=198.41.200.33
+2025-08-11T08:51:22Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=2 event=0 ip=198.41.192.57
+2025-08-11T08:51:23Z INF Registered tunnel connection connIndex=2 connection=507c0567-8caf-4f2e-8c14-2d15e056345b event=0 ip=198.41.192.57 location=lax08 protocol=quic
+2025-08-11T08:51:23Z INF Registered tunnel connection connIndex=1 connection=d22ff2cc-9e80-4fa7-b94e-57f8a2e990de event=0 ip=198.41.192.227 location=lax08 protocol=quic
+2025-08-11T08:51:23Z INF Registered tunnel connection connIndex=0 connection=db5d3c93-c837-4362-a7d5-d2655c81f6ef event=0 ip=198.41.200.33 location=lax06 protocol=quic
+2025-08-11T08:51:23Z INF Registered tunnel connection connIndex=3 connection=b7b45a0d-9de7-4def-b157-98a487b5f510 event=0 ip=198.41.200.73 location=lax01 protocol=quic
+2025-08-11T09:08:58Z WRN Failed to serve tunnel connection error="context canceled" connIndex=3 event=0 ip=198.41.200.73
+2025-08-11T09:08:58Z INF Retrying connection in up to 1s connIndex=3 event=0 ip=198.41.200.73
+2025-08-11T09:08:58Z WRN Failed to serve tunnel connection error="context canceled" connIndex=1 event=0 ip=198.41.192.227
+2025-08-11T09:08:58Z WRN Failed to serve tunnel connection error="failed to accept QUIC stream: timeout: no recent network activity" connIndex=2 event=0 ip=198.41.192.57
+2025-08-11T09:08:58Z INF Retrying connection in up to 1s connIndex=1 event=0 ip=198.41.192.227
+2025-08-11T09:08:58Z WRN Serve tunnel error error="failed to accept QUIC stream: timeout: no recent network activity" connIndex=2 event=0 ip=198.41.192.57
+2025-08-11T09:08:58Z INF Retrying connection in up to 1s connIndex=2 event=0 ip=198.41.192.57
+2025-08-11T09:08:58Z ERR Failed to serve tunnel connection error="context canceled" connIndex=0 event=0 ip=198.41.200.33
+2025-08-11T09:08:58Z INF Retrying connection in up to 1s connIndex=0 event=0 ip=198.41.200.33
+2025-08-11T09:21:09Z ERR Connection terminated error="context canceled" connIndex=3
+2025-08-11T09:21:09Z ERR Connection terminated error="context canceled" connIndex=0
+2025-08-11T09:21:10Z ERR Connection terminated error="context canceled" connIndex=1
+2025-08-11T09:21:11Z ERR Connection terminated error="failed to accept QUIC stream: timeout: no recent network activity" connIndex=2
+2025-08-11T12:16:38Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=2 event=0 ip=198.41.192.57
+2025-08-11T12:16:38Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=3 event=0 ip=198.41.200.73
+2025-08-11T12:16:38Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=0 event=0 ip=198.41.200.33
+2025-08-11T12:16:38Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=1 event=0 ip=198.41.192.227
+2025-08-11T12:16:38Z INF Registered tunnel connection connIndex=2 connection=66c1bcba-66dd-45d9-bbd9-306f8dfaf8e1 event=0 ip=198.41.192.57 location=lax08 protocol=quic
+2025-08-11T12:16:38Z INF Registered tunnel connection connIndex=3 connection=a8130d50-d198-4dbd-8952-1fd668f2f384 event=0 ip=198.41.200.73 location=lax01 protocol=quic
+2025-08-11T12:16:38Z INF Registered tunnel connection connIndex=0 connection=fa6ff481-aae3-4d0a-971b-d7bdfc56e7ba event=0 ip=198.41.200.33 location=lax06 protocol=quic
+2025-08-11T12:16:38Z INF Registered tunnel connection connIndex=1 connection=64af0f31-8a64-40b9-9f2b-343749ce2c7c event=0 ip=198.41.192.227 location=lax08 protocol=quic
+2025-08-11T12:24:15Z WRN Failed to serve tunnel connection error="context canceled" connIndex=3 event=0 ip=198.41.200.73
+2025-08-11T12:24:15Z WRN Failed to serve tunnel connection error="timeout: no recent network activity" connIndex=2 event=0 ip=198.41.192.57
+2025-08-11T12:24:15Z INF Retrying connection in up to 1s connIndex=3 event=0 ip=198.41.200.73
+2025-08-11T12:24:15Z WRN Serve tunnel error error="timeout: no recent network activity" connIndex=2 event=0 ip=198.41.192.57
+2025-08-11T12:24:15Z INF Retrying connection in up to 1s connIndex=2 event=0 ip=198.41.192.57
+2025-08-11T12:24:15Z WRN Connection terminated error="timeout: no recent network activity" connIndex=2
+2025-08-11T12:24:15Z WRN Failed to serve tunnel connection error="context canceled" connIndex=1 event=0 ip=198.41.192.227
+2025-08-11T12:24:15Z INF Retrying connection in up to 1s connIndex=1 event=0 ip=198.41.192.227
+2025-08-11T12:24:15Z ERR Failed to serve tunnel connection error="context canceled" connIndex=0 event=0 ip=198.41.200.33
+2025-08-11T12:24:15Z INF Retrying connection in up to 1s connIndex=0 event=0 ip=198.41.200.33
+2025-08-11T12:24:15Z ERR Connection terminated error="context canceled" connIndex=1
+2025-08-11T12:24:15Z ERR Connection terminated error="context canceled" connIndex=0
+2025-08-11T12:24:16Z ERR Connection terminated error="context canceled" connIndex=3
+2025-08-11T16:21:46Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=3 event=0 ip=198.41.200.73
+2025-08-11T16:21:46Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=2 event=0 ip=198.41.192.47
+2025-08-11T16:21:46Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=0 event=0 ip=198.41.200.33
+2025-08-11T16:21:46Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=1 event=0 ip=198.41.192.227
+2025-08-11T16:21:46Z INF Registered tunnel connection connIndex=2 connection=582da0cf-23fe-4ec4-b470-47fe9f9befbd event=0 ip=198.41.192.47 location=lax09 protocol=quic
+2025-08-11T16:21:46Z INF Registered tunnel connection connIndex=1 connection=6524373d-a89d-4b2c-a8dc-8e633031cdff event=0 ip=198.41.192.227 location=lax08 protocol=quic
+2025-08-11T16:21:47Z INF Registered tunnel connection connIndex=0 connection=8161ba0d-4020-4627-84a5-8101ba40d178 event=0 ip=198.41.200.33 location=lax06 protocol=quic
+2025-08-11T16:21:47Z INF Registered tunnel connection connIndex=3 connection=3d4e09ea-41c9-4287-b2ed-69d68bfa0386 event=0 ip=198.41.200.73 location=lax01 protocol=quic
+2025-08-11T16:29:21Z WRN Failed to serve tunnel connection error="context canceled" connIndex=3 event=0 ip=198.41.200.73
+2025-08-11T16:29:21Z INF Retrying connection in up to 1s connIndex=3 event=0 ip=198.41.200.73
+2025-08-11T16:29:21Z WRN Failed to serve tunnel connection error="context canceled" connIndex=1 event=0 ip=198.41.192.227
+2025-08-11T16:29:21Z INF Retrying connection in up to 1s connIndex=1 event=0 ip=198.41.192.227
+2025-08-11T16:29:21Z WRN Failed to serve tunnel connection error="context canceled" connIndex=0 event=0 ip=198.41.200.33
+2025-08-11T16:29:21Z INF Retrying connection in up to 1s connIndex=0 event=0 ip=198.41.200.33
+2025-08-11T16:29:21Z WRN Connection terminated error="context canceled" connIndex=0
+2025-08-11T16:29:21Z WRN Connection terminated error="context canceled" connIndex=3
+2025-08-11T16:29:21Z ERR Failed to serve tunnel connection error="context canceled" connIndex=2 event=0 ip=198.41.192.47
+2025-08-11T16:29:21Z INF Retrying connection in up to 1s connIndex=2 event=0 ip=198.41.192.47
+2025-08-11T16:29:21Z ERR Connection terminated error="context canceled" connIndex=2
+2025-08-11T16:29:22Z ERR Connection terminated error="context canceled" connIndex=1
+2025-08-11T18:24:08Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=0 event=0 ip=198.41.200.33
+2025-08-11T18:24:08Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=2 event=0 ip=198.41.192.47
+2025-08-11T18:24:08Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=3 event=0 ip=198.41.200.73
+2025-08-11T18:24:08Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=1 event=0 ip=198.41.192.227
+2025-08-11T18:24:08Z INF Registered tunnel connection connIndex=1 connection=6cc3dd26-1db4-4d9c-8e4a-52557fe8cfac event=0 ip=198.41.192.227 location=sjc01 protocol=quic
+2025-08-11T18:24:08Z INF Registered tunnel connection connIndex=3 connection=bdf7c193-d012-4bc8-8cf3-9a27f382228a event=0 ip=198.41.200.73 location=sjc07 protocol=quic
+2025-08-11T18:24:08Z INF Registered tunnel connection connIndex=0 connection=80db604a-617f-42f1-a4ce-6755cb13eb02 event=0 ip=198.41.200.33 location=sjc08 protocol=quic
+2025-08-11T18:24:08Z INF Registered tunnel connection connIndex=2 connection=bc3f3adb-20bb-4c7c-b397-04122a21748a event=0 ip=198.41.192.47 location=sjc01 protocol=quic
+2025-08-11T18:41:39Z WRN Failed to serve tunnel connection error="context canceled" connIndex=0 event=0 ip=198.41.200.33
+2025-08-11T18:41:39Z INF Retrying connection in up to 1s connIndex=0 event=0 ip=198.41.200.33
+2025-08-11T18:41:40Z WRN Connection terminated error="context canceled" connIndex=0
+2025-08-11T18:41:40Z WRN Failed to serve tunnel connection error="context canceled" connIndex=3 event=0 ip=198.41.200.73
+2025-08-11T18:41:40Z INF Retrying connection in up to 1s connIndex=3 event=0 ip=198.41.200.73
+2025-08-11T18:41:40Z WRN Failed to serve tunnel connection error="context canceled" connIndex=1 event=0 ip=198.41.192.227
+2025-08-11T18:41:40Z INF Retrying connection in up to 1s connIndex=1 event=0 ip=198.41.192.227
+2025-08-11T18:41:40Z ERR Failed to serve tunnel connection error="context canceled" connIndex=2 event=0 ip=198.41.192.47
+2025-08-11T18:41:40Z INF Retrying connection in up to 1s connIndex=2 event=0 ip=198.41.192.47
+2025-08-11T18:41:40Z ERR Connection terminated error="context canceled" connIndex=3
+2025-08-11T18:41:41Z ERR Connection terminated error="context canceled" connIndex=1
+2025-08-11T18:41:41Z ERR Connection terminated error="context canceled" connIndex=2
+2025-08-11T18:41:50Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=2 event=0 ip=198.41.192.47
+2025-08-11T18:41:50Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=1 event=0 ip=198.41.192.227
+2025-08-11T18:41:50Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=3 event=0 ip=198.41.200.73
+2025-08-11T18:41:50Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=0 event=0 ip=198.41.200.33
+2025-08-11T18:41:50Z INF Registered tunnel connection connIndex=0 connection=9a202d03-d3a2-482f-a839-08e5beab7b03 event=0 ip=198.41.200.33 location=sjc08 protocol=quic
+2025-08-11T18:41:50Z INF Registered tunnel connection connIndex=1 connection=85645617-9213-4c77-970c-d42b04508062 event=0 ip=198.41.192.227 location=sjc01 protocol=quic
+2025-08-11T18:41:50Z INF Registered tunnel connection connIndex=3 connection=5bb16461-7c2e-4e1b-ab8f-03cf9cebeac2 event=0 ip=198.41.200.73 location=sjc07 protocol=quic
+2025-08-11T18:41:51Z INF Registered tunnel connection connIndex=2 connection=cd299609-e65e-4fe0-86b7-4e86970c5da2 event=0 ip=198.41.192.47 location=sjc01 protocol=quic
+2025-08-11T18:57:24Z WRN Failed to serve tunnel connection error="context canceled" connIndex=1 event=0 ip=198.41.192.227
+2025-08-11T18:57:24Z INF Retrying connection in up to 1s connIndex=1 event=0 ip=198.41.192.227
+2025-08-11T18:57:25Z WRN Failed to serve tunnel connection error="context canceled" connIndex=0 event=0 ip=198.41.200.33
+2025-08-11T18:57:25Z INF Retrying connection in up to 1s connIndex=0 event=0 ip=198.41.200.33
+2025-08-11T18:57:25Z WRN Connection terminated error="context canceled" connIndex=1
+2025-08-11T18:57:25Z WRN Failed to serve tunnel connection error="context canceled" connIndex=2 event=0 ip=198.41.192.47
+2025-08-11T18:57:25Z INF Retrying connection in up to 1s connIndex=2 event=0 ip=198.41.192.47
+2025-08-11T18:57:25Z ERR Failed to serve tunnel connection error="context canceled" connIndex=3 event=0 ip=198.41.200.73
+2025-08-11T18:57:25Z INF Retrying connection in up to 1s connIndex=3 event=0 ip=198.41.200.73
+2025-08-11T18:57:26Z ERR Connection terminated error="context canceled" connIndex=0
+2025-08-11T18:57:26Z ERR Connection terminated error="context canceled" connIndex=3
+2025-08-11T18:57:27Z ERR Connection terminated error="context canceled" connIndex=2
+2025-08-11T19:15:22Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=2 event=0 ip=198.41.192.47
+2025-08-11T19:15:22Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=3 event=0 ip=198.41.200.73
+2025-08-11T19:15:22Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=1 event=0 ip=198.41.192.227
+2025-08-11T19:15:22Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=0 event=0 ip=198.41.200.33
+2025-08-11T19:15:22Z ERR Failed to dial a quic connection error="failed to dial to edge with quic: write udp4 0.0.0.0:55951->198.41.192.227:7844: sendmsg: network is unreachable" connIndex=1 event=0 ip=198.41.192.227
+2025-08-11T19:15:22Z ERR Failed to dial a quic connection error="failed to dial to edge with quic: write udp4 0.0.0.0:57777->198.41.200.33:7844: sendmsg: network is unreachable" connIndex=0 event=0 ip=198.41.200.33
+2025-08-11T19:15:22Z ERR Failed to dial a quic connection error="failed to dial to edge with quic: write udp4 0.0.0.0:52952->198.41.192.47:7844: sendmsg: network is unreachable" connIndex=2 event=0 ip=198.41.192.47
+2025-08-11T19:15:22Z ERR Failed to dial a quic connection error="failed to dial to edge with quic: write udp4 0.0.0.0:53299->198.41.200.73:7844: sendmsg: network is unreachable" connIndex=3 event=0 ip=198.41.200.73
+2025-08-11T19:15:22Z INF Retrying connection in up to 4s connIndex=1 event=0 ip=198.41.192.227
+2025-08-11T19:15:22Z INF Retrying connection in up to 4s connIndex=0 event=0 ip=198.41.200.33
+2025-08-11T19:15:22Z INF Retrying connection in up to 4s connIndex=2 event=0 ip=198.41.192.47
+2025-08-11T19:15:22Z INF Retrying connection in up to 4s connIndex=3 event=0 ip=198.41.200.73
+2025-08-11T19:15:22Z ERR Connection terminated error="failed to dial to edge with quic: write udp4 0.0.0.0:52952->198.41.192.47:7844: sendmsg: network is unreachable" connIndex=2
+2025-08-11T19:15:25Z ERR Connection terminated error="failed to dial to edge with quic: write udp4 0.0.0.0:53299->198.41.200.73:7844: sendmsg: network is unreachable" connIndex=3
+2025-08-11T19:15:25Z ERR Connection terminated error="failed to dial to edge with quic: write udp4 0.0.0.0:55951->198.41.192.227:7844: sendmsg: network is unreachable" connIndex=1
+2025-08-11T19:15:26Z ERR Connection terminated error="failed to dial to edge with quic: write udp4 0.0.0.0:57777->198.41.200.33:7844: sendmsg: network is unreachable" connIndex=0
+2025-08-11T19:29:42Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=2 event=0 ip=198.41.192.27
+2025-08-11T19:29:42Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=0 event=0 ip=198.41.200.63
+2025-08-11T19:29:42Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=1 event=0 ip=198.41.192.37
+2025-08-11T19:29:42Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=3 event=0 ip=198.41.200.23
+2025-08-11T19:29:42Z ERR Failed to dial a quic connection error="failed to dial to edge with quic: write udp4 0.0.0.0:55951->198.41.192.37:7844: sendmsg: network is unreachable" connIndex=1 event=0 ip=198.41.192.37
+2025-08-11T19:29:42Z ERR Failed to dial a quic connection error="failed to dial to edge with quic: write udp4 0.0.0.0:52952->198.41.192.27:7844: sendmsg: network is unreachable" connIndex=2 event=0 ip=198.41.192.27
+2025-08-11T19:29:42Z INF Retrying connection in up to 8s connIndex=1 event=0 ip=198.41.192.37
+2025-08-11T19:29:42Z ERR Failed to dial a quic connection error="failed to dial to edge with quic: write udp4 0.0.0.0:53299->198.41.200.23:7844: sendmsg: network is unreachable" connIndex=3 event=0 ip=198.41.200.23
+2025-08-11T19:29:42Z INF Retrying connection in up to 8s connIndex=2 event=0 ip=198.41.192.27
+2025-08-11T19:29:42Z ERR Failed to dial a quic connection error="failed to dial to edge with quic: write udp4 0.0.0.0:57777->198.41.200.63:7844: sendmsg: network is unreachable" connIndex=0 event=0 ip=198.41.200.63
+2025-08-11T19:29:42Z INF Retrying connection in up to 8s connIndex=3 event=0 ip=198.41.200.23
+2025-08-11T19:29:42Z INF Retrying connection in up to 8s connIndex=0 event=0 ip=198.41.200.63
+2025-08-11T19:29:45Z ERR Connection terminated error="failed to dial to edge with quic: write udp4 0.0.0.0:53299->198.41.200.23:7844: sendmsg: network is unreachable" connIndex=3
+2025-08-11T19:29:45Z ERR Connection terminated error="failed to dial to edge with quic: write udp4 0.0.0.0:57777->198.41.200.63:7844: sendmsg: network is unreachable" connIndex=0
+2025-08-11T19:31:19Z ERR Connection terminated error="failed to dial to edge with quic: write udp4 0.0.0.0:55951->198.41.192.37:7844: sendmsg: network is unreachable" connIndex=1
+2025-08-11T19:31:19Z ERR Connection terminated error="failed to dial to edge with quic: write udp4 0.0.0.0:52952->198.41.192.27:7844: sendmsg: network is unreachable" connIndex=2
+2025-08-11T19:54:45Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=2 event=0 ip=198.41.192.107
+2025-08-11T19:54:45Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=1 event=0 ip=198.41.192.77
+2025-08-11T19:54:45Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=0 event=0 ip=198.41.200.43
+2025-08-11T19:54:45Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=3 event=0 ip=198.41.200.233
+2025-08-11T19:54:45Z ERR Failed to dial a quic connection error="failed to dial to edge with quic: write udp4 0.0.0.0:57777->198.41.200.43:7844: sendmsg: network is unreachable" connIndex=0 event=0 ip=198.41.200.43
+2025-08-11T19:54:45Z ERR Failed to dial a quic connection error="failed to dial to edge with quic: write udp4 0.0.0.0:55951->198.41.192.77:7844: sendmsg: network is unreachable" connIndex=1 event=0 ip=198.41.192.77
+2025-08-11T19:54:45Z ERR Failed to dial a quic connection error="failed to dial to edge with quic: write udp4 0.0.0.0:53299->198.41.200.233:7844: sendmsg: network is unreachable" connIndex=3 event=0 ip=198.41.200.233
+2025-08-11T19:54:45Z ERR Failed to dial a quic connection error="failed to dial to edge with quic: write udp4 0.0.0.0:52952->198.41.192.107:7844: sendmsg: network is unreachable" connIndex=2 event=0 ip=198.41.192.107
+2025-08-11T19:54:45Z INF Retrying connection in up to 16s connIndex=3 event=0 ip=198.41.200.233
+2025-08-11T19:54:45Z INF Retrying connection in up to 16s connIndex=1 event=0 ip=198.41.192.77
+2025-08-11T19:54:45Z INF Retrying connection in up to 16s connIndex=0 event=0 ip=198.41.200.43
+2025-08-11T19:54:45Z INF Retrying connection in up to 16s connIndex=2 event=0 ip=198.41.192.107
+2025-08-11T20:10:09Z ERR Connection terminated error="failed to dial to edge with quic: write udp4 0.0.0.0:52952->198.41.192.107:7844: sendmsg: network is unreachable" connIndex=2
+2025-08-11T20:10:12Z ERR Connection terminated error="failed to dial to edge with quic: write udp4 0.0.0.0:55951->198.41.192.77:7844: sendmsg: network is unreachable" connIndex=1
+2025-08-11T20:10:13Z ERR Connection terminated error="failed to dial to edge with quic: write udp4 0.0.0.0:53299->198.41.200.233:7844: sendmsg: network is unreachable" connIndex=3
+2025-08-11T20:14:08Z ERR Connection terminated error="failed to dial to edge with quic: write udp4 0.0.0.0:57777->198.41.200.43:7844: sendmsg: network is unreachable" connIndex=0
+2025-08-11T20:36:08Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=3 event=0 ip=198.41.200.13
+2025-08-11T20:36:08Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=1 event=0 ip=198.41.192.67
+2025-08-11T20:36:08Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=2 event=0 ip=198.41.192.167
+2025-08-11T20:36:08Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=0 event=0 ip=198.41.200.193
+2025-08-11T20:36:08Z ERR Failed to dial a quic connection error="failed to dial to edge with quic: write udp4 0.0.0.0:52952->198.41.192.167:7844: sendmsg: network is unreachable" connIndex=2 event=0 ip=198.41.192.167
+2025-08-11T20:36:08Z ERR Failed to dial a quic connection error="failed to dial to edge with quic: write udp4 0.0.0.0:57777->198.41.200.193:7844: sendmsg: network is unreachable" connIndex=0 event=0 ip=198.41.200.193
+2025-08-11T20:36:08Z ERR Failed to dial a quic connection error="failed to dial to edge with quic: write udp4 0.0.0.0:55951->198.41.192.67:7844: sendmsg: network is unreachable" connIndex=1 event=0 ip=198.41.192.67
+2025-08-11T20:36:08Z INF Retrying connection in up to 32s connIndex=0 event=0 ip=198.41.200.193
+2025-08-11T20:36:08Z INF Retrying connection in up to 32s connIndex=2 event=0 ip=198.41.192.167
+2025-08-11T20:36:08Z INF Retrying connection in up to 32s connIndex=1 event=0 ip=198.41.192.67
+2025-08-11T20:36:08Z ERR Failed to dial a quic connection error="failed to dial to edge with quic: write udp4 0.0.0.0:53299->198.41.200.13:7844: sendmsg: network is unreachable" connIndex=3 event=0 ip=198.41.200.13
+2025-08-11T20:36:08Z INF Retrying connection in up to 32s connIndex=3 event=0 ip=198.41.200.13
+2025-08-11T20:36:14Z ERR Connection terminated error="failed to dial to edge with quic: write udp4 0.0.0.0:52952->198.41.192.167:7844: sendmsg: network is unreachable" connIndex=2
+2025-08-11T20:36:17Z ERR Connection terminated error="failed to dial to edge with quic: write udp4 0.0.0.0:57777->198.41.200.193:7844: sendmsg: network is unreachable" connIndex=0
+2025-08-11T20:36:25Z ERR Connection terminated error="failed to dial to edge with quic: write udp4 0.0.0.0:53299->198.41.200.13:7844: sendmsg: network is unreachable" connIndex=3
+2025-08-11T20:38:13Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=3 event=0 ip=198.41.200.23
+2025-08-11T20:38:13Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=0 event=0 ip=198.41.200.73
+2025-08-11T20:38:13Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=2 event=0 ip=198.41.192.7
+2025-08-11T20:38:13Z ERR Failed to dial a quic connection error="failed to dial to edge with quic: write udp4 0.0.0.0:53299->198.41.200.23:7844: sendmsg: network is unreachable" connIndex=3 event=0 ip=198.41.200.23
+2025-08-11T20:38:13Z ERR Failed to dial a quic connection error="failed to dial to edge with quic: write udp4 0.0.0.0:57777->198.41.200.73:7844: sendmsg: network is unreachable" connIndex=0 event=0 ip=198.41.200.73
+2025-08-11T20:38:13Z ERR Failed to dial a quic connection error="failed to dial to edge with quic: write udp4 0.0.0.0:52952->198.41.192.7:7844: sendmsg: network is unreachable" connIndex=2 event=0 ip=198.41.192.7
+2025-08-11T20:38:13Z INF Retrying connection in up to 1m4s connIndex=3 event=0 ip=198.41.200.23
+2025-08-11T20:38:13Z INF Retrying connection in up to 1m4s connIndex=0 event=0 ip=198.41.200.73
+2025-08-11T20:38:13Z INF Retrying connection in up to 1m4s connIndex=2 event=0 ip=198.41.192.7
+2025-08-11T20:39:18Z ERR Connection terminated error="failed to dial to edge with quic: write udp4 0.0.0.0:55951->198.41.192.67:7844: sendmsg: network is unreachable" connIndex=1
+2025-08-11T20:39:19Z ERR Connection terminated error="failed to dial to edge with quic: write udp4 0.0.0.0:52952->198.41.192.7:7844: sendmsg: network is unreachable" connIndex=2
+2025-08-11T20:39:21Z ERR Connection terminated error="failed to dial to edge with quic: write udp4 0.0.0.0:53299->198.41.200.23:7844: sendmsg: network is unreachable" connIndex=3
+2025-08-11T20:54:57Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=1 event=0 ip=198.41.192.227
+2025-08-11T20:54:57Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=3 event=0 ip=198.41.200.13
+2025-08-11T20:54:57Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=2 event=0 ip=198.41.192.27
+2025-08-11T20:54:57Z ERR Failed to dial a quic connection error="failed to dial to edge with quic: write udp4 0.0.0.0:55951->198.41.192.227:7844: sendmsg: network is unreachable" connIndex=1 event=0 ip=198.41.192.227
+2025-08-11T20:54:57Z ERR Failed to dial a quic connection error="failed to dial to edge with quic: write udp4 0.0.0.0:52952->198.41.192.27:7844: sendmsg: network is unreachable" connIndex=2 event=0 ip=198.41.192.27
+2025-08-11T20:54:57Z INF Retrying connection in up to 1m4s connIndex=1 event=0 ip=198.41.192.227
+2025-08-11T20:54:57Z ERR Failed to dial a quic connection error="failed to dial to edge with quic: write udp4 0.0.0.0:53299->198.41.200.13:7844: sendmsg: network is unreachable" connIndex=3 event=0 ip=198.41.200.13
+2025-08-11T20:54:57Z INF Retrying connection in up to 1m4s connIndex=2 event=0 ip=198.41.192.27
+2025-08-11T20:54:57Z INF Retrying connection in up to 1m4s connIndex=3 event=0 ip=198.41.200.13
+2025-08-11T20:54:59Z ERR Connection terminated error="failed to dial to edge with quic: write udp4 0.0.0.0:57777->198.41.200.73:7844: sendmsg: network is unreachable" connIndex=0
+2025-08-11T20:55:23Z ERR Connection terminated error="failed to dial to edge with quic: write udp4 0.0.0.0:53299->198.41.200.13:7844: sendmsg: network is unreachable" connIndex=3
+2025-08-11T20:55:25Z ERR Connection terminated error="failed to dial to edge with quic: write udp4 0.0.0.0:52952->198.41.192.27:7844: sendmsg: network is unreachable" connIndex=2
+2025-08-11T20:55:29Z ERR Connection terminated error="failed to dial to edge with quic: write udp4 0.0.0.0:55951->198.41.192.227:7844: sendmsg: network is unreachable" connIndex=1
+2025-08-11T20:56:03Z ERR Failed to refresh DNS local resolver error="lookup region1.v2.argotunnel.com on [::1]:53: read udp [::1]:52530->[::1]:53: read: connection refused"
+2025-08-11T20:56:06Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=3 event=0 ip=198.41.200.23
+2025-08-11T20:56:06Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=0 event=0 ip=198.41.200.33
+2025-08-11T20:56:06Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=2 event=0 ip=198.41.192.37
+2025-08-11T20:56:06Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=1 event=0 ip=198.41.192.67
+2025-08-11T20:56:06Z ERR Failed to dial a quic connection error="failed to dial to edge with quic: write udp4 0.0.0.0:57777->198.41.200.33:7844: sendmsg: network is unreachable" connIndex=0 event=0 ip=198.41.200.33
+2025-08-11T20:56:06Z ERR Failed to dial a quic connection error="failed to dial to edge with quic: write udp4 0.0.0.0:53299->198.41.200.23:7844: sendmsg: network is unreachable" connIndex=3 event=0 ip=198.41.200.23
+2025-08-11T20:56:06Z ERR Failed to dial a quic connection error="failed to dial to edge with quic: write udp4 0.0.0.0:52952->198.41.192.37:7844: sendmsg: network is unreachable" connIndex=2 event=0 ip=198.41.192.37
+2025-08-11T20:56:06Z INF Retrying connection in up to 1m4s connIndex=3 event=0 ip=198.41.200.23
+2025-08-11T20:56:06Z INF Retrying connection in up to 1m4s connIndex=2 event=0 ip=198.41.192.37
+2025-08-11T20:56:06Z ERR Failed to dial a quic connection error="failed to dial to edge with quic: write udp4 0.0.0.0:55951->198.41.192.67:7844: sendmsg: network is unreachable" connIndex=1 event=0 ip=198.41.192.67
+2025-08-11T20:56:06Z INF Retrying connection in up to 1m4s connIndex=0 event=0 ip=198.41.200.33
+2025-08-11T20:56:06Z INF Retrying connection in up to 1m4s connIndex=1 event=0 ip=198.41.192.67
+2025-08-11T20:56:13Z ERR Connection terminated error="failed to dial to edge with quic: write udp4 0.0.0.0:52952->198.41.192.37:7844: sendmsg: network is unreachable" connIndex=2
+2025-08-11T20:56:16Z ERR Connection terminated error="failed to dial to edge with quic: write udp4 0.0.0.0:57777->198.41.200.33:7844: sendmsg: network is unreachable" connIndex=0
+2025-08-11T20:56:17Z ERR Connection terminated error="failed to dial to edge with quic: write udp4 0.0.0.0:53299->198.41.200.23:7844: sendmsg: network is unreachable" connIndex=3
+2025-08-11T20:56:18Z ERR Connection terminated error="failed to dial to edge with quic: write udp4 0.0.0.0:55951->198.41.192.67:7844: sendmsg: network is unreachable" connIndex=1
+2025-08-11T23:18:55Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=0 event=0 ip=198.41.200.73
+2025-08-11T23:18:55Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=1 event=0 ip=198.41.192.107
+2025-08-11T23:18:55Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=3 event=0 ip=198.41.200.13
+2025-08-11T23:18:55Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=2 event=0 ip=198.41.192.27
+2025-08-11T23:18:55Z ERR Failed to dial a quic connection error="failed to dial to edge with quic: write udp4 0.0.0.0:55951->198.41.192.107:7844: sendmsg: network is unreachable" connIndex=1 event=0 ip=198.41.192.107
+2025-08-11T23:18:55Z ERR Failed to dial a quic connection error="failed to dial to edge with quic: write udp4 0.0.0.0:53299->198.41.200.13:7844: sendmsg: network is unreachable" connIndex=3 event=0 ip=198.41.200.13
+2025-08-11T23:18:55Z INF Retrying connection in up to 1m4s connIndex=1 event=0 ip=198.41.192.107
+2025-08-11T23:18:55Z ERR Failed to dial a quic connection error="failed to dial to edge with quic: write udp4 0.0.0.0:57777->198.41.200.73:7844: sendmsg: network is unreachable" connIndex=0 event=0 ip=198.41.200.73
+2025-08-11T23:18:55Z ERR Failed to dial a quic connection error="failed to dial to edge with quic: write udp4 0.0.0.0:52952->198.41.192.27:7844: sendmsg: network is unreachable" connIndex=2 event=0 ip=198.41.192.27
+2025-08-11T23:18:55Z INF Retrying connection in up to 1m4s connIndex=0 event=0 ip=198.41.200.73
+2025-08-11T23:18:55Z INF Retrying connection in up to 1m4s connIndex=3 event=0 ip=198.41.200.13
+2025-08-11T23:18:55Z INF Retrying connection in up to 1m4s connIndex=2 event=0 ip=198.41.192.27
+2025-08-11T23:18:56Z ERR Connection terminated error="failed to dial to edge with quic: write udp4 0.0.0.0:52952->198.41.192.27:7844: sendmsg: network is unreachable" connIndex=2
+2025-08-11T23:19:00Z ERR Connection terminated error="failed to dial to edge with quic: write udp4 0.0.0.0:53299->198.41.200.13:7844: sendmsg: network is unreachable" connIndex=3
+2025-08-11T23:24:42Z ERR Connection terminated error="failed to dial to edge with quic: write udp4 0.0.0.0:57777->198.41.200.73:7844: sendmsg: network is unreachable" connIndex=0
+2025-08-11T23:25:44Z ERR Connection terminated error="failed to dial to edge with quic: write udp4 0.0.0.0:55951->198.41.192.107:7844: sendmsg: network is unreachable" connIndex=1
+2025-08-11T23:26:40Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=2 event=0 ip=198.41.192.167
+2025-08-11T23:26:40Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=1 event=0 ip=198.41.192.67
+2025-08-11T23:26:40Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=0 event=0 ip=198.41.200.33
+2025-08-11T23:26:40Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=3 event=0 ip=198.41.200.113
+2025-08-11T23:26:40Z ERR Failed to dial a quic connection error="failed to dial to edge with quic: write udp4 0.0.0.0:52952->198.41.192.167:7844: sendmsg: network is unreachable" connIndex=2 event=0 ip=198.41.192.167
+2025-08-11T23:26:40Z ERR Failed to dial a quic connection error="failed to dial to edge with quic: write udp4 0.0.0.0:55951->198.41.192.67:7844: sendmsg: network is unreachable" connIndex=1 event=0 ip=198.41.192.67
+2025-08-11T23:26:40Z INF Retrying connection in up to 1m4s connIndex=2 event=0 ip=198.41.192.167
+2025-08-11T23:26:40Z ERR Failed to dial a quic connection error="failed to dial to edge with quic: write udp4 0.0.0.0:57777->198.41.200.33:7844: sendmsg: network is unreachable" connIndex=0 event=0 ip=198.41.200.33
+2025-08-11T23:26:40Z INF Retrying connection in up to 1m4s connIndex=1 event=0 ip=198.41.192.67
+2025-08-11T23:26:40Z ERR Failed to dial a quic connection error="failed to dial to edge with quic: write udp4 0.0.0.0:53299->198.41.200.113:7844: sendmsg: network is unreachable" connIndex=3 event=0 ip=198.41.200.113
+2025-08-11T23:26:40Z INF Retrying connection in up to 1m4s connIndex=0 event=0 ip=198.41.200.33
+2025-08-11T23:26:40Z INF Retrying connection in up to 1m4s connIndex=3 event=0 ip=198.41.200.113
+2025-08-11T23:28:38Z ERR Connection terminated error="failed to dial to edge with quic: write udp4 0.0.0.0:55951->198.41.192.67:7844: sendmsg: network is unreachable" connIndex=1
+2025-08-11T23:28:40Z ERR Connection terminated error="failed to dial to edge with quic: write udp4 0.0.0.0:52952->198.41.192.167:7844: sendmsg: network is unreachable" connIndex=2
+2025-08-11T23:28:41Z ERR Connection terminated error="failed to dial to edge with quic: write udp4 0.0.0.0:57777->198.41.200.33:7844: sendmsg: network is unreachable" connIndex=0
+2025-08-11T23:46:09Z ERR Connection terminated error="failed to dial to edge with quic: write udp4 0.0.0.0:53299->198.41.200.113:7844: sendmsg: network is unreachable" connIndex=3
+2025-08-12T00:37:48Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=0 event=0 ip=198.41.200.73
+2025-08-12T00:37:48Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=3 event=0 ip=198.41.200.33
+2025-08-12T00:37:48Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=2 event=0 ip=198.41.192.37
+2025-08-12T00:37:48Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=1 event=0 ip=198.41.192.77
+2025-08-12T00:37:48Z ERR Failed to dial a quic connection error="failed to dial to edge with quic: write udp4 0.0.0.0:52952->198.41.192.37:7844: sendmsg: network is unreachable" connIndex=2 event=0 ip=198.41.192.37
+2025-08-12T00:37:48Z ERR Failed to dial a quic connection error="failed to dial to edge with quic: write udp4 0.0.0.0:53299->198.41.200.33:7844: sendmsg: network is unreachable" connIndex=3 event=0 ip=198.41.200.33
+2025-08-12T00:37:48Z INF Retrying connection in up to 1m4s connIndex=2 event=0 ip=198.41.192.37
+2025-08-12T00:37:48Z ERR Failed to dial a quic connection error="failed to dial to edge with quic: write udp4 0.0.0.0:57777->198.41.200.73:7844: sendmsg: network is unreachable" connIndex=0 event=0 ip=198.41.200.73
+2025-08-12T00:37:48Z ERR Failed to dial a quic connection error="failed to dial to edge with quic: write udp4 0.0.0.0:55951->198.41.192.77:7844: sendmsg: network is unreachable" connIndex=1 event=0 ip=198.41.192.77
+2025-08-12T00:37:48Z INF Retrying connection in up to 1m4s connIndex=0 event=0 ip=198.41.200.73
+2025-08-12T00:37:48Z INF Retrying connection in up to 1m4s connIndex=3 event=0 ip=198.41.200.33
+2025-08-12T00:37:48Z INF Retrying connection in up to 1m4s connIndex=1 event=0 ip=198.41.192.77
+2025-08-12T00:39:43Z ERR Connection terminated error="failed to dial to edge with quic: write udp4 0.0.0.0:57777->198.41.200.73:7844: sendmsg: network is unreachable" connIndex=0
+2025-08-12T00:40:41Z ERR Connection terminated error="failed to dial to edge with quic: write udp4 0.0.0.0:52952->198.41.192.37:7844: sendmsg: network is unreachable" connIndex=2
+2025-08-12T00:40:43Z ERR Connection terminated error="failed to dial to edge with quic: write udp4 0.0.0.0:53299->198.41.200.33:7844: sendmsg: network is unreachable" connIndex=3
+2025-08-12T00:41:43Z ERR Connection terminated error="failed to dial to edge with quic: write udp4 0.0.0.0:55951->198.41.192.77:7844: sendmsg: network is unreachable" connIndex=1
+2025-08-12T00:41:44Z ERR Failed to refresh DNS local resolver error="lookup region1.v2.argotunnel.com on [::1]:53: read udp [::1]:57716->[::1]:53: read: connection refused"
+2025-08-12T09:35:09Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=0 event=0 ip=198.41.200.113
+2025-08-12T09:35:09Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=1 event=0 ip=198.41.192.37
+2025-08-12T09:35:09Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=3 event=0 ip=198.41.200.23
+2025-08-12T09:35:09Z INF Tunnel connection curve preferences: [X25519MLKEM768 CurveP256] connIndex=2 event=0 ip=198.41.192.27
+2025-08-12T09:35:09Z INF Registered tunnel connection connIndex=3 connection=a4a76739-4282-4178-a1e5-d1da9dab600b event=0 ip=198.41.200.23 location=lax06 protocol=quic
+2025-08-12T09:35:09Z INF Registered tunnel connection connIndex=2 connection=77e7c219-e18e-44a1-8152-1066bb35377c event=0 ip=198.41.192.27 location=lax05 protocol=quic
+2025-08-12T09:35:09Z INF Registered tunnel connection connIndex=1 connection=718a9ad2-762b-4109-9cb0-2838e22a822e event=0 ip=198.41.192.37 location=lax05 protocol=quic
+2025-08-12T09:35:09Z INF Registered tunnel connection connIndex=0 connection=57b8aa60-c933-40c2-92fd-4f27c11bffc5 event=0 ip=198.41.200.113 location=lax01 protocol=quic
+2025-08-12T10:08:45Z WRN Failed to serve tunnel connection error="context canceled" connIndex=2 event=0 ip=198.41.192.27
+2025-08-12T10:08:45Z WRN Failed to serve tunnel connection error="context canceled" connIndex=3 event=0 ip=198.41.200.23
+2025-08-12T10:08:45Z INF Retrying connection in up to 1s connIndex=2 event=0 ip=198.41.192.27
+2025-08-12T10:08:45Z INF Retrying connection in up to 1s connIndex=3 event=0 ip=198.41.200.23
+2025-08-12T10:08:45Z WRN Failed to serve tunnel connection error="context canceled" connIndex=1 event=0 ip=198.41.192.37
+2025-08-12T10:08:45Z INF Retrying connection in up to 1s connIndex=1 event=0 ip=198.41.192.37
+2025-08-12T10:08:45Z WRN Connection terminated error="context canceled" connIndex=2
+2025-08-12T10:08:45Z ERR Failed to serve tunnel connection error="context canceled" connIndex=0 event=0 ip=198.41.200.113
+2025-08-12T10:08:45Z INF Retrying connection in up to 1s connIndex=0 event=0 ip=198.41.200.113
+2025-08-12T10:08:47Z ERR Connection terminated error="context canceled" connIndex=3
+2025-08-12T10:08:47Z ERR Connection terminated error="context canceled" connIndex=0
+2025-08-12T10:08:47Z ERR Connection terminated error="context canceled" connIndex=1
+2025-08-12T10:42:21Z INF Initiating graceful shutdown due to signal terminated ...

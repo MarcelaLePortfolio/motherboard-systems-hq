@@ -1,7 +1,8 @@
-/* eslint-disable import/no-commonjs */
-#!/usr/bin/env bash
-set -euo pipefail
-
+timestamp_folder="$1"
+if [ -z "$timestamp_folder" ]; then
+  timestamp_folder=$(ls -td test_artifacts/json_state/*/ | head -n 1 | sed "s:/*$::" | xargs -n1 basename)
+  echo "ℹ️ Auto-selected latest timestamp folder: $timestamp_folder"
+fi
 ARTIFACT_ROOT="test_artifacts/json_state"
 
 if [ $# -lt 1 ]; then
