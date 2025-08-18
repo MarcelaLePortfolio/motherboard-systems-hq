@@ -1,3 +1,1 @@
-```typescript
 console.log("Hello, World!");
-```
