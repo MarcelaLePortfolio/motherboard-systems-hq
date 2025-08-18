@@ -1,20 +1,28 @@
-import fs from 'fs';
-import path from 'path';
-import { runOllamaInference } from '../../_local/utils/ollamaClient';
+import fs from "fs";
+import { runOllamaPrompt } from "../../shared/ollama";
 
-export async function commentCodeWithOllama(args: {
-  file: string;
-  outputPath?: string;
-}) {
-  const { file, outputPath } = args;
-  const resolvedPath = path.resolve(file);
-  const code = fs.readFileSync(resolvedPath, 'utf8');
+export async function commentCodeWithOllama(args: { path: string }) {
+  const filePath = args?.path;
+  if (!filePath || !fs.existsSync(filePath)) {
+    return { status: "error", message: "File not found: " + filePath };
+  }
 
-  const prompt = `Add helpful comments to the following TypeScript code:\n\n${code}`;
-  const commented = await runOllamaInference(prompt);
+  const code = fs.readFileSync(filePath, "utf8");
 
-  const outPath = outputPath || resolvedPath.replace(/\.ts$/, '-commented.ts');
-  fs.writeFileSync(outPath, commented, 'utf8');
+  // Prompt for concise, human-readable inline comments
+  const prompt = `
+You are Matilda, a friendly assistant. Add inline comments to the following TypeScript/JavaScript code.
+- Keep comments short and clear.
+- Do NOT include full code blocks in the output.
 
-  return { status: 'success', commentedPath: outPath };
+Code:
+${code}
+`.trim();
+
+  try {
+    const comments = await runOllamaPrompt(prompt);
+    return { status: "success", comments };
+  } catch (err: any) {
+    return { status: "error", message: err.message };
+  }
 }
