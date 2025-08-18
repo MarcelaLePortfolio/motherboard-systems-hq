@@ -1,7 +1,7 @@
 import fs from "fs";
 import { runOllamaPrompt } from "../../shared/ollama";
 
-export async function summarizeWithOllama(args: { path: string }) {
+export async function explainCodeWithOllama(args: { path: string }) {
   const filePath = args?.path;
   if (!filePath || !fs.existsSync(filePath)) {
     return { status: "error", message: "File not found: " + filePath };
@@ -10,19 +10,19 @@ export async function summarizeWithOllama(args: { path: string }) {
   const code = fs.readFileSync(filePath, "utf8");
 
   const prompt =
-    "You are a senior developer. Summarize the following code file.\n\n" +
+    "You are a senior developer. Explain the following code file.\n\n" +
     "Focus on:\n" +
-    "• What the code does\n" +
-    "• Its main components or functions\n" +
-    "• Any interesting implementation details\n\n" +
-    "Only include the summary. Do not repeat the code.\n\n" +
+    "• How it works\n" +
+    "• Its main functions and components\n" +
+    "• Any notable implementation details\n\n" +
+    "Only provide the explanation. Do not repeat the code.\n\n" +
     "```ts\n" +
     code +
     "\n```";
 
   try {
-    const summary = await runOllamaPrompt(prompt);
-    return { status: "success", summary };
+    const explanation = await runOllamaPrompt(prompt);
+    return { status: "success", explanation };
   } catch (err: any) {
     return { status: "error", message: err.message };
   }

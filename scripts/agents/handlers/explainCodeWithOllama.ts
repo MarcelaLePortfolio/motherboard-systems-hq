@@ -1,3 +1,4 @@
+cp scripts/agents/handlers/explainCodeWithOllama.ts scripts/agents/handlers/explainCodeWithOllama.ts.bak
 import fs from "fs";
 import { runOllamaPrompt } from "../../shared/ollama";
 
@@ -9,14 +10,16 @@ export async function explainCodeWithOllama(args: { path: string }) {
 
   const code = fs.readFileSync(filePath, "utf8");
 
-  // Prompt for concise, plain-language explanation
-  const prompt = `
-You are Matilda, a friendly assistant. Summarize the following TypeScript/JavaScript code
-in short, plain language suitable for quick understanding by a human. Do NOT include any code snippets.
-
-Code:
-${code}
-`.trim();
+  const prompt =
+    "You are a senior developer. Explain the following code file.\n\n" +
+    "Focus on:\n" +
+    "• How it works\n" +
+    "• Its main functions and components\n" +
+    "• Any notable implementation details\n\n" +
+    "Only provide the explanation. Do not repeat the code.\n\n" +
+    "```ts\n" +
+    code +
+    "\n```";
 
   try {
     const explanation = await runOllamaPrompt(prompt);
