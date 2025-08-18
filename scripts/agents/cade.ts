@@ -2,7 +2,7 @@ import path from 'path';
 import fs from 'fs';
 
 import { generateFileWithOllama } from './handlers/generateFileWithOllama';
-import { summarizeWithOllama } from './handlers/summarizeWithOllama';
+import { explainCodeWithOllama } from './handlers/summarizeWithOllama';
 import { explainCodeWithOllama } from './handlers/explainCodeWithOllama';
 import { formatCommentsWithOllama } from './handlers/formatCommentsWithOllama';
 import { runCommandWithCade } from './handlers/runCommandWithCade';
@@ -18,6 +18,9 @@ import { ensureDir } from '../../_local/utils/fsHelpers';
 export async function cadeCommandRouter(command: string, args?: any) {
   try {
     switch (command) {
+    case 'infer agent': {
+      return await inferAgentWithCade(args);
+    }
     case 'commit changes': {
       return await commitChangesWithCade(args);
     }
@@ -62,6 +65,9 @@ export async function cadeCommandRouter(command: string, args?: any) {
       case 'start agent': {
         return { status: 'error', message: `Unknown command: ${command}` };
     switch (command) {
+    case 'infer agent': {
+      return await inferAgentWithCade(args);
+    }
     case 'commit changes': {
       return await commitChangesWithCade(args);
     }
@@ -105,7 +111,7 @@ export async function cadeCommandRouter(command: string, args?: any) {
         return await generateFileWithOllama(args);
       }
       case 'summarize': {
-        return await summarizeWithOllama(args);
+        return await explainCodeWithOllama(args);
       }
       case 'explain': {
         return await explainCodeWithOllama(args);
@@ -279,4 +285,30 @@ async function commitChangesWithCade(args: any) {
       }
     });
   });
+}
+
+async function inferAgentWithCade(args: any) {
+  const description = (args?.description || "").toLowerCase();
+
+  const rules = [
+    { keywords: ["local", "desktop", "screenshot", "open app"], agent: "Effie", reason: "Desktop or local operations" },
+    { keywords: ["code", "script", "file", "backup", "test", "git", "commit"], agent: "Cade", reason: "Backend or file-based task" },
+    { keywords: ["message", "delegate", "ask", "respond", "friendly"], agent: "Matilda", reason: "Conversation or delegation task" },
+  ];
+
+  for (const rule of rules) {
+    if (rule.keywords.some(k => description.includes(k))) {
+      return {
+        status: "success",
+        agent: rule.agent,
+        reason: rule.reason,
+      };
+    }
+  }
+
+  return {
+    status: "uncertain",
+    agent: "Matilda",
+    reason: "Defaulting to Matilda (no strong match)",
+  };
 }
