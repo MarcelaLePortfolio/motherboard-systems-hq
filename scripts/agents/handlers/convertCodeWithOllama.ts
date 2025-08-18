@@ -6,15 +6,17 @@ export async function convertCodeWithOllama(args: { path: string }) {
   if (!filePath || !fs.existsSync(filePath)) {
     return { status: "error", message: "File not found: " + filePath };
   }
+
   const code = fs.readFileSync(filePath, "utf8");
+
+  // Prompt for converting code to another language or format
   const prompt = `
-You are a senior developer. Convert this code to another module system or type (e.g., JS → TS, CommonJS → ESM).
+You are a senior developer. Convert the following TypeScript/JavaScript code
+to a different language or format as requested. Keep formatting clean
+and ensure correctness. Only output the converted code.
 
-Output only the converted code.
-
-\`\`\`ts
+Code:
 ${code}
-\`\`\`
 `.trim();
 
   try {
