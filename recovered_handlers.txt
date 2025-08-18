@@ -1,0 +1,106 @@
+    switch (command) {
+    case 'infer agent': {
+      return await inferAgentWithCade(args);
+    }
+    case 'commit changes': {
+      return await commitChangesWithCade(args);
+    }
+    case 'delete': {
+      return await deleteWithCade(args);
+    }
+    case 'delete': {
+      return await deleteWithCade(args);
+    }
+      case 'list files': {
+        return await listFilesWithCade(args);
+      }
+      case 'test': {
+        return await runTestsWithCade(args);
+      }
+      case 'backup': {
+        return await createBackupWithCade(args);
+      }
+      case 'status': {
+        return await reportAgentStatusWithCade(args);
+      }
+      case 'translate': {
+        return await translateCommentsWithOllama(args);
+      }
+
+      case 'convert': {
+        return await convertCodeWithOllama(args);
+      }
+
+      case 'comment': {
+        return await commentCodeWithOllama(args);
+      }
+
+      case 'refactor': {
+        return await refactorCodeWithOllama(args);
+      }
+
+      case 'install dependencies': {
+        return await installDepsWithCade(args);
+      }
+
+      case 'start agent': {
+        return { status: 'error', message: `Unknown command: ${command}` };
+    switch (command) {
+    case 'infer agent': {
+      return await inferAgentWithCade(args);
+    }
+    case 'commit changes': {
+      return await commitChangesWithCade(args);
+    }
+    case 'delete': {
+      return await deleteWithCade(args);
+    }
+    case 'delete': {
+      return await deleteWithCade(args);
+    }
+      case 'list files': {
+        return await listFilesWithCade(args);
+      }
+      case 'test': {
+        return await runTestsWithCade(args);
+      }
+      case 'backup': {
+        return await createBackupWithCade(args);
+      }
+      case 'status': {
+        return await reportAgentStatusWithCade(args);
+      }
+      case 'translate': {
+        return await translateCommentsWithOllama(args);
+      }
+      case 'convert': {
+        return await convertCodeWithOllama(args);
+      }
+      case 'comment': {
+        return await commentCodeWithOllama(args);
+      }
+      case 'refactor': {
+        return await refactorCodeWithCade(args);
+      }
+      case 'install dependencies': {
+        return await installDepsWithCade(args);
+      }
+      case 'start agent': {
+        return await startAgentWithPM2(args);
+      }
+      case 'generate': {
+        return await generateFileWithOllama(args);
+      }
+      case 'summarize': {
+        return await explainCodeWithOllama(args);
+      }
+      case 'explain': {
+        return await explainCodeWithOllama(args);
+      }
+      case 'format': {
+        return await formatCommentsWithOllama(args);
+      }
+      case 'run command': {
+        return await runCommandWithCade(args);
+      }
+      default:
