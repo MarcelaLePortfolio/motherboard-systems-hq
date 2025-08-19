@@ -20,6 +20,17 @@ export async function cadeCommandRouter(action: string, options: any) {
         await fs.rm(options.path, { recursive: true, force: true });
         return { status: 'deleted', path: options.path };
 
+      case "commit changes":
+        const message = options?.message || "Auto-commit via Cade";
+        const { exec } = require("child_process");
+        return new Promise((resolve, reject) => {
+          exec(`git add . && git commit -m \"${message}\"`, { cwd: process.cwd() }, (err, stdout, stderr) => {
+            if (err) return reject(stderr || err.message);
+            resolve({ status: "committed", message: stdout.trim() });
+          });
+        });
+      case "newHandler":
+        return { status: "stub replaced", handler: "newHandler" };
       default:
         return { error: 'Unknown action' };
     }
