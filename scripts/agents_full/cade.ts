@@ -1,3 +1,4 @@
+let replaceStubHandler; import("./handlers/replaceStubHandler.js").then(m => replaceStubHandler = m.default || m);
 let startAgentHandler; import("./handlers/startAgentHandler.js").then(m => startAgentHandler = m.default || m);
 let runScriptHandler; import("./handlers/runScriptHandler.js").then(m => runScriptHandler = m.default || m);
 let installDepsHandler; import("./handlers/installDepsHandler.js").then(m => installDepsHandler = m.default || m);
@@ -34,6 +35,10 @@ export async function cadeCommandRouter(action: string, options: any) {
       case "start agent": {
         if (!startAgentHandler) throw new Error("startAgentHandler not loaded");
         return startAgentHandler(options);
+      }
+      case "replace stub": {
+        if (!replaceStubHandler) throw new Error("replaceStubHandler not loaded");
+        return replaceStubHandler(options);
       }
       default:
         return { error: 'Unknown action' };
