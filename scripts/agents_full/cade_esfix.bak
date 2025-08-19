@@ -1,4 +1,4 @@
-import { promises as fs } from 'fs';
+let installDepsHandler; import("./handlers/installDepsHandler.js").then(m => installDepsHandler = m.default || m);const installDepsHandler = require("./handlers/installDepsHandler");import { promises as fs } from 'fs';
 import path from 'path';
 
 export async function cadeCommandRouter(action: string, options: any) {
@@ -20,7 +20,8 @@ export async function cadeCommandRouter(action: string, options: any) {
         await fs.rm(options.path, { recursive: true, force: true });
         return { status: 'deleted', path: options.path };
 
-      default:
+      case "install deps":
+        return installDepsHandler(options);      default:
         return { error: 'Unknown action' };
     }
   } catch (err) {

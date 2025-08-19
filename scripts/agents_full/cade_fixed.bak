@@ -1,5 +1,4 @@
-import { promises as fs } from 'fs';
-import path from 'path';
+import("./handlers/installDepsHandler.js").then(m => { globalThis.installDepsHandler = m.default || m; });import path from 'path';
 
 export async function cadeCommandRouter(action: string, options: any) {
   try {
@@ -20,10 +19,5 @@ export async function cadeCommandRouter(action: string, options: any) {
         await fs.rm(options.path, { recursive: true, force: true });
         return { status: 'deleted', path: options.path };
 
-      default:
-        return { error: 'Unknown action' };
-    }
-  } catch (err) {
-    return { error: err.message };
-  }
+}
 }
