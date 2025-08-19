@@ -1,3 +1,5 @@
+let runScriptHandler; import("./handlers/runScriptHandler.js").then(m => runScriptHandler = m.default || m);
+let installDepsHandler; import("./handlers/installDepsHandler.js").then(m => installDepsHandler = m.default || m);
 import { promises as fs } from 'fs';
 import path from 'path';
 
@@ -20,17 +22,14 @@ export async function cadeCommandRouter(action: string, options: any) {
         await fs.rm(options.path, { recursive: true, force: true });
         return { status: 'deleted', path: options.path };
 
-      case "commit changes":
-        const message = options?.message || "Auto-commit via Cade";
-        const { exec } = require("child_process");
-        return new Promise((resolve, reject) => {
-          exec(`git add . && git commit -m \"${message}\"`, { cwd: process.cwd() }, (err, stdout, stderr) => {
-            if (err) return reject(stderr || err.message);
-            resolve({ status: "committed", message: stdout.trim() });
-          });
-        });
-      case "newHandler":
-        return { status: "stub replaced", handler: "newHandler" };
+      case "install deps": {
+        if (!installDepsHandler) throw new Error("installDepsHandler not loaded");
+        return installDepsHandler(options);
+      }
+      case "run script": {
+        if (!runScriptHandler) throw new Error("runScriptHandler not loaded");
+        return runScriptHandler(options);
+      }
       default:
         return { error: 'Unknown action' };
     }
