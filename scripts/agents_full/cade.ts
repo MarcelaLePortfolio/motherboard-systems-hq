@@ -24,6 +24,14 @@ export async function cadeCommandRouter(action, options) {
             const { default: handler } = await import("./handlers/inferAgentHandler.js");
             return handler(options);
         }
+        case "chain": {
+            const { default: handler } = await import("./handlers/chainHandler.js");
+            return handler(options);
+        }
+        case "learn": {
+            const { default: handler } = await import("./handlers/learnHandler.js");
+            return handler(options);
+        }
         default:
             return { error: 'Unknown action' };
     }
