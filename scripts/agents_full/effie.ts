@@ -1,4 +1,4 @@
- 
+import "dotenv/config";import "dotenv/config"; 
 import { log } from '../utils/log.js';
 import { promises as fs } from 'fs';
 ////import path from 'path';

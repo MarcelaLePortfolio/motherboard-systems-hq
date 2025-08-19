@@ -1,14 +1,25 @@
 module.exports = {
   apps: [
     {
-      name: 'cade',
-      script: 'scripts/_local/agent-runtime/launch-cade.ts',
-      interpreter: 'npx',
-      interpreter_args: 'tsx',
-      env: {
-        SUPABASE_URL: 'https://jywedbwwaabdotfcsupw.supabase.co',
-        SUPABASE_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp5d2VkYnd3YWFiZG90ZmNzdXB3Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1NDUxMjczMSwiZXhwIjoyMDcwMDg4NzMxfQ.JcagrlH7jw6c0SK1gJHK8X3wW9lyxVZo4XOWGWtgwoo'
-      }
+      name: "cade",
+      script: "./scripts/agents_full/run_cade.sh",
+      watch: false,
+      exec_mode: "fork",
+      instances: 1
+    },
+    {
+      name: "matilda",
+      script: "./scripts/agents_full/run_matilda.sh",
+      watch: false,
+      exec_mode: "fork",
+      instances: 1
+    },
+    {
+      name: "effie",
+      script: "./scripts/agents_full/run_effie.sh",
+      watch: false,
+      exec_mode: "fork",
+      instances: 1
     }
   ]
 };

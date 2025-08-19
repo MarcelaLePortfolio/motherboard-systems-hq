@@ -1,7 +1,7 @@
 import { exec } from "node:child_process";
-export async function startAgentWithPM2(args: { agentName: string }) {
+export async function runScriptWithCade(args: { command: string }) {
   return new Promise((resolve) => {
-    exec(`pm2 start ${args.agentName}`, (err, stdout, stderr) => {
+    exec(args.command, (err, stdout, stderr) => {
       if (err) resolve({ status: "error", message: stderr || err.message });
       else resolve({ status: "success", output: stdout.trim() });
     });

@@ -1,3 +1,11 @@
+import { runScriptWithCade } from "../agents/handlers/runScriptWithCade";
+import { installDepsWithCade } from "../agents/handlers/installDepsWithCade";
+import { startAgentWithPM2 } from "../agents/handlers/startAgentWithPM2";
+import { reportStatusWithCade } from "../agents/handlers/reportStatusWithCade";
+import { createBackupWithCade } from "../agents/handlers/createBackupWithCade";
+import { runTestsWithCade } from "../agents/handlers/runTestsWithCade";
+
+
 import { summarizeWithOllama } from "../agents/handlers/summarizeWithOllama";
 import { explainCodeWithOllama } from "../agents/handlers/explainCodeWithOllama";
 import { commentCodeWithOllama } from "../agents/handlers/commentCodeWithOllama";
@@ -53,6 +61,12 @@ export async function cadeCommandRouter(command: string, args?: any) {
     case "format": { return await formatCommentsWithOllama(args); }
     case "translate": { return await translateCodeWithOllama(args); }
     case "convert": { return await convertCodeWithOllama(args); }
+    case "run": { return await runScriptWithCade(args); }
+    case "install": { return await installDepsWithCade(args); }
+    case "startAgent": { return await startAgentWithPM2(args); }
+    case "status": { return await reportStatusWithCade(); }
+    case "createBackup": { return await createBackupWithCade(); }
+    case "runTests": { return await runTestsWithCade(); }
     default:
       return { status: "error", message: `Unknown command: ${command}` };
   }

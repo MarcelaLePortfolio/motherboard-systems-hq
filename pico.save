@@ -1,0 +1,43 @@
+    case "summarize": {
+      return await summarizeWithOllama(args);
+    }
+    case "explain": {
+      return await explainCodeWithOllama(args);
+    }
+    case "comment": {
+      return await commentCodeWithOllama(args);
+    }
+    case "refactor": {
+      return await refactorCodeWithOllama(args);
+    }
+    case "format": {
+      return await formatCommentsWithOllama(args);
+    }
+    case "translate": {
+      return await translateCodeWithOllama(args);
+    }
+    case "convert": {
+      return await convertCodeWithOllama(args);
+    }
+    case "summarize": {
+      return await summarizeWithOllama(args);
+    }
+    case "explain": {
+      return await explainCodeWithOllama(args);
+    }
+    case "comment": {
+      return await commentCodeWithOllama(args);
+    }
+    case "refactor": {
+      return await refactorCodeWithOllama(args);
+    }
+    case "format": {
+      return await formatCommentsWithOllama(args);
+    }
+    case "translate": {
+      return await translateCodeWithOllama(args);
+    }
+    case "convert": {
+      return await convertCodeWithOllama(args);
+    }
+

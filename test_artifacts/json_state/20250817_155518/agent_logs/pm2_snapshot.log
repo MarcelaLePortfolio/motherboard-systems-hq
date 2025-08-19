@@ -1,0 +1,452 @@
+[1m[90m[TAILING] Tailing last 200 lines for [all] processes (change the value with --lines option)[39m[22m
+[90m/Users/marcela-dev/.pm2/pm2.log last 200 lines:[39m
+[34mPM2        | [39m2025-08-15T14:25:24: PM2 log: pid=20277 msg=failed to kill - retrying in 100ms
+[34mPM2        | [39m2025-08-15T14:25:24: PM2 log: pid=20277 msg=failed to kill - retrying in 100ms
+[34mPM2        | [39m2025-08-15T14:25:24: PM2 log: Process with pid 20277 still alive after 1600ms, sending it SIGKILL now...
+[34mPM2        | [39m2025-08-15T14:25:24: PM2 log: App [cade:27] exited with code [0] via signal [SIGKILL]
+[34mPM2        | [39m2025-08-15T14:25:24: PM2 log: pid=20277 msg=process killed
+[34mPM2        | [39m2025-08-15T14:25:24: PM2 log: App [cade:27] starting in -fork mode-
+[34mPM2        | [39m2025-08-15T14:25:24: PM2 log: App [cade:27] online
+[34mPM2        | [39m2025-08-15T14:26:26: PM2 log: Stopping app:cade id:27
+[34mPM2        | [39m2025-08-15T14:26:26: PM2 log: pid=21670 msg=failed to kill - retrying in 100ms
+[34mPM2        | [39m2025-08-15T14:26:26: PM2 log: pid=21670 msg=failed to kill - retrying in 100ms
+[34mPM2        | [39m2025-08-15T14:26:26: PM2 log: pid=21670 msg=failed to kill - retrying in 100ms
+[34mPM2        | [39m2025-08-15T14:26:26: PM2 log: pid=21670 msg=failed to kill - retrying in 100ms
+[34mPM2        | [39m2025-08-15T14:26:26: PM2 log: pid=21670 msg=failed to kill - retrying in 100ms
+[34mPM2        | [39m2025-08-15T14:26:27: PM2 log: pid=21670 msg=failed to kill - retrying in 100ms
+[34mPM2        | [39m2025-08-15T14:26:27: PM2 log: pid=21670 msg=failed to kill - retrying in 100ms
+[34mPM2        | [39m2025-08-15T14:26:27: PM2 log: pid=21670 msg=failed to kill - retrying in 100ms
+[34mPM2        | [39m2025-08-15T14:26:27: PM2 log: pid=21670 msg=failed to kill - retrying in 100ms
+[34mPM2        | [39m2025-08-15T14:26:27: PM2 log: pid=21670 msg=failed to kill - retrying in 100ms
+[34mPM2        | [39m2025-08-15T14:26:27: PM2 log: pid=21670 msg=failed to kill - retrying in 100ms
+[34mPM2        | [39m2025-08-15T14:26:27: PM2 log: pid=21670 msg=failed to kill - retrying in 100ms
+[34mPM2        | [39m2025-08-15T14:26:27: PM2 log: pid=21670 msg=failed to kill - retrying in 100ms
+[34mPM2        | [39m2025-08-15T14:26:27: PM2 log: pid=21670 msg=failed to kill - retrying in 100ms
+[34mPM2        | [39m2025-08-15T14:26:27: PM2 log: pid=21670 msg=failed to kill - retrying in 100ms
+[34mPM2        | [39m2025-08-15T14:26:28: PM2 log: Process with pid 21670 still alive after 1600ms, sending it SIGKILL now...
+[34mPM2        | [39m2025-08-15T14:26:28: PM2 log: App [cade:27] exited with code [0] via signal [SIGKILL]
+[34mPM2        | [39m2025-08-15T14:26:28: PM2 log: pid=21670 msg=process killed
+[34mPM2        | [39m2025-08-15T14:26:28: PM2 log: App [cade:27] starting in -fork mode-
+[34mPM2        | [39m2025-08-15T14:26:28: PM2 log: App [cade:27] online
+[34mPM2        | [39m2025-08-15T14:30:22: PM2 log: Stopping app:cade id:27
+[34mPM2        | [39m2025-08-15T14:30:23: PM2 log: pid=22889 msg=failed to kill - retrying in 100ms
+[34mPM2        | [39m2025-08-15T14:30:23: PM2 log: pid=22889 msg=failed to kill - retrying in 100ms
+[34mPM2        | [39m2025-08-15T14:30:23: PM2 log: pid=22889 msg=failed to kill - retrying in 100ms
+[34mPM2        | [39m2025-08-15T14:30:23: PM2 log: pid=22889 msg=failed to kill - retrying in 100ms
+[34mPM2        | [39m2025-08-15T14:30:23: PM2 log: pid=22889 msg=failed to kill - retrying in 100ms
+[34mPM2        | [39m2025-08-15T14:30:23: PM2 log: pid=22889 msg=failed to kill - retrying in 100ms
+[34mPM2        | [39m2025-08-15T14:30:23: PM2 log: pid=22889 msg=failed to kill - retrying in 100ms
+[34mPM2        | [39m2025-08-15T14:30:23: PM2 log: pid=22889 msg=failed to kill - retrying in 100ms
+[34mPM2        | [39m2025-08-15T14:30:23: PM2 log: pid=22889 msg=failed to kill - retrying in 100ms
+[34mPM2        | [39m2025-08-15T14:30:23: PM2 log: pid=22889 msg=failed to kill - retrying in 100ms
+[34mPM2        | [39m2025-08-15T14:30:24: PM2 log: pid=22889 msg=failed to kill - retrying in 100ms
+[34mPM2        | [39m2025-08-15T14:30:24: PM2 log: pid=22889 msg=failed to kill - retrying in 100ms
+[34mPM2        | [39m2025-08-15T14:30:24: PM2 log: pid=22889 msg=failed to kill - retrying in 100ms
+[34mPM2        | [39m2025-08-15T14:30:24: PM2 log: pid=22889 msg=failed to kill - retrying in 100ms
+[34mPM2        | [39m2025-08-15T14:30:24: PM2 log: pid=22889 msg=failed to kill - retrying in 100ms
+[34mPM2        | [39m2025-08-15T14:30:24: PM2 log: Process with pid 22889 still alive after 1600ms, sending it SIGKILL now...
+[34mPM2        | [39m2025-08-15T14:30:24: PM2 log: App [cade:27] exited with code [0] via signal [SIGKILL]
+[34mPM2        | [39m2025-08-15T14:30:24: PM2 log: pid=22889 msg=process killed
+[34mPM2        | [39m2025-08-15T14:30:24: PM2 log: App [cade:27] starting in -fork mode-
+[34mPM2        | [39m2025-08-15T14:30:24: PM2 log: App [cade:27] online
+[34mPM2        | [39m2025-08-15T14:31:22: PM2 log: Stopping app:cade id:27
+[34mPM2        | [39m2025-08-15T14:31:22: PM2 log: pid=26069 msg=failed to kill - retrying in 100ms
+[34mPM2        | [39m2025-08-15T14:31:22: PM2 log: pid=26069 msg=failed to kill - retrying in 100ms
+[34mPM2        | [39m2025-08-15T14:31:22: PM2 log: pid=26069 msg=failed to kill - retrying in 100ms
+[34mPM2        | [39m2025-08-15T14:31:22: PM2 log: pid=26069 msg=failed to kill - retrying in 100ms
+[34mPM2        | [39m2025-08-15T14:31:22: PM2 log: pid=26069 msg=failed to kill - retrying in 100ms
+[34mPM2        | [39m2025-08-15T14:31:22: PM2 log: pid=26069 msg=failed to kill - retrying in 100ms
+[34mPM2        | [39m2025-08-15T14:31:23: PM2 log: pid=26069 msg=failed to kill - retrying in 100ms
+[34mPM2        | [39m2025-08-15T14:31:23: PM2 log: pid=26069 msg=failed to kill - retrying in 100ms
+[34mPM2        | [39m2025-08-15T14:31:23: PM2 log: pid=26069 msg=failed to kill - retrying in 100ms
+[34mPM2        | [39m2025-08-15T14:31:23: PM2 log: pid=26069 msg=failed to kill - retrying in 100ms
+[34mPM2        | [39m2025-08-15T14:31:23: PM2 log: pid=26069 msg=failed to kill - retrying in 100ms
+[34mPM2        | [39m2025-08-15T14:31:23: PM2 log: pid=26069 msg=failed to kill - retrying in 100ms
+[34mPM2        | [39m2025-08-15T14:31:23: PM2 log: pid=26069 msg=failed to kill - retrying in 100ms
+[34mPM2        | [39m2025-08-15T14:31:23: PM2 log: pid=26069 msg=failed to kill - retrying in 100ms
+[34mPM2        | [39m2025-08-15T14:31:23: PM2 log: pid=26069 msg=failed to kill - retrying in 100ms
+[34mPM2        | [39m2025-08-15T14:31:23: PM2 log: Process with pid 26069 still alive after 1600ms, sending it SIGKILL now...
+[34mPM2        | [39m2025-08-15T14:31:24: PM2 log: App [cade:27] exited with code [0] via signal [SIGKILL]
+[34mPM2        | [39m2025-08-15T14:31:24: PM2 log: pid=26069 msg=process killed
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 log: App [cade:28] starting in -fork mode-
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 log: App [cade:28] online
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 log: App [cade:28] exited with code [127] via signal [SIGINT]
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 log: App [cade:28] starting in -fork mode-
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 log: App [cade:28] online
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 log: App [cade:28] exited with code [127] via signal [SIGINT]
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 log: App [cade:28] starting in -fork mode-
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 log: App [cade:28] online
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 log: App [cade:28] exited with code [127] via signal [SIGINT]
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 log: App [cade:28] starting in -fork mode-
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 log: App [cade:28] online
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 log: App [cade:28] exited with code [127] via signal [SIGINT]
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 log: App [cade:28] starting in -fork mode-
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 log: App [cade:28] online
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 log: App [cade:28] exited with code [127] via signal [SIGINT]
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 log: App [cade:28] starting in -fork mode-
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 error: Error [ERR_STREAM_DESTROYED]: Cannot call write after a stream was destroyed
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 log: App [cade:28] online
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 log: App [cade:28] exited with code [127] via signal [SIGINT]
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 log: App [cade:28] starting in -fork mode-
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 error: Error [ERR_STREAM_DESTROYED]: Cannot call write after a stream was destroyed
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 log: App [cade:28] online
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 log: App [cade:28] exited with code [127] via signal [SIGINT]
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 log: App [cade:28] starting in -fork mode-
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 error: Error [ERR_STREAM_DESTROYED]: Cannot call write after a stream was destroyed
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 log: App [cade:28] online
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 log: App [cade:28] exited with code [127] via signal [SIGINT]
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 log: App [cade:28] starting in -fork mode-
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 error: Error [ERR_STREAM_DESTROYED]: Cannot call write after a stream was destroyed
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 log: App [cade:28] online
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 log: App [cade:28] exited with code [127] via signal [SIGINT]
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 log: App [cade:28] starting in -fork mode-
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 error: Error [ERR_STREAM_DESTROYED]: Cannot call write after a stream was destroyed
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 log: App [cade:28] online
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 log: App [cade:28] exited with code [127] via signal [SIGINT]
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 log: App [cade:28] starting in -fork mode-
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 error: Error [ERR_STREAM_DESTROYED]: Cannot call write after a stream was destroyed
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 log: App [cade:28] online
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 log: App [cade:28] exited with code [127] via signal [SIGINT]
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 error: Error [ERR_STREAM_DESTROYED]: Cannot call write after a stream was destroyed
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 log: App [cade:28] starting in -fork mode-
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 log: App [cade:28] online
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 log: App [cade:28] exited with code [127] via signal [SIGINT]
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 log: App [cade:28] starting in -fork mode-
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 log: App [cade:28] online
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 log: App [cade:28] exited with code [127] via signal [SIGINT]
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 log: App [cade:28] starting in -fork mode-
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 error: Error [ERR_STREAM_DESTROYED]: Cannot call write after a stream was destroyed
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 log: App [cade:28] online
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 log: App [cade:28] exited with code [127] via signal [SIGINT]
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 log: App [cade:28] starting in -fork mode-
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 error: Error [ERR_STREAM_DESTROYED]: Cannot call write after a stream was destroyed
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 log: App [cade:28] online
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 log: App [cade:28] exited with code [127] via signal [SIGINT]
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 log: App [cade:28] starting in -fork mode-
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 log: App [cade:28] online
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 log: App [cade:28] exited with code [127] via signal [SIGINT]
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 log: Script /bin/bash had too many unstable restarts (16). Stopped. "errored"
+[34mPM2        | [39m2025-08-15T14:32:21: PM2 error: Error [ERR_STREAM_DESTROYED]: Cannot call write after a stream was destroyed
+[34mPM2        | [39m2025-08-15T14:32:51: PM2 log: Stopping app:cade id:28
+[34mPM2        | [39m2025-08-15T14:32:51: PM2 error: app=cade id=28 does not have a pid
+[34mPM2        | [39m2025-08-15T14:32:51: PM2 log: App [cade:29] starting in -fork mode-
+[34mPM2        | [39m2025-08-15T14:32:51: PM2 log: App [cade:29] online
+[34mPM2        | [39m2025-08-15T14:34:46: PM2 log: Stopping app:cade id:29
+[34mPM2        | [39m2025-08-15T14:34:46: PM2 log: App [cade:29] exited with code [0] via signal [SIGINT]
+[34mPM2        | [39m2025-08-15T14:34:46: PM2 log: pid=28485 msg=process killed
+[34mPM2        | [39m2025-08-15T14:34:46: PM2 log: App [cade:30] starting in -fork mode-
+[34mPM2        | [39m2025-08-15T14:34:46: PM2 log: App [cade:30] online
+[34mPM2        | [39m2025-08-15T14:34:46: PM2 log: App [cade:30] exited with code [1] via signal [SIGINT]
+[34mPM2        | [39m2025-08-15T14:34:46: PM2 log: App [cade:30] starting in -fork mode-
+[34mPM2        | [39m2025-08-15T14:34:46: PM2 log: App [cade:30] online
+[34mPM2        | [39m2025-08-15T14:34:46: PM2 log: App [cade:30] exited with code [1] via signal [SIGINT]
+[34mPM2        | [39m2025-08-15T14:34:46: PM2 log: App [cade:30] starting in -fork mode-
+[34mPM2        | [39m2025-08-15T14:34:46: PM2 log: App [cade:30] online
+[34mPM2        | [39m2025-08-15T14:34:46: PM2 log: App [cade:30] exited with code [1] via signal [SIGINT]
+[34mPM2        | [39m2025-08-15T14:34:46: PM2 log: App [cade:30] starting in -fork mode-
+[34mPM2        | [39m2025-08-15T14:34:46: PM2 log: App [cade:30] online
+[34mPM2        | [39m2025-08-15T14:34:46: PM2 log: App [cade:30] exited with code [1] via signal [SIGINT]
+[34mPM2        | [39m2025-08-15T14:34:46: PM2 log: App [cade:30] starting in -fork mode-
+[34mPM2        | [39m2025-08-15T14:34:46: PM2 log: App [cade:30] online
+[34mPM2        | [39m2025-08-15T14:34:46: PM2 log: App [cade:30] exited with code [1] via signal [SIGINT]
+[34mPM2        | [39m2025-08-15T14:34:46: PM2 log: App [cade:30] starting in -fork mode-
+[34mPM2        | [39m2025-08-15T14:34:46: PM2 log: App [cade:30] online
+[34mPM2        | [39m2025-08-15T14:34:46: PM2 log: App [cade:30] exited with code [1] via signal [SIGINT]
+[34mPM2        | [39m2025-08-15T14:34:46: PM2 log: App [cade:30] starting in -fork mode-
+[34mPM2        | [39m2025-08-15T14:34:46: PM2 error: Error [ERR_STREAM_DESTROYED]: Cannot call write after a stream was destroyed
+[34mPM2        | [39m2025-08-15T14:34:46: PM2 log: App [cade:30] online
+[34mPM2        | [39m2025-08-15T14:34:46: PM2 log: App [cade:30] exited with code [1] via signal [SIGINT]
+[34mPM2        | [39m2025-08-15T14:34:46: PM2 log: App [cade:30] starting in -fork mode-
+[34mPM2        | [39m2025-08-15T14:34:46: PM2 error: Error [ERR_STREAM_DESTROYED]: Cannot call write after a stream was destroyed
+[34mPM2        | [39m2025-08-15T14:34:46: PM2 log: App [cade:30] online
+[34mPM2        | [39m2025-08-15T14:34:46: PM2 log: App [cade:30] exited with code [1] via signal [SIGINT]
+[34mPM2        | [39m2025-08-15T14:34:46: PM2 log: App [cade:30] starting in -fork mode-
+[34mPM2        | [39m2025-08-15T14:34:46: PM2 error: Error [ERR_STREAM_DESTROYED]: Cannot call write after a stream was destroyed
+[34mPM2        | [39m2025-08-15T14:34:47: PM2 log: App [cade:30] online
+[34mPM2        | [39m2025-08-15T14:34:47: PM2 log: App [cade:30] exited with code [1] via signal [SIGINT]
+[34mPM2        | [39m2025-08-15T14:34:47: PM2 log: App [cade:30] starting in -fork mode-
+[34mPM2        | [39m2025-08-15T14:34:47: PM2 error: Error [ERR_STREAM_DESTROYED]: Cannot call write after a stream was destroyed
+[34mPM2        | [39m2025-08-15T14:34:47: PM2 log: App [cade:30] online
+[34mPM2        | [39m2025-08-15T14:34:47: PM2 log: App [cade:30] exited with code [1] via signal [SIGINT]
+[34mPM2        | [39m2025-08-15T14:34:47: PM2 log: App [cade:30] starting in -fork mode-
+[34mPM2        | [39m2025-08-15T14:34:47: PM2 error: Error [ERR_STREAM_DESTROYED]: Cannot call write after a stream was destroyed
+[34mPM2        | [39m2025-08-15T14:34:47: PM2 log: App [cade:30] online
+[34mPM2        | [39m2025-08-15T14:34:47: PM2 log: App [cade:30] exited with code [1] via signal [SIGINT]
+[34mPM2        | [39m2025-08-15T14:34:47: PM2 log: App [cade:30] starting in -fork mode-
+[34mPM2        | [39m2025-08-15T14:34:47: PM2 error: Error [ERR_STREAM_DESTROYED]: Cannot call write after a stream was destroyed
+[34mPM2        | [39m2025-08-15T14:34:47: PM2 log: App [cade:30] online
+[34mPM2        | [39m2025-08-15T14:34:47: PM2 log: App [cade:30] exited with code [1] via signal [SIGINT]
+[34mPM2        | [39m2025-08-15T14:34:47: PM2 error: Error [ERR_STREAM_DESTROYED]: Cannot call write after a stream was destroyed
+[34mPM2        | [39m2025-08-15T14:34:47: PM2 log: App [cade:30] starting in -fork mode-
+[34mPM2        | [39m2025-08-15T14:34:47: PM2 log: App [cade:30] online
+[34mPM2        | [39m2025-08-15T14:34:47: PM2 log: App [cade:30] exited with code [1] via signal [SIGINT]
+[34mPM2        | [39m2025-08-15T14:34:47: PM2 log: App [cade:30] starting in -fork mode-
+[34mPM2        | [39m2025-08-15T14:34:47: PM2 log: App [cade:30] online
+[34mPM2        | [39m2025-08-15T14:34:47: PM2 log: App [cade:30] exited with code [1] via signal [SIGINT]
+[34mPM2        | [39m2025-08-15T14:34:47: PM2 log: App [cade:30] starting in -fork mode-
+[34mPM2        | [39m2025-08-15T14:34:47: PM2 log: App [cade:30] online
+[34mPM2        | [39m2025-08-15T14:34:47: PM2 log: App [cade:30] exited with code [1] via signal [SIGINT]
+[34mPM2        | [39m2025-08-15T14:34:47: PM2 log: App [cade:30] starting in -fork mode-
+[34mPM2        | [39m2025-08-15T14:34:47: PM2 error: Error [ERR_STREAM_DESTROYED]: Cannot call write after a stream was destroyed
+[34mPM2        | [39m2025-08-15T14:34:47: PM2 log: App [cade:30] online
+[34mPM2        | [39m2025-08-15T14:34:47: PM2 log: App [cade:30] exited with code [1] via signal [SIGINT]
+[34mPM2        | [39m2025-08-15T14:34:47: PM2 log: Script /bin/bash had too many unstable restarts (16). Stopped. "errored"
+[34mPM2        | [39m2025-08-15T14:35:20: PM2 log: Stopping app:cade id:30
+[34mPM2        | [39m2025-08-15T14:35:20: PM2 error: app=cade id=30 does not have a pid
+[34mPM2        | [39m2025-08-15T14:35:21: PM2 log: App [cade:31] starting in -fork mode-
+[34mPM2        | [39m2025-08-15T14:35:21: PM2 log: App [cade:31] online
+[34mPM2        | [39m2025-08-15T14:35:52: PM2 log: Stopping app:cade id:31
+[34mPM2        | [39m2025-08-15T14:35:53: PM2 log: App [cade:31] exited with code [0] via signal [SIGINT]
+[34mPM2        | [39m2025-08-15T14:35:53: PM2 log: pid=30736 msg=process killed
+[34mPM2        | [39m2025-08-16T07:10:19: PM2 log: App [tsx:32] starting in -fork mode-
+[34mPM2        | [39m2025-08-16T07:10:19: PM2 log: App [tsx:32] online
+
+[90m/Users/marcela-dev/.pm2/logs/tsx-out.log last 200 lines:[39m
+[90m/Users/marcela-dev/.pm2/logs/effie-out.log last 200 lines:[39m
+[90m/Users/marcela-dev/.pm2/logs/effie-error.log last 200 lines:[39m
+[90m/Users/marcela-dev/.pm2/logs/.bin-out.log last 200 lines:[39m
+[90m/Users/marcela-dev/.pm2/logs/.bin-error.log last 200 lines:[39m
+[90m/Users/marcela-dev/.pm2/logs/ui-server-error.log last 200 lines:[39m
+[90m/Users/marcela-dev/.pm2/logs/tsx-error.log last 200 lines:[39m
+[31m32|tsx     | [39m    at Module._load (node:internal/modules/cjs/loader:1096:12)
+[31m32|tsx     | [39m    at Object.<anonymous> (/Users/marcela-dev/Library/pnpm/global/5/.pnpm/pm2@6.0.8/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+[31m32|tsx     | [39m    at Module._compile (node:internal/modules/cjs/loader:1529:14)
+[31m32|tsx     | [39m    at Module._extensions..js (node:internal/modules/cjs/loader:1613:10)
+[31m32|tsx     | [39m    at Module.load (node:internal/modules/cjs/loader:1275:32)
+[31m32|tsx     | [39m    at Module._load (node:internal/modules/cjs/loader:1096:12)
+[31m32|tsx     | [39m/Users/marcela-dev/Library/pnpm/tsx:2
+[31m32|tsx     | [39mbasedir=$(dirname "$(echo "$0" | sed -e 's,\\,/,g')")
+[31m32|tsx     | [39m          ^^^^^^^
+[31m32|tsx     | [39m
+[31m32|tsx     | [39mSyntaxError: missing ) after argument list
+[31m32|tsx     | [39m    at wrapSafe (node:internal/modules/cjs/loader:1472:18)
+[31m32|tsx     | [39m    at Module._compile (node:internal/modules/cjs/loader:1501:20)
+[31m32|tsx     | [39m    at Module._extensions..js (node:internal/modules/cjs/loader:1613:10)
+[31m32|tsx     | [39m    at Module.load (node:internal/modules/cjs/loader:1275:32)
+[31m32|tsx     | [39m    at Module._load (node:internal/modules/cjs/loader:1096:12)
+[31m32|tsx     | [39m    at Object.<anonymous> (/Users/marcela-dev/Library/pnpm/global/5/.pnpm/pm2@6.0.8/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+[31m32|tsx     | [39m    at Module._compile (node:internal/modules/cjs/loader:1529:14)
+[31m32|tsx     | [39m    at Module._extensions..js (node:internal/modules/cjs/loader:1613:10)
+[31m32|tsx     | [39m    at Module.load (node:internal/modules/cjs/loader:1275:32)
+[31m32|tsx     | [39m    at Module._load (node:internal/modules/cjs/loader:1096:12)
+[31m32|tsx     | [39m/Users/marcela-dev/Library/pnpm/tsx:2
+[31m32|tsx     | [39mbasedir=$(dirname "$(echo "$0" | sed -e 's,\\,/,g')")
+[31m32|tsx     | [39m          ^^^^^^^
+[31m32|tsx     | [39m
+[31m32|tsx     | [39mSyntaxError: missing ) after argument list
+[31m32|tsx     | [39m    at wrapSafe (node:internal/modules/cjs/loader:1472:18)
+[31m32|tsx     | [39m    at Module._compile (node:internal/modules/cjs/loader:1501:20)
+[31m32|tsx     | [39m    at Module._extensions..js (node:internal/modules/cjs/loader:1613:10)
+[31m32|tsx     | [39m    at Module.load (node:internal/modules/cjs/loader:1275:32)
+[31m32|tsx     | [39m    at Module._load (node:internal/modules/cjs/loader:1096:12)
+[31m32|tsx     | [39m    at Object.<anonymous> (/Users/marcela-dev/Library/pnpm/global/5/.pnpm/pm2@6.0.8/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+[31m32|tsx     | [39m    at Module._compile (node:internal/modules/cjs/loader:1529:14)
+[31m32|tsx     | [39m    at Module._extensions..js (node:internal/modules/cjs/loader:1613:10)
+[31m32|tsx     | [39m    at Module.load (node:internal/modules/cjs/loader:1275:32)
+[31m32|tsx     | [39m    at Module._load (node:internal/modules/cjs/loader:1096:12)
+[31m32|tsx     | [39m/Users/marcela-dev/Library/pnpm/tsx:2
+[31m32|tsx     | [39mbasedir=$(dirname "$(echo "$0" | sed -e 's,\\,/,g')")
+[31m32|tsx     | [39m          ^^^^^^^
+[31m32|tsx     | [39m
+[31m32|tsx     | [39mSyntaxError: missing ) after argument list
+[31m32|tsx     | [39m    at wrapSafe (node:internal/modules/cjs/loader:1472:18)
+[31m32|tsx     | [39m    at Module._compile (node:internal/modules/cjs/loader:1501:20)
+[31m32|tsx     | [39m    at Module._extensions..js (node:internal/modules/cjs/loader:1613:10)
+[31m32|tsx     | [39m    at Module.load (node:internal/modules/cjs/loader:1275:32)
+[31m32|tsx     | [39m    at Module._load (node:internal/modules/cjs/loader:1096:12)
+[31m32|tsx     | [39m    at Object.<anonymous> (/Users/marcela-dev/Library/pnpm/global/5/.pnpm/pm2@6.0.8/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+[31m32|tsx     | [39m    at Module._compile (node:internal/modules/cjs/loader:1529:14)
+[31m32|tsx     | [39m    at Module._extensions..js (node:internal/modules/cjs/loader:1613:10)
+[31m32|tsx     | [39m    at Module.load (node:internal/modules/cjs/loader:1275:32)
+[31m32|tsx     | [39m    at Module._load (node:internal/modules/cjs/loader:1096:12)
+[31m32|tsx     | [39m/Users/marcela-dev/Library/pnpm/tsx:2
+[31m32|tsx     | [39mbasedir=$(dirname "$(echo "$0" | sed -e 's,\\,/,g')")
+[31m32|tsx     | [39m          ^^^^^^^
+[31m32|tsx     | [39m
+[31m32|tsx     | [39mSyntaxError: missing ) after argument list
+[31m32|tsx     | [39m    at wrapSafe (node:internal/modules/cjs/loader:1472:18)
+[31m32|tsx     | [39m    at Module._compile (node:internal/modules/cjs/loader:1501:20)
+[31m32|tsx     | [39m    at Module._extensions..js (node:internal/modules/cjs/loader:1613:10)
+[31m32|tsx     | [39m    at Module.load (node:internal/modules/cjs/loader:1275:32)
+[31m32|tsx     | [39m    at Module._load (node:internal/modules/cjs/loader:1096:12)
+[31m32|tsx     | [39m    at Object.<anonymous> (/Users/marcela-dev/Library/pnpm/global/5/.pnpm/pm2@6.0.8/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+[31m32|tsx     | [39m    at Module._compile (node:internal/modules/cjs/loader:1529:14)
+[31m32|tsx     | [39m    at Module._extensions..js (node:internal/modules/cjs/loader:1613:10)
+[31m32|tsx     | [39m    at Module.load (node:internal/modules/cjs/loader:1275:32)
+[31m32|tsx     | [39m    at Module._load (node:internal/modules/cjs/loader:1096:12)
+[31m32|tsx     | [39m/Users/marcela-dev/Library/pnpm/tsx:2
+[31m32|tsx     | [39mbasedir=$(dirname "$(echo "$0" | sed -e 's,\\,/,g')")
+[31m32|tsx     | [39m          ^^^^^^^
+[31m32|tsx     | [39m
+[31m32|tsx     | [39mSyntaxError: missing ) after argument list
+[31m32|tsx     | [39m    at wrapSafe (node:internal/modules/cjs/loader:1472:18)
+[31m32|tsx     | [39m    at Module._compile (node:internal/modules/cjs/loader:1501:20)
+[31m32|tsx     | [39m    at Module._extensions..js (node:internal/modules/cjs/loader:1613:10)
+[31m32|tsx     | [39m    at Module.load (node:internal/modules/cjs/loader:1275:32)
+[31m32|tsx     | [39m    at Module._load (node:internal/modules/cjs/loader:1096:12)
+[31m32|tsx     | [39m    at Object.<anonymous> (/Users/marcela-dev/Library/pnpm/global/5/.pnpm/pm2@6.0.8/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+[31m32|tsx     | [39m    at Module._compile (node:internal/modules/cjs/loader:1529:14)
+[31m32|tsx     | [39m    at Module._extensions..js (node:internal/modules/cjs/loader:1613:10)
+[31m32|tsx     | [39m    at Module.load (node:internal/modules/cjs/loader:1275:32)
+[31m32|tsx     | [39m    at Module._load (node:internal/modules/cjs/loader:1096:12)
+[31m32|tsx     | [39m/Users/marcela-dev/Library/pnpm/tsx:2
+[31m32|tsx     | [39mbasedir=$(dirname "$(echo "$0" | sed -e 's,\\,/,g')")
+[31m32|tsx     | [39m          ^^^^^^^
+[31m32|tsx     | [39m
+[31m32|tsx     | [39mSyntaxError: missing ) after argument list
+[31m32|tsx     | [39m    at wrapSafe (node:internal/modules/cjs/loader:1472:18)
+[31m32|tsx     | [39m    at Module._compile (node:internal/modules/cjs/loader:1501:20)
+[31m32|tsx     | [39m    at Module._extensions..js (node:internal/modules/cjs/loader:1613:10)
+[31m32|tsx     | [39m    at Module.load (node:internal/modules/cjs/loader:1275:32)
+[31m32|tsx     | [39m    at Module._load (node:internal/modules/cjs/loader:1096:12)
+[31m32|tsx     | [39m    at Object.<anonymous> (/Users/marcela-dev/Library/pnpm/global/5/.pnpm/pm2@6.0.8/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+[31m32|tsx     | [39m    at Module._compile (node:internal/modules/cjs/loader:1529:14)
+[31m32|tsx     | [39m    at Module._extensions..js (node:internal/modules/cjs/loader:1613:10)
+[31m32|tsx     | [39m    at Module.load (node:internal/modules/cjs/loader:1275:32)
+[31m32|tsx     | [39m    at Module._load (node:internal/modules/cjs/loader:1096:12)
+[31m32|tsx     | [39m/Users/marcela-dev/Library/pnpm/tsx:2
+[31m32|tsx     | [39mbasedir=$(dirname "$(echo "$0" | sed -e 's,\\,/,g')")
+[31m32|tsx     | [39m          ^^^^^^^
+[31m32|tsx     | [39m
+[31m32|tsx     | [39mSyntaxError: missing ) after argument list
+[31m32|tsx     | [39m    at wrapSafe (node:internal/modules/cjs/loader:1472:18)
+[31m32|tsx     | [39m    at Module._compile (node:internal/modules/cjs/loader:1501:20)
+[31m32|tsx     | [39m    at Module._extensions..js (node:internal/modules/cjs/loader:1613:10)
+[31m32|tsx     | [39m    at Module.load (node:internal/modules/cjs/loader:1275:32)
+[31m32|tsx     | [39m    at Module._load (node:internal/modules/cjs/loader:1096:12)
+[31m32|tsx     | [39m    at Object.<anonymous> (/Users/marcela-dev/Library/pnpm/global/5/.pnpm/pm2@6.0.8/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+[31m32|tsx     | [39m    at Module._compile (node:internal/modules/cjs/loader:1529:14)
+[31m32|tsx     | [39m    at Module._extensions..js (node:internal/modules/cjs/loader:1613:10)
+[31m32|tsx     | [39m    at Module.load (node:internal/modules/cjs/loader:1275:32)
+[31m32|tsx     | [39m    at Module._load (node:internal/modules/cjs/loader:1096:12)
+[31m32|tsx     | [39m/Users/marcela-dev/Library/pnpm/tsx:2
+[31m32|tsx     | [39mbasedir=$(dirname "$(echo "$0" | sed -e 's,\\,/,g')")
+[31m32|tsx     | [39m          ^^^^^^^
+[31m32|tsx     | [39m
+[31m32|tsx     | [39mSyntaxError: missing ) after argument list
+[31m32|tsx     | [39m    at wrapSafe (node:internal/modules/cjs/loader:1472:18)
+[31m32|tsx     | [39m    at Module._compile (node:internal/modules/cjs/loader:1501:20)
+[31m32|tsx     | [39m    at Module._extensions..js (node:internal/modules/cjs/loader:1613:10)
+[31m32|tsx     | [39m    at Module.load (node:internal/modules/cjs/loader:1275:32)
+[31m32|tsx     | [39m    at Module._load (node:internal/modules/cjs/loader:1096:12)
+[31m32|tsx     | [39m    at Object.<anonymous> (/Users/marcela-dev/Library/pnpm/global/5/.pnpm/pm2@6.0.8/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+[31m32|tsx     | [39m    at Module._compile (node:internal/modules/cjs/loader:1529:14)
+[31m32|tsx     | [39m    at Module._extensions..js (node:internal/modules/cjs/loader:1613:10)
+[31m32|tsx     | [39m    at Module.load (node:internal/modules/cjs/loader:1275:32)
+[31m32|tsx     | [39m    at Module._load (node:internal/modules/cjs/loader:1096:12)
+[31m32|tsx     | [39m/Users/marcela-dev/Library/pnpm/tsx:2
+[31m32|tsx     | [39mbasedir=$(dirname "$(echo "$0" | sed -e 's,\\,/,g')")
+[31m32|tsx     | [39m          ^^^^^^^
+[31m32|tsx     | [39m
+[31m32|tsx     | [39mSyntaxError: missing ) after argument list
+[31m32|tsx     | [39m    at wrapSafe (node:internal/modules/cjs/loader:1472:18)
+[31m32|tsx     | [39m    at Module._compile (node:internal/modules/cjs/loader:1501:20)
+[31m32|tsx     | [39m    at Module._extensions..js (node:internal/modules/cjs/loader:1613:10)
+[31m32|tsx     | [39m    at Module.load (node:internal/modules/cjs/loader:1275:32)
+[31m32|tsx     | [39m    at Module._load (node:internal/modules/cjs/loader:1096:12)
+[31m32|tsx     | [39m    at Object.<anonymous> (/Users/marcela-dev/Library/pnpm/global/5/.pnpm/pm2@6.0.8/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+[31m32|tsx     | [39m    at Module._compile (node:internal/modules/cjs/loader:1529:14)
+[31m32|tsx     | [39m    at Module._extensions..js (node:internal/modules/cjs/loader:1613:10)
+[31m32|tsx     | [39m    at Module.load (node:internal/modules/cjs/loader:1275:32)
+[31m32|tsx     | [39m    at Module._load (node:internal/modules/cjs/loader:1096:12)
+[31m32|tsx     | [39m/Users/marcela-dev/Library/pnpm/tsx:2
+[31m32|tsx     | [39mbasedir=$(dirname "$(echo "$0" | sed -e 's,\\,/,g')")
+[31m32|tsx     | [39m          ^^^^^^^
+[31m32|tsx     | [39m
+[31m32|tsx     | [39mSyntaxError: missing ) after argument list
+[31m32|tsx     | [39m    at wrapSafe (node:internal/modules/cjs/loader:1472:18)
+[31m32|tsx     | [39m    at Module._compile (node:internal/modules/cjs/loader:1501:20)
+[31m32|tsx     | [39m    at Module._extensions..js (node:internal/modules/cjs/loader:1613:10)
+[31m32|tsx     | [39m    at Module.load (node:internal/modules/cjs/loader:1275:32)
+[31m32|tsx     | [39m    at Module._load (node:internal/modules/cjs/loader:1096:12)
+[31m32|tsx     | [39m    at Object.<anonymous> (/Users/marcela-dev/Library/pnpm/global/5/.pnpm/pm2@6.0.8/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+[31m32|tsx     | [39m    at Module._compile (node:internal/modules/cjs/loader:1529:14)
+[31m32|tsx     | [39m    at Module._extensions..js (node:internal/modules/cjs/loader:1613:10)
+[31m32|tsx     | [39m    at Module.load (node:internal/modules/cjs/loader:1275:32)
+[31m32|tsx     | [39m    at Module._load (node:internal/modules/cjs/loader:1096:12)
+[31m32|tsx     | [39m/Users/marcela-dev/Library/pnpm/tsx:2
+[31m32|tsx     | [39mbasedir=$(dirname "$(echo "$0" | sed -e 's,\\,/,g')")
+[31m32|tsx     | [39m          ^^^^^^^
+[31m32|tsx     | [39m
+[31m32|tsx     | [39mSyntaxError: missing ) after argument list
+[31m32|tsx     | [39m    at wrapSafe (node:internal/modules/cjs/loader:1472:18)
+[31m32|tsx     | [39m    at Module._compile (node:internal/modules/cjs/loader:1501:20)
+[31m32|tsx     | [39m    at Module._extensions..js (node:internal/modules/cjs/loader:1613:10)
+[31m32|tsx     | [39m    at Module.load (node:internal/modules/cjs/loader:1275:32)
+[31m32|tsx     | [39m    at Module._load (node:internal/modules/cjs/loader:1096:12)
+[31m32|tsx     | [39m    at Object.<anonymous> (/Users/marcela-dev/Library/pnpm/global/5/.pnpm/pm2@6.0.8/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+[31m32|tsx     | [39m    at Module._compile (node:internal/modules/cjs/loader:1529:14)
+[31m32|tsx     | [39m    at Module._extensions..js (node:internal/modules/cjs/loader:1613:10)
+[31m32|tsx     | [39m    at Module.load (node:internal/modules/cjs/loader:1275:32)
+[31m32|tsx     | [39m    at Module._load (node:internal/modules/cjs/loader:1096:12)
+[31m32|tsx     | [39m/Users/marcela-dev/Library/pnpm/tsx:2
+[31m32|tsx     | [39mbasedir=$(dirname "$(echo "$0" | sed -e 's,\\,/,g')")
+[31m32|tsx     | [39m          ^^^^^^^
+[31m32|tsx     | [39m
+[31m32|tsx     | [39mSyntaxError: missing ) after argument list
+[31m32|tsx     | [39m    at wrapSafe (node:internal/modules/cjs/loader:1472:18)
+[31m32|tsx     | [39m    at Module._compile (node:internal/modules/cjs/loader:1501:20)
+[31m32|tsx     | [39m    at Module._extensions..js (node:internal/modules/cjs/loader:1613:10)
+[31m32|tsx     | [39m    at Module.load (node:internal/modules/cjs/loader:1275:32)
+[31m32|tsx     | [39m    at Module._load (node:internal/modules/cjs/loader:1096:12)
+[31m32|tsx     | [39m    at Object.<anonymous> (/Users/marcela-dev/Library/pnpm/global/5/.pnpm/pm2@6.0.8/node_modules/pm2/lib/ProcessContainerFork.js:33:23)
+[31m32|tsx     | [39m    at Module._compile (node:internal/modules/cjs/loader:1529:14)
+[31m32|tsx     | [39m    at Module._extensions..js (node:internal/modules/cjs/loader:1613:10)
+[31m32|tsx     | [39m    at Module.load (node:internal/modules/cjs/loader:1275:32)
+[31m32|tsx     | [39m    at Module._load (node:internal/modules/cjs/loader:1096:12)
+[31m32|tsx     | [39m/Users/marcela-dev/Desktop/Motherboard_Systems_HQ/node_modules/.bin/tsx:2
+[31m32|tsx     | [39mbasedir=$(dirname "$(echo "$0" | sed -e 's,\\,/,g')")
+[31m32|tsx     | [39m          ^^^^^^^
+[31m32|tsx     | [39m
+[31m32|tsx     | [39mSyntaxError: missing ) after argument list
+[31m32|tsx     | [39m    at wrapSafe (node:internal/modules/cjs/loader:1472:18)
+[31m32|tsx     | [39m    at Module._compile (node:internal/modules/cjs/loader:1501:20)
+[31m32|tsx     | [39m    at Module._extensions..js (node:internal/modules/cjs/loader:1613:10)
+[31m32|tsx     | [39m    at Module.load (node:internal/modules/cjs/loader:1275:32)
+[31m32|tsx     | [39m    at Module._load (node:internal/modules/cjs/loader:1096:12)
+[31m32|tsx     | [39m    at cjsLoader (node:internal/modules/esm/translators:298:15)
+[31m32|tsx     | [39m    at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:240:7)
+[31m32|tsx     | [39m    at ModuleJob.run (node:internal/modules/esm/module_job:263:25)
+[31m32|tsx     | [39m    at async ModuleLoader.import (node:internal/modules/esm/loader:540:24)
+
+[90m/Users/marcela-dev/.pm2/logs/ui-server-out.log last 200 lines:[39m
+[32m5|ui-serve | [39m[Fri Aug 15 2025 12:11:31 GMT-0700 (Pacific Daylight Time)]  "GET /" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+[32m5|ui-serve | [39m[Fri Aug 15 2025 12:26:56 GMT-0700 (Pacific Daylight Time)]  "GET /agent-status.json" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+[32m5|ui-serve | [39m[Fri Aug 15 2025 13:26:56 GMT-0700 (Pacific Daylight Time)]  "GET /agent-status.json" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+[32m5|ui-serve | [39m[Fri Aug 15 2025 14:27:16 GMT-0700 (Pacific Daylight Time)]  "GET /agent-status.json" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+[32m5|ui-serve | [39m[Fri Aug 15 2025 15:27:16 GMT-0700 (Pacific Daylight Time)]  "GET /agent-status.json" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+[32m5|ui-serve | [39m[Fri Aug 15 2025 16:56:51 GMT-0700 (Pacific Daylight Time)]  "GET /agent-status.json" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+[32m5|ui-serve | [39m[Fri Aug 15 2025 18:12:54 GMT-0700 (Pacific Daylight Time)]  "GET /agent-status.json" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+[32m5|ui-serve | [39m[Fri Aug 15 2025 19:42:40 GMT-0700 (Pacific Daylight Time)]  "GET /agent-status.json" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+[32m5|ui-serve | [39m[Fri Aug 15 2025 22:08:43 GMT-0700 (Pacific Daylight Time)]  "GET /agent-status.json" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+[32m5|ui-serve | [39m[Fri Aug 15 2025 23:37:24 GMT-0700 (Pacific Daylight Time)]  "GET /agent-status.json" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+[32m5|ui-serve | [39m[Sat Aug 16 2025 00:56:15 GMT-0700 (Pacific Daylight Time)]  "GET /agent-status.json" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+[32m5|ui-serve | [39m[Sat Aug 16 2025 03:11:56 GMT-0700 (Pacific Daylight Time)]  "GET /agent-status.json" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+[32m5|ui-serve | [39m[Sat Aug 16 2025 05:46:11 GMT-0700 (Pacific Daylight Time)]  "GET /agent-status.json" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+[32m5|ui-serve | [39m[Sat Aug 16 2025 06:56:18 GMT-0700 (Pacific Daylight Time)]  "GET /agent-status.json" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+[32m5|ui-serve | [39m[Sat Aug 16 2025 09:50:35 GMT-0700 (Pacific Daylight Time)]  "GET /agent-status.json" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+[32m5|ui-serve | [39m[Sat Aug 16 2025 11:10:32 GMT-0700 (Pacific Daylight Time)]  "GET /agent-status.json" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+[32m5|ui-serve | [39m[Sat Aug 16 2025 12:11:25 GMT-0700 (Pacific Daylight Time)]  "GET /agent-status.json" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+[32m5|ui-serve | [39m[Sat Aug 16 2025 13:56:35 GMT-0700 (Pacific Daylight Time)]  "GET /agent-status.json" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+[32m5|ui-serve | [39m[Sat Aug 16 2025 15:29:49 GMT-0700 (Pacific Daylight Time)]  "GET /agent-status.json" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+[32m5|ui-serve | [39m[Sat Aug 16 2025 17:14:56 GMT-0700 (Pacific Daylight Time)]  "GET /agent-status.json" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+[32m5|ui-serve | [39m[Sat Aug 16 2025 18:31:27 GMT-0700 (Pacific Daylight Time)]  "GET /agent-status.json" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+[32m5|ui-serve | [39m[Sat Aug 16 2025 20:17:57 GMT-0700 (Pacific Daylight Time)]  "GET /agent-status.json" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+[32m5|ui-serve | [39m[Sat Aug 16 2025 22:21:17 GMT-0700 (Pacific Daylight Time)]  "GET /agent-status.json" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+[32m5|ui-serve | [39m[Sat Aug 16 2025 23:49:28 GMT-0700 (Pacific Daylight Time)]  "GET /agent-status.json" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+[32m5|ui-serve | [39m[Sun Aug 17 2025 01:38:31 GMT-0700 (Pacific Daylight Time)]  "GET /agent-status.json" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+[32m5|ui-serve | [39m[Sun Aug 17 2025 02:45:50 GMT-0700 (Pacific Daylight Time)]  "GET /agent-status.json" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+[32m5|ui-serve | [39m[Sun Aug 17 2025 03:52:03 GMT-0700 (Pacific Daylight Time)]  "GET /agent-status.json" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+[32m5|ui-serve | [39m[Sun Aug 17 2025 06:46:08 GMT-0700 (Pacific Daylight Time)]  "GET /agent-status.json" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+[32m5|ui-serve | [39m[Sun Aug 17 2025 07:49:24 GMT-0700 (Pacific Daylight Time)]  "GET /agent-status.json" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+[32m5|ui-serve | [39m[Sun Aug 17 2025 09:08:22 GMT-0700 (Pacific Daylight Time)]  "GET /agent-status.json" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+[32m5|ui-serve | [39m[Sun Aug 17 2025 10:39:25 GMT-0700 (Pacific Daylight Time)]  "GET /agent-status.json" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+[32m5|ui-serve | [39m[Sun Aug 17 2025 12:10:21 GMT-0700 (Pacific Daylight Time)]  "GET /agent-status.json" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+[32m5|ui-serve | [39m[Sun Aug 17 2025 13:55:11 GMT-0700 (Pacific Daylight Time)]  "GET /agent-status.json" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+[32m5|ui-serve | [39m[Sun Aug 17 2025 15:06:18 GMT-0700 (Pacific Daylight Time)]  "GET /agent-status.json" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+[32m5|ui-serve | [39m[Sun Aug 17 2025 16:06:39 GMT-0700 (Pacific Daylight Time)]  "GET /agent-status.json" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+[32m5|ui-serve | [39m[Sun Aug 17 2025 17:07:29 GMT-0700 (Pacific Daylight Time)]  "GET /agent-status.json" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+[32m5|ui-serve | [39m[Sun Aug 17 2025 18:33:15 GMT-0700 (Pacific Daylight Time)]  "GET /agent-status.json" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+[32m5|ui-serve | [39m[Sun Aug 17 2025 19:33:50 GMT-0700 (Pacific Daylight Time)]  "GET /agent-status.json" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+[32m5|ui-serve | [39m[Sun Aug 17 2025 20:40:26 GMT-0700 (Pacific Daylight Time)]  "GET /agent-status.json" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+

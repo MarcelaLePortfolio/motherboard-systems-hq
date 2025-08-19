@@ -1,3 +1,4 @@
+cp scripts/agents/handlers/explainCodeWithOllama.ts scripts/agents/handlers/explainCodeWithOllama.ts.bak
 import fs from "fs";
 import { runOllamaPrompt } from "../../shared/ollama";
 
