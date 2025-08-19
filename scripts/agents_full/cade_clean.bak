@@ -1,0 +1,27 @@
+let installDepsHandler; import("./handlers/installDepsHandler.js").then(m => installDepsHandler = m.default || m);
+let runScriptHandler; import("./handlers/runScriptHandler.js").then(m => runScriptHandler = m.default || m);
+let startAgentHandler; import("./handlers/startAgentHandler.js").then(m => startAgentHandler = m.default || m);
+let reportStatusHandler; import("./handlers/reportStatusHandler.js").then(m => reportStatusHandler = m.default || m);
+let zipBackupHandler; import("./handlers/zipBackupHandler.js").then(m => zipBackupHandler = m.default || m);    switch(action) {
+      case 'read file':
+        return await fs.readFile(options.path, 'utf-8');
+
+      case 'write file':
+        await fs.mkdir(path.dirname(options.path), { recursive: true });
+        await fs.writeFile(options.path, options.content, 'utf-8');
+        return { status: 'success', path: options.path };
+
+      case 'list files':
+        const entries = await fs.readdir(options.dir, { withFileTypes: true });
+        return entries.map(e => e.name);
+
+      case 'delete':
+        await fs.rm(options.path, { recursive: true, force: true });
+        return { status: 'deleted', path: options.path };
+
+        return { error: 'Unknown action' };
+    }
+  } catch (err) {
+    return { error: err.message };
+  }
+}
