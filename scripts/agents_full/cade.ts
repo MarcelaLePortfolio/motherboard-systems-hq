@@ -20,6 +20,10 @@ export async function cadeCommandRouter(action, options) {
             const { default: handler } = await import("./handlers/zipBackupHandler.js");
             return handler(options);
         }
+        case "infer agent": {
+            const { default: handler } = await import("./handlers/inferAgentHandler.js");
+            return handler(options);
+        }
         default:
             return { error: 'Unknown action' };
     }
