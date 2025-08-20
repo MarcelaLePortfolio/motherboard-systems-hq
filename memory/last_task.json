@@ -1,0 +1,6 @@
+{
+  "type": "broken_type",
+  "payload": {
+    "path": "unauthorized/path.txt"
+  }
+}

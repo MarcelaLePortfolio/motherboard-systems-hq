@@ -1,11 +1,9 @@
 import { handleTask } from './scripts/agents/handleTask.ts';
 
 const task = {
-  id: 1,
-  type: 'write',
+  type: 'broken_type',
   payload: {
-    path: 'memory/test.txt',
-    content: 'Hello from handleTask!',
+    path: 'unauthorized/path.txt',
   },
 };
 

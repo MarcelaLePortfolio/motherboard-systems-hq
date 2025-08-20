@@ -6,16 +6,35 @@ const db = new Database('db/dev.db');
 async function mainLoop() {
   console.log("🌀 Cade loop tick");
 
-  const task = db
-    .prepare("SELECT * FROM agent_tasks WHERE status = 'Pending' ORDER BY id ASC LIMIT 1")
-    .get();
+  // Get multiple pending tasks, e.g., limit 5
+  const tasks = db
+    .prepare("SELECT * FROM agent_tasks WHERE status = 'Pending' ORDER BY id ASC LIMIT 5")
+    .all();
 
-  if (task) {
-    console.log(`🤖 Cade executing task ${task.id}: ${task.type}`);
+  if (tasks.length > 0) {
+    console.log(`⚙️ Processing ${tasks.length} task(s)`);
 
-    const result = await handleTask(task);
-    db.prepare("UPDATE agent_tasks SET status = ?, result = ? WHERE id = ?")
-      .run(result.status || 'Done', result.result || '', task.id);
+    // Mark them as In Progress first
+    const markStmt = db.prepare("UPDATE agent_tasks SET status = 'In Progress' WHERE id = ?");
+    const markTxn = db.transaction((ids: number[]) => {
+      for (const id of ids) markStmt.run(id);
+    });
+    markTxn(tasks.map(t => t.id));
+
+    // Run all tasks in parallel
+    await Promise.all(
+      tasks.map(async (task) => {
+        try {
+          const result = await handleTask(task);
+          db.prepare("UPDATE agent_tasks SET status = ?, result = ? WHERE id = ?")
+            .run(result.status || 'Done', result.result || '', task.id);
+        } catch (err) {
+          console.error(`❌ Task ${task.id} failed:`, err);
+          db.prepare("UPDATE agent_tasks SET status = 'Failed', result = ? WHERE id = ?")
+            .run(err.message || 'Unknown error', task.id);
+        }
+      })
+    );
   }
 
   setTimeout(mainLoop, 1000);

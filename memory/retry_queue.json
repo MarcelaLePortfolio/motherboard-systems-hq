@@ -1,0 +1,9 @@
+[
+  {
+    "type": "broken_type",
+    "payload": {
+      "path": "unauthorized/path.txt"
+    },
+    "requeuedAt": "2025-08-20T21:23:56.944Z"
+  }
+]

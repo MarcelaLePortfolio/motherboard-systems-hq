@@ -1,2 +1,1 @@
-Original line 1
-Second line
+Hello from handleTask!
