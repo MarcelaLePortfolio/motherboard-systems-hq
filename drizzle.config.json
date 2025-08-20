@@ -1,8 +1,9 @@
 {
-  "schema": "./scripts/_local/database/schema.ts",
+  "schema": "./drizzle/schema.ts",
   "out": "./drizzle/migrations",
-  "dialect": "sqlite",
+  "driver": "better-sqlite3",
   "dbCredentials": {
-    "url": "./memory/vectorstore.db"
-  }
+    "url": "./motherboard.sqlite"
+  },
+  "dialect": "sqlite"
 }
