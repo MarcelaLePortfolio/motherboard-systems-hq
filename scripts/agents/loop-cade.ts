@@ -3,7 +3,7 @@ import Database from 'better-sqlite3';
 import { eq } from 'drizzle-orm';
 import { agentTasks } from '../../drizzle/schema';
 import fs from 'fs';
-import { execSync } from 'child_process'; // ✅ Works in top-level ESM
+import { execSync } from 'child_process'; // ✅ Top-level import in ESM
 
 const sqlite = new Database('motherboard.sqlite');
 const db = drizzle(sqlite);
@@ -26,13 +26,13 @@ async function runCadeTask() {
       console.log(`📄 File content:\n${content}`);
     }
 
-    if (task.type === 'write file' && task.content) {
+    else if (task.type === 'write file' && task.content) {
       const [path, data] = task.content.split('|--|');
       fs.writeFileSync(path, data, 'utf8');
       console.log(`📝 Wrote to file: ${path}`);
     }
 
-    if (task.type === 'append log' && task.content) {
+    else if (task.type === 'append log' && task.content) {
       const logPath = 'memory/log.txt';
       const timestamp = new Date().toISOString();
       const logLine = `[${timestamp}] ${task.content}\n`;
@@ -40,7 +40,7 @@ async function runCadeTask() {
       console.log(`📥 Appended to log.txt:\n${logLine}`);
     }
 
-    if (task.type === 'patch' && task.content) {
+    else if (task.type === 'patch' && task.content) {
       const [path, instruction] = task.content.split('|--|');
       const lines = fs.readFileSync(path, 'utf8').split('\n');
 
@@ -60,7 +60,7 @@ async function runCadeTask() {
       }
     }
 
-    if (task.type === 'run command' && task.content) {
+    else if (task.type === 'run command' && task.content) {
       try {
         const output = execSync(task.content, { encoding: 'utf8' });
         console.log(`💻 Ran command: ${task.content}`);
@@ -79,6 +79,9 @@ async function runCadeTask() {
       .where(eq(agentTasks.id, task.id));
 
     console.log(`✅ Task ${task.id} marked complete.`);
+
+    const tickerLine = `[${new Date().toISOString()}] Cade completed task ${task.id}: ${task.type}`;
+    fs.appendFileSync('memory/ticker.log', tickerLine + '\n', 'utf8');
   } catch (err) {
     console.error(`🔥 Fatal error while processing task ${task.id}:`, err);
   }
