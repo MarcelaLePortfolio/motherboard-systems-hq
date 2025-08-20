@@ -1,40 +1,24 @@
-import { db } from "@/db";
-import { agentTasks } from "@/db/schema";
-import { eq } from "drizzle-orm";
-import { handleTask } from "./cade";
+import Database from 'better-sqlite3';
+import { handleTask } from './cade';
+
+const db = new Database('db/dev.db');
 
 async function mainLoop() {
-  while (true) {
-    const task = await db.query.agentTasks.findFirst({
-      where: (fields) => eq(fields.status, "Pending"),
-      orderBy: (fields) => fields.ts,
-    });
+  console.log("🌀 Cade loop tick");
 
-    if (!task) {
-      await new Promise((resolve) => setTimeout(resolve, 5000));
-      continue;
-    }
+  const task = db
+    .prepare("SELECT * FROM agent_tasks WHERE status = 'Pending' ORDER BY id ASC LIMIT 1")
+    .get();
 
+  if (task) {
     console.log(`🤖 Cade executing task ${task.id}: ${task.type}`);
 
-    try {
-      const result = await handleTask(task);
-      console.log(`✅ Cade completed task ${task.id}: ${task.type}`);
-      await db
-        .update(agentTasks)
-        .set({ status: "Done", ts: Date.now() })
-        .where(eq(agentTasks.id, task.id));
-    } catch (err) {
-      console.error("Fatal error while processing task", err);
-      await db.insert(agentTasks).values({
-        agent: "Matilda",
-        type: "log",
-        status: "Pending",
-        content: `Cade failed task ${task.id}: ${task.type}`,
-        ts: Date.now(),
-      });
-    }
+    const result = await handleTask(task);
+    db.prepare("UPDATE agent_tasks SET status = ?, result = ? WHERE id = ?")
+      .run(result.status || 'Done', result.result || '', task.id);
   }
+
+  setTimeout(mainLoop, 1000);
 }
 
-mainLoop();
+mainLoop().catch(err => console.error("❌ Cade loop error:", err));
