@@ -1,0 +1,8 @@
+{
+  "schema": "./scripts/_local/database/schema.ts",
+  "out": "./drizzle/migrations",
+  "dialect": "sqlite",
+  "dbCredentials": {
+    "url": "./memory/vectorstore.db"
+  }
+}
