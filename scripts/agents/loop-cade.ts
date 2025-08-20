@@ -24,6 +24,20 @@ async function runCadeTask() {
     console.log(`📄 File content:\n${content}`);
   }
 
+  if (task.type === 'write file' && task.content) {
+    const [path, data] = task.content.split('|--|');
+    fs.writeFileSync(path, data, 'utf8');
+    console.log(`📝 Wrote to file: ${path}`);
+  }
+
+  if (task.type === 'append log' && task.content) {
+    const logPath = 'memory/log.txt';
+    const timestamp = new Date().toISOString();
+    const logLine = `[${timestamp}] ${task.content}\n`;
+    fs.appendFileSync(logPath, logLine, 'utf8');
+    console.log(`📥 Appended to log.txt:\n${logLine}`);
+  }
+
   await db.update(agentTasks)
     .set({ status: 'Complete' })
     .where(eq(agentTasks.id, task.id));
