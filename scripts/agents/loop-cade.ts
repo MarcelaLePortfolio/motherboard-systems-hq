@@ -9,9 +9,20 @@ const sqlite = new Database('motherboard.sqlite');
 const db = drizzle(sqlite);
 
 async function runCadeTask() {
-  try {
-    const [task] = await db
-      .select()
+try {
+  const result = await handleTask(task);
+  console.log(`✅ Cade completed task ${task.id}: ${task.type}`);
+  await db.update(agentTasks).set({ status: "Done", ts: Date.now() }).where(eq(agentTasks.id, task.id));
+} catch (err) {
+  console.error("Fatal error while processing task", err);
+  await db.insert(agentTasks).values({
+    agent: "Matilda",
+    type: "log",
+    status: "Pending",
+    content: `Cade failed task ${task.id}: ${task.type}`,
+    ts: Date.now()
+  });
+}
       .from(agentTasks)
       .where(eq(agentTasks.agent, 'Cade'))
       .where(eq(agentTasks.status, 'Pending'))
@@ -29,7 +40,18 @@ async function runCadeTask() {
 
 
     try {
-      if (task.type === 'read file' && task.content) {
+catch (err) {
+  (async () => {
+    console.error('Fatal error while processing task', err);
+    await db.insert(agentTasks).values({
+      agent: 'Matilda',
+      type: 'log',
+      status: 'Pending',
+      content: `Cade failed task ${task.id}: ${task.type}`,
+      ts: Date.now()
+    });
+  })();
+}      if (task.type === 'read file' && task.content) {
         const content = fs.readFileSync(task.content, 'utf8');
         console.log(`📄 File content:\n${content}`);
       }
@@ -70,40 +92,18 @@ async function runCadeTask() {
 
       else if (task.type === 'run command' && task.content) {
         try {
-          const output = execSync(task.content, { encoding: 'utf8' });
+catch (err) {
+  (async () => {
+    console.error('Fatal error while processing task', err);
+    await db.insert(agentTasks).values({
+      agent: 'Matilda',
+      type: 'log',
+      status: 'Pending',
+      content: `Cade failed task ${task.id}: ${task.type}`,
+      ts: Date.now()
+    });
+  })();
+}          const output = execSync(task.content, { encoding: 'utf8' });
           console.log(`💻 Ran command: ${task.content}`);
           console.log(`📤 Output:\n${output}`);
           fs.appendFileSync('memory/log.txt', `[${new Date().toISOString()}] Ran: ${task.content}\nOutput:\n${output}\n\n`);
-        } catch (err) {
-          const errorOutput = err.message || 'Unknown error';
-          console.log(`❌ Error running command: ${task.content}`);
-          console.log(`📛 Error:\n${errorOutput}`);
-          fs.appendFileSync('memory/log.txt', `[${new Date().toISOString()}] Failed: ${task.content}\nError:\n${errorOutput}\n\n`);
-        }
-      }
-
-      await db.update(agentTasks)
-        .set({ status: 'Complete' })
-        .where(eq(agentTasks.id, task.id));
-
-      console.log(`✅ Task ${task.id} marked complete.`);
-
-      const tickerLine = `[${new Date().toISOString()}] Cade completed task ${task.id}: ${task.type}`;
-      fs.appendFileSync('memory/ticker.log', tickerLine + '\n', 'utf8');
-
-    } catch (err) {
-      const errorMsg = `🔥 Task ${task.id} (${task.type}) failed with error:\n${err.stack || err}`;
-      console.error(errorMsg);
-      fs.appendFileSync('memory/log.txt', `[${new Date().toISOString()}] ${errorMsg}\n\n`);
-      fs.appendFileSync('memory/ticker.log', `[${new Date().toISOString()}] ❌ Cade failed task ${task.id}: ${task.type}\n`, 'utf8');
-    }
-
-  } catch (fatal) {
-    const fallbackMsg = `🚨 Fatal error in Cade task loop:\n${fatal.stack || fatal}`;
-    console.error(fallbackMsg);
-    fs.appendFileSync('memory/log.txt', `[${new Date().toISOString()}] ${fallbackMsg}\n\n`);
-    fs.appendFileSync('memory/ticker.log', `[${new Date().toISOString()}] ❌ Cade encountered fatal runtime error\n`, 'utf8');
-  }
-}
-
-setInterval(runCadeTask, 3000);
