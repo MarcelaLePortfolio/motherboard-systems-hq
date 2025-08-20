@@ -38,6 +38,26 @@ async function runCadeTask() {
     console.log(`📥 Appended to log.txt:\n${logLine}`);
   }
 
+  if (task.type === 'patch' && task.content) {
+    const [path, instruction] = task.content.split('|--|');
+    const lines = fs.readFileSync(path, 'utf8').split('\n');
+
+    const match = instruction.match(/Replace line (\d+) with: (.+)/);
+    if (match) {
+      const lineNumber = parseInt(match[1], 10);
+      const newLine = match[2];
+      if (lineNumber > 0 && lineNumber <= lines.length) {
+        lines[lineNumber - 1] = newLine;
+        fs.writeFileSync(path, lines.join('\n'), 'utf8');
+        console.log(`🛠️ Patched line ${lineNumber} in ${path}`);
+      } else {
+        console.log(`⚠️ Invalid line number in patch task: ${lineNumber}`);
+      }
+    } else {
+      console.log(`⚠️ Unsupported patch instruction format: ${instruction}`);
+    }
+  }
+
   await db.update(agentTasks)
     .set({ status: 'Complete' })
     .where(eq(agentTasks.id, task.id));
