@@ -1,17 +1,41 @@
-import { handleEcho } from './handlers/handleEcho';
-import { handlePatch } from './handlers/handlePatch';
-import { handleDelete } from './handlers/handleDelete';
+import fs from 'fs';
+import path from 'path';
 
-export async function routeTask(task) {
-  switch (task.type) {
+export async function routeTask(task: any): Promise<{ status: string; result: string }> {
+  const { type, payload } = task;
+
+  switch (type) {
     case 'echo':
-      return await handleEcho(task);
-    case 'patch':
-      return await handlePatch(task);
-    case 'delete':
-      return await handleDelete(task);
+      return { status: 'success', result: `Echo: ${JSON.stringify(payload)}` };
+
+    case 'read': {
+      const safePath = path.resolve('memory', path.basename(payload.path));
+      if (!safePath.startsWith(path.resolve('memory'))) {
+        return { status: 'error', result: 'Unsafe file path.' };
+      }
+      try {
+        const content = fs.readFileSync(safePath, 'utf-8');
+        return { status: 'success', result: content };
+      } catch (err: any) {
+        return { status: 'error', result: `Failed to read file: ${err.message}` };
+      }
+    }
+
+    case 'write': {
+      const safePath = path.resolve('memory', path.basename(payload.path));
+      if (!safePath.startsWith(path.resolve('memory'))) {
+        return { status: 'error', result: 'Unsafe file path.' };
+      }
+      try {
+        fs.mkdirSync('memory', { recursive: true });
+        fs.writeFileSync(safePath, payload.content || '');
+        return { status: 'success', result: `Wrote to ${payload.path}` };
+      } catch (err: any) {
+        return { status: 'error', result: `Failed to write file: ${err.message}` };
+      }
+    }
+
     default:
-      console.warn("⚠️ Unknown task type:", task.type);
       return { status: 'skipped', result: 'Unknown task type' };
   }
 }
