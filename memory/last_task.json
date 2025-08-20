@@ -1,6 +1,8 @@
 {
-  "type": "broken_type",
+  "id": 42,
+  "type": "write",
   "payload": {
-    "path": "unauthorized/path.txt"
+    "path": "test.txt",
+    "content": "Testing graceful shutdown simulation!"
   }
 }

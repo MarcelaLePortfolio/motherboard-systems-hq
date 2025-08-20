@@ -22,6 +22,7 @@ export async function routeTask(task: any): Promise<{ status: string; result: st
     }
 
     case 'write': {
+      await new Promise(r => setTimeout(r, 10000)); // ⏱️ Simulate crash timing
       const safePath = path.resolve('memory', path.basename(payload.path));
       if (!safePath.startsWith(path.resolve('memory'))) {
         return { status: 'error', result: 'Unsafe file path.' };

@@ -5,5 +5,26 @@
       "path": "unauthorized/path.txt"
     },
     "requeuedAt": "2025-08-20T21:23:56.944Z"
+  },
+  {
+    "type": "broken_type",
+    "payload": {
+      "path": "unauthorized/path.txt"
+    },
+    "requeuedAt": "2025-08-20T21:32:27.955Z"
+  },
+  {
+    "type": "broken_type",
+    "payload": {
+      "path": "unauthorized/path.txt"
+    },
+    "requeuedAt": "2025-08-20T21:34:25.764Z"
+  },
+  {
+    "type": "broken_type",
+    "payload": {
+      "path": "unauthorized/path.txt"
+    },
+    "requeuedAt": "2025-08-20T21:34:39.361Z"
   }
 ]
