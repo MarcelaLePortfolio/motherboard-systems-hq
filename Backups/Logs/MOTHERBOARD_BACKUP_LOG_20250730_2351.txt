@@ -1,0 +1,3 @@
+/* eslint-disable import/no-commonjs */
+zip I/O error: No space left on device
+zip error: Could not create output file (/Users/marcela-dev/Desktop/MOTHERBOARD_SYSTEMS_BACKUP_20250730_2351.zip)

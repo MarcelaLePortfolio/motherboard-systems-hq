@@ -1,0 +1,112 @@
+On branch ts-fix-test
+Your branch and 'origin/ts-fix-test' have diverged,
+and have 13 and 7 different commits each, respectively.
+  (use "git pull" to merge the remote branch into yours)
+
+You are currently cherry-picking commit 955b8f0.
+  (fix conflicts and run "git cherry-pick --continue")
+  (use "git cherry-pick --skip" to skip this patch)
+  (use "git cherry-pick --abort" to cancel the cherry-pick operation)
+
+Changes to be committed:
+	new file:   memory/test_output.txt
+	modified:   scripts/_local/dev-server/api-router.ts
+	modified:   scripts/_local/dev-server/dev-server.ts
+	modified:   scripts/_local/dev-server/handlers/delegate-task.ts
+
+Unmerged paths:
+  (use "git add/rm <file>..." as appropriate to mark resolution)
+	both modified:   backup/vscode-settings/History/-13d5ed42/WPaG.ts
+	deleted by them: backup/vscode-settings/History/-58746c3/CIYW.ts
+	both modified:   db/is-task-completed.ts
+	both added:      db/tasks.db
+	both modified:   logs/ops-stream.log
+	both added:      memory/agent_chain_state.json
+	both added:      package-lock.json
+	both modified:   scripts/_local/agent-runtime/cade_task_processor.ts
+	both modified:   scripts/_local/agent-runtime/handlers/handleTask.ts
+	both added:      scripts/_local/agent-runtime/inspect-task.ts
+	both modified:   scripts/_local/agent-runtime/launch-cade.ts
+	both added:      scripts/_local/agent-runtime/matilda.ts
+	both modified:   scripts/_local/agent-runtime/matilda/formatTaskForCade.ts
+	both modified:   scripts/_local/agent-runtime/matilda/matilda_task_router.ts
+	both modified:   scripts/_local/agent-runtime/matilda_task_processor.ts
+	both modified:   scripts/_local/agent-runtime/submit-task.ts
+	both added:      scripts/_local/agent-runtime/test-db.ts
+	both modified:   scripts/_local/agent-runtime/utils/cade_task_processor.bak.ts
+	both modified:   scripts/_local/agent-runtime/utils/cade_task_processor.ts
+	both modified:   scripts/_local/agent-runtime/utils/cade_task_processor_clean.ts
+	both modified:   scripts/_local/agent-runtime/utils/effie_task_processor.ts
+	both modified:   scripts/_local/agent-runtime/utils/matilda_task_handler.ts
+	both modified:   scripts/_local/api/chat-matilda.ts
+	both modified:   scripts/_local/dev-server.ts
+	both modified:   scripts/_local/handlers/buildUI.ts
+	both modified:   scripts/_local/handlers/commit.ts
+	both modified:   scripts/_local/handlers/handleTask.ts
+	both modified:   scripts/_local/handlers/taskRouter.ts
+	both modified:   scripts/_local/test-cade-state.ts
+	both added:      scripts/_local/test/test_cade_write.ts
+	both modified:   scripts/_local/utils/chainState.ts
+	both modified:   scripts/_local/utils/log.ts
+	both modified:   scripts/_local/utils/ollamaClient.ts
+	both modified:   scripts/_local/utils/shell.ts
+	both modified:   scripts/agents/cade_task_processor.ts
+	both modified:   scripts/agents/dispatch-queued-task.ts
+	both modified:   scripts/agents/handleTask.ts
+	both modified:   scripts/agents/handlers/commentCodeWithOllama.ts
+	both modified:   scripts/agents/handlers/convertCodeWithOllama.ts
+	both modified:   scripts/agents/handlers/createBackupWithCade.ts
+	both modified:   scripts/agents/handlers/explainCodeWithOllama.ts
+	both modified:   scripts/agents/handlers/formatCommentsWithOllama.ts
+	both modified:   scripts/agents/handlers/generateFileWithOllama.ts
+	both modified:   scripts/agents/handlers/handleDelete.ts
+	both modified:   scripts/agents/handlers/handleEcho.ts
+	both modified:   scripts/agents/handlers/handlePatch.ts
+	both modified:   scripts/agents/handlers/installDepsWithCade.ts
+	both modified:   scripts/agents/handlers/learn.ts
+	both modified:   scripts/agents/handlers/refactorCodeWithOllama.ts
+	both modified:   scripts/agents/handlers/reportStatusWithCade.ts
+	both modified:   scripts/agents/handlers/runScriptWithCade.ts
+	both modified:   scripts/agents/handlers/runTestsWithCade.ts
+	both modified:   scripts/agents/handlers/startAgentWithPM2.ts
+	both modified:   scripts/agents/handlers/summarizeWithOllama.ts
+	both modified:   scripts/agents/handlers/translateCodeWithOllama.ts
+	both modified:   scripts/agents/loop-cade.ts
+	both modified:   scripts/agents/routeTask.ts
+	both modified:   scripts/agents_full/matilda.ts
+	both modified:   scripts/agents_stubs/cade.ts
+	both modified:   scripts/agents_stubs/effie.ts
+	both modified:   scripts/agents_stubs/matilda.ts
+	both modified:   scripts/cli/matilda.ts
+	both modified:   scripts/dev/run-cade-task.ts
+	both modified:   scripts/dev/seed-db.ts
+	both modified:   scripts/dev/test-db.ts
+	both modified:   scripts/dev/trigger-effie-chain.ts
+	both modified:   scripts/shared/ollama.ts
+	both modified:   scripts/test_generated/test-utilities.ts
+	both modified:   scripts/tests/run_matilda_auto.ts
+	both modified:   scripts/util/backup-db.ts
+	both modified:   scripts/utils/backupMemory.ts
+	both modified:   scripts/utils/dumpTaskTable.ts
+	both modified:   scripts/utils/learnVectorstore.ts
+	both modified:   src/agents/cade/processor.ts
+	both modified:   src/agents/cade/taskTypes.ts
+	both modified:   src/agents/effie/maintenance.ts
+	both modified:   src/lib/learn/db.ts
+	both modified:   src/pages/api/command.ts
+	both added:      tsconfig.tsbuildinfo
+
+Changes not staged for commit:
+  (use "git add/rm <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	deleted:    memory/test-db.txt
+	deleted:    memory/test-effie-followup.txt
+	deleted:    memory/test-effie.txt
+	deleted:    memory/test-handwrite.txt
+	deleted:    memory/test-output.txt
+	deleted:    memory/test-write.txt
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	conflicts.txt
+
