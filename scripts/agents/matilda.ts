@@ -1,6 +1,16 @@
+import { isAgentBusy } from "../../db/task-db";
+import { isAgentBusy } from "../../db/task-db";
+import { getAgentStatus } from "../../db/task-db";
+import { getAgentStatus } from "../../db/task-db";
 import crypto from "crypto";
-import { insertTaskToDb, fetchLatestCompletedTask, storeTaskResult } from "../../db/task-db";
-import { fetchTaskStatus } from "../../db/task-db";
+import {
+  insertTaskToDb,
+  fetchLatestCompletedTask,
+  storeTaskResult,
+  fetchTaskStatus,
+  isAgentBusy,
+  setAgentStatus
+} from "../../db/task-db";
 import { logToOpsStream } from "../../utils/logger";
 
 export async function matildaCommandRouter(command: string, args: any = {}) {
@@ -40,8 +50,25 @@ export async function matildaCommandRouter(command: string, args: any = {}) {
       const status = fetchTaskStatus(uuid);
       return status
         ? { status: "success", taskStatus: status }
-        : { status: "not_found", message: "Task not found" }
+        : { status: "not_found", message: "Task not found" };
     }
+
+    case "queue-task": {
+      const { agent, type, content } = args;
+      const uuid = crypto.randomUUID?.() || Math.random().toString(36).substring(2);
+      const task = {
+        uuid,
+        agent,
+        type,
+        content: JSON.stringify(content),
+        status: isAgentBusy(agent) ? "queued" : "pending",
+        ts: Date.now()
+      };
+      insertTaskToDb(task);
+      logToOpsStream(`�� Matilda ${task.status === "queued" ? "queued" : "dispatched"} task ${uuid} to ${agent}`);
+      return { status: "ok", uuid, queued: task.status === "queued" };
+    }
+
     default:
       return { status: "error", message: "Unknown command" };
   }

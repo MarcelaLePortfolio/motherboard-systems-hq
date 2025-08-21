@@ -38,22 +38,18 @@ export function storeTaskResult(uuid: string, result: any) {
 }
 
 export function fetchTaskStatus(uuid: string) {
-  const stmt = db.prepare(`
-    SELECT status FROM tasks WHERE uuid = ?
-  `);
+  const stmt = db.prepare(`SELECT status FROM tasks WHERE uuid = ?`);
   const row = stmt.get(uuid);
   return row?.status || null;
 }
 
 export function isAgentBusy(agent: string): boolean {
-  const stmt = db.prepare(`
-    SELECT status FROM agent_status WHERE agent = ?
-  `);
+  const stmt = db.prepare(`SELECT status FROM agent_status WHERE agent = ?`);
   const row = stmt.get(agent);
-  return row?.status === 'busy';
+  return row?.status === "busy";
 }
 
-export function setAgentStatus(agent: string, status: 'busy' | 'idle') {
+export function setAgentStatus(agent: string, status: "busy" | "idle") {
   const stmt = db.prepare(`
     INSERT INTO agent_status (agent, status, ts)
     VALUES (@agent, @status, @ts)
@@ -62,13 +58,15 @@ export function setAgentStatus(agent: string, status: 'busy' | 'idle') {
   stmt.run({ agent, status, ts: Date.now() });
 }
 
-// 🧾 Fetch all queued tasks for a given agent
 export function fetchAllQueuedTasks(agent: string) {
-  const dbJson = readDb();
-  return dbJson.tasks.filter((t: any) => t.agent === agent && t.status === "queued");
+  const stmt = db.prepare(`
+    SELECT * FROM tasks
+    WHERE agent = ? AND status = 'queued'
+    ORDER BY ts ASC
+  `);
+  return stmt.all(agent);
 }
 
-// <0001f9fe> Get current status of an agent
 export function getAgentStatus(agent: string) {
   const dbJson = readDb();
   return dbJson.agents?.[agent] || "idle";
