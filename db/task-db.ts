@@ -1,3 +1,4 @@
+import { readDb } from "./db-core";
 import Database from 'better-sqlite3';
 
 const db = new Database('motherboard.db');
@@ -42,4 +43,33 @@ export function fetchTaskStatus(uuid: string) {
   `);
   const row = stmt.get(uuid);
   return row?.status || null;
+}
+
+export function isAgentBusy(agent: string): boolean {
+  const stmt = db.prepare(`
+    SELECT status FROM agent_status WHERE agent = ?
+  `);
+  const row = stmt.get(agent);
+  return row?.status === 'busy';
+}
+
+export function setAgentStatus(agent: string, status: 'busy' | 'idle') {
+  const stmt = db.prepare(`
+    INSERT INTO agent_status (agent, status, ts)
+    VALUES (@agent, @status, @ts)
+    ON CONFLICT(agent) DO UPDATE SET status = excluded.status, ts = excluded.ts
+  `);
+  stmt.run({ agent, status, ts: Date.now() });
+}
+
+// 🧾 Fetch all queued tasks for a given agent
+export function fetchAllQueuedTasks(agent: string) {
+  const dbJson = readDb();
+  return dbJson.tasks.filter((t: any) => t.agent === agent && t.status === "queued");
+}
+
+// <0001f9fe> Get current status of an agent
+export function getAgentStatus(agent: string) {
+  const dbJson = readDb();
+  return dbJson.agents?.[agent] || "idle";
 }
