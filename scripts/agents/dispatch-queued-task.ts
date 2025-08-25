@@ -1,17 +1,40 @@
-import { isAgentBusy } from "../../db/task-db";
-import { fetchAllQueuedTasks, setAgentStatus, storeTaskResult } from "../../db/task-db";
-import { logToOpsStream } from "../../utils/logger";
+import { getQueuedTasks, setAgentStatus, getAgentStatus, updateTaskStatus } from "../../db/task-db";
+import { cadeCommandRouter } from "./cade";
+import Database from "better-sqlite3";
 
-const agent = "cade";
-const tasks = fetchAllQueuedTasks(agent);
-console.log("🧾 Found queued tasks:", tasks);
+async function dispatchNextTask() {
+  const tasks = getQueuedTasks();
+  console.log("🧾 Found queued tasks:", tasks);
 
-if (tasks.length > 0) {
-  const task = tasks[0];
+  if (tasks.length === 0) {
+    console.log("📭 No queued tasks to dispatch.");
+    return;
+  }
+
+  const nextTask = tasks[0];
+  const agent = nextTask.agent;
+
+  if (getAgentStatus(agent) !== "idle") {
+    console.log(`🛑 ${agent} is busy, task remains queued.`);
+    return;
+  }
+
   setAgentStatus(agent, "busy");
-  storeTaskResult(task.uuid, "✅ Dispatched by Matilda");
-  logToOpsStream(`🚀 Dispatched queued task ${task.uuid} to ${agent}`);
-  console.log(`✅ Task ${task.uuid} dispatched`);
-} else {
-  console.log("📭 No queued tasks to dispatch.");
+  updateTaskStatus(nextTask.uuid, "pending");
+
+  if (agent === "cade") {
+    await cadeCommandRouter("execute", nextTask);
+  }
+
+  setAgentStatus(agent, "idle");
+  updateTaskStatus(nextTask.uuid, "completed");
+
+  console.log(`✅ Task ${nextTask.uuid} dispatched`);
+
+  // 🧹 Cleanup completed tasks
+  const db = new Database("motherboard.db");
+  const cleaned = db.prepare("DELETE FROM tasks WHERE status = 'completed'").run().changes;
+  console.log(`🧹 Cleaned up ${cleaned} completed tasks`);
 }
+
+dispatchNextTask();
