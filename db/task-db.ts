@@ -1,16 +1,6 @@
 import { readDb } from "./db-core";
 import Database from 'better-sqlite3';
 
-const db = new Database('motherboard.db');
-
-export function insertTaskToDb(task: {
-  uuid: string;
-  agent: string;
-  type: string;
-  content: string;
-  status: string;
-  ts: number;
-}) {
   const stmt = db.prepare(`
     INSERT OR REPLACE INTO tasks (uuid, agent, type, content, status, ts)
     VALUES (@uuid, @agent, @type, @content, @status, @ts)
@@ -71,13 +61,19 @@ export function getAgentStatus(agent: string) {
   const dbJson = readDb();
   return dbJson.agents?.[agent] || "idle";
 }
-export function getQueuedTasks() {
   const db = new Database('motherboard.db');
   return db.prepare("SELECT * FROM tasks WHERE status = 'queued' ORDER BY ts ASC").all();
 }
 
+
+
+export function getQueuedTasks() {
+  const localDb = new Database('motherboard.db');
+  return localDb.prepare("SELECT * FROM tasks WHERE status = 'queued' ORDER BY ts ASC").all();
+}
+
 /* <0001f9ff> Retrieve all queued tasks */
 export function getQueuedTasks() {
-  const db = new Database('motherboard.db');
-  return db.prepare("SELECT * FROM tasks WHERE status = 'queued' ORDER BY ts ASC").all();
+  const localDb = new Database('motherboard.db');
+  return localDb.prepare("SELECT * FROM tasks WHERE status = 'queued' ORDER BY ts ASC").all();
 }
