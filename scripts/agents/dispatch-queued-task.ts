@@ -1,4 +1,4 @@
-import { getQueuedTasks, setAgentStatus, getAgentStatus, updateTaskStatus } from "../../db/task-db";
+import { getQueuedTasks, setAgentStatus, getAgentStatus, updateTaskStatus, deleteCompletedTask } from "../../db/task-db";
 import { cadeCommandRouter } from "./cade";
 import Database from "better-sqlite3";
 
@@ -19,14 +19,13 @@ async function dispatchNextTask() {
     return;
   }
 
-  setAgentStatus(agent, "busy");
   updateTaskStatus(nextTask.uuid, "pending");
 
   if (agent === "cade") {
     await cadeCommandRouter("execute", nextTask);
   }
 
-  setAgentStatus(agent, "idle");
+  setTimeout(() => setAgentStatus(agent, "idle"), 100); // ✅ Delay to allow updateTaskStatus to run first
   updateTaskStatus(nextTask.uuid, "completed");
 
   console.log(`✅ Task ${nextTask.uuid} dispatched`);

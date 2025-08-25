@@ -1,6 +1,5 @@
-import { storeTaskResult, setAgentStatus } from "../../db/task-db";
+import { updateTaskStatus, deleteCompletedTask, setAgentStatus } from "../../db/task-db";
 
-// <0001cade> Task executor for Cade
 export async function cadeCommandRouter(command: string, task?: any) {
   if (command === "execute" && task) {
     await handleTask(task);
@@ -10,23 +9,21 @@ export async function cadeCommandRouter(command: string, task?: any) {
 }
 
 export async function handleTask(task: any) {
+  const { uuid, type, content, agent } = task;
   console.log(`🧠 Cade received task:`, task);
-  setAgentStatus("cade", "busy");
 
-  try {
-    if (task.type === "test") {
-      const parsed = typeof task.content === "string" ? JSON.parse(task.content) : task.content;
-      console.log(`📢 Message: ${parsed.message}`);
-      
-      storeTaskResult(task.uuid, {
-        message: "✅ Handled by Cade!",
-        originalMessage: parsed.message,
-      });
-    } else {
-      console.log("❌ Unknown task type:", task.type);
-      storeTaskResult(task.uuid, { error: "Unknown task type" });
-    }
-  } finally {
-    setAgentStatus("cade", "idle");
+  setAgentStatus(agent, "busy"); // 👷 Mark agent as busy
+
+  // ✨ Simulate task execution
+  if (type === "say_hello") {
+    console.log(`🗣️ Cade says: ${content}`);
+  } else {
+    console.log(`⚠️ Unknown task type: ${type}`);
   }
+
+  updateTaskStatus(uuid, "completed"); // ✅ Mark as completed
+  deleteCompletedTask(uuid);           // 🧹 Auto-delete completed task
+
+  // ✅ Restore agent to idle with slight delay
+  setTimeout(() => setAgentStatus(agent, "idle"), 100);
 }

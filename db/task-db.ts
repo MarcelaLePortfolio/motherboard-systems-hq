@@ -1,22 +1,20 @@
+import Database from "better-sqlite3";
 import { readDb } from "./db-core";
-import Database from 'better-sqlite3';
-
+import Database from "better-sqlite3";
+  const db = new Database("motherboard.db");
+export function insertTaskToDb(task: { uuid: string; agent: string; type: string; content: string; status: string; ts: number }) {
   const stmt = db.prepare(`
     INSERT OR REPLACE INTO tasks (uuid, agent, type, content, status, ts)
     VALUES (@uuid, @agent, @type, @content, @status, @ts)
   `);
   stmt.run(task);
 }
-
-export function fetchLatestCompletedTask(agent: string, type: string) {
   const stmt = db.prepare(`
     SELECT * FROM tasks
     WHERE agent = ? AND type = ? AND status = 'completed'
     ORDER BY ts DESC
     LIMIT 1
   `);
-  return stmt.get(agent, type);
-}
 
 export function storeTaskResult(uuid: string, result: any) {
   const stmt = db.prepare(`
@@ -45,7 +43,6 @@ export function setAgentStatus(agent: string, status: "busy" | "idle") {
     VALUES (@agent, @status, @ts)
     ON CONFLICT(agent) DO UPDATE SET status = excluded.status, ts = excluded.ts
   `);
-  stmt.run({ agent, status, ts: Date.now() });
 }
 
 export function fetchAllQueuedTasks(agent: string) {
@@ -58,22 +55,28 @@ export function fetchAllQueuedTasks(agent: string) {
 }
 
 export function getAgentStatus(agent: string) {
-  const dbJson = readDb();
-  return dbJson.agents?.[agent] || "idle";
+
 }
-  const db = new Database('motherboard.db');
-  return db.prepare("SELECT * FROM tasks WHERE status = 'queued' ORDER BY ts ASC").all();
-}
-
-
-
-export function getQueuedTasks() {
-  const localDb = new Database('motherboard.db');
-  return localDb.prepare("SELECT * FROM tasks WHERE status = 'queued' ORDER BY ts ASC").all();
-}
-
 /* <0001f9ff> Retrieve all queued tasks */
 export function getQueuedTasks() {
-  const localDb = new Database('motherboard.db');
-  return localDb.prepare("SELECT * FROM tasks WHERE status = 'queued' ORDER BY ts ASC").all();
+  const stmt = db.prepare(`
+    SELECT * FROM tasks
+    WHERE status = 'queued'
+    ORDER BY ts ASC
+  `);
+  return stmt.all();
+}/* <0001fa02> Update task status */
+export function updateTaskStatus(uuid: string, status: string) {
+  const stmt = db.prepare(`
+    UPDATE tasks
+    SET status = @status
+    WHERE uuid = @uuid
+  `);
+  stmt.run({ uuid, status });
+}
+
+/* <0001fa03> Auto-delete completed task */
+export function deleteCompletedTask(uuid: string) {
+  const db = new Database("motherboard.db");
+  db.prepare(`DELETE FROM tasks WHERE uuid = ? AND status = 'completed'`).run(uuid);
 }
