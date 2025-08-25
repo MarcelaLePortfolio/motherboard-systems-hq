@@ -71,3 +71,13 @@ export function getAgentStatus(agent: string) {
   const dbJson = readDb();
   return dbJson.agents?.[agent] || "idle";
 }
+export function getQueuedTasks() {
+  const db = new Database('motherboard.db');
+  return db.prepare("SELECT * FROM tasks WHERE status = 'queued' ORDER BY ts ASC").all();
+}
+
+/* <0001f9ff> Retrieve all queued tasks */
+export function getQueuedTasks() {
+  const db = new Database('motherboard.db');
+  return db.prepare("SELECT * FROM tasks WHERE status = 'queued' ORDER BY ts ASC").all();
+}
