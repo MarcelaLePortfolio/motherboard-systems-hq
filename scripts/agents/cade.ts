@@ -1,4 +1,4 @@
-import { queueTask, updateTaskStatus, deleteCompletedTask, setAgentStatus } from "../../db/task-db";
+import { updateTaskStatus, deleteCompletedTask, setAgentStatus } from "../../db/task-db";
 
 export async function handleTask(task: any) {
   const { uuid, type, content, agent } = task;
@@ -47,4 +47,11 @@ export async function handleTask(task: any) {
 
   // ✅ Restore agent to idle with slight delay
   setTimeout(() => setAgentStatus(agent, "idle"), 100);
+}
+export async function cadeCommandRouter(command: string, task?: any) {
+  if (command === "execute" && task) {
+    await handleTask(task);
+    return { status: "ok", message: "Executed task" };
+  }
+  return { status: "error", message: "Unknown command" };
 }
