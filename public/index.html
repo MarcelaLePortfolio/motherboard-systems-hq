@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Motherboard Systems HQ</title>
+  <style>
+    body {
+      font-family: 'Courier New', Courier, monospace;
+      background-color: #1e1e1e;
+      color: #f3f3f3;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #2e2e2e;
+      padding: 1rem;
+      font-size: 1.5rem;
+      border-bottom: 2px solid #444;
+    }
+    #project-tracker {
+      margin: 2rem;
+      border: 1px solid #444;
+      padding: 1rem;
+      border-radius: 8px;
+      background-color: #282828;
+    }
+    .agent-status {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #444;
+    }
+    .agent-status:last-child {
+      border-bottom: none;
+    }
+    .status-idle {
+      color: #4caf50;
+    }
+    .status-busy {
+      color: #ff9800;
+      font-weight: bold;
+    }
+    #refresh-time {
+      text-align: right;
+      font-size: 0.9rem;
+      color: #bbb;
+      margin-top: -1rem;
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <header>💻 Motherboard Systems HQ</header>
+  <div id="project-tracker">
+    <div id="refresh-time">Last updated: <span id="last-refresh"></span></div>
+    <div class="agent-status"><span>Matilda</span><span class="status-idle">idle</span></div>
+    <div class="agent-status"><span>Cade</span><span class="status-busy">busy</span></div>
+    <div class="agent-status"><span>Effie</span><span class="status-idle">idle</span></div>
+  </div>
+
+  <script>
+    function updateTimestamp() {
+      const now = new Date();
+      document.getElementById("last-refresh").textContent = now.toLocaleTimeString();
+    }
+
+    updateTimestamp();
+    setInterval(updateTimestamp, 60000); // update every 60s
+  </script>
+</body>
+</html>
