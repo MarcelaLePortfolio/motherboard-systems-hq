@@ -6,13 +6,13 @@ export async function handleTask(task: any) {
 
   setAgentStatus(agent, "busy"); // 👷 Mark agent as busy
 
-  // ✨ Simulate task execution
+  const fs = await import("fs");
+  const path = await import("path");
+
   if (type === "say_hello") {
     console.log(`🗣️ Cade says: ${content}`);
-  } else if (type === "patch_file" && content?.path && content?.patch) {
-    const fs = await import("fs");
-    const path = await import("path");
 
+  } else if (type === "patch_file" && content?.path && content?.patch) {
     const fullPath = path.resolve(content.path);
     const before = fs.readFileSync(fullPath, "utf8");
     const patched = before + content.patch;
@@ -29,7 +29,6 @@ export async function handleTask(task: any) {
     const streamPath = path.resolve("logs/ops-stream.log");
     fs.appendFileSync(streamPath, `[DIFF] ${new Date().toISOString()}\n${diff}\n\n`, "utf8");
 
-    // 💌 Queue Effie follow-up task
     await queueTask({
       agent: "Effie",
       type: "open_file",
@@ -38,10 +37,8 @@ export async function handleTask(task: any) {
     });
 
     console.log(`📤 Queued follow-up task for Effie to open: ${content.path}`);
-  } else if (type === "patch" && content && task.path) {
-    const fs = await import("fs");
-    const path = await import("path");
 
+  } else if (type === "patch" && content && task.path) {
     const fullPath = path.resolve(task.path);
     if (!fullPath.startsWith(process.cwd())) {
       console.log("❌ Unsafe file path.");
@@ -55,15 +52,27 @@ export async function handleTask(task: any) {
         console.log("❌ Failed to patch file:", err.message);
       }
     }
+
+  } else if (type === "replace" && content && task.path) {
+    const fullPath = path.resolve(task.path);
+    if (!fullPath.startsWith(process.cwd())) {
+      console.log("❌ Unsafe file path.");
+    } else {
+      try {
+        fs.writeFileSync(fullPath, content, "utf8");
+        console.log(`✅ Replaced content of "\${fullPath}"`);
+      } catch (err) {
+        console.log("❌ Failed to replace file:", err.message);
+      }
+    }
+
   } else {
-    console.log(`⚠️ Unknown task type: ${type}`);
+    console.log(`⚠️ Unknown task type: \${type}`);
   }
 
   updateTaskStatus(uuid, "completed"); // ✅ Mark as completed
   deleteCompletedTask(uuid);           // 🧹 Auto-delete completed task
-
-  // ✅ Restore agent to idle with slight delay
-  setTimeout(() => setAgentStatus(agent, "idle"), 100);
+  setTimeout(() => setAgentStatus(agent, "idle"), 100); // ✅ Restore agent to idle
 }
 export async function cadeCommandRouter(command: string, task?: any) {
   if (command === "execute" && task) {
