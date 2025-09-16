@@ -1,5 +1,117 @@
 import { updateTaskStatus, deleteCompletedTask, setAgentStatus } from "../../db/task-db";
 
+    switch (task.type) {
+      case "patch": {
+        if (!task.path || !task.content) {
+          result = "❌ Missing fields for patch";
+          break;
+        }
+        const fullPath = path.resolve(task.path);
+        if (!fullPath.startsWith(process.cwd())) {
+          result = "❌ Unsafe file path.";
+          break;
+        }
+        try {
+          const existing = fs.readFileSync(fullPath, "utf8");
+          fs.writeFileSync(fullPath, existing + "\n" + task.content, "utf8");
+          result = `✅ Appended patch to "${task.path}"`;
+        } catch (err) {
+          result = "❌ Failed to patch: " + err.message;
+        }
+        break;
+      }
+      case "replace": {
+        if (!task.path || !task.content) {
+          result = "❌ Missing fields for replace";
+          break;
+        }
+        const fullPath = path.resolve(task.path);
+        if (!fullPath.startsWith(process.cwd())) {
+          result = "❌ Unsafe file path.";
+          break;
+        }
+        try {
+          fs.writeFileSync(fullPath, task.content, "utf8");
+          result = `✅ Replaced content of "${task.path}"`;
+        } catch (err) {
+          result = "❌ Failed to replace: " + err.message;
+        }
+        break;
+      }
+      case "prepend": {
+        if (!task.path || !task.content) {
+          result = "❌ Missing fields for prepend";
+          break;
+        }
+        const fullPath = path.resolve(task.path);
+        if (!fullPath.startsWith(process.cwd())) {
+          result = "❌ Unsafe file path.";
+          break;
+        }
+        try {
+          const existing = fs.readFileSync(fullPath, "utf8");
+          fs.writeFileSync(fullPath, task.content + "\n" + existing, "utf8");
+          result = `✅ Prepended content to "${task.path}"`;
+        } catch (err) {
+          result = "❌ Failed to prepend: " + err.message;
+        }
+        break;
+      }
+      case "insert_after": {
+        if (!task.path || !task.insert_after || !task.content) {
+          result = "❌ Missing fields for insert_after";
+          break;
+        }
+        const fullPath = path.resolve(task.path);
+        if (!fullPath.startsWith(process.cwd())) {
+          result = "❌ Unsafe file path.";
+          break;
+        }
+        try {
+          const lines = fs.readFileSync(fullPath, "utf8").split("\n");
+          const index = lines.findIndex(line => line.includes(task.insert_after));
+          if (index === -1) {
+            result = "❌ Marker not found for insert_after.";
+          } else {
+            lines.splice(index + 1, 0, task.content);
+            fs.writeFileSync(fullPath, lines.join("\n"), "utf8");
+            result = `✅ Inserted after marker in "${task.path}"`;
+          }
+        } catch (err) {
+          result = "❌ Failed to insert_after: " + err.message;
+        }
+        break;
+      }
+      case "insert_before": {
+        if (!task.path || !task.insert_before || !task.content) {
+          result = "❌ Missing fields for insert_before";
+          break;
+        }
+        const fullPath = path.resolve(task.path);
+        if (!fullPath.startsWith(process.cwd())) {
+          result = "❌ Unsafe file path.";
+          break;
+        }
+        try {
+          const lines = fs.readFileSync(fullPath, "utf8").split("\n");
+          const index = lines.findIndex(line => line.includes(task.insert_before));
+          if (index === -1) {
+            result = "❌ Marker not found for insert_before.";
+          } else {
+            lines.splice(index, 0, task.content);
+            fs.writeFileSync(fullPath, lines.join("\n"), "utf8");
+            result = `✅ Inserted before marker in "${task.path}"`;
+          }
+        } catch (err) {
+          result = "❌ Failed to insert_before: " + err.message;
+        }
+        break;
+      }
+      default: {
+        result = `⚠️ Unknown task type: ${task.type}`;
+        break;
+      }
+    }
 export async function handleTask(task: any) {
   const { uuid, type, content, agent, path: taskPath, insert_after } = task;
   const fs = await import("fs");
