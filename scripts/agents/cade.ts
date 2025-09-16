@@ -38,6 +38,23 @@ export async function handleTask(task: any) {
     });
 
     console.log(`📤 Queued follow-up task for Effie to open: ${content.path}`);
+  } else if (type === "patch" && content && task.path) {
+    const fs = await import("fs");
+    const path = await import("path");
+
+    const fullPath = path.resolve(task.path);
+    if (!fullPath.startsWith(process.cwd())) {
+      console.log("❌ Unsafe file path.");
+    } else {
+      try {
+        const existing = fs.readFileSync(fullPath, "utf8");
+        const patched = existing + "\n" + content;
+        fs.writeFileSync(fullPath, patched, "utf8");
+        console.log(`✅ Appended patch to "\${fullPath}"`);
+      } catch (err) {
+        console.log("❌ Failed to patch file:", err.message);
+      }
+    }
   } else {
     console.log(`⚠️ Unknown task type: ${type}`);
   }

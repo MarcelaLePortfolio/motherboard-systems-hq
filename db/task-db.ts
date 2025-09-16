@@ -1,72 +1,66 @@
+import fs from "fs";
 import Database from "better-sqlite3";
 import { readDb } from "./db-core";
 import Database from "better-sqlite3";
   const db = new Database("motherboard.db");
-export function insertTaskToDb(task: { uuid: string; agent: string; type: string; content: string; status: string; ts: number }) {
-  const stmt = db.prepare(`
-    INSERT OR REPLACE INTO tasks (uuid, agent, type, content, status, ts)
-    VALUES (@uuid, @agent, @type, @content, @status, @ts)
+
+/* <0001fa03> Insert task into queue */
+const insertTask = (task: any) => {
+  const insert = db.prepare(`
+    INSERT INTO tasks (uuid, type, content, agent, status, created_at, triggered_by, path)
+    VALUES (@uuid, @type, @content, @agent, @status, @created_at, @triggered_by, @path)
   `);
-  stmt.run(task);
-}
+  insert.run(task);
+};
+
+export { insertTask };
+
+/* <0001fa04> Delete completed task by UUID */
+
+
+/* <0001fa04> Delete completed task by UUID */
+function deleteCompletedTask(uuid: string) {
   const stmt = db.prepare(`
-    SELECT * FROM tasks
-    WHERE agent = ? AND type = ? AND status = 'completed'
-    ORDER BY ts DESC
-    LIMIT 1
+    DELETE FROM tasks
+    WHERE uuid = @uuid AND status = 'complete'
   `);
+  stmt.run({ uuid });
+}
 
-export function storeTaskResult(uuid: string, result: any) {
+export { deleteCompletedTask };
+
+/* <0001fa05> Update agent status in agent_status table */
+
+
+/* <0001fa05> Update agent status in agent_status table */
+function setAgentStatus(agent: string, status: string) {
+  const now = Date.now();
   const stmt = db.prepare(`
-    UPDATE tasks
-    SET status = 'completed', result = @result
-    WHERE uuid = @uuid
+    INSERT INTO agent_status (agent, status, created_at, updated_at)
+    VALUES (?, ?, ?, ?)
+    ON CONFLICT(agent) DO UPDATE SET
+      status = excluded.status,
+      updated_at = excluded.updated_at
   `);
-  stmt.run({ uuid, result: JSON.stringify(result) });
+  stmt.run(agent, status, now, now);
 }
 
-export function fetchTaskStatus(uuid: string) {
-  const stmt = db.prepare(`SELECT status FROM tasks WHERE uuid = ?`);
-  const row = stmt.get(uuid);
-  return row?.status || null;
-}
+export { setAgentStatus };
 
-export function isAgentBusy(agent: string): boolean {
-  const stmt = db.prepare(`SELECT status FROM agent_status WHERE agent = ?`);
-  const row = stmt.get(agent);
-  return row?.status === "busy";
-}
+/* <0001fa06> Update task status by UUID */
 
-export function setAgentStatus(agent: string, status: "busy" | "idle") {
-  const stmt = db.prepare(`
-    INSERT INTO agent_status (agent, status, ts)
-    VALUES (@agent, @status, @ts)
-    ON CONFLICT(agent) DO UPDATE SET status = excluded.status, ts = excluded.ts
-  `);
-}
 
-export function fetchAllQueuedTasks(agent: string) {
-  const stmt = db.prepare(`
-    SELECT * FROM tasks
-    WHERE agent = ? AND status = 'queued'
-    ORDER BY ts ASC
-  `);
-  return stmt.all(agent);
-}
+/* <0001fa06> Update task status by UUID */
 
-export function getAgentStatus(agent: string) {
 
-}
-/* <0001f9ff> Retrieve all queued tasks */
-export function getQueuedTasks() {
-  const stmt = db.prepare(`
-    SELECT * FROM tasks
-    WHERE status = 'queued'
-    ORDER BY ts ASC
-  `);
-  return stmt.all();
-}/* <0001fa02> Update task status */
-export function updateTaskStatus(uuid: string, status: string) {
+/* <0001fa06> Update task status by UUID */
+
+
+/* <0001fa06> Update task status by UUID */
+
+
+/* <0001fa06> Update task status by UUID */
+function updateTaskStatus(uuid: string, status: string) {
   const stmt = db.prepare(`
     UPDATE tasks
     SET status = @status
@@ -75,8 +69,30 @@ export function updateTaskStatus(uuid: string, status: string) {
   stmt.run({ uuid, status });
 }
 
-/* <0001fa03> Auto-delete completed task */
-export function deleteCompletedTask(uuid: string) {
-  const db = new Database("motherboard.db");
-  db.prepare(`DELETE FROM tasks WHERE uuid = ? AND status = 'completed'`).run(uuid);
+export { updateTaskStatus };
+
+/* <0001fa07> Get current status of agent from agent_status table */
+function getAgentStatus(agent: string): string | null {
+  const stmt = db.prepare(`
+    SELECT status FROM agent_status
+    WHERE agent = ?
+    ORDER BY updated_at DESC
+    LIMIT 1
+  `);
+  const row = stmt.get(agent);
+  return row ? row.status : null;
 }
+
+export { getAgentStatus };
+
+/* <0001fa08> Get all queued tasks from tasks table */
+function getQueuedTasks(): any[] {
+  const stmt = db.prepare(`
+    SELECT * FROM tasks
+    WHERE status = 'queued'
+    ORDER BY created_at ASC
+  `);
+  return stmt.all();
+}
+
+export { getQueuedTasks };
