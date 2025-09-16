@@ -114,10 +114,11 @@ import { updateTaskStatus, deleteCompletedTask, setAgentStatus } from "../../db/
     }
 export async function handleTask(task: any) {
   const { uuid, type, content, agent, path, insert_after, insert_before } = task;
+const fs = await import("fs");
+const pathModule = await import("path");
 
   console.log("🔍 Received task type:", type);
 
-  const fs = await import("fs");
   const pathModule = await import("path");
 
   let result: string;
@@ -195,9 +196,7 @@ export async function handleTask(task: any) {
   }
 
   console.log(result);
-  const { uuid, type, content, agent, path: taskPath, insert_after } = task;
   const fs = await import("fs");
-  const path = await import("path");
 
   console.log(`🧠 Cade received task:`, task);
   setAgentStatus(agent, "busy");
