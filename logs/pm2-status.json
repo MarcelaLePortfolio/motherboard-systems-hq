@@ -1,0 +1,26 @@
+[
+  {
+    "name": "dev-server",
+    "pid": 0,
+    "status": "errored",
+    "memory": 0,
+    "cpu": 0,
+    "uptime": 1757969393168
+  },
+  {
+    "name": "cade",
+    "pid": 0,
+    "status": "errored",
+    "memory": 0,
+    "cpu": 0,
+    "uptime": 1757969393320
+  },
+  {
+    "name": "cade",
+    "pid": 0,
+    "status": "errored",
+    "memory": 0,
+    "cpu": 0,
+    "uptime": 1757969391476
+  }
+]
