@@ -3,7 +3,6 @@ import { updateTaskStatus, deleteCompletedTask, setAgentStatus } from "../../db/
 export async function handleTask(task: any) {
   const { uuid, type, content, agent } = task;
   console.log(`🧠 Cade received task:`, task);
-
   setAgentStatus(agent, "busy"); // 👷 Mark agent as busy
 
   const fs = await import("fs");
@@ -16,26 +15,21 @@ export async function handleTask(task: any) {
     const fullPath = path.resolve(content.path);
     const before = fs.readFileSync(fullPath, "utf8");
     const patched = before + content.patch;
-
     fs.writeFileSync(fullPath, patched, "utf8");
-
     const diff = [
       `--- Before (${content.path})`,
       before.trim(),
       `+++ After`,
       patched.trim()
     ].join("\n");
-
     const streamPath = path.resolve("logs/ops-stream.log");
     fs.appendFileSync(streamPath, `[DIFF] ${new Date().toISOString()}\n${diff}\n\n`, "utf8");
-
     await queueTask({
       agent: "Effie",
       type: "open_file",
       content: { path: content.path },
       triggered_by: uuid
     });
-
     console.log(`📤 Queued follow-up task for Effie to open: ${content.path}`);
 
   } else if (type === "patch" && content && task.path) {
@@ -63,6 +57,21 @@ export async function handleTask(task: any) {
         console.log(`✅ Replaced content of "\${fullPath}"`);
       } catch (err) {
         console.log("❌ Failed to replace file:", err.message);
+      }
+    }
+
+  } else if (type === "prepend" && content && task.path) {
+    const fullPath = path.resolve(task.path);
+    if (!fullPath.startsWith(process.cwd())) {
+      console.log("❌ Unsafe file path.");
+    } else {
+      try {
+        const existing = fs.readFileSync(fullPath, "utf8");
+        const updated = content + "\n" + existing;
+        fs.writeFileSync(fullPath, updated, "utf8");
+        console.log(`✅ Prepended content to "\${fullPath}"`);
+      } catch (err) {
+        console.log("❌ Failed to prepend file:", err.message);
       }
     }
 
