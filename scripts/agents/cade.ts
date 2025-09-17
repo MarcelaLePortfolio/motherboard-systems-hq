@@ -1,75 +1,58 @@
-const fs = await import("fs");
-export async function handleTask(task: any) {
-  const { uuid, type, content, agent, path, insert_before, insert_after } = task;
-  let result = "";
+import fs from 'fs';
+import path from 'path';
 
-  switch (type) {
-    case "prepend": {
-      const fullPath = pathModule.resolve(path);
-      if (!fullPath.startsWith(process.cwd())) { result = "❌ Unsafe file path."; break; }
-      try {
-        const existing = fs.readFileSync(fullPath, "utf8");
-        fs.writeFileSync(fullPath, content + "\n" + existing, "utf8");
-        result = `✅ Prepended content to "${path}"`;
-      } catch (err: any) { result = "❌ Failed to prepend: " + err.message; }
-      break;
-    }
-    case "replace": {
-      const fullPath = pathModule.resolve(path);
-      if (!fullPath.startsWith(process.cwd())) { result = "❌ Unsafe file path."; break; }
-      try {
-        fs.writeFileSync(fullPath, content, "utf8");
-        result = `✅ Replaced content in "${path}"`;
-      } catch (err: any) { result = "❌ Failed to replace: " + err.message; }
-      break;
-    }
-    case "patch": {
-      const fullPath = pathModule.resolve(path);
-      if (!fullPath.startsWith(process.cwd())) { result = "❌ Unsafe file path."; break; }
-      try {
-        const existing = fs.readFileSync(fullPath, "utf8");
-        fs.writeFileSync(fullPath, existing + "\n" + content, "utf8");
-        result = `✅ Appended patch to "${path}"`;
-      } catch (err: any) { result = "❌ Failed to patch: " + err.message; }
-      break;
-    }
-    case "insert_after": {
-      const fullPath = pathModule.resolve(path);
-      if (!fullPath.startsWith(process.cwd())) { result = "❌ Unsafe file path."; break; }
-      try {
-        const lines = fs.readFileSync(fullPath, "utf8").split("\n");
-        const index = lines.findIndex(line => line.includes(insert_after));
-        if (index === -1) { result = "❌ Marker not found for insert_after."; }
-        else { lines.splice(index + 1, 0, content); fs.writeFileSync(fullPath, lines.join("\n"), "utf8"); result = `✅ Inserted after marker in "${path}"`; }
-      } catch (err: any) { result = "❌ Failed to insert_after: " + err.message; }
-      break;
-    }
-    case "insert_before": {
-      const fullPath = pathModule.resolve(path);
-      if (!fullPath.startsWith(process.cwd())) { result = "❌ Unsafe file path."; break; }
-      try {
-        const lines = fs.readFileSync(fullPath, "utf8").split("\n");
-        const index = lines.findIndex(line => line.includes(insert_before));
-        if (index === -1) { result = "❌ Marker not found for insert_before."; }
-        else { lines.splice(index, 0, content); fs.writeFileSync(fullPath, lines.join("\n"), "utf8"); result = `✅ Inserted before marker in "${path}"`; }
-      } catch (err: any) { result = "❌ Failed to insert_before: " + err.message; }
-      break;
-    }
-    default: {
-      result = `⚠️ Unknown task type: ${type}`;
-      break;
-    }
+const TASKS_DIR = path.resolve('./memory/tasks');
+console.log('🟢 Cade starting... task folder:', TASKS_DIR);
+
+function processTask(file: string) {
+  const filePath = path.join(TASKS_DIR, file);
+  let task;
+
+  try {
+    task = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+  } catch (err) {
+    console.error('❌ Failed to parse task file:', file, err);
+    return;
   }
 
-  console.log(result);
-}
-const pathModule = await import("path");
-import { updateTaskStatus, deleteCompletedTask, setAgentStatus } from "../../db/task-db";
+  try {
+    switch (task.type) {
+      case 'log':
+        console.log('✅ Task log:', task.payload.message);
+        break;
 
-export async function cadeCommandRouter(command: string, task?: any) {
-  if (command === "execute" && task) {
-    await handleTask(task);
-    return { status: "ok", message: "Executed task" };
+      case 'write':
+        fs.writeFileSync(
+          path.resolve(task.payload.path),
+          task.payload.content,
+          'utf-8'
+        );
+        console.log(`📝 Task write: File written to ${task.payload.path}`);
+        break;
+
+      case 'delete':
+        if (fs.existsSync(task.payload.path)) {
+          fs.unlinkSync(task.payload.path);
+          console.log(`🗑️ Task delete: File removed ${task.payload.path}`);
+        } else {
+          console.log(`⚠️ Task delete: File not found ${task.payload.path}`);
+        }
+        break;
+
+      default:
+        console.log(`⚠️ Unknown task type: ${task.type}`);
+    }
+
+    task.status = 'complete';
+    task.completed_at = new Date().toISOString();
+    fs.writeFileSync(filePath, JSON.stringify(task, null, 2), 'utf-8');
+  } catch (err) {
+    console.error('❌ Error executing task:', task.id, err);
   }
-  return { status: "error", message: "Unknown command" };
 }
+
+setInterval(() => {
+  const files = fs.readdirSync(TASKS_DIR).filter(f => f.endsWith('.json'));
+  if (files.length) console.log('📂 Found task files:', files);
+  files.forEach(processTask);
+}, 3000);
