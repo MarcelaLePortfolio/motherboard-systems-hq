@@ -1,11 +1,16 @@
 import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core';
 
 export const tasks = sqliteTable('tasks', {
-  uuid: text('uuid').primaryKey(),
+  id: text('id').primaryKey(),
   type: text('type'),
-  content: text('content'),
+  payload: text('payload'),
   status: text('status'),
-  agent: text('agent'),
-  created_at: integer('created_at', { mode: 'timestamp' }),
-  triggered_by: text('triggered_by'), // if you use this field
+  created_at: text('created_at'),
+  completed_at: text('completed_at').nullable(),
+});
+
+export const agent_state = sqliteTable('agent_state', {
+  agent: text('agent').primaryKey(),
+  status: text('status'),
+  last_ts: integer('last_ts'),
 });
