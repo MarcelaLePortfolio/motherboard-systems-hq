@@ -1,0 +1,11 @@
+{
+  "uuid": "matilda-test-002",
+  "agent": "matilda",
+  "status": "queued",
+  "payload": {
+    "action": "echo",
+    "content": "Second task from Matilda!"
+  },
+  "created_at": "1758148283",
+  "completed_at": "2025-09-17T22:44:56.423Z"
+}

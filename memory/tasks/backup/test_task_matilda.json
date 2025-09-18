@@ -1,0 +1,11 @@
+{
+  "uuid": "matilda-test-001",
+  "agent": "matilda",
+  "status": "queued",
+  "payload": {
+    "action": "runCommand",
+    "content": "echo 'Hello from Matilda!'"
+  },
+  "created_at": "1694960000",
+  "completed_at": "2025-09-18T17:17:55.032Z"
+}
