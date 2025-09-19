@@ -1,0 +1,6 @@
+Remote delegation for MVP:
+
+- Safe tasks (file moves, append, logging, simple commands) ✅
+- Structural/systemic changes (core logic, action map) ❌ – requires code update
+- Recommendation: Use remote delegation for iterative, non-breaking improvements. 
+  Core logic fixes should be applied in code and redeployed.

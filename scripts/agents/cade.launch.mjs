@@ -1,47 +1,55 @@
-
 import fs from 'fs';
-import path from 'path';
 import { execSync } from 'child_process';
 
-const TASK_DIR = path.resolve('memory/tasks'); // ✅ Define task folder
-
-console.log('<0001f7e2> Cade starting... task folder:', TASK_DIR);
-
 setInterval(() => {
-  const files = fs.readdirSync(TASK_DIR).filter(f => f.endsWith('.json'));
-  if (files.length === 0) return;
+  const taskFiles = fs.readdirSync('memory/tasks').filter(f => f.endsWith('.json'));
+  if (!taskFiles.length) return;
 
-  files.forEach(file => {
-    const filePath = path.join(TASK_DIR, file);
-
+  taskFiles.forEach(file => {
+    const filePath = `memory/tasks/${file}`;
     try {
       const task = JSON.parse(fs.readFileSync(filePath, 'utf8'));
-
-      if (!task.payload?.action) {
-        console.warn('⚠️ Unknown task type: undefined', task);
-        fs.unlinkSync(filePath); // remove malformed task
+      const action = task.payload?.action;
+      if (!action) {
+        console.warn('⚠️ Task missing action field:', file);
+        fs.unlinkSync(filePath);
         return;
       }
 
-      switch (task.payload.action) {
-        case 'runCommand':
-          try {
-            execSync(task.payload.content, { stdio: 'inherit' });
-            console.log('Cade executed a new task!');
-          } catch (err) {
-            console.error('❌ Error executing command:', err);
-          } finally {
-            fs.unlinkSync(filePath); // remove task after execution
-          }
-          break;
+      console.log('📂 Found task file:', file);
 
+      switch (action) {
+        case 'runCommand':
+          console.log('⚡ Executing command:', task.payload.content);
+          console.log(execSync(task.payload.content, { encoding: 'utf8' }));
+          break;
+        case 'writeFile':
+          fs.writeFileSync(task.payload.path, task.payload.content, 'utf8');
+          console.log(`Cade wrote file: ${task.payload.path}`);
+          break;
+        case 'appendFile':
+          fs.appendFileSync(task.payload.path, task.payload.content, 'utf8');
+          console.log(`Cade appended file: ${task.payload.path}`);
+          break;
+        case 'deleteFile':
+          fs.unlinkSync(task.payload.path);
+          console.log(`Cade deleted file: ${task.payload.path}`);
+          break;
+        case 'moveFile':
+          fs.renameSync(task.payload.from, task.payload.to);
+          console.log(`Cade moved file from ${task.payload.from} to ${task.payload.to}`);
+          break;
+        case 'logMessage':
+          console.log(`Cade log: ${task.payload.message}`);
+          break;
         default:
-          console.warn('⚠️ Unknown task type:', task.payload.action);
-          fs.unlinkSync(filePath); // remove unsupported task
+          console.warn('⚠️ Unknown task type:', action);
       }
+
+      fs.unlinkSync(filePath); // ✅ Remove task after execution
     } catch (e) {
       console.error('❌ Failed to parse task:', file, e);
-      fs.unlinkSync(filePath); // remove invalid JSON
+      fs.unlinkSync(filePath);
     }
   });
 }, 2000);
