@@ -1,0 +1,6 @@
+{
+  "payload": {
+    "action": "runCommand",
+    "content": "echo Debug test executed!"
+  }
+}
