@@ -1,0 +1,9 @@
+{
+  "id": "test-file-task",
+  "action": "write",
+  "payload": {
+    "path": "memory/pm2_test.txt",
+    "content": "Cade running under PM2."
+  },
+  "completed_at": "2025-09-23T22:18:15.371Z"
+}

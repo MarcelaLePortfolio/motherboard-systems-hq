@@ -1,4 +1,4 @@
-import { createAgentRuntime } from "../../mirror/agent";
-import { cade } from "../../agents/cade";
+import { createAgentRuntime } from "../utils/createAgentRuntime";
+import { cade } from "../../../agents/cade.mts";
 
 createAgentRuntime(cade);

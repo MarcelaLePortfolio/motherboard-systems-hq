@@ -1,46 +1,46 @@
+// scripts/agents/cade.ts
 import fs from 'fs';
 import path from 'path';
 
 const TASKS_DIR = path.resolve('./memory/tasks');
 console.log('🟢 Cade starting... task folder:', TASKS_DIR);
 
-function processTask(file: string) {
-  const filePath = path.join(TASKS_DIR, file);
-  const task = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+export async function cadeCommandRouter(
+  type: 'read file' | 'write to file' | 'delete file',
+  payload: { path: string; content?: string }
+) {
+  const filePath = path.resolve(payload.path);
+
+  // Basic safety: allow only paths inside project memory
+  if (!filePath.startsWith(path.resolve('./memory'))) {
+    return { status: 'error', message: 'Unsafe file path.' };
+  }
 
   try {
-    switch (task.type) {
-      case 'log':
-        console.log('✅ Task log:', task.payload.message);
-        task.status = 'complete';
-        break;
-      case 'write':
-        fs.writeFileSync(path.resolve(task.payload.path), task.payload.content, 'utf-8');
-        console.log(`📝 Task write: File written to ${task.payload.path}`);
-        task.status = 'complete';
-        break;
-      case 'delete':
-        if (fs.existsSync(task.payload.path)) {
-          fs.unlinkSync(task.payload.path);
-          console.log(`🗑️ Task delete: File removed ${task.payload.path}`);
-        } else {
-          console.log(`⚠️ Task delete: File not found ${task.payload.path}`);
+    switch (type) {
+      case 'read file':
+        if (!fs.existsSync(filePath)) {
+          return { status: 'error', message: 'File does not exist.' };
         }
-        task.status = 'complete';
-        break;
-      default:
-        console.log(`⚠️ Unknown task type: ${task.type}`);
-    }
+        const content = fs.readFileSync(filePath, 'utf-8');
+        return { status: 'success', content };
 
-    task.completed_at = new Date().toISOString();
-    fs.writeFileSync(filePath, JSON.stringify(task, null, 2), 'utf-8');
-  } catch (err) {
-    console.error('❌ Error executing task:', task.id, err);
+      case 'write to file':
+        fs.writeFileSync(filePath, payload.content || '', 'utf-8');
+        return { status: 'success', message: `File written to ${payload.path}` };
+
+      case 'delete file':
+        if (fs.existsSync(filePath)) {
+          fs.unlinkSync(filePath);
+          return { status: 'success', message: `File deleted ${payload.path}` };
+        } else {
+          return { status: 'error', message: 'File does not exist.' };
+        }
+
+      default:
+        return { status: 'error', message: 'Unknown task type.' };
+    }
+  } catch (err: any) {
+    return { status: 'error', message: err.message || String(err) };
   }
 }
-
-setInterval(() => {
-  const files = fs.readdirSync(TASKS_DIR).filter(f => f.endsWith('.json'));
-  if (files.length) console.log('📂 Found task files:', files);
-  files.forEach(processTask);
-}, 3000);
