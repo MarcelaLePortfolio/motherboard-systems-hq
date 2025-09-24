@@ -16,11 +16,6 @@ export const cade = {
         console.log("🧠 Running reasoning task with Ollama...");
         const response = await callOllama(task.prompt);
         console.log("🧠 Response:", response);
-
-        // Save result back to file
-        task.result = response;
-        fs.writeFileSync(taskFile, JSON.stringify(task, null, 2));
-        console.log("💾 Saved response to task file.");
       } else {
         console.log("⚠️ Task is missing required fields (type='reasoning' and a prompt)");
       }
