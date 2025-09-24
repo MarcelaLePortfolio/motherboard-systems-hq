@@ -4,6 +4,8 @@ import lockfile from 'proper-lockfile';
 import { v4 as uuidv4 } from 'uuid';
 import { logTask } from '../../db/logTask';
 import { sha256File } from '../utils/hash';
+import { db } from '../../db/db-core';
+import { task_output } from '../../db/output';
 
 const TASKS_DIR = path.resolve('./memory/tasks');
 const ROOT_MEMORY = path.resolve('./memory');
@@ -79,6 +81,14 @@ export async function cadeCommandRouter(
         const result = { content };
         jsonl({ taskId, actor, type, status: 'success', payload, result });
         await logTask(type, payload, 'success', result, { actor, taskId, fileHash: sha256File(filePath) });
+        await db.insert(task_output).values({
+          id: uuidv4(),
+          task_id: taskId,
+          actor,
+          field: 'result',
+          value: JSON.stringify(result),
+          created_at: new Date().toISOString(),
+        });
         return { status: 'success', result };
       }
 
@@ -91,7 +101,6 @@ export async function cadeCommandRouter(
           return { status: 'error', result };
         }
 
-        // Lock the file path atomically
         const release = await lockfile.lock(filePath, { realpath: false, retries: { retries: 4, minTimeout: 50, maxTimeout: 200 } }).catch(() => null);
         try {
           fs.writeFileSync(filePath, payload.content || '', 'utf-8');
@@ -99,6 +108,14 @@ export async function cadeCommandRouter(
           const result = { message: `File written to ${payload.path}`, bytes, hash };
           jsonl({ taskId, actor, type, status: 'success', payload: { ...payload, bytes }, result });
           await logTask(type, payload, 'success', result, { actor, taskId, fileHash: hash });
+          await db.insert(task_output).values({
+            id: uuidv4(),
+            task_id: taskId,
+            actor,
+            field: 'result',
+            value: JSON.stringify(result),
+            created_at: new Date().toISOString(),
+          });
           return { status: 'success', result };
         } finally {
           await release?.();
@@ -114,6 +131,14 @@ export async function cadeCommandRouter(
             const result = { message: `File deleted ${payload.path}`, prev_hash: hash };
             jsonl({ taskId, actor, type, status: 'success', payload, result });
             await logTask(type, payload, 'success', result, { actor, taskId, fileHash: hash });
+            await db.insert(task_output).values({
+              id: uuidv4(),
+              task_id: taskId,
+              actor,
+              field: 'result',
+              value: JSON.stringify(result),
+              created_at: new Date().toISOString(),
+            });
             return { status: 'success', result };
           } else {
             const result = { message: 'File does not exist.' };
