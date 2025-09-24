@@ -9,7 +9,7 @@ interface LogTaskOptions {
   actor?: string;
   taskId?: string;
   fileHash?: string | null;
-  id?: string; // allow reuse of id across multiple inserts
+  id?: string;
 }
 
 export async function logTask(
@@ -26,27 +26,24 @@ export async function logTask(
   const taskId = opts?.taskId ?? id;
   const fileHash = opts?.fileHash ?? null;
 
-  // ensure strings for JSON columns
   const payloadStr = JSON.stringify(payload ?? {});
   const resultStr = JSON.stringify(result ?? {});
 
-  // legacy summary row in tasks (kept minimal & stable)
   try {
-    db.insert(tasks).values({
+    await db.insert(tasks).values({
       id: taskId,
       type,
       status,
       payload: payloadStr,
       created_at: createdAt,
       completed_at: status === 'success' ? createdAt : null,
-    }).run?.();
+    }).execute();
   } catch (err) {
     console.error('logTask: failed to insert into tasks', err);
   }
 
-  // detailed immutable audit trail
   try {
-    db.insert(task_events).values({
+    await db.insert(task_events).values({
       id,
       task_id: taskId,
       type,
@@ -56,7 +53,7 @@ export async function logTask(
       result: resultStr,
       file_hash: fileHash,
       created_at: createdAt,
-    }).run?.();
+    }).execute();
   } catch (err) {
     console.error('logTask: failed to insert into task_events', err);
   }
