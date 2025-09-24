@@ -18,6 +18,7 @@ export async function effieCommandRouter(command: string, payload: any = {}, act
     result: JSON.stringify({ message: `Delegating to Cade` }),
     file_hash: null,
     created_at: createdAt,
+    reflection: `Effie initiated delegation for "${command}" to Cade.`
   });
 
   // Forward to Cade
@@ -34,6 +35,7 @@ export async function effieCommandRouter(command: string, payload: any = {}, act
     result: JSON.stringify(result),
     file_hash: result?.result?.hash || result?.result?.prev_hash || null,
     created_at: new Date().toISOString(),
+    reflection: `Effie received result for "${command}" from Cade: ${result?.result?.message || 'No message returned'}`
   });
 
   return { status: 'success', delegated_to: 'cade', result };
