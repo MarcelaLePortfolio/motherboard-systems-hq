@@ -81,14 +81,15 @@ export async function cadeCommandRouter(
         const result = { content };
         jsonl({ taskId, actor, type, status: 'success', payload, result });
         await logTask(type, payload, 'success', result, { actor, taskId, fileHash: sha256File(filePath) });
-        await db.insert(task_output).values({
-          id: uuidv4(),
-          task_id: taskId,
-          actor,
-          field: 'result',
-          value: JSON.stringify(result),
-          created_at: new Date().toISOString(),
-        });
+          await db.insert(task_output).values({
+            id: uuidv4(),
+            task_id: taskId,
+            actor,
+            type,
+            result: JSON.stringify(result),
+            reflection: `Cade completed "${type}" with status: ${status}`,
+            created_at: new Date().toISOString(),
+          });
         return { status: 'success', result };
       }
 
@@ -112,8 +113,9 @@ export async function cadeCommandRouter(
             id: uuidv4(),
             task_id: taskId,
             actor,
-            field: 'result',
-            value: JSON.stringify(result),
+            type,
+            result: JSON.stringify(result),
+            reflection: `Cade completed "${type}" with status: ${status}`,
             created_at: new Date().toISOString(),
           });
           return { status: 'success', result };
@@ -131,14 +133,15 @@ export async function cadeCommandRouter(
             const result = { message: `File deleted ${payload.path}`, prev_hash: hash };
             jsonl({ taskId, actor, type, status: 'success', payload, result });
             await logTask(type, payload, 'success', result, { actor, taskId, fileHash: hash });
-            await db.insert(task_output).values({
-              id: uuidv4(),
-              task_id: taskId,
-              actor,
-              field: 'result',
-              value: JSON.stringify(result),
-              created_at: new Date().toISOString(),
-            });
+          await db.insert(task_output).values({
+            id: uuidv4(),
+            task_id: taskId,
+            actor,
+            type,
+            result: JSON.stringify(result),
+            reflection: `Cade completed "${type}" with status: ${status}`,
+            created_at: new Date().toISOString(),
+          });
             return { status: 'success', result };
           } else {
             const result = { message: 'File does not exist.' };
