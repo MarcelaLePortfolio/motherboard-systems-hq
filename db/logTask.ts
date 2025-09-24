@@ -1,46 +1,46 @@
-// db/logTask.ts
 import { db } from './client';
 import { tasks } from './schema';
+import { task_events } from './audit';
 import { v4 as uuidv4 } from 'uuid';
-import { eq } from 'drizzle-orm';
 
-export interface TaskLog {
-  id?: string;
-  type: string;
-  status: string;
-  payload?: Record<string, any>;
-  result?: Record<string, any>;
-  triggered_by?: string;
-}
+type Status = 'success' | 'error';
 
-export async function logTask(entry: TaskLog) {
-  const id = entry.id || uuidv4();
-  const now = new Date().toISOString();
+export async function logTask(
+  type: string,
+  payload: Record<string, any>,
+  status: Status,
+  result?: Record<string, any>,
+  opts?: { actor?: string; taskId?: string; fileHash?: string }
+) {
+  const id = uuidv4();
+  const createdAt = new Date().toISOString();
 
-  // Insert new row
-  await db.insert(tasks).values({
+  const actor = opts?.actor ?? (process.env.CADE_ACTOR || 'cli');
+  const taskId = opts?.taskId ?? id;
+  const fileHash = opts?.fileHash;
+
+  // legacy summary row in tasks (kept minimal & stable)
+  db.insert(tasks).values({
+    id: taskId,
+    type,
+    status,
+    payload: JSON.stringify(payload),
+    created_at: createdAt,
+    completed_at: status === 'success' ? createdAt : null,
+  }).run?.();
+
+  // detailed immutable audit trail
+  db.insert(task_events).values({
     id,
-    type: entry.type,
-    status: entry.status,
-    payload: entry.payload ? JSON.stringify(entry.payload) : null,
-    completed_at: now,
-    created_at: now,
-    // only include if schema has triggered_by
-    ...(entry.triggered_by ? { triggered_by: entry.triggered_by } : {}),
-  });
+    task_id: taskId,
+    type,
+    status,
+    actor,
+    payload: JSON.stringify(payload),
+    result: JSON.stringify(result ?? {}),
+    file_hash: fileHash ?? null,
+    created_at: createdAt
+  }).run?.();
 
-  return { id, ...entry, created_at: now };
-}
-
-// Optional: mark task as updated (useful for retries/failures)
-export async function updateTaskStatus(id: string, status: string, result?: Record<string, any>) {
-  const now = new Date().toISOString();
-  await db
-    .update(tasks)
-    .set({
-      status,
-      completed_at: now,
-      ...(result ? { payload: JSON.stringify(result) } : {}),
-    })
-    .where(eq(tasks.id, id));
+  return { id: taskId, audit_id: id, created_at: createdAt };
 }
