@@ -5,29 +5,34 @@ import { logTask } from '../../db/logTask';
 // Matilda agent: Delegates tasks into Cade’s enterprise pipeline
 export async function matildaCommandRouter(command: string, payload: any = {}, actor: string = 'matilda') {
   const taskId = uuidv4();
+  const createdAt = new Date().toISOString();
 
-  // Log delegation intent
+  // Delegation intent
   await logTask({
     id: taskId,
+    task_id: null,
     type: command,
     status: 'delegated',
     actor,
-    payload,
+    payload: JSON.stringify(payload),
     result: JSON.stringify({ message: `Delegating to Cade` }),
-    created_at: new Date().toISOString(),
+    file_hash: null,
+    created_at: createdAt,
   });
 
   // Forward to Cade
   const result = await cadeCommandRouter(command, payload, actor);
 
-  // Log final outcome under same taskId for traceability
+  // Final outcome
   await logTask({
     id: taskId,
+    task_id: null,
     type: command,
     status: result?.status || 'unknown',
     actor,
-    payload,
+    payload: JSON.stringify(payload),
     result: JSON.stringify(result),
+    file_hash: result?.result?.hash || result?.result?.prev_hash || null,
     created_at: new Date().toISOString(),
   });
 
