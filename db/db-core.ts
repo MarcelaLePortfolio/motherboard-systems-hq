@@ -1,16 +1,6 @@
-import fs from "fs";
-import path from "path";
-import { fileURLToPath } from "url";
+import { drizzle } from 'drizzle-orm/better-sqlite3';
+import Database from 'better-sqlite3';
+import * as schema from './schema';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const DB_PATH = path.resolve(__dirname, "local-db.json");
-
-export function readDb() {
-  if (!fs.existsSync(DB_PATH)) {
-    return { tasks: [], agents: {} };
-  }
-  const raw = fs.readFileSync(DB_PATH, "utf-8");
-  return JSON.parse(raw);
-}
+const sqlite = new Database('./db/dev.db');
+export const db = drizzle(sqlite, { schema });
