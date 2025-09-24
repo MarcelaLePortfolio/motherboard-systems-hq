@@ -1,7 +1,0 @@
-{
-  "id": "test_reasoning_001",
-  "type": "reasoning",
-  "prompt": "Give me 3 creative marketing ideas for a retro-futuristic AI brand called Marketing Mother.",
-  "result": "❌ Error calling Ollama: Command failed: /usr/local/bin/ollama run llama3:8b \"Give me 3 creative marketing ideas for a retro-futuristic AI brand called Marketing Mother.\"\n",
-  "completed_at": "2025-09-24T18:24:59.914Z"
-}
