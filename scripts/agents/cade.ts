@@ -87,7 +87,7 @@ export async function cadeCommandRouter(
             actor,
             type,
             result: JSON.stringify(result),
-            reflection: `Cade completed "${type}" with status: ${status}`,
+            reflection: `Cade completed "${type}" with status: success`,
             created_at: new Date().toISOString(),
           });
         return { status: 'success', result };
@@ -115,7 +115,7 @@ export async function cadeCommandRouter(
             actor,
             type,
             result: JSON.stringify(result),
-            reflection: `Cade completed "${type}" with status: ${status}`,
+            reflection: `Cade completed "${type}" with status: success`,
             created_at: new Date().toISOString(),
           });
           return { status: 'success', result };
@@ -139,7 +139,7 @@ export async function cadeCommandRouter(
             actor,
             type,
             result: JSON.stringify(result),
-            reflection: `Cade completed "${type}" with status: ${status}`,
+            reflection: `Cade completed "${type}" with status: success`,
             created_at: new Date().toISOString(),
           });
             return { status: 'success', result };
