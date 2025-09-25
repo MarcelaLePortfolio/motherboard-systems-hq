@@ -7,3 +7,7 @@ export const payloadSchemas = {
   }),
   // You can add more command schemas here later
 };
+
+payloadSchemas['delete file'] = z.object({
+  path: z.string().min(1)
+});
