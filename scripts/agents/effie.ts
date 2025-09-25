@@ -1,4 +1,8 @@
 import { cadeCommandRouter } from "./cade";
+const delegate2 = {
+  cade: cadeCommandRouter
+};
+const delegate = { cadeCommandRouter };
 import { db } from "../../db/db-core";
 import { task_events } from "../../db/schema";
 import fs from 'fs';
@@ -66,7 +70,7 @@ export async function effieCommandRouter(type: string, payload: any) {
 console.log("🧪 DEBUG task:", JSON.stringify(task, null, 2));
 
 console.log("🧪 DEBUG payload:", JSON.stringify(taskPayload, null, 2));
-        const response = await delegate[`${agent}CommandRouter`](command, { ...taskPayload, actor: "effie" });
+        const response = await delegate[`${agent}CommandRouter`](command, { payload: { ...taskPayload, actor: "effie" } });
         status = response.status;
         result = response.result;
         break;
