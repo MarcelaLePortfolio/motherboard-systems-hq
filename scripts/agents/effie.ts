@@ -1,42 +1,76 @@
 import fs from 'fs';
 import path from 'path';
 import { nanoid } from 'nanoid';
-import { reflectBeforeAction } from './utils/reflect';
 import { payloadSchemas } from './utils/payload-schemas';
-import { db } from '../../db/db-core';
-import { task_events } from '../../db/schema';
+import { reflectBeforeAction } from './utils/reflect';
+import { queryTaskOutput } from '../../db/helpers/memory';
 
 export async function effieCommandRouter(type: string, payload: any) {
   let result: any;
-  let status: 'success' | 'error' | 'skipped' = 'success';
+  let status: string = 'success';
 
   try {
     switch (type) {
       case 'delete file': {
         payloadSchemas['delete file'].parse(payload);
 
-        const { lastSuccess } = await reflectBeforeAction({
+        const fullPath = path.resolve(payload.path);
+        const hasAlready = await reflectBeforeAction({
           actor: 'effie',
           type: 'delete file',
-          contains: payload?.path
+          contains: payload.path
         });
 
-        if (lastSuccess) {
+        if (hasAlready.lastSuccess) {
           status = 'skipped';
           result = `⚠️ Already deleted: ${payload.path}`;
           break;
         }
 
-        fs.unlinkSync(path.resolve(payload.path));
-        result = `🗑️ Deleted file "${payload.path}"`;
+        fs.unlinkSync(fullPath);
+        result = `��️ Deleted file "${payload.path}"`;
+        break;
+      }
+
+      case 'run task file': {
+        payloadSchemas['run task file'].parse(payload);
+
+        const fullPath = path.resolve(payload.filename);
+        if (!fs.existsSync(fullPath)) {
+          throw new Error(`Task file not found: ${payload.filename}`);
+        }
+
+        const raw = fs.readFileSync(fullPath, 'utf8');
+        const task = JSON.parse(raw);
+        const { agent, command, payload: taskPayload } = task;
+
+        if (!agent || !command || !taskPayload) {
+          throw new Error(`Invalid task structure in ${payload.filename}`);
+        }
+
+        let delegate;
+
+        switch (agent) {
+          case 'cade':
+            delegate = await import('./cade');
+            break;
+          default:
+            throw new Error(`Unsupported agent: ${agent}`);
+        }
+
+        const response = await delegate[`${agent}CommandRouter`](command, taskPayload);
+        status = response.status;
+        result = response.result;
         break;
       }
 
       default: {
         status = 'error';
-        result = `🤷 Unknown task type: ${type}`;
+        result = `🤷 Unsupported command: ${type}`;
       }
     }
+
+    await queryTaskOutput(); // ensure it links properly (noop for now)
 
     await db.insert(task_events).values({
       id: nanoid(),
