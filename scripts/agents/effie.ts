@@ -1,10 +1,8 @@
 import { cadeCommandRouter } from "./cade";
-const delegate2 = {
-  cade: cadeCommandRouter
-};
 const delegate = { cadeCommandRouter };
 import { db } from "../../db/db-core";
 import { task_events } from "../../db/schema";
+export const delegate2 = { cade: cadeCommandRouter };
 import fs from 'fs';
 import path from 'path';
 import { nanoid } from "nanoid";
@@ -41,7 +39,6 @@ export async function effieCommandRouter(type: string, payload: any) {
 
       case 'run task file': {
         payloadSchemas['run task file'].parse(payload);
-
         const fullPath = path.resolve(payload.filename);
         if (!fs.existsSync(fullPath)) {
           throw new Error(`Task file not found: ${payload.filename}`);
@@ -99,7 +96,6 @@ console.log("🧪 DEBUG payload:", JSON.stringify(taskPayload, null, 2));
     return { status, result };
   } catch (err: any) {
     status = 'error';
-    result = `❌ Error: ${err.message || String(err)}`;
 
     await db.insert(task_events).values({
       id: nanoid(),
