@@ -8,6 +8,7 @@ export const cadeCommandRouter = async (command: string, payload: any = {}) => {
 
   switch (command) {
     case "write to file": {
+        const { path: filePath, content } = payload;
       try {
         const resolvedPath = path.resolve(payload.path);
         fs.writeFileSync(resolvedPath, payload.content, "utf8");
@@ -15,26 +16,15 @@ export const cadeCommandRouter = async (command: string, payload: any = {}) => {
         const fileBuffer = fs.readFileSync(resolvedPath);
         const hash = crypto.createHash("sha256").update(fileBuffer).digest("hex");
 
-        result = {
-          status: "success",
-          message: `File written to ${payload.path}`,
-          file_hash: hash,
-        };
-      } catch (err: any) {
-        result = {
-          status: "error",
-          message: `❌ Error writing file: ${err.message}`,
-        };
-      }
+} catch (err: any) {
+  result = `❌ Error: ${err.message || String(err)}`;
+}
+result = `📝 File written to "${filePath}"`;
+return { status: "success", result };
       break;
     }
 
     default: {
-      result = {
-        status: "error",
-        message: "Unknown command",
-      };
-      break;
     }
   }
 
