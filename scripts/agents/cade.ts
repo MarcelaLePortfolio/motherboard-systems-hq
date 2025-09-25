@@ -3,49 +3,54 @@ import path from 'path';
 import crypto from 'crypto';
 import { nanoid } from 'nanoid';
 import { db } from '../../db/db-core';
-import { agentTasks } from '../../db/schema';
+import { agentTasks, task_events } from '../../db/schema';
+import { payloadSchemas } from './utils/payload-schemas';
 import { eq } from 'drizzle-orm';
-import { task_events } from '../../db/schema';
+import { queryTaskOutput } from '../../db/helpers/memory'; // ✅ Memory query helper
 
 export async function cadeCommandRouter(type: string, payload: any) {
-  const task = {
-    id: nanoid(),
-    type,
-    payload,
-  };
-
   let result: any = null;
   let status: 'success' | 'error' = 'success';
 
   try {
+    const task = {
+      id: nanoid(),
+      payload,
+      type,
+    };
+
     switch (type) {
       case 'write to file': {
-        const fullPath = path.resolve(payload.path);
-        fs.writeFileSync(fullPath, payload.content, 'utf8');
+        payloadSchemas['write to file'].parse(payload);
 
-        const hash = crypto
-          .createHash('sha256')
-          .update(payload.content)
-          .digest('hex');
+        const fullPath = path.resolve(payload.path);
+        const hash = crypto.createHash('sha256').update(payload.content).digest('hex');
+
+        // 🧠 MEMORY CHECK: Has Cade already written this exact file content?
+        const existing = await queryTaskOutput({
+          actor: 'cade',
+          type: 'write to file',
+          contains: hash
+        });
+
+        const alreadyDone = existing.some(entry => entry.status === 'success' && entry.file_hash === hash);
+
+        if (alreadyDone) {
+          result = {
+            message: `⚠️ Skipped duplicate write to "${payload.path}" — identical hash found.`,
+            hash
+          };
+          break;
+        }
+
+        // Proceed to write the file
+        fs.writeFileSync(fullPath, payload.content, 'utf8');
 
         result = {
           message: `File written to ${payload.path}`,
-          bytes: Buffer.byteLength(payload.content),
-          hash,
+          bytes: Buffer.byteLength(payload.content, 'utf8'),
+          hash
         };
-
-        // ✅ Log to task_events
-        await db.insert(task_events).values({
-          id: nanoid(),
-          task_id: task.id,
-          type: 'write to file',
-          status,
-          actor: 'cade',
-          payload: JSON.stringify(payload),
-          result: JSON.stringify(result),
-          file_hash: hash,
-          created_at: new Date().toISOString(),
-        });
 
         break;
       }
@@ -56,6 +61,18 @@ export async function cadeCommandRouter(type: string, payload: any) {
       }
     }
 
+    await db.insert(task_events).values({
+      id: nanoid(),
+      task_id: task.id,
+      type,
+      status,
+      actor: 'cade',
+      payload: JSON.stringify(payload),
+      result: JSON.stringify(result),
+      file_hash: result?.hash,
+      created_at: new Date().toISOString(),
+    });
+
     return { status, result };
   } catch (err: any) {
     status = 'error';
@@ -63,7 +80,7 @@ export async function cadeCommandRouter(type: string, payload: any) {
 
     await db.insert(task_events).values({
       id: nanoid(),
-      task_id: task.id,
+      task_id: nanoid(),
       type,
       status,
       actor: 'cade',
