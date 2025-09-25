@@ -1,42 +1,72 @@
-import { v4 as uuidv4 } from 'uuid';
-import { cadeCommandRouter } from './cade';
-import { logTask } from '../../db/logTask';
+import fs from 'fs';
+import path from 'path';
+import { nanoid } from 'nanoid';
+import { reflectBeforeAction } from './utils/reflect';
+import { payloadSchemas } from './utils/payload-schemas';
+import { db } from '../../db/db-core';
+import { task_events } from '../../db/schema';
 
-// Effie agent: Handles local or desktop operations
-export async function effieCommandRouter(command: string, payload: any = {}, actor: string = 'effie') {
-  const taskId = uuidv4();
-  const createdAt = new Date().toISOString();
+export async function effieCommandRouter(type: string, payload: any) {
+  let result: any;
+  let status: 'success' | 'error' | 'skipped' = 'success';
 
-  // Delegation intent
-  await logTask({
-    id: taskId,
-    task_id: null,
-    type: command,
-    status: 'delegated',
-    actor,
-    payload: JSON.stringify(payload),
-    result: JSON.stringify({ message: `Delegating to Cade` }),
-    file_hash: null,
-    created_at: createdAt,
-    reflection: `Effie initiated delegation for "${command}" to Cade.`
-  });
+  try {
+    switch (type) {
+      case 'delete file': {
+        payloadSchemas['delete file'].parse(payload);
 
-  // Forward to Cade
-  const result = await cadeCommandRouter(command, payload, actor);
+        const { lastSuccess } = await reflectBeforeAction({
+          actor: 'effie',
+          type: 'delete file',
+          contains: payload?.path
+        });
 
-  // Final outcome
-  await logTask({
-    id: taskId,
-    task_id: null,
-    type: command,
-    status: result?.status || 'unknown',
-    actor,
-    payload: JSON.stringify(payload),
-    result: JSON.stringify(result),
-    file_hash: result?.result?.hash || result?.result?.prev_hash || null,
-    created_at: new Date().toISOString(),
-    reflection: `Effie received result for "${command}" from Cade: ${result?.result?.message || 'No message returned'}`
-  });
+        if (lastSuccess) {
+          status = 'skipped';
+          result = `⚠️ Already deleted: ${payload.path}`;
+          break;
+        }
 
-  return { status: 'success', delegated_to: 'cade', result };
+        fs.unlinkSync(path.resolve(payload.path));
+        result = `🗑️ Deleted file "${payload.path}"`;
+        break;
+      }
+
+      default: {
+        status = 'error';
+        result = `🤷 Unknown task type: ${type}`;
+      }
+    }
+
+    await db.insert(task_events).values({
+      id: nanoid(),
+      task_id: nanoid(),
+      type,
+      status,
+      actor: 'effie',
+      payload: JSON.stringify(payload),
+      result: JSON.stringify(result),
+      file_hash: undefined,
+      created_at: new Date().toISOString()
+    });
+
+    return { status, result };
+  } catch (err: any) {
+    status = 'error';
+    result = `❌ Error: ${err.message || String(err)}`;
+
+    await db.insert(task_events).values({
+      id: nanoid(),
+      task_id: nanoid(),
+      type,
+      status,
+      actor: 'effie',
+      payload: JSON.stringify(payload),
+      result: JSON.stringify(result),
+      file_hash: undefined,
+      created_at: new Date().toISOString()
+    });
+
+    return { status, result };
+  }
 }
