@@ -11,3 +11,7 @@ export const payloadSchemas = {
 payloadSchemas['delete file'] = z.object({
   path: z.string().min(1)
 });
+
+payloadSchemas['run task file'] = z.object({
+  filename: z.string().min(1)
+});

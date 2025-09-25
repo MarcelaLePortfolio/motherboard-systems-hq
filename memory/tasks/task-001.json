@@ -1,0 +1,8 @@
+{
+  "agent": "cade",
+  "command": "write to file",
+  "payload": {
+    "path": "memory/hello.txt",
+    "content": "Hello from task file!"
+  }
+}

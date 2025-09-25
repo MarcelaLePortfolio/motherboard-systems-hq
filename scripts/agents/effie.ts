@@ -1,6 +1,9 @@
+import { cadeCommandRouter } from "./cade";
+import { db } from "../../db/db-core";
+import { task_events } from "../../db/schema";
 import fs from 'fs';
 import path from 'path';
-import { nanoid } from 'nanoid';
+import { nanoid } from "nanoid";
 import { payloadSchemas } from './utils/payload-schemas';
 import { reflectBeforeAction } from './utils/reflect';
 import { queryTaskOutput } from '../../db/helpers/memory';
@@ -41,9 +44,12 @@ export async function effieCommandRouter(type: string, payload: any) {
         }
 
         const raw = fs.readFileSync(fullPath, 'utf8');
-        const task = JSON.parse(raw);
-        const { agent, command, payload: taskPayload } = task;
+  const { filename } = payload ?? {};
+  const taskContent = fs.readFileSync(filename, "utf8");
+  const task = JSON.parse(taskContent);
+  const taskPayload = task?.payload ?? {};
 
+  const { agent, command } = task;
         if (!agent || !command || !taskPayload) {
           throw new Error(`Invalid task structure in ${payload.filename}`);
         }
@@ -57,8 +63,10 @@ export async function effieCommandRouter(type: string, payload: any) {
           default:
             throw new Error(`Unsupported agent: ${agent}`);
         }
+console.log("🧪 DEBUG task:", JSON.stringify(task, null, 2));
 
-        const response = await delegate[`${agent}CommandRouter`](command, taskPayload);
+console.log("🧪 DEBUG payload:", JSON.stringify(taskPayload, null, 2));
+        const response = await delegate[`${agent}CommandRouter`](command, { ...taskPayload, actor: "effie" });
         status = response.status;
         result = response.result;
         break;
