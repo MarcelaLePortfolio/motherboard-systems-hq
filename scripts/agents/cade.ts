@@ -62,3 +62,30 @@ if (isMain) {
     }
   }
 }
+
+        try {
+          if (fs.existsSync(filePath)) {
+            const hash = sha256File(filePath);
+            fs.unlinkSync(filePath);
+            const result = { message: 'File deleted ' + payload.path, prev_hash: hash };
+            jsonl({ taskId, actor, type, status: 'success', payload, result });
+            await logTask(type, payload, 'success', result, { actor, taskId, fileHash: hash });
+            await db.insert(task_output).values({
+              id: uuidv4(),
+              task_id: taskId,
+              actor,
+              type,
+              result: JSON.stringify(result),
+              reflection: "Cade completed \"" + type + "\" with status: success",
+              created_at: new Date().toISOString(),
+            });
+            return { status: 'success', result };
+          } else {
+            const result = { message: 'File does not exist.' };
+            jsonl({ taskId, actor, type, status: 'error', payload, result });
+            await logTask(type, payload, 'error', result, { actor, taskId });
+            return { status: 'error', result };
+          }
+        } finally {
+          await release?.();
+        }
