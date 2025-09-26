@@ -25,7 +25,26 @@ const cadeCommandRouter = async (command: string, payload: any = {}) => {
     }
   }
 
-  return { status: "success", result };
-};
 
-export { cadeCommandRouter };
+
+
+
+
+
+// 🔁 Auto-run tasks from memory/tasks/*.json
+const TASK_FOLDER = "memory/tasks";
+
+if (fs.existsSync(TASK_FOLDER)) {
+  const taskFiles = fs.readdirSync(TASK_FOLDER).filter(f => f.endsWith(".json"));
+
+  for (const file of taskFiles) {
+    const taskPath = path.join(TASK_FOLDER, file);
+    const raw = fs.readFileSync(taskPath, "utf8");
+    const task = JSON.parse(raw);
+    cadeCommandRouter(task.type, task.payload).then(res => {
+      console.log(`📁 ${file} →`, res);
+    });
+  }
+}
+
+  return { status: "success", result }; }; export { cadeCommandRouter };
