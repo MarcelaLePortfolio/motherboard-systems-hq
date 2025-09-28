@@ -1,12 +1,12 @@
 /**
- * Matilda Handler (patched for Ollama generate endpoint)
+ * Matilda Handler (fixed model name to match Ollama tags)
  */
 
 type Role = "system" | "user" | "assistant";
 type ChatMessage = { role: Role; content: string };
 
 const OLLAMA_HOST = process.env.OLLAMA_HOST || "http://localhost:11434";
-const OLLAMA_MODEL = process.env.OLLAMA_MODEL || "llama3.1:8b";
+const OLLAMA_MODEL = process.env.OLLAMA_MODEL || "llama3:8b";  // ✅ fixed
 
 const chatBuffers = new Map<string, ChatMessage[]>();
 
@@ -26,7 +26,6 @@ function trimBuffer(buffer: ChatMessage[], max: number = 10) {
 }
 
 async function ollamaChat(messages: ChatMessage[]): Promise<string> {
-  // Flatten messages into a single prompt since /api/generate doesn’t support multi-turn
   const convoText = messages.map(m => `${m.role.toUpperCase()}: ${m.content}`).join("\n");
   const resp = await fetch(`${OLLAMA_HOST}/api/generate`, {
     method: "POST",
@@ -34,7 +33,8 @@ async function ollamaChat(messages: ChatMessage[]): Promise<string> {
     body: JSON.stringify({ model: OLLAMA_MODEL, prompt: convoText, stream: false })
   });
   if (!resp.ok) {
-    throw new Error(`Ollama error: HTTP ${resp.status}`);
+    const text = await resp.text().catch(() => "");
+    throw new Error(`Ollama error: HTTP ${resp.status} ${text}`);
   }
   const data: any = await resp.json();
   const content = data?.response;
