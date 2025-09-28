@@ -1,6 +1,5 @@
 /**
- * Matilda Handler
- * Conversational memory + Ollama chat + Cade delegation
+ * Matilda Handler (patched for Ollama generate endpoint)
  */
 
 type Role = "system" | "user" | "assistant";
@@ -27,16 +26,18 @@ function trimBuffer(buffer: ChatMessage[], max: number = 10) {
 }
 
 async function ollamaChat(messages: ChatMessage[]): Promise<string> {
-  const resp = await fetch(`${OLLAMA_HOST}/api/chat`, {
+  // Flatten messages into a single prompt since /api/generate doesn’t support multi-turn
+  const convoText = messages.map(m => `${m.role.toUpperCase()}: ${m.content}`).join("\n");
+  const resp = await fetch(`${OLLAMA_HOST}/api/generate`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ model: OLLAMA_MODEL, messages, stream: false })
+    body: JSON.stringify({ model: OLLAMA_MODEL, prompt: convoText, stream: false })
   });
   if (!resp.ok) {
     throw new Error(`Ollama error: HTTP ${resp.status}`);
   }
   const data: any = await resp.json();
-  const content = data?.message?.content ?? data?.response;
+  const content = data?.response;
   if (!content) throw new Error("Ollama returned no content");
   return content;
 }
