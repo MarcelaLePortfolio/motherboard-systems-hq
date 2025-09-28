@@ -1,12 +1,13 @@
 /**
- * Matilda Handler – using Ollama /api/generate
+ * Matilda Handler – fixed with node-fetch import
  */
+import fetch from "node-fetch";
 
 type Role = "system" | "user" | "assistant";
 type ChatMessage = { role: Role; content: string };
 
 const OLLAMA_HOST = process.env.OLLAMA_HOST || "http://localhost:11434";
-const OLLAMA_MODEL = "llama3:8b"; // ✅ confirmed working
+const OLLAMA_MODEL = "llama3:8b"; // confirmed working
 
 const chatBuffers = new Map<string, ChatMessage[]>();
 
