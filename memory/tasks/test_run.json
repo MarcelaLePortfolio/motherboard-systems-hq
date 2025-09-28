@@ -1,0 +1,7 @@
+{
+  "type": "write to file",
+  "payload": {
+    "path": "memory/test_run.txt",
+    "content": "Hello from Cade's real test task 🚀"
+  }
+}
