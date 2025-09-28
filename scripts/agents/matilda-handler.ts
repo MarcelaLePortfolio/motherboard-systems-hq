@@ -1,7 +1,7 @@
 import fetch from "node-fetch";
 
 type Role = "system" | "user" | "assistant";
-type ChatMessage = { role: "system" | "user" | "assistant"; content: string };
+type ChatMessage = { role: Role; content: string };
 
 const OLLAMA_HOST = "http://127.0.0.1:11434";
 const OLLAMA_MODEL = "llama3:8b";
@@ -24,26 +24,33 @@ function trimBuffer(buffer: ChatMessage[], max: number = 10) {
 
 async function ollamaChat(messages: ChatMessage[]): Promise<string> {
   const convoText = messages.map(m => `${m.role.toUpperCase()}: ${m.content}`).join("\n");
+
   const resp = await fetch(`${OLLAMA_HOST}/api/generate`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ model: OLLAMA_MODEL, prompt: convoText })
   });
   if (!resp.ok) {
-    const text = await resp.text().catch(() => "");
-    throw new Error(`Ollama error: HTTP ${resp.status} ${text}`);
+    throw new Error(`Ollama error: HTTP ${resp.status}`);
   }
 
-  // ✅ Handle JSONL: read line by line
-  const raw = await resp.text();
+  const reader = resp.body?.getReader();
+  if (!reader) throw new Error("No response body");
+
   let content = "";
-  for (const line of raw.split("\n")) {
-    if (!line.trim()) continue;
-    try {
-      const obj = JSON.parse(line);
-      if (obj.response) content += obj.response;
-    } catch {
-      // ignore malformed lines
+  const decoder = new TextDecoder("utf-8");
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    const chunk = decoder.decode(value, { stream: true });
+    for (const line of chunk.split("\n")) {
+      if (!line.trim()) continue;
+      try {
+        const obj = JSON.parse(line);
+        if (obj.response) content += obj.response;
+      } catch {
+        // ignore malformed
+      }
     }
   }
   return content.trim();
