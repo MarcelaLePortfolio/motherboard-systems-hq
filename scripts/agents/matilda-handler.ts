@@ -1,9 +1,9 @@
 import fetch from "node-fetch";
 
 type Role = "system" | "user" | "assistant";
-type ChatMessage = { role: Role; content: string };
+type ChatMessage = { role: "system" | "user" | "assistant"; content: string };
 
-const OLLAMA_HOST = "http://127.0.0.1:11434";  // ✅ match Ollama logs
+const OLLAMA_HOST = "http://127.0.0.1:11434";
 const OLLAMA_MODEL = "llama3:8b";
 
 const chatBuffers = new Map<string, ChatMessage[]>();
@@ -18,7 +18,6 @@ function getBuffer(sid: string): ChatMessage[] {
   if (!chatBuffers.has(sid)) chatBuffers.set(sid, []);
   return chatBuffers.get(sid)!;
 }
-
 function trimBuffer(buffer: ChatMessage[], max: number = 10) {
   while (buffer.length > max) buffer.shift();
 }
@@ -28,14 +27,26 @@ async function ollamaChat(messages: ChatMessage[]): Promise<string> {
   const resp = await fetch(`${OLLAMA_HOST}/api/generate`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ model: OLLAMA_MODEL, prompt: convoText, stream: false })
+    body: JSON.stringify({ model: OLLAMA_MODEL, prompt: convoText })
   });
   if (!resp.ok) {
     const text = await resp.text().catch(() => "");
     throw new Error(`Ollama error: HTTP ${resp.status} ${text}`);
   }
-  const data: any = await resp.json();
-  return data?.response || "";
+
+  // ✅ Handle JSONL: read line by line
+  const raw = await resp.text();
+  let content = "";
+  for (const line of raw.split("\n")) {
+    if (!line.trim()) continue;
+    try {
+      const obj = JSON.parse(line);
+      if (obj.response) content += obj.response;
+    } catch {
+      // ignore malformed lines
+    }
+  }
+  return content.trim();
 }
 
 function extractCadeTask(txt: string): { task: any | null; cleaned: string } {
