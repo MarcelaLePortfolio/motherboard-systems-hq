@@ -1,12 +1,12 @@
 /**
- * Matilda Handler (fixed model name to match Ollama tags)
+ * Matilda Handler – using Ollama /api/generate
  */
 
 type Role = "system" | "user" | "assistant";
 type ChatMessage = { role: Role; content: string };
 
 const OLLAMA_HOST = process.env.OLLAMA_HOST || "http://localhost:11434";
-const OLLAMA_MODEL = process.env.OLLAMA_MODEL || "llama3:8b";  // ✅ fixed
+const OLLAMA_MODEL = "llama3:8b"; // ✅ confirmed working
 
 const chatBuffers = new Map<string, ChatMessage[]>();
 
@@ -37,9 +37,7 @@ async function ollamaChat(messages: ChatMessage[]): Promise<string> {
     throw new Error(`Ollama error: HTTP ${resp.status} ${text}`);
   }
   const data: any = await resp.json();
-  const content = data?.response;
-  if (!content) throw new Error("Ollama returned no content");
-  return content;
+  return data?.response || "";
 }
 
 function extractCadeTask(txt: string): { task: any | null; cleaned: string } {
