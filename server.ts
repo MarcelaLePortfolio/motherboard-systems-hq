@@ -34,18 +34,15 @@ app.get("/health", (_req, res) => res.json({ ok: true }));
 app.post("/matilda", async (req: Request, res: Response) => {
   try {
     const { message } = req.body || {};
-    console.log("📩 Incoming /matilda:", message);
-
     if (!message || typeof message !== "string") {
-      console.warn("⚠️ Missing or invalid message in request body");
       return res.status(400).json({ error: "Missing message" });
     }
 
     const sid = getOrCreateSid(req, res);
     const result = await handleMatildaMessage(sid, message);
 
-    console.log("📤 Matilda response:", result);
-    return res.json(result);
+    // ✅ Force clean JSON (avoid circular refs, Maps, Errors)
+    return res.json({ replies: result.replies || [] });
   } catch (err: any) {
     console.error("❌ Matilda route error:", err);
     return res.status(500).json({ error: err?.message || "Matilda failed" });
