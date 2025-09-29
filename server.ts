@@ -1,7 +1,6 @@
 import express, { Request, Response } from "express";
 import path from "path";
 import crypto from "crypto";
-// ✅ Fix import path: compiled files live under ./scripts/agents/matilda-handler.ts
 import { handleMatildaMessage } from "./scripts/agents/matilda-handler";
 
 const app = express();
@@ -29,8 +28,8 @@ function getOrCreateSid(req: Request, res: Response): string {
 
 app.get("/health", (_req, res) => res.json({ ok: true }));
 
-// ✅ Ensure /matilda route is registered
 app.post("/matilda", async (req: Request, res: Response) => {
+  console.log("📩 Hit /matilda route with body:", req.body);
   try {
     const { message } = req.body || {};
     if (!message || typeof message !== "string") {
@@ -38,12 +37,21 @@ app.post("/matilda", async (req: Request, res: Response) => {
     }
     const sid = getOrCreateSid(req, res);
     const result = await handleMatildaMessage(sid, message);
+    console.log("📤 Matilda replied:", result);
     return res.json({ replies: result.replies ?? [] });
   } catch (err: any) {
-    console.error("Matilda route error:", err);
+    console.error("❌ Matilda route error:", err);
     return res.status(500).json({ replies: ["⚠️ " + (err?.message || "Matilda failed")] });
   }
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`✅ Server listening on http://localhost:${PORT}`));
+app.listen(PORT, () => {
+  console.log(`✅ Server listening on http://localhost:${PORT}`);
+  console.log("Mounted routes:");
+  app._router.stack
+    .filter((r: any) => r.route)
+    .forEach((r: any) =>
+      console.log(Object.keys(r.route.methods).join(",").toUpperCase(), r.route.path)
+    );
+});
