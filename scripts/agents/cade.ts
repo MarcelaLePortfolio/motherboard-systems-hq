@@ -1,11 +1,11 @@
-console.log("🔍 <0001FAE0> Cade command router loaded from", import.meta.url);
+console.log("🔍 <0001FAE1> Cade command router loaded from", import.meta.url);
 
 import fs from "fs";
 import path from "path";
 import crypto from "crypto";
 import { exec } from "child_process";
 
-// ✅ runShell helper — always in scope
+// ✅ Proper runShell helper
 async function runShell(cmd: string): Promise<string> {
   return new Promise((resolve, reject) => {
     const child = exec(cmd, { cwd: process.cwd(), env: process.env });
@@ -54,7 +54,7 @@ const cadeCommandRouter = async (command: string, payload: any = {}) => {
     }
 
     default: {
-      result = "🤷 Unknown task type";
+      result = "�� Unknown task type";
     }
   }
 
