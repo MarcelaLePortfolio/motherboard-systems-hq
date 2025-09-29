@@ -13,7 +13,6 @@ app.use(express.json());
 app.use(express.static(path.join(process.cwd(), "public")));
 
 console.log("▶️ Running server from:", __filename);
-console.log("▶️ __dirname:", __dirname);
 console.log("▶️ CWD:", process.cwd());
 
 function parseCookies(cookieHeader?: string): Record<string, string> {
@@ -37,6 +36,13 @@ function getOrCreateSid(req: Request, res: Response): string {
 
 app.get("/health", (_req, res) => res.json({ ok: true }));
 
+// 🔎 Simple echo test
+app.post("/echo", (req: Request, res: Response) => {
+  console.log("📩 Hit /echo:", req.body);
+  res.json({ you_said: req.body });
+});
+
+// Matilda route
 app.post("/matilda", async (req: Request, res: Response) => {
   console.log("📩 Hit /matilda route with body:", req.body);
   try {
@@ -57,5 +63,5 @@ app.post("/matilda", async (req: Request, res: Response) => {
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`✅ Server listening on http://localhost:${PORT}`);
-  console.log("Mounted: GET /health, POST /matilda, static /public");
+  console.log("Mounted: GET /health, POST /echo, POST /matilda, static /public");
 });
