@@ -4,7 +4,10 @@ import { getBuffer, trimBuffer } from "../memory/session-buffer";
 type ChatMessage = { role: string; content: string };
 
 // Minimal Ollama chat using fetch + resp.text()
-async function ollamaChat(convo: ChatMessage[]): Promise<string> {
+// replaced by local helper
+import { ollamaChat } from "./ollama-fetch";
+
+//async function ollamaChat(convo: ChatMessage[]): Promise<string> {
   const convoText = convo.map(m => `${m.role}: ${m.content}`).join("\n");
   const resp = await fetch("http://127.0.0.1:11434/api/generate", {
     method: "POST",
