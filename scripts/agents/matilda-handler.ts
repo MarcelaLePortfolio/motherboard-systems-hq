@@ -7,10 +7,26 @@ type ChatMessage = { role: string; content: string };
 export async function handleMatildaMessage(
   sid: string,
   userText: string
-): Promise<{ replies: string[] }> {
-  console.log("🟢 Matilda handler is using ollama-fetch.ts ✅");
+): Promise<{ replies: string[], task?: { command: string } }> {
+  console.log("<0001f7e2> Matilda handler is using ollama-fetch.ts ✅");
 
   try {
+    // 🧹 Self-maintenance triggers
+    if (/reinstall|reset|rebuild/i.test(userText)) {
+      return {
+        replies: ["<0001f9f9> Running full clean & reinstall (dev:clean)…"],
+        task: { command: "dev:clean" }
+      };
+    }
+
+    if (/restart|reload|fresh|boot/i.test(userText)) {
+      return {
+        replies: ["🔄 Restarting server fresh (dev:fresh)…"],
+        task: { command: "dev:fresh" }
+      };
+    }
+
+    // 🗂️ Normal conversation
     const buffer = getBuffer(sid);
     buffer.push({ role: "user", content: userText });
     trimBuffer(buffer);
@@ -28,19 +44,4 @@ export async function handleMatildaMessage(
     console.error("❌ Matilda handler crashed:", err);
     return { replies: ["⚠️ Matilda crashed: " + (err?.message || String(err))] };
   }
-}
-
-// 🧩 Added by <0001f9f9> — self-maintenance hooks
-if (/reinstall|reset|rebuild/i.test(userText)) {
-  return {
-    replies: ["🧹 Running full clean & reinstall (dev:clean)…"],
-    task: { command: "dev:clean" }
-  };
-}
-
-if (/restart|reload|fresh|boot/i.test(userText)) {
-  return {
-    replies: ["🔄 Restarting server fresh (dev:fresh)…"],
-    task: { command: "dev:fresh" }
-  };
 }
