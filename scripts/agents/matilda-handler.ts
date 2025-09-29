@@ -2,20 +2,18 @@ import { MATILDA_SYSTEM_PROMPT } from "../../config/matilda-prompt";
 import { getBuffer, trimBuffer } from "../memory/session-buffer";
 import { ollamaChat } from "./ollama-fetch";
 
-type ChatMessage = { role: string; content: string };
-
 export async function handleMatildaMessage(
   sid: string,
   userText: string
 ): Promise<{ replies: string[] }> {
-  console.log("🚩 Matilda handler is ACTIVE and using ollama-fetch ✅");
+  console.log("🚩 <0001FAC2> Matilda handler ACTIVE (ollama mode)");
 
   try {
     const buffer = getBuffer(sid);
     buffer.push({ role: "user", content: userText });
     trimBuffer(buffer);
 
-    console.log("🚩 Calling ollamaChat from matilda-handler.ts …");
+    console.log("🔎 <0001FAC2> About to call ollamaChat");
     const raw = await ollamaChat([
       { role: "system", content: MATILDA_SYSTEM_PROMPT },
       ...buffer,
@@ -26,8 +24,7 @@ export async function handleMatildaMessage(
 
     return { replies: [raw] };
   } catch (err: any) {
-    console.error("❌ Matilda handler crashed:", err);
-    console.error("📍 Crash stack:", err?.stack);
+    console.error("❌ <0001FAC2> Matilda handler caught error:", err);
     return { replies: ["⚠️ Matilda crashed: " + (err?.message || String(err))] };
   }
 }
