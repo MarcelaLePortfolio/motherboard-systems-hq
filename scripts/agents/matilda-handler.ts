@@ -7,18 +7,17 @@ type ChatMessage = { role: string; content: string };
 export async function handleMatildaMessage(
   sid: string,
   userText: string
-): Promise<{ replies: string[], task?: { command: string } }> {
-  console.log("<0001f7e2> Matilda handler is using ollama-fetch.ts ✅");
+): Promise<{ replies: string[]; task?: { command: string } }> {
+  console.log("<0001f7e2> Matilda handler ACTIVE (with self-heal hooks)");
 
   try {
-    // 🧹 Self-maintenance triggers
+    // 🧹 Auto-maintenance detection on userText (if asked directly)
     if (/reinstall|reset|rebuild/i.test(userText)) {
       return {
         replies: ["<0001f9f9> Running full clean & reinstall (dev:clean)…"],
         task: { command: "dev:clean" }
       };
     }
-
     if (/restart|reload|fresh|boot/i.test(userText)) {
       return {
         replies: ["🔄 Restarting server fresh (dev:fresh)…"],
@@ -26,15 +25,37 @@ export async function handleMatildaMessage(
       };
     }
 
-    // 🗂️ Normal conversation
+    // 🗂️ Normal conversation flow
     const buffer = getBuffer(sid);
     buffer.push({ role: "user", content: userText });
     trimBuffer(buffer);
 
-    const raw = await ollamaChat([
-      { role: "system", content: MATILDA_SYSTEM_PROMPT },
-      ...buffer,
-    ]);
+    let raw: string;
+    try {
+      raw = await ollamaChat([
+        { role: "system", content: MATILDA_SYSTEM_PROMPT },
+        ...buffer,
+      ]);
+    } catch (err: any) {
+      console.error("❌ ollamaChat crashed:", err);
+
+      // 🚑 Self-healing error detection
+      const msg = String(err?.message || "");
+      if (msg.includes("getReader")) {
+        return {
+          replies: ["⚠️ I detected a getReader bug. Triggering a fresh restart (dev:fresh)…"],
+          task: { command: "dev:fresh" }
+        };
+      }
+      if (msg.includes("Unexpected non-whitespace") || msg.includes("JSON")) {
+        return {
+          replies: ["⚠️ JSON parse failure detected. Running full clean & reinstall (dev:clean)…"],
+          task: { command: "dev:clean" }
+        };
+      }
+
+      return { replies: ["⚠️ Matilda crashed: " + msg] };
+    }
 
     buffer.push({ role: "assistant", content: raw });
     trimBuffer(buffer);
