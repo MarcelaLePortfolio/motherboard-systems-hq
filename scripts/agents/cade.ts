@@ -3,17 +3,16 @@ import fs from "fs";
 import path from "path";
 import crypto from "crypto";
 import { exec } from "child_process";
-import util from "util";
 
-const execPromise = util.promisify(exec);
-
-async function runShell(script: string) {
-  try {
-    const { stdout, stderr } = await execPromise(`bash ${script}`);
-    return { status: "success", stdout, stderr };
-  } catch (err: any) {
-    return { status: "error", message: err.message, stderr: err.stderr };
-  }
+function runShell(cmd: string): Promise<{ status: string; output: string }> {
+  return new Promise((resolve, reject) => {
+    exec(cmd, (err, stdout, stderr) => {
+      if (err) {
+        return reject({ status: "error", output: stderr || err.message });
+      }
+      resolve({ status: "success", output: stdout.trim() });
+    });
+  });
 }
 
 const cadeCommandRouter = async (command: string, payload: any = {}) => {
@@ -27,7 +26,7 @@ const cadeCommandRouter = async (command: string, payload: any = {}) => {
         fs.writeFileSync(resolvedPath, content, "utf8");
         const fileBuffer = fs.readFileSync(resolvedPath);
         const hash = crypto.createHash("sha256").update(fileBuffer).digest("hex");
-        result = `�� File written to "${filePath}" (sha256: ${hash})`;
+        result = `📝 File written to "${filePath}" (sha256: ${hash})`;
       } catch (err: any) {
         console.error("❌ CAUGHT ERROR:", err);
         result = `❌ Error: ${err.message || String(err)}`;
