@@ -1,7 +1,4 @@
-import fetch from "node-fetch";
-
-console.log("🚀 Loaded NEW Matilda handler");
-
+// ✅ Use built-in fetch (Node 18+)
 type Role = "system" | "user" | "assistant";
 type ChatMessage = { role: Role; content: string };
 
