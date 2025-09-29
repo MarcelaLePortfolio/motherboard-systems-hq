@@ -1,11 +1,11 @@
-console.log("🔍 <0001FAD6> Cade command router loaded from", import.meta.url);
+console.log("🔍 <0001FAD7> Cade command router loaded from", import.meta.url);
 
 import fs from "fs";
 import path from "path";
 import crypto from "crypto";
 import { spawn } from "child_process";
 
-// 🛠️ Top-level runShell helper
+// 🛠️ Proper runShell helper
 async function runShell(script: string): Promise<string> {
   return new Promise((resolve, reject) => {
     const proc = spawn("bash", [script], { stdio: "pipe" });
@@ -58,7 +58,7 @@ const cadeCommandRouter = async (command: string, payload: any = {}) => {
 
 export { cadeCommandRouter };
 
-// 🔁 Run Cade if executed directly (ESM-compatible)
+// 🔁 Run Cade if executed directly
 if (import.meta.url === `file://${process.argv[1]}`) {
   const TASK_FOLDER = "memory/tasks";
   if (fs.existsSync(TASK_FOLDER)) {
