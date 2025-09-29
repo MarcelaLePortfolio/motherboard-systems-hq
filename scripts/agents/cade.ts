@@ -21,7 +21,6 @@ async function runShell(cmd: string): Promise<string> {
 console.log("🔍 <0001FAE5> Cade command router loaded from", import.meta.url);
 
 import fs from "fs";
-import path from "path";
 import crypto from "crypto";
 import { exec } from "child_process";
 
