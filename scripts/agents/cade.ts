@@ -1,23 +1,22 @@
-console.log("🔍 <0001FAD7> Cade command router loaded from", import.meta.url);
+console.log("🔍 <0001FAD8> Cade command router loaded from", import.meta.url);
 
 import fs from "fs";
 import path from "path";
 import crypto from "crypto";
-import { spawn } from "child_process";
+import { exec } from "child_process";
 
-// 🛠️ Proper runShell helper
-async function runShell(script: string): Promise<string> {
+// 🔧 Run shell command and capture output
+async function runShell(cmd: string): Promise<string> {
   return new Promise((resolve, reject) => {
-    const proc = spawn("bash", [script], { stdio: "pipe" });
-    let output = "";
-
-    proc.stdout.on("data", (data) => { output += data.toString(); });
-    proc.stderr.on("data", (data) => { output += data.toString(); });
-
-    proc.on("close", (code) => {
-      if (code === 0) resolve(output.trim());
-      else reject(new Error(`Script ${script} failed (code ${code}): ${output}`));
+    const child = exec(cmd, { shell: "/bin/bash" }, (error, stdout, stderr) => {
+      if (error) {
+        reject(stderr || error.message);
+      } else {
+        resolve(stdout.trim());
+      }
     });
+    child.stdout?.pipe(process.stdout);
+    child.stderr?.pipe(process.stderr);
   });
 }
 
