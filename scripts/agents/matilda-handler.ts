@@ -29,3 +29,18 @@ export async function handleMatildaMessage(
     return { replies: ["⚠️ Matilda crashed: " + (err?.message || String(err))] };
   }
 }
+
+// 🧩 Added by <0001f9f9> — self-maintenance hooks
+if (/reinstall|reset|rebuild/i.test(userText)) {
+  return {
+    replies: ["🧹 Running full clean & reinstall (dev:clean)…"],
+    task: { command: "dev:clean" }
+  };
+}
+
+if (/restart|reload|fresh|boot/i.test(userText)) {
+  return {
+    replies: ["🔄 Restarting server fresh (dev:fresh)…"],
+    task: { command: "dev:fresh" }
+  };
+}

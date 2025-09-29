@@ -54,3 +54,12 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     }
   }
 }
+
+// 🧩 Added by <0001f9f9> — Dev maintenance commands
+case "dev:clean": {
+  return await runShell("scripts/dev-clean.sh");
+}
+
+case "dev:fresh": {
+  return await runShell("scripts/dev-fresh.sh");
+}
