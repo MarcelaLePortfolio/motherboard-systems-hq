@@ -7,6 +7,9 @@ const app = express();
 app.use(express.json());
 app.use(express.static(path.join(process.cwd(), "public")));
 
+console.log("▶️ Running server from:", __filename);
+console.log("▶️ CWD:", process.cwd());
+
 function parseCookies(cookieHeader?: string): Record<string, string> {
   const out: Record<string, string> = {};
   if (!cookieHeader) return out;
@@ -48,5 +51,5 @@ app.post("/matilda", async (req: Request, res: Response) => {
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`✅ Server listening on http://localhost:${PORT}`);
-  console.log("Mounted routes: GET /health, POST /matilda, static /public");
+  console.log("Mounted: GET /health, POST /matilda, static /public");
 });
