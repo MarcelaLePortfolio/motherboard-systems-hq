@@ -1,22 +1,30 @@
-console.log("🔍 <0001FAD8> Cade command router loaded from", import.meta.url);
+console.log("🔍 <0001FAD9> Cade command router loaded from", import.meta.url);
 
 import fs from "fs";
 import path from "path";
 import crypto from "crypto";
 import { exec } from "child_process";
 
-// 🔧 Run shell command and capture output
-async function runShell(cmd: string): Promise<string> {
+// 🛠️ Proper runShell helper
+function runShell(cmd: string): Promise<string> {
   return new Promise((resolve, reject) => {
-    const child = exec(cmd, { shell: "/bin/bash" }, (error, stdout, stderr) => {
-      if (error) {
-        reject(stderr || error.message);
-      } else {
-        resolve(stdout.trim());
-      }
+    const child = exec(cmd, { cwd: process.cwd(), env: process.env });
+    let output = "";
+
+    child.stdout?.on("data", (data) => {
+      process.stdout.write(data); // stream live logs
+      output += data;
     });
-    child.stdout?.pipe(process.stdout);
-    child.stderr?.pipe(process.stderr);
+
+    child.stderr?.on("data", (data) => {
+      process.stderr.write(data); // stream errors too
+      output += data;
+    });
+
+    child.on("close", (code) => {
+      if (code === 0) resolve(output.trim());
+      else reject(new Error(`Command failed: ${cmd} (code ${code})\n${output}`));
+    });
   });
 }
 
@@ -68,7 +76,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
       const task = JSON.parse(raw);
       console.log("📦 Running task:", task);
       cadeCommandRouter(task.type, task.payload).then(res => {
-        console.log("🤖 Cade ran the command");
+        console.log("�� Cade ran the command");
         console.log(`📁 ${file} →`, res);
       });
     }
