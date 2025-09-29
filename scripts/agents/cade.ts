@@ -1,29 +1,27 @@
-console.log("🔍 <0001FAD9> Cade command router loaded from", import.meta.url);
+console.log("🔍 <0001FADA> Cade command router loaded from", import.meta.url);
 
 import fs from "fs";
 import path from "path";
 import crypto from "crypto";
 import { exec } from "child_process";
 
-// 🛠️ Proper runShell helper
+// ✅ Define runShell once, globally in this module
 function runShell(cmd: string): Promise<string> {
   return new Promise((resolve, reject) => {
-    const child = exec(cmd, { cwd: process.cwd(), env: process.env });
+    const child = exec(cmd, { cwd: process.cwd() });
     let output = "";
 
     child.stdout?.on("data", (data) => {
-      process.stdout.write(data); // stream live logs
+      process.stdout.write(data); // stream to console
       output += data;
     });
-
     child.stderr?.on("data", (data) => {
-      process.stderr.write(data); // stream errors too
+      process.stderr.write(data); // stream errors
       output += data;
     });
-
     child.on("close", (code) => {
       if (code === 0) resolve(output.trim());
-      else reject(new Error(`Command failed: ${cmd} (code ${code})\n${output}`));
+      else reject(new Error(`Command "${cmd}" failed with code ${code}`));
     });
   });
 }
@@ -76,7 +74,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
       const task = JSON.parse(raw);
       console.log("📦 Running task:", task);
       cadeCommandRouter(task.type, task.payload).then(res => {
-        console.log("�� Cade ran the command");
+        console.log("🤖 Cade ran the command");
         console.log(`📁 ${file} →`, res);
       });
     }
