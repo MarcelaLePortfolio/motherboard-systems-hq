@@ -1,12 +1,20 @@
 import express, { Request, Response } from "express";
 import path from "path";
 import crypto from "crypto";
-import { handleMatildaMessage } from "./scripts/agents/matilda-handler";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
+import { handleMatildaMessage } from "./scripts/agents/matilda-handler.js";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+console.log("🚩 server.ts booted from", __filename);
+console.log("🚩 Matilda handler imported from ./scripts/agents/matilda-handler.js");
 
 const app = express();
 app.use(express.json());
 
-function parseCookies(cookieHeader?: string): Record<string, string> {
+function parseCookies(cookieHeader?: string) {
   const out: Record<string, string> = {};
   if (!cookieHeader) return out;
   cookieHeader.split(";").forEach((part) => {
@@ -15,6 +23,7 @@ function parseCookies(cookieHeader?: string): Record<string, string> {
   });
   return out;
 }
+
 function getOrCreateSid(req: Request, res: Response): string {
   const cookies = parseCookies(req.headers.cookie);
   let sid = cookies["sid"];
@@ -44,7 +53,7 @@ app.post("/matilda", async (req: Request, res: Response) => {
   }
 });
 
-// ✅ Serve static LAST so it doesn't shadow /matilda
+// ✅ Serve static LAST
 app.use(express.static(path.join(process.cwd(), "public")));
 
 const PORT = process.env.PORT || 3000;
