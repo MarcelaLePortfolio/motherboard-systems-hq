@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import path from "path";
 import crypto from "crypto";
+// ✅ Fix import path: compiled files live under ./scripts/agents/matilda-handler.ts
 import { handleMatildaMessage } from "./scripts/agents/matilda-handler";
 
 const app = express();
@@ -28,17 +29,15 @@ function getOrCreateSid(req: Request, res: Response): string {
 
 app.get("/health", (_req, res) => res.json({ ok: true }));
 
+// ✅ Ensure /matilda route is registered
 app.post("/matilda", async (req: Request, res: Response) => {
   try {
     const { message } = req.body || {};
     if (!message || typeof message !== "string") {
       return res.status(400).json({ replies: ["⚠️ Missing message"] });
     }
-
     const sid = getOrCreateSid(req, res);
     const result = await handleMatildaMessage(sid, message);
-
-    // ✅ Always return a plain JSON object
     return res.json({ replies: result.replies ?? [] });
   } catch (err: any) {
     console.error("Matilda route error:", err);
