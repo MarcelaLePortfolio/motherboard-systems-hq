@@ -1,4 +1,5 @@
 import express, { Request, Response } from "express";
+import path from "path";
 import crypto from "crypto";
 import { handleMatildaMessage } from "./scripts/agents/matilda-handler";
 
@@ -42,8 +43,8 @@ app.post("/matilda", async (req: Request, res: Response) => {
     return res.status(500).json({ replies: ["⚠️ " + (err?.message || "Matilda failed")] });
   }
 });
-# serve static LAST so /matilda is not shadowed
-import path from "path";
+
+// ✅ Serve static LAST so it doesn't shadow /matilda
 app.use(express.static(path.join(process.cwd(), "public")));
 
 const PORT = process.env.PORT || 3000;
