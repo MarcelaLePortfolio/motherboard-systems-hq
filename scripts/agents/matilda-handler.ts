@@ -1,5 +1,7 @@
 import fetch from "node-fetch";
 
+console.log("🚀 Loaded NEW Matilda handler");
+
 type Role = "system" | "user" | "assistant";
 type ChatMessage = { role: Role; content: string };
 
@@ -7,7 +9,6 @@ const OLLAMA_HOST = "http://127.0.0.1:11434";
 const OLLAMA_MODEL = "llama3:8b";
 
 const chatBuffers = new Map<string, ChatMessage[]>();
-
 const MATILDA_SYSTEM_PROMPT = "You are Matilda, a retro-futuristic assistant.";
 
 function getBuffer(sid: string): ChatMessage[] {
@@ -34,7 +35,7 @@ async function ollamaChat(messages: ChatMessage[]): Promise<string> {
       if (obj.response) content += obj.response;
     } catch {}
   }
-  return content.trim();
+  return content.trim() || "(no response)";
 }
 
 export async function handleMatildaMessage(
@@ -42,15 +43,10 @@ export async function handleMatildaMessage(
   userText: string
 ): Promise<{ replies: string[] }> {
   const buffer = getBuffer(sid);
-
-  const convo: ChatMessage[] = [{ role: "system", content: MATILDA_SYSTEM_PROMPT }];
-  convo.push(...buffer.slice(-10));
-  convo.push({ role: "user", content: userText });
-
   buffer.push({ role: "user", content: userText });
   trimBuffer(buffer);
 
-  const raw = await ollamaChat(convo);
+  const raw = await ollamaChat([{ role: "system", content: MATILDA_SYSTEM_PROMPT }, ...buffer]);
 
   buffer.push({ role: "assistant", content: raw });
   trimBuffer(buffer);
