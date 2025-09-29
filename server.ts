@@ -4,7 +4,7 @@ import crypto from "crypto";
 import { handleMatildaMessage } from "./scripts/agents/matilda-handler";
 
 const app = express();
-app.use(express.json({ limit: "2mb" }));
+app.use(express.json());
 app.use(express.static(path.join(process.cwd(), "public")));
 
 function parseCookies(cookieHeader?: string): Record<string, string> {
@@ -21,10 +21,7 @@ function getOrCreateSid(req: Request, res: Response): string {
   let sid = cookies["sid"];
   if (!sid) {
     sid = crypto.randomUUID();
-    res.setHeader(
-      "Set-Cookie",
-      `sid=${encodeURIComponent(sid)}; Path=/; Max-Age=${7 * 24 * 60 * 60}; SameSite=Lax`
-    );
+    res.setHeader("Set-Cookie", `sid=${encodeURIComponent(sid)}; Path=/; HttpOnly`);
   }
   return sid;
 }
@@ -35,21 +32,19 @@ app.post("/matilda", async (req: Request, res: Response) => {
   try {
     const { message } = req.body || {};
     if (!message || typeof message !== "string") {
-      return res.status(400).json({ error: "Missing message" });
+      return res.status(400).json({ replies: ["⚠️ Missing message"] });
     }
 
     const sid = getOrCreateSid(req, res);
     const result = await handleMatildaMessage(sid, message);
 
-    // ✅ Force clean JSON (avoid circular refs, Maps, Errors)
-    return res.json({ replies: result.replies || [] });
+    // ✅ Always return a plain JSON object
+    return res.json({ replies: result.replies ?? [] });
   } catch (err: any) {
-    console.error("❌ Matilda route error:", err);
-    return res.status(500).json({ error: err?.message || "Matilda failed" });
+    console.error("Matilda route error:", err);
+    return res.status(500).json({ replies: ["⚠️ " + (err?.message || "Matilda failed")] });
   }
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`✅ Server listening on http://localhost:${PORT}`);
-});
+app.listen(PORT, () => console.log(`✅ Server listening on http://localhost:${PORT}`));
