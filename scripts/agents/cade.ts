@@ -1,11 +1,11 @@
-console.log("🔍 <0001FAD3> Cade command router loaded from", import.meta.url);
+console.log("🔍 <0001FAD4> Cade command router loaded from", import.meta.url);
 
 import fs from "fs";
 import path from "path";
 import crypto from "crypto";
 import { spawn } from "child_process";
 
-// 🛠️ Define runShell once at top-level
+// 🛠️ Top-level runShell helper
 async function runShell(script: string): Promise<string> {
   return new Promise((resolve, reject) => {
     const proc = spawn("bash", [script], { stdio: "pipe" });
