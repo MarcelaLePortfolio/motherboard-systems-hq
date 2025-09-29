@@ -1,4 +1,4 @@
-console.log("🔍 <0001FAD5> Cade command router loaded from", import.meta.url);
+console.log("🔍 <0001FAD6> Cade command router loaded from", import.meta.url);
 
 import fs from "fs";
 import path from "path";
