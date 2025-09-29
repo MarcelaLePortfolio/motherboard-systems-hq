@@ -25,6 +25,8 @@ import crypto from "crypto";
 import { exec } from "child_process";
 
 
+console.log("🔧 runShell type at runtime:", typeof runShell);
+
 const cadeCommandRouter = async (command: string, payload: any = {}) => {
   let result = "";
 
