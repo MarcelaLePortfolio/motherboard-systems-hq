@@ -1,9 +1,10 @@
-// ✅ Use built-in fetch (Node 18+)
-type Role = "system" | "user" | "assistant";
-type ChatMessage = { role: Role; content: string };
+console.log("🟢 Matilda handler ACTIVE v2 — using resp.text only");
 
 const OLLAMA_HOST = "http://127.0.0.1:11434";
 const OLLAMA_MODEL = "llama3:8b";
+
+type Role = "system" | "user" | "assistant";
+type ChatMessage = { role: Role; content: string };
 
 const chatBuffers = new Map<string, ChatMessage[]>();
 const MATILDA_SYSTEM_PROMPT = "You are Matilda, a retro-futuristic assistant.";
