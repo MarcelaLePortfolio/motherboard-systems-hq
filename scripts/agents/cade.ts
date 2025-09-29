@@ -2,6 +2,19 @@ console.log("🔍 <0001FAC7> Cade command router loaded from", import.meta.url);
 import fs from "fs";
 import path from "path";
 import crypto from "crypto";
+import { exec } from "child_process";
+import util from "util";
+
+const execPromise = util.promisify(exec);
+
+async function runShell(script: string) {
+  try {
+    const { stdout, stderr } = await execPromise(`bash ${script}`);
+    return { status: "success", stdout, stderr };
+  } catch (err: any) {
+    return { status: "error", message: err.message, stderr: err.stderr };
+  }
+}
 
 const cadeCommandRouter = async (command: string, payload: any = {}) => {
   let result = "";
@@ -14,9 +27,10 @@ const cadeCommandRouter = async (command: string, payload: any = {}) => {
         fs.writeFileSync(resolvedPath, content, "utf8");
         const fileBuffer = fs.readFileSync(resolvedPath);
         const hash = crypto.createHash("sha256").update(fileBuffer).digest("hex");
-        result = `📝 File written to "${filePath}" (sha256: ${hash})`;
+        result = `�� File written to "${filePath}" (sha256: ${hash})`;
       } catch (err: any) {
-  console.error("❌ CAUGHT ERROR:", err);        result = `❌ Error: ${err.message || String(err)}`;
+        console.error("❌ CAUGHT ERROR:", err);
+        result = `❌ Error: ${err.message || String(err)}`;
       }
       break;
     }
@@ -28,19 +42,16 @@ const cadeCommandRouter = async (command: string, payload: any = {}) => {
     case "dev:fresh": {
       return await runShell("scripts/dev-fresh.sh");
     }
+
     default: {
       result = "🤷 Unknown task type";
     }
+  }
 
-
-
-    }
-
-    return { status: "success", result };
+  return { status: "success", result };
 };
 
 export { cadeCommandRouter };
-
 
 // 🔁 Run Cade if executed directly (ESM-compatible)
 if (import.meta.url === `file://${process.argv[1]}`) {
@@ -61,5 +72,3 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     }
   }
 }
-
-// 🧩 Added by <0001f9f9> — Dev maintenance commands
