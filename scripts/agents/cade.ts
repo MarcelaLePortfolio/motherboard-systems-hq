@@ -1,4 +1,7 @@
 import { exec } from "child_process";
+import fs from "fs";
+import path from "path";
+import crypto from "crypto";
 
 export async function runShell(cmd: string): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -16,11 +19,8 @@ export async function runShell(cmd: string): Promise<string> {
       if (code === 0) resolve(output.trim());
       else reject(new Error(`Command \"${cmd}\" failed with code ${code}\n${output}`));
     });
-console.log("🔍 <0001FAE5> Cade command router loaded from", import.meta.url);
-
-import crypto from "crypto";
-import { exec } from "child_process";
-console.log("🔍 <0001FAE5> Cade command router loaded from", import.meta.url);
+  });
+}
 
 console.log("🔍 <0001FAE5> Cade command router loaded from", import.meta.url);
 console.log("🔧 runShell type at runtime:", typeof runShell);
