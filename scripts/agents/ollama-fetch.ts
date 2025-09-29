@@ -1,8 +1,10 @@
+import { fetch } from "undici";
+
 export async function ollamaChat(convo: { role: string; content: string }[]): Promise<string> {
-  console.log("🟢 ollamaFetch called with messages:", convo.length);
+  console.log("🟢 ollamaFetch (undici) called with messages:", convo.length);
 
   const convoText = convo.map(m => `${m.role}: ${m.content}`).join("\n");
-  console.log("🟢 Sending prompt to Ollama:", convoText.slice(0, 80) + "...");
+  console.log("�� Sending prompt to Ollama:", convoText.slice(0, 80) + "...");
 
   let resp: Response;
   try {
