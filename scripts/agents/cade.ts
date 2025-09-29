@@ -1,11 +1,11 @@
-console.log("🔍 <0001FAE2> Cade command router loaded from", import.meta.url);
+console.log("🔍 <0001FAE3> Cade command router loaded from", import.meta.url);
 
 import fs from "fs";
 import path from "path";
 import crypto from "crypto";
 import { exec } from "child_process";
 
-// ✅ Proper runShell helper (top-level)
+// ✅ Proper runShell helper at top-level
 async function runShell(cmd: string): Promise<string> {
   return new Promise((resolve, reject) => {
     const child = exec(cmd, { cwd: process.cwd(), env: process.env });
