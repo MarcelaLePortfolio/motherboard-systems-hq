@@ -1,62 +1,42 @@
-import express, { Request, Response } from "express";
-import path from "path";
-import crypto from "crypto";
-import { fileURLToPath } from "url";
-import { dirname } from "path";
-import { handleMatildaMessage } from "./scripts/agents/matilda-handler.ts";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-console.log("🚩 server.ts booted from", __filename);
-console.log("🚩 Matilda handler imported from ./scripts/agents/matilda-handler.ts");
+import express from "express";
+import bodyParser from "body-parser";
+import { handleMatildaMessage } from "./scripts/agents/matilda-handler";
+import { cadeCommandRouter } from "./scripts/agents/cade";
 
 const app = express();
-app.use(express.json());
+const PORT = process.env.PORT || 3001;
 
-function parseCookies(cookieHeader?: string) {
-  const out: Record<string, string> = {};
-  if (!cookieHeader) return out;
-  cookieHeader.split(";").forEach((part) => {
-    const [k, v] = part.split("=").map((s) => s.trim());
-    if (k && v) out[k] = decodeURIComponent(v);
-  });
-  return out;
-}
+app.use(bodyParser.json());
 
-function getOrCreateSid(req: Request, res: Response): string {
-  const cookies = parseCookies(req.headers.cookie);
-  let sid = cookies["sid"];
-  if (!sid) {
-    sid = crypto.randomUUID();
-    res.setHeader("Set-Cookie", `sid=${encodeURIComponent(sid)}; Path=/; HttpOnly`);
-  }
-  return sid;
-}
-
-app.get("/health", (_req, res) => res.json({ ok: true }));
-
-app.post("/matilda", async (req: Request, res: Response) => {
-  console.log("📩 Hit /matilda route with body:", req.body);
-  try {
-    const { message } = req.body || {};
-    if (!message || typeof message !== "string") {
-      return res.status(400).json({ replies: ["⚠️ Missing message"] });
-    }
-    const sid = getOrCreateSid(req, res);
-    const result = await handleMatildaMessage(sid, message);
-    console.log("📤 Matilda replied:", result);
-    return res.json({ replies: result.replies ?? [] });
-  } catch (err: any) {
-    console.error("❌ Matilda route error:", err);
-    return res.status(500).json({ replies: ["⚠️ " + (err?.message || "Matilda failed")] });
-  }
+// Health check
+app.get("/health", (_req, res) => {
+  res.json({ status: "ok" });
 });
 
-// ✅ Serve static LAST
-app.use(express.static(path.join(process.cwd(), "public")));
+// Matilda endpoint
+app.post("/matilda", async (req, res) => {
+  const { message } = req.body;
+  console.log("📩 Hit /matilda route with body:", req.body);
 
-const PORT = process.env.PORT || 3000;
+  const result = await handleMatildaMessage("session1", message);
+
+  // 🔗 If Matilda returns a Cade task, run it
+  if (result.task) {
+    console.log("🤝 Delegating to Cade:", result.task);
+    try {
+      const cadeResult = await cadeCommandRouter(result.task.command, result.task.payload);
+      result.cadeResult = cadeResult;
+    } catch (err: any) {
+      console.error("❌ Cade delegation failed:", err);
+      result.cadeResult = { status: "error", message: err?.message || String(err) };
+    }
+  }
+
+  console.log("📤 Matilda replied:", result);
+  res.json(result);
+});
+
+// Start server
 app.listen(PORT, () => {
   console.log(`✅ Server listening on http://localhost:${PORT}`);
   console.log("Mounted: GET /health, POST /matilda, static /public");
