@@ -17,27 +17,6 @@ export async function runShell(cmd: string): Promise<string> {
       else reject(new Error(`Command \"${cmd}\" failed with code ${code}\n${output}`));
     });
   });
-}
-import { exec } from "child_process";
-
-async function runShell(cmd: string): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const child = exec(cmd, { cwd: process.cwd(), env: process.env });
-    let output = "";
-    child.stdout?.on("data", (data) => {
-      process.stdout.write(data);
-      output += data;
-    });
-    child.stderr?.on("data", (data) => {
-      process.stderr.write(data);
-      output += data;
-    });
-    child.on("close", (code) => {
-      if (code === 0) resolve(output.trim());
-      else reject(new Error(`Command \"${cmd}\" failed with code ${code}\n${output}`));
-    });
-  });
-}
 console.log("🔍 <0001FAE5> Cade command router loaded from", import.meta.url);
 
 import fs from "fs";
