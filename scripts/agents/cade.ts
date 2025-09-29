@@ -1,4 +1,4 @@
-import { runShell } from "../utils/runShell";
+import { runShell as execShell } from "../utils/runShell";
 import { exec } from "child_process";
 import fs from "fs";
 import path from "path";
