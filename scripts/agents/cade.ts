@@ -1,31 +1,26 @@
-console.log("🔍 <0001FACE> Cade command router loaded from", import.meta.url);
+console.log("🔍 <0001FACF> Cade command router loaded from", import.meta.url);
 
 import fs from "fs";
 import path from "path";
 import crypto from "crypto";
 import { spawn } from "child_process";
 
-// ✅ Define runShell helper here (in module scope)
-async function runShell(script: string): Promise<string> {
+async function runShell(scriptPath: string): Promise<string> {
   return new Promise((resolve, reject) => {
-    const proc = spawn("bash", [script], { stdio: ["ignore", "pipe", "pipe"] });
-
+    const proc = spawn("bash", [scriptPath], { stdio: ["ignore", "pipe", "pipe"] });
     let output = "";
+
     proc.stdout.on("data", chunk => {
-      const text = chunk.toString();
-      output += text;
-      process.stdout.write(text); // stream to console
+      process.stdout.write(chunk); // stream live logs
+      output += chunk.toString();
     });
-
     proc.stderr.on("data", chunk => {
-      const text = chunk.toString();
-      output += text;
-      process.stderr.write(text); // stream to console
+      process.stderr.write(chunk);
+      output += chunk.toString();
     });
-
     proc.on("close", code => {
       if (code === 0) resolve(output.trim());
-      else reject(new Error(`Script ${script} exited with code ${code}\n${output}`));
+      else reject(new Error(`Script failed with code ${code}: ${output}`));
     });
   });
 }
@@ -70,10 +65,8 @@ export { cadeCommandRouter };
 // 🔁 Run Cade if executed directly (ESM-compatible)
 if (import.meta.url === `file://${process.argv[1]}`) {
   const TASK_FOLDER = "memory/tasks";
-
   if (fs.existsSync(TASK_FOLDER)) {
     const taskFiles = fs.readdirSync(TASK_FOLDER).filter(f => f.endsWith(".json"));
-
     for (const file of taskFiles) {
       const taskPath = path.join(TASK_FOLDER, file);
       const raw = fs.readFileSync(taskPath, "utf8");
