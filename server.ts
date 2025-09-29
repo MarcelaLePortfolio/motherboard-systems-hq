@@ -1,13 +1,19 @@
 import express, { Request, Response } from "express";
 import path from "path";
 import crypto from "crypto";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
 import { handleMatildaMessage } from "./scripts/agents/matilda-handler";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const app = express();
 app.use(express.json());
 app.use(express.static(path.join(process.cwd(), "public")));
 
 console.log("▶️ Running server from:", __filename);
+console.log("▶️ __dirname:", __dirname);
 console.log("▶️ CWD:", process.cwd());
 
 function parseCookies(cookieHeader?: string): Record<string, string> {
