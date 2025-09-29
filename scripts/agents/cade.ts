@@ -1,18 +1,18 @@
-console.log("🔍 <0001FADA> Cade command router loaded from", import.meta.url);
+console.log("🔍 <0001FADB> Cade command router loaded from", import.meta.url);
 
 import fs from "fs";
 import path from "path";
 import crypto from "crypto";
 import { exec } from "child_process";
 
-// ✅ Define runShell once, globally in this module
+// ✅ Define runShell globally
 function runShell(cmd: string): Promise<string> {
   return new Promise((resolve, reject) => {
     const child = exec(cmd, { cwd: process.cwd() });
     let output = "";
 
     child.stdout?.on("data", (data) => {
-      process.stdout.write(data); // stream to console
+      process.stdout.write(data); // live stream
       output += data;
     });
     child.stderr?.on("data", (data) => {
@@ -21,7 +21,7 @@ function runShell(cmd: string): Promise<string> {
     });
     child.on("close", (code) => {
       if (code === 0) resolve(output.trim());
-      else reject(new Error(`Command "${cmd}" failed with code ${code}`));
+      else reject(new Error(`Command "${cmd}" failed with code ${code}\n${output}`));
     });
   });
 }
