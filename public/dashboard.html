@@ -4,6 +4,13 @@
   <meta charset="utf-8" />
   <title>Motherboard HQ — Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body { background:#0e0e10; color:#e8e8ea; font:15px system-ui; margin:0; }
+    #chat-feed { padding:16px; min-height:70vh; }
+    .msg { margin:8px 0; }
+    .user { color:#9f9; }
+    .assistant { color:#9cf; }
+  </style>
 </head>
 <body>
   <main>
@@ -21,8 +28,10 @@
 
     function addMessage(role, text) {
       const div = document.createElement('div');
+      div.className = "msg " + role;
       div.textContent = role.toUpperCase() + ": " + text;
       feed.appendChild(div);
+      feed.scrollTop = feed.scrollHeight;
     }
 
     form.addEventListener('submit', async e => {
@@ -43,9 +52,12 @@
         console.log("Raw /matilda response:", raw);
         let data;
         try { data = JSON.parse(raw); } catch { data = { replies: [raw] }; }
-        const bubbles = feed.querySelectorAll('div');
-        bubbles[bubbles.length - 1].textContent = "ASSISTANT: " + (data.replies || []).join(" ");
+        const replies = data.replies || [];
+        const last = feed.querySelectorAll('.assistant');
+        if (last.length) last[last.length - 1].textContent = "ASSISTANT: " + replies.join(" ");
+        else addMessage('assistant', replies.join(" "));
       } catch (err) {
+        console.error("Chat error:", err);
         addMessage('assistant', '⚠️ ' + (err.message || String(err)));
       }
     });
