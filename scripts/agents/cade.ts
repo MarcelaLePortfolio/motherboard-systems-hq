@@ -1,22 +1,22 @@
-console.log("🔍 <0001FADB> Cade command router loaded from", import.meta.url);
+console.log("🔍 <0001FADC> Cade command router loaded from", import.meta.url);
 
 import fs from "fs";
 import path from "path";
 import crypto from "crypto";
 import { exec } from "child_process";
 
-// ✅ Define runShell globally
-function runShell(cmd: string): Promise<string> {
+// ✅ Define runShell at top-level
+async function runShell(cmd: string): Promise<string> {
   return new Promise((resolve, reject) => {
     const child = exec(cmd, { cwd: process.cwd() });
     let output = "";
 
     child.stdout?.on("data", (data) => {
-      process.stdout.write(data); // live stream
+      process.stdout.write(data);
       output += data;
     });
     child.stderr?.on("data", (data) => {
-      process.stderr.write(data); // stream errors
+      process.stderr.write(data);
       output += data;
     });
     child.on("close", (code) => {
@@ -63,7 +63,7 @@ const cadeCommandRouter = async (command: string, payload: any = {}) => {
 
 export { cadeCommandRouter };
 
-// 🔁 Run Cade if executed directly
+// �� Run Cade if executed directly
 if (import.meta.url === `file://${process.argv[1]}`) {
   const TASK_FOLDER = "memory/tasks";
   if (fs.existsSync(TASK_FOLDER)) {
