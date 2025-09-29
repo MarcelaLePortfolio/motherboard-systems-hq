@@ -3,13 +3,13 @@ import path from "path";
 import crypto from "crypto";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
-import { handleMatildaMessage } from "./scripts/agents/matilda-handler.js";
+import { handleMatildaMessage } from "./scripts/agents/matilda-handler.ts";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 console.log("🚩 server.ts booted from", __filename);
-console.log("🚩 Matilda handler imported from ./scripts/agents/matilda-handler.js");
+console.log("🚩 Matilda handler imported from ./scripts/agents/matilda-handler.ts");
 
 const app = express();
 app.use(express.json());
