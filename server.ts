@@ -1,12 +1,13 @@
 import express from "express";
-import bodyParser from "body-parser";
 import { handleMatildaMessage } from "./scripts/agents/matilda-handler";
 import { cadeCommandRouter } from "./scripts/agents/cade";
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-app.use(bodyParser.json());
+// Built-in JSON parser (no body-parser needed)
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Health check
 app.get("/health", (_req, res) => {
