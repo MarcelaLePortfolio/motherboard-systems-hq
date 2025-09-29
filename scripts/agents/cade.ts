@@ -1,11 +1,11 @@
-console.log("🔍 <0001FADF> Cade command router loaded from", import.meta.url);
+console.log("🔍 <0001FAE0> Cade command router loaded from", import.meta.url);
 
 import fs from "fs";
 import path from "path";
 import crypto from "crypto";
 import { exec } from "child_process";
 
-// ✅ Define runShell at top-level so it's always in scope
+// ✅ runShell helper — always in scope
 async function runShell(cmd: string): Promise<string> {
   return new Promise((resolve, reject) => {
     const child = exec(cmd, { cwd: process.cwd(), env: process.env });
