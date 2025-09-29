@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { callOllama } from "../utils/ollama";
+
 
 export const cade = {
   name: "Cade",

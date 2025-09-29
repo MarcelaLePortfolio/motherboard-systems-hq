@@ -1,0 +1,27 @@
+🔍 ollama-fetch loaded from file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/agents/ollama-fetch.ts
+🧪 <0001FAC0> ollama-fetch.ts in TEST FAIL MODE
+🔍 <0001FAC3> Matilda handler loaded from file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/agents/matilda-handler.ts
+🚩 server.ts booted from /Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.ts
+🚩 Matilda handler imported from ./scripts/agents/matilda-handler.ts
+✅ Server listening on http://localhost:3001
+Mounted: GET /health, POST /matilda, static /public
+📩 Hit /matilda route with body: { message: 'Hello Matilda' }
+🚩 <0001FAC3> Matilda handler ACTIVE (ollama mode)
+🔎 <0001FAC3> About to call ollamaChat
+🧪 <0001FAC0> ollamaChat invoked, throwing hard fail
+❌ <0001FAC3> Matilda handler caught error: Error: 💥 <0001FAC0> HARD FAIL from ollama-fetch.ts
+    at ollamaChat (/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/agents/ollama-fetch.ts:8:9)
+    at handleMatildaMessage (/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/agents/matilda-handler.ts:19:23)
+    at <anonymous> (/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.ts:47:26)
+    at Layer.handleRequest (/Users/marcela-dev/Projects/Motherboard_Systems_HQ/node_modules/.pnpm/router@2.2.0/node_modules/router/lib/layer.js:152:17)
+    at next (/Users/marcela-dev/Projects/Motherboard_Systems_HQ/node_modules/.pnpm/router@2.2.0/node_modules/router/lib/route.js:157:13)
+    at Route.dispatch (/Users/marcela-dev/Projects/Motherboard_Systems_HQ/node_modules/.pnpm/router@2.2.0/node_modules/router/lib/route.js:117:3)
+    at handle (/Users/marcela-dev/Projects/Motherboard_Systems_HQ/node_modules/.pnpm/router@2.2.0/node_modules/router/index.js:435:11)
+    at Layer.handleRequest (/Users/marcela-dev/Projects/Motherboard_Systems_HQ/node_modules/.pnpm/router@2.2.0/node_modules/router/lib/layer.js:152:17)
+    at /Users/marcela-dev/Projects/Motherboard_Systems_HQ/node_modules/.pnpm/router@2.2.0/node_modules/router/index.js:295:15
+    at processParams (/Users/marcela-dev/Projects/Motherboard_Systems_HQ/node_modules/.pnpm/router@2.2.0/node_modules/router/index.js:582:12)
+📤 Matilda replied: {
+  replies: [
+    '⚠️ Matilda crashed: 💥 <0001FAC0> HARD FAIL from ollama-fetch.ts'
+  ]
+}

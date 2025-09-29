@@ -1,3 +1,4 @@
+console.log("🔍 <0001FAC7> Cade command router loaded from", import.meta.url);
 import fs from "fs";
 import path from "path";
 import crypto from "crypto";
@@ -20,19 +21,25 @@ const cadeCommandRouter = async (command: string, payload: any = {}) => {
       break;
     }
 
+    case "dev:clean": {
+      return await runShell("scripts/dev-clean.sh");
+    }
+
+    case "dev:fresh": {
+      return await runShell("scripts/dev-fresh.sh");
+    }
     default: {
       result = "🤷 Unknown task type";
     }
-  }
 
 
 
+    }
 
+    return { status: "success", result };
+};
 
-
-
-
-  return { status: "success", result }; }; export { cadeCommandRouter };
+export { cadeCommandRouter };
 
 
 // 🔁 Run Cade if executed directly (ESM-compatible)
@@ -56,10 +63,3 @@ if (import.meta.url === `file://${process.argv[1]}`) {
 }
 
 // 🧩 Added by <0001f9f9> — Dev maintenance commands
-case "dev:clean": {
-  return await runShell("scripts/dev-clean.sh");
-}
-
-case "dev:fresh": {
-  return await runShell("scripts/dev-fresh.sh");
-}
