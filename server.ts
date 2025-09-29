@@ -1,19 +1,9 @@
 import express, { Request, Response } from "express";
-import path from "path";
 import crypto from "crypto";
-
-let handleMatildaMessage: any;
-try {
-  const mod = await import("./scripts/agents/matilda-handler.ts");
-  handleMatildaMessage = mod.handleMatildaMessage;
-  console.log("✅ Matilda handler loaded");
-} catch (err) {
-  console.error("❌ Failed to load Matilda handler:", err);
-}
+import { handleMatildaMessage } from "./scripts/agents/matilda-handler";
 
 const app = express();
 app.use(express.json());
-app.use(express.static(path.join(process.cwd(), "public")));
 
 function parseCookies(cookieHeader?: string): Record<string, string> {
   const out: Record<string, string> = {};
@@ -37,9 +27,6 @@ function getOrCreateSid(req: Request, res: Response): string {
 app.get("/health", (_req, res) => res.json({ ok: true }));
 
 app.post("/matilda", async (req: Request, res: Response) => {
-  if (!handleMatildaMessage) {
-    return res.status(500).json({ replies: ["⚠️ Matilda handler not loaded"] });
-  }
   console.log("📩 Hit /matilda route with body:", req.body);
   try {
     const { message } = req.body || {};
@@ -55,9 +42,12 @@ app.post("/matilda", async (req: Request, res: Response) => {
     return res.status(500).json({ replies: ["⚠️ " + (err?.message || "Matilda failed")] });
   }
 });
+# serve static LAST so /matilda is not shadowed
+import path from "path";
+app.use(express.static(path.join(process.cwd(), "public")));
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`✅ Server listening on http://localhost:${PORT}`);
-  console.log("Mounted: GET /health, POST /matilda");
+  console.log("Mounted: GET /health, POST /matilda, static /public");
 });
