@@ -24,11 +24,9 @@ const cadeCommandRouter = async (command: string, payload: any = {}) => {
       break;
     }
 
-      console.log("🔧 runShell inside dev:clean:", typeof runShell);
     case "dev:clean": {
       return { status: "success", result: await execShell("scripts/dev-clean.sh") };
     }
-      console.log("🔧 runShell inside dev:fresh:", typeof runShell);
 
     case "dev:fresh": {
       return { status: "success", result: await execShell("scripts/dev-fresh.sh") };
