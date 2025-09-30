@@ -8,20 +8,24 @@ import crypto from "crypto";
 
 const cadeCommandRouter = async (command: string, payload: any = {}) => {
   let result = "";
-
-  switch (command) {
-    case "write to file": {
-      const { path: filePath, content } = payload;
-      const resolvedPath = path.resolve(filePath);
-      try {
-        fs.writeFileSync(resolvedPath, content, "utf8");
-        const fileBuffer = fs.readFileSync(resolvedPath);
-        const hash = crypto.createHash("sha256").update(fileBuffer).digest("hex");
-        result = `📝 File written to "${filePath}" (sha256: ${hash})`;
-  catch (err: any) {
+  try {
+    switch (command) {
+      case "dev:clean": {
+        return { status: "success", result: await execShell("scripts/dev-clean.sh") };
+      }
+      case "dev:fresh": {
+        return { status: "success", result: await execShell("scripts/dev-fresh.sh") };
+      }
+      default: {
+        result = "🤷 Unknown task type";
+      }
+    }
+    return { status: "success", result };
+  } catch (err: any) {
     console.error("❌ [Cade] command failed:", err);
     return { status: "error", message: err?.message || String(err) };
-  }        console.error("❌ CAUGHT ERROR:", err);
+  }
+};  }        console.error("❌ CAUGHT ERROR:", err);
         result = `❌ Error: ${err.message || String(err)}`;
       }
       break;
