@@ -14,28 +14,12 @@ const cadeCommandRouter = async (command: string, payload: any = {}) => {
 console.log("<0001FB1E> [Cade] raw runShell reference:", runShell);
     switch (command) {
       case "dev:clean": {
-        console.log("<0001FB07> [Cade] running dev:clean via execShell");
-        console.log("<0001FB0E> [Cade] about to call execShell for dev:clean");
-        return { status: "success", result: await execShell("scripts/dev-clean.sh") };
+        console.log("<0001FB20> [Cade] running dev:clean via execShell");
+        try {
+          const out = await execShell("scripts/dev-clean.sh");
+          return { status: "success", result: out };
+        } catch (err) {
+          console.error("<0001FB20> [Cade] execShell threw:", err);
+          return { status: "error", message: "[Cade execShell fail] " + (err?.message || String(err)) };
+        }
       }
-
-      case "dev:fresh": {
-        console.log("<0001FB07> [Cade] running dev:fresh via execShell");
-        console.log("<0001FB0E> [Cade] about to call execShell for dev:fresh");
-        return { status: "success", result: await execShell("scripts/dev-fresh.sh") };
-      }
-
-      default: {
-        result = "🤷 Unknown task type";
-      }
-    }
-
-    return { status: "success", result };
-  } catch (err: any) {
-    console.error("<0001FB16> [Cade Catch] FULL ERROR object:", err);
-    console.error("<0001FB16> [Cade Catch] FULL ERROR stack:", err?.stack);
-    return { status: "error", message: "[Cade Catch] " + (err?.message || String(err)) };
-  }
-};
-
-export { cadeCommandRouter };
