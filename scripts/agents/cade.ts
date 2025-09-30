@@ -26,7 +26,7 @@ const cadeCommandRouter = async (command: string, payload: any = {}) => {
 
     return { status: "success", result };
   } catch (err: any) {
-    console.error("❌ [Cade] command failed:", err);
+    console.error("❌ [Cade] FULL ERROR:", err.stack || err);
     return { status: "error", message: err?.message || String(err) };
   }
 };
