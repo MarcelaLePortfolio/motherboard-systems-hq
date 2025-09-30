@@ -1,5 +1,7 @@
+import path from "path";
+import { pathToFileURL } from "url";
 import { runShell } from "../utils/runShell";
-const execShell = runShell;
+const { runShell: execShell } = await import(pathToFileURL(path.resolve("scripts/utils/runShell.ts")).href); console.log("<0001FB1F> [Cade] dynamic import of runShell succeeded, type:", typeof execShell);
 
 console.log("<0001f7e2> [Cade] execShell available:", typeof execShell);
 
