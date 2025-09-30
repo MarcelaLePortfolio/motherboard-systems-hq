@@ -18,7 +18,8 @@ export async function runShell(cmd: string): Promise<string> {
         console.log("✅ [runShell] finished successfully:", cmd);
         resolve(output.trim());
       } else {
-        reject(new Error(\`Command "\${cmd}" failed with code \${code}\n\${output}\`));
+        console.error("❌ [runShell] failed:", cmd);
+        reject(new Error(`Command "${cmd}" failed with code ${code}\n${output}`));
       }
     });
   });
