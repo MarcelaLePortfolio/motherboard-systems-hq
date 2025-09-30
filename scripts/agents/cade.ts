@@ -1,4 +1,5 @@
 import { runShell as execShell } from "../utils/runShell";
+console.log("🟢 [Cade] execShell available:", typeof execShell);
 import { exec } from "child_process";
 import fs from "fs";
 import path from "path";
