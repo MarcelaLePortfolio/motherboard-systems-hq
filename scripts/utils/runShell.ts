@@ -1,6 +1,6 @@
 import { exec } from "child_process";
 
-    console.log("🚀 [runShell] preparing to execute:", cmd);
+  console.log("🚀 [runShell] preparing to execute:", cmd);
 console.log("🚀 [runShell] preparing to execute:", cmd);
 export async function runShell(cmd: string): Promise<string> {
   return new Promise((resolve, reject) => {
