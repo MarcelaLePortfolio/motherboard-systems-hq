@@ -11,21 +11,11 @@ async function initExecShell() {
   }
   return execShell;
 }
-import path from "path";
-import { pathToFileURL } from "url";
-
-const { runShell: execShell } = await import(
-  pathToFileURL(path.resolve("scripts/utils/runShell.ts")).href
-);
-console.log("<0001FB1F> [Cade] dynamic import of runShell succeeded, type:", typeof execShell);
 
 export const cadeCommandRouter = async (command: string, payload: any = {}) => {
   let result = "";
 
   try {
-    console.log("<0001FB18> [Cade] cadeCommandRouter invoked with command:", command);
-    console.log("<0001FB18> [Cade] typeof execShell at runtime:", typeof execShell);
-
     switch (command) {
       case "dev:clean": {
         console.log("<0001FB20> [Cade] running dev:clean via execShell");
