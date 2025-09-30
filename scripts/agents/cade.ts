@@ -26,10 +26,12 @@ const cadeCommandRouter = async (command: string, payload: any = {}) => {
     }
 
     case "dev:clean": {
+      console.log("<0001FB05> [Cade] entering dev:clean, execShell:", typeof execShell);
       return { status: "success", result: await execShell("scripts/dev-clean.sh") };
     }
 
     case "dev:fresh": {
+      console.log("<0001FB05> [Cade] entering dev:fresh, execShell:", typeof execShell);
       return { status: "success", result: await execShell("scripts/dev-fresh.sh") };
     }
 
