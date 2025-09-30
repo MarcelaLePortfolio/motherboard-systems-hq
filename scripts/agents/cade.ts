@@ -7,6 +7,8 @@ const cadeCommandRouter = async (command: string, payload: any = {}) => {
   let result = "";
 
   try {
+  console.log("<0001FB18> [Cade] cadeCommandRouter invoked with command:", command);
+  console.log("<0001FB18> [Cade] typeof execShell at runtime:", typeof execShell);
     switch (command) {
       case "dev:clean": {
         console.log("<0001FB07> [Cade] running dev:clean via execShell");
