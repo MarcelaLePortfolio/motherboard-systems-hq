@@ -18,8 +18,10 @@ const cadeCommandRouter = async (command: string, payload: any = {}) => {
         const fileBuffer = fs.readFileSync(resolvedPath);
         const hash = crypto.createHash("sha256").update(fileBuffer).digest("hex");
         result = `📝 File written to "${filePath}" (sha256: ${hash})`;
-      } catch (err: any) {
-        console.error("❌ CAUGHT ERROR:", err);
+  catch (err: any) {
+    console.error("❌ [Cade] command failed:", err);
+    return { status: "error", message: err?.message || String(err) };
+  }        console.error("❌ CAUGHT ERROR:", err);
         result = `❌ Error: ${err.message || String(err)}`;
       }
       break;
