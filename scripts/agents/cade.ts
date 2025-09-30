@@ -11,8 +11,23 @@ const cadeCommandRouter = async (command: string, payload: any = {}) => {
   try {
     switch (command) {
       case "dev:clean": {
+        console.log("<0001FB07> [Cade] running dev:clean via execShell");
         return { status: "success", result: await execShell("scripts/dev-clean.sh") };
       }
+      case "dev:fresh": {
+        console.log("<0001FB07> [Cade] running dev:fresh via execShell");
+        return { status: "success", result: await execShell("scripts/dev-fresh.sh") };
+      }
+      default: {
+        result = "🤷 Unknown task type";
+      }
+    }
+    return { status: "success", result };
+  } catch (err: any) {
+    console.error("❌ [Cade] command failed:", err);
+    return { status: "error", message: err?.message || String(err) };
+  }
+};      }
       case "dev:fresh": {
         return { status: "success", result: await execShell("scripts/dev-fresh.sh") };
       }
