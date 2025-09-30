@@ -22,4 +22,5 @@ console.log("<0001FB1E> [Cade] raw runShell reference:", runShell);
           console.error("<0001FB20> [Cade] execShell threw:", err);
           return { status: "error", message: "[Cade execShell fail] " + (err?.message || String(err)) };
         }
+        break;
       }
