@@ -1,4 +1,5 @@
-import { runShell as execShell } from "../utils/runShell";
+import { runShell } from "../utils/runShell";
+const execShell = runShell;
 
 console.log("<0001f7e2> [Cade] execShell available:", typeof execShell);
 
