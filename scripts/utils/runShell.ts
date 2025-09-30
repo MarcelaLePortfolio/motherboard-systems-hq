@@ -2,6 +2,7 @@ import { exec } from "child_process";
 
 export async function runShell(cmd: string): Promise<string> {
   console.log("🚀 [runShell] preparing to execute:", cmd);
+  console.trace("<0001FB12> [runShell] call stack trace");
   return new Promise((resolve, reject) => {
     try {
       const child = exec(cmd, { cwd: process.cwd(), env: process.env });
