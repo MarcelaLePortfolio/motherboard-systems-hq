@@ -9,11 +9,13 @@ const cadeCommandRouter = async (command: string, payload: any = {}) => {
     switch (command) {
       case "dev:clean": {
         console.log("<0001FB07> [Cade] running dev:clean via execShell");
+        console.log("<0001FB0E> [Cade] about to call execShell for dev:clean");
         return { status: "success", result: await execShell("scripts/dev-clean.sh") };
       }
 
       case "dev:fresh": {
         console.log("<0001FB07> [Cade] running dev:fresh via execShell");
+        console.log("<0001FB0E> [Cade] about to call execShell for dev:fresh");
         return { status: "success", result: await execShell("scripts/dev-fresh.sh") };
       }
 
