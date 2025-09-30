@@ -5,7 +5,7 @@ const execShell = runShell;
 import path from "path";
 import { pathToFileURL } from "url";
 
-}
+
 
 export const cadeCommandRouter = async (command: string, payload: any = {}) => {
   let result = "";
