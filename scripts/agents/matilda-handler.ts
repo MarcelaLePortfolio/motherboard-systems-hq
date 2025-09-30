@@ -1,4 +1,5 @@
 console.log("🔍 <0001FAC4> Matilda handler loaded from", import.meta.url);
+import { cadeCommandRouter } from "../agents/cade";
 
 import { MATILDA_SYSTEM_PROMPT } from "../../config/matilda-prompt";
 import { getBuffer, trimBuffer } from "../memory/session-buffer";
