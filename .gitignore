@@ -1,2 +1,6 @@
 backup/ollama/
 node_modules/
+
+server.log
+*.sed
+scripts/agents/matilda-handler.backup*.ts
