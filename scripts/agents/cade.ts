@@ -14,6 +14,7 @@ export const cadeCommandRouter = async (command: string, payload: any = {}) => {
         } catch (err) {
           console.error("<0001FB24> [Cade] execShell threw:", err);
           return { status: "error", message: "[Cade execShell fail] " + (err?.message || String(err)) };
+  break;
         }
       }
   let result = "";
@@ -28,6 +29,7 @@ export const cadeCommandRouter = async (command: string, payload: any = {}) => {
         } catch (err) {
           console.error("<0001FB20> [Cade] execShell threw:", err);
           return { status: "error", message: "[Cade execShell fail] " + (err?.message || String(err)) };
+  break;
         }
       }
 
@@ -39,6 +41,7 @@ export const cadeCommandRouter = async (command: string, payload: any = {}) => {
         } catch (err) {
           console.error("<0001FB20> [Cade] execShell threw:", err);
           return { status: "error", message: "[Cade execShell fail] " + (err?.message || String(err)) };
+  break;
         }
       }
 
@@ -66,6 +69,7 @@ export const cadeCommandRouter = async (command: string, payload: any = {}) => {
         } catch (err) {
           console.error("<0001FB24> [Cade] execShell threw:", err);
           return { status: "error", message: "[Cade execShell fail] " + (err?.message || String(err)) };
+  break;
         }
       }
 
