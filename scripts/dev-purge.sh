@@ -1,3 +1,8 @@
+#!/bin/bashn
+set -euo pipefailn
+n
+# Always rebuild Cade before server start so Matilda can use dist versionn
+pnpm exec tsc -p tsconfig.json --outDir distn
 
 set -e
 
