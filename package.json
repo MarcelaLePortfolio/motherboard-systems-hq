@@ -7,7 +7,8 @@
     "build": "next build",
     "dev:clean": "scripts/dev-clean.sh",
     "dev:fresh": "scripts/dev-fresh.sh",
-    "dev:purge": "scripts/dev-purge.sh"
+    "dev:purge": "scripts/dev-purge.sh",
+    "preinstall": "if [ \"$(pnpm -v)\" != \"10.16.1\" ]; then echo \"❌ pnpm 10.16.1 required (found $(pnpm -v))\" && exit 1; fi; if [ \"$(node -v)\" != \"v20.19.4\" ]; then echo \"❌ Node v20.19.4 required (found $(node -v))\" && exit 1; fi"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.55.0",
@@ -49,5 +50,8 @@
     "tsx": "^4.20.4",
     "undici": "^7.13.0",
     "undici-types": "^7.13.0"
+  },
+  "volta": {
+    "node": "20.19.4"
   }
 }
