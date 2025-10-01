@@ -36,11 +36,16 @@ export const cadeCommandRouter = async (command: string, payload: any = {}) => {
       }
 
       case "dev:fresh": {
-        console.log("<0001FB20> [Cade] running dev:fresh via execShell");
+        console.log("<0001FB24> [Cade] running dev:fresh via execShell");
         try {
-          const out = await execShell("scripts/dev-fresh.sh");
+          const out = await runShell("scripts/dev-fresh.sh");
           return { status: "success", result: out };
         } catch (err) {
+          console.error("<0001FB24> [Cade] execShell threw:", err);
+          return { status: "error", message: "[Cade execShell fail] " + (err?.message || String(err)) };
+        }
+        break;
+      }        } catch (err) {
           console.error("<0001FB20> [Cade] execShell threw:", err);
           return { status: "error", message: "[Cade execShell fail] " + (err?.message || String(err)) };
   break;
@@ -69,6 +74,11 @@ export const cadeCommandRouter = async (command: string, payload: any = {}) => {
           const out = await runShell("scripts/dev-fresh.sh");
           return { status: "success", result: out };
         } catch (err) {
+          console.error("<0001FB24> [Cade] execShell threw:", err);
+          return { status: "error", message: "[Cade execShell fail] " + (err?.message || String(err)) };
+        }
+        break;
+      }        } catch (err) {
     console.error("<0001FB24> [Cade] execShell threw:", err);
     return { status: "error", message: "[Cade execShell fail] " + (err?.message || String(err)) };
   }
