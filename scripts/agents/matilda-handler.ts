@@ -1,4 +1,6 @@
-import { cadeCommandRouter } from "../agents/cade";
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+const { cadeCommandRouter } = require("./cade");
 import { MATILDA_SYSTEM_PROMPT } from "../../config/matilda-prompt";
 import { getBuffer, trimBuffer } from "../memory/session-buffer";
 import { ollamaChat } from "./ollama-fetch";
