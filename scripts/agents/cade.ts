@@ -63,6 +63,11 @@ export const cadeCommandRouter = async (command: string, payload: any = {}) => {
     console.error("<0001FB16> [Cade Catch] FULL ERROR stack:", err?.stack);
     return { status: "error", message: "[Cade Catch] " + (err?.message || String(err)) };
   }
+};  } catch (err: any) {
+    console.error("<0001FB16> [Cade Catch] FULL ERROR object:", err);
+    console.error("<0001FB16> [Cade Catch] FULL ERROR stack:", err?.stack);
+    return { status: "error", message: "[Cade Catch] " + (err?.message || String(err)) };
+  }
 };
 
         break;
@@ -88,12 +93,17 @@ export const cadeCommandRouter = async (command: string, payload: any = {}) => {
       }
 
       default: {
-        result = "�� Unknown task type";
+        result = "🤷 Unknown task type";
       }
     }
 
     return { status: "success", result };
   } catch (err: any) {
+    console.error("<0001FB16> [Cade Catch] FULL ERROR object:", err);
+    console.error("<0001FB16> [Cade Catch] FULL ERROR stack:", err?.stack);
+    return { status: "error", message: "[Cade Catch] " + (err?.message || String(err)) };
+  }
+};  } catch (err: any) {
     console.error("<0001FB16> [Cade Catch] FULL ERROR object:", err);
     console.error("<0001FB16> [Cade Catch] FULL ERROR stack:", err?.stack);
     return { status: "error", message: "[Cade Catch] " + (err?.message || String(err)) };
