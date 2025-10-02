@@ -44,4 +44,3 @@
 
 </body>
 </html>
-<script src="dashboard.js?v=1.0.0"></script>
