@@ -2,31 +2,36 @@ import { Router } from "express";
 
 const router = Router();
 
-// <0001f7e1> MVP mock data until DB is wired
+// ✅ Mock agent status
 let agentStatus = {
   cade: { status: "online", lastSeen: new Date().toISOString() },
   matilda: { status: "online", lastSeen: new Date().toISOString() }
 };
 
-let taskQueue = [
+// ✅ In-memory arrays as DB fallback
+let mockTasks = [
   { id: "t1", command: "dev:clean", status: "completed", ts: new Date().toISOString() }
 ];
 
-let reflections = [
+let mockLogs = [
   { id: "r1", reflection: "System started clean", ts: new Date().toISOString() }
 ];
 
 // --- Routes ---
+
+// Agents
 router.get("/status/agents", (_req, res) => {
   res.json(agentStatus);
 });
 
-router.get("/tasks/recent", (_req, res) => {
-  res.json(taskQueue);
+// Tasks (mocked)
+router.get("/tasks/recent", async (_req, res) => {
+  res.json(mockTasks.slice(-10).reverse());
 });
 
-router.get("/logs/recent", (_req, res) => {
-  res.json(reflections);
+// Logs (mocked)
+router.get("/logs/recent", async (_req, res) => {
+  res.json(mockLogs.slice(-10).reverse());
 });
 
 export const dashboardRoutes = router;
