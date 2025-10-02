@@ -29,4 +29,4 @@ router.get("/logs/recent", (_req, res) => {
   res.json(reflections);
 });
 
-export default router;
+export const dashboardRoutes = router;
