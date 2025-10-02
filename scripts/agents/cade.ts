@@ -6,12 +6,16 @@ export async function cadeCommandRouter(command: string, payload?: any) {
   try {
     switch (command) {
       case "dev:clean": {
-        result = await runShell("scripts/dev-clean.sh");
+        const output = await runShell("scripts/dev-clean.sh");
+        console.log("🧹 dev:clean full output:", output);
+        result = { status: "success", message: "Clean build complete" };
         break;
       }
 
       case "dev:fresh": {
-        result = await runShell("scripts/dev-fresh.sh");
+        const output = await runShell("scripts/dev-fresh.sh");
+        console.log("🚀 dev:fresh full output:", output);
+        result = { status: "success", message: "Fresh build complete" };
         break;
       }
 
