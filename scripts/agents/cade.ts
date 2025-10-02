@@ -1,26 +1,42 @@
 import { runShell } from "../utils/runShell";
 
 export async function cadeCommandRouter(command: string, payload?: any) {
-  switch (command) {
-    case "dev:clean": {
-      try {
-        await runShell("scripts/dev-clean.sh");
-        return { status: "success", message: "Clean build complete" };
-      } catch (err) {
-        return { status: "error", message: "[Cade execShell fail] " + ((err as any)?.message || String(err)) };
+  let result: any;
+
+  try {
+    switch (command) {
+      case "dev:clean": {
+        result = await runShell("scripts/dev-clean.sh");
+        break;
+      }
+
+      case "dev:fresh": {
+        result = await runShell("scripts/dev-fresh.sh");
+        break;
+      }
+
+      case "chat": {
+        const message = payload?.message || "";
+        result = {
+          status: "success",
+          message: `Matilda heard: ${message}`
+        };
+        break;
+      }
+
+      default: {
+        result = {
+          status: "error",
+          message: `Unknown command: ${command}`
+        };
       }
     }
 
-    case "dev:fresh": {
-      try {
-        await runShell("scripts/dev-fresh.sh");
-        return { status: "success", message: "Fresh build complete" };
-      } catch (err) {
-        return { status: "error", message: "[Cade execShell fail] " + ((err as any)?.message || String(err)) };
-      }
-    }
-
-    default:
-      return { status: "error", message: `Unknown command: ${command}` };
+    return result;
+  } catch (err: any) {
+    return {
+      status: "error",
+      message: err?.message || String(err)
+    };
   }
 }
