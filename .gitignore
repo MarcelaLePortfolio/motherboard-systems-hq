@@ -4,3 +4,11 @@ node_modules/
 server.log
 *.sed
 scripts/agents/matilda-handler.backup*.ts
+
+# Ignore local scratch files
+*.bak.*
+*.todo.ts
+*.sh
+server.log
+dist/
+
