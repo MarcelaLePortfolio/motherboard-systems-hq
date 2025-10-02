@@ -1,5 +1,9 @@
 import express from "express";
-import { matildaHandler } from "./scripts/agents/matilda-handler";
+import * as matildaModule from "./scripts/agents/matilda-handler";
+
+console.log("🔎 DEBUG: matilda-module exports =", matildaModule);
+
+const { matildaHandler } = matildaModule;
 
 const app = express();
 app.use(express.json());
