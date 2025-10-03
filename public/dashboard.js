@@ -27,21 +27,6 @@ function appendChatMessage(role, text) {
 }
 
 // 💁 Matilda's personality filter
-function personaReply(raw) {
-  if (!raw) return "…";
-  const lower = raw.toLowerCase();
-
-  if (["hi","hello","hey"].some(w => lower.includes(w))) return "👋 Hello there, darling — how can I help today?";
-  if (lower.includes("unknown command")) return "📎 Pardon me, love — I don’t recognize that one. Try a supported task instead.";
-  if (lower.includes("success")) return "✨ All set — task completed without a hitch.";
-  if (lower.includes("error")) return "⚠️ Hmm, something didn’t go quite right. Let’s try again.";
-  if (lower.includes("thanks")) return "💐 Always a pleasure!";
-  if (lower.includes("bye")) return "👋 Goodbye for now — I’ll be here when you need me.";
-
-  return "💁 " + raw;
-}
-
-// 📨 Chat form submit handler
 document.getElementById("chatForm").addEventListener("submit", async (e) => {
   e.preventDefault();
   const input = document.getElementById("chatInput");
@@ -146,3 +131,31 @@ document.addEventListener("DOMContentLoaded", () => {
   refreshAll();
   setInterval(refreshAll, 5000);
 });
+
+// 💖 Matilda – Millennial Girls’ Girl persona
+function personaReply(raw) {
+  if (!raw) return "…";
+  const lower = raw.toLowerCase();
+
+  if (["hi","hello","hey"].some(w => lower.includes(w))) {
+    return "✨ Heyyy bestie! What’s the vibe today?";
+  }
+  if (lower.includes("unknown command")) {
+    return "�� Girl, I don’t know that one… let’s stick to the usual tasks, mmkay?";
+  }
+  if (lower.includes("success") || lower.includes("complete")) {
+    return "💅 Done and dusted — consider it handled, babe!";
+  }
+  if (lower.includes("error") || lower.includes("failed")) {
+    return "😩 Ugh, something glitched. Wanna try again?";
+  }
+  if (lower.includes("thanks") || lower.includes("thank you")) {
+    return "🥂 Always here for you, queen!";
+  }
+  if (lower.includes("bye")) {
+    return "👋 Byeee, text me later!";
+  }
+
+  // Default catch-all
+  return "💕 " + raw;
+}
