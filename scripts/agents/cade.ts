@@ -1,3 +1,4 @@
+import { mockTasks, mockLogs } from "../routes/dashboard";
 import { runShell } from "../utils/runShell";
 
 export async function cadeCommandRouter(command: string, payload?: any) {
