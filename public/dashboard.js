@@ -1,46 +1,148 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>⚡ Motherboard Dashboard</title>
-  <style>
-    body { font-family: Arial, sans-serif; margin: 20px; background: #f7f7f7; }
-    h1 { color: #333; }
-    .card { background: #fff; padding: 15px; margin-bottom: 20px; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-    th { background: #f2f2f2; }
-    .status-online { color: green; font-weight: bold; }
-    .status-offline { color: red; font-weight: bold; }
-    .status-idle { color: orange; font-weight: bold; }
-  </style>
-</head>
-<body>
-  <h1>🖥️ Motherboard Dashboard</h1>
+// ✅ Dashboard JS – Clean Rebuild
 
-  <div class="card">
-    <h2>Agent Status</h2>
-    <table id="agents"></table>
-  </div>
+function appendChatMessage(role, text) {
+  const chat = document.getElementById("chatWindow");
+  if (!chat) return;
+  const msg = document.createElement("div");
+  msg.classList.add("chat-message");
+  const time = new Date().toLocaleTimeString();
+  let formatted = text;
 
-  <div class="card">
-    <h2>Recent Tasks</h2>
-    <table id="tasks"></table>
-  </div>
+  // Try to format JSON nicely
+  try {
+    const parsed = JSON.parse(text);
+    formatted = `<pre>${JSON.stringify(parsed, null, 2)}</pre>`;
+  } catch {}
 
-  <div class="card">
-    <h2>Recent Logs</h2>
-    <table id="logs"></table>
-  </div>
+  if (role === "You") {
+    msg.classList.add("chat-user");
+    msg.innerHTML = `<div><strong>You:</strong> ${formatted}</div><div class="chat-time">${time}</div>`;
+  } else {
+    msg.classList.add("chat-matilda");
+    msg.innerHTML = `<div><strong>${role}:</strong> ${formatted}</div><div class="chat-time">${time}</div>`;
+  }
 
-  <div class="card">
-    <h2>Submit Task</h2>
-    <form id="taskForm">
-      <input type="text" id="command" placeholder="Enter command (e.g., dev:clean)" size="50" />
-      <button type="submit">Run</button>
-    </form>
-    <pre id="taskResponse"></pre>
-  </div>
+  chat.appendChild(msg);
+  chat.scrollTop = chat.scrollHeight;
+}
 
-</body>
-</html>
+// 💁 Matilda's personality filter
+function personaReply(raw) {
+  if (!raw) return "…";
+  const lower = raw.toLowerCase();
+
+  if (["hi","hello","hey"].some(w => lower.includes(w))) return "👋 Hello there, darling — how can I help today?";
+  if (lower.includes("unknown command")) return "📎 Pardon me, love — I don’t recognize that one. Try a supported task instead.";
+  if (lower.includes("success")) return "✨ All set — task completed without a hitch.";
+  if (lower.includes("error")) return "⚠️ Hmm, something didn’t go quite right. Let’s try again.";
+  if (lower.includes("thanks")) return "💐 Always a pleasure!";
+  if (lower.includes("bye")) return "👋 Goodbye for now — I’ll be here when you need me.";
+
+  return "💁 " + raw;
+}
+
+// 📨 Chat form submit handler
+document.getElementById("chatForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const input = document.getElementById("chatInput");
+  const text = input.value.trim();
+  if (!text) return;
+
+  appendChatMessage("You", text);
+  input.value = "";
+  input.focus();
+
+  try {
+    const res = await fetch("/matilda", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ command: text })
+    });
+    const data = await res.json();
+
+    let reply;
+    if (data?.cadeResult?.message) {
+      reply = data.cadeResult.message;
+    } else if (data?.message) {
+      reply = data.message;
+    } else {
+      reply = "✅ Task completed!";
+    }
+
+    appendChatMessage("Matilda", personaReply(reply));
+  } catch (err) {
+    appendChatMessage("⚠️ Error", err.toString());
+  }
+});
+
+// --- Render functions for dashboard sections ---
+async function renderAgents() {
+  try {
+    const res = await fetch("/status/agents");
+    const data = await res.json();
+    const table = document.getElementById("agents");
+    table.innerHTML = "<tr><th>Agent</th><th>Status</th><th>Last Seen</th></tr>";
+    for (const [name, info] of Object.entries(data)) {
+      table.innerHTML += `
+        <tr>
+          <td>${name}</td>
+          <td>${info.status}</td>
+          <td>${new Date(info.lastSeen).toLocaleString()}</td>
+        </tr>`;
+    }
+  } catch (err) {
+    document.getElementById("agents").innerHTML = `<tr><td colspan="3">⚠️ Error: ${err}</td></tr>`;
+  }
+}
+
+async function renderTasks() {
+  try {
+    const res = await fetch("/tasks/recent");
+    const data = await res.json();
+    const table = document.getElementById("tasks");
+    table.innerHTML = "<tr><th>ID</th><th>Command</th><th>Status</th><th>Time</th></tr>";
+    data.forEach(task => {
+      table.innerHTML += `
+        <tr>
+          <td>${task.id}</td>
+          <td>${task.command}</td>
+          <td>${task.status}</td>
+          <td>${new Date(task.ts).toLocaleString()}</td>
+        </tr>`;
+    });
+  } catch (err) {
+    document.getElementById("tasks").innerHTML = `<tr><td colspan="4">⚠️ Error: ${err}</td></tr>`;
+  }
+}
+
+async function renderLogs() {
+  try {
+    const res = await fetch("/logs/recent");
+    const data = await res.json();
+    const table = document.getElementById("logs");
+    table.innerHTML = "<tr><th>ID</th><th>Reflection</th><th>Time</th></tr>";
+    data.forEach(log => {
+      table.innerHTML += `
+        <tr>
+          <td>${log.id}</td>
+          <td>${log.reflection}</td>
+          <td>${new Date(log.ts).toLocaleString()}</td>
+        </tr>`;
+    });
+  } catch (err) {
+    document.getElementById("logs").innerHTML = `<tr><td colspan="3">⚠️ Error: ${err}</td></tr>`;
+  }
+}
+
+// 🔄 Refresh sections
+async function refreshAll() {
+  await renderAgents();
+  await renderTasks();
+  await renderLogs();
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("⚡ Dashboard ready");
+  refreshAll();
+  setInterval(refreshAll, 5000);
+});

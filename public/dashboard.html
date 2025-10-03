@@ -2,46 +2,61 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>⚡ Motherboard Dashboard</title>
+  <title>🖥️ Motherboard Systems</title>
   <style>
     body { font-family: Arial, sans-serif; margin: 20px; background: #f7f7f7; }
     h1 { color: #333; }
-    .card { background: #fff; padding: 15px; margin-bottom: 20px; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-    th { background: #f2f2f2; }
-    .status-online { color: green; font-weight: bold; }
-    .status-offline { color: red; font-weight: bold; }
-    .status-idle { color: orange; font-weight: bold; }
+
+    .card { background: #fff; padding: 15px; margin-bottom: 20px;
+            border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+
+    /* Chat styles */
+    .chat-window { height: 250px; overflow-y: auto; padding: 10px; border: 1px solid #ddd;
+                   border-radius: 6px; background: #fafafa; margin-bottom: 10px; }
+    .chat-message { margin: 5px 0; max-width: 70%; padding: 8px 12px;
+                    border-radius: 12px; word-wrap: break-word; }
+    .chat-user { background: #d1e7ff; margin-left: auto; text-align: right; }
+    .chat-matilda { background: #f1f1f1; margin-right: auto; text-align: left; }
+    .chat-time { font-size: 0.75em; color: #666; margin-top: 2px; }
+    .chat-input { display: flex; gap: 8px; }
+    .chat-input input { flex: 1; padding: 8px; }
+    .chat-input button { padding: 8px 12px; }
+
+    .chat-message pre {
+      max-height: 150px; overflow-y: auto; white-space: pre-wrap;
+      background: #f4f4f4; padding: 6px; border-radius: 6px; margin-top: 4px;
+    }
   </style>
 </head>
 <body>
-  <h1>🖥️ Motherboard Dashboard</h1>
+  <h1>🖥️ Motherboard Systems</h1>
+<div id="debugBanner" style="background:#e6f7ff; border:1px solid #91d5ff; padding:8px; margin:10px 0; border-radius:6px; color:#0050b3; font-size:0.9em;">
+  ⚡ Dashboard v2.0.0 loaded — waiting for scripts…
+</div>
 
+  <!-- Chatbot -->
+  <div class="card">
+    <div id="chatWindow" class="chat-window"></div>
+    <form id="chatForm" class="chat-input">
+      <input id="chatInput" placeholder="Type a message..." />
+      <button type="submit">Send</button>
+    </form>
+  </div>
+
+  <!-- Other sections -->
   <div class="card">
     <h2>Agent Status</h2>
     <table id="agents"></table>
   </div>
-
   <div class="card">
     <h2>Recent Tasks</h2>
     <table id="tasks"></table>
   </div>
-
   <div class="card">
     <h2>Recent Logs</h2>
     <table id="logs"></table>
   </div>
 
-  <div class="card">
-    <h2>Submit Task</h2>
-    <form id="taskForm">
-      <input type="text" id="command" placeholder="Enter command (e.g., dev:clean)" size="50" />
-      <button type="submit">Run</button>
-    </form>
-    <pre id="taskResponse"></pre>
-  </div>
-
+  <script src="dashboard.js?v=1.2.0" defer></script>
 </body>
 </html>
-<script src="dashboard.js?v=1.0.0"></script>
