@@ -9,11 +9,11 @@ let agentStatus = {
 };
 
 // ✅ In-memory arrays as DB fallback
-let mockTasks = [
+export let mockTasks = [
   { id: "t1", command: "dev:clean", status: "completed", ts: new Date().toISOString() }
 ];
 
-let mockLogs = [
+export let mockLogs = [
   { id: "r1", reflection: "System started clean", ts: new Date().toISOString() }
 ];
 
