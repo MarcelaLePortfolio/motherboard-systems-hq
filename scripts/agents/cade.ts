@@ -1,4 +1,5 @@
 import { mockTasks, mockLogs } from "../routes/dashboard";
+import { nanoid } from "nanoid";
 import { runShell } from "../utils/runShell";
 
 export async function cadeCommandRouter(command: string, payload?: any) {
@@ -37,11 +38,34 @@ export async function cadeCommandRouter(command: string, payload?: any) {
       }
     }
 
+    // ✅ Update dashboard mocks on success
+    mockTasks.push({
+      id: payload?.id || nanoid(),
+      command,
+      status: "success",
+      ts: new Date().toISOString()
+    });
+    mockLogs.push({
+      id: nanoid(),
+      reflection: result?.message || command,
+      ts: new Date().toISOString()
+    });
+
     return result;
   } catch (err: any) {
-    return {
-      status: "error",
-      message: err?.message || String(err)
-    };
+    // ❌ Update dashboard mocks on failure
+    mockTasks.push({
+      id: payload?.id || nanoid(),
+      command,
+      status: "failed",
+      ts: new Date().toISOString()
+    });
+    mockLogs.push({
+      id: nanoid(),
+      reflection: `❌ ${command} failed: ${err?.message || String(err)}`,
+      ts: new Date().toISOString()
+    });
+
+    return { status: "error", message: err?.message || String(err) };
   }
 }
