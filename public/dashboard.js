@@ -54,7 +54,7 @@ document.getElementById("chatForm").addEventListener("submit", async (e) => {
       reply = "✅ Task completed!";
     }
 
-    appendChatMessage("Matilda", personaReply(reply));
+    appendChatMessage("Matilda", reply);
   } catch (err) {
     appendChatMessage("⚠️ Error", err.toString());
   }
