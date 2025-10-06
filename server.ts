@@ -2,9 +2,6 @@ import express from "express";
 import * as matildaModule from "./scripts/agents/matilda-handler";
 import { dashboardRoutes } from "./scripts/routes/dashboard";
 import path from "path";
-    }
-    return res.status(299).json({ passthrough: true });
-  }
 
   try {
     const fetch = (await import("node-fetch")).default;
@@ -39,7 +36,7 @@ import path from "path";
     console.error("Matilda Ollama error:", err);
     return res.status(500).json({ error: String(err), message: "Sorry, I had a moment there — want to try again?" });
   }
-});
+);
 // ✅ Mount backend dashboard API routes
 app.use("/", dashboardRoutes);
 
@@ -70,7 +67,7 @@ function listRoutes(app) {
     }
   });
   console.log("🧭 Registered routes:", routes);
-}
+
 
 
 
@@ -92,12 +89,12 @@ setTimeout(() => {
     });
   const routes = extractRoutes(app._router?.stack || []);
   console.log("🧩 All registered routes:", routes);
-}, 500);
+, 500);
 
 // <0001fad6> Final Fallback – Direct reflections endpoints (bypass router)
 
-});
+);
 
-});
+);
 
 console.log("✅ Direct reflections endpoints registered successfully");
