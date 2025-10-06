@@ -1,26 +1,16 @@
-// <0001fab8> CommonJS-compatible reflections-latest handler
+// <0001fac6> reflections-latest: compatible Drizzle select query (LIMIT 1)
+import { db } from "../../db/client";
+import { reflections } from "../../db/schema";
 
-import { dbPromise } from "../../db/client";
-
-export async function reflectionsLatestHandler(req, res) {
+export async function reflectionsLatestHandler(_req, res) {
   try {
-    const db = await dbPromise;
-    const result = db
-      .prepare("SELECT id, created_at, summary FROM reflections ORDER BY created_at DESC LIMIT 1")
-      .get();
-
-    if (!result) {
-      return res.status(404).json({ message: "No reflections found" });
-    }
-
-    const parsed = {
-      ...result,
-      summary: JSON.parse(result.summary || "{}"),
-    };
-
-    res.json(parsed);
+    const [row] = await db.select({
+      id: reflections.id,
+      created_at: reflections.created_at,
+      summary: reflections.summary
+    }).from(reflections).orderBy(reflections.created_at).limit(1);
+    res.json(row || {});
   } catch (err) {
-    console.error("❌ Failed to fetch latest reflection:", err);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ error: String(err) });
   }
 }

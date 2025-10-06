@@ -12,6 +12,8 @@ app.use(express.json());
 
 import { reflectionsRouter } from "./scripts/api/index";
 app.use("/api/reflections", reflectionsRouter);
+import { reflectionsRouter } from "./scripts/api/index";
+app.use("/api/reflections", reflectionsRouter);
 app.use(express.static(path.join(process.cwd(), "public")));
 
 app.get("/health", (_req, res) => res.json({ status: "ok" }));

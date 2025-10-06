@@ -1,22 +1,16 @@
-// <0001fab7> CommonJS-compatible reflections-all handler
+// <0001fac5> reflections-all: compatible Drizzle select query
+import { db } from "../../db/client";
+import { reflections } from "../../db/schema";
 
-import { dbPromise } from "../../db/client";
-
-export async function reflectionsAllHandler(req, res) {
+export async function reflectionsAllHandler(_req, res) {
   try {
-    const db = await dbPromise;
-    const results = db
-      .prepare("SELECT id, created_at, summary FROM reflections ORDER BY created_at DESC")
-      .all();
-
-    const parsed = results.map(r => ({
-      ...r,
-      summary: JSON.parse(r.summary || "{}"),
-    }));
-
-    res.json(parsed);
+    const rows = await db.select({
+      id: reflections.id,
+      created_at: reflections.created_at,
+      summary: reflections.summary
+    }).from(reflections).orderBy(reflections.created_at);
+    res.json(rows);
   } catch (err) {
-    console.error("❌ Failed to fetch reflection history:", err);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ error: String(err) });
   }
 }
