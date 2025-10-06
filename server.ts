@@ -97,7 +97,6 @@ import { reflectionsLatestHandler } from "./scripts/api/reflections-latest";
 console.log("Mounted: GET /api/reflections/all, /api/reflections/latest");
 
 // <0001fabd> Debug: log all Express routes
-function listRoutes(app) {
   const routes = [];
   app._router.stack.forEach((middleware) => {
     if (middleware.route) {
@@ -111,4 +110,9 @@ function listRoutes(app) {
   });
   console.log("🧭 Registered routes:", routes);
 }
-listRoutes(app);
+
+app.listen(PORT, () => {
+  console.log(`✅ Server listening on http://localhost:${PORT}`);
+  listRoutes(app);
+});
+
