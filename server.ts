@@ -2,18 +2,16 @@ import express from "express";
 import * as matildaModule from "./scripts/agents/matilda-handler";
 import { dashboardRoutes } from "./scripts/routes/dashboard";
 import path from "path";
+const app = express();
 
+app.post("/matilda", async (req, res) => {
+  const command = req.body?.command;
   try {
     const fetch = (await import("node-fetch")).default;
-    // ✅ Cade handles dev/build/test/deploy commands
     if (typeof command === "string" && /^(dev|build|test|deploy):/i.test(command)) {
-      try {
-        const { cadeCommandRouter } = await import("./scripts/agents/cade");
-        const cadeResult = await cadeCommandRouter(command, {});
-        return res.json({ reply: cadeResult.message, cadeResult });
-      } catch (err) {
-        return res.status(500).json({ error: String(err), message: "⚠️ Cade couldn’t complete that task." });
-      }
+      const { cadeCommandRouter } = await import("./scripts/agents/cade");
+      const cadeResult = await cadeCommandRouter(command, {});
+      return res.json({ reply: cadeResult.message, cadeResult });
     }
     const response = await fetch("http://localhost:11434/api/chat", {
       method: "POST",
@@ -21,18 +19,20 @@ import path from "path";
       body: JSON.stringify({
         model: "llama2",
         messages: [
-          { role: "system", content: "You are Matilda, a friendly, neutral AI assistant. Be conversational, casual, and helpful." },
+          { role: "system", content: "You are Matilda, a friendly, neutral AI assistant." },
           { role: "user", content: String(command || "") }
         ],
         stream: false
       })
     });
-
-    const data: any = await response.json();
-    const reply: string = data?.message?.content || (Array.isArray(data?.messages) ? data.messages.map((m: any) => m.content).join(" ") : "…");
-
+    const data = await response.json();
+    const reply = data?.message?.content || "…";
     return res.json({ reply, message: reply });
   } catch (err) {
+    console.error("Matilda Ollama error:", err);
+    return res.status(500).json({ error: String(err), message: "Sorry, I had a moment there — want to try again?" });
+  }
+});
     console.error("Matilda Ollama error:", err);
     return res.status(500).json({ error: String(err), message: "Sorry, I had a moment there — want to try again?" });
   }
