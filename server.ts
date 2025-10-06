@@ -73,31 +73,7 @@ function listRoutes(app) {
 // <0001fad1> Export live Express app instance for launch-server.ts
 export default app;
 
-// <0001fad3> Debug: list all route paths including nested routers
-setTimeout(() => {
-  const extractRoutes = (stack, prefix = "") =>
-    stack.flatMap((layer) => {
-      if (layer.route) {
-        return Object.keys(layer.route.methods).map(
-          (m) => `${m.toUpperCase()} ${prefix}${layer.route.path}`
-        );
-      } else if (layer.name === "router" && layer.handle.stack) {
-        return extractRoutes(layer.handle.stack, prefix + (layer.regexp?.source.replace("^\\","/").replace("\\/?(?=\\/|$)","") || ""));
-      }
-      return [];
-    });
-  const routes = extractRoutes(app._router?.stack || []);
-  console.log("🧩 All registered routes:", routes);
-, 500);
 
-// <0001fad6> Final Fallback – Direct reflections endpoints (bypass router)
 
-);
-
-);
-
-console.log("✅ Direct reflections endpoints registered successfully");
-
-}
-}
-
+// <0001faee> Clean export after debug cleanup
+export default app;
