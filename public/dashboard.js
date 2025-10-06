@@ -159,3 +159,17 @@ function personaReply(raw) {
   // Default catch-all
   return "💕 " + raw;
 }
+
+// <0001fab0> Inject ReflectionStatus into Agent Status Row
+import { ReflectionStatus } from "../../scripts/dashboard/components/ReflectionStatus.js";
+
+window.addEventListener("DOMContentLoaded", () => {
+  const ticker = document.querySelector("#agent-status-row");
+  if (ticker) {
+    const reflection = document.createElement("div");
+    reflection.id = "reflection-status";
+    reflection.className = "ticker-item";
+    reflection.innerHTML = React.createElement(ReflectionStatus, {});
+    ticker.appendChild(reflection);
+  }
+});
