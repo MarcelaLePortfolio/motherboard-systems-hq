@@ -2,7 +2,7 @@
 import express from "express";
 import path from "path";
 import dashboardRoutes from "./scripts/routes/dashboard";
-import { reflectionsRouter } from "./scripts/api/reflections-router";
+import reflectionsRouter from "./scripts/api/reflections-router";
 import listEndpoints from "express-list-endpoints";
 
 const app = express();
