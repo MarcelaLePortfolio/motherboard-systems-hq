@@ -95,3 +95,20 @@ import { reflectionsLatestHandler } from "./scripts/api/reflections-latest";
 
 // <0001fab5> Log reflection endpoints in mount summary
 console.log("Mounted: GET /api/reflections/all, /api/reflections/latest");
+
+// <0001fabd> Debug: log all Express routes
+function listRoutes(app) {
+  const routes = [];
+  app._router.stack.forEach((middleware) => {
+    if (middleware.route) {
+      routes.push(middleware.route.path);
+    } else if (middleware.name === 'router') {
+      middleware.handle.stack.forEach((h) => {
+        const routePath = h.route && h.route.path;
+        if (routePath) routes.push(routePath);
+      });
+    }
+  });
+  console.log("🧭 Registered routes:", routes);
+}
+listRoutes(app);
