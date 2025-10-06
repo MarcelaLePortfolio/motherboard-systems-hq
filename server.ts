@@ -98,7 +98,6 @@ app.use("/", dashboardRoutes);
 // app.get("/dashboard", (_req, res) => { res.sendFile(path.join(process.cwd(), "public", "dashboard.html")); });
 const PORT = process.env.PORT || 3001;
 
-  console.log(`✅ Server listening on http://localhost:${PORT}`);
   console.log("Mounted: GET /health, POST /matilda, /status, /tasks, /logs, /dashboard");
 
 // <0001fab4> Phase 4 Step 3 – Mount Reflection API routes
