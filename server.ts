@@ -9,8 +9,6 @@ const app = express();
 app.use(express.json());
 
 // ✅ Serve static frontend files from top-level public/
-import { reflectionsAllHandler } from "./scripts/api/reflections-all";
-import { reflectionsLatestHandler } from "./scripts/api/reflections-latest";
 
 import { reflectionsRouter } from "./scripts/api/index";
 app.use("/api/reflections", reflectionsRouter);
@@ -80,17 +78,12 @@ app.get("/dashboard", (_req, res) => {
 });
 
 const PORT = process.env.PORT || 3001;
-import { reflectionsAllHandler } from "./scripts/api/reflections-all";
-import { reflectionsLatestHandler } from "./scripts/api/reflections-latest";
 
-app.listen(PORT, () => {
   console.log(`✅ Server listening on http://localhost:${PORT}`);
   console.log("Mounted: GET /health, POST /matilda, /status, /tasks, /logs, /dashboard");
 });
 
 // <0001fab4> Phase 4 Step 3 – Mount Reflection API routes
-import { reflectionsAllHandler } from "./scripts/api/reflections-all";
-import { reflectionsLatestHandler } from "./scripts/api/reflections-latest";
 
 
 // <0001fab5> Log reflection endpoints in mount summary
@@ -109,10 +102,28 @@ console.log("Mounted: GET /api/reflections/all, /api/reflections/latest");
     }
   });
   console.log("🧭 Registered routes:", routes);
-}
 
-app.listen(PORT, () => {
   console.log(`✅ Server listening on http://localhost:${PORT}`);
-  listRoutes(app);
 });
 
+
+// <0001fac2> Debug: list all registered routes after startup
+function listRoutes(app) {
+  const routes = [];
+  app._router?.stack.forEach((middleware) => {
+    if (middleware.route) {
+      routes.push(middleware.route.path);
+    } else if (middleware.name === 'router') {
+      middleware.handle.stack.forEach((h) => {
+        const routePath = h.route && h.route.path;
+        if (routePath) routes.push(routePath);
+      });
+    }
+  });
+  console.log("🧭 Registered routes:", routes);
+}
+
+app.listen(process.env.PORT || 3001, () => {
+  console.log(`✅ Server listening on http://localhost:${process.env.PORT || 3001}`);
+  listRoutes(app);
+});
