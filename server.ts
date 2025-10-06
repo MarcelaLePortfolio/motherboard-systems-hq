@@ -2,7 +2,8 @@
 import express from "express";
 import path from "path";
 import dashboardRoutes from "./scripts/routes/dashboard";
-import reflectionsRouter from "./scripts/api/reflections-router";
+import reflectionsRouterModule from "./scripts/api/reflections-router";
+const reflectionsRouter = reflectionsRouterModule.default || reflectionsRouterModule;
 import listEndpoints from "express-list-endpoints";
 
 const app = express();
@@ -14,6 +15,8 @@ app.use(express.urlencoded({ extended: true }));
 // ✅ Mount reflections first
 app.use("/api/reflections", reflectionsRouter);
 console.log("<0001fb1b> reflectionsRouter mounted at /api/reflections");
+console.log("<0001fb21> typeof reflectionsRouter:", typeof reflectionsRouter);
+console.log("<0001fb21> reflectionsRouter keys:", Object.keys(reflectionsRouter));
 
 // ✅ Mount dashboard routes
 app.use("/", dashboardRoutes);
