@@ -111,7 +111,12 @@ function listRoutes(app) {
   console.log("🧭 Registered routes:", routes);
 }
 
+import { reflectionsRouter } from "./scripts/api/index";
+app.use("/api/reflections", reflectionsRouter);
+console.log("✅ Mounted reflections router before listen()");
 app.listen(process.env.PORT || 3001, () => {
   console.log(`✅ Server listening on http://localhost:${process.env.PORT || 3001}`);
   setTimeout(() => listRoutes(app), 250);
 });
+
+export default app;
