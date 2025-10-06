@@ -1,4 +1,4 @@
-// 🧠 Cade Self-Reflection Engine – Fixed SQLite Type Binding
+// 🧠 Cade Self-Reflection Engine – Finalized SQL.js Direct Insert
 import { dbPromise } from "../../db/client";
 import { task_events } from "../../db/audit";
 import crypto from "crypto";
@@ -30,17 +30,22 @@ export async function reflect() {
   };
 
   const reflection = {
-    id: String(safeUUID()),
+    id: safeUUID(),
     created_at: new Date().toISOString(),
     summary: JSON.stringify(summary)
   };
 
-  console.log("🧩 Prepared Reflection:", reflection);
+  console.log("<0001f9e9> Prepared Reflection:", reflection);
 
   try {
-    db.prepare("INSERT INTO reflections (id, created_at, summary) VALUES (?, ?, ?)")
-      .run(reflection.id, reflection.created_at, reflection.summary);
-    console.log("🧠 Cade reflected:", summary);
+    // Access raw SQL.js database and run insert manually
+    const client = (db as any).session.client;
+    client.run(
+      "INSERT INTO reflections (id, created_at, summary) VALUES (?, ?, ?)",
+      [reflection.id, reflection.created_at, reflection.summary]
+    );
+
+    console.log("<0001f9e0> Cade reflected:", summary);
   } catch (err) {
     console.error("❌ Reflection insert failed:", err);
   }
