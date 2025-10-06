@@ -1,8 +1,11 @@
 import express from "express";
+import { reflectionsRouter } from "./scripts/api/reflections-router";
 import * as matildaModule from "./scripts/agents/matilda-handler";
 import { dashboardRoutes } from "./scripts/routes/dashboard";
 import path from "path";
 const app = express();
+app.use("/api/reflections", reflectionsRouter);
+console.log("<0001fb17> reflectionsRouter mounted correctly at /api/reflections");
 
 app.post("/matilda", async (req, res) => {
   const command = req.body?.command;
