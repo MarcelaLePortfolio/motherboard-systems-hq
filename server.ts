@@ -122,3 +122,20 @@ app.listen(process.env.PORT || 3001, () => {
 
 // <0001fad1> Export live Express app instance for launch-server.ts
 export default app;
+
+// <0001fad3> Debug: list all route paths including nested routers
+setTimeout(() => {
+  const extractRoutes = (stack, prefix = "") =>
+    stack.flatMap((layer) => {
+      if (layer.route) {
+        return Object.keys(layer.route.methods).map(
+          (m) => `${m.toUpperCase()} ${prefix}${layer.route.path}`
+        );
+      } else if (layer.name === "router" && layer.handle.stack) {
+        return extractRoutes(layer.handle.stack, prefix + (layer.regexp?.source.replace("^\\","/").replace("\\/?(?=\\/|$)","") || ""));
+      }
+      return [];
+    });
+  const routes = extractRoutes(app._router.stack);
+  console.log("🧩 All registered routes:", routes);
+}, 500);
