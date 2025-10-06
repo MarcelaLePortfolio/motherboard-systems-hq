@@ -132,7 +132,7 @@ setTimeout(() => {
       }
       return [];
     });
-  const routes = extractRoutes(app._router.stack);
+  const routes = extractRoutes(app._router?.stack || []);
   console.log("🧩 All registered routes:", routes);
 }, 500);
 
