@@ -86,3 +86,6 @@ import reflectionsLatestHandler from "./scripts/api/reflections-latest";
 
 app.get("/api/reflections/all", (req, res) => reflectionsAllHandler(req, res));
 app.get("/api/reflections/latest", (req, res) => reflectionsLatestHandler(req, res));
+
+// <0001fab5> Log reflection endpoints in mount summary
+console.log("Mounted: GET /api/reflections/all, /api/reflections/latest");
