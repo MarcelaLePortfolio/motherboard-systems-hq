@@ -38,6 +38,11 @@ app.post("/matilda", async (req, res) => {
 app.get("/api/reflections/all", reflectionsAllHandler);
 app.get("/api/reflections/latest", reflectionsLatestHandler);
 console.log("<0001fb0d> Mounted reflections endpoints before dashboard routes");
+  import { reflectionsAllHandler } from "./scripts/api/reflections-all";
+  import { reflectionsLatestHandler } from "./scripts/api/reflections-latest";
+  app.get("/api/reflections/all", reflectionsAllHandler);
+  app.get("/api/reflections/latest", reflectionsLatestHandler);
+  console.log("<0001fb12> Mounted reflections endpoints inside main initialization block");
 app.use("/", dashboardRoutes);
 
 // ✅ Shortcut: /dashboard → dashboard.html
