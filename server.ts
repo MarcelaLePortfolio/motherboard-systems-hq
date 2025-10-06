@@ -11,12 +11,11 @@ app.use(express.json());
 // ✅ Serve static frontend files from top-level public/
 
 import { reflectionsRouter } from "./scripts/api/index";
-app.use("/api/reflections", reflectionsRouter);
+import { reflectionsRouter } from "./scripts/api/index";
+import { reflectionsRouter } from "./scripts/api/index";
 import { reflectionsRouter } from "./scripts/api/index";
 app.use("/api/reflections", reflectionsRouter);
-import { reflectionsRouter } from "./scripts/api/index";
-app.use("/api/reflections", reflectionsRouter);
-console.log("✅ Mounted reflections router");
+console.log("✅ Reflections router mounted successfully before static and dashboard routes");
 app.use(express.static(path.join(process.cwd(), "public")));
 
 app.get("/health", (_req, res) => res.json({ status: "ok" }));
@@ -91,7 +90,6 @@ const PORT = process.env.PORT || 3001;
 
 
 // <0001fab5> Log reflection endpoints in mount summary
-console.log("Mounted: GET /api/reflections/all, /api/reflections/latest");
 
 // <0001fabd> Debug: log all Express routes
 
@@ -112,8 +110,6 @@ function listRoutes(app) {
 }
 
 import { reflectionsRouter } from "./scripts/api/index";
-app.use("/api/reflections", reflectionsRouter);
-console.log("✅ Mounted reflections router before listen()");
 app.listen(process.env.PORT || 3001, () => {
   console.log(`✅ Server listening on http://localhost:${process.env.PORT || 3001}`);
   setTimeout(() => listRoutes(app), 250);
