@@ -84,12 +84,3 @@ function listRoutes(app) {
 export default app;
 
 console.log("🧭 Registering reflection endpoints...");
-// ✅ Reflections API Endpoints
-import { reflectionsAllHandler } from "./scripts/api/reflections-all";
-import { reflectionsLatestHandler } from "./scripts/api/reflections-latest";
-
-app.get("/api/reflections/all", reflectionsAllHandler);
-app.get("/api/reflections/latest", reflectionsLatestHandler);
-
-console.log("✅ Reflections endpoints mounted globally at /api/reflections/*");
-
