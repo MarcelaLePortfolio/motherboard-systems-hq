@@ -1,16 +1,19 @@
-// 🧠 Cade Self-Reflection Engine – Fixed UUID + SQL.js Compatibility
+// 🧠 Cade Self-Reflection Engine – UUID Fix (Final)
 import { dbPromise } from "../../db/client";
 import { task_events } from "../../db/audit";
-import fs from "fs";
 import crypto from "crypto";
 
-function safeUUID() {
+function safeUUID(): string {
   try {
+    // Native Node.js crypto support
     return crypto.randomUUID();
   } catch {
-    return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
-      (c ^ crypto.randomBytes(1)[0] & 15 >> c / 4).toString(16)
-    );
+    // Manual RFC4122 fallback
+    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, c => {
+      const r = (Math.random() * 16) | 0,
+        v = c === "x" ? r : (r & 0x3) | 0x8;
+      return v.toString(16);
+    });
   }
 }
 
@@ -43,6 +46,7 @@ export async function reflect() {
   } catch (err) {
     console.error("❌ Reflection insert failed:", err);
   }
+
   return summary;
 }
 
