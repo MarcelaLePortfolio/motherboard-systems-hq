@@ -1,46 +1,81 @@
 import express from "express";
-import bodyParser from "body-parser";
+import * as matildaModule from "./scripts/agents/matilda-handler";
+import { dashboardRoutes } from "./scripts/routes/dashboard";
+import path from "path";
 
-import { cadeCommandRouter } from "./scripts/agents/cade";
-import { cadeCommandRouter as cadeDynamic } from "./scripts/agents/cade_dynamic";
+const { matildaHandler } = matildaModule;
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+app.use(express.json());
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+// ✅ Serve static frontend files from top-level public/
+app.use(express.static(path.join(process.cwd(), "public")));
 
-
-// Health check
-app.get("/health", (_, res) => res.json({ status: "ok" }));
-
-// Main Cade route
+app.get("/health", (_req, res) => res.json({ status: "ok" }));
 app.post("/matilda", async (req, res) => {
+  const { command } = req.body;
+
+  if (typeof command === "string" && /^(dev|build|test|deploy):/i.test(command)) {
+    // ✅ Cade handles dev/build/test/deploy commands
+    if (typeof command === "string" && /^(dev|build|test|deploy):/i.test(command)) {
+      try {
+        console.log("⚡ Delegating to Cade:", command);
+        const { cadeCommandRouter } = await import("./scripts/agents/cade");
+        const cadeResult = await cadeCommandRouter(command, {});
+        console.log("✅ Cade delegation worked:", cadeResult);
+        return res.json({ reply: cadeResult.message, cadeResult });
+      } catch (err) {
+        console.error("❌ Cade delegation failed:", err);
+        return res.status(500).json({ error: String(err), message: "⚠️ Cade couldn’t complete that task." });
+      }
+    }
+    return res.status(299).json({ passthrough: true });
+  }
+
   try {
-    const { command, payload } = req.body;
-    console.log("⚡ Delegating to Cade:", command);
-    const result = await cadeCommandRouter(command, payload);
-    res.json(result);
+    const fetch = (await import("node-fetch")).default;
+    // ✅ Cade handles dev/build/test/deploy commands
+    if (typeof command === "string" && /^(dev|build|test|deploy):/i.test(command)) {
+      try {
+        const { cadeCommandRouter } = await import("./scripts/agents/cade");
+        const cadeResult = await cadeCommandRouter(command, {});
+        return res.json({ reply: cadeResult.message, cadeResult });
+      } catch (err) {
+        return res.status(500).json({ error: String(err), message: "⚠️ Cade couldn’t complete that task." });
+      }
+    }
+    const response = await fetch("http://localhost:11434/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "llama2",
+        messages: [
+          { role: "system", content: "You are Matilda, a friendly, neutral AI assistant. Be conversational, casual, and helpful." },
+          { role: "user", content: String(command || "") }
+        ],
+        stream: false
+      })
+    });
+
+    const data: any = await response.json();
+    const reply: string = data?.message?.content || (Array.isArray(data?.messages) ? data.messages.map((m: any) => m.content).join(" ") : "…");
+
+    return res.json({ reply, message: reply });
   } catch (err) {
-    console.error("❌ /matilda failed:", err);
-    res.status(500).json({ error: err.message || String(err) });
+    console.error("Matilda Ollama error:", err);
+    return res.status(500).json({ error: String(err), message: "Sorry, I had a moment there — want to try again?" });
   }
 });
+// ✅ Mount backend dashboard API routes
+app.use("/", dashboardRoutes);
 
-// Dynamic Cade route
-app.post("/matilda-dynamic", async (req, res) => {
-  try {
-    const { command, payload } = req.body;
-    console.log("⚡ Delegating to CadeDynamic:", command);
-    const result = await cadeDynamic(command, payload);
-    res.json(result);
-  } catch (err) {
-    console.error("❌ /matilda-dynamic failed:", err);
-    res.status(500).json({ error: err.message || String(err) });
-  }
+// ✅ Shortcut: /dashboard → dashboard.html
+app.get("/dashboard", (_req, res) => {
+  res.sendFile(path.join(process.cwd(), "public", "dashboard.html"));
 });
 
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`✅ Server listening on http://localhost:${PORT}`);
-  console.log("Mounted: GET /health, POST /matilda, POST /matilda-dynamic, /status, /tasks, /logs, /dashboard");
+  console.log("Mounted: GET /health, POST /matilda, /status, /tasks, /logs, /dashboard");
 });
