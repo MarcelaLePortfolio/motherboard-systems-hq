@@ -59,7 +59,7 @@ export async function runSkill(action: string, payload: any) {
       created_at,
     });
 
-    console.log(`✅ ${action} completed successfully.`);
+    console.log(`🕒 ${new Date().toLocaleTimeString()} ✅ ${action} completed successfully.`);
     return { status: "success", result };
   } catch (err: any) {
     const error = err?.message || String(err);
@@ -76,7 +76,7 @@ export async function runSkill(action: string, payload: any) {
       created_at,
     });
 
-    console.error(`❌ ${action} failed:`, error);
+    console.error(`🕒 ${new Date().toLocaleTimeString()} ❌ ${action} failed:`, error);
     return { status: "error", result: error };
   }
 }
