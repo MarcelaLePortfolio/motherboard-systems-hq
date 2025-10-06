@@ -139,3 +139,19 @@ setTimeout(() => {
   const routes = extractRoutes(app._router.stack);
   console.log("🧩 All registered routes:", routes);
 }, 500);
+
+// <0001fad6> Final Fallback – Direct reflections endpoints (bypass router)
+import { reflectionsAllHandler } from "./scripts/api/reflections-all";
+import { reflectionsLatestHandler } from "./scripts/api/reflections-latest";
+
+app.get("/api/reflections/all", (req, res) => {
+  console.log("📡 Direct hit → /api/reflections/all");
+  return reflectionsAllHandler(req, res);
+});
+
+app.get("/api/reflections/latest", (req, res) => {
+  console.log("📡 Direct hit → /api/reflections/latest");
+  return reflectionsLatestHandler(req, res);
+});
+
+console.log("✅ Direct reflections endpoints registered successfully");
