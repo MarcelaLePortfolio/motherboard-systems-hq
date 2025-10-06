@@ -6,6 +6,20 @@ import path from "path";
 const { matildaHandler } = matildaModule;
 
 const app = express();
+import { reflectionsAllHandler } from "./scripts/api/reflections-all";
+import { reflectionsLatestHandler } from "./scripts/api/reflections-latest";
+
+app.get("/api/reflections/all", (req, res) => {
+  console.log("📡 Direct hit → /api/reflections/all");
+  return reflectionsAllHandler(req, res);
+});
+
+app.get("/api/reflections/latest", (req, res) => {
+  console.log("📡 Direct hit → /api/reflections/latest");
+  return reflectionsLatestHandler(req, res);
+});
+
+console.log("✅ Reflections endpoints registered first");
 import { reflectionsRouter } from "./scripts/api/index";
 app.use("/api/reflections", reflectionsRouter);
 console.log("✅ Mounted reflections router right after app initialization");
