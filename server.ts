@@ -116,4 +116,3 @@ app.listen(process.env.PORT || 3001, () => {
   setTimeout(() => listRoutes(app), 250);
 });
 
-export default app;
