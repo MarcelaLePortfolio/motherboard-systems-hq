@@ -75,6 +75,11 @@ app.get("/dashboard", (_req, res) => {
 });
 
 const PORT = process.env.PORT || 3001;
+import reflectionsAllHandler from "./scripts/api/reflections-all";
+import reflectionsLatestHandler from "./scripts/api/reflections-latest";
+
+app.get("/api/reflections/all", (req, res) => reflectionsAllHandler(req, res));
+app.get("/api/reflections/latest", (req, res) => reflectionsLatestHandler(req, res));
 app.listen(PORT, () => {
   console.log(`✅ Server listening on http://localhost:${PORT}`);
   console.log("Mounted: GET /health, POST /matilda, /status, /tasks, /logs, /dashboard");
