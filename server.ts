@@ -2,48 +2,6 @@ import express from "express";
 import * as matildaModule from "./scripts/agents/matilda-handler";
 import { dashboardRoutes } from "./scripts/routes/dashboard";
 import path from "path";
-
-const { matildaHandler } = matildaModule;
-
-const app = express();
-import { reflectionsAllHandler } from "./scripts/api/reflections-all";
-import { reflectionsLatestHandler } from "./scripts/api/reflections-latest";
-
-app.get("/api/reflections/all", reflectionsAllHandler);
-app.get("/api/reflections/latest", reflectionsLatestHandler);
-
-console.log("✅ Reflections endpoints mounted globally at /api/reflections/*");
-
-});
-
-});
-
-console.log("✅ Reflections endpoints registered first");
-console.log("✅ Mounted reflections router right after app initialization");
-app.use(express.json());
-
-// ✅ Serve static frontend files from top-level public/
-
-console.log("✅ Reflections router mounted successfully before static and dashboard routes");
-// app.use(express.static(path.join(process.cwd(), "public")));
-
-app.get("/health", (_req, res) => res.json({ status: "ok" }));
-app.post("/matilda", async (req, res) => {
-  const { command } = req.body;
-
-  if (typeof command === "string" && /^(dev|build|test|deploy):/i.test(command)) {
-    // ✅ Cade handles dev/build/test/deploy commands
-    if (typeof command === "string" && /^(dev|build|test|deploy):/i.test(command)) {
-      try {
-        console.log("⚡ Delegating to Cade:", command);
-        const { cadeCommandRouter } = await import("./scripts/agents/cade");
-        const cadeResult = await cadeCommandRouter(command, {});
-        console.log("✅ Cade delegation worked:", cadeResult);
-        return res.json({ reply: cadeResult.message, cadeResult });
-      } catch (err) {
-        console.error("❌ Cade delegation failed:", err);
-        return res.status(500).json({ error: String(err), message: "⚠️ Cade couldn’t complete that task." });
-      }
     }
     return res.status(299).json({ passthrough: true });
   }
