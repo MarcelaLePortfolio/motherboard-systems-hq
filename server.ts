@@ -12,8 +12,6 @@ app.use(express.json());
 import { reflectionsAllHandler } from "./scripts/api/reflections-all";
 import { reflectionsLatestHandler } from "./scripts/api/reflections-latest";
 
-app.get("/api/reflections/all", (req, res) => reflectionsAllHandler(req, res));
-app.get("/api/reflections/latest", (req, res) => reflectionsLatestHandler(req, res));
 import { reflectionsRouter } from "./scripts/api/index";
 app.use("/api/reflections", reflectionsRouter);
 app.use(express.static(path.join(process.cwd(), "public")));
@@ -85,8 +83,6 @@ const PORT = process.env.PORT || 3001;
 import { reflectionsAllHandler } from "./scripts/api/reflections-all";
 import { reflectionsLatestHandler } from "./scripts/api/reflections-latest";
 
-app.get("/api/reflections/all", (req, res) => reflectionsAllHandler(req, res));
-app.get("/api/reflections/latest", (req, res) => reflectionsLatestHandler(req, res));
 app.listen(PORT, () => {
   console.log(`✅ Server listening on http://localhost:${PORT}`);
   console.log("Mounted: GET /health, POST /matilda, /status, /tasks, /logs, /dashboard");
@@ -96,8 +92,6 @@ app.listen(PORT, () => {
 import { reflectionsAllHandler } from "./scripts/api/reflections-all";
 import { reflectionsLatestHandler } from "./scripts/api/reflections-latest";
 
-app.get("/api/reflections/all", (req, res) => reflectionsAllHandler(req, res));
-app.get("/api/reflections/latest", (req, res) => reflectionsLatestHandler(req, res));
 
 // <0001fab5> Log reflection endpoints in mount summary
 console.log("Mounted: GET /api/reflections/all, /api/reflections/latest");
