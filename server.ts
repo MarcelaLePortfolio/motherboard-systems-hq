@@ -14,6 +14,9 @@ import { reflectionsRouter } from "./scripts/api/index";
 app.use("/api/reflections", reflectionsRouter);
 import { reflectionsRouter } from "./scripts/api/index";
 app.use("/api/reflections", reflectionsRouter);
+import { reflectionsRouter } from "./scripts/api/index";
+app.use("/api/reflections", reflectionsRouter);
+console.log("✅ Mounted reflections router");
 app.use(express.static(path.join(process.cwd(), "public")));
 
 app.get("/health", (_req, res) => res.json({ status: "ok" }));
@@ -110,5 +113,5 @@ function listRoutes(app) {
 
 app.listen(process.env.PORT || 3001, () => {
   console.log(`✅ Server listening on http://localhost:${process.env.PORT || 3001}`);
-  listRoutes(app);
+  setTimeout(() => listRoutes(app), 250);
 });

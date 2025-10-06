@@ -1,4 +1,4 @@
-// <0001fabe> Express router for reflections API (sync import)
+// <0001fac9> Correct router export for reflections API
 import express from "express";
 import { reflectionsAllHandler } from "./reflections-all";
 import { reflectionsLatestHandler } from "./reflections-latest";
