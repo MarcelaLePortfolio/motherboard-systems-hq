@@ -35,3 +35,6 @@ router.get("/logs/recent", async (_req, res) => {
 });
 
 export const dashboardRoutes = router;
+
+// ✅ Export router for use in server.ts
+export default router;
