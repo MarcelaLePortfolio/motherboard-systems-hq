@@ -1,4 +1,4 @@
-// 🧠 Cade Self-Reflection Engine – UUID Verification Patch
+// 🧠 Cade Self-Reflection Engine – Fixed SQLite Type Binding
 import { dbPromise } from "../../db/client";
 import { task_events } from "../../db/audit";
 import crypto from "crypto";
@@ -8,13 +8,11 @@ function safeUUID(): string {
     const id = crypto.randomUUID?.();
     if (id && typeof id === "string") return id;
   } catch {}
-  // Guaranteed manual fallback
-  const fallback = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, c => {
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, c => {
     const r = Math.random() * 16 | 0;
     const v = c === "x" ? r : (r & 0x3) | 0x8;
     return v.toString(16);
   });
-  return fallback;
 }
 
 export async function reflect() {
@@ -32,18 +30,16 @@ export async function reflect() {
   };
 
   const reflection = {
-    id: safeUUID(),
+    id: String(safeUUID()),
     created_at: new Date().toISOString(),
     summary: JSON.stringify(summary)
   };
 
-  console.log("🧩 Generated Reflection ID:", reflection.id);
+  console.log("🧩 Prepared Reflection:", reflection);
 
   try {
-    db.run(
-      "INSERT INTO reflections (id, created_at, summary) VALUES (?, ?, ?)",
-      [reflection.id, reflection.created_at, reflection.summary]
-    );
+    db.prepare("INSERT INTO reflections (id, created_at, summary) VALUES (?, ?, ?)")
+      .run(reflection.id, reflection.created_at, reflection.summary);
     console.log("🧠 Cade reflected:", summary);
   } catch (err) {
     console.error("❌ Reflection insert failed:", err);
