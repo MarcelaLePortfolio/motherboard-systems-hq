@@ -1,91 +1,33 @@
+// <0001fb1b> Canonical Express app initialization – reflections + dashboard fixed
 import express from "express";
-import { reflectionsRouter } from "./scripts/api/reflections-router";
-import * as matildaModule from "./scripts/agents/matilda-handler";
-import { dashboardRoutes } from "./scripts/routes/dashboard";
 import path from "path";
+import dashboardRoutes from "./scripts/dashboard/routes";
+import { reflectionsRouter } from "./scripts/api/reflections-router";
+import listEndpoints from "express-list-endpoints";
+
 const app = express();
+
+// ✅ Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// ✅ Mount reflections first
 app.use("/api/reflections", reflectionsRouter);
-console.log("<0001fb17> reflectionsRouter mounted correctly at /api/reflections");
+console.log("<0001fb1b> reflectionsRouter mounted at /api/reflections");
 
-app.post("/matilda", async (req, res) => {
-  const command = req.body?.command;
-  try {
-    const fetch = (await import("node-fetch")).default;
-    if (typeof command === "string" && /^(dev|build|test|deploy):/i.test(command)) {
-  {      const { cadeCommandRouter } = await import("./scripts/agents/cade");
-      const cadeResult = await cadeCommandRouter(command, {});
-      return res.json({ reply: cadeResult.message, cadeResult });
-    }
-    const response = await fetch("http://localhost:11434/api/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        model: "llama2",
-        messages: [
-          { role: "system", content: "You are Matilda, a friendly, neutral AI assistant." },
-          { role: "user", content: String(command || "") }
-        ],
-        stream: false
-      })
-    });
-    const data = await response.json();
-    const reply = data?.message?.content || "…";
-  }
-    return res.json({ reply, message: reply });
-  } catch (err) {
-    console.error("Matilda Ollama error:", err);
-    return res.status(500).json({ error: String(err), message: "Sorry, I had a moment there — want to try again?" });
-    console.error("Matilda Ollama error:", err);
-    return res.status(500).json({ error: String(err), message: "Sorry, I had a moment there — want to try again?" });
-// ✅ Mount backend dashboard API routes
-
-// ✅ Shortcut: /dashboard → dashboard.html
-// app.get("/dashboard", (_req, res) => { res.sendFile(path.join(process.cwd(), "public", "dashboard.html")); });
-const PORT = process.env.PORT || 3001;
-
-  console.log("Mounted: GET /health, POST /matilda, /status, /tasks, /logs, /dashboard");
-
-// <0001fab4> Phase 4 Step 3 – Mount Reflection API routes
-
-
-// <0001fab5> Log reflection endpoints in mount summary
-
-// <0001fabd> Debug: log all Express routes
-
-// <0001fac2> Debug: list all registered routes after startup
-function listRoutes(app) {
-  const routes = [];
-  app._router?.stack.forEach((middleware) => {
-    if (middleware.route) {
-      routes.push(middleware.route.path);
-    } else if (middleware.name === 'router') {
-      middleware.handle.stack.forEach((h) => {
-        const routePath = h.route && h.route.path;
-        if (routePath) routes.push(routePath);
-      });
-    }
-  });
-  console.log("🧭 Registered routes:", routes);
-
-
-
-
-// <0001fad1> Export live Express app instance for launch-server.ts
-
-
-// <0001faee> Clean export after debug cleanup
-}
-}
-}
-)
-
-// ✅ Export live Express app instance
-
-// ✅ Reflections API Endpoints (final placement)
-
-console.log("<0001fb13> Mounted reflections endpoints globally before export");
-
-export default app;
-
-console.log("🧭 Registering reflection endpoints...");
+// ✅ Mount dashboard routes
 app.use("/", dashboardRoutes);
+console.log("<0001fb1b> dashboardRoutes mounted at /");
+
+// ✅ Print all active endpoints
+console.log("<0001fb1b> Registered Express endpoints:");
+console.log(listEndpoints(app));
+
+// ✅ Launch server
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => {
+  console.log(`🚀 Unified Express instance listening on http://localhost:${PORT}`);
+});
+
+// ✅ Export live app (for tests or other imports)
+export default app;
