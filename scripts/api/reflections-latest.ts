@@ -3,6 +3,7 @@ import { db } from "../../db/client";
 import { reflections } from "../../db/schema";
 
 export async function reflectionsLatestHandler(_req, res) {
+  console.log("🪞 reflectionsLatestHandler called");
   try {
     const [row] = await db.select({
       id: reflections.id,

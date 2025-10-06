@@ -3,6 +3,7 @@ import { db } from "../../db/client";
 import { reflections } from "../../db/schema";
 
 export async function reflectionsAllHandler(_req, res) {
+  console.log("🪞 reflectionsAllHandler called");
   try {
     const rows = await db.select({
       id: reflections.id,

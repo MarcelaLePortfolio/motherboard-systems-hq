@@ -80,6 +80,7 @@ function listRoutes(app) {
 // ✅ Export live Express app instance
 export default app;
 
+console.log("🧭 Registering reflection endpoints...");
 // ✅ Reflections API Endpoints
 import { reflectionsAllHandler } from "./scripts/api/reflections-all";
 import { reflectionsLatestHandler } from "./scripts/api/reflections-latest";
