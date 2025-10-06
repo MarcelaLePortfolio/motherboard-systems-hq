@@ -9,6 +9,11 @@ const app = express();
 app.use(express.json());
 
 // ✅ Serve static frontend files from top-level public/
+import { reflectionsAllHandler } from "./scripts/api/reflections-all";
+import { reflectionsLatestHandler } from "./scripts/api/reflections-latest";
+
+app.get("/api/reflections/all", (req, res) => reflectionsAllHandler(req, res));
+app.get("/api/reflections/latest", (req, res) => reflectionsLatestHandler(req, res));
 app.use(express.static(path.join(process.cwd(), "public")));
 
 app.get("/health", (_req, res) => res.json({ status: "ok" }));
