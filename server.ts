@@ -9,7 +9,7 @@ app.post("/matilda", async (req, res) => {
   try {
     const fetch = (await import("node-fetch")).default;
     if (typeof command === "string" && /^(dev|build|test|deploy):/i.test(command)) {
-      const { cadeCommandRouter } = await import("./scripts/agents/cade");
+  {      const { cadeCommandRouter } = await import("./scripts/agents/cade");
       const cadeResult = await cadeCommandRouter(command, {});
       return res.json({ reply: cadeResult.message, cadeResult });
     }
