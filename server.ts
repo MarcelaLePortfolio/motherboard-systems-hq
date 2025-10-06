@@ -114,10 +114,6 @@ function listRoutes(app) {
 }
 
 import { reflectionsRouter } from "./scripts/api/index";
-app.listen(process.env.PORT || 3001, () => {
-  console.log(`✅ Server listening on http://localhost:${process.env.PORT || 3001}`);
-  setTimeout(() => listRoutes(app), 250);
-});
 
 
 // <0001fad1> Export live Express app instance for launch-server.ts
