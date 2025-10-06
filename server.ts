@@ -6,6 +6,9 @@ import path from "path";
 const { matildaHandler } = matildaModule;
 
 const app = express();
+import { reflectionsRouter } from "./scripts/api/index";
+app.use("/api/reflections", reflectionsRouter);
+console.log("✅ Mounted reflections router right after app initialization");
 app.use(express.json());
 
 // ✅ Serve static frontend files from top-level public/
