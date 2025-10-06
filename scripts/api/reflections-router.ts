@@ -1,11 +1,16 @@
-// <0001fb18> Unified reflections router (final fix)
+// <0001fb1a> Reflections Router (safe inline imports to avoid timing issues)
 import express from "express";
-import { reflectionsAllHandler } from "./reflections-all";
-import { reflectionsLatestHandler } from "./reflections-latest";
 
 export const reflectionsRouter = express.Router();
 
-reflectionsRouter.get("/all", reflectionsAllHandler);
-reflectionsRouter.get("/latest", reflectionsLatestHandler);
+reflectionsRouter.get("/all", async (req, res) => {
+  const { reflectionsAllHandler } = await import("./reflections-all");
+  return reflectionsAllHandler(req, res);
+});
 
-console.log("<0001fb18> reflectionsRouter initialized successfully with endpoints /all and /latest");
+reflectionsRouter.get("/latest", async (req, res) => {
+  const { reflectionsLatestHandler } = await import("./reflections-latest");
+  return reflectionsLatestHandler(req, res);
+});
+
+console.log("<0001fb1a> reflectionsRouter safely initialized with lazy handler imports");
