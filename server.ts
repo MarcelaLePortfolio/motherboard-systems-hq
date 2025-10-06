@@ -9,30 +9,21 @@ const app = express();
 import { reflectionsAllHandler } from "./scripts/api/reflections-all";
 import { reflectionsLatestHandler } from "./scripts/api/reflections-latest";
 
-app.get("/api/reflections/all", (req, res) => {
-  console.log("📡 Direct hit → /api/reflections/all");
-  return reflectionsAllHandler(req, res);
+app.get("/api/reflections/all", reflectionsAllHandler);
+app.get("/api/reflections/latest", reflectionsLatestHandler);
+
+console.log("✅ Reflections endpoints mounted globally at /api/reflections/*");
+
 });
 
-app.get("/api/reflections/latest", (req, res) => {
-  console.log("📡 Direct hit → /api/reflections/latest");
-  return reflectionsLatestHandler(req, res);
 });
 
 console.log("✅ Reflections endpoints registered first");
-import { reflectionsRouter } from "./scripts/api/index";
-app.use("/api/reflections", reflectionsRouter);
 console.log("✅ Mounted reflections router right after app initialization");
 app.use(express.json());
 
 // ✅ Serve static frontend files from top-level public/
 
-import { reflectionsRouter } from "./scripts/api/index";
-import { reflectionsRouter } from "./scripts/api/index";
-import { reflectionsRouter } from "./scripts/api/index";
-import { reflectionsRouter } from "./scripts/api/index";
-app.use("/api/reflections", reflectionsRouter);
-console.log("🧩 ReflectionsRouter stack:", reflectionsRouter.stack?.map(r => r.route?.path));
 console.log("✅ Reflections router mounted successfully before static and dashboard routes");
 // app.use(express.static(path.join(process.cwd(), "public")));
 
@@ -123,7 +114,6 @@ function listRoutes(app) {
   console.log("🧭 Registered routes:", routes);
 }
 
-import { reflectionsRouter } from "./scripts/api/index";
 
 
 // <0001fad1> Export live Express app instance for launch-server.ts
@@ -147,17 +137,9 @@ setTimeout(() => {
 }, 500);
 
 // <0001fad6> Final Fallback – Direct reflections endpoints (bypass router)
-import { reflectionsAllHandler } from "./scripts/api/reflections-all";
-import { reflectionsLatestHandler } from "./scripts/api/reflections-latest";
 
-app.get("/api/reflections/all", (req, res) => {
-  console.log("📡 Direct hit → /api/reflections/all");
-  return reflectionsAllHandler(req, res);
 });
 
-app.get("/api/reflections/latest", (req, res) => {
-  console.log("📡 Direct hit → /api/reflections/latest");
-  return reflectionsLatestHandler(req, res);
 });
 
 console.log("✅ Direct reflections endpoints registered successfully");
