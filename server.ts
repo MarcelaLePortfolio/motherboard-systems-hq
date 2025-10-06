@@ -35,6 +35,9 @@ app.post("/matilda", async (req, res) => {
     console.error("Matilda Ollama error:", err);
     return res.status(500).json({ error: String(err), message: "Sorry, I had a moment there — want to try again?" });
 // ✅ Mount backend dashboard API routes
+app.get("/api/reflections/all", reflectionsAllHandler);
+app.get("/api/reflections/latest", reflectionsLatestHandler);
+console.log("<0001fb0d> Mounted reflections endpoints before dashboard routes");
 app.use("/", dashboardRoutes);
 
 // ✅ Shortcut: /dashboard → dashboard.html
