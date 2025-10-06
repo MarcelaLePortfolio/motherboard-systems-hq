@@ -1,19 +1,8 @@
-// 🧠 Cade Self-Reflection Engine – Finalized SQL.js Direct Insert
+// 🧠 Cade Self-Reflection Engine – Phase 4
 import { dbPromise } from "../../db/client";
 import { task_events } from "../../db/audit";
-import crypto from "crypto";
-
-function safeUUID(): string {
-  try {
-    const id = crypto.randomUUID?.();
-    if (id && typeof id === "string") return id;
-  } catch {}
-  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, c => {
-    const r = Math.random() * 16 | 0;
-    const v = c === "x" ? r : (r & 0x3) | 0x8;
-    return v.toString(16);
-  });
-}
+import { v4 as uuidv4 } from "uuid";
+import fs from "fs";
 
 export async function reflect() {
   const db = await dbPromise;
@@ -30,26 +19,17 @@ export async function reflect() {
   };
 
   const reflection = {
-    id: safeUUID(),
+    id: uuidv4(),
     created_at: new Date().toISOString(),
     summary: JSON.stringify(summary)
   };
 
-  console.log("<0001f9e9> Prepared Reflection:", reflection);
+  db.run(
+    "INSERT INTO reflections (id, created_at, summary) VALUES (?, ?, ?)",
+    [reflection.id, reflection.created_at, reflection.summary]
+  );
 
-  try {
-    // Access raw SQL.js database and run insert manually
-    const client = (db as any).session.client;
-    client.run(
-      "INSERT INTO reflections (id, created_at, summary) VALUES (?, ?, ?)",
-      [reflection.id, reflection.created_at, reflection.summary]
-    );
-
-    console.log("<0001f9e0> Cade reflected:", summary);
-  } catch (err) {
-    console.error("❌ Reflection insert failed:", err);
-  }
-
+  console.log("🧠 Cade reflected:", summary);
   return summary;
 }
 

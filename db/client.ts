@@ -1,29 +1,62 @@
 import initSqlJs from "sql.js";
-import fs from "fs";
-import path from "path";
 import { drizzle } from "drizzle-orm/sql-js";
+import fs from "fs";
 
-const dbPath = path.resolve("db/local.sqlite");
+export let persistToDisk: () => void;
 
 export const dbPromise = (async () => {
-  const SQL = await initSqlJs();
-  const exists = fs.existsSync(dbPath);
-  const fileBuffer = exists ? fs.readFileSync(dbPath) : null;
-  const sqlJsDB = fileBuffer ? new SQL.Database(fileBuffer) : new SQL.Database();
+  try {
+    const SQL = await initSqlJs({
+      locateFile: (file: string) => `node_modules/sql.js/dist/${file}`,
+    });
 
-  console.log(
-    exists
-      ? "📂 Loaded existing db/local.sqlite database"
-      : "🆕 Created new db/local.sqlite database"
-  );
+    const dbPath = "db/local.sqlite";
+    let sqlite;
 
-  // Persist database on exit
-  process.on("exit", () => {
-    const data = sqlJsDB.export();
-    fs.writeFileSync(dbPath, Buffer.from(data));
-  });
+    if (fs.existsSync(dbPath)) {
+      const fileBuffer = fs.readFileSync(dbPath);
+      sqlite = new SQL.Database(fileBuffer);
+      console.log("📂 Loaded existing local.sqlite database");
+    } else {
+      sqlite = new SQL.Database();
+      console.log("🆕 Created new in-memory database");
+    }
 
-  // Wrap SQL.js database in Drizzle ORM
-  const db = drizzle(sqlJsDB);
-  return db;
+    sqlite.run(`
+      CREATE TABLE IF NOT EXISTS task_events (
+        id TEXT PRIMARY KEY NOT NULL,
+        task_id TEXT,
+        type TEXT,
+        status TEXT,
+        actor TEXT,
+        payload TEXT,
+        result TEXT,
+        file_hash TEXT,
+        created_at TEXT
+      );
+    `);
+
+    sqlite.run(`
+      CREATE TABLE IF NOT EXISTS skills (
+        id TEXT PRIMARY KEY NOT NULL,
+        name TEXT,
+        description TEXT,
+        code TEXT,
+        created_at TEXT
+      );
+    `);
+
+    // ✅ Exported persistence helper
+    persistToDisk = () => {
+      const data = sqlite.export();
+      fs.writeFileSync(dbPath, Buffer.from(data));
+    };
+
+    const dbInstance = drizzle(sqlite);
+    console.log("✅ Using sql.js (pure JS / persistent build)");
+    return dbInstance;
+  } catch (err) {
+    console.error("❌ Failed to initialize sql.js:", err);
+    process.exit(1);
+  }
 })();
