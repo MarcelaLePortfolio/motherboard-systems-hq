@@ -76,3 +76,6 @@ function listRoutes(app) {
 }
 }
 )
+
+// ✅ Export live Express app instance
+export default app;
