@@ -29,6 +29,7 @@
     "drizzle-kit": "^0.31.5",
     "drizzle-orm": "^0.44.6",
     "express": "^5.1.0",
+    "express-list-endpoints": "^7.1.1",
     "is-odd": "^3.0.1",
     "nanoid": "^3.3.11",
     "next": "^15.4.6",

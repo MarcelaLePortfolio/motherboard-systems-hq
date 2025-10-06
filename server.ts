@@ -1,3 +1,4 @@
+import reflectionsRouter from "./scripts/api/reflections-router";
 // <0001fb1b> Canonical Express app initialization – reflections + dashboard fixed
 import express from "express";
 import path from "path";
@@ -15,6 +16,8 @@ app.use(express.urlencoded({ extended: true }));
 // ✅ Mount reflections first
 app.use("/api/reflections", reflectionsRouter);
 console.log("<0001fb1b> reflectionsRouter mounted at /api/reflections");
+console.log("<0001fb22> app._router?.stack length after mount:", app._router?.stack?.length);
+console.log("<0001fb22> reflectionsRouter stack length at mount:", reflectionsRouter.stack?.length);
 console.log("<0001fb21> typeof reflectionsRouter:", typeof reflectionsRouter);
 console.log("<0001fb21> reflectionsRouter keys:", Object.keys(reflectionsRouter));
 
