@@ -27,6 +27,7 @@ app.post("/matilda", async (req, res) => {
     });
     const data = await response.json();
     const reply = data?.message?.content || "…";
+  }
     return res.json({ reply, message: reply });
   } catch (err) {
     console.error("Matilda Ollama error:", err);
