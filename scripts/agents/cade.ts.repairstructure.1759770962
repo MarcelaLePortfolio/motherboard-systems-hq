@@ -1,0 +1,86 @@
+import { mockTasks, mockLogs } from "../routes/dashboard";
+import { nanoid } from "nanoid";
+import { runShell } from "../utils/runShell";
+
+export async function cadeCommandRouter(command: string, payload?: any) {
+  let result: any;
+
+  try {
+    switch (command) {
+      case "dev:clean": {
+        const output = await runShell("scripts/dev-clean.sh");
+        console.log("🧹 dev:clean full output:", output);
+        result = { status: "success", message: "Clean build complete" };
+        break;
+      }
+
+      case "dev:fresh": {
+        const output = await runShell("scripts/dev-fresh.sh");
+        console.log("🚀 dev:fresh full output:", output);
+        result = { status: "success", message: "Fresh build complete" };
+        break;
+      }
+
+      case "chat": {
+        const message = payload?.message || "";
+        result = {
+          status: "success",
+          message: `Matilda heard: ${message}`
+        };
+        break;
+      }
+
+      // <0001f9e0> Cade doesn’t know this one — dynamic skill fallback via Ollama
+      try {
+        const { ollamaPlan } = await import("../utils/ollamaPlan");
+        const { runSkill } = await import("../utils/runSkill");
+        const safePayload = payload || {}; 
+        const plan = await ollamaPlan(command, safePayload);
+        if (plan?.action) result = await runSkill(plan);
+        else result = { status: 'error', message: `Unknown command: ${command}` };
+      } catch (err) {
+        console.error("❌ Ollama delegation failed:", err);
+        result = { status: 'error', message: 'Ollama delegation failed' };
+      }
+      break;
+        result = {
+          status: "error",
+          message: `Unknown command: ${command}`
+        };
+      }
+    }
+
+    // ✅ Update dashboard mocks on success
+    } // <0001f9e9> properly close Ollama inner try block
+    mockTasks.push({
+      id: payload?.id || nanoid(),
+      command,
+      status: "success",
+      ts: new Date().toISOString()
+    });
+    mockLogs.push({
+      id: nanoid(),
+      reflection: result?.message || command,
+      ts: new Date().toISOString()
+    });
+
+    return result;
+  } catch (err: any) {
+    // ❌ Update dashboard mocks on failure
+    mockTasks.push({
+      id: payload?.id || nanoid(),
+      command,
+      status: "failed",
+      ts: new Date().toISOString()
+    });
+    mockLogs.push({
+      id: nanoid(),
+      reflection: `❌ ${command} failed: ${err?.message || String(err)}`,
+      ts: new Date().toISOString()
+    });
+
+    return { status: "error", message: err?.message || String(err) };
+  }
+}
+  // <0001f9ea> final close for Cade main function
+}

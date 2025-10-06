@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>🖥️ Motherboard Systems</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; background: #f7f7f7; }
+    h1 { color: #333; }
+
+    .card { background: #fff; padding: 15px; margin-bottom: 20px;
+            border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+
+    /* Chat styles */
+    .chat-window { height: 250px; overflow-y: auto; padding: 10px; border: 1px solid #ddd;
+                   border-radius: 6px; background: #fafafa; margin-bottom: 10px; }
+    .chat-message { margin: 5px 0; max-width: 70%; padding: 8px 12px;
+                    border-radius: 12px; word-wrap: break-word; }
+    .chat-user { background: #d1e7ff; margin-left: auto; text-align: right; }
+    .chat-matilda { background: #f1f1f1; margin-right: auto; text-align: left; }
+    .chat-time { font-size: 0.75em; color: #666; margin-top: 2px; }
+    .chat-input { display: flex; gap: 8px; }
+    .chat-input input { flex: 1; padding: 8px; }
+    .chat-input button { padding: 8px 12px; }
+
+    .chat-message pre {
+      max-height: 150px; overflow-y: auto; white-space: pre-wrap;
+      background: #f4f4f4; padding: 6px; border-radius: 6px; margin-top: 4px;
+    }
+
+    /* --- Polishing styles --- */
+    .card{background:#fff;padding:16px;margin:16px 0;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.08);}
+    #agents,#tasks,#logs{width:100%;border-collapse:collapse;}
+    #agents th,#agents td,#tasks th,#tasks td,#logs th,#logs td{border:1px solid #eee;padding:8px 10px;text-align:left;}
+    #agents tr:nth-child(even),#tasks tr:nth-child(even),#logs tr:nth-child(even){background:#fafafa;}
+    #agents:empty::before,#tasks:empty::before,#logs:empty::before{content:"No data";display:block;color:#777;padding:8px 0;}
+    .status-online{color:#2e7d32;font-weight:600;}
+    .status-offline{color:#c62828;font-weight:600;}
+    .status-idle{color:#8d6e63;font-weight:600;}
+    .badge{padding:2px 6px;border-radius:6px;font-size:.8em;font-weight:600;display:inline-block;}
+    .badge-online{background:#e5f5e0;color:#2e7d32;}
+    .badge-offline{background:#ffebee;color:#c62828;}
+    .badge-idle{background:#fff8e1;color:#8d6e63;}
+    .timestamp{font-size:.8em;color:#666;}
+    .task-item,.log-item{margin-bottom:8px;padding:6px 8px;border-bottom:1px solid #eee;}
+  </style>
+</head>
+<body>
+  <h1>🖥️ Motherboard Systems</h1>
+
+  <div id="debugBanner" style="background:#e6f7ff; border:1px solid #91d5ff; padding:8px; margin:10px 0; border-radius:6px; color:#0050b3; font-size:0.9em;">
+    ⚡ Dashboard v2.0.0 loaded — waiting for scripts…
+  </div>
+
+  <!-- Chatbot -->
+  <div class="card">
+    <div id="chatWindow" class="chat-window"></div>
+    <form id="chatForm" class="chat-input">
+      <input id="chatInput" placeholder="Type a message..." />
+      <button type="submit">Send</button>
+    </form>
+  </div>
+
+  <!-- Agent Status -->
+  <div class="card">
+    <h2>Agent Status</h2>
+    <table id="agents"></table>
+  </div>
+
+  <!-- Recent Tasks -->
+  <div class="card">
+    <h2>Recent Tasks</h2>
+    <table id="tasks"></table>
+  </div>
+
+  <!-- Recent Logs -->
+  <div class="card">
+    <h2>Recent Logs</h2>
+    <table id="logs"></table>
+  </div>
+
+  <script src="dashboard.js?v=1.2.0" defer></script>
+
+  <script>
+  async function refreshTasks() {
+    try {
+      const res = await fetch("/tasks/recent");
+      const tasks = await res.json();
+      const table = document.getElementById("tasks");
+
+      if (!tasks.length) {
+        table.innerHTML = "<tr><td colspan='3'>No tasks yet</td></tr>";
+        return;
+      }
+
+      table.innerHTML = `
+        <tr><th>Time</th><th>Command</th><th>Status</th></tr>
+        ${tasks.map(t =>
+          `<tr>
+            <td>${new Date(t.ts).toLocaleTimeString()}</td>
+            <td>${t.command}</td>
+            <td>${t.status}</td>
+          </tr>`
+        ).join("")}
+      `;
+    } catch (err) {
+      console.error("❌ Failed to fetch tasks", err);
+    }
+  }
+
+  async function refreshLogs() {
+    try {
+      const res = await fetch("/logs/recent");
+      const logs = await res.json();
+      const table = document.getElementById("logs");
+
+      if (!logs.length) {
+        table.innerHTML = "<tr><td colspan='2'>No logs yet</td></tr>";
+        return;
+      }
+
+      table.innerHTML = `
+        <tr><th>Time</th><th>Event</th></tr>
+        ${logs.map(l =>
+          `<tr>
+            <td>${new Date(l.ts).toLocaleTimeString()}</td>
+            <td>${l.reflection}</td>
+          </tr>`
+        ).join("")}
+      `;
+    } catch (err) {
+      console.error("❌ Failed to fetch logs", err);
+    }
+  }
+
+  // Auto-refresh every 3s
+  setInterval(() => {
+    refreshTasks();
+    refreshLogs();
+  }, 3000);
+
+  // Initial load
+  refreshTasks();
+  refreshLogs();
+  </script>
+</body>
+</html>
