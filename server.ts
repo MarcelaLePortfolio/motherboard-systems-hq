@@ -35,14 +35,6 @@ app.post("/matilda", async (req, res) => {
     console.error("Matilda Ollama error:", err);
     return res.status(500).json({ error: String(err), message: "Sorry, I had a moment there — want to try again?" });
 // ✅ Mount backend dashboard API routes
-app.get("/api/reflections/all", reflectionsAllHandler);
-app.get("/api/reflections/latest", reflectionsLatestHandler);
-console.log("<0001fb0d> Mounted reflections endpoints before dashboard routes");
-  import { reflectionsAllHandler } from "./scripts/api/reflections-all";
-  import { reflectionsLatestHandler } from "./scripts/api/reflections-latest";
-  app.get("/api/reflections/all", reflectionsAllHandler);
-  app.get("/api/reflections/latest", reflectionsLatestHandler);
-  console.log("<0001fb12> Mounted reflections endpoints inside main initialization block");
 app.use("/", dashboardRoutes);
 
 // ✅ Shortcut: /dashboard → dashboard.html
@@ -86,6 +78,15 @@ function listRoutes(app) {
 )
 
 // ✅ Export live Express app instance
+
+// ✅ Reflections API Endpoints (final placement)
+import { reflectionsAllHandler } from "./scripts/api/reflections-all";
+import { reflectionsLatestHandler } from "./scripts/api/reflections-latest";
+
+app.get("/api/reflections/all", reflectionsAllHandler);
+app.get("/api/reflections/latest", reflectionsLatestHandler);
+console.log("<0001fb13> Mounted reflections endpoints globally before export");
+
 export default app;
 
 console.log("🧭 Registering reflection endpoints...");
