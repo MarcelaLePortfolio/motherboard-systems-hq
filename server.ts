@@ -3,6 +3,9 @@ import * as matildaModule from "./scripts/agents/matilda-handler";
 import { dashboardRoutes } from "./scripts/routes/dashboard";
 import path from "path";
 const app = express();
+import { reflectionsRouter } from "./scripts/api/reflections-router";
+app.use("/api/reflections", reflectionsRouter);
+console.log("<0001fb15> reflectionsRouter mounted early at /api/reflections");
 
 app.post("/matilda", async (req, res) => {
   const command = req.body?.command;
@@ -35,9 +38,6 @@ app.post("/matilda", async (req, res) => {
     console.error("Matilda Ollama error:", err);
     return res.status(500).json({ error: String(err), message: "Sorry, I had a moment there — want to try again?" });
 // ✅ Mount backend dashboard API routes
-import { reflectionsRouter } from "./scripts/api/reflections-router";
-app.use("/api/reflections", reflectionsRouter);
-console.log("<0001fb14> reflectionsRouter mounted at /api/reflections");
 app.use("/", dashboardRoutes);
 
 // ✅ Shortcut: /dashboard → dashboard.html
