@@ -96,8 +96,6 @@ app.use("/", dashboardRoutes);
 
 // ✅ Shortcut: /dashboard → dashboard.html
 // app.get("/dashboard", (_req, res) => { res.sendFile(path.join(process.cwd(), "public", "dashboard.html")); });
-  res.sendFile(path.join(process.cwd(), "public", "dashboard.html"));
-
 const PORT = process.env.PORT || 3001;
 
   console.log(`✅ Server listening on http://localhost:${PORT}`);
