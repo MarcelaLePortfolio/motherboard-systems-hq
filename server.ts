@@ -15,6 +15,7 @@ import { reflectionsRouter } from "./scripts/api/index";
 import { reflectionsRouter } from "./scripts/api/index";
 import { reflectionsRouter } from "./scripts/api/index";
 app.use("/api/reflections", reflectionsRouter);
+console.log("🧩 ReflectionsRouter stack:", reflectionsRouter.stack?.map(r => r.route?.path));
 console.log("✅ Reflections router mounted successfully before static and dashboard routes");
 app.use(express.static(path.join(process.cwd(), "public")));
 
