@@ -14,6 +14,8 @@ import { reflectionsLatestHandler } from "./scripts/api/reflections-latest";
 
 app.get("/api/reflections/all", (req, res) => reflectionsAllHandler(req, res));
 app.get("/api/reflections/latest", (req, res) => reflectionsLatestHandler(req, res));
+import { reflectionsRouter } from "./scripts/api/index";
+app.use("/api/reflections", reflectionsRouter);
 app.use(express.static(path.join(process.cwd(), "public")));
 
 app.get("/health", (_req, res) => res.json({ status: "ok" }));
