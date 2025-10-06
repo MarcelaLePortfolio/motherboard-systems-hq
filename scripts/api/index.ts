@@ -1,8 +1,12 @@
-// <0001faba> Express router for reflections API
+// <0001fabc> Express router for reflections API (CommonJS-safe loader)
 import express from "express";
-import { reflectionsAllHandler } from "./reflections-all";
-import { reflectionsLatestHandler } from "./reflections-latest";
 
 export const reflectionsRouter = express.Router();
-reflectionsRouter.get("/all", reflectionsAllHandler);
-reflectionsRouter.get("/latest", reflectionsLatestHandler);
+
+(async () => {
+  const { reflectionsAllHandler } = await import("./reflections-all.js").catch(() => require("./reflections-all"));
+  const { reflectionsLatestHandler } = await import("./reflections-latest.js").catch(() => require("./reflections-latest"));
+
+  reflectionsRouter.get("/all", (req, res) => reflectionsAllHandler(req, res));
+  reflectionsRouter.get("/latest", (req, res) => reflectionsLatestHandler(req, res));
+})();
