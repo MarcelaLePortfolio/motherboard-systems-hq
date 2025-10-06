@@ -1,7 +1,7 @@
 // <0001fb1b> Canonical Express app initialization – reflections + dashboard fixed
 import express from "express";
 import path from "path";
-import dashboardRoutes from "./scripts/dashboard/routes";
+import dashboardRoutes from "./scripts/routes/dashboard";
 import { reflectionsRouter } from "./scripts/api/reflections-router";
 import listEndpoints from "express-list-endpoints";
 
