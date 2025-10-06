@@ -1,9 +1,8 @@
-// <0001faae> API Route – /api/reflections/latest
-// Returns Cade's most recent reflection record from db/local.sqlite
+// <0001fab8> CommonJS-compatible reflections-latest handler
 
 import { dbPromise } from "../../db/client";
 
-export default async function handler(req, res) {
+export async function reflectionsLatestHandler(req, res) {
   try {
     const db = await dbPromise;
     const result = db

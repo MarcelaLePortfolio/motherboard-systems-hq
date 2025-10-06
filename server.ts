@@ -75,8 +75,8 @@ app.get("/dashboard", (_req, res) => {
 });
 
 const PORT = process.env.PORT || 3001;
-import reflectionsAllHandler from "./scripts/api/reflections-all";
-import reflectionsLatestHandler from "./scripts/api/reflections-latest";
+import { reflectionsAllHandler } from "./scripts/api/reflections-all";
+import { reflectionsLatestHandler } from "./scripts/api/reflections-latest";
 
 app.get("/api/reflections/all", (req, res) => reflectionsAllHandler(req, res));
 app.get("/api/reflections/latest", (req, res) => reflectionsLatestHandler(req, res));
@@ -86,8 +86,8 @@ app.listen(PORT, () => {
 });
 
 // <0001fab4> Phase 4 Step 3 – Mount Reflection API routes
-import reflectionsAllHandler from "./scripts/api/reflections-all";
-import reflectionsLatestHandler from "./scripts/api/reflections-latest";
+import { reflectionsAllHandler } from "./scripts/api/reflections-all";
+import { reflectionsLatestHandler } from "./scripts/api/reflections-latest";
 
 app.get("/api/reflections/all", (req, res) => reflectionsAllHandler(req, res));
 app.get("/api/reflections/latest", (req, res) => reflectionsLatestHandler(req, res));

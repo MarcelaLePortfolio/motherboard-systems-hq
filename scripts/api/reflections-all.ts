@@ -1,9 +1,8 @@
-// <0001fab1> API Route – /api/reflections/all
-// Returns the complete history of Cade's reflections from db/local.sqlite
+// <0001fab7> CommonJS-compatible reflections-all handler
 
 import { dbPromise } from "../../db/client";
 
-export default async function handler(req, res) {
+export async function reflectionsAllHandler(req, res) {
   try {
     const db = await dbPromise;
     const results = db
