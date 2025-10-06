@@ -32,11 +32,11 @@ app.post("/matilda", async (req, res) => {
   } catch (err) {
     console.error("Matilda Ollama error:", err);
     return res.status(500).json({ error: String(err), message: "Sorry, I had a moment there — want to try again?" });
-  }
 });
     console.error("Matilda Ollama error:", err);
     return res.status(500).json({ error: String(err), message: "Sorry, I had a moment there — want to try again?" });
 // ✅ Mount backend dashboard API routes
+});
 app.use("/", dashboardRoutes);
 
 // ✅ Shortcut: /dashboard → dashboard.html
