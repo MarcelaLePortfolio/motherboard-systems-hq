@@ -38,7 +38,6 @@ app.post("/matilda", async (req, res) => {
     console.error("Matilda Ollama error:", err);
     return res.status(500).json({ error: String(err), message: "Sorry, I had a moment there — want to try again?" });
 // ✅ Mount backend dashboard API routes
-app.use("/", dashboardRoutes);
 
 // ✅ Shortcut: /dashboard → dashboard.html
 // app.get("/dashboard", (_req, res) => { res.sendFile(path.join(process.cwd(), "public", "dashboard.html")); });
@@ -89,3 +88,4 @@ console.log("<0001fb13> Mounted reflections endpoints globally before export");
 export default app;
 
 console.log("🧭 Registering reflection endpoints...");
+app.use("/", dashboardRoutes);
