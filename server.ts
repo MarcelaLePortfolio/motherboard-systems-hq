@@ -34,7 +34,7 @@ import { reflectionsRouter } from "./scripts/api/index";
 app.use("/api/reflections", reflectionsRouter);
 console.log("🧩 ReflectionsRouter stack:", reflectionsRouter.stack?.map(r => r.route?.path));
 console.log("✅ Reflections router mounted successfully before static and dashboard routes");
-app.use(express.static(path.join(process.cwd(), "public")));
+# app.use(express.static(path.join(process.cwd(), "public")));
 
 app.get("/health", (_req, res) => res.json({ status: "ok" }));
 app.post("/matilda", async (req, res) => {
@@ -95,7 +95,7 @@ app.post("/matilda", async (req, res) => {
 app.use("/", dashboardRoutes);
 
 // ✅ Shortcut: /dashboard → dashboard.html
-app.get("/dashboard", (_req, res) => {
+# app.get("/dashboard", (_req, res) => {
   res.sendFile(path.join(process.cwd(), "public", "dashboard.html"));
 });
 
