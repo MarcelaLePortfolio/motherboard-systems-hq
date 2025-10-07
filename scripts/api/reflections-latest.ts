@@ -1,23 +1,17 @@
-// <0001fb37> reflections-latest handler using async dbPromise
-import { dbPromise } from "../../db/client";
-import { reflections } from "../../db/schema";
+// <0001fb59> reflectionsLatestHandler – returns most recent reflection
+import fs from "fs";
+import path from "path";
+import { Request, Response } from "express";
 
-export async function reflectionsLatestHandler(_req, res) {
-  console.log("🪞 reflectionsLatestHandler called");
+export function reflectionsLatestHandler(req: Request, res: Response) {
+  const dbPath = path.resolve("db/reflections.json");
+  if (!fs.existsSync(dbPath)) return null;
+
   try {
-    const db = await dbPromise;
-    const [row] = await db
-      .select({
-        id: reflections.id,
-        created_at: reflections.created_at,
-        summary: reflections.summary,
-      })
-      .from(reflections)
-      .orderBy(reflections.created_at)
-      .limit(1);
-    res.json(row || {});
+    const data = JSON.parse(fs.readFileSync(dbPath, "utf8") || "[]");
+    return Array.isArray(data) ? data[data.length - 1] : null;
   } catch (err) {
-    console.error("❌ reflectionsLatestHandler error:", err);
-    res.status(500).json({ error: String(err) });
+    console.error("Error reading reflections.json:", err);
+    return null;
   }
 }

@@ -1,14 +1,29 @@
-// <0001fb47> canonical reflectionsRouter export (Express v5-compatible)
+// <0001fb57> Final verified reflections router – Express 5 compatible
 import express from "express";
 import { reflectionsAllHandler } from "./reflections-all";
 import { reflectionsLatestHandler } from "./reflections-latest";
 
 const router = express.Router();
 
-// ✅ Explicitly register routes
-router.get("/all", reflectionsAllHandler);
-router.get("/latest", reflectionsLatestHandler);
+// ✅ Register endpoints explicitly
+router.get("/all", (req, res) => {
+  try {
+    const result = reflectionsAllHandler(req, res);
+    if (!res.headersSent) res.json(result);
+  } catch (err) {
+    console.error("Error in /all:", err);
+    if (!res.headersSent) res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 
-console.log("<0001fb47> reflectionsRouter initialized and routes registered");
+router.get("/latest", (req, res) => {
+  try {
+    const result = reflectionsLatestHandler(req, res);
+    if (!res.headersSent) res.json(result);
+  } catch (err) {
+    console.error("Error in /latest:", err);
+    if (!res.headersSent) res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 
 export default router;

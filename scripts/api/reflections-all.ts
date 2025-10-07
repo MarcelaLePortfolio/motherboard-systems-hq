@@ -1,22 +1,17 @@
-// <0001fb36> reflections-all handler using async dbPromise
-import { dbPromise } from "../../db/client";
-import { reflections } from "../../db/schema";
+// <0001fb58> reflectionsAllHandler – returns full reflection list
+import fs from "fs";
+import path from "path";
+import { Request, Response } from "express";
 
-export async function reflectionsAllHandler(_req, res) {
-  console.log("🪞 reflectionsAllHandler called");
+export function reflectionsAllHandler(req: Request, res: Response) {
+  const dbPath = path.resolve("db/reflections.json");
+  if (!fs.existsSync(dbPath)) return [];
+
   try {
-    const db = await dbPromise;
-    const rows = await db
-      .select({
-        id: reflections.id,
-        created_at: reflections.created_at,
-        summary: reflections.summary,
-      })
-      .from(reflections)
-      .orderBy(reflections.created_at);
-    res.json(rows);
+    const data = JSON.parse(fs.readFileSync(dbPath, "utf8") || "[]");
+    return data;
   } catch (err) {
-    console.error("❌ reflectionsAllHandler error:", err);
-    res.status(500).json({ error: String(err) });
+    console.error("Error reading reflections.json:", err);
+    return [];
   }
 }
