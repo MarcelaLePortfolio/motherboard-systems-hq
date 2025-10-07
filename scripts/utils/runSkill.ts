@@ -1,71 +1,38 @@
-import { dbPromise } from "../../db/client";
-import { task_events } from "../../db/audit";
+// <0001fbD4> runSkill – unified dynamic skill executor with alias mapping
 import fs from "fs";
 import path from "path";
-import { v4 as uuidv4 } from "uuid";
+import crypto from "crypto";
 
-/**
- * runSkill.ts
- * Executes a dynamic local skill and records it in the DB.
- */
-
-export async function runSkill(action: string, payload: any) {
-  const db = await dbPromise;
-  const id = uuidv4();
-  const created_at = new Date().toISOString();
-
+export async function runSkill(action: string, params: any = {}) {
   try {
-    let result: any;
+    const aliases: Record<string, string> = {
+      "file.create": "write to file",
+      "file.write": "write to file",
+      "create file": "write to file",
+    };
+    const normalized = aliases[action] || action;
+    let result = "";
 
-    switch (action) {
-      case "mkdir": {
-        fs.mkdirSync(path.resolve(payload.path), { recursive: true });
-        result = `📁 Created directory: ${payload.path}`;
+    switch (normalized) {
+      case "write to file": {
+        const filePath = params.path || params.filename || "output.txt";
+        const content = params.content || "";
+        fs.writeFileSync(path.resolve(filePath), content, "utf8");
+        const hash = crypto
+          .createHash("sha256")
+          .update(content)
+          .digest("hex")
+          .slice(0, 8);
+        result = `📝 File "${filePath}" created (hash ${hash})`;
         break;
       }
-      case "writeFile": {
-        fs.writeFileSync(path.resolve(payload.path), payload.content, "utf8");
-        result = `✍️  Wrote file: ${payload.path}`;
-        break;
-      }
-      default: {
+
+      default:
         result = `🤷 Unknown skill: ${action}`;
-      }
     }
 
-    await db.insert(task_events).values({
-      id,
-      task_id: null,
-      type: action,
-      status: "success",
-      actor: "CadeDynamic",
-      payload: JSON.stringify(payload),
-      result: JSON.stringify(result),
-      file_hash: "",
-      created_at,
-    });
-
-    // ✅ Explicitly persist after Drizzle write
-
-    console.log(`✅ ${action} completed successfully.`);
     return { status: "success", result };
   } catch (err: any) {
-    const error = err?.message || String(err);
-
-    await db.insert(task_events).values({
-      id,
-      task_id: null,
-      type: action,
-      status: "error",
-      actor: "CadeDynamic",
-      payload: JSON.stringify(payload),
-      result: JSON.stringify(error),
-      file_hash: "",
-      created_at,
-    });
-
-
-    console.error(`❌ ${action} failed:`, error);
-    return { status: "error", result: error };
+    return { status: "error", result: `❌ ${err.message || String(err)}` };
   }
 }
