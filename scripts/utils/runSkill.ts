@@ -13,6 +13,10 @@ export async function runSkill(action: string, params: any = {}) {
       "file.create": "write to file",
       "file.write": "write to file",
       "create file": "write to file",
+      "dashboard.reorder": "dashboard.reorder_sections",
+      "status.layout": "dashboard.update_agent_status_layout",
+      "dashboard.move_agent_status": "dashboard.reorder_sections",
+      "status.layout": "dashboard.update_agent_status_layout",
     };
     const normalized = aliases[action] || action;
 
