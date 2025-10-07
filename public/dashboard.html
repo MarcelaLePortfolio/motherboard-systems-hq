@@ -57,7 +57,13 @@
 
   <!-- Agent Status -->
   <div class="card">
-    <h2>Agent Status</h2>
+    <h2>💬 Chat with Assistant</h2>
+  <div id="chatLog" style="height:200px; overflow-y:auto; border:1px solid #ccc; border-radius:8px; background:#f9f9f9; padding:1rem; margin-bottom:1rem;"></div>
+  <div class="chat-input" style="background:#fff0f0;border:2px solid red;padding:1rem;margin-top:1rem;display:flex;gap:0.5rem;">
+    <input type="text" id="userInput" placeholder="Type a message..." style="flex:1;padding:0.5rem;font-size:1rem;border:1px solid blue;" />
+    <button onclick="sendMessage()" style="padding:0.5rem 1rem;font-size:1rem;background:#ff0;">Send</button>
+  </div>
+<h2>Agent Status</h2>
     <table id="agents"></table>
   </div>
 
@@ -189,12 +195,7 @@
 
 <!-- 2. CHATBOT -->
 <section>
-  <h2>💬 Chat with Assistant</h2>
-  <div id="chatLog" style="height:200px; overflow-y:auto; border:1px solid #ccc; border-radius:8px; background:#f9f9f9; padding:1rem; margin-bottom:1rem;"></div>
-  <div class="chat-input" style="background:#fff0f0;border:2px solid red;padding:1rem;margin-top:1rem;display:flex;gap:0.5rem;">
-    <input type="text" id="userInput" placeholder="Type a message..." style="flex:1;padding:0.5rem;font-size:1rem;border:1px solid blue;" />
-    <button onclick="sendMessage()" style="padding:0.5rem 1rem;font-size:1rem;background:#ff0;">Send</button>
-  </div>
+  
   <script>
     function sendMessage() {
       const input = document.getElementById("userInput");
