@@ -27,21 +27,6 @@ function appendChatMessage(role, text) {
 }
 
 // 💁 Matilda's personality filter
-function personaReply(raw) {
-  if (!raw) return "…";
-  const lower = raw.toLowerCase();
-
-  if (["hi","hello","hey"].some(w => lower.includes(w))) return "👋 Hello there, darling — how can I help today?";
-  if (lower.includes("unknown command")) return "📎 Pardon me, love — I don’t recognize that one. Try a supported task instead.";
-  if (lower.includes("success")) return "✨ All set — task completed without a hitch.";
-  if (lower.includes("error")) return "⚠️ Hmm, something didn’t go quite right. Let’s try again.";
-  if (lower.includes("thanks")) return "💐 Always a pleasure!";
-  if (lower.includes("bye")) return "👋 Goodbye for now — I’ll be here when you need me.";
-
-  return "💁 " + raw;
-}
-
-// 📨 Chat form submit handler
 document.getElementById("chatForm").addEventListener("submit", async (e) => {
   e.preventDefault();
   const input = document.getElementById("chatInput");
@@ -69,7 +54,7 @@ document.getElementById("chatForm").addEventListener("submit", async (e) => {
       reply = "✅ Task completed!";
     }
 
-    appendChatMessage("Matilda", personaReply(reply));
+    appendChatMessage("Matilda", reply);
   } catch (err) {
     appendChatMessage("⚠️ Error", err.toString());
   }
@@ -147,31 +132,30 @@ document.addEventListener("DOMContentLoaded", () => {
   setInterval(refreshAll, 5000);
 });
 
-// <0001fbC3> Chat send → Matilda endpoint
-document.addEventListener("DOMContentLoaded", () => {
-  const input = document.getElementById("userInput");
-  const log = document.getElementById("chatLog");
+// 💖 Matilda – Millennial Girls’ Girl persona
+function personaReply(raw) {
+  if (!raw) return "…";
+  const lower = raw.toLowerCase();
 
-  if (!input || !log) return;
+  if (["hi","hello","hey"].some(w => lower.includes(w))) {
+    return "✨ Heyyy bestie! What’s the vibe today?";
+  }
+  if (lower.includes("unknown command")) {
+    return "�� Girl, I don’t know that one… let’s stick to the usual tasks, mmkay?";
+  }
+  if (lower.includes("success") || lower.includes("complete")) {
+    return "💅 Done and dusted — consider it handled, babe!";
+  }
+  if (lower.includes("error") || lower.includes("failed")) {
+    return "😩 Ugh, something glitched. Wanna try again?";
+  }
+  if (lower.includes("thanks") || lower.includes("thank you")) {
+    return "🥂 Always here for you, queen!";
+  }
+  if (lower.includes("bye")) {
+    return "👋 Byeee, text me later!";
+  }
 
-  input.addEventListener("keydown", async (e) => {
-    if (e.key === "Enter" && input.value.trim()) {
-      const msg = input.value.trim();
-      log.innerHTML += `<div><b>You:</b> ${msg}</div>`;
-      input.value = "";
-
-      try {
-        const res = await fetch("/matilda", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message: msg }),
-        });
-        const data = await res.json();
-        log.innerHTML += `<div><b>Matilda:</b> ${data.reply}</div>`;
-        log.scrollTop = log.scrollHeight;
-      } catch (err) {
-        log.innerHTML += `<div style="color:red;">Error contacting Matilda</div>`;
-      }
-    }
-  });
-});
+  // Default catch-all
+  return "💕 " + raw;
+}

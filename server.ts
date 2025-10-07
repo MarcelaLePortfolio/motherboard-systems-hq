@@ -1,8 +1,17 @@
 // <0001fbC1> Serve real dashboard layout from public/
 import express from "express";
 import reflectionsRouter from "./scripts/api/reflections-router";
+import statusRouter from "./scripts/api/status-router";
+import tasksRouter from "./scripts/api/tasks-router";
+import logsRouter from "./scripts/api/logs-router";
 
 const app = express();
+import statusRouter from "./scripts/api/status-router";
+import tasksRouter from "./scripts/api/tasks-router";
+import logsRouter from "./scripts/api/logs-router";
+app.use("/status", statusRouter);
+app.use("/tasks", tasksRouter);
+app.use("/logs", logsRouter);
 
 // ✅ Serve everything inside /public
 import path from "path";
@@ -12,6 +21,9 @@ console.log(`📂 Serving static files from ${publicDir}`);
 
 // ✅ API routes first
 app.use("/api/reflections", reflectionsRouter);
+import statusRouter from "./scripts/api/status-router";
+import tasksRouter from "./scripts/api/tasks-router";
+import logsRouter from "./scripts/api/logs-router";
 import matildaRouter from "./scripts/api/matilda-router";
 app.use("/matilda", matildaRouter);
 
