@@ -1,14 +1,14 @@
-// <0001fb7C> reflectionsRouter – final mount fix (adds /reflections prefix)
+// <0001fb7D> reflectionsRouter – final flatten (true /api/reflections/* JSON)
 import express from "express";
 import { reflectionsAllHandler } from "./reflections-all";
 import { reflectionsLatestHandler } from "./reflections-latest";
 
 const router = express.Router();
 
-// ✅ Define full route paths to avoid prefix confusion
-router.get("/reflections", (_req, res) => res.json({ ok: true, routes: ["/all", "/latest"] }));
-router.get("/reflections/all", reflectionsAllHandler);
-router.get("/reflections/latest", reflectionsLatestHandler);
+// ✅ Correct relative paths – final verified structure
+router.get("/", (_req, res) => res.json({ ok: true, routes: ["/all", "/latest"] }));
+router.get("/all", reflectionsAllHandler);
+router.get("/latest", reflectionsLatestHandler);
 
-console.log("<0001fb7C> reflectionsRouter mounted with explicit /reflections prefix");
+console.log("<0001fb7D> reflectionsRouter flattened for /api/reflections/*");
 export default router;
