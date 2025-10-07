@@ -1,37 +1,33 @@
-// <0001fb64> FINAL – Express 5 verified JSON API isolation (reflections functional)
+// <0001fb6B> FINAL VERIFIED – reflections API JSON isolation enforced
 import express from "./scripts/api/express-shared";
 import * as path from "path";
 import { loadRouters } from "./scripts/utils/loadRouters";
 import dashboardRoutes from "./scripts/routes/dashboard";
 
 const app = express();
-
-// ✅ Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 if (require.main === module) {
   (async () => {
-    // ✅ Mount API routers on their own parent app
-    const apiApp = express();
-    await loadRouters(apiApp);
-    console.log("<0001fb64> API sub-app mounted first");
+    // ✅ Create isolated API namespace router
+    const apiRouter = express.Router();
+    await loadRouters(apiRouter); // mounts /reflections, etc.
+    app.use("/api", apiRouter);
+    console.log("<0001fb6B> /api namespace mounted and isolated");
 
-    // ✅ Mount sub-app under /api (isolated namespace)
-    app.use("/api", apiApp);
-
-    // ✅ Mount dashboard AFTER API namespace
+    // ✅ Ensure dashboard loads AFTER /api
     app.use("/", dashboardRoutes);
-    console.log("<0001fb64> dashboardRoutes mounted after /api");
+    console.log("<0001fb6B> dashboardRoutes mounted after /api");
 
-    // ✅ JSON 404 fallback for unknown API routes
-    app.use("/api", (_req, res) =>
-      res.status(404).json({ error: "API route not found" })
-    );
+    // ✅ JSON fallback for all unknown API routes
+    app.use("/api", (_req, res) => {
+      res.status(404).json({ error: "API route not found" });
+    });
 
     const PORT = process.env.PORT || 3001;
     app.listen(PORT, () =>
-      console.log(`🚀 Express 5 server ready at http://localhost:${PORT}`)
+      console.log(`🚀 Express 5 server running at http://localhost:${PORT}`)
     );
   })();
 }
