@@ -1,59 +1,53 @@
-// <0001fbE2> runSkill – unified dynamic skill executor with learning + audit
 import fs from "fs";
 import path from "path";
-import crypto from "crypto";
-import cfg from "../config/cade.config";
-import { audit } from "./audit";
-import { ensureDynamicSkill, isAllowedToLearn } from "./learnSkill";
-import { runDynamicSkill } from "./loadDynamicSkill";
 
-export async function runSkill(action: string, params: any = {}) {
+type Ctx = { actor?: string };
+type RunFn = (params: any, ctx: Ctx) => Promise<string> | string;
+
+const skillsDir = path.join(process.cwd(), "scripts", "skills", "dynamic");
+const auditFile = path.resolve("db/audit.jsonl");
+
+function logEvent(event: string, payload: any = {}, status: "ok" | "error" = "ok", result?: any) {
+  const line = JSON.stringify({
+    ts: new Date().toISOString(),
+    event,
+    status,
+    payload,
+    result
+  });
+  fs.mkdirSync(path.dirname(auditFile), { recursive: true });
+  fs.appendFileSync(auditFile, line + "\n", "utf8");
+}
+
+function sanitizeName(name: string) {
+  if (!/^[a-zA-Z0-9._-]+$/.test(name)) throw new Error("Unsafe skill name.");
+  return name;
+}
+
+export async function runSkill(skillName: string, params: any = {}, ctx: Ctx = {}) {
+  const name = sanitizeName(skillName.replace(/\.ts$/, ""));
+  const fullPath = path.join(skillsDir, `${name}.ts`);
+
+  if (!fs.existsSync(fullPath)) {
+    logEvent("skill.error", { name, reason: "missing" }, "error");
+    throw new Error(`Skill not found: ${name}`);
+  }
+
+  logEvent("skill.exec.dynamic", { name, params, actor: ctx.actor ?? "matilda" });
+
+  const mod: { default?: RunFn } = await import(fullPath + `?t=${Date.now()}`);
+  const fn: RunFn | undefined = mod.default;
+  if (typeof fn !== "function") {
+    logEvent("skill.error", { name, reason: "no-default-export" }, "error");
+    throw new Error(`Skill ${name} has no default export run(params, ctx).`);
+  }
+
   try {
-    const aliases: Record<string, string> = {
-      "file.create": "write to file",
-      "file.write": "write to file",
-      "create file": "write to file",
-      "dashboard.reorder": "dashboard.reorder_sections",
-      "status.layout": "dashboard.update_agent_status_layout",
-      "dashboard.move_agent_status": "dashboard.reorder_sections",
-      "status.layout": "dashboard.update_agent_status_layout",
-    };
-    const normalized = aliases[action] || action;
-
-    // 1️⃣ Known direct skills
-    switch (normalized) {
-      case "write to file": {
-        const filePath = params.path || params.filename || "output.txt";
-        const content = params.content || "";
-        fs.writeFileSync(path.resolve(filePath), content, "utf8");
-        const hash = crypto.createHash("sha256").update(content).digest("hex").slice(0, 8);
-        const result = `📝 File "${filePath}" created (hash ${hash})`;
-        audit("skill.exec", { action: normalized, params, result });
-        return { status: "success", result };
-      }
-    }
-
-    // 2️⃣ Dynamic learning phase
-    if (!isAllowedToLearn(action)) {
-      const msg = `🤷 Unknown skill (blocked by policy): ${action}`;
-      audit("skill.blocked", { action, params, reason: "not allowed by prefix policy" });
-      return { status: "blocked", result: msg };
-    }
-
-    // 3️⃣ Auto-generate or execute existing skill
-    const skillFile = ensureDynamicSkill(action);
-
-    if (!cfg.autoApprove) {
-      const preview = await runDynamicSkill(action, params, { dryRun: true });
-      audit("skill.preview", { action, params, preview, file: skillFile });
-      return { status: "pending", result: `Preview:\n${preview}\n(approve to execute)` };
-    }
-
-    const result = await runDynamicSkill(action, params, { dryRun: false });
-    audit("skill.exec.dynamic", { action, params, result, file: skillFile });
-    return { status: "success", result: String(result) };
+    const result = await fn(params, ctx);
+    logEvent("skill.success", { name, params }, "ok", result);
+    return { status: "success", result };
   } catch (err: any) {
-    audit("skill.error", { action, params, error: err?.message || String(err) });
-    return { status: "error", result: `❌ ${err?.message || String(err)}` };
+    logEvent("skill.error", { name, params, error: err?.message ?? String(err) }, "error");
+    return { status: "error", error: err?.message ?? String(err) };
   }
 }

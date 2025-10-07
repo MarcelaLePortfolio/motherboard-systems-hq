@@ -1,29 +1,27 @@
-// <0001fbE0> ollamaPlan – enforces prefix naming for Cade-compatible actions
-import { execSync } from "child_process";
+export async function planSkillFromPrompt(prompt: string) {
+  const base = prompt
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "")
+    .slice(0, 40) || "generated-skill";
 
-export async function ollamaPlan(message: string) {
-  try {
-    const prompt = `
-You are Matilda, Cade’s planning assistant.
-Analyze the user's instruction and output ONLY one valid JSON object matching this schema:
+  const name = base;
+  const params = {};
 
-{
-  "action": "string",    // always start with file., dashboard., tasks., logs., or status.
-  "params": {}
+  const code = `import fs from "fs";
+import path from "path";
+
+/**
+ * Auto-generated dynamic skill from prompt:
+ * ${prompt.replace(/\*\//g, "*\\/")}
+ */
+export default async function run(params: any, ctx: { actor?: string }): Promise<string> {
+  const out = path.join(process.cwd(), "memory", "skills");
+  fs.mkdirSync(out, { recursive: true });
+  const marker = path.join(out, "${name}.log");
+  fs.appendFileSync(marker, \`[\${new Date().toISOString()}] run by \${ctx.actor ?? "unknown"} with \${JSON.stringify(params)}\\n\`);
+  return "✅ ${name} executed (scaffold).";
 }
-
-Ensure the "action" key follows Cade's naming rules (e.g., "file.create", "dashboard.refresh").
-Command: "${message}"
 `;
-    const output = execSync(`ollama run llama3:8b "${prompt}"`, { encoding: "utf8" });
-    const clean = output
-      .replace(/```json|```/g, "")
-      .replace(/^[^{]*({.*})[^}]*$/s, "$1")
-      .trim();
-    const json = JSON.parse(clean);
-    return json;
-  } catch (err: any) {
-    console.error("<0001fbE0> ❌ ollamaPlan parse error:", err);
-    return { action: "unknown", params: { message } };
-  }
+  return { name, params, code };
 }
