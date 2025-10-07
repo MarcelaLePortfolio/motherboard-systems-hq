@@ -1,14 +1,31 @@
-// <0001fb7D> reflectionsRouter – final flatten (true /api/reflections/* JSON)
+// <0001fbB0> reflectionsRouter – modular version of working inline routes
 import express from "express";
-import { reflectionsAllHandler } from "./reflections-all";
-import { reflectionsLatestHandler } from "./reflections-latest";
+import fs from "fs";
+import path from "path";
 
 const router = express.Router();
 
-// ✅ Correct relative paths – final verified structure
-router.get("/", (_req, res) => res.json({ ok: true, routes: ["/all", "/latest"] }));
-router.get("/all", reflectionsAllHandler);
-router.get("/latest", reflectionsLatestHandler);
+// ✅ /api/reflections/ping
+router.get("/ping", (_req, res) => {
+  res.json({ ok: true, msg: "reflections alive" });
+});
 
-console.log("<0001fb7D> reflectionsRouter flattened for /api/reflections/*");
+// ✅ /api/reflections/all
+router.get("/all", (_req, res) => {
+  const dbPath = path.resolve("db/reflections.json");
+  const data = fs.existsSync(dbPath)
+    ? JSON.parse(fs.readFileSync(dbPath, "utf8"))
+    : [];
+  res.json(data);
+});
+
+// ✅ /api/reflections/latest
+router.get("/latest", (_req, res) => {
+  const dbPath = path.resolve("db/reflections.json");
+  const data = fs.existsSync(dbPath)
+    ? JSON.parse(fs.readFileSync(dbPath, "utf8"))
+    : [];
+  res.json(data[data.length - 1] || {});
+});
+
 export default router;

@@ -1,4 +1,4 @@
-import { dbPromise, persistToDisk } from "../../db/client";
+import { dbPromise } from "../../db/client";
 import { task_events } from "../../db/audit";
 import fs from "fs";
 import path from "path";
@@ -46,7 +46,6 @@ export async function runSkill(action: string, payload: any) {
     });
 
     // ✅ Explicitly persist after Drizzle write
-    persistToDisk();
 
     console.log(`✅ ${action} completed successfully.`);
     return { status: "success", result };
@@ -65,7 +64,6 @@ export async function runSkill(action: string, payload: any) {
       created_at,
     });
 
-    persistToDisk();
 
     console.error(`❌ ${action} failed:`, error);
     return { status: "error", result: error };

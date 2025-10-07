@@ -1,12 +1,13 @@
 // <0001fb35> Drizzle sql.js client (CJS-compatible async resolver)
 import initSqlJs from "sql.js";
 import fs from "fs";
+import type { SQLJsDatabase } from "drizzle-orm/sql-js";
 import path from "path";
 import { drizzle } from "drizzle-orm/sql-js";
 
 const dbPath = path.resolve("db/local.sqlite");
 
-let dbInstance = null;
+let dbInstance: SQLJsDatabase | null = null;
 
 export const dbPromise = (async () => {
   const SQL = await initSqlJs();

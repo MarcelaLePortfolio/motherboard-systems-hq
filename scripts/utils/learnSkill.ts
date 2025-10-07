@@ -1,4 +1,4 @@
-import { db } from "../../db/client";
+import { getDb } from "../../db/client";
 import { skills } from "../../db/skills";
 import { eq } from "drizzle-orm";
 import { v4 as uuidv4 } from "uuid";
@@ -11,6 +11,7 @@ import { v4 as uuidv4 } from "uuid";
  * --------------------------------------------------
  */
 export async function learnSkill(name: string, description: string, code: string) {
+  const db = getDb();
   const existing = await db.select().from(skills).where(eq(skills.name, name));
 
   if (existing.length > 0) {
