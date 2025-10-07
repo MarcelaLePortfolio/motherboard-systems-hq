@@ -1,4 +1,4 @@
-// <0001fb65> Express 5 verified router autoloader – guaranteed /api/reflections/all mount
+// <0001fb68> Express 5 autoloader – fixed /api/api double prefix
 import * as fs from "fs";
 import * as path from "path";
 import { pathToFileURL } from "url";
@@ -10,7 +10,7 @@ export async function loadRouters(app: Express) {
 
   for (const file of files) {
     const routeName = file.replace("-router.ts", "");
-    // ✅ Express 5-safe nested mount
+    // ✅ Mount relative to sub-app (no /api prefix)
     const routePath = `/${routeName}`;
     const moduleURL = pathToFileURL(path.join(apiDir, file)).href;
     const module = await import(moduleURL);
@@ -18,7 +18,7 @@ export async function loadRouters(app: Express) {
 
     if (router) {
       app.use(routePath, router);
-      console.log(`<0001fb65> mounted ${file} at ${routePath}`);
+      console.log(`<0001fb68> mounted ${file} at ${routePath}`);
     } else {
       console.warn(`⚠️ Skipped ${file}: no default export`);
     }
