@@ -11,6 +11,7 @@ import logsRouter from "./scripts/api/logs-router";
 import path from "path";
 
 const app = express();
+app.use(express.json());
 const publicDir = path.resolve("public");
 app.use(express.static(publicDir));
 app.use("/ops", opsRouter);
