@@ -1,17 +1,18 @@
-// <0001fb59> reflectionsLatestHandler – returns most recent reflection
+// <0001fb6D> reflectionsLatestHandler – guaranteed Express 5 JSON response
 import fs from "fs";
 import path from "path";
 import { Request, Response } from "express";
 
-export function reflectionsLatestHandler(req: Request, res: Response) {
+export function reflectionsLatestHandler(_req: Request, res: Response) {
   const dbPath = path.resolve("db/reflections.json");
-  if (!fs.existsSync(dbPath)) return null;
-
   try {
-    const data = JSON.parse(fs.readFileSync(dbPath, "utf8") || "[]");
-    return Array.isArray(data) ? data[data.length - 1] : null;
+    const data = fs.existsSync(dbPath)
+      ? JSON.parse(fs.readFileSync(dbPath, "utf8") || "[]")
+      : [];
+    const latest = Array.isArray(data) ? data[data.length - 1] : null;
+    res.status(200).json(latest);
   } catch (err) {
     console.error("Error reading reflections.json:", err);
-    return null;
+    res.status(500).json({ error: "Failed to read reflections" });
   }
 }

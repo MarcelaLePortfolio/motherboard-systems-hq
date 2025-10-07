@@ -1,17 +1,17 @@
-// <0001fb58> reflectionsAllHandler – returns full reflection list
+// <0001fb6C> reflectionsAllHandler – guaranteed Express 5 JSON response
 import fs from "fs";
 import path from "path";
 import { Request, Response } from "express";
 
-export function reflectionsAllHandler(req: Request, res: Response) {
+export function reflectionsAllHandler(_req: Request, res: Response) {
   const dbPath = path.resolve("db/reflections.json");
-  if (!fs.existsSync(dbPath)) return [];
-
   try {
-    const data = JSON.parse(fs.readFileSync(dbPath, "utf8") || "[]");
-    return data;
+    const data = fs.existsSync(dbPath)
+      ? JSON.parse(fs.readFileSync(dbPath, "utf8") || "[]")
+      : [];
+    res.status(200).json(data);
   } catch (err) {
     console.error("Error reading reflections.json:", err);
-    return [];
+    res.status(500).json({ error: "Failed to read reflections" });
   }
 }
