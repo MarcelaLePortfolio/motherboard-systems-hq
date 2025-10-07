@@ -1,4 +1,4 @@
-// <0001fb60> Express 5 regex-safe fallback + verified JSON routing
+// <0001fb61> Final verified route order – reflections API now responding JSON
 import express from "./scripts/api/express-shared";
 import * as path from "path";
 import { loadRouters } from "./scripts/utils/loadRouters";
@@ -12,17 +12,18 @@ app.use(express.urlencoded({ extended: true }));
 
 if (require.main === module) {
   (async () => {
+    // ✅ Load all API routers first
     await loadRouters(app);
-    console.log("<0001fb60> dynamic routers mounted first");
+    console.log("<0001fb61> dynamic routers mounted first");
 
-    // ✅ Express 5-compatible 404 fallback for any /api/* path
+    // ✅ Mount dashboard AFTER API routers
+    app.use("/", dashboardRoutes);
+    console.log("<0001fb61> dashboardRoutes mounted after APIs");
+
+    // ✅ Fallback 404 for unknown API routes (must come LAST)
     app.all(/^\/api\/.*/, (_req, res) => {
       res.status(404).json({ error: "API route not found" });
     });
-
-    // ✅ Mount dashboard last
-    app.use("/", dashboardRoutes);
-    console.log("<0001fb60> dashboardRoutes mounted last");
 
     const PORT = process.env.PORT || 3001;
     app.listen(PORT, () =>
