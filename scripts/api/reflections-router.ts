@@ -1,18 +1,14 @@
-// <0001fb29> reflections router (ESM-safe import normalization)
-import express from "./express-shared";
-import * as allModule from "./reflections-all";
-import * as latestModule from "./reflections-latest";
+// <0001fb47> canonical reflectionsRouter export (Express v5-compatible)
+import express from "express";
+import { reflectionsAllHandler } from "./reflections-all";
+import { reflectionsLatestHandler } from "./reflections-latest";
 
-const reflectionsAllHandler =
-  allModule.reflectionsAllHandler || allModule.default;
-const reflectionsLatestHandler =
-  latestModule.reflectionsLatestHandler || latestModule.default;
+const router = express.Router();
 
-const router = express.Router({ strict: false, caseSensitive: false });
-
-router.get(["/", "/all"], reflectionsAllHandler);
+// ✅ Explicitly register routes
+router.get("/all", reflectionsAllHandler);
 router.get("/latest", reflectionsLatestHandler);
 
-console.log("<0001fb29> reflectionsRouter initialized with verified callable handlers");
+console.log("<0001fb47> reflectionsRouter initialized and routes registered");
 
 export default router;
