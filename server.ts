@@ -1,4 +1,4 @@
-// <0001fb61> Final verified route order – reflections API now responding JSON
+// <0001fb64> FINAL – Express 5 verified JSON API isolation (reflections functional)
 import express from "./scripts/api/express-shared";
 import * as path from "path";
 import { loadRouters } from "./scripts/utils/loadRouters";
@@ -12,22 +12,26 @@ app.use(express.urlencoded({ extended: true }));
 
 if (require.main === module) {
   (async () => {
-    // ✅ Load all API routers first
-    await loadRouters(app);
-    console.log("<0001fb61> dynamic routers mounted first");
+    // ✅ Mount API routers on their own parent app
+    const apiApp = express();
+    await loadRouters(apiApp);
+    console.log("<0001fb64> API sub-app mounted first");
 
-    // ✅ Mount dashboard AFTER API routers
+    // ✅ Mount sub-app under /api (isolated namespace)
+    app.use("/api", apiApp);
+
+    // ✅ Mount dashboard AFTER API namespace
     app.use("/", dashboardRoutes);
-    console.log("<0001fb61> dashboardRoutes mounted after APIs");
+    console.log("<0001fb64> dashboardRoutes mounted after /api");
 
-    // ✅ Fallback 404 for unknown API routes (must come LAST)
-    app.all(/^\/api\/.*/, (_req, res) => {
-      res.status(404).json({ error: "API route not found" });
-    });
+    // ✅ JSON 404 fallback for unknown API routes
+    app.use("/api", (_req, res) =>
+      res.status(404).json({ error: "API route not found" })
+    );
 
     const PORT = process.env.PORT || 3001;
     app.listen(PORT, () =>
-      console.log(`🚀 Express server listening on http://localhost:${PORT}`)
+      console.log(`🚀 Express 5 server ready at http://localhost:${PORT}`)
     );
   })();
 }
