@@ -1,34 +1,32 @@
-// <0001fb84> FINAL FIX – reflections JSON API functional (flattened)
-import express from "./scripts/api/express-shared";
-import { loadRouters } from "./scripts/utils/loadRouters";
-import dashboardRoutes from "./scripts/routes/dashboard";
+// <0001fbC1> Serve real dashboard layout from public/
+import express from "express";
+import reflectionsRouter from "./scripts/api/reflections-router";
 
 const app = express();
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
-if (require.main === module) {
-  (async () => {
-    // ✅ Mount routers directly at /api/<name>
-    await loadRouters(app);
-    console.log("<0001fb84> routers mounted directly (final verified)");
+// ✅ Serve everything inside /public
+import path from "path";
+const publicDir = path.resolve("public");
+app.use(express.static(publicDir));
+console.log(`📂 Serving static files from ${publicDir}`);
 
-    // ✅ Dashboard routes
-    app.use("/", dashboardRoutes);
+// ✅ API routes first
+app.use("/api/reflections", reflectionsRouter);
+import matildaRouter from "./scripts/api/matilda-router";
+app.use("/matilda", matildaRouter);
 
-    // ✅ Fallback for unknown API routes
-    app.use((req, res) => {
-      if (req.path.startsWith("/api/")) {
-        return res.status(404).json({ error: "API route not found" });
-      }
-      res.status(404).send("<h1>404 – Page not found</h1>");
-    });
+// ✅ Redirect /dashboard → /dashboard.html (actual file)
+app.get("/dashboard", (_req, res) =>
+  res.sendFile(path.join(publicDir, "dashboard.html"))
+);
 
-    const PORT = process.env.PORT || 3001;
-    app.listen(PORT, () =>
-      console.log(`🚀 Express 5 server running at http://localhost:${PORT}`)
-    );
-  })();
-}
+// ✅ Root → dashboard
+app.get("/", (_req, res) => res.redirect("/dashboard"));
 
-export default app;
+// ✅ 404 fallback
+app.use((_req, res) => res.status(404).send("<h1>404 – Page not found</h1>"));
+
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () =>
+  console.log(`🚀 Express server running at http://localhost:${PORT}`)
+);

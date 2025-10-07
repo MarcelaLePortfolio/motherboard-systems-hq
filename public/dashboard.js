@@ -146,3 +146,32 @@ document.addEventListener("DOMContentLoaded", () => {
   refreshAll();
   setInterval(refreshAll, 5000);
 });
+
+// <0001fbC3> Chat send → Matilda endpoint
+document.addEventListener("DOMContentLoaded", () => {
+  const input = document.getElementById("userInput");
+  const log = document.getElementById("chatLog");
+
+  if (!input || !log) return;
+
+  input.addEventListener("keydown", async (e) => {
+    if (e.key === "Enter" && input.value.trim()) {
+      const msg = input.value.trim();
+      log.innerHTML += `<div><b>You:</b> ${msg}</div>`;
+      input.value = "";
+
+      try {
+        const res = await fetch("/matilda", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: msg }),
+        });
+        const data = await res.json();
+        log.innerHTML += `<div><b>Matilda:</b> ${data.reply}</div>`;
+        log.scrollTop = log.scrollHeight;
+      } catch (err) {
+        log.innerHTML += `<div style="color:red;">Error contacting Matilda</div>`;
+      }
+    }
+  });
+});
