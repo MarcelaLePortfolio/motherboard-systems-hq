@@ -1,0 +1,38 @@
+[
+  {
+    "id": "persist-insight-hourly",
+    "action": "insight.persist",
+    "intervalSec": 3600,
+    "enabled": true,
+    "note": "Persist Matilda insights hourly",
+    "lastRun": null,
+    "nextRun": "2025-10-08T00:45:28.891Z"
+  },
+  {
+    "id": "autonomic-feedback-6h",
+    "action": "autonomic.feedback",
+    "intervalSec": 21600,
+    "enabled": true,
+    "note": "Cade self-audit every 6 hours",
+    "lastRun": null,
+    "nextRun": "2025-10-08T05:45:28.892Z"
+  },
+  {
+    "id": "reflective-synthesis-nightly",
+    "action": "reflective.synthesis",
+    "intervalSec": 86400,
+    "enabled": true,
+    "note": "Nightly reflective synthesis",
+    "lastRun": null,
+    "nextRun": "2025-10-08T23:45:28.892Z"
+  },
+  {
+    "id": "persist-insight-15m",
+    "action": "insight.persist",
+    "intervalSec": 900,
+    "enabled": false,
+    "note": "More frequent during dev",
+    "nextRun": "2025-10-08T00:00:36.469Z",
+    "lastRun": "2025-10-07T23:45:36.469Z"
+  }
+]
