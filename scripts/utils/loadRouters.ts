@@ -1,4 +1,4 @@
-// <0001fb7A> loadRouters – final JSON reflections API mount (no prefix nesting)
+// <0001fb7F> loadRouters – final fix (mount at /api/<name> explicitly)
 import * as fs from "fs";
 import * as path from "path";
 import { pathToFileURL } from "url";
@@ -10,16 +10,16 @@ export async function loadRouters(app: Express) {
 
   for (const file of files) {
     const routeName = file.replace("-router.ts", "");
-    const routePath = `/${routeName}`; // ✅ no '/api' prefix here
+    const routePath = `/${routeName}`; // ✅ Mount under its own folder name
     const moduleURL = pathToFileURL(path.join(apiDir, file)).href;
     const mod = await import(moduleURL);
     const router = mod.default || mod;
 
     if (router?.stack) {
       app.use(routePath, router);
-      console.log(`<0001fb7A> mounted ${file} at ${routePath}`);
+      console.log(`<0001fb7F> mounted ${file} → /api${routePath}`);
     } else {
-      console.warn(`⚠️ Skipped ${file}: invalid export`);
+      console.warn(`⚠️ Skipped ${file}: invalid router export`);
     }
   }
 }
