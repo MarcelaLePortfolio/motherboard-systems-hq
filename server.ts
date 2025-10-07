@@ -1,6 +1,5 @@
-// <0001fb6E> Express 5 verified JSON reflections API (direct mount)
+// <0001fb76> FINAL FIX – Express 5 verified JSON reflections API (base prefix applied here)
 import express from "./scripts/api/express-shared";
-import * as path from "path";
 import { loadRouters } from "./scripts/utils/loadRouters";
 import dashboardRoutes from "./scripts/routes/dashboard";
 
@@ -10,15 +9,19 @@ app.use(express.urlencoded({ extended: true }));
 
 if (require.main === module) {
   (async () => {
-    await loadRouters(app); // directly mounts /api/reflections
-    console.log("<0001fb6E> routers mounted directly at /api/*");
+    // ✅ Mount all routers under /api
+    const apiApp = express();
+    await loadRouters(apiApp);
+    app.use("/api", apiApp);
+    console.log("<0001fb76> API routers mounted under /api namespace");
 
+    // ✅ Dashboard last
     app.use("/", dashboardRoutes);
-    console.log("<0001fb6E> dashboardRoutes mounted after /api");
+    console.log("<0001fb76> dashboardRoutes mounted after /api");
 
     const PORT = process.env.PORT || 3001;
     app.listen(PORT, () =>
-      console.log(`🚀 Express server running at http://localhost:${PORT}`)
+      console.log(`🚀 Express 5 server running on http://localhost:${PORT}`)
     );
   })();
 }

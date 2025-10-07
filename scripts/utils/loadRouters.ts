@@ -1,4 +1,4 @@
-// <0001fb73> loadRouters – full introspection and guaranteed /api/<router> mount
+// <0001fb76> loadRouters – Express 5 verified base mount (no double prefix)
 import * as fs from "fs";
 import * as path from "path";
 import { pathToFileURL } from "url";
@@ -10,25 +10,16 @@ export async function loadRouters(app: Express) {
 
   for (const file of files) {
     const routeName = file.replace("-router.ts", "");
-    const routePath = `/api/${routeName}`;
+    const routePath = `/${routeName}`; // ✅ plain (no /api prefix)
     const moduleURL = pathToFileURL(path.join(apiDir, file)).href;
     const mod = await import(moduleURL);
     const router = mod.default || mod;
 
     if (router?.stack) {
       app.use(routePath, router);
-      const routes =
-        router.stack
-          .filter((l: any) => l.route)
-          .map(
-            (l: any) =>
-              Object.keys(l.route.methods)
-                .map((m) => m.toUpperCase())
-                .join(",") + " " + routePath + l.route.path
-          );
-      console.log(`<0001fb73> mounted ${file} →`, routes);
+      console.log(`<0001fb76> mounted ${file} at ${routePath}`);
     } else {
-      console.warn(`⚠️ Skipped ${file}: no valid router export`);
+      console.warn(`⚠️ Skipped ${file}: invalid export`);
     }
   }
 }
