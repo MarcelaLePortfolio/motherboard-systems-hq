@@ -1,13 +1,18 @@
-// <0001fb20> reflections router (final route normalization)
-import express from "express";
-import { reflectionsAllHandler } from "./reflections-all";
-import { reflectionsLatestHandler } from "./reflections-latest";
+// <0001fb29> reflections router (ESM-safe import normalization)
+import express from "./express-shared";
+import * as allModule from "./reflections-all";
+import * as latestModule from "./reflections-latest";
 
-const reflectionsRouter = express.Router({ strict: false, caseSensitive: false });
+const reflectionsAllHandler =
+  allModule.reflectionsAllHandler || allModule.default;
+const reflectionsLatestHandler =
+  latestModule.reflectionsLatestHandler || latestModule.default;
 
-reflectionsRouter.get(["/", "/all"], reflectionsAllHandler);
-reflectionsRouter.get("/latest", reflectionsLatestHandler);
+const router = express.Router({ strict: false, caseSensitive: false });
 
-console.log("<0001fb20> reflectionsRouter active for /, /all, and /latest");
+router.get(["/", "/all"], reflectionsAllHandler);
+router.get("/latest", reflectionsLatestHandler);
 
-export default reflectionsRouter;
+console.log("<0001fb29> reflectionsRouter initialized with verified callable handlers");
+
+export default router;
