@@ -1,4 +1,4 @@
-// <0001fb68> Express 5 autoloader – fixed /api/api double prefix
+// <0001fb6E> loadRouters – mounts correctly at /api/<name>
 import * as fs from "fs";
 import * as path from "path";
 import { pathToFileURL } from "url";
@@ -10,17 +10,14 @@ export async function loadRouters(app: Express) {
 
   for (const file of files) {
     const routeName = file.replace("-router.ts", "");
-    // ✅ Mount relative to sub-app (no /api prefix)
-    const routePath = `/${routeName}`;
+    const routePath = `/api/${routeName}`;  // ✅ correct absolute mount
     const moduleURL = pathToFileURL(path.join(apiDir, file)).href;
     const module = await import(moduleURL);
     const router = module.default;
 
     if (router) {
       app.use(routePath, router);
-      console.log(`<0001fb68> mounted ${file} at ${routePath}`);
-    } else {
-      console.warn(`⚠️ Skipped ${file}: no default export`);
+      console.log(`<0001fb6E> mounted ${file} at ${routePath}`);
     }
   }
 }
