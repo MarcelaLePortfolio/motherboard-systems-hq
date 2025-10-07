@@ -1,40 +1,21 @@
-import { Router } from "express";
+// <0001fb70> Dashboard router – strict /api isolation (Express 5 verified)
+import express from "express";
+const router = express.Router();
 
-const router = Router();
-
-// ✅ Mock agent status
-let agentStatus = {
-  cade: { status: "online", lastSeen: new Date().toISOString() },
-  matilda: { status: "online", lastSeen: new Date().toISOString() }
-};
-
-// ✅ In-memory arrays as DB fallback
-export let mockTasks = [
-  { id: "t1", command: "dev:clean", status: "completed", ts: new Date().toISOString() }
-];
-
-export let mockLogs = [
-  { id: "r1", reflection: "System started clean", ts: new Date().toISOString() }
-];
-
-// --- Routes ---
-
-// Agents
-router.get("/status/agents", (_req, res) => {
-  res.json(agentStatus);
+// 🚧 Abort any /api/* requests immediately
+router.use((req, res, next) => {
+  if (req.path.startsWith("/api")) return res.status(404).json({ error: "API route not found" });
+  next();
 });
 
-// Tasks (mocked)
-router.get("/tasks/recent", async (_req, res) => {
-  res.json(mockTasks.slice(-10).reverse());
+// ✅ Homepage
+router.get("/", (_req, res) => {
+  res.send("<h1>Welcome to the Motherboard Systems Dashboard</h1>");
 });
 
-// Logs (mocked)
-router.get("/logs/recent", async (_req, res) => {
-  res.json(mockLogs.slice(-10).reverse());
+// ✅ Regex-safe fallback for all non-API routes
+router.get(/^\/(?!api\/).*/, (_req, res) => {
+  res.status(404).send("<h1>404 – Page not found</h1>");
 });
 
-export const dashboardRoutes = router;
-
-// ✅ Export router for use in server.ts
 export default router;
