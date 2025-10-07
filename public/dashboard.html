@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+<<<<<<< HEAD
   <title>🖥️ Motherboard Systems</title>
   <style>
     body { font-family: Arial, sans-serif; margin: 20px; background: #f7f7f7; }
@@ -144,3 +145,84 @@
   </script>
 </body>
 </html>
+=======
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Motherboard Systems HQ</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 1rem;
+      background: #f9f9f9;
+    }
+    section {
+      margin-bottom: 2rem;
+    }
+    h2 {
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+    }
+    .chat-input {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 1rem;
+      padding: 1rem;
+      background: #eee;
+      border-radius: 8px;
+    }
+    .chat-input input {
+      flex: 1;
+      padding: 0.5rem;
+      font-size: 1rem;
+    }
+    .chat-input button {
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. AGENT STATUS BAR -->
+  <header>
+    <h2>📟 Agent Status</h2>
+    <ul>
+      <li>Matilda: 🟢 Idle</li>
+      <li>Cade: 🟠 Busy</li>
+      <li>Effie: 🟢 Idle</li>
+    </ul>
+  </header>
+
+<!-- 2. CHATBOT -->
+<section>
+  <h2>💬 Chat with Assistant</h2>
+  <div id="chatLog" style="height:200px; overflow-y:auto; border:1px solid #ccc; border-radius:8px; background:#f9f9f9; padding:1rem; margin-bottom:1rem;"></div>
+  <div class="chat-input" style="background:#fff0f0;border:2px solid red;padding:1rem;margin-top:1rem;display:flex;gap:0.5rem;">
+    <input type="text" id="userInput" placeholder="Type a message..." style="flex:1;padding:0.5rem;font-size:1rem;border:1px solid blue;" />
+    <button onclick="sendMessage()" style="padding:0.5rem 1rem;font-size:1rem;background:#ff0;">Send</button>
+  </div>
+  <script>
+    function sendMessage() {
+      const input = document.getElementById("userInput");
+      const log = document.getElementById("chatLog");
+      const msg = input.value.trim();
+      if (msg) {
+        const entry = document.createElement("div");
+        entry.textContent = "👤 You: " + msg;
+        log.appendChild(entry);
+        log.scrollTop = log.scrollHeight;
+        input.value = "";
+      }
+    }
+    document.addEventListener("DOMContentLoaded", function () {
+      const input = document.getElementById("userInput");
+      input.addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          sendMessage();
+        }
+      });
+    });
+  </script>
+</section>
+>>>>>>> c4b1123 (✅ Mobile dashboard MVP: Agent Status, working Chatbot, cleaned layout)
