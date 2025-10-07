@@ -1,4 +1,4 @@
-// <0001fb7A> FINAL – verified JSON reflections API (direct mount, no double prefix)
+// <0001fb7B> FINAL FIX – Express 5 verified JSON reflections API (direct /api mount, no rewrap)
 import express from "./scripts/api/express-shared";
 import { loadRouters } from "./scripts/utils/loadRouters";
 import dashboardRoutes from "./scripts/routes/dashboard";
@@ -9,21 +9,18 @@ app.use(express.urlencoded({ extended: true }));
 
 if (require.main === module) {
   (async () => {
-    // ✅ Mount reflections and others directly under /api
-    await loadRouters(app);
-    console.log("<0001fb7A> routers mounted (direct /api base)");
-
-    // ✅ Attach base /api prefix here
-    const apiWrapper = express.Router();
-    apiWrapper.use("/", app._router); // wrap all existing routers under /api
-    const mainApp = express();
-    mainApp.use("/api", apiWrapper);
+    // ✅ Create isolated API namespace
+    const apiApp = express();
+    await loadRouters(apiApp); // mounts /reflections, etc.
+    app.use("/api", apiApp); // mount API routers directly
+    console.log("<0001fb7B> /api namespace mounted (Express 5 verified)");
 
     // ✅ Dashboard routes (non-API)
-    mainApp.use("/", dashboardRoutes);
+    app.use("/", dashboardRoutes);
+    console.log("<0001fb7B> dashboardRoutes mounted after /api");
 
     const PORT = process.env.PORT || 3001;
-    mainApp.listen(PORT, () =>
+    app.listen(PORT, () =>
       console.log(`🚀 Express 5 server running at http://localhost:${PORT}`)
     );
   })();
