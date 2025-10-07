@@ -1,0 +1,9 @@
+{
+  "families": {
+    "file": ["file.create", "file.write", "file.read"],
+    "dashboard": ["dashboard.refresh", "dashboard.reorder_sections", "dashboard.move_agent_status"],
+    "status": ["status.update", "status.revertLayout"],
+    "tasks": [],
+    "logs": []
+  }
+}
