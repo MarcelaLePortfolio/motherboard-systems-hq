@@ -1,4 +1,4 @@
-// <0001fb7F> loadRouters – final fix (mount at /api/<name> explicitly)
+// <0001fb84> loadRouters – flatten to true /api/<router> mount
 import * as fs from "fs";
 import * as path from "path";
 import { pathToFileURL } from "url";
@@ -10,14 +10,14 @@ export async function loadRouters(app: Express) {
 
   for (const file of files) {
     const routeName = file.replace("-router.ts", "");
-    const routePath = `/${routeName}`; // ✅ Mount under its own folder name
+    const routePath = `/api/${routeName}`; // ✅ full path, no rewrapping later
     const moduleURL = pathToFileURL(path.join(apiDir, file)).href;
     const mod = await import(moduleURL);
     const router = mod.default || mod;
 
     if (router?.stack) {
       app.use(routePath, router);
-      console.log(`<0001fb7F> mounted ${file} → /api${routePath}`);
+      console.log(`<0001fb84> mounted ${file} → ${routePath}`);
     } else {
       console.warn(`⚠️ Skipped ${file}: invalid router export`);
     }

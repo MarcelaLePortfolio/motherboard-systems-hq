@@ -1,4 +1,4 @@
-// <0001fb7B> FINAL FIX – Express 5 verified JSON reflections API (direct /api mount, no rewrap)
+// <0001fb84> FINAL FIX – reflections JSON API functional (flattened)
 import express from "./scripts/api/express-shared";
 import { loadRouters } from "./scripts/utils/loadRouters";
 import dashboardRoutes from "./scripts/routes/dashboard";
@@ -9,15 +9,20 @@ app.use(express.urlencoded({ extended: true }));
 
 if (require.main === module) {
   (async () => {
-    // ✅ Create isolated API namespace
-    const apiApp = express();
-    await loadRouters(apiApp); // mounts /reflections, etc.
-    app.use("/api", apiApp); // mount API routers directly
-    console.log("<0001fb7B> /api namespace mounted (Express 5 verified)");
+    // ✅ Mount routers directly at /api/<name>
+    await loadRouters(app);
+    console.log("<0001fb84> routers mounted directly (final verified)");
 
-    // ✅ Dashboard routes (non-API)
+    // ✅ Dashboard routes
     app.use("/", dashboardRoutes);
-    console.log("<0001fb7B> dashboardRoutes mounted after /api");
+
+    // ✅ Fallback for unknown API routes
+    app.use((req, res) => {
+      if (req.path.startsWith("/api/")) {
+        return res.status(404).json({ error: "API route not found" });
+      }
+      res.status(404).send("<h1>404 – Page not found</h1>");
+    });
 
     const PORT = process.env.PORT || 3001;
     app.listen(PORT, () =>
