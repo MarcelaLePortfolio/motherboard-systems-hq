@@ -33,3 +33,20 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   sendBtn?.addEventListener("click", sendMessage);
 });
+
+/* ----------------- OPS STREAM TICKER ----------------- */
+async function refreshOpsStream() {
+  try {
+    const res = await fetch("/ops");
+    const { events } = await res.json();
+    const container = document.getElementById("opsStream");
+    if (!container) return;
+    container.innerHTML = events.map(e => {
+      const ts = new Date(e.ts).toLocaleTimeString();
+      return `<div>[${ts}] ${e.event}</div>`;
+    }).join("");
+  } catch (err) {
+    console.error("OPS Stream refresh failed", err);
+  }
+}
+setInterval(refreshOpsStream, 3000);

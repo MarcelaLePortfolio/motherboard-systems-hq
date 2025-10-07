@@ -47,7 +47,7 @@
   <h1>🖥️ Motherboard Systems</h1>
 
   <div id="debugBanner" style="background:#e6f7ff; border:1px solid #91d5ff; padding:8px; margin:10px 0; border-radius:6px; color:#0050b3; font-size:0.9em;">
-    ⚡ Dashboard v2.0.0 loaded — waiting for scripts…
+    ⚡ Dashboard v2.0.1 loaded — waiting for scripts…
   </div>
 
     
@@ -215,3 +215,23 @@
 
 
 </body></html>
+<!-- OPS STREAM + INSIGHT TICKER -->
+<h2>OPS Stream</h2>
+<div id="opsStream" style="height:150px;overflow-y:auto;border:1px solid #ccc;padding:0.5rem;background:#fafafa"></div>
+
+<h2>Matilda Insights</h2>
+<div id="insightTicker" style="height:100px;overflow-y:auto;border:1px solid #ccc;padding:0.5rem;background:#fefdfd;color:#444;font-style:italic"></div>
+
+<script>
+async function refreshInsights() {
+  try {
+    const res = await fetch("/insights");
+    const { insight } = await res.json();
+    const el = document.getElementById("insightTicker");
+    if (el) el.innerText = insight;
+  } catch (e) {
+    console.warn("Insight fetch failed", e);
+  }
+}
+setInterval(refreshInsights, 8000);
+</script>
