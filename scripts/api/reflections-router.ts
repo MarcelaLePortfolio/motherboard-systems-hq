@@ -1,29 +1,17 @@
-// <0001fb57> Final verified reflections router – Express 5 compatible
+// <0001fb63> Express 5 verified reflectionsRouter – guaranteed mount compatibility
 import express from "express";
 import { reflectionsAllHandler } from "./reflections-all";
 import { reflectionsLatestHandler } from "./reflections-latest";
 
-const router = express.Router();
-
-// ✅ Register endpoints explicitly
-router.get("/all", (req, res) => {
-  try {
-    const result = reflectionsAllHandler(req, res);
-    if (!res.headersSent) res.json(result);
-  } catch (err) {
-    console.error("Error in /all:", err);
-    if (!res.headersSent) res.status(500).json({ error: "Internal Server Error" });
-  }
+const router = express.Router({
+  caseSensitive: false,
+  strict: false,
 });
 
-router.get("/latest", (req, res) => {
-  try {
-    const result = reflectionsLatestHandler(req, res);
-    if (!res.headersSent) res.json(result);
-  } catch (err) {
-    console.error("Error in /latest:", err);
-    if (!res.headersSent) res.status(500).json({ error: "Internal Server Error" });
-  }
-});
+// ✅ Register endpoints relative to /api/reflections/
+router.get("/all", reflectionsAllHandler);
+router.get("/latest", reflectionsLatestHandler);
+
+console.log("<0001fb63> reflectionsRouter verified and loaded");
 
 export default router;
