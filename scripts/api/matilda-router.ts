@@ -1,4 +1,4 @@
-// <0001fbDA> matilda-router – hybrid chat + skill with auto fallback
+// <0001fbE3> matilda-router – route all prefixed actions to Cade
 import express from "express";
 import { ollamaPlan } from "../utils/ollamaPlan";
 import { ollamaChat } from "../utils/ollamaChat";
@@ -14,30 +14,28 @@ router.post("/", express.json(), async (req, res) => {
 
   try {
     const plan = await ollamaPlan(userMessage);
-    console.log("<0001fbDA> 🧭 Matilda plan:", plan);
+    console.log("<0001fbE3> 🧭 Matilda plan:", plan);
 
-    // ✅ Known skill list
-    const knownSkills = ["file.create", "file.write", "write to file", "create file"];
+    // If the action starts with an approved prefix, hand off to Cade
+    const isPrefixed = /^(file|dashboard|tasks|logs|status)\./.test(plan.action);
 
-    // 🧠 If plan action not recognized, switch to neutral chat mode
-    if (!knownSkills.includes(plan.action)) {
-      const chatReply = await ollamaChat(userMessage);
-      return res.json({ ok: true, reply: chatReply, mode: "chat" });
+    if (isPrefixed) {
+      const result = await runSkill(plan.action, plan.params);
+      console.log("<0001fbE3> ⚙️ Cade result:", result);
+      return res.json({
+        ok: true,
+        reply: result.result || "✅ Task completed!",
+        plan,
+        raw: result,
+        mode: "skill",
+      });
     }
 
-    // ⚙️ Otherwise execute with Cade
-    const result = await runSkill(plan.action, plan.params);
-    console.log("<0001fbDA> ⚙️ Cade result:", result);
-
-    res.json({
-      ok: true,
-      reply: result.result || "Task completed!",
-      plan,
-      raw: result,
-      mode: "skill",
-    });
+    // Otherwise, chat naturally
+    const chatReply = await ollamaChat(userMessage);
+    return res.json({ ok: true, reply: chatReply, mode: "chat" });
   } catch (err: any) {
-    console.error("<0001fbDA> ❌ Matilda error:", err);
+    console.error("<0001fbE3> ❌ Matilda error:", err);
     res.status(500).json({
       ok: false,
       reply: "I'm sorry, something went wrong.",

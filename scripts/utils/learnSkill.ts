@@ -1,33 +1,42 @@
-import { getDb } from "../../db/client";
-import { skills } from "../../db/skills";
-import { eq } from "drizzle-orm";
-import { v4 as uuidv4 } from "uuid";
+import fs from "fs";
+import path from "path";
+import cfg from "../config/cade.config";
+import { audit } from "./audit";
+
+function safeFileName(action: string) {
+  return action.replace(/[^a-z0-9._-]/gi, "_");
+}
+
+export function isAllowedToLearn(action: string): boolean {
+  return cfg.allowedPrefixes.some(p => action.startsWith(p));
+}
+
+/** Write a tiny, typed dynamic skill module if it doesn't exist yet */
+export function ensureDynamicSkill(action: string) {
+  const fname = safeFileName(action) + ".ts";
+  const outDir = path.resolve(cfg.sandboxRoot);
+  const outFile = path.join(outDir, fname);
+
+  if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
+  if (fs.existsSync(outFile)) return outFile;
+
+  const tpl = `// Auto-generated dynamic skill for "${action}"
+type Params = Record<string, any>;
 
 /**
- * learnSkill.ts
- * --------------------------------------------------
- * Persists a newly learned skill into the database.
- * Used by CadeDynamic when Ollama proposes a new action.
- * --------------------------------------------------
+ * Convention: export default async function(params, ctx)
+ * Return a short human string summarizing the result.
  */
-export async function learnSkill(name: string, description: string, code: string) {
-  const db = getDb();
-  const existing = await db.select().from(skills).where(eq(skills.name, name));
-
-  if (existing.length > 0) {
-    console.log(`🔁 Skill "${name}" already exists.`);
-    return existing[0];
+export default async function run(params: Params, ctx: { dryRun?: boolean }) {
+  if (ctx?.dryRun) {
+    return \`(dry-run) would perform: ${action} with \${JSON.stringify(params)}\`;
   }
+  // TODO: replace with real logic. Keep file-system/network changes minimal here.
+  return \`✅ ${action} completed with \${JSON.stringify(params)}\`;
+}
+`;
 
-  const newSkill = {
-    id: uuidv4(),
-    name,
-    description,
-    code,
-    created_at: new Date().toISOString(),
-  };
-
-  await db.insert(skills).values(newSkill);
-  console.log(`🧠 Learned new skill: ${name}`);
-  return newSkill;
+  fs.writeFileSync(outFile, tpl, "utf8");
+  audit("skill.generated", { action, file: outFile });
+  return outFile;
 }

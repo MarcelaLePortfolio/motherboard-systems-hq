@@ -1,26 +1,29 @@
-// <0001fbD3> ollamaPlan – force strict JSON response with fallback
+// <0001fbE0> ollamaPlan – enforces prefix naming for Cade-compatible actions
 import { execSync } from "child_process";
 
 export async function ollamaPlan(message: string) {
   try {
     const prompt = `
-You are Matilda, a planning assistant for Cade.
-Your ONLY response must be a single valid JSON object, nothing else.
-Follow this exact schema:
-{"action": "string", "params": {}}
+You are Matilda, Cade’s planning assistant.
+Analyze the user's instruction and output ONLY one valid JSON object matching this schema:
 
+{
+  "action": "string",    // always start with file., dashboard., tasks., logs., or status.
+  "params": {}
+}
+
+Ensure the "action" key follows Cade's naming rules (e.g., "file.create", "dashboard.refresh").
 Command: "${message}"
 `;
     const output = execSync(`ollama run llama3:8b "${prompt}"`, { encoding: "utf8" });
     const clean = output
-      .replace(/^[^{]*({.*})[^}]*$/s, "$1")  // extract first JSON block
       .replace(/```json|```/g, "")
+      .replace(/^[^{]*({.*})[^}]*$/s, "$1")
       .trim();
-
     const json = JSON.parse(clean);
     return json;
   } catch (err: any) {
-    console.error("<0001fbD3> ❌ ollamaPlan parse error:", err);
+    console.error("<0001fbE0> ❌ ollamaPlan parse error:", err);
     return { action: "unknown", params: { message } };
   }
 }
