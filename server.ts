@@ -1,4 +1,4 @@
-// <0001fb5D> Final route order: APIs first, dashboard last
+// <0001fb5E> Final baseline – guaranteed JSON API routing
 import express from "./scripts/api/express-shared";
 import * as path from "path";
 import { loadRouters } from "./scripts/utils/loadRouters";
@@ -10,15 +10,23 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// ✅ Mount dynamic API routers BEFORE dashboard
+// ✅ Mount /api routes first, protected from dashboard interference
 if (require.main === module) {
   (async () => {
     await loadRouters(app);
-    console.log("<0001fb5D> dynamic routers mounted first");
+    console.log("<0001fb5E> dynamic routers mounted first");
 
-    // ✅ Mount dashboard last to avoid route conflicts
+    // 🚧 Block dashboard from overriding /api/*
+    app.use("/api", (req, res, next) => next());
+
+    // ✅ Mount dashboard last (catch-all for non-API routes)
     app.use("/", dashboardRoutes);
-    console.log("<0001fb5D> dashboardRoutes mounted last");
+    console.log("<0001fb5E> dashboardRoutes mounted last");
+
+    // ✅ Fallback 404 for unhandled API routes
+    app.use("/api/*", (_req, res) =>
+      res.status(404).json({ error: "API route not found" })
+    );
 
     const PORT = process.env.PORT || 3001;
     app.listen(PORT, () =>
