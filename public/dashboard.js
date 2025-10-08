@@ -1,140 +1,75 @@
-// <0001fbDB> Dashboard Chat – Compatible with full layout (restored Matilda chat)
-document.addEventListener("DOMContentLoaded", () => {
-  const input = document.querySelector("input[type='text'], #userInput");
-  const log = document.getElementById("chatLog") || document.querySelector(".chat-log");
-  const sendBtn = document.getElementById("sendBtn") || document.querySelector("button");
+async function refreshInsightChart() {
+  const res = await fetch("/visual/trends");
+  const { trends } = await res.json();
+  const ctx = document.getElementById("insightChart").getContext("2d");
 
-  if (!input || !log) return console.warn("⚠️ Chat elements not found.");
+  const data = trends.data.slice(-10);
+  const labels = data.map(d => new Date(d.ts).toLocaleTimeString());
+  const success = data.map(d => d.success);
+  const risk = data.map(d => d.risk);
+  const adaptations = trends.adaptations || [];
 
-  async function sendMessage() {
-    const msg = input.value.trim();
-    if (!msg) return;
-    log.innerHTML += `<div><b>You:</b> ${msg}</div>`;
-    input.value = "";
+  ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
-    try {
-      const res = await fetch("/matilda", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: msg }),
-      });
-      const data = await res.json();
-      const reply = data.reply || data.result || "✅ Task completed!";
-      log.innerHTML += `<div><b>Matilda:</b> ${reply}</div>`;
-      log.scrollTop = log.scrollHeight;
-    } catch (err) {
-      log.innerHTML += `<div style="color:red;">Error contacting Matilda</div>`;
-    }
-  }
-
-  // Enter key or click → send
-  input.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") sendMessage();
+  // Success (green)
+  ctx.beginPath();
+  ctx.strokeStyle = "#00c853";
+  ctx.lineWidth = 2;
+  success.forEach((v, i) => {
+    const x = (i / success.length) * ctx.canvas.width;
+    const y = ctx.canvas.height - (v * ctx.canvas.height / 100);
+    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
   });
-  sendBtn?.addEventListener("click", sendMessage);
-});
+  ctx.stroke();
 
-/* ----------------- OPS STREAM TICKER ----------------- */
-async function refreshOpsStream() {
-  try {
-    const res = await fetch("/ops");
-    const { events } = await res.json();
-    const container = document.getElementById("opsStream");
-    if (!container) return;
-    container.innerHTML = events.map(e => {
-      const ts = new Date(e.ts).toLocaleTimeString();
-      return `<div>[${ts}] ${e.event}</div>`;
-    }).join("");
-  } catch (err) {
-    console.error("OPS Stream refresh failed", err);
-  }
-}
-setInterval(refreshOpsStream, 3000);
+  // Risk (red)
+  ctx.beginPath();
+  ctx.strokeStyle = "#d50000";
+  ctx.lineWidth = 2;
+  risk.forEach((v, i) => {
+    const x = (i / risk.length) * ctx.canvas.width;
+    const y = ctx.canvas.height - (v * ctx.canvas.height / 100);
+    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+  });
+  ctx.stroke();
 
-async function refreshCognitivePanel() {
-  try {
-    const res = await fetch("/cognitive/history");
-    const { history } = await res.json();
-    const latest = history.at(-1);
-    const container = document.getElementById("cognitivePanel");
-    if (!container) return;
-    container.innerHTML = latest
-      ? `<strong>${latest.coherence}</strong> — ${latest.summary}`
-      : "No lessons yet.";
-  } catch (err) {
-    console.error("Cognitive panel refresh failed", err);
-  }
-}
+  // Adaptation markers (orange dots)
+  ctx.fillStyle = "#ff6d00";
+  const totalWidth = ctx.canvas.width;
+  adaptations.forEach((a) => {
+    const ts = new Date(a.ts).getTime();
+    const first = new Date(data[0]?.ts || 0).getTime();
+    const last = new Date(data[data.length - 1]?.ts || 0).getTime();
+    if (!first || !last || ts < first || ts > last) return;
+    const x = ((ts - first) / (last - first)) * totalWidth;
+    const y = ctx.canvas.height - 10;
+    ctx.beginPath();
+    ctx.arc(x, y, 4, 0, Math.PI * 2);
+    ctx.fill();
+  });
 
-setInterval(refreshCognitivePanel, 5000);
-
-async function refreshSystemHealth() {
-  try {
-    const res = await fetch("/system/health");
-    const { health } = await res.json();
-    const container = document.getElementById("systemHealth");
-    if (!container) return;
-    const color = health.status === "Operational" ? "green" : "red";
-    container.innerHTML = `<strong style="color:${color}">${health.status}</strong> — ${health.summary}`;
-  } catch (err) {
-    console.error("System Health refresh failed", err);
-  }
+  // Legend
+  ctx.fillStyle = "#333";
+  ctx.font = "10px sans-serif";
+  ctx.fillText("Success", 10, 10);
+  ctx.fillText("Risk", 70, 10);
+  ctx.fillText("Adaptation", 120, 10);
 }
 
-setInterval(refreshSystemHealth, 5000);
+setInterval(refreshInsightChart, 7000);
 
-async function refreshSystemHealth() {
+async function refreshChroniclePanel() {
   try {
-    const res = await fetch("/system/health");
-    const { health } = await res.json();
-    const container = document.getElementById("systemHealth");
+    const res = await fetch("/chronicle/list");
+    const { log } = await res.json();
+    const container = document.getElementById("chroniclePanel");
     if (!container) return;
-    const color = health.status === "Operational" ? "green" : "red";
-    const ts = new Date(health.ts).toLocaleTimeString();
-    container.innerHTML = `
-      <div><strong style="color:${color}">${health.status}</strong> — ${health.summary}</div>
-      <div style="font-size:0.9em;color:#555">Last checked: ${ts} | Uptime: ${health.uptimeHr} hrs</div>
-    `;
+    container.innerHTML = log
+      .slice(-10)
+      .map(l => `<div><strong>${new Date(l.ts).toLocaleTimeString()}</strong> — ${l.event}</div>`)
+      .join("");
   } catch (err) {
-    console.error("System Health refresh failed", err);
+    console.error("Chronicle refresh failed", err);
   }
 }
-
-setInterval(refreshSystemHealth, 5000);
-
-async function refreshIntrospectivePanel() {
-  try {
-    const res = await fetch("/introspect/history");
-    const { sims } = await res.json();
-    const latest = sims.at(-1);
-    const container = document.getElementById("introspectivePanel");
-    if (!container) return;
-    container.innerHTML = latest
-      ? `<strong>${latest.scenario}</strong><br>
-         Success: ${latest.predictedSuccess} | Risk: ${latest.predictedRisk}<br>
-         <em>${latest.trendContext}</em><br>
-         <small>${latest.rationale}</small>`
-      : "No simulations yet.";
-  } catch (err) {
-    console.error("Introspective panel refresh failed", err);
-  }
-}
-
-setInterval(refreshIntrospectivePanel, 6000);
-
-async function refreshAdaptationPanel() {
-  try {
-    const res = await fetch("/adaptation/history");
-    const { logs } = await res.json();
-    const latest = logs.at(-1);
-    const container = document.getElementById("adaptationPanel");
-    if (!container) return;
-    container.innerHTML = latest
-      ? `<strong>${latest.action}</strong><br><small>${latest.note}</small><br><em>Scenario: ${latest.scenario}</em>`
-      : "No adaptations yet.";
-  } catch (err) {
-    console.error("Adaptation panel refresh failed", err);
-  }
-}
-
-setInterval(refreshAdaptationPanel, 8000);
+setInterval(refreshChroniclePanel, 8000);
