@@ -63,10 +63,7 @@ import fs from "fs";
 // ✅ Only start server if this file is executed directly (not imported)
 if (process.argv[1] && process.argv[1].includes("server.ts")) {
   app.listen(PORT, () => {
-    console.log("📂 Serving static files from", path.resolve("public"));
   // ✅ Serve public folder after all agent/registry routes
-  app.use(express.static(path.resolve("public")));
-  console.log("📦 Static middleware loaded after dynamic routes.");
   // Delay dynamic route mounting until after server starts
   setTimeout(async () => {
     const skillDir = path.join(process.cwd(), "scripts", "skills");
@@ -99,9 +96,60 @@ setTimeout(async () => {
       console.error("<0001f9ea> ⚠️ registerAllSkills failed:", err.message);
     }
   app.listen(PORT, () => {
-    console.log("📂 Serving static files from", path.resolve("public"));
     console.log(`🚀 Express server running at http://localhost:${PORT}`);
 });
 
 })();
 }
+
+
+(async () => {
+  if (process.argv[1] && process.argv[1].includes("server.ts")) {
+    const express = (await import("express")).default;
+    const path = (await import("path")).default;
+    const app = (await import("./server.ts")).default;
+    app.use(express.static(path.resolve("public")));
+    console.log("📦 Static middleware re-attached after all dynamic mounts.");
+  }
+})();
+
+(async () => {
+  if (process.argv[1] && process.argv[1].includes("server.ts")) {
+    const express = (await import("express")).default;
+    const path = (await import("path")).default;
+    const { default: app } = await import("./server.ts");
+    if (typeof app?.use === "function") {
+      app.use(express.static(path.resolve("public")));
+      console.log("📦 Static middleware re-attached after all dynamic mounts.");
+    } else {
+      console.warn("⚠️ Could not re-attach static middleware — app export not found.");
+    }
+  }
+})();
+
+(async () => {
+  if (process.argv[1] && process.argv[1].includes("server.ts")) {
+    const express = (await import("express")).default;
+    const path = (await import("path")).default;
+    const { getApp } = await import("./scripts/utils/appSingleton.js");
+    const app = getApp();
+    app.use(express.static(path.resolve("public")));
+    console.log("📦 Static middleware re-attached after all dynamic mounts.");
+  }
+})();
+
+// <0001f9f4> 🗂️ Serve static assets last (after all dynamic endpoints)
+(async () => {
+  if (process.argv[1] && process.argv[1].includes("server.ts")) {
+    const express = (await import("express")).default;
+    const path = (await import("path")).default;
+    const { getApp } = await import("./scripts/utils/appSingleton");
+    const app = getApp();
+    if (typeof app?.use === "function") {
+      app.use(express.static(path.resolve("public")));
+      console.log("📦 Static middleware re-attached after all dynamic mounts.");
+    } else {
+      console.warn("⚠️ Static middleware skipped — invalid app reference.");
+    }
+  }
+})();
