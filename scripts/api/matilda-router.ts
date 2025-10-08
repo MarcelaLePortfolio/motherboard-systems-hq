@@ -1,54 +1,33 @@
-// <0001f9e1> Matilda router – now consults ontology before delegation
 import express from "express";
 import { ollamaPlan } from "../utils/ollamaPlan";
-import { ollamaChat } from "../utils/ollamaChat";
-import { runSkill } from "../utils/runSkill";
 import { findClosestSkill } from "../../db/skills";
+import { ensureSkill, runDynamicSkill } from "../../db/skillRegistry";
 
 const router = express.Router();
 
-router.post("/", express.json(), async (req, res) => {
-  const userMessage = req.body?.message || "";
-  if (!userMessage) {
-    return res.status(400).json({ ok: false, error: "Missing 'message' field" });
-  }
-
+router.post("/", async (req, res) => {
   try {
-    const plan = await ollamaPlan(userMessage);
-    console.log("<0001f9e1> 🧭 Matilda plan:", plan);
+    const userMessage = req.body?.message;
+    if (!userMessage) return res.json({ ok: false, reply: "No message provided." });
 
-    let action = plan.action;
-    const inferred = findClosestSkill(action);
-    if (inferred && inferred !== action) {
-      console.log(`<0001f9e1> Ontology inference → ${action} → ${inferred}`);
-      action = inferred;
-    }
+    console.log("<0001f9e1> Matilda received:", userMessage);
 
-    // Decide mode
-    const isPrefixed = /^(file|dashboard|tasks|logs|status)\./.test(action);
+    // Step 1: Generate a code plan from Ollama
+    const plan = await ollamaPlan(
+      `Write a TypeScript async function implementing this task:\n"${userMessage}"\nReturn the function code only.`
+    );
 
-    if (isPrefixed) {
-      const result = await runSkill(action, plan.params);
-      console.log("<0001f9e1> ⚙️ Cade result:", result);
-      return res.json({
-        ok: true,
-        reply: result.result || "✅ Task completed!",
-        plan: { ...plan, action },
-        raw: result,
-        mode: "skill",
-      });
-    }
+    // Step 2: Determine a simple skill name
+    const skill = findClosestSkill(userMessage) || "generatedSkill";
 
-    // Otherwise chat naturally
-    const chatReply = await ollamaChat(userMessage);
-    return res.json({ ok: true, reply: chatReply, mode: "chat" });
+    // Step 3: Create and run the skill
+    const filePath = ensureSkill(skill, plan);
+    const result = await runDynamicSkill(skill);
+
+    return res.json({ ok: true, reply: result, skill, plan });
   } catch (err: any) {
     console.error("<0001f9e1> ❌ Matilda error:", err);
-    res.status(500).json({
-      ok: false,
-      reply: "I'm sorry, something went wrong.",
-      error: err.message || String(err),
-    });
+    return res.json({ ok: false, reply: "Error creating dynamic skill.", error: err.message });
   }
 });
 

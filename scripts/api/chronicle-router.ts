@@ -30,3 +30,21 @@ router.get("/list", (req, res) => {
 });
 
 export default router;
+
+/**
+ * DELETE /chronicle/clear
+ * -----------------------
+ * Clears all Chronicle logs (used by the dashboard reset button).
+ */
+router.delete("/clear", (req, res) => {
+  try {
+    const chroniclePath = path.join(process.cwd(), "logs", "system-chronicle.jsonl");
+    if (fs.existsSync(chroniclePath)) {
+      fs.writeFileSync(chroniclePath, "", "utf8");
+    }
+    res.json({ ok: true, message: "Chronicle cleared." });
+  } catch (err: any) {
+    console.error("❌ Chronicle clear error:", err.message);
+    res.status(500).json({ ok: false, error: err.message });
+  }
+});
