@@ -1,6 +1,7 @@
 // <0001fbC1> Serve real dashboard layout from public/
 import express from "express";
 import chronicleRouter from "./scripts/api/chronicle-router";
+
 import insightVisualizerRouter from "./scripts/api/insight-visualizer-router";
 import adaptationRouter from "./scripts/api/adaptation-router";
 import introspectiveRouter from "./scripts/api/introspective-router";
@@ -24,7 +25,7 @@ import path from "path";
 
 const app = express();
 app.use(express.json());
-const publicDir = path.resolve("public");
+app.use("/chronicle", chronicleRouter);const publicDir = path.resolve("public");
 app.use(express.static(publicDir));
 app.use("/ops", opsRouter);
 app.use("/insights", insightRouter);

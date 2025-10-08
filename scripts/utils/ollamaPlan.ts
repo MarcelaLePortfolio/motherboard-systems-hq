@@ -1,27 +1,43 @@
-export async function planSkillFromPrompt(prompt: string) {
-  const base = prompt
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "")
-    .slice(0, 40) || "generated-skill";
-
-  const name = base;
-  const params = {};
-
-  const code = `import fs from "fs";
-import path from "path";
+import ollama from "ollama";
 
 /**
- * Auto-generated dynamic skill from prompt:
- * ${prompt.replace(/\*\//g, "*\\/")}
+ * ollamaPlan
+ * -----------
+ * Cleans and returns runnable TypeScript code — removes markdown and stray imports.
  */
-export default async function run(params: any, ctx: { actor?: string }): Promise<string> {
-  const out = path.join(process.cwd(), "memory", "skills");
-  fs.mkdirSync(out, { recursive: true });
-  const marker = path.join(out, "${name}.log");
-  fs.appendFileSync(marker, \`[\${new Date().toISOString()}] run by \${ctx.actor ?? "unknown"} with \${JSON.stringify(params)}\\n\`);
-  return "✅ ${name} executed (scaffold).";
-}
-`;
-  return { name, params, code };
+export async function ollamaPlan(prompt: string): Promise<string> {
+  try {
+    const response = await ollama.chat({
+      model: "mistral",
+      messages: [
+        {
+          role: "system",
+          content:
+            "You are a code generator. Respond ONLY with valid TypeScript code inside an async function. Do NOT include imports, markdown fences, or explanations.",
+        },
+        { role: "user", content: prompt },
+      ],
+    });
+
+    let raw = response?.message?.content?.trim() ?? "";
+    if (!raw) throw new Error("Empty Ollama response");
+
+    // 🧹 Sanitize: remove code fences, language tags, and imports
+    raw = raw
+      .replace(/```[a-zA-Z]*\n?/g, "")
+      .replace(/```/g, "")
+      .replace(/^import .*?;$/gm, "")
+      .replace(/from\s+['"].*?['"];?/gm, "")
+      .trim();
+
+    // Wrap if not already exported
+    if (!raw.startsWith("export default")) {
+      raw = `export default async function run(params: any = {}, ctx: any = {}) {\n${raw}\n  return "✅ Dynamic skill executed.";\n}`;
+    }
+
+    return raw;
+  } catch (err: any) {
+    console.error("❌ ollamaPlan error:", err.message);
+    return `export default async function run(){throw new Error("${err.message}")}`;
+  }
 }

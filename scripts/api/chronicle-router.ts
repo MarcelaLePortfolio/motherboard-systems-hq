@@ -1,26 +1,31 @@
 import express from "express";
-import { recordChronicle, getChronicle } from "../pipelines/systemChronicle";
+import fs from "fs";
+import path from "path";
 
 const router = express.Router();
 
-/** POST /chronicle/add — manual or system log entry */
-router.post("/add", (req, res) => {
+/**
+ * GET /chronicle/list
+ * -------------------
+ * Returns the most recent Chronicle events for dashboard display.
+ */
+router.get("/list", (req, res) => {
   try {
-    const { event, detail } = req.body || {};
-    const entry = recordChronicle(event || "manual-entry", detail || {});
-    res.json({ ok: true, entry });
-  } catch (e: any) {
-    res.status(500).json({ ok: false, error: e?.message ?? String(e) });
-  }
-});
+    const chroniclePath = path.join(process.cwd(), "logs", "system-chronicle.jsonl");
+    if (!fs.existsSync(chroniclePath)) {
+      return res.json({ ok: true, log: [] });
+    }
 
-/** GET /chronicle/list — retrieve recent entries */
-router.get("/list", (_req, res) => {
-  try {
-    const log = getChronicle(50);
-    res.json({ ok: true, log });
-  } catch (e: any) {
-    res.status(500).json({ ok: false, error: e?.message ?? String(e) });
+    const lines = fs.readFileSync(chroniclePath, "utf8")
+      .trim()
+      .split("\n")
+      .slice(-100) // latest 100 events
+      .map(l => JSON.parse(l));
+
+    res.json({ ok: true, log: lines });
+  } catch (err: any) {
+    console.error("❌ Chronicle list error:", err.message);
+    res.status(500).json({ ok: false, error: err.message });
   }
 });
 
