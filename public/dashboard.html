@@ -1,4 +1,5 @@
 <!DOCTYPE html><html lang="en"><head>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <meta charset="UTF-8">
 
   <title>🖥️ Motherboard Systems</title>
@@ -257,6 +258,16 @@ setInterval(refreshInsights, 8000);
 <canvas id="insightChart" width="500" height="120" style="border:1px solid #ccc;background:#fafafa"></canvas>
 
 
-<h2>System Chronicle</h2>
-<div id="chroniclePanel" style="height:150px;overflow-y:auto;border:1px solid #ccc;padding:0.5rem;background:#fdf9ff;font-size:0.85rem"></div>
+</section>
 
+
+</section>
+
+
+<!-- 🧠 System Chronicle Panel -->
+<section id="chronicle-section" class="mt-6 bg-white rounded-xl shadow p-4">
+  <h2 class="text-lg font-semibold mb-2">📜 System Chronicle</h2>
+  <div id="chronicle-feed" class="text-sm h-64 overflow-y-auto font-mono bg-gray-50 p-2 rounded"></div>
+</section>
+
+<script src="/chronicle-panel.js"></script>
