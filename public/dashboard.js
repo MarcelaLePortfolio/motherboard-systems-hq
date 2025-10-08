@@ -121,3 +121,20 @@ async function refreshIntrospectivePanel() {
 }
 
 setInterval(refreshIntrospectivePanel, 6000);
+
+async function refreshAdaptationPanel() {
+  try {
+    const res = await fetch("/adaptation/history");
+    const { logs } = await res.json();
+    const latest = logs.at(-1);
+    const container = document.getElementById("adaptationPanel");
+    if (!container) return;
+    container.innerHTML = latest
+      ? `<strong>${latest.action}</strong><br><small>${latest.note}</small><br><em>Scenario: ${latest.scenario}</em>`
+      : "No adaptations yet.";
+  } catch (err) {
+    console.error("Adaptation panel refresh failed", err);
+  }
+}
+
+setInterval(refreshAdaptationPanel, 8000);
