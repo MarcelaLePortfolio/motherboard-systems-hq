@@ -101,3 +101,23 @@ async function refreshSystemHealth() {
 }
 
 setInterval(refreshSystemHealth, 5000);
+
+async function refreshIntrospectivePanel() {
+  try {
+    const res = await fetch("/introspect/history");
+    const { sims } = await res.json();
+    const latest = sims.at(-1);
+    const container = document.getElementById("introspectivePanel");
+    if (!container) return;
+    container.innerHTML = latest
+      ? `<strong>${latest.scenario}</strong><br>
+         Success: ${latest.predictedSuccess} | Risk: ${latest.predictedRisk}<br>
+         <em>${latest.trendContext}</em><br>
+         <small>${latest.rationale}</small>`
+      : "No simulations yet.";
+  } catch (err) {
+    console.error("Introspective panel refresh failed", err);
+  }
+}
+
+setInterval(refreshIntrospectivePanel, 6000);
