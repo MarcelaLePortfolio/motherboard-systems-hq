@@ -1,10 +1,12 @@
 // <0001fbC1> Serve real dashboard layout from public/
 import express from "express";
+import { getApp } from "./scripts/utils/appSingleton";
+const app = getApp();
+
 import introspectiveRouter from "./scripts/api/introspective-router";
 import adaptationRouter from "./scripts/api/adaptation-router";
 import insightVisualizerRouter from "./scripts/api/insight-visualizer-router";
 import { getApp } from "./scripts/utils/appSingleton";
-const app = getApp();
 
 import systemHealthRouter from "./scripts/api/system-health-router";
 import cognitiveRouter from "./scripts/api/cognitive-router";
@@ -63,6 +65,13 @@ import fs from "fs";
 // ✅ Only start server if this file is executed directly (not imported)
 if (process.argv[1] && process.argv[1].includes("server.ts")) {
   app.listen(PORT, () => {
+    // <0001f9f6> Re-attach static middleware after server start
+    import("express").then(e => {
+      import("path").then(p => {
+        app.use(e.default.static(p.default.resolve("public")));
+        console.log("📦 Static middleware attached post-launch.");
+      });
+    });
   // ✅ Serve public folder after all agent/registry routes
   // Delay dynamic route mounting until after server starts
   setTimeout(async () => {
@@ -83,7 +92,6 @@ if (process.argv[1] && process.argv[1].includes("server.ts")) {
 setTimeout(async () => {
   const { registerDynamicEndpoint } = await import("./scripts/utils/registerDynamicEndpoint.js");
   const fs = await import("fs");
-  const path = await import("path");
     console.log("🧩 Post-listen re-mount complete: All skills live on current server instance.");
 }, 1000);
   // <0001f9ea> Post-launch auto-registration (safe timing)
@@ -96,6 +104,13 @@ setTimeout(async () => {
       console.error("<0001f9ea> ⚠️ registerAllSkills failed:", err.message);
     }
   app.listen(PORT, () => {
+    // <0001f9f6> Re-attach static middleware after server start
+    import("express").then(e => {
+      import("path").then(p => {
+        app.use(e.default.static(p.default.resolve("public")));
+        console.log("📦 Static middleware attached post-launch.");
+      });
+    });
     console.log(`🚀 Express server running at http://localhost:${PORT}`);
 });
 
@@ -105,51 +120,28 @@ setTimeout(async () => {
 
 (async () => {
   if (process.argv[1] && process.argv[1].includes("server.ts")) {
-    const express = (await import("express")).default;
-    const path = (await import("path")).default;
-    const app = (await import("./server.ts")).default;
-    app.use(express.static(path.resolve("public")));
-    console.log("📦 Static middleware re-attached after all dynamic mounts.");
   }
 })();
 
 (async () => {
   if (process.argv[1] && process.argv[1].includes("server.ts")) {
-    const express = (await import("express")).default;
-    const path = (await import("path")).default;
-    const { default: app } = await import("./server.ts");
     if (typeof app?.use === "function") {
-      app.use(express.static(path.resolve("public")));
-      console.log("📦 Static middleware re-attached after all dynamic mounts.");
     } else {
-      console.warn("⚠️ Could not re-attach static middleware — app export not found.");
     }
   }
 })();
 
 (async () => {
   if (process.argv[1] && process.argv[1].includes("server.ts")) {
-    const express = (await import("express")).default;
-    const path = (await import("path")).default;
     const { getApp } = await import("./scripts/utils/appSingleton.js");
-    const app = getApp();
-    app.use(express.static(path.resolve("public")));
-    console.log("📦 Static middleware re-attached after all dynamic mounts.");
   }
 })();
 
-// <0001f9f4> 🗂️ Serve static assets last (after all dynamic endpoints)
 (async () => {
   if (process.argv[1] && process.argv[1].includes("server.ts")) {
-    const express = (await import("express")).default;
-    const path = (await import("path")).default;
     const { getApp } = await import("./scripts/utils/appSingleton");
-    const app = getApp();
     if (typeof app?.use === "function") {
-      app.use(express.static(path.resolve("public")));
-      console.log("📦 Static middleware re-attached after all dynamic mounts.");
     } else {
-      console.warn("⚠️ Static middleware skipped — invalid app reference.");
     }
   }
 })();
