@@ -1,7 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
+<!DOCTYPE html><html lang="en"><head>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <meta charset="UTF-8">
 
   <title>🖥️ Motherboard Systems</title>
   <style>
@@ -49,21 +48,28 @@
   <h1>🖥️ Motherboard Systems</h1>
 
   <div id="debugBanner" style="background:#e6f7ff; border:1px solid #91d5ff; padding:8px; margin:10px 0; border-radius:6px; color:#0050b3; font-size:0.9em;">
-    ⚡ Dashboard v2.0.0 loaded — waiting for scripts…
+    ⚡ Dashboard v2.0.1 loaded — waiting for scripts…
   </div>
 
-    </form>
-  </div>
+    
+  
 
   <!-- Agent Status -->
-  <div class="card">
-    <h2>Agent Status</h2>
-    <table id="agents"></table>
+  <header style="display:flex; gap:1rem; align-items:center; flex-wrap:wrap;">
+    <h2>📟 Agent Status</h2>
+    <ul>
+      <li>Matilda: 🟢 Idle</li>
+      <li>Cade: 🟠 Busy</li>
+      <li>Effie: 🟢 Idle</li>
+    </ul>
+  </header><div class="card">
+    <h2>💬 Chat with Assistant</h2>
+  <div id="chatLog" style="height:200px; overflow-y:auto; border:1px solid #ccc; border-radius:8px; background:#f9f9f9; padding:1rem; margin-bottom:1rem;"></div>
+  <div class="chat-input" style="background:#fff0f0;border:2px solid red;padding:1rem;margin-top:1rem;display:flex;gap:0.5rem;">
+    <input type="text" id="userInput" placeholder="Type a message..." style="flex:1;padding:0.5rem;font-size:1rem;border:1px solid blue;">
+    <button onclick="sendMessage()" style="padding:0.5rem 1rem;font-size:1rem;background:#ff0;">Send</button>
   </div>
-
-  <!-- Recent Tasks -->
-  <div class="card">
-    <h2>Recent Tasks</h2>
+<h2>Recent Tasks</h2>
     <table id="tasks"></table>
   </div>
 
@@ -73,7 +79,7 @@
     <table id="logs"></table>
   </div>
 
-  <script src="dashboard.js?v=1.2.0" defer></script>
+  <script src="dashboard.js?v=1.2.0" defer=""></script>
 
   <script>
   async function refreshTasks() {
@@ -137,10 +143,10 @@
   refreshTasks();
   refreshLogs();
   </script>
-</body>
-</html>
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Motherboard Systems HQ</title>
   <style>
     body {
@@ -174,27 +180,15 @@
       font-size: 1rem;
     }
   </style>
-</head>
-<body>
+
+
 
   <!-- 1. AGENT STATUS BAR -->
-  <header>
-    <h2>📟 Agent Status</h2>
-    <ul>
-      <li>Matilda: 🟢 Idle</li>
-      <li>Cade: 🟠 Busy</li>
-      <li>Effie: 🟢 Idle</li>
-    </ul>
-  </header>
+  
 
 <!-- 2. CHATBOT -->
 <section>
-  <h2>💬 Chat with Assistant</h2>
-  <div id="chatLog" style="height:200px; overflow-y:auto; border:1px solid #ccc; border-radius:8px; background:#f9f9f9; padding:1rem; margin-bottom:1rem;"></div>
-  <div class="chat-input" style="background:#fff0f0;border:2px solid red;padding:1rem;margin-top:1rem;display:flex;gap:0.5rem;">
-    <input type="text" id="userInput" placeholder="Type a message..." style="flex:1;padding:0.5rem;font-size:1rem;border:1px solid blue;" />
-    <button onclick="sendMessage()" style="padding:0.5rem 1rem;font-size:1rem;background:#ff0;">Send</button>
-  </div>
+  
   <script>
     function sendMessage() {
       const input = document.getElementById("userInput");
@@ -221,3 +215,59 @@
 </section>
 
 
+<script src="\/dashboard-selfverify.js"><\/script>
+</body></html>
+<!-- OPS STREAM + INSIGHT TICKER -->
+<h2>OPS Stream</h2>
+<div id="opsStream" style="height:150px;overflow-y:auto;border:1px solid #ccc;padding:0.5rem;background:#fafafa"></div>
+
+<h2>Matilda Insights</h2>
+<div id="insightTicker" style="height:100px;overflow-y:auto;border:1px solid #ccc;padding:0.5rem;background:#fefdfd;color:#444;font-style:italic"></div>
+
+<script>
+async function refreshInsights() {
+  try {
+    const res = await fetch("/insights");
+    const { insight } = await res.json();
+    const el = document.getElementById("insightTicker");
+    if (el) el.innerText = insight;
+  } catch (e) {
+    console.warn("Insight fetch failed", e);
+  }
+}
+setInterval(refreshInsights, 8000);
+</script>
+
+<h2>Cognitive Cohesion</h2>
+<div id="cognitivePanel" style="height:120px;overflow-y:auto;border:1px solid #ccc;padding:0.5rem;background:#f5f5ff"></div>
+
+
+<h2>System Health</h2>
+<div id="systemHealth" style="height:80px;overflow-y:auto;border:1px solid #ccc;padding:0.5rem;background:#f7fff7"></div>
+
+
+<h2>Introspective Simulation</h2>
+<div id="introspectivePanel" style="height:150px;overflow-y:auto;border:1px solid #ccc;padding:0.5rem;background:#fffaf5"></div>
+
+
+<h2>Autonomic Adaptation</h2>
+<div id="adaptationPanel" style="height:120px;overflow-y:auto;border:1px solid #ccc;padding:0.5rem;background:#f5fff5"></div>
+
+
+<h2>System Insight Visualizer</h2>
+<canvas id="insightChart" width="500" height="120" style="border:1px solid #ccc;background:#fafafa"></canvas>
+
+
+</section>
+
+
+</section>
+
+
+<!-- 🧠 System Chronicle Panel -->
+<section id="chronicle-section" class="mt-6 bg-white rounded-xl shadow p-4">
+  <h2 class="text-lg font-semibold mb-2">📜 System Chronicle</h2>
+  <div id="chronicle-feed" class="text-sm h-64 overflow-y-auto font-mono bg-gray-50 p-2 rounded"></div>
+</section>
+
+<script src="/chronicle-panel.js"></script>
