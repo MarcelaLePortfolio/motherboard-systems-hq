@@ -45,9 +45,7 @@ app.use("/adaptation", adaptationRouter);
 app.use("/visual", insightVisualizerRouter);
 app.use("/api/reflections", reflectionsRouter);
 // ✅ Redirect /dashboard → /dashboard.html
-app.get("/dashboard", (_req, res) => res.sendFile(path.join(publicDir, "dashboard.html")));
 app.use((_req, res) => res.status(404).send("<h1>404 – Page not found</h1>"));
-const PORT = process.env.PORT || 3001;
 // ✅ Export app for imports
 // ✅ Auto-mount all existing skills on startup
 import fs from "fs";
@@ -64,67 +62,30 @@ import fs from "fs";
 })();
 // ✅ Only start server if this file is executed directly (not imported)
 if (process.argv[1] && process.argv[1].includes("server.ts")) {
-  app.listen(PORT, () => {
-    // <0001f9f6> Re-attach static middleware after server start
-    import("express").then(e => {
-      import("path").then(p => {
-        app.use(e.default.static(p.default.resolve("public")));
-        console.log("📦 Static middleware attached post-launch.");
-      });
+    const publicDir = path.join(process.cwd(), "public");
+    app.use(express.static(publicDir));
+    console.log(`📦 Static files served from ${publicDir}`);
+    const PORT = process.env.PORT || 3001;
+    app.listen(PORT, () => {
+      console.log(`🚀 Express server running at http://localhost:${PORT}`);
     });
-  // ✅ Serve public folder after all agent/registry routes
-  // Delay dynamic route mounting until after server starts
-  setTimeout(async () => {
-    const skillDir = path.join(process.cwd(), "scripts", "skills");
-    if (fs.existsSync(skillDir)) {
-      for (const f of fs.readdirSync(skillDir)) {
-        if (f.endsWith(".ts")) {
-          const skill = f.replace(/\.ts$/, "");
-          await registerDynamicEndpoint(app, skill);
-        }
-      }
-      console.log("✅ All dynamic skill endpoints mounted.");
-    }
-  }, 800);
-  }
-// 🧩 Force delayed dynamic endpoint activation (guaranteed on live app)
-        )
-setTimeout(async () => {
-  const { registerDynamicEndpoint } = await import("./scripts/utils/registerDynamicEndpoint.js");
-  const fs = await import("fs");
-    console.log("🧩 Post-listen re-mount complete: All skills live on current server instance.");
-}, 1000);
-  // <0001f9ea> Post-launch auto-registration (safe timing)
-  (async () => {
-    try {
-      const { registerAllSkills } = await import("./scripts/utils/registerAllSkills.js");
-      await registerAllSkills(app);
-      console.log("<0001f9ea> ✅ All skill endpoints mounted after server launch.");
-    } catch (err) {
-      console.error("<0001f9ea> ⚠️ registerAllSkills failed:", err.message);
-    }
-  app.listen(PORT, () => {
-    // <0001f9f6> Re-attach static middleware after server start
-    import("express").then(e => {
-      import("path").then(p => {
-        app.use(e.default.static(p.default.resolve("public")));
-        console.log("📦 Static middleware attached post-launch.");
-      });
     });
-    console.log(`🚀 Express server running at http://localhost:${PORT}`);
-});
 
-})();
-}
-
-
-(async () => {
-  if (process.argv[1] && process.argv[1].includes("server.ts")) {
+    });
+    });
   }
 })();
 
 (async () => {
   if (process.argv[1] && process.argv[1].includes("server.ts")) {
+    const publicDir = path.join(process.cwd(), "public");
+    app.use(express.static(publicDir));
+    console.log(`📦 Static files served from ${publicDir}`);
+    const PORT = process.env.PORT || 3001;
+    app.listen(PORT, () => {
+      console.log(`🚀 Express server running at http://localhost:${PORT}`);
+    });
+    });
     if (typeof app?.use === "function") {
     } else {
     }
@@ -133,15 +94,33 @@ setTimeout(async () => {
 
 (async () => {
   if (process.argv[1] && process.argv[1].includes("server.ts")) {
+    const publicDir = path.join(process.cwd(), "public");
+    app.use(express.static(publicDir));
+    console.log(`📦 Static files served from ${publicDir}`);
+    const PORT = process.env.PORT || 3001;
+    app.listen(PORT, () => {
+      console.log(`🚀 Express server running at http://localhost:${PORT}`);
+    });
+    });
     const { getApp } = await import("./scripts/utils/appSingleton.js");
   }
 })();
 
 (async () => {
   if (process.argv[1] && process.argv[1].includes("server.ts")) {
+    const publicDir = path.join(process.cwd(), "public");
+    app.use(express.static(publicDir));
+    console.log(`📦 Static files served from ${publicDir}`);
+    const PORT = process.env.PORT || 3001;
+    app.listen(PORT, () => {
+      console.log(`🚀 Express server running at http://localhost:${PORT}`);
+    });
+    });
     const { getApp } = await import("./scripts/utils/appSingleton");
     if (typeof app?.use === "function") {
     } else {
     }
   }
 })();
+}
+)();
