@@ -121,6 +121,40 @@
     <summary style="cursor:pointer;font-weight:bold;">📜 System Chronicle</summary>
     <pre id="system-chronicle">Chronicle data will appear here...</pre>
   </details>
+  <script>
+    async function updatePanel(id, endpoint) {
+      const el = document.getElementById(id);
+      if (!el) { console.warn("Panel #" + id + " not found"); return; }
+      try {
+        console.log("Fetching " + endpoint + " for " + id + "...");
+        const res = await fetch(endpoint);
+        if (!res.ok) throw new Error(res.status + " " + res.statusText);
+        const data = await res.json();
+        el.textContent = JSON.stringify(data, null, 2);
+        console.log("Updated " + id + " at " + new Date().toLocaleTimeString());
+      } catch (err) {
+        console.error("Panel " + id + " failed:", err.message);
+        el.textContent = "Endpoint unavailable: " + endpoint;
+      }
+    }
+
+    async function refreshAllDiagnostics() {
+      console.log("Refresh cycle started at " + new Date().toLocaleTimeString());
+      await updatePanel("system-health-content", "/system/health");
+      await updatePanel("persistent-insight", "/insight/persist");
+      await updatePanel("autonomic-adaptation-content", "/adaptation/history");
+      await updatePanel("introspective-sim", "/introspect/history");
+      await updatePanel("system-chronicle", "/chronicle/list");
+      await updatePanel("insight-visualizer", "/visual/trends");
+      console.log("Refresh cycle complete.");
+    }
+
+    window.addEventListener("load", () => {
+      console.log("Diagnostic Auto-Refresh engaged");
+      refreshAllDiagnostics();
+      setInterval(refreshAllDiagnostics, 15000);
+    });
+  </script>
 </body>
 </html>
   <script>
