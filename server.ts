@@ -1,3 +1,5 @@
+import { matildaHandler } from "./scripts/agents/matilda-handler";
+global.matildaHandler = matildaHandler;
 import express from "express";
 import path from "path";
 import Database from "better-sqlite3";
@@ -118,4 +120,24 @@ app.get("/logs/recent", (req, res) => {
     { id: 1, message: "Diagnostics initialized", level: "info", timestamp: new Date().toISOString() },
     { id: 2, message: "Autonomic adaptation stable", level: "info", timestamp: new Date().toISOString() }
   ]);
+});
+
+// <0001faad> Matilda delegation route — universal safe handler
+app.post("/matilda", express.json(), async (req, res) => {
+  try {
+    const { message } = req.body || {};
+    console.log("[MATILDA] Received:", message);
+    let output;
+    if (global.matildaHandler) {
+      output = await matildaHandler(message);
+    } else {
+      output = "Matilda received message but no handler was defined.";
+    }
+    const payload = typeof output === "object" ? output : { message: String(output || "No output") };
+    res.setHeader("Content-Type", "application/json");
+    res.end(JSON.stringify(payload, null, 2));
+  } catch (err) {
+    console.error("[MATILDA ERROR]:", err);
+    res.status(500).json({ error: err.message || String(err) });
+  }
 });
