@@ -82,242 +82,119 @@
 
   <script src="/dashboard.js?v=1.2.0" defer=""></script>
 
-  <script>
-  async function refreshTasks() {
-    try {
-      const res = await fetch("/tasks/recent");
-      const tasks = await res.json();
-      const table = document.getElementById("tasks");
-
-      if (!tasks.length) {
-        table.innerHTML = "<tr><td colspan='3'>No tasks yet</td></tr>";
-        return;
-      }
-
-      table.innerHTML = `
-        <tr><th>Time</th><th>Command</th><th>Status</th></tr>
-        ${tasks.map(t =>
-          `<tr>
-            <td>${new Date(t.ts).toLocaleTimeString()}</td>
-            <td>${t.command}</td>
-            <td>${t.status}</td>
-          </tr>`
-        ).join("")}
-      `;
-    } catch (err) {
-      console.error("❌ Failed to fetch tasks", err);
-    }
-  }
-
-  async function refreshLogs() {
-    try {
-      const res = await fetch("/logs/recent");
-      const logs = await res.json();
-      const table = document.getElementById("logs");
-
-      if (!logs.length) {
-        table.innerHTML = "<tr><td colspan='2'>No logs yet</td></tr>";
-        return;
-      }
-
-      table.innerHTML = `
-        <tr><th>Time</th><th>Event</th></tr>
-        ${logs.map(l =>
-          `<tr>
-            <td>${new Date(l.ts).toLocaleTimeString()}</td>
-            <td>${l.reflection}</td>
-          </tr>`
-        ).join("")}
-      `;
-    } catch (err) {
-      console.error("❌ Failed to fetch logs", err);
-    }
-  }
-
-  // Auto-refresh every 3s
-  setInterval(() => {
-    refreshTasks();
-    refreshLogs();
-  }, 3000);
-
-  // Initial load
-  refreshTasks();
-  refreshLogs();
-  </script>
-
-
-
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Motherboard Systems HQ</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      margin: 0;
-      padding: 1rem;
-      background: #f9f9f9;
-    }
-    section {
-      margin-bottom: 2rem;
-    }
-    h2 {
-      font-size: 1.25rem;
-      margin-bottom: 0.5rem;
-    }
-    .chat-input {
-      display: flex;
-      gap: 0.5rem;
-      margin-top: 1rem;
-      padding: 1rem;
-      background: #eee;
-      border-radius: 8px;
-    }
-    .chat-input input {
-      flex: 1;
-      padding: 0.5rem;
-      font-size: 1rem;
-    }
-    .chat-input button {
-      padding: 0.5rem 1rem;
-      font-size: 1rem;
-    }
-  </style>
-
-
-
-  <!-- 1. AGENT STATUS BAR -->
-  
-
-<!-- 2. CHATBOT -->
-<section>
-  
-  <script>
-    function sendMessage() {
-      const input = document.getElementById("userInput");
-      const log = document.getElementById("chatLog");
-      const msg = input.value.trim();
-      if (msg) {
-        const entry = document.createElement("div");
-        entry.textContent = "👤 You: " + msg;
-        log.appendChild(entry);
-        log.scrollTop = log.scrollHeight;
-        input.value = "";
-      }
-    }
-    document.addEventListener("DOMContentLoaded", function () {
-      const input = document.getElementById("userInput");
-      input.addEventListener("keypress", function (e) {
-        if (e.key === "Enter") {
-          e.preventDefault();
-          sendMessage();
-        }
-      });
-    });
-  </script>
-</section>
-
-
-<script src="\/dashboard-selfverify.js"><\/script>
-  <script>
-  try {
-    const res = await fetch("/insights");
-    const { insight } = await res.json();
-    const el = document.getElementById("insightTicker");
-    if (el) el.innerText = insight;
-  } catch (e) {
-    console.warn("Insight fetch failed", e);
-  }
-}
-setInterval(refreshInsights, 8000);
-</script>
-
-<h2>Cognitive Cohesion</h2>
-<div id="cognitivePanel" style="height:120px;overflow-y:auto;border:1px solid #ccc;padding:0.5rem;background:#f5f5ff"></div>
-
-
-<h2>System Health</h2>
-<div id="systemHealth" style="height:80px;overflow-y:auto;border:1px solid #ccc;padding:0.5rem;background:#f7fff7"></div>
-
-
-<h2>Introspective Simulation</h2>
-<div id="introspectivePanel" style="height:150px;overflow-y:auto;border:1px solid #ccc;padding:0.5rem;background:#fffaf5"></div>
-
-
-<h2>Autonomic Adaptation</h2>
-<div id="adaptationPanel" style="height:120px;overflow-y:auto;border:1px solid #ccc;padding:0.5rem;background:#f5fff5"></div>
-
-
-<h2>System Insight Visualizer</h2>
-<canvas id="insightChart" width="500" height="120" style="border:1px solid #ccc;background:#fafafa"></canvas>
-
-
-</section>
-
-
-</section>
-
-
-<!-- 🧠 System Chronicle Panel -->
-<section id="chronicle-section" class="mt-6 bg-white rounded-xl shadow p-4">
-  <h2 class="text-lg font-semibold mb-2">📜 System Chronicle</h2>
-  <div id="chronicle-feed" class="text-sm h-64 overflow-y-auto font-mono bg-gray-50 p-2 rounded"></div>
-</section>
-
-<script src="/chronicle-panel.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      console.log("📊 Waiting for Chart.js and DOM readiness...");
-      const waitForChart = async (attempt = 0) => {
-        if (typeof window.Chart === "undefined") {
-          if (attempt < 20) {
-            console.warn(`⌛ Chart.js not ready (attempt ${attempt})...`);
-            return setTimeout(() => waitForChart(attempt + 1), 500);
-          }
-          console.error("❌ Chart.js failed to load after 20 attempts");
-          return;
-        }
-
-        try {
-          const res = await fetch("/visual/trends");
-          const data = await res.json();
-          const el = document.getElementById("insight-visualizer");
-          if (!el) return console.warn("⚠️ #insight-visualizer not found in DOM");
-          el.innerHTML = `<canvas id='insightChart' height='120'></canvas>`;
-          const ctx = document.getElementById("insightChart").getContext("2d");
-          const labels = data.map(d => `T${d.t}`);
-          new Chart(ctx, {
-            type: "line",
-            data: {
-              labels,
-              datasets: [
-                { label: "Success %", data: data.map(d => d.success), borderColor: "green", tension: 0.3 },
-                { label: "Risk %", data: data.map(d => d.risk), borderColor: "red", tension: 0.3 }
-              ]
-            },
-            options: {
-              responsive: true,
-              plugins: {
-                legend: { position: "bottom" },
-                title: { display: true, text: "System Insight Trends" }
-              },
-              scales: { y: { beginAtZero: true, max: 100 } }
-            }
-          });
-          console.log("✅ Chart.js ready and chart drawn!");
-        } catch (err) {
-          console.error("❌ Failed to draw chart:", err);
-        }
-      };
-      waitForChart();
-    });
-  </script>
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
 
   <!-- System Insight Visualizer -->
-  <section id="insight-panel" style="padding:1rem;margin-top:1rem;background:white;border-radius:8px;box-shadow:0 0 5px #ccc;">
+  <section id="insight-panel"
+    style="padding:1rem;margin-top:1rem;background:white;border-radius:8px;box-shadow:0 0 5px #ccc;">
     <h3 style="margin-bottom:.5rem;">System Insight Visualizer</h3>
     <div id="insight-visualizer" style="min-height:160px;"></div>
   </section>
 
+  <!-- === Core Diagnostic Panels === -->
+  <section id="system-health" style="margin:1rem;padding:1rem;background:#fff;border-radius:8px;box-shadow:0 0 5px #ccc;">
+    <h3>⚙️ System Health & Verification</h3>
+    <pre id="system-health-content">Loading...</pre>
+  </section>
+
+  <section id="matilda-insights" style="margin:1rem;padding:1rem;background:#fff;border-radius:8px;box-shadow:0 0 5px #ccc;">
+    <h3>🧠 Matilda Insights</h3>
+    <pre id="persistent-insight">Loading insights...</pre>
+  </section>
+
+  <section id="insight-visualizer-panel" style="margin:1rem;padding:1rem;background:#fff;border-radius:8px;box-shadow:0 0 5px #ccc;">
+    <h3>📈 System Insight Visualizer</h3>
+    <div id="insight-visualizer" style="min-height:180px;"></div>
+  </section>
+
+  <section id="autonomic-adaptation" style="margin:1rem;padding:1rem;background:#fff;border-radius:8px;box-shadow:0 0 5px #ccc;">
+    <h3>🤖 Autonomic Adaptation</h3>
+    <pre id="autonomic-adaptation-content">Awaiting data...</pre>
+  </section>
+
+  <!-- === Collapsible Deep Diagnostics === -->
+  <details style="margin:1rem;padding:1rem;background:#fafafa;border-radius:8px;box-shadow:inset 0 0 4px #ddd;">
+    <summary style="cursor:pointer;font-weight:bold;">🔮 Introspective Simulation</summary>
+    <pre id="introspective-sim">Simulation logs will appear here...</pre>
+  </details>
+
+  <details style="margin:1rem;padding:1rem;background:#fafafa;border-radius:8px;box-shadow:inset 0 0 4px #ddd;">
+    <summary style="cursor:pointer;font-weight:bold;">📜 System Chronicle</summary>
+    <pre id="system-chronicle">Chronicle data will appear here...</pre>
+  </details>
+</body>
+</html>
+  <script>
+    // ✅ Clean full restoration script
+    async function refreshTasks() {
+      try {
+        const res = await fetch("/tasks/recent");
+        const data = await res.json();
+        const el = document.getElementById("tasks");
+        if (!el) return console.warn("⚠️ #tasks not found");
+        el.innerHTML = `<tr><th>Task</th><th>Status</th><th>Time</th></tr>` +
+          data.map(t => `<tr><td>${t.task}</td><td>${t.status}</td><td>${new Date(t.timestamp).toLocaleTimeString()}</td></tr>`).join('');
+      } catch (err) {
+        console.error("❌ Failed to fetch tasks", err);
+      }
+    }
+
+    async function refreshLogs() {
+      try {
+        const res = await fetch("/logs/recent");
+        const data = await res.json();
+        const el = document.getElementById("logs");
+        if (!el) return console.warn("⚠️ #logs not found");
+        el.innerHTML = `<tr><th>Message</th><th>Level</th><th>Time</th></tr>` +
+          data.map(l => `<tr><td>${l.message}</td><td>${l.level}</td><td>${new Date(l.timestamp).toLocaleTimeString()}</td></tr>`).join('');
+      } catch (err) {
+        console.error("❌ Failed to fetch logs", err);
+      }
+    }
+
+    async function waitForChart() {
+      try {
+        const res = await fetch("/visual/trends");
+        const data = await res.json();
+        const el = document.getElementById("insight-visualizer");
+        if (!el) return console.warn("⚠️ #insight-visualizer not found in DOM");
+        el.innerHTML = `<canvas id='insightChart' height='120'></canvas>`;
+        const ctx = document.getElementById("insightChart").getContext("2d");
+        const labels = data.map(d => `T${d.t}`);
+        new Chart(ctx, {
+          type: "line",
+          data: {
+            labels,
+            datasets: [
+              { label: "Success %", data: data.map(d => d.success), borderColor: "green", tension: 0.3 },
+              { label: "Risk %", data: data.map(d => d.risk), borderColor: "red", tension: 0.3 }
+            ]
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: { position: "bottom" },
+              title: { display: true, text: "System Insight Trends" }
+            },
+            scales: { y: { beginAtZero: true, max: 100 } }
+          }
+        });
+        console.log("✅ Chart.js ready and chart drawn!");
+      } catch (err) {
+        console.error("❌ Failed to draw chart:", err);
+      }
+    }
+
+    window.addEventListener("load", () => {
+      console.log("📡 Dashboard diagnostics auto-refresh engaged");
+      refreshTasks();
+      refreshLogs();
+      waitForChart();
+      setInterval(() => {
+        refreshTasks();
+        refreshLogs();
+        waitForChart();
+      }, 10000);
+    });
+  </script>
 </body>
 </html>
