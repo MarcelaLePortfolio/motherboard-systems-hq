@@ -63,3 +63,24 @@ if (process.argv[2] === "process") {
     console.error("❌ Error processing reflection task:", err);
   }
 }
+
+// <0001fab0> Autonomous Self-Reflection Integration
+import { recordReflection } from "../utils/reflectionMemory";
+
+async function selfReflect(context: string, result: any, error?: any) {
+  const entry = {
+    timestamp: new Date().toISOString(),
+    context,
+    status: error ? "error" : "success",
+    summary: error ? String(error) : (result?.message || "Completed successfully"),
+  };
+  await recordReflection(entry);
+}
+
+// Hook into process lifecycle
+process.on("exit", async (code) => {
+  await selfReflect("process_exit", { message: `Exited with code ${code}` });
+});
+process.on("uncaughtException", async (err) => {
+  await selfReflect("uncaught_exception", {}, err);
+});
