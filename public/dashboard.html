@@ -1,3 +1,4 @@
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <!DOCTYPE html><html lang="en"><head>
 <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <meta charset="UTF-8">
@@ -79,7 +80,7 @@
     <table id="logs"></table>
   </div>
 
-  <script src="dashboard.js?v=1.2.0" defer=""></script>
+  <script src="/dashboard.js?v=1.2.0" defer=""></script>
 
   <script>
   async function refreshTasks() {
@@ -216,16 +217,7 @@
 
 
 <script src="\/dashboard-selfverify.js"><\/script>
-</body></html>
-<!-- OPS STREAM + INSIGHT TICKER -->
-<h2>OPS Stream</h2>
-<div id="opsStream" style="height:150px;overflow-y:auto;border:1px solid #ccc;padding:0.5rem;background:#fafafa"></div>
-
-<h2>Matilda Insights</h2>
-<div id="insightTicker" style="height:100px;overflow-y:auto;border:1px solid #ccc;padding:0.5rem;background:#fefdfd;color:#444;font-style:italic"></div>
-
-<script>
-async function refreshInsights() {
+  <script>
   try {
     const res = await fetch("/insights");
     const { insight } = await res.json();
@@ -271,3 +263,61 @@ setInterval(refreshInsights, 8000);
 </section>
 
 <script src="/chronicle-panel.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      console.log("📊 Waiting for Chart.js and DOM readiness...");
+      const waitForChart = async (attempt = 0) => {
+        if (typeof window.Chart === "undefined") {
+          if (attempt < 20) {
+            console.warn(`⌛ Chart.js not ready (attempt ${attempt})...`);
+            return setTimeout(() => waitForChart(attempt + 1), 500);
+          }
+          console.error("❌ Chart.js failed to load after 20 attempts");
+          return;
+        }
+
+        try {
+          const res = await fetch("/visual/trends");
+          const data = await res.json();
+          const el = document.getElementById("insight-visualizer");
+          if (!el) return console.warn("⚠️ #insight-visualizer not found in DOM");
+          el.innerHTML = `<canvas id='insightChart' height='120'></canvas>`;
+          const ctx = document.getElementById("insightChart").getContext("2d");
+          const labels = data.map(d => `T${d.t}`);
+          new Chart(ctx, {
+            type: "line",
+            data: {
+              labels,
+              datasets: [
+                { label: "Success %", data: data.map(d => d.success), borderColor: "green", tension: 0.3 },
+                { label: "Risk %", data: data.map(d => d.risk), borderColor: "red", tension: 0.3 }
+              ]
+            },
+            options: {
+              responsive: true,
+              plugins: {
+                legend: { position: "bottom" },
+                title: { display: true, text: "System Insight Trends" }
+              },
+              scales: { y: { beginAtZero: true, max: 100 } }
+            }
+          });
+          console.log("✅ Chart.js ready and chart drawn!");
+        } catch (err) {
+          console.error("❌ Failed to draw chart:", err);
+        }
+      };
+      waitForChart();
+    });
+  </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+
+  <!-- System Insight Visualizer -->
+  <section id="insight-panel" style="padding:1rem;margin-top:1rem;background:white;border-radius:8px;box-shadow:0 0 5px #ccc;">
+    <h3 style="margin-bottom:.5rem;">System Insight Visualizer</h3>
+    <div id="insight-visualizer" style="min-height:160px;"></div>
+  </section>
+
+</body>
+</html>
