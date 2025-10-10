@@ -1,0 +1,86 @@
+/* eslint-disable import/no-commonjs */
+---
+import ChatbotWrapper from "../components/ChatbotWrapper.astro";
+import OpsStreamTickerWrapper from "../components/OpsStreamTickerWrapper.astro";
+import AgentLog from "../components/AgentLog.astro";
+import ProjectTracker from "../components/ProjectTracker.astro";
+---
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Motherboard Dash</title>
+    <meta charset="UTF-8" />
+    <style>
+      body {
+        background-color: #0d1117;
+        color: #c9d1d9;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        padding: 2rem;
+      }
+
+      .card {
+        max-width: 900px;
+        margin: 0 auto;
+        border: 1px solid #30363d;
+        border-radius: 12px;
+        padding: 2rem;
+        background-color: #161b22;
+        box-shadow: 0 0 14px rgba(0, 0, 0, 0.6);
+      }
+
+      h1, p {
+        text-align: center;
+        margin: 0.25rem 0;
+      }
+
+      h1 {
+        font-size: 2rem;
+        color: #f0f6fc;
+      }
+
+      p {
+        color: #8b949e;
+      }
+
+      .divider {
+        height: 1px;
+        background-color: #30363d;
+        margin: 2rem 0;
+      }
+
+      .light-panel {
+        background-color: #21262d;
+        border-radius: 10px;
+        padding: 1.25rem;
+        border: 1px solid #2f363d;
+        box-shadow: inset 0 0 8px rgba(255,255,255,0.03);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h1>Motherboard Dash</h1>
+      <p>Command Console</p>
+
+      <div class="divider"></div>
+
+      <div class="light-panel">
+        <ChatbotWrapper />
+      </div>
+
+      <div class="divider"></div>
+
+      <OpsStreamTickerWrapper />
+
+      <div class="divider"></div>
+
+      <div class="light-panel">
+        <ProjectTracker />
+      </div>
+
+      <div class="divider"></div>
+
+      <AgentLog />
+    </div>
+  </body>
+</html>

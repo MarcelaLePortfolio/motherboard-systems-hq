@@ -1,0 +1,105 @@
+/* eslint-disable import/no-commonjs */
+import express from "express";
+import path from "path";
+import { fileURLToPath } from "url";
+import { exec } from "child_process";
+import fs from "fs";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+// Native body parsing (no body-parser needed)
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Serve static dashboard files
+app.use(express.static(path.join(__dirname, "ui/dashboard")));
+app.use(express.static(path.join(__dirname, "public")));
+
+// --- 1️⃣ Agent Status via PM2 ---
+app.get("/api/agent-status", (req, res) => {
+  exec("pm2 jlist", (err, stdout) => {
+    if (err) {
+      return res.json({
+        Matilda: { status: "offline" },
+        Cade: { status: "offline" },
+        Effie: { status: "offline" }
+      });
+    }
+    try {
+      const list = JSON.parse(stdout);
+      const statusMap = {
+        Matilda: { status: "offline" },
+        Cade: { status: "offline" },
+        Effie: { status: "offline" }
+      };
+      list.forEach(proc => {
+        const name = proc.name.toLowerCase();
+        const online = proc.pm2_env.status === "online";
+        if (name.includes("matilda")) statusMap.Matilda.status = online ? "online" : "offline";
+        if (name.includes("cade")) statusMap.Cade.status = online ? "online" : "offline";
+        if (name.includes("effie")) statusMap.Effie.status = online ? "online" : "offline";
+      });
+      res.json(statusMap);
+    } catch {
+      res.json({
+        Matilda: { status: "offline" },
+        Cade: { status: "offline" },
+        Effie: { status: "offline" }
+      });
+    }
+  });
+});
+
+// --- 2️⃣ Ops Stream ---
+app.get("/api/ops-stream", (req, res) => {
+  const logPath = path.join(__dirname, "ui/dashboard/ticker-events.log");
+  if (!fs.existsSync(logPath)) return res.json([]);
+  const logs = fs.readFileSync(logPath, "utf-8")
+    .trim()
+    .split("
+")
+    .slice(-20)
+    .map(line => ({ message: line }));
+  res.json(logs);
+});
+
+// --- 3️⃣ Project Tracker ---
+app.get("/api/project-tracker", (req, res) => {
+  const trackerPath = path.join(__dirname, "ui/dashboard/public/projects.json");
+  if (!fs.existsSync(trackerPath)) return res.json([]);
+  const tasks = JSON.parse(fs.readFileSync(trackerPath, "utf-8"));
+  res.json(tasks);
+});
+
+// --- 4️⃣ Chat endpoint using Ollama ---
+app.post("/api/chat", async (req, res) => {
+  const { message } = req.body;
+  if (!message) return res.status(400).json({ error: "No message provided" });
+
+  try {
+    const fetchResponse = await fetch("http://127.0.0.1:11434/api/generate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "llama3:8b",
+        prompt: message,
+        stream: false
+      })
+    });
+
+    const data = await fetchResponse.json();
+    const reply = data.response || "(No response)";
+    res.json({ reply });
+  } catch (err) {
+    console.error("Chat error:", err);
+    res.status(500).json({ error: "Failed to generate response" });
+  }
+});
+
+app.listen(PORT, () => {
+  console.log(`✅ Dashboard live on port ${PORT}`);
+});

@@ -1,0 +1,4 @@
+/* eslint-disable import/no-commonjs */
+{
+  "error": "Unknown task type: undefined"
+}

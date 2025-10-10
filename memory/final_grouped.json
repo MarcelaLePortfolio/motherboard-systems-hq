@@ -1,0 +1,9 @@
+/* eslint-disable import/no-commonjs */
+{
+  "DESKTOP": [
+    {
+      "name": "Effie",
+      "role": "DESKTOP"
+    }
+  ]
+}

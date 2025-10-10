@@ -1,0 +1,98 @@
+/* eslint-disable import/no-commonjs */
+🖥 Motherboard Systems HQ – Project Scope (as of Today)
+
+1️⃣ Project Goal
+
+Build a local, privacy-first, multi-agent AI system that can run entirely offline, with optional selective remote access via tunnels.
+The system should:
+	•	Keep strict data privacy (no unwanted vendor persistence).
+	•	Be modular so each agent has isolated functions but can cooperate.
+	•	Provide a retro-futuristic, immersive dashboard UI for status, logs, and task control.
+	•	Support persistent memory across agent restarts and system reboots.
+
+⸻
+
+2️⃣ Core Agents
+	•	Matilda – Delegator & routing filter; acts as the “friendly” point of contact, deciding which agent gets each task.
+	•	Cade – Backend automation agent; executes tasks, scripts, and integrations with safety toggles.
+	•	Effie – Desktop/local ops assistant; manages files, runs local commands, and interacts with system resources.
+
+⸻
+
+3️⃣ Core Features
+	•	Dashboard UI (served locally via PM2/http-server)
+	•	Ops Stream Ticker – live event feed from all agents.
+	•	Agent Status Row – real-time online/offline/alert indicators.
+	•	Project Tracker – task progress lists (Backlog, In-Progress, Completed).
+	•	Command Input – direct text commands to agents.
+	•	Settings Panel – start/stop/restart agents.
+	•	Agent Chain State File (memory/agent_chain_state.json)
+	•	Central shared state so agents know current assignments/status.
+	•	Must be reliable, corruption-free, and persist through restarts.
+
+⸻
+
+4️⃣ Privacy Posture
+	•	Local-first execution (no mandatory cloud).
+	•	Optional Cloudflare tunnels per agent/UI for selective remote exposure.
+	•	No background data logging to third parties.
+	•	Potential for future swap to local LLMs (e.g., Ollama) without major code changes.
+
+⸻
+
+5️⃣ Current Milestones
+
+✅ Milestone 1 – Local Agent Runtime
+	•	All three core agents run locally via PM2.
+	•	UI server launches without cloud dependency.
+	•	Manual start script confirmed working.
+
+🔄 Milestone 2 – Shared Memory Reliability
+
+Goal: Confirm agent_chain_state.json is consistently read/written by all agents.
+Tasks:
+	•	🛠 Cade reads/writes without corruption.
+	•	🛠 Implement file-locking/queuing to avoid conflicts.
+	•	🛠 Verify state integrity after writes.
+	•	🛠 Log state changes for debugging.
+Switch condition → Persistence verified after restarts and reboots.
+
+📅 Future Milestones
+	•	M3: Live UI wiring (Ops Stream, Status Row real-time updates).
+	•	M4: Agent task delegation flow (Matilda → Cade/Effie execution).
+	•	M5: Optional remote access via tunnels.
+	•	M6: Local LLM swap & advanced integrations.
+
+⸻
+
+6️⃣ Known Open Items
+	•	File locking in Cade for state writes.
+	•	Agent read/write tests across simultaneous operations.
+	•	Persistent state after restart/reboot verification.
+	•	Live Ops Stream ticker integration.
+	•	UI–backend socket/watcher bridge for instant updates.
+
+⸻
+
+7️⃣ Strengths
+	•	Strong privacy-first foundation.
+	•	Modular architecture allows feature isolation.
+	•	UI design already supports expansion.
+	•	Agents are decoupled enough for testing in isolation.
+
+⸻
+
+8️⃣ Risks
+	•	Shared file corruption if concurrent writes occur before locking is in place.
+	•	UI will remain static until real-time event wiring is completed.
+	•	Tunnel integration may introduce complexity if done too early.
+
+⸻
+
+9️⃣ Recommended Next Step
+
+🚀 Focus entirely on Milestone 2 — get agent_chain_state.json reliability locked down with:
+	1.	Mock writes/reads from Cade.
+	2.	Add file-locking or queuing logic.
+	3.	Confirm persistence across restarts.
+	4.	Only after this is stable → move to UI live wiring.
