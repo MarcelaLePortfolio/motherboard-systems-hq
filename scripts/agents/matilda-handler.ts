@@ -2,10 +2,19 @@ import { spawn } from "child_process";
 import fs from "fs";
 import path from "path";
 
+const DELEGATION_KEYWORDS = [/\btask\b/i, /\breflection\b/i, /\bCade\b/i, /\bprocess\b/i];
+
 export async function matildaHandler(message: string): Promise<string> {
+  const isDelegation = DELEGATION_KEYWORDS.some(rx => rx.test(message));
+
+  // Conversational fallback
+  if (!isDelegation) {
+    return `Matilda 💁‍♀️: Hello there! You said, “${message}.” I’m here and listening — would you like me to log a reflection or pass this along to Cade?`;
+  }
+
   console.log("🤖 Matilda delegating to Cade:", message);
 
-  // Create a reflection task file
+  // Create reflection task
   const taskDir = path.join(process.cwd(), "memory", "tasks");
   const taskFile = path.join(taskDir, `reflection_${Date.now()}.json`);
 
@@ -20,7 +29,7 @@ export async function matildaHandler(message: string): Promise<string> {
   fs.mkdirSync(taskDir, { recursive: true });
   fs.writeFileSync(taskFile, JSON.stringify(payload, null, 2), "utf8");
 
-  // Optionally, trigger Cade immediately
+  // Trigger Cade
   try {
     const cade = spawn("npx", ["tsx", "scripts/agents/cade.ts", "process", taskFile]);
     cade.stdout.on("data", data => process.stdout.write(`🧩 Cade: ${data}`));

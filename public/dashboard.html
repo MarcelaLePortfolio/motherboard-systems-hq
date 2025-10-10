@@ -83,12 +83,6 @@
   <script src="/dashboard.js?v=1.2.0" defer=""></script>
 
 
-  <!-- System Insight Visualizer -->
-  <section id="insight-panel"
-    style="padding:1rem;margin-top:1rem;background:white;border-radius:8px;box-shadow:0 0 5px #ccc;">
-    <h3 style="margin-bottom:.5rem;">System Insight Visualizer</h3>
-    <div id="insight-visualizer" style="min-height:160px;"></div>
-  </section>
 
   <!-- === Core Diagnostic Panels === -->
   <section id="system-health" style="margin:1rem;padding:1rem;background:#fff;border-radius:8px;box-shadow:0 0 5px #ccc;">
@@ -101,10 +95,6 @@
     <pre id="persistent-insight">Loading insights...</pre>
   </section>
 
-  <section id="insight-visualizer-panel" style="margin:1rem;padding:1rem;background:#fff;border-radius:8px;box-shadow:0 0 5px #ccc;">
-    <h3>📈 System Insight Visualizer</h3>
-    <div id="insight-visualizer" style="min-height:180px;"></div>
-  </section>
 
   <section id="autonomic-adaptation" style="margin:1rem;padding:1rem;background:#fff;border-radius:8px;box-shadow:0 0 5px #ccc;">
     <h3>🤖 Autonomic Adaptation</h3>
@@ -232,3 +222,29 @@
   </script>
 </body>
 </html>
+<script>
+  async function sendMessage() {
+    const input = document.getElementById("userInput");
+    const log = document.getElementById("chatLog");
+    const message = input.value.trim();
+    if (!message) return;
+    log.innerHTML += `<div><b>You:</b> ${message}</div>`;
+    try {
+      const res = await fetch("/matilda", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message })
+      });
+      const data = await res.json();
+      log.innerHTML += `<div style="color:green;"><b>Matilda:</b> ${data.message}</div>`;
+      log.scrollTop = log.scrollHeight;
+      input.value = "";
+    } catch (err) {
+      log.innerHTML += `<div style="color:red;"><b>Error:</b> ${err.message}</div>`;
+      console.error("❌ Chat send error:", err);
+    }
+  }
+  document.getElementById("userInput").addEventListener("keypress", e => {
+    if (e.key === "Enter") sendMessage();
+  });
+</script>
