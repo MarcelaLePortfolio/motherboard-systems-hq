@@ -1,6 +1,0 @@
-/* eslint-disable import/no-commonjs */
-[
-  { "name": "🚀 Launch dashboard UI", "status": "In Progress" },
-  { "name": "🤖 Connect Matilda to Ollama (llama3:8b)", "status": "Complete" },
-  { "name": "📊 Implement smooth Project Tracker", "status": "Planned" }
-]
