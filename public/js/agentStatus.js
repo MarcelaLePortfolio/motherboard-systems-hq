@@ -5,6 +5,11 @@ async function refreshAgentStatus() {
     const container = document.querySelector('#agent-status');
     if (!container) return;
 
+    // 🧠 Sort agents: online → stopped → errored
+    data.agents.sort((a, b) => {
+      const order = { online: 0, stopped: 1, errored: 2 };
+      return order[a.status] - order[b.status];
+    });
     container.innerHTML = data.agents.map(a => `
       <div class="agent ${a.status}">
         <strong>${a.name}</strong> — ${a.status.toUpperCase()}
