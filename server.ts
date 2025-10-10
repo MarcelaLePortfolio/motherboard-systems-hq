@@ -9,6 +9,33 @@ import * as schema from "./db/schema";
 const app = express();
 app.use(express.json());
 
+// ✅ Async-safe loader for live agent status route
+(async () => {
+  try {
+    const { default: agentsStatusRouter } = await import("./routes/agentsStatus.ts");
+    app.use("/agents", agentsStatusRouter);
+    console.log("✅ Mounted /agents route");
+  } catch (err) {
+    console.error("❌ Failed to mount /agents:", err);
+  }
+})();
+
+// ⬇️ Async loader for live agent status route (safe ESM variant)
+(async () => {
+  try {
+    const { default: agentsStatusRouter } = await import("./routes/agentsStatus.ts");
+    console.log("✅ Mounted /agents route");
+  } catch (err) {
+    console.error("Failed to mount /agents:", err);
+  }
+})();
+import("./routes/agentsStatus.ts").then(({ default: agentsStatusRouter }) => {
+}).catch(err => console.error("Failed to mount agents status route:", err));
+
+// ⬇️ Mount live agent status route
+
+// ⬇️ Mount live agent status route
+
 // <0001faa0> Phase 15 – Database-linked diagnostic routes
 const sqlite = new Database("./db/motherboard.sqlite");
 const db = drizzle(sqlite, { schema });
