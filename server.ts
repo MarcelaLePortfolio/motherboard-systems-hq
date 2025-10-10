@@ -1,6 +1,24 @@
 import { matildaHandler } from "./scripts/agents/matilda-handler";
 global.matildaHandler = matildaHandler;
 import express from "express";
+import Database from "better-sqlite3";
+import fs from "fs";
+const dbPath = "db/local.sqlite";
+const db = new Database(dbPath);
+
+// 🧩 Auto-initialize database tables if missing
+const tables = [
+  `CREATE TABLE IF NOT EXISTS system_health (id TEXT PRIMARY KEY, metric TEXT, value TEXT, status TEXT, created_at TEXT)`,
+  `CREATE TABLE IF NOT EXISTS insights (id TEXT PRIMARY KEY, content TEXT, created_at TEXT)`,
+  `CREATE TABLE IF NOT EXISTS cognitive_history (id TEXT PRIMARY KEY, event TEXT, confidence TEXT, created_at TEXT)`,
+  `CREATE TABLE IF NOT EXISTS introspect_history (id TEXT PRIMARY KEY, reflection TEXT, outcome TEXT, created_at TEXT)`,
+  `CREATE TABLE IF NOT EXISTS adaptation_history (id TEXT PRIMARY KEY, adjustment TEXT, effect TEXT, created_at TEXT)`,
+  `CREATE TABLE IF NOT EXISTS chronicle (id TEXT PRIMARY KEY, entry TEXT, level TEXT, created_at TEXT)`
+];
+for (const t of tables) db.prepare(t).run();
+console.log("🧾 Verified all diagnostic tables.");
+
+import express from "express";
 import path from "path";
 import Database from "better-sqlite3";
 import { drizzle } from "drizzle-orm/better-sqlite3";
