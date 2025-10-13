@@ -1,6 +1,11 @@
 import { matilda } from "./scripts/agents/matilda.mts";
 global.matilda = matilda;
 import express from "express";
+import systemHealth from "./routes/diagnostics/systemHealth.js";
+import persistentInsight from "./routes/diagnostics/persistentInsight.js";
+import autonomicAdaptation from "./routes/diagnostics/autonomicAdaptation.js";
+import introspectiveSim from "./routes/diagnostics/introspectiveSim.js";
+import systemChronicle from "./routes/diagnostics/systemChronicle.js";
 import Database from "better-sqlite3";
 import fs from "fs";
 const dbPath = "db/local.sqlite";
@@ -19,11 +24,21 @@ for (const t of tables) db.prepare(t).run();
 console.log("🧾 Verified all diagnostic tables.");
 
 import express from "express";
+import systemHealth from "./routes/diagnostics/systemHealth.js";
+import persistentInsight from "./routes/diagnostics/persistentInsight.js";
+import autonomicAdaptation from "./routes/diagnostics/autonomicAdaptation.js";
+import introspectiveSim from "./routes/diagnostics/introspectiveSim.js";
+import systemChronicle from "./routes/diagnostics/systemChronicle.js";
 import path from "path";
 import Database from "better-sqlite3";
 import { drizzle } from "drizzle-orm/better-sqlite3";
 
 const app = express();
+app.use("/diagnostics/system-health", systemHealth);
+app.use("/diagnostics/persistent-insight", persistentInsight);
+app.use("/diagnostics/autonomic-adaptation", autonomicAdaptation);
+app.use("/diagnostics/introspective-sim", introspectiveSim);
+app.use("/diagnostics/system-chronicle", systemChronicle);
 app.use(express.json());
 
 // ✅ Async-safe loader for live agent status route

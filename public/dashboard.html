@@ -129,11 +129,11 @@
     }
 
     async function refreshAllDiagnostics() {
-      await updatePanel("system-health-content", "/system/health");
-      await updatePanel("persistent-insight", "/insight/persist");
-      await updatePanel("autonomic-adaptation-content", "/adaptation/history");
-      await updatePanel("introspective-sim", "/introspect/history");
-      await updatePanel("system-chronicle", "/chronicle/list");
+      await updatePanel("system-health-content", "/diagnostics/system-health");
+      await updatePanel("persistent-insight", "/diagnostics/persistent-insight");
+      await updatePanel("autonomic-adaptation-content", "/diagnostics/autonomic-adaptation");
+      await updatePanel("introspective-sim", "/diagnostics/introspective-sim");
+      await updatePanel("system-chronicle", "/diagnostics/system-chronicle");
     }
 
     window.addEventListener("load", () => {
