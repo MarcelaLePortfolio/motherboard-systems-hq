@@ -1,0 +1,60 @@
+/* eslint-disable import/no-commonjs */
+.project-list {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0;
+}
+
+.project-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0.75rem;
+  background: #f9f9f9;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+  border: 1px solid #ddd;
+  font-family: sans-serif;
+}
+
+.status {
+  font-weight: bold;
+  margin-left: 1rem;
+}
+
+.status.complete {
+  color: green;
+}
+
+.status.in-progress {
+  color: orange;
+}
+
+.status.planned {
+  color: gray;
+}
+
+.edit-btn {
+  margin-left: 1rem;
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.edit-btn:hover {
+  background: #0056b3;
+}
+
+/* Pulse animation for agent online transition */
+.pulse {
+  animation: pulseEffect 1s ease-out;
+}
+
+@keyframes pulseEffect {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 0.6; }
+  100% { transform: scale(1); opacity: 1; }
+}
