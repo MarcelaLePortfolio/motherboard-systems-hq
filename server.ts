@@ -4,7 +4,15 @@ import express from "express";
 import Database from "better-sqlite3";
 import fs from "fs";
 const dbPath = "db/local.sqlite";
+const path = require("path");
+
+const dbPath = path.join(process.cwd(), "db", "data", "motherboard.sqlite");
 const db = new Database(dbPath);
+
+// Simple query helpers
+const queryAll = (sql, params = []) => db.prepare(sql).all(...params);
+const queryOne = (sql, params = []) => db.prepare(sql).get(...params);
+const execQuery = (sql, params = []) => db.prepare(sql).run(...params);
 
 // 🧩 Auto-initialize database tables if missing
 const tables = [
@@ -31,6 +39,23 @@ app.use(express.json());
   try {
     const { default: agentsStatusRouter } = await import("./routes/agentsStatus.js");
     app.use("/agents", agentsStatusRouter);
+import systemHealth from "./routes/diagnostics/systemHealth.js";
+import cognitiveCohesion from "./routes/diagnostics/cognitiveCohesion.js";
+import introspectiveSim from "./routes/diagnostics/introspectiveSim.js";
+import persistentInsight from "./routes/diagnostics/persistentInsight.js";
+import autonomicAdaptation from "./routes/diagnostics/autonomicAdaptation.js";
+import insightVisualizer from "./routes/diagnostics/insightVisualizer.js";
+import dashboardSelfVerify from "./routes/diagnostics/dashboardSelfVerify.js";
+import systemChronicle from "./routes/diagnostics/systemChronicle.js";
+
+app.use("/diagnostics/system-health", systemHealth);
+app.use("/diagnostics/cognitive-cohesion", cognitiveCohesion);
+app.use("/diagnostics/introspective-sim", introspectiveSim);
+app.use("/diagnostics/persistent-insight", persistentInsight);
+app.use("/diagnostics/autonomic-adaptation", autonomicAdaptation);
+app.use("/diagnostics/insight-visualizer", insightVisualizer);
+app.use("/diagnostics/dashboard-selfverify", dashboardSelfVerify);
+app.use("/diagnostics/system-chronicle", systemChronicle);
     console.log("✅ Mounted /agents route");
   } catch (err) {
     console.error("❌ Failed to mount /agents:", err);
@@ -65,7 +90,7 @@ app.get("/system/health", async (req, res) => {
 
 // 🤖 Autonomic Adaptation
 app.get("/adaptation/history", async (req, res) => {
-  const data = db.select().from(schema.task_events).limit(10).all();
+  const data = queryAll.from(schema.task_events).limit(10).all();
   res.json(
     data.map(e => ({
       action: e.type,
@@ -77,7 +102,7 @@ app.get("/adaptation/history", async (req, res) => {
 
 // 📈 System Insight Visualizer
 app.get("/visual/trends", async (req, res) => {
-  const data = db.select().from(schema.reflections).limit(20).all();
+  const data = queryAll.from(schema.reflections).limit(20).all();
   res.json(
     data.map((r, i) => ({
       t: i + 1,
@@ -89,7 +114,7 @@ app.get("/visual/trends", async (req, res) => {
 
 // 🧩 Self-Verification Panel
 app.get("/adaptation/verify", async (req, res) => {
-  const latest = db.select().from(schema.task_events).orderBy(schema.task_events.created_at).limit(1).all();
+  const latest = queryAll.from(schema.task_events).orderBy(schema.task_events.created_at).limit(1).all();
   res.json({
     interval: "30s",
     next: new Date(Date.now() + 30000).toISOString(),
@@ -99,7 +124,7 @@ app.get("/adaptation/verify", async (req, res) => {
 
 // 📜 System Chronicle
 app.get("/chronicle/list", async (req, res) => {
-  const data = db.select().from(schema.task_events).orderBy(schema.task_events.created_at).limit(50).all();
+  const data = queryAll.from(schema.task_events).orderBy(schema.task_events.created_at).limit(50).all();
   res.json(
     data.map(e => ({
       timestamp: e.created_at,
