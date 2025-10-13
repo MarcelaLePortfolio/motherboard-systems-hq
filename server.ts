@@ -1,5 +1,5 @@
-import { matildaHandler } from "./scripts/agents/matilda-handler";
-global.matildaHandler = matildaHandler;
+import { matilda } from "./scripts/agents/matilda.mts";
+global.matilda = matilda;
 import express from "express";
 import Database from "better-sqlite3";
 import fs from "fs";
@@ -22,7 +22,6 @@ import express from "express";
 import path from "path";
 import Database from "better-sqlite3";
 import { drizzle } from "drizzle-orm/better-sqlite3";
-import * as schema from "./db/schema";
 
 const app = express();
 app.use(express.json());
@@ -30,7 +29,7 @@ app.use(express.json());
 // ✅ Async-safe loader for live agent status route
 (async () => {
   try {
-    const { default: agentsStatusRouter } = await import("./routes/agentsStatus.ts");
+    const { default: agentsStatusRouter } = await import("./routes/agentsStatus.js");
     app.use("/agents", agentsStatusRouter);
     console.log("✅ Mounted /agents route");
   } catch (err) {
@@ -41,49 +40,18 @@ app.use(express.json());
 // ⬇️ Async loader for live agent status route (safe ESM variant)
 (async () => {
   try {
-    const { default: agentsStatusRouter } = await import("./routes/agentsStatus.ts");
+    const { default: agentsStatusRouter } = await import("./routes/agentsStatus.js");
     console.log("✅ Mounted /agents route");
   } catch (err) {
     console.error("Failed to mount /agents:", err);
   }
 })();
-import("./routes/agentsStatus.ts").then(({ default: agentsStatusRouter }) => {
+import("./routes/agentsStatus.js").then(({ default: agentsStatusRouter }) => {
 }).catch(err => console.error("Failed to mount agents status route:", err));
 
-// ⬇️ Mount live agent status route
-
-// ⬇️ Mount live agent status route
-
-// <0001faa0> Phase 15 – Database-linked diagnostic routes
-const sqlite = new Database("./db/motherboard.sqlite");
-const db = drizzle(sqlite, { schema });
-
-// 🧠 Matilda Insights
-app.get("/insight/persist", async (req, res) => {
-  const data = db.select().from(schema.insights).all();
-  res.json(data);
-});
-
-// 🧩 Cognitive Cohesion
-app.get("/cognitive/history", async (req, res) => {
-  const data = db.select().from(schema.reflections).all();
-  res.json(data);
-});
 
 // ⚙️ System Health
 app.get("/system/health", async (req, res) => {
-  const counts = {
-    audits: db.select().from(schema.audits).all().length,
-    insights: db.select().from(schema.insights).all().length,
-    reflections: db.select().from(schema.reflections).all().length,
-    lessons: db.select().from(schema.lessons).all().length,
-  };
-  res.json(counts);
-});
-
-// 🔮 Introspective Simulation
-app.get("/introspect/history", async (req, res) => {
-  const data = db.select().from(schema.reflections).limit(10).all();
   res.json(
     data.map(r => ({
       id: r.id,
@@ -173,8 +141,8 @@ app.post("/matilda", express.json(), async (req, res) => {
     const { message } = req.body || {};
     console.log("[MATILDA] Received:", message);
     let output;
-    if (global.matildaHandler) {
-      output = await matildaHandler(message);
+    if (global.matilda) {
+      output = await matilda(message);
     } else {
       output = "Matilda received message but no handler was defined.";
     }
