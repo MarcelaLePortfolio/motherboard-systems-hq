@@ -193,6 +193,29 @@
       }
     });
   </script>
+<script>
+async function refreshAgentStatus() {
+  try {
+    const res = await fetch("/agents/status");
+    if (!res.ok) throw new Error(res.status);
+    const agents = await res.json();
+    const container = document.getElementById("status-grid") || document.getElementById("agent-status-container");
+    if (container) {
+      container.innerHTML = agents.map(a => `
+        <div class="agent-card">
+          <h3>${a.name}</h3>
+          <p>Status: ${a.status}</p>
+          <p>PID: ${a.pid}</p>
+          <p>Uptime: ${a.uptime}</p>
+        </div>`).join("");
+    }
+  } catch(err) {
+    console.error("Live status refresh failed:", err);
+  }
+}
+setInterval(refreshAgentStatus, 5000);
+refreshAgentStatus();
+</script>
 </body>
 </html>
   <style>
