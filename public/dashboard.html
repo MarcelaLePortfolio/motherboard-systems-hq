@@ -57,11 +57,8 @@
   <!-- Agent Status -->
   <header style="display:flex; gap:1rem; align-items:center; flex-wrap:wrap;">
     <h2>📟 Agent Status</h2>
+  <div id="status-grid"></div>
     <ul>
-      <li>Matilda: 🟢 Idle</li>
-      <li>Cade: 🟠 Busy</li>
-      <li>Effie: 🟢 Idle</li>
-    </ul>
   </header>
 
   <!-- Chat Section -->
@@ -199,7 +196,9 @@ async function refreshAgentStatus() {
     const res = await fetch("/agents/status");
     if (!res.ok) throw new Error(res.status);
     const agents = await res.json();
-    const container = document.getElementById("status-grid") || document.getElementById("agent-status-container");
+    const color = { online: "🟢 Idle", busy: "🟠 Busy", offline: "�� Offline" };
+
+    const container = document.getElementById("status-grid") || document.getElementById("status-grid");
     if (container) {
       container.innerHTML = agents.map(a => `
         <div class="agent-card">
