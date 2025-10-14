@@ -1,30 +1,15 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "module": "NodeNext",
-    "moduleResolution": "nodenext",
-    "allowImportingTsExtensions": true,    "allowImportingTsExtensions": true,    "strict": true,
+    "module": "ESNext",
+    "moduleResolution": "NodeNext",
     "esModuleInterop": true,
-    "allowJs": true,
-    "checkJs": false,
-    "resolveJsonModule": true,
-    "forceConsistentCasingInFileNames": true,
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
-    "noEmit": true,
-    "incremental": true,
-    "isolatedModules": true,
-    "jsx": "preserve"
+    "strict": false,
+    "resolveJsonModule": true,
+    "allowImportingTsExtensions": true,
+    "outDir": "dist"
   },
-  "include": [
-    "scripts/**/*",
-    "agents/matilda/**/*"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["server.ts", "routes/**/*.ts", "scripts/**/*.ts"]
 }

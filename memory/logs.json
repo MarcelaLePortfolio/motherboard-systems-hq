@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1760400388729,
+    "level": "error",
+    "message": "Cade error: Invalid JSON output from Ollama",
+    "timestamp": "2025-10-14T00:06:28.729Z"
+  },
+  {
+    "id": 1760400287912,
+    "level": "error",
+    "message": "Cade error: ctx is not defined",
+    "timestamp": "2025-10-14T00:04:47.912Z"
+  },
+  {
+    "id": 1760400086268,
+    "level": "error",
+    "message": "Cade error: ctx is not defined",
+    "timestamp": "2025-10-14T00:01:26.268Z"
+  },
+  {
+    "id": 1760400057241,
+    "level": "error",
+    "message": "Cade error: ctx is not defined",
+    "timestamp": "2025-10-14T00:00:57.241Z"
+  }
+]

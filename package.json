@@ -7,7 +7,7 @@
     "build": "next build"
   },
   "dependencies": {
-    "better-sqlite3": "12.4.1",
+    "better-sqlite3": "^12.4.1",
     "chalk": "^4.1.2",
     "next": "^15.4.6",
     "proper-lockfile": "^4.1.2",
@@ -27,6 +27,7 @@
     "eslint": "^8.57.1",
     "eslint-formatter-unix": "^8.40.0",
     "eslint-plugin-import": "^2.32.0",
+    "typescript": "^5.9.3",
     "undici": "^7.13.0",
     "undici-types": "^7.13.0"
   }
