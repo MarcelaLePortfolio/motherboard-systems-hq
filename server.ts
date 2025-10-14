@@ -42,6 +42,34 @@ app.use(express.json());
 app.use("/cade", cadeRouter);
 app.use("/diagnostics/system-health", systemHealth);
 
+  // 🪶 Effie Wiring — Local Operations Agent
+  app.post("/effie", async (req, res) => {
+    const { command, params } = req.body;
+    console.log("🪶 Effie received:", command, params);
+    try {
+      const { effieCommandRouter } = await import("./scripts/agents/effie.ts");
+      const result = await effieCommandRouter(command, params);
+      res.json(result);
+    } catch (err) {
+      console.error("Effie error:", err);
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  // ✅ Effie Local Operations Route
+  app.post("/effie", async (req, res) => {
+    const { command, params } = req.body;
+    console.log("🧠 Effie request:", command, params);
+    try {
+      const { effieCommandRouter } = await import("./scripts/agents/effie.ts");
+      const result = await effieCommandRouter(command, params);
+      res.json(result);
+    } catch (err) {
+      console.error("Effie error:", err);
+      res.status(500).json({ error: err.message });
+    }
+  });
+
   // ✅ Live Agent Status route
   app.get("/agents/status", async (req, res) => {
     try {
@@ -56,6 +84,34 @@ app.use("/diagnostics/system-health", systemHealth);
     }
   });
 app.use("/diagnostics/persistent-insight", persistentInsight);
+
+  // 🪶 Effie Wiring — Local Operations Agent
+  app.post("/effie", async (req, res) => {
+    const { command, params } = req.body;
+    console.log("🪶 Effie received:", command, params);
+    try {
+      const { effieCommandRouter } = await import("./scripts/agents/effie.ts");
+      const result = await effieCommandRouter(command, params);
+      res.json(result);
+    } catch (err) {
+      console.error("Effie error:", err);
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  // ✅ Effie Local Operations Route
+  app.post("/effie", async (req, res) => {
+    const { command, params } = req.body;
+    console.log("🧠 Effie request:", command, params);
+    try {
+      const { effieCommandRouter } = await import("./scripts/agents/effie.ts");
+      const result = await effieCommandRouter(command, params);
+      res.json(result);
+    } catch (err) {
+      console.error("Effie error:", err);
+      res.status(500).json({ error: err.message });
+    }
+  });
 
   // ✅ Live Agent Status route
   app.get("/agents/status", async (req, res) => {
@@ -72,6 +128,34 @@ app.use("/diagnostics/persistent-insight", persistentInsight);
   });
 app.use("/diagnostics/autonomic-adaptation", autonomicAdaptation);
 
+  // 🪶 Effie Wiring — Local Operations Agent
+  app.post("/effie", async (req, res) => {
+    const { command, params } = req.body;
+    console.log("🪶 Effie received:", command, params);
+    try {
+      const { effieCommandRouter } = await import("./scripts/agents/effie.ts");
+      const result = await effieCommandRouter(command, params);
+      res.json(result);
+    } catch (err) {
+      console.error("Effie error:", err);
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  // ✅ Effie Local Operations Route
+  app.post("/effie", async (req, res) => {
+    const { command, params } = req.body;
+    console.log("🧠 Effie request:", command, params);
+    try {
+      const { effieCommandRouter } = await import("./scripts/agents/effie.ts");
+      const result = await effieCommandRouter(command, params);
+      res.json(result);
+    } catch (err) {
+      console.error("Effie error:", err);
+      res.status(500).json({ error: err.message });
+    }
+  });
+
   // ✅ Live Agent Status route
   app.get("/agents/status", async (req, res) => {
     try {
@@ -87,6 +171,34 @@ app.use("/diagnostics/autonomic-adaptation", autonomicAdaptation);
   });
 app.use("/diagnostics/introspective-sim", introspectiveSim);
 
+  // 🪶 Effie Wiring — Local Operations Agent
+  app.post("/effie", async (req, res) => {
+    const { command, params } = req.body;
+    console.log("🪶 Effie received:", command, params);
+    try {
+      const { effieCommandRouter } = await import("./scripts/agents/effie.ts");
+      const result = await effieCommandRouter(command, params);
+      res.json(result);
+    } catch (err) {
+      console.error("Effie error:", err);
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  // ✅ Effie Local Operations Route
+  app.post("/effie", async (req, res) => {
+    const { command, params } = req.body;
+    console.log("🧠 Effie request:", command, params);
+    try {
+      const { effieCommandRouter } = await import("./scripts/agents/effie.ts");
+      const result = await effieCommandRouter(command, params);
+      res.json(result);
+    } catch (err) {
+      console.error("Effie error:", err);
+      res.status(500).json({ error: err.message });
+    }
+  });
+
   // ✅ Live Agent Status route
   app.get("/agents/status", async (req, res) => {
     try {
@@ -101,6 +213,34 @@ app.use("/diagnostics/introspective-sim", introspectiveSim);
     }
   });
 app.use("/diagnostics/system-chronicle", systemChronicle);
+
+  // 🪶 Effie Wiring — Local Operations Agent
+  app.post("/effie", async (req, res) => {
+    const { command, params } = req.body;
+    console.log("🪶 Effie received:", command, params);
+    try {
+      const { effieCommandRouter } = await import("./scripts/agents/effie.ts");
+      const result = await effieCommandRouter(command, params);
+      res.json(result);
+    } catch (err) {
+      console.error("Effie error:", err);
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  // ✅ Effie Local Operations Route
+  app.post("/effie", async (req, res) => {
+    const { command, params } = req.body;
+    console.log("🧠 Effie request:", command, params);
+    try {
+      const { effieCommandRouter } = await import("./scripts/agents/effie.ts");
+      const result = await effieCommandRouter(command, params);
+      res.json(result);
+    } catch (err) {
+      console.error("Effie error:", err);
+      res.status(500).json({ error: err.message });
+    }
+  });
 
   // ✅ Live Agent Status route
   app.get("/agents/status", async (req, res) => {
