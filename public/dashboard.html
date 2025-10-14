@@ -77,13 +77,13 @@
   <!-- Recent Tasks -->
   <div class="card">
     <h2>Recent Tasks</h2>
-    <table id="tasks"></table>
+    <pre id="tasks">• Recent tasks will appear here...</pre>
   </div>
 
   <!-- Recent Logs -->
   <div class="card">
     <h2>Recent Logs</h2>
-    <table id="logs"></table>
+    <pre id="logs">• Recent logs will appear here...</pre>
   </div>
 
   <!-- Core Diagnostic Panels -->
@@ -117,11 +117,17 @@
   <script src="/dashboard.js?v=1.2.0" defer></script>
   <script>
     async function updatePanel(id, endpoint) {
+  console.log("⚙️ updatePanel triggered:", id, endpoint);
+
       const el = document.getElementById(id);
       if (!el) return;
       try {
         const res = await fetch(endpoint);
         const data = await res.json();
+    console.log("📡 updatePanel:", id, data);
+
+    console.log("📡 updatePanel:", id, data);
+
         el.textContent = JSON.stringify(data, null, 2);
       } catch {
         el.textContent = "⚠️ Unavailable: " + endpoint;
@@ -161,6 +167,10 @@
           body: JSON.stringify({ message })
         });
         const data = await res.json();
+    console.log("📡 updatePanel:", id, data);
+
+    console.log("📡 updatePanel:", id, data);
+
         appendMessage("Matilda", data.message || data.reply || "(no response)");
       } catch (err) {
         appendMessage("Matilda", "❌ Connection error.");
@@ -241,6 +251,10 @@
         body: JSON.stringify({ message })
       });
       const data = await res.json();
+    console.log("📡 updatePanel:", id, data);
+
+    console.log("📡 updatePanel:", id, data);
+
       log.innerHTML += `<div style="color:green;"><b>Matilda:</b> ${data.message}</div>`;
       log.scrollTop = log.scrollHeight;
       input.value = "";

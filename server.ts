@@ -1,6 +1,7 @@
 import { matilda } from "./scripts/agents/matilda.mts";
 global.matilda = matilda;
 import express from "express";
+import cadeRouter from "./routes/cade.js";
 import systemHealth from "./routes/diagnostics/systemHealth.js";
 import persistentInsight from "./routes/diagnostics/persistentInsight.js";
 import autonomicAdaptation from "./routes/diagnostics/autonomicAdaptation.js";
@@ -24,6 +25,7 @@ for (const t of tables) db.prepare(t).run();
 console.log("🧾 Verified all diagnostic tables.");
 
 import express from "express";
+import cadeRouter from "./routes/cade.js";
 import systemHealth from "./routes/diagnostics/systemHealth.js";
 import persistentInsight from "./routes/diagnostics/persistentInsight.js";
 import autonomicAdaptation from "./routes/diagnostics/autonomicAdaptation.js";
@@ -34,6 +36,10 @@ import Database from "better-sqlite3";
 import { drizzle } from "drizzle-orm/better-sqlite3";
 
 const app = express();
+import tasksRouter from "./routes/tasks.js";
+app.use("/tasks", tasksRouter);
+app.use(express.json());
+app.use("/cade", cadeRouter);
 app.use("/diagnostics/system-health", systemHealth);
 app.use("/diagnostics/persistent-insight", persistentInsight);
 app.use("/diagnostics/autonomic-adaptation", autonomicAdaptation);
