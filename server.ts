@@ -1,4 +1,4 @@
-import { matilda } from "./scripts/agents/matilda.mts";
+import { matilda } from "./scripts/agents_full/matilda.ts";
 global.matilda = matilda;
 import express from "express";
 import cadeRouter from "./routes/cade.js";
@@ -365,7 +365,7 @@ app.post("/matilda", express.json(), async (req, res) => {
     console.log("[MATILDA] Received:", message);
     let output;
     if (global.matilda) {
-      output = await matilda(message);
+      output = await matilda.handler(message);
     } else {
       output = "Matilda received message but no handler was defined.";
     }
