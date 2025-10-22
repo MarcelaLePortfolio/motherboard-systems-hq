@@ -1,15 +1,32 @@
 import path from "path";
+import { logsRouter } from "./routes/logs.ts";
+import Database from "better-sqlite3";
+import path from "path";
+const dbCheckPath = path.resolve(process.cwd(), "motherboard.sqlite");
+try {
+  const dbCheck = new Database(dbCheckPath);
+  const tables = dbCheck.prepare("SELECT name FROM sqlite_master WHERE type='table'").all();
+  console.log("<0001f9e0> Express DB check:", dbCheckPath, tables);
+} catch (err) {
+  console.error("❌ Express DB check failed:", err);
+}
+
+import { tasksRouter } from "./routes/tasks.ts";
+import { agentsStatusRouter } from "./routes/agentsStatus.ts";
+
+import { reflectionsRouter } from "./routes/reflections.ts";
+
 
 import { matilda } from "./scripts/agents_full/matilda.ts";
 global.matilda = matilda;
 import express from "express";
-import { logsRouter } from "./routes/logs";
-import cadeRouter from "./routes/cade.js";
-import systemHealth from "./routes/diagnostics/systemHealth.js";
-import persistentInsight from "./routes/diagnostics/persistentInsight.js";
-import autonomicAdaptation from "./routes/diagnostics/autonomicAdaptation.js";
-import introspectiveSim from "./routes/diagnostics/introspectiveSim.js";
-import systemChronicle from "./routes/diagnostics/systemChronicle.js";
+import { logsRouter } from "./routes/logs.ts";
+import { cadeRouter } from "./routes/cade.ts";
+import { systemHealth } from "./routes/diagnostics/systemHealth.ts";
+import { persistentInsight } from "./routes/diagnostics/persistentInsight.ts";
+import { autonomicAdaptation } from "./routes/diagnostics/autonomicAdaptation.ts";
+import { introspectiveSim } from "./routes/diagnostics/introspectiveSim.ts";
+import { systemChronicle } from "./routes/diagnostics/systemChronicle.ts";
 import Database from "better-sqlite3";
 import fs from "fs";
 const dbPath = "db/local.sqlite";
@@ -30,8 +47,6 @@ console.log("🧾 Verified all diagnostic tables.");
 import { drizzle } from "drizzle-orm/better-sqlite3";
 
 const app = express();
-import tasksRouter from "./routes/tasks.js";
-app.use("/tasks", tasksRouter);
 app.use(express.json());
 app.use("/cade", cadeRouter);
 app.use("/diagnostics/system-health", systemHealth);
@@ -251,31 +266,23 @@ app.use("/diagnostics/system-chronicle", systemChronicle);
   });
 app.use(express.json());
 
-// ✅ Async-safe loader for live agent status route
-(async () => {
-  try {
-    const { default: agentsStatusRouter } = await import("./routes/agentsStatus.js");
-    app.use("/agents", agentsStatusRouter);
-    console.log("✅ Mounted /agents route");
-  } catch (err) {
-    console.error("❌ Failed to mount /agents:", err);
-  }
-})();
-
-// ⬇️ Async loader for live agent status route (safe ESM variant)
-(async () => {
-  try {
-    const { default: agentsStatusRouter } = await import("./routes/agentsStatus.js");
-    console.log("✅ Mounted /agents route");
-
-// ⚙️ System Health
-app.get("/system/health", async (req, res) => {
-  const data = db.select().from(schema.task_events).limit(10).all();
-  res.json(data);
-});
 
 // ✅ Mount dynamic routers before static
 app.use("/logs", logsRouter);
+app.use("/agents", agentsStatusRouter);
+console.log("✅ Mounted /agents route");
+
+
+console.log("✅ Mounted /tasks route");
+app.use("/reflections", reflectionsRouter);
+console.log("✅ Mounted /reflections route");
+
+  console.log("<0001f9f4> 🧠 tasksRouter type check:", typeof tasksRouter, Object.keys(tasksRouter));
+
+app.use("/tasks", tasksRouter);
+
+
+
 import("./routes/reflections.ts").then(({ reflectionsRouter }) => {
   app.use("/reflections", reflectionsRouter);
   console.log("✅ Mounted /reflections route");
@@ -283,13 +290,67 @@ import("./routes/reflections.ts").then(({ reflectionsRouter }) => {
 
 // ✅ Serve static files
 const publicDir = path.join(process.cwd(), "public");
-app.use(express.static(publicDir));
-console.log(`📦 Static files served from ${publicDir}`);
 
-const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => {
-  console.log(`🚀 Express server running at http://localhost:${PORT}`);
+
+// ✅ Compatibility export for CJS/TSX
+
+//
+
+//
+
+//
+
+//
+
+//
+
+// ----------------------------------------------------------
+
+import http from "http";
+
+
+import path from "path";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+app.get("/dashboard.html", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "dashboard.html"));
 });
 
-export default app;
+const server = http.createServer(app);
+const PORT = process.env.PORT || 3001;
+
+
+server.listen(PORT, () => {
+  console.log(`🚀 Express server running at http://localhost:${PORT}`);
+
+  // Wait a tick so the router tree is hot
+  setTimeout(() => {
+    if (!app._router)
+      return console.log("<0001f9f6> ⚠️ app._router still undefined post-listen");
+
+    const layers = app._router.stack || [];
+    console.log("<0001f9f6> 📚 Root stack length:", layers.length);
+
+    function dive(layer, depth = 0, prefix = "") {
+      const pad = " ".repeat(depth * 2);
+      const keys = Object.keys(layer || {});
+      console.log(`${pad}<0001f9f6> 🔸 layer name=${layer.name || "?"} keys=[${keys.join(",")}]`);
+      if (layer.route?.path) {
+        const methods = Object.keys(layer.route.methods || {})
+          .map(m => m.toUpperCase())
+          .join(",");
+        console.log(`${pad}<0001f9f6> 🗺️ ${methods} ${prefix}${layer.route.path}`);
+      }
+      if (layer.handle?.stack) {
+        layer.handle.stack.forEach(sub => dive(sub, depth + 1, prefix));
+      }
+    }
+
+    layers.forEach(l => dive(l, 0, ""));
+  }, 1000);
+});
 
