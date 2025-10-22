@@ -20,11 +20,15 @@ router.get("/", (req: Request, res: Response) => {
 });
 
 export function broadcastAgentUpdate(update: any) {
+  console.log("📡 broadcastAgentUpdate:", update);
   clients.forEach(c => c.write(`event: agent\ndata: ${JSON.stringify(update)}\n\n`));
+  c.flush && c.flush();
 }
 
 export function broadcastLogUpdate(update: any) {
+  console.log("📡 broadcastLogUpdate:", update);
   clients.forEach(c => c.write(`event: log\ndata: ${JSON.stringify(update)}\n\n`));
+  c.flush && c.flush();
 }
 
 export default router;
