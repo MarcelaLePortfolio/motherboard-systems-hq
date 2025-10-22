@@ -1,29 +1,23 @@
-// 🔄 Live Agent Status updater
-async function loadAgentStatus() {
-  try {
-    const res = await fetch('/agents');
-    const data = await res.json();
-    const panel = document.getElementById('agent-status');
-    panel.innerHTML = `
-      <table>
-        <thead><tr><th>Agent</th><th>Status</th></tr></thead>
-        <tbody>${Object.entries(data)
-          .map(([name, info]) => `
-            <tr>
-              <td>${name}</td>
-              <td>${info.status}</td>
-            </tr>
-          `)
-          .join('')}</tbody>
-      </table>
-    `;
-  } catch (err) {
-    console.error('❌ Failed to load agent status:', err);
-  }
-}
+const statusCells = {
+  Cade: document.querySelector('#status-cade'),
+  Matilda: document.querySelector('#status-matilda'),
+  Effie: document.querySelector('#status-effie')
+};
 
-// Auto-refresh every 5 seconds
-window.addEventListener('DOMContentLoaded', () => {
-  loadAgentStatus();
-  setInterval(loadAgentStatus, 5000);
-});
+const evtSource = new EventSource('/events/agents');
+evtSource.onmessage = (event) => {
+  try {
+    const data = JSON.parse(event.data);
+    if (statusCells[data.agent]) {
+      statusCells[data.agent].textContent = data.status;
+      statusCells[data.agent].className =
+        data.status === "busy" ? "status-busy" :
+        data.status === "online" ? "status-online" :
+        "status-unknown";
+    }
+  } catch (err) {
+    console.error("SSE parse error", err);
+  }
+};
+
+evtSource.onerror = (e) => console.error("SSE connection error:", e);

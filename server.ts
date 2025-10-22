@@ -20,6 +20,7 @@ import { reflectionsRouter } from "./routes/reflections.ts";
 import { matilda } from "./scripts/agents_full/matilda.ts";
 global.matilda = matilda;
 import express from "express";
+import eventsAgents from "./routes/eventsAgents";
 import { logsRouter } from "./routes/logs.ts";
 import { cadeRouter } from "./routes/cade.ts";
 import { systemHealth } from "./routes/diagnostics/systemHealth.ts";
@@ -270,6 +271,7 @@ app.use(express.json());
 // ✅ Mount dynamic routers before static
 app.use("/logs", logsRouter);
 app.use("/agents", agentsStatusRouter);
+app.use("/events/agents", eventsAgents);
 console.log("✅ Mounted /agents route");
 
 
