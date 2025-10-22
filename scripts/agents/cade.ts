@@ -1,3 +1,4 @@
+import { setCadeStatus, getCadeStatus } from "./cade_status";
 import { broadcastAgentUpdate, broadcastLogUpdate } from "../../routes/eventsAgents";
 import { broadcastAgentUpdate, broadcastLogUpdate } from "../../routes/eventsAgents";
 import fs from "fs";
@@ -22,6 +23,8 @@ export async function runCadeTask(task: any) {
   try {
     cadeStatus = "busy";
     console.log("⚙️ Cade running task:", task);
+  setCadeStatus("busy");
+  setTimeout(() => setCadeStatus("online"), 1000);
     const result = await performTask(task);
     cadeStatus = "online";
     return result;
