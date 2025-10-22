@@ -1,45 +1,50 @@
 import { Router, Request, Response } from "express";
 
+class SSEBroker {
+  private static _instance: SSEBroker;
+  private clients: Response[] = [];
+
+  private constructor() {}
+
+  static get instance() {
+    if (!this._instance) this._instance = new SSEBroker();
+    return this._instance;
+  }
+
+  addClient(res: Response) {
+    this.clients.push(res);
+    console.log(`🔌 SSE client connected (${this.clients.length} total)`);
+    res.on("close", () => {
+      this.clients = this.clients.filter(c => c !== res);
+      console.log(`❌ SSE client disconnected (${this.clients.length} remaining)`);
+    });
+  }
+
+  broadcast(event: string, data: any) {
+    console.log(`📡 Broadcast [${event}] → ${this.clients.length} client(s)`);
+    const payload = `event: ${event}\ndata: ${JSON.stringify(data)}\n\n`;
+    this.clients.forEach(c => c.write(payload));
+  }
+}
+
 const router = Router();
-let clients: Response[] = [];
 
 router.get("/", (req: Request, res: Response) => {
-  res.setHeader("Content-Type", "text/event-stream; charset=utf-8");
-  res.setHeader("Cache-Control", "no-cache, no-transform");
+  res.setHeader("Content-Type", "text/event-stream");
+  res.setHeader("Cache-Control", "no-cache");
   res.setHeader("Connection", "keep-alive");
-  res.setHeader("X-Accel-Buffering", "no"); // disable proxy buffering
   res.flushHeaders();
-
-  clients.push(res);
-  console.log(`🔌 SSE client connected (${clients.length} total)`);
-
-  // periodic keep-alive ping
-  const ping = setInterval(() => {
-    res.write(`event: ping\ndata: {}\n\n`);
-    if (res.flush) res.flush();
-  }, 15000);
-
-  req.on("close", () => {
-    clearInterval(ping);
-    clients = clients.filter(c => c !== res);
-    console.log(`❌ SSE client disconnected (${clients.length} remaining)`);
-  });
+  SSEBroker.instance.addClient(res);
+  // keep connection alive
+  const ping = setInterval(() => res.write("event: ping\ndata: {}\n\n"), 15000);
+  req.on("close", () => clearInterval(ping));
 });
 
-export function broadcastAgentUpdate(update: any) {
-  console.log("📡 broadcastAgentUpdate:", update);
-  for (const c of clients) {
-    c.write(`event: agent\ndata: ${JSON.stringify(update)}\n\n`);
-    if (c.flush) c.flush();
-  }
-}
-
+export const broker = SSEBroker.instance;
 export function broadcastLogUpdate(update: any) {
-  console.log("�� broadcastLogUpdate:", update);
-  for (const c of clients) {
-    c.write(`event: log\ndata: ${JSON.stringify(update)}\n\n`);
-    if (c.flush) c.flush();
-  }
+  broker.broadcast("log", update);
 }
-
+export function broadcastAgentUpdate(update: any) {
+  broker.broadcast("agent", update);
+}
 export default router;
