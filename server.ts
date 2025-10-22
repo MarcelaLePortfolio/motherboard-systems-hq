@@ -290,6 +290,13 @@ import("./routes/reflections.ts").then(({ reflectionsRouter }) => {
 
 // ✅ Serve static files
 const publicDir = path.join(process.cwd(), "public");
+app.use(express.static(publicDir));
+app.get("/", (req, res) => {
+  const file = path.join(process.cwd(), "public", "dashboard.html");
+  console.log("🧭 Serving dashboard from:", file);
+  res.sendFile(file);
+});
+
 
 
 // ✅ Compatibility export for CJS/TSX
