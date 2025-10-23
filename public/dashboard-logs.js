@@ -1,3 +1,8 @@
+document.addEventListener("DOMContentLoaded", async () => {
+  console.log("📋 DOM fully loaded — dashboard-logs.js executing safely");
+
+document.addEventListener("DOMContentLoaded", () => {
+
 // 🧾 Live Recent Logs renderer
 async function loadRecentLogs() {
   try {
@@ -29,4 +34,6 @@ async function loadRecentLogs() {
 window.addEventListener('DOMContentLoaded', () => {
   loadRecentLogs();
   setInterval(loadRecentLogs, 5000);
+});
+});
 });

@@ -1,3 +1,8 @@
+document.addEventListener("DOMContentLoaded", async () => {
+  console.log("📋 DOM fully loaded — dashboard.js executing safely");
+
+document.addEventListener("DOMContentLoaded", () => {
+
 async function loadRecentTasks() {
   const res = await fetch('/tasks/recent');
   const data = await res.json();
@@ -18,3 +23,5 @@ async function loadRecentTasks() {
   `;
 }
 window.addEventListener('DOMContentLoaded', loadRecentTasks);
+});
+});
