@@ -188,6 +188,29 @@
 <script src="dashboard-logs.js"></script>
 
 
+<script>
+  const evt = new EventSource("/events/agents");
+  evt.onopen = () => console.log("📡 SSE connected to /events/agents");
+  evt.onmessage = e => console.log("🔧 message:", e.data);
+  evt.addEventListener("log", e => console.log("🧠 LOG EVENT:", e.data));
+  evt.addEventListener("agent", e => console.log("🤖 AGENT UPDATE:", e.data));
+  evt.onerror = err => console.error("SSE error:", err);
+</script>
+<script>
+(() => {
+  const url = `${window.location.origin.replace("3001", "3101")}/events/agents`;
+  const evt = new EventSource(url);
+
+  evt.onopen = () => console.log("📡 Connected to", url);
+  evt.onerror = (err) => console.error("SSE connection error:", err);
+  evt.addEventListener("ping", () => console.debug("💓 ping"));
+  evt.addEventListener("log", e => console.log("🧠 LOG EVENT:", e.data));
+  evt.addEventListener("agent", e => console.log("🤖 AGENT UPDATE:", e.data));
+})();
+</script>
+<div id="recent-tasks" class="panel"></div>
+<div id="recent-logs" class="panel"></div>
+<script src="dashboard-stream.js"></script>
 </body>
 </html>
   <style>
@@ -258,4 +281,3 @@
     if (e.key === "Enter") sendMessage();
   });
 </script>
-<PASTE ABOVE CODE>
