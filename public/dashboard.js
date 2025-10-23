@@ -1,27 +1,28 @@
 document.addEventListener("DOMContentLoaded", async () => {
   console.log("📋 DOM fully loaded — dashboard.js executing safely");
 
-document.addEventListener("DOMContentLoaded", () => {
+  const container = document.getElementById("recentTasks");
+  if (!container) return console.warn("⚠️ No #recentTasks container found.");
 
-async function loadRecentTasks() {
-  const res = await fetch('/tasks/recent');
-  const data = await res.json();
-  const panel = document.getElementById('recent-tasks');
-  panel.innerHTML = `
-    <table>
-      <thead><tr><th>Type</th><th>Status</th><th>Actor</th><th>Result</th><th>Time</th></tr></thead>
-      <tbody>${data.rows.map(r => `
-        <tr>
-          <td>${r.type}</td>
-          <td>${r.status}</td>
-          <td>${r.actor}</td>
-          <td>${r.result}</td>
-          <td>${new Date(r.created_at).toLocaleString()}</td>
-        </tr>
-      `).join('')}</tbody>
-    </table>
-  `;
-}
-window.addEventListener('DOMContentLoaded', loadRecentTasks);
-});
+  try {
+    const res = await fetch("/tasks/recent");
+    const data = await res.json();
+
+    if (!data.rows || !Array.isArray(data.rows)) {
+      container.innerText = "⚠️ No recent tasks available.";
+      return;
+    }
+
+    container.innerHTML = data.rows
+      .map(row => `
+        <div style="padding:6px 0;border-bottom:1px solid #222;">
+          <b style="color:#00ff7f;">${row.type}</b> — ${row.result || "(no result)"}<br>
+          <span style="color:#999;">${row.actor} · ${new Date(row.created_at).toLocaleString()}</span>
+        </div>
+      `)
+      .join("");
+  } catch (err) {
+    console.error("❌ Failed to load recent tasks:", err);
+    container.innerText = "Error loading tasks.";
+  }
 });
