@@ -1,53 +1,27 @@
 import { Router, Request, Response } from "express";
 
-type Client = Response;
-
-class SSEBroker {
-  clients: Client[] = [];
-
-  addClient(res: Client) {
-    this.clients.push(res);
-    console.log(`🔌 SSE client connected (${this.clients.length} total)`);
-    res.on("close", () => {
-      this.clients = this.clients.filter(c => c !== res);
-      console.log(`❌ SSE client disconnected (${this.clients.length} remaining)`);
-    });
-  }
-
-  broadcast(event: string, data: any) {
-    console.log(`📡 Broadcast [${event}] → ${this.clients.length} client(s)`);
-    const payload = `event: ${event}\ndata: ${JSON.stringify(data)}\n\n`;
-    this.clients.forEach(c => c.write(payload));
-  }
-}
-
-// ✅ Attach a single global instance to prevent ESM duplication
-const globalAny = global as any;
-if (!globalAny.__SSE_BROKER__) {
-  globalAny.__SSE_BROKER__ = new SSEBroker();
-}
-const broker: SSEBroker = globalAny.__SSE_BROKER__;
-
 const router = Router();
+let clients: Response[] = [];
+
 router.get("/", (req: Request, res: Response) => {
   res.setHeader("Content-Type", "text/event-stream");
   res.setHeader("Cache-Control", "no-cache");
   res.setHeader("Connection", "keep-alive");
   res.flushHeaders();
 
-  broker.addClient(res);
+  clients.push(res);
+  console.log(`🔌 SSE client connected (${clients.length} total)`);
 
-  const ping = setInterval(() => res.write("event: ping\ndata: {}\n\n"), 15000);
-  res.on("close", () => clearInterval(ping));
-  req.on("close", () => clearInterval(ping));
+  req.on("close", () => {
+    clients = clients.filter(c => c !== res);
+    console.log(`❌ SSE client disconnected (${clients.length} remaining)`);
+  });
 });
 
-export function broadcastLogUpdate(update: any) {
-  broker.broadcast("log", update);
+function broadcast(event: string, data: any) {
+  clients.forEach(res => res.write(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`));
+  console.log(`📡 Broadcast [${event}] → ${clients.length} client(s)`);
 }
 
-export function broadcastAgentUpdate(update: any) {
-  broker.broadcast("agent", update);
-}
-
+export const broker = { broadcast };
 export default router;

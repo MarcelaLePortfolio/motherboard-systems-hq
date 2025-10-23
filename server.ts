@@ -333,6 +333,12 @@ const server = http.createServer(app);
 const PORT = process.env.PORT || 3101;
 
 
+app.post("/debug/broadcast", express.json(), async (req, res) => {
+  const { event = "log", message = "Test message", source = "debug", agents = [] } = req.body;
+  const { broker } = await import("./routes/eventsAgents.js");
+  broker.broadcast(event, { source, message, time: new Date().toISOString(), agents });
+  res.json({ ok: true, sent: { event, message, source, agents } });
+});
 server.listen(PORT, () => {
   console.log(`🚀 Express server running at http://localhost:${PORT}`);
 
@@ -340,26 +346,7 @@ server.listen(PORT, () => {
   setTimeout(() => {
     if (!app._router)
       return console.log("<0001f9f6> ⚠️ app._router still undefined post-listen");
-
     const layers = app._router.stack || [];
-    console.log("<0001f9f6> 📚 Root stack length:", layers.length);
-
-    function dive(layer, depth = 0, prefix = "") {
-      const pad = " ".repeat(depth * 2);
-      const keys = Object.keys(layer || {});
-      console.log(`${pad}<0001f9f6> 🔸 layer name=${layer.name || "?"} keys=[${keys.join(",")}]`);
-      if (layer.route?.path) {
-        const methods = Object.keys(layer.route.methods || {})
-          .map(m => m.toUpperCase())
-          .join(",");
-        console.log(`${pad}<0001f9f6> 🗺️ ${methods} ${prefix}${layer.route.path}`);
-      }
-      if (layer.handle?.stack) {
-        layer.handle.stack.forEach(sub => dive(sub, depth + 1, prefix));
-      }
-    }
-
     layers.forEach(l => dive(l, 0, ""));
   }, 1000);
 });
-
