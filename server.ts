@@ -332,6 +332,12 @@ app.get("/dashboard.html", (req, res) => {
 const server = http.createServer(app);
 const PORT = process.env.PORT || 3101;
 
+app.post("/debug/broadcast", express.json(), async (req, res) => {
+  const { event = "log", message = "Test message", source = "debug" } = req.body;
+  const { broker } = await import("./routes/sseBroker.js");
+  broker.broadcast(event, { source, message, time: new Date().toISOString() });
+  res.json({ ok: true, sent: { event, message, source } });
+});
 
 server.listen(PORT, () => {
   console.log(`🚀 Express server running at http://localhost:${PORT}`);
