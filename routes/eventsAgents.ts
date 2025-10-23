@@ -8,10 +8,11 @@ class SSEBroker {
   addClient(res: Client) {
     this.clients.push(res);
     console.log(`🔌 SSE client connected (${this.clients.length} total)`);
-    res.on("close", () => {
-      this.clients = this.clients.filter(c => c !== res);
-      console.log(`❌ SSE client disconnected (${this.clients.length} remaining)`);
-    });
+  }
+
+  removeClient(res: Client) {
+    this.clients = this.clients.filter(c => c !== res);
+    console.log(`❌ SSE client disconnected (${this.clients.length} remaining)`);
   }
 
   broadcast(event: string, data: any) {
@@ -21,7 +22,7 @@ class SSEBroker {
   }
 }
 
-// ✅ Attach a single global instance to prevent ESM duplication
+// ✅ Attach singleton instance globally
 const globalAny = global as any;
 if (!globalAny.__SSE_BROKER__) {
   globalAny.__SSE_BROKER__ = new SSEBroker();
@@ -38,14 +39,15 @@ router.get("/", (req: Request, res: Response) => {
   broker.addClient(res);
 
   const ping = setInterval(() => res.write("event: ping\ndata: {}\n\n"), 15000);
-  res.on("close", () => clearInterval(ping));
-  req.on("close", () => clearInterval(ping));
+  res.on("close", () => {
+    clearInterval(ping);
+    broker.removeClient(res);
+  });
 });
 
 export function broadcastLogUpdate(update: any) {
   broker.broadcast("log", update);
 }
-
 export function broadcastAgentUpdate(update: any) {
   broker.broadcast("agent", update);
 }
