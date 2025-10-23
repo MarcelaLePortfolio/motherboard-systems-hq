@@ -1,30 +1,53 @@
 import { Router, Request, Response } from "express";
-import { getCadeStatus } from "../scripts/agents/cade";
+
+type Client = Response;
+
+class SSEBroker {
+  clients: Client[] = [];
+
+  addClient(res: Client) {
+    this.clients.push(res);
+    console.log(`🔌 SSE client connected (${this.clients.length} total)`);
+    res.on("close", () => {
+      this.clients = this.clients.filter(c => c !== res);
+      console.log(`❌ SSE client disconnected (${this.clients.length} remaining)`);
+    });
+  }
+
+  broadcast(event: string, data: any) {
+    console.log(`📡 Broadcast [${event}] → ${this.clients.length} client(s)`);
+    const payload = `event: ${event}\ndata: ${JSON.stringify(data)}\n\n`;
+    this.clients.forEach(c => c.write(payload));
+  }
+}
+
+// ✅ Attach a single global instance to prevent ESM duplication
+const globalAny = global as any;
+if (!globalAny.__SSE_BROKER__) {
+  globalAny.__SSE_BROKER__ = new SSEBroker();
+}
+const broker: SSEBroker = globalAny.__SSE_BROKER__;
 
 const router = Router();
-let clients: Response[] = [];
-
 router.get("/", (req: Request, res: Response) => {
   res.setHeader("Content-Type", "text/event-stream");
   res.setHeader("Cache-Control", "no-cache");
   res.setHeader("Connection", "keep-alive");
   res.flushHeaders();
 
-  clients.push(res);
-  console.log(`🔌 SSE client connected (${clients.length} total)`);
+  broker.addClient(res);
 
-  req.on("close", () => {
-    clients = clients.filter(c => c !== res);
-    console.log(`❌ SSE client disconnected (${clients.length} remaining)`);
-  });
+  const ping = setInterval(() => res.write("event: ping\ndata: {}\n\n"), 15000);
+  res.on("close", () => clearInterval(ping));
+  req.on("close", () => clearInterval(ping));
 });
 
-export function broadcastAgentUpdate(update: any) {
-  clients.forEach(c => c.write(`event: agent\ndata: ${JSON.stringify(update)}\n\n`));
+export function broadcastLogUpdate(update: any) {
+  broker.broadcast("log", update);
 }
 
-export function broadcastLogUpdate(update: any) {
-  clients.forEach(c => c.write(`event: log\ndata: ${JSON.stringify(update)}\n\n`));
+export function broadcastAgentUpdate(update: any) {
+  broker.broadcast("agent", update);
 }
 
 export default router;
