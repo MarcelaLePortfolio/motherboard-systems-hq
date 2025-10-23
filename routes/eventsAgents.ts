@@ -1,17 +1,11 @@
 import { Router, Request, Response } from "express";
 
+type Client = Response;
+
 class SSEBroker {
-  private static _instance: SSEBroker;
-  private clients: Response[] = [];
+  clients: Client[] = [];
 
-  private constructor() {}
-
-  static get instance() {
-    if (!this._instance) this._instance = new SSEBroker();
-    return this._instance;
-  }
-
-  addClient(res: Response) {
+  addClient(res: Client) {
     this.clients.push(res);
     console.log(`🔌 SSE client connected (${this.clients.length} total)`);
     res.on("close", () => {
@@ -27,24 +21,33 @@ class SSEBroker {
   }
 }
 
-const router = Router();
+// ✅ Attach a single global instance to prevent ESM duplication
+const globalAny = global as any;
+if (!globalAny.__SSE_BROKER__) {
+  globalAny.__SSE_BROKER__ = new SSEBroker();
+}
+const broker: SSEBroker = globalAny.__SSE_BROKER__;
 
+const router = Router();
 router.get("/", (req: Request, res: Response) => {
   res.setHeader("Content-Type", "text/event-stream");
   res.setHeader("Cache-Control", "no-cache");
   res.setHeader("Connection", "keep-alive");
   res.flushHeaders();
-  SSEBroker.instance.addClient(res);
-  // keep connection alive
+
+  broker.addClient(res);
+
   const ping = setInterval(() => res.write("event: ping\ndata: {}\n\n"), 15000);
+  res.on("close", () => clearInterval(ping));
   req.on("close", () => clearInterval(ping));
 });
 
-export const broker = SSEBroker.instance;
 export function broadcastLogUpdate(update: any) {
   broker.broadcast("log", update);
 }
+
 export function broadcastAgentUpdate(update: any) {
   broker.broadcast("agent", update);
 }
+
 export default router;
