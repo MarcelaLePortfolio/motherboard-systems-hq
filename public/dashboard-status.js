@@ -83,11 +83,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   try {
     const res = await fetch("/logs/recent");
-    const data = await res.json();
+    const raw = await res.json();
+    const data = Array.isArray(raw) ? raw : raw.rows || [];
 
     if (!Array.isArray(data) || data.length === 0) {
-      logsContainer.innerHTML =
-        "<div style='color:#777;padding:4px;font-family:monospace;'>No logs yet — waiting for activity...</div>";
+      logsContainer.innerHTML = "<div style=\"color:#777;padding:4px;font-family:monospace;\">No logs yet — waiting for activity...</div>";
+      return;
+    }
       return;
     }
 
