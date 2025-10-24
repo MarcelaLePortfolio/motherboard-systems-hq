@@ -206,3 +206,26 @@
 
 </script>
 <PASTE ABOVE CODE>
+
+  <script type="module">
+    import { autoRefreshPanel } from "./dashboard-dynamic.js";
+    autoRefreshPanel("systemHealthContainer", "/diagnostics/system-health");
+    autoRefreshPanel("persistentInsightContainer", "/diagnostics/persistent-insight");
+    autoRefreshPanel("cognitiveCohesionContainer", "/diagnostics/cognitive-cohesion");
+    autoRefreshPanel("introspectiveSimContainer", "/diagnostics/introspective-sim");
+    autoRefreshPanel("autonomicAdaptationContainer", "/diagnostics/autonomic-adaptation");
+    autoRefreshPanel("insightVisualizerContainer", "/diagnostics/insight-visualizer");
+    autoRefreshPanel("systemChronicleContainer", "/diagnostics/system-chronicle");
+  </script>
+  <section id="diagnostics-panels" style="margin-top:2rem;">
+    <h2 style="font-family:sans-serif;color:#888;">🧠 System Diagnostics</h2>
+    <div id="systemHealthContainer" class="diagnostic-box"></div>
+    <div id="persistentInsightContainer" class="diagnostic-box"></div>
+    <div id="cognitiveCohesionContainer" class="diagnostic-box"></div>
+    <div id="introspectiveSimContainer" class="diagnostic-box"></div>
+    <div id="autonomicAdaptationContainer" class="diagnostic-box"></div>
+    <div id="insightVisualizerContainer" class="diagnostic-box"></div>
+    <div id="systemChronicleContainer" class="diagnostic-box"></div>
+  </section>
+</body>
+</html>

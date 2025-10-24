@@ -1,12 +1,13 @@
 const express = require("express");
 const router = express.Router();
 
-// <0001fa9d> Stub Diagnostic — Insight Visualizer
+// <0001fa9c> Stub Diagnostic — Cognitive Cohesion
 router.get("/", (_, res) => {
   res.json({
     ok: true,
     timestamp: new Date().toISOString(),
-    message: "🎨 Insight Visualizer route active"
+    cohesion: "98%",
+    message: "🧩 Cognitive Cohesion route active"
   });
 });
 
