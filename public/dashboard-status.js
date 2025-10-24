@@ -74,3 +74,47 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
+// --- Dynamic Recent Logs Placeholder Logic ---
+document.addEventListener("DOMContentLoaded", async () => {
+  const logsContainer = document.getElementById("recentLogs");
+  if (!logsContainer) return;
+
+  try {
+    const res = await fetch("/logs/recent");
+    const data = await res.json();
+
+    if (!Array.isArray(data) || data.length === 0) {
+      logsContainer.innerHTML =
+        "<div style='color:#777;padding:4px;font-family:monospace;'>No logs yet — waiting for activity...</div>";
+      return;
+    }
+
+    // detect duplicate of tasks feed
+    const allSame =
+      data.every((row) => row.type && data[0].type === row.type) &&
+      data.map((row) => row.result).join() ===
+        (window._lastTaskResults || "");
+
+    if (allSame) {
+      logsContainer.innerHTML =
+        "<div style='color:#777;padding:4px;font-family:monospace;'>No logs yet — waiting for activity...</div>";
+    } else {
+      logsContainer.innerHTML = data
+        .map(
+          (log) =>
+            `<div style='padding:4px;font-family:monospace;color:#ccc;'>
+               <strong>${log.type}</strong> — ${log.result}
+               <div style='font-size:0.8em;color:#999;'>${log.actor} • ${new Date(
+              log.created_at
+            ).toLocaleString()}</div>
+             </div>`
+        )
+        .join("");
+    }
+  } catch (err) {
+    console.error("Logs placeholder logic failed:", err);
+    logsContainer.innerHTML =
+      "<div style='color:#777;padding:4px;font-family:monospace;'>Error loading logs.</div>";
+  }
+});
