@@ -48,6 +48,9 @@ console.log("🧾 Verified all diagnostic tables.");
 import { drizzle } from "drizzle-orm/better-sqlite3";
 
 const app = express();
+console.log("🔍 DEBUG — Current working directory:", process.cwd());
+console.log("🔍 DEBUG — Expected static path:", path.join(process.cwd(), "public"));
+
 app.use(express.json());
 app.use("/cade", cadeRouter);
 app.use("/diagnostics/system-health", systemHealth);
@@ -282,6 +285,8 @@ console.log("✅ Mounted /reflections route");
   console.log("<0001f9f4> 🧠 tasksRouter type check:", typeof tasksRouter, Object.keys(tasksRouter));
 
 app.use("/tasks", tasksRouter);
+import logsRouter from "./routes/logs";
+app.use("/logs", logsRouter);
 
 
 
