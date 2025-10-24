@@ -1,4 +1,5 @@
 import path from "path";
+import eventsRouter from "./routes/events.js";
 import { logsRouter } from "./routes/logs.ts";
 import Database from "better-sqlite3";
 import path from "path";
@@ -20,7 +21,6 @@ import { reflectionsRouter } from "./routes/reflections.ts";
 import { matilda } from "./scripts/agents_full/matilda.ts";
 global.matilda = matilda;
 import express from "express";
-import eventsAgents from "./routes/eventsAgents";
 import { logsRouter } from "./routes/logs.ts";
 import { cadeRouter } from "./routes/cade.ts";
 import { systemHealth } from "./routes/diagnostics/systemHealth.ts";
@@ -274,7 +274,6 @@ app.use(express.json());
 // ✅ Mount dynamic routers before static
 app.use("/logs", logsRouter);
 app.use("/agents", agentsStatusRouter);
-app.use("/events/agents", eventsAgents);
 console.log("✅ Mounted /agents route");
 
 
@@ -285,6 +284,7 @@ console.log("✅ Mounted /reflections route");
   console.log("<0001f9f4> 🧠 tasksRouter type check:", typeof tasksRouter, Object.keys(tasksRouter));
 
 app.use("/tasks", tasksRouter);
+app.use("/events", eventsRouter);
 import logsRouter from "./routes/logs";
 app.use("/logs", logsRouter);
 
@@ -296,8 +296,6 @@ import("./routes/reflections.ts").then(({ reflectionsRouter }) => {
 }).catch(err => console.error("❌ Failed to mount /reflections:", err));
 
 // ✅ Serve static files
-const publicDir = path.join(process.cwd(), "public");
-app.use(express.static(publicDir));
 app.get("/", (req, res) => {
   const file = path.join(process.cwd(), "public", "dashboard.html");
   console.log("🧭 Serving dashboard from:", file);
@@ -368,3 +366,28 @@ server.listen(PORT, () => {
   }, 1000);
 });
 
+
+// --- Restore static dashboard serving ---
+import express from "express";
+import path from "path";
+
+const staticDir = path.join(process.cwd(), "public");
+console.log(`📦 Serving static files from: ${staticDir}`);
+
+  console.log(`🚀 Dashboard available at http://localhost:${PORT}/dashboard.html`);
+
+// --- Final Static Dashboard Fallback ---
+import express from "express";
+import path from "path";
+
+const staticRoot = path.join(process.cwd(), "public");
+app.use("/", express.static(staticRoot));
+
+const fallbackFile = path.join(staticRoot, "dashboard.html");
+
+app.get("/", (_, res) => res.sendFile(fallbackFile));
+app.get("/dashboard.html", (_, res) => res.sendFile(fallbackFile));
+
+  console.log(`📦 Static dashboard served from: ${staticRoot}`);
+  console.log(`🚀 Access via: http://localhost:${PORT}/dashboard.html`);
+console.log("🧭 Reached end of server.ts before static block");
