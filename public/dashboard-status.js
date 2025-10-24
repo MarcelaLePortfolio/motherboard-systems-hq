@@ -78,11 +78,19 @@ document.addEventListener("DOMContentLoaded", () => {
 // --- Dynamic Recent Logs Placeholder Logic ---
 document.addEventListener("DOMContentLoaded", async () => {
   const logsContainer = document.getElementById("recentLogs");
-  console.log("📜 Recent Logs script executing…");
+  console.log("📜 Refreshing Recent Logs section...");
   if (!logsContainer) return;
+  logsContainer.innerHTML = "<div style="color:#888;font-family:monospace;">Loading latest logs...</div>";
+  await new Promise(r => setTimeout(r, 250)); // short delay to ensure DOM ready
 
-  try {
-    const res = await fetch("/logs/recent");
+  const res = await fetch("/logs/recent");
+  const raw = await res.json();
+  const data = Array.isArray(raw) ? raw : raw.rows || [];
+
+  if (!Array.isArray(data) || data.length === 0) {
+    logsContainer.innerHTML = "<div style="color:#777;padding:4px;font-family:monospace;">No logs yet — waiting for activity...</div>";
+    return;
+  }
     const raw = await res.json();
     const data = Array.isArray(raw) ? raw : raw.rows || [];
 
