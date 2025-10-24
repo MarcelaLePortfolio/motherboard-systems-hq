@@ -185,6 +185,7 @@
   async function sendMessage() {
     const input = document.getElementById("userInput");
     const log = document.getElementById("chatLog");
+    if (!message) return;
     const message = input.value.trim();
     if (!message) return;
     log.innerHTML += `<div><b>You:</b> ${message}</div>`;
@@ -196,10 +197,10 @@
       });
       const data = await res.json();
       log.innerHTML += `<div style="color:green;"><b>Matilda:</b> ${data.message}</div>`;
+    } catch (err) {
+      console.error("❌ Chat fetch failed:", err);
+      log.innerHTML += `<div style="color:#f66">Error contacting Matilda</div>`;
     }
-  }
-  document.getElementById("userInput").addEventListener("keypress", e => {
     if (e.key === "Enter") sendMessage();
-  });
 </script>
 <PASTE ABOVE CODE>
