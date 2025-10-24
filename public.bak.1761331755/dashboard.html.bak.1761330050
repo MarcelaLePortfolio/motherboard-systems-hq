@@ -1,0 +1,206 @@
+<header style="text-align:center; padding:1rem 0; font-family:Inter, sans-serif; font-size:1.8rem; font-weight:600; letter-spacing:0.5px; color:#222; border-bottom:2px solid #eee;">🖥️ Motherboard Systems</header>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <meta charset="UTF-8">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; background: #f7f7f7; }
+    h1 { color: #333; }
+    .card { background: #fff; padding: 15px; margin-bottom: 20px;
+            border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    #chatLog {
+      height: 200px;
+      overflow-y: auto;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background: #f9f9f9;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+    .chat-input {
+      background: #fff;
+      border: 2px solid #ddd;
+      padding: 1rem;
+      margin-top: 1rem;
+      display: flex;
+      gap: 0.5rem;
+    }
+    input[type="text"] {
+      flex: 1;
+      padding: 0.5rem;
+      font-size: 1rem;
+      border: 1px solid #aaa;
+      border-radius: 4px;
+    }
+    button {
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      background: #0b5394;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover { background: #073763; }
+  </style>
+</head>
+<body>
+  <div id="debugBanner" style="background:#e6f7ff; border:1px solid #91d5ff; padding:8px; margin:10px 0; border-radius:6px; color:#0050b3; font-size:0.9em;">
+    ⚡ Dashboard v2.0.3 — unified chat + diagnostics layout loaded
+  </div>
+
+<div id="agentStatusContainer" style="font-family:monospace;padding:10px 14px;margin:8px 0;background:rgba(40,40,40,0.85);border:1px solid #444;border-radius:8px;color:#ddd;box-shadow:0 0 8px rgba(0,0,0,0.3);"></div>
+    </ul>
+  </header>
+
+  <!-- Chat Section -->
+  <div class="card">
+    <h2>💬 Chat with Matilda</h2>
+    <div id="chatLog"></div>
+    <div class="chat-input">
+      <input type="text" id="userInput" placeholder="Type a message..." />
+      <button id="sendBtn">Send</button>
+    </div>
+  </div>
+
+
+  <!-- Core Diagnostic Panels -->
+  <section id="system-health" style="margin:1rem;padding:1rem;background:#fff;border-radius:8px;box-shadow:0 0 5px #ccc;">
+    <h3>⚙️ System Health & Verification</h3>
+    <pre id="system-health-content">Loading...</pre>
+  </section>
+
+  <section id="matilda-insights" style="margin:1rem;padding:1rem;background:#fff;border-radius:8px;box-shadow:0 0 5px #ccc;">
+    <h3>🧠 Matilda Insights</h3>
+    <pre id="persistent-insight">Loading insights...</pre>
+  </section>
+
+  <section id="autonomic-adaptation" style="margin:1rem;padding:1rem;background:#fff;border-radius:8px;box-shadow:0 0 5px #ccc;">
+    <h3>🤖 Autonomic Adaptation</h3>
+    <pre id="autonomic-adaptation-content">Awaiting data...</pre>
+  </section>
+
+  <!-- Collapsible Deep Diagnostics -->
+  <details style="margin:1rem;padding:1rem;background:#fafafa;border-radius:8px;box-shadow:inset 0 0 4px #ddd;">
+    <summary style="cursor:pointer;font-weight:bold;">🔮 Introspective Simulation</summary>
+    <pre id="introspective-sim">Simulation logs will appear here...</pre>
+  </details>
+
+  <details style="margin:1rem;padding:1rem;background:#fafafa;border-radius:8px;box-shadow:inset 0 0 4px #ddd;">
+    <summary style="cursor:pointer;font-weight:bold;">📜 System Chronicle</summary>
+    <pre id="system-chronicle">Chronicle data will appear here...</pre>
+  </details>
+
+  <!-- === Core Scripts === -->
+  <script src="/dashboard.js?v=1.2.0" defer></script>
+  <script>
+    async function updatePanel(id, endpoint) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      try {
+        const res = await fetch(endpoint);
+        const data = await res.json();
+        el.textContent = JSON.stringify(data, null, 2);
+      } catch {
+        el.textContent = "⚠️ Unavailable: " + endpoint;
+      }
+    }
+
+    async function refreshAllDiagnostics() {
+      await updatePanel("system-health-content", "/diagnostics/system-health");
+      await updatePanel("persistent-insight", "/diagnostics/persistent-insight");
+      await updatePanel("autonomic-adaptation-content", "/diagnostics/autonomic-adaptation");
+      await updatePanel("introspective-sim", "/diagnostics/introspective-sim");
+      await updatePanel("system-chronicle", "/diagnostics/system-chronicle");
+      await updatePanel("tasks", "/tasks/recent");
+      await updatePanel("logs", "/logs/recent");
+    }
+
+    window.addEventListener("load", () => {
+      refreshAllDiagnostics();
+      setInterval(refreshAllDiagnostics, 15000);
+    });
+
+    // Chat Logic
+    const chatLog = document.getElementById("chatLog");
+    const userInput = document.getElementById("userInput");
+    const sendBtn = document.getElementById("sendBtn");
+
+    async function sendMessage() {
+      const message = userInput.value.trim();
+      if (!message) return;
+      appendMessage("You", message);
+      userInput.value = "";
+
+      try {
+        const res = await fetch("/matilda", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message })
+        });
+        const data = await res.json();
+        appendMessage("Matilda", data.message || data.reply || "(no response)");
+      } catch (err) {
+        appendMessage("Matilda", "❌ Connection error.");
+        console.error("Chat send error:", err);
+      }
+    }
+
+    function appendMessage(sender, text) {
+      const msg = document.createElement("div");
+      msg.innerHTML = `<b>${sender}:</b> ${text}`;
+      chatLog.appendChild(msg);
+      chatLog.scrollTop = chatLog.scrollHeight;
+    }
+
+    sendBtn.addEventListener("click", sendMessage);
+    userInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+  </script>
+
+
+<script defer src="dashboard.js"></script>
+<script src="dashboard-status.js"></script>
+<script defer src="dashboard-logs.v3.js"></script>
+
+
+<script src="dashboard-stream.js" defer></script>
+  <section id="recent-activity" style="background:#111;padding:12px;border-radius:8px;margin-top:16px;">
+    <h2 style="color:#eee;">🧾 Recent Tasks</h2>
+    <div id="recentTasks" style="padding:8px;font-family:monospace;color:#ccc;"></div>
+    <h2 style="color:#eee;margin-top:16px;">📜 Recent Logs</h2>
+    <div id="recentLogs" style="padding:8px;font-family:monospace;color:#ccc;"></div>
+  </section>
+</head>
+</html>
+<script>
+  async function sendMessage() {
+    const input = document.getElementById("userInput");
+    const log = document.getElementById("chatLog");
+    const message = input.value.trim();
+    if (!message) return;
+    log.innerHTML += `<div><b>You:</b> ${message}</div>`;
+    try {
+      const res = await fetch("/matilda", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message })
+      });
+      const data = await res.json();
+      log.innerHTML += `<div style="color:green;"><b>Matilda:</b> ${data.message}</div>`;
+    }
+  }
+  document.getElementById("userInput").addEventListener("keypress", e => {
+    if (e.key === "Enter") sendMessage();
+  });
+</script>
+<PASTE ABOVE CODE>

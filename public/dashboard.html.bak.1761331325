@@ -1,0 +1,261 @@
+<header style="text-align:center; padding:1rem 0; font-family:Inter, sans-serif; font-size:1.8rem; font-weight:600; letter-spacing:0.5px; color:#222; border-bottom:2px solid #eee;">🖥️ Motherboard Systems</header>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <meta charset="UTF-8">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; background: #f7f7f7; }
+    h1 { color: #333; }
+    .card { background: #fff; padding: 15px; margin-bottom: 20px;
+            border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    #chatLog {
+      height: 200px;
+      overflow-y: auto;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background: #f9f9f9;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+    .chat-input {
+      background: #fff;
+      border: 2px solid #ddd;
+      padding: 1rem;
+      margin-top: 1rem;
+      display: flex;
+      gap: 0.5rem;
+    }
+    input[type="text"] {
+      flex: 1;
+      padding: 0.5rem;
+      font-size: 1rem;
+      border: 1px solid #aaa;
+      border-radius: 4px;
+    }
+    button {
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      background: #0b5394;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover { background: #073763; }
+  </style>
+</head>
+<body>
+  <div id="debugBanner" style="background:#e6f7ff; border:1px solid #91d5ff; padding:8px; margin:10px 0; border-radius:6px; color:#0050b3; font-size:0.9em;">
+    ⚡ Dashboard v2.0.3 — unified chat + diagnostics layout loaded
+  </div>
+
+  <!-- Agent Status -->
+  <header style="display:flex; gap:1rem; align-items:center; flex-wrap:wrap;">
+    <h2>📟 Agent Status</h2>
+    <ul>
+      <li>Matilda: 🟢 Idle</li>
+      <li>Cade: 🟠 Busy</li>
+      <li>Effie: 🟢 Idle</li>
+    </ul>
+  </header>
+
+  <!-- Chat Section -->
+  <div class="card">
+    <h2>💬 Chat with Matilda</h2>
+    <div id="chatLog"></div>
+    <div class="chat-input">
+      <input type="text" id="userInput" placeholder="Type a message..." />
+      <button id="sendBtn">Send</button>
+    </div>
+  </div>
+
+  <!-- Recent Tasks -->
+  <div class="card">
+    <h2>Recent Tasks</h2>
+    <table id="tasks"></table>
+  </div>
+
+  <!-- Recent Logs -->
+  <div class="card">
+    <h2>Recent Logs</h2>
+    <table id="logs"></table>
+  </div>
+
+  <!-- Core Diagnostic Panels -->
+  <section id="system-health" style="margin:1rem;padding:1rem;background:#fff;border-radius:8px;box-shadow:0 0 5px #ccc;">
+    <h3>⚙️ System Health & Verification</h3>
+    <pre id="system-health-content">Loading...</pre>
+  </section>
+
+  <section id="matilda-insights" style="margin:1rem;padding:1rem;background:#fff;border-radius:8px;box-shadow:0 0 5px #ccc;">
+    <h3>🧠 Matilda Insights</h3>
+    <pre id="persistent-insight">Loading insights...</pre>
+  </section>
+
+  <section id="autonomic-adaptation" style="margin:1rem;padding:1rem;background:#fff;border-radius:8px;box-shadow:0 0 5px #ccc;">
+    <h3>🤖 Autonomic Adaptation</h3>
+    <pre id="autonomic-adaptation-content">Awaiting data...</pre>
+  </section>
+
+  <!-- Collapsible Deep Diagnostics -->
+  <details style="margin:1rem;padding:1rem;background:#fafafa;border-radius:8px;box-shadow:inset 0 0 4px #ddd;">
+    <summary style="cursor:pointer;font-weight:bold;">🔮 Introspective Simulation</summary>
+    <pre id="introspective-sim">Simulation logs will appear here...</pre>
+  </details>
+
+  <details style="margin:1rem;padding:1rem;background:#fafafa;border-radius:8px;box-shadow:inset 0 0 4px #ddd;">
+    <summary style="cursor:pointer;font-weight:bold;">📜 System Chronicle</summary>
+    <pre id="system-chronicle">Chronicle data will appear here...</pre>
+  </details>
+
+  <!-- === Core Scripts === -->
+  <script src="/dashboard.js?v=1.2.0" defer></script>
+  <script>
+    async function updatePanel(id, endpoint) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      try {
+        const res = await fetch(endpoint);
+        const data = await res.json();
+        el.textContent = JSON.stringify(data, null, 2);
+      } catch {
+        el.textContent = "⚠️ Unavailable: " + endpoint;
+      }
+    }
+
+    async function refreshAllDiagnostics() {
+      await updatePanel("system-health-content", "/diagnostics/system-health");
+      await updatePanel("persistent-insight", "/diagnostics/persistent-insight");
+      await updatePanel("autonomic-adaptation-content", "/diagnostics/autonomic-adaptation");
+      await updatePanel("introspective-sim", "/diagnostics/introspective-sim");
+      await updatePanel("system-chronicle", "/diagnostics/system-chronicle");
+      await updatePanel("tasks", "/tasks/recent");
+      await updatePanel("logs", "/logs/recent");
+    }
+
+    window.addEventListener("load", () => {
+      refreshAllDiagnostics();
+      setInterval(refreshAllDiagnostics, 15000);
+    });
+
+    // Chat Logic
+    const chatLog = document.getElementById("chatLog");
+    const userInput = document.getElementById("userInput");
+    const sendBtn = document.getElementById("sendBtn");
+
+    async function sendMessage() {
+      const message = userInput.value.trim();
+      if (!message) return;
+      appendMessage("You", message);
+      userInput.value = "";
+
+      try {
+        const res = await fetch("/matilda", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message })
+        });
+        const data = await res.json();
+        appendMessage("Matilda", data.message || data.reply || "(no response)");
+      } catch (err) {
+        appendMessage("Matilda", "❌ Connection error.");
+        console.error("Chat send error:", err);
+      }
+    }
+
+    function appendMessage(sender, text) {
+      const msg = document.createElement("div");
+      msg.innerHTML = `<b>${sender}:</b> ${text}`;
+      chatLog.appendChild(msg);
+      chatLog.scrollTop = chatLog.scrollHeight;
+    }
+
+    sendBtn.addEventListener("click", sendMessage);
+    userInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+  </script>
+<script src="dashboard.js"></script>
+<script src="dashboard-status.js"></script>
+<script src="dashboard-logs.js"></script>
+
+
+</body>
+</html>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; background: #f7f7f7; }
+    h1 { color: #333; }
+
+    .card { background: #fff; padding: 15px; margin-bottom: 20px;
+            border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+
+    /* Chat styles */
+    .chat-window { height: 250px; overflow-y: auto; padding: 10px; border: 1px solid #ddd;
+                   border-radius: 6px; background: #fafafa; margin-bottom: 10px; }
+    .chat-message { margin: 5px 0; max-width: 70%; padding: 8px 12px;
+                    border-radius: 12px; word-wrap: break-word; }
+    .chat-user { background: #d1e7ff; margin-left: auto; text-align: right; }
+    .chat-matilda { background: #f1f1f1; margin-right: auto; text-align: left; }
+    .chat-time { font-size: 0.75em; color: #666; margin-top: 2px; }
+    .chat-input { display: flex; gap: 8px; }
+    .chat-input input { flex: 1; padding: 8px; }
+    .chat-input button { padding: 8px 12px; }
+
+    .chat-message pre {
+      max-height: 150px; overflow-y: auto; white-space: pre-wrap;
+      background: #f4f4f4; padding: 6px; border-radius: 6px; margin-top: 4px;
+    }
+
+    /* --- Polishing styles --- */
+    .card{background:#fff;padding:16px;margin:16px 0;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.08);}
+    #agents,#tasks,#logs{width:100%;border-collapse:collapse;}
+    #agents th,#agents td,#tasks th,#tasks td,#logs th,#logs td{border:1px solid #eee;padding:8px 10px;text-align:left;}
+    #agents tr:nth-child(even),#tasks tr:nth-child(even),#logs tr:nth-child(even){background:#fafafa;}
+    #agents:empty::before,#tasks:empty::before,#logs:empty::before{content:"No data";display:block;color:#777;padding:8px 0;}
+    .status-online{color:#2e7d32;font-weight:600;}
+    .status-offline{color:#c62828;font-weight:600;}
+    .status-idle{color:#8d6e63;font-weight:600;}
+    .badge{padding:2px 6px;border-radius:6px;font-size:.8em;font-weight:600;display:inline-block;}
+    .badge-online{background:#e5f5e0;color:#2e7d32;}
+    .badge-offline{background:#ffebee;color:#c62828;}
+    .badge-idle{background:#fff8e1;color:#8d6e63;}
+    .timestamp{font-size:.8em;color:#666;}
+    .task-item,.log-item{margin-bottom:8px;padding:6px 8px;border-bottom:1px solid #eee;}
+  </style>
+</head>
+</html>
+<script>
+  async function sendMessage() {
+    const input = document.getElementById("userInput");
+    const log = document.getElementById("chatLog");
+    const message = input.value.trim();
+    if (!message) return;
+    log.innerHTML += `<div><b>You:</b> ${message}</div>`;
+    try {
+      const res = await fetch("/matilda", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message })
+      });
+      const data = await res.json();
+      log.innerHTML += `<div style="color:green;"><b>Matilda:</b> ${data.message}</div>`;
+      log.scrollTop = log.scrollHeight;
+      input.value = "";
+    } catch (err) {
+      log.innerHTML += `<div style="color:red;"><b>Error:</b> ${err.message}</div>`;
+      console.error("❌ Chat send error:", err);
+    }
+  }
+  document.getElementById("userInput").addEventListener("keypress", e => {
+    if (e.key === "Enter") sendMessage();
+  });
+</script>
+<PASTE ABOVE CODE>
