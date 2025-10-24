@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", async () => {
   console.log("✅ dashboard-logs.v3.js running");
 
-  const container = document.getElementById("recentLogs");
+  const container = document.getElementById("recentLogs_legacy");
   if (!container) {
     console.warn("⚠️ No #recentLogs found in DOM");
     return;
