@@ -97,9 +97,6 @@
   </details>
 
   <!-- === Core Scripts === -->
-<script defer src="dashboard-logs.js"></script>
-<script defer src="dashboard-logs.js"></script>
-  <script src="/dashboard.js?v=1.2.0" defer></script>
   <script>
     async function updatePanel(id, endpoint) {
       const el = document.getElementById(id);
@@ -170,12 +167,7 @@
   </script>
 
 
-<script defer src="dashboard-logs.js"></script>
-<script defer src="dashboard-logs.js"></script>
-<script defer src="dashboard.js"></script>
 <script src="dashboard-status.js"></script>
-<script defer src="dashboard-logs.js"></script>
-<script defer src="dashboard-logs.v3.js"></script>
 
 
 <script src="dashboard-stream.js" defer></script>
@@ -185,34 +177,10 @@
     <h2 style="color:#eee;margin-top:16px;">📜 Recent Logs</h2>
     <div id="recentLogs" style="padding:8px;font-family:monospace;color:#ccc;"></div>
   </section>
-</head>
-</html>
-<script>
-  async function sendMessage() {
-    const input = document.getElementById("userInput");
-    const log = document.getElementById("chatLog");
-    const message = input.value.trim();
-    if (!message) return;
-    log.innerHTML += `<div><b>You:</b> ${message}</div>`;
-    try {
-      const res = await fetch("/matilda", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message })
-      });
-      const data = await res.json();
-      log.innerHTML += `<div style="color:green;"><b>Matilda:</b> ${data.message}</div>`;
-    }
-  }
-  document.getElementById("userInput").addEventListener("keypress", e => {
-    if (e.key === "Enter") sendMessage();
-  });
-</script>
-<PASTE ABOVE CODE>
-</main>
 
-<script defer src="dashboard-logs.js"></script>
-
+  <script src="dashboard-status.js"></script>
+  <script defer src="dashboard.js"></script>
+  <script defer src="dashboard-stream.js"></script>
 </body>
-
 </html>
+<script defer src="dashboard-logs.js?v=4"></script>
