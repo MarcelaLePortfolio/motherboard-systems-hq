@@ -78,6 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // --- Dynamic Recent Logs Placeholder Logic ---
 document.addEventListener("DOMContentLoaded", async () => {
   const logsContainer = document.getElementById("recentLogs");
+  console.log("📜 Recent Logs script executing…");
   if (!logsContainer) return;
 
   try {
