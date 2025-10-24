@@ -119,3 +119,4 @@ document.addEventListener("DOMContentLoaded", async () => {
       "<div style='color:#777;padding:4px;font-family:monospace;'>Error loading logs.</div>";
   }
 });
+// DEBUG: Served from /Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard-status.js Fri Oct 24 13:53:40 PDT 2025
