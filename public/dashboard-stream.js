@@ -1,61 +1,41 @@
 if (!window.__DASHBOARD_SSE_INITIALIZED__) {
   window.__DASHBOARD_SSE_INITIALIZED__ = true;
-  console.log("📡 Initializing SSE listener...");
 
-  // === Primary Agent Stream ===
-  const agentSource = new EventSource("/events/agents");
+  console.log("📡 Initializing final SSE listener...");
 
-  agentSource.onopen = () => console.log("✅ SSE connection established");
-  agentSource.onerror = (err) => console.error("❌ SSE error:", err);
+  const evtSource = new EventSource("/events/agents");
 
-  agentSource.addEventListener("ping", () => console.debug("💓 ping"));
-  agentSource.addEventListener("agent", (e) => {
+  evtSource.onopen = () => console.log("✅ SSE connection established");
+  evtSource.onerror = (err) => console.error("❌ SSE error:", err);
+
+  evtSource.addEventListener("ping", () => {
+    console.debug("💓 ping");
+  });
+
+  evtSource.addEventListener("agent", (e) => {
     const data = JSON.parse(e.data);
+    console.log("🤖 Live Agent Update:", data);
+
     const container = document.getElementById("agentStatusContainer");
-    if (!container) return;
+    if (!container) {
+      console.warn("⚠️ No #agentStatusContainer found in DOM");
+      return;
+    }
+
     container.innerHTML = "";
     if (Array.isArray(data.agents)) {
       data.agents.forEach(agent => {
-        const row = document.createElement("div");
-        row.textContent = `${agent.name}: ${agent.status} (${agent.uptime})`;
-        container.appendChild(row);
+        const line = document.createElement("div");
+        line.textContent = `${agent.name}: ${agent.status}`;
+        line.style.margin = "2px 0";
+        line.style.color =
+          agent.status.includes("online") ? "#55ff55" :
+          agent.status.includes("busy") ? "#ffaa00" :
+          "#ff5555";
+        container.appendChild(line);
       });
+    } else {
+      container.textContent = "⚠️ No agents array in event data";
     }
   });
-
-  // === Recent Tasks Stream ===
-  const taskSource = new EventSource("/events/tasks");
-  taskSource.onmessage = (e) => {
-    const data = JSON.parse(e.data);
-    const container = document.getElementById("recentTasks");
-    if (!container) return;
-    container.innerHTML = "";
-    if (Array.isArray(data.tasks) && data.tasks.length) {
-      data.tasks.forEach(task => {
-        const row = document.createElement("div");
-        row.textContent = `🧩 ${task.type || "Task"} — ${task.status}`;
-        container.appendChild(row);
-      });
-    } else {
-      container.innerHTML = "<i style='color:#555;'>Nothing yet — waiting for activity.</i>";
-    }
-  };
-
-  // === Recent Logs Stream ===
-  const logSource = new EventSource("/events/logs");
-  logSource.onmessage = (e) => {
-    const data = JSON.parse(e.data);
-    const container = document.getElementById("recentLogs");
-    if (!container) return;
-    container.innerHTML = "";
-    if (Array.isArray(data.logs) && data.logs.length) {
-      data.logs.slice(-10).forEach(log => {
-        const row = document.createElement("div");
-        row.textContent = `📜 ${log.message || JSON.stringify(log)}`;
-        container.appendChild(row);
-      });
-    } else {
-      container.innerHTML = "<i style='color:#555;'>Nothing yet — waiting for logs.</i>";
-    }
-  };
 }
