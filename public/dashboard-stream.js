@@ -3,7 +3,7 @@ if (!window.__DASHBOARD_SSE_INITIALIZED__) {
 
   console.log("📡 Initializing final SSE listener...");
 
-  const evtSource = new EventSource("/events/agents");
+  const evtSource = new EventSource("/events");
 
   evtSource.onopen = () => console.log("✅ SSE connection established");
   evtSource.onerror = (err) => console.error("❌ SSE error:", err);
