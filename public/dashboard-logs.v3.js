@@ -44,3 +44,37 @@ document.addEventListener("DOMContentLoaded", async () => {
     container.appendChild(div);
   });
 });
+
+/* ──────────────────────────────
+   Dynamic Diagnostics Loader
+   ────────────────────────────── */
+document.addEventListener("DOMContentLoaded", async () => {
+  const container = document.getElementById("diagnostics-grid");
+  if (!container) return;
+
+  const endpoints = [
+    { id: "cognitiveCohesion", url: "/diagnostics/cognitive-cohesion" },
+    { id: "insightVisualizer", url: "/diagnostics/insight-visualizer" },
+    { id: "systemHealth", url: "/diagnostics/system-health" },
+    { id: "persistentInsight", url: "/diagnostics/persistent-insight" },
+    { id: "autonomicAdaptation", url: "/diagnostics/autonomic-adaptation" },
+    { id: "introspectiveSim", url: "/diagnostics/introspective-sim" },
+    { id: "dashboardSelfVerify", url: "/diagnostics/dashboard-selfverify" },
+    { id: "systemChronicle", url: "/diagnostics/system-chronicle" },
+  ];
+
+  for (const { id, url } of endpoints) {
+    const card = document.createElement("div");
+    card.className = "diagnostic-card";
+    card.innerHTML = `<h3>${id}</h3><pre>Loading...</pre>`;
+    container.appendChild(card);
+
+    try {
+      const res = await fetch(url);
+      const data = await res.json();
+      card.querySelector("pre").textContent = JSON.stringify(data, null, 2);
+    } catch {
+      card.querySelector("pre").textContent = "⚠️ Offline or unavailable";
+    }
+  }
+});

@@ -97,3 +97,26 @@
   background:#4caf50;
   animation: pulseOnline 2.5s infinite ease-in-out;
 }
+
+/* ──────────────────────────────
+   Diagnostics Container Styles
+   ────────────────────────────── */
+.diagnostics-container {
+  margin-top: 2rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+#diagnostics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.diagnostic-card {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1rem;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.2);
+  white-space: pre-wrap;
+}
