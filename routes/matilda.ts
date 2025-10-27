@@ -1,9 +1,13 @@
 import { Router } from "express";
+import runSkill from "../scripts/utils/runSkill.ts";
+import runSkill from "../scripts/utils/runSkill.ts";
+import runSkill from "../scripts/utils/runSkill.ts";
 import { execSync } from "child_process";
-import { runSkill } from "../scripts/utils/runSkill.ts";
+import runSkill from "../scripts/utils/runSkill.ts";
 import { ollamaPlan } from "../scripts/utils/ollamaPlan.ts";
 
 const router = Router();
+const detectSkill = (message: string): string | null => {  const lower = message.toLowerCase();  if (lower.includes('create') && lower.includes('file')) return 'createFile';  if (lower.includes('report')) return 'createFile';  return null;};
 
 /**
  * <0001faa4> Matilda Conversational + Delegational
@@ -27,10 +31,9 @@ router.post("/", async (req, res) => {
         ? "readFile"
         : "createFile";
 
-      const result = await runSkill({
-        type: inferredType,
-        params: { path: "memory/delegated.txt", content: `Task by Matilda: ${message}` }
-      });
+   const result = await runSkill(skill, { filename: "delegated.txt", content: "Delegated by Matilda <0001f9e0>" });
+      console.log("<0001f9e0> Matilda received Cade response;", typeof result, result);
+   return res.json({ message: `✨ Delegation complete — ${String(result)}` });
 
       return res.json({
         message: `✨ Delegation complete — ${result.message}`

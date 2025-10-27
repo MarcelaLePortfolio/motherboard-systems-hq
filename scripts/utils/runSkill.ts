@@ -1,34 +1,19 @@
-import fs from "fs";
 import path from "path";
 
 /**
- * 🧩 runSkill — handles basic backend task execution dynamically.
+ * Universal Skill Runner for Cade 🧠
+ * Dynamically imports a skill module from scripts/skills and executes it.
  */
-export async function runSkill(task: { type: string; params?: any }) {
+export default async function runSkill(skillName: string, params: any = {}): Promise<string> {
   try {
-    switch (task.type) {
-      case "createFile": {
-        const filePath = path.join(process.cwd(), task.params?.path || "output.txt");
-        fs.writeFileSync(filePath, task.params?.content || "Hello from Cade!");
-        return { status: "success", message: `File created at ${filePath}` };
-      }
-
-      case "readFile": {
-        const filePath = path.join(process.cwd(), task.params?.path || "output.txt");
-        const content = fs.readFileSync(filePath, "utf8");
-        return { status: "success", message: `File read successfully.`, content };
-      }
-
-      case "deleteFile": {
-        const filePath = path.join(process.cwd(), task.params?.path || "output.txt");
-        fs.unlinkSync(filePath);
-        return { status: "success", message: `File deleted at ${filePath}` };
-      }
-
-      default:
-        return { status: "error", message: `Unknown task type: ${task.type}` };
+    const skillPath = path.join(process.cwd(), "scripts", "skills", `${skillName}.ts`);
+    const skillModule = await import(skillPath);
+    if (typeof skillModule.default !== "function") {
+      throw new Error(`Skill "${skillName}" does not export a default function.`);
     }
+    const result = await skillModule.default(params);
+    return typeof result === "string" ? result : JSON.stringify(result);
   } catch (err: any) {
-    return { status: "error", message: err.message };
+    return `❌ Failed to execute skill "${skillName}": ${err.message}`;
   }
 }
