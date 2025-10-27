@@ -226,6 +226,10 @@ app.use("/diagnostics/introspective-sim", introspectiveSim);
     }
   });
 app.use("/diagnostics/system-chronicle", systemChronicle);
+import cognitiveCohesion from "./routes/diagnostics/cognitiveCohesion.ts";
+import insightVisualizer from "./routes/diagnostics/insightVisualizer.ts";
+app.use("/diagnostics/cognitive-cohesion", cognitiveCohesion);
+app.use("/diagnostics/insight-visualizer", insightVisualizer);
 
   // 🪶 Effie Wiring — Local Operations Agent
   app.post("/effie", async (req, res) => {
