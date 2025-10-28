@@ -52,6 +52,10 @@ console.log("🔍 DEBUG — Current working directory:", process.cwd());
 console.log("🔍 DEBUG — Expected static path:", path.join(process.cwd(), "public"));
 
 app.use(express.json());
+import { router as matildaRouter } from "./routes/matilda.ts";
+app.use("/matilda", matildaRouter);
+console.log("✅ Mounted /matilda route");
+
 app.use("/cade", cadeRouter);
 app.use("/diagnostics/system-health", systemHealth);
 
@@ -269,6 +273,10 @@ app.use("/diagnostics/system-chronicle", systemChronicle);
     }
   });
 app.use(express.json());
+import { router as matildaRouter } from "./routes/matilda.ts";
+app.use("/matilda", matildaRouter);
+console.log("✅ Mounted /matilda route");
+
 
 
 // ✅ Mount dynamic routers before static
