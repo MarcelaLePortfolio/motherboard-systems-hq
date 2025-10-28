@@ -1,34 +1,19 @@
 import fs from "fs";
 import path from "path";
+import { ollamaPlan } from "./ollamaPlan.js";
 
-/**
- * 🧩 runSkill — handles basic backend task execution dynamically.
- */
-export async function runSkill(task: { type: string; params?: any }) {
-  try {
-    switch (task.type) {
-      case "createFile": {
-        const filePath = path.join(process.cwd(), task.params?.path || "output.txt");
-        fs.writeFileSync(filePath, task.params?.content || "Hello from Cade!");
-        return { status: "success", message: `File created at ${filePath}` };
-      }
+export async function runSkill(skill: string, params: any = {}): Promise<string> {
+  const skillsDir = path.join(process.cwd(), "scripts", "skills");
+  const skillPath = path.join(skillsDir, `${skill}.ts`);
 
-      case "readFile": {
-        const filePath = path.join(process.cwd(), task.params?.path || "output.txt");
-        const content = fs.readFileSync(filePath, "utf8");
-        return { status: "success", message: `File read successfully.`, content };
-      }
-
-      case "deleteFile": {
-        const filePath = path.join(process.cwd(), task.params?.path || "output.txt");
-        fs.unlinkSync(filePath);
-        return { status: "success", message: `File deleted at ${filePath}` };
-      }
-
-      default:
-        return { status: "error", message: `Unknown task type: ${task.type}` };
-    }
-  } catch (err: any) {
-    return { status: "error", message: err.message };
+  if (fs.existsSync(skillPath)) {
+    const mod = await import(skillPath);
+    return await mod.default(params, {});
   }
+
+  // 🤖 No direct skill match — let Cade reason with Ollama
+  const plan = await ollamaPlan(skill);
+  const planFile = path.join(process.cwd(), "memory", `cade_plan_${Date.now()}.json`);
+  fs.writeFileSync(planFile, JSON.stringify(plan, null, 2));
+  return `🧩 Cade generated a reasoning plan → ${path.basename(planFile)}`;
 }
