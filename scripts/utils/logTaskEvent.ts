@@ -1,5 +1,6 @@
 import Database from "better-sqlite3";
 import path from "path";
+import * as crypto from "crypto";
 
 export function logTaskEvent({
   type,
@@ -49,11 +50,8 @@ export function logTaskEvent({
       created_at
     });
 
-    // Auto-prune older than 50 entries
-    const count = db.prepare("SELECT COUNT(*) AS n FROM task_events").get().n;
-    if (count > 50)
-      db.prepare("DELETE FROM task_events WHERE id NOT IN (SELECT id FROM task_events ORDER BY created_at DESC LIMIT 50)").run();
-
+    // 🧹 Keep latest 50 entries only
+    db.prepare("DELETE FROM task_events WHERE id NOT IN (SELECT id FROM task_events ORDER BY created_at DESC LIMIT 50)").run();
     db.close();
     console.log(`🧾 Logged task_event → ${id}`);
   } catch (err: any) {

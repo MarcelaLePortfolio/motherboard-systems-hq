@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import crypto from "crypto";
+import * as crypto from "crypto";
 import { ollamaPlan } from "./ollamaPlan.js";
 import { logTaskEvent } from "./logTaskEvent.js";
 
@@ -25,7 +25,6 @@ export async function runSkill(skill: string, params: any = {}): Promise<string>
     resultMessage = `❌ runSkill failed: ${err.message}`;
   }
 
-  // ✅ Post-task validation + DB log
   try {
     const payload = { skill, params };
     const file_hash = crypto.createHash("sha256").update(resultMessage).digest("hex");
