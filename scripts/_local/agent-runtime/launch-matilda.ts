@@ -1,13 +1,31 @@
- 
-import { createAgentRuntime } from "../../mirror/agent.mjs";
-import { startMatildaTaskProcessor } from "./utils/matilda_task_processor.ts";
-import { matilda } from "../../agents/matilda/matilda.mjs";
+console.log("<0001f9ef> [Matilda] Launch script entered (CJS-safe + correct path).");
 
-// Start Matilda runtime
-createAgentRuntime(matilda);
-console.log("💚 Matilda runtime started.");
+Promise.all([
+  import("../../mirror/agent.mjs"),
+  import("../../agents/matilda/matilda.mjs"),
+])
+  .then(async ([agentMod, matildaMod]) => {
+    console.log("✅ [Matilda] Core modules loaded.");
 
-// Keep the process alive
-setInterval(() => {}, 1 << 30);
+    const { createAgentRuntime } = agentMod;
+    const { matilda } = matildaMod;
 
-startMatildaTaskProcessor();
+    try {
+      const proc = await import("../utils/matilda_task_processor.ts").catch(() => null);
+      const start = proc?.startMatildaTaskProcessor || proc?.default;
+
+      if (typeof start === "function") {
+        console.log("⚙️ [Matilda] Starting Matilda Task Processor...");
+        await start();
+      } else {
+        console.log("⚙️ [Matilda] No task processor found — starting runtime.");
+        createAgentRuntime(matilda);
+      }
+    } catch (err) {
+      console.error("❌ [Matilda] Error while initializing runtime:", err);
+      createAgentRuntime(matilda);
+    }
+  })
+  .catch((err) => {
+    console.error("💥 [Matilda] Bootstrap failure:", err);
+  });
