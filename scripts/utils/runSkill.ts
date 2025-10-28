@@ -1,6 +1,9 @@
 import path from "path";
 import fs from "fs";
 import { logTaskEvent } from "../../db/client.ts";
+import { validateTaskEvent } from "./validateTaskEvent.ts";
+const eventId = await logTaskEvent({...});
+await validateTaskEvent(eventId, payload, result);
 
 export async function runSkill(skill: string, payload: any = {}): Promise<string> {
   console.log(`<0001fab5> 🧩 runSkill invoked for: ${skill}`);
@@ -16,7 +19,13 @@ export async function runSkill(skill: string, payload: any = {}): Promise<string
     console.log(`<0001fab5> 🧠 Skill result:`, result);
 
     console.log("<0001fab5> <0001f9e9> Invoking logTaskEvent now...");
+import { validateTaskEvent } from "./validateTaskEvent.ts";
+const eventId = await logTaskEvent({...});
+await validateTaskEvent(eventId, payload, result);
     await logTaskEvent({
+import { validateTaskEvent } from "./validateTaskEvent.ts";
+const eventId = await logTaskEvent({...});
+await validateTaskEvent(eventId, payload, result);
       type: "delegation",
       status: "success",
       actor: "matilda",
@@ -25,11 +34,17 @@ export async function runSkill(skill: string, payload: any = {}): Promise<string
       file_hash: null,
     });
     console.log("<0001fab5> ✅ logTaskEvent completed without error");
+import { validateTaskEvent } from "./validateTaskEvent.ts";
+const eventId = await logTaskEvent({...});
+await validateTaskEvent(eventId, payload, result);
 
     return result;
   } catch (err: any) {
     console.error("❌ runSkill error:", err);
     await logTaskEvent({
+import { validateTaskEvent } from "./validateTaskEvent.ts";
+const eventId = await logTaskEvent({...});
+await validateTaskEvent(eventId, payload, result);
       type: "delegation",
       status: "error",
       actor: "matilda",

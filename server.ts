@@ -14,6 +14,8 @@ try {
 }
 
 import { tasksRouter } from "./routes/tasks.ts";
+import { router as feedRouter } from "./routes/feed.ts";
+app.use("/feed", feedRouter);
 import { agentsStatusRouter } from "./routes/agentsStatus.ts";
 
 import { reflectionsRouter } from "./routes/reflections.ts";
@@ -285,8 +287,12 @@ app.use("/reflections", reflectionsRouter);
 console.log("✅ Mounted /reflections route");
 
   console.log("<0001f9f4> 🧠 tasksRouter type check:", typeof tasksRouter, Object.keys(tasksRouter));
+import { router as feedRouter } from "./routes/feed.ts";
+app.use("/feed", feedRouter);
 
 app.use("/tasks", tasksRouter);
+import { router as feedRouter } from "./routes/feed.ts";
+app.use("/feed", feedRouter);
 app.use("/events", eventsRouter);
 import logsRouter from "./routes/logs";
 app.use("/logs", logsRouter);

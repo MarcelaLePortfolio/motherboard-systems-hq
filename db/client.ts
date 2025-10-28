@@ -3,6 +3,9 @@ import path from "path";
 
 const dbPath = path.resolve(process.cwd(), "motherboard.sqlite");
 export const db = new Database(dbPath);
+
+export function pruneOldEntries(days = 7) {
+  const stmt = db.prepare(`DELETE FROM task_events WHERE created_at < datetime('now', - || ? || 
 console.log("🧩 Using SQLite database at:", dbPath);
 
 // ✅ Create table if not exists
