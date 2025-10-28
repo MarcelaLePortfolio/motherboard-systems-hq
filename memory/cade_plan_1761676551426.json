@@ -1,0 +1,6 @@
+{
+  "action": "error",
+  "params": {
+    "message": "Unexpected token '.', ...\" },\n      ...\n    ]\n\"... is not valid JSON"
+  }
+}

@@ -1,4 +1,5 @@
 import path from "path";
+import { router as matildaRouter } from "./routes/matilda";
 import eventsRouter from "./routes/events.js";
 import { logsRouter } from "./routes/logs.ts";
 import Database from "better-sqlite3";
@@ -52,6 +53,7 @@ console.log("🔍 DEBUG — Current working directory:", process.cwd());
 console.log("🔍 DEBUG — Expected static path:", path.join(process.cwd(), "public"));
 
 app.use(express.json());
+app.use("/matilda", matildaRouter);
 app.use("/cade", cadeRouter);
 app.use("/diagnostics/system-health", systemHealth);
 
@@ -269,6 +271,7 @@ app.use("/diagnostics/system-chronicle", systemChronicle);
     }
   });
 app.use(express.json());
+app.use("/matilda", matildaRouter);
 
 
 // ✅ Mount dynamic routers before static
