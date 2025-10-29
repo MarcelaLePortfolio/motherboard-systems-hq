@@ -25,5 +25,7 @@ export async function ollamaPlan(planText: string): Promise<string> {
     console.error("⚠️ ollamaChat fallback failed:", err);
   }
 
+  console.log("<0001fa9f> 💬 ollamaChat fallback result reached — chatResponse may have been empty");
+
   return "🤖 No known skill found for this instruction.";
 }
