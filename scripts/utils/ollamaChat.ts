@@ -10,7 +10,7 @@ export async function ollamaChat(message: string): Promise<string> {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        model: "llama3", // or your preferred local model
+        model: "llama3.1:8b", // or your preferred local model
         prompt: message,
         stream: false,
       }),
