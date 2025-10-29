@@ -8,8 +8,6 @@ console.log("<0001fa9f> 💬 ollamaChat invoked with:", message);
  */
 export async function ollamaChat(message: string): Promise<string> {
   try {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 10000);
 
     const res = await fetch("http://localhost:11434/api/generate", {
       method: "POST",
@@ -18,7 +16,6 @@ export async function ollamaChat(message: string): Promise<string> {
       signal: controller.signal,
     });
 
-    clearTimeout(timeout);
 
     if (!res.ok || !res.body) {
       console.error("⚠️ ollamaChat HTTP error:", res.status);
