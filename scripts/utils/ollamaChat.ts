@@ -1,6 +1,8 @@
 import fetch from "node-fetch";
 
 /**
+console.log("<0001fa9f> 💬 ollamaChat invoked with:", message);
+
  * 💬 Simple conversational bridge for Matilda.
  * Sends plain text to Ollama and returns the model's response.
  */
@@ -22,6 +24,8 @@ export async function ollamaChat(message: string): Promise<string> {
     }
 
     const data = await res.json();
+console.log("<0001fa9f> 💬 ollamaChat response:", data);
+
     return data?.response?.trim() || "🤖 (no response)";
   } catch (err) {
     console.error("❌ ollamaChat failure:", err);
