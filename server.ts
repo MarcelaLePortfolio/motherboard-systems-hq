@@ -398,4 +398,9 @@ app.get("/dashboard.html", (_, res) => res.sendFile(fallbackFile));
 
   console.log(`📦 Static dashboard served from: ${staticRoot}`);
   console.log(`🚀 Access via: http://localhost:${PORT}/dashboard.html`);
+import { ollamaChat } from "./scripts/utils/ollamaChat.ts";
+ollamaChat("warming up...").then(r =>
+  console.log("<0001fa9f> 🌡️ Gemma model pre-warmed:", r.slice(0, 60))
+);
+
 console.log("🧭 Reached end of server.ts before static block");
