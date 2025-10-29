@@ -197,6 +197,10 @@
       const data = await res.json();
       log.innerHTML += `<div style="color:green;"><b>Matilda:</b> ${data.message}</div>`;
     }
+      catch (err) {
+        console.error("Matilda fetch failed:", err);
+        log.innerHTML += `<div style="color:red;"><b>Error:</b> Unable to reach Matilda</div>`;
+      }
   }
   document.getElementById("userInput").addEventListener("keypress", e => {
     if (e.key === "Enter") sendMessage();
