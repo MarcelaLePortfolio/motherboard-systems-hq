@@ -92,6 +92,9 @@
   </section>
 
   <!-- Collapsible Deep Diagnostics -->
+<details id="diagnosticsSection" open style="margin-top:10px;">
+  <summary style="cursor:pointer;font-weight:bold;font-size:1.1em;color:#c87b36;">Diagnostics</summary>
+  <div style="padding:8px 0 0 12px;">
   <details style="margin:1rem;padding:1rem;background:#fafafa;border-radius:8px;box-shadow:inset 0 0 4px #ddd;">
     <summary style="cursor:pointer;font-weight:bold;">🔮 Introspective Simulation</summary>
     <pre id="introspective-sim">Simulation logs will appear here...</pre>
@@ -130,6 +133,8 @@
     window.addEventListener("load", () => {
       refreshAllDiagnostics();
       setInterval(refreshAllDiagnostics, 15000);
+  </div>
+</details>
     });
 
     // Chat Logic
