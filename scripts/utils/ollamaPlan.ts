@@ -1,4 +1,6 @@
 import fs from "fs";
+import { ollamaChat } from "./ollamaChat.ts";
+
 import path from "path";
 import { runSkill } from "./runSkill.ts";
 
@@ -29,6 +31,14 @@ export async function ollamaPlan(planText: string): Promise<string> {
     if (chatRes) return chatRes;
   } catch (err) {
     console.error("⚠️ Ollama chat fallback failed:", err);
+  }
+
+  // Conversational fallback: if no skill was recognized, let Ollama handle chat
+  try {
+    const chatResponse = await ollamaChat(planText);
+    if (chatResponse) return chatResponse;
+  } catch (err) {
+    console.error("⚠️ ollamaChat fallback failed:", err);
   }
 
   return "🤖 No known skill found for this instruction.";
