@@ -13,7 +13,6 @@ export async function ollamaChat(message: string): Promise<string> {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ model: "llama3.1:8b", prompt: message, stream: true }),
-      signal: controller.signal,
     });
 
 
