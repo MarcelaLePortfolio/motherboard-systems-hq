@@ -12,9 +12,9 @@ export async function ollamaChat(message: string): Promise<string> {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        model: "llama3.1:8b", // or your preferred local model
+        model: "llama3.1:8b",
         prompt: message,
-        stream: false,
+        stream: false
       }),
     });
 
@@ -23,10 +23,17 @@ export async function ollamaChat(message: string): Promise<string> {
       return "🤖 (chat unavailable)";
     }
 
-    const data = await res.json();
-console.log("<0001fa9f> 💬 ollamaChat response:", data);
-
-    return data?.response?.trim() || "🤖 (no response)";
+    const text = await res.text();
+    try {
+      const parsed = JSON.parse(text);
+      console.log("<0001fa9f> 💬 ollamaChat response:", parsed);
+      return parsed?.response?.trim() || "🤖 (no response)";
+    } catch {
+      const lastLine = text.trim().split("\n").pop();
+      const parsed = JSON.parse(lastLine || "{}");
+      console.log("<0001fa9f> 💬 ollamaChat NDJSON parsed:", parsed);
+      return parsed?.response?.trim() || "�� (no response)";
+    }
   } catch (err) {
     console.error("❌ ollamaChat failure:", err);
     return "🤖 (error during chat)";
