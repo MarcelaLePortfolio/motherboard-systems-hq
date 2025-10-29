@@ -11,31 +11,31 @@ export async function ollamaChat(message: string): Promise<string> {
     const res = await fetch("http://localhost:11434/api/generate", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        model: "llama3.1:8b",
-        prompt: message,
-        stream: false
-      }),
+      body: JSON.stringify({ model: "llama3.1:8b", prompt: message, stream: true }),
     });
 
-    if (!res.ok) {
+    if (!res.ok || !res.body) {
       console.error("⚠️ ollamaChat HTTP error:", res.status);
       return "🤖 (chat unavailable)";
     }
 
-    const text = await res.text();
-    try {
-      const parsed = JSON.parse(text);
-      console.log("<0001fa9f> 💬 ollamaChat response:", parsed);
-      return parsed?.response?.trim() || "🤖 (no response)";
-    } catch {
-      const lastLine = text.trim().split("\n").pop();
-      const parsed = JSON.parse(lastLine || "{}");
-      console.log("<0001fa9f> 💬 ollamaChat NDJSON parsed:", parsed);
-      return parsed?.response?.trim() || "�� (no response)";
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+    let lastLine = "";
+
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      const chunk = decoder.decode(value, { stream: true });
+      const lines = chunk.split("\n").filter(Boolean);
+      if (lines.length) lastLine = lines.pop();
     }
+
+    const parsed = JSON.parse(lastLine || {});
+    console.log("<0001fa9f> 💬 ollamaChat streamed:", parsed);
+    return parsed?.response?.trim() || "🤖 (no response)";
   } catch (err) {
-    console.error("❌ ollamaChat failure:", err);
+    console.error("❌ ollamaChat streaming failure:", err);
     return "🤖 (error during chat)";
   }
 }
