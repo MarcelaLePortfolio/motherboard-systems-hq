@@ -23,5 +23,13 @@ export async function ollamaPlan(planText: string): Promise<string> {
     return await runSkill("readFile", { filename });
   }
 
+  // Fallback: if no skill matched, use Ollama conversational mode
+  try {
+    const chatRes = await ollamaChat(message);
+    if (chatRes) return chatRes;
+  } catch (err) {
+    console.error("⚠️ Ollama chat fallback failed:", err);
+  }
+
   return "🤖 No known skill found for this instruction.";
 }
