@@ -37,9 +37,12 @@ export async function ollamaPlan(planText: string): Promise<string> {
   try {
     const chatResponse = await ollamaChat(planText);
     if (chatResponse) return chatResponse;
+  // Conversational fallback — if no known skill was matched
+  try {
+    const chatResponse = await ollamaChat(planText);
+    if (chatResponse) return chatResponse;
   } catch (err) {
     console.error("⚠️ ollamaChat fallback failed:", err);
   }
-
-  return "🤖 No known skill found for this instruction.";
+  return "🤖 (chat fallback failed — no known skill)";
 }
