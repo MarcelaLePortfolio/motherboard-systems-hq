@@ -410,7 +410,6 @@ setTimeout(() => {
   .then(r => console.log("<0001fa9f> 🌡️ Gemma model pre-warmed (async):", r.slice(0, 60)))
   .catch(err => console.error("<0001fab5> ❌ Gemma warm-up failed:", err));
 
-  console.log("<0001fa9f> 🌡️ Gemma model pre-warmed:", r.slice(0, 60))
 );
 
 console.log("🧭 Reached end of server.ts before static block");
