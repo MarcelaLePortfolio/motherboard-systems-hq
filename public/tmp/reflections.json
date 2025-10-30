@@ -1,0 +1,27 @@
+[
+  {
+    "id": 5,
+    "content": "[DEMO] ✅ Dashboard stable baseline confirmed.",
+    "created_at": "2025-10-30 18:18:01"
+  },
+  {
+    "id": 4,
+    "content": "[DEMO] 🔄 SSE stream heartbeat observed.",
+    "created_at": "2025-10-30 18:17:26"
+  },
+  {
+    "id": 3,
+    "content": "[DEMO] ⚙️ Cade→Effie broadcast cycle simulated.",
+    "created_at": "2025-10-30 18:16:41"
+  },
+  {
+    "id": 2,
+    "content": "[DEMO] 💬 Matilda chat loop verified end-to-end.",
+    "created_at": "2025-10-30 18:16:11"
+  },
+  {
+    "id": 1,
+    "content": "[DEMO] <0001f9e0> System reflection: initialization successful.",
+    "created_at": "2025-10-30 18:15:11"
+  }
+]
