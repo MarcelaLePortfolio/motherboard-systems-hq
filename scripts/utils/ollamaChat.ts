@@ -1,5 +1,5 @@
 /**
- * ollamaChat.ts — clean Gemma3:4b local chat helper
+ * ollamaChat.ts — universal Gemma3:4b response parser
  */
 export async function ollamaChat(message: string): Promise<string> {
   try {
@@ -12,12 +12,29 @@ export async function ollamaChat(message: string): Promise<string> {
         stream: false,
       }),
     });
-    if (!res.ok) return "🤖 (Ollama unavailable)";
+
+    if (!res.ok) {
+      console.error("⚠️ ollamaChat HTTP error:", res.status);
+      return "🤖 (chat unavailable)";
+    }
+
     const data = await res.json();
-    const text = data?.response || data?.message || data || "";
-    return String(text).trim() || "🤖 (no response)";
+
+    // Try all known Ollama field patterns
+    const reply =
+      data?.response ||
+      data?.message ||
+      data?.output?.[0]?.content ||
+      data?.content ||
+      data?.text ||
+      JSON.stringify(data);
+
+    // Log once per restart to confirm structure
+    console.log("<0001fa9f> 💬 ollamaChat raw JSON sample:", JSON.stringify(data).slice(0, 200));
+
+    return String(reply).trim() || "🤖 (no response)";
   } catch (err) {
-    console.error("❌ ollamaChat error:", err);
-    return "�� (error)";
+    console.error("❌ ollamaChat failure:", err);
+    return "🤖 (error during chat)";
   }
 }
