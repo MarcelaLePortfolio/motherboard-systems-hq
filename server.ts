@@ -402,9 +402,6 @@ import { ollamaChat } from "./scripts/utils/ollamaChat.ts";
 setTimeout(() => {
   (async () => {
     try {
-      const r = await ollamaChat("warming up...");
-      console.log("<0001fa9f> 🌡️ Gemma model pre-warmed (detached):", r.slice(0, 60));
-    } catch (err) {
       console.error("<0001fab5> ❌ Gemma warm-up failed:", err);
     }
   })();
