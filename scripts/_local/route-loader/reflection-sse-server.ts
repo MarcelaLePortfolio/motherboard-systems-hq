@@ -9,6 +9,12 @@ const dbPath = path.join(process.cwd(), "db", "main.db");
 const clients: Response[] = [];
 
 app.get("/events/reflections", (req: Request, res: Response) => {
+  app.use((req, res, next) => {
+    res.setHeader("Access-Control-Allow-Origin", "http://localhost:3001");
+    res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+    next();
+  });
   res.set({
     "Content-Type": "text/event-stream",
     "Cache-Control": "no-cache",
