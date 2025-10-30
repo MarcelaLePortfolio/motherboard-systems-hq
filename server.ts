@@ -21,6 +21,7 @@ import { reflectionsRouter } from "./routes/reflections.ts";
 import { matilda } from "./scripts/agents_full/matilda.ts";
 global.matilda = matilda;
 import express from "express";
+import { reflectionsSSE, broadcastReflections } from "./scripts/streams/reflection-sse";
 import { logsRouter } from "./routes/logs.ts";
 import { cadeRouter } from "./routes/cade.ts";
 import { systemHealth } from "./routes/diagnostics/systemHealth.ts";
@@ -52,6 +53,7 @@ console.log("🔍 DEBUG — Current working directory:", process.cwd());
 console.log("🔍 DEBUG — Expected static path:", path.join(process.cwd(), "public"));
 
 app.use(express.json());
+app.get("/events/reflections", reflectionsSSE);
 import { router as matildaRouter } from "./routes/matilda.ts";
 app.use("/matilda", matildaRouter);
 console.log("✅ Mounted /matilda route");
@@ -273,6 +275,7 @@ app.use("/diagnostics/system-chronicle", systemChronicle);
     }
   });
 app.use(express.json());
+app.get("/events/reflections", reflectionsSSE);
 import { router as matildaRouter } from "./routes/matilda.ts";
 app.use("/matilda", matildaRouter);
 console.log("✅ Mounted /matilda route");
@@ -377,6 +380,7 @@ server.listen(PORT, () => {
 
 // --- Restore static dashboard serving ---
 import express from "express";
+import { reflectionsSSE, broadcastReflections } from "./scripts/streams/reflection-sse";
 import path from "path";
 
 const staticDir = path.join(process.cwd(), "public");
@@ -386,6 +390,7 @@ console.log(`📦 Serving static files from: ${staticDir}`);
 
 // --- Final Static Dashboard Fallback ---
 import express from "express";
+import { reflectionsSSE, broadcastReflections } from "./scripts/streams/reflection-sse";
 import path from "path";
 
 const staticRoot = path.join(process.cwd(), "public");
