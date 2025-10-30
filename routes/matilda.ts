@@ -1,27 +1,19 @@
 import express from "express";
-import { runSkill } from "../scripts/utils/runSkill.ts";
-import { ollamaPlan } from "../scripts/utils/ollamaPlan.ts";
+import { ollamaChat } from "../scripts/utils/ollamaChat.ts";
 
 export const router = express.Router();
 
 router.post("/", async (req, res) => {
-  const message = req.body?.message?.trim();
-  if (!message) return res.json({ message: "⚠️ Empty message received." });
-
+  const { message } = req.body;
+  console.log("<0001fa9f> 📨 Matilda received message:", message);
   try {
-    const lower = message.toLowerCase();
-    const delegationTriggers = ["create", "read", "delete", "run", "execute", "write"];
-    const shouldDelegate = delegationTriggers.some(t => lower.includes(t));
-
-    if (shouldDelegate) {
-      const result = await runSkill("delegate", { message });
-      return res.json({ message: result });
-    }
-
-    const response = await ollamaPlan(message);
-    res.json({ message: response });
-  } catch (err: any) {
-    console.error("<0001fab5> ❌ Matilda route error:", err);
-    res.status(500).json({ message: "Matilda encountered an error." });
+    const start = Date.now();
+    const reply = await ollamaChat(message);
+    const elapsed = ((Date.now() - start) / 1000).toFixed(2);
+    console.log(`<0001fa9f> 🕒 Matilda total processing time: ${elapsed}s`);
+    return res.json({ reply });
+  } catch (err) {
+    console.error("<0001fab5> ❌ Matilda chat error:", err);
+    return res.json({ reply: "🤖 (chat error)" });
   }
 });

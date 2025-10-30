@@ -399,3 +399,11 @@ app.get("/dashboard.html", (_, res) => res.sendFile(fallbackFile));
   console.log(`📦 Static dashboard served from: ${staticRoot}`);
   console.log(`🚀 Access via: http://localhost:${PORT}/dashboard.html`);
 console.log("🧭 Reached end of server.ts before static block");
+setTimeout(() => {
+  import("./scripts/utils/ollamaChat.ts").then(({ ollamaChat }) => {
+    ollamaChat("warming up...").then(r =>
+      console.log("<0001fa9f> 🌡️ Gemma model pre-warmed (async):", r.slice(0, 60))
+    ).catch(err => console.error("<0001fab5> ❌ Gemma warm-up failed:", err));
+  });
+}, 2000);
+
