@@ -158,7 +158,7 @@
           body: JSON.stringify({ message })
         });
         const data = await res.json();
-        appendMessage("Matilda", data.message || data.reply || "(no response)");
+        appendMessage("Matilda", data.reply || data.reply || "(no response)");
       } catch (err) {
         appendMessage("Matilda", "❌ Connection error.");
         console.error("Chat send error:", err);
@@ -203,7 +203,7 @@
         body: JSON.stringify({ message })
       });
       const data = await res.json();
-      log.innerHTML += `<div style="color:green;"><b>Matilda:</b> ${data.message}</div>`;
+      log.innerHTML += `<div style="color:green;"><b>Matilda:</b> ${data.reply}</div>`;
     }
       catch (err) {
         console.error("Matilda fetch failed:", err);
