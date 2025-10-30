@@ -14,3 +14,4 @@ export function pruneReflections(days = 7) {
   const info = stmt.run(days);
   console.log(`<0001fa9a> 🧹 Pruned ${info.changes} old reflection_index entries`);
 }
+export { sqlite };
