@@ -1,5 +1,5 @@
 /**
- * ollamaChat.ts — universal Gemma3:4b response parser
+ * ollamaChat.ts — diagnostic version to reveal full Ollama payload
  */
 export async function ollamaChat(message: string): Promise<string> {
   try {
@@ -20,19 +20,23 @@ export async function ollamaChat(message: string): Promise<string> {
 
     const data = await res.json();
 
-    // Try all known Ollama field patterns
+    console.log("<0001fa9f> 🧩 Full Ollama raw payload:", JSON.stringify(data, null, 2));
+
+    // Intentionally force output to show structure
+    if (!data || Object.keys(data).length === 0) {
+      return "🤖 (empty payload)";
+    }
+
+    // Attempt to grab possible fields
     const reply =
       data?.response ||
       data?.message ||
       data?.output?.[0]?.content ||
       data?.content ||
       data?.text ||
-      JSON.stringify(data);
+      "(unknown format — see logs)";
 
-    // Log once per restart to confirm structure
-    console.log("<0001fa9f> 💬 ollamaChat raw JSON sample:", JSON.stringify(data).slice(0, 200));
-
-    return String(reply).trim() || "🤖 (no response)";
+    return String(reply).trim();
   } catch (err) {
     console.error("❌ ollamaChat failure:", err);
     return "🤖 (error during chat)";
