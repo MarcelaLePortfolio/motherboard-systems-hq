@@ -399,7 +399,17 @@ app.get("/dashboard.html", (_, res) => res.sendFile(fallbackFile));
   console.log(`📦 Static dashboard served from: ${staticRoot}`);
   console.log(`🚀 Access via: http://localhost:${PORT}/dashboard.html`);
 import { ollamaChat } from "./scripts/utils/ollamaChat.ts";
-ollamaChat("warming up...")
+setTimeout(() => {
+  (async () => {
+    try {
+      const r = await ollamaChat("warming up...");
+      console.log("<0001fa9f> 🌡️ Gemma model pre-warmed (detached):", r.slice(0, 60));
+    } catch (err) {
+      console.error("<0001fab5> ❌ Gemma warm-up failed:", err);
+    }
+  })();
+}, 2000);
+
   .then(r => console.log("<0001fa9f> 🌡️ Gemma model pre-warmed (async):", r.slice(0, 60)))
   .catch(err => console.error("<0001fab5> ❌ Gemma warm-up failed:", err));
 
