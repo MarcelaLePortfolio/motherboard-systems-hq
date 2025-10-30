@@ -1,8 +1,8 @@
-// <0001facb> Phase 4.5 — Safe Incremental Reflections Panel Injection
+// <0001facd> Phase 4.5 — Reflections Integrated into Recent Logs Panel
 document.addEventListener("DOMContentLoaded", () => {
-  const target = document.querySelector("#reflections-panel");
-  if (!target) {
-    console.warn("⚠️ Reflections panel not found — skipping viewer injection.");
+  const logsPanel = document.querySelector("#recentLogs");
+  if (!logsPanel) {
+    console.warn("⚠️ #recentLogs not found — skipping reflections injection.");
     return;
   }
 
@@ -12,26 +12,23 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
 
-      if (!Array.isArray(data) || !data.length) {
-        target.innerHTML = "<em>No reflections recorded yet.</em>";
-        return;
-      }
+      if (!Array.isArray(data) || !data.length) return;
 
-      target.innerHTML = data
+      const reflectionsHtml = data
         .map(
           (r) => `
-          <div class="reflection-item">
-            <div class="reflection-meta">
-              <span class="id">#${r.id}</span>
-              <span class="time">${timeAgo(r.created_at)}</span>
-            </div>
-            <div class="reflection-text">${escapeHtml(r.content)}</div>
+          <div class="reflection-line" style="color:#b87333;">
+            [${timeAgo(r.created_at)}] ${escapeHtml(r.content)}
           </div>`
         )
         .join("");
+
+      // Insert below any existing log lines
+      const marker = document.querySelector(".reflection-marker");
+      if (marker) marker.remove(); // cleanup if already added
+      logsPanel.insertAdjacentHTML("beforeend", `<div class="reflection-marker">${reflectionsHtml}</div>`);
     } catch (err) {
-      console.error("Reflections viewer error:", err);
-      target.innerHTML = `<span class="error">⚠️ Failed to load reflections</span>`;
+      console.error("❌ Reflections viewer error:", err);
     }
   }
 
@@ -45,8 +42,8 @@ document.addEventListener("DOMContentLoaded", () => {
       ["hour", 3600],
       ["minute", 60],
     ];
-    for (const [unit, seconds] of units) {
-      const interval = Math.floor(diff / seconds);
+    for (const [unit, sec] of units) {
+      const interval = Math.floor(diff / sec);
       if (interval >= 1) return `${interval} ${unit}${interval > 1 ? "s" : ""} ago`;
     }
     return "Just now";
