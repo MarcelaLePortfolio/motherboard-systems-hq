@@ -1,10 +1,13 @@
-// <0001fad3> Phase 4.6 — Reflection Watcher Automation (auto-export JSON on DB change)
+// <0001fad4> Phase 4.6 — Reflection Watcher Expanded (WAL/SHM-aware auto-export)
 import fs from "fs";
 import path from "path";
 import Database from "better-sqlite3";
 import chokidar from "chokidar";
 
-const dbPath = path.join(process.cwd(), "db", "main.db");
+const dbDir = path.join(process.cwd(), "db");
+const dbPath = path.join(dbDir, "main.db");
+const walPath = dbPath + "-wal";
+const shmPath = dbPath + "-shm";
 const outputPath = path.join(process.cwd(), "public", "tmp", "reflections.json");
 
 function exportReflections() {
@@ -22,11 +25,14 @@ function exportReflections() {
   }
 }
 
-console.log(`👁️  Watching for reflection_index updates in ${dbPath}...`);
+console.log(`👁️  Watching for reflection_index updates (WAL/SHM-aware) in ${dbDir}...`);
 exportReflections();
 
-const watcher = chokidar.watch(dbPath, { persistent: true, ignoreInitial: true });
-watcher.on("change", () => {
-  console.log("🔁 Detected reflection_index change — regenerating reflections.json...");
+const watcher = chokidar.watch([dbPath, walPath, shmPath], {
+  persistent: true,
+  ignoreInitial: true,
+});
+watcher.on("change", (file) => {
+  console.log(`🔁 Detected change in ${path.basename(file)} — regenerating reflections.json...`);
   exportReflections();
 });
