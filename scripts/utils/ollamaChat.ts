@@ -14,7 +14,8 @@ export async function ollamaChat(message: string): Promise<string> {
     });
     if (!res.ok) return "🤖 (Ollama unavailable)";
     const data = await res.json();
-    return data?.response?.trim() || "🤖 (no response)";
+    const text = data?.response || data?.message || data || "";
+    return String(text).trim() || "🤖 (no response)";
   } catch (err) {
     console.error("❌ ollamaChat error:", err);
     return "�� (error)";
