@@ -1,35 +1,16 @@
-// <0001facd> Phase 4.5 — Reflections Integrated into Recent Logs Panel
+// <0001fae0> Phase 4.8 — Dashboard SSE Listener Integration (live push + fallback)
 document.addEventListener("DOMContentLoaded", () => {
-  const logsPanel = document.querySelector("#recentLogs");
-  if (!logsPanel) {
-    console.warn("⚠️ #recentLogs not found — skipping reflections injection.");
-    return;
-  }
+  const target = document.getElementById("recentLogs");
 
-  async function renderReflections() {
-    try {
-      const res = await fetch("/tmp/reflections.json", { cache: "no-store" });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = await res.json();
-
-      if (!Array.isArray(data) || !data.length) return;
-
-      const reflectionsHtml = data
-        .map(
-          (r) => `
-          <div class="reflection-line" style="color:#b87333;">
-            [${timeAgo(r.created_at)}] ${escapeHtml(r.content)}
+  function renderReflections(reflections) {
+    target.innerHTML = reflections
+      .map(
+        (r) =>
+          `<div style="padding:2px 0;color:#caa;">
+            <span style="color:#b78;">${timeAgo(r.created_at)}</span> — ${escapeHtml(r.content)}
           </div>`
-        )
-        .join("");
-
-      // Insert below any existing log lines
-      const marker = document.querySelector(".reflection-marker");
-      if (marker) marker.remove(); // cleanup if already added
-      logsPanel.insertAdjacentHTML("beforeend", `<div class="reflection-marker">${reflectionsHtml}</div>`);
-    } catch (err) {
-      console.error("❌ Reflections viewer error:", err);
-    }
+      )
+      .join("");
   }
 
   function timeAgo(ts) {
@@ -56,6 +37,37 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  renderReflections();
-  setInterval(renderReflections, 20000);
+  // --- Phase 4.8: SSE integration with graceful fallback ---
+  try {
+    const evtSource = new EventSource("http://localhost:3101/events/reflections");
+    console.log("📡 Connected to Reflection SSE stream...");
+    evtSource.onmessage = (event) => {
+      try {
+        const data = JSON.parse(event.data);
+        renderReflections(data);
+      } catch (err) {
+        console.error("❌ Failed to parse SSE data:", err);
+      }
+    };
+    evtSource.onerror = (err) => {
+      console.warn("⚠️ SSE connection lost — reverting to 20s polling fallback", err);
+      evtSource.close();
+      setInterval(loadReflectionsFallback, 20000);
+    };
+  } catch (err) {
+    console.error("❌ SSE not supported, using fallback polling.", err);
+    setInterval(loadReflectionsFallback, 20000);
+  }
+
+  async function loadReflectionsFallback() {
+    try {
+      const res = await fetch("/tmp/reflections.json");
+      if (!res.ok) throw new Error(res.statusText);
+      const data = await res.json();
+      renderReflections(data);
+    } catch (err) {
+      target.innerHTML = `<span style="color:red;">⚠️ Failed to load reflections</span>`;
+      console.error("❌ Reflection viewer fallback error:", err);
+    }
+  }
 });
