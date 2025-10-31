@@ -1,59 +1,57 @@
-// <0001fae4> Phase 4.8 — Inline CORS in SSE Route (final fix)
-import express, { Request, Response } from "express";
-import path from "path";
-import Database from "better-sqlite3";
+// <0001fae5> Phase 4.8 — Final Verified CORS + SSE Stream Server
+import express from "express";
+import cors from "cors";
 import chokidar from "chokidar";
+import Database from "better-sqlite3";
+import path from "path";
 
 const app = express();
+app.use(cors({ origin: "http://localhost:3001" })); // ✅ Global CORS
+
 const dbPath = path.join(process.cwd(), "db", "main.db");
-const clients: Response[] = [];
+const clients: any[] = [];
 
-app.get("/events/reflections", (req: Request, res: Response) => {
-  // --- ✅ Inline CORS headers ---
+app.get("/", (_req, res) => res.send("✅ SSE + CORS server is running"));
+
+app.get("/events/reflections", (req, res) => {
+  // ✅ Explicit CORS header on SSE stream itself
   res.setHeader("Access-Control-Allow-Origin", "http://localhost:3001");
-  res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-
-  // --- SSE setup ---
   res.set({
     "Content-Type": "text/event-stream",
     "Cache-Control": "no-cache",
     Connection: "keep-alive",
   });
   res.flushHeaders();
+
   clients.push(res);
-  console.log(`<0001f7e2> SSE client connected (${clients.length})`);
+  console.log(`🟢 SSE client connected (${clients.length})`);
   req.on("close", () => {
-    const index = clients.indexOf(res);
-    if (index !== -1) clients.splice(index, 1);
-    console.log(`🔴 SSE client disconnected (${clients.length} remaining)`);
+    clients.splice(clients.indexOf(res), 1);
+    console.log(`🔴 SSE client disconnected (${clients.length})`);
   });
 });
 
-function broadcastReflections() {
+function broadcast() {
   try {
     const db = new Database(dbPath);
     const rows = db
       .prepare("SELECT id, content, created_at FROM reflection_index ORDER BY created_at DESC LIMIT 10")
       .all();
-    const payload = JSON.stringify(rows);
     db.close();
-    clients.forEach((client) => client.write(`data: ${payload}\n\n`));
+    const payload = JSON.stringify(rows);
+    clients.forEach((c) => c.write(`data: ${payload}\n\n`));
     console.log(`📡 Broadcasted ${rows.length} reflections → ${clients.length} clients`);
   } catch (err) {
-    console.error("❌ Reflection SSE broadcast failed:", err);
+    console.error("❌ Broadcast failed:", err);
   }
 }
 
-app.listen(3101, () => {
-  console.log("🟢 Unified Reflection SSE stream active at http://localhost:3101/events/reflections (Inline CORS)");
+const watcher = chokidar.watch([dbPath, dbPath + "-wal", dbPath + "-shm"], { ignoreInitial: true });
+watcher.on("change", () => {
+  console.log("👁️  Detected DB change → broadcasting...");
+  broadcast();
 });
 
-const watcher = chokidar.watch([dbPath, dbPath + "-wal", dbPath + "-shm"], {
-  persistent: true,
-  ignoreInitial: true,
-});
-watcher.on("change", () => {
-  console.log("👁️  Detected DB change — broadcasting reflections...");
-  broadcastReflections();
+app.listen(3101, () => {
+  console.log("🟢 Final SSE + CORS server live at http://localhost:3101/events/reflections");
 });
