@@ -1,4 +1,4 @@
-// <0001fae6> Phase 4.8 — Unconditional Inline CORS for SSE Streams
+// <0001fae7> Phase 4.8 — Guaranteed CORS headers injected before SSE flush
 import express from "express";
 import chokidar from "chokidar";
 import Database from "better-sqlite3";
@@ -8,31 +8,26 @@ const app = express();
 const dbPath = path.join(process.cwd(), "db", "main.db");
 const clients: any[] = [];
 
-// ✅ Apply CORS to *all* routes, including SSE streams
-app.use((req, res, next) => {
+app.get("/", (_req, res) => res.send("✅ SSE server running with inline guaranteed CORS."));
+
+app.get("/events/reflections", (req, res) => {
+  // ✅ Set CORS headers *on the actual response stream*
   res.setHeader("Access-Control-Allow-Origin", "http://localhost:3001");
   res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-  if (req.method === "OPTIONS") {
-    res.writeHead(204);
-    res.end();
-    return;
-  }
-  next();
-});
 
-app.get("/", (_req, res) => res.send("✅ SSE server with unconditional CORS active."));
-
-app.get("/events/reflections", (req, res) => {
+  // ✅ SSE headers
   res.set({
     "Content-Type": "text/event-stream",
     "Cache-Control": "no-cache",
     Connection: "keep-alive",
   });
-  res.flushHeaders();
+
+  res.flushHeaders(); // send headers immediately
 
   clients.push(res);
   console.log(`🟢 SSE client connected (${clients.length})`);
+
   req.on("close", () => {
     clients.splice(clients.indexOf(res), 1);
     console.log(`🔴 SSE client disconnected (${clients.length})`);
@@ -59,5 +54,5 @@ watcher.on("change", () => {
 });
 
 app.listen(3101, () => {
-  console.log("🟢 Unconditional CORS SSE server live at http://localhost:3101/events/reflections");
+  console.log("🟢 Guaranteed-CORS SSE server live at http://localhost:3101/events/reflections");
 });
