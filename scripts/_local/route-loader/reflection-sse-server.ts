@@ -1,4 +1,4 @@
-// <0001fae7> Phase 4.8 — Guaranteed CORS headers injected before SSE flush
+// <0001fae8> Phase 4.8 — Manual Header Write (Guaranteed CORS Preflush)
 import express from "express";
 import chokidar from "chokidar";
 import Database from "better-sqlite3";
@@ -8,22 +8,18 @@ const app = express();
 const dbPath = path.join(process.cwd(), "db", "main.db");
 const clients: any[] = [];
 
-app.get("/", (_req, res) => res.send("✅ SSE server running with inline guaranteed CORS."));
+app.get("/", (_req, res) => res.send("✅ Manual-header CORS SSE server active."));
 
 app.get("/events/reflections", (req, res) => {
-  // ✅ Set CORS headers *on the actual response stream*
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3001");
-  res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-
-  // ✅ SSE headers
-  res.set({
-    "Content-Type": "text/event-stream",
+  // ✅ Write headers manually BEFORE Express auto-sends anything
+  res.writeHead(200, {
+    "Access-Control-Allow-Origin": "http://localhost:3001",
+    "Access-Control-Allow-Methods": "GET, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type",
+    "Content-Type": "text/event-stream; charset=utf-8",
     "Cache-Control": "no-cache",
     Connection: "keep-alive",
   });
-
-  res.flushHeaders(); // send headers immediately
 
   clients.push(res);
   console.log(`🟢 SSE client connected (${clients.length})`);
@@ -54,5 +50,5 @@ watcher.on("change", () => {
 });
 
 app.listen(3101, () => {
-  console.log("🟢 Guaranteed-CORS SSE server live at http://localhost:3101/events/reflections");
+  console.log("�� Manual-header CORS SSE server running on http://localhost:3101/events/reflections");
 });
