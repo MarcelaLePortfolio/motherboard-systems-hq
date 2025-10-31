@@ -1,17 +1,20 @@
-// <0001fae3> Phase 4.8 — Global CORS enabled Unified Reflection SSE Server
+// <0001fae4> Phase 4.8 — Inline CORS in SSE Route (final fix)
 import express, { Request, Response } from "express";
 import path from "path";
 import Database from "better-sqlite3";
 import chokidar from "chokidar";
-import cors from "cors";
 
 const app = express();
-app.use(cors({ origin: "http://localhost:3001", methods: ["GET", "OPTIONS"] }));
-
 const dbPath = path.join(process.cwd(), "db", "main.db");
 const clients: Response[] = [];
 
 app.get("/events/reflections", (req: Request, res: Response) => {
+  // --- ✅ Inline CORS headers ---
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3001");
+  res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+  // --- SSE setup ---
   res.set({
     "Content-Type": "text/event-stream",
     "Cache-Control": "no-cache",
@@ -43,7 +46,7 @@ function broadcastReflections() {
 }
 
 app.listen(3101, () => {
-  console.log("🟢 Unified Reflection SSE stream active at http://localhost:3101/events/reflections (CORS enabled)");
+  console.log("🟢 Unified Reflection SSE stream active at http://localhost:3101/events/reflections (Inline CORS)");
 });
 
 const watcher = chokidar.watch([dbPath, dbPath + "-wal", dbPath + "-shm"], {
