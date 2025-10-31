@@ -1,21 +1,29 @@
-// <0001fae5> Phase 4.8 — Final Verified CORS + SSE Stream Server
+// <0001fae6> Phase 4.8 — Unconditional Inline CORS for SSE Streams
 import express from "express";
-import cors from "cors";
 import chokidar from "chokidar";
 import Database from "better-sqlite3";
 import path from "path";
 
 const app = express();
-app.use(cors({ origin: "http://localhost:3001" })); // ✅ Global CORS
-
 const dbPath = path.join(process.cwd(), "db", "main.db");
 const clients: any[] = [];
 
-app.get("/", (_req, res) => res.send("✅ SSE + CORS server is running"));
+// ✅ Apply CORS to *all* routes, including SSE streams
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3001");
+  res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  if (req.method === "OPTIONS") {
+    res.writeHead(204);
+    res.end();
+    return;
+  }
+  next();
+});
+
+app.get("/", (_req, res) => res.send("✅ SSE server with unconditional CORS active."));
 
 app.get("/events/reflections", (req, res) => {
-  // ✅ Explicit CORS header on SSE stream itself
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3001");
   res.set({
     "Content-Type": "text/event-stream",
     "Cache-Control": "no-cache",
@@ -34,9 +42,7 @@ app.get("/events/reflections", (req, res) => {
 function broadcast() {
   try {
     const db = new Database(dbPath);
-    const rows = db
-      .prepare("SELECT id, content, created_at FROM reflection_index ORDER BY created_at DESC LIMIT 10")
-      .all();
+    const rows = db.prepare("SELECT id, content, created_at FROM reflection_index ORDER BY created_at DESC LIMIT 10").all();
     db.close();
     const payload = JSON.stringify(rows);
     clients.forEach((c) => c.write(`data: ${payload}\n\n`));
@@ -53,5 +59,5 @@ watcher.on("change", () => {
 });
 
 app.listen(3101, () => {
-  console.log("🟢 Final SSE + CORS server live at http://localhost:3101/events/reflections");
+  console.log("🟢 Unconditional CORS SSE server live at http://localhost:3101/events/reflections");
 });
