@@ -1,6 +1,10 @@
 import express from "express";
+import path from "path";
+import fs from "fs";
+const dbPath = path.join(process.cwd(), "db", "main.db");
+console.log(`🧩 Using SQLite database at: ${dbPath}`);
 import cors from "cors";
-import { sqlite } from "../../../db/client";
+import Database from "better-sqlite3"; const sqlite = new Database(dbPath);
 
 const app = express();
 app.use(cors());
