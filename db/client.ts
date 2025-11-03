@@ -1,7 +1,7 @@
 import Database from "better-sqlite3";
 import { drizzle } from "drizzle-orm/better-sqlite3";
 
-const dbPath = "/Users/marcela-dev/Projects/Motherboard_Systems_HQ/motherboard.sqlite";
+const dbPath = "/Users/marcela-dev/Projects/Motherboard_Systems_HQ/db/main.db";
 console.log("🧩 Using SQLite database at:", dbPath);
 
 const sqlite = new Database(dbPath, { fileMustExist: true });
