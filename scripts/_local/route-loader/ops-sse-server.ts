@@ -1,43 +1,53 @@
-import "./ops-sse-bootstrap";
+// <0001fae5> Phase 6.1 — OPS SSE Schema Alignment Patch
 import express from "express";
-import path from "path";
-import fs from "fs";
-const dbPath = path.join(process.cwd(), "db", "main.db");
-console.log(`🧩 Using SQLite database at: ${dbPath}`);
-import cors from "cors";
-import Database from "better-sqlite3"; const sqlite = new Database(dbPath);
+import { sqlite } from "../../../db/client";
 
 const app = express();
-app.use(cors());
+const PORT = 3201;
+
+console.log(`🧩 OPS Bootstrap — Verifying schema at: ${process.cwd()}/db/main.db`);
+sqlite.prepare(
+  `CREATE TABLE IF NOT EXISTS task_events (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    description TEXT,
+    status TEXT DEFAULT 'pending',
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    type TEXT DEFAULT 'task',
+    agent TEXT
+  )`
+).run();
+console.log("✅ task_events table confirmed for OPS SSE runtime");
+
+const sendOps = () => {
+  try {
+    const rows = sqlite
+      .prepare("SELECT id, description, status, type, agent, created_at FROM task_events ORDER BY created_at DESC LIMIT 10")
+      .all();
+    const data = JSON.stringify(rows);
+    app.locals.clients.forEach((res: any) => res.write(`data: ${data}\n\n`));
+  } catch (err) {
+    console.error("❌ OPS stream error:", err);
+  }
+};
+
+app.locals.clients = [];
 
 app.get("/events/ops", (req, res) => {
-  res.writeHead(200, {
-    "Content-Type": "text/event-stream",
-    "Cache-Control": "no-cache",
-    Connection: "keep-alive",
+  res.setHeader("Content-Type", "text/event-stream");
+  res.setHeader("Cache-Control", "no-cache");
+  res.setHeader("Connection", "keep-alive");
+  res.flushHeaders();
+  app.locals.clients.push(res);
+  console.log(`📡 OPS client connected (${app.locals.clients.length} total)`);
+
+  req.on("close", () => {
+    app.locals.clients = app.locals.clients.filter((c: any) => c !== res);
+    console.log(`🔌 OPS client disconnected (${app.locals.clients.length} remaining)`);
   });
-
-  const sendOps = () => {
-    try {
-      const reflections = sqlite
-        .prepare("SELECT id, content, created_at FROM reflection_index ORDER BY created_at DESC LIMIT 5")
-        .all();
-      const tasks = sqlite
-        .prepare("SELECT id, type, status, created_at FROM task_events ORDER BY created_at DESC LIMIT 5")
-        .all();
-      const payload = { reflections, tasks, ts: new Date().toISOString() };
-      res.write(`data: ${JSON.stringify(payload)}\n\n`);
-    } catch (err) {
-      console.error("❌ OPS stream error:", err);
-    }
-  };
-
-  sendOps();
-  const interval = setInterval(sendOps, 5000);
-  req.on("close", () => clearInterval(interval));
 });
 
-const PORT = process.env.PORT || 3201;
+setInterval(sendOps, 2500);
+
 app.listen(PORT, () => {
   console.log(`📡 OPS Stream SSE server running at http://localhost:${PORT}/events/ops`);
 });
