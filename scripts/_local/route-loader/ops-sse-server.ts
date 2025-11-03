@@ -1,4 +1,4 @@
-// <0001fae5> Phase 6.1 — OPS SSE Schema Alignment Patch
+// <0001fae6> Phase 6.1 — OPS SSE fallback-safe schema patch
 import express from "express";
 import { sqlite } from "../../../db/client";
 
@@ -20,11 +20,14 @@ console.log("✅ task_events table confirmed for OPS SSE runtime");
 
 const sendOps = () => {
   try {
-    const rows = sqlite
-      .prepare("SELECT id, description, status, type, agent, created_at FROM task_events ORDER BY created_at DESC LIMIT 10")
+    const reflections = sqlite
+      .prepare("SELECT id, content, created_at FROM reflection_index ORDER BY created_at DESC LIMIT 5")
       .all();
-    const data = JSON.stringify(rows);
-    app.locals.clients.forEach((res: any) => res.write(`data: ${data}\n\n`));
+    const tasks = sqlite
+      .prepare("SELECT id, description, status, created_at FROM task_events ORDER BY created_at DESC LIMIT 5")
+      .all();
+    const payload = { reflections, tasks, ts: new Date().toISOString() };
+    app.locals.clients.forEach((res: any) => res.write(`data: ${JSON.stringify(payload)}\n\n`));
   } catch (err) {
     console.error("❌ OPS stream error:", err);
   }
