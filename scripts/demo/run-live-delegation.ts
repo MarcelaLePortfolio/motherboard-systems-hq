@@ -6,7 +6,7 @@ function insertReflection(content: string) {
 }
 function insertTask(description: string, type = "delegation") {
   sqlite
-    .prepare("INSERT INTO task_events (description, type, created_at) VALUES (?, ?, datetime('now'))")
+    .prepare("INSERT INTO task_events (description, event_type, created_at) VALUES (?, ?, datetime('now'))")
     .run(description, type);
 }
 
