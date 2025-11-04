@@ -11,7 +11,7 @@ router.get("/recent", async (req, res) => {
     const rows = await db
       .select()
       .from(task_events)
-      .where(sql`type IN ('ui_log_test','agent_sync','system_log','reflection')`)
+      .where(sql`event_type IN ('ui_log_test','agent_sync','system_log','reflection')`)
       .orderBy(desc(task_events.created_at))
       .limit(10);
 

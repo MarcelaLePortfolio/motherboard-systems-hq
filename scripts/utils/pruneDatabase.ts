@@ -7,7 +7,7 @@ export async function cleanupOldData() {
   pruneReflections(7);
 
   const stmt = db.prepare(`
-    INSERT INTO task_events (id, type, status, agent, payload, result, created_at)
+    INSERT INTO task_events (id, event_type, status, agent, payload, result, created_at)
     VALUES (@id, 'auto_prune', 'success', 'system', '{}', 'Old entries cleaned', datetime('now'))
   `);
   stmt.run({ id: crypto.randomUUID() });

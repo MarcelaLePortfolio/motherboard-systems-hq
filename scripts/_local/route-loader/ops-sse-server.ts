@@ -12,7 +12,7 @@ sqlite.prepare(
     description TEXT,
     status TEXT DEFAULT 'pending',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    type TEXT DEFAULT 'task',
+    event_type TEXT DEFAULT 'task',
     agent TEXT
   )`
 ).run();
