@@ -393,7 +393,6 @@ header {
   text-transform: uppercase;
 }
 
-header::before {
   content: "🖥️ ";
   filter: drop-shadow(0 0 6px rgba(202, 163, 106, 0.8));
 }
