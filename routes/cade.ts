@@ -11,7 +11,7 @@ cadeRouter.get("/recent", async (_req, res) => {
     const rows = db
       .select()
       .from(task_events)
-      .where(task_events.actor.eq("cade"))
+      .where(task_events.agent.eq("Cade"))
       .orderBy(desc(task_events.created_at))
       .limit(10)
       .all();
