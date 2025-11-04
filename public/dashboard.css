@@ -308,3 +308,46 @@ details *:where(.card,.panel,.box,.module,section){
 *[style*="background: white"], *[style*="background-color: white"] {
   background: var(--panel) !important;
 }
+
+/* <0001fb07> 🌙 Dark Mode — Chatbot Styling */
+#chatbot, #chatContainer, .chat-box, .chat-container {
+  background: var(--panel) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.4);
+}
+
+.chat-message.user {
+  background: #1b1c1f !important;
+  color: var(--text);
+  border-radius: 8px 8px 2px 8px;
+  border: 1px solid var(--border);
+  margin: 6px 0;
+  padding: 8px 10px;
+}
+
+.chat-message.bot {
+  background: #0f1012 !important;
+  color: var(--text);
+  border-radius: 8px 8px 8px 2px;
+  border: 1px solid var(--border);
+  margin: 6px 0;
+  padding: 8px 10px;
+}
+
+#chatInput, input#message, textarea#message {
+  background: var(--panel-2) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px;
+  caret-color: var(--muted);
+}
+
+#chatInput:focus, input#message:focus, textarea#message:focus {
+  outline: none;
+  border-color: var(--muted);
+  box-shadow: 0 0 6px rgba(202,163,106,0.5);
+}
+
