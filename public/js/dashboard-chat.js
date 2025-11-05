@@ -1,12 +1,19 @@
-// <0001fb16> ⚡ Phase 7.0.8 — Restore Enter send + readable output container
+// <0001fb17> ⚡ Phase 7.1.0 — Full dark-mode lock for chatbot feed
 document.addEventListener("DOMContentLoaded", () => {
+  // Inject full dark theme on page load
   const style = document.createElement("style");
   style.textContent = `
-    #chatbotFeed {
-      background-color: #111827 !important;
+    body, #chatbotContainer, #chatbotFeed {
+      background-color: #0b0b0b !important;
       color: #ffffff !important;
+      -webkit-text-fill-color: #ffffff !important;
+      text-shadow: none !important;
+    }
+
+    #chatbotFeed {
+      background-color: #0b0b0b !important;
       border: 1px solid #1f2937 !important;
-      border-radius: 10px !important;
+      border-radius: 8px !important;
       padding: 12px !important;
       overflow-y: auto !important;
       max-height: 40vh !important;
@@ -15,14 +22,13 @@ document.addEventListener("DOMContentLoaded", () => {
     .chat-message {
       color: #ffffff !important;
       -webkit-text-fill-color: #ffffff !important;
-      background-color: #1e293b !important;
-      border: 1px solid #334155 !important;
+      background-color: #111827 !important;
+      border: 1px solid #374151 !important;
       border-radius: 8px !important;
       padding: 8px 10px !important;
       margin: 6px 0 !important;
       line-height: 1.4 !important;
       display: inline-block !important;
-      max-width: 90% !important;
       word-wrap: break-word !important;
       white-space: pre-wrap !important;
     }
@@ -32,28 +38,22 @@ document.addEventListener("DOMContentLoaded", () => {
       border-color: #3b82f6 !important;
     }
     .chat-message.matilda {
-      background-color: #065f46 !important;
+      background-color: #047857 !important;
       border-color: #10b981 !important;
     }
     .chat-message.system {
       background-color: #3f3f46 !important;
-      border-color: #52525b !important;
-      font-style: italic !important;
       color: #e5e7eb !important;
     }
 
     #chatbotInput {
-      background-color: #0b0b0b !important;
+      background-color: #111827 !important;
       color: #ffffff !important;
+      caret-color: #ffffff !important;
       border: 1px solid #374151 !important;
-      border-radius: 8px !important;
+      border-radius: 6px !important;
       padding: 10px 12px !important;
       outline: none !important;
-      caret-color: #ffffff !important;
-    }
-
-    #chatbotInput::placeholder {
-      color: #9ca3af !important;
     }
 
     #chatbotSend {
@@ -62,14 +62,31 @@ document.addEventListener("DOMContentLoaded", () => {
       border: none !important;
       border-radius: 6px !important;
       padding: 8px 14px !important;
-      font-weight: 600 !important;
       cursor: pointer !important;
     }
     #chatbotSend:hover {
-      filter: brightness(1.1);
+      filter: brightness(1.15);
     }
   `;
   document.head.appendChild(style);
+
+  // Force all chat containers to dark manually (some browsers ignore cascade)
+  const darkenElements = () => {
+    const targets = [
+      document.body,
+      document.querySelector("#chatbotFeed"),
+      document.querySelector("#chatbotContainer"),
+      ...document.querySelectorAll(".chat-message"),
+    ].filter(Boolean);
+    for (const el of targets) {
+      el.style.backgroundColor = "#0b0b0b";
+      el.style.color = "#ffffff";
+      el.style.setProperty("-webkit-text-fill-color", "#ffffff", "important");
+    }
+  };
+
+  darkenElements();
+  setInterval(darkenElements, 1000);
 
   const input = document.querySelector("#chatbotInput");
   const sendBtn = document.querySelector("#chatbotSend");
@@ -82,6 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
     msg.textContent = text;
     feed.appendChild(msg);
     feed.scrollTop = feed.scrollHeight;
+    darkenElements();
   }
 
   async function sendMessage() {
@@ -104,7 +122,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Fix: restore Enter key send functionality
   if (input) {
     input.addEventListener("keydown", (e) => {
       if (e.key === "Enter" && !e.shiftKey) {
