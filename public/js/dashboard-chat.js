@@ -1,50 +1,75 @@
-// <0001fb15> ⚡ Phase 7.0.5 — Final Font Override (Absolute White Enforcement)
+// <0001fb16> ⚡ Phase 7.0.8 — Restore Enter send + readable output container
 document.addEventListener("DOMContentLoaded", () => {
   const style = document.createElement("style");
   style.textContent = `
-    body, #chatbotContainer, #chatbotFeed, #chatbotInput, .chat-message {
-      color: #fff !important;
-      background: #0b0b0b !important;
-      -webkit-text-fill-color: #fff !important;
-      text-shadow: none !important;
+    #chatbotFeed {
+      background-color: #111827 !important;
+      color: #ffffff !important;
+      border: 1px solid #1f2937 !important;
+      border-radius: 10px !important;
+      padding: 12px !important;
+      overflow-y: auto !important;
+      max-height: 40vh !important;
     }
-    #chatbotInput {
-      color: #fff !important;
-      background: #111827 !important;
-      caret-color: #fff !important;
-      -webkit-text-fill-color: #fff !important;
-      border: 1px solid #374151 !important;
+
+    .chat-message {
+      color: #ffffff !important;
+      -webkit-text-fill-color: #ffffff !important;
+      background-color: #1e293b !important;
+      border: 1px solid #334155 !important;
+      border-radius: 8px !important;
+      padding: 8px 10px !important;
+      margin: 6px 0 !important;
+      line-height: 1.4 !important;
+      display: inline-block !important;
+      max-width: 90% !important;
+      word-wrap: break-word !important;
+      white-space: pre-wrap !important;
     }
-    .chat-message.user, .chat-message.matilda {
-      color: #fff !important;
-      -webkit-text-fill-color: #fff !important;
+
+    .chat-message.user {
+      background-color: #1e3a8a !important;
+      border-color: #3b82f6 !important;
+    }
+    .chat-message.matilda {
+      background-color: #065f46 !important;
+      border-color: #10b981 !important;
     }
     .chat-message.system {
+      background-color: #3f3f46 !important;
+      border-color: #52525b !important;
+      font-style: italic !important;
       color: #e5e7eb !important;
+    }
+
+    #chatbotInput {
+      background-color: #0b0b0b !important;
+      color: #ffffff !important;
+      border: 1px solid #374151 !important;
+      border-radius: 8px !important;
+      padding: 10px 12px !important;
+      outline: none !important;
+      caret-color: #ffffff !important;
+    }
+
+    #chatbotInput::placeholder {
+      color: #9ca3af !important;
+    }
+
+    #chatbotSend {
+      background-color: #2563eb !important;
+      color: #ffffff !important;
+      border: none !important;
+      border-radius: 6px !important;
+      padding: 8px 14px !important;
+      font-weight: 600 !important;
+      cursor: pointer !important;
+    }
+    #chatbotSend:hover {
+      filter: brightness(1.1);
     }
   `;
   document.head.appendChild(style);
-
-  const enforceWhite = (el) => {
-    if (!el) return;
-    el.style.color = "#fff";
-    el.style.setProperty("-webkit-text-fill-color", "#fff", "important");
-    el.style.setProperty("caret-color", "#fff", "important");
-  };
-
-  const applyAll = () => {
-    [
-      document.body,
-      document.querySelector("#chatbotContainer"),
-      document.querySelector("#chatbotFeed"),
-      document.querySelector("#chatbotInput"),
-      ...document.querySelectorAll(".chat-message"),
-    ].forEach(enforceWhite);
-  };
-
-  const observer = new MutationObserver(() => applyAll());
-  observer.observe(document.body, { childList: true, subtree: true });
-  applyAll();
 
   const input = document.querySelector("#chatbotInput");
   const sendBtn = document.querySelector("#chatbotSend");
@@ -55,7 +80,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const msg = document.createElement("div");
     msg.className = `chat-message ${role}`;
     msg.textContent = text;
-    enforceWhite(msg);
     feed.appendChild(msg);
     feed.scrollTop = feed.scrollHeight;
   }
@@ -80,11 +104,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  // Fix: restore Enter key send functionality
+  if (input) {
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+  }
+
   sendBtn?.addEventListener("click", sendMessage);
-  input?.addEventListener("keypress", (e) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      sendMessage();
-    }
-  });
 });

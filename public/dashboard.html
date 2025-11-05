@@ -49,6 +49,55 @@
     }
     button:hover { background: #073763; }
   </style>
+<style id="chat-contrast-fix">
+  *[id^="chatbot"], .chat-message, body {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    background-color: #0b0b0b !important;
+  }
+  input[type="text"], textarea, #chatbotInput {
+    color: #ffffff !important;
+    background-color: #111827 !important;
+    border: 1px solid #374151 !important;
+    -webkit-text-fill-color: #ffffff !important;
+    caret-color: #ffffff !important;
+  }
+  ::placeholder {
+    color: #d1d5db !important;
+    opacity: 1 !important;
+  }
+</style>
+<style id="chat-output-fix">
+  #chatbotFeed {
+    background-color: #0b0b0b !important;
+    border: 1px solid #1f2937 !important;
+    color: #ffffff !important;
+  }
+  .chat-message {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    background-color: #111827 !important;
+    border: 1px solid #374151 !important;
+    border-radius: 10px !important;
+    padding: 10px 12px !important;
+    margin: 6px 0 !important;
+    line-height: 1.4 !important;
+  }
+  .chat-message.matilda {
+    background-color: #065f46 !important;
+    border-color: #047857 !important;
+  }
+  .chat-message.user {
+    background-color: #1e3a8a !important;
+    border-color: #3b82f6 !important;
+  }
+  .chat-message.system {
+    background-color: #27272a !important;
+    border-color: #3f3f46 !important;
+    font-style: italic !important;
+    color: #e5e7eb !important;
+  }
+</style>
 </head>
 <body>
   <div id="debugBanner" style="background:#e6f7ff; border:1px solid #91d5ff; padding:8px; margin:10px 0; border-radius:6px; color:#0050b3; font-size:0.9em;">
@@ -193,6 +242,55 @@
 
 
 <script src="dashboard-stream.js" defer></script>
+<style id="chat-contrast-fix">
+  *[id^="chatbot"], .chat-message, body {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    background-color: #0b0b0b !important;
+  }
+  input[type="text"], textarea, #chatbotInput {
+    color: #ffffff !important;
+    background-color: #111827 !important;
+    border: 1px solid #374151 !important;
+    -webkit-text-fill-color: #ffffff !important;
+    caret-color: #ffffff !important;
+  }
+  ::placeholder {
+    color: #d1d5db !important;
+    opacity: 1 !important;
+  }
+</style>
+<style id="chat-output-fix">
+  #chatbotFeed {
+    background-color: #0b0b0b !important;
+    border: 1px solid #1f2937 !important;
+    color: #ffffff !important;
+  }
+  .chat-message {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    background-color: #111827 !important;
+    border: 1px solid #374151 !important;
+    border-radius: 10px !important;
+    padding: 10px 12px !important;
+    margin: 6px 0 !important;
+    line-height: 1.4 !important;
+  }
+  .chat-message.matilda {
+    background-color: #065f46 !important;
+    border-color: #047857 !important;
+  }
+  .chat-message.user {
+    background-color: #1e3a8a !important;
+    border-color: #3b82f6 !important;
+  }
+  .chat-message.system {
+    background-color: #27272a !important;
+    border-color: #3f3f46 !important;
+    font-style: italic !important;
+    color: #e5e7eb !important;
+  }
+</style>
 </head>
 </html>
 <script>
