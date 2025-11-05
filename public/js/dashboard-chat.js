@@ -1,92 +1,24 @@
-// <0001fb17> ⚡ Phase 7.1.0 — Full dark-mode lock for chatbot feed
+// <0001fb18> ⚡ Phase 7.1.2 — Runtime DOM Enforcement for Dark Output Area
 document.addEventListener("DOMContentLoaded", () => {
-  // Inject full dark theme on page load
-  const style = document.createElement("style");
-  style.textContent = `
-    body, #chatbotContainer, #chatbotFeed {
-      background-color: #0b0b0b !important;
-      color: #ffffff !important;
-      -webkit-text-fill-color: #ffffff !important;
-      text-shadow: none !important;
+  const enforceDarkMode = () => {
+    const feed = document.querySelector("#chatbotFeed");
+    if (feed) {
+      feed.style.setProperty("background-color", "#0b0b0b", "important");
+      feed.style.setProperty("color", "#ffffff", "important");
+      feed.style.setProperty("-webkit-text-fill-color", "#ffffff", "important");
     }
 
-    #chatbotFeed {
-      background-color: #0b0b0b !important;
-      border: 1px solid #1f2937 !important;
-      border-radius: 8px !important;
-      padding: 12px !important;
-      overflow-y: auto !important;
-      max-height: 40vh !important;
-    }
-
-    .chat-message {
-      color: #ffffff !important;
-      -webkit-text-fill-color: #ffffff !important;
-      background-color: #111827 !important;
-      border: 1px solid #374151 !important;
-      border-radius: 8px !important;
-      padding: 8px 10px !important;
-      margin: 6px 0 !important;
-      line-height: 1.4 !important;
-      display: inline-block !important;
-      word-wrap: break-word !important;
-      white-space: pre-wrap !important;
-    }
-
-    .chat-message.user {
-      background-color: #1e3a8a !important;
-      border-color: #3b82f6 !important;
-    }
-    .chat-message.matilda {
-      background-color: #047857 !important;
-      border-color: #10b981 !important;
-    }
-    .chat-message.system {
-      background-color: #3f3f46 !important;
-      color: #e5e7eb !important;
-    }
-
-    #chatbotInput {
-      background-color: #111827 !important;
-      color: #ffffff !important;
-      caret-color: #ffffff !important;
-      border: 1px solid #374151 !important;
-      border-radius: 6px !important;
-      padding: 10px 12px !important;
-      outline: none !important;
-    }
-
-    #chatbotSend {
-      background-color: #2563eb !important;
-      color: #ffffff !important;
-      border: none !important;
-      border-radius: 6px !important;
-      padding: 8px 14px !important;
-      cursor: pointer !important;
-    }
-    #chatbotSend:hover {
-      filter: brightness(1.15);
-    }
-  `;
-  document.head.appendChild(style);
-
-  // Force all chat containers to dark manually (some browsers ignore cascade)
-  const darkenElements = () => {
-    const targets = [
-      document.body,
-      document.querySelector("#chatbotFeed"),
-      document.querySelector("#chatbotContainer"),
-      ...document.querySelectorAll(".chat-message"),
-    ].filter(Boolean);
-    for (const el of targets) {
-      el.style.backgroundColor = "#0b0b0b";
-      el.style.color = "#ffffff";
-      el.style.setProperty("-webkit-text-fill-color", "#ffffff", "important");
-    }
+    document.querySelectorAll(".chat-message").forEach((msg) => {
+      msg.style.setProperty("background-color", "#111827", "important");
+      msg.style.setProperty("color", "#ffffff", "important");
+      msg.style.setProperty("-webkit-text-fill-color", "#ffffff", "important");
+    });
   };
 
-  darkenElements();
-  setInterval(darkenElements, 1000);
+  // Apply immediately and monitor DOM changes continuously
+  enforceDarkMode();
+  const observer = new MutationObserver(() => enforceDarkMode());
+  observer.observe(document.body, { childList: true, subtree: true });
 
   const input = document.querySelector("#chatbotInput");
   const sendBtn = document.querySelector("#chatbotSend");
@@ -99,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
     msg.textContent = text;
     feed.appendChild(msg);
     feed.scrollTop = feed.scrollHeight;
-    darkenElements();
+    enforceDarkMode();
   }
 
   async function sendMessage() {
