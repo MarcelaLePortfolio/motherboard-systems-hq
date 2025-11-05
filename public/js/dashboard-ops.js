@@ -1,4 +1,3 @@
-// <0001fad2> Phase 4.9 — Dashboard OPS Stream Integration
 const opsStream = new EventSource("http://localhost:3201/events/ops");
 
 opsStream.onopen = () => console.log("🟢 OPS Stream connected");
@@ -7,30 +6,37 @@ opsStream.onerror = (e) => console.error("❌ OPS Stream error", e);
 opsStream.onmessage = (e) => {
   try {
     const data = JSON.parse(e.data);
-    updateRecentPanels(data);
+    console.log("📡 OPS update received:", data);
+
+    // Update Recent Tasks
+    const tasksContainer = document.getElementById("recentTasks");
+    if (tasksContainer && data.tasks) {
+      tasksContainer.innerHTML = data.tasks
+        .map(
+          (t) => `
+          <div class="task-entry">
+            <strong>${t.description}</strong>
+            <span class="status">${t.status}</span>
+            <small>${new Date(t.created_at).toLocaleTimeString()}</small>
+          </div>`
+        )
+        .join("");
+    }
+
+    // Update Recent Logs (from reflections)
+    const logsContainer = document.getElementById("recentLogs");
+    if (logsContainer && data.reflections) {
+      logsContainer.innerHTML = data.reflections
+        .map(
+          (r) => `
+          <div class="log-entry">
+            <span>${r.content}</span>
+            <small>${new Date(r.created_at).toLocaleTimeString()}</small>
+          </div>`
+        )
+        .join("");
+    }
   } catch (err) {
-    console.error("⚠️ Invalid OPS payload:", e.data);
+    console.error("⚠️ OPS Stream parse error:", err);
   }
 };
-
-function updateRecentPanels(data) {
-  const logsContainer = document.getElementById("recent-logs");
-  const tasksContainer = document.getElementById("recent-tasks");
-  if (!logsContainer || !tasksContainer) return;
-
-  const { reflections = [], tasks = [] } = data;
-  logsContainer.innerHTML = reflections
-    .map(r => `<li>${r.content} <span class="timestamp">${friendlyTime(r.created_at)}</span></li>`)
-    .join("");
-  tasksContainer.innerHTML = tasks
-    .map(t => `<li>${t.description} <span class="timestamp">${friendlyTime(t.created_at)}</span></li>`)
-    .join("");
-}
-
-function friendlyTime(ts) {
-  const diff = (Date.now() - new Date(ts)) / 1000;
-  if (diff < 60) return `${Math.floor(diff)}s ago`;
-  if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
-  if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
-  return `${Math.floor(diff / 86400)}d ago`;
-}
