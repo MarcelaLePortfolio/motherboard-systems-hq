@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
-  const evtSource = new EventSource("/events");
+  const evtSource = new EventSource("http://localhost:3201/events/ops");
 
   evtSource.addEventListener("agent", (e) => {
     const { agents } = JSON.parse(e.data);

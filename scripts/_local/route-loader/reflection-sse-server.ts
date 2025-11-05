@@ -13,6 +13,14 @@ app.get("/", (_req, res) => res.send("✅ Manual-header CORS SSE server active."
 app.get("/events/reflections", (req, res) => {
   // ✅ Write headers manually BEFORE Express auto-sends anything
   res.writeHead(200, {
+    "Access-Control-Allow-Origin": "http://localhost:3000",
+    "Access-Control-Allow-Methods": "GET, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type",
+
+    "Access-Control-Allow-Origin": "http://localhost:3000",
+    "Access-Control-Allow-Methods": "GET, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type",
+
     "Access-Control-Allow-Origin": "http://localhost:3001",
     "Access-Control-Allow-Methods": "GET, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type",
