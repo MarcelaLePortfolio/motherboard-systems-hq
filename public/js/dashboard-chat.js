@@ -1,40 +1,30 @@
-// <0001fb1B> ⚡ Phase 7.1.5 — Absolute Isolation Fix (solid dark output block)
+// <0001fb1C> ⚡ Phase 7.1.6 — Emergency Inversion Fallback (Guaranteed Readability)
 document.addEventListener("DOMContentLoaded", () => {
-  // Create a wrapper to override all inherited backgrounds
   const feed = document.querySelector("#chatbotFeed");
-  if (feed) {
-    const wrapper = document.createElement("div");
-    wrapper.id = "chatbotFeedWrapper";
-    wrapper.style.backgroundColor = "#000000";
-    wrapper.style.color = "#ffffff";
-    wrapper.style.padding = "12px";
-    wrapper.style.borderRadius = "8px";
-    wrapper.style.maxHeight = "40vh";
-    wrapper.style.overflowY = "auto";
-    wrapper.style.border = "1px solid #333333";
 
-    // Move all existing children inside wrapper
-    while (feed.firstChild) wrapper.appendChild(feed.firstChild);
-    feed.appendChild(wrapper);
+  if (feed) {
+    // Invert the colors visually to guarantee contrast
+    feed.style.filter = "invert(1) hue-rotate(180deg)";
+    feed.style.transition = "filter 0.3s ease";
+
+    // Slight background tint for balance
+    feed.style.backgroundColor = "#000000";
+    feed.style.borderRadius = "8px";
+    feed.style.padding = "10px";
+    feed.style.overflowY = "auto";
+    feed.style.maxHeight = "40vh";
   }
 
-  // Apply global enforced styles
+  // Basic chat styles so bubbles stay visible
   const style = document.createElement("style");
   style.textContent = `
-    body, #chatbotFeed, #chatbotFeedWrapper {
-      background-color: #000000 !important;
-      color: #ffffff !important;
-      -webkit-text-fill-color: #ffffff !important;
-      text-shadow: none !important;
-    }
     .chat-message {
-      background-color: #111827 !important;
-      color: #ffffff !important;
-      border: 1px solid #374151 !important;
       border-radius: 8px !important;
       padding: 8px 10px !important;
       margin: 6px 0 !important;
+      line-height: 1.4 !important;
       display: inline-block !important;
+      max-width: 90% !important;
       word-wrap: break-word !important;
       white-space: pre-wrap !important;
     }
@@ -43,12 +33,11 @@ document.addEventListener("DOMContentLoaded", () => {
       border-color: #3b82f6 !important;
     }
     .chat-message.matilda {
-      background-color: #065f46 !important;
+      background-color: #047857 !important;
       border-color: #10b981 !important;
     }
     .chat-message.system {
       background-color: #3f3f46 !important;
-      color: #e5e7eb !important;
       font-style: italic !important;
     }
   `;
@@ -56,22 +45,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const input = document.querySelector("#chatbotInput");
   const sendBtn = document.querySelector("#chatbotSend");
-  const wrapper = document.querySelector("#chatbotFeedWrapper");
-
-  function appendMessage(role, text) {
-    if (!wrapper) return;
-    const msg = document.createElement("div");
-    msg.className = `chat-message ${role}`;
-    msg.textContent = text;
-    wrapper.appendChild(msg);
-    wrapper.scrollTop = wrapper.scrollHeight;
-  }
 
   async function sendMessage() {
     const message = input?.value.trim();
     if (!message) return;
     input.value = "";
-    appendMessage("user", message);
+
+    const msg = document.createElement("div");
+    msg.className = "chat-message user";
+    msg.textContent = message;
+    feed.appendChild(msg);
+    feed.scrollTop = feed.scrollHeight;
 
     try {
       const res = await fetch("/matilda", {
@@ -80,10 +64,19 @@ document.addEventListener("DOMContentLoaded", () => {
         body: JSON.stringify({ message }),
       });
       const data = await res.json();
-      appendMessage("matilda", data?.message || "Matilda responded with no content.");
+
+      const reply = document.createElement("div");
+      reply.className = "chat-message matilda";
+      reply.textContent = data?.message || "Matilda responded with no content.";
+      feed.appendChild(reply);
+      feed.scrollTop = feed.scrollHeight;
     } catch (err) {
-      console.error("❌ Error sending to Matilda:", err);
-      appendMessage("system", "⚠️ Connection error — unable to reach Matilda.");
+      console.error("❌ Error:", err);
+      const errMsg = document.createElement("div");
+      errMsg.className = "chat-message system";
+      errMsg.textContent = "⚠️ Connection error — unable to reach Matilda.";
+      feed.appendChild(errMsg);
+      feed.scrollTop = feed.scrollHeight;
     }
   }
 
