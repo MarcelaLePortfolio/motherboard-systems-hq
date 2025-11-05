@@ -292,6 +292,8 @@ console.log("✅ Mounted /reflections route");
   console.log("<0001f9f4> 🧠 tasksRouter type check:", typeof tasksRouter, Object.keys(tasksRouter));
 
 app.use("/tasks", tasksRouter);
+import delegationsRouter from "./routes/delegations.js";
+app.use("/delegations", delegationsRouter);
 app.use("/events", eventsRouter);
 import logsRouter from "./routes/logs";
 app.use("/logs", logsRouter);
