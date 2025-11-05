@@ -1,53 +1,50 @@
-// <0001fb14> ⚡ Phase 7.0.4 — Nuclear Font Fix (Inline DOM Enforcement)
+// <0001fb15> ⚡ Phase 7.0.5 — Final Font Override (Absolute White Enforcement)
 document.addEventListener("DOMContentLoaded", () => {
-  // Apply inline styles dynamically to guarantee browser obedience
-  const applyInlineFix = () => {
-    const allTargets = [
+  const style = document.createElement("style");
+  style.textContent = `
+    body, #chatbotContainer, #chatbotFeed, #chatbotInput, .chat-message {
+      color: #fff !important;
+      background: #0b0b0b !important;
+      -webkit-text-fill-color: #fff !important;
+      text-shadow: none !important;
+    }
+    #chatbotInput {
+      color: #fff !important;
+      background: #111827 !important;
+      caret-color: #fff !important;
+      -webkit-text-fill-color: #fff !important;
+      border: 1px solid #374151 !important;
+    }
+    .chat-message.user, .chat-message.matilda {
+      color: #fff !important;
+      -webkit-text-fill-color: #fff !important;
+    }
+    .chat-message.system {
+      color: #e5e7eb !important;
+    }
+  `;
+  document.head.appendChild(style);
+
+  const enforceWhite = (el) => {
+    if (!el) return;
+    el.style.color = "#fff";
+    el.style.setProperty("-webkit-text-fill-color", "#fff", "important");
+    el.style.setProperty("caret-color", "#fff", "important");
+  };
+
+  const applyAll = () => {
+    [
       document.body,
       document.querySelector("#chatbotContainer"),
       document.querySelector("#chatbotFeed"),
       document.querySelector("#chatbotInput"),
-      ...document.querySelectorAll(".chat-message")
-    ].filter(Boolean);
-
-    for (const el of allTargets) {
-      el.style.setProperty("color", "#ffffff", "important");
-      el.style.setProperty("backgroundColor", "#0b0b0b", "important");
-      el.style.setProperty("-webkit-text-fill-color", "#ffffff", "important");
-      el.style.setProperty("textShadow", "0 0 0 #ffffff", "important");
-      el.style.setProperty("caretColor", "#ffffff", "important");
-    }
+      ...document.querySelectorAll(".chat-message"),
+    ].forEach(enforceWhite);
   };
 
-  // CSS injection for new messages
-  const style = document.createElement("style");
-  style.textContent = `
-    .chat-message.user {
-      background: #1f2937 !important;
-      border: 1px solid #374151 !important;
-      color: #ffffff !important;
-    }
-    .chat-message.matilda {
-      background: #047857 !important;
-      border: 1px solid #065f46 !important;
-      color: #ffffff !important;
-    }
-    .chat-message.system {
-      background: #3f3f46 !important;
-      border: 1px dashed #52525b !important;
-      color: #e5e7eb !important;
-      font-style: italic;
-    }
-    #chatbotInput {
-      background: #111827 !important;
-      color: #ffffff !important;
-      border: 1px solid #374151 !important;
-      border-radius: 8px !important;
-      padding: 10px 12px !important;
-      outline: none !important;
-    }
-  `;
-  document.head.appendChild(style);
+  const observer = new MutationObserver(() => applyAll());
+  observer.observe(document.body, { childList: true, subtree: true });
+  applyAll();
 
   const input = document.querySelector("#chatbotInput");
   const sendBtn = document.querySelector("#chatbotSend");
@@ -58,11 +55,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const msg = document.createElement("div");
     msg.className = `chat-message ${role}`;
     msg.textContent = text;
-    msg.style.color = "#ffffff";
-    msg.style.webkitTextFillColor = "#ffffff";
+    enforceWhite(msg);
     feed.appendChild(msg);
     feed.scrollTop = feed.scrollHeight;
-    applyInlineFix(); // reinforce color after each addition
   }
 
   async function sendMessage() {
@@ -92,8 +87,4 @@ document.addEventListener("DOMContentLoaded", () => {
       sendMessage();
     }
   });
-
-  // Run fix immediately and every 2s to ensure persistence
-  applyInlineFix();
-  setInterval(applyInlineFix, 2000);
 });
