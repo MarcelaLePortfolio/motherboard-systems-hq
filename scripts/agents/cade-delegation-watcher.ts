@@ -1,7 +1,11 @@
-// ⚙️ Phase 7.8 — Cade Delegation Execution Pipeline
 import fs from "fs";
+
 import path from "path";
 import { sqlite } from "../../db/client";
+
+let pushReflection;
+(async () => { ({ pushReflection } = await import("../utils/reflection-push.js")); })();
+
 
 const OUT_PATH = path.join(process.cwd(), "public", "delegation_success.html");
 
@@ -18,7 +22,11 @@ function executeDelegation(task: any) {
   ).run(task.id);
 
   console.log(`✅ Delegation ID ${task.id} completed → ${OUT_PATH}`);
+
+
+  pushReflection("🤖 Cade completed a delegation task successfully.");
 }
+
 
 function checkPendingDelegations() {
   const pending = sqlite.prepare(
