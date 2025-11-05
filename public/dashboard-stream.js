@@ -3,7 +3,7 @@ if (!window.__DASHBOARD_SSE_INITIALIZED__) {
 
   console.log("📡 Initializing final SSE listener...");
 
-  const evtSource = new EventSource("/events");
+  const evtSource = new EventSource("http://localhost:3101/events/reflections");
 
   evtSource.onopen = () => console.log("✅ SSE connection established");
   evtSource.onerror = (err) => console.error("❌ SSE error:", err);
