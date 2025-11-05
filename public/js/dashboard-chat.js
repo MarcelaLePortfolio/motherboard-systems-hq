@@ -1,47 +1,53 @@
-// <0001fb11> ✨ Phase 7.0.1 — Chat Contrast & Legibility Fix + Bridge (Dashboard → Matilda)
+// <0001fb12> ⚡ Phase 7.0.2 — Force White Font Rendering (Chat Input & Output)
 document.addEventListener("DOMContentLoaded", () => {
-  // --- Inject high-contrast, dark-mode overrides for chat UI ---
+  // --- Inject stronger contrast overrides for chat UI ---
   const style = document.createElement("style");
   style.setAttribute("data-chat-overrides", "true");
   style.textContent = `
-    /* Container defaults */
-    #chatbotContainer, .chatbot-container {
+    /* Global dark background and white font enforcement */
+    #chatbotContainer, .chatbot-container, body {
       background: #0b0b0b !important;
-      color: #e5e7eb !important;
+      color: #ffffff !important;
+      font-family: 'Inter', sans-serif !important;
     }
 
-    /* Input + Button */
+    /* Input field */
     #chatbotInput {
-      background: #111827 !important;          /* very dark gray */
-      color: #ffffff !important;               /* white text */
-      border: 1px solid #374151 !important;    /* slate-700 */
+      background: #111827 !important;          /* dark gray */
+      color: #ffffff !important;               /* force pure white */
+      border: 1px solid #374151 !important;
       border-radius: 8px !important;
       padding: 10px 12px !important;
       outline: none !important;
     }
     #chatbotInput::placeholder {
-      color: #9ca3af !important;               /* gray-400 */
+      color: #d1d5db !important;               /* light gray placeholder */
+      opacity: 1 !important;
     }
+
+    /* Send button */
     #chatbotSend {
       background: #2563eb !important;          /* blue-600 */
-      color: #ffffff !important;
+      color: #ffffff !important;               /* white text */
       border: none !important;
       border-radius: 8px !important;
       padding: 10px 14px !important;
       cursor: pointer !important;
+      font-weight: 600;
     }
     #chatbotSend:hover {
-      filter: brightness(1.1);
+      filter: brightness(1.15);
     }
 
-    /* Feed container */
+    /* Chat feed container */
     #chatbotFeed {
       background: #0b0b0b !important;
-      border: 1px solid #1f2937 !important;    /* gray-800 */
+      border: 1px solid #1f2937 !important;
       border-radius: 10px !important;
       padding: 10px !important;
       max-height: 40vh;
       overflow-y: auto;
+      color: #ffffff !important;               /* enforce white text globally */
     }
 
     /* Message bubbles */
@@ -51,32 +57,25 @@ document.addEventListener("DOMContentLoaded", () => {
       padding: 10px 12px;
       border-radius: 10px;
       margin: 8px 0;
-      line-height: 1.35;
+      line-height: 1.4;
       word-wrap: break-word;
       white-space: pre-wrap;
-      color: #f9fafb;                          /* near-white text for all */
+      font-size: 0.95rem;
+      color: #ffffff !important;               /* absolute white */
     }
     .chat-message.user {
-      background: #1f2937;                     /* gray-800 */
-      border: 1px solid #374151;               /* slate-700 */
-      align-self: flex-end;
+      background: #1f2937 !important;
+      border: 1px solid #374151 !important;
     }
     .chat-message.matilda {
-      background: #0f766e;                     /* teal-700 */
-      border: 1px solid #115e59;               /* teal-800 */
-      align-self: flex-start;
+      background: #047857 !important;          /* emerald-700 */
+      border: 1px solid #065f46 !important;
     }
     .chat-message.system {
-      background: #3f3f46;                     /* zinc-700 */
-      border: 1px dashed #52525b;              /* zinc-600 */
+      background: #3f3f46 !important;
+      border: 1px dashed #52525b !important;
       font-style: italic;
-    }
-
-    /* Optional layout support if feed is a flex column */
-    #chatbotFeed.flex, #chatbotFeed .feed {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
+      color: #e5e7eb !important;
     }
   `;
   document.head.appendChild(style);
@@ -91,7 +90,6 @@ document.addEventListener("DOMContentLoaded", () => {
     msg.className = `chat-message ${role}`;
     msg.textContent = text;
     feed.appendChild(msg);
-    // Auto-scroll to newest
     feed.scrollTop = feed.scrollHeight;
   }
 
@@ -108,7 +106,7 @@ document.addEventListener("DOMContentLoaded", () => {
         body: JSON.stringify({ message }),
       });
       const data = await res.json();
-      appendMessage("matilda", (data && data.message) ? String(data.message) : "Matilda responded with no content.");
+      appendMessage("matilda", data?.message || "Matilda responded with no content.");
     } catch (err) {
       console.error("❌ Error sending to Matilda:", err);
       appendMessage("system", "⚠️ Connection error — unable to reach Matilda.");
