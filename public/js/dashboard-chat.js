@@ -1,82 +1,50 @@
-// <0001fb13> ⚡ Phase 7.0.3 — Absolute Font Override for Chat Input & Output
+// <0001fb14> ⚡ Phase 7.0.4 — Nuclear Font Fix (Inline DOM Enforcement)
 document.addEventListener("DOMContentLoaded", () => {
-  // Inject global CSS override for maximum legibility
+  // Apply inline styles dynamically to guarantee browser obedience
+  const applyInlineFix = () => {
+    const allTargets = [
+      document.body,
+      document.querySelector("#chatbotContainer"),
+      document.querySelector("#chatbotFeed"),
+      document.querySelector("#chatbotInput"),
+      ...document.querySelectorAll(".chat-message")
+    ].filter(Boolean);
+
+    for (const el of allTargets) {
+      el.style.setProperty("color", "#ffffff", "important");
+      el.style.setProperty("backgroundColor", "#0b0b0b", "important");
+      el.style.setProperty("-webkit-text-fill-color", "#ffffff", "important");
+      el.style.setProperty("textShadow", "0 0 0 #ffffff", "important");
+      el.style.setProperty("caretColor", "#ffffff", "important");
+    }
+  };
+
+  // CSS injection for new messages
   const style = document.createElement("style");
-  style.setAttribute("data-chat-overrides", "true");
   style.textContent = `
-    /* Universal reset for all chat elements */
-    #chatbotContainer, .chatbot-container, #chatbotFeed, #chatbotInput, .chat-message, body {
-      color: #ffffff !important;
-      background-color: #0b0b0b !important;
-      font-family: "Inter", "Segoe UI", Arial, sans-serif !important;
-      -webkit-text-fill-color: #ffffff !important;
-      text-shadow: 0 0 0 #ffffff !important;
-    }
-
-    #chatbotInput {
-      background: #111827 !important;
-      color: #ffffff !important;
-      -webkit-text-fill-color: #ffffff !important;
-      border: 1px solid #374151 !important;
-      border-radius: 8px !important;
-      padding: 10px 12px !important;
-      outline: none !important;
-      caret-color: #ffffff !important;
-    }
-    #chatbotInput::placeholder {
-      color: #d1d5db !important;
-      opacity: 1 !important;
-    }
-
-    #chatbotSend {
-      background: #2563eb !important;
-      color: #ffffff !important;
-      border: none !important;
-      border-radius: 8px !important;
-      padding: 10px 14px !important;
-      font-weight: 600 !important;
-      cursor: pointer !important;
-    }
-    #chatbotSend:hover {
-      filter: brightness(1.15);
-    }
-
-    #chatbotFeed {
-      border: 1px solid #1f2937 !important;
-      border-radius: 10px !important;
-      padding: 10px !important;
-      max-height: 40vh !important;
-      overflow-y: auto !important;
-    }
-
-    .chat-message {
-      display: inline-block !important;
-      max-width: 90% !important;
-      padding: 10px 12px !important;
-      border-radius: 10px !important;
-      margin: 8px 0 !important;
-      line-height: 1.4 !important;
-      white-space: pre-wrap !important;
-      word-wrap: break-word !important;
-      font-size: 0.95rem !important;
-      color: #ffffff !important;
-      -webkit-text-fill-color: #ffffff !important;
-      text-shadow: 0 0 0 #ffffff !important;
-    }
-
     .chat-message.user {
       background: #1f2937 !important;
       border: 1px solid #374151 !important;
+      color: #ffffff !important;
     }
     .chat-message.matilda {
       background: #047857 !important;
       border: 1px solid #065f46 !important;
+      color: #ffffff !important;
     }
     .chat-message.system {
       background: #3f3f46 !important;
       border: 1px dashed #52525b !important;
-      font-style: italic !important;
       color: #e5e7eb !important;
+      font-style: italic;
+    }
+    #chatbotInput {
+      background: #111827 !important;
+      color: #ffffff !important;
+      border: 1px solid #374151 !important;
+      border-radius: 8px !important;
+      padding: 10px 12px !important;
+      outline: none !important;
     }
   `;
   document.head.appendChild(style);
@@ -90,8 +58,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const msg = document.createElement("div");
     msg.className = `chat-message ${role}`;
     msg.textContent = text;
+    msg.style.color = "#ffffff";
+    msg.style.webkitTextFillColor = "#ffffff";
     feed.appendChild(msg);
     feed.scrollTop = feed.scrollHeight;
+    applyInlineFix(); // reinforce color after each addition
   }
 
   async function sendMessage() {
@@ -121,4 +92,8 @@ document.addEventListener("DOMContentLoaded", () => {
       sendMessage();
     }
   });
+
+  // Run fix immediately and every 2s to ensure persistence
+  applyInlineFix();
+  setInterval(applyInlineFix, 2000);
 });
