@@ -14,3 +14,24 @@ export async function handleTaskStream(tasks) {
     console.error("❌ Error rendering task graph:", err);
   }
 }
+
+// 🚀 Delegate button functionality
+document.getElementById("delegateButton").addEventListener("click", async () => {
+  const input = document.getElementById("userInput");
+  const text = input.value.trim();
+  if (!text) return;
+
+  const response = await fetch("/delegations", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      description: text,
+      event_type: "delegation",
+      agent: "Cade",
+      status: "pending"
+    })
+  });
+
+  console.log("🚀 Delegation sent:", await response.text());
+  input.value = "";
+});
