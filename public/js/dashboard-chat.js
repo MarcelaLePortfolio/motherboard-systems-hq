@@ -1,24 +1,73 @@
-// <0001fb18> ⚡ Phase 7.1.2 — Runtime DOM Enforcement for Dark Output Area
+// <0001fb19> ⚡ Phase 7.1.3 — Reverse Contrast (dark text on light background)
 document.addEventListener("DOMContentLoaded", () => {
-  const enforceDarkMode = () => {
-    const feed = document.querySelector("#chatbotFeed");
-    if (feed) {
-      feed.style.setProperty("background-color", "#0b0b0b", "important");
-      feed.style.setProperty("color", "#ffffff", "important");
-      feed.style.setProperty("-webkit-text-fill-color", "#ffffff", "important");
+  const style = document.createElement("style");
+  style.textContent = `
+    #chatbotFeed {
+      background-color: #f3f4f6 !important; /* light gray */
+      color: #111827 !important;            /* dark gray text */
+      border: 1px solid #d1d5db !important;
+      border-radius: 10px !important;
+      padding: 12px !important;
+      overflow-y: auto !important;
+      max-height: 40vh !important;
     }
 
-    document.querySelectorAll(".chat-message").forEach((msg) => {
-      msg.style.setProperty("background-color", "#111827", "important");
-      msg.style.setProperty("color", "#ffffff", "important");
-      msg.style.setProperty("-webkit-text-fill-color", "#ffffff", "important");
-    });
-  };
+    .chat-message {
+      color: #111827 !important;            /* dark readable text */
+      background-color: #ffffff !important; /* white bubble */
+      border: 1px solid #d1d5db !important;
+      border-radius: 8px !important;
+      padding: 8px 10px !important;
+      margin: 6px 0 !important;
+      line-height: 1.4 !important;
+      display: inline-block !important;
+      max-width: 90% !important;
+      word-wrap: break-word !important;
+      white-space: pre-wrap !important;
+    }
 
-  // Apply immediately and monitor DOM changes continuously
-  enforceDarkMode();
-  const observer = new MutationObserver(() => enforceDarkMode());
-  observer.observe(document.body, { childList: true, subtree: true });
+    .chat-message.user {
+      background-color: #dbeafe !important; /* light blue */
+      border-color: #93c5fd !important;
+    }
+    .chat-message.matilda {
+      background-color: #d1fae5 !important; /* light green */
+      border-color: #6ee7b7 !important;
+    }
+    .chat-message.system {
+      background-color: #f3f4f6 !important;
+      color: #374151 !important;
+      font-style: italic !important;
+    }
+
+    #chatbotInput {
+      background-color: #ffffff !important;
+      color: #111827 !important;
+      border: 1px solid #9ca3af !important;
+      border-radius: 6px !important;
+      padding: 10px 12px !important;
+      outline: none !important;
+      caret-color: #111827 !important;
+    }
+
+    #chatbotInput::placeholder {
+      color: #6b7280 !important;
+    }
+
+    #chatbotSend {
+      background-color: #2563eb !important;
+      color: #ffffff !important;
+      border: none !important;
+      border-radius: 6px !important;
+      padding: 8px 14px !important;
+      cursor: pointer !important;
+      font-weight: 600 !important;
+    }
+    #chatbotSend:hover {
+      filter: brightness(1.15);
+    }
+  `;
+  document.head.appendChild(style);
 
   const input = document.querySelector("#chatbotInput");
   const sendBtn = document.querySelector("#chatbotSend");
@@ -31,7 +80,6 @@ document.addEventListener("DOMContentLoaded", () => {
     msg.textContent = text;
     feed.appendChild(msg);
     feed.scrollTop = feed.scrollHeight;
-    enforceDarkMode();
   }
 
   async function sendMessage() {
