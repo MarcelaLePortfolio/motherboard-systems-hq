@@ -1,29 +1,43 @@
-// <0001f7e3> Reflection SSE Route Loader — Clean rebuild
+// <0001fae8> Phase 4.8 — Manual Header Write (Guaranteed CORS Preflush)
 import express from "express";
-import Database from "better-sqlite3";
 import chokidar from "chokidar";
+import Database from "better-sqlite3";
 import path from "path";
 
 const app = express();
 const dbPath = path.join(process.cwd(), "db", "main.db");
 const clients: any[] = [];
 
-app.get("/events/reflections", (req, res) => {
+app.get("/", (_req, res) => res.send("✅ Manual-header CORS SSE server active."));
+
+
+app.get("/events/reflections", (req, res)
+
   res.writeHead(200, {
+  // Keepalive to prevent idle proxies from closing the stream
+  setInterval(() => {
+    try { res.write(": keepalive\n\n"); } catch (_) {}
+  }, 15000);
+
     "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "GET, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type",
+
+    "Access-Control-Allow-Origin": "http://localhost:3000",
+    "Access-Control-Allow-Methods": "GET, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type",
+
+    "Access-Control-Allow-Origin": "http://localhost:3000",
+    "Access-Control-Allow-Methods": "GET, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type",
+
+    "Access-Control-Allow-Origin": "http://localhost:3001",
     "Access-Control-Allow-Methods": "GET, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type",
     "Content-Type": "text/event-stream; charset=utf-8",
     "Cache-Control": "no-cache",
-    "Connection": "keep-alive",
+    Connection: "keep-alive",
   });
-
-  // Keepalive to prevent idle proxies from closing the stream
-  setInterval(() => {
-    try {
-      res.write(": keepalive\n\n");
-    } catch (_) {}
-  }, 15000);
 
   clients.push(res);
   console.log(`🟢 SSE client connected (${clients.length})`);
@@ -37,9 +51,7 @@ app.get("/events/reflections", (req, res) => {
 function broadcast() {
   try {
     const db = new Database(dbPath);
-    const rows = db
-      .prepare("SELECT id, content, created_at FROM reflection_index ORDER BY created_at DESC LIMIT 10")
-      .all();
+    const rows = db.prepare("SELECT id, content, created_at FROM reflection_index ORDER BY created_at DESC LIMIT 10").all();
     db.close();
     const payload = JSON.stringify(rows);
     clients.forEach((c) => c.write(`data: ${payload}\n\n`));
@@ -56,5 +68,5 @@ watcher.on("change", () => {
 });
 
 app.listen(3101, () => {
-  console.log("📡 Reflection SSE server running at http://localhost:3101/events/reflections");
+  console.log("�� Manual-header CORS SSE server running on http://localhost:3101/events/reflections");
 });
