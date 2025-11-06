@@ -1,60 +1,48 @@
-// <0001fae6> Phase 6.1 — OPS SSE fallback-safe schema patch
+// <0001fae6> Phase 9 — OPS SSE Live Polling (1Hz broadcast)
 import express from "express";
-import { sqlite } from "../../../db/client";
+import cors from "cors";
+import Database from "better-sqlite3";
 
 const app = express();
-const PORT = 3201;
-
-console.log(`🧩 OPS Bootstrap — Verifying schema at: ${process.cwd()}/db/main.db`);
-sqlite.prepare(
-  `CREATE TABLE IF NOT EXISTS task_events (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    description TEXT,
-    status TEXT DEFAULT 'pending',
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    type TEXT DEFAULT 'task',
-    agent TEXT
-  )`
-).run();
-console.log("✅ task_events table confirmed for OPS SSE runtime");
-
-const sendOps = () => {
-  try {
-    const reflections = sqlite
-      .prepare("SELECT id, content, created_at FROM reflection_index ORDER BY created_at DESC LIMIT 5")
-      .all();
-    const tasks = sqlite
-      .prepare("SELECT id, description, status, created_at FROM task_events ORDER BY created_at DESC LIMIT 5")
-      .all();
-    const payload = { reflections, tasks, ts: new Date().toISOString() };
-    app.locals.clients.forEach((res: any) => res.write(`data: ${JSON.stringify(payload)}\n\n`));
-  } catch (err) {
-    console.error("❌ OPS stream error:", err);
-  }
-};
-
-app.locals.clients = [];
+app.use(cors());
+const db = new Database("db/main.db");
+const clients: express.Response[] = [];
+let lastSentTask = 0;
 
 app.get("/events/ops", (req, res) => {
-  res.setHeader("Content-Type", "text/event-stream");
-  res.setHeader("Cache-Control", "no-cache");
-  res.setHeader("Connection", "keep-alive");
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-
-  res.flushHeaders();
-  app.locals.clients.push(res);
-  console.log(`📡 OPS client connected (${app.locals.clients.length} total)`);
+  res.writeHead(200, {
+    "Content-Type": "text/event-stream",
+    "Cache-Control": "no-cache",
+    Connection: "keep-alive",
+  });
+  res.write(`data: {"status":"connected"}\n\n`);
+  clients.push(res);
+  console.log(`<0001fae7> 🧩 OPS client connected (${clients.length} total)`);
 
   req.on("close", () => {
-    app.locals.clients = app.locals.clients.filter((c: any) => c !== res);
-    console.log(`🔌 OPS client disconnected (${app.locals.clients.length} remaining)`);
+    const i = clients.indexOf(res);
+    if (i !== -1) clients.splice(i, 1);
+    console.log(`<0001fae8> ❌ OPS client disconnected (${clients.length} remaining)`);
   });
 });
 
-setInterval(sendOps, 2500);
+function broadcastNewTasks() {
+  const rows = db
+    .prepare("SELECT id, description, status, created_at FROM task_events WHERE id > ? ORDER BY id ASC")
+    .all(lastSentTask);
 
-app.listen(PORT, () => {
-  console.log(`📡 OPS Stream SSE server running at http://localhost:${PORT}/events/ops`);
+  if (rows.length > 0) {
+    lastSentTask = rows[rows.length - 1].id;
+    const payload = JSON.stringify({ tasks: rows, ts: new Date().toISOString() });
+    for (const client of clients) client.write(`data: ${payload}\n\n`);
+    console.log(`<0001fae9> 🧠 Broadcasted ${rows.length} new tasks`);
+  } else {
+    for (const client of clients) client.write(`data: {"keepalive":true}\n\n`);
+  }
+}
+
+setInterval(broadcastNewTasks, 1000);
+
+app.listen(3201, () => {
+  console.log("✅ OPS SSE server running at http://localhost:3201/events/ops");
 });

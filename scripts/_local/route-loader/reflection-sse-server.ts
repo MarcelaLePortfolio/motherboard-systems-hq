@@ -1,60 +1,49 @@
-// <0001f7e3> Reflection SSE Route Loader — Clean rebuild
+// <0001fae2> Phase 9 — Reflection SSE Live Polling (1Hz broadcast)
 import express from "express";
+import cors from "cors";
 import Database from "better-sqlite3";
-import chokidar from "chokidar";
-import path from "path";
 
 const app = express();
-const dbPath = path.join(process.cwd(), "db", "main.db");
-const clients: any[] = [];
+app.use(cors());
+const db = new Database("db/main.db");
+const clients: express.Response[] = [];
+let lastSentId = 0;
 
 app.get("/events/reflections", (req, res) => {
   res.writeHead(200, {
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "GET, OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type",
-    "Content-Type": "text/event-stream; charset=utf-8",
+    "Content-Type": "text/event-stream",
     "Cache-Control": "no-cache",
-    "Connection": "keep-alive",
+    Connection: "keep-alive",
   });
-
-  // Keepalive to prevent idle proxies from closing the stream
-  setInterval(() => {
-    try {
-      res.write(": keepalive\n\n");
-    } catch (_) {}
-  }, 15000);
-
+  res.write(`data: {"status":"connected"}\n\n`);
   clients.push(res);
-  console.log(`🟢 SSE client connected (${clients.length})`);
+  console.log(`<0001fae3> 🧩 New SSE client connected (${clients.length} total)`);
 
   req.on("close", () => {
-    clients.splice(clients.indexOf(res), 1);
-    console.log(`🔴 SSE client disconnected (${clients.length})`);
+    const i = clients.indexOf(res);
+    if (i !== -1) clients.splice(i, 1);
+    console.log(`<0001fae4> ❌ SSE client disconnected (${clients.length} remaining)`);
   });
 });
 
-function broadcast() {
-  try {
-    const db = new Database(dbPath);
-    const rows = db
-      .prepare("SELECT id, content, created_at FROM reflection_index ORDER BY created_at DESC LIMIT 10")
-      .all();
-    db.close();
-    const payload = JSON.stringify(rows);
-    clients.forEach((c) => c.write(`data: ${payload}\n\n`));
-    console.log(`📡 Broadcasted ${rows.length} reflections → ${clients.length} clients`);
-  } catch (err) {
-    console.error("❌ Broadcast failed:", err);
+function broadcastNewReflections() {
+  const rows = db
+    .prepare("SELECT id, content, created_at FROM reflection_index WHERE id > ? ORDER BY id ASC")
+    .all(lastSentId);
+
+  if (rows.length > 0) {
+    lastSentId = rows[rows.length - 1].id;
+    const payload = JSON.stringify({ reflections: rows, ts: new Date().toISOString() });
+    for (const client of clients) client.write(`data: ${payload}\n\n`);
+    console.log(`<0001fae5> 🧠 Broadcasted ${rows.length} new reflections`);
+  } else {
+    for (const client of clients) client.write(`data: {"keepalive":true}\n\n`);
   }
 }
 
-const watcher = chokidar.watch([dbPath, dbPath + "-wal", dbPath + "-shm"], { ignoreInitial: true });
-watcher.on("change", () => {
-  console.log("👁️  Detected DB change → broadcasting...");
-  broadcast();
-});
+// Poll the DB every second
+setInterval(broadcastNewReflections, 1000);
 
 app.listen(3101, () => {
-  console.log("📡 Reflection SSE server running at http://localhost:3101/events/reflections");
+  console.log("✅ Reflection SSE server running at http://localhost:3101/events/reflections");
 });
