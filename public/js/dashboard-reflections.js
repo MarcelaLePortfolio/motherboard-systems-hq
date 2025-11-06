@@ -1,11 +1,11 @@
 // Anchored Reflection Stream → Chat Log container
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("📡 Anchored reflections → #chatLog");
+  console.log("📡 Anchored reflections → #recentLogs");
 
   const waitForTarget = () => {
-    const target = document.querySelector("#chatLog");
+    const target = document.querySelector("#recentLogs");
     if (!target) {
-      console.log("🕒 Waiting for #chatLog...");
+      console.log("🕒 Waiting for #recentLogs...");
       return setTimeout(waitForTarget, 1000);
     }
 
