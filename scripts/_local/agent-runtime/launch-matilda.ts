@@ -1,13 +1,8 @@
- 
-import { createAgentRuntime } from "../../mirror/agent.mjs";
-import { startMatildaTaskProcessor } from "./utils/matilda_task_processor.ts";
-import { matilda } from "../../agents/matilda/matilda.mjs";
+// <0001faf1> Phase 9.3a — Matilda Launcher Cleanup
+import { createAgentRuntime } from "../../mirror/agent";
+import { matilda } from "../../agents/matilda";
 
-// Start Matilda runtime
+// ✅ Use unified runtime pattern (no task processor import)
 createAgentRuntime(matilda);
-console.log("💚 Matilda runtime started.");
 
-// Keep the process alive
-setInterval(() => {}, 1 << 30);
-
-startMatildaTaskProcessor();
+console.log("💚 Matilda runtime started successfully via mirror/agent.ts.");
