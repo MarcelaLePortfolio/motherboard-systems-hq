@@ -1,41 +1,37 @@
 {
+  "name": "Atlas",
   "status": "online",
   "sequence": [
     {
-      "t": 1762452695,
-      "step": "Bootstrapping Atlas workspace",
+      "t": 1762454221,
+      "step": "Bootstrapping workspace Atlas",
       "detail": "ok"
     },
     {
-      "t": 1762452696,
-      "step": "Validating schema",
+      "t": 1762454222,
+      "step": "Validating blueprint",
       "detail": "ok"
     },
     {
-      "t": 1762452697,
-      "step": "Spinning Cade build task",
+      "t": 1762454223,
+      "step": "Preparing templates",
       "detail": "ok"
     },
     {
-      "t": 1762452698,
-      "step": "Effie preparing local ops",
+      "t": 1762454224,
+      "step": "Progressive reveal to workspace",
       "detail": "ok"
     },
     {
-      "t": 1762452699,
-      "step": "Provisioning runtime",
+      "t": 1762454225,
+      "step": "Finalizing configuration",
       "detail": "ok"
     },
     {
-      "t": 1762452700,
-      "step": "Finalizing config",
-      "detail": "ok"
-    },
-    {
-      "t": 1762452701,
+      "t": 1762454226,
       "step": "Atlas Online",
       "detail": "active"
     }
   ],
-  "updated_at": 1762452701
+  "updated_at": 1762454226
 }

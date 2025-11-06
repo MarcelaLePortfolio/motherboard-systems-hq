@@ -1,31 +1,46 @@
-// <0001faee> Phase 9.2b — Reflection SSE Server Rebuild
+// Phase 9 Fix — Reflection SSE server: emit latest reflection one at a time
 import express from "express";
 import cors from "cors";
-import { sqlite } from "../../db/client";
+import DatabaseModule from "better-sqlite3";
+import path from "path";
 
 const app = express();
 app.use(cors());
 
 app.get("/events/reflections", (req, res) => {
-  res.setHeader("Content-Type", "text/event-stream");
-  res.setHeader("Cache-Control", "no-cache");
-  res.setHeader("Connection", "keep-alive");
-  res.flushHeaders();
+  res.writeHead(200, {
+    "Content-Type": "text/event-stream",
+    "Cache-Control": "no-cache",
+    Connection: "keep-alive",
+  });
 
-  res.write(`data: {"status":"connected"}\n\n`);
+  res.write(`data: ${JSON.stringify({ status: "connected" })}\n\n`);
+  res.flush?.();
 
-  const sendUpdate = () => {
-    const rows = sqlite
-      .prepare("SELECT id, content, created_at FROM reflection_index ORDER BY created_at DESC LIMIT 10")
-      .all();
-    res.write(`data: ${JSON.stringify(rows)}\n\n`);
+  const dbPath = path.join(process.cwd(), "db", "main.db");
+  const Database = DatabaseModule;
+  const db = new Database(dbPath);
+  let lastId = 0;
+
+  const sendLatest = () => {
+    try {
+      const latest = db
+        .prepare("SELECT id, content, created_at FROM reflection_index ORDER BY id DESC LIMIT 1")
+        .get();
+      if (latest && latest.id !== lastId) {
+        lastId = latest.id;
+        res.write(`data: ${JSON.stringify(latest)}\n\n`);
+        res.flush?.();
+      }
+    } catch (err) {
+      console.error("Reflection SSE error:", err);
+    }
   };
 
-  sendUpdate();
-  const interval = setInterval(sendUpdate, 1000);
+  const interval = setInterval(sendLatest, 1000);
   req.on("close", () => clearInterval(interval));
 });
 
 app.listen(3101, () => {
-  console.log("📡 Reflection SSE server running at http://localhost:3101/events/reflections");
+  console.log("📡 Reflection SSE server listening on :3101");
 });

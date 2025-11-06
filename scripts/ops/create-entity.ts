@@ -90,9 +90,10 @@ async function progressiveReveal(stagingDir: string, targetDir: string, paceMs: 
   }
 }
 
+import DatabaseModule from "better-sqlite3";
 function registerEntity(name: string, kind: string) {
   try {
-    const Database = require("better-sqlite3");
+    const Database = DatabaseModule;
     const db = new Database(path.join(process.cwd(), "db", "main.db"));
     db.prepare(`
       CREATE TABLE IF NOT EXISTS entities_status (
@@ -107,6 +108,19 @@ function registerEntity(name: string, kind: string) {
       VALUES (@name, @kind, @status)
       ON CONFLICT(name) DO UPDATE SET status=excluded.status
     `).run({ name, kind, status: "online" });
+    db.prepare(`
+      CREATE TABLE IF NOT EXISTS agents_status (
+        id INTEGER PRIMARY KEY,
+        name TEXT UNIQUE,
+        status TEXT,
+        pid INTEGER,
+        created_at TEXT DEFAULT CURRENT_TIMESTAMP
+      )`).run();
+    db.prepare(`
+      INSERT INTO agents_status (name, status)
+      VALUES (@name, @status)
+      ON CONFLICT(name) DO UPDATE SET status=excluded.status
+    `).run({ name, status: "online" });
   } catch (err) {
     console.error("Entity registration skipped:", err?.message || err);
   }
