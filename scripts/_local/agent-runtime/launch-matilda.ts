@@ -1,6 +1,6 @@
-// <0001faf6> Phase 9.5 — Matilda Agent Path Restored + Live Relaunch Verified
-import { createAgentRuntime } from "../../mirror/agent.mjs";
-import { matilda } from "../../agents/matilda/matilda.mjs";
+// <0001faf5> Phase 9.4a — Matilda Resurrection Cleanup
+import { createAgentRuntime } from "../../mirror/agent";
+import { matilda } from "../../agents/matilda";
 
 createAgentRuntime(matilda);
-console.log("💚 Matilda runtime successfully relaunched via mirror/agent.mjs");
+console.log("💚 Matilda runtime restored and running cleanly via mirror/agent.ts");
