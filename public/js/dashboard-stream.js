@@ -34,7 +34,7 @@ reflectionsFeed.onopen = () => console.log("🪞 Reflections stream connected");
 reflectionsFeed.onmessage = (e) => {
   try {
     const data = JSON.parse(e.data);
-    if (container) createEntry(data);
+    if (container if (container) createEntry(data);if (container) createEntry(data); data.content) createEntry(data);
   } catch (err) {
     console.error("⚠️ Reflection parse error:", err);
   }
