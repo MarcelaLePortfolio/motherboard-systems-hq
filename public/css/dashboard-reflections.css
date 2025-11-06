@@ -1,0 +1,15 @@
+/* <0001fae8> Phase 9.6.3 — Dashboard Reflection Styling */
+#recentLogs {
+  font-family: "Courier New", monospace;
+  color: #e6e6e6;
+  background: rgba(10,10,10,0.75);
+  padding: 12px;
+  overflow-y: auto;
+  max-height: 480px;
+  border-radius: 8px;
+}
+.reflection-line {
+  margin-bottom: 4px;
+  transition: opacity 0.6s ease-in-out;
+  opacity: 1;
+}
