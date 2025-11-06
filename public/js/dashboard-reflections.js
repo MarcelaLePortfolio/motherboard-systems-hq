@@ -1,9 +1,10 @@
-// Phase 9.1 — Anchored Reflections Stream → injects into #recent-logs
+// Phase 9.1 — Nested Reflections Stream → precise anchor inside Recent Logs content
 (async function reflectionsStream(){
-  // Locate dashboard Recent Logs container
+  // Find correct Recent Logs section content div
   const target =
+    document.querySelector("#recent-logs .section-content") ||
     document.querySelector("#recent-logs") ||
-    document.querySelector(".recent-logs") ||
+    document.querySelector(".recent-logs .section-content") ||
     (() => {
       const box = document.createElement("div");
       box.id = "recent-logs";
@@ -21,11 +22,10 @@
       if (!data.id || data.id === lastId) return;
       lastId = data.id;
 
-      // Build styled log line
       const line = document.createElement("div");
       line.className = "reflection-line";
       line.style.cssText =
-        "padding:2px 6px;margin:2px 0;border-left:2px solid #10b981;background:#111827;border-radius:4px;color:#e5e7eb;font-family:ui-monospace,monospace;";
+        "padding:2px 6px;margin:2px 0;border-left:2px solid #10b981;background:#0f172a;border-radius:4px;color:#f3f4f6;font-family:ui-monospace,monospace;font-size:13px;";
       line.textContent = `[${data.created_at}] ${data.content}`;
 
       target.prepend(line);
