@@ -1,23 +1,38 @@
+// Phase 9 Restoration — Real-time Reflection SSE (one row per event)
 import express from "express";
-import { desc } from "drizzle-orm";
-import { db } from "../db/client";
-import { reflection_index } from "../db/reflection_index";
+import path from "path";
+import DatabaseModule from "better-sqlite3";
 
-export const reflectionsRouter = express.Router();
+const router = express.Router();
 
-reflectionsRouter.get("/recent", async (_req, res) => {
-  try {
-    const rows = db
-      .select()
-      .from(reflection_index)
-      .orderBy(desc(reflection_index.created_at))
-      .limit(10)
-      .all();
-    res.json(rows);
-  } catch (err: any) {
-    console.error("Error fetching reflections:", err);
-    res.status(500).json({ error: err.message });
-  }
+router.get("/events/reflections", (req, res) => {
+  res.writeHead(200, {
+    "Content-Type": "text/event-stream",
+    "Cache-Control": "no-cache",
+    Connection: "keep-alive",
+  });
+
+  res.write(`data: ${JSON.stringify({ status: "connected" })}\n\n`);
+  res.flush?.();
+
+  let lastId = 0;
+  const dbPath = path.join(process.cwd(), "db", "main.db");
+  const Database = DatabaseModule;
+  const db = new Database(dbPath);
+
+  const sendLatest = () => {
+    const latest = db
+      .prepare("SELECT id, content, created_at FROM reflection_index ORDER BY id DESC LIMIT 1")
+      .get();
+    if (latest && latest.id !== lastId) {
+      lastId = latest.id;
+      res.write(`data: ${JSON.stringify(latest)}\n\n`);
+      res.flush?.();
+    }
+  };
+
+  const interval = setInterval(sendLatest, 1000);
+  req.on("close", () => clearInterval(interval));
 });
 
-export default reflectionsRouter;
+export default router;

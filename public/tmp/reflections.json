@@ -1,5 +1,95 @@
 [
   {
+    "id": "entity-1762454226917",
+    "content": "🎞️ [Atlas] Atlas Online…",
+    "created_at": "2025-11-06T18:37:06.917Z"
+  },
+  {
+    "id": "entity-1762454225914",
+    "content": "🎞️ [Atlas] Finalizing configuration…",
+    "created_at": "2025-11-06T18:37:05.914Z"
+  },
+  {
+    "id": "entity-1762454221904",
+    "content": "🎞️ [Atlas] Progressive reveal to workspace…",
+    "created_at": "2025-11-06T18:37:01.904Z"
+  },
+  {
+    "id": "entity-1762454220900",
+    "content": "🎞️ [Atlas] Preparing templates…",
+    "created_at": "2025-11-06T18:37:00.900Z"
+  },
+  {
+    "id": "entity-1762454219896",
+    "content": "🎞️ [Atlas] Validating blueprint…",
+    "created_at": "2025-11-06T18:36:59.896Z"
+  },
+  {
+    "id": "entity-1762454218893",
+    "content": "🎞️ [Atlas] Bootstrapping workspace Atlas…",
+    "created_at": "2025-11-06T18:36:58.893Z"
+  },
+  {
+    "id": "entity-1762453971988",
+    "content": "🎞️ [Atlas] Atlas Online…",
+    "created_at": "2025-11-06T18:32:51.988Z"
+  },
+  {
+    "id": "entity-1762453970985",
+    "content": "🎞️ [Atlas] Finalizing configuration…",
+    "created_at": "2025-11-06T18:32:50.985Z"
+  },
+  {
+    "id": "entity-1762453966975",
+    "content": "🎞️ [Atlas] Progressive reveal to workspace…",
+    "created_at": "2025-11-06T18:32:46.975Z"
+  },
+  {
+    "id": "entity-1762453965972",
+    "content": "🎞️ [Atlas] Preparing templates…",
+    "created_at": "2025-11-06T18:32:45.972Z"
+  },
+  {
+    "id": "entity-1762453964969",
+    "content": "🎞️ [Atlas] Validating blueprint…",
+    "created_at": "2025-11-06T18:32:44.969Z"
+  },
+  {
+    "id": "entity-1762453963966",
+    "content": "🎞️ [Atlas] Bootstrapping workspace Atlas…",
+    "created_at": "2025-11-06T18:32:43.966Z"
+  },
+  {
+    "id": "entity-1762453954873",
+    "content": "🎞️ [Atlas] Atlas Online…",
+    "created_at": "2025-11-06T18:32:34.873Z"
+  },
+  {
+    "id": "entity-1762453953870",
+    "content": "🎞️ [Atlas] Finalizing configuration…",
+    "created_at": "2025-11-06T18:32:33.870Z"
+  },
+  {
+    "id": "entity-1762453952867",
+    "content": "🎞️ [Atlas] Progressive reveal to workspace…",
+    "created_at": "2025-11-06T18:32:32.867Z"
+  },
+  {
+    "id": "entity-1762453951864",
+    "content": "🎞️ [Atlas] Preparing templates…",
+    "created_at": "2025-11-06T18:32:31.864Z"
+  },
+  {
+    "id": "entity-1762453950862",
+    "content": "🎞️ [Atlas] Validating blueprint…",
+    "created_at": "2025-11-06T18:32:30.862Z"
+  },
+  {
+    "id": "entity-1762453949860",
+    "content": "🎞️ [Atlas] Bootstrapping workspace Atlas…",
+    "created_at": "2025-11-06T18:32:29.860Z"
+  },
+  {
     "id": "atlas-1762452702946",
     "content": "✅ [Atlas] Atlas Online — ready for demo.",
     "created_at": "2025-11-06T18:11:42.946Z"
