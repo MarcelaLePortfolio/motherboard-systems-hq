@@ -1,37 +1,26 @@
-// <0001faf6> Phase 6.5 — Dashboard Stream Loader (with Task Graph)
-import { renderTaskActivityGraph } from "./task-activity-graph.js";
+// <0001fae3> Phase 9.6.1 — Reflections SSE Wiring
+const reflectionsFeed = new EventSource("http://localhost:3101/events/reflections");
 
-export async function handleTaskStream(tasks) {
+reflectionsFeed.onopen = () => {
+  console.log("🪞 Reflections stream connected");
+};
+
+reflectionsFeed.onmessage = (e) => {
   try {
-    const ctx = document.getElementById("taskActivityCanvas")?.getContext("2d");
-    if (ctx && tasks?.length) {
-      renderTaskActivityGraph(ctx, tasks);
-      console.log("📈 Task activity graph rendered successfully.");
-    } else {
-      console.log("⚠️ No tasks available or missing canvas context.");
+    const data = JSON.parse(e.data);
+    const container = document.getElementById("recentLogs");
+    if (container) {
+      const entry = document.createElement("div");
+      entry.textContent = `[${new Date(data.created_at).toLocaleTimeString()}] ${data.content}`;
+      container.prepend(entry);
+      // Maintain max 20 lines for cinematic pacing
+      while (container.children.length > 20) container.removeChild(container.lastChild);
     }
   } catch (err) {
-    console.error("❌ Error rendering task graph:", err);
+    console.error("⚠️ Reflection parse error:", err);
   }
-}
+};
 
-// 🚀 Delegate button functionality
-document.getElementById("delegateButton").addEventListener("click", async () => {
-  const input = document.getElementById("userInput");
-  const text = input.value.trim();
-  if (!text) return;
-
-  const response = await fetch("/delegations", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      description: text,
-      event_type: "delegation",
-      agent: "Cade",
-      status: "pending"
-    })
-  });
-
-  console.log("🚀 Delegation sent:", await response.text());
-  input.value = "";
-});
+reflectionsFeed.onerror = (err) => {
+  console.error("❌ Reflections SSE error:", err);
+};
