@@ -1,3 +1,4 @@
+import "./utils/ensurePaths.js";
 import { setCadeStatus, getCadeStatus } from "./cade_status";
 import { broadcastAgentUpdate, broadcastLogUpdate } from "../../routes/eventsAgents";
 import { broadcastAgentUpdate, broadcastLogUpdate } from "../../routes/eventsAgents";
