@@ -1,19 +1,26 @@
 import express from "express";
-import { ollamaChat } from "../scripts/utils/ollamaChat.ts";
+import { runSkill } from "../scripts/utils/runSkill";
+import { ollamaPlan } from "../scripts/utils/ollamaPlan";
 
 export const router = express.Router();
 
 router.post("/", async (req, res) => {
-  const { message } = req.body;
-  console.log("<0001fa9f> 📨 Matilda received message:", message);
   try {
-    const start = Date.now();
-    const reply = await ollamaChat(message);
-    const elapsed = ((Date.now() - start) / 1000).toFixed(2);
-    console.log(`<0001fa9f> 🕒 Matilda total processing time: ${elapsed}s`);
-    return res.json({ reply });
-  } catch (err) {
-    console.error("<0001fab5> ❌ Matilda chat error:", err);
-    return res.json({ reply: "🤖 (chat error)" });
+    const message = req.body.message?.toLowerCase() || "";
+    const delegationTriggers = ["create", "read", "delete", "run", "execute", "write"];
+    const shouldDelegate = delegationTriggers.some(t => message.includes(t));
+
+    if (shouldDelegate) {
+      const result = await runSkill("delegate");
+      console.log(`🧠 Matilda delegated task: ${message}`);
+      return res.json({ message: result });
+    }
+
+    const response = await ollamaPlan(message);
+    console.log(`💬 Matilda responded: ${response}`);
+    res.json({ message: response });
+  } catch (err: any) {
+    console.error("❌ Matilda error:", err);
+    res.status(500).json({ message: "Matilda encountered an error." });
   }
 });
