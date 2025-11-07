@@ -25,7 +25,7 @@ app.get("/events/reflections", (req, res) => {
   const sendLatest = () => {
     try {
       const latest = db
-        .prepare("SELECT id, content, created_at FROM reflection_index ORDER BY id DESC LIMIT 1")
+        .prepare("SELECT id, content, created_at FROM reflection_index ORDER BY id DESC LIMIT 10")
         .get();
       if (latest && latest.id !== lastId) {
         lastId = latest.id;

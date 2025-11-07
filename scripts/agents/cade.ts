@@ -1,37 +1,15 @@
-import "./utils/ensurePaths.js";
-import { setCadeStatus, getCadeStatus } from "./cade_status";
-import { broadcastAgentUpdate, broadcastLogUpdate } from "../../routes/eventsAgents";
-import { broadcastAgentUpdate, broadcastLogUpdate } from "../../routes/eventsAgents";
 import fs from "fs";
+import path from "path";
 
-// 🧭 Cade runtime dynamic status
-let cadeStatus: "online" | "busy" | "error" = "online";
-
-export function getCadeStatus() {
-  return cadeStatus;
-}
-
-// 🧠 Simulated task performer
-async function performTask(task: any) {
-  // Simulate a small async operation
-  return new Promise((resolve) =>
-    setTimeout(() => resolve(`Task ${task?.type || "unknown"} complete`), 1000)
+export async function cadeBuildAtlas() {
+  const atlasRoot = path.join(process.cwd(), "runtime", "atlas");
+  fs.mkdirSync(path.join(atlasRoot, "core"), { recursive: true });
+  fs.mkdirSync(path.join(atlasRoot, "modules"), { recursive: true });
+  fs.mkdirSync(path.join(atlasRoot, "logs"), { recursive: true });
+  fs.appendFileSync(
+    path.join(atlasRoot, "logs", "build.log"),
+    `[${new Date().toISOString()}] Cade compiled Atlas core modules\n`
   );
-}
-
-// ⚙️ Main runner
-export async function runCadeTask(task: any) {
-  try {
-    cadeStatus = "busy";
-    console.log("⚙️ Cade running task:", task);
-  setCadeStatus("busy");
-  setTimeout(() => setCadeStatus("online"), 1000);
-    const result = await performTask(task);
-    cadeStatus = "online";
-    return result;
-  } catch (err) {
-    cadeStatus = "error";
-    console.error("❌ Cade error:", err);
-    throw err;
-  }
+  console.log("<0001f9e9> Cade compiled Atlas core modules.");
+  return { status: "success", message: "Atlas core modules compiled" };
 }
