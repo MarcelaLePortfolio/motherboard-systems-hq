@@ -7,6 +7,10 @@ const app = express();
 
 // Serve static dashboard + assets
 app.use(express.static(path.join(process.cwd(), "public")));
+import { router as matildaRouter } from "./routes/matilda";
+app.use(express.json());
+app.use("/matilda", matildaRouter);
+
 
 // Optional health check
 app.get("/health", (_, res) => res.send("OK"));
