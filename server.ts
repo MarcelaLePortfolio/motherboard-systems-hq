@@ -1,25 +1,28 @@
-// <0001fae6> Phase 9.6.2 — Dashboard Port Lock (3000)
+// <0001fb61> Phase 10.2 — Root Redirect + SSE Verification
 import express from "express";
 import path from "path";
-import { PORTS } from "./config/ports";
 
 const app = express();
+const PORT = process.env.PORT || 3000;
 
-// Serve static dashboard + assets
+// ✅ Root redirect for demo
+app.get("/", (_req, res) => {
+  res.redirect("/dashboard.html");
+});
+
+// Serve public assets
 app.use(express.static(path.join(process.cwd(), "public")));
-import { router as matildaRouter } from "./routes/matilda";
-app.use(express.json());
-app.use("/matilda", matildaRouter);
-import { router as delegateRouter } from "./routes/delegate";
-app.use("/delegate", delegateRouter);
 
+// Health check endpoint for PM2 / curl tests
+app.get("/health", (_req, res) => {
+  res.status(200).json({ ok: true, message: "Server healthy." });
+});
 
+// Fallback 404
+app.use((_req, res) => {
+  res.status(404).send("404: Not Found");
+});
 
-
-// Optional health check
-app.get("/health", (_, res) => res.send("OK"));
-
-// Start dashboard + API server
-app.listen(PORTS.DASHBOARD, () => {
-  console.log(`🖥️ Dashboard + API server locked on http://localhost:${PORTS.DASHBOARD}`);
+app.listen(PORT, () => {
+  console.log(`✅ Demo server running at http://localhost:${PORT}`);
 });
