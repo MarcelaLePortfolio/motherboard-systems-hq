@@ -1,10 +1,18 @@
-// <0001fb20> Phase 10.13 — Reflections SSE Server Reconstruction
+// <0001fb40> Phase 9.15 — Reflections SSE Cinematic 1 Hz Flow
 import express from "express";
 import cors from "cors";
 
 const app = express();
 app.use(cors());
 const PORT = 3101;
+
+const reflections = [
+  "<0001fa9e> Matilda whispers: 'Stability confirmed. Streams aligned.'",
+  "<0001fa9e> Cade hums: 'Processing in perfect rhythm...'",
+  "<0001fa9e> Effie smiles: 'Heartbeat synchronized with dashboard feed.'",
+  "<0001fa9e> Atlas murmurs: 'All agents within operational variance.'",
+  "<0001fa9e> Reflections shimmer: 'The system breathes at one hertz.'"
+];
 
 app.get("/events/reflections", (req, res) => {
   res.set({
@@ -15,11 +23,14 @@ app.get("/events/reflections", (req, res) => {
   });
   res.flushHeaders();
 
-  res.write(`data: 🪞 Reflections SSE stream initialized at ${new Date().toISOString()}\n\n`);
+  res.write(`data: <0001fa9e> Reflections SSE stream initialized at ${new Date().toISOString()}\n\n`);
 
+  let i = 0;
   const interval = setInterval(() => {
-    res.write(`data: Reflection heartbeat ${new Date().toISOString()}\n\n`);
-  }, 5000);
+    const msg = reflections[i % reflections.length];
+    res.write(`data: ${msg}\n\n`);
+    i++;
+  }, 1000); // 1 Hz cadence
 
   req.on("close", () => {
     clearInterval(interval);
@@ -28,5 +39,5 @@ app.get("/events/reflections", (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`✅ Reflections SSE server running on port ${PORT}`);
+  console.log(`✅ Reflections SSE server running at 1 Hz cinematic flow (port ${PORT})`);
 });
