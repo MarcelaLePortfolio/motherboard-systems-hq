@@ -10,6 +10,10 @@ app.use(express.static(path.join(process.cwd(), "public")));
 import { router as matildaRouter } from "./routes/matilda";
 app.use(express.json());
 app.use("/matilda", matildaRouter);
+import { router as delegateRouter } from "./routes/delegate";
+app.use("/delegate", delegateRouter);
+
+
 
 
 // Optional health check
