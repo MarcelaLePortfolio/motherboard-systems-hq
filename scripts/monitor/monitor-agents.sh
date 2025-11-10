@@ -1,8 +1,8 @@
-#!/bin/bash
-set -e
-echo "🩺 Monitoring agent heartbeat..."
 
-function check_service() {
+set -e
+echo "<0001fa7a> Monitoring agent heartbeat..."
+
+check_service() {
   local name=$1
   local url=$2
   local retries=3
@@ -20,10 +20,10 @@ function check_service() {
 
   echo "🚨 $name failed all checks — initiating self-heal..."
   pm2 restart all
-  bash scripts/sequences/prewarm-all-agents.ts
+  tsx scripts/sequences/prewarm-all-agents.ts || echo "⚠️ Prewarm sequence failed during self-heal."
 }
 
 check_service "Reflections SSE" "http://localhost:3101/events/reflections"
 check_service "OPS SSE" "http://localhost:3201/events/ops"
 check_service "Matilda" "http://localhost:3000/matilda"
-echo "�� Heartbeat monitor completed."
+echo "💚 Heartbeat monitor completed."
