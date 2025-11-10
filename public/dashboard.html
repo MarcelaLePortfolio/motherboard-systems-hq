@@ -8,19 +8,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  if (!input) return;
-  try {
-    const res = await fetch("/delegate", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ instruction: input })
-    });
-    const data = await res.json();
-    console.log("🚀 Delegation result:", data);
-  } catch (err) {
-    console.error("Delegation failed:", err);
-  }
-});
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
@@ -510,15 +497,18 @@ if (delegateButton && userInput) {
         body: JSON.stringify({ instruction }),
       });
       const data = await res.json();
-      console.log("🚀 Delegation result:", data);
-      if (data.ok) alert("Delegation succeeded!");
-      else alert("Delegation failed.");
+      if (data.ok) {
+        console.log("🚀 Delegation succeeded:", data);
+        alert("Delegation succeeded! 🎉");
+      } else {
+        console.error("Delegation failed:", data);
+        alert("Delegation failed. Check the terminal logs for details.");
+      }
     } catch (err) {
       console.error("Delegation error:", err);
-      alert("Delegation error. Check console.");
+      alert("Delegation failed — see console for details.");
     }
   });
-} else {
   console.warn("🚀 Delegation button or input not found.");
 }
 </script>
@@ -543,4 +533,61 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+</script>
+<script>
+(function () {
+  const btn = document.getElementById("delegateButton");
+  const input = document.getElementById("userInput");
+
+  if (!btn || !input) {
+    console.warn("🚀 Delegate wiring: missing button or input", {
+      btn: !!btn,
+      input: !!input,
+    });
+      }
+
+      if (res.ok && data && data.ok) {
+        console.log("�� Delegation succeeded:", data);
+        alert("Delegation succeeded! 🎉");
+      } else {
+        console.error("Delegation failed payload:", data);
+        alert("Delegation failed. Check console/logs.");
+      }
+    } catch (err) {
+      console.error("Delegation network error:", err);
+      alert("Delegation failed — see console for details.");
+    }
+  });
+})();
+</script>
+<script>
+(function () {
+  const btn = document.getElementById("delegateButton");
+  const input = document.getElementById("userInput");
+  if (!btn || !input) return console.warn("🚀 Delegate wiring: missing button or input");
+  console.log("🚀 Delegate wiring: ready");
+
+  btn.addEventListener("click", async () => {
+    const instruction = input.value.trim();
+    if (!instruction) return alert("Please enter a command first!");
+    try {
+      const res = await fetch("/delegate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ instruction }),
+      });
+      const data = await res.json();
+      if (res.ok && data.ok) {
+        console.log("🚀 Delegation succeeded:", data);
+        alert("Delegation succeeded! 🎉");
+      } else {
+        console.error("Delegation failed payload:", data);
+        alert("Delegation failed. Check console/logs.");
+      }
+    } catch (err) {
+      console.error("Delegation network error:", err);
+      alert("Delegation failed — see console for details.");
+    }
+  });
+})();
 </script>
