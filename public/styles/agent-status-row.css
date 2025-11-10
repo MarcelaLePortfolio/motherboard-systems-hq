@@ -1,37 +1,76 @@
-/* <0001fb95> Phase 9.17 — Agent Status Row Retro Bronze Theme */
-#agentStatusRow {
-  display: flex;
-  justify-content: center;
-  gap: 1.5rem;
-  padding: 10px 0;
-  background: #1c1713;
-  color: #fff6eb;
+/* <0001fb95> Phase 9.17/9.18 — Agent + Stability Status Rows */
+ background: #141010;
+  padding: 6px 24px 4px;
+  border-bottom: 1px solid rgba(196, 154, 108, 0.25);
   font-family: "Orbitron", sans-serif;
-  border-bottom: 2px solid rgba(196,154,108,0.4);
+  color: #fff6eb;
+}
+
+.status-row {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 2px;
+}
+
+#agentStatusRow {
+  justify-content: center;
+}
+
+#stabilityStatusRow {
+  justify-content: flex-start;
+}
+
+.row-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: rgba(196, 154, 108, 0.9);
+  padding-right: 10px;
+  margin-right: 6px;
+  border-right: 1px solid rgba(196, 154, 108, 0.4);
 }
 
 .agent-tile {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 1rem;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+}
+
+.agent-core .agent-label {
+  font-weight: 600;
+}
+
+.agent-stability .agent-label {
+  font-weight: 400;
+  font-size: 0.8rem;
+  opacity: 0.85;
 }
 
 .agent-dot {
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
-  background: gray;
-  box-shadow: 0 0 6px rgba(255,255,255,0.2);
-  transition: all 0.3s ease-in-out;
+  background: #666;
+  box-shadow: 0 0 4px rgba(255, 255, 255, 0.2);
+  transition: all 0.25s ease-in-out;
 }
 
-.agent-dot.status-online {
+/* Core agents: bright green online */
+.agent-core .agent-dot.status-online {
   background: #6aff8f;
   box-shadow: 0 0 10px #6aff8f;
 }
 
+/* Stability row: warm amber online */
+.agent-stability .agent-dot.status-online {
+  background: #f7c97f;
+  box-shadow: 0 0 10px #f7c97f;
+}
+
+/* Shared offline style */
 .agent-dot.status-offline {
   background: #ff3b3b;
-  box-shadow: 0 0 8px #ff3b3b;
+  box-shadow: 0 0 6px #ff3b3b;
 }

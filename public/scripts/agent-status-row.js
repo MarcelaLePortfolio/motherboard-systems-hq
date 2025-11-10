@@ -1,49 +1,104 @@
-// <0001fb95> Phase 9.17 — Agent Status Row Reintegration (Matilda, Cade, Effie, OPS, Reflections)
+// <0001fb95> Phase 9.17/9.18 — Agent + Stability Status Rows (SSE + polling fallback)
 document.addEventListener("DOMContentLoaded", () => {
-  const agents = ["Matilda", "Cade", "Effie", "OPS", "Reflections"];
+  const coreAgents = ["Matilda", "Cade", "Effie"];
+  const stabilityAgents = ["OPS", "Reflections"];
+  const allAgents = [...coreAgents, ...stabilityAgents];
+
   const container = document.createElement("div");
-  container.id = "agentStatusRow";
-  container.innerHTML = agents.map(name => `
-    <div class="agent-tile" data-agent="${name}">
-      <span class="agent-name">${name}</span>
-      <span class="agent-dot"></span>
+  container.id = "agentStatusWrapper";
+  container.innerHTML = `
+    <div id="agentStatusRow" class="status-row">
+      ${coreAgents
+        .map(
+          (name) => `
+        <div class="agent-tile agent-core" data-agent="${name}">
+          <div class="agent-dot status-offline"></div>
+          <span class="agent-label">${name}</span>
+        </div>`
+        )
+        .join("")}
     </div>
-  `).join("");
+    <div id="stabilityStatusRow" class="status-row">
+      <span class="row-label">Stability</span>
+      ${stabilityAgents
+        .map(
+          (name) => `
+        <div class="agent-tile agent-stability" data-agent="${name}">
+          <div class="agent-dot status-offline"></div>
+          <span class="agent-label">${name}</span>
+        </div>`
+        )
+        .join("")}
+    </div>
+  `;
   document.body.prepend(container);
 
   function updateAgentStatus(name, status) {
-    const tile = document.querySelector(\`.agent-tile[data-agent="\${name}"]\`);
-    if (!tile) return;
-    const dot = tile.querySelector(".agent-dot");
-    dot.className = \`agent-dot status-\${status}\`;
+    const tiles = document.querySelectorAll(`.agent-tile[data-agent="${name}"]`);
+    if (!tiles.length) return;
+    tiles.forEach((tile) => {
+      const dot = tile.querySelector(".agent-dot");
+      if (!dot) return;
+      dot.className = `agent-dot status-${status}`;
+    });
   }
 
-  // Try live SSE connection first
+  let connected = false;
+
+  // Prefer live SSE if available
   try {
     const evtSource = new EventSource("http://localhost:3101/events/agents");
+    evtSource.onopen = () => {
+      connected = true;
+      console.log("<0001f7e2> Connected to live agent SSE");
+    };
     evtSource.onmessage = (e) => {
-      const data = JSON.parse(e.data);
-      for (const [name, status] of Object.entries(data)) {
-        updateAgentStatus(name, status);
+      try {
+        const data = JSON.parse(e.data);
+        for (const [name, value] of Object.entries(data)) {
+          if (!allAgents.includes(name)) continue;
+          const isOnline =
+            typeof value === "boolean"
+              ? value
+              : typeof value === "string"
+              ? value === "online"
+              : !!value?.online;
+          updateAgentStatus(name, isOnline ? "online" : "offline");
+        }
+      } catch {
+        console.warn("⚠️ Invalid /events/agents payload — ignoring.");
       }
     };
-    evtSource.onerror = () => console.warn("⚠️ SSE stream unavailable — fallback polling activated");
-    evtSource.onopen = () => console.log("🟢 Connected to live agent SSE");
+    evtSource.onerror = () => {
+      console.warn("⚠️ SSE /events/agents unavailable — using polling fallback");
+      connected = false;
+    };
   } catch {
-    console.warn("⚠️ SSE connection failed — enabling polling mode");
+    console.warn("⚠️ SSE connection failed at construction — using polling fallback");
   }
 
-  // Fallback polling (every 1s)
+  // Fallback polling at 1 Hz using /health
   setInterval(async () => {
+    if (connected) return;
     try {
       const res = await fetch("/health");
+      if (!res.ok) throw new Error("Health endpoint not OK");
       const data = await res.json();
-      for (const name of agents) {
-        const status = data[name]?.online ? "online" : "offline";
-        updateAgentStatus(name, status);
-      }
+
+      allAgents.forEach((name) => {
+        const direct = data[name];
+        const lower = data[name.toLowerCase()];
+        const value = direct !== undefined ? direct : lower;
+        const isOnline =
+          typeof value === "boolean"
+            ? value
+            : typeof value === "string"
+            ? value === "online"
+            : !!value?.online;
+        updateAgentStatus(name, isOnline ? "online" : "offline");
+      });
     } catch {
-      agents.forEach(name => updateAgentStatus(name, "offline"));
+      allAgents.forEach((name) => updateAgentStatus(name, "offline"));
     }
   }, 1000);
 });
