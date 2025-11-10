@@ -1,24 +1,30 @@
-/* <0001fb95> Phase 9.17/9.18 — Agent + Stability Status Rows */
- background: #141010;
-  padding: 6px 24px 4px;
-  border-bottom: 1px solid rgba(196, 154, 108, 0.25);
+/* <0001fbc0> Phase 9.19.2 — Final Spatial Layout: Stability Above, Agents Below */
+
+.status-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
   font-family: "Orbitron", sans-serif;
   color: #fff6eb;
 }
 
-.status-row {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  margin-bottom: 2px;
-}
-
-#agentStatusRow {
-  justify-content: center;
-}
-
+/* --- Stability Row (above blue container) --- */
 #stabilityStatusRow {
-  justify-content: flex-start;
+  margin-top: 8px;
+  margin-bottom: 4px;
+  background: #1a1410;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(196, 154, 108, 0.25);
+}
+
+/* --- Agent Row (below blue container) --- */
+#agentStatusRow {
+  margin-top: 10px;
+  margin-bottom: 12px;
+  background: #1a1410;
+  padding: 8px 0;
+  border-top: 1px solid rgba(196, 154, 108, 0.25);
 }
 
 .row-label {
@@ -31,6 +37,7 @@
   border-right: 1px solid rgba(196, 154, 108, 0.4);
 }
 
+/* --- Shared Tile & Dot Styles --- */
 .agent-tile {
   display: flex;
   align-items: center;
@@ -63,7 +70,7 @@
   box-shadow: 0 0 10px #6aff8f;
 }
 
-/* Stability row: warm amber online */
+/* Stability row: amber online */
 .agent-stability .agent-dot.status-online {
   background: #f7c97f;
   box-shadow: 0 0 10px #f7c97f;

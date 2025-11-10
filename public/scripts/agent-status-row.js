@@ -1,104 +1,88 @@
-// <0001fb95> Phase 9.17/9.18 — Agent + Stability Status Rows (SSE + polling fallback)
+// <0001fbd4> Phase 9.19.5 — Anchor via "Dashboard v2.0.3" text node
 document.addEventListener("DOMContentLoaded", () => {
-  const coreAgents = ["Matilda", "Cade", "Effie"];
-  const stabilityAgents = ["OPS", "Reflections"];
-  const allAgents = [...coreAgents, ...stabilityAgents];
+  const agents = ["Matilda", "Cade", "Effie"];
+  const stability = ["OPS", "Reflections"];
 
-  const container = document.createElement("div");
-  container.id = "agentStatusWrapper";
-  container.innerHTML = `
-    <div id="agentStatusRow" class="status-row">
-      ${coreAgents
-        .map(
-          (name) => `
-        <div class="agent-tile agent-core" data-agent="${name}">
-          <div class="agent-dot status-offline"></div>
-          <span class="agent-label">${name}</span>
-        </div>`
-        )
-        .join("")}
-    </div>
-    <div id="stabilityStatusRow" class="status-row">
-      <span class="row-label">Stability</span>
-      ${stabilityAgents
-        .map(
-          (name) => `
-        <div class="agent-tile agent-stability" data-agent="${name}">
-          <div class="agent-dot status-offline"></div>
-          <span class="agent-label">${name}</span>
-        </div>`
-        )
-        .join("")}
-    </div>
-  `;
-  document.body.prepend(container);
-
-  function updateAgentStatus(name, status) {
-    const tiles = document.querySelectorAll(`.agent-tile[data-agent="${name}"]`);
-    if (!tiles.length) return;
-    tiles.forEach((tile) => {
-      const dot = tile.querySelector(".agent-dot");
-      if (!dot) return;
-      dot.className = `agent-dot status-${status}`;
-    });
+  // 🧭 Find the blue diagnostics line that contains "Dashboard v2.0.3"
+  const allElements = document.querySelectorAll("body *");
+  let dashboardLine = null;
+  for (const el of allElements) {
+    if (el.textContent.includes("Dashboard v2.0.3")) {
+      dashboardLine = el;
+      break;
+    }
   }
 
-  let connected = false;
+  // Build both rows
+  const stabilityRow = document.createElement("div");
+  stabilityRow.id = "stabilityStatusRow";
+  stabilityRow.className = "status-row agent-stability";
+  stabilityRow.innerHTML = `
+    <span class="row-label">STABILITY</span>
+    ${stability.map(name => `
+      <div class="agent-tile" data-agent="${name}">
+        <span class="agent-dot status-offline"></span>
+        <span class="agent-label">${name}</span>
+      </div>
+    `).join("")}
+  `;
 
-  // Prefer live SSE if available
+  const agentRow = document.createElement("div");
+  agentRow.id = "agentStatusRow";
+  agentRow.className = "status-row agent-core";
+  agentRow.innerHTML = agents.map(name => `
+    <div class="agent-tile" data-agent="${name}">
+      <span class="agent-dot status-offline"></span>
+      <span class="agent-label">${name}</span>
+    </div>
+  `).join("");
+
+  // Place rows above and below the blue diagnostics bar
+  if (dashboardLine && dashboardLine.parentNode) {
+    dashboardLine.parentNode.insertBefore(stabilityRow, dashboardLine);
+    dashboardLine.parentNode.insertBefore(agentRow, dashboardLine.nextSibling);
+  } else {
+    console.warn("⚠️ Could not find Dashboard v2.0.3 anchor — appending to body instead");
+    document.body.prepend(stabilityRow);
+    document.body.appendChild(agentRow);
+  }
+
+  // Function to update dot states
+  function updateAgentStatus(name, status) {
+    const dot = document.querySelector(`.agent-tile[data-agent="${name}"] .agent-dot`);
+    if (dot) dot.className = `agent-dot status-${status}`;
+  }
+
+  // Live SSE connection (if available)
+  let connected = false;
   try {
     const evtSource = new EventSource("http://localhost:3101/events/agents");
-    evtSource.onopen = () => {
-      connected = true;
-      console.log("<0001f7e2> Connected to live agent SSE");
-    };
     evtSource.onmessage = (e) => {
+      connected = true;
       try {
         const data = JSON.parse(e.data);
-        for (const [name, value] of Object.entries(data)) {
-          if (!allAgents.includes(name)) continue;
-          const isOnline =
-            typeof value === "boolean"
-              ? value
-              : typeof value === "string"
-              ? value === "online"
-              : !!value?.online;
-          updateAgentStatus(name, isOnline ? "online" : "offline");
+        for (const [name, val] of Object.entries(data)) {
+          const on = typeof val === "boolean" ? val : val === "online" || !!val?.online;
+          updateAgentStatus(name, on ? "online" : "offline");
         }
-      } catch {
-        console.warn("⚠️ Invalid /events/agents payload — ignoring.");
-      }
+      } catch {}
     };
-    evtSource.onerror = () => {
-      console.warn("⚠️ SSE /events/agents unavailable — using polling fallback");
-      connected = false;
-    };
-  } catch {
-    console.warn("⚠️ SSE connection failed at construction — using polling fallback");
-  }
+    evtSource.onerror = () => { connected = false; };
+  } catch { connected = false; }
 
-  // Fallback polling at 1 Hz using /health
+  // Fallback polling every second
   setInterval(async () => {
     if (connected) return;
     try {
       const res = await fetch("/health");
-      if (!res.ok) throw new Error("Health endpoint not OK");
       const data = await res.json();
-
-      allAgents.forEach((name) => {
-        const direct = data[name];
-        const lower = data[name.toLowerCase()];
-        const value = direct !== undefined ? direct : lower;
-        const isOnline =
-          typeof value === "boolean"
-            ? value
-            : typeof value === "string"
-            ? value === "online"
-            : !!value?.online;
-        updateAgentStatus(name, isOnline ? "online" : "offline");
+      [...agents, ...stability].forEach(name => {
+        const val = data[name] ?? data[name.toLowerCase()];
+        const on = typeof val === "boolean" ? val : val === "online" || !!val?.online;
+        updateAgentStatus(name, on ? "online" : "offline");
       });
     } catch {
-      allAgents.forEach((name) => updateAgentStatus(name, "offline"));
+      [...agents, ...stability].forEach(name => updateAgentStatus(name, "offline"));
     }
   }, 1000);
 });
