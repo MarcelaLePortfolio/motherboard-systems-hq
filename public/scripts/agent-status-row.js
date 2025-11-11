@@ -1,88 +1,65 @@
-// <0001fbd4> Phase 9.19.5 — Anchor via "Dashboard v2.0.3" text node
+// <0001fd20> Phase 10.9.5 — Agent Status Live Monitor (SSE + fallback polling)
 document.addEventListener("DOMContentLoaded", () => {
-  const agents = ["Matilda", "Cade", "Effie"];
-  const stability = ["OPS", "Reflections"];
+  const stabilityAgents = ["OPS", "Reflections"];
+  const coreAgents = ["Matilda", "Cade", "Effie"];
+  const allAgents = [...stabilityAgents, ...coreAgents];
 
-  // 🧭 Find the blue diagnostics line that contains "Dashboard v2.0.3"
-  const allElements = document.querySelectorAll("body *");
-  let dashboardLine = null;
-  for (const el of allElements) {
-    if (el.textContent.includes("Dashboard v2.0.3")) {
-      dashboardLine = el;
-      break;
-    }
+  function renderTiles(agents, containerId, labelClass) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    container.innerHTML = agents.map(
+      (a) => `<div class="agent-tile ${labelClass}" data-agent="${a}">
+                <div class="agent-dot status-offline"></div>
+                <span class="agent-label">${a}</span>
+              </div>`
+    ).join("");
   }
 
-  // Build both rows
-  const stabilityRow = document.createElement("div");
-  stabilityRow.id = "stabilityStatusRow";
-  stabilityRow.className = "status-row agent-stability";
-  stabilityRow.innerHTML = `
-    <span class="row-label">STABILITY</span>
-    ${stability.map(name => `
-      <div class="agent-tile" data-agent="${name}">
-        <span class="agent-dot status-offline"></span>
-        <span class="agent-label">${name}</span>
-      </div>
-    `).join("")}
-  `;
+  renderTiles(stabilityAgents, "stabilityRow", "agent-stability");
+  renderTiles(coreAgents, "agentStatusRow", "agent-core");
 
-  const agentRow = document.createElement("div");
-  agentRow.id = "agentStatusRow";
-  agentRow.className = "status-row agent-core";
-  agentRow.innerHTML = agents.map(name => `
-    <div class="agent-tile" data-agent="${name}">
-      <span class="agent-dot status-offline"></span>
-      <span class="agent-label">${name}</span>
-    </div>
-  `).join("");
-
-  // Place rows above and below the blue diagnostics bar
-  if (dashboardLine && dashboardLine.parentNode) {
-    dashboardLine.parentNode.insertBefore(stabilityRow, dashboardLine);
-    dashboardLine.parentNode.insertBefore(agentRow, dashboardLine.nextSibling);
-  } else {
-    console.warn("⚠️ Could not find Dashboard v2.0.3 anchor — appending to body instead");
-    document.body.prepend(stabilityRow);
-    document.body.appendChild(agentRow);
-  }
-
-  // Function to update dot states
   function updateAgentStatus(name, status) {
-    const dot = document.querySelector(`.agent-tile[data-agent="${name}"] .agent-dot`);
-    if (dot) dot.className = `agent-dot status-${status}`;
+    const tile = document.querySelector(\`.agent-tile[data-agent="\${name}"] .agent-dot\`);
+    if (!tile) return;
+    tile.className = \`agent-dot status-\${status}\`;
   }
 
-  // Live SSE connection (if available)
   let connected = false;
   try {
     const evtSource = new EventSource("http://localhost:3101/events/agents");
+    evtSource.onopen = () => console.log("<0001fa9e> Connected to agent SSE feed");
     evtSource.onmessage = (e) => {
       connected = true;
       try {
         const data = JSON.parse(e.data);
-        for (const [name, val] of Object.entries(data)) {
-          const on = typeof val === "boolean" ? val : val === "online" || !!val?.online;
-          updateAgentStatus(name, on ? "online" : "offline");
+        for (const [name, state] of Object.entries(data)) {
+          updateAgentStatus(name, state === "online" ? "online" : "offline");
         }
-      } catch {}
+      } catch (err) {
+        console.warn("⚠️ SSE parse error:", err);
+      }
     };
-    evtSource.onerror = () => { connected = false; };
-  } catch { connected = false; }
+    evtSource.onerror = () => {
+      connected = false;
+      console.warn("⚠️ SSE connection lost — switching to fallback polling");
+    };
+  } catch {
+    console.warn("⚠️ Failed to connect to SSE — enabling fallback");
+  }
 
-  // Fallback polling every second
+  // Fallback polling (1 Hz)
   setInterval(async () => {
     if (connected) return;
     try {
       const res = await fetch("/health");
+      if (!res.ok) throw new Error("Health check failed");
       const data = await res.json();
-      [...agents, ...stability].forEach(name => {
-        const val = data[name] ?? data[name.toLowerCase()];
-        const on = typeof val === "boolean" ? val : val === "online" || !!val?.online;
-        updateAgentStatus(name, on ? "online" : "offline");
+      allAgents.forEach((name) => {
+        const online = data[name]?.online ?? false;
+        updateAgentStatus(name, online ? "online" : "offline");
       });
     } catch {
-      [...agents, ...stability].forEach(name => updateAgentStatus(name, "offline"));
+      allAgents.forEach((n) => updateAgentStatus(n, "offline"));
     }
   }, 1000);
 });
