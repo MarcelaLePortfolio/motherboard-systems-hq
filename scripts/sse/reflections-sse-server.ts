@@ -41,3 +41,24 @@ app.get("/events/reflections", (req, res) => {
 app.listen(PORT, () => {
   console.log(`✅ Reflections SSE server running at 1 Hz cinematic flow (port ${PORT})`);
 });
+
+// <0001fbe0> Phase 9.20 — Add /events/agents SSE JSON feed
+app.get("/events/agents", (req, res) => {
+  res.set({
+    "Content-Type": "text/event-stream",
+    "Cache-Control": "no-cache",
+    Connection: "keep-alive",
+    "Access-Control-Allow-Origin": "*",
+  });
+  res.flushHeaders();
+
+  const agents = ["Matilda", "Cade", "Effie", "OPS", "Reflections"];
+
+  res.write(`data: ${JSON.stringify(Object.fromEntries(agents.map(a => [a, "online"])))}\n\n`);
+
+  const interval = setInterval(() => {
+    res.write(`data: ${JSON.stringify(Object.fromEntries(agents.map(a => [a, "online"])))}\n\n`);
+  }, 5000); // update every 5s
+
+  req.on("close", () => clearInterval(interval));
+});
