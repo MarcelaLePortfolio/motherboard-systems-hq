@@ -47,7 +47,7 @@
       background: #fff;
       border: 2px solid #ddd;
       padding: 1rem;
-      
+      margin-top: 1rem;
       display: flex;
       gap: 0.5rem;
     }
@@ -165,13 +165,94 @@
     <button id="delegateButton" class="action-button" title="Delegate Task">🚀</button>
     </div>
   </div>
-  <section id="recent-activity" style="background:#111;padding:12px;border-radius:8px;">
+  <section id="recent-activity" style="background:#111;padding:12px;border-radius:8px;margin-top:16px;">
     <h2 style="color:#eee;">🧾 Recent Tasks</h2>
+    <div id="recentTasks" style="padding:8px;font-family:monospace;color:#ccc;"></div>
+    <h2 style="color:#eee;margin-top:16px;">📜 Recent Logs</h2>
+    <div id="recentLogs" style="padding:8px;font-family:monospace;color:#ccc;"></div>
 <section id="activityGraph"><canvas id="taskActivityCanvas" width="600" height="300"></canvas></section>
   </section>
 
 
 <details id="diagnosticsSection" open style="margin:1rem 0;border:1px solid #ddd;border-radius:10px;padding:0.6rem;background:#fafafa;">
+  <summary style="cursor:pointer;font-weight:bold;font-size:1.1em;color:#c87b36;">Diagnostics Overview</summary>
+  <div style="padding-left:10px;">
+  <section id="autonomic-adaptation" style="margin:1rem;padding:1rem;background:#fff;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,0.08);">
+    <h3>🤖 Autonomic Adaptation</h3>
+    <pre id="autonomic-adaptation-content">Awaiting data...</pre>
+<section id="activityGraph"><canvas id="taskActivityCanvas" width="600" height="300"></canvas></section>
+  </section>
+  <!-- Core Diagnostic Panels -->
+  <section id="system-health" style="margin:0.6rem 1rem;padding:1rem;background:#fff;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,0.08);">
+    <h3>⚙️ System Health & Verification</h3>
+    <pre id="system-health-content">Loading...</pre>
+<section id="activityGraph"><canvas id="taskActivityCanvas" width="600" height="300"></canvas></section>
+  </section>
+
+  <section id="matilda-insights" style="margin:0.6rem 1rem;padding:1rem;background:#fff;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,0.08);">
+    <h3>🧠 Matilda Insights</h3>
+    <pre id="persistent-insight">Loading insights...</pre>
+<section id="activityGraph"><canvas id="taskActivityCanvas" width="600" height="300"></canvas></section>
+  </section>
+
+
+  <!-- Collapsible Deep Diagnostics -->
+<details id="diagnosticsSection" open style="margin:1rem 0;border:1px solid #ddd;border-radius:10px;padding:0.6rem;background:#fafafa;">
+  <summary style="cursor:pointer;font-weight:bold;font-size:1.1em;color:#c87b36;">Deep Diagnostics</summary>
+  <div style="padding:8px 0 0 12px;">
+  <details style="margin:1rem;padding:1rem;background:#fafafa;border-radius:8px;box-shadow:inset 0 0 4px #ddd;">
+    <summary style="cursor:pointer;font-weight:bold;">🔮 Introspective Simulation</summary>
+    <pre id="introspective-sim">Simulation logs will appear here...</pre>
+  </details>
+
+  <details style="margin:1rem;padding:1rem;background:#fafafa;border-radius:8px;box-shadow:inset 0 0 4px #ddd;">
+    <summary style="cursor:pointer;font-weight:bold;">📜 System Chronicle</summary>
+    <pre id="system-chronicle">Chronicle data will appear here...</pre>
+  </details>
+
+  <!-- === Core Scripts === -->
+  if (!input) return;
+  try {
+    const res = await fetch("/delegate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ instruction: input })
+    });
+    const data = await res.json();
+    console.log("🚀 Delegation result:", data);
+  } catch (err) {
+    console.error("Delegation failed:", err);
+  }
+});
+
+  <script src="/dashboard.js?v=1.2.0" defer></script>
+  <script>
+    async function updatePanel(id, endpoint) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      try {
+        const res = await fetch(endpoint);
+        const data = await res.json();
+        el.textContent = JSON.stringify(data, null, 2);
+      } catch {
+        el.textContent = "⚠️ Unavailable: " + endpoint;
+      }
+    }
+
+    async function refreshAllDiagnostics() {
+      await updatePanel("system-health-content", "/diagnostics/system-health");
+      await updatePanel("persistent-insight", "/diagnostics/persistent-insight");
+      await updatePanel("autonomic-adaptation-content", "/diagnostics/autonomic-adaptation");
+      await updatePanel("introspective-sim", "/diagnostics/introspective-sim");
+      await updatePanel("system-chronicle", "/diagnostics/system-chronicle");
+      await updatePanel("tasks", "/tasks/recent");
+      await updatePanel("logs", "/logs/recent");
+    }
+
+    window.addEventListener("load", () => {
+      refreshAllDiagnostics();
+      setInterval(refreshAllDiagnostics, 15000);
+  </div>
 </details>
     });
 
