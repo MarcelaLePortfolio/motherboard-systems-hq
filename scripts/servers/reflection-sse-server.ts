@@ -1,21 +1,25 @@
-// Phase 9 Fix — Reflection SSE server: emit latest reflection one at a time
 import express from "express";
+
+
+
+// Phase 9 Fix — Reflection SSE server: emit latest reflection one at a time
+
 import cors from "cors";
 import DatabaseModule from "better-sqlite3";
 import path from "path";
 
-const app = express();
+const app = (express as any)();
 app.use(cors());
 
-app.get("/events/reflections", (req, res) => {
-  res.writeHead(200, {
+app.get("/events/reflections", (req: express.Request, res: express.Response) => {
+  (<any>res).writeHead(200, {
     "Content-Type": "text/event-stream",
     "Cache-Control": "no-cache",
     Connection: "keep-alive",
   });
 
   res.write(`data: ${JSON.stringify({ status: "connected" })}\n\n`);
-  res.flush?.();
+  (<any>res).flush?.();
 
   const dbPath = path.join(process.cwd(), "db", "main.db");
   const Database = DatabaseModule;
@@ -30,7 +34,7 @@ app.get("/events/reflections", (req, res) => {
       if (latest && latest.id !== lastId) {
         lastId = latest.id;
         res.write(`data: ${JSON.stringify(latest)}\n\n`);
-        res.flush?.();
+        (<any>res).flush?.();
       }
     } catch (err) {
       console.error("Reflection SSE error:", err);

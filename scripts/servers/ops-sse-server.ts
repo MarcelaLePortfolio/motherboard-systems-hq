@@ -1,16 +1,20 @@
-// <0001faef> Phase 9.2b — OPS SSE Server Rebuild
 import express from "express";
+
+
+
+// <0001faef> Phase 9.2b — OPS SSE Server Rebuild
+
 import cors from "cors";
 import { sqlite } from "../../db/client";
 
-const app = express();
+const app = (express as any)();
 app.use(cors());
 
-app.get("/events/ops", (req, res) => {
-  res.setHeader("Content-Type", "text/event-stream");
-  res.setHeader("Cache-Control", "no-cache");
-  res.setHeader("Connection", "keep-alive");
-  res.flushHeaders();
+app.get("/events/ops", (req: express.Request, res: express.Response) => {
+  (<any>res).setHeader("Content-Type", "text/event-stream");
+  (<any>res).setHeader("Cache-Control", "no-cache");
+  (<any>res).setHeader("Connection", "keep-alive");
+  (<any>res).flushHeaders();
 
   res.write(`data: {"status":"connected"}\n\n`);
 
