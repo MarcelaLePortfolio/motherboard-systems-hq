@@ -1,16 +1,20 @@
-// <0001fae6> Phase 9 — OPS SSE Live Polling (1Hz broadcast)
 import express from "express";
+
+
+
+// <0001fae6> Phase 9 — OPS SSE Live Polling (1Hz broadcast)
+
 import cors from "cors";
 import Database from "better-sqlite3";
 
-const app = express();
+const app = (express as any)();
 app.use(cors());
 const db = new Database("db/main.db");
 const clients: express.Response[] = [];
 let lastSentTask = 0;
 
-app.get("/events/ops", (req, res) => {
-  res.writeHead(200, {
+app.get("/events/ops", (req: express.Request, res: express.Response) => {
+  (<any>res).writeHead(200, {
     "Content-Type": "text/event-stream",
     "Cache-Control": "no-cache",
     Connection: "keep-alive",

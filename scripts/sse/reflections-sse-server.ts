@@ -1,8 +1,12 @@
-// <0001fb40> Phase 9.15 — Reflections SSE Cinematic 1 Hz Flow
 import express from "express";
+
+
+
+// <0001fb40> Phase 9.15 — Reflections SSE Cinematic 1 Hz Flow
+
 import cors from "cors";
 
-const app = express();
+const app = (express as any)();
 app.use(cors());
 const PORT = 3101;
 
@@ -14,14 +18,14 @@ const reflections = [
   "<0001fa9e> Reflections shimmer: 'The system breathes at one hertz.'"
 ];
 
-app.get("/events/reflections", (req, res) => {
-  res.set({
+app.get("/events/reflections", (req: express.Request, res: express.Response) => {
+  (<any>res).set({
     "Content-Type": "text/event-stream",
     "Cache-Control": "no-cache",
     Connection: "keep-alive",
     "Access-Control-Allow-Origin": "*",
   });
-  res.flushHeaders();
+  (<any>res).flushHeaders();
 
   res.write(`data: <0001fa9e> Reflections SSE stream initialized at ${new Date().toISOString()}\n\n`);
 
@@ -43,14 +47,14 @@ app.listen(PORT, () => {
 });
 
 // <0001fbe0> Phase 9.20 — Add /events/agents SSE JSON feed
-app.get("/events/agents", (req, res) => {
-  res.set({
+app.get("/events/agents", (req: express.Request, res: express.Response) => {
+  (<any>res).set({
     "Content-Type": "text/event-stream",
     "Cache-Control": "no-cache",
     Connection: "keep-alive",
     "Access-Control-Allow-Origin": "*",
   });
-  res.flushHeaders();
+  (<any>res).flushHeaders();
 
   const agents = ["Matilda", "Cade", "Effie", "OPS", "Reflections"];
 
