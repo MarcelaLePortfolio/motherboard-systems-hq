@@ -1,7 +1,8 @@
-// Clean Reset — dashboard.js (Enhanced Matilda Response Handling)
+// Clean Reset — dashboard.js (Send button only)
 
 const API_URL = "http://localhost:3001/matilda";
 
+// DOM elements
 const inputEl = document.getElementById("userInput");
 const sendBtn = document.getElementById("sendBtn");
 const delegateBtn = document.getElementById("delegateButton");
@@ -16,10 +17,8 @@ function appendMessage(sender, text) {
   chatLogEl.scrollTop = chatLogEl.scrollHeight;
 }
 
+// 🚫 NO Enter key listener — send ONLY via button
 sendBtn.addEventListener("click", sendChat);
-inputEl.addEventListener("keypress", (e) => {
-  if (e.key === "Enter") sendChat();
-});
 
 async function sendChat() {
   const message = inputEl.value.trim();
@@ -35,22 +34,8 @@ async function sendChat() {
       body: JSON.stringify({ message }),
     });
 
-    // Parse JSON
     const data = await res.json();
-
-    // Matilda sometimes sends "message"
-    // and sometimes sends "response" in chunks
-    let finalText = "";
-
-    if (data.message) {
-      finalText = data.message;
-    } else if (data.response) {
-      finalText = data.response;
-    } else {
-      finalText = "(no response)";
-    }
-
-    appendMessage("matilda", finalText);
+    appendMessage("matilda", data.message || "(no response)");
 
   } catch (err) {
     appendMessage("system", "⚠️ Matilda unreachable.");
@@ -58,5 +43,5 @@ async function sendChat() {
   }
 }
 
-// Static agent status for now
+// Agent status (placeholder)
 agentStatusEl.textContent = "Matilda: ONLINE | Cade: ONLINE | Effie: ONLINE";
