@@ -1,0 +1,44 @@
+{
+  "name": "motherboard-systems-hq",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "pm2 start scripts/_local/agent-runtime/launch-cade.ts --interpreter tsx --name cade",
+    "build": "next build",
+    "dev-server": "tsx scripts/_local/dev-server.ts",
+    "matilda": "tsx scripts/_local/agent-runtime/launch-matilda.ts",
+    "dev:all": "concurrently \"pnpm run dev-server\" \"pnpm run matilda\""
+  },
+  "dependencies": {
+    "better-sqlite3": "^12.4.1",
+    "chalk": "^4.1.2",
+    "chokidar": "3.6.0",
+    "cors": "^2.8.5",
+    "next": "^15.4.6",
+    "node-fetch": "^3.3.2",
+    "proper-lockfile": "^4.1.2",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "uuid": "^11.1.0"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^7.4.2",
+    "@capacitor/core": "^7.4.2",
+    "@eslint/js": "^9.33.0",
+    "@types/proper-lockfile": "^4.1.4",
+    "@types/react": "19.1.10",
+    "@typescript-eslint/eslint-plugin": "^8.39.1",
+    "@typescript-eslint/parser": "^8.39.1",
+    "concurrently": "^9.2.1",
+    "csstype": "^3.1.3",
+    "drizzle-kit": "^0.31.5",
+    "drizzle-orm": "^0.44.6",
+    "eslint": "^8.57.1",
+    "eslint-formatter-unix": "^8.40.0",
+    "eslint-plugin-import": "^2.32.0",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3",
+    "undici": "^7.13.0",
+    "undici-types": "^7.13.0"
+  }
+}

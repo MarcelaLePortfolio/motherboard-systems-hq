@@ -11,10 +11,10 @@ export const startMatilda = {
         body: JSON.stringify({ model: "gemma3:4b", prompt: message }),
       });
 
-      const text = await response.text();
+      const text = await response.text(); // raw streamed text
       console.log("📡 Raw Ollama response:", text);
 
-      // Split lines, parse JSON objects, concat responses
+      // Split by line and parse each JSON object
       const lines = text.split("\n").filter(line => line.trim().length > 0);
       let fullResponse = "";
       for (const line of lines) {

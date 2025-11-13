@@ -1,22 +1,17 @@
 import express from "express";
 import bodyParser from "body-parser";
-import { startMatilda } from "../../../agents/matilda/matilda"; // fixed relative path
+import cors from "cors";
+import { startMatilda } from "../../../agents/matilda/matilda";
 
 const PORT = 3001;
-
 const app = express();
+app.use(cors());
 app.use(bodyParser.json());
 
 app.post("/matilda", async (req, res) => {
   try {
     const { message } = req.body;
     if (!message) return res.status(400).json({ error: "Missing 'message'" });
-
-    if (!startMatilda || typeof startMatilda.handleMessage !== "function") {
-      console.error("❌ startMatilda.handleMessage is undefined!");
-      return res.status(500).json({ error: "Matilda not initialized correctly" });
-    }
-
     const reply = await startMatilda.handleMessage(message);
     res.json({ message: reply });
   } catch (err) {
@@ -25,10 +20,5 @@ app.post("/matilda", async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`💛 Matilda live on port ${PORT}`);
-});
-
-setInterval(() => {
-  console.log("✅ Matilda heartbeat — live and ready");
-}, 5000);
+app.listen(PORT, () => console.log(`💛 Matilda live on port ${PORT}`));
+setInterval(() => console.log("✅ Matilda heartbeat — live and ready"), 5000);

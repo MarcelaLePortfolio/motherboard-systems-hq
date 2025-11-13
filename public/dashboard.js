@@ -1,28 +1,31 @@
-document.addEventListener("DOMContentLoaded", async () => {
-  console.log("📋 DOM fully loaded — dashboard.js executing safely");
+const MATILDA_API = "http://localhost:3001/matilda";
 
-  const container = document.getElementById("recentTasks");
-  if (!container) return console.warn("⚠️ No #recentTasks container found.");
-
+async function sendMessageToMatilda(message) {
   try {
-    const res = await fetch("/tasks/recent");
-    const data = await res.json();
-
-    if (!data.rows || !Array.isArray(data.rows)) {
-      container.innerText = "⚠️ No recent tasks available.";
-      return;
-    }
-
-    container.innerHTML = data.rows
-      .map(row => `
-        <div style="padding:6px 0;border-bottom:1px solid #222;">
-          <b style="color:#00ff7f;">${row.type}</b> — ${row.result || "(no result)"}<br>
-          <span style="color:#999;">${row.actor} · ${new Date(row.created_at).toLocaleString()}</span>
-        </div>
-      `)
-      .join("");
+    const response = await fetch(MATILDA_API, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message }),
+    });
+    const data = await response.json();
+    return data.message;
   } catch (err) {
-    console.error("❌ Failed to load recent tasks:", err);
-    container.innerText = "Error loading tasks.";
+    console.error("❌ Frontend Matilda error:", err);
+    return "❌ Unable to reach Matilda";
   }
+}
+
+// Example hookup to input and button
+document.addEventListener("DOMContentLoaded", () => {
+  const input = document.getElementById("chatInput");
+  const button = document.getElementById("sendButton");
+  const output = document.getElementById("chatOutput");
+
+  button.addEventListener("click", async () => {
+    const msg = input.value;
+    output.textContent += `You: ${msg}\n`;
+    input.value = "";
+    const reply = await sendMessageToMatilda(msg);
+    output.textContent += `Matilda: ${reply}\n`;
+  });
 });
