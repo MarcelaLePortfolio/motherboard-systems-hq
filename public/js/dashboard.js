@@ -1,79 +1,77 @@
-// =======================================
-// Dashboard Chat + Delegation (Working)
-// =======================================
+/**
+ * 🔍 Dashboard chat + delegate wiring debug
+ */
 
-const API_URL = "http://localhost:3001/matilda";
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("🔥 Dashboard JS loaded");
 
-// DOM elements (MATCHING DASHBOARD HTML)
-const inputEl = document.getElementById("userInput");
-const sendBtn = document.getElementById("sendBtn");
-const delegateBtn = document.getElementById("delegateButton");
-const chatLogEl = document.getElementById("chatLog");
+  const chatInput   = document.querySelector("#userInput");
+  const sendBtn     = document.querySelector("#sendBtn");
+  const delegateBtn = document.querySelector("#delegateButton");
+  const chatLog     = document.querySelector("#chatLog");
 
-// ------------------------------
-// Helper: append chat messages
-// ------------------------------
-function appendMessage(sender, text) {
-  const div = document.createElement("div");
-  div.className = `chat-message ${sender}`;
-  div.textContent = text;
-  chatLogEl.appendChild(div);
-  chatLogEl.scrollTop = chatLogEl.scrollHeight;
-}
+  console.log("🔗 DOM bindings:", { chatInput, sendBtn, delegateBtn, chatLog });
 
-// ------------------------------
-// SEND Button (normal chat)
-// ------------------------------
-sendBtn.addEventListener("click", sendChat);
-
-async function sendChat() {
-  const message = inputEl.value.trim();
-  if (!message) return;
-
-  appendMessage("user", message);
-  inputEl.value = "";
-
-  try {
-    const res = await fetch(API_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message }),
-    });
-
-    const data = await res.json();
-    appendMessage("matilda", data.message || "(no response)");
-  } catch (err) {
-    appendMessage("system", "⚠️ Matilda unreachable.");
-    console.error(err);
+  if (!chatInput || !sendBtn || !chatLog) {
+    console.warn("⚠️ Missing one or more core chat elements (#userInput, #sendBtn, #chatLog)");
   }
-}
 
-// ------------------------------
-// 🚀 DELEGATE Button
-// ------------------------------
-delegateBtn.addEventListener("click", delegateTask);
-
-async function delegateTask() {
-  const message = inputEl.value.trim();
-  if (!message) return;
-
-  appendMessage("user", `🚀 Delegate: ${message}`);
-  inputEl.value = "";
-
-  try {
-    const res = await fetch(API_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        message,
-        delegate: true,   // <-- CRITICAL FIX
-      }),
-    });
-
-    const data = await res.json();
-    appendMessage("matilda", data.message || "🛠️ Delegation acknowledged.");
-  } catch (err) {
-    appendMessage("system", "⚠️ Delegation failed.");
-    console.error(err);
+  if (!delegateBtn) {
+    console.warn("⚠️ No #delegateButton found in DOM — delegate wiring will NOT work.");
+    return;
   }
-}
+
+  const MATILDA_API = "http://localhost:3001/matilda";
+
+  /* --- Normal chat send --- */
+  sendBtn?.addEventListener("click", async () => {
+    const message = chatInput.value.trim();
+    if (!message) return;
+
+    chatLog.innerHTML += `<div class="chat-message user">${message}</div>`;
+    chatInput.value = "";
+
+    try {
+      const res = await fetch(MATILDA_API, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message })
+      });
+
+      const data = await res.json();
+      chatLog.innerHTML += `<div class="chat-message matilda">${data.message}</div>`;
+    } catch (err) {
+      console.error("❌ Chat send failed:", err);
+      chatLog.innerHTML += `<div class="chat-message error">Matilda had trouble reaching the server.</div>`;
+    }
+  });
+
+  /* --- 🚀 Delegation send --- */
+  delegateBtn.addEventListener("click", async () => {
+    const instruction = chatInput.value.trim();
+    if (!instruction) {
+      console.log("ℹ️ Delegate clicked with empty input — ignoring.");
+      return;
+    }
+
+    console.log("🚀 Delegate click captured with instruction:", instruction);
+
+    chatLog.innerHTML += `<div class="chat-message user">🚀 Delegate: ${instruction}</div>`;
+    chatInput.value = "";
+
+    try {
+      const res = await fetch(MATILDA_API, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ delegate: instruction })
+      });
+
+      const data = await res.json();
+      console.log("📬 Matilda response payload:", data);
+      chatLog.innerHTML += `<div class="chat-message matilda">${data.message}</div>`;
+    } catch (err) {
+      console.error("❌ Delegate request failed:", err);
+      chatLog.innerHTML += `<div class="chat-message error">Matilda couldn't delegate that task (network error).</div>`;
+    }
+  });
+});

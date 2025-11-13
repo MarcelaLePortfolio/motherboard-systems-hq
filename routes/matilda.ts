@@ -1,89 +1,76 @@
 import express from "express";
 import fs from "fs";
 import path from "path";
+import { sqlite } from "../db/client.ts";
 import { ollamaChat } from "../scripts/utils/ollamaChat.ts";
 
 export const router = express.Router();
 
-// ==============================================
-// 🔧 Minimal Skill: Create HTML File Directly
-// ==============================================
-async function createHtmlFile(filename: string, html: string) {
-  const targetPath = path.join(process.cwd(), "public", filename);
-
-  try {
-    fs.writeFileSync(targetPath, html, "utf8");
-    console.log(`<0001fb40> 📝 File created: ${targetPath}`);
-    return { ok: true, path: targetPath };
-  } catch (err) {
-    console.error("<0001fb40> ❌ File creation failed:", err);
-    return { ok: false, error: err };
-  }
+/**
+ * Utility: insert a task event
+ */
+function createTask(description: string, payload: any, agent = "Cade") {
+  const stmt = sqlite.prepare(`
+    INSERT INTO task_events (description, status, agent, type, payload)
+    VALUES (?, 'pending', ?, 'delegation', ?)
+  `);
+  stmt.run(description, agent, JSON.stringify(payload));
 }
 
-// ==============================================
-// 🎯 Delegation Parser (simple version)
-// Example message:
-// “Matilda, create a webpage called mean-girls.html with <html>...</html>”
-// ==============================================
-function parseDelegationMessage(msg: string) {
-  const filenameMatch = msg.match(/called\s+([\w\-\.]+\.html)/i);
-  const htmlMatch = msg.match(/```html([\s\S]*?)```/i);
-
-  const filename = filenameMatch ? filenameMatch[1] : null;
-  const html = htmlMatch ? htmlMatch[1].trim() : null;
-
-  return { filename, html };
-}
-
-// ==============================================
-// 🧠 Matilda Main Route
-// ==============================================
 router.post("/", async (req, res) => {
   const { message, delegate } = req.body;
 
   console.log("<0001fa9f> 📨 Matilda received:", { message, delegate });
 
+  // Normalize text from dashboard button
+  const input = delegate || message || "";
+
+  // ---------------------------------------
+  // 🔍 1. Delegation detection
+  // ---------------------------------------
+  const isDelegation =
+    delegate ||
+    input.startsWith("delegate:") ||
+    input.startsWith("Delegate:") ||
+    input.includes("🚀 Delegate");
+
+  if (isDelegation) {
+    console.log("<0001fb40> 🎯 Delegation detected");
+
+    // Extract real instruction
+    const cleanInstruction = input
+      .replace("🚀 Delegate:", "")
+      .replace("Delegate:", "")
+      .replace("delegate:", "")
+      .trim();
+
+    // Create task event
+    createTask("Delegated task", { instruction: cleanInstruction });
+
+    console.log("<0001fb40> 📝 Delegation task created with payload:", cleanInstruction);
+
+    return res.json({
+      message:
+        `🚀 Your task has been delegated! I've passed it along to Cade.\n\n` +
+        `📄 Instruction: "${cleanInstruction}"\n` +
+        `He’ll get right on it.`
+    });
+  }
+
+  // ---------------------------------------
+  // 🧠 2. Normal chat flow
+  // ---------------------------------------
   try {
-    // ======================================
-    // 🚀 Delegation Path
-    // ======================================
-    if (delegate) {
-      const { filename, html } = parseDelegationMessage(message);
-
-      if (!filename || !html) {
-        return res.json({
-          message:
-            "⚠️ Delegation received, but I couldn't detect a filename or HTML block. Please include something like:\n\n```html\n<html>...</html>\n```",
-        });
-      }
-
-      const result = await createHtmlFile(filename, html);
-
-      if (result.ok) {
-        return res.json({
-          message:
-            `🚀 Delegation completed!\n\nCreated **${filename}** in /public.\nYou can open it now.`,
-        });
-      }
-
-      return res.json({
-        message: `❌ Delegation failed:\n${result.error}`,
-      });
-    }
-
-    // ======================================
-    // 💬 Normal Chat Path
-    // ======================================
     const start = Date.now();
-    const reply = await ollamaChat(message);
+    const reply = await ollamaChat(input);
     const elapsed = ((Date.now() - start) / 1000).toFixed(2);
 
-    console.log(`<0001fa9f> 🕒 Matilda chat time: ${elapsed}s`);
+    console.log(`<0001fa9f> 🕒 Matilda total processing time: ${elapsed}s`);
+
     return res.json({ message: reply });
 
   } catch (err) {
-    console.error("<0001fab5> ❌ Matilda error:", err);
+    console.error("<0001fab5> ❌ Matilda chat error:", err);
     return res.status(500).json({ error: "Internal Matilda error" });
   }
 });
