@@ -4,7 +4,10 @@
   "type": "module",
   "scripts": {
     "start": "pm2 start scripts/_local/agent-runtime/launch-cade.ts --interpreter tsx --name cade",
-    "build": "next build"
+    "build": "next build",
+    "dev-server": "tsx scripts/_local/dev-server.ts",
+    "matilda": "tsx scripts/_local/agent-runtime/launch-matilda.ts",
+    "dev:all": "concurrently \"pnpm run dev-server\" \"pnpm run matilda\""
   },
   "dependencies": {
     "better-sqlite3": "^12.4.1",
@@ -26,6 +29,7 @@
     "@types/react": "19.1.10",
     "@typescript-eslint/eslint-plugin": "^8.39.1",
     "@typescript-eslint/parser": "^8.39.1",
+    "concurrently": "^9.2.1",
     "csstype": "^3.1.3",
     "drizzle-kit": "^0.31.5",
     "drizzle-orm": "^0.44.6",

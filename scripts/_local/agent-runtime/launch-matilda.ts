@@ -1,5 +1,34 @@
-// <0001fae1> Phase 9.5.2 — Matilda Launcher Path Fix
-import { createAgentRuntime } from "../../../mirror/agent";
-import { matilda } from "../../../agents/matilda";
+import express from "express";
+import bodyParser from "body-parser";
+import { startMatilda } from "../../../agents/matilda/matilda"; // fixed relative path
 
-createAgentRuntime(matilda);
+const PORT = 3001;
+
+const app = express();
+app.use(bodyParser.json());
+
+app.post("/matilda", async (req, res) => {
+  try {
+    const { message } = req.body;
+    if (!message) return res.status(400).json({ error: "Missing 'message'" });
+
+    if (!startMatilda || typeof startMatilda.handleMessage !== "function") {
+      console.error("❌ startMatilda.handleMessage is undefined!");
+      return res.status(500).json({ error: "Matilda not initialized correctly" });
+    }
+
+    const reply = await startMatilda.handleMessage(message);
+    res.json({ message: reply });
+  } catch (err) {
+    console.error("❌ Matilda error:", err);
+    res.status(500).json({ error: "Internal Matilda error" });
+  }
+});
+
+app.listen(PORT, () => {
+  console.log(`💛 Matilda live on port ${PORT}`);
+});
+
+setInterval(() => {
+  console.log("✅ Matilda heartbeat — live and ready");
+}, 5000);
