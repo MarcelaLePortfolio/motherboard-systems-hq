@@ -1,7 +1,7 @@
-// Clean Reset — dashboard.js (Send button only + Delegate button wired)
+// Dashboard Chat + Delegation (Send button only + 🚀 delegate)
 
+// API endpoint
 const API_URL = "http://localhost:3001/matilda";
-const DELEGATE_URL = "http://localhost:3001/tasks/delegate";
 
 // DOM elements
 const inputEl = document.getElementById("userInput");
@@ -18,9 +18,12 @@ function appendMessage(sender, text) {
   chatLogEl.scrollTop = chatLogEl.scrollHeight;
 }
 
-// -------------------------
-// CHAT MESSAGE HANDLER
-// -------------------------
+// 🚫 Enter key does NOTHING — button only
+// (Intentionally left empty, no keypress listener)
+
+// =======================================
+// 🚀 SEND MESSAGE (BUTTON)
+// =======================================
 sendBtn.addEventListener("click", sendChat);
 
 async function sendChat() {
@@ -34,7 +37,7 @@ async function sendChat() {
     const res = await fetch(API_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message })
+      body: JSON.stringify({ message }),
     });
 
     const data = await res.json();
@@ -46,39 +49,40 @@ async function sendChat() {
   }
 }
 
-// -------------------------
-// DELEGATE BUTTON HANDLER
-// -------------------------
-delegateBtn.addEventListener("click", sendDelegation);
+// =======================================
+// 🚀 DELEGATE BUTTON LOGIC
+// =======================================
+delegateBtn.addEventListener("click", delegateTask);
 
-async function sendDelegation() {
-  const task = inputEl.value.trim();
-  if (!task) return;
+async function delegateTask() {
+  const message = inputEl.value.trim();
+  if (!message) return;
 
-  appendMessage("user", `🚀 Delegating: ${task}`);
+  appendMessage("user", `🚀 Delegate: ${message}`);
   inputEl.value = "";
 
   try {
-    const res = await fetch(DELEGATE_URL, {
+    const res = await fetch(API_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ task })
+      body: JSON.stringify({
+        message,
+        delegate: true   // 🔥 signals Matilda → Cade → Effie
+      }),
     });
 
     const data = await res.json();
 
     appendMessage(
       "matilda",
-      data.status
-        ? `🧠 Delegated → ${data.status}`
-        : data.message || "(delegation response missing)"
+      data.message || "🛠️ Delegation acknowledged (no message returned)."
     );
 
   } catch (err) {
-    appendMessage("system", "⚠️ Delegation failed.");
+    appendMessage("system", "⚠️ Delegation failed — Matilda unreachable.");
     console.error(err);
   }
 }
 
-// Agent status (placeholder)
+// Placeholder agent panel
 agentStatusEl.textContent = "Matilda: ONLINE | Cade: ONLINE | Effie: ONLINE";
