@@ -1,6 +1,7 @@
-// Clean Reset — dashboard.js (Send button only)
+// Clean Reset — dashboard.js (Send button only + Delegate button wired)
 
 const API_URL = "http://localhost:3001/matilda";
+const DELEGATE_URL = "http://localhost:3001/tasks/delegate";
 
 // DOM elements
 const inputEl = document.getElementById("userInput");
@@ -17,7 +18,9 @@ function appendMessage(sender, text) {
   chatLogEl.scrollTop = chatLogEl.scrollHeight;
 }
 
-// 🚫 NO Enter key listener — send ONLY via button
+// -------------------------
+// CHAT MESSAGE HANDLER
+// -------------------------
 sendBtn.addEventListener("click", sendChat);
 
 async function sendChat() {
@@ -31,7 +34,7 @@ async function sendChat() {
     const res = await fetch(API_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message }),
+      body: JSON.stringify({ message })
     });
 
     const data = await res.json();
@@ -39,6 +42,40 @@ async function sendChat() {
 
   } catch (err) {
     appendMessage("system", "⚠️ Matilda unreachable.");
+    console.error(err);
+  }
+}
+
+// -------------------------
+// DELEGATE BUTTON HANDLER
+// -------------------------
+delegateBtn.addEventListener("click", sendDelegation);
+
+async function sendDelegation() {
+  const task = inputEl.value.trim();
+  if (!task) return;
+
+  appendMessage("user", `🚀 Delegating: ${task}`);
+  inputEl.value = "";
+
+  try {
+    const res = await fetch(DELEGATE_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ task })
+    });
+
+    const data = await res.json();
+
+    appendMessage(
+      "matilda",
+      data.status
+        ? `🧠 Delegated → ${data.status}`
+        : data.message || "(delegation response missing)"
+    );
+
+  } catch (err) {
+    appendMessage("system", "⚠️ Delegation failed.");
     console.error(err);
   }
 }
