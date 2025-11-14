@@ -1,38 +1,19 @@
-import Database from "better-sqlite3";
-
-console.log("<0001f9ed> Active tasksRouter loaded from:", import.meta.url);
-
-
 import express from "express";
-import path from "path";
-import fs from "fs";
-import { db } from "../db/client.ts";
-import { task_events } from "../db/audit.ts";
-import { desc } from "drizzle-orm";
+import { submitTask } from "../_local/agent-runtime/submit-task";
 
-export const tasksRouter = express.Router();
+const router = express.Router();
 
-tasksRouter.get("/recent", async (_req, res) => {
-  console.log("<0001f9f3> 🚀 /tasks/recent endpoint triggered");
+router.post("/tasks/delegate", async (req, res) => {
+  const { prompt } = req.body;
+  if (!prompt) return res.status(400).json({ success: false, error: "Prompt required" });
 
-  const dbPath = path.resolve(process.cwd(), "motherboard.sqlite");
-  const exists = fs.existsSync(dbPath);
-  const size = exists ? fs.statSync(dbPath).size : 0;
-  let rows = [];
   try {
-    rows = db.select().from(task_events).orderBy(desc(task_events.created_at)).limit(10).all();
+    const taskId = await submitTask("matilda", { prompt });
+    res.json({ success: true, taskId });
   } catch (err) {
-    console.error("❌ Query failed:", err);
+    console.error("Delegation failed:", err);
+    res.status(500).json({ success: false, error: err.message });
   }
-    console.log("<0001f9f0> ⚡ Entering fallback check...");
-
-    const direct = new Database(dbPath);
-    console.log("<0001f9f1> 🧩 Direct SQLite path:", dbPath);
-
-    const raw = direct.prepare("SELECT * FROM task_events ORDER BY created_at DESC LIMIT 5").all();
-    console.log("<0001f9f2> ✅ Fallback query executed");
-
-    console.log("<0001f9ef> Direct SQLite query returned", raw.length, "rows");
-
-  res.json({ cwd: process.cwd(), dbPath, exists, size, rowCount: rows.length, rows });
 });
+
+export default router;

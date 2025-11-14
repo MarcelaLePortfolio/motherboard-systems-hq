@@ -26,3 +26,33 @@ document.addEventListener("DOMContentLoaded", async () => {
     container.innerText = "Error loading tasks.";
   }
 });
+// 🔹 Delegation function
+async function delegateTask() {
+  const promptInput = document.getElementById("task-input");
+  if (!promptInput) return alert("Cannot find task input element!");
+  const prompt = promptInput.value;
+  if (!prompt) return alert("Please enter a task prompt before delegating.");
+
+  try {
+    const response = await fetch("http://localhost:11434/tasks/delegate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ prompt })
+    });
+    const data = await response.json();
+    if (data.success) {
+      alert("✅ Task delegated successfully!");
+      promptInput.value = "";
+    } else {
+      alert("❌ Failed to delegate task.");
+    }
+  } catch (err) {
+    alert("❌ Error submitting delegation task.");
+    console.error(err);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const delegateBtn = document.getElementById("delegate-btn");
+  if (delegateBtn) delegateBtn.addEventListener("click", delegateTask);
+});
