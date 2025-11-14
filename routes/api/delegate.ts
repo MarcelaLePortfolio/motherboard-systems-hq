@@ -15,6 +15,12 @@ router.post("/delegate", (req, res) => {
     );
 
     const info = stmt.run(type, agent, "received", payload);
+    try { 
+      const submitTask = require("../../scripts/_local/agent-runtime/submit-task"); 
+      submitTask(payload); 
+    } catch (err) { 
+      console.error("❌ Failed to submit task to Cade:", err); 
+    }
 
     res.json({
       ok: true,
