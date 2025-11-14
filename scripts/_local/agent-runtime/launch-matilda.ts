@@ -1,24 +1,16 @@
 import express from "express";
-import bodyParser from "body-parser";
 import cors from "cors";
-import { startMatilda } from "../../../agents/matilda/matilda";
+import { router as matildaRouter } from "../../../routes/matilda";
 
 const PORT = 3001;
 const app = express();
+
 app.use(cors());
-app.use(bodyParser.json());
+app.use(express.json());   // <-- replaces body-parser
 
-app.post("/matilda", async (req, res) => {
-  try {
-    const { message } = req.body;
-    if (!message) return res.status(400).json({ error: "Missing 'message'" });
-    const reply = await startMatilda.handleMessage(message);
-    res.json({ message: reply });
-  } catch (err) {
-    console.error("❌ Matilda error:", err);
-    res.status(500).json({ error: "Internal Matilda error" });
-  }
+// Mount the REAL Matilda router
+app.use("/matilda", matildaRouter);
+
+app.listen(PORT, () => {
+  console.log(`💛 Matilda (full router) live on port ${PORT}`);
 });
-
-app.listen(PORT, () => console.log(`💛 Matilda live on port ${PORT}`));
-setInterval(() => console.log("✅ Matilda heartbeat — live and ready"), 5000);
