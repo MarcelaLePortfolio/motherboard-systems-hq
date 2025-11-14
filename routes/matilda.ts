@@ -25,29 +25,40 @@ router.post("/", async (req, res) => {
   console.log("<0001fa9f> 📨 Matilda received:", { message, delegate });
 
   // ---------------------------------------
-  // 🟡 Delegation detection
   // ---------------------------------------
-  if (input.startsWith("delegate:")) {
-    console.log("<0001fb40> 🎯 Delegation detected");
+    // ---------------------------------------
 
-    const cleanInstruction = input
-      .replace("🚀 Delegate:", "")
-      .replace("Delegate:", "")
-      .replace("delegate:", "")
-      .trim();
+    // Delegation detection (normalized & robust)
 
-    createTask("Delegated task", { instruction: cleanInstruction });
+    // ---------------------------------------
 
-    console.log("<0001fb40> 📝 Delegation task created:", cleanInstruction);
+  
 
-    return res.json({
-      message: `🚀 Task delegated to Cade.\n\n📄 Instruction: "${cleanInstruction}"`
-    });
-  }
+    const normalized = input.trim().toLowerCase();
 
-  // ---------------------------------------
-  // 🧠 Normal chat flow
-  // ---------------------------------------
+  
+
+    if (normalized.startsWith("delegate:")) {
+
+      console.log("<0001fb40> Delegation detected");
+
+  
+
+      const cleanInstruction = input.replace(/delegate\s*:/i, "").trim();
+
+  
+
+      createTask("Delegated task", { instruction: cleanInstruction });
+
+      console.log("<0001fb40> Delegated task created:", cleanInstruction);
+
+  
+
+      return res.json({ message: `Task delegated to Cade. Instruction: "${cleanInstruction}"` });
+
+    }
+
+
   try {
     const reply = await ollamaChat(input);
     return res.json({ message: reply });

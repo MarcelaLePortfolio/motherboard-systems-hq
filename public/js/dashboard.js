@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const message = chatInput.value.trim();
     if (!message) return;
 
-    chatLog.innerHTML += `<div class="chat-message user">${message}</div>`;
+    chatLog.appendChild(Object.assign(document.createElement("div"), {className: "chat-message user", textContent: message}));
     chatInput.value = "";
 
     try {
@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       const data = await res.json();
-      chatLog.innerHTML += `<div class="chat-message matilda">${data.message}</div>`;
+      chatLog.appendChild(Object.assign(document.createElement("div"), {className: "chat-message matilda", textContent: data.message}));
     } catch (err) {
       console.error("❌ Chat send failed:", err);
       chatLog.innerHTML += `<div class="chat-message error">Matilda had trouble reaching the server.</div>`;
@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     console.log("🚀 Delegate click captured with instruction:", instruction);
 
-    chatLog.innerHTML += `<div class="chat-message user">🚀 Delegate: ${instruction}</div>`;
+    chatLog.appendChild(Object.assign(document.createElement("div"), {className: "chat-message user", textContent: `🚀 Delegate: ${instruction}`}));
     chatInput.value = "";
 
     try {
@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const data = await res.json();
       console.log("📬 Matilda response payload:", data);
-      chatLog.innerHTML += `<div class="chat-message matilda">${data.message}</div>`;
+      chatLog.appendChild(Object.assign(document.createElement("div"), {className: "chat-message matilda", textContent: data.message}));
     } catch (err) {
       console.error("❌ Delegate request failed:", err);
       chatLog.innerHTML += `<div class="chat-message error">Matilda couldn't delegate that task (network error).</div>`;
