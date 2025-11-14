@@ -1,18 +1,23 @@
 #!/bin/bash
-set -e
-
-if [ -z "$1" ]; then
-  echo "❌ Please provide a snapshot message."
-  exit 1
-fi
 
 MESSAGE="$1"
-TAG="v$(date +%y.%m.%d-%H%M)-stable"
+TS=$(date +"%Y%m%d-%H%M%S")
+DIR="snapshots/$TS"
 
-echo "📸 Creating snapshot: $TAG"
-git add -A
-git commit -m "📸 Snapshot — $MESSAGE"
-git tag -a "$TAG" -m "$MESSAGE"
-git push origin --tags
+echo "📸 Creating REAL snapshot at $DIR"
+mkdir -p "$DIR"
 
-echo "✨ Snapshot saved as $TAG"
+# Copy key project areas
+cp -R server.ts "$DIR"/ 2>/dev/null || true
+cp -R index.ts "$DIR"/ 2>/dev/null || true
+cp -R routes "$DIR"/ 2>/dev/null || true
+cp -R db "$DIR"/ 2>/dev/null || true
+cp -R scripts "$DIR"/ 2>/dev/null || true
+cp -R public "$DIR"/ 2>/dev/null || true
+cp package.json "$DIR"/ 2>/dev/null || true
+
+# Git tag for reference only (non-blocking)
+git tag -a "snapshot-$TS" -m "$MESSAGE" 2>/dev/null
+git push --tags 2>/dev/null || true
+
+echo "✅ Snapshot created: $DIR"

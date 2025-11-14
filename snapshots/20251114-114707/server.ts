@@ -8,15 +8,9 @@ const require = createRequire(import.meta.url);
 const app = express();
 app.use(cors());
 app.use(express.json());
-import delegateRoutes from "./routes/api/delegate"; 
-import tasksRoutes from "./routes/api/tasks"; 
-import logsRoutes from "./routes/api/logs";
 
 const publicPath = path.join(process.cwd(), "public");
 app.use(express.static(publicPath));
-app.use(delegateRoutes); 
-app.use(tasksRoutes); 
-app.use(logsRoutes);
 
 app.get("/", (_req, res) => {
   res.sendFile(path.join(publicPath, "dashboard.html"));
