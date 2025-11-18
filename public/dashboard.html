@@ -1,595 +1,134 @@
-<header style="text-align:center; padding:1rem 0; font-family:Inter, sans-serif; font-size:1.8rem; font-weight:600; letter-spacing:0.5px; color:#222; border-bottom:2px solid #eee;">🖥️ Motherboard Systems</header>
-<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <meta charset="UTF-8">
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link rel="stylesheet" href="dashboard.css?v=darkmode">
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Motherboard Systems Dashboard</title>
+    <!-- External Libraries -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <style>
-    body { font-family: Arial, sans-serif; margin: 20px; background: #f7f7f7; }
-    h1 { color: #333; }
-    .card { background: #fff; padding: 15px; margin-bottom: 20px;
-            border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-    #chatLog {
-      height: 200px;
-      overflow-y: auto;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      background: #f9f9f9;
-      padding: 1rem;
-      margin-bottom: 1rem;
-    }
-    .chat-input {
-      background: #fff;
-      border: 2px solid #ddd;
-      padding: 1rem;
-      margin-top: 1rem;
-      display: flex;
-      gap: 0.5rem;
-    }
-    input[type="text"] {
-      flex: 1;
-      padding: 0.5rem;
-      font-size: 1rem;
-      border: 1px solid #aaa;
-      border-radius: 4px;
-    }
-    button {
-      padding: 0.5rem 1rem;
-      font-size: 1rem;
-      background: #0b5394;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    button:hover { background: #073763; }
-  </style>
-  <style id="dark-patch-override">
-    :root{color-scheme:dark}
-    html,body{background:#111 !important;color:#fff !important}
-    #app, .container, .wrapper{background:#111 !important;color:#fff !important}
-    /* Panels */
-    .panel, .card, .box, .module{background:#1a1a1a !important;color:#f5f5f5 !important;border-color:#333 !important}
-    /* Chat */
-    #chatFeed, .chat-feed{background:#121212 !important;color:#f0f0f0 !important}
-    .chat-message.user{background:#1e1e1e !important;color:#fff !important;border-color:#333 !important}
-    .chat-message.bot{background:#161616 !important;color:#eaeaea !important;border-color:#2a2a2a !important}
-    #userInput, input[type=text], textarea{background:#171717 !important;color:#fff !important;border:1px solid #333 !important}
-    #sendButton, #delegateButton, .action-button{background:#222 !important;color:#fff !important;border:1px solid #3a3a3a !important}
-    /* Tables */
-    table{background:#141414 !important;color:#f0f0f0 !important}
-    th,td{border-color:#333 !important}
-    /* Links */
-    a{color:#9ecbff !important}
-  </style>
-<style id="chatlog-darkfix">
-  #chatLog {
-    background-color: #0b0b0b !important;
-    color: #ffffff !important;
-    -webkit-text-fill-color: #ffffff !important;
-    border: 1px solid #1f2937 !important;
-    border-radius: 8px !important;
-    padding: 12px !important;
-    overflow-y: auto !important;
-    max-height: 40vh !important;
-  }
-  #chatLog .chat-message {
-    background-color: #111827 !important;
-    color: #ffffff !important;
-    border: 1px solid #374151 !important;
-    border-radius: 8px !important;
-    padding: 8px 10px !important;
-    margin: 6px 0 !important;
-    line-height: 1.4 !important;
-    display: inline-block !important;
-    max-width: 90% !important;
-    word-wrap: break-word !important;
-    white-space: pre-wrap !important;
-  }
-  #chatLog .chat-message.user {
-    background-color: #1e3a8a !important;
-    border-color: #3b82f6 !important;
-  }
-  #chatLog .chat-message.matilda {
-    background-color: #065f46 !important;
-    border-color: #10b981 !important;
-  }
-  #chatLog .chat-message.system {
-    background-color: #3f3f46 !important;
-    color: #e5e7eb !important;
-    font-style: italic !important;
-  }
-</style>
-<link rel="stylesheet" href="css/dashboard-reflections.css">
+    <!-- Project Stylesheets -->
+    <link rel="stylesheet" href="css/broadcast.css"> 
+    <link rel="stylesheet" href="css/dashboard.css?v=darkmode">
+    <link rel="stylesheet" href="css/dashboard-reflections.css">
+    <link rel="stylesheet" href="css/agent-status-row.css">
+
+    <!-- Project Scripts -->
+    <script defer src="js/dashboard.js"></script>
+    <script src="js/dashboard-status.js"></script>
+    <script src="js/dashboard-ops.js"></script>
+    <script src="js/dashboard-stream.js" defer></script>
+    <script src="js/dashboard-reflections.js"></script>
+    <script src="js/agent-status-row.js"></script>
+    <script src="js/task-activity-graph.js"></script>
+    <script src="js/dashboard-graph-loader.js"></script>
+    <script src="js/dashboard-graph.js"></script>
+    <script src="js/dashboard-atlas-status.js"></script>
+    <script src="js/dashboard-broadcast.js"></script>
+    <script src="js/ops-task-alerts.js"></script>
+    <script src="js/reflections-viewer.js"></script>
+    <script src="js/agent-interaction-animation.js"></script>
 </head>
-<body>
-  <div id="debugBanner" style="background:#e6f7ff; border:1px solid #91d5ff; padding:8px; margin:10px 0; border-radius:6px; color:#0050b3; font-size:0.9em;">
-    ⚡ Dashboard v2.0.3 — unified chat + diagnostics layout loaded
-  </div>
+<body class="bg-gray-900 text-gray-100 min-h-screen p-4">
 
-<div id="agentStatusContainer" style="font-family:monospace;padding:10px 14px;margin:8px 0;background:rgba(40,40,40,0.85);border:1px solid #444;border-radius:8px;color:#ddd;box-shadow:0 0 8px rgba(0,0,0,0.3);"></div>
-    </ul>
-  </header>
+    <!-- Header and Status Section -->
+    <header class="flex justify-between items-center mb-6">
+        <h1 class="text-3xl font-bold text-teal-400">Systems Operations Dashboard</h1>
+        <div id="global-status" class="flex items-center space-x-4">
+            <span class="text-sm font-semibold">Uptime: <span id="uptime-display" class="text-green-400">Calculating...</span></span>
+            <div id="system-health-indicator" class="w-3 h-3 rounded-full bg-red-500 animate-pulse"></div>
+            <span class="text-sm">Health: <span id="health-status">Critical</span></span>
+        </div>
+    </header>
 
-  <!-- Chat Section -->
-  <div class="card">
-    <h2>💬 Chat with Matilda</h2>
-    <div id="chatLog"></div>
-    <div class="chat-input">
-      <input type="text" id="userInput" placeholder="Type a message..." />
-      <button id="sendBtn">Send</button>
-    <button id="delegateButton" class="action-button" title="Delegate Task">🚀</button>
-    </div>
-  </div>
-  <section id="recent-activity" style="background:#111;padding:12px;border-radius:8px;margin-top:16px;">
-    <h2 style="color:#eee;">🧾 Recent Tasks</h2>
-    <div id="recentTasks" style="padding:8px;font-family:monospace;color:#ccc;"></div>
-    <h2 style="color:#eee;margin-top:16px;">📜 Recent Logs</h2>
-    <div id="recentLogs" style="padding:8px;font-family:monospace;color:#ccc;"></div>
-<section id="activityGraph"><canvas id="taskActivityCanvas" width="600" height="300"></canvas></section>
-  </section>
+    <!-- Main Content Grid -->
+    <main class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
+        <!-- Column 1: Core Metrics & Atlas Status -->
+        <section class="lg:col-span-2 space-y-6">
+            
+            <!-- Key Metrics Overview -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="bg-gray-800 p-4 rounded-lg shadow-lg">
+                    <p class="text-sm text-gray-400">Active Agents</p>
+                    <p id="metric-agents" class="text-2xl font-bold text-blue-400">--</p>
+                </div>
+                <div class="bg-gray-800 p-4 rounded-lg shadow-lg">
+                    <p class="text-sm text-gray-400">Tasks Running</p>
+                    <p id="metric-tasks" class="text-2xl font-bold text-yellow-400">--</p>
+                </div>
+                <div class="bg-gray-800 p-4 rounded-lg shadow-lg">
+                    <p class="text-sm text-gray-400">Success Rate</p>
+                    <p id="metric-success-rate" class="text-2xl font-bold text-green-400">--</p>
+                </div>
+                <div class="bg-gray-800 p-4 rounded-lg shadow-lg">
+                    <p class="text-sm text-gray-400">Latency (ms)</p>
+                    <p id="metric-latency" class="text-2xl font-bold text-red-400">--</p>
+                </div>
+            </div>
 
-<details id="diagnosticsSection" open style="margin:1rem 0;border:1px solid #ddd;border-radius:10px;padding:0.6rem;background:#fafafa;">
-  <summary style="cursor:pointer;font-weight:bold;font-size:1.1em;color:#c87b36;">Diagnostics Overview</summary>
-  <div style="padding-left:10px;">
-  <section id="autonomic-adaptation" style="margin:1rem;padding:1rem;background:#fff;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,0.08);">
-    <h3>🤖 Autonomic Adaptation</h3>
-    <pre id="autonomic-adaptation-content">Awaiting data...</pre>
-<section id="activityGraph"><canvas id="taskActivityCanvas" width="600" height="300"></canvas></section>
-  </section>
-  <!-- Core Diagnostic Panels -->
-  <section id="system-health" style="margin:0.6rem 1rem;padding:1rem;background:#fff;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,0.08);">
-    <h3>⚙️ System Health & Verification</h3>
-    <pre id="system-health-content">Loading...</pre>
-<section id="activityGraph"><canvas id="taskActivityCanvas" width="600" height="300"></canvas></section>
-  </section>
+            <!-- Task Activity Graph -->
+            <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+                <h2 class="text-xl font-semibold mb-4 border-b border-gray-700 pb-2">Task Activity Over Time</h2>
+                <canvas id="task-activity-graph" class="w-full h-80"></canvas>
+            </div>
 
-  <section id="matilda-insights" style="margin:0.6rem 1rem;padding:1rem;background:#fff;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,0.08);">
-    <h3>🧠 Matilda Insights</h3>
-    <pre id="persistent-insight">Loading insights...</pre>
-<section id="activityGraph"><canvas id="taskActivityCanvas" width="600" height="300"></canvas></section>
-  </section>
+            <!-- Atlas Status and Alerts -->
+            <div id="atlas-status-card" class="bg-gray-800 p-6 rounded-lg shadow-lg">
+                <h2 class="text-xl font-semibold mb-4 border-b border-gray-700 pb-2 flex justify-between items-center">
+                    Atlas Subsystem Status
+                    <span id="atlas-health" class="text-sm font-medium px-2 py-1 rounded-full bg-orange-500 text-white">Degraded</span>
+                </h2>
+                <div id="atlas-status-details" class="space-y-2">
+                    <!-- Status details will be injected here by dashboard-atlas-status.js -->
+                    <p class="text-gray-400">Core Engine: <span class="text-yellow-400">Initializing...</span></p>
+                </div>
+            </div>
 
+        </section>
 
-  <!-- Collapsible Deep Diagnostics -->
-<details id="diagnosticsSection" open style="margin:1rem 0;border:1px solid #ddd;border-radius:10px;padding:0.6rem;background:#fafafa;">
-  <summary style="cursor:pointer;font-weight:bold;font-size:1.1em;color:#c87b36;">Deep Diagnostics</summary>
-  <div style="padding:8px 0 0 12px;">
-  <details style="margin:1rem;padding:1rem;background:#fafafa;border-radius:8px;box-shadow:inset 0 0 4px #ddd;">
-    <summary style="cursor:pointer;font-weight:bold;">🔮 Introspective Simulation</summary>
-    <pre id="introspective-sim">Simulation logs will appear here...</pre>
-  </details>
+        <!-- Column 2: Reflections & Delegations (Side Panel) -->
+        <aside class="lg:col-span-1 space-y-6">
+            
+            <!-- Reflection Viewer -->
+            <div id="reflections-viewer-card" class="bg-gray-800 p-6 rounded-lg shadow-lg max-h-96 overflow-y-auto">
+                <h2 class="text-xl font-semibold mb-4 border-b border-gray-700 pb-2">System Reflections</h2>
+                <div id="reflection-list" class="space-y-4">
+                    <!-- Reflections will be injected here by reflections-viewer.js -->
+                    <p class="text-gray-500 italic">Awaiting latest system self-analysis...</p>
+                </div>
+            </div>
+            
+            <!-- Ops Task Alerts -->
+            <div id="ops-alerts-card" class="bg-gray-800 p-6 rounded-lg shadow-lg">
+                <h2 class="text-xl font-semibold mb-4 border-b border-gray-700 pb-2">Critical Ops Alerts</h2>
+                <ul id="ops-alerts-list" class="space-y-3">
+                    <!-- Alerts will be injected here by ops-task-alerts.js -->
+                    <li class="text-green-500">System initialization successful.</li>
+                </ul>
+            </div>
 
-  <details style="margin:1rem;padding:1rem;background:#fafafa;border-radius:8px;box-shadow:inset 0 0 4px #ddd;">
-    <summary style="cursor:pointer;font-weight:bold;">📜 System Chronicle</summary>
-    <pre id="system-chronicle">Chronicle data will appear here...</pre>
-  </details>
+            <!-- Delegation Command Input -->
+            <div id="delegation-card" class="bg-gray-800 p-6 rounded-lg shadow-lg">
+                <h2 class="text-xl font-semibold mb-4">Task Delegation</h2>
+                <textarea id="delegation-input" rows="3" class="w-full bg-gray-700 border border-gray-600 p-3 rounded-lg focus:ring-teal-500 focus:border-teal-500 resize-none text-white placeholder-gray-500" placeholder="Delegate a new task or modify system parameters..."></textarea>
+                <button id="delegation-submit" class="mt-3 w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded-lg transition duration-200">
+                    Submit Delegation
+                </button>
+                <div id="delegation-response" class="mt-4 text-sm text-gray-300 italic"></div>
+            </div>
+        </aside>
+    </main>
 
-  <!-- === Core Scripts === -->
-  if (!input) return;
-  try {
-    const res = await fetch("/delegate", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ instruction: input })
-    });
-    const data = await res.json();
-    console.log("🚀 Delegation result:", data);
-  } catch (err) {
-    console.error("Delegation failed:", err);
-  }
-});
-
-  <script src="/dashboard.js?v=1.2.0" defer></script>
-  <script>
-    async function updatePanel(id, endpoint) {
-      const el = document.getElementById(id);
-      if (!el) return;
-      try {
-        const res = await fetch(endpoint);
-        const data = await res.json();
-        el.textContent = JSON.stringify(data, null, 2);
-      } catch {
-        el.textContent = "⚠️ Unavailable: " + endpoint;
-      }
-    }
-
-    async function refreshAllDiagnostics() {
-      await updatePanel("system-health-content", "/diagnostics/system-health");
-      await updatePanel("persistent-insight", "/diagnostics/persistent-insight");
-      await updatePanel("autonomic-adaptation-content", "/diagnostics/autonomic-adaptation");
-      await updatePanel("introspective-sim", "/diagnostics/introspective-sim");
-      await updatePanel("system-chronicle", "/diagnostics/system-chronicle");
-      await updatePanel("tasks", "/tasks/recent");
-      await updatePanel("logs", "/logs/recent");
-    }
-
-    window.addEventListener("load", () => {
-      refreshAllDiagnostics();
-      setInterval(refreshAllDiagnostics, 15000);
-  </div>
-</details>
-    });
-
-    // Chat Logic
-    const chatLog = document.getElementById("chatLog");
-    const userInput = document.getElementById("userInput");
-    const sendBtn = document.getElementById("sendBtn");
-
-    async function sendMessage() {
-      const message = userInput.value.trim();
-      if (!message) return;
-      appendMessage("You", message);
-      userInput.value = "";
-
-      try {
-        const res = await fetch("/delegate", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message })
-        });
-        const data = await res.json();
-        appendMessage("Matilda", data.reply || data.reply || "(no response)");
-      } catch (err) {
-        appendMessage("Matilda", "❌ Connection error.");
-        console.error("Chat send error:", err);
-      }
-    }
-
-    function appendMessage(sender, text) {
-      const msg = document.createElement("div");
-      msg.innerHTML = `<b>${sender}:</b> ${text}`;
-      chatLog.appendChild(msg);
-      chatLog.scrollTop = chatLog.scrollHeight;
-    }
-
-    sendBtn.addEventListener("click", sendMessage);
-    userInput.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" && !e.shiftKey) {
-        e.preventDefault();
-        sendMessage();
-      }
-    });
-  if (!input) return;
-  try {
-    const res = await fetch("/delegate", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ instruction: input })
-    });
-    const data = await res.json();
-    console.log("🚀 Delegation result:", data);
-  } catch (err) {
-    console.error("Delegation failed:", err);
-  }
-});
-
-  </script>
-
-
-  if (!input) return;
-  try {
-    const res = await fetch("/delegate", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ instruction: input })
-    });
-    const data = await res.json();
-    console.log("🚀 Delegation result:", data);
-  } catch (err) {
-    console.error("Delegation failed:", err);
-  }
-});
-
-<script defer src="dashboard.js"></script>
-  if (!input) return;
-  try {
-    const res = await fetch("/delegate", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ instruction: input })
-    });
-    const data = await res.json();
-    console.log("🚀 Delegation result:", data);
-  } catch (err) {
-    console.error("Delegation failed:", err);
-  }
-});
-
-<script src="dashboard-status.js?v=1761345479?v=1761342950?v=1761340126?v=1761340061?v=1761339985?v=1761339943?v=1761339524?v=1761338898"></script>
-  if (!input) return;
-  try {
-    const res = await fetch("/delegate", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ instruction: input })
-    });
-    const data = await res.json();
-    console.log("🚀 Delegation result:", data);
-  } catch (err) {
-    console.error("Delegation failed:", err);
-  }
-});
-
-<script src="js/dashboard-ops.js"></script>
-
-
-  if (!input) return;
-  try {
-    const res = await fetch("/delegate", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ instruction: input })
-    });
-    const data = await res.json();
-    console.log("🚀 Delegation result:", data);
-  } catch (err) {
-    console.error("Delegation failed:", err);
-  }
-});
-
-<script src="dashboard-stream.js" defer></script>
-  <style id="dark-patch-override">
-    :root{color-scheme:dark}
-    html,body{background:#111 !important;color:#fff !important}
-    #app, .container, .wrapper{background:#111 !important;color:#fff !important}
-    /* Panels */
-    .panel, .card, .box, .module{background:#1a1a1a !important;color:#f5f5f5 !important;border-color:#333 !important}
-    /* Chat */
-    #chatFeed, .chat-feed{background:#121212 !important;color:#f0f0f0 !important}
-    .chat-message.user{background:#1e1e1e !important;color:#fff !important;border-color:#333 !important}
-    .chat-message.bot{background:#161616 !important;color:#eaeaea !important;border-color:#2a2a2a !important}
-    #userInput, input[type=text], textarea{background:#171717 !important;color:#fff !important;border:1px solid #333 !important}
-    #sendButton, #delegateButton, .action-button{background:#222 !important;color:#fff !important;border:1px solid #3a3a3a !important}
-    /* Tables */
-    table{background:#141414 !important;color:#f0f0f0 !important}
-    th,td{border-color:#333 !important}
-    /* Links */
-    a{color:#9ecbff !important}
-  </style>
-<style id="chatlog-darkfix">
-  #chatLog {
-    background-color: #0b0b0b !important;
-    color: #ffffff !important;
-    -webkit-text-fill-color: #ffffff !important;
-    border: 1px solid #1f2937 !important;
-    border-radius: 8px !important;
-    padding: 12px !important;
-    overflow-y: auto !important;
-    max-height: 40vh !important;
-  }
-  #chatLog .chat-message {
-    background-color: #111827 !important;
-    color: #ffffff !important;
-    border: 1px solid #374151 !important;
-    border-radius: 8px !important;
-    padding: 8px 10px !important;
-    margin: 6px 0 !important;
-    line-height: 1.4 !important;
-    display: inline-block !important;
-    max-width: 90% !important;
-    word-wrap: break-word !important;
-    white-space: pre-wrap !important;
-  }
-  #chatLog .chat-message.user {
-    background-color: #1e3a8a !important;
-    border-color: #3b82f6 !important;
-  }
-  #chatLog .chat-message.matilda {
-    background-color: #065f46 !important;
-    border-color: #10b981 !important;
-  }
-  #chatLog .chat-message.system {
-    background-color: #3f3f46 !important;
-    color: #e5e7eb !important;
-    font-style: italic !important;
-  }
-</style>
-<link rel="stylesheet" href="css/dashboard-reflections.css">
-</head>
-</html>
-<script>
-  async function sendMessage() {
-    const input = document.getElementById("userInput");
-    const log = document.getElementById("chatLog");
-    const message = input.value.trim();
-    if (!message) return;
-    log.innerHTML += `<div><b>You:</b> ${message}</div>`;
-    try {
-      const res = await fetch("/delegate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message })
-      });
-      const data = await res.json();
-      log.innerHTML += `<div style="color:green;"><b>Matilda:</b> ${data.reply}</div>`;
-    }
-      catch (err) {
-        console.error("Matilda fetch failed:", err);
-        log.innerHTML += `<div style="color:red;"><b>Error:</b> Unable to reach Matilda</div>`;
-      }
-  }
-  document.getElementById("userInput").addEventListener("keypress", e => {
-    if (e.key === "Enter") sendMessage();
-  });
-  if (!input) return;
-  try {
-    const res = await fetch("/delegate", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ instruction: input })
-    });
-    const data = await res.json();
-    console.log("🚀 Delegation result:", data);
-  } catch (err) {
-    console.error("Delegation failed:", err);
-  }
-});
-
-</script>
-  if (!input) return;
-  try {
-    const res = await fetch("/delegate", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ instruction: input })
-    });
-    const data = await res.json();
-    console.log("🚀 Delegation result:", data);
-  } catch (err) {
-    console.error("Delegation failed:", err);
-  }
-});
-
-  <script src="js/dashboard-reflections.js"></script>
-<script>
-  const input = document.getElementById("userInput").value.trim();
-  if (!input) return;
-  try {
-    const res = await fetch("/delegate", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ instruction: input })
-    });
-    const data = await res.json();
-    console.log("🚀 Delegation result:", data);
-  } catch (err) {
-    console.error("Delegation failed:", err);
-  }
-});
-</script>
-<script>
-  const input = document.getElementById("userInput").value.trim();
-  if (!input) return;
-  try {
-    const res = await fetch("/delegate", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ instruction: input })
-    });
-    const data = await res.json();
-    console.log("🚀 Delegation result:", data);
-  } catch (err) {
-    console.error("Delegation failed:", err);
-  }
-});
-</script>
-<script>
-const delegateButton = document.getElementById("delegateButton");
-const userInput = document.getElementById("userInput");
-
-if (delegateButton && userInput) {
-  delegateButton.addEventListener("click", async () => {
-    const instruction = userInput.value.trim();
-    if (!instruction) return alert("Please enter a command first!");
-
-    try {
-      const res = await fetch("/delegate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ instruction }),
-      });
-      const data = await res.json();
-      if (data.ok) {
-        console.log("🚀 Delegation succeeded:", data);
-        alert("Delegation succeeded! 🎉");
-      } else {
-        console.error("Delegation failed:", data);
-        alert("Delegation failed. Check the terminal logs for details.");
-      }
-    } catch (err) {
-      console.error("Delegation error:", err);
-      alert("Delegation failed — see console for details.");
-    }
-  });
-  console.warn("🚀 Delegation button or input not found.");
-}
-</script>
-<link rel="stylesheet" href="styles/agent-status-row.css">
-<script src="scripts/agent-status-row.js"></script>
+    <!-- Agent Status Row (Bottom Bar) -->
+    <footer class="mt-6">
+        <div id="agent-status-container" class="bg-gray-800 p-4 rounded-lg shadow-2xl flex flex-wrap gap-4 items-center">
+            <h3 class="text-lg font-semibold text-gray-300 w-full md:w-auto md:pr-4">Agent Pool:</h3>
+            <!-- Agent status items will be injected here by agent-status-row.js -->
+            <span class="text-gray-500">Loading agents...</span>
+        </div>
+    </footer>
+    
 </body>
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  const btn = document.getElementById("delegateBtn");
-  if (!btn) return;
-  btn.addEventListener("click", async () => {
-    const input = document.getElementById("userInput").value.trim();
-    if (!input) return;
-    try {
-      const res = await fetch("/delegate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ instruction: input })
-      });
-      const data = await res.json();
-      console.log("🚀 Delegation result:", data);
-    } catch (err) {
-      console.error("Delegation failed:", err);
-    }
-  });
-});
-</script>
-<script>
-(function () {
-  const btn = document.getElementById("delegateButton");
-  const input = document.getElementById("userInput");
-
-  if (!btn || !input) {
-    console.warn("🚀 Delegate wiring: missing button or input", {
-      btn: !!btn,
-      input: !!input,
-    });
-      }
-
-      if (res.ok && data && data.ok) {
-        console.log("�� Delegation succeeded:", data);
-        alert("Delegation succeeded! 🎉");
-      } else {
-        console.error("Delegation failed payload:", data);
-        alert("Delegation failed. Check console/logs.");
-      }
-    } catch (err) {
-      console.error("Delegation network error:", err);
-      alert("Delegation failed — see console for details.");
-    }
-  });
-})();
-</script>
-<script>
-(function () {
-  const btn = document.getElementById("delegateButton");
-  const input = document.getElementById("userInput");
-  if (!btn || !input) return console.warn("🚀 Delegate wiring: missing button or input");
-  console.log("🚀 Delegate wiring: ready");
-
-  btn.addEventListener("click", async () => {
-    const instruction = input.value.trim();
-    if (!instruction) return alert("Please enter a command first!");
-    try {
-      const res = await fetch("/delegate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ instruction }),
-      });
-      const data = await res.json();
-      if (res.ok && data.ok) {
-        console.log("🚀 Delegation succeeded:", data);
-        alert("Delegation succeeded! 🎉");
-      } else {
-        console.error("Delegation failed payload:", data);
-        alert("Delegation failed. Check console/logs.");
-      }
-    } catch (err) {
-      console.error("Delegation network error:", err);
-      alert("Delegation failed — see console for details.");
-    }
-  });
-})();
-</script>
+</html>
