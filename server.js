@@ -1,101 +1,241 @@
-/* eslint-disable import/no-commonjs */
+import bodyParser from "body-parser";
 import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
 import { exec } from "child_process";
 import fs from "fs";
+import fetch from "node-fetch";
 
+// Setup __dirname and __filename for ES Module compatibility
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const app = express();
+// --- Core Server Setup ---
 const PORT = process.env.PORT || 3000;
-app.use(express.json());
+const app = express();
 
-const LOG_FILE = path.join(__dirname, "ui/dashboard/ticker-events.log");
-if (!fs.existsSync(LOG_FILE)) fs.writeFileSync(LOG_FILE, "");
-
-// 1️⃣ Agent Status
-app.get("/api/agent-status", (req, res) => {
-  exec("pm2 jlist", (err, stdout) => {
-    const statusMap = { Matilda:{status:"offline"}, Cade:{status:"offline"}, Effie:{status:"offline"} };
-    if (!err) {
-      try {
-        const list = JSON.parse(stdout);
-        list.forEach(proc => {
-          const online = proc.pm2_env.status === "online";
-          if (proc.name.includes("matilda")) statusMap.Matilda.status = online ? "online" : "offline";
-          if (proc.name.includes("cade")) statusMap.Cade.status = online ? "online" : "offline";
-          if (proc.name.includes("effie")) statusMap.Effie.status = online ? "online" : "offline";
-        });
-      } catch {}
-    }
-    res.json(statusMap);
-  });
-});
-
-// 2️⃣ Task History
-app.get("/api/task-history", (req, res) => {
-  try {
-    const logs = fs.readFileSync(LOG_FILE, "utf-8").trim().split(
-").filter(Boolean);
-    const taskEvents = logs.map(line => {
-      let entry;
-      try { entry = JSON.parse(line); }
-      catch { 
-        const parts = line.split(" | ");
-        entry = { event: parts[1] || line, agent: parts[0] || "unknown", timestamp: Math.floor(Date.now()/1000) };
-      }
-      if (!entry.event.includes("task")) return null;
-      return { time: new Date(entry.timestamp*1000).toLocaleTimeString(), agent: entry.agent, event: entry.event };
-    }).filter(Boolean).slice(-50);
-    res.json(taskEvents);
-  } catch {
-    res.json([]);
-  }
-});
-
-// 3️⃣ Settings
-app.get("/api/settings", (req, res) => {
-  exec("pm2 jlist", (err, stdout) => {
-    const agents = [];
-    if (!err) {
-      try {
-        const list = JSON.parse(stdout);
-        ["Matilda","Cade","Effie"].forEach(name => {
-          const proc = list.find(p => p.name.toLowerCase().includes(name.toLowerCase()));
-          agents.push({ name, status: proc?.pm2_env?.status || "offline" });
-        });
-      } catch {
-        ["Matilda","Cade","Effie"].forEach(name => agents.push({name,status:"unknown"}));
-      }
-    } else {
-      ["Matilda","Cade","Effie"].forEach(name => agents.push({name,status:"offline"}));
-    }
-    res.json({ agents, features: { logRetention: 50, theme: "light" } });
-  });
-});
-
-// 4️⃣ Agent Control
-app.post("/api/agent-control", (req, res) => {
-  const { agent, action } = req.body;
-  if (!agent || !action) return res.status(400).json({success:false,message:"Missing agent or action"});
-  let cmd;
-  if (action === "start") cmd = `pm2 start scripts/_local/agent-runtime/launch-${agent.toLowerCase()}.ts --interpreter $(which tsx) --name ${agent.toLowerCase()}`;
-  else if (action === "stop") cmd = `pm2 stop ${agent.toLowerCase()}`;
-  else if (action === "restart") cmd = `pm2 restart ${agent.toLowerCase()}`;
-  else return res.status(400).json({success:false,message:"Unknown action"});
-  exec(cmd, (err, stdout, stderr) => {
-    if (err) return res.json({ success:false, message:stderr || err.message });
-    res.json({ success:true, message:stdout.trim() });
-  });
-});
-
-// 5️⃣ Static files LAST
+// Middleware (One Declaration Rule)
+app.use(express.json()); // Use express's built-in JSON parser
 app.use(express.static(path.join(__dirname, "ui/dashboard")));
 app.use(express.static(path.join(__dirname, "public")));
 
-app.listen(PORT, () => {
-  console.log(`✅ Dashboard live on port ${PORT}`);
-  console.log(`Endpoints: /api/agent-status /api/task-history /api/settings`);
+const LOG_FILE_PATH = path.join(__dirname, "ui/dashboard/ticker-events.log");
+
+// --- 1️⃣ Agent Status via PM2 (Consolidated Try/Catch) ---
+app.get("/api/agent-status", (req, res) => {
+    exec("pm2 jlist", (err, stdout) => {
+        // If PM2 command fails
+        if (err) {
+            console.error("PM2 jlist error:", err.message);
+            return res.status(500).json({ Matilda: { status: "offline" }, Cade: { status: "offline" }, Effie: { status: "offline" } });
+        }
+
+        try {
+            const list = JSON.parse(stdout);
+            const statusMap = { Matilda: { status: "offline" }, Cade: { status: "offline" }, Effie: { status: "offline" } };
+
+            list.forEach(proc => {
+                const name = proc.name.toLowerCase();
+                const online = proc.pm2_env.status === "online";
+                
+                // Map PM2 processes to the three core agents
+                if (name.includes("matilda")) statusMap.Matilda.status = online ? "online" : "offline";
+                if (name.includes("cade")) statusMap.Cade.status = online ? "online" : "offline";
+                if (name.includes("effie")) statusMap.Effie.status = online ? "online" : "offline";
+            });
+            
+            res.json(statusMap);
+        } catch (parseError) {
+            console.error("Error parsing PM2 jlist output:", parseError.message);
+            // Fallback response on JSON parsing failure
+            res.status(500).json({ Matilda: { status: "offline" }, Cade: { status: "offline" }, Effie: { status: "offline" } });
+        }
+    });
 });
+
+// --- 2️⃣ Chat Endpoint: Send input to Ollama and Log (Cleaned and Stabilized) ---
+app.post("/api/chat", async (req, res) => {
+    const userMessage = req.body?.message?.trim() || "";
+    console.log("📩 Chat received:", userMessage);
+    
+    if (!userMessage) return res.json({ reply: "(Please provide a message)" });
+
+    try {
+        // 1. Call local Ollama server
+        const response = await fetch("http://127.0.0.1:11434/api/generate", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ model: "llama3:8b", prompt: userMessage, stream: false })
+        });
+
+        const data = await response.json();
+        const reply = data.response?.trim() || "(no response)";
+
+        // 2. Return reply to dashboard
+        res.json({ reply });
+        
+        // 3. Log chat interaction (Cleaned Multi-line Logging)
+        const logEntry = { 
+            timestamp: Math.floor(Date.now() / 1000), 
+            agent: "matilda", 
+            event: `chat: ${userMessage.substring(0, 50)}... -> ${reply.substring(0, 50)}...` 
+        };
+        fs.appendFileSync(LOG_FILE_PATH, JSON.stringify(logEntry) + '\n');
+        
+    } catch (err) {
+        console.error("❌ Chat/Ollama error:", err.message);
+        // Ensure error is logged to console and a safe response is sent
+        res.status(500).json({ reply: "(Matilda is thinking... or disconnected)" });
+    }
+});
+
+// --- 3️⃣ Task Delegation Endpoint (Consolidated) ---
+app.post("/tasks/delegate", (req, res) => {
+    const taskDetails = req.body;
+    console.log("📥 Delegate POST received:", taskDetails);
+    
+    // Log delegation event
+    try {
+        const logEntry = { 
+            timestamp: Math.floor(Date.now() / 1000), 
+            agent: "matilda", 
+            event: `delegated: Task ${taskDetails.taskId || 'new'} acknowledged`
+        };
+        fs.appendFileSync(LOG_FILE_PATH, JSON.stringify(logEntry) + '\n');
+    } catch (logErr) {
+        console.error("Error logging delegation:", logErr.message);
+    }
+    
+    // Respond to client
+    res.json({ status: "ok", taskId: taskDetails.taskId || Date.now() });
+});
+
+
+app.get("/api/ops-stream", (req, res) => {
+    const logFile = path.join(__dirname, "ui/dashboard/ticker-events.log");
+    
+    if (!fs.existsSync(logFile)) return res.json([]);
+    
+    // Reading the last 20 log lines safely
+    try {
+        const fileContent = fs.readFileSync(logFile, 'utf8');
+        const lines = fileContent.trim().split('\n').slice(-20);
+        const events = lines.map(line => {
+             try {
+                 const obj = JSON.parse(line);
+                 return { message: `${obj.agent} | ${obj.event}` };
+             } catch {
+                 return { message: line };
+             }
+        });
+        res.json(events);
+    } catch(err) {
+        console.error("Error reading ops-stream log:", err);
+        res.status(500).json({ message: "Error reading logs." });
+    }
+});
+
+
+// --- Server Listener ---
+app.listen(PORT, () => console.log(`✅ Dashboard live on port ${PORT}`));
+
+// --- 5️⃣ Agent Status Stream (SSE) ---
+app.get("/api/agent-status-stream", (req, res) => {
+    // Set headers for SSE
+    res.writeHead(200, {
+        "Content-Type": "text/event-stream",
+        "Cache-Control": "no-cache",
+        "Connection": "keep-alive",
+    });
+
+    const sendStatus = () => {
+        exec("pm2 jlist", (err, stdout) => {
+            let statusData = { Matilda: { status: "offline" }, Cade: { status: "offline" }, Effie: { status: "offline" } };
+            
+            if (!err) {
+                try {
+                    const list = JSON.parse(stdout);
+                    list.forEach(proc => {
+                        const name = proc.name.toLowerCase();
+                        const online = proc.pm2_env.status === "online";
+                        if (name.includes("matilda")) statusData.Matilda.status = online ? "online" : "offline";
+                        if (name.includes("cade")) statusData.Cade.status = online ? "online" : "offline";
+                        if (name.includes("effie")) statusData.Effie.status = online ? "online" : "offline";
+                    });
+                } catch (e) {
+                    console.error("SSE PM2 Parse Error:", e.message);
+                }
+            }
+            
+            // Send the data as an SSE message
+            res.write(`data: ${JSON.stringify(statusData)}\n\n`);
+        });
+    };
+
+    // Send status immediately and then every 3 seconds
+    sendStatus();
+    const intervalId = setInterval(sendStatus, 3000);
+
+    // Clear interval and close connection when client disconnects
+    req.on("close", () => {
+        clearInterval(intervalId);
+        res.end();
+    });
+});
+
+// --- 6️⃣ Reflection Log Stream (SSE) on /api/reflection-stream ---
+app.get("/api/reflection-stream", (req, res) => {
+    // Set headers for SSE
+    res.writeHead(200, {
+        "Content-Type": "text/event-stream",
+        "Cache-Control": "no-cache",
+        "Connection": "keep-alive",
+    });
+
+    const logFile = path.join(__dirname, "ui/dashboard/ticker-events.log");
+    
+    // Function to send the latest log line
+    const sendUpdate = (data) => {
+        // Assume data is the new content added to the log file (usually the last line)
+        if (data) {
+            const line = data.toString().trim();
+            if (line) {
+                let eventData = { message: line };
+                try {
+                    // Try to parse the JSON log entry for structured data
+                    const obj = JSON.parse(line);
+                    eventData = { message: `${obj.agent} | ${obj.event}` };
+                } catch (e) {
+                    // If not JSON, send as raw line
+                }
+                res.write(`data: ${JSON.stringify(eventData)}\n\n`);
+            }
+        }
+    };
+
+    // Watch the log file for changes
+    const watcher = fs.watch(logFile, (eventType, filename) => {
+        if (eventType === 'change') {
+            // Re-read the file to get the new line (less efficient, but safer for simplicity)
+            // A more robust solution involves tracking file size, but this works for simple append-only logs.
+            try {
+                const content = fs.readFileSync(logFile, 'utf8');
+                const lastLine = content.trim().split('\n').pop();
+                sendUpdate(lastLine);
+            } catch (e) {
+                console.error("Error reading log file during watch:", e.message);
+            }
+        }
+    });
+
+    // Handle client disconnect
+    req.on("close", () => {
+        watcher.close();
+        res.end();
+        console.log("Reflection stream client disconnected.");
+    });
+    
+    // Optional: Send a dummy heartbeat to initialize the connection
+    res.write('data: {"message": "Reflection stream initialized"}\n\n');
+});
+
