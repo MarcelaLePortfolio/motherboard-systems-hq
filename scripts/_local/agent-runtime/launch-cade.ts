@@ -1,38 +1,37 @@
-import * as fs from 'fs/promises';
-import * as path from 'path';
+ 
+import { createAgentRuntime } from "../../mirror/agent";
+import { cade } from "../../agents/cade";
+import { readChainState, writeChainState } from "../utils/chainState";
+import { routeTask } from "../handlers/taskRouter";
 
-const STATE_FILE = path.join(process.cwd(), 'memory', 'agent_chain_state.json');
+async function checkAndRunTaskFromState() {
+  const state = await readChainState();
+  if (state?.agent !== "Cade" || state?.status !== "Assigned") return;
 
-async function runTask(task: any) {
-  let type = task.type;
-  if (type === 'task' && task.params?.path && task.params?.content) {
-    type = 'generate_file';
-  }
+  console.log("🎯 [CADE] Assigned task received:", state);
 
-  if (type === 'generate_file') {
-    const { path: filePath, content } = task.params;
-    const abs = path.resolve(process.cwd(), filePath);
-    if (!abs.startsWith(process.cwd())) throw new Error('Outside project root');
-    await fs.writeFile(abs, content, 'utf8');
-    console.log(`✅ Executed generate_file → ${filePath}`);
-  } else {
-    console.log(`❌ Unknown task type: ${task.type}`);
+  try {
+    const result = await routeTask(state);
+    const updated = {
+      ...state,
+      status: "Completed",
+      result,
+      ts: Date.now()
+    };
+    await writeChainState(updated);
+    console.log("✅ [CADE] Task completed:", result);
+  } catch (err) {
+    const failed = {
+      ...state,
+      status: "Failed",
+      error: String(err),
+      ts: Date.now()
+    };
+    await writeChainState(failed);
+    console.error("❌ [CADE] Task failed:", err);
   }
 }
 
-async function watchState() {
-  while (true) {
-    try {
-      const data = JSON.parse(await fs.readFile(STATE_FILE, 'utf8'));
-      if (data.task) {
-        await runTask(data.task);
-        await fs.writeFile(STATE_FILE, '{}', 'utf8');
-      }
-    } catch {}
-    await new Promise(res => setTimeout(res, 1000));
-  }
-}
+checkAndRunTaskFromState(); // fire once per startup for now
 
-console.log('Mirror stub: Launching Cade...');
-watchState();
-setInterval(() => console.log('💓 Cade heartbeat...'), 3000);
+createAgentRuntime(cade);

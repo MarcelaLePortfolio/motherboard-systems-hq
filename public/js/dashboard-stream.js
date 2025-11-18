@@ -1,37 +1,45 @@
-// <0001faf6> Phase 6.5 — Dashboard Stream Loader (with Task Graph)
-import { renderTaskActivityGraph } from "./task-activity-graph.js";
+// <0001fae9> Phase 9.6.4 — Reflection Timestamp & Content Fix
+const reflectionsFeed = new EventSource("http://localhost:3101/events/reflections");
+const container = document.getElementById("recentLogs");
 
-export async function handleTaskStream(tasks) {
-  try {
-    const ctx = document.getElementById("taskActivityCanvas")?.getContext("2d");
-    if (ctx && tasks?.length) {
-      renderTaskActivityGraph(ctx, tasks);
-      console.log("📈 Task activity graph rendered successfully.");
-    } else {
-      console.log("⚠️ No tasks available or missing canvas context.");
-    }
-  } catch (err) {
-    console.error("❌ Error rendering task graph:", err);
-  }
-}
+function createEntry(data) {
+  const wrapper = document.createElement("div");
+  wrapper.className = "reflection-line";
 
-// 🚀 Delegate button functionality
-document.getElementById("delegateButton").addEventListener("click", async () => {
-  const input = document.getElementById("userInput");
-  const text = input.value.trim();
-  if (!text) return;
+  // Safely handle missing or malformed timestamps
+  const rawTime = data.created_at ? new Date(data.created_at) : new Date();
+  const time = isNaN(rawTime.getTime())
+    ? new Date().toLocaleTimeString()
+    : rawTime.toLocaleTimeString();
 
-  const response = await fetch("/delegations", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      description: text,
-      event_type: "delegation",
-      agent: "Cade",
-      status: "pending"
-    })
+  // Handle cases where content may be missing or null
+  const content = data.content || "(no content)";
+
+  wrapper.textContent = `[${time}] ${content}`;
+  wrapper.style.opacity = "0";
+  container.prepend(wrapper);
+
+  // Smooth fade-in animation
+  requestAnimationFrame(() => {
+    wrapper.style.transition = "opacity 0.6s ease-in-out";
+    wrapper.style.opacity = "1";
   });
 
-  console.log("🚀 Delegation sent:", await response.text());
-  input.value = "";
-});
+  // Keep max 20 visible lines
+  if (container.children.length > 20) container.removeChild(container.lastChild);
+}
+
+reflectionsFeed.onopen = () => console.log("🪞 Reflections stream connected");
+
+reflectionsFeed.onmessage = (e) => {
+  try {
+    const data = JSON.parse(e.data);
+    if (container if (container) createEntry(data);if (container) createEntry(data); data.content) createEntry(data);
+  } catch (err) {
+    console.error("⚠️ Reflection parse error:", err);
+  }
+};
+
+reflectionsFeed.onerror = (err) => {
+  console.error("❌ Reflections SSE error:", err);
+};

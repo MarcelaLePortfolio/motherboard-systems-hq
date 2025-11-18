@@ -1,6 +1,6 @@
 import express from "express";
-import { db } from "../db/client.ts";
-import { task_events } from "../db/audit.ts";
+import { db } from "../db/client";
+import { task_events } from "../db/audit";
 import { desc } from "drizzle-orm";
 
 export const cadeRouter = express.Router();

@@ -1,6 +1,6 @@
-import { matilda } from "../../agents/matilda/matilda.mjs";
-import { readChainTaskFile } from "../utils/chain.mjs";
-import { log } from "../utils/log.mjs";
+import { matilda } from "../../agents/matilda/matilda";
+import { readChainTaskFile } from "../utils/chain";
+import { log } from "../utils/log";
 
 async function run() {
   const task = await readChainTaskFile();

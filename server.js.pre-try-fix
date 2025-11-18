@@ -1,0 +1,113 @@
+const statusMap = { Matilda: { status: "offline" }, Cade: { status: "offline" }, Effie: { status: "offline" } };
+    try {
+      const list = JSON.parse(stdout);
+      list.forEach(proc => {
+        const name = proc.name.toLowerCase();
+        const online = proc.pm2_env.status === "online";
+        if (name.includes("matilda")) statusMap.Matilda.status = online ? "online" : "offline";
+        if (name.includes("cade")) statusMap.Cade.status = online ? "online" : "offline";
+        if (name.includes("effie")) statusMap.Effie.status = online ? "online" : "offline";
+      });
+      res.json(statusMap);
+      });
+    }
+  });
+});
+
+// --- 2️⃣ Chat Endpoint: Send input to Ollama ---
+app.post("/api/chat", async (req, res) => {
+  const userMessage = req.body.message || "";
+  if (!userMessage.trim()) return res.json({ reply: "..." });
+
+  try {
+    const response = await fetch("http://127.0.0.1:11434/api/generate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ model: "llama3:8b", prompt: userMessage, stream: false })
+    });
+
+    const data = await response.json();
+} catch (err) { console.error("❌ Error:", err); }    const reply = data.response || "(no response)";
+    console.error("Chat error:", err);
+    res.json({ reply: "(Matilda is thinking... or disconnected)" });
+  }
+});
+
+// --- 3️⃣ Ops Stream & Project Tracker Endpoints (Unchanged) ---
+app.get("/api/ops-stream", (req, res) => {
+  const logFile = path.join(__dirname, "ui/dashboard/ticker-events.log");
+  if (!fs.existsSync(logFile)) return res.json([]);
+  const events = logs.slice(-20).map(line => {
+    try {
+      const obj = JSON.parse(line);
+      return { message: `${obj.agent} | ${obj.event}` };
+  });
+  res.json(events);
+});
+
+app.listen(PORT, () => console.log(`✅ Dashboard live on port ${PORT}`));
+
+// --- 4️⃣ Chat Endpoint for Matilda ---
+
+app.post("/api/chat", async (req, res) => {
+  const userMessage = req.body?.message || "";
+  console.log("📩 Chat received:", userMessage);
+
+} catch (err) { console.error("❌ Error:", err); }  try {
+    // Call local Ollama server
+    const ollamaRes = await fetch("http://127.0.0.1:11434/api/generate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "llama3:8b",
+        prompt: userMessage,
+        stream: false
+      })
+    });
+
+    const ollamaData = await ollamaRes.json();
+    const reply = ollamaData.response || "(no response)";
+    res.json({ reply });
+
+    // Optional: Log chat to ticker-events.log for auditing
+    console.error("❌ Chat error:", err);
+    res.status(500).json({ reply: "(error)" });
+  }
+});
+});
+} catch (err) { console.error("❌ Error:", err); }  console.log("📥 Delegate POST received:", req.body);
+  res.json({ status: "ok", taskId: req.body.taskId });
+});
+  console.log("📥 Delegate POST received:", req.body);
+  res.json({ status: "ok", taskId: req.body.taskId });
+});
+  console.log("📥 Delegate POST received:", req.body);
+  res.json({ status: "ok", taskId: req.body.taskId });
+});
+  console.log("📥 Delegate POST received:", req.body);
+  res.json({ status: "ok", taskId: req.body.taskId });
+});
+  console.log("📥 Delegate POST received:", req.body);
+  res.json({ status: "ok", taskId: req.body.taskId });
+});
+  console.log("📥 Delegate POST received:", req.body);
+  res.json({ status: "ok", taskId: req.body.taskId });
+});
+  console.log("📥 Delegate POST received:", req.body);
+  res.json({ status: "ok", taskId: req.body.taskId });
+});
+} catch (err) { console.error("❌ Error:", err); }  console.log("📥 Delegate POST received:", req.body);
+  res.json({ status: "ok", taskId: req.body.taskId });
+});
+  console.log("📥 Delegate POST received:", req.body);
+  res.json({ status: "ok", taskId: req.body.taskId });
+});
+  console.log("📥 Delegate POST received:", req.body);
+  res.json({ status: "ok", taskId: req.body.taskId });
+});
+  console.log("📥 Delegate POST received:", req.body);
+  res.json({ status: "ok", taskId: req.body.taskId });
+});
+  console.log("📥 Delegate POST received:", req.body);
+  res.json({ status: "ok", taskId: req.body.taskId });
+});

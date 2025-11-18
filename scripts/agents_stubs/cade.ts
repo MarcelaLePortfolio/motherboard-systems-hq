@@ -1,5 +1,5 @@
  
-import { log } from "../utils/log.ts";
+import { log } from "../utils/log";
 
 /**
  * Stubbed Cade command handler

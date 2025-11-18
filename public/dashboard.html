@@ -8,6 +8,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     body { font-family: Arial, sans-serif; margin: 20px; background: #f7f7f7; }
@@ -105,6 +106,7 @@
     font-style: italic !important;
   }
 </style>
+<link rel="stylesheet" href="css/dashboard-reflections.css">
 </head>
 <body>
   <div id="debugBanner" style="background:#e6f7ff; border:1px solid #91d5ff; padding:8px; margin:10px 0; border-radius:6px; color:#0050b3; font-size:0.9em;">
@@ -171,6 +173,20 @@
   </details>
 
   <!-- === Core Scripts === -->
+  if (!input) return;
+  try {
+    const res = await fetch("/delegate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ instruction: input })
+    });
+    const data = await res.json();
+    console.log("🚀 Delegation result:", data);
+  } catch (err) {
+    console.error("Delegation failed:", err);
+  }
+});
+
   <script src="/dashboard.js?v=1.2.0" defer></script>
   <script>
     async function updatePanel(id, endpoint) {
@@ -214,7 +230,7 @@
       userInput.value = "";
 
       try {
-        const res = await fetch("/matilda", {
+        const res = await fetch("/delegate", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ message })
@@ -241,13 +257,83 @@
         sendMessage();
       }
     });
+  if (!input) return;
+  try {
+    const res = await fetch("/delegate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ instruction: input })
+    });
+    const data = await res.json();
+    console.log("🚀 Delegation result:", data);
+  } catch (err) {
+    console.error("Delegation failed:", err);
+  }
+});
+
   </script>
 
 
+  if (!input) return;
+  try {
+    const res = await fetch("/delegate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ instruction: input })
+    });
+    const data = await res.json();
+    console.log("🚀 Delegation result:", data);
+  } catch (err) {
+    console.error("Delegation failed:", err);
+  }
+});
+
 <script defer src="dashboard.js"></script>
+  if (!input) return;
+  try {
+    const res = await fetch("/delegate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ instruction: input })
+    });
+    const data = await res.json();
+    console.log("🚀 Delegation result:", data);
+  } catch (err) {
+    console.error("Delegation failed:", err);
+  }
+});
+
 <script src="dashboard-status.js?v=1761345479?v=1761342950?v=1761340126?v=1761340061?v=1761339985?v=1761339943?v=1761339524?v=1761338898"></script>
+  if (!input) return;
+  try {
+    const res = await fetch("/delegate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ instruction: input })
+    });
+    const data = await res.json();
+    console.log("🚀 Delegation result:", data);
+  } catch (err) {
+    console.error("Delegation failed:", err);
+  }
+});
+
 <script src="js/dashboard-ops.js"></script>
 
+
+  if (!input) return;
+  try {
+    const res = await fetch("/delegate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ instruction: input })
+    });
+    const data = await res.json();
+    console.log("🚀 Delegation result:", data);
+  } catch (err) {
+    console.error("Delegation failed:", err);
+  }
+});
 
 <script src="dashboard-stream.js" defer></script>
   <style id="dark-patch-override">
@@ -306,6 +392,7 @@
     font-style: italic !important;
   }
 </style>
+<link rel="stylesheet" href="css/dashboard-reflections.css">
 </head>
 </html>
 <script>
@@ -316,7 +403,7 @@
     if (!message) return;
     log.innerHTML += `<div><b>You:</b> ${message}</div>`;
     try {
-      const res = await fetch("/matilda", {
+      const res = await fetch("/delegate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message })
@@ -332,6 +419,177 @@
   document.getElementById("userInput").addEventListener("keypress", e => {
     if (e.key === "Enter") sendMessage();
   });
+  if (!input) return;
+  try {
+    const res = await fetch("/delegate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ instruction: input })
+    });
+    const data = await res.json();
+    console.log("🚀 Delegation result:", data);
+  } catch (err) {
+    console.error("Delegation failed:", err);
+  }
+});
+
 </script>
-<script src="/js/reflections-viewer.js"></script>
-<PASTE ABOVE CODE>
+  if (!input) return;
+  try {
+    const res = await fetch("/delegate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ instruction: input })
+    });
+    const data = await res.json();
+    console.log("🚀 Delegation result:", data);
+  } catch (err) {
+    console.error("Delegation failed:", err);
+  }
+});
+
+  <script src="js/dashboard-reflections.js"></script>
+<script>
+  const input = document.getElementById("userInput").value.trim();
+  if (!input) return;
+  try {
+    const res = await fetch("/delegate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ instruction: input })
+    });
+    const data = await res.json();
+    console.log("🚀 Delegation result:", data);
+  } catch (err) {
+    console.error("Delegation failed:", err);
+  }
+});
+</script>
+<script>
+  const input = document.getElementById("userInput").value.trim();
+  if (!input) return;
+  try {
+    const res = await fetch("/delegate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ instruction: input })
+    });
+    const data = await res.json();
+    console.log("🚀 Delegation result:", data);
+  } catch (err) {
+    console.error("Delegation failed:", err);
+  }
+});
+</script>
+<script>
+const delegateButton = document.getElementById("delegateButton");
+const userInput = document.getElementById("userInput");
+
+if (delegateButton && userInput) {
+  delegateButton.addEventListener("click", async () => {
+    const instruction = userInput.value.trim();
+    if (!instruction) return alert("Please enter a command first!");
+
+    try {
+      const res = await fetch("/delegate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ instruction }),
+      });
+      const data = await res.json();
+      if (data.ok) {
+        console.log("🚀 Delegation succeeded:", data);
+        alert("Delegation succeeded! 🎉");
+      } else {
+        console.error("Delegation failed:", data);
+        alert("Delegation failed. Check the terminal logs for details.");
+      }
+    } catch (err) {
+      console.error("Delegation error:", err);
+      alert("Delegation failed — see console for details.");
+    }
+  });
+  console.warn("🚀 Delegation button or input not found.");
+}
+</script>
+<link rel="stylesheet" href="styles/agent-status-row.css">
+<script src="scripts/agent-status-row.js"></script>
+</body>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const btn = document.getElementById("delegateBtn");
+  if (!btn) return;
+  btn.addEventListener("click", async () => {
+    const input = document.getElementById("userInput").value.trim();
+    if (!input) return;
+    try {
+      const res = await fetch("/delegate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ instruction: input })
+      });
+      const data = await res.json();
+      console.log("🚀 Delegation result:", data);
+    } catch (err) {
+      console.error("Delegation failed:", err);
+    }
+  });
+});
+</script>
+<script>
+(function () {
+  const btn = document.getElementById("delegateButton");
+  const input = document.getElementById("userInput");
+
+  if (!btn || !input) {
+    console.warn("🚀 Delegate wiring: missing button or input", {
+      btn: !!btn,
+      input: !!input,
+    });
+      }
+
+      if (res.ok && data && data.ok) {
+        console.log("�� Delegation succeeded:", data);
+        alert("Delegation succeeded! 🎉");
+      } else {
+        console.error("Delegation failed payload:", data);
+        alert("Delegation failed. Check console/logs.");
+      }
+    } catch (err) {
+      console.error("Delegation network error:", err);
+      alert("Delegation failed — see console for details.");
+    }
+  });
+})();
+</script>
+<script>
+(function () {
+  const btn = document.getElementById("delegateButton");
+  const input = document.getElementById("userInput");
+  if (!btn || !input) return console.warn("🚀 Delegate wiring: missing button or input");
+  console.log("🚀 Delegate wiring: ready");
+
+  btn.addEventListener("click", async () => {
+    const instruction = input.value.trim();
+    if (!instruction) return alert("Please enter a command first!");
+    try {
+      const res = await fetch("/delegate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ instruction }),
+      });
+      const data = await res.json();
+      if (res.ok && data.ok) {
+        console.log("🚀 Delegation succeeded:", data);
+        alert("Delegation succeeded! 🎉");
+      } else {
+        console.error("Delegation failed payload:", data);
+        alert("Delegation failed. Check console/logs.");
+      }
+    } catch (err) {
+      console.error("Delegation network error:", err);
+      alert("Delegation failed — see console for details.");
+    }
+  });
+})();
+</script>

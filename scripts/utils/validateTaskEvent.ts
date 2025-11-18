@@ -1,5 +1,5 @@
 import fs from "fs";
-import { db } from "../../db/client.ts";
+import { db } from "../../db/client";
 
 export async function validateTaskEvent(eventId: string, payload: any, result: any) {
   console.log(`<0001f9fd> 🧩 Validating task event: ${eventId}`);

@@ -1,15 +1,24 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
+    "target": "ES2020",
     "module": "ESNext",
-    "moduleResolution": "Bundler",
-    "allowImportingTsExtensions": true,
+    "moduleResolution": "node",
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
+    "allowJs": true,
     "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
     "strict": false,
+    "outDir": "./dist",
+    "rootDir": "./",
+    "resolveJsonModule": true,
+    "moduleDetection": "force",
     "allowSyntheticDefaultImports": true,
-    "outDir": "dist"
+    "preserveSymlinks": true
   },
-  "include": ["./**/*.ts"]
+  "include": [
+    "./scripts",
+    "./routes",
+    "./db",
+    "./types"
+  ]
 }

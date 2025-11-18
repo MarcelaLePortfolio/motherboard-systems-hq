@@ -1,5 +1,5 @@
 #!/usr/bin/env tsx
-import { ask } from "../agents/matilda/askRouter.ts";
+import { ask } from "../agents/matilda/askRouter";
 
 const input = process.argv.slice(2).join(" ").trim();
 if (!input) {
