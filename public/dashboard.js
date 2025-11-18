@@ -81,14 +81,6 @@ async function delegateTask() {
 
 document.addEventListener("DOMContentLoaded", () => {
 
-if (delegateBtn) {
-  delegateBtn.addEventListener("click", async () => {
-    console.log("📌 Delegate button clicked!");
-    try {
-      const res = await fetch("/tasks/delegate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ taskId: "test-task-001" })
       });
       const data = await res.json();
       console.log("✅ Delegate response:", data);
@@ -146,14 +138,6 @@ if (delegateBtn) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ taskId: "test-task-001" })
-      });
-      const data = await res.json();
-      console.log("✅ Delegate response:", data);
-    } catch (err) {
-      console.error("❌ Delegate failed:", err);
-    }
-  });
-}
   
   if(delegateBtn){
     delegateBtn.addEventListener("click", () => {
