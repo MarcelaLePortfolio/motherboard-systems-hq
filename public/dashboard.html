@@ -14,21 +14,22 @@
     <link rel="stylesheet" href="css/dashboard-reflections.css">
     <link rel="stylesheet" href="css/agent-status-row.css">
 
-    <!-- Project Scripts -->
+    <!-- Project Scripts - ALL now use defer to prevent DOM-loading errors -->
+    <!-- Scripts using ES Modules (type="module") also need 'defer' for proper execution timing -->
     <script defer src="js/dashboard.js"></script>
-    <script src="js/dashboard-status.js"></script>
-    <script src="js/dashboard-ops.js"></script>
-    <script src="js/dashboard-stream.js" defer></script>
-    <script src="js/dashboard-reflections.js"></script>
-    <script src="js/agent-status-row.js"></script>
-    <script src="js/task-activity-graph.js"></script>
-    <script src="js/dashboard-graph-loader.js"></script>
-    <script src="js/dashboard-graph.js"></script>
-    <script src="js/dashboard-atlas-status.js"></script>
-    <script src="js/dashboard-broadcast.js"></script>
-    <script src="js/ops-task-alerts.js"></script>
-    <script src="js/reflections-viewer.js"></script>
-    <script src="js/agent-interaction-animation.js"></script>
+    <script defer src="js/dashboard-status.js"></script>
+    <script defer src="js/dashboard-ops.js"></script>
+    <script defer src="js/dashboard-stream.js"></script>
+    <script defer src="js/dashboard-reflections.js"></script>
+    <script defer src="js/agent-status-row.js"></script>
+    <script defer src="js/task-activity-graph.js" type="module"></script>
+    <script defer src="js/dashboard-graph-loader.js" type="module"></script>
+    <script defer src="js/dashboard-graph.js" type="module"></script>
+    <script defer src="js/dashboard-atlas-status.js"></script>
+    <script defer src="js/dashboard-broadcast.js"></script>
+    <script defer src="js/ops-task-alerts.js" type="module"></script>
+    <script defer src="js/reflections-viewer.js"></script>
+    <script defer src="js/agent-interaction-animation.js" type="module"></script>
 </head>
 <body class="bg-gray-900 text-gray-100 min-h-screen p-4">
 
@@ -94,7 +95,8 @@
             <!-- Reflection Viewer -->
             <div id="reflections-viewer-card" class="bg-gray-800 p-6 rounded-lg shadow-lg max-h-96 overflow-y-auto">
                 <h2 class="text-xl font-semibold mb-4 border-b border-gray-700 pb-2">System Reflections</h2>
-                <div id="reflection-list" class="space-y-4">
+                <!-- Fixed ID mismatch: now using #recentLogs as requested by JS files -->
+                <div id="recentLogs" class="space-y-4"> 
                     <!-- Reflections will be injected here by reflections-viewer.js -->
                     <p class="text-gray-500 italic">Awaiting latest system self-analysis...</p>
                 </div>
