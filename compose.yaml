@@ -13,7 +13,7 @@ services:
     depends_on:
       - reflections-stream
       - ops-stream
-    command: ["node", "server.js"]
+    command: ["node", "server.mjs"]
 
   reflections-stream:
     build:
@@ -24,7 +24,7 @@ services:
     volumes:
       - .:/app
       - /app/node_modules
-    command: ["node", "reflection-sse-server.js"]
+    command: ["node", "server.mjs"]
 
   ops-stream:
     build:
@@ -35,4 +35,4 @@ services:
     volumes:
       - .:/app
       - /app/node_modules
-    command: ["node", "ops-sse-server.js"]
+    command: ["node", "server.mjs"]
