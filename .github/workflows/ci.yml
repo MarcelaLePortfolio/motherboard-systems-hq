@@ -23,7 +23,7 @@ jobs:
         run: docker compose up --build -d
 
       - name: Wait for services to be ready
-        run: sleep 10
+        run: sleep 30
 
       - name: Run Tests
         run: ./run_tests.sh
