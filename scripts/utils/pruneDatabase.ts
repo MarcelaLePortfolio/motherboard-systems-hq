@@ -1,5 +1,5 @@
-import { pruneOldEntries, pruneReflections } from "../../db/client.ts";
-import { db } from "../../db/client.ts";
+import { pruneOldEntries, pruneReflections } from "../../db/client";
+import { db } from "../../db/client";
 
 export async function cleanupOldData() {
   console.log("<0001fa9b> 🧹 Running scheduled cleanup of old entries...");

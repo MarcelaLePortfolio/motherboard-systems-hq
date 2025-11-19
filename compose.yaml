@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  dashboard:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    depends_on:
+      - reflections-stream
+      - ops-stream
+    command: ["node", "server.mjs"]
+
+  reflections-stream:
+    build:
+      context: .
+      dockerfile: Dockerfile 
+    ports:
+      - "3101:3101"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: ["node", "server.mjs"]
+
+  ops-stream:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3201:3201"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: ["node", "server.mjs"]

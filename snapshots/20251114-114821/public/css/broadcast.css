@@ -1,0 +1,25 @@
+/* <0001fad7> Broadcast Visualization Styling */
+.broadcast-cycle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+  font-family: "IBM Plex Mono", monospace;
+}
+.broadcast-cycle .node {
+  padding: 6px 12px;
+  border-radius: 8px;
+  background: #4e4e4e;
+  color: #eee;
+  transition: all 0.3s ease;
+}
+.broadcast-cycle .node.active {
+  background: #ffb347;
+  color: #111;
+  box-shadow: 0 0 8px #ffb347;
+}
+.broadcast-cycle .arrow {
+  color: #aaa;
+  font-size: 1.2em;
+}
