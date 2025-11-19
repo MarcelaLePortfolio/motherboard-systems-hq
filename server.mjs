@@ -35,7 +35,31 @@ app.get("/reflections-stream", (req, res) => {
   // Placeholder for stream logic
 });
 
-// --- 2️⃣ Chat Endpoint ---
+// --- 2️⃣ Ops Stream Endpoint ---
+app.get("/ops-stream", (req, res) => {
+	res.setHeader('Content-Type', 'text/event-stream');
+	res.setHeader('Cache-Control', 'no-cache');
+	res.setHeader('Connection', 'keep-alive');
+	res.write('data: Connected to Ops Stream
+
+');
+
+	// Use the configured hostname
+	const host = config.host;
+	const streamUrl = `http://:3201/stream`;
+
+	console.log(`Proxying Ops Stream from: `);
+	nodeFetch(streamUrl)
+	.then(response => {
+		response.body.pipe(res);
+	})
+	.catch(error => {
+		console.error('❌ Ops Stream Proxy Error: ');
+		res.end();
+	});
+});
+
+// --- 3️⃣ Chat Endpoint ---
 app.post("/api/chat", async (req, res) => {
   const { message: userMessage } = req.body;
   try {
