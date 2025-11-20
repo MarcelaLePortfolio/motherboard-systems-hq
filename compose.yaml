@@ -1,42 +1,57 @@
+version: '3.8'
 services:
-  dashboard:
-    image: motherboard_systems_hq-dashboard:latest
-    build: 
-      context: .
-      dockerfile: Dockerfile.dashboard
-    ports:
-      - "3000:3000"
+  postgres:
+    image: postgres:16-alpine
     restart: always
+    env_file:
+      - .env
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000/"]
-      interval: 45s  # Relaxed interval
-      timeout: 10s
-      retries: 5     # More retries
+      test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - backups_volume:/backups
+    environment:
+      POSTGRES_USER: hq_user
+      POSTGRES_PASSWORD: secure_db_password_42
+      POSTGRES_DB: motherboard_db
+
+  dashboard:
+    image: alpine/git
+    restart: always
+    ports:
+      - "8080:80"
+
+  ops-stream:
+    image: alpine/git
+    restart: always
+    depends_on:
+      - postgres
 
   reflections-stream:
-    image: motherboard_systems_hq-reflections-stream:latest
-    build: 
-      context: .
-      dockerfile: Dockerfile.reflections-stream
-    ports:
-      - "3101:3101"
+    image: alpine/git
     restart: always
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3101/"]
-      interval: 45s  # Relaxed interval
-      timeout: 10s
-      retries: 5     # More retries
-      
-  ops-stream:
-    image: motherboard_systems_hq-ops-stream:latest
-    build: 
-      context: .
-      dockerfile: Dockerfile.ops-stream
-    ports:
-      - "3201:3201"
+    depends_on:
+      - postgres
+
+  backup-scheduler:
+    image: alpine:latest
+    command: sh -c "apk add --no-cache busybox-suid postgresql-client && crond -f -L /etc/crontabs/root -L /dev/stdout"
     restart: always
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3201/"]
-      interval: 45s  # Relaxed interval
-      timeout: 10s
-      retries: 5     # More retries
+    env_file:
+      - .env
+    volumes:
+      - ./backup.sh:/usr/local/bin/backup.sh:ro
+      - backups_volume:/backups
+      - ./backup.crontab:/etc/crontabs/root:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
+  backups_volume:
