@@ -38,20 +38,21 @@ services:
       - postgres
 
   backup-scheduler:
-    image: alpine:latest
-    command: sh -c "apk add --no-cache busybox-suid postgresql-client && crond -f -L /etc/crontabs/root -L /dev/stdout"
+    # --- START OF FIX: Build instruction added to copy script into image ---
+    build:
+      context: .
+      dockerfile: Dockerfile.backup-scheduler
+    # --- END OF FIX ---
     restart: always
     env_file:
       - .env
-    # --- START OF FIX: Environment Variables for PG_DUMP and AWS ---
     environment:
       # PGPASSWORD is required by pg_dump for non-interactive login
-      - PGPASSWORD 
+      - PGPASSWORD
       # AWS variables required for the 'aws s3 cp' command
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
       - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
-    # --- END OF FIX ---
     volumes:
       - backups_volume:/backups
       - ./backup.crontab:/etc/crontabs/root:ro

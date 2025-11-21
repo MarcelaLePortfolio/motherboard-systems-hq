@@ -1,0 +1,13 @@
+FROM alpine:latest
+
+# 1. Install dependencies (pg_dump, cron utilities, and dos2unix)
+RUN apk add --no-cache busybox-suid postgresql-client dos2unix
+
+# 2. Copy the script into the image
+COPY backup.sh /usr/local/bin/backup.sh
+
+# 3. Fix line endings and make the script executable
+RUN dos2unix /usr/local/bin/backup.sh && chmod +x /usr/local/bin/backup.sh
+
+# 4. Define the command to run the cron daemon
+CMD ["crond", "-f", "-L", "/dev/stdout"]

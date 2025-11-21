@@ -1,57 +1,50 @@
 #!/bin/sh
 
-# Set the target bucket name
-S3_BUCKET="marcelas-motherboard-hq-backups"
+# Set the environment variables required for pg_dump and AWS CLI
+# PGPASSWORD must be explicitly exported for pg_dump to use it non-interactively.
+export PGPASSWORD
+export AWS_ACCESS_KEY_ID
+export AWS_SECRET_ACCESS_KEY
+export AWS_DEFAULT_REGION
 
-# Directory where the backups are created
+# Database connection details (using service names from docker-compose)
+PG_HOST=postgres
+PG_USER=hq_user
+PG_DB=motherboard_db
 BACKUP_DIR="/backups"
+AWS_BUCKET="s3://motherboard-systems-backup-storage"
 
-# Variables derived from environment
-DB_USER=$POSTGRES_USER
-DB_PASS=$POSTGRES_PASSWORD
-DB_NAME=$POSTGRES_DB
-DB_HOST=postgres # Service name in docker-compose
+# Ensure the backup directory exists
+mkdir -p "$BACKUP_DIR"
 
-# Create the file name
-TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
-BACKUP_FILE="db_backup_$TIMESTAMP.sql"
-BACKUP_PATH="$BACKUP_DIR/$BACKUP_FILE"
+# Generate a timestamp for the backup filename
+TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+BACKUP_FILE="${PG_DB}_backup_${TIMESTAMP}.sql"
+BACKUP_PATH="${BACKUP_DIR}/${BACKUP_FILE}"
 
-# --- 1. Perform PostgreSQL Dump ---
-echo "Starting PostgreSQL backup to $BACKUP_PATH..."
-set -x
-pg_dump -U "$DB_USER" -h "$DB_HOST" -d "$DB_NAME" > "$BACKUP_PATH"
-if [ $? -ne 0 ]; then
-echo "❌ Database dump FAILED: Password authentication failed."
-exit 1
+echo "Starting PostgreSQL backup to ${BACKUP_PATH}..."
+
+# 1. Perform the database dump
+if pg_dump -U "$PG_USER" -h "$PG_HOST" -d "$PG_DB" > "$BACKUP_PATH"; then
+    echo "Successfully created dump file: ${BACKUP_FILE}"
 else
-set +x
-
-if [ $? -eq 0 ]; then
-    echo "if [ $? -ne 0 ]; then
-    echo "❌ Database dump FAILED: Check PGPASSWORD and database connectivity."
-    exit 1
-else
-    echo "✅ Database dump successful."
-fi"
-else
-    echo "❌ Database dump failed. Exiting."
+    echo "ERROR: pg_dump failed. Check logs for details."
     exit 1
 fi
 
-# --- 2. Upload to S3 ---
-echo "Starting S3 transfer to s3://$S3_BUCKET/database-backups/$BACKUP_FILE..."
-set -x
-aws s3 cp "$BACKUP_PATH" "s3://$S3_BUCKET/database-backups/$BACKUP_FILE" --region "$AWS_DEFAULT_REGION"
-if [ $? -ne 0 ]; then
-echo "❌ Database dump FAILED: Password authentication failed."
-exit 1
-else
-set +x
+# 2. Upload the dump file to S3
+echo "Uploading ${BACKUP_FILE} to ${AWS_BUCKET}..."
 
-if [ $? -eq 0 ]; then
-    echo "✅ S3 transfer successful. Backup process complete."
+# We use the full AWS CLI path since it might not be in PATH on Alpine.
+if /usr/bin/aws s3 cp "$BACKUP_PATH" "$AWS_BUCKET/$BACKUP_FILE"; then
+    echo "Successfully uploaded backup to S3."
+
+    # 3. Clean up the local file after successful upload
+    echo "Cleaning up local file ${BACKUP_PATH}..."
+    rm "$BACKUP_PATH"
 else
-    echo "❌ S3 transfer failed. Check AWS credentials and bucket name."
+    echo "ERROR: AWS S3 upload failed. Backup remains locally at ${BACKUP_PATH}."
     exit 1
 fi
+
+echo "Backup process finished."
