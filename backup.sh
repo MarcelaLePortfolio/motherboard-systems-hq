@@ -21,10 +21,19 @@ BACKUP_PATH="$BACKUP_DIR/$BACKUP_FILE"
 echo "Starting PostgreSQL backup to $BACKUP_PATH..."
 set -x
 pg_dump -U "$DB_USER" -h "$DB_HOST" -d "$DB_NAME" > "$BACKUP_PATH"
+if [ $? -ne 0 ]; then
+echo "❌ Database dump FAILED: Password authentication failed."
+exit 1
+else
 set +x
 
 if [ $? -eq 0 ]; then
+    echo "if [ $? -ne 0 ]; then
+    echo "❌ Database dump FAILED: Check PGPASSWORD and database connectivity."
+    exit 1
+else
     echo "✅ Database dump successful."
+fi"
 else
     echo "❌ Database dump failed. Exiting."
     exit 1
@@ -34,6 +43,10 @@ fi
 echo "Starting S3 transfer to s3://$S3_BUCKET/database-backups/$BACKUP_FILE..."
 set -x
 aws s3 cp "$BACKUP_PATH" "s3://$S3_BUCKET/database-backups/$BACKUP_FILE" --region "$AWS_DEFAULT_REGION"
+if [ $? -ne 0 ]; then
+echo "❌ Database dump FAILED: Password authentication failed."
+exit 1
+else
 set +x
 
 if [ $? -eq 0 ]; then

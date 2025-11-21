@@ -46,7 +46,7 @@ services:
     # --- START OF FIX: Environment Variables for PG_DUMP and AWS ---
     environment:
       # PGPASSWORD is required by pg_dump for non-interactive login
-      - PGPASSWORD=${PGPASSWORD} 
+      - PGPASSWORD 
       # AWS variables required for the 'aws s3 cp' command
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
