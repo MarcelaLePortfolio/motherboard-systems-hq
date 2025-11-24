@@ -1,13 +1,21 @@
-FROM alpine:latest
+# Use a minimal base image
+FROM alpine:3.19
 
-# 1. Install dependencies (pg_dump, cron utilities, and dos2unix)
-RUN apk add --no-cache busybox-suid postgresql-client dos2unix
+# Step 1: Echo a unique message to break any potential build cache on the base image layer
+RUN echo "Final definitive build $(date +%s)"
 
-# 2. Copy the script into the image
+# Step 2: Install required dependencies
+# We MUST install python3 and py3-pip for the AWS CLI
+RUN apk add --no-cache busybox-suid postgresql-client dos2unix python3 py3-pip
+
+# Step 3: Install AWS CLI
+RUN pip install awscli==1.33.12 --break-system-packages
+
+# Step 4: Copy the backup script
 COPY backup.sh /usr/local/bin/backup.sh
 
-# 3. Fix line endings and make the script executable
+# Step 5: Fix permissions and line endings
 RUN dos2unix /usr/local/bin/backup.sh && chmod +x /usr/local/bin/backup.sh
 
-# 4. Define the command to run the cron daemon
-CMD ["crond", "-f", "-L", "/dev/stdout"]
+# Step 6: Define the entrypoint to run the script every hour
+CMD ["/bin/sh", "-c", "while true; do /usr/local/bin/backup.sh; sleep 3600; done"]
