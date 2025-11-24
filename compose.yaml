@@ -15,51 +15,48 @@ services:
       - postgres_data:/var/lib/postgresql/data
       - backups_volume:/backups
     environment:
-      POSTGRES_USER: hq_user
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD} # Use variable from .env
+      POSTGRES_USER_FILE: /run/secrets/postgres_user
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
       POSTGRES_DB: motherboard_db
-
+    secrets:
+      - postgres_user
+      - postgres_password
   dashboard:
     image: alpine/git
     restart: always
     ports:
       - "8080:80"
-
   ops-stream:
     image: alpine/git
     restart: always
     depends_on:
       - postgres
-
   reflections-stream:
     image: alpine/git
     restart: always
     depends_on:
       - postgres
-
   backup-scheduler:
-    # --- START OF FIX: Build instruction added to copy script into image ---
     build:
       context: .
       dockerfile: Dockerfile.backup-scheduler
-    # --- END OF FIX ---
     restart: always
     env_file:
       - .env
-    environment:
-      # PGPASSWORD is required by pg_dump for non-interactive login
-      - PGPASSWORD
-      # AWS variables required for the 'aws s3 cp' command
-      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
-      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
-      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
+    secrets:
+      - postgres_user
+      - postgres_password
     volumes:
       - backups_volume:/backups
       - ./backup.crontab:/etc/crontabs/root:ro
     depends_on:
       postgres:
         condition: service_healthy
-
 volumes:
   postgres_data:
   backups_volume:
+secrets:
+  postgres_user:
+    file: ./secrets/db_user.txt
+  postgres_password:
+    file: ./secrets/db_password.txt
