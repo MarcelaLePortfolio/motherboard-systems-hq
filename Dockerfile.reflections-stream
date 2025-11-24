@@ -1,7 +1,18 @@
-FROM node:20-alpine
+# Use the official lightweight Python image
+FROM python:3.12-alpine
+
+# Set the working directory inside the container
 WORKDIR /app
-COPY package*.json ./
-RUN npm install
-RUN apk add --no-cache curl
-COPY . .
-CMD ["node", "server.mjs"]
+
+# Add dependencies needed for compiling packages like psycopg2
+RUN apk add --no-cache gcc libc-dev
+
+# Copy the requirements file and install dependencies
+COPY reflections-stream/requirements.txt /app/
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the main application code
+COPY reflections-stream/reflections_stream.py /app/
+
+# Define the default command to run the application
+CMD ["python", "reflections_stream.py"]

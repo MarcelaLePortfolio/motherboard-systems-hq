@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: motherboard_systems_hq-postgres-1
+    restart: always
+    environment:
+      POSTGRES_DB: motherboarddb
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile.dashboard
+    container_name: motherboard_systems_hq-dashboard-1
+    restart: always
+    # CRITICAL FIX: Maps host 8080 to internal server port 3000
+    ports:
+      - "8080:3000"
+    depends_on:
+      - postgres
+    environment:
+      # Optional, but good practice
+      PORT: 3000
+
+volumes:
+  postgres_data:
