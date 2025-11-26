@@ -5,11 +5,13 @@
     "@types/cors": "^2.8.19",
     "@types/node": "^24.10.1",
     "@types/uuid": "^10.0.0",
+    "esbuild": "^0.27.0",
     "typescript": "^5.9.3"
   },
   "dependencies": {
     "better-sqlite3": "^12.4.1",
     "body-parser": "^2.2.0",
+    "chart.js": "^4.5.1",
     "chokidar": "^4.0.3",
     "cors": "^2.8.5",
     "drizzle-orm": "^0.44.7",
