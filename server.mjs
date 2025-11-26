@@ -90,7 +90,7 @@ app.post('/api/delegate-task', async (req, res) => {
         const agentName = result.rows[0].agent_name;
         
         // 2. Assign the task and update status
-        const newTask = req.body.task || \`Processing Task \${Date.now()}\`;
+        const newTask = req.body.task || `Processing Task ${Date.now()}`;
         
         const updateQuery = `
             UPDATE agent_status
