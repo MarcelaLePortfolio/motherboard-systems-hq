@@ -1,7 +1,9 @@
 SSE CORS debug notes:
 
-- 2025-11-26: Updated ops_stream.py and reflections_stream.py to use Access-Control-Allow-Origin: * for local development.
-- Verified both SSE servers are running on ports 3201 (OPS) and 3200 (Reflections).
-- Next step: reload the dashboard at http://localhost:3022 and confirm that:
-  - No CORS errors appear in the browser console.
-  - System Reflections and OPS alerts begin populating live.
+- 2025-11-26:
+  - Updated ops_stream.py and reflections_stream.py to use Access-Control-Allow-Origin: * for local development.
+  - Added restart-sse-servers.sh helper to cleanly relaunch OPS (3201) and Reflections (3200) servers.
+  - Confirmed both Python SSE servers start without port conflicts.
+- Current focus:
+  - Verify that each SSE endpoint actually streams data (not just accepts connections).
+  - Then confirm that the dashboard at http://localhost:3022 renders live OPS + Reflections updates without CORS errors.
