@@ -3,8 +3,8 @@
 // - Updates uptime, health, metrics, ops alerts, and reflections panel
 
 (() => {
-  const OPS_SSE_URL = "http://localhost:3201/events/ops";
-  const REFLECTIONS_SSE_URL = "http://localhost:3200/events/reflections";
+  const OPS_SSE_URL = "http://127.0.0.1:3201/events/ops";
+  const REFLECTIONS_SSE_URL = "http://127.0.0.1:3200/events/reflections";
 
   // Core elements
   const uptimeDisplay = document.getElementById("uptime-display");

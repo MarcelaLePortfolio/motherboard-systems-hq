@@ -1,0 +1,11 @@
+{
+  "port": 3022,
+  "files": ["public/**"],
+  "server": {
+    "baseDir": "public",
+    "routes": {
+      "/events/ops": "http://localhost:3201/events/ops",
+      "/events/reflections": "http://localhost:3200/events/reflections"
+    }
+  }
+}
