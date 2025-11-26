@@ -136,11 +136,11 @@ app.post('/api/complete-task', async (req, res) => {
         const result = await pool.query(query, [agentName]);
 
         if (result.rowCount === 0) {
-            return res.status(404).json({ message: \`Agent \${agentName} not found or was already IDLE.\` });
+            return res.status(404).json({ message: `Agent ${agentName} not found or was already IDLE.` });
         }
 
         res.json({ 
-            message: \`Task completed. Agent \${agentName} is now IDLE.\`, 
+            message: `Task completed. Agent ${agentName} is now IDLE.`, 
             agent: result.rows[0] 
         });
 
@@ -156,6 +156,6 @@ app.get('*', (req, res) => {
 });
 
 app.listen(PORT, HOST, () => {
-  console.log(\`Server running on http://\${HOST}:\${PORT}\`);
+  console.log(`Server running on http://${HOST}:${PORT}`);
   console.log('Database pool initialized');
 });
