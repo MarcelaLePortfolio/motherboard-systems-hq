@@ -151,7 +151,7 @@ app.post('/api/complete-task', async (req, res) => {
 });
 
 // Fallback route for SPA or index
-app.get('*', (req, res) => {
+app.use((req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
