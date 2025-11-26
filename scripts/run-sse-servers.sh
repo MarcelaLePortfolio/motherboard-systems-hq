@@ -30,24 +30,25 @@ echo "✅ Found OPS SSE server at: $OPS_FILE"
 echo "✅ Found Reflections SSE server at: $REFL_FILE"
 
 echo ""
-echo "🚀 Starting Python SSE servers..."
-echo "   • OPS SSE  (port 3201)       → $OPS_FILE"
-echo "   • Reflections SSE (port 3200) → $REFL_FILE"
+echo "🚀 Starting Python SSE servers with correct CLI args..."
+echo "   • OPS SSE         → port 3201"
+echo "   • Reflections SSE → port 3200"
 echo ""
 
-# Start OPS SSE
-python3 "$OPS_FILE" &
+# Start OPS SSE on port 3201
+python3 "$OPS_FILE" 3201 --serve &
 OPS_PID=$!
 echo "   ↪ OPS SSE PID: $OPS_PID"
 
-# Start Reflections SSE
-python3 "$REFL_FILE" &
+# Start Reflections SSE on port 3200
+python3 "$REFL_FILE" 3200 --serve &
 REFL_PID=$!
 echo "   ↪ Reflections SSE PID: $REFL_PID"
 
 echo ""
 echo "✅ Both SSE servers started."
-echo "   • To stop them, run:  kill $OPS_PID $REFL_PID"
+echo "   • To stop them later, run:"
+echo "       kill $OPS_PID $REFL_PID"
 echo ""
 
 wait
