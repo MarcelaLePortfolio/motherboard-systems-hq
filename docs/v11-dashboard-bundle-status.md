@@ -101,3 +101,13 @@ This doc is a snapshot so any new ChatGPT thread can see:
   - Dashboard chat ok
   - Agent tiles ok
   - Task activity graph renders via the bundled Chart.js dependency.
+
+---
+
+## 7. Phase 2 — script tag consolidation complete
+
+- Confirmed `public/dashboard.html` now uses a single script tag:
+  - `<script src="bundle.js"></script>`
+- All dashboard JS is loaded via the bundle (no remaining inline or CDN script tags).
+- Staging PM2 ecosystem added as `ecosystem.staging.config.cjs` with namespace `main-staging`.
+
