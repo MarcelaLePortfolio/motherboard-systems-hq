@@ -185,104 +185,6 @@
     };
   })();
 
-  // public/js/task-activity-graph.js
-  document.addEventListener("DOMContentLoaded", () => {
-    const ctx2 = document.getElementById("task-activity-graph").getContext("2d");
-    let activityChart;
-    async function fetchAndRenderGraph() {
-      try {
-        const response = await fetch("/api/activity-graph");
-        const data = await response.json();
-        const labels = data.map((entry) => {
-          const date = new Date(entry.timestamp);
-          return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
-        });
-        const completedData = data.map((entry) => entry.tasks_completed);
-        const failedData = data.map((entry) => entry.tasks_failed);
-        if (activityChart) {
-          activityChart.data.labels = labels;
-          activityChart.data.datasets[0].data = completedData;
-          activityChart.data.datasets[1].data = failedData;
-          activityChart.update();
-        } else {
-          activityChart = new Chart(ctx2, {
-            type: "line",
-            data: {
-              labels,
-              datasets: [
-                {
-                  label: "Tasks Completed",
-                  data: completedData,
-                  borderColor: "#4caf50",
-                  // Green
-                  backgroundColor: "rgba(76, 175, 80, 0.1)",
-                  tension: 0.4,
-                  fill: true
-                },
-                {
-                  label: "Tasks Failed",
-                  data: failedData,
-                  borderColor: "#f44336",
-                  // Red
-                  backgroundColor: "rgba(244, 67, 54, 0.1)",
-                  tension: 0.4,
-                  fill: true
-                }
-              ]
-            },
-            options: {
-              responsive: true,
-              maintainAspectRatio: false,
-              animation: { duration: 0 },
-              // Disable animation for smoother updates
-              interaction: {
-                mode: "index",
-                intersect: false
-              },
-              plugins: {
-                legend: { labels: { color: "#ccc" } }
-              },
-              scales: {
-                y: {
-                  beginAtZero: true,
-                  grid: { color: "#333" },
-                  ticks: { color: "#aaa" }
-                },
-                x: {
-                  grid: { color: "#333" },
-                  ticks: { color: "#aaa" }
-                }
-              }
-            }
-          });
-        }
-      } catch (error) {
-        console.error("Error fetching graph data:", error);
-      }
-    }
-    fetchAndRenderGraph();
-    setInterval(fetchAndRenderGraph, 5e3);
-  });
-
-  // public/js/dashboard-graph-loader.js
-  async function fetchTasksAndRender() {
-    try {
-      const res = await fetch("/tasks");
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const tasks = await res.json();
-      const ctx2 = document.getElementById("taskActivityCanvas")?.getContext("2d");
-      if (ctx2 && tasks?.length) {
-        (void 0)(ctx2, tasks);
-        console.log(`\u{1F4C8} Rendered ${tasks.length} task events`);
-      } else {
-        console.warn("\u26A0\uFE0F No tasks or missing canvas context.");
-      }
-    } catch (err) {
-      console.error("\u274C Failed to load tasks for graph:", err);
-    }
-  }
-  window.addEventListener("DOMContentLoaded", fetchTasksAndRender);
-
   // node_modules/.pnpm/@kurkle+color@0.3.4/node_modules/@kurkle/color/dist/color.esm.js
   function round(v) {
     return v + 0.5 | 0;
@@ -8850,7 +8752,7 @@
     }
     return e;
   }
-  var Chart2 = class {
+  var Chart = class {
     static defaults = defaults;
     static instances = instances;
     static overrides = overrides;
@@ -9671,7 +9573,7 @@
     }
   };
   function invalidatePlugins() {
-    return each(Chart2.instances, (chart2) => chart2._plugins.invalidate());
+    return each(Chart.instances, (chart2) => chart2._plugins.invalidate());
   }
   function clipSelf(ctx2, element, endAngle) {
     const { startAngle, x, y, outerRadius, innerRadius, options } = element;
@@ -14752,8 +14654,72 @@
     scales
   ];
 
+  // public/js/task-activity-graph.js
+  var activityChart;
+  function renderTaskActivityGraph(ctx2, tasks) {
+    const labels = tasks.map((t) => new Date(t.timestamp * 1e3).toLocaleTimeString());
+    const completedData = tasks.map((t) => t.status === "completed" ? 1 : 0);
+    const failedData = tasks.map((t) => t.status === "failed" ? 1 : 0);
+    if (activityChart) {
+      activityChart.data.labels = labels;
+      activityChart.data.datasets[0].data = completedData;
+      activityChart.data.datasets[1].data = failedData;
+      activityChart.update();
+      return;
+    }
+    activityChart = new Chart(ctx2, {
+      type: "line",
+      data: {
+        labels,
+        datasets: [
+          {
+            label: "Completed",
+            data: completedData,
+            borderColor: "#10b981",
+            backgroundColor: "rgba(16, 185, 129, 0.2)",
+            borderWidth: 2,
+            fill: true
+          },
+          {
+            label: "Failed",
+            data: failedData,
+            borderColor: "#ef4444",
+            backgroundColor: "rgba(239, 68, 68, 0.2)",
+            borderWidth: 2,
+            fill: true
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: { beginAtZero: true }
+        }
+      }
+    });
+  }
+
+  // public/js/dashboard-graph-loader.js
+  async function fetchTasksAndRender() {
+    try {
+      const res = await fetch("/tasks");
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const tasks = await res.json();
+      const ctx2 = document.getElementById("taskActivityCanvas")?.getContext("2d");
+      if (ctx2 && tasks?.length) {
+        renderTaskActivityGraph(ctx2, tasks);
+        console.log(`\u{1F4C8} Rendered ${tasks.length} task events`);
+      } else {
+        console.warn("\u26A0\uFE0F No tasks or missing canvas context.");
+      }
+    } catch (err) {
+      console.error("\u274C Failed to load tasks for graph:", err);
+    }
+  }
+  window.addEventListener("DOMContentLoaded", fetchTasksAndRender);
+
   // public/js/dashboard-graph.js
-  Chart2.register(...registerables);
+  Chart.register(...registerables);
   var ctx = document.getElementById("taskActivityGraph").getContext("2d");
   var chart;
   async function fetchOPSData() {
@@ -14766,7 +14732,7 @@
     const labels = data.map((d) => new Date(d.created_at).toLocaleTimeString());
     const counts = data.map((_, i) => i + 1);
     if (chart) chart.destroy();
-    chart = new Chart2(ctx, {
+    chart = new Chart(ctx, {
       type: "line",
       data: {
         labels,
