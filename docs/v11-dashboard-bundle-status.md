@@ -69,3 +69,19 @@ This doc is a snapshot so any new ChatGPT thread can see:
 - Esbuild is configured and working.
 - `bundle.js` is reproducible.
 - `bundle.js.map` is intentionally ignored.
+
+---
+
+## 5. Phase 1 — bundle.js wiring status (2025-11-27)
+
+- `public/dashboard.html` now matches the Gemini-constructed layout, with a **single** additive change:
+  - A `<script src="bundle.js"></script>` tag is injected just before `</body>`.
+- Backup snapshot:
+  - `public/dashboard.pre-bundle-tag.html` holds the original, pre-bundle Gemini dashboard HTML.
+- `pnpm run build:dashboard-bundle` successfully produces:
+  - `public/bundle.js` (~475 KB)
+  - `public/bundle.js.map` (ignored via `.gitignore`)
+- No existing `<script>` tags in `dashboard.html` have been removed yet.
+- Next phase (not started):
+  - Gradually remove redundant dashboard JS `<script>` tags once runtime behavior is fully validated.
+
