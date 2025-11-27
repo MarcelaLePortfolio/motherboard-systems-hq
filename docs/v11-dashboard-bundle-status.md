@@ -111,3 +111,14 @@ This doc is a snapshot so any new ChatGPT thread can see:
 - All dashboard JS is loaded via the bundle (no remaining inline or CDN script tags).
 - Staging PM2 ecosystem added as `ecosystem.staging.config.cjs` with namespace `main-staging`.
 
+
+---
+
+## 8. Phase 2 — Reflections SSE endpoint aligned
+
+- Updated `public/js/dashboard-status.js` to use:
+  - `http://127.0.0.1:3101/events/reflections` (previously 3200).
+- Rebuilt `public/bundle.js` with the updated SSE URL.
+- Verified `curl -N http://127.0.0.1:3101/events/reflections` streams data.
+- Dashboard should no longer log repeated `net::ERR_CONNECTION_TIMED_OUT` errors for the reflections SSE stream.
+
