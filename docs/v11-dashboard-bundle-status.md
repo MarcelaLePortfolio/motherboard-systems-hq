@@ -85,3 +85,19 @@ This doc is a snapshot so any new ChatGPT thread can see:
 - Next phase (not started):
   - Gradually remove redundant dashboard JS `<script>` tags once runtime behavior is fully validated.
 
+
+---
+
+## 6. Phase 2 — initial script consolidation (2025-11-27)
+
+- Removed the external CDN Chart.js script tag from `public/dashboard.html`.
+- Confirmed Chart.js is now provided exclusively via the bundled ES modules:
+  - `public/js/dashboard-graph.js` imports `Chart` from `"chart.js"`.
+- Rewrote `public/js/task-activity-graph.js` as an ES module that:
+  - Imports `Chart` from `"chart.js"`.
+  - Exports `renderTaskActivityGraph(ctx, tasks)` for `dashboard-graph-loader.js`.
+- `pnpm run build:dashboard-bundle` now completes with **no warnings**.
+- Runtime check:
+  - Dashboard chat ok
+  - Agent tiles ok
+  - Task activity graph renders via the bundled Chart.js dependency.
