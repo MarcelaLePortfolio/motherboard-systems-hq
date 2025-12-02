@@ -8,7 +8,8 @@
   border: 1px solid #111827;
   box-shadow: 0 18px 35px -12px rgba(15, 23, 42, 0.9);
   width: 100%;
-  max-width: 100%; /* use full left column width so it meets the center */
+  max-width: 96%;      /* leave a little breathing room toward the center */
+  margin-right: auto;  /* anchor to left edge of its column */
 }
 
 #matilda-chat-container h2 {
@@ -110,21 +111,32 @@
   box-shadow: none;
 }
 
-/* Project Visual Output – match left column width */
+/* Project Visual Output – match left column width & breathing room */
 
 #project-visual-output-card {
   margin: 16px 0;
   width: 100%;
-  max-width: 100%; /* align with Matilda Chat so both meet the center */
+  max-width: 96%;
+  margin-right: auto;  /* align with Matilda Chat on the left rail */
 }
 
-/* Critical Ops Alerts – fixed console size */
+/* Critical Ops Alerts – fixed console size + safe wrapping */
 
 #critical-ops-alerts,
 #critical-ops-panel {
   max-height: 260px;
   min-height: 260px;
   overflow-y: auto;
+  overflow-x: auto;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+#critical-ops-alerts pre,
+#critical-ops-panel pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 /* Task Activity Over Time – ensure room for chart */
@@ -142,10 +154,10 @@
   display: block;
 }
 
-/* Delegation-side (right column) cards – use full column width so they meet center */
+/* Delegation-side (right column) cards – full width with breathing room */
 
 .delegation-column-card {
   width: 100%;
-  max-width: 100%;
-  margin-left: 0;
+  max-width: 96%;     /* mirror left side breathing room */
+  margin-left: auto;  /* anchor to right edge of its column */
 }
