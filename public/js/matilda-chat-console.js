@@ -4,7 +4,6 @@
 // - Fixes Critical Ops Alerts height
 // - Recreates Task Activity Over Time chart
 // - Adds a Project Visual Output card below Atlas Subsystem Status
-// - Adjusts Matilda/Delegation column split toward center (more balanced widths)
 
 (function () {
   function logInfo(msg) {
@@ -169,43 +168,6 @@
     }
   }
 
-  // --- Adjust column split toward center (more balanced left/right widths) ---
-  function adjustChatDelegationSplit() {
-    var headings = Array.prototype.slice.call(
-      document.querySelectorAll("h2, h3")
-    );
-    var chatHeader = headings.find(function (h) {
-      return h.textContent.trim().indexOf("Matilda Chat Console") === 0;
-    });
-    var taskHeader = headings.find(function (h) {
-      return h.textContent.trim().indexOf("Task Delegation") === 0;
-    });
-    if (!chatHeader || !taskHeader) return;
-
-    var chatCard =
-      chatHeader.closest(".card, .panel, .dashboard-section, section, .tile") ||
-      chatHeader.parentElement;
-    var taskCard =
-      taskHeader.closest(".card, .panel, .dashboard-section, section, .tile") ||
-      taskHeader.parentElement;
-    if (!chatCard || !taskCard || !taskCard.parentElement) return;
-
-    var container = taskCard.parentElement;
-    var style = window.getComputedStyle(container);
-
-    if (style.display === "grid") {
-      container.style.gridTemplateColumns = "1fr 1fr";
-      if (!style.columnGap || style.columnGap === "0px") {
-        container.style.columnGap = "24px";
-      }
-      logInfo("Adjusted grid split between Matilda Chat and Task Delegation to 50/50.");
-    } else if (style.display === "flex") {
-      chatCard.style.flex = "1 1 50%";
-      taskCard.style.flex = "1 1 50%";
-      logInfo("Adjusted flex split between Matilda Chat and Task Delegation to 50/50.");
-    }
-  }
-
   // --- Fix Critical Ops height ---
   function fixCriticalOpsSize() {
     var panel =
@@ -309,7 +271,6 @@
     ensureMatildaChatConsole();
     wireChatControls();
     repositionMatildaChatCard();
-    adjustChatDelegationSplit();
     fixCriticalOpsSize();
     ensureProjectOutputCard();
 
