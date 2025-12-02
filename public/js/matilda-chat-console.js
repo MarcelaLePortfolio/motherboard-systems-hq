@@ -22,9 +22,7 @@
 
   // --- Create Matilda Chat Console if missing ---
   function ensureMatildaChatConsole() {
-    if (document.getElementById("matilda-chat-container")) {
-      return;
-    }
+    if (document.getElementById("matilda-chat-container")) return;
 
     var headings = Array.prototype.slice.call(
       document.querySelectorAll("h2, h3")
@@ -50,7 +48,7 @@
       '<div id="matilda-chat-input-row">' +
       '  <textarea id="matilda-chat-input" rows="2" placeholder="Chat with Matilda about tasks, status, or next steps…"></textarea>' +
       '  <button id="matilda-chat-send" type="button">Send</button>' +
-      '</div>';
+      "</div>";
 
     if (taskCard && taskCard.parentElement) {
       taskCard.parentElement.insertBefore(chatCard, taskCard);
