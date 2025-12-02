@@ -4,6 +4,7 @@
 // - Fixes Critical Ops Alerts height
 // - Recreates Task Activity Over Time chart
 // - Adds a Project Visual Output card below Atlas Subsystem Status
+// - Narrows the Task Delegation / Atlas column via CSS class
 
 (function () {
   function logInfo(msg) {
@@ -52,6 +53,7 @@
 
     if (taskCard && taskCard.parentElement) {
       taskCard.parentElement.insertBefore(chatCard, taskCard);
+      taskCard.classList.add("delegation-column-card");
       logInfo("Matilda Chat inserted above Task Delegation.");
     } else {
       (document.querySelector("main") || document.body).appendChild(chatCard);
@@ -162,8 +164,9 @@
       taskHeader.closest(".card, .panel, .dashboard-section, section, .tile") ||
       taskHeader.parentElement;
 
-    if (chatCard && taskCard && chatCard !== taskCard) {
+    if (chatCard && taskCard && chatCard !== taskCard && taskCard.parentElement) {
       taskCard.parentElement.insertBefore(chatCard, taskCard);
+      taskCard.classList.add("delegation-column-card");
       logInfo("Matilda Chat repositioned above Task Delegation.");
     }
   }
@@ -196,6 +199,8 @@
         ".card, .panel, .dashboard-section, section, .tile"
       ) || atlasHeader.parentElement;
     if (!atlasCard || !atlasCard.parentElement) return;
+
+    atlasCard.classList.add("delegation-column-card");
 
     var outputCard = document.createElement("section");
     outputCard.id = "project-visual-output-card";
