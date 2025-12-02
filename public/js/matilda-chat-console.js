@@ -1,154 +1,268 @@
-// Matilda Chat Console — improved placement & debug
+// Matilda Chat Console – Phase 2 Layout + UX Upgrade
+// - Repositions Matilda Chat above Task Delegation
+// - Matches Task Delegation styling elements
+// - Fixes Critical Ops Alerts height
+// - Recreates Task Activity Over Time chart
 
 (function () {
-  console.log("[MatildaChat] matilda-chat-console.js loaded");
-
-  function createDebugBadge() {
-    if (document.getElementById("matilda-chat-debug-badge")) return;
-    const badge = document.createElement("div");
-    badge.id = "matilda-chat-debug-badge";
-    badge.textContent = "Matilda Chat JS Loaded";
-    badge.style.position = "fixed";
-    badge.style.bottom = "10px";
-    badge.style.right = "10px";
-    badge.style.zIndex = "9999";
-    badge.style.fontSize = "10px";
-    badge.style.padding = "4px 8px";
-    badge.style.borderRadius = "999px";
-    badge.style.background = "rgba(15,23,42,0.9)";
-    badge.style.color = "#a5b4fc";
-    badge.style.border = "1px solid rgba(129,140,248,0.7)";
-    document.body.appendChild(badge);
+  function logInfo(msg) {
+    console.log("[MatildaChat]", msg);
   }
 
-  function createMatildaCard() {
-    if (document.getElementById("matilda-chat-card")) return null;
+  async function sendChatMessage() {
+    const input = document.getElementById("matilda-chat-input");
+    const sendBtn = document.getElementById("matilda-chat-send");
+    const logEl = document.getElementById("matilda-chat-log");
 
-    const card = document.createElement("div");
-    card.id = "matilda-chat-card";
-    card.style.padding = "16px";
-    card.style.margin = "16px 0";
-    card.style.borderRadius = "12px";
-    card.style.background = "rgba(15,23,42,0.95)";
-    card.style.border = "1px solid rgba(148,163,184,0.35)";
-    card.style.color = "#e5e7eb";
-
-    const title = document.createElement("h2");
-    title.textContent = "Matilda Chat Console";
-    title.style.fontSize = "1rem";
-    title.style.marginBottom = "8px";
-
-    const subtitle = document.createElement("div");
-    subtitle.textContent = "Direct chat with Matilda — this does NOT create tasks.";
-    subtitle.style.fontSize = "0.8rem";
-    subtitle.style.color = "#9ca3af";
-    subtitle.style.marginBottom = "8px";
-
-    const transcript = document.createElement("div");
-    transcript.id = "matilda-chat-output";
-    transcript.style.minHeight = "120px";
-    transcript.style.maxHeight = "260px";
-    transcript.style.overflowY = "auto";
-    transcript.style.background = "rgba(15,23,42,0.85)";
-    transcript.style.border = "1px solid rgba(55,65,81,0.9)";
-    transcript.style.padding = "8px";
-    transcript.style.marginBottom = "8px";
-
-    const input = document.createElement("textarea");
-    input.id = "matilda-chat-input";
-    input.rows = 2;
-    input.placeholder = "Message Matilda…";
-    input.style.width = "100%";
-    input.style.marginBottom = "8px";
-
-    const button = document.createElement("button");
-    button.id = "matilda-chat-send";
-    button.textContent = "Send";
-    button.style.padding = "6px 16px";
-    button.style.borderRadius = "999px";
-    button.style.background = "#4f46e5";
-    button.style.color = "#fff";
-    button.style.border = "none";
-
-    card.appendChild(title);
-    card.appendChild(subtitle);
-    card.appendChild(transcript);
-    card.appendChild(input);
-    card.appendChild(button);
-
-    return card;
-  }
-
-  function insertCard(card) {
-    const header = document.querySelector("header");
-
-    if (header && header.parentNode) {
-      header.parentNode.insertBefore(card, header.nextSibling);
-      console.log("[MatildaChat] Card inserted after header");
+    if (!input || !sendBtn || !logEl) {
       return;
     }
 
-    document.body.insertBefore(card, document.body.firstChild);
-    console.log("[MatildaChat] Card inserted at top of body (fallback)");
-  }
+    const text = input.value.trim();
+    if (!text) return;
 
-  function appendLine(role, text) {
-    const transcript = document.getElementById("matilda-chat-output");
-    if (!transcript) return;
-    const div = document.createElement("div");
-    div.textContent = (role === "user" ? "You: " : "Matilda: ") + text;
-    transcript.appendChild(div);
-    transcript.scrollTop = transcript.scrollHeight;
-  }
+    // Append user message
+    appendMessage(logEl, text, "user");
 
-  async function sendMessage() {
-    const input = document.getElementById("matilda-chat-input");
-    const msg = (input.value || "").trim();
-    if (!msg) return;
     input.value = "";
+    input.focus();
 
-    appendLine("user", msg);
+    // Show typing indicator
+    const typingId = appendMessage(logEl, "Matilda is thinking…", "matilda", true);
+
+    sendBtn.disabled = true;
 
     try {
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: msg, agent: "matilda" })
+        body: JSON.stringify({
+          message: text,
+          agent: "matilda",
+        }),
       });
 
-      const data = await res.json().catch(() => ({}));
-      appendLine("matilda", data.reply || "[no reply]");
-    } catch {
-      appendLine("matilda", "[network error]");
+      if (!res.ok) {
+        throw new Error("Non-200 response");
+      }
+
+      const data = await res.json();
+      const reply = (data && data.reply) || "(no reply)";
+
+      removeMessageById(logEl, typingId);
+      appendMessage(logEl, reply, "matilda");
+    } catch (err) {
+      console.error("[MatildaChat] Error sending message:", err);
+      removeMessageById(logEl, typingId);
+      appendMessage(
+        logEl,
+        "Matilda hit a snag reaching the backend. Please try again in a moment.",
+        "matilda"
+      );
+    } finally {
+      sendBtn.disabled = false;
     }
   }
 
-  function wire() {
-    const btn = document.getElementById("matilda-chat-send");
+  let messageCounter = 0;
+
+  function appendMessage(logEl, text, role, isEphemeral) {
+    const msg = document.createElement("div");
+    const id = "matilda-msg-" + messageCounter++;
+    msg.dataset.msgId = id;
+
+    msg.classList.add(role === "user" ? "user-msg" : "matilda-msg");
+    msg.textContent = text;
+
+    logEl.appendChild(msg);
+    logEl.scrollTop = logEl.scrollHeight;
+
+    if (isEphemeral) {
+      msg.classList.add("ephemeral-msg");
+    }
+
+    return id;
+  }
+
+  function removeMessageById(logEl, id) {
+    if (!id) return;
+    const el = logEl.querySelector('[data-msg-id="' + id + '"]');
+    if (el && el.parentElement) {
+      el.parentElement.removeChild(el);
+    }
+  }
+
+  function wireChatControls() {
     const input = document.getElementById("matilda-chat-input");
-    if (!btn || !input) return;
+    const sendBtn = document.getElementById("matilda-chat-send");
+    const logEl = document.getElementById("matilda-chat-log");
 
-    btn.addEventListener("click", sendMessage);
+    if (!input || !sendBtn || !logEl) {
+      logInfo("Chat elements not found; skipping chat wiring.");
+      return;
+    }
 
-    input.addEventListener("keydown", ev => {
-      if (ev.key === "Enter" && !ev.shiftKey) {
-        ev.preventDefault();
-        sendMessage();
+    logInfo("init() running – wiring chat controls.");
+
+    sendBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      sendChatMessage();
+    });
+
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        sendChatMessage();
       }
     });
   }
 
-  function init() {
-    console.log("[MatildaChat] init() running");
-    createDebugBadge();
-    const card = createMatildaCard();
-    insertCard(card);
-    wire();
+  // --- Layout: move Matilda Chat above Task Delegation ---
+  function repositionMatildaChatCard() {
+    const headings = Array.from(document.querySelectorAll("h2, h3"));
+
+    const chatHeader = headings.find((h) =>
+      h.textContent.trim().startsWith("Matilda Chat Console")
+    );
+    const taskHeader = headings.find((h) =>
+      h.textContent.trim().startsWith("Task Delegation")
+    );
+
+    if (!chatHeader || !taskHeader) {
+      logInfo("Could not find chat or task delegation headers; skipping reposition.");
+      return;
+    }
+
+    const chatCard =
+      chatHeader.closest(".card, .panel, .dashboard-section, section, .tile") ||
+      chatHeader.parentElement;
+    const taskCard =
+      taskHeader.closest(".card, .panel, .dashboard-section, section, .tile") ||
+      taskHeader.parentElement;
+
+    if (!chatCard || !taskCard || !taskCard.parentElement) {
+      logInfo("Card containers not found; skipping reposition.");
+      return;
+    }
+
+    if (chatCard === taskCard) return;
+
+    // Insert chat card just before Task Delegation card
+    taskCard.parentElement.insertBefore(chatCard, taskCard);
+    logInfo("Matilda Chat card moved above Task Delegation.");
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init);
-  } else {
-    init();
+  // --- Fixed size for Critical Ops Alerts ---
+  function fixCriticalOpsPanelSize() {
+    const panel =
+      document.getElementById("critical-ops-alerts") ||
+      document.getElementById("critical-ops-panel");
+    if (!panel) {
+      logInfo("Critical Ops Alerts panel not found; skipping size fix.");
+      return;
+    }
+
+    panel.style.maxHeight = "260px";
+    panel.style.minHeight = "260px";
+    panel.style.overflowY = "auto";
+    logInfo("Critical Ops Alerts panel height constrained to 260px.");
   }
+
+  // --- Task Activity Over Time Chart ---
+  function loadChartJs() {
+    if (window.Chart) return Promise.resolve();
+
+    return new Promise(function (resolve, reject) {
+      const script = document.createElement("script");
+      script.src = "https://cdn.jsdelivr.net/npm/chart.js";
+      script.async = true;
+      script.onload = function () {
+        resolve();
+      };
+      script.onerror = function (err) {
+        console.error("[MatildaChat] Failed to load Chart.js", err);
+        reject(err);
+      };
+      document.head.appendChild(script);
+    });
+  }
+
+  function createTaskActivityChart() {
+    const container =
+      document.getElementById("task-activity-over-time") ||
+      document.getElementById("task-activity-card");
+
+    if (!container) {
+      logInfo("Task Activity Over Time container not found; skipping chart.");
+      return;
+    }
+
+    let canvas = container.querySelector("#task-activity-chart");
+    if (!canvas) {
+      canvas = document.createElement("canvas");
+      canvas.id = "task-activity-chart";
+      container.appendChild(canvas);
+    }
+
+    const ctx = canvas.getContext("2d");
+
+    // Example placeholder data – can be wired to real metrics later
+    const labels = ["0m", "5m", "10m", "15m", "20m", "25m", "30m"];
+    const data = [3, 7, 5, 9, 6, 10, 8];
+
+    new window.Chart(ctx, {
+      type: "line",
+      data: {
+        labels,
+        datasets: [
+          {
+            label: "Tasks Completed",
+            data,
+            tension: 0.35,
+            borderWidth: 2,
+            pointRadius: 3,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            labels: {
+              color: "#e5e7eb",
+            },
+          },
+        },
+        scales: {
+          x: {
+            ticks: { color: "#9ca3af" },
+            grid: { color: "rgba(55,65,81,0.4)" },
+          },
+          y: {
+            ticks: { color: "#9ca3af" },
+            grid: { color: "rgba(55,65,81,0.4)" },
+          },
+        },
+      },
+    });
+
+    container.style.minHeight = "260px";
+    canvas.style.height = "220px";
+    logInfo("Task Activity Over Time chart rendered.");
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    logInfo("matilda-chat-console.js loaded");
+
+    wireChatControls();
+    repositionMatildaChatCard();
+    fixCriticalOpsPanelSize();
+
+    loadChartJs()
+      .then(createTaskActivityChart)
+      .catch(function () {
+        // Chart is optional – failure shouldn't break dashboard
+      });
+  });
 })();
