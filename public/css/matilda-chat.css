@@ -1,0 +1,124 @@
+/* Matilda Chat Console – Phase 2 UI Polish + Layout Tweaks */
+
+/* Card container – visually aligned with Task Delegation panel */
+#matilda-chat-container {
+  width: 100%;
+  margin: 16px 0;
+  padding: 18px;
+  border-radius: 16px;
+  background: #020617;
+  border: 1px solid #1f2937;
+  box-shadow: 0 10px 15px -3px rgba(15, 23, 42, 0.7),
+    0 4px 6px -4px rgba(15, 23, 42, 0.9);
+}
+
+/* Chat transcript – similar body area feel to Task Delegation text region */
+#matilda-chat-log {
+  width: 100%;
+  min-height: 140px;
+  max-height: 260px;
+  padding: 12px 14px;
+  margin-bottom: 12px;
+  border-radius: 12px;
+  background: #020617;
+  border: 1px solid #1f2937;
+  overflow-y: auto;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #e5e7eb;
+}
+
+/* Message bubbles */
+.matilda-msg,
+.user-msg {
+  margin-bottom: 8px;
+  padding: 8px 11px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.matilda-msg {
+  background: #111827;
+  border: 1px solid #1f2937;
+  text-align: left;
+}
+
+.user-msg {
+  background: #1f2937;
+  border: 1px solid #374151;
+  text-align: right;
+}
+
+/* Input row – mirrors Task Delegation layout */
+#matilda-chat-input-row {
+  display: flex;
+  gap: 12px;
+  align-items: stretch;
+}
+
+/* Input box styled like delegation textarea */
+#matilda-chat-input {
+  flex: 1;
+  padding: 11px 12px;
+  border-radius: 12px;
+  background: #020617;
+  border: 1px solid #1f2937;
+  color: #e5e7eb;
+  font-size: 14px;
+  resize: none;
+}
+
+#matilda-chat-input::placeholder {
+  color: #6b7280;
+}
+
+/* Send button – aligned with "Complete Task (Alpha)" style */
+#matilda-chat-send {
+  min-width: 110px;
+  padding: 11px 16px;
+  border-radius: 9999px;
+  border: none;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: #f9fafb;
+  box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.7),
+    0 4px 6px -4px rgba(79, 70, 229, 0.9);
+  transition: transform 0.05s ease-out, box-shadow 0.05s ease-out,
+    background 0.1s ease-out;
+}
+
+#matilda-chat-send:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 20px -4px rgba(79, 70, 229, 0.85);
+  background: linear-gradient(135deg, #818cf8, #a855f7);
+}
+
+#matilda-chat-send:disabled {
+  opacity: 0.6;
+  cursor: default;
+  box-shadow: none;
+}
+
+/* Critical Ops Alerts – fixed console size */
+#critical-ops-alerts,
+#critical-ops-panel {
+  max-height: 260px;
+  min-height: 260px;
+  overflow-y: auto;
+}
+
+/* Task Activity Over Time – ensure room for chart */
+#task-activity-over-time,
+#task-activity-card {
+  min-height: 260px;
+  position: relative;
+}
+
+#task-activity-over-time canvas,
+#task-activity-card canvas {
+  width: 100% !important;
+  height: 220px !important;
+  display: block;
+}
