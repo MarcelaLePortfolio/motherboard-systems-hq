@@ -7,7 +7,8 @@
   border-radius: 16px;
   border: 1px solid #111827;
   box-shadow: 0 18px 35px -12px rgba(15, 23, 42, 0.9);
-  max-width: 62%; /* widen Matilda Chat to use more of the left side */
+  width: 100%;
+  max-width: 100%; /* use full left column width so it meets the center */
 }
 
 #matilda-chat-container h2 {
@@ -109,6 +110,14 @@
   box-shadow: none;
 }
 
+/* Project Visual Output – match left column width */
+
+#project-visual-output-card {
+  margin: 16px 0;
+  width: 100%;
+  max-width: 100%; /* align with Matilda Chat so both meet the center */
+}
+
 /* Critical Ops Alerts – fixed console size */
 
 #critical-ops-alerts,
@@ -133,9 +142,10 @@
   display: block;
 }
 
-/* Delegation-side (right column) cards – slightly narrower and right-aligned */
+/* Delegation-side (right column) cards – use full column width so they meet center */
 
 .delegation-column-card {
-  max-width: 75%;
-  margin-left: auto;
+  width: 100%;
+  max-width: 100%;
+  margin-left: 0;
 }
