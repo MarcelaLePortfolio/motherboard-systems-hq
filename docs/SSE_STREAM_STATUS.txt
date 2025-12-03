@@ -1,0 +1,8 @@
+SSE stream status note.
+
+We ran:
+- find . -maxdepth 6 -type f -name reflections_stream.py
+- find . -maxdepth 6 -type f -name ops_stream.py
+
+Check the terminal output above for any discovered paths.
+If no paths are shown, the SSE Python scripts are not present in this repo yet.
