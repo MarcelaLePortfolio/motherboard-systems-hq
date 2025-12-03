@@ -8,7 +8,7 @@
   border: 1px solid #111827;
   box-shadow: 0 18px 35px -12px rgba(15, 23, 42, 0.9);
   width: 100%;
-  max-width: 96%;      /* leave a little breathing room toward the center */
+  max-width: 96%;      /* small breathing room toward center */
   margin-right: auto;  /* anchor to left edge of its column */
 }
 
@@ -120,23 +120,33 @@
   margin-right: auto;  /* align with Matilda Chat on the left rail */
 }
 
-/* Critical Ops Alerts – fixed console size + safe wrapping */
+/* Critical Ops Alerts – fixed console size + robust wrapping */
 
+#critical-ops-card,
 #critical-ops-alerts,
 #critical-ops-panel {
   max-height: 260px;
   min-height: 260px;
   overflow-y: auto;
   overflow-x: auto;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
 }
 
-#critical-ops-alerts pre,
-#critical-ops-panel pre {
-  white-space: pre-wrap;
+/* Ensure any text inside Critical Ops wraps instead of spilling */
+#critical-ops-card *,
+#critical-ops-alerts *,
+#critical-ops-panel * {
   word-wrap: break-word;
   overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+#critical-ops-card pre,
+#critical-ops-card code,
+#critical-ops-alerts pre,
+#critical-ops-alerts code,
+#critical-ops-panel pre,
+#critical-ops-panel code {
+  white-space: pre-wrap;
 }
 
 /* Task Activity Over Time – ensure room for chart */
