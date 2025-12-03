@@ -1,10 +1,11 @@
 // Matilda Chat Console – Phase 2 Helpers
 // - Guarantees Matilda Chat console exists
 // - Positions it above Task Delegation
-// - Fixes Critical Ops Alerts height
+// - Creates Project Visual Output card under Atlas
+// - Aligns right-column cards
+// - Applies a two-column grid layout for Matilda/Task + Project/System rows
+// - Fixes Critical Ops height
 // - Recreates Task Activity Over Time chart
-// - Adds a Project Visual Output card below Atlas Subsystem Status
-// - Narrows the Task Delegation / Atlas column via CSS class
 
 (function () {
   function logInfo(msg) {
@@ -21,23 +22,26 @@
     logInfo("Injected /css/matilda-chat.css");
   }
 
+  // --- Utility to find card container by heading label ---
+  function findCardByHeadingLabel(label) {
+    var headings = Array.prototype.slice.call(
+      document.querySelectorAll("h2, h3")
+    );
+    var header = headings.find(function (h) {
+      return h.textContent.trim().indexOf(label) === 0;
+    });
+    if (!header) return null;
+    return (
+      header.closest(".card, .panel, .dashboard-section, section, .tile") ||
+      header.parentElement
+    );
+  }
+
   // --- Create Matilda Chat Console if missing ---
   function ensureMatildaChatConsole() {
     if (document.getElementById("matilda-chat-container")) return;
 
-    var headings = Array.prototype.slice.call(
-      document.querySelectorAll("h2, h3")
-    );
-    var taskHeader = headings.find(function (h) {
-      return h.textContent.trim().indexOf("Task Delegation") === 0;
-    });
-
-    var taskCard =
-      taskHeader &&
-      (taskHeader.closest(
-        ".card, .panel, .dashboard-section, section, .tile"
-      ) ||
-        taskHeader.parentElement);
+    var taskCard = findCardByHeadingLabel("Task Delegation");
 
     var chatCard = document.createElement("section");
     chatCard.id = "matilda-chat-container";
@@ -53,7 +57,6 @@
 
     if (taskCard && taskCard.parentElement) {
       taskCard.parentElement.insertBefore(chatCard, taskCard);
-      taskCard.classList.add("delegation-column-card");
       logInfo("Matilda Chat inserted above Task Delegation.");
     } else {
       (document.querySelector("main") || document.body).appendChild(chatCard);
@@ -146,27 +149,12 @@
 
   // --- Reposition Matilda Chat above Task Delegation if both exist ---
   function repositionMatildaChatCard() {
-    var headings = Array.prototype.slice.call(
-      document.querySelectorAll("h2, h3")
-    );
-    var chatHeader = headings.find(function (h) {
-      return h.textContent.trim().indexOf("Matilda Chat Console") === 0;
-    });
-    var taskHeader = headings.find(function (h) {
-      return h.textContent.trim().indexOf("Task Delegation") === 0;
-    });
-    if (!chatHeader || !taskHeader) return;
+    var chatCard = findCardByHeadingLabel("Matilda Chat Console");
+    var taskCard = findCardByHeadingLabel("Task Delegation");
+    if (!chatCard || !taskCard || !taskCard.parentElement) return;
 
-    var chatCard =
-      chatHeader.closest(".card, .panel, .dashboard-section, section, .tile") ||
-      chatHeader.parentElement;
-    var taskCard =
-      taskHeader.closest(".card, .panel, .dashboard-section, section, .tile") ||
-      taskHeader.parentElement;
-
-    if (chatCard && taskCard && chatCard !== taskCard && taskCard.parentElement) {
+    if (chatCard !== taskCard) {
       taskCard.parentElement.insertBefore(chatCard, taskCard);
-      taskCard.classList.add("delegation-column-card");
       logInfo("Matilda Chat repositioned above Task Delegation.");
     }
   }
@@ -175,7 +163,8 @@
   function fixCriticalOpsSize() {
     var panel =
       document.getElementById("critical-ops-alerts") ||
-      document.getElementById("critical-ops-panel");
+      document.getElementById("critical-ops-panel") ||
+      document.getElementById("critical-ops-card");
     if (!panel) return;
     panel.style.maxHeight = "260px";
     panel.style.minHeight = "260px";
@@ -186,21 +175,8 @@
   function ensureProjectOutputCard() {
     if (document.getElementById("project-visual-output-card")) return;
 
-    var headings = Array.prototype.slice.call(
-      document.querySelectorAll("h2, h3")
-    );
-    var atlasHeader = headings.find(function (h) {
-      return h.textContent.trim().indexOf("Atlas Subsystem Status") === 0;
-    });
-    if (!atlasHeader) return;
-
-    var atlasCard =
-      atlasHeader.closest(
-        ".card, .panel, .dashboard-section, section, .tile"
-      ) || atlasHeader.parentElement;
+    var atlasCard = findCardByHeadingLabel("Atlas Subsystem Status");
     if (!atlasCard || !atlasCard.parentElement) return;
-
-    atlasCard.classList.add("delegation-column-card");
 
     var outputCard = document.createElement("section");
     outputCard.id = "project-visual-output-card";
@@ -219,6 +195,54 @@
     }
 
     logInfo("Project Visual Output card inserted below Atlas Subsystem Status.");
+  }
+
+  // --- Align System Reflections / Critical Ops to right column rail ---
+  function alignRightColumnCards() {
+    var labels = ["System Reflections", "Critical Ops Alerts"];
+    labels.forEach(function (label) {
+      var card = findCardByHeadingLabel(label);
+      if (card) {
+        card.classList.add("delegation-column-card");
+      }
+    });
+  }
+
+  // --- Two-column layout for key rows (Matilda+Task, Project+System) ---
+  function applyTwoColumnLayout() {
+    function makeTwoColumnRow(leftLabel, rightLabel) {
+      var leftCard = findCardByHeadingLabel(leftLabel);
+      var rightCard = findCardByHeadingLabel(rightLabel);
+      if (!leftCard || !rightCard) return;
+
+      var parent = leftCard.parentElement;
+      while (parent && !parent.contains(rightCard)) {
+        parent = parent.parentElement;
+      }
+      if (!parent) return;
+
+      if (parent.dataset.matildaLayout === "two-column") return;
+      parent.dataset.matildaLayout = "two-column";
+
+      parent.style.display = "grid";
+      parent.style.gridTemplateColumns =
+        "minmax(320px, 1.05fr) minmax(480px, 1.75fr)";
+      parent.style.columnGap = "32px";
+      parent.style.alignItems = "flex-start";
+
+      leftCard.style.width = "100%";
+      rightCard.style.width = "100%";
+
+      logInfo(
+        "Applied two-column layout for row: " +
+          leftLabel +
+          " / " +
+          rightLabel
+      );
+    }
+
+    makeTwoColumnRow("Matilda Chat Console", "Task Delegation");
+    makeTwoColumnRow("Project Visual Output", "System Reflections");
   }
 
   // --- Chart helpers for Task Activity Over Time ---
@@ -267,6 +291,8 @@
         maintainAspectRatio: false,
       },
     });
+
+    logInfo("Task Activity Over Time chart rendered.");
   }
 
   document.addEventListener("DOMContentLoaded", function () {
@@ -278,6 +304,8 @@
     repositionMatildaChatCard();
     fixCriticalOpsSize();
     ensureProjectOutputCard();
+    alignRightColumnCards();
+    applyTwoColumnLayout();
 
     loadChartJs()
       .then(function () {
