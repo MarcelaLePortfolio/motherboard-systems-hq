@@ -7,23 +7,28 @@ import { renderTaskActivityGraph } from "./task-activity-graph.js";
 async function fetchTasksAndRender() {
 try {
 const res = await fetch("/tasks");
-if (!res.ok) throw new Error(`HTTP ${res.status}`);
+if (!res.ok) {
+throw new Error("HTTP " + res.status);
+}
 const tasks = await res.json();
 
 ```
-const canvas = document.getElementById("taskActivityCanvas");
-const ctx = canvas && typeof canvas.getContext === "function" ? canvas.getContext("2d") : null;
+var canvas = document.getElementById("taskActivityCanvas");
+var ctx =
+  canvas && typeof canvas.getContext === "function"
+    ? canvas.getContext("2d")
+    : null;
 
-if (ctx && Array.isArray(tasks) && tasks.length) {
+if (ctx && Array.isArray(tasks) && tasks.length > 0) {
   renderTaskActivityGraph(ctx, tasks);
-  console.log(`📈 Rendered ${tasks.length} task events`);
+  console.log("Rendered " + tasks.length + " task events");
 } else {
-  console.warn("⚠️ No tasks or missing canvas context.");
+  console.warn("No tasks or missing canvas context.");
 }
 ```
 
 } catch (err) {
-console.error("❌ Failed to load tasks for graph:", err);
+console.error("Failed to load tasks for graph:", err);
 }
 }
 
