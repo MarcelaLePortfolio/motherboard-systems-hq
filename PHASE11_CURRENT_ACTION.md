@@ -3,43 +3,49 @@
 Baseline:
 - Repo: Motherboard_Systems_HQ
 - Branch: feature/v11-dashboard-bundle
-- Container: dashboard + Postgres already running and healthy
-- All planning and guides are written and pushed
+- Container: dashboard + Postgres running and healthy
+- Helper scripts added:
+  - scripts/phase11_delegate_task_curl.sh
+  - scripts/phase11_complete_task_curl.sh
 
 You are ready to actually run the backend tests.
 
 ---
 
-## ✅ Do This Next – Delegate Task Curl Test
+## ✅ Step 1 – Delegate Task Curl Test
 
-1. In your main terminal, run:
+From repo root:
 
-curl -i -X POST http://127.0.0.1:3000/api/delegate-task \
-  -H "Content-Type: application/json" \
-  -d '{
-    "title": "Phase 11 container curl test",
-    "agent": "cade",
-    "notes": "Created via Phase 11 backend validation"
-  }'
+scripts/phase11_delegate_task_curl.sh
 
-2. Immediately after, in the same terminal or another one, run:
+Capture:
+- HTTP status from curl
+- Response body (look for any task identifier)
+- Any relevant lines from `docker-compose logs --tail=50`
 
-docker-compose logs -f --tail=50
-
-3. Save or note:
-- HTTP status from the curl output
-- Response body (especially any task id or similar field)
-- Any error lines in the dashboard-1 logs
+Use the response to determine the correct task identifier (for example `taskId`).
 
 ---
 
-## ➡️ After That
+## ✅ Step 2 – Complete Task Curl Test
 
-Once you have this output, the next step will be:
+Once you have the ID (replace `123` with the real value):
 
-- Use the response to determine the correct identifier for the complete-task test (for example taskId).
-- Then run the complete-task curl from the PHASE11_TASK_DELEGATION_RUN_SEQUENCE guide.
-- Based on pass/fail, decide whether we:
-  - Patch server.mjs (if curl fails), or
-  - Move on to dashboard Task Delegation UX validation (if curl passes).
+scripts/phase11_complete_task_curl.sh 123
+
+Capture again:
+- HTTP status from curl
+- Response body
+- Any relevant lines from `docker-compose logs --tail=50`
+
+---
+
+## ➡️ After Both Steps
+
+- If both calls are healthy:
+  - Move on to Task Delegation UI validation in the containerized dashboard.
+
+- If either call fails:
+  - Bring the curl output + log snippets into a new thread and start from:
+    “Continue Phase 11 from the point where the curl tests for /api/delegate-task or /api/complete-task failed.”
 
