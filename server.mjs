@@ -27,7 +27,7 @@ const pool = new Pool({
 // Serve static files
 app.use(express.static(path.join(__dirname, 'public')));
 
-// 1. API Endpoint: System Metrics (Existing)
+// 1. API Endpoint: System Metrics
 app.get('/api/metrics', async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM system_metrics ORDER BY id DESC LIMIT 1');
@@ -42,7 +42,7 @@ app.get('/api/metrics', async (req, res) => {
   }
 });
 
-// 2. API Endpoint: Task Activity Graph (Existing)
+// 2. API Endpoint: Task Activity Graph
 app.get('/api/activity-graph', async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM task_activity ORDER BY timestamp ASC LIMIT 10');
@@ -53,11 +53,12 @@ app.get('/api/activity-graph', async (req, res) => {
   }
 });
 
-// 3. API Endpoint: Agent Status Row (Existing)
+// 3. API Endpoint: Agent Status Row
 app.get('/api/agents', async (req, res) => {
   try {
-    // Select all agents and their status
-    const result = await pool.query('SELECT agent_name, status, current_task, last_heartbeat FROM agent_status ORDER BY status DESC, agent_name ASC');
+    const result = await pool.query(
+      'SELECT agent_name, status, current_task, last_heartbeat FROM agent_status ORDER BY status DESC, agent_name ASC'
+    );
     res.json(result.rows);
   } catch (err) {
     console.error(err);
@@ -65,89 +66,117 @@ app.get('/api/agents', async (req, res) => {
   }
 });
 
-// 4. API Endpoint: Task Delegation (Existing)
+// 4. API Endpoint: Task Delegation
 app.post('/api/delegate-task', async (req, res) => {
-    const client = await pool.connect();
-    let assignedAgent = null;
+  const client = await pool.connect();
+  let assignedAgent = null;
 
-    try {
-        await client.query('BEGIN'); // Start transaction
+  try {
+    await client.query('BEGIN'); // Start transaction
 
-        // 1. Find the first IDLE agent and lock the row for update (atomic selection)
-        const findAgentQuery = `
-            SELECT agent_name FROM agent_status 
-            WHERE status = 'IDLE' 
-            ORDER BY last_heartbeat ASC 
-            LIMIT 1 FOR UPDATE
-        `;
-        const result = await client.query(findAgentQuery);
+    const findAgentQuery =
+      'SELECT agent_name FROM agent_status ' +
+      "WHERE status = 'IDLE' " +
+      'ORDER BY last_heartbeat ASC ' +
+      'LIMIT 1 FOR UPDATE';
 
-        if (result.rows.length === 0) {
-            await client.query('ROLLBACK');
-            return res.status(404).json({ message: 'No IDLE agents available.' });
-        }
+    const result = await client.query(findAgentQuery);
 
-        const agentName = result.rows[0].agent_name;
-        
-        // 2. Assign the task and update status
-        const newTask = req.body.task || `Processing Task ${Date.now()}`;
-        
-        const updateQuery = `
-            UPDATE agent_status
-            SET status = 'BUSY', current_task = $1, last_heartbeat = CURRENT_TIMESTAMP
-            WHERE agent_name = $2
-            RETURNING agent_name, current_task;
-        `;
-        const updateResult = await client.query(updateQuery, [newTask, agentName]);
-        
-        assignedAgent = updateResult.rows[0];
-
-        await client.query('COMMIT'); // Commit transaction
-
-        res.json({ 
-            message: 'Task successfully delegated.', 
-            agent: assignedAgent 
-        });
-
-    } catch (err) {
-        await client.query('ROLLBACK'); // Rollback on error
-        console.error('Error during task delegation:', err);
-        res.status(500).json({ error: 'Delegation failed due to server error.' });
-    } finally {
-        client.release();
+    if (result.rows.length === 0) {
+      await client.query('ROLLBACK');
+      return res.status(404).json({ message: 'No IDLE agents available.' });
     }
+
+    const agentName = result.rows[0].agent_name;
+
+    const newTask =
+      (req.body && typeof req.body.task === 'string' && req.body.task.trim().length > 0)
+        ? req.body.task
+        : 'Processing Task ' + Date.now();
+
+    const updateQuery =
+      'UPDATE agent_status ' +
+      "SET status = 'BUSY', current_task = $1, last_heartbeat = CURRENT_TIMESTAMP " +
+      'WHERE agent_name = $2 ' +
+      'RETURNING agent_name, current_task;';
+
+    const updateResult = await client.query(updateQuery, [newTask, agentName]);
+
+    assignedAgent = updateResult.rows[0];
+
+    await client.query('COMMIT'); // Commit transaction
+
+    res.json({
+      message: 'Task successfully delegated.',
+      agent: assignedAgent,
+    });
+  } catch (err) {
+    await client.query('ROLLBACK');
+    console.error('Error during task delegation:', err);
+    res.status(500).json({ error: 'Delegation failed due to server error.' });
+  } finally {
+    client.release();
+  }
 });
 
-// 5. API Endpoint: Task Completion (NEW)
+// 5. API Endpoint: Task Completion
 app.post('/api/complete-task', async (req, res) => {
-    const { agentName } = req.body;
+  const body = req.body || {};
+  const agentName = body.agentName;
 
-    if (!agentName) {
-        return res.status(400).json({ error: 'Agent name is required.' });
+  if (!agentName || typeof agentName !== 'string') {
+    return res.status(400).json({ error: 'Agent name is required.' });
+  }
+
+  try {
+    const query =
+      'UPDATE agent_status ' +
+      "SET status = 'IDLE', current_task = NULL, last_heartbeat = CURRENT_TIMESTAMP " +
+      'WHERE agent_name = $1 ' +
+      'RETURNING agent_name, status;';
+
+    const result = await pool.query(query, [agentName]);
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({
+        message: 'Agent ' + agentName + ' not found or was already IDLE.',
+      });
     }
 
-    try {
-        const query = `
-            UPDATE agent_status
-            SET status = 'IDLE', current_task = NULL, last_heartbeat = CURRENT_TIMESTAMP
-            WHERE agent_name = $1
-            RETURNING agent_name, status;
-        `;
-        const result = await pool.query(query, [agentName]);
+    res.json({
+      message: 'Task completed. Agent ' + agentName + ' is now IDLE.',
+      agent: result.rows[0],
+    });
+  } catch (err) {
+    console.error('Error during task completion:', err);
+    res.status(500).json({ error: 'Task completion failed due to server error.' });
+  }
+});
 
-        if (result.rowCount === 0) {
-            return res.status(404).json({ message: `Agent ${agentName} not found or was already IDLE.` });
-        }
+// 6. API Endpoint: Matilda Chat (NEW)
+app.post('/api/chat', async (req, res) => {
+  try {
+    const body = req.body || {};
+    const message = body.message;
+    const agent = body.agent;
 
-        res.json({ 
-            message: `Task completed. Agent ${agentName} is now IDLE.`, 
-            agent: result.rows[0] 
-        });
-
-    } catch (err) {
-        console.error('Error during task completion:', err);
-        res.status(500).json({ error: 'Task completion failed due to server error.' });
+    if (!message || typeof message !== 'string') {
+      return res.status(400).json({ reply: '(no message received)' });
     }
+
+    const agentLabel = agent || 'matilda';
+    const reply =
+      'Matilda placeholder: I heard "' +
+      message +
+      '" (agent: ' +
+      agentLabel +
+      ').';
+
+    res.json({ reply: reply });
+  } catch (err) {
+    console.error('Error in /api/chat:', err);
+    res.status(500).json({ reply: '(error)' });
+  }
 });
 
 // Fallback route for SPA or index
@@ -156,6 +185,6 @@ app.use((req, res) => {
 });
 
 app.listen(PORT, HOST, () => {
-  console.log(`Server running on http://${HOST}:${PORT}`);
+  console.log('Server running on http://' + HOST + ':' + PORT);
   console.log('Database pool initialized');
 });
