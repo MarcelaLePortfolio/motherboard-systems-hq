@@ -2653,19 +2653,19 @@
   function getContainerSize(canvas, width, height) {
     let maxWidth, maxHeight;
     if (width === void 0 || height === void 0) {
-      const container2 = canvas && _getParentNode(canvas);
-      if (!container2) {
+      const container = canvas && _getParentNode(canvas);
+      if (!container) {
         width = canvas.clientWidth;
         height = canvas.clientHeight;
       } else {
-        const rect = container2.getBoundingClientRect();
-        const containerStyle = getComputedStyle(container2);
+        const rect = container.getBoundingClientRect();
+        const containerStyle = getComputedStyle(container);
         const containerBorder = getPositionedStyle(containerStyle, "border", "width");
         const containerPadding = getPositionedStyle(containerStyle, "padding");
         width = rect.width - containerPadding.width - containerBorder.width;
         height = rect.height - containerPadding.height - containerBorder.height;
-        maxWidth = parseMaxStyle(containerStyle.maxWidth, container2, "clientWidth");
-        maxHeight = parseMaxStyle(containerStyle.maxHeight, container2, "clientHeight");
+        maxWidth = parseMaxStyle(containerStyle.maxWidth, container, "clientWidth");
+        maxHeight = parseMaxStyle(containerStyle.maxHeight, container, "clientHeight");
       }
     }
     return {
@@ -6518,14 +6518,14 @@
   }
   function createResizeObserver(chart2, type, listener) {
     const canvas = chart2.canvas;
-    const container2 = canvas && _getParentNode(canvas);
-    if (!container2) {
+    const container = canvas && _getParentNode(canvas);
+    if (!container) {
       return;
     }
     const resize = throttled((width, height) => {
-      const w = container2.clientWidth;
+      const w = container.clientWidth;
       listener(width, height);
-      if (w < container2.clientWidth) {
+      if (w < container.clientWidth) {
         listener();
       }
     }, window);
@@ -6538,7 +6538,7 @@
       }
       resize(width, height);
     });
-    observer.observe(container2);
+    observer.observe(container);
     listenDevicePixelRatioChanges(chart2, resize);
     return observer;
   }
@@ -6627,8 +6627,8 @@
       return getMaximumSize(canvas, width, height, aspectRatio);
     }
     isAttached(canvas) {
-      const container2 = canvas && _getParentNode(canvas);
-      return !!(container2 && container2.isConnected);
+      const container = canvas && _getParentNode(canvas);
+      return !!(container && container.isConnected);
     }
   };
   function _detectPlatform(canvas) {
@@ -14698,6 +14698,58 @@ if (ctx && Array.isArray(tasks) && tasks.length > 0) {
     window.initTaskGraphFromTasks = initTaskGraphFromTasks;
   }
 
+  // public/js/dashboard-broadcast.js
+  var BROADCAST_GUARD_KEY = "__broadcastVisualizationInited";
+  var nodes = ["Matilda", "Cade", "Effie"];
+  function renderBroadcastNodes() {
+    const container = document.getElementById("broadcast-visual");
+    if (!container) return;
+    const parts = [];
+    for (let i = 0; i < nodes.length; i++) {
+      const n = nodes[i];
+      parts.push('<div class="node" id="node-' + n + '">' + n + "</div>");
+      if (i < nodes.length - 1) {
+        parts.push('<div class="arrow">\u279C</div>');
+      }
+    }
+    container.innerHTML = parts.join("");
+  }
+  function startBroadcastCycle() {
+    let idx = 0;
+    setInterval(() => {
+      const allNodes = document.querySelectorAll(".node");
+      allNodes.forEach((n) => n.classList.remove("active"));
+      ```
+const activeId = "node-" + nodes[idx];
+const active = document.getElementById(activeId);
+if (active) active.classList.add("active");
+
+idx = (idx + 1) % nodes.length;
+```;
+    }, 1500);
+  }
+  function initBroadcastVisualization() {
+    if (typeof window === "undefined" || typeof document === "undefined") {
+      return;
+    }
+    if (window[BROADCAST_GUARD_KEY]) {
+      return;
+    }
+    window[BROADCAST_GUARD_KEY] = true;
+    const run = () => {
+      renderBroadcastNodes();
+      startBroadcastCycle();
+    };
+    if (document.readyState === "loading") {
+      window.addEventListener("DOMContentLoaded", run);
+    } else {
+      run();
+    }
+  }
+  if (typeof window !== "undefined") {
+    window.initBroadcastVisualization = initBroadcastVisualization;
+  }
+
   // public/js/dashboard-graph.js
   Chart.register(...registerables);
   var ctx = document.getElementById("taskActivityGraph").getContext("2d");
@@ -14740,28 +14792,11 @@ if (ctx && Array.isArray(tasks) && tasks.length > 0) {
   setInterval(renderGraph, 3e3);
   renderGraph();
 
-  // public/js/dashboard-broadcast.js
-  var nodes = ["Matilda", "Cade", "Effie"];
-  var container = document.getElementById("broadcast-visual");
-  if (container) {
-    container.innerHTML = nodes.map((n, i) => `<div class="node" id="node-${n}">${n}</div>${i < nodes.length - 1 ? '<div class="arrow">\u279C</div>' : ""}`).join("");
-    animateCycle();
-  }
-  function animateCycle() {
-    let idx = 0;
-    setInterval(() => {
-      document.querySelectorAll(".node").forEach((n) => n.classList.remove("active"));
-      const active = document.getElementById(`node-${nodes[idx]}`);
-      if (active) active.classList.add("active");
-      idx = (idx + 1) % nodes.length;
-    }, 1500);
-  }
-
   // public/scripts/dashboard-reflections.js
   console.log("<0001fe10> dashboard-reflections.js initialized");
   document.addEventListener("DOMContentLoaded", () => {
-    const container2 = document.getElementById("recentLogs");
-    if (!container2) return;
+    const container = document.getElementById("recentLogs");
+    if (!container) return;
     const evtSource = new EventSource("http://localhost:3101/events/reflections");
     evtSource.onopen = () => console.log("<0001fe11> Connected to Reflections SSE");
     evtSource.onerror = (err) => console.warn("\u26A0\uFE0F Reflections SSE error", err);
@@ -14769,8 +14804,8 @@ if (ctx && Array.isArray(tasks) && tasks.length > 0) {
       const div = document.createElement("div");
       div.className = "chat-message reflection";
       div.textContent = e.data;
-      container2.appendChild(div);
-      container2.scrollTop = container2.scrollHeight;
+      container.appendChild(div);
+      container.scrollTop = container.scrollHeight;
     };
   });
 
@@ -14957,7 +14992,18 @@ if (ctx && Array.isArray(tasks) && tasks.length > 0) {
   try {
     initTaskGraphFromTasks();
   } catch (err) {
-    console.error("Failed to initialize task graph loader from bundle entry:", err);
+    console.error(
+      "Failed to initialize task graph loader from bundle entry:",
+      err
+    );
+  }
+  try {
+    initBroadcastVisualization();
+  } catch (err) {
+    console.error(
+      "Failed to initialize broadcast visualization from bundle entry:",
+      err
+    );
   }
 })();
 /*! Bundled license information:
