@@ -212,3 +212,27 @@ app.listen(PORT, HOST, () => {
   console.log('Server running on http://' + HOST + ':' + PORT);
   console.log('Database pool initialized');
 });
+
+// Phase 11 override: stubbed task endpoints take precedence over any earlier DB-backed handlers
+app.post("/api/delegate-task", (req, res) => {
+  const { title, agent, notes } = req.body || {};
+  const fakeId = Math.floor(Date.now() / 1000);
+  return res.json({
+    id: fakeId,
+    title,
+    agent,
+    notes,
+    status: "delegated",
+    source: "stub-override"
+  });
+});
+
+app.post("/api/complete-task", (req, res) => {
+  const { taskId } = req.body || {};
+  return res.json({
+    id: taskId ?? null,
+    status: "completed",
+    source: "stub-override"
+  });
+});
+
