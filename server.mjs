@@ -13,6 +13,30 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
+
+// Phase 11 stubbed task endpoints to avoid Postgres dependency
+app.post("/api/delegate-task", (req, res) => {
+  const { title, agent, notes } = req.body || {};
+  const fakeId = Math.floor(Date.now() / 1000);
+  res.json({
+    id: fakeId,
+    title,
+    agent,
+    notes,
+    status: "delegated",
+    source: "stub"
+  });
+});
+
+app.post("/api/complete-task", (req, res) => {
+  const { taskId } = req.body || {};
+  res.json({
+    id: taskId ?? null,
+    status: "completed",
+    source: "stub"
+  });
+});
+
 app.use(express.json()); // Middleware to parse JSON body for POST requests
 
 // Database Connection Pool
