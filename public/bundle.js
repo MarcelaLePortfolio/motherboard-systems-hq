@@ -14654,69 +14654,49 @@
     scales
   ];
 
-  // public/js/task-activity-graph.js
-  var activityChart;
-  function renderTaskActivityGraph(ctx2, tasks) {
-    const labels = tasks.map((t) => new Date(t.timestamp * 1e3).toLocaleTimeString());
-    const completedData = tasks.map((t) => t.status === "completed" ? 1 : 0);
-    const failedData = tasks.map((t) => t.status === "failed" ? 1 : 0);
-    if (activityChart) {
-      activityChart.data.labels = labels;
-      activityChart.data.datasets[0].data = completedData;
-      activityChart.data.datasets[1].data = failedData;
-      activityChart.update();
-      return;
-    }
-    activityChart = new Chart(ctx2, {
-      type: "line",
-      data: {
-        labels,
-        datasets: [
-          {
-            label: "Completed",
-            data: completedData,
-            borderColor: "#10b981",
-            backgroundColor: "rgba(16, 185, 129, 0.2)",
-            borderWidth: 2,
-            fill: true
-          },
-          {
-            label: "Failed",
-            data: failedData,
-            borderColor: "#ef4444",
-            backgroundColor: "rgba(239, 68, 68, 0.2)",
-            borderWidth: 2,
-            fill: true
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        scales: {
-          y: { beginAtZero: true }
-        }
-      }
-    });
-  }
-
   // public/js/dashboard-graph-loader.js
   async function fetchTasksAndRender() {
     try {
       const res = await fetch("/tasks");
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const tasks = await res.json();
-      const ctx2 = document.getElementById("taskActivityCanvas")?.getContext("2d");
-      if (ctx2 && tasks?.length) {
-        renderTaskActivityGraph(ctx2, tasks);
-        console.log(`\u{1F4C8} Rendered ${tasks.length} task events`);
-      } else {
-        console.warn("\u26A0\uFE0F No tasks or missing canvas context.");
+      if (!res.ok) {
+        throw new Error("HTTP " + res.status);
       }
+      const tasks = await res.json();
+      ```
+var canvas = document.getElementById("taskActivityCanvas");
+var ctx =
+  canvas && typeof canvas.getContext === "function"
+    ? canvas.getContext("2d")
+    : null;
+
+if (ctx && Array.isArray(tasks) && tasks.length > 0) {
+  renderTaskActivityGraph(ctx, tasks);
+  console.log("Rendered " + tasks.length + " task events");
+} else {
+  console.warn("No tasks or missing canvas context.");
+}
+```;
     } catch (err) {
-      console.error("\u274C Failed to load tasks for graph:", err);
+      console.error("Failed to load tasks for graph:", err);
     }
   }
-  window.addEventListener("DOMContentLoaded", fetchTasksAndRender);
+  function initTaskGraphFromTasks() {
+    if (typeof window === "undefined" || typeof document === "undefined") {
+      return;
+    }
+    if (window.__taskGraphFromTasksInited) {
+      return;
+    }
+    window.__taskGraphFromTasksInited = true;
+    if (document.readyState === "loading") {
+      window.addEventListener("DOMContentLoaded", fetchTasksAndRender);
+    } else {
+      fetchTasksAndRender();
+    }
+  }
+  if (typeof window !== "undefined") {
+    window.initTaskGraphFromTasks = initTaskGraphFromTasks;
+  }
 
   // public/js/dashboard-graph.js
   Chart.register(...registerables);
@@ -14855,6 +14835,130 @@
       }
     });
   });
+
+  // public/js/matilda-chat-console.js
+  (function() {
+    function log(msg) {
+      console.log("[matilda-chat]", msg);
+    }
+    function appendMessage(transcriptEl, sender, text) {
+      if (!transcriptEl) return;
+      var line = document.createElement("p");
+      line.className = "mb-1 text-sm";
+      var label = sender ? sender + ": " : "";
+      line.textContent = label + text;
+      transcriptEl.appendChild(line);
+      transcriptEl.scrollTop = transcriptEl.scrollHeight;
+    }
+    function setSendingState(sendBtn, input, isSending) {
+      if (sendBtn) {
+        sendBtn.disabled = isSending;
+        sendBtn.classList.toggle("opacity-60", isSending);
+        sendBtn.textContent = isSending ? "Sending..." : "Send";
+      }
+      if (input) {
+        input.disabled = isSending;
+      }
+    }
+    async function wireChat() {
+      var root = document.getElementById("matilda-chat-root");
+      if (!root) {
+        log("No #matilda-chat-root found; skipping wiring.");
+        return;
+      }
+      var transcript = document.getElementById("matilda-chat-transcript");
+      var input = document.getElementById("matilda-chat-input");
+      var sendBtn = document.getElementById("matilda-chat-send");
+      if (!transcript || !input || !sendBtn) {
+        log("Missing one or more Matilda chat elements; aborting wiring.");
+        return;
+      }
+      function safeTrim(value) {
+        return (value || "").toString().trim();
+      }
+      async function handleSend() {
+        var message = safeTrim(input.value);
+        if (!message) return;
+        appendMessage(transcript, "You", message);
+        input.value = "";
+        setSendingState(sendBtn, input, true);
+        try {
+          var res = await fetch("/api/chat", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ message, agent: "matilda" })
+          });
+          if (!res.ok) {
+            appendMessage(
+              transcript,
+              "Matilda",
+              "(error talking to /api/chat)"
+            );
+            return;
+          }
+          var data = await res.json();
+          var reply = data && (data.reply || data.message || data.response) || "(no reply)";
+          appendMessage(transcript, "Matilda", reply);
+        } catch (err) {
+          console.error(err);
+          appendMessage(transcript, "Matilda", "(network error)");
+        } finally {
+          setSendingState(sendBtn, input, false);
+        }
+      }
+      sendBtn.addEventListener("click", handleSend);
+      input.addEventListener("keydown", function(e) {
+        if (e.key === "Enter" && !e.shiftKey) {
+          e.preventDefault();
+          handleSend();
+        }
+      });
+      log("Matilda chat wiring complete.");
+    }
+    document.addEventListener("DOMContentLoaded", wireChat);
+  })();
+
+  // public/js/task-delegation.js
+  document.addEventListener("DOMContentLoaded", () => {
+    const delegateBtn = document.getElementById("delegate-task-btn");
+    const messageDisplay = document.getElementById("task-delegate-message");
+    delegateBtn.addEventListener("click", async () => {
+      delegateBtn.disabled = true;
+      messageDisplay.style.color = "yellow";
+      messageDisplay.textContent = "Searching for an IDLE agent...";
+      try {
+        const response = await fetch("/api/delegate-task", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          // Optional: send a custom task description
+          body: JSON.stringify({ task: "Execute core diagnostic scan" })
+        });
+        const data = await response.json();
+        if (response.ok) {
+          messageDisplay.style.color = "#4CAF50";
+          messageDisplay.textContent = `Success! Assigned task "${data.agent.current_task}" to Agent ${data.agent.agent_name}.`;
+        } else {
+          messageDisplay.style.color = "red";
+          messageDisplay.textContent = `Failure: ${data.message || "No IDLE agents available."}`;
+        }
+      } catch (error) {
+        console.error("Delegation API call failed:", error);
+        messageDisplay.style.color = "red";
+        messageDisplay.textContent = "Delegation failed due to network error.";
+      } finally {
+        delegateBtn.disabled = false;
+      }
+    });
+  });
+
+  // public/js/dashboard-bundle-entry.js
+  try {
+    initTaskGraphFromTasks();
+  } catch (err) {
+    console.error("Failed to initialize task graph loader from bundle entry:", err);
+  }
 })();
 /*! Bundled license information:
 
