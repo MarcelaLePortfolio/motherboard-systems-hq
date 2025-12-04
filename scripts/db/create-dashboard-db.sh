@@ -14,8 +14,8 @@ docker-compose exec postgres sh -c '
   EXISTS=$(psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -tAc "SELECT 1 FROM pg_database WHERE datname = '\''dashboard_db'\''")
 
   if [ -z "$EXISTS" ]; then
-    echo "🆕 Creating database dashboard_db owned by ${POSTGRES_USER}..."
-    psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -c "CREATE DATABASE dashboard_db OWNER ${POSTGRES_USER};"
+    echo "🆕 Creating database dashboard_db owned by postgres..."
+    psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -c "CREATE DATABASE dashboard_db OWNER postgres;"
   else
     echo "✅ Database dashboard_db already exists."
   fi
