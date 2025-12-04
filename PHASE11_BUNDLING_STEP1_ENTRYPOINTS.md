@@ -31,6 +31,11 @@ The active dashboard HTML lives under public/.
 Path: public/dashboard.html
 
 Notes: Standalone HTML file that serves as the main Phase 11 dashboard UI.
+Contains a single root container:
+
+<div id="dashboard-root"></div>
+
+All cards and UI structure are injected via JavaScript (primarily /bundle.js).
 
 1.2 Related Dashboard Variants / Backups
 
@@ -52,7 +57,7 @@ public/dashboard.html.bak_1762905357
 
 public/dashboard.html.bak_9.7.0b
 
-You may consult these if needed to understand how scripts evolved, but all STEP 1 mapping should reflect the current public/dashboard.html.
+All STEP 1 mapping reflects the current public/dashboard.html.
 
 2. Scope of STEP 1
 
@@ -70,161 +75,337 @@ Record any obvious dependencies or ordering constraints.
 
 You will not change any JS or HTML as part of STEP 1 — this is a mapping/documentation step only.
 
-3. STEP 1A – Raw Script Tag Inventory (TO FILL IN)
+3. STEP 1A – Raw Script Tag Inventory (COMPLETED)
 
-Using public/dashboard.html as the source of truth, list every <script> tag in the exact order they appear.
+Using public/dashboard.html as the source of truth, we listed every <script> tag in the exact order they appear.
 
-3.1 Suggested Commands to Inspect dashboard.html
+3.1 Commands Used
 
-You can use these while working (they are examples, not mandatory):
+Ripgrep (rg) is not installed on this machine. We used grep + cat:
 
 cd "/Users/marcela-dev/Projects/Motherboard_Systems_HQ"
 
-# See script tags in the active dashboard file
-rg "<script" public/dashboard.html -n || cat public/dashboard.html
+grep -n "<script" public/dashboard.html
+cat public/dashboard.html
 
-# If needed, compare with a pre-bundle version
-rg "<script" public/dashboard.pre-bundle-tag.html -n || cat public/dashboard.pre-bundle-tag.html
+3.2 Script Tag Table (Active Dashboard)
 
-3.2 Script Tag Table
+Source: public/dashboard.html
 
-Fill this table based on public/dashboard.html:
+  <!-- Existing scripts for bundle + status -->
+  <script src="/bundle.js"></script>
+  <script src="/js/dashboard-status.js"></script>
+
+  <!-- 🔥 NEW: Matilda Chat Console script (enables the new UI card) -->
+  <script src="/js/matilda-chat-console.js"></script>
+
+
+Resulting table:
 
 Order	Script Path / Identifier	Type	Role / Responsibility	Comments
-1				
-2				
-3				
-4				
-5				
-6				
-7				
-8				
-
-Add more rows if needed. Use one row per <script> tag, including inline scripts (mark Script Path / Identifier as inline and briefly describe what it does).
-
-4. STEP 1B – Group Scripts by Functional Area (TO FILL IN)
-
-Once the raw list is done, group scripts by what they do. This will directly influence how we bundle.
-
-4.1 Core Dashboard / Layout
-
-Scripts that:
-
-Initialize the dashboard
-
-Handle layout, card visibility, tab switching
-
-Wire up generic DOM behavior
-
-Scripts:
-
-4.2 Matilda Chat
-
-Scripts that:
-
-Handle /api/chat (or equivalent) calls
-
-Attach submit handlers to the chat input / form
-
-Render chat responses into the UI
-
-Scripts:
-
-4.3 Task Delegation
-
-Scripts that:
-
-Handle task delegation form submissions / buttons
-
-Call task-related endpoints
-
-Render delegation results or confirmations
-
-Scripts:
-
-4.4 SSE – Reflections / OPS / Other Streams
-
-Scripts that:
-
-Create EventSource instances
-
-Subscribe to /events/reflections, /events/ops, etc.
-
-Update DOM sections with live messages
-
-Scripts:
-
-4.5 Shared Utilities / Vendor Scripts
-
-Scripts that:
-
-Provide shared helpers (DOM utilities, formatting, etc.)
-
-Represent vendor or library code used by multiple features
-
-Scripts:
-
-5. STEP 1C – Ordering & Dependency Notes (TO FILL IN)
-
-Use this section to capture anything you notice about load order and dependencies, such as:
-
-“Script A must load before Script B because it defines window.esOps.”
-
-“This file assumes document.getElementById('matilda-chat-form') already exists.”
-
-“This script attaches listeners that will break if run twice.”
+1	/bundle.js	classic	Primary compiled dashboard bundle: injects UI into #dashboard-root, wires cards	Likely built from public/js/dashboard-bundle-entry.js and legacy public/dashboard*.js
+2	/js/dashboard-status.js	classic	Dashboard status helper: updates high-level status indicators/components	Lives in public/js/dashboard-status.js
+3	/js/matilda-chat-console.js	classic	Matilda Chat Console UI: powers the Matilda card, input, and response rendering	Lives in public/js/matilda-chat-console.js
 
 Notes:
 
+There are no inline <script> blocks in public/dashboard.html.
+
+All behavior is driven by these three external JS files.
+
+3.3 Secondary JS Modules Discovered (NOT directly referenced in dashboard.html)
+
+From directory listings:
+
+ls public/js
+
+
+Output:
+
+public/js/agent-status-row.js
+
+public/js/agent-status.js
+
+public/js/dashboard-broadcast.js
+
+public/js/dashboard-bundle-entry.js
+
+public/js/dashboard-graph-loader.js
+
+public/js/dashboard-graph.js
+
+public/js/dashboard-status.js
+
+public/js/matilda-chat-console.js
+
+public/js/task-activity-graph.js
+
+public/js/task-activity.js
+
+public/js/task-completion.js
+
+public/js/task-delegation.js
+
+From public/scripts:
+
+public/scripts/agent-status-row.js
+
+public/scripts/dashboard-chat.js
+
+public/scripts/dashboard-ops.js
+
+public/scripts/dashboard-reflections.js
+
+public/scripts/matilda-chat.js
+
+From top-level public/*dashboard*.js:
+
+public/dashboard-logs.js
+
+public/dashboard-logs.v3.js
+
+public/dashboard-status.js
+
+public/dashboard-stream.js
+
+public/dashboard-tabs.backup.js
+
+public/dashboard-tabs.js
+
+public/dashboard.backup.js
+
+public/dashboard.js
+
+Interpretation:
+
+/bundle.js is almost certainly built from one or more of:
+
+public/js/dashboard-bundle-entry.js
+
+public/dashboard.js
+
+plus various feature modules (task, SSE, graphs, agent status, etc.).
+
+Many of these files represent legacy or pre-bundle structures that are now folded into the bundle, but they are still relevant as source modules and for debugging.
+
+We will treat them as candidate internal modules when designing the bundling strategy in STEP 2.
+
+4. STEP 1B – Group Scripts by Functional Area (INITIAL GROUPING)
+
+This section groups both the directly loaded scripts and the secondary modules discovered in public/js, public/scripts, and public/*dashboard*.js.
+
+4.1 Core Dashboard / Layout
+
+Scripts that initialize the dashboard UI, manage tabs/cards, or handle generic layout/DOM wiring.
+
+Directly loaded:
+
+/bundle.js
+
+Source likely includes:
+
+public/js/dashboard-bundle-entry.js
+
+public/dashboard.js
+
+public/dashboard-tabs.js
+
+public/dashboard-logs.js / public/dashboard-logs.v3.js
+
+public/dashboard-stream.js
+
+Possibly public/scripts/dashboard-chat.js, dashboard-ops.js, dashboard-reflections.js
+
+Secondary modules:
+
+public/js/dashboard-bundle-entry.js
+
+public/dashboard.js
+
+public/dashboard-tabs.js
+
+public/dashboard.backup.js (legacy)
+
+public/dashboard-tabs.backup.js (legacy)
+
+public/dashboard-logs.js
+
+public/dashboard-logs.v3.js
+
+public/dashboard-stream.js
+
+4.2 Matilda Chat
+
+Scripts that handle chat with Matilda (UI + API calls).
+
+Directly loaded:
+
+/js/matilda-chat-console.js
+
+public/js/matilda-chat-console.js – powers the Matilda Chat Console card.
+
+Secondary modules:
+
+public/scripts/matilda-chat.js – likely earlier/alternate Matilda chat behavior (pre-console pattern).
+
+public/scripts/dashboard-chat.js – may integrate chat behavior into the main dashboard.
+
+4.3 Task Delegation
+
+Scripts that handle delegation forms/buttons and task-related actions.
+
+Secondary modules (likely bundled into /bundle.js):
+
+public/js/task-delegation.js
+
+public/js/task-activity.js
+
+public/js/task-activity-graph.js
+
+public/js/task-completion.js
+
+Possibly task-related logic inside public/dashboard.js and public/dashboard-stream.js.
+
+4.4 SSE – Reflections / OPS / Other Streams
+
+Scripts that manage server-sent events (SSE) and live dashboard updates.
+
+Secondary modules:
+
+public/scripts/dashboard-ops.js
+
+public/scripts/dashboard-reflections.js
+
+public/dashboard-stream.js (likely SSE for dashboard streams)
+
+Possibly integrated streaming logic in public/dashboard-logs.v3.js.
+
+Currently, these are presumed to be compiled into /bundle.js or wired by public/dashboard.js.
+
+4.5 Agent Status & Tiles
+
+Scripts that manage agent status tiles and rows on the dashboard.
+
+Directly loaded helper:
+
+/js/dashboard-status.js
+
+public/js/dashboard-status.js
+
+Secondary modules:
+
+public/js/agent-status.js
+
+public/js/agent-status-row.js
+
+public/scripts/agent-status-row.js
+
+These likely feed the agent status row/tiles and their live updates.
+
+5. STEP 1C – Ordering & Dependency Notes (INITIAL)
+
+Current order in public/dashboard.html:
+
+/bundle.js
+
+/js/dashboard-status.js
+
+/js/matilda-chat-console.js
+
+Observations / Assumptions
+
+/bundle.js must load first:
+
+It likely mounts the main dashboard UI into #dashboard-root.
+
+It may also attach base SSE handlers and define global helpers used by the other two scripts.
+
+/js/dashboard-status.js is loaded after /bundle.js:
+
+Likely assumes the DOM structure (status elements, containers) has already been created by the bundle.
+
+May rely on globals (e.g., a shared status store or SSE hooks) defined by the bundle.
+
+/js/matilda-chat-console.js is loaded last:
+
+It probably attaches to specific elements within the Matilda Chat Console card created by the bundle.
+
+It may assume both the DOM and any core event buses/utilities are already available.
+
+Potential Ordering Risks
+
+When bundling further or refactoring:
+
+If /js/dashboard-status.js or /js/matilda-chat-console.js are folded into the main bundle or loaded as modules, we must:
+
+Preserve initialization order.
+
+Avoid double-invocation (e.g., same handler running from both bundle and standalone file).
+
+Ensure any DOMContentLoaded or window.onload hooks don’t conflict.
+
 6. STEP 1D – Known Pain Points to Watch During Bundling
 
-From prior Phase 11 work, key issues to watch for:
+From prior Phase 11 work and the current layout:
 
-Double event listeners after page reload.
+Double event listeners after reload:
 
-Multiple EventSource instances for the same endpoint.
+SSE handlers and input listeners must not be registered multiple times.
 
-Scripts re-attaching DOM handlers without cleanup.
+Multiple EventSource instances for the same endpoint:
 
-Reliance on globals hanging off window.
+Especially for /events/ops and /events/reflections.
 
-While reviewing the scripts and dashboard.html, add any concrete issues you notice here:
+Scripts re-attaching DOM handlers without cleanup:
 
-Pain points / risks observed:
+If any script relies on re-rendering or rehydration, we must ensure it doesn’t stack listeners.
+
+Reliance on globals attached to window:
+
+Bundler transformations may change scoping.
+
+Separation of concerns between:
+
+Core bundle (/bundle.js)
+
+Status helper (/js/dashboard-status.js)
+
+Matilda Chat Console (/js/matilda-chat-console.js)
+
+Pain points / risks observed (so far):
+
+The existence of both public/js/* and public/scripts/* plus public/dashboard*.js strongly suggests a mix of legacy and new paths. Bundling must ensure:
+
+Only one canonical path sources the logic for each feature.
+
+No legacy script remains accidentally attached in addition to the bundled code.
 
 7. STEP 1E – Convenience Commands (Reference)
 
-These are terminal commands you can reuse while filling out this file. They are for your convenience only and do not modify any files:
+These are terminal commands you can reuse while refining this map or investigating behavior. They are for convenience only and do not modify any files:
 
 cd "/Users/marcela-dev/Projects/Motherboard_Systems_HQ"
 
-# List dashboard-related HTML
+# List dashboard-related HTML files
 ls public/dashboard* public/*dashboard* || true
 
-# Inspect script tags in active dashboard
-rg "<script" public/dashboard.html -n || cat public/dashboard.html
+# Show script tags in active dashboard
+grep -n "<script" public/dashboard.html
+cat public/dashboard.html
 
-# Inspect other dashboard JS files quickly
-ls public/*.js public/scripts public/js 2>/dev/null || true
-
-# Search for SSE usage
-rg "EventSource" -n public || true
-
-# Search for Matilda-related code
-rg "matilda" -n public routes || true
-
-# Search for delegation-related code
-rg "delegate" -n public routes || true
-rg "task" -n public routes || true
+# Show JS modules that likely feed the bundle
+ls public/js
+ls public/scripts
+ls public/*dashboard*.js
 
 
 You can paste new commands into this section as you work, but do not remove the core STEP 1 structure above.
 
 8. Completion Criteria for STEP 1
 
-Mark STEP 1 as complete when:
+STEP 1 is considered functionally mapped when:
 
- public/dashboard.html is confirmed as the primary template (done above).
+ public/dashboard.html is confirmed as the primary template.
 
  All script tags in public/dashboard.html are listed in the table with:
 
@@ -236,10 +417,20 @@ Mark STEP 1 as complete when:
 
  Role
 
- Scripts are grouped by functional area.
+ Secondary script modules (public/js, public/scripts, public/*dashboard*.js) are inventoried as candidate internal modules.
 
- Any load-order dependencies or pain points are noted.
+ Scripts are grouped by functional area (core, chat, delegation, SSE, agent status).
 
-When these are checked, you are ready for:
+ Initial load-order dependencies and pain points are noted.
+
+You are now ready for:
 
 STEP 2 – Design the bundling strategy (single bundle entrypoint and vendor handling).
+
+In STEP 2 we will:
+
+Decide whether /bundle.js should absorb /js/dashboard-status.js and /js/matilda-chat-console.js.
+
+Identify the true entrypoint file for the bundle (likely public/js/dashboard-bundle-entry.js).
+
+Plan how to avoid double listeners and maintain SSE + Matilda Chat behavior under reloads.
