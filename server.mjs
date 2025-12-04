@@ -91,7 +91,7 @@ app.get('/api/agents', async (req, res) => {
 });
 
 // 4. API Endpoint: Task Delegation
-app.post('/api/delegate-task', async (req, res) => {
+app.post('/api/delegate-task-db', async (req, res) => {
   const client = await pool.connect();
   let assignedAgent = null;
 
@@ -144,7 +144,7 @@ app.post('/api/delegate-task', async (req, res) => {
 });
 
 // 5. API Endpoint: Task Completion
-app.post('/api/complete-task', async (req, res) => {
+app.post('/api/complete-task-db', async (req, res) => {
   const body = req.body || {};
   const agentName = body.agentName;
 
