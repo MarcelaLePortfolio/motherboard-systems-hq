@@ -9,14 +9,15 @@ function renderBroadcastNodes() {
 const container = document.getElementById("broadcast-visual");
 if (!container) return;
 
-container.innerHTML = nodes
-.map(
-(n, i) =>
-`<div class="node" id="node-${n}">${n}</div>${
-          i < nodes.length - 1 ? '<div class="arrow">➜</div>' : ""
-        }`
-)
-.join("");
+const parts = [];
+for (let i = 0; i < nodes.length; i++) {
+const n = nodes[i];
+parts.push('<div class="node" id="node-' + n + '">' + n + "</div>");
+if (i < nodes.length - 1) {
+parts.push('<div class="arrow">➜</div>');
+}
+}
+container.innerHTML = parts.join("");
 }
 
 function startBroadcastCycle() {
@@ -27,7 +28,8 @@ const allNodes = document.querySelectorAll(".node");
 allNodes.forEach((n) => n.classList.remove("active"));
 
 ```
-const active = document.getElementById(`node-${nodes[idx]}`);
+const activeId = "node-" + nodes[idx];
+const active = document.getElementById(activeId);
 if (active) active.classList.add("active");
 
 idx = (idx + 1) % nodes.length;
