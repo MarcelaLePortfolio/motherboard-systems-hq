@@ -1,111 +1,133 @@
-# Phase 11 – Recommended Next Step From Container Baseline
 
-## Where You Are
-- Repo: Motherboard_Systems_HQ
-- Branch: feature/v11-dashboard-bundle
-- Container: rebuilt, restarted, and healthy
-- Dashboard backend (server.mjs) running inside container on port 3000
-- Matilda Chat Console: working
-- Reflections SSE: deferred
-- Bundling: deferred
+# Phase 11 – Recommended Next Step
 
-You are at the decision point for how to validate Task Delegation.
+## Recommendation
 
----
+Proceed with **Phase 11 dashboard bundling and reliability work** before touching any new Phase (including 11.5 DB Task Storage or Phase 12).
 
-## Recommended Path (In Order)
+Rationale:
 
-### 1️⃣ Start With Backend Curl Tests (Container API First)
+* The **core Phase 11 goal** has always been:
 
-Reason:
-- Isolates backend behavior from frontend/UX.
-- Keeps changes minimal and fully observable.
-- Perfectly aligned with your “one fix at a time” Phase 11 rules.
+  * Dashboard visuals,
+  * JS/CSS bundling,
+  * Layout and reload reliability.
+* DB-backed task storage is now:
 
-**Step 1 – Delegate Task via curl**
+  * Isolated,
+  * Documented in `PHASE11_DB_ENDPOINTS_STATUS.md`,
+  * Explicitly deferred in `PHASE11_NEXT_STEPS_RECOMMENDATION.md`.
+* Continuing Phase 11 on the **front-end/dashboard track**:
 
-From the host (while the container is running), send a test task:
+  * Moves you closer to a demo-ready system,
+  * Keeps scope clean,
+  * Avoids another multi-layer backend debugging loop,
+  * Respects your energy and phase-discipline rules.
 
-curl -i -X POST http://127.0.0.1:3000/api/delegate-task \
-  -H "Content-Type: application/json" \
-  -d '{"title":"Phase 11 container curl test","agent":"cade","notes":"Created via Phase 11 backend validation"}'
+In other words:
 
-Check:
-- HTTP status (200 or expected success).
-- Response body shape (id/status/etc.).
-- docker-compose logs -f --tail=50 for server.mjs errors.
+> The next best move is to finish what Phase 11 originally promised:
+> a visually coherent, bundled, and reliable dashboard
+> running on stable stubbed endpoints.
 
-**Step 2 – Complete Task via curl**
+## What “Continue Phase 11 Bundling Work” Means
 
-Once you know how tasks are identified (for example, by taskId), test completion:
+When you resume Phase 11 dashboard work, the focus should be:
 
-curl -i -X POST http://127.0.0.1:3000/api/complete-task \
-  -H "Content-Type: application/json" \
-  -d '{"taskId":123}'
+### 1. JS/CSS Bundling
 
-(Replace 123 with a real ID or whatever identifier your API expects.)
+Goal: Move from scattered script tags to a coherent bundle, without breaking behavior.
 
-Check again:
-- HTTP status.
-- Response body.
-- Logs for errors.
+High-level steps (for a future session, not now):
 
-If either endpoint fails:
-- Stop here.
-- Capture:
-  - Curl command and full response.
-  - Relevant log lines from the dashboard container.
-- The next thread will focus on a small, targeted patch to server.mjs or related code.
+* Identify all JS entrypoints currently used by the dashboard:
 
----
+  * Matilda chat console
+  * Task delegation panel
+  * Agent status tiles
+  * Reflections/OPS SSE hooks
+  * Any dashboard-only helpers
+* Decide on a bundling strategy:
 
-### 2️⃣ Then Validate Task Delegation UX in the Dashboard
+  * Single main dashboard bundle (preferred),
+  * Or a very small number of clearly separated bundles (e.g. core + optional extras).
+* Update the HTML template that powers the dashboard (the one used in the container) to:
 
-Only after both curl tests are reasonably healthy:
+  * Replace multiple `<script>` tags with a single bundled asset reference.
+* Verify that:
 
-1. Open the container-backed dashboard in your browser.
-2. Use the Task Delegation card to:
-   - Create a test task.
-   - If possible, complete a task from the UI.
-3. In browser dev tools:
-   - Network tab:
-     - Confirm /api/delegate-task and /api/complete-task calls.
-     - Check status codes and payloads.
-   - Console tab:
-     - Note any unhandled JS errors.
+  * Matilda chat still sends and receives messages,
+  * Delegation UI still works against stubbed endpoints,
+  * Agent statuses still update,
+  * Reflections/OPS streams still appear in their panels.
 
-If the backend looks fine but the UI feels broken or confusing:
-- Log:
-  - What you clicked/typed.
-  - What you expected.
-  - What actually happened.
-- The next code changes should target frontend behavior only, still avoiding bundling.
+### 2. Dashboard Reload & Stability
 
----
+Goal: A hard reload of `http://127.0.0.1:8080` feels solid and predictable.
 
-### 3️⃣ Only After That – Atlas Status & Bundling
+When you reload:
 
-Once the following are true:
-- /api/delegate-task and /api/complete-task work from curl.
-- Task Delegation UI behaves cleanly enough for Phase 11.
+* Matilda chat console should reconnect cleanly.
+* SSE streams (Reflections + OPS) should auto-reconnect without manual intervention.
+* Agent tiles should accurately reflect online/offline.
+* No duplicated event listeners or duplicate messages in the console.
 
-Then you can:
-1. Do a light Atlas status confirmation (no new complex behavior).
-2. Revisit bundling (JS/CSS), followed by:
-   - Re-testing Matilda Chat.
-   - Re-testing Task Delegation.
-   - Re-confirming Atlas status.
+### 3. Layout & Visual Integrity
 
----
+Goal: The dashboard is visually clean and aligned with your expectations for demos.
 
-## TL;DR Recommendation
+Checks to perform:
 
-Recommended next move right now:
-- Run backend curl tests against /api/delegate-task and /api/complete-task from the host.
-- Use the results to decide whether the next thread focuses on:
-  - A small server.mjs patch (if curl fails), or
-  - Dashboard UX-only refinements (if curl passes but UI is awkward).
+* Left column:
 
-When starting the next thread, you can say:
+  * Matilda chat console card
+  * Key metrics (if present)
+  * Task delegation panel
+  * Atlas / status tiles
+* Right column:
 
-“Continue Phase 11 from the point where the container was rebuilt and I’m about to run curl tests for /api/delegate-task and /api/complete-task.”
+  * Project Visual Output viewport
+  * Any alignment rules previously documented
+* Structural checks:
+
+  * No duplicates,
+  * No overlapping cards,
+  * Grid is clean and legible at your typical screen size.
+
+### 4. Phase 11 Tag & Handoff
+
+Once bundling + reload stability + layout are verified:
+
+* Create a tag for this stable dashboard baseline, for example:
+
+  * `v11.1-dashboard-bundled-stable`
+* Update your Phase 11 handoff / overview docs to record:
+
+  * That dashboard bundling is complete,
+  * That DB-backed endpoints remain deferred by design and documented as such.
+
+## When To Revisit DB Work
+
+Only return to DB-backed task storage when:
+
+* You explicitly start a new mini-phase:
+
+  * e.g., `Phase 11.5 – DB Task Storage`, and
+* You’re ready to:
+
+  * Align `DATABASE_URL` / pool configuration,
+  * Decide which database owns the schema (`dashboard_db` vs `motherboarddb`),
+  * Create migrations / DDL for:
+
+    * `agent_status`,
+    * Any `tasks` / `delegations` tables the code expects.
+
+Until then, keep DB-backed endpoints mentally and technically parked.
+
+## Simple Resume Prompt for Next Session
+
+When you’re ready to pick this up in a new thread, you can say:
+
+> “Continue Phase 11 dashboard bundling and reliability work from PHASE11_RECOMMENDED_NEXT_STEP.md.”
+
+and proceed directly into the bundling/reliability tasks without re-opening DB complexity.
