@@ -11,9 +11,8 @@ docker-compose exec postgres sh -c '
 
   echo "➡️ Connecting as ${POSTGRES_USER} to DB ${POSTGRES_DB} to ensure role '\''postgres'\'' exists"
 
-  psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" <<SQL
-DO
-$$
+  cat << "SQL" | psql -U "$POSTGRES_USER" -d "$POSTGRES_DB"
+DO $$
 BEGIN
   IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname = ''postgres'') THEN
     CREATE ROLE postgres WITH LOGIN PASSWORD ''password'';
