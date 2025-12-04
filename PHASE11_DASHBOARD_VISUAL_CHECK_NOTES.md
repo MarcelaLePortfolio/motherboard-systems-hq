@@ -1,123 +1,63 @@
-
 Phase 11 – Dashboard Visual Check Notes
 
-Use this file to record what you actually see in the browser while server.mjs is running.
+Date: $(date)
 
-1. Environment
+1. Overall Visual Result
 
-Date / time of check:
+* Dashboard renders (not blank).
+* Cards/tiles visible.
+* Matilda chat card present; console shows: "[matilda-chat] Matilda chat wiring complete."
+* Task delegation button + status area visible.
 
-Browser used (Chrome/Safari/etc. + version if known):
+2. Console Output Observations
 
-2. URL Visited
+The browser console shows expected SSE-related warnings/errors:
 
- http://127.0.0.1:3000/dashboard
+* dashboard-status.js: OPS SSE error: Event
+* Network errors:
 
- http://localhost:3000/dashboard
+  * [http://127.0.0.1:3201/events/ops](http://127.0.0.1:3201/events/ops) → net::ERR_CONNECTION_REFUSED
+  * [http://127.0.0.1:3200/events/reflections](http://127.0.0.1:3200/events/reflections) → net::ERR_CONNECTION_REFUSED
+* dashboard-status.js: Reflections SSE error: Event
+* agent-status-row.js: OPS SSE error: Event
 
-Which one did you use?
+Interpretation:
 
-URL used:
+* These errors indicate that SSE backends on ports 3200/3201 are not currently running/accepting connections.
+* They do NOT indicate a bundling or dashboard JS wiring failure.
+* They are consistent with the current state where not all SSE servers are started.
 
-Did the page load without HTTP error?
+3. Checklist Mapping
 
- Yes
+* [x] Dashboard is not blank
+* [x] Cards/tiles render
+* [x] Matilda chat card visible
+* [x] Task delegation button + status visible
+* [ ] Reflections / recent logs populated (blocked by SSE backend not running)
+* [ ] OPS alerts populated (blocked by SSE backend not running)
+* [!] Console contains SSE connection warnings (expected given current backend state)
 
- No (note error/status below)
+4. Conclusion for Phase 11 Bundling
 
-Details if error:
+* Visual baseline is acceptable to continue Phase 11 STEP 3B bundling work.
+* SSE connection issues are backend/service availability problems, not bundling regressions.
+* DB work and deeper SSE backend fixes remain deferred per plan:
 
-3. Visual Rendering Checklist
+  * Phase 11.5 – DB Task Storage
+  * Future SSE service stabilization tasks
 
-For each item, mark and add notes if needed.
+5. Next Recommended Step
 
- Dashboard is not blank (something substantial renders)
+* Proceed with STEP 3B guarded init refactors for the next low-risk module:
 
-Notes:
+  * public/js/dashboard-status.js (initStatusDashboard())
+  * or public/js/dashboard-broadcast.js (initBroadcastVisualization())
 
- Cards/tiles render (overall layout visible)
+Follow the established pattern:
 
-Notes:
-
- Uptime/health/metrics visible
-
-Notes:
-
- Reflections / recent logs visible
-
-Notes:
-
- OPS alerts area visible
-
-Notes:
-
- Matilda chat card visible
-
-Notes:
-
- Task delegation button + status visible
-
-Notes:
-
-4. Browser Console (DevTools)
-
-Open DevTools → Console and refresh the page.
-
-Any red JS errors?
-
- None
-
- Yes (describe below)
-
-Errors / warnings seen:
-
-5. Minimal Interaction (Optional For Now)
-
-If backend looks reasonably stable and you want to try:
-
-Matilda Chat
-
- Chat input accepts text
-
- Clicking Send does something visible (even if stubby)
-
-Behavior notes (including any errors in console):
-
-Task Delegation
-
- Delegation button clickable
-
- Some message / status updates in the UI
-
-Behavior notes:
-
-6. Overall Result
-
- Visual check PASSED – dashboard renders and is usable enough to proceed with STEP 3B bundling work.
-
- Visual check FAILED or PARTIAL – issues need attention before more JS refactors.
-
-If FAILED or PARTIAL, summarize blockers:
-
-7. Next Step Decision
-
-If PASSED:
-
-Next: proceed with STEP 3B from:
-
-PHASE11_BUNDLING_CURRENT_STATUS.md
-
-PHASE11_BUNDLING_STEP3B_IMPLEMENTATION.md
-
-PHASE11_BUNDLING_STEP3B_NEXT_ACTIONS.md
-
-If FAILED:
-
-Next: open a new thread and paste:
-
-The key notes from this file
-
-Any console errors
-
-Then ask to: “Help me fix the Phase 11 dashboard rendering issues before continuing STEP 3B.”
+* Extract top-level logic into initX() function.
+* Add window.__initXGuard to avoid duplicate listeners.
+* Export initX() and wire it from public/js/dashboard-bundle-entry.js.
+* Rebuild with: npm run build:dashboard-bundle
+* Reload dashboard and watch for regressions.
 
