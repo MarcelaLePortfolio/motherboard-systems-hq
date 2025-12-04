@@ -1,4 +1,7 @@
 // <0001faf7> Phase 6.5.1 — Dynamic Task Graph Loader
+// Dynamic loader for the task activity graph, now wrapped in a guarded init()
+// so it doesn't register multiple listeners when the bundle is reloaded.
+
 import { renderTaskActivityGraph } from "./task-activity-graph.js";
 
 async function fetchTasksAndRender() {
@@ -44,4 +47,9 @@ window.addEventListener("DOMContentLoaded", fetchTasksAndRender);
 } else {
 fetchTasksAndRender();
 }
+}
+
+// Optional: expose for manual debugging in the browser console
+if (typeof window !== "undefined") {
+window.initTaskGraphFromTasks = initTaskGraphFromTasks;
 }
