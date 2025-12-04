@@ -14,6 +14,9 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 
+// Phase 11: ensure JSON body parsing for dashboard chat
+app.use(express.json());
+
 // Phase 11 stubbed task endpoints to avoid Postgres dependency
 app.post("/api/delegate-task", (req, res) => {
   const { title, agent, notes } = req.body || {};
@@ -234,5 +237,36 @@ app.post("/api/complete-task", (req, res) => {
     status: "completed",
     source: "stub-override"
   });
+});
+
+
+// Phase 11 – Matilda dashboard chat endpoint
+app.post("/api/chat", async (req, res) => {
+  try {
+    const body = req.body || {};
+    const rawMessage = body.message ?? "";
+    const rawAgent = body.agent ?? "matilda";
+
+    const message = String(rawMessage).trim();
+    const agent = (String(rawAgent).trim() || "matilda");
+
+    if (!message) {
+      return res.status(400).json({ reply: "(empty message)" });
+    }
+
+    console.log("[/api/chat] agent=%s message=%s", agent, message);
+
+    let reply;
+    if (agent === "matilda") {
+      reply = `Matilda: I see you said, "${message}". I am online here on the dashboard with you.`;
+    } else {
+      reply = `(${agent}) received: "${message}".`;
+    }
+
+    return res.json({ reply });
+  } catch (err) {
+    console.error("Error in /api/chat:", err);
+    return res.status(500).json({ reply: "(error)" });
+  }
 });
 
