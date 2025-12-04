@@ -7,8 +7,10 @@ const res = await fetch("/tasks");
 if (!res.ok) throw new Error(HTTP ${res.status});
 const tasks = await res.json();
 
-const ctx = document.getElementById("taskActivityCanvas")?.getContext("2d");
-if (ctx && tasks?.length) {
+const canvas = document.getElementById("taskActivityCanvas");
+const ctx = canvas && canvas.getContext && canvas.getContext("2d");
+
+if (ctx && Array.isArray(tasks) && tasks.length) {
   renderTaskActivityGraph(ctx, tasks);
   console.log(`📈 Rendered ${tasks.length} task events`);
 } else {
