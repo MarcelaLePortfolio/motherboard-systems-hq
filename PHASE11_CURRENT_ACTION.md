@@ -1,51 +1,59 @@
-# Phase 11 – Current Action Checklist (Right Now)
 
-Baseline:
-- Repo: Motherboard_Systems_HQ
-- Branch: feature/v11-dashboard-bundle
-- Container: dashboard + Postgres running and healthy
-- Helper scripts added:
-  - scripts/phase11_delegate_task_curl.sh
-  - scripts/phase11_complete_task_curl.sh
+Phase 11 – Current Action
+Right Now
 
-You are ready to actually run the backend tests.
+Server is running via: node server.mjs
 
----
+Dashboard HTML has been restored from the pre-bundle baseline.
 
-## ✅ Step 1 – Delegate Task Curl Test
+Bundling via npm run build:dashboard-bundle is succeeding.
 
-From repo root:
+STEP 3B planning and status docs are in place.
 
-scripts/phase11_delegate_task_curl.sh
+Single Required Next Action (Manual, No Coding)
 
-Capture:
-- HTTP status from curl
-- Response body (look for any task identifier)
-- Any relevant lines from `docker-compose logs --tail=50`
+In your browser, visit the dashboard:
 
-Use the response to determine the correct task identifier (for example `taskId`).
+http://127.0.0.1:3000/dashboard
 
----
+or http://localhost:3000/dashboard
 
-## ✅ Step 2 – Complete Task Curl Test
+Use PHASE11_DASHBOARD_RENDERING_VERIFICATION_CHECKLIST.md to verify:
 
-Once you have the ID (replace `123` with the real value):
+ Dashboard is not blank
 
-scripts/phase11_complete_task_curl.sh 123
+ Cards/tiles render
 
-Capture again:
-- HTTP status from curl
-- Response body
-- Any relevant lines from `docker-compose logs --tail=50`
+ Uptime/health/metrics visible
 
----
+ Reflections / recent logs visible
 
-## ➡️ After Both Steps
+ OPS alerts area visible
 
-- If both calls are healthy:
-  - Move on to Task Delegation UI validation in the containerized dashboard.
+ Matilda chat card visible
 
-- If either call fails:
-  - Bring the curl output + log snippets into a new thread and start from:
-    “Continue Phase 11 from the point where the curl tests for /api/delegate-task or /api/complete-task failed.”
+ Task delegation button + status visible
 
+ No red JS errors in browser console
+
+Optionally record details in:
+
+PHASE11_DASHBOARD_VISUAL_CHECK_NOTES.md
+
+Do not edit any JS until this visual check is complete.
+
+After the Visual Check
+
+When the visual check is done:
+
+Update PHASE11_DASHBOARD_VISUAL_CHECK_STATUS.md to mark the check as complete.
+
+Then resume STEP 3B bundling work from:
+
+PHASE11_DASHBOARD_PHASE11_SESSION_SUMMARY.md
+
+PHASE11_BUNDLING_CURRENT_STATUS.md
+
+PHASE11_BUNDLING_STEP3B_IMPLEMENTATION.md
+
+PHASE11_BUNDLING_STEP3B_NEXT_ACTIONS.md
