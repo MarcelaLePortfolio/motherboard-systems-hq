@@ -2,7 +2,11 @@
 // - Connects to Python OPS SSE (port 3201) and Reflections SSE (port 3200)
 // - Updates uptime, health, metrics, ops alerts, and reflections panel
 
-(() => {
+export function initDashboardStatus() {
+  if (typeof window === "undefined" || typeof document === "undefined") return;
+  if (window.__dashboardStatusInited) return;
+  window.__dashboardStatusInited = true;
+
   const OPS_SSE_URL = "http://127.0.0.1:3201/events/ops";
   const REFLECTIONS_SSE_URL = "http://127.0.0.1:3200/events/reflections";
 
@@ -18,10 +22,6 @@
 
   const reflectionsContainer = document.getElementById("recentLogs");
   const opsAlertsList = document.getElementById("ops-alerts-list");
-
-  if (!uptimeDisplay || !healthIndicator || !healthStatus) {
-    console.warn("dashboard-status.js: Core status elements not found in DOM.");
-  }
 
   const pageStart = Date.now();
   const agentStatusMap = {}; // agentName -> lastStatus
@@ -108,7 +108,6 @@
     try {
       data = JSON.parse(payloadRaw);
     } catch {
-      // If backend sends plain text, keep as-is for logs
       data = { message: payloadRaw };
     }
 
@@ -129,23 +128,23 @@
       agentStatusMap[agentName] = statusString || "unknown";
     }
 
-    // --- Metrics: Active agents ---
+    // Active agents metric
     if (metricAgents) {
       const uniqueAgents = Object.keys(agentStatusMap).length;
       metricAgents.textContent = String(uniqueAgents || "--");
     }
 
-    // --- Metrics: Tasks running (approximate as count of OPS events) ---
+    // Tasks metric (approx: count of OPS events)
     if (metricTasks) {
       metricTasks.textContent = String(totalOpsEvents);
     }
 
-    // --- Metrics: Latency (if provided explicitly) ---
+    // Latency metric (if present)
     if (metricLatency && typeof data.latency_ms === "number") {
       metricLatency.textContent = String(Math.round(data.latency_ms));
     }
 
-    // --- Metrics: Success rate classification ---
+    // Success rate metric
     const statusLower = statusString.toLowerCase();
     if (statusLower.includes("success") || statusLower.includes("completed") || statusLower.includes("ok")) {
       successfulOpsEvents++;
@@ -163,23 +162,29 @@
       }
     }
 
-    // --- Health: update from the most recent status ---
+    // Health from status
     const healthState = classifyHealthFromStatus(statusString);
     applyHealthVisual(healthState);
 
-    // --- Ops alerts list ---
+    // Ops alerts list
     if (opsAlertsList) {
       const li = document.createElement("li");
       li.className = "text-sm";
 
       const now = new Date();
-      const ts = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+      const ts = now.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+      });
 
       const safeAgent = agentName || "System";
       const labelParts = [`[${ts}]`, safeAgent];
 
       if (statusString) labelParts.push(`– ${statusString}`);
-      if (message && message !== statusString) labelParts.push(`– ${String(message).slice(0, 160)}`);
+      if (message && message !== statusString) {
+        labelParts.push(`– ${String(message).slice(0, 160)}`);
+      }
 
       li.textContent = labelParts.join(" ");
       opsAlertsList.prepend(li);
@@ -261,4 +266,8 @@
       reflectionsContainer.removeChild(reflectionsContainer.lastChild);
     }
   };
-})();
+}
+
+if (typeof window !== "undefined") {
+  window.initDashboardStatus = initDashboardStatus;
+}
