@@ -1,4 +1,5 @@
 # Phase 11 – Matilda Chat UX + `/api/chat` Improvement Plan
+_Last updated: 2025-12-04_
 
 Baseline:
 - Branch: `feature/v11-dashboard-bundle`
