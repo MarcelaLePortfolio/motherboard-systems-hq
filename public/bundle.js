@@ -1,6 +1,9 @@
 (() => {
   // public/js/dashboard-status.js
-  (() => {
+  function initDashboardStatus() {
+    if (typeof window === "undefined" || typeof document === "undefined") return;
+    if (window.__dashboardStatusInited) return;
+    window.__dashboardStatusInited = true;
     const OPS_SSE_URL = "http://127.0.0.1:3201/events/ops";
     const REFLECTIONS_SSE_URL = "http://127.0.0.1:3200/events/reflections";
     const uptimeDisplay = document.getElementById("uptime-display");
@@ -12,9 +15,6 @@
     const metricLatency = document.getElementById("metric-latency");
     const reflectionsContainer = document.getElementById("recentLogs");
     const opsAlertsList = document.getElementById("ops-alerts-list");
-    if (!uptimeDisplay || !healthIndicator || !healthStatus) {
-      console.warn("dashboard-status.js: Core status elements not found in DOM.");
-    }
     const pageStart = Date.now();
     const agentStatusMap = {};
     let totalOpsEvents = 0;
@@ -123,11 +123,17 @@
         const li = document.createElement("li");
         li.className = "text-sm";
         const now = /* @__PURE__ */ new Date();
-        const ts = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+        const ts = now.toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit"
+        });
         const safeAgent = agentName || "System";
         const labelParts = [`[${ts}]`, safeAgent];
         if (statusString) labelParts.push(`\u2013 ${statusString}`);
-        if (message && message !== statusString) labelParts.push(`\u2013 ${String(message).slice(0, 160)}`);
+        if (message && message !== statusString) {
+          labelParts.push(`\u2013 ${String(message).slice(0, 160)}`);
+        }
         li.textContent = labelParts.join(" ");
         opsAlertsList.prepend(li);
         while (opsAlertsList.children.length > 50) {
@@ -183,7 +189,10 @@
         reflectionsContainer.removeChild(reflectionsContainer.lastChild);
       }
     };
-  })();
+  }
+  if (typeof window !== "undefined") {
+    window.initDashboardStatus = initDashboardStatus;
+  }
 
   // node_modules/.pnpm/@kurkle+color@0.3.4/node_modules/@kurkle/color/dist/color.esm.js
   function round(v) {
@@ -14990,20 +14999,19 @@ idx = (idx + 1) % nodes.length;
 
   // public/js/dashboard-bundle-entry.js
   try {
+    initDashboardStatus();
+  } catch (err) {
+    console.error("Dashboard status init failed:", err);
+  }
+  try {
     initTaskGraphFromTasks();
   } catch (err) {
-    console.error(
-      "Failed to initialize task graph loader from bundle entry:",
-      err
-    );
+    console.error("Task graph init failed:", err);
   }
   try {
     initBroadcastVisualization();
   } catch (err) {
-    console.error(
-      "Failed to initialize broadcast visualization from bundle entry:",
-      err
-    );
+    console.error("Broadcast visualization init failed:", err);
   }
 })();
 /*! Bundled license information:
