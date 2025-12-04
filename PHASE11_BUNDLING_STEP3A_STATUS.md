@@ -6,7 +6,7 @@ STEP 3A is a read-only inspection step before changing any JS or bundler config.
 
 Goals:
 
-See how /bundle.js is currently built (if at all) via package.json scripts.
+See how /bundle.js is currently built via package.json scripts.
 
 Inspect public/js/dashboard-bundle-entry.js to understand its current role.
 
@@ -15,51 +15,110 @@ Capture notes that will guide safe entry-file wiring and esbuild setup.
 No DB behavior is touched in this step.
 
 1. package.json – Bundling / Build Scripts
-Commands to run in terminal
+Commands run in terminal
 
 cat package.json | sed -n '1,160p'
 
-(If needed) cat package.json | sed -n '161,320p'
+Relevant findings
 
-Paste or summarize relevant findings here
 Existing build/bundle scripts:
-Tool(s) used (esbuild / webpack / other):
-Script that appears to generate /bundle.js (if any):
+
+"build:dashboard-bundle": "esbuild public/js/dashboard-bundle-entry.js --bundle --outfile=public/bundle.js --sourcemap"
+
+Tool(s) used:
+
+esbuild (already present in devDependencies as "esbuild": "^0.27.0")
+
+Script that appears to generate /bundle.js:
+
+npm run build:dashboard-bundle
+
 Notes / concerns:
+
+Bundling pipeline for /bundle.js already exists and targets public/js/dashboard-bundle-entry.js as the entry.
+
+No explicit format, target, or minify flags are specified yet; defaults will apply.
+
+Good news: we do not need to invent a new bundler or script, just refine how the entry file composes modules.
+
 2. public/js/dashboard-bundle-entry.js – Current Behavior
-Command to run in terminal
+Commands run in terminal
 
 sed -n '1,200p' public/js/dashboard-bundle-entry.js
 
-(If the file is longer, you can also run:)
+Observed contents
 
-sed -n '200,400p' public/js/dashboard-bundle-entry.js
+import "./dashboard-status.js";
+import "./dashboard-graph-loader.js";
+import "./dashboard-graph.js";
+import "./dashboard-broadcast.js";
+import "../scripts/dashboard-reflections.js";
+import "../scripts/dashboard-ops.js";
+import "../scripts/dashboard-chat.js";
 
-Paste or summarize findings
-Uses ES module import syntax: (yes/no/unsure)
+Findings
+
+Uses ES module import syntax:
+
+Yes — the file is an ES module and relies on side-effect imports.
+
 Imports task-related modules (list):
+
+None explicitly related to task delegation/activity/completion in this file yet.
+
 Imports agent-status-related modules (list):
+
+./dashboard-status.js
+
 Imports SSE-related modules (list):
+
+../scripts/dashboard-reflections.js
+
+../scripts/dashboard-ops.js
+
 Imports Matilda chat–related modules (list):
-Direct DOM or window usage to be careful with:
+
+../scripts/dashboard-chat.js
+
+Direct DOM or window usage:
+
+Not visible here; modules likely do top-level DOM operations internally.
+
+Entry file = side-effect aggregator.
+
 3. Quick Interpretation Checklist
 
-After inspecting both files, answer briefly:
+Script already builds /bundle.js?
 
-Is there already a script that builds /bundle.js?
-Does dashboard-bundle-entry.js already act as a true orchestrator (one place that calls into everything)?
-Which modules are clearly safe to import directly (no heavy top-level side effects)?
-Which modules may need to be wrapped in initX() functions to avoid immediate side effects?
-Any obvious red flags (duplicate listener patterns, multiple EventSource creations, etc.)?
+Yes. npm run build:dashboard-bundle.
+
+Does entry file orchestrate everything?
+
+Partially. It imports modules for their side effects, but does not define an ordered init flow.
+
+Modules safe to import directly:
+
+Likely graphs, broadcast, status modules — needs confirmation in STEP 3B.
+
+Modules needing initX() instead of top-level execution:
+
+SSE modules
+
+Chat modules
+
+Possibly dashboard-status
+
+Potential red flags:
+
+Side-effect-only pattern risks double listeners.
+
+SSE may be created multiple times.
+
+Chat handlers might bind multiple times.
+
 4. Handoff Notes
 
-Once this file has been updated with:
+Now that STEP 3A is complete, the project is ready for:
 
-A summary of package.json build/bundle scripts, and
-
-A summary of dashboard-bundle-entry.js contents,
-
-you’ll be ready for:
-
-STEP 3B – Implement entry file imports + init sequence with concrete code changes.
+STEP 3B – Implement entry file imports, ordered initialization, and guard/singleton protection for SSE, chat, and delegation.
 
