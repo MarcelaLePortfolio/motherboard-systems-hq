@@ -14951,6 +14951,13 @@ idx = (idx + 1) % nodes.length;
         }
       }
       sendBtn.addEventListener("click", handleSend);
+      var quickBtn = document.getElementById("matilda-chat-quick-check");
+      if (quickBtn) {
+        quickBtn.addEventListener("click", function() {
+          input.value = "Quick systems check from dashboard Phase 11.4.";
+          handleSend();
+        });
+      }
       input.addEventListener("keydown", function(e) {
         if (e.key === "Enter" && !e.shiftKey) {
           e.preventDefault();
