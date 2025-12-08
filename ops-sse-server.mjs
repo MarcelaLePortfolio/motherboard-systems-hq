@@ -17,49 +17,48 @@ return reject(err);
 
   try {
     const raw = JSON.parse(stdout);
-    const processes = Array.isArray(raw)
-      ? raw.map((p) => {
-          const name =
-            p && typeof p.name === "string" ? p.name : "unknown";
-          const status =
-            p &&
-            p.pm2_env &&
-            typeof p.pm2_env.status === "string"
-              ? p.pm2_env.status
-              : "unknown";
-          const restartCount =
-            p &&
-            p.pm2_env &&
-            typeof p.pm2_env.restart_time === "number"
-              ? p.pm2_env.restart_time
-              : 0;
-          const cpu =
-            p &&
-            p.monit &&
-            typeof p.monit.cpu === "number"
-              ? p.monit.cpu
-              : 0;
-          const memory =
-            p &&
-            p.monit &&
-            typeof p.monit.memory === "number"
-              ? p.monit.memory
-              : 0;
+    const list = Array.isArray(raw) ? raw : [];
+    const processes = list.map((p) => {
+      const name =
+        p && typeof p.name === "string" ? p.name : "unknown";
+      const status =
+        p &&
+        p.pm2_env &&
+        typeof p.pm2_env.status === "string"
+          ? p.pm2_env.status
+          : "unknown";
+      const restartCount =
+        p &&
+        p.pm2_env &&
+        typeof p.pm2_env.restart_time === "number"
+          ? p.pm2_env.restart_time
+          : 0;
+      const cpu =
+        p &&
+        p.monit &&
+        typeof p.monit.cpu === "number"
+          ? p.monit.cpu
+          : 0;
+      const memory =
+        p &&
+        p.monit &&
+        typeof p.monit.memory === "number"
+          ? p.monit.memory
+          : 0;
 
-          return {
-            name,
-            status,
-            restart_count: restartCount,
-            cpu,
-            memory,
-          };
-        })
-      : [];
+      return {
+        name: name,
+        status: status,
+        restart_count: restartCount,
+        cpu: cpu,
+        memory: memory,
+      };
+    });
 
     resolve({
       type: "pm2-status",
       timestamp: nowTs(),
-      processes,
+      processes: processes,
     });
   } catch (parseErr) {
     reject(parseErr);
@@ -96,7 +95,6 @@ Connection: "keep-alive",
 const clientId = Date.now();
 console.log("[OPS SSE] client connected: " + clientId);
 
-// Initial hello event
 sendEvent(res, "hello", {
 type: "hello",
 source: "ops-sse",
@@ -104,7 +102,6 @@ timestamp: nowTs(),
 message: "OPS SSE connected",
 });
 
-// Heartbeat every 5 seconds
 const heartbeatInterval = setInterval(() => {
 sendEvent(res, "heartbeat", {
 type: "heartbeat",
@@ -113,7 +110,6 @@ message: "OPS SSE alive",
 });
 }, 5000);
 
-// PM2 status snapshot every 15 seconds
 const pm2Interval = setInterval(() => {
 getPm2StatusSnapshot()
 .then((snapshot) => {
@@ -147,5 +143,5 @@ cleanUp();
 
 server.listen(PORT, () => {
 console.log("[OPS SSE] listening on http://localhost
-:" + PORT + PATH);
+" + ":" + PORT + PATH);
 });
