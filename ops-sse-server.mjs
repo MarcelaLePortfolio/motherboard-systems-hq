@@ -13,36 +13,38 @@ return reject(err);
 
   try {
     const raw = JSON.parse(stdout);
-    const processes = raw.map((proc) => ({
-      name:
-        proc && typeof proc.name === "string"
-          ? proc.name
-          : "unknown",
-      status:
-        proc &&
-        proc.pm2_env &&
-        typeof proc.pm2_env.status === "string"
-          ? proc.pm2_env.status
-          : "unknown",
-      restart_count:
-        proc &&
-        proc.pm2_env &&
-        typeof proc.pm2_env.restart_time === "number"
-          ? proc.pm2_env.restart_time
-          : 0,
-      cpu:
-        proc &&
-        proc.monit &&
-        typeof proc.monit.cpu === "number"
-          ? proc.monit.cpu
-          : 0,
-      memory:
-        proc &&
-        proc.monit &&
-        typeof proc.monit.memory === "number"
-          ? proc.monit.memory
-          : 0,
-    }));
+    const processes = Array.isArray(raw)
+      ? raw.map((p) => ({
+          name:
+            p && typeof p.name === "string"
+              ? p.name
+              : "unknown",
+          status:
+            p &&
+            p.pm2_env &&
+            typeof p.pm2_env.status === "string"
+              ? p.pm2_env.status
+              : "unknown",
+          restart_count:
+            p &&
+            p.pm2_env &&
+            typeof p.pm2_env.restart_time === "number"
+              ? p.pm2_env.restart_time
+              : 0,
+          cpu:
+            p &&
+            p.monit &&
+            typeof p.monit.cpu === "number"
+              ? p.monit.cpu
+              : 0,
+          memory:
+            p &&
+            p.monit &&
+            typeof p.monit.memory === "number"
+              ? p.monit.memory
+              : 0,
+        }))
+      : [];
 
     resolve({
       type: "pm2-status",
@@ -84,11 +86,13 @@ Connection: "keep-alive",
 const clientId = Date.now();
 console.log("[OPS SSE] client connected: " + clientId);
 
+const nowTs = () => Math.floor(Date.now() / 1000);
+
 // Initial hello event
 sendEvent(res, "hello", {
 type: "hello",
 source: "ops-sse",
-timestamp: Math.floor(Date.now() / 1000),
+timestamp: nowTs(),
 message: "OPS SSE connected",
 });
 
@@ -96,7 +100,7 @@ message: "OPS SSE connected",
 const heartbeatInterval = setInterval(() => {
 sendEvent(res, "heartbeat", {
 type: "heartbeat",
-timestamp: Math.floor(Date.now() / 1000),
+timestamp: nowTs(),
 message: "OPS SSE alive",
 });
 }, 5000);
@@ -112,7 +116,7 @@ console.error("[OPS SSE] Error fetching PM2 status:", err);
 sendEvent(res, "ops-error", {
 type: "ops-error",
 source: "pm2-status",
-timestamp: Math.floor(Date.now() / 1000),
+timestamp: nowTs(),
 message: "Failed to read pm2 jlist",
 detail: err && err.message ? err.message : String(err),
 });
