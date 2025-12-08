@@ -67,6 +67,7 @@ console.log(📡 OPS SSE client connected: ${clientId});
 
 sendEvent(res, "hello", {
 type: "hello",
+source: "ops-sse",
 timestamp: Math.floor(Date.now() / 1000),
 message: "OPS SSE connected",
 });
@@ -75,6 +76,7 @@ const heartbeatInterval = setInterval(() => {
 sendEvent(res, "heartbeat", {
 type: "heartbeat",
 timestamp: Math.floor(Date.now() / 1000),
+message: "OPS SSE alive",
 });
 }, 5000);
 
@@ -110,7 +112,5 @@ cleanUp();
 });
 
 server.listen(PORT, () => {
-console.log(
-✅ OPS SSE server listening at http://localhost:${PORT}${PATH}
-);
+console.log(✅ OPS SSE server listening at http://localhost:${PORT}${PATH});
 });
