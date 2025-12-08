@@ -17,12 +17,17 @@ return reject(err);
       name: proc.name,
       status: (proc.pm2_env && proc.pm2_env.status) || "unknown",
       restart_count:
-        (proc.pm2_env && proc.pm2_env.restart_time) != null
+        proc.pm2_env && typeof proc.pm2_env.restart_time === "number"
           ? proc.pm2_env.restart_time
           : 0,
-      cpu: (proc.monit && proc.monit.cpu) != null ? proc.monit.cpu : 0,
+      cpu:
+        proc.monit && typeof proc.monit.cpu === "number"
+          ? proc.monit.cpu
+          : 0,
       memory:
-        (proc.monit && proc.monit.memory) != null ? proc.monit.memory : 0,
+        proc.monit && typeof proc.monit.memory === "number"
+          ? proc.monit.memory
+          : 0,
     }));
 
     resolve({
