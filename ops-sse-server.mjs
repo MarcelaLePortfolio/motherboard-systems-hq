@@ -115,5 +115,5 @@ cleanUp();
 });
 
 server.listen(PORT, () => {
-console.log(✅ OPS SSE server listening at http://localhost:${PORT}${PATH});
+console.log(✅ OPS SSE server listening on http://localhost:${PORT}${PATH});
 });
