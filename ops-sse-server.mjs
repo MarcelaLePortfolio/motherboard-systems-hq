@@ -46,8 +46,8 @@ return reject(err);
 
 function sendEvent(res, eventName, payload) {
 try {
-res.write(event: ${eventName}\n);
-res.write(data: ${JSON.stringify(payload)}\n\n);
+res.write("event: " + eventName + "\n");
+res.write("data: " + JSON.stringify(payload) + "\n\n");
 } catch (err) {
 console.error("[OPS SSE] Error writing SSE event:", err);
 }
@@ -68,7 +68,7 @@ Connection: "keep-alive",
 });
 
 const clientId = Date.now();
-console.log([OPS SSE] client connected: ${clientId});
+console.log("[OPS SSE] client connected: " + clientId);
 
 // Initial hello event
 sendEvent(res, "hello", {
@@ -108,7 +108,7 @@ detail: err && err.message ? err.message : String(err),
 const cleanUp = () => {
 clearInterval(heartbeatInterval);
 clearInterval(pm2Interval);
-console.log([OPS SSE] client disconnected: ${clientId});
+console.log("[OPS SSE] client disconnected: " + clientId);
 };
 
 req.on("close", cleanUp);
@@ -120,5 +120,6 @@ cleanUp();
 });
 
 server.listen(PORT, () => {
-console.log([OPS SSE] listening on http://localhost:${PORT}${PATH});
+console.log("[OPS SSE] listening on http://localhost
+:" + PORT + PATH);
 });
