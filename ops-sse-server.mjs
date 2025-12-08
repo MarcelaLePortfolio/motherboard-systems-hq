@@ -44,7 +44,7 @@ try {
 res.write(event: ${eventName}\n);
 res.write(data: ${JSON.stringify(payload)}\n\n);
 } catch (err) {
-console.error("❌ Error writing SSE event:", err);
+console.error("[OPS SSE] Error writing SSE event:", err);
 }
 }
 
@@ -63,7 +63,7 @@ Connection: "keep-alive",
 });
 
 const clientId = Date.now();
-console.log(📡 OPS SSE client connected: ${clientId});
+console.log([OPS SSE] client connected: ${clientId});
 
 // Initial hello event
 sendEvent(res, "hello", {
@@ -89,7 +89,7 @@ getPm2StatusSnapshot()
 sendEvent(res, "pm2-status", snapshot);
 })
 .catch((err) => {
-console.error("❌ Error fetching PM2 status:", err);
+console.error("[OPS SSE] Error fetching PM2 status:", err);
 sendEvent(res, "ops-error", {
 type: "ops-error",
 source: "pm2-status",
@@ -103,17 +103,17 @@ detail: err && err.message ? err.message : String(err),
 const cleanUp = () => {
 clearInterval(heartbeatInterval);
 clearInterval(pm2Interval);
-console.log(👋 OPS SSE client disconnected: ${clientId});
+console.log([OPS SSE] client disconnected: ${clientId});
 };
 
 req.on("close", cleanUp);
 req.on("end", cleanUp);
 req.on("error", (err) => {
-console.error("❌ OPS SSE request error:", err);
+console.error("[OPS SSE] request error:", err);
 cleanUp();
 });
 });
 
 server.listen(PORT, () => {
-console.log(✅ OPS SSE server listening on http://localhost:${PORT}${PATH});
+console.log([OPS SSE] listening on http://localhost:${PORT}${PATH});
 });
