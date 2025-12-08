@@ -65,6 +65,7 @@ Connection: "keep-alive",
 const clientId = Date.now();
 console.log(📡 OPS SSE client connected: ${clientId});
 
+// Initial hello event
 sendEvent(res, "hello", {
 type: "hello",
 source: "ops-sse",
@@ -72,6 +73,7 @@ timestamp: Math.floor(Date.now() / 1000),
 message: "OPS SSE connected",
 });
 
+// Heartbeat every 5 seconds
 const heartbeatInterval = setInterval(() => {
 sendEvent(res, "heartbeat", {
 type: "heartbeat",
@@ -80,6 +82,7 @@ message: "OPS SSE alive",
 });
 }, 5000);
 
+// PM2 status snapshot every 15 seconds
 const pm2Interval = setInterval(() => {
 getPm2StatusSnapshot()
 .then((snapshot) => {
