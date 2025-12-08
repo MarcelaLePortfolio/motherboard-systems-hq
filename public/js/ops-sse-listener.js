@@ -1,43 +1,67 @@
-(function () {
-  const OPS_SSE_URL = "http://localhost:3201/events/ops";
+(() => {
+const OPS_SSE_URL =
+(typeof window !== "undefined" && window.OPS_SSE_URL) ||
+"[http://127.0.0.1:3201/events/ops](http://127.0.0.1:3201/events/ops)";
 
-  function startOpsSse() {
-    // Clean up any prior listener to avoid duplicates on hot reloads
-    if (window.esOps) {
-      try {
-        window.esOps.close();
-      } catch (err) {
-        console.warn("OPS SSE: error closing previous EventSource", err);
-      }
-    }
+// Close any existing OPS EventSource to avoid duplicates on hot reloads
+if (typeof window !== "undefined" && window.esOps) {
+try {
+window.esOps.close();
+} catch (e) {
+console.warn("[OPS SSE] Error closing previous EventSource:", e);
+}
+}
 
-    console.log("OPS SSE: connecting to", OPS_SSE_URL);
-    const es = new EventSource(OPS_SSE_URL);
-    window.esOps = es;
+if (typeof EventSource === "undefined") {
+console.error("[OPS SSE] EventSource is not supported in this browser.");
+return;
+}
 
-    es.onmessage = (e) => {
-      console.log("[OPS SSE]", e.data);
-      try {
-        const payload = JSON.parse(e.data);
-        // Expose latest payload for future UI wiring
-        window.lastOpsHeartbeat = payload;
-      } catch (err) {
-        console.warn("OPS SSE: non-JSON payload", e.data);
-      }
-    };
+const es = new EventSource(OPS_SSE_URL);
+if (typeof window !== "undefined") {
+window.esOps = es;
+}
 
-    es.onerror = (err) => {
-      console.warn("OPS SSE: error, will retry in 5s", err);
-      try {
-        es.close();
-      } catch (_) {}
-      setTimeout(startOpsSse, 5000);
-    };
-  }
+if (typeof window !== "undefined") {
+if (typeof window.lastOpsHeartbeat === "undefined") {
+window.lastOpsHeartbeat = null;
+}
+if (typeof window.lastOpsStatusSnapshot === "undefined") {
+window.lastOpsStatusSnapshot = null;
+}
+}
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", startOpsSse);
-  } else {
-    startOpsSse();
-  }
+es.addEventListener("open", () => {
+console.log("[OPS SSE] Connection opened to", OPS_SSE_URL);
+});
+
+es.addEventListener("hello", (event) => {
+console.log("[OPS hello]", event.data);
+});
+
+es.addEventListener("heartbeat", () => {
+if (typeof window !== "undefined") {
+window.lastOpsHeartbeat = Date.now();
+}
+});
+
+es.addEventListener("pm2-status", (event) => {
+try {
+const data = JSON.parse(event.data);
+if (typeof window !== "undefined") {
+window.lastOpsStatusSnapshot = data;
+}
+console.log("[OPS pm2-status]", data);
+} catch (err) {
+console.error("[OPS pm2-status] Failed to parse payload:", err, event.data);
+}
+});
+
+es.addEventListener("ops-error", (event) => {
+console.error("[OPS ops-error]", event.data);
+});
+
+es.onerror = (err) => {
+console.error("[OPS SSE] Error:", err);
+};
 })();
