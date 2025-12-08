@@ -1,8 +1,12 @@
 import http from "http";
 import { exec } from "child_process";
 
-const PORT = process.env.OPS_SSE_PORT || 3201;
+const PORT = Number(process.env.OPS_SSE_PORT || 3201);
 const PATH = "/events/ops";
+
+function nowTs() {
+return Math.floor(Date.now() / 1000);
+}
 
 function getPm2StatusSnapshot() {
 return new Promise((resolve, reject) => {
@@ -14,41 +18,47 @@ return reject(err);
   try {
     const raw = JSON.parse(stdout);
     const processes = Array.isArray(raw)
-      ? raw.map((p) => ({
-          name:
-            p && typeof p.name === "string"
-              ? p.name
-              : "unknown",
-          status:
+      ? raw.map((p) => {
+          const name =
+            p && typeof p.name === "string" ? p.name : "unknown";
+          const status =
             p &&
             p.pm2_env &&
             typeof p.pm2_env.status === "string"
               ? p.pm2_env.status
-              : "unknown",
-          restart_count:
+              : "unknown";
+          const restartCount =
             p &&
             p.pm2_env &&
             typeof p.pm2_env.restart_time === "number"
               ? p.pm2_env.restart_time
-              : 0,
-          cpu:
+              : 0;
+          const cpu =
             p &&
             p.monit &&
             typeof p.monit.cpu === "number"
               ? p.monit.cpu
-              : 0,
-          memory:
+              : 0;
+          const memory =
             p &&
             p.monit &&
             typeof p.monit.memory === "number"
               ? p.monit.memory
-              : 0,
-        }))
+              : 0;
+
+          return {
+            name,
+            status,
+            restart_count: restartCount,
+            cpu,
+            memory,
+          };
+        })
       : [];
 
     resolve({
       type: "pm2-status",
-      timestamp: Math.floor(Date.now() / 1000),
+      timestamp: nowTs(),
       processes,
     });
   } catch (parseErr) {
@@ -85,8 +95,6 @@ Connection: "keep-alive",
 
 const clientId = Date.now();
 console.log("[OPS SSE] client connected: " + clientId);
-
-const nowTs = () => Math.floor(Date.now() / 1000);
 
 // Initial hello event
 sendEvent(res, "hello", {
