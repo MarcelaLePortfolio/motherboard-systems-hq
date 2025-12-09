@@ -392,9 +392,30 @@ idx = (idx + 1) % nodes.length;
   // public/js/ops-pill-state.js
   (function() {
     if (typeof window === "undefined" || typeof document === "undefined") return;
+    if (window.location.pathname !== "/dashboard") return;
     var POLL_INTERVAL_MS = 5e3;
+    var PILL_ID = "ops-dashboard-pill";
+    function ensurePill() {
+      var pill = document.getElementById(PILL_ID);
+      if (pill) return pill;
+      pill = document.createElement("span");
+      pill.id = PILL_ID;
+      pill.className = "ops-pill ops-pill-unknown";
+      pill.textContent = "OPS: Unknown";
+      pill.style.display = "inline-block";
+      if (document.body.firstChild) {
+        document.body.insertBefore(pill, document.body.firstChild);
+      } else {
+        document.body.appendChild(pill);
+      }
+      return pill;
+    }
     function applyState() {
-      var pill = document.getElementById("ops-dashboard-pill");
+      var overlay = document.getElementById("ops-status-pill");
+      if (overlay) {
+        overlay.style.display = "none";
+      }
+      var pill = ensurePill();
       if (!pill) return;
       var hasHeartbeat = typeof window.lastOpsHeartbeat === "number";
       var label = hasHeartbeat ? "OPS: Online" : "OPS: Unknown";
