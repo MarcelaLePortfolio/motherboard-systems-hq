@@ -36,3 +36,10 @@ From dashboard load at v11.9:
   - Follow:
     - PHASE11_REFLECTIONS_SSE_BACKEND_TODO.md
     - PHASE11_REFLECTIONS_SSE_SHIM_STATUS.md
+
+## Runtime Check – Manual Observations (append)
+- OPS SSE: 
+- Matilda Chat request/response:
+- UI input clearing + focus:
+- Any console warnings/errors:
+- Reflections shim behavior:
