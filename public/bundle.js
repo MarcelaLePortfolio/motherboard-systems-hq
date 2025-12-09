@@ -450,37 +450,40 @@ idx = (idx + 1) % nodes.length;
 
   // public/js/ops-pill-state.js
   (() => {
-    const POLL_INTERVAL_MS = 3e3;
-    const STALE_THRESHOLD_SEC = 15;
-    const ERROR_THRESHOLD_SEC = 45;
-    function applyState() {
-      const pill = document.getElementById("ops-status-pill");
-      if (!pill) return;
-      const hb = typeof window.lastOpsHeartbeat === "number" ? window.lastOpsHeartbeat : null;
+    if (typeof window === "undefined" || typeof document === "undefined") return;
+    const STALE_THRESHOLD_SECONDS = 30;
+    const POLL_INTERVAL_MS = 5e3;
+    function computeState() {
+      const ts = window.lastOpsHeartbeat;
+      if (typeof ts !== "number") return "unknown";
       const now = Math.floor(Date.now() / 1e3);
-      let label = "OPS: Unknown";
-      let cls = "ops-pill-unknown";
-      if (hb) {
-        const age = now - hb;
-        if (age <= STALE_THRESHOLD_SEC) {
-          label = "OPS: Online";
-          cls = "ops-pill-online";
-        } else if (age <= ERROR_THRESHOLD_SEC) {
-          label = "OPS: Stale";
-          cls = "ops-pill-stale";
-        } else {
-          label = "OPS: No signal";
-          cls = "ops-pill-error";
-        }
-      }
+      const age = now - ts;
+      if (age < 0) return "unknown";
+      if (age <= STALE_THRESHOLD_SECONDS) return "online";
+      return "stale";
+    }
+    function applyState() {
+      const pill = document.querySelector("[data-ops-pill]") || document.getElementById("ops-status-pill");
+      if (!pill) return;
+      const state = computeState();
       pill.classList.remove(
-        "ops-pill-unknown",
         "ops-pill-online",
         "ops-pill-stale",
-        "ops-pill-error"
+        "ops-pill-unknown"
       );
+      let label = "OPS: Unknown";
+      let cls = "ops-pill-unknown";
+      if (state === "online") {
+        label = "OPS: Online";
+        cls = "ops-pill-online";
+      } else if (state === "stale") {
+        label = "OPS: Stale";
+        cls = "ops-pill-stale";
+      }
       pill.classList.add(cls);
-      pill.textContent = label;
+      if (!pill.dataset || !pill.dataset.lockText) {
+        pill.textContent = label;
+      }
     }
     applyState();
     setInterval(applyState, POLL_INTERVAL_MS);
