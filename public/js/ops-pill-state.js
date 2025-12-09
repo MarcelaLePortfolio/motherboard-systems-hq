@@ -1,51 +1,47 @@
-(function () {
-  if (typeof window === "undefined" || typeof document === "undefined") return;
+(() => {
+  const POLL_INTERVAL_MS = 3000;
+  const STALE_THRESHOLD_SEC = 15;
+  const ERROR_THRESHOLD_SEC = 45;
 
-  var pill = null;
-  var POLL_MS = 3000;
+  function applyState() {
+    const pill = document.getElementById("ops-status-pill");
+    if (!pill) return;
 
-  function getPill() {
-    if (!pill) pill = document.getElementById("ops-status-pill");
-    return pill;
-  }
+    const hb =
+      typeof window.lastOpsHeartbeat === "number"
+        ? window.lastOpsHeartbeat
+        : null;
 
-  function expectedLabel() {
-    return (typeof window.lastOpsHeartbeat === "number")
-      ? "OPS: Online"
-      : "OPS: Unknown";
-  }
+    const now = Math.floor(Date.now() / 1000);
 
-  // Override textContent setter to block foreign writes
-  function hardenPill(p) {
-    if (!p || p.__hardened) return;
-    p.__hardened = true;
+    let label = "OPS: Unknown";
+    let cls = "ops-pill-unknown";
 
-    var realDesc = Object.getOwnPropertyDescriptor(Node.prototype, "textContent")
-      || Object.getOwnPropertyDescriptor(Element.prototype, "textContent");
+    if (hb) {
+      const age = now - hb;
 
-    Object.defineProperty(p, "textContent", {
-      set(val) {
-        realDesc.set.call(p, expectedLabel());
-      },
-      get() {
-        return realDesc.get.call(p);
+      if (age <= STALE_THRESHOLD_SEC) {
+        label = "OPS: Online";
+        cls = "ops-pill-online";
+      } else if (age <= ERROR_THRESHOLD_SEC) {
+        label = "OPS: Stale";
+        cls = "ops-pill-stale";
+      } else {
+        label = "OPS: No signal";
+        cls = "ops-pill-error";
       }
-    });
-  }
-
-  function apply() {
-    var p = getPill();
-    if (!p) return;
-
-    hardenPill(p);
-
-    var want = expectedLabel();
-    if (p.textContent !== want) {
-      // Force correct value every cycle
-      Node.prototype.textContent.set.call(p, want);
     }
+
+    pill.classList.remove(
+      "ops-pill-unknown",
+      "ops-pill-online",
+      "ops-pill-stale",
+      "ops-pill-error"
+    );
+    pill.classList.add(cls);
+    pill.textContent = label;
   }
 
-  apply();
-  setInterval(apply, POLL_MS);
+  applyState();
+  setInterval(applyState, POLL_INTERVAL_MS);
 })();
