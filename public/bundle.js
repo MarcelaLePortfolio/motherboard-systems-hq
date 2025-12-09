@@ -392,28 +392,59 @@ idx = (idx + 1) % nodes.length;
   // public/js/ops-pill-state.js
   (function() {
     if (typeof window === "undefined" || typeof document === "undefined") return;
-    var POLL_INTERVAL_MS = 5e3;
+    var POLL_INTERVAL_MS = 2e3;
+    function computeState() {
+      var hb = typeof window.lastOpsHeartbeat === "number" ? window.lastOpsHeartbeat : null;
+      if (hb) {
+        return {
+          label: "OPS: Online",
+          cls: "ops-pill-online"
+        };
+      }
+      return {
+        label: "OPS: Unknown",
+        cls: "ops-pill-unknown"
+      };
+    }
     function applyState() {
       var pill = document.getElementById("ops-status-pill");
       if (!pill) return;
-      var hb = typeof window.lastOpsHeartbeat === "number" ? window.lastOpsHeartbeat : null;
-      var label = "OPS: Unknown";
-      var cls = "ops-pill-unknown";
-      if (hb) {
-        label = "OPS: Online";
-        cls = "ops-pill-online";
-      }
+      var state = computeState();
       pill.classList.remove(
         "ops-pill-unknown",
         "ops-pill-online",
         "ops-pill-stale",
         "ops-pill-error"
       );
-      pill.classList.add(cls);
-      pill.textContent = label;
+      pill.classList.add(state.cls);
+      pill.textContent = state.label;
+      pill.dataset.opsPillExpectedLabel = state.label;
+    }
+    function attachObserver() {
+      var pill = document.getElementById("ops-status-pill");
+      if (!pill || pill.__opsPillObserverAttached) return;
+      pill.__opsPillObserverAttached = true;
+      var observer = new MutationObserver(function() {
+        var pillEl = document.getElementById("ops-status-pill");
+        if (!pillEl) return;
+        var expected = pillEl.dataset.opsPillExpectedLabel;
+        if (!expected) return;
+        if (pillEl.textContent !== expected) {
+          pillEl.textContent = expected;
+        }
+      });
+      observer.observe(pill, {
+        characterData: true,
+        childList: true,
+        subtree: true
+      });
     }
     applyState();
-    setInterval(applyState, POLL_INTERVAL_MS);
+    attachObserver();
+    setInterval(function() {
+      applyState();
+      attachObserver();
+    }, POLL_INTERVAL_MS);
   })();
 
   // public/js/matilda-chat-console.js
