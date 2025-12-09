@@ -8,6 +8,5 @@ COPY . .
 RUN npm install && apk add --no-cache curl
 
 EXPOSE 3000
-# cache-bust-ops-heartbeat
 
-CMD ["sh","-c","node ops-heartbeat.js & node server.mjs"]
+CMD ["node", "server.mjs"]
