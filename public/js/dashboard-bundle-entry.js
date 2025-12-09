@@ -7,6 +7,7 @@ import "./agent-status-row.js";
 // OPS / PM2 status + SSE wiring
 import "./dashboard-broadcast.js";
 import "./ops-status-widget.js";
+import "./ops-globals-bridge.js";
 
 // Matilda chat console wiring
 import "./matilda-chat-console.js";
