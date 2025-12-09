@@ -1,6 +1,6 @@
 // Lightweight OPS SSE → global state bridge for Phase 11
 (() => {
-  if (typeof window === "undefined") return;
+  if (typeof window === "undefined" || typeof EventSource === "undefined") return;
 
   // Avoid multiple initializations if bundle is loaded twice
   if (window.__opsGlobalsBridgeInitialized) return;
@@ -21,24 +21,12 @@
 
     es.onmessage = (event) => {
       try {
-        const data = JSON.parse(event.data);
+        const data = JSON.parse(event.data || "null");
         if (!data) return;
 
-        if (data.type === "heartbeat") {
-          window.lastOpsHeartbeat =
-            typeof data.timestamp === "number"
-              ? data.timestamp
-              : Math.floor(Date.now() / 1000);
-        }
-
-        if (
-          data.type === "pm2-status" ||
-          data.processes ||
-          data.pm2 ||
-          data.status === "pm2-status"
-        ) {
-          window.lastOpsStatusSnapshot = data;
-        }
+        // Treat ANY OPS event as a heartbeat + status snapshot for now.
+        window.lastOpsHeartbeat = Math.floor(Date.now() / 1000);
+        window.lastOpsStatusSnapshot = data;
       } catch (err) {
         console.warn("[ops-globals-bridge] Failed to parse OPS event:", err);
       }
