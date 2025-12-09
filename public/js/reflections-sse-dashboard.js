@@ -3,6 +3,11 @@
 (function () {
 if (typeof window === "undefined") return;
 
+if (typeof EventSource === "undefined") {
+console.warn("[DASHBOARD REFLECTIONS] EventSource not supported in this environment.");
+return;
+}
+
 try {
 if (window.esRef && typeof window.esRef.close === "function") {
 window.esRef.close();
