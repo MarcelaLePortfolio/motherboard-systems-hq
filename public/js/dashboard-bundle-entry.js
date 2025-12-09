@@ -10,6 +10,9 @@ import "./ops-status-widget.js";
 import "./ops-globals-bridge.js";
 import "./ops-pill-state.js";
 
+// Reflections SSE wiring
+import "./reflections-sse-dashboard.js";
+
 // Matilda chat console wiring
 import "./matilda-chat-console.js";
 
