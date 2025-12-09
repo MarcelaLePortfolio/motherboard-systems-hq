@@ -84,3 +84,39 @@
     inset 0 0 35px rgba(15, 23, 42, 0.95),
     0 0 40px rgba(37, 99, 235, 0.45);
 }
+
+/* Phase 11 – OPS status pill */
+.ops-pill {
+  display: inline-block;
+  padding: 4px 10px;
+  margin: 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Default / unknown */
+.ops-pill-unknown {
+  background: #555;
+  color: #f5f5f5;
+}
+
+/* Online / healthy */
+.ops-pill-online {
+  background: #1f7a3a;
+  color: #e9ffe9;
+}
+
+/* Stale / degraded */
+.ops-pill-stale {
+  background: #8a6d1f;
+  color: #fff9e6;
+}
+
+/* Error / offline */
+.ops-pill-error {
+  background: #8a1f1f;
+  color: #ffe9e9;
+}
