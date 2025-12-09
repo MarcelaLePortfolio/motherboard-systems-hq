@@ -120,3 +120,11 @@
   background: #8a1f1f;
   color: #ffe9e9;
 }
+
+/* Phase 11 – Dashboard OPS pill fixed position */
+#ops-dashboard-pill {
+  position: fixed;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  z-index: 999;
+}
