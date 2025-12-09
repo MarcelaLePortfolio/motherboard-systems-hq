@@ -390,29 +390,18 @@ idx = (idx + 1) % nodes.length;
   })();
 
   // public/js/ops-pill-state.js
-  (() => {
-    const POLL_INTERVAL_MS = 3e3;
-    const STALE_THRESHOLD_SEC = 15;
-    const ERROR_THRESHOLD_SEC = 45;
+  (function() {
+    if (typeof window === "undefined" || typeof document === "undefined") return;
+    var POLL_INTERVAL_MS = 5e3;
     function applyState() {
-      const pill = document.getElementById("ops-status-pill");
+      var pill = document.getElementById("ops-status-pill");
       if (!pill) return;
-      const hb = typeof window.lastOpsHeartbeat === "number" ? window.lastOpsHeartbeat : null;
-      const now = Math.floor(Date.now() / 1e3);
-      let label = "OPS: Unknown";
-      let cls = "ops-pill-unknown";
+      var hb = typeof window.lastOpsHeartbeat === "number" ? window.lastOpsHeartbeat : null;
+      var label = "OPS: Unknown";
+      var cls = "ops-pill-unknown";
       if (hb) {
-        const age = now - hb;
-        if (age <= STALE_THRESHOLD_SEC) {
-          label = "OPS: Online";
-          cls = "ops-pill-online";
-        } else if (age <= ERROR_THRESHOLD_SEC) {
-          label = "OPS: Stale";
-          cls = "ops-pill-stale";
-        } else {
-          label = "OPS: No signal";
-          cls = "ops-pill-error";
-        }
+        label = "OPS: Online";
+        cls = "ops-pill-online";
       }
       pill.classList.remove(
         "ops-pill-unknown",
