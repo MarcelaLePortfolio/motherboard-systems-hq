@@ -3,11 +3,11 @@
 (function () {
   if (typeof document === "undefined") return;
 
-  var existing = document.getElementById("ops-status-pill");
+  var existing = document.getElementById("ops-dashboard-pill");
   if (existing) return;
 
   var pill = document.querySelector("[data-ops-pill]");
   if (!pill) return;
 
-  pill.id = "ops-status-pill";
+  pill.id = "ops-dashboard-pill";
 })();

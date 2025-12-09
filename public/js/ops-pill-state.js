@@ -6,7 +6,7 @@
   var POLL_INTERVAL_MS = 5000;
 
   function applyState() {
-    var pill = document.getElementById("ops-status-pill");
+    var pill = document.getElementById("ops-dashboard-pill");
     if (!pill) return;
 
     var hasHeartbeat = (typeof window.lastOpsHeartbeat === "number");
