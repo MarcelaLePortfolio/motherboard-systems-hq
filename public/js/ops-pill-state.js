@@ -1,36 +1,18 @@
-(() => {
-  const POLL_INTERVAL_MS = 3000;
-  const STALE_THRESHOLD_SEC = 15;
-  const ERROR_THRESHOLD_SEC = 45;
+// public/js/ops-pill-state.js
+// Phase 11: simple OPS pill state based only on lastOpsHeartbeat.
+(function () {
+  if (typeof window === "undefined" || typeof document === "undefined") return;
+
+  var POLL_INTERVAL_MS = 5000;
 
   function applyState() {
-    const pill = document.getElementById("ops-status-pill");
+    var pill = document.getElementById("ops-status-pill");
     if (!pill) return;
 
-    const hb =
-      typeof window.lastOpsHeartbeat === "number"
-        ? window.lastOpsHeartbeat
-        : null;
+    var hasHeartbeat = (typeof window.lastOpsHeartbeat === "number");
 
-    const now = Math.floor(Date.now() / 1000);
-
-    let label = "OPS: Unknown";
-    let cls = "ops-pill-unknown";
-
-    if (hb) {
-      const age = now - hb;
-
-      if (age <= STALE_THRESHOLD_SEC) {
-        label = "OPS: Online";
-        cls = "ops-pill-online";
-      } else if (age <= ERROR_THRESHOLD_SEC) {
-        label = "OPS: Stale";
-        cls = "ops-pill-stale";
-      } else {
-        label = "OPS: No signal";
-        cls = "ops-pill-error";
-      }
-    }
+    var label = hasHeartbeat ? "OPS: Online" : "OPS: Unknown";
+    var cls   = hasHeartbeat ? "ops-pill-online" : "ops-pill-unknown";
 
     pill.classList.remove(
       "ops-pill-unknown",
