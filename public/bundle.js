@@ -392,59 +392,39 @@ idx = (idx + 1) % nodes.length;
   // public/js/ops-pill-state.js
   (function() {
     if (typeof window === "undefined" || typeof document === "undefined") return;
-    var POLL_INTERVAL_MS = 2e3;
-    function computeState() {
-      var hb = typeof window.lastOpsHeartbeat === "number" ? window.lastOpsHeartbeat : null;
-      if (hb) {
-        return {
-          label: "OPS: Online",
-          cls: "ops-pill-online"
-        };
-      }
-      return {
-        label: "OPS: Unknown",
-        cls: "ops-pill-unknown"
-      };
+    var pill = null;
+    var POLL_MS = 3e3;
+    function getPill() {
+      if (!pill) pill = document.getElementById("ops-status-pill");
+      return pill;
     }
-    function applyState() {
-      var pill = document.getElementById("ops-status-pill");
-      if (!pill) return;
-      var state = computeState();
-      pill.classList.remove(
-        "ops-pill-unknown",
-        "ops-pill-online",
-        "ops-pill-stale",
-        "ops-pill-error"
-      );
-      pill.classList.add(state.cls);
-      pill.textContent = state.label;
-      pill.dataset.opsPillExpectedLabel = state.label;
+    function expectedLabel() {
+      return typeof window.lastOpsHeartbeat === "number" ? "OPS: Online" : "OPS: Unknown";
     }
-    function attachObserver() {
-      var pill = document.getElementById("ops-status-pill");
-      if (!pill || pill.__opsPillObserverAttached) return;
-      pill.__opsPillObserverAttached = true;
-      var observer = new MutationObserver(function() {
-        var pillEl = document.getElementById("ops-status-pill");
-        if (!pillEl) return;
-        var expected = pillEl.dataset.opsPillExpectedLabel;
-        if (!expected) return;
-        if (pillEl.textContent !== expected) {
-          pillEl.textContent = expected;
+    function hardenPill(p) {
+      if (!p || p.__hardened) return;
+      p.__hardened = true;
+      var realDesc = Object.getOwnPropertyDescriptor(Node.prototype, "textContent") || Object.getOwnPropertyDescriptor(Element.prototype, "textContent");
+      Object.defineProperty(p, "textContent", {
+        set(val) {
+          realDesc.set.call(p, expectedLabel());
+        },
+        get() {
+          return realDesc.get.call(p);
         }
       });
-      observer.observe(pill, {
-        characterData: true,
-        childList: true,
-        subtree: true
-      });
     }
-    applyState();
-    attachObserver();
-    setInterval(function() {
-      applyState();
-      attachObserver();
-    }, POLL_INTERVAL_MS);
+    function apply() {
+      var p = getPill();
+      if (!p) return;
+      hardenPill(p);
+      var want = expectedLabel();
+      if (p.textContent !== want) {
+        Node.prototype.textContent.set.call(p, want);
+      }
+    }
+    apply();
+    setInterval(apply, POLL_MS);
   })();
 
   // public/js/matilda-chat-console.js
