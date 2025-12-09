@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-Root of the project
+# Root of the project
 
 cd "$(dirname "$0")/.."
 
