@@ -1,52 +1,12 @@
-// Phase 11 – Reflections SSE wiring for dashboard bundle
+// Phase 11 – Reflections SSE wiring for dashboard bundle (temporarily disabled)
 
 (function () {
 if (typeof window === "undefined") return;
 
-if (typeof EventSource === "undefined") {
-console.warn("[DASHBOARD REFLECTIONS] EventSource not supported in this environment.");
-return;
-}
-
-try {
-if (window.esRef && typeof window.esRef.close === "function") {
-window.esRef.close();
-}
-} catch (err) {
-console.warn("[DASHBOARD REFLECTIONS] Error closing existing esRef:", err);
-}
-
-// Reflections SSE server (matches earlier curl tests on port 3101)
-const REFLECTIONS_SSE_URL = "[http://127.0.0.1:3101/events/reflections](http://127.0.0.1:3101/events/reflections)";
-
-try {
-const esRef = new EventSource(REFLECTIONS_SSE_URL);
-window.esRef = esRef;
-
-```
-esRef.onmessage = (event) => {
-  try {
-    const data = JSON.parse(event.data);
-    window.lastReflectionSnapshot = data;
-    console.log("[DASHBOARD REFLECTIONS]", data);
-  } catch (err) {
-    console.error(
-      "[DASHBOARD REFLECTIONS] Error parsing SSE payload:",
-      err,
-      event.data
-    );
-  }
-};
-
-esRef.onerror = (err) => {
-  console.error("[DASHBOARD REFLECTIONS ERROR]", err);
-};
-```
-
-} catch (err) {
-console.error(
-"[DASHBOARD REFLECTIONS] Failed to initialize EventSource:",
-err
+console.warn(
+"[DASHBOARD REFLECTIONS] Reflections SSE backend endpoint not available; wiring is temporarily disabled. See PHASE11_REFLECTIONS_SSE_BACKEND_TODO.md for details."
 );
-}
+
+// TODO: Re-enable EventSource wiring once a valid text/event-stream endpoint
+// is running and reachable from the dashboard bundle.
 })();
