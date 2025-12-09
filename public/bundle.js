@@ -347,71 +347,12 @@ idx = (idx + 1) % nodes.length;
 
   // public/js/ops-status-widget.js
   (function() {
-    function createOpsStatusPill() {
-      let pill = document.getElementById("ops-status-pill");
-      if (pill) return pill;
-      pill = document.createElement("div");
-      pill.id = "ops-status-pill";
-      pill.textContent = "OPS: initializing\u2026";
-      pill.style.position = "fixed";
-      pill.style.bottom = "16px";
-      pill.style.right = "16px";
-      pill.style.zIndex = "9999";
-      pill.style.padding = "8px 12px";
-      pill.style.borderRadius = "999px";
-      pill.style.fontFamily = "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
-      pill.style.fontSize = "12px";
-      pill.style.letterSpacing = "0.03em";
-      pill.style.background = "rgba(10, 10, 10, 0.9)";
-      pill.style.color = "#eee";
-      pill.style.border = "1px solid rgba(255, 255, 255, 0.15)";
-      pill.style.boxShadow = "0 0 8px rgba(0, 0, 0, 0.8)";
-      document.body.appendChild(pill);
-      return pill;
-    }
-    function formatTime(ts) {
-      if (!ts) return "\u2013";
-      try {
-        const d = new Date(ts);
-        return d.toLocaleTimeString();
-      } catch (_) {
-        return "\u2013";
-      }
-    }
-    function updatePill() {
-      const pill = createOpsStatusPill();
-      const hb = window.lastOpsHeartbeat;
-      const now = Date.now();
-      let status = "DISCONNECTED";
-      let color = "#999";
-      let detail = "";
-      if (hb && hb.ts) {
-        const age = now - hb.ts;
-        if (age < 15e3) {
-          status = "ONLINE";
-          color = "#4ade80";
-        } else {
-          status = "STALE";
-          color = "#fbbf24";
-        }
-        detail = ` \u2022 last: ${formatTime(hb.ts)}`;
-      } else {
-        status = "NO SIGNAL";
-        color = "#f97373";
-      }
-      pill.textContent = `OPS: ${status}${detail}`;
-      pill.style.borderColor = color;
-      pill.style.boxShadow = `0 0 10px ${color}55`;
-    }
-    function startOpsStatusWatcher() {
-      updatePill();
-      setInterval(updatePill, 5e3);
-    }
-    if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", startOpsStatusWatcher);
-    } else {
-      startOpsStatusWatcher();
-    }
+    if (typeof document === "undefined") return;
+    var existing = document.getElementById("ops-status-pill");
+    if (existing) return;
+    var pill = document.querySelector("[data-ops-pill]");
+    if (!pill) return;
+    pill.id = "ops-status-pill";
   })();
 
   // public/js/ops-globals-bridge.js
@@ -450,40 +391,37 @@ idx = (idx + 1) % nodes.length;
 
   // public/js/ops-pill-state.js
   (() => {
-    if (typeof window === "undefined" || typeof document === "undefined") return;
-    const STALE_THRESHOLD_SECONDS = 30;
-    const POLL_INTERVAL_MS = 5e3;
-    function computeState() {
-      const ts = window.lastOpsHeartbeat;
-      if (typeof ts !== "number") return "unknown";
-      const now = Math.floor(Date.now() / 1e3);
-      const age = now - ts;
-      if (age < 0) return "unknown";
-      if (age <= STALE_THRESHOLD_SECONDS) return "online";
-      return "stale";
-    }
+    const POLL_INTERVAL_MS = 3e3;
+    const STALE_THRESHOLD_SEC = 15;
+    const ERROR_THRESHOLD_SEC = 45;
     function applyState() {
-      const pill = document.querySelector("[data-ops-pill]") || document.getElementById("ops-status-pill");
+      const pill = document.getElementById("ops-status-pill");
       if (!pill) return;
-      const state = computeState();
-      pill.classList.remove(
-        "ops-pill-online",
-        "ops-pill-stale",
-        "ops-pill-unknown"
-      );
+      const hb = typeof window.lastOpsHeartbeat === "number" ? window.lastOpsHeartbeat : null;
+      const now = Math.floor(Date.now() / 1e3);
       let label = "OPS: Unknown";
       let cls = "ops-pill-unknown";
-      if (state === "online") {
-        label = "OPS: Online";
-        cls = "ops-pill-online";
-      } else if (state === "stale") {
-        label = "OPS: Stale";
-        cls = "ops-pill-stale";
+      if (hb) {
+        const age = now - hb;
+        if (age <= STALE_THRESHOLD_SEC) {
+          label = "OPS: Online";
+          cls = "ops-pill-online";
+        } else if (age <= ERROR_THRESHOLD_SEC) {
+          label = "OPS: Stale";
+          cls = "ops-pill-stale";
+        } else {
+          label = "OPS: No signal";
+          cls = "ops-pill-error";
+        }
       }
+      pill.classList.remove(
+        "ops-pill-unknown",
+        "ops-pill-online",
+        "ops-pill-stale",
+        "ops-pill-error"
+      );
       pill.classList.add(cls);
-      if (!pill.dataset || !pill.dataset.lockText) {
-        pill.textContent = label;
-      }
+      pill.textContent = label;
     }
     applyState();
     setInterval(applyState, POLL_INTERVAL_MS);
