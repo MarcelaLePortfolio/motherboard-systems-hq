@@ -16,7 +16,8 @@ window.esRef.close();
 console.warn("[DASHBOARD REFLECTIONS] Error closing existing esRef:", err);
 }
 
-const REFLECTIONS_SSE_URL = "[http://127.0.0.1:3200/events/reflections](http://127.0.0.1:3200/events/reflections)";
+// Reflections SSE server (matches earlier curl tests on port 3101)
+const REFLECTIONS_SSE_URL = "[http://127.0.0.1:3101/events/reflections](http://127.0.0.1:3101/events/reflections)";
 
 try {
 const esRef = new EventSource(REFLECTIONS_SSE_URL);
