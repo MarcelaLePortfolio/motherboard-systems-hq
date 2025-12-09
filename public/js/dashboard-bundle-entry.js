@@ -1,21 +1,15 @@
-import { initDashboardStatus } from "./dashboard-status.js";
-import { initTaskGraphFromTasks } from "./dashboard-graph-loader.js";
-import { initBroadcastVisualization } from "./dashboard-broadcast.js";
-import "./dashboard-graph.js";
-import "../scripts/dashboard-reflections.js";
-import "../scripts/dashboard-ops.js";
-import "../scripts/dashboard-chat.js";
+// Phase 11 – Unified dashboard bundle entrypoint
+
+// Core dashboard status + tiles
+import "./dashboard-status.js";
+import "./agent-status-row.js";
+
+// OPS / PM2 status + SSE wiring
+import "./dashboard-broadcast.js";
+import "./ops-status-widget.js";
+
+// Matilda chat console wiring
 import "./matilda-chat-console.js";
-import "./task-delegation.js";
 
-try { initDashboardStatus(); } catch (err) {
-  console.error("Dashboard status init failed:", err);
-}
-
-try { initTaskGraphFromTasks(); } catch (err) {
-  console.error("Task graph init failed:", err);
-}
-
-try { initBroadcastVisualization(); } catch (err) {
-  console.error("Broadcast visualization init failed:", err);
-}
+// TEMP: dashboard graph disabled until canvas is present on all pages
+// import "./dashboard-graph.js";
