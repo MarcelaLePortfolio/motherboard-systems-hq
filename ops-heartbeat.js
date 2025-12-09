@@ -7,7 +7,7 @@
 
 const { exec } = require("child_process");
 
-const OPS_URL = "http://127.0.0.1:3201/push"; // your OPS SSE internal endpoint
+const OPS_URL = "http://host.docker.internal:3201/push"; // your OPS SSE internal endpoint
 
 function send(payload) {
   try {
