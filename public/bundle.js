@@ -348,11 +348,11 @@ idx = (idx + 1) % nodes.length;
   // public/js/ops-status-widget.js
   (function() {
     if (typeof document === "undefined") return;
-    var existing = document.getElementById("ops-status-pill");
+    var existing = document.getElementById("ops-dashboard-pill");
     if (existing) return;
     var pill = document.querySelector("[data-ops-pill]");
     if (!pill) return;
-    pill.id = "ops-status-pill";
+    pill.id = "ops-dashboard-pill";
   })();
 
   // public/js/ops-globals-bridge.js
@@ -394,7 +394,7 @@ idx = (idx + 1) % nodes.length;
     if (typeof window === "undefined" || typeof document === "undefined") return;
     var POLL_INTERVAL_MS = 5e3;
     function applyState() {
-      var pill = document.getElementById("ops-status-pill");
+      var pill = document.getElementById("ops-dashboard-pill");
       if (!pill) return;
       var hasHeartbeat = typeof window.lastOpsHeartbeat === "number";
       var label = hasHeartbeat ? "OPS: Online" : "OPS: Unknown";
