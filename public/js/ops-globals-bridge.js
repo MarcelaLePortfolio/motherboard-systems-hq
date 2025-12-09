@@ -16,21 +16,26 @@
 
   const opsUrl = `${window.location.protocol}//${window.location.hostname}:3201/events/ops`;
 
+  const handleEvent = (event) => {
+    try {
+      const data = JSON.parse(event.data || "null");
+      if (!data) return;
+
+      window.lastOpsHeartbeat = Math.floor(Date.now() / 1000);
+      window.lastOpsStatusSnapshot = data;
+    } catch (err) {
+      console.warn("[ops-globals-bridge] Failed to parse OPS event:", err);
+    }
+  };
+
   try {
     const es = new EventSource(opsUrl);
 
-    es.onmessage = (event) => {
-      try {
-        const data = JSON.parse(event.data || "null");
-        if (!data) return;
+    // Default unnamed "message" events (if any in future)
+    es.onmessage = handleEvent;
 
-        // Treat ANY OPS event as a heartbeat + status snapshot for now.
-        window.lastOpsHeartbeat = Math.floor(Date.now() / 1000);
-        window.lastOpsStatusSnapshot = data;
-      } catch (err) {
-        console.warn("[ops-globals-bridge] Failed to parse OPS event:", err);
-      }
-    };
+    // Named "hello" events from OPS SSE
+    es.addEventListener("hello", handleEvent);
 
     es.onerror = (err) => {
       console.warn("[ops-globals-bridge] EventSource error:", err);
