@@ -1,23 +1,35 @@
-// Phase 11 – Unified dashboard bundle entrypoint
+import "./sse-ops.js";
 
-// Core dashboard status + tiles
-import "./dashboard-status.js";
-import "./agent-status-row.js";
+const chatForm = document.getElementById("matilda-chat-form");
+const chatInput = document.getElementById("matilda-chat-input");
+const chatOutput = document.getElementById("project-viewport-output");
 
-// OPS / PM2 status + SSE wiring
-import "./dashboard-broadcast.js";
-import "./ops-status-widget.js";
-import "./ops-globals-bridge.js";
-import "./ops-pill-state.js";
+async function sendChat(message) {
+  const res = await fetch("/api/chat", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ message, agent: "matilda" })
+  });
+  const data = await res.json();
+  return data.response || JSON.stringify(data);
+}
 
-// Reflections SSE wiring (currently stubbed)
-import "./reflections-sse-dashboard.js";
+if (chatForm) {
+  chatForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const text = chatInput.value.trim();
+    if (!text) return;
 
-// SSE shim to neutralize Reflections EventSource calls until backend is ready
-import "./sse-reflections-shim.js";
+    chatOutput.innerHTML = "<p><em>Matilda is thinking…</em></p>";
 
-// Matilda chat console wiring
-import "./matilda-chat-console.js";
+    try {
+      const reply = await sendChat(text);
+      chatOutput.innerHTML = `<div class="matilda-reply">${reply}</div>`;
+    } catch (err) {
+      chatOutput.innerHTML = `<p style="color:red;">Chat error: ${err}</p>`;
+    }
 
-// TEMP: dashboard graph disabled until canvas is present on all pages
-// import "./dashboard-graph.js";
+    chatInput.value = "";
+  });
+}
+
