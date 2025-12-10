@@ -1,22 +1,21 @@
 import "./sse-ops.js";
 import "./sse-reflections-shim.js";
 
-// Utility helpers
 function $(id) {
 return document.getElementById(id);
 }
 
 // Matilda chat elements
-const chatForm = $("matilda-chat-form");
-const chatInput = $("matilda-chat-input");
-const chatOutput = $("project-viewport-output");
+var chatForm = $("matilda-chat-form");
+var chatInput = $("matilda-chat-input");
+var chatOutput = $("project-viewport-output");
 
 // Delegation elements (with fallbacks)
-const delegationForm =
+var delegationForm =
 $("task-delegation-form") || $("delegation-form");
-const delegationInput =
+var delegationInput =
 $("task-delegation-input") || $("delegation-input") || chatInput;
-const delegationLog =
+var delegationLog =
 $("task-delegation-log") || $("delegation-log");
 
 // -------------------------
@@ -24,38 +23,39 @@ $("task-delegation-log") || $("delegation-log");
 // -------------------------
 
 async function sendChat(message) {
-const res = await fetch("/api/chat", {
+var res = await fetch("/api/chat", {
 method: "POST",
 headers: { "Content-Type": "application/json" },
-body: JSON.stringify({ message, agent: "matilda" }),
+body: JSON.stringify({ message: message, agent: "matilda" }),
 });
 
 if (!res.ok) {
-throw new Error(`HTTP ${res.status}`);
+throw new Error("HTTP " + res.status);
 }
 
-const data = await res.json();
+var data = await res.json();
 // Expecting { response: string, ... } but fall back to raw JSON if not
 return data.response || JSON.stringify(data, null, 2);
 }
 
 if (chatForm && chatInput && chatOutput) {
-chatForm.addEventListener("submit", async (e) => {
+chatForm.addEventListener("submit", function (e) {
 e.preventDefault();
-const text = chatInput.value.trim();
+var text = chatInput.value.trim();
 if (!text) return;
 
 ```
 chatOutput.innerHTML = "<p><em>Matilda is thinking…</em></p>";
 
-try {
-  const reply = await sendChat(text);
-  chatOutput.innerHTML = `<div class='matilda-reply'>${reply}</div>`;
-} catch (err) {
-  chatOutput.innerHTML = `<p style="color:red;">Chat error: ${String(
-    err
-  )}</p>`;
-}
+sendChat(text)
+  .then(function (reply) {
+    chatOutput.innerHTML =
+      '<div class="matilda-reply">' + reply + "</div>";
+  })
+  .catch(function (err) {
+    chatOutput.innerHTML =
+      '<p style="color:red;">Chat error: ' + String(err) + "</p>";
+  });
 
 chatInput.value = "";
 ```
@@ -68,49 +68,51 @@ chatInput.value = "";
 // -------------------------
 
 async function sendDelegation(description) {
-const res = await fetch("/api/delegate-task", {
+var res = await fetch("/api/delegate-task", {
 method: "POST",
 headers: { "Content-Type": "application/json" },
-body: JSON.stringify({ description }),
+body: JSON.stringify({ description: description }),
 });
 
 if (!res.ok) {
-throw new Error(`HTTP ${res.status}`);
+throw new Error("HTTP " + res.status);
 }
 
-const data = await res.json();
+var data = await res.json();
 return data;
 }
 
 function appendDelegationLog(entryText) {
 if (!delegationLog) return;
-const item = document.createElement("div");
+var item = document.createElement("div");
 item.className = "delegation-entry";
 item.textContent = entryText;
 delegationLog.prepend(item);
 }
 
 if (delegationForm && delegationInput) {
-delegationForm.addEventListener("submit", async (e) => {
+delegationForm.addEventListener("submit", function (e) {
 e.preventDefault();
-const text = delegationInput.value.trim();
+var text = delegationInput.value.trim();
 if (!text) return;
 
 ```
-appendDelegationLog(`Delegating: ${text}`);
+appendDelegationLog("Delegating: " + text);
 
-try {
-  const result = await sendDelegation(text);
-  const id = result.id ?? "n/a";
-  const status = result.status ?? "queued";
-  appendDelegationLog(`Delegated ✓ (id: ${id}, status: ${status})`);
+sendDelegation(text)
+  .then(function (result) {
+    var id = result.id != null ? result.id : "n/a";
+    var status = result.status != null ? result.status : "queued";
+    appendDelegationLog("Delegated \u2713 (id: " + id + ", status: " + status + ")");
 
-  if (chatOutput) {
-    chatOutput.innerHTML = `<pre>${JSON.stringify(result, null, 2)}</pre>`;
-  }
-} catch (err) {
-  appendDelegationLog(`Delegation error: ${String(err)}`);
-}
+    if (chatOutput) {
+      chatOutput.innerHTML =
+        "<pre>" + JSON.stringify(result, null, 2) + "</pre>";
+    }
+  })
+  .catch(function (err) {
+    appendDelegationLog("Delegation error: " + String(err));
+  });
 
 delegationInput.value = "";
 ```
