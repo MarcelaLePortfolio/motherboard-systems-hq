@@ -1,6 +1,3 @@
-import "./sse-ops.js";
-import "./sse-reflections-shim.js";
-
 function $(id) {
 return document.getElementById(id);
 }
