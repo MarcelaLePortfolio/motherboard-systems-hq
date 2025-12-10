@@ -2,22 +2,59 @@ function $(id) {
 return document.getElementById(id);
 }
 
-// Matilda chat elements
-var chatForm = $("matilda-chat-form");
-var chatInput = $("matilda-chat-input");
-var chatOutput = $("project-viewport-output");
+// -------------------------
+// OPS Pill – SSE Wiring
+// -------------------------
 
-// Delegation elements (with fallbacks)
-var delegationForm =
-$("task-delegation-form") || $("delegation-form");
-var delegationInput =
-$("task-delegation-input") || $("delegation-input") || chatInput;
-var delegationLog =
-$("task-delegation-log") || $("delegation-log");
+var opsPill =
+$("ops-status-pill") || $("ops-pill") || $("ops-status");
+
+if (opsPill && typeof window !== "undefined" && window.EventSource) {
+try {
+var opsSource = new EventSource("/events/ops");
+
+```
+opsPill.textContent = "OPS: Unknown";
+
+opsSource.onmessage = function (ev) {
+  try {
+    var data = ev.data ? JSON.parse(ev.data) : {};
+    var status =
+      data.status ||
+      data.state ||
+      data.opsStatus ||
+      "Online";
+
+    opsPill.textContent = "OPS: " + status;
+
+    // Debug helpers for DevTools
+    window.lastOpsHeartbeat = Date.now();
+    window.lastOpsStatusSnapshot = data;
+  } catch (e) {
+    console.warn("[OPS SSE] Parse error:", e);
+    opsPill.textContent = "OPS: Unknown";
+  }
+};
+
+opsSource.onerror = function (err) {
+  console.warn("[OPS SSE] Error:", err);
+  opsPill.textContent = "OPS: Unknown";
+};
+```
+
+} catch (e) {
+console.warn("[OPS SSE] EventSource setup failed:", e);
+opsPill.textContent = "OPS: Unknown";
+}
+}
 
 // -------------------------
 // Matilda Chat Logic
 // -------------------------
+
+var chatForm = $("matilda-chat-form");
+var chatInput = $("matilda-chat-input");
+var chatOutput = $("project-viewport-output");
 
 async function sendChat(message) {
 var res = await fetch("/api/chat", {
@@ -31,7 +68,6 @@ throw new Error("HTTP " + res.status);
 }
 
 var data = await res.json();
-// Expecting { response: string, ... } but fall back to raw JSON if not
 return data.response || JSON.stringify(data, null, 2);
 }
 
@@ -63,6 +99,13 @@ chatInput.value = "";
 // -------------------------
 // Delegation Logic
 // -------------------------
+
+var delegationForm =
+$("task-delegation-form") || $("delegation-form");
+var delegationInput =
+$("task-delegation-input") || $("delegation-input") || chatInput;
+var delegationLog =
+$("task-delegation-log") || $("delegation-log");
 
 async function sendDelegation(description) {
 var res = await fetch("/api/delegate-task", {
@@ -100,7 +143,9 @@ sendDelegation(text)
   .then(function (result) {
     var id = result.id != null ? result.id : "n/a";
     var status = result.status != null ? result.status : "queued";
-    appendDelegationLog("Delegated \u2713 (id: " + id + ", status: " + status + ")");
+    appendDelegationLog(
+      "Delegated \u2713 (id: " + id + ", status: " + status + ")"
+    );
 
     if (chatOutput) {
       chatOutput.innerHTML =
