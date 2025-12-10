@@ -2,103 +2,81 @@ function $(id) {
 return document.getElementById(id);
 }
 
-// -------------------------
-// OPS Pill – SSE Wiring
-// -------------------------
+/* -------------------------
+
+OPS Pill – Static Only (SSE Disabled)
+
+------------------------- */
 
 var opsPill =
 $("ops-status-pill") || $("ops-pill") || $("ops-status");
 
-// If no pill exists in the DOM, create one so SSE can always bind
 if (!opsPill && typeof document !== "undefined") {
-var container =
+var opsContainer =
 document.querySelector(".ops-pill-container") || document.body;
 
-if (container) {
+if (opsContainer) {
 opsPill = document.createElement("div");
 opsPill.id = "ops-status-pill";
 opsPill.className = "ops-pill";
 opsPill.textContent = "OPS: Unknown";
-if (container.firstChild) {
-container.insertBefore(opsPill, container.firstChild);
+if (opsContainer.firstChild) {
+opsContainer.insertBefore(opsPill, opsContainer.firstChild);
 } else {
-container.appendChild(opsPill);
+opsContainer.appendChild(opsPill);
 }
 }
 }
 
-if (typeof window !== "undefined") {
-console.log("[Dashboard bundle] Loaded. OPS pill present:", !!opsPill);
-}
-
-if (opsPill && typeof window !== "undefined" && window.EventSource) {
-try {
-var opsSource = new EventSource("/events/ops");
-
-```
-opsPill.textContent = "OPS: Unknown";
-
-opsSource.onmessage = function (ev) {
-  try {
-    var data = ev.data ? JSON.parse(ev.data) : {};
-    var status =
-      data.status ||
-      data.state ||
-      data.opsStatus ||
-      "Online";
-
-    opsPill.textContent = "OPS: " + status;
-
-    // Debug helpers for DevTools
-    window.lastOpsHeartbeat = Date.now();
-    window.lastOpsStatusSnapshot = data;
-    console.log("[OPS SSE] Update:", data);
-  } catch (e) {
-    console.warn("[OPS SSE] Parse error:", e);
-    opsPill.textContent = "OPS: Unknown";
-  }
-};
-
-opsSource.onerror = function (err) {
-  console.warn("[OPS SSE] Error:", err);
-  opsPill.textContent = "OPS: Unknown";
-};
-```
-
-} catch (e) {
-console.warn("[OPS SSE] EventSource setup failed:", e);
+if (opsPill) {
 opsPill.textContent = "OPS: Unknown";
 }
-} else if (typeof window !== "undefined") {
-console.warn(
-"[OPS SSE] Skipping SSE wiring. Has pill:",
-!!opsPill,
-"Has EventSource:",
-!!(window && window.EventSource)
-);
-}
 
-// -------------------------
-// Matilda Chat Logic
-// -------------------------
+/* -------------------------
+
+Matilda Chat Logic
+
+------------------------- */
 
 var chatForm = $("matilda-chat-form");
 var chatInput = $("matilda-chat-input");
 var chatOutput = $("project-viewport-output");
 
-async function sendChat(message) {
-var res = await fetch("/api/chat", {
+// Fallback: if the input exists but the form does not have an ID, use its owning form
+if (!chatForm && chatInput && chatInput.form) {
+chatForm = chatInput.form;
+}
+
+// Fallback: if output container is missing, create one inside the visual output card
+if (!chatOutput && typeof document !== "undefined") {
+var outputHost =
+$("project-visual-output-card") ||
+document.querySelector(".project-viewport-inner") ||
+document.body;
+
+if (outputHost) {
+chatOutput = document.createElement("div");
+chatOutput.id = "project-viewport-output";
+chatOutput.className = "project-viewport-output";
+outputHost.appendChild(chatOutput);
+}
+}
+
+function sendChat(message) {
+return fetch("/api/chat", {
 method: "POST",
 headers: { "Content-Type": "application/json" },
 body: JSON.stringify({ message: message, agent: "matilda" }),
-});
-
+})
+.then(function (res) {
 if (!res.ok) {
 throw new Error("HTTP " + res.status);
 }
-
-var data = await res.json();
+return res.json();
+})
+.then(function (data) {
 return data.response || JSON.stringify(data, null, 2);
+});
 }
 
 if (chatForm && chatInput && chatOutput) {
@@ -107,7 +85,6 @@ e.preventDefault();
 var text = chatInput.value.trim();
 if (!text) return;
 
-```
 chatOutput.innerHTML = "<p><em>Matilda is thinking…</em></p>";
 
 sendChat(text)
@@ -121,23 +98,16 @@ sendChat(text)
   });
 
 chatInput.value = "";
-```
+
 
 });
-} else if (typeof window !== "undefined") {
-console.warn(
-"[Dashboard bundle] Matilda chat elements missing. Form:",
-!!chatForm,
-"Input:",
-!!chatInput,
-"Output:",
-!!chatOutput
-);
 }
 
-// -------------------------
-// Delegation Logic
-// -------------------------
+/* -------------------------
+
+Delegation Logic
+
+------------------------- */
 
 var delegationForm =
 $("task-delegation-form") || $("delegation-form");
@@ -146,19 +116,36 @@ $("task-delegation-input") || $("delegation-input") || chatInput;
 var delegationLog =
 $("task-delegation-log") || $("delegation-log");
 
-async function sendDelegation(description) {
-var res = await fetch("/api/delegate-task", {
+// Fallback: if the input exists but form lacks ID, use its owning form
+if (!delegationForm && delegationInput && delegationInput.form) {
+delegationForm = delegationInput.form;
+}
+
+// Fallback: create a delegation log container if missing
+if (!delegationLog && typeof document !== "undefined") {
+var delegationHost =
+$("delegation-card") || document.body;
+
+if (delegationHost) {
+delegationLog = document.createElement("div");
+delegationLog.id = "task-delegation-log";
+delegationLog.className = "task-delegation-log";
+delegationHost.appendChild(delegationLog);
+}
+}
+
+function sendDelegation(description) {
+return fetch("/api/delegate-task", {
 method: "POST",
 headers: { "Content-Type": "application/json" },
 body: JSON.stringify({ description: description }),
-});
-
+})
+.then(function (res) {
 if (!res.ok) {
 throw new Error("HTTP " + res.status);
 }
-
-var data = await res.json();
-return data;
+return res.json();
+});
 }
 
 function appendDelegationLog(entryText) {
@@ -175,7 +162,6 @@ e.preventDefault();
 var text = delegationInput.value.trim();
 if (!text) return;
 
-```
 appendDelegationLog("Delegating: " + text);
 
 sendDelegation(text)
@@ -183,7 +169,7 @@ sendDelegation(text)
     var id = result.id != null ? result.id : "n/a";
     var status = result.status != null ? result.status : "queued";
     appendDelegationLog(
-      "Delegated \u2713 (id: " + id + ", status: " + status + ")"
+      "Delegated ✓ (id: " + id + ", status: " + status + ")"
     );
 
     if (chatOutput) {
@@ -196,16 +182,7 @@ sendDelegation(text)
   });
 
 delegationInput.value = "";
-```
+
 
 });
-} else if (typeof window !== "undefined") {
-console.warn(
-"[Dashboard bundle] Delegation elements missing. Form:",
-!!delegationForm,
-"Input:",
-!!delegationInput,
-"Log:",
-!!delegationLog
-);
 }
