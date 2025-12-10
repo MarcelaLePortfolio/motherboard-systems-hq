@@ -9,6 +9,28 @@ return document.getElementById(id);
 var opsPill =
 $("ops-status-pill") || $("ops-pill") || $("ops-status");
 
+// If no pill exists in the DOM, create one so SSE can always bind
+if (!opsPill && typeof document !== "undefined") {
+var container =
+document.querySelector(".ops-pill-container") || document.body;
+
+if (container) {
+opsPill = document.createElement("div");
+opsPill.id = "ops-status-pill";
+opsPill.className = "ops-pill";
+opsPill.textContent = "OPS: Unknown";
+if (container.firstChild) {
+container.insertBefore(opsPill, container.firstChild);
+} else {
+container.appendChild(opsPill);
+}
+}
+}
+
+if (typeof window !== "undefined") {
+console.log("[Dashboard bundle] Loaded. OPS pill present:", !!opsPill);
+}
+
 if (opsPill && typeof window !== "undefined" && window.EventSource) {
 try {
 var opsSource = new EventSource("/events/ops");
@@ -30,6 +52,7 @@ opsSource.onmessage = function (ev) {
     // Debug helpers for DevTools
     window.lastOpsHeartbeat = Date.now();
     window.lastOpsStatusSnapshot = data;
+    console.log("[OPS SSE] Update:", data);
   } catch (e) {
     console.warn("[OPS SSE] Parse error:", e);
     opsPill.textContent = "OPS: Unknown";
@@ -46,6 +69,13 @@ opsSource.onerror = function (err) {
 console.warn("[OPS SSE] EventSource setup failed:", e);
 opsPill.textContent = "OPS: Unknown";
 }
+} else if (typeof window !== "undefined") {
+console.warn(
+"[OPS SSE] Skipping SSE wiring. Has pill:",
+!!opsPill,
+"Has EventSource:",
+!!(window && window.EventSource)
+);
 }
 
 // -------------------------
@@ -94,6 +124,15 @@ chatInput.value = "";
 ```
 
 });
+} else if (typeof window !== "undefined") {
+console.warn(
+"[Dashboard bundle] Matilda chat elements missing. Form:",
+!!chatForm,
+"Input:",
+!!chatInput,
+"Output:",
+!!chatOutput
+);
 }
 
 // -------------------------
@@ -160,4 +199,13 @@ delegationInput.value = "";
 ```
 
 });
+} else if (typeof window !== "undefined") {
+console.warn(
+"[Dashboard bundle] Delegation elements missing. Form:",
+!!delegationForm,
+"Input:",
+!!delegationInput,
+"Log:",
+!!delegationLog
+);
 }
