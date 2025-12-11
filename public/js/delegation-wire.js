@@ -70,12 +70,9 @@ console.log("[delegation-wire] Task Delegation wiring active");
 
 }
 
-// Try to wire immediately, and also on DOMContentLoaded as a fallback.
 if (document.readyState === "loading") {
 document.addEventListener("DOMContentLoaded", initDelegationWiring);
 } else {
 initDelegationWiring();
 }
-
-document.addEventListener("DOMContentLoaded", initDelegationWiring);
 })();
