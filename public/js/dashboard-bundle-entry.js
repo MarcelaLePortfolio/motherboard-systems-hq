@@ -12,7 +12,6 @@ fn();
 }
 
 function getProjectOutputElement() {
-// Try several reasonable selectors; fall back gracefully.
 return (
 document.getElementById("project-visual-output-pre") ||
 document.querySelector("#project-visual-output pre") ||
@@ -23,23 +22,23 @@ null
 }
 
 function appendToProjectOutput(title, payload) {
-const el = getProjectOutputElement();
-const text =
+var el = getProjectOutputElement();
+var text =
 typeof payload === "string"
 ? payload
 : JSON.stringify(payload, null, 2);
 
 ```
+var now = new Date();
+var header =
+  "[" + now.toISOString() + "] " + String(title || "") + "\n";
+var separator = "\n----------------------------------------\n";
+var existing = (el && el.textContent) || "";
+
 if (!el) {
-  // Fallback: at least log to console so we can see something.
-  console.log("[Project Visual Output]", title, payload);
+  console.log("[Project Visual Output]", header + text);
   return;
 }
-
-const now = new Date();
-const header = `[${now.toISOString()}] ${title}\n`;
-const separator = "\n----------------------------------------\n";
-const existing = el.textContent || "";
 
 el.textContent = header + text + separator + existing;
 ```
@@ -50,23 +49,26 @@ async function sendMatildaChat(message) {
 if (!message || !message.trim()) return;
 
 ```
-appendToProjectOutput("Matilda Chat – Sending", { message });
+appendToProjectOutput("Matilda Chat – Sending", { message: message });
 
 try {
-  const res = await fetch("/api/chat", {
+  var res = await fetch("/api/chat", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      message,
+      message: message,
       agent: "matilda",
     }),
   });
 
-  const data = await res.json().catch(() => ({
-    error: "Non-JSON response from /api/chat",
-  }));
+  var data;
+  try {
+    data = await res.json();
+  } catch (e) {
+    data = { error: "Non-JSON response from /api/chat" };
+  }
 
   appendToProjectOutput("Matilda Chat – Response", data);
 } catch (err) {
@@ -83,23 +85,27 @@ async function sendTaskDelegation(description) {
 if (!description || !description.trim()) return;
 
 ```
-appendToProjectOutput("Task Delegation – Sending", { description });
+appendToProjectOutput("Task Delegation – Sending", {
+  description: description,
+});
 
 try {
-  // NOTE: Endpoint name is inferred from previous phases; adjust if needed.
-  const res = await fetch("/api/delegate-task", {
+  var res = await fetch("/api/delegate-task", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      description,
+      description: description,
     }),
   });
 
-  const data = await res.json().catch(() => ({
-    error: "Non-JSON response from /api/delegate-task",
-  }));
+  var data;
+  try {
+    data = await res.json();
+  } catch (e) {
+    data = { error: "Non-JSON response from /api/delegate-task" };
+  }
 
   appendToProjectOutput("Task Delegation – Response", data);
 } catch (err) {
@@ -113,39 +119,37 @@ try {
 }
 
 function wireMatildaChat() {
-// Heuristic: assume first form on the dashboard is Matilda Chat.
-const forms = Array.from(document.querySelectorAll("form"));
+var forms = Array.prototype.slice.call(
+document.querySelectorAll("form")
+);
 if (!forms.length) return;
 
 ```
-const chatForm = forms[0];
+var chatForm = forms[0];
 if (!chatForm) return;
 
-// Prefer textarea, then text input, then any input.
-const chatInput =
+var chatInput =
   chatForm.querySelector("textarea") ||
   chatForm.querySelector("input[type='text']") ||
   chatForm.querySelector("input:not([type])");
 
-const chatButton =
+var chatButton =
   chatForm.querySelector("button[type='submit']") ||
   chatForm.querySelector("button");
 
-const handler = function (event) {
+function handler(event) {
   if (event) event.preventDefault();
   if (!chatInput) return;
-  const value = chatInput.value;
+  var value = chatInput.value;
   if (!value || !value.trim()) return;
   sendMatildaChat(value);
-};
+}
 
-// Wire submit event.
 chatForm.addEventListener("submit", function (e) {
   e.preventDefault();
   handler(e);
 });
 
-// Wire click if we have an explicit button.
 if (chatButton) {
   chatButton.addEventListener("click", function (e) {
     e.preventDefault();
@@ -157,30 +161,31 @@ if (chatButton) {
 }
 
 function wireTaskDelegation() {
-// Heuristic: assume second form on the dashboard is Task Delegation.
-const forms = Array.from(document.querySelectorAll("form"));
+var forms = Array.prototype.slice.call(
+document.querySelectorAll("form")
+);
 if (forms.length < 2) return;
 
 ```
-const taskForm = forms[1];
+var taskForm = forms[1];
 if (!taskForm) return;
 
-const taskInput =
+var taskInput =
   taskForm.querySelector("textarea") ||
   taskForm.querySelector("input[type='text']") ||
   taskForm.querySelector("input:not([type])");
 
-const taskButton =
+var taskButton =
   taskForm.querySelector("button[type='submit']") ||
   taskForm.querySelector("button");
 
-const handler = function (event) {
+function handler(event) {
   if (event) event.preventDefault();
   if (!taskInput) return;
-  const value = taskInput.value;
+  var value = taskInput.value;
   if (!value || !value.trim()) return;
   sendTaskDelegation(value);
-};
+}
 
 taskForm.addEventListener("submit", function (e) {
   e.preventDefault();
@@ -198,15 +203,13 @@ if (taskButton) {
 }
 
 function initOpsPill() {
-// Keep OPS pill present but static; no SSE wiring in v11.10.
-const pill =
+var pill =
 document.getElementById("ops-status-pill") ||
 document.querySelector("[data-role='ops-pill']");
 if (!pill) return;
 
 ```
-const textEl =
-  pill.querySelector(".ops-pill-text") || pill;
+var textEl = pill.querySelector(".ops-pill-text") || pill;
 
 if (textEl && !textEl.dataset.opsInitialized) {
   textEl.textContent = "OPS: Unknown";
