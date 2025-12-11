@@ -1,16 +1,11 @@
-// Phase 11 v11.10 – Minimal unified dashboard bundle
-// Goal: Wire Matilda Chat + Task Delegation through bundled JS, update Project Visual Output,
-// and keep OPS pill harmless (static) with no SSE dependencies.
+// Phase 11 v11.10 – Unified dashboard bundle
+// Clean, conservative wiring for:
+// - Matilda Chat
+// - Task Delegation
+// - Static OPS pill
+// - Project Visual Output
 
 (function () {
-function onReady(fn) {
-if (document.readyState === "loading") {
-document.addEventListener("DOMContentLoaded", fn);
-} else {
-fn();
-}
-}
-
 function getProjectOutputElement() {
 return (
 document.getElementById("project-visual-output-pre") ||
@@ -55,12 +50,12 @@ try {
   var res = await fetch("/api/chat", {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "application/json"
     },
     body: JSON.stringify({
       message: message,
-      agent: "matilda",
-    }),
+      agent: "matilda"
+    })
   });
 
   var data;
@@ -74,7 +69,7 @@ try {
 } catch (err) {
   console.error("Matilda chat error:", err);
   appendToProjectOutput("Matilda Chat – Error", {
-    error: String(err),
+    error: String(err)
   });
 }
 ```
@@ -86,18 +81,18 @@ if (!description || !description.trim()) return;
 
 ```
 appendToProjectOutput("Task Delegation – Sending", {
-  description: description,
+  description: description
 });
 
 try {
   var res = await fetch("/api/delegate-task", {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "application/json"
     },
     body: JSON.stringify({
-      description: description,
-    }),
+      description: description
+    })
   });
 
   var data;
@@ -111,29 +106,61 @@ try {
 } catch (err) {
   console.error("Task delegation error:", err);
   appendToProjectOutput("Task Delegation – Error", {
-    error: String(err),
+    error: String(err)
   });
 }
 ```
 
 }
 
-function wireMatildaChat() {
-var forms = Array.prototype.slice.call(
-document.querySelectorAll("form")
-);
-if (!forms.length) return;
+function findMatildaForm() {
+var byId =
+document.getElementById("matilda-chat-form") ||
+document.querySelector("[data-role='matilda-chat-form']") ||
+document.querySelector(".matilda-chat-form");
+if (byId) return byId;
 
 ```
-var chatForm = forms[0];
-if (!chatForm) return;
+var forms = Array.prototype.slice.call(
+  document.querySelectorAll("form")
+);
+return forms[0] || null;
+```
 
+}
+
+function findTaskForm() {
+var byId =
+document.getElementById("task-delegation-form") ||
+document.querySelector("[data-role='task-delegation-form']") ||
+document.querySelector(".task-delegation-form");
+if (byId) return byId;
+
+```
+var forms = Array.prototype.slice.call(
+  document.querySelectorAll("form")
+);
+return forms[1] || null;
+```
+
+}
+
+function wireMatildaChat() {
+var chatForm = findMatildaForm();
+if (!chatForm) {
+console.warn("[Dashboard] Matilda chat form not found");
+return;
+}
+
+```
 var chatInput =
+  chatForm.querySelector("#matilda-chat-input") ||
   chatForm.querySelector("textarea") ||
   chatForm.querySelector("input[type='text']") ||
   chatForm.querySelector("input:not([type])");
 
 var chatButton =
+  chatForm.querySelector("#matilda-chat-submit") ||
   chatForm.querySelector("button[type='submit']") ||
   chatForm.querySelector("button");
 
@@ -156,26 +183,28 @@ if (chatButton) {
     handler(e);
   });
 }
+
+console.log("[Dashboard] Matilda chat wired");
 ```
 
 }
 
 function wireTaskDelegation() {
-var forms = Array.prototype.slice.call(
-document.querySelectorAll("form")
-);
-if (forms.length < 2) return;
+var taskForm = findTaskForm();
+if (!taskForm) {
+console.warn("[Dashboard] Task delegation form not found");
+return;
+}
 
 ```
-var taskForm = forms[1];
-if (!taskForm) return;
-
 var taskInput =
+  taskForm.querySelector("#task-delegation-input") ||
   taskForm.querySelector("textarea") ||
   taskForm.querySelector("input[type='text']") ||
   taskForm.querySelector("input:not([type])");
 
 var taskButton =
+  taskForm.querySelector("#task-delegation-submit") ||
   taskForm.querySelector("button[type='submit']") ||
   taskForm.querySelector("button");
 
@@ -198,6 +227,8 @@ if (taskButton) {
     handler(e);
   });
 }
+
+console.log("[Dashboard] Task delegation wired");
 ```
 
 }
@@ -212,14 +243,16 @@ if (!pill) return;
 var textEl = pill.querySelector(".ops-pill-text") || pill;
 
 if (textEl && !textEl.dataset.opsInitialized) {
-  textEl.textContent = "OPS: Unknown";
+  if (!textEl.textContent || !textEl.textContent.trim()) {
+    textEl.textContent = "OPS: Unknown";
+  }
   textEl.dataset.opsInitialized = "true";
 }
 ```
 
 }
 
-onReady(function () {
+function initDashboardBundle() {
 try {
 initOpsPill();
 } catch (e) {
@@ -240,5 +273,11 @@ try {
 }
 ```
 
-});
+}
+
+if (document.readyState === "loading") {
+document.addEventListener("DOMContentLoaded", initDashboardBundle);
+} else {
+initDashboardBundle();
+}
 })();
