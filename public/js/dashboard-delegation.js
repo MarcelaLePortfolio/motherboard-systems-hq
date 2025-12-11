@@ -5,16 +5,29 @@
 
 console.log("[dashboard-delegation] module loaded");
 
+function getSafeFetch() {
+// Prefer the global fetch; log its type so we can understand runtime issues.
+var f = (typeof fetch !== "undefined" ? fetch : (typeof window !== "undefined" ? window.fetch : undefined));
+var t = typeof f;
+console.log("[dashboard-delegation] detected fetch type:", t);
+
+if (t !== "function") {
+console.error("[dashboard-delegation] fetch is not a function; value:", f);
+return null;
+}
+return f;
+}
+
 async function handleDelegationClick(e) {
 if (e && e.preventDefault) e.preventDefault();
 
-const input = document.getElementById("delegation-input");
+var input = document.getElementById("delegation-input");
 if (!input) {
 console.warn("[dashboard-delegation] delegation input not found at click time");
 return;
 }
 
-const value = input.value || "";
+var value = input.value || "";
 if (!value.trim()) {
 console.warn("[dashboard-delegation] empty delegation input; skipping");
 return;
@@ -22,8 +35,14 @@ return;
 
 console.log("[dashboard-delegation] sending delegation:", value);
 
+var safeFetch = getSafeFetch();
+if (!safeFetch) {
+console.error("[dashboard-delegation] aborting delegation because fetch is unavailable or invalid");
+return;
+}
+
 try {
-const res = await fetch("/api/delegate-task", {
+var res = await safeFetch("/api/delegate-task", {
 method: "POST",
 headers: {
 "Content-Type": "application/json",
@@ -32,7 +51,7 @@ body: JSON.stringify({ description: value }),
 });
 
 ```
-let data;
+var data;
 try {
   data = await res.json();
 } catch (parseErr) {
@@ -48,8 +67,8 @@ console.error("[dashboard-delegation] delegation error:", err);
 }
 
 function initDashboardDelegation() {
-const btn = document.getElementById("delegation-submit");
-const input = document.getElementById("delegation-input");
+var btn = document.getElementById("delegation-submit");
+var input = document.getElementById("delegation-input");
 
 if (!btn || !input) {
 console.warn("[dashboard-delegation] delegation button or input not found in init");
