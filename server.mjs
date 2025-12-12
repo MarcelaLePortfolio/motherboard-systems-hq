@@ -50,9 +50,12 @@ error: "Matilda stub pipeline encountered an error.",
 // --------------------
 app.use(express.static(path.join(__dirname, "public")));
 
-app.get("/*", (_req, res) => {
+function sendDashboard(_req, res) {
 res.sendFile(path.join(__dirname, "public", "dashboard.html"));
-});
+}
+
+app.get("/dashboard", sendDashboard);
+app.get("/", sendDashboard);
 
 // --------------------
 // START SERVER
