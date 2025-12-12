@@ -1,0 +1,11 @@
+Dashboard layout restore – 2025-12-11
+
+Pulled the updated dashboard layout HTML and CSS from origin/main onto the
+emergency/dashboard-rollback-v11.7 branch to regain the newer visual layout
+while keeping the v11.7 backend baseline (server.mjs and routing) intact.
+
+Files restored from origin/main:
+
+public/dashboard.html
+
+public/css/dashboard.css
