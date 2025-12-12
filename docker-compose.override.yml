@@ -1,0 +1,4 @@
+services:
+dashboard:
+ports:
+- "8080:3000"
