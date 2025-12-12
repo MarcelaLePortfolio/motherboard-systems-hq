@@ -1,6 +1,20 @@
+/**
+
+* Matilda chat pipeline stub helper.
+*
+* This does lightweight Matilda-style reasoning/formatting and returns
+* a structured response object that callers (like /api/chat) can forward
+* directly to the UI.
+  */
+
 export type MatildaChatInput = {
 message: string;
 agent?: string | null;
+};
+
+export type MatildaChatMeta = {
+timestamp: string;
+pipeline: "matilda-stub";
 };
 
 export type MatildaChatResult = {
@@ -9,10 +23,7 @@ agent: string;
 message: string;
 reasoning: string;
 reply: string;
-meta: {
-timestamp: string;
-pipeline: "matilda-stub";
-};
+meta: MatildaChatMeta;
 };
 
 export async function runMatildaStub(
@@ -48,15 +59,17 @@ const replyLines: string[] = [
 
 const reply = replyLines.join("\n");
 
+const meta: MatildaChatMeta = {
+timestamp,
+pipeline: "matilda-stub",
+};
+
 return {
 ok: true,
 agent,
 message,
 reasoning,
 reply,
-meta: {
-timestamp,
-pipeline: "matilda-stub",
-},
+meta,
 };
 }
