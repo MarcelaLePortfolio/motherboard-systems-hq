@@ -1,0 +1,14 @@
+Dashboard rollback – 2025-12-11
+
+Switched working copy to a new branch based on the last known stable
+dashboard tag:
+
+v11.7-ops-pill-dashboard-stable
+
+Branch:
+
+emergency/dashboard-rollback-v11.7
+
+This branch is intended to restore a fully working dashboard baseline so
+that Matilda backend routing and future changes can proceed from a clean,
+stable state without the recent Express 5 and container routing issues.
