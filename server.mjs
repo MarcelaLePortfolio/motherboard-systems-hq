@@ -24,7 +24,7 @@ const message = rawMessage.trim();
 if (!message) {
   return res.status(400).json({
     ok: false,
-    error: "Missing or invalid 'message'."
+    error: "Missing or invalid 'message'.",
   });
 }
 
@@ -40,7 +40,7 @@ return res.json(result);
 console.error("[server.mjs:/api/chat] Error:", err);
 return res.status(500).json({
 ok: false,
-error: "Matilda stub pipeline encountered an error."
+error: "Matilda stub pipeline encountered an error.",
 });
 }
 });
@@ -50,7 +50,7 @@ error: "Matilda stub pipeline encountered an error."
 // --------------------
 app.use(express.static(path.join(__dirname, "public")));
 
-app.get("*", (_req, res) => {
+app.get("/*", (_req, res) => {
 res.sendFile(path.join(__dirname, "public", "dashboard.html"));
 });
 
