@@ -1,0 +1,19 @@
+Dashboard rollback verification result – 2025-12-11
+
+Backend baseline:
+- emergency/dashboard-rollback-v11.7 correctly descends from v11.7-ops-pill-dashboard-stable.
+- No backend diffs between the v11.7 tag and current HEAD (server.mjs, routes/).
+
+Layout state:
+- dashboard.html and dashboard.css match origin/main exactly (no diffs).
+
+Next step:
+Run:
+  ./scripts/run-dashboard-rollback-local.sh
+
+Then open:
+  http://127.0.0.1:3000/dashboard
+
+Verify:
+- Layout is correct.
+- No console errors.
