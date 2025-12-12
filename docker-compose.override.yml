@@ -1,4 +1,4 @@
 services:
-dashboard:
-ports:
-- "8080:3000"
+  dashboard:
+    ports:
+      - "8080:3000"
