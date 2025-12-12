@@ -15,31 +15,34 @@ app.use(express.json());
 // Matilda Chat Pipeline (stub)
 // --------------------
 app.post("/api/chat", async (req, res) => {
-  try {
-    const body = req.body || {};
-    const rawMessage = typeof body.message === "string" ? body.message : "";
-    const message = rawMessage.trim();
+try {
+const body = req.body || {};
+const rawMessage = typeof body.message === "string" ? body.message : "";
+const message = rawMessage.trim();
 
-    if (!message) {
-      return res.status(400).json({
-        ok: false,
-        error: "Missing or invalid 'message'."
-      });
-    }
+```
+if (!message) {
+  return res.status(400).json({
+    ok: false,
+    error: "Missing or invalid 'message'."
+  });
+}
 
-    const result = await runMatildaStub({
-      message,
-      agent: body.agent || "matilda",
-    });
+const result = await runMatildaStub({
+  message,
+  agent: body.agent || "matilda",
+});
 
-    return res.json(result);
-  } catch (err) {
-    console.error("[server.mjs:/api/chat] Error:", err);
-    return res.status(500).json({
-      ok: false,
-      error: "Matilda stub pipeline encountered an error."
-    });
-  }
+return res.json(result);
+```
+
+} catch (err) {
+console.error("[server.mjs:/api/chat] Error:", err);
+return res.status(500).json({
+ok: false,
+error: "Matilda stub pipeline encountered an error."
+});
+}
 });
 
 // --------------------
@@ -48,13 +51,13 @@ app.post("/api/chat", async (req, res) => {
 app.use(express.static(path.join(__dirname, "public")));
 
 app.get("*", (_req, res) => {
-  res.sendFile(path.join(__dirname, "public", "dashboard.html"));
+res.sendFile(path.join(__dirname, "public", "dashboard.html"));
 });
 
 // --------------------
 // START SERVER
 // --------------------
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
-  console.log(`[server.mjs] Listening on port ${PORT}`);
+console.log(`[server.mjs] Listening on port ${PORT}`);
 });
