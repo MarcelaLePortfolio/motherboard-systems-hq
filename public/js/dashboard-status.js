@@ -3,6 +3,7 @@
 // - Updates uptime, health, metrics, ops alerts, and reflections panel
 
 export function initDashboardStatus() {
+  console.log("[dashboard-status] initDashboardStatus() running");
   if (typeof window === "undefined" || typeof document === "undefined") return;
   if (window.__dashboardStatusInited) return;
   window.__dashboardStatusInited = true;
@@ -215,6 +216,7 @@ export function initDashboardStatus() {
   // --- 4) Reflections SSE: #recentLogs ---
   let reflectionsSource;
   try {
+    console.log("[dashboard-status] opening Reflections SSE:", REFLECTIONS_SSE_URL);
     reflectionsSource = new EventSource(REFLECTIONS_SSE_URL);
   } catch (err) {
     console.error("dashboard-status.js: Failed to open Reflections SSE connection:", err);
@@ -222,6 +224,7 @@ export function initDashboardStatus() {
   }
 
   reflectionsSource.onmessage = (event) => {
+      console.log("[dashboard-status] reflections onmessage:", event.data);
     if (!reflectionsContainer) return;
 
     const raw = event.data;
@@ -270,4 +273,13 @@ export function initDashboardStatus() {
 
 if (typeof window !== "undefined") {
   window.initDashboardStatus = initDashboardStatus;
+
+// Auto-init when loaded via bundle entry
+if (typeof window !== "undefined" && typeof document !== "undefined") {
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", () => initDashboardStatus());
+  } else {
+    initDashboardStatus();
+  }
+}
 }
