@@ -257,29 +257,29 @@ function sseSend(res, event, data) {
 
 app.get("/events/ops", (req, res) => {
   sseHeaders(res);
-  sseSend(res, "ops", { status: "unknown", ts: Date.now(), source: "stub-next2" });
-  const t = setInterval(() => sseSend(res, "ops", { status: "unknown", ts: Date.now(), source: "stub-next2" }), 5000);
+  sseSend(res, null,  { status: "unknown", ts: Date.now(), source: "stub-next2" });
+  const t = setInterval(() => sseSend(res, null,  { status: "unknown", ts: Date.now(), source: "stub-next2" }), 5000);
   req.on("close", () => clearInterval(t));
 });
 
 app.get("/events/reflections", (req, res) => {
   sseHeaders(res);
-  sseSend(res, "reflection", { message: "Reflections stream stub (next-2).", ts: Date.now(), source: "stub-next2" });
-  const t = setInterval(() => sseSend(res, "reflection", { message: "Reflections stream stub (next-2).", ts: Date.now(), source: "stub-next2" }), 8000);
+  sseSend(res, null,  { message: "Reflections stream stub (next-2).", ts: Date.now(), source: "stub-next2" });
+  const t = setInterval(() => sseSend(res, null,  { message: "Reflections stream stub (next-2).", ts: Date.now(), source: "stub-next2" }), 8000);
   req.on("close", () => clearInterval(t));
 });
 
 app.get("/events/tasks", (req, res) => {
   sseHeaders(res);
-  sseSend(res, "tasks", { tasks: [], ts: Date.now(), source: "stub-next2" });
-  const t = setInterval(() => sseSend(res, "tasks", { tasks: [], ts: Date.now(), source: "stub-next2" }), 7000);
+  sseSend(res, null,  { tasks: [], ts: Date.now(), source: "stub-next2" });
+  const t = setInterval(() => sseSend(res, null,  { tasks: [], ts: Date.now(), source: "stub-next2" }), 7000);
   req.on("close", () => clearInterval(t));
 });
 
 app.get("/events/logs", (req, res) => {
   sseHeaders(res);
-  sseSend(res, "logs", { logs: [], ts: Date.now(), source: "stub-next2" });
-  const t = setInterval(() => sseSend(res, "logs", { logs: [], ts: Date.now(), source: "stub-next2" }), 7000);
+  sseSend(res, null,  { logs: [], ts: Date.now(), source: "stub-next2" });
+  const t = setInterval(() => sseSend(res, null,  { logs: [], ts: Date.now(), source: "stub-next2" }), 7000);
   req.on("close", () => clearInterval(t));
 });
 // ---------------------------------------------------------------------------
