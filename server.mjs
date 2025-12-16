@@ -228,7 +228,6 @@ app.post('/api/delegate-task', (req, res) => {
 
   return res.json(task);
 });
-});
 
 app.post('/api/complete-task', (req, res) => {
   const body = req.body || {};
@@ -248,7 +247,6 @@ app.post('/api/complete-task', (req, res) => {
   t.updatedAt = __nowIso();
 
   return res.json({ id: taskId, status: 'completed', source: 'mem-next2' });
-});
 });
 
 // Phase 11 – Matilda dashboard chat endpoint (single canonical implementation)
@@ -312,9 +310,6 @@ app.get("/events/tasks", (req, res) => {
   const send = () => sseSend(res, null, { tasks: __memStore.tasks, ts: Date.now(), source: "mem-next2" });
   send();
   const t = setInterval(send, 4000);
-  req.on("close", () => clearInterval(t));
-});
-  const t = setInterval(() => sseSend(res, null,  { tasks: [], ts: Date.now(), source: "stub-next2" }), 7000);
   req.on("close", () => clearInterval(t));
 });
 
