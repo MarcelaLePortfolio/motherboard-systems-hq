@@ -1,7 +1,6 @@
 (() => {
   // public/js/dashboard-status.js
   function initDashboardStatus() {
-    console.log("[dashboard-status] initDashboardStatus() running");
     if (typeof window === "undefined" || typeof document === "undefined") return;
     if (window.__dashboardStatusInited) return;
     window.__dashboardStatusInited = true;

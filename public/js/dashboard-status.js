@@ -2,9 +2,7 @@
 // - Connects to Python OPS SSE (port 3201) and Reflections SSE (port 3200)
 // - Updates uptime, health, metrics, ops alerts, and reflections panel
 
-export function initDashboardStatus() {
-  console.log("[dashboard-status] initDashboardStatus() running");
-  if (typeof window === "undefined" || typeof document === "undefined") return;
+export function initDashboardStatus() {  if (typeof window === "undefined" || typeof document === "undefined") return;
   if (window.__dashboardStatusInited) return;
   window.__dashboardStatusInited = true;
 
