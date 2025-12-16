@@ -241,6 +241,49 @@ app.post('/api/chat', async (req, res) => {
   }
 });
 
+
+// --- Next-2: SSE stubs (same-origin) -----------------------------------------
+function sseHeaders(res) {
+  res.setHeader("Content-Type", "text/event-stream");
+  res.setHeader("Cache-Control", "no-cache");
+  res.setHeader("Connection", "keep-alive");
+  if (typeof res.flushHeaders === "function") res.flushHeaders();
+}
+
+function sseSend(res, event, data) {
+  if (event) res.write("event: " + event + "\n");
+  res.write("data: " + JSON.stringify(data) + "\n\n");
+}
+
+app.get("/events/ops", (req, res) => {
+  sseHeaders(res);
+  sseSend(res, "ops", { status: "unknown", ts: Date.now(), source: "stub-next2" });
+  const t = setInterval(() => sseSend(res, "ops", { status: "unknown", ts: Date.now(), source: "stub-next2" }), 5000);
+  req.on("close", () => clearInterval(t));
+});
+
+app.get("/events/reflections", (req, res) => {
+  sseHeaders(res);
+  sseSend(res, "reflection", { message: "Reflections stream stub (next-2).", ts: Date.now(), source: "stub-next2" });
+  const t = setInterval(() => sseSend(res, "reflection", { message: "Reflections stream stub (next-2).", ts: Date.now(), source: "stub-next2" }), 8000);
+  req.on("close", () => clearInterval(t));
+});
+
+app.get("/events/tasks", (req, res) => {
+  sseHeaders(res);
+  sseSend(res, "tasks", { tasks: [], ts: Date.now(), source: "stub-next2" });
+  const t = setInterval(() => sseSend(res, "tasks", { tasks: [], ts: Date.now(), source: "stub-next2" }), 7000);
+  req.on("close", () => clearInterval(t));
+});
+
+app.get("/events/logs", (req, res) => {
+  sseHeaders(res);
+  sseSend(res, "logs", { logs: [], ts: Date.now(), source: "stub-next2" });
+  const t = setInterval(() => sseSend(res, "logs", { logs: [], ts: Date.now(), source: "stub-next2" }), 7000);
+  req.on("close", () => clearInterval(t));
+});
+// ---------------------------------------------------------------------------
+
 // Fallback route for SPA or index
 app.use((req, res, next) => {
   if (req.path && req.path.startsWith('/api/')) return next();
