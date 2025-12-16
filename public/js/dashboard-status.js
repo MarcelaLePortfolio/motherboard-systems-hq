@@ -7,8 +7,8 @@ export function initDashboardStatus() {
   if (window.__dashboardStatusInited) return;
   window.__dashboardStatusInited = true;
 
-  const OPS_SSE_URL = "http://127.0.0.1:3201/events/ops";
-  const REFLECTIONS_SSE_URL = "http://127.0.0.1:3200/events/reflections";
+  const OPS_SSE_URL = `/events/ops`;
+  const REFLECTIONS_SSE_URL = `/events/reflections`;
 
   // Core elements
   const uptimeDisplay = document.getElementById("uptime-display");

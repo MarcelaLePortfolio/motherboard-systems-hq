@@ -4,8 +4,8 @@
     if (typeof window === "undefined" || typeof document === "undefined") return;
     if (window.__dashboardStatusInited) return;
     window.__dashboardStatusInited = true;
-    const OPS_SSE_URL = "http://127.0.0.1:3201/events/ops";
-    const REFLECTIONS_SSE_URL = "http://127.0.0.1:3200/events/reflections";
+    const OPS_SSE_URL = `/events/ops`;
+    const REFLECTIONS_SSE_URL = `/events/reflections`;
     const uptimeDisplay = document.getElementById("uptime-display");
     const healthIndicator = document.getElementById("system-health-indicator");
     const healthStatus = document.getElementById("health-status");
@@ -219,7 +219,7 @@
       row.appendChild(pill);
       indicators[name.toLowerCase()] = { pill, dot, label };
     });
-    const OPS_SSE_URL = "http://127.0.0.1:3201/events/ops";
+    const OPS_SSE_URL = `/events/ops`;
     let source;
     try {
       source = new EventSource(OPS_SSE_URL);
@@ -366,7 +366,7 @@ idx = (idx + 1) % nodes.length;
     if (typeof window.lastOpsStatusSnapshot === "undefined") {
       window.lastOpsStatusSnapshot = null;
     }
-    const opsUrl = `${window.location.protocol}//${window.location.hostname}:3201/events/ops`;
+    const opsUrl = `/events/ops`;
     const handleEvent = (event) => {
       try {
         const data = JSON.parse(event.data || "null");
