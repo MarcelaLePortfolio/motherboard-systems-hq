@@ -14,24 +14,6 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 
-// Next-2: in-memory store (keeps dashboard functional without DB tables)
-const __memStore = {
-  tasks: [],
-  logs: [],
-};
-
-function __nowIso() {
-  return new Date().toISOString();
-}
-
-function __cap(arr, max = 200) {
-  if (arr.length > max) arr.splice(max);
-}
-
-function __makeId() {
-  return Math.floor(Date.now() / 1000);
-}
-
 // JSON body parsing for dashboard POSTs
 app.use(express.json());
 
@@ -66,6 +48,11 @@ app.get('/api/status', (_req, res) => {
   });
 });
 
+app.get('/api/tasks', (_req, res) => {
+  return res.json({
+    tasks: [],
+    source: 'stub-next2',
+  });
 });
 
 app.get('/api/logs', (_req, res) => {
@@ -109,11 +96,6 @@ app.get('/api/agents', async (_req, res) => {
     console.error(err);
     return res.json([]);
   }
-});
-
-// Next-2: Tasks list (in-memory)
-app.get('/api/tasks', (_req, res) => {
-  return res.json({ tasks: __memStore.tasks, source: 'mem-next2' });
 });
 
 // 4) API Endpoint: Task Delegation (DB-backed, optional)
@@ -209,49 +191,26 @@ app.post('/api/complete-task-db', async (req, res) => {
  * Phase 11 override: stubbed task endpoints (avoid Postgres dependency)
  * These are the endpoints the current dashboard JS calls.
  */
-app.post("/api/delegate-task", (req, res) => {
-  const body = req.body || {};
-  const title = (typeof body.title === "string" && body.title.trim()) ? body.title.trim() : (typeof body.task === "string" && body.task.trim()) ? body.task.trim() : ("Task " + Date.now());
-  const agent = (typeof body.agent === "string" && body.agent.trim()) ? body.agent.trim() : "cade";
-  const notes = (typeof body.notes === "string") ? body.notes : "";
-
-  const task = {
-    id: __makeId(),
+app.post('/api/delegate-task', (req, res) => {
+  const { title, agent, notes } = req.body || {};
+  const fakeId = Math.floor(Date.now() / 1000);
+  return res.json({
+    id: fakeId,
     title,
     agent,
     notes,
-    status: "delegated",
-    createdAt: __nowIso(),
-    updatedAt: __nowIso(),
-    source: "mem-next2"
-  };
-
-  __memStore.tasks.unshift(task);
-  __cap(__memStore.tasks, 200);
-
-  return res.json(task);
-});
+    status: 'delegated',
+    source: 'stub-override',
+  });
 });
 
-app.post("/api/complete-task", (req, res) => {
-  const body = req.body || {};
-  const rawId = body.taskId ?? body.id;
-  const taskId = (typeof rawId === "string" || typeof rawId === "number") ? Number(rawId) : NaN;
-
-  if (!Number.isFinite(taskId)) {
-    return res.status(400).json({ error: "taskId is required", source: "mem-next2" });
-  }
-
-  const t = __memStore.tasks.find(x => Number(x.id) === taskId);
-  if (!t) {
-    return res.status(404).json({ id: taskId, status: "not_found", source: "mem-next2" });
-  }
-
-  t.status = "completed";
-  t.updatedAt = __nowIso();
-
-  return res.json({ id: taskId, status: "completed", source: "mem-next2" });
-});
+app.post('/api/complete-task', (req, res) => {
+  const { taskId } = req.body || {};
+  return res.json({
+    id: taskId ?? null,
+    status: 'completed',
+    source: 'stub-override',
+  });
 });
 
 // Phase 11 – Matilda dashboard chat endpoint (single canonical implementation)
@@ -312,9 +271,8 @@ app.get("/events/reflections", (req, res) => {
 
 app.get("/events/tasks", (req, res) => {
   sseHeaders(res);
-  const send = () => sseSend(res, null, { tasks: __memStore.tasks, ts: Date.now(), source: "mem-next2" });
-  send();
-  const t = setInterval(send, 4000);
+  sseSend(res, null,  { tasks: [], ts: Date.now(), source: "stub-next2" });
+  const t = setInterval(() => sseSend(res, null,  { tasks: [], ts: Date.now(), source: "stub-next2" }), 7000);
   req.on("close", () => clearInterval(t));
 });
 
