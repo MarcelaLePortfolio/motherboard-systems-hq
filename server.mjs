@@ -59,7 +59,6 @@ app.get('/api/status', (_req, res) => {
 app.get('/api/tasks', (_req, res) => {
   return res.json({ tasks: __memStore.tasks, source: 'mem-next2' });
 });
-});
 
 app.get('/api/logs', (_req, res) => {
   return res.json({
