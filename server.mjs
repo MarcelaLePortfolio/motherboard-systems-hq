@@ -18,27 +18,7 @@ const app = express();
 app.use(express.json());
 
 // Phase 11 stubbed task endpoints to avoid Postgres dependency
-app.post("/api/delegate-task", (req, res) => {
-  const { title, agent, notes } = req.body || {};
-  const fakeId = Math.floor(Date.now() / 1000);
-  res.json({
-    id: fakeId,
-    title,
-    agent,
-    notes,
-    status: "delegated",
-    source: "stub"
-  });
-});
 
-app.post("/api/complete-task", (req, res) => {
-  const { taskId } = req.body || {};
-  res.json({
-    id: taskId ?? null,
-    status: "completed",
-    source: "stub"
-  });
-});
 
 app.use(express.json()); // Middleware to parse JSON body for POST requests
 
@@ -54,6 +34,11 @@ const pool = new Pool({
 // Serve static files
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Explicit dashboard route
+app.get('/dashboard', (_req, res) => {
+  return res.sendFile(path.join(__dirname, 'public', 'dashboard.html'));
+});
+
 // 1. API Endpoint: System Metrics
 app.get('/api/metrics', async (req, res) => {
   try {
@@ -65,7 +50,7 @@ app.get('/api/metrics', async (req, res) => {
     }
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Database error' });
+    return res.json({ uptime: 0, cpu: 0, memory: 0, disk: 0, source: 'stub-db-down' });
   }
 });
 
@@ -76,7 +61,7 @@ app.get('/api/activity-graph', async (req, res) => {
     res.json(result.rows);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Database error fetching activity' });
+    return res.json([]);
   }
 });
 
@@ -89,7 +74,7 @@ app.get('/api/agents', async (req, res) => {
     res.json(result.rows);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Database error fetching agent status' });
+    return res.json([]);
   }
 });
 
@@ -207,15 +192,10 @@ app.post('/api/chat', async (req, res) => {
 });
 
 // Fallback route for SPA or index
-app.use((req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+app.use((req, res, next) => {
+  if (req.path && req.path.startsWith('/api/')) return next();
+  return res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
-
-app.listen(PORT, HOST, () => {
-  console.log('Server running on http://' + HOST + ':' + PORT);
-  console.log('Database pool initialized');
-});
-
 // Phase 11 override: stubbed task endpoints take precedence over any earlier DB-backed handlers
 app.post("/api/delegate-task", (req, res) => {
   const { title, agent, notes } = req.body || {};
@@ -269,4 +249,7 @@ app.post("/api/chat", async (req, res) => {
     return res.status(500).json({ reply: "(error)" });
   }
 });
-
+app.listen(PORT, HOST, () => {
+  console.log('Server running on http://' + HOST + ':' + PORT);
+  console.log('Database pool initialized');
+});
