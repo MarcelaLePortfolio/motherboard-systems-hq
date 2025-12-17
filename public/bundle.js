@@ -323,13 +323,10 @@
     setInterval(() => {
       const allNodes = document.querySelectorAll(".node");
       allNodes.forEach((n) => n.classList.remove("active"));
-      ```
-const activeId = "node-" + nodes[idx];
-const active = document.getElementById(activeId);
-if (active) active.classList.add("active");
-
-idx = (idx + 1) % nodes.length;
-```;
+      const activeId = "node-" + nodes[idx];
+      const active = document.getElementById(activeId);
+      if (active) active.classList.add("active");
+      idx = (idx + 1) % nodes.length;
     }, 1500);
   }
   function initBroadcastVisualization() {
