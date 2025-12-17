@@ -427,6 +427,18 @@ app.get("/events/logs", (req, res) => {
   req.on("close", () => clearInterval(t));
 });
 // ---------------------------------------------------------------------------
+  // --- Compatibility: /tasks (raw array for older loaders) ------------------
+  app.get("/tasks", async (_req, res) => {
+    try {
+      if (!(await __dbOk())) return res.json(__memStore.tasks);
+      const tasks = await __listTasks(50);
+      return res.json(tasks);
+    } catch (err) {
+      console.error("/tasks failed:", err);
+      return res.json(__memStore.tasks);
+    }
+  });
+
 
 // Fallback route for SPA or index
 app.use((req, res, next) => {
