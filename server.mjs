@@ -259,37 +259,37 @@ app.post('/api/complete-task-db', async (req, res) => {
  * Phase 11 override: stubbed task endpoints (avoid Postgres dependency)
  * These are the endpoints the current dashboard JS calls.
  */
-app.post('/api/delegate-task', (req, res) => {
-  const body = req.body || {};
-  const title =
-    (typeof body.title === 'string' && body.title.trim())
-      ? body.title.trim()
-      : (typeof body.task === 'string' && body.task.trim())
-        ? body.task.trim()
-        : ('Task ' + Date.now());
+app.post('/api/delegate-task', async (req, res) => {
+  try {
+    const body = req.body || {};
+    const title =
+      (typeof body.task === "string" && body.task.trim()) ? body.task.trim()
+      : (typeof body.title === "string" && body.title.trim()) ? body.title.trim()
+      : "";
+    const agent = (typeof body.agent === "string" && body.agent.trim()) ? body.agent.trim() : "cade";
+    const notes = (typeof body.notes === "string") ? body.notes : "";
 
-  const agent =
-    (typeof body.agent === 'string' && body.agent.trim())
-      ? body.agent.trim()
-      : 'cade';
+    if (!title) return res.status(400).json({ error: "task/title is required", source: "db-tasks" });
 
-  const notes = (typeof body.notes === 'string') ? body.notes : '';
+    // DB-first: insert into tasks table if DB is up
+    if (await __dbOk()) {
+      await __ensureTasksSchema();
+      const r = await pool.query(
+        "insert into tasks (title, agent, notes, status) values ($1,$2,$3,$4) returning id, title, agent, notes, status, created_at::text, updated_at::text",
+        [title, agent, notes, "delegated"]
+      );
+      return res.json({ task: r.rows[0], source: "db-tasks" });
+    }
 
-  const task = {
-    id: __makeId(),
-    title,
-    agent,
-    notes,
-    status: 'delegated',
-    createdAt: __nowIso(),
-    updatedAt: __nowIso(),
-    source: 'mem-next2',
-  };
-
-  __memStore.tasks.unshift(task);
-  __cap(__memStore.tasks, 200);
-
-  return res.json(task);
+    // Fallback: mem-next2 behavior (keeps old dashboard compatibility)
+    const task = { id: Date.now(), title, agent, notes, status: "delegated", createdAt: __nowIso(), updatedAt: __nowIso() };
+    __memStore.tasks.unshift(task);
+    __cap(__memStore.tasks, 200);
+    return res.json(task);
+  } catch (err) {
+    console.error("/api/delegate-task failed:", err);
+    return res.status(500).json({ error: "delegate failed", source: "db-tasks" });
+  }
 });
 
 app.post('/api/complete-task', async (req, res) => {
