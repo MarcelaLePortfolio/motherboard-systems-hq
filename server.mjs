@@ -390,33 +390,36 @@ app.get("/events/reflections", (req, res) => {
 app.get("/events/tasks", async (req, res) => {
   sseHeaders(res);
 
-  const sendDb = async () => {
-    if (await __dbOk()) {
-      const tasks = await __listTasks(50);
-      sseSend(res, null, { tasks, ts: Date.now(), source: "db-tasks" });
-      return true;
-    }
-    return false;
-  };
+  // Only emit when task list changes (ignore ts)
+  let lastKey = "";
 
-  const sendMem = () => sseSend(res, null, { tasks: __memStore.tasks, ts: Date.now(), source: "mem-next2" });
-
-  try {
-    const ok = await sendDb();
-    if (!ok) sendMem();
-  } catch (_e) {
-    sendMem();
+  async function snapshot() {
+    const useDb = await __dbOk();
+    const tasks = useDb ? await __listTasks(50) : __memStore.tasks;
+    return { tasks, source: useDb ? "db-tasks" : "mem-next2" };
   }
 
-  const t = setInterval(async () => {
+  async function emit() {
     try {
-      const ok = await sendDb();
-      if (!ok) sendMem();
+      const snap = await snapshot();
+      // Key excludes ts so unchanged lists do not re-emit
+      const key = JSON.stringify({ tasks: snap.tasks, source: snap.source });
+      if (key !== lastKey) {
+        lastKey = key;
+        sseSend(res, null, { ...snap, ts: Date.now() });
+      }
     } catch (_e) {
-      sendMem();
+      const snap = { tasks: __memStore.tasks, source: "mem-next2", error: "stream_error" };
+      const key = JSON.stringify({ tasks: snap.tasks, source: snap.source, error: snap.error });
+      if (key !== lastKey) {
+        lastKey = key;
+        sseSend(res, null, { ...snap, ts: Date.now() });
+      }
     }
-  }, 3000);
+  }
 
+  await emit();
+  const t = setInterval(emit, 3000);
   req.on("close", () => clearInterval(t));
 });
 
