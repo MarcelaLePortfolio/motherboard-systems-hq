@@ -18,14 +18,15 @@ services:
       dockerfile: Dockerfile.dashboard
     container_name: motherboard_systems_hq-dashboard-1
     restart: always
-    # CRITICAL FIX: Maps host 8080 to internal server port 3000
     ports:
       - "8080:3000"
     depends_on:
       - postgres
+    env_file:
+      - .env
     environment:
-      # Optional, but good practice
       PORT: 3000
+      POSTGRES_URL: ${POSTGRES_URL}
 
 volumes:
   postgres_data:
