@@ -53,6 +53,30 @@
 
   function renderTasks(tasks) {
     const box = ensureContainer();
+
+    /* Self-heal: if hint exists but container/list are missing, build them around the hint */
+    const __hint = document.getElementById("recent-tasks-hint");
+    let __container = document.getElementById("recent-tasks-container");
+    let __list = document.getElementById("recent-tasks-list");
+
+    if (__hint && (!__container || !__list)) {
+      const __mount = __hint.parentElement;
+
+      if (!__container) {
+        __container = document.createElement("div");
+        __container.id = "recent-tasks-container";
+        __container.appendChild(__hint); /* move hint into container */
+        __mount.appendChild(__container);
+      } else if (__hint.parentElement !== __container) {
+        __container.appendChild(__hint);
+      }
+
+      if (!__list) {
+        __list = document.createElement("div");
+        __list.id = "recent-tasks-list";
+        __container.appendChild(__list);
+      }
+    }
     if (!box) return;
 
     const list = document.getElementById("recent-tasks-list");
@@ -96,6 +120,30 @@
 
   function start() {
     ensureContainer();
+
+    /* Self-heal: if hint exists but container/list are missing, build them around the hint */
+    const __hint = document.getElementById("recent-tasks-hint");
+    let __container = document.getElementById("recent-tasks-container");
+    let __list = document.getElementById("recent-tasks-list");
+
+    if (__hint && (!__container || !__list)) {
+      const __mount = __hint.parentElement;
+
+      if (!__container) {
+        __container = document.createElement("div");
+        __container.id = "recent-tasks-container";
+        __container.appendChild(__hint); /* move hint into container */
+        __mount.appendChild(__container);
+      } else if (__hint.parentElement !== __container) {
+        __container.appendChild(__hint);
+      }
+
+      if (!__list) {
+        __list = document.createElement("div");
+        __list.id = "recent-tasks-list";
+        __container.appendChild(__list);
+      }
+    }
 
     let es;
     try {
