@@ -292,25 +292,44 @@ app.post('/api/delegate-task', (req, res) => {
   return res.json(task);
 });
 
-app.post('/api/complete-task', (req, res) => {
-  const body = req.body || {};
-  const rawId = body.taskId ?? body.id;
-  const taskId = (typeof rawId === 'string' || typeof rawId === 'number') ? Number(rawId) : NaN;
+app.post('/api/complete-task', async (req, res) => {
+  try {
+    const body = req.body || {};
+    const raw = body.taskId;
+    const taskId = (typeof raw === "number") ? raw : parseInt(String(raw || ""), 10);
 
-  if (!Number.isFinite(taskId)) {
-    return res.status(400).json({ error: 'taskId is required', source: 'mem-next2' });
+    if (!taskId || Number.isNaN(taskId)) {
+      return res.status(400).json({ error: "taskId is required", source: "db-tasks" });
+    }
+
+    // DB-first: update tasks table if DB is up
+    if (await __dbOk()) {
+      await __ensureTasksSchema();
+
+      const r = await pool.query(
+        "update tasks set status = 'completed', updated_at = now() where id = $1 returning id, title, agent, notes, status, created_at::text, updated_at::text",
+        [taskId]
+      );
+
+      if (!r.rowCount) {
+        return res.status(404).json({ id: taskId, status: "not_found", source: "db-tasks" });
+      }
+
+      return res.json({ task: r.rows[0], source: "db-tasks" });
+    }
+
+    // Fallback: mem-next2 behavior (keeps old dashboard compatibility)
+    const idx = __memStore.tasks.findIndex((t) => String(t.id) === String(taskId));
+    if (idx === -1) return res.json({ id: taskId, status: "not_found", source: "mem-next2" });
+
+    __memStore.tasks[idx].status = "completed";
+    return res.json({ id: taskId, status: "completed", source: "mem-next2" });
+  } catch (err) {
+    console.error("/api/complete-task failed:", err);
+    return res.status(500).json({ error: "complete failed", source: "db-tasks" });
   }
-
-  const t = __memStore.tasks.find(x => Number(x.id) === taskId);
-  if (!t) {
-    return res.status(404).json({ id: taskId, status: 'not_found', source: 'mem-next2' });
-  }
-
-  t.status = 'completed';
-  t.updatedAt = __nowIso();
-
-  return res.json({ id: taskId, status: 'completed', source: 'mem-next2' });
 });
+
 
 // Phase 11 – Matilda dashboard chat endpoint (single canonical implementation)
 app.post('/api/chat', async (req, res) => {
