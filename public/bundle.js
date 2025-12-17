@@ -477,12 +477,34 @@
     }
     function renderTasks(tasks) {
       const box = ensureContainer();
+      const __hint = document.getElementById("recent-tasks-hint");
+      let __container = document.getElementById("recent-tasks-container");
+      let __list = document.getElementById("recent-tasks-list");
+      if (__hint && (!__container || !__list)) {
+        const __mount = __hint.parentElement;
+        if (!__container) {
+          __container = document.createElement("div");
+          __container.id = "recent-tasks-container";
+          __container.appendChild(__hint);
+          __mount.appendChild(__container);
+        } else if (__hint.parentElement !== __container) {
+          __container.appendChild(__hint);
+        }
+        if (!__list) {
+          __list = document.createElement("div");
+          __list.id = "recent-tasks-list";
+          __container.appendChild(__list);
+        }
+      }
       if (!box) return;
       const list = document.getElementById("recent-tasks-list");
       const hint = document.getElementById("recent-tasks-hint");
       if (!list) return;
       const safe = Array.isArray(tasks) ? tasks : [];
-      if (hint) hint.style.display = safe.length ? "none" : "block";
+      if (hint) {
+        hint.style.display = safe.length ? "none" : "block";
+        hint.textContent = safe.length ? "" : "Waiting for /events/tasks\u2026";
+      }
       list.innerHTML = "";
       safe.slice(0, MAX_ITEMS).forEach((t) => {
         const row = document.createElement("div");
@@ -509,6 +531,25 @@
     }
     function start() {
       ensureContainer();
+      const __hint = document.getElementById("recent-tasks-hint");
+      let __container = document.getElementById("recent-tasks-container");
+      let __list = document.getElementById("recent-tasks-list");
+      if (__hint && (!__container || !__list)) {
+        const __mount = __hint.parentElement;
+        if (!__container) {
+          __container = document.createElement("div");
+          __container.id = "recent-tasks-container";
+          __container.appendChild(__hint);
+          __mount.appendChild(__container);
+        } else if (__hint.parentElement !== __container) {
+          __container.appendChild(__hint);
+        }
+        if (!__list) {
+          __list = document.createElement("div");
+          __list.id = "recent-tasks-list";
+          __container.appendChild(__list);
+        }
+      }
       let es;
       try {
         es = new EventSource(TASKS_SSE_URL);

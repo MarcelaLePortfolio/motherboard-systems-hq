@@ -84,7 +84,7 @@
     if (!list) return;
 
     const safe = Array.isArray(tasks) ? tasks : [];
-    if (hint) hint.style.display = safe.length ? "none" : "block";
+    if (hint) { hint.style.display = safe.length ? "none" : "block"; hint.textContent = safe.length ? "" : "Waiting for /events/tasks…"; }
 
     list.innerHTML = "";
     safe.slice(0, MAX_ITEMS).forEach((t) => {

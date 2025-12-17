@@ -388,7 +388,25 @@ app.get("/events/reflections", (req, res) => {
 });
 
 app.get("/events/tasks", async (req, res) => {
+  const id = Math.random().toString(16).slice(2,8);
+  console.log("[events/tasks] CONNECT", id, new Date().toISOString(), req.headers["user-agent"]);
+  req.on("aborted", () => console.log("[events/tasks] ABORTED", id, new Date().toISOString()));
+  req.on("close",   () => console.log("[events/tasks] REQ_CLOSE", id, new Date().toISOString()));
+  res.on("close",   () => console.log("[events/tasks] RES_CLOSE", id, new Date().toISOString()));
+  res.on("finish",  () => console.log("[events/tasks] FINISH", id, new Date().toISOString()));
+  res.on("error",   (e) => console.log("[events/tasks] RES_ERROR", id, e && e.message));
+  if (res.socket) {
+    res.socket.on("error", (e) => console.log("[events/tasks] SOCK_ERROR", id, e && e.message));
+    res.socket.setTimeout(0);
+    res.socket.setNoDelay(true);
+    res.socket.setKeepAlive(true);
+  }
+  console.log("[events/tasks] CONNECT", new Date().toISOString(), req.headers["user-agent"]);
   sseHeaders(res);
+
+  // SSE kick: help browsers/proxies flush the stream immediately
+  res.write(": ready\n");
+  res.write(":" + " ".repeat(2048) + "\n\n");
 
   // Only emit when task list changes (ignore ts)
   let lastKey = "";
@@ -420,7 +438,14 @@ app.get("/events/tasks", async (req, res) => {
 
   await emit();
   const t = setInterval(emit, 3000);
-  req.on("close", () => clearInterval(t));
+  const hb = setInterval(() => {
+    try { res.write(": hb\n\n"); } catch (_e) {}
+  }, 3000);
+  req.on("close", () => {
+    console.log("[events/tasks] CLOSE", new Date().toISOString());
+    clearInterval(t);
+    clearInterval(hb);
+  });
 });
 
 app.get("/events/logs", (req, res) => {
@@ -443,13 +468,107 @@ app.get("/events/logs", (req, res) => {
   });
 
 
+// --- API: delegation + completion + chat (Phase 12 restore) ---------
+app.post("/api/delegate-task", async (req, res) => {
+  try {
+    const body = req.body || {};
+    const agent = String(body.agent || "cade");
+    const title = String(body.title || "").trim();
+    const notes = String(body.notes || "");
+    if (!title) return res.status(400).json({ ok: false, error: "title_required" });
+
+    const useDb = await __dbOk();
+    let task;
+
+    if (useDb) {
+      // Expect DB helpers to exist; if not, we fall back to mem below.
+      if (typeof __createTask === "function") {
+        task = await __createTask({ agent, title, notes });
+      } else {
+        throw new Error("__createTask_missing");
+      }
+    } else {
+      task = {
+        id: String(Date.now()),
+        title,
+        agent,
+        notes,
+        status: "delegated",
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      };
+      __memStore.tasks = [task, ...(__memStore.tasks || [])];
+    }
+
+    return res.json({ ok: true, task, source: useDb ? "db" : "mem" });
+  } catch (err) {
+    // Hard fallback: never block UI on DB helper absence
+    const body = req.body || {};
+    const agent = String(body.agent || "cade");
+    const title = String(body.title || "").trim() || "(untitled)";
+    const notes = String(body.notes || "");
+    const task = {
+      id: String(Date.now()),
+      title,
+      agent,
+      notes,
+      status: "delegated",
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+      error: String(err && err.message ? err.message : err),
+    };
+    __memStore.tasks = [task, ...(__memStore.tasks || [])];
+    return res.json({ ok: true, task, source: "mem" });
+  }
+});
+
+app.post("/api/complete-task", async (req, res) => {
+  try {
+    const body = req.body || {};
+    const taskId = String(body.taskId || body.id || "").trim();
+    if (!taskId) return res.status(400).json({ ok: false, error: "taskId_required" });
+
+    const useDb = await __dbOk();
+    if (useDb) {
+      if (typeof __completeTask === "function") {
+        const out = await __completeTask(taskId);
+        return res.json({ ok: true, id: taskId, status: "completed", result: out, source: "db" });
+      }
+      // If DB helpers missing, fall back to mem behavior
+      throw new Error("__completeTask_missing");
+    }
+
+    // mem fallback
+    const tasks = __memStore.tasks || [];
+    const idx = tasks.findIndex(t => String(t.id) === taskId);
+    if (idx >= 0) {
+      tasks[idx] = { ...tasks[idx], status: "completed", updated_at: new Date().toISOString() };
+    }
+    __memStore.tasks = tasks;
+    return res.json({ ok: true, id: taskId, status: "completed", source: "mem" });
+  } catch (err) {
+    return res.status(500).json({ ok: false, error: String(err && err.message ? err.message : err) });
+  }
+});
+
+// Keep Matilda working even if you are still on a stub phase
+app.post("/api/chat", async (_req, res) => {
+  return res.json({ ok: true, reply: "(stub) Matilda chat endpoint is live. Wire real backend next.", ts: Date.now(), source: "stub-next2" });
+});
+// ---------------------------------------------------------------------------
+
 // Fallback route for SPA or index
 app.use((req, res, next) => {
   if (req.path && req.path.startsWith('/api/')) return next();
   return res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-app.listen(PORT, HOST, () => {
+const server = app.listen(PORT, HOST, () => {
   console.log('Server running on http://' + HOST + ':' + PORT);
   console.log('Database pool initialized');
 });
+
+// Keep connections alive for SSE (avoid ~5s keep-alive defaults)
+server.keepAliveTimeout = 120000;
+server.headersTimeout = 125000;
+server.requestTimeout = 0;
