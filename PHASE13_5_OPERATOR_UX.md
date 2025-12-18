@@ -1,5 +1,23 @@
-# Phase 13.5 — Dashboard-side Consumption + Operator UX (no backend/DB changes)
+# Phase 13.5 — Operator UX (Dashboard-only)
 
-This commit adds a dashboard-only Operator UX overlay.
+Adds a **pure dashboard-side** operator affordance layer:
 
-See previous message for full contents.
+## Included
+- Fixed operator bar (API cue, Chat/Task focus, reload)
+- Toasts for API + runtime errors
+- Keyboard shortcuts:
+  - `/` focus chat
+  - `t` focus task
+  - `r` reload
+
+## Guarantees
+- No backend changes
+- No DB changes
+- Best-effort DOM hooks only
+- Safe to remove or ignore
+
+## Wiring
+Include on dashboard:
+
+<link rel="stylesheet" href="/css/phase13_5_operator_ux.css" />
+<script defer src="/js/phase13_5_operator_ux.js"></script>
