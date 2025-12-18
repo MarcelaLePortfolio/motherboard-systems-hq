@@ -319,8 +319,7 @@ app.post('/api/complete-task', async (req, res) => {
 
       console.log("[task] COMPLETED", { id: r.rows[0].id, status: r.rows[0].status, agent: r.rows[0].agent, title: r.rows[0].title });
 
-      console.log("[task] DELEGATED", { id: r.rows[0].id, status: r.rows[0].status, agent: r.rows[0].agent, title: r.rows[0].title });
-    return res.json({ task: r.rows[0], source: "db-tasks" });
+      return res.json({ task: r.rows[0], source: "db-tasks" });
     }
 
     // Fallback: mem-next2 behavior (keeps old dashboard compatibility)
