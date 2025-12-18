@@ -420,7 +420,7 @@ app.get("/events/tasks", async (req, res) => {
   // SSE keepalive: prevents idle intermediaries/timeouts from dropping the stream.
   // Sends a comment frame (ignored by clients) every 15s.
   const __mbhq_tasks_hb = setInterval(() => {
-    try { res.write(":keepalive\\n\\n"); } catch {}
+    try { res.write(":keepalive\n\n"); } catch {}
   }, 15000);
 
   req.on("close", () => {
