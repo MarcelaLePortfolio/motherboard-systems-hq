@@ -1,30 +1,30 @@
 /**
- * Phase 13.5 — Tasks SSE Singleton + Close-Guard (dashboard-only)
+ * Phase 13.5 — Tasks SSE Hard Singleton + Close-Guard + Debug (dashboard-only)
  *
- * Why: we're still seeing ABORT/RECONNECT. Even with a singleton, if any
- * dashboard code calls `es.close()` (during re-init, hot reload, or widget teardown),
- * it will abort the connection and trigger reconnect churn.
- *
- * Fix: for /events/tasks only:
- * - return ONE shared EventSource instance (singleton)
- * - GUARD `.close()` so accidental closes become no-ops
- * - still allow "real" close on page unload (so the browser can cleanly exit)
- *
- * No backend/DB changes.
+ * Strict reuse of /events/tasks EventSource to prevent connect/abort churn.
+ * Dashboard-only. No backend or DB changes.
  */
 (() => {
   "use strict";
 
   if (!window.EventSource) return;
-  if (window.__mbhq_tasks_sse_singleton_installed) return;
-  window.__mbhq_tasks_sse_singleton_installed = true;
+  if (window.__mbhq_tasks_sse_singleton_installed_v2) return;
+  window.__mbhq_tasks_sse_singleton_installed_v2 = true;
 
   const NativeEventSource = window.EventSource;
 
   let singleton = null;
   let singletonUrl = null;
-  let lastCreateAt = 0;
+  let singletonCreatedAt = 0;
   let allowRealClose = false;
+
+  function dbgEnabled() {
+    try { return localStorage.getItem("__mbhq_debug_tasks_sse") === "1"; } catch { return false; }
+  }
+  function dbg(...args) {
+    if (!dbgEnabled()) return;
+    try { console.log("[tasks-sse]", ...args); } catch {}
+  }
 
   function isTasksUrl(url) {
     try {
@@ -35,13 +35,12 @@
     }
   }
 
-  function isLive(es) {
-    try {
-      // 2 = CLOSED
-      return es && typeof es.readyState === "number" && es.readyState !== 2;
-    } catch {
-      return false;
-    }
+  function readyStateSafe(es) {
+    try { return es && typeof es.readyState === "number" ? es.readyState : -1; } catch { return -1; }
+  }
+
+  function definitelyClosed(es) {
+    return readyStateSafe(es) === 2; // CLOSED
   }
 
   function guardClose(es) {
@@ -52,14 +51,9 @@
     es.__mbhq_real_close = realClose;
 
     es.close = () => {
-      // Only allow real close when we're unloading the page.
       if (allowRealClose) return realClose();
-
-      // Otherwise ignore accidental closes (teardown/reinit loops).
-      // Keep a tiny breadcrumb for debugging.
-      try {
-        es.__mbhq_close_blocked_at = Date.now();
-      } catch {}
+      try { es.__mbhq_close_blocked_at = Date.now(); } catch {}
+      dbg("close() blocked", { readyState: readyStateSafe(es) });
     };
 
     return es;
@@ -69,50 +63,64 @@
     const es = new NativeEventSource(url, init);
     singleton = guardClose(es);
     singletonUrl = String(url);
+    singletonCreatedAt = Date.now();
 
-    // If server closes it (or it truly dies), clear singleton so next call can recreate.
+    dbg("CREATED singleton", { url: singletonUrl, readyState: readyStateSafe(singleton) });
+
+    es.addEventListener("open", () => dbg("OPEN", { readyState: readyStateSafe(es) }));
+    es.addEventListener("error", () => dbg("ERROR", { readyState: readyStateSafe(es) }));
+    es.addEventListener("message", () => dbg("MESSAGE"));
+
     es.addEventListener("error", () => {
       try {
-        if (es.readyState === 2) {
+        if (definitelyClosed(es)) {
+          dbg("CLOSED (via error), clearing singleton");
           singleton = null;
           singletonUrl = null;
+          singletonCreatedAt = 0;
         }
-      } catch {
-        // ignore
-      }
+      } catch {}
     });
 
     return singleton;
   }
 
   function TasksSafeEventSource(url, eventSourceInitDict) {
-    if (!isTasksUrl(url)) {
-      return new NativeEventSource(url, eventSourceInitDict);
+    if (!isTasksUrl(url)) return new NativeEventSource(url, eventSourceInitDict);
+
+    const u = String(url);
+    const now = Date.now();
+
+    if (singleton) {
+      const rs = readyStateSafe(singleton);
+
+      if (singletonUrl && u !== singletonUrl) {
+        dbg("URL mismatch but reusing singleton", { want: u, have: singletonUrl });
+      }
+
+      if (rs === 2) {
+        const age = now - singletonCreatedAt;
+        if (age < 5000) {
+          dbg("Singleton CLOSED but fresh; reusing", { ageMs: age });
+          return singleton;
+        }
+        dbg("Singleton CLOSED and stale; recreating", { ageMs: age });
+        singleton = null;
+        singletonUrl = null;
+        singletonCreatedAt = 0;
+        return create(u, eventSourceInitDict);
+      }
+
+      dbg("Reusing singleton", { readyState: rs });
+      return singleton;
     }
 
-    const t = Date.now();
-
-    // Reuse any live singleton.
-    if (isLive(singleton)) return singleton;
-
-    // Cooldown to avoid rapid-fire recreate loops.
-    if (singleton && t - lastCreateAt < 750) return singleton;
-
-    lastCreateAt = t;
-
-    // If URL changes, prefer latest.
-    if (singletonUrl && String(url) !== singletonUrl) {
-      singleton = null;
-      singletonUrl = null;
-    }
-
-    return create(url, eventSourceInitDict);
+    return create(u, eventSourceInitDict);
   }
 
   TasksSafeEventSource.prototype = NativeEventSource.prototype;
   window.EventSource = TasksSafeEventSource;
 
-  // Allow real close only on unload (browser cleanup).
   window.addEventListener("beforeunload", () => {
     allowRealClose = true;
     try {
@@ -120,7 +128,6 @@
     } catch {}
   });
 
-  // Debug handle (DevTools Console, not Terminal):
-  // window.__mbhq_tasks_eventsource()
+  // DevTools Console helper (not Terminal)
   window.__mbhq_tasks_eventsource = () => singleton;
 })();
