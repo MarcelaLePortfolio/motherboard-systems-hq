@@ -416,6 +416,16 @@ app.get("/events/reflections", (req, res) => {
 app.get("/events/tasks", async (req, res) => {
   const id = Math.random().toString(16).slice(2,8);
   console.log("[events/tasks] CONNECT", id, new Date().toISOString(), req.headers["user-agent"]);
+
+  // SSE keepalive: prevents idle intermediaries/timeouts from dropping the stream.
+  // Sends a comment frame (ignored by clients) every 15s.
+  const __mbhq_tasks_hb = setInterval(() => {
+    try { res.write(":keepalive\\n\\n"); } catch {}
+  }, 15000);
+
+  req.on("close", () => {
+    try { clearInterval(__mbhq_tasks_hb); } catch {}
+  });
   req.on("aborted", () => console.log("[events/tasks] ABORTED", id, new Date().toISOString()));
   req.on("close",   () => console.log("[events/tasks] REQ_CLOSE", id, new Date().toISOString()));
   res.on("close",   () => console.log("[events/tasks] RES_CLOSE", id, new Date().toISOString()));
@@ -426,7 +436,9 @@ app.get("/events/tasks", async (req, res) => {
     res.socket.setTimeout(0);
     res.socket.setNoDelay(true);
     res.socket.setKeepAlive(true);
-  }sseHeaders(res);
+  }
+  sseHeaders(res);
+
 
   // SSE kick: help browsers/proxies flush the stream immediately
   res.write(": ready\n");
