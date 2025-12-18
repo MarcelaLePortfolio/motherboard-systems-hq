@@ -116,8 +116,7 @@ app.post('/api/tasks', async (req, res) => {
       [title, (body.agent || "cade"), (body.notes || ""), (body.status || "delegated")]
     );
     console.log("[task] CREATED", { id: r.rows[0].id, status: r.rows[0].status, agent: r.rows[0].agent, title: r.rows[0].title });
-      console.log("[task] COMPLETED", { id: r.rows[0].id, status: r.rows[0].status, agent: r.rows[0].agent, title: r.rows[0].title });
-      return res.json({ task: r.rows[0], source: "db-tasks" });
+    return res.json({ task: r.rows[0], source: "db-tasks" });
   } catch (err) {
     console.error("/api/tasks POST failed:", err);
     return res.status(500).json({ error: "create failed", source: "db-tasks" });
@@ -316,6 +315,8 @@ app.post('/api/complete-task', async (req, res) => {
       if (!r.rowCount) {
         return res.status(404).json({ id: taskId, status: "not_found", source: "db-tasks" });
       }
+
+      console.log("[task] COMPLETED", { id: r.rows[0].id, status: r.rows[0].status, agent: r.rows[0].agent, title: r.rows[0].title });
 
       return res.json({ task: r.rows[0], source: "db-tasks" });
     }
