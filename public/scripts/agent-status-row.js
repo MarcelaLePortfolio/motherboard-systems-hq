@@ -3,46 +3,22 @@ document.addEventListener("DOMContentLoaded", () => {
   const agents = ["Matilda", "Cade", "Effie"];
   const stability = ["OPS", "Reflections"];
 
-  // 🧭 Find the blue diagnostics line that contains "Dashboard v2.0.3"
-  const allElements = document.querySelectorAll("body *");
-  let dashboardLine = null;
-  for (const el of allElements) {
-    if (el.textContent.includes("Dashboard v2.0.3")) {
-      dashboardLine = el;
-      break;
-    }
-  }
+  // 🧭 Anchor: prefer stable id on the build/diagnostics banner
+function __mbhqFindAnchor() {
+  const byId = document.getElementById("dashboard-build-banner");
+  if (byId) return byId;
 
-  // Build both rows
-  const stabilityRow = document.createElement("div");
-  stabilityRow.id = "stabilityStatusRow";
-  stabilityRow.className = "status-row agent-stability";
-  stabilityRow.innerHTML = `
-    <span class="row-label">STABILITY</span>
-    ${stability.map(name => `
-      <div class="agent-tile" data-agent="${name}">
-        <span class="agent-dot status-offline"></span>
-        <span class="agent-label">${name}</span>
-      </div>
-    `).join("")}
-  `;
+  // fallback: first element that contains "Dashboard" and "Phase"
+  const all = Array.from(document.querySelectorAll("body *"));
+  const hit = all.find(el => {
+    const t = (el && el.textContent) ? el.textContent : "";
+    return t.includes("Dashboard") && t.includes("Phase");
+  });
+  if (hit) return hit;
 
-  const agentRow = document.createElement("div");
-  agentRow.id = "agentStatusRow";
-  agentRow.className = "status-row agent-core";
-  agentRow.innerHTML = agents.map(name => `
-    <div class="agent-tile" data-agent="${name}">
-      <span class="agent-dot status-offline"></span>
-      <span class="agent-label">${name}</span>
-    </div>
-  `).join("");
-
-  // Place rows above and below the blue diagnostics bar
-  if (dashboardLine && dashboardLine.parentNode) {
-    dashboardLine.parentNode.insertBefore(stabilityRow, dashboardLine);
-    dashboardLine.parentNode.insertBefore(agentRow, dashboardLine.nextSibling);
-  } else {
-    console.warn("⚠️ Could not find Dashboard v2.0.3 anchor — appending to body instead");
+  console.warn("⚠️ Could not find dashboard-build-banner anchor — appending to body instead");
+  return document.body;
+}
     document.body.prepend(stabilityRow);
     document.body.appendChild(agentRow);
   }
