@@ -1,15 +1,19 @@
 /**
- * Phase 13.5 — Tasks SSE Hard Singleton + Close-Guard + Debug (dashboard-only)
+ * Phase 13.5 — Tasks SSE Hard Singleton + Close-Guard + Debug Toggle (dashboard-only)
  *
- * Strict reuse of /events/tasks EventSource to prevent connect/abort churn.
- * Dashboard-only. No backend or DB changes.
+ * Goal: prevent runaway parallel EventSource creation for /events/tasks by forcing reuse.
+ * This cannot stop the browser from reconnecting over time; it prevents *our code* from spawning multiples.
+ *
+ * Debug:
+ *   localStorage.setItem("__mbhq_debug_tasks_sse","1")  // enable logs
+ *   localStorage.removeItem("__mbhq_debug_tasks_sse")   // disable
  */
 (() => {
   "use strict";
 
   if (!window.EventSource) return;
-  if (window.__mbhq_tasks_sse_singleton_installed_v2) return;
-  window.__mbhq_tasks_sse_singleton_installed_v2 = true;
+  if (window.__mbhq_tasks_sse_singleton_installed_v3) return;
+  window.__mbhq_tasks_sse_singleton_installed_v3 = true;
 
   const NativeEventSource = window.EventSource;
 
@@ -30,23 +34,19 @@
     try {
       const s = typeof url === "string" ? url : String(url);
       return s.includes("/events/tasks");
-    } catch {
-      return false;
-    }
+    } catch { return false; }
   }
 
   function readyStateSafe(es) {
     try { return es && typeof es.readyState === "number" ? es.readyState : -1; } catch { return -1; }
   }
 
-  function definitelyClosed(es) {
-    return readyStateSafe(es) === 2; // CLOSED
-  }
+  function definitelyClosed(es) { return readyStateSafe(es) === 2; }
 
   function guardClose(es) {
     if (!es || es.__mbhq_close_guarded) return es;
-    es.__mbhq_close_guarded = true;
 
+    es.__mbhq_close_guarded = true;
     const realClose = es.close.bind(es);
     es.__mbhq_real_close = realClose;
 
@@ -69,12 +69,12 @@
 
     es.addEventListener("open", () => dbg("OPEN", { readyState: readyStateSafe(es) }));
     es.addEventListener("error", () => dbg("ERROR", { readyState: readyStateSafe(es) }));
-    es.addEventListener("message", () => dbg("MESSAGE"));
 
+    // If the browser marks it CLOSED, allow future creates.
     es.addEventListener("error", () => {
       try {
         if (definitelyClosed(es)) {
-          dbg("CLOSED (via error), clearing singleton");
+          dbg("CLOSED via error; clearing singleton");
           singleton = null;
           singletonUrl = null;
           singletonCreatedAt = 0;
@@ -98,6 +98,7 @@
         dbg("URL mismatch but reusing singleton", { want: u, have: singletonUrl });
       }
 
+      // If CLOSED, only recreate if it's been closed for a bit (avoid loops).
       if (rs === 2) {
         const age = now - singletonCreatedAt;
         if (age < 5000) {
@@ -121,6 +122,7 @@
   TasksSafeEventSource.prototype = NativeEventSource.prototype;
   window.EventSource = TasksSafeEventSource;
 
+  // Allow real close only when the browser is unloading.
   window.addEventListener("beforeunload", () => {
     allowRealClose = true;
     try {
@@ -128,6 +130,6 @@
     } catch {}
   });
 
-  // DevTools Console helper (not Terminal)
+  // DevTools Console helper (not Terminal):
   window.__mbhq_tasks_eventsource = () => singleton;
 })();

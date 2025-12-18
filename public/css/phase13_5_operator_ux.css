@@ -1,3 +1,5 @@
+/* Phase 13.5 — Operator UX Overlay (dashboard-only) */
+
 .opux-bar {
   position: fixed;
   top: 10px;
@@ -12,6 +14,7 @@
   color: #fff;
   font: 12px system-ui, sans-serif;
   box-shadow: 0 12px 28px rgba(0,0,0,.4);
+  backdrop-filter: blur(10px);
 }
 
 .opux-left, .opux-right {
@@ -21,9 +24,23 @@
 }
 
 .opux-badge {
+  font-weight: 800;
+  letter-spacing: .10em;
+  opacity: .9;
+}
+
+.opux-chip {
   font-weight: 700;
-  letter-spacing: .08em;
-  opacity: .85;
+  border: 1px solid rgba(255,255,255,.18);
+  background: rgba(255,255,255,.10);
+  padding: 3px 8px;
+  border-radius: 999px;
+  opacity: .95;
+}
+
+.opux-bad {
+  border-color: rgba(239,71,111,.7) !important;
+  background: rgba(239,71,111,.18) !important;
 }
 
 .opux-bar button {
@@ -33,6 +50,10 @@
   border-radius: 10px;
   padding: 4px 10px;
   cursor: pointer;
+}
+
+.opux-bar button:hover {
+  background: rgba(255,255,255,.18);
 }
 
 .opux-toast-host {
@@ -50,6 +71,7 @@
   border-radius: 14px;
   background: rgba(20,22,26,.9);
   box-shadow: 0 14px 28px rgba(0,0,0,.45);
+  max-width: 320px;
 }
 
 .opux-ok { border-left: 3px solid #2ee58d; }
