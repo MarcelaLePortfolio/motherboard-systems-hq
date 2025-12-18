@@ -473,14 +473,9 @@ app.get("/events/tasks", async (req, res) => {
   }
 
   await emit();
-  const t = setInterval(emit, 3000);
-  const hb = setInterval(() => {
-    try { res.write(": hb\n\n"); } catch (_e) {}
-  }, 3000);
-  req.on("close", () => {
+  const t = setInterval(emit, 3000);  req.on("close", () => {
     console.log("[events/tasks] CLOSE", new Date().toISOString());
     clearInterval(t);
-    clearInterval(hb);
   });
 });
 
