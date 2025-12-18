@@ -426,9 +426,7 @@ app.get("/events/tasks", async (req, res) => {
     res.socket.setTimeout(0);
     res.socket.setNoDelay(true);
     res.socket.setKeepAlive(true);
-  }
-  console.log("[events/tasks] CONNECT", new Date().toISOString(), req.headers["user-agent"]);
-  sseHeaders(res);
+  }sseHeaders(res);
 
   // SSE kick: help browsers/proxies flush the stream immediately
   res.write(": ready\n");
