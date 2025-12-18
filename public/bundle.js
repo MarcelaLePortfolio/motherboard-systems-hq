@@ -446,10 +446,15 @@
     window.__dashboardTasksWidgetInited = true;
     const TASKS_SSE_URL = "/events/tasks";
     const MAX_ITEMS = 8;
+    const STALE_MS = 15e3;
+    const STALE_TICK_MS = 5e3;
+    function el(id) {
+      return document.getElementById(id);
+    }
     function ensureContainer() {
-      const delegationCard = document.getElementById("delegation-card");
+      const delegationCard = el("delegation-card");
       if (!delegationCard) return null;
-      let box = document.getElementById("recent-tasks-box");
+      let box = el("recent-tasks-box");
       if (box) return box;
       box = document.createElement("div");
       box.id = "recent-tasks-box";
@@ -463,11 +468,11 @@
       const hint = document.createElement("div");
       hint.id = "recent-tasks-hint";
       hint.className = "text-xs text-gray-500 italic";
-      hint.textContent = "Waiting for /events/tasks\u2026";
+      hint.textContent = "Loading tasks\u2026";
       box.appendChild(title);
       box.appendChild(list);
       box.appendChild(hint);
-      const anchor = document.getElementById("delegation-response");
+      const anchor = el("delegation-response");
       if (anchor && anchor.parentNode === delegationCard) {
         anchor.insertAdjacentElement("afterend", box);
       } else {
@@ -475,11 +480,10 @@
       }
       return box;
     }
-    function renderTasks(tasks) {
-      const box = ensureContainer();
-      const __hint = document.getElementById("recent-tasks-hint");
-      let __container = document.getElementById("recent-tasks-container");
-      let __list = document.getElementById("recent-tasks-list");
+    function selfHealHintContainer() {
+      const __hint = el("recent-tasks-hint");
+      let __container = el("recent-tasks-container");
+      let __list = el("recent-tasks-list");
       if (__hint && (!__container || !__list)) {
         const __mount = __hint.parentElement;
         if (!__container) {
@@ -496,25 +500,69 @@
           __container.appendChild(__list);
         }
       }
-      if (!box) return;
-      const list = document.getElementById("recent-tasks-list");
-      const hint = document.getElementById("recent-tasks-hint");
-      if (!list) return;
+    }
+    function setHint(text) {
+      const hint = el("recent-tasks-hint");
+      if (!hint) return;
+      hint.style.display = "block";
+      hint.textContent = text;
+    }
+    function clearHint() {
+      const hint = el("recent-tasks-hint");
+      if (!hint) return;
+      hint.style.display = "none";
+      hint.textContent = "";
+    }
+    function fmtTime(s) {
+      if (!s) return "";
+      const d = new Date(String(s));
+      if (isNaN(d.getTime())) return "";
+      return d.toLocaleString();
+    }
+    function dedupeTasks(tasks) {
       const safe = Array.isArray(tasks) ? tasks : [];
-      if (hint) {
-        hint.style.display = safe.length ? "none" : "block";
-        hint.textContent = safe.length ? "" : "Waiting for /events/tasks\u2026";
+      const seen = /* @__PURE__ */ new Set();
+      const out = [];
+      for (const t of safe) {
+        const id = t && t.id != null ? String(t.id) : "";
+        const key = id || JSON.stringify(t || {});
+        if (seen.has(key)) continue;
+        seen.add(key);
+        out.push(t);
       }
+      return out;
+    }
+    function renderTasks(tasks) {
+      const box = ensureContainer();
+      selfHealHintContainer();
+      if (!box) return;
+      const list = el("recent-tasks-list");
+      if (!list) return;
+      const items = dedupeTasks(tasks).slice(0, MAX_ITEMS);
       list.innerHTML = "";
-      safe.slice(0, MAX_ITEMS).forEach((t) => {
+      if (!items.length) {
+        setHint("No recent tasks yet.");
+        return;
+      }
+      clearHint();
+      items.forEach((t) => {
         const row = document.createElement("div");
-        row.className = "flex items-center justify-between gap-3 text-sm";
+        row.className = "flex items-start justify-between gap-3 text-sm";
         const left = document.createElement("div");
-        left.className = "text-gray-200 truncate";
-        const title = t && (t.title || t.task || t.name) ? String(t.title || t.task || t.name) : "(untitled)";
-        left.textContent = title;
+        left.className = "min-w-0 flex-1";
+        const title = document.createElement("div");
+        title.className = "text-gray-200 truncate";
+        title.textContent = t && (t.title || t.task || t.name) ? String(t.title || t.task || t.name) : "(untitled)";
+        const sub = document.createElement("div");
+        sub.className = "text-xs text-gray-500 mt-0.5 truncate";
+        const created = fmtTime(t && (t.created_at || t.createdAt));
+        const updated = fmtTime(t && (t.updated_at || t.updatedAt));
+        const when = updated || created;
+        sub.textContent = when ? `Updated: ${when}` : "";
+        left.appendChild(title);
+        if (sub.textContent) left.appendChild(sub);
         const right = document.createElement("div");
-        right.className = "text-xs text-gray-400 flex items-center gap-2";
+        right.className = "text-xs text-gray-400 flex items-center gap-2 shrink-0";
         const agent = t && t.agent ? String(t.agent) : "\u2014";
         const status = t && t.status ? String(t.status) : "unknown";
         const pill = document.createElement("span");
@@ -531,33 +579,28 @@
     }
     function start() {
       ensureContainer();
-      const __hint = document.getElementById("recent-tasks-hint");
-      let __container = document.getElementById("recent-tasks-container");
-      let __list = document.getElementById("recent-tasks-list");
-      if (__hint && (!__container || !__list)) {
-        const __mount = __hint.parentElement;
-        if (!__container) {
-          __container = document.createElement("div");
-          __container.id = "recent-tasks-container";
-          __container.appendChild(__hint);
-          __mount.appendChild(__container);
-        } else if (__hint.parentElement !== __container) {
-          __container.appendChild(__hint);
+      selfHealHintContainer();
+      setHint("Loading tasks\u2026");
+      try {
+        if (window.__dashboardTasksWidgetES && typeof window.__dashboardTasksWidgetES.close === "function") {
+          window.__dashboardTasksWidgetES.close();
         }
-        if (!__list) {
-          __list = document.createElement("div");
-          __list.id = "recent-tasks-list";
-          __container.appendChild(__list);
-        }
+      } catch (e) {
       }
       let es;
       try {
         es = new EventSource(TASKS_SSE_URL);
+        window.__dashboardTasksWidgetES = es;
       } catch (err) {
         console.warn("[tasks-widget] Failed to open SSE:", err);
+        setHint("Tasks stream unavailable \u2014 check /events/tasks.");
         return;
       }
+      window.__dashboardTasksWidgetLastEventAt = Date.now();
+      window.__dashboardTasksWidgetDisconnected = false;
       es.onmessage = (event) => {
+        window.__dashboardTasksWidgetLastEventAt = Date.now();
+        window.__dashboardTasksWidgetDisconnected = false;
         let data;
         try {
           data = JSON.parse(event.data || "null");
@@ -570,12 +613,21 @@
         renderTasks(tasks);
       };
       es.onerror = () => {
-        const hint = document.getElementById("recent-tasks-hint");
-        if (hint) {
-          hint.style.display = "block";
-          hint.textContent = "Tasks stream disconnected \u2014 check /events/tasks.";
-        }
+        window.__dashboardTasksWidgetDisconnected = true;
+        setHint("Tasks stream disconnected \u2014 check /events/tasks.");
       };
+      if (!window.__dashboardTasksWidgetStaleTimer) {
+        window.__dashboardTasksWidgetStaleTimer = setInterval(() => {
+          const last = window.__dashboardTasksWidgetLastEventAt || 0;
+          const disconnected = !!window.__dashboardTasksWidgetDisconnected;
+          if (disconnected) return;
+          if (!last) return;
+          const age = Date.now() - last;
+          if (age > STALE_MS) {
+            setHint("Tasks stream quiet (stale) \u2014 waiting for updates\u2026");
+          }
+        }, STALE_TICK_MS);
+      }
     }
     if (document.readyState === "loading") {
       document.addEventListener("DOMContentLoaded", start);
