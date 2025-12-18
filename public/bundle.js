@@ -521,5 +521,115 @@ idx = (idx + 1) % nodes.length;
     }
     document.addEventListener("DOMContentLoaded", wireChat);
   })();
+
+  // public/js/dashboard-delegation.js
+  console.log("[dashboard-delegation] module loaded");
+  function getSafeFetch() {
+    var f = typeof fetch !== "undefined" ? fetch : typeof window !== "undefined" ? window.fetch : void 0;
+    var t = typeof f;
+    console.log("[dashboard-delegation] detected fetch type:", t);
+    if (t !== "function") {
+      console.error("[dashboard-delegation] fetch is not a function; value:", f);
+      return null;
+    }
+    return f;
+  }
+  async function handleDelegationClick(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    var input = document.getElementById("delegation-input");
+    if (!input) {
+      console.warn(
+        "[dashboard-delegation] delegation input not found at click time"
+      );
+      return;
+    }
+    var value = input.value || "";
+    if (!value.trim()) {
+      console.warn(
+        "[dashboard-delegation] empty delegation input; skipping"
+      );
+      return;
+    }
+    console.log("[dashboard-delegation] sending delegation:", value);
+    var safeFetch = getSafeFetch();
+    if (!safeFetch) {
+      console.error(
+        "[dashboard-delegation] aborting delegation because fetch is unavailable or invalid"
+      );
+      return;
+    }
+    var res;
+    try {
+      res = await safeFetch("/api/delegate-task", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ description: value })
+      });
+    } catch (fetchErr) {
+      console.error(
+        "[dashboard-delegation] fetch threw before response:",
+        fetchErr
+      );
+      return;
+    }
+    console.log(
+      "[dashboard-delegation] fetch returned:",
+      !!res,
+      res && res.constructor && res.constructor.name,
+      "json type:",
+      res && typeof res.json
+    );
+    var data;
+    if (!res || typeof res.json !== "function") {
+      console.error(
+        "[dashboard-delegation] res.json is not a function; value:",
+        res && res.json
+      );
+      data = {
+        error: "res.json is not a function",
+        jsonType: typeof (res && res.json)
+      };
+      console.log(
+        "[dashboard-delegation] delegation response (fallback):",
+        data
+      );
+      return;
+    }
+    try {
+      data = await res.json();
+    } catch (parseErr) {
+      console.error(
+        "[dashboard-delegation] error parsing JSON response:",
+        parseErr
+      );
+      data = { error: "Non-JSON response from /api/delegate-task" };
+    }
+    console.log("[dashboard-delegation] delegation response:", data);
+  }
+  function initDashboardDelegation() {
+    var btn = document.getElementById("delegation-submit");
+    var input = document.getElementById("delegation-input");
+    if (!btn || !input) {
+      console.warn(
+        "[dashboard-delegation] delegation button or input not found in init"
+      );
+      return;
+    }
+    if (btn.dataset.delegationWired === "true") {
+      return;
+    }
+    btn.dataset.delegationWired = "true";
+    btn.addEventListener("click", handleDelegationClick);
+    console.log(
+      "[dashboard-delegation] Task Delegation wiring active"
+    );
+  }
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initDashboardDelegation);
+  } else {
+    initDashboardDelegation();
+  }
 })();
 //# sourceMappingURL=bundle.js.map
