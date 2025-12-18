@@ -59,7 +59,6 @@ export function normalizeTaskForWrite(raw = {}) {
 
   return {
     ...base,
-    // server controls updated_at; created_at only if missing
     created_at: base.created_at || now,
     updated_at: now,
   };

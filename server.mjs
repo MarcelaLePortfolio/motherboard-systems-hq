@@ -3,6 +3,14 @@ import { fileURLToPath } from 'url';
 import path from 'path';
 import pg from 'pg';
 
+import {
+  normalizeTaskForRead,
+  normalizeTaskForWrite,
+  validateNewTask,
+  validateTransition,
+  normalizeStatus,
+} from './server/taskContract.mjs';
+
 const { Pool } = pg;
 
 // Environment configuration
@@ -20,7 +28,6 @@ app.use(express.json());
 // --- Next-2: in-memory store (dev stub) ------------------------------------
 const __memStore = { tasks: [] };
 function __nowIso() { return new Date().toISOString(); }
-function __makeId() { return Math.floor(Date.now() / 1000); }
 function __cap(arr, max) { while (arr.length > max) arr.pop(); }
 // ---------------------------------------------------------------------------
 
@@ -93,33 +100,45 @@ async function __listTasks(limit = 50) {
 
 app.get('/api/tasks', async (_req, res) => {
   try {
-    if (!(await __dbOk())) return res.json({ tasks: __memStore.tasks, source: 'mem-next2' });
+    if (!(await __dbOk())) {
+      return res.json({ tasks: (__memStore.tasks || []).map(normalizeTaskForRead), source: 'mem-next2' });
+    }
     const tasks = await __listTasks(50);
-    return res.json({ tasks, source: 'db-tasks' });
+    return res.json({ tasks: (tasks || []).map(normalizeTaskForRead), source: 'db-tasks' });
   } catch (err) {
     console.error("/api/tasks failed:", err);
-    return res.json({ tasks: __memStore.tasks, source: 'mem-next2' });
+    return res.json({ tasks: (__memStore.tasks || []).map(normalizeTaskForRead), source: 'mem-next2' });
   }
 });
 
 app.post('/api/tasks', async (req, res) => {
   try {
     const body = req.body || {};
-    const title = (typeof body.title === "string" && body.title.trim()) ? body.title.trim() : "";
-    if (!title) return res.status(400).json({ error: "title is required", source: "db-tasks" });
+    const raw = {
+      title: body.title,
+      agent: body.agent || "cade",
+      notes: body.notes || "",
+      status: body.status || "delegated",
+      source: "api",
+    };
+    const taskIn = normalizeTaskForWrite(raw);
+    validateNewTask(taskIn);
 
-    if (!(await __dbOk())) return res.status(503).json({ error: "db unavailable", source: "db-tasks" });
+    if (!(await __dbOk())) return res.status(503).json({ ok: false, error: "db unavailable", source: "db-tasks" });
 
     await __ensureTasksSchema();
     const r = await pool.query(
       "insert into tasks (title, agent, notes, status) values ($1, $2, $3, $4) returning id, title, agent, notes, status, created_at::text, updated_at::text",
-      [title, (body.agent || "cade"), (body.notes || ""), (body.status || "delegated")]
+      [taskIn.title, taskIn.agent, taskIn.notes || "", taskIn.status]
     );
-    console.log("[task] CREATED", { id: r.rows[0].id, status: r.rows[0].status, agent: r.rows[0].agent, title: r.rows[0].title });
-      return res.json({ task: r.rows[0], source: "db-tasks" });
+
+    const out = normalizeTaskForRead(r.rows[0]);
+    console.log("[task] CREATED", { id: out.id, status: out.status, agent: out.agent, title: out.title });
+    return res.json({ ok: true, task: out, source: "db-tasks" });
   } catch (err) {
+    const msg = String(err && err.message ? err.message : err);
     console.error("/api/tasks POST failed:", err);
-    return res.status(500).json({ error: "create failed", source: "db-tasks" });
+    return res.status(400).json({ ok: false, error: msg, source: "db-tasks" });
   }
 });
 // ---------------------------------------------------------------------------
@@ -257,81 +276,118 @@ app.post('/api/complete-task-db', async (req, res) => {
 });
 
 /**
- * Phase 11 override: stubbed task endpoints (avoid Postgres dependency)
+ * Phase 14 canonical endpoints:
+ * - /api/delegate-task
+ * - /api/complete-task
  * These are the endpoints the current dashboard JS calls.
  */
-app.post('/api/delegate-task', async (req, res) => {
+app.post("/api/delegate-task", async (req, res) => {
   try {
     const body = req.body || {};
-    const title =
-      (typeof body.task === "string" && body.task.trim()) ? body.task.trim()
-      : (typeof body.title === "string" && body.title.trim()) ? body.title.trim()
-      : "";
-    const agent = (typeof body.agent === "string" && body.agent.trim()) ? body.agent.trim() : "cade";
-    const notes = (typeof body.notes === "string") ? body.notes : "";
+    const raw = {
+      // support both {title} and legacy {task}
+      title: (body.title != null ? body.title : body.task),
+      agent: body.agent || "cade",
+      notes: body.notes || "",
+      status: "delegated",
+      source: "ui",
+    };
 
-    if (!title) return res.status(400).json({ error: "task/title is required", source: "db-tasks" });
+    const taskIn = normalizeTaskForWrite(raw);
+    validateNewTask(taskIn);
 
-    // DB-first: insert into tasks table if DB is up
-    if (await __dbOk()) {
+    const useDb = await __dbOk();
+    let task;
+
+    if (useDb) {
       await __ensureTasksSchema();
       const r = await pool.query(
         "insert into tasks (title, agent, notes, status) values ($1,$2,$3,$4) returning id, title, agent, notes, status, created_at::text, updated_at::text",
-        [title, agent, notes, "delegated"]
+        [taskIn.title, taskIn.agent, taskIn.notes || "", taskIn.status]
       );
-      console.log("[task] DELEGATED " + JSON.stringify({ id: r.rows[0].id, status: r.rows[0].status, agent: r.rows[0].agent, title: r.rows[0].title }));
-      return res.json({ task: r.rows[0], source: "db-tasks" });
+      task = normalizeTaskForRead(r.rows[0]);
+    } else {
+      task = normalizeTaskForRead({
+        id: String(Date.now()),
+        title: taskIn.title,
+        agent: taskIn.agent,
+        notes: taskIn.notes || "",
+        status: taskIn.status,
+        created_at: taskIn.created_at,
+        updated_at: taskIn.updated_at,
+        source: "mem",
+      });
+      __memStore.tasks = [task, ...(__memStore.tasks || [])];
+      __cap(__memStore.tasks, 200);
     }
 
-    // Fallback: mem-next2 behavior (keeps old dashboard compatibility)
-    const task = { id: Date.now(), title, agent, notes, status: "delegated", createdAt: __nowIso(), updatedAt: __nowIso() };
-    __memStore.tasks.unshift(task);
-    __cap(__memStore.tasks, 200);
-    return res.json(task);
+    return res.json({ ok: true, task, source: useDb ? "db-tasks" : "mem-next2" });
   } catch (err) {
-    console.error("/api/delegate-task failed:", err);
-    return res.status(500).json({ error: "delegate failed", source: "db-tasks" });
+    const msg = String(err && err.message ? err.message : err);
+    // Hard fallback: never block UI
+    const body = req.body || {};
+    const fallback = normalizeTaskForRead({
+      id: String(Date.now()),
+      title: String(body.title || body.task || "").trim() || "(untitled)",
+      agent: String(body.agent || "cade"),
+      notes: String(body.notes || ""),
+      status: "delegated",
+      error: msg,
+      source: "mem",
+    });
+    __memStore.tasks = [fallback, ...(__memStore.tasks || [])];
+    __cap(__memStore.tasks, 200);
+    return res.json({ ok: true, task: fallback, source: "mem-next2" });
   }
 });
 
-app.post('/api/complete-task', async (req, res) => {
+app.post("/api/complete-task", async (req, res) => {
   try {
     const body = req.body || {};
-    const raw = body.taskId;
-    const taskId = (typeof raw === "number") ? raw : parseInt(String(raw || ""), 10);
+    const taskId = String(body.taskId || body.id || "").trim();
+    if (!taskId) return res.status(400).json({ ok: false, error: "taskId_required" });
 
-    if (!taskId || Number.isNaN(taskId)) {
-      return res.status(400).json({ error: "taskId is required", source: "db-tasks" });
-    }
+    const useDb = await __dbOk();
 
-    // DB-first: update tasks table if DB is up
-    if (await __dbOk()) {
+    if (useDb) {
       await __ensureTasksSchema();
 
-      const r = await pool.query(
-        "update tasks set status = 'completed', updated_at = now() where id = $1 returning id, title, agent, notes, status, created_at::text, updated_at::text",
-        [taskId]
-      );
+      // find current status for transition validation
+      const cur = await pool.query("select id, status from tasks where id = $1", [taskId]);
+      if (!cur.rowCount) return res.status(404).json({ ok: false, error: "not_found", id: taskId, source: "db-tasks" });
 
-      if (!r.rowCount) {
-        return res.status(404).json({ id: taskId, status: "not_found", source: "db-tasks" });
-      }
-      console.log("[task] COMPLETED " + JSON.stringify({ id: r.rows[0].id, status: r.rows[0].status, agent: r.rows[0].agent, title: r.rows[0].title }));
-      return res.json({ task: r.rows[0], source: "db-tasks" });
+      const prevStatus = cur.rows[0].status;
+      validateTransition(prevStatus, "complete");
+
+      const r = await pool.query(
+        "update tasks set status = $2, updated_at = now() where id = $1 returning id, title, agent, notes, status, created_at::text, updated_at::text",
+        [taskId, "complete"]
+      );
+      const out = normalizeTaskForRead(r.rows[0]);
+      return res.json({ ok: true, task: out, source: "db-tasks" });
     }
 
-    // Fallback: mem-next2 behavior (keeps old dashboard compatibility)
-    const idx = __memStore.tasks.findIndex((t) => String(t.id) === String(taskId));
-    if (idx === -1) return res.json({ id: taskId, status: "not_found", source: "mem-next2" });
+    // mem fallback
+    const tasks = __memStore.tasks || [];
+    const idx = tasks.findIndex((t) => String(t.id) === taskId);
 
-    __memStore.tasks[idx].status = "completed";
-    return res.json({ id: taskId, status: "completed", source: "mem-next2" });
+    if (idx >= 0) {
+      const prevStatus = tasks[idx].status;
+      validateTransition(prevStatus, "complete");
+      tasks[idx] = normalizeTaskForRead({
+        ...tasks[idx],
+        status: "complete",
+        updated_at: new Date().toISOString(),
+      });
+    }
+
+    __memStore.tasks = tasks;
+    return res.json({ ok: true, id: taskId, status: "complete", source: "mem-next2" });
   } catch (err) {
-    console.error("/api/complete-task failed:", err);
-    return res.status(500).json({ error: "complete failed", source: "db-tasks" });
+    const msg = String(err && err.message ? err.message : err);
+    return res.status(400).json({ ok: false, error: msg });
   }
 });
-
 
 // Phase 11 – Matilda dashboard chat endpoint (single canonical implementation)
 app.post('/api/chat', async (req, res) => {
@@ -360,7 +416,6 @@ app.post('/api/chat', async (req, res) => {
     return res.status(500).json({ reply: '(error)' });
   }
 });
-
 
 // --- Minimal Observability (Phase 13.3) -------------------------------------
 app.get("/health", async (_req, res) => {
@@ -439,7 +494,6 @@ app.get("/events/tasks", async (req, res) => {
   }
   sseHeaders(res);
 
-
   // SSE kick: help browsers/proxies flush the stream immediately
   res.write(": ready\n");
   res.write(":" + " ".repeat(2048) + "\n\n");
@@ -449,21 +503,21 @@ app.get("/events/tasks", async (req, res) => {
 
   async function snapshot() {
     const useDb = await __dbOk();
-    const tasks = useDb ? await __listTasks(50) : __memStore.tasks;
+    const rows = useDb ? await __listTasks(50) : (__memStore.tasks || []);
+    const tasks = (rows || []).map(normalizeTaskForRead);
     return { tasks, source: useDb ? "db-tasks" : "mem-next2" };
   }
 
   async function emit() {
     try {
       const snap = await snapshot();
-      // Key excludes ts so unchanged lists do not re-emit
       const key = JSON.stringify({ tasks: snap.tasks, source: snap.source });
       if (key !== lastKey) {
         lastKey = key;
         sseSend(res, null, { ...snap, ts: Date.now() });
       }
     } catch (_e) {
-      const snap = { tasks: __memStore.tasks, source: "mem-next2", error: "stream_error" };
+      const snap = { tasks: (__memStore.tasks || []).map(normalizeTaskForRead), source: "mem-next2", error: "stream_error" };
       const key = JSON.stringify({ tasks: snap.tasks, source: snap.source, error: snap.error });
       if (key !== lastKey) {
         lastKey = key;
@@ -473,7 +527,8 @@ app.get("/events/tasks", async (req, res) => {
   }
 
   await emit();
-  const t = setInterval(emit, 3000);  req.on("close", () => {
+  const t = setInterval(emit, 3000);
+  req.on("close", () => {
     console.log("[events/tasks] CLOSE", new Date().toISOString());
     clearInterval(t);
   });
@@ -486,107 +541,18 @@ app.get("/events/logs", (req, res) => {
   req.on("close", () => clearInterval(t));
 });
 // ---------------------------------------------------------------------------
-  // --- Compatibility: /tasks (raw array for older loaders) ------------------
-  app.get("/tasks", async (_req, res) => {
-    try {
-      if (!(await __dbOk())) return res.json(__memStore.tasks);
-      const tasks = await __listTasks(50);
-      return res.json(tasks);
-    } catch (err) {
-      console.error("/tasks failed:", err);
-      return res.json(__memStore.tasks);
-    }
-  });
 
-
-// --- API: delegation + completion + chat (Phase 12 restore) ---------
-app.post("/api/delegate-task", async (req, res) => {
+// --- Compatibility: /tasks (raw array for older loaders) ------------------
+app.get("/tasks", async (_req, res) => {
   try {
-    const body = req.body || {};
-    const agent = String(body.agent || "cade");
-    const title = String(body.title || "").trim();
-    const notes = String(body.notes || "");
-    if (!title) return res.status(400).json({ ok: false, error: "title_required" });
-
-    const useDb = await __dbOk();
-    let task;
-
-    if (useDb) {
-      // Expect DB helpers to exist; if not, we fall back to mem below.
-      if (typeof __createTask === "function") {
-        task = await __createTask({ agent, title, notes });
-      } else {
-        throw new Error("__createTask_missing");
-      }
-    } else {
-      task = {
-        id: String(Date.now()),
-        title,
-        agent,
-        notes,
-        status: "delegated",
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      };
-      __memStore.tasks = [task, ...(__memStore.tasks || [])];
-    }
-
-    return res.json({ ok: true, task, source: useDb ? "db" : "mem" });
+    if (!(await __dbOk())) return res.json((__memStore.tasks || []).map(normalizeTaskForRead));
+    const tasks = await __listTasks(50);
+    return res.json((tasks || []).map(normalizeTaskForRead));
   } catch (err) {
-    // Hard fallback: never block UI on DB helper absence
-    const body = req.body || {};
-    const agent = String(body.agent || "cade");
-    const title = String(body.title || "").trim() || "(untitled)";
-    const notes = String(body.notes || "");
-    const task = {
-      id: String(Date.now()),
-      title,
-      agent,
-      notes,
-      status: "delegated",
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-      error: String(err && err.message ? err.message : err),
-    };
-    __memStore.tasks = [task, ...(__memStore.tasks || [])];
-    return res.json({ ok: true, task, source: "mem" });
+    console.error("/tasks failed:", err);
+    return res.json((__memStore.tasks || []).map(normalizeTaskForRead));
   }
 });
-
-app.post("/api/complete-task", async (req, res) => {
-  try {
-    const body = req.body || {};
-    const taskId = String(body.taskId || body.id || "").trim();
-    if (!taskId) return res.status(400).json({ ok: false, error: "taskId_required" });
-
-    const useDb = await __dbOk();
-    if (useDb) {
-      if (typeof __completeTask === "function") {
-        const out = await __completeTask(taskId);
-        return res.json({ ok: true, id: taskId, status: "completed", result: out, source: "db" });
-      }
-      // If DB helpers missing, fall back to mem behavior
-      throw new Error("__completeTask_missing");
-    }
-
-    // mem fallback
-    const tasks = __memStore.tasks || [];
-    const idx = tasks.findIndex(t => String(t.id) === taskId);
-    if (idx >= 0) {
-      tasks[idx] = { ...tasks[idx], status: "completed", updated_at: new Date().toISOString() };
-    }
-    __memStore.tasks = tasks;
-    return res.json({ ok: true, id: taskId, status: "completed", source: "mem" });
-  } catch (err) {
-    return res.status(500).json({ ok: false, error: String(err && err.message ? err.message : err) });
-  }
-});
-
-// Keep Matilda working even if you are still on a stub phase
-app.post("/api/chat", async (_req, res) => {
-  return res.json({ ok: true, reply: "(stub) Matilda chat endpoint is live. Wire real backend next.", ts: Date.now(), source: "stub-next2" });
-});
-// ---------------------------------------------------------------------------
 
 // Fallback route for SPA or index
 app.use((req, res, next) => {
