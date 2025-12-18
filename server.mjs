@@ -279,7 +279,7 @@ app.post('/api/delegate-task', async (req, res) => {
         "insert into tasks (title, agent, notes, status) values ($1,$2,$3,$4) returning id, title, agent, notes, status, created_at::text, updated_at::text",
         [title, agent, notes, "delegated"]
       );
-      console.log("[task] DELEGATED", { id: r.rows[0].id, status: r.rows[0].status, agent: r.rows[0].agent, title: r.rows[0].title });
+      console.log("[task] DELEGATED " + JSON.stringify({ id: r.rows[0].id, status: r.rows[0].status, agent: r.rows[0].agent, title: r.rows[0].title }));
     return res.json({ task: r.rows[0], source: "db-tasks" });
     }
 
@@ -316,9 +316,7 @@ app.post('/api/complete-task', async (req, res) => {
       if (!r.rowCount) {
         return res.status(404).json({ id: taskId, status: "not_found", source: "db-tasks" });
       }
-
-      console.log("[task] COMPLETED", { id: r.rows[0].id, status: r.rows[0].status, agent: r.rows[0].agent, title: r.rows[0].title });
-
+      console.log("[task] COMPLETED " + JSON.stringify({ id: r.rows[0].id, status: r.rows[0].status, agent: r.rows[0].agent, title: r.rows[0].title }));
       return res.json({ task: r.rows[0], source: "db-tasks" });
     }
 
