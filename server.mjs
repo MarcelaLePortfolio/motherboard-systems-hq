@@ -46,6 +46,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Explicit dashboard route
 app.get('/dashboard', (_req, res) => {
+    res.set("Cache-Control", "no-store, must-revalidate");
+  res.set("Pragma", "no-cache");
+  res.set("Expires", "0");
   return res.sendFile(path.join(__dirname, 'public', 'dashboard.html'));
 });
 
@@ -557,6 +560,9 @@ app.get("/tasks", async (_req, res) => {
 // Fallback route for SPA or index
 app.use((req, res, next) => {
   if (req.path && req.path.startsWith('/api/')) return next();
+    res.set("Cache-Control", "no-store, must-revalidate");
+  res.set("Pragma", "no-cache");
+  res.set("Expires", "0");
   return res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
