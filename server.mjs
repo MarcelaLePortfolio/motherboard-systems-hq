@@ -23,7 +23,12 @@ const __dirname = path.dirname(__filename);
 const app = express();
 
 // Phase 14.7: hard-redirect root to /dashboard (must be before static + SPA fallback)
-app.get("/", (req, res) => res.redirect(302, "/dashboard"));
+app.get("/", (req, res) => {
+  res.set("Cache-Control", "no-store, must-revalidate");
+  res.set("Pragma", "no-cache");
+  res.set("Expires", "0");
+  return res.redirect(302, "/dashboard");
+});
 
 
 // JSON body parsing for dashboard POSTs
