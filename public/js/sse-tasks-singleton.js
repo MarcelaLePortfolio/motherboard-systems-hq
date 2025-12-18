@@ -1,12 +1,16 @@
 /**
- * Phase 13.5 — Tasks SSE Singleton Patch (dashboard-only)
+ * Phase 13.5 — Tasks SSE Singleton + Close-Guard (dashboard-only)
  *
- * Goal: prevent accidental connect/abort thrash by ensuring there is only ONE
- * EventSource instance for /events/tasks across the page.
+ * Why: we're still seeing ABORT/RECONNECT. Even with a singleton, if any
+ * dashboard code calls `es.close()` (during re-init, hot reload, or widget teardown),
+ * it will abort the connection and trigger reconnect churn.
  *
- * No backend/DB changes. Safe-by-default:
- * - Only intercepts URLs containing "/events/tasks"
- * - Returns a shared singleton EventSource for that URL
+ * Fix: for /events/tasks only:
+ * - return ONE shared EventSource instance (singleton)
+ * - GUARD `.close()` so accidental closes become no-ops
+ * - still allow "real" close on page unload (so the browser can cleanly exit)
+ *
+ * No backend/DB changes.
  */
 (() => {
   "use strict";
@@ -17,10 +21,10 @@
 
   const NativeEventSource = window.EventSource;
 
-  // Global singleton state
   let singleton = null;
   let singletonUrl = null;
   let lastCreateAt = 0;
+  let allowRealClose = false;
 
   function isTasksUrl(url) {
     try {
@@ -31,7 +35,7 @@
     }
   }
 
-  function shouldReuse(es) {
+  function isLive(es) {
     try {
       // 2 = CLOSED
       return es && typeof es.readyState === "number" && es.readyState !== 2;
@@ -40,12 +44,33 @@
     }
   }
 
+  function guardClose(es) {
+    if (!es || es.__mbhq_close_guarded) return es;
+    es.__mbhq_close_guarded = true;
+
+    const realClose = es.close.bind(es);
+    es.__mbhq_real_close = realClose;
+
+    es.close = () => {
+      // Only allow real close when we're unloading the page.
+      if (allowRealClose) return realClose();
+
+      // Otherwise ignore accidental closes (teardown/reinit loops).
+      // Keep a tiny breadcrumb for debugging.
+      try {
+        es.__mbhq_close_blocked_at = Date.now();
+      } catch {}
+    };
+
+    return es;
+  }
+
   function create(url, init) {
     const es = new NativeEventSource(url, init);
-    singleton = es;
+    singleton = guardClose(es);
     singletonUrl = String(url);
 
-    // If the singleton dies, allow recreation on next request (with tiny cooldown).
+    // If server closes it (or it truly dies), clear singleton so next call can recreate.
     es.addEventListener("error", () => {
       try {
         if (es.readyState === 2) {
@@ -57,7 +82,7 @@
       }
     });
 
-    return es;
+    return singleton;
   }
 
   function TasksSafeEventSource(url, eventSourceInitDict) {
@@ -65,27 +90,17 @@
       return new NativeEventSource(url, eventSourceInitDict);
     }
 
-    const now = Date.now();
+    const t = Date.now();
 
-    // If we already have a live one, always reuse it.
-    if (shouldReuse(singleton)) {
-      return singleton;
-    }
+    // Reuse any live singleton.
+    if (isLive(singleton)) return singleton;
 
-    // Cooldown to prevent rapid-fire create/abort loops from repeated constructors.
-    if (now - lastCreateAt < 750 && singleton) {
-      return singleton;
-    }
+    // Cooldown to avoid rapid-fire recreate loops.
+    if (singleton && t - lastCreateAt < 750) return singleton;
 
-    lastCreateAt = now;
+    lastCreateAt = t;
 
-    // If we had one but it's closed, recreate.
-    if (singleton && !shouldReuse(singleton)) {
-      singleton = null;
-      singletonUrl = null;
-    }
-
-    // If URL changed, prefer latest.
+    // If URL changes, prefer latest.
     if (singletonUrl && String(url) !== singletonUrl) {
       singleton = null;
       singletonUrl = null;
@@ -97,6 +112,15 @@
   TasksSafeEventSource.prototype = NativeEventSource.prototype;
   window.EventSource = TasksSafeEventSource;
 
-  // Debug handle (optional)
+  // Allow real close only on unload (browser cleanup).
+  window.addEventListener("beforeunload", () => {
+    allowRealClose = true;
+    try {
+      if (singleton && singleton.__mbhq_real_close) singleton.__mbhq_real_close();
+    } catch {}
+  });
+
+  // Debug handle (DevTools Console, not Terminal):
+  // window.__mbhq_tasks_eventsource()
   window.__mbhq_tasks_eventsource = () => singleton;
 })();
