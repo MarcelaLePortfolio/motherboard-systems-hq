@@ -115,7 +115,9 @@ app.post('/api/tasks', async (req, res) => {
       "insert into tasks (title, agent, notes, status) values ($1, $2, $3, $4) returning id, title, agent, notes, status, created_at::text, updated_at::text",
       [title, (body.agent || "cade"), (body.notes || ""), (body.status || "delegated")]
     );
-    return res.json({ task: r.rows[0], source: "db-tasks" });
+    console.log("[task] CREATED", { id: r.rows[0].id, status: r.rows[0].status, agent: r.rows[0].agent, title: r.rows[0].title });
+      console.log("[task] COMPLETED", { id: r.rows[0].id, status: r.rows[0].status, agent: r.rows[0].agent, title: r.rows[0].title });
+      return res.json({ task: r.rows[0], source: "db-tasks" });
   } catch (err) {
     console.error("/api/tasks POST failed:", err);
     return res.status(500).json({ error: "create failed", source: "db-tasks" });
@@ -359,6 +361,30 @@ app.post('/api/chat', async (req, res) => {
   }
 });
 
+
+// --- Minimal Observability (Phase 13.3) -------------------------------------
+app.get("/health", async (_req, res) => {
+  try {
+    const dbOk = await __dbOk();
+    return res.json({
+      ok: true,
+      service: "motherboard-systems-hq",
+      uptime_s: Math.round(process.uptime()),
+      ts: new Date().toISOString(),
+      db: { ok: !!dbOk },
+      pid: process.pid,
+    });
+  } catch (e) {
+    return res.status(503).json({
+      ok: false,
+      service: "motherboard-systems-hq",
+      uptime_s: Math.round(process.uptime()),
+      ts: new Date().toISOString(),
+      db: { ok: false },
+      error: (e && e.message) ? e.message : "health_check_failed",
+    });
+  }
+});
 
 // --- Next-2: SSE stubs (same-origin) -----------------------------------------
 function sseHeaders(res) {
