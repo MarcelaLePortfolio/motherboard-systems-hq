@@ -45,6 +45,8 @@ const pool = new Pool({
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Explicit dashboard route
+app.get("/", (req,res)=>res.redirect("/dashboard"));
+
 app.get('/dashboard', (_req, res) => {
     res.set("Cache-Control", "no-store, must-revalidate");
   res.set("Pragma", "no-cache");
