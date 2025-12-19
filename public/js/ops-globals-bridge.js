@@ -14,7 +14,7 @@
     window.lastOpsStatusSnapshot = null;
   }
 
-  const opsUrl = `${window.location.protocol}//${window.location.hostname}:3201/events/ops`;
+  const opsUrl = `/events/ops`;
 
   const handleEvent = (event) => {
     try {

@@ -38,7 +38,7 @@
     indicators[name.toLowerCase()] = { pill, dot, label };
   });
 
-  const OPS_SSE_URL = "http://127.0.0.1:3201/events/ops";
+  const OPS_SSE_URL = `/events/ops`;
   let source;
 
   try {

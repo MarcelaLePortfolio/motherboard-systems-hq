@@ -4,8 +4,8 @@
     if (typeof window === "undefined" || typeof document === "undefined") return;
     if (window.__dashboardStatusInited) return;
     window.__dashboardStatusInited = true;
-    const OPS_SSE_URL = "http://127.0.0.1:3201/events/ops";
-    const REFLECTIONS_SSE_URL = "http://127.0.0.1:3200/events/reflections";
+    const OPS_SSE_URL = `/events/ops`;
+    const REFLECTIONS_SSE_URL = `/events/reflections`;
     const uptimeDisplay = document.getElementById("uptime-display");
     const healthIndicator = document.getElementById("system-health-indicator");
     const healthStatus = document.getElementById("health-status");
@@ -156,12 +156,14 @@
     };
     let reflectionsSource;
     try {
+      console.log("[dashboard-status] opening Reflections SSE:", REFLECTIONS_SSE_URL);
       reflectionsSource = new EventSource(REFLECTIONS_SSE_URL);
     } catch (err) {
       console.error("dashboard-status.js: Failed to open Reflections SSE connection:", err);
       return;
     }
     reflectionsSource.onmessage = (event) => {
+      console.log("[dashboard-status] reflections onmessage:", event.data);
       if (!reflectionsContainer) return;
       const raw = event.data;
       let text = raw;
@@ -192,6 +194,13 @@
   }
   if (typeof window !== "undefined") {
     window.initDashboardStatus = initDashboardStatus;
+    if (typeof window !== "undefined" && typeof document !== "undefined") {
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", () => initDashboardStatus());
+      } else {
+        initDashboardStatus();
+      }
+    }
   }
 
   // public/js/agent-status-row.js
@@ -219,7 +228,7 @@
       row.appendChild(pill);
       indicators[name.toLowerCase()] = { pill, dot, label };
     });
-    const OPS_SSE_URL = "http://127.0.0.1:3201/events/ops";
+    const OPS_SSE_URL = `/events/ops`;
     let source;
     try {
       source = new EventSource(OPS_SSE_URL);
@@ -314,13 +323,10 @@
     setInterval(() => {
       const allNodes = document.querySelectorAll(".node");
       allNodes.forEach((n) => n.classList.remove("active"));
-      ```
-const activeId = "node-" + nodes[idx];
-const active = document.getElementById(activeId);
-if (active) active.classList.add("active");
-
-idx = (idx + 1) % nodes.length;
-```;
+      const activeId = "node-" + nodes[idx];
+      const active = document.getElementById(activeId);
+      if (active) active.classList.add("active");
+      idx = (idx + 1) % nodes.length;
     }, 1500);
   }
   function initBroadcastVisualization() {
@@ -366,7 +372,7 @@ idx = (idx + 1) % nodes.length;
     if (typeof window.lastOpsStatusSnapshot === "undefined") {
       window.lastOpsStatusSnapshot = null;
     }
-    const opsUrl = `${window.location.protocol}//${window.location.hostname}:3201/events/ops`;
+    const opsUrl = `/events/ops`;
     const handleEvent = (event) => {
       try {
         const data = JSON.parse(event.data || "null");
@@ -431,6 +437,151 @@ idx = (idx + 1) % nodes.length;
     }
     applyState();
     setInterval(applyState, POLL_INTERVAL_MS);
+  })();
+
+  // public/js/dashboard-tasks-widget.js
+  (function() {
+    if (typeof window === "undefined" || typeof document === "undefined") return;
+    if (window.__dashboardTasksWidgetInited) return;
+    window.__dashboardTasksWidgetInited = true;
+    const TASKS_SSE_URL = "/events/tasks";
+    const MAX_ITEMS = 8;
+    function ensureContainer() {
+      const delegationCard = document.getElementById("delegation-card");
+      if (!delegationCard) return null;
+      let box = document.getElementById("recent-tasks-box");
+      if (box) return box;
+      box = document.createElement("div");
+      box.id = "recent-tasks-box";
+      box.className = "mt-3 bg-gray-900 border border-gray-700 rounded-lg p-3";
+      const title = document.createElement("div");
+      title.className = "text-xs uppercase tracking-wide text-gray-400 mb-2";
+      title.textContent = "Recent Tasks";
+      const list = document.createElement("div");
+      list.id = "recent-tasks-list";
+      list.className = "space-y-2";
+      const hint = document.createElement("div");
+      hint.id = "recent-tasks-hint";
+      hint.className = "text-xs text-gray-500 italic";
+      hint.textContent = "Waiting for /events/tasks\u2026";
+      box.appendChild(title);
+      box.appendChild(list);
+      box.appendChild(hint);
+      const anchor = document.getElementById("delegation-response");
+      if (anchor && anchor.parentNode === delegationCard) {
+        anchor.insertAdjacentElement("afterend", box);
+      } else {
+        delegationCard.appendChild(box);
+      }
+      return box;
+    }
+    function renderTasks(tasks) {
+      const box = ensureContainer();
+      const __hint = document.getElementById("recent-tasks-hint");
+      let __container = document.getElementById("recent-tasks-container");
+      let __list = document.getElementById("recent-tasks-list");
+      if (__hint && (!__container || !__list)) {
+        const __mount = __hint.parentElement;
+        if (!__container) {
+          __container = document.createElement("div");
+          __container.id = "recent-tasks-container";
+          __container.appendChild(__hint);
+          __mount.appendChild(__container);
+        } else if (__hint.parentElement !== __container) {
+          __container.appendChild(__hint);
+        }
+        if (!__list) {
+          __list = document.createElement("div");
+          __list.id = "recent-tasks-list";
+          __container.appendChild(__list);
+        }
+      }
+      if (!box) return;
+      const list = document.getElementById("recent-tasks-list");
+      const hint = document.getElementById("recent-tasks-hint");
+      if (!list) return;
+      const safe = Array.isArray(tasks) ? tasks : [];
+      if (hint) {
+        hint.style.display = safe.length ? "none" : "block";
+        hint.textContent = safe.length ? "" : "Waiting for /events/tasks\u2026";
+      }
+      list.innerHTML = "";
+      safe.slice(0, MAX_ITEMS).forEach((t) => {
+        const row = document.createElement("div");
+        row.className = "flex items-center justify-between gap-3 text-sm";
+        const left = document.createElement("div");
+        left.className = "text-gray-200 truncate";
+        const title = t && (t.title || t.task || t.name) ? String(t.title || t.task || t.name) : "(untitled)";
+        left.textContent = title;
+        const right = document.createElement("div");
+        right.className = "text-xs text-gray-400 flex items-center gap-2";
+        const agent = t && t.agent ? String(t.agent) : "\u2014";
+        const status = t && t.status ? String(t.status) : "unknown";
+        const pill = document.createElement("span");
+        pill.className = "px-2 py-0.5 rounded-full bg-gray-800 border border-gray-700";
+        pill.textContent = status;
+        const meta = document.createElement("span");
+        meta.textContent = agent;
+        right.appendChild(pill);
+        right.appendChild(meta);
+        row.appendChild(left);
+        row.appendChild(right);
+        list.appendChild(row);
+      });
+    }
+    function start() {
+      ensureContainer();
+      const __hint = document.getElementById("recent-tasks-hint");
+      let __container = document.getElementById("recent-tasks-container");
+      let __list = document.getElementById("recent-tasks-list");
+      if (__hint && (!__container || !__list)) {
+        const __mount = __hint.parentElement;
+        if (!__container) {
+          __container = document.createElement("div");
+          __container.id = "recent-tasks-container";
+          __container.appendChild(__hint);
+          __mount.appendChild(__container);
+        } else if (__hint.parentElement !== __container) {
+          __container.appendChild(__hint);
+        }
+        if (!__list) {
+          __list = document.createElement("div");
+          __list.id = "recent-tasks-list";
+          __container.appendChild(__list);
+        }
+      }
+      let es;
+      try {
+        es = new EventSource(TASKS_SSE_URL);
+      } catch (err) {
+        console.warn("[tasks-widget] Failed to open SSE:", err);
+        return;
+      }
+      es.onmessage = (event) => {
+        let data;
+        try {
+          data = JSON.parse(event.data || "null");
+        } catch {
+          return;
+        }
+        if (!data) return;
+        const tasks = data.tasks || data.items || [];
+        window.__latestTasksSnapshot = data;
+        renderTasks(tasks);
+      };
+      es.onerror = () => {
+        const hint = document.getElementById("recent-tasks-hint");
+        if (hint) {
+          hint.style.display = "block";
+          hint.textContent = "Tasks stream disconnected \u2014 check /events/tasks.";
+        }
+      };
+    }
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", start);
+    } else {
+      start();
+    }
   })();
 
   // public/js/matilda-chat-console.js
@@ -521,115 +672,5 @@ idx = (idx + 1) % nodes.length;
     }
     document.addEventListener("DOMContentLoaded", wireChat);
   })();
-
-  // public/js/dashboard-delegation.js
-  console.log("[dashboard-delegation] module loaded");
-  function getSafeFetch() {
-    var f = typeof fetch !== "undefined" ? fetch : typeof window !== "undefined" ? window.fetch : void 0;
-    var t = typeof f;
-    console.log("[dashboard-delegation] detected fetch type:", t);
-    if (t !== "function") {
-      console.error("[dashboard-delegation] fetch is not a function; value:", f);
-      return null;
-    }
-    return f;
-  }
-  async function handleDelegationClick(e) {
-    if (e && e.preventDefault) e.preventDefault();
-    var input = document.getElementById("delegation-input");
-    if (!input) {
-      console.warn(
-        "[dashboard-delegation] delegation input not found at click time"
-      );
-      return;
-    }
-    var value = input.value || "";
-    if (!value.trim()) {
-      console.warn(
-        "[dashboard-delegation] empty delegation input; skipping"
-      );
-      return;
-    }
-    console.log("[dashboard-delegation] sending delegation:", value);
-    var safeFetch = getSafeFetch();
-    if (!safeFetch) {
-      console.error(
-        "[dashboard-delegation] aborting delegation because fetch is unavailable or invalid"
-      );
-      return;
-    }
-    var res;
-    try {
-      res = await safeFetch("/api/delegate-task", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ description: value })
-      });
-    } catch (fetchErr) {
-      console.error(
-        "[dashboard-delegation] fetch threw before response:",
-        fetchErr
-      );
-      return;
-    }
-    console.log(
-      "[dashboard-delegation] fetch returned:",
-      !!res,
-      res && res.constructor && res.constructor.name,
-      "json type:",
-      res && typeof res.json
-    );
-    var data;
-    if (!res || typeof res.json !== "function") {
-      console.error(
-        "[dashboard-delegation] res.json is not a function; value:",
-        res && res.json
-      );
-      data = {
-        error: "res.json is not a function",
-        jsonType: typeof (res && res.json)
-      };
-      console.log(
-        "[dashboard-delegation] delegation response (fallback):",
-        data
-      );
-      return;
-    }
-    try {
-      data = await res.json();
-    } catch (parseErr) {
-      console.error(
-        "[dashboard-delegation] error parsing JSON response:",
-        parseErr
-      );
-      data = { error: "Non-JSON response from /api/delegate-task" };
-    }
-    console.log("[dashboard-delegation] delegation response:", data);
-  }
-  function initDashboardDelegation() {
-    var btn = document.getElementById("delegation-submit");
-    var input = document.getElementById("delegation-input");
-    if (!btn || !input) {
-      console.warn(
-        "[dashboard-delegation] delegation button or input not found in init"
-      );
-      return;
-    }
-    if (btn.dataset.delegationWired === "true") {
-      return;
-    }
-    btn.dataset.delegationWired = "true";
-    btn.addEventListener("click", handleDelegationClick);
-    console.log(
-      "[dashboard-delegation] Task Delegation wiring active"
-    );
-  }
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initDashboardDelegation);
-  } else {
-    initDashboardDelegation();
-  }
 })();
 //# sourceMappingURL=bundle.js.map
