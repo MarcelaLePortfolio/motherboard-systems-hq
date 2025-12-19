@@ -440,148 +440,113 @@
   })();
 
   // public/js/dashboard-tasks-widget.js
-  (function() {
-    if (typeof window === "undefined" || typeof document === "undefined") return;
-    if (window.__dashboardTasksWidgetInited) return;
-    window.__dashboardTasksWidgetInited = true;
-    const TASKS_SSE_URL = "/events/tasks";
-    const MAX_ITEMS = 8;
-    function ensureContainer() {
-      const delegationCard = document.getElementById("delegation-card");
-      if (!delegationCard) return null;
-      let box = document.getElementById("recent-tasks-box");
-      if (box) return box;
-      box = document.createElement("div");
-      box.id = "recent-tasks-box";
-      box.className = "mt-3 bg-gray-900 border border-gray-700 rounded-lg p-3";
-      const title = document.createElement("div");
-      title.className = "text-xs uppercase tracking-wide text-gray-400 mb-2";
-      title.textContent = "Recent Tasks";
-      const list = document.createElement("div");
-      list.id = "recent-tasks-list";
-      list.className = "space-y-2";
-      const hint = document.createElement("div");
-      hint.id = "recent-tasks-hint";
-      hint.className = "text-xs text-gray-500 italic";
-      hint.textContent = "Waiting for /events/tasks\u2026";
-      box.appendChild(title);
-      box.appendChild(list);
-      box.appendChild(hint);
-      const anchor = document.getElementById("delegation-response");
-      if (anchor && anchor.parentNode === delegationCard) {
-        anchor.insertAdjacentElement("afterend", box);
-      } else {
-        delegationCard.appendChild(box);
-      }
-      return box;
+  (() => {
+    const API = {
+      list: "/api/tasks",
+      complete: "/api/complete-task"
+    };
+    const SELECTORS = [
+      "#tasks-widget",
+      "#tasksWidget",
+      "[data-tasks-widget]",
+      "[data-widget='tasks']"
+    ];
+    const state = {
+      tasks: [],
+      loading: false,
+      lastError: null,
+      inflightComplete: /* @__PURE__ */ new Set(),
+      lastFetchAt: 0
+    };
+    function $(sel, root = document) {
+      return root.querySelector(sel);
     }
-    function renderTasks(tasks) {
-      const box = ensureContainer();
-      const __hint = document.getElementById("recent-tasks-hint");
-      let __container = document.getElementById("recent-tasks-container");
-      let __list = document.getElementById("recent-tasks-list");
-      if (__hint && (!__container || !__list)) {
-        const __mount = __hint.parentElement;
-        if (!__container) {
-          __container = document.createElement("div");
-          __container.id = "recent-tasks-container";
-          __container.appendChild(__hint);
-          __mount.appendChild(__container);
-        } else if (__hint.parentElement !== __container) {
-          __container.appendChild(__hint);
-        }
-        if (!__list) {
-          __list = document.createElement("div");
-          __list.id = "recent-tasks-list";
-          __container.appendChild(__list);
-        }
+    function findMount() {
+      for (const sel of SELECTORS) {
+        const el = $(sel);
+        if (el) return el;
       }
-      if (!box) return;
-      const list = document.getElementById("recent-tasks-list");
-      const hint = document.getElementById("recent-tasks-hint");
-      if (!list) return;
-      const safe = Array.isArray(tasks) ? tasks : [];
-      if (hint) {
-        hint.style.display = safe.length ? "none" : "block";
-        hint.textContent = safe.length ? "" : "Waiting for /events/tasks\u2026";
+      return null;
+    }
+    function esc(s) {
+      return String(s ?? "").replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#39;");
+    }
+    function normalizeTask(t) {
+      return {
+        id: String(t.id),
+        title: t.title || "",
+        agent: t.agent || "",
+        status: t.status || "",
+        notes: t.notes || "",
+        created_at: t.created_at || null,
+        updated_at: t.updated_at || null
+      };
+    }
+    async function apiJson(url, opts = {}) {
+      const res = await fetch(url, {
+        method: opts.method || "GET",
+        headers: { "Content-Type": "application/json" },
+        body: opts.body ? JSON.stringify(opts.body) : void 0
+      });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json?.error || "Request failed");
+      return json;
+    }
+    async function fetchTasks() {
+      state.loading = true;
+      render();
+      try {
+        const data = await apiJson(API.list);
+        const list = Array.isArray(data) ? data : data.tasks || [];
+        state.tasks = list.map(normalizeTask);
+        state.lastFetchAt = Date.now();
+      } catch (e) {
+        state.lastError = e.message;
+      } finally {
+        state.loading = false;
+        render();
       }
-      list.innerHTML = "";
-      safe.slice(0, MAX_ITEMS).forEach((t) => {
-        const row = document.createElement("div");
-        row.className = "flex items-center justify-between gap-3 text-sm";
-        const left = document.createElement("div");
-        left.className = "text-gray-200 truncate";
-        const title = t && (t.title || t.task || t.name) ? String(t.title || t.task || t.name) : "(untitled)";
-        left.textContent = title;
-        const right = document.createElement("div");
-        right.className = "text-xs text-gray-400 flex items-center gap-2";
-        const agent = t && t.agent ? String(t.agent) : "\u2014";
-        const status = t && t.status ? String(t.status) : "unknown";
-        const pill = document.createElement("span");
-        pill.className = "px-2 py-0.5 rounded-full bg-gray-800 border border-gray-700";
-        pill.textContent = status;
-        const meta = document.createElement("span");
-        meta.textContent = agent;
-        right.appendChild(pill);
-        right.appendChild(meta);
-        row.appendChild(left);
-        row.appendChild(right);
-        list.appendChild(row);
+    }
+    async function completeTask(taskId) {
+      if (state.inflightComplete.has(taskId)) return;
+      state.inflightComplete.add(taskId);
+      state.tasks = state.tasks.filter((t) => t.id !== taskId);
+      render();
+      try {
+        await apiJson(API.complete, {
+          method: "POST",
+          body: { taskId }
+        });
+        await fetchTasks();
+      } catch (e) {
+        state.lastError = e.message;
+        await fetchTasks();
+      } finally {
+        state.inflightComplete.delete(taskId);
+      }
+    }
+    function render() {
+      const mount = findMount();
+      if (!mount) return;
+      mount.innerHTML = `
+      <div>
+        <strong>Tasks</strong>
+        ${state.lastError ? `<div style="color:red">${esc(state.lastError)}</div>` : ""}
+        <div>
+          ${state.tasks.map((t) => `
+            <div style="display:flex;justify-content:space-between">
+              <span>${esc(t.title)}</span>
+              <button data-id="${t.id}">Complete</button>
+            </div>
+          `).join("")}
+        </div>
+      </div>
+    `;
+      mount.querySelectorAll("button[data-id]").forEach((btn) => {
+        btn.onclick = () => completeTask(btn.dataset.id);
       });
     }
-    function start() {
-      ensureContainer();
-      const __hint = document.getElementById("recent-tasks-hint");
-      let __container = document.getElementById("recent-tasks-container");
-      let __list = document.getElementById("recent-tasks-list");
-      if (__hint && (!__container || !__list)) {
-        const __mount = __hint.parentElement;
-        if (!__container) {
-          __container = document.createElement("div");
-          __container.id = "recent-tasks-container";
-          __container.appendChild(__hint);
-          __mount.appendChild(__container);
-        } else if (__hint.parentElement !== __container) {
-          __container.appendChild(__hint);
-        }
-        if (!__list) {
-          __list = document.createElement("div");
-          __list.id = "recent-tasks-list";
-          __container.appendChild(__list);
-        }
-      }
-      let es;
-      try {
-        es = new EventSource(TASKS_SSE_URL);
-      } catch (err) {
-        console.warn("[tasks-widget] Failed to open SSE:", err);
-        return;
-      }
-      es.onmessage = (event) => {
-        let data;
-        try {
-          data = JSON.parse(event.data || "null");
-        } catch {
-          return;
-        }
-        if (!data) return;
-        const tasks = data.tasks || data.items || [];
-        window.__latestTasksSnapshot = data;
-        renderTasks(tasks);
-      };
-      es.onerror = () => {
-        const hint = document.getElementById("recent-tasks-hint");
-        if (hint) {
-          hint.style.display = "block";
-          hint.textContent = "Tasks stream disconnected \u2014 check /events/tasks.";
-        }
-      };
-    }
-    if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", start);
-    } else {
-      start();
-    }
+    document.addEventListener("DOMContentLoaded", fetchTasks);
   })();
 
   // public/js/matilda-chat-console.js
