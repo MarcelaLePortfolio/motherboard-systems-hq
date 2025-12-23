@@ -24,6 +24,11 @@ services:
     depends_on:
       - postgres
     environment:
+      PGHOST: postgres
+      PGPORT: "5432"
+      PGUSER: user
+      PGPASSWORD: password
+      PGDATABASE: motherboarddb
       # Optional, but good practice
       PORT: 3000
 
