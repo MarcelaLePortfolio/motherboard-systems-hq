@@ -1,4 +1,3 @@
-#!/usr/bin/env bash
 set -euo pipefail
 
 BASE_URL="${BASE_URL:-http://127.0.0.1:8080}"
@@ -26,10 +25,11 @@ echo "$bundle" | grep -q 'sse-heartbeat-shim' || {
 echo "OK"
 echo
 
-echo "3) /events/tasks content-type is text/event-stream ..."
-hdrs="$(curl -sS -D - -o /dev/null "$BASE_URL/events/tasks" | tr -d '\r')"
+echo "3) /events/tasks content-type is text/event-stream (timeout-safe) ..."
+hdrs="$(curl -sS --max-time 3 -D - -o /dev/null "$BASE_URL/events/tasks" | tr -d '\r' || true)"
 echo "$hdrs" | grep -qi '^content-type: text/event-stream' || {
-  echo "FAIL: /events/tasks missing Content-Type: text/event-stream" >&2
+  echo "FAIL: /events/tasks missing Content-Type: text/event-stream (or timed out)" >&2
+  echo "--- headers ---" >&2
   echo "$hdrs" >&2
   exit 1
 }
