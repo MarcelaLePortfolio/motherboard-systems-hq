@@ -1,8 +1,8 @@
 /**
- * Tasks Widget (bulletproof, no SSE required)
- * - Renders tasks from GET /api/tasks
- * - Complete button -> POST /api/complete-task { taskId }
- * - Optimistic UI update + automatic refetch for consistency
+ * Tasks Widget (stable, no SSE)
+ * - GET /api/tasks
+ * - POST /api/complete-task
+ * - No optimistic removal (prevents list blinking)
  */
 (() => {
   const API = {
@@ -22,7 +22,6 @@
     loading: false,
     lastError: null,
     inflightComplete: new Set(),
-    lastFetchAt: 0,
   };
 
   function $(sel, root = document) {
@@ -46,18 +45,6 @@
       .replaceAll("'", "&#39;");
   }
 
-  function normalizeTask(t) {
-    return {
-      id: String(t.id),
-      title: t.title || "",
-      agent: t.agent || "",
-      status: t.status || "",
-      notes: t.notes || "",
-      created_at: t.created_at || null,
-      updated_at: t.updated_at || null,
-    };
-  }
-
   async function apiJson(url, opts = {}) {
     const res = await fetch(url, {
       method: opts.method || "GET",
@@ -74,9 +61,11 @@
     render();
     try {
       const data = await apiJson(API.list);
-      const list = Array.isArray(data) ? data : data.tasks || [];
-      state.tasks = list.map(normalizeTask);
-      state.lastFetchAt = Date.now();
+      state.tasks = (data.tasks || []).map(t => ({
+        id: String(t.id),
+        title: t.title || "",
+        status: t.status || "",
+      }));
     } catch (e) {
       state.lastError = e.message;
     } finally {
@@ -88,8 +77,6 @@
   async function completeTask(taskId) {
     if (state.inflightComplete.has(taskId)) return;
     state.inflightComplete.add(taskId);
-
-    state.tasks = state.tasks.filter(t => t.id !== taskId);
     render();
 
     try {
@@ -97,12 +84,11 @@
         method: "POST",
         body: { taskId },
       });
-      await fetchTasks();
     } catch (e) {
       state.lastError = e.message;
-      await fetchTasks();
     } finally {
       state.inflightComplete.delete(taskId);
+      await fetchTasks();
     }
   }
 
@@ -112,13 +98,17 @@
 
     mount.innerHTML = `
       <div>
-        <strong>Tasks</strong>
+        <strong>Recent Tasks</strong>
         ${state.lastError ? `<div style="color:red">${esc(state.lastError)}</div>` : ""}
         <div>
           ${state.tasks.map(t => `
-            <div style="display:flex;justify-content:space-between">
+            <div style="display:flex;justify-content:space-between;gap:8px">
               <span>${esc(t.title)}</span>
-              <button data-id="${t.id}">Complete</button>
+              ${
+                t.status === "complete"
+                  ? `<span style="opacity:.5;font-size:12px">Completed</span>`
+                  : `<button data-id="${t.id}">Complete</button>`
+              }
             </div>
           `).join("")}
         </div>
