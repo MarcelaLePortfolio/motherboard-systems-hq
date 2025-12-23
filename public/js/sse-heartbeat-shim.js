@@ -1,15 +1,10 @@
 /**
  * Phase 16 – Shared Heartbeat Bus (OPS + Tasks)
  *
- * Wrap EventSource so any SSE message updates a normalized heartbeat store.
- * This avoids touching each widget’s handler code.
+ * Wrap EventSource so connection + any SSE message updates a normalized heartbeat store.
  *
  * Exposes:
- *   window.__HB = {
- *     record(kind, ts),
- *     get(kind),
- *     snapshot()
- *   }
+ *   window.__HB = { record(kind, ts), get(kind), snapshot() }
  *
  * kind: "ops" | "tasks" | "reflections" | "unknown"
  */
@@ -18,21 +13,15 @@
 
   const STORE_KEY = "__HB";
   if (!w[STORE_KEY]) {
-    const state = {
-      ops: null,
-      tasks: null,
-      reflections: null,
-      unknown: null,
-    };
-
+    const state = { ops: null, tasks: null, reflections: null, unknown: null };
     w[STORE_KEY] = {
       record(kind, ts) {
-        const k = state.hasOwnProperty(kind) ? kind : "unknown";
+        const k = Object.prototype.hasOwnProperty.call(state, kind) ? kind : "unknown";
         state[k] = typeof ts === "number" ? ts : Date.now();
         return state[k];
       },
       get(kind) {
-        const k = state.hasOwnProperty(kind) ? kind : "unknown";
+        const k = Object.prototype.hasOwnProperty.call(state, kind) ? kind : "unknown";
         return state[k];
       },
       snapshot() {
@@ -53,27 +42,27 @@
   }
 
   function HeartbeatEventSource(url, eventSourceInitDict) {
-    const es = new NativeEventSource(url, eventSourceInitDict);
     const kind = classify(url);
 
-    // Update heartbeat on any message for this stream.
+    // Record immediately on connection attempt so "connected but quiet" still looks alive.
+    try { w[STORE_KEY].record(kind, Date.now()); } catch (_) {}
+
+    const es = new NativeEventSource(url, eventSourceInitDict);
+
     const update = () => {
-      try {
-        w[STORE_KEY].record(kind, Date.now());
-      } catch (_) {}
+      try { w[STORE_KEY].record(kind, Date.now()); } catch (_) {}
     };
 
-    // Prefer addEventListener where supported.
-    try {
-      es.addEventListener("message", update);
-    } catch (_) {}
+    // Update heartbeat when the connection opens (most reliable for "alive").
+    try { es.addEventListener("open", update); } catch (_) {}
+
+    // Update heartbeat on any message for this stream.
+    try { es.addEventListener("message", update); } catch (_) {}
 
     // Also wrap onmessage if assigned later.
     let _onmessage = null;
     Object.defineProperty(es, "onmessage", {
-      get() {
-        return _onmessage;
-      },
+      get() { return _onmessage; },
       set(fn) {
         _onmessage = function (ev) {
           update();
@@ -82,6 +71,9 @@
       },
       configurable: true,
     });
+
+    // Update heartbeat when errors occur too (helps show "something happened" vs silence).
+    try { es.addEventListener("error", update); } catch (_) {}
 
     return es;
   }

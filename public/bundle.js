@@ -4,20 +4,15 @@
     const w = window;
     const STORE_KEY = "__HB";
     if (!w[STORE_KEY]) {
-      const state = {
-        ops: null,
-        tasks: null,
-        reflections: null,
-        unknown: null
-      };
+      const state = { ops: null, tasks: null, reflections: null, unknown: null };
       w[STORE_KEY] = {
         record(kind, ts) {
-          const k = state.hasOwnProperty(kind) ? kind : "unknown";
+          const k = Object.prototype.hasOwnProperty.call(state, kind) ? kind : "unknown";
           state[k] = typeof ts === "number" ? ts : Date.now();
           return state[k];
         },
         get(kind) {
-          const k = state.hasOwnProperty(kind) ? kind : "unknown";
+          const k = Object.prototype.hasOwnProperty.call(state, kind) ? kind : "unknown";
           return state[k];
         },
         snapshot() {
@@ -35,14 +30,22 @@
       return "unknown";
     }
     function HeartbeatEventSource(url, eventSourceInitDict) {
-      const es = new NativeEventSource(url, eventSourceInitDict);
       const kind = classify(url);
+      try {
+        w[STORE_KEY].record(kind, Date.now());
+      } catch (_) {
+      }
+      const es = new NativeEventSource(url, eventSourceInitDict);
       const update = () => {
         try {
           w[STORE_KEY].record(kind, Date.now());
         } catch (_) {
         }
       };
+      try {
+        es.addEventListener("open", update);
+      } catch (_) {
+      }
       try {
         es.addEventListener("message", update);
       } catch (_) {
@@ -60,6 +63,10 @@
         },
         configurable: true
       });
+      try {
+        es.addEventListener("error", update);
+      } catch (_) {
+      }
       return es;
     }
     HeartbeatEventSource.prototype = NativeEventSource.prototype;
