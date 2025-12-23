@@ -67,6 +67,73 @@
     w.EventSource = HeartbeatEventSource;
   })();
 
+  // public/js/heartbeat-stale-indicator.js
+  (function() {
+    const w = window;
+    const HB = w.__HB;
+    function now() {
+      return Date.now();
+    }
+    function ms(n) {
+      return Math.max(0, Number(n) || 0);
+    }
+    const STALE_MS = 15e3;
+    function fmtAge(ts) {
+      if (!ts) return "\u2014";
+      const s = Math.floor((now() - ts) / 1e3);
+      return s <= 0 ? "0s" : `${s}s`;
+    }
+    function ensureBadge() {
+      let el = document.getElementById("hb-badge");
+      if (el) return el;
+      el = document.createElement("div");
+      el.id = "hb-badge";
+      el.setAttribute("role", "status");
+      el.style.position = "fixed";
+      el.style.top = "12px";
+      el.style.right = "12px";
+      el.style.zIndex = "9999";
+      el.style.fontFamily = "ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial";
+      el.style.fontSize = "12px";
+      el.style.padding = "6px 10px";
+      el.style.borderRadius = "999px";
+      el.style.border = "1px solid rgba(255,255,255,0.14)";
+      el.style.background = "rgba(0,0,0,0.55)";
+      el.style.backdropFilter = "blur(6px)";
+      el.style.webkitBackdropFilter = "blur(6px)";
+      el.style.color = "rgba(255,255,255,0.92)";
+      el.style.boxShadow = "0 8px 18px rgba(0,0,0,0.35)";
+      el.style.userSelect = "none";
+      el.style.cursor = "default";
+      document.body.appendChild(el);
+      return el;
+    }
+    function setState(el, ok) {
+      el.textContent = ok ? `HB \u2713 (ops ${fmtAge(HB && HB.get("ops"))}, tasks ${fmtAge(HB && HB.get("tasks"))})` : `HB ! (ops ${fmtAge(HB && HB.get("ops"))}, tasks ${fmtAge(HB && HB.get("tasks"))})`;
+    }
+    function tick() {
+      const el = ensureBadge();
+      if (!HB || typeof HB.get !== "function") {
+        el.textContent = "HB ? (shim not loaded)";
+        return;
+      }
+      const ops = HB.get("ops");
+      const tasks = HB.get("tasks");
+      const opsOk = !!ops && ms(now() - ops) <= STALE_MS;
+      const tasksOk = !!tasks && ms(now() - tasks) <= STALE_MS;
+      setState(el, opsOk && tasksOk);
+    }
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", () => {
+        tick();
+        setInterval(tick, 1e3);
+      });
+    } else {
+      tick();
+      setInterval(tick, 1e3);
+    }
+  })();
+
   // public/js/dashboard-status.js
   function initDashboardStatus() {
     if (typeof window === "undefined" || typeof document === "undefined") return;
