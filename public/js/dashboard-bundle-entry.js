@@ -1,3 +1,4 @@
+import "./sse-heartbeat-shim.js";
 // Phase 11 – Unified dashboard bundle entrypoint
 
 // Core dashboard status + tiles

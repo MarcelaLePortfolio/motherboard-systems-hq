@@ -1,4 +1,72 @@
 (() => {
+  // public/js/sse-heartbeat-shim.js
+  (function() {
+    const w = window;
+    const STORE_KEY = "__HB";
+    if (!w[STORE_KEY]) {
+      const state = {
+        ops: null,
+        tasks: null,
+        reflections: null,
+        unknown: null
+      };
+      w[STORE_KEY] = {
+        record(kind, ts) {
+          const k = state.hasOwnProperty(kind) ? kind : "unknown";
+          state[k] = typeof ts === "number" ? ts : Date.now();
+          return state[k];
+        },
+        get(kind) {
+          const k = state.hasOwnProperty(kind) ? kind : "unknown";
+          return state[k];
+        },
+        snapshot() {
+          return { ...state };
+        }
+      };
+    }
+    const NativeEventSource = w.EventSource;
+    if (!NativeEventSource || NativeEventSource.__hbWrapped) return;
+    function classify(url) {
+      const u = String(url || "");
+      if (u.includes("/events/ops")) return "ops";
+      if (u.includes("/events/tasks")) return "tasks";
+      if (u.includes("/events/reflections")) return "reflections";
+      return "unknown";
+    }
+    function HeartbeatEventSource(url, eventSourceInitDict) {
+      const es = new NativeEventSource(url, eventSourceInitDict);
+      const kind = classify(url);
+      const update = () => {
+        try {
+          w[STORE_KEY].record(kind, Date.now());
+        } catch (_) {
+        }
+      };
+      try {
+        es.addEventListener("message", update);
+      } catch (_) {
+      }
+      let _onmessage = null;
+      Object.defineProperty(es, "onmessage", {
+        get() {
+          return _onmessage;
+        },
+        set(fn) {
+          _onmessage = function(ev) {
+            update();
+            if (typeof fn === "function") return fn.call(es, ev);
+          };
+        },
+        configurable: true
+      });
+      return es;
+    }
+    HeartbeatEventSource.prototype = NativeEventSource.prototype;
+    HeartbeatEventSource.__hbWrapped = true;
+    w.EventSource = HeartbeatEventSource;
+  })();
+
   // public/js/dashboard-status.js
   function initDashboardStatus() {
     if (typeof window === "undefined" || typeof document === "undefined") return;
@@ -455,8 +523,7 @@
       tasks: [],
       loading: false,
       lastError: null,
-      inflightComplete: /* @__PURE__ */ new Set(),
-      lastFetchAt: 0
+      inflightComplete: /* @__PURE__ */ new Set()
     };
     function $(sel, root = document) {
       return root.querySelector(sel);
@@ -470,17 +537,6 @@
     }
     function esc(s) {
       return String(s ?? "").replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#39;");
-    }
-    function normalizeTask(t) {
-      return {
-        id: String(t.id),
-        title: t.title || "",
-        agent: t.agent || "",
-        status: t.status || "",
-        notes: t.notes || "",
-        created_at: t.created_at || null,
-        updated_at: t.updated_at || null
-      };
     }
     async function apiJson(url, opts = {}) {
       const res = await fetch(url, {
@@ -497,9 +553,11 @@
       render();
       try {
         const data = await apiJson(API.list);
-        const list = Array.isArray(data) ? data : data.tasks || [];
-        state.tasks = list.map(normalizeTask);
-        state.lastFetchAt = Date.now();
+        state.tasks = (data.tasks || []).map((t) => ({
+          id: String(t.id),
+          title: t.title || "",
+          status: t.status || ""
+        }));
       } catch (e) {
         state.lastError = e.message;
       } finally {
@@ -510,19 +568,17 @@
     async function completeTask(taskId) {
       if (state.inflightComplete.has(taskId)) return;
       state.inflightComplete.add(taskId);
-      state.tasks = state.tasks.filter((t) => t.id !== taskId);
       render();
       try {
         await apiJson(API.complete, {
           method: "POST",
           body: { taskId }
         });
-        await fetchTasks();
       } catch (e) {
         state.lastError = e.message;
-        await fetchTasks();
       } finally {
         state.inflightComplete.delete(taskId);
+        await fetchTasks();
       }
     }
     function render() {
@@ -530,13 +586,13 @@
       if (!mount) return;
       mount.innerHTML = `
       <div>
-        <strong>Tasks</strong>
+        <strong>Recent Tasks</strong>
         ${state.lastError ? `<div style="color:red">${esc(state.lastError)}</div>` : ""}
         <div>
           ${state.tasks.map((t) => `
-            <div style="display:flex;justify-content:space-between">
+            <div style="display:flex;justify-content:space-between;gap:8px">
               <span>${esc(t.title)}</span>
-              <button data-id="${t.id}">Complete</button>
+              ${t.status === "complete" ? `<span style="opacity:.5;font-size:12px">Completed</span>` : `<button data-id="${t.id}">Complete</button>`}
             </div>
           `).join("")}
         </div>
