@@ -128,3 +128,6 @@
   bottom: 1.5rem;
   z-index: 999;
 }
+
+/* force project viewport size */
+.project-viewport-inner{min-height:320px;}

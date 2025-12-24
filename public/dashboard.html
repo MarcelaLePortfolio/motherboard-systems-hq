@@ -17,7 +17,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Motherboard Systems Dashboard</title>
 
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
 
   <link rel="stylesheet" href="css/broadcast.css" />
   <link rel="stylesheet" href="css/dashboard.css?v=darkmode" />
@@ -119,11 +119,7 @@
         <h2 class="text-xl font-semibold border-b border-gray-700 pb-2">
           Task Delegation
         </h2>
-
-<!-- Recent Tasks widget mount -->
 <div class="mt-4 border border-gray-700 rounded-lg p-3 bg-black/20">
-  <div class="text-sm font-semibold mb-2">Recent Tasks</div>
-
   <div class="mt-2" id="tasks-widget" data-tasks-widget>
     <div class="text-xs text-gray-500">Loading recent tasks…</div>
   </div>
@@ -220,7 +216,7 @@
           </span>
         </header>
         <div
-          class="project-viewport-inner bg-black/60 rounded-2xl border border-gray-800 min-h-[320px] flex items-center justify-center"
+          class="project-viewport-inner bg-black/60 rounded-2xl border border-gray-800 min-h-[320px] flex items-center justify-center" style="min-height:320px"
         >
           <p class="text-sm text-gray-400 italic text-center px-6">
             No active project output yet. When a build or demo is running, this
@@ -229,7 +225,7 @@
         </div>
       </section>
     </section>
-  </main><script defer src="/bundle.js?v=next2-1765926430"></script>
+  </main><script defer src="/bundle.js?v=16.8"></script>
   <script defer src="/js/phase13_5_operator_ux.js"></script>
 </body>
 </html>

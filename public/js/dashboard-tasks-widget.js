@@ -98,7 +98,7 @@
 
     mount.innerHTML = `
       <div>
-        <strong>Recent Tasks</strong>
+        
         ${state.lastError ? `<div style="color:red">${esc(state.lastError)}</div>` : ""}
         <div>
           ${state.tasks.map(t => `
