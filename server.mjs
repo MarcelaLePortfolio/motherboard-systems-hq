@@ -3,6 +3,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import pg from "pg";
 import { attachArtifacts } from "./server/artifacts.mjs";
+import { emitAfterJson } from "./server/emit-after-response.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
