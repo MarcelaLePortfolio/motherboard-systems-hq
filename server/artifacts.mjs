@@ -1,11 +1,19 @@
 /**
  * Artifacts SSE + small in-memory replay.
- * No client synthesis: artifacts must originate server-side.
+ * Artifacts must originate server-side (no client synthesis).
  */
-
-const clients = new Set(); // res objects
+const clients = new Set();
 let ring = [];
 const RING_MAX = 100;
+
+function sseWrite(res, line) {
+  try {
+    res.write(line);
+    res.flush?.();
+  } catch {
+    clients.delete(res);
+  }
+}
 
 export function attachArtifacts(app) {
   app.get("/events/artifacts", (req, res) => {
@@ -13,13 +21,17 @@ export function attachArtifacts(app) {
     res.setHeader("Content-Type", "text/event-stream");
     res.setHeader("Cache-Control", "no-cache, no-transform");
     res.setHeader("Connection", "keep-alive");
+    res.setHeader("X-Accel-Buffering", "no");
     res.flushHeaders?.();
 
     clients.add(res);
 
+    // immediate output so curl isn't a blank screen
+    sseWrite(res, `: connected ${new Date().toISOString()}\n\n`);
+
     // replay
     for (const a of ring) {
-      res.write(`data: ${JSON.stringify(a)}\n\n`);
+      sseWrite(res, `data: ${JSON.stringify(a)}\n\n`);
     }
 
     req.on("close", () => {
@@ -28,7 +40,13 @@ export function attachArtifacts(app) {
     });
   });
 
-  // optional explicit publish endpoint (handy for testing)
+  // keepalive ping (prevents buffering/timeouts)
+  setInterval(() => {
+    for (const res of clients) {
+      sseWrite(res, `: ping ${new Date().toISOString()}\n\n`);
+    }
+  }, 15000);
+
   app.post("/api/artifacts", (req, res) => {
     emitArtifact({
       ...(req.body || {}),
@@ -41,7 +59,6 @@ export function attachArtifacts(app) {
 }
 
 export function emitArtifact(artifact) {
-  // normalize + ring buffer
   const a = {
     type: artifact?.type || "log",
     source: artifact?.source || "unknown",
@@ -54,10 +71,6 @@ export function emitArtifact(artifact) {
   if (ring.length > RING_MAX) ring = ring.slice(-RING_MAX);
 
   for (const res of clients) {
-    try {
-      res.write(`data: ${JSON.stringify(a)}\n\n`);
-    } catch {
-      clients.delete(res);
-    }
+    sseWrite(res, `data: ${JSON.stringify(a)}\n\n`);
   }
 }
