@@ -129,3 +129,17 @@ app.get("/api/heartbeat", (req, res) => {
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server running on http://0.0.0.0:${PORT}`);
 });
+
+// example task completion hook
+app.post("/api/complete-task", (req, res) => {
+  const { taskId, result } = req.body;
+
+  emitArtifact({
+    type: "task_result",
+    source: "cade",
+    taskId,
+    payload: result
+  });
+
+  res.json({ ok: true });
+});
