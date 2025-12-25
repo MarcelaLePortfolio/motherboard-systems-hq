@@ -2,11 +2,13 @@ import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
 import pg from "pg";
+import { attachArtifacts } from "./server/artifacts.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
+const { emitArtifact } = attachArtifacts(app);
 app.use(express.json());
 
 const PORT = process.env.PORT || 3000;
