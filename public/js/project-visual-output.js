@@ -1,9 +1,23 @@
 (function () {
-  const el = document.getElementById("project-visual-output");
+  // Prefer a dedicated content node if present; otherwise render into the card itself.
+  const el =
+    document.getElementById("project-visual-output") ||
+    document.getElementById("project-visual-output-card");
+
   if (!el) return;
 
   function clear() {
     while (el.firstChild) el.removeChild(el.firstChild);
+  }
+
+  function headerLine(a) {
+    const header = document.createElement("div");
+    header.className = "text-xs opacity-70 mb-2";
+    header.textContent =
+      `${a.type || "artifact"} · ${a.source || "unknown"}` +
+      (a.taskId ? ` · task ${a.taskId}` : "") +
+      (a.timestamp ? ` · ${a.timestamp}` : "");
+    return header;
   }
 
   function renderJSON(obj) {
@@ -22,16 +36,9 @@
 
   function renderArtifact(a) {
     clear();
+    el.appendChild(headerLine(a));
 
-    const header = document.createElement("div");
-    header.className = "text-xs opacity-70 mb-2";
-    header.textContent =
-      `${a.type} · ${a.source}` +
-      (a.taskId ? ` · task ${a.taskId}` : "") +
-      (a.timestamp ? ` · ${a.timestamp}` : "");
-    el.appendChild(header);
-
-    if (a.type === "log") {
+    if (a && a.type === "log") {
       const p = a.payload || {};
       renderLog(p.message || p.text || p.log || "");
       return;
@@ -42,7 +49,11 @@
 
   const es = new EventSource("/events/artifacts");
   es.onmessage = (e) => {
-    try { renderArtifact(JSON.parse(e.data)); } catch {}
+    try {
+      renderArtifact(JSON.parse(e.data));
+    } catch {}
   };
-  es.onerror = () => {};
+  es.onerror = () => {
+    // quiet; SSE auto-reconnects
+  };
 })();
