@@ -3,7 +3,6 @@ import path from "path";
 import { fileURLToPath } from "url";
 import pg from "pg";
 import { attachArtifacts } from "./server/artifacts.mjs";
-import { emitAfterJson } from "./server/emit-after-response.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -48,6 +47,46 @@ app.get("/api/tasks", async (req, res) => {
   }
 });
 
+// ---- Phase 15: minimal task mutation endpoints (artifact-first) ----
+// Note: These do NOT modify the DB yet. They exist to prove "real artifacts" wiring end-to-end.
+// Next step after this: actually insert/update tasks in Postgres and emit the returned row.
+app.post("/api/delegate-task", async (req, res) => {
+  const body = req.body || {};
+  const task = {
+    id: body.taskId || body.id || null,
+    title: body.title || "(untitled)",
+    agent: body.agent || "cade",
+    notes: body.notes || "",
+  };
+
+  const payload = { ok: true, action: "delegate", task };
+
+  emitArtifact({
+    type: "task_result",
+    source: "cade",
+    taskId: task.id,
+    payload,
+  });
+
+  res.json(payload);
+});
+
+app.post("/api/complete-task", async (req, res) => {
+  const body = req.body || {};
+  const taskId = body.taskId || body.id || null;
+
+  const payload = { ok: true, action: "complete", taskId };
+
+  emitArtifact({
+    type: "task_result",
+    source: "cade",
+    taskId,
+    payload,
+  });
+
+  res.json(payload);
+});
+
 // ---- Tasks SSE ----
 app.get("/events/tasks", async (req, res) => {
   res.writeHead(200, {
@@ -87,8 +126,7 @@ app.get("/events/tasks", async (req, res) => {
     res.write(`: ping ${Date.now()}\n\n`);
   }, 5000);
 
-  // Poll for changes (lightweight) – if you already have change-detect, keep it;
-  // otherwise this ensures periodic snapshots without UI blinking.
+  // Poll for changes.
   let lastHash = "";
   const poll = setInterval(async () => {
     if (closed) return;
