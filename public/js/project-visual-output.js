@@ -1,8 +1,7 @@
 (function () {
   // Prefer a dedicated content node if present; otherwise render into the card itself.
-  const el =
-    document.getElementById("project-visual-output") ||
-    document.getElementById("project-visual-output-card");
+  const card = document.getElementById("project-visual-output-card");
+const el = (card && (card.querySelector(".project-viewport-inner") || card.querySelector("#project-visual-output"))) || card;
 
   if (!el) return;
 
@@ -52,7 +51,18 @@ function clear() {
       return;
     }
 
-    renderJSON(a);
+  if (a && a.type === "visual") {
+    const p = a.payload || {};
+    if (p.kind === "html" && typeof p.content === "string") {
+      const wrap = document.createElement("div");
+      wrap.className = "text-sm";
+      wrap.innerHTML = p.content;
+      el.appendChild(wrap);
+      return;
+    }
+  }
+
+  renderJSON(a);
   }
 
   const es = new EventSource("/events/artifacts");
