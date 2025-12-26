@@ -10,6 +10,12 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
+
+// Serve static assets from ./public (required for /css/* and /js/* on /dashboard)
+app.use(express.static(path.join(__dirname, "public")));
+app.use("/css", express.static(path.join(__dirname, "public", "css")));
+app.use("/js", express.static(path.join(__dirname, "public", "js")));
+app.use("/img", express.static(path.join(__dirname, "public", "img")));
 app.use(express.json());
 
 const { emitArtifact } = attachArtifacts(app);
