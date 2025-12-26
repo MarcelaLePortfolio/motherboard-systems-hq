@@ -17,3 +17,6 @@ node_modules/
 public/bundle.js.map
 # v11 dashboard bundling artifacts
 public/bundle.js.map
+
+# Local safety backups
+public/dashboard.html.bak-*
