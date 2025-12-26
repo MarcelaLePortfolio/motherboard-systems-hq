@@ -95,8 +95,21 @@ function makeStream(kind) {
 
 
 
+      
+      
+
+
+      // PHASE16_OPTIONAL_SSE_SNAPSHOT_ON_CONNECT
+      // Send an immediate state snapshot so the dashboard can paint instantly.
+      // (Only OPS has a defined global state today.)
+      try {
+        if (kind === "ops" && globalThis.__OPS_STATE) {
+          writeEvent(res, { event: "ops.state", data: globalThis.__OPS_STATE });
+        }
+      } catch (_) {}
+
       // PHASE16_OPTIONAL_SSE_ONCE_DEFINED
-      // If ?once=1, end immediately after hello for clean curl smoke tests.
+      // If ?once=1, end immediately after hello/snapshot for clean curl smoke tests.
       let once = false;
       try {
         const url = new URL(req.originalUrl || req.url || "/", "http://localhost");
@@ -105,20 +118,8 @@ function makeStream(kind) {
       if (once) {
         setTimeout(() => { try { res.end(); } catch (_) {} }, 25);
         return;
-      }if (once) {
-      // One-shot mode for curl smoke tests: send hello and close.
-      setTimeout(() => {
-        try { res.end(); } catch (_) {}
-      }, 25);
-      return;
-    }// If ?once=1, end immediately after hello for clean curl tests.
-    try {
-      const url = new URL(req.originalUrl || req.url || "/", "http://localhost");
-      if (url.searchParams.get("once") === "1") {
-        try { res.end(); } catch (_) {}
-        return;
       }
-    } catch (_) {}
+
     // Keepalive comment (":" lines are ignored by SSE clients)
     const ka = setInterval(() => {
       try { writeLine(res, `:ka ${Date.now()}`); writeLine(res, ""); } catch (_) {}
