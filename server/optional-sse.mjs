@@ -26,7 +26,44 @@ function writeLine(res, line) {
   res.write(line.endsWith("\n") ? line : line + "\n");
 }
 
-function writeEvent(res, { event, data, id } = {}) {
+function writeEvent(res, evt = {}) {
+  // PHASE16_WRITE_EVENT_EVT_SIGNATURE
+  let { event, data, id } = (evt || {});
+  // Normalize hub messages like { type, payload }
+  if (evt && typeof evt === "object" && typeof evt.type === "string" && event == null) {
+    event = evt.type;
+    data = (evt.payload !== undefined ? evt.payload : evt);
+  }
+
+  // PHASE16_WRITE_EVENT_FIX_SWAPPED
+  // Some callers accidentally pass { event: <msgObject>, data: <msgTypeString> }.
+  // If so, swap/normalize so SSE "event:" is a string and "data:" is the payload.
+  if (event && typeof event === "object" && typeof data === "string") {
+    const maybe = event;
+    if (typeof maybe.type === "string" && data === maybe.type) {
+      event = maybe.type;
+      data = (maybe.payload !== undefined ? maybe.payload : maybe);
+    } else if (typeof maybe.type === "string" && data.includes(".") && data === maybe.type) {
+      event = maybe.type;
+      data = (maybe.payload !== undefined ? maybe.payload : maybe);
+    } else if (typeof maybe.type === "string" && data.includes(".")) {
+      // If data *looks* like an event name, treat it as the event anyway.
+      event = data;
+      data = (maybe.payload !== undefined ? maybe.payload : maybe);
+    }
+  }
+
+  // PHASE16_WRITE_EVENT_NORMALIZE_SHAPE
+  // Allow hub messages like { type, payload } by mapping them to { event, data }.
+  // This prevents "event: [object Object]" and yields "event: ops.agent_status", etc.
+  if (event == null && data == null) {
+    try {
+      // Best-effort: if someone passed { type, payload } as the *second arg object*,
+      // we can still reconstruct via arguments.callee caller patterns are messy.
+      // Instead, we rely on callers using writeEvent(res, msg) where msg has type/payload.
+    } catch (_) {}
+  }
+
   if (id !== undefined && id !== null) writeLine(res, `id: ${id}`);
   if (event) writeLine(res, `event: ${event}`);
   const payload =
