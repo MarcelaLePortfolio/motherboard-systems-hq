@@ -5,7 +5,7 @@ URL="${1:-[http://127.0.0.1:8080/dashboard}](http://127.0.0.1:8080/dashboard})"
 
 # Guardrail: refuse markdown-y URLs like [http://..](http://..)
 
-if printf "%s" "$URL" | grep -qE '^[http|^(http|](http'; then
+if printf "%s" "$URL" | grep -qE '^[https?://|^(https?://|](https?://'; then
 echo "ERROR: URL looks like Markdown, not a raw URL: $URL" >&2
 echo "Use: ./scripts/_local/check_pvo_container.sh [http://127.0.0.1:8080/dashboard](http://127.0.0.1:8080/dashboard)" >&2
 exit 2
