@@ -10,11 +10,7 @@ import { dbDelegateTask, dbCompleteTask } from "./server/tasks-mutations.mjs";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const app = express();
-
-
-
-  // ===== PHASE16_SSE_HUB (OPS + Reflections) =====
+const app = express();  // ===== PHASE16_SSE_HUB (OPS + Reflections) =====
   function _phase16CreateSSEHub(name) {
     const hub = {
       name,
@@ -241,3 +237,101 @@ app.listen(PORT, "0.0.0.0", () => {
     },
   });
 });
+
+
+  // ===== PHASE16_OPS_SIGNAL_INGEST =====
+  if (!globalThis.__SSE) globalThis.__SSE = {};
+  if (!globalThis.__SSE.ops) globalThis.__SSE.ops = { clients: new Set(), nextId: 1, last: null,
+    broadcast(payload, eventName) {
+      const id = String(this.nextId++);
+      const data = typeof payload === "string" ? payload : JSON.stringify(payload);
+      const event = eventName || "message";
+      const frame = `id: ${id}\nevent: ${event}\ndata: ${data}\n\n`;
+      this.last = { id, data, event };
+      for (const res of this.clients) { try { res.write(frame); } catch (_) {} }
+      return id;
+    },
+    attach(res) {
+      this.clients.add(res);
+      res.on("close", () => this.clients.delete(res));
+      try { res.write(`: connected ops\n\n`); } catch (_) {}
+      if (this.last) { try { res.write(`id: ${this.last.id}\nevent: ${this.last.event}\ndata: ${this.last.data}\n\n`); } catch (_) {} }
+    },
+  };
+
+  if (!globalThis.__OPS_STATE) globalThis.__OPS_STATE = { status: "unknown", lastHeartbeatAt: null, agents: {} };
+
+  function _phase16SSEHeaders(res) {
+    res.status(200);
+    res.setHeader("Content-Type", "text/event-stream; charset=utf-8");
+    res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+    res.setHeader("Connection", "keep-alive");
+    res.setHeader("X-Accel-Buffering", "no");
+    if (res.flushHeaders) res.flushHeaders();
+  }
+
+  // (re)register /events/ops if missing
+  if (typeof app.get === "function") {
+    // best-effort: only add if route not already present via marker above
+  }
+
+  app.get("/events/ops", (req, res) => {
+    _phase16SSEHeaders(res);
+    globalThis.__SSE.ops.attach(res);
+  });
+
+  function _phase16Now() { return Date.now(); }
+  function _phase16BroadcastOps(type, payload) {
+    const msg = { type, ts: _phase16Now(), payload };
+    globalThis.__SSE.ops.broadcast(msg, type);
+    return msg;
+  }
+
+  app.post("/api/ops/heartbeat", (req, res) => {
+    const body = (req && req.body) || {};
+    const source = String(body.source || body.agent || body.from || "unknown");
+    const ts = _phase16Now();
+    globalThis.__OPS_STATE.status = "live";
+    globalThis.__OPS_STATE.lastHeartbeatAt = ts;
+    _phase16BroadcastOps("ops.heartbeat", { source, at: ts, meta: body.meta || body });
+    res.json({ ok: true, status: globalThis.__OPS_STATE.status, at: ts });
+  });
+
+  app.post("/api/ops/agent-status", (req, res) => {
+    const body = (req && req.body) || {};
+    const agent = String(body.agent || body.name || "unknown");
+    const state = String(body.state || body.status || "unknown");
+    const ts = _phase16Now();
+    globalThis.__OPS_STATE.status = "live";
+    globalThis.__OPS_STATE.agents[agent] = { state, at: ts, meta: body.meta || body };
+    _phase16BroadcastOps("ops.agent_status", { agent, state, at: ts, meta: body.meta || body });
+    res.json({ ok: true, agent, state, at: ts });
+  });
+
+  app.get("/api/ops/state", (req, res) => {
+    res.json({ ok: true, state: globalThis.__OPS_STATE });
+  });
+  // ====================================
+
+
+
+
+  // ===== PHASE16_REFLECTIONS_SIGNAL_API =====
+  function _phase16BroadcastReflection(type, payload) {
+    const msg = { type, ts: Date.now(), payload };
+    if (globalThis.__SSE && globalThis.__SSE.reflections && globalThis.__SSE.reflections.broadcast) {
+      globalThis.__SSE.reflections.broadcast(msg, type);
+    }
+    return msg;
+  }
+
+  app.post("/api/reflections/signal", (req, res) => {
+    const body = (req && req.body) || {};
+    const type = String(body.type || "reflections.signal");
+    const payload = body.payload || body;
+    _phase16BroadcastReflection(type, payload);
+    res.json({ ok: true });
+  });
+  // =========================================
+
+
