@@ -1,36 +1,37 @@
 services:
   postgres:
     image: postgres:16-alpine
-    container_name: motherboard_systems_hq-postgres-1
-    restart: always
     environment:
-      POSTGRES_DB: motherboarddb
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
+      POSTGRES_USER: ${PGUSER:-postgres}
+      POSTGRES_PASSWORD: ${PGPASSWORD:-postgres}
+      POSTGRES_DB: ${PGDATABASE:-postgres}
     ports:
       - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql/data
 
   dashboard:
     build:
       context: .
       dockerfile: Dockerfile.dashboard
-    container_name: motherboard_systems_hq-dashboard-1
-    restart: always
-    # CRITICAL FIX: Maps host 8080 to internal server port 3000
-    ports:
-      - "8080:3000"
+      args:
+        GIT_SHA: ${GIT_SHA:-unknown}
+        BUILD_TIME: ${BUILD_TIME:-unknown}
+    environment:
+      # runtime env (server emits these in build_output)
+      GIT_SHA: ${GIT_SHA:-unknown}
+      BUILD_TIME: ${BUILD_TIME:-unknown}
+
+      # DB wiring (explicit)
+      PGHOST: ${PGHOST:-postgres}
+      PGPORT: ${PGPORT:-5432}
+      PGUSER: ${PGUSER:-postgres}
+      PGPASSWORD: ${PGPASSWORD:-postgres}
+      PGDATABASE: ${PGDATABASE:-postgres}
     depends_on:
       - postgres
-    environment:
-      PGHOST: postgres
-      PGPORT: "5432"
-      PGUSER: user
-      PGPASSWORD: password
-      PGDATABASE: motherboarddb
-      # Optional, but good practice
-      PORT: 3000
+    ports:
+      - "8080:3000"
 
 volumes:
-  postgres_data:
+  pgdata:
