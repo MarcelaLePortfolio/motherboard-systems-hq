@@ -6,7 +6,15 @@
 
   if (!el) return;
 
-  function clear() {
+  
+  try {
+    el.dataset.pvoLoaded = "1";
+    const mark = document.createElement("div");
+    mark.className = "text-xs opacity-70 mb-2";
+    mark.textContent = "PVO subscriber loaded @ " + new Date().toISOString();
+    el.prepend(mark);
+  } catch {}
+function clear() {
     while (el.firstChild) el.removeChild(el.firstChild);
   }
 
