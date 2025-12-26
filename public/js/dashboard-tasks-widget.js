@@ -123,6 +123,6 @@
   document.addEventListener("DOMContentLoaded", fetchTasks);
 
   // Auto-refresh (no SSE): keep widget feeling live
-  setInterval(() => { load().then(render).catch(() => {}); }, 5000);
+  setInterval(() => { fetchTasks(); }, 5000);
 
 })();
