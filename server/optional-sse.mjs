@@ -1,14 +1,15 @@
 /**
  * Phase 16 — Optional SSE endpoints for dashboard (OPS + Reflections)
+ *
  * Routes:
  *   GET /events/ops
  *   GET /events/reflections
  *
- * Minimal, safe implementation:
+ * Guarantees:
  * - Proper SSE headers
- * - Immediate hello event
- * - Keepalive comment every 15s
- * - Broadcast helper (optional)
+ * - Immediate "hello" event (so curl never hangs silently)
+ * - Keepalive comment every 15s (prevents idle timeouts)
+ * - Broadcast helper exposed on globalThis.__SSE for future wiring
  */
 
 function sseHeaders(res) {
@@ -16,25 +17,25 @@ function sseHeaders(res) {
   res.setHeader("Content-Type", "text/event-stream; charset=utf-8");
   res.setHeader("Cache-Control", "no-cache, no-transform");
   res.setHeader("Connection", "keep-alive");
-  // Helpful behind proxies
   res.setHeader("X-Accel-Buffering", "no");
-  if (typeof res.flushHeaders === "function") res.flushHeaders();
+  // Express flushHeaders() exists; if not, ignore.
+  try { res.flushHeaders(); } catch (_) {}
 }
 
-function writeEvent(res, { event, data }) {
-  if (event) res.write(`event: ${event}\n`);
-  if (data !== undefined) {
-    const payload = typeof data === "string" ? data : JSON.stringify(data);
-    // SSE requires each line in data be prefixed with "data:"
-    const lines = String(payload).split("\n");
-    for (const line of lines) res.write(`data: ${line}\n`);
-  }
-  res.write("\n");
+function writeLine(res, line) {
+  res.write(line.endsWith("\n") ? line : line + "\n");
 }
 
-function writeKeepalive(res) {
-  // Comment line (ignored by clients) keeps connection open
-  res.write(`: keepalive ${Date.now()}\n\n`);
+function writeEvent(res, { event, data, id } = {}) {
+  if (id !== undefined && id !== null) writeLine(res, `id: ${id}`);
+  if (event) writeLine(res, `event: ${event}`);
+  const payload =
+    typeof data === "string" ? data :
+    data === undefined ? "" :
+    JSON.stringify(data);
+  // SSE supports multi-line data: prefix each line with "data:"
+  String(payload).split("\n").forEach((ln) => writeLine(res, `data: ${ln}`));
+  writeLine(res, "");
 }
 
 function makeStream(kind) {
@@ -43,14 +44,52 @@ function makeStream(kind) {
   function handler(req, res) {
     sseHeaders(res);
 
+    // Register client
     clients.add(res);
 
+    // Immediate hello so clients receive bytes instantly
     writeEvent(res, {
       event: "hello",
-      data: { kind, ts: Date.now(), note: "Phase16 SSE online" },
+      data: { kind, ts: Date.now(), msg: `SSE ${kind} connected` },
     });
 
-    const ka = setInterval(() => writeKeepalive(res), 15000);
+
+
+
+
+    if (once) {
+      // One-shot mode for curl smoke tests: send hello and close.
+      setTimeout(() => {
+        try { res.end(); } catch (_) {}
+      }, 25);
+      return;
+    }
+    if (once) {
+      // One-shot mode for curl smoke tests: send hello and close.
+      setTimeout(() => {
+        try { res.end(); } catch (_) {}
+      }, 25);
+      return;
+    }
+    if (once) {
+      // One-shot mode for curl smoke tests: send hello and close.
+      setTimeout(() => {
+        try { res.end(); } catch (_) {}
+      }, 25);
+      return;
+    }
+    // If ?once=1, end immediately after hello for clean curl tests.
+    try {
+      const url = new URL(req.originalUrl || req.url || "/", "http://localhost");
+      if (url.searchParams.get("once") === "1") {
+        try { res.end(); } catch (_) {}
+        return;
+      }
+    } catch (_) {}
+    // Keepalive comment (":" lines are ignored by SSE clients)
+    const ka = setInterval(() => {
+      try { writeLine(res, `:ka ${Date.now()}`); writeLine(res, ""); } catch (_) {}
+    }, 15000);
 
     req.on("close", () => {
       clearInterval(ka);
@@ -70,7 +109,7 @@ function makeStream(kind) {
     }
   }
 
-  return { handler, broadcast, clients };
+  return { kind, handler, broadcast, clients };
 }
 
 export function registerOptionalSSE(app) {
@@ -84,8 +123,8 @@ export function registerOptionalSSE(app) {
   app.get("/events/ops", ops.handler);
   app.get("/events/reflections", reflections.handler);
 
-  // Expose broadcasters for future wiring (optional)
-  if (typeof globalThis.__SSE !== "object" || !globalThis.__SSE) globalThis.__SSE = {};
+  // Expose for future use (e.g., globalThis.__SSE.ops.broadcast("pm2-status", {...}))
+  if (!globalThis.__SSE || typeof globalThis.__SSE !== "object") globalThis.__SSE = {};
   globalThis.__SSE.ops = ops;
   globalThis.__SSE.reflections = reflections;
 
