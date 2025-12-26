@@ -8,6 +8,12 @@ const el = (card && (card.querySelector(".project-viewport-inner") || card.query
   
   try {
     el.dataset.pvoLoaded = "1";
+    el.style.outline = "2px solid rgba(129,140,248,0.6)";
+    const stamp = document.createElement("div");
+    stamp.className = "text-xs opacity-80 mb-2";
+    stamp.textContent = "PVO TARGET = " + (el.className || "(no class)") + " @ " + new Date().toISOString();
+    el.prepend(stamp);
+
     const mark = document.createElement("div");
     mark.className = "text-xs opacity-70 mb-2";
     mark.textContent = "PVO subscriber loaded @ " + new Date().toISOString();
