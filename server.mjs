@@ -240,6 +240,20 @@ app.listen(PORT, "0.0.0.0", () => {
 
 
   // ===== PHASE16_OPS_SIGNAL_INGEST =====
+
+  // ===== PHASE16_OPS_STATE_SNAPSHOT_BROADCAST_HELPER =====
+  function _phase16BroadcastOpsStateSnapshot(reason) {
+    try {
+      const st = _phase16GetOpsState();
+      const msg = { type: "ops.state", ts: Date.now(), reason: reason || null, payload: st };
+      globalThis.__SSE.ops.broadcast(msg, "ops.state");
+      return msg;
+    } catch (_) {
+      return null;
+    }
+  }
+  // ======================================================
+
   if (!globalThis.__SSE) globalThis.__SSE = {};
   if (!globalThis.__SSE.ops) globalThis.__SSE.ops = { clients: new Set(), nextId: 1, last: null,
     broadcast(payload, eventName) {
