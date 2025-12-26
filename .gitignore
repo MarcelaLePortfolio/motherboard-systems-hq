@@ -20,3 +20,4 @@ public/bundle.js.map
 
 # Local safety backups
 public/dashboard.html.bak-*
+._recovery/
