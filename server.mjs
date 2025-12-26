@@ -290,6 +290,10 @@ app.listen(PORT, "0.0.0.0", () => {
   }
 
   app.get("/events/ops", (req, res) => {
+    // PHASE16_OPS_CONNECT_PRIMER
+    // Ensure the client receives bytes immediately (prevents empty-body reads)
+    try { if (typeof res.flushHeaders === "function") res.flushHeaders(); } catch (_) {}
+    try { res.write(": ops-sse-connected\n\n"); } catch (_) {}
     _phase16SSEHeaders(res);
     globalThis.__SSE.ops.attach(res);
   });
