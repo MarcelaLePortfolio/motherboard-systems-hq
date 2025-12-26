@@ -2,7 +2,14 @@
 // - Connects to Python OPS SSE (port 3201) and Reflections SSE (port 3200)
 // - Updates uptime, health, metrics, ops alerts, and reflections panel
 
-export function initDashboardStatus() {  if (typeof window === "undefined" || typeof document === "undefined") return;
+export function initDashboardStatus() {  
+  const __DISABLE_OPTIONAL_SSE = (typeof window !== "undefined" && window.__DISABLE_OPTIONAL_SSE) === true;
+  if (__DISABLE_OPTIONAL_SSE) {
+    console.warn("[dashboard-status] Optional SSE disabled (Phase 16 pending)");
+    return;
+  }
+
+if (typeof window === "undefined" || typeof document === "undefined") return;
   if (window.__dashboardStatusInited) return;
   window.__dashboardStatusInited = true;
 

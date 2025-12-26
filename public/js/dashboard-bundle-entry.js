@@ -4,6 +4,12 @@ import "./heartbeat-stale-indicator.js";
 
 // Core dashboard status + tiles
 import "./dashboard-status.js";
+
+// Phase 15/16 boundary: disable optional SSE (OPS + Reflections) until backends exist
+if (typeof window !== "undefined" && typeof window.__DISABLE_OPTIONAL_SSE === "undefined") {
+  window.__DISABLE_OPTIONAL_SSE = true;
+}
+
 import "./agent-status-row.js";
 
 // OPS / PM2 status + SSE wiring

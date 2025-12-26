@@ -16,7 +16,14 @@
 
   const opsUrl = `/events/ops`;
 
-  const handleEvent = (event) => {
+  
+
+  const __DISABLE_OPTIONAL_SSE = (typeof window !== "undefined" && window.__DISABLE_OPTIONAL_SSE) === true;
+  if (__DISABLE_OPTIONAL_SSE) {
+    console.warn("[ops-globals-bridge] Optional SSE disabled (Phase 16 pending):", opsUrl);
+    return;
+  }
+const handleEvent = (event) => {
     try {
       const data = JSON.parse(event.data || "null");
       if (!data) return;

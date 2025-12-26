@@ -39,7 +39,15 @@
   });
 
   const OPS_SSE_URL = `/events/ops`;
-  let source;
+  
+
+  const __DISABLE_OPTIONAL_SSE = (typeof window !== "undefined" && window.__DISABLE_OPTIONAL_SSE) === true;
+  if (__DISABLE_OPTIONAL_SSE) {
+    console.warn("[agent-status-row] Optional SSE disabled (Phase 16 pending):", OPS_SSE_URL);
+    Object.keys(indicators).forEach((key) => applyVisual(key, "unknown"));
+    return;
+  }
+let source;
 
   try {
     source = new EventSource(OPS_SSE_URL);

@@ -143,6 +143,11 @@
 
   // public/js/dashboard-status.js
   function initDashboardStatus() {
+    const __DISABLE_OPTIONAL_SSE = (typeof window !== "undefined" && window.__DISABLE_OPTIONAL_SSE) === true;
+    if (__DISABLE_OPTIONAL_SSE) {
+      console.warn("[dashboard-status] Optional SSE disabled (Phase 16 pending)");
+      return;
+    }
     if (typeof window === "undefined" || typeof document === "undefined") return;
     if (window.__dashboardStatusInited) return;
     window.__dashboardStatusInited = true;
@@ -371,6 +376,12 @@
       indicators[name.toLowerCase()] = { pill, dot, label };
     });
     const OPS_SSE_URL = `/events/ops`;
+    const __DISABLE_OPTIONAL_SSE = (typeof window !== "undefined" && window.__DISABLE_OPTIONAL_SSE) === true;
+    if (__DISABLE_OPTIONAL_SSE) {
+      console.warn("[agent-status-row] Optional SSE disabled (Phase 16 pending):", OPS_SSE_URL);
+      Object.keys(indicators).forEach((key) => applyVisual(key, "unknown"));
+      return;
+    }
     let source;
     try {
       source = new EventSource(OPS_SSE_URL);
@@ -515,6 +526,11 @@
       window.lastOpsStatusSnapshot = null;
     }
     const opsUrl = `/events/ops`;
+    const __DISABLE_OPTIONAL_SSE = (typeof window !== "undefined" && window.__DISABLE_OPTIONAL_SSE) === true;
+    if (__DISABLE_OPTIONAL_SSE) {
+      console.warn("[ops-globals-bridge] Optional SSE disabled (Phase 16 pending):", opsUrl);
+      return;
+    }
     const handleEvent = (event) => {
       try {
         const data = JSON.parse(event.data || "null");
@@ -677,6 +693,9 @@
       });
     }
     document.addEventListener("DOMContentLoaded", fetchTasks);
+    setInterval(() => {
+      fetchTasks();
+    }, 5e3);
   })();
 
   // public/js/matilda-chat-console.js
@@ -767,5 +786,10 @@
     }
     document.addEventListener("DOMContentLoaded", wireChat);
   })();
+
+  // public/js/dashboard-bundle-entry.js
+  if (typeof window !== "undefined" && typeof window.__DISABLE_OPTIONAL_SSE === "undefined") {
+    window.__DISABLE_OPTIONAL_SSE = true;
+  }
 })();
 //# sourceMappingURL=bundle.js.map
