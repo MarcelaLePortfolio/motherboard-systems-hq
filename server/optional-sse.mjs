@@ -57,28 +57,24 @@ function makeStream(kind) {
 
 
 
-    if (once) {
+
+      // PHASE16_OPTIONAL_SSE_ONCE_DEFINED
+      // If ?once=1, end immediately after hello for clean curl smoke tests.
+      let once = false;
+      try {
+        const url = new URL(req.originalUrl || req.url || "/", "http://localhost");
+        once = url.searchParams.get("once") === "1";
+      } catch (_) {}
+      if (once) {
+        setTimeout(() => { try { res.end(); } catch (_) {} }, 25);
+        return;
+      }if (once) {
       // One-shot mode for curl smoke tests: send hello and close.
       setTimeout(() => {
         try { res.end(); } catch (_) {}
       }, 25);
       return;
-    }
-    if (once) {
-      // One-shot mode for curl smoke tests: send hello and close.
-      setTimeout(() => {
-        try { res.end(); } catch (_) {}
-      }, 25);
-      return;
-    }
-    if (once) {
-      // One-shot mode for curl smoke tests: send hello and close.
-      setTimeout(() => {
-        try { res.end(); } catch (_) {}
-      }, 25);
-      return;
-    }
-    // If ?once=1, end immediately after hello for clean curl tests.
+    }// If ?once=1, end immediately after hello for clean curl tests.
     try {
       const url = new URL(req.originalUrl || req.url || "/", "http://localhost");
       if (url.searchParams.get("once") === "1") {
