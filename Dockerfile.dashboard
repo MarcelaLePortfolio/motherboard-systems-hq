@@ -2,11 +2,16 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-COPY package*.json ./
-COPY . .
+# Build metadata (optional; passed by docker compose build args if present)
+ARG GIT_SHA="unknown"
+ARG BUILD_TIME="unknown"
+ENV GIT_SHA=$GIT_SHA
+ENV BUILD_TIME=$BUILD_TIME
 
+COPY package*.json ./
 RUN npm install && apk add --no-cache curl
 
-EXPOSE 3000
+COPY . .
 
+EXPOSE 3000
 CMD ["node", "server.mjs"]

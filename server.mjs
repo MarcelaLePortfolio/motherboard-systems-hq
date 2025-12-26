@@ -2,6 +2,7 @@ import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
 import pg from "pg";
+
 import { attachArtifacts } from "./server/artifacts.mjs";
 import { dbDelegateTask, dbCompleteTask } from "./server/tasks-mutations.mjs";
 
@@ -12,6 +13,7 @@ const app = express();
 app.use(express.json());
 
 const { emitArtifact } = attachArtifacts(app);
+
 const PORT = process.env.PORT || 3000;
 
 const { Pool } = pg;
@@ -40,22 +42,27 @@ app.get("/api/tasks", async (req, res) => {
     const r = await pool.query(
       `select id::text, title, agent, status, notes, source, trace_id, error, meta, created_at, updated_at
        from tasks
-       order by id desc`
+       order by id::int desc`
     );
     res.json({ tasks: r.rows, source: "db-tasks" });
   } catch (e) {
-    res.status(500).json({ error: String(e) });
+    res.status(500).json({ ok: false, error: String(e) });
   }
 });
 
-// ---- Phase 15: minimal task mutation endpoints (artifact-first) ----
-// Note: These do NOT modify the DB yet. They exist to prove "real artifacts" wiring end-to-end.
-// Next step after this: actually insert/update tasks in Postgres and emit the returned row.
+// ---- Phase 15: real task mutation endpoints (DB-backed) ----
 app.post("/api/delegate-task", async (req, res) => {
   try {
     const row = await dbDelegateTask(pool, req.body || {});
     const payload = { ok: true, action: "delegate", task: row };
-    emitArtifact({ type: "task_result", source: "cade", taskId: row.id, payload });
+
+    emitArtifact({
+      type: "task_result",
+      source: "cade",
+      taskId: row.id,
+      payload,
+    });
+
     res.json(payload);
   } catch (e) {
     res.status(500).json({ ok: false, error: String(e) });
@@ -66,7 +73,14 @@ app.post("/api/complete-task", async (req, res) => {
   try {
     const row = await dbCompleteTask(pool, req.body || {});
     const payload = { ok: true, action: "complete", task: row };
-    emitArtifact({ type: "task_result", source: "cade", taskId: row.id, payload });
+
+    emitArtifact({
+      type: "task_result",
+      source: "cade",
+      taskId: row.id,
+      payload,
+    });
+
     res.json(payload);
   } catch (e) {
     res.status(500).json({ ok: false, error: String(e) });
@@ -95,7 +109,7 @@ app.get("/events/tasks", async (req, res) => {
       const r = await pool.query(
         `select id::text, title, agent, status, notes, source, trace_id, error, meta, created_at, updated_at
          from tasks
-         order by id desc`
+         order by id::int desc`
       );
       res.write(`data: ${JSON.stringify({ tasks: r.rows, source: "db-tasks", ts: Date.now() })}\n\n`);
     } catch (e) {
@@ -112,7 +126,7 @@ app.get("/events/tasks", async (req, res) => {
     res.write(`: ping ${Date.now()}\n\n`);
   }, 5000);
 
-  // Poll for changes.
+  // Poll for changes (lightweight) – periodic snapshots without UI blinking.
   let lastHash = "";
   const poll = setInterval(async () => {
     if (closed) return;
@@ -120,7 +134,7 @@ app.get("/events/tasks", async (req, res) => {
       const r = await pool.query(
         `select id::text, title, agent, status, notes, source, trace_id, error, meta, created_at, updated_at
          from tasks
-         order by id desc`
+         order by id::int desc`
       );
       const payload = JSON.stringify(r.rows);
       if (payload !== lastHash) {
@@ -155,4 +169,17 @@ app.get("/api/heartbeat", (req, res) => {
 
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server running on http://0.0.0.0:${PORT}`);
+
+  // Phase 15: build artifact on startup (wire Project Visual Output to real build metadata)
+  emitArtifact({
+    type: "build_output",
+    source: "dashboard",
+    payload: {
+      status: "boot",
+      git_sha: process.env.GIT_SHA || null,
+      build_time: process.env.BUILD_TIME || null,
+      node: process.version,
+      port: PORT,
+    },
+  });
 });
