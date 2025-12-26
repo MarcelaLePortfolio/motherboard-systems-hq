@@ -789,7 +789,7 @@
 
   // public/js/dashboard-bundle-entry.js
   if (typeof window !== "undefined" && typeof window.__DISABLE_OPTIONAL_SSE === "undefined") {
-    window.__DISABLE_OPTIONAL_SSE = true;
+    window.__DISABLE_OPTIONAL_SSE = false;
   }
 })();
 //# sourceMappingURL=bundle.js.map

@@ -1,4 +1,5 @@
 import express from "express";
+import { registerOptionalSSE } from "./server/optional-sse.mjs";
 import path from "path";
 import { fileURLToPath } from "url";
 import pg from "pg";
@@ -10,6 +11,15 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
+
+
+// Phase 16: optional dashboard SSE endpoints (OPS + Reflections)
+try {
+  registerOptionalSSE(app);
+  console.log("[SSE] /events/ops + /events/reflections registered");
+} catch (e) {
+  console.warn("[SSE] Failed to register optional SSE:", e && e.message ? e.message : e);
+}
 
 // Serve static assets from ./public (required for /css/* and /js/* on /dashboard)
 app.use(express.static(path.join(__dirname, "public")));
