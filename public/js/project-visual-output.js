@@ -1,8 +1,7 @@
 (function () {
   // Prefer a dedicated content node if present; otherwise render into the card itself.
   const card = document.getElementById("project-visual-output-card");
-const el = (card && (card.querySelector(".project-viewport-inner") || card.querySelector("#project-visual-output"))) || card;
-
+const el = document.getElementById("project-visual-output");
   if (!el) return;
 
   
