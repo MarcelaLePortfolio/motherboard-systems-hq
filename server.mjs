@@ -3,6 +3,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import pg from "pg";
 import { attachArtifacts } from "./server/artifacts.mjs";
+import { dbDelegateTask, dbCompleteTask } from "./server/tasks-mutations.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -51,40 +52,25 @@ app.get("/api/tasks", async (req, res) => {
 // Note: These do NOT modify the DB yet. They exist to prove "real artifacts" wiring end-to-end.
 // Next step after this: actually insert/update tasks in Postgres and emit the returned row.
 app.post("/api/delegate-task", async (req, res) => {
-  const body = req.body || {};
-  const task = {
-    id: body.taskId || body.id || null,
-    title: body.title || "(untitled)",
-    agent: body.agent || "cade",
-    notes: body.notes || "",
-  };
-
-  const payload = { ok: true, action: "delegate", task };
-
-  emitArtifact({
-    type: "task_result",
-    source: "cade",
-    taskId: task.id,
-    payload,
-  });
-
-  res.json(payload);
+  try {
+    const row = await dbDelegateTask(pool, req.body || {});
+    const payload = { ok: true, action: "delegate", task: row };
+    emitArtifact({ type: "task_result", source: "cade", taskId: row.id, payload });
+    res.json(payload);
+  } catch (e) {
+    res.status(500).json({ ok: false, error: String(e) });
+  }
 });
 
 app.post("/api/complete-task", async (req, res) => {
-  const body = req.body || {};
-  const taskId = body.taskId || body.id || null;
-
-  const payload = { ok: true, action: "complete", taskId };
-
-  emitArtifact({
-    type: "task_result",
-    source: "cade",
-    taskId,
-    payload,
-  });
-
-  res.json(payload);
+  try {
+    const row = await dbCompleteTask(pool, req.body || {});
+    const payload = { ok: true, action: "complete", task: row };
+    emitArtifact({ type: "task_result", source: "cade", taskId: row.id, payload });
+    res.json(payload);
+  } catch (e) {
+    res.status(500).json({ ok: false, error: String(e) });
+  }
 });
 
 // ---- Tasks SSE ----
