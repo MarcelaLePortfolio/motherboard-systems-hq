@@ -9,12 +9,10 @@ def ensure_copy_public(path: pathlib.Path) -> bool:
 
     s = path.read_text(encoding="utf-8", errors="replace")
 
-    # Already good?
     if re.search(r'^\s*COPY\s+public/?\s+(\./)?public/?\s*$', s, flags=re.M):
         print(f"OK: {path} already has: COPY public ./public")
         return True
 
-    # Remove any narrow public copies and replace with a full-tree copy
     lines = s.splitlines(True)
     new_lines = []
     removed = 0
@@ -27,7 +25,6 @@ def ensure_copy_public(path: pathlib.Path) -> bool:
     s2 = "".join(new_lines)
     insert_line = "COPY public/ ./public/\n"
 
-    # Insert before CMD/ENTRYPOINT if present
     m = re.search(r'^\s*(CMD|ENTRYPOINT)\b', s2, flags=re.M)
     if m:
         idx = m.start()
