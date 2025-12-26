@@ -1,7 +1,7 @@
 (() => {
 const OPS_SSE_URL =
 (typeof window !== "undefined" && window.OPS_SSE_URL) ||
-"[http://127.0.0.1:3201/events/ops](http://127.0.0.1:3201/events/ops)";
+"/events/ops";
 
 // Close any existing OPS EventSource to avoid duplicates on hot reloads
 if (typeof window !== "undefined" && window.esOps) {
@@ -17,10 +17,16 @@ console.error("[OPS SSE] EventSource is not supported in this browser.");
 return;
 }
 
-const es = new EventSource(OPS_SSE_URL);
-if (typeof window !== "undefined") {
-window.esOps = es;
-}
+  probeSSE(OPS_SSE_URL).then((ok) => {
+    if (!ok) {
+      console.warn("[OPS SSE] Endpoint not available (skipping):", OPS_SSE_URL);
+      return;
+    }
+
+    const es = new EventSource(OPS_SSE_URL);
+    if (typeof window !== "undefined") {
+      window.esOps = es;
+    }
 
 if (typeof window !== "undefined") {
 if (typeof window.lastOpsHeartbeat === "undefined") {
