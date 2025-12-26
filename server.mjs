@@ -13,6 +13,48 @@ const __dirname = path.dirname(__filename);
 const app = express();
 
 
+
+  // ===== PHASE16_SSE_HUB (OPS + Reflections) =====
+  function _phase16CreateSSEHub(name) {
+    const hub = {
+      name,
+      clients: new Set(),
+      last: null,
+      nextId: 1,
+      broadcast(payload, eventName) {
+        const id = String(this.nextId++);
+        const data = typeof payload === "string" ? payload : JSON.stringify(payload);
+        const event = eventName || "message";
+        const frame = `id: ${id}\nevent: ${event}\ndata: ${data}\n\n`;
+        this.last = { id, data, event };
+        for (const res of this.clients) {
+          try { res.write(frame); } catch (_) {}
+        }
+        return id;
+      },
+      attach(res) {
+        this.clients.add(res);
+        res.on("close", () => this.clients.delete(res));
+        try { res.write(`: connected ${name}\n\n`); } catch (_) {}
+        if (this.last) {
+          try {
+            res.write(`id: ${this.last.id}\nevent: ${this.last.event}\ndata: ${this.last.data}\n\n`);
+          } catch (_) {}
+        }
+      },
+    };
+    return hub;
+  }
+
+  if (!globalThis.__SSE) globalThis.__SSE = {};
+  if (!globalThis.__SSE.ops) globalThis.__SSE.ops = _phase16CreateSSEHub("ops");
+  if (!globalThis.__SSE.reflections) globalThis.__SSE.reflections = _phase16CreateSSEHub("reflections");
+
+  if (!globalThis.__OPS_STATE) {
+    globalThis.__OPS_STATE = { status: "unknown", lastHeartbeatAt: null, agents: {} };
+  }
+  // ==============================================
+
 // Phase 16: optional dashboard SSE endpoints (OPS + Reflections)
 try {
   registerOptionalSSE(app);
