@@ -1,1 +1,0 @@
-Next action after Phase 15: either (A) implement OPS and Reflections SSE servers at /events/ops and /events/reflections, or (B) formally gate/disable those EventSource listeners until Phase 16 to eliminate cosmetic 404 noise. No other stability work required before proceeding.
