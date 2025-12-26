@@ -99,15 +99,17 @@ function makeStream(kind) {
       
 
 
-      // PHASE16_OPTIONAL_SSE_SNAPSHOT_ON_CONNECT
-      // Send an immediate state snapshot so the dashboard can paint instantly.
-      // (Only OPS has a defined global state today.)
-      try {
-        if (kind === "ops" && globalThis.__OPS_STATE) {
-          writeEvent(res, { event: "ops.state", data: globalThis.__OPS_STATE });
-        }
-      } catch (_) {}
-
+        // PHASE16_OPTIONAL_SSE_SNAPSHOT_ON_CONNECT
+        // Send an immediate state snapshot so the dashboard can paint instantly.
+        try {
+          if (kind === "ops" && globalThis.__OPS_STATE) {
+            writeEvent(res, { event: "ops.state", data: globalThis.__OPS_STATE });
+          }
+          if (kind === "reflections") {
+            const snap = globalThis.__REFLECTIONS_STATE || { items: [], lastAt: null };
+            writeEvent(res, { event: "reflections.state", data: snap });
+          }
+        } catch (_) {}
       // PHASE16_OPTIONAL_SSE_ONCE_DEFINED
       // If ?once=1, end immediately after hello/snapshot for clean curl smoke tests.
       let once = false;
