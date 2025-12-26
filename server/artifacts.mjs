@@ -17,6 +17,7 @@ function sseWrite(res, line) {
 
 export function attachArtifacts(app) {
   app.get("/events/artifacts", (req, res) => {
+  console.log("[ARTIFACTS] SSE client connected");
     res.status(200);
     res.setHeader("Content-Type", "text/event-stream");
     res.setHeader("Cache-Control", "no-cache, no-transform");
@@ -26,6 +27,7 @@ export function attachArtifacts(app) {
 
     clients.add(res);
 
+  console.log("[ARTIFACTS] clients=", clients.size);
     // immediate output so curl isn't a blank screen
     sseWrite(res, `: connected ${new Date().toISOString()}\n\n`);
 
@@ -35,6 +37,8 @@ export function attachArtifacts(app) {
     }
 
     req.on("close", () => {
+    console.log("[ARTIFACTS] SSE client disconnected");
+    console.log("[ARTIFACTS] clients=", clients.size);
       clients.delete(res);
       try { res.end(); } catch {}
     });
