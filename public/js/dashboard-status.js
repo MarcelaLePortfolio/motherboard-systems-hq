@@ -1,290 +1,115 @@
-// <0001fb01> Dashboard Status – OPS + Reflections SSE wiring
-// - Connects to Python OPS SSE (port 3201) and Reflections SSE (port 3200)
-// - Updates uptime, health, metrics, ops alerts, and reflections panel
+/**
+ * Phase 16: Dashboard wiring for OPS + Reflections SSE streams.
+ *
+ * Goals:
+ * - Consume /events/ops + /events/reflections via EventSource
+ * - Treat *.state as "initial paint" (replace baseline state)
+ * - Treat everything else as incremental updates (merge / patch)
+ * - Show tiny "connected / last event" indicator for each stream
+ */
 
-export function initDashboardStatus() {  
-  const __DISABLE_OPTIONAL_SSE = (typeof window !== "undefined" && window.__DISABLE_OPTIONAL_SSE) === true;
-  if (__DISABLE_OPTIONAL_SSE) {
-    console.warn("[dashboard-status] Optional SSE disabled (Phase 16 pending)");
-    return;
+(() => {
+  "use strict";
+
+  const OPS_SSE_URL = "/events/ops";
+  const REFLECTIONS_SSE_URL = "/events/reflections";
+
+  const NOW = () => Date.now();
+
+  function safeJsonParse(s) {
+    try { return JSON.parse(s); } catch { return null; }
   }
 
-if (typeof window === "undefined" || typeof document === "undefined") return;
-  if (window.__dashboardStatusInited) return;
-  window.__dashboardStatusInited = true;
-
-  const OPS_SSE_URL = `/events/ops`;
-  const REFLECTIONS_SSE_URL = `/events/reflections`;
-
-  // Core elements
-  const uptimeDisplay = document.getElementById("uptime-display");
-  const healthIndicator = document.getElementById("system-health-indicator");
-  const healthStatus = document.getElementById("health-status");
-
-  const metricAgents = document.getElementById("metric-agents");
-  const metricTasks = document.getElementById("metric-tasks");
-  const metricSuccessRate = document.getElementById("metric-success-rate");
-  const metricLatency = document.getElementById("metric-latency");
-
-  const reflectionsContainer = document.getElementById("recentLogs");
-  const opsAlertsList = document.getElementById("ops-alerts-list");
-
-  const pageStart = Date.now();
-  const agentStatusMap = {}; // agentName -> lastStatus
-
-  let totalOpsEvents = 0;
-  let successfulOpsEvents = 0;
-  let errorOpsEvents = 0;
-
-  // --- 1) Uptime updater ---
-  function formatDuration(seconds) {
-    const s = seconds % 60;
-    const m = Math.floor(seconds / 60) % 60;
-    const h = Math.floor(seconds / 3600);
-    if (h > 0) return `${h}h ${m}m ${s}s`;
-    if (m > 0) return `${m}m ${s}s`;
-    return `${s}s`;
+  function formatAge(ms) {
+    if (!Number.isFinite(ms)) return "—";
+    const s = Math.floor(ms / 1000);
+    if (s < 60) return `${s}s`;
+    const m = Math.floor(s / 60);
+    if (m < 60) return `${m}m`;
+    return `${Math.floor(m / 60)}h`;
   }
 
-  function tickUptime() {
-    if (!uptimeDisplay) return;
-    const diffSec = Math.floor((Date.now() - pageStart) / 1000);
-    uptimeDisplay.textContent = formatDuration(diffSec);
+  function el(tag, attrs = {}, text = "") {
+    const n = document.createElement(tag);
+    for (const [k, v] of Object.entries(attrs)) {
+      if (k === "class") n.className = v;
+      else n.setAttribute(k, v);
+    }
+    if (text) n.textContent = text;
+    return n;
   }
 
-  tickUptime();
-  setInterval(tickUptime, 1000);
-
-  // --- 2) Health classification helpers ---
-  function classifyHealthFromStatus(statusString) {
-    const s = (statusString || "").toLowerCase();
-    if (!s) return "degraded";
-
-    if (s.includes("error") || s.includes("failed") || s.includes("critical")) {
-      return "critical";
-    }
-    if (s.includes("warn") || s.includes("degraded")) {
-      return "degraded";
-    }
-    if (s.includes("ok") || s.includes("online") || s.includes("ready") || s.includes("healthy")) {
-      return "healthy";
-    }
-    return "degraded";
+  function ensureStyles() {
+    if (document.getElementById("phase16-sse-style")) return;
+    const s = el("style", { id: "phase16-sse-style" });
+    s.textContent = `
+      .sse-indicator { display:inline-flex; gap:6px; font-size:11px; opacity:.85 }
+      .sse-indicator .dot { width:7px; height:7px; border-radius:999px; background:#555 }
+      .sse-indicator[data-connected="true"] .dot { background:#2dd4bf }
+      .sse-indicator[data-connected="false"] .dot { background:#f97316 }
+    `;
+    document.head.appendChild(s);
   }
 
-  function applyHealthVisual(healthState) {
-    if (!healthIndicator || !healthStatus) return;
-
-    healthIndicator.classList.remove("bg-red-500", "bg-yellow-400", "bg-green-400");
-    healthIndicator.classList.remove("animate-pulse");
-
-    switch (healthState) {
-      case "healthy":
-        healthIndicator.classList.add("bg-green-400");
-        healthStatus.textContent = "Stable";
-        break;
-      case "critical":
-        healthIndicator.classList.add("bg-red-500", "animate-pulse");
-        healthStatus.textContent = "Critical";
-        break;
-      case "degraded":
-      default:
-        healthIndicator.classList.add("bg-yellow-400");
-        healthStatus.textContent = "Degraded";
-        break;
-    }
+  function mount(anchor, id, label) {
+    ensureStyles();
+    if (!anchor) anchor = document.body;
+    let node = document.getElementById(id);
+    if (node) return node;
+    node = el("span", { id, class: "sse-indicator", "data-connected": "false" });
+    node.append(el("span", { class: "dot" }), el("span", { class: "meta" }, `${label}: disconnected · last: —`));
+    anchor.appendChild(node);
+    return node;
   }
 
-  // Initialize health view
-  applyHealthVisual("degraded");
-
-  // --- 3) OPS SSE: metrics + alerts ---
-  let opsSource;
-  try {
-    opsSource = new EventSource(OPS_SSE_URL);
-  } catch (err) {
-    console.error("dashboard-status.js: Failed to open OPS SSE connection:", err);
-    return;
+  function set(ind, label, connected, last) {
+    if (!ind) return;
+    ind.dataset.connected = connected ? "true" : "false";
+    const m = ind.querySelector(".meta");
+    if (m) m.textContent = `${label}: ${connected ? "connected" : "disconnected"} · last: ${last ? formatAge(NOW()-last) : "—"}`;
   }
 
-  opsSource.onmessage = (event) => {
-    let payloadRaw = event.data;
-    let data = null;
-
-    try {
-      data = JSON.parse(payloadRaw);
-    } catch {
-      data = { message: payloadRaw };
-    }
-
-    totalOpsEvents++;
-
-    const agentName =
-      (data.agent || data.actor || data.source || data.worker || "").toString();
-    const statusString =
-      (data.status || data.state || data.level || "").toString();
-    const message =
-      data.message ||
-      data.event ||
-      data.description ||
-      data.type ||
-      payloadRaw;
-
-    if (agentName) {
-      agentStatusMap[agentName] = statusString || "unknown";
-    }
-
-    // Active agents metric
-    if (metricAgents) {
-      const uniqueAgents = Object.keys(agentStatusMap).length;
-      metricAgents.textContent = String(uniqueAgents || "--");
-    }
-
-    // Tasks metric (approx: count of OPS events)
-    if (metricTasks) {
-      metricTasks.textContent = String(totalOpsEvents);
-    }
-
-    // Latency metric (if present)
-    if (metricLatency && typeof data.latency_ms === "number") {
-      metricLatency.textContent = String(Math.round(data.latency_ms));
-    }
-
-    // Success rate metric
-    const statusLower = statusString.toLowerCase();
-    if (statusLower.includes("success") || statusLower.includes("completed") || statusLower.includes("ok")) {
-      successfulOpsEvents++;
-    } else if (statusLower.includes("error") || statusLower.includes("failed")) {
-      errorOpsEvents++;
-    }
-
-    if (metricSuccessRate) {
-      const denom = successfulOpsEvents + errorOpsEvents;
-      if (denom > 0) {
-        const pct = Math.round((successfulOpsEvents / denom) * 100);
-        metricSuccessRate.textContent = `${pct}%`;
-      } else {
-        metricSuccessRate.textContent = "--";
-      }
-    }
-
-    // Health from status
-    const healthState = classifyHealthFromStatus(statusString);
-    applyHealthVisual(healthState);
-
-    // Ops alerts list
-    if (opsAlertsList) {
-      const li = document.createElement("li");
-      li.className = "text-sm";
-
-      const now = new Date();
-      const ts = now.toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-      });
-
-      const safeAgent = agentName || "System";
-      const labelParts = [`[${ts}]`, safeAgent];
-
-      if (statusString) labelParts.push(`– ${statusString}`);
-      if (message && message !== statusString) {
-        labelParts.push(`– ${String(message).slice(0, 160)}`);
-      }
-
-      li.textContent = labelParts.join(" ");
-      opsAlertsList.prepend(li);
-
-      // keep list from growing unbounded
-      while (opsAlertsList.children.length > 50) {
-        opsAlertsList.removeChild(opsAlertsList.lastChild);
-      }
-    }
-  };
-
-  opsSource.onerror = (err) => {
-    console.warn("dashboard-status.js: OPS SSE error:", err);
-    applyHealthVisual("degraded");
-
-    if (opsAlertsList) {
-      const li = document.createElement("li");
-      li.className = "text-sm text-red-400";
-      li.textContent = "[OPS] SSE connection error – attempting to recover…";
-      opsAlertsList.prepend(li);
-
-      while (opsAlertsList.children.length > 50) {
-        opsAlertsList.removeChild(opsAlertsList.lastChild);
-      }
-    }
-  };
-
-  // --- 4) Reflections SSE: #recentLogs ---
-  let reflectionsSource;
-  try {
-    console.log("[dashboard-status] opening Reflections SSE:", REFLECTIONS_SSE_URL);
-    reflectionsSource = new EventSource(REFLECTIONS_SSE_URL);
-  } catch (err) {
-    console.error("dashboard-status.js: Failed to open Reflections SSE connection:", err);
-    return;
+  function ensureGlobal() {
+    window.__MB_STREAMS ||= {
+      ops: { connected:false, last:0, state:{}, es:null },
+      reflections: { connected:false, last:0, state:{}, es:null },
+    };
+    return window.__MB_STREAMS;
   }
 
-  reflectionsSource.onmessage = (event) => {
-      console.log("[dashboard-status] reflections onmessage:", event.data);
-    if (!reflectionsContainer) return;
+  function connect(key, label, url, ind) {
+    const g = ensureGlobal();
+    g[key].es?.close?.();
+    const es = new EventSource(url);
+    g[key].es = es;
 
-    const raw = event.data;
-    let text = raw;
+    es.onopen = () => { g[key].connected = true; set(ind, label, true, g[key].last); };
+    es.onerror = () => { g[key].connected = false; set(ind, label, false, g[key].last); };
 
-    try {
-      const parsed = JSON.parse(raw);
-      text =
-        parsed.message ||
-        parsed.reflection ||
-        parsed.text ||
-        parsed.log ||
-        raw;
-    } catch {
-      // plain text is fine
-    }
-
-    const entry = document.createElement("div");
-    entry.className =
-      "text-sm text-gray-200 border-b border-gray-700 pb-2 mb-2 whitespace-pre-line";
-    entry.textContent = text;
-
-    reflectionsContainer.prepend(entry);
-
-    // keep reflections list bounded
-    while (reflectionsContainer.children.length > 50) {
-      reflectionsContainer.removeChild(reflectionsContainer.lastChild);
-    }
-  };
-
-  reflectionsSource.onerror = (err) => {
-    console.warn("dashboard-status.js: Reflections SSE error:", err);
-    if (!reflectionsContainer) return;
-
-    const entry = document.createElement("div");
-    entry.className = "text-xs text-red-400 italic";
-    entry.textContent =
-      "[Reflections] SSE connection error – check Python reflections_stream on port 3200.";
-    reflectionsContainer.prepend(entry);
-
-    while (reflectionsContainer.children.length > 50) {
-      reflectionsContainer.removeChild(reflectionsContainer.lastChild);
-    }
-  };
-}
-
-if (typeof window !== "undefined") {
-  window.initDashboardStatus = initDashboardStatus;
-
-// Auto-init when loaded via bundle entry
-if (typeof window !== "undefined" && typeof document !== "undefined") {
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", () => initDashboardStatus());
-  } else {
-    initDashboardStatus();
+    es.onmessage = (e) => {
+      g[key].last = NOW();
+      const p = safeJsonParse(e.data);
+      const isState = (p && (p.state || (p.type||"").includes("state") || (p.event||"").includes("state")));
+      if (isState) g[key].state = p.state ?? p;
+      else if (p && typeof p === "object") Object.assign(g[key].state, p);
+      set(ind, label, g[key].connected, g[key].last);
+      window.dispatchEvent(new CustomEvent(`mb:${key}:update`, { detail:{ state:g[key].state, raw:p } }));
+    };
   }
-}
-}
+
+  function boot() {
+    const opsInd = mount(document.getElementById("ops-pill"), "ops-sse-indicator", "OPS SSE");
+    const refInd = mount(document.getElementById("reflections") || document.body, "reflections-sse-indicator", "Reflections SSE");
+    connect("ops", "OPS SSE", OPS_SSE_URL, opsInd);
+    connect("reflections", "Reflections SSE", REFLECTIONS_SSE_URL, refInd);
+    setInterval(() => {
+      const g = ensureGlobal();
+      set(opsInd, "OPS SSE", g.ops.connected, g.ops.last);
+      set(refInd, "Reflections SSE", g.reflections.connected, g.reflections.last);
+    }, 1000);
+  }
+
+  document.readyState === "loading"
+    ? document.addEventListener("DOMContentLoaded", boot, { once:true })
+    : boot();
+})();
