@@ -1,34 +1,34 @@
+# macOS
+.DS_Store
 
+# Node / build
 node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
-.DS_Store
 
-# Logs
+dist/
+build/
+.coverage/
+coverage/
+.cache/
+.esbuild/
+
+# Logs / temp
 logs/
 *.log
+tmp/
+.tmp/
+*.swp
 
 # Env
 .env
 .env.*
 !.env.example
 
-# Coverage / cache
-coverage/
-.cache/
-.esbuild/
-dist/
-build/
-
-# Local scratch
-.tmp/
-tmp/
-*.swp
-
-# local-only Phase 16 scratch scripts (keep this precise)
+# local-only Phase 16 scratch scripts
 scripts/phase16_*
 
-# allow committed Phase 16 helper scripts
+# allow committed Phase 16 helper script
 !scripts/phase16_verify_sse_frontend.sh
