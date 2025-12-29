@@ -1,25 +1,34 @@
-/* eslint-disable import/no-commonjs */
-.env.local
-Backups/
-Users/
-astro-react-test/node_modules/
-node_modules/
-scripts/_local/agent-runtime/matilda_runtime.cjs
-ui/dashboard/public/agent-status.json
-ui/dashboard/public/matilda-log.json
-scripts/_local/agent-runtime/memory/*.json
-node_modules
-node_modules/
-.env
-.env
-.env
-.env.bak
-public/bundle.js.map
-# v11 dashboard bundling artifacts
-public/bundle.js.map
 
-# Local safety backups
-public/dashboard.html.bak-*
-._recovery/
-# local-only Phase 16 scratch scripts
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.DS_Store
+
+# Logs
+logs/
+*.log
+
+# Env
+.env
+.env.*
+!.env.example
+
+# Coverage / cache
+coverage/
+.cache/
+.esbuild/
+dist/
+build/
+
+# Local scratch
+.tmp/
+tmp/
+*.swp
+
+# local-only Phase 16 scratch scripts (keep this precise)
 scripts/phase16_*
+
+# allow committed Phase 16 helper scripts
+!scripts/phase16_verify_sse_frontend.sh
