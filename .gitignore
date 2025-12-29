@@ -21,3 +21,5 @@ public/bundle.js.map
 # Local safety backups
 public/dashboard.html.bak-*
 ._recovery/
+# local-only Phase 16 scratch scripts
+scripts/phase16_*
