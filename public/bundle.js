@@ -142,213 +142,242 @@
   })();
 
   // public/js/dashboard-status.js
-  function initDashboardStatus() {
-    const __DISABLE_OPTIONAL_SSE = (typeof window !== "undefined" && window.__DISABLE_OPTIONAL_SSE) === true;
-    if (__DISABLE_OPTIONAL_SSE) {
-      console.warn("[dashboard-status] Optional SSE disabled (Phase 16 pending)");
-      return;
-    }
-    if (typeof window === "undefined" || typeof document === "undefined") return;
-    if (window.__dashboardStatusInited) return;
-    window.__dashboardStatusInited = true;
-    const OPS_SSE_URL = `/events/ops`;
-    const REFLECTIONS_SSE_URL = `/events/reflections`;
-    const uptimeDisplay = document.getElementById("uptime-display");
-    const healthIndicator = document.getElementById("system-health-indicator");
-    const healthStatus = document.getElementById("health-status");
-    const metricAgents = document.getElementById("metric-agents");
-    const metricTasks = document.getElementById("metric-tasks");
-    const metricSuccessRate = document.getElementById("metric-success-rate");
-    const metricLatency = document.getElementById("metric-latency");
-    const reflectionsContainer = document.getElementById("recentLogs");
-    const opsAlertsList = document.getElementById("ops-alerts-list");
-    const pageStart = Date.now();
-    const agentStatusMap = {};
-    let totalOpsEvents = 0;
-    let successfulOpsEvents = 0;
-    let errorOpsEvents = 0;
-    function formatDuration(seconds) {
-      const s = seconds % 60;
-      const m = Math.floor(seconds / 60) % 60;
-      const h = Math.floor(seconds / 3600);
-      if (h > 0) return `${h}h ${m}m ${s}s`;
-      if (m > 0) return `${m}m ${s}s`;
-      return `${s}s`;
-    }
-    function tickUptime() {
-      if (!uptimeDisplay) return;
-      const diffSec = Math.floor((Date.now() - pageStart) / 1e3);
-      uptimeDisplay.textContent = formatDuration(diffSec);
-    }
-    tickUptime();
-    setInterval(tickUptime, 1e3);
-    function classifyHealthFromStatus(statusString) {
-      const s = (statusString || "").toLowerCase();
-      if (!s) return "degraded";
-      if (s.includes("error") || s.includes("failed") || s.includes("critical")) {
-        return "critical";
-      }
-      if (s.includes("warn") || s.includes("degraded")) {
-        return "degraded";
-      }
-      if (s.includes("ok") || s.includes("online") || s.includes("ready") || s.includes("healthy")) {
-        return "healthy";
-      }
-      return "degraded";
-    }
-    function applyHealthVisual(healthState) {
-      if (!healthIndicator || !healthStatus) return;
-      healthIndicator.classList.remove("bg-red-500", "bg-yellow-400", "bg-green-400");
-      healthIndicator.classList.remove("animate-pulse");
-      switch (healthState) {
-        case "healthy":
-          healthIndicator.classList.add("bg-green-400");
-          healthStatus.textContent = "Stable";
-          break;
-        case "critical":
-          healthIndicator.classList.add("bg-red-500", "animate-pulse");
-          healthStatus.textContent = "Critical";
-          break;
-        case "degraded":
-        default:
-          healthIndicator.classList.add("bg-yellow-400");
-          healthStatus.textContent = "Degraded";
-          break;
-      }
-    }
-    applyHealthVisual("degraded");
-    let opsSource;
-    try {
-      opsSource = new EventSource(OPS_SSE_URL);
-    } catch (err) {
-      console.error("dashboard-status.js: Failed to open OPS SSE connection:", err);
-      return;
-    }
-    opsSource.onmessage = (event) => {
-      let payloadRaw = event.data;
-      let data = null;
+  (() => {
+    "use strict";
+    const OPS_SSE_URL = "/events/ops";
+    const REFLECTIONS_SSE_URL = "/events/reflections";
+    const NOW = () => Date.now();
+    function safeJsonParse(s) {
       try {
-        data = JSON.parse(payloadRaw);
+        return JSON.parse(s);
       } catch {
-        data = { message: payloadRaw };
+        return null;
       }
-      totalOpsEvents++;
-      const agentName = (data.agent || data.actor || data.source || data.worker || "").toString();
-      const statusString = (data.status || data.state || data.level || "").toString();
-      const message = data.message || data.event || data.description || data.type || payloadRaw;
-      if (agentName) {
-        agentStatusMap[agentName] = statusString || "unknown";
+    }
+    function formatAge(ms) {
+      if (!Number.isFinite(ms)) return "\u2014";
+      const s = Math.floor(ms / 1e3);
+      if (s < 60) return `${s}s`;
+      const m = Math.floor(s / 60);
+      if (m < 60) return `${m}m`;
+      return `${Math.floor(m / 60)}h`;
+    }
+    function el(tag, attrs = {}, text = "") {
+      const n = document.createElement(tag);
+      for (const [k, v] of Object.entries(attrs)) {
+        if (k === "class") n.className = v;
+        else if (k === "style") n.setAttribute("style", v);
+        else n.setAttribute(k, v);
       }
-      if (metricAgents) {
-        const uniqueAgents = Object.keys(agentStatusMap).length;
-        metricAgents.textContent = String(uniqueAgents || "--");
+      if (text) n.textContent = text;
+      return n;
+    }
+    function ensureStyles() {
+      if (document.getElementById("phase16-sse-style")) return;
+      const s = el("style", { id: "phase16-sse-style" });
+      s.textContent = `
+      .sse-indicator {
+        display:inline-flex;
+        align-items:center;
+        gap:6px;
+        font-size:11px;
+        line-height:1;
+        opacity:.85;
+        user-select:none;
+        white-space:nowrap;
       }
-      if (metricTasks) {
-        metricTasks.textContent = String(totalOpsEvents);
+      .sse-indicator .dot {
+        width:7px; height:7px; border-radius:999px;
+        background:#555;
+        box-shadow:0 0 0 1px rgba(255,255,255,.08) inset;
       }
-      if (metricLatency && typeof data.latency_ms === "number") {
-        metricLatency.textContent = String(Math.round(data.latency_ms));
+      .sse-indicator[data-connected="true"] .dot { background:#2dd4bf; }
+      .sse-indicator[data-connected="false"] .dot { background:#f97316; }
+      .sse-indicator .meta { font-variant-numeric: tabular-nums; }
+    `;
+      document.head.appendChild(s);
+    }
+    function mount(anchor, id, label) {
+      ensureStyles();
+      if (!anchor) {
+        let tray = document.getElementById("phase16-sse-tray");
+        if (!tray) {
+          tray = el("div", {
+            id: "phase16-sse-tray",
+            style: [
+              "position:fixed",
+              "left:10px",
+              "bottom:10px",
+              "display:flex",
+              "flex-direction:column",
+              "gap:6px",
+              "z-index:9999",
+              "pointer-events:none"
+            ].join(";")
+          });
+          document.body.appendChild(tray);
+        }
+        anchor = tray;
       }
-      const statusLower = statusString.toLowerCase();
-      if (statusLower.includes("success") || statusLower.includes("completed") || statusLower.includes("ok")) {
-        successfulOpsEvents++;
-      } else if (statusLower.includes("error") || statusLower.includes("failed")) {
-        errorOpsEvents++;
-      }
-      if (metricSuccessRate) {
-        const denom = successfulOpsEvents + errorOpsEvents;
-        if (denom > 0) {
-          const pct = Math.round(successfulOpsEvents / denom * 100);
-          metricSuccessRate.textContent = `${pct}%`;
+      let node = document.getElementById(id);
+      if (node) return node;
+      node = el("span", { id, class: "sse-indicator", "data-connected": "false" });
+      node.append(
+        el("span", { class: "dot", "aria-hidden": "true" }),
+        el("span", { class: "meta" }, `${label}: disconnected \xB7 last: \u2014`)
+      );
+      try {
+        if (anchor.matches && anchor.matches("header,h1,h2,h3,h4,strong")) {
+          const wrap = el("span", { style: "margin-left:8px" });
+          wrap.appendChild(node);
+          anchor.appendChild(wrap);
         } else {
-          metricSuccessRate.textContent = "--";
+          const wrap = el("div", { style: "margin-top:4px" });
+          wrap.appendChild(node);
+          anchor.appendChild(wrap);
         }
+      } catch {
+        anchor.appendChild(node);
       }
-      const healthState = classifyHealthFromStatus(statusString);
-      applyHealthVisual(healthState);
-      if (opsAlertsList) {
-        const li = document.createElement("li");
-        li.className = "text-sm";
-        const now = /* @__PURE__ */ new Date();
-        const ts = now.toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-          second: "2-digit"
-        });
-        const safeAgent = agentName || "System";
-        const labelParts = [`[${ts}]`, safeAgent];
-        if (statusString) labelParts.push(`\u2013 ${statusString}`);
-        if (message && message !== statusString) {
-          labelParts.push(`\u2013 ${String(message).slice(0, 160)}`);
-        }
-        li.textContent = labelParts.join(" ");
-        opsAlertsList.prepend(li);
-        while (opsAlertsList.children.length > 50) {
-          opsAlertsList.removeChild(opsAlertsList.lastChild);
-        }
-      }
-    };
-    opsSource.onerror = (err) => {
-      console.warn("dashboard-status.js: OPS SSE error:", err);
-      applyHealthVisual("degraded");
-      if (opsAlertsList) {
-        const li = document.createElement("li");
-        li.className = "text-sm text-red-400";
-        li.textContent = "[OPS] SSE connection error \u2013 attempting to recover\u2026";
-        opsAlertsList.prepend(li);
-        while (opsAlertsList.children.length > 50) {
-          opsAlertsList.removeChild(opsAlertsList.lastChild);
-        }
-      }
-    };
-    let reflectionsSource;
-    try {
-      console.log("[dashboard-status] opening Reflections SSE:", REFLECTIONS_SSE_URL);
-      reflectionsSource = new EventSource(REFLECTIONS_SSE_URL);
-    } catch (err) {
-      console.error("dashboard-status.js: Failed to open Reflections SSE connection:", err);
-      return;
+      return node;
     }
-    reflectionsSource.onmessage = (event) => {
-      console.log("[dashboard-status] reflections onmessage:", event.data);
-      if (!reflectionsContainer) return;
-      const raw = event.data;
-      let text = raw;
+    function set(ind, label, connected, lastAt) {
+      if (!ind) return;
+      ind.dataset.connected = connected ? "true" : "false";
+      const meta = ind.querySelector(".meta");
+      if (!meta) return;
+      meta.textContent = `${label}: ${connected ? "connected" : "disconnected"} \xB7 last: ${lastAt ? formatAge(NOW() - lastAt) : "\u2014"}`;
+    }
+    function ensureGlobal() {
+      window.__MB_STREAMS ||= {
+        ops: { connected: false, lastAt: 0, state: {}, es: null },
+        reflections: { connected: false, lastAt: 0, state: {}, es: null }
+      };
+      return window.__MB_STREAMS;
+    }
+    function shallowMerge(target, patch) {
+      if (!target || typeof target !== "object") target = {};
+      if (!patch || typeof patch !== "object") return target;
+      return Object.assign(target, patch);
+    }
+    function applyDotPathPatch(state, patch) {
+      if (!state || typeof state !== "object") state = {};
+      const path = patch && typeof patch.path === "string" ? patch.path : "";
+      if (!path) return state;
+      const parts = path.split(".").filter(Boolean);
+      if (!parts.length) return state;
+      let cur = state;
+      for (let i = 0; i < parts.length - 1; i++) {
+        const k = parts[i];
+        if (!cur[k] || typeof cur[k] !== "object") cur[k] = {};
+        cur = cur[k];
+      }
+      cur[parts[parts.length - 1]] = patch.value;
+      return state;
+    }
+    function isStateEvent(evtType, parsed) {
+      if (typeof evtType === "string" && evtType.endsWith(".state")) return true;
+      if (parsed && typeof parsed === "object") {
+        if (parsed.state && typeof parsed.state === "object") return true;
+        if (typeof parsed.type === "string" && parsed.type.includes("state")) return true;
+        if (typeof parsed.event === "string" && parsed.event.includes("state")) return true;
+      }
+      return false;
+    }
+    function extractPayload(parsed) {
+      if (!parsed || typeof parsed !== "object") return parsed;
+      if (parsed.payload !== void 0) return parsed.payload;
+      if (parsed.data !== void 0) return parsed.data;
+      if (parsed.delta !== void 0) return parsed.delta;
+      if (parsed.patch !== void 0) return parsed.patch;
+      if (parsed.state !== void 0) return parsed.state;
+      return parsed;
+    }
+    function connect(key, label, url, ind) {
+      const g = ensureGlobal();
       try {
-        const parsed = JSON.parse(raw);
-        text = parsed.message || parsed.reflection || parsed.text || parsed.log || raw;
+        g[key].es && g[key].es.close();
       } catch {
       }
-      const entry = document.createElement("div");
-      entry.className = "text-sm text-gray-200 border-b border-gray-700 pb-2 mb-2 whitespace-pre-line";
-      entry.textContent = text;
-      reflectionsContainer.prepend(entry);
-      while (reflectionsContainer.children.length > 50) {
-        reflectionsContainer.removeChild(reflectionsContainer.lastChild);
+      g[key].es = null;
+      const es = new EventSource(url);
+      g[key].es = es;
+      const tick = () => set(ind, label, g[key].connected, g[key].lastAt);
+      es.onopen = () => {
+        g[key].connected = true;
+        tick();
+      };
+      es.onerror = () => {
+        g[key].connected = false;
+        tick();
+      };
+      const handle = (evtType, e) => {
+        g[key].lastAt = NOW();
+        const parsed = safeJsonParse(e && e.data ? e.data : "");
+        const payload = extractPayload(parsed);
+        if (isStateEvent(evtType, parsed)) {
+          g[key].state = payload && typeof payload === "object" ? payload : { value: payload };
+        } else {
+          if (payload && typeof payload === "object") {
+            if (typeof payload.path === "string" && "value" in payload) {
+              g[key].state = applyDotPathPatch(g[key].state, payload);
+            } else {
+              g[key].state = shallowMerge(g[key].state, payload);
+            }
+          } else if (payload !== null && payload !== void 0) {
+            g[key].state = shallowMerge(g[key].state, { lastValue: payload });
+          }
+        }
+        tick();
+        try {
+          window.dispatchEvent(new CustomEvent(`mb:${key}:update`, {
+            detail: { event: evtType, state: g[key].state, raw: parsed }
+          }));
+        } catch {
+        }
+      };
+      es.onmessage = (e) => handle("message", e);
+      const eventNames = [
+        "hello",
+        `${key}.state`,
+        `${key}.update`,
+        `${key}.patch`,
+        `${key}.delta`,
+        "state",
+        "update",
+        "patch",
+        "delta"
+      ];
+      for (const name of eventNames) {
+        try {
+          es.addEventListener(name, (e) => handle(name, e));
+        } catch {
+        }
       }
-    };
-    reflectionsSource.onerror = (err) => {
-      console.warn("dashboard-status.js: Reflections SSE error:", err);
-      if (!reflectionsContainer) return;
-      const entry = document.createElement("div");
-      entry.className = "text-xs text-red-400 italic";
-      entry.textContent = "[Reflections] SSE connection error \u2013 check Python reflections_stream on port 3200.";
-      reflectionsContainer.prepend(entry);
-      while (reflectionsContainer.children.length > 50) {
-        reflectionsContainer.removeChild(reflectionsContainer.lastChild);
-      }
-    };
-  }
-  if (typeof window !== "undefined") {
-    window.initDashboardStatus = initDashboardStatus;
-    if (typeof window !== "undefined" && typeof document !== "undefined") {
-      if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", () => initDashboardStatus());
-      } else {
-        initDashboardStatus();
-      }
+      tick();
     }
-  }
+    function findOpsAnchor() {
+      return document.getElementById("ops-pill") || document.querySelector("[data-widget='ops-pill']") || document.querySelector(".ops-pill") || document.querySelector("#ops") || null;
+    }
+    function findReflectionsAnchor() {
+      return document.getElementById("reflections-header") || document.getElementById("reflections") || document.querySelector("[data-panel='reflections']") || document.querySelector(".reflections") || (() => {
+        const heads = Array.from(document.querySelectorAll("h1,h2,h3,h4,header,strong"));
+        return heads.find((h) => (h.textContent || "").toLowerCase().includes("reflections")) || null;
+      })();
+    }
+    function boot() {
+      const opsInd = mount(findOpsAnchor(), "ops-sse-indicator", "OPS SSE");
+      const refInd = mount(findReflectionsAnchor(), "reflections-sse-indicator", "Reflections SSE");
+      connect("ops", "OPS SSE", OPS_SSE_URL, opsInd);
+      connect("reflections", "Reflections SSE", REFLECTIONS_SSE_URL, refInd);
+      setInterval(() => {
+        const g = ensureGlobal();
+        set(opsInd, "OPS SSE", g.ops.connected, g.ops.lastAt);
+        set(refInd, "Reflections SSE", g.reflections.connected, g.reflections.lastAt);
+      }, 1e3);
+    }
+    document.readyState === "loading" ? document.addEventListener("DOMContentLoaded", boot, { once: true }) : boot();
+  })();
 
   // public/js/agent-status-row.js
   (() => {
