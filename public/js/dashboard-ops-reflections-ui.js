@@ -8,6 +8,7 @@
  *   window.dispatchEvent(new CustomEvent("reflections.state", { detail: <state> }))
  */
 (function () {
+  var UI_DEBUG = !!(window && window.__UI_DEBUG);
   var SEL = {
     opsPill: ["#ops-pill","[data-role='ops-pill']",".ops-pill",".pill.ops","[data-pill='ops']"],
     reflectionsList: ["#reflections-list","[data-role='reflections-list']",".reflections-list","#reflections","[data-panel='reflections'] ul","[data-panel='reflections'] .list"],
@@ -40,6 +41,8 @@
   function paintOpsPill(raw) {
     var pill = qsFirst(SEL.opsPill);
     if (!pill) return;
+
+    if (UI_DEBUG) console.log("[ui] missing ops pill element (selectors):", SEL.opsPill);
 
     var state = normalizeDetail(raw) || {};
     var status = (state.status != null ? state.status : (state.level != null ? state.level : (state.health != null ? state.health : "unknown")));
@@ -89,6 +92,8 @@
   function renderReflections(raw) {
     var list = qsFirst(SEL.reflectionsList);
     if (!list) return;
+
+    if (UI_DEBUG) console.log("[ui] missing reflections list element (selectors):", SEL.reflectionsList);
 
     var emptyEl = qsFirst(SEL.reflectionsEmpty);
 
@@ -155,8 +160,8 @@
     }
   }
 
-  function onOpsState(e) { paintOpsPill(e && e.detail); }
-  function onReflectionsState(e) { renderReflections(e && e.detail); }
+  function onOpsState(e) { if (UI_DEBUG) console.log("[ui] ops.state", e && e.detail); paintOpsPill(e && e.detail); }
+  function onReflectionsState(e) { if (UI_DEBUG) console.log("[ui] reflections.state", e && e.detail); renderReflections(e && e.detail); }
 
   window.addEventListener("ops.state", onOpsState);
   window.addEventListener("reflections.state", onReflectionsState);
