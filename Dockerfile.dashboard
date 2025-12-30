@@ -9,7 +9,7 @@ ENV GIT_SHA=$GIT_SHA
 ENV BUILD_TIME=$BUILD_TIME
 
 COPY package*.json ./
-RUN npm install && apk add --no-cache curl
+RUN npm install && apk add --no-cache curl ripgrep
 
 COPY . .
 
