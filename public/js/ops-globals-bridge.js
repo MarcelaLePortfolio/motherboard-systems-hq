@@ -36,7 +36,7 @@ const handleEvent = (event) => {
   };
 
   try {
-    const es = new EventSource(opsUrl);
+    const es = (window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(opsUrl));
 
     // Default unnamed "message" events (if any in future)
     es.onmessage = handleEvent;

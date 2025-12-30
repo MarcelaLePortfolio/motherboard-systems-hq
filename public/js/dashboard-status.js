@@ -186,7 +186,7 @@
     try { g[key].es && g[key].es.close(); } catch {}
     g[key].es = null;
 
-    const es = new EventSource(url);
+    const es = (window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(url));
     g[key].es = es;
 
     const tick = () => set(ind, label, g[key].connected, g[key].lastAt);

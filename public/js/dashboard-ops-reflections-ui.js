@@ -41,7 +41,7 @@ function getOpsPillEl() {
 
   function wire(url, map) {
     try {
-      const es = new EventSource(url);
+      const es = (window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(url));
       for (const [evt, winEvt] of Object.entries(map)) {
         es.addEventListener(evt, (e) => {
           const data = safeJson(e.data);

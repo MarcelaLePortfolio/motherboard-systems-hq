@@ -300,7 +300,7 @@
       } catch {
       }
       g[key].es = null;
-      const es = new EventSource(url);
+      const es = (window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(url));
       g[key].es = es;
       const tick = () => set(ind, label, g[key].connected, g[key].lastAt);
       es.onopen = () => {
@@ -413,7 +413,7 @@
     }
     let source;
     try {
-      source = new EventSource(OPS_SSE_URL);
+      source = (window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(OPS_SSE_URL));
     } catch (err) {
       console.error("agent-status-row.js: Failed to open OPS SSE connection:", err);
       return;
@@ -571,7 +571,7 @@
       }
     };
     try {
-      const es = new EventSource(opsUrl);
+      const es = (window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(opsUrl));
       es.onmessage = handleEvent;
       es.addEventListener("hello", handleEvent);
       es.onerror = (err) => {

@@ -72,7 +72,7 @@
     applyHealthVisual("degraded");
     let opsSource;
     try {
-      opsSource = new EventSource(OPS_SSE_URL);
+      opsSource = (window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(OPS_SSE_URL));
     } catch (err) {
       console.error("dashboard-status.js: Failed to open OPS SSE connection:", err);
       return;
@@ -150,7 +150,7 @@
     };
     let reflectionsSource;
     try {
-      reflectionsSource = new EventSource(REFLECTIONS_SSE_URL);
+      reflectionsSource = (window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(REFLECTIONS_SSE_URL));
     } catch (err) {
       console.error("dashboard-status.js: Failed to open Reflections SSE connection:", err);
       return;
@@ -14782,7 +14782,7 @@
   document.addEventListener("DOMContentLoaded", () => {
     const container2 = document.getElementById("recentLogs");
     if (!container2) return;
-    const evtSource = new EventSource("http://localhost:3101/events/reflections");
+    const evtSource = (window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource("http://localhost:3101/events/reflections"));
     evtSource.onopen = () => console.log("<0001fe11> Connected to Reflections SSE");
     evtSource.onerror = (err) => console.warn("\u26A0\uFE0F Reflections SSE error", err);
     evtSource.onmessage = (e) => {
@@ -14797,7 +14797,7 @@
   // public/scripts/dashboard-ops.js
   console.log("<0001fe20> dashboard-ops.js initialized");
   document.addEventListener("DOMContentLoaded", () => {
-    const evtSource = new EventSource("http://localhost:3201/events/ops");
+    const evtSource = (window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource("http://localhost:3201/events/ops"));
     evtSource.onopen = () => console.log("<0001fe21> Connected to OPS SSE");
     evtSource.onerror = (err) => console.warn("\u26A0\uFE0F OPS SSE error", err);
     evtSource.onmessage = (e) => {

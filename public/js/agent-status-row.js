@@ -50,7 +50,7 @@
 let source;
 
   try {
-    source = new EventSource(OPS_SSE_URL);
+    source = (window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(OPS_SSE_URL));
   } catch (err) {
     console.error("agent-status-row.js: Failed to open OPS SSE connection:", err);
     return;
