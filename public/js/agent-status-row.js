@@ -57,6 +57,11 @@ let source;
   }
 
   function classifyStatus(statusString) {
+  // Phase16: bail if SSE owner already started
+  if (typeof window !== "undefined" && window.__PHASE16_SSE_OWNER_STARTED) {
+    return null;
+  }
+
     const s = (statusString || "").toLowerCase();
     if (!s) return "unknown";
     if (s.includes("error") || s.includes("failed") || s.includes("offline")) {
@@ -106,6 +111,12 @@ let source;
     label.textContent = `${prettyName}: ${finalStatus}`;
   }
 
+  // Phase16: guard null EventSource before handlers
+
+  if (!es) return null;
+
+  // Phase16: guard null EventSource before handlers
+  if (!source) return null;
   source.onmessage = (event) => {
     let payloadRaw = event.data;
     let data;
