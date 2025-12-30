@@ -9,6 +9,14 @@
  */
 
 
+
+function getOpsPillEl() {
+  return (
+    document.querySelector('[data-role="ops-pill"]') ||
+    document.querySelector("#ops-pill") ||
+    document.querySelector("#ops-dashboard-pill")
+  );
+}
 // ===== PHASE16_SSE_GLUE =====
 // Translate SSE event-stream events into window CustomEvents that this UI file already consumes.
 (() => {
