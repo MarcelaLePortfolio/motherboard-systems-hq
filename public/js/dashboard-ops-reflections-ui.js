@@ -7,6 +7,44 @@
  *   window.dispatchEvent(new CustomEvent("ops.state", { detail: <state> }))
  *   window.dispatchEvent(new CustomEvent("reflections.state", { detail: <state> }))
  */
+
+
+// ===== PHASE16_SSE_GLUE =====
+// Translate SSE event-stream events into window CustomEvents that this UI file already consumes.
+(() => {
+  function safeJson(s) { try { return JSON.parse(s); } catch (_) { return null; } }
+
+  function wire(url, map) {
+    try {
+      const es = new EventSource(url);
+      for (const [evt, winEvt] of Object.entries(map)) {
+        es.addEventListener(evt, (e) => {
+          const data = safeJson(e.data);
+          if (data == null) return;
+          window.dispatchEvent(new CustomEvent(winEvt, { detail: data }));
+        });
+      }
+      es.addEventListener("error", () => {
+        // SSE will retry automatically; keep quiet unless debugging.
+        // console.warn("[SSE]", url, "error/retry");
+      });
+      return es;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  // Only connect after DOM exists (avoid racing DOM lookups below)
+  window.addEventListener("DOMContentLoaded", () => {
+    wire("/events/ops", { "ops.state": "ops.state" });
+    wire("/events/reflections", {
+      "reflections.state": "reflections.state",
+      "reflections.add": "reflections.add",
+    });
+  });
+})();
+// ===== /PHASE16_SSE_GLUE =====
+
 (function () {
   var UI_DEBUG = !!(window && window.__UI_DEBUG);
   var SEL = {
