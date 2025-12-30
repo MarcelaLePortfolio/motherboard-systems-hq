@@ -94,6 +94,14 @@ app.post("/api/dev/emit-reflection", (req, res) => {
       kind: body.kind != null ? String(body.kind) : "dev",
     };
 
+    // keep snapshot cache in sync for /events/reflections snapshot-on-connect
+    if (!globalThis.__REFLECTIONS_STATE || typeof globalThis.__REFLECTIONS_STATE !== "object") {
+      globalThis.__REFLECTIONS_STATE = { items: [], lastAt: null };
+    }
+    if (!Array.isArray(globalThis.__REFLECTIONS_STATE.items)) globalThis.__REFLECTIONS_STATE.items = [];
+    globalThis.__REFLECTIONS_STATE.items = [item, ...globalThis.__REFLECTIONS_STATE.items].slice(0, 50);
+    globalThis.__REFLECTIONS_STATE.lastAt = item.ts;
+
     // Prefer the optional-sse broadcaster globals if present
     if (typeof globalThis.__broadcastReflections === "function") {
       try { globalThis.__broadcastReflections({ item }); } catch (_) {}
@@ -127,6 +135,8 @@ app.post("/api/dev/emit-ops", (req, res) => {
       lastHeartbeatAt: body.lastHeartbeatAt != null ? body.lastHeartbeatAt : Date.now(),
       agents: body.agents != null ? body.agents : {},
     };
+
+    globalThis.__OPS_STATE = state;
 
     if (typeof globalThis.__broadcastOps === "function") {
       try { globalThis.__broadcastOps(state); } catch (_) {}
