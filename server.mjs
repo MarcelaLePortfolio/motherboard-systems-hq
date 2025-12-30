@@ -65,6 +65,59 @@ app.use("/css", express.static(path.join(__dirname, "public", "css")));
 app.use("/js", express.static(path.join(__dirname, "public", "js")));
 app.use("/img", express.static(path.join(__dirname, "public", "img")));
 app.use(express.json());
+// --- Phase 16.7: dev-only emit endpoints (local debug) ---
+app.post("/api/dev/emit-reflection", (req, res) => {
+  try {
+    const body = req.body || {};
+    const item = {
+      ts: body.ts != null ? body.ts : Date.now(),
+      title: body.title != null ? String(body.title) : "dev",
+      msg: body.msg != null ? String(body.msg) : "dev reflection",
+      kind: body.kind != null ? String(body.kind) : "dev",
+    };
+
+    // If the reflections SSE module exposes a broadcaster on global, use it.
+    // Otherwise, no-op with 202 so this endpoint is harmless.
+    if (globalThis.__broadcastReflections) {
+      globalThis.__broadcastReflections({ type: "reflections.add", item });
+      return res.json({ ok: true, via: "globalThis.__broadcastReflections", item });
+    }
+    if (globalThis.__SSE_BROADCAST && typeof globalThis.__SSE_BROADCAST.reflections === "function") {
+      globalThis.__SSE_BROADCAST.reflections({ event: "reflections.add", data: { item } });
+      return res.json({ ok: true, via: "globalThis.__SSE_BROADCAST.reflections", item });
+    }
+
+    return res.status(202).json({ ok: true, via: "none", note: "No reflections broadcaster found; SSE-only build", item });
+  } catch (e) {
+    return res.status(500).json({ ok: false, error: String(e) });
+  }
+});
+
+app.post("/api/dev/emit-ops", (req, res) => {
+  try {
+    const body = req.body || {};
+    const state = {
+      status: body.status != null ? String(body.status) : "unknown",
+      lastHeartbeatAt: body.lastHeartbeatAt != null ? body.lastHeartbeatAt : Date.now(),
+      agents: body.agents != null ? body.agents : {},
+    };
+
+    if (globalThis.__broadcastOps) {
+      globalThis.__broadcastOps({ type: "ops.state", state });
+      return res.json({ ok: true, via: "globalThis.__broadcastOps", state });
+    }
+    if (globalThis.__SSE_BROADCAST && typeof globalThis.__SSE_BROADCAST.ops === "function") {
+      globalThis.__SSE_BROADCAST.ops({ event: "ops.state", data: state });
+      return res.json({ ok: true, via: "globalThis.__SSE_BROADCAST.ops", state });
+    }
+
+    return res.status(202).json({ ok: true, via: "none", note: "No ops broadcaster found; SSE-only build", state });
+  } catch (e) {
+    return res.status(500).json({ ok: false, error: String(e) });
+  }
+});
+// --- /Phase 16.7 ---
+
 
 const { emitArtifact } = attachArtifacts(app);
 
