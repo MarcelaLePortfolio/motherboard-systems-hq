@@ -32,3 +32,8 @@ scripts/phase16_*
 
 # allow committed Phase 16 helper script
 !scripts/phase16_verify_sse_frontend.sh
+
+# local recovery / backups (do not commit)
+._recovery/
+Backups/
+public/dashboard.html.bak-*
