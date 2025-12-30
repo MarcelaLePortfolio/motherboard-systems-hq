@@ -10,6 +10,23 @@
 
 
 
+
+function normalizeOpsPillClasses(el) {
+  if (!el) return;
+  // wipe any prior state classes so we never get stuck in "unknown"
+  el.classList.remove(
+    "ops-pill-unknown",
+    "ops-pill-online",
+    "ops-pill-offline",
+    "ops-pill-warn",
+    "ops-ok",
+    "ops-warn",
+    "ops-bad",
+    "ops-degraded",
+    "ops-unknown"
+  );
+}
+
 function getOpsPillEl() {
   return (
     document.querySelector('[data-role="ops-pill"]') ||
@@ -95,6 +112,7 @@ function getOpsPillEl() {
     var cls = opsStatusClass(status);
 
     pill.classList.remove("ops-ok", "ops-warn", "ops-down", "ops-unknown");
+normalizeOpsPillClasses(pill);
     pill.classList.add(cls);
 
     var label = String(status || "unknown").toUpperCase() + (state.lastHeartbeatAt ? " • HB" : "");
