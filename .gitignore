@@ -37,3 +37,5 @@ scripts/phase16_*
 ._recovery/
 Backups/
 public/dashboard.html.bak-*
+
+!scripts/phase16_proofpack_connect_guard.sh
