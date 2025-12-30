@@ -553,6 +553,7 @@
 
   // public/js/ops-globals-bridge.js
   (() => {
+    if (typeof window !== "undefined" && window.__PHASE16_SSE_OWNER_STARTED) return;
     if (typeof window === "undefined" || typeof EventSource === "undefined") return;
     if (window.__opsGlobalsBridgeInitialized) return;
     window.__opsGlobalsBridgeInitialized = true;
@@ -580,8 +581,10 @@
     };
     try {
       const es = window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(opsUrl);
+      if (!es) return null;
       es.onmessage = handleEvent;
       es.addEventListener("hello", handleEvent);
+      if (!es) return;
       es.onerror = (err) => {
         console.warn("[ops-globals-bridge] EventSource error:", err);
       };

@@ -1,5 +1,8 @@
 // Lightweight OPS SSE → global state bridge for Phase 11
 (() => {
+  // Phase16: bail if SSE owner already started
+  if (typeof window !== "undefined" && window.__PHASE16_SSE_OWNER_STARTED) return;
+
   if (typeof window === "undefined" || typeof EventSource === "undefined") return;
 
   // Avoid multiple initializations if bundle is loaded twice
@@ -39,10 +42,18 @@ const handleEvent = (event) => {
     const es = (window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(opsUrl));
 
     // Default unnamed "message" events (if any in future)
+    // Phase16: guard null EventSource before handlers
+
+    if (!es) return null;
+
     es.onmessage = handleEvent;
 
     // Named "hello" events from OPS SSE
     es.addEventListener("hello", handleEvent);
+
+    // Phase16: guard null EventSource before handlers (onerror)
+
+    if (!es) return;
 
     es.onerror = (err) => {
       console.warn("[ops-globals-bridge] EventSource error:", err);
