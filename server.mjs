@@ -97,7 +97,7 @@ app.post("/api/dev/emit-reflection", (req, res) => {
     // If the reflections SSE module exposes a broadcaster on global, use it.
     // Otherwise, no-op with 202 so this endpoint is harmless.
     if (globalThis.__broadcastReflections) {
-      globalThis.__broadcastReflections({ type: "reflections.add", item }
+      globalThis.__broadcastReflections({ type: "reflections.add", item });
     if (globalThis.__SSE && globalThis.__SSE.reflections && typeof globalThis.__SSE.reflections.broadcast === "function") {
       globalThis.__SSE.reflections.broadcast("reflections.add", { item });
       return _phase16SendJson(res, 200, { ok: true, via: "globalThis.__SSE.reflections.broadcast", item });
