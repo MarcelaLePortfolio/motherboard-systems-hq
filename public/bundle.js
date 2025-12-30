@@ -294,15 +294,19 @@
       return parsed;
     }
     function connect(key, label, url, ind) {
+      if (typeof window !== "undefined" && window.__PHASE16_SSE_OWNER_STARTED) {
+        return null;
+      }
       const g = ensureGlobal();
       try {
         g[key].es && g[key].es.close();
       } catch {
       }
       g[key].es = null;
-      const es = (window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(url));
+      const es = window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(url);
       g[key].es = es;
       const tick = () => set(ind, label, g[key].connected, g[key].lastAt);
+      if (!es) return null;
       es.onopen = () => {
         g[key].connected = true;
         tick();
@@ -413,7 +417,7 @@
     }
     let source;
     try {
-      source = (window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(OPS_SSE_URL));
+      source = window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(OPS_SSE_URL);
     } catch (err) {
       console.error("agent-status-row.js: Failed to open OPS SSE connection:", err);
       return;
@@ -571,7 +575,7 @@
       }
     };
     try {
-      const es = (window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(opsUrl));
+      const es = window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(opsUrl);
       es.onmessage = handleEvent;
       es.addEventListener("hello", handleEvent);
       es.onerror = (err) => {

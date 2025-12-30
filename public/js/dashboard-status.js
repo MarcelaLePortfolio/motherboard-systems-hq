@@ -180,6 +180,11 @@
   }
 
   function connect(key, label, url, ind) {
+  // Phase16: bail if SSE owner already started
+  if (typeof window !== "undefined" && window.__PHASE16_SSE_OWNER_STARTED) {
+    return null;
+  }
+
     const g = ensureGlobal();
 
     // close any existing connection
@@ -190,6 +195,10 @@
     g[key].es = es;
 
     const tick = () => set(ind, label, g[key].connected, g[key].lastAt);
+
+    // Phase16: guard null EventSource before handlers
+
+    if (!es) return null;
 
     es.onopen = () => { g[key].connected = true; tick(); };
     es.onerror = () => { g[key].connected = false; tick(); };
