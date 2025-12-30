@@ -94,17 +94,19 @@ app.post("/api/dev/emit-reflection", (req, res) => {
       kind: body.kind != null ? String(body.kind) : "dev",
     };
 
-    // If the reflections SSE module exposes a broadcaster on global, use it.
-    // Otherwise, no-op with 202 so this endpoint is harmless.
-    if (globalThis.__broadcastReflections) {
-      globalThis.__broadcastReflections({ type: "reflections.add", item });
+    // Prefer the optional-sse broadcaster globals if present
+    if (typeof globalThis.__broadcastReflections === "function") {
+      try { globalThis.__broadcastReflections({ item }); } catch (_) {}
+      return _phase16SendJson(res, 200, { ok: true, via: "globalThis.__broadcastReflections", item });
+    }
+
+    // Or use the Phase16 SSE hub if present
     if (globalThis.__SSE && globalThis.__SSE.reflections && typeof globalThis.__SSE.reflections.broadcast === "function") {
       globalThis.__SSE.reflections.broadcast("reflections.add", { item });
       return _phase16SendJson(res, 200, { ok: true, via: "globalThis.__SSE.reflections.broadcast", item });
     }
-);
-      return _phase16SendJson(res, 200, { ok: true, via: "globalThis.__broadcastReflections", item });
-    }
+
+    // Legacy/alt broadcaster shape
     if (globalThis.__SSE_BROADCAST && typeof globalThis.__SSE_BROADCAST.reflections === "function") {
       globalThis.__SSE_BROADCAST.reflections({ event: "reflections.add", data: { item } });
       return _phase16SendJson(res, 200, { ok: true, via: "globalThis.__SSE_BROADCAST.reflections", item });
@@ -116,6 +118,7 @@ app.post("/api/dev/emit-reflection", (req, res) => {
   }
 });
 
+
 app.post("/api/dev/emit-ops", (req, res) => {
   try {
     const body = req.body || {};
@@ -125,15 +128,16 @@ app.post("/api/dev/emit-ops", (req, res) => {
       agents: body.agents != null ? body.agents : {},
     };
 
-    if (globalThis.__broadcastOps) {
-      globalThis.__broadcastOps({ type: "ops.state", state }
-    if (globalThis.__SSE && globalThis.__SSE.ops && typeof globalThis.__SSE.ops.broadcast === "function") {
-      globalThis.__SSE.ops.broadcast("ops.state", state);
-      return _phase16SendJson(res, 200, { ok: true, via: "globalThis.__SSE.ops.broadcast", state });
-    }
-);
+    if (typeof globalThis.__broadcastOps === "function") {
+      try { globalThis.__broadcastOps(state); } catch (_) {}
       return _phase16SendJson(res, 200, { ok: true, via: "globalThis.__broadcastOps", state });
     }
+
+    if (globalThis.__SSE && globalThis.__SSE.ops && typeof globalThis.__SSE.ops.broadcast === "function") {
+      globalThis.__SSE.ops.broadcast(state, "ops.state");
+      return _phase16SendJson(res, 200, { ok: true, via: "globalThis.__SSE.ops.broadcast", state });
+    }
+
     if (globalThis.__SSE_BROADCAST && typeof globalThis.__SSE_BROADCAST.ops === "function") {
       globalThis.__SSE_BROADCAST.ops({ event: "ops.state", data: state });
       return _phase16SendJson(res, 200, { ok: true, via: "globalThis.__SSE_BROADCAST.ops", state });
@@ -144,6 +148,7 @@ app.post("/api/dev/emit-ops", (req, res) => {
     return _phase16SendJson(res, 500, { ok: false, error: String(e) });
   }
 });
+
 // --- /Phase 16.7 ---
 
 
