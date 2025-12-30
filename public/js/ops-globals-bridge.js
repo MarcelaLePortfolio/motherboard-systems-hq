@@ -36,7 +36,14 @@ const handleEvent = (event) => {
     } catch (err) {
       console.warn("[ops-globals-bridge] Failed to parse OPS event:", err);
     }
-  };
+  
+  // Phase16: emit a unified CustomEvent for OPS pill + listeners
+  try {
+    window.dispatchEvent(new CustomEvent("mb:ops:update", {
+      detail: { event: "message", state: (typeof data !== "undefined" ? data : undefined) }
+    }));
+  } catch {}
+};
 
   try {
     const es = (window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(opsUrl));

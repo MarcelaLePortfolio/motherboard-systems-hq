@@ -471,19 +471,19 @@
     if (!source) return null;
     source.onmessage = (event) => {
       let payloadRaw = event.data;
-      let data;
+      let data2;
       try {
-        data = JSON.parse(payloadRaw);
+        data2 = JSON.parse(payloadRaw);
       } catch {
         return;
       }
-      const agentName = (data.agent || data.actor || data.source || data.worker || "").toString();
+      const agentName = (data2.agent || data2.actor || data2.source || data2.worker || "").toString();
       if (!agentName) return;
       const key = agentName.toLowerCase();
       if (!indicators[key]) {
         return;
       }
-      const status = (data.status || data.state || data.level || "").toString() || "unknown";
+      const status = (data2.status || data2.state || data2.level || "").toString() || "unknown";
       applyVisual(key, status);
     };
     source.onerror = (err) => {
@@ -571,12 +571,18 @@
     }
     const handleEvent = (event) => {
       try {
-        const data = JSON.parse(event.data || "null");
-        if (!data) return;
+        const data2 = JSON.parse(event.data || "null");
+        if (!data2) return;
         window.lastOpsHeartbeat = Math.floor(Date.now() / 1e3);
-        window.lastOpsStatusSnapshot = data;
+        window.lastOpsStatusSnapshot = data2;
       } catch (err) {
         console.warn("[ops-globals-bridge] Failed to parse OPS event:", err);
+      }
+      try {
+        window.dispatchEvent(new CustomEvent("mb:ops:update", {
+          detail: { event: "message", state: typeof data !== "undefined" ? data : void 0 }
+        }));
+      } catch {
       }
     };
     try {
@@ -682,8 +688,8 @@
       state.loading = true;
       render();
       try {
-        const data = await apiJson(API.list);
-        state.tasks = (data.tasks || []).map((t) => ({
+        const data2 = await apiJson(API.list);
+        state.tasks = (data2.tasks || []).map((t) => ({
           id: String(t.id),
           title: t.title || "",
           status: t.status || ""
@@ -798,8 +804,8 @@
             );
             return;
           }
-          var data = await res.json();
-          var reply = data && (data.reply || data.message || data.response) || "(no reply)";
+          var data2 = await res.json();
+          var reply = data2 && (data2.reply || data2.message || data2.response) || "(no reply)";
           appendMessage(transcript, "Matilda", reply);
         } catch (err) {
           console.error(err);
