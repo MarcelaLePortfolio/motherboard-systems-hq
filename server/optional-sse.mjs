@@ -166,3 +166,12 @@ export function registerOptionalSSE(app) {
 
   return { ops, reflections };
 }
+
+
+// --- Phase 16.8: expose SSE broadcasters for dev endpoints ---
+globalThis.__SSE_BROADCAST = globalThis.__SSE_BROADCAST || {};
+globalThis.__SSE_BROADCAST.ops = (payload) => sseHeaders(payload && payload.data ? payload.data : payload);
+globalThis.__broadcastOps = (msg) => sseHeaders(msg && msg.state ? msg.state : msg);
+globalThis.__SSE_BROADCAST.reflections = (payload) => sseHeaders(payload && payload.data ? payload.data : payload);
+globalThis.__broadcastReflections = (msg) => sseHeaders(msg && msg.item ? msg.item : msg);
+// --- /Phase 16.8 ---
