@@ -11,6 +11,24 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();  // ===== PHASE16_SSE_HUB (OPS + Reflections) =====
+
+// --- Phase 16.9: framework-agnostic JSON responder (Express or plain Node) ---
+function _phase16SendJson(res, code, obj) {
+  try {
+    if (res && typeof res.status === "function" && typeof res.json === "function") {
+      return res.status(code).json(obj);
+    }
+    // Node http.ServerResponse fallback
+    if (res && typeof res.setHeader === "function" && typeof res.end === "function") {
+      res.statusCode = code;
+      res.setHeader("Content-Type", "application/json; charset=utf-8");
+      res.end(JSON.stringify(obj));
+      return;
+    }
+  } catch (_) {}
+  // Last resort: do nothing
+}
+// --- /Phase 16.9 ---
   function _phase16CreateSSEHub(name) {
     const hub = {
       name,
@@ -79,17 +97,22 @@ app.post("/api/dev/emit-reflection", (req, res) => {
     // If the reflections SSE module exposes a broadcaster on global, use it.
     // Otherwise, no-op with 202 so this endpoint is harmless.
     if (globalThis.__broadcastReflections) {
-      globalThis.__broadcastReflections({ type: "reflections.add", item });
-      return res.json({ ok: true, via: "globalThis.__broadcastReflections", item });
+      globalThis.__broadcastReflections({ type: "reflections.add", item }
+    if (globalThis.__SSE && globalThis.__SSE.reflections && typeof globalThis.__SSE.reflections.broadcast === "function") {
+      globalThis.__SSE.reflections.broadcast("reflections.add", { item });
+      return _phase16SendJson(res, 200, { ok: true, via: "globalThis.__SSE.reflections.broadcast", item });
+    }
+);
+      return _phase16SendJson(res, 200, { ok: true, via: "globalThis.__broadcastReflections", item });
     }
     if (globalThis.__SSE_BROADCAST && typeof globalThis.__SSE_BROADCAST.reflections === "function") {
       globalThis.__SSE_BROADCAST.reflections({ event: "reflections.add", data: { item } });
-      return res.json({ ok: true, via: "globalThis.__SSE_BROADCAST.reflections", item });
+      return _phase16SendJson(res, 200, { ok: true, via: "globalThis.__SSE_BROADCAST.reflections", item });
     }
 
-    return res.status(202).json({ ok: true, via: "none", note: "No reflections broadcaster found; SSE-only build", item });
+    return _phase16SendJson(res, 202, { ok: true, via: "none", note: "No reflections broadcaster found; SSE-only build", item });
   } catch (e) {
-    return res.status(500).json({ ok: false, error: String(e) });
+    return _phase16SendJson(res, 500, { ok: false, error: String(e) });
   }
 });
 
@@ -103,17 +126,22 @@ app.post("/api/dev/emit-ops", (req, res) => {
     };
 
     if (globalThis.__broadcastOps) {
-      globalThis.__broadcastOps({ type: "ops.state", state });
-      return res.json({ ok: true, via: "globalThis.__broadcastOps", state });
+      globalThis.__broadcastOps({ type: "ops.state", state }
+    if (globalThis.__SSE && globalThis.__SSE.ops && typeof globalThis.__SSE.ops.broadcast === "function") {
+      globalThis.__SSE.ops.broadcast("ops.state", state);
+      return _phase16SendJson(res, 200, { ok: true, via: "globalThis.__SSE.ops.broadcast", state });
+    }
+);
+      return _phase16SendJson(res, 200, { ok: true, via: "globalThis.__broadcastOps", state });
     }
     if (globalThis.__SSE_BROADCAST && typeof globalThis.__SSE_BROADCAST.ops === "function") {
       globalThis.__SSE_BROADCAST.ops({ event: "ops.state", data: state });
-      return res.json({ ok: true, via: "globalThis.__SSE_BROADCAST.ops", state });
+      return _phase16SendJson(res, 200, { ok: true, via: "globalThis.__SSE_BROADCAST.ops", state });
     }
 
-    return res.status(202).json({ ok: true, via: "none", note: "No ops broadcaster found; SSE-only build", state });
+    return _phase16SendJson(res, 202, { ok: true, via: "none", note: "No ops broadcaster found; SSE-only build", state });
   } catch (e) {
-    return res.status(500).json({ ok: false, error: String(e) });
+    return _phase16SendJson(res, 500, { ok: false, error: String(e) });
   }
 });
 // --- /Phase 16.7 ---

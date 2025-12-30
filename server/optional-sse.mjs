@@ -163,15 +163,39 @@ export function registerOptionalSSE(app) {
   if (!globalThis.__SSE || typeof globalThis.__SSE !== "object") globalThis.__SSE = {};
   globalThis.__SSE.ops = ops;
   globalThis.__SSE.reflections = reflections;
+// --- Phase 16.9: broadcaster globals for dev emit endpoints ---
+// optional-sse already sets:
+//   globalThis.__SSE.ops = ops;
+//   globalThis.__SSE.reflections = reflections;
+globalThis.__SSE_BROADCAST = globalThis.__SSE_BROADCAST || {};
+
+globalThis.__SSE_BROADCAST.ops = ({ event, data }) => {
+  if (globalThis.__SSE && globalThis.__SSE.ops && typeof globalThis.__SSE.ops.broadcast === "function") {
+    globalThis.__SSE.ops.broadcast(event || "ops.state", data);
+  }
+};
+
+globalThis.__SSE_BROADCAST.reflections = ({ event, data }) => {
+  if (globalThis.__SSE && globalThis.__SSE.reflections && typeof globalThis.__SSE.reflections.broadcast === "function") {
+    globalThis.__SSE.reflections.broadcast(event || "reflections.add", data);
+  }
+};
+
+// Convenience shims expected by server.mjs dev emit endpoints:
+globalThis.__broadcastOps = ({ state } = {}) => {
+  if (globalThis.__SSE && globalThis.__SSE.ops && typeof globalThis.__SSE.ops.broadcast === "function") {
+    globalThis.__SSE.ops.broadcast("ops.state", state);
+  }
+};
+
+globalThis.__broadcastReflections = ({ item } = {}) => {
+  if (globalThis.__SSE && globalThis.__SSE.reflections && typeof globalThis.__SSE.reflections.broadcast === "function") {
+    globalThis.__SSE.reflections.broadcast("reflections.add", { item });
+  }
+};
+// --- /Phase 16.9 ---
+
 
   return { ops, reflections };
 }
 
-
-// --- Phase 16.8: expose SSE broadcasters for dev endpoints ---
-globalThis.__SSE_BROADCAST = globalThis.__SSE_BROADCAST || {};
-globalThis.__SSE_BROADCAST.ops = (payload) => sseHeaders(payload && payload.data ? payload.data : payload);
-globalThis.__broadcastOps = (msg) => sseHeaders(msg && msg.state ? msg.state : msg);
-globalThis.__SSE_BROADCAST.reflections = (payload) => sseHeaders(payload && payload.data ? payload.data : payload);
-globalThis.__broadcastReflections = (msg) => sseHeaders(msg && msg.item ? msg.item : msg);
-// --- /Phase 16.8 ---
