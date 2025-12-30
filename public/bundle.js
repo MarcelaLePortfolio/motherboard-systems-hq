@@ -35,7 +35,7 @@
         w[STORE_KEY].record(kind, Date.now());
       } catch (_) {
       }
-      const es2 = new NativeEventSource(url, eventSourceInitDict);
+      const es = new NativeEventSource(url, eventSourceInitDict);
       const update = () => {
         try {
           w[STORE_KEY].record(kind, Date.now());
@@ -43,31 +43,31 @@
         }
       };
       try {
-        es2.addEventListener("open", update);
+        es.addEventListener("open", update);
       } catch (_) {
       }
       try {
-        es2.addEventListener("message", update);
+        es.addEventListener("message", update);
       } catch (_) {
       }
       let _onmessage = null;
-      Object.defineProperty(es2, "onmessage", {
+      Object.defineProperty(es, "onmessage", {
         get() {
           return _onmessage;
         },
         set(fn) {
           _onmessage = function(ev) {
             update();
-            if (typeof fn === "function") return fn.call(es2, ev);
+            if (typeof fn === "function") return fn.call(es, ev);
           };
         },
         configurable: true
       });
       try {
-        es2.addEventListener("error", update);
+        es.addEventListener("error", update);
       } catch (_) {
       }
-      return es2;
+      return es;
     }
     HeartbeatEventSource.prototype = NativeEventSource.prototype;
     HeartbeatEventSource.__hbWrapped = true;
@@ -303,15 +303,15 @@
       } catch {
       }
       g[key].es = null;
-      const es2 = window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(url);
-      g[key].es = es2;
+      const es = window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(url);
+      g[key].es = es;
       const tick = () => set(ind, label, g[key].connected, g[key].lastAt);
-      if (!es2) return null;
-      es2.onopen = () => {
+      if (!es) return null;
+      es.onopen = () => {
         g[key].connected = true;
         tick();
       };
-      es2.onerror = () => {
+      es.onerror = () => {
         g[key].connected = false;
         tick();
       };
@@ -340,7 +340,7 @@
         } catch {
         }
       };
-      es2.onmessage = (e) => handle("message", e);
+      es.onmessage = (e) => handle("message", e);
       const eventNames = [
         "hello",
         `${key}.state`,
@@ -354,7 +354,7 @@
       ];
       for (const name of eventNames) {
         try {
-          es2.addEventListener(name, (e) => handle(name, e));
+          es.addEventListener(name, (e) => handle(name, e));
         } catch {
         }
       }
@@ -468,7 +468,6 @@
       const finalStatus = statusString || "unknown";
       label.textContent = `${prettyName}: ${finalStatus}`;
     }
-    if (!es) return null;
     if (!source) return null;
     source.onmessage = (event) => {
       let payloadRaw = event.data;
@@ -580,10 +579,10 @@
       }
     };
     try {
-      const es2 = window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(opsUrl);
-      es2.onmessage = handleEvent;
-      es2.addEventListener("hello", handleEvent);
-      es2.onerror = (err) => {
+      const es = window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(opsUrl);
+      es.onmessage = handleEvent;
+      es.addEventListener("hello", handleEvent);
+      es.onerror = (err) => {
         console.warn("[ops-globals-bridge] EventSource error:", err);
       };
     } catch (err) {

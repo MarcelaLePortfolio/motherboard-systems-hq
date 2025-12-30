@@ -112,10 +112,6 @@ let source;
   }
 
   // Phase16: guard null EventSource before handlers
-
-  if (!es) return null;
-
-  // Phase16: guard null EventSource before handlers
   if (!source) return null;
   source.onmessage = (event) => {
     let payloadRaw = event.data;
