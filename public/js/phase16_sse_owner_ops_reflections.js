@@ -1,48 +1,48 @@
+/**
+ * Phase 16: Owner script that creates OPS + Reflections EventSource handles on window.
+ * Goal: ensure window.__opsES / window.__refES exist BEFORE any dashboard status code
+ * attempts to assign .onopen/.onmessage/etc, and avoid null/ordering crashes.
+ */
 (() => {
+  // Don't double-start (hot reload / duplicate script tag)
   if (window.__PHASE16_SSE_OWNER_STARTED) return;
   window.__PHASE16_SSE_OWNER_STARTED = true;
 
-  function safeJson(s) { try { return JSON.parse(s); } catch { return null; } }
+  function boot() {
+    // If the dashboard page isn't actually present, don't create SSE.
+    const hasDashboardRoot =
+      document.querySelector("#dashboard-root") ||
+      document.querySelector("[data-dashboard]") ||
+      document.querySelector("main.dashboard") ||
+      document.querySelector("body.dashboard");
 
-  function emit(domType, mbKey, rawEventName, rawData) {
-    const parsed = safeJson(rawData);
-    // 1) DOM events that the UI listens to (e.g. window.addEventListener("ops.state", ...))
-    try {
-      window.dispatchEvent(new CustomEvent(domType, { detail: parsed ?? rawData }));
-    } catch {}
+    if (!hasDashboardRoot) return;
 
-    // 2) unified debug/bridge event (your proof listener)
-    try {
-      window.dispatchEvent(new CustomEvent(`mb:${mbKey}:update`, {
-        detail: { event: rawEventName, state: parsed ?? rawData, raw: parsed }
-      }));
-    } catch {}
+    // Create once, reuse forever.
+    if (!window.__opsES) {
+      try {
+        window.__opsES = new EventSource("/events/ops");
+      } catch (e) {
+        console.warn("[phase16] failed to create ops EventSource", e);
+        window.__opsES = null;
+      }
+    }
+
+    if (!window.__refES) {
+      try {
+        window.__refES = new EventSource("/events/reflections");
+      } catch (e) {
+        console.warn("[phase16] failed to create reflections EventSource", e);
+        window.__refES = null;
+      }
+    }
+
+    window.__PHASE16_SSE_OWNER_READY = true;
   }
 
-  // OPS
-  window.__opsES = new EventSource("/events/ops");
-
-  window.__opsES.addEventListener("hello", (e) => {
-    emit("ops.hello", "ops", "hello", e.data);
-  });
-
-  window.__opsES.addEventListener("ops.state", (e) => {
-    emit("ops.state", "ops", "ops.state", e.data);
-  });
-
-  // If heartbeats ever exist, harmless to listen
-  window.__opsES.addEventListener("ops.heartbeat", (e) => {
-    emit("ops.heartbeat", "ops", "ops.heartbeat", e.data);
-  });
-
-  // Reflections
-  window.__refES = new EventSource("/events/reflections");
-
-  window.__refES.addEventListener("hello", (e) => {
-    emit("reflections.hello", "reflections", "hello", e.data);
-  });
-
-  window.__refES.addEventListener("reflections.state", (e) => {
-    emit("reflections.state", "reflections", "reflections.state", e.data);
-  });
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", boot, { once: true });
+  } else {
+    boot();
+  }
 })();
