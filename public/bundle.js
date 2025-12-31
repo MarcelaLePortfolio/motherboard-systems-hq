@@ -314,9 +314,8 @@
 
         g[key].es = es;
         if (!es) return null;
-
-        const tick = () => set(ind, label, g[key].connected, g[key].lastAt);
-es.onopen = () => {
+          const tick = () => set(ind, label, g[key].connected, g[key].lastAt);
+          es.onopen = () => {
         g[key].connected = true;
         tick();
       };
