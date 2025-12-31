@@ -40,7 +40,7 @@ const handleEvent = (event) => {
   // Phase16: emit a unified CustomEvent for OPS pill + listeners
   try {
     window.dispatchEvent(new CustomEvent("mb:ops:update", {
-      detail: { event: "message", state: (typeof data !== "undefined" ? data : undefined) }
+      detail: { event: "message", state: window.lastOpsStatusSnapshot }
     }));
   } catch {}
 };

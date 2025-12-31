@@ -305,8 +305,8 @@
       g[key].es = null;
       const es = window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(url);
       g[key].es = es;
-      const tick = () => set(ind, label, g[key].connected, g[key].lastAt);
       if (!es) return null;
+      const tick = () => set(ind, label, g[key].connected, g[key].lastAt);
       es.onopen = () => {
         g[key].connected = true;
         tick();
@@ -471,19 +471,19 @@
     if (!source) return null;
     source.onmessage = (event) => {
       let payloadRaw = event.data;
-      let data2;
+      let data;
       try {
-        data2 = JSON.parse(payloadRaw);
+        data = JSON.parse(payloadRaw);
       } catch {
         return;
       }
-      const agentName = (data2.agent || data2.actor || data2.source || data2.worker || "").toString();
+      const agentName = (data.agent || data.actor || data.source || data.worker || "").toString();
       if (!agentName) return;
       const key = agentName.toLowerCase();
       if (!indicators[key]) {
         return;
       }
-      const status = (data2.status || data2.state || data2.level || "").toString() || "unknown";
+      const status = (data.status || data.state || data.level || "").toString() || "unknown";
       applyVisual(key, status);
     };
     source.onerror = (err) => {
@@ -571,16 +571,16 @@
     }
     const handleEvent = (event) => {
       try {
-        const data2 = JSON.parse(event.data || "null");
-        if (!data2) return;
+        const data = JSON.parse(event.data || "null");
+        if (!data) return;
         window.lastOpsHeartbeat = Math.floor(Date.now() / 1e3);
-        window.lastOpsStatusSnapshot = data2;
+        window.lastOpsStatusSnapshot = data;
       } catch (err) {
         console.warn("[ops-globals-bridge] Failed to parse OPS event:", err);
       }
       try {
         window.dispatchEvent(new CustomEvent("mb:ops:update", {
-          detail: { event: "message", state: typeof data !== "undefined" ? data : void 0 }
+          detail: { event: "message", state: window.lastOpsStatusSnapshot }
         }));
       } catch {
       }
@@ -688,8 +688,8 @@
       state.loading = true;
       render();
       try {
-        const data2 = await apiJson(API.list);
-        state.tasks = (data2.tasks || []).map((t) => ({
+        const data = await apiJson(API.list);
+        state.tasks = (data.tasks || []).map((t) => ({
           id: String(t.id),
           title: t.title || "",
           status: t.status || ""
@@ -804,8 +804,8 @@
             );
             return;
           }
-          var data2 = await res.json();
-          var reply = data2 && (data2.reply || data2.message || data2.response) || "(no reply)";
+          var data = await res.json();
+          var reply = data && (data.reply || data.message || data.response) || "(no reply)";
           appendMessage(transcript, "Matilda", reply);
         } catch (err) {
           console.error(err);

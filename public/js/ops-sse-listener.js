@@ -24,6 +24,8 @@ return;
     }
 
     const es = (window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(OPS_SSE_URL));
+      if (!es) return;
+
     if (typeof window !== "undefined") {
       window.esOps = es;
     }

@@ -194,11 +194,11 @@
     const es = (window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(url));
     g[key].es = es;
 
-    const tick = () => set(ind, label, g[key].connected, g[key].lastAt);
 
     // Phase16: guard null EventSource before handlers
-
     if (!es) return null;
+
+    const tick = () => set(ind, label, g[key].connected, g[key].lastAt);
 
     es.onopen = () => { g[key].connected = true; tick(); };
     es.onerror = () => { g[key].connected = false; tick(); };
@@ -300,3 +300,5 @@
     ? document.addEventListener("DOMContentLoaded", boot, { once: true })
     : boot();
 })();
+
+// PHASE16_CONNECT_GUARD_FIXED_1767139733
