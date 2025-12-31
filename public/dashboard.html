@@ -222,12 +222,49 @@
             </p>
           </div>
         </section>
-  </main><script defer src="/js/phase16_sse_owner_ops_reflections.js"></script>
-    <script defer src="/bundle.js?v=next2-1765926430"></script>
+  </main>
+<!-- PHASE16: Reflections SSE owner (must run BEFORE bundle.js) -->
+<script defer src="/js/phase16_sse_owner_ops_reflections.js?v=1767212598"></script>
+<!-- /PHASE16 -->
+
+<script defer src="/bundle.js?v=next2-1765926430"></script>
+
+<!-- PHASE16: reflections UI consumer (runs after bundle) -->
+<script defer src="/js/phase16_reflections_ui_consumer.js?v=1767212598"></script>
+<!-- /PHASE16 -->
+
   
   <script defer src="/js/phase13_5_operator_ux.js"></script>
   <script defer src="/js/dashboard-tasks-widget.js?v=poll5s"></script><div id="reflections" data-panel="reflections">
     <ul id="reflections-list" data-role="reflections-list"></ul>
   </div>
+
+<!-- PHASE16: reflections UI panel (safe, minimal) -->
+<div id="phase16_reflections_panel" style="position:fixed;right:16px;bottom:16px;z-index:9999;width:min(560px,92vw);max-height:48vh;overflow:hidden;border:1px solid rgba(255,255,255,0.12);border-radius:14px;background:rgba(0,0,0,0.78);backdrop-filter: blur(10px);-webkit-backdrop-filter: blur(10px);box-shadow:0 10px 30px rgba(0,0,0,0.45);">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-bottom:1px solid rgba(255,255,255,0.10);font:600 12px/1.2 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:rgba(255,255,255,0.92);">
+    <div>Reflections Stream</div>
+    <div id="phase16_reflections_status" style="font-weight:500;color:rgba(255,255,255,0.70);">reflections: (HTML loaded — waiting for JS)</div>
+  </div>
+  <pre id="phase16_reflections_log" style="margin:0;padding:10px 12px;max-height:calc(48vh - 44px);overflow:auto;white-space:pre-wrap;word-break:break-word;font:11px/1.35 ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,monospace;color:rgba(255,255,255,0.86);"></pre>
+</div>
+<!-- /PHASE16 reflections UI panel --><!-- PHASE16: reflections UI consumer --><!-- /PHASE16 reflections UI consumer -->
+
+<!-- PHASE16: inline beacon (debug) -->
+<script>
+  try {
+    window.__PHASE16_INLINE_BEACON = Date.now();
+    var el = document.getElementById("phase16_reflections_status");
+    if (el) el.textContent = "reflections: (inline JS ran ✅ — waiting for owner/consumer)";
+  } catch (e) {}
+</script>
+<!-- /PHASE16: inline beacon (debug) -->
+
+<!-- PHASE16: Reflections SSE owner -->
+<script defer src=""></script>
+<!-- /PHASE16: Reflections SSE owner -->
+
+<!-- PHASE16: reflections UI consumer -->
+<script defer src=""></script>
+<!-- /PHASE16: reflections UI consumer -->
 </body>
 </html>
