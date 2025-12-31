@@ -11,9 +11,16 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();  
+
+app.use(express.text({ type: "*/*", limit: "64kb" }));
+app.post("/api/phase16-beacon", (req, res) => {
+  try { console.log("[BEACON]", req.body); } catch (e) { console.log("[BEACON] <unreadable>"); }
+  res.status(204).end();
+});
+
 app.use((req,res,next)=>{ console.log("[HTTP] " + req.method + " " + req.url); next(); });
 
-app.use((req,res,next)=>{ console.log(`[HTTP]  `); next(); });// ===== PHASE16_SSE_HUB (OPS + Reflections) =====
+// ===== PHASE16_SSE_HUB (OPS + Reflections) =====
 
 // --- Phase 16.9: framework-agnostic JSON responder (Express or plain Node) ---
 function _phase16SendJson(res, code, obj) {
