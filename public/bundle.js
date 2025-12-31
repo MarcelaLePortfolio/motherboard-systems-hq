@@ -294,21 +294,29 @@
       return parsed;
     }
     function connect(key, label, url, ind) {
-      if (typeof window !== "undefined" && window.__PHASE16_SSE_OWNER_STARTED) {
-        return null;
-      }
-      const g = ensureGlobal();
-      try {
-        g[key].es && g[key].es.close();
-      } catch {
-      }
-      g[key].es = null;
-      const es = window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(url);
-      g[key].es = es;
-      if (!es) return null;
-      const tick = () => set(ind, label, g[key].connected, g[key].lastAt);
-      if (es == null) return;
-      es.onopen = () => {
+        const g = ensureGlobal();
+
+        // Phase16: if the owner singleton is running, reuse its EventSource objects
+        // so the dashboard status code can attach handlers without creating duplicates.
+        let es;
+        if (typeof window !== "undefined" && window.__PHASE16_SSE_OWNER_STARTED) {
+          if (String(url).includes("/events/ops")) es = window.__opsES;
+          else if (String(url).includes("/events/reflections")) es = window.__refES;
+          else es = null;
+        } else {
+          try {
+            g[key].es && g[key].es.close();
+          } catch {
+          }
+          g[key].es = null;
+          es = new EventSource(url);
+        }
+
+        g[key].es = es;
+        if (!es) return null;
+
+        const tick = () => set(ind, label, g[key].connected, g[key].lastAt);
+es.onopen = () => {
         g[key].connected = true;
         tick();
       };
@@ -424,9 +432,6 @@
       return;
     }
     function classifyStatus(statusString) {
-      if (typeof window !== "undefined" && window.__PHASE16_SSE_OWNER_STARTED) {
-        return null;
-      }
       const s = (statusString || "").toLowerCase();
       if (!s) return "unknown";
       if (s.includes("error") || s.includes("failed") || s.includes("offline")) {
