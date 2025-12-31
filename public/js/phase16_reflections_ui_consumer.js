@@ -16,7 +16,17 @@
   }
 
   function safeJsonParse(s) {
-    try { return JSON.parse(s); } catch { return null; }
+    try { return JSON.parse(s); } 
+  function dispatchReflectionsState(obj) {
+    try {
+      window.__REFLECTIONS_STATE = obj;
+      window.dispatchEvent(new CustomEvent("reflections.state", { detail: obj }));
+    } catch (e) {
+      /* noop */
+    }
+  }
+
+catch { return null; }
   }
 
   function nowISO() {
@@ -69,7 +79,12 @@
     es.addEventListener("error", () => setStatus("reflections: error"));
 
     es.addEventListener("hello", (e) => onAny("hello", e));
-    es.addEventListener("reflections.state", (e) => onAny("reflections.state", e));
+    es.addEventListener("reflections.state", (e) => {
+        onAny("reflections.state", e);
+        const raw = e && e.data;
+        const parsed = (typeof raw === "string") ? safeJsonParse(raw) : null;
+        if (parsed) dispatchReflectionsState(parsed);
+      });
     es.addEventListener("reflections.heartbeat", (e) => onAny("reflections.heartbeat", e));
 
     appendLine(logEl, `[${nowISO()}] bound to window.__refES`);
