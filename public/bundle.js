@@ -314,15 +314,15 @@
 
         g[key].es = es;
         if (!es) return null;
-          const tick = () => set(ind, label, g[key].connected, g[key].lastAt);
-          es.onopen = () => {
-        g[key].connected = true;
-        tick();
-      };
-      es.onerror = () => {
-        g[key].connected = false;
-        tick();
-      };
+        const tick = () => set(ind, label, g[key].connected, g[key].lastAt);
+        es.onopen = () => {
+          g[key].connected = true;
+          tick();
+        };
+        es.onerror = () => {
+          g[key].connected = false;
+          tick();
+        };
       const handle = (evtType, e) => {
         g[key].lastAt = NOW();
         const parsed = safeJsonParse(e && e.data ? e.data : "");
