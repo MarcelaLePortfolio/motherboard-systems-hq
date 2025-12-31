@@ -10,7 +10,15 @@ import { dbDelegateTask, dbCompleteTask } from "./server/tasks-mutations.mjs";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const app = express();  // ===== PHASE16_SSE_HUB (OPS + Reflections) =====
+const app = express();  
+
+
+app.use((req,res,next)=>{ console.log(`[HTTP]  `); next(); });
+app.use((req,res,next)=>{ console.log(`[HTTP]  `); next(); });
+
+app.use((req,res,next)=>{ console.log(`[HTTP]  `); next(); });
+
+// ===== PHASE16_SSE_HUB (OPS + Reflections) =====
 
 // --- Phase 16.9: framework-agnostic JSON responder (Express or plain Node) ---
 function _phase16SendJson(res, code, obj) {
