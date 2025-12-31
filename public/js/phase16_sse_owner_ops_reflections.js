@@ -9,7 +9,9 @@
   window.__PHASE16_SSE_OWNER_STARTED = true;
 
   
-  console.log("[phase16 owner] start: __refES=", window.__refES);
+  
+  const P16_DEBUG = !!window.__PHASE16_DEBUG;
+console.log("[phase16 owner] start: __refES=", window.__refES);
 function boot() {
     // If the dashboard page isn't actually present, don't create SSE.
     const hasDashboardRoot =
