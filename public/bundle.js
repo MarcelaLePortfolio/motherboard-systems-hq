@@ -425,7 +425,7 @@
     }
     let source;
     try {
-      source = window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(OPS_SSE_URL);
+      source = window.__PHASE16_SSE_OWNER_STARTED ? window.__opsES : new EventSource(OPS_SSE_URL);
     } catch (err) {
       console.error("agent-status-row.js: Failed to open OPS SSE connection:", err);
       return;
@@ -558,7 +558,6 @@
 
   // public/js/ops-globals-bridge.js
   (() => {
-    if (typeof window !== "undefined" && window.__PHASE16_SSE_OWNER_STARTED) return;
     if (typeof window === "undefined" || typeof EventSource === "undefined") return;
     if (window.__opsGlobalsBridgeInitialized) return;
     window.__opsGlobalsBridgeInitialized = true;
@@ -591,7 +590,7 @@
       }
     };
     try {
-      const es = window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(opsUrl);
+      const es = window.__PHASE16_SSE_OWNER_STARTED ? window.__opsES : new EventSource(opsUrl);
       if (!es) return null;
       es.onmessage = handleEvent;
       es.addEventListener("hello", handleEvent);
