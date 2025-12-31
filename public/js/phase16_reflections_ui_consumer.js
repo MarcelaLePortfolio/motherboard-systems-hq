@@ -1,13 +1,16 @@
 /**
- * Phase 16: Reflections UI Consumer (non-bundled, safe-by-default)
+ * Phase 16: Reflections UI Consumer (safe-by-default)
  * - Subscribes to the existing owner singleton: window.__refES
- * - Renders recent reflections SSE payloads into #phase16_reflections_log
+ * - Renders reflections SSE payloads into #phase16_reflections_log
  * - Never throws if DOM elements are missing; no-op instead
+ * - Retries binding for a short window in case the owner singleton initializes after DOMContentLoaded
  */
 (() => {
   "use strict";
 
   const MAX_LINES = 200;
+  const RETRY_MS = 250;
+  const RETRY_MAX_MS = 10_000;
 
   function $(id) {
     try {
@@ -33,8 +36,7 @@
     if (!el) return;
     const lines = (el.textContent || "").split("\n").filter(Boolean);
     lines.push(line);
-    const trimmed = lines.slice(-MAX_LINES);
-    el.textContent = trimmed.join("\n") + "\n";
+    el.textContent = lines.slice(-MAX_LINES).join("\n") + "\n";
     try {
       el.scrollTop = el.scrollHeight;
     } catch {}
@@ -48,14 +50,10 @@
 
   function bindToExistingRefES() {
     const es = window.__refES;
-    if (!es || typeof es.addEventListener !== "function") {
-      setStatus("reflections: (no EventSource singleton found)");
-      return null;
-    }
-
-    setStatus(`reflections: connected (readyState=${es.readyState})`);
+    if (!es || typeof es.addEventListener !== "function") return null;
 
     const logEl = $("phase16_reflections_log");
+    setStatus(`reflections: connected (readyState=${es.readyState})`);
 
     function onAny(evtName, e) {
       const raw = e?.data ?? "";
@@ -71,9 +69,7 @@
 
     es.addEventListener("hello", (e) => onAny("hello", e));
     es.addEventListener("reflections.state", (e) => onAny("reflections.state", e));
-    es.addEventListener("reflections.heartbeat", (e) =>
-      onAny("reflections.heartbeat", e)
-    );
+    es.addEventListener("reflections.heartbeat", (e) => onAny("reflections.heartbeat", e));
 
     appendLine(logEl, `[${nowISO()}] bound to window.__refES`);
     return es;
@@ -83,7 +79,28 @@
     const logEl = $("phase16_reflections_log");
     const statusEl = $("phase16_reflections_status");
     if (!logEl || !statusEl) return;
-    bindToExistingRefES();
+
+    const startedAt = Date.now();
+    setStatus("reflections: (binding...)");
+
+    const tryBind = () => {
+      const es = bindToExistingRefES();
+      if (es) return true;
+
+      const elapsed = Date.now() - startedAt;
+      if (elapsed >= RETRY_MAX_MS) {
+        setStatus("reflections: (no EventSource singleton found)");
+        appendLine(logEl, `[${nowISO()}] no window.__refES after ${RETRY_MAX_MS}ms`);
+        return true; // stop retrying
+      }
+      return false;
+    };
+
+    if (tryBind()) return;
+
+    const t = setInterval(() => {
+      if (tryBind()) clearInterval(t);
+    }, RETRY_MS);
   }
 
   if (document.readyState === "loading") {
