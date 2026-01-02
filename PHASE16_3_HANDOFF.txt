@@ -1,0 +1,9 @@
+Start from tag: v16.3-merged-ui-cleanup-ok
+Status:
+- Single production-safe SSE indicator (footer)
+- All debug/HUD/toasts gated behind window.__UI_DEBUG
+- Dashboard footer clean (no empty script tags)
+- Post-merge verify script added and whitelisted
+Next recommended work:
+- Phase 16.4: SSE reliability polish (heartbeat semantics, reconnect/backoff, stale-state detection)
+- OR branch to Phase 17
