@@ -1,0 +1,6 @@
+Phase 16.4 — SSE Reliability
+- Heartbeat semantics (server emits; client tracks last-seen)
+- Reconnect with exponential backoff + jitter
+- Stale-state detection + UI downgrade
+- Snapshot-on-reconnect to resync state
+- Metrics/logging gated behind debug flag
