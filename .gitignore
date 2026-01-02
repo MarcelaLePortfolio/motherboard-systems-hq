@@ -39,3 +39,5 @@ Backups/
 public/dashboard.html.bak-*
 
 !scripts/phase16_proofpack_connect_guard.sh
+
+!scripts/phase16_3_postmerge_verify.sh
