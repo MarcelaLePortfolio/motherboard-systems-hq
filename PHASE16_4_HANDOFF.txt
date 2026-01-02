@@ -1,0 +1,3 @@
+Start from tag: v16.3-merged-ui-cleanup-ok
+Status: Phase 16 UI is production-safe (single SSE indicator; debug gated).
+Next: Phase 16.4 — SSE reliability polish: heartbeat semantics, reconnect/backoff, stale-state detection; OR branch to Phase 17.
