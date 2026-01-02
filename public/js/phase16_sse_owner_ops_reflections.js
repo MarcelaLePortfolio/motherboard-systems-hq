@@ -67,3 +67,66 @@ if (!(window.__refES && typeof window.__refES.addEventListener === "function")) 
     boot();
   }
 })();
+
+/* === Phase16 owner: dispatch + state cache (prevents snapshot race) === */
+(() => {
+  if (window.__PHASE16_OWNER_DISPATCH_BOUND) return;
+  window.__PHASE16_OWNER_DISPATCH_BOUND = true;
+  window.__PHASE16_SSE_OWNER_DISPATCHES = true;
+
+  function safeJson(s) { try { return JSON.parse(s); } catch (_) { return null; } }
+
+  function bindOps(es) {
+    if (!es || typeof es.addEventListener !== "function") return;
+    es.addEventListener("ops.state", (e) => {
+      const obj = safeJson(e && e.data);
+      if (!obj) return;
+      window.__OPS_STATE = obj;
+      window.dispatchEvent(new CustomEvent("ops.state", { detail: obj }));
+    });
+  }
+
+  function bindReflections(es) {
+    if (!es || typeof es.addEventListener !== "function") return;
+
+    es.addEventListener("reflections.state", (e) => {
+      const obj = safeJson(e && e.data);
+      if (!obj) return;
+      window.__REFLECTIONS_STATE = obj;
+      window.dispatchEvent(new CustomEvent("reflections.state", { detail: obj }));
+    });
+
+    es.addEventListener("reflections.add", (e) => {
+      const obj = safeJson(e && e.data);
+      if (!obj) return;
+
+      const item = obj.item || (obj.data && obj.data.item) || null;
+      const cur = (window.__REFLECTIONS_STATE && typeof window.__REFLECTIONS_STATE === "object")
+        ? window.__REFLECTIONS_STATE
+        : { items: [], lastAt: null };
+
+      if (item) {
+        const items = Array.isArray(cur.items) ? cur.items.slice() : [];
+        items.unshift(item);
+        cur.items = items;
+        cur.lastAt = item.ts != null ? item.ts : (cur.lastAt || null);
+      }
+
+      window.__REFLECTIONS_STATE = cur;
+      window.dispatchEvent(new CustomEvent("reflections.state", { detail: cur }));
+    });
+  }
+
+  // Bind to whatever the owner created (or later self-heals create)
+  bindOps(window.__opsES);
+  bindReflections(window.__refES);
+
+  // If ES didn’t exist yet at append time, try a few times quickly.
+  let tries = 0;
+  const t = setInterval(() => {
+    tries++;
+    if (tries > 20) return clearInterval(t);
+    if (window.__opsES) bindOps(window.__opsES);
+    if (window.__refES) bindReflections(window.__refES);
+  }, 100);
+})();
