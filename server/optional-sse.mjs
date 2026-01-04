@@ -44,7 +44,9 @@ function sseHeaders(res) {
   try { res.flushHeaders(); } catch (_) {}
 
   
-  const __hbRef = startSSEHeartbeat(res, req, "reflections");const __hbOps = startSSEHeartbeat(res, req, "ops");}
+  const __hbRef = startSSEHeartbeat(res, req, "reflections");
+  const __hbOps = startSSEHeartbeat(res, req, "ops");
+}
 
 function writeLine(res, line) {
   res.write(line.endsWith("\n") ? line : line + "\n");
@@ -148,7 +150,7 @@ function makeStream(kind) {
 
     // Keepalive comment (":" lines are ignored by SSE clients)
     const ka = setInterval(() => {
-      try { writeLine(res, `:ka ${Date.now()}`); writeLine(res, ""); } catch (_) {}
+      try { sseSend(res, "heartbeat", { kind, ts: Date.now() }); } catch (_) {}
     }, 15000);
 
     req.on("close", () => {
