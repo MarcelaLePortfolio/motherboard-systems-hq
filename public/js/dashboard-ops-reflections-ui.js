@@ -1,3 +1,5 @@
+window.__refSSEState = window.__refSSEState || { lastEventAt:0,lastHeartbeatAt:0,backoffMs:0,staleTimer:null,reconnectTimer:null,closing:false };
+window.__opsSSEState = window.__opsSSEState || { lastEventAt:0,lastHeartbeatAt:0,backoffMs:0,staleTimer:null,reconnectTimer:null,closing:false };
 /**
  * Phase 16 UI consumption:
  * - consume ops.state -> paint OPS pill (label + class)
@@ -39,7 +41,20 @@ function getOpsPillEl() {
 (() => {
   function safeJson(s) { try { return JSON.parse(s); } catch (_) { return null; } }
 
-  function wire(url, map) {
+  
+function wire(url, map) {
+  const label = String(url).includes("/events/ops") ? "ops" : "reflections";
+  const state = (label === "ops") ? window.__opsSSEState : window.__refSSEState;
+
+  function bind(es) {
+    // Preserve original wiring behavior (handlers attached to `es`)
+    try {
+      es.addEventListener("message", (e) => {
+        // original code below expects `es` in scope; keep behavior minimal here.
+      });
+    } catch (_) {}
+
+    // ORIGINAL_WIRE_BODY_START
     try {
       const es = (window.__PHASE16_SSE_OWNER_STARTED
       ? (String(url).includes("/events/ops") ? window.__opsES : window.__refES)
@@ -50,7 +65,26 @@ function getOpsPillEl() {
           const data = safeJson(e.data);
           if (data == null) return;
           window.dispatchEvent(new CustomEvent(winEvt, { detail: data }));
-        });
+    // ORIGINAL_WIRE_BODY_END
+  }
+
+  // Build a fresh ES and (re)bind handlers on every reconnect.
+  return __p16_connectSSE(label, url, state, (es) => {
+    // Rewrite any references from window.__opsES/window.__refES to `es`
+    // by running the original body in a small shim context:
+    const windowOpsPrev = window.__opsES;
+    const windowRefPrev = window.__refES;
+    try {
+      if (label === "ops") window.__opsES = es;
+      else window.__refES = es;
+      bind(es);
+    } finally {
+      // keep globals pointing at current es (do NOT restore)
+      void windowOpsPrev; void windowRefPrev;
+    }
+  });
+}
+);
       }
       es.addEventListener("error", () => {
         // SSE will retry automatically; keep quiet unless debugging.
@@ -74,6 +108,96 @@ function getOpsPillEl() {
 // ===== /PHASE16_SSE_GLUE =====
 
 (function () {
+// PHASE16_4_CLIENT_STALE_DETECT
+const PHASE16_4_STALE_MS = Number(window.__PHASE16_4_STALE_MS || 15000);
+const PHASE16_4_BACKOFF_MIN = Number(window.__PHASE16_4_BACKOFF_MIN || 500);
+const PHASE16_4_BACKOFF_MAX = Number(window.__PHASE16_4_BACKOFF_MAX || 10000);
+
+function __p16_nowMs() { return Date.now(); }
+function __p16_jitter(ms) { return Math.floor(ms * (0.85 + Math.random() * 0.3)); }
+function __p16_nextBackoff(prev) {
+  const base = prev ? Math.min(prev * 2, PHASE16_4_BACKOFF_MAX) : PHASE16_4_BACKOFF_MIN;
+  return __p16_jitter(base);
+}
+
+function __p16_connectSSE(label, url, state, bind) {
+  state = state || { lastEventAt:0,lastHeartbeatAt:0,backoffMs:0,staleTimer:null,reconnectTimer:null,closing:false };
+
+  function __clearTimers() {
+    try { if (state.staleTimer) clearInterval(state.staleTimer); } catch (_) {}
+    try { if (state.reconnectTimer) clearTimeout(state.reconnectTimer); } catch (_) {}
+    state.staleTimer = null;
+    state.reconnectTimer = null;
+  }
+
+  function __assignGlobal(es) {
+    try {
+      if (label === "ops") window.__opsES = es;
+      if (label === "reflections") window.__refES = es;
+    } catch (_) {}
+  }
+
+  function __scheduleReconnect(es) {
+    if (state.closing) return;
+    state.closing = true;
+    try { if (es) es.close(); } catch (_) {}
+    __clearTimers();
+    state.backoffMs = __p16_nextBackoff(state.backoffMs);
+    state.reconnectTimer = setTimeout(() => {
+      state.closing = false;
+      const nes = __connectOnce();
+      __assignGlobal(nes);
+    }, state.backoffMs);
+  }
+
+  function __armStaleTimer(es) {
+    __clearTimers();
+    const tick = () => {
+      const t = __p16_nowMs();
+      const last = state.lastHeartbeatAt || state.lastEventAt;
+      if (last && (t - last) > PHASE16_4_STALE_MS) __scheduleReconnect(es);
+    };
+    state.staleTimer = setInterval(tick, Math.max(1000, Math.floor(PHASE16_4_STALE_MS / 3)));
+  }
+
+  function __connectOnce() {
+    const es = new EventSource(url);
+
+    // app wiring
+    try { if (typeof bind === "function") bind(es); } catch (_) {}
+
+    // reliability hooks
+    es.addEventListener("open", () => {
+      const t = __p16_nowMs();
+      state.lastEventAt = t;
+      state.lastHeartbeatAt = t;
+      state.backoffMs = 0;
+      __armStaleTimer(es);
+    });
+
+    es.addEventListener("message", () => {
+      state.lastEventAt = __p16_nowMs();
+    });
+
+    es.addEventListener("heartbeat", () => {
+      const t = __p16_nowMs();
+      state.lastEventAt = t;
+      state.lastHeartbeatAt = t;
+    });
+
+    es.addEventListener("error", () => {
+      __scheduleReconnect(es);
+    });
+
+    return es;
+  }
+
+  const first = __connectOnce();
+  __assignGlobal(first);
+  return first;
+}
+
+
   var UI_DEBUG = !!(window && window.__UI_DEBUG);
   var SEL = {
     opsPill: ["#ops-pill","[data-role='ops-pill']",".ops-pill",".pill.ops","[data-pill='ops']"],
