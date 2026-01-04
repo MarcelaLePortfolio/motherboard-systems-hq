@@ -1,3 +1,25 @@
+// PHASE16_4_HEARTBEAT_SSE
+const PHASE16_4_HEARTBEAT_MS = Number(process.env.PHASE16_4_HEARTBEAT_MS || 5000);
+
+function sseSend(res, evt, dataObj) {
+  res.write(`event: ${evt}\n`);
+  res.write(`data: ${JSON.stringify(dataObj)}\n\n`);
+}
+
+function startSSEHeartbeat(res, req, kind) {
+  const t = setInterval(() => {
+    try { sseSend(res, "heartbeat", { kind, ts: Date.now() }); } catch (_) {}
+  }, PHASE16_4_HEARTBEAT_MS);
+  if (typeof t.unref === "function") t.unref();
+
+  try {
+    req.on("close", () => { try { clearInterval(t); } catch (_) {} });
+    req.on("aborted", () => { try { clearInterval(t); } catch (_) {} });
+  } catch (_) {}
+
+  return t;
+}
+
 /**
  * Phase 16 — Optional SSE endpoints for dashboard (OPS + Reflections)
  *
@@ -20,7 +42,9 @@ function sseHeaders(res) {
   res.setHeader("X-Accel-Buffering", "no");
   // Express flushHeaders() exists; if not, ignore.
   try { res.flushHeaders(); } catch (_) {}
-}
+
+  
+  const __hbRef = startSSEHeartbeat(res, req, "reflections");const __hbOps = startSSEHeartbeat(res, req, "ops");}
 
 function writeLine(res, line) {
   res.write(line.endsWith("\n") ? line : line + "\n");
