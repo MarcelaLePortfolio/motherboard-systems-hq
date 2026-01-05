@@ -90,8 +90,6 @@ function makeStream(kind) {
 
   function handler(req, res) {
     __phase16_writeSSEHeaders(req, res);
-    sseHeaders(res);
-
     // Register client
     clients.add(res);
 
@@ -120,15 +118,14 @@ function makeStream(kind) {
       const url = new URL(req.originalUrl || req.url || "/", "http://localhost");
       once = url.searchParams.get("once") === "1";
     } catch (_) {}
-    if (once) {
-      try { res.write(": once
-
-"); } catch (_) {}
-      try { res.flush && res.flush(); } catch (_) {}
-      try { res.flushHeaders && res.flushHeaders(); } catch (_) {}
-      setTimeout(() => { try { res.end(); } catch (_) {} }, 250);
-      return;
-    }
+      if (once) {
+        // Write at least one full SSE frame before ending.
+        try { res.write(": once\n\n"); } catch (_) {}
+        try { res.flush && res.flush(); } catch (_) {}
+        try { res.flushHeaders && res.flushHeaders(); } catch (_) {}
+        setTimeout(() => { try { res.end(); } catch (_) {} }, 250);
+        return;
+      }
 
 // Keepalive comment (":" lines are ignored by SSE clients)
     const ka = setInterval(() => {
