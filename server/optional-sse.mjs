@@ -97,7 +97,6 @@ function makeStream(kind) {
     
   
   __phase16_writeSSEHeaders(req, res);
-__phase16_writeSSEHeaders(req, res);
 sseHeaders(res);
 
     // Register client
@@ -139,14 +138,7 @@ sseHeaders(res);
       if (once) {
         setTimeout(() => { try { res.end(); } catch (_) {} }, 25);
         return;
-      }
-
-    // Keepalive comment (":" lines are ignored by SSE clients)
-    const ka = setInterval(() => {
-      try { writeLine(res, `:ka ${Date.now()}`); writeLine(res, ""); } catch (_) {}
-    }, 15000);
-
-    req.on("close", () => {
+      }    req.on("close", () => {
       clearInterval(ka);
       clients.delete(res);
       try { res.end(); } catch (_) {}
