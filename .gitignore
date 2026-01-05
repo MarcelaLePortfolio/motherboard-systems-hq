@@ -39,3 +39,5 @@ Backups/
 public/dashboard.html.bak-*
 
 !scripts/phase16_proofpack_connect_guard.sh
+
+server/optional-sse.mjs.bak-*
