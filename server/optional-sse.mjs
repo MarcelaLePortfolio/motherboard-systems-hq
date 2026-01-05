@@ -112,20 +112,25 @@ function makeStream(kind) {
         writeEvent(res, { event: "reflections.state", data: snap });
       }
     } catch (_) {}
-
     // PHASE16_OPTIONAL_SSE_ONCE_DEFINED
-    // If ?once=1, end immediately after hello/snapshot for clean curl smoke tests.
+    // If ?once=1, end shortly after hello/snapshot for clean curl smoke tests.
+    // IMPORTANT: write+flush before ending; otherwise curl can report (18) on fast close.
     let once = false;
     try {
       const url = new URL(req.originalUrl || req.url || "/", "http://localhost");
       once = url.searchParams.get("once") === "1";
     } catch (_) {}
     if (once) {
-      setTimeout(() => { try { res.end(); } catch (_) {} }, 25);
+      try { res.write(": once
+
+"); } catch (_) {}
+      try { res.flush && res.flush(); } catch (_) {}
+      try { res.flushHeaders && res.flushHeaders(); } catch (_) {}
+      setTimeout(() => { try { res.end(); } catch (_) {} }, 250);
       return;
     }
 
-    // Keepalive comment (":" lines are ignored by SSE clients)
+// Keepalive comment (":" lines are ignored by SSE clients)
     const ka = setInterval(() => {
       try { res.write(": keepalive\\n\\n"); } catch (_) {}
     }, 10000);
