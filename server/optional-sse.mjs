@@ -21,10 +21,6 @@ function __phase16_writeSSEHeaders(req, res) {
   try { res.setHeader("Connection", "keep-alive"); } catch {}
   try { res.setHeader("X-Accel-Buffering", "no"); } catch {}
   try { res.flushHeaders && res.flushHeaders(); } catch {}
-  const ms = 10000;
-  const t = setInterval(() => { try { res.write(": keepalive\n\n"); } catch {} }, ms);
-  req.on("close", () => { try { clearInterval(t); } catch {} });
-  return t;
 }
 
 function sseHeaders(res) {
@@ -89,15 +85,12 @@ function writeEvent(res, evt = {}) {
   String(payload).split("\n").forEach((ln) => writeLine(res, `data: ${ln}`));
   writeLine(res, "");
 }
-
 function makeStream(kind) {
   const clients = new Set();
 
   function handler(req, res) {
-    
-  
-  __phase16_writeSSEHeaders(req, res);
-sseHeaders(res);
+    __phase16_writeSSEHeaders(req, res);
+    sseHeaders(res);
 
     // Register client
     clients.add(res);
@@ -108,50 +101,40 @@ sseHeaders(res);
       data: { kind, ts: Date.now(), msg: `SSE ${kind} connected` },
     });
 
-
-
-
-
-
-      
-      
-
-
-        // PHASE16_OPTIONAL_SSE_SNAPSHOT_ON_CONNECT
-        // Send an immediate state snapshot so the dashboard can paint instantly.
-        try {
-          if (kind === "ops" && globalThis.__OPS_STATE) {
-            writeEvent(res, { event: "ops.state", data: globalThis.__OPS_STATE });
-          }
-          if (kind === "reflections") {
-            const snap = globalThis.__REFLECTIONS_STATE || { items: [], lastAt: null };
-            writeEvent(res, { event: "reflections.state", data: snap });
-          }
-        } catch (_) {}
-      // PHASE16_OPTIONAL_SSE_ONCE_DEFINED
-      // If ?once=1, end immediately after hello/snapshot for clean curl smoke tests.
-      let once = false;
-      try {
-        const url = new URL(req.originalUrl || req.url || "/", "http://localhost");
-        once = url.searchParams.get("once") === "1";
-      } catch (_) {}
-      if (once) {
-        setTimeout(() => { try { res.end(); } catch (_) {} }, 25);
-        return;
+    // PHASE16_OPTIONAL_SSE_SNAPSHOT_ON_CONNECT
+    // Send an immediate state snapshot so the dashboard can paint instantly.
+    try {
+      if (kind === "ops" && globalThis.__OPS_STATE) {
+        writeEvent(res, { event: "ops.state", data: globalThis.__OPS_STATE });
       }
+      if (kind === "reflections") {
+        const snap = globalThis.__REFLECTIONS_STATE || { items: [], lastAt: null };
+        writeEvent(res, { event: "reflections.state", data: snap });
+      }
+    } catch (_) {}
 
-req.on("close", () => {
+    // PHASE16_OPTIONAL_SSE_ONCE_DEFINED
+    // If ?once=1, end immediately after hello/snapshot for clean curl smoke tests.
+    let once = false;
+    try {
+      const url = new URL(req.originalUrl || req.url || "/", "http://localhost");
+      once = url.searchParams.get("once") === "1";
+    } catch (_) {}
+    if (once) {
+      setTimeout(() => { try { res.end(); } catch (_) {} }, 25);
+      return;
+    }
+
+    // Keepalive comment (":" lines are ignored by SSE clients)
+    const ka = setInterval(() => {
+      try { res.write(": keepalive\\n\\n"); } catch (_) {}
+    }, 10000);
+
+    req.on("close", () => {
+      try { clearInterval(ka); } catch (_) {}
       clients.delete(res);
       try { res.end(); } catch (_) {}
     });
-
-      // Close: remove client and end stream
-      req.on("close", () => {
-        clients.delete(res);
-        try { res.end(); } catch (_) {}
-      });
-
-
   }
 
   function broadcast(event, data) {
