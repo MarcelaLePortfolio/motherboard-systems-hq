@@ -95,7 +95,9 @@ function makeStream(kind) {
 
   function handler(req, res) {
     
+  
   __phase16_writeSSEHeaders(req, res);
+__phase16_writeSSEHeaders(req, res);
 sseHeaders(res);
 
     // Register client
