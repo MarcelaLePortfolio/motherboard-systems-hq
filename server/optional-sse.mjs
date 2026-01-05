@@ -12,6 +12,21 @@
  * - Broadcast helper exposed on globalThis.__SSE for future wiring
  */
 
+
+
+// Phase 16.4: SSE keepalive + proxy-safe headers
+function __phase16_writeSSEHeaders(req, res) {
+  try { res.setHeader("Content-Type", "text/event-stream; charset=utf-8"); } catch {}
+  try { res.setHeader("Cache-Control", "no-cache, no-transform"); } catch {}
+  try { res.setHeader("Connection", "keep-alive"); } catch {}
+  try { res.setHeader("X-Accel-Buffering", "no"); } catch {}
+  try { res.flushHeaders && res.flushHeaders(); } catch {}
+  const ms = 10000;
+  const t = setInterval(() => { try { res.write(": keepalive\n\n"); } catch {} }, ms);
+  req.on("close", () => { try { clearInterval(t); } catch {} });
+  return t;
+}
+
 function sseHeaders(res) {
   res.status(200);
   res.setHeader("Content-Type", "text/event-stream; charset=utf-8");
@@ -79,7 +94,9 @@ function makeStream(kind) {
   const clients = new Set();
 
   function handler(req, res) {
-    sseHeaders(res);
+    
+  __phase16_writeSSEHeaders(req, res);
+sseHeaders(res);
 
     // Register client
     clients.add(res);
