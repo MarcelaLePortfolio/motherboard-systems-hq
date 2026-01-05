@@ -8,7 +8,7 @@
  * Guarantees:
  * - Proper SSE headers
  * - Immediate "hello" event (so curl never hangs silently)
- * - Keepalive comment every 15s (prevents idle timeouts)
+ * - Keepalive comment every 10s (prevents idle timeouts)
  * - Broadcast helper exposed on globalThis.__SSE for future wiring
  */
 
@@ -138,11 +138,20 @@ sseHeaders(res);
       if (once) {
         setTimeout(() => { try { res.end(); } catch (_) {} }, 25);
         return;
-      }    req.on("close", () => {
-      clearInterval(ka);
+      }
+
+req.on("close", () => {
       clients.delete(res);
       try { res.end(); } catch (_) {}
     });
+
+      // Close: remove client and end stream
+      req.on("close", () => {
+        clients.delete(res);
+        try { res.end(); } catch (_) {}
+      });
+
+
   }
 
   function broadcast(event, data) {
