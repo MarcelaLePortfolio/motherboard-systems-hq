@@ -37,6 +37,11 @@ function startSSEHeartbeat(res, req, kind) {
 function sseHeaders(res) {
   res.status(200);
   res.setHeader("Content-Type", "text/event-stream; charset=utf-8");
+  /* PHASE16_4_FORCE_INITIAL_SSE_FLUSH */
+  // Ensure the very first bytes are flushed immediately so clients/proxies don't wait on buffering.
+  try { if (typeof res.flushHeaders === "function") res.flushHeaders(); } catch (_) {}
+  try { res.write(": initial-flush\\n\\n"); } catch (_) {}
+  try { if (typeof res.flush === "function") res.flush(); } catch (_) {}
   res.setHeader("Cache-Control", "no-cache, no-transform");
   res.setHeader("Connection", "keep-alive");
   res.setHeader("X-Accel-Buffering", "no");
@@ -115,6 +120,11 @@ function makeStream(kind) {
       event: "hello",
       data: { kind, ts: Date.now(), msg: `SSE ${kind} connected` },
     });
+    /* PHASE16_4_FLUSH_AFTER_HELLO */
+    // Force immediate bytes to reach client/proxies (avoid initial buffering)
+    try { if (typeof res.flushHeaders === "function") res.flushHeaders(); } catch (_) {}
+    try { res.write(": initial-flush\\n\\n"); } catch (_) {}
+    try { if (typeof res.flush === "function") res.flush(); } catch (_) {}
 
 
 
