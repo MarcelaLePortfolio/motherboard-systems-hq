@@ -90,6 +90,11 @@ function makeStream(kind) {
 
   function handler(req, res) {
     __phase16_writeSSEHeaders(req, res);
+      // Phase 16.5: keep SSE sockets alive (avoid idle timeout)
+      try { req.socket.setTimeout(0); } catch (_) {}
+      try { res.socket.setTimeout(0); } catch (_) {}
+      try { res.socket.setKeepAlive(true); } catch (_) {}
+
     // Register client
     clients.add(res);
 
@@ -132,7 +137,7 @@ function makeStream(kind) {
       try { res.write(": keepalive\\n\\n"); } catch (_) {}
     }, 10000);
 
-    const __hb=setInterval(()=>{try{res.write("event: heartbeat\n");res.write("data: "+JSON.stringify({ts:Date.now()})+"\n\n")}catch{}},15000);
+    const __hb=setInterval(()=>{try{res.write("event: heartbeat\n");res.write("data: "+JSON.stringify({ts:Date.now()})+"\n\n")}catch{}},3000);
 
 req.on("close", () => {
 clearInterval(__hb);
