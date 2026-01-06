@@ -1,7 +1,8 @@
 {
   "type": "module",
   "scripts": {
-    "build:dashboard-bundle": "esbuild public/js/dashboard-bundle-entry.js --bundle --outfile=public/bundle.js --sourcemap"
+    "build:dashboard-bundle": "esbuild public/js/dashboard-bundle-entry.js --bundle --outfile=public/bundle.js --sourcemap",
+    "test:orchestration": "node --import tsx --test server/orchestration/*.test.ts"
   },
   "devDependencies": {
     "@types/better-sqlite3": "^7.6.13",
@@ -9,6 +10,7 @@
     "@types/node": "^24.10.1",
     "@types/uuid": "^10.0.0",
     "esbuild": "^0.27.0",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   },
   "dependencies": {
