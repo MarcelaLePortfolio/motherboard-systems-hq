@@ -66,10 +66,17 @@ export function registerOrchestratorStateRoute(app) {
     throw new Error("registerOrchestratorStateRoute(app) requires an Express app");
   }
 
+  if (truthy(process.env.PHASE19_DEBUG)) {
+    console.log("[phase19] registerOrchestratorStateRoute(): attaching /orchestrator/state + /orchestrator/state._debug");
+  }
+
   // Debug: prove this module is mounted + show env values (only when PHASE19_DEBUG=1)
   app.get("/orchestrator/state._debug", (req, res) => {
     if (!truthy(process.env.PHASE19_DEBUG)) {
       return res.status(404).json({ ok: false, error: "not_found" });
+    }
+    if (truthy(process.env.PHASE19_DEBUG)) {
+      console.log("[phase19] HIT /orchestrator/state._debug");
     }
     return res.status(200).json({
       ok: true,
@@ -84,6 +91,10 @@ export function registerOrchestratorStateRoute(app) {
   });
 
   app.get("/orchestrator/state", (req, res) => {
+    if (truthy(process.env.PHASE19_DEBUG)) {
+      console.log("[phase19] HIT /orchestrator/state");
+    }
+
     if (!truthy(process.env.PHASE19_ENABLE_ORCH_STATE)) {
       if (truthy(process.env.PHASE19_DEBUG)) {
         return res.status(404).json({

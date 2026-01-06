@@ -4,6 +4,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import pg from "pg";
 import { registerOrchestratorStateRoute } from "./server/orchestrator_state_route.mjs";
+import { registerPhase19DebugRoutes } from "./server/phase19_debug_routes_dump.mjs";
 
 import { attachArtifacts } from "./server/artifacts.mjs";
 import { dbDelegateTask, dbCompleteTask } from "./server/tasks-mutations.mjs";
@@ -14,6 +15,7 @@ const __dirname = path.dirname(__filename);
 
 const app = express();  
 registerOrchestratorStateRoute(app);
+registerPhase19DebugRoutes(app);
 if (process.env.PHASE19_DEBUG === "1") {
   console.log("[phase19] env", {
     PHASE18_ENABLE_ORCHESTRATION: process.env.PHASE18_ENABLE_ORCHESTRATION,
