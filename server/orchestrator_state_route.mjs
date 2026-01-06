@@ -73,7 +73,11 @@ export function registerOrchestratorStateRoute(app) {
 
   app.get("/orchestrator/state", (req, res) => {
     if (!truthy(process.env.PHASE19_ENABLE_ORCH_STATE)) {
-      return res.status(404).json({ ok: false, error: "not_found" });
+      
+if (process.env.PHASE19_DEBUG === "1") {
+      return res.status(404).json({ ok: false, error: "not_found", debug: { PHASE19_ENABLE_ORCH_STATE: process.env.PHASE19_ENABLE_ORCH_STATE } });
+    }
+    return res.status(404).json({ ok: false, error: "not_found" });
     }
 
     const enabled = truthy(process.env.PHASE18_ENABLE_ORCHESTRATION);

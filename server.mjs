@@ -11,8 +11,15 @@ import { dbDelegateTask, dbCompleteTask } from "./server/tasks-mutations.mjs";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+
 const app = express();  
 registerOrchestratorStateRoute(app);
+if (process.env.PHASE19_DEBUG === "1") {
+  console.log("[phase19] env", {
+    PHASE18_ENABLE_ORCHESTRATION: process.env.PHASE18_ENABLE_ORCHESTRATION,
+    PHASE19_ENABLE_ORCH_STATE: process.env.PHASE19_ENABLE_ORCH_STATE,
+  });
+}
 app.use(express.text({ type: "*/*", limit: "64kb" }));
 app.post("/api/phase16-beacon", (req, res) => {
   try { console.log("[BEACON]", req.body); } catch (e) { console.log("[BEACON] <unreadable>"); }
