@@ -62,6 +62,9 @@ function readStateFromGlobals() {
 }
 
 export function registerOrchestratorStateRoute(app) {
+  if (process.env.PHASE19_DEBUG === "1") {
+    console.log("[phase19] orchestrator_state_route loaded", { file: import.meta.url });
+  }
   if (!app || typeof app.get !== "function") {
     throw new Error("registerOrchestratorStateRoute(app) requires an Express app");
   }
@@ -72,6 +75,7 @@ export function registerOrchestratorStateRoute(app) {
 
   // Debug: prove this module is mounted + show env values (only when PHASE19_DEBUG=1)
   app.get("/orchestrator/state._debug", (req, res) => {
+    res.setHeader("X-Phase19-Orch", "1");
     if (!truthy(process.env.PHASE19_DEBUG)) {
       return res.status(404).json({ ok: false, error: "not_found" });
     }
@@ -91,6 +95,7 @@ export function registerOrchestratorStateRoute(app) {
   });
 
   app.get("/orchestrator/state", (req, res) => {
+    res.setHeader("X-Phase19-Orch", "1");
     if (truthy(process.env.PHASE19_DEBUG)) {
       console.log("[phase19] HIT /orchestrator/state");
     }
