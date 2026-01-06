@@ -64,14 +64,15 @@ function readStateFromGlobals() {
   return { ok: false, state: null };
 }
 
-// Snapshot env at module-load time (this is the critical fix)
-const ENV_SNAPSHOT = Object.freeze({
-  PHASE18_ENABLE_ORCHESTRATION: process.env.PHASE18_ENABLE_ORCHESTRATION,
-  PHASE19_ENABLE_ORCH_STATE: process.env.PHASE19_ENABLE_ORCH_STATE,
-  PHASE19_DEBUG: process.env.PHASE19_DEBUG,
-});
-
 export function registerOrchestratorStateRoute(app) {
+  const PHASE19_SNAPSHOT = Object.freeze({
+    PHASE18_ENABLE_ORCHESTRATION: process.env.PHASE18_ENABLE_ORCHESTRATION,
+    PHASE19_ENABLE_ORCH_STATE: process.env.PHASE19_ENABLE_ORCH_STATE,
+    PHASE19_DEBUG: process.env.PHASE19_DEBUG,
+  });
+  const PHASE19_GATE_ON = truthy(PHASE19_SNAPSHOT.PHASE19_ENABLE_ORCH_STATE);
+  const PHASE18_ENABLED = truthy(PHASE19_SNAPSHOT.PHASE18_ENABLE_ORCHESTRATION);
+
   if (!app || typeof app.get !== "function") {
     throw new Error("registerOrchestratorStateRoute(app) requires an Express app");
   }
@@ -79,8 +80,8 @@ export function registerOrchestratorStateRoute(app) {
   console.log("[phase19] orchestrator_state_route mounted", {
     file: import.meta.url,
     envSnapshot: {
-      PHASE18_ENABLE_ORCHESTRATION: ENV_SNAPSHOT.PHASE18_ENABLE_ORCHESTRATION,
-      PHASE19_ENABLE_ORCH_STATE: ENV_SNAPSHOT.PHASE19_ENABLE_ORCH_STATE,
+      PHASE18_ENABLE_ORCHESTRATION: PHASE19_SNAPSHOT.PHASE18_ENABLE_ORCHESTRATION,
+      PHASE19_ENABLE_ORCH_STATE: PHASE19_SNAPSHOT.PHASE19_ENABLE_ORCH_STATE,
     },
   });
 
@@ -91,10 +92,13 @@ export function registerOrchestratorStateRoute(app) {
       ok: true,
       ts: Date.now(),
       envSnapshot: {
-        PHASE18_ENABLE_ORCHESTRATION: ENV_SNAPSHOT.PHASE18_ENABLE_ORCHESTRATION,
-        PHASE19_ENABLE_ORCH_STATE: ENV_SNAPSHOT.PHASE19_ENABLE_ORCH_STATE,
-        PHASE19_DEBUG: ENV_SNAPSHOT.PHASE19_DEBUG,
+        PHASE18_ENABLE_ORCHESTRATION: PHASE19_SNAPSHOT.PHASE18_ENABLE_ORCHESTRATION,
+        PHASE19_ENABLE_ORCH_STATE: PHASE19_SNAPSHOT.PHASE19_ENABLE_ORCH_STATE,
+        PHASE19_DEBUG: PHASE19_SNAPSHOT.PHASE19_DEBUG,
       },
+      snapshotKeys: Object.keys(PHASE19_SNAPSHOT),
+      snapshotOwnProps: Object.getOwnPropertyNames(PHASE19_SNAPSHOT),
+      gate: { PHASE19_GATE_ON, PHASE18_ENABLED },
       envLive: {
         PHASE18_ENABLE_ORCHESTRATION: process.env.PHASE18_ENABLE_ORCHESTRATION,
         PHASE19_ENABLE_ORCH_STATE: process.env.PHASE19_ENABLE_ORCH_STATE,
@@ -109,7 +113,7 @@ export function registerOrchestratorStateRoute(app) {
     res.setHeader("X-Phase19-Orch", "1");
 
     // Gate uses the SNAPSHOT (not process.env)
-    if (!truthy(ENV_SNAPSHOT.PHASE19_ENABLE_ORCH_STATE)) {
+    if (!PHASE19_GATE_ON) {
       return res.status(404).json({
         ok: false,
         error: "not_found",
@@ -121,7 +125,7 @@ export function registerOrchestratorStateRoute(app) {
       });
     }
 
-    const enabled = truthy(ENV_SNAPSHOT.PHASE18_ENABLE_ORCHESTRATION);
+    const enabled = PHASE18_ENABLED;
     const { ok, state } = readStateFromGlobals();
 
     return res.status(200).json({
