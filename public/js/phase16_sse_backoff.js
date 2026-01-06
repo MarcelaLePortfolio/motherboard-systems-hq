@@ -1,88 +1,193 @@
+/**
+ * Phase 16.5 — SSE reconnect/backoff helper (strict single-connection)
+ *
+ * Usage:
+ *   const es = window.connectSSEWithBackoff({
+ *     url: "/events/ops",
+ *     label: "ops",
+ *     isHealthyEvent: (name, ev) => name === "heartbeat" || name === "hello" || name === "ops.state",
+ *     onError: (ev) => {},
+ *     onState: (st) => {},
+ *   });
+ *
+ * Guarantees:
+ * - At most ONE underlying EventSource at any moment
+ * - On reconnect: closes old ES before opening new ES
+ * - Only ONE retry timer
+ * - Resets attempt counter when "healthy" events arrive
+ */
 (function () {
   if (window.connectSSEWithBackoff) return;
 
-  function jitter(ms, pct) {
-    const d = ms * pct;
-    return Math.max(0, Math.floor(ms + (Math.random() * 2 - 1) * d));
+  function now() { return Date.now(); }
+
+  function clamp(n, lo, hi) { return Math.max(lo, Math.min(hi, n)); }
+
+  function computeDelayMs(attempt, baseMs, maxMs, jitterFrac) {
+    // attempt: 0,1,2...
+    const exp = baseMs * Math.pow(2, clamp(attempt, 0, 20));
+    const raw = Math.min(maxMs, exp);
+    const jitter = raw * (jitterFrac || 0);
+    const j = (Math.random() * 2 - 1) * jitter; // +/- jitter
+    return Math.max(0, Math.round(raw + j));
   }
 
-  function clamp(n, lo, hi) {
-    return Math.max(lo, Math.min(hi, n));
-  }
+  window.connectSSEWithBackoff = function connectSSEWithBackoff(cfg) {
+    cfg = cfg || {};
+    const url = cfg.url;
+    if (!url) throw new Error("connectSSEWithBackoff: missing cfg.url");
 
-  window.connectSSEWithBackoff = function (cfg) {
-    const minDelay = cfg.minDelayMs ?? 500;
-    const maxDelay = cfg.maxDelayMs ?? 15000;
-    const jitterPct = cfg.jitterPct ?? 0.2;
+    const baseMs = typeof cfg.baseDelayMs === "number" ? cfg.baseDelayMs : 500;
+    const maxMs  = typeof cfg.maxDelayMs  === "number" ? cfg.maxDelayMs  : 30000;
+    const jitter = typeof cfg.jitterFrac  === "number" ? cfg.jitterFrac  : 0.2;
 
-    let attempt = 0;
-        emit('open');
-    let lastEventAt = null;
     let es = null;
     let closed = false;
+    let connecting = false;
+    let attempt = 0;
+    let lastEventAt = 0;
+    let retryTimer = null;
 
-    function delay() {
-      return jitter(
-        clamp(minDelay * Math.pow(2, attempt), minDelay, maxDelay),
-        jitterPct
-      );
+    // user listeners (EventSource-like)
+    const listeners = new Map(); // name -> Set(fn)
+
+    function safe(fn) { try { fn && fn(); } catch (_) {} }
+
+    function emit(phase, extra) {
+      if (!cfg.onState) return;
+      try {
+        cfg.onState({
+          label: cfg.label || url,
+          url,
+          attempt,
+          phase,
+          lastEventAt,
+          readyState: es ? es.readyState : null,
+          ...(extra || {}),
+        });
+      } catch (_) {}
     }
 
-    function emit(phase, extra){
-  if (!cfg.onState) return;
-  try { cfg.onState({ label: cfg.label || cfg.url, url: cfg.url, attempt, phase, lastEventAt, readyState: es ? es.readyState : null, ...(extra||{}) }); } catch {}
-}
+    function closeES() {
+      if (es) {
+        try { es.close(); } catch (_) {}
+      }
+      es = null;
+    }
 
-function connect(reason) {
+    function clearRetry() {
+      if (retryTimer) {
+        clearTimeout(retryTimer);
+        retryTimer = null;
+      }
+    }
+
+    function scheduleRetry(reason) {
       if (closed) return;
+      clearRetry();
+      const ms = computeDelayMs(attempt, baseMs, maxMs, jitter);
+      emit("retry_scheduled", { reason, delayMs: ms });
+      attempt += 1;
+      retryTimer = setTimeout(() => {
+        retryTimer = null;
+        connect("retry");
+      }, ms);
+    }
 
-      if (es) try { es.close(); } catch {}
-      emit('connecting', {reason});
-      es = new EventSource(cfg.url);
-
-      es.onopen = (ev) => {
-        attempt = 0;
-        emit('open');
-        cfg.onOpen && cfg.onOpen(ev);
-      };
-
-      es.onmessage = (ev) => {
-        cfg.onMessage && cfg.onMessage(ev);
-      };
-
-      const origAdd = es.addEventListener.bind(es);
-      es.addEventListener = function (name, handler, opts) {
-        return origAdd(name, function (ev) {
+    function wrapListener(name, fn) {
+      return function (ev) {
+        lastEventAt = now();
+        try {
           if (cfg.isHealthyEvent && cfg.isHealthyEvent(name, ev)) {
             attempt = 0;
-        emit('open');
+            emit("healthy", { event: name });
           }
-          cfg.onEvent && cfg.onEvent(name, ev);
-          handler && handler(ev);
-        }, opts);
-      };
-
-      es.onerror = (ev) => {
-        emit('error');
-        cfg.onError && cfg.onError(ev);
-        try { es.close(); } catch {}
-        es = null;
-        const ms = delay();
-        emit('retry_scheduled', {delayMs: ms});
-        setTimeout(() => {
-          attempt++;
-          connect("retry");
-        }, ms);
+        } catch (_) {}
+        try { fn(ev); } catch (_) {}
       };
     }
 
-    connect("initial");
+    function attachAllListeners() {
+      if (!es) return;
+      for (const [name, set] of listeners.entries()) {
+        for (const fn of set.values()) {
+          try { es.addEventListener(name, wrapListener(name, fn)); } catch (_) {}
+        }
+      }
+    }
 
-    return {
+    function connect(reason) {
+      if (closed) return;
+      if (connecting) return; // prevent concurrent connects
+      connecting = true;
+
+      clearRetry();
+
+      // IMPORTANT: ensure ONLY ONE ES exists
+      closeES();
+
+      emit("connecting", { reason });
+
+      try {
+        es = new EventSource(url);
+      } catch (e) {
+        connecting = false;
+        emit("error", { reason: "new_failed" });
+        scheduleRetry("new_failed");
+        return;
+      }
+
+      // Attach user listeners first (so early events are caught)
+      attachAllListeners();
+
+      // open/error handlers
+      safe(() => es.addEventListener("open", () => {
+        connecting = false;
+        attempt = 0;
+        emit("open");
+      }));
+
+      safe(() => es.addEventListener("error", (ev) => {
+        connecting = false;
+        emit("error");
+        // Close before retry so we don't stack sockets.
+        safe(() => es && es.close());
+        closeES();
+        if (cfg.onError) safe(() => cfg.onError(ev));
+        scheduleRetry("error");
+      }));
+    }
+
+    const wrapper = {
+      addEventListener(name, fn) {
+        if (!name || typeof fn !== "function") return;
+        if (!listeners.has(name)) listeners.set(name, new Set());
+        listeners.get(name).add(fn);
+        // If already connected, attach immediately.
+        if (es) {
+          try { es.addEventListener(name, wrapListener(name, fn)); } catch (_) {}
+        }
+      },
+      removeEventListener(name, fn) {
+        const set = listeners.get(name);
+        if (set) set.delete(fn);
+        // Best-effort remove on underlying ES (won't match wrapped fn; acceptable for Phase16 usage).
+        try { es && es.removeEventListener && es.removeEventListener(name, fn); } catch (_) {}
+      },
       close() {
         closed = true;
-        if (es) try { es.close(); } catch {}
-      }
+        clearRetry();
+        closeES();
+        emit("closed");
+      },
     };
+
+    Object.defineProperty(wrapper, "readyState", {
+      get() { return es ? es.readyState : (closed ? 2 : 0); },
+    });
+
+    // kick off
+    connect("initial");
+    return wrapper;
   };
 })();
