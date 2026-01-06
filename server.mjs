@@ -12,7 +12,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();  
-
 registerOrchestratorStateRoute(app);
 app.use(express.text({ type: "*/*", limit: "64kb" }));
 app.post("/api/phase16-beacon", (req, res) => {
