@@ -463,3 +463,22 @@ app.listen(PORT, "0.0.0.0", () => {
   // =========================================
 
 
+
+/* ===========================
+ * Phase 18: Orchestration Tick
+ * ===========================
+ * Guarded behind: PHASE18_ENABLE_ORCHESTRATION=1
+ * In-memory only; minimal cadence tick.
+ */
+if (process.env.PHASE18_ENABLE_ORCHESTRATION === "1") {
+  import("./server/orchestrator/phase18_orchestration.mjs")
+    .then((m) => {
+      m.startPhase18OrchestrationRuntime({
+        intervalMs: Number(process.env.PHASE18_TICK_MS || 1000),
+        log: (msg) => console.log(msg),
+      });
+    })
+    .catch((e) => {
+      console.error("[phase18] failed to start orchestration runtime:", e);
+    });
+}
