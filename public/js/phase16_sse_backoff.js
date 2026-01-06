@@ -16,6 +16,8 @@
     const jitterPct = cfg.jitterPct ?? 0.2;
 
     let attempt = 0;
+        emit('open');
+    let lastEventAt = null;
     let es = null;
     let closed = false;
 
@@ -26,14 +28,21 @@
       );
     }
 
-    function connect(reason) {
+    function emit(phase, extra){
+  if (!cfg.onState) return;
+  try { cfg.onState({ label: cfg.label || cfg.url, url: cfg.url, attempt, phase, lastEventAt, readyState: es ? es.readyState : null, ...(extra||{}) }); } catch {}
+}
+
+function connect(reason) {
       if (closed) return;
 
       if (es) try { es.close(); } catch {}
+      emit('connecting', {reason});
       es = new EventSource(cfg.url);
 
       es.onopen = (ev) => {
         attempt = 0;
+        emit('open');
         cfg.onOpen && cfg.onOpen(ev);
       };
 
@@ -46,6 +55,7 @@
         return origAdd(name, function (ev) {
           if (cfg.isHealthyEvent && cfg.isHealthyEvent(name, ev)) {
             attempt = 0;
+        emit('open');
           }
           cfg.onEvent && cfg.onEvent(name, ev);
           handler && handler(ev);
@@ -53,10 +63,12 @@
       };
 
       es.onerror = (ev) => {
+        emit('error');
         cfg.onError && cfg.onError(ev);
         try { es.close(); } catch {}
         es = null;
         const ms = delay();
+        emit('retry_scheduled', {delayMs: ms});
         setTimeout(() => {
           attempt++;
           connect("retry");
