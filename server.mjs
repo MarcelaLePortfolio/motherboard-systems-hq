@@ -177,13 +177,17 @@ const { emitArtifact } = attachArtifacts(app);
 const PORT = process.env.PORT || 3000;
 
 const { Pool } = pg;
-const pool = new Pool({
-  host: process.env.PGHOST || "postgres",
-  port: Number(process.env.PGPORT || 5432),
-  user: process.env.PGUSER || "postgres",
-  password: process.env.PGPASSWORD || "postgres",
-  database: process.env.PGDATABASE || "postgres",
-});
+const DB_URL = process.env.POSTGRES_URL || process.env.DATABASE_URL || "";
+
+const pool = DB_URL
+  ? new Pool({ connectionString: DB_URL })
+  : new Pool({
+      host: process.env.PGHOST || "postgres",
+      port: Number(process.env.PGPORT || 5432),
+      user: process.env.PGUSER || "postgres",
+      password: process.env.PGPASSWORD || "postgres",
+      database: process.env.PGDATABASE || "postgres",
+    });
 
 console.log("Database pool initialized");
 
