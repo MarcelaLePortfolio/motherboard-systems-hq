@@ -119,8 +119,8 @@ export function registerOrchestratorStateRoute(app) {
         error: "not_found",
         debug: {
           gate: "snapshot",
-          PHASE19_ENABLE_ORCH_STATE: ENV_SNAPSHOT.PHASE19_ENABLE_ORCH_STATE,
-          PHASE18_ENABLE_ORCHESTRATION: ENV_SNAPSHOT.PHASE18_ENABLE_ORCHESTRATION,
+          PHASE19_ENABLE_ORCH_STATE: PHASE19_SNAPSHOT.PHASE19_ENABLE_ORCH_STATE,
+          PHASE18_ENABLE_ORCHESTRATION: PHASE19_SNAPSHOT.PHASE18_ENABLE_ORCHESTRATION,
         },
       });
     }
