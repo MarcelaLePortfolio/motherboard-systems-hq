@@ -2,11 +2,11 @@
  * Phase 19 — Orchestrator State Route (read-only)
  *
  * Gate: PHASE19_ENABLE_ORCH_STATE === "1"
- * Endpoint: GET /orchestrator/state
+ * Debug gate: PHASE19_DEBUG === "1"
  *
- * Best-effort snapshot strategy:
- * - Prefer a stable, intentionally-exported global store if present.
- * - Avoid throwing; always return deterministic JSON.
+ * Endpoints:
+ *   - GET /orchestrator/state         (gated JSON snapshot)
+ *   - GET /orchestrator/state._debug  (only when PHASE19_DEBUG=1)
  */
 
 function truthy(v) {
@@ -19,11 +19,9 @@ function pickFirstDefined(...vals) {
 }
 
 function safeClone(obj) {
-  // Avoid circular refs; return a minimal serializable structure.
   try {
     return JSON.parse(JSON.stringify(obj));
   } catch {
-    // last resort: stringify via toString-ish
     return { kind: "nonserializable", note: "state could not be JSON-stringified" };
   }
 }
@@ -31,7 +29,6 @@ function safeClone(obj) {
 function readStateFromGlobals() {
   const g = globalThis;
 
-  // Common candidates (Phase 18 patterns vary across implementations)
   const store =
     pickFirstDefined(
       g.__orchestratorStore,
@@ -41,7 +38,6 @@ function readStateFromGlobals() {
       g.__orchestrator?.stateStore
     );
 
-  // Store snapshot methods (try in safest order)
   if (store) {
     if (typeof store.snapshot === "function") return { ok: true, state: store.snapshot() };
     if (typeof store.getState === "function") return { ok: true, state: store.getState() };
@@ -49,7 +45,6 @@ function readStateFromGlobals() {
     if (typeof store === "object") return { ok: true, state: store };
   }
 
-  // Sometimes state is hung off a global orchestrator object
   const orch =
     pickFirstDefined(
       g.__orchestrator,
@@ -71,18 +66,41 @@ export function registerOrchestratorStateRoute(app) {
     throw new Error("registerOrchestratorStateRoute(app) requires an Express app");
   }
 
+  // Debug: prove this module is mounted + show env values (only when PHASE19_DEBUG=1)
+  app.get("/orchestrator/state._debug", (req, res) => {
+    if (!truthy(process.env.PHASE19_DEBUG)) {
+      return res.status(404).json({ ok: false, error: "not_found" });
+    }
+    return res.status(200).json({
+      ok: true,
+      ts: Date.now(),
+      env: {
+        PHASE18_ENABLE_ORCHESTRATION: process.env.PHASE18_ENABLE_ORCHESTRATION,
+        PHASE19_ENABLE_ORCH_STATE: process.env.PHASE19_ENABLE_ORCH_STATE,
+        PHASE19_DEBUG: process.env.PHASE19_DEBUG,
+      },
+      note: "If you can see this, orchestrator_state_route.mjs is mounted on the running server.",
+    });
+  });
+
   app.get("/orchestrator/state", (req, res) => {
     if (!truthy(process.env.PHASE19_ENABLE_ORCH_STATE)) {
-      
-if (process.env.PHASE19_DEBUG === "1") {
-      return res.status(404).json({ ok: false, error: "not_found", debug: { PHASE19_ENABLE_ORCH_STATE: process.env.PHASE19_ENABLE_ORCH_STATE } });
-    }
-    return res.status(404).json({ ok: false, error: "not_found" });
+      if (truthy(process.env.PHASE19_DEBUG)) {
+        return res.status(404).json({
+          ok: false,
+          error: "not_found",
+          debug: {
+            PHASE19_ENABLE_ORCH_STATE: process.env.PHASE19_ENABLE_ORCH_STATE,
+            PHASE19_DEBUG: process.env.PHASE19_DEBUG,
+          },
+        });
+      }
+      return res.status(404).json({ ok: false, error: "not_found" });
     }
 
     const enabled = truthy(process.env.PHASE18_ENABLE_ORCHESTRATION);
-
     const { ok, state } = readStateFromGlobals();
+
     const payload = {
       ok: true,
       enabled,
