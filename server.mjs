@@ -3,6 +3,7 @@ import { registerOptionalSSE } from "./server/optional-sse.mjs";
 import path from "path";
 import { fileURLToPath } from "url";
 import pg from "pg";
+import { registerOrchestratorStateRoute } from "./server/orchestrator_state_route.mjs";
 
 import { attachArtifacts } from "./server/artifacts.mjs";
 import { dbDelegateTask, dbCompleteTask } from "./server/tasks-mutations.mjs";
@@ -12,6 +13,7 @@ const __dirname = path.dirname(__filename);
 
 const app = express();  
 
+registerOrchestratorStateRoute(app);
 app.use(express.text({ type: "*/*", limit: "64kb" }));
 app.post("/api/phase16-beacon", (req, res) => {
   try { console.log("[BEACON]", req.body); } catch (e) { console.log("[BEACON] <unreadable>"); }
