@@ -34,7 +34,7 @@ function boot() {
 // Create once, reuse forever.
     if (!window.__opsES) {
       try {
-        window.__opsES = window.connectSSEWithBackoff({url:"/events/ops",isHealthyEvent:(n)=>n==="heartbeat"||n==="hello"||n==="ops.state",onState:(st)=>{try{if(window.__UI_DEBUG){console.log(\"[SSE:ops]\",st);}}catch(_){}}});
+          window.__opsES = window.connectSSEWithBackoff({url:"/events/ops",isHealthyEvent:(n)=>n==="heartbeat"||n==="hello"||n==="ops.state",onState:(st)=>{try{if(window.__UI_DEBUG){console.log("[SSE:ops]",st);}}catch(_){}}});
       } catch (e) {
         console.error("[phase16 owner] FAILED creating window.__opsES:", e);
 
@@ -47,7 +47,7 @@ function boot() {
 if (!(window.__refES && typeof window.__refES.addEventListener === "function")) {
       try {
         console.log("[phase16 owner] creating window.__refES...");
-        window.__refES = window.connectSSEWithBackoff({url:"/events/reflections",isHealthyEvent:(n)=>n==="heartbeat"||n==="hello"||n==="reflections.state",onState:(st)=>{try{if(window.__UI_DEBUG){console.log(\"[SSE:ref]\",st);}}catch(_){}}});
+          window.__refES = window.connectSSEWithBackoff({url:"/events/reflections",isHealthyEvent:(n)=>n==="heartbeat"||n==="hello"||n==="reflections.state",onState:(st)=>{try{if(window.__UI_DEBUG){console.log("[SSE:ref]",st);}}catch(_){}}});
       
         console.log("[phase16 owner] created window.__refES", window.__refES, "readyState=", window.__refES && window.__refES.readyState);
 } catch (e) {
