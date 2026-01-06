@@ -132,7 +132,10 @@ function makeStream(kind) {
       try { res.write(": keepalive\\n\\n"); } catch (_) {}
     }, 10000);
 
-    req.on("close", () => {
+    const __hb=setInterval(()=>{try{res.write("event: heartbeat\n");res.write("data: "+JSON.stringify({ts:Date.now()})+"\n\n")}catch{}},15000);
+
+req.on("close", () => {
+clearInterval(__hb);
       try { clearInterval(ka); } catch (_) {}
       clients.delete(res);
       try { res.end(); } catch (_) {}
