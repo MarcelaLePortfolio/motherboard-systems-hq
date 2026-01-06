@@ -2,11 +2,10 @@
  * Phase 19 — Orchestrator State Route (read-only)
  *
  * Gate: PHASE19_ENABLE_ORCH_STATE === "1"
- * Debug gate: PHASE19_DEBUG === "1"
  *
  * Endpoints:
  *   - GET /orchestrator/state         (gated JSON snapshot)
- *   - GET /orchestrator/state._debug  (only when PHASE19_DEBUG=1)
+ *   - GET /orchestrator/state._debug  (ALWAYS 200 for local diagnosis)
  */
 
 function truthy(v) {
@@ -62,26 +61,15 @@ function readStateFromGlobals() {
 }
 
 export function registerOrchestratorStateRoute(app) {
-  if (process.env.PHASE19_DEBUG === "1") {
-    console.log("[phase19] orchestrator_state_route loaded", { file: import.meta.url });
-  }
   if (!app || typeof app.get !== "function") {
     throw new Error("registerOrchestratorStateRoute(app) requires an Express app");
   }
 
-  if (truthy(process.env.PHASE19_DEBUG)) {
-    console.log("[phase19] registerOrchestratorStateRoute(): attaching /orchestrator/state + /orchestrator/state._debug");
-  }
+  console.log("[phase19] orchestrator_state_route mounted", { file: import.meta.url });
 
-  // Debug: prove this module is mounted + show env values (only when PHASE19_DEBUG=1)
+  // Debug: ALWAYS respond 200 so we can see env at request time
   app.get("/orchestrator/state._debug", (req, res) => {
     res.setHeader("X-Phase19-Orch", "1");
-    if (!truthy(process.env.PHASE19_DEBUG)) {
-      return res.status(404).json({ ok: false, error: "not_found" });
-    }
-    if (truthy(process.env.PHASE19_DEBUG)) {
-      console.log("[phase19] HIT /orchestrator/state._debug");
-    }
     return res.status(200).json({
       ok: true,
       ts: Date.now(),
@@ -90,42 +78,34 @@ export function registerOrchestratorStateRoute(app) {
         PHASE19_ENABLE_ORCH_STATE: process.env.PHASE19_ENABLE_ORCH_STATE,
         PHASE19_DEBUG: process.env.PHASE19_DEBUG,
       },
-      note: "If you can see this, orchestrator_state_route.mjs is mounted on the running server.",
+      note: "This endpoint is ungated to diagnose why gated endpoints may be returning 404.",
     });
   });
 
   app.get("/orchestrator/state", (req, res) => {
     res.setHeader("X-Phase19-Orch", "1");
-    if (truthy(process.env.PHASE19_DEBUG)) {
-      console.log("[phase19] HIT /orchestrator/state");
-    }
 
     if (!truthy(process.env.PHASE19_ENABLE_ORCH_STATE)) {
-      if (truthy(process.env.PHASE19_DEBUG)) {
-        return res.status(404).json({
-          ok: false,
-          error: "not_found",
-          debug: {
-            PHASE19_ENABLE_ORCH_STATE: process.env.PHASE19_ENABLE_ORCH_STATE,
-            PHASE19_DEBUG: process.env.PHASE19_DEBUG,
-          },
-        });
-      }
-      return res.status(404).json({ ok: false, error: "not_found" });
+      return res.status(404).json({
+        ok: false,
+        error: "not_found",
+        debug: {
+          PHASE19_ENABLE_ORCH_STATE: process.env.PHASE19_ENABLE_ORCH_STATE,
+          PHASE18_ENABLE_ORCHESTRATION: process.env.PHASE18_ENABLE_ORCHESTRATION,
+        },
+      });
     }
 
     const enabled = truthy(process.env.PHASE18_ENABLE_ORCHESTRATION);
     const { ok, state } = readStateFromGlobals();
 
-    const payload = {
+    return res.status(200).json({
       ok: true,
       enabled,
       available: ok,
       ts: Date.now(),
       state: ok ? safeClone(state) : null,
       note: ok ? undefined : "orchestrator state not found on expected globals",
-    };
-
-    return res.status(200).json(payload);
+    });
   });
 }
