@@ -38,17 +38,30 @@
     indicators[name.toLowerCase()] = { pill, dot, label };
   });
 
-  const OPS_SSE_URL = "http://127.0.0.1:3201/events/ops";
-  let source;
+  const OPS_SSE_URL = `/events/ops`;
+  
+
+  const __DISABLE_OPTIONAL_SSE = (typeof window !== "undefined" && window.__DISABLE_OPTIONAL_SSE) === true;
+  if (__DISABLE_OPTIONAL_SSE) {
+    console.warn("[agent-status-row] Optional SSE disabled (Phase 16 pending):", OPS_SSE_URL);
+    Object.keys(indicators).forEach((key) => applyVisual(key, "unknown"));
+    return;
+  }
+let source;
 
   try {
-    source = new EventSource(OPS_SSE_URL);
+    source = (window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(OPS_SSE_URL));
   } catch (err) {
     console.error("agent-status-row.js: Failed to open OPS SSE connection:", err);
     return;
   }
 
   function classifyStatus(statusString) {
+  // Phase16: bail if SSE owner already started
+  if (typeof window !== "undefined" && window.__PHASE16_SSE_OWNER_STARTED) {
+    return null;
+  }
+
     const s = (statusString || "").toLowerCase();
     if (!s) return "unknown";
     if (s.includes("error") || s.includes("failed") || s.includes("offline")) {
@@ -98,6 +111,8 @@
     label.textContent = `${prettyName}: ${finalStatus}`;
   }
 
+  // Phase16: guard null EventSource before handlers
+  if (!source) return null;
   source.onmessage = (event) => {
     let payloadRaw = event.data;
     let data;

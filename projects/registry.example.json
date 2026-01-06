@@ -1,0 +1,17 @@
+{
+  "activeProjectId": "hq",
+  "projects": [
+    {
+      "id": "hq",
+      "name": "Motherboard Systems HQ",
+      "mode": "integrity",
+      "kind": "core",
+      "repoPath": ".",
+      "services": [
+        { "name": "dashboard", "url": "http://127.0.0.1:8080" },
+        { "name": "ops_sse", "url": "http://127.0.0.1:8080/events/ops" },
+        { "name": "reflections_sse", "url": "http://127.0.0.1:8080/events/reflections" }
+      ]
+    }
+  ]
+}

@@ -1,19 +1,43 @@
-/* eslint-disable import/no-commonjs */
-.env.local
+# macOS
+.DS_Store
+
+# Node / build
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+dist/
+build/
+.coverage/
+coverage/
+.cache/
+.esbuild/
+
+# Logs / temp
+logs/
+*.log
+tmp/
+.tmp/
+*.swp
+
+# Env
+.env
+.env.*
+!.env.example
+
+# local-only Phase 16 scratch scripts
+scripts/phase16_*
+
+# allow committed Phase 16 helper script
+!scripts/phase16_verify_sse_frontend.sh
+
+# local recovery / backups (do not commit)
+._recovery/
 Backups/
-Users/
-astro-react-test/node_modules/
-node_modules/
-scripts/_local/agent-runtime/matilda_runtime.cjs
-ui/dashboard/public/agent-status.json
-ui/dashboard/public/matilda-log.json
-scripts/_local/agent-runtime/memory/*.json
-node_modules
-node_modules/
-.env
-.env
-.env
-.env.bak
-public/bundle.js.map
-# v11 dashboard bundling artifacts
-public/bundle.js.map
+public/dashboard.html.bak-*
+
+!scripts/phase16_proofpack_connect_guard.sh
+
+server/optional-sse.mjs.bak-*
