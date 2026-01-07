@@ -1,4 +1,5 @@
 export async function dbDelegateTask(pool, body) {
+import { appendTaskEvent } from "./task-events.mjs";
   const title = body?.title || "(untitled)";
   const agent = body?.agent || "cade";
   const notes = body?.notes || "";
