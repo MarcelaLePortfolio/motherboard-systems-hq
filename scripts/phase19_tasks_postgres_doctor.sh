@@ -14,10 +14,10 @@ git status --porcelain || true
 echo
 
 echo "== docker: motherboard-postgres =="
-docker ps --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}' | rg -n 'motherboard-postgres|NAMES' || true
+docker ps --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}' | rg -n '(postgres|motherboard-postgres|motherboard_systems_hq-postgres|NAMES)' || true
 echo
 
-if docker ps --format '{{.Names}}' | rg -q '^motherboard-postgres$'; then
+if docker ps --format '{{.Names}}' | rg -q '(^motherboard-postgres$|motherboard_systems_hq-postgres-1$|postgres-1$|motherboard_systems_hq-postgres)'; then
   echo "== postgres env (inside container) =="
   docker exec motherboard-postgres bash -lc 'env | rg -n "^POSTGRES_(USER|PASSWORD|DB)=" || true'
   echo
