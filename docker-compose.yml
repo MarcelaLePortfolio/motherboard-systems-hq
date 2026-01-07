@@ -18,11 +18,8 @@ services:
         GIT_SHA: ${GIT_SHA:-unknown}
         BUILD_TIME: ${BUILD_TIME:-unknown}
     environment:
-      # runtime env (server emits these in build_output)
       GIT_SHA: ${GIT_SHA:-unknown}
       BUILD_TIME: ${BUILD_TIME:-unknown}
-
-      # DB wiring (explicit)
       PGHOST: ${PGHOST:-postgres}
       PGPORT: ${PGPORT:-5432}
       PGUSER: ${PGUSER:-postgres}
