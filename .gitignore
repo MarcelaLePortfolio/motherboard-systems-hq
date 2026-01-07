@@ -41,3 +41,24 @@ public/dashboard.html.bak-*
 !scripts/phase16_proofpack_connect_guard.sh
 
 server/optional-sse.mjs.bak-*
+
+.local_artifacts/
+db/*.db
+db/*.db-wal
+db/*.db-shm
+*.sqlite
+docker-compose.yml.bak.*
+drizzle.bak.*/
+drizzle/*.busted.*
+
+# local artifacts (do not commit)
+.local_artifacts/
+db/*.db
+db/*.db-wal
+db/*.db-shm
+*.sqlite
+
+# local backups / scratch
+docker-compose.yml.bak.*
+drizzle.bak.*/
+drizzle/*.busted.*
