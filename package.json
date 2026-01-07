@@ -9,6 +9,7 @@
     "@types/cors": "^2.8.19",
     "@types/node": "^24.10.1",
     "@types/uuid": "^10.0.0",
+    "drizzle-kit": "^0.31.8",
     "esbuild": "^0.27.0",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3"
@@ -19,7 +20,7 @@
     "chart.js": "^4.5.1",
     "chokidar": "^4.0.3",
     "cors": "^2.8.5",
-    "drizzle-orm": "^0.44.7",
+    "drizzle-orm": "^0.45.1",
     "express": "^5.1.0",
     "node-fetch": "^3.3.2",
     "pg": "^8.16.3",
