@@ -1,0 +1,12 @@
+Start from tag: v19.5-phase19-postgres-task_events-smoke-ok
+Branch: feature/phase19-tasks-postgres-fix
+
+Verified working:
+- docker compose services: postgres + dashboard
+- Postgres has public.tasks and public.task_events
+- task_events columns: id bigserial PK, kind text NOT NULL, payload text NOT NULL, created_at text default now()::text
+- scripts:
+  - scripts/phase19_tasks_postgres_doctor.sh (expects DATABASE_URL/POSTGRES_URL)
+  - scripts/phase19_task_events_smoke.cjs (inserts kind/payload, reads count)
+  - scripts/phase19_postgres_apply_task_events.sql (idempotent schema apply)
+  - scripts/phase19_apply_postgres_sql_via_container.sh (pipes host SQL into container psql)
