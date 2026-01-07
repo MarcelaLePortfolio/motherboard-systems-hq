@@ -65,3 +65,6 @@ drizzle/*.busted.*
 
 *.bak
 *.bak.*
+
+# local archives
+_archive/
