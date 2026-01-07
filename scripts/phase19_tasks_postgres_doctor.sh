@@ -5,92 +5,84 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT"
 
 echo "=== Phase 19 Tasks/Postgres Doctor ==="
-echo "pwd: $PWD"
+echo "pwd: $(pwd)"
 echo
 
 echo "== git =="
-git --no-pager log -1 --oneline || true
-git status --porcelain || true
+git --no-pager log -1 --oneline
+git status --porcelain
 echo
 
-echo "== docker: motherboard-postgres =="
-docker ps --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}' | rg -n '(postgres|motherboard-postgres|motherboard_systems_hq-postgres|NAMES)' || true
+echo "== docker: postgres containers =="
+docker ps --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}' | rg -n '(postgres|motherboard-postgres|NAMES)' || true
 echo
 
-if docker ps --format '{{.Names}}' | rg -q '(^motherboard-postgres$|motherboard_systems_hq-postgres-1$|postgres-1$|motherboard_systems_hq-postgres)'; then
-  echo "== postgres env (inside container) =="
-  docker exec motherboard-postgres bash -lc 'env | rg -n "^POSTGRES_(USER|PASSWORD|DB)=" || true'
-  echo
-  echo "== postgres smoke test =="
-  docker exec motherboard-postgres bash -lc '
-    set -euo pipefail
-    U="${POSTGRES_USER:-postgres}"
-    D="${POSTGRES_DB:-postgres}"
-    echo "psql -U $U -d $D -c \"select 1\""
-    psql -U "$U" -d "$D" -c "select 1" >/dev/null
-    echo "OK"
-  '
-else
-  echo "motherboard-postgres is not running. Start it first (docker compose up -d)."
+# Prefer compose service ID if available; fallback to any running container with name matching postgres.
+PG_CID="$(docker compose ps -q postgres 2>/dev/null | head -n 1 || true)"
+if [[ -z "${PG_CID:-}" ]]; then
+  PG_CID="$(docker ps --filter "status=running" --filter "name=postgres" --format '{{.ID}}' | head -n 1 || true)"
+fi
+
+if [[ -z "${PG_CID:-}" ]]; then
+  echo "No running Postgres container found. Start it first (docker compose up -d)."
   exit 2
 fi
+
+PG_NAME="$(docker inspect -f '{{.Name}}' "$PG_CID" 2>/dev/null | sed 's#^/##' || true)"
+PG_STATE="$(docker inspect -f '{{.State.Status}}' "$PG_CID" 2>/dev/null || true)"
+
+echo "== docker: selected postgres container =="
+echo "id:    $PG_CID"
+echo "name:  ${PG_NAME:-<unknown>}"
+echo "state: ${PG_STATE:-<unknown>}"
 echo
 
-echo "== derive DATABASE_URL from container env =="
-PG_USER="$(docker exec motherboard-postgres bash -lc 'echo "${POSTGRES_USER:-postgres}"')"
-PG_DB="$(docker exec motherboard-postgres bash -lc 'echo "${POSTGRES_DB:-postgres}"')"
-PG_PASS="$(docker exec motherboard-postgres bash -lc 'echo "${POSTGRES_PASSWORD:-postgres}"')"
-DB_URL="postgres://${PG_USER}:${PG_PASS}@127.0.0.1:5432/${PG_DB}"
-echo "DATABASE_URL=${DB_URL}"
-echo
-
-echo "== write .env.local (gitignored) =="
-cat > .env.local <<ENVEOF
-DATABASE_URL=${DB_URL}
-POSTGRES_URL=${DB_URL}
-ENVEOF
-echo "wrote .env.local"
-echo
-
-echo "== locate tasks api + db wiring =="
-echo "-- files mentioning /api/tasks --"
-rg -n "/api/tasks" -S . || true
-echo
-echo "-- files mentioning tasks table/schema --"
-rg -n "tasks(_|\\b)|task\\b" server src app db drizzle prisma -S . 2>/dev/null || true
-echo
-echo "-- files mentioning DATABASE_URL / POSTGRES_URL --"
-rg -n "DATABASE_URL|POSTGRES_URL" -S server src app db drizzle prisma . 2>/dev/null || true
-echo
-
-echo "== npm scripts (db/migrate) =="
-npm -s run | rg -n "drizzle|migrat|db:" || true
-echo
-
-echo "== attempt migration (common script names) =="
-set +e
-npm -s run db:migrate
-RC=$?
-set -e
-if [ "$RC" -ne 0 ]; then
-  echo
-  echo "db:migrate failed or missing. Trying drizzle-kit migrate if available..."
-  if npx --yes drizzle-kit --help >/dev/null 2>&1; then
-    npx --yes drizzle-kit migrate
-  else
-    echo "drizzle-kit not available. Add/verify migration tooling in package.json."
-    exit 3
-  fi
+if [[ "${PG_STATE:-}" != "running" ]]; then
+  echo "Selected Postgres container is not running. Start it first (docker compose up -d)."
+  exit 2
 fi
+
+echo "== postgres env (inside container) =="
+docker exec "$PG_CID" env | rg -n '^POSTGRES_' || true
 echo
 
-echo "== quick DB check: list public tables =="
-docker exec motherboard-postgres bash -lc '
-  set -euo pipefail
-  U="${POSTGRES_USER:-postgres}"
-  D="${POSTGRES_DB:-postgres}"
-  psql -U "$U" -d "$D" -c "\\dt" || true
-'
+echo "== node deps =="
+node -v
+npm -v
 echo
 
-echo "DONE."
+echo "== check: pg dependency installed in repo =="
+node -e "require.resolve('pg'); console.log('pg: OK')"
+echo
+
+echo "== check: can connect to DB and see task_events (via node/pg) =="
+node - <<'NODE'
+const pg = require("pg");
+
+const url =
+  process.env.DATABASE_URL ||
+  process.env.POSTGRES_URL ||
+  process.env.POSTGRES_URI ||
+  process.env.POSTGRES_CONNECTION_STRING;
+
+if (!url) {
+  console.error("Missing DATABASE_URL/POSTGRES_URL env var.");
+  process.exit(2);
+}
+
+(async () => {
+  const { Client } = pg;
+  const client = new Client({ connectionString: url });
+  await client.connect();
+  const v = await client.query("select version() as version;");
+  const reg = await client.query("select to_regclass('public.task_events') as reg;");
+  console.log(JSON.stringify({ ok: true, pgVersion: v.rows[0].version, taskEventsReg: reg.rows[0].reg }, null, 2));
+  await client.end();
+})().catch((e) => {
+  console.error("connect/check failed:", e && e.message ? e.message : e);
+  process.exit(2);
+});
+NODE
+echo
+
+echo "== doctor OK =="
