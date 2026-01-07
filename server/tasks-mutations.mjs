@@ -40,5 +40,19 @@ export async function dbCompleteTask(pool, body) {
   );
 
   if (!r.rows[0]) throw new Error(`task not found: ${id}`);
-  return r.rows[0];
+
+  const row = r.rows[0];
+  const k = String(row.status) === "done"
+    ? "task.completed"
+    : (String(row.status) === "failed" ? "task.failed" : "task.updated");
+
+  await appendTaskEvent(k, {
+    task_id: row.id,
+    status: row.status,
+    error: row.error ?? null,
+    source: body?.source || "api",
+    ts: Date.now(),
+  });
+
+  return row;
 }
