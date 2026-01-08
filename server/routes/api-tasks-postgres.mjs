@@ -15,9 +15,17 @@ function poolCfg() {
 
 const pool = new Pool(poolCfg());
 
+function asJsonBody(req) {
+  const b = req.body;
+  if (b == null) return {};
+  if (typeof b === "object") return b;
+  if (typeof b === "string") {
+    try { return JSON.parse(b); } catch (_) { return { _raw: b }; }
+  }
+  return { _raw: b };
+}
+
 async function ensureTaskEvents() {
-  // Phase19 reality: public.task_events(kind text not null, payload text not null, created_at text default now()::text)
-  // Keep this idempotent.
   await pool.query(`
     create table if not exists public.task_events (
       id bigserial primary key,
@@ -52,14 +60,14 @@ apiTasksRouter.get("/healthz", async (_req, res) => {
 apiTasksRouter.post("/create", async (req, res) => {
   try {
     await ensureTaskEvents();
-    const b = req.body || {};
-    const task_id = b.task_id ?? b.id ?? null;
+    const b = asJsonBody(req);
+    const task_id = b.task_id ?? b.taskId ?? b.id ?? null;
 
     const evt = await append("task.created", {
+      ...b,
       task_id,
       ts: Date.now(),
-      source: "api",
-      ...b,
+      source: b.source || "api",
     });
 
     res.status(201).json({ ok: true, task_id, event: evt });
@@ -72,17 +80,17 @@ apiTasksRouter.post("/create", async (req, res) => {
 apiTasksRouter.post("/complete", async (req, res) => {
   try {
     await ensureTaskEvents();
-    const b = req.body || {};
-    const task_id = b.task_id ?? b.id ?? null;
+    const b = asJsonBody(req);
+    const task_id = b.task_id ?? b.taskId ?? b.id ?? null;
     if (!task_id) return res.status(400).json({ ok: false, error: "task_id_required" });
 
     const evt = await append("task.completed", {
+      ...b,
       task_id,
       status: b.status ?? "done",
       error: b.error ?? null,
       ts: Date.now(),
-      source: "api",
-      ...b,
+      source: b.source || "api",
     });
 
     res.status(200).json({ ok: true, task_id, event: evt });
@@ -95,17 +103,17 @@ apiTasksRouter.post("/complete", async (req, res) => {
 apiTasksRouter.post("/fail", async (req, res) => {
   try {
     await ensureTaskEvents();
-    const b = req.body || {};
-    const task_id = b.task_id ?? b.id ?? null;
+    const b = asJsonBody(req);
+    const task_id = b.task_id ?? b.taskId ?? b.id ?? null;
     if (!task_id) return res.status(400).json({ ok: false, error: "task_id_required" });
 
     const evt = await append("task.failed", {
+      ...b,
       task_id,
       status: b.status ?? "failed",
       error: b.error ?? "unknown_error",
       ts: Date.now(),
-      source: "api",
-      ...b,
+      source: b.source || "api",
     });
 
     res.status(200).json({ ok: true, task_id, event: evt });
@@ -118,15 +126,15 @@ apiTasksRouter.post("/fail", async (req, res) => {
 apiTasksRouter.post("/cancel", async (req, res) => {
   try {
     await ensureTaskEvents();
-    const b = req.body || {};
-    const task_id = b.task_id ?? b.id ?? null;
+    const b = asJsonBody(req);
+    const task_id = b.task_id ?? b.taskId ?? b.id ?? null;
     if (!task_id) return res.status(400).json({ ok: false, error: "task_id_required" });
 
     const evt = await append("task.canceled", {
+      ...b,
       task_id,
       ts: Date.now(),
-      source: "api",
-      ...b,
+      source: b.source || "api",
     });
 
     res.status(200).json({ ok: true, task_id, event: evt });
