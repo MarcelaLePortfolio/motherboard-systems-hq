@@ -25,7 +25,8 @@
     panel.style.backdropFilter = "blur(10px)";
     panel.style.boxShadow = "0 10px 30px rgba(0,0,0,0.35)";
     panel.style.color = "rgba(255,255,255,0.92)";
-    panel.style.fontFamily = "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace";
+    panel.style.fontFamily =
+      "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace";
 
     const header = document.createElement("div");
     header.style.display = "flex";
@@ -129,8 +130,9 @@
     if (run) extras.push(`run=${run}`);
     if (ev.actor) extras.push(`actor=${ev.actor}`);
     if (ev.status) extras.push(`status=${ev.status}`);
+    if (typeof ev.cursor === "number") extras.push(`cursor=${ev.cursor}`);
     const extraStr = extras.length ? ` (${extras.join(" ")})` : "";
-    return `${ts}  ${ev.kind}  task=${tid}${extraStr}${msg ? " — " + msg : ""}`;
+    return `${ts}  ${ev.kind ?? "event"}  task=${tid}${extraStr}${msg ? " — " + msg : ""}`;
   }
 
   function appendLine(text, kind) {
@@ -151,6 +153,7 @@
 
     if (kind === "task.completed") row.style.borderColor = "rgba(80,200,120,0.35)";
     if (kind === "task.failed") row.style.borderColor = "rgba(240,90,90,0.35)";
+    if (kind === "heartbeat") row.style.opacity = "0.65";
 
     row.textContent = text;
 
@@ -164,21 +167,20 @@
     }
   }
 
-  // ---- Optional: try to reflect lifecycle in existing UI if it has recognizable hooks ----
+  // ---- Optional: reflect lifecycle in existing UI if it has recognizable hooks ----
   function reflectIntoExistingUI(ev) {
     const tid = ev.task_id ?? ev.id ?? ev.taskId;
     if (!tid) return;
 
-    // Convention: rows like #task-<id> or [data-task-id="<id>"]
     const byId = document.getElementById(`task-${tid}`) || document.getElementById(`task_${tid}`);
-    const byData = document.querySelector?.(`[data-task-id="${CSS.escape(String(tid))}"]`) || null;
+    const byData =
+      document.querySelector?.(`[data-task-id="${CSS.escape(String(tid))}"]`) || null;
     const node = byId || byData;
     if (!node) return;
 
-    node.setAttribute("data-task-kind", String(ev.kind));
+    node.setAttribute("data-task-kind", String(ev.kind ?? ""));
     node.setAttribute("data-task-updated-at", String(ev.ts ?? Date.now()));
 
-    // light-touch class toggles
     node.classList?.remove("task-created", "task-completed", "task-failed");
     if (ev.kind === "task.created") node.classList?.add("task-created");
     if (ev.kind === "task.completed") node.classList?.add("task-completed");
@@ -189,6 +191,28 @@
     try {
       window.dispatchEvent(new CustomEvent("mb.task.event", { detail: ev }));
     } catch {}
+  }
+
+  function parseMaybeJSON(raw) {
+    try { return JSON.parse(raw); } catch { return null; }
+  }
+
+  function handleFrame(eventName, rawData) {
+    const data = typeof rawData === "string" ? parseMaybeJSON(rawData) : rawData;
+    const ev = (data && typeof data === "object") ? data : { kind: eventName, raw: rawData };
+    if (!ev.kind) ev.kind = eventName;
+
+    const key = `${eventName}|${ev.kind}|${ev.ts ?? ""}|${ev.task_id ?? ev.id ?? ""}|${ev.run_id ?? ""}|${ev.cursor ?? ""}`;
+    if (seen.has(key)) return;
+    seen.add(key);
+
+    if (ev.kind === "task.created" || ev.kind === "task.completed" || ev.kind === "task.failed") {
+      bumpCounts(String(ev.kind));
+    }
+
+    appendLine(formatLine(ev), String(ev.kind ?? eventName));
+    reflectIntoExistingUI(ev);
+    dispatchWindowEvent(ev);
   }
 
   // ---- SSE connect with backoff ----
@@ -222,22 +246,24 @@
       setTimeout(connect, delay);
     };
 
-    es.onmessage = (msg) => {
-      // Some servers send default "message" events; if payload has "kind", treat it like a task event.
-      let data = null;
-      try { data = JSON.parse(msg.data); } catch { return; }
-      if (!data || typeof data !== "object") return;
-      if (!data.kind) return;
+    // Default "message" events (event: message or no event field)
+    es.onmessage = (msg) => handleFrame("message", msg.data);
 
-      const key = `${data.kind}|${data.ts ?? ""}|${data.task_id ?? data.id ?? ""}|${data.run_id ?? ""}`;
-      if (seen.has(key)) return;
-      seen.add(key);
+    // Named events we know exist (hello/heartbeat) + lifecycle frames (either per-kind or as task.event)
+    const names = [
+      "hello",
+      "heartbeat",
+      "task.event",
+      "task.created",
+      "task.completed",
+      "task.failed",
+      "task.updated",
+      "task.status",
+    ];
 
-      bumpCounts(String(data.kind));
-      appendLine(formatLine(data), String(data.kind));
-      reflectIntoExistingUI(data);
-      dispatchWindowEvent(data);
-    };
+    for (const name of names) {
+      es.addEventListener(name, (e) => handleFrame(name, e.data));
+    }
   }
 
   // Boot when DOM is ready
