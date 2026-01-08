@@ -191,7 +191,28 @@ const { emitArtifact } = attachArtifacts(app);
 const PORT = process.env.PORT || 3000;
 
 const { Pool } = pg;
-const DB_URL = process.env.POSTGRES_URL || process.env.DATABASE_URL || "";
+const DB_URL_RAW = process.env.POSTGRES_URL || process.env.DATABASE_URL || "";
+
+// Normalize DB_URL: pg treats empty password as null -> SCRAM error ("password must be a string").
+// If URL has user but empty password, fill from PGPASSWORD (or default "postgres").
+function _normalizeDbUrl(raw) {
+  try {
+    if (!raw) return "";
+    if (!/^postgres(ql)?:\/\//i.test(raw)) return raw;
+    const u = new URL(raw);
+    const hasUser = (u.username || "") !== "";
+    const hasPw = (u.password || "") !== "";
+    if (hasUser && !hasPw) {
+      u.password = String(process.env.PGPASSWORD || "postgres");
+      console.warn("[db] DB_URL had empty password; filled from PGPASSWORD/default");
+    }
+    return u.toString();
+  } catch (_) {
+    return raw;
+  }
+}
+
+const DB_URL = _normalizeDbUrl(DB_URL_RAW);
 
 const pool = DB_URL
   ? new Pool({ connectionString: DB_URL })
