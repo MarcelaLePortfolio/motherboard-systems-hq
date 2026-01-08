@@ -26,3 +26,7 @@ import "./matilda-chat-console.js";
 // TEMP: dashboard graph disabled until canvas is present on all pages
 // import "./dashboard-graph.js";
 
+
+// Phase 22: task-events live UI
+import "./task-events-sse-client.js";
+import "./phase22_task_delegation_live_bindings.js";
