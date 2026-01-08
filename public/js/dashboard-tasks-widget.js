@@ -122,7 +122,10 @@
 
   document.addEventListener("DOMContentLoaded", fetchTasks);
 
-  // Auto-refresh (no SSE): keep widget feeling live
+  // Phase22: SSE-driven refresh
+  window.addEventListener("mb.task.event", () => { fetchTasks(); });
+
+// Auto-refresh (no SSE): keep widget feeling live
   setInterval(() => { fetchTasks(); }, 5000);
 
 })();

@@ -933,6 +933,9 @@
       });
     }
     document.addEventListener("DOMContentLoaded", fetchTasks);
+    window.addEventListener("mb.task.event", () => {
+      fetchTasks();
+    });
     setInterval(() => {
       fetchTasks();
     }, 5e3);
