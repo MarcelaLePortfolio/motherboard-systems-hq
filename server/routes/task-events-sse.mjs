@@ -30,6 +30,19 @@ router.get("/events/task-events", async (req, res) => {
   res.flushHeaders?.();
 
   const pool = globalThis.__DB_POOL;
+  try {
+    const o = pool?.options || {};
+    console.log("[task-events] pool cfg", {
+      host: o.host || null,
+      port: o.port || null,
+      user: o.user || null,
+      database: o.database || null,
+      password_type: typeof o.password,
+      password_len: (o.password == null ? null : String(o.password).length),
+      has_password: (o.password != null),
+    });
+  } catch (_) {}
+
   if (!pool) {
     _sseWrite(res, { event: "error", data: { msg: "DB pool not initialized", ts: Date.now() } });
     res.end();

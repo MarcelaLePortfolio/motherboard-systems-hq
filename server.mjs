@@ -224,6 +224,24 @@ const pool = DB_URL
       database: process.env.PGDATABASE || "postgres",
     });
 
+
+try {
+  const o = pool?.options || {};
+  const safe = {
+    mode: (DB_URL ? "url" : "params"),
+    DB_URL_present: Boolean(DB_URL),
+    host: o.host || null,
+    port: o.port || null,
+    user: o.user || null,
+    database: o.database || null,
+    password_type: typeof o.password,
+    password_len: (o.password == null ? null : String(o.password).length),
+    has_password: (o.password != null),
+  };
+  console.log("[db] effective pool config", safe);
+} catch (e) {
+  console.log("[db] effective pool config <unavailable>", e?.message || String(e));
+}
 console.log("Database pool initialized");
   globalThis.__DB_POOL = pool;;
 
