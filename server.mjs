@@ -111,7 +111,7 @@ app.use("/js", express.static(path.join(__dirname, "public", "js")));
 app.use("/img", express.static(path.join(__dirname, "public", "img")));
 app.use(express.json());
 app.use("/api/tasks", apiTasksRouter);
-app.use(apiTasksMutationsRouter);
+app.use("/api/tasks-mutations", apiTasksMutationsRouter);
 
 // --- Phase 16.7: dev-only emit endpoints (local debug) ---
 app.post("/api/dev/emit-reflection", (req, res) => {
