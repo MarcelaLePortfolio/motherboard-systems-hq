@@ -1,5 +1,5 @@
 import express from "express";
-import { pool } from "../db/pool.mjs";
+import { pool } from "../task-events.mjs";
 
 const router = express.Router();
 
@@ -30,42 +30,29 @@ router.get("/events/task-events", async (req, res) => {
   res.setHeader("X-Accel-Buffering", "no");
   res.flushHeaders?.();
 
-  // Cursor: prefer Last-Event-ID, fallback to ?after=
   const headerLast = req.get("Last-Event-ID");
   const qAfter = req.query?.after;
   let cursor = _intOrNull(headerLast) ?? _intOrNull(qAfter) ?? null;
 
-  const hello = {
-    kind: "task-events",
-    cursor: cursor,
-    ts: Date.now(),
-  };
-  _sseWrite(res, { event: "hello", data: hello });
+  _sseWrite(res, { event: "hello", data: { kind: "task-events", cursor, ts: Date.now() } });
 
   let closed = false;
-  req.on("close", () => {
-    closed = true;
-  });
+  req.on("close", () => { closed = true; });
 
-  // Poll settings
   let backoffMs = 150;
   const backoffMax = 1500;
   const batchLimit = 200;
 
-  // If no cursor provided, do NOT replay history; start at "now" (latest id).
-  // This prevents huge replays on fresh connects.
+  // Fresh connects do not replay history: start at max(id)
   if (cursor == null) {
     try {
       const r = await pool.query(`select max(id) as max_id from task_events`);
-      const maxId = r?.rows?.[0]?.max_id;
-      const maxInt = _intOrNull(maxId);
-      cursor = maxInt ?? 0;
+      cursor = _intOrNull(r?.rows?.[0]?.max_id) ?? 0;
     } catch (_) {
       cursor = 0;
     }
   }
 
-  // Main loop
   while (!closed) {
     try {
       const q = await pool.query(
@@ -88,14 +75,12 @@ router.get("/events/task-events", async (req, res) => {
 
       const rows = q?.rows || [];
       if (rows.length === 0) {
-        // optional heartbeat at low cadence (only when idle)
         _sseWrite(res, { event: "heartbeat", data: { ts: Date.now(), cursor } });
         await _sleep(backoffMs);
         backoffMs = Math.min(backoffMs + 75, backoffMax);
         continue;
       }
 
-      // reset backoff when we have data
       backoffMs = 150;
 
       for (const r of rows) {
