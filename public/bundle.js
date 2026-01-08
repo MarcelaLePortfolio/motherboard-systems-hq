@@ -1,3 +1,4 @@
+;window.__BUNDLE_BOOT_TS=Date.now();console.log("[bundle] boot",window.__BUNDLE_BOOT_TS);
 (() => {
   // public/js/sse-heartbeat-shim.js
   (function() {
