@@ -59,8 +59,6 @@ router.get("/events/task-events", async (req, res) => {
   const qAfter = req.query?.after;
   let cursor = _intOrNull(headerLast) ?? _intOrNull(qAfter) ?? null;
 
-  _sseWrite(res, { event: "hello", data: { kind: "task-events", cursor, ts: Date.now() } });
-
   let closed = false;
   req.on("close", () => { closed = true; });
 
@@ -77,6 +75,8 @@ router.get("/events/task-events", async (req, res) => {
       cursor = 0;
     }
   }
+
+    _sseWrite(res, { event: "hello", data: { kind: "task-events", cursor, ts: Date.now() } });
 
   while (!closed) {
     try {
