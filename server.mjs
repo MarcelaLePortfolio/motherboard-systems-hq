@@ -10,6 +10,8 @@ import { apiTasksRouter } from "./server/routes/api-tasks-postgres.mjs";
 import { attachArtifacts } from "./server/artifacts.mjs";
 import { dbDelegateTask, dbCompleteTask } from "./server/tasks-mutations.mjs";
 import taskEventsSSE from "./server/routes/task-events-sse.mjs";
+import apiTasksMutationsRouter from "./server/routes/api-tasks-mutations.mjs";
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -109,6 +111,8 @@ app.use("/js", express.static(path.join(__dirname, "public", "js")));
 app.use("/img", express.static(path.join(__dirname, "public", "img")));
 app.use(express.json());
 app.use("/api/tasks", apiTasksRouter);
+app.use(apiTasksMutationsRouter);
+
 // --- Phase 16.7: dev-only emit endpoints (local debug) ---
 app.post("/api/dev/emit-reflection", (req, res) => {
   try {
