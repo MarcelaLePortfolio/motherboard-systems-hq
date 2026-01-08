@@ -22,7 +22,27 @@ function _sseWrite(res, { id, event, data }) {
 }
 
 router.get("/events/task-events", async (req, res) => {
-  res.status(200);
+  
+  const pool = globalThis.__DB_POOL;
+  try {
+    const o = pool?.options || {};
+    console.log("[task-events] pool cfg", {
+      host: o.host || null,
+      port: o.port || null,
+      user: o.user || null,
+      database: o.database || null,
+      password_type: typeof o.password,
+      password_len: (o.password == null ? null : String(o.password).length),
+      has_password: (o.password != null),
+    });
+  } catch (_) {}
+  if (!pool) {
+    res.status(500).setHeader("Content-Type", "text/plain; charset=utf-8");
+    res.end("Missing globalThis.__DB_POOL");
+    return;
+  }
+
+res.status(200);
   res.setHeader("Content-Type", "text/event-stream; charset=utf-8");
   res.setHeader("Cache-Control", "no-cache, no-transform");
   res.setHeader("Connection", "keep-alive");
