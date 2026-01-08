@@ -1365,7 +1365,7 @@
       window.__PHASE22_TASK_UI_BOUND = true;
       window.addEventListener(TASK_EVENT_NAME, (e) => {
         try {
-          console.log("[phase22] mb.task.event", e.detail);
+          if (window.__UI_DEBUG || window.__PHASE22_DEBUG) console.log("[phase22] mb.task.event", e.detail);
           onTaskEvent(e.detail);
         } catch {
         }
