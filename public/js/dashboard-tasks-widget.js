@@ -105,7 +105,7 @@
             <div style="display:flex;justify-content:space-between;gap:8px">
               <span>${esc(t.title)}</span>
               ${
-                t.status === "complete"
+                (["complete","completed","done"].includes(String(t.status||"").toLowerCase()))
                   ? `<span style="opacity:.5;font-size:12px">Completed</span>`
                   : `<button data-id="${t.id}">Complete</button>`
               }
