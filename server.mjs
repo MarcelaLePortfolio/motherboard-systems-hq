@@ -204,6 +204,7 @@ const pool = DB_URL
     });
 
 console.log("Database pool initialized");
+  globalThis.__DB_POOL = pool;;
 
 let lastOpsHeartbeat = Date.now();
 

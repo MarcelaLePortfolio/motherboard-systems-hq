@@ -15,8 +15,7 @@ export async function dbDelegateTask(pool, body) {
     [title, agent, notes, source, traceId, meta]
   );
 
-
-  await appendTaskEvent("task.created", { task_id: r.rows?.[0]?.id, ts: Date.now(), source: body?.source || "api" });
+  await appendTaskEvent(pool, "task.created", { task_id: r.rows?.[0]?.id, ts: Date.now(), source });
   return r.rows[0];
 }
 
@@ -42,11 +41,12 @@ export async function dbCompleteTask(pool, body) {
   if (!r.rows[0]) throw new Error(`task not found: ${id}`);
 
   const row = r.rows[0];
-  const k = String(row.status) === "done"
-    ? "task.completed"
-    : (String(row.status) === "failed" ? "task.failed" : "task.updated");
+  const k =
+    String(row.status) === "done"
+      ? "task.completed"
+      : (String(row.status) === "failed" ? "task.failed" : "task.updated");
 
-  await appendTaskEvent(k, {
+  await appendTaskEvent(pool, k, {
     task_id: row.id,
     status: row.status,
     error: row.error ?? null,

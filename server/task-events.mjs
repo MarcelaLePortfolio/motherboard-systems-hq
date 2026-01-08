@@ -1,31 +1,16 @@
-import pg from "pg";
+export async function appendTaskEvent(pool, kind, payload) {
+  if (!pool) throw new Error("appendTaskEvent requires pool");
 
-function _getDbUrl() {
-  // Prefer the same env var Phase 19 runners used.
-  // Keep compatibility if other envs exist.
-  return (
-    process.env.POSTGRES_URL ||
-    process.env.DATABASE_URL ||
-    process.env.PG_URL ||
-    ""
-  );
-}
+  const p = payload ?? {};
 
-const url = _getDbUrl();
-if (!url) {
-  console.warn("[task-events] no POSTGRES_URL/DATABASE_URL set; task-events will fail until configured");
-}
+  // Support both Phase19 schema (type/meta fields) and the earlier (kind/payload) schema by writing
+  // to the Phase19 table shape. If your table uses (kind,payload) only, this will fail loudly and we’ll adapt.
+  const taskId = p?.task_id ?? p?.taskId ?? null;
+  const ts = p?.ts ?? Date.now();
+  const runId = p?.run_id ?? p?.runId ?? null;
+  const actor = p?.actor ?? null;
 
-export const pool = new pg.Pool({ connectionString: url });
-
-export async function appendTaskEvent(type, payload) {
-  const taskId = payload?.task_id ?? payload?.taskId ?? null;
-  const ts = payload?.ts ?? Date.now();
-  const runId = payload?.run_id ?? payload?.runId ?? null;
-  const actor = payload?.actor ?? null;
-
-  // Store the full payload as meta, but remove duplicated keys where helpful
-  const meta = { ...payload };
+  const meta = { ...p };
   delete meta.task_id;
   delete meta.taskId;
   delete meta.ts;
@@ -36,6 +21,6 @@ export async function appendTaskEvent(type, payload) {
   await pool.query(
     `insert into task_events (task_id, type, ts, run_id, actor, meta)
      values ($1::int, $2::text, $3::bigint, $4::text, $5::text, $6::jsonb)`,
-    [taskId, type, ts, runId, actor, meta]
+    [taskId, kind, ts, runId, actor, meta]
   );
 }

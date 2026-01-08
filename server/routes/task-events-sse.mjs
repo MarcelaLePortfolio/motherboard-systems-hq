@@ -1,5 +1,4 @@
 import express from "express";
-import { pool } from "../task-events.mjs";
 
 const router = express.Router();
 
@@ -30,6 +29,13 @@ router.get("/events/task-events", async (req, res) => {
   res.setHeader("X-Accel-Buffering", "no");
   res.flushHeaders?.();
 
+  const pool = globalThis.__DB_POOL;
+  if (!pool) {
+    _sseWrite(res, { event: "error", data: { msg: "DB pool not initialized", ts: Date.now() } });
+    res.end();
+    return;
+  }
+
   const headerLast = req.get("Last-Event-ID");
   const qAfter = req.query?.after;
   let cursor = _intOrNull(headerLast) ?? _intOrNull(qAfter) ?? null;
@@ -43,7 +49,6 @@ router.get("/events/task-events", async (req, res) => {
   const backoffMax = 1500;
   const batchLimit = 200;
 
-  // Fresh connects do not replay history: start at max(id)
   if (cursor == null) {
     try {
       const r = await pool.query(`select max(id) as max_id from task_events`);
@@ -85,7 +90,6 @@ router.get("/events/task-events", async (req, res) => {
 
       for (const r of rows) {
         cursor = _intOrNull(r.id) ?? cursor;
-
         _sseWrite(res, {
           id: String(r.id),
           event: "task.event",
