@@ -49,8 +49,7 @@ res.status(200);
   res.setHeader("X-Accel-Buffering", "no");
   res.flushHeaders?.();
 
-  const pool = globalThis.__DB_POOL;
-  try {
+    try {
     const o = pool?.options || {};
     console.log("[task-events] pool cfg", {
       host: o.host || null,
