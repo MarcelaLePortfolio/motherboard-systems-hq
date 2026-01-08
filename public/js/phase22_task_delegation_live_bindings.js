@@ -118,7 +118,7 @@
     window.__PHASE22_TASK_UI_BOUND = true;
 
     window.addEventListener(TASK_EVENT_NAME, (e) => {
-      try { if (window.__UI_DEBUG || window.__PHASE22_DEBUG) console.log("[phase22] mb.task.event", e.detail); onTaskEvent(e.detail); } catch {}
+      try { if (window.__UI_DEBUG || window.__PHASE22_DEBUG) if (window.__UI_DEBUG || window.__PHASE22_DEBUG) console.log("[phase22] mb.task.event", e.detail); onTaskEvent(e.detail); } catch {}
     });
 
     window.__PHASE22_TASK_UI = { tasks }; console.log("[phase22] bindings attached");
