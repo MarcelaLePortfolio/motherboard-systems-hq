@@ -1033,16 +1033,21 @@
     const PANEL_ID = "mb-task-events-panel";
     const FEED_ID = "mb-task-events-feed";
     const COUNTS_ID = "mb-task-events-counts";
+    const ANCHOR_ID = "mb-task-events-panel-anchor";
+    function mountRoot() {
+      const anchor = document.getElementById(ANCHOR_ID);
+      if (anchor) return anchor;
+      return document.body;
+    }
     function ensurePanel() {
       if (document.getElementById(PANEL_ID)) return;
+      const root = mountRoot();
       const panel = document.createElement("div");
       panel.id = PANEL_ID;
-      panel.style.position = "fixed";
-      panel.style.right = "12px";
-      panel.style.bottom = "12px";
-      panel.style.width = "360px";
-      panel.style.maxWidth = "calc(100vw - 24px)";
-      panel.style.maxHeight = "40vh";
+      const anchored = root && root.id === ANCHOR_ID;
+      panel.style.width = anchored ? "100%" : "360px";
+      panel.style.maxWidth = anchored ? "100%" : "calc(100vw - 24px)";
+      panel.style.maxHeight = anchored ? "260px" : "40vh";
       panel.style.overflow = "hidden";
       panel.style.zIndex = "9999";
       panel.style.border = "1px solid rgba(255,255,255,0.12)";
@@ -1052,6 +1057,13 @@
       panel.style.boxShadow = "0 10px 30px rgba(0,0,0,0.35)";
       panel.style.color = "rgba(255,255,255,0.92)";
       panel.style.fontFamily = "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace";
+      if (!anchored) {
+        panel.style.position = "fixed";
+        panel.style.right = "12px";
+        panel.style.bottom = "12px";
+      } else {
+        panel.style.marginTop = "12px";
+      }
       const header = document.createElement("div");
       header.style.display = "flex";
       header.style.alignItems = "center";
@@ -1105,11 +1117,12 @@
       feed.id = FEED_ID;
       feed.style.padding = "10px 12px";
       feed.style.overflow = "auto";
-      feed.style.maxHeight = "calc(40vh - 46px)";
+      feed.style.maxHeight = anchored ? "200px" : "calc(40vh - 46px)";
       panel.appendChild(header);
       panel.appendChild(feed);
-      document.body.appendChild(panel);
+      root.appendChild(panel);
       window.__MB_TASK_EVENTS_PANEL = { dot, feed, counts };
+      console.log("[phase22] task-events panel mounted (anchored=%s)", anchored);
     }
     function setDot(state) {
       ensurePanel();
@@ -1128,7 +1141,7 @@
       const el = document.getElementById(COUNTS_ID);
       if (el) el.textContent = `created:${tally.created}  completed:${tally.completed}  failed:${tally.failed}`;
     }
-    function formatLine(ev) {
+    function formatLine(ev, fallbackKind) {
       const ts = typeof ev.ts === "number" ? new Date(ev.ts).toISOString() : (/* @__PURE__ */ new Date()).toISOString();
       const tid = ev.task_id ?? ev.id ?? ev.taskId ?? "unknown";
       const run = ev.run_id ?? ev.runId ?? "";
@@ -1139,7 +1152,7 @@
       if (ev.status) extras.push(`status=${ev.status}`);
       if (typeof ev.cursor === "number") extras.push(`cursor=${ev.cursor}`);
       const extraStr = extras.length ? ` (${extras.join(" ")})` : "";
-      return `${ts}  ${ev.kind ?? "event"}  task=${tid}${extraStr}${msg ? " \u2014 " + msg : ""}`;
+      return `${ts}  ${ev.kind ?? fallbackKind ?? "event"}  task=${tid}${extraStr}${msg ? " \u2014 " + msg : ""}`;
     }
     function appendLine(text, kind) {
       ensurePanel();
@@ -1161,23 +1174,9 @@
       row.textContent = text;
       feed.prepend(row);
       const children = Array.from(feed.children);
-      if (children.length > 50) {
-        for (let i = 50; i < children.length; i++) children[i].remove();
+      if (children.length > 60) {
+        for (let i = 60; i < children.length; i++) children[i].remove();
       }
-    }
-    function reflectIntoExistingUI(ev) {
-      const tid = ev.task_id ?? ev.id ?? ev.taskId;
-      if (!tid) return;
-      const byId = document.getElementById(`task-${tid}`) || document.getElementById(`task_${tid}`);
-      const byData = document.querySelector?.(`[data-task-id="${CSS.escape(String(tid))}"]`) || null;
-      const node = byId || byData;
-      if (!node) return;
-      node.setAttribute("data-task-kind", String(ev.kind ?? ""));
-      node.setAttribute("data-task-updated-at", String(ev.ts ?? Date.now()));
-      node.classList?.remove("task-created", "task-completed", "task-failed");
-      if (ev.kind === "task.created") node.classList?.add("task-created");
-      if (ev.kind === "task.completed") node.classList?.add("task-completed");
-      if (ev.kind === "task.failed") node.classList?.add("task-failed");
     }
     function dispatchWindowEvent(ev) {
       try {
@@ -1202,8 +1201,7 @@
       if (ev.kind === "task.created" || ev.kind === "task.completed" || ev.kind === "task.failed") {
         bumpCounts(String(ev.kind));
       }
-      appendLine(formatLine(ev), String(ev.kind ?? eventName));
-      reflectIntoExistingUI(ev);
+      appendLine(formatLine(ev, eventName), String(ev.kind ?? eventName));
       dispatchWindowEvent(ev);
     }
     let es = null;
@@ -1223,6 +1221,7 @@
         attempt = 0;
         setDot("open");
         appendLine(`${(/* @__PURE__ */ new Date()).toISOString()}  sse.open  url=${url}`, "sse.open");
+        console.log("[phase22] task-events SSE open", url);
       };
       es.onerror = () => {
         setDot("error");
@@ -1234,6 +1233,7 @@
         attempt += 1;
         const delay = Math.min(15e3, 500 * Math.pow(2, Math.min(6, attempt)));
         appendLine(`${(/* @__PURE__ */ new Date()).toISOString()}  sse.error  reconnect_in=${delay}ms`, "sse.error");
+        console.log("[phase22] task-events SSE error; reconnect in", delay);
         setTimeout(connect, delay);
       };
       es.onmessage = (msg) => handleFrame("message", msg.data);
@@ -1251,15 +1251,23 @@
         es.addEventListener(name, (e) => handleFrame(name, e.data));
       }
     }
-    if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", connect, { once: true });
-    } else {
+    function boot() {
       connect();
+      setInterval(() => {
+        if (!document.getElementById(PANEL_ID)) {
+          try {
+            connect();
+          } catch {
+          }
+        }
+      }, 2e3);
     }
-    window.__MB_TASK_EVENTS = {
-      url: SSE_URL,
-      reconnect: () => connect()
-    };
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", boot, { once: true });
+    } else {
+      boot();
+    }
+    window.__MB_TASK_EVENTS = { url: SSE_URL, reconnect: () => connect() };
   })();
 
   // public/js/dashboard-bundle-entry.js
