@@ -63,77 +63,25 @@ res.status(200);
   } catch (_) {}
 
   if (!pool) {
-    _sseWrite(res, { event: "error", data: { msg: "DB pool not initialized", ts: Date.now() } });
-    res.end();
-    return;
-  }
-
-  const headerLast = req.get("Last-Event-ID");
-  const qAfter = req.query?.after;
-  let cursor = _intOrNull(headerLast) ?? _intOrNull(qAfter) ?? null;
-
-  _sseWrite(res, { event: "hello", data: { kind: "task-events", cursor, ts: Date.now() } });
-
-  let closed = false;
-  req.on("close", () => { closed = true; });
-
-  let backoffMs = 150;
-  const backoffMax = 1500;
-  const batchLimit = 200;
-
-  if (cursor == null) {
-    try {
-      const r = await pool.query(`select max(id) as max_id from task_events`);
-      cursor = _intOrNull(r?.rows?.[0]?.max_id) ?? 0;
-    } catch (_) {
-      cursor = 0;
-    }
-  }
-
-  while (!closed) {
-    try {
-      const q = await pool.query(
-        `
-        select
-          id,
-          task_id,
-          type,
-          ts,
-          run_id,
-          actor,
-          meta
-        from task_events
-        where id > $1
-        order by id asc
-        limit $2
-        `,
-        [cursor, batchLimit]
-      );
-
-      const rows = q?.rows || [];
-      if (rows.length === 0) {
-        _sseWrite(res, { event: "heartbeat", data: { ts: Date.now(), cursor } });
-        await _sleep(backoffMs);
-        backoffMs = Math.min(backoffMs + 75, backoffMax);
-        continue;
-      }
-
-      backoffMs = 150;
-
-      for (const r of rows) {
-        cursor = _intOrNull(r.id) ?? cursor;
-        _sseWrite(res, {
-          id: String(r.id),
-          event: "task.event",
-          data: {
-            id: r.id,
-            taskId: r.task_id,
-            type: r.type,
-            ts: r.ts,
-            runId: r.run_id,
-            actor: r.actor,
-            meta: r.meta,
-          },
+    _sseWrite(res, { event: "error", data: (schemaMode === "wide"
+            ? {
+                id: r.id,
+                taskId: r.task_id,
+                type: r.type,
+                ts: r.ts,
+                runId: r.run_id,
+                actor: r.actor,
+                meta: r.meta,
+              }
+            : {
+                id: r.id,
+                taskId: (r.payload?.task_id ?? r.payload?.taskId ?? null),
+                type: r.kind,
+                ts: (r.payload?.ts ?? Date.now()),
+                runId: (r.payload?.run_id ?? r.payload?.runId ?? null),
+                actor: (r.payload?.actor ?? null),
+                meta: r.payload ?? null,
+              }),
         });
       }
     } catch (e) {
