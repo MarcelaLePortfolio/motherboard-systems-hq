@@ -1,5 +1,6 @@
 import "./sse-heartbeat-shim.js";
 import "./heartbeat-stale-indicator.js";
+import "./task-events-sse-listener.js";
 // Phase 11 – Unified dashboard bundle entrypoint
 
 // Core dashboard status + tiles
@@ -24,3 +25,4 @@ import "./matilda-chat-console.js";
 
 // TEMP: dashboard graph disabled until canvas is present on all pages
 // import "./dashboard-graph.js";
+
