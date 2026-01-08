@@ -8,12 +8,16 @@ import { registerPhase19DebugRoutes } from "./server/phase19_debug_routes_dump.m
 
 import { attachArtifacts } from "./server/artifacts.mjs";
 import { dbDelegateTask, dbCompleteTask } from "./server/tasks-mutations.mjs";
+import taskEventsSSE from "./server/routes/task-events-sse.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 
-const app = express();  
+const app = express();
+// Phase 20: task-events SSE (event-sourced)
+app.use(taskEventsSSE);
+  
 registerOrchestratorStateRoute(app);
 registerPhase19DebugRoutes(app);
 if (process.env.PHASE19_DEBUG === "1") {
