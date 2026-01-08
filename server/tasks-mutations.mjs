@@ -1,4 +1,4 @@
-import { appendTaskEvent } from "./task-events.mjs";
+import { emitTaskEvent } from "./task_events_emit.mjs";
 
 export async function dbDelegateTask(pool, body) {
   const title = body?.title || "(untitled)";
@@ -15,8 +15,16 @@ export async function dbDelegateTask(pool, body) {
     [title, agent, notes, source, traceId, meta]
   );
 
-  await appendTaskEvent(pool, "task.created", { task_id: r.rows?.[0]?.id, ts: Date.now(), source });
-  return r.rows[0];
+  const row = r.rows?.[0];
+  await emitTaskEvent({
+    pool,
+    kind: "task.created",
+    task_id: row?.id ?? null,
+    actor: body?.actor ?? source,
+    payload: { source },
+  });
+
+  return row;
 }
 
 export async function dbCompleteTask(pool, body) {
@@ -46,12 +54,16 @@ export async function dbCompleteTask(pool, body) {
       ? "task.completed"
       : (String(row.status) === "failed" ? "task.failed" : "task.updated");
 
-  await appendTaskEvent(pool, k, {
+  await emitTaskEvent({
+    pool,
+    kind: k,
     task_id: row.id,
-    status: row.status,
-    error: row.error ?? null,
-    source: body?.source || "api",
-    ts: Date.now(),
+    actor: body?.actor ?? (body?.source || "api"),
+    payload: {
+      status: row.status,
+      error: row.error ?? null,
+      source: body?.source || "api",
+    },
   });
 
   return row;
