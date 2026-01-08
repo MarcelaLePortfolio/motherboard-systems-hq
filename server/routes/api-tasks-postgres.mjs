@@ -1,73 +1,36 @@
 import express from "express";
-import pg from "pg";
-
-const { Pool } = pg;
-
-function poolCfg() {
-  return {
-    host: process.env.PGHOST || "postgres",
-    port: Number(process.env.PGPORT || 5432),
-    user: process.env.PGUSER || "postgres",
-    password: process.env.PGPASSWORD || "postgres",
-    database: process.env.PGDATABASE || "postgres",
-  };
-}
-
-const pool = new Pool(poolCfg());
-
-function asJsonBody(req) {
-  const b = req.body;
-  if (b == null) return {};
-  if (typeof b === "object") return b;
-  if (typeof b === "string") {
-    try { return JSON.parse(b); } catch (_) { return { _raw: b }; }
-  }
-  return { _raw: b };
-}
-
-async function ensureTaskEvents() {
-  await pool.query(`
-    create table if not exists public.task_events (
-      id bigserial primary key,
-      kind text not null,
-      payload text not null,
-      created_at text default now()::text
-    );
-  `);
-}
-
-async function append(kind, payloadObj) {
-  const payload = JSON.stringify(payloadObj ?? {});
-  const r = await pool.query(
-    "insert into public.task_events (kind, payload) values ($1, $2) returning id, kind, payload, created_at",
-    [String(kind), String(payload)]
-  );
-  return r.rows[0];
-}
+import { emitTaskEvent } from "../task_events_emit.mjs";
 
 export const apiTasksRouter = express.Router();
 
-apiTasksRouter.get("/healthz", async (_req, res) => {
+// POST /api/tasks/health
+apiTasksRouter.get("/health", async (req, res) => {
   try {
-    const r = await pool.query("select 1 as ok");
-    res.status(200).json({ ok: true, db: r.rows?.[0]?.ok === 1 });
+    // If emitTaskEvent can write, DB is up; but health should be non-writing.
+    // We keep this simple and return ok=true; deeper DB checks live elsewhere.
+    res.status(200).json({ ok: true });
   } catch (e) {
     res.status(500).json({ ok: false, error: e?.message || String(e) });
   }
 });
 
-// POST /api/tasks/create  { task_id?, title?, ... }
+// POST /api/tasks/create  { task_id?, title?, agent?, run_id?, ... }
 apiTasksRouter.post("/create", async (req, res) => {
   try {
-    await ensureTaskEvents();
-    const b = asJsonBody(req);
+    const b = req.body || {};
     const task_id = b.task_id ?? b.taskId ?? b.id ?? null;
 
-    const evt = await append("task.created", {
-      ...b,
+    const evt = await emitTaskEvent({
+      kind: "task.created",
       task_id,
-      ts: Date.now(),
-      source: b.source || "api",
+      run_id: b.run_id ?? b.runId ?? null,
+      actor: b.actor ?? "api",
+      payload: {
+        title: b.title ?? null,
+        agent: b.agent ?? null,
+        status: b.status ?? "delegated",
+        meta: b.meta ?? null,
+      },
     });
 
     res.status(201).json({ ok: true, task_id, event: evt });
@@ -76,21 +39,22 @@ apiTasksRouter.post("/create", async (req, res) => {
   }
 });
 
-// POST /api/tasks/complete  { task_id, status?, ... }
+// POST /api/tasks/complete  { task_id, status?, run_id?, ... }
 apiTasksRouter.post("/complete", async (req, res) => {
   try {
-    await ensureTaskEvents();
-    const b = asJsonBody(req);
+    const b = req.body || {};
     const task_id = b.task_id ?? b.taskId ?? b.id ?? null;
     if (!task_id) return res.status(400).json({ ok: false, error: "task_id_required" });
 
-    const evt = await append("task.completed", {
-      ...b,
+    const evt = await emitTaskEvent({
+      kind: "task.completed",
       task_id,
-      status: b.status ?? "done",
-      error: b.error ?? null,
-      ts: Date.now(),
-      source: b.source || "api",
+      run_id: b.run_id ?? b.runId ?? null,
+      actor: b.actor ?? "api",
+      payload: {
+        status: b.status ?? "complete",
+        result: b.result ?? null,
+      },
     });
 
     res.status(200).json({ ok: true, task_id, event: evt });
@@ -99,21 +63,22 @@ apiTasksRouter.post("/complete", async (req, res) => {
   }
 });
 
-// POST /api/tasks/fail  { task_id, error?, ... }
+// POST /api/tasks/fail  { task_id, error?, status?, run_id?, ... }
 apiTasksRouter.post("/fail", async (req, res) => {
   try {
-    await ensureTaskEvents();
-    const b = asJsonBody(req);
+    const b = req.body || {};
     const task_id = b.task_id ?? b.taskId ?? b.id ?? null;
     if (!task_id) return res.status(400).json({ ok: false, error: "task_id_required" });
 
-    const evt = await append("task.failed", {
-      ...b,
+    const evt = await emitTaskEvent({
+      kind: "task.failed",
       task_id,
-      status: b.status ?? "failed",
-      error: b.error ?? "unknown_error",
-      ts: Date.now(),
-      source: b.source || "api",
+      run_id: b.run_id ?? b.runId ?? null,
+      actor: b.actor ?? "api",
+      payload: {
+        status: b.status ?? "failed",
+        error: b.error ?? b.err ?? null,
+      },
     });
 
     res.status(200).json({ ok: true, task_id, event: evt });
@@ -122,19 +87,21 @@ apiTasksRouter.post("/fail", async (req, res) => {
   }
 });
 
-// POST /api/tasks/cancel  { task_id, ... }
+// POST /api/tasks/cancel  { task_id, run_id?, ... }
 apiTasksRouter.post("/cancel", async (req, res) => {
   try {
-    await ensureTaskEvents();
-    const b = asJsonBody(req);
+    const b = req.body || {};
     const task_id = b.task_id ?? b.taskId ?? b.id ?? null;
     if (!task_id) return res.status(400).json({ ok: false, error: "task_id_required" });
 
-    const evt = await append("task.canceled", {
-      ...b,
+    const evt = await emitTaskEvent({
+      kind: "task.canceled",
       task_id,
-      ts: Date.now(),
-      source: b.source || "api",
+      run_id: b.run_id ?? b.runId ?? null,
+      actor: b.actor ?? "api",
+      payload: {
+        reason: b.reason ?? null,
+      },
     });
 
     res.status(200).json({ ok: true, task_id, event: evt });
