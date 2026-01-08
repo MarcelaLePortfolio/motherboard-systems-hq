@@ -5,6 +5,7 @@ import { fileURLToPath } from "url";
 import pg from "pg";
 import { registerOrchestratorStateRoute } from "./server/orchestrator_state_route.mjs";
 import { registerPhase19DebugRoutes } from "./server/phase19_debug_routes_dump.mjs";
+import { apiTasksRouter } from "./server/routes/api-tasks-postgres.mjs";
 
 import { attachArtifacts } from "./server/artifacts.mjs";
 import { dbDelegateTask, dbCompleteTask } from "./server/tasks-mutations.mjs";
@@ -107,6 +108,7 @@ app.use("/css", express.static(path.join(__dirname, "public", "css")));
 app.use("/js", express.static(path.join(__dirname, "public", "js")));
 app.use("/img", express.static(path.join(__dirname, "public", "img")));
 app.use(express.json());
+app.use("/api/tasks", apiTasksRouter);
 // --- Phase 16.7: dev-only emit endpoints (local debug) ---
 app.post("/api/dev/emit-reflection", (req, res) => {
   try {
