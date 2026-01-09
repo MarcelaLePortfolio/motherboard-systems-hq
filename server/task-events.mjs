@@ -4,6 +4,7 @@
  *
  * So we store payload as JSON string into the text column.
  */
+// SINGLE AUTHORITATIVE TASK EVENT WRITER — Phase 25 contract enforced.
 export async function appendTaskEvent(pool, kind, payload) {
   if (!pool) throw new Error("appendTaskEvent requires pool");
   const p = payload ?? {};
