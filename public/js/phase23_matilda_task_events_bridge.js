@@ -44,7 +44,10 @@
     }
 
     const status = String(merged.status || "").toLowerCase();
-    const id = p.taskId || merged.task_id || task.id || p.id || p.task_id || null;
+    // IMPORTANT:
+    // For server SSE event "task.event", payload `p.id` is the *task_events row id*,
+    // not the task id from the `tasks` table. Never fall back to p.id here.
+    const id = p.taskId || merged.task_id || task.id || p.task_id || null;
     const type = String(p.type || p.kind || kind || "task.event");
 
     // Prefer canonical lifecycle type when present.
