@@ -122,7 +122,14 @@
 
   document.addEventListener("DOMContentLoaded", fetchTasks);
 
-  // Phase22: SSE-driven refresh
+  // Phase22: SSE-driven refresh (ignore heartbeats)
+  window.addEventListener("mb.task.event", (e) => {
+    const k = String(e?.detail?.kind || e?.detail?.type || "");
+    if (k === "heartbeat") return;
+    fetchTasks();
+  });
+
+// Phase22: SSE-driven refresh
   window.addEventListener("mb.task.event", () => { fetchTasks(); });
 
 // Auto-refresh (no SSE): keep widget feeling live

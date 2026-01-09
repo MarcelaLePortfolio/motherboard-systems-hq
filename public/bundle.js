@@ -933,6 +933,11 @@
       });
     }
     document.addEventListener("DOMContentLoaded", fetchTasks);
+    window.addEventListener("mb.task.event", (e) => {
+      const k = String(e?.detail?.kind || e?.detail?.type || "");
+      if (k === "heartbeat") return;
+      fetchTasks();
+    });
     window.addEventListener("mb.task.event", () => {
       fetchTasks();
     });
@@ -1197,6 +1202,12 @@
     function handleFrame(eventName, rawData) {
       const data = typeof rawData === "string" ? parseMaybeJSON(rawData) : rawData;
       const ev = data && typeof data === "object" ? data : { kind: eventName, raw: rawData };
+      if (eventName === "task.event") {
+        if (!ev.kind && ev.type) ev.kind = ev.type;
+        if (ev.kind === "task.event" && ev.type) ev.kind = ev.type;
+        if (ev.task_id == null && ev.taskId != null) ev.task_id = ev.taskId;
+        if (ev.run_id == null && ev.runId != null) ev.run_id = ev.runId;
+      }
       if (!ev.kind) ev.kind = eventName;
       const key = `${eventName}|${ev.kind}|${ev.ts ?? ""}|${ev.task_id ?? ev.id ?? ""}|${ev.run_id ?? ""}|${ev.cursor ?? ""}`;
       if (seen.has(key)) return;
