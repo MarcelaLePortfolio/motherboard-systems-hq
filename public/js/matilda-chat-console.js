@@ -35,6 +35,20 @@
     var input = document.getElementById("matilda-chat-input");
     var sendBtn = document.getElementById("matilda-chat-send");
 
+      // Phase23: expose append API for other modules (task-events bridge, ops, etc.)
+      // Usage:
+      //   window.appendMessage({role:"system"|"user"|"matilda", content:"..."})
+      //   window.__appendMessage({role:"system", content:"..."})   (alias)
+      window.appendMessage = window.appendMessage || function (msg) {
+        try {
+          var role = (msg && msg.role) ? String(msg.role) : "system";
+          var content = (msg && (msg.content ?? msg.text ?? msg.message)) ? String(msg.content ?? msg.text ?? msg.message) : "";
+          var sender = role === "user" ? "You" : (role === "matilda" ? "Matilda" : "System");
+          appendMessage(transcript, sender, content);
+        } catch (_) {}
+      };
+      window.__appendMessage = window.__appendMessage || window.appendMessage;
+
     if (!transcript || !input || !sendBtn) {
       log("Missing one or more Matilda chat elements; aborting wiring.");
       return;
