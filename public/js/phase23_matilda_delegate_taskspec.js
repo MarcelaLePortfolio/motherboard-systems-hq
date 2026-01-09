@@ -4,7 +4,7 @@
 
   async function delegate(taskSpec) {
     const task = taskSpec?.task ? taskSpec.task : taskSpec;
-    const res = await fetch("/api/tasks-mutations/delegate", {
+    const res = await fetch("/api/tasks-mutations/delegate-taskspec", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ task }),
@@ -16,9 +16,10 @@
 
   window.__MATILDA_DELEGATE_TASKSPEC = async (taskSpec) => {
     const out = await delegate(taskSpec);
+    const tid = out?.task?.id ?? out?.task_id ?? "?";
     const fn = window.__MATILDA_CHAT_APPEND_SYSTEM || window.__chatAppendSystem || null;
     if (typeof fn === "function") {
-      try { fn(`📨 delegated → task.created [${out.task_id}]`); } catch (_) {}
+      try { fn(`📨 delegated → task.queued [${tid}]`); } catch (_) {}
     }
     return out;
   };
