@@ -1,44 +1,65 @@
 /**
- * Phase 23: TaskSpec -> existing /api/tasks-mutations/delegate adapter
+ * Phase 23: TaskSpec adapter
+ * POST /api/tasks-mutations/delegate-taskspec
  *
  * Input:
  * { task: { target:"cade"|"effie"|"atlas", title?:string, spec?:any, task_id?:string } }
  *
- * Output: pass through existing delegate JSON response
+ * Behavior:
+ * - Calls dbDelegateTask(...) to create the task (existing system)
+ * - Inserts into task_events(kind="task.created") with task + taskspec meta so /events/task-events advances
  */
-export async function handleDelegateTaskSpec(req, res) {
+export async function handleDelegateTaskSpec(req, res, deps) {
   try {
     const body = req.body ?? {};
-    const task = body.task ?? body;
-    const target = String(task?.target || "").toLowerCase();
+    const taskSpec = body.task ?? body;
+
+    const target = String(taskSpec?.target || "").toLowerCase();
     if (!["cade", "effie", "atlas"].includes(target)) {
       return res.status(400).json({ ok: false, error: "invalid_target", details: "target must be cade|effie|atlas" });
     }
 
-    // Convert to existing delegate payload shape (agent + title + notes + meta)
-    const payload = {
+    const title = String(taskSpec?.title || "(untitled)");
+    const spec = taskSpec?.spec ?? null;
+    const external_task_id = taskSpec?.task_id ?? null;
+
+    const db = deps?.db;
+    const dbDelegateTask = deps?.dbDelegateTask;
+
+    if (!db?.query) return res.status(500).json({ ok: false, error: "missing_db", details: "db pool not available" });
+    if (typeof dbDelegateTask !== "function") {
+      return res.status(500).json({ ok: false, error: "missing_dbDelegateTask", details: "dbDelegateTask not available" });
+    }
+
+    // Create task using existing db mutation
+    const created = await dbDelegateTask(db, {
       agent: target,
-      title: String(task?.title || "(untitled)"),
+      title,
       notes: "",
       source: "matilda",
-      meta: {
-        taskspec: task?.spec ?? null,
-        task_id: task?.task_id ?? null,
-      },
-    };
-
-    // Call the local server route handler by proxying fetch to itself
-    const u = new URL(req.originalUrl, `http://${req.headers.host}`);
-    const base = `${u.protocol}//${u.host}`;
-
-    const r = await fetch(`${base}/api/tasks-mutations/delegate`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
+      meta: { taskspec: spec, external_task_id },
     });
 
-    const json = await r.json().catch(() => ({}));
-    return res.status(r.status).json(json);
+    // created expected shape: { ok:true, task:{...} } or { task:{...} }
+    const task = created?.task ?? created;
+    const task_id = task?.id ?? null;
+
+    // Emit task.created into task_events stream for Matilda
+    await db.query(
+      `insert into task_events(kind,payload) values ($1,$2::jsonb)`,
+      ["task.created", JSON.stringify({
+        ts: Date.now(),
+        task_id,
+        target,
+        title,
+        status: task?.status ?? "queued",
+        task,
+        meta: { taskspec: spec, external_task_id },
+        source: "matilda",
+      })]
+    );
+
+    return res.status(200).json({ ok: true, task });
   } catch (err) {
     return res.status(500).json({ ok: false, error: "delegate_taskspec_failed", details: String(err?.message || err) });
   }

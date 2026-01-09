@@ -11,10 +11,6 @@ import { attachArtifacts } from "./server/artifacts.mjs";
 import { dbDelegateTask, dbCompleteTask } from "./server/tasks-mutations.mjs";
 import taskEventsSSE from "./server/routes/task-events-sse.mjs";
 import apiTasksMutationsRouter from "./server/routes/api-tasks-mutations.mjs";
-
-
-import { handleDelegate as phase23HandleDelegate } from "./server/api/tasks-mutations/delegate.mjs";
-
 import { handleDelegateTaskSpec as phase23HandleDelegateTaskSpec } from "./server/api/tasks-mutations/delegate-taskspec.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -116,13 +112,7 @@ app.use("/img", express.static(path.join(__dirname, "public", "img")));
 app.use(express.json());
 
 // Phase 23: TaskSpec adapter -> existing delegate
-app.post("/api/tasks-mutations/delegate-taskspec", async (req, res) => phase23HandleDelegateTaskSpec(req, res));
-
-
-// Phase 23: Matilda Delegation Loop
-app.post("/api/tasks-mutations/delegate", async (req, res) => phase23HandleDelegate(req, res, { db: pool }));
-
-app.use("/api/tasks", apiTasksRouter);
+app.post("/api/tasks-mutations/delegate-taskspec", async (req, res) => phase23HandleDelegateTaskSpec(req, res, { db: pool, dbDelegateTask }));app.use("/api/tasks", apiTasksRouter);
 app.use("/api/tasks-mutations", apiTasksMutationsRouter);
 
 // --- Phase 16.7: dev-only emit endpoints (local debug) ---
