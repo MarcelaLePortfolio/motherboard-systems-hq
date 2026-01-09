@@ -112,7 +112,8 @@ app.use("/img", express.static(path.join(__dirname, "public", "img")));
 app.use(express.json());
 
 // Phase 23: TaskSpec adapter -> existing delegate
-app.post("/api/tasks-mutations/delegate-taskspec", async (req, res) => phase23HandleDelegateTaskSpec(req, res, { db: pool, dbDelegateTask }));app.use("/api/tasks", apiTasksRouter);
+app.post("/api/tasks-mutations/delegate-taskspec", async (req, res) => phase23HandleDelegateTaskSpec(req, res, { db: pool, dbDelegateTask }));
+app.use("/api/tasks", apiTasksRouter);
 app.use("/api/tasks-mutations", apiTasksMutationsRouter);
 
 // --- Phase 16.7: dev-only emit endpoints (local debug) ---
