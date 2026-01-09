@@ -21,7 +21,14 @@ export async function dbDelegateTask(pool, body) {
     kind: "task.created",
     task_id: row?.id ?? null,
     actor: body?.actor ?? source,
-    payload: { source },
+    payload: {
+        source,
+        title: row?.title ?? null,
+        target: row?.agent ?? null,
+        status: row?.status ?? "queued",
+        task: row ?? null,
+        meta: row?.meta ?? null,
+      },
   });
 
   return row;

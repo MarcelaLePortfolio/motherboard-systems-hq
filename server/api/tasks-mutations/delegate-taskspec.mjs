@@ -50,22 +50,6 @@ export async function handleDelegateTaskSpec(req, res, deps) {
 
     const task = created?.task ?? created;
     const task_id = task?.id ?? null;
-
-    // Emit task.created into task_events stream for Matilda
-    await db.query(
-      `insert into task_events(kind,payload) values ($1,$2::jsonb)`,
-      ["task.created", JSON.stringify({
-        ts: Date.now(),
-        task_id,
-        target,
-        title,
-        status: task?.status ?? "queued",
-        task,
-        meta: { taskspec: spec, external_task_id },
-        source: "matilda",
-      })]
-    );
-
     return res.status(200).json({ ok: true, task });
   } catch (err) {
     return res.status(500).json({ ok: false, error: "delegate_taskspec_failed", details: String(err?.message || err) });
