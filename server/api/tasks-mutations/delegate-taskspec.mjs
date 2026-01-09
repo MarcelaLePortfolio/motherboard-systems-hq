@@ -2,21 +2,29 @@
  * Phase 23: TaskSpec adapter
  * POST /api/tasks-mutations/delegate-taskspec
  *
- * Input:
- * { task: { target:"cade"|"effie"|"atlas", title?:string, spec?:any, task_id?:string } }
+ * Accepts:
+ * - { task: { target:"cade"|"effie"|"atlas", title?, spec?, task_id? } }
+ * - { task: { agent:"cade"|"effie"|"atlas",  title?, spec?, task_id? } }  (alias)
  *
  * Behavior:
  * - Calls dbDelegateTask(...) to create the task (existing system)
- * - Inserts into task_events(kind="task.created") with task + taskspec meta so /events/task-events advances
+ * - Inserts into task_events(kind="task.created") so /events/task-events advances
  */
 export async function handleDelegateTaskSpec(req, res, deps) {
   try {
     const body = req.body ?? {};
     const taskSpec = body.task ?? body;
 
-    const target = String(taskSpec?.target || "").toLowerCase();
+    const rawTarget = taskSpec?.target ?? taskSpec?.agent ?? "";
+    const target = String(rawTarget).trim().toLowerCase();
+
     if (!["cade", "effie", "atlas"].includes(target)) {
-      return res.status(400).json({ ok: false, error: "invalid_target", details: "target must be cade|effie|atlas" });
+      return res.status(400).json({
+        ok: false,
+        error: "invalid_target",
+        details: "target must be cade|effie|atlas",
+        got: String(rawTarget),
+      });
     }
 
     const title = String(taskSpec?.title || "(untitled)");
@@ -40,7 +48,6 @@ export async function handleDelegateTaskSpec(req, res, deps) {
       meta: { taskspec: spec, external_task_id },
     });
 
-    // created expected shape: { ok:true, task:{...} } or { task:{...} }
     const task = created?.task ?? created;
     const task_id = task?.id ?? null;
 
