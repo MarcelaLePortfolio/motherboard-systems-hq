@@ -140,7 +140,7 @@
 
   function formatLine(ev, fallbackKind) {
     const ts = typeof ev.ts === "number" ? new Date(ev.ts).toISOString() : new Date().toISOString();
-    const tid = ev.task_id ?? ev.id ?? ev.taskId ?? "unknown";
+    const tid = ev.task_id ?? ev.taskId ?? "unknown";
     const run = ev.run_id ?? ev.runId ?? "";
     const msg = ev.msg ?? ev.message ?? "";
     const extras = [];
@@ -204,7 +204,7 @@
 
     if (!ev.kind) ev.kind = eventName;
 
-    const key = `${eventName}|${ev.kind}|${ev.ts ?? ""}|${ev.task_id ?? ev.id ?? ""}|${ev.run_id ?? ""}|${ev.cursor ?? ""}`;
+    const key = `${eventName}|${ev.kind}|${ev.ts ?? ""}|${ev.task_id ?? ""}|${ev.run_id ?? ""}|${ev.cursor ?? ""}`;
     if (seen.has(key)) return;
     seen.add(key);
 
