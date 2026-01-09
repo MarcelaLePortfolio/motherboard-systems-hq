@@ -111,8 +111,12 @@ app.use("/js", express.static(path.join(__dirname, "public", "js")));
 app.use("/img", express.static(path.join(__dirname, "public", "img")));
 app.use(express.json());
 
-// Phase 23: TaskSpec adapter -> existing delegate
+
+// Phase 23: TaskSpec adapter -> create task + emit task_events
 app.post("/api/tasks-mutations/delegate-taskspec", async (req, res) => phase23HandleDelegateTaskSpec(req, res, { db: pool, dbDelegateTask }));
+
+// Phase 23: TaskSpec adapter -> existing delegate
+
 app.use("/api/tasks", apiTasksRouter);
 app.use("/api/tasks-mutations", apiTasksMutationsRouter);
 
@@ -505,8 +509,6 @@ app.listen(PORT, "0.0.0.0", () => {
   // ====================================
 
 
-
-
   // ===== PHASE16_REFLECTIONS_SIGNAL_API =====
   function _phase16BroadcastReflection(type, payload) {
     const msg = { type, ts: Date.now(), payload };
@@ -524,7 +526,6 @@ app.listen(PORT, "0.0.0.0", () => {
     res.json({ ok: true });
   });
   // =========================================
-
 
 
 /* ===========================
