@@ -9,24 +9,29 @@
     try { window.dispatchEvent(new CustomEvent("matilda.taskEvent", { detail: { kind, payload } })); } catch (_) {}
   }
 
-  function normalize(kind, payload) {
-    // v22 task-events stream includes:
-    // - event: hello {kind:"task-events", cursor, ts}
-    // - event: heartbeat {ts, cursor}
-    // - event: task.event or task.state with payload {task:{...}} or {id,status,agent,...}
-    //
-    // We map into: task.created / task.completed / task.failed / task.progress
+    function normalize(kind, payload) {
     const p = payload || {};
-    const task = p.task || p;
-    const status = (task.status || p.status || "").toLowerCase();
-    const id = task.id || p.id || p.task_id;
+    // Server event names: hello | heartbeat | task.event
+    // task.event payload shape: { id, type, ts, taskId, runId, actor, meta, createdAt }
+    if (kind === "hello" || kind === "heartbeat") return { kind, task: {}, id: null, raw: p };
 
-    if (!status) return { kind: kind || "task.event", task, id };
+    const meta = p.meta || {};
+    const task = meta.task || p.task || {};
+    const status = String(meta.status || task.status || "").toLowerCase();
+    const id = p.taskId || meta.task_id || task.id || p.id || p.task_id || null;
+    const type = String(p.type || p.kind || kind || "task.event");
 
-    if (status in {"queued":1,"running":1,"started":1}) return { kind: "task.progress", task, id };
-    if (status in {"completed":1,"done":1,"success":1}) return { kind: "task.completed", task, id };
-    if (status in {"failed":1,"error":1}) return { kind: "task.failed", task, id };
-    return { kind: "task.progress", task, id };
+    // Prefer canonical lifecycle type when present.
+    if (type === "task.created") return { kind: "task.created", task: meta, id };
+    if (type === "task.completed") return { kind: "task.completed", task: meta, id };
+    if (type === "task.failed") return { kind: "task.failed", task: meta, id };
+
+    // Otherwise derive from status.
+    if (status in { "queued":1, "running":1, "started":1 }) return { kind: "task.progress", task: meta, id };
+    if (status in { "completed":1, "done":1, "success":1 }) return { kind: "task.completed", task: meta, id };
+    if (status in { "failed":1, "error":1 }) return { kind: "task.failed", task: meta, id };
+
+    return { kind: "task.progress", task: meta, id, raw: p };
   }
 
   function line(kind, n) {
@@ -53,20 +58,14 @@
     }
   }
 
-  es.addEventListener("message", (ev) => {
-    try {
-      const payload = JSON.parse(ev.data || "{}");
-      const kind = payload.kind || payload.event || "task.event";
-      push(kind, payload);
-    } catch (_) {}
-  });
-
-  // Also listen to specific event names if server uses event: task.* / heartbeat / hello
-  ["hello", "heartbeat", "task.created", "task.completed", "task.failed", "task.event", "task.state", "task.update"].forEach((k) => {
+    // Server uses named events (hello/heartbeat/task.event). Default "message" is usually unused.
+// Also listen to specific event names if server uses event: task.* / heartbeat / hello
+    ["hello", "heartbeat", "task.event"].forEach((k) => {
     es.addEventListener(k, (ev) => {
       try { push(k, JSON.parse(ev.data || "{}")); } catch (_) {}
     });
   });
+});
 
   es.onerror = () => emit("task-events.error", { ts: Date.now() });
 })();
