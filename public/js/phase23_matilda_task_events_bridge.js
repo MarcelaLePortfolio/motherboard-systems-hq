@@ -9,7 +9,7 @@
     try { window.dispatchEvent(new CustomEvent("matilda.taskEvent", { detail: { kind, payload } })); } catch (_) {}
   }
 
-    function normalize(kind, payload) {
+  function normalize(kind, payload) {
     const p = payload || {};
     // Server event names: hello | heartbeat | task.event
     // task.event payload shape: { id, type, ts, taskId, runId, actor, meta, createdAt }
@@ -56,16 +56,17 @@
     if (typeof fn === "function") {
       try { fn(msg); } catch (_) {}
     }
-  }
+    }
 
-    // Server uses named events (hello/heartbeat/task.event). Default "message" is usually unused.
-// Also listen to specific event names if server uses event: task.* / heartbeat / hello
-    ["hello", "heartbeat", "task.event"].forEach((k) => {
+
+  // Server uses named events (hello/heartbeat/task.event).
+  ["hello", "heartbeat", "task.event"].forEach((k) => {
     es.addEventListener(k, (ev) => {
       try { push(k, JSON.parse(ev.data || "{}")); } catch (_) {}
     });
   });
-});
+
+
 
   es.onerror = () => emit("task-events.error", { ts: Date.now() });
 })();
