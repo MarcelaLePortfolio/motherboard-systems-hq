@@ -35,28 +35,51 @@
   }
 
   function line(kind, n) {
-    const t = n.task || {};
-    const id = n.id != null ? String(n.id) : (t.task_id ? String(t.task_id) : "?");
-    const agent = (t.agent || t.target || "").toString().toUpperCase();
-    const a = agent ? ` → ${agent}` : "";
-    if (kind === "task.created") return `✨ task.created [${id}]${a}`;
-      if (kind === "task.completed") return `🎉 task.completed [${id}]${a}`;
-    if (kind === "task.failed") return `❌ task.failed [${id}]${a}`;
-    if (kind === "task.progress") return `⏳ task.${(t.status || "update")} [${id}]${a}`;
-    if (kind === "heartbeat") return null;
-    if (kind === "hello") return null;
-    return `ℹ️ ${kind} [${id}]${a}`;
-  }
+      const t = n.task || {};
+      const id = n.id != null ? String(n.id) : (t.task_id ? String(t.task_id) : "?");
+
+      const agent = String(t.agent || t.target || "").toUpperCase();
+      const a = agent ? ` → ${agent}` : "";
+
+      const status = String(t.status || "").toLowerCase();
+      const actor  = t.actor ? String(t.actor) : "";
+      const source = t.source ? String(t.source) : "";
+      const runId  = t.runId ? String(t.runId) : (t.run_id ? String(t.run_id) : "");
+      const trace  = t.trace_id ? String(t.trace_id) : "";
+
+      const bits = [];
+      if (status) bits.push(`st=${status}`);
+      if (actor) bits.push(`actor=${actor}`);
+      if (source) bits.push(`src=${source}`);
+      if (runId) bits.push(`run=${runId}`);
+      if (trace) bits.push(`trace=${trace}`);
+
+      const tail = bits.length ? ` {${bits.join(" ")}}` : "";
+
+      if (kind === "task.created")   return `✨ task.created [${id}]${a}${tail}`;
+      if (kind === "task.completed") return `🎉 task.completed [${id}]${a}${tail}`;
+      if (kind === "task.failed")    return `❌ task.failed [${id}]${a}${tail}`;
+      if (kind === "task.progress")  return `⏳ task.${(t.status || "update")} [${id}]${a}${tail}`;
+      if (kind === "heartbeat") return null;
+      if (kind === "hello") return null;
+      return `ℹ️ ${kind} [${id}]${a}${tail}`;
+    }
+
+
 
   function push(kind, payload) {
-    const n = normalize(kind, payload);
-    emit(n.kind, n);
-    const msg = line(n.kind, n);
-    if (!msg) return;
-    const fn = window.__MATILDA_CHAT_APPEND_SYSTEM || window.__chatAppendSystem || null;
-    if (typeof fn === "function") {
-      try { fn(msg); } catch (_) {}
+      const n = normalize(kind, payload);
+      emit(n.kind, n);
+      const msg = line(n.kind, n);
+      if (!msg) return;
+      const fn = window.__MATILDA_CHAT_APPEND_SYSTEM || window.__chatAppendSystem || null;
+      if (typeof fn === "function") {
+        try { fn(msg); } catch (_) {}
+      }
     }
+
+    }
+
     }
 
 
