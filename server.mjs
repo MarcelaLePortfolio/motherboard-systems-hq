@@ -18,6 +18,10 @@ const __dirname = path.dirname(__filename);
 
 
 const app = express();
+
+// Phase 23: parse JSON early (avoid empty req.body)
+app.use(express.json());
+
 // Phase 20: task-events SSE (event-sourced)
 app.use(taskEventsSSE);
   
@@ -109,9 +113,6 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/css", express.static(path.join(__dirname, "public", "css")));
 app.use("/js", express.static(path.join(__dirname, "public", "js")));
 app.use("/img", express.static(path.join(__dirname, "public", "img")));
-app.use(express.json());
-
-
 // Phase 23: TaskSpec adapter -> create task + emit task_events
 app.post("/api/tasks-mutations/delegate-taskspec", async (req, res) => phase23HandleDelegateTaskSpec(req, res, { db: pool, dbDelegateTask }));
 
