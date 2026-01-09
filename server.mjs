@@ -13,6 +13,8 @@ import taskEventsSSE from "./server/routes/task-events-sse.mjs";
 import apiTasksMutationsRouter from "./server/routes/api-tasks-mutations.mjs";
 
 
+import { handleDelegate as phase23HandleDelegate } from "./server/api/tasks-mutations/delegate.mjs";
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -110,6 +112,10 @@ app.use("/css", express.static(path.join(__dirname, "public", "css")));
 app.use("/js", express.static(path.join(__dirname, "public", "js")));
 app.use("/img", express.static(path.join(__dirname, "public", "img")));
 app.use(express.json());
+
+// Phase 23: Matilda Delegation Loop
+app.post("/api/tasks-mutations/delegate", async (req, res) => phase23HandleDelegate(req, res, { db: pool }));
+
 app.use("/api/tasks", apiTasksRouter);
 app.use("/api/tasks-mutations", apiTasksMutationsRouter);
 
