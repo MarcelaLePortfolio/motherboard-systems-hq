@@ -39,7 +39,8 @@
     const id = n.id != null ? String(n.id) : (t.task_id ? String(t.task_id) : "?");
     const agent = (t.agent || t.target || "").toString().toUpperCase();
     const a = agent ? ` → ${agent}` : "";
-    if (kind === "task.completed") return `🎉 task.completed [${id}]${a}`;
+    if (kind === "task.created") return `✨ task.created [${id}]${a}`;
+      if (kind === "task.completed") return `🎉 task.completed [${id}]${a}`;
     if (kind === "task.failed") return `❌ task.failed [${id}]${a}`;
     if (kind === "task.progress") return `⏳ task.${(t.status || "update")} [${id}]${a}`;
     if (kind === "heartbeat") return null;
