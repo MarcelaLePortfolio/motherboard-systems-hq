@@ -55,12 +55,10 @@
     if (type === "task.completed") return { kind: "task.completed", task: merged, id };
     if (type === "task.failed") return { kind: "task.failed", task: merged, id };
 
-    // Otherwise derive from status.
-    if (status in { queued: 1, running: 1, started: 1 }) return { kind: "task.progress", task: merged, id };
-    if (status in { completed: 1, done: 1, success: 1 }) return { kind: "task.completed", task: merged, id };
-    if (status in { failed: 1, error: 1 }) return { kind: "task.failed", task: merged, id };
-
-    return { kind: "task.progress", task: merged, id, raw: p };
+// Otherwise derive from status.
+// Phase 25: FORBIDDEN. UI must not infer lifecycle kinds from status strings.
+// If the payload does not carry a canonical lifecycle type, treat it as non-lifecycle.
+    return { kind: "task.event", task: merged, id, raw: p };
   }
 
   function line(kind, n) {
