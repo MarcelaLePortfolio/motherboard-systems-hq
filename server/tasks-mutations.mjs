@@ -35,7 +35,7 @@ export async function dbDelegateTask(pool, body) {
 }
 
 export async function dbCompleteTask(pool, body) {
-  const id = body?.taskId || body?.id;
+  const id = body?.task_id ?? body?.taskId ?? body?.id;
   if (!id) throw new Error("taskId required");
 
   const status = body?.status || "done";
