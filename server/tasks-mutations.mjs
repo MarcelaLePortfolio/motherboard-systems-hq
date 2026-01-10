@@ -56,10 +56,14 @@ export async function dbCompleteTask(pool, body) {
   if (!r.rows[0]) throw new Error(`task not found: ${id}`);
 
   const row = r.rows[0];
-  const k =
-    String(row.status) === "done"
-      ? "task.completed"
-      : (String(row.status) === "failed" ? "task.failed" : "task.updated");
+    // Phase 25: FORBIDDEN — do not derive lifecycle kind from task status.
+    // Caller may supply a canonical kind; otherwise emit a non-lifecycle event.
+    const k =
+      body?.kind ??
+      body?.event_kind ??
+      body?.eventKind ??
+      "task.event";
+
 
   await emitTaskEvent({
     pool,
