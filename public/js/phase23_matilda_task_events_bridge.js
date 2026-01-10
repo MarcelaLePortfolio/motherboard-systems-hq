@@ -54,6 +54,8 @@
     if (type === "task.created") return { kind: "task.created", task: merged, id };
     if (type === "task.completed") return { kind: "task.completed", task: merged, id };
     if (type === "task.failed") return { kind: "task.failed", task: merged, id };
+
+    // Otherwise derive from status.
 // Phase 25: FORBIDDEN. UI must not infer lifecycle kinds from status strings.
 // If the payload does not carry a canonical lifecycle type, treat it as non-lifecycle.
     return { kind: "task.event", task: merged, id, raw: p };
@@ -84,7 +86,7 @@
     if (kind === "task.created")   return `✨ task.created [${id}]${a}${tail}`;
     if (kind === "task.completed") return `🎉 task.completed [${id}]${a}${tail}`;
     if (kind === "task.failed")    return `❌ task.failed [${id}]${a}${tail}`;
-    if (kind === "task.progress")  return `⏳ task.progress [${id}]${a}${tail}`;
+    if (kind === "task.progress")  return `⏳ task.${(t.status || "update")} [${id}]${a}${tail}`;
     if (kind === "heartbeat") return null;
     if (kind === "hello") return null;
 
