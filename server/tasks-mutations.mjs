@@ -8,18 +8,20 @@ export async function dbDelegateTask(pool, body) {
   const traceId = body?.trace_id || body?.traceId || null;
   const meta = body?.meta ?? null;
 
+  const task_id = body?.task_id ?? body?.taskId ?? null;
+
   const r = await pool.query(
-    `insert into tasks (title, agent, status, notes, source, trace_id, meta)
-     values ($1, $2, 'queued', $3, $4, $5, $6)
-     returning id::text, title, agent, status, notes, source, trace_id, error, meta, created_at, updated_at`,
-    [title, agent, notes, source, traceId, meta]
+    `insert into tasks (task_id, title, agent, status, notes, source, trace_id, meta)
+     values ($1, $2, $3, 'queued', $4, $5, $6, $7)
+     returning id::text, task_id, title, agent, status, notes, source, trace_id, error, meta, created_at, updated_at`,
+    [task_id, title, agent, notes, source, traceId, meta]
   );
 
   const row = r.rows?.[0];
   await emitTaskEvent({
     pool,
     kind: "task.created",
-    task_id: row?.id ?? null,
+    task_id: row?.task_id ?? row?.id ?? null,
     actor: body?.actor ?? source,
     payload: {
         source,
@@ -48,9 +50,9 @@ export async function dbCompleteTask(pool, body) {
            error = $3,
            meta = coalesce($4, meta),
            updated_at = now()
-     where id = $1::int
-     returning id::text, title, agent, status, notes, source, trace_id, error, meta, created_at, updated_at`,
-    [id, status, error, meta]
+     where (id = $1::int) OR (task_id = $1::text)
+     returning id::text, task_id, title, agent, status, notes, source, trace_id, error, meta, created_at, updated_at`,
+    [String(id), status, error, meta]
   );
 
   if (!r.rows[0]) throw new Error(`task not found: ${id}`);
@@ -68,7 +70,7 @@ export async function dbCompleteTask(pool, body) {
   await emitTaskEvent({
     pool,
     kind: k,
-    task_id: row.id,
+    task_id: row.task_id ?? row.id,
     actor: body?.actor ?? (body?.source || "api"),
     payload: {
       status: row.status,
