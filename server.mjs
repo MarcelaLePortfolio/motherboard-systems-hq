@@ -3,6 +3,7 @@ import { registerOptionalSSE } from "./server/optional-sse.mjs";
 import path from "path";
 import { fileURLToPath } from "url";
 import pg from "pg";
+import { ensureTasksTaskIdColumn } from "./server/db_bootstrap_tasks_task_id.mjs";
 import { registerOrchestratorStateRoute } from "./server/orchestrator_state_route.mjs";
 import { registerPhase19DebugRoutes } from "./server/phase19_debug_routes_dump.mjs";
 import { apiTasksRouter } from "./server/routes/api-tasks-postgres.mjs";
@@ -259,6 +260,7 @@ try {
 } catch (e) {
   console.log("[db] effective pool config <unavailable>", e?.message || String(e));
 }
+await ensureTasksTaskIdColumn(pool);
 console.log("Database pool initialized");
   globalThis.__DB_POOL = pool;;
 
