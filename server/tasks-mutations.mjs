@@ -38,6 +38,7 @@ export async function dbDelegateTask(pool, body) {
 
 export async function dbCompleteTask(pool, body) {
   const id = body?.task_id ?? body?.taskId ?? body?.id;
+  const int_id = (String(id).match(/^\d+$/) ? Number(id) : null);
   if (!id) throw new Error("taskId required");
 
   const status = body?.status || "done";
@@ -50,9 +51,9 @@ export async function dbCompleteTask(pool, body) {
            error = $3,
            meta = coalesce($4, meta),
            updated_at = now()
-     where (id = $1::int) OR (task_id = $1::text)
+     where (id = $1) OR (task_id = $2)
      returning id::text, task_id, title, agent, status, notes, source, trace_id, error, meta, created_at, updated_at`,
-    [String(id), status, error, meta]
+    [int_id, String(id), status, error, meta]
   );
 
   if (!r.rows[0]) throw new Error(`task not found: ${id}`);
