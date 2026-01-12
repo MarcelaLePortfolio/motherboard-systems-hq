@@ -1,10 +1,22 @@
-/**
- * Phase 25 — Authority & Orchestration Lock
- * This module MUST NOT write to the database directly.
- * It exists only as a compatibility wrapper that routes to the single writer.
- *
- * SINGLE AUTHORITATIVE TASK EVENT WRITER — Phase 25 contract enforced.
- * Source of truth: server/task-events.mjs
- */
+import { appendTaskEvent } from "./task-events.mjs";
+function ms() { return Date.now(); }
 
-export { emitTaskEvent, writeTaskEvent } from "./task-events.mjs";
+export async function emitTaskEvent({ pool, kind, task_id, run_id = null, actor = null, payload = null }) {
+  if (!pool) throw new Error("emitTaskEvent: pool required");
+  if (!kind) throw new Error("emitTaskEvent: kind required");
+
+  const obj = {
+    task_id: task_id ?? null,
+    run_id: run_id ?? null,
+    actor: actor ?? null,
+    ts: ms(),
+    ...(payload && typeof payload === "object" ? payload : {}),
+  };
+
+  return appendTaskEvent(pool, kind, obj);
+}
+export async function writeTaskEvent(pool, kind, obj) {
+  if (!pool) throw new Error("writeTaskEvent: pool required");
+  if (!kind) throw new Error("writeTaskEvent: kind required");
+  return appendTaskEvent(pool, kind, obj);
+}
