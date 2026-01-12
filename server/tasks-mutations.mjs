@@ -47,9 +47,9 @@ export async function dbCompleteTask(pool, body) {
 
   const r = await pool.query(
     `update tasks
-       set status = $2,
-           error = $3,
-           meta = coalesce($4, meta),
+       set status = $3,
+           error = $4,
+           meta = coalesce($5, meta),
            updated_at = now()
      where (id = $1) OR (task_id = $2)
      returning id::text, task_id, title, agent, status, notes, source, trace_id, error, meta, created_at, updated_at`,
