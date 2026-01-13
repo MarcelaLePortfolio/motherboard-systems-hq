@@ -2,11 +2,11 @@ import { appendTaskEvent } from "./task-events.mjs";
 function ms() { return Date.now(); }
 
 export async function emitTaskEvent({ pool, kind, task_id, run_id = null, actor = null, payload = null }) {
-  console.log("[phase25] emitTaskEvent ENTER", { ts: Date.now() });
+  console.log("[phase25] emitTaskEvent ENTER", { ts: Date.now(), kind, task_id, hasGlobal: !!globalThis.__DB_POOL, globalType: globalThis.__DB_POOL?.constructor?.name });
   // [phase25] tolerate import-order: allow callers to omit pool and use global singleton
   pool = pool || globalThis.__DB_POOL;
   console.log("[phase25] emitTaskEvent BEFORE CHECK", { hasArg: !!pool, hasGlobal: !!globalThis.__DB_POOL, globalType: globalThis.__DB_POOL?.constructor?.name, argType: pool?.constructor?.name });
-  console.log("[phase25] emitTaskEvent pool", { arg: !!pool, hasGlobal: !!globalThis.__DB_POOL });
+  console.log("[phase25] emitTaskEvent pool", { arg: !!pool, argType: pool?.constructor?.name, hasGlobal: !!globalThis.__DB_POOL, globalType: globalThis.__DB_POOL?.constructor?.name });
 
     // [phase25] tolerate import-order: allow callers to omit pool and use global singleton
 if (!pool) throw new Error("emitTaskEvent: pool required");

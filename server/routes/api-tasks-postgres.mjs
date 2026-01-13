@@ -37,6 +37,7 @@ apiTasksRouter.get("/health", async (_req, res) => {
 apiTasksRouter.post("/create", async (req, res) => {
   try {
     const pool = _getPoolOrFail(res); if (!pool) return;
+      console.log("[phase25] /api/tasks/create pool snapshot", { hasLocal: !!pool, localType: pool?.constructor?.name, hasGlobal: !!globalThis.__DB_POOL, globalType: globalThis.__DB_POOL?.constructor?.name });
     const b = _asJson(req);
     const task_id = b.task_id ?? b.taskId ?? b.id ?? null;
 
