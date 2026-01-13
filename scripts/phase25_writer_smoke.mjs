@@ -1,7 +1,6 @@
 /**
  * Phase 25 — Writer smoke (deterministic + collision-free)
- * Emits task.created/task.completed/task.failed using UNIQUE task_ids
- * so task lifecycle guards never reject due to prior terminal history.
+ * Emits task.created/task.completed/task.failed using UNIQUE task_ids.
  */
 import pg from "pg";
 import { emitTaskEvent } from "../server/task_events_emit.mjs";
@@ -33,10 +32,14 @@ async function main() {
   const ts = Date.now();
 
   const tCreated = `phase25-writer-created-${ts}`;
-  const tCompleted = `phase25-writer-comp  const tCompleted = `phase25-writer-comp  const tCompleted `;  const tCompleted = `phase25-writer-comp  const tCompleted = `phase2te  const tCompleted = `phase25-writer-comp  const tCompleted = `phase25ea  d,  const tCom
+  const tCompleted = `phase25-writer-completed-${ts}`;
+  const tFailed = `phase25-writer-failed-${ts}`;
 
-  conso  conso  conso  conso  conso  conso  conso  conso  conso  conslet  cons
-  await emitTas  await emitTas  await emitTampl  await emitTd: tCompleted, ...base });
+  console.log("1) insert task.created via writer", { task_id: tCreated });
+  await emitTaskEvent({ pool, kind: "task.created", task_id: tCreated, ...base });
+
+  console.log("2) insert task.completed via writer", { task_id: tCompleted });
+  await emitTaskEvent({ pool, kind: "task.completed", task_id: tCompleted, ...base });
 
   console.log("3) insert task.failed via writer", { task_id: tFailed });
   await emitTaskEvent({
@@ -45,7 +48,9 @@ async function main() {
     task_id: tFailed,
     ...base,
     payload: { error: "phase25 writer smoke" },
-           ait pool.end();
+  });
+
+  await pool.end();
   console.log("SMOKE_OK");
 }
 
