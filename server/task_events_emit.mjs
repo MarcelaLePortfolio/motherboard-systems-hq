@@ -1,4 +1,5 @@
 import { appendTaskEvent } from "./task-events.mjs";
+console.log("[phase25] task_events_emit loaded", new Date().toISOString(), "file=", import.meta.url);
 function ms() { return Date.now(); }
 
 export async function emitTaskEvent({ pool, kind, task_id, run_id = null, actor = null, payload = null }) {

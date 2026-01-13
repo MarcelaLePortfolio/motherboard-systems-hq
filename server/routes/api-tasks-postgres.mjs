@@ -41,8 +41,8 @@ apiTasksRouter.post("/create", async (req, res) => {
     const b = _asJson(req);
     const task_id = b.task_id ?? b.taskId ?? b.id ?? null;
 
-    const evt = await emitTaskEvent({
-      pool,
+          console.log("[phase25] /api/tasks/create BEFORE emitTaskEvent", { hasLocal: !!pool, localType: pool?.constructor?.name, hasGlobal: !!globalThis.__DB_POOL, globalType: globalThis.__DB_POOL?.constructor?.name });
+const evt = await emitTaskEvent({
       pool,
       kind: "task.created",
       task_id,
@@ -75,7 +75,6 @@ apiTasksRouter.post("/complete", async (req, res) => {
 
     const evt = await emitTaskEvent({
       pool,
-      pool,
       kind: "task.completed",
       task_id,
       run_id: b.run_id ?? b.runId ?? null,
@@ -105,7 +104,6 @@ apiTasksRouter.post("/fail", async (req, res) => {
 
     const evt = await emitTaskEvent({
       pool,
-      pool,
       kind: "task.failed",
       task_id,
       run_id: b.run_id ?? b.runId ?? null,
@@ -134,7 +132,6 @@ apiTasksRouter.post("/cancel", async (req, res) => {
     if (!task_id) return res.status(400).json({ ok: false, error: "task_id_required" });
 
     const evt = await emitTaskEvent({
-      pool,
       pool,
       kind: "task.canceled",
       task_id,
