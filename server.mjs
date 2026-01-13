@@ -262,7 +262,7 @@ try {
 }
 await ensureTasksTaskIdColumn(pool);
 console.log("Database pool initialized");
-  globalThis.__DB_POOL = pool;;
+  globalThis.__DB_POOL = pool;
 
 let lastOpsHeartbeat = Date.now();
 

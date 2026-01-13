@@ -1,4 +1,5 @@
 import express from "express";
+console.log("[phase25] api-tasks-postgres loaded", new Date().toISOString(), "file=", import.meta.url);
 import { emitTaskEvent } from "../task_events_emit.mjs";
 
 export const apiTasksRouter = express.Router();
@@ -15,6 +16,8 @@ function _asJson(req) {
 
 function _getPoolOrFail(res) {
   const pool = globalThis.__DB_POOL;
+  console.log("[phase25] _getPoolOrFail", { has: !!pool, type: pool?.constructor?.name, keys: pool ? Object.keys(pool).slice(0,5) : [] });
+  console.log("[phase25] _getPoolOrFail", { has: !!pool, type: pool?.constructor?.name, keys: pool ? Object.keys(pool).slice(0,5) : [] });
   if (!pool) {
     res.status(500).json({ ok: false, error: "db_pool_not_initialized" });
     return null;
@@ -39,6 +42,7 @@ apiTasksRouter.post("/create", async (req, res) => {
 
     const evt = await emitTaskEvent({
       pool,
+      pool,
       kind: "task.created",
       task_id,
       run_id: b.run_id ?? b.runId ?? null,
@@ -54,6 +58,8 @@ apiTasksRouter.post("/create", async (req, res) => {
 
     res.status(201).json({ ok: true, task_id, event: evt });
   } catch (e) {
+    console.error("[phase25] /api/tasks error", e);
+
     res.status(500).json({ ok: false, error: e?.message || String(e) });
   }
 });
@@ -68,6 +74,7 @@ apiTasksRouter.post("/complete", async (req, res) => {
 
     const evt = await emitTaskEvent({
       pool,
+      pool,
       kind: "task.completed",
       task_id,
       run_id: b.run_id ?? b.runId ?? null,
@@ -81,6 +88,8 @@ apiTasksRouter.post("/complete", async (req, res) => {
 
     res.status(200).json({ ok: true, task_id, event: evt });
   } catch (e) {
+    console.error("[phase25] /api/tasks error", e);
+
     res.status(500).json({ ok: false, error: e?.message || String(e) });
   }
 });
@@ -95,6 +104,7 @@ apiTasksRouter.post("/fail", async (req, res) => {
 
     const evt = await emitTaskEvent({
       pool,
+      pool,
       kind: "task.failed",
       task_id,
       run_id: b.run_id ?? b.runId ?? null,
@@ -108,6 +118,8 @@ apiTasksRouter.post("/fail", async (req, res) => {
 
     res.status(200).json({ ok: true, task_id, event: evt });
   } catch (e) {
+    console.error("[phase25] /api/tasks error", e);
+
     res.status(500).json({ ok: false, error: e?.message || String(e) });
   }
 });
@@ -122,6 +134,7 @@ apiTasksRouter.post("/cancel", async (req, res) => {
 
     const evt = await emitTaskEvent({
       pool,
+      pool,
       kind: "task.canceled",
       task_id,
       run_id: b.run_id ?? b.runId ?? null,
@@ -134,6 +147,8 @@ apiTasksRouter.post("/cancel", async (req, res) => {
 
     res.status(200).json({ ok: true, task_id, event: evt });
   } catch (e) {
+    console.error("[phase25] /api/tasks error", e);
+
     res.status(500).json({ ok: false, error: e?.message || String(e) });
   }
 });
