@@ -5,6 +5,7 @@ export async function emitTaskEvent({ pool, kind, task_id, run_id = null, actor 
   console.log("[phase25] emitTaskEvent ENTER", { ts: Date.now() });
   // [phase25] tolerate import-order: allow callers to omit pool and use global singleton
   pool = pool || globalThis.__DB_POOL;
+  console.log("[phase25] emitTaskEvent BEFORE CHECK", { hasArg: !!pool, hasGlobal: !!globalThis.__DB_POOL, globalType: globalThis.__DB_POOL?.constructor?.name, argType: pool?.constructor?.name });
   console.log("[phase25] emitTaskEvent pool", { arg: !!pool, hasGlobal: !!globalThis.__DB_POOL });
 
     // [phase25] tolerate import-order: allow callers to omit pool and use global singleton
