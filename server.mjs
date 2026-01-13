@@ -263,7 +263,9 @@ try {
 await ensureTasksTaskIdColumn(pool);
 console.log("Database pool initialized");
   globalThis.__DB_POOL = pool;
+  console.log("[phase25] __DB_POOL set", { has: !!globalThis.__DB_POOL, type: (globalThis.__DB_POOL && globalThis.__DB_POOL.constructor && globalThis.__DB_POOL.constructor.name) });
 
+  if (typeof app !== "undefined" && app && app.locals) app.locals.pool = pool;
 let lastOpsHeartbeat = Date.now();
 
 // ---- Static dashboard assets ----
