@@ -235,7 +235,7 @@ const DB_URL = _normalizeDbUrl(DB_URL_RAW);
 const pool = DB_URL
   ? new Pool({ connectionString: DB_URL })
   : new Pool({
-      host: process.env.PGHOST || "postgres",
+      host: process.env.PGHOST || "127.0.0.1",
       port: Number(process.env.PGPORT || 5432),
       user: process.env.PGUSER || "postgres",
       password: process.env.PGPASSWORD || "postgres",
