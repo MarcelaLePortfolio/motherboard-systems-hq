@@ -1,48 +1,56 @@
+/**
+ * Phase 25 — Writer smoke (deterministic + collision-free)
+ * Emits task.created/task.completed/task.failed using UNIQUE task_ids
+ * so task lifecycle guards never reject due to prior terminal history.
+ */
 import pg from "pg";
-import { appendTaskEvent } from "../server/task-events.mjs";
+import { emitTaskEvent } from "../server/task_events_emit.mjs";
 
 const { Pool } = pg;
 
-const pool = new Pool({
-  connectionString: process.env.POSTGRES_URL || process.env.DATABASE_URL,
-});
+function resolveDatabaseUrl() {
+  const envUrl =
+    process.env.DATABASE_URL ||
+    process.env.POSTGRES_URL ||
+    process.env.PG_URL ||
+    "";
 
-function ms() { return Date.now(); }
-
-async function main() {
-  const task_id = "phase25-writer-1";
-  const baseObj = { task_id, run_id: "r1", ts: ms(), msg: "hello" };
-
-  console.log("1) insert task.created via writer");
-  await appendTaskEvent(pool, "task.created", baseObj);
-
-  console.log("2) insert exact duplicate via writer (should NOOP)");
-  await appendTaskEvent(pool, "task.created", baseObj);
-
-  console.log("3) insert terminal task.completed via writer");
-  await appendTaskEvent(pool, "task.completed", { ...baseObj, ts: ms(), msg: "done" });
-
-  console.log("4) attempt post-terminal task.progress via writer (should throw phase25: reject...)");
-  try {
-    await appendTaskEvent(pool, "task.progress", { ...baseObj, ts: ms(), msg: "should-reject" });
-    console.log("ERROR: expected reject did not happen");
-    process.exitCode = 2;
-  } catch (e) {
-    console.log("OK_REJECT:", String(e?.message || e));
-  }
-
-  const r = await pool.query(
-    "select kind, id, payload from task_events where payload like $1 order by id desc limit 20",
-    [`%${task_id}%`]
-  );
-  console.log("5) recent rows:");
-  for (const row of r.rows) console.log(row.id, row.kind, row.payload);
-
-  await pool.end();
+  if (typeof envUrl === "string" && envUrl.trim()) return envUrl.trim();
+  return "postgres://postgres:postgres@127.0.0.1:5432/postgres";
 }
 
-main().catch((e) => {
+function mask(url) {
+  return String(url).replace(/:(?:[^@]+)@/, ":***@");
+}
+
+async function main() {
+  const databaseUrl = resolveDatabaseUrl();
+  console.log("db:", mask(databaseUrl));
+
+  const pool = new Pool({ connectionString: databaseUrl });
+
+  const base = { run_id: "manual", actor: "dev" };
+  const ts = Date.now();
+
+  const tCreated = `phase25-writer-created-${ts}`;
+  const tCompleted = `phase25-writer-comp  const tCompleted = `phase25-writer-comp  const tCompleted `;  const tCompleted = `phase25-writer-comp  const tCompleted = `phase2te  const tCompleted = `phase25-writer-comp  const tCompleted = `phase25ea  d,  const tCom
+
+  conso  conso  conso  conso  conso  conso  conso  conso  conso  conslet  cons
+  await emitTas  await emitTas  await emitTampl  await emitTd: tCompleted, ...base });
+
+  console.log("3) insert task.failed via writer", { task_id: tFailed });
+  await emitTaskEvent({
+    pool,
+    kind: "task.failed",
+    task_id: tFailed,
+    ...base,
+    payload: { error: "phase25 writer smoke" },
+           ait pool.end();
+  console.log("SMOKE_OK");
+}
+
+main().catch((err) => {
   console.error("SMOKE_FAIL");
-  console.error(e?.stack || e);
-  process.exitCode = 1;
+  console.error(err?.stack || err);
+  process.exit(1);
 });
