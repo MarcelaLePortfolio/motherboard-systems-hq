@@ -38,10 +38,83 @@ apiTasksRouter.post("/create", async (req, res) => {
   try {
     const pool = _getPoolOrFail(res); if (!pool) return;
       console.log("[phase25] /api/tasks/create pool snapshot", { hasLocal: !!pool, localType: pool?.constructor?.name, hasGlobal: !!globalThis.__DB_POOL, globalType: globalThis.__DB_POOL?.constructor?.name });
-    const b = _asJson(req);
-    const task_id = b.task_id ?? b.taskId ?? b.id ?? null;
 
-          console.log("[phase25] /api/tasks/create BEFORE emitTaskEvent", { hasLocal: !!pool, localType: pool?.constructor?.name, hasGlobal: !!globalThis.__DB_POOL, globalType: globalThis.__DB_POOL?.constructor?.name });
+    const b = _asJson(req);
+
+
+    // Accept caller-provided task_id; otherwise create a task row + mint a stable string task_id.
+
+    let task_id = b.task_id ?? b.taskId ?? b.id ?? null;
+
+
+    if (!task_id) {
+
+      const title  = b.title  ?? b.kind ?? "untitled";
+
+      const agent  = b.agent  ?? null;
+
+      const status = b.status ?? "queued";
+
+      const source = b.source ?? "api";
+
+
+      // store arbitrary request details in meta (jsonb)
+
+      const meta = {
+
+        kind: b.kind ?? null,
+
+        payload: b.payload ?? null,
+
+        notes: b.notes ?? null,
+
+        trace_id: b.trace_id ?? b.traceId ?? null,
+
+        raw: b,
+
+      };
+
+
+      const created = await pool.query(
+
+        `
+
+        INSERT INTO tasks(title, agent, status, source, trace_id, meta)
+
+        VALUES ($1, $2, $3, $4, $5, $6::jsonb)
+
+        RETURNING id
+
+        `,
+
+        [title, agent, status, source, meta.trace_id, meta]
+
+      );
+
+
+      const id = created.rows?.[0]?.id ?? null;
+
+      if (id == null) throw new Error("phase25: failed to create tasks.id");
+
+
+      task_id = `t${id}`;
+
+
+      await pool.query(
+
+        `UPDATE tasks SET task_id = $1 WHERE id = $2`,
+
+        [task_id, id]
+
+      );
+
+    }
+
+
+    // Normalize to string for lifecycle events
+
+    task_id = String(task_id);
+
 const evt = await emitTaskEvent({
       pool,
       kind: "task.created",
