@@ -3,10 +3,16 @@ import { getPool, markSuccess, markFailure } from "./phase27_markers.mjs";
 import { emitTaskEvent } from "../task_events_emit.mjs";
 
 function ms() { return Date.now(); }
-function sleep(msi) { return new Promise(r => setTimeout(r, msi)); }
+function sleep(msi) { return new Promise((r) => setTimeout(r, msi)); }
 
-const FAIL_SQL_PATH = "";
-const SUCC_SQL_PATH = "";
+function mustEnv(name) {
+  const v = process.env[name];
+  if (v == null || String(v).trim() === "") throw new Error(`worker: missing env ${name}`);
+  return String(v).trim();
+}
+
+const FAIL_SQL_PATH = process.env.PHASE27_MARK_FAILURE_SQL ? String(process.env.PHASE27_MARK_FAILURE_SQL).trim() : null;
+const SUCC_SQL_PATH = process.env.PHASE27_MARK_SUCCESS_SQL ? String(process.env.PHASE27_MARK_SUCCESS_SQL).trim() : null;
 
 const BACKOFF_BASE_MS = Number(process.env.PHASE27_BACKOFF_BASE_MS || 1000);
 const BACKOFF_CAP_MS  = Number(process.env.PHASE27_BACKOFF_CAP_MS  || (5 * 60 * 1000));
@@ -80,7 +86,8 @@ async function execTask(task) {
 }
 
 async function handleSuccess({ pool, task }) {
-  await markSuccess({ pool, sqlPath: SUCC_SQL_PATH, task_id: task.id, run_id: task.run_id });
+  const succ = SUCC_SQL_PATH || mustEnv("PHASE27_MARK_SUCCESS_SQL");
+  await markSuccess({ pool, sqlPath: succ, task_id: task.id, run_id: task.run_id });
 
   await emitTaskEvent({
     pool,
@@ -88,11 +95,13 @@ async function handleSuccess({ pool, task }) {
     task_id: task.id,
     run_id: task.run_id,
     actor: "worker",
-    payload: { ts: ms() }
+    payload: { ts: ms() },
   });
 }
 
 async function handleFailure({ pool, task, err }) {
+  const fail = FAIL_SQL_PATH || mustEnv("PHASE27_MARK_FAILURE_SQL");
+
   const attempt = Number(task.retry_count ?? task.attempt ?? task.attempt_count ?? 1);
 
   const backoff_ms = computeBackoffMs({
@@ -104,7 +113,7 @@ async function handleFailure({ pool, task, err }) {
 
   await markFailure({
     pool,
-    sqlPath: FAIL_SQL_PATH,
+    sqlPath: fail,
     task_id: task.id,
     run_id: task.run_id,
     backoff_ms,
@@ -113,7 +122,7 @@ async function handleFailure({ pool, task, err }) {
       name: err?.name || "Error",
       stack: err?.stack || null,
       ts: ms(),
-    }
+    },
   });
 
   await emitTaskEvent({
@@ -122,7 +131,7 @@ async function handleFailure({ pool, task, err }) {
     task_id: task.id,
     run_id: task.run_id,
     actor: "worker",
-    payload: { ts: ms(), backoff_ms }
+    payload: { ts: ms(), backoff_ms },
   });
 
   await emitTaskEvent({
@@ -131,7 +140,7 @@ async function handleFailure({ pool, task, err }) {
     task_id: task.id,
     run_id: task.run_id,
     actor: "worker",
-    payload: { ts: ms(), backoff_ms }
+    payload: { ts: ms(), backoff_ms },
   });
 }
 
@@ -151,14 +160,14 @@ export async function runWorkerLoop() {
       task_id: task.id,
       run_id: task.run_id,
       actor: "worker",
-      payload: { ts: ms(), lease_expires_at: task.lease_expires_at ?? null }
+      payload: { ts: ms(), lease_expires_at: task.lease_expires_at ?? null },
     });
 
     try {
       await execTask(task);
       await handleSuccess({ pool, task });
-    } catch (err) {
-      await handleFailure({ pool, task, err });
+    } catch (e) {
+      await handleFailure({ pool, task, err: e });
     }
   }
 }
