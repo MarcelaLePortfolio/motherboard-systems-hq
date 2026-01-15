@@ -1,0 +1,12 @@
+services:
+  worker:
+    build:
+      context: .
+    command: ["node", "server/worker/phase26_task_worker.mjs"]
+    environment:
+      POSTGRES_URL: ${POSTGRES_URL}
+      PHASE26_TICK_MS: ${PHASE26_TICK_MS:-500}
+      PHASE26_WORKER_ACTOR: ${PHASE26_WORKER_ACTOR:-phase26.worker}
+    depends_on:
+      - postgres
+    restart: unless-stopped
