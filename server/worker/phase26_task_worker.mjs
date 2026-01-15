@@ -1,114 +1,171 @@
-import { Pool } from "pg";
+import { computeBackoffMs } from "./backoff.mjs";
+import { getPool, markSuccess, markFailure } from "./phase27_markers.mjs";
+import { emitTaskEvent } from "../task_events_emit.mjs";
 
-function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
-function nowMs() { return Date.now(); }
+function ms() { return Date.now(); }
+function sleep(msi) { return new Promise(r => setTimeout(r, msi)); }
 
-async function ensurePgPool() {
-  const url = process.env.POSTGRES_URL || process.env.DATABASE_URL;
-  if (!url) throw new Error("phase26_task_worker: POSTGRES_URL (or DATABASE_URL) is required");
-  return new Pool({ connectionString: url });
-}
+const FAIL_SQL_PATH = "";
+const SUCC_SQL_PATH = "";
 
-async function emitTaskEvent(pool, kind, task_id, run_id, actor, payload = {}) {
-  const p = { ts: nowMs(), task_id, run_id, actor, ...payload };
-  await pool.query(
-    `insert into task_events(kind, payload) values ($1, $2::jsonb)`,
-    [kind, JSON.stringify(p)]
-  );
-}
-async function claimNextQueuedTask(pool, actor) {
+const BACKOFF_BASE_MS = Number(process.env.PHASE27_BACKOFF_BASE_MS || 1000);
+const BACKOFF_CAP_MS  = Number(process.env.PHASE27_BACKOFF_CAP_MS  || (5 * 60 * 1000));
+const JITTER_PCT      = Number(process.env.PHASE27_BACKOFF_JITTER_PCT || 0.2);
+
+const POLL_MS = Number(process.env.WORKER_POLL_MS || 500);
+
+async function claimOneTask(pool) {
+  const owner = process.env.WORKER_OWNER || `worker-${process.pid}`;
+  const leaseMs = Number(process.env.WORKER_LEASE_MS || 15000);
+  const leaseUntil = new Date(Date.now() + leaseMs);
+
   const q = `
-    with next as (
+  with c as (
+    select id
+    from tasks
+    where
+      (coalesce(status,'') in ('created','queued','requeued') or status is null)
+      and (coalesce(next_run_at, to_timestamp(0)) <= now())
+    order by coalesce(priority,0) desc, id asc
+    for update skip locked
+    limit 1
+  )
+  update tasks t
+  set
+    status = 'running',
+    run_id = coalesce(t.run_id, gen_random_uuid()::text),
+    lease_owner = $1,
+    lease_expires_at = $2,
+    updated_at = now()
+  from c
+  where t.id = c.id
+  returning t.*;
+  `;
+
+  try {
+    const r = await pool.query(q, [owner, leaseUntil]);
+    return r.rows[0] || null;
+  } catch (e) {
+    const run_id = `${owner}-${Date.now()}`;
+    const q2 = `
+    with c as (
       select id
       from tasks
-      where status = 'queued'
-      order by id asc
+      where
+        (coalesce(status,'') in ('created','queued','requeued') or status is null)
+        and (coalesce(next_run_at, to_timestamp(0)) <= now())
+      order by coalesce(priority,0) desc, id asc
       for update skip locked
       limit 1
     )
-    update tasks
-    set status = 'running'
-    where id in (select id from next)
-    returning *;
-  `;
-  const r = await pool.query(q);
-  if (!r.rows || r.rows.length === 0) return null;
-
-  const row = r.rows[0];
-  const task_id = row.id;
-  const run_id = `run_${task_id}_${nowMs()}`;
-  await emitTaskEvent(pool, "task.running", task_id, run_id, actor, { status: "running" });
-  return { row, task_id, run_id };
-}
-
-
-function shouldFail(taskRow) {
-  const p = taskRow?.payload;
-  if (!p) return false;
-  if (p.fail === true) return true;
-  if (p.should_fail === true) return true;
-  if (typeof p.fail === "string" && p.fail.toLowerCase() === "true") return true;
-  return false;
-}
-
-async function completeTask(pool, task_id, run_id, actor, ok, extra = {}) {
-  const status = ok ? "completed" : "failed";
-  await pool.query(`update tasks set status = $1 where id = $2`, [status, task_id]);
-
-  const kind = ok ? "task.completed" : "task.failed";
-  await emitTaskEvent(pool, kind, task_id, run_id, actor, { status, ...extra });
-}
-
-
-async function executeTask(pool, taskRow, task_id, run_id, actor) {
-  const fail = shouldFail(taskRow);
-  if (fail) {
-    await completeTask(pool, task_id, run_id, actor, false, { error: "phase26: simulated failure via payload flag" });
-    return;
+    update tasks t
+    set
+      status = 'running',
+      run_id = coalesce(t.run_id, $3),
+      lease_owner = $1,
+      lease_expires_at = $2,
+      updated_at = now()
+    from c
+    where t.id = c.id
+    returning t.*;
+    `;
+    const r2 = await pool.query(q2, [owner, leaseUntil, run_id]);
+    return r2.rows[0] || null;
   }
-  await completeTask(pool, task_id, run_id, actor, true, { result: "phase26: no-op executor completed" });
 }
 
-async function main() {
-  const actor = process.env.PHASE26_WORKER_ACTOR || "phase26.worker";
-  const tickMs = Number(process.env.PHASE26_TICK_MS || 500);
+async function execTask(task) {
+  // TODO: replace with Phase 26 executor hook if needed
+  return { ok: true, task_id: task.id };
+}
 
-  const pool = await ensurePgPool();
+async function handleSuccess({ pool, task }) {
+  await markSuccess({ pool, sqlPath: SUCC_SQL_PATH, task_id: task.id, run_id: task.run_id });
 
-  let stopping = false;
-  const stop = () => { stopping = true; };
-  process.on("SIGINT", stop);
-  process.on("SIGTERM", stop);
+  await emitTaskEvent({
+    pool,
+    kind: "task.completed",
+    task_id: task.id,
+    run_id: task.run_id,
+    actor: "worker",
+    payload: { ts: ms() }
+  });
+}
 
-  await pool.query("select 1");
+async function handleFailure({ pool, task, err }) {
+  const attempt = Number(task.retry_count ?? task.attempt ?? task.attempt_count ?? 1);
 
-  while (!stopping) {
-    let claimed = null;
+  const backoff_ms = computeBackoffMs({
+    attempt,
+    baseMs: BACKOFF_BASE_MS,
+    capMs: BACKOFF_CAP_MS,
+    jitterPct: JITTER_PCT,
+  });
 
-    try {
-      claimed = await claimNextQueuedTask(pool, actor);
-    } catch {
-      await sleep(Math.min(2000, Math.max(250, tickMs)));
+  await markFailure({
+    pool,
+    sqlPath: FAIL_SQL_PATH,
+    task_id: task.id,
+    run_id: task.run_id,
+    backoff_ms,
+    error: {
+      message: err?.message || String(err),
+      name: err?.name || "Error",
+      stack: err?.stack || null,
+      ts: ms(),
+    }
+  });
+
+  await emitTaskEvent({
+    pool,
+    kind: "task.failed",
+    task_id: task.id,
+    run_id: task.run_id,
+    actor: "worker",
+    payload: { ts: ms(), backoff_ms }
+  });
+
+  await emitTaskEvent({
+    pool,
+    kind: "task.requeued",
+    task_id: task.id,
+    run_id: task.run_id,
+    actor: "worker",
+    payload: { ts: ms(), backoff_ms }
+  });
+}
+
+export async function runWorkerLoop() {
+  const pool = getPool();
+
+  while (true) {
+    const task = await claimOneTask(pool);
+    if (!task) {
+      await sleep(POLL_MS);
       continue;
     }
 
-    if (!claimed) {
-      await sleep(tickMs);
-      continue;
-    }
+    await emitTaskEvent({
+      pool,
+      kind: "task.running",
+      task_id: task.id,
+      run_id: task.run_id,
+      actor: "worker",
+      payload: { ts: ms(), lease_expires_at: task.lease_expires_at ?? null }
+    });
 
     try {
-      await executeTask(pool, claimed.row, claimed.task_id, claimed.run_id, actor);
-    } catch (e) {
-      try {
-        await completeTask(pool, claimed.task_id, claimed.run_id, actor, false, { error: String(e?.message || e) });
-      } catch {}
+      await execTask(task);
+      await handleSuccess({ pool, task });
+    } catch (err) {
+      await handleFailure({ pool, task, err });
     }
   }
-  await pool.end().catch(() => {});
 }
 
-main().catch((e) => {
-  console.error("[phase26_task_worker] fatal:", e);
-  process.exit(1);
-});
+if (import.meta.url === `file://${process.argv[1]}`) {
+  runWorkerLoop().catch((e) => {
+    console.error("[worker] fatal", e);
+    process.exit(1);
+  });
+}
