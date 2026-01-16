@@ -1,50 +1,25 @@
--- Phase 27: claim exactly one task (queued eligible OR orphan running w/ expired lease)
--- Inputs:
---   $1 = worker_id (text)
---   $2 = lock_ms   (int)  e.g. 60000
--- Behavior:
---   - increments attempt
---   - sets status=running, locked_by, lock_expires_at
---   - respects available_at gate for queued
---   - allows reclaim for running if lock_expires_at < now()
+-- phase27_claim_one.sql
+-- Params:
+--   $1 = lease_owner (text)
+--   $2 = lease_expires_at (timestamptz)
 
-with candidate as (
+with c as (
   select id
   from tasks
   where
-    (
-      status = 'queued'
-      and (available_at is null or available_at <= now())
-      and (lock_expires_at is null or lock_expires_at < now())
-    )
-    or
-    (
-      status = 'running'
-      and lock_expires_at is not null
-      and lock_expires_at < now()
-    )
-  order by id asc
+    (coalesce(status,'') in ('created','queued','requeued') or status is null)
+    and (coalesce(available_at, to_timestamp(0)) <= now())
+  order by coalesce(priority,0) desc, id asc
   for update skip locked
   limit 1
 )
 update tasks t
 set
   status = 'running',
-  attempt = t.attempt + 1,
-  locked_by = $1::text,
-  lock_expires_at = now() + (($2::int) * interval '1 millisecond'),
+  run_id = coalesce(t.run_id, gen_random_uuid()::text),
+  lease_owner = $1,
+  lease_expires_at = $2,
   updated_at = now()
-from candidate c
+from c
 where t.id = c.id
-returning
-  t.id,
-  t.task_id,
-  t.status,
-  t.agent,
-  t.title,
-  t.attempt,
-  t.max_attempts,
-  t.available_at,
-  t.locked_by,
-  t.lock_expires_at,
-  t.meta;
+returning t.*;

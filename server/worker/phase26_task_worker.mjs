@@ -1,6 +1,9 @@
+import fs from "node:fs";
+import path from "node:path";
 import { computeBackoffMs } from "./backoff.mjs";
 import { getPool, markSuccess, markFailure } from "./phase27_markers.mjs";
 import { emitTaskEvent } from "../task_events_emit.mjs";
+
 
 function ms() { return Date.now(); }
 function sleep(msi) { return new Promise((r) => setTimeout(r, msi)); }
@@ -11,8 +14,15 @@ function mustEnv(name) {
   return String(v).trim();
 }
 
+function readSql(relPath) {
+  const abs = path.isAbsolute(relPath) ? relPath : path.join(process.cwd(), relPath);
+  return fs.readFileSync(abs, "utf8");
+}
+
+
 const FAIL_SQL_PATH = process.env.PHASE27_MARK_FAILURE_SQL ? String(process.env.PHASE27_MARK_FAILURE_SQL).trim() : null;
 const SUCC_SQL_PATH = process.env.PHASE27_MARK_SUCCESS_SQL ? String(process.env.PHASE27_MARK_SUCCESS_SQL).trim() : null;
+const CLAIM_SQL_PATH = process.env.PHASE27_CLAIM_ONE_SQL ? String(process.env.PHASE27_CLAIM_ONE_SQL).trim() : "server/worker/phase27_claim_one.sql";
 
 const BACKOFF_BASE_MS = Number(process.env.PHASE27_BACKOFF_BASE_MS || 1000);
 const BACKOFF_CAP_MS  = Number(process.env.PHASE27_BACKOFF_CAP_MS  || (5 * 60 * 1000));
@@ -20,64 +30,15 @@ const JITTER_PCT      = Number(process.env.PHASE27_BACKOFF_JITTER_PCT || 0.2);
 
 const POLL_MS = Number(process.env.WORKER_POLL_MS || 500);
 
+
 async function claimOneTask(pool) {
   const owner = process.env.WORKER_OWNER || `worker-${process.pid}`;
   const leaseMs = Number(process.env.WORKER_LEASE_MS || 15000);
   const leaseUntil = new Date(Date.now() + leaseMs);
 
-  const q = `
-  with c as (
-    select id
-    from tasks
-    where
-      (coalesce(status,'') in ('created','queued','requeued') or status is null)
-      and (coalesce(next_run_at, to_timestamp(0)) <= now())
-    order by coalesce(priority,0) desc, id asc
-    for update skip locked
-    limit 1
-  )
-  update tasks t
-  set
-    status = 'running',
-    run_id = coalesce(t.run_id, gen_random_uuid()::text),
-    lease_owner = $1,
-    lease_expires_at = $2,
-    updated_at = now()
-  from c
-  where t.id = c.id
-  returning t.*;
-  `;
-
-  try {
-    const r = await pool.query(q, [owner, leaseUntil]);
-    return r.rows[0] || null;
-  } catch (e) {
-    const run_id = `${owner}-${Date.now()}`;
-    const q2 = `
-    with c as (
-      select id
-      from tasks
-      where
-        (coalesce(status,'') in ('created','queued','requeued') or status is null)
-        and (coalesce(next_run_at, to_timestamp(0)) <= now())
-      order by coalesce(priority,0) desc, id asc
-      for update skip locked
-      limit 1
-    )
-    update tasks t
-    set
-      status = 'running',
-      run_id = coalesce(t.run_id, $3),
-      lease_owner = $1,
-      lease_expires_at = $2,
-      updated_at = now()
-    from c
-    where t.id = c.id
-    returning t.*;
-    `;
-    const r2 = await pool.query(q2, [owner, leaseUntil, run_id]);
-    return r2.rows[0] || null;
-  }
+  const sql = readSql(CLAIM_SQL_PATH);
+  const r = await pool.query(sql, [owner, leaseUntil]);
+  return r.rows[0] || null;
 }
 
 async function execTask(task) {
@@ -110,7 +71,6 @@ async function handleFailure({ pool, task, err }) {
     capMs: BACKOFF_CAP_MS,
     jitterPct: JITTER_PCT,
   });
-
   await markFailure({
     pool,
     sqlPath: fail,
