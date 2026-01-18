@@ -10,7 +10,7 @@ function sleep(msi) { return new Promise((r) => setTimeout(r, msi)); }
 
 function mustEnv(name) {
 const v = process.env[name];
-if (v == null || String(v).trim() === "") throw new Error(`worker: missing env `);
+if (v == null || String(v).trim() === "") throw new Error(`worker: missing env ${name}`);
 return String(v).trim();
 }
 
@@ -34,7 +34,7 @@ const JITTER_PCT = Number(process.env.PHASE27_BACKOFF_JITTER_PCT || 0.2);
 const POLL_MS = Number(process.env.WORKER_POLL_MS || 500);
 
 async function claimOneTask(pool) {
-const owner = process.env.WORKER_OWNER || `worker-`;
+const owner = process.env.WORKER_OWNER || `worker-${process.pid}`;
 const leaseMs = Number(process.env.WORKER_LEASE_MS || 15000);
 const leaseUntil = new Date(Date.now() + leaseMs);
 
