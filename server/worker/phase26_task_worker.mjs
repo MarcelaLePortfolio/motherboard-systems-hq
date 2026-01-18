@@ -1,3 +1,4 @@
+import { pathToFileURL } from "node:url";
 import fs from "node:fs";
 import path from "node:path";
 import { computeBackoffMs } from "./backoff.mjs";
@@ -133,7 +134,7 @@ try {
 }
 }
 
-if (import.meta.url === file://${process.argv[1]}) {
+if (import.meta.url === pathToFileURL(process.argv[1]).href) {
 runWorkerLoop().catch((e) => {
 console.error("[worker] fatal", e);
 process.exit(1);
