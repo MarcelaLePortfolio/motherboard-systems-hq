@@ -20,7 +20,7 @@ return fs.readFileSync(abs, "utf8");
 }
 
 function sqlNeedsParams(sql) {
-return /$\d+/.test(String(sql || ""));
+return /\d+/.test(String(sql || ""));
 }
 
 const FAIL_SQL_PATH = process.env.PHASE27_MARK_FAILURE_SQL ? String(process.env.PHASE27_MARK_FAILURE_SQL).trim() : null;
