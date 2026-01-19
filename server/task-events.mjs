@@ -43,8 +43,7 @@ export async function appendTaskEvent(pool, kind, payload) {
   // Phase 25: Exact-dupe idempotency — if exact (kind,payload) already exists, do nothing.
   try {
     const dup = await pool.query(
-      "select 1 as ok from task_events where kind=$1::text and payload=$2::text limit 1",
-      [k, payloadText]
+      "select 1 as ok from task_events where kind=$1::text and payload=$2::text limit 1", [k, payloadText]
     );
     if (dup && (dup.rowCount || dup.rows?.length)) return;
   } catch (_) {
@@ -70,7 +69,7 @@ export async function appendTaskEvent(pool, kind, payload) {
   }
 
   await pool.query(
-    "insert into task_events (kind, payload) values ($1::text, $2::text)",
-    [k, payloadText]
+    "insert into task_events(kind, task_id, payload) values ($1::text, $2::text, $3::text)",
+    [k, (taskId == null ? null : String(taskId)), payloadText]
   );
 }
