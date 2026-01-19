@@ -42,57 +42,24 @@ function backoffMs(attempt, baseMs, maxMs) {
   return Math.min(raw, maxMs);
 }
 
-async function insertTaskEvent(pool, { kind, task_id, run_id = null, actor = null, payload = null }) {
-  const q = `
-    insert into task_events(kind, task_id, run_id, actor, payload)
-    values ($1, $2, $3, $4, $5::jsonb)
-  `;
-  const payloadJson = payload == null ? null : JSON.stringify(payload);
-  await pool.query(q, [kind, String(task_id), run_id, actor, payloadJson]);
+function taskPayload(task) {
+  // Your current DB schema uses tasks.meta jsonb (not tasks.payload)
+  // Keep compatibility if payload exists later.
+  return task.payload ?? task.meta ?? null;
 }
 
-const DEFAULT_CLAIM_ONE_SQL = `
-with picked as (
-  select id
-  from tasks
-  where status in ('queued','retry')
-    and (next_run_at is null or next_run_at <= now())
-  order by coalesce(priority, 0) desc, id asc
-  for update skip locked
-  limit 1
-)
-update tasks t
-set status = 'running',
-    run_id = $1,
-    updated_at = now()
-from picked
-where t.id = picked.id
-returning t.*;
-`;
-
-const DEFAULT_MARK_SUCCESS_SQL = `
-update tasks
-set status = 'completed',
-    completed_at = now(),
-    updated_at = now()
-where id = $1
-returning *;
-`;
-
-const DEFAULT_MARK_FAILURE_SQL = `
-update tasks
-set status = $2,
-    attempts = $3,
-    next_run_at = $4,
-    last_error = $5::jsonb,
-    failed_at = case when $2 = 'failed' then now() else failed_at end,
-    updated_at = now()
-where id = $1
-returning *;
-`;
+async function insertTaskEvent(pool, { kind, task_id, run_id = null, actor = null, payload = null }) {
+  // Your task_events.payload is TEXT NOT NULL. Store JSON string.
+  const q = `
+    insert into task_events(kind, payload, task_id, run_id, actor)
+    values ($1, $2, $3, $4, $5)
+  `;
+  const payloadText = JSON.stringify(payload ?? {});
+  await pool.query(q, [kind, payloadText, String(task_id), run_id, actor]);
+}
 
 async function execTask(task) {
-  const payload = task.payload || {};
+  const payload = taskPayload(task) || {};
   if (payload.force_fail === true || payload.__force_fail === true) {
     throw new Error("phase28 smoke: forced failure");
   }
@@ -105,7 +72,10 @@ async function handleFailure(pool, task, error) {
   const baseBackoff = clampInt(process.env.WORKER_BACKOFF_BASE_MS, 10, 60000, 2000);
   const maxBackoff = clampInt(process.env.WORKER_BACKOFF_MAX_MS, 10, 86400000, 60000);
 
-  const prevAttempts = Number(task.attempts || 0);
+  // your schema has attempt (int not null default 0). we also added attempts; tolerate both.
+  const prevAttempts = Number.isFinite(task.attempts) ? Number(task.attempts)
+                    : Number.isFinite(task.attempt) ? Number(task.attempt)
+                    : 0;
   const nextAttempts = prevAttempts + 1;
 
   const lastError = {
@@ -114,16 +84,17 @@ async function handleFailure(pool, task, error) {
     attempt: nextAttempts,
   };
 
+  // always emit task.failed (even if we retry)
   await insertTaskEvent(pool, {
     kind: "task.failed",
     task_id: task.id,
-    run_id: task.run_id,
+    run_id: task.run_id || null,
     actor: "worker",
     payload: lastError,
   });
 
-  const markFailureSql =
-    readSqlMaybe(process.env.PHASE27_MARK_FAILURE_SQL) || DEFAULT_MARK_FAILURE_SQL;
+  const markFailureSql = readSqlMaybe(process.env.PHASE27_MARK_FAILURE_SQL);
+  if (!markFailureSql) throw new Error("PHASE27_MARK_FAILURE_SQL required for this DB schema");
 
   if (nextAttempts >= maxAttempts) {
     await pool.query(markFailureSql, [
@@ -133,27 +104,29 @@ async function handleFailure(pool, task, error) {
       null,
       JSON.stringify(lastError),
     ]);
-    return;
+    return { terminal: true, attempts: nextAttempts };
   }
 
   const delay = backoffMs(nextAttempts, baseBackoff, maxBackoff);
-  const nextRunAt = new Date(Date.now() + delay).toISOString();
+  const nextAvail = new Date(Date.now() + delay).toISOString();
 
   await pool.query(markFailureSql, [
     task.id,
     "queued",
     nextAttempts,
-    nextRunAt,
+    nextAvail,
     JSON.stringify(lastError),
   ]);
 
   await insertTaskEvent(pool, {
     kind: "task.retry_scheduled",
     task_id: task.id,
-    run_id: task.run_id,
+    run_id: task.run_id || null,
     actor: "worker",
-    payload: { ts: ms(), attempt: nextAttempts, delay_ms: delay, next_run_at: nextRunAt },
+    payload: { ts: ms(), attempt: nextAttempts, delay_ms: delay, next_available_at: nextAvail },
   });
+
+  return { terminal: false, attempts: nextAttempts, delay_ms: delay, next_available_at: nextAvail };
 }
 
 async function main() {
@@ -163,10 +136,13 @@ async function main() {
 
   const pool = new Pool({ connectionString: POSTGRES_URL });
 
-  const claimOneSql =
-    readSqlMaybe(process.env.PHASE27_CLAIM_ONE_SQL) || DEFAULT_CLAIM_ONE_SQL;
-  const markSuccessSql =
-    readSqlMaybe(process.env.PHASE27_MARK_SUCCESS_SQL) || DEFAULT_MARK_SUCCESS_SQL;
+  const claimOneSql = readSqlMaybe(process.env.PHASE27_CLAIM_ONE_SQL);
+  const markSuccessSql = readSqlMaybe(process.env.PHASE27_MARK_SUCCESS_SQL);
+  const markFailureSql = readSqlMaybe(process.env.PHASE27_MARK_FAILURE_SQL);
+
+  if (!claimOneSql) throw new Error("PHASE27_CLAIM_ONE_SQL required for this DB schema");
+  if (!markSuccessSql) throw new Error("PHASE27_MARK_SUCCESS_SQL required for this DB schema");
+  if (!markFailureSql) throw new Error("PHASE27_MARK_FAILURE_SQL required for this DB schema");
 
   let claimed = 0;
 
@@ -174,8 +150,8 @@ async function main() {
     for (; claimed < maxClaims; claimed++) {
       const run_id = `${owner}-${ms()}-${Math.random().toString(16).slice(2)}`;
 
-      const r = await pool.query(claimOneSql, [run_id]);
-      const task = r.rows[0];
+      const r = await pool.query(claimOneSql, [run_id, owner]);
+      const task = r.rows && r.rows[0];
       if (!task) break;
 
       await insertTaskEvent(pool, {
@@ -188,7 +164,9 @@ async function main() {
 
       try {
         const result = await execTask(task);
+
         await pool.query(markSuccessSql, [task.id]);
+
         await insertTaskEvent(pool, {
           kind: "task.completed",
           task_id: task.id,
@@ -207,7 +185,7 @@ async function main() {
   console.log(`[worker] done owner=${owner} claimed=${claimed}`);
 }
 
-main().catch(e => {
+main().catch((e) => {
   console.error("[worker] fatal", e);
   process.exitCode = 1;
 });
