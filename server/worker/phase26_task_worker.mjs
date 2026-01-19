@@ -20,14 +20,13 @@ function readSqlMaybe(filePath) {
 }
 
 function errToJson(e) {
-  if (!e) return { message: "unknown error" };
-  const obj = {
+  if (!e) return { name: "Error", message: "unknown error", stack: null };
+  return {
     name: e.name || "Error",
     message: e.message || String(e),
     stack: e.stack || null,
+    code: e.code || null,
   };
-  if (e.code) obj.code = e.code;
-  return obj;
 }
 
 function clampInt(n, lo, hi, fallback) {
@@ -43,19 +42,35 @@ function backoffMs(attempt, baseMs, maxMs) {
 }
 
 function taskPayload(task) {
-  // Your current DB schema uses tasks.meta jsonb (not tasks.payload)
-  // Keep compatibility if payload exists later.
   return task.payload ?? task.meta ?? null;
 }
 
+let __HAS_EVENTS_PAYLOAD_JSONB = null;
+async function hasTaskEventsPayloadJsonb(pool) {
+  if (__HAS_EVENTS_PAYLOAD_JSONB !== null) return __HAS_EVENTS_PAYLOAD_JSONB;
+  const r = await pool.query(
+    "select count(*)::int as n from information_schema.columns where table_name='task_events' and column_name='payload_jsonb'"
+  );
+  __HAS_EVENTS_PAYLOAD_JSONB = (r.rows?.[0]?.n || 0) > 0;
+  return __HAS_EVENTS_PAYLOAD_JSONB;
+}
+
 async function insertTaskEvent(pool, { kind, task_id, run_id = null, actor = null, payload = null }) {
-  // Your task_events.payload is TEXT NOT NULL. Store JSON string.
-  const q = `
-    insert into task_events(kind, payload, task_id, run_id, actor)
-    values ($1, $2, $3, $4, $5)
-  `;
-  const payloadText = JSON.stringify(payload ?? {});
-  await pool.query(q, [kind, payloadText, String(task_id), run_id, actor]);
+  const payloadObj = payload ?? {};
+  const payloadText = JSON.stringify(payloadObj);
+
+  if (await hasTaskEventsPayloadJsonb(pool)) {
+    await pool.query(
+      "insert into task_events(kind, payload, payload_jsonb, task_id, run_id, actor) values ($1,$2,$3::jsonb,$4,$5,$6)",
+      [kind, payloadText, JSON.stringify(payloadObj), String(task_id), run_id, actor]
+    );
+    return;
+  }
+
+  await pool.query(
+    "insert into task_events(kind, payload, task_id, run_id, actor) values ($1,$2,$3,$4,$5)",
+    [kind, payloadText, String(task_id), run_id, actor]
+  );
 }
 
 async function execTask(task) {
@@ -72,10 +87,10 @@ async function handleFailure(pool, task, error) {
   const baseBackoff = clampInt(process.env.WORKER_BACKOFF_BASE_MS, 10, 60000, 2000);
   const maxBackoff = clampInt(process.env.WORKER_BACKOFF_MAX_MS, 10, 86400000, 60000);
 
-  // your schema has attempt (int not null default 0). we also added attempts; tolerate both.
   const prevAttempts = Number.isFinite(task.attempts) ? Number(task.attempts)
-                    : Number.isFinite(task.attempt) ? Number(task.attempt)
-                    : 0;
+    : Number.isFinite(task.attempt) ? Number(task.attempt)
+    : 0;
+
   const nextAttempts = prevAttempts + 1;
 
   const lastError = {
@@ -84,7 +99,6 @@ async function handleFailure(pool, task, error) {
     attempt: nextAttempts,
   };
 
-  // always emit task.failed (even if we retry)
   await insertTaskEvent(pool, {
     kind: "task.failed",
     task_id: task.id,
@@ -94,7 +108,7 @@ async function handleFailure(pool, task, error) {
   });
 
   const markFailureSql = readSqlMaybe(process.env.PHASE27_MARK_FAILURE_SQL);
-  if (!markFailureSql) throw new Error("PHASE27_MARK_FAILURE_SQL required for this DB schema");
+  if (!markFailureSql) throw new Error("PHASE27_MARK_FAILURE_SQL required");
 
   if (nextAttempts >= maxAttempts) {
     await pool.query(markFailureSql, [
@@ -104,7 +118,7 @@ async function handleFailure(pool, task, error) {
       null,
       JSON.stringify(lastError),
     ]);
-    return { terminal: true, attempts: nextAttempts };
+    return;
   }
 
   const delay = backoffMs(nextAttempts, baseBackoff, maxBackoff);
@@ -125,8 +139,6 @@ async function handleFailure(pool, task, error) {
     actor: "worker",
     payload: { ts: ms(), attempt: nextAttempts, delay_ms: delay, next_available_at: nextAvail },
   });
-
-  return { terminal: false, attempts: nextAttempts, delay_ms: delay, next_available_at: nextAvail };
 }
 
 async function main() {
@@ -140,16 +152,15 @@ async function main() {
   const markSuccessSql = readSqlMaybe(process.env.PHASE27_MARK_SUCCESS_SQL);
   const markFailureSql = readSqlMaybe(process.env.PHASE27_MARK_FAILURE_SQL);
 
-  if (!claimOneSql) throw new Error("PHASE27_CLAIM_ONE_SQL required for this DB schema");
-  if (!markSuccessSql) throw new Error("PHASE27_MARK_SUCCESS_SQL required for this DB schema");
-  if (!markFailureSql) throw new Error("PHASE27_MARK_FAILURE_SQL required for this DB schema");
+  if (!claimOneSql || !markSuccessSql || !markFailureSql) {
+    throw new Error("PHASE27 SQL envs required");
+  }
 
   let claimed = 0;
 
   try {
     for (; claimed < maxClaims; claimed++) {
       const run_id = `${owner}-${ms()}-${Math.random().toString(16).slice(2)}`;
-
       const r = await pool.query(claimOneSql, [run_id, owner]);
       const task = r.rows && r.rows[0];
       if (!task) break;
@@ -164,9 +175,7 @@ async function main() {
 
       try {
         const result = await execTask(task);
-
         await pool.query(markSuccessSql, [task.id]);
-
         await insertTaskEvent(pool, {
           kind: "task.completed",
           task_id: task.id,
