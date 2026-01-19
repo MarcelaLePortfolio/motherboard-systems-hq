@@ -39,7 +39,7 @@ const leaseMs = Number(process.env.WORKER_LEASE_MS || 15000);
 const leaseUntil = new Date(Date.now() + leaseMs);
 
 const sql = readSql(CLAIM_SQL_PATH);
-const values = sqlNeedsParams(sql) ? [owner, leaseUntil] : [];
+const values = sqlNeedsParams(sql) ? [owner] : [];
 const r = await pool.query(sql, values);
 return r.rows[0] || null;
 }

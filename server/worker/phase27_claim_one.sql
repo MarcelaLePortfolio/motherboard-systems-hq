@@ -1,3 +1,6 @@
+-- phase27: claim one queued task
+-- Inputs:
+--   $1 = worker_id/owner (text)
 with candidate as (
   select id
   from tasks
@@ -18,7 +21,7 @@ updated as (
   update tasks t
   set
     status = 'running',
-    locked_by = $1,
+    locked_by = $1::text,
     lock_expires_at = now() + interval '10 minutes',
     updated_at = now(),
     attempt = attempt + 1
