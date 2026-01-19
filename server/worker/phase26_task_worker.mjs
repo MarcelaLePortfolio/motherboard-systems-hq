@@ -1,154 +1,200 @@
-import { pathToFileURL } from "node:url";
 import fs from "node:fs";
 import path from "node:path";
-import { computeBackoffMs } from "./backoff.mjs";
-import { getPool, markSuccess, markFailure } from "./phase27_markers.mjs";
-import { emitTaskEvent } from "../task_events_emit.mjs";
+import process from "node:process";
+import { Pool } from "pg";
 
 function ms() { return Date.now(); }
-function sleep(msi) { return new Promise((r) => setTimeout(r, msi)); }
+function sleep(t) { return new Promise(r => setTimeout(r, t)); }
 
-function mustEnv(name) {
-  const v = process.env[name];
-  if (v == null || String(v).trim() === "") throw new Error(`worker: missing env ${name}`);
-  return String(v).trim();
+function reqEnv(k) {
+  const v = process.env[k];
+  if (!v) throw new Error(`missing env: ${k}`);
+  return v;
 }
 
-function readSql(relPath) {
-  const abs = path.isAbsolute(relPath) ? relPath : path.join(process.cwd(), relPath);
-  return fs.readFileSync(abs, "utf8");
+function readSqlMaybe(filePath) {
+  if (!filePath) return null;
+  const p = path.resolve(filePath);
+  if (!fs.existsSync(p)) return null;
+  return fs.readFileSync(p, "utf8");
 }
 
-function sqlNeedsParams(sql) {
-  return /\$\d+/.test(String(sql || ""));
+function errToJson(e) {
+  if (!e) return { name: "Error", message: "unknown error", stack: null };
+  return {
+    name: e.name || "Error",
+    message: e.message || String(e),
+    stack: e.stack || null,
+    code: e.code || null,
+  };
 }
 
-const FAIL_SQL_PATH = process.env.PHASE27_MARK_FAILURE_SQL ? String(process.env.PHASE27_MARK_FAILURE_SQL).trim() : null;
-const SUCC_SQL_PATH = process.env.PHASE27_MARK_SUCCESS_SQL ? String(process.env.PHASE27_MARK_SUCCESS_SQL).trim() : null;
-const CLAIM_SQL_PATH = process.env.PHASE27_CLAIM_ONE_SQL ? String(process.env.PHASE27_CLAIM_ONE_SQL).trim() : "server/worker/phase27_claim_one.sql";
+function clampInt(n, lo, hi, fallback) {
+  const x = Number.parseInt(String(n ?? ""), 10);
+  if (!Number.isFinite(x)) return fallback;
+  return Math.max(lo, Math.min(hi, x));
+}
 
-const BACKOFF_BASE_MS = Number(process.env.PHASE27_BACKOFF_BASE_MS || 1000);
-const BACKOFF_CAP_MS = Number(process.env.PHASE27_BACKOFF_CAP_MS || (5 * 60 * 1000));
-const JITTER_PCT = Number(process.env.PHASE27_BACKOFF_JITTER_PCT || 0.2);
+function backoffMs(attempt, baseMs, maxMs) {
+  const a = Math.max(1, attempt);
+  const raw = baseMs * (2 ** (a - 1));
+  return Math.min(raw, maxMs);
+}
 
-const POLL_MS = Number(process.env.WORKER_POLL_MS || 500);
-const MAX_CLAIMS = Number(process.env.WORKER_MAX_CLAIMS || 0);
+function taskPayload(task) {
+  return task.payload ?? task.meta ?? null;
+}
 
-async function claimOneTask(pool, owner) {
-  const sql = readSql(CLAIM_SQL_PATH);
-  const values = sqlNeedsParams(sql) ? [owner] : [];
-  const r = await pool.query(sql, values);
-  return r.rows[0] || null;
+let __HAS_EVENTS_PAYLOAD_JSONB = null;
+async function hasTaskEventsPayloadJsonb(pool) {
+  if (__HAS_EVENTS_PAYLOAD_JSONB !== null) return __HAS_EVENTS_PAYLOAD_JSONB;
+  const r = await pool.query(
+    "select count(*)::int as n from information_schema.columns where table_name='task_events' and column_name='payload_jsonb'"
+  );
+  __HAS_EVENTS_PAYLOAD_JSONB = (r.rows?.[0]?.n || 0) > 0;
+  return __HAS_EVENTS_PAYLOAD_JSONB;
+}
+
+async function insertTaskEvent(pool, { kind, task_id, run_id = null, actor = null, payload = null }) {
+  const payloadObj = payload ?? {};
+  const payloadText = JSON.stringify(payloadObj);
+
+  if (await hasTaskEventsPayloadJsonb(pool)) {
+    await pool.query(
+      "insert into task_events(kind, payload, payload_jsonb, task_id, run_id, actor) values ($1,$2,$3::jsonb,$4,$5,$6)",
+      [kind, payloadText, JSON.stringify(payloadObj), String(task_id), run_id, actor]
+    );
+    return;
+  }
+
+  await pool.query(
+    "insert into task_events(kind, payload, task_id, run_id, actor) values ($1,$2,$3,$4,$5)",
+    [kind, payloadText, String(task_id), run_id, actor]
+  );
 }
 
 async function execTask(task) {
-  const k = String(task?.kind ?? task?.task_kind ?? task?.type ?? "");
-  console.log("[worker] execTask", { id: task?.id, kind: task?.kind, task_kind: task?.task_kind, type: task?.type, k, keys: Object.keys(task || {}) });
-  if (k === "phase27.fail_smoke") {
-    throw new Error("phase27 forced failure smoke");
+  const payload = taskPayload(task) || {};
+  if (payload.force_fail === true || payload.__force_fail === true) {
+    throw new Error("phase28 smoke: forced failure");
   }
-  // TODO: replace with Phase 26 executor hook if needed
-  return { ok: true, task_id: task.id };
+  await sleep(50);
+  return { ok: true, ts: ms() };
 }
 
-async function handleSuccess({ pool, task, owner }) {
-  const succ = SUCC_SQL_PATH || mustEnv("PHASE27_MARK_SUCCESS_SQL");
-  await markSuccess({ pool, sqlPath: succ, task_id: task.id, run_id: owner });
+async function handleFailure(pool, task, error) {
+  const maxAttempts = clampInt(process.env.WORKER_MAX_ATTEMPTS, 1, 50, 3);
+  const baseBackoff = clampInt(process.env.WORKER_BACKOFF_BASE_MS, 10, 60000, 2000);
+  const maxBackoff = clampInt(process.env.WORKER_BACKOFF_MAX_MS, 10, 86400000, 60000);
 
-  await emitTaskEvent({
-    pool,
-    kind: "task.completed",
-    task_id: task.id,
-    run_id: owner,
-    actor: "worker",
-    payload: { ts: ms() },
-  });
-}
+  const prevAttempts = Number.isFinite(task.attempts) ? Number(task.attempts)
+    : Number.isFinite(task.attempt) ? Number(task.attempt)
+    : 0;
 
-async function handleFailure({ pool, task, owner, err }) {
-  const fail = FAIL_SQL_PATH || mustEnv("PHASE27_MARK_FAILURE_SQL");
+  const nextAttempts = prevAttempts + 1;
 
-  const attempt = Number(task.retry_count ?? task.attempt ?? task.attempt_count ?? 1);
+  const lastError = {
+    ...errToJson(error),
+    ts: ms(),
+    attempt: nextAttempts,
+  };
 
-  const backoff_ms = computeBackoffMs({
-    attempt,
-    baseMs: BACKOFF_BASE_MS,
-    capMs: BACKOFF_CAP_MS,
-    jitterPct: JITTER_PCT,
-  });
-
-  await markFailure({
-    pool,
-    sqlPath: fail,
-    task_id: task.id,
-    run_id: owner,
-    backoff_ms,
-    error: {
-      message: err?.message || String(err),
-      name: err?.name || "Error",
-      stack: err?.stack || null,
-      ts: ms(),
-    },
-  });
-
-  await emitTaskEvent({
-    pool,
+  await insertTaskEvent(pool, {
     kind: "task.failed",
     task_id: task.id,
-    run_id: owner,
+    run_id: task.run_id || null,
     actor: "worker",
-    payload: { ts: ms(), backoff_ms },
+    payload: lastError,
   });
 
-  await emitTaskEvent({
-    pool,
-    kind: "task.requeued",
-    task_id: task.id,
-    run_id: owner,
-    actor: "worker",
-    payload: { ts: ms(), backoff_ms },
-  });
-}
+  const markFailureSql = readSqlMaybe(process.env.PHASE27_MARK_FAILURE_SQL);
+  if (!markFailureSql) throw new Error("PHASE27_MARK_FAILURE_SQL required");
 
-export async function runWorkerLoop() {
-  const pool = getPool();
-  const owner = process.env.WORKER_OWNER || `worker-${process.pid}`;
-
-  let claims = 0;
-
-  while (true) {
-    const task = await claimOneTask(pool, owner);
-    if (!task) {
-      await sleep(POLL_MS);
-      continue;
-    }
-
-    await emitTaskEvent({
-      pool,
-      kind: "task.running",
-      task_id: task.id,
-      run_id: owner,
-      actor: "worker",
-      payload: { ts: ms(), lease_expires_at: task.lock_expires_at ?? null },
-    });
-
-    try {
-      await execTask(task);
-      await handleSuccess({ pool, task, owner });
-    } catch (e) {
-      await handleFailure({ pool, task, owner, err: e });
-    }
-
-    claims += 1;
-    if (MAX_CLAIMS > 0 && claims >= MAX_CLAIMS) break;
+  if (nextAttempts >= maxAttempts) {
+    await pool.query(markFailureSql, [
+      task.id,
+      "failed",
+      nextAttempts,
+      null,
+      JSON.stringify(lastError),
+    ]);
+    return;
   }
 
-  await pool.end().catch(() => {});
-}
+  const delay = backoffMs(nextAttempts, baseBackoff, maxBackoff);
+  const nextAvail = new Date(Date.now() + delay).toISOString();
 
-if (import.meta.url === pathToFileURL(process.argv[1]).href) {
-  runWorkerLoop().catch((e) => {
-    console.error("[worker] fatal", e);
-    process.exit(1);
+  await pool.query(markFailureSql, [
+    task.id,
+    "queued",
+    nextAttempts,
+    nextAvail,
+    JSON.stringify(lastError),
+  ]);
+
+  await insertTaskEvent(pool, {
+    kind: "task.retry_scheduled",
+    task_id: task.id,
+    run_id: task.run_id || null,
+    actor: "worker",
+    payload: { ts: ms(), attempt: nextAttempts, delay_ms: delay, next_available_at: nextAvail },
   });
 }
+
+async function main() {
+  const POSTGRES_URL = reqEnv("POSTGRES_URL");
+  const owner = process.env.WORKER_OWNER || `worker-${process.pid}`;
+  const maxClaims = clampInt(process.env.WORKER_MAX_CLAIMS, 1, 10000, 100);
+
+  const pool = new Pool({ connectionString: POSTGRES_URL });
+
+  const claimOneSql = readSqlMaybe(process.env.PHASE27_CLAIM_ONE_SQL);
+  const markSuccessSql = readSqlMaybe(process.env.PHASE27_MARK_SUCCESS_SQL);
+  const markFailureSql = readSqlMaybe(process.env.PHASE27_MARK_FAILURE_SQL);
+
+  if (!claimOneSql || !markSuccessSql || !markFailureSql) {
+    throw new Error("PHASE27 SQL envs required");
+  }
+
+  let claimed = 0;
+
+  try {
+    for (; claimed < maxClaims; claimed++) {
+      const run_id = `${owner}-${ms()}-${Math.random().toString(16).slice(2)}`;
+      const r = await pool.query(claimOneSql, [run_id, owner]);
+      const task = r.rows && r.rows[0];
+      if (!task) break;
+
+      await insertTaskEvent(pool, {
+        kind: "task.running",
+        task_id: task.id,
+        run_id,
+        actor: owner,
+        payload: { ts: ms() },
+      });
+
+      try {
+        const result = await execTask(task);
+        await pool.query(markSuccessSql, [task.id]);
+        await insertTaskEvent(pool, {
+          kind: "task.completed",
+          task_id: task.id,
+          run_id,
+          actor: owner,
+          payload: { ts: ms(), result },
+        });
+      } catch (e) {
+        await handleFailure(pool, { ...task, run_id }, e);
+      }
+    }
+  } finally {
+    await pool.end().catch(() => {});
+  }
+
+  console.log(`[worker] done owner=${owner} claimed=${claimed}`);
+}
+
+main().catch((e) => {
+  console.error("[worker] fatal", e);
+  process.exitCode = 1;
+});
