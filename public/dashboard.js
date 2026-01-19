@@ -19,7 +19,6 @@ It does NOT alter the core renderer; it only adds/removes an empty-state message
 (() => {
 const container = document.getElementById("recentTasks");
 if (!container) {
-// keep old behavior of warning if someone is on a page without this panel
 try { console.warn("⚠️ No #recentTasks container found."); } catch {}
 return;
 }
@@ -29,10 +28,11 @@ let sawTask = false;
 
 function ensureEmpty() {
 if (container.querySelector(EMPTY_SEL)) return;
+
 const box = document.createElement("div");
 box.dataset.empty = "recent-tasks";
 box.className =
-  "text-sm text-slate-300/90 border border-white/10 rounded-2xl p-4 bg-white/5";
+"text-sm text-slate-300/90 border border-white/10 rounded-2xl p-4 bg-white/5";
 
 const title = document.createElement("div");
 title.className = "font-semibold text-slate-100";
@@ -41,17 +41,17 @@ title.textContent = "No task events yet";
 const body = document.createElement("div");
 body.className = "mt-2 leading-relaxed";
 body.innerHTML =
-  'You are connected to <code class="px-1 py-0.5 rounded bg-black/30 border border-white/10">/events/task-events</code>, but only <span class="opacity-90">heartbeats</span> are arriving. ' +
-  'If the worker is intentionally scaled to <code class="px-1 py-0.5 rounded bg-black/30 border border-white/10">0</code>, this is expected.';
+'You are connected to <code class="px-1 py-0.5 rounded bg-black/30 border border-white/10">/events/task-events</code>, but only <span class="opacity-90">heartbeats</span> are arriving. ' +
+'If the worker is intentionally scaled to <code class="px-1 py-0.5 rounded bg-black/30 border border-white/10">0</code>, this is expected.';
 
-const cursor = document.createElement("div");
-cursor.id = "recentTasksCursor";
-cursor.className = "mt-3 opacity-80";
-cursor.textContent = "";
+const cursorRow = document.createElement("div");
+cursorRow.id = "recentTasksCursor";
+cursorRow.className = "mt-3 opacity-80";
+cursorRow.textContent = "";
 
 box.appendChild(title);
 box.appendChild(body);
-box.appendChild(cursor);
+box.appendChild(cursorRow);
 
 container.appendChild(box);
 }
@@ -61,7 +61,6 @@ const el = container.querySelector(EMPTY_SEL);
 if (el) el.remove();
 }
 
-// When any task.* event hits the bridge, remove the empty-state immediately.
 window.addEventListener("mb.task.event", (e) => {
 try {
 const ev = e?.detail || {};
@@ -73,10 +72,10 @@ clearEmpty();
 } catch {}
 });
 
-// After a short delay, if no task events arrived, show the message and (if available) cursor.
 setTimeout(() => {
 if (sawTask) return;
 ensureEmpty();
+
 try {
 const snap = window.__taskEventsSnap || null; // set by task-events SSE client (if present)
 const cursor = snap?.cursor ?? null;
