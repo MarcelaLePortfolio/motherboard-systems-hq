@@ -1,16 +1,29 @@
--- phase27: claim one queued task (conditional ORDER BY priority if present)
-with cte as (
+with candidate as (
   select id
   from tasks
   where status = 'queued'
-  order by id asc
+    and (available_at is null or available_at <= now())
+    and (
+      locked_by is null
+      or lock_expires_at is null
+      or lock_expires_at <= now()
+    )
+  order by
+    coalesce(available_at, created_at) asc,
+    id asc
   for update skip locked
   limit 1
+),
+updated as (
+  update tasks t
+  set
+    status = 'running',
+    locked_by = $1,
+    lock_expires_at = now() + interval '10 minutes',
+    updated_at = now(),
+    attempt = attempt + 1
+  from candidate c
+  where t.id = c.id
+  returning t.*
 )
-update tasks t
-set
-  status = 'running',
-  updated_at = now()
-from cte
-where t.id = cte.id
-returning t.*;
+select * from updated;
