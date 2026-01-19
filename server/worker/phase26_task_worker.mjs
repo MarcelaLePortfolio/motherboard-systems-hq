@@ -33,8 +33,7 @@ const JITTER_PCT = Number(process.env.PHASE27_BACKOFF_JITTER_PCT || 0.2);
 
 const POLL_MS = Number(process.env.WORKER_POLL_MS || 500);
 
-async function claimOneTask(pool) {
-const owner = process.env.WORKER_OWNER || `worker-${process.pid}`;
+async function claimOneTask(pool, owner) {
 const leaseMs = Number(process.env.WORKER_LEASE_MS || 15000);
 const leaseUntil = new Date(Date.now() + leaseMs);
 
@@ -51,13 +50,13 @@ return { ok: true, task_id: task.id };
 
 async function handleSuccess({ pool, task }) {
 const succ = SUCC_SQL_PATH || mustEnv("PHASE27_MARK_SUCCESS_SQL");
-await markSuccess({ pool, sqlPath: succ, task_id: task.id, run_id: task.run_id });
+await markSuccess({ pool, sqlPath: succ, task_id: task.id, run_id: owner });
 
 await emitTaskEvent({
 pool,
 kind: "task.completed",
 task_id: task.id,
-run_id: task.run_id,
+run_id: owner,
 actor: "worker",
 payload: { ts: ms() },
 });
@@ -78,7 +77,7 @@ await markFailure({
 pool,
 sqlPath: fail,
 task_id: task.id,
-run_id: task.run_id,
+run_id: owner,
 backoff_ms,
 error: {
 message: err?.message || String(err),
@@ -92,7 +91,7 @@ await emitTaskEvent({
 pool,
 kind: "task.failed",
 task_id: task.id,
-run_id: task.run_id,
+run_id: owner,
 actor: "worker",
 payload: { ts: ms(), backoff_ms },
 });
@@ -101,7 +100,7 @@ await emitTaskEvent({
 pool,
 kind: "task.requeued",
 task_id: task.id,
-run_id: task.run_id,
+run_id: owner,
 actor: "worker",
 payload: { ts: ms(), backoff_ms },
 });
@@ -109,9 +108,11 @@ payload: { ts: ms(), backoff_ms },
 
 export async function runWorkerLoop() {
 const pool = getPool();
+  const owner = process.env.WORKER_OWNER || `worker-`;
+
 
 while (true) {
-const task = await claimOneTask(pool);
+const task = await claimOneTask(pool, owner);
 if (!task) {
 await sleep(POLL_MS);
 continue;
@@ -120,7 +121,7 @@ await emitTaskEvent({
   pool,
   kind: "task.running",
   task_id: task.id,
-  run_id: task.run_id,
+  run_id: owner,
   actor: "worker",
   payload: { ts: ms(), lease_expires_at: task.lease_expires_at ?? null },
 });
