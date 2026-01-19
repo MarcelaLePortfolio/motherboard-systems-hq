@@ -16,11 +16,12 @@ mkdir -p tmp
 
 compose config --services | sort | tee "$CFG" >/dev/null
 
-detect worker service name (some stacks use "worker", others "task-worker" etc.)
-
 WORKER_SVC=""
 for cand in worker task-worker task_worker phase26-worker phase26_worker; do
-if rg -n "^${cand}$" "$CFG" >/dev/null 2>&1; then WORKER_SVC="$cand"; break; fi
+if grep -qx "$cand" "$CFG"; then
+WORKER_SVC="$cand"
+break
+fi
 done
 
 echo "worker_service=${WORKER_SVC:-<none>}" | tee -a "$LOG" >/dev/null
@@ -46,7 +47,7 @@ echo "curl_task_events_rc=$curl_rc sse_log=$SSE" | tee -a "$LOG" >/dev/null
 echo "=== worker scale (expect 0 if service exists) ===" | tee -a "$LOG" >/dev/null
 if [ -n "$WORKER_SVC" ]; then
 compose ps "$WORKER_SVC" 2>/dev/null | tee -a "$LOG" >/dev/null || true
-compose ps --services --status running | rg -n "^${WORKER_SVC}$" >/dev/null 2>&1
+compose ps --services --status running | grep -qx "$WORKER_SVC"
 && echo "worker_running=1 (unexpected)" | tee -a "$LOG" >/dev/null
 || echo "worker_running=0 (expected)" | tee -a "$LOG" >/dev/null
 else
