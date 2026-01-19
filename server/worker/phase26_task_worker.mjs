@@ -42,6 +42,9 @@ async function claimOneTask(pool, owner) {
 }
 
 async function execTask(task) {
+  if (String(task.kind || "") === "phase27.fail_smoke") {
+    throw new Error("phase27 forced failure smoke");
+  }
   // TODO: replace with Phase 26 executor hook if needed
   return { ok: true, task_id: task.id };
 }
