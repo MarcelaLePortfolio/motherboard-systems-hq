@@ -8,10 +8,28 @@ SSE="tmp/task-events-sse.${TS}.log"
 GREP1="tmp/recent-tasks-grep.${TS}.txt"
 GREP2="tmp/task-events-wiring-grep.${TS}.txt"
 PSLOG="tmp/compose-ps.${TS}.txt"
+CFG="tmp/compose-config-services.${TS}.txt"
 
 compose() { docker compose -f docker-compose.yml -f docker-compose.override.yml -f docker-compose.worker.yml "$@"; }
 
-compose up -d postgres dashboard --scale worker=0
+mkdir -p tmp
+
+compose config --services | sort | tee "$CFG" >/dev/null
+
+detect worker service name (some stacks use "worker", others "task-worker" etc.)
+
+WORKER_SVC=""
+for cand in worker task-worker task_worker phase26-worker phase26_worker; do
+if rg -n "^${cand}$" "$CFG" >/dev/null 2>&1; then WORKER_SVC="$cand"; break; fi
+done
+
+echo "worker_service=${WORKER_SVC:-<none>}" | tee -a "$LOG" >/dev/null
+
+if [ -n "$WORKER_SVC" ]; then
+compose up -d postgres dashboard --scale "${WORKER_SVC}=0"
+else
+compose up -d postgres dashboard
+fi
 
 compose ps | tee "$PSLOG" >/dev/null
 
@@ -25,9 +43,15 @@ curl_rc=$?
 set -e
 echo "curl_task_events_rc=$curl_rc sse_log=$SSE" | tee -a "$LOG" >/dev/null
 
-echo "=== worker scale (expect 0) ===" | tee -a "$LOG" >/dev/null
-compose ps worker 2>/dev/null | tee -a "$LOG" >/dev/null || true
-compose ps --services --status running | rg -n '^worker$' >/dev/null 2>&1 && echo "worker_running=1 (unexpected)" | tee -a "$LOG" >/dev/null || echo "worker_running=0 (expected)" | tee -a "$LOG" >/dev/null
+echo "=== worker scale (expect 0 if service exists) ===" | tee -a "$LOG" >/dev/null
+if [ -n "$WORKER_SVC" ]; then
+compose ps "$WORKER_SVC" 2>/dev/null | tee -a "$LOG" >/dev/null || true
+compose ps --services --status running | rg -n "^${WORKER_SVC}$" >/dev/null 2>&1
+&& echo "worker_running=1 (unexpected)" | tee -a "$LOG" >/dev/null
+|| echo "worker_running=0 (expected)" | tee -a "$LOG" >/dev/null
+else
+echo "worker_running=0 (expected; no worker service in this compose set)" | tee -a "$LOG" >/dev/null
+fi
 
 echo "=== find Recent Tasks renderer ===" | tee -a "$LOG" >/dev/null
 rg -n --hidden --glob '!/node_modules/' --glob '!/.git/'
@@ -36,7 +60,7 @@ public server 2>/dev/null | tee "$GREP1" >/dev/null
 
 echo "=== focus task-events wiring in dashboard JS ===" | tee -a "$LOG" >/dev/null
 rg -n --hidden --glob '!/node_modules/' --glob '!/.git/'
-'(/events/task-events|task-events|task.event|task_events|taskEvents|TaskEvents|cursor|heartbeat|EventSource(|addEventListener(|message|event:)'
+'(/events/task-events|task-events|task.event|task_events|taskEvents|TaskEvents|cursor|heartbeat|EventSource(|addEventListener(|message|event:\s*)'
 public/js public/scripts public/.js public/.html 2>/dev/null | tee "$GREP2" >/dev/null
 
 echo "logs:"
@@ -45,3 +69,4 @@ echo " $SSE"
 echo " $GREP1"
 echo " $GREP2"
 echo " $PSLOG"
+echo " $CFG"
