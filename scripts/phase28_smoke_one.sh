@@ -1,28 +1,52 @@
-#!/usr/bin/env bash
 set -euo pipefail
 
 cd "$(git rev-parse --show-toplevel)"
 : "${POSTGRES_URL:?POSTGRES_URL required}"
+
 for i in $(seq 1 40); do
   psql "$POSTGRES_URL" -qtAc 'select 1' >/dev/null 2>&1 && break
   sleep 0.25
 done
+
+echo "=== phase28: detect tasks payload column (payload vs meta) ==="
+HAS_PAYLOAD="$(psql "$POSTGRES_URL" -qtAc "select count(*)::int from information_schema.columns where table_name='tasks' and column_name='payload'")"
+HAS_PAYLOAD="${HAS_PAYLOAD:-0}"
+echo "HAS_TASKS_PAYLOAD=${HAS_PAYLOAD}"
+
 echo "=== phase28: seed failing task ==="
-TASK_ID="$(psql "$POSTGRES_URL" -v ON_ERROR_STOP=1 -qtAc "
-insert into tasks(title, status, meta, created_at, updated_at, attempt, max_attempts, available_at)
-values (
-  'phase28 smoke forced-fail',
-  'queued',
-  jsonb_build_object('__phase28','smoke','force_fail', true),
-  now(), now(),
-  0,
-  3,
-  now()
-)
-returning id
-")"
+if [ "$HAS_PAYLOAD" -ge 1 ]; then
+  TASK_ID="$(psql "$POSTGRES_URL" -v ON_ERROR_STOP=1 -qtAc "
+    insert into tasks(title, status, payload, created_at, updated_at, attempt, max_attempts, available_at)
+    values (
+      'phase28 smoke forced-fail',
+      'queued',
+      jsonb_build_object('__phase28','smoke','force_fail', true),
+      now(), now(),
+      0,
+      3,
+      now()
+    )
+    returning id
+  ")"
+else
+  TASK_ID="$(psql "$POSTGRES_URL" -v ON_ERROR_STOP=1 -qtAc "
+    insert into tasks(title, status, meta, created_at, updated_at, attempt, max_attempts, available_at)
+    values (
+      'phase28 smoke forced-fail',
+      'queued',
+      jsonb_build_object('__phase28','smoke','force_fail', true),
+      now(), now(),
+      0,
+      3,
+      now()
+    )
+    returning id
+  ")"
+fi
+
 [ -n "${TASK_ID}" ] || { echo "FAIL: seed returned empty task id"; exit 1; }
 echo "seeded TASK_ID=${TASK_ID}"
+
 echo "=== phase28: generate claim SQL pinned to TASK_ID ==="
 CLAIM_SQL="$(mktemp -t phase28_claim_one_smoke.XXXXXX.sql)"
 cat > "${CLAIM_SQL}" <<SQL
@@ -48,6 +72,7 @@ from picked
 where t.id = picked.id
 returning t.*;
 SQL
+
 echo "=== phase28: run worker WORKER_MAX_CLAIMS=1 (must claim TASK_ID only) ==="
 WORKER_MAX_CLAIMS=1 \
 WORKER_MAX_ATTEMPTS=3 \
@@ -57,6 +82,7 @@ PHASE27_CLAIM_ONE_SQL="${CLAIM_SQL}" \
 PHASE27_MARK_SUCCESS_SQL="server/worker/phase28_mark_success.sql" \
 PHASE27_MARK_FAILURE_SQL="server/worker/phase28_mark_failure.sql" \
 node server/worker/phase26_task_worker.mjs >/dev/null
+
 rm -f "${CLAIM_SQL}" || true
 
 echo "=== phase28: assert tasks row updated (attempt=1, last_error present, available_at set if not terminal) ==="
@@ -76,6 +102,7 @@ where id = ${TASK_ID}
   }
   END { if(NR==0) { print "FAIL: no tasks row returned for id"; exit 1 } }
 '
+
 echo "=== phase28: assert task.failed event exists with persisted task_id ==="
 psql "$POSTGRES_URL" -v ON_ERROR_STOP=1 -qtAc "
 select count(*)
