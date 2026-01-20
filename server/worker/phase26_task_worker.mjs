@@ -168,7 +168,7 @@ async function main() {
       let didClaim = false;
     for (; claimed < maxClaims; claimed++) {
       const run_id = `${owner}-${ms()}-${Math.random().toString(16).slice(2)}`;
-      const r = await pool.query(claimOneSql, [run_id, owner]);
+      const r = await pool.query(claimOneSql, [owner]);
       const task = r.rows && r.rows[0];
       if (!task) break;
             didClaim = true;
@@ -183,7 +183,7 @@ async function main() {
 
       try {
         const result = await execTask(task);
-        await pool.query(markSuccessSql, [task.id]);
+        await pool.query(markSuccessSql, [String(task.task_id || task.id), owner]);
         await insertTaskEvent(pool, {
           kind: "task.completed",
           task_id: task.id,
