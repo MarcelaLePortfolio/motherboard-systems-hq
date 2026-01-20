@@ -3,6 +3,11 @@ import path from "node:path";
 import process from "node:process";
 import { Pool } from "pg";
 
+// [phase31.6] keep worker long-running by default; allow oneshot for dev
+const WORKER_ONESHOT = String(process.env.WORKER_ONESHOT || "").trim() === "1";
+const WORKER_IDLE_SLEEP_MS = Number(process.env.WORKER_IDLE_SLEEP_MS || process.env.PHASE26_TICK_MS || 500);
+
+
 function ms() { return Date.now(); }
 function sleep(t) { return new Promise(r => setTimeout(r, t)); }
 
@@ -159,11 +164,14 @@ async function main() {
   let claimed = 0;
 
   try {
+    while (true) {
+      let didClaim = false;
     for (; claimed < maxClaims; claimed++) {
       const run_id = `${owner}-${ms()}-${Math.random().toString(16).slice(2)}`;
       const r = await pool.query(claimOneSql, [run_id, owner]);
       const task = r.rows && r.rows[0];
       if (!task) break;
+            didClaim = true;
 
       await insertTaskEvent(pool, {
         kind: "task.running",
@@ -186,6 +194,9 @@ async function main() {
       } catch (e) {
         await handleFailure(pool, { ...task, run_id }, e);
       }
+    }
+      if (WORKER_ONESHOT) break;
+      if (!didClaim) await sleep(WORKER_IDLE_SLEEP_MS);
     }
   } finally {
     await pool.end().catch(() => {});
