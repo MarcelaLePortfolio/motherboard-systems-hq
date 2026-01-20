@@ -196,6 +196,8 @@
       // Phase22 normalization:
       // server sends event: task.event with payload { type:"task.created|task.completed|task.failed", taskId:"..." }
       if (eventName === "task.event") {
+        if (ev.actor == null && ev.meta && typeof ev.meta === "object") ev.actor = (ev.meta.actor ?? ev.meta.owner ?? null);
+
         if (!ev.kind && ev.type) ev.kind = ev.type;
         if (ev.kind === "task.event" && ev.type) ev.kind = ev.type;
         if (ev.task_id == null && ev.taskId != null) ev.task_id = ev.taskId;

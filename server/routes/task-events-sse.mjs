@@ -80,18 +80,32 @@ router.get("/events/task-events", async (req, res) => {
 
   while (!closed) {
     try {
-      const q = await pool.query(
-        `
+      let q;
+        try {
+          q = await pool.query(
+          `
+        select id, kind, payload, payload_jsonb, task_id, run_id, actor, created_at
+        from task_events
+        where id > $1
+        order by id asc
+        limit $2
+        `,
+            [cursor, batchLimit]
+          );
+        } catch (_e) {
+          q = await pool.query(
+          `
         select id, kind, payload, created_at
         from task_events
         where id > $1
         order by id asc
         limit $2
         `,
-        [cursor, batchLimit]
-      );
+            [cursor, batchLimit]
+          );
+        }
 
-      const rows = q?.rows || [];
+const rows = q?.rows || [];
       if (rows.length === 0) {
         _sseWrite(res, { event: "heartbeat", data: { ts: Date.now(), cursor } });
         await _sleep(backoffMs);
@@ -103,7 +117,10 @@ router.get("/events/task-events", async (req, res) => {
 
       for (const r of rows) {
         cursor = _intOrNull(r.id) ?? cursor;
-        const payload = _safeJsonParse(r.payload);
+        const payload = _safeJsonParse(r.payload_jsonb ?? r.payload);
+          const taskIdCol = (r.task_id ?? null);
+          const runIdCol  = (r.run_id  ?? null);
+          const actorCol  = (r.actor   ?? null);
 
         _sseWrite(res, {
           id: String(r.id),
@@ -112,9 +129,9 @@ router.get("/events/task-events", async (req, res) => {
             id: r.id,
             type: r.kind,
             ts: (payload?.ts ?? Date.now()),
-            taskId: (payload?.task_id ?? payload?.taskId ?? null),
-            runId: (payload?.run_id ?? payload?.runId ?? null),
-            actor: (payload?.actor ?? null),
+            taskId: (taskIdCol ?? payload?.taskId ?? payload?.task_id ?? null),
+            runId: (runIdCol ?? payload?.runId ?? payload?.run_id ?? null),
+            actor: (actorCol ?? payload?.actor ?? payload?.owner ?? null),
             meta: payload,
             createdAt: r.created_at ?? null,
           },
