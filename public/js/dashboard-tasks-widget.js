@@ -1,7 +1,7 @@
 /**
  * Tasks Widget (stable, no SSE)
  * - GET /api/tasks
- * - POST /api/complete-task
+ * - POST /api/tasks/complete
  * - No optimistic removal (prevents list blinking)
  */
 (() => {
@@ -62,7 +62,7 @@
     try {
       const data = await apiJson(API.list);
       state.tasks = (data.tasks || []).map(t => ({
-        id: String(t.id),
+        id: String(t.task_id ?? t.taskId ?? t.id),
         title: t.title || "",
         status: t.status || "",
       }));

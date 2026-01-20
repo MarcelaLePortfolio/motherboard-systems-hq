@@ -33,6 +33,28 @@ apiTasksRouter.get("/health", async (_req, res) => {
   res.status(200).json({ ok: true });
 });
 
+  // GET /api/tasks?limit=25  -> recent tasks for dashboard widget
+  apiTasksRouter.get("/", async (req, res) => {
+    try {
+      const pool = _getPoolOrFail(res); if (!pool) return;
+      const limit = Math.max(1, Math.min(200, Number(req.query?.limit ?? 25) || 25));
+      const r = await pool.query(
+        `
+        SELECT id, task_id, title, status, agent, updated_at
+        FROM tasks
+        ORDER BY updated_at DESC NULLS LAST, id DESC
+        LIMIT $1
+        `,
+        [limit]
+      );
+      res.status(200).json({ ok: true, tasks: r.rows || [] });
+    } catch (e) {
+      console.error("[phase25] /api/tasks list error", e);
+      res.status(500).json({ ok: false, error: e?.message || String(e) });
+    }
+  });
+
+
 // POST /api/tasks/create  { task_id?, title?, agent?, run_id?, ... }
 apiTasksRouter.post("/create", async (req, res) => {
   try {
