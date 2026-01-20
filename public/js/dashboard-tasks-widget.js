@@ -6,9 +6,9 @@
  */
 (() => {
   const API = {
-    list: "/api/tasks/create",
-    complete: "/api/complete-task",
-  };
+      list: "/api/tasks",
+      complete: "/api/tasks/complete",
+    };
 
   const SELECTORS = [
     "#tasks-widget",
@@ -82,7 +82,7 @@
     try {
       await apiJson(API.complete, {
         method: "POST",
-        body: { taskId },
+        body: { task_id: taskId },
       });
     } catch (e) {
       state.lastError = e.message;
