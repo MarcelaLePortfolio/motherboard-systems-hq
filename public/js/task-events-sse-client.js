@@ -215,7 +215,8 @@
     }
 
     appendLine(formatLine(ev, eventName), String(ev.kind ?? eventName));
-    dispatchWindowEvent(ev);
+    if (window.__UI_DEBUG) try { console.log("[task-events] mb.task.event", ev); } catch {}
+      dispatchWindowEvent(ev);
   }
 
   let es = null;

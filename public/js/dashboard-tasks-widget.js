@@ -6,7 +6,7 @@
  */
 (() => {
   const API = {
-    list: "/api/tasks",
+    list: "/api/tasks/create",
     complete: "/api/complete-task",
   };
 
