@@ -202,6 +202,13 @@
         if (ev.kind === "task.event" && ev.type) ev.kind = ev.type;
         if (ev.task_id == null && ev.taskId != null) ev.task_id = ev.taskId;
         if (ev.run_id == null && ev.runId != null) ev.run_id = ev.runId;
+      // Phase31.7 hardening: lift canonical fields from meta if missing/null
+      if (ev && ev.meta && typeof ev.meta === "object") {
+        if (ev.task_id == null && ev.meta.task_id != null) ev.task_id = ev.meta.task_id;
+        if (ev.run_id  == null && ev.meta.run_id  != null) ev.run_id  = ev.meta.run_id;
+        if (ev.actor   == null && ev.meta.actor   != null) ev.actor   = ev.meta.actor;
+        if (ev.actor   == null && ev.meta.owner   != null) ev.actor   = ev.meta.owner;
+      }
       }
 
     if (!ev.kind) ev.kind = eventName;
