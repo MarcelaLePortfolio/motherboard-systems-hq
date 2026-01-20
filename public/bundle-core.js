@@ -1,3 +1,18 @@
+
+// phase31.7 normalize
+function __mbNormalizeTaskEvent(ev){
+  const p=(ev?.payload??ev?.detail?.payload??ev?.detail??ev)??{};
+  const d=ev?.detail??ev?.data??{};
+  return {
+    taskId: p.taskId??p.task_id??d.taskId??d.task_id??null,
+    runId:  p.runId ??p.run_id ??d.runId ??d.run_id ??null,
+    actor:  p.actor ??d.actor ??p.owner ??d.owner ??null,
+    kind:   p.kind  ??d.kind  ??null,
+    ts:     p.ts    ??d.ts    ??null,
+    payload:p
+  };
+}
+
 (() => {
   // public/js/dashboard-status.js
   (() => {
