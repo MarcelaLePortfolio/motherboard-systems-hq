@@ -170,7 +170,12 @@ async function main() {
       const run_id = `${owner}-${ms()}-${Math.random().toString(16).slice(2)}`;
       const r = await pool.query(claimOneSql, [owner]);
       const task = r.rows && r.rows[0];
-      if (!task) break;
+      
+  // Phase31.7: canonical ids for task_events rows
+  const task_id = (task?.task_id ?? task?.taskId ?? task?.id ?? null);
+  const run_id  = (task?.run_id  ?? task?.runId  ?? run_id  ?? null);
+  const actor   = (task?.actor   ?? owner        ?? 'worker');
+if (!task) break;
             didClaim = true;
 
       await insertTaskEvent(pool, {
