@@ -104,12 +104,16 @@ async function handleFailure(pool, task, error) {
     attempt: nextAttempts,
   };
 
+    const canonical_failure_task_id = (task.task_id ?? task.taskId ?? task.id ?? null);
+    if (canonical_failure_task_id == null) throw new Error("worker: failure task missing id/task_id");
+
+
   await insertTaskEvent(pool, {
     kind: "task.failed",
-    task_id: task.id,
+    task_id: canonical_failure_task_id,
     run_id: task.run_id || null,
     actor: "worker",
-    payload: lastError,
+    payload: { ...lastError, task_id: canonical_failure_task_id, run_id: (task.run_id || null), actor: "worker" },
   });
 
   const markFailureSql = readSqlMaybe(process.env.PHASE27_MARK_FAILURE_SQL);
@@ -139,10 +143,10 @@ async function handleFailure(pool, task, error) {
 
   await insertTaskEvent(pool, {
     kind: "task.retry_scheduled",
-    task_id: task.id,
+    task_id: canonical_failure_task_id,
     run_id: task.run_id || null,
     actor: "worker",
-    payload: { ts: ms(), attempt: nextAttempts, delay_ms: delay, next_available_at: nextAvail },
+    payload: { ts: ms(), task_id: canonical_failure_task_id, run_id: (task.run_id || null), actor: "worker", attempt: nextAttempts, delay_ms: delay, next_available_at: nextAvail },
   });
 }
 
@@ -170,33 +174,31 @@ async function main() {
       const run_id = `${owner}-${ms()}-${Math.random().toString(16).slice(2)}`;
       const r = await pool.query(claimOneSql, [owner]);
       const task = r.rows && r.rows[0];
-      
-  // Phase31.7: canonical ids for task_events rows
-  const task_id = (task?.task_id ?? task?.taskId ?? task?.id ?? null);
-  const run_id  = (task?.run_id  ?? task?.runId  ?? run_id  ?? null);
-  const actor   = (task?.actor   ?? owner        ?? 'worker');
 if (!task) break;
+        // Phase31.7: canonical identifiers for task_events + SSE consumers
+        const canonical_task_id = (task.task_id ?? task.taskId ?? task.id ?? null);
+        if (canonical_task_id == null) throw new Error("worker: claimed task missing id/task_id");
+
             didClaim = true;
 
       await insertTaskEvent(pool, {
-        kind: "task.running",
-        task_id: task.id,
-        run_id,
-        actor: owner,
-        payload: { ts: ms() },
-      });
-
-      try {
+          kind: "task.running",
+          task_id: canonical_task_id,
+          run_id,
+          actor: owner,
+          payload: { ts: ms(), task_id: canonical_task_id, run_id, actor: owner },
+        });
+try {
         const result = await execTask(task);
         await pool.query(markSuccessSql, [String(task.task_id || task.id), owner]);
         await insertTaskEvent(pool, {
-          kind: "task.completed",
-          task_id: task.id,
-          run_id,
-          actor: owner,
-          payload: { ts: ms(), result },
-        });
-      } catch (e) {
+            kind: "task.completed",
+            task_id: canonical_task_id,
+            run_id,
+            actor: owner,
+            payload: { ts: ms(), task_id: canonical_task_id, run_id, actor: owner, result },
+          });
+} catch (e) {
         await handleFailure(pool, { ...task, run_id }, e);
       }
     }
