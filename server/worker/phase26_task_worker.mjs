@@ -2,25 +2,7 @@
  * phase26_task_worker.mjs
  *
  * Instrumented worker runner with force-flush logging + explicit loop telemetry.
- * Goal: make it impossible for the worker to "silently idle/exit" while tasks remain queued.
- *
- * Environment (existing):
- *   POSTGRES_URL (required)
- *   PHASE26_TICK_MS (default 500)
- *   PHASE26_WORKER_ACTOR (default "phase26.worker")
- *   WORKER_OWNER (default "worker-<pid>")
- *
- * SQL file envs (existing names used by docker compose / later phases):
- *   PHASE27_CLAIM_ONE_SQL         (required)
- *   PHASE27_MARK_SUCCESS_SQL      (optional)
- *   PHASE27_MARK_FAILURE_SQL      (optional)
- *
- * Extra debug envs (new but optional):
- *   WORKER_LOG_FLUSH=1            (force best-effort fsync on stdout/stderr)
- *   WORKER_LOG_EVERY_MS=2500      (periodic "alive" line even when idle)
- *   WORKER_DB_PING_EVERY_MS=30000 (periodic SELECT 1)
- *   WORKER_ONCE=1                 (run one claim attempt then exit 0)
- *   WORKER_EXIT_ON_DB_ERROR=1     (default 1) exit if DB ping fails
+ * SQL param-count aware execution (auto-matches args to max $N referenced).
  */
 
 import fs from "node:fs";
@@ -37,36 +19,22 @@ function ms() { return Date.now(); }
 
 const FORCE_FLUSH = String(process.env.WORKER_LOG_FLUSH || "").trim() === "1";
 
-function safeFsyncStdout() {
+function safeFsync(fd) {
   if (!FORCE_FLUSH) return;
-  try {
-    fs.fsyncSync(1);
-  } catch {}
-}
-
-function safeFsyncStderr() {
-  if (!FORCE_FLUSH) return;
-  try {
-    fs.fsyncSync(2);
-  } catch {}
+  try { fs.fsyncSync(fd); } catch {}
 }
 
 function log(obj) {
-  const line = JSON.stringify({ ts: ms(), ...obj });
-  process.stdout.write(line + "\n");
-  safeFsyncStdout();
+  process.stdout.write(JSON.stringify({ ts: ms(), ...obj }) + "\n");
+  safeFsync(1);
 }
-
 function warn(obj) {
-  const line = JSON.stringify({ ts: ms(), level: "warn", ...obj });
-  process.stderr.write(line + "\n");
-  safeFsyncStderr();
+  process.stderr.write(JSON.stringify({ ts: ms(), level: "warn", ...obj }) + "\n");
+  safeFsync(2);
 }
-
 function err(obj) {
-  const line = JSON.stringify({ ts: ms(), level: "error", ...obj });
-  process.stderr.write(line + "\n");
-  safeFsyncStderr();
+  process.stderr.write(JSON.stringify({ ts: ms(), level: "error", ...obj }) + "\n");
+  safeFsync(2);
 }
 
 function mustEnv(name) {
@@ -85,6 +53,18 @@ function hasDollarParams(sql) {
   return /\$\d+/.test(String(sql || ""));
 }
 
+function maxDollarParam(sql) {
+  const s = String(sql || "");
+  let m;
+  let max = 0;
+  const re = /\$(\d+)/g;
+  while ((m = re.exec(s)) !== null) {
+    const n = Number(m[1]);
+    if (Number.isFinite(n) && n > max) max = n;
+  }
+  return max;
+}
+
 function redactPg(url) {
   try {
     const u = new URL(url);
@@ -93,6 +73,16 @@ function redactPg(url) {
   } catch {
     return String(url).replace(/:\/\/([^:]+):([^@]+)@/g, "://$1:****@");
   }
+}
+
+async function execSql(pool, sqlText, args) {
+  const want = maxDollarParam(sqlText);
+  if (want <= 0) return pool.query(sqlText);
+  const a = (args || []).slice(0, want);
+  if (a.length !== want) {
+    throw new Error(`sql_param_arity_mismatch: want=${want} got=${a.length}`);
+  }
+  return pool.query(sqlText, a);
 }
 
 async function main() {
@@ -133,8 +123,11 @@ async function main() {
     PHASE27_MARK_SUCCESS_SQL: markSuccessFile ? markSuccessFile.resolved : null,
     PHASE27_MARK_FAILURE_SQL: markFailureFile ? markFailureFile.resolved : null,
     claimNeedsParams: hasDollarParams(claimSqlFile.sql),
+    claimParamMax: maxDollarParam(claimSqlFile.sql),
     markSuccessNeedsParams: markSuccessFile ? hasDollarParams(markSuccessFile.sql) : null,
+    markSuccessParamMax: markSuccessFile ? maxDollarParam(markSuccessFile.sql) : null,
     markFailureNeedsParams: markFailureFile ? hasDollarParams(markFailureFile.sql) : null,
+    markFailureParamMax: markFailureFile ? maxDollarParam(markFailureFile.sql) : null,
   });
 
   process.on("uncaughtException", (e) => {
@@ -205,19 +198,14 @@ async function main() {
 
     let claimedRow = null;
     try {
-      if (hasDollarParams(claimSqlFile.sql)) {
-        const res = await pool.query(claimSqlFile.sql, [owner, actor, now]);
-        claimedRow = res?.rows?.[0] || null;
-      } else {
-        const res = await pool.query(claimSqlFile.sql);
-        claimedRow = res?.rows?.[0] || null;
-      }
+      const res = await execSql(pool, claimSqlFile.sql, [owner, actor, now]);
+      claimedRow = res?.rows?.[0] || null;
     } catch (e) {
       err({
         kind: "worker.claim_error",
         message: e?.message,
         stack: e?.stack,
-        hint: "Check PHASE27_CLAIM_ONE_SQL syntax/params and tasks schema. This error is now non-silent.",
+        hint: "Claim SQL param arity is auto-matched to max $N; if this still errors, SQL/schema mismatch remains.",
       });
       await sleep(Math.min(2000, Math.max(250, tickMs)));
       if (once) break;
@@ -232,22 +220,13 @@ async function main() {
     }
 
     claims++;
-    log({
-      kind: "worker.claimed",
-      claimed: claimedRow,
-      claimed_keys: Object.keys(claimedRow || {}),
-    });
+    log({ kind: "worker.claimed", claimed: claimedRow, claimed_keys: Object.keys(claimedRow || {}) });
 
     if (markSuccessFile) {
       try {
         const task_id = claimedRow.task_id ?? claimedRow.id ?? claimedRow.taskId ?? null;
         const run_id = claimedRow.run_id ?? claimedRow.runId ?? null;
-
-        if (hasDollarParams(markSuccessFile.sql)) {
-          await pool.query(markSuccessFile.sql, [task_id, run_id, owner, actor, ms()]);
-        } else {
-          await pool.query(markSuccessFile.sql);
-        }
+        await execSql(pool, markSuccessFile.sql, [task_id, run_id, owner, actor, ms()]);
         log({ kind: "worker.mark_success_ok", task_id, run_id });
       } catch (e) {
         err({ kind: "worker.mark_success_error", message: e?.message, stack: e?.stack });
@@ -256,12 +235,7 @@ async function main() {
             const task_id = claimedRow.task_id ?? claimedRow.id ?? claimedRow.taskId ?? null;
             const run_id = claimedRow.run_id ?? claimedRow.runId ?? null;
             const reason = e?.message || "mark_success_failed";
-
-            if (hasDollarParams(markFailureFile.sql)) {
-              await pool.query(markFailureFile.sql, [task_id, run_id, owner, actor, ms(), reason]);
-            } else {
-              await pool.query(markFailureFile.sql);
-            }
+            await execSql(pool, markFailureFile.sql, [task_id, run_id, owner, actor, ms(), reason]);
             log({ kind: "worker.mark_failure_ok", task_id, run_id, reason });
           } catch (e2) {
             err({ kind: "worker.mark_failure_error", message: e2?.message, stack: e2?.stack });
