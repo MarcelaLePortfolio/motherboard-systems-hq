@@ -8,13 +8,11 @@
 update tasks
 set status = $2,
     failed_at = now(),
-    run_id = null,
     attempt = $3,
     attempts = $3,
     available_at = $4,
     next_run_at = $4,
     last_error = $5::jsonb,
-    failed_at = case when $2 = 'failed' then now() else failed_at end,
     locked_by = null,
     lock_expires_at = null,
     updated_at = now()
