@@ -172,7 +172,7 @@ async function main() {
       let didClaim = false;
     for (; claimed < maxClaims; claimed++) {
       const run_id = `${owner}-${ms()}-${Math.random().toString(16).slice(2)}`;
-      const r = await pool.query(claimOneSql, [owner]);
+      const r = await pool.query(claimOneSql, [owner, new Date().toISOString()]);
       const task = r.rows && r.rows[0];
 if (!task) break;
         // Phase31.7: canonical identifiers for task_events + SSE consumers
