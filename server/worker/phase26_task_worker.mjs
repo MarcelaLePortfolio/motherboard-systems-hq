@@ -24,6 +24,19 @@ function readSqlMaybe(filePath) {
   return fs.readFileSync(p, "utf8");
 }
 
+function sqlArity(sql) {
+  // returns max $N placeholder index found (0 if none)
+  const m = String(sql || "").match(/\$(\d+)/g);
+  if (!m) return 0;
+  let max = 0;
+  for (const tok of m) {
+    const n = Number(tok.slice(1));
+    if (Number.isFinite(n) && n > max) max = n;
+  }
+  return max;
+}
+
+
 function errToJson(e) {
   if (!e) return { name: "Error", message: "unknown error", stack: null };
   return {
@@ -172,8 +185,15 @@ async function main() {
       let didClaim = false;
     for (; claimed < maxClaims; claimed++) {
       const run_id = `${owner}-${ms()}-${Math.random().toString(16).slice(2)}`;
-      const r = await pool.query(claimOneSql, [owner, new Date().toISOString()]);
-      const task = r.rows && r.rows[0];
+      const claimArgs = /\$2\b/.test(String(claimOneSql))
+  ? [owner, new Date().toISOString()]
+  : [owner];
+const claimArity = sqlArity(claimOneSql);
+const claimParams = (claimArity >= 2)
+  ? [owner, new Date().toISOString()]
+  : [owner];
+const r = await pool.query(claimOneSql, claimParams);
+const task = r.rows && r.rows[0];
 if (!task) break;
         // Phase31.7: canonical identifiers for task_events + SSE consumers
         const canonical_task_id = (task.task_id ?? task.taskId ?? task.id ?? null);
