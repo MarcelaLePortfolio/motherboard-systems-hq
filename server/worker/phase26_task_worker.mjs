@@ -225,15 +225,25 @@ async function main() {
 
     if (markSuccessFile) {
       try {
-        const task_id = claimedRow.task_id ?? claimedRow.id ?? claimedRow.taskId ?? null;
+        const task_id = (
+          claimedRow.id ??
+          (typeof claimedRow.task_id === "string" && /^t\d+$/.test(claimedRow.task_id) ? Number(claimedRow.task_id.slice(1)) : null) ??
+          (typeof claimedRow.taskId === "string" && /^t\d+$/.test(claimedRow.taskId) ? Number(claimedRow.taskId.slice(1)) : claimedRow.taskId ?? null)
+        );
         const run_id = claimedRow.run_id ?? claimedRow.runId ?? null;
-        await execSql(pool, markSuccessFile.sql, [task_id, run_id, owner, actor, ms()]);
+        const markSuccessParams = [task_id, run_id, owner, actor, ms()];
+        const markSuccessArgs = markSuccessFile?.paramMax ? markSuccessParams.slice(0, markSuccessFile.paramMax) : markSuccessParams;
+        await execSql(pool, markSuccessFile.sql, markSuccessArgs);
         log({ kind: "worker.mark_success_ok", task_id, run_id });
       } catch (e) {
         err({ kind: "worker.mark_success_error", message: e?.message, stack: e?.stack });
         if (markFailureFile) {
           try {
-            const task_id = claimedRow.task_id ?? claimedRow.id ?? claimedRow.taskId ?? null;
+            const task_id = (
+              claimedRow.id ??
+              (typeof claimedRow.task_id === "string" && /^t\d+$/.test(claimedRow.task_id) ? Number(claimedRow.task_id.slice(1)) : null) ??
+              (typeof claimedRow.taskId === "string" && /^t\d+$/.test(claimedRow.taskId) ? Number(claimedRow.taskId.slice(1)) : claimedRow.taskId ?? null)
+            );
             const run_id = claimedRow.run_id ?? claimedRow.runId ?? null;
             const reason = e?.message || "mark_success_failed";
             const prevAttempt = Number(claimedRow.attempt ?? claimedRow.attempts ?? 0) || 0;

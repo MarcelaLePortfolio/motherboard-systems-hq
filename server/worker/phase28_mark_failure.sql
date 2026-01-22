@@ -7,6 +7,8 @@
 
 update tasks
 set status = $2,
+    failed_at = now(),
+    run_id = null,
     attempt = $3,
     attempts = $3,
     available_at = $4,
