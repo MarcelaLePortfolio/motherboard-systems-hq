@@ -198,7 +198,8 @@ async function main() {
 
     let claimedRow = null;
     try {
-      const res = await execSql(pool, claimSqlFile.sql, [owner, actor, now]);
+      const run_id = `run-${now}-${owner}`;
+      const res = await execSql(pool, claimSqlFile.sql, [run_id, owner]);
       claimedRow = res?.rows?.[0] || null;
     } catch (e) {
       err({
