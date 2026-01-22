@@ -236,7 +236,12 @@ async function main() {
             const task_id = claimedRow.task_id ?? claimedRow.id ?? claimedRow.taskId ?? null;
             const run_id = claimedRow.run_id ?? claimedRow.runId ?? null;
             const reason = e?.message || "mark_success_failed";
-            await execSql(pool, markFailureFile.sql, [task_id, run_id, owner, actor, ms(), reason]);
+            const prevAttempt = Number(claimedRow.attempt ?? claimedRow.attempts ?? 0) || 0;
+            const next_attempt = prevAttempt + 1;
+            const next_status = "failed";
+            const next_available_at = null;
+            const last_error = JSON.stringify({ ts: ms(), where: "mark_success", message: reason });
+            await execSql(pool, markFailureFile.sql, [task_id, next_status, next_attempt, next_available_at, last_error]);
             log({ kind: "worker.mark_failure_ok", task_id, run_id, reason });
           } catch (e2) {
             err({ kind: "worker.mark_failure_error", message: e2?.message, stack: e2?.stack });
