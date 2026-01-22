@@ -7,7 +7,7 @@
 
 update tasks
 set status = $2,
-    failed_at = now(),
+    failed_at = case when $2 = 'failed' then now() else failed_at end,
     attempt = $3,
     attempts = $3,
     available_at = $4,
