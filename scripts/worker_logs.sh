@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 cd "$(git rev-parse --show-toplevel)"
+
+COMPOSE="docker-compose.workers.yml"
+[[ -f "" ]] || { echo "missing  (did you git mv it?)" >&2; exit 3; }
+
 P="${WORKER_PROJECT:-motherboard_workers}"
 
 if [[ "" == "motherboard_systems_hq" ]]; then
