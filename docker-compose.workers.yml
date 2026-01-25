@@ -1,11 +1,11 @@
 services:
   worker:
-    image: node:20-bookworm-slim
+    build:
+      context: .
+      dockerfile: Dockerfile.worker
+    image: motherboard_systems_hq-worker:node20
     working_dir: /app
-    volumes:
-      - ./:/app
     environment:
-      # Reach the main stack's postgres container over the external network
       POSTGRES_URL: postgres://postgres:postgres@motherboard_systems_hq-postgres-1:5432/postgres
       PHASE27_CLAIM_ONE_SQL: server/worker/phase28_claim_one.sql
       PHASE27_MARK_SUCCESS_SQL: server/worker/phase28_mark_success.sql
@@ -15,7 +15,6 @@ services:
     command: ["node","server/worker/phase26_task_worker.mjs"]
     networks:
       - motherboard_systems_hq_default
-
 networks:
   motherboard_systems_hq_default:
     external: true

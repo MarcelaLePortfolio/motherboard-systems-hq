@@ -1,0 +1,14 @@
+FROM node:20-bookworm-slim
+WORKDIR /app
+RUN corepack enable
+COPY package.json ./
+COPY package-lock.json* ./
+COPY pnpm-lock.yaml* ./
+COPY yarn.lock* ./
+RUN set -e; \
+  if [ -f package-lock.json ]; then npm ci; \
+  elif [ -f pnpm-lock.yaml ]; then pnpm install --frozen-lockfile; \
+  elif [ -f yarn.lock ]; then yarn install --frozen-lockfile; \
+  else npm install; fi
+COPY . .
+CMD ["node","server/worker/phase26_task_worker.mjs"]
