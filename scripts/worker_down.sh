@@ -5,7 +5,6 @@ cd "$(git rev-parse --show-toplevel)"
 [[ -f docker-compose.workers.yml ]] || { echo "missing docker-compose.workers.yml (did you git mv it?)" >&2; exit 3; }
 
 
-[[ -f "" ]] || { echo "missing  (did you git mv it?)" >&2; exit 3; }P="${WORKER_PROJECT:-motherboard_workers}"
 
 if [[ "" == "motherboard_systems_hq" ]]; then  echo "refusing: WORKER_PROJECT=motherboard_systems_hq (would touch main stack)" >&2
   exit 2
