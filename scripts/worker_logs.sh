@@ -7,4 +7,4 @@ if [[ "" == "motherboard_systems_hq" ]]; then
   echo "refusing: WORKER_PROJECT=motherboard_systems_hq (would touch main stack)" >&2
   exit 2
 fi
-docker compose -p "$P" -f docker-compose.worker.yml logs -f --tail=200
+docker compose -p "$P" -f docker-compose.workers.yml logs -f --tail=200

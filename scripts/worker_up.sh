@@ -12,6 +12,6 @@ if [[ "" == "motherboard_systems_hq" ]]; then
   exit 2
 fi
 N="${WORKER_N:-2}"
-docker compose -p "$P" -f docker-compose.worker.yml up -d --scale worker="$N"
+docker compose -p "$P" -f docker-compose.workers.yml up -d --scale worker="$N"
 docker ps --format '{{.Names}}' | rg "^${P}-worker-" || true
 echo "workers_up project=$P n=$N"
