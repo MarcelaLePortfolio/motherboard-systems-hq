@@ -48,7 +48,7 @@ function shouldFailDeterministically(task) {
   // - meta.force_fail: always fail
   // - meta.fail_n_times: fail while attempts < fail_n_times
   const meta = parseMeta(task) || {};
-  const attempts = Number(task?.attempts || 0);
+  const attempts = Number((task?.attempts ?? task?.attempt ?? 0));
   if (meta.force_fail === true) return { fail: true, reason: "meta.force_fail=true" };
 
   const n = Number(meta.fail_n_times);
