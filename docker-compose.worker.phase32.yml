@@ -1,0 +1,23 @@
+services:
+  workerA:
+    image: mbhq-worker:phase32
+    command: ["node","server/worker/phase26_task_worker.mjs"]
+    environment:
+      POSTGRES_URL: postgres://postgres:postgres@postgres:5432/postgres
+      PHASE26_TICK_MS: "250"
+      WORKER_OWNER: docker-wA
+      PHASE32_CLAIM_ONE_SQL: server/worker/phase32_claim_one.sql
+      PHASE32_MARK_SUCCESS_SQL: server/worker/phase32_mark_success.sql
+      PHASE32_MARK_FAILURE_SQL: server/worker/phase32_mark_failure.sql
+    restart: unless-stopped
+ workerB:
+    image: mbhq-worker:phase32
+    command: ["node","server/worker/phase26_task_worker.mjs"]
+    environment:
+      POSTGRES_URL: postgres://postgres:postgres@postgres:5432/postgres
+      PHASE26_TICK_MS: "250"
+      WORKER_OWNER: docker-wB
+      PHASE32_CLAIM_ONE_SQL: server/worker/phase32_claim_one.sql
+      PHASE32_MARK_SUCCESS_SQL: server/worker/phase32_mark_success.sql
+      PHASE32_MARK_FAILURE_SQL: server/worker/phase32_mark_failure.sql
+    restart: unless-stopped
