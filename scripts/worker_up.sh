@@ -18,5 +18,5 @@ if [[ "$P" == "motherboard_systems_hq" ]]; then
 fi
 N="${WORKER_N:-2}"
 docker compose -p "$P" -f "$COMPOSE" up -d --scale worker="$N"
-docker ps --format '{{.Names}}' | rg "^${P}-worker-" || true
+docker ps --format '{{.Names}}' | grep -E "^${P}-worker-" || true
 echo "workers_up project=$P n=$N"

@@ -13,4 +13,4 @@ if [[ "$P" == "motherboard_systems_hq" ]]; then
   exit 2
 fi
 docker compose -p "$P" -f "$COMPOSE" down
-docker ps --format '{{.Names}}' | rg "^${P}-worker-" && exit 1 || echo "workers_down project=$P"
+docker ps --format '{{.Names}}' | grep -E "^${P}-worker-" && exit 1 || echo "workers_down project=$P"
