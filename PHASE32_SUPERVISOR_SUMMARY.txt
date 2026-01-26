@@ -1,0 +1,4 @@
+Phase 32 — Minimal Retry/Backoff Semantics (SQL-first)
+Golden: v31.9-golden-worker-image-fixed-ok
+Adds attempts/max_attempts/next_run_at; SQL-only claim/backoff; SKIP LOCKED; capped exponential delay; terminal failure at max_attempts.
+Worker prefers PHASE32_* SQL paths; no heuristic retries.

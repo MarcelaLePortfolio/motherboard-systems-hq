@@ -1,274 +1,59 @@
-/**
- * phase26_task_worker.mjs
- *
- * Instrumented worker runner with force-flush logging + explicit loop telemetry.
- * SQL param-count aware execution (auto-matches args to max $N referenced).
- */
-
 import fs from "node:fs";
 import path from "node:path";
 import process from "node:process";
-import { fileURLToPath } from "node:url";
-import { setTimeout as sleep } from "node:timers/promises";
-import pg from "pg";
+import { Pool } from "pg";
+import { emitTaskEvent } from "../task_events_emit.mjs";
+function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
+function readSqlFile(p){const a=path.isAbsolute(p)?p:path.join(process.cwd(),p);return fs.readFileSync(a,"utf-8");}
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const POSTGRES_URL=process.env.POSTGRES_URL;
+if(!POSTGRES_URL) throw new Error("POSTGRES_URL required");
+const TICK_MS=Number(process.env.PHASE26_TICK_MS||500);
+const BACKOFF_BASE_MS=Number(process.env.WORKER_BACKOFF_BASE_MS||2000);
+const owner=process.env.WORKER_OWNER||`worker-${process.pid}`;
+const CLAIM_ONE_PATH=process.env.PHASE32_CLAIM_ONE_SQL||process.env.PHASE27_CLAIM_ONE_SQL;
+const MARK_SUCCESS_PATH=process.env.PHASE32_MARK_SUCCESS_SQL||process.env.PHASE27_MARK_SUCCESS_SQL;
+const MARK_FAILURE_PATH=process.env.PHASE32_MARK_FAILURE_SQL||process.env.PHASE27_MARK_FAILURE_SQL;
 
-function ms() { return Date.now(); }
-
-const FORCE_FLUSH = String(process.env.WORKER_LOG_FLUSH || "").trim() === "1";
-
-function safeFsync(fd) {
-  if (!FORCE_FLUSH) return;
-  try { fs.fsyncSync(fd); } catch {}
+if(!CLAIM_ONE_PATH||!MARK_SUCCESS_PATH||!MARK_FAILURE_PATH)
+  throw new Error("PHASE32_* or PHASE27_* SQL paths required");
+const CLAIM_ONE_SQL=readSqlFile(CLAIM_ONE_PATH);
+const MARK_SUCCESS_SQL=readSqlFile(MARK_SUCCESS_PATH);
+const MARK_FAILURE_SQL=readSqlFile(MARK_FAILURE_PATH);
+const pool=new Pool({connectionString:POSTGRES_URL});
+async function claimOne(c,run_id){
+  const r=await c.query(CLAIM_ONE_SQL,[run_id,owner]);
+  return r.rows?.[0]||null;
 }
-
-function log(obj) {
-  process.stdout.write(JSON.stringify({ ts: ms(), ...obj }) + "\n");
-  safeFsync(1);
+async function markSuccess(c,id){
+  const r=await c.query(MARK_SUCCESS_SQL,[id]);
+  return r.rows?.[0]||null;
 }
-function warn(obj) {
-  process.stderr.write(JSON.stringify({ ts: ms(), level: "warn", ...obj }) + "\n");
-  safeFsync(2);
+async function markFailure(c,id,e){
+  const r=await c.query(MARK_FAILURE_SQL,[id,String(e||"")]);
+  return r.rows?.[0]||null;
 }
-function err(obj) {
-  process.stderr.write(JSON.stringify({ ts: ms(), level: "error", ...obj }) + "\n");
-  safeFsync(2);
-}
-
-function mustEnv(name) {
-  const v = process.env[name];
-  if (!v || !String(v).trim()) throw new Error(`missing_env:${name}`);
-  return String(v);
-}
-
-function readSqlFile(sqlPath) {
-  const resolved = path.isAbsolute(sqlPath) ? sqlPath : path.resolve(process.cwd(), sqlPath);
-  const txt = fs.readFileSync(resolved, "utf-8");
-  return { resolved, sql: txt.trim() };
-}
-
-function hasDollarParams(sql) {
-  return /\$\d+/.test(String(sql || ""));
-}
-
-function maxDollarParam(sql) {
-  const s = String(sql || "");
-  let m;
-  let max = 0;
-  const re = /\$(\d+)/g;
-  while ((m = re.exec(s)) !== null) {
-    const n = Number(m[1]);
-    if (Number.isFinite(n) && n > max) max = n;
-  }
-  return max;
-}
-
-function redactPg(url) {
-  try {
-    const u = new URL(url);
-    if (u.password) u.password = "****";
-    return u.toString();
-  } catch {
-    return String(url).replace(/:\/\/([^:]+):([^@]+)@/g, "://$1:****@");
-  }
-}
-
-async function execSql(pool, sqlText, args) {
-  const want = maxDollarParam(sqlText);
-  if (want <= 0) return pool.query(sqlText);
-  const a = (args || []).slice(0, want);
-  if (a.length !== want) {
-    throw new Error(`sql_param_arity_mismatch: want=${want} got=${a.length}`);
-  }
-  return pool.query(sqlText, a);
-}
-
-async function main() {
-  const actor = process.env.PHASE26_WORKER_ACTOR || "phase26.worker";
-  const owner = process.env.WORKER_OWNER || `worker-${process.pid}`;
-
-  const tickMs = Number(process.env.PHASE26_TICK_MS || "500");
-  const logEveryMs = Number(process.env.WORKER_LOG_EVERY_MS || "2500");
-  const dbPingEveryMs = Number(process.env.WORKER_DB_PING_EVERY_MS || "30000");
-  const once = String(process.env.WORKER_ONCE || "").trim() === "1";
-  const exitOnDbErr = String(process.env.WORKER_EXIT_ON_DB_ERROR || "1").trim() === "1";
-
-  const postgresUrl = mustEnv("POSTGRES_URL");
-
-  const claimSqlPath = mustEnv("PHASE27_CLAIM_ONE_SQL");
-  const markSuccessPath = process.env.PHASE27_MARK_SUCCESS_SQL || "";
-  const markFailurePath = process.env.PHASE27_MARK_FAILURE_SQL || "";
-
-  const claimSqlFile = readSqlFile(claimSqlPath);
-  const markSuccessFile = markSuccessPath ? readSqlFile(markSuccessPath) : null;
-  const markFailureFile = markFailurePath ? readSqlFile(markFailurePath) : null;
-
-  log({
-    kind: "worker.boot",
-    file: __filename,
-    cwd: process.cwd(),
-    actor,
-    owner,
-    pid: process.pid,
-    node: process.version,
-    tickMs,
-    logEveryMs,
-    dbPingEveryMs,
-    once,
-    FORCE_FLUSH,
-    POSTGRES_URL: redactPg(postgresUrl),
-    PHASE27_CLAIM_ONE_SQL: claimSqlFile.resolved,
-    PHASE27_MARK_SUCCESS_SQL: markSuccessFile ? markSuccessFile.resolved : null,
-    PHASE27_MARK_FAILURE_SQL: markFailureFile ? markFailureFile.resolved : null,
-    claimNeedsParams: hasDollarParams(claimSqlFile.sql),
-    claimParamMax: maxDollarParam(claimSqlFile.sql),
-    markSuccessNeedsParams: markSuccessFile ? hasDollarParams(markSuccessFile.sql) : null,
-    markSuccessParamMax: markSuccessFile ? maxDollarParam(markSuccessFile.sql) : null,
-    markFailureNeedsParams: markFailureFile ? hasDollarParams(markFailureFile.sql) : null,
-    markFailureParamMax: markFailureFile ? maxDollarParam(markFailureFile.sql) : null,
-  });
-
-  process.on("uncaughtException", (e) => {
-    err({ kind: "worker.uncaughtException", message: e?.message, stack: e?.stack });
-    process.exitCode = 1;
-  });
-  process.on("unhandledRejection", (e) => {
-    err({ kind: "worker.unhandledRejection", message: e?.message || String(e), stack: e?.stack });
-    process.exitCode = 1;
-  });
-  process.on("exit", (code) => {
-    log({ kind: "worker.exit", code });
-  });
-  process.on("SIGTERM", () => {
-    warn({ kind: "worker.signal", signal: "SIGTERM" });
-    process.exit(0);
-  });
-  process.on("SIGINT", () => {
-    warn({ kind: "worker.signal", signal: "SIGINT" });
-    process.exit(0);
-  });
-
-  const { Pool } = pg;
-  const pool = new Pool({
-    connectionString: postgresUrl,
-    max: 4,
-    idleTimeoutMillis: 30_000,
-    connectionTimeoutMillis: 10_000,
-  });
-
-  try {
-    const r = await pool.query("select 1 as ok");
-    log({ kind: "worker.db_ok", row: r?.rows?.[0] || null });
-  } catch (e) {
-    err({ kind: "worker.db_error", message: e?.message, stack: e?.stack });
-    await pool.end().catch(() => {});
-    process.exit(1);
-  }
-
-  let lastAlive = 0;
-  let lastDbPing = 0;
-  let loops = 0;
-  let claims = 0;
-  let idles = 0;
-
-  while (true) {
-    const now = ms();
-    loops++;
-
-    if (now - lastAlive >= logEveryMs) {
-      lastAlive = now;
-      log({ kind: "worker.alive", loops, claims, idles, tickMs });
-    }
-
-    if (now - lastDbPing >= dbPingEveryMs) {
-      lastDbPing = now;
-      try {
-        const r = await pool.query("select 1 as ok");
-        log({ kind: "worker.db_ping_ok", row: r?.rows?.[0] || null });
-      } catch (e) {
-        err({ kind: "worker.db_ping_error", message: e?.message, stack: e?.stack });
-        if (exitOnDbErr) {
-          await pool.end().catch(() => {});
-          process.exit(1);
+async function loop(){
+  let backoff=BACKOFF_BASE_MS;
+  while(true){
+    const run_id=`run-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+    try{
+      const c=await pool.connect();
+      try{
+        await c.query("BEGIN");
+        const task=await claimOne(c,run_id);
+        await c.query("COMMIT");
+        if(!task){c.release();await sleep(TICK_MS);backoff=BACKOFF_BASE_MS;continue;}
+        await emitTaskEvent({pool,kind:"task.running",task_id:task.id,run_id:task.run_id||run_id,actor:owner,
+          payload:{ts:Date.now(),attempts:task.attempts,max_attempts:task.max_attempts}});
+        const done=await markSuccess(c,task.id);
+        if(done){
+          await emitTaskEvent({pool,kind:"task.completed",task_id:done.id,run_id:done.run_id||run_id,actor:owner,
+            payload:{ts:Date.now(),attempts:done.attempts,max_attempts:done.max_attempts}});
         }
-      }
-    }
-
-    let claimedRow = null;
-    try {
-      const run_id = `run-${now}-${owner}`;
-      const res = await execSql(pool, claimSqlFile.sql, [run_id, owner]);
-      claimedRow = res?.rows?.[0] || null;
-    } catch (e) {
-      err({
-        kind: "worker.claim_error",
-        message: e?.message,
-        stack: e?.stack,
-        hint: "Claim SQL param arity is auto-matched to max $N; if this still errors, SQL/schema mismatch remains.",
-      });
-      await sleep(Math.min(2000, Math.max(250, tickMs)));
-      if (once) break;
-      continue;
-    }
-
-    if (!claimedRow) {
-      idles++;
-      if (once) break;
-      await sleep(Math.max(50, tickMs));
-      continue;
-    }
-
-    claims++;
-    log({ kind: "worker.claimed", claimed: claimedRow, claimed_keys: Object.keys(claimedRow || {}) });
-
-    if (markSuccessFile) {
-      try {
-        const task_id = (
-          claimedRow.id ??
-          (typeof claimedRow.task_id === "string" && /^t\d+$/.test(claimedRow.task_id) ? Number(claimedRow.task_id.slice(1)) : null) ??
-          (typeof claimedRow.taskId === "string" && /^t\d+$/.test(claimedRow.taskId) ? Number(claimedRow.taskId.slice(1)) : claimedRow.taskId ?? null)
-        );
-        const run_id = claimedRow.run_id ?? claimedRow.runId ?? null;
-        const markSuccessParams = [task_id, run_id, owner, actor, ms()];
-        const markSuccessArgs = markSuccessFile?.paramMax ? markSuccessParams.slice(0, markSuccessFile.paramMax) : markSuccessParams;
-        await execSql(pool, markSuccessFile.sql, markSuccessArgs);
-        log({ kind: "worker.mark_success_ok", task_id, run_id });
-      } catch (e) {
-        err({ kind: "worker.mark_success_error", message: e?.message, stack: e?.stack });
-        if (markFailureFile) {
-          try {
-            const task_id = (
-              claimedRow.id ??
-              (typeof claimedRow.task_id === "string" && /^t\d+$/.test(claimedRow.task_id) ? Number(claimedRow.task_id.slice(1)) : null) ??
-              (typeof claimedRow.taskId === "string" && /^t\d+$/.test(claimedRow.taskId) ? Number(claimedRow.taskId.slice(1)) : claimedRow.taskId ?? null)
-            );
-            const run_id = claimedRow.run_id ?? claimedRow.runId ?? null;
-            const reason = e?.message || "mark_success_failed";
-            const prevAttempt = Number(claimedRow.attempt ?? claimedRow.attempts ?? 0) || 0;
-            const next_attempt = prevAttempt + 1;
-            const next_status = "failed";
-            const next_available_at = null;
-            const last_error = JSON.stringify({ ts: ms(), where: "mark_success", message: reason });
-            await execSql(pool, markFailureFile.sql, [task_id, next_status, next_attempt, next_available_at, last_error]);
-            log({ kind: "worker.mark_failure_ok", task_id, run_id, reason });
-          } catch (e2) {
-            err({ kind: "worker.mark_failure_error", message: e2?.message, stack: e2?.stack });
-          }
-        }
-      }
-    }
-
-    if (once) break;
-    await sleep(Math.max(25, tickMs));
+        c.release();backoff=BACKOFF_BASE_MS;
+      }catch(e){try{await pool.query("ROLLBACK");}catch{} throw e;}
+    }catch(e){console.error("[worker] loop error",e);await sleep(backoff);backoff=Math.min(backoff*2,30000);}
   }
-
-  log({ kind: "worker.done", once, loops, claims, idles });
-  await pool.end().catch(() => {});
 }
-
-main().catch((e) => {
-  err({ kind: "worker.fatal", message: e?.message, stack: e?.stack });
-  process.exit(1);
-});
+loop().catch(e=>{console.error("[worker] fatal",e);process.exit(1);});
