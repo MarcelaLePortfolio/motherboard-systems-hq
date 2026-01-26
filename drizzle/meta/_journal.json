@@ -8,12 +8,6 @@
       "when": 1767764758743,
       "tag": "0000_safe_kylun",
       "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "when": 1769123836110,
-      "tag": "0001_phase31_7_failed_at_guard",
-      "breakpoints": true
     }
   ]
 }
