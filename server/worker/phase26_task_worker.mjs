@@ -40,8 +40,16 @@ async function markFailure(c, id, errStr) {
 function parseMeta(task) {
   const m = task?.meta;
   if (!m) return null;
-  if (typeof m === "object") return m;
-  try { return JSON.parse(String(m)); } catch { return null; }
+  const unwrap = (obj) => {
+    if (!obj || typeof obj !== "object") return null;
+    // common shapes in this repo:
+    // 1) { raw: { meta: {...}, ... } }
+    // 2) { meta: {...} }
+    // 3) already the meta payload
+    return obj.raw?.meta ?? obj.meta ?? obj;
+  };
+  if (typeof m === "object") return unwrap(m);
+  try { return unwrap(JSON.parse(String(m))); } catch { return null; }
 }
 function shouldFailDeterministically(task) {
   // Minimal deterministic failure hook (Phase 32 verification aid):
