@@ -1,4 +1,33 @@
 Phase 32 — Minimal Retry/Backoff Semantics (SQL-first)
-Golden: v31.9-golden-worker-image-fixed-ok
-Adds attempts/max_attempts/next_run_at; SQL-only claim/backoff; SKIP LOCKED; capped exponential delay; terminal failure at max_attempts.
-Worker prefers PHASE32_* SQL paths; no heuristic retries.
+Golden baseline:
+- v31.9-golden-worker-image-fixed-ok
+
+Objective:
+- Minimal retry/backoff semantics: attempt limits + exponential backoff curve + terminal failure
+- Verify no double-claim/completion under failure
+- Keep surface area small & testable; SQL-level guarantees; single-writer safe
+
+What’s implemented (small + deterministic):
+1) DB schema (drizzle/0002_phase32_retry_backoff_minimal.sql)
+- tasks.attempts (default 0)
+- tasks.max_attempts (default 5)
+- tasks.next_run_at (timestamptz)
+- tasks.last_error, tasks.last_error_at
+- index (status, next_run_at, id)
+
+2) SQL-level guarantees (authoritative)
+- phase32_claim_one.sql: claims only queued + eligible by next_run_at; FOR UPDATE SKIP LOCKED prevents double-claim
+- phase32_mark_failure.sql: guarded from running; attempts++ ; queued+next_run_at w/ capped exponential backoff; terminal failed at max_attempts
+- phase32_mark_success.sql: guarded from running -> completed
+
+3) Worker wiring (minimal)
+- phase26_task_worker.mjs prefers PHASE32_* SQL paths (fallback to PHASE27_*).
+- Added a tiny deterministic failure hook for Phase 32 verification only:
+  - meta.force_fail: true => always fail
+  - meta.fail_n_times: N => fail while attempts < N
+- Emits task.running, then task.retry_scheduled / task.failed, or task.completed.
+
+Verification intent:
+- Run 2+ workers concurrently: no task should be claimed twice (SKIP LOCKED)
+- Retry respects next_run_at (no early claim)
+- Attempts increments deterministically; terminal failure at max_attempts
