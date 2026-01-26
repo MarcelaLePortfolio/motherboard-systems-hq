@@ -1,4 +1,5 @@
 Phase 32 — Minimal Retry/Backoff Semantics (SQL-first)
+
 Golden baseline:
 - v31.9-golden-worker-image-fixed-ok
 
@@ -8,12 +9,13 @@ Objective:
 - Keep surface area small & testable; SQL-level guarantees; single-writer safe
 
 What’s implemented (small + deterministic):
-1) DB schema (drizzle/0002_phase32_retry_backoff_minimal.sql)
+1) DB schema
 - tasks.attempts (default 0)
 - tasks.max_attempts (default 5)
 - tasks.next_run_at (timestamptz)
 - tasks.last_error, tasks.last_error_at
 - index (status, next_run_at, id)
+- (alignment) tasks.run_id + tasks.actor (additive; required by claim contract)
 
 2) SQL-level guarantees (authoritative)
 - phase32_claim_one.sql: claims only queued + eligible by next_run_at; FOR UPDATE SKIP LOCKED prevents double-claim
@@ -22,7 +24,7 @@ What’s implemented (small + deterministic):
 
 3) Worker wiring (minimal)
 - phase26_task_worker.mjs prefers PHASE32_* SQL paths (fallback to PHASE27_*).
-- Added a tiny deterministic failure hook for Phase 32 verification only:
+- Deterministic failure hook for verification:
   - meta.force_fail: true => always fail
   - meta.fail_n_times: N => fail while attempts < N
 - Emits task.running, then task.retry_scheduled / task.failed, or task.completed.
