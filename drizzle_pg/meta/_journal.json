@@ -4,22 +4,22 @@
   "entries": [
     {
       "idx": 0,
-      "when": 1769549191853,
-      "tag": "0001_create_task_events.sql",
+      "when": 1769549474574,
+      "tag": "0001_create_task_events",
       "breakpoints": true,
       "hash": "37ed7340a56c01a330450ba1c329d0a0d16203e82a286a9195e81b841f661f62"
     },
     {
       "idx": 1,
-      "when": 1769549191853,
-      "tag": "0001_phase31_7_failed_at_guard.sql",
+      "when": 1769549474574,
+      "tag": "0001_phase31_7_failed_at_guard",
       "breakpoints": true,
       "hash": "4274cfaadaae8c7df3c37072dde6373c85b1f3943ae7e38cd6bc01082a3492e5"
     },
     {
       "idx": 2,
-      "when": 1769549191853,
-      "tag": "0006_phase32_1_task_events_contract.sql",
+      "when": 1769549474574,
+      "tag": "0006_phase32_1_task_events_contract",
       "breakpoints": true,
       "hash": "4cc7f7087ea2df0bd21f5659c93d575eceefba19747c12c86c70d18161ef9d38"
     }
