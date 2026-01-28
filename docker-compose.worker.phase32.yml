@@ -1,21 +1,36 @@
-version: "3.8"
 services:
   workerA:
+    networks:
+      - mbhq_default
     image: mbhq-worker:phase32
+    command: ["node","server/worker/phase26_task_worker.mjs"]
     environment:
-      # talk to the host-published Postgres port
       POSTGRES_URL: postgres://postgres:postgres@host.docker.internal:5432/postgres
-      # keep any existing worker env defaults if your image reads them internally
-      WORKER_OWNER: workerA
+      PHASE26_TICK_MS: "250"
+      WORKER_OWNER: docker-wA
+      PHASE32_CLAIM_ONE_SQL: server/worker/phase32_claim_one.sql
+      PHASE32_MARK_SUCCESS_SQL: server/worker/phase32_mark_success.sql
+      PHASE32_MARK_FAILURE_SQL: server/worker/phase32_mark_failure.sql
     extra_hosts:
       - "host.docker.internal:host-gateway"
     restart: unless-stopped
 
   workerB:
+    networks:
+      - mbhq_default
     image: mbhq-worker:phase32
+    command: ["node","server/worker/phase26_task_worker.mjs"]
     environment:
       POSTGRES_URL: postgres://postgres:postgres@host.docker.internal:5432/postgres
-      WORKER_OWNER: workerB
+      PHASE26_TICK_MS: "250"
+      WORKER_OWNER: docker-wB
+      PHASE32_CLAIM_ONE_SQL: server/worker/phase32_claim_one.sql
+      PHASE32_MARK_SUCCESS_SQL: server/worker/phase32_mark_success.sql
+      PHASE32_MARK_FAILURE_SQL: server/worker/phase32_mark_failure.sql
     extra_hosts:
       - "host.docker.internal:host-gateway"
     restart: unless-stopped
+
+networks:
+  mbhq_default:
+    external: true
