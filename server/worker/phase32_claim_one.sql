@@ -1,7 +1,7 @@
 WITH candidate AS (
   SELECT id
   FROM tasks
-  WHERE status = 'queued'
+  WHERE status IN ('queued','delegated')
     AND attempts < max_attempts
     AND (next_run_at IS NULL OR next_run_at <= now())
   ORDER BY id ASC
