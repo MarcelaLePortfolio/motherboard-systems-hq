@@ -85,7 +85,7 @@ async function loop() {
         await emitTaskEvent({
           pool,
           kind: "task.running",
-          task_id: task.id,
+          task_id: (task.task_id || String(task.id)),
           run_id: task.run_id || run_id,
           actor: owner,
           payload: {
@@ -102,7 +102,7 @@ async function loop() {
             await emitTaskEvent({
               pool,
               kind: failedRow.status === "failed" ? "task.failed" : "task.retry_scheduled",
-              task_id: failedRow.id,
+              task_id: (failedRow.task_id || String(failedRow.id)),
               run_id: failedRow.run_id || run_id,
               actor: owner,
               payload: {
@@ -125,7 +125,7 @@ async function loop() {
           await emitTaskEvent({
             pool,
             kind: "task.completed",
-            task_id: done.id,
+            task_id: (done.task_id || String(done.id)),
             run_id: done.run_id || run_id,
             actor: owner,
             payload: {
