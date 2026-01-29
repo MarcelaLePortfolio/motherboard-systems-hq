@@ -39,9 +39,14 @@ if (!CLAIM_ONE_PATH || !MARK_SUCCESS_PATH || !MARK_FAILURE_PATH) {
 const CLAIM_ONE_SQL = readSqlFile(CLAIM_ONE_PATH);
 const MARK_SUCCESS_SQL = readSqlFile(MARK_SUCCESS_PATH);
 const MARK_FAILURE_SQL = readSqlFile(MARK_FAILURE_PATH);
+
+// Phase 34 SQL (pg-param) — only used when PHASE34_ENABLE_LEASE=1
+const PHASE34_HEARTBEAT_SQL_STR = readSqlFile(process.env.PHASE34_HEARTBEAT_PG_SQL || "server/worker/phase34_heartbeat_pg.sql");
+const PHASE34_RECLAIM_SQL_STR = readSqlFile(process.env.PHASE34_RECLAIM_PG_SQL || "server/worker/phase34_reclaim_stale_pg.sql");
+
 const pool = new Pool({ connectionString: POSTGRES_URL });
 async function claimOne(c, run_id) {
-  const r = await c.query(CLAIM_ONE_SQL, [run_id, owner]);
+  const r = await c.query(CLAIM_ONE_SQL, PHASE34_ENABLE_LEASE ? [run_id, owner, PHASE34_LEASE_MS] : [run_id, owner]);
   return r.rows?.[0] || null;
 }
 async function markSuccess(c, id) {
@@ -89,6 +94,20 @@ async function loop() {
       const c = await pool.connect();
       try {
         await c.query("BEGIN");
+        // phase34 heartbeat + reclaim (optional)
+        if (PHASE34_ENABLE_LEASE) {
+          try {
+            await c.query(PHASE34_HEARTBEAT_SQL_STR, [owner]);
+          } catch (e) {
+            console.error("[phase34] heartbeat error", e);
+          }
+          try {
+            await c.query(PHASE34_RECLAIM_SQL_STR, [PHASE34_STALE_HEARTBEAT_MS]);
+          } catch (e) {
+            console.error("[phase34] reclaim error", e);
+          }
+        }
+
         const task = await claimOne(c, run_id);
         await c.query("COMMIT");
         if (!task) {
