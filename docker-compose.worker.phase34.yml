@@ -1,0 +1,21 @@
+services:
+  workerA:
+    environment:
+      PHASE34_ENABLE_LEASE: "1"
+      PHASE34_HEARTBEAT_SQL: "server/worker/phase34_heartbeat.sql"
+      PHASE34_RECLAIM_SQL: "server/worker/phase34_reclaim_stale.sql"
+      PHASE34_LEASE_MS: "60000"
+      PHASE34_STALE_HEARTBEAT_MS: "120000"
+      PHASE27_CLAIM_ONE_SQL: "server/worker/phase34_claim_one.sql"
+      PHASE27_MARK_SUCCESS_SQL: "server/worker/phase34_mark_success.sql"
+      PHASE27_MARK_FAILURE_SQL: "server/worker/phase34_mark_failure.sql"
+  workerB:
+    environment:
+      PHASE34_ENABLE_LEASE: "1"
+      PHASE34_HEARTBEAT_SQL: "server/worker/phase34_heartbeat.sql"
+      PHASE34_RECLAIM_SQL: "server/worker/phase34_reclaim_stale.sql"
+      PHASE34_LEASE_MS: "60000"
+      PHASE34_STALE_HEARTBEAT_MS: "120000"
+      PHASE27_CLAIM_ONE_SQL: "server/worker/phase34_claim_one.sql"
+      PHASE27_MARK_SUCCESS_SQL: "server/worker/phase34_mark_success.sql"
+      PHASE27_MARK_FAILURE_SQL: "server/worker/phase34_mark_failure.sql"
