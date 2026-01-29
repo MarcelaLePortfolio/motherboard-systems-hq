@@ -1,37 +1,73 @@
-# Phase 34 — Objectives & Direction
+# Phase 34 — Lease / Heartbeat / Reclaim (crash-safe workers)
 
-## Purpose
-Define the next stability milestone for the worker system without implementing it yet.
+Status
+- Start point: v33.0-phase33-delegated-claim-docker-golden (Phase 33 done + golden).
+- Branch: feature/phase34-next (branched from golden tag).
+- Scope guardrails (hard):
+  - NO UI changes
+  - NO scheduler changes
+  - NO perf work
+  - ONLY crash-safety + self-healing for worker claims via lease/heartbeat/reclaim
+- Phase 34 is behind an explicit SQL+schema contract and must be verifiable deterministically (reclaim-kill).
 
-Phase 33 established that dockerized workers can:
-- Claim delegated tasks
-- Coordinate safely across multiple containers
-- Emit stable string-based task_ids
-- Complete tasks without duplicate terminal events
+---
 
-Phase 34 will build on this foundation.
+## 0) First action in a new thread: prove Phase 33 still passes (smoke)
 
-## High-Level Objective
-Make the worker system **crash-safe and self-healing** by introducing task leases and reclaim behavior so that:
-- A task claimed by a worker that crashes or stalls can be safely reclaimed
-- Only one terminal outcome (completed/failed) can ever be recorded per task
-- Multi-worker operation remains deterministic under failure conditions
+Run:
+  bash scripts/phase33_smoke.sh
 
-## Intended Scope (no implementation yet)
-- Task leasing / lease expiration model
-- Reclaiming stale `running` tasks
-- Heartbeat or lease extension mechanism
-- Database-enforced guarantees against duplicate terminal events
-- Deterministic verification of reclaim behavior (e.g. kill a worker mid-task)
+Pass criteria:
+- API create works (task row created).
+- SSE /events/task-events emits hello + heartbeat and (if workers running) shows task lifecycle events.
+- Workers containerized can claim/complete at least one trivial task (or at minimum, claim without breaking invariants).
 
-## Explicit Non-Goals (for Phase 34)
-- No new agent logic
-- No scheduler redesign
-- No performance optimization
-- No UI changes
+---
 
-## Readiness Criteria to Begin Phase 34
-- Phase 33 golden tag is in place ✅
-- feature/phase34-next is branched from the golden tag ✅
-- Phase 34 objectives are documented (this file) ✅
+## 1) Phase 34 objective
+
+Make worker claiming crash-safe and self-healing via:
+- a lease (expires_at)
+- a worker heartbeat (last_seen_at)
+- a reclaim operation that deterministically re-queues tasks whose lease expired OR whose owner is dead
+- deterministic verification without real process kills
+
+---
+
+## 2) Phase 34 SQL + schema contract
+
+Minimal additions:
+- tasks: claimed_by, claimed_at, lease_expires_at, lease_epoch
+- worker_heartbeats table
+
+---
+
+## 3) Phase 34 SQL files
+
+- server/worker/phase34_claim_one.sql
+- server/worker/phase34_heartbeat.sql
+- server/worker/phase34_reclaim_stale.sql
+- server/worker/phase34_kill_owner_for_test.sql
+
+---
+
+## 4) Deterministic verification
+
+Run:
+  bash scripts/phase34_reclaim_kill_verify.sh
+
+Must print PASS.
+
+---
+
+## 5) Sequencing
+
+Commit 1:
+- Docs + scripts + SQL contract
+
+Commit 2:
+- Worker wiring behind env flags
+
+Commit 3:
+- Optional invariants (lease_epoch enforcement)
 
