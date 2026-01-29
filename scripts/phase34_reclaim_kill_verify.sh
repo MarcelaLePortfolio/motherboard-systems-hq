@@ -13,7 +13,7 @@ echo "== Phase 34 reclaim-kill verify =="
 
 for f in \
   drizzle_pg/0007_phase34_lease_heartbeat_reclaim.sql \
-  server/worker/phase34_claim_one.sql \
+  server/worker/phase34_claim_task_id_for_test.sql \
   server/worker/phase34_heartbeat.sql \
   server/worker/phase34_reclaim_stale.sql \
   server/worker/phase34_kill_owner_for_test.sql
@@ -42,8 +42,9 @@ print(int(time.time()*1000))
 PY
 )"
 
-"${PSQL_BASE[@]}" -v owner="$OWNER_A" -v now_ms="$NOW_MS" -v lease_ms="1000" \
-  -f server/worker/phase34_claim_one.sql >/dev/null
+# deterministically claim THIS task
+"${PSQL_BASE[@]}" -v task_id="$TASK_ID" -v owner="$OWNER_A" -v now_ms="$NOW_MS" -v lease_ms="1000" \
+  -f server/worker/phase34_claim_task_id_for_test.sql >/dev/null
 
 CB="$("${PSQL_BASE[@]}" -Atc "select claimed_by from tasks where id=$TASK_ID;")"
 CB="$(echo "$CB" | tr -d '[:space:]')"
@@ -62,10 +63,10 @@ CB2="$(echo "$CB2" | tr -d '[:space:]')"
 ST2="$(echo "$ST2" | tr -d '[:space:]')"
 [[ -z "$CB2" && "$ST2" == "created" ]] || { echo "FAIL reclaim (status=<$ST2> claimed_by=<$CB2>)"; exit 1; }
 
-# re-claim under owner B
+# deterministically re-claim THIS task under owner B
 "${PSQL_BASE[@]}" -v owner="$OWNER_B" -f server/worker/phase34_heartbeat.sql >/dev/null
-"${PSQL_BASE[@]}" -v owner="$OWNER_B" -v now_ms="$NOW_MS" -v lease_ms="60000" \
-  -f server/worker/phase34_claim_one.sql >/dev/null
+"${PSQL_BASE[@]}" -v task_id="$TASK_ID" -v owner="$OWNER_B" -v now_ms="$NOW_MS" -v lease_ms="60000" \
+  -f server/worker/phase34_claim_task_id_for_test.sql >/dev/null
 
 CB3="$("${PSQL_BASE[@]}" -Atc "select claimed_by from tasks where id=$TASK_ID;")"
 CB3="$(echo "$CB3" | tr -d '[:space:]')"
