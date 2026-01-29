@@ -13,6 +13,21 @@ if (!POSTGRES_URL) throw new Error("POSTGRES_URL required");
 const TICK_MS = Number(process.env.PHASE26_TICK_MS || 500);
 const BACKOFF_BASE_MS = Number(process.env.WORKER_BACKOFF_BASE_MS || 2000);
 const owner = process.env.WORKER_OWNER || `worker-${process.pid}`;
+
+  // Phase 34 (lease/heartbeat/reclaim) — optional, behind env flag
+  const PHASE34_ENABLE_LEASE = String(process.env.PHASE34_ENABLE_LEASE || "") === "1";
+  const PHASE34_HEARTBEAT_SQL = process.env.PHASE34_HEARTBEAT_SQL || "server/worker/phase34_heartbeat.sql";
+  const PHASE34_RECLAIM_SQL = process.env.PHASE34_RECLAIM_SQL || "server/worker/phase34_reclaim_stale.sql";
+  const PHASE34_LEASE_MS = Number(process.env.PHASE34_LEASE_MS || "60000");
+  const PHASE34_STALE_HEARTBEAT_MS = Number(process.env.PHASE34_STALE_HEARTBEAT_MS || String(PHASE34_LEASE_MS * 2));
+
+  // If enabled, default the worker SQL env vars to Phase 34 variants (same contract: created->running->completed/failed)
+  if (PHASE34_ENABLE_LEASE) {
+    process.env.PHASE27_CLAIM_ONE_SQL = process.env.PHASE27_CLAIM_ONE_SQL || "server/worker/phase34_claim_one.sql";
+    process.env.PHASE27_MARK_SUCCESS_SQL = process.env.PHASE27_MARK_SUCCESS_SQL || "server/worker/phase34_mark_success.sql";
+    process.env.PHASE27_MARK_FAILURE_SQL = process.env.PHASE27_MARK_FAILURE_SQL || "server/worker/phase34_mark_failure.sql";
+  }
+
 // Prefer Phase 32 SQL, fall back to Phase 27 (back-compat).
 const CLAIM_ONE_PATH = process.env.PHASE32_CLAIM_ONE_SQL || process.env.PHASE27_CLAIM_ONE_SQL;
 const MARK_SUCCESS_PATH = process.env.PHASE32_MARK_SUCCESS_SQL || process.env.PHASE27_MARK_SUCCESS_SQL;
