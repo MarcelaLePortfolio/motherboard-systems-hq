@@ -1,4 +1,6 @@
 -- Inputs: :now_ms :stale_heartbeat_ms
+-- Reclaim policy (align with Phase33): requeue back to status='created'
+
 WITH dead AS (
   SELECT owner
   FROM worker_heartbeats
@@ -6,7 +8,7 @@ WITH dead AS (
 ),
 r AS (
   UPDATE tasks
-  SET status='queued',
+  SET status='created',
       claimed_by=NULL,
       claimed_at=NULL,
       lease_expires_at=NULL,

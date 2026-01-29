@@ -1,8 +1,10 @@
 -- Inputs: :owner :now_ms :lease_ms
+-- Claim policy (align with Phase33): claim from status='created'
+
 WITH c AS (
   SELECT id
   FROM tasks
-  WHERE status='queued'
+  WHERE status='created'
   ORDER BY id
   FOR UPDATE SKIP LOCKED
   LIMIT 1

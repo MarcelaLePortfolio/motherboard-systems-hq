@@ -25,7 +25,7 @@ done
 
 TASK_ID="$("${PSQL_BASE[@]}" -Atc \
 "insert into tasks(title, agent, status, source, trace_id, meta)
- values('phase34-verify','verify','queued','verify', 'phase34-verify-'||extract(epoch from now())::bigint::text, '{}'::jsonb)
+ values('phase34-verify','verify','created','verify', 'phase34-verify-'||extract(epoch from now())::bigint::text, '{}'::jsonb)
  returning id;")"
 TASK_ID="$(echo "$TASK_ID" | tr -d '[:space:]')"
 [[ -n "$TASK_ID" ]] || { echo "FAIL: empty task_id"; exit 1; }
@@ -60,7 +60,7 @@ CB2="$("${PSQL_BASE[@]}" -Atc "select coalesce(claimed_by,'') from tasks where i
 ST2="$("${PSQL_BASE[@]}" -Atc "select status from tasks where id=$TASK_ID;")"
 CB2="$(echo "$CB2" | tr -d '[:space:]')"
 ST2="$(echo "$ST2" | tr -d '[:space:]')"
-[[ -z "$CB2" && "$ST2" == "queued" ]] || { echo "FAIL reclaim (status=<$ST2> claimed_by=<$CB2>)"; exit 1; }
+[[ -z "$CB2" && "$ST2" == "created" ]] || { echo "FAIL reclaim (status=<$ST2> claimed_by=<$CB2>)"; exit 1; }
 
 # re-claim under owner B
 "${PSQL_BASE[@]}" -v owner="$OWNER_B" -f server/worker/phase34_heartbeat.sql >/dev/null
