@@ -6,9 +6,17 @@ services:
       PHASE34_STALE_HEARTBEAT_MS: "120000"
       PHASE34_HEARTBEAT_PG_SQL: "server/worker/phase34_heartbeat_pg.sql"
       PHASE34_RECLAIM_PG_SQL: "server/worker/phase34_reclaim_stale_pg.sql"
+
+      # IMPORTANT: override PHASE32_* (worker prefers these)
+      PHASE32_CLAIM_ONE_SQL: "server/worker/phase34_claim_one_pg.sql"
+      PHASE32_MARK_SUCCESS_SQL: "server/worker/phase34_mark_success_pg.sql"
+      PHASE32_MARK_FAILURE_SQL: "server/worker/phase34_mark_failure_pg.sql"
+
+      # Optional back-compat (harmless)
       PHASE27_CLAIM_ONE_SQL: "server/worker/phase34_claim_one_pg.sql"
       PHASE27_MARK_SUCCESS_SQL: "server/worker/phase34_mark_success_pg.sql"
       PHASE27_MARK_FAILURE_SQL: "server/worker/phase34_mark_failure_pg.sql"
+
   workerB:
     environment:
       PHASE34_ENABLE_LEASE: "1"
@@ -16,6 +24,11 @@ services:
       PHASE34_STALE_HEARTBEAT_MS: "120000"
       PHASE34_HEARTBEAT_PG_SQL: "server/worker/phase34_heartbeat_pg.sql"
       PHASE34_RECLAIM_PG_SQL: "server/worker/phase34_reclaim_stale_pg.sql"
+
+      PHASE32_CLAIM_ONE_SQL: "server/worker/phase34_claim_one_pg.sql"
+      PHASE32_MARK_SUCCESS_SQL: "server/worker/phase34_mark_success_pg.sql"
+      PHASE32_MARK_FAILURE_SQL: "server/worker/phase34_mark_failure_pg.sql"
+
       PHASE27_CLAIM_ONE_SQL: "server/worker/phase34_claim_one_pg.sql"
       PHASE27_MARK_SUCCESS_SQL: "server/worker/phase34_mark_success_pg.sql"
       PHASE27_MARK_FAILURE_SQL: "server/worker/phase34_mark_failure_pg.sql"
