@@ -6,7 +6,7 @@ cd "$ROOT"
 
 : "${POSTGRES_URL:?POSTGRES_URL required}"
 
-# Ensure psql output is not polluted by ~/.psqlrc (\pset pager off prints “Pager usage is off.”)
+# Ensure ~/.psqlrc does not print noise (e.g. "Pager usage is off.")
 PSQL_BASE=(env PSQLRC=/dev/null psql -X -q "$POSTGRES_URL" -v ON_ERROR_STOP=1)
 
 echo "== Phase 34 reclaim-kill verify =="
@@ -20,6 +20,7 @@ for f in \
 do
   [[ -f "$f" ]] || { echo "FAIL missing $f"; exit 1; }
 done
+
 "${PSQL_BASE[@]}" -f drizzle_pg/0007_phase34_lease_heartbeat_reclaim.sql >/dev/null
 
 TASK_ID="$("${PSQL_BASE[@]}" -Atc \
@@ -47,6 +48,8 @@ PY
 CB="$("${PSQL_BASE[@]}" -Atc "select claimed_by from tasks where id=$TASK_ID;")"
 CB="$(echo "$CB" | tr -d '[:space:]')"
 [[ "$CB" == "$OWNER_A" ]] || { echo "FAIL claim A (got <$CB>)"; exit 1; }
+
+# simulate crash: remove heartbeat, then force lease expiry
 "${PSQL_BASE[@]}" -v owner="$OWNER_A" -f server/worker/phase34_kill_owner_for_test.sql >/dev/null
 "${PSQL_BASE[@]}" -c "update tasks set lease_expires_at=0 where id=$TASK_ID;" >/dev/null
 
@@ -59,7 +62,7 @@ CB2="$(echo "$CB2" | tr -d '[:space:]')"
 ST2="$(echo "$ST2" | tr -d '[:space:]')"
 [[ -z "$CB2" && "$ST2" == "queued" ]] || { echo "FAIL reclaim (status=<$ST2> claimed_by=<$CB2>)"; exit 1; }
 
-
+# re-claim under owner B
 "${PSQL_BASE[@]}" -v owner="$OWNER_B" -f server/worker/phase34_heartbeat.sql >/dev/null
 "${PSQL_BASE[@]}" -v owner="$OWNER_B" -v now_ms="$NOW_MS" -v lease_ms="60000" \
   -f server/worker/phase34_claim_one.sql >/dev/null
