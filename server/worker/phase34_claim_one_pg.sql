@@ -1,7 +1,7 @@
 -- Inputs: $1=run_id, $2=owner, $3=lease_ms
 -- Claim from status='created' (Phase33 contract)
 WITH c AS (
-  SELECT id
+  SELECT id, $1::text AS run_id
   FROM tasks
   WHERE status='created'
   ORDER BY id
@@ -16,4 +16,4 @@ SET status='running',
     lease_epoch=COALESCE(lease_epoch,0)+1
 FROM c
 WHERE t.id=c.id
-RETURNING t.id, t.claimed_by, t.lease_expires_at;
+RETURNING t.id, t.claimed_by, t.lease_expires_at, c.run_id;
