@@ -1,9 +1,6 @@
--- Phase34 reclaim (psql-safe) using psql variable:
---   psql ... -v STALE_HEARTBEAT_MS=30000 -f server/worker/phase34_reclaim_stale_pg.sql
--- Default is 30000ms if not provided.
-
+-- Inputs: $1 = stale_heartbeat_ms (e.g., 30000)
 WITH params AS (
-  SELECT :'STALE_HEARTBEAT_MS'::bigint AS stale_heartbeat_ms,
+  SELECT $1::bigint AS stale_heartbeat_ms,
          (extract(epoch from now())*1000)::bigint AS now_ms
 ),
 dead AS (
