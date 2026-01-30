@@ -71,3 +71,12 @@ Commit 2:
 Commit 3:
 - Optional invariants (lease_epoch enforcement)
 
+## Smoke proof
+Run:
+  POSTGRES_URL=... zsh -f scripts/smoke/phase34_reclaim_proof.zsh
+
+Expected:
+- reclaim count = 1
+- task transitions running->created while workers stopped
+- after workers start: exactly 2 events (task.running + task.completed)
+- exactly 1 terminal event
