@@ -146,8 +146,7 @@ echo "$POST2"
 
 
 echo "== phase35: start workers (compose: $WORKER_COMPOSE_BASE + $WORKER_COMPOSE_OVERRIDE) =="
-
-docker compose -f "" config >/dev/null
+docker compose -f "$WORKER_COMPOSE_BASE" -f "$WORKER_COMPOSE_OVERRIDE" config >/dev/null
 docker compose -f "$WORKER_COMPOSE_BASE" -f "$WORKER_COMPOSE_OVERRIDE" up -d >/dev/null
 echo "== phase35: wait for completion =="
 for i in {1..60}; do
