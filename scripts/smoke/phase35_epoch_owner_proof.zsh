@@ -22,7 +22,7 @@ PSQL_BASE=(
   -X
   -P pager=off
 )
-echo "== phase35: stop workers (compose: $WORKER_COMPOSE) =="
+echo "== phase35: stop workers (compose: $WORKER_COMPOSE_BASE + $WORKER_COMPOSE_OVERRIDE) =="
 docker compose -f "$WORKER_COMPOSE_BASE" -f "$WORKER_COMPOSE_OVERRIDE" down --remove-orphans >/dev/null 2>&1 || true
 echo "== phase35: ensure dashboard up (no deps) =="
 docker compose up -d --no-deps dashboard >/dev/null
@@ -124,7 +124,7 @@ echo "$POST2"
 [[ "$POST2" == "created||2" ]] || { echo "FAIL: after stale attempt row mismatch expected <created||2> got <$POST2>"; exit 1; }
 
 
-echo "== phase35: start workers (compose: ) =="
+echo "== phase35: start workers (compose: $WORKER_COMPOSE_BASE + $WORKER_COMPOSE_OVERRIDE) =="
 
 docker compose -f "" config >/dev/null
 docker compose -f "$WORKER_COMPOSE_BASE" -f "$WORKER_COMPOSE_OVERRIDE" up -d >/dev/null
