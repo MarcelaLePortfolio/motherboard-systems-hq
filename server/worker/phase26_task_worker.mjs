@@ -23,9 +23,9 @@ const owner = process.env.WORKER_OWNER || `worker-${process.pid}`;
 
   // If enabled, default the worker SQL env vars to Phase 34 variants (same contract: created->running->completed/failed)
   if (PHASE34_ENABLE_LEASE) {
-    process.env.PHASE27_CLAIM_ONE_SQL = process.env.PHASE27_CLAIM_ONE_SQL || "server/worker/phase34_claim_one.sql";
-    process.env.PHASE27_MARK_SUCCESS_SQL = process.env.PHASE27_MARK_SUCCESS_SQL || "server/worker/phase34_mark_success.sql";
-    process.env.PHASE27_MARK_FAILURE_SQL = process.env.PHASE27_MARK_FAILURE_SQL || "server/worker/phase34_mark_failure.sql";
+    process.env.PHASE27_CLAIM_ONE_SQL = process.env.PHASE27_CLAIM_ONE_SQL || "server/worker/phase35_claim_one_pg.sql";
+    process.env.PHASE27_MARK_SUCCESS_SQL = process.env.PHASE27_MARK_SUCCESS_SQL || "server/worker/phase35_mark_success_pg.sql";
+    process.env.PHASE27_MARK_FAILURE_SQL = process.env.PHASE27_MARK_FAILURE_SQL || "server/worker/phase35_mark_failure_pg.sql";
   }
 
 // Prefer Phase 32 SQL, fall back to Phase 27 (back-compat).
@@ -49,12 +49,12 @@ async function claimOne(c, run_id) {
   const r = await c.query(CLAIM_ONE_SQL, PHASE34_ENABLE_LEASE ? [run_id, owner, PHASE34_LEASE_MS] : [run_id, owner]);
   return r.rows?.[0] || null;
 }
-async function markSuccess(c, id) {
-  const r = await c.query(MARK_SUCCESS_SQL, [id]);
+async function markSuccess(c, id, leaseEpoch) {
+  const r = await c.query(MARK_SUCCESS_SQL, [id, owner, Number(leaseEpoch ?? 0)]);
   return r.rows?.[0] || null;
 }
-async function markFailure(c, id, errStr) {
-  const r = await c.query(MARK_FAILURE_SQL, [id, String(errStr || "")]);
+async function markFailure(c, id, leaseEpoch, errStr) {
+  const r = await c.query(MARK_FAILURE_SQL, [id, owner, Number(leaseEpoch ?? 0), String(errStr || "")]);
   return r.rows?.[0] || null;
 }
 function parseMeta(task) {
@@ -130,7 +130,7 @@ async function loop() {
         });
         const verdict = shouldFailDeterministically(task);
         if (verdict.fail) {
-          const failedRow = await markFailure(c, task.id, `phase32_deterministic_failure: ${verdict.reason}`);
+          const failedRow = await markFailure(c, task.id, task.lease_epoch, `phase32_deterministic_failure: ${verdict.reason}`);
 
           if (failedRow) {
             await emitTaskEvent({
@@ -154,7 +154,7 @@ async function loop() {
           backoff = BACKOFF_BASE_MS;
           continue;
         }
-        const done = await markSuccess(c, task.id);
+        const done = await markSuccess(c, task.id, task.lease_epoch);
         if (done) {
           await emitTaskEvent({
             pool,
