@@ -1,5 +1,8 @@
 #!/usr/bin/env zsh
 set -euo pipefail
+if [[ -z "${ZSH_VERSION:-}" ]]; then
+  exec zsh "$0" "$@"
+fi
 setopt NO_BANG_HIST
 ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 cd "$ROOT"
@@ -10,7 +13,6 @@ LOG_DIR="tmp"
 mkdir -p "$LOG_DIR"
 TS="$(date +%s)"
 EVLOG="$LOG_DIR/phase35-epoch-owner-events.$TS.log"
-
 PSQL_BASE=(
   psql "$POSTGRES_URL"
   -v ON_ERROR_STOP=1
@@ -52,11 +54,7 @@ SQL
 echo "TASK_ID=$TASK_ID"
 echo "== phase35: pre-reclaim row =="
 "${PSQL_BASE[@]}" -q -X -c "SELECT id,status,claimed_by,lease_epoch,lease_expires_at FROM tasks WHERE id=$TASK_ID;"
-
-
 echo "== phase35: reclaim (EXPECT reclaimed=1) =="
-RECLAIMED="$("${PSQL_BASE[@]}" -t -A -f server/worker/phase34_reclaim_stale_pg.sql -v "stale_heartbeat_ms=$PHASE34_STALE_HEARTBEAT_MS" 2>/dev/null || true)"
-# phase34_reclaim_stale_pg.sql prints a single row "reclaimed"
 RECLAIMED_CNT="$("${PSQL_BASE[@]}" -t -A <<SQL
 WITH params AS (
   SELECT $PHASE34_STALE_HEARTBEAT_MS::bigint AS stale_heartbeat_ms,
@@ -119,6 +117,7 @@ echo "$POST2"
 
 echo "== phase35: start workers and wait for completion =="
 bash scripts/worker_up.sh >/dev/null
+
 for i in {1..30}; do
   ST="$("${PSQL_BASE[@]}" -t -A -c "SELECT status FROM tasks WHERE id=$TASK_ID;")"
   [[ "$ST" == "completed" ]] && break
@@ -126,12 +125,14 @@ for i in {1..30}; do
 done
 ST="$("${PSQL_BASE[@]}" -t -A -c "SELECT status FROM tasks WHERE id=$TASK_ID;")"
 [[ "$ST" == "completed" ]] || { echo "FAIL: expected completed, got <$ST>"; exit 1; }
+
 echo "== phase35: stop SSE capture =="
 kill -TERM "$CURLPID" 2>/dev/null || true
 wait "$CURLPID" || true
+
 echo "== phase35: assert events: exactly 1 running + 1 completed for TASK_ID, exactly 1 terminal =="
 python3 - <<PY
-import json, re, sys, pathlib
+import json, pathlib
 p = pathlib.Path("$EVLOG")
 txt = p.read_text(encoding="utf-8", errors="replace").splitlines()
 task_id = str("$TASK_ID")
@@ -141,7 +142,7 @@ for line in txt:
     if not line.startswith("data: "):
         continue
     payload = line[len("data: "):].strip()
-    if not payload or payload.startswith("{") is False:
+    if not payload or not payload.startswith("{"):
         continue
     try:
         obj = json.loads(payload)
@@ -155,7 +156,6 @@ kinds = [e.get("kind") for e in events]
 running = sum(1 for k in kinds if k == "task.running")
 completed = sum(1 for k in kinds if k == "task.completed")
 failed = sum(1 for k in kinds if k == "task.failed")
-
 term = completed + failed
 
 print(f"task_id={task_id} running={running} completed={completed} failed={failed} terminal={term}")
@@ -169,4 +169,5 @@ if term != 1:
     raise SystemExit(f"FAIL: expected exactly 1 terminal, got {term}")
 print("OK phase35 smoke proof")
 PY
+
 echo "== phase35: PASS =="
