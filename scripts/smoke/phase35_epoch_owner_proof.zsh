@@ -9,6 +9,7 @@ cd "$ROOT"
 : "${POSTGRES_URL:=postgres://postgres:postgres@127.0.0.1:5432/postgres}"
 : "${API_BASE:=http://127.0.0.1:8080}"
 : "${PHASE34_STALE_HEARTBEAT_MS:=60000}"
+: "${WORKER_COMPOSE:=docker-compose.worker.phase34.yml}"
 LOG_DIR="tmp"
 mkdir -p "$LOG_DIR"
 TS="$(date +%s)"
@@ -19,9 +20,9 @@ PSQL_BASE=(
   -q
   -X
 )
-echo "== phase35: stop workers =="
-bash scripts/worker_down.sh >/dev/null 2>&1 || true
-echo "== phase35: ensure services up =="
+echo "== phase35: stop workers (compose: $WORKER_COMPOSE) =="
+docker compose -f "$WORKER_COMPOSE" down --remove-orphans >/dev/null 2>&1 || true
+echo "== phase35: ensure dashboard up (no deps) =="
 docker compose up -d --no-deps dashboard >/dev/null
 echo "== phase35: start SSE capture =="
 curl -sS -N -H "Accept: text/event-stream" "$API_BASE/events/task-events" >"$EVLOG" &
@@ -121,9 +122,10 @@ echo "$POST2"
 [[ "$POST2" == "created||2" ]] || { echo "FAIL: after stale attempt row mismatch expected <created||2> got <$POST2>"; exit 1; }
 
 
-echo "== phase35: start workers and wait for completion =="
-bash scripts/worker_up.sh >/dev/null
-for i in {1..30}; do
+echo "== phase35: start workers (compose: $WORKER_COMPOSE) =="
+docker compose -f "$WORKER_COMPOSE" up -d >/dev/null
+echo "== phase35: wait for completion =="
+for i in {1..60}; do
   ST="$("${PSQL_BASE[@]}" -t -A -c "SELECT status FROM tasks WHERE id=$TASK_ID;")"
   [[ "$ST" == "completed" ]] && break
   sleep 0.5
@@ -153,13 +155,11 @@ for line in txt:
     if str(obj.get("task_id")) != task_id:
         continue
     events.append(obj)
-
 kinds = [e.get("kind") for e in events]
 running = sum(1 for k in kinds if k == "task.running")
 completed = sum(1 for k in kinds if k == "task.completed")
 failed = sum(1 for k in kinds if k == "task.failed")
 term = completed + failed
-
 print(f"task_id={task_id} running={running} completed={completed} failed={failed} terminal={term}")
 if running != 1:
     raise SystemExit(f"FAIL: expected 1 task.running, got {running}")
@@ -171,5 +171,4 @@ if term != 1:
     raise SystemExit(f"FAIL: expected exactly 1 terminal, got {term}")
 print("OK phase35 smoke proof")
 PY
-
 echo "== phase35: PASS =="
