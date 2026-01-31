@@ -11,6 +11,12 @@ cd "$ROOT"
 : "${PHASE34_STALE_HEARTBEAT_MS:=60000}"
 : "${WORKER_COMPOSE_BASE:=docker-compose.worker.phase32.yml}"
 : "${WORKER_COMPOSE_OVERRIDE:=docker-compose.worker.phase34.yml}"
+# phase35 smoke guards
+[[ -n "${WORKER_COMPOSE_BASE:-}" ]] || { echo "FAIL: WORKER_COMPOSE_BASE empty"; exit 1; }
+[[ -n "${WORKER_COMPOSE_OVERRIDE:-}" ]] || { echo "FAIL: WORKER_COMPOSE_OVERRIDE empty"; exit 1; }
+[[ -f "$WORKER_COMPOSE_BASE" ]] || { echo "FAIL: missing $WORKER_COMPOSE_BASE"; exit 1; }
+[[ -f "$WORKER_COMPOSE_OVERRIDE" ]] || { echo "FAIL: missing $WORKER_COMPOSE_OVERRIDE"; exit 1; }
+
 LOG_DIR="tmp"
 mkdir -p "$LOG_DIR"
 TS="$(date +%s)"
@@ -25,7 +31,22 @@ PSQL_BASE=(
 echo "== phase35: stop workers (compose: $WORKER_COMPOSE_BASE + $WORKER_COMPOSE_OVERRIDE) =="
 docker compose -f "$WORKER_COMPOSE_BASE" -f "$WORKER_COMPOSE_OVERRIDE" down --remove-orphans >/dev/null 2>&1 || true
 echo "== phase35: ensure dashboard up (no deps) =="
-docker compose up -d --no-deps dashboard >/dev/null
+if docker compose ps -q dashboard >/dev/null 2>&1 && [[ -n "$(docker compose ps -q dashboard)" ]]; then
+  echo "dashboard: already present"
+else
+  docker compose up -d --no-deps dashboard >/dev/null
+fi
+echo "== phase35: wait for SSE endpoint to respond =="
+ok=0
+for i in {1..40}; do
+  if curl -fsS -m 1 -H "Accept: text/event-stream" "$API_BASE/events/task-events" >/dev/null 2>&1; then
+    ok=1
+    break
+  fi
+  sleep 0.25
+done
+[[ "$ok" == "1" ]] || { echo "FAIL: SSE endpoint not responding at $API_BASE"; exit 1; }
+
 echo "== phase35: start SSE capture =="
 curl -sS -N -H "Accept: text/event-stream" "$API_BASE/events/task-events" >"$EVLOG" &
 CURLPID=$!
