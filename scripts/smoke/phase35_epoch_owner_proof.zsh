@@ -19,6 +19,7 @@ PSQL_BASE=(
   -v ON_ERROR_STOP=1
   -q
   -X
+  -P pager=off
 )
 echo "== phase35: stop workers (compose: $WORKER_COMPOSE) =="
 docker compose -f "$WORKER_COMPOSE" down --remove-orphans >/dev/null 2>&1 || true
