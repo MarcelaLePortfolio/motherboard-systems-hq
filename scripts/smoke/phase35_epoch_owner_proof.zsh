@@ -123,7 +123,9 @@ echo "$POST2"
 [[ "$POST2" == "created||2" ]] || { echo "FAIL: after stale attempt row mismatch expected <created||2> got <$POST2>"; exit 1; }
 
 
-echo "== phase35: start workers (compose: $WORKER_COMPOSE) =="
+echo "== phase35: start workers (compose: ) =="
+
+docker compose -f "" config >/dev/null
 docker compose -f "$WORKER_COMPOSE" up -d >/dev/null
 echo "== phase35: wait for completion =="
 for i in {1..60}; do
