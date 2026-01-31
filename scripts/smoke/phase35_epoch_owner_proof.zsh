@@ -54,6 +54,8 @@ SQL
 echo "TASK_ID=$TASK_ID"
 echo "== phase35: pre-reclaim row =="
 "${PSQL_BASE[@]}" -q -X -c "SELECT id,status,claimed_by,lease_epoch,lease_expires_at FROM tasks WHERE id=$TASK_ID;"
+
+
 echo "== phase35: reclaim (EXPECT reclaimed=1) =="
 RECLAIMED_CNT="$("${PSQL_BASE[@]}" -t -A <<SQL
 WITH params AS (
@@ -88,12 +90,14 @@ SQL
 )"
 [[ "$RECLAIMED_CNT" == "1" ]] || { echo "FAIL: reclaim expected 1 got <$RECLAIMED_CNT>"; exit 1; }
 
+
 echo "== phase35: post-reclaim row (EXPECT created + unclaimed + lease_epoch=2) =="
 POST_ROW="$("${PSQL_BASE[@]}" -t -A -c "SELECT status||'|'||COALESCE(claimed_by,'')||'|'||lease_epoch::text FROM tasks WHERE id=$TASK_ID;")"
 echo "$POST_ROW"
 [[ "$POST_ROW" == "created||2" ]] || { echo "FAIL: post-reclaim row mismatch expected <created||2> got <$POST_ROW>"; exit 1; }
 
-echo "== phase35: stale mark_success attempt (wrong epoch) must affect 0 rows =="
+
+echo "== phase35: stale mark_success attempt (wrong owner+epoch) must affect 0 rows =="
 AFFECTED="$("${PSQL_BASE[@]}" -t -A <<SQL
 WITH u AS (
   UPDATE tasks
@@ -110,14 +114,15 @@ SQL
 )"
 [[ "$AFFECTED" == "0" ]] || { echo "FAIL: stale mark_success should affect 0 rows got <$AFFECTED>"; exit 1; }
 
+
 echo "== phase35: confirm still created + unclaimed + lease_epoch=2 =="
 POST2="$("${PSQL_BASE[@]}" -t -A -c "SELECT status||'|'||COALESCE(claimed_by,'')||'|'||lease_epoch::text FROM tasks WHERE id=$TASK_ID;")"
 echo "$POST2"
 [[ "$POST2" == "created||2" ]] || { echo "FAIL: after stale attempt row mismatch expected <created||2> got <$POST2>"; exit 1; }
 
+
 echo "== phase35: start workers and wait for completion =="
 bash scripts/worker_up.sh >/dev/null
-
 for i in {1..30}; do
   ST="$("${PSQL_BASE[@]}" -t -A -c "SELECT status FROM tasks WHERE id=$TASK_ID;")"
   [[ "$ST" == "completed" ]] && break
@@ -125,18 +130,15 @@ for i in {1..30}; do
 done
 ST="$("${PSQL_BASE[@]}" -t -A -c "SELECT status FROM tasks WHERE id=$TASK_ID;")"
 [[ "$ST" == "completed" ]] || { echo "FAIL: expected completed, got <$ST>"; exit 1; }
-
 echo "== phase35: stop SSE capture =="
 kill -TERM "$CURLPID" 2>/dev/null || true
 wait "$CURLPID" || true
-
 echo "== phase35: assert events: exactly 1 running + 1 completed for TASK_ID, exactly 1 terminal =="
 python3 - <<PY
 import json, pathlib
 p = pathlib.Path("$EVLOG")
 txt = p.read_text(encoding="utf-8", errors="replace").splitlines()
 task_id = str("$TASK_ID")
-
 events = []
 for line in txt:
     if not line.startswith("data: "):
