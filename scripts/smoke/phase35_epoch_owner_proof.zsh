@@ -9,7 +9,8 @@ cd "$ROOT"
 : "${POSTGRES_URL:=postgres://postgres:postgres@127.0.0.1:5432/postgres}"
 : "${API_BASE:=http://127.0.0.1:8080}"
 : "${PHASE34_STALE_HEARTBEAT_MS:=60000}"
-: "${WORKER_COMPOSE:=docker-compose.worker.phase34.yml}"
+: "${WORKER_COMPOSE_BASE:=docker-compose.worker.phase32.yml}"
+: "${WORKER_COMPOSE_OVERRIDE:=docker-compose.worker.phase34.yml}"
 LOG_DIR="tmp"
 mkdir -p "$LOG_DIR"
 TS="$(date +%s)"
@@ -22,7 +23,7 @@ PSQL_BASE=(
   -P pager=off
 )
 echo "== phase35: stop workers (compose: $WORKER_COMPOSE) =="
-docker compose -f "$WORKER_COMPOSE" down --remove-orphans >/dev/null 2>&1 || true
+docker compose -f "$WORKER_COMPOSE_BASE" -f "$WORKER_COMPOSE_OVERRIDE" down --remove-orphans >/dev/null 2>&1 || true
 echo "== phase35: ensure dashboard up (no deps) =="
 docker compose up -d --no-deps dashboard >/dev/null
 echo "== phase35: start SSE capture =="
@@ -126,7 +127,7 @@ echo "$POST2"
 echo "== phase35: start workers (compose: ) =="
 
 docker compose -f "" config >/dev/null
-docker compose -f "$WORKER_COMPOSE" up -d >/dev/null
+docker compose -f "$WORKER_COMPOSE_BASE" -f "$WORKER_COMPOSE_OVERRIDE" up -d >/dev/null
 echo "== phase35: wait for completion =="
 for i in {1..60}; do
   ST="$("${PSQL_BASE[@]}" -t -A -c "SELECT status FROM tasks WHERE id=$TASK_ID;")"
