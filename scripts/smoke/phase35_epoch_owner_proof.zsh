@@ -22,7 +22,7 @@ PSQL_BASE=(
 echo "== phase35: stop workers =="
 bash scripts/worker_down.sh >/dev/null 2>&1 || true
 echo "== phase35: ensure services up =="
-docker compose up -d postgres dashboard >/dev/null
+docker compose up -d dashboard >/dev/null
 echo "== phase35: start SSE capture =="
 curl -sS -N -H "Accept: text/event-stream" "$API_BASE/events/task-events" >"$EVLOG" &
 CURLPID=$!
