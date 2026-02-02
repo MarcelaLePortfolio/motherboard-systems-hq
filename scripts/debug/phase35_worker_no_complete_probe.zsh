@@ -11,6 +11,16 @@ POSTGRES_URL="${POSTGRES_URL:-postgres://postgres:postgres@127.0.0.1:5432/postgr
 
 banner() { echo; echo "=== $* ==="; }
 
+# Robust, zsh-safe file discovery (no bare globs; no "no matches found").
+list_compose_candidates() {
+  find . -maxdepth 1 -type f \( \
+      -name 'docker-compose*.yml' -o -name 'docker-compose*.yaml' -o \
+      -name '*.yml' -o -name '*.yaml' \
+    \) -print 2>/dev/null \
+  | sed 's|^\./||' \
+  | sort
+}
+
 pick_compose_file() {
   # 1) explicit env wins
   if [[ -n "${COMPOSE_FILE}" && -f "${COMPOSE_FILE}" ]]; then
@@ -18,35 +28,47 @@ pick_compose_file() {
     return 0
   fi
 
-  # 2) prefer filenames that look like phase35 worker composes
-  local f=""
-  f="$(ls -1 docker-compose*.yml docker-compose*.yaml 2>/dev/null | rg -i 'phase35' | rg -i 'worker' | sort | head -n1 || true)"
-  if [[ -n "$f" && -f "$f" ]]; then
-    echo "$f"
-    return 0
-  fi
+  local -a files
+  files=("${(@f)$(list_compose_candidates)}")
+  # 2) prefer phase35+worker in filename
+  local f
+  for f in "${files[@]}"; do
+    [[ -z "$f" ]] && continue
+    if echo "$f" | rg -qi 'phase35' && echo "$f" | rg -qi 'worker'; then
+      echo "$f"
+      return 0
+    fi
+  done
 
-  # 3) then any docker-compose* that contains "worker" in the filename
-  f="$(ls -1 docker-compose*.yml docker-compose*.yaml 2>/dev/null | rg -i 'worker' | sort | head -n1 || true)"
-  if [[ -n "$f" && -f "$f" ]]; then
-    echo "$f"
-    return 0
-  fi
+  # 3) then any filename with worker
+  for f in "${files[@]}"; do
+    [[ -z "$f" ]] && continue
+    if echo "$f" | rg -qi 'worker'; then
+      echo "$f"
+      return 0
+    fi
+  done
 
-  # 4) last resort: scan file contents for "worker" services
-  f="$(ls -1 docker-compose*.yml docker-compose*.yaml *.yml *.yaml 2>/dev/null | sort | xargs -I{} sh -lc 'test -f "{}" && rg -q -i "services:|worker" "{}" && echo "{}"' 2>/dev/null | rg -i 'worker' | head -n1 || true)"
-  if [[ -n "$f" && -f "$f" ]]; then
-    echo "$f"
-    return 0
-  fi
+  # 4) last resort: scan contents for "worker" mentions
+  for f in "${files[@]}"; do
+    [[ -z "$f" ]] && continue
+    if rg -qi 'worker' "$f" 2>/dev/null; then
+      echo "$f"
+      return 0
+    fi
+  done
 
   return 1
 }
 
 COMPOSE_FILE="$(pick_compose_file)" || {
   echo "FATAL: could not locate worker compose file."
-  echo "Fix: run: ls -1 docker-compose* *.yml *.yaml | rg -n 'worker|phase35'"
-  echo "Then: COMPOSE_FILE=<that file> P_WORKERS=mbhq_phase35_workers POSTGRES_URL=... ./scripts/debug/phase35_worker_no_complete_probe.zsh"
+  echo
+  echo "Candidates:"
+  list_compose_candidates | sed 's/^/ - /'
+  echo
+  echo "Fix: set COMPOSE_FILE explicitly, e.g.:"
+  echo "  COMPOSE_FILE=<one of the above> P_WORKERS=$P_WORKERS POSTGRES_URL=... ./scripts/debug/phase35_worker_no_complete_probe.zsh"
   exit 2
 }
 
@@ -70,7 +92,6 @@ docker compose -p "$P_WORKERS" -f "$COMPOSE_FILE" up -d --remove-orphans
 banner "services"
 services=()
 while IFS= read -r s; do services+=("$s"); done < <(docker compose -p "$P_WORKERS" -f "$COMPOSE_FILE" config --services)
-
 print -r -- "${services[@]}" | sed 's/^/ - /'
 
 banner "worker env (focused)"
@@ -97,19 +118,25 @@ bash -lc 'set -euo pipefail; setopt NO_BANG_HIST; ./scripts/smoke/phase35_epoch_
 set -e
 echo "SMOKE_RC=$SMOKE_RC"
 
-banner "DB snapshot (tasks not completed + recent task_events)"
+banner "DB schema + snapshot (avoid assuming column names)"
 if command -v psql >/dev/null 2>&1; then
   psql "$POSTGRES_URL" -v ON_ERROR_STOP=1 <<'SQL'
 \pset pager off
 SELECT now() AS ts;
 
+-- Show real columns (your earlier error suggests task_events has no "ts" column).
+\d+ tasks
+\d+ task_events
+
+-- Tasks that are not completed (order deterministically without COALESCE type traps).
 SELECT task_id, title, status, claimed_by, claimed_at, lease_expires_at, lease_epoch, created_at
 FROM tasks
 WHERE status <> 'completed'
 ORDER BY created_at DESC, claimed_at DESC NULLS LAST
 LIMIT 25;
 
-SELECT id, ts, task_id, kind, actor, meta
+-- Recent task_events with only "likely" columns; if this errors, the \d+ above tells us the truth.
+SELECT id, task_id, kind, actor, meta
 FROM task_events
 ORDER BY id DESC
 LIMIT 160;
