@@ -8,7 +8,6 @@ PSQL_BASE=(docker compose exec -T postgres psql -U postgres -d postgres -v ON_ER
 
 ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 cd "$ROOT"
-: "${POSTGRES_URL:=postgres://postgres:postgres@127.0.0.1:5432/postgres}"
 : "${API_BASE:=http://127.0.0.1:8080}"
 : "${PHASE34_STALE_HEARTBEAT_MS:=60000}"
 : "${WORKER_COMPOSE_BASE:=docker-compose.worker.phase32.yml}"
@@ -22,13 +21,6 @@ cd "$ROOT"
 LOG_DIR="tmp"
 mkdir -p "$LOG_DIR"
 TS="$(date +%s)"
-PSQL_BASE=(
-  psql "$POSTGRES_URL"
-  -v ON_ERROR_STOP=1
-  -q
-  -X
-  -P pager=off
-)
 echo "== phase35: stop workers (compose: $WORKER_COMPOSE_BASE + $WORKER_COMPOSE_OVERRIDE) =="
 
 echo "== phase35: ensure postgres up + ready =="
