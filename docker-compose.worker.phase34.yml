@@ -8,7 +8,9 @@ services:
       - ./server/worker:/app/server/worker:ro
     command: ["node","server/worker/phase26_task_worker.mjs"]
     environment:
-      POSTGRES_URL: ${POSTGRES_URL:-postgres://postgres:postgres@postgres:5432/postgres}
+      # IMPORTANT: workers run in an isolated compose project (-p mbhq_phase35_workers),
+      # while postgres is running on the host port. Containers must use host.docker.internal on macOS.
+      POSTGRES_URL: ${POSTGRES_URL:-postgres://postgres:postgres@host.docker.internal:5432/postgres}
       WORKER_OWNER: ${WORKER_OWNER_A:-docker-wA}
 
       # Phase34: heartbeat + reclaim
@@ -39,7 +41,7 @@ services:
       - ./server/worker:/app/server/worker:ro
     command: ["node","server/worker/phase26_task_worker.mjs"]
     environment:
-      POSTGRES_URL: ${POSTGRES_URL:-postgres://postgres:postgres@postgres:5432/postgres}
+      POSTGRES_URL: ${POSTGRES_URL:-postgres://postgres:postgres@host.docker.internal:5432/postgres}
       WORKER_OWNER: ${WORKER_OWNER_B:-docker-wB}
 
       PHASE34_HEARTBEAT_PG_SQL: "server/worker/phase34_heartbeat_pg.sql"
