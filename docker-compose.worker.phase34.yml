@@ -7,10 +7,12 @@ services:
     volumes:
       - ./server/worker:/app/server/worker:ro
     command: ["node","server/worker/phase26_task_worker.mjs"]
+    networks:
+      - mbhq_default
     environment:
-      # IMPORTANT: workers run in an isolated compose project (-p mbhq_phase35_workers),
-      # while postgres is running on the host port. Containers must use host.docker.internal on macOS.
-      POSTGRES_URL: ${POSTGRES_URL:-postgres://postgres:postgres@host.docker.internal:5432/postgres}
+      # DO NOT inherit host POSTGRES_URL (often 127.0.0.1) into the container.
+      # Container must reach the existing postgres service on the shared network.
+      POSTGRES_URL: "postgres://postgres:postgres@postgres:5432/postgres"
       WORKER_OWNER: ${WORKER_OWNER_A:-docker-wA}
 
       # Phase34: heartbeat + reclaim
@@ -27,7 +29,6 @@ services:
       PHASE27_MARK_SUCCESS_SQL: "server/worker/phase34_mark_success_pg.sql"
       PHASE27_MARK_FAILURE_SQL: "server/worker/phase34_mark_failure_pg.sql"
 
-      # Worker actor + timing knobs (keep defaults stable if your worker reads these)
       PHASE26_WORKER_ACTOR: ${PHASE26_WORKER_ACTOR:-phase26.worker}
       PHASE26_TICK_MS: ${PHASE26_TICK_MS:-500}
       WORKER_BACKOFF_BASE_MS: ${WORKER_BACKOFF_BASE_MS:-2000}
@@ -40,8 +41,10 @@ services:
     volumes:
       - ./server/worker:/app/server/worker:ro
     command: ["node","server/worker/phase26_task_worker.mjs"]
+    networks:
+      - mbhq_default
     environment:
-      POSTGRES_URL: ${POSTGRES_URL:-postgres://postgres:postgres@host.docker.internal:5432/postgres}
+      POSTGRES_URL: "postgres://postgres:postgres@postgres:5432/postgres"
       WORKER_OWNER: ${WORKER_OWNER_B:-docker-wB}
 
       PHASE34_HEARTBEAT_PG_SQL: "server/worker/phase34_heartbeat_pg.sql"
@@ -58,3 +61,8 @@ services:
       PHASE26_WORKER_ACTOR: ${PHASE26_WORKER_ACTOR:-phase26.worker}
       PHASE26_TICK_MS: ${PHASE26_TICK_MS:-500}
       WORKER_BACKOFF_BASE_MS: ${WORKER_BACKOFF_BASE_MS:-2000}
+
+networks:
+  mbhq_default:
+    external: true
+    name: motherboard_systems_hq_default
