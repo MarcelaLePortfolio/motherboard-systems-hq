@@ -5,10 +5,7 @@ setopt NO_BANG_HIST
 ROOT="$(git rev-parse --show-toplevel)"
 cd "$ROOT"
 
-# Phase 35 worker project isolation
 P_WORKERS="${P_WORKERS:-mbhq_phase35_workers}"
-
-# You do NOT have a phase35 compose file at repo root; use the known worker compose (phase34) unless overridden.
 COMPOSE_FILE="${COMPOSE_FILE:-docker-compose.worker.phase34.yml}"
 POSTGRES_URL="${POSTGRES_URL:-postgres://postgres:postgres@127.0.0.1:5432/postgres}"
 
@@ -23,16 +20,17 @@ echo "COMPOSE_FILE=$COMPOSE_FILE"
 echo "POSTGRES_URL=$POSTGRES_URL"
 test -f "$COMPOSE_FILE"
 
-banner "compose: services + critical env wiring (resolved)"
+banner "compose: validate + show critical env wiring (resolved)"
+docker compose -p "$P_WORKERS" -f "$COMPOSE_FILE" config >/dev/null
 docker compose -p "$P_WORKERS" -f "$COMPOSE_FILE" config --services
 echo
-docker compose -p "$P_WORKERS" -f "$COMPOSE_FILE" config | rg -n '(POSTGRES_URL|WORKER_OWNER|PHASE(26|27|32|34|35)_(CLAIM_ONE_SQL|MARK_SUCCESS_SQL|MARK_FAILURE_SQL|HEARTBEAT|RECLAIM)|LEASE|EPOCH|OWNER)' || true
+docker compose -p "$P_WORKERS" -f "$COMPOSE_FILE" config | rg -n '(image:|build:|POSTGRES_URL|WORKER_OWNER|PHASE(26|27|32|34|35)_(CLAIM_ONE_SQL|MARK_SUCCESS_SQL|MARK_FAILURE_SQL|HEARTBEAT|RECLAIM)|LEASE|EPOCH|OWNER)' || true
 
 banner "restart workers (isolated project)"
 docker compose -p "$P_WORKERS" -f "$COMPOSE_FILE" down -v --remove-orphans || true
 docker compose -p "$P_WORKERS" -f "$COMPOSE_FILE" up -d --remove-orphans
 
-banner "tail worker logs (first 260 lines each)"
+banner "tail worker logs (last 260 lines each)"
 for svc in $(docker compose -p "$P_WORKERS" -f "$COMPOSE_FILE" config --services); do
   echo
   echo "--- svc=$svc ---"
@@ -46,12 +44,11 @@ SMOKE_RC=$?
 set -e
 echo "SMOKE_RC=$SMOKE_RC"
 
-banner "DB: introspect schema + show freshest rows (NO column assumptions)"
+banner "DB: columns + freshest rows (NO column assumptions)"
 psql "$POSTGRES_URL" -v ON_ERROR_STOP=1 <<'SQL'
 \pset pager off
 SELECT now() AS ts_utc;
 
--- Real columns (authoritative)
 SELECT column_name, data_type
 FROM information_schema.columns
 WHERE table_schema='public' AND table_name='tasks'
@@ -62,19 +59,16 @@ FROM information_schema.columns
 WHERE table_schema='public' AND table_name='task_events'
 ORDER BY ordinal_position;
 
--- Fresh tasks
 SELECT *
 FROM tasks
 ORDER BY created_at DESC
 LIMIT 12;
 
--- Fresh task_events (avoid assuming a timestamp column)
 SELECT *
 FROM task_events
 ORDER BY id DESC
-LIMIT 120;
+LIMIT 160;
 SQL
-
 banner "greps: worker progression and errors"
 for svc in $(docker compose -p "$P_WORKERS" -f "$COMPOSE_FILE" config --services); do
   echo

@@ -1,9 +1,17 @@
 services:
   workerA:
+    build:
+      context: .
+      dockerfile: Dockerfile.worker
+    image: motherboard_systems_hq-worker:node20
+    volumes:
+      - ./server/worker:/app/server/worker:ro
+    command: ["node","server/worker/phase26_task_worker.mjs"]
     environment:
-      PHASE34_ENABLE_LEASE: "1"
-      PHASE34_LEASE_MS: "60000"
-      PHASE34_STALE_HEARTBEAT_MS: "120000"
+      POSTGRES_URL: ${POSTGRES_URL:-postgres://postgres:postgres@postgres:5432/postgres}
+      WORKER_OWNER: ${WORKER_OWNER_A:-docker-wA}
+
+      # Phase34: heartbeat + reclaim
       PHASE34_HEARTBEAT_PG_SQL: "server/worker/phase34_heartbeat_pg.sql"
       PHASE34_RECLAIM_PG_SQL: "server/worker/phase34_reclaim_stale_pg.sql"
 
@@ -12,16 +20,28 @@ services:
       PHASE32_MARK_SUCCESS_SQL: "server/worker/phase34_mark_success_pg.sql"
       PHASE32_MARK_FAILURE_SQL: "server/worker/phase34_mark_failure_pg.sql"
 
-      # Optional back-compat (harmless)
+      # Also wire legacy Phase27 keys (belt & suspenders)
       PHASE27_CLAIM_ONE_SQL: "server/worker/phase34_claim_one_pg.sql"
       PHASE27_MARK_SUCCESS_SQL: "server/worker/phase34_mark_success_pg.sql"
       PHASE27_MARK_FAILURE_SQL: "server/worker/phase34_mark_failure_pg.sql"
 
+      # Worker actor + timing knobs (keep defaults stable if your worker reads these)
+      PHASE26_WORKER_ACTOR: ${PHASE26_WORKER_ACTOR:-phase26.worker}
+      PHASE26_TICK_MS: ${PHASE26_TICK_MS:-500}
+      WORKER_BACKOFF_BASE_MS: ${WORKER_BACKOFF_BASE_MS:-2000}
+
   workerB:
+    build:
+      context: .
+      dockerfile: Dockerfile.worker
+    image: motherboard_systems_hq-worker:node20
+    volumes:
+      - ./server/worker:/app/server/worker:ro
+    command: ["node","server/worker/phase26_task_worker.mjs"]
     environment:
-      PHASE34_ENABLE_LEASE: "1"
-      PHASE34_LEASE_MS: "60000"
-      PHASE34_STALE_HEARTBEAT_MS: "120000"
+      POSTGRES_URL: ${POSTGRES_URL:-postgres://postgres:postgres@postgres:5432/postgres}
+      WORKER_OWNER: ${WORKER_OWNER_B:-docker-wB}
+
       PHASE34_HEARTBEAT_PG_SQL: "server/worker/phase34_heartbeat_pg.sql"
       PHASE34_RECLAIM_PG_SQL: "server/worker/phase34_reclaim_stale_pg.sql"
 
@@ -32,3 +52,7 @@ services:
       PHASE27_CLAIM_ONE_SQL: "server/worker/phase34_claim_one_pg.sql"
       PHASE27_MARK_SUCCESS_SQL: "server/worker/phase34_mark_success_pg.sql"
       PHASE27_MARK_FAILURE_SQL: "server/worker/phase34_mark_failure_pg.sql"
+
+      PHASE26_WORKER_ACTOR: ${PHASE26_WORKER_ACTOR:-phase26.worker}
+      PHASE26_TICK_MS: ${PHASE26_TICK_MS:-500}
+      WORKER_BACKOFF_BASE_MS: ${WORKER_BACKOFF_BASE_MS:-2000}
