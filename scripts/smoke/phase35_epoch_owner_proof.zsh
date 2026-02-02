@@ -12,6 +12,7 @@ cd "$ROOT"
 : "${PHASE34_STALE_HEARTBEAT_MS:=60000}"
 : "${WORKER_COMPOSE_BASE:=docker-compose.worker.phase32.yml}"
 : "${WORKER_COMPOSE_OVERRIDE:=docker-compose.worker.phase34.yml}"
+: "${WORKER_PROJECT:=mbhq_phase35_workers}"
 # phase35 smoke guards
 [[ -n "${WORKER_COMPOSE_BASE:-}" ]] || { echo "FAIL: WORKER_COMPOSE_BASE empty"; exit 1; }
 [[ -n "${WORKER_COMPOSE_OVERRIDE:-}" ]] || { echo "FAIL: WORKER_COMPOSE_OVERRIDE empty"; exit 1; }
@@ -44,7 +45,7 @@ docker compose exec -T postgres pg_isready -U postgres >/dev/null 2>&1 || {
   docker compose logs --no-color --tail=120 postgres || true
   exit 1
 }
-docker compose -f "$WORKER_COMPOSE_BASE" -f "$WORKER_COMPOSE_OVERRIDE" down --remove-orphans >/dev/null 2>&1 || true
+docker compose -p "$WORKER_PROJECT" -f "$WORKER_COMPOSE_BASE" -f "$WORKER_COMPOSE_OVERRIDE" down --remove-orphans >/dev/null 2>&1 || true
 echo "== phase35: ensure dashboard up (no deps) =="
 if docker compose ps -q dashboard >/dev/null 2>&1 && [[ -n "$(docker compose ps -q dashboard)" ]]; then
   echo "dashboard: already present"
@@ -146,8 +147,8 @@ echo "$POST2"
 
 
 echo "== phase35: start workers (compose: $WORKER_COMPOSE_BASE + $WORKER_COMPOSE_OVERRIDE) =="
-docker compose -f "$WORKER_COMPOSE_BASE" -f "$WORKER_COMPOSE_OVERRIDE" config >/dev/null
-docker compose -f "$WORKER_COMPOSE_BASE" -f "$WORKER_COMPOSE_OVERRIDE" up -d >/dev/null
+docker compose -p "$WORKER_PROJECT" -f "$WORKER_COMPOSE_BASE" -f "$WORKER_COMPOSE_OVERRIDE" config >/dev/null
+docker compose -p "$WORKER_PROJECT" -f "$WORKER_COMPOSE_BASE" -f "$WORKER_COMPOSE_OVERRIDE" up -d >/dev/null
 echo "== phase35: wait for completion =="
 for i in {1..60}; do
   ST="$("${PSQL_BASE[@]}" -t -A -c "SELECT status FROM tasks WHERE id=$TASK_ID;")"
