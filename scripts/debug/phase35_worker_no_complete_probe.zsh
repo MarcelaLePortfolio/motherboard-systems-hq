@@ -11,7 +11,6 @@ POSTGRES_URL="${POSTGRES_URL:-postgres://postgres:postgres@127.0.0.1:5432/postgr
 
 banner() { echo; echo "=== $* ==="; }
 
-# Robust, zsh-safe file discovery (no bare globs; no "no matches found").
 list_compose_candidates() {
   find . -maxdepth 1 -type f \( \
       -name 'docker-compose*.yml' -o -name 'docker-compose*.yaml' -o \
@@ -30,31 +29,29 @@ pick_compose_file() {
 
   local -a files
   files=("${(@f)$(list_compose_candidates)}")
-  # 2) prefer phase35+worker in filename
+
   local f
+  # 2) prefer filename with phase35 + worker
   for f in "${files[@]}"; do
     [[ -z "$f" ]] && continue
-    if echo "$f" | rg -qi 'phase35' && echo "$f" | rg -qi 'worker'; then
-      echo "$f"
-      return 0
+    if print -r -- "$f" | rg -qi 'phase35' && print -r -- "$f" | rg -qi 'worker'; then
+      echo "$f"; return 0
     fi
   done
 
-  # 3) then any filename with worker
+  # 3) prefer any filename with worker
   for f in "${files[@]}"; do
     [[ -z "$f" ]] && continue
-    if echo "$f" | rg -qi 'worker'; then
-      echo "$f"
-      return 0
+    if print -r -- "$f" | rg -qi 'worker'; then
+      echo "$f"; return 0
     fi
   done
 
-  # 4) last resort: scan contents for "worker" mentions
+  # 4) last resort: content scan for worker-ish compose
   for f in "${files[@]}"; do
     [[ -z "$f" ]] && continue
-    if rg -qi 'worker' "$f" 2>/dev/null; then
-      echo "$f"
-      return 0
+    if rg -qi 'services:' "$f" 2>/dev/null && rg -qi 'worker' "$f" 2>/dev/null; then
+      echo "$f"; return 0
     fi
   done
 
@@ -67,8 +64,8 @@ COMPOSE_FILE="$(pick_compose_file)" || {
   echo "Candidates:"
   list_compose_candidates | sed 's/^/ - /'
   echo
-  echo "Fix: set COMPOSE_FILE explicitly, e.g.:"
-  echo "  COMPOSE_FILE=<one of the above> P_WORKERS=$P_WORKERS POSTGRES_URL=... ./scripts/debug/phase35_worker_no_complete_probe.zsh"
+  echo "Set COMPOSE_FILE explicitly, e.g.:"
+  echo "  COMPOSE_FILE=<file> P_WORKERS=$P_WORKERS POSTGRES_URL=... ./scripts/debug/phase35_worker_no_complete_probe.zsh"
   exit 2
 }
 
@@ -80,21 +77,18 @@ echo "POSTGRES_URL=$POSTGRES_URL"
 git rev-parse --abbrev-ref HEAD
 git rev-parse --short HEAD
 
-banner "compose config (resolved) — env wiring + SQL selection"
-docker compose -p "$P_WORKERS" -f "$COMPOSE_FILE" config | rg -n '^(services:|  [a-zA-Z0-9_-]+:|    image:|    command:|    entrypoint:|    environment:|      (POSTGRES_URL|PHASE(26|27|28|34|35)_|WORKER_))' || true
+banner "compose services + env wiring (resolved)"
+docker compose -p "$P_WORKERS" -f "$COMPOSE_FILE" config --services
 echo
-docker compose -p "$P_WORKERS" -f "$COMPOSE_FILE" config | rg -n '(CLAIM_ONE_SQL|MARK_SUCCESS_SQL|MARK_FAILURE_SQL|LEASE|EPOCH|OWNER|POSTGRES_URL)' || true
+docker compose -p "$P_WORKERS" -f "$COMPOSE_FILE" config | rg -n '(POSTGRES_URL|PHASE(26|27|28|34|35)_(CLAIM_ONE_SQL|MARK_SUCCESS_SQL|MARK_FAILURE_SQL)|LEASE|EPOCH|OWNER|WORKER_)' || true
 
 banner "workers: down/up (isolated project)"
 docker compose -p "$P_WORKERS" -f "$COMPOSE_FILE" down -v --remove-orphans || true
 docker compose -p "$P_WORKERS" -f "$COMPOSE_FILE" up -d --remove-orphans
 
-banner "services"
+banner "worker env (focused)"
 services=()
 while IFS= read -r s; do services+=("$s"); done < <(docker compose -p "$P_WORKERS" -f "$COMPOSE_FILE" config --services)
-print -r -- "${services[@]}" | sed 's/^/ - /'
-
-banner "worker env (focused)"
 for svc in "${services[@]}"; do
   echo
   echo "--- svc=$svc ---"
@@ -104,11 +98,11 @@ for svc in "${services[@]}"; do
   ' || true
 done
 
-banner "worker logs (tail=260)"
+banner "worker logs (tail=320)"
 for svc in "${services[@]}"; do
   echo
   echo "--- logs svc=$svc ---"
-  docker compose -p "$P_WORKERS" -f "$COMPOSE_FILE" logs --no-color --tail=260 "$svc" || true
+  docker compose -p "$P_WORKERS" -f "$COMPOSE_FILE" logs --no-color --tail=320 "$svc" || true
 done
 
 banner "run Phase 35 smoke once"
@@ -118,24 +112,28 @@ bash -lc 'set -euo pipefail; setopt NO_BANG_HIST; ./scripts/smoke/phase35_epoch_
 set -e
 echo "SMOKE_RC=$SMOKE_RC"
 
-banner "DB schema + snapshot (avoid assuming column names)"
+banner "DB: columns + snapshot (no assumptions about task_events timestamp column)"
 if command -v psql >/dev/null 2>&1; then
   psql "$POSTGRES_URL" -v ON_ERROR_STOP=1 <<'SQL'
 \pset pager off
-SELECT now() AS ts;
+SELECT now() AS ts_utc;
 
--- Show real columns (your earlier error suggests task_events has no "ts" column).
-\d+ tasks
-\d+ task_events
+SELECT column_name, data_type
+FROM information_schema.columns
+WHERE table_schema='public' AND table_name='tasks'
+ORDER BY ordinal_position;
 
--- Tasks that are not completed (order deterministically without COALESCE type traps).
+SELECT column_name, data_type
+FROM information_schema.columns
+WHERE table_schema='public' AND table_name='task_events'
+ORDER BY ordinal_position;
+
 SELECT task_id, title, status, claimed_by, claimed_at, lease_expires_at, lease_epoch, created_at
 FROM tasks
 WHERE status <> 'completed'
 ORDER BY created_at DESC, claimed_at DESC NULLS LAST
 LIMIT 25;
 
--- Recent task_events with only "likely" columns; if this errors, the \d+ above tells us the truth.
 SELECT id, task_id, kind, actor, meta
 FROM task_events
 ORDER BY id DESC
