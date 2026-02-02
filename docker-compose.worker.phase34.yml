@@ -10,10 +10,12 @@ services:
     networks:
       - mbhq_default
     environment:
-      # DO NOT inherit host POSTGRES_URL (often 127.0.0.1) into the container.
-      # Container must reach the existing postgres service on the shared network.
       POSTGRES_URL: "postgres://postgres:postgres@postgres:5432/postgres"
       WORKER_OWNER: ${WORKER_OWNER_A:-docker-wA}
+
+      # Enable lease-mode so claim_one gets (run_id, owner, lease_ms) and matches PG SQL arity.
+      PHASE34_ENABLE_LEASE: "1"
+      PHASE34_LEASE_MS: ${PHASE34_LEASE_MS:-5000}
 
       # Phase34: heartbeat + reclaim
       PHASE34_HEARTBEAT_PG_SQL: "server/worker/phase34_heartbeat_pg.sql"
@@ -46,6 +48,9 @@ services:
     environment:
       POSTGRES_URL: "postgres://postgres:postgres@postgres:5432/postgres"
       WORKER_OWNER: ${WORKER_OWNER_B:-docker-wB}
+
+      PHASE34_ENABLE_LEASE: "1"
+      PHASE34_LEASE_MS: ${PHASE34_LEASE_MS:-5000}
 
       PHASE34_HEARTBEAT_PG_SQL: "server/worker/phase34_heartbeat_pg.sql"
       PHASE34_RECLAIM_PG_SQL: "server/worker/phase34_reclaim_stale_pg.sql"
