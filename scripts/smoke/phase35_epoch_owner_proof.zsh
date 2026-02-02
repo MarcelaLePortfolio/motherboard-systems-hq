@@ -28,6 +28,28 @@ PSQL_BASE=(
   -P pager=off
 )
 echo "== phase35: stop workers (compose: $WORKER_COMPOSE_BASE + $WORKER_COMPOSE_OVERRIDE) =="
+
+echo "== phase35: ensure postgres up + ready =="
+# If some other container is holding host :5432, stop it (common local conflict)
+CID="$(docker ps --format '{{.ID}} {{.Names}} {{.Ports}}' | rg ' :5432->|:5432/tcp' | awk '{print $1}' | head -n1 || true)"
+if [[ -n "${CID:-}" ]]; then
+  echo "note: stopping conflicting container holding :5432 cid=$CID"
+  docker stop "$CID" >/dev/null || true
+fi
+docker compose up -d postgres >/dev/null
+for i in {1..120}; do
+  if docker compose exec -T postgres pg_isready -U postgres >/dev/null 2>&1; then
+    echo "OK: postgres ready"
+    break
+  fi
+  sleep 0.25
+done
+docker compose exec -T postgres pg_isready -U postgres >/dev/null 2>&1 || {
+  echo "FAIL: postgres not ready"
+  docker compose ps -a || true
+  docker compose logs --no-color --tail=120 postgres || true
+  exit 1
+}
 docker compose -f "$WORKER_COMPOSE_BASE" -f "$WORKER_COMPOSE_OVERRIDE" down --remove-orphans >/dev/null 2>&1 || true
 echo "== phase35: ensure dashboard up (no deps) =="
 if docker compose ps -q dashboard >/dev/null 2>&1 && [[ -n "$(docker compose ps -q dashboard)" ]]; then
