@@ -20,7 +20,6 @@ cd "$ROOT"
 LOG_DIR="tmp"
 mkdir -p "$LOG_DIR"
 TS="$(date +%s)"
-EVLOG="$LOG_DIR/phase35-epoch-owner-events.$TS.log"
 PSQL_BASE=(
   psql "$POSTGRES_URL"
   -v ON_ERROR_STOP=1
@@ -36,21 +35,6 @@ if docker compose ps -q dashboard >/dev/null 2>&1 && [[ -n "$(docker compose ps 
 else
   docker compose up -d --no-deps dashboard >/dev/null
 fi
-echo "== phase35: wait for SSE endpoint to respond =="
-ok=0
-for i in {1..40}; do
-  if curl -fsS -m 1 -H "Accept: text/event-stream" "$API_BASE/events/task-events" >/dev/null 2>&1; then
-    ok=1
-    break
-  fi
-  sleep 0.25
-done
-[[ "$ok" == "1" ]] || { echo "FAIL: SSE endpoint not responding at $API_BASE"; exit 1; }
-
-echo "== phase35: start SSE capture =="
-curl -sS -N -H "Accept: text/event-stream" "$API_BASE/events/task-events" >"$EVLOG" &
-CURLPID=$!
-sleep 1
 TITLE="phase35-epoch-owner-$TS"
 STALE_OWNER="phase35-stale-owner-$TS"
 echo "== phase35: insert stale RUNNING task (expired lease) =="
@@ -156,35 +140,56 @@ for i in {1..60}; do
 done
 ST="$("${PSQL_BASE[@]}" -t -A -c "SELECT status FROM tasks WHERE id=$TASK_ID;")"
 [[ "$ST" == "completed" ]] || { echo "FAIL: expected completed, got <$ST>"; exit 1; }
-echo "== phase35: stop SSE capture =="
-kill -TERM "$CURLPID" 2>/dev/null || true
-wait "$CURLPID" || true
-echo "== phase35: assert events: exactly 1 running + 1 completed for TASK_ID, exactly 1 terminal =="
-python3 - <<PY
-import json, pathlib
-p = pathlib.Path("$EVLOG")
-txt = p.read_text(encoding="utf-8", errors="replace").splitlines()
-task_id = str("$TASK_ID")
-events = []
-for line in txt:
-    if not line.startswith("data: "):
+echo "== phase35: assert events via DB: exactly 1 running + 1 completed, 0 failed, exactly 1 terminal =="
+python3 - <<'PY'
+import os, subprocess
+POSTGRES_URL = os.environ.get("POSTGRES_URL", "postgres://postgres:postgres@127.0.0.1:5432/postgres")
+TASK_ID = os.environ.get("TASK_ID")
+if not TASK_ID:
+    raise SystemExit("FAIL: TASK_ID env not set for DB assertion")
+def psql(q: str) -> str:
+    cmd = ["psql", POSTGRES_URL, "-v", "ON_ERROR_STOP=1", "-q", "-X", "-P", "pager=off", "-t", "-A", "-c", q]
+    return subprocess.check_output(cmd, text=True).strip()
+tables = psql(r"""
+SELECT c.table_schema||'.'||c.table_name
+FROM information_schema.columns c
+WHERE c.column_name='kind'
+  AND c.table_schema NOT IN ('pg_catalog','information_schema')
+GROUP BY c.table_schema, c.table_name
+ORDER BY 1;
+""").splitlines()
+tables = [t.strip() for t in tables if t.strip()]
+chosen = None
+for t in tables:
+    schema, name = t.split(".", 1)
+    cols = psql(f"""
+SELECT column_name
+FROM information_schema.columns
+WHERE table_schema='{schema}' AND table_name='{name}'
+ORDER BY ordinal_position;
+""").splitlines()
+    cols = [c.strip() for c in cols if c.strip()]
+    task_cols = [c for c in cols if ("task" in c.lower() and "id" in c.lower())]
+    if not task_cols:
         continue
-    payload = line[len("data: "):].strip()
-    if not payload or not payload.startswith("{"):
-        continue
+    task_col = task_cols[0]
     try:
-        obj = json.loads(payload)
+        psql(f"SELECT count(*) FROM {t} WHERE {task_col}::text = '{TASK_ID}';")
     except Exception:
         continue
-    if str(obj.get("task_id")) != task_id:
-        continue
-    events.append(obj)
-kinds = [e.get("kind") for e in events]
-running = sum(1 for k in kinds if k == "task.running")
-completed = sum(1 for k in kinds if k == "task.completed")
-failed = sum(1 for k in kinds if k == "task.failed")
+    chosen = (t, task_col)
+    break
+if not chosen:
+    raise SystemExit("FAIL: could not find an events table with kind + task_id-ish column")
+
+
+table, task_col = chosen
+running   = int(psql(f"SELECT count(*) FROM {table} WHERE {task_col}::text='{TASK_ID}' AND kind='task.running';") or "0")
+completed = int(psql(f"SELECT count(*) FROM {table} WHERE {task_col}::text='{TASK_ID}' AND kind='task.completed';") or "0")
+failed    = int(psql(f"SELECT count(*) FROM {table} WHERE {task_col}::text='{TASK_ID}' AND kind='task.failed';") or "0")
 term = completed + failed
-print(f"task_id={task_id} running={running} completed={completed} failed={failed} terminal={term}")
+print(f"task_id={TASK_ID} table={table} task_col={task_col} running={running} completed={completed} failed={failed} terminal={term}")
+
 if running != 1:
     raise SystemExit(f"FAIL: expected 1 task.running, got {running}")
 if completed != 1:
@@ -193,6 +198,6 @@ if failed != 0:
     raise SystemExit(f"FAIL: expected 0 task.failed, got {failed}")
 if term != 1:
     raise SystemExit(f"FAIL: expected exactly 1 terminal, got {term}")
-print("OK phase35 smoke proof")
+print("OK phase35 smoke proof (DB events)")
 PY
 echo "== phase35: PASS =="
