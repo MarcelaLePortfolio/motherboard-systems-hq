@@ -4,6 +4,8 @@ if [[ -z "${ZSH_VERSION:-}" ]]; then
   exec zsh "$0" "$@"
 fi
 setopt NO_BANG_HIST
+PSQL_BASE=(docker compose exec -T postgres psql -U postgres -d postgres -v ON_ERROR_STOP=1 -q -X -P pager=off)
+
 ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 cd "$ROOT"
 : "${POSTGRES_URL:=postgres://postgres:postgres@127.0.0.1:5432/postgres}"
@@ -165,12 +167,15 @@ ST="$("${PSQL_BASE[@]}" -t -A -c "SELECT status FROM tasks WHERE id=$TASK_ID;")"
 echo "== phase35: assert events via DB: exactly 1 running + 1 completed, 0 failed, exactly 1 terminal =="
 python3 - <<'PY'
 import os, subprocess
-POSTGRES_URL = os.environ.get("POSTGRES_URL", "postgres://postgres:postgres@127.0.0.1:5432/postgres")
 TASK_ID = os.environ.get("TASK_ID")
 if not TASK_ID:
     raise SystemExit("FAIL: TASK_ID env not set for DB assertion")
 def psql(q: str) -> str:
-    cmd = ["psql", POSTGRES_URL, "-v", "ON_ERROR_STOP=1", "-q", "-X", "-P", "pager=off", "-t", "-A", "-c", q]
+    cmd = [
+        'docker','compose','exec','-T','postgres','psql',
+        '-U','postgres','-d','postgres',
+        '-v','ON_ERROR_STOP=1','-q','-X','-P','pager=off','-t','-A','-c', q
+    ]
     return subprocess.check_output(cmd, text=True).strip()
 tables = psql(r"""
 SELECT c.table_schema||'.'||c.table_name
