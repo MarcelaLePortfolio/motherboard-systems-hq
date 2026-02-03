@@ -29,6 +29,7 @@ function __phase25_taskIdFromObj(obj) {
 export async function appendTaskEvent(pool, kind, task_id, payload, opts = undefined) {
   const pool = arguments[0] || globalThis.__DB_POOL;
   if (!pool) throw new Error("appendTaskEvent: missing pool");
+  if (!pool) throw new Error("appendTaskEvent: missing pool");
   // Phase25 contract: server is the single authoritative writer of task_events.
   // IMPORTANT: callers historically pass (pool, kind, payloadObj). We keep that shape.
   // - If `task_id` is actually the payload (object/string) we treat it as payload and infer task_id.
