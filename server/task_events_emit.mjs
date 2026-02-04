@@ -21,7 +21,17 @@ if (!pool) throw new Error("emitTaskEvent: pool required");
     ...(payload && typeof payload === "object" ? payload : {}),
   };
 
-  return appendTaskEvent(pool, kind, obj);
+  return appendTaskEvent(pool, kind, obj, undefined, {
+
+    run_id: obj.run_id ?? null,
+
+    actor: obj.actor ?? null,
+
+    ts: obj.ts ?? null,
+
+    payload_jsonb: obj,
+
+  });
 }
 export async function writeTaskEvent(pool, kind, obj) {
   if (!pool) throw new Error("writeTaskEvent: pool required");
