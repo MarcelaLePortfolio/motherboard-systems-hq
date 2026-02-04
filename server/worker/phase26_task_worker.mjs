@@ -49,13 +49,13 @@ async function claimOne(c, run_id) {
   const r = await c.query(CLAIM_ONE_SQL, PHASE34_ENABLE_LEASE ? [run_id, owner, PHASE34_LEASE_MS] : [run_id, owner]);
   return r.rows?.[0] || null;
 }
-async function markSuccess(c, id, leaseEpoch) {
-  const r = await c.query(MARK_SUCCESS_SQL, [id, owner, Number(leaseEpoch ?? 0)]);
-  return r.rows?.[0] || null;
+async function markSuccess(c, task_id, run_id, actor) {
+  const r = await c.query(MARK_SUCCESS_SQL, [String(task_id), run_id ?? null, actor ?? null]);
+  return r.rows?.[0] ?? null;
 }
-async function markFailure(c, id, leaseEpoch, errStr) {
-  const r = await c.query(MARK_FAILURE_SQL, [id, owner, Number(leaseEpoch ?? 0), String(errStr || "")]);
-  return r.rows?.[0] || null;
+async function markFailure(c, task_id, run_id, actor) {
+  const r = await c.query(MARK_FAILURE_SQL, [String(task_id), run_id ?? null, actor ?? null]);
+  return r.rows?.[0] ?? null;
 }
 function parseMeta(task) {
   const m = task?.meta;
@@ -109,6 +109,12 @@ async function loop() {
         }
 
         const task = await claimOne(c, run_id);
+        if (!task) continue;
+
+        // Phase35: workers must use stable string task_id (tN), not numeric id.
+        const stableTaskId = String(task.task_id ?? (`t${task.id}`));
+        const workerActor = process.env.PHASE26_WORKER_ACTOR || process.env.WORKER_OWNER || "worker";
+
         await c.query("COMMIT");
         if (!task) {
           c.release();
@@ -130,7 +136,7 @@ async function loop() {
         });
         const verdict = shouldFailDeterministically(task);
         if (verdict.fail) {
-          const failedRow = await markFailure(c, task.id, task.lease_epoch, `phase32_deterministic_failure: ${verdict.reason}`);
+          const failedRow = await markFailure(c, stableTaskId, task.lease_epoch, `phase32_deterministic_failure: ${verdict.reason}`);
 
           if (failedRow) {
             await emitTaskEvent({
@@ -154,7 +160,7 @@ async function loop() {
           backoff = BACKOFF_BASE_MS;
           continue;
         }
-        const done = await markSuccess(c, task.id, task.lease_epoch);
+        const done = await markSuccess(c, stableTaskId, run_id, workerActor);
         if (done) {
           await emitTaskEvent({
             pool,
