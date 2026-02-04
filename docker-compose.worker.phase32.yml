@@ -4,6 +4,7 @@ services:
       - mbhq_default
     image: mbhq-worker:phase32
     volumes:
+      - ./server:/app/server:ro
       - ./server/worker:/app/server/worker:ro
     command: ["node","server/worker/phase26_task_worker.mjs"]
     environment:
@@ -22,6 +23,7 @@ services:
       - mbhq_default
     image: mbhq-worker:phase32
     volumes:
+      - ./server:/app/server:ro
       - ./server/worker:/app/server/worker:ro
     command: ["node","server/worker/phase26_task_worker.mjs"]
     environment:

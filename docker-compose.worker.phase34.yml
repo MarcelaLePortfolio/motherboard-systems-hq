@@ -5,6 +5,7 @@ services:
       dockerfile: Dockerfile.worker
     image: motherboard_systems_hq-worker:node20
     volumes:
+      - ./server:/app/server:ro
       - ./server/worker:/app/server/worker:ro
     command: ["node","server/worker/phase26_task_worker.mjs"]
     networks:
@@ -41,6 +42,7 @@ services:
       dockerfile: Dockerfile.worker
     image: motherboard_systems_hq-worker:node20
     volumes:
+      - ./server:/app/server:ro
       - ./server/worker:/app/server/worker:ro
     command: ["node","server/worker/phase26_task_worker.mjs"]
     networks:
