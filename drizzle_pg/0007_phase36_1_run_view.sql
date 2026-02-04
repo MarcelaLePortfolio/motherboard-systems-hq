@@ -2,10 +2,9 @@
 -- Canonical view: run_view keyed by run_id
 --
 -- PG lane schema notes:
--- - task_events has: id, kind, task_id(text), run_id(text), actor(text), ts(bigint)
--- - tasks has: id(bigint), task_id(text unique), run_id(text), actor(text), claimed_by(text), lease_expires_at(bigint)
--- - no task_events.cursor; ordering uses task_events.id
--- - lease_expires_at is bigint epoch ms (not timestamptz)
+-- - task_events has: id, kind (e.g. 'task.running','task.completed','heartbeat'), task_id(text), run_id(text), actor(text), ts(bigint)
+-- - tasks has: task_id(text unique), status (e.g. 'running','completed'), claimed_by, actor, lease_expires_at (epoch ms)
+-- - ordering uses task_events.id
 
 CREATE OR REPLACE VIEW run_view AS
 WITH
@@ -18,7 +17,7 @@ last_event AS (
     te.kind AS last_event_kind,
     te.actor AS last_event_actor
   FROM task_events te
-  WHERE te.run_id IS NOT NULL
+  WHERE te.run_id IS NOT NULL AND te.run_id <> ''
   ORDER BY te.task_id, te.run_id, te.id DESC
 ),
 last_heartbeat AS (
@@ -27,8 +26,8 @@ last_heartbeat AS (
     te.run_id,
     MAX(te.ts) AS last_heartbeat_ts
   FROM task_events te
-  WHERE te.run_id IS NOT NULL
-    AND te.kind = 'heartbeat'
+  WHERE te.run_id IS NOT NULL AND te.run_id <> ''
+    AND te.kind IN ('heartbeat','task.heartbeat')
   GROUP BY te.task_id, te.run_id
 ),
 terminal_event AS (
@@ -39,8 +38,8 @@ terminal_event AS (
     te.ts   AS terminal_event_ts,
     te.id   AS terminal_event_id
   FROM task_events te
-  WHERE te.run_id IS NOT NULL
-    AND te.kind IN ('completed','failed','canceled','cancelled')
+  WHERE te.run_id IS NOT NULL AND te.run_id <> ''
+    AND te.kind IN ('task.completed','task.failed','task.canceled','task.cancelled','completed','failed','canceled','cancelled')
   ORDER BY te.task_id, te.run_id, te.id DESC
 )
 SELECT
