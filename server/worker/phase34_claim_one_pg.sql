@@ -17,4 +17,4 @@ SET status='running',
     lease_epoch=COALESCE(lease_epoch,0)+1
 FROM c
 WHERE t.id=c.id
-RETURNING t.id, t.claimed_by, t.lease_expires_at, c.run_id;
+RETURNING t.id, t.task_id, t.claimed_by, t.lease_expires_at, c.run_id;
