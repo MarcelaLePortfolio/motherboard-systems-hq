@@ -1,34 +1,38 @@
-/**
- * Legacy task_events schema in your docker DB:
- *   task_events(id bigint, kind text, payload text, created_at text)
- *
- * So we store payload as JSON string into the text column.
- *
- * SINGLE AUTHORITATIVE TASK EVENT WRITER — Phase 25 contract enforced.
- */
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(git rev-parse --show-toplevel)"
+python3 - <<'PY'
+from __future__ import annotations
+from pathlib import Path
 
-const __PHASE25_LIFECYCLE_KINDS = new Set([
-  "task.created",
-  "task.queued",
-  "task.started",
-  "task.progress",
-  "task.completed",
-  "task.failed",
-  "task.canceled",
-]);
+p = Path("server/task-events.mjs")
+src = p.read_text(encoding="utf-8")
 
-const __PHASE25_TERMINAL_KINDS = new Set([
-  "task.completed",
-  "task.failed",
-  "task.canceled",
-]);
+needle = "export async function appendTaskEvent("
+i = src.find(needle)
+if i == -1:
+    raise SystemExit("patch_failed: appendTaskEvent export not found in server/task-events.mjs")
 
-function __phase25_taskIdFromObj(obj) {
-  return obj?.task_id ?? obj?.taskId ?? obj?.task?.id ?? null;
-}
-export async function appendTaskEvent(pool, kind, task_id, payload, opts = undefined) {
-  pool = pool || globalThis.__DB_POOL;
-  if (!pool) throw new Error("appendTaskEvent: missing pool");
+# find function block by brace counting starting at first "{"
+brace0 = src.find("{", i)
+if brace0 == -1:
+    raise SystemExit("patch_failed: could not find '{' for appendTaskEvent")
+
+depth = 0
+end = None
+for idx in range(brace0, len(src)):
+    c = src[idx]
+    if c == "{":
+        depth += 1
+    elif c == "}":
+        depth -= 1
+        if depth == 0:
+            end = idx + 1
+            break
+if end is None:
+    raise SystemExit("patch_failed: could not find end of appendTaskEvent block")
+
+new_block = r'''export async function appendTaskEvent(pool, kind, task_id, payload, opts = undefined) {
   // Phase25 contract: server is the single authoritative writer of task_events.
   // IMPORTANT: callers historically pass (pool, kind, payloadObj). We keep that shape.
   // - If `task_id` is actually the payload (object/string) we treat it as payload and infer task_id.
@@ -48,6 +52,7 @@ export async function appendTaskEvent(pool, kind, task_id, payload, opts = undef
   }
 
   // pool resolution
+  pool = pool || globalThis.__DB_POOL;
   if (!pool || typeof pool.query !== "function") {
     throw new Error("phase25: appendTaskEvent missing pool");
   }
@@ -128,6 +133,14 @@ export async function appendTaskEvent(pool, kind, task_id, payload, opts = undef
     [k, (inferredTaskId == null ? null : String(inferredTaskId)), run_id, actor, ts, payloadText, payloadJson]
   );
 }
+'''
 
+patched = src[:i] + new_block + src[end:]
 
+# Safety: ensure we didn't leave a dangling old 3-col insert anywhere
+if 'insert into task_events(kind, task_id, payload) values' in patched:
+    raise SystemExit("patch_failed: legacy 3-col insert still present")
 
+p.write_text(patched, encoding="utf-8")
+print("patched_ok:", p)
+PY

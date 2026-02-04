@@ -10,7 +10,7 @@ services:
     networks:
       - mbhq_default
     environment:
-      POSTGRES_URL: postgres://postgres:postgres@postgres:5432/postgres
+      POSTGRES_URL: "postgres://postgres:postgres@postgres:5432/postgres"
       WORKER_OWNER: ${WORKER_OWNER_A:-docker-wA}
 
       # Enable lease-mode so claim_one gets (run_id, owner, lease_ms) and matches PG SQL arity.
@@ -31,6 +31,7 @@ services:
       PHASE27_MARK_SUCCESS_SQL: "server/worker/phase34_mark_success_pg.sql"
       PHASE27_MARK_FAILURE_SQL: "server/worker/phase34_mark_failure_pg.sql"
 
+      PHASE26_WORKER_ACTOR: ${PHASE26_WORKER_ACTOR:-phase26.worker}
       PHASE26_TICK_MS: ${PHASE26_TICK_MS:-500}
       WORKER_BACKOFF_BASE_MS: ${WORKER_BACKOFF_BASE_MS:-2000}
 
@@ -45,7 +46,7 @@ services:
     networks:
       - mbhq_default
     environment:
-      POSTGRES_URL: postgres://postgres:postgres@postgres:5432/postgres
+      POSTGRES_URL: "postgres://postgres:postgres@postgres:5432/postgres"
       WORKER_OWNER: ${WORKER_OWNER_B:-docker-wB}
 
       PHASE34_ENABLE_LEASE: "1"
@@ -62,6 +63,7 @@ services:
       PHASE27_MARK_SUCCESS_SQL: "server/worker/phase34_mark_success_pg.sql"
       PHASE27_MARK_FAILURE_SQL: "server/worker/phase34_mark_failure_pg.sql"
 
+      PHASE26_WORKER_ACTOR: ${PHASE26_WORKER_ACTOR:-phase26.worker}
       PHASE26_TICK_MS: ${PHASE26_TICK_MS:-500}
       WORKER_BACKOFF_BASE_MS: ${WORKER_BACKOFF_BASE_MS:-2000}
 

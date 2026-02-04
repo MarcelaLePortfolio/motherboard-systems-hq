@@ -13,6 +13,21 @@ if (!POSTGRES_URL) throw new Error("POSTGRES_URL required");
 const TICK_MS = Number(process.env.PHASE26_TICK_MS || 500);
 const BACKOFF_BASE_MS = Number(process.env.WORKER_BACKOFF_BASE_MS || 2000);
 const owner = process.env.WORKER_OWNER || `worker-${process.pid}`;
+
+  // Phase 34 (lease/heartbeat/reclaim) — optional, behind env flag
+  const PHASE34_ENABLE_LEASE = String(process.env.PHASE34_ENABLE_LEASE || "") === "1";
+  const PHASE34_HEARTBEAT_SQL = process.env.PHASE34_HEARTBEAT_SQL || "server/worker/phase34_heartbeat.sql";
+  const PHASE34_RECLAIM_SQL = process.env.PHASE34_RECLAIM_SQL || "server/worker/phase34_reclaim_stale.sql";
+  const PHASE34_LEASE_MS = Number(process.env.PHASE34_LEASE_MS || "60000");
+  const PHASE34_STALE_HEARTBEAT_MS = Number(process.env.PHASE34_STALE_HEARTBEAT_MS || String(PHASE34_LEASE_MS * 2));
+
+  // If enabled, default the worker SQL env vars to Phase 34 variants (same contract: created->running->completed/failed)
+  if (PHASE34_ENABLE_LEASE) {
+    process.env.PHASE27_CLAIM_ONE_SQL = process.env.PHASE27_CLAIM_ONE_SQL || "server/worker/phase35_claim_one_pg.sql";
+    process.env.PHASE27_MARK_SUCCESS_SQL = process.env.PHASE27_MARK_SUCCESS_SQL || "server/worker/phase35_mark_success_pg.sql";
+    process.env.PHASE27_MARK_FAILURE_SQL = process.env.PHASE27_MARK_FAILURE_SQL || "server/worker/phase35_mark_failure_pg.sql";
+  }
+
 // Prefer Phase 32 SQL, fall back to Phase 27 (back-compat).
 const CLAIM_ONE_PATH = process.env.PHASE32_CLAIM_ONE_SQL || process.env.PHASE27_CLAIM_ONE_SQL;
 const MARK_SUCCESS_PATH = process.env.PHASE32_MARK_SUCCESS_SQL || process.env.PHASE27_MARK_SUCCESS_SQL;
@@ -24,18 +39,23 @@ if (!CLAIM_ONE_PATH || !MARK_SUCCESS_PATH || !MARK_FAILURE_PATH) {
 const CLAIM_ONE_SQL = readSqlFile(CLAIM_ONE_PATH);
 const MARK_SUCCESS_SQL = readSqlFile(MARK_SUCCESS_PATH);
 const MARK_FAILURE_SQL = readSqlFile(MARK_FAILURE_PATH);
+
+// Phase 34 SQL (pg-param) — only used when PHASE34_ENABLE_LEASE=1
+const PHASE34_HEARTBEAT_SQL_STR = readSqlFile(process.env.PHASE34_HEARTBEAT_PG_SQL || "server/worker/phase34_heartbeat_pg.sql");
+const PHASE34_RECLAIM_SQL_STR = readSqlFile(process.env.PHASE34_RECLAIM_PG_SQL || "server/worker/phase34_reclaim_stale_pg.sql");
+
 const pool = new Pool({ connectionString: POSTGRES_URL });
 async function claimOne(c, run_id) {
-  const r = await c.query(CLAIM_ONE_SQL, [run_id, owner]);
+  const r = await c.query(CLAIM_ONE_SQL, PHASE34_ENABLE_LEASE ? [run_id, owner, PHASE34_LEASE_MS] : [run_id, owner]);
   return r.rows?.[0] || null;
 }
-async function markSuccess(c, id) {
-  const r = await c.query(MARK_SUCCESS_SQL, [id]);
-  return r.rows?.[0] || null;
+async function markSuccess(c, task_id, run_id, actor) {
+  const r = await c.query(MARK_SUCCESS_SQL, [String(task_id), run_id ?? null, actor ?? null]);
+  return r.rows?.[0] ?? null;
 }
-async function markFailure(c, id, errStr) {
-  const r = await c.query(MARK_FAILURE_SQL, [id, String(errStr || "")]);
-  return r.rows?.[0] || null;
+async function markFailure(c, task_id, run_id, actor) {
+  const r = await c.query(MARK_FAILURE_SQL, [String(task_id), run_id ?? null, actor ?? null]);
+  return r.rows?.[0] ?? null;
 }
 function parseMeta(task) {
   const m = task?.meta;
@@ -74,7 +94,27 @@ async function loop() {
       const c = await pool.connect();
       try {
         await c.query("BEGIN");
+        // phase34 heartbeat + reclaim (optional)
+        if (PHASE34_ENABLE_LEASE) {
+          try {
+            await c.query(PHASE34_HEARTBEAT_SQL_STR, [owner]);
+          } catch (e) {
+            console.error("[phase34] heartbeat error", e);
+          }
+          try {
+            await c.query(PHASE34_RECLAIM_SQL_STR, [PHASE34_STALE_HEARTBEAT_MS]);
+          } catch (e) {
+            console.error("[phase34] reclaim error", e);
+          }
+        }
+
         const task = await claimOne(c, run_id);
+        if (!task) continue;
+
+        // Phase35: workers must use stable string task_id (tN), not numeric id.
+        const stableTaskId = String(task.task_id ?? (`t${task.id}`));
+        const workerActor = process.env.PHASE26_WORKER_ACTOR || process.env.WORKER_OWNER || "worker";
+
         await c.query("COMMIT");
         if (!task) {
           c.release();
@@ -96,7 +136,7 @@ async function loop() {
         });
         const verdict = shouldFailDeterministically(task);
         if (verdict.fail) {
-          const failedRow = await markFailure(c, task.id, `phase32_deterministic_failure: ${verdict.reason}`);
+          const failedRow = await markFailure(c, stableTaskId, task.lease_epoch, `phase32_deterministic_failure: ${verdict.reason}`);
 
           if (failedRow) {
             await emitTaskEvent({
@@ -120,7 +160,7 @@ async function loop() {
           backoff = BACKOFF_BASE_MS;
           continue;
         }
-        const done = await markSuccess(c, task.id);
+        const done = await markSuccess(c, stableTaskId, run_id, workerActor);
         if (done) {
           await emitTaskEvent({
             pool,
