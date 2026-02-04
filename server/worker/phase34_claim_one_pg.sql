@@ -10,6 +10,7 @@ WITH c AS (
 )
 UPDATE tasks t
 SET status='running',
+    run_id = c.run_id,
     claimed_by=$2,
     claimed_at=(extract(epoch from now())*1000)::bigint,
     lease_expires_at=((extract(epoch from now())*1000)::bigint + $3::bigint),
