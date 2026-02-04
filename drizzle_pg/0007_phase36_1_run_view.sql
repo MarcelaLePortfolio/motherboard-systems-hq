@@ -1,5 +1,8 @@
 -- Phase 36.1 — Run-centric observability surface (read-only)
 -- Canonical view: run_view keyed by run_id
+--
+-- NOTE: In the PG lane, task_events does NOT have a `cursor` column; ordering is via task_events.id (bigint/bigserial).
+-- We expose last_event_id as the canonical "cursor-like" monotonic pointer.
 
 CREATE OR REPLACE VIEW run_view AS
 WITH
@@ -8,13 +11,13 @@ last_event AS (
   SELECT DISTINCT ON (te.task_id, te.run_id)
     te.task_id,
     te.run_id,
-    te.cursor AS last_event_cursor,
+    te.id     AS last_event_id,
     te.ts     AS last_event_ts,
     te.kind   AS last_event_kind,
     te.run_actor AS last_event_actor
   FROM task_events te
   WHERE te.run_id IS NOT NULL
-  ORDER BY te.task_id, te.run_id, te.cursor DESC
+  ORDER BY te.task_id, te.run_id, te.id DESC
 ),
 -- latest heartbeat per (task_id, run_id)
 last_heartbeat AS (
@@ -34,11 +37,11 @@ terminal_event AS (
     te.run_id,
     te.kind AS terminal_event_kind,
     te.ts   AS terminal_event_ts,
-    te.cursor AS terminal_event_cursor
+    te.id   AS terminal_event_id
   FROM task_events te
   WHERE te.run_id IS NOT NULL
     AND te.kind IN ('completed','failed','canceled','cancelled')
-  ORDER BY te.task_id, te.run_id, te.cursor DESC
+  ORDER BY te.task_id, te.run_id, te.id DESC
 )
 SELECT
   le.run_id,
@@ -62,7 +65,7 @@ SELECT
   END AS heartbeat_age_ms,
 
   -- last event
-  le.last_event_cursor,
+  le.last_event_id,
   le.last_event_ts,
   le.last_event_kind,
 
@@ -71,7 +74,7 @@ SELECT
   (t.status IN ('completed','failed','canceled','cancelled')) AS is_terminal,
   te.terminal_event_kind,
   te.terminal_event_ts,
-  te.terminal_event_cursor
+  te.terminal_event_id
 
 FROM last_event le
 JOIN tasks t
