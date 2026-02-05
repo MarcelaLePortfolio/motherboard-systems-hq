@@ -25,7 +25,7 @@
     function classify(url) {
       const u = String(url || "");
       if (u.includes("/events/ops")) return "ops";
-      if (u.includes("/events/tasks")) return "tasks";
+      if (u.includes("/events/task-events") || u.includes("/events/tasks")) return "tasks";
       if (u.includes("/events/reflections")) return "reflections";
       return "unknown";
     }
@@ -138,200 +138,6 @@
     } else {
       tick();
       setInterval(tick, 1e3);
-    }
-  })();
-
-  // public/js/task-events-sse-listener.js
-  (function() {
-    const URL = "/events/task-events";
-    const MAX_ITEMS = 200;
-    if (typeof window === "undefined" || typeof document === "undefined") return;
-    if (window.__TASK_EVENTS_SSE_INITED) return;
-    window.__TASK_EVENTS_SSE_INITED = true;
-    function nowIso() {
-      try {
-        return (/* @__PURE__ */ new Date()).toISOString();
-      } catch {
-        return String(Date.now());
-      }
-    }
-    function ensureBuffer() {
-      if (!window.__TASK_EVENTS_FEED) window.__TASK_EVENTS_FEED = [];
-      return window.__TASK_EVENTS_FEED;
-    }
-    function ensureSnapshot() {
-      if (!window.__TASK_EVENTS) {
-        window.__TASK_EVENTS = {
-          url: URL,
-          connected: false,
-          lastAt: 0,
-          lastEvent: null,
-          cursor: null,
-          readyState: null
-        };
-      }
-      return window.__TASK_EVENTS;
-    }
-    function pushItem(item) {
-      const buf = ensureBuffer();
-      buf.push(item);
-      if (buf.length > MAX_ITEMS) buf.splice(0, buf.length - MAX_ITEMS);
-      const snap = ensureSnapshot();
-      snap.lastAt = item.ts || Date.now();
-      snap.lastEvent = item.event || item.kind || null;
-      if (item?.data && typeof item.data === "object" && "cursor" in item.data) {
-        snap.cursor = item.data.cursor ?? snap.cursor;
-      }
-      try {
-        snap.readyState = window.__taskEventsES?.readyState ?? null;
-      } catch {
-      }
-      try {
-        window.dispatchEvent(new CustomEvent("task-events:append", { detail: item }));
-      } catch {
-      }
-    }
-    function safeJson(s) {
-      try {
-        return JSON.parse(s);
-      } catch {
-        return null;
-      }
-    }
-    function ensureMiniPanel() {
-      if (document.getElementById("task-events-log")) return;
-      const wrap = document.createElement("div");
-      wrap.id = "task-events-log";
-      wrap.style.position = "fixed";
-      wrap.style.right = "14px";
-      wrap.style.bottom = "14px";
-      wrap.style.width = "440px";
-      wrap.style.maxHeight = "240px";
-      wrap.style.overflow = "hidden";
-      wrap.style.padding = "10px 12px";
-      wrap.style.borderRadius = "12px";
-      wrap.style.fontFamily = "ui-monospace, Menlo, Monaco, Consolas, monospace";
-      wrap.style.fontSize = "12px";
-      wrap.style.lineHeight = "1.35";
-      wrap.style.zIndex = "99999";
-      wrap.style.background = "rgba(10,10,14,0.72)";
-      wrap.style.border = "1px solid rgba(255,255,255,0.12)";
-      wrap.style.boxShadow = "0 10px 24px rgba(0,0,0,0.35)";
-      wrap.style.backdropFilter = "blur(6px)";
-      wrap.style.display = "block";
-      const hdr = document.createElement("div");
-      hdr.style.display = "flex";
-      hdr.style.alignItems = "center";
-      hdr.style.justifyContent = "space-between";
-      hdr.style.gap = "10px";
-      hdr.style.marginBottom = "8px";
-      const title = document.createElement("div");
-      title.id = "task-events-log-title";
-      title.textContent = "TASK EVENTS \xB7 disconnected";
-      title.style.letterSpacing = "0.12em";
-      title.style.fontWeight = "700";
-      title.style.opacity = "0.9";
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.textContent = "expand";
-      btn.style.cursor = "pointer";
-      btn.style.border = "1px solid rgba(255,255,255,0.15)";
-      btn.style.background = "rgba(255,255,255,0.08)";
-      btn.style.color = "rgba(255,255,255,0.9)";
-      btn.style.borderRadius = "10px";
-      btn.style.padding = "4px 8px";
-      btn.style.fontSize = "12px";
-      const body = document.createElement("div");
-      body.id = "task-events-log-body";
-      body.style.maxHeight = "190px";
-      body.style.overflow = "auto";
-      body.style.display = "none";
-      btn.onclick = () => {
-        const on = body.style.display === "none";
-        body.style.display = on ? "block" : "none";
-        btn.textContent = on ? "collapse" : "expand";
-      };
-      hdr.appendChild(title);
-      hdr.appendChild(btn);
-      wrap.appendChild(hdr);
-      wrap.appendChild(body);
-      document.body.appendChild(wrap);
-      if (window.__UI_DEBUG || window.__PHASE21_SHOW_TASK_EVENTS) {
-        body.style.display = "block";
-        btn.textContent = "collapse";
-      }
-    }
-    function appendLine(text) {
-      const body = document.getElementById("task-events-log-body");
-      if (!body) return;
-      const div = document.createElement("div");
-      div.style.whiteSpace = "pre-wrap";
-      div.style.wordBreak = "break-word";
-      div.textContent = text;
-      body.appendChild(div);
-      while (body.childNodes.length > 140) body.removeChild(body.firstChild);
-      body.scrollTop = body.scrollHeight;
-    }
-    function setHeaderStatus(text) {
-      const t = document.getElementById("task-events-log-title");
-      if (t) t.textContent = text;
-    }
-    function start() {
-      ensureMiniPanel();
-      ensureSnapshot();
-      const es = new EventSource(URL);
-      window.__taskEventsES = es;
-      es.onopen = () => {
-        const snap = ensureSnapshot();
-        snap.connected = true;
-        snap.readyState = es.readyState;
-        const item = { ts: Date.now(), iso: nowIso(), kind: "sse.open", event: "open", url: URL };
-        pushItem(item);
-        setHeaderStatus("TASK EVENTS \xB7 connected");
-        appendLine(`[${item.iso}] open ${URL}`);
-      };
-      es.onerror = () => {
-        const snap = ensureSnapshot();
-        snap.connected = false;
-        snap.readyState = es.readyState;
-        const item = { ts: Date.now(), iso: nowIso(), kind: "sse.error", event: "error", url: URL, readyState: es.readyState };
-        pushItem(item);
-        setHeaderStatus(`TASK EVENTS \xB7 error (readyState=${es.readyState})`);
-        appendLine(`[${item.iso}] error readyState=${es.readyState}`);
-      };
-      es.onmessage = (ev) => {
-        const payload = safeJson(ev.data);
-        const item = { ts: Date.now(), iso: nowIso(), kind: "message", event: "message", data: payload ?? ev.data };
-        pushItem(item);
-        appendLine(`[${item.iso}] message :: ${payload ? JSON.stringify(payload) : String(ev.data)}`);
-      };
-      const names = [
-        "hello",
-        "heartbeat",
-        "task.event",
-        "task.lifecycle",
-        "task.created",
-        "task.updated",
-        "task.completed",
-        "task.failed",
-        "error"
-      ];
-      for (const name of names) {
-        try {
-          es.addEventListener(name, (ev) => {
-            const payload = safeJson(ev.data);
-            const item = { ts: Date.now(), iso: nowIso(), kind: "event", event: name, data: payload ?? ev.data };
-            pushItem(item);
-            appendLine(`[${item.iso}] ${name} :: ${payload ? JSON.stringify(payload) : String(ev.data)}`);
-          });
-        } catch {
-        }
-      }
-    }
-    if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", start, { once: true });
-    } else {
-      start();
     }
   })();
 
@@ -841,7 +647,7 @@
   (() => {
     const API = {
       list: "/api/tasks",
-      complete: "/api/complete-task"
+      complete: "/api/tasks/complete"
     };
     const SELECTORS = [
       "#tasks-widget",
@@ -884,7 +690,7 @@
       try {
         const data = await apiJson(API.list);
         state.tasks = (data.tasks || []).map((t) => ({
-          id: String(t.id),
+          id: String(t.task_id ?? t.taskId ?? t.id),
           title: t.title || "",
           status: t.status || ""
         }));
@@ -902,7 +708,7 @@
       try {
         await apiJson(API.complete, {
           method: "POST",
-          body: { taskId }
+          body: { task_id: taskId }
         });
       } catch (e) {
         state.lastError = e.message;
@@ -936,9 +742,6 @@
     window.addEventListener("mb.task.event", (e) => {
       const k = String(e?.detail?.kind || e?.detail?.type || "");
       if (k === "heartbeat") return;
-      fetchTasks();
-    });
-    window.addEventListener("mb.task.event", () => {
       fetchTasks();
     });
     setInterval(() => {
@@ -979,6 +782,16 @@
       var transcript = document.getElementById("matilda-chat-transcript");
       var input = document.getElementById("matilda-chat-input");
       var sendBtn = document.getElementById("matilda-chat-send");
+      window.appendMessage = window.appendMessage || function(msg) {
+        try {
+          var role = msg && msg.role ? String(msg.role) : "system";
+          var content = msg && (msg.content ?? msg.text ?? msg.message) ? String(msg.content ?? msg.text ?? msg.message) : "";
+          var sender = role === "user" ? "You" : role === "matilda" ? "Matilda" : "System";
+          appendMessage(transcript, sender, content);
+        } catch (_) {
+        }
+      };
+      window.__appendMessage = window.__appendMessage || window.appendMessage;
       if (!transcript || !input || !sendBtn) {
         log("Missing one or more Matilda chat elements; aborting wiring.");
         return;
@@ -1151,7 +964,7 @@
     }
     function formatLine(ev, fallbackKind) {
       const ts = typeof ev.ts === "number" ? new Date(ev.ts).toISOString() : (/* @__PURE__ */ new Date()).toISOString();
-      const tid = ev.task_id ?? ev.id ?? ev.taskId ?? "unknown";
+      const tid = ev.task_id ?? ev.taskId ?? "unknown";
       const run = ev.run_id ?? ev.runId ?? "";
       const msg = ev.msg ?? ev.message ?? "";
       const extras = [];
@@ -1203,19 +1016,30 @@
       const data = typeof rawData === "string" ? parseMaybeJSON(rawData) : rawData;
       const ev = data && typeof data === "object" ? data : { kind: eventName, raw: rawData };
       if (eventName === "task.event") {
+        if (ev.actor == null && ev.meta && typeof ev.meta === "object") ev.actor = ev.meta.actor ?? ev.meta.owner ?? null;
         if (!ev.kind && ev.type) ev.kind = ev.type;
         if (ev.kind === "task.event" && ev.type) ev.kind = ev.type;
         if (ev.task_id == null && ev.taskId != null) ev.task_id = ev.taskId;
         if (ev.run_id == null && ev.runId != null) ev.run_id = ev.runId;
+        if (ev && ev.meta && typeof ev.meta === "object") {
+          if (ev.task_id == null && ev.meta.task_id != null) ev.task_id = ev.meta.task_id;
+          if (ev.run_id == null && ev.meta.run_id != null) ev.run_id = ev.meta.run_id;
+          if (ev.actor == null && ev.meta.actor != null) ev.actor = ev.meta.actor;
+          if (ev.actor == null && ev.meta.owner != null) ev.actor = ev.meta.owner;
+        }
       }
       if (!ev.kind) ev.kind = eventName;
-      const key = `${eventName}|${ev.kind}|${ev.ts ?? ""}|${ev.task_id ?? ev.id ?? ""}|${ev.run_id ?? ""}|${ev.cursor ?? ""}`;
+      const key = `${eventName}|${ev.kind}|${ev.ts ?? ""}|${ev.task_id ?? ""}|${ev.run_id ?? ""}|${ev.cursor ?? ""}`;
       if (seen.has(key)) return;
       seen.add(key);
       if (ev.kind === "task.created" || ev.kind === "task.completed" || ev.kind === "task.failed") {
         bumpCounts(String(ev.kind));
       }
       appendLine(formatLine(ev, eventName), String(ev.kind ?? eventName));
+      if (window.__UI_DEBUG) try {
+        console.log("[task-events] mb.task.event", ev);
+      } catch {
+      }
       dispatchWindowEvent(ev);
     }
     let es = null;
@@ -1301,7 +1125,7 @@
       return v || "unknown";
     }
     function pluckId(ev) {
-      return ev?.task_id ?? ev?.taskId ?? ev?.id ?? ev?.task?.id ?? null;
+      return ev?.task_id ?? ev?.taskId ?? ev?.task?.id ?? null;
     }
     function pluckTask(ev) {
       const t = ev?.task && typeof ev.task === "object" ? ev.task : null;

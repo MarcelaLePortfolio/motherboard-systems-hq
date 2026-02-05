@@ -1,6 +1,5 @@
 import "./sse-heartbeat-shim.js";
 import "./heartbeat-stale-indicator.js";
-import "./task-events-sse-listener.js";
 // Phase 11 – Unified dashboard bundle entrypoint
 
 // Core dashboard status + tiles

@@ -36,7 +36,7 @@
   function classify(url) {
     const u = String(url || "");
     if (u.includes("/events/ops")) return "ops";
-    if (u.includes("/events/tasks")) return "tasks";
+    if (u.includes("/events/task-events") || u.includes("/events/tasks")) return "tasks";
     if (u.includes("/events/reflections")) return "reflections";
     return "unknown";
   }
