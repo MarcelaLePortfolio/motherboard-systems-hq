@@ -263,12 +263,7 @@ try {
 } catch (e) {
   console.log("[db] effective pool config <unavailable>", e?.message || String(e));
 }
-console.log("[boot] ensureTasksTaskIdColumn: start");
-await Promise.race([
-  ensureTasksTaskIdColumn(pool),
-  new Promise((_, rej) => setTimeout(() => rej(new Error("ensureTasksTaskIdColumn timeout (5s)")), 5000)),
-]);
-console.log("[boot] ensureTasksTaskIdColumn: ok");
+await ensureTasksTaskIdColumn(pool);
 console.log("Database pool initialized");
   globalThis.__DB_POOL = pool;
   console.log("[phase25] __DB_POOL set", { has: !!globalThis.__DB_POOL, type: (globalThis.__DB_POOL && globalThis.__DB_POOL.constructor && globalThis.__DB_POOL.constructor.name) });
