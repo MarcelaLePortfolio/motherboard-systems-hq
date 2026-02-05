@@ -20,6 +20,7 @@ const __dirname = path.dirname(__filename);
 
 
 const app = express();
+console.log("[boot] app created; about to register routes");
 
 // Phase 23: parse JSON early (avoid empty req.body)
 app.use(express.json());
@@ -408,6 +409,7 @@ app.get("/api/heartbeat", (req, res) => {
   });
 });
 
+console.log("[boot] about to app.listen");
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server running on http://0.0.0.0:${PORT}`);
 
