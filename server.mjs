@@ -13,7 +13,7 @@ import { dbDelegateTask, dbCompleteTask } from "./server/tasks-mutations.mjs";
 import taskEventsSSE from "./server/routes/task-events-sse.mjs";
 import apiTasksMutationsRouter from "./server/routes/api-tasks-mutations.mjs";
 import { handleDelegateTaskSpec as phase23HandleDelegateTaskSpec } from "./server/api/tasks-mutations/delegate-taskspec.mjs";
-import { registerPhase36RunView } from "../server/routes/phase36_run_view.mjs";
+import { registerPhase36RunView } from "./server/routes/phase36_run_view.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
