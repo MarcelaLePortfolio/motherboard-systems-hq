@@ -742,9 +742,18 @@
     window.addEventListener("mb.task.event", (e) => {
       const k = String(e?.detail?.kind || e?.detail?.type || "");
       if (k === "heartbeat") return;
+      if (k.startsWith("task.")) {
+        window.__MB_TASKS_SSE_SEEN = true;
+        window.__MB_TASKS_LAST_TASK_EVENT_AT = Date.now();
+      }
       fetchTasks();
     });
+    if (typeof window.__MB_TASKS_SSE_SEEN === "undefined") window.__MB_TASKS_SSE_SEEN = false;
+    if (typeof window.__MB_TASKS_LAST_TASK_EVENT_AT === "undefined") window.__MB_TASKS_LAST_TASK_EVENT_AT = 0;
     setInterval(() => {
+      const seen = !!window.__MB_TASKS_SSE_SEEN;
+      const age = Date.now() - (window.__MB_TASKS_LAST_TASK_EVENT_AT || 0);
+      if (seen && age < 3e4) return;
       fetchTasks();
     }, 5e3);
   })();
