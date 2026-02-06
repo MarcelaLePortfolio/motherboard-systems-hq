@@ -2,7 +2,9 @@
 set -euo pipefail
 
 : "${BASE_URL:=http://127.0.0.1:8080}"
+export BASE_URL
 : "${RUN_ID:=run-$(date +%Y%m%d-%H%M%S)}"
+export RUN_ID
 : "${TASK_ID:=phase36.smoke.task}"
 : "${PGC:=motherboard_systems_hq-postgres-1}"
 
