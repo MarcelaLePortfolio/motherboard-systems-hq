@@ -16,8 +16,6 @@ function _asJson(req) {
 
 function _getPoolOrFail(res) {
   const pool = globalThis.__DB_POOL;
-  console.log("[phase25] _getPoolOrFail", { has: !!pool, type: pool?.constructor?.name, keys: pool ? Object.keys(pool).slice(0,5) : [] });
-  console.log("[phase25] _getPoolOrFail", { has: !!pool, type: pool?.constructor?.name, keys: pool ? Object.keys(pool).slice(0,5) : [] });
   if (!pool) {
     res.status(500).json({ ok: false, error: "db_pool_not_initialized" });
     return null;
