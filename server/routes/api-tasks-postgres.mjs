@@ -135,6 +135,38 @@ apiTasksRouter.post("/create", async (req, res) => {
 
     task_id = String(task_id);
 
+      // phase25: ensure tasks row exists even when caller provides task_id
+      // (workers claim from tasks, not task_events)
+      await pool.query(
+        `
+        INSERT INTO tasks (task_id, title, agent, status, source, trace_id, meta, payload, run_id, actor)
+        VALUES ($1, $2, $3, $4, $5, $6, $7::jsonb, $8::jsonb, $9, $10)
+        ON CONFLICT (task_id) WHERE task_id IS NOT NULL DO UPDATE
+        SET title = EXCLUDED.title,
+            agent = EXCLUDED.agent,
+            status = EXCLUDED.status,
+            source = EXCLUDED.source,
+            trace_id = EXCLUDED.trace_id,
+            meta = EXCLUDED.meta,
+            payload = EXCLUDED.payload,
+            run_id = COALESCE(EXCLUDED.run_id, tasks.run_id),
+            actor = COALESCE(EXCLUDED.actor, tasks.actor),
+            updated_at = now()
+        `,
+        [
+          task_id,
+          (b.title ?? null),
+          (b.agent ?? null),
+          (b.status ?? "delegated"),
+          (b.source ?? "api"),
+          (b.trace_id ?? b.traceId ?? null),
+          (b.meta ?? {}),
+          (b.payload ?? {}),
+          (b.run_id ?? b.runId ?? null),
+          (b.actor ?? "api"),
+        ]
+      );
+
 const evt = await emitTaskEvent({
       pool,
       kind: "task.created",
