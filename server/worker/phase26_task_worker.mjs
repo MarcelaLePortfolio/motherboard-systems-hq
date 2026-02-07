@@ -117,7 +117,7 @@ async function loop() {
           const task = await claimOne(c, run_id);
         if (!task) {
             dbg('claim_none');
-            await c.query(\"COMMIT\");
+            await c.query("COMMIT");
             c.release();
             await sleep(TICK_MS);
             backoff = BACKOFF_BASE_MS;
