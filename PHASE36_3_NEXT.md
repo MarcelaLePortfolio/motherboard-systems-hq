@@ -18,24 +18,36 @@ Define a read-only, canonical interface for listing runs (multi-row observabilit
 ## Proposed Endpoint
 - GET /api/runs
 
+## Canonical Source
+- SQL view: run_view (current)
+- Note: run_view does NOT expose created_at/updated_at; it exposes event/heartbeat timestamps in epoch-ms.
+
+## Ordering (Deterministic)
+- last_event_ts DESC NULLS LAST
+- last_event_id DESC NULLS LAST
+- run_id DESC (tie-break)
+
+Rationale: matches run_view’s own determinism (latest event per run_id), avoids UI-derived state.
+
 ## Query Parameters (Contract)
 All optional. Server must apply deterministic defaults.
 
 - limit (int)
   - default: 50
   - max: 200
+
 - cursor (string)
   - opaque cursor for future pagination (contract only)
-- status (string or CSV)
-  - exact match against SQL status values
-- since (RFC3339 timestamp)
-  - applies to updated_at OR created_at (decision required)
-- task_id (string)
-  - optional filter if present in SQL source
 
-## Ordering (Deterministic)
-- created_at DESC
-- run_id DESC (tie-break)
+- task_status (string or CSV)
+  - exact match against run_view.task_status (values enumerated by probe script)
+
+- is_terminal (boolean)
+  - exact match against run_view.is_terminal
+
+- since_ts (epoch-ms bigint)
+  - filter by last_event_ts >= since_ts
+  - NOTE: run_view uses epoch-ms; avoid RFC3339 conversion in v1 contract.
 
 ## Response Shape (Contract)
 {
@@ -45,43 +57,56 @@ All optional. Server must apply deterministic defaults.
       {
         "run_id": "r123",
         "task_id": "t30",
-        "status": "running",
         "actor": "docker-wA",
-        "created_at": "2026-02-10T00:00:00.000Z",
-        "updated_at": "2026-02-10T00:00:00.000Z"
+        "task_status": "running",
+        "is_terminal": false,
+        "last_event_kind": "heartbeat",
+        "last_event_ts": 1770000000000,
+        "last_event_id": 123,
+        "last_heartbeat_ts": 1770000000000,
+        "heartbeat_age_ms": 0,
+        "lease_expires_at": 1770000010000,
+        "lease_fresh": true,
+        "lease_ttl_ms": 10000,
+        "terminal_event_kind": null,
+        "terminal_event_ts": null,
+        "terminal_event_id": null
       }
     ],
     "next_cursor": null
   }
 }
 
-## SQL Source (Planning)
-Preferred:
-- runs_list_view (projection of run_view)
-Requirements:
-- One row per run_id
-- Deterministic fields only
-- No volatile expressions
+Notes:
+- Fields must come directly from SQL (no UI-derived / JS-derived state).
+- next_cursor is part of the contract but may remain null until pagination is implemented.
 
-Alternative:
-- Deterministic SELECT from run_view (no new view)
+## SQL Source (Planning)
+Option A (preferred): runs_list_view (projection of run_view)
+- one row per run_id (inherited)
+- strict projection of list-safe fields only
+- stable ordering based on last_event_ts/last_event_id/run_id
+
+Option B: deterministic SELECT from run_view (no new view)
+- acceptable if it stays simple and stable
 
 ## Invariants
 - Read-only
 - DB is source of truth
 - Deterministic ordering
-- Idempotent responses
-- No UI- or JS-derived state
+- Idempotent responses for same DB state
+- No UI- or JS-derived state beyond serialization
 
-## Open Questions
-1) since applies to updated_at or created_at?
-2) Canonical status set?
-3) Is task_id filter required in v1?
-4) Cursor based on (created_at, run_id)?
-5) Env-specific limits?
+## Validation Probe (Dev)
+- scripts/phase36_3_probe_run_view.sh
+
+Use output to:
+- confirm list fields
+- enumerate canonical task_status values
+- sanity-check event-kind distributions
 
 ## Exit Criteria (Planning)
-- API contract locked
-- SQL source chosen
-- Ordering and limits locked
+- API contract locked (params + response fields)
+- SQL source chosen (run_view projection vs runs_list_view)
+- Ordering + limits locked
 - Non-goals explicit
