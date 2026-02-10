@@ -1,19 +1,35 @@
 import { Pool } from "pg";
 
 /**
- * Phase 36.1 — read-only run-centric observability
+ * Phase 36.2 — read-only run-centric observability
  * GET /api/runs/:run_id
+ *
+ * Contract:
+ * - Read-only
+ * - Backed strictly by SQL view: run_view
+ * - No writes, no derived state
  */
 function getPool() {
-  const url = process.env.POSTGRES_URL || process.env.DATABASE_URL;
-  if (!url) throw new Error("Missing POSTGRES_URL (or DATABASE_URL)");
-
-  // Prefer the app-wide pool if present; else create a small dedicated pool.
+  // Prefer the app-wide pool if present; this matches the server’s canonical DB config.
   if (globalThis.__DB_POOL) return globalThis.__DB_POOL;
+
+  const url = process.env.POSTGRES_URL || process.env.DATABASE_URL;
+
+  // If URL is not provided, fall back to PG* env vars (matches server.mjs behavior).
+  // NOTE: In containers, PGHOST should be "postgres" (service DNS), not 127.0.0.1.
+  const cfg = url
+    ? { connectionString: url }
+    : {
+        host: process.env.PGHOST || "127.0.0.1",
+        port: Number(process.env.PGPORT || 5432),
+        user: process.env.PGUSER || "postgres",
+        password: process.env.PGPASSWORD || "postgres",
+        database: process.env.PGDATABASE || "postgres",
+      };
 
   if (!globalThis.__PHASE36_RUNVIEW_POOL) {
     globalThis.__PHASE36_RUNVIEW_POOL = new Pool({
-      connectionString: url,
+      ...cfg,
       max: 5,
       idleTimeoutMillis: 30_000,
     });
