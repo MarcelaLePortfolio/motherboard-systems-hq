@@ -3,6 +3,10 @@ import path from "node:path";
 import process from "node:process";
 import { Pool } from "pg";
 import { emitTaskEvent } from "../task_events_emit.mjs";
+
+const PHASE26_DEBUG = String(process.env.PHASE26_DEBUG || "1") === "1";
+function dbg(...args) { if (PHASE26_DEBUG) console.log("[phase26][dbg]", ...args); }
+
 function sleep(ms) { return new Promise((r) => setTimeout(r, ms)); }
 function readSqlFile(p) {
   const abs = path.isAbsolute(p) ? p : path.join(process.cwd(), p);
@@ -89,6 +93,7 @@ async function loop() {
   let backoff = BACKOFF_BASE_MS;
   // eslint-disable-next-line no-constant-condition
   while (true) {
+    dbg('tick', { ts: new Date().toISOString(), owner });
     const run_id = `run-${Date.now()}-${Math.random().toString(16).slice(2)}`;
     try {
       const c = await pool.connect();
@@ -108,8 +113,16 @@ async function loop() {
           }
         }
 
-        const task = await claimOne(c, run_id);
-        if (!task) continue;
+        dbg('claim_attempt');
+          const task = await claimOne(c, run_id);
+        if (!task) {
+            dbg('claim_none');
+            await c.query("COMMIT");
+            c.release();
+            await sleep(TICK_MS);
+            backoff = BACKOFF_BASE_MS;
+            continue;
+          }
 
         // Phase35: workers must use stable string task_id (tN), not numeric id.
         const stableTaskId = String(task.task_id ?? (`t${task.id}`));
@@ -183,7 +196,8 @@ async function loop() {
       }
     } catch (e) {
       console.error("[worker] loop error", e);
-      await sleep(backoff);
+      dbg('sleep_backoff', { backoff });
+        await sleep(backoff);
       backoff = Math.min(backoff * 2, 30000);
     }
   }

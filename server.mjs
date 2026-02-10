@@ -13,6 +13,7 @@ import { dbDelegateTask, dbCompleteTask } from "./server/tasks-mutations.mjs";
 import taskEventsSSE from "./server/routes/task-events-sse.mjs";
 import apiTasksMutationsRouter from "./server/routes/api-tasks-mutations.mjs";
 import { handleDelegateTaskSpec as phase23HandleDelegateTaskSpec } from "./server/api/tasks-mutations/delegate-taskspec.mjs";
+import { registerPhase36RunView } from "./server/routes/phase36_run_view.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -104,6 +105,7 @@ function _phase16SendJson(res, code, obj) {
 // Phase 16: optional dashboard SSE endpoints (OPS + Reflections)
 try {
   registerOptionalSSE(app);
+registerPhase36RunView(app);
   console.log("[SSE] /events/ops + /events/reflections registered");
 } catch (e) {
   console.warn("[SSE] Failed to register optional SSE:", e && e.message ? e.message : e);

@@ -126,10 +126,28 @@
   window.addEventListener("mb.task.event", (e) => {
     const k = String(e?.detail?.kind || e?.detail?.type || "");
     if (k === "heartbeat") return;
+
+    // Treat only real task.* frames as evidence SSE is "live" for task updates.
+    if (k.startsWith("task.")) {
+      window.__MB_TASKS_SSE_SEEN = true;
+      window.__MB_TASKS_LAST_TASK_EVENT_AT = Date.now();
+    }
+
     fetchTasks();
   });
 
-// Auto-refresh (no SSE): keep widget feeling live
-  setInterval(() => { fetchTasks(); }, 5000);
+  // Auto-refresh fallback: poll only when SSE has not produced task.* recently
+  if (typeof window.__MB_TASKS_SSE_SEEN === "undefined") window.__MB_TASKS_SSE_SEEN = false;
+  if (typeof window.__MB_TASKS_LAST_TASK_EVENT_AT === "undefined") window.__MB_TASKS_LAST_TASK_EVENT_AT = 0;
 
+// Auto-refresh (no SSE): keep widget feeling live
+  setInterval(() => {
+    const seen = !!window.__MB_TASKS_SSE_SEEN;
+    const age = Date.now() - (window.__MB_TASKS_LAST_TASK_EVENT_AT || 0);
+
+    // If SSE is producing real task.* updates recently, skip polling to avoid UI churn.
+    if (seen && age < 30000) return;
+
+    fetchTasks();
+  }, 5000);
 })();
