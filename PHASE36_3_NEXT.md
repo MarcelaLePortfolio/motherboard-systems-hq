@@ -1,22 +1,38 @@
-# Phase 36.3 — Run List Observability (Planning Only)
+# Phase 36.3 — Run List Observability (PLANNING ONLY)
 
-## Purpose
-Extend run-centric observability from single-run inspection to **safe listing** without introducing state, writes, or UI inference.
+## Goal
+Define the read-only observability surface for listing runs, without implementing it yet.
 
-## Proposed Scope (planning only)
-- Read-only endpoint: GET /api/runs
-- Backed strictly by SQL (likely run_view)
-- Deterministic ordering (explicit ORDER BY)
-- Pagination via LIMIT/OFFSET or cursor (decision deferred)
+## Non-Goals
+- No writes or mutations
+- No worker changes
+- No pagination logic implementation
+- No UI changes beyond planning notes
 
-## Explicit Non-Goals
-- No mutations
-- No aggregation beyond SQL
-- No dashboards or UI coupling
-- No inferred lifecycle state
+## Proposed API Shape (Tentative)
+- GET /api/runs
+- Backed strictly by SQL (view or deterministic SELECT)
+- Read-only, DB is source of truth
 
-## Prerequisite
-- Phase 36.2 must remain unchanged and authoritative for single-run inspection.
+## Data Source (Tentative)
+- run_view or a new runs_list_view
+- One row per run_id
+- No derived or UI-computed state
 
-## Status
-📝 Planning stub only — no code changes in this phase yet.
+## Open Questions
+- Required filters (status? time range?)
+- Default ordering (created_at vs updated_at)
+- Upper bounds / safety limits
+- Whether a dedicated SQL view is warranted
+
+## Invariants
+- Deterministic results
+- Idempotent reads
+- No side effects
+- SQL defines truth
+
+## Exit Criteria (Planning)
+- API contract agreed
+- SQL source identified
+- Invariants locked
+- Explicit non-goals documented
