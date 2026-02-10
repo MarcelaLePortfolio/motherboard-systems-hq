@@ -1,29 +1,36 @@
 #!/usr/bin/env bash
 set -euo pipefail
-
 BASE="${BASE_URL:-http://127.0.0.1:3000}"
 
-html="$(curl -fsS "$BASE/" | head -c 300000)"
+html="$(curl -fsS "$BASE/" | head -c 400000)"
 
-# 1) Dashboard HTML should reference the widget JS (server-side deterministic)
-echo "$html" | grep -q 'dashboard-tasks-widget.js' || {
-  echo "FAIL: dashboard HTML did not reference dashboard-tasks-widget.js"
+# Find a JS asset the dashboard actually references.
+# Prefer bundle.js (most common), otherwise fall back to dashboard-bundle-entry.js or any /js/*.js
+script_path="$(
+  echo "$html" | grep -oE 'src="[^"]+\.js"' | sed -E 's/^src="|"$//g' | {
+    grep -E '^/bundle\.js(\?|$)' || true
+    grep -E '^/js/dashboard-bundle-entry\.js(\?|$)' || true
+    grep -E '^/js/[^"]+\.js(\?|$)' | head -n 1 || true
+  } | head -n 1
+)"
+
+if [ -z "${script_path:-}" ]; then
+  echo "FAIL: dashboard HTML did not include any <script src=\"...js\"> tags we could parse"
   exit 1
-}
+fi
 
-# 2) Fetch that JS and ensure it contains the deterministic marker logic (build-time deterministic)
-js="$(curl -fsS "$BASE/js/dashboard-tasks-widget.js" | head -c 500000)"
+# Fetch referenced JS and ensure it contains the Runs panel marker logic (deterministic build artifact)
+js="$(curl -fsS "$BASE$script_path" | head -c 2000000)"
 
-# Accept either HTML marker or dataset assignment as evidence
 echo "$js" | grep -q 'data-runs-panel="1"\|dataset\.runsPanel\s*=\s*"1"' || {
-  echo 'FAIL: dashboard-tasks-widget.js missing runs panel marker ("data-runs-panel=\"1\"" or dataset.runsPanel="1")'
+  echo "FAIL: referenced JS ($script_path) missing runs panel marker (data-runs-panel=\"1\" or dataset.runsPanel=\"1\")"
   exit 1
 }
 
-# 3) Optional: verify /api/runs is reachable
+# Optional: verify /api/runs is reachable
 curl -fsS "$BASE/api/runs?limit=1" >/dev/null || {
   echo "FAIL: /api/runs not reachable"
   exit 1
 }
 
-echo "OK: dashboard references tasks widget JS; JS contains Runs panel marker; /api/runs reachable."
+echo "OK: dashboard references $script_path; JS contains Runs panel marker; /api/runs reachable."
