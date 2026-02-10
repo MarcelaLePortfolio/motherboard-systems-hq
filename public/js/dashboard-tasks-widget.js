@@ -115,7 +115,9 @@
       </div>
     `;
 
-    mount.querySelectorAll("button[data-id]").forEach(btn => {
+    
+      try { if (typeof renderRunsPanel === "function") renderRunsPanel(mount); } catch (e) { console.warn("[runs] panel mount failed", e); }
+mount.querySelectorAll("button[data-id]").forEach(btn => {
       btn.onclick = () => completeTask(btn.dataset.id);
     });
   }
@@ -150,7 +152,6 @@
 
     fetchTasks();
   }, 5000);
-})();
 
 // Phase 36.5 — Runs list UI (read-only; DB is source of truth; no UI inference)
 function qsGetMulti(params, key) {
@@ -352,3 +353,5 @@ function renderRunsPanel(root) {
 
   refresh();
 }
+
+})();
