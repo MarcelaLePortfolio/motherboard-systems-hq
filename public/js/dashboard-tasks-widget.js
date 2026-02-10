@@ -188,7 +188,7 @@ function renderRunsPanel(root) {
   if (root.querySelector("[data-runs-panel=\"1\"]")) return;
 
   const wrap = document.createElement("div");
-wrap.dataset.runsPanel = "1";
+  wrap.dataset.runsPanel = "1";
   wrap.className = "card";
   wrap.style.marginTop = "12px";
 
