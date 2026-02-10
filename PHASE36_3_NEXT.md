@@ -1,38 +1,87 @@
 # Phase 36.3 — Run List Observability (PLANNING ONLY)
 
 ## Goal
-Define the read-only observability surface for listing runs, without implementing it yet.
+Define a read-only, canonical interface for listing runs (multi-row observability) with DB as source of truth.
+
+## Scope (Planning Only)
+- Define API contract for a run list endpoint
+- Define backing SQL source (view preferred) and invariants
+- Define safety limits, ordering, and filter semantics
+- No implementation, no UI wiring, no worker changes
 
 ## Non-Goals
 - No writes or mutations
-- No worker changes
-- No pagination logic implementation
+- No changes to worker leasing/claiming/reclaim
+- No pagination implementation (only define contract)
 - No UI changes beyond planning notes
 
-## Proposed API Shape (Tentative)
+## Proposed Endpoint
 - GET /api/runs
-- Backed strictly by SQL (view or deterministic SELECT)
-- Read-only, DB is source of truth
 
-## Data Source (Tentative)
-- run_view or a new runs_list_view
+## Query Parameters (Contract)
+All optional. Server must apply deterministic defaults.
+
+- limit (int)
+  - default: 50
+  - max: 200
+- cursor (string)
+  - opaque cursor for future pagination (contract only)
+- status (string or CSV)
+  - exact match against SQL status values
+- since (RFC3339 timestamp)
+  - applies to updated_at OR created_at (decision required)
+- task_id (string)
+  - optional filter if present in SQL source
+
+## Ordering (Deterministic)
+- created_at DESC
+- run_id DESC (tie-break)
+
+## Response Shape (Contract)
+{
+  "ok": true,
+  "data": {
+    "items": [
+      {
+        "run_id": "r123",
+        "task_id": "t30",
+        "status": "running",
+        "actor": "docker-wA",
+        "created_at": "2026-02-10T00:00:00.000Z",
+        "updated_at": "2026-02-10T00:00:00.000Z"
+      }
+    ],
+    "next_cursor": null
+  }
+}
+
+## SQL Source (Planning)
+Preferred:
+- runs_list_view (projection of run_view)
+Requirements:
 - One row per run_id
-- No derived or UI-computed state
+- Deterministic fields only
+- No volatile expressions
 
-## Open Questions
-- Required filters (status? time range?)
-- Default ordering (created_at vs updated_at)
-- Upper bounds / safety limits
-- Whether a dedicated SQL view is warranted
+Alternative:
+- Deterministic SELECT from run_view (no new view)
 
 ## Invariants
-- Deterministic results
-- Idempotent reads
-- No side effects
-- SQL defines truth
+- Read-only
+- DB is source of truth
+- Deterministic ordering
+- Idempotent responses
+- No UI- or JS-derived state
+
+## Open Questions
+1) since applies to updated_at or created_at?
+2) Canonical status set?
+3) Is task_id filter required in v1?
+4) Cursor based on (created_at, run_id)?
+5) Env-specific limits?
 
 ## Exit Criteria (Planning)
-- API contract agreed
-- SQL source identified
-- Invariants locked
-- Explicit non-goals documented
+- API contract locked
+- SQL source chosen
+- Ordering and limits locked
+- Non-goals explicit
