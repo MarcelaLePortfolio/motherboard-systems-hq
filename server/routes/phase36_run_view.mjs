@@ -91,17 +91,25 @@ export function registerPhase36RunView(app) {
 
       // Deterministic ordering (no UI inference): newest activity first; stable tie-breaks
       const sql = `
-        SELECT
+        
+    SELECT
           run_id,
           task_id,
           task_status,
           is_terminal,
           last_event_id,
           last_event_ts,
+          last_event_kind,
           actor,
-          error,
-          lease_epoch,
-          lease_expires_at
+          lease_expires_at,
+          lease_fresh,
+          lease_ttl_ms,
+          last_heartbeat_ts,
+          heartbeat_age_ms,
+          terminal_event_kind,
+          terminal_event_ts,
+          terminal_event_id
+  
         FROM run_view
         ${whereSql}
         ORDER BY
