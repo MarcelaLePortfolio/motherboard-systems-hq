@@ -122,8 +122,7 @@
         console.warn("[runs] panel mount failed", e);
       }
 
-      mount.querySelectorAll("button[data-id]").forEach
-  (btn => {
+      mount.querySelectorAll("button[data-id]").forEach(btn => {
       btn.onclick = () => completeTask(btn.dataset.id);
     });
   }
@@ -187,8 +186,9 @@ function fmtTs(ms) {
 function renderRunsPanel(root) {
   if (!root) return;
   if (root.querySelector("[data-runs-panel=\"1\"]")) return;
-const wrap = document.createElement("div");
-  wrap.dataset.runsPanel = "1";
+
+  const wrap = document.createElement("div");
+wrap.dataset.runsPanel = "1";
   wrap.className = "card";
   wrap.style.marginTop = "12px";
 
