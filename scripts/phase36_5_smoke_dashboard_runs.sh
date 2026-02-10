@@ -1,11 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
+
 BASE="${BASE_URL:-http://127.0.0.1:3000}"
 
 html="$(curl -fsS "$BASE/" | head -c 400000)"
 
-# Find a JS asset the dashboard actually references.
-# Prefer bundle.js (most common), otherwise fall back to dashboard-bundle-entry.js or any /js/*.js
 script_path="$(
   echo "$html" | grep -oE 'src="[^"]+\.js"' | sed -E 's/^src="|"$//g' | {
     grep -E '^/bundle\.js(\?|$)' || true
@@ -19,7 +18,6 @@ if [ -z "${script_path:-}" ]; then
   exit 1
 fi
 
-# Fetch referenced JS and ensure it contains the Runs panel marker logic (deterministic build artifact)
 js="$(curl -fsS "$BASE$script_path" | head -c 2000000)"
 
 echo "$js" | grep -q 'data-runs-panel="1"\|dataset\.runsPanel\s*=\s*"1"' || {
@@ -27,7 +25,6 @@ echo "$js" | grep -q 'data-runs-panel="1"\|dataset\.runsPanel\s*=\s*"1"' || {
   exit 1
 }
 
-# Optional: verify /api/runs is reachable
 curl -fsS "$BASE/api/runs?limit=1" >/dev/null || {
   echo "FAIL: /api/runs not reachable"
   exit 1
