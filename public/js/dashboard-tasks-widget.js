@@ -96,6 +96,7 @@
     const mount = findMount();
     if (!mount) return;
 
+    
     mount.innerHTML = `
       <div>
         
@@ -115,9 +116,14 @@
       </div>
     `;
 
-    
-      try { if (typeof renderRunsPanel === "function") renderRunsPanel(mount); } catch (e) { console.warn("[runs] panel mount failed", e); }
-mount.querySelectorAll("button[data-id]").forEach(btn => {
+      try {
+        if (typeof renderRunsPanel === "function") renderRunsPanel(mount);
+      } catch (e) {
+        console.warn("[runs] panel mount failed", e);
+      }
+
+      mount.querySelectorAll("button[data-id]").forEach
+  (btn => {
       btn.onclick = () => completeTask(btn.dataset.id);
     });
   }
@@ -154,12 +160,6 @@ mount.querySelectorAll("button[data-id]").forEach(btn => {
   }, 5000);
 
 // Phase 36.5 — Runs list UI (read-only; DB is source of truth; no UI inference)
-function qsGetMulti(params, key) {
-  const out = [];
-  for (const [k, v] of params.entries()) if (k === key) out.push(v);
-  return out;
-}
-
 function buildRunsQuery({ limit, task_status, is_terminal, since_ts }) {
   const p = new URLSearchParams();
   if (limit != null && String(limit).trim() !== "") p.set("limit", String(limit));
@@ -185,7 +185,10 @@ function fmtTs(ms) {
 }
 
 function renderRunsPanel(root) {
-  const wrap = document.createElement("div");
+  if (!root) return;
+  if (root.querySelector("[data-runs-panel=\"1\"]")) return;
+const wrap = document.createElement("div");
+  wrap.dataset.runsPanel = "1";
   wrap.className = "card";
   wrap.style.marginTop = "12px";
 
