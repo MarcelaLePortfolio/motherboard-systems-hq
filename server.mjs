@@ -102,10 +102,12 @@ function _phase16SendJson(res, code, obj) {
   }
   // ==============================================
 
+  // Phase 36.2: run_view-backed run observability (must not depend on optional SSE)
+  registerPhase36RunView(app);
+
 // Phase 16: optional dashboard SSE endpoints (OPS + Reflections)
 try {
   registerOptionalSSE(app);
-registerPhase36RunView(app);
   console.log("[SSE] /events/ops + /events/reflections registered");
 } catch (e) {
   console.warn("[SSE] Failed to register optional SSE:", e && e.message ? e.message : e);
