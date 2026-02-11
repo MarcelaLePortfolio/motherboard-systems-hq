@@ -1,0 +1,22 @@
+=== run-1770231068596-ee66e3b5d20df ===
+Pager usage is off.
+             run_id              | task_id |   actor   | lease_expires_at | lease_fresh | lease_ttl_ms | last_heartbeat_ts | heartbeat_age_ms | last_event_id | last_event_ts | last_event_kind | task_status | is_terminal | terminal_event_kind | terminal_event_ts | terminal_event_id 
+---------------------------------+---------+-----------+------------------+-------------+--------------+-------------------+------------------+---------------+---------------+-----------------+-------------+-------------+---------------------+-------------------+-------------------
+ run-1770231068596-ee66e3b5d20df | t30     | docker-wB |    1770234851704 | f           |            0 |                   |                  |          2089 | 1770231068616 | task.completed  | completed   | t           |                     |                   |                  
+(1 row)
+
+ id | task_id | status | claimed_by | claimed_at | lease_epoch | lease_expires_at | run_id | actor | error | updated_at 
+----+---------+--------+------------+------------+-------------+------------------+--------+-------+-------+------------
+(0 rows)
+
+  id  |      ts       |      kind      | task_id |             run_id              |   actor   
+------+---------------+----------------+---------+---------------------------------+-----------
+ 2088 | 1770231068610 | task.running   | t30     | run-1770231068596-ee66e3b5d20df | docker-wB
+ 2089 | 1770231068616 | task.completed | t30     | run-1770231068596-ee66e3b5d20df | docker-wB
+(2 rows)
+
+  id  |      ts       |      kind      | task_id |             run_id              |   actor   
+------+---------------+----------------+---------+---------------------------------+-----------
+ 2089 | 1770231068616 | task.completed | t30     | run-1770231068596-ee66e3b5d20df | docker-wB
+(1 row)
+
