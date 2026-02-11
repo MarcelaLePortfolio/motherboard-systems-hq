@@ -1,0 +1,1 @@
+Handoff (Phase 37.6 start): on branch feature/phase37-6-start cut from main @ bfb95bb1 (tag v37.6-planning-stub); Phase 37.5 golden at fbe7047d; CI required workflow ci/build-and-test is passing; protocols: PR-only to main, scope-locked per phase, 3-fail limit per hypothesis then revert to last known good.
