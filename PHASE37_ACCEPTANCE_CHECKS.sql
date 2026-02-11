@@ -148,7 +148,7 @@ LEFT JOIN LATERAL (
   SELECT 1 AS has_term
   FROM public.task_events te
   WHERE te.run_id = rv.run_id
-    AND te.kind IN ('task.completed','task.failed','task.cancelled')
+    AND te.kind IN ('completed','failed','canceled','cancelled')
   LIMIT 1
 ) x ON true
 WHERE rv.is_terminal = true
