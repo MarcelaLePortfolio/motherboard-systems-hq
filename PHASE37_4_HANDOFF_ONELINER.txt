@@ -1,0 +1,1 @@
+Handoff (Phase 37.4 planning): on main at tag v37.3-phase37-acceptance-terminal_kinds-aligned; acceptance lens clean except 5 real integrity gaps (terminal tasks.status with no terminal task_events); forensics captured under artifacts/phase37_3_integrity_gaps_20260211_130102; next = plan minimal remedy (no schema/view/worker changes until decision record).
