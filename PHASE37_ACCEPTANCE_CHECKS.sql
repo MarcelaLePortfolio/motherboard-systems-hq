@@ -115,7 +115,7 @@ WITH terminal AS (
     kind AS term_kind
   FROM public.task_events
   WHERE run_id IS NOT NULL
-    AND kind IN ('task.completed','task.failed','task.cancelled')
+    AND kind IN ('completed','failed','canceled','cancelled')
   ORDER BY run_id, ts DESC, id DESC
 )
 SELECT
