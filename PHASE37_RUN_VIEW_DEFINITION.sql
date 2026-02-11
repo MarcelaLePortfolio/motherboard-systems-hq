@@ -38,7 +38,7 @@
                     te_1.ts AS terminal_event_ts,
                     te_1.id AS terminal_event_id
                    FROM task_events te_1
-                  WHERE te_1.run_id IS NOT NULL AND (te_1.kind = ANY (ARRAY['completed'::text, 'failed'::text, 'canceled'::text, 'cancelled'::text]))
+                  WHERE te_1.run_id IS NOT NULL AND (te_1.kind = ANY (ARRAY['task.completed'::text, 'task.failed'::text, 'task.canceled'::text, 'task.cancelled'::text, 'task.timeout'::text, 'task.timed_out'::text]))
                   ORDER BY te_1.task_id, te_1.run_id, te_1.id DESC
                 )
          SELECT le.run_id,
