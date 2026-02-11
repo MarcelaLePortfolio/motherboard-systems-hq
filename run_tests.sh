@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+
+# Phase 37.6: guard against run_view drift (single owner)
+./scripts/phase37_6_run_view_single_owner_check.sh
+
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$REPO_ROOT"
 
