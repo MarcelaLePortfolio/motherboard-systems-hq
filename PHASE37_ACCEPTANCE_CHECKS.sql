@@ -112,10 +112,10 @@ WITH terminal AS (
     run_id,
     id AS term_id,
     ts AS term_ts,
-    kind AS term_kind
+    regexp_replace(kind, '^task\.', '') AS term_kind
   FROM public.task_events
   WHERE run_id IS NOT NULL
-    AND kind IN ('completed','failed','canceled','cancelled')
+    AND regexp_replace(kind, '^task\.', '') IN ('completed','failed','canceled','cancelled','timeout','timed_out')
   ORDER BY run_id, ts DESC, id DESC
 )
 SELECT
@@ -148,7 +148,7 @@ LEFT JOIN LATERAL (
   SELECT 1 AS has_term
   FROM public.task_events te
   WHERE te.run_id = rv.run_id
-    AND te.kind IN ('completed','failed','canceled','cancelled')
+    AND regexp_replace(te.kind, '^task\.', '') IN ('completed','failed','canceled','cancelled','timeout','timed_out')
   LIMIT 1
 ) x ON true
 WHERE rv.is_terminal = true
