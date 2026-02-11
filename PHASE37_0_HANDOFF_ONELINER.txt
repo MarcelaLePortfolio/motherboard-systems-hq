@@ -1,0 +1,1 @@
+Phase 37.0 ✅ Planning-only complete: provenance for run_view.last_event_{id,ts,kind} mechanically defined from task_events using canonical ordering (ts ASC, id ASC) and validated by acceptance lens §2a (0 mismatches). Protocols: no schema/view/worker changes; stop here.
