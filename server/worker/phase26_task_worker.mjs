@@ -123,11 +123,11 @@ async function loop() {
           const task = await claimOne(c, run_id);
 
   // Phase 39: Action Tier pre-execution gate
-  if (!__mbIsTierA((task as any)?.action_tier ?? (task as any)?.actionTier)) {
-    const __tier = String(((task as any)?.action_tier ?? (task as any)?.actionTier) ?? '');
+  if (!__mbIsTierA(task?.action_tier ?? task?.actionTier)) {
+    const __tier = String((task?.action_tier ?? task?.actionTier) ?? '');
     const tier = (__tier && __tier.trim()) ? __tier.trim() : 'UNKNOWN';
-    const e: any = new Error(`Blocked by action_tier gate: ${tier}`);
-    (e as any).code = 'ACTION_TIER_BLOCKED';
+    const e = new Error(`Blocked by action_tier gate: ${tier}`);
+    e.code = 'ACTION_TIER_BLOCKED';
     throw e;
   }
         if (!task) {
