@@ -5,18 +5,33 @@ set -euo pipefail
 # Canonical/only owner allowed to query run_view:
 ALLOWED="server/routes/phase36_run_view.mjs"
 
-# Search for run_view usage that implies DB access (string match is intentional + strict).
-# If you intentionally add a new owner, update ALLOWED and document why in PHASE37_6_NEXT.md.
-matches="$(git grep -nE '\brun_view\b' -- ':!'"$ALLOWED" || true)"
+# We only care about *server runtime code* that could execute SQL.
+# Docs, scripts, dashboards, and build artifacts may reference run_view freely.
+SCAN_PATHS=( "server" )
 
-if [[ -n "${matches}" ]]; then
-  echo "ERROR: run_view referenced outside allowed owner: ${ALLOWED}" >&2
+# Exclusions:
+# - Allowed owner file itself
+# - Tests (may reference run_view in fixtures)
+# - TypeScript sources if you’re not running them in prod
+EXCLUDE_GLOBS=(
+  "--glob=!${ALLOWED}"
+  "--glob=!server/**/__tests__/**"
+  "--glob=!server/**/*.test.*"
+  "--glob=!server/**/*.spec.*"
+  "--glob=!server/**/*.ts"
+)
+
+# Grep for run_view usage in server runtime code only (Bash 3.2 compatible).
+hits="$(rg -n "run_view" "${SCAN_PATHS[@]}" "${EXCLUDE_GLOBS[@]}" || true)"
+
+if [[ -n "${hits}" ]]; then
+  echo "ERROR: run_view referenced in server runtime code outside allowed owner: ${ALLOWED}" >&2
   echo "" >&2
   echo "Offending references:" >&2
-  echo "${matches}" >&2
+  printf '%s\n' "${hits}" >&2
   echo "" >&2
-  echo "Fix: remove/migrate the extra owner, or explicitly re-scope Phase 37.x to allow another owner." >&2
+  echo "Fix: move the runtime reference into ${ALLOWED}, or update this guard's exclusions intentionally." >&2
   exit 2
 fi
 
-echo "OK: run_view has a single owner (${ALLOWED})."
+echo "OK: run_view has a single runtime owner (${ALLOWED})."

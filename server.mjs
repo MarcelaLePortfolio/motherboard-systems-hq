@@ -14,6 +14,7 @@ import taskEventsSSE from "./server/routes/task-events-sse.mjs";
 import apiTasksMutationsRouter from "./server/routes/api-tasks-mutations.mjs";
 import { handleDelegateTaskSpec as phase23HandleDelegateTaskSpec } from "./server/api/tasks-mutations/delegate-taskspec.mjs";
 import { registerPhase36RunView } from "./server/routes/phase36_run_view.mjs";
+import { getRunsList } from "./routes/phase36_run_view.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -275,6 +276,8 @@ let lastOpsHeartbeat = Date.now();
 // ---- Static dashboard assets ----
 app.use("/public", express.static(path.join(__dirname, "public")));
 app.get("/bundle.js", (req, res) => res.sendFile(path.join(__dirname, "public", "bundle.js")));
+
+app.get("/api/runs", getRunsList);
 app.get("/bundle.js.map", (req, res) => res.sendFile(path.join(__dirname, "public", "bundle.js.map")));
 app.get("/dashboard", (req, res) => res.sendFile(path.join(__dirname, "public", "dashboard.html")));
 app.get("/", (req, res) => res.redirect("/dashboard"));
