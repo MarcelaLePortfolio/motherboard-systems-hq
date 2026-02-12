@@ -5,7 +5,7 @@ import { Pool } from "pg";
 import { emitTaskEvent } from "../task_events_emit.mjs";
 
 // Phase 39: Action Tier pre-execution gate (A allowed; B/C blocked)
-function __mbIsTierA(t: any): boolean {
+function __mbIsTierA(t){
   const v = String(t ?? 'A');
   return v === 'A';
 }
