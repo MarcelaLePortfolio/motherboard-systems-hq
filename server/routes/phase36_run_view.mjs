@@ -1,5 +1,5 @@
 import { Pool } from "pg";
-import { pool } from "../db.js";
+import { pool } from "../db.mjs";
 
 /**
  * Phase 36.2 — read-only run-centric observability
