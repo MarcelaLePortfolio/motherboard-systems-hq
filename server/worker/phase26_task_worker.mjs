@@ -4,6 +4,12 @@ import process from "node:process";
 import { Pool } from "pg";
 import { emitTaskEvent } from "../task_events_emit.mjs";
 
+// Phase 39: Action Tier pre-execution gate (A allowed; B/C blocked)
+function __mbIsTierA(t: any): boolean {
+  const v = String(t ?? 'A');
+  return v === 'A';
+}
+
 const PHASE26_DEBUG = String(process.env.PHASE26_DEBUG || "1") === "1";
 function dbg(...args) { if (PHASE26_DEBUG) console.log("[phase26][dbg]", ...args); }
 
@@ -115,6 +121,15 @@ async function loop() {
 
         dbg('claim_attempt');
           const task = await claimOne(c, run_id);
+
+  // Phase 39: Action Tier pre-execution gate
+  if (!__mbIsTierA((task as any)?.action_tier ?? (task as any)?.actionTier)) {
+    const __tier = String(((task as any)?.action_tier ?? (task as any)?.actionTier) ?? '');
+    const tier = (__tier && __tier.trim()) ? __tier.trim() : 'UNKNOWN';
+    const e: any = new Error(`Blocked by action_tier gate: ${tier}`);
+    (e as any).code = 'ACTION_TIER_BLOCKED';
+    throw e;
+  }
         if (!task) {
             dbg('claim_none');
             await c.query("COMMIT");
