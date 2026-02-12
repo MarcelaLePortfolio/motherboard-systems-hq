@@ -1,4 +1,5 @@
 import { Pool } from "pg";
+import { pool } from "../db.js";
 
 /**
  * Phase 36.2 — read-only run-centric observability
@@ -144,4 +145,29 @@ export function registerPhase36RunView(app) {
       return res.status(500).json({ error: "query_failed", detail: String(e?.message || e) });
     }
   });
+}
+
+const DEFAULT_LIMIT = 50;
+const MAX_LIMIT = 200;
+
+export async function getRunsList(req, res) {
+  const rawLimit = Number((req && req.query && req.query.limit) ?? DEFAULT_LIMIT);
+  const limit = Number.isFinite(rawLimit) && rawLimit > 0
+    ? Math.min(rawLimit, MAX_LIMIT)
+    : DEFAULT_LIMIT;
+
+  const sql = `
+    SELECT *
+    FROM run_view
+    ORDER BY created_at DESC, run_id DESC
+    LIMIT $1
+  `;
+
+  try {
+    const { rows } = await pool.query(sql, [limit]);
+    return res.status(200).json(rows);
+  } catch (err) {
+    console.error("GET /api/runs failed", err);
+    return res.status(500).json({ error: "internal_error" });
+  }
 }
