@@ -15,11 +15,21 @@ cleanup() { rm -f "$tmp_hdr" "$tmp_body"; }
 trap cleanup EXIT
 
 # Read-only contract smoke: /api/runs must be stable JSON and never write.
+# Preflight: fail fast with a clear message if the server isn't reachable.
+set +e
 http_code="$(
-  curl -sS -D "$tmp_hdr" -o "$tmp_body" -w '%{http_code}' \
+  curl -sS --connect-timeout 2 --max-time 8 \
+    -D "$tmp_hdr" -o "$tmp_body" -w '%{http_code}' \
     -H 'Accept: application/json' \
     "$RUNS_URL"
 )"
+curl_rc="$?"
+set -e
+
+if [[ "$curl_rc" -ne 0 ]]; then
+  echo "ERROR: cannot reach $RUNS_URL (curl rc=$curl_rc). Is the API server running on $BASE_URL ?" >&2
+  exit 1
+fi
 
 if [[ "$http_code" != "200" ]]; then
   echo "ERROR: expected 200 from $RUNS_URL, got $http_code" >&2
@@ -40,13 +50,8 @@ if [[ -z "$ct" || "$ct" != *"application/json"* ]]; then
   exit 1
 fi
 
-# JSON must be an array (possibly empty)
 jq -e 'type=="array"' "$tmp_body" >/dev/null
 
-# Contract-stable shape assertions:
-# - every element is an object
-# - if non-empty, each object must have stable core keys
-#   (do not assert ordering; do not assert optional fields)
 jq -e '
   (length == 0) or
   (all(.[]; type=="object")
@@ -56,7 +61,7 @@ jq -e '
   )
 ' "$tmp_body" >/dev/null
 
-# Ensure no duplicate run_id within the payload (single-owner surface should not duplicate rows)
+# Ensure no duplicate run_id within the payload
 jq -e '
   (length == 0) or
   ((map(.run_id) | length) == (map(.run_id) | unique | length))
