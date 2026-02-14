@@ -6,7 +6,9 @@ with picked as (
   select id
   from tasks
   where status = 'queued'
-    and (available_at is null or available_at <= now())
+    
+  AND COALESCE(action_tier, 'A') = 'A'
+and (available_at is null or available_at <= now())
     and (lock_expires_at is null or lock_expires_at <= now())
   order by id asc
   for update skip locked
