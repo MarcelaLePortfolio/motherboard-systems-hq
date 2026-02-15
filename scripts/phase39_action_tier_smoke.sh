@@ -51,13 +51,13 @@ echo "  psql_statement_timeout_ms=$STMT_TIMEOUT_MS"
 echo "  psql_lock_timeout_ms=$LOCK_TIMEOUT_MS"
 
 # ---- helpers ----
-sql_lit() { # SQL single-quoted literal
+sql_lit() { # SQL single-quoted literal with correct escaping (no backslashes)
   local s="${1-}"
-  s="${s//\'/\'\'}"
+  s="$(printf "%s" "$s" | sed "s/'/''/g")"
   printf "'%s'" "$s"
 }
 
-# render a $1/$2 parameterized SQL file into literal SQL for psql (worker uses $1/$2 placeholders)
+# render a $1/$2 parameterized SQL file into literal SQL for psql (worker SQL uses $1/$2 placeholders)
 render_sql_params() {
   local file_rel="$1"
   local p1="${2-}"
@@ -68,7 +68,7 @@ render_sql_params() {
   q1="$(sql_lit "$p1")"
   q2="$(sql_lit "$p2")"
 
-  perl -pe "s/\\$1\\b/$q1/g; s/\\$2\\b/$q2/g" "$file_rel"
+  Q1="$q1" Q2="$q2" perl -pe 'BEGIN{$q1=$ENV{Q1};$q2=$ENV{Q2}} s/\$1\b/$q1/g; s/\$2\b/$q2/g;' "$file_rel"
 }
 
 psql_run_sql() {
@@ -240,10 +240,7 @@ CLAIMED_TASK_ID="$(printf "%s\n" "$CLAIM_RAW" | awk 'NF{print; exit}')"
 [[ "$CLAIMED_TASK_ID" == "$TASK_A_ID" ]] || die "expected claim to return Tier A task_id=$TASK_A_ID but got: $CLAIMED_TASK_ID"
 
 note "Mark success for claimed Tier A"
-# Try to run mark_success with common parameter patterns:
-# - if it uses $1 as task_id -> pass TASK_A_ID
-# - if it uses $1 as run_id -> pass RUN_TAG
-# (either way, $2 (owner) is SMOKE_OWNER if referenced)
+# mark_success may accept either (task_id, owner) or (run_id, owner); try task_id first then run_id
 MARK_SQL="$(render_sql_params "$MARK_SUCCESS_SQL_FILE_REL" "$TASK_A_ID" "$SMOKE_OWNER")"
 printf "%s\n" "$MARK_SQL" | psql_run_sql >/dev/null || {
   MARK_SQL="$(render_sql_params "$MARK_SUCCESS_SQL_FILE_REL" "$RUN_TAG" "$SMOKE_OWNER")"
