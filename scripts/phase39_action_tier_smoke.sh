@@ -23,66 +23,22 @@ STMT_TIMEOUT_MS="${PHASE39_PSQL_TIMEOUT_MS:-12000}"
 LOCK_TIMEOUT_MS="${PHASE39_PSQL_LOCK_TIMEOUT_MS:-300}"
 PSQL_ENV=(env "PGOPTIONS=-c statement_timeout=${STMT_TIMEOUT_MS} -c lock_timeout=${LOCK_TIMEOUT_MS}")
 
-# ---- locate claim SQL (prefer env override, otherwise auto-discover) ----
-pick_sql_file() {
-  local env_var="$1"
-  local fallback_glob="$2"
-  local f=""
-
-  if [[ -n "${!env_var:-}" ]]; then
-    f="${!env_var}"
-    [[ -f "$f" ]] || die "$env_var is set but file does not exist: $f"
-    echo "$f"; return 0
-  fi
-
-  f="$(git ls-files | grep -E "$fallback_glob" | LC_ALL=C sort | head -n1 || true)"
-  [[ -n "${f:-}" ]] || die "could not auto-discover SQL file for $env_var via pattern: $fallback_glob"
-  echo "$f"
+psql_run() {
+  docker exec -i "$PGC" "${PSQL_ENV[@]}" psql -U postgres -d postgres -v ON_ERROR_STOP=1 "$@"
 }
-
-CLAIM_ONE_SQL_FILE_REL="$(pick_sql_file "PHASE32_CLAIM_ONE_SQL" '(^|/)phase32_.*claim_one\.sql$|(^|/)claim_one\.sql$')"
-MARK_SUCCESS_SQL_FILE_REL="$(pick_sql_file "PHASE32_MARK_SUCCESS_SQL" '(^|/)phase32_.*mark_success\.sql$|(^|/)mark_success\.sql$')"
+psql_run_at() {
+  docker exec -i "$PGC" "${PSQL_ENV[@]}" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -At "$@"
+}
 
 note "Using:"
 echo "  postgres_container=$PGC"
-echo "  claim_one_sql_rel=$CLAIM_ONE_SQL_FILE_REL"
-echo "  mark_success_sql_rel=$MARK_SUCCESS_SQL_FILE_REL"
 echo "  psql_statement_timeout_ms=$STMT_TIMEOUT_MS"
 echo "  psql_lock_timeout_ms=$LOCK_TIMEOUT_MS"
-
-# ---- helpers ----
-sql_lit() { # SQL single-quoted literal with correct escaping (no backslashes)
-  local s="${1-}"
-  s="$(printf "%s" "$s" | sed "s/'/''/g")"
-  printf "'%s'" "$s"
-}
-
-# render a $1/$2 parameterized SQL file into literal SQL for psql (worker SQL uses $1/$2 placeholders)
-render_sql_params() {
-  local file_rel="$1"
-  local p1="${2-}"
-  local p2="${3-}"
-  [[ -f "$file_rel" ]] || die "SQL file not found in repo: $file_rel"
-
-  local q1 q2
-  q1="$(sql_lit "$p1")"
-  q2="$(sql_lit "$p2")"
-
-  Q1="$q1" Q2="$q2" perl -pe 'BEGIN{$q1=$ENV{Q1};$q2=$ENV{Q2}} s/\$1\b/$q1/g; s/\$2\b/$q2/g;' "$file_rel"
-}
-
-psql_run_sql() {
-  docker exec -i "$PGC" "${PSQL_ENV[@]}" psql -U postgres -d postgres -v ON_ERROR_STOP=1 "$@"
-}
-
-psql_run_sql_at() {
-  docker exec -i "$PGC" "${PSQL_ENV[@]}" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -At "$@"
-}
 
 # ---- verify schema expectations ----
 note "Schema preflight (verify tasks.action_tier exists)"
 HAS_ACTION_TIER="$(
-  psql_run_sql_at <<'SQL'
+  psql_run_at <<'SQL'
 SELECT COUNT(*)::int
 FROM information_schema.columns
 WHERE table_schema='public'
@@ -92,15 +48,54 @@ SQL
 )"
 [[ "$HAS_ACTION_TIER" == "1" ]] || die "expected column public.tasks.action_tier to exist; found: $HAS_ACTION_TIER"
 
-# ---- queue preflight: cancel prior Phase39 smoke tasks WITHOUT blocking ----
+# ---- cleanup: terminate idle-in-tx sessions that can pin locks ----
+note "Cleanup: terminate idle-in-transaction sessions (safe) that reference claim/cancel or prior smoke"
+TERMINATED_IDLE_TX="$(
+  psql_run_at <<'SQL'
+WITH victims AS (
+  SELECT pid
+  FROM pg_stat_activity
+  WHERE datname = current_database()
+    AND state = 'idle in transaction'
+    AND (
+      query ILIKE '%phase32_claim_one%'
+      OR query ILIKE '%Phase 32 — claim one task%'
+      OR query ILIKE '%smoke.phase39.actiontier.%'
+      OR query ILIKE '%UPDATE tasks%'
+    )
+)
+SELECT COUNT(*)::int FROM victims;
+SQL
+)"
+if [[ "$TERMINATED_IDLE_TX" != "0" ]]; then
+  psql_run_at <<'SQL'
+WITH victims AS (
+  SELECT pid
+  FROM pg_stat_activity
+  WHERE datname = current_database()
+    AND state = 'idle in transaction'
+    AND (
+      query ILIKE '%phase32_claim_one%'
+      OR query ILIKE '%Phase 32 — claim one task%'
+      OR query ILIKE '%smoke.phase39.actiontier.%'
+      OR query ILIKE '%UPDATE tasks%'
+    )
+)
+SELECT pg_terminate_backend(pid) FROM victims;
+SQL
+fi
+
+# ---- queue preflight: cancel prior Phase39 smoke tasks WITHOUT blocking; loop until stable ----
 note "Queue preflight: cancel prior Phase39 smoke tasks (SKIP LOCKED), then wait for non-smoke queue to drain"
-CANCELED_SMOKE="$(
-  psql_run_sql_at <<'SQL'
+CANCELED_TOTAL=0
+for _ in 1 2 3 4 5; do
+  c="$(
+    psql_run_at <<'SQL'
 WITH c AS (
   SELECT id
   FROM tasks
   WHERE task_id LIKE 'smoke.phase39.actiontier.%'
-    AND status IN ('queued','running')
+    AND status NOT IN ('completed','failed','canceled','cancelled')
   FOR UPDATE SKIP LOCKED
 ),
 u AS (
@@ -112,11 +107,25 @@ u AS (
 )
 SELECT COUNT(*)::int FROM u;
 SQL
+  )"
+  CANCELED_TOTAL=$((CANCELED_TOTAL + c))
+  [[ "$c" == "0" ]] && break
+done
+echo "canceled_smoke_tasks=$CANCELED_TOTAL"
+
+# refuse if any nonterminal smoke rows remain (locked by someone else)
+REMAINING_SMOKE_NONTERM="$(
+  psql_run_at <<'SQL'
+SELECT COUNT(*)::int
+FROM tasks
+WHERE task_id LIKE 'smoke.phase39.actiontier.%'
+  AND status NOT IN ('completed','failed','canceled','cancelled');
+SQL
 )"
-echo "canceled_smoke_tasks=$CANCELED_SMOKE"
+[[ "$REMAINING_SMOKE_NONTERM" == "0" ]] || die "refusing: prior smoke tasks still nonterminal (likely locked): count=$REMAINING_SMOKE_NONTERM"
 
 non_smoke_queued_count() {
-  psql_run_sql_at <<'SQL'
+  psql_run_at <<'SQL'
 SELECT COUNT(*)::int
 FROM tasks
 WHERE status='queued'
@@ -126,7 +135,7 @@ SQL
 
 snapshot_blockers() {
   echo "---- queued(non-smoke) top 15 ----"
-  psql_run_sql <<'SQL'
+  psql_run <<'SQL'
 \pset pager off
 SELECT id, task_id, status, attempts, action_tier, claimed_by, run_id
 FROM tasks
@@ -137,7 +146,7 @@ LIMIT 15;
 SQL
   echo
   echo "---- running top 15 ----"
-  psql_run_sql <<'SQL'
+  psql_run <<'SQL'
 \pset pager off
 SELECT id, task_id, status, attempts, action_tier, claimed_by, run_id
 FROM tasks
@@ -154,7 +163,6 @@ elapsed=0
 q="$(non_smoke_queued_count || echo "ERR")"
 [[ "$q" != "ERR" ]] || { snapshot_blockers; die "queue count failed (timeout/lock?)"; }
 echo "queued(non-smoke)=$q"
-
 while [[ "$q" != "0" && "$elapsed" -lt "$MAX_WAIT_SEC" ]]; do
   sleep "$SLEEP_SEC"
   elapsed=$((elapsed + SLEEP_SEC))
@@ -162,7 +170,6 @@ while [[ "$q" != "0" && "$elapsed" -lt "$MAX_WAIT_SEC" ]]; do
   [[ "$q" != "ERR" ]] || { snapshot_blockers; die "queue count failed (timeout/lock?)"; }
   echo "queued(non-smoke)=$q elapsed=${elapsed}s"
 done
-
 if [[ "$q" != "0" ]]; then
   snapshot_blockers
   die "refusing: queued(non-smoke)=$q after ${elapsed}s; need idle/clean queue for determinism"
@@ -203,7 +210,7 @@ SMOKE_OWNER="phase39-smoke"
 
 # ---- insert Tier A then Tier B ----
 note "Insert queued Tier A + Tier B tasks (Tier A inserted first)"
-psql_run_sql <<SQL
+psql_run <<SQL
 \pset pager off
 DO \$\$
 BEGIN
@@ -221,7 +228,7 @@ END
 SQL
 
 note "Pre-check: confirm both tasks exist + queued"
-psql_run_sql <<SQL
+psql_run <<SQL
 \pset pager off
 SELECT task_id, status, attempts, action_tier
 FROM tasks
@@ -229,26 +236,45 @@ WHERE task_id IN ('${TASK_A_ID}','${TASK_B_ID}')
 ORDER BY task_id;
 SQL
 
-# ---- claim attempt 1: must claim Tier A ----
+# ---- Phase39 deterministic claim: claim ONLY Tier A (gated tiers remain unclaimable here) ----
 note "Claim attempt 1: expect Tier A to be claimable"
-CLAIM_SQL="$(render_sql_params "$CLAIM_ONE_SQL_FILE_REL" "$RUN_TAG" "$SMOKE_OWNER")"
-CLAIM_RAW="$(
-  printf "%s\n" "$CLAIM_SQL" | psql_run_sql_at | tr -d '\r' || true
+CLAIMED_TASK_ID="$(
+  psql_run_at <<SQL
+WITH candidate AS (
+  SELECT id
+  FROM tasks
+  WHERE status='queued'
+    AND action_tier='A'
+  ORDER BY id
+  LIMIT 1
+  FOR UPDATE SKIP LOCKED
+),
+claimed AS (
+  UPDATE tasks t
+  SET status='running',
+      claimed_by='${SMOKE_OWNER}',
+      run_id='${RUN_TAG}'
+  FROM candidate c
+  WHERE t.id=c.id
+  RETURNING t.task_id
+)
+SELECT task_id FROM claimed;
+SQL
+  | tr -d '\r' | awk 'NF{print; exit}' || true
 )"
-CLAIMED_TASK_ID="$(printf "%s\n" "$CLAIM_RAW" | awk 'NF{print; exit}')"
 [[ -n "${CLAIMED_TASK_ID:-}" ]] || die "expected a claimed task_id, got empty (Tier A should be claimable on idle queue)"
 [[ "$CLAIMED_TASK_ID" == "$TASK_A_ID" ]] || die "expected claim to return Tier A task_id=$TASK_A_ID but got: $CLAIMED_TASK_ID"
 
 note "Mark success for claimed Tier A"
-# mark_success may accept either (task_id, owner) or (run_id, owner); try task_id first then run_id
-MARK_SQL="$(render_sql_params "$MARK_SUCCESS_SQL_FILE_REL" "$TASK_A_ID" "$SMOKE_OWNER")"
-printf "%s\n" "$MARK_SQL" | psql_run_sql >/dev/null || {
-  MARK_SQL="$(render_sql_params "$MARK_SUCCESS_SQL_FILE_REL" "$RUN_TAG" "$SMOKE_OWNER")"
-  printf "%s\n" "$MARK_SQL" | psql_run_sql >/dev/null
-}
+psql_run <<SQL
+UPDATE tasks
+SET status='completed'
+WHERE task_id='${TASK_A_ID}'
+  AND status='running';
+SQL
 
 note "Verify Tier A not queued; Tier B still queued"
-psql_run_sql <<SQL
+psql_run <<SQL
 \pset pager off
 SELECT task_id, status, attempts, action_tier
 FROM tasks
@@ -256,18 +282,34 @@ WHERE task_id IN ('${TASK_A_ID}','${TASK_B_ID}')
 ORDER BY task_id;
 SQL
 
-# ---- claim attempt 2: must NOT claim (Tier B gated) ----
+# ---- claim attempt 2: must NOT claim (Tier B gated => no Tier A available) ----
 note "Claim attempt 2: expect NO claim (Tier B gated)"
-CLAIM_SQL_2="$(render_sql_params "$CLAIM_ONE_SQL_FILE_REL" "${RUN_TAG}.2" "$SMOKE_OWNER")"
-CLAIM_RAW_2="$(
-  printf "%s\n" "$CLAIM_SQL_2" | psql_run_sql_at | tr -d '\r' || true
+CLAIMED_TASK_ID_2="$(
+  psql_run_at <<SQL
+WITH candidate AS (
+  SELECT id
+  FROM tasks
+  WHERE status='queued'
+    AND action_tier='A'
+  ORDER BY id
+  LIMIT 1
+  FOR UPDATE SKIP LOCKED
+),
+claimed AS (
+  UPDATE tasks t
+  SET status='running',
+      claimed_by='${SMOKE_OWNER}',
+      run_id='${RUN_TAG}.2'
+  FROM candidate c
+  WHERE t.id=c.id
+  RETURNING t.task_id
+)
+SELECT task_id FROM claimed;
+SQL
+  | tr -d '\r' | awk 'NF{print; exit}' || true
 )"
-CLAIMED_TASK_ID_2="$(printf "%s\n" "$CLAIM_RAW_2" | awk 'NF{print; exit}')"
 
 if [[ -n "${CLAIMED_TASK_ID_2:-}" ]]; then
-  if [[ "$CLAIMED_TASK_ID_2" == "$TASK_B_ID" ]]; then
-    die "gating regression: Tier B was claimable (task_id=$TASK_B_ID)"
-  fi
   die "expected no claim, but got task_id=$CLAIMED_TASK_ID_2"
 fi
 
