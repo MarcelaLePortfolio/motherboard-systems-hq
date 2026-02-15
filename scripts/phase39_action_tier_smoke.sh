@@ -114,6 +114,8 @@ u AS (
 SELECT COUNT(*)::text FROM u;
 SQL
 )"
+  # normalize: psql prints command status lines (e.g., SET/DO); keep first numeric line only
+  C="$(printf "%s\n" "$C" | tr -d '\r' | awk '/^[0-9]+$/{print; exit}')"
   C="${C:-0}"
   TOTAL_CANCELED=$((TOTAL_CANCELED + C))
   [[ "$C" == "0" ]] && break
