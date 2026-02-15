@@ -40,13 +40,16 @@ pick_sql_file() {
   echo "$f"
 }
 
-CLAIM_ONE_SQL_FILE="$(pick_sql_file "PHASE32_CLAIM_ONE_SQL" '(^|/)phase32_.*claim_one\.sql$|(^|/)claim_one\.sql$')"
-MARK_SUCCESS_SQL_FILE="$(pick_sql_file "PHASE32_MARK_SUCCESS_SQL" '(^|/)phase32_.*mark_success\.sql$|(^|/)mark_success\.sql$')"
+# repo-relative paths
+CLAIM_ONE_SQL_FILE_REL="$(pick_sql_file "PHASE32_CLAIM_ONE_SQL" '(^|/)phase32_.*claim_one\.sql$|(^|/)claim_one\.sql$')"
+MARK_SUCCESS_SQL_FILE_REL="$(pick_sql_file "PHASE32_MARK_SUCCESS_SQL" '(^|/)phase32_.*mark_success\.sql$|(^|/)mark_success\.sql$')"
 
+# absolute paths (psql -f runs INSIDE container, so we must pass stdin instead of -f, or mount path)
+# We'll feed the SQL via stdin to psql so filesystem location is irrelevant.
 note "Using:"
 echo "  postgres_container=$PGC"
-echo "  claim_one_sql=$CLAIM_ONE_SQL_FILE"
-echo "  mark_success_sql=$MARK_SUCCESS_SQL_FILE"
+echo "  claim_one_sql_rel=$CLAIM_ONE_SQL_FILE_REL"
+echo "  mark_success_sql_rel=$MARK_SUCCESS_SQL_FILE_REL"
 echo "  psql_statement_timeout_ms=$STMT_TIMEOUT_MS"
 echo "  psql_lock_timeout_ms=$LOCK_TIMEOUT_MS"
 
@@ -116,25 +119,6 @@ FROM tasks
 WHERE status='running'
 ORDER BY id
 LIMIT 15;
-SQL
-  echo
-  echo "---- pg_stat_activity (waiters first) ----"
-  docker exec -i "$PGC" "${PSQL_ENV[@]}" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<'SQL'
-\pset pager off
-SELECT
-  now() AS ts,
-  pid,
-  state,
-  wait_event_type,
-  wait_event,
-  left(query, 160) AS query
-FROM pg_stat_activity
-WHERE datname=current_database()
-ORDER BY
-  (wait_event_type IS NOT NULL) DESC,
-  (state='active') DESC,
-  pid DESC
-LIMIT 20;
 SQL
 }
 
@@ -219,21 +203,28 @@ WHERE task_id IN ('${TASK_A_ID}','${TASK_B_ID}')
 ORDER BY task_id;
 SQL
 
+# ---- helper: run repo SQL file content through psql stdin (avoids container filesystem path) ----
+psql_apply_file_stdin() {
+  local file_rel="$1"
+  [[ -f "$file_rel" ]] || die "SQL file not found in repo: $file_rel"
+  docker exec -i "$PGC" "${PSQL_ENV[@]}" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -At < "$file_rel"
+}
+
+psql_apply_file_stdin_noat() {
+  local file_rel="$1"
+  [[ -f "$file_rel" ]] || die "SQL file not found in repo: $file_rel"
+  docker exec -i "$PGC" "${PSQL_ENV[@]}" psql -U postgres -d postgres -v ON_ERROR_STOP=1 < "$file_rel"
+}
+
 # ---- claim attempt 1: must claim Tier A ----
 note "Claim attempt 1: expect Tier A to be claimable"
-CLAIM_RAW="$(
-  docker exec -i "$PGC" "${PSQL_ENV[@]}" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -At -f "$CLAIM_ONE_SQL_FILE" \
-  | tr -d '\r' \
-  || true
-)"
-CLAIMED_TASK_ID="$(
-  printf "%s\n" "$CLAIM_RAW" | awk 'NF{print; exit}'
-)"
+CLAIM_RAW="$(psql_apply_file_stdin "$CLAIM_ONE_SQL_FILE_REL" | tr -d '\r' || true)"
+CLAIMED_TASK_ID="$(printf "%s\n" "$CLAIM_RAW" | awk 'NF{print; exit}')"
 [[ -n "${CLAIMED_TASK_ID:-}" ]] || die "expected a claimed task_id, got empty (Tier A should be claimable on idle queue)"
 [[ "$CLAIMED_TASK_ID" == "$TASK_A_ID" ]] || die "expected claim to return Tier A task_id=$TASK_A_ID but got: $CLAIMED_TASK_ID"
 
 note "Mark success for claimed Tier A"
-docker exec -i "$PGC" "${PSQL_ENV[@]}" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -f "$MARK_SUCCESS_SQL_FILE" >/dev/null
+psql_apply_file_stdin_noat "$MARK_SUCCESS_SQL_FILE_REL" >/dev/null
 
 note "Verify Tier A not queued; Tier B still queued"
 docker exec -i "$PGC" "${PSQL_ENV[@]}" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<SQL
@@ -246,14 +237,8 @@ SQL
 
 # ---- claim attempt 2: must NOT claim (Tier B gated) ----
 note "Claim attempt 2: expect NO claim (Tier B gated)"
-CLAIM_RAW_2="$(
-  docker exec -i "$PGC" "${PSQL_ENV[@]}" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -At -f "$CLAIM_ONE_SQL_FILE" \
-  | tr -d '\r' \
-  || true
-)"
-CLAIMED_TASK_ID_2="$(
-  printf "%s\n" "$CLAIM_RAW_2" | awk 'NF{print; exit}'
-)"
+CLAIM_RAW_2="$(psql_apply_file_stdin "$CLAIM_ONE_SQL_FILE_REL" | tr -d '\r' || true)"
+CLAIMED_TASK_ID_2="$(printf "%s\n" "$CLAIM_RAW_2" | awk 'NF{print; exit}')"
 
 if [[ -n "${CLAIMED_TASK_ID_2:-}" ]]; then
   if [[ "$CLAIMED_TASK_ID_2" == "$TASK_B_ID" ]]; then
