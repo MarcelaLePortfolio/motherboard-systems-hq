@@ -1,3 +1,19 @@
+// PHASE39_ACTION_TIER: structural value-alignment scaffolding (A default; B/C require disclosures)
+function __mbNormalizeTier(x) {
+  const v = String(x ?? 'A').trim().toUpperCase();
+  return (v === 'B' || v === 'C') ? v : 'A';
+}
+function __mbRequireDisclosureIfBC(tier, title, body) {
+  if (tier === 'A') return;
+  const t = String(title ?? '').trim();
+  const b = String(body ?? '').trim();
+  if (!t || !b) {
+    const err = new Error('Tier B/C requires tier_disclosure_title and tier_disclosure_body');
+    err.code = 'TIER_DISCLOSURE_REQUIRED';
+    throw err;
+  }
+}
+
 /**
  * Phase 23: TaskSpec adapter
  * POST /api/tasks-mutations/delegate-taskspec
@@ -15,7 +31,13 @@ export async function handleDelegateTaskSpec(req, res, deps) {
     const body = req.body ?? {};
     const taskSpec = body.task ?? body;
 
-    const rawTarget = taskSpec?.target ?? taskSpec?.agent ?? "";
+    
+  // PHASE39_ACTION_TIER
+  const __action_tier = __mbNormalizeTier(taskSpec?.action_tier ?? taskSpec?.actionTier);
+  const __tier_disclosure_title = taskSpec?.tier_disclosure_title ?? taskSpec?.tierDisclosureTitle;
+  const __tier_disclosure_body  = taskSpec?.tier_disclosure_body  ?? taskSpec?.tierDisclosureBody;
+  __mbRequireDisclosureIfBC(__action_tier, __tier_disclosure_title, __tier_disclosure_body);
+const rawTarget = taskSpec?.target ?? taskSpec?.agent ?? "";
     const target = String(rawTarget).trim().toLowerCase();
 
     if (!["cade", "effie", "atlas"].includes(target)) {
@@ -44,6 +66,9 @@ export async function handleDelegateTaskSpec(req, res, deps) {
       agent: target,
       title,
       notes: "",
+        action_tier: __action_tier,
+        tier_disclosure_title: __tier_disclosure_title ?? null,
+        tier_disclosure_body: __tier_disclosure_body ?? null,
       source: "matilda",
       meta: { taskspec: spec, external_task_id },
     });
@@ -52,6 +77,6 @@ export async function handleDelegateTaskSpec(req, res, deps) {
     const task_id = task?.id ?? null;
     return res.status(200).json({ ok: true, task });
   } catch (err) {
-    return res.status(500).json({ ok: false, error: "delegate_taskspec_failed", details: String(err?.message || err) });
+    return res.status(((err && err.code==='TIER_DISCLOSURE_REQUIRED') ? 400 : 500)).json({ ok: false, error: "delegate_taskspec_failed", details: String(err?.message || err) });
   }
 }

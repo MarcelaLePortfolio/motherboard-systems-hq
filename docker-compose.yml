@@ -11,6 +11,8 @@ services:
       - pgdata:/var/lib/postgresql/data
 
   dashboard:
+    env_file:
+      - .env
     build:
       context: .
       dockerfile: Dockerfile.dashboard
