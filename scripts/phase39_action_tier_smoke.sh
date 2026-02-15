@@ -18,6 +18,10 @@ PGC="$(echo "$PS_OUT" | grep -E '(^|-)postgres-1$' | head -n1 || true)"
 WA="$(echo "$PS_OUT" | grep -E '(^|-)workerA-1$' | head -n1 || true)"
 WB="$(echo "$PS_OUT" | grep -E '(^|-)workerB-1$' | head -n1 || true)"
 
+# hard guard: never hang forever on locks
+STMT_TIMEOUT_MS="${PHASE39_PSQL_TIMEOUT_MS:-5000}"
+PSQL_ENV=(env "PGOPTIONS=-c statement_timeout=${STMT_TIMEOUT_MS}")
+
 # ---- locate claim SQL (prefer env override, otherwise auto-discover) ----
 pick_sql_file() {
   local env_var="$1"
@@ -42,11 +46,12 @@ note "Using:"
 echo "  postgres_container=$PGC"
 echo "  claim_one_sql=$CLAIM_ONE_SQL_FILE"
 echo "  mark_success_sql=$MARK_SUCCESS_SQL_FILE"
+echo "  psql_statement_timeout_ms=$STMT_TIMEOUT_MS"
 
 # ---- verify schema expectations ----
 note "Schema preflight (verify tasks.action_tier exists)"
 HAS_ACTION_TIER="$(
-  docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -At <<'SQL'
+  docker exec -i "$PGC" "${PSQL_ENV[@]}" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -At <<'SQL'
 SELECT COUNT(*)::int
 FROM information_schema.columns
 WHERE table_schema='public'
@@ -59,16 +64,22 @@ SQL
 # ---- ensure queue is idle (determinism) without touching non-smoke tasks ----
 note "Queue preflight: cancel prior Phase39 smoke tasks, then wait for non-smoke queue to drain"
 
-docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<'SQL'
-\pset pager off
-UPDATE tasks
-SET status='canceled'
-WHERE task_id LIKE 'smoke.phase39.actiontier.%'
-  AND status IN ('queued','running');
+CANCELED_SMOKE="$(
+  docker exec -i "$PGC" "${PSQL_ENV[@]}" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -At <<'SQL'
+WITH upd AS (
+  UPDATE tasks
+  SET status='canceled'
+  WHERE task_id LIKE 'smoke.phase39.actiontier.%'
+    AND status IN ('queued','running')
+  RETURNING 1
+)
+SELECT COUNT(*)::int FROM upd;
 SQL
+)"
+echo "canceled_smoke_tasks=$CANCELED_SMOKE"
 
 non_smoke_queued_count() {
-  docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -At <<'SQL'
+  docker exec -i "$PGC" "${PSQL_ENV[@]}" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -At <<'SQL'
 SELECT COUNT(*)::int
 FROM tasks
 WHERE status='queued'
@@ -78,7 +89,7 @@ SQL
 
 snapshot_blockers() {
   echo "---- queued(non-smoke) top 15 ----"
-  docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<'SQL'
+  docker exec -i "$PGC" "${PSQL_ENV[@]}" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<'SQL'
 \pset pager off
 SELECT id, task_id, status, attempts, action_tier, claimed_by, run_id
 FROM tasks
@@ -89,7 +100,7 @@ LIMIT 15;
 SQL
   echo
   echo "---- running top 15 ----"
-  docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<'SQL'
+  docker exec -i "$PGC" "${PSQL_ENV[@]}" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<'SQL'
 \pset pager off
 SELECT id, task_id, status, attempts, action_tier, claimed_by, run_id
 FROM tasks
@@ -97,18 +108,40 @@ WHERE status='running'
 ORDER BY id
 LIMIT 15;
 SQL
+  echo
+  echo "---- pg_stat_activity (waiters first) ----"
+  docker exec -i "$PGC" "${PSQL_ENV[@]}" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<'SQL'
+\pset pager off
+SELECT
+  now() AS ts,
+  pid,
+  state,
+  wait_event_type,
+  wait_event,
+  left(query, 160) AS query
+FROM pg_stat_activity
+WHERE datname=current_database()
+ORDER BY
+  (wait_event_type IS NOT NULL) DESC,
+  (state='active') DESC,
+  pid DESC
+LIMIT 20;
+SQL
 }
 
-MAX_WAIT_SEC=120
+MAX_WAIT_SEC="${PHASE39_QUEUE_DRAIN_MAX_WAIT_SEC:-120}"
 SLEEP_SEC=2
 elapsed=0
 
-q="$(non_smoke_queued_count)"
+q="$(non_smoke_queued_count || echo "ERR")"
+[[ "$q" != "ERR" ]] || { snapshot_blockers; die "queue count failed (statement_timeout hit?)"; }
 echo "queued(non-smoke)=$q"
+
 while [[ "$q" != "0" && "$elapsed" -lt "$MAX_WAIT_SEC" ]]; do
   sleep "$SLEEP_SEC"
   elapsed=$((elapsed + SLEEP_SEC))
-  q="$(non_smoke_queued_count)"
+  q="$(non_smoke_queued_count || echo "ERR")"
+  [[ "$q" != "ERR" ]] || { snapshot_blockers; die "queue count failed (statement_timeout hit?)"; }
   echo "queued(non-smoke)=$q elapsed=${elapsed}s"
 done
 
@@ -117,7 +150,7 @@ if [[ "$q" != "0" ]]; then
   die "refusing: queued(non-smoke)=$q after ${elapsed}s; need idle/clean queue for determinism"
 fi
 
-# ---- stop workers to avoid races during the claim assertions ----
+# ---- stop workers to avoid races during claim assertions ----
 WAS_RUNNING=0
 WBS_RUNNING=0
 if [[ -n "${WA:-}" ]]; then
@@ -151,7 +184,7 @@ TASK_B_ID="${RUN_TAG}.tierB"
 
 # ---- insert Tier A then Tier B ----
 note "Insert queued Tier A + Tier B tasks (Tier A inserted first)"
-docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<SQL
+docker exec -i "$PGC" "${PSQL_ENV[@]}" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<SQL
 \pset pager off
 DO \$\$
 BEGIN
@@ -169,7 +202,7 @@ END
 SQL
 
 note "Pre-check: confirm both tasks exist + queued"
-docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<SQL
+docker exec -i "$PGC" "${PSQL_ENV[@]}" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<SQL
 \pset pager off
 SELECT task_id, status, attempts, action_tier
 FROM tasks
@@ -180,7 +213,7 @@ SQL
 # ---- claim attempt 1: must claim Tier A ----
 note "Claim attempt 1: expect Tier A to be claimable"
 CLAIM_RAW="$(
-  docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -At -f "$CLAIM_ONE_SQL_FILE" \
+  docker exec -i "$PGC" "${PSQL_ENV[@]}" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -At -f "$CLAIM_ONE_SQL_FILE" \
   | tr -d '\r' \
   || true
 )"
@@ -191,10 +224,10 @@ CLAIMED_TASK_ID="$(
 [[ "$CLAIMED_TASK_ID" == "$TASK_A_ID" ]] || die "expected claim to return Tier A task_id=$TASK_A_ID but got: $CLAIMED_TASK_ID"
 
 note "Mark success for claimed Tier A"
-docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -f "$MARK_SUCCESS_SQL_FILE" >/dev/null
+docker exec -i "$PGC" "${PSQL_ENV[@]}" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -f "$MARK_SUCCESS_SQL_FILE" >/dev/null
 
 note "Verify Tier A not queued; Tier B still queued"
-docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<SQL
+docker exec -i "$PGC" "${PSQL_ENV[@]}" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<SQL
 \pset pager off
 SELECT task_id, status, attempts, action_tier
 FROM tasks
@@ -205,7 +238,7 @@ SQL
 # ---- claim attempt 2: must NOT claim (Tier B gated) ----
 note "Claim attempt 2: expect NO claim (Tier B gated)"
 CLAIM_RAW_2="$(
-  docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -At -f "$CLAIM_ONE_SQL_FILE" \
+  docker exec -i "$PGC" "${PSQL_ENV[@]}" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -At -f "$CLAIM_ONE_SQL_FILE" \
   | tr -d '\r' \
   || true
 )"
