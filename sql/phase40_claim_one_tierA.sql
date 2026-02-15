@@ -1,0 +1,11 @@
+-- Phase 40 — SQL-first Tier A claim gate (canonical claim SQL)
+--
+-- Goal: Ensure only action_tier='A' tasks are claimable via the canonical claim path.
+-- Contract rules:
+-- - SQL is authoritative (no JS-derived state).
+-- - Deterministic ordering must be explicit.
+-- - Concurrency-safe claim pattern (FOR UPDATE SKIP LOCKED or equivalent).
+--
+-- NOTE: Implementation intentionally deferred until Phase 40 implementation PR.
+-- This placeholder keeps CI green while staking the contract surface.
+SELECT 1 AS phase40_placeholder;
