@@ -18,33 +18,6 @@ PGC="$(echo "$PS_OUT" | grep -E '(^|-)postgres-1$' | head -n1 || true)"
 WA="$(echo "$PS_OUT" | grep -E '(^|-)workerA-1$' | head -n1 || true)"
 WB="$(echo "$PS_OUT" | grep -E '(^|-)workerB-1$' | head -n1 || true)"
 
-# ---- stop workers to avoid race (determinism) ----
-WAS_RUNNING=0
-WBS_RUNNING=0
-if [[ -n "${WA:-}" ]]; then
-  WAS_RUNNING=1
-  note "Stopping workerA for deterministic smoke ($WA)"
-  docker stop "$WA" >/dev/null
-fi
-if [[ -n "${WB:-}" ]]; then
-  WBS_RUNNING=1
-  note "Stopping workerB for deterministic smoke ($WB)"
-  docker stop "$WB" >/dev/null
-fi
-
-cleanup_restart_workers() {
-  # restart only those we stopped
-  if [[ "${WAS_RUNNING}" == "1" && -n "${WA:-}" ]]; then
-    note "Restarting workerA ($WA)"
-    docker start "$WA" >/dev/null || true
-  fi
-  if [[ "${WBS_RUNNING}" == "1" && -n "${WB:-}" ]]; then
-    note "Restarting workerB ($WB)"
-    docker start "$WB" >/dev/null || true
-  fi
-}
-trap cleanup_restart_workers EXIT
-
 # ---- locate claim SQL (prefer env override, otherwise auto-discover) ----
 pick_sql_file() {
   local env_var="$1"
@@ -83,24 +56,74 @@ SQL
 )"
 [[ "$HAS_ACTION_TIER" == "1" ]] || die "expected column public.tasks.action_tier to exist; found: $HAS_ACTION_TIER"
 
+# ---- ensure queue is empty (determinism) without touching non-smoke tasks ----
+note "Queue preflight: cancel any prior Phase39 smoke tasks, then wait for non-smoke queue to drain"
+
+# 1) cancel *our own prior* smoke tasks only (safe cleanup; avoids stale B tasks blocking later)
+docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<'SQL'
+\pset pager off
+UPDATE tasks
+SET status='canceled'
+WHERE task_id LIKE 'smoke.phase39.actiontier.%'
+  AND status IN ('queued','running');
+SQL
+
+# 2) wait for any remaining queued tasks (non-smoke) to drain naturally
+#    (workers may be processing; we do not mutate non-smoke tasks)
+MAX_WAIT_SEC=120
+SLEEP_SEC=2
+elapsed=0
+
+non_smoke_queued_count() {
+  docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -At <<'SQL'
+SELECT COUNT(*)::int
+FROM tasks
+WHERE status='queued'
+  AND task_id NOT LIKE 'smoke.phase39.actiontier.%';
+SQL
+}
+
+q="$(non_smoke_queued_count)"
+while [[ "$q" != "0" && "$elapsed" -lt "$MAX_WAIT_SEC" ]]; do
+  echo "queued(non-smoke)=$q (waiting...)"
+  sleep "$SLEEP_SEC"
+  elapsed=$((elapsed + SLEEP_SEC))
+  q="$(non_smoke_queued_count)"
+done
+
+[[ "$q" == "0" ]] || die "refusing: queued(non-smoke)=$q after ${elapsed}s; run on an idle/clean queue for determinism"
+
+# ---- stop workers to avoid races (determinism) ----
+WAS_RUNNING=0
+WBS_RUNNING=0
+if [[ -n "${WA:-}" ]]; then
+  WAS_RUNNING=1
+  note "Stopping workerA for deterministic smoke ($WA)"
+  docker stop "$WA" >/dev/null
+fi
+if [[ -n "${WB:-}" ]]; then
+  WBS_RUNNING=1
+  note "Stopping workerB for deterministic smoke ($WB)"
+  docker stop "$WB" >/dev/null
+fi
+
+cleanup_restart_workers() {
+  if [[ "${WAS_RUNNING}" == "1" && -n "${WA:-}" ]]; then
+    note "Restarting workerA ($WA)"
+    docker start "$WA" >/dev/null || true
+  fi
+  if [[ "${WBS_RUNNING}" == "1" && -n "${WB:-}" ]]; then
+    note "Restarting workerB ($WB)"
+    docker start "$WB" >/dev/null || true
+  fi
+}
+trap cleanup_restart_workers EXIT
+
 # ---- deterministic test inputs ----
 RUN_TS="$(date +%s)"
 RUN_TAG="smoke.phase39.actiontier.${RUN_TS}"
 TASK_A_ID="${RUN_TAG}.tierA"
 TASK_B_ID="${RUN_TAG}.tierB"
-
-# ---- isolation preflight: refuse to run if other queued work exists ----
-note "Isolation preflight (refuse if other queued tasks exist)"
-OTHER_QUEUED="$(
-  docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -At <<SQL
-SELECT COUNT(*)::int
-FROM tasks
-WHERE status='queued'
-  AND task_id NOT IN ('${TASK_A_ID}','${TASK_B_ID}');
-SQL
-)"
-# (TASK_A/B don't exist yet, but this keeps the query stable and explicit)
-[[ "$OTHER_QUEUED" == "0" ]] || die "refusing: found $OTHER_QUEUED pre-existing queued tasks; run on a clean stack/db for determinism"
 
 # ---- insert Tier A then Tier B (order matters if claimer uses id ordering) ----
 note "Insert queued Tier A + Tier B tasks (Tier A inserted first)"
@@ -137,12 +160,11 @@ CLAIM_RAW="$(
   | tr -d '\r' \
   || true
 )"
-# take first non-empty line, if any
 CLAIMED_TASK_ID="$(
   printf "%s\n" "$CLAIM_RAW" | awk 'NF{print; exit}'
 )"
 
-[[ -n "${CLAIMED_TASK_ID:-}" ]] || die "expected a claimed task_id, got empty (Tier A should be claimable on clean stack)"
+[[ -n "${CLAIMED_TASK_ID:-}" ]] || die "expected a claimed task_id, got empty (Tier A should be claimable on idle queue)"
 
 if [[ "$CLAIMED_TASK_ID" != "$TASK_A_ID" ]]; then
   die "expected claim to return Tier A task_id=$TASK_A_ID but got: $CLAIMED_TASK_ID"
