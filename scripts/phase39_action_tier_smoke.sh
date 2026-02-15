@@ -42,7 +42,7 @@ psql_run() {
 
 psql_run_at() {
   # -A -t output mode for single-field outputs
-  psql_run -At "$@"
+  psql_run -Atq "$@"
 }
 
 # Ensure we always bring workers back up if we stop them.
@@ -134,6 +134,8 @@ WHERE status='queued'
   AND task_id NOT LIKE 'smoke.phase39.actiontier.%';
 SQL
 )"
+  # normalize: keep first numeric line only (psql may emit command tags)
+  Q="$(printf "%s\n" "$Q" | tr -d '\r' | awk '/^[0-9]+$/{print; exit}')"
   Q="${Q:-0}"
   echo "queued(non-smoke)=$Q"
   if [[ "$Q" == "0" ]]; then
