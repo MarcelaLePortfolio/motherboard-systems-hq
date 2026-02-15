@@ -3,7 +3,7 @@ set -euo pipefail
 
 # Deterministic smoke: read-only validation for Phase 39 action_tier policy
 # - discovers postgres container
-# - runs validation query
+# - runs validation query (fed from host file; no in-container path assumptions)
 # - fails if any observed kind is unmapped (fail-closed)
 
 ROOT="$(git rev-parse --show-toplevel)"
@@ -15,7 +15,6 @@ PGC="$(docker ps --format '{{.Names}}' | awk '
 ' || true)"
 
 if [[ -z "${PGC:-}" ]]; then
-  # fallback: first container name containing "postgres" in this project
   PGC="$(docker ps --format '{{.Names}}' | grep -E 'postgres' | head -n 1 || true)"
 fi
 
@@ -24,16 +23,15 @@ fi
 echo "PGC=$PGC"
 echo "=== Phase 39: action_tier policy (read-only) validate ==="
 
-# 1) Run the mapping output (for visibility) and capture unmapped_count
-OUT="$(
+# 1) Emit mapping output by feeding the SQL file over stdin (host file path exists; container path doesn't)
+docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -f - < sql/policy/action_tier_validate.sql
+
+# 2) Deterministic scalar assertion: unmapped_count must be 0
+UNMAPPED_COUNT="$(
   docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -qAt <<'SQL'
 \pset pager off
 \set ON_ERROR_STOP on
 
--- Emit mapping table (observed kinds with tiers)
-\i sql/policy/action_tier_validate.sql
-
--- Recompute unmapped_count in a single scalar for assertion (dynamic discovery)
 WITH candidates AS (
   SELECT table_schema, table_name, column_name
   FROM information_schema.columns
@@ -89,13 +87,10 @@ SELECT sql FROM dyn;
 SQL
 )"
 
-# The last line should be the scalar count (because dyn outputs one line).
-UNMAPPED_COUNT="$(printf "%s\n" "$OUT" | tail -n 1 | tr -d '\r' | tr -d ' ')"
+UNMAPPED_COUNT="$(printf "%s" "$UNMAPPED_COUNT" | tail -n 1 | tr -d '\r' | tr -d ' ')"
 
 if [[ -z "${UNMAPPED_COUNT:-}" ]] || ! [[ "$UNMAPPED_COUNT" =~ ^[0-9]+$ ]]; then
-  echo "ERROR: could not parse unmapped_count from output." >&2
-  echo "---- raw tail ----" >&2
-  printf "%s\n" "$OUT" | tail -n 30 >&2
+  echo "ERROR: could not parse unmapped_count." >&2
   exit 2
 fi
 
@@ -103,8 +98,9 @@ echo "unmapped_count=$UNMAPPED_COUNT"
 
 if [[ "$UNMAPPED_COUNT" != "0" ]]; then
   echo "FAIL: action_tier policy is missing mappings for observed kinds (fail-closed)." >&2
-  echo "Action: add the missing kinds to sql/policy/action_tier_policy.sql and action_tier_validate.sql policy list." >&2
+  echo "Action: add missing kinds to sql/policy/action_tier_policy.sql AND sql/policy/action_tier_validate.sql policy list." >&2
   exit 1
 fi
 
 echo "OK: Phase 39 action_tier policy validation passed (read-only, deterministic)."
+echo "STOPPING POINT: Phase 39 smoke is green; next natural stop is opening the PR + (optional) adding any newly-observed kinds if unmapped_count ever rises."
