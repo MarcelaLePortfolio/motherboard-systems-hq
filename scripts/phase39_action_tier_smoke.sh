@@ -35,6 +35,25 @@ echo "  postgres_container=$PGC"
 echo "  psql_statement_timeout_ms=$STMT_TIMEOUT_MS"
 echo "  psql_lock_timeout_ms=$LOCK_TIMEOUT_MS"
 
+# ---- deterministic test inputs ----
+RUN_TS="$(date +%s)"
+RUN_TAG="smoke.phase39.actiontier.${RUN_TS}"
+TASK_A_ID="${RUN_TAG}.tierA"
+TASK_B_ID="${RUN_TAG}.tierB"
+SMOKE_OWNER="phase39-smoke"
+
+# ---- ensure we don't leave nonterminal smoke tasks behind on any failure ----
+cleanup_this_run() {
+  # best-effort: cancel the two tasks we created in this run if they are nonterminal
+  psql_run >/dev/null 2>&1 <<SQL || true
+UPDATE tasks
+SET status='canceled'
+WHERE task_id IN ('${TASK_A_ID}','${TASK_B_ID}')
+  AND status NOT IN ('completed','failed','canceled','cancelled');
+SQL
+}
+trap cleanup_this_run ERR
+
 # ---- verify schema expectations ----
 note "Schema preflight (verify tasks.action_tier exists)"
 HAS_ACTION_TIER="$(
@@ -48,42 +67,28 @@ SQL
 )"
 [[ "$HAS_ACTION_TIER" == "1" ]] || die "expected column public.tasks.action_tier to exist; found: $HAS_ACTION_TIER"
 
-# ---- cleanup: terminate idle-in-tx sessions that can pin locks ----
+# ---- cleanup: terminate idle-in-tx sessions that can pin locks (no noisy output) ----
 note "Cleanup: terminate idle-in-transaction sessions (safe) that reference claim/cancel or prior smoke"
-TERMINATED_IDLE_TX="$(
-  psql_run_at <<'SQL'
-WITH victims AS (
-  SELECT pid
-  FROM pg_stat_activity
-  WHERE datname = current_database()
-    AND state = 'idle in transaction'
-    AND (
-      query ILIKE '%phase32_claim_one%'
-      OR query ILIKE '%Phase 32 — claim one task%'
-      OR query ILIKE '%smoke.phase39.actiontier.%'
-      OR query ILIKE '%UPDATE tasks%'
-    )
-)
-SELECT COUNT(*)::int FROM victims;
+psql_run >/dev/null <<'SQL'
+DO $$
+DECLARE r record;
+BEGIN
+  FOR r IN
+    SELECT pid
+    FROM pg_stat_activity
+    WHERE datname = current_database()
+      AND state = 'idle in transaction'
+      AND (
+        query ILIKE '%phase32_claim_one%'
+        OR query ILIKE '%Phase 32 — claim one task%'
+        OR query ILIKE '%smoke.phase39.actiontier.%'
+        OR query ILIKE '%UPDATE tasks%'
+      )
+  LOOP
+    PERFORM pg_terminate_backend(r.pid);
+  END LOOP;
+END $$;
 SQL
-)"
-if [[ "$TERMINATED_IDLE_TX" != "0" ]]; then
-  psql_run_at <<'SQL'
-WITH victims AS (
-  SELECT pid
-  FROM pg_stat_activity
-  WHERE datname = current_database()
-    AND state = 'idle in transaction'
-    AND (
-      query ILIKE '%phase32_claim_one%'
-      OR query ILIKE '%Phase 32 — claim one task%'
-      OR query ILIKE '%smoke.phase39.actiontier.%'
-      OR query ILIKE '%UPDATE tasks%'
-    )
-)
-SELECT pg_terminate_backend(pid) FROM victims;
-SQL
-fi
 
 # ---- queue preflight: cancel prior Phase39 smoke tasks WITHOUT blocking; loop until stable ----
 note "Queue preflight: cancel prior Phase39 smoke tasks (SKIP LOCKED), then wait for non-smoke queue to drain"
@@ -201,13 +206,6 @@ cleanup_restart_workers() {
 }
 trap cleanup_restart_workers EXIT
 
-# ---- deterministic test inputs ----
-RUN_TS="$(date +%s)"
-RUN_TAG="smoke.phase39.actiontier.${RUN_TS}"
-TASK_A_ID="${RUN_TAG}.tierA"
-TASK_B_ID="${RUN_TAG}.tierB"
-SMOKE_OWNER="phase39-smoke"
-
 # ---- insert Tier A then Tier B ----
 note "Insert queued Tier A + Tier B tasks (Tier A inserted first)"
 psql_run <<SQL
@@ -238,8 +236,7 @@ SQL
 
 # ---- Phase39 deterministic claim: claim ONLY Tier A (gated tiers remain unclaimable here) ----
 note "Claim attempt 1: expect Tier A to be claimable"
-CLAIMED_TASK_ID="$(
-  psql_run_at <<SQL
+CLAIM_RAW="$(psql_run_at <<SQL || true
 WITH candidate AS (
   SELECT id
   FROM tasks
@@ -260,8 +257,9 @@ claimed AS (
 )
 SELECT task_id FROM claimed;
 SQL
-  | tr -d '\r' | awk 'NF{print; exit}' || true
 )"
+CLAIMED_TASK_ID="$(printf "%s\n" "$CLAIM_RAW" | tr -d '\r' | awk 'NF{print; exit}')"
+
 [[ -n "${CLAIMED_TASK_ID:-}" ]] || die "expected a claimed task_id, got empty (Tier A should be claimable on idle queue)"
 [[ "$CLAIMED_TASK_ID" == "$TASK_A_ID" ]] || die "expected claim to return Tier A task_id=$TASK_A_ID but got: $CLAIMED_TASK_ID"
 
@@ -284,8 +282,7 @@ SQL
 
 # ---- claim attempt 2: must NOT claim (Tier B gated => no Tier A available) ----
 note "Claim attempt 2: expect NO claim (Tier B gated)"
-CLAIMED_TASK_ID_2="$(
-  psql_run_at <<SQL
+CLAIM_RAW_2="$(psql_run_at <<SQL || true
 WITH candidate AS (
   SELECT id
   FROM tasks
@@ -306,8 +303,8 @@ claimed AS (
 )
 SELECT task_id FROM claimed;
 SQL
-  | tr -d '\r' | awk 'NF{print; exit}' || true
 )"
+CLAIMED_TASK_ID_2="$(printf "%s\n" "$CLAIM_RAW_2" | tr -d '\r' | awk 'NF{print; exit}')"
 
 if [[ -n "${CLAIMED_TASK_ID_2:-}" ]]; then
   die "expected no claim, but got task_id=$CLAIMED_TASK_ID_2"
