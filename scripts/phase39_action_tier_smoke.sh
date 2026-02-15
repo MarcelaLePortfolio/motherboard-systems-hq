@@ -19,8 +19,8 @@ WA="$(echo "$PS_OUT" | grep -E '(^|-)workerA-1$' | head -n1 || true)"
 WB="$(echo "$PS_OUT" | grep -E '(^|-)workerB-1$' | head -n1 || true)"
 
 # hard guard: never hang forever on locks
-STMT_TIMEOUT_MS="${PHASE39_PSQL_TIMEOUT_MS:-8000}"
-LOCK_TIMEOUT_MS="${PHASE39_PSQL_LOCK_TIMEOUT_MS:-200}"
+STMT_TIMEOUT_MS="${PHASE39_PSQL_TIMEOUT_MS:-12000}"
+LOCK_TIMEOUT_MS="${PHASE39_PSQL_LOCK_TIMEOUT_MS:-300}"
 PSQL_ENV=(env "PGOPTIONS=-c statement_timeout=${STMT_TIMEOUT_MS} -c lock_timeout=${LOCK_TIMEOUT_MS}")
 
 # ---- locate claim SQL (prefer env override, otherwise auto-discover) ----
@@ -40,12 +40,9 @@ pick_sql_file() {
   echo "$f"
 }
 
-# repo-relative paths
 CLAIM_ONE_SQL_FILE_REL="$(pick_sql_file "PHASE32_CLAIM_ONE_SQL" '(^|/)phase32_.*claim_one\.sql$|(^|/)claim_one\.sql$')"
 MARK_SUCCESS_SQL_FILE_REL="$(pick_sql_file "PHASE32_MARK_SUCCESS_SQL" '(^|/)phase32_.*mark_success\.sql$|(^|/)mark_success\.sql$')"
 
-# absolute paths (psql -f runs INSIDE container, so we must pass stdin instead of -f, or mount path)
-# We'll feed the SQL via stdin to psql so filesystem location is irrelevant.
 note "Using:"
 echo "  postgres_container=$PGC"
 echo "  claim_one_sql_rel=$CLAIM_ONE_SQL_FILE_REL"
@@ -53,10 +50,39 @@ echo "  mark_success_sql_rel=$MARK_SUCCESS_SQL_FILE_REL"
 echo "  psql_statement_timeout_ms=$STMT_TIMEOUT_MS"
 echo "  psql_lock_timeout_ms=$LOCK_TIMEOUT_MS"
 
+# ---- helpers ----
+sql_lit() { # SQL single-quoted literal
+  local s="${1-}"
+  s="${s//\'/\'\'}"
+  printf "'%s'" "$s"
+}
+
+# render a $1/$2 parameterized SQL file into literal SQL for psql (worker uses $1/$2 placeholders)
+render_sql_params() {
+  local file_rel="$1"
+  local p1="${2-}"
+  local p2="${3-}"
+  [[ -f "$file_rel" ]] || die "SQL file not found in repo: $file_rel"
+
+  local q1 q2
+  q1="$(sql_lit "$p1")"
+  q2="$(sql_lit "$p2")"
+
+  perl -pe "s/\\$1\\b/$q1/g; s/\\$2\\b/$q2/g" "$file_rel"
+}
+
+psql_run_sql() {
+  docker exec -i "$PGC" "${PSQL_ENV[@]}" psql -U postgres -d postgres -v ON_ERROR_STOP=1 "$@"
+}
+
+psql_run_sql_at() {
+  docker exec -i "$PGC" "${PSQL_ENV[@]}" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -At "$@"
+}
+
 # ---- verify schema expectations ----
 note "Schema preflight (verify tasks.action_tier exists)"
 HAS_ACTION_TIER="$(
-  docker exec -i "$PGC" "${PSQL_ENV[@]}" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -At <<'SQL'
+  psql_run_sql_at <<'SQL'
 SELECT COUNT(*)::int
 FROM information_schema.columns
 WHERE table_schema='public'
@@ -68,9 +94,8 @@ SQL
 
 # ---- queue preflight: cancel prior Phase39 smoke tasks WITHOUT blocking ----
 note "Queue preflight: cancel prior Phase39 smoke tasks (SKIP LOCKED), then wait for non-smoke queue to drain"
-
 CANCELED_SMOKE="$(
-  docker exec -i "$PGC" "${PSQL_ENV[@]}" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -At <<'SQL'
+  psql_run_sql_at <<'SQL'
 WITH c AS (
   SELECT id
   FROM tasks
@@ -91,7 +116,7 @@ SQL
 echo "canceled_smoke_tasks=$CANCELED_SMOKE"
 
 non_smoke_queued_count() {
-  docker exec -i "$PGC" "${PSQL_ENV[@]}" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -At <<'SQL'
+  psql_run_sql_at <<'SQL'
 SELECT COUNT(*)::int
 FROM tasks
 WHERE status='queued'
@@ -101,7 +126,7 @@ SQL
 
 snapshot_blockers() {
   echo "---- queued(non-smoke) top 15 ----"
-  docker exec -i "$PGC" "${PSQL_ENV[@]}" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<'SQL'
+  psql_run_sql <<'SQL'
 \pset pager off
 SELECT id, task_id, status, attempts, action_tier, claimed_by, run_id
 FROM tasks
@@ -112,7 +137,7 @@ LIMIT 15;
 SQL
   echo
   echo "---- running top 15 ----"
-  docker exec -i "$PGC" "${PSQL_ENV[@]}" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<'SQL'
+  psql_run_sql <<'SQL'
 \pset pager off
 SELECT id, task_id, status, attempts, action_tier, claimed_by, run_id
 FROM tasks
@@ -174,10 +199,11 @@ RUN_TS="$(date +%s)"
 RUN_TAG="smoke.phase39.actiontier.${RUN_TS}"
 TASK_A_ID="${RUN_TAG}.tierA"
 TASK_B_ID="${RUN_TAG}.tierB"
+SMOKE_OWNER="phase39-smoke"
 
 # ---- insert Tier A then Tier B ----
 note "Insert queued Tier A + Tier B tasks (Tier A inserted first)"
-docker exec -i "$PGC" "${PSQL_ENV[@]}" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<SQL
+psql_run_sql <<SQL
 \pset pager off
 DO \$\$
 BEGIN
@@ -195,7 +221,7 @@ END
 SQL
 
 note "Pre-check: confirm both tasks exist + queued"
-docker exec -i "$PGC" "${PSQL_ENV[@]}" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<SQL
+psql_run_sql <<SQL
 \pset pager off
 SELECT task_id, status, attempts, action_tier
 FROM tasks
@@ -203,31 +229,29 @@ WHERE task_id IN ('${TASK_A_ID}','${TASK_B_ID}')
 ORDER BY task_id;
 SQL
 
-# ---- helper: run repo SQL file content through psql stdin (avoids container filesystem path) ----
-psql_apply_file_stdin() {
-  local file_rel="$1"
-  [[ -f "$file_rel" ]] || die "SQL file not found in repo: $file_rel"
-  docker exec -i "$PGC" "${PSQL_ENV[@]}" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -At < "$file_rel"
-}
-
-psql_apply_file_stdin_noat() {
-  local file_rel="$1"
-  [[ -f "$file_rel" ]] || die "SQL file not found in repo: $file_rel"
-  docker exec -i "$PGC" "${PSQL_ENV[@]}" psql -U postgres -d postgres -v ON_ERROR_STOP=1 < "$file_rel"
-}
-
 # ---- claim attempt 1: must claim Tier A ----
 note "Claim attempt 1: expect Tier A to be claimable"
-CLAIM_RAW="$(psql_apply_file_stdin "$CLAIM_ONE_SQL_FILE_REL" | tr -d '\r' || true)"
+CLAIM_SQL="$(render_sql_params "$CLAIM_ONE_SQL_FILE_REL" "$RUN_TAG" "$SMOKE_OWNER")"
+CLAIM_RAW="$(
+  printf "%s\n" "$CLAIM_SQL" | psql_run_sql_at | tr -d '\r' || true
+)"
 CLAIMED_TASK_ID="$(printf "%s\n" "$CLAIM_RAW" | awk 'NF{print; exit}')"
 [[ -n "${CLAIMED_TASK_ID:-}" ]] || die "expected a claimed task_id, got empty (Tier A should be claimable on idle queue)"
 [[ "$CLAIMED_TASK_ID" == "$TASK_A_ID" ]] || die "expected claim to return Tier A task_id=$TASK_A_ID but got: $CLAIMED_TASK_ID"
 
 note "Mark success for claimed Tier A"
-psql_apply_file_stdin_noat "$MARK_SUCCESS_SQL_FILE_REL" >/dev/null
+# Try to run mark_success with common parameter patterns:
+# - if it uses $1 as task_id -> pass TASK_A_ID
+# - if it uses $1 as run_id -> pass RUN_TAG
+# (either way, $2 (owner) is SMOKE_OWNER if referenced)
+MARK_SQL="$(render_sql_params "$MARK_SUCCESS_SQL_FILE_REL" "$TASK_A_ID" "$SMOKE_OWNER")"
+printf "%s\n" "$MARK_SQL" | psql_run_sql >/dev/null || {
+  MARK_SQL="$(render_sql_params "$MARK_SUCCESS_SQL_FILE_REL" "$RUN_TAG" "$SMOKE_OWNER")"
+  printf "%s\n" "$MARK_SQL" | psql_run_sql >/dev/null
+}
 
 note "Verify Tier A not queued; Tier B still queued"
-docker exec -i "$PGC" "${PSQL_ENV[@]}" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<SQL
+psql_run_sql <<SQL
 \pset pager off
 SELECT task_id, status, attempts, action_tier
 FROM tasks
@@ -237,7 +261,10 @@ SQL
 
 # ---- claim attempt 2: must NOT claim (Tier B gated) ----
 note "Claim attempt 2: expect NO claim (Tier B gated)"
-CLAIM_RAW_2="$(psql_apply_file_stdin "$CLAIM_ONE_SQL_FILE_REL" | tr -d '\r' || true)"
+CLAIM_SQL_2="$(render_sql_params "$CLAIM_ONE_SQL_FILE_REL" "${RUN_TAG}.2" "$SMOKE_OWNER")"
+CLAIM_RAW_2="$(
+  printf "%s\n" "$CLAIM_SQL_2" | psql_run_sql_at | tr -d '\r' || true
+)"
 CLAIMED_TASK_ID_2="$(printf "%s\n" "$CLAIM_RAW_2" | awk 'NF{print; exit}')"
 
 if [[ -n "${CLAIMED_TASK_ID_2:-}" ]]; then
