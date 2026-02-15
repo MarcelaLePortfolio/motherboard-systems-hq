@@ -19,8 +19,9 @@ WA="$(echo "$PS_OUT" | grep -E '(^|-)workerA-1$' | head -n1 || true)"
 WB="$(echo "$PS_OUT" | grep -E '(^|-)workerB-1$' | head -n1 || true)"
 
 # hard guard: never hang forever on locks
-STMT_TIMEOUT_MS="${PHASE39_PSQL_TIMEOUT_MS:-5000}"
-PSQL_ENV=(env "PGOPTIONS=-c statement_timeout=${STMT_TIMEOUT_MS}")
+STMT_TIMEOUT_MS="${PHASE39_PSQL_TIMEOUT_MS:-8000}"
+LOCK_TIMEOUT_MS="${PHASE39_PSQL_LOCK_TIMEOUT_MS:-200}"
+PSQL_ENV=(env "PGOPTIONS=-c statement_timeout=${STMT_TIMEOUT_MS} -c lock_timeout=${LOCK_TIMEOUT_MS}")
 
 # ---- locate claim SQL (prefer env override, otherwise auto-discover) ----
 pick_sql_file() {
@@ -47,6 +48,7 @@ echo "  postgres_container=$PGC"
 echo "  claim_one_sql=$CLAIM_ONE_SQL_FILE"
 echo "  mark_success_sql=$MARK_SUCCESS_SQL_FILE"
 echo "  psql_statement_timeout_ms=$STMT_TIMEOUT_MS"
+echo "  psql_lock_timeout_ms=$LOCK_TIMEOUT_MS"
 
 # ---- verify schema expectations ----
 note "Schema preflight (verify tasks.action_tier exists)"
@@ -61,19 +63,26 @@ SQL
 )"
 [[ "$HAS_ACTION_TIER" == "1" ]] || die "expected column public.tasks.action_tier to exist; found: $HAS_ACTION_TIER"
 
-# ---- ensure queue is idle (determinism) without touching non-smoke tasks ----
-note "Queue preflight: cancel prior Phase39 smoke tasks, then wait for non-smoke queue to drain"
+# ---- queue preflight: cancel prior Phase39 smoke tasks WITHOUT blocking ----
+note "Queue preflight: cancel prior Phase39 smoke tasks (SKIP LOCKED), then wait for non-smoke queue to drain"
 
 CANCELED_SMOKE="$(
   docker exec -i "$PGC" "${PSQL_ENV[@]}" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -At <<'SQL'
-WITH upd AS (
-  UPDATE tasks
-  SET status='canceled'
+WITH c AS (
+  SELECT id
+  FROM tasks
   WHERE task_id LIKE 'smoke.phase39.actiontier.%'
     AND status IN ('queued','running')
+  FOR UPDATE SKIP LOCKED
+),
+u AS (
+  UPDATE tasks t
+  SET status='canceled'
+  FROM c
+  WHERE t.id = c.id
   RETURNING 1
 )
-SELECT COUNT(*)::int FROM upd;
+SELECT COUNT(*)::int FROM u;
 SQL
 )"
 echo "canceled_smoke_tasks=$CANCELED_SMOKE"
@@ -134,14 +143,14 @@ SLEEP_SEC=2
 elapsed=0
 
 q="$(non_smoke_queued_count || echo "ERR")"
-[[ "$q" != "ERR" ]] || { snapshot_blockers; die "queue count failed (statement_timeout hit?)"; }
+[[ "$q" != "ERR" ]] || { snapshot_blockers; die "queue count failed (timeout/lock?)"; }
 echo "queued(non-smoke)=$q"
 
 while [[ "$q" != "0" && "$elapsed" -lt "$MAX_WAIT_SEC" ]]; do
   sleep "$SLEEP_SEC"
   elapsed=$((elapsed + SLEEP_SEC))
   q="$(non_smoke_queued_count || echo "ERR")"
-  [[ "$q" != "ERR" ]] || { snapshot_blockers; die "queue count failed (statement_timeout hit?)"; }
+  [[ "$q" != "ERR" ]] || { snapshot_blockers; die "queue count failed (timeout/lock?)"; }
   echo "queued(non-smoke)=$q elapsed=${elapsed}s"
 done
 
