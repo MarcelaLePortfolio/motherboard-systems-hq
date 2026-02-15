@@ -11,8 +11,39 @@ note(){ echo "=== $* ==="; }
 note "Phase 39 smoke: action_tier gating (Tier A claimable, Tier B gated) — deterministic, self-contained"
 
 # ---- locate containers ----
-PGC="$(docker ps --format '{{.Names}}' | grep -E '(^|-)postgres-1$' | head -n1 || true)"
+PS_OUT="$(docker ps --format '{{.Names}}')"
+PGC="$(echo "$PS_OUT" | grep -E '(^|-)postgres-1$' | head -n1 || true)"
 [[ -n "${PGC:-}" ]] || die "postgres container not found (expected name like *-postgres-1). Start your stack first."
+
+WA="$(echo "$PS_OUT" | grep -E '(^|-)workerA-1$' | head -n1 || true)"
+WB="$(echo "$PS_OUT" | grep -E '(^|-)workerB-1$' | head -n1 || true)"
+
+# ---- stop workers to avoid race (determinism) ----
+WAS_RUNNING=0
+WBS_RUNNING=0
+if [[ -n "${WA:-}" ]]; then
+  WAS_RUNNING=1
+  note "Stopping workerA for deterministic smoke ($WA)"
+  docker stop "$WA" >/dev/null
+fi
+if [[ -n "${WB:-}" ]]; then
+  WBS_RUNNING=1
+  note "Stopping workerB for deterministic smoke ($WB)"
+  docker stop "$WB" >/dev/null
+fi
+
+cleanup_restart_workers() {
+  # restart only those we stopped
+  if [[ "${WAS_RUNNING}" == "1" && -n "${WA:-}" ]]; then
+    note "Restarting workerA ($WA)"
+    docker start "$WA" >/dev/null || true
+  fi
+  if [[ "${WBS_RUNNING}" == "1" && -n "${WB:-}" ]]; then
+    note "Restarting workerB ($WB)"
+    docker start "$WB" >/dev/null || true
+  fi
+}
+trap cleanup_restart_workers EXIT
 
 # ---- locate claim SQL (prefer env override, otherwise auto-discover) ----
 pick_sql_file() {
@@ -20,15 +51,12 @@ pick_sql_file() {
   local fallback_glob="$2"
   local f=""
 
-  # 1) explicit env var points to a file
   if [[ -n "${!env_var:-}" ]]; then
     f="${!env_var}"
     [[ -f "$f" ]] || die "$env_var is set but file does not exist: $f"
     echo "$f"; return 0
   fi
 
-  # 2) repository discovery (best-effort, deterministic order)
-  # Prefer files with phase32/claim_one in name because that is the canonical claimer in current stack.
   f="$(git ls-files | grep -E "$fallback_glob" | LC_ALL=C sort | head -n1 || true)"
   [[ -n "${f:-}" ]] || die "could not auto-discover SQL file for $env_var via pattern: $fallback_glob"
   echo "$f"
@@ -55,24 +83,36 @@ SQL
 )"
 [[ "$HAS_ACTION_TIER" == "1" ]] || die "expected column public.tasks.action_tier to exist; found: $HAS_ACTION_TIER"
 
-# ---- create deterministic test inputs ----
+# ---- deterministic test inputs ----
 RUN_TS="$(date +%s)"
 RUN_TAG="smoke.phase39.actiontier.${RUN_TS}"
 TASK_A_ID="${RUN_TAG}.tierA"
 TASK_B_ID="${RUN_TAG}.tierB"
 
-note "Insert queued Tier A + Tier B tasks (idempotent for this run_tag)"
+# ---- isolation preflight: refuse to run if other queued work exists ----
+note "Isolation preflight (refuse if other queued tasks exist)"
+OTHER_QUEUED="$(
+  docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -At <<SQL
+SELECT COUNT(*)::int
+FROM tasks
+WHERE status='queued'
+  AND task_id NOT IN ('${TASK_A_ID}','${TASK_B_ID}');
+SQL
+)"
+# (TASK_A/B don't exist yet, but this keeps the query stable and explicit)
+[[ "$OTHER_QUEUED" == "0" ]] || die "refusing: found $OTHER_QUEUED pre-existing queued tasks; run on a clean stack/db for determinism"
+
+# ---- insert Tier A then Tier B (order matters if claimer uses id ordering) ----
+note "Insert queued Tier A + Tier B tasks (Tier A inserted first)"
 docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<SQL
 \pset pager off
 DO \$\$
 BEGIN
-  -- Tier A
   IF NOT EXISTS (SELECT 1 FROM tasks WHERE task_id='${TASK_A_ID}') THEN
     INSERT INTO tasks (task_id, title, status, attempts, action_tier)
     VALUES ('${TASK_A_ID}', 'Phase39 Smoke Tier A', 'queued', 0, 'A');
   END IF;
 
-  -- Tier B (must remain gated)
   IF NOT EXISTS (SELECT 1 FROM tasks WHERE task_id='${TASK_B_ID}') THEN
     INSERT INTO tasks (task_id, title, status, attempts, action_tier)
     VALUES ('${TASK_B_ID}', 'Phase39 Smoke Tier B', 'queued', 0, 'B');
@@ -90,26 +130,28 @@ WHERE task_id IN ('${TASK_A_ID}','${TASK_B_ID}')
 ORDER BY task_id;
 SQL
 
-# ---- attempt to claim: must claim Tier A ----
+# ---- claim attempt 1: must claim Tier A ----
 note "Claim attempt 1: expect Tier A to be claimable"
-CLAIMED_TASK_ID="$(
-  docker exec -i "$PGC" bash -lc "psql -U postgres -d postgres -v ON_ERROR_STOP=1 -At -f \"$CLAIM_ONE_SQL_FILE\" 2>/dev/null" \
+CLAIM_RAW="$(
+  docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -At -f "$CLAIM_ONE_SQL_FILE" \
   | tr -d '\r' \
-  | head -n1 \
   || true
 )"
+# take first non-empty line, if any
+CLAIMED_TASK_ID="$(
+  printf "%s\n" "$CLAIM_RAW" | awk 'NF{print; exit}'
+)"
 
-[[ -n "${CLAIMED_TASK_ID:-}" ]] || die "expected a claimed task_id, got empty (Tier A should be claimable)"
+[[ -n "${CLAIMED_TASK_ID:-}" ]] || die "expected a claimed task_id, got empty (Tier A should be claimable on clean stack)"
 
 if [[ "$CLAIMED_TASK_ID" != "$TASK_A_ID" ]]; then
-  # If a different task was claimed, this smoke is not isolated. Fail deterministically.
-  die "expected claim to return Tier A task_id=$TASK_A_ID but got: $CLAIMED_TASK_ID (environment not isolated; clear queue or run in clean stack)"
+  die "expected claim to return Tier A task_id=$TASK_A_ID but got: $CLAIMED_TASK_ID"
 fi
 
 note "Mark success for claimed Tier A"
-docker exec -i "$PGC" bash -lc "psql -U postgres -d postgres -v ON_ERROR_STOP=1 -f \"$MARK_SUCCESS_SQL_FILE\" >/dev/null"
+docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -f "$MARK_SUCCESS_SQL_FILE" >/dev/null
 
-note "Verify Tier A terminal-ish + Tier B still queued"
+note "Verify Tier A not queued; Tier B still queued"
 docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<SQL
 \pset pager off
 SELECT task_id, status, attempts, action_tier
@@ -118,20 +160,22 @@ WHERE task_id IN ('${TASK_A_ID}','${TASK_B_ID}')
 ORDER BY task_id;
 SQL
 
-# ---- attempt to claim again: Tier B must remain gated (no claim) ----
+# ---- claim attempt 2: must NOT claim (Tier B gated => no claimable work) ----
 note "Claim attempt 2: expect NO claim (Tier B gated)"
-CLAIMED_TASK_ID_2="$(
-  docker exec -i "$PGC" bash -lc "psql -U postgres -d postgres -v ON_ERROR_STOP=1 -At -f \"$CLAIM_ONE_SQL_FILE\" 2>/dev/null" \
+CLAIM_RAW_2="$(
+  docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -At -f "$CLAIM_ONE_SQL_FILE" \
   | tr -d '\r' \
-  | head -n1 \
   || true
+)"
+CLAIMED_TASK_ID_2="$(
+  printf "%s\n" "$CLAIM_RAW_2" | awk 'NF{print; exit}'
 )"
 
 if [[ -n "${CLAIMED_TASK_ID_2:-}" ]]; then
   if [[ "$CLAIMED_TASK_ID_2" == "$TASK_B_ID" ]]; then
     die "gating regression: Tier B was claimable (task_id=$TASK_B_ID)"
   fi
-  die "expected no claim, but got task_id=$CLAIMED_TASK_ID_2 (environment not isolated; clear queue or run in clean stack)"
+  die "expected no claim, but got task_id=$CLAIMED_TASK_ID_2"
 fi
 
 note "PASS: Tier A claimable; Tier B gated; deterministic checks complete"
