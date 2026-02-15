@@ -1,11 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Deterministic smoke: read-only validation for Phase 39 action_tier policy
-# - discovers postgres container
-# - runs validation query (fed from host file; no in-container path assumptions)
-# - fails if any observed kind is unmapped (fail-closed)
-
 ROOT="$(git rev-parse --show-toplevel)"
 cd "$ROOT"
 
@@ -23,14 +18,45 @@ fi
 echo "PGC=$PGC"
 echo "=== Phase 39: action_tier policy (read-only) validate ==="
 
+# Preflight: ensure a kind-like source exists
+PICKED_COUNT="$(
+  docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -qAt <<'SQL'
+\pset pager off
+\set ON_ERROR_STOP on
+WITH candidates AS (
+  SELECT table_schema, table_name, column_name
+  FROM information_schema.columns
+  WHERE table_schema NOT IN ('pg_catalog','information_schema')
+    AND column_name IN ('kind','event_kind','task_kind','type')
+),
+picked AS (
+  SELECT table_schema, table_name, column_name
+  FROM candidates
+  WHERE (table_name ILIKE '%task%event%' OR table_name ILIKE '%task_events%')
+  ORDER BY
+    (table_name ILIKE '%task_events%') DESC,
+    (table_name ILIKE '%event%') DESC,
+    (column_name = 'kind') DESC,
+    table_schema,
+    table_name
+  LIMIT 1
+)
+SELECT COUNT(*)::text FROM picked;
+SQL
+)"
+PICKED_COUNT="$(printf "%s" "$PICKED_COUNT" | tr -d '\r' | tr -d ' ')"
+if [[ "$PICKED_COUNT" != "1" ]]; then
+  echo "FAIL: could not discover kind-like source column for validation." >&2
+  exit 2
+fi
+
 OUT="$(
   docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -f - < sql/policy/action_tier_validate.sql
 )"
-
 echo "$OUT"
 
-UNMAPPED_LINE="$(printf "%s\n" "$OUT" | rg -n 'PHASE39_UNMAPPED_COUNT=' | tail -n 1 | sed -E 's/^[0-9]+://')"
-UNMAPPED_COUNT="$(printf "%s" "$UNMAPPED_LINE" | sed -E 's/.*PHASE39_UNMAPPED_COUNT=([0-9]+).*/\1/')"
+UNMAPPED_LINE="$(printf "%s\n" "$OUT" | rg 'PHASE39_UNMAPPED_COUNT=' | tail -n 1)"
+UNMAPPED_COUNT="$(printf "%s" "$UNMAPPED_LINE" | sed -E 's/.*PHASE39_UNMAPPED_COUNT=([0-9]+).*/\1/' | tr -d '\r' | tr -d ' ')"
 
 if [[ -z "${UNMAPPED_COUNT:-}" ]] || ! [[ "$UNMAPPED_COUNT" =~ ^[0-9]+$ ]]; then
   echo "ERROR: could not parse PHASE39_UNMAPPED_COUNT from output." >&2
@@ -46,4 +72,4 @@ if [[ "$UNMAPPED_COUNT" != "0" ]]; then
 fi
 
 echo "OK: Phase 39 action_tier policy validation passed (read-only, deterministic)."
-echo "STOPPING POINT: Phase 39 smoke is green; next natural stop is opening the PR."
+echo "STOPPING POINT: smoke is green; next natural stop is opening the PR (you’re 1 step away)."
