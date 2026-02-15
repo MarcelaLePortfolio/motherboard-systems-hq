@@ -37,7 +37,7 @@ PSQL_ENV=(
 )
 
 psql_run() {
-  docker exec -i "$PGC" "${PSQL_ENV[@]}" psql -U postgres -d postgres -v ON_ERROR_STOP=1 "$@"
+  docker exec -i "${PSQL_ENV[@]}" "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 "$@"
 }
 
 psql_run_at() {

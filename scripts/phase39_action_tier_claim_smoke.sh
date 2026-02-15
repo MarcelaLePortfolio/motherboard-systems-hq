@@ -45,17 +45,23 @@ SQL
 
 echo
 echo "=== insert Tier A + Tier B queued tasks (available_at NOW, max_attempts NULL) ==="
+
+# deterministic ids (avoid parsing INSERT output / locky cleanup)
+EPOCH="$(date +%s)"
+TASK_A="smoke.phase39.actiontier.A.${EPOCH}"
+TASK_B="smoke.phase39.actiontier.B.${EPOCH}"
+export TASK_A TASK_B
+
 docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<SQL
 \pset pager off
 INSERT INTO tasks (task_id, status, attempts, max_attempts, action_tier, title, available_at)
 VALUES
-  ('$TASK_A', 'queued', 0, NULL, 'A', 'Phase39 smoke Tier A', now()),
-  ('$TASK_B', 'queued', 0, NULL, 'B', 'Phase39 smoke Tier B', now());
+  ('${TASK_A}', 'queued', 0, NULL, 'A', 'Phase39 smoke Tier A', now()),
+  ('${TASK_B}', 'queued', 0, NULL, 'B', 'Phase39 smoke Tier B', now());
 SQL
 
 echo
 echo "=== claim twice via psql vars (no positional params) ==="
-
 export CLAIM_SQL_PATH
 export TASK_A
 export TASK_B
@@ -63,19 +69,26 @@ export TASK_B
 python3 - <<'PY' > /tmp/phase39_claim_exec.sql
 import pathlib, re
 
-s = pathlib.Path("$CLAIM_SQL_PATH").read_text(encoding="utf-8")
+import os
+claim_sql_path = os.environ.get("CLAIM_SQL_PATH", "server/worker/phase28_claim_one.sql")
+task_a = os.environ["TASK_A"]
+task_b = os.environ["TASK_B"]
+s = pathlib.Path(claim_sql_path).read_text(encoding="utf-8")
 m = re.search(r'(?im)^\s*with\s+', s)
 if not m:
     raise SystemExit("ERROR: could not find WITH clause in claim sql")
 
 body = s[m.start():].strip()
-body = body.replace("\$1", ":'run_id'").replace("\$2", ":'owner'")
 
+
+body = body.replace("$1", ":'run_id'").replace("$2", ":'owner'")
+# rewrite $1/$2 -> psql vars (so psql does not expect positional params)
 print(r"\pset pager off")
 print(r"\set run_id 'smoke.phase39.actiontier.run1'")
 print(r"\set owner  'smoke-phase39'")
-print(r"\set task_a '%s'" % "$TASK_A")
-print(r"\set task_b '%s'" % "$TASK_B")
+print(r"\set task_a '%s'" % task_a)
+print(r"\set task_b '%s'" % task_b)
+
 print(body + ";")
 print(r"\set run_id 'smoke.phase39.actiontier.run2'")
 print(body + ";")
@@ -86,27 +99,23 @@ FROM tasks
 WHERE task_id IN (:'task_a', :'task_b')
 ORDER BY task_id;
 
-DO $$DECLARE b_not_queued int;
-BEGIN
-  SELECT count(*) INTO b_not_queued
-  FROM tasks
-  WHERE task_id = :'task_b'
-    AND status <> 'queued';
-  IF b_not_queued <> 0 THEN
-    RAISE EXCEPTION 'Phase39 gate failed: Tier B task was claimable (status changed)';
-  END IF;
-END$$;
+-- Assert Tier B stayed queued (fail hard)
+SELECT CASE
+  WHEN EXISTS (
+    SELECT 1 FROM tasks WHERE task_id = :'task_b' AND status <> 'queued'
+  )
+  THEN 1/0
+  ELSE 1
+END AS assert_tier_b_not_claimed;
 
-DO $$DECLARE a_still_queued int;
-BEGIN
-  SELECT count(*) INTO a_still_queued
-  FROM tasks
-  WHERE task_id = :'task_a'
-    AND status = 'queued';
-  IF a_still_queued <> 0 THEN
-    RAISE EXCEPTION 'Phase39 gate failed: Tier A task was NOT claimable (still queued)';
-  END IF;
-END$$;
+-- Assert Tier A was claimed (not still queued) (fail hard)
+SELECT CASE
+  WHEN EXISTS (
+    SELECT 1 FROM tasks WHERE task_id = :'task_a' AND status = 'queued'
+  )
+  THEN 1/0
+  ELSE 1
+END AS assert_tier_a_claimed;
 """)
 PY
 
