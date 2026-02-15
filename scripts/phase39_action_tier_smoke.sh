@@ -219,7 +219,6 @@ claimed AS (
 )
 SELECT task_id FROM claimed;
 SQL
-  | tr -d '\r' | awk 'NF{print; exit}'
 )" || true
 
 [[ -n "${CLAIMED_TASK_ID:-}" ]] || die "expected a claimed task_id, got empty (Tier A should be claimable on idle queue)"
@@ -269,7 +268,6 @@ claimed AS (
 )
 SELECT task_id FROM claimed;
 SQL
-  | tr -d '\r' | awk 'NF{print; exit}'
 )" || true
 
 if [[ -n "${CLAIMED_TASK_ID_2:-}" ]]; then
