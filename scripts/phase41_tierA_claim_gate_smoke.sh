@@ -40,24 +40,21 @@ WHERE task_id IN ('${TASK_A}','${TASK_B}')
 ORDER BY id;
 SQL
 
-echo "=== attempt canonical Tier-A claim SQL directly (must claim Tier A only) ==="
-if rg -n "^\s*PREPARE\b" sql/phase40_claim_one_tierA.sql >/dev/null 2>&1; then
-  PREP_NAME="$(awk 'BEGIN{IGNORECASE=1} $1=="PREPARE"{print $2; exit}' sql/phase40_claim_one_tierA.sql | sed 's/[;()].*//')"
-  : "${PREP_NAME:?ERROR: could not detect PREPARE name in sql/phase40_claim_one_tierA.sql}"
-  docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<SQL
-\pset pager off
-\ir sql/phase40_claim_one_tierA.sql
-EXECUTE ${PREP_NAME};
-SQL
-else
-  # direct SQL: execute file verbatim and show returned row(s) (if any)
-  docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -f /dev/stdin < sql/phase40_claim_one_tierA.sql
-fi
+echo "=== attempt canonical Tier-A claim SQL (must claim Tier A only) ==="
+CLAIMED_BY="phase41-smoke"
+RUN_ID="phase41-smoke.${NOW_ID}"
+
+# canonical SQL is host file piped into container psql; pass psql vars so :'claimed_by' and :'run_id' expand
+docker exec -i "$PGC" psql -U postgres -d postgres \
+  -v ON_ERROR_STOP=1 \
+  -v claimed_by="${CLAIMED_BY}" \
+  -v run_id="${RUN_ID}" \
+  -f /dev/stdin < sql/phase40_claim_one_tierA.sql
 
 echo "=== verify DB state (Tier A not queued; Tier B still queued) ==="
 docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<SQL
 \pset pager off
-SELECT task_id, status, action_tier
+SELECT task_id, status, action_tier, claimed_by, run_id
 FROM tasks
 WHERE task_id IN ('${TASK_A}','${TASK_B}')
 ORDER BY task_id;
