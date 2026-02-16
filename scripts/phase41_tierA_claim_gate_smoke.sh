@@ -40,18 +40,69 @@ WHERE task_id IN ('${TASK_A}','${TASK_B}')
 ORDER BY id;
 SQL
 
-echo "=== attempt canonical Tier-A claim SQL (must claim Tier A only) ==="
+echo "=== claim via canonical Tier-A SQL until our TASK_A is claimed ==="
 CLAIMED_BY="phase41-smoke"
 RUN_ID="phase41-smoke.${NOW_ID}"
 
-# canonical SQL is host file piped into container psql; pass psql vars so :'claimed_by' and :'run_id' expand
-docker exec -i "$PGC" psql -U postgres -d postgres \
-  -v ON_ERROR_STOP=1 \
-  -v claimed_by="${CLAIMED_BY}" \
-  -v run_id="${RUN_ID}" \
-  -f /dev/stdin < sql/phase40_claim_one_tierA.sql
+max_claims=25
+i=1
+claimed_task_id=""
 
-echo "=== verify DB state (Tier A not queued; Tier B still queued) ==="
+while [[ $i -le $max_claims ]]; do
+  echo "--- claim attempt $i/$max_claims ---"
+  out="$(
+    docker exec -i "$PGC" psql -U postgres -d postgres \
+      -v ON_ERROR_STOP=1 \
+      -v claimed_by="${CLAIMED_BY}" \
+      -v run_id="${RUN_ID}" \
+      -A -t -F $'\t' \
+      -f /dev/stdin < sql/phase40_claim_one_tierA.sql
+  )"
+
+  # canonical SQL emits the returned row (tab-separated) then "UPDATE 1" on a separate line.
+  # Extract the first non-empty line that contains tabs (the RETURNING row).
+  row="$(printf '%s\n' "$out" | awk 'NF && index($0, "\t") {print; exit}')"
+
+  if [[ -z "${row}" ]]; then
+    echo "ERROR: claim returned no row (no Tier-A queued candidates?)"
+    echo "$out"
+    exit 2
+  fi
+
+  # row columns (from SQL RETURNING):
+  # id, task_id, title, status, action_tier, attempts, max_attempts, claimed_by, run_id
+  claim_task_id="$(printf '%s' "$row" | awk -F $'\t' '{print $2}')"
+  claim_tier="$(printf '%s' "$row" | awk -F $'\t' '{print $5}')"
+
+  echo "claimed: task_id=${claim_task_id} tier=${claim_tier}"
+
+  if [[ "${claim_tier}" != "A" ]]; then
+    echo "ERROR: claimed non-Tier-A task via canonical Tier-A SQL"
+    echo "$row"
+    exit 3
+  fi
+
+  if [[ "${claim_task_id}" == "${TASK_B}" ]]; then
+    echo "ERROR: Tier B task was claimable (gate failed)"
+    echo "$row"
+    exit 4
+  fi
+
+  if [[ "${claim_task_id}" == "${TASK_A}" ]]; then
+    claimed_task_id="${claim_task_id}"
+    break
+  fi
+
+  i=$((i+1))
+done
+
+if [[ -z "${claimed_task_id}" ]]; then
+  echo "ERROR: did not reach TASK_A within ${max_claims} Tier-A claims (other Tier-A work may be ahead in queue)"
+  echo "TASK_A=${TASK_A}"
+  exit 5
+fi
+
+echo "=== verify DB state: TASK_A running, TASK_B still queued ==="
 docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<SQL
 \pset pager off
 SELECT task_id, status, action_tier, claimed_by, run_id
@@ -60,4 +111,4 @@ WHERE task_id IN ('${TASK_A}','${TASK_B}')
 ORDER BY task_id;
 SQL
 
-echo "OK: Phase 41 smoke passed (Tier A claimable; Tier B remains queued)."
+echo "OK: Phase 41 smoke passed (canonical claim only yields Tier A; Tier B remains queued; TASK_A claimed)."
