@@ -41,16 +41,20 @@ ORDER BY id;
 SQL
 
 echo "=== attempt canonical Tier-A claim SQL directly (must claim Tier A only) ==="
-PREP_NAME="$(awk 'BEGIN{IGNORECASE=1} $1=="PREPARE"{print $2; exit}' sql/phase40_claim_one_tierA.sql | sed 's/[;()].*//')"
-: "${PREP_NAME:?ERROR: could not detect PREPARE name in sql/phase40_claim_one_tierA.sql}"
-
-docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<SQL
+if rg -n "^\s*PREPARE\b" sql/phase40_claim_one_tierA.sql >/dev/null 2>&1; then
+  PREP_NAME="$(awk 'BEGIN{IGNORECASE=1} $1=="PREPARE"{print $2; exit}' sql/phase40_claim_one_tierA.sql | sed 's/[;()].*//')"
+  : "${PREP_NAME:?ERROR: could not detect PREPARE name in sql/phase40_claim_one_tierA.sql}"
+  docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<SQL
 \pset pager off
 \ir sql/phase40_claim_one_tierA.sql
 EXECUTE ${PREP_NAME};
 SQL
+else
+  # direct SQL: execute file verbatim and show returned row(s) (if any)
+  docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -f /dev/stdin < sql/phase40_claim_one_tierA.sql
+fi
 
-echo "=== verify DB state ==="
+echo "=== verify DB state (Tier A not queued; Tier B still queued) ==="
 docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<SQL
 \pset pager off
 SELECT task_id, status, action_tier

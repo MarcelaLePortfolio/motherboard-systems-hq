@@ -22,12 +22,12 @@ services:
       PHASE34_RECLAIM_PG_SQL: "server/worker/phase34_reclaim_stale_pg.sql"
 
       # IMPORTANT: override PHASE32_* (worker prefers these)
-      PHASE32_CLAIM_ONE_SQL: "server/worker/phase34_claim_one_pg.sql"
+      PHASE32_CLAIM_ONE_SQL: "sql/phase40_claim_one_tierA.sql"
       PHASE32_MARK_SUCCESS_SQL: "server/worker/phase34_mark_success_pg.sql"
       PHASE32_MARK_FAILURE_SQL: "server/worker/phase34_mark_failure_pg.sql"
 
       # Also wire legacy Phase27 keys (belt & suspenders)
-      PHASE27_CLAIM_ONE_SQL: "server/worker/phase34_claim_one_pg.sql"
+      PHASE27_CLAIM_ONE_SQL: "sql/phase40_claim_one_tierA.sql"
       PHASE27_MARK_SUCCESS_SQL: "server/worker/phase34_mark_success_pg.sql"
       PHASE27_MARK_FAILURE_SQL: "server/worker/phase34_mark_failure_pg.sql"
 
@@ -55,11 +55,11 @@ services:
       PHASE34_HEARTBEAT_PG_SQL: "server/worker/phase34_heartbeat_pg.sql"
       PHASE34_RECLAIM_PG_SQL: "server/worker/phase34_reclaim_stale_pg.sql"
 
-      PHASE32_CLAIM_ONE_SQL: "server/worker/phase34_claim_one_pg.sql"
+      PHASE32_CLAIM_ONE_SQL: "sql/phase40_claim_one_tierA.sql"
       PHASE32_MARK_SUCCESS_SQL: "server/worker/phase34_mark_success_pg.sql"
       PHASE32_MARK_FAILURE_SQL: "server/worker/phase34_mark_failure_pg.sql"
 
-      PHASE27_CLAIM_ONE_SQL: "server/worker/phase34_claim_one_pg.sql"
+      PHASE27_CLAIM_ONE_SQL: "sql/phase40_claim_one_tierA.sql"
       PHASE27_MARK_SUCCESS_SQL: "server/worker/phase34_mark_success_pg.sql"
       PHASE27_MARK_FAILURE_SQL: "server/worker/phase34_mark_failure_pg.sql"
 
