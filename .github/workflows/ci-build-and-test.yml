@@ -1,18 +1,42 @@
-name: ci/build-and-test
+name: ci
+
 on:
   pull_request:
-  push:
-    branches: [ main ]
+    branches: [ "main" ]
+  workflow_dispatch: {}
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
 
-      - name: Run tests
-        run: ./run_tests.sh
+      - name: Install deps
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -f package-lock.json ]; then
+            npm ci
+          else
+            npm install
+          fi
+
+      - name: Run build-and-test
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -x ./scripts/test.sh ]; then
+            ./scripts/test.sh
+          else
+            echo "ERROR: scripts/test.sh missing or not executable" >&2
+            exit 2
+          fi
