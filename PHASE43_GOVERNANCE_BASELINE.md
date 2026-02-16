@@ -6,7 +6,11 @@ Codify **main-pr-only** as the single authoritative ruleset for `main`, document
 - Required checks are enforced
 - No approval requirement exists
 
-This repo treats GitHub **Branch Protection** for `main` as the enforcement mechanism. This document is the canonical contract; the audit script is the proof.
+GitHub can enforce these controls via:
+- **Repository Rulesets** (modern rules engine), and/or
+- **Classic branch protection**.
+
+This document is the canonical contract; the audit script is the proof.
 
 ---
 
@@ -17,45 +21,35 @@ This repo treats GitHub **Branch Protection** for `main` as the enforcement mech
 - The protected branch name is exactly: `main`
 
 ### 2) PR-only (no direct pushes)
-`main` MUST have branch protection that prevents direct pushes by default.
+`main` MUST block direct pushes (changes must flow through a pull request).
 
-Contract assertions:
-- A branch protection rule exists for `main`
-- `allow_force_pushes.enabled` is `false`
-- `allow_deletions.enabled` is `false`
+Contract assertions (must hold via rulesets and/or classic protection):
+- A governance policy exists that requires changes via PR for `main`
+- Force pushes are disabled
+- Branch deletions are disabled
 
 Interpretation:
-- If the protection rule is missing, PR-only is not enforced.
-- If force pushes or deletions are enabled, governance is considered degraded.
+- If PR-only is not enforced, governance is considered broken for `main`.
 
 ### 3) Required checks
-`main` MUST require status checks before merge.
+`main` MUST require the status check:
+- `ci/build-and-test`
 
 Contract assertions:
-- `required_status_checks` exists (non-null)
-- `required_status_checks.strict` is `true` OR the repo explicitly accepts non-strict (this contract prefers `true`)
-- `required_status_checks.contexts` is non-empty OR GitHub reports required checks via `checks`/`contexts` fields (API-dependent)
+- The required check `ci/build-and-test` is enforced for merges to `main`
+- Whether enforcement is via rulesets or classic protection is implementation detail
 
 Interpretation:
-- If required checks are absent or empty, the “required checks” guarantee is not active.
+- If `ci/build-and-test` is not required, the “required checks” guarantee is not active.
 
 ### 4) No approval requirement
 `main` MUST NOT require approvals/reviews to merge.
 
 Contract assertions:
-- `required_pull_request_reviews` is `null` OR disabled (API returns null when not required)
+- No rule requires PR reviews/approvals
 
 Interpretation:
 - If PR reviews are required, this violates Phase 43 scope (“no approvals”).
-
----
-
-## What this baseline does NOT cover
-- Who is allowed to merge PRs (permissions / roles)
-- CODEOWNERS-based review requirements
-- Organization-level policies (outside this repo)
-- CI workflow correctness (only that checks are required)
-- Secret protection / DLP / signing / SLSA
 
 ---
 
@@ -66,14 +60,13 @@ Run:
 Expected result:
 - Exit code 0 and a PASS summary with:
   - default branch is `main`
-  - branch protection present
-  - direct pushes restricted (no force pushes, no deletions)
-  - required checks present and non-empty
+  - PR-only enforced for main
+  - required check `ci/build-and-test` enforced
   - approvals NOT required
 
 ---
 
 ## Operating Rule
 If audit fails:
-- Treat governance as **not enforced** until branch protection is corrected.
+- Treat governance as **not enforced** until repo rules are corrected.
 - Do not proceed with phases that assume safe/controlled merges to `main`.
