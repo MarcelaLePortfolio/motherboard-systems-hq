@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Phase 42 scope gate (fails while PHASE42_SCOPE.md contains TBD)
+bash ./scripts/phase42_scope_gate.sh
+
+
+
+
 
 # Phase 37.6: guard against run_view drift (single owner)
 ./scripts/phase37_6_run_view_single_owner_check.sh

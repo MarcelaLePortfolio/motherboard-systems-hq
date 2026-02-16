@@ -2,7 +2,8 @@
   "type": "module",
   "scripts": {
     "build:dashboard-bundle": "esbuild public/js/dashboard-bundle-entry.js --bundle --outfile=public/bundle.js --sourcemap",
-    "test:orchestration": "node --import tsx --test server/orchestration/*.test.ts"
+    "test:orchestration": "node --import tsx --test server/orchestration/*.test.ts",
+    "test": "bash ./scripts/phase42_scope_gate.sh && (echo \"(no test script)\" && exit 0)"
   },
   "devDependencies": {
     "@types/better-sqlite3": "^7.6.13",
