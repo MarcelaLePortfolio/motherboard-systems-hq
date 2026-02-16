@@ -30,7 +30,7 @@ jobs:
               sha,
               state: "success",
               context: "ci/build-and-test",
-              description: 'Compatibility status context for branch protection',
+              description: "Compatibility status context for branch protection",
               target_url: runUrl
             });
 
