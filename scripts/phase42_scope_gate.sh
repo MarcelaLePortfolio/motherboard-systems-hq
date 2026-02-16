@@ -14,12 +14,27 @@ if [[ ! -f "$FILE" ]]; then
   exit 2
 fi
 
-# Gate: no TBD in the scope doc.
-if rg -n --fixed-strings "TBD" "$FILE" >/dev/null; then
+# Prefer rg if present; otherwise use portable grep.
+has_tbd=0
+if command -v rg >/dev/null 2>&1; then
+  if rg -n --fixed-strings "TBD" "$FILE" >/dev/null 2>&1; then
+    has_tbd=1
+  fi
+else
+  if grep -nF "TBD" "$FILE" >/dev/null 2>&1; then
+    has_tbd=1
+  fi
+fi
+
+if [[ "$has_tbd" -eq 1 ]]; then
   echo "FAIL: $FILE still contains 'TBD' — Phase 42 scope is not finalized." >&2
   echo
   echo "Matches:"
-  rg -n --fixed-strings "TBD" "$FILE" || true
+  if command -v rg >/dev/null 2>&1; then
+    rg -n --fixed-strings "TBD" "$FILE" || true
+  else
+    grep -nF "TBD" "$FILE" || true
+  fi
   exit 1
 fi
 
