@@ -1,3 +1,4 @@
+import { assertActionTierInvariant } from "../../guards/phase44_runtime_integrity_guard.mjs";
 // PHASE39_ACTION_TIER: structural value-alignment scaffolding (A default; B/C require disclosures)
 function __mbNormalizeTier(x) {
   const v = String(x ?? 'A').trim().toUpperCase();
@@ -74,6 +75,16 @@ const rawTarget = taskSpec?.target ?? taskSpec?.agent ?? "";
     });
 
     const task = created?.task ?? created;
+    // [Phase 44] Runtime integrity guard: enforce action-tier invariants (fail-fast)
+    try {
+      const __tier = (task?.action_tier ?? action_tier ?? actionTier ?? null);
+      const __id = (task?.action_id ?? task?.task_id ?? task_id ?? actionId ?? action_name ?? "<unknown>");
+      assertActionTierInvariant({ actionTier: __tier, actionId: String(__id) });
+    } catch (e) {
+      e.message = `[RUNTIME_INTEGRITY_GUARD] `;
+      throw e;
+    }
+
     const task_id = task?.id ?? null;
     return res.status(200).json({ ok: true, task });
   } catch (err) {

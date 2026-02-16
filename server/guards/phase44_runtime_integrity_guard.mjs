@@ -11,7 +11,7 @@ function loadAllowlist() {
     const parsed = JSON.parse(raw);
     return {
       tierB: Array.isArray(parsed?.tierB) ? parsed.tierB : [],
-      tierC: Array.isArray(parsed?.tierC) ? parsed.tierC : []
+      tierC: Array.isArray(parsed?.tierC) ? parsed.tierC : [],
     };
   } catch {
     return { tierB: [], tierC: [] };
@@ -23,16 +23,16 @@ let _setB = new Set(_allow.tierB);
 let _setC = new Set(_allow.tierC);
 
 /**
- * Action-tier runtime integrity guard
- * - Tier A: always allowed
- * - Tier B/C: allowed ONLY if actionId is listed in the structural allowlist file
+ * Phase 44 — Runtime Integrity Guard (Action Tier)
+ * Tier A: always allowed
+ * Tier B/C: allowed ONLY if actionId is listed in structural allowlist
  *
  * No schema changes. Structural authorization is code-owned & reviewable.
  */
 export function assertActionTierInvariant({ actionTier, actionId }) {
   const tier = String(actionTier ?? "").trim().toUpperCase();
 
-  // Treat missing tier as Tier A (backwards-compatible), but reject unknown explicit tiers.
+  // Back-compat: missing tier treated as Tier A
   if (!tier || tier === "A") return;
 
   if (!actionId || typeof actionId !== "string") {
@@ -59,11 +59,12 @@ export function assertActionTierInvariant({ actionTier, actionId }) {
 
 export function getStructuralAllowlistSnapshot() {
   return {
-    tierB: Array.from(_setB.values())._symbols_removed?.() ?? Array.from(_setB.values()),
-    tierC: Array.from(_setC.values()).symbols_removed?.() ?? Array.from(_setC.values())
+    tierB: Array.from(_setB),
+    tierC: Array.from(_setC),
   };
 }
 
+// Tests/dev only
 export function reloadStructuralAllowlistForTestsOnly() {
   _allow = loadAllowlist();
   _setB = new Set(_allow.tierB);
