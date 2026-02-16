@@ -5,8 +5,6 @@ set -euo pipefail
 bash ./scripts/phase42_scope_gate.sh
 
 
-# Phase 42 scope gate (fails while PHASE42_SCOPE.md contains TBD)
-bash ./scripts/phase42_scope_gate.sh
 
 
 
