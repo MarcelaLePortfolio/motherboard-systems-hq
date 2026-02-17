@@ -1,4 +1,5 @@
-import assert from 'node:assert/strict';
+import assert from "node:assert/strict";
+import { stableStringify } from "../stable_json.mjs";
 import { evaluatePolicy } from '../evaluate.mjs';
 
 function stableStringify(obj) {
