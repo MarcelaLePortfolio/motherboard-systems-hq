@@ -38,7 +38,7 @@ apiTasksRouter.get("/health", async (_req, res) => {
       const limit = Math.max(1, Math.min(200, Number(req.query?.limit ?? 25) || 25));
       const r = await pool.query(
         `
-        SELECT id, task_id, title, status, agent, updated_at
+        SELECT id, task_id, title, status, updated_at
         FROM tasks
         ORDER BY updated_at DESC NULLS LAST, id DESC
         LIMIT $1
@@ -96,23 +96,14 @@ apiTasksRouter.post("/create", async (req, res) => {
 
 
       const created = await pool.query(
-
-        `
-
-        INSERT INTO tasks(title, agent, status, source, trace_id, meta)
-
-        VALUES ($1, $2, $3, $4, $5, $6::jsonb)
-
-        RETURNING id
-
-        `,
-
-        [title, agent, status, source, meta.trace_id, meta]
-
-      );
-
-
-      const id = created.rows?.[0]?.id ?? null;
+          `
+          INSERT INTO tasks(title, status, action_tier)
+          VALUES ($1, $2, $3)
+          RETURNING id
+          `,
+          [title, status, (b.action_tier ?? "A")]
+        );
+const id = created.rows?.[0]?.id ?? null;
 
       if (id == null) throw new Error("phase25: failed to create tasks.id");
 
@@ -138,34 +129,28 @@ apiTasksRouter.post("/create", async (req, res) => {
       // phase25: ensure tasks row exists even when caller provides task_id
       // (workers claim from tasks, not task_events)
       await pool.query(
-        `
-        INSERT INTO tasks (task_id, title, agent, status, source, trace_id, meta, payload, run_id, actor)
-        VALUES ($1, $2, $3, $4, $5, $6, $7::jsonb, $8::jsonb, $9, $10)
-        ON CONFLICT (task_id) WHERE task_id IS NOT NULL DO UPDATE
-        SET title = EXCLUDED.title,
-            agent = EXCLUDED.agent,
-            status = EXCLUDED.status,
-            source = EXCLUDED.source,
-            trace_id = EXCLUDED.trace_id,
-            meta = EXCLUDED.meta,
-            payload = EXCLUDED.payload,
-            run_id = COALESCE(EXCLUDED.run_id, tasks.run_id),
-            actor = COALESCE(EXCLUDED.actor, tasks.actor),
-            updated_at = now()
-        `,
-        [
-          task_id,
-          (b.title ?? null),
-          (b.agent ?? null),
-          (b.status ?? "delegated"),
-          (b.source ?? "api"),
-          (b.trace_id ?? b.traceId ?? null),
-          (b.meta ?? {}),
-          (b.payload ?? {}),
-          (b.run_id ?? b.runId ?? null),
-          (b.actor ?? "api"),
-        ]
-      );
+          `
+          INSERT INTO tasks (task_id, title, status, run_id, action_tier, notes)
+          VALUES ($1, $2, $3, $4, $5, $6)
+          ON CONFLICT (task_id) DO UPDATE
+          SET title       = COALESCE(EXCLUDED.title, tasks.title),
+              status      = COALESCE(EXCLUDED.status, tasks.status),
+              run_id      = COALESCE(EXCLUDED.run_id, tasks.run_id),
+              action_tier = COALESCE(EXCLUDED.action_tier, tasks.action_tier),
+              notes       = COALESCE(EXCLUDED.notes, tasks.notes),
+              updated_at  = now()
+          `,
+          [
+            task_id,
+            (b.title ?? null),
+            (b.status ?? "queued"),
+            (b.run_id ?? b.runId ?? null),
+            (b.action_tier ?? "A"),
+            (b.notes ?? null),
+          ]
+        );
+
+
 
 const evt = await emitTaskEvent({
       pool,
