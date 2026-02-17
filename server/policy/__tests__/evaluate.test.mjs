@@ -2,10 +2,6 @@ import assert from "node:assert/strict";
 import { stableStringify } from "../stable_json.mjs";
 import { evaluatePolicy } from '../evaluate.mjs';
 
-function stableStringify(obj) {
-  return JSON.stringify(obj, Object.keys(obj).sort());
-}
-
 const policy = {
   policy_version: 1,
   defaults: { unknown_action_tier: 'B', unknown_action_decision: 'deny' },
