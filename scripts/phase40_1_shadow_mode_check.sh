@@ -6,24 +6,24 @@ setopt NONOMATCH 2>/dev/null || true
 cd "$(git rev-parse --show-toplevel)"
 
 echo "=== phase40.1 check: shadow-mode wiring present (guarded, audit-only) ==="
+test -f server/policy/policy_flags.mjs
+test -f server/policy/policy_eval.mjs
+test -f server/policy/policy_audit.mjs
+FOUND_FILE="$(
+  rg -n -l \
+    --glob '!server/policy/**' \
+    --glob '!scripts/_ops/**' \
+    'if\s*\(\s*policyShadowEnabled\(' \
+    server scripts runSkill.ts scripts/utils/runSkill.ts 2>/dev/null \
+  | while read -r f; do
+      rg -n 'policyEvalShadow' "$f" >/dev/null 2>&1 || continue
+      rg -n 'policyAuditWrite' "$f" >/dev/null 2>&1 || continue
+      echo "$f"
+      break
+    done
+)"
 
-# Must exist somewhere in execution path(s)
-REQ_PATTERNS=(
-  "policyShadowEnabled"
-  "policyEvalShadow"
-  "policyAuditWrite"
-)
+: "${FOUND_FILE:?ERROR: no execution-path file contains guarded shadow wiring (exclude server/policy + scripts/_ops)}"
+echo "FOUND_EXECUTION_WIRING_FILE=$FOUND_FILE"
 
-FOUND_FILE="$(rg -n -l "${REQ_PATTERNS[1]}|${REQ_PATTERNS[2]}|${REQ_PATTERNS[0]}" server scripts runSkill.ts scripts/utils/runSkill.ts 2>/dev/null | head -n 1 || true)"
-: "${FOUND_FILE:?ERROR: no file contains policy shadow wiring symbols}"
-
-echo "FOUND_FILE=$FOUND_FILE"
-
-for p in "${REQ_PATTERNS[@]}"; do
-  rg -n --no-heading "$p" "$FOUND_FILE" >/dev/null
-done
-
-# Ensure the guard exists
-rg -n --no-heading "if\s*\(\s*policyShadowEnabled\(" "$FOUND_FILE" >/dev/null
-
-echo "OK: wiring present + guarded"
+echo "OK: wiring present + guarded in execution path"
