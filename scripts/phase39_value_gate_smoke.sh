@@ -1,23 +1,35 @@
 #!/usr/bin/env bash
 set -euo pipefail
-setopt NO_BANG_HIST 2>/dev/null || true
-setopt NONOMATCH 2>/dev/null || true
 
 cd "$(git rev-parse --show-toplevel)"
 
 COMPOSE="${COMPOSE:-docker-compose.worker.phase32.yml}"
 
+echo "=== ensure docker network exists ==="
+docker network inspect mbhq_default >/dev/null 2>&1 || docker network create mbhq_default >/dev/null
+
+echo "=== ensure postgres is running (best-effort) ==="
+PGC="$(docker ps --format '{{.Names}}' | grep -E '^motherboard_systems_hq-postgres-1$' | head -n 1 || true)"
+if [[ -z "${PGC:-}" ]]; then
+  if [[ -f docker-compose.yml ]]; then
+    docker compose -f docker-compose.yml up -d postgres
+  fi
+fi
+PGC="$(docker ps --format '{{.Names}}' | grep -E '^motherboard_systems_hq-postgres-1$' | head -n 1 || true)"
+: "${PGC:?ERROR: postgres container not found (expected motherboard_systems_hq-postgres-1)}"
+
 echo "=== bring up worker stack (Phase 39 value gate smoke) ==="
 docker compose -f "$COMPOSE" up -d --build
-
-PGC="$(docker ps --format '{{.Names}}' | grep -E '^motherboard_systems_hq-postgres-1$' || true)"
-: "${PGC:?ERROR: postgres container not found}"
 
 PS_OUT="$(docker compose -f "$COMPOSE" ps)"
 WA="$(echo "$PS_OUT" | awk 'NR>1 && $1 ~ /(^|-)workerA-1$/ {print $1; exit}')"
 WB="$(echo "$PS_OUT" | awk 'NR>1 && $1 ~ /(^|-)workerB-1$/ {print $1; exit}')"
 : "${WA:?ERROR: workerA container not found}"
 : "${WB:?ERROR: workerB container not found}"
+
+echo "=== verify claim SQL is visible in containers ==="
+docker exec -i "$WA" sh -lc 'test -f /app/server/sql/phase39_claim_one_with_value_gate.sql && echo "OK: workerA sees claim sql"'
+docker exec -i "$WB" sh -lc 'test -f /app/server/sql/phase39_claim_one_with_value_gate.sql && echo "OK: workerB sees claim sql"'
 
 TASK_ID="smoke.phase39.valuegate.$(date +%s)"
 TITLE="Phase39 Value Gate Smoke"
@@ -65,6 +77,10 @@ set -e
 
 if [[ "$A_OK" -ne 0 && "$B_OK" -ne 0 ]]; then
   echo "ERROR: expected VALUE_GATE_REFUSE log line not found in worker logs" >&2
+  echo "--- workerA last 120 lines ---" >&2
+  docker logs --tail 120 "$WA" >&2 || true
+  echo "--- workerB last 120 lines ---" >&2
+  docker logs --tail 120 "$WB" >&2 || true
   exit 2
 fi
 
