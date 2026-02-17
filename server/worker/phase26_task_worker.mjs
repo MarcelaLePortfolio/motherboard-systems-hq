@@ -3,6 +3,9 @@ import path from "node:path";
 import process from "node:process";
 import { Pool } from "pg";
 import { emitTaskEvent } from "../task_events_emit.mjs";
+import { policyShadowEnabled } from "../policy/policy_flags.mjs";
+import { policyEvalShadow } from "../policy/policy_eval.mjs";
+import { policyAuditWrite } from "../policy/policy_audit.mjs";
 
 // Phase 39: Action Tier pre-execution gate (A allowed; B/C blocked)
 function __mbIsTierA(t){
@@ -104,6 +107,13 @@ async function loop() {
     try {
       const c = await pool.connect();
       try {
+    if (policyShadowEnabled(process.env)) {
+      const __task = (typeof task !== "undefined" ? task : (typeof payload !== "undefined" ? payload?.task : undefined)) ?? null;
+      const __run  = (typeof run  !== "undefined" ? run  : (typeof payload !== "undefined" ? payload?.run  : undefined)) ?? null;
+      const __policyAudit = await policyEvalShadow({ task: __task, run: __run }, process.env);
+      await policyAuditWrite(__policyAudit);
+    }
+
         await c.query("BEGIN");
         // phase34 heartbeat + reclaim (optional)
         if (PHASE34_ENABLE_LEASE) {
