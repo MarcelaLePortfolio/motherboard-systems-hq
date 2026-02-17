@@ -4,23 +4,30 @@ import path from 'node:path';
 const DECISIONS = new Set(['allow', 'deny', 'allow_with_conditions']);
 const TIERS = new Set(['A', 'B', 'C']);
 
-// Minimal YAML loader without deps: accept only this file’s limited structure by parsing via JSON fallback.
-// For Phase 39.2, prefer adding a tiny dependency-free parser later or switch to JSON.
-// This skeleton uses JSON if provided; YAML support added in follow-up commit.
-function loadPolicyFile(policyPath) {
-  const raw = fs.readFileSync(policyPath, 'utf8');
-  // If it looks like JSON, parse JSON; otherwise throw with an instruction (keeps determinism, fails loudly).
-  const trimmed = raw.trim();
-  if (trimmed.startsWith('{')) return JSON.parse(trimmed);
-  throw new Error(
-    `Policy file is YAML but YAML parsing not implemented yet. Convert to JSON or add YAML parser in next commit: ${policyPath}`
-  );
-}
-
 function stableKeyList(obj) {
   return Object.keys(obj).sort();
 }
 
+function stableTrace(trace) {
+  // Ensure stable ordering for trace arrays
+  if (Array.isArray(trace.reasons)) trace.reasons = [...trace.reasons].sort();
+  if (Array.isArray(trace.conditions)) {
+    trace.conditions = [...trace.conditions].sort((a, b) => String(a.id).localeCompare(String(b.id)));
+  }
+  return trace;
+}
+
+function loadJsonPolicyFile(policyPath) {
+  const raw = fs.readFileSync(policyPath, 'utf8');
+  const trimmed = raw.trim();
+  if (!trimmed.startsWith('{')) throw new Error(`policy must be JSON: ${policyPath}`);
+  return JSON.parse(trimmed);
+}
+
+/**
+ * Pure, deterministic evaluator.
+ * NOTE: Reading policy from disk is handled elsewhere; this function does not perform IO.
+ */
 export function evaluatePolicy({ action_id, context = {}, meta = {} }, { policy }) {
   if (typeof action_id !== 'string' || !action_id.trim()) throw new Error('action_id must be a non-empty string');
   const canonical_action = action_id.trim();
@@ -28,7 +35,7 @@ export function evaluatePolicy({ action_id, context = {}, meta = {} }, { policy 
   if (context && typeof context !== 'object') throw new Error('context must be an object');
   const ctx = context || {};
 
-  // Reject agent self-tier attempts by key (v1 hard reject)
+  // Reject obvious self-tier attempts (v1 hard reject)
   for (const k of Object.keys(ctx)) {
     if (k === 'tier' || k === 'requested_tier' || k === 'decision') {
       throw new Error(`forbidden context key: ${k}`);
@@ -44,7 +51,7 @@ export function evaluatePolicy({ action_id, context = {}, meta = {} }, { policy 
   if (!TIERS.has(defaultTier)) throw new Error(`invalid default tier: ${defaultTier}`);
   if (!DECISIONS.has(defaultDecision)) throw new Error(`invalid default decision: ${defaultDecision}`);
 
-  const trace = {
+  const trace = stableTrace({
     policy_version,
     matched: false,
     matched_rule_id: null,
@@ -54,8 +61,9 @@ export function evaluatePolicy({ action_id, context = {}, meta = {} }, { policy 
     normalized: {
       action_id: canonical_action,
       context_keys: stableKeyList(ctx),
+      meta_keys: meta && typeof meta === 'object' ? stableKeyList(meta) : [],
     },
-  };
+  });
 
   const rules = Array.isArray(policy.rules) ? policy.rules : [];
   for (const r of rules) {
@@ -78,6 +86,7 @@ export function evaluatePolicy({ action_id, context = {}, meta = {} }, { policy 
     trace.matched_rule_id = r.id || null;
     trace.default_applied = false;
     trace.reasons.push(`matched:${r.id || 'unknown'}`);
+    stableTrace(trace);
 
     return {
       tier,
@@ -88,6 +97,8 @@ export function evaluatePolicy({ action_id, context = {}, meta = {} }, { policy 
   }
 
   trace.reasons.push('no_rule_matched');
+  stableTrace(trace);
+
   return {
     tier: defaultTier,
     decision: defaultDecision,
@@ -97,7 +108,7 @@ export function evaluatePolicy({ action_id, context = {}, meta = {} }, { policy 
 }
 
 export function loadDefaultPolicyFromRepoRoot(repoRoot) {
-  const p = path.join(repoRoot, 'policy', 'value_policy.yaml');
-  const policy = loadPolicyFile(p);
+  const p = path.join(repoRoot, 'policy', 'value_policy.json');
+  const policy = loadJsonPolicyFile(p);
   return { policy, path: p };
 }
