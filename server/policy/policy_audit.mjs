@@ -25,6 +25,28 @@ function safeMkdirpForFile(filePath) {
   }
 }
 
+
+function clampInt(n, lo, hi, dflt) {
+  const x = toInt(n, dflt);
+  if (x < lo) return lo;
+  if (x > hi) return hi;
+  return x;
+}
+
+function stableSampleDecision({ task_id = "", run_id = "" } = {}, env = process.env) {
+  // Sampling applies to file capture only (POLICY_AUDIT_PATH). Stdout is unaffected.
+  const pct = clampInt(env?.POLICY_AUDIT_SAMPLE_PCT, 0, 100, 100);
+  if (pct >= 100) return true;
+  if (pct <= 0) return false;
+
+  const seed = env?.POLICY_AUDIT_SAMPLE_SEED ? String(env.POLICY_AUDIT_SAMPLE_SEED) : "";
+  const key = `${seed}::${task_id}::${run_id}`;
+  const h = crypto.createHash("sha256").update(key).digest();
+  const bucket = (h[0] << 8) + h[1]; // 0..65535
+  const scaled = Math.floor((bucket / 65536) * 10000); // 0..9999
+  return scaled < Math.floor((pct / 100) * 10000);
+}
+
 function rotateIfNeeded(filePath, maxBytes, maxFiles) {
   if (!filePath || maxBytes <= 0) return;
   if (maxFiles < 1) maxFiles = 1;
@@ -82,6 +104,10 @@ export async function policyAuditWrite(audit = {}, env = process.env) {
 
     const filePath = env?.POLICY_AUDIT_PATH ? String(env.POLICY_AUDIT_PATH) : "";
     if (filePath) {
+      const signals = normalized?.signals || {};
+      const shouldCapture = stableSampleDecision({ task_id: signals.task_id, run_id: signals.run_id }, env);
+      if (!shouldCapture) return;
+
       try {
         safeMkdirpForFile(filePath);
 
