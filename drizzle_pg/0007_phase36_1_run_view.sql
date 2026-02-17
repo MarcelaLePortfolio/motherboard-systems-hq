@@ -47,7 +47,7 @@ SELECT
   le.task_id,
 
   -- actor/owner: prefer latest event.actor; fall back to tasks.claimed_by / tasks.actor
-  COALESCE(NULLIF(le.last_event_actor,''), NULLIF(t.claimed_by,''), NULLIF(t.actor,'')) AS actor,
+  COALESCE(NULLIF(le.last_event_actor,''), NULLIF(t.claimed_by,'')) AS actor,
 
   -- lease (epoch ms)
   t.lease_expires_at,
