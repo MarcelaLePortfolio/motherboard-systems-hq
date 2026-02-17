@@ -1,0 +1,34 @@
+policy_version: 1
+
+defaults:
+  unknown_action_tier: B
+  unknown_action_decision: deny
+
+tiers:
+  A: "Allowed by default, low-risk"
+  B: "Blocked by default, explicit grant later"
+  C: "Exceptional / blocked"
+
+actions:
+  - run.view
+  - runs.list
+  - task.inspect
+
+rules:
+  - id: allow_run_view
+    match:
+      action_id: run.view
+    tier: A
+    decision: allow
+
+  - id: allow_runs_list
+    match:
+      action_id: runs.list
+    tier: A
+    decision: allow
+
+  - id: deny_unknown_prefix_task_mutation
+    match:
+      action_prefix: task.mutate
+    tier: B
+    decision: deny
