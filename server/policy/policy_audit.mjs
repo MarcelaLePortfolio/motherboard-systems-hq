@@ -1,4 +1,5 @@
 import fs from "node:fs";
+import crypto from "node:crypto";
 import path from "node:path";
 import { normalizePolicyAudit } from "./policy_audit_shape.mjs";
 
