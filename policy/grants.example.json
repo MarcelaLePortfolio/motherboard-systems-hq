@@ -1,0 +1,13 @@
+{
+  "grants": [
+    {
+      "id": "grant.dev.example.1",
+      "allow_actions": ["task.mutate.", "repo.write."],
+      "scope": "run_id",
+      "scope_id": "run_123",
+      "expires_at": "2099-01-01T00:00:00Z",
+      "single_use": true,
+      "notes": "Example dev grant (copy to policy/grants.json or set MB_GRANTS_JSON)."
+    }
+  ]
+}
