@@ -5,6 +5,7 @@ services:
     image: mbhq-worker:phase32
     volumes:
       - ./server/worker:/app/server/worker:ro
+      - ./server/sql:/app/server/sql:ro
     command: ["node","server/worker/phase26_task_worker.mjs"]
     environment:
       POSTGRES_URL: postgres://postgres:postgres@host.docker.internal:5432/postgres
@@ -23,6 +24,7 @@ services:
     image: mbhq-worker:phase32
     volumes:
       - ./server/worker:/app/server/worker:ro
+      - ./server/sql:/app/server/sql:ro
     command: ["node","server/worker/phase26_task_worker.mjs"]
     environment:
       POSTGRES_URL: postgres://postgres:postgres@host.docker.internal:5432/postgres
