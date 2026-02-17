@@ -30,10 +30,11 @@ allowed_pick AS (
 ),
 claimed AS (
   UPDATE tasks t
-  SET status     = 'delegated',
-      claimed_by = COALESCE(current_setting('app.worker_id', true), t.claimed_by),
-      claimed_at = NOW()
-  WHERE t.id = (SELECT id FROM allowed_pick)
+SET status     = 'delegated',
+    run_id     = $1::text,
+    claimed_by = $2::text,
+    claimed_at = (floor(extract(epoch from clock_timestamp())*1000))::bigint
+WHERE t.id = (SELECT id FROM allowed_pick)
   RETURNING t.id, t.task_id, t.title, t.action_tier
 )
 SELECT

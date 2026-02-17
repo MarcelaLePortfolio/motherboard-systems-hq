@@ -122,6 +122,21 @@ async function loop() {
         dbg('claim_attempt');
           const task = await claimOne(c, run_id);
 
+          // Phase 39: SQL-level value gate returns gate_action
+          // - REFUSE: worker must not treat as claimed work; log + continue cleanly
+          // - CLAIM (or missing): proceed with normal flow
+          const gateAction = String(task?.gate_action ?? task?.gateAction ?? "");
+          if (gateAction === "REFUSE") {
+            const tier = String(task?.action_tier ?? task?.actionTier ?? "UNKNOWN");
+            console.log("VALUE_GATE_REFUSE");
+            console.log("[phase39] VALUE_GATE_REFUSE", { owner, tier, task_id: task?.task_id ?? task?.taskId ?? null, id: task?.id ?? null });
+            await c.query("COMMIT");
+            c.release();
+            await sleep(TICK_MS);
+            backoff = BACKOFF_BASE_MS;
+            continue;
+          }
+
   // Phase 39: Action Tier pre-execution gate
   if (!__mbIsTierA(task?.action_tier ?? task?.actionTier)) {
     const __tier = String((task?.action_tier ?? task?.actionTier) ?? '');

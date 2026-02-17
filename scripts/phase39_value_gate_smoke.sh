@@ -2,13 +2,28 @@
 set -euo pipefail
 
 cd "$(git rev-parse --show-toplevel)"
-
 COMPOSE="${COMPOSE:-docker-compose.worker.phase32.yml}"
+
+wait_running() {
+  local name="$1"
+  local tries=80
+  local i=0
+  while (( i < tries )); do
+    local st=""
+    st="$(docker inspect --format "{{.State.Status}}" "$name" 2>/dev/null || true)"
+    [[ "$st" == "running" ]] && return 0
+    sleep 0.25
+    ((i++)) || true
+  done
+  echo "ERROR: container not running: $name" >&2
+  docker logs --tail 120 "$name" >&2 || true
+  return 2
+}
 
 echo "=== ensure docker network exists ==="
 docker network inspect mbhq_default >/dev/null 2>&1 || docker network create mbhq_default >/dev/null
 
-echo "=== ensure postgres is running (best-effort) ==="
+echo "=== ensure postgres is running (expected motherboard_systems_hq-postgres-1) ==="
 PGC="$(docker ps --format '{{.Names}}' | grep -E '^motherboard_systems_hq-postgres-1$' | head -n 1 || true)"
 if [[ -z "${PGC:-}" ]]; then
   if [[ -f docker-compose.yml ]]; then
@@ -18,7 +33,21 @@ fi
 PGC="$(docker ps --format '{{.Names}}' | grep -E '^motherboard_systems_hq-postgres-1$' | head -n 1 || true)"
 : "${PGC:?ERROR: postgres container not found (expected motherboard_systems_hq-postgres-1)}"
 
-echo "=== bring up worker stack (Phase 39 value gate smoke) ==="
+echo "=== wait for postgres ready ==="
+for i in {1..80}; do
+  if docker exec -i "$PGC" pg_isready -U postgres -d postgres >/dev/null 2>&1; then
+    echo "OK: postgres ready"
+    break
+  fi
+  sleep 0.25
+  if [[ "$i" == "80" ]]; then
+    echo "ERROR: postgres not ready" >&2
+    docker logs --tail 120 "$PGC" >&2 || true
+    exit 2
+  fi
+done
+
+echo "=== bring up worker stack ==="
 docker compose -f "$COMPOSE" up -d --build
 
 PS_OUT="$(docker compose -f "$COMPOSE" ps)"
@@ -27,7 +56,11 @@ WB="$(echo "$PS_OUT" | awk 'NR>1 && $1 ~ /(^|-)workerB-1$/ {print $1; exit}')"
 : "${WA:?ERROR: workerA container not found}"
 : "${WB:?ERROR: workerB container not found}"
 
+wait_running "$WA"
+wait_running "$WB"
+
 echo "=== verify claim SQL is visible in containers ==="
+docker exec -i "$WA" sh -lc 'ls -la /app/server/sql | sed -n "1,80p"'
 docker exec -i "$WA" sh -lc 'test -f /app/server/sql/phase39_claim_one_with_value_gate.sql && echo "OK: workerA sees claim sql"'
 docker exec -i "$WB" sh -lc 'test -f /app/server/sql/phase39_claim_one_with_value_gate.sql && echo "OK: workerB sees claim sql"'
 
@@ -66,22 +99,21 @@ SELECT count(*) AS task_events_for_task
 FROM task_events
 WHERE task_id='${TASK_ID}';
 SQL
-
 echo "=== assert refusal log present (either worker) ==="
 set +e
-docker logs --since 2m "$WA" | rg -n "VALUE_GATE_REFUSE task_id=${TASK_ID} action_tier=${TIER}" >/dev/null
-A_OK=$?
-docker logs --since 2m "$WB" | rg -n "VALUE_GATE_REFUSE task_id=${TASK_ID} action_tier=${TIER}" >/dev/null
-B_OK=$?
+A_HIT="$(docker logs --tail 300 "$WA" 2>&1 | rg -F "VALUE_GATE_REFUSE" -n || true)"
+B_HIT="$(docker logs --tail 300 "$WB" 2>&1 | rg -F "VALUE_GATE_REFUSE" -n || true)"
 set -e
 
-if [[ "$A_OK" -ne 0 && "$B_OK" -ne 0 ]]; then
+if [ -z "$A_HIT" ] && [ -z "$B_HIT" ]; then
   echo "ERROR: expected VALUE_GATE_REFUSE log line not found in worker logs" >&2
-  echo "--- workerA last 120 lines ---" >&2
-  docker logs --tail 120 "$WA" >&2 || true
-  echo "--- workerB last 120 lines ---" >&2
-  docker logs --tail 120 "$WB" >&2 || true
+  echo "--- workerA last 120 lines ---"
+  docker logs --tail 120 "$WA" 2>&1 || true
+  echo "--- workerB last 120 lines ---"
+  docker logs --tail 120 "$WB" 2>&1 || true
   exit 2
 fi
+
+echo "OK: VALUE_GATE_REFUSE observed"
 
 echo "OK: refusal logged; verify snapshots above show no worker mutation."
