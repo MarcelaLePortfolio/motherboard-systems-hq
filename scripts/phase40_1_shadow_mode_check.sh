@@ -6,9 +6,11 @@ setopt NONOMATCH 2>/dev/null || true
 cd "$(git rev-parse --show-toplevel)"
 
 echo "=== phase40.1 check: shadow-mode wiring present (guarded, audit-only) ==="
+
 test -f server/policy/policy_flags.mjs
 test -f server/policy/policy_eval.mjs
 test -f server/policy/policy_audit.mjs
+
 FOUND_FILE="$(
   rg -n -l \
     --glob '!server/policy/**' \
