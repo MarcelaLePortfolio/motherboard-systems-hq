@@ -88,18 +88,12 @@ payloadText = String(payloadIn);
   } else if (payloadIn && typeof payloadIn === "object") {
     payloadJson = payloadIn;
   } else if (typeof payloadText === "string" && payloadText.length) {
-    try { payloadJson = JSON.parse(payloadText); } catch (e) {
-payloadJson = null; }
+    try { payloadJson = JSON.parse(payloadText); } catch (e) { payloadJson = null; }
   }
   if (payloadJson === undefined) payloadJson = null;
 
   // Phase 25: Exact-dupe idempotency — if exact (kind,payload) already exists, do nothing.
-  try {
-    const dup = await pool.query(
+    await pool.query(
   "insert into task_events(kind, task_id, run_id, actor, ts, payload) values ($1::text, $2::text, $3::text, $4::text, $5::bigint, $6::jsonb)",
   [k, (inferredTaskId == null ? null : String(inferredTaskId)), run_id, actor, ts, payloadJson]
 );
-}
-
-
-
