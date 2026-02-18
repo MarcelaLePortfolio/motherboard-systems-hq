@@ -16,6 +16,7 @@ import { handleDelegateTaskSpec as phase23HandleDelegateTaskSpec } from "./serve
 import { registerPhase36RunView } from "./server/routes/phase36_run_view.mjs";
 import { getRunsList } from "./server/routes/phase36_run_view.mjs";
 
+import { registerPhase40_6ShadowAuditTaskEvents } from "./server/routes/phase40_6_shadow_audit_task_events.mjs";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -561,3 +562,5 @@ if (process.env.PHASE18_ENABLE_ORCHESTRATION === "1") {
       console.error("[phase18] failed to start orchestration runtime:", e);
     });
 }
+
+registerPhase40_6ShadowAuditTaskEvents(app, { db });
