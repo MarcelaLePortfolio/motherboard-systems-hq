@@ -7,15 +7,17 @@ export function registerPhase40_6ShadowAuditTaskEvents(app, { db }) {
     const sqlText = readFileSync(sqlPath, "utf8");
 
     const startedAt = Date.now();
+    const excludePrefix = String((_req.query && _req.query.exclude_prefix) || "");
     try {
       const { rows } = await db.query(sqlText);
+      const filtered = excludePrefix ? (rows || []).filter(r => !(String(r.task_id || "").startsWith(excludePrefix))) : (rows || []);
       const tookMs = Date.now() - startedAt;
 
       res.json({
         ok: true,
         scope: "phase40.6.shadow-audit.task-events",
         took_ms: tookMs,
-        rows
+        filtered
       });
     } catch (err) {
       const tookMs = Date.now() - startedAt;
