@@ -14,7 +14,7 @@ services:
       WORKER_OWNER: ${WORKER_OWNER_A:-docker-wA}
 
       # Enable lease-mode so claim_one gets (run_id, owner, lease_ms) and matches PG SQL arity.
-      PHASE34_ENABLE_LEASE: "1"
+      PHASE34_ENABLE_LEASE: "0"
       PHASE34_LEASE_MS: ${PHASE34_LEASE_MS:-5000}
 
       # Phase34: heartbeat + reclaim
@@ -48,7 +48,7 @@ services:
       POSTGRES_URL: postgres://postgres:postgres@postgres:5432/postgres
       WORKER_OWNER: ${WORKER_OWNER_B:-docker-wB}
 
-      PHASE34_ENABLE_LEASE: "1"
+      PHASE34_ENABLE_LEASE: "0"
       PHASE34_LEASE_MS: ${PHASE34_LEASE_MS:-5000}
 
       PHASE34_HEARTBEAT_PG_SQL: "server/worker/phase34_heartbeat_pg.sql"
