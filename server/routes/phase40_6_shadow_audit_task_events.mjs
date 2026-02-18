@@ -9,7 +9,8 @@ export function registerPhase40_6ShadowAuditTaskEvents(app, { db }) {
     const startedAt = Date.now();
     const excludePrefix = String((_req.query && _req.query.exclude_prefix) || "");
     try {
-      const { rows } = await db.query(sqlText);
+      const r = await db.query(sqlText);
+      const rows = Array.isArray(r) ? r : (r && r.rows) ? r.rows : [];
       const filtered = excludePrefix ? (rows || []).filter(r => !(String(r.task_id || "").startsWith(excludePrefix))) : (rows || []);
       const tookMs = Date.now() - startedAt;
 
