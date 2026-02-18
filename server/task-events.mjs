@@ -75,7 +75,7 @@ export async function appendTaskEvent(pool, kind, task_id, payload, opts = undef
   let payloadText = "";
   let payloadJson = null;
 
-  try {
+  {
     if (payloadIn === null || payloadIn === undefined) payloadText = "";
     else if (typeof payloadIn === "string") payloadText = payloadIn;
     else payloadText = JSON.stringify(payloadIn);
@@ -94,9 +94,10 @@ export async function appendTaskEvent(pool, kind, task_id, payload, opts = undef
 
   // Phase 25: Exact-dupe idempotency — if exact (kind,payload) already exists, do nothing.
   try {
-    const dup = await pool.query("insert into task_events(kind, task_id, run_id, actor, ts, payload) values ($1::text, $2::text, $3::text, $4::text, $5::bigint, $6::jsonb)",
-    [k, (inferredTaskId == null ? null : String(inferredTaskId)), run_id, actor, ts, payloadText, payloadJson]
-  );
+    const dup = await pool.query(
+  "insert into task_events(kind, task_id, run_id, actor, ts, payload) values ($1::text, $2::text, $3::text, $4::text, $5::bigint, $6::jsonb)",
+  [k, (inferredTaskId == null ? null : String(inferredTaskId)), run_id, actor, ts, payloadJson]
+);
 }
 
 
