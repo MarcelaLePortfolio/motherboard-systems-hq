@@ -7,7 +7,6 @@
 -- Params:
 --  $1 = run_id (text)
 --  $2 = claimed_by / owner (text)
---  $3 = lease_ms (bigint)  -- referenced for arity compatibility (not used in Phase39 semantics)
 --
 -- Output: single row, gate_action = 'REFUSE' | 'CLAIM'
 
@@ -15,7 +14,7 @@ WITH params AS (
   SELECT
     $1::text   AS run_id,
     $2::text   AS claimed_by,
-    $3::bigint AS lease_ms
+    NULL::bigint AS lease_ms
 ),
 disallowed AS (
   SELECT t.id, t.task_id, t.title, t.action_tier
