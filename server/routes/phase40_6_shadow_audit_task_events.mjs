@@ -7,14 +7,27 @@ export function registerPhase40_6ShadowAuditTaskEvents(app, { db }) {
     const sqlText = readFileSync(sqlPath, "utf8");
 
     const startedAt = Date.now();
-    const { rows } = await db.query(sqlText);
-    const tookMs = Date.now() - startedAt;
+    try {
+      const { rows } = await db.query(sqlText);
+      const tookMs = Date.now() - startedAt;
 
-    res.json({
-      ok: true,
-      scope: "phase40.6.shadow-audit.task-events",
-      took_ms: tookMs,
-      rows
-    });
+      res.json({
+        ok: true,
+        scope: "phase40.6.shadow-audit.task-events",
+        took_ms: tookMs,
+        rows
+      });
+    } catch (err) {
+      const tookMs = Date.now() - startedAt;
+      res.status(500).json({
+        ok: false,
+        scope: "phase40.6.shadow-audit.task-events",
+        took_ms: tookMs,
+        error: {
+          name: err?.name || "Error",
+          message: err?.message || String(err)
+        }
+      });
+    }
   });
 }

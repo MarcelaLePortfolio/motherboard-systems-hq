@@ -1,18 +1,29 @@
+/*
+Phase 40.6 — Shadow Audit (read-only)
+Deterministic ordering: (created_at ASC, ts ASC, id ASC)
+Projection-only: no writes, no influence.
+*/
 WITH e AS (
   SELECT
-    te.id AS event_id,
     te.task_id,
     te.run_id,
-    regexp_replace(te.kind, '^task\.', '') AS kind,
-    te.ts
+    te.id AS event_uuid,
+    te.created_at AS at,
+    te.ts AS ts,
+    regexp_replace(te.kind, '^task\.', '') AS kind
   FROM task_events te
 ),
 k AS (
   SELECT
     task_id,
     run_id,
-    event_id,
+    row_number() OVER (
+      PARTITION BY task_id
+      ORDER BY at ASC, ts ASC, event_uuid ASC
+    )::int AS event_id,
+    at,
     ts,
+    event_uuid,
     kind,
     CASE WHEN kind IN ('completed','failed','canceled','cancelled') THEN 1 ELSE 0 END AS is_terminal,
     CASE WHEN kind = 'created' THEN 1 ELSE 0 END AS is_created,
@@ -22,7 +33,7 @@ k AS (
 agg AS (
   SELECT
     task_id,
-    max(run_id) FILTER (WHERE run_id IS NOT NULL) AS run_id_any,
+    min(run_id) AS run_id_any,
     min(at) AS first_at,
     max(at) AS last_at,
     count(*)::int AS event_count,
@@ -36,8 +47,8 @@ last_event AS (
   SELECT DISTINCT ON (task_id)
     task_id,
     kind AS last_kind,
-    at   AS last_kind_at,
-    event_id AS last_kind_event_id
+    at AS last_kind_at,
+    event_id AS last_event_id
   FROM k
   ORDER BY task_id, event_id DESC
 ),
@@ -63,7 +74,7 @@ first_terminal AS (
   SELECT DISTINCT ON (task_id)
     task_id,
     kind AS terminal_kind,
-    at   AS terminal_at,
+    at AS terminal_at,
     event_id AS terminal_event_id
   FROM k
   WHERE is_terminal = 1
