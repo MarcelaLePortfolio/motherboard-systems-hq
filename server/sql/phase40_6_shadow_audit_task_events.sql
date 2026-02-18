@@ -1,5 +1,3 @@
-\pset pager off
-
 WITH e AS (
   SELECT
     te.id AS event_id,
