@@ -563,4 +563,4 @@ if (process.env.PHASE18_ENABLE_ORCHESTRATION === "1") {
     });
 }
 
-registerPhase40_6ShadowAuditTaskEvents(app, { db });
+registerPhase40_6ShadowAuditTaskEvents(app, { db: __DB_POOL });
