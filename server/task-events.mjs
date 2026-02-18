@@ -75,7 +75,7 @@ export async function appendTaskEvent(pool, kind, task_id, payload, opts = undef
   let payloadText = "";
   let payloadJson = null;
 
-  {
+  try {
     if (payloadIn === null || payloadIn === undefined) payloadText = "";
     else if (typeof payloadIn === "string") payloadText = payloadIn;
     else payloadText = JSON.stringify(payloadIn);
