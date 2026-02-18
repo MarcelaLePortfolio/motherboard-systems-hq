@@ -79,21 +79,55 @@ export async function appendTaskEvent(pool, kind, task_id, payload, opts = undef
     if (payloadIn === null || payloadIn === undefined) payloadText = "";
     else if (typeof payloadIn === "string") payloadText = payloadIn;
     else payloadText = JSON.stringify(payloadIn);
-  } catch (e) {
-payloadText = String(payloadIn);
+  } catch {
+    payloadText = String(payloadIn);
   }
 
-  if (o.payload !== undefined) {
-    payloadJson = o.payload;
+  if (o.payload_json !== undefined) {
+    payloadJson = o.payload_json;
   } else if (payloadIn && typeof payloadIn === "object") {
     payloadJson = payloadIn;
   } else if (typeof payloadText === "string" && payloadText.length) {
-    try { payloadJson = JSON.parse(payloadText); } catch (e) { payloadJson = null; }
+    try { payloadJson = JSON.parse(payloadText); } catch { payloadJson = null; }
   }
   if (payloadJson === undefined) payloadJson = null;
 
   // Phase 25: Exact-dupe idempotency — if exact (kind,payload) already exists, do nothing.
-    await pool.query(
-  "insert into task_events(kind, task_id, run_id, actor, ts, payload) values ($1::text, $2::text, $3::text, $4::text, $5::bigint, $6::jsonb)",
-  [k, (inferredTaskId == null ? null : String(inferredTaskId)), run_id, actor, ts, payloadJson]
-);
+  try {
+    const dup = await pool.query(
+      "select 1 as ok from task_events where kind=$1::text and payload=$2::text limit 1",
+      [k, payloadText]
+    );
+    if (dup && (dup.rowCount || dup.rows?.length)) return;
+  } catch (_) {
+    // If dedupe query fails, continue (do not block writes).
+  }
+
+  // Phase 25: Terminal lockout — reject non-terminal lifecycle events after terminal.
+  const __PHASE25_LIFECYCLE_KINDS = new Set([
+    "task.created","task.queued","task.started","task.progress","task.completed","task.failed","task.canceled",
+  ]);
+  const __PHASE25_TERMINAL_KINDS = new Set(["task.completed","task.failed","task.canceled"]);
+
+  if (__PHASE25_LIFECYCLE_KINDS.has(k) && inferredTaskId && !__PHASE25_TERMINAL_KINDS.has(k)) {
+    try {
+      const like = `%\\\"task_id\\\":\\\"${String(inferredTaskId)}\\\"%`;
+      const term = await pool.query(
+        "select kind from task_events where kind = any($1::text[]) and payload like $2 order by id desc limit 1",
+        [Array.from(__PHASE25_TERMINAL_KINDS), like]
+      );
+      const tk = term?.rows?.[0]?.kind;
+      if (tk) throw new Error(`phase25: reject post-terminal event kind=${k} after=${tk}`);
+    } catch (e) {
+      if (String(e?.message || "").startsWith("phase25:")) throw e;
+    }
+  }
+
+  await pool.query(
+    "insert into task_events(kind, task_id, run_id, actor, ts, payload, payload_json) values ($1::text, $2::text, $3::text, $4::text, $5::bigint, $6::text, $7::jsonb)",
+    [k, (inferredTaskId == null ? null : String(inferredTaskId)), run_id, actor, ts, payloadText, payloadJson]
+  );
+}
+
+
+
