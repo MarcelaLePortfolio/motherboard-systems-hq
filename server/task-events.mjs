@@ -83,8 +83,8 @@ export async function appendTaskEvent(pool, kind, task_id, payload, opts = undef
     payloadText = String(payloadIn);
   }
 
-  if (o.payload_json !== undefined) {
-    payloadJson = o.payload_json;
+  if (o.payload !== undefined) {
+    payloadJson = o.payload;
   } else if (payloadIn && typeof payloadIn === "object") {
     payloadJson = payloadIn;
   } else if (typeof payloadText === "string" && payloadText.length) {
@@ -124,7 +124,9 @@ export async function appendTaskEvent(pool, kind, task_id, payload, opts = undef
   }
 
   await pool.query(
-    "insert into task_events(kind, task_id, run_id, actor, ts, payload, payload_json) values ($1::text, $2::text, $3::text, $4::text, $5::bigint, $6::text, $7::jsonb)",
+    "
+insert into task_events(kind, task_id, run_id, actor, ts, payload) values (::text, ::text, ::text, ::text, ::bigint, ::jsonb)
+",
     [k, (inferredTaskId == null ? null : String(inferredTaskId)), run_id, actor, ts, payloadText, payloadJson]
   );
 }

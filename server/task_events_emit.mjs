@@ -29,7 +29,7 @@ if (!pool) throw new Error("emitTaskEvent: pool required");
 
     ts: obj.ts ?? null,
 
-    payload_jsonb: obj,
+    payload: obj,
 
   });
 }
