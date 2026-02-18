@@ -4,7 +4,7 @@ WITH e AS (
     te.task_id,
     te.run_id,
     regexp_replace(te.kind, '^task\.', '') AS kind,
-    te.at
+    te.ts
   FROM task_events te
 ),
 k AS (
@@ -12,7 +12,7 @@ k AS (
     task_id,
     run_id,
     event_id,
-    at,
+    ts,
     kind,
     CASE WHEN kind IN ('completed','failed','canceled','cancelled') THEN 1 ELSE 0 END AS is_terminal,
     CASE WHEN kind = 'created' THEN 1 ELSE 0 END AS is_created,
