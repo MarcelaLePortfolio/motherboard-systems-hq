@@ -79,8 +79,8 @@ export async function appendTaskEvent(pool, kind, task_id, payload, opts = undef
     if (payloadIn === null || payloadIn === undefined) payloadText = "";
     else if (typeof payloadIn === "string") payloadText = payloadIn;
     else payloadText = JSON.stringify(payloadIn);
-  } catch {
-    payloadText = String(payloadIn);
+  } catch (e) {
+payloadText = String(payloadIn);
   }
 
   if (o.payload !== undefined) {
@@ -88,7 +88,8 @@ export async function appendTaskEvent(pool, kind, task_id, payload, opts = undef
   } else if (payloadIn && typeof payloadIn === "object") {
     payloadJson = payloadIn;
   } else if (typeof payloadText === "string" && payloadText.length) {
-    try { payloadJson = JSON.parse(payloadText); } catch { payloadJson = null; }
+    try { payloadJson = JSON.parse(payloadText); } catch (e) {
+payloadJson = null; }
   }
   if (payloadJson === undefined) payloadJson = null;
 
