@@ -13,12 +13,23 @@ export function registerPhase40_6ShadowAuditTaskEvents(app, { db }) {
       const rows = Array.isArray(r) ? r : (r && r.rows) ? r.rows : [];
       const filtered = excludePrefix ? (rows || []).filter(r => !(String(r.task_id || "").startsWith(excludePrefix))) : (rows || []);
       const tookMs = Date.now() - startedAt;
+      const debug = {
+        result_shape: Array.isArray(r) ? "array" : (r && typeof r === "object" && ("rows" in r)) ? "object_rows" : typeof r,
+        returned: rows.length,
+        excludePrefix: excludePrefix || null
+      };
+      const debug = {
+        result_shape: Array.isArray(r) ? "array" : (r && typeof r === "object" && ("rows" in r)) ? "object_rows" : typeof r,
+        returned: rows.length,
+        excludePrefix: excludePrefix || null
+      };
 
       res.json({
         ok: true,
         scope: "phase40.6.shadow-audit.task-events",
         took_ms: tookMs,
-        filtered
+        rows: filtered,
+        debug
       });
     } catch (err) {
       const tookMs = Date.now() - startedAt;
