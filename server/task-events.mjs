@@ -41,7 +41,25 @@ export async function appendTaskEvent(pool, kind, task_id, payload, opts = undef
   let payloadIn = payload;
   let taskIdIn = task_id;
 
-  if (payload === undefined && task_id !== undefined && task_id !== null) {
+  
+
+  // Back-compat: appendTaskEvent(pool, kind, payloadObj, optsObj)
+  // If caller passes 3rd arg as payload and 4th arg as opts, detect + normalize.
+  if (
+    opts === undefined &&
+    payloadIn !== undefined &&
+    payloadIn !== null &&
+    typeof payloadIn === "object" &&
+    (("actor" in payloadIn) || ("run_id" in payloadIn) || ("runId" in payloadIn) || ("ts" in payloadIn)) &&
+    taskIdIn !== undefined &&
+    taskIdIn !== null &&
+    typeof taskIdIn === "object"
+  ) {
+    opts = payloadIn;      // 4th arg was actually opts
+    payloadIn = taskIdIn;  // 3rd arg was actually payload
+    taskIdIn = null;
+  }
+if (payload === undefined && task_id !== undefined && task_id !== null) {
     // called as (pool, kind, payload)
     payloadIn = task_id;
     taskIdIn = null;
@@ -59,7 +77,24 @@ export async function appendTaskEvent(pool, kind, task_id, payload, opts = undef
     "server";
 
   const run_id = (o.run_id === undefined) ? null : o.run_id;
-  const ts = Number.isFinite(o.ts) ? Number(o.ts) : now;
+  
+
+  // DB constraint: run_id required for non-created events.
+  // Try to infer from payload if missing.
+  let __run_id = run_id;
+  // Prefer normalized opts (after call-shape shim) if present.
+  if (__run_id == null && opts && typeof opts === "object") {
+    __run_id = opts.run_id ?? opts.runId ?? null;
+  }
+  // Fallback: infer from payload if caller embedded it there.
+  if (__run_id == null && payloadIn && typeof payloadIn === "object") {
+    __run_id = payloadIn.run_id ?? payloadIn.runId ?? null;
+  }
+  const __k_for_runid = String(kind || "");
+  if (__k_for_runid !== "task.created" && __run_id == null) {
+    throw new Error(`appendTaskEvent: run_id is required for kind=${__k_for_runid}`);
+  }
+const ts = Number.isFinite(o.ts) ? Number(o.ts) : now;
 
   // Normalize kind + task_id
   const k = String(kind || "");
@@ -92,12 +127,18 @@ export async function appendTaskEvent(pool, kind, task_id, payload, opts = undef
   }
   if (payloadJson === undefined) payloadJson = null;
 
-  // Phase 25: Exact-dupe idempotency — if exact (kind,payload) already exists, do nothing.
+  
+
+    // Ensure payload is JSONB-safe when task_events.payload is jsonb.
+    if (payloadJson === null && typeof payloadText === "string" && payloadText.length) {
+      payloadJson = { text: payloadText };
+    }
+// Phase 25: Exact-dupe idempotency — if exact (kind,payload) already exists, do nothing.
   try {
     const dup = await pool.query(
-      "select 1 as ok from task_events where kind=$1::text and payload=$2::text limit 1",
-      [k, payloadText]
-    );
+        "select 1 as ok from task_events where kind=$1::text and payload=$2::jsonb limit 1",
+        [k, payloadJson]
+      );
     if (dup && (dup.rowCount || dup.rows?.length)) return;
   } catch (_) {
     // If dedupe query fails, continue (do not block writes).
@@ -124,9 +165,9 @@ export async function appendTaskEvent(pool, kind, task_id, payload, opts = undef
   }
 
   await pool.query(
-    "insert into task_events(kind, task_id, run_id, actor, ts, payload, payload_json) values ($1::text, $2::text, $3::text, $4::text, $5::bigint, $6::text, $7::jsonb)",
-    [k, (inferredTaskId == null ? null : String(inferredTaskId)), run_id, actor, ts, payloadText, payloadJson]
-  );
+      "insert into task_events(kind, task_id, run_id, actor, ts, payload) values ($1::text, $2::text, $3::text, $4::text, $5::bigint, $6::jsonb)",
+      [k, (inferredTaskId == null ? null : String(inferredTaskId)), __run_id, actor, ts, payloadJson]
+    );
 }
 
 

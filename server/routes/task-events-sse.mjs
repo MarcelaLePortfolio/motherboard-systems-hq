@@ -84,7 +84,7 @@ router.get("/events/task-events", async (req, res) => {
         try {
           q = await pool.query(
           `
-        select id, kind, payload, payload_jsonb, task_id, run_id, actor, created_at
+        select id, kind, payload, task_id, run_id, actor, created_at
         from task_events
         where id > $1
         order by id asc
@@ -117,7 +117,7 @@ const rows = q?.rows || [];
 
       for (const r of rows) {
         cursor = _intOrNull(r.id) ?? cursor;
-        const payload = _safeJsonParse(r.payload_jsonb ?? r.payload);
+        const payload = _safeJsonParse(r.payload);
           const taskIdCol = (r.task_id ?? null);
           const runIdCol  = (r.run_id  ?? null);
           const actorCol  = (r.actor   ?? null);

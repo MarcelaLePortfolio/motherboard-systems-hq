@@ -25,8 +25,8 @@ WITH candidate AS (
 )
 UPDATE tasks t
 SET status    = 'running',
-    claimed_by = :'claimed_by',
-    run_id    = COALESCE(t.run_id, :'run_id')
+    claimed_by = $2,
+    run_id    = COALESCE(t.run_id, $1)
 FROM candidate c
 WHERE t.id = c.id
 RETURNING
