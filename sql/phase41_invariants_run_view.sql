@@ -1,5 +1,7 @@
-\pset pager off
 \set ON_ERROR_STOP on
+\pset pager off
+\pset tuples_only on
+\pset format unaligned
 
 WITH rv AS (
   SELECT * FROM run_view
@@ -138,5 +140,6 @@ violations AS (
       OR lease_ttl_ms IS NOT NULL
     )
 )
-SELECT * FROM violations
+SELECT invariant || '|' || key || '|' || detail
+FROM violations
 ORDER BY invariant, key;

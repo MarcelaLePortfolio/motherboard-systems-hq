@@ -8,7 +8,7 @@ TMP="$(mktemp)"
 cleanup(){ rm -f "$TMP"; }
 trap cleanup EXIT
 
-docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 < sql/phase41_invariants_run_view.sql > "$TMP"
+docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -q -t -A < sql/phase41_invariants_run_view.sql > "$TMP"
 
 if [ -s "$TMP" ]; then
   cat "$TMP"
