@@ -1,14 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Phase 42 Read-Only Guard (DIFF-BASED)
+# Phase 42 Read-Only Guard (DIFF-BASED, CODE-ONLY)
 #
-# Why diff-based?
 # The repo already contains legacy write paths. Phase 42 must ensure it does not
 # INTRODUCE new write paths unless explicitly promoted.
 #
 # This guard fails ONLY if the diff from BASE_REF introduces obvious write-route
-# keywords (best-effort heuristic).
+# keywords in CODE-ish files (best-effort heuristic).
 #
 # Usage:
 #   BASE_REF=v41.0-decision-correctness-gate-green ./scripts/phase42_readonly_guard.sh
@@ -24,34 +23,49 @@ if ! git rev-parse -q --verify "$BASE_REF^{commit}" >/dev/null; then
   exit 2
 fi
 
-echo "=== Phase 42 read-only guard (diff-based) ==="
+echo "=== Phase 42 read-only guard (diff-based, code-only) ==="
 echo "BASE_REF=$BASE_REF"
 echo "HEAD=$(git rev-parse --short HEAD)"
 
-# Only inspect files changed in this phase.
-CHANGED="$(git diff --name-only "$BASE_REF"..HEAD || true)"
-if [[ -z "${CHANGED//$'\n'/}" ]]; then
+CHANGED_ALL="$(git diff --name-only "$BASE_REF"..HEAD || true)"
+if [[ -z "${CHANGED_ALL//$'\n'/}" ]]; then
   echo "OK: no changes vs BASE_REF"
   exit 0
 fi
 
-# Filter to likely code/config areas (ignore pure docs unless they contain route code).
-# Still safe: we run the grep over the diff itself, not whole files.
-echo
-echo "Changed files:"
-echo "$CHANGED" | sed 's/^/ - /'
+# Skip docs + this guard itself (it contains the regex keywords intentionally).
+CODE_CHANGED="$(echo "$CHANGED_ALL" | rg -v '(^|/)(README|CHANGELOG)\.md$' | rg -v '\.md$' | rg -v '^scripts/phase42_readonly_guard\.sh$' || true)"
 
 echo
-echo "Scanning DIFF for new write-route keywords..."
-if git diff "$BASE_REF"..HEAD \
+echo "Changed files (all):"
+echo "$CHANGED_ALL" | sed 's/^/ - /'
+
+if [[ -z "${CODE_CHANGED//$'\n'/}" ]]; then
+  echo
+  echo "OK: no code-ish files changed (only docs and/or the guard script)."
+  exit 0
+fi
+
+echo
+echo "Changed files (code-ish scanned):"
+echo "$CODE_CHANGED" | sed 's/^/ - /'
+
+echo
+echo "Scanning DIFF for new write-route keywords (code-ish files only)..."
+
+# Build args for git diff pathspecs safely (newline-delimited list).
+# shellcheck disable=SC2206
+PATHS=( $CODE_CHANGED )
+
+if git diff "$BASE_REF"..HEAD -- "${PATHS[@]}" \
   | rg -n "(\\bPOST\\b|\\bPUT\\b|\\bPATCH\\b|\\bDELETE\\b|app\\.(post|put|patch|delete)\\b|router\\.(post|put|patch|delete)\\b|\\.post\\(|\\.put\\(|\\.patch\\(|\\.delete\\()" >/dev/null
 then
-  echo "ERROR: Potential write-route keywords detected in Phase 42 DIFF." >&2
+  echo "ERROR: Potential write-route keywords detected in Phase 42 CODE diff." >&2
   echo "       If this is intentional, stop and promote via an explicit promotion phase." >&2
   echo
-  git diff "$BASE_REF"..HEAD \
+  git diff "$BASE_REF"..HEAD -- "${PATHS[@]}" \
     | rg -n "(\\bPOST\\b|\\bPUT\\b|\\bPATCH\\b|\\bDELETE\\b|app\\.(post|put|patch|delete)\\b|router\\.(post|put|patch|delete)\\b|\\.post\\(|\\.put\\(|\\.patch\\(|\\.delete\\()" || true
   exit 2
 fi
 
-echo "OK: no write-route keywords introduced in diff (best-effort)."
+echo "OK: no write-route keywords introduced in code diff (best-effort)."
