@@ -7,7 +7,6 @@ WITH rv AS (
 norm AS (
   SELECT
     rv.*,
-    NULLIF(BTRIM(COALESCE(rv.terminal_kind, '')), '') AS terminal_kind_norm,
     (rv.status IN ('completed','failed','canceled','cancelled')) AS status_is_terminal
   FROM rv
 ),
@@ -46,30 +45,6 @@ violations AS (
 
   UNION ALL
   SELECT
-    'INV_020_terminal_status_requires_terminal_kind' AS invariant,
-    run_id::text AS key,
-    ('status=' || status::text || ' terminal_kind=' || COALESCE(terminal_kind::text,'<null>')) AS detail
-  FROM norm
-  WHERE status_is_terminal AND terminal_kind_norm IS NULL
-
-  UNION ALL
-  SELECT
-    'INV_021_terminal_kind_requires_terminal_at' AS invariant,
-    run_id::text AS key,
-    ('terminal_kind=' || terminal_kind_norm || ' terminal_at=' || COALESCE(terminal_at::text,'<null>')) AS detail
-  FROM norm
-  WHERE terminal_kind_norm IS NOT NULL AND terminal_at IS NULL
-
-  UNION ALL
-  SELECT
-    'INV_022_terminal_at_requires_terminal_kind' AS invariant,
-    run_id::text AS key,
-    ('terminal_at=' || COALESCE(terminal_at::text,'<null>') || ' terminal_kind=' || COALESCE(terminal_kind::text,'<null>')) AS detail
-  FROM norm
-  WHERE terminal_at IS NOT NULL AND terminal_kind_norm IS NULL
-
-  UNION ALL
-  SELECT
     'INV_030_claimed_by_present_requires_claimed_or_running' AS invariant,
     run_id::text AS key,
     ('status=' || status::text || ' claimed_by=' || COALESCE(claimed_by::text,'<null>')) AS detail
@@ -88,7 +63,7 @@ violations AS (
 
   UNION ALL
   SELECT
-    'INV_040_terminal_rows_must_not_be_claimed_running' AS invariant,
+    'INV_040_terminal_rows_must_not_be_claimed' AS invariant,
     run_id::text AS key,
     ('status=' || status::text || ' claimed_by=' || COALESCE(claimed_by::text,'<null>')) AS detail
   FROM norm

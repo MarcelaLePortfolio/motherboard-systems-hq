@@ -12,11 +12,8 @@ classified AS (
     CASE
       WHEN rv.run_id IS NULL THEN NULL
 
-      WHEN (
-        COALESCE(rv.terminal_kind, '') <> ''
-        OR COALESCE(rv.terminal_at::text, '') <> ''
-        OR rv.status IN ('completed','failed','canceled','cancelled')
-      ) THEN 'S_TERMINAL'
+      WHEN rv.status IN ('completed','failed','canceled','cancelled')
+        THEN 'S_TERMINAL'
 
       WHEN (
         rv.status IN ('running','claimed')
@@ -49,8 +46,6 @@ SELECT
   attempts,
   max_attempts,
   claimed_by,
-  terminal_kind,
-  terminal_at,
   phase41_scenario
 FROM classified
 ORDER BY run_id;
