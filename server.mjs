@@ -8,6 +8,9 @@ import { registerOrchestratorStateRoute } from "./server/orchestrator_state_rout
 import { registerPhase19DebugRoutes } from "./server/phase19_debug_routes_dump.mjs";
 import { apiTasksRouter } from "./server/routes/api-tasks-postgres.mjs";
 
+// Phase 44 — server HTTP mutation-route enforcement boundary (off/shadow/enforce)
+import { createMutationEnforcementMiddleware } from "./server/enforcement/phase44_mutation_enforcer.mjs";
+
 import { attachArtifacts } from "./server/artifacts.mjs";
 import { dbDelegateTask, dbCompleteTask } from "./server/tasks-mutations.mjs";
 import taskEventsSSE from "./server/routes/task-events-sse.mjs";
@@ -23,6 +26,9 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 
+
+// Phase 44 — enforce only at HTTP mutation route boundary
+app.use(createMutationEnforcementMiddleware());
 // Phase 23: parse JSON early (avoid empty req.body)
 app.use(express.json());
 
