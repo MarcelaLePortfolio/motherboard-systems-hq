@@ -40,14 +40,6 @@ violations AS (
 
   UNION ALL
   SELECT
-    'INV_010_task_status_present' AS invariant,
-    run_id::text AS key,
-    ('task_status=' || COALESCE(task_status::text,'<null>')) AS detail
-  FROM norm
-  WHERE task_status_norm IS NULL
-
-  UNION ALL
-  SELECT
     'INV_020_terminal_requires_terminal_event_kind' AS invariant,
     run_id::text AS key,
     ('is_terminal=' || COALESCE(is_terminal::text,'<null>') || ' terminal_event_kind=' || COALESCE(terminal_event_kind::text,'<null>')) AS detail
@@ -118,6 +110,33 @@ violations AS (
     ('last_event_id=' || COALESCE(last_event_id::text,'<null>') || ' last_event_ts=' || COALESCE(last_event_ts::text,'<null>') || ' last_event_kind=' || COALESCE(last_event_kind::text,'<null>')) AS detail
   FROM norm
   WHERE last_event_id IS NULL AND (last_event_ts IS NOT NULL OR last_event_kind_norm IS NOT NULL)
+
+  UNION ALL
+  SELECT
+    'INV_100_task_status_null_must_not_be_terminal' AS invariant,
+    run_id::text AS key,
+    ('task_status=<null> is_terminal=' || COALESCE(is_terminal::text,'<null>') || ' terminal_event_kind=' || COALESCE(terminal_event_kind::text,'<null>')) AS detail
+  FROM norm
+  WHERE task_status_norm IS NULL
+    AND (
+      is_terminal IS TRUE
+      OR terminal_event_kind_norm IS NOT NULL
+      OR terminal_event_ts IS NOT NULL
+      OR terminal_event_id IS NOT NULL
+    )
+
+  UNION ALL
+  SELECT
+    'INV_101_task_status_null_must_not_have_fresh_lease' AS invariant,
+    run_id::text AS key,
+    ('task_status=<null> lease_fresh=' || COALESCE(lease_fresh::text,'<null>') || ' lease_expires_at=' || COALESCE(lease_expires_at::text,'<null>')) AS detail
+  FROM norm
+  WHERE task_status_norm IS NULL
+    AND (
+      lease_fresh IS TRUE
+      OR lease_expires_at IS NOT NULL
+      OR lease_ttl_ms IS NOT NULL
+    )
 )
 SELECT * FROM violations
 ORDER BY invariant, key;
