@@ -15,22 +15,24 @@ All other changes remain out of scope.
 
 ## Enforcement Mode (Kill-Switch)
 Single source of truth:
-- `ENFORCEMENT_MODE=off`    (no blocking)
-- `ENFORCEMENT_MODE=shadow` (log decisions, no blocking)
+- `ENFORCEMENT_MODE=off`     (no blocking)
+- `ENFORCEMENT_MODE=shadow`  (log decisions, no blocking)
 - `ENFORCEMENT_MODE=enforce` (block disallowed mutations)
 
 Default expectation for first rollout:
-- `shadow`, then promote to `enforce` only after acceptance is green.
+- start in `shadow`, then promote to `enforce` only after acceptance is green.
 
 ## First Boundary (Pick ONE for this phase)
 (Choose exactly one; do not broaden.)
-- [ ] Server HTTP mutation routes
+- [x] Server HTTP mutation routes
 - [ ] Worker state transitions
 - [ ] DB-level enforcement (avoid unless unavoidable)
 
 ## Enumerated Entry Points (Must Be Exact)
 List the exact files/routes that will be touched in this phase (no extras).
-TBD (must be filled before implementation).
+- server routes: LOCK_BEFORE_CODE (replace with exact file(s) before any enforcement code lands)
+- new policy module: server/policy/ (exact file(s) enumerated before code)
+- enforcement hook: server/middleware/ (ONLY if required; exact file(s) enumerated before code)
 
 ## Required Checks (Must Be Green)
 - scripts/phase44_scope_gate.sh
