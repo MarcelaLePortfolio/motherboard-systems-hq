@@ -2,21 +2,13 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-
 NODE_BIN="${NODE_BIN:-node}"
 
-# This smoke test is self-contained: it spins a tiny Express app using the middleware,
-# validates OFF/SHADOW/ENFORCE behavior, and exits cleanly.
+# Phase 44 smoke: dependency-free (no express). We unit-smoke the middleware
+# by invoking it with mocked req/res/next across ENFORCEMENT_MODE variants.
 
-TMP_DIR="$(mktemp -d)"
-cleanup() { rm -rf "$TMP_DIR"; }
-trap cleanup EXIT
-
-cat > "$TMP_DIR/phase44_smoke_app.mjs" <<'JS'
-import express from "express";
-import http from "http";
-
-import { createMutationEnforcementMiddleware } from "../server/enforcement/phase44_mutation_enforcer.mjs";
+"$NODE_BIN" --input-type=module <<'JS'
+import { createMutationEnforcementMiddleware } from "./server/enforcement/phase44_mutation_enforcer.mjs";
 
 function must(cond, msg) {
   if (!cond) {
@@ -25,97 +17,81 @@ function must(cond, msg) {
   }
 }
 
-async function httpReq({ port, method, path }) {
-  return new Promise((resolve, reject) => {
-    const req = http.request(
-      { hostname: "127.0.0.1", port, method, path },
-      (res) => {
-        let data = "";
-        res.setEncoding("utf8");
-        res.on("data", (c) => (data += c));
-        res.on("end", () => resolve({ status: res.statusCode, body: data }));
-      }
-    );
-    req.on("error", reject);
-    req.end();
-  });
+function makeRes() {
+  return {
+    _status: 200,
+    _json: undefined,
+    status(code) { this._status = code; return this; },
+    json(obj) { this._json = obj; return this; },
+  };
 }
 
-const allowlist = [
-  { method: "POST", path: "/api/allowed" },
-  { method: "DELETE", path: "/api/items/:id" },
-];
+async function runOne(mode) {
+  const allowlist = [
+    { method: "POST", path: "/api/allowed" },
+    { method: "DELETE", path: "/api/items/:id" },
+  ];
 
-async function runMode(mode) {
-  const app = express();
+  const mw = createMutationEnforcementMiddleware({
+    mode,
+    allowlist,
+    logger: { warn() {}, error() {} },
+  });
 
-  // Middleware under test
-  app.use(
-    createMutationEnforcementMiddleware({
-      mode,
-      allowlist,
-      logger: {
-        warn: () => {},
-        error: () => {},
-      },
-    })
-  );
+  const call = async ({ method, path }) => {
+    const req = { method, path, url: path };
+    const res = makeRes();
+    let nextCalled = 0;
+    const next = () => { nextCalled += 1; };
 
-  // Minimal routes
-  app.post("/api/allowed", (_req, res) => res.status(200).json({ ok: true, route: "allowed" }));
-  app.post("/api/blocked", (_req, res) => res.status(200).json({ ok: true, route: "blocked" }));
-  app.delete("/api/items/:id", (req, res) => res.status(200).json({ ok: true, id: req.params.id }));
-  app.get("/api/read", (_req, res) => res.status(200).json({ ok: true, route: "read" }));
+    await mw(req, res, next);
+    return { res, nextCalled };
+  };
 
-  const server = app.listen(0, "127.0.0.1");
-  await new Promise((r) => server.once("listening", r));
-  const port = server.address().port;
-
-  // Read route always allowed
+  // Read route always allowed (non-mutation => next called)
   {
-    const r = await httpReq({ port, method: "GET", path: "/api/read" });
-    must(r.status === 200, `${mode}: GET should be 200`);
+    const { res, nextCalled } = await call({ method: "GET", path: "/api/read" });
+    must(nextCalled === 1, `${mode}: GET should call next`);
+    must(res._json === undefined, `${mode}: GET should not write response`);
   }
 
   // Allowlisted mutation allowed in all modes
   {
-    const r = await httpReq({ port, method: "POST", path: "/api/allowed" });
-    must(r.status === 200, `${mode}: allowlisted POST should be 200`);
+    const { res, nextCalled } = await call({ method: "POST", path: "/api/allowed" });
+    must(nextCalled === 1, `${mode}: allowlisted POST should call next`);
+    must(res._json === undefined, `${mode}: allowlisted POST should not write response`);
   }
 
   // Non-allowlisted mutation:
-  // - off: 200 (no-op)
-  // - shadow: 200 (logged)
-  // - enforce: 403
+  // - off: next
+  // - shadow: next
+  // - enforce: 403 with stable reason code
   {
-    const r = await httpReq({ port, method: "POST", path: "/api/blocked" });
+    const { res, nextCalled } = await call({ method: "POST", path: "/api/blocked" });
     if (mode === "enforce") {
-      must(r.status === 403, `${mode}: blocked POST should be 403`);
-      must(r.body.includes("E_MUTATION_NOT_ALLOWLISTED"), `${mode}: should include reason code`);
+      must(nextCalled === 0, `${mode}: blocked POST should not call next`);
+      must(res._status === 403, `${mode}: blocked POST should be 403`);
+      must(!!res._json && res._json.reason_code === "E_MUTATION_NOT_ALLOWLISTED", `${mode}: reason_code mismatch`);
+      must(res._json.enforcement_mode === "enforce", `${mode}: enforcement_mode mismatch`);
+      must(res._json.method === "POST", `${mode}: method mismatch`);
+      must(res._json.path === "/api/blocked", `${mode}: path mismatch`);
     } else {
-      must(r.status === 200, `${mode}: blocked POST should be 200`);
+      must(nextCalled === 1, `${mode}: blocked POST should call next`);
+      must(res._json === undefined, `${mode}: blocked POST should not write response`);
     }
   }
 
   // Pattern allowlisted delete
   {
-    const r = await httpReq({ port, method: "DELETE", path: "/api/items/abc123" });
-    must(r.status === 200, `${mode}: allowlisted DELETE with param should be 200`);
+    const { res, nextCalled } = await call({ method: "DELETE", path: "/api/items/abc123" });
+    must(nextCalled === 1, `${mode}: allowlisted DELETE w/ param should call next`);
+    must(res._json === undefined, `${mode}: allowlisted DELETE should not write response`);
   }
-
-  await new Promise((r) => server.close(r));
 }
 
-await runMode("off");
-await runMode("shadow");
-await runMode("enforce");
+await runOne("off");
+await runOne("shadow");
+await runOne("enforce");
 
 console.log("OK: phase44 enforcement smoke passed");
 JS
-
-# Ensure express is installed in repo deps (expected). If not, fail clearly.
-"$NODE_BIN" -e 'require("express"); console.log("OK: express present")' >/dev/null
-
-# Run test from repo root so relative imports resolve.
-cd "$ROOT"
-"$NODE_BIN" "$TMP_DIR/phase44_smoke_app.mjs"
