@@ -20,4 +20,13 @@ export const MUTATION_ALLOWLIST = Object.freeze([
   { method: "POST", path: "/api/ops/heartbeat" },
   { method: "POST", path: "/api/ops/agent-status" },
   { method: "POST", path: "/api/reflections/signal" },
+
+  { method: "POST", path: "/api/tasks/create" },
+  { method: "POST", path: "/api/tasks/complete" },
+  { method: "POST", path: "/api/tasks/fail" },
+  { method: "POST", path: "/api/tasks/cancel" },
+
+  { method: "POST", path: "/api/tasks-mutations/delegate" },
+  { method: "POST", path: "/api/tasks-mutations/complete" },
+  { method: "POST", path: "/api/tasks-mutations/fail" },
 ]);
