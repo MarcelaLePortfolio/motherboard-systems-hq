@@ -21,11 +21,9 @@ fi
 SQL_PATH_IN_REPO="server/sql/phase47_decision_correctness_invariants.sql"
 [[ -f "$SQL_PATH_IN_REPO" ]] || { echo "ERROR: missing $SQL_PATH_IN_REPO" >&2; exit 1; }
 
-# Prefer explicit DB if provided; default to POSTGRES_DB or postgres
 DB="${POSTGRES_DB:-postgres}"
 
-# Execute invariants inside postgres container as postgres role.
 docker exec -i "$PGC" sh -lc "psql -v ON_ERROR_STOP=1 -U postgres -d \"$DB\" -f - " < "$SQL_PATH_IN_REPO" \
-| sed -n '1,160p'
+| sed -n '1,200p'
 
 echo "OK: Phase 47 smoke passed."
