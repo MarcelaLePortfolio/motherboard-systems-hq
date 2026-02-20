@@ -69,7 +69,7 @@ router.get("/events/task-events", async (req, res) => {
   // If first connect, start from latest so we don't dump the whole table by default.
   if (cursor == null) {
     try {
-      const r = await pool.query(`select max(id) as max_id from task_events`);
+      const r = await pool.query(`select max(created_at) as max_created_at from task_events`);
       cursor = _intOrNull(r?.rows?.[0]?.max_id) ?? 0;
     } catch (_) {
       cursor = 0;
@@ -86,8 +86,8 @@ router.get("/events/task-events", async (req, res) => {
           `
         select id, kind, payload, task_id, run_id, actor, created_at
         from task_events
-        where id > $1
-        order by id asc
+        where created_at > 
+        order by created_at asc
         limit $2
         `,
             [cursor, batchLimit]
@@ -97,8 +97,8 @@ router.get("/events/task-events", async (req, res) => {
           `
         select id, kind, payload, created_at
         from task_events
-        where id > $1
-        order by id asc
+        where created_at > 
+        order by created_at asc
         limit $2
         `,
             [cursor, batchLimit]
