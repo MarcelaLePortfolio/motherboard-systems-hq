@@ -1,0 +1,14 @@
+version: '3.8'
+services:
+  workerA:
+    environment:
+      POLICY_SHADOW_MODE: "0"
+      POLICY_ENFORCE_MODE: "1"
+  workerB:
+    environment:
+      POLICY_SHADOW_MODE: "0"
+      POLICY_ENFORCE_MODE: "1"
+  dashboard:
+    environment:
+      POLICY_SHADOW_MODE: "0"
+      POLICY_ENFORCE_MODE: "1"
