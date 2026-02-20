@@ -72,7 +72,7 @@ router.get("/events/task-events", async (req, res) => {
       const r = await pool.query(`select max(created_at) as max_created_at from task_events`);
       cursor = _intOrNull(r?.rows?.[0]?.max_id) ?? 0;
     } catch (_) {
-      cursor = 0;
+      cursor = "00000000-0000-0000-0000-000000000000";
     }
   }
 
@@ -86,8 +86,8 @@ router.get("/events/task-events", async (req, res) => {
           `
         select id, kind, payload, task_id, run_id, actor, created_at
         from task_events
-        where created_at > 
-        order by created_at asc
+        where id > $1::uuid::uuid
+                order by id asc
         limit $2
         `,
             [cursor, batchLimit]
@@ -97,8 +97,8 @@ router.get("/events/task-events", async (req, res) => {
           `
         select id, kind, payload, created_at
         from task_events
-        where created_at > 
-        order by created_at asc
+        where id > $1::uuid::uuid
+                order by id asc
         limit $2
         `,
             [cursor, batchLimit]
