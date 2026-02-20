@@ -5,6 +5,8 @@ set -euo pipefail
 # - SQL-first invariants
 # - minimal noise output
 # - exits non-zero on ANY invariant failure
+#
+# Important: run psql *inside* the postgres container as the postgres role.
 
 ROOT="$(git rev-parse --show-toplevel)"
 cd "$ROOT"
@@ -19,8 +21,9 @@ fi
 SQL_PATH_IN_REPO="server/sql/phase47_decision_correctness_invariants.sql"
 [[ -f "$SQL_PATH_IN_REPO" ]] || { echo "ERROR: missing $SQL_PATH_IN_REPO" >&2; exit 1; }
 
-# Execute invariants inside postgres container with ON_ERROR_STOP
-docker exec -i "$PGC" sh -lc "psql -v ON_ERROR_STOP=1 -f - " < "$SQL_PATH_IN_REPO" \
-| sed -n '1,120p'
+DB="${POSTGRES_DB:-postgres}"
+
+docker exec -i "$PGC" sh -lc "psql -v ON_ERROR_STOP=1 -U postgres -d \"$DB\" -f - " < "$SQL_PATH_IN_REPO" \
+| sed -n '1,200p'
 
 echo "OK: Phase 47 smoke passed."
