@@ -21,7 +21,7 @@ echo "$HDRS" | rg -q '^Location:\s*/events/task-events\s*$' || { echo "ERR: expe
 
 echo
 echo "=== 2) canonical endpoint streams hello within 2s ==="
-OUT="$(curl -sS -N --max-time 2 "${BASE}/events/task-events" | head -n 8 || true)"
+OUT="$(curl -sS -N 2>/dev/null --max-time 2 "${BASE}/events/task-events" | head -n 8 || true)"
 printf "%s\n" "$OUT"
 printf "%s\n" "$OUT" | rg -q '^event:\s*hello' || { echo "ERR: expected SSE hello event" >&2; exit 12; }
 printf "%s\n" "$OUT" | rg -q '"kind"\s*:\s*"task-events"' || { echo "ERR: expected kind=task-events in hello payload" >&2; exit 13; }
