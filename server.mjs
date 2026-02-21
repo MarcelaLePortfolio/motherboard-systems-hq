@@ -20,6 +20,8 @@ import { registerPhase36RunView } from "./server/routes/phase36_run_view.mjs";
 import { getRunsList } from "./server/routes/phase36_run_view.mjs";
 
 import { registerPhase40_6ShadowAuditTaskEvents } from "./server/routes/phase40_6_shadow_audit_task_events.mjs";
+import { registerPhase48PolicyProbe } from "./server/routes/phase48_policy_probe.mjs";
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -112,6 +114,8 @@ function _phase16SendJson(res, code, obj) {
 
   // Phase 36.2: run_view-backed run observability (must not depend on optional SSE)
   registerPhase36RunView(app);
+
+  registerPhase48PolicyProbe(app);
 
 // Phase 16: optional dashboard SSE endpoints (OPS + Reflections)
 try {
