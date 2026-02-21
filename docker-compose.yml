@@ -20,15 +20,15 @@ services:
         GIT_SHA: ${GIT_SHA:-unknown}
         BUILD_TIME: ${BUILD_TIME:-unknown}
     environment:
-      - POLICY_ENFORCE_ENABLED=${POLICY_ENFORCE_ENABLED:-0}
-      - POLICY_SHADOW_ENABLED=${POLICY_SHADOW_ENABLED:-0}
-      GIT_SHA: ${GIT_SHA:-unknown}
+      POLICY_SHADOW_ENABLED: ${POLICY_SHADOW_ENABLED:-0}
+      POLICY_ENFORCE_ENABLED: ${POLICY_ENFORCE_ENABLED:-0}
       BUILD_TIME: ${BUILD_TIME:-unknown}
+      GIT_SHA: ${GIT_SHA:-unknown}
+      PGDATABASE: ${PGDATABASE:-postgres}
       PGHOST: ${PGHOST:-postgres}
+      PGPASSWORD: ${PGPASSWORD:-postgres}
       PGPORT: ${PGPORT:-5432}
       PGUSER: ${PGUSER:-postgres}
-      PGPASSWORD: ${PGPASSWORD:-postgres}
-      PGDATABASE: ${PGDATABASE:-postgres}
     depends_on:
       - postgres
     ports:
