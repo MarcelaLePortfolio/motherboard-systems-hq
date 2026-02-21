@@ -20,6 +20,8 @@ services:
         GIT_SHA: ${GIT_SHA:-unknown}
         BUILD_TIME: ${BUILD_TIME:-unknown}
     environment:
+      - POLICY_ENFORCE_ENABLED=${POLICY_ENFORCE_ENABLED:-0}
+      - POLICY_SHADOW_ENABLED=${POLICY_SHADOW_ENABLED:-0}
       GIT_SHA: ${GIT_SHA:-unknown}
       BUILD_TIME: ${BUILD_TIME:-unknown}
       PGHOST: ${PGHOST:-postgres}

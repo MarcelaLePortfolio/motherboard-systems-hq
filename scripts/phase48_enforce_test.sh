@@ -28,7 +28,6 @@ extract_post_routes_from_source() {
 
 candidate_post_paths() {
   {
-    # prefer likely policy-gated ops endpoints first
     cat <<'PREF'
 /api/ops/execute
 /api/ops/run
@@ -38,9 +37,7 @@ candidate_post_paths() {
 /api/agent/dispatch
 /api/dispatch
 PREF
-    # then repo-declared POST routes
     extract_post_routes_from_source
-    # last-resort fallbacks (often not gated)
     cat <<'FALL'
 /api/tasks/create
 /api/tasks/upsert
@@ -70,6 +67,25 @@ compose_up_with_enforce() {
   fi
 }
 
+assert_env_present_in_dashboard() {
+  local var="$1"
+  local want="$2" # 0/1
+  local c
+  c="$(dashboard_container)"
+  : "${c:?dashboard container not found}"
+  local got
+  got="$(docker exec "$c" sh -lc "env | grep -E '^${var}=' || true")"
+  if [[ "$want" == "1" ]]; then
+    if [[ -z "$got" ]]; then
+      echo "ERROR: ${var} was not present inside dashboard container; compose is not wiring env through." >&2
+      echo "Hint: ensure docker-compose.yml dashboard service includes:" >&2
+      echo "  environment:" >&2
+      echo "    - ${var}=\${${var}:-0}" >&2
+      exit 20
+    fi
+  fi
+}
+
 ENV_VAR="$(pick_enforce_var)"
 echo "Using enforce var: ${ENV_VAR}"
 
@@ -77,10 +93,11 @@ echo "=== baseline: bring stack up (no enforce) ==="
 docker compose up -d
 scripts/_lib/wait_http.sh "${DASH_URL}/api/runs" 60
 
-DASHC="$(dashboard_container)"
-if [[ -n "${DASHC:-}" ]]; then
-  echo "=== baseline env in dashboard ==="
-  docker exec "$DASHC" sh -lc "env | grep -E '^${ENV_VAR}=' || true"
+# Baseline may or may not show the var; don't fail baseline.
+c0="$(dashboard_container || true)"
+if [[ -n "${c0:-}" ]]; then
+  echo "=== baseline env (dashboard) ==="
+  docker exec "$c0" sh -lc "env | grep -E '^${ENV_VAR}=' || true"
 fi
 
 PAYLOADS=(
@@ -96,7 +113,6 @@ echo "=== differential enforcement check: find endpoint+payload where baseline i
 
 found="0"
 found_path=""
-found_payload=""
 declare -a baseline_rows=()
 
 for path in $(candidate_post_paths); do
@@ -107,18 +123,13 @@ for path in $(candidate_post_paths); do
       compose_up_with_enforce "$ENV_VAR" "1"
       scripts/_lib/wait_http.sh "${DASH_URL}/api/runs" 60 || true
 
-      DASHC="$(dashboard_container)"
-      if [[ -n "${DASHC:-}" ]]; then
-        echo "=== enforce env in dashboard ==="
-        docker exec "$DASHC" sh -lc "env | grep -E '^${ENV_VAR}=' || true"
-      fi
+      # Fail-fast: enforce var MUST be present in-container for the test to mean anything.
+      assert_env_present_in_dashboard "$ENV_VAR" "1"
 
       code1="$(probe_post_code "$path" "$payload")"
-
       if [[ "$code1" == "401" || "$code1" == "403" ]]; then
         found="1"
         found_path="$path"
-        found_payload="$payload"
         break 2
       fi
 
