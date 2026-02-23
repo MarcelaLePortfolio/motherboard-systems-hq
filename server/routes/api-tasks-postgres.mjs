@@ -1,4 +1,5 @@
-import express from "express";
+import express from "express";import crypto from "crypto";
+
 console.log("[phase25] api-tasks-postgres loaded", new Date().toISOString(), "file=", import.meta.url);
 import { emitTaskEvent } from "../task_events_emit.mjs";
 import { PolicyEnforcedError } from "../policy/enforce.mjs";
@@ -68,63 +69,11 @@ apiTasksRouter.post("/create", async (req, res) => {
     let task_id = b.task_id ?? b.taskId ?? b.id ?? null;
 
 
-    if (!task_id) {
 
-      const title  = b.title  ?? b.kind ?? "untitled";
-
-      const agent  = b.agent  ?? null;
-
-      const status = b.status ?? "queued";
-
-      const source = b.source ?? "api";
-
-
-      // store arbitrary request details in meta (jsonb)
-
-      const meta = {
-
-        kind: b.kind ?? null,
-
-        payload: b.payload ?? null,
-
-        notes: b.notes ?? null,
-
-        trace_id: b.trace_id ?? b.traceId ?? null,
-
-        raw: b,
-
-      };
-
-
-      const created = await pool.query(
-          `
-          INSERT INTO tasks(title, status, action_tier)
-          VALUES ($1, $2, $3)
-          RETURNING id
-          `,
-          [title, status, (b.action_tier ?? "A")]
-        );
-const id = created.rows?.[0]?.id ?? null;
-
-      if (id == null) throw new Error("phase25: failed to create tasks.id");
-
-
-      task_id = `t${id}`;
-
-
-      await pool.query(
-
-        `UPDATE tasks SET task_id = $1 WHERE id = $2`,
-
-        [task_id, id]
-
-      );
-
-    }
-
+    // Phase52: schema-compat — task_id must never be null (tasks.task_id is NOT NULL)
+    if (!task_id) task_id = `t_${crypto.randomUUID()}`;
 
     // Normalize to string for lifecycle events
-
     task_id = String(task_id);
 
       // phase25: ensure tasks row exists even when caller provides task_id
