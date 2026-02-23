@@ -7,12 +7,20 @@ BASE_URL="${BASE_URL:-http://127.0.0.1:8080}"
 PROBE_PATH="${PROBE_PATH:-/api/policy/probe}"
 WAIT_PATH="${WAIT_PATH:-/api/runs}"
 
-# Always ensure the default network exists.
-# This is safe even if compose doesn't end up using it, and fixes:
-# "network motherboard_systems_hq_default declared as external, but could not be found"
 ensure_default_network() {
   local net="motherboard_systems_hq_default"
-  docker network inspect "$net" >/dev/null 2>&1 || docker network create "$net" >/dev/null
+  local lbl
+
+  if docker network inspect "$net" >/dev/null 2>&1; then
+    lbl="$(docker network inspect -f '{{ index .Labels "com.docker.compose.network" }}' "$net" 2>/dev/null || true)"
+    if [[ "$lbl" != "default" ]]; then
+      docker network rm "$net" >/dev/null 2>&1 || true
+    fi
+  fi
+
+  if ! docker network inspect "$net" >/dev/null 2>&1; then
+    docker network create --label com.docker.compose.network=default "$net" >/dev/null
+  fi
 }
 
 compose_up() {
@@ -96,7 +104,7 @@ http_code_of_probe() {
 run_mode_case() {
   local mode="$1"
   local expect_code="$2"
-  local expect_writes="$3" # writes | no_writes
+  local expect_writes="$3"
 
   echo "=== Phase 54: ${mode} case ==="
   compose_up "${mode}"
