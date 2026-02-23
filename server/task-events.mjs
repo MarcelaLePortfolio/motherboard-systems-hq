@@ -1,3 +1,4 @@
+import { assertNotEnforced } from "./policy/enforce.mjs";
 /**
  * Legacy task_events schema in your docker DB:
  *   task_events(id bigint, kind text, payload text, created_at text)
@@ -27,6 +28,9 @@ function __phase25_taskIdFromObj(obj) {
   return obj?.task_id ?? obj?.taskId ?? obj?.task?.id ?? null;
 }
 export async function appendTaskEvent(pool, kind, task_id, payload, opts = undefined) {
+  // Phase50: DB write-path enforcement (task_events)
+  assertNotEnforced("task_events.append");
+
   pool = pool || globalThis.__DB_POOL;
   if (!pool) throw new Error("appendTaskEvent: missing pool");
   // Phase25 contract: server is the single authoritative writer of task_events.

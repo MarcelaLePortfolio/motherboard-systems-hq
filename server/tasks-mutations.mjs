@@ -1,5 +1,7 @@
 import { emitTaskEvent } from "./task_events_emit.mjs";
 
+import { assertNotEnforced } from "./policy/enforce.mjs";
+
 export async function dbDelegateTask(pool, body) {
   const title = body?.title || "(untitled)";
   const agent = body?.agent || "cade";
