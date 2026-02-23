@@ -132,6 +132,8 @@ res.status(500).json({ ok: false, error: e?.message || String(e) });
 // POST /api/tasks/complete  { task_id, status?, run_id?, ... }
 apiTasksRouter.post("/complete", async (req, res) => {
   try {
+    // Phase53: enforce gate BEFORE any DB writes
+    assertNotEnforced("http:/api/tasks/create");
     const pool = _getPoolOrFail(res); if (!pool) return;
     const b = _asJson(req);
     const task_id = b.task_id ?? b.taskId ?? b.id ?? null;
@@ -165,6 +167,8 @@ res.status(500).json({ ok: false, error: e?.message || String(e) });
 // POST /api/tasks/fail  { task_id, error?, status?, run_id?, ... }
 apiTasksRouter.post("/fail", async (req, res) => {
   try {
+    // Phase53: enforce gate BEFORE any DB writes
+    assertNotEnforced("http:/api/tasks/complete");
     const pool = _getPoolOrFail(res); if (!pool) return;
     const b = _asJson(req);
     const task_id = b.task_id ?? b.taskId ?? b.id ?? null;
@@ -198,6 +202,11 @@ res.status(500).json({ ok: false, error: e?.message || String(e) });
 // POST /api/tasks/cancel  { task_id, run_id?, ... }
 apiTasksRouter.post("/cancel", async (req, res) => {
   try {
+    // Phase53: enforce gate BEFORE any DB writes
+    assertNotEnforced("http:/api/tasks/cancel");
+
+    // Phase53: enforce gate BEFORE any DB writes
+    assertNotEnforced("http:/api/tasks/fail");
     const pool = _getPoolOrFail(res); if (!pool) return;
     const b = _asJson(req);
     const task_id = b.task_id ?? b.taskId ?? b.id ?? null;
