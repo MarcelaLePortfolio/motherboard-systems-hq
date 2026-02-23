@@ -29,6 +29,39 @@ const __dirname = path.dirname(__filename);
 const app = express();
 
 
+
+// Phase49: enforce gate on real mutation routes (task path)
+function phase49PolicyEnforceEnabled() {
+  const v = String(process.env.POLICY_ENFORCE_MODE ?? process.env.POLICY_MODE ?? "").trim().toLowerCase();
+  // accept common values without binding to any single previous implementation
+  return v in {"1":1, "true":1, "yes":1, "on":1, "enforce":1, "enabled":1};
+}
+
+app.use((req, res, next) => {
+  try {
+    if (!phase49PolicyEnforceEnabled()) return next();
+    if (req.path === "/api/policy/probe") return next();
+
+    const m = String(req.method || "GET").toUpperCase();
+    const isMut = (m === "POST" || m === "PUT" || m === "PATCH" || m === "DELETE");
+    if (!isMut) return next();
+
+    // Start narrow: enforce on the real task mutation surface.
+    if (req.path.startsWith("/api/tasks")) {
+      return res.status(403).json({
+        error: "policy.enforce",
+        detail: "mutation blocked by enforcement gate (Phase49)",
+        path: req.path,
+        method: m,
+      });
+    }
+
+    return next();
+  } catch (e) {
+    return next(e);
+  }
+});
+
 // Phase 44 — enforce only at HTTP mutation route boundary
 app.use(createMutationEnforcementMiddleware());
 // Phase 23: parse JSON early (avoid empty req.body)
