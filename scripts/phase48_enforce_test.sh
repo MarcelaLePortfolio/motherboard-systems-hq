@@ -42,13 +42,13 @@ assert_env_in_dashboard() {
   fi
 }
 
-echo "=== baseline: enforce OFF, /api/policy/probe must be 200 ==="
+echo "=== baseline: enforce OFF, /api/policy/probe must be 201 ==="
 docker compose up -d
 scripts/_lib/wait_http.sh "${DASH_URL}/api/runs" 60
 assert_env_in_dashboard "0"
 c0="$(post_code "/api/policy/probe")"
 [[ "" == "201" ]] || { echo "ERROR: expected 201 baseline from /api/policy/probe, got ${c0}" >&2; exit 20; }
-echo "OK: baseline probe 200"
+echo "OK: baseline probe 201"
 
 echo
 echo "=== enforce ON, /api/policy/probe must be 403 ==="

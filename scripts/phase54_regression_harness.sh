@@ -7,9 +7,10 @@ BASE_URL="${BASE_URL:-http://127.0.0.1:8080}"
 PROBE_PATH="${PROBE_PATH:-/api/policy/probe}"
 WAIT_PATH="${WAIT_PATH:-/api/runs}"
 
+# If compose declares the default network as external, pre-create it so `up` doesn't fail.
 ensure_external_default_network() {
   local net="motherboard_systems_hq_default"
-  if docker compose config 2>/dev/null | grep -qE 'external:\s*true'; then
+  if docker compose config 2>/dev/null | grep -qE '(^|\s)external:\s*true(\s|$)'; then
     docker network inspect "$net" >/dev/null 2>&1 || docker network create "$net" >/dev/null
   fi
 }
@@ -95,7 +96,7 @@ http_code_of_probe() {
 run_mode_case() {
   local mode="$1"
   local expect_code="$2"
-  local expect_writes="$3"
+  local expect_writes="$3" # writes | no_writes
 
   echo "=== Phase 54: ${mode} case ==="
   compose_up "${mode}"
