@@ -4,6 +4,7 @@ services:
       POLICY_MODE: "enforce"
       POLICY_SHADOW_MODE: "0"
       POLICY_ENFORCE_MODE: "1"
+      POLICY_ENFORCE_ENABLED: "1"
   workerA:
     environment:
       POLICY_MODE: "enforce"
