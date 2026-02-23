@@ -2,7 +2,7 @@ import express from "express";import crypto from "crypto";
 
 console.log("[phase25] api-tasks-postgres loaded", new Date().toISOString(), "file=", import.meta.url);
 import { emitTaskEvent } from "../task_events_emit.mjs";
-import { PolicyEnforcedError } from "../policy/enforce.mjs";
+import { PolicyEnforcedError, assertNotEnforced } from "../policy/enforce.mjs";
 
 export const apiTasksRouter = express.Router();
 
