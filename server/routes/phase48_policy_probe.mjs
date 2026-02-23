@@ -15,6 +15,6 @@ export function registerPhase48PolicyProbe(app) {
     if (enforce) {
       return res.status(403).json({ ok: false, blocked: true, reason: "policy_enforce_enabled" });
     }
-    return res.status(200).json({ ok: true, blocked: false });
+    return res.status(201).json({ ok: true, blocked: false });
   });
 }

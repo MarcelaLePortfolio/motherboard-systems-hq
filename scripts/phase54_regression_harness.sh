@@ -7,9 +7,18 @@ BASE_URL="${BASE_URL:-http://127.0.0.1:8080}"
 PROBE_PATH="${PROBE_PATH:-/api/policy/probe}"
 WAIT_PATH="${WAIT_PATH:-/api/runs}"
 
+ensure_external_default_network() {
+  local net="motherboard_systems_hq_default"
+  if docker compose config 2>/dev/null | grep -qE 'external:\s*true'; then
+    docker network inspect "$net" >/dev/null 2>&1 || docker network create "$net" >/dev/null
+  fi
+}
+
 compose_up() {
   local mode="$1"
   docker compose down --remove-orphans >/dev/null 2>&1 || true
+
+  ensure_external_default_network
 
   if [[ "$mode" == "shadow" ]]; then
     docker compose -f docker-compose.yml -f docker-compose.workers.yml -f docker-compose.phase54.shadow.override.yml up -d --build
@@ -86,7 +95,7 @@ http_code_of_probe() {
 run_mode_case() {
   local mode="$1"
   local expect_code="$2"
-  local expect_writes="$3" # writes | no_writes
+  local expect_writes="$3"
 
   echo "=== Phase 54: ${mode} case ==="
   compose_up "${mode}"
