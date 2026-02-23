@@ -1,6 +1,7 @@
 import express from "express";
 console.log("[phase25] api-tasks-postgres loaded", new Date().toISOString(), "file=", import.meta.url);
 import { emitTaskEvent } from "../task_events_emit.mjs";
+import { PolicyEnforcedError } from "../policy/enforce.mjs";
 
 export const apiTasksRouter = express.Router();
 
@@ -171,7 +172,11 @@ const evt = await emitTaskEvent({
   } catch (e) {
     console.error("[phase25] /api/tasks error", e);
 
-    res.status(500).json({ ok: false, error: e?.message || String(e) });
+        if (e instanceof PolicyEnforcedError || e?.code === "POLICY_ENFORCED" || e?.name === "PolicyEnforcedError") {
+      return res.status(403).json({ ok: false, error: "policy.enforced", detail: e?.message || String(e) });
+    }
+
+res.status(500).json({ ok: false, error: e?.message || String(e) });
   }
 });
 
@@ -200,7 +205,11 @@ apiTasksRouter.post("/complete", async (req, res) => {
   } catch (e) {
     console.error("[phase25] /api/tasks error", e);
 
-    res.status(500).json({ ok: false, error: e?.message || String(e) });
+        if (e instanceof PolicyEnforcedError || e?.code === "POLICY_ENFORCED" || e?.name === "PolicyEnforcedError") {
+      return res.status(403).json({ ok: false, error: "policy.enforced", detail: e?.message || String(e) });
+    }
+
+res.status(500).json({ ok: false, error: e?.message || String(e) });
   }
 });
 
@@ -229,7 +238,11 @@ apiTasksRouter.post("/fail", async (req, res) => {
   } catch (e) {
     console.error("[phase25] /api/tasks error", e);
 
-    res.status(500).json({ ok: false, error: e?.message || String(e) });
+        if (e instanceof PolicyEnforcedError || e?.code === "POLICY_ENFORCED" || e?.name === "PolicyEnforcedError") {
+      return res.status(403).json({ ok: false, error: "policy.enforced", detail: e?.message || String(e) });
+    }
+
+res.status(500).json({ ok: false, error: e?.message || String(e) });
   }
 });
 
@@ -257,7 +270,11 @@ apiTasksRouter.post("/cancel", async (req, res) => {
   } catch (e) {
     console.error("[phase25] /api/tasks error", e);
 
-    res.status(500).json({ ok: false, error: e?.message || String(e) });
+        if (e instanceof PolicyEnforcedError || e?.code === "POLICY_ENFORCED" || e?.name === "PolicyEnforcedError") {
+      return res.status(403).json({ ok: false, error: "policy.enforced", detail: e?.message || String(e) });
+    }
+
+res.status(500).json({ ok: false, error: e?.message || String(e) });
   }
 });
 
