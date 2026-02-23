@@ -7,19 +7,19 @@ BASE_URL="${BASE_URL:-http://127.0.0.1:8080}"
 PROBE_PATH="${PROBE_PATH:-/api/policy/probe}"
 WAIT_PATH="${WAIT_PATH:-/api/runs}"
 
-# If compose declares the default network as external, pre-create it so `up` doesn't fail.
-ensure_external_default_network() {
+# Always ensure the default network exists.
+# This is safe even if compose doesn't end up using it, and fixes:
+# "network motherboard_systems_hq_default declared as external, but could not be found"
+ensure_default_network() {
   local net="motherboard_systems_hq_default"
-  if docker compose config 2>/dev/null | grep -qE '(^|\s)external:\s*true(\s|$)'; then
-    docker network inspect "$net" >/dev/null 2>&1 || docker network create "$net" >/dev/null
-  fi
+  docker network inspect "$net" >/dev/null 2>&1 || docker network create "$net" >/dev/null
 }
 
 compose_up() {
   local mode="$1"
   docker compose down --remove-orphans >/dev/null 2>&1 || true
 
-  ensure_external_default_network
+  ensure_default_network
 
   if [[ "$mode" == "shadow" ]]; then
     docker compose -f docker-compose.yml -f docker-compose.workers.yml -f docker-compose.phase54.shadow.override.yml up -d --build
