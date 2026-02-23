@@ -3,6 +3,9 @@ import { emitTaskEvent } from "./task_events_emit.mjs";
 import { assertNotEnforced } from "./policy/enforce.mjs";
 
 export async function dbDelegateTask(pool, body) {
+  // Phase50: DB write-path enforcement (tasks)
+  assertNotEnforced("tasks.mutations");
+
   const title = body?.title || "(untitled)";
   const agent = body?.agent || "cade";
   const notes = body?.notes || "";
@@ -39,6 +42,9 @@ export async function dbDelegateTask(pool, body) {
 }
 
 export async function dbCompleteTask(pool, body) {
+  // Phase50: DB write-path enforcement (tasks)
+  assertNotEnforced("tasks.mutations");
+
   const id = body?.task_id ?? body?.taskId ?? body?.id;
   const int_id = (String(id).match(/^\d+$/) ? Number(id) : null);
   if (!id) throw new Error("taskId required");
