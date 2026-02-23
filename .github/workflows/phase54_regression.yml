@@ -1,0 +1,29 @@
+name: Phase 54 Regression Harness
+
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+
+jobs:
+  phase54-regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Docker version
+        run: docker version
+
+      - name: Compose version
+        run: docker compose version
+
+      - name: Run Phase 54 regression harness
+        env:
+          BASE_URL: "http://127.0.0.1:8080"
+          PROBE_PATH: "/api/policy/probe"
+          WAIT_PATH: "/api/runs"
+        run: |
+          set -euo pipefail
+          bash scripts/phase54_regression_harness.sh
