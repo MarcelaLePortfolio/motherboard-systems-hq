@@ -153,3 +153,16 @@ main() {
 }
 
 main "$@"
+
+dump_phase54_debug() {
+  echo
+  echo "=== Phase 54 debug: docker compose ps ==="
+  docker compose ps || true
+  echo
+  echo "=== Phase 54 debug: dashboard logs ==="
+  docker compose logs --no-color --tail=200 dashboard || true
+  echo
+  echo "=== Phase 54 debug: postgres logs ==="
+  docker compose logs --no-color --tail=120 postgres || true
+}
+trap dump_phase54_debug EXIT
