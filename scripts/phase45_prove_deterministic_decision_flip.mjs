@@ -1,15 +1,9 @@
 /**
  * Phase 45 proof: deterministic decision flip with resolvePolicyGrant integrated.
  *
- * Proves (best-effort):
- * 1) Legacy evaluator is deterministic on a chosen fixture
- * 2) Wrapped evaluator is deterministic on the same fixture
- * 3) If a grant allows and legacy denies, wrapped deterministically flips to allow
- *
- * This repo's evaluator has strict call-shape validation (e.g., requires action_id).
- * We:
- * - build a canonical envelope containing { policy, action_id, actor, input }
- * - try multiple likely call-shapes
+ * This repo's evaluator has strict call-shape validation (requires action_id).
+ * We build a canonical envelope and try a broad set of repo-likely call-shapes,
+ * including the common pattern where action_id lives in a *second* argument object.
  */
 
 import fs from "node:fs";
@@ -144,7 +138,6 @@ function ensureEnvelope(fx) {
       ? fx.actor.trim()
       : "phase45.proof.actor";
 
-  // keep original as `input` to avoid fighting repo-specific schemas
   const input = (fx && typeof fx === "object" && "input" in fx) ? fx.input : fx;
 
   return { policy, action_id, actor, input };
@@ -154,25 +147,40 @@ async function callEvalBestEffort(fn, fx) {
   const env = ensureEnvelope(fx);
   const ctx = {};
 
+  // NOTE: Many repos pass action_id in a SECOND arg object: evaluatePolicy({policy}, {action_id, ...})
+  const args2 = { action_id: env.action_id, actor: env.actor, input: env.input };
+  const args2a = { action_id: env.action_id };
+  const args2b = { actionId: env.action_id }; // just in case
+
   const attempts = [
-    // Most common strict destructuring shapes
-    { name: "one-arg({policy, action_id, actor, input})", args: [env] },
+    // One-arg destructuring shapes
+    { name: "one-arg(env)", args: [env] },
     { name: "one-arg({policy, action_id})", args: [{ policy: env.policy, action_id: env.action_id }] },
 
-    // Common multi-arg shapes
+    // Two-arg patterns (policy first, action_id second)
     { name: "two-arg({policy}, action_id)", args: [{ policy: env.policy }, env.action_id] },
     { name: "two-arg(policy, action_id)", args: [env.policy, env.action_id] },
+
+    // Two-arg patterns (policy first, action_id inside 2nd object)
+    { name: "two-arg({policy}, {action_id,...})", args: [{ policy: env.policy }, args2] },
+    { name: "two-arg(policy, {action_id,...})", args: [env.policy, args2] },
+    { name: "two-arg({policy}, {action_id})", args: [{ policy: env.policy }, args2a] },
+    { name: "two-arg({policy}, {actionId})", args: [{ policy: env.policy }, args2b] },
+
+    // ctx-leading patterns
     { name: "three-arg(ctx, {policy}, action_id)", args: [ctx, { policy: env.policy }, env.action_id] },
     { name: "three-arg(ctx, policy, action_id)", args: [ctx, env.policy, env.action_id] },
+    { name: "three-arg(ctx, {policy}, {action_id,...})", args: [ctx, { policy: env.policy }, args2] },
+    { name: "three-arg(ctx, policy, {action_id,...})", args: [ctx, env.policy, args2] },
 
-    // Occasionally action_id is first/second positional
+    // Occasionally action_id first
     { name: "two-arg(action_id, {policy})", args: [env.action_id, { policy: env.policy }] },
     { name: "three-arg(action_id, ctx, {policy})", args: [env.action_id, ctx, { policy: env.policy }] },
 
-    // Legacy attempts from prior harness
-    { name: "two-arg({}, envelope)", args: [{}, env] },
-    { name: "two-arg(envelope, envelope)", args: [env, env] },
-    { name: "three-arg({}, {}, envelope)", args: [{}, {}, env] },
+    // Legacy attempts kept
+    { name: "two-arg({}, env)", args: [{}, env] },
+    { name: "two-arg(env, env)", args: [env, env] },
+    { name: "three-arg({}, {}, env)", args: [{}, {}, env] },
   ];
 
   let lastErr = null;
@@ -199,7 +207,6 @@ async function callEvalBestEffort(fn, fx) {
 async function main() {
   const fixturePath = pickFixture();
 
-  // If no repo fixture exists, synthesize one that satisfies action_id requirements.
   const rawFixture = fixturePath
     ? loadJson(fixturePath)
     : {
