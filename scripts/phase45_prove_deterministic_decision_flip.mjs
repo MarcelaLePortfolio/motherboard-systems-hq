@@ -6,8 +6,10 @@
  * 2) Wrapped evaluator is deterministic on the same fixture
  * 3) If a grant allows and legacy denies, wrapped deterministically flips to allow
  *
- * This repo's evaluator call-shape may not be a single-arg object.
- * So we try several common call shapes and pick the first that works.
+ * This repo's evaluator has strict call-shape validation (e.g., requires action_id).
+ * We:
+ * - build a canonical envelope containing { policy, action_id, actor, input }
+ * - try multiple likely call-shapes
  */
 
 import fs from "node:fs";
@@ -116,30 +118,61 @@ function pickEvalFn(mod, label) {
   );
 }
 
-function ensurePolicyFixture(fx) {
-  // If fixture already has `policy`, keep it.
-  if (fx && typeof fx === "object" && fx.policy && typeof fx.policy === "object") return fx;
+function extractActionId(fx) {
+  if (!fx || typeof fx !== "object") return "phase45.proof.action";
+  if (typeof fx.action_id === "string" && fx.action_id.trim()) return fx.action_id.trim();
+  if (typeof fx.actionId === "string" && fx.actionId.trim()) return fx.actionId.trim();
+  if (typeof fx.action === "string" && fx.action.trim()) return fx.action.trim();
+  if (fx.input && typeof fx.input === "object") {
+    const i = fx.input;
+    if (typeof i.action_id === "string" && i.action_id.trim()) return i.action_id.trim();
+    if (typeof i.actionId === "string" && i.actionId.trim()) return i.actionId.trim();
+    if (typeof i.action === "string" && i.action.trim()) return i.action.trim();
+  }
+  return "phase45.proof.action";
+}
 
-  // Otherwise wrap it into a minimal envelope that satisfies `{ policy }` destructuring.
-  return {
-    policy: {
-      // minimal safe defaults; repo-specific evaluator may ignore/override
-      version: "phase45",
-      rules: [],
-    },
-    input: fx,
-  };
+function ensureEnvelope(fx) {
+  const policy =
+    fx && typeof fx === "object" && fx.policy && typeof fx.policy === "object"
+      ? fx.policy
+      : { version: "phase45", rules: [] };
+
+  const action_id = extractActionId(fx);
+  const actor =
+    (fx && typeof fx === "object" && typeof fx.actor === "string" && fx.actor.trim())
+      ? fx.actor.trim()
+      : "phase45.proof.actor";
+
+  // keep original as `input` to avoid fighting repo-specific schemas
+  const input = (fx && typeof fx === "object" && "input" in fx) ? fx.input : fx;
+
+  return { policy, action_id, actor, input };
 }
 
 async function callEvalBestEffort(fn, fx) {
-  const f = ensurePolicyFixture(fx);
+  const env = ensureEnvelope(fx);
+  const ctx = {};
 
   const attempts = [
-    { name: "one-arg(envelope)", args: [f] },
-    { name: "two-arg({}, envelope)", args: [{}, f] },
-    { name: "two-arg(envelope, envelope)", args: [f, f] },
-    { name: "two-arg({}, {policy})", args: [{}, { policy: f.policy, input: f.input }] },
-    { name: "three-arg({}, {}, envelope)", args: [{}, {}, f] },
+    // Most common strict destructuring shapes
+    { name: "one-arg({policy, action_id, actor, input})", args: [env] },
+    { name: "one-arg({policy, action_id})", args: [{ policy: env.policy, action_id: env.action_id }] },
+
+    // Common multi-arg shapes
+    { name: "two-arg({policy}, action_id)", args: [{ policy: env.policy }, env.action_id] },
+    { name: "two-arg(policy, action_id)", args: [env.policy, env.action_id] },
+    { name: "three-arg(ctx, {policy}, action_id)", args: [ctx, { policy: env.policy }, env.action_id] },
+    { name: "three-arg(ctx, policy, action_id)", args: [ctx, env.policy, env.action_id] },
+
+    // Occasionally action_id is first/second positional
+    { name: "two-arg(action_id, {policy})", args: [env.action_id, { policy: env.policy }] },
+    { name: "three-arg(action_id, ctx, {policy})", args: [env.action_id, ctx, { policy: env.policy }] },
+
+    // Legacy attempts from prior harness
+    { name: "two-arg({}, envelope)", args: [{}, env] },
+    { name: "two-arg(envelope, envelope)", args: [env, env] },
+    { name: "three-arg({}, {}, envelope)", args: [{}, {}, env] },
   ];
 
   let lastErr = null;
@@ -148,26 +181,32 @@ async function callEvalBestEffort(fn, fx) {
       return await fn(...a.args);
     } catch (e) {
       lastErr = e;
-      // keep trying
     }
   }
+
   const msg =
     "Could not call evaluator with any known call-shape.\n" +
     "Tried:\n" +
     attempts.map((x) => `- ${x.name}`).join("\n") +
     "\n\nLast error:\n" +
-    String(lastErr?.stack || lastErr);
+    String(lastErr?.stack || lastErr) +
+    "\n\nEnvelope used:\n" +
+    stableStringify(env);
+
   throw new Error(msg);
 }
 
 async function main() {
   const fixturePath = pickFixture();
+
+  // If no repo fixture exists, synthesize one that satisfies action_id requirements.
   const rawFixture = fixturePath
     ? loadJson(fixturePath)
     : {
-        // minimal synthesized input; may not trigger grants, but proves determinism
         policy: { version: "phase45", rules: [] },
-        input: { action: "demo.action", actor: "phase45.proof", payload: { hello: "world" } },
+        action_id: "phase45.proof.action",
+        actor: "phase45.proof.actor",
+        input: { hello: "world" },
       };
 
   const legacyMod = await import(path.join(process.cwd(), "server/policy/evaluate.legacy.mjs"));
@@ -200,15 +239,15 @@ async function main() {
     process.exit(3);
   }
 
-  // Best-effort grant input: pass the same envelope used for eval.
-  const grantInput = ensurePolicyFixture(rawFixture);
-  const grant = await resolvePolicyGrant({ ...grantInput, _phase45_probe: true });
+  const env = ensureEnvelope(rawFixture);
+  const grant = await resolvePolicyGrant({ ...env, _phase45_probe: true });
   const grantAllows = isGrantAllow(grant);
 
   const legacyAllowed = normalizeAllowed(legacy1);
   const wrapAllowed = normalizeAllowed(wrap1);
 
   console.log("fixture=", fixturePath || "(synthesized)");
+  console.log("action_id=", env.action_id);
   console.log("legacy_allowed=", legacyAllowed);
   console.log("wrapped_allowed=", wrapAllowed);
   console.log("grant_allows=", grantAllows);
