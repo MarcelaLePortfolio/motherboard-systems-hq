@@ -14,27 +14,28 @@ function walk(dir, out = []) {
 
 function scoreFile(txt) {
   let s = 0;
-  if (/POLICY_(ENFORCE|SHADOW|MODE)/.test(txt)) s += 6;
-  if (/action_tier/i.test(txt)) s += 6;
-  if (/policy/i.test(txt)) s += 2;
-  if (/evaluat/i.test(txt)) s += 3;
-  if (/audit/i.test(txt)) s += 3;
+  if (/POLICY_(ENFORCE|SHADOW|MODE)/.test(txt)) s += 8;
+  if (/action_tier/i.test(txt)) s += 8;
+  if (/policy/i.test(txt)) s += 3;
+  if (/evaluat/i.test(txt)) s += 4;
+  if (/audit/i.test(txt)) s += 4;
   if (/decision/i.test(txt)) s += 2;
   if (/structural/i.test(txt)) s += 1;
+  if (/ruleset/i.test(txt)) s += 1;
   return s;
 }
 
-function pickCandidate(files) {
+function pickCandidates(files) {
   const ranked = files
     .filter(f => /\.(ts|tsx|js)$/.test(f))
     .map(f => {
       const txt = fs.readFileSync(f, "utf8");
       return { f, txt, score: scoreFile(txt) };
     })
-    .filter(x => x.score >= 10)
+    .filter(x => x.score >= 8)
     .sort((a,b) => b.score - a.score);
 
-  return ranked[0] ?? null;
+  return ranked.slice(0, 8);
 }
 
 function hasMarker(txt) {
@@ -43,12 +44,11 @@ function hasMarker(txt) {
 
 function insertImport(lines, importStmt) {
   let lastImport = -1;
-  for (let i = 0; i < Math.min(lines.length, 200); i++) {
+  for (let i = 0; i < Math.min(lines.length, 240); i++) {
     if (/^\s*import\s/.test(lines[i])) lastImport = i;
   }
   if (lastImport === -1) return { ok: false, why: "no import block found" };
 
-  // avoid dupes
   if (lines.some(l => l.includes("resolvePolicyGrant") || l.includes(importStmt.trim()))) {
     return { ok: true, lines };
   }
@@ -57,53 +57,41 @@ function insertImport(lines, importStmt) {
   return { ok: true, lines };
 }
 
-function patchEvaluator(txt) {
+function patchEvaluator(txt, relImportPath) {
   if (hasMarker(txt)) return { ok: true, out: txt, changed: false };
 
   const lines = txt.split("\n");
 
-  // 1) add import
-  const importStmt = `import { resolvePolicyGrant } from "./policy_grants"; // PHASE45_POLICY_GRANTS_INTEGRATED`;
+  const importStmt = `import { resolvePolicyGrant } from "${relImportPath}"; // PHASE45_POLICY_GRANTS_INTEGRATED`;
   const imp = insertImport(lines, importStmt);
   if (!imp.ok) return { ok: false, why: imp.why };
 
-  // 2) find a late "return" to hook before
   let hookIdx = -1;
   for (let i = lines.length - 1; i >= 0; i--) {
-    const l = lines[i];
-    if (/\breturn\b/.test(l) && !/return\s*;/.test(l)) {
+    if (/\breturn\b/.test(lines[i]) && !/return\s*;/.test(lines[i])) {
       hookIdx = i;
       break;
     }
   }
   if (hookIdx === -1) return { ok: false, why: "no return statement found to hook" };
 
-  // 3) inject best-effort override logic
   const inject = [
     "",
     "  // PHASE45_POLICY_GRANTS_INTEGRATED: deterministic override authority (auditable policy_grants)",
-    "  // Contract: subject + scope must be stable strings in your evaluator context.",
-    "  // This block is best-effort and will not throw (grant lookup failures do not break evaluation).",
+    "  // Best-effort: never throws; enriches audit with policy_grant evidence when applied.",
     "  try {",
-    "    // Attempt to discover subject/scope from common names used in this codebase.",
-    "    // If your evaluator uses different variable names, adjust here.",
     "    // @ts-ignore",
     "    const __subject = (typeof subject === 'string' ? subject : (typeof principal === 'string' ? principal : (typeof actor === 'string' ? actor : '')));",
     "    // @ts-ignore",
     "    const __scope = (typeof scope === 'string' ? scope : (typeof policy_scope === 'string' ? policy_scope : (typeof policyScope === 'string' ? policyScope : '')));",
-    "",
-    "    // Attempt to reference a result object if present (common patterns: result, decision, audit).",
     "    // @ts-ignore",
     "    const __res: any = (typeof result !== 'undefined' ? result : (typeof evalResult !== 'undefined' ? evalResult : undefined));",
-    "",
-    "    // Normalize decision into allow/deny-ish signals (supports booleans and strings).",
     "    // @ts-ignore",
     "    const __rawDecision: any = (typeof decision !== 'undefined' ? decision : (__res?.decision));",
     "    const __isAllow = (__rawDecision === true || __rawDecision === 'allow');",
     "    const __isDeny = (__rawDecision === false || __rawDecision === 'deny' || __rawDecision === 'block');",
     "",
     "    if (__subject && __scope) {",
-    "      // Optional: deny-grant can override allow",
     "      if (__isAllow) {",
     "        const gD = await resolvePolicyGrant({ subject: __subject, scope: __scope, want: 'deny' });",
     "        if (gD.hit) {",
@@ -127,8 +115,7 @@ function patchEvaluator(txt) {
     "        }",
     "      }",
     "",
-    "      // Allow-grant can override deny/block",
-    "      // re-read decision after deny-grant attempt",
+    "      // re-read after possible deny grant",
     "      // @ts-ignore",
     "      const __rawDecision2: any = (typeof decision !== 'undefined' ? decision : (__res?.decision));",
     "      const __isDeny2 = (__rawDecision2 === false || __rawDecision2 === 'deny' || __rawDecision2 === 'block');",
@@ -165,31 +152,50 @@ function patchEvaluator(txt) {
   return { ok: true, out: lines.join("\n"), changed: true };
 }
 
-const serverRoot = "server";
-if (!fs.existsSync(serverRoot) || !fs.statSync(serverRoot).isDirectory()) {
-  console.error("ERROR: expected ./server directory");
+function relImport(fromFile, targetFile) {
+  const fromDir = path.dirname(fromFile);
+  let rel = path.relative(fromDir, targetFile).replace(/\\/g, "/");
+  if (!rel.startsWith(".")) rel = "./" + rel;
+  rel = rel.replace(/\.ts$/,"");
+  return rel;
+}
+
+const roots = ["server", "src/server", "apps/server", "packages/server"].filter(r => fs.existsSync(r) && fs.statSync(r).isDirectory());
+if (!roots.length) {
+  console.error("ERROR: no server roots found (tried server, src/server, apps/server, packages/server)");
   process.exit(2);
 }
 
-const files = walk(serverRoot);
-const cand = pickCandidate(files);
+const allFiles = [];
+for (const r of roots) walk(r, allFiles);
 
-if (!cand) {
-  console.error("ERROR: could not find a likely evaluator file under server/ to patch");
+const cands = pickCandidates(allFiles);
+if (!cands.length) {
+  console.error("ERROR: no likely evaluator candidates found. Top hint: grep for POLICY_ or action_tier.");
   process.exit(3);
 }
 
-const patched = patchEvaluator(cand.txt);
-if (!patched.ok) {
-  console.error("ERROR: autopatch refused for:", cand.f);
-  console.error("WHY:", patched.why);
+console.log("Top candidates:");
+for (const c of cands) console.log(`- ${c.score}\t${c.f}`);
+
+const target = cands[0];
+const grantsFile = path.normalize("server/policy/policy_grants.ts");
+if (!fs.existsSync(grantsFile)) {
+  console.error("ERROR: missing server/policy/policy_grants.ts (expected from prior commit)");
   process.exit(4);
 }
 
+const patched = patchEvaluator(target.txt, relImport(target.f, grantsFile));
+if (!patched.ok) {
+  console.error("ERROR: autopatch refused for:", target.f);
+  console.error("WHY:", patched.why);
+  process.exit(5);
+}
+
 if (!patched.changed) {
-  console.log("OK: already integrated (marker present):", cand.f);
+  console.log("OK: already integrated (marker present):", target.f);
   process.exit(0);
 }
 
-fs.writeFileSync(cand.f, patched.out, "utf8");
-console.log("OK: patched:", cand.f);
+fs.writeFileSync(target.f, patched.out, "utf8");
+console.log("OK: patched:", target.f);

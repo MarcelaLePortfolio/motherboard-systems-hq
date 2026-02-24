@@ -12,16 +12,24 @@ SQL_FILE="${SQL_FILE:-server/sql/phase45_policy_grants.sql}"
 echo "=== Phase45: ensure postgres container present ==="
 docker ps --format '{{.Names}}' | grep -qx "$PGC" || { echo "ERROR: postgres container $PGC not running"; exit 1; }
 
+echo "=== Phase45: detect PG user/db from container env (fallback postgres) ==="
+PGUSER="$(docker exec "$PGC" sh -lc 'printf "%s" "${POSTGRES_USER:-}"' || true)"
+PGDB="$(docker exec "$PGC" sh -lc 'printf "%s" "${POSTGRES_DB:-}"' || true)"
+[ -n "$PGUSER" ] || PGUSER="postgres"
+[ -n "$PGDB" ] || PGDB="postgres"
+echo "PGUSER=$PGUSER"
+echo "PGDB=$PGDB"
+
 echo "=== Phase45: apply SQL (idempotent) ==="
 [ -f "$SQL_FILE" ] || { echo "ERROR: SQL_FILE not found: $SQL_FILE"; exit 1; }
-docker exec -i "$PGC" psql -v ON_ERROR_STOP=1 -f - < "$SQL_FILE"
+docker exec -i "$PGC" psql -v ON_ERROR_STOP=1 -U "$PGUSER" -d "$PGDB" -f - < "$SQL_FILE"
 
 echo "=== Phase45: sanity check table exists ==="
-docker exec "$PGC" psql -v ON_ERROR_STOP=1 -Atqc "SELECT to_regclass('public.policy_grants') IS NOT NULL;" \
+docker exec "$PGC" psql -v ON_ERROR_STOP=1 -U "$PGUSER" -d "$PGDB" -Atqc "SELECT to_regclass('public.policy_grants') IS NOT NULL;" \
 | grep -qx "t" || { echo "ERROR: policy_grants missing after apply"; exit 1; }
 
 echo "=== Phase45: deterministic active semantics (expires_at) ==="
-docker exec "$PGC" psql -v ON_ERROR_STOP=1 -Atqc "
+docker exec "$PGC" psql -v ON_ERROR_STOP=1 -U "$PGUSER" -d "$PGDB" -Atqc "
   TRUNCATE policy_grants;
   INSERT INTO policy_grants(created_by, subject, scope, decision, reason, expires_at)
   VALUES
