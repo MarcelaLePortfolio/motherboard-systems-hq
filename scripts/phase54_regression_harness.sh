@@ -30,9 +30,9 @@ compose_up() {
   ensure_default_network
 
   if [[ "$mode" == "shadow" ]]; then
-    docker compose -f docker-compose.yml -f docker-compose.workers.yml -f docker-compose.phase47.postgres_url.override.yml -f docker-compose.phase54.shadow.override.yml up -d --build
+    docker compose -f docker-compose.yml -f docker-compose.workers.yml -f docker-compose.phase54.shadow.override.yml -f docker-compose.phase47.postgres_url.override.yml up -d --build
   elif [[ "$mode" == "enforce" ]]; then
-    docker compose -f docker-compose.yml -f docker-compose.workers.yml -f docker-compose.phase47.postgres_url.override.yml -f docker-compose.phase54.enforce.override.yml up -d --build
+    docker compose -f docker-compose.yml -f docker-compose.workers.yml -f docker-compose.phase54.enforce.override.yml -f docker-compose.phase47.postgres_url.override.yml up -d --build
   else
     echo "ERROR: unknown mode: $mode" >&2
     exit 2
