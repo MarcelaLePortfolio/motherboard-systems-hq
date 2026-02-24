@@ -1,6 +1,30 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+dump_on_fail() {
+  local rc=0
+  if [[  -ne 0 ]]; then
+    echo
+    echo "=== Phase 54 DEBUG (failure rc=) ==="
+    docker compose ps || true
+    echo
+    echo "=== dashboard logs (tail 250) ==="
+    docker compose logs --no-color --tail=250 dashboard || true
+    echo
+    echo "=== postgres logs (tail 120) ==="
+    docker compose logs --no-color --tail=120 postgres || true
+    echo
+    echo "=== workerA logs (tail 120) ==="
+    docker compose logs --no-color --tail=120 workerA || true
+    echo
+    echo "=== workerB logs (tail 120) ==="
+    docker compose logs --no-color --tail=120 workerB || true
+  fi
+  exit 
+}
+trap dump_on_fail EXIT
+
+
 cd "$(git rev-parse --show-toplevel)"
 
 BASE_URL="${BASE_URL:-http://127.0.0.1:8080}"
