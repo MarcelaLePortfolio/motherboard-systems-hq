@@ -28,6 +28,10 @@ trap dump_on_fail EXIT
 
 cd "$(git rev-parse --show-toplevel)"
 
+docker compose -f docker-compose.yml -f docker-compose.workers.yml down --remove-orphans >/dev/null 2>&1 || true
+docker network rm motherboard_systems_hq_default >/dev/null 2>&1 || true
+
+
 BASE_URL="${BASE_URL:-http://127.0.0.1:8080}"
 PROBE_PATH="${PROBE_PATH:-/api/policy/probe}"
 WAIT_PATH="${WAIT_PATH:-/api/runs}"
