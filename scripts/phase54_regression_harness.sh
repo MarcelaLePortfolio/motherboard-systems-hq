@@ -48,7 +48,7 @@ ensure_default_network() {
   fi
 
   if ! docker network inspect "$net" >/dev/null 2>&1; then
-    docker network create --label com.docker.compose.network=default "$net" >/dev/null
+    docker network create --label com.docker.compose.network=default --label com.docker.compose.project=motherboard_systems_hq "$net" >/dev/null
   fi
 }
 
