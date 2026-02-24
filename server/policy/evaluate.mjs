@@ -1,114 +1,173 @@
-import fs from 'node:fs';
-import path from 'node:path';
-
-const DECISIONS = new Set(['allow', 'deny', 'allow_with_conditions']);
-const TIERS = new Set(['A', 'B', 'C']);
-
-function stableKeyList(obj) {
-  return Object.keys(obj).sort();
-}
-
-function stableTrace(trace) {
-  // Ensure stable ordering for trace arrays
-  if (Array.isArray(trace.reasons)) trace.reasons = [...trace.reasons].sort();
-  if (Array.isArray(trace.conditions)) {
-    trace.conditions = [...trace.conditions].sort((a, b) => String(a.id).localeCompare(String(b.id)));
-  }
-  return trace;
-}
-
-function loadJsonPolicyFile(policyPath) {
-  const raw = fs.readFileSync(policyPath, 'utf8');
-  const trimmed = raw.trim();
-  if (!trimmed.startsWith('{')) throw new Error(`policy must be JSON: ${policyPath}`);
-  return JSON.parse(trimmed);
-}
-
 /**
- * Pure, deterministic evaluator.
- * NOTE: Reading policy from disk is handled elsewhere; this function does not perform IO.
+ * Phase 45: integrate resolvePolicyGrant into evaluation pipeline.
+ *
+ * Strategy:
+ * - Preserve existing evaluator logic in `evaluate.legacy.mjs`
+ * - Re-export everything from legacy for compatibility
+ * - Wrap the primary evaluator function (default / evaluatePolicy / evaluate) if present
+ * - Apply a deterministic post-step:
+ *     - compute legacy decision
+ *     - compute grant resolution (pure input -> grant result)
+ *     - if grant indicates override/allow, flip result deterministically and annotate
+ *
+ * This wrapper avoids invasive edits to the legacy evaluator.
  */
-export function evaluatePolicy({ action_id, context = {}, meta = {} }, { policy }) {
-  if (typeof action_id !== 'string' || !action_id.trim()) throw new Error('action_id must be a non-empty string');
-  const canonical_action = action_id.trim();
 
-  if (context && typeof context !== 'object') throw new Error('context must be an object');
-  const ctx = context || {};
+import * as legacy from "./evaluate.legacy.mjs";
+import { resolvePolicyGrant } from "./resolvePolicyGrant.mjs";
 
-  // Reject obvious self-tier attempts (v1 hard reject)
-  for (const k of Object.keys(ctx)) {
-    if (k === 'tier' || k === 'requested_tier' || k === 'decision') {
-      throw new Error(`forbidden context key: ${k}`);
-    }
+export * from "./evaluate.legacy.mjs";
+
+function pickLegacyEvalFn() {
+  const candidates = [
+    legacy.evaluatePolicy,
+    legacy.evaluate,
+    legacy.default,
+  ];
+  for (const fn of candidates) {
+    if (typeof fn === "function") return fn;
+  }
+  return null;
+}
+
+function normalizeAllowed(result) {
+  if (!result || typeof result !== "object") return null;
+
+  // Common patterns:
+  // - { allowed: true/false }
+  if (typeof result.allowed === "boolean") return result.allowed;
+
+  // - { decision: "allow"|"deny"|"block"|"permit"|... }
+  if (typeof result.decision === "string") {
+    const d = result.decision.toLowerCase();
+    if (["allow", "permit", "approved", "approve", "ok"].includes(d)) return true;
+    if (["deny", "block", "blocked", "reject", "rejected", "no"].includes(d)) return false;
   }
 
-  const policy_version = policy.policy_version ?? null;
+  // - { action_tier: "A"|"B"|"C" } (assume A=allow; B/C=block unless overridden)
+  if (typeof result.action_tier === "string") {
+    const t = result.action_tier.toUpperCase();
+    if (t === "A") return true;
+    if (t === "B" || t === "C") return false;
+  }
 
-  const defaults = policy.defaults || {};
-  const defaultTier = defaults.unknown_action_tier || 'B';
-  const defaultDecision = defaults.unknown_action_decision || 'deny';
+  return null;
+}
 
-  if (!TIERS.has(defaultTier)) throw new Error(`invalid default tier: ${defaultTier}`);
-  if (!DECISIONS.has(defaultDecision)) throw new Error(`invalid default decision: ${defaultDecision}`);
-
-  const trace = stableTrace({
-    policy_version,
-    matched: false,
-    matched_rule_id: null,
-    default_applied: true,
-    reasons: [],
-    conditions: [],
-    normalized: {
-      action_id: canonical_action,
-      context_keys: stableKeyList(ctx),
-      meta_keys: meta && typeof meta === 'object' ? stableKeyList(meta) : [],
-    },
-  });
-
-  const rules = Array.isArray(policy.rules) ? policy.rules : [];
-  for (const r of rules) {
-    const match = r.match || {};
-    const exact = match.action_id;
-    const prefix = match.action_prefix;
-
-    let ok = false;
-    if (typeof exact === 'string' && exact === canonical_action) ok = true;
-    if (!ok && typeof prefix === 'string' && canonical_action.startsWith(prefix)) ok = true;
-
-    if (!ok) continue;
-
-    const tier = r.tier;
-    const decision = r.decision;
-    if (!TIERS.has(tier)) throw new Error(`invalid tier in rule ${r.id}: ${tier}`);
-    if (!DECISIONS.has(decision)) throw new Error(`invalid decision in rule ${r.id}: ${decision}`);
-
-    trace.matched = true;
-    trace.matched_rule_id = r.id || null;
-    trace.default_applied = false;
-    trace.reasons.push(`matched:${r.id || 'unknown'}`);
-    stableTrace(trace);
-
+function applyFlip(result, flipToAllowed, grantInfo) {
+  if (!result || typeof result !== "object") {
     return {
-      tier,
-      decision,
-      rule_id: r.id || null,
-      trace,
+      legacy_result: result,
+      allowed: !!flipToAllowed,
+      decision: flipToAllowed ? "allow" : "deny",
+      policy_grant_applied: true,
+      policy_grant: grantInfo ?? null,
     };
   }
 
-  trace.reasons.push('no_rule_matched');
-  stableTrace(trace);
+  // Clone shallowly to avoid mutating legacy output.
+  const out = { ...result };
 
+  // Set/normalize decision fields.
+  if (typeof out.allowed === "boolean" || out.allowed == null) out.allowed = !!flipToAllowed;
+
+  if (typeof out.decision === "string" || out.decision == null) {
+    out.decision = flipToAllowed ? "allow" : "deny";
+  }
+
+  // If tiers exist, prefer A when allowed.
+  if (typeof out.action_tier === "string") {
+    out.action_tier = flipToAllowed ? "A" : out.action_tier;
+  }
+
+  out.policy_grant_applied = true;
+  out.policy_grant = grantInfo ?? null;
+
+  return out;
+}
+
+function isGrantAllow(grantResult) {
+  if (!grantResult) return false;
+
+  // Common patterns:
+  // - { allow: true }
+  if (typeof grantResult.allow === "boolean") return grantResult.allow;
+
+  // - { allowed: true }
+  if (typeof grantResult.allowed === "boolean") return grantResult.allowed;
+
+  // - { decision: "allow" }
+  if (typeof grantResult.decision === "string") {
+    const d = grantResult.decision.toLowerCase();
+    if (["allow", "permit", "approved", "approve", "ok"].includes(d)) return true;
+  }
+
+  // - { effect: "allow"|"override_allow" }
+  if (typeof grantResult.effect === "string") {
+    const e = grantResult.effect.toLowerCase();
+    if (e.includes("allow") || e.includes("override")) return true;
+  }
+
+  // - { applies: true, outcome: "allow" }
+  if (grantResult.applies === true && typeof grantResult.outcome === "string") {
+    const o = grantResult.outcome.toLowerCase();
+    if (o.includes("allow") || o.includes("override")) return true;
+  }
+
+  return false;
+}
+
+function buildGrantInput(args, legacyResult) {
+  // Heuristic: pass through a structured object if the first arg looks like one.
+  const a0 = args?.[0];
+  if (a0 && typeof a0 === "object" && !Array.isArray(a0)) {
+    return {
+      ...a0,
+      legacy_decision: legacyResult,
+    };
+  }
   return {
-    tier: defaultTier,
-    decision: defaultDecision,
-    rule_id: null,
-    trace,
+    args,
+    legacy_decision: legacyResult,
   };
 }
 
-export function loadDefaultPolicyFromRepoRoot(repoRoot) {
-  const p = path.join(repoRoot, 'policy', 'value_policy.json');
-  const policy = loadJsonPolicyFile(p);
-  return { policy, path: p };
+const legacyFn = pickLegacyEvalFn();
+
+if (!legacyFn) {
+  throw new Error(
+    "Phase 45 wrapper: could not find legacy evaluator function export. Expected one of: evaluatePolicy, evaluate, default."
+  );
 }
+
+// Maintain a default export (common import style).
+export default async function evaluatePolicyWithGrant(...args) {
+  const legacyResult = await legacyFn(...args);
+  const legacyAllowed = normalizeAllowed(legacyResult);
+
+  // Always resolve grants deterministically based on the same stable input.
+  const grantInput = buildGrantInput(args, legacyResult);
+  const grantResult = await resolvePolicyGrant(grantInput);
+
+  const grantAllows = isGrantAllow(grantResult);
+
+  // If legacy is already allowed, keep it allowed; still annotate if a grant applies.
+  if (legacyAllowed === true) {
+    if (grantAllows) {
+      return applyFlip(legacyResult, true, grantResult);
+    }
+    return legacyResult;
+  }
+
+  // If legacy blocks/denies and grant allows, flip deterministically.
+  if (legacyAllowed === false && grantAllows) {
+    return applyFlip(legacyResult, true, grantResult);
+  }
+
+  // If legacyAllowed is unknown, do not flip (safe default) but still allow downstream inspection.
+  return legacyResult;
+}
+
+// Preserve named entrypoints if callers use them.
+export const evaluatePolicy = evaluatePolicyWithGrant;
+export const evaluate = evaluatePolicyWithGrant;
