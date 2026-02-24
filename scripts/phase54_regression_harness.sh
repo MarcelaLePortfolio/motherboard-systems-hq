@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+
 dump_on_fail() {
-  local rc=0
-  if [[  -ne 0 ]]; then
+  local rc=$?
+  if [[ $rc -ne 0 ]]; then
     echo
-    echo "=== Phase 54 DEBUG (failure rc=) ==="
+    echo "=== Phase 54 DEBUG (failure rc=$rc) ==="
     docker compose ps || true
     echo
     echo "=== dashboard logs (tail 250) ==="
@@ -20,7 +21,7 @@ dump_on_fail() {
     echo "=== workerB logs (tail 120) ==="
     docker compose logs --no-color --tail=120 workerB || true
   fi
-  exit 
+  exit $rc
 }
 trap dump_on_fail EXIT
 
