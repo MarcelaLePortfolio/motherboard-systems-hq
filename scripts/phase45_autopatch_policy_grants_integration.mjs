@@ -1,10 +1,21 @@
 import fs from "node:fs";
 import path from "node:path";
 
+const REPO_ROOT = process.cwd();
+
 function walk(dir, out = []) {
   for (const ent of fs.readdirSync(dir, { withFileTypes: true })) {
     const name = ent.name;
-    if (name === "node_modules" || name === "dist" || name === "build" || name === ".next") continue;
+    if (
+      name === "node_modules" ||
+      name === ".git" ||
+      name === "dist" ||
+      name === "build" ||
+      name === ".next" ||
+      name === ".turbo" ||
+      name === "coverage"
+    ) continue;
+
     const p = path.join(dir, name);
     if (ent.isDirectory()) walk(p, out);
     else out.push(p);
@@ -14,28 +25,39 @@ function walk(dir, out = []) {
 
 function scoreFile(txt) {
   let s = 0;
-  if (/POLICY_(ENFORCE|SHADOW|MODE)/.test(txt)) s += 8;
-  if (/action_tier/i.test(txt)) s += 8;
-  if (/policy/i.test(txt)) s += 3;
-  if (/evaluat/i.test(txt)) s += 4;
-  if (/audit/i.test(txt)) s += 4;
-  if (/decision/i.test(txt)) s += 2;
+
+  // Strong policy/eval signals
+  if (/policy/i.test(txt)) s += 2;
+  if (/evaluat|evaluator/i.test(txt)) s += 2;
+  if (/decision/i.test(txt)) s += 1;
+  if (/audit/i.test(txt)) s += 2;
+
+  // Known project motifs
+  if (/action_tier/i.test(txt)) s += 6;
+  if (/POLICY_(ENFORCE|SHADOW|MODE)/.test(txt)) s += 6;
+  if (/ruleset/i.test(txt)) s += 2;
+  if (/governance/i.test(txt)) s += 2;
   if (/structural/i.test(txt)) s += 1;
-  if (/ruleset/i.test(txt)) s += 1;
+
+  // Hints that it’s the place we want
+  if (/task_events/i.test(txt)) s += 1;
+  if (/override|grant/i.test(txt)) s += 1;
+
   return s;
 }
 
 function pickCandidates(files) {
   const ranked = files
     .filter(f => /\.(ts|tsx|js)$/.test(f))
+    .filter(f => !/\/scripts\//.test(f.replace(/\\/g,"/")))
     .map(f => {
       const txt = fs.readFileSync(f, "utf8");
       return { f, txt, score: scoreFile(txt) };
     })
-    .filter(x => x.score >= 8)
+    .filter(x => x.score >= 3)
     .sort((a,b) => b.score - a.score);
 
-  return ranked.slice(0, 8);
+  return ranked.slice(0, 25);
 }
 
 function hasMarker(txt) {
@@ -44,7 +66,7 @@ function hasMarker(txt) {
 
 function insertImport(lines, importStmt) {
   let lastImport = -1;
-  for (let i = 0; i < Math.min(lines.length, 240); i++) {
+  for (let i = 0; i < Math.min(lines.length, 300); i++) {
     if (/^\s*import\s/.test(lines[i])) lastImport = i;
   }
   if (lastImport === -1) return { ok: false, why: "no import block found" };
@@ -57,15 +79,24 @@ function insertImport(lines, importStmt) {
   return { ok: true, lines };
 }
 
-function patchEvaluator(txt, relImportPath) {
+function relImport(fromFile, targetFile) {
+  const fromDir = path.dirname(fromFile);
+  let rel = path.relative(fromDir, targetFile).replace(/\\/g, "/");
+  if (!rel.startsWith(".")) rel = "./" + rel;
+  rel = rel.replace(/\.ts$/,"");
+  return rel;
+}
+
+function patchEvaluator(txt, relPathToGrants) {
   if (hasMarker(txt)) return { ok: true, out: txt, changed: false };
 
   const lines = txt.split("\n");
 
-  const importStmt = `import { resolvePolicyGrant } from "${relImportPath}"; // PHASE45_POLICY_GRANTS_INTEGRATED`;
+  const importStmt = `import { resolvePolicyGrant } from "${relPathToGrants}"; // PHASE45_POLICY_GRANTS_INTEGRATED`;
   const imp = insertImport(lines, importStmt);
   if (!imp.ok) return { ok: false, why: imp.why };
 
+  // Hook as late as possible before a return
   let hookIdx = -1;
   for (let i = lines.length - 1; i >= 0; i--) {
     if (/\breturn\b/.test(lines[i]) && !/return\s*;/.test(lines[i])) {
@@ -152,50 +183,38 @@ function patchEvaluator(txt, relImportPath) {
   return { ok: true, out: lines.join("\n"), changed: true };
 }
 
-function relImport(fromFile, targetFile) {
-  const fromDir = path.dirname(fromFile);
-  let rel = path.relative(fromDir, targetFile).replace(/\\/g, "/");
-  if (!rel.startsWith(".")) rel = "./" + rel;
-  rel = rel.replace(/\.ts$/,"");
-  return rel;
-}
-
-const roots = ["server", "src/server", "apps/server", "packages/server"].filter(r => fs.existsSync(r) && fs.statSync(r).isDirectory());
-if (!roots.length) {
-  console.error("ERROR: no server roots found (tried server, src/server, apps/server, packages/server)");
+const grantsFile = path.join(REPO_ROOT, "server/policy/policy_grants.ts");
+if (!fs.existsSync(grantsFile)) {
+  console.error("ERROR: missing server/policy/policy_grants.ts");
   process.exit(2);
 }
 
-const allFiles = [];
-for (const r of roots) walk(r, allFiles);
-
+const allFiles = walk(REPO_ROOT);
 const cands = pickCandidates(allFiles);
+
 if (!cands.length) {
-  console.error("ERROR: no likely evaluator candidates found. Top hint: grep for POLICY_ or action_tier.");
+  console.error("ERROR: no likely evaluator candidates found.");
+  console.error("Hint: run `rg -n \"action_tier|POLICY_ENFORCE|POLICY_SHADOW|ruleset|governance\" -S .` to find the evaluator.");
   process.exit(3);
 }
 
 console.log("Top candidates:");
-for (const c of cands) console.log(`- ${c.score}\t${c.f}`);
+for (const c of cands.slice(0, 12)) console.log(`- ${c.score}\t${path.relative(REPO_ROOT, c.f)}`);
 
 const target = cands[0];
-const grantsFile = path.normalize("server/policy/policy_grants.ts");
-if (!fs.existsSync(grantsFile)) {
-  console.error("ERROR: missing server/policy/policy_grants.ts (expected from prior commit)");
+const rel = relImport(target.f, grantsFile);
+const patched = patchEvaluator(target.txt, rel);
+
+if (!patched.ok) {
+  console.error("ERROR: autopatch refused for:", path.relative(REPO_ROOT, target.f));
+  console.error("WHY:", patched.why);
   process.exit(4);
 }
 
-const patched = patchEvaluator(target.txt, relImport(target.f, grantsFile));
-if (!patched.ok) {
-  console.error("ERROR: autopatch refused for:", target.f);
-  console.error("WHY:", patched.why);
-  process.exit(5);
-}
-
 if (!patched.changed) {
-  console.log("OK: already integrated (marker present):", target.f);
+  console.log("OK: already integrated (marker present):", path.relative(REPO_ROOT, target.f));
   process.exit(0);
 }
 
 fs.writeFileSync(target.f, patched.out, "utf8");
-console.log("OK: patched:", target.f);
+console.log("OK: patched:", path.relative(REPO_ROOT, target.f));
