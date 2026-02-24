@@ -1,29 +1,31 @@
 /**
  * Phase 45 proof: deterministic decision flip with resolvePolicyGrant integrated.
  *
- * What it proves (best-effort across evolving schemas):
- * 1) Legacy evaluator is deterministic: same input -> same output (deep-equal JSON)
- * 2) Wrapper evaluator is deterministic: same input -> same output
- * 3) If a grant can produce an allow/override signal for this input, wrapper flips vs legacy deterministically
- *
- * Notes:
- * - This script searches for an existing "probe/example" JSON payload in-repo.
- * - If none is found, it synthesizes a minimal payload shape and still proves determinism.
- * - If grant resolution can't apply on the chosen payload, it still proves determinism and exits non-zero
- *   so you notice you need a better fixture for your repo's grant semantics.
+ * Proves (best-effort):
+ * 1) Legacy evaluator is deterministic on a chosen fixture
+ * 2) Wrapped evaluator is deterministic on the same fixture
+ * 3) If a grant allows and legacy denies, wrapped deterministically flips to allow
  */
 
 import fs from "node:fs";
 import path from "node:path";
 import process from "node:process";
-import { fileURLToPath } from "node:url";
 import crypto from "node:crypto";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
 function stableStringify(x) {
-  return JSON.stringify(x, Object.keys(x || {}).sort(), 2);
+  // Deterministic JSON for comparison (simple, best-effort)
+  const seen = new WeakSet();
+  return JSON.stringify(
+    x,
+    (k, v) => {
+      if (v && typeof v === "object") {
+        if (seen.has(v)) return "[Circular]";
+        seen.add(v);
+      }
+      return v;
+    },
+    2
+  );
 }
 
 function sha256(s) {
@@ -58,7 +60,6 @@ function pickFixture() {
   }
 
   walk(root);
-
   if (candidates.length > 0) return candidates.sort()[0];
   return null;
 }
@@ -102,20 +103,42 @@ function isGrantAllow(grantResult) {
   return false;
 }
 
+function pickEvalFn(mod, label) {
+  const candidates = [
+    mod?.evaluatePolicy,
+    mod?.evaluate,
+    mod?.default,
+  ];
+  for (const fn of candidates) {
+    if (typeof fn === "function") return fn;
+  }
+  const keys = Object.keys(mod || {});
+  throw new TypeError(
+    `${label} evaluator export is not a function. Expected one of: evaluatePolicy, evaluate, default. Got keys: ${keys.join(", ")}`
+  );
+}
+
 async function main() {
   const fixturePath = pickFixture();
   const fixture = fixturePath
     ? loadJson(fixturePath)
     : {
-        // minimal synthesized input; may not trigger grants, but proves determinism
         action: "demo.action",
         actor: "phase45.proof",
         payload: { hello: "world" },
       };
 
-  const { default: legacyEval } = await import(path.join(process.cwd(), "server/policy/evaluate.legacy.mjs"));
-  const { default: wrappedEval } = await import(path.join(process.cwd(), "server/policy/evaluate.mjs"));
-  const { resolvePolicyGrant } = await import(path.join(process.cwd(), "server/policy/resolvePolicyGrant.mjs"));
+  const legacyMod = await import(path.join(process.cwd(), "server/policy/evaluate.legacy.mjs"));
+  const wrappedMod = await import(path.join(process.cwd(), "server/policy/evaluate.mjs"));
+  const grantsMod = await import(path.join(process.cwd(), "server/policy/resolvePolicyGrant.mjs"));
+
+  const legacyEval = pickEvalFn(legacyMod, "Legacy");
+  const wrappedEval = pickEvalFn(wrappedMod, "Wrapped");
+
+  if (typeof grantsMod?.resolvePolicyGrant !== "function") {
+    throw new TypeError("resolvePolicyGrant export is not a function from server/policy/resolvePolicyGrant.mjs");
+  }
+  const { resolvePolicyGrant } = grantsMod;
 
   const legacy1 = await legacyEval(fixture);
   const legacy2 = await legacyEval(fixture);
@@ -146,16 +169,11 @@ async function main() {
   console.log("wrapped_allowed=", wrapAllowed);
   console.log("grant_allows=", grantAllows);
 
-  // We only assert a flip if:
-  // - legacy is definitively denied/blocked
-  // - grant allows
-  // - wrapper is allowed
   if (legacyAllowed === false && grantAllows && wrapAllowed === true) {
     console.log("OK: deterministic decision flip proven (deny -> allow via grant)");
     process.exit(0);
   }
 
-  // If we can’t prove flip with the chosen fixture, still return non-zero so it’s actionable.
   console.error("FAIL: could not prove deny->allow flip with current fixture/grant semantics.");
   console.error("ACTION: add/adjust a policy probe fixture JSON that is blocked by default but becomes allowed when a grant applies.");
   process.exit(4);
