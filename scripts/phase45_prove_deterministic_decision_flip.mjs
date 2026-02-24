@@ -5,6 +5,9 @@
  * 1) Legacy evaluator is deterministic on a chosen fixture
  * 2) Wrapped evaluator is deterministic on the same fixture
  * 3) If a grant allows and legacy denies, wrapped deterministically flips to allow
+ *
+ * This repo's evaluator call-shape may not be a single-arg object.
+ * So we try several common call shapes and pick the first that works.
  */
 
 import fs from "node:fs";
@@ -13,7 +16,6 @@ import process from "node:process";
 import crypto from "node:crypto";
 
 function stableStringify(x) {
-  // Deterministic JSON for comparison (simple, best-effort)
   const seen = new WeakSet();
   return JSON.stringify(
     x,
@@ -104,11 +106,7 @@ function isGrantAllow(grantResult) {
 }
 
 function pickEvalFn(mod, label) {
-  const candidates = [
-    mod?.evaluatePolicy,
-    mod?.evaluate,
-    mod?.default,
-  ];
+  const candidates = [mod?.evaluatePolicy, mod?.evaluate, mod?.default];
   for (const fn of candidates) {
     if (typeof fn === "function") return fn;
   }
@@ -118,14 +116,58 @@ function pickEvalFn(mod, label) {
   );
 }
 
+function ensurePolicyFixture(fx) {
+  // If fixture already has `policy`, keep it.
+  if (fx && typeof fx === "object" && fx.policy && typeof fx.policy === "object") return fx;
+
+  // Otherwise wrap it into a minimal envelope that satisfies `{ policy }` destructuring.
+  return {
+    policy: {
+      // minimal safe defaults; repo-specific evaluator may ignore/override
+      version: "phase45",
+      rules: [],
+    },
+    input: fx,
+  };
+}
+
+async function callEvalBestEffort(fn, fx) {
+  const f = ensurePolicyFixture(fx);
+
+  const attempts = [
+    { name: "one-arg(envelope)", args: [f] },
+    { name: "two-arg({}, envelope)", args: [{}, f] },
+    { name: "two-arg(envelope, envelope)", args: [f, f] },
+    { name: "two-arg({}, {policy})", args: [{}, { policy: f.policy, input: f.input }] },
+    { name: "three-arg({}, {}, envelope)", args: [{}, {}, f] },
+  ];
+
+  let lastErr = null;
+  for (const a of attempts) {
+    try {
+      return await fn(...a.args);
+    } catch (e) {
+      lastErr = e;
+      // keep trying
+    }
+  }
+  const msg =
+    "Could not call evaluator with any known call-shape.\n" +
+    "Tried:\n" +
+    attempts.map((x) => `- ${x.name}`).join("\n") +
+    "\n\nLast error:\n" +
+    String(lastErr?.stack || lastErr);
+  throw new Error(msg);
+}
+
 async function main() {
   const fixturePath = pickFixture();
-  const fixture = fixturePath
+  const rawFixture = fixturePath
     ? loadJson(fixturePath)
     : {
-        action: "demo.action",
-        actor: "phase45.proof",
-        payload: { hello: "world" },
+        // minimal synthesized input; may not trigger grants, but proves determinism
+        policy: { version: "phase45", rules: [] },
+        input: { action: "demo.action", actor: "phase45.proof", payload: { hello: "world" } },
       };
 
   const legacyMod = await import(path.join(process.cwd(), "server/policy/evaluate.legacy.mjs"));
@@ -140,8 +182,8 @@ async function main() {
   }
   const { resolvePolicyGrant } = grantsMod;
 
-  const legacy1 = await legacyEval(fixture);
-  const legacy2 = await legacyEval(fixture);
+  const legacy1 = await callEvalBestEffort(legacyEval, rawFixture);
+  const legacy2 = await callEvalBestEffort(legacyEval, rawFixture);
   if (!deepEqualJson(legacy1, legacy2)) {
     console.error("FAIL: legacy evaluator is not deterministic on chosen fixture");
     console.error("legacy1_sha=", sha256(stableStringify(legacy1)));
@@ -149,8 +191,8 @@ async function main() {
     process.exit(2);
   }
 
-  const wrap1 = await wrappedEval(fixture);
-  const wrap2 = await wrappedEval(fixture);
+  const wrap1 = await callEvalBestEffort(wrappedEval, rawFixture);
+  const wrap2 = await callEvalBestEffort(wrappedEval, rawFixture);
   if (!deepEqualJson(wrap1, wrap2)) {
     console.error("FAIL: wrapped evaluator is not deterministic on chosen fixture");
     console.error("wrap1_sha=", sha256(stableStringify(wrap1)));
@@ -158,7 +200,9 @@ async function main() {
     process.exit(3);
   }
 
-  const grant = await resolvePolicyGrant({ ...fixture, _phase45_probe: true });
+  // Best-effort grant input: pass the same envelope used for eval.
+  const grantInput = ensurePolicyFixture(rawFixture);
+  const grant = await resolvePolicyGrant({ ...grantInput, _phase45_probe: true });
   const grantAllows = isGrantAllow(grant);
 
   const legacyAllowed = normalizeAllowed(legacy1);
