@@ -69,9 +69,9 @@ compose_up() {
   ensure_default_network
 
   if [[ "$mode" == "shadow" ]]; then
-    DC -f docker-compose.yml -f docker-compose.workers.yml -f docker-compose.phase54.shadow.override.yml -f docker-compose.phase47.postgres_url.override.yml up -d --build
+    DC -f docker-compose.phase54.shadow.override.yml up -d --build
   elif [[ "$mode" == "enforce" ]]; then
-    DC -f docker-compose.yml -f docker-compose.workers.yml -f docker-compose.phase54.enforce.override.yml -f docker-compose.phase47.postgres_url.override.yml up -d --build
+    DC -f docker-compose.phase54.enforce.override.yml up -d --build
   else
     echo "ERROR: unknown mode: $mode" >&2
     exit 2
@@ -192,16 +192,3 @@ main() {
 }
 
 main "$@"
-
-dump_phase54_debug() {
-  echo
-  echo "=== Phase 54 debug: docker compose ps ==="
-  DC ps || true
-  echo
-  echo "=== Phase 54 debug: dashboard logs ==="
-  DC logs --no-color --tail=200 dashboard || true
-  echo
-  echo "=== Phase 54 debug: postgres logs ==="
-  DC logs --no-color --tail=120 postgres || true
-}
-trap dump_phase54_debug EXIT
