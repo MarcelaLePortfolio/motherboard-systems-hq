@@ -1,6 +1,10 @@
 FROM node:20-alpine
 
 WORKDIR /app
+ARG GIT_SHA="unknown"
+ARG BUILD_TIME="unknown"
+ENV GIT_SHA=$GIT_SHA
+ENV BUILD_TIME=$BUILD_TIME
 
 COPY package*.json ./
 COPY package-lock.json* ./
@@ -14,8 +18,7 @@ RUN npm config set registry https://registry.npmjs.org/ \
     && apk add --no-cache curl ripgrep
 
 COPY . .
+
+EXPOSE 3000
 COPY public/ ./public/
-
-EXPOSE 8080
-
-CMD ["npm","run","dev","--","--host","0.0.0.0","--port","8080"]
+CMD ["node", "server.mjs"]
