@@ -13,6 +13,7 @@
  * Notes:
  * - Uses repo default policy via loadDefaultPolicyFromRepoRoot().
  * - action_id can be overridden with PHASE45_ACTION_ID for targeting a deny-default action.
+ * - Always emits a final single-line JSON summary as the LAST LINE (for stable harness parsing).
  */
 
 import path from "node:path";
@@ -74,6 +75,12 @@ function isGrantAllow(grantResult) {
   return false;
 }
 
+function emitSummary(s) {
+  // LAST LINE MUST BE JSON (single-line) for harness consumption.
+  // Keep this stable: only primitives / plain objects.
+  console.log(JSON.stringify(s));
+}
+
 async function main() {
   const repoRoot = process.cwd();
 
@@ -96,10 +103,10 @@ async function main() {
 
   const { policy, path: policyPath } = legacyMod.loadDefaultPolicyFromRepoRoot(repoRoot);
 
-  // Choose an action_id (overrideable) — aim for something likely to be unknown/denied by default.
-  const action_id = (process.env.PHASE45_ACTION_ID && process.env.PHASE45_ACTION_ID.trim())
-    ? process.env.PHASE45_ACTION_ID.trim()
-    : "phase45.proof.unknown_action";
+  const action_id =
+    process.env.PHASE45_ACTION_ID && process.env.PHASE45_ACTION_ID.trim()
+      ? process.env.PHASE45_ACTION_ID.trim()
+      : "phase45.proof.unknown_action";
 
   const input1 = { action_id, context: {}, meta: {} };
   const input2 = { policy };
@@ -111,6 +118,18 @@ async function main() {
     console.error("FAIL: legacy evaluator is not deterministic");
     console.error("legacy1_sha=", sha256(stableStringify(legacy1)));
     console.error("legacy2_sha=", sha256(stableStringify(legacy2)));
+    emitSummary({
+      ok: false,
+      rc: 2,
+      policy_path: policyPath,
+      action_id,
+      legacy_decision: legacy1?.decision ?? null,
+      legacy_tier: legacy1?.tier ?? null,
+      wrapped_decision: null,
+      wrapped_tier: null,
+      grant_allows: null,
+      reason: "legacy_nondeterministic",
+    });
     process.exit(2);
   }
 
@@ -121,6 +140,18 @@ async function main() {
     console.error("FAIL: wrapped evaluator is not deterministic");
     console.error("wrap1_sha=", sha256(stableStringify(wrap1)));
     console.error("wrap2_sha=", sha256(stableStringify(wrap2)));
+    emitSummary({
+      ok: false,
+      rc: 3,
+      policy_path: policyPath,
+      action_id,
+      legacy_decision: legacy1?.decision ?? null,
+      legacy_tier: legacy1?.tier ?? null,
+      wrapped_decision: wrap1?.decision ?? null,
+      wrapped_tier: wrap1?.tier ?? null,
+      grant_allows: null,
+      reason: "wrapped_nondeterministic",
+    });
     process.exit(3);
   }
 
@@ -139,15 +170,54 @@ async function main() {
 
   if (legacyAllowed === false && grantAllows && wrapAllowed === true) {
     console.log("OK: deterministic decision flip proven (deny -> allow via grant)");
+    emitSummary({
+      ok: true,
+      rc: 0,
+      policy_path: policyPath,
+      action_id,
+      legacy_decision: legacy1?.decision ?? null,
+      legacy_tier: legacy1?.tier ?? null,
+      wrapped_decision: wrap1?.decision ?? null,
+      wrapped_tier: wrap1?.tier ?? null,
+      grant_allows: grantAllows,
+      reason: "deny_to_allow_flip_proven",
+    });
     process.exit(0);
   }
 
   console.error("FAIL: could not prove deny->allow flip with current grant semantics for this action_id.");
   console.error("TIP: set PHASE45_ACTION_ID to an action your default policy denies, and ensure a grant can allow it.");
+  emitSummary({
+    ok: false,
+    rc: 4,
+    policy_path: policyPath,
+    action_id,
+    legacy_decision: legacy1?.decision ?? null,
+    legacy_tier: legacy1?.tier ?? null,
+    wrapped_decision: wrap1?.decision ?? null,
+    wrapped_tier: wrap1?.tier ?? null,
+    grant_allows: grantAllows,
+    reason: "flip_not_observed",
+  });
   process.exit(4);
 }
 
 main().catch((e) => {
   console.error("ERROR:", e?.stack || String(e));
+  try {
+    emitSummary({
+      ok: false,
+      rc: 1,
+      policy_path: null,
+      action_id: process.env.PHASE45_ACTION_ID ?? null,
+      legacy_decision: null,
+      legacy_tier: null,
+      wrapped_decision: null,
+      wrapped_tier: null,
+      grant_allows: null,
+      reason: "exception",
+      error: String(e?.message || e),
+    });
+  } catch {}
   process.exit(1);
 });
