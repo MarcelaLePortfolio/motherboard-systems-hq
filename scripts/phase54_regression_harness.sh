@@ -1,25 +1,35 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Phase 54: ensure every compose call uses the same -f set (up/logs/down/ps).
+COMPOSE_FILES=(
+  -f docker-compose.yml
+  -f docker-compose.workers.yml
+  -f docker-compose.phase47.postgres_url.override.yml
+  -f docker-compose.phase54.postgres_bootstrap.override.yml
+)
+DC() { docker compose "${COMPOSE_FILES[@]}" "$@"; }
+
+
 
 dump_on_fail() {
   local rc=$?
   if [[ $rc -ne 0 ]]; then
     echo
     echo "=== Phase 54 DEBUG (failure rc=$rc) ==="
-    docker compose ps || true
+    DC ps || true
     echo
     echo "=== dashboard logs (tail 250) ==="
-    docker compose logs --no-color --tail=250 dashboard || true
+    DC logs --no-color --tail=250 dashboard || true
     echo
     echo "=== postgres logs (tail 120) ==="
-    docker compose logs --no-color --tail=120 postgres || true
+    DC logs --no-color --tail=120 postgres || true
     echo
     echo "=== workerA logs (tail 120) ==="
-    docker compose logs --no-color --tail=120 workerA || true
+    DC logs --no-color --tail=120 workerA || true
     echo
     echo "=== workerB logs (tail 120) ==="
-    docker compose logs --no-color --tail=120 workerB || true
+    DC logs --no-color --tail=120 workerB || true
   fi
   exit $rc
 }
@@ -28,7 +38,7 @@ trap dump_on_fail EXIT
 
 cd "$(git rev-parse --show-toplevel)"
 
-docker compose -f docker-compose.yml -f docker-compose.workers.yml down --remove-orphans >/dev/null 2>&1 || true
+DC -f docker-compose.yml -f docker-compose.workers.yml down --remove-orphans >/dev/null 2>&1 || true
 docker network rm motherboard_systems_hq_default >/dev/null 2>&1 || true
 
 
@@ -54,14 +64,14 @@ ensure_default_network() {
 
 compose_up() {
   local mode="$1"
-  docker compose down --remove-orphans >/dev/null 2>&1 || true
+  DC down --remove-orphans >/dev/null 2>&1 || true
 
   ensure_default_network
 
   if [[ "$mode" == "shadow" ]]; then
-    docker compose -f docker-compose.yml -f docker-compose.workers.yml -f docker-compose.phase54.shadow.override.yml -f docker-compose.phase47.postgres_url.override.yml up -d --build
+    DC -f docker-compose.yml -f docker-compose.workers.yml -f docker-compose.phase54.shadow.override.yml -f docker-compose.phase47.postgres_url.override.yml up -d --build
   elif [[ "$mode" == "enforce" ]]; then
-    docker compose -f docker-compose.yml -f docker-compose.workers.yml -f docker-compose.phase54.enforce.override.yml -f docker-compose.phase47.postgres_url.override.yml up -d --build
+    DC -f docker-compose.yml -f docker-compose.workers.yml -f docker-compose.phase54.enforce.override.yml -f docker-compose.phase47.postgres_url.override.yml up -d --build
   else
     echo "ERROR: unknown mode: $mode" >&2
     exit 2
@@ -79,7 +89,7 @@ compose_up() {
 }
 
 compose_down() {
-  docker compose down --remove-orphans
+  DC down --remove-orphans
 }
 
 pg_container() {
@@ -94,7 +104,7 @@ pg_container() {
     return 0
   fi
   echo "ERROR: cannot locate postgres container" >&2
-  docker compose ps >&2 || true
+  DC ps >&2 || true
   exit 3
 }
 
@@ -181,17 +191,33 @@ main() {
   echo "OK: Phase 54 regression harness passed (shadow=201+writes, enforce=403+no-writes)."
 }
 
-main "$@"
-
 dump_phase54_debug() {
   echo
   echo "=== Phase 54 debug: docker compose ps ==="
-  docker compose ps || true
+  DC ps || true
   echo
   echo "=== Phase 54 debug: dashboard logs ==="
-  docker compose logs --no-color --tail=200 dashboard || true
+  DC logs --no-color --tail=250 dashboard || true
   echo
   echo "=== Phase 54 debug: postgres logs ==="
-  docker compose logs --no-color --tail=120 postgres || true
+  DC logs --no-color --tail=200 postgres || true
+  echo
+  echo "=== Phase 54 debug: workerA logs ==="
+  DC logs --no-color --tail=200 workerA || true
+  echo
+  echo "=== Phase 54 debug: workerB logs ==="
+  DC logs --no-color --tail=200 workerB || true
 }
-trap dump_phase54_debug EXIT
+
+on_exit() {
+  rc=$?
+  if [[ $rc -ne 0 ]]; then
+    echo
+    echo "=== Phase 54 DEBUG (failure rc=$rc) ==="
+    dump_phase54_debug
+  fi
+  return $rc
+}
+trap on_exit EXIT
+
+main "$@"
