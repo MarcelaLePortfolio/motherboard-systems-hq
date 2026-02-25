@@ -69,9 +69,9 @@ compose_up() {
   ensure_default_network
 
   if [[ "$mode" == "shadow" ]]; then
-    DC -f docker-compose.phase54.shadow.override.yml up -d --build
+    DC -f docker-compose.yml -f docker-compose.workers.yml -f docker-compose.phase54.shadow.override.yml -f docker-compose.phase47.postgres_url.override.yml up -d --build
   elif [[ "$mode" == "enforce" ]]; then
-    DC -f docker-compose.phase54.enforce.override.yml up -d --build
+    DC -f docker-compose.yml -f docker-compose.workers.yml -f docker-compose.phase54.enforce.override.yml -f docker-compose.phase47.postgres_url.override.yml up -d --build
   else
     echo "ERROR: unknown mode: $mode" >&2
     exit 2
@@ -190,5 +190,34 @@ main() {
   run_mode_case "enforce" "403" "no_writes"
   echo "OK: Phase 54 regression harness passed (shadow=201+writes, enforce=403+no-writes)."
 }
+
+dump_phase54_debug() {
+  echo
+  echo "=== Phase 54 debug: docker compose ps ==="
+  DC ps || true
+  echo
+  echo "=== Phase 54 debug: dashboard logs ==="
+  DC logs --no-color --tail=250 dashboard || true
+  echo
+  echo "=== Phase 54 debug: postgres logs ==="
+  DC logs --no-color --tail=200 postgres || true
+  echo
+  echo "=== Phase 54 debug: workerA logs ==="
+  DC logs --no-color --tail=200 workerA || true
+  echo
+  echo "=== Phase 54 debug: workerB logs ==="
+  DC logs --no-color --tail=200 workerB || true
+}
+
+on_exit() {
+  rc=$?
+  if [[ $rc -ne 0 ]]; then
+    echo
+    echo "=== Phase 54 DEBUG (failure rc=$rc) ==="
+    dump_phase54_debug
+  fi
+  return $rc
+}
+trap on_exit EXIT
 
 main "$@"
