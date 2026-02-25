@@ -2,18 +2,20 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-# Build metadata (optional; passed by docker compose build args if present)
-ARG GIT_SHA="unknown"
-ARG BUILD_TIME="unknown"
-ENV GIT_SHA=$GIT_SHA
-ENV BUILD_TIME=$BUILD_TIME
-
 COPY package*.json ./
 COPY package-lock.json* ./
-RUN npm ci --no-audit --no-fund && apk add --no-cache curl ripgrep
+
+RUN npm config set registry https://registry.npmjs.org/ \
+    && npm config set fetch-retries 5 \
+    && npm config set fetch-retry-factor 2 \
+    && npm config set fetch-retry-mintimeout 10000 \
+    && npm config set fetch-retry-maxtimeout 60000 \
+    && (npm ci --no-audit --no-fund || npm ci --no-audit --no-fund) \
+    && apk add --no-cache curl ripgrep
 
 COPY . .
-
-EXPOSE 3000
 COPY public/ ./public/
-CMD ["node", "server.mjs"]
+
+EXPOSE 8080
+
+CMD ["npm","run","dev","--","--host","0.0.0.0","--port","8080"]
