@@ -1,4 +1,5 @@
 import express from "express";
+import { waitForPostgresReady } from "./server/db_wait_ready.mjs";
 import { registerOptionalSSE } from "./server/optional-sse.mjs";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -309,6 +310,7 @@ try {
 } catch (e) {
   console.log("[db] effective pool config <unavailable>", e?.message || String(e));
 }
+await waitForPostgresReady(pool, { timeoutMs: 60_000 });
 await ensureTasksTaskIdColumn(pool);
 console.log("Database pool initialized");
   globalThis.__DB_POOL = pool;
