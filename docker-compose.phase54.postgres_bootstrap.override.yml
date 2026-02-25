@@ -1,0 +1,4 @@
+services:
+  postgres:
+    volumes:
+      - ./server/sql/phase54_bootstrap.sql:/docker-entrypoint-initdb.d/00_phase54_bootstrap.sql:ro
