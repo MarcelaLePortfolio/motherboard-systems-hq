@@ -1,7 +1,36 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+
+dump_on_fail() {
+  local rc=$?
+  if [[ $rc -ne 0 ]]; then
+    echo
+    echo "=== Phase 54 DEBUG (failure rc=$rc) ==="
+    docker compose ps || true
+    echo
+    echo "=== dashboard logs (tail 250) ==="
+    docker compose logs --no-color --tail=250 dashboard || true
+    echo
+    echo "=== postgres logs (tail 120) ==="
+    docker compose logs --no-color --tail=120 postgres || true
+    echo
+    echo "=== workerA logs (tail 120) ==="
+    docker compose logs --no-color --tail=120 workerA || true
+    echo
+    echo "=== workerB logs (tail 120) ==="
+    docker compose logs --no-color --tail=120 workerB || true
+  fi
+  exit $rc
+}
+trap dump_on_fail EXIT
+
+
 cd "$(git rev-parse --show-toplevel)"
+
+docker compose -f docker-compose.yml -f docker-compose.workers.yml down --remove-orphans >/dev/null 2>&1 || true
+docker network rm motherboard_systems_hq_default >/dev/null 2>&1 || true
+
 
 BASE_URL="${BASE_URL:-http://127.0.0.1:8080}"
 PROBE_PATH="${PROBE_PATH:-/api/policy/probe}"
@@ -19,7 +48,7 @@ ensure_default_network() {
   fi
 
   if ! docker network inspect "$net" >/dev/null 2>&1; then
-    docker network create --label com.docker.compose.network=default "$net" >/dev/null
+    docker network create --label com.docker.compose.network=default --label com.docker.compose.project=motherboard_systems_hq "$net" >/dev/null
   fi
 }
 
@@ -30,9 +59,9 @@ compose_up() {
   ensure_default_network
 
   if [[ "$mode" == "shadow" ]]; then
-    docker compose -f docker-compose.yml -f docker-compose.workers.yml -f docker-compose.phase54.shadow.override.yml up -d --build
+    docker compose -f docker-compose.yml -f docker-compose.workers.yml -f docker-compose.phase54.shadow.override.yml -f docker-compose.phase47.postgres_url.override.yml up -d --build
   elif [[ "$mode" == "enforce" ]]; then
-    docker compose -f docker-compose.yml -f docker-compose.workers.yml -f docker-compose.phase54.enforce.override.yml up -d --build
+    docker compose -f docker-compose.yml -f docker-compose.workers.yml -f docker-compose.phase54.enforce.override.yml -f docker-compose.phase47.postgres_url.override.yml up -d --build
   else
     echo "ERROR: unknown mode: $mode" >&2
     exit 2
@@ -153,3 +182,16 @@ main() {
 }
 
 main "$@"
+
+dump_phase54_debug() {
+  echo
+  echo "=== Phase 54 debug: docker compose ps ==="
+  docker compose ps || true
+  echo
+  echo "=== Phase 54 debug: dashboard logs ==="
+  docker compose logs --no-color --tail=200 dashboard || true
+  echo
+  echo "=== Phase 54 debug: postgres logs ==="
+  docker compose logs --no-color --tail=120 postgres || true
+}
+trap dump_phase54_debug EXIT
