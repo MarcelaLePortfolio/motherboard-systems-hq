@@ -9,12 +9,14 @@ ENV BUILD_TIME=$BUILD_TIME
 COPY package*.json ./
 COPY package-lock.json* ./
 
-RUN npm config set registry https://registry.npmjs.org/ \
-    && npm config set fetch-retries 5 \
+RUN npm config set fetch-retries 5 \
     && npm config set fetch-retry-factor 2 \
     && npm config set fetch-retry-mintimeout 10000 \
     && npm config set fetch-retry-maxtimeout 60000 \
-    && (npm ci --no-audit --no-fund || npm ci --no-audit --no-fund) \
+    && (npm config set registry https://registry.npmmirror.com/ \
+        && npm ci --no-audit --no-fund \
+      || npm config set registry https://registry.npmjs.org/ \
+        && npm ci --no-audit --no-fund) \
     && apk add --no-cache curl ripgrep
 
 COPY . .
