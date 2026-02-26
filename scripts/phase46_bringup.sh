@@ -4,6 +4,9 @@ set -euo pipefail
 cd "$(git rev-parse --show-toplevel)"
 mkdir -p _diag/phase46
 
+# If compose declares the default network as external, ensure it exists.
+docker network inspect motherboard_systems_hq_default >/dev/null 2>&1 || docker network create motherboard_systems_hq_default
+
 docker compose down --remove-orphans >/dev/null 2>&1 || true
 
 docker compose -f docker-compose.yml -f docker-compose.workers.yml up -d --build
@@ -18,4 +21,4 @@ if [ "$code" = "000" ]; then
   exit 1
 fi
 
-docker ps --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}' | sed -n '1,40p' > _diag/phase46/ps_table.txt
+docker ps --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}' | sed -n '1,60p' > _diag/phase46/ps_table.txt
