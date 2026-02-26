@@ -4,13 +4,12 @@ set -euo pipefail
 cd "$(git rev-parse --show-toplevel)"
 mkdir -p _diag/phase46
 
-# Phase 46 invariant: compose declares the default network external; ensure it exists.
 bash scripts/_lib/ensure_phase46_network.sh
 
 docker compose -f docker-compose.yml -f docker-compose.workers.yml down --remove-orphans >/dev/null 2>&1 || true
 docker compose -f docker-compose.yml -f docker-compose.workers.yml up -d --build
 
-bash scripts/_lib/wait_tcp.sh 127.0.0.1 8080 90
+bash scripts/_lib/wait_tcp.sh 127.0.0.1 8080 120
 
 code="$(curl -sS -o /dev/null -w "%{http_code}" "http://127.0.0.1:8080/" || echo "000")"
 if [ "$code" = "000" ]; then
