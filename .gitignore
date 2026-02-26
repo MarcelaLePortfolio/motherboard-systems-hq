@@ -70,3 +70,6 @@ drizzle/*.busted.*
 _archive/
 
 policy/grants.json
+
+# Phase diagnostics (local only)
+_diag/
