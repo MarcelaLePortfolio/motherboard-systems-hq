@@ -1,4 +1,5 @@
 import express from "express";
+import { registerApiHealth } from "./server/routes/api-health.mjs";
 import { waitForPostgresReady } from "./server/db_wait_ready.mjs";
 import { registerOptionalSSE } from "./server/optional-sse.mjs";
 import path from "path";
@@ -31,6 +32,7 @@ const app = express();
 
 
 
+registerApiHealth(app);
 // Phase49: enforce gate on real mutation routes (task path)
 function phase49PolicyEnforceEnabled() {
   const v = String(process.env.POLICY_ENFORCE_MODE ?? process.env.POLICY_MODE ?? "").trim().toLowerCase();
