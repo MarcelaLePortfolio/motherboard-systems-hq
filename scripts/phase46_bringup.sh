@@ -4,7 +4,7 @@ set -euo pipefail
 cd "$(git rev-parse --show-toplevel)"
 mkdir -p _diag/phase46
 
-# Ensure the composed network expectation is satisfied (external vs compose-managed).
+# Phase 46 invariant: compose declares the default network external; ensure it exists.
 bash scripts/_lib/ensure_phase46_network.sh
 
 docker compose -f docker-compose.yml -f docker-compose.workers.yml down --remove-orphans >/dev/null 2>&1 || true
@@ -19,4 +19,4 @@ if [ "$code" = "000" ]; then
   exit 1
 fi
 
-docker ps --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}' | sed -n '1,80p' > _diag/phase46/ps_table.txt
+docker ps --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}' | sed -n '1,120p' > _diag/phase46/ps_table.txt
