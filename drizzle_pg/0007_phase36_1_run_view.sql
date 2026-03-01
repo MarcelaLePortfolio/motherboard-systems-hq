@@ -72,9 +72,15 @@ SELECT
   le.last_event_ts,
   le.last_event_kind,
 
-  -- terminal state
-  t.status AS task_status,
-  (t.status IN ('completed','failed','canceled','cancelled')) AS is_terminal,
+  -- terminal precedence: once a terminal_event exists, it wins over any later task.running noise
+  CASE
+    WHEN te.terminal_event_kind IS NOT NULL THEN te.terminal_event_kind
+    ELSE t.status
+  END AS task_status,
+  CASE
+    WHEN te.terminal_event_kind IS NOT NULL THEN TRUE
+    ELSE (t.status IN ('completed','failed','canceled','cancelled'))
+  END AS is_terminal,
   te.terminal_event_kind,
   te.terminal_event_ts,
   te.terminal_event_id
