@@ -42,8 +42,14 @@ BEGIN
     RAISE EXCEPTION 'Phase55 invariant: cannot find tasks table (tried tasks/task)';
   END IF;
 
-  events_tbl := split_part(events_reg::text, '.', 2);
-  tasks_tbl  := split_part(tasks_reg::text,  '.', 2);
+  events_tbl := CASE
+    WHEN position('.' IN events_reg::text) > 0 THEN split_part(events_reg::text, '.', 2)
+    ELSE events_reg::text
+  END;
+  tasks_tbl := CASE
+    WHEN position('.' IN tasks_reg::text) > 0 THEN split_part(tasks_reg::text, '.', 2)
+    ELSE tasks_reg::text
+  END;
 
   -- Pick allowlisted columns (first match by ordinal_position).
   SELECT c.column_name INTO ev_task_col
@@ -58,7 +64,7 @@ BEGIN
   FROM information_schema.columns c
   WHERE c.table_schema='public'
     AND c.table_name=events_tbl
-    AND c.column_name IN ('event_ts','event_ts_ms','event_ts_epoch','ts','ts_ms','created_at','created_at_ms')
+    AND c.column_name IN ('ts','event_ts_ms','event_ts_epoch','ts','ts_ms','created_at','created_at')
   ORDER BY c.ordinal_position
   LIMIT 1;
 
@@ -66,7 +72,7 @@ BEGIN
   FROM information_schema.columns c
   WHERE c.table_schema='public'
     AND c.table_name=events_tbl
-    AND c.column_name IN ('event_kind','kind','eventType','event_type')
+    AND c.column_name IN ('kind','kind','eventType','event_type')
   ORDER BY c.ordinal_position
   LIMIT 1;
 
@@ -104,7 +110,7 @@ BEGIN
 
   -- Fail-closed if we can't find compatible shapes.
   IF ev_task_col IS NULL OR ev_ts_col IS NULL OR ev_kind_col IS NULL OR ev_term_col IS NULL THEN
-    RAISE EXCEPTION 'Phase55 invariant: events table % missing required cols; need task+ts+kind+terminal flag (allowlist task_id/taskId, event_ts/ts/created_at, event_kind/kind, is_terminal/terminal)',
+    RAISE EXCEPTION 'Phase55 invariant: events table % missing required cols; need task+ts+kind+terminal flag (allowlist task_id/taskId, ts/ts/created_at, kind/kind, is_terminal/terminal)',
       events_reg;
   END IF;
 
