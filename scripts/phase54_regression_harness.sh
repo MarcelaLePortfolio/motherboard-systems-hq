@@ -157,6 +157,9 @@ run_mode_case() {
 
   if [[ "${code}" != "${expect_code}" ]]; then
     echo "ERROR: expected probe HTTP ${expect_code}, got ${code} (${mode})" >&2
+    echo "=== Phase 55: run lifecycle immutability (terminal_event precedence) ==="
+    bash scripts/phase55_terminal_event_precedence.sh
+
     compose_down
     exit 10
   fi
