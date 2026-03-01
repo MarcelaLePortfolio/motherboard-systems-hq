@@ -61,14 +61,25 @@ BEGIN
   ORDER BY c.ordinal_position
   LIMIT 1;
 
-  SELECT c.column_name INTO ev_ts_col
-  FROM information_schema.columns c
-  WHERE c.table_schema='public'
-    AND c.table_name=events_tbl
-    AND c.column_name IN ('ts','event_ts_ms','event_ts_epoch','ts','ts_ms','created_at','created_at')
-  ORDER BY c.ordinal_position
-  LIMIT 1;
-
+  
+SELECT c.column_name INTO ev_ts_col
+FROM information_schema.columns c
+WHERE c.table_schema='public'
+  AND c.table_name=events_tbl
+  AND c.column_name IN ('ts','ts_ms','event_ts_ms','event_ts_epoch','created_at_ms','created_at')
+ORDER BY
+  CASE c.column_name
+    WHEN 'ts' THEN 1
+    WHEN 'ts_ms' THEN 2
+    WHEN 'event_ts_ms' THEN 3
+    WHEN 'event_ts_epoch' THEN 4
+    WHEN 'created_at_ms' THEN 5
+    WHEN 'created_at' THEN 6
+    ELSE 999
+  END,
+  c.ordinal_position
+LIMIT 1;
+ 
     -- Normalize event timestamp to bigint ms when needed.
     IF ev_ts_col = 'created_at' THEN
       ev_ts_expr := 'floor(extract(epoch from e.created_at) * 1000)::bigint';
