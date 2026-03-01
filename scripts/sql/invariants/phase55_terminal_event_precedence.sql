@@ -132,8 +132,8 @@ BEGIN
     WITH first_terminal AS (
       SELECT
         e.%1$I AS task_id,
-        (ARRAY_AGG(%2\ ORDER BY %2\ ASC, e.%3\ ASC))[1] AS first_terminal_ts,
-        (ARRAY_AGG(e.%3\ ORDER BY %2\ ASC, e.%3\ ASC))[1] AS first_terminal_kind
+        (ARRAY_AGG(%2$s ORDER BY %2$s ASC, e.%3$I ASC))[1] AS first_terminal_ts,
+        (ARRAY_AGG(e.%3$I ORDER BY %2$s ASC, e.%3$I ASC))[1] AS first_terminal_kind
       FROM %4$s e
       WHERE e.%5$I = TRUE
       GROUP BY e.%1$I
