@@ -156,8 +156,8 @@ run_mode_case() {
   echo "probe_http_code=${code}"
 
   if [[ "${code}" != "${expect_code}" ]]; then
-    echo "ERROR: expected probe HTTP ${expect_code}, got ${code} (${mode})" >&2
-    compose_down
+    echo "ERROR: expected probe HTTP , got  ()" >&2
+      compose_down
     exit 10
   fi
 
@@ -182,9 +182,15 @@ run_mode_case() {
     exit 12
   fi
 
+  echo "=== Phase 55: run lifecycle immutability (terminal_event precedence) ==="
+
+# Apply Phase 55 migration (idempotent) before invariants
+docker compose exec -T postgres psql -U postgres -d postgres -v ON_ERROR_STOP=1 < scripts/sql/migrations/phase55_run_lifecycle_immutability.sql
+
+  bash scripts/phase55_terminal_event_precedence.sh
+
   compose_down
 }
-
 main() {
   run_mode_case "shadow" "201" "writes"
   run_mode_case "enforce" "403" "no_writes"
