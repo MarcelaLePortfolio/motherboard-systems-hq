@@ -188,6 +188,10 @@ run_mode_case() {
 main() {
   run_mode_case "shadow" "201" "writes"
   run_mode_case "enforce" "403" "no_writes"
+
+echo "=== Phase 55: run lifecycle immutability (terminal_event precedence) ==="
+bash scripts/phase55_terminal_event_precedence.sh
+
   echo "OK: Phase 54 regression harness passed (shadow=201+writes, enforce=403+no-writes)."
 }
 
