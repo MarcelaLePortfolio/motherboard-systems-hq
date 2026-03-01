@@ -183,6 +183,10 @@ run_mode_case() {
   fi
 
   echo "=== Phase 55: run lifecycle immutability (terminal_event precedence) ==="
+
+# Apply Phase 55 migration (idempotent) before invariants
+docker compose exec -T postgres psql -U postgres -d postgres -v ON_ERROR_STOP=1 < scripts/sql/migrations/phase55_run_lifecycle_immutability.sql
+
   bash scripts/phase55_terminal_event_precedence.sh
 
   compose_down
