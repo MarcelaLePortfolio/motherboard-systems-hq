@@ -12,6 +12,7 @@ DECLARE
 
   ev_task_col text;
   ev_ts_col   text;
+    ev_ts_expr  text;
   ev_kind_col text;
   ev_term_col text;
 
@@ -67,6 +68,13 @@ BEGIN
     AND c.column_name IN ('ts','event_ts_ms','event_ts_epoch','ts','ts_ms','created_at','created_at')
   ORDER BY c.ordinal_position
   LIMIT 1;
+
+    -- Normalize event timestamp to bigint ms when needed.
+    IF ev_ts_col = 'created_at' THEN
+      ev_ts_expr := 'floor(extract(epoch from e.created_at) * 1000)::bigint';
+    ELSE
+      ev_ts_expr := 'e.' || quote_ident(ev_ts_col);
+    END IF;
 
   SELECT c.column_name INTO ev_kind_col
   FROM information_schema.columns c
@@ -124,8 +132,8 @@ BEGIN
     WITH first_terminal AS (
       SELECT
         e.%1$I AS task_id,
-        (ARRAY_AGG(e.%2$I ORDER BY e.%2$I ASC, e.%3$I ASC))[1] AS first_terminal_ts,
-        (ARRAY_AGG(e.%3$I ORDER BY e.%2$I ASC, e.%3$I ASC))[1] AS first_terminal_kind
+        (ARRAY_AGG(%2\ ORDER BY %2\ ASC, e.%3\ ASC))[1] AS first_terminal_ts,
+        (ARRAY_AGG(e.%3\ ORDER BY %2\ ASC, e.%3\ ASC))[1] AS first_terminal_kind
       FROM %4$s e
       WHERE e.%5$I = TRUE
       GROUP BY e.%1$I
@@ -146,7 +154,7 @@ BEGIN
     )
     SELECT COUNT(*) FROM mismatches
   $q$,
-    ev_task_col, ev_ts_col, ev_kind_col, events_reg, ev_term_col,
+    ev_task_col, ev_ts_expr, ev_kind_col, events_reg, ev_term_col,
     t_task_col, t_ts_col, t_kind_col, tasks_reg
   )
   INTO violations;
