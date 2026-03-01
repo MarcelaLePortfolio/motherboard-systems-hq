@@ -1,10 +1,6 @@
 -- Phase 55: Run lifecycle immutability — terminal_event precedence (SQL-first).
--- Goal:
---   For each task, tasks.terminal_event_* must match the earliest terminal task_event (by ts asc, kind asc).
--- Constraints:
---   No UI inference. Fail-closed if we cannot resolve required tables/columns.
--- Notes:
---   This script adapts to minor schema naming differences by selecting from an allowlisted set of column names.
+-- For each task, tasks.terminal_event_* must match the earliest terminal task_event (ts asc, kind asc).
+-- Fail-closed if compatible tables/columns cannot be resolved.
 
 DO $$
 DECLARE
@@ -24,28 +20,6 @@ DECLARE
   t_kind_col  text;
 
   violations bigint := 0;
-
-  -- helper: pick first existing column from allowlist
-  FUNCTION pick_col(_tbl text, _candidates text[]) RETURNS text
-  LANGUAGE plpgsql AS $f$
-  DECLARE
-    c text;
-  BEGIN
-    FOREACH c IN ARRAY _candidates LOOP
-      IF EXISTS (
-        SELECT 1
-        FROM information_schema.columns
-        WHERE table_schema='public'
-          AND table_name=_tbl
-          AND column_name=c
-      ) THEN
-        RETURN c;
-      END IF;
-    END LOOP;
-    RETURN NULL;
-  END
-  $f$;
-
 BEGIN
   -- Resolve canonical tables without guessing UI/JS shapes.
   events_reg := COALESCE(
@@ -68,29 +42,78 @@ BEGIN
     RAISE EXCEPTION 'Phase55 invariant: cannot find tasks table (tried tasks/task)';
   END IF;
 
-  -- Extract plain table names (assume public schema).
   events_tbl := split_part(events_reg::text, '.', 2);
   tasks_tbl  := split_part(tasks_reg::text,  '.', 2);
 
-  -- Allowlisted schema adaptations (SQL-first, fail-closed).
-  ev_task_col := pick_col(events_tbl, ARRAY['task_id','taskId']);
-  ev_ts_col   := pick_col(events_tbl, ARRAY['event_ts','event_ts_ms','event_ts_epoch','ts','ts_ms','created_at','created_at_ms']);
-  ev_kind_col := pick_col(events_tbl, ARRAY['event_kind','kind','eventType','event_type']);
-  ev_term_col := pick_col(events_tbl, ARRAY['is_terminal','isTerminal','terminal','is_terminal_event','isTerminalEvent']);
+  -- Pick allowlisted columns (first match by ordinal_position).
+  SELECT c.column_name INTO ev_task_col
+  FROM information_schema.columns c
+  WHERE c.table_schema='public'
+    AND c.table_name=events_tbl
+    AND c.column_name IN ('task_id','taskId')
+  ORDER BY c.ordinal_position
+  LIMIT 1;
 
-  t_task_col  := pick_col(tasks_tbl,  ARRAY['task_id','taskId']);
-  t_ts_col    := pick_col(tasks_tbl,  ARRAY['terminal_event_ts','terminal_event_at','terminal_event_time','terminalEventTs','terminalEventAt']);
-  t_kind_col  := pick_col(tasks_tbl,  ARRAY['terminal_event_kind','terminal_event_type','terminal_event','terminalEventKind','terminalEventType']);
+  SELECT c.column_name INTO ev_ts_col
+  FROM information_schema.columns c
+  WHERE c.table_schema='public'
+    AND c.table_name=events_tbl
+    AND c.column_name IN ('event_ts','event_ts_ms','event_ts_epoch','ts','ts_ms','created_at','created_at_ms')
+  ORDER BY c.ordinal_position
+  LIMIT 1;
 
+  SELECT c.column_name INTO ev_kind_col
+  FROM information_schema.columns c
+  WHERE c.table_schema='public'
+    AND c.table_name=events_tbl
+    AND c.column_name IN ('event_kind','kind','eventType','event_type')
+  ORDER BY c.ordinal_position
+  LIMIT 1;
+
+  SELECT c.column_name INTO ev_term_col
+  FROM information_schema.columns c
+  WHERE c.table_schema='public'
+    AND c.table_name=events_tbl
+    AND c.column_name IN ('is_terminal','isTerminal','terminal','is_terminal_event','isTerminalEvent')
+  ORDER BY c.ordinal_position
+  LIMIT 1;
+
+  SELECT c.column_name INTO t_task_col
+  FROM information_schema.columns c
+  WHERE c.table_schema='public'
+    AND c.table_name=tasks_tbl
+    AND c.column_name IN ('task_id','taskId')
+  ORDER BY c.ordinal_position
+  LIMIT 1;
+
+  SELECT c.column_name INTO t_ts_col
+  FROM information_schema.columns c
+  WHERE c.table_schema='public'
+    AND c.table_name=tasks_tbl
+    AND c.column_name IN ('terminal_event_ts','terminal_event_at','terminal_event_time','terminalEventTs','terminalEventAt')
+  ORDER BY c.ordinal_position
+  LIMIT 1;
+
+  SELECT c.column_name INTO t_kind_col
+  FROM information_schema.columns c
+  WHERE c.table_schema='public'
+    AND c.table_name=tasks_tbl
+    AND c.column_name IN ('terminal_event_kind','terminal_event_type','terminal_event','terminalEventKind','terminalEventType')
+  ORDER BY c.ordinal_position
+  LIMIT 1;
+
+  -- Fail-closed if we can't find compatible shapes.
   IF ev_task_col IS NULL OR ev_ts_col IS NULL OR ev_kind_col IS NULL OR ev_term_col IS NULL THEN
-    RAISE EXCEPTION 'Phase55 invariant: events table % missing required cols; need task+ts+kind+terminal flag (allowlist task_id/taskId, event_ts/ts/created_at, event_kind/kind, is_terminal/terminal)', events_reg;
+    RAISE EXCEPTION 'Phase55 invariant: events table % missing required cols; need task+ts+kind+terminal flag (allowlist task_id/taskId, event_ts/ts/created_at, event_kind/kind, is_terminal/terminal)',
+      events_reg;
   END IF;
 
   IF t_task_col IS NULL OR t_ts_col IS NULL OR t_kind_col IS NULL THEN
-    RAISE EXCEPTION 'Phase55 invariant: tasks table % missing required cols; need task_id + terminal_event_ts + terminal_event_kind (allowlist includes terminal_event_at/type variants)', tasks_reg;
+    RAISE EXCEPTION 'Phase55 invariant: tasks table % missing required cols; need task_id + terminal_event_ts + terminal_event_kind (allowlist includes terminal_event_at/type variants)',
+      tasks_reg;
   END IF;
 
-  -- Compute the first terminal event per task and require tasks.* to match exactly.
+  -- Compute first terminal event per task and require tasks.* to match it exactly.
   EXECUTE format($q$
     WITH first_terminal AS (
       SELECT
@@ -138,7 +161,6 @@ BEGIN
     RAISE EXCEPTION 'Phase55 invariant failed: % task(s) have half-null terminal_event fields', violations;
   END IF;
 
-  RAISE NOTICE 'Phase55 invariant OK: terminal precedence + pairing validated (% %, % %).',
-    events_reg, tasks_reg, ev_term_col, t_ts_col;
+  RAISE NOTICE 'Phase55 invariant OK: terminal precedence + pairing validated.';
 END
 $$;
