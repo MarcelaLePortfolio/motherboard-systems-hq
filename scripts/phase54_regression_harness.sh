@@ -156,11 +156,8 @@ run_mode_case() {
   echo "probe_http_code=${code}"
 
   if [[ "${code}" != "${expect_code}" ]]; then
-    echo "ERROR: expected probe HTTP ${expect_code}, got ${code} (${mode})" >&2
-    echo "=== Phase 55: run lifecycle immutability (terminal_event precedence) ==="
-    bash scripts/phase55_terminal_event_precedence.sh
-
-    compose_down
+    echo "ERROR: expected probe HTTP , got  ()" >&2
+      compose_down
     exit 10
   fi
 
@@ -185,9 +182,11 @@ run_mode_case() {
     exit 12
   fi
 
+  echo "=== Phase 55: run lifecycle immutability (terminal_event precedence) ==="
+  bash scripts/phase55_terminal_event_precedence.sh
+
   compose_down
 }
-
 main() {
   run_mode_case "shadow" "201" "writes"
   run_mode_case "enforce" "403" "no_writes"
