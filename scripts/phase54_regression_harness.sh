@@ -176,6 +176,11 @@ run_mode_case() {
 
   echo "=== Phase 55: run lifecycle immutability (terminal_event precedence) ==="
 
+  # Host-side invariants need a DB URL in CI.
+  # Compose maps postgres -> localhost:5432, and CI runs with trust auth.
+  export POSTGRES_URL="${POSTGRES_URL:-${DATABASE_URL:-postgres://postgres@127.0.0.1:5432/postgres?sslmode=disable}}"
+  export DATABASE_URL="${DATABASE_URL:-${POSTGRES_URL}}"
+
 # Apply Phase 55 migration (idempotent) before invariants
 DC exec -T postgres psql -U postgres -d postgres -v ON_ERROR_STOP=1 < scripts/sql/migrations/phase55_run_lifecycle_immutability.sql
 
