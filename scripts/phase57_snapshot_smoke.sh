@@ -31,7 +31,8 @@ bring_up_stack_if_needed() {
 
 wait_http_200() {
   local url="$1"
-  for i in {1..60}; do
+  local code=""
+  for _ in {1..60}; do
     code="$(curl -sS -o /dev/null -w "%{http_code}" "$url" || true)"
     if [[ "$code" == "200" ]]; then
       return 0
@@ -87,6 +88,10 @@ if [[ "$PROBE_CODE" != 2* ]]; then
 fi
 
 sleep 1
+
+echo "Refreshing snapshot projection for run_id..."
+INSERTED="$("${PSQL_AT[@]}" -c "SELECT run_snapshots_refresh('${RUN_ID}');" | tr -d '[:space:]' || true)"
+echo "run_snapshots_refresh_inserted=${INSERTED:-0}"
 
 echo "Checking run_snapshots..."
 COUNT="$("${PSQL_AT[@]}" -c "SELECT count(*) FROM run_snapshots WHERE run_id='${RUN_ID}';" | tr -d '[:space:]')"
