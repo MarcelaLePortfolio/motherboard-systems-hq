@@ -1,7 +1,11 @@
 -- Phase 57 — Run Snapshot (immutable projection)
 -- Purpose:
 --   Materialize a deterministic, append-only snapshot per (run_id, task_id, last_event_id)
---   derived strictly from task_events (via run_view) + tasks for status.
+--   derived from canonical run_view (which is sourced from task_events + tasks).
+--
+-- Notes:
+--   - run_view exposes task_status (not "status") and already performs the tasks join.
+--   - keep projection deterministic + append-only (ON CONFLICT DO NOTHING).
 
 -- 1. Snapshot table (append-only)
 CREATE TABLE IF NOT EXISTS run_snapshots (
@@ -18,9 +22,7 @@ CREATE TABLE IF NOT EXISTS run_snapshots (
   UNIQUE (run_id, task_id, last_event_id)
 );
 
--- 2. Deterministic insert from canonical run_view + tasks
---    - run_view provides last_event_* (ts precedence already handled upstream)
---    - tasks provides authoritative status
+-- 2. Deterministic insert from canonical run_view
 INSERT INTO run_snapshots (
   run_id,
   task_id,
@@ -37,10 +39,8 @@ SELECT
   rv.last_event_id,
   rv.last_event_ts,
   rv.last_event_kind,
-  t.status,
-  COALESCE(rv.actor, t.actor),
+  COALESCE(rv.task_status, 'unknown'),
+  rv.actor,
   rv.last_event_ts
 FROM run_view rv
-JOIN tasks t
-  ON t.task_id = rv.task_id
 ON CONFLICT DO NOTHING;
