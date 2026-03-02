@@ -12,7 +12,7 @@ COMPOSE_FILES=(
 )
 
 PSQL=(docker compose "${COMPOSE_FILES[@]}" exec -T postgres psql -U postgres -d postgres -v ON_ERROR_STOP=1 -At)
-PSQL_FILE=(docker compose "${COMPOSE_FILES[@]}" exec -T postgres psql -U postgres -d postgres -v ON_ERROR_STOP=1 -f)
+PSQL_RAW=(docker compose "${COMPOSE_FILES[@]}" exec -T postgres psql -U postgres -d postgres -v ON_ERROR_STOP=1)
 
 STACK_WAS_UP=0
 
@@ -26,7 +26,6 @@ bring_up_stack_if_needed() {
     STACK_WAS_UP=1
     return 0
   fi
-
   docker compose "${COMPOSE_FILES[@]}" up -d --build
 }
 
@@ -66,7 +65,11 @@ if ! wait_http_200 "$BASE_URL/api/runs"; then
 fi
 
 echo "Applying Phase 57 SQL (idempotent)..."
-"${PSQL_FILE[@]}" drizzle_pg/0008_phase57_run_snapshot.sql >/dev/null
+if [[ ! -f drizzle_pg/0008_phase57_run_snapshot.sql ]]; then
+  echo "❌ missing host file: drizzle_pg/0008_phase57_run_snapshot.sql"
+  exit 1
+fi
+"${PSQL_RAW[@]}" < drizzle_pg/0008_phase57_run_snapshot.sql >/dev/null
 
 echo "Creating synthetic run via probe..."
 curl -sS -X POST "$BASE_URL/api/policy/probe" \
