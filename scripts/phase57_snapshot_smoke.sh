@@ -11,6 +11,25 @@ COMPOSE_FILES=(
   -f docker-compose.phase54.postgres_bootstrap.override.yml
 )
 
+ensure_external_network() {
+  # Some compose overlays declare the default network as external.
+  # If the network does not exist, docker compose will fail hard.
+  # If it exists but is missing compose labels, compose may still refuse it.
+  local net="${COMPOSE_PROJECT_NAME}_default"
+
+  if docker network inspect "$net" >/dev/null 2>&1; then
+    local lbl=""
+    lbl="$(docker network inspect "$net" --format '{{ index .Labels "com.docker.compose.network" }}' 2>/dev/null || true)"
+    if [[ "${lbl:-}" != "default" ]]; then
+      docker network rm "$net" >/dev/null 2>&1 || true
+    fi
+  fi
+
+  if ! docker network inspect "$net" >/dev/null 2>&1; then
+    docker network create --label com.docker.compose.network=default "$net" >/dev/null
+  fi
+}
+
 PSQL_AT=(docker compose "${COMPOSE_FILES[@]}" exec -T postgres psql -U postgres -d postgres -v ON_ERROR_STOP=1 -At)
 PSQL_RAW=(docker compose "${COMPOSE_FILES[@]}" exec -T postgres psql -U postgres -d postgres -v ON_ERROR_STOP=1)
 
@@ -18,7 +37,7 @@ STACK_WAS_UP=0
 
 is_service_running() {
   local svc="$1"
-  docker compose "${COMPOSE_FILES[@]}" ps "$svc" --format json | rg -q '"State":"running"'
+  docker compose "${COMPOSE_FILES[@]}" ps "$svc" --format json | grep -q '"State":"running"'
 }
 
 bring_up_stack_if_needed() {
@@ -55,6 +74,7 @@ trap cleanup EXIT
 
 echo "=== Phase 57 snapshot smoke ==="
 
+ensure_external_network
 bring_up_stack_if_needed
 
 if ! wait_http_200 "$BASE_URL/api/runs"; then

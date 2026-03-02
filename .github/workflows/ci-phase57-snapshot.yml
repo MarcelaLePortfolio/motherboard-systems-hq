@@ -10,10 +10,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Build + start stack
-        run: |
-          docker compose -f docker-compose.yml -f docker-compose.workers.yml up -d --build
-
       - name: Run Phase 57 snapshot smoke
         run: |
           bash scripts/phase57_snapshot_smoke.sh
