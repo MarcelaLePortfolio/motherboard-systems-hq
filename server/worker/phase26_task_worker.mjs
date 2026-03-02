@@ -108,8 +108,8 @@ async function loop() {
       const c = await pool.connect();
       try {
     if (policyShadowEnabled(process.env)) {
-      const __task = (typeof task !== "undefined" ? task : (typeof payload !== "undefined" ? payload?.task : undefined)) ?? null;
-      const __run  = (typeof run  !== "undefined" ? run  : (typeof payload !== "undefined" ? payload?.run  : undefined)) ?? null;
+      const __task = ((typeof payload !== "undefined" ? payload?.task : undefined)) ?? null;
+      const __run  = ((typeof payload !== "undefined" ? payload?.run  : undefined)) ?? null;
       const __policyAudit = await policyEvalShadow({ task: __task, run: __run }, process.env);
       await policyAuditWrite(__policyAudit);
     }
