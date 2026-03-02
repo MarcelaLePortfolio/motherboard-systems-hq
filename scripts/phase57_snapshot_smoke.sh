@@ -11,7 +11,7 @@ COMPOSE_FILES=(
   -f docker-compose.phase54.postgres_bootstrap.override.yml
 )
 
-PSQL=(docker compose "${COMPOSE_FILES[@]}" exec -T postgres psql -U postgres -d postgres -v ON_ERROR_STOP=1 -At)
+PSQL_AT=(docker compose "${COMPOSE_FILES[@]}" exec -T postgres psql -U postgres -d postgres -v ON_ERROR_STOP=1 -At)
 PSQL_RAW=(docker compose "${COMPOSE_FILES[@]}" exec -T postgres psql -U postgres -d postgres -v ON_ERROR_STOP=1)
 
 STACK_WAS_UP=0
@@ -80,13 +80,13 @@ curl -sS -X POST "$BASE_URL/api/policy/probe" \
 sleep 1
 
 echo "Checking run_snapshots..."
-COUNT="$("${PSQL[@]}" -c "SELECT count(*) FROM run_snapshots WHERE run_id='phase57-run';" | tr -d '[:space:]')"
+COUNT="$("${PSQL_AT[@]}" -c "SELECT count(*) FROM run_snapshots WHERE run_id='phase57-run';" | tr -d '[:space:]')"
 if [[ "${COUNT:-0}" -eq 0 ]]; then
   echo "❌ No snapshot row created"
   echo "=== run_view (sample) ==="
-  "${PSQL[@]}" -c "SELECT run_id, task_id, last_event_id, last_event_kind, last_event_ts, status FROM run_view WHERE run_id='phase57-run' LIMIT 5;" || true
+  "${PSQL_AT[@]}" -c "SELECT run_id, task_id, last_event_id, last_event_kind, last_event_ts, status FROM run_view WHERE run_id='phase57-run' LIMIT 5;" || true
   echo "=== task_events (sample) ==="
-  "${PSQL[@]}" -c "SELECT id, kind, task_id, run_id, ts FROM task_events WHERE run_id='phase57-run' ORDER BY id DESC LIMIT 20;" || true
+  "${PSQL_AT[@]}" -c "SELECT id, kind, task_id, run_id, ts FROM task_events WHERE run_id='phase57-run' ORDER BY id DESC LIMIT 20;" || true
   exit 1
 fi
 
