@@ -71,22 +71,33 @@ if [[ ! -f drizzle_pg/0008_phase57_run_snapshot.sql ]]; then
 fi
 "${PSQL_RAW[@]}" < drizzle_pg/0008_phase57_run_snapshot.sql >/dev/null
 
-echo "Creating synthetic run via probe..."
-curl -sS -X POST "$BASE_URL/api/policy/probe" \
+RUN_ID="phase57-run-$(date +%s%N)"
+TASK_ID="phase57-task-$(date +%s%N)"
+
+echo "Creating synthetic run via probe... run_id=$RUN_ID task_id=$TASK_ID"
+PROBE_CODE="$(curl -sS -o /dev/null -w "%{http_code}" -X POST "$BASE_URL/api/policy/probe" \
   -H "content-type: application/json" \
-  -d '{"kind":"phase57.test","task_id":"phase57-task","run_id":"phase57-run"}' \
-  >/dev/null || true
+  -d "{\"kind\":\"phase57.test\",\"task_id\":\"$TASK_ID\",\"run_id\":\"$RUN_ID\"}" || true)"
+
+echo "probe_http_code=$PROBE_CODE"
+if [[ "$PROBE_CODE" != 2* ]]; then
+  echo "❌ probe did not return 2xx"
+  docker compose "${COMPOSE_FILES[@]}" logs --tail=200 dashboard workerA workerB postgres || true
+  exit 1
+fi
 
 sleep 1
 
 echo "Checking run_snapshots..."
-COUNT="$("${PSQL_AT[@]}" -c "SELECT count(*) FROM run_snapshots WHERE run_id='phase57-run';" | tr -d '[:space:]')"
+COUNT="$("${PSQL_AT[@]}" -c "SELECT count(*) FROM run_snapshots WHERE run_id='${RUN_ID}';" | tr -d '[:space:]')"
 if [[ "${COUNT:-0}" -eq 0 ]]; then
   echo "❌ No snapshot row created"
   echo "=== run_view (sample) ==="
-  "${PSQL_AT[@]}" -c "SELECT run_id, task_id, last_event_id, last_event_kind, last_event_ts, status FROM run_view WHERE run_id='phase57-run' LIMIT 5;" || true
+  "${PSQL_AT[@]}" -c "SELECT run_id, task_id, last_event_id, last_event_kind, last_event_ts, task_status, actor FROM run_view WHERE run_id='${RUN_ID}' LIMIT 10;" || true
   echo "=== task_events (sample) ==="
-  "${PSQL_AT[@]}" -c "SELECT id, kind, task_id, run_id, ts FROM task_events WHERE run_id='phase57-run' ORDER BY id DESC LIMIT 20;" || true
+  "${PSQL_AT[@]}" -c "SELECT id, kind, task_id, run_id, ts, actor FROM task_events WHERE run_id='${RUN_ID}' ORDER BY id DESC LIMIT 50;" || true
+  echo "=== tasks (sample) ==="
+  "${PSQL_AT[@]}" -c "SELECT task_id, run_id, status, claimed_by, lease_expires_at FROM tasks WHERE task_id='${TASK_ID}' LIMIT 5;" || true
   exit 1
 fi
 
