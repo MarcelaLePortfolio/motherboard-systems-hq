@@ -34,16 +34,41 @@ psql_in_ctn() {
   docker exec -i "$PG_CTN" psql -h 127.0.0.1 -U postgres -d postgres -v ON_ERROR_STOP=1
 }
 
-echo "Bootstrapping PG schema (drizzle_pg/000*.sql in order)..."
+echo "Bootstrapping PG schema (base tables first, then drizzle_pg/000*.sql)..."
 shopt -s nullglob
-files=(drizzle_pg/000*.sql)
-if [ "${#files[@]}" -eq 0 ]; then
+all=(drizzle_pg/000*.sql)
+if [ "${#all[@]}" -eq 0 ]; then
   echo "ERROR: no drizzle_pg/000*.sql files found" >&2
   ls -la drizzle_pg >&2 || true
   exit 1
 fi
 
-for f in "${files[@]}"; do
+# 1) task_events (and extensions) first
+TASK_EVENTS_FILE="drizzle_pg/0001_create_task_events.sql"
+if [ ! -f "$TASK_EVENTS_FILE" ]; then
+  echo "ERROR: expected file missing: $TASK_EVENTS_FILE" >&2
+  ls -la drizzle_pg >&2 || true
+  exit 1
+fi
+echo "  applying(base): $TASK_EVENTS_FILE"
+psql_in_ctn < "$TASK_EVENTS_FILE"
+
+# 2) tasks table next (find the file that creates it)
+TASKS_FILE="$(rg -n --no-heading 'CREATE TABLE( IF NOT EXISTS)?\s+tasks\b' drizzle_pg/000*.sql \
+  | head -n 1 | cut -d: -f1 || true)"
+if [ -z "${TASKS_FILE:-}" ]; then
+  echo "ERROR: could not find CREATE TABLE tasks in drizzle_pg/000*.sql" >&2
+  rg -n 'CREATE TABLE' drizzle_pg/000*.sql >&2 || true
+  exit 1
+fi
+echo "  applying(base): $TASKS_FILE"
+psql_in_ctn < "$TASKS_FILE"
+
+# 3) apply everything else in lexical order, skipping the two base files
+for f in "${all[@]}"; do
+  if [ "$f" = "$TASK_EVENTS_FILE" ] || [ "$f" = "$TASKS_FILE" ]; then
+    continue
+  fi
   echo "  applying: $f"
   psql_in_ctn < "$f"
 done
