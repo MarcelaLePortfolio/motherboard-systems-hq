@@ -57,7 +57,7 @@ psql_in_ctn < "$TASK_EVENTS_FILE"
 TASKS_FILE="20 20 12 61 79 80 81 701 33 98 100 204 250 395 398 399 400grep -RIl --include="000*.sql" -E "CREATE TABLE( IF NOT EXISTS)?[[:space:]]+tasks\b" drizzle_pg | LC_ALL=C sort | head -n 1 || true)"
 if [ -z "${TASKS_FILE:-}" ]; then
   echo "ERROR: could not find CREATE TABLE tasks in drizzle_pg/000*.sql" >&2
-  grep -RIn --include="000*.sql" -E 'CREATE TABLE' drizzle_pg >&2 || true
+  grep -RIn --include='000*.sql' -E 'CREATE TABLE' drizzle_pg >&2 || true
   exit 1
 fi
 echo "  applying(base): $TASKS_FILE"
