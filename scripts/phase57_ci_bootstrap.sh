@@ -20,6 +20,7 @@ for i in $(seq 1 90); do
   fi
   sleep 1
 done
+
 echo "Waiting for stable SQL connectivity (handles initdb restart race)..."
 for i in $(seq 1 90); do
   if docker exec "$PG_CTN" psql -h 127.0.0.1 -U postgres -d postgres -v ON_ERROR_STOP=1 -c "select 1" >/dev/null 2>&1; then
@@ -29,7 +30,22 @@ for i in $(seq 1 90); do
   sleep 1
 done
 
-echo "Ensuring run_view exists (Phase 36.1) before dashboard starts..."
-docker exec -i "$PG_CTN" psql -h 127.0.0.1 -U postgres -d postgres -v ON_ERROR_STOP=1 < drizzle_pg/0007_phase36_1_run_view.sql
+psql_in_ctn() {
+  docker exec -i "$PG_CTN" psql -h 127.0.0.1 -U postgres -d postgres -v ON_ERROR_STOP=1
+}
 
-echo "OK: run_view ensured."
+echo "Bootstrapping PG schema (drizzle_pg/000*.sql in order)..."
+shopt -s nullglob
+files=(drizzle_pg/000*.sql)
+if [ "${#files[@]}" -eq 0 ]; then
+  echo "ERROR: no drizzle_pg/000*.sql files found" >&2
+  ls -la drizzle_pg >&2 || true
+  exit 1
+fi
+
+for f in "${files[@]}"; do
+  echo "  applying: $f"
+  psql_in_ctn < "$f"
+done
+
+echo "OK: PG schema bootstrapped (tables + views)."
