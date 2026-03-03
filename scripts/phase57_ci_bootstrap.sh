@@ -66,7 +66,9 @@ psql_in_ctn <<'SQL'
 CREATE TABLE IF NOT EXISTS public.tasks (
   id BIGSERIAL PRIMARY KEY,
   task_id TEXT NOT NULL UNIQUE,
+  title TEXT NULL,
   status TEXT NOT NULL DEFAULT 'queued',
+  run_id TEXT NULL,
   actor TEXT NULL,
   claimed_by TEXT NULL,
   claimed_at BIGINT NULL,
@@ -74,7 +76,10 @@ CREATE TABLE IF NOT EXISTS public.tasks (
   lease_epoch INT NOT NULL DEFAULT 0,
   notes TEXT NULL,
   failed_at TIMESTAMPTZ NULL,
-  action_tier TEXT NOT NULL DEFAULT 'A'
+  action_tier TEXT NOT NULL DEFAULT 'A',
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+
 );
 SQL
 
