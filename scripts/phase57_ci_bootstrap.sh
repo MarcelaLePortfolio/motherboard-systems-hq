@@ -13,15 +13,23 @@ if ! docker ps --format '{{.Names}}' | grep -qx "$PG_CTN"; then
 fi
 
 echo "Waiting for postgres to be ready..."
-for i in $(seq 1 60); do
+for i in $(seq 1 90); do
   if docker exec "$PG_CTN" pg_isready -U postgres >/dev/null 2>&1; then
-    echo "Postgres ready."
+    echo "pg_isready: ready."
+    break
+  fi
+  sleep 1
+done
+echo "Waiting for stable SQL connectivity (handles initdb restart race)..."
+for i in $(seq 1 90); do
+  if docker exec "$PG_CTN" psql -h 127.0.0.1 -U postgres -d postgres -v ON_ERROR_STOP=1 -c "select 1" >/dev/null 2>&1; then
+    echo "psql: ready."
     break
   fi
   sleep 1
 done
 
 echo "Ensuring run_view exists (Phase 36.1) before dashboard starts..."
-docker exec -i "$PG_CTN" psql -U postgres -d postgres -v ON_ERROR_STOP=1 < drizzle_pg/0007_phase36_1_run_view.sql
+docker exec -i "$PG_CTN" psql -h 127.0.0.1 -U postgres -d postgres -v ON_ERROR_STOP=1 < drizzle_pg/0007_phase36_1_run_view.sql
 
 echo "OK: run_view ensured."
