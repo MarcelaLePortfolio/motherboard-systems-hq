@@ -85,6 +85,9 @@ if ! wait_http_200 "$BASE_URL/api/runs"; then
 fi
 
 echo "Applying Phase 57 SQL (idempotent)..."
+
+echo "Ensuring run_view exists (Phase 36.1) ..."
+"${PSQL_RAW[@]}" < drizzle_pg/0007_phase36_1_run_view.sql >/dev/null
 if [[ ! -f drizzle_pg/0008_phase57_run_snapshot.sql ]]; then
   echo "❌ missing host file: drizzle_pg/0008_phase57_run_snapshot.sql"
   exit 1
