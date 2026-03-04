@@ -1,4 +1,10 @@
 FROM node:20-bookworm-slim
+
+# Needed for node-gyp (sqlite3 fallback build) in CI
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends python3 make g++ \
+  && rm -rf /var/lib/apt/lists/*
+
 WORKDIR /app
 RUN corepack enable
 COPY package.json ./
