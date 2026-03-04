@@ -28,7 +28,7 @@ printf "%s\n" "$OUT" | rg -q '"kind"\s*:\s*"task-events"' || { echo "ERR: expect
 
 echo
 echo "=== 3) postgres logs: ensure old failure signatures are absent ==="
-BAD_RE='invalid input syntax for type uuid: "0"|syntax error at or near "order"|where created_at >\s*$|function max\(uuid\)|max\(id\)\s+as\s+max_id|::uuid::uuid'
+BAD_RE='invalid input syntax for type uuid: "0"|syntax error at or near "order"|function max\(uuid\)|::uuid::uuid'
 if docker logs --tail 400 motherboard_systems_hq-postgres-1 2>/dev/null | rg -n "$BAD_RE" ; then
   echo "ERR: found forbidden postgres log signature(s) above" >&2
   exit 14

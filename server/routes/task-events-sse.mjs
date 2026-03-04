@@ -74,10 +74,14 @@ router.get("/api/task-events-sse", (req, res) => {
   if (cursor == null) {
       try {
         const r = await pool.query(`
-          select coalesce((extract(epoch from max(created_at)) * 1000)::bigint, 0) as max_ms
-          from task_events
+          select coalesce(max(id), 0)::bigint as max_id
+          from public.task_events
         `);
-        cursor = _intOrNull(r?.rows?.[0]?.max_ms) ?? 0;
+        {
+  const raw = r?.rows?.[0]?.max_id;
+  const maxId = _intOrNull(raw) ?? _intOrNull(String(raw ?? "")) ?? 0;
+  cursor = Math.max(maxId - 50, 0);
+}
       } catch (_) {
         cursor = 0;
       }
@@ -91,10 +95,10 @@ router.get("/api/task-events-sse", (req, res) => {
         try {
           q = await pool.query(
           `
-          select id, kind, payload, task_id, run_id, actor, created_at
-          from task_events
-          where created_at > to_timestamp($1 / 1000.0)
-          order by created_at asc
+          select id, kind, payload, task_id, run_id, actor, ts
+          from public.task_events
+          where id > $1
+            order by id asc
           limit $2
           `,
             [cursor, batchLimit]
@@ -102,10 +106,10 @@ router.get("/api/task-events-sse", (req, res) => {
         } catch (_e) {
           q = await pool.query(
           `
-          select id, kind, payload, created_at
-          from task_events
-          where created_at > to_timestamp($1 / 1000.0)
-          order by created_at asc
+          select id, kind, payload, ts
+          from public.task_events
+          where id > $1
+            order by id asc
           limit $2
           `,
             [cursor, batchLimit]
@@ -122,10 +126,11 @@ const rows = q?.rows || [];
 
       backoffMs = 150;
 
-      for (const r of rows) {
-        const _ms = (r.created_at instanceof Date) ? r.created_at.getTime() : Date.parse(r.created_at);
-          if (Number.isFinite(_ms)) cursor = Math.max(cursor, _ms);
-        const payload = _safeJsonParse(r.payload);
+      
+for (const r of rows) {
+          const payload = _safeJsonParse(r.payload);
+          const _ms = (typeof r.ts === "number" && Number.isFinite(r.ts)) ? r.ts : (typeof (payload?.ts) === "number" && Number.isFinite(payload.ts) ? payload.ts : Date.now());
+          if (Number.isFinite(r.id)) cursor = Math.max(cursor, Number(r.id));
           const taskIdCol = (r.task_id ?? null);
           const runIdCol  = (r.run_id  ?? null);
           const actorCol  = (r.actor   ?? null);
@@ -136,12 +141,12 @@ const rows = q?.rows || [];
           data: {
             id: r.id,
             type: r.kind,
-            ts: (payload?.ts ?? Date.now()),
+            ts: (_ms ?? payload?.ts ?? Date.now()),
             taskId: (taskIdCol ?? payload?.taskId ?? payload?.task_id ?? null),
             runId: (runIdCol ?? payload?.runId ?? payload?.run_id ?? null),
             actor: (actorCol ?? payload?.actor ?? payload?.owner ?? null),
             meta: payload,
-            createdAt: r.created_at ?? null,
+            createdAt: null,
           },
         });
       }

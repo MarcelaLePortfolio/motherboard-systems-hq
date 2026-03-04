@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS public.task_events (
 );
 
 CREATE INDEX IF NOT EXISTS task_events_task_id_idx ON public.task_events(task_id);
-CREATE INDEX IF NOT EXISTS task_events_created_at_idx ON public.task_events(created_at);
+-- CREATE INDEX IF NOT EXISTS task_events_created_at_idx ON public.task_events(created_at);
 
 -- Ensure ts exists and is bigint (epoch-ms).
 DO $$
