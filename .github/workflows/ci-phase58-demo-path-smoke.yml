@@ -1,0 +1,48 @@
+name: ci-phase58-demo-path-smoke
+
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+
+jobs:
+  demo-path-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node (from .nvmrc if present)
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Docker version
+        run: docker version
+
+      - name: Bring up stack (compose)
+        run: |
+          set -euo pipefail
+          docker compose up -d --build
+          docker compose ps
+
+      - name: Phase 58 demo-path smoke (HTTP assertions)
+        run: |
+          set -euo pipefail
+          HOST=127.0.0.1 PORT=8080 TIMEOUT_S=120 bash scripts/phase58_demo_path_smoke.sh
+
+      - name: Logs on failure
+        if: failure()
+        run: |
+          set -euo pipefail
+          docker compose ps || true
+          docker compose logs --no-color --timestamps --tail=400 || true
+
+      - name: Teardown
+        if: always()
+        run: |
+          set -euo pipefail
+          docker compose down -v --remove-orphans || true
