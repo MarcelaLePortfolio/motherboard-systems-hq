@@ -12,29 +12,6 @@ DC() { docker compose "${COMPOSE_FILES[@]}" "$@"; }
 
 
 
-dump_on_fail() {
-  local rc=$?
-  if [[ $rc -ne 0 ]]; then
-    echo
-    echo "=== Phase 54 DEBUG (failure rc=$rc) ==="
-    DC ps || true
-    echo
-    echo "=== dashboard logs (tail 250) ==="
-    DC logs --no-color --tail=250 dashboard || true
-    echo
-    echo "=== postgres logs (tail 120) ==="
-    DC logs --no-color --tail=120 postgres || true
-    echo
-    echo "=== workerA logs (tail 120) ==="
-    DC logs --no-color --tail=120 workerA || true
-    echo
-    echo "=== workerB logs (tail 120) ==="
-    DC logs --no-color --tail=120 workerB || true
-  fi
-  exit $rc
-}
-trap dump_on_fail EXIT
-
 
 cd "$(git rev-parse --show-toplevel)"
 
@@ -137,9 +114,24 @@ assert_num_eq() {
 }
 
 http_code_of_probe() {
-  curl -sS -o /dev/null -w "%{http_code}" -X POST "${BASE_URL}${PROBE_PATH}" || true
-}
+  local tries="${PROBE_TRIES:-30}"
+  local sleep_s="${PROBE_SLEEP_S:-1}"
+  local code="000"
 
+  for _ in $(seq 1 "${tries}"); do
+    # tolerate transient connection resets/000 during early boot in CI
+    code="$(curl -sS -o /dev/null -w "%{http_code}" -X POST "${BASE_URL}${PROBE_PATH}" || true)"
+    if [[ "${code}" != "000" && "${code}" != "" ]]; then
+      echo "${code}"
+      return 0
+    fi
+    sleep "${sleep_s}"
+  done
+
+  # last observed code (likely 000)
+  echo "${code:-000}"
+  return 0
+}
 run_mode_case() {
   local mode="$1"
   local expect_code="$2"
@@ -156,8 +148,8 @@ run_mode_case() {
   echo "probe_http_code=${code}"
 
   if [[ "${code}" != "${expect_code}" ]]; then
-    echo "ERROR: expected probe HTTP ${expect_code}, got ${code} (${mode})" >&2
-    compose_down
+    echo "ERROR: expected probe HTTP ${expect_code}, got ${code} (mode=${mode})" >&2
+      compose_down
     exit 10
   fi
 
@@ -182,9 +174,21 @@ run_mode_case() {
     exit 12
   fi
 
+  echo "=== Phase 55: run lifecycle immutability (terminal_event precedence) ==="
+
+  # Host-side invariants need a DB URL in CI.
+  # Compose maps postgres -> localhost:5432, and CI runs with trust auth.
+  export POSTGRES_URL="${POSTGRES_URL:-${DATABASE_URL:-postgres://postgres:postgres@127.0.0.1:5432/postgres?sslmode=disable}}"
+  export DATABASE_URL="${DATABASE_URL:-${POSTGRES_URL}}"
+  export PGPASSWORD="${PGPASSWORD:-postgres}"
+
+# Apply Phase 55 migration (idempotent) before invariants
+DC exec -T postgres psql -U postgres -d postgres -v ON_ERROR_STOP=1 < scripts/sql/migrations/phase55_run_lifecycle_immutability.sql
+
+  bash scripts/phase55_terminal_event_precedence.sh
+
   compose_down
 }
-
 main() {
   run_mode_case "shadow" "201" "writes"
   run_mode_case "enforce" "403" "no_writes"
