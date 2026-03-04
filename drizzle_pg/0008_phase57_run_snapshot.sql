@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS run_snapshots (
   id              BIGSERIAL PRIMARY KEY,
   run_id          TEXT NOT NULL,
   task_id         TEXT NOT NULL,
-  last_event_id   BIGINT NOT NULL,
+  last_event_id   TEXT NOT NULL,
   last_event_ts   BIGINT NOT NULL,
   last_event_kind TEXT NOT NULL,
   status          TEXT NOT NULL,
@@ -46,7 +46,7 @@ BEGIN
   SELECT
     rv.run_id,
     rv.task_id,
-    rv.last_event_id,
+    rv.last_event_id::text,
     rv.last_event_ts,
     rv.last_event_kind,
     COALESCE(rv.task_status, 'unknown'),
