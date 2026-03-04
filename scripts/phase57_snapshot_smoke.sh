@@ -98,7 +98,7 @@ fi
 RUN_ID="policy.probe.run"
 TASK_ID="policy.probe.task"
 
-BEFORE_MAX="$("${PSQL_AT[@]}" -c "SELECT COALESCE(max(last_event_id),0) FROM run_snapshots WHERE run_id='${RUN_ID}';" | tr -d '[:space:]')"
+BEFORE_MAX="$("${PSQL_AT[@]}" -c "SELECT COALESCE(max(last_event_id::bigint),0) FROM run_snapshots WHERE run_id='${RUN_ID}';" | tr -d '[:space:]')"
 echo "before_max_last_event_id=${BEFORE_MAX:-0}"
 
 echo "Creating synthetic run via probe (expect 2xx)..."
@@ -119,7 +119,7 @@ echo "Refreshing snapshot projection for run_id=${RUN_ID}..."
 INSERTED="$("${PSQL_AT[@]}" -c "SELECT run_snapshots_refresh('${RUN_ID}');" | tr -d '[:space:]' || true)"
 echo "run_snapshots_refresh_inserted=${INSERTED:-0}"
 
-AFTER_MAX="$("${PSQL_AT[@]}" -c "SELECT COALESCE(max(last_event_id),0) FROM run_snapshots WHERE run_id='${RUN_ID}';" | tr -d '[:space:]')"
+AFTER_MAX="$("${PSQL_AT[@]}" -c "SELECT COALESCE(max(last_event_id::bigint),0) FROM run_snapshots WHERE run_id='${RUN_ID}';" | tr -d '[:space:]')"
 echo "after_max_last_event_id=${AFTER_MAX:-0}"
 
 if [[ "${AFTER_MAX:-0}" -le "${BEFORE_MAX:-0}" ]]; then
