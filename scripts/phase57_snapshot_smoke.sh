@@ -103,7 +103,7 @@ echo "before_max_last_event_id=${BEFORE_MAX:-0}"
 
 echo "Waiting for dashboard to be ready (from inside container)..."
 for i in $(seq 1 120); do
-  code="$(docker compose exec -T dashboard sh -lc 'curl -sS -o /dev/null -w "%{http_code}" http://127.0.0.1:8080/api/health || true')"
+  code="$(docker compose exec -T dashboard sh -lc 'curl -sS -o /dev/null -w "%{http_code}" http://127.0.0.1:3000/api/health || true')"
   if [ "$code" = "200" ]; then
     echo "dashboard: ready."
     break
