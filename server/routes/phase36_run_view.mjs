@@ -159,7 +159,7 @@ export async function getRunsList(req, res) {
   const sql = `
     SELECT *
     FROM run_view
-    ORDER BY created_at DESC, run_id DESC
+    ORDER BY last_event_ts DESC, last_event_id DESC
     LIMIT $1
   `;
 
