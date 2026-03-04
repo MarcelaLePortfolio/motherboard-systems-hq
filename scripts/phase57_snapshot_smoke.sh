@@ -101,6 +101,16 @@ TASK_ID="policy.probe.task"
 BEFORE_MAX="$("${PSQL_AT[@]}" -c "SELECT COALESCE(max(last_event_id::bigint),0) FROM run_snapshots WHERE run_id='${RUN_ID}';" | tr -d '[:space:]')"
 echo "before_max_last_event_id=${BEFORE_MAX:-0}"
 
+echo "Waiting for dashboard to be ready (from inside container)..."
+for i in $(seq 1 120); do
+  code="$(docker compose exec -T dashboard sh -lc 'curl -sS -o /dev/null -w "%{http_code}" http://127.0.0.1:8080/api/health || true')"
+  if [ "$code" = "200" ]; then
+    echo "dashboard: ready."
+    break
+  fi
+  sleep 0.25
+done
+
 echo "Creating synthetic run via probe (expect 2xx)..."
 PROBE_CODE="$(curl -sS -o /dev/null -w "%{http_code}" -X POST "$BASE_URL/api/policy/probe" \
   -H "content-type: application/json" \
