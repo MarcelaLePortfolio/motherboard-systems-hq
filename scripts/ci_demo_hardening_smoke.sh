@@ -7,6 +7,12 @@ COMPOSE_FILES=(
   -f docker-compose.yml
   -f docker-compose.workers.yml
 )
+if [ -f docker-compose.phase47.postgres_url.override.yml ]; then
+  COMPOSE_FILES+=( -f docker-compose.phase47.postgres_url.override.yml )
+fi
+if [ -f docker-compose.phase54.postgres_bootstrap.override.yml ]; then
+  COMPOSE_FILES+=( -f docker-compose.phase54.postgres_bootstrap.override.yml )
+fi
 
 export COMPOSE_PROJECT_NAME="${COMPOSE_PROJECT_NAME:-motherboard_systems_hq}"
 
