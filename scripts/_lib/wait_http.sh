@@ -13,7 +13,7 @@ TIMEOUT_S="${2:-60}"
 deadline=$(( $(date +%s) + TIMEOUT_S ))
 
 while :; do
-  if curl -sS -o /dev/null --connect-timeout 1 --max-time 2 "$URL"; then
+  if curl -s -o /dev/null --connect-timeout 1 --max-time 2 "$URL"; then
     exit 0
   fi
 

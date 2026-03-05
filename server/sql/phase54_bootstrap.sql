@@ -1,82 +1,39 @@
-BEGIN;
+\set ON_ERROR_STOP on
 
--- Phase 54 CI/bootstrap: ensure baseline tables exist AND align schema with app expectations.
--- Idempotent by construction.
+-- Phase 54 bootstrap: ensure fresh Postgres boot has the schema the dashboard expects.
+-- This file is run by the official postgres image ONLY on first init (empty PGDATA).
 
--- tasks: ensure table exists (baseline), then add expected columns/constraints
-CREATE TABLE IF NOT EXISTS public.tasks (
-  id bigserial PRIMARY KEY,
-  task_id text,
-  status text,
-  kind text,
-  payload jsonb,
-  created_at timestamptz DEFAULT now(),
-  updated_at timestamptz DEFAULT now(),
-  title text,
-  action_tier text,
+-- Base tables / contracts first (safe + idempotent)
+\i /migrations/drizzle_pg/0001_create_task_events.sql
+\i /migrations/drizzle_pg/0006_phase32_1_task_events_contract.sql
 
-  -- app/worker expectations (may be unused in earlier phases but must exist)
-  run_id text,
-  claimed_by text,
-  notes text,
-  attempts integer NOT NULL DEFAULT 0,
-  max_attempts integer
-);
+-- Ensure tasks table exists (some repos create tasks outside drizzle_pg; if yours does too, this will be a no-op if already present elsewhere)
+-- If tasks is created in another init script, fine. If not, we need it here; if this file doesn't exist in your repo, remove this line.
+\i /migrations/drizzle_pg/0001_create_tasks.sql
 
-CREATE INDEX IF NOT EXISTS tasks_task_id_idx ON public.tasks(task_id);
+-- Lease + heartbeat (required by run_view)
+\i /migrations/drizzle_pg/0007_phase34_lease_heartbeat_reclaim.sql
+\i /migrations/drizzle_pg/0007_phase35_lease_epoch.sql
 
-DO $$
-BEGIN
-  IF NOT EXISTS (
-    SELECT 1
-    FROM pg_constraint
-    WHERE conrelid = 'public.tasks'::regclass
-      AND contype = 'u'
-      AND conname = 'tasks_task_id_key'
-  ) THEN
-    ALTER TABLE public.tasks
-      ADD CONSTRAINT tasks_task_id_key UNIQUE (task_id);
-  END IF;
-END
-$$;
--- task_events: ensure table exists, ensure ts is bigint epoch-ms
-CREATE TABLE IF NOT EXISTS public.task_events (
-  id bigserial PRIMARY KEY,
-  task_id text,
-  kind text,
-  actor text,
-  payload jsonb,
-  created_at timestamptz DEFAULT now(),
-  run_id text
-);
+-- Run observability surface
+\i /migrations/drizzle_pg/0007_phase36_1_run_view.sql
+\i /migrations/drizzle_pg/0007_phase36_2_run_view_contract.sql
 
-CREATE INDEX IF NOT EXISTS task_events_task_id_idx ON public.task_events(task_id);
-CREATE INDEX IF NOT EXISTS task_events_created_at_idx ON public.task_events(created_at);
-
--- Ensure ts exists and is bigint (epoch-ms).
+-- Phase 57 snapshot table (optional but recommended for demo determinism)
 DO $$
 BEGIN
   IF EXISTS (
     SELECT 1
-    FROM information_schema.columns
-    WHERE table_schema='public'
-      AND table_name='task_events'
-      AND column_name='ts'
-      AND data_type <> 'bigint'
+    FROM pg_catalog.pg_class c
+    JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+    WHERE n.nspname = 'public' AND c.relname = 'run_snapshots'
   ) THEN
-    EXECUTE 'ALTER TABLE public.task_events DROP COLUMN ts';
+    -- already there
+    NULL;
   END IF;
+END $$;
 
-  IF NOT EXISTS (
-    SELECT 1
-    FROM information_schema.columns
-    WHERE table_schema='public'
-      AND table_name='task_events'
-      AND column_name='ts'
-  ) THEN
-    EXECUTE 'ALTER TABLE public.task_events ADD COLUMN ts bigint NOT NULL DEFAULT (extract(epoch from now()) * 1000)::bigint';
-  END IF;
-END
-$$;
+-- If the migration file exists in this repo, apply it (psql \i will fail if missing).
+-- So we guard by relying on the file being mounted; if you don't have it, delete the next line.
+\i /migrations/drizzle_pg/0008_phase57_run_snapshot.sql
 
-COMMIT;

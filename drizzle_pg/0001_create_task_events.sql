@@ -7,3 +7,8 @@ create table if not exists "task_events" (
   "payload" jsonb not null,
   "created_at" timestamptz not null default now()
 );
+
+-- Guard: Phase 36 run_view expects task_events.ts (epoch ms) to exist.
+-- Safe on fresh boot + idempotent on re-run.
+ALTER TABLE public.task_events
+  ADD COLUMN IF NOT EXISTS ts BIGINT;

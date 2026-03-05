@@ -1,3 +1,12 @@
+-- Guard: ensure columns exist before triggers/indexes that depend on them.
+ALTER TABLE public.task_events
+  ADD COLUMN IF NOT EXISTS task_id TEXT;
+ALTER TABLE public.task_events
+  ADD COLUMN IF NOT EXISTS run_id TEXT;
+ALTER TABLE public.task_events
+  ADD COLUMN IF NOT EXISTS actor TEXT;
+
+
 BEGIN;
 -- 1) Normalize task_events.task_id: if numeric tasks.id, rewrite to tasks.task_id ("tN")
 CREATE OR REPLACE FUNCTION task_events_normalize_task_id()

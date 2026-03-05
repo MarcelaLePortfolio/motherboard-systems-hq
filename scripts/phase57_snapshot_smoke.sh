@@ -98,8 +98,18 @@ fi
 RUN_ID="policy.probe.run"
 TASK_ID="policy.probe.task"
 
-BEFORE_MAX="$("${PSQL_AT[@]}" -c "SELECT COALESCE(max(last_event_id),0) FROM run_snapshots WHERE run_id='${RUN_ID}';" | tr -d '[:space:]')"
+BEFORE_MAX="$("${PSQL_AT[@]}" -c "SELECT COALESCE(max(last_event_id::bigint),0) FROM run_snapshots WHERE run_id='${RUN_ID}';" | tr -d '[:space:]')"
 echo "before_max_last_event_id=${BEFORE_MAX:-0}"
+
+echo "Waiting for dashboard to be ready (from inside container)..."
+for i in $(seq 1 120); do
+  code="$(docker compose exec -T dashboard sh -lc 'curl -sS -o /dev/null -w "%{http_code}" http://127.0.0.1:3000/api/health || true')"
+  if [ "$code" = "200" ]; then
+    echo "dashboard: ready."
+    break
+  fi
+  sleep 0.25
+done
 
 echo "Creating synthetic run via probe (expect 2xx)..."
 PROBE_CODE="$(curl -sS -o /dev/null -w "%{http_code}" -X POST "$BASE_URL/api/policy/probe" \
@@ -119,7 +129,7 @@ echo "Refreshing snapshot projection for run_id=${RUN_ID}..."
 INSERTED="$("${PSQL_AT[@]}" -c "SELECT run_snapshots_refresh('${RUN_ID}');" | tr -d '[:space:]' || true)"
 echo "run_snapshots_refresh_inserted=${INSERTED:-0}"
 
-AFTER_MAX="$("${PSQL_AT[@]}" -c "SELECT COALESCE(max(last_event_id),0) FROM run_snapshots WHERE run_id='${RUN_ID}';" | tr -d '[:space:]')"
+AFTER_MAX="$("${PSQL_AT[@]}" -c "SELECT COALESCE(max(last_event_id::bigint),0) FROM run_snapshots WHERE run_id='${RUN_ID}';" | tr -d '[:space:]')"
 echo "after_max_last_event_id=${AFTER_MAX:-0}"
 
 if [[ "${AFTER_MAX:-0}" -le "${BEFORE_MAX:-0}" ]]; then
