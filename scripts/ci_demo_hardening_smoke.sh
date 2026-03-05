@@ -8,7 +8,13 @@ COMPOSE_FILES=(
   -f docker-compose.workers.yml
 )
 
-export COMPOSE_PROJECT_NAME=motherboard_systems_hq
+export COMPOSE_PROJECT_NAME="${COMPOSE_PROJECT_NAME:-motherboard_systems_hq}"
+
+cleanup() {
+  echo "== Cleanup (docker compose down) =="
+  docker compose "${COMPOSE_FILES[@]}" down --remove-orphans || true
+}
+trap cleanup EXIT
 
 echo "== Fresh stack boot =="
 docker compose "${COMPOSE_FILES[@]}" down --remove-orphans || true
@@ -23,6 +29,7 @@ for i in $(seq 1 45); do
   if [ "$i" -eq 45 ]; then
     echo "ERROR: API health did not become ready"
     docker compose "${COMPOSE_FILES[@]}" ps || true
+    docker compose "${COMPOSE_FILES[@]}" logs --no-color --tail=200 dashboard || true
     exit 1
   fi
   sleep 1
@@ -53,7 +60,6 @@ else
   echo "policy.probe.run not visible yet; running Phase54 regression harness (KEEP_STACK=1) to deterministically generate the demo path..."
   KEEP_STACK=1 bash scripts/phase54_regression_harness.sh
 
-  # After harness, API should still be up; re-check with bounded retries.
   for i in $(seq 1 45); do
     if have_probe_run; then
       echo "policy.probe.run now visible"
