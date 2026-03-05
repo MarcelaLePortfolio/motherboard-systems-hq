@@ -5,6 +5,7 @@ set -euo pipefail
 COMPOSE_FILES=(
   -f docker-compose.yml
   -f docker-compose.workers.yml
+  -f docker-compose.phase54.postgres_bootstrap.override.yml
   -f docker-compose.phase47.postgres_url.override.yml
   -f docker-compose.phase54.postgres_bootstrap.override.yml
 )
