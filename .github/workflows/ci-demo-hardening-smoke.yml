@@ -19,6 +19,11 @@ jobs:
           docker version
           docker compose version
 
+      - name: Precreate external docker network (motherboard_systems_hq_default)
+        run: |
+          set -euo pipefail
+          docker network inspect motherboard_systems_hq_default >/dev/null 2>&1 || docker network create motherboard_systems_hq_default
+
       - name: Run demo hardening smoke (fresh boot → run_view → policy.probe.run)
         run: |
           set -euo pipefail
