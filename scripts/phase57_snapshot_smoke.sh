@@ -98,8 +98,9 @@ fi
 RUN_ID="policy.probe.run"
 TASK_ID="policy.probe.task"
 
-BEFORE_MAX="$("${PSQL_AT[@]}" -c "SELECT COALESCE(max(last_event_id::bigint),0) FROM run_snapshots WHERE run_id='${RUN_ID}';" | tr -d '[:space:]')"
-echo "before_max_last_event_id=${BEFORE_MAX:-0}"
+# last_event_id may be UUID/text depending on lane; use last_event_ts (epoch ms) for monotonic advancement.
+BEFORE_TS="$("${PSQL_AT[@]}" -c "SELECT COALESCE(max(last_event_ts::bigint),0) FROM run_snapshots WHERE run_id='${RUN_ID}';" | tr -d '[:space:]')"
+echo "before_max_last_event_ts=${BEFORE_TS:-0}"
 
 echo "Waiting for dashboard to be ready (from inside container)..."
 for i in $(seq 1 120); do
@@ -129,11 +130,11 @@ echo "Refreshing snapshot projection for run_id=${RUN_ID}..."
 INSERTED="$("${PSQL_AT[@]}" -c "SELECT run_snapshots_refresh('${RUN_ID}');" | tr -d '[:space:]' || true)"
 echo "run_snapshots_refresh_inserted=${INSERTED:-0}"
 
-AFTER_MAX="$("${PSQL_AT[@]}" -c "SELECT COALESCE(max(last_event_id::bigint),0) FROM run_snapshots WHERE run_id='${RUN_ID}';" | tr -d '[:space:]')"
-echo "after_max_last_event_id=${AFTER_MAX:-0}"
+AFTER_TS="$("${PSQL_AT[@]}" -c "SELECT COALESCE(max(last_event_ts::bigint),0) FROM run_snapshots WHERE run_id='${RUN_ID}';" | tr -d '[:space:]')"
+echo "after_max_last_event_ts=${AFTER_TS:-0}"
 
-if [[ "${AFTER_MAX:-0}" -le "${BEFORE_MAX:-0}" ]]; then
-  echo "❌ Snapshot projection did not advance (max last_event_id did not increase)"
+if [[ "${AFTER_TS:-0}" -le "${BEFORE_TS:-0}" ]]; then
+  echo "❌ Snapshot projection did not advance (max last_event_ts did not increase)"
   echo "=== run_view (policy.probe.run) ==="
   "${PSQL_AT[@]}" -c "SELECT run_id, task_id, last_event_id, last_event_kind, last_event_ts, task_status, actor FROM run_view WHERE run_id='${RUN_ID}' LIMIT 10;" || true
   echo "=== task_events (policy.probe.run) ==="
@@ -141,4 +142,4 @@ if [[ "${AFTER_MAX:-0}" -le "${BEFORE_MAX:-0}" ]]; then
   exit 1
 fi
 
-echo "✅ Snapshot projection advanced: ${BEFORE_MAX:-0} -> ${AFTER_MAX:-0}"
+echo "✅ Snapshot projection advanced: ${BEFORE_TS:-0} -> ${AFTER_TS:-0}"
