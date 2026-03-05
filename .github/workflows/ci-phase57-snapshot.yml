@@ -62,3 +62,30 @@ jobs:
           set -euo pipefail
           docker compose ps || true
           docker compose logs --no-color --timestamps | tail -n 400 || true
+
+  # Compatibility status context alias for rulesets / branch requirements:
+  # Some repos expect "ci-phase57-snapshot / snapshot-smoke" but Actions emits "ci-phase57-snapshot/snapshot-smoke".
+  snapshot-smoke-status-context:
+    name: snapshot-smoke-status-context
+    runs-on: ubuntu-latest
+    needs: [snapshot-smoke]
+    if: ${{ always() }}
+    permissions:
+      statuses: write
+      contents: read
+    steps:
+      - name: Post required status context alias (ci-phase57-snapshot / snapshot-smoke)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          RESULT: ${{ needs.snapshot-smoke.result }}
+        run: |
+          set -euo pipefail
+          if [ "$RESULT" = "success" ]; then STATE="success"; else STATE="failure"; fi
+          gh api -X POST -H "Accept: application/vnd.github+json" \
+            "/repos/$REPO/statuses/$SHA" \
+            -f state="$STATE" \
+            -f context="ci-phase57-snapshot / snapshot-smoke" \
+            -f description="compat status context for ruleset-required check" \
+            -f target_url="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
