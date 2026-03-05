@@ -10,13 +10,18 @@ COMPOSE_FILES=(
 )
 DC() { docker compose "${COMPOSE_FILES[@]}" "$@"; }
 
+KEEP_STACK="${KEEP_STACK:-0}"
+want_keep_stack() { [[ "${KEEP_STACK}" == "1" ]]; }
+
 
 
 
 cd "$(git rev-parse --show-toplevel)"
 
-DC -f docker-compose.yml -f docker-compose.workers.yml down --remove-orphans >/dev/null 2>&1 || true
-docker network rm motherboard_systems_hq_default >/dev/null 2>&1 || true
+if ! want_keep_stack; then
+  DC -f docker-compose.yml -f docker-compose.workers.yml down --remove-orphans >/dev/null 2>&1 || true
+  docker network rm motherboard_systems_hq_default >/dev/null 2>&1 || true
+fi
 
 
 BASE_URL="${BASE_URL:-http://127.0.0.1:8080}"
@@ -41,7 +46,9 @@ ensure_default_network() {
 
 compose_up() {
   local mode="$1"
-  DC down --remove-orphans >/dev/null 2>&1 || true
+  if ! want_keep_stack; then
+    DC down --remove-orphans >/dev/null 2>&1 || true
+  fi
 
   ensure_default_network
 
@@ -57,15 +64,25 @@ compose_up() {
   if [[ -x scripts/_lib/wait_http.sh ]]; then
     scripts/_lib/wait_http.sh "${BASE_URL}${WAIT_PATH}" 90
   else
+    ok=0
     for _ in {1..90}; do
       code="$(curl -sS -o /dev/null -w "%{http_code}" "${BASE_URL}${WAIT_PATH}" || true)"
-      [[ "$code" != "000" ]] && break
+      if [[ "$code" == "200" ]]; then
+        ok=$((ok+1))
+        [[ $ok -ge 2 ]] && break
+      else
+        ok=0
+      fi
       sleep 1
     done
   fi
 }
 
 compose_down() {
+  if want_keep_stack; then
+    echo "KEEP_STACK=1: skipping compose down"
+    return 0
+  fi
   DC down --remove-orphans
 }
 
@@ -120,7 +137,7 @@ http_code_of_probe() {
 
   for _ in $(seq 1 "${tries}"); do
     # tolerate transient connection resets/000 during early boot in CI
-    code="$(curl -sS -o /dev/null -w "%{http_code}" -X POST "${BASE_URL}${PROBE_PATH}" || true)"
+    code="$(curl -s -o /dev/null -w "%{http_code}" -X POST "${BASE_URL}${PROBE_PATH}" 2>/dev/null || true)"
     if [[ "${code}" != "000" && "${code}" != "" ]]; then
       echo "${code}"
       return 0
