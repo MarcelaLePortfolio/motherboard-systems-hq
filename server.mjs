@@ -332,6 +332,12 @@ app.get("/", (req, res) => res.redirect("/dashboard"));
 
 // ---- Tasks API ----
 app.get("/api/tasks", async (req, res) => {
+  console.log("[phase57c-live] /api/tasks probe", {
+    originalUrl: req.originalUrl,
+    referer: req.get("referer") || null,
+    userAgent: req.get("user-agent") || null,
+    accept: req.get("accept") || null,
+  });
   try {
     const r = await pool.query(
       `select id::text, title, agent, status, notes, source, trace_id, error, meta, created_at, updated_at
