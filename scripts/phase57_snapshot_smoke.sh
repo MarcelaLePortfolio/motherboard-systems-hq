@@ -9,6 +9,8 @@ COMPOSE_FILES=(
   -f docker-compose.workers.yml
   -f docker-compose.phase47.postgres_url.override.yml
   -f docker-compose.phase54.postgres_bootstrap.override.yml
+  -f docker-compose.phase57.shadow.env.override.yml
+  -f docker-compose.phase57.shadow.env.override.yml
 )
 
 ensure_external_network() {
