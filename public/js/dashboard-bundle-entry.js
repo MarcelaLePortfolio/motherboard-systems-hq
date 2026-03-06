@@ -17,7 +17,8 @@ import "./dashboard-broadcast.js";
 import "./ops-status-widget.js";
 import "./ops-globals-bridge.js";
 import "./ops-pill-state.js";
-import "./dashboard-tasks-widget.js";
+// TEMP phase57c isolate /api/tasks loop
+// import "./dashboard-tasks-widget.js";
 
 // Matilda chat console wiring
 import "./matilda-chat-console.js";
