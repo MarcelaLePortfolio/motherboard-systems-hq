@@ -36,3 +36,6 @@ import "./probe-lifecycle-card.js";
 
 // Phase 58C: intentional empty states and cold-start UX
 import "./phase58c_idle_states.js";
+
+// Phase 58D: operator console hierarchy
+import "./phase58d_operator_console.js";
