@@ -17,6 +17,7 @@ import "./dashboard-broadcast.js";
 import "./ops-status-widget.js";
 import "./ops-globals-bridge.js";
 import "./ops-pill-state.js";
+
 // TEMP phase57c isolate /api/tasks loop
 // import "./dashboard-tasks-widget.js";
 
@@ -32,3 +33,6 @@ import "./phase22_task_delegation_live_bindings.js";
 
 // Phase 58B: probe lifecycle visibility card
 import "./probe-lifecycle-card.js";
+
+// Phase 58C: intentional empty states and cold-start UX
+import "./phase58c_idle_states.js";
