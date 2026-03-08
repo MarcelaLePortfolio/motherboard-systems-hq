@@ -13,14 +13,6 @@
     }
   }
 
-  function qa(sel, root = document) {
-    try {
-      return Array.from(root.querySelectorAll(sel));
-    } catch {
-      return [];
-    }
-  }
-
   function ensureInlineStyle() {
     if (document.getElementById("phase58c-idle-style")) return;
 
@@ -74,8 +66,7 @@
     return children.some((child) => {
       if (!(child instanceof HTMLElement)) return false;
       if (child.dataset.phase58cIdle === "true") return false;
-      const text = (child.textContent || "").trim();
-      return text.length > 0;
+      return (child.textContent || "").trim().length > 0;
     });
   }
 
@@ -91,38 +82,28 @@
       return;
     }
 
-    if (existing) {
-      existing.querySelector("strong")?.replaceChildren(title);
-      const detailNode = existing.querySelector("span");
-      if (detailNode) detailNode.textContent = detail;
-      return;
-    }
+    if (existing) return;
 
     const tagName = list.tagName && /^(UL|OL)$/i.test(list.tagName) ? "li" : "div";
     list.appendChild(buildIdleNode(title, detail, tagName));
   }
 
   function normalizeSSEIndicatorText() {
-    const indicators = [
+    const candidates = [
       q("#ops-sse-indicator .meta"),
       q("#reflections-sse-indicator .meta"),
       q("#phase16-sse-indicator-text"),
       q("#phase16_reflections_status"),
     ].filter(Boolean);
 
-    indicators.forEach((node) => {
+    candidates.forEach((node) => {
       const text = (node.textContent || "").trim();
       if (!text) return;
-
       if (text.includes("disconnected") && text.includes("last: —")) {
         node.textContent = text.replace("disconnected", "idle");
-      }
-
-      if (text === "SSE: …") {
+      } else if (text === "SSE: …") {
         node.textContent = "SSE: idle";
-      }
-
-      if (text.toLowerCase().includes("waiting for js")) {
+      } else if (text.toLowerCase().includes("waiting for js")) {
         node.textContent = "reflections: idle";
       }
     });
@@ -177,20 +158,6 @@
 
   function boot() {
     applyIdleUX();
-
-    const root = document.body || document.documentElement;
-    if (!root) return;
-
-    const observer = new MutationObserver(() => {
-      applyIdleUX();
-    });
-
-    observer.observe(root, {
-      childList: true,
-      subtree: true,
-      characterData: true,
-    });
-
     window.addEventListener("ops.state", applyIdleUX);
     window.addEventListener("reflections.state", applyIdleUX);
     window.addEventListener("mb:ops:update", applyIdleUX);
