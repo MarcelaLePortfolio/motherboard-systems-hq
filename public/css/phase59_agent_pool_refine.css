@@ -137,3 +137,34 @@
   font-size: 0.72rem !important;
 }
 
+
+/* Phase 59.1 — shrink agent pills to text-height rows */
+
+#agent-status-container > :not(h2) {
+  min-height: 24px !important;
+  padding: 2px 10px !important;
+  border-radius: 999px !important;
+  gap: 0.35rem !important;
+}
+
+#agent-status-container > :not(h2)::before {
+  inset: 4px auto 4px 0 !important;
+  width: 2px !important;
+}
+
+#agent-status-container > :not(h2) strong,
+#agent-status-container > :not(h2) b,
+#agent-status-container > :not(h2) .agent-name,
+#agent-status-container > :not(h2) .name {
+  font-size: 0.82rem !important;
+  line-height: 1 !important;
+}
+
+#agent-status-container > :not(h2) .status,
+#agent-status-container > :not(h2) .agent-status,
+#agent-status-container > :not(h2) small,
+#agent-status-container > :not(h2) .subtext {
+  font-size: 0.7rem !important;
+  line-height: 1 !important;
+}
+
