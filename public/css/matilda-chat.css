@@ -1,173 +1,93 @@
-/* Matilda Chat Console – Layout & Styling */
+/* Phase 59 — Matilda / delegation panel polish */
 
-#matilda-chat-container {
-  margin: 16px 0;
-  padding: 18px 20px;
-  background: #020617;
-  border-radius: 16px;
-  border: 1px solid #111827;
-  box-shadow: 0 18px 35px -12px rgba(15, 23, 42, 0.9);
+#matilda-chat-card,
+#delegation-card {
   width: 100%;
-  max-width: 96%;      /* small breathing room toward center */
-  margin-right: auto;  /* anchor to left edge of its column */
 }
 
-#matilda-chat-container h2 {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #e5e7eb;
-  margin-bottom: 12px;
-}
-
-#matilda-chat-log {
-  background: #020617;
-  border-radius: 12px;
-  border: 1px solid #1f2937;
-  min-height: 140px;
-  max-height: 260px;
-  padding: 12px 14px;
-  overflow-y: auto;
-  margin-bottom: 12px;
-  font-size: 0.875rem;
-  color: #e5e7eb;
-}
-
-/* Chat messages */
-
-#matilda-chat-log .user-msg,
-#matilda-chat-log .matilda-msg {
-  margin-bottom: 6px;
-  padding: 8px 10px;
-  border-radius: 10px;
-  line-height: 1.35;
-}
-
-#matilda-chat-log .user-msg {
-  background: #111827;
-  text-align: right;
-}
-
-#matilda-chat-log .matilda-msg {
-  background: #1f2937;
-  text-align: left;
-}
-
-#matilda-chat-log .ephemeral {
-  opacity: 0.75;
-  font-style: italic;
-}
-
-/* Input row */
-
-#matilda-chat-input-row {
+#matilda-chat-root {
   display: flex;
-  align-items: flex-end;
-  gap: 12px;
+  flex-direction: column;
+  gap: 0.9rem;
 }
 
-#matilda-chat-input {
-  flex: 1;
-  border-radius: 12px;
-  border: 1px solid #1f2937;
-  background: #020617;
-  padding: 10px 12px;
-  font-size: 0.875rem;
-  color: #e5e7eb;
+#matilda-chat-transcript {
+  border-radius: 1rem;
+  padding: 0.95rem 1rem;
+  overflow-y: auto;
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+#matilda-chat-transcript p {
+  margin-bottom: 0.55rem;
+}
+
+#matilda-chat-transcript .user-message,
+#matilda-chat-transcript .user-msg {
+  color: #dbeafe;
+}
+
+#matilda-chat-transcript .matilda-message,
+#matilda-chat-transcript .matilda-msg {
+  color: #a7f3d0;
+}
+
+#matilda-chat-input,
+#delegation-input {
+  width: 100%;
+  border-radius: 1rem;
+  padding: 0.9rem 1rem;
+  font-size: 0.92rem;
+  line-height: 1.4;
   resize: vertical;
-  min-height: 44px;
 }
 
-#matilda-chat-input::placeholder {
-  color: #6b7280;
+#matilda-chat-send,
+#matilda-chat-quick-check,
+#delegation-submit,
+#complete-task-btn {
+  min-height: 2.75rem;
+  border-radius: 0.95rem;
+  box-shadow: 0 10px 24px rgba(2, 6, 23, 0.22);
 }
 
 #matilda-chat-send {
-  border: none;
-  outline: none;
-  border-radius: 9999px;
-  padding: 10px 22px;
-  font-size: 0.9rem;
-  font-weight: 500;
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
-  color: #f9fafb;
-  cursor: pointer;
-  box-shadow: 0 12px 20px -4px rgba(79, 70, 229, 0.85);
-  transition: transform 0.08s ease, box-shadow 0.08s ease, opacity 0.08s ease;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6) !important;
+  color: #f8fafc !important;
+  border: none !important;
 }
 
-#matilda-chat-send:hover:not(:disabled) {
-  transform: translateY(-1px);
-  box-shadow: 0 16px 26px -10px rgba(79, 70, 229, 0.95);
+#matilda-chat-quick-check {
+  background: rgba(30, 41, 59, 0.86) !important;
+  color: #e2e8f0 !important;
+  border: 1px solid rgba(148, 163, 184, 0.14) !important;
 }
 
-#matilda-chat-send:active:not(:disabled) {
-  transform: translateY(0);
-  box-shadow: 0 10px 18px -8px rgba(79, 70, 229, 0.75);
+#delegation-submit {
+  background: linear-gradient(135deg, #0f766e, #14b8a6) !important;
+  border: none !important;
 }
 
-#matilda-chat-send:disabled {
-  opacity: 0.65;
-  cursor: default;
-  box-shadow: none;
+#complete-task-btn {
+  background: linear-gradient(135deg, #2563eb, #3b82f6) !important;
+  border: none !important;
 }
 
-/* Project Visual Output – match left column width & breathing room */
-
-#project-visual-output-card {
-  margin: 16px 0;
-  width: 100%;
-  max-width: 96%;
-  margin-right: auto;  /* align with Matilda Chat on the left rail */
+#matilda-helper-text-ops,
+#delegation-response {
+  color: rgba(148, 163, 184, 0.78) !important;
 }
 
-/* Critical Ops Alerts – fixed console size + robust wrapping */
+@media (max-width: 767px) {
+  #matilda-chat-root {
+    gap: 0.8rem;
+  }
 
-#critical-ops-card,
-#critical-ops-alerts,
-#critical-ops-panel {
-  max-height: 260px;
-  min-height: 260px;
-  overflow-y: auto;
-  overflow-x: auto;
-}
-
-/* Ensure any text inside Critical Ops wraps instead of spilling */
-#critical-ops-card *,
-#critical-ops-alerts *,
-#critical-ops-panel * {
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  word-break: break-word;
-}
-
-#critical-ops-card pre,
-#critical-ops-card code,
-#critical-ops-alerts pre,
-#critical-ops-alerts code,
-#critical-ops-panel pre,
-#critical-ops-panel code {
-  white-space: pre-wrap;
-}
-
-/* Task Activity Over Time – ensure room for chart */
-
-#task-activity-over-time,
-#task-activity-card {
-  min-height: 260px;
-  position: relative;
-}
-
-#task-activity-over-time canvas,
-#task-activity-card canvas {
-  width: 100% !important;
-  height: 220px !important;
-  display: block;
-}
-
-/* Delegation-side (right column) cards – full width with breathing room */
-
-.delegation-column-card {
-  width: 100%;
-  max-width: 96%;     /* mirror left side breathing room */
-  margin-left: auto;  /* anchor to right edge of its column */
+  #matilda-chat-send,
+  #matilda-chat-quick-check,
+  #delegation-submit,
+  #complete-task-btn {
+    width: 100%;
+  }
 }

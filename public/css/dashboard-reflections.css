@@ -1,15 +1,29 @@
-/* <0001fae8> Phase 9.6.3 — Dashboard Reflection Styling */
+/* Phase 59 — Reflections / supporting diagnostics */
+
 #recentLogs {
-  font-family: "Courier New", monospace;
-  color: #e6e6e6;
-  background: rgba(10,10,10,0.75);
-  padding: 12px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  color: rgba(226, 232, 240, 0.84);
+  background: rgba(2, 6, 23, 0.42);
+  border: 1px solid rgba(148, 163, 184, 0.10);
+  border-radius: 1rem;
+  padding: 0.9rem 1rem;
   overflow-y: auto;
-  max-height: 480px;
-  border-radius: 8px;
+  max-height: 13rem;
 }
+
 .reflection-line {
-  margin-bottom: 4px;
-  transition: opacity 0.6s ease-in-out;
+  margin-bottom: 0.35rem;
   opacity: 1;
+  transition: opacity 0.35s ease-in-out;
+}
+
+#reflections-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+#reflections-list > li,
+#reflections-list > div {
+  list-style: none;
 }
