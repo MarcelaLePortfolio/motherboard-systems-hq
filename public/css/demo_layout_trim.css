@@ -1,0 +1,22 @@
+/* Demo layout trim — hide non-demo panels */
+
+#project-visual-output-card,
+#atlas-status-card,
+#reflections-viewer-card,
+#ops-alerts-card,
+canvas#task-activity-graph {
+  display: none !important;
+}
+
+/* collapse right column so layout centers */
+main {
+  grid-template-columns: 1fr !important;
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+/* make recent tasks a bit more prominent */
+#recent-tasks-card {
+  border: 1px solid rgba(99,102,241,0.4);
+  box-shadow: 0 0 18px rgba(99,102,241,0.2);
+}
