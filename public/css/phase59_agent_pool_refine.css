@@ -108,3 +108,32 @@
     padding: 0.42rem 0.82rem 0.42rem 0.95rem !important;
   }
 }
+
+/* Phase 59 compact operator rows */
+
+#agent-status-container > :not(h2) {
+  min-height: 32px !important;
+  padding: 3px 10px !important;
+  border-radius: 8px !important;
+  gap: 0.45rem !important;
+}
+
+#agent-status-container > :not(h2)::before {
+  inset: 6px auto 6px 0 !important;
+  width: 2px !important;
+}
+
+#agent-status-container > :not(h2) strong,
+#agent-status-container > :not(h2) b,
+#agent-status-container > :not(h2) .agent-name,
+#agent-status-container > :not(h2) .name {
+  font-size: 0.9rem !important;
+}
+
+#agent-status-container > :not(h2) .status,
+#agent-status-container > :not(h2) .agent-status,
+#agent-status-container > :not(h2) small,
+#agent-status-container > :not(h2) .subtext {
+  font-size: 0.72rem !important;
+}
+
