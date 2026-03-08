@@ -1,0 +1,130 @@
+/* Phase 59 — lifecycle-first demo surface */
+
+body {
+  background:
+    radial-gradient(circle at top left, rgba(20, 184, 166, 0.08), transparent 28%),
+    radial-gradient(circle at top right, rgba(59, 130, 246, 0.08), transparent 24%),
+    #0f172a !important;
+}
+
+header {
+  margin-bottom: 1.5rem !important;
+}
+
+#global-status {
+  gap: 1rem !important;
+  flex-wrap: wrap !important;
+}
+
+main {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.85fr) !important;
+  gap: 1.5rem !important;
+  align-items: start !important;
+}
+
+@media (max-width: 1100px) {
+  main {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+#recentTasks,
+#recent-tasks-card,
+[data-empty="recent-tasks"] {
+  border: 1px solid rgba(45, 212, 191, 0.28) !important;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.35) !important;
+}
+
+#recentTasks h2,
+#recent-tasks-card h2 {
+  color: #99f6e4 !important;
+}
+
+#project-visual-output-card,
+#project-visual-output,
+#phase16_reflections_panel,
+#phase16-sse-indicator,
+#reflections,
+#reflections-list,
+#ops-alerts-list,
+#recentLogs,
+#task-activity-graph {
+  display: none !important;
+}
+
+#matilda-chat-card,
+#delegation-card,
+#atlas-status-card {
+  border: 1px solid rgba(148, 163, 184, 0.16) !important;
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.24) !important;
+}
+
+#matilda-chat-card h2,
+#delegation-card h2,
+#atlas-status-card h2 {
+  color: #e2e8f0 !important;
+}
+
+section:has(#ops-alerts-list),
+section:has(#recentLogs),
+section:has(#task-activity-graph),
+section:has(#project-visual-output),
+section:has(#reflections-list) {
+  display: none !important;
+}
+
+#atlas-status-card {
+  order: 1;
+}
+
+#matilda-chat-card {
+  order: 2;
+}
+
+#delegation-card {
+  order: 3;
+}
+
+#agent-status-container {
+  border: 1px solid rgba(45, 212, 191, 0.18) !important;
+  background: rgba(15, 23, 42, 0.62) !important;
+}
+
+#agent-status-container::before {
+  content: "Demo focus: lifecycle + task activity";
+  display: block;
+  margin-bottom: 0.75rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(153, 246, 228, 0.88);
+}
+
+header h1,
+header .text-3xl,
+header .text-4xl {
+  letter-spacing: -0.02em;
+}
+
+header p,
+header .text-sm,
+header .text-base {
+  max-width: 60rem !important;
+}
+
+canvas#task-activity-graph {
+  min-height: 0 !important;
+}
+
+#matilda-chat-transcript,
+#delegation-input,
+#matilda-chat-input {
+  background: rgba(2, 6, 23, 0.72) !important;
+}
+
+#delegation-submit,
+#matilda-chat-send,
+#complete-task-btn {
+  box-shadow: none !important;
+}
