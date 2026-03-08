@@ -1,0 +1,74 @@
+/*
+Phase 60 — Dashboard Live Polish
+Non-architectural visual improvements only.
+Makes the console feel "alive" without changing layout or data flow.
+*/
+
+/* subtle animated health indicator */
+
+#system-health-indicator {
+  animation: phase60Pulse 2.2s ease-in-out infinite;
+}
+
+@keyframes phase60Pulse {
+  0% { transform: scale(0.9); opacity: 0.6; }
+  50% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(0.9); opacity: 0.6; }
+}
+
+/* metric hover feedback */
+
+#metrics-row > div {
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+
+#metrics-row > div:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+}
+
+/* console card polish */
+
+#operator-tools-grid > section,
+#activity-panels-grid > section,
+#atlas-status-card,
+#recent-tasks-card,
+#task-activity-card,
+#matilda-chat-card,
+#delegation-card {
+  transition: box-shadow 140ms ease, border-color 140ms ease;
+}
+
+#operator-tools-grid > section:hover,
+#activity-panels-grid > section:hover,
+#atlas-status-card:hover,
+#recent-tasks-card:hover,
+#task-activity-card:hover,
+#matilda-chat-card:hover,
+#delegation-card:hover {
+  border-color: rgba(94,234,212,0.35);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.45);
+}
+
+/* agent status visual separation */
+
+#agent-status-container span {
+  transition: color 140ms ease;
+}
+
+#agent-status-container span:hover {
+  color: #5eead4;
+}
+
+/* header glow */
+
+h1 {
+  text-shadow: 0 0 6px rgba(94,234,212,0.35);
+}
+
+/* smooth scrolling inside activity panels */
+
+#mb-task-events-panel-anchor,
+#recent-tasks-list {
+  scroll-behavior: smooth;
+}
