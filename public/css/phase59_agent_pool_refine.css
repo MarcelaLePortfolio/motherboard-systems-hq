@@ -5,13 +5,13 @@
   box-shadow:
     0 18px 40px rgba(2, 6, 23, 0.45),
     inset 0 1px 0 rgba(255, 255, 255, 0.03) !important;
-  padding: 1.1rem 1.25rem 1.15rem !important;
-  gap: 0.55rem !important;
+  padding: 0.95rem 1.1rem 1rem !important;
+  gap: 0.22rem !important;
   align-items: stretch !important;
 }
 
 #agent-status-container > h2 {
-  margin: 0 0 0.15rem 0 !important;
+  margin: 0 0 0.12rem 0 !important;
   font-size: 0.82rem !important;
   letter-spacing: 0.18em !important;
   text-transform: uppercase !important;
@@ -34,9 +34,9 @@
   width: 100% !important;
   min-width: 0 !important;
   max-width: none !important;
-  min-height: 22px !important;
-  padding: 1px 10px 1px 12px !important;
-  margin: 0 0 0.35rem 0 !important;
+  min-height: 18px !important;
+  padding: 0 8px 0 12px !important;
+  margin: 0 0 0.16rem 0 !important;
   border-radius: 6px !important;
   background: rgba(71, 85, 105, 0.55) !important;
   border: 1px solid rgba(148, 163, 184, 0.08) !important;
@@ -44,9 +44,10 @@
   display: flex !important;
   align-items: center !important;
   justify-content: flex-start !important;
-  gap: 0.35rem !important;
+  gap: 0.26rem !important;
   position: relative !important;
   overflow: hidden !important;
+  line-height: 1 !important;
 }
 
 #agent-status-container > :not(h2) > *:last-child {
@@ -56,7 +57,7 @@
 #agent-status-container > :not(h2) > *::before {
   content: "";
   position: absolute;
-  inset: 3px auto 3px 0;
+  inset: 1px auto 1px 0;
   width: 2px;
   border-radius: 999px;
   background: linear-gradient(180deg, #fbbf24 0%, #f59e0b 100%);
@@ -68,10 +69,13 @@
   background: rgba(71, 85, 105, 0.62) !important;
 }
 
+#agent-status-container > :not(h2) > *,
 #agent-status-container > :not(h2) > * *,
-#agent-status-container > :not(h2) > * {
+#agent-status-container > :not(h2) > * span,
+#agent-status-container > :not(h2) > * div,
+#agent-status-container > :not(h2) > * p {
   min-width: 0;
-  line-height: 1.05 !important;
+  line-height: 1 !important;
   color: rgba(226, 232, 240, 0.95) !important;
 }
 
@@ -80,28 +84,32 @@
 #agent-status-container > :not(h2) > * .agent-name,
 #agent-status-container > :not(h2) > * .name {
   display: inline-block !important;
-  font-size: 0.8rem !important;
+  font-size: 0.76rem !important;
   font-weight: 700 !important;
   color: #f8fafc !important;
   letter-spacing: -0.01em !important;
-  margin-right: 0.22rem !important;
+  line-height: 1 !important;
+  margin-right: 0.16rem !important;
 }
 
 #agent-status-container > :not(h2) > * .status,
 #agent-status-container > :not(h2) > * .agent-status,
 #agent-status-container > :not(h2) > * small,
 #agent-status-container > :not(h2) > * .subtext {
-  font-size: 0.68rem !important;
+  font-size: 0.64rem !important;
   color: rgba(148, 163, 184, 0.88) !important;
+  line-height: 1 !important;
 }
 
 @media (max-width: 767px) {
   #agent-status-container {
-    padding: 1rem !important;
+    padding: 0.9rem !important;
+    gap: 0.18rem !important;
   }
 
   #agent-status-container > :not(h2) > * {
-    min-height: 20px !important;
-    padding: 1px 8px 1px 10px !important;
+    min-height: 17px !important;
+    padding: 0 7px 0 10px !important;
+    margin-bottom: 0.14rem !important;
   }
 }
