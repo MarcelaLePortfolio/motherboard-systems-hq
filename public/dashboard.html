@@ -224,56 +224,24 @@
         </section>
   </main>
 <!-- PHASE16: Reflections SSE owner (must run BEFORE bundle.js) -->
-  <script defer src="/js/phase16_sse_backoff.js?v=phase16_5"></script>
-<script defer src="/js/phase16_sse_owner_ops_reflections.js?v=1767212598"></script>
-<!-- /PHASE16 -->
-
-<script defer src="/bundle.js?v=1767901096"></script>
+  <!-- /PHASE16 -->
 
 <!-- PHASE16: reflections UI consumer (runs after bundle) -->
-<script defer src="/js/phase16_reflections_ui_consumer.js?v=1767212598"></script>
 <!-- /PHASE16 -->
 
   
-  <script defer src="/js/phase13_5_operator_ux.js"></script><div id="reflections" data-panel="reflections">
+  <div id="reflections" data-panel="reflections">
     <ul id="reflections-list" data-role="reflections-list"></ul>
   </div>
-
-<!-- PHASE16: reflections UI panel (safe, minimal) -->
-<div id="phase16_reflections_panel" style="position:fixed;right:16px;bottom:16px;z-index:9999;width:min(560px,92vw);max-height:48vh;overflow:hidden;border:1px solid rgba(255,255,255,0.12);border-radius:14px;background:rgba(0,0,0,0.78);backdrop-filter: blur(10px);-webkit-backdrop-filter: blur(10px);box-shadow:0 10px 30px rgba(0,0,0,0.45);">
-  <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-bottom:1px solid rgba(255,255,255,0.10);font:600 12px/1.2 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:rgba(255,255,255,0.92);">
-    <div>Reflections Stream</div>
-    <div id="phase16_reflections_status" style="font-weight:500;color:rgba(255,255,255,0.70);">reflections: (HTML loaded — waiting for JS)</div>
-  </div>
-  <pre id="phase16_reflections_log" style="margin:0;padding:10px 12px;max-height:calc(48vh - 44px);overflow:auto;white-space:pre-wrap;word-break:break-word;font:11px/1.35 ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,monospace;color:rgba(255,255,255,0.86);"></pre>
-</div>
-<!-- /PHASE16 reflections UI panel --><!-- PHASE16: reflections UI consumer --><!-- /PHASE16 reflections UI consumer -->
-
-<!-- PHASE16: inline beacon (debug) -->
-<script>
-  try {
-    window.__PHASE16_INLINE_BEACON = Date.now();
-    var el = document.getElementById("phase16_reflections_status");
-    if (el) el.textContent = "reflections: (inline JS ran ✅ — waiting for owner/consumer)";
-  } catch (e) {}
-</script>
-<!-- /PHASE16: inline beacon (debug) -->
-
-<!-- PHASE16: Reflections SSE owner -->
-<!-- /PHASE16: Reflections SSE owner -->
-
-<!-- PHASE16: reflections UI consumer -->
-<!-- /PHASE16: reflections UI consumer -->
-  <script defer src="/js/dashboard-ops-reflections-ui.js?v=phase16"></script>
 
 <div id="phase16-sse-indicator" style="position:fixed;right:10px;bottom:10px;z-index:9999;font:12px ui-monospace;opacity:.7;pointer-events:none">
   <span id="phase16-sse-indicator-text" style="padding:4px 8px;border-radius:9999px;border:1px solid rgba(255,255,255,.18);background:rgba(0,0,0,.25)">SSE: …</span>
 </div>
 
-<script defer src="/js/phase16_sse_status_indicator.js"></script>
-  <div id="mb-task-events-panel-anchor" style="width:100%;max-width:980px;margin:16px auto 0;padding:0 16px;"></div>
-<script src="/js/phase23_matilda_chat_hook.js"></script>
-<script src="/js/phase23_matilda_delegate_taskspec.js"></script>
-<script data-disabled="1" src="/js/phase23_matilda_task_events_bridge.js"></script>
+<div id="mb-task-events-panel-anchor" style="width:100%;max-width:980px;margin:16px auto 0;padding:0 16px;"></div>
+  <script>
+    console.log("[diag] dashboard static isolation mode active");
+  </script>
+
 </body>
 </html>
