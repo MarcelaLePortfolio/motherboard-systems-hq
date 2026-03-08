@@ -168,3 +168,26 @@
   line-height: 1 !important;
 }
 
+
+/* Phase 59.2 — convert capsules into thin console rows */
+
+#agent-status-container > :not(h2) {
+  min-height: 20px !important;
+  padding: 1px 8px !important;
+  border-radius: 6px !important;
+  background: rgba(71, 85, 105, 0.55) !important;
+  gap: 0.25rem !important;
+}
+
+#agent-status-container > :not(h2)::before {
+  inset: 3px auto 3px 0 !important;
+  width: 2px !important;
+}
+
+#agent-status-container > :not(h2) strong,
+#agent-status-container > :not(h2) b,
+#agent-status-container > :not(h2) .agent-name,
+#agent-status-container > :not(h2) .name {
+  font-size: 0.78rem !important;
+}
+
