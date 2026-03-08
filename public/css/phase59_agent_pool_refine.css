@@ -5,13 +5,13 @@
   box-shadow:
     0 18px 40px rgba(2, 6, 23, 0.45),
     inset 0 1px 0 rgba(255, 255, 255, 0.03) !important;
-  padding: 0.95rem 1.1rem 1rem !important;
-  gap: 0.22rem !important;
+  padding: 0.9rem 1rem 0.95rem !important;
+  gap: 0.08rem !important;
   align-items: stretch !important;
 }
 
 #agent-status-container > h2 {
-  margin: 0 0 0.12rem 0 !important;
+  margin: 0 0 0.1rem 0 !important;
   font-size: 0.82rem !important;
   letter-spacing: 0.18em !important;
   text-transform: uppercase !important;
@@ -31,12 +31,21 @@
 }
 
 #agent-status-container > :not(h2) > * {
+  margin: 0 0 0.08rem 0 !important;
+}
+
+#agent-status-container > :not(h2) > *:last-child {
+  margin-bottom: 0 !important;
+}
+
+#agent-status-container [data-agent] {
   width: 100% !important;
   min-width: 0 !important;
   max-width: none !important;
-  min-height: 18px !important;
-  padding: 0 8px 0 12px !important;
-  margin: 0 0 0.16rem 0 !important;
+  height: 24px !important;
+  min-height: 24px !important;
+  padding: 0 10px 0 12px !important;
+  margin: 0 !important;
   border-radius: 6px !important;
   background: rgba(71, 85, 105, 0.55) !important;
   border: 1px solid rgba(148, 163, 184, 0.08) !important;
@@ -44,98 +53,76 @@
   display: flex !important;
   align-items: center !important;
   justify-content: flex-start !important;
-  gap: 0.26rem !important;
+  gap: 0.28rem !important;
   position: relative !important;
   overflow: hidden !important;
   line-height: 1 !important;
+  font-size: 0.98rem !important;
 }
 
-#agent-status-container > :not(h2) > *:last-child {
-  margin-bottom: 0 !important;
+#agent-status-container [data-agent]::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: 1px auto 1px 0 !important;
+  width: 2px !important;
+  border-radius: 999px !important;
+  background: linear-gradient(180deg, #fbbf24 0%, #f59e0b 100%) !important;
+  opacity: 0.95 !important;
 }
 
-#agent-status-container > :not(h2) > *::before {
-  content: "";
-  position: absolute;
-  inset: 1px auto 1px 0;
-  width: 2px;
-  border-radius: 999px;
-  background: linear-gradient(180deg, #fbbf24 0%, #f59e0b 100%);
-  opacity: 0.95;
-}
-
-#agent-status-container > :not(h2) > *:hover {
+#agent-status-container [data-agent]:hover {
   border-color: rgba(96, 165, 250, 0.18) !important;
   background: rgba(71, 85, 105, 0.62) !important;
 }
 
-#agent-status-container > :not(h2) > *,
-#agent-status-container > :not(h2) > * *,
-#agent-status-container > :not(h2) > * span,
-#agent-status-container > :not(h2) > * div,
-#agent-status-container > :not(h2) > * p {
-  min-width: 0;
+#agent-status-container [data-agent],
+#agent-status-container [data-agent] *,
+#agent-status-container [data-agent] span,
+#agent-status-container [data-agent] div,
+#agent-status-container [data-agent] p {
   line-height: 1 !important;
+  min-width: 0 !important;
   color: rgba(226, 232, 240, 0.95) !important;
 }
 
-#agent-status-container > :not(h2) > * strong,
-#agent-status-container > :not(h2) > * b,
-#agent-status-container > :not(h2) > * .agent-name,
-#agent-status-container > :not(h2) > * .name {
+#agent-status-container [data-agent] strong,
+#agent-status-container [data-agent] b,
+#agent-status-container [data-agent] .agent-name,
+#agent-status-container [data-agent] .name {
   display: inline-block !important;
-  font-size: 0.76rem !important;
+  font-size: 0.98rem !important;
   font-weight: 700 !important;
   color: #f8fafc !important;
   letter-spacing: -0.01em !important;
   line-height: 1 !important;
-  margin-right: 0.16rem !important;
+  margin-right: 0.2rem !important;
 }
 
-#agent-status-container > :not(h2) > * .status,
-#agent-status-container > :not(h2) > * .agent-status,
-#agent-status-container > :not(h2) > * small,
-#agent-status-container > :not(h2) > * .subtext {
-  font-size: 0.64rem !important;
+#agent-status-container [data-agent] .status,
+#agent-status-container [data-agent] .agent-status,
+#agent-status-container [data-agent] small,
+#agent-status-container [data-agent] .subtext {
+  font-size: 0.82rem !important;
   color: rgba(148, 163, 184, 0.88) !important;
   line-height: 1 !important;
 }
 
 @media (max-width: 767px) {
   #agent-status-container {
-    padding: 0.9rem !important;
-    gap: 0.18rem !important;
+    padding: 0.85rem 0.9rem 0.9rem !important;
   }
 
-  #agent-status-container > :not(h2) > * {
-    min-height: 17px !important;
-    padding: 0 7px 0 10px !important;
-    margin-bottom: 0.14rem !important;
+  #agent-status-container [data-agent] {
+    height: 22px !important;
+    min-height: 22px !important;
+    padding: 0 8px 0 10px !important;
+    font-size: 0.92rem !important;
+  }
+
+  #agent-status-container [data-agent] strong,
+  #agent-status-container [data-agent] b,
+  #agent-status-container [data-agent] .agent-name,
+  #agent-status-container [data-agent] .name {
+    font-size: 0.92rem !important;
   }
 }
-
-/* Phase 59.3 — target the real rendered agent rows */
-#agent-status-container [data-agent] {
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
-  padding-left: 8px !important;
-  padding-right: 8px !important;
-  min-height: 18px !important;
-  line-height: 1 !important;
-  font-size: 0.78rem !important;
-  gap: 0.2rem !important;
-  border-radius: 4px !important;
-}
-
-#agent-status-container [data-agent]::before {
-  inset: 1px auto 1px 0 !important;
-  width: 2px !important;
-}
-
-#agent-status-container [data-agent] *,
-#agent-status-container [data-agent] span,
-#agent-status-container [data-agent] div {
-  line-height: 1 !important;
-  font-size: inherit !important;
-}
-
