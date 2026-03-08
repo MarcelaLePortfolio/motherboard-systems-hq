@@ -28,10 +28,10 @@ function _safeJsonParse(s) {
 }
 
 router.get("/api/task-events-sse", (req, res) => {
-    res.redirect(307, "/events/task-events");
-  });
+  res.redirect(307, "/events/task-events");
+});
 
-  router.get("/events/task-events", async (req, res) => {
+router.get("/events/task-events", async (req, res) => {
   res.status(200);
   res.setHeader("Content-Type", "text/event-stream; charset=utf-8");
   res.setHeader("Cache-Control", "no-cache, no-transform");
@@ -70,26 +70,25 @@ router.get("/api/task-events-sse", (req, res) => {
   const backoffMax = 1500;
   const batchLimit = 200;
 
-  // If first connect, start from latest so we don't dump the whole table by default.
   if (cursor == null) {
-      try {
-        const r = await pool.query(`
-          select coalesce((extract(epoch from max(created_at)) * 1000)::bigint, 0) as max_ms
-          from task_events
-        `);
-        cursor = _intOrNull(r?.rows?.[0]?.max_ms) ?? 0;
-      } catch (_) {
-        cursor = 0;
-      }
+    try {
+      const r = await pool.query(`
+        select coalesce((extract(epoch from max(created_at)) * 1000)::bigint, 0) as max_ms
+        from task_events
+      `);
+      cursor = _intOrNull(r?.rows?.[0]?.max_ms) ?? 0;
+    } catch (_) {
+      cursor = 0;
     }
+  }
 
-    _sseWrite(res, { event: "hello", data: { kind: "task-events", cursor, ts: Date.now() } });
+  _sseWrite(res, { event: "hello", data: { kind: "task-events", cursor, ts: Date.now() } });
 
   while (!closed) {
     try {
       let q;
-        try {
-          q = await pool.query(
+      try {
+        q = await pool.query(
           `
           select id, kind, payload, task_id, run_id, actor, created_at
           from task_events
@@ -97,10 +96,10 @@ router.get("/api/task-events-sse", (req, res) => {
           order by created_at asc
           limit $2
           `,
-            [cursor, batchLimit]
-          );
-        } catch (_e) {
-          q = await pool.query(
+          [cursor, batchLimit]
+        );
+      } catch (_e) {
+        q = await pool.query(
           `
           select id, kind, payload, created_at
           from task_events
@@ -108,11 +107,11 @@ router.get("/api/task-events-sse", (req, res) => {
           order by created_at asc
           limit $2
           `,
-            [cursor, batchLimit]
-          );
-        }
+          [cursor, batchLimit]
+        );
+      }
 
-const rows = q?.rows || [];
+      const rows = q?.rows || [];
       if (rows.length === 0) {
         _sseWrite(res, { event: "heartbeat", data: { ts: Date.now(), cursor } });
         await _sleep(backoffMs);
@@ -123,12 +122,19 @@ const rows = q?.rows || [];
       backoffMs = 150;
 
       for (const r of rows) {
-        const _ms = (r.created_at instanceof Date) ? r.created_at.getTime() : Date.parse(r.created_at);
-          if (Number.isFinite(_ms)) cursor = Math.max(cursor, _ms);
+        const createdAtMs =
+          r.created_at instanceof Date
+            ? r.created_at.getTime()
+            : Date.parse(r.created_at);
+
+        if (Number.isFinite(createdAtMs)) {
+          cursor = Math.max(cursor, createdAtMs + 1);
+        }
+
         const payload = _safeJsonParse(r.payload);
-          const taskIdCol = (r.task_id ?? null);
-          const runIdCol  = (r.run_id  ?? null);
-          const actorCol  = (r.actor   ?? null);
+        const taskIdCol = (r.task_id ?? null);
+        const runIdCol = (r.run_id ?? null);
+        const actorCol = (r.actor ?? null);
 
         _sseWrite(res, {
           id: String(r.id),
