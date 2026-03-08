@@ -132,3 +132,22 @@
     font-size: 0.84rem !important;
   }
 }
+
+/* Phase 59.4 — collapse spacing between agent rows */
+
+#agent-status-container {
+  gap: 0 !important;
+}
+
+#agent-status-container > div {
+  gap: 0 !important;
+}
+
+#agent-status-container [data-agent] {
+  margin: 0 !important;
+}
+
+#agent-status-container [data-agent] + [data-agent] {
+  margin-top: 2px !important;
+}
+
