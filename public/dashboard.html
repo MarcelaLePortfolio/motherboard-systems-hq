@@ -15,10 +15,9 @@
   </style>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Motherboard Systems Dashboard</title>
+  <title>Motherboard Systems Operator Console</title>
 
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
-
   <link rel="stylesheet" href="css/broadcast.css" />
   <link rel="stylesheet" href="css/dashboard.css?v=darkmode" />
   <link rel="stylesheet" href="css/dashboard-reflections.css" />
@@ -26,133 +25,182 @@
   <link rel="stylesheet" href="css/matilda-chat.css" />
   <link rel="stylesheet" href="css/demo_layout_trim.css" />
   <link rel="stylesheet" href="/css/phase13_5_operator_ux.css" />
+  <link rel="stylesheet" href="css/phase59_demo_focus.css" />
 </head>
 
 <body class="bg-gray-900 text-gray-100 min-h-screen p-4">
-  <header class="flex justify-between items-center mb-6">
-    <h1 class="text-3xl font-bold text-teal-400">
-      Systems Operations Dashboard
-    </h1>
-    <div id="global-status" class="flex items-center space-x-4">
+  <header class="phase59-shell flex flex-col gap-4 mb-6 lg:flex-row lg:items-center lg:justify-between">
+    <div>
+      <p class="text-xs uppercase tracking-[0.24em] text-teal-300/70 mb-2">Motherboard Systems</p>
+      <h1 class="text-3xl font-bold text-teal-400">
+        Operator Console
+      </h1>
+    </div>
+    <div
+      id="global-status"
+      class="bg-gray-800 border border-gray-700 rounded-2xl shadow-xl px-4 py-3 flex flex-wrap items-center gap-x-5 gap-y-2"
+    >
       <span class="text-sm font-semibold">
         Uptime:
         <span id="uptime-display" class="text-green-400">Calculating...</span>
       </span>
-      <div id="system-health-indicator" class="w-3 h-3 rounded-full bg-red-500 animate-pulse"></div>
-      <span class="text-sm">
-        Health:
-        <span id="health-status">Critical</span>
+      <div class="flex items-center gap-2">
+        <div id="system-health-indicator" class="w-3 h-3 rounded-full bg-red-500 animate-pulse"></div>
+        <span class="text-sm">
+          Health:
+          <span id="health-status">Critical</span>
+        </span>
+      </div>
+      <span class="text-sm text-gray-400">
+        Probe lifecycle and task activity visible below.
       </span>
     </div>
   </header>
 
   <section
     id="agent-status-container"
-    class="bg-gray-800 p-4 rounded-lg shadow-2xl flex flex-wrap gap-4 items-center mb-6"
+    class="phase59-shell bg-gray-800 p-4 rounded-2xl shadow-2xl flex flex-wrap gap-4 items-center mb-6 border border-gray-700"
   >
-    <h3 class="text-lg font-semibold text-gray-300 w-full md:w-auto md:pr-4">
-      Agent Pool:
-    </h3>
+    <h2 class="text-lg font-semibold text-gray-200 w-full">
+      Agent Pool
+    </h2>
     <span class="text-gray-500">Loading agents...</span>
   </section>
 
-  <main class="grid gap-6 lg:grid-cols-2">
-    <section id="left-column" class="space-y-6">
-      <section id="matilda-chat-card" class="bg-gray-800 p-6 rounded-lg shadow-lg">
-        <h2 class="text-xl font-semibold mb-4 border-b border-gray-700 pb-2">
-          Matilda Chat Console
+  <main class="phase59-shell space-y-6">
+    <section
+      id="metrics-row"
+      class="grid grid-cols-2 xl:grid-cols-4 gap-4"
+      aria-label="System metrics"
+    >
+      <div class="bg-gray-800 p-4 rounded-2xl shadow-lg border border-gray-700">
+        <p class="text-sm text-gray-400">Active Agents</p>
+        <p id="metric-agents" class="text-2xl font-bold text-blue-400">--</p>
+      </div>
+      <div class="bg-gray-800 p-4 rounded-2xl shadow-lg border border-gray-700">
+        <p class="text-sm text-gray-400">Tasks Running</p>
+        <p id="metric-tasks" class="text-2xl font-bold text-yellow-400">--</p>
+      </div>
+      <div class="bg-gray-800 p-4 rounded-2xl shadow-lg border border-gray-700">
+        <p class="text-sm text-gray-400">Success Rate</p>
+        <p id="metric-success-rate" class="text-2xl font-bold text-green-400">--</p>
+      </div>
+      <div class="bg-gray-800 p-4 rounded-2xl shadow-lg border border-gray-700">
+        <p class="text-sm text-gray-400">Latency (ms)</p>
+        <p id="metric-latency" class="text-2xl font-bold text-red-400">--</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="operator-tools-heading" class="space-y-4">
+      <div class="flex items-center justify-between">
+        <h2 id="operator-tools-heading" class="text-xs uppercase tracking-[0.24em] text-gray-400">
+          Operator Tools
         </h2>
-        <div id="matilda-chat-root" class="space-y-3">
-          <div
-            id="matilda-chat-transcript"
-            class="bg-gray-900 border border-gray-700 rounded-lg p-3 h-52 overflow-y-auto text-sm"
-          >
-            <p class="text-gray-500 italic">
-              Chat with Matilda about tasks, status, or next steps...
+      </div>
+
+      <div id="operator-tools-grid" class="grid gap-6 xl:grid-cols-2">
+        <section id="matilda-chat-card" class="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700">
+          <h2 class="text-xl font-semibold mb-4 border-b border-gray-700 pb-2">
+            Matilda Chat Console
+          </h2>
+          <div id="matilda-chat-root" class="space-y-3">
+            <div
+              id="matilda-chat-transcript"
+              class="bg-gray-900 border border-gray-700 rounded-xl p-3 h-52 overflow-y-auto text-sm"
+            >
+              <p class="text-gray-500 italic">
+                Chat with Matilda about tasks, status, or next steps...
+              </p>
+            </div>
+            <div class="flex space-x-3 items-end">
+              <textarea
+                id="matilda-chat-input"
+                rows="2"
+                class="flex-1 bg-gray-900 border border-gray-700 rounded-xl p-3 text-sm resize-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                placeholder="Type a message to Matilda and press Enter or click Send..."
+              ></textarea>
+              <button
+                id="matilda-chat-send"
+                class="px-5 py-2 rounded-xl font-semibold text-sm bg-purple-500 hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-400 transition transform hover:-translate-y-0.5 shadow-lg"
+              >
+                Send
+              </button>
+              <button
+                id="matilda-chat-quick-check"
+                class="px-3 py-2 rounded-xl font-semibold text-xs bg-gray-700 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-400 transition shadow-lg"
+              >
+                Quick check
+              </button>
+            </div>
+            <p id="matilda-helper-text-ops" class="text-xs text-gray-400 mt-1">
+              Matilda is currently using a placeholder /api/chat stub (Phase 11.3 baseline).
             </p>
           </div>
-          <div class="flex space-x-3 items-end">
-            <textarea
-              id="matilda-chat-input"
-              rows="2"
-              class="flex-1 bg-gray-900 border border-gray-700 rounded-lg p-3 text-sm resize-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
-              placeholder="Type a message to Matilda and press Enter or click Send..."
-            ></textarea>
+        </section>
+
+        <section
+          id="delegation-card"
+          class="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700 space-y-4"
+        >
+          <h2 class="text-xl font-semibold border-b border-gray-700 pb-2">
+            Task Delegation
+          </h2>
+          <textarea
+            id="delegation-input"
+            rows="3"
+            class="w-full bg-gray-900 border border-gray-700 p-3 rounded-xl focus:ring-teal-500 focus:border-teal-500 resize-none text-white placeholder-gray-500"
+            placeholder="Delegate a new task or modify system parameters..."
+          ></textarea>
+          <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
             <button
-              id="matilda-chat-send"
-              class="px-5 py-2 rounded-lg font-semibold text-sm bg-purple-500 hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-400 transition transform hover:-translate-y-0.5 shadow-lg"
+              id="delegation-submit"
+              class="w-full md:w-auto bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded-xl transition duration-200"
             >
-              Send
+              Submit Delegation
             </button>
             <button
-              id="matilda-chat-quick-check"
-              class="px-3 py-2 rounded-lg font-semibold text-xs bg-gray-700 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-400 transition shadow-lg"
+              id="complete-task-btn"
+              class="w-full md:w-auto bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-xl transition duration-200"
             >
-              Quick check
+              Complete Task (Alpha)
             </button>
           </div>
-          <p id="matilda-helper-text-ops" class="text-xs text-gray-400 mt-1">Matilda is currently using a placeholder /api/chat stub (Phase 11.3 baseline).</p>
-        </div>
-      </section>
+          <div id="delegation-response" class="mt-2 text-sm text-gray-300 italic"></div>
+        </section>
+      </div>
+    </section>
 
-      <section class="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div class="bg-gray-800 p-4 rounded-lg shadow-lg">
-          <p class="text-sm text-gray-400">Active Agents</p>
-          <p id="metric-agents" class="text-2xl font-bold text-blue-400">--</p>
-        </div>
-        <div class="bg-gray-800 p-4 rounded-lg shadow-lg">
-          <p class="text-sm text-gray-400">Tasks Running</p>
-          <p id="metric-tasks" class="text-2xl font-bold text-yellow-400">--</p>
-        </div>
-        <div class="bg-gray-800 p-4 rounded-lg shadow-lg">
-          <p class="text-sm text-gray-400">Success Rate</p>
-          <p id="metric-success-rate" class="text-2xl font-bold text-green-400">--</p>
-        </div>
-        <div class="bg-gray-800 p-4 rounded-lg shadow-lg">
-          <p class="text-sm text-gray-400">Latency (ms)</p>
-          <p id="metric-latency" class="text-2xl font-bold text-red-400">--</p>
-        </div>
-      </section>
+    <section aria-labelledby="activity-panels-heading" class="space-y-4">
+      <h2 id="activity-panels-heading" class="text-xs uppercase tracking-[0.24em] text-gray-400">
+        Activity Panels
+      </h2>
 
-      <section
-        id="delegation-card"
-        class="bg-gray-800 p-6 rounded-lg shadow-lg space-y-4"
-      >
-        <h2 class="text-xl font-semibold border-b border-gray-700 pb-2">
-          Task Delegation
-        </h2>
-        <textarea
-          id="delegation-input"
-          rows="3"
-          class="w-full bg-gray-900 border border-gray-700 p-3 rounded-lg focus:ring-teal-500 focus:border-teal-500 resize-none text-white placeholder-gray-500"
-          placeholder="Delegate a new task or modify system parameters..."
-        ></textarea>
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-          <button
-            id="delegation-submit"
-            class="w-full md:w-auto bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded-lg transition duration-200"
-          >
-            Submit Delegation
-          </button>
-          <button
-            id="complete-task-btn"
-            class="w-full md:w-auto bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-200"
-          >
-            Complete Task (Alpha)
-          </button>
-        </div>
-        <div id="delegation-response" class="mt-2 text-sm text-gray-300 italic"></div>
-      </section>
+      <div id="activity-panels-grid" class="grid gap-6 xl:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
+        <section id="recent-tasks-card" class="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700">
+          <div class="flex items-center justify-between mb-4 border-b border-gray-700 pb-2">
+            <h2 class="text-xl font-semibold">Recent Tasks</h2>
+            <span class="text-xs uppercase tracking-wide text-indigo-300/80">Live</span>
+          </div>
+          <div id="tasks-widget"></div>
+        </section>
 
-        <section id="recent-tasks-card" class="bg-gray-800 p-6 rounded-lg shadow-lg">
-  <div class="flex items-center justify-between mb-4 border-b border-gray-700 pb-2">
-    <h2 class="text-xl font-semibold">Recent Tasks</h2>
-    <span class="text-xs uppercase tracking-wide text-indigo-300/80">Live</span>
-  </div>
-  <div id="tasks-widget"></div>
-</section>
+        <section id="task-activity-card" class="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700">
+          <h2 class="text-xl font-semibold mb-4 border-b border-gray-700 pb-2">
+            Task Activity Over Time
+          </h2>
+          <div class="h-64">
+            <canvas id="task-activity-graph" class="w-full h-full"></canvas>
+          </div>
+        </section>
+      </div>
+    </section>
 
-      <section id="atlas-status-card" class="bg-gray-800 p-6 rounded-lg shadow-lg">
+    <section aria-labelledby="subsystem-status-heading" class="space-y-4">
+      <h2 id="subsystem-status-heading" class="text-xs uppercase tracking-[0.24em] text-gray-400">
+        Subsystem Status
+      </h2>
+
+      <section id="atlas-status-card" class="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700">
         <h2
           class="text-xl font-semibold mb-4 border-b border-gray-700 pb-2 flex justify-between items-center"
         >
@@ -171,79 +219,27 @@
           </p>
         </div>
       </section>
-
-      <section
-        id="reflections-viewer-card"
-        class="bg-gray-800 p-6 rounded-lg shadow-lg max-h-96 overflow-y-auto"
-      >
-        <h2 class="text-xl font-semibold mb-4 border-b border-gray-700 pb-2">
-          System Reflections
-        </h2>
-        <div id="recentLogs" class="space-y-4">
-          <p class="text-gray-500 italic">
-            Awaiting latest system self-analysis...
-          </p>
-        </div>
-      </section>
-
-      <section id="ops-alerts-card" class="bg-gray-800 p-6 rounded-lg shadow-lg">
-        <h2 class="text-xl font-semibold mb-4 border-b border-gray-700 pb-2">
-          Critical Ops Alerts (hidden in demo focus)
-        </h2>
-        <ul id="ops-alerts-list" class="space-y-3">
-          <li class="text-green-500">System initialization successful.</li>
-        </ul>
-      </section>
-
-      <section class="bg-gray-800 p-6 rounded-lg shadow-lg">
-        <h2 class="text-xl font-semibold mb-4 border-b border-gray-700 pb-2">
-          Task Activity Over Time (hidden in demo focus)
-        </h2>
-        <div class="h-64">
-          <canvas id="task-activity-graph" class="w-full h-full"></canvas>
-        </div>
-      </section>
     </section>
-
-    <section
-        id="project-visual-output-card"
-        class="bg-gray-900/90 rounded-3xl border border-gray-700 shadow-[0_0_35px_rgba(129,140,248,0.35)] p-4 md:p-6"
-      >
-          <header class="flex items-center justify-between mb-3 border-b border-gray-700 pb-2">
-            <h2 class="text-xl font-semibold">Project Visual Output (deferred for demo)</h2>
-            <span class="text-xs uppercase tracking-wide text-indigo-300/80">Viewport</span>
-          </header>
-
-          <div
-            id="project-visual-output"
-            class="project-viewport-inner bg-black/60 rounded-2xl border border-gray-800 min-h-[320px] p-4 overflow-auto flex items-center justify-center"
-            style="min-height:320px"
-          >
-            <p class="text-sm text-gray-400 italic text-center px-6">
-              No active project output yet. When a build or demo is running, this screen can display diagrams, previews, or other visual artifacts.
-            </p>
-          </div>
-        </section>
   </main>
-<!-- PHASE16: Reflections SSE owner (must run BEFORE bundle.js) -->
-  <!-- /PHASE16 -->
 
-<!-- PHASE16: reflections UI consumer (runs after bundle) -->
-<!-- /PHASE16 -->
+  <div id="phase59-compat-roots" hidden aria-hidden="true">
+    <div id="project-visual-output"></div>
+    <div id="recentLogs"></div>
+    <ul id="ops-alerts-list"></ul>
+  </div>
 
-  
   <div id="reflections" data-panel="reflections">
     <ul id="reflections-list" data-role="reflections-list"></ul>
   </div>
 
-<div id="phase16-sse-indicator" style="position:fixed;right:10px;bottom:10px;z-index:9999;font:12px ui-monospace;opacity:.7;pointer-events:none">
-  <span id="phase16-sse-indicator-text" style="padding:4px 8px;border-radius:9999px;border:1px solid rgba(255,255,255,.18);background:rgba(0,0,0,.25)">SSE: …</span>
-</div>
+  <div id="phase16-sse-indicator" style="position:fixed;right:10px;bottom:10px;z-index:9999;font:12px ui-monospace;opacity:.7;pointer-events:none">
+    <span id="phase16-sse-indicator-text" style="padding:4px 8px;border-radius:9999px;border:1px solid rgba(255,255,255,.18);background:rgba(0,0,0,.25)">SSE: …</span>
+  </div>
 
-<div id="mb-task-events-panel-anchor" style="width:100%;max-width:980px;margin:16px auto 0;padding:0 16px;"></div>
+  <div id="mb-task-events-panel-anchor" style="width:100%;max-width:980px;margin:16px auto 0;padding:0 16px;"></div>
+
   <script>
     console.log("[diag] dashboard static isolation mode active");
   </script>
-
 </body>
 </html>
