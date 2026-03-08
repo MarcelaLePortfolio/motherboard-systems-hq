@@ -1,217 +1,66 @@
-/* Phase 59 — Dashboard composition pass
-   UI-only structural composition from stable baseline.
-   No backend / SSE / lifecycle behavior changes.
-*/
 
-:root {
-  --mb-bg: #020617;
-  --mb-surface-1: rgba(15, 23, 42, 0.88);
-  --mb-surface-2: rgba(15, 23, 42, 0.78);
-  --mb-surface-3: rgba(2, 6, 23, 0.74);
-  --mb-border: rgba(148, 163, 184, 0.14);
-  --mb-border-strong: rgba(129, 140, 248, 0.28);
-  --mb-text: rgba(248, 250, 252, 0.96);
-  --mb-text-soft: rgba(226, 232, 240, 0.76);
-  --mb-text-muted: rgba(148, 163, 184, 0.72);
-  --mb-shadow: 0 20px 48px rgba(2, 6, 23, 0.42);
-  --mb-shadow-soft: 0 12px 28px rgba(2, 6, 23, 0.28);
-  --mb-radius-xl: 1.5rem;
-  --mb-radius-2xl: 1.75rem;
-  --mb-gap: 1.5rem;
+/* === Agent Status Panel === */
+#agent-status {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background: #111;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
 }
 
-html,
-body {
-  background:
-    radial-gradient(circle at top left, rgba(59, 130, 246, 0.10), transparent 32%),
-    radial-gradient(circle at top right, rgba(99, 102, 241, 0.10), transparent 28%),
-    linear-gradient(180deg, #020617 0%, #020617 48%, #0f172a 100%);
-  color: var(--mb-text);
+#agent-status h2 {
+  margin-bottom: 0.75rem;
+  font-size: 1.25rem;
+  color: #fff;
 }
 
-body.phase58d-operator-console {
-  background:
-    radial-gradient(circle at top left, rgba(59, 130, 246, 0.10), transparent 32%),
-    radial-gradient(circle at top right, rgba(99, 102, 241, 0.10), transparent 28%),
-    linear-gradient(180deg, #020617 0%, #020617 48%, #0f172a 100%) !important;
-}
-
-#console-primary-column,
-#console-secondary-column {
-  display: contents;
-}
-
-main.grid {
+#agent-status .agents-grid {
   display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
-  gap: var(--mb-gap) !important;
-  align-items: start;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.75rem;
 }
 
-main.grid > section,
-main.grid > aside,
-main.grid > div {
-  min-width: 0;
+#agent-status .agent {
+  padding: 0.75rem;
+  border-radius: 8px;
+  background: #222;
+  color: #ccc;
+  font-size: 0.9rem;
+  line-height: 1.4;
 }
 
-#recent-tasks-card,
-#project-visual-output-card,
-#atlas-status-card,
-#matilda-chat-card,
-#reflections-viewer-card,
-#ops-alerts-card,
-#delegation-card,
-#recent-tasks-card + section.rounded-3xl,
-section.rounded-3xl.border.border-slate-800.bg-slate-900\/70 {
+#agent-status .agent.online { border-left: 5px solid #00ff99; color: #00ff99; }
+#agent-status .agent.stopped { border-left: 5px solid #ffaa00; color: #ffaa00; }
+#agent-status .agent.errored { border-left: 5px solid #ff3366; color: #ff3366; }
+
+/* Project Visual Output "monitor" styling */
+#project-visual-output-card {
   position: relative;
-  overflow: hidden;
-  border: 1px solid var(--mb-border) !important;
-  box-shadow: var(--mb-shadow-soft);
-  backdrop-filter: blur(8px);
+  background:
+    radial-gradient(circle at 0% 0%, rgba(148, 163, 184, 0.25), transparent 55%),
+    radial-gradient(circle at 100% 0%, rgba(79, 70, 229, 0.15), transparent 60%),
+    #020617;
+  border-radius: 1.5rem;
+  box-shadow:
+    0 0 0 1px rgba(148, 163, 184, 0.35),
+    0 18px 40px rgba(15, 23, 42, 0.9);
 }
 
-#recent-tasks-card::before,
-#project-visual-output-card::before,
-#atlas-status-card::before,
-#matilda-chat-card::before,
-#reflections-viewer-card::before,
-#ops-alerts-card::before,
-#delegation-card::before,
-#recent-tasks-card + section.rounded-3xl::before,
-section.rounded-3xl.border.border-slate-800.bg-slate-900\/70::before {
+/* top highlight / faux bevel */
+#project-visual-output-card::before {
   content: "";
   position: absolute;
   inset: 0;
+  border-radius: inherit;
   background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.04) 0%,
-    rgba(255, 255, 255, 0.00) 26%
+    to bottom,
+    rgba(255, 255, 255, 0.08),
+    transparent 35%
   );
   pointer-events: none;
 }
 
-#recent-tasks-card {
-  grid-column: 1 / span 8;
-  background:
-    radial-gradient(circle at top left, rgba(99, 102, 241, 0.16), transparent 34%),
-    linear-gradient(180deg, rgba(15, 23, 42, 0.94), rgba(15, 23, 42, 0.88)) !important;
-  border-color: var(--mb-border-strong) !important;
-  box-shadow: var(--mb-shadow);
-}
-
-#atlas-status-card {
-  grid-column: 9 / span 4;
-  background: linear-gradient(180deg, rgba(15, 23, 42, 0.90), rgba(15, 23, 42, 0.84)) !important;
-}
-
-#matilda-chat-card {
-  grid-column: 1 / span 4;
-  background: linear-gradient(180deg, rgba(15, 23, 42, 0.90), rgba(15, 23, 42, 0.84)) !important;
-}
-
-#delegation-card {
-  grid-column: 5 / span 4;
-  background: linear-gradient(180deg, rgba(15, 23, 42, 0.90), rgba(15, 23, 42, 0.84)) !important;
-}
-
-#project-visual-output-card {
-  grid-column: 9 / span 4;
-  background:
-    radial-gradient(circle at top left, rgba(99, 102, 241, 0.20), transparent 34%),
-    radial-gradient(circle at bottom right, rgba(59, 130, 246, 0.16), transparent 32%),
-    linear-gradient(180deg, rgba(15, 23, 42, 0.94), rgba(2, 6, 23, 0.96)) !important;
-  border-color: rgba(129, 140, 248, 0.24) !important;
-  box-shadow:
-    0 0 0 1px rgba(129, 140, 248, 0.10),
-    0 22px 48px rgba(2, 6, 23, 0.42);
-}
-
-#reflections-viewer-card {
-  grid-column: 1 / span 6;
-  background: linear-gradient(180deg, rgba(15, 23, 42, 0.86), rgba(15, 23, 42, 0.80)) !important;
-}
-
-#ops-alerts-card {
-  grid-column: 7 / span 3;
-  background: linear-gradient(180deg, rgba(15, 23, 42, 0.82), rgba(15, 23, 42, 0.76)) !important;
-}
-
-#recent-tasks-card + section.rounded-3xl,
-section.rounded-3xl.border.border-slate-800.bg-slate-900\/70 {
-  grid-column: 10 / span 3;
-  background: linear-gradient(180deg, rgba(15, 23, 42, 0.74), rgba(15, 23, 42, 0.68)) !important;
-  opacity: 0.92;
-}
-
-#agent-status-container {
-  border-color: rgba(148, 163, 184, 0.16) !important;
-  background:
-    linear-gradient(180deg, rgba(2, 6, 23, 0.60), rgba(2, 6, 23, 0.48)),
-    rgba(2, 6, 23, 0.55) !important;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02);
-}
-
-#agent-status-container [data-agent] {
-  min-height: 2.5rem;
-  background: rgba(15, 23, 42, 0.72) !important;
-  border: 1px solid rgba(148, 163, 184, 0.10);
-  color: var(--mb-text-soft);
-}
-
-#project-visual-output-card header,
-#recent-tasks-card > div:first-child,
-#atlas-status-card > div:first-child,
-#matilda-chat-card > div:first-child,
-#reflections-viewer-card > div:first-child,
-#ops-alerts-card > div:first-child,
-#delegation-card > div:first-child,
-#recent-tasks-card + section.rounded-3xl > div:first-child,
-section.rounded-3xl.border.border-slate-800.bg-slate-900\/70 > div:first-child {
-  position: relative;
-  z-index: 1;
-}
-
-#recent-tasks-card h2,
-#project-visual-output-card h2 {
-  letter-spacing: -0.01em;
-}
-
-#recent-tasks-card p.text-\[11px\],
-#project-visual-output-card p.text-\[11px\],
-#atlas-status-card p.text-\[11px\],
-#matilda-chat-card p.text-\[11px\],
-#reflections-viewer-card p.text-\[11px\],
-#ops-alerts-card p.text-\[11px\],
-#delegation-card p.text-\[11px\] {
-  color: var(--mb-text-muted) !important;
-}
-
-#recent-tasks-card .inline-flex.items-center.rounded-full,
-#project-visual-output-card .text-xs.uppercase,
-#atlas-status-card #atlas-health {
-  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04);
-}
-
-#tasks-widget {
-  min-height: 14rem;
-}
-
-#mb-task-events-panel-anchor {
-  width: 100% !important;
-  max-width: none !important;
-  margin: 1rem 0 0 0 !important;
-  padding: 0 !important;
-}
-
-#mb-task-events-panel-anchor > *,
-#tasks-widget > * {
-  max-width: none !important;
-}
-
-#project-visual-output-card {
-  border-radius: var(--mb-radius-2xl) !important;
-}
-
+/* little “status LED” in the header */
 #project-visual-output-card header::after {
   content: "";
   width: 8px;
@@ -222,160 +71,114 @@ section.rounded-3xl.border.border-slate-800.bg-slate-900\/70 > div:first-child {
   box-shadow: 0 0 8px rgba(34, 197, 94, 0.9);
 }
 
-#project-visual-output-card .project-viewport-inner,
-#project-visual-output {
-  min-height: 34rem !important;
+/* inner screen surface */
+#project-visual-output-card .project-viewport-inner {
+  min-height: 640px;
   background:
-    radial-gradient(circle at 50% 0%, rgba(248, 250, 252, 0.05), transparent 52%),
-    radial-gradient(circle at 0% 100%, rgba(59, 130, 246, 0.12), transparent 58%),
-    #020617 !important;
+    radial-gradient(circle at 50% 0%, rgba(248, 250, 252, 0.06), transparent 55%),
+    radial-gradient(circle at 0% 100%, rgba(59, 130, 246, 0.18), transparent 60%),
+    #020617;
   border-radius: 1.25rem;
   box-shadow:
     inset 0 0 0 1px rgba(15, 23, 42, 0.9),
-    inset 0 0 30px rgba(15, 23, 42, 0.95);
+    inset 0 0 35px rgba(15, 23, 42, 0.95),
+    0 0 40px rgba(37, 99, 235, 0.45);
 }
 
-#matilda-chat-card,
-#delegation-card {
-  min-height: 30rem;
+/* Phase 11 – OPS status pill */
+.ops-pill {
+  display: inline-block;
+  padding: 4px 10px;
+  margin: 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
-#matilda-chat-transcript {
-  min-height: 18rem;
-  max-height: 18rem;
-  background: rgba(2, 6, 23, 0.84) !important;
+/* Default / unknown */
+.ops-pill-unknown {
+  background: #555;
+  color: #f5f5f5;
 }
 
-#atlas-status-details,
-#ops-alerts-list,
-#delegation-response {
-  color: var(--mb-text-soft) !important;
+/* Online / healthy */
+.ops-pill-online {
+  background: #1f7a3a;
+  color: #e9ffe9;
 }
 
-#ops-alerts-list li {
-  border: 1px solid rgba(148, 163, 184, 0.10);
-  border-radius: 0.85rem;
-  background: rgba(2, 6, 23, 0.42);
-  padding: 0.75rem 0.9rem;
+/* Stale / degraded */
+.ops-pill-stale {
+  background: #8a6d1f;
+  color: #fff9e6;
 }
 
-#delegation-input,
-#matilda-chat-input {
-  background: rgba(2, 6, 23, 0.86) !important;
-  border-color: rgba(148, 163, 184, 0.14) !important;
+/* Error / offline */
+.ops-pill-error {
+  background: #8a1f1f;
+  color: #ffe9e9;
 }
 
-#recentLogs,
-#reflections {
-  background: transparent !important;
-}
-
-#phase16_reflections_panel,
-#phase58d-operator-banner {
-  display: none !important;
-}
-
-[data-phase58d-hidden="true"] {
-  display: none !important;
-}
-
-[data-phase58d-primary="true"],
-[data-phase58d-secondary="true"],
-[data-phase58d-muted="true"] {
-  opacity: 1 !important;
-}
-
-#ops-dashboard-pill,
-#ops-pill {
+/* Phase 11 – Dashboard OPS pill fixed position */
+#ops-dashboard-pill {
   position: fixed;
-  right: 1rem;
-  bottom: 1rem;
-  z-index: 60;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  z-index: 999;
 }
 
-.ops-ok { box-shadow: 0 0 0 1px rgba(34,197,94,.35) inset; }
+/* force project viewport size */
+.project-viewport-inner{min-height:320px;}
+
+/* === Phase 16: OPS pill + Reflections list consumption === */
+.ops-ok   { box-shadow: 0 0 0 1px rgba(34,197,94,.35) inset; }
 .ops-warn { box-shadow: 0 0 0 1px rgba(234,179,8,.35) inset; }
 .ops-down { box-shadow: 0 0 0 1px rgba(239,68,68,.35) inset; }
 .ops-unknown { box-shadow: 0 0 0 1px rgba(148,163,184,.28) inset; }
 
+.ops-ok   { filter: saturate(1.15); }
+.ops-warn { filter: saturate(1.05); }
+.ops-down { filter: saturate(1.10); }
+.ops-unknown { opacity: .9; }
+
+/* Reflections list rows */
 .reflection-row {
-  padding: 0.9rem 1rem;
-  border: 1px solid rgba(148, 163, 184, 0.12);
-  border-radius: 1rem;
-  background: rgba(2, 6, 23, 0.42);
+  padding: 8px 10px;
+  border: 1px solid rgba(148,163,184,.14);
+  border-radius: 10px;
+  margin: 8px 0;
+  background: rgba(2,6,23,.35);
 }
 
 .reflection-top {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  gap: 0.75rem;
+  gap: 10px;
 }
 
 .reflection-title {
-  font-size: 0.76rem;
+  font-size: 12px;
   font-weight: 600;
-  letter-spacing: 0.02em;
-  color: rgba(248, 250, 252, 0.94);
+  letter-spacing: .02em;
+  opacity: .95;
 }
 
 .reflection-ts {
-  font-size: 0.72rem;
-  color: rgba(148, 163, 184, 0.72);
+  font-size: 11px;
+  opacity: .6;
   white-space: nowrap;
 }
 
 .reflection-body {
-  margin-top: 0.45rem;
-  font-size: 0.8rem;
-  line-height: 1.45;
-  color: rgba(226, 232, 240, 0.82);
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.35;
+  opacity: .85;
   white-space: pre-wrap;
 }
 
-@media (max-width: 1279px) {
-  #recent-tasks-card { grid-column: 1 / span 12; }
-  #atlas-status-card { grid-column: 1 / span 6; }
-  #project-visual-output-card { grid-column: 7 / span 6; }
-  #matilda-chat-card { grid-column: 1 / span 6; }
-  #delegation-card { grid-column: 7 / span 6; }
-  #reflections-viewer-card { grid-column: 1 / span 8; }
-  #ops-alerts-card { grid-column: 9 / span 4; }
-  #recent-tasks-card + section.rounded-3xl,
-  section.rounded-3xl.border.border-slate-800.bg-slate-900\/70 { grid-column: 1 / span 12; }
-}
-
-@media (max-width: 767px) {
-  main.grid {
-    grid-template-columns: repeat(1, minmax(0, 1fr)) !important;
-  }
-
-  #recent-tasks-card,
-  #atlas-status-card,
-  #matilda-chat-card,
-  #delegation-card,
-  #project-visual-output-card,
-  #reflections-viewer-card,
-  #ops-alerts-card,
-  #recent-tasks-card + section.rounded-3xl,
-  section.rounded-3xl.border.border-slate-800.bg-slate-900\/70 {
-    grid-column: 1 / -1 !important;
-  }
-
-  #project-visual-output-card .project-viewport-inner,
-  #project-visual-output {
-    min-height: 22rem !important;
-  }
-
-  #matilda-chat-card,
-  #delegation-card {
-    min-height: auto;
-  }
-
-  #matilda-chat-transcript {
-    min-height: 14rem;
-    max-height: 14rem;
-  }
-}
-
+/* Phase 16: include temporary HUD mitigation */
 @import "./phase16_hud_mitigation.css";
