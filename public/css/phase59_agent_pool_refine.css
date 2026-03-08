@@ -113,3 +113,29 @@
     margin-bottom: 0.14rem !important;
   }
 }
+
+/* Phase 59.3 — target the real rendered agent rows */
+#agent-status-container [data-agent] {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  padding-left: 8px !important;
+  padding-right: 8px !important;
+  min-height: 18px !important;
+  line-height: 1 !important;
+  font-size: 0.78rem !important;
+  gap: 0.2rem !important;
+  border-radius: 4px !important;
+}
+
+#agent-status-container [data-agent]::before {
+  inset: 1px auto 1px 0 !important;
+  width: 2px !important;
+}
+
+#agent-status-container [data-agent] *,
+#agent-status-container [data-agent] span,
+#agent-status-container [data-agent] div {
+  line-height: 1 !important;
+  font-size: inherit !important;
+}
+
