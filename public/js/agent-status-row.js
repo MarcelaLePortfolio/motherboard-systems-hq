@@ -83,26 +83,26 @@
 
     switch (kind) {
       case "online":
-        indicator.row.classList.add("bg-slate-700/28", "border-gray-700");
+        indicator.row.classList.add("bg-slate-800/55");
         indicator.bar.classList.add("bg-emerald-400");
         indicator.label.classList.add("text-slate-100");
         indicator.status.classList.add("text-emerald-300/90");
         break;
       case "error":
-        indicator.row.classList.add("bg-slate-700/28", "border-gray-700");
+        indicator.row.classList.add("bg-slate-800/55");
         indicator.bar.classList.add("bg-rose-400");
         indicator.label.classList.add("text-slate-100");
         indicator.status.classList.add("text-rose-300/90");
         break;
       case "pending":
-        indicator.row.classList.add("bg-slate-700/28", "border-gray-700");
+        indicator.row.classList.add("bg-slate-800/55");
         indicator.bar.classList.add("bg-amber-300");
         indicator.label.classList.add("text-slate-100");
         indicator.status.classList.add("text-amber-200/90");
         break;
       case "unknown":
       default:
-        indicator.row.classList.add("bg-slate-700/28", "border-gray-700");
+        indicator.row.classList.add("bg-slate-800/55");
         indicator.bar.classList.add("bg-slate-400/70");
         indicator.label.classList.add("text-slate-100");
         indicator.status.classList.add("text-slate-300/75");
