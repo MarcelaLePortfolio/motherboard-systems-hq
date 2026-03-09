@@ -34,3 +34,36 @@
   min-height: 22rem;
 }
 
+
+/* Phase 61 polish — match observational workspace height to operator column */
+#phase61-workspace-grid {
+  align-items: stretch;
+}
+
+#phase61-telemetry-column {
+  display: flex;
+  flex-direction: column;
+}
+
+#observational-workspace-card {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+#observational-panels {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.obs-panel.active {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+}
+
+.obs-surface {
+  flex: 1 1 auto;
+}
