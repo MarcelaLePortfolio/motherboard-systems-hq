@@ -400,7 +400,7 @@
     container.appendChild(stack);
     AGENTS.forEach((name) => {
       const row = document.createElement("div");
-      row.className = "w-full rounded-md bg-slate-700/35 border border-slate-500/18 px-3 py-1 flex items-center justify-between shadow-sm";
+      row.className = "w-full rounded-md bg-slate-700/28 border border-gray-700 px-3 py-1 flex items-center justify-between shadow-sm";
       const left = document.createElement("div");
       left.className = "flex items-center gap-2.5 min-w-0";
       const dot = document.createElement("span");
@@ -460,23 +460,23 @@
       status.textContent = finalStatus;
       switch (kind) {
         case "online":
-          row.classList.add("bg-emerald-900/14", "border-emerald-400/18");
+          row.classList.add("bg-slate-700/28", "border-gray-700");
           dot.classList.add("bg-emerald-400");
           status.classList.add("text-emerald-300/90");
           break;
         case "error":
-          row.classList.add("bg-rose-900/14", "border-rose-400/18");
+          row.classList.add("bg-slate-700/28", "border-gray-700");
           dot.classList.add("bg-rose-400");
           status.classList.add("text-rose-300/90");
           break;
         case "pending":
-          row.classList.add("bg-amber-900/14", "border-amber-300/18");
+          row.classList.add("bg-slate-700/28", "border-gray-700");
           dot.classList.add("bg-amber-300");
           status.classList.add("text-amber-200/90");
           break;
         case "unknown":
         default:
-          row.classList.add("bg-slate-700/35", "border-slate-500/18");
+          row.classList.add("bg-slate-700/28", "border-gray-700");
           dot.classList.add("bg-slate-400/70");
           status.classList.add("text-slate-300/75");
           break;
