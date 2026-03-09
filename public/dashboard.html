@@ -29,9 +29,11 @@
   <link rel="stylesheet" href="css/phase60_live_polish.css" />
   <link rel="stylesheet" href="css/phase61_workspace_consolidation.css" />
   <link rel="stylesheet" href="css/phase61_tabs_observational_workspace.css" />
-
     <style id="phase61-layout-polish">
       #phase61-workspace-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 1.5rem;
         align-items: stretch;
       }
 
@@ -39,6 +41,7 @@
       #phase61-telemetry-column {
         display: flex;
         flex-direction: column;
+        min-width: 0;
       }
 
       #operator-workspace-card,
@@ -52,6 +55,8 @@
       #operator-panels,
       #observational-panels {
         flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
       }
 
       #op-panel-chat,
@@ -70,12 +75,17 @@
         min-height: 100%;
       }
 
-      #op-panel-delegation .obs-surface {
-        display: flex;
-        flex-direction: column;
+      #matilda-chat-transcript {
+        min-height: 18rem;
       }
 
-      #op-panel-delegation #delegation-input {
+      #delegation-card {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+      }
+
+      #delegation-input {
         min-height: 8rem;
       }
 
@@ -84,6 +94,10 @@
       }
 
       @media (max-width: 1023px) {
+        #phase61-workspace-grid {
+          grid-template-columns: 1fr;
+        }
+
         #operator-workspace-card,
         #observational-workspace-card {
           min-height: auto;
@@ -155,15 +169,8 @@
         <p id="metric-latency" class="text-2xl font-bold text-red-400">--</p>
       </div>
     </section>
-
-    <section id="phase61-workspace-shell" aria-labelledby="phase61-workspace-heading" class="space-y-4">
-      <div class="flex items-center justify-between">
-        <h2 id="phase61-workspace-heading" class="text-xs uppercase tracking-[0.24em] text-gray-400">
-          Operator Workspace
-        </h2>
-      </div>
-
-      <div id="phase61-workspace-grid">
+      <section id="phase61-workspace-shell" class="space-y-4">
+        <div id="phase61-workspace-grid">
                             <section id="phase61-operator-column" class="space-y-4" aria-label="Operator workspace">
             <section id="operator-workspace-card" class="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700" data-workspace-root>
               <div class="flex items-center justify-between mb-4 border-b border-gray-700 pb-3">

@@ -14,7 +14,7 @@ required_markers=(
   'Operator Workspace'
   'Matilda Chat Console'
   'Task Delegation'
-  'Observational Workspace'
+  'Telemetry Workspace'
   'Recent Tasks'
   'Task Activity'
   'Task Events'
