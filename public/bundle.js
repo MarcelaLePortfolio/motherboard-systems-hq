@@ -409,7 +409,7 @@
       label.className = "text-[13px] font-semibold tracking-tight text-slate-100/95 truncate";
       label.textContent = name;
       const nameStatusDot = document.createElement("span");
-      nameStatusDot.className = "inline-block w-3 h-3 rounded-full bg-amber-300 shrink-0 ring-2 ring-slate-900/90 shadow-sm";
+      nameStatusDot.className = "inline-block w-2 h-2 rounded-full bg-amber-300 shrink-0";
       const status = document.createElement("span");
       status.className = "text-[11px] font-medium text-amber-200/90 truncate";
       status.textContent = "initializing";
@@ -456,7 +456,7 @@
       const { row, dot, label, nameStatusDot, status } = indicator;
       row.className = "w-full rounded-md border border-gray-700 px-3 py-1 flex items-center justify-between";
       dot.className = "inline-block w-2 h-2 rounded-full shrink-0";
-      nameStatusDot.className = "inline-block w-3 h-3 rounded-full shrink-0 ring-2 ring-slate-900/90 shadow-sm";
+      nameStatusDot.className = "inline-block w-2 h-2 rounded-full shrink-0";
       label.className = "text-[13px] font-semibold tracking-tight text-slate-100/95 truncate";
       status.className = "text-[11px] font-medium truncate";
       const finalStatus = statusString || "unknown";
