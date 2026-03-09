@@ -17,22 +17,31 @@
   const indicators = {};
 
   const row = document.createElement("div");
-  row.className = "flex flex-wrap gap-4 items-center";
+  row.className = "flex flex-col divide-y divide-gray-700 w-full text-sm";
   container.appendChild(row);
 
   AGENTS.forEach((name) => {
     const pill = document.createElement("div");
     pill.className =
-      "px-3 py-1 rounded-full bg-gray-700 text-sm flex items-center gap-2 shadow";
+      "flex items-center justify-between w-full py-1 px-2 text-gray-300";
 
     const dot = document.createElement("span");
     dot.className = "w-2 h-2 rounded-full bg-yellow-400";
 
     const label = document.createElement("span");
-    label.textContent = `${name}: ⏳`;
+    label.className = "font-mono text-xs tracking-wide";
+    label.textContent = name;
 
     pill.dataset.agent = name.toLowerCase();
-    pill.append(dot, label);
+    const status = document.createElement("span");
+    status.className = "text-xs font-mono";
+    status.textContent = "initializing";
+
+    const left = document.createElement("div");
+    left.className = "flex items-center gap-2";
+    left.append(dot, label);
+
+    pill.append(left, status);
     row.appendChild(pill);
 
     indicators[name.toLowerCase()] = { pill, dot, label };
@@ -106,9 +115,8 @@ let source;
         break;
     }
 
-    const prettyName = agentKey.charAt(0).toUpperCase() + agentKey.slice(1);
     const finalStatus = statusString || "unknown";
-    label.textContent = `${prettyName}: ${finalStatus}`;
+    indicator.pill.querySelector("span:last-child").textContent = finalStatus;
   }
 
   // Phase16: guard null EventSource before handlers
