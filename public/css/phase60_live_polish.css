@@ -142,3 +142,49 @@ main.dashboard {
     padding: 9px 10px;
   }
 }
+
+/* Phase 60 — Activity Telemetry Refinement */
+
+/* Ensure activity panels share balanced vertical space */
+.activity-panels,
+.activity-grid,
+[data-section="activity"] {
+  align-items: stretch;
+}
+
+/* Allow chart panel to breathe slightly more */
+.task-activity,
+.panel--task-activity,
+[data-panel="task-activity"],
+.chart-panel {
+  min-height: 240px;
+}
+
+/* Recent tasks should remain compact but readable */
+.recent-tasks,
+.panel--recent-tasks,
+[data-panel="recent-tasks"] {
+  min-height: 240px;
+}
+
+/* Internal spacing alignment */
+.recent-tasks .panel-body,
+.task-activity .panel-body,
+.chart-panel .panel-body {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+/* Stabilize scroll behavior if task list grows */
+.recent-tasks .panel-body {
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+}
+
+/* Slightly soften telemetry card borders for cohesion */
+.recent-tasks,
+.task-activity,
+.chart-panel {
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
