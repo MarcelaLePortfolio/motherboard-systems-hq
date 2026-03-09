@@ -28,3 +28,9 @@
 .obs-panel.active {
   display: block;
 }
+
+/* Phase 61 polish — stable telemetry workspace height */
+#observational-panels {
+  min-height: 22rem;
+}
+
