@@ -400,7 +400,7 @@
     container.appendChild(stack);
     AGENTS.forEach((name) => {
       const row = document.createElement("div");
-      row.className = "w-full rounded-md bg-gray-800 border border-gray-700 px-3 py-1 flex items-center justify-between";
+      row.className = "w-full rounded-md bg-gray-900 border border-gray-700 px-3 py-1 flex items-center justify-between";
       const left = document.createElement("div");
       left.className = "flex items-center gap-2.5 min-w-0";
       const dot = document.createElement("span");
@@ -460,23 +460,23 @@
       status.textContent = finalStatus;
       switch (kind) {
         case "online":
-          row.classList.add("bg-gray-800", "border-gray-700");
+          row.classList.add("bg-gray-900", "border-gray-700");
           dot.classList.add("bg-emerald-400");
           status.classList.add("text-emerald-300/90");
           break;
         case "error":
-          row.classList.add("bg-gray-800", "border-gray-700");
+          row.classList.add("bg-gray-900", "border-gray-700");
           dot.classList.add("bg-rose-400");
           status.classList.add("text-rose-300/90");
           break;
         case "pending":
-          row.classList.add("bg-gray-800", "border-gray-700");
+          row.classList.add("bg-gray-900", "border-gray-700");
           dot.classList.add("bg-amber-300");
           status.classList.add("text-amber-200/90");
           break;
         case "unknown":
         default:
-          row.classList.add("bg-gray-800", "border-gray-700");
+          row.classList.add("bg-gray-900", "border-gray-700");
           dot.classList.add("bg-slate-400/70");
           status.classList.add("text-slate-300/75");
           break;
