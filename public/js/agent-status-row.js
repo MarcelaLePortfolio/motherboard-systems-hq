@@ -33,7 +33,7 @@
     bar.className = "block w-1.5 self-stretch rounded-full bg-slate-400/70";
 
     const label = document.createElement("span");
-    label.className = "text-[13px] font-semibold tracking-tight text-slate-100 truncate";
+    label.className = "text-[13px] font-semibold tracking-tight text-slate-100/95 truncate";
     label.textContent = name;
 
     const status = document.createElement("span");
@@ -83,29 +83,29 @@
 
     switch (kind) {
       case "online":
-        indicator.row.classList.add("bg-emerald-900/20", "border-emerald-400/25");
+        indicator.row.classList.add("bg-emerald-900/14", "border-emerald-400/18");
         indicator.bar.classList.add("bg-emerald-400");
         indicator.label.classList.add("text-slate-100");
-        indicator.status.classList.add("text-emerald-300");
+        indicator.status.classList.add("text-emerald-300/90");
         break;
       case "error":
-        indicator.row.classList.add("bg-rose-900/20", "border-rose-400/25");
+        indicator.row.classList.add("bg-rose-900/14", "border-rose-400/18");
         indicator.bar.classList.add("bg-rose-400");
         indicator.label.classList.add("text-slate-100");
-        indicator.status.classList.add("text-rose-300");
+        indicator.status.classList.add("text-rose-300/90");
         break;
       case "pending":
-        indicator.row.classList.add("bg-amber-900/20", "border-amber-300/25");
+        indicator.row.classList.add("bg-amber-900/14", "border-amber-300/18");
         indicator.bar.classList.add("bg-amber-300");
         indicator.label.classList.add("text-slate-100");
-        indicator.status.classList.add("text-amber-200");
+        indicator.status.classList.add("text-amber-200/90");
         break;
       case "unknown":
       default:
-        indicator.row.classList.add("bg-slate-600/55", "border-slate-500/35");
+        indicator.row.classList.add("bg-slate-700/35", "border-slate-500/18");
         indicator.bar.classList.add("bg-slate-400/70");
         indicator.label.classList.add("text-slate-100");
-        indicator.status.classList.add("text-slate-200/90");
+        indicator.status.classList.add("text-slate-300/75");
         break;
     }
   }

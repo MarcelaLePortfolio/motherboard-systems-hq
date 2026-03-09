@@ -400,16 +400,16 @@
     container.appendChild(stack);
     AGENTS.forEach((name) => {
       const row = document.createElement("div");
-      row.className = "w-full rounded-md bg-slate-600/55 border border-slate-500/35 px-3 py-1 flex items-center justify-between shadow-sm";
+      row.className = "w-full rounded-md bg-slate-700/35 border border-slate-500/18 px-3 py-1 flex items-center justify-between shadow-sm";
       const left = document.createElement("div");
       left.className = "flex items-center gap-2.5 min-w-0";
       const dot = document.createElement("span");
-      dot.className = "inline-block w-2.5 h-2.5 rounded-full bg-amber-300 shrink-0";
+      dot.className = "inline-block w-2 h-2 rounded-full bg-amber-300 shrink-0";
       const label = document.createElement("span");
-      label.className = "text-[13px] font-semibold tracking-tight text-slate-100 truncate";
+      label.className = "text-[13px] font-semibold tracking-tight text-slate-100/95 truncate";
       label.textContent = name;
       const status = document.createElement("span");
-      status.className = "text-[11px] font-medium text-amber-200 truncate";
+      status.className = "text-[11px] font-medium text-amber-200/90 truncate";
       status.textContent = "initializing";
       left.append(dot, label);
       row.append(left, status);
@@ -453,32 +453,32 @@
       const kind = classifyStatus(statusString);
       const { row, dot, label, status } = indicator;
       row.className = "w-full rounded-md border px-3 py-1 flex items-center justify-between shadow-sm";
-      dot.className = "inline-block w-2.5 h-2.5 rounded-full shrink-0";
-      label.className = "text-[13px] font-semibold tracking-tight text-slate-100 truncate";
+      dot.className = "inline-block w-2 h-2 rounded-full shrink-0";
+      label.className = "text-[13px] font-semibold tracking-tight text-slate-100/95 truncate";
       status.className = "text-[11px] font-medium truncate";
       const finalStatus = statusString || "unknown";
       status.textContent = finalStatus;
       switch (kind) {
         case "online":
-          row.classList.add("bg-emerald-900/20", "border-emerald-400/25");
+          row.classList.add("bg-emerald-900/14", "border-emerald-400/18");
           dot.classList.add("bg-emerald-400");
-          status.classList.add("text-emerald-300");
+          status.classList.add("text-emerald-300/90");
           break;
         case "error":
-          row.classList.add("bg-rose-900/20", "border-rose-400/25");
+          row.classList.add("bg-rose-900/14", "border-rose-400/18");
           dot.classList.add("bg-rose-400");
-          status.classList.add("text-rose-300");
+          status.classList.add("text-rose-300/90");
           break;
         case "pending":
-          row.classList.add("bg-amber-900/20", "border-amber-300/25");
+          row.classList.add("bg-amber-900/14", "border-amber-300/18");
           dot.classList.add("bg-amber-300");
-          status.classList.add("text-amber-200");
+          status.classList.add("text-amber-200/90");
           break;
         case "unknown":
         default:
-          row.classList.add("bg-slate-600/55", "border-slate-500/35");
+          row.classList.add("bg-slate-700/35", "border-slate-500/18");
           dot.classList.add("bg-slate-400/70");
-          status.classList.add("text-slate-200/90");
+          status.classList.add("text-slate-300/75");
           break;
       }
     }
