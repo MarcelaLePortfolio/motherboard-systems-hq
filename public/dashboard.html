@@ -28,7 +28,8 @@
   <link rel="stylesheet" href="css/phase59_demo_focus.css" />
   <link rel="stylesheet" href="css/phase60_live_polish.css" />
   <link rel="stylesheet" href="css/phase61_workspace_consolidation.css" />
-  <link rel="stylesheet" href="css/phase61_tabs_observational_workspace.css" /></head>
+  <link rel="stylesheet" href="css/phase61_tabs_observational_workspace.css" />
+</head>
 
 <body class="bg-gray-900 text-gray-100 min-h-screen p-4">
   <header class="phase59-shell flex flex-col gap-4 mb-6 lg:flex-row lg:items-center lg:justify-between">
@@ -181,42 +182,87 @@
         </section>
 
         <section id="phase61-telemetry-column" class="space-y-4" aria-labelledby="activity-panels-heading">
-          <div id="observational-tabs">
-          <div id="observational-panels">            <button class="obs-tab active" data-target="recent-tasks-card">Recent Tasks</button>
-            <button class="obs-tab" data-target="task-activity-card">Task Activity</button>
-            <button class="obs-tab" data-target="task-events-card">Task Events</button>
-          </div>          <div class="flex items-center justify-between">
+          <div class="flex items-center justify-between">
             <h2 id="activity-panels-heading" class="text-xs uppercase tracking-[0.24em] text-gray-400">
-              Telemetry Workspace
+              Observational Workspace
             </h2>
           </div>
 
-          <div id="activity-panels-grid" class="grid gap-6">
-            <section id="recent-tasks-card" class="obs-panel active" class="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700">
-              <div class="flex items-center justify-between mb-4 border-b border-gray-700 pb-2">
-                <h2 class="text-xl font-semibold">Recent Tasks</h2>
-                <span class="text-xs uppercase tracking-wide text-indigo-300/80">Live</span>
-              </div>
-              <div id="tasks-widget"></div>
-            </section>
+          <section id="observational-workspace-card" class="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700">
+            <div class="flex items-center justify-between mb-4 border-b border-gray-700 pb-3">
+              <h2 class="text-xl font-semibold">Telemetry Workspace</h2>
+              <span class="text-xs uppercase tracking-wide text-gray-400">Consolidated</span>
+            </div>
 
-            <section id="task-events-card" class="obs-panel" class="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700">
-              <div class="flex items-center justify-between mb-4 border-b border-gray-700 pb-2">
-                <h2 class="text-xl font-semibold">Task Events Stream</h2>
-                <span class="text-xs uppercase tracking-wide text-teal-300/80">SSE</span>
-              </div>
-              <div id="mb-task-events-panel-anchor"></div>
-            </section>
+            <div id="observational-tabs" role="tablist" aria-label="Observational workspace tabs">
+              <button
+                id="obs-tab-recent"
+                class="obs-tab active"
+                type="button"
+                data-target="obs-panel-recent"
+                role="tab"
+                aria-selected="true"
+                aria-controls="obs-panel-recent"
+              >
+                Recent Tasks
+              </button>
+              <button
+                id="obs-tab-activity"
+                class="obs-tab"
+                type="button"
+                data-target="obs-panel-activity"
+                role="tab"
+                aria-selected="false"
+                aria-controls="obs-panel-activity"
+              >
+                Task Activity
+              </button>
+              <button
+                id="obs-tab-events"
+                class="obs-tab"
+                type="button"
+                data-target="obs-panel-events"
+                role="tab"
+                aria-selected="false"
+                aria-controls="obs-panel-events"
+              >
+                Task Events
+              </button>
+            </div>
 
-            <section id="task-activity-card" class="obs-panel" class="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700">
-          </div>              <h2 class="text-xl font-semibold mb-4 border-b border-gray-700 pb-2">
-                Task Activity Over Time
-              </h2>
-              <div class="h-64">
-                <canvas id="task-activity-graph" class="w-full h-full"></canvas>
+            <div id="observational-panels">
+              <div id="obs-panel-recent" class="obs-panel active" role="tabpanel" aria-labelledby="obs-tab-recent">
+                <section id="recent-tasks-card" class="obs-surface">
+                  <div class="flex items-center justify-between mb-4 border-b border-gray-700 pb-2">
+                    <h2 class="text-xl font-semibold">Recent Tasks</h2>
+                    <span class="text-xs uppercase tracking-wide text-indigo-300/80">Live</span>
+                  </div>
+                  <div id="tasks-widget"></div>
+                </section>
               </div>
-            </section>
-          </div>
+
+              <div id="obs-panel-activity" class="obs-panel" role="tabpanel" aria-labelledby="obs-tab-activity" hidden>
+                <section id="task-activity-card" class="obs-surface">
+                  <h2 class="text-xl font-semibold mb-4 border-b border-gray-700 pb-2">
+                    Task Activity Over Time
+                  </h2>
+                  <div class="h-64">
+                    <canvas id="task-activity-graph" class="w-full h-full"></canvas>
+                  </div>
+                </section>
+              </div>
+
+              <div id="obs-panel-events" class="obs-panel" role="tabpanel" aria-labelledby="obs-tab-events" hidden>
+                <section id="task-events-card" class="obs-surface">
+                  <div class="flex items-center justify-between mb-4 border-b border-gray-700 pb-2">
+                    <h2 class="text-xl font-semibold">Task Events Stream</h2>
+                    <span class="text-xs uppercase tracking-wide text-teal-300/80">SSE</span>
+                  </div>
+                  <div id="mb-task-events-panel-anchor"></div>
+                </section>
+              </div>
+            </div>
+          </section>
         </section>
       </div>
     </section>
@@ -266,7 +312,8 @@
     console.log("[diag] dashboard static isolation mode active");
   </script>
   <script src="js/agent-status-row.js"></script>
-  <script src="js/phase61_tabs_workspace.js"></script>  <script src="bundle.js"></script>
+  <script src="js/phase61_tabs_workspace.js"></script>
+  <script src="bundle.js"></script>
   <script src="js/phase60_live_clock.js"></script>
 </body>
 </html>

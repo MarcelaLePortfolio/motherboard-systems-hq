@@ -1,17 +1,33 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const tabs = document.querySelectorAll(".obs-tab");
-  const panels = document.querySelectorAll(".obs-panel");
+  const tabs = Array.from(document.querySelectorAll(".obs-tab"));
+  const panels = Array.from(document.querySelectorAll(".obs-panel"));
 
-  tabs.forEach(tab => {
+  if (!tabs.length || !panels.length) return;
+
+  function activate(targetId) {
+    tabs.forEach((tab) => {
+      const isActive = tab.dataset.target === targetId;
+      tab.classList.toggle("active", isActive);
+      tab.setAttribute("aria-selected", String(isActive));
+    });
+
+    panels.forEach((panel) => {
+      const isActive = panel.id === targetId;
+      panel.classList.toggle("active", isActive);
+      panel.hidden = !isActive;
+    });
+  }
+
+  tabs.forEach((tab) => {
     tab.addEventListener("click", () => {
-      const target = tab.dataset.target;
-
-      tabs.forEach(t => t.classList.remove("active"));
-      panels.forEach(p => p.classList.remove("active"));
-
-      tab.classList.add("active");
-      const panel = document.getElementById(target);
-      if (panel) panel.classList.add("active");
+      const targetId = tab.dataset.target;
+      if (!targetId) return;
+      activate(targetId);
     });
   });
+
+  const defaultTab = tabs.find((tab) => tab.classList.contains("active")) || tabs[0];
+  if (defaultTab && defaultTab.dataset.target) {
+    activate(defaultTab.dataset.target);
+  }
 });
