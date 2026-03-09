@@ -1,7 +1,7 @@
-// <0001fb02> Agent Status Row – live heartbeats from OPS SSE
-// - Renders status pills for Matilda, Cade, Effie, Atlas
-// - Listens to OPS SSE on port 3201
-// - Updates colors/text based on incoming status
+// Phase 60 — Agent Pool compact console rows
+// Cosmetic renderer only.
+// Keeps the existing OPS SSE behavior, but restores the intended
+// dense operator-console row appearance.
 
 (() => {
   const container = document.getElementById("agent-status-container");
@@ -10,78 +10,60 @@
     return;
   }
 
-  // Clear placeholder text (e.g., "Loading agents...")
+  const title = container.querySelector("h2");
   container.innerHTML = "";
+  if (title) container.appendChild(title);
 
   const AGENTS = ["Matilda", "Cade", "Effie", "Atlas"];
   const indicators = {};
 
-  const row = document.createElement("div");
-  row.className = "flex flex-col divide-y divide-gray-700 w-full text-sm";
-  container.appendChild(row);
+  const stack = document.createElement("div");
+  stack.className = "w-full flex flex-col gap-1";
+  container.appendChild(stack);
 
   AGENTS.forEach((name) => {
-    const pill = document.createElement("div");
-    pill.className =
-      "flex items-center justify-between w-full py-1 px-2 text-gray-300";
-
-    const dot = document.createElement("span");
-    dot.className = "w-2 h-2 rounded-full bg-yellow-400";
-
-    const label = document.createElement("span");
-    label.className = "font-mono text-xs tracking-wide";
-    label.textContent = name;
-
-    pill.dataset.agent = name.toLowerCase();
-    const status = document.createElement("span");
-    status.className = "text-xs font-mono";
-    status.textContent = "initializing";
+    const row = document.createElement("div");
+    row.className =
+      "w-full min-h-0 rounded-md bg-slate-600/55 border border-slate-500/35 px-3 py-1.5 flex items-center justify-between shadow-sm";
 
     const left = document.createElement("div");
-    left.className = "flex items-center gap-2";
-    left.append(dot, label);
+    left.className = "flex items-center gap-2 min-w-0";
 
-    pill.append(left, status);
-    row.appendChild(pill);
+    const bar = document.createElement("span");
+    bar.className = "block w-1.5 self-stretch rounded-full bg-slate-400/70";
 
-    indicators[name.toLowerCase()] = { pill, dot, label };
+    const label = document.createElement("span");
+    label.className = "text-[13px] font-semibold tracking-tight text-slate-100 truncate";
+    label.textContent = name;
+
+    const status = document.createElement("span");
+    status.className = "text-[12px] font-medium text-slate-200/90 truncate";
+    status.textContent = "unknown";
+
+    left.append(bar, label);
+    row.append(left, status);
+    stack.appendChild(row);
+
+    indicators[name.toLowerCase()] = { row, bar, label, status };
   });
 
   const OPS_SSE_URL = `/events/ops`;
-  
-
-  const __DISABLE_OPTIONAL_SSE = (typeof window !== "undefined" && window.__DISABLE_OPTIONAL_SSE) === true;
-  if (__DISABLE_OPTIONAL_SSE) {
-    console.warn("[agent-status-row] Optional SSE disabled (Phase 16 pending):", OPS_SSE_URL);
-    Object.keys(indicators).forEach((key) => applyVisual(key, "unknown"));
-    return;
-  }
-let source;
-
-  try {
-    source = (window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(OPS_SSE_URL));
-  } catch (err) {
-    console.error("agent-status-row.js: Failed to open OPS SSE connection:", err);
-    return;
-  }
+  const __DISABLE_OPTIONAL_SSE =
+    (typeof window !== "undefined" && window.__DISABLE_OPTIONAL_SSE) === true;
 
   function classifyStatus(statusString) {
-  // Phase16: bail if SSE owner already started
-  if (typeof window !== "undefined" && window.__PHASE16_SSE_OWNER_STARTED) {
-    return null;
-  }
+    if (
+      typeof window !== "undefined" &&
+      window.__PHASE16_SSE_OWNER_STARTED
+    ) {
+      return "unknown";
+    }
 
     const s = (statusString || "").toLowerCase();
     if (!s) return "unknown";
-    if (s.includes("error") || s.includes("failed") || s.includes("offline")) {
-      return "error";
-    }
-    if (s.includes("online") || s.includes("ready") || s.includes("ok")) {
-      return "online";
-    }
-    if (s.includes("queued") || s.includes("pending") || s.includes("init")) {
-      return "pending";
-    }
+    if (s.includes("error") || s.includes("failed") || s.includes("offline")) return "error";
+    if (s.includes("online") || s.includes("ready") || s.includes("ok")) return "online";
+    if (s.includes("queued") || s.includes("pending") || s.includes("init") || s.includes("running")) return "pending";
     return "unknown";
   }
 
@@ -90,65 +72,79 @@ let source;
     if (!indicator) return;
 
     const kind = classifyStatus(statusString);
-    const { pill, dot, label } = indicator;
+    const finalStatus = statusString || "unknown";
+    indicator.status.textContent = finalStatus;
 
-    // Reset base classes
-    dot.className = "w-2 h-2 rounded-full";
-    pill.classList.remove("border", "border-red-400", "border-green-400", "border-yellow-300");
+    indicator.row.className =
+      "w-full min-h-0 rounded-md border px-3 py-1.5 flex items-center justify-between shadow-sm";
+    indicator.bar.className = "block w-1.5 self-stretch rounded-full";
+    indicator.label.className = "text-[13px] font-semibold tracking-tight truncate";
+    indicator.status.className = "text-[12px] font-medium truncate";
 
     switch (kind) {
       case "online":
-        dot.classList.add("bg-green-400");
-        pill.classList.add("border", "border-green-400");
+        indicator.row.classList.add("bg-emerald-900/20", "border-emerald-400/25");
+        indicator.bar.classList.add("bg-emerald-400");
+        indicator.label.classList.add("text-slate-100");
+        indicator.status.classList.add("text-emerald-300");
         break;
       case "error":
-        dot.classList.add("bg-red-400");
-        pill.classList.add("border", "border-red-400");
+        indicator.row.classList.add("bg-rose-900/20", "border-rose-400/25");
+        indicator.bar.classList.add("bg-rose-400");
+        indicator.label.classList.add("text-slate-100");
+        indicator.status.classList.add("text-rose-300");
         break;
       case "pending":
-        dot.classList.add("bg-yellow-300");
-        pill.classList.add("border", "border-yellow-300");
+        indicator.row.classList.add("bg-amber-900/20", "border-amber-300/25");
+        indicator.bar.classList.add("bg-amber-300");
+        indicator.label.classList.add("text-slate-100");
+        indicator.status.classList.add("text-amber-200");
         break;
       case "unknown":
       default:
-        dot.classList.add("bg-gray-500");
+        indicator.row.classList.add("bg-slate-600/55", "border-slate-500/35");
+        indicator.bar.classList.add("bg-slate-400/70");
+        indicator.label.classList.add("text-slate-100");
+        indicator.status.classList.add("text-slate-200/90");
         break;
     }
-
-    const finalStatus = statusString || "unknown";
-    indicator.pill.querySelector("span:last-child").textContent = finalStatus;
   }
 
-  // Phase16: guard null EventSource before handlers
-  if (!source) return null;
-  source.onmessage = (event) => {
-    let payloadRaw = event.data;
-    let data;
+  Object.keys(indicators).forEach((key) => applyVisual(key, "unknown"));
 
+  if (__DISABLE_OPTIONAL_SSE) {
+    console.warn("[agent-status-row] Optional SSE disabled:", OPS_SSE_URL);
+    return;
+  }
+
+  let source;
+  try {
+    source = (window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(OPS_SSE_URL));
+  } catch (err) {
+    console.error("agent-status-row.js: Failed to open OPS SSE connection:", err);
+    return;
+  }
+
+  if (!source) return;
+
+  source.onmessage = (event) => {
+    let data;
     try {
-      data = JSON.parse(payloadRaw);
+      data = JSON.parse(event.data);
     } catch {
-      // If it's not JSON, ignore for agent-status purposes
       return;
     }
 
     const agentName =
-      (data.agent || data.actor || data.source || data.worker || "").toString();
-    if (!agentName) return;
-
-    const key = agentName.toLowerCase();
-    if (!indicators[key]) {
-      // Ignore agents we don't show in the row
-      return;
-    }
+      (data.agent || data.actor || data.source || data.worker || "").toString().toLowerCase();
+    if (!agentName || !indicators[agentName]) return;
 
     const status = (data.status || data.state || data.level || "").toString() || "unknown";
-    applyVisual(key, status);
+    applyVisual(agentName, status);
   };
 
   source.onerror = (err) => {
     console.warn("agent-status-row.js: OPS SSE error:", err);
-    // On error, show all as unknown (neutral gray)
     Object.keys(indicators).forEach((key) => applyVisual(key, "unknown"));
   };
 })();
