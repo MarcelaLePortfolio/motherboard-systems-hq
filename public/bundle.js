@@ -409,7 +409,8 @@
       label.className = "text-[13px] font-semibold tracking-tight text-slate-100/95 truncate";
       label.textContent = name;
       const nameStatusDot = document.createElement("span");
-      nameStatusDot.className = "inline-block w-2 h-2 rounded-full bg-amber-300 shrink-0";
+      nameStatusDot.className = "shrink-0";
+      nameStatusDot.style.cssText = "display:inline-block;width:8px;height:8px;border-radius:9999px;background:#fcd34d;vertical-align:middle;";
       const status = document.createElement("span");
       status.className = "text-[11px] font-medium text-amber-200/90 truncate";
       status.textContent = "initializing";
@@ -456,7 +457,8 @@
       const { row, dot, label, nameStatusDot, status } = indicator;
       row.className = "w-full rounded-md border border-gray-700 px-3 py-1 flex items-center justify-between";
       dot.className = "inline-block w-2 h-2 rounded-full shrink-0";
-      nameStatusDot.className = "inline-block w-2 h-2 rounded-full shrink-0";
+      nameStatusDot.className = "shrink-0";
+      nameStatusDot.style.cssText = "display:inline-block;width:8px;height:8px;border-radius:9999px;vertical-align:middle;";
       label.className = "text-[13px] font-semibold tracking-tight text-slate-100/95 truncate";
       status.className = "text-[11px] font-medium truncate";
       const finalStatus = statusString || "unknown";
@@ -465,26 +467,26 @@
         case "online":
           row.classList.add("bg-gray-900", "border-gray-700");
           dot.classList.add("bg-emerald-400");
-          nameStatusDot.classList.add("bg-emerald-400");
+          nameStatusDot.style.backgroundColor = "#34d399";
           status.classList.add("text-emerald-300/90");
           break;
         case "error":
           row.classList.add("bg-gray-900", "border-gray-700");
           dot.classList.add("bg-rose-400");
-          nameStatusDot.classList.add("bg-rose-400");
+          nameStatusDot.style.backgroundColor = "#fb7185";
           status.classList.add("text-rose-300/90");
           break;
         case "pending":
           row.classList.add("bg-gray-900", "border-gray-700");
           dot.classList.add("bg-amber-300");
-          nameStatusDot.classList.add("bg-amber-300");
+          nameStatusDot.style.backgroundColor = "#fcd34d";
           status.classList.add("text-amber-200/90");
           break;
         case "unknown":
         default:
           row.classList.add("bg-gray-900", "border-gray-700");
           dot.classList.add("bg-slate-400/70");
-          nameStatusDot.classList.add("bg-slate-400/70");
+          nameStatusDot.style.backgroundColor = "rgba(148,163,184,0.75)";
           status.classList.add("text-slate-300/75");
           break;
       }
