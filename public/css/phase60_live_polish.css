@@ -343,3 +343,68 @@ button:active {
   transform: translateY(1px);
 }
 
+
+/* Phase 60 — Button unification using actual dashboard selectors */
+
+/* Base shape + no shadow */
+#delegation-submit,
+#complete-task-btn,
+#matilda-send,
+#matilda-quick-check,
+#matilda-send-btn,
+#quick-check-btn,
+#chat-send-btn,
+#chat-quick-check-btn,
+#matilda-panel button,
+#chat-panel button {
+  border-radius: 999px !important;
+  border: none !important;
+  box-shadow: none !important;
+  text-decoration: none !important;
+  padding: 8px 16px !important;
+  min-height: 36px;
+  line-height: 1 !important;
+  transition: filter 0.15s ease, transform 0.05s ease, background 0.15s ease !important;
+}
+
+/* Primary buttons */
+#delegation-submit,
+#matilda-send,
+#matilda-send-btn,
+#chat-send-btn {
+  background: linear-gradient(135deg, #7c3aed, #2563eb) !important;
+  color: #ffffff !important;
+}
+
+/* Secondary buttons */
+#complete-task-btn,
+#matilda-quick-check,
+#quick-check-btn,
+#chat-quick-check-btn {
+  background: rgba(255,255,255,0.10) !important;
+  color: rgba(255,255,255,0.90) !important;
+}
+
+/* Remove old color treatments from delegation buttons */
+#delegation-submit:hover,
+#complete-task-btn:hover,
+#matilda-send:hover,
+#matilda-quick-check:hover,
+#matilda-send-btn:hover,
+#quick-check-btn:hover,
+#chat-send-btn:hover,
+#chat-quick-check-btn:hover {
+  filter: brightness(1.08);
+}
+
+#delegation-submit:active,
+#complete-task-btn:active,
+#matilda-send:active,
+#matilda-quick-check:active,
+#matilda-send-btn:active,
+#quick-check-btn:active,
+#chat-send-btn:active,
+#chat-quick-check-btn:active {
+  transform: translateY(1px);
+}
+
