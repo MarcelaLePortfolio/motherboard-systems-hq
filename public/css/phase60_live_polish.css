@@ -408,3 +408,30 @@ button:active {
   transform: translateY(1px);
 }
 
+
+/* Phase 60 — correct Matilda button selectors */
+
+#matilda-chat-send {
+  background: linear-gradient(135deg, #7c3aed, #2563eb) !important;
+  color: #ffffff !important;
+  border-radius: 999px !important;
+  box-shadow: none !important;
+}
+
+#matilda-chat-quick-check {
+  background: rgba(255,255,255,0.10) !important;
+  color: rgba(255,255,255,0.90) !important;
+  border-radius: 999px !important;
+  box-shadow: none !important;
+}
+
+#matilda-chat-send:hover,
+#matilda-chat-quick-check:hover {
+  filter: brightness(1.08);
+}
+
+#matilda-chat-send:active,
+#matilda-chat-quick-check:active {
+  transform: translateY(1px);
+}
+
