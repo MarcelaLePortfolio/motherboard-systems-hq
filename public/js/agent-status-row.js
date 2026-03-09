@@ -27,7 +27,7 @@
       "w-full min-h-0 rounded-md bg-slate-600/55 border border-slate-500/35 px-3 py-1.5 flex items-center justify-between shadow-sm";
 
     const left = document.createElement("div");
-    left.className = "flex items-center gap-2.5 min-w-0";
+    left.className = "flex items-center gap-2 min-w-0";
 
     const bar = document.createElement("span");
     bar.className = "block w-1.5 self-stretch rounded-full bg-slate-400/70";

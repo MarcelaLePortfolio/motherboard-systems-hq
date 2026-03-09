@@ -402,19 +402,21 @@
       const row = document.createElement("div");
       row.className = "w-full rounded-md bg-gray-900 border border-gray-700 px-3 py-1 flex items-center justify-between";
       const left = document.createElement("div");
-      left.className = "flex items-center gap-2.5 min-w-0";
+      left.className = "flex items-center gap-2 min-w-0";
       const dot = document.createElement("span");
       dot.className = "inline-block w-2 h-2 rounded-full bg-amber-300 shrink-0";
       const label = document.createElement("span");
       label.className = "text-[13px] font-semibold tracking-tight text-slate-100/95 truncate";
       label.textContent = name;
+      const nameStatusDot = document.createElement("span");
+      nameStatusDot.className = "inline-block w-2 h-2 rounded-full bg-amber-300/90 shrink-0";
       const status = document.createElement("span");
       status.className = "text-[11px] font-medium text-amber-200/90 truncate";
       status.textContent = "initializing";
-      left.append(dot, label);
+      left.append(dot, label, nameStatusDot);
       row.append(left, status);
       stack.appendChild(row);
-      indicators[name.toLowerCase()] = { row, dot, label, status };
+      indicators[name.toLowerCase()] = { row, dot, label, nameStatusDot, status };
     });
     const OPS_SSE_URL = `/events/ops`;
     const __DISABLE_OPTIONAL_SSE = (typeof window !== "undefined" && window.__DISABLE_OPTIONAL_SSE) === true;
@@ -451,7 +453,7 @@
       const indicator = indicators[agentKey];
       if (!indicator) return;
       const kind = classifyStatus(statusString);
-      const { row, dot, label, status } = indicator;
+      const { row, dot, label, nameStatusDot, status } = indicator;
       row.className = "w-full rounded-md border border-gray-700 px-3 py-1 flex items-center justify-between";
       dot.className = "inline-block w-2 h-2 rounded-full shrink-0";
       label.className = "text-[13px] font-semibold tracking-tight text-slate-100/95 truncate";
@@ -462,22 +464,26 @@
         case "online":
           row.classList.add("bg-gray-900", "border-gray-700");
           dot.classList.add("bg-emerald-400");
+          nameStatusDot.classList.add("bg-emerald-400");
           status.classList.add("text-emerald-300/90");
           break;
         case "error":
           row.classList.add("bg-gray-900", "border-gray-700");
           dot.classList.add("bg-rose-400");
+          nameStatusDot.classList.add("bg-rose-400");
           status.classList.add("text-rose-300/90");
           break;
         case "pending":
           row.classList.add("bg-gray-900", "border-gray-700");
           dot.classList.add("bg-amber-300");
+          nameStatusDot.classList.add("bg-amber-300");
           status.classList.add("text-amber-200/90");
           break;
         case "unknown":
         default:
           row.classList.add("bg-gray-900", "border-gray-700");
           dot.classList.add("bg-slate-400/70");
+          nameStatusDot.classList.add("bg-slate-400/70");
           status.classList.add("text-slate-300/75");
           break;
       }
