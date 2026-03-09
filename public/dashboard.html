@@ -29,7 +29,69 @@
   <link rel="stylesheet" href="css/phase60_live_polish.css" />
   <link rel="stylesheet" href="css/phase61_workspace_consolidation.css" />
   <link rel="stylesheet" href="css/phase61_tabs_observational_workspace.css" />
-</head>
+
+    <style id="phase61-layout-polish">
+      #phase61-workspace-grid {
+        align-items: stretch;
+      }
+
+      #phase61-operator-column,
+      #phase61-telemetry-column {
+        display: flex;
+        flex-direction: column;
+      }
+
+      #operator-workspace-card,
+      #observational-workspace-card {
+        display: flex;
+        flex-direction: column;
+        min-height: 36rem;
+        height: 100%;
+      }
+
+      #operator-panels,
+      #observational-panels {
+        flex: 1 1 auto;
+      }
+
+      #op-panel-chat,
+      #op-panel-delegation,
+      #obs-panel-recent,
+      #obs-panel-activity,
+      #obs-panel-events {
+        height: 100%;
+      }
+
+      #op-panel-chat .obs-surface,
+      #op-panel-delegation .obs-surface,
+      #obs-panel-recent .obs-surface,
+      #obs-panel-activity .obs-surface,
+      #obs-panel-events .obs-surface {
+        min-height: 100%;
+      }
+
+      #op-panel-delegation .obs-surface {
+        display: flex;
+        flex-direction: column;
+      }
+
+      #op-panel-delegation #delegation-input {
+        min-height: 8rem;
+      }
+
+      #atlas-status-card {
+        width: 100%;
+      }
+
+      @media (max-width: 1023px) {
+        #operator-workspace-card,
+        #observational-workspace-card {
+          min-height: auto;
+        }
+      }
+    </style>
+
+  </head>
 
 <body class="bg-gray-900 text-gray-100 min-h-screen p-4">
   <header class="phase59-shell flex flex-col gap-4 mb-6 lg:flex-row lg:items-center lg:justify-between">
@@ -102,13 +164,7 @@
       </div>
 
       <div id="phase61-workspace-grid">
-                            <section id="phase61-operator-column" class="space-y-4" aria-labelledby="operator-tools-heading">
-            <div class="flex items-center justify-between">
-              <h2 id="operator-tools-heading" class="text-xs uppercase tracking-[0.24em] text-gray-400">
-                Operator Workspace
-              </h2>
-            </div>
-
+                            <section id="phase61-operator-column" class="space-y-4" aria-label="Operator workspace">
             <section id="operator-workspace-card" class="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700" data-workspace-root>
               <div class="flex items-center justify-between mb-4 border-b border-gray-700 pb-3">
                 <h2 class="text-xl font-semibold">Operator Workspace</h2>
@@ -157,13 +213,7 @@
             </section>
           </section>
 
-          <section id="phase61-telemetry-column" class="space-y-4" aria-labelledby="activity-panels-heading">
-            <div class="flex items-center justify-between">
-              <h2 id="activity-panels-heading" class="text-xs uppercase tracking-[0.24em] text-gray-400">
-                Observational Workspace
-              </h2>
-            </div>
-
+          <section id="phase61-telemetry-column" class="space-y-4" aria-label="Observational workspace">
             <section id="observational-workspace-card" class="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700" data-workspace-root>
               <div class="flex items-center justify-between mb-4 border-b border-gray-700 pb-3">
                 <h2 class="text-xl font-semibold">Telemetry Workspace</h2>
