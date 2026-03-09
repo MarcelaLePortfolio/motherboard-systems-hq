@@ -27,10 +27,10 @@
       "w-full min-h-0 rounded-md bg-slate-600/55 border border-slate-500/35 px-3 py-1.5 flex items-center justify-between shadow-sm";
 
     const left = document.createElement("div");
-    left.className = "flex items-center gap-2 min-w-0";
+    left.className = "flex items-center gap-3 min-w-0";
 
     const bar = document.createElement("span");
-    bar.className = "block w-1.5 self-stretch rounded-full bg-slate-400/70";
+    bar.className = "inline-block w-3 h-3 rounded-full bg-amber-300 shrink-0 ring-2 ring-slate-900/90 shadow-sm";
 
     const label = document.createElement("span");
     label.className = "text-[13px] font-semibold tracking-tight text-slate-100/95 truncate";
@@ -77,7 +77,7 @@
 
     indicator.row.className =
       "w-full min-h-0 rounded-md border px-3 py-1.5 flex items-center justify-between shadow-sm";
-    indicator.bar.className = "block w-1.5 self-stretch rounded-full";
+    indicator.bar.className = "inline-block w-3 h-3 rounded-full shrink-0 ring-2 ring-slate-900/90 shadow-sm";
     indicator.label.className = "text-[13px] font-semibold tracking-tight truncate";
     indicator.status.className = "text-[11px] font-medium truncate";
 
