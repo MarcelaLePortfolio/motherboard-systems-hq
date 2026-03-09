@@ -12,11 +12,11 @@ echo "🔎 Verifying dashboard layout at: $URL"
 
 required_markers=(
   'Operator Workspace'
-  'Matilda Chat Console'
+  'Chat'
   'Task Delegation'
   'Telemetry Workspace'
   'Recent Tasks'
-  'Task Activity'
+  'Task History'
   'Task Events'
   'Atlas Subsystem Status'
 )
