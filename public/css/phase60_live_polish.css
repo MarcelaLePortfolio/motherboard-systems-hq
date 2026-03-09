@@ -1,74 +1,144 @@
-/*
-Phase 60 — Dashboard Live Polish
-Non-architectural visual improvements only.
-Makes the console feel "alive" without changing layout or data flow.
+/* Phase 60 — Visual Hierarchy Polish
+   CSS-only refinement layer
+   Safe additive overrides for dashboard readability and density
 */
 
-/* subtle animated health indicator */
-
-#system-health-indicator {
-  animation: phase60Pulse 2.2s ease-in-out infinite;
+/* Global vertical rhythm */
+.dashboard,
+.dashboard-root,
+.operator-console,
+main.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
-@keyframes phase60Pulse {
-  0% { transform: scale(0.9); opacity: 0.6; }
-  50% { transform: scale(1.2); opacity: 1; }
-  100% { transform: scale(0.9); opacity: 0.6; }
+/* Panel base normalization */
+.panel,
+.card,
+.console-panel,
+.surface {
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
 }
 
-/* metric hover feedback */
-
-#metrics-row > div {
-  transition: transform 120ms ease, box-shadow 120ms ease;
+/* Metrics row — quick glance telemetry */
+.metrics-row,
+.metrics-grid,
+[data-section="metrics"] {
+  display: grid;
+  gap: 10px;
 }
 
-#metrics-row > div:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+.metric-card,
+.metric-tile,
+.stat-card,
+.kpi-card {
+  padding: 10px 12px;
+  min-height: 82px;
+  border: 1px solid rgba(255,255,255,0.07);
+  box-shadow: none;
 }
 
-/* console card polish */
-
-#operator-tools-grid > section,
-#activity-panels-grid > section,
-#atlas-status-card,
-#recent-tasks-card,
-#task-activity-card,
-#matilda-chat-card,
-#delegation-card {
-  transition: box-shadow 140ms ease, border-color 140ms ease;
+.metric-card .value,
+.stat-card .value,
+.kpi-card .value {
+  line-height: 1;
 }
 
-#operator-tools-grid > section:hover,
-#activity-panels-grid > section:hover,
-#atlas-status-card:hover,
-#recent-tasks-card:hover,
-#task-activity-card:hover,
-#matilda-chat-card:hover,
-#delegation-card:hover {
-  border-color: rgba(94,234,212,0.35);
-  box-shadow: 0 8px 28px rgba(0,0,0,0.45);
+/* Agent pool density preservation */
+.agent-pool,
+.agent-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
-/* agent status visual separation */
-
-#agent-status-container span {
-  transition: color 140ms ease;
+.agent-row,
+.agent-status-row {
+  padding: 4px 6px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 
-#agent-status-container span:hover {
-  color: #5eead4;
+/* Operator tools symmetry */
+.operator-tools,
+.operator-controls {
+  display: grid;
+  gap: 12px;
 }
 
-/* header glow */
-
-h1 {
-  text-shadow: 0 0 6px rgba(94,234,212,0.35);
+.chat-panel,
+.delegation-panel,
+.matilda-chat,
+.task-delegation {
+  display: flex;
+  flex-direction: column;
 }
 
-/* smooth scrolling inside activity panels */
+.chat-panel .panel-body,
+.delegation-panel .panel-body {
+  flex: 1 1 auto;
+  padding-top: 6px;
+}
 
-#mb-task-events-panel-anchor,
-#recent-tasks-list {
-  scroll-behavior: smooth;
+/* Activity telemetry area */
+.activity-panels,
+.activity-grid,
+[data-section="activity"] {
+  display: grid;
+  gap: 12px;
+}
+
+.recent-tasks .panel-body,
+.task-activity .panel-body {
+  padding-top: 6px;
+}
+
+/* Subsystem area quieter visually */
+.subsystem-status,
+.subsystems-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.subsystem-card {
+  padding: 10px 12px;
+  box-shadow: none;
+}
+
+/* Header tightening */
+.dashboard-header,
+.console-header {
+  margin-bottom: 2px;
+}
+
+/* Responsive guardrails */
+@media (max-width: 1100px) {
+  .metrics-row,
+  .operator-tools,
+  .activity-panels,
+  .subsystem-status {
+    gap: 10px;
+  }
+
+  .metric-card,
+  .stat-card,
+  .kpi-card {
+    min-height: 76px;
+  }
+}
+
+@media (max-width: 760px) {
+  .dashboard,
+  .dashboard-root {
+    gap: 12px;
+  }
+
+  .metric-card,
+  .stat-card,
+  .kpi-card,
+  .subsystem-card {
+    padding: 9px 10px;
+  }
 }
