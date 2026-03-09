@@ -390,23 +390,31 @@
       console.warn("agent-status-row.js: #agent-status-container not found.");
       return;
     }
+    const title = container.querySelector("h2");
     container.innerHTML = "";
+    if (title) container.appendChild(title);
     const AGENTS = ["Matilda", "Cade", "Effie", "Atlas"];
     const indicators = {};
-    const row = document.createElement("div");
-    row.className = "flex flex-wrap gap-4 items-center";
-    container.appendChild(row);
+    const stack = document.createElement("div");
+    stack.className = "w-full flex flex-col gap-1";
+    container.appendChild(stack);
     AGENTS.forEach((name) => {
-      const pill = document.createElement("div");
-      pill.className = "px-3 py-1 rounded-full bg-gray-700 text-sm flex items-center gap-2 shadow";
+      const row = document.createElement("div");
+      row.className = "w-full rounded-md bg-slate-600/55 border border-slate-500/35 px-3 py-1.5 flex items-center justify-between shadow-sm";
+      const left = document.createElement("div");
+      left.className = "flex items-center gap-2 min-w-0";
       const dot = document.createElement("span");
-      dot.className = "w-2 h-2 rounded-full bg-yellow-400";
+      dot.className = "block w-1.5 self-stretch rounded-full bg-amber-300";
       const label = document.createElement("span");
-      label.textContent = `${name}: \u23F3`;
-      pill.dataset.agent = name.toLowerCase();
-      pill.append(dot, label);
-      row.appendChild(pill);
-      indicators[name.toLowerCase()] = { pill, dot, label };
+      label.className = "text-[13px] font-semibold tracking-tight text-slate-100 truncate";
+      label.textContent = name;
+      const status = document.createElement("span");
+      status.className = "text-[12px] font-medium text-amber-200 truncate";
+      status.textContent = "initializing";
+      left.append(dot, label);
+      row.append(left, status);
+      stack.appendChild(row);
+      indicators[name.toLowerCase()] = { row, dot, label, status };
     });
     const OPS_SSE_URL = `/events/ops`;
     const __DISABLE_OPTIONAL_SSE = (typeof window !== "undefined" && window.__DISABLE_OPTIONAL_SSE) === true;
@@ -434,7 +442,7 @@
       if (s.includes("online") || s.includes("ready") || s.includes("ok")) {
         return "online";
       }
-      if (s.includes("queued") || s.includes("pending") || s.includes("init")) {
+      if (s.includes("queued") || s.includes("pending") || s.includes("init") || s.includes("running")) {
         return "pending";
       }
       return "unknown";
@@ -443,30 +451,36 @@
       const indicator = indicators[agentKey];
       if (!indicator) return;
       const kind = classifyStatus(statusString);
-      const { pill, dot, label } = indicator;
-      dot.className = "w-2 h-2 rounded-full";
-      pill.classList.remove("border", "border-red-400", "border-green-400", "border-yellow-300");
+      const { row, dot, label, status } = indicator;
+      row.className = "w-full rounded-md border px-3 py-1.5 flex items-center justify-between shadow-sm";
+      dot.className = "block w-1.5 self-stretch rounded-full";
+      label.className = "text-[13px] font-semibold tracking-tight text-slate-100 truncate";
+      status.className = "text-[12px] font-medium truncate";
+      const finalStatus = statusString || "unknown";
+      status.textContent = finalStatus;
       switch (kind) {
         case "online":
-          dot.classList.add("bg-green-400");
-          pill.classList.add("border", "border-green-400");
+          row.classList.add("bg-emerald-900/20", "border-emerald-400/25");
+          dot.classList.add("bg-emerald-400");
+          status.classList.add("text-emerald-300");
           break;
         case "error":
-          dot.classList.add("bg-red-400");
-          pill.classList.add("border", "border-red-400");
+          row.classList.add("bg-rose-900/20", "border-rose-400/25");
+          dot.classList.add("bg-rose-400");
+          status.classList.add("text-rose-300");
           break;
         case "pending":
-          dot.classList.add("bg-yellow-300");
-          pill.classList.add("border", "border-yellow-300");
+          row.classList.add("bg-amber-900/20", "border-amber-300/25");
+          dot.classList.add("bg-amber-300");
+          status.classList.add("text-amber-200");
           break;
         case "unknown":
         default:
-          dot.classList.add("bg-gray-500");
+          row.classList.add("bg-slate-600/55", "border-slate-500/35");
+          dot.classList.add("bg-slate-400/70");
+          status.classList.add("text-slate-200/90");
           break;
       }
-      const prettyName = agentKey.charAt(0).toUpperCase() + agentKey.slice(1);
-      const finalStatus = statusString || "unknown";
-      label.textContent = `${prettyName}: ${finalStatus}`;
     }
     if (!source) return null;
     source.onmessage = (event) => {
@@ -483,8 +497,8 @@
       if (!indicators[key]) {
         return;
       }
-      const status = (data.status || data.state || data.level || "").toString() || "unknown";
-      applyVisual(key, status);
+      const statusValue = (data.status || data.state || data.level || "").toString() || "unknown";
+      applyVisual(key, statusValue);
     };
     source.onerror = (err) => {
       console.warn("agent-status-row.js: OPS SSE error:", err);
