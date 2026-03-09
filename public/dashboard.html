@@ -109,6 +109,7 @@
       }
 
       #atlas-status-card {
+  grid-column: 1 / -1;
         width: 100%;
       }
 
@@ -214,7 +215,6 @@
               <div id="operator-panels">
                 <div id="op-panel-chat" class="obs-panel active" data-workspace-panel role="tabpanel" aria-labelledby="op-tab-chat">
                   <section id="matilda-chat-card" class="obs-surface">
-                    <h2 class="text-xl font-semibold mb-4 border-b border-gray-700 pb-2">Matilda Chat Console</h2>
                     <div id="matilda-chat-root" class="space-y-3">
                       <div id="matilda-chat-transcript" class="bg-gray-900 border border-gray-700 rounded-xl p-3 h-64 overflow-y-auto text-sm">
                         <p class="text-gray-500 italic">Chat with Matilda about tasks, status, or next steps...</p>
@@ -256,7 +256,7 @@
                   Recent Tasks
                 </button>
                 <button id="obs-tab-activity" class="obs-tab" type="button" data-workspace-tab data-target="obs-panel-activity" role="tab" aria-selected="false" aria-controls="obs-panel-activity">
-                  Task Activity
+                  Task History
                 </button>
                 <button id="obs-tab-events" class="obs-tab" type="button" data-workspace-tab data-target="obs-panel-events" role="tab" aria-selected="false" aria-controls="obs-panel-events">
                   Task Events
@@ -267,7 +267,6 @@
                 <div id="obs-panel-recent" class="obs-panel active" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-recent">
                   <section id="recent-tasks-card" class="obs-surface">
                     <div class="flex items-center justify-between mb-4 border-b border-gray-700 pb-2">
-                      <h2 class="text-xl font-semibold">Recent Tasks</h2>
                       <span class="text-xs uppercase tracking-wide text-indigo-300/80">Live</span>
                     </div>
                     <div id="tasks-widget"></div>
@@ -276,7 +275,7 @@
 
                 <div id="obs-panel-activity" class="obs-panel" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-activity" hidden>
                   <section id="task-activity-card" class="obs-surface">
-                    <h2 class="text-xl font-semibold mb-4 border-b border-gray-700 pb-2">Task Activity Over Time</h2>
+                    <h2 class="text-xl font-semibold mb-4 border-b border-gray-700 pb-2">Task History Over Time</h2>
                     <div class="h-64">
                       <canvas id="task-activity-graph" class="w-full h-full"></canvas>
                     </div>
@@ -286,7 +285,6 @@
                 <div id="obs-panel-events" class="obs-panel" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-events" hidden>
                   <section id="task-events-card" class="obs-surface">
                     <div class="flex items-center justify-between mb-4 border-b border-gray-700 pb-2">
-                      <h2 class="text-xl font-semibold">Task Events Stream</h2>
                       <span class="text-xs uppercase tracking-wide text-teal-300/80">SSE</span>
                     </div>
                     <div id="mb-task-events-panel-anchor"></div>
