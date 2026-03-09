@@ -396,20 +396,20 @@
     const AGENTS = ["Matilda", "Cade", "Effie", "Atlas"];
     const indicators = {};
     const stack = document.createElement("div");
-    stack.className = "w-full flex flex-col gap-1";
+    stack.className = "w-full flex flex-col gap-0.5";
     container.appendChild(stack);
     AGENTS.forEach((name) => {
       const row = document.createElement("div");
-      row.className = "w-full rounded-md bg-slate-600/55 border border-slate-500/35 px-3 py-1.5 flex items-center justify-between shadow-sm";
+      row.className = "w-full rounded-md bg-slate-600/55 border border-slate-500/35 px-3 py-1 flex items-center justify-between shadow-sm";
       const left = document.createElement("div");
-      left.className = "flex items-center gap-2 min-w-0";
+      left.className = "flex items-center gap-2.5 min-w-0";
       const dot = document.createElement("span");
-      dot.className = "block w-1.5 self-stretch rounded-full bg-amber-300";
+      dot.className = "inline-block w-2.5 h-2.5 rounded-full bg-amber-300 shrink-0";
       const label = document.createElement("span");
       label.className = "text-[13px] font-semibold tracking-tight text-slate-100 truncate";
       label.textContent = name;
       const status = document.createElement("span");
-      status.className = "text-[12px] font-medium text-amber-200 truncate";
+      status.className = "text-[11px] font-medium text-amber-200 truncate";
       status.textContent = "initializing";
       left.append(dot, label);
       row.append(left, status);
@@ -452,10 +452,10 @@
       if (!indicator) return;
       const kind = classifyStatus(statusString);
       const { row, dot, label, status } = indicator;
-      row.className = "w-full rounded-md border px-3 py-1.5 flex items-center justify-between shadow-sm";
-      dot.className = "block w-1.5 self-stretch rounded-full";
+      row.className = "w-full rounded-md border px-3 py-1 flex items-center justify-between shadow-sm";
+      dot.className = "inline-block w-2.5 h-2.5 rounded-full shrink-0";
       label.className = "text-[13px] font-semibold tracking-tight text-slate-100 truncate";
-      status.className = "text-[12px] font-medium truncate";
+      status.className = "text-[11px] font-medium truncate";
       const finalStatus = statusString || "unknown";
       status.textContent = finalStatus;
       switch (kind) {

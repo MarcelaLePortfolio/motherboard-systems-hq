@@ -18,7 +18,7 @@
   const indicators = {};
 
   const stack = document.createElement("div");
-  stack.className = "w-full flex flex-col gap-1";
+  stack.className = "w-full flex flex-col gap-0.5";
   container.appendChild(stack);
 
   AGENTS.forEach((name) => {
@@ -27,7 +27,7 @@
       "w-full min-h-0 rounded-md bg-slate-600/55 border border-slate-500/35 px-3 py-1.5 flex items-center justify-between shadow-sm";
 
     const left = document.createElement("div");
-    left.className = "flex items-center gap-2 min-w-0";
+    left.className = "flex items-center gap-2.5 min-w-0";
 
     const bar = document.createElement("span");
     bar.className = "block w-1.5 self-stretch rounded-full bg-slate-400/70";
@@ -79,7 +79,7 @@
       "w-full min-h-0 rounded-md border px-3 py-1.5 flex items-center justify-between shadow-sm";
     indicator.bar.className = "block w-1.5 self-stretch rounded-full";
     indicator.label.className = "text-[13px] font-semibold tracking-tight truncate";
-    indicator.status.className = "text-[12px] font-medium truncate";
+    indicator.status.className = "text-[11px] font-medium truncate";
 
     switch (kind) {
       case "online":
