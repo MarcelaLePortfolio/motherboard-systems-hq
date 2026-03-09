@@ -233,3 +233,48 @@ main.dashboard {
   );
 }
 
+
+/* Phase 60 — Unified Button System */
+
+/* Base pill button style */
+button,
+.button,
+.panel button {
+  border-radius: 999px;
+  border: none;
+  padding: 6px 14px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  box-shadow: none;
+  transition: filter 0.15s ease, transform 0.05s ease;
+}
+
+/* Primary action buttons (Send / Submit Delegation) */
+button.primary,
+.panel button.primary,
+button[type="submit"] {
+  background: linear-gradient(
+    135deg,
+    #7c3aed,
+    #2563eb
+  );
+  color: white;
+}
+
+/* Secondary utility buttons */
+button.secondary,
+.panel button.secondary {
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.85);
+}
+
+/* Hover feedback */
+button:hover {
+  filter: brightness(1.08);
+}
+
+/* Subtle press feedback */
+button:active {
+  transform: translateY(1px);
+}
+
