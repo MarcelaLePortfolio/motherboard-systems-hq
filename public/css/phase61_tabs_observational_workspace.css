@@ -1,0 +1,30 @@
+/* Phase 61 — Observational Workspace Tabs
+   Adds a tabbed interface to consolidate telemetry views
+*/
+
+#observational-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.obs-tab {
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.06);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.obs-tab.active {
+  background: linear-gradient(135deg,#7c3aed,#2563eb);
+  color: white;
+}
+
+.obs-panel {
+  display: none;
+}
+
+.obs-panel.active {
+  display: block;
+}
