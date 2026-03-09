@@ -1,43 +1,44 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-BASE="${1:-http://127.0.0.1:8080}"
+URL="${1:-http://127.0.0.1:8080/dashboard}"
+TMP_HTML="$(mktemp)"
+TMP_HEADERS="$(mktemp)"
+trap 'rm -f "$TMP_HTML" "$TMP_HEADERS"' EXIT
 
-echo "🔎 Verifying dashboard layout at: $BASE/dashboard"
+curl -fsS -D "$TMP_HEADERS" "$URL" -o "$TMP_HTML"
 
-html="$(curl -fsS "$BASE/dashboard")"
+echo "🔎 Verifying dashboard layout at: $URL"
 
-markers=(
-  "Matilda Chat Console"
-  "Task Delegation"
-  "System Reflections"
-  'id="project-visual-output-card"'
+required_markers=(
+  'Operator Workspace'
+  'Matilda Chat Console'
+  'Task Delegation'
+  'Observational Workspace'
+  'Recent Tasks'
+  'Task Activity'
+  'Task Events'
+  'Atlas Subsystem Status'
 )
 
 missing=0
-for m in "${markers[@]}"; do
-  if ! grep -qF "$m" <<<"$html"; then
-    echo "❌ Missing marker: $m"
-    missing=1
+for marker in "${required_markers[@]}"; do
+  if grep -Fq "$marker" "$TMP_HTML"; then
+    echo "✅ Found: $marker"
   else
-    echo "✅ Found: $m"
+    echo "❌ Missing marker: $marker"
+    missing=1
   fi
 done
 
 echo
-echo "ℹ️ bundle.js cache-bust (if present):"
-grep -oE '/bundle\.js\?v=[0-9]+' <<<"$html" | head -n 1 || echo "(none found)"
-
-echo
 echo "ℹ️ HTTP headers:"
-curl -sSI "$BASE/dashboard" | rg -ni "HTTP/|cache-control|pragma|expires|etag|last-modified|content-type|location:" || true
-
-if [ "$missing" -ne 0 ]; then
-  echo
-  echo "🧯 Layout contract FAILED."
-  echo "Suggested recovery: git checkout v14.8-dashboard-ux-restored -- public/ && docker compose up -d --build"
-  exit 2
-fi
+sed -n '1,20p' "$TMP_HEADERS"
 
 echo
-echo "🎉 Layout contract PASSED."
+if [ "$missing" -eq 0 ]; then
+  echo "✅ Layout contract PASSED."
+else
+  echo "🧯 Layout contract FAILED."
+  exit 1
+fi
