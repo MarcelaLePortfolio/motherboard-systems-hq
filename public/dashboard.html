@@ -28,7 +28,7 @@
   <link rel="stylesheet" href="css/phase59_demo_focus.css" />
   <link rel="stylesheet" href="css/phase60_live_polish.css" />
   <link rel="stylesheet" href="css/phase61_workspace_consolidation.css" />
-</head>
+  <link rel="stylesheet" href="css/phase61_tabs_observational_workspace.css" /></head>
 
 <body class="bg-gray-900 text-gray-100 min-h-screen p-4">
   <header class="phase59-shell flex flex-col gap-4 mb-6 lg:flex-row lg:items-center lg:justify-between">
@@ -181,14 +181,18 @@
         </section>
 
         <section id="phase61-telemetry-column" class="space-y-4" aria-labelledby="activity-panels-heading">
-          <div class="flex items-center justify-between">
+          <div id="observational-tabs">
+            <button class="obs-tab active" data-target="recent-tasks-card">Recent Tasks</button>
+            <button class="obs-tab" data-target="task-activity-card">Task Activity</button>
+            <button class="obs-tab" data-target="task-events-card">Task Events</button>
+          </div>          <div class="flex items-center justify-between">
             <h2 id="activity-panels-heading" class="text-xs uppercase tracking-[0.24em] text-gray-400">
               Telemetry Workspace
             </h2>
           </div>
 
           <div id="activity-panels-grid" class="grid gap-6">
-            <section id="recent-tasks-card" class="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700">
+            <section id="recent-tasks-card" class="obs-panel active" class="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700">
               <div class="flex items-center justify-between mb-4 border-b border-gray-700 pb-2">
                 <h2 class="text-xl font-semibold">Recent Tasks</h2>
                 <span class="text-xs uppercase tracking-wide text-indigo-300/80">Live</span>
@@ -196,7 +200,7 @@
               <div id="tasks-widget"></div>
             </section>
 
-            <section id="task-events-card" class="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700">
+            <section id="task-events-card" class="obs-panel" class="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700">
               <div class="flex items-center justify-between mb-4 border-b border-gray-700 pb-2">
                 <h2 class="text-xl font-semibold">Task Events Stream</h2>
                 <span class="text-xs uppercase tracking-wide text-teal-300/80">SSE</span>
@@ -204,7 +208,7 @@
               <div id="mb-task-events-panel-anchor"></div>
             </section>
 
-            <section id="task-activity-card" class="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700">
+            <section id="task-activity-card" class="obs-panel" class="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700">
               <h2 class="text-xl font-semibold mb-4 border-b border-gray-700 pb-2">
                 Task Activity Over Time
               </h2>
@@ -262,7 +266,7 @@
     console.log("[diag] dashboard static isolation mode active");
   </script>
   <script src="js/agent-status-row.js"></script>
-  <script src="bundle.js"></script>
+  <script src="js/phase61_tabs_workspace.js"></script>  <script src="bundle.js"></script>
   <script src="js/phase60_live_clock.js"></script>
 </body>
 </html>
