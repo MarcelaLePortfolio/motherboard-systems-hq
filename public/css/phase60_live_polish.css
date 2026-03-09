@@ -278,3 +278,68 @@ button:active {
   transform: translateY(1px);
 }
 
+
+/* Phase 60 — Operator Button Standardization (container-based override) */
+
+/* Normalize all clickable controls in operator panels */
+.panel--matilda button,
+.panel--matilda input[type="button"],
+.panel--matilda input[type="submit"],
+.panel--matilda a.button,
+.panel--delegation button,
+.panel--delegation input[type="button"],
+.panel--delegation input[type="submit"],
+.panel--delegation a.button {
+
+  border-radius: 999px !important;
+  padding: 8px 16px !important;
+  border: none !important;
+  text-decoration: none !important;
+  font-weight: 500;
+  line-height: 1;
+  box-shadow: none !important;
+  cursor: pointer;
+  transition: filter 0.15s ease, transform 0.05s ease;
+}
+
+/* Primary actions */
+.panel--matilda input[type="submit"],
+.panel--matilda button[type="submit"],
+.panel--delegation input[type="submit"],
+.panel--delegation button[type="submit"] {
+
+  background: linear-gradient(
+    135deg,
+    #7c3aed,
+    #2563eb
+  ) !important;
+
+  color: white !important;
+}
+
+/* Secondary buttons */
+.panel--matilda input[type="button"],
+.panel--matilda button:not([type="submit"]),
+.panel--delegation input[type="button"],
+.panel--delegation button:not([type="submit"]) {
+
+  background: rgba(255,255,255,0.08) !important;
+  color: rgba(255,255,255,0.9) !important;
+}
+
+/* Hover feedback */
+.panel--matilda button:hover,
+.panel--delegation button:hover,
+.panel--matilda input:hover,
+.panel--delegation input:hover {
+
+  filter: brightness(1.08);
+}
+
+/* Press feedback */
+.panel--matilda button:active,
+.panel--delegation button:active {
+
+  transform: translateY(1px);
+}
+
