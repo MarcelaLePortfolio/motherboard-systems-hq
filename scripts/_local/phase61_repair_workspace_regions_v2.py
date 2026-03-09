@@ -1,108 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <style id="matilda-chat-typography-polish">
-    #matilda-chat-transcript p {
-      line-height: 1.45 !important;
-      margin-bottom: 0.55rem !important;
-    }
-    #matilda-chat-transcript .user-message {
-      color: #dbeafe !important;
-    }
-    #matilda-chat-transcript .matilda-message {
-      color: #a7f3d0 !important;
-    }
-  </style>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Motherboard Systems Operator Console</title>
+#!/usr/bin/env python3
+from pathlib import Path
+import sys
 
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="css/broadcast.css" />
-  <link rel="stylesheet" href="css/dashboard.css?v=darkmode" />
-  <link rel="stylesheet" href="css/dashboard-reflections.css" />
-  <link rel="stylesheet" href="css/agent-status-row.css" />
-  <link rel="stylesheet" href="css/matilda-chat.css" />
-  <link rel="stylesheet" href="css/demo_layout_trim.css" />
-  <link rel="stylesheet" href="/css/phase13_5_operator_ux.css" />
-  <link rel="stylesheet" href="css/phase59_demo_focus.css" />
-  <link rel="stylesheet" href="css/phase60_live_polish.css" />
-  <link rel="stylesheet" href="css/phase61_workspace_consolidation.css" />
-  <link rel="stylesheet" href="css/phase61_tabs_observational_workspace.css" />
-</head>
+p = Path("public/dashboard.html")
+text = p.read_text(encoding="utf-8")
 
-<body class="bg-gray-900 text-gray-100 min-h-screen p-4">
-  <header class="phase59-shell flex flex-col gap-4 mb-6 lg:flex-row lg:items-center lg:justify-between">
-    <div>
-      <p class="text-xs uppercase tracking-[0.24em] text-teal-300/70 mb-2">Motherboard Systems</p>
-      <h1 class="text-3xl font-bold text-teal-400">
-        Operator Console
-      </h1>
-    </div>
-    <div
-      id="global-status"
-      class="bg-gray-800 border border-gray-700 rounded-2xl shadow-xl px-4 py-3 flex flex-wrap items-center gap-x-5 gap-y-2"
-    >
-      <span class="text-sm font-semibold">
-        Uptime:
-        <span id="uptime-display" class="text-green-400">Calculating...</span>
-      </span>
-      <div class="flex items-center gap-2">
-        <div id="system-health-indicator" class="w-3 h-3 rounded-full bg-red-500 animate-pulse"></div>
-        <span class="text-sm">
-          Health:
-          <span id="health-status">Critical</span>
-        </span>
-      </div>
-      <span class="text-sm text-gray-400">
-        Probe lifecycle and task activity visible below.
-      </span>
-    </div>
-  </header>
+op_token = 'id="phase61-operator-column"'
+subsystem_token = 'aria-labelledby="subsystem-status-heading"'
 
-  <section
-    id="agent-status-container"
-    class="phase59-shell bg-gray-800 p-4 rounded-2xl shadow-2xl flex flex-wrap gap-4 items-center mb-6 border border-gray-700"
-  >
-    <h2 class="text-lg font-semibold text-gray-200 w-full">
-      Agent Pool
-    </h2>
-    <span class="text-gray-500">Loading agents...</span>
-  </section>
+op_idx = text.find(op_token)
+sub_idx = text.find(subsystem_token)
 
-  <main class="phase59-shell space-y-6">
-    <section
-      id="metrics-row"
-      class="grid grid-cols-2 xl:grid-cols-4 gap-4"
-      aria-label="System metrics"
-    >
-      <div class="bg-gray-800 p-4 rounded-2xl shadow-lg border border-gray-700">
-        <p class="text-sm text-gray-400">Active Agents</p>
-        <p id="metric-agents" class="text-2xl font-bold text-blue-400">--</p>
-      </div>
-      <div class="bg-gray-800 p-4 rounded-2xl shadow-lg border border-gray-700">
-        <p class="text-sm text-gray-400">Tasks Running</p>
-        <p id="metric-tasks" class="text-2xl font-bold text-yellow-400">--</p>
-      </div>
-      <div class="bg-gray-800 p-4 rounded-2xl shadow-lg border border-gray-700">
-        <p class="text-sm text-gray-400">Success Rate</p>
-        <p id="metric-success-rate" class="text-2xl font-bold text-green-400">--</p>
-      </div>
-      <div class="bg-gray-800 p-4 rounded-2xl shadow-lg border border-gray-700">
-        <p class="text-sm text-gray-400">Latency (ms)</p>
-        <p id="metric-latency" class="text-2xl font-bold text-red-400">--</p>
-      </div>
-    </section>
+print(f"operator_token_found={op_idx != -1}")
+print(f"subsystem_token_found={sub_idx != -1}")
 
-    <section id="phase61-workspace-shell" aria-labelledby="phase61-workspace-heading" class="space-y-4">
-      <div class="flex items-center justify-between">
-        <h2 id="phase61-workspace-heading" class="text-xs uppercase tracking-[0.24em] text-gray-400">
-          Operator Workspace
-        </h2>
-      </div>
+if op_idx == -1 or sub_idx == -1 or sub_idx <= op_idx:
+    print("workspace boundary detection failed; no changes written")
+    sys.exit(0)
 
-      <div id="phase61-workspace-grid">
-                            <section id="phase61-operator-column" class="space-y-4" aria-labelledby="operator-tools-heading">
+op_start = text.rfind("<section", 0, op_idx)
+sub_start = text.rfind("<section", 0, sub_idx)
+
+print(f"operator_section_start_found={op_start != -1}")
+print(f"subsystem_section_start_found={sub_start != -1}")
+
+if op_start == -1 or sub_start == -1 or sub_start <= op_start:
+    print("section boundary detection failed; no changes written")
+    sys.exit(0)
+
+workspace_region = """          <section id="phase61-operator-column" class="space-y-4" aria-labelledby="operator-tools-heading">
             <div class="flex items-center justify-between">
               <h2 id="operator-tools-heading" class="text-xs uppercase tracking-[0.24em] text-gray-400">
                 Operator Workspace
@@ -215,53 +141,8 @@
             </section>
           </section>
 
-<section aria-labelledby="subsystem-status-heading" class="space-y-4">
-      <h2 id="subsystem-status-heading" class="text-xs uppercase tracking-[0.24em] text-gray-400">
-        Subsystem Status
-      </h2>
+"""
 
-      <section id="atlas-status-card" class="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700">
-        <h2
-          class="text-xl font-semibold mb-4 border-b border-gray-700 pb-2 flex justify-between items-center"
-        >
-          Atlas Subsystem Status
-          <span
-            id="atlas-health"
-            class="text-xs font-medium px-2 py-1 rounded-full bg-orange-500 text-white"
-          >
-            Degraded
-          </span>
-        </h2>
-        <div id="atlas-status-details" class="space-y-2 text-gray-300">
-          <p>
-            Core Engine:
-            <span class="text-yellow-400">Initializing...</span>
-          </p>
-        </div>
-      </section>
-    </section>
-  </main>
-
-  <div id="phase59-compat-roots" hidden aria-hidden="true">
-    <div id="project-visual-output"></div>
-    <div id="recentLogs"></div>
-    <ul id="ops-alerts-list"></ul>
-  </div>
-
-  <div id="reflections" data-panel="reflections">
-    <ul id="reflections-list" data-role="reflections-list"></ul>
-  </div>
-
-  <div id="phase16-sse-indicator" style="position:fixed;right:10px;bottom:10px;z-index:9999;font:12px ui-monospace;opacity:.7;pointer-events:none">
-    <span id="phase16-sse-indicator-text" style="padding:4px 8px;border-radius:9999px;border:1px solid rgba(255,255,255,.18);background:rgba(0,0,0,.25)">SSE: …</span>
-  </div>
-
-  <script>
-    console.log("[diag] dashboard static isolation mode active");
-  </script>
-  <script src="js/agent-status-row.js"></script>
-  <script src="js/phase61_tabs_workspace.js"></script>
-  <script src="bundle.js"></script>
-  <script src="js/phase60_live_clock.js"></script>
-</body>
-</html>
+updated = text[:op_start] + workspace_region + text[sub_start:]
+p.write_text(updated, encoding="utf-8")
+print("workspace region rewritten")
