@@ -188,3 +188,48 @@ main.dashboard {
   border: 1px solid rgba(255,255,255,0.06);
 }
 
+
+/* Phase 60 — Operator Workspace Cohesion */
+
+/* Align Matilda + Delegation card headers */
+.operator-tools .panel-header,
+.panel--matilda .panel-header,
+.panel--delegation .panel-header {
+  padding-bottom: 6px;
+}
+
+/* Normalize operator console body spacing */
+.panel--matilda .panel-body,
+.panel--delegation .panel-body {
+  padding-top: 10px;
+  padding-bottom: 12px;
+}
+
+/* Slightly tighten textarea / console spacing */
+.panel--matilda textarea,
+.panel--delegation textarea,
+.panel--delegation input {
+  margin-bottom: 10px;
+}
+
+/* Normalize operator button row */
+.panel--matilda .button-row,
+.panel--delegation .button-row {
+  margin-top: 6px;
+  display: flex;
+  gap: 8px;
+}
+
+/* Atlas subsystem card should feel like a status band */
+.panel--atlas,
+.subsystem-status,
+[data-panel="atlas-status"] {
+  margin-top: 6px;
+  border: 1px solid rgba(255,255,255,0.05);
+  background: linear-gradient(
+    180deg,
+    rgba(255,255,255,0.02),
+    rgba(255,255,255,0.01)
+  );
+}
+
