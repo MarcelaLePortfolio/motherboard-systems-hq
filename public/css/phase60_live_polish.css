@@ -435,3 +435,30 @@ button:active {
   transform: translateY(1px);
 }
 
+
+/* Phase 60 — unified button interaction system */
+
+#delegation-submit,
+#matilda-chat-send,
+#complete-task-btn,
+#matilda-chat-quick-check {
+  transition: transform 120ms ease, filter 120ms ease, background 120ms ease;
+}
+
+/* Hover lift (uniform for all primary/secondary actions) */
+#delegation-submit:hover,
+#matilda-chat-send:hover,
+#complete-task-btn:hover,
+#matilda-chat-quick-check:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+}
+
+/* Press feedback */
+#delegation-submit:active,
+#matilda-chat-send:active,
+#complete-task-btn:active,
+#matilda-chat-quick-check:active {
+  transform: translateY(1px);
+}
+
