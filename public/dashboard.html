@@ -85,15 +85,29 @@
         flex-direction: column;
       }
 
+      #operator-tabs,
+      #observational-tabs {
+        margin-bottom: 1.1rem;
+      }
+
+      #op-panel-chat,
+      #op-panel-delegation,
+      #obs-panel-recent,
+      #obs-panel-activity,
+      #obs-panel-events {
+        padding-top: 0.1rem;
+      }
+
       #matilda-chat-root {
         flex: 1 1 auto;
         display: flex;
         flex-direction: column;
+        gap: 1rem;
       }
 
       #matilda-chat-transcript {
-        min-height: 15rem;
-        height: 15rem;
+        min-height: 14rem;
+        height: 14rem;
       }
 
       #matilda-chat-root > .flex.space-x-3.items-end {
@@ -108,8 +122,22 @@
         min-height: 8rem;
       }
 
+      #task-activity-card .h-64 {
+        height: 100%;
+        min-height: 18rem;
+      }
+
+      #task-events-card.phase61-events-fill {
+        min-height: 100%;
+        height: 100%;
+      }
+
+      #task-events-card.phase61-events-fill #mb-task-events-panel-anchor {
+        flex: 1 1 auto;
+        min-height: 18rem;
+      }
+
       #atlas-status-card {
-  grid-column: 1 / -1;
         width: 100%;
       }
 
@@ -124,8 +152,8 @@
         }
 
         #matilda-chat-transcript {
-          min-height: 14rem;
-          height: 14rem;
+          min-height: 13rem;
+          height: 13rem;
         }
       }
     </style>
@@ -200,7 +228,6 @@
             <section id="operator-workspace-card" class="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700" data-workspace-root>
               <div class="flex items-center justify-between mb-4 border-b border-gray-700 pb-3">
                 <h2 class="text-xl font-semibold">Operator Workspace</h2>
-                <span class="text-xs uppercase tracking-wide text-gray-400">Consolidated</span>
               </div>
 
               <div id="operator-tabs" role="tablist" aria-label="Operator workspace tabs">
@@ -248,7 +275,6 @@
             <section id="observational-workspace-card" class="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700" data-workspace-root>
               <div class="flex items-center justify-between mb-4 border-b border-gray-700 pb-3">
                 <h2 class="text-xl font-semibold">Telemetry Workspace</h2>
-                <span class="text-xs uppercase tracking-wide text-gray-400">Consolidated</span>
               </div>
 
               <div id="observational-tabs" role="tablist" aria-label="Observational workspace tabs">
@@ -267,7 +293,6 @@
                 <div id="obs-panel-recent" class="obs-panel active" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-recent">
                   <section id="recent-tasks-card" class="obs-surface">
                     <div class="flex items-center justify-between mb-4 border-b border-gray-700 pb-2">
-                      <span class="text-xs uppercase tracking-wide text-indigo-300/80">Live</span>
                     </div>
                     <div id="tasks-widget"></div>
                   </section>
@@ -275,7 +300,7 @@
 
                 <div id="obs-panel-activity" class="obs-panel" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-activity" hidden>
                   <section id="task-activity-card" class="obs-surface">
-                    <h2 class="text-xl font-semibold mb-4 border-b border-gray-700 pb-2">Task History Over Time</h2>
+                    
                     <div class="h-64">
                       <canvas id="task-activity-graph" class="w-full h-full"></canvas>
                     </div>
@@ -283,9 +308,8 @@
                 </div>
 
                 <div id="obs-panel-events" class="obs-panel" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-events" hidden>
-                  <section id="task-events-card" class="obs-surface">
+                  <section id="task-events-card" class="obs-surface phase61-events-fill">
                     <div class="flex items-center justify-between mb-4 border-b border-gray-700 pb-2">
-                      <span class="text-xs uppercase tracking-wide text-teal-300/80">SSE</span>
                     </div>
                     <div id="mb-task-events-panel-anchor"></div>
                   </section>
