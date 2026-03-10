@@ -171,7 +171,171 @@
       }
     </style>
 
-  </head>
+    <style id="phase61-task-events-polish">
+    .task-events-panel,
+    [data-phase61-task-events],
+    [data-tab-panel="task-events"],
+    #task-events-panel,
+    #task-events,
+    .task-events {
+      min-height: 360px;
+    }
+
+    .task-events-panel .task-events-list,
+    [data-phase61-task-events] .task-events-list,
+    [data-tab-panel="task-events"] .task-events-list,
+    #task-events-panel .task-events-list,
+    #task-events .task-events-list,
+    .task-events .task-events-list,
+    .task-events-panel ul,
+    [data-phase61-task-events] ul,
+    [data-tab-panel="task-events"] ul,
+    #task-events-panel ul,
+    #task-events ul,
+    .task-events ul {
+      max-height: 420px;
+      overflow: auto;
+      padding-right: 6px;
+      overscroll-behavior: contain;
+      scroll-behavior: smooth;
+    }
+
+    .task-events-panel .task-event,
+    [data-phase61-task-events] .task-event,
+    [data-tab-panel="task-events"] .task-event,
+    #task-events-panel .task-event,
+    #task-events .task-event,
+    .task-events .task-event,
+    .task-events-panel li,
+    [data-phase61-task-events] li,
+    [data-tab-panel="task-events"] li,
+    #task-events-panel li,
+    #task-events li,
+    .task-events li {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(96px, 120px) minmax(120px, 160px) 1fr;
+      gap: 10px;
+      align-items: start;
+      padding: 10px 12px 10px 14px;
+      margin-bottom: 8px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      line-height: 1.35;
+      font-size: 12px;
+    }
+
+    .task-events-panel .task-event::before,
+    [data-phase61-task-events] .task-event::before,
+    [data-tab-panel="task-events"] .task-event::before,
+    #task-events-panel .task-event::before,
+    #task-events .task-event::before,
+    .task-events .task-event::before,
+    .task-events-panel li::before,
+    [data-phase61-task-events] li::before,
+    [data-tab-panel="task-events"] li::before,
+    #task-events-panel li::before,
+    #task-events li::before,
+    .task-events li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 10px;
+      bottom: 10px;
+      width: 3px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.18);
+    }
+
+    .task-events-panel .task-event.phase61-event-terminal::before,
+    [data-phase61-task-events] .task-event.phase61-event-terminal::before,
+    [data-tab-panel="task-events"] .task-event.phase61-event-terminal::before,
+    #task-events-panel .task-event.phase61-event-terminal::before,
+    #task-events .task-event.phase61-event-terminal::before,
+    .task-events .task-event.phase61-event-terminal::before,
+    .task-events-panel li.phase61-event-terminal::before,
+    [data-phase61-task-events] li.phase61-event-terminal::before,
+    [data-tab-panel="task-events"] li.phase61-event-terminal::before,
+    #task-events-panel li.phase61-event-terminal::before,
+    #task-events li.phase61-event-terminal::before,
+    .task-events li.phase61-event-terminal::before {
+      background: rgba(244, 114, 182, 0.95);
+    }
+
+    .task-events-panel .task-event.phase61-event-active::before,
+    [data-phase61-task-events] .task-event.phase61-event-active::before,
+    [data-tab-panel="task-events"] .task-event.phase61-event-active::before,
+    #task-events-panel .task-event.phase61-event-active::before,
+    #task-events .task-event.phase61-event-active::before,
+    .task-events .task-event.phase61-event-active::before,
+    .task-events-panel li.phase61-event-active::before,
+    [data-phase61-task-events] li.phase61-event-active::before,
+    [data-tab-panel="task-events"] li.phase61-event-active::before,
+    #task-events-panel li.phase61-event-active::before,
+    #task-events li.phase61-event-active::before,
+    .task-events li.phase61-event-active::before {
+      background: rgba(34, 197, 94, 0.95);
+    }
+
+    .task-events-panel .task-event.phase61-event-waiting::before,
+    [data-phase61-task-events] .task-event.phase61-event-waiting::before,
+    [data-tab-panel="task-events"] .task-event.phase61-event-waiting::before,
+    #task-events-panel .task-event.phase61-event-waiting::before,
+    #task-events .task-event.phase61-event-waiting::before,
+    .task-events .task-event.phase61-event-waiting::before,
+    .task-events-panel li.phase61-event-waiting::before,
+    [data-phase61-task-events] li.phase61-event-waiting::before,
+    [data-tab-panel="task-events"] li.phase61-event-waiting::before,
+    #task-events-panel li.phase61-event-waiting::before,
+    #task-events li.phase61-event-waiting::before,
+    .task-events li.phase61-event-waiting::before {
+      background: rgba(250, 204, 21, 0.95);
+    }
+
+    .phase61-task-event-time {
+      font-variant-numeric: tabular-nums;
+      color: rgba(255,255,255,0.68);
+      white-space: nowrap;
+    }
+
+    .phase61-task-event-kind {
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      color: rgba(255,255,255,0.92);
+      word-break: break-word;
+    }
+
+    .phase61-task-event-detail {
+      color: rgba(255,255,255,0.78);
+      word-break: break-word;
+    }
+
+    .phase61-task-event-empty {
+      padding: 12px 2px 2px;
+      color: rgba(255,255,255,0.62);
+      font-size: 12px;
+    }
+
+    @media (max-width: 920px) {
+      .task-events-panel .task-event,
+      [data-phase61-task-events] .task-event,
+      [data-tab-panel="task-events"] .task-event,
+      #task-events-panel .task-event,
+      #task-events .task-event,
+      .task-events .task-event,
+      .task-events-panel li,
+      [data-phase61-task-events] li,
+      [data-tab-panel="task-events"] li,
+      #task-events-panel li,
+      #task-events li,
+      .task-events li {
+        grid-template-columns: 1fr;
+        gap: 4px;
+      }
+    }
+  </style>
+</head>
 
 <body class="bg-gray-900 text-gray-100 min-h-screen p-4">
   <header class="phase59-shell flex flex-col gap-4 mb-6 lg:flex-row lg:items-center lg:justify-between">
@@ -378,6 +542,92 @@
   <script src="js/phase61_tabs_workspace.js"></script>
   <script src="bundle.js"></script>
   <script src="js/phase60_live_clock.js"></script>
+  <script id="phase61-task-events-polish-script">
+    (() => {
+      const SELECTORS = [
+        '[data-tab-panel="task-events"]',
+        '[data-phase61-task-events]',
+        '#task-events-panel',
+        '#task-events',
+        '.task-events-panel',
+        '.task-events'
+      ];
+
+      const EVENT_ACTIVE = /run|start|resume|lease|dispatch|ack|progress|active|heartbeat/i;
+      const EVENT_WAITING = /queue|queued|pending|wait|retry|hold|sleep/i;
+      const EVENT_TERMINAL = /complete|completed|success|failed|error|cancel|cancelled|timeout|terminal/i;
+
+      const findPanel = () => {
+        for (const selector of SELECTORS) {
+          const node = document.querySelector(selector);
+          if (node) return node;
+        }
+        return null;
+      };
+
+      const classify = (text) => {
+        if (EVENT_TERMINAL.test(text)) return 'phase61-event-terminal';
+        if (EVENT_WAITING.test(text)) return 'phase61-event-waiting';
+        if (EVENT_ACTIVE.test(text)) return 'phase61-event-active';
+        return '';
+      };
+
+      const normalizeRow = (row) => {
+        if (row.dataset.phase61Polished === '1') return;
+        row.dataset.phase61Polished = '1';
+        row.classList.add('task-event');
+
+        const raw = (row.innerText || row.textContent || '').replace(/\s+/g, ' ').trim();
+        const parts = raw.split(/\s+[|·•]\s+|\s{2,}/).filter(Boolean);
+
+        const timeMatch = raw.match(/\b\d{1,2}:\d{2}(?::\d{2})?(?:\.\d+)?(?:\s?[AP]M)?\b|\b\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}(?::\d{2})?(?:\.\d+)?Z?\b/i);
+        const timeText = timeMatch ? timeMatch[0] : (parts[0] || '');
+        const remaining = parts.filter((part, index) => !(index === 0 && part === timeText));
+        const kindText = remaining[0] || 'event';
+        const detailText = remaining.slice(1).join(' • ') || raw;
+
+        row.classList.add(classify(`${kindText} ${detailText}`));
+
+        row.innerHTML = `
+          <div class="phase61-task-event-time">${timeText || '—'}</div>
+          <div class="phase61-task-event-kind">${kindText}</div>
+          <div class="phase61-task-event-detail">${detailText}</div>
+        `;
+      };
+
+      const polish = () => {
+        const panel = findPanel();
+        if (!panel) return;
+
+        panel.setAttribute('data-phase61-task-events', 'true');
+
+        const rows = panel.querySelectorAll('li, .task-event, [data-task-event-row]');
+        rows.forEach(normalizeRow);
+
+        if (!rows.length && !panel.querySelector('.phase61-task-event-empty')) {
+          const empty = document.createElement('div');
+          empty.className = 'phase61-task-event-empty';
+          empty.textContent = 'No task events yet.';
+          panel.appendChild(empty);
+        }
+      };
+
+      const boot = () => {
+        polish();
+        const panel = findPanel();
+        if (!panel) return;
+
+        const observer = new MutationObserver(() => polish());
+        observer.observe(panel, { childList: true, subtree: true, characterData: true });
+      };
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', boot, { once: true });
+      } else {
+        boot();
+      }
+    })();
+  </script>
 </body>
 </html>
 <style>
