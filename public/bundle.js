@@ -437,6 +437,15 @@
       indicator.status.textContent = finalStatus;
       indicator.row.className = "w-full min-h-0 rounded-md border px-3 py-1.5 flex items-center justify-between shadow-sm";
       indicator.bar.className = "inline-block shrink-0";
+      indicator.bar.style.display = "inline-block";
+      indicator.bar.style.width = "8px";
+      indicator.bar.style.height = "8px";
+      indicator.bar.style.minWidth = "8px";
+      indicator.bar.style.minHeight = "8px";
+      indicator.bar.style.borderRadius = "999px";
+      indicator.bar.style.marginRight = "8px";
+      indicator.bar.style.boxShadow = "0 0 0 2px rgba(255,255,255,0.08) inset";
+      indicator.bar.style.background = "rgba(148,163,184,0.8)";
       indicator.bar.style.width = "8px";
       indicator.bar.style.height = "8px";
       indicator.bar.style.minWidth = "8px";
@@ -448,26 +457,26 @@
       switch (kind) {
         case "online":
           indicator.row.classList.add("bg-gray-900", "border-gray-700");
-          indicator.bar.classList.add("bg-emerald-400");
+          indicator.bar.style.background = "rgba(52,211,153,0.95)";
           indicator.label.classList.add("text-slate-100");
           indicator.status.classList.add("text-emerald-300/90");
           break;
         case "error":
           indicator.row.classList.add("bg-gray-900", "border-gray-700");
-          indicator.bar.classList.add("bg-rose-400");
+          indicator.bar.style.background = "rgba(251,113,133,0.95)";
           indicator.label.classList.add("text-slate-100");
           indicator.status.classList.add("text-rose-300/90");
           break;
         case "pending":
           indicator.row.classList.add("bg-gray-900", "border-gray-700");
-          indicator.bar.classList.add("bg-amber-300");
+          indicator.bar.style.background = "rgba(252,211,77,0.95)";
           indicator.label.classList.add("text-slate-100");
           indicator.status.classList.add("text-amber-200/90");
           break;
         case "unknown":
         default:
           indicator.row.classList.add("bg-gray-900", "border-gray-700");
-          indicator.bar.classList.add("bg-slate-400/70");
+          indicator.bar.style.background = "rgba(148,163,184,0.8)";
           indicator.label.classList.add("text-slate-100");
           indicator.status.classList.add("text-slate-300/75");
           break;
