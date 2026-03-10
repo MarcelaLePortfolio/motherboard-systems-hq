@@ -20,7 +20,6 @@
     const panel = document.createElement("div");
     panel.id = PANEL_ID;
 
-    // If anchored, behave like an in-page card; otherwise float.
     const anchored = root && root.id === ANCHOR_ID;
 
     panel.style.width = anchored ? "100%" : "360px";
@@ -35,7 +34,7 @@
     panel.style.boxShadow = "0 10px 30px rgba(0,0,0,0.35)";
     panel.style.color = "rgba(255,255,255,0.92)";
     panel.style.fontFamily =
-      "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace";
+      "ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial";
 
     if (!anchored) {
       panel.style.position = "fixed";
@@ -54,9 +53,9 @@
     header.style.borderBottom = "1px solid rgba(255,255,255,0.10)";
 
     const title = document.createElement("div");
-    title.textContent = "TASK EVENTS (live)";
+    title.textContent = "Task Events";
     title.style.fontSize = "12px";
-    title.style.letterSpacing = "0.08em";
+    title.style.letterSpacing = "0.06em";
     title.style.opacity = "0.9";
 
     const right = document.createElement("div");
@@ -69,6 +68,7 @@
     counts.textContent = "created:0  completed:0  failed:0";
     counts.style.fontSize = "11px";
     counts.style.opacity = "0.85";
+    counts.style.fontVariantNumeric = "tabular-nums";
 
     const dot = document.createElement("span");
     dot.setAttribute("aria-label", "task-events connection");
@@ -138,41 +138,115 @@
     if (el) el.textContent = `created:${tally.created}  completed:${tally.completed}  failed:${tally.failed}`;
   }
 
-  function formatLine(ev, fallbackKind) {
-    const ts = typeof ev.ts === "number" ? new Date(ev.ts).toISOString() : new Date().toISOString();
-    const tid = ev.task_id ?? ev.taskId ?? "unknown";
-    const run = ev.run_id ?? ev.runId ?? "";
-    const msg = ev.msg ?? ev.message ?? "";
-    const extras = [];
-    if (run) extras.push(`run=${run}`);
-    if (ev.actor) extras.push(`actor=${ev.actor}`);
-    if (ev.status) extras.push(`status=${ev.status}`);
-    if (typeof ev.cursor === "number") extras.push(`cursor=${ev.cursor}`);
-    const extraStr = extras.length ? ` (${extras.join(" ")})` : "";
-    return `${ts}  ${(ev.kind ?? fallbackKind ?? "event")}  task=${tid}${extraStr}${msg ? " — " + msg : ""}`;
+  function isoText(ts) {
+    if (typeof ts === "number") return new Date(ts).toISOString();
+    if (typeof ts === "string" && ts.trim()) {
+      const d = new Date(ts);
+      if (!Number.isNaN(d.getTime())) return d.toISOString();
+      return ts.trim();
+    }
+    return new Date().toISOString();
   }
 
-  function appendLine(text, kind) {
+  function classifyKind(kind, message, status) {
+    const text = `${kind || ""} ${message || ""} ${status || ""}`.toLowerCase();
+    if (/fail|error|cancel|timeout/.test(text)) return "terminal-error";
+    if (/complete|done|success/.test(text)) return "terminal-success";
+    if (/queue|pending|retry|wait|hold|sleep/.test(text)) return "waiting";
+    if (/open|start|run|resume|lease|dispatch|ack|progress|update|active|heartbeat/.test(text)) return "active";
+    return "neutral";
+  }
+
+  function accentColor(tone) {
+    if (tone === "terminal-error") return "rgba(240,90,90,0.95)";
+    if (tone === "terminal-success") return "rgba(80,200,120,0.95)";
+    if (tone === "waiting") return "rgba(250,204,21,0.95)";
+    if (tone === "active") return "rgba(96,165,250,0.95)";
+    return "rgba(255,255,255,0.18)";
+  }
+
+  function buildEventRecord(ev, fallbackKind) {
+    const ts = isoText(ev.ts);
+    const kind = String(ev.kind ?? fallbackKind ?? "event");
+    const taskId = ev.task_id ?? ev.taskId ?? "unknown";
+    const runId = ev.run_id ?? ev.runId ?? "";
+    const actor = ev.actor ?? ev.meta?.actor ?? ev.meta?.owner ?? "";
+    const status = ev.status ?? ev.meta?.status ?? "";
+    const cursor =
+      typeof ev.cursor === "number" || typeof ev.cursor === "string" ? String(ev.cursor) : "";
+    const message = String(ev.msg ?? ev.message ?? "").trim();
+
+    const detailParts = [];
+    detailParts.push(`task=${taskId}`);
+    if (runId) detailParts.push(`run=${runId}`);
+    if (actor) detailParts.push(`actor=${actor}`);
+    if (status) detailParts.push(`status=${status}`);
+    if (cursor) detailParts.push(`cursor=${cursor}`);
+    if (message) detailParts.push(message);
+
+    const detail = detailParts.join(" • ");
+    const tone = classifyKind(kind, message, status);
+
+    return { ts, kind, detail, tone };
+  }
+
+  function appendEvent(ev, fallbackKind) {
     ensurePanel();
     const feed = document.getElementById(FEED_ID);
     if (!feed) return;
 
+    const record = buildEventRecord(ev, fallbackKind);
+
     const row = document.createElement("div");
-    row.style.whiteSpace = "pre-wrap";
-    row.style.wordBreak = "break-word";
-    row.style.fontSize = "11px";
-    row.style.lineHeight = "1.35";
-    row.style.padding = "6px 8px";
+    row.className = `phase61-task-event phase61-task-event-${record.tone}`;
+    row.dataset.eventKind = record.kind;
+    row.dataset.eventTone = record.tone;
+    row.style.position = "relative";
+    row.style.display = "grid";
+    row.style.gridTemplateColumns = "minmax(112px, 132px) minmax(150px, 170px) 1fr";
+    row.style.gap = "10px";
+    row.style.alignItems = "start";
+    row.style.padding = "10px 12px 10px 14px";
+    row.style.marginBottom = "8px";
     row.style.border = "1px solid rgba(255,255,255,0.10)";
     row.style.borderRadius = "12px";
-    row.style.marginBottom = "8px";
     row.style.background = "rgba(255,255,255,0.03)";
+    row.style.lineHeight = "1.35";
+    row.style.fontSize = "12px";
 
-    if (kind === "task.completed") row.style.borderColor = "rgba(80,200,120,0.35)";
-    if (kind === "task.failed") row.style.borderColor = "rgba(240,90,90,0.35)";
-    if (kind === "heartbeat") row.style.opacity = "0.65";
+    const accent = document.createElement("span");
+    accent.setAttribute("aria-hidden", "true");
+    accent.style.position = "absolute";
+    accent.style.left = "0";
+    accent.style.top = "10px";
+    accent.style.bottom = "10px";
+    accent.style.width = "3px";
+    accent.style.borderRadius = "999px";
+    accent.style.background = accentColor(record.tone);
 
-    row.textContent = text;
+    const time = document.createElement("div");
+    time.textContent = record.ts;
+    time.style.color = "rgba(255,255,255,0.68)";
+    time.style.fontVariantNumeric = "tabular-nums";
+    time.style.whiteSpace = "nowrap";
+
+    const kind = document.createElement("div");
+    kind.textContent = record.kind;
+    kind.style.color = "rgba(255,255,255,0.92)";
+    kind.style.fontWeight = "600";
+    kind.style.letterSpacing = "0.01em";
+    kind.style.wordBreak = "break-word";
+
+    const detail = document.createElement("div");
+    detail.textContent = record.detail || "—";
+    detail.style.color = "rgba(255,255,255,0.78)";
+    detail.style.wordBreak = "break-word";
+
+    row.appendChild(accent);
+    row.appendChild(time);
+    row.appendChild(kind);
+    row.appendChild(detail);
+
     feed.prepend(row);
 
     const children = Array.from(feed.children);
@@ -193,23 +267,21 @@
     const data = typeof rawData === "string" ? parseMaybeJSON(rawData) : rawData;
     const ev = (data && typeof data === "object") ? data : { kind: eventName, raw: rawData };
 
-      // Phase22 normalization:
-      // server sends event: task.event with payload { type:"task.created|task.completed|task.failed", taskId:"..." }
-      if (eventName === "task.event") {
-        if (ev.actor == null && ev.meta && typeof ev.meta === "object") ev.actor = (ev.meta.actor ?? ev.meta.owner ?? null);
+    if (eventName === "task.event") {
+      if (ev.actor == null && ev.meta && typeof ev.meta === "object") ev.actor = (ev.meta.actor ?? ev.meta.owner ?? null);
 
-        if (!ev.kind && ev.type) ev.kind = ev.type;
-        if (ev.kind === "task.event" && ev.type) ev.kind = ev.type;
-        if (ev.task_id == null && ev.taskId != null) ev.task_id = ev.taskId;
-        if (ev.run_id == null && ev.runId != null) ev.run_id = ev.runId;
-      // Phase31.7 hardening: lift canonical fields from meta if missing/null
+      if (!ev.kind && ev.type) ev.kind = ev.type;
+      if (ev.kind === "task.event" && ev.type) ev.kind = ev.type;
+      if (ev.task_id == null && ev.taskId != null) ev.task_id = ev.taskId;
+      if (ev.run_id == null && ev.runId != null) ev.run_id = ev.runId;
       if (ev && ev.meta && typeof ev.meta === "object") {
         if (ev.task_id == null && ev.meta.task_id != null) ev.task_id = ev.meta.task_id;
         if (ev.run_id  == null && ev.meta.run_id  != null) ev.run_id  = ev.meta.run_id;
         if (ev.actor   == null && ev.meta.actor   != null) ev.actor   = ev.meta.actor;
         if (ev.actor   == null && ev.meta.owner   != null) ev.actor   = ev.meta.owner;
+        if (ev.status  == null && ev.meta.status  != null) ev.status  = ev.meta.status;
       }
-      }
+    }
 
     if (!ev.kind) ev.kind = eventName;
 
@@ -221,9 +293,9 @@
       bumpCounts(String(ev.kind));
     }
 
-    appendLine(formatLine(ev, eventName), String(ev.kind ?? eventName));
+    appendEvent(ev, eventName);
     if (window.__UI_DEBUG) try { console.log("[task-events] mb.task.event", ev); } catch {}
-      dispatchWindowEvent(ev);
+    dispatchWindowEvent(ev);
   }
 
   let es = null;
@@ -243,7 +315,7 @@
     es.onopen = () => {
       attempt = 0;
       setDot("open");
-      appendLine(`${new Date().toISOString()}  sse.open  url=${url}`, "sse.open");
+      appendEvent({ ts: Date.now(), kind: "sse.open", message: `url=${url}` }, "sse.open");
       console.log("[phase22] task-events SSE open", url);
     };
 
@@ -254,7 +326,7 @@
 
       attempt += 1;
       const delay = Math.min(15000, 500 * Math.pow(2, Math.min(6, attempt)));
-      appendLine(`${new Date().toISOString()}  sse.error  reconnect_in=${delay}ms`, "sse.error");
+      appendEvent({ ts: Date.now(), kind: "sse.error", message: `reconnect_in=${delay}ms` }, "sse.error");
       console.log("[phase22] task-events SSE error; reconnect in", delay);
       setTimeout(connect, delay);
     };
@@ -278,7 +350,6 @@
 
   function boot() {
     connect();
-    // Guard: if something removes the panel, re-mount + reconnect.
     setInterval(() => {
       if (!document.getElementById(PANEL_ID)) {
         try { connect(); } catch {}
