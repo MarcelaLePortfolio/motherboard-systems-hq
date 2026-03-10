@@ -22,6 +22,7 @@ import "./ops-pill-state.js";
 
 // Matilda chat console wiring
 import "./matilda-chat-console.js";
+import "./dashboard-delegation.js";
 
 // TEMP: dashboard graph disabled until canvas is present on all pages
 // import "./dashboard-graph.js";
