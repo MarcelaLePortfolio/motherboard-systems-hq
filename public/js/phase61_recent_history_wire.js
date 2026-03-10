@@ -1,7 +1,6 @@
 (() => {
   const RECENT_ENDPOINT = "/api/tasks?limit=12";
   const HISTORY_ENDPOINT = "/api/runs?limit=20";
-
   const REFRESH_MS = 15000;
 
   function fmtTime(value) {
@@ -31,19 +30,6 @@
     if (/queue|pending|wait|retry|hold/.test(s)) return "rgba(250,204,21,0.95)";
     if (/run|start|active|lease|progress|created/.test(s)) return "rgba(96,165,250,0.95)";
     return "rgba(255,255,255,0.18)";
-  }
-
-  function ensureShell(target, key) {
-    let shell = target.querySelector(`[data-phase61-shell="${key}"]`);
-    if (shell) return shell;
-
-    target.innerHTML = `
-      <div data-phase61-shell="${key}" style="display:flex;flex-direction:column;gap:10px;min-height:320px;">
-        <div data-phase61-status="${key}" style="font-size:12px;opacity:.72;"></div>
-        <div data-phase61-list="${key}" style="display:flex;flex-direction:column;gap:8px;"></div>
-      </div>
-    `;
-    return target.querySelector(`[data-phase61-shell="${key}"]`);
   }
 
   function renderEmpty(listEl, text) {
@@ -104,6 +90,67 @@
     `;
   }
 
+  function buildOwnedShell(key) {
+    const shell = document.createElement("div");
+    shell.setAttribute("data-phase61-shell", key);
+    shell.style.display = "flex";
+    shell.style.flexDirection = "column";
+    shell.style.gap = "10px";
+    shell.style.minHeight = "320px";
+
+    const statusEl = document.createElement("div");
+    statusEl.setAttribute("data-phase61-status", key);
+    statusEl.style.fontSize = "12px";
+    statusEl.style.opacity = ".72";
+
+    const listEl = document.createElement("div");
+    listEl.setAttribute("data-phase61-list", key);
+    listEl.style.display = "flex";
+    listEl.style.flexDirection = "column";
+    listEl.style.gap = "8px";
+
+    shell.appendChild(statusEl);
+    shell.appendChild(listEl);
+
+    return { shell, statusEl, listEl };
+  }
+
+  function ensureOwnedCard(target, key) {
+    let shell = target.querySelector(`:scope > [data-phase61-shell="${key}"]`);
+    if (shell) {
+      return {
+        shell,
+        statusEl: shell.querySelector(`[data-phase61-status="${key}"]`),
+        listEl: shell.querySelector(`[data-phase61-list="${key}"]`)
+      };
+    }
+
+    target.innerHTML = "";
+    target.removeAttribute("data-empty");
+    target.removeAttribute("data-panel");
+    target.removeAttribute("data-probe");
+    target.querySelectorAll("*").forEach((node) => {
+      node.removeAttribute?.("data-empty");
+      node.removeAttribute?.("data-probe");
+    });
+
+    const owned = buildOwnedShell(key);
+    target.appendChild(owned.shell);
+    return owned;
+  }
+
+  function ensureHistoryCard(panel) {
+    let card = panel.querySelector(':scope > [data-phase61-history-card="true"]');
+    if (card) return card;
+
+    panel.innerHTML = "";
+    card = document.createElement("section");
+    card.className = "obs-surface";
+    card.setAttribute("data-phase61-history-card", "true");
+    panel.appendChild(card);
+    return card;
+  }
+
   async function fetchJson(url) {
     const res = await fetch(url, { headers: { Accept: "application/json" } });
     if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
@@ -113,10 +160,8 @@
   async function refreshRecent() {
     const card = document.getElementById("recent-tasks-card");
     if (!card) return;
-    const shell = ensureShell(card, "recent");
-    const statusEl = shell.querySelector('[data-phase61-status="recent"]');
-    const listEl = shell.querySelector('[data-phase61-list="recent"]');
 
+    const { statusEl, listEl } = ensureOwnedCard(card, "recent");
     statusEl.textContent = `Loading ${RECENT_ENDPOINT} …`;
 
     try {
@@ -130,7 +175,7 @@
         : [];
 
       if (!rows.length) {
-        statusEl.textContent = `No recent tasks returned`;
+        statusEl.textContent = "No recent tasks returned";
         renderEmpty(listEl, "No recent tasks yet.");
         return;
       }
@@ -139,7 +184,7 @@
       statusEl.textContent = `Loaded ${rows.length} recent task${rows.length === 1 ? "" : "s"}`;
       renderRows(listEl, html);
     } catch (err) {
-      statusEl.textContent = `Recent Tasks unavailable`;
+      statusEl.textContent = "Recent Tasks unavailable";
       renderEmpty(listEl, `Error loading Recent Tasks: ${err.message}`);
     }
   }
@@ -148,19 +193,8 @@
     const panel = document.getElementById("obs-panel-activity");
     if (!panel) return;
 
-    let card = panel.querySelector('[data-phase61-history-card="true"]');
-    if (!card) {
-      card = document.createElement("section");
-      card.className = "obs-surface";
-      card.setAttribute("data-phase61-history-card", "true");
-      panel.innerHTML = "";
-      panel.appendChild(card);
-    }
-
-    const shell = ensureShell(card, "history");
-    const statusEl = shell.querySelector('[data-phase61-status="history"]');
-    const listEl = shell.querySelector('[data-phase61-list="history"]');
-
+    const card = ensureHistoryCard(panel);
+    const { statusEl, listEl } = ensureOwnedCard(card, "history");
     statusEl.textContent = `Loading ${HISTORY_ENDPOINT} …`;
 
     try {
@@ -174,7 +208,7 @@
         : [];
 
       if (!rows.length) {
-        statusEl.textContent = `No task history returned`;
+        statusEl.textContent = "No task history returned";
         renderEmpty(listEl, "No task history yet.");
         return;
       }
@@ -183,7 +217,7 @@
       statusEl.textContent = `Loaded ${rows.length} history row${rows.length === 1 ? "" : "s"}`;
       renderRows(listEl, html);
     } catch (err) {
-      statusEl.textContent = `Task History unavailable`;
+      statusEl.textContent = "Task History unavailable";
       renderEmpty(listEl, `Error loading Task History: ${err.message}`);
     }
   }
