@@ -157,11 +157,13 @@
         }
       }
 
-      #phase61-workspace-grid > #atlas-status-card,
-#phase61-workspace-grid > #phase61-atlas-band {
-  grid-column: 1 / -1;
-  width: 100%;
-}
+      #phase61-atlas-band {
+        width: 100%;
+      }
+
+      #phase61-atlas-band #atlas-status-card {
+        width: 100%;
+      }
     </style>
 
   </head>
@@ -323,8 +325,7 @@
               </div>
             </section>
           </section>
-      <section aria-label="Subsystem status" class="space-y-4">
-</section>
+    <section id="phase61-atlas-band" class="space-y-4">
 
 <section id="atlas-status-card" class="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700">
         <h2
@@ -345,6 +346,7 @@
           </p>
         </div>
       </section>
+    </section>
     </section>
   </main>
 
