@@ -1,3 +1,40 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT_DIR="$(git rev-parse --show-toplevel)"
+cd "$ROOT_DIR"
+
+TARGET_HTML="public/dashboard.html"
+TARGET_JS="public/js/dashboard-delegation.js"
+
+scripts/verify-dashboard-layout-contract.sh "$TARGET_HTML"
+
+cp "$TARGET_HTML" "${TARGET_HTML}.bak.phase61_5_3"
+cp "$TARGET_JS" "${TARGET_JS}.bak.phase61_5_3"
+
+python3 - << 'PY'
+from pathlib import Path
+
+html_path = Path("public/dashboard.html")
+html = html_path.read_text()
+
+old = '<div id="delegation-response" class="mt-2 text-sm text-gray-300 italic"></div>'
+new = '''<div id="delegation-status-panel" class="mt-4 rounded-xl border border-gray-700 bg-gray-900/70 p-4 min-h-[140px]">
+                      <div class="text-xs uppercase tracking-[0.2em] text-gray-500 mb-3">Delegation Status</div>
+                      <div id="delegation-response" class="text-sm text-gray-300 leading-6">
+                        Awaiting operator input.<br>
+                        Results from delegation requests will appear here.
+                      </div>
+                    </div>'''
+
+if old not in html:
+    raise SystemExit("delegation response anchor not found in public/dashboard.html")
+
+html = html.replace(old, new, 1)
+html_path.write_text(html)
+PY
+
+cat > "$TARGET_JS" << 'JS'
 (function () {
   console.log("[dashboard-delegation] module loaded");
 
@@ -226,3 +263,7 @@
     init();
   }
 })();
+JS
+
+scripts/verify-dashboard-layout-contract.sh "$TARGET_HTML"
+npm run build:dashboard-bundle

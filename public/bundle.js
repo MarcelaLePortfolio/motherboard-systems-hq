@@ -400,30 +400,76 @@
     container.appendChild(stack);
     AGENTS.forEach((name) => {
       const row = document.createElement("div");
-      row.className = "w-full rounded-md bg-gray-900 border border-gray-700 px-3 py-1 flex items-center justify-between";
+      row.className = "w-full min-h-0 rounded-md bg-slate-600/55 border border-slate-500/35 px-3 py-1.5 flex items-center justify-between shadow-sm";
       const left = document.createElement("div");
       left.className = "flex items-center gap-3 min-w-0";
-      const dot = document.createElement("span");
-      dot.className = "inline-block w-2 h-2 rounded-full bg-amber-300 shrink-0";
+      const bar = document.createElement("span");
+      bar.className = "inline-block w-2 h-2 rounded-full bg-amber-300 shrink-0";
       const label = document.createElement("span");
       label.className = "text-[13px] font-semibold tracking-tight text-slate-100/95 truncate";
       label.textContent = name;
-      const nameStatusDot = document.createElement("span");
-      nameStatusDot.className = "shrink-0";
-      nameStatusDot.style.cssText = "display:inline-block;width:8px;height:8px;border-radius:9999px;background:#fcd34d;vertical-align:middle;";
       const status = document.createElement("span");
-      status.className = "text-[11px] font-medium text-amber-200/90 truncate";
-      status.textContent = "initializing";
-      left.append(label, nameStatusDot);
+      status.className = "text-[12px] font-medium text-slate-200/90 truncate";
+      status.textContent = "unknown";
+      left.append(bar, label);
       row.append(left, status);
       stack.appendChild(row);
-      indicators[name.toLowerCase()] = { row, dot, label, nameStatusDot, status };
+      indicators[name.toLowerCase()] = { row, bar, label, status };
     });
     const OPS_SSE_URL = `/events/ops`;
     const __DISABLE_OPTIONAL_SSE = (typeof window !== "undefined" && window.__DISABLE_OPTIONAL_SSE) === true;
+    function classifyStatus(statusString) {
+      if (typeof window !== "undefined" && window.__PHASE16_SSE_OWNER_STARTED) {
+        return "unknown";
+      }
+      const s = (statusString || "").toLowerCase();
+      if (!s) return "unknown";
+      if (s.includes("error") || s.includes("failed") || s.includes("offline")) return "error";
+      if (s.includes("online") || s.includes("ready") || s.includes("ok")) return "online";
+      if (s.includes("queued") || s.includes("pending") || s.includes("init") || s.includes("running")) return "pending";
+      return "unknown";
+    }
+    function applyVisual(agentKey, statusString) {
+      const indicator = indicators[agentKey];
+      if (!indicator) return;
+      const kind = classifyStatus(statusString);
+      const finalStatus = statusString || "unknown";
+      indicator.status.textContent = finalStatus;
+      indicator.row.className = "w-full min-h-0 rounded-md border px-3 py-1.5 flex items-center justify-between shadow-sm";
+      indicator.bar.className = "inline-block w-2 h-2 rounded-full shrink-0";
+      indicator.label.className = "text-[13px] font-semibold tracking-tight truncate";
+      indicator.status.className = "text-[11px] font-medium truncate";
+      switch (kind) {
+        case "online":
+          indicator.row.classList.add("bg-gray-900", "border-gray-700");
+          indicator.bar.classList.add("bg-emerald-400");
+          indicator.label.classList.add("text-slate-100");
+          indicator.status.classList.add("text-emerald-300/90");
+          break;
+        case "error":
+          indicator.row.classList.add("bg-gray-900", "border-gray-700");
+          indicator.bar.classList.add("bg-rose-400");
+          indicator.label.classList.add("text-slate-100");
+          indicator.status.classList.add("text-rose-300/90");
+          break;
+        case "pending":
+          indicator.row.classList.add("bg-gray-900", "border-gray-700");
+          indicator.bar.classList.add("bg-amber-300");
+          indicator.label.classList.add("text-slate-100");
+          indicator.status.classList.add("text-amber-200/90");
+          break;
+        case "unknown":
+        default:
+          indicator.row.classList.add("bg-gray-900", "border-gray-700");
+          indicator.bar.classList.add("bg-slate-400/70");
+          indicator.label.classList.add("text-slate-100");
+          indicator.status.classList.add("text-slate-300/75");
+          break;
+      }
+    }
+    Object.keys(indicators).forEach((key) => applyVisual(key, "unknown"));
     if (__DISABLE_OPTIONAL_SSE) {
-      console.warn("[agent-status-row] Optional SSE disabled (Phase 16 pending):", OPS_SSE_URL);
-      Object.keys(indicators).forEach((key) => applyVisual(key, "unknown"));
+      console.warn("[agent-status-row] Optional SSE disabled:", OPS_SSE_URL);
       return;
     }
     let source;
@@ -433,81 +479,18 @@
       console.error("agent-status-row.js: Failed to open OPS SSE connection:", err);
       return;
     }
-    function classifyStatus(statusString) {
-      if (typeof window !== "undefined" && window.__PHASE16_SSE_OWNER_STARTED) {
-        return null;
-      }
-      const s = (statusString || "").toLowerCase();
-      if (!s) return "unknown";
-      if (s.includes("error") || s.includes("failed") || s.includes("offline")) {
-        return "error";
-      }
-      if (s.includes("online") || s.includes("ready") || s.includes("ok")) {
-        return "online";
-      }
-      if (s.includes("queued") || s.includes("pending") || s.includes("init") || s.includes("running")) {
-        return "pending";
-      }
-      return "unknown";
-    }
-    function applyVisual(agentKey, statusString) {
-      const indicator = indicators[agentKey];
-      if (!indicator) return;
-      const kind = classifyStatus(statusString);
-      const { row, dot, label, nameStatusDot, status } = indicator;
-      row.className = "w-full rounded-md border border-gray-700 px-3 py-1 flex items-center justify-between";
-      dot.className = "inline-block w-2 h-2 rounded-full shrink-0";
-      nameStatusDot.className = "shrink-0";
-      nameStatusDot.style.cssText = "display:inline-block;width:8px;height:8px;border-radius:9999px;vertical-align:middle;";
-      label.className = "text-[13px] font-semibold tracking-tight text-slate-100/95 truncate";
-      status.className = "text-[11px] font-medium truncate";
-      const finalStatus = statusString || "unknown";
-      status.textContent = finalStatus;
-      switch (kind) {
-        case "online":
-          row.classList.add("bg-gray-900", "border-gray-700");
-          dot.classList.add("bg-emerald-400");
-          nameStatusDot.style.backgroundColor = "#34d399";
-          status.classList.add("text-emerald-300/90");
-          break;
-        case "error":
-          row.classList.add("bg-gray-900", "border-gray-700");
-          dot.classList.add("bg-rose-400");
-          nameStatusDot.style.backgroundColor = "#fb7185";
-          status.classList.add("text-rose-300/90");
-          break;
-        case "pending":
-          row.classList.add("bg-gray-900", "border-gray-700");
-          dot.classList.add("bg-amber-300");
-          nameStatusDot.style.backgroundColor = "#fcd34d";
-          status.classList.add("text-amber-200/90");
-          break;
-        case "unknown":
-        default:
-          row.classList.add("bg-gray-900", "border-gray-700");
-          dot.classList.add("bg-slate-400/70");
-          nameStatusDot.style.backgroundColor = "rgba(148,163,184,0.75)";
-          status.classList.add("text-slate-300/75");
-          break;
-      }
-    }
-    if (!source) return null;
+    if (!source) return;
     source.onmessage = (event) => {
-      let payloadRaw = event.data;
       let data;
       try {
-        data = JSON.parse(payloadRaw);
+        data = JSON.parse(event.data);
       } catch {
         return;
       }
-      const agentName = (data.agent || data.actor || data.source || data.worker || "").toString();
-      if (!agentName) return;
-      const key = agentName.toLowerCase();
-      if (!indicators[key]) {
-        return;
-      }
-      const statusValue = (data.status || data.state || data.level || "").toString() || "unknown";
-      applyVisual(key, statusValue);
+      const agentName = (data.agent || data.actor || data.source || data.worker || "").toString().toLowerCase();
+      if (!agentName || !indicators[agentName]) return;
+      const status = (data.status || data.state || data.level || "").toString() || "unknown";
+      applyVisual(agentName, status);
     };
     source.onerror = (err) => {
       console.warn("agent-status-row.js: OPS SSE error:", err);
@@ -765,6 +748,183 @@
     document.addEventListener("DOMContentLoaded", wireChat);
   })();
 
+  // public/js/dashboard-delegation.js
+  (function() {
+    console.log("[dashboard-delegation] module loaded");
+    function $(id) {
+      return document.getElementById(id);
+    }
+    function getSafeFetch() {
+      var f = window.fetch;
+      var t = typeof f;
+      console.log("[dashboard-delegation] detected fetch type:", t);
+      if (t !== "function") {
+        console.error("[dashboard-delegation] fetch is not a function; value:", f);
+        return null;
+      }
+      return f.bind(window);
+    }
+    function escapeHtml(value) {
+      return String(value == null ? "" : value).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+    }
+    function formatJsonBlock(obj) {
+      return '<pre class="mt-3 overflow-x-auto whitespace-pre-wrap break-words rounded-lg bg-black/20 p-3 text-xs text-gray-300">' + escapeHtml(JSON.stringify(obj, null, 2)) + "</pre>";
+    }
+    function setResponseState(kind, html) {
+      var response = $("delegation-response");
+      var panel = $("delegation-status-panel");
+      if (!response) return;
+      response.innerHTML = html;
+      if (!panel) return;
+      panel.classList.remove("border-gray-700", "border-teal-600", "border-green-600", "border-red-600", "border-amber-500");
+      if (kind === "sending") panel.classList.add("border-teal-600");
+      else if (kind === "success") panel.classList.add("border-green-600");
+      else if (kind === "error") panel.classList.add("border-red-600");
+      else if (kind === "waiting") panel.classList.add("border-amber-500");
+      else panel.classList.add("border-gray-700");
+    }
+    function setIdle() {
+      setResponseState(
+        "idle",
+        "Awaiting operator input.<br>Results from delegation requests will appear here."
+      );
+    }
+    function setSending(text) {
+      setResponseState(
+        "sending",
+        '<div class="text-teal-300 font-medium">Sending delegation\u2026</div><div class="mt-2 text-gray-400">Preparing request for the orchestration layer.</div>' + (text ? '<div class="mt-3 rounded-lg bg-black/20 p-3 text-xs text-gray-300 break-words">' + escapeHtml(text) + "</div>" : "")
+      );
+    }
+    function setWaiting() {
+      setResponseState(
+        "waiting",
+        '<div class="text-amber-300 font-medium">Still waiting on delegation response\u2026</div><div class="mt-2 text-gray-400">The request may still be processing.</div>'
+      );
+    }
+    function setSuccess(data) {
+      var summary = "Delegation accepted.";
+      if (data && typeof data === "object") {
+        summary = data.message || data.status || data.result || data.reply || data.ok && "Delegation accepted." || summary;
+      }
+      setResponseState(
+        "success",
+        '<div class="text-green-300 font-medium">' + escapeHtml(summary) + '</div><div class="mt-2 text-gray-400">Request completed successfully.</div>' + (data && typeof data === "object" ? formatJsonBlock(data) : "")
+      );
+    }
+    function setError(message, extra) {
+      setResponseState(
+        "error",
+        '<div class="text-red-300 font-medium">Delegation failed.</div><div class="mt-2 text-gray-300">' + escapeHtml(message || "Unknown error") + "</div>" + (extra ? '<div class="mt-3 text-xs text-gray-400 break-words">' + escapeHtml(extra) + "</div>" : "")
+      );
+    }
+    async function onDelegationClick() {
+      var input = $("delegation-input");
+      var btn = $("delegation-submit");
+      if (!input) {
+        console.warn("[dashboard-delegation] delegation input not found at click time");
+        setError("Delegation input field was not found.");
+        return;
+      }
+      var value = String(input.value || "").trim();
+      if (!value) {
+        console.warn("[dashboard-delegation] empty delegation input; skipping");
+        setError("Please enter a delegation request before submitting.");
+        return;
+      }
+      console.log("[dashboard-delegation] sending delegation:", value);
+      var safeFetch = getSafeFetch();
+      if (!safeFetch) {
+        console.error("[dashboard-delegation] aborting delegation because fetch is unavailable or invalid");
+        setError("Browser fetch is unavailable.");
+        return;
+      }
+      var oldText = btn ? btn.textContent || "Submit Delegation" : "Submit Delegation";
+      var waitingTimer = null;
+      try {
+        if (btn) {
+          btn.disabled = true;
+          btn.textContent = "Sending...";
+          btn.classList.add("opacity-70", "cursor-not-allowed");
+        }
+        setSending(value);
+        waitingTimer = window.setTimeout(setWaiting, 4e3);
+        var res;
+        try {
+          res = await safeFetch("/api/delegate-task", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Accept": "application/json"
+            },
+            body: JSON.stringify({ prompt: value, message: value, text: value, task: value })
+          });
+        } catch (err) {
+          console.error("[dashboard-delegation] fetch threw before response:", err);
+          throw err;
+        }
+        console.log("[dashboard-delegation] fetch returned:", {
+          ok: res && res.ok,
+          status: res && res.status,
+          statusText: res && res.statusText
+        });
+        var data = null;
+        var rawText = "";
+        try {
+          rawText = await res.text();
+          data = rawText ? JSON.parse(rawText) : {};
+        } catch (err) {
+          console.error("[dashboard-delegation] error parsing JSON response:", err);
+          data = { error: "Non-JSON response from /api/delegate-task", raw: rawText || "" };
+        }
+        console.log("[dashboard-delegation] delegation response:", data);
+        if (!res.ok) {
+          setError(
+            data && (data.error || data.message || data.statusText) || "HTTP " + res.status + " " + (res.statusText || ""),
+            rawText
+          );
+          return;
+        }
+        setSuccess(data);
+      } catch (err) {
+        setError(err && err.message ? err.message : String(err));
+      } finally {
+        if (waitingTimer) window.clearTimeout(waitingTimer);
+        if (btn) {
+          btn.disabled = false;
+          btn.textContent = oldText;
+          btn.classList.remove("opacity-70", "cursor-not-allowed");
+        }
+      }
+    }
+    function init() {
+      var btn = $("delegation-submit");
+      var input = $("delegation-input");
+      if (!btn || !input) {
+        console.warn("[dashboard-delegation] delegation button or input not found in init");
+        return;
+      }
+      setIdle();
+      if (btn.dataset.delegationWired === "true") {
+        console.log("[dashboard-delegation] Task Delegation wiring already active");
+        return;
+      }
+      btn.dataset.delegationWired = "true";
+      btn.addEventListener("click", onDelegationClick);
+      input.addEventListener("keydown", function(e) {
+        if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
+          e.preventDefault();
+          onDelegationClick();
+        }
+      });
+      console.log("[dashboard-delegation] Task Delegation wiring active");
+    }
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", init, { once: true });
+    } else {
+      init();
+    }
+  })();
+
   // public/js/task-events-sse-client.js
   (() => {
     const SSE_URL = "/events/task-events";
@@ -794,7 +954,7 @@
       panel.style.backdropFilter = "blur(10px)";
       panel.style.boxShadow = "0 10px 30px rgba(0,0,0,0.35)";
       panel.style.color = "rgba(255,255,255,0.92)";
-      panel.style.fontFamily = "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace";
+      panel.style.fontFamily = "ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial";
       if (!anchored) {
         panel.style.position = "fixed";
         panel.style.right = "12px";
@@ -810,9 +970,9 @@
       header.style.padding = "10px 12px";
       header.style.borderBottom = "1px solid rgba(255,255,255,0.10)";
       const title = document.createElement("div");
-      title.textContent = "TASK EVENTS (live)";
+      title.textContent = "Task Events";
       title.style.fontSize = "12px";
-      title.style.letterSpacing = "0.08em";
+      title.style.letterSpacing = "0.06em";
       title.style.opacity = "0.9";
       const right = document.createElement("div");
       right.style.display = "flex";
@@ -823,6 +983,7 @@
       counts.textContent = "created:0  completed:0  failed:0";
       counts.style.fontSize = "11px";
       counts.style.opacity = "0.85";
+      counts.style.fontVariantNumeric = "tabular-nums";
       const dot = document.createElement("span");
       dot.setAttribute("aria-label", "task-events connection");
       dot.title = "task-events connection";
@@ -879,37 +1040,99 @@
       const el = document.getElementById(COUNTS_ID);
       if (el) el.textContent = `created:${tally.created}  completed:${tally.completed}  failed:${tally.failed}`;
     }
-    function formatLine(ev, fallbackKind) {
-      const ts = typeof ev.ts === "number" ? new Date(ev.ts).toISOString() : (/* @__PURE__ */ new Date()).toISOString();
-      const tid = ev.task_id ?? ev.taskId ?? "unknown";
-      const run = ev.run_id ?? ev.runId ?? "";
-      const msg = ev.msg ?? ev.message ?? "";
-      const extras = [];
-      if (run) extras.push(`run=${run}`);
-      if (ev.actor) extras.push(`actor=${ev.actor}`);
-      if (ev.status) extras.push(`status=${ev.status}`);
-      if (typeof ev.cursor === "number") extras.push(`cursor=${ev.cursor}`);
-      const extraStr = extras.length ? ` (${extras.join(" ")})` : "";
-      return `${ts}  ${ev.kind ?? fallbackKind ?? "event"}  task=${tid}${extraStr}${msg ? " \u2014 " + msg : ""}`;
+    function isoText(ts) {
+      if (typeof ts === "number") return new Date(ts).toISOString();
+      if (typeof ts === "string" && ts.trim()) {
+        const d = new Date(ts);
+        if (!Number.isNaN(d.getTime())) return d.toISOString();
+        return ts.trim();
+      }
+      return (/* @__PURE__ */ new Date()).toISOString();
     }
-    function appendLine(text, kind) {
+    function classifyKind(kind, message, status) {
+      const text = `${kind || ""} ${message || ""} ${status || ""}`.toLowerCase();
+      if (/fail|error|cancel|timeout/.test(text)) return "terminal-error";
+      if (/complete|done|success/.test(text)) return "terminal-success";
+      if (/queue|pending|retry|wait|hold|sleep/.test(text)) return "waiting";
+      if (/open|start|run|resume|lease|dispatch|ack|progress|update|active|heartbeat/.test(text)) return "active";
+      return "neutral";
+    }
+    function accentColor(tone) {
+      if (tone === "terminal-error") return "rgba(240,90,90,0.95)";
+      if (tone === "terminal-success") return "rgba(80,200,120,0.95)";
+      if (tone === "waiting") return "rgba(250,204,21,0.95)";
+      if (tone === "active") return "rgba(96,165,250,0.95)";
+      return "rgba(255,255,255,0.18)";
+    }
+    function buildEventRecord(ev, fallbackKind) {
+      const ts = isoText(ev.ts);
+      const kind = String(ev.kind ?? fallbackKind ?? "event");
+      const taskId = ev.task_id ?? ev.taskId ?? "unknown";
+      const runId = ev.run_id ?? ev.runId ?? "";
+      const actor = ev.actor ?? ev.meta?.actor ?? ev.meta?.owner ?? "";
+      const status = ev.status ?? ev.meta?.status ?? "";
+      const cursor = typeof ev.cursor === "number" || typeof ev.cursor === "string" ? String(ev.cursor) : "";
+      const message = String(ev.msg ?? ev.message ?? "").trim();
+      const detailParts = [];
+      detailParts.push(`task=${taskId}`);
+      if (runId) detailParts.push(`run=${runId}`);
+      if (actor) detailParts.push(`actor=${actor}`);
+      if (status) detailParts.push(`status=${status}`);
+      if (cursor) detailParts.push(`cursor=${cursor}`);
+      if (message) detailParts.push(message);
+      const detail = detailParts.join(" \u2022 ");
+      const tone = classifyKind(kind, message, status);
+      return { ts, kind, detail, tone };
+    }
+    function appendEvent(ev, fallbackKind) {
       ensurePanel();
       const feed = document.getElementById(FEED_ID);
       if (!feed) return;
+      const record = buildEventRecord(ev, fallbackKind);
       const row = document.createElement("div");
-      row.style.whiteSpace = "pre-wrap";
-      row.style.wordBreak = "break-word";
-      row.style.fontSize = "11px";
-      row.style.lineHeight = "1.35";
-      row.style.padding = "6px 8px";
+      row.className = `phase61-task-event phase61-task-event-${record.tone}`;
+      row.dataset.eventKind = record.kind;
+      row.dataset.eventTone = record.tone;
+      row.style.position = "relative";
+      row.style.display = "grid";
+      row.style.gridTemplateColumns = "minmax(112px, 132px) minmax(150px, 170px) 1fr";
+      row.style.gap = "10px";
+      row.style.alignItems = "start";
+      row.style.padding = "10px 12px 10px 14px";
+      row.style.marginBottom = "8px";
       row.style.border = "1px solid rgba(255,255,255,0.10)";
       row.style.borderRadius = "12px";
-      row.style.marginBottom = "8px";
       row.style.background = "rgba(255,255,255,0.03)";
-      if (kind === "task.completed") row.style.borderColor = "rgba(80,200,120,0.35)";
-      if (kind === "task.failed") row.style.borderColor = "rgba(240,90,90,0.35)";
-      if (kind === "heartbeat") row.style.opacity = "0.65";
-      row.textContent = text;
+      row.style.lineHeight = "1.35";
+      row.style.fontSize = "12px";
+      const accent = document.createElement("span");
+      accent.setAttribute("aria-hidden", "true");
+      accent.style.position = "absolute";
+      accent.style.left = "0";
+      accent.style.top = "10px";
+      accent.style.bottom = "10px";
+      accent.style.width = "3px";
+      accent.style.borderRadius = "999px";
+      accent.style.background = accentColor(record.tone);
+      const time = document.createElement("div");
+      time.textContent = record.ts;
+      time.style.color = "rgba(255,255,255,0.68)";
+      time.style.fontVariantNumeric = "tabular-nums";
+      time.style.whiteSpace = "nowrap";
+      const kind = document.createElement("div");
+      kind.textContent = record.kind;
+      kind.style.color = "rgba(255,255,255,0.92)";
+      kind.style.fontWeight = "600";
+      kind.style.letterSpacing = "0.01em";
+      kind.style.wordBreak = "break-word";
+      const detail = document.createElement("div");
+      detail.textContent = record.detail || "\u2014";
+      detail.style.color = "rgba(255,255,255,0.78)";
+      detail.style.wordBreak = "break-word";
+      row.appendChild(accent);
+      row.appendChild(time);
+      row.appendChild(kind);
+      row.appendChild(detail);
       feed.prepend(row);
       const children = Array.from(feed.children);
       if (children.length > 60) {
@@ -943,6 +1166,7 @@
           if (ev.run_id == null && ev.meta.run_id != null) ev.run_id = ev.meta.run_id;
           if (ev.actor == null && ev.meta.actor != null) ev.actor = ev.meta.actor;
           if (ev.actor == null && ev.meta.owner != null) ev.actor = ev.meta.owner;
+          if (ev.status == null && ev.meta.status != null) ev.status = ev.meta.status;
         }
       }
       if (!ev.kind) ev.kind = eventName;
@@ -952,7 +1176,7 @@
       if (ev.kind === "task.created" || ev.kind === "task.completed" || ev.kind === "task.failed") {
         bumpCounts(String(ev.kind));
       }
-      appendLine(formatLine(ev, eventName), String(ev.kind ?? eventName));
+      appendEvent(ev, eventName);
       if (window.__UI_DEBUG) try {
         console.log("[task-events] mb.task.event", ev);
       } catch {
@@ -975,7 +1199,7 @@
       es.onopen = () => {
         attempt = 0;
         setDot("open");
-        appendLine(`${(/* @__PURE__ */ new Date()).toISOString()}  sse.open  url=${url}`, "sse.open");
+        appendEvent({ ts: Date.now(), kind: "sse.open", message: `url=${url}` }, "sse.open");
         console.log("[phase22] task-events SSE open", url);
       };
       es.onerror = () => {
@@ -987,7 +1211,7 @@
         es = null;
         attempt += 1;
         const delay = Math.min(15e3, 500 * Math.pow(2, Math.min(6, attempt)));
-        appendLine(`${(/* @__PURE__ */ new Date()).toISOString()}  sse.error  reconnect_in=${delay}ms`, "sse.error");
+        appendEvent({ ts: Date.now(), kind: "sse.error", message: `reconnect_in=${delay}ms` }, "sse.error");
         console.log("[phase22] task-events SSE error; reconnect in", delay);
         setTimeout(connect, delay);
       };
