@@ -5,7 +5,7 @@ cd "$(git rev-parse --show-toplevel)"
 
 TARGET="${1:-public/dashboard.html}"
 
-python3 <<'PY' "$TARGET"
+python3 - "$TARGET" <<'PY'
 from pathlib import Path
 import re
 import sys
