@@ -162,7 +162,7 @@
     if (!card) return;
 
     const { statusEl, listEl } = ensureOwnedCard(card, "recent");
-    statusEl.textContent = `Loading ${RECENT_ENDPOINT} …`;
+    statusEl.textContent = "Loading recent tasks…";
 
     try {
       const payload = await fetchJson(RECENT_ENDPOINT);
@@ -175,7 +175,7 @@
         : [];
 
       if (!rows.length) {
-        statusEl.textContent = "No recent tasks returned";
+        statusEl.textContent = "No recent tasks returned.";
         renderEmpty(listEl, "No recent tasks yet.");
         return;
       }
@@ -195,7 +195,7 @@
 
     const card = ensureHistoryCard(panel);
     const { statusEl, listEl } = ensureOwnedCard(card, "history");
-    statusEl.textContent = `Loading ${HISTORY_ENDPOINT} …`;
+    statusEl.textContent = "Loading task history…";
 
     try {
       const payload = await fetchJson(HISTORY_ENDPOINT);
@@ -208,7 +208,7 @@
         : [];
 
       if (!rows.length) {
-        statusEl.textContent = "No task history returned";
+        statusEl.textContent = "No task history returned.";
         renderEmpty(listEl, "No task history yet.");
         return;
       }

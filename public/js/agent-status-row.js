@@ -77,7 +77,15 @@
 
     indicator.row.className =
       "w-full min-h-0 rounded-md border px-3 py-1.5 flex items-center justify-between shadow-sm";
-    indicator.bar.className = "inline-block w-2 h-2 rounded-full shrink-0";
+    
+indicator.bar.className = "inline-block shrink-0";
+indicator.bar.style.width = "8px";
+indicator.bar.style.height = "8px";
+indicator.bar.style.minWidth = "8px";
+indicator.bar.style.minHeight = "8px";
+indicator.bar.style.borderRadius = "999px";
+indicator.bar.style.marginRight = "8px";
+
     indicator.label.className = "text-[13px] font-semibold tracking-tight truncate";
     indicator.status.className = "text-[11px] font-medium truncate";
 
