@@ -5,28 +5,16 @@ cd "$(git rev-parse --show-toplevel)"
 
 python3 <<'PY'
 from pathlib import Path
-import re
 import shutil
+import re
 
 p = Path("public/dashboard.html")
 if not p.exists():
     raise SystemExit("public/dashboard.html not found")
 
 html = p.read_text(encoding="utf-8")
-backup = p.with_suffix(".html.bak.phase61_clean_rewrite")
+backup = p.with_suffix(".html.bak.phase61_clean_rewrite_v2")
 shutil.copy2(p, backup)
-
-required_strings = [
-    '<main',
-    '</main>',
-    'Operator Workspace',
-    'Recent Tasks',
-    'Task Events',
-    'Atlas Subsystem Status',
-]
-for s in required_strings:
-    if s not in html:
-        raise SystemExit(f"required anchor missing: {s}")
 
 main_match = re.search(r'(<main\b[^>]*>)(.*?)(</main>)', html, flags=re.S | re.I)
 if not main_match:
@@ -34,67 +22,76 @@ if not main_match:
 
 main_open, main_body, main_close = main_match.groups()
 
-metrics_anchor = '<section class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">'
-metrics_idx = main_body.find(metrics_anchor)
-if metrics_idx == -1:
-    raise SystemExit("metrics row anchor not found")
+metrics_match = re.search(
+    r'(<section\b[^>]*id=["\']metrics-row["\'][^>]*>.*?</section>)',
+    main_body,
+    flags=re.S | re.I
+)
+if not metrics_match:
+    raise SystemExit("metrics row id anchor not found")
 
-metrics_close_rel = main_body.find('</section>', metrics_idx)
-if metrics_close_rel == -1:
-    raise SystemExit("metrics row close not found")
-metrics_end = metrics_close_rel + len('</section>')
+metrics_block = metrics_match.group(1)
+metrics_end = metrics_match.end()
 
-obs_label = 'Observational Workspace' if 'Observational Workspace' in main_body else 'Telemetry Workspace'
+atlas_match = re.search(
+    r'<section\b[^>]*(?:id=["\']atlas-subsystem-status-card["\']|id=["\']atlas-status-card["\'])[^>]*>.*?</section>',
+    main_body,
+    flags=re.S | re.I
+)
+if not atlas_match:
+    raise SystemExit("atlas card not found")
 
-def find_container_bounds(body: str, anchor: str):
-    anchor_pos = body.find(anchor)
-    if anchor_pos == -1:
-        raise SystemExit(f"anchor not found: {anchor}")
-    tags = list(re.finditer(r'</?(section|div|article)\b[^>]*>', body, flags=re.I))
-    stack = []
-    chosen = None
-    for m in tags:
-        token = m.group(0)
-        if not token.startswith("</"):
-            stack.append((m.group(1).lower(), m.start(), m.end(), token))
-        else:
-            if not stack:
-                continue
-            open_tag = stack.pop()
-            if open_tag[1] <= anchor_pos <= m.end():
-                chosen = (open_tag[1], m.end(), open_tag[3], token)
-    if chosen is None:
-        raise SystemExit(f"container bounds not found for: {anchor}")
-    return chosen[0], chosen[1]
-
-operator_start, operator_end = find_container_bounds(main_body, 'Operator Workspace')
-obs_start, obs_end = find_container_bounds(main_body, obs_label)
-atlas_start, atlas_end = find_container_bounds(main_body, 'Atlas Subsystem Status')
-
-operator_html = main_body[operator_start:operator_end]
-obs_html = main_body[obs_start:obs_end]
-atlas_html = main_body[atlas_start:atlas_end]
-
-def ensure_id(block: str, desired_id: str):
-    if re.search(rf'\bid=["\']{re.escape(desired_id)}["\']', block):
-        return block
-    return re.sub(
-        r'^<([a-zA-Z0-9]+)\b',
-        rf'<\1 id="{desired_id}"',
-        block,
+atlas_html = atlas_match.group(0)
+if 'id="atlas-subsystem-status-card"' not in atlas_html and "id='atlas-subsystem-status-card'" not in atlas_html:
+    atlas_html = re.sub(
+        r'^<section\b',
+        '<section id="atlas-subsystem-status-card"',
+        atlas_html,
         count=1,
-        flags=re.S
+        flags=re.S | re.I
     )
 
-operator_html = ensure_id(operator_html, 'operator-workspace-card')
-obs_html = ensure_id(obs_html, 'observational-workspace-card')
-atlas_html = ensure_id(atlas_html, 'atlas-subsystem-status-card')
+operator_match = re.search(
+    r'<section\b[^>]*id=["\']phase61-operator-column["\'][^>]*>.*?</section>\s*</section>',
+    main_body,
+    flags=re.S | re.I
+)
+if not operator_match:
+    raise SystemExit("operator column block not found")
+
+operator_col = operator_match.group(0)
+operator_card_match = re.search(
+    r'<section\b[^>]*id=["\']operator-workspace-card["\'][^>]*>.*?</section>',
+    operator_col,
+    flags=re.S | re.I
+)
+if not operator_card_match:
+    raise SystemExit("operator workspace card not found inside operator column")
+operator_card = operator_card_match.group(0)
+
+obs_col_match = re.search(
+    r'<section\b[^>]*id=["\']phase61-(?:telemetry|observational)-column["\'][^>]*>.*?</section>\s*</section>',
+    main_body,
+    flags=re.S | re.I
+)
+if not obs_col_match:
+    raise SystemExit("observational column block not found")
+
+obs_col = obs_col_match.group(0)
+obs_card_match = re.search(
+    r'<section\b[^>]*id=["\']observational-workspace-card["\'][^>]*>.*?</section>',
+    obs_col,
+    flags=re.S | re.I
+)
+if not obs_card_match:
+    raise SystemExit("observational workspace card not found inside observational column")
+obs_card = obs_card_match.group(0)
 
 new_workspace = f'''
 <section id="phase61-workspace-shell" class="space-y-4">
   <div id="phase61-workspace-grid">
-    {operator_html}
-    {obs_html}
+    {operator_card}
+    {obs_card}
   </div>
   <section id="phase61-atlas-band">
     {atlas_html}
@@ -102,20 +99,13 @@ new_workspace = f'''
 </section>
 '''.strip()
 
-replace_start = metrics_end
-replace_end = max(operator_end, obs_end, atlas_end)
+new_main_body = main_body[:metrics_end] + "\n\n" + new_workspace + "\n"
 
-new_main_body = main_body[:replace_start] + '\n\n' + new_workspace + '\n' + main_body[replace_end:]
-
-new_main_body = re.sub(
-    r'(<section id="phase61-workspace-shell"[\s\S]*?</section>\s*</section>)(?=[\s\S]*<section id="phase61-workspace-shell")',
-    '',
-    new_main_body,
-    flags=re.I
-)
+new_main = f"{main_open}{new_main_body}{main_close}"
+new_html = html[:main_match.start()] + new_main + html[main_match.end():]
 
 css = """
-/* phase61 deterministic workspace rewrite */
+/* phase61 deterministic workspace rewrite v2 */
 #phase61-workspace-shell {
   width: 100%;
 }
@@ -147,15 +137,14 @@ css = """
 }
 """.strip()
 
-if '#phase61-workspace-grid' not in html:
-    if '</style>' in html:
-        html = html.replace('</style>', '\n' + css + '\n</style>', 1)
-    elif '</head>' in html:
-        html = html.replace('</head>', '<style>\n' + css + '\n</style>\n</head>', 1)
+if "#phase61-workspace-grid" not in new_html:
+    if "</style>" in new_html:
+        new_html = new_html.replace("</style>", "\n" + css + "\n</style>", 1)
+    elif "</head>" in new_html:
+        new_html = new_html.replace("</head>", "<style>\n" + css + "\n</style>\n</head>", 1)
     else:
         raise SystemExit("no style/head target for css injection")
 
-new_html = html.replace(main_match.group(0), f'{main_open}{new_main_body}{main_close}', 1)
-p.write_text(new_html, encoding='utf-8')
-print("phase61 workspace region cleanly rewritten")
+p.write_text(new_html, encoding="utf-8")
+print("phase61 workspace region cleanly rewritten v2")
 PY
