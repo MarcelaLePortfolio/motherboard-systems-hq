@@ -402,7 +402,7 @@
       const row = document.createElement("div");
       row.className = "w-full min-h-0 rounded-md bg-slate-600/55 border border-slate-500/35 px-3 py-1.5 flex items-center justify-between shadow-sm";
       const left = document.createElement("div");
-      left.className = "flex items-center gap-3 min-w-0";
+      left.className = "flex items-center gap-3 min-w-0 h-[18px]";
       const bar = document.createElement("span");
       bar.className = "inline-block w-2 h-2 rounded-full bg-amber-300 shrink-0";
       const label = document.createElement("span");
