@@ -134,6 +134,86 @@ indicator.bar.style.marginRight = "8px";
     return;
   }
 
+  function parseJson(raw) {
+    try {
+      return JSON.parse(raw);
+    } catch {
+      return null;
+    }
+  }
+
+  function extractPayload(data) {
+    if (!data || typeof data !== "object") return null;
+    if (data.payload && typeof data.payload === "object") return data.payload;
+    if (data.data && typeof data.data === "object") return data.data;
+    if (data.state && typeof data.state === "object") return data.state;
+    return data;
+  }
+
+  function applyAgentMap(payload) {
+    if (!payload || typeof payload !== "object") return false;
+    const agents = payload.agents;
+    if (!agents || typeof agents !== "object") return false;
+
+    let applied = false;
+    for (const [name, value] of Object.entries(agents)) {
+      const key = String(name || "").toLowerCase();
+      if (!indicators[key]) continue;
+
+      let status = "unknown";
+      if (typeof value === "string") {
+        status = value;
+      } else if (value && typeof value === "object") {
+        status =
+          value.status ??
+          value.state ??
+          value.level ??
+          value.health ??
+          value.mode ??
+          "unknown";
+      }
+
+      applyVisual(key, String(status || "unknown"));
+      applied = true;
+    }
+    return applied;
+  }
+
+  function applySingleAgent(data) {
+    if (!data || typeof data !== "object") return false;
+
+    const agentName =
+      (data.agent || data.actor || data.source || data.worker || data.name || "").toString().toLowerCase();
+    if (!agentName || !indicators[agentName]) return false;
+
+    const status =
+      data.status ??
+      data.state ??
+      data.level ??
+      data.health ??
+      data.mode ??
+      "unknown";
+
+    applyVisual(agentName, String(status || "unknown"));
+    return true;
+  }
+
+  function handleOpsEvent(eventName, event) {
+    const data = parseJson(event.data);
+    if (!data) return;
+
+    const payload = extractPayload(data);
+
+    if (eventName === "ops.state") {
+      if (applyAgentMap(payload)) return;
+    }
+
+    if (applyAgentMap(data)) return;
+    if (applyAgentMap(payload)) return;
+    applySingleAgent(payload);
+    applySingleAgent(data);
+  }
+
   let source;
   try {
     source = (window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(OPS_SSE_URL));
@@ -144,21 +224,11 @@ indicator.bar.style.marginRight = "8px";
 
   if (!source) return;
 
-  source.onmessage = (event) => {
-    let data;
-    try {
-      data = JSON.parse(event.data);
-    } catch {
-      return;
-    }
-
-    const agentName =
-      (data.agent || data.actor || data.source || data.worker || "").toString().toLowerCase();
-    if (!agentName || !indicators[agentName]) return;
-
-    const status = (data.status || data.state || data.level || "").toString() || "unknown";
-    applyVisual(agentName, status);
-  };
+  source.onmessage = (event) => handleOpsEvent("message", event);
+  source.addEventListener("hello", (event) => handleOpsEvent("hello", event));
+  source.addEventListener("ops.state", (event) => handleOpsEvent("ops.state", event));
+  source.addEventListener("state", (event) => handleOpsEvent("state", event));
+  source.addEventListener("update", (event) => handleOpsEvent("update", event));
 
   source.onerror = (err) => {
     console.warn("agent-status-row.js: OPS SSE error:", err);
