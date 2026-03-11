@@ -40,6 +40,35 @@
       grid-template-columns: 1fr;
     }
   }
+
+  /* Phase 62: telemetry tile refinement */
+  #metrics-row.phase62-metrics-tiles {
+    gap: 12px;
+    align-items: stretch;
+  }
+
+  #metrics-row.phase62-metrics-tiles > div {
+    min-height: 84px;
+  }
+
+  .phase62-metric-tile {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .phase62-metric-value {
+    font-size: 1.875rem;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .phase62-metric-label {
+    font-size: 0.7rem;
+    line-height: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
 </style>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -388,7 +417,7 @@
           <span id="health-status">Critical</span>
         </span>
       </div>
-      <span class="text-xs uppercase tracking-wide text-gray-400">
+      <span class="phase62-metric-label text-xs uppercase tracking-wide text-gray-400">
         Probe lifecycle and task activity visible below.
       </span>
     </div>
@@ -412,24 +441,24 @@
       <div class="phase62-top-col phase62-top-col--metrics">
 <section
       id="metrics-row"
-      class="grid grid-cols-2 gap-3 auto-rows-fr"
+      class="phase62-metrics-tiles grid grid-cols-2 gap-3 auto-rows-fr"
       aria-label="System metrics"
     >
-      <div class="bg-gray-800 p-3 rounded-2xl shadow-lg border border-gray-700 min-h-[88px] flex flex-col justify-between">
+      <div class="phase62-metric-tile bg-gray-800 p-3 rounded-2xl shadow-lg border border-gray-700 min-h-[84px] flex flex-col justify-between">
         <p class="text-xs uppercase tracking-wide text-gray-400">Active Agents</p>
-        <p id="metric-agents" class="text-xl font-bold text-blue-400 leading-none">--</p>
+        <p id="metric-agents" class="phase62-metric-value text-3xl font-bold text-blue-400 leading-none">--</p>
       </div>
       <div class="bg-gray-800 p-3 rounded-2xl shadow-lg border border-gray-700 min-h-[88px] flex flex-col justify-between">
         <p class="text-xs uppercase tracking-wide text-gray-400">Tasks Running</p>
-        <p id="metric-tasks" class="text-xl font-bold text-yellow-400 leading-none">--</p>
+        <p id="metric-tasks" class="phase62-metric-value text-3xl font-bold text-yellow-400 leading-none">--</p>
       </div>
       <div class="bg-gray-800 p-3 rounded-2xl shadow-lg border border-gray-700 min-h-[88px] flex flex-col justify-between">
         <p class="text-xs uppercase tracking-wide text-gray-400">Success Rate</p>
-        <p id="metric-success-rate" class="text-xl font-bold text-green-400 leading-none">--</p>
+        <p id="metric-success-rate" class="phase62-metric-value text-3xl font-bold text-green-400 leading-none">--</p>
       </div>
       <div class="bg-gray-800 p-3 rounded-2xl shadow-lg border border-gray-700 min-h-[88px] flex flex-col justify-between">
         <p class="text-xs uppercase tracking-wide text-gray-400">Latency (ms)</p>
-        <p id="metric-latency" class="text-xl font-bold text-red-400 leading-none">--</p>
+        <p id="metric-latency" class="phase62-metric-value text-3xl font-bold text-red-400 leading-none">--</p>
       </div>
     </section>
       </div>
