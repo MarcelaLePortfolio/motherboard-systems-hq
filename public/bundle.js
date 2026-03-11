@@ -445,7 +445,7 @@
       indicator.bar.style.borderRadius = "999px";
       indicator.bar.style.marginRight = "8px";
       indicator.bar.style.boxShadow = "0 0 0 2px rgba(255,255,255,0.08) inset";
-      indicator.bar.style.background = "rgba(252,211,77,0.95)";
+      indicator.bar.style.background = "rgba(148,163,184,0.8)";
       indicator.bar.style.width = "8px";
       indicator.bar.style.height = "8px";
       indicator.bar.style.minWidth = "8px";
