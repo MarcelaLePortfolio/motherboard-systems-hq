@@ -81,21 +81,13 @@ metrics_start = metrics_open.start()
 metrics_end = find_matching_section_end(text, metrics_start)
 workspace_start = workspace_open.start()
 
-agent_open = None
-for m in re.finditer(r'<section\b[^>]*>', text[metrics_end:workspace_start], re.IGNORECASE):
-    candidate_start = metrics_end + m.start()
-    candidate_end = find_matching_section_end(text, candidate_start)
-    if candidate_end <= workspace_start:
-        agent_open = candidate_start
-        agent_end = candidate_end
-        break
-
-if agent_open is None:
-    print("could not locate top-row section between metrics row and workspace shell", file=sys.stderr)
-    sys.exit(1)
-
 metrics_block = text[metrics_start:metrics_end]
-agent_block = text[agent_open:agent_end]
+between_block = text[metrics_end:workspace_start]
+agent_block = between_block.strip()
+
+if not agent_block:
+    print("no content found between metrics row and workspace shell", file=sys.stderr)
+    sys.exit(1)
 
 wrapper = (
     '<section class="phase62-top-row" data-phase="62">\n'
@@ -108,8 +100,7 @@ wrapper = (
     '</section>\n\n'
 )
 
-text = text[:metrics_start] + text[metrics_end:agent_open] + text[agent_end:]
-text = text[:metrics_start] + wrapper + text[metrics_start:]
+text = text[:metrics_start] + wrapper + text[workspace_start:]
 
 if "</style>" in text:
     text = text.replace("</style>", f"\n{style_snippet}\n</style>", 1)
