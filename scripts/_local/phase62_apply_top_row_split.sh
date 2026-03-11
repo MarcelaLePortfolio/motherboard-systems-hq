@@ -54,48 +54,82 @@ style_snippet = """
   }
 """.strip("\n")
 
-metrics_open = re.search(r'<section[^>]*id="metrics-row"[^>]*>', text)
-workspace_shell = re.search(r'<section[^>]*id="phase61-workspace-shell"[^>]*>', text)
+def find_matching_section_end(src: str, section_start: int) -> int:
+    pattern = re.compile(r"</?section\b[^>]*>", re.IGNORECASE | re.DOTALL)
+    depth = 0
+    started = False
+    for m in pattern.finditer(src, section_start):
+        token = m.group(0).lower()
+        if token.startswith("<section"):
+            depth += 1
+            started = True
+        elif token.startswith("</section"):
+            depth -= 1
+            if started and depth == 0:
+                return m.end()
+    raise RuntimeError("unbalanced <section> structure")
 
-if not metrics_open or not workspace_shell:
+metrics_open = re.search(r'<section[^>]*id="metrics-row"[^>]*>', text, re.IGNORECASE)
+workspace_open = re.search(r'<section[^>]*id="phase61-workspace-shell"[^>]*>', text, re.IGNORECASE)
+
+if not metrics_open or not workspace_open:
     print("required structural anchors not found", file=sys.stderr)
     sys.exit(1)
 
-insert_at = workspace_shell.start()
+metrics_start = metrics_open.start()
+metrics_end = find_matching_section_end(text, metrics_start)
+workspace_start = workspace_open.start()
 
-agent_match = re.search(r'(?P<block><section[^>]*>\s*<div[^>]*class="[^"]*\bcard-header\b[^"]*"[^>]*>.*?<h[1-6][^>]*>\s*Agent Pool\s*</h[1-6]>.*?</section>)', text, re.DOTALL | re.IGNORECASE)
-metrics_match = re.search(r'(?P<block><section[^>]*id="metrics-row"[^>]*>.*?</section>)', text, re.DOTALL | re.IGNORECASE)
+between = text[metrics_end:workspace_start]
 
-if not agent_match or not metrics_match:
-    print("could not locate Agent Pool or System Metrics blocks", file=sys.stderr)
+candidate_iter = list(re.finditer(r'<section\b[^>]*>', between, re.IGNORECASE))
+agent_rel_start = None
+agent_rel_end = None
+
+for m in candidate_iter:
+    rel_start = m.start()
+    abs_start = metrics_end + rel_start
+    abs_end = find_matching_section_end(text, abs_start)
+    if abs_end > workspace_start:
+        continue
+    block = text[abs_start:abs_end]
+    lowered = block.lower()
+    if (
+        "agent pool" in lowered
+        or ("matilda" in lowered and "atlas" in lowered and "cade" in lowered and "effie" in lowered)
+        or "agent-status-row" in lowered
+    ):
+        agent_rel_start = rel_start
+        agent_rel_end = abs_end - metrics_end
+        break
+
+if agent_rel_start is None or agent_rel_end is None:
+    print("could not locate Agent Pool block between metrics row and workspace shell", file=sys.stderr)
     sys.exit(1)
 
-agent_block = agent_match.group("block")
-metrics_block = metrics_match.group("block")
+agent_start = metrics_end + agent_rel_start
+agent_end = metrics_end + agent_rel_end
 
-if agent_block == metrics_block:
-    print("agent and metrics blocks resolved identically", file=sys.stderr)
+metrics_block = text[metrics_start:metrics_end]
+agent_block = text[agent_start:agent_end]
+
+if metrics_start >= agent_start:
+    print("unexpected ordering: metrics row is not before agent pool row", file=sys.stderr)
     sys.exit(1)
 
-for block in sorted([agent_block, metrics_block], key=len, reverse=True):
-    if block not in text:
-        print("expected block missing before rewrite", file=sys.stderr)
-        sys.exit(1)
-    text = text.replace(block, "", 1)
+wrapper = (
+    '<section class="phase62-top-row" data-phase="62">\n'
+    '  <div class="phase62-top-col phase62-top-col--agents">\n'
+    f'{agent_block}\n'
+    '  </div>\n'
+    '  <div class="phase62-top-col phase62-top-col--metrics">\n'
+    f'{metrics_block}\n'
+    '  </div>\n'
+    '</section>\n\n'
+)
 
-wrapper = f'''
-<section class="phase62-top-row" data-phase="62">
-  <div class="phase62-top-col phase62-top-col--agents">
-{agent_block}
-  </div>
-  <div class="phase62-top-col phase62-top-col--metrics">
-{metrics_block}
-  </div>
-</section>
-
-'''.lstrip("\n")
-
-text = text[:insert_at] + wrapper + text[insert_at:]
+text = text[:metrics_start] + text[metrics_end:agent_start] + text[agent_end:]
+text = text[:metrics_start] + wrapper + text[metrics_start:]
 
 if "</style>" in text:
     text = text.replace("</style>", f"\n{style_snippet}\n</style>", 1)
@@ -107,13 +141,19 @@ else:
 
 required = [
     'class="phase62-top-row"',
-    'Agent Pool',
-    'System Metrics',
+    'id="metrics-row"',
     'id="phase61-workspace-shell"',
     'id="phase61-workspace-grid"',
     'id="operator-workspace-card"',
     'id="observational-workspace-card"',
     'id="atlas-status-card"',
+    'Operator Workspace',
+    'Telemetry Workspace',
+    'Atlas Subsystem Status',
+    'Matilda',
+    'Atlas',
+    'Cade',
+    'Effie',
 ]
 
 for needle in required:
