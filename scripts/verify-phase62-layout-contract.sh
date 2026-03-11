@@ -58,7 +58,7 @@ assert_single_id("atlas-status-card")
 
 assert_present('class="phase62-top-row"')
 assert_present("Agent Pool")
-assert_present("System Metrics")
+assert_present('aria-label="System metrics"')
 assert_present("Operator Workspace")
 assert_present("Telemetry Workspace")
 assert_present("Atlas Subsystem Status")
