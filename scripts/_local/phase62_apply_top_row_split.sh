@@ -54,11 +54,12 @@ style_snippet = """
   }
 """.strip("\n")
 
-def find_matching_section_end(src: str, section_start: int) -> int:
-    pattern = re.compile(r"</?section\b[^>]*>", re.IGNORECASE | re.DOTALL)
+section_pat = re.compile(r"</?section\b[^>]*>", re.IGNORECASE | re.DOTALL)
+
+def find_matching_section_end(src: str, open_start: int) -> int:
     depth = 0
     started = False
-    for m in pattern.finditer(src, section_start):
+    for m in section_pat.finditer(src, open_start):
         token = m.group(0).lower()
         if token.startswith("<section"):
             depth += 1
@@ -80,42 +81,21 @@ metrics_start = metrics_open.start()
 metrics_end = find_matching_section_end(text, metrics_start)
 workspace_start = workspace_open.start()
 
-between = text[metrics_end:workspace_start]
-
-candidate_iter = list(re.finditer(r'<section\b[^>]*>', between, re.IGNORECASE))
-agent_rel_start = None
-agent_rel_end = None
-
-for m in candidate_iter:
-    rel_start = m.start()
-    abs_start = metrics_end + rel_start
-    abs_end = find_matching_section_end(text, abs_start)
-    if abs_end > workspace_start:
-        continue
-    block = text[abs_start:abs_end]
-    lowered = block.lower()
-    if (
-        "agent pool" in lowered
-        or ("matilda" in lowered and "atlas" in lowered and "cade" in lowered and "effie" in lowered)
-        or "agent-status-row" in lowered
-    ):
-        agent_rel_start = rel_start
-        agent_rel_end = abs_end - metrics_end
+agent_open = None
+for m in re.finditer(r'<section\b[^>]*>', text[metrics_end:workspace_start], re.IGNORECASE):
+    candidate_start = metrics_end + m.start()
+    candidate_end = find_matching_section_end(text, candidate_start)
+    if candidate_end <= workspace_start:
+        agent_open = candidate_start
+        agent_end = candidate_end
         break
 
-if agent_rel_start is None or agent_rel_end is None:
-    print("could not locate Agent Pool block between metrics row and workspace shell", file=sys.stderr)
+if agent_open is None:
+    print("could not locate top-row section between metrics row and workspace shell", file=sys.stderr)
     sys.exit(1)
-
-agent_start = metrics_end + agent_rel_start
-agent_end = metrics_end + agent_rel_end
 
 metrics_block = text[metrics_start:metrics_end]
-agent_block = text[agent_start:agent_end]
-
-if metrics_start >= agent_start:
-    print("unexpected ordering: metrics row is not before agent pool row", file=sys.stderr)
-    sys.exit(1)
+agent_block = text[agent_open:agent_end]
 
 wrapper = (
     '<section class="phase62-top-row" data-phase="62">\n'
@@ -128,7 +108,7 @@ wrapper = (
     '</section>\n\n'
 )
 
-text = text[:metrics_start] + text[metrics_end:agent_start] + text[agent_end:]
+text = text[:metrics_start] + text[metrics_end:agent_open] + text[agent_end:]
 text = text[:metrics_start] + wrapper + text[metrics_start:]
 
 if "</style>" in text:
