@@ -39,13 +39,19 @@
     const left = document.createElement("div");
     left.className = "flex items-center gap-3 min-w-0 h-[18px]";
 
-    const bar = document.createElement("span");
-    bar.className = "inline-flex items-center justify-center shrink-0";
-    bar.textContent = AGENT_EMOJI[key] || "•";
-    bar.style.width = "18px";
-    bar.style.minWidth = "18px";
-    bar.style.fontSize = "14px";
-    bar.style.lineHeight = "1";
+    const emoji = document.createElement("span");
+    emoji.className = "inline-flex items-center justify-center shrink-0";
+    emoji.textContent = AGENT_EMOJI[key] || "•";
+    emoji.style.width = "18px";
+    emoji.style.minWidth = "18px";
+    emoji.style.height = "18px";
+    emoji.style.minHeight = "18px";
+    emoji.style.fontSize = "14px";
+    emoji.style.lineHeight = "1";
+    emoji.style.background = "transparent";
+    emoji.style.borderRadius = "0";
+    emoji.style.boxShadow = "none";
+    emoji.style.marginRight = "0";
 
     const label = document.createElement("span");
     label.className = "text-[13px] font-semibold tracking-tight text-slate-100/95 truncate";
@@ -55,11 +61,11 @@
     status.className = "text-[12px] font-medium text-slate-200/90 truncate";
     status.textContent = "unknown";
 
-    left.append(bar, label);
+    left.append(emoji, label);
     row.append(left, status);
     stack.appendChild(row);
 
-    indicators[key] = { row, bar, label, status };
+    indicators[key] = { row, emoji, label, status };
   });
 
   const OPS_SSE_URL = `/events/ops`;
@@ -93,19 +99,19 @@
     indicator.row.className =
       "w-full min-h-0 rounded-md border px-3 py-1.5 flex items-center justify-between shadow-sm";
 
-    indicator.bar.className = "inline-flex items-center justify-center shrink-0";
-    indicator.bar.textContent = AGENT_EMOJI[agentKey] || "•";
-    indicator.bar.style.display = "inline-flex";
-    indicator.bar.style.width = "18px";
-    indicator.bar.style.height = "18px";
-    indicator.bar.style.minWidth = "18px";
-    indicator.bar.style.minHeight = "18px";
-    indicator.bar.style.borderRadius = "0";
-    indicator.bar.style.marginRight = "0";
-    indicator.bar.style.boxShadow = "none";
-    indicator.bar.style.background = "transparent";
-    indicator.bar.style.fontSize = "14px";
-    indicator.bar.style.lineHeight = "1";
+    indicator.emoji.className = "inline-flex items-center justify-center shrink-0";
+    indicator.emoji.textContent = AGENT_EMOJI[agentKey] || "•";
+    indicator.emoji.style.display = "inline-flex";
+    indicator.emoji.style.width = "18px";
+    indicator.emoji.style.minWidth = "18px";
+    indicator.emoji.style.height = "18px";
+    indicator.emoji.style.minHeight = "18px";
+    indicator.emoji.style.fontSize = "14px";
+    indicator.emoji.style.lineHeight = "1";
+    indicator.emoji.style.background = "transparent";
+    indicator.emoji.style.borderRadius = "0";
+    indicator.emoji.style.boxShadow = "none";
+    indicator.emoji.style.marginRight = "0";
 
     indicator.label.className = "text-[13px] font-semibold tracking-tight truncate";
     indicator.status.className = "text-[11px] font-medium truncate";
