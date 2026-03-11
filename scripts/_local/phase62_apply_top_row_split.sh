@@ -25,26 +25,31 @@ import sys
 html_path = Path("public/dashboard.html")
 text = html_path.read_text()
 
-if "phase62-top-row" in text:
+if 'class="phase62-top-row"' in text:
     print("phase62-top-row already present; refusing to patch forward", file=sys.stderr)
     sys.exit(1)
 
 style_snippet = """
-  /* Phase 62: top-row density split */
+  /* Phase 62: Agent Pool + Metrics dual top row */
   .phase62-top-row {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: 16px;
     align-items: stretch;
-    margin-bottom: 16px;
   }
 
   .phase62-top-col {
     min-width: 0;
   }
 
-  .phase62-top-col > * {
+  .phase62-top-col > section,
+  .phase62-top-col > div {
     height: 100%;
+    margin-bottom: 0 !important;
+  }
+
+  #agent-status-container.phase62-agent-pool {
+    margin-bottom: 0 !important;
   }
 
   @media (max-width: 1100px) {
@@ -54,53 +59,65 @@ style_snippet = """
   }
 """.strip("\n")
 
-section_pat = re.compile(r"</?section\b[^>]*>", re.IGNORECASE | re.DOTALL)
+section_pat = re.compile(r'<section\b[^>]*>|</section>', re.IGNORECASE | re.DOTALL)
 
-def find_matching_section_end(src: str, open_start: int) -> int:
+def section_bounds_by_id(src: str, element_id: str):
+    open_pat = re.compile(rf'<section[^>]*id="{re.escape(element_id)}"[^>]*>', re.IGNORECASE | re.DOTALL)
+    m = open_pat.search(src)
+    if not m:
+        raise RuntimeError(f"section with id={element_id!r} not found")
     depth = 0
     started = False
-    for m in section_pat.finditer(src, open_start):
-        token = m.group(0).lower()
+    for tok in section_pat.finditer(src, m.start()):
+        token = tok.group(0).lower()
         if token.startswith("<section"):
             depth += 1
             started = True
-        elif token.startswith("</section"):
+        else:
             depth -= 1
             if started and depth == 0:
-                return m.end()
-    raise RuntimeError("unbalanced <section> structure")
+                return m.start(), tok.end()
+    raise RuntimeError(f"unbalanced section structure for id={element_id!r}")
 
-metrics_open = re.search(r'<section[^>]*id="metrics-row"[^>]*>', text, re.IGNORECASE)
-workspace_open = re.search(r'<section[^>]*id="phase61-workspace-shell"[^>]*>', text, re.IGNORECASE)
+agent_start, agent_end = section_bounds_by_id(text, "agent-status-container")
+metrics_start, metrics_end = section_bounds_by_id(text, "metrics-row")
 
-if not metrics_open or not workspace_open:
-    print("required structural anchors not found", file=sys.stderr)
-    sys.exit(1)
-
-metrics_start = metrics_open.start()
-metrics_end = find_matching_section_end(text, metrics_start)
-workspace_start = workspace_open.start()
-
+agent_block = text[agent_start:agent_end]
 metrics_block = text[metrics_start:metrics_end]
-between_block = text[metrics_end:workspace_start]
-agent_block = between_block.strip()
 
-if not agent_block:
-    print("no content found between metrics row and workspace shell", file=sys.stderr)
-    sys.exit(1)
-
-wrapper = (
-    '<section class="phase62-top-row" data-phase="62">\n'
-    '  <div class="phase62-top-col phase62-top-col--agents">\n'
-    f'{agent_block}\n'
-    '  </div>\n'
-    '  <div class="phase62-top-col phase62-top-col--metrics">\n'
-    f'{metrics_block}\n'
-    '  </div>\n'
-    '</section>\n\n'
+agent_block = agent_block.replace(
+    'id="agent-status-container"',
+    'id="agent-status-container" class="phase59-shell phase62-agent-pool bg-gray-800 p-4 rounded-2xl shadow-2xl flex flex-wrap gap-4 items-center border border-gray-700"',
+    1
+) if 'class="phase59-shell bg-gray-800 p-4 rounded-2xl shadow-2xl flex flex-wrap gap-4 items-center mb-6 border border-gray-700"' in agent_block else agent_block.replace(
+    'id="agent-status-container"',
+    'id="agent-status-container"',
+    1
 )
 
-text = text[:metrics_start] + wrapper + text[workspace_start:]
+agent_block = agent_block.replace(' mb-6 ', ' ', 1).replace(' mb-6"', '"')
+
+wrapper = (
+    '    <section class="phase62-top-row" data-phase="62">\n'
+    '      <div class="phase62-top-col phase62-top-col--agents">\n'
+    f'{agent_block}\n'
+    '      </div>\n'
+    '      <div class="phase62-top-col phase62-top-col--metrics">\n'
+    f'{metrics_block}\n'
+    '      </div>\n'
+    '    </section>\n'
+)
+
+for start, end in sorted([(agent_start, agent_end), (metrics_start, metrics_end)], reverse=True):
+    text = text[:start] + text[end:]
+
+main_match = re.search(r'<main\b[^>]*class="phase59-shell space-y-6"[^>]*>', text, re.IGNORECASE)
+if not main_match:
+    print("phase59 main shell not found", file=sys.stderr)
+    sys.exit(1)
+
+insert_at = main_match.end()
+text = text[:insert_at] + "\n" + wrapper + text[insert_at:]
 
 if "</style>" in text:
     text = text.replace("</style>", f"\n{style_snippet}\n</style>", 1)
@@ -112,6 +129,7 @@ else:
 
 required = [
     'class="phase62-top-row"',
+    'id="agent-status-container"',
     'id="metrics-row"',
     'id="phase61-workspace-shell"',
     'id="phase61-workspace-grid"',
@@ -121,10 +139,8 @@ required = [
     'Operator Workspace',
     'Telemetry Workspace',
     'Atlas Subsystem Status',
-    'Matilda',
-    'Atlas',
-    'Cade',
-    'Effie',
+    'Agent Pool',
+    'Active Agents',
 ]
 
 for needle in required:
