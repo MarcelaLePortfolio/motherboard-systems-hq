@@ -36,8 +36,12 @@ mkdir -p docs/checkpoints
   echo
 
   echo "== current source handler anchors =="
-  grep -nE 'function handleOpsEvent|function applyAgentMap|function applySingleAgent|addEventListener\\("ops.state"|source\\.onmessage' public/js/agent-status-row.js public/bundle.js || true
+  grep -nE 'function handleOpsEvent|function applyAgentMap|function applySingleAgent|addEventListener\\("ops\.state"|source\.onmessage' public/js/agent-status-row.js public/bundle.js || true
   echo
 } > "$OUT"
 
 echo "$OUT"
+
+echo
+echo "== latest probe findings =="
+sed -n '1,260p' "$OUT"

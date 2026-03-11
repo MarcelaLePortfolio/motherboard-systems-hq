@@ -1,0 +1,13 @@
+== /events/ops bounded capture ==
+event: hello
+data: {"kind":"ops","ts":1773188254220,"msg":"SSE ops connected"}
+
+event: ops.state
+data: {"status":"unknown","lastHeartbeatAt":null,"agents":{}}
+
+event: heartbeat
+data: {"ts":1773188257221}
+
+event: heartbeat
+data: {"ts":1773188260221}
+
