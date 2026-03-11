@@ -393,18 +393,30 @@
     const title = container.querySelector("h2");
     container.innerHTML = "";
     if (title) container.appendChild(title);
-    const AGENTS = ["Matilda", "Cade", "Effie", "Atlas"];
+    const AGENTS = ["Matilda", "Atlas", "Cade", "Effie"];
+    const AGENT_EMOJI = {
+      matilda: "\u{1F5E3}\uFE0F",
+      atlas: "\u{1F9ED}",
+      cade: "\u{1F4BB}",
+      effie: "\u{1F4CA}"
+    };
     const indicators = {};
     const stack = document.createElement("div");
     stack.className = "w-full flex flex-col gap-0.5";
     container.appendChild(stack);
     AGENTS.forEach((name) => {
+      const key = name.toLowerCase();
       const row = document.createElement("div");
       row.className = "w-full min-h-0 rounded-md bg-slate-600/55 border border-slate-500/35 px-3 py-1.5 flex items-center justify-between shadow-sm";
       const left = document.createElement("div");
       left.className = "flex items-center gap-3 min-w-0 h-[18px]";
       const bar = document.createElement("span");
-      bar.className = "inline-block w-2 h-2 rounded-full bg-amber-300 shrink-0";
+      bar.className = "inline-flex items-center justify-center shrink-0";
+      bar.textContent = AGENT_EMOJI[key] || "\u2022";
+      bar.style.width = "18px";
+      bar.style.minWidth = "18px";
+      bar.style.fontSize = "14px";
+      bar.style.lineHeight = "1";
       const label = document.createElement("span");
       label.className = "text-[13px] font-semibold tracking-tight text-slate-100/95 truncate";
       label.textContent = name;
@@ -414,7 +426,7 @@
       left.append(bar, label);
       row.append(left, status);
       stack.appendChild(row);
-      indicators[name.toLowerCase()] = { row, bar, label, status };
+      indicators[key] = { row, bar, label, status };
     });
     const OPS_SSE_URL = `/events/ops`;
     const __DISABLE_OPTIONAL_SSE = (typeof window !== "undefined" && window.__DISABLE_OPTIONAL_SSE) === true;
@@ -436,47 +448,40 @@
       const finalStatus = statusString || "unknown";
       indicator.status.textContent = finalStatus;
       indicator.row.className = "w-full min-h-0 rounded-md border px-3 py-1.5 flex items-center justify-between shadow-sm";
-      indicator.bar.className = "inline-block shrink-0";
-      indicator.bar.style.display = "inline-block";
-      indicator.bar.style.width = "8px";
-      indicator.bar.style.height = "8px";
-      indicator.bar.style.minWidth = "8px";
-      indicator.bar.style.minHeight = "8px";
-      indicator.bar.style.borderRadius = "999px";
-      indicator.bar.style.marginRight = "8px";
-      indicator.bar.style.boxShadow = "0 0 0 2px rgba(255,255,255,0.08) inset";
-      indicator.bar.style.background = "rgba(148,163,184,0.8)";
-      indicator.bar.style.width = "8px";
-      indicator.bar.style.height = "8px";
-      indicator.bar.style.minWidth = "8px";
-      indicator.bar.style.minHeight = "8px";
-      indicator.bar.style.borderRadius = "999px";
-      indicator.bar.style.marginRight = "8px";
+      indicator.bar.className = "inline-flex items-center justify-center shrink-0";
+      indicator.bar.textContent = AGENT_EMOJI[agentKey] || "\u2022";
+      indicator.bar.style.display = "inline-flex";
+      indicator.bar.style.width = "18px";
+      indicator.bar.style.height = "18px";
+      indicator.bar.style.minWidth = "18px";
+      indicator.bar.style.minHeight = "18px";
+      indicator.bar.style.borderRadius = "0";
+      indicator.bar.style.marginRight = "0";
+      indicator.bar.style.boxShadow = "none";
+      indicator.bar.style.background = "transparent";
+      indicator.bar.style.fontSize = "14px";
+      indicator.bar.style.lineHeight = "1";
       indicator.label.className = "text-[13px] font-semibold tracking-tight truncate";
       indicator.status.className = "text-[11px] font-medium truncate";
       switch (kind) {
         case "online":
           indicator.row.classList.add("bg-gray-900", "border-gray-700");
-          indicator.bar.style.background = "rgba(52,211,153,0.95)";
           indicator.label.classList.add("text-slate-100");
           indicator.status.classList.add("text-emerald-300/90");
           break;
         case "error":
           indicator.row.classList.add("bg-gray-900", "border-gray-700");
-          indicator.bar.style.background = "rgba(251,113,133,0.95)";
           indicator.label.classList.add("text-slate-100");
           indicator.status.classList.add("text-rose-300/90");
           break;
         case "pending":
           indicator.row.classList.add("bg-gray-900", "border-gray-700");
-          indicator.bar.style.background = "rgba(252,211,77,0.95)";
           indicator.label.classList.add("text-slate-100");
           indicator.status.classList.add("text-amber-200/90");
           break;
         case "unknown":
         default:
           indicator.row.classList.add("bg-gray-900", "border-gray-700");
-          indicator.bar.style.background = "rgba(148,163,184,0.8)";
           indicator.label.classList.add("text-slate-100");
           indicator.status.classList.add("text-slate-300/75");
           break;
