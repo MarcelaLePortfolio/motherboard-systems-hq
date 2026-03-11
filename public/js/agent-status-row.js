@@ -14,7 +14,14 @@
   container.innerHTML = "";
   if (title) container.appendChild(title);
 
-  const AGENTS = ["Matilda", "Cade", "Effie", "Atlas"];
+  const AGENTS = ["Matilda","Atlas","Cade","Effie"];
+
+const AGENT_EMOJI = {
+matilda:"🗣️",
+atlas:"🧭",
+cade:"💻",
+effie:"📊"
+};
   const indicators = {};
 
   const stack = document.createElement("div");
@@ -29,18 +36,12 @@
     const left = document.createElement("div");
     left.className = "flex items-center gap-3 min-w-0 h-[18px]";
 
-    const bar = document.createElement("span");
-    bar.className = "inline-block w-2 h-2 rounded-full bg-amber-300 shrink-0";
+    const icon = document.createElement("span");
+icon.textContent = AGENT_EMOJI[key] || "•";
+icon.style.minWidth="18px";
+icon.style.fontSize="14px";
 
-    const label = document.createElement("span");
-    label.className = "text-[13px] font-semibold tracking-tight text-slate-100/95 truncate";
-    label.textContent = name;
-
-    const status = document.createElement("span");
-    status.className = "text-[12px] font-medium text-slate-200/90 truncate";
-    status.textContent = "unknown";
-
-    left.append(bar, label);
+left.append(icon,label);
     row.append(left, status);
     stack.appendChild(row);
 
@@ -78,14 +79,7 @@
     indicator.row.className =
       "w-full min-h-0 rounded-md border px-3 py-1.5 flex items-center justify-between shadow-sm";
     
-indicator.bar.className = "inline-block shrink-0";
-    indicator.bar.style.display = "inline-block";
-    indicator.bar.style.width = "8px";
-    indicator.bar.style.height = "8px";
-    indicator.bar.style.minWidth = "8px";
-    indicator.bar.style.minHeight = "8px";
-    indicator.bar.style.borderRadius = "999px";
-    indicator.bar.style.marginRight = "8px";
+
     indicator.bar.style.boxShadow = "0 0 0 2px rgba(255,255,255,0.08) inset";
     indicator.bar.style.background = "rgba(148,163,184,0.8)";
 indicator.bar.style.width = "8px";
