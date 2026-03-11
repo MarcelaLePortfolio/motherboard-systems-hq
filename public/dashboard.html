@@ -41,64 +41,42 @@
     }
   }
 
-  /* Phase 62: telemetry tile refinement */
+  /* Phase 62: consolidated metrics telemetry tile styling */
   #metrics-row.phase62-metrics-tiles {
-    gap: 12px;
-    align-items: stretch;
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 12px !important;
+    align-items: stretch !important;
   }
 
-  #metrics-row.phase62-metrics-tiles > div {
-    min-height: 84px;
+  #metrics-row.phase62-metrics-tiles > .phase62-metric-card,
+  #metrics-row.phase62-metrics-tiles > .phase62-metric-tile,
+  #metrics-row.phase62-metrics-tiles > div.phase62-metric-card {
+    min-height: 72px !important;
+    padding: 12px 12px 10px 12px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    align-items: flex-start !important;
+    gap: 8px !important;
   }
 
-  .phase62-metric-tile {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-
-  .phase62-metric-value {
-    font-size: 1.875rem;
-    line-height: 1;
-    letter-spacing: -0.02em;
-  }
-
-  .phase62-metric-label {
-    font-size: 0.7rem;
-    line-height: 1rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-  }
-
-  /* Phase 62: promote metric values to telemetry-first tiles */
-  #metrics-row.phase62-metrics-tiles {
-    gap: 12px;
-    align-items: stretch;
-  }
-
-  .phase62-metric-card {
-    min-height: 76px !important;
-    padding-top: 12px !important;
-    padding-bottom: 12px !important;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-
-  .phase62-metric-value {
-    font-size: 2.25rem !important;
+  #metrics-row.phase62-metrics-tiles .phase62-metric-value {
+    order: 1 !important;
+    font-size: 2.5rem !important;
     line-height: 1 !important;
-    letter-spacing: -0.03em;
-    order: 1;
+    letter-spacing: -0.04em !important;
+    margin: 0 !important;
   }
 
-  .phase62-metric-label {
+  #metrics-row.phase62-metrics-tiles .phase62-metric-label {
+    order: 2 !important;
     font-size: 0.68rem !important;
-    line-height: 0.95rem !important;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    order: 2;
-    opacity: 0.88;
+    line-height: 0.9rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.08em !important;
+    opacity: 0.82 !important;
+    margin: 0 !important;
   }
 </style>
   <meta charset="UTF-8" />
