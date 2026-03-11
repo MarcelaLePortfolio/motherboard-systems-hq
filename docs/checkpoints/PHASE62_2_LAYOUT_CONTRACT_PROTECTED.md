@@ -20,6 +20,16 @@ Protect the full dashboard structural layout following Phase 62 stabilization.
 - Required region presence
 - Structural integrity checks
 
+## Verified Anchors
+- `id="agent-status-container"`
+- `id="metrics-row"` with `aria-label="System metrics"`
+- `id="phase61-workspace-shell"`
+- `id="phase61-workspace-grid"`
+- `id="operator-workspace-card"`
+- `id="observational-workspace-card"`
+- `id="phase61-atlas-band"`
+- `id="atlas-status-card"`
+
 ## Verified Order
 - Agent Pool before System Metrics
 - System Metrics before Workspace shell
