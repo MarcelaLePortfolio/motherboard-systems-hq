@@ -69,6 +69,37 @@
     text-transform: uppercase;
     letter-spacing: 0.08em;
   }
+
+  /* Phase 62: promote metric values to telemetry-first tiles */
+  #metrics-row.phase62-metrics-tiles {
+    gap: 12px;
+    align-items: stretch;
+  }
+
+  .phase62-metric-card {
+    min-height: 76px !important;
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .phase62-metric-value {
+    font-size: 2.25rem !important;
+    line-height: 1 !important;
+    letter-spacing: -0.03em;
+    order: 1;
+  }
+
+  .phase62-metric-label {
+    font-size: 0.68rem !important;
+    line-height: 0.95rem !important;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    order: 2;
+    opacity: 0.88;
+  }
 </style>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -444,21 +475,21 @@
       class="phase62-metrics-tiles grid grid-cols-2 gap-3 auto-rows-fr"
       aria-label="System metrics"
     >
-      <div class="phase62-metric-tile bg-gray-800 p-3 rounded-2xl shadow-lg border border-gray-700 min-h-[84px] flex flex-col justify-between">
-        <p class="text-xs uppercase tracking-wide text-gray-400">Active Agents</p>
-        <p id="metric-agents" class="phase62-metric-value text-3xl font-bold text-blue-400 leading-none">--</p>
+      <div class="phase62-metric-card phase62-metric-tile bg-gray-800 p-3 rounded-2xl shadow-lg border border-gray-700 min-h-[76px] flex flex-col justify-between">
+        <p id="metric-agents" class="phase62-metric-value text-4xl font-bold text-blue-400 leading-none">--</p>
+        <p class="phase62-metric-label text-xs uppercase tracking-wide text-gray-400">Active Agents</p>
       </div>
-      <div class="bg-gray-800 p-3 rounded-2xl shadow-lg border border-gray-700 min-h-[88px] flex flex-col justify-between">
-        <p class="text-xs uppercase tracking-wide text-gray-400">Tasks Running</p>
-        <p id="metric-tasks" class="phase62-metric-value text-3xl font-bold text-yellow-400 leading-none">--</p>
+      <div class="phase62-metric-card bg-gray-800 p-3 rounded-2xl shadow-lg border border-gray-700 min-h-[76px] flex flex-col justify-between">
+        <p id="metric-tasks" class="phase62-metric-value text-4xl font-bold text-yellow-400 leading-none">--</p>
+        <p class="phase62-metric-label text-xs uppercase tracking-wide text-gray-400">Tasks Running</p>
       </div>
-      <div class="bg-gray-800 p-3 rounded-2xl shadow-lg border border-gray-700 min-h-[88px] flex flex-col justify-between">
-        <p class="text-xs uppercase tracking-wide text-gray-400">Success Rate</p>
-        <p id="metric-success-rate" class="phase62-metric-value text-3xl font-bold text-green-400 leading-none">--</p>
+      <div class="phase62-metric-card bg-gray-800 p-3 rounded-2xl shadow-lg border border-gray-700 min-h-[76px] flex flex-col justify-between">
+        <p id="metric-success-rate" class="phase62-metric-value text-4xl font-bold text-green-400 leading-none">--</p>
+        <p class="phase62-metric-label text-xs uppercase tracking-wide text-gray-400">Success Rate</p>
       </div>
-      <div class="bg-gray-800 p-3 rounded-2xl shadow-lg border border-gray-700 min-h-[88px] flex flex-col justify-between">
-        <p class="text-xs uppercase tracking-wide text-gray-400">Latency (ms)</p>
-        <p id="metric-latency" class="phase62-metric-value text-3xl font-bold text-red-400 leading-none">--</p>
+      <div class="phase62-metric-card bg-gray-800 p-3 rounded-2xl shadow-lg border border-gray-700 min-h-[76px] flex flex-col justify-between">
+        <p id="metric-latency" class="phase62-metric-value text-4xl font-bold text-red-400 leading-none">--</p>
+        <p class="phase62-metric-label text-xs uppercase tracking-wide text-gray-400">Latency (ms)</p>
       </div>
     </section>
       </div>
