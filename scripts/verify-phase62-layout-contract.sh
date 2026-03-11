@@ -1,74 +1,72 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-FILE="public/dashboard.html"
+FILE="${1:-public/dashboard.html}"
 
-fail() {
-  echo "FAIL: $1"
-  exit 1
-}
+python3 - "$FILE" <<'PY'
+from pathlib import Path
+import sys
 
-pass() {
-  echo "PASS: $1"
-}
+file_path = Path(sys.argv[1])
+text = file_path.read_text()
 
-count_id() {
-  grep -c "id=\"$1\"" "$FILE" || true
-}
+def fail(msg: str) -> None:
+    print(f"FAIL: {msg}")
+    raise SystemExit(1)
 
-assert_single() {
-  local id="$1"
-  local count
-  count=$(count_id "$id")
+def pas(msg: str) -> None:
+    print(f"PASS: {msg}")
 
-  if [[ "$count" -ne 1 ]]; then
-    fail "$id count = $count (expected 1)"
-  fi
+def count(needle: str) -> int:
+    return text.count(needle)
 
-  pass "$id count == 1"
-}
+def assert_single_id(element_id: str) -> None:
+    needle = f'id="{element_id}"'
+    c = count(needle)
+    if c != 1:
+        fail(f"{element_id} count = {c} (expected 1)")
+    pas(f"{element_id} count == 1")
 
-assert_present() {
-  grep -q "$1" "$FILE" || fail "missing marker: $1"
-  pass "marker present: $1"
-}
+def assert_present(marker: str) -> None:
+    if marker not in text:
+        fail(f"missing marker: {marker}")
+    pas(f"marker present: {marker}")
 
-assert_order() {
-  local a="$1"
-  local b="$2"
+def pos(needle: str) -> int:
+    i = text.find(needle)
+    if i == -1:
+        fail(f"anchor missing: {needle}")
+    return i
 
-  local pos_a
-  local pos_b
+def assert_order(a: str, b: str) -> None:
+    pa = pos(a)
+    pb = pos(b)
+    if pa >= pb:
+        fail(f"order violation: {a} must appear before {b}")
+    pas(f"order {a} -> {b}")
 
-  pos_a=$(grep -n "$a" "$FILE" | head -1 | cut -d: -f1)
-  pos_b=$(grep -n "$b" "$FILE" | head -1 | cut -d: -f1)
+print("PHASE 62.2 LAYOUT CONTRACT VERIFY")
 
-  if [[ -z "$pos_a" || -z "$pos_b" ]]; then
-    fail "order anchors missing"
-  fi
+assert_single_id("agent-status-container")
+assert_single_id("metrics-row")
+assert_single_id("phase61-workspace-shell")
+assert_single_id("phase61-workspace-grid")
+assert_single_id("operator-workspace-card")
+assert_single_id("observational-workspace-card")
+assert_single_id("phase61-atlas-band")
+assert_single_id("atlas-status-card")
 
-  if (( pos_a >= pos_b )); then
-    fail "order violation: $a must appear before $b"
-  fi
+assert_present('class="phase62-top-row"')
+assert_present("Agent Pool")
+assert_present("System Metrics")
+assert_present("Operator Workspace")
+assert_present("Telemetry Workspace")
+assert_present("Atlas Subsystem Status")
 
-  pass "order $a -> $b"
-}
+assert_order('id="agent-status-container"', 'id="metrics-row"')
+assert_order('id="metrics-row"', 'id="phase61-workspace-shell"')
+assert_order('id="phase61-workspace-shell"', 'id="phase61-atlas-band"')
+assert_order('id="phase61-atlas-band"', 'id="atlas-status-card"')
 
-echo "PHASE 62.2 LAYOUT CONTRACT VERIFY"
-
-assert_single metrics-row
-assert_single phase61-workspace-shell
-assert_single phase61-workspace-grid
-assert_single operator-workspace-card
-assert_single observational-workspace-card
-assert_single atlas-status-card
-
-assert_present "Operator Workspace"
-assert_present "Telemetry Workspace"
-assert_present "Atlas Subsystem Status"
-
-assert_order metrics-row phase61-workspace-shell
-assert_order phase61-workspace-shell atlas-status-card
-
-echo "PHASE 62.2 CONTRACT PASSED"
-
+print("PHASE 62.2 CONTRACT PASSED")
+PY
