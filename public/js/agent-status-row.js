@@ -14,7 +14,14 @@
   container.innerHTML = "";
   if (title) container.appendChild(title);
 
-  const AGENTS = ["Matilda", "Cade", "Effie", "Atlas"];
+  const AGENTS = ["Matilda", "Atlas", "Cade", "Effie"];
+
+  const AGENT_EMOJI = {
+    matilda: "🗣️",
+    atlas: "🧭",
+    cade: "💻",
+    effie: "📊",
+  };
   const indicators = {};
 
   const stack = document.createElement("div");
@@ -30,7 +37,12 @@
     left.className = "flex items-center gap-3 min-w-0 h-[18px]";
 
     const bar = document.createElement("span");
-    bar.className = "inline-block w-2 h-2 rounded-full bg-amber-300 shrink-0";
+    bar.className = "inline-flex items-center justify-center shrink-0";
+    bar.textContent = AGENT_EMOJI[key] || "•";
+    bar.style.width = "18px";
+    bar.style.minWidth = "18px";
+    bar.style.fontSize = "14px";
+    bar.style.lineHeight = "1";
 
     const label = document.createElement("span");
     label.className = "text-[13px] font-semibold tracking-tight text-slate-100/95 truncate";
