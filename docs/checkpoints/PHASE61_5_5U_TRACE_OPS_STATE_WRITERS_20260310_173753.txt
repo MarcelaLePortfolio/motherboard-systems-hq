@@ -1,0 +1,253 @@
+== Phase 61.5.5u trace ops state writers ==
+timestamp: 2026-03-11T00:37:53Z
+
+== branch / head ==
+phase61-cherry-pick-recovery
+4789591d
+
+== __OPS_STATE definitions and writes ==
+
+== server.mjs focused snippet around __OPS_STATE ==
+  }
+
+  if (!globalThis.__SSE) globalThis.__SSE = {};
+  if (!globalThis.__SSE.ops) globalThis.__SSE.ops = _phase16CreateSSEHub("ops");
+  if (!globalThis.__SSE.reflections) globalThis.__SSE.reflections = _phase16CreateSSEHub("reflections");
+
+  if (!globalThis.__OPS_STATE) {
+    globalThis.__OPS_STATE = { status: "unknown", lastHeartbeatAt: null, agents: {} };
+  }
+  // ==============================================
+
+  // Phase 36.2: run_view-backed run observability (must not depend on optional SSE)
+  registerPhase36RunView(app);
+
+  registerPhase48PolicyProbe(app);
+
+// Phase 16: optional dashboard SSE endpoints (OPS + Reflections)
+try {
+  registerOptionalSSE(app);
+  console.log("[SSE] /events/ops + /events/reflections registered");
+} catch (e) {
+  console.warn("[SSE] Failed to register optional SSE:", e && e.message ? e.message : e);
+}
+
+// Serve static assets from ./public (required for /css/* and /js/* on /dashboard)
+app.use(express.static(path.join(__dirname, "public")));
+app.use("/css", express.static(path.join(__dirname, "public", "css")));
+app.use("/js", express.static(path.join(__dirname, "public", "js")));
+app.use("/img", express.static(path.join(__dirname, "public", "img")));
+// Phase 23: TaskSpec adapter -> create task + emit task_events
+app.post("/api/tasks-mutations/delegate-taskspec", async (req, res) => phase23HandleDelegateTaskSpec(req, res, { db: pool, dbDelegateTask }));
+
+// Phase 23: TaskSpec adapter -> create task + emit task_events
+
+
+// Phase 23: TaskSpec adapter -> existing delegate
+
+app.use("/api/tasks", apiTasksRouter);
+app.use("/api/tasks-mutations", apiTasksMutationsRouter);
+
+// --- Phase 16.7: dev-only emit endpoints (local debug) ---
+app.post("/api/dev/emit-reflection", (req, res) => {
+  try {
+    const body = req.body || {};
+    const item = {
+      ts: body.ts != null ? body.ts : Date.now(),
+      title: body.title != null ? String(body.title) : "dev",
+      msg: body.msg != null ? String(body.msg) : "dev reflection",
+      kind: body.kind != null ? String(body.kind) : "dev",
+    };
+
+    // keep snapshot cache in sync for /events/reflections snapshot-on-connect
+    if (!globalThis.__REFLECTIONS_STATE || typeof globalThis.__REFLECTIONS_STATE !== "object") {
+      globalThis.__REFLECTIONS_STATE = { items: [], lastAt: null };
+    }
+    if (!Array.isArray(globalThis.__REFLECTIONS_STATE.items)) globalThis.__REFLECTIONS_STATE.items = [];
+    globalThis.__REFLECTIONS_STATE.items = [item, ...globalThis.__REFLECTIONS_STATE.items].slice(0, 50);
+    globalThis.__REFLECTIONS_STATE.lastAt = item.ts;
+
+    // Prefer the optional-sse broadcaster globals if present
+    if (typeof globalThis.__broadcastReflections === "function") {
+      try { globalThis.__broadcastReflections({ item }); } catch (_) {}
+      return _phase16SendJson(res, 200, { ok: true, via: "globalThis.__broadcastReflections", item });
+    }
+
+    // Or use the Phase16 SSE hub if present
+    if (globalThis.__SSE && globalThis.__SSE.reflections && typeof globalThis.__SSE.reflections.broadcast === "function") {
+      globalThis.__SSE.reflections.broadcast("reflections.add", { item });
+      return _phase16SendJson(res, 200, { ok: true, via: "globalThis.__SSE.reflections.broadcast", item });
+    }
+
+    // Legacy/alt broadcaster shape
+    if (globalThis.__SSE_BROADCAST && typeof globalThis.__SSE_BROADCAST.reflections === "function") {
+      globalThis.__SSE_BROADCAST.reflections({ event: "reflections.add", data: { item } });
+      return _phase16SendJson(res, 200, { ok: true, via: "globalThis.__SSE_BROADCAST.reflections", item });
+    }
+
+    return _phase16SendJson(res, 202, { ok: true, via: "none", note: "No reflections broadcaster found; SSE-only build", item });
+  } catch (e) {
+    return _phase16SendJson(res, 500, { ok: false, error: String(e) });
+  }
+});
+
+
+app.post("/api/dev/emit-ops", (req, res) => {
+  try {
+    const body = req.body || {};
+    const state = {
+      status: body.status != null ? String(body.status) : "unknown",
+      lastHeartbeatAt: body.lastHeartbeatAt != null ? body.lastHeartbeatAt : Date.now(),
+      agents: body.agents != null ? body.agents : {},
+    };
+
+    globalThis.__OPS_STATE = state;
+
+    if (typeof globalThis.__broadcastOps === "function") {
+      try { globalThis.__broadcastOps(state); } catch (_) {}
+      return _phase16SendJson(res, 200, { ok: true, via: "globalThis.__broadcastOps", state });
+    }
+
+    if (globalThis.__SSE && globalThis.__SSE.ops && typeof globalThis.__SSE.ops.broadcast === "function") {
+      globalThis.__SSE.ops.broadcast(state, "ops.state");
+      return _phase16SendJson(res, 200, { ok: true, via: "globalThis.__SSE.ops.broadcast", state });
+    }
+
+    if (globalThis.__SSE_BROADCAST && typeof globalThis.__SSE_BROADCAST.ops === "function") {
+      globalThis.__SSE_BROADCAST.ops({ event: "ops.state", data: state });
+      return _phase16SendJson(res, 200, { ok: true, via: "globalThis.__SSE_BROADCAST.ops", state });
+    }
+
+    return _phase16SendJson(res, 202, { ok: true, via: "none", note: "No ops broadcaster found; SSE-only build", state });
+  } catch (e) {
+    return _phase16SendJson(res, 500, { ok: false, error: String(e) });
+  }
+});
+
+// --- /Phase 16.7 ---
+
+
+const { emitArtifact } = attachArtifacts(app);
+
+const PORT = process.env.PORT || 3000;
+
+const { Pool } = pg;
+const DB_URL_RAW = process.env.POSTGRES_URL || process.env.DATABASE_URL || "";
+
+// Normalize DB_URL: pg treats empty password as null -> SCRAM error ("password must be a string").
+// If URL has user but empty password, fill from PGPASSWORD (or default "postgres").
+function _normalizeDbUrl(raw) {
+  try {
+    if (!raw) return "";
+
+      build_time: process.env.BUILD_TIME || null,
+      node: process.version,
+      port: PORT,
+    },
+  });
+});
+
+
+  // ===== PHASE16_OPS_SIGNAL_INGEST =====
+
+  // ===== PHASE16_OPS_STATE_SNAPSHOT_BROADCAST_HELPER =====
+  function _phase16BroadcastOpsStateSnapshot(reason) {
+    try {
+      const st = _phase16GetOpsState();
+      const msg = { type: "ops.state", ts: Date.now(), reason: reason || null, payload: st };
+      globalThis.__SSE.ops.broadcast(msg, "ops.state");
+      return msg;
+    } catch (_) {
+      return null;
+    }
+  }
+  // ======================================================
+
+  if (!globalThis.__SSE) globalThis.__SSE = {};
+  if (!globalThis.__SSE.ops) globalThis.__SSE.ops = { clients: new Set(), nextId: 1, last: null,
+    broadcast(payload, eventName) {
+      const id = String(this.nextId++);
+      const data = typeof payload === "string" ? payload : JSON.stringify(payload);
+      const event = eventName || "message";
+      const frame = `id: ${id}\nevent: ${event}\ndata: ${data}\n\n`;
+      this.last = { id, data, event };
+      for (const res of this.clients) { try { res.write(frame); } catch (_) {} }
+      return id;
+    },
+    attach(res) {
+      this.clients.add(res);
+      res.on("close", () => this.clients.delete(res));
+      try { res.write(`: connected ops\n\n`); } catch (_) {}
+      if (this.last) { try { res.write(`id: ${this.last.id}\nevent: ${this.last.event}\ndata: ${this.last.data}\n\n`); } catch (_) {} }
+    },
+  };
+
+  if (!globalThis.__OPS_STATE) globalThis.__OPS_STATE = { status: "unknown", lastHeartbeatAt: null, agents: {} };
+
+  function _phase16SSEHeaders(res) {
+    res.status(200);
+    res.setHeader("Content-Type", "text/event-stream; charset=utf-8");
+    res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+    res.setHeader("Connection", "keep-alive");
+    res.setHeader("X-Accel-Buffering", "no");
+    if (res.flushHeaders) res.flushHeaders();
+  }
+
+  // (re)register /events/ops if missing
+  if (typeof app.get === "function") {
+    // best-effort: only add if route not already present via marker above
+  }
+
+  app.get("/events/ops", (req, res) => {
+    // PHASE16_OPS_CONNECT_PRIMER
+    // Ensure the client receives bytes immediately (prevents empty-body reads)
+    try { if (typeof res.flushHeaders === "function") res.flushHeaders(); } catch (_) {}
+    try { res.write(": ops-sse-connected\n\n"); } catch (_) {}
+    _phase16SSEHeaders(res);
+    globalThis.__SSE.ops.attach(res);
+  });
+
+  function _phase16Now() { return Date.now(); }
+  function _phase16BroadcastOps(type, payload) {
+    const msg = { type, ts: _phase16Now(), payload };
+    globalThis.__SSE.ops.broadcast(msg, type);
+    return msg;
+  }
+
+  app.post("/api/ops/heartbeat", (req, res) => {
+    const body = (req && req.body) || {};
+    const source = String(body.source || body.agent || body.from || "unknown");
+    const ts = _phase16Now();
+    globalThis.__OPS_STATE.status = "live";
+    globalThis.__OPS_STATE.lastHeartbeatAt = ts;
+    _phase16BroadcastOps("ops.heartbeat", { source, at: ts, meta: body.meta || body });
+    res.json({ ok: true, status: globalThis.__OPS_STATE.status, at: ts });
+  });
+
+  app.post("/api/ops/agent-status", (req, res) => {
+    const body = (req && req.body) || {};
+    const agent = String(body.agent || body.name || "unknown");
+    const state = String(body.state || body.status || "unknown");
+    const ts = _phase16Now();
+    globalThis.__OPS_STATE.status = "live";
+    globalThis.__OPS_STATE.agents[agent] = { state, at: ts, meta: body.meta || body };
+
+== bounded /events/ops sample ==
+event: hello
+data: {"kind":"ops","ts":1773189473571,"msg":"SSE ops connected"}
+
+event: ops.state
+data: {"status":"unknown","lastHeartbeatAt":null,"agents":{}}
+
+event: heartbeat
+data: {"ts":1773189476570}
+
+event: heartbeat
+data: {"ts":1773189479570}
+
+
+
+== conclusion ==
+Current truthful frontend patch is working.
+Current backend /events/ops payload still emits status=unknown and agents={}.
+Until server-side writers populate __OPS_STATE.agents with real agent statuses, dots will remain gray truthfully.
