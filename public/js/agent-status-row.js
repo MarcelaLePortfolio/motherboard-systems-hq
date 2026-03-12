@@ -309,13 +309,25 @@
     setMetricText(activeAgentsMetricEl, "—");
   };
 })();
-;/* PHASE62B_TASKS_RUNNING_HYDRATION */
+;/* PHASE63_SHARED_TASK_EVENTS_METRICS */
 (() => {
   if (typeof window === 'undefined') return;
-  if (window.__PHASE62B_TASKS_RUNNING_HYDRATION__) return;
-  window.__PHASE62B_TASKS_RUNNING_HYDRATION__ = true;
+  if (window.__PHASE63_SHARED_TASK_EVENTS_METRICS__) return;
+  window.__PHASE63_SHARED_TASK_EVENTS_METRICS__ = true;
+
+  const tasksNode = document.getElementById('metric-tasks');
+  const successNode = document.getElementById('metric-success');
+  const latencyNode = document.getElementById('metric-latency');
 
   const runningTaskIds = new Set();
+  const taskStartTimes = new Map();
+  const seenTerminalEvents = new Set();
+  const recentDurationsMs = [];
+  const maxSamples = 50;
+
+  let completedCount = 0;
+  let failedCount = 0;
+
   const runningTypes = new Set([
     'created',
     'queued',
@@ -326,190 +338,14 @@
     'delegated',
     'retrying'
   ]);
-  const terminalTypes = new Set([
+
+  const terminalSuccessTypes = new Set([
     'completed',
-    'failed',
-    'cancelled',
-    'canceled',
-    'timed_out',
-    'timeout',
-    'terminated',
-    'aborted'
+    'complete',
+    'done',
+    'success'
   ]);
 
-  const normalize = (value) =>
-    String(value || '')
-      .trim()
-      .toLowerCase()
-      .replace(/\s+/g, '_');
-
-  const safeJsonParse = (value) => {
-    try {
-      return JSON.parse(value);
-    } catch {
-      return null;
-    }
-  };
-
-  const getTaskId = (payload) =>
-    payload?.task_id ??
-    payload?.taskId ??
-    payload?.id ??
-    payload?.data?.task_id ??
-    payload?.data?.taskId ??
-    null;
-
-  const getEventType = (eventName, payload) =>
-    normalize(
-      payload?.type ??
-      payload?.event ??
-      payload?.status ??
-      payload?.state ??
-      eventName
-    );
-
-  const metricValueSelectors = [
-    '[data-metric-value]',
-    '[data-value]',
-    '.metric-value',
-    '.telemetry-value',
-    '.stat-value',
-    '.value'
-  ].join(',');
-
-  const containerSelectors = [
-    '.metric-card',
-    '.telemetry-tile',
-    '.metric-tile',
-    '.metrics-tile',
-    '[data-metric-label]',
-    '[data-metric-key]',
-    '.metrics-row > *',
-    '.metrics-row .card',
-    '.metrics-row .tile'
-  ].join(',');
-
-  const findTasksRunningValueNode = () => document.getElementById('metric-tasks');
-
-  const render = () => {
-    const node = findTasksRunningValueNode();
-    if (!node) return;
-    node.textContent = String(runningTaskIds.size);
-  };
-
-  const ingestEvent = (eventName, payload) => {
-    const taskId = getTaskId(payload);
-    const eventType = getEventType(eventName, payload);
-
-    if (!taskId) {
-      render();
-      return;
-    }
-
-    if (terminalTypes.has(eventType)) {
-      runningTaskIds.delete(taskId);
-      render();
-      return;
-    }
-
-    if (runningTypes.has(eventType)) {
-      runningTaskIds.add(taskId);
-      render();
-      return;
-    }
-
-    render();
-  };
-
-  const ingestMessage = (raw, forcedEventName = null) => {
-    const parsed = typeof raw === 'string' ? safeJsonParse(raw) : raw;
-    if (!parsed) return;
-
-    if (Array.isArray(parsed)) {
-      parsed.forEach((item) => ingestEvent(forcedEventName, item));
-      return;
-    }
-
-    const candidateLists = [
-      parsed?.events,
-      parsed?.payload?.events,
-      parsed?.task_events,
-      parsed?.items
-    ];
-
-    for (const list of candidateLists) {
-      if (Array.isArray(list)) {
-        list.forEach((item) => ingestEvent(forcedEventName, item));
-        return;
-      }
-    }
-
-    ingestEvent(
-      forcedEventName ?? parsed?.event ?? parsed?.type ?? parsed?.status,
-      parsed?.payload ?? parsed?.data ?? parsed
-    );
-  };
-
-  const attachTypedListener = (es, eventName) => {
-    es.addEventListener(eventName, (evt) => {
-      const parsed = safeJsonParse(evt.data);
-      if (parsed !== null) {
-        ingestMessage({ event: eventName, payload: parsed }, eventName);
-      } else {
-        ingestMessage({ event: eventName, payload: { type: eventName } }, eventName);
-      }
-    });
-  };
-
-  const connect = () => {
-    let es;
-    try {
-      es = new EventSource('/events/task-events');
-    } catch {
-      render();
-      return;
-    }
-
-    es.onmessage = (evt) => ingestMessage(evt.data);
-
-    [
-      'created',
-      'queued',
-      'leased',
-      'started',
-      'running',
-      'in_progress',
-      'delegated',
-      'retrying',
-      'completed',
-      'failed',
-      'cancelled',
-      'canceled',
-      'timed_out',
-      'timeout',
-      'terminated',
-      'aborted'
-    ].forEach((eventName) => attachTypedListener(es, eventName));
-
-    es.onerror = () => render();
-    window.addEventListener('beforeunload', () => es.close(), { once: true });
-  };
-
-  render();
-  connect();
-  window.setInterval(render, 10000);
-})();
-;/* PHASE62B_SUCCESS_RATE_HYDRATION */
-(() => {
-  if (typeof window === 'undefined') return;
-  if (window.__PHASE62B_SUCCESS_RATE_HYDRATION__) return;
-  window.__PHASE62B_SUCCESS_RATE_HYDRATION__ = true;
-
-  let completedCount = 0;
-  let failedCount = 0;
-  const seenTerminalEvents = new Set();
-
-  const terminalSuccessTypes = new Set(['completed', 'complete', 'done', 'success']);
   const terminalFailureTypes = new Set([
     'failed',
     'error',
@@ -521,222 +357,9 @@
     'aborted'
   ]);
 
-  const normalize = (value) =>
-    String(value || '')
-      .trim()
-      .toLowerCase()
-      .replace(/\s+/g, '_');
-
-  const safeJsonParse = (value) => {
-    try {
-      return JSON.parse(value);
-    } catch {
-      return null;
-    }
-  };
-
-  const getTaskId = (payload) =>
-    payload?.task_id ??
-    payload?.taskId ??
-    payload?.id ??
-    payload?.data?.task_id ??
-    payload?.data?.taskId ??
-    null;
-
-  const getEventType = (eventName, payload) =>
-    normalize(
-      payload?.type ??
-      payload?.event ??
-      payload?.status ??
-      payload?.state ??
-      eventName
-    );
-
-  const getEventTs = (payload) =>
-    payload?.ts ??
-    payload?.timestamp ??
-    payload?.at ??
-    payload?.time ??
-    payload?.created_at ??
-    payload?.updated_at ??
-    'na';
-
-  const metricValueSelectors = [
-    '[data-metric-value]',
-    '[data-value]',
-    '.metric-value',
-    '.telemetry-value',
-    '.stat-value',
-    '.value'
-  ].join(',');
-
-  const containerSelectors = [
-    '.metric-card',
-    '.telemetry-tile',
-    '.metric-tile',
-    '.metrics-tile',
-    '[data-metric-label]',
-    '[data-metric-key]',
-    '#metrics-row > *',
-    '.metrics-row > *',
-    '#metrics-row .card',
-    '.metrics-row .card',
-    '#metrics-row .tile',
-    '.metrics-row .tile'
-  ].join(',');
-
-  const findSuccessRateValueNode = () => document.getElementById('metric-success');
-
-  const render = () => {
-    const node = findSuccessRateValueNode();
-    if (!node) return;
-
-    const total = completedCount + failedCount;
-    if (total <= 0) {
-      node.textContent = '—';
-      return;
-    }
-
-    const pct = Math.round((completedCount / total) * 100);
-    node.textContent = `${pct}%`;
-  };
-
-  const ingestEvent = (eventName, payload) => {
-    const eventType = getEventType(eventName, payload);
-    const taskId = getTaskId(payload) || 'unknown';
-    const eventTs = getEventTs(payload);
-    const dedupeKey = `${taskId}|${eventType}|${eventTs}`;
-
-    if (terminalSuccessTypes.has(eventType)) {
-      if (!seenTerminalEvents.has(dedupeKey)) {
-        seenTerminalEvents.add(dedupeKey);
-        completedCount += 1;
-      }
-      render();
-      return;
-    }
-
-    if (terminalFailureTypes.has(eventType)) {
-      if (!seenTerminalEvents.has(dedupeKey)) {
-        seenTerminalEvents.add(dedupeKey);
-        failedCount += 1;
-      }
-      render();
-      return;
-    }
-
-    render();
-  };
-
-  const ingestMessage = (raw, forcedEventName = null) => {
-    const parsed = typeof raw === 'string' ? safeJsonParse(raw) : raw;
-    if (!parsed) return;
-
-    if (Array.isArray(parsed)) {
-      parsed.forEach((item) => ingestEvent(forcedEventName, item));
-      return;
-    }
-
-    const candidateLists = [
-      parsed?.events,
-      parsed?.payload?.events,
-      parsed?.task_events,
-      parsed?.items
-    ];
-
-    for (const list of candidateLists) {
-      if (Array.isArray(list)) {
-        list.forEach((item) => ingestEvent(forcedEventName, item));
-        return;
-      }
-    }
-
-    ingestEvent(
-      forcedEventName ?? parsed?.event ?? parsed?.type ?? parsed?.status,
-      parsed?.payload ?? parsed?.data ?? parsed
-    );
-  };
-
-  const attachTypedListener = (es, eventName) => {
-    es.addEventListener(eventName, (evt) => {
-      const parsed = safeJsonParse(evt.data);
-      if (parsed !== null) {
-        ingestMessage({ event: eventName, payload: parsed }, eventName);
-      } else {
-        ingestMessage({ event: eventName, payload: { type: eventName } }, eventName);
-      }
-    });
-  };
-
-  const connect = () => {
-    let es;
-    try {
-      es = new EventSource('/events/task-events');
-    } catch {
-      render();
-      return;
-    }
-
-    es.onmessage = (evt) => ingestMessage(evt.data);
-
-    [
-      'completed',
-      'complete',
-      'done',
-      'success',
-      'failed',
-      'error',
-      'cancelled',
-      'canceled',
-      'timed_out',
-      'timeout',
-      'terminated',
-      'aborted'
-    ].forEach((eventName) => attachTypedListener(es, eventName));
-
-    es.onerror = () => render();
-    window.addEventListener('beforeunload', () => es.close(), { once: true });
-  };
-
-  render();
-  connect();
-  window.setInterval(render, 10000);
-})();
-;/* PHASE62B_LATENCY_HYDRATION */
-(() => {
-  if (typeof window === 'undefined') return;
-  if (window.__PHASE62B_LATENCY_HYDRATION__) return;
-  window.__PHASE62B_LATENCY_HYDRATION__ = true;
-
-  const taskStartTimes = new Map();
-  const seenTerminalEvents = new Set();
-  const recentDurationsMs = [];
-  const maxSamples = 50;
-
-  const startTypes = new Set([
-    'created',
-    'queued',
-    'leased',
-    'started',
-    'running',
-    'in_progress',
-    'delegated',
-    'retrying'
-  ]);
-
   const terminalTypes = new Set([
-    'completed',
-    'complete',
-    'done',
-    'success',
-    'failed',
-    'error',
-    'cancelled',
-    'canceled',
-    'timed_out',
-    'timeout',
-    'terminated',
-    'aborted'
+    ...terminalSuccessTypes,
+    ...terminalFailureTypes
   ]);
 
   const normalize = (value) =>
@@ -799,32 +422,6 @@
       Date.now()
     );
 
-  const metricValueSelectors = [
-    '[data-metric-value]',
-    '[data-value]',
-    '.metric-value',
-    '.telemetry-value',
-    '.stat-value',
-    '.value'
-  ].join(',');
-
-  const containerSelectors = [
-    '.metric-card',
-    '.telemetry-tile',
-    '.metric-tile',
-    '.metrics-tile',
-    '[data-metric-label]',
-    '[data-metric-key]',
-    '#metrics-row > *',
-    '.metrics-row > *',
-    '#metrics-row .card',
-    '.metrics-row .card',
-    '#metrics-row .tile',
-    '.metrics-row .tile'
-  ].join(',');
-
-  const findLatencyValueNode = () => document.getElementById('metric-latency');
-
   const formatLatency = (ms) => {
     if (!Number.isFinite(ms) || ms <= 0) return '—';
     if (ms < 1000) return `${Math.round(ms)}ms`;
@@ -835,19 +432,27 @@
   };
 
   const render = () => {
-    const node = findLatencyValueNode();
-    if (!node) return;
-
-    if (!recentDurationsMs.length) {
-      node.textContent = '—';
-      return;
+    if (tasksNode) {
+      tasksNode.textContent = String(runningTaskIds.size);
     }
 
-    const avg =
-      recentDurationsMs.reduce((sum, value) => sum + value, 0) /
-      recentDurationsMs.length;
+    if (successNode) {
+      const total = completedCount + failedCount;
+      successNode.textContent = total > 0
+        ? `${Math.round((completedCount / total) * 100)}%`
+        : '—';
+    }
 
-    node.textContent = formatLatency(avg);
+    if (latencyNode) {
+      if (!recentDurationsMs.length) {
+        latencyNode.textContent = '—';
+      } else {
+        const avg =
+          recentDurationsMs.reduce((sum, value) => sum + value, 0) /
+          recentDurationsMs.length;
+        latencyNode.textContent = formatLatency(avg);
+      }
+    }
   };
 
   const ingestEvent = (eventName, payload) => {
@@ -860,16 +465,22 @@
       return;
     }
 
-    if (startTypes.has(eventType) && !taskStartTimes.has(taskId)) {
-      taskStartTimes.set(taskId, eventTs);
-      render();
-      return;
+    if (runningTypes.has(eventType)) {
+      runningTaskIds.add(taskId);
+      if (!taskStartTimes.has(taskId)) {
+        taskStartTimes.set(taskId, eventTs);
+      }
     }
 
     if (terminalTypes.has(eventType)) {
+      runningTaskIds.delete(taskId);
+
       const dedupeKey = `${taskId}|${eventType}|${eventTs}`;
       if (!seenTerminalEvents.has(dedupeKey)) {
         seenTerminalEvents.add(dedupeKey);
+
+        if (terminalSuccessTypes.has(eventType)) completedCount += 1;
+        if (terminalFailureTypes.has(eventType)) failedCount += 1;
 
         const startTs = taskStartTimes.get(taskId);
         if (Number.isFinite(startTs)) {
@@ -879,12 +490,9 @@
             recentDurationsMs.splice(0, recentDurationsMs.length - maxSamples);
           }
         }
-
-        taskStartTimes.delete(taskId);
       }
 
-      render();
-      return;
+      taskStartTimes.delete(taskId);
     }
 
     render();
@@ -942,26 +550,9 @@
     es.onmessage = (evt) => ingestMessage(evt.data);
 
     [
-      'created',
-      'queued',
-      'leased',
-      'started',
-      'running',
-      'in_progress',
-      'delegated',
-      'retrying',
-      'completed',
-      'complete',
-      'done',
-      'success',
-      'failed',
-      'error',
-      'cancelled',
-      'canceled',
-      'timed_out',
-      'timeout',
-      'terminated',
-      'aborted'
+      ...runningTypes,
+      ...terminalSuccessTypes,
+      ...terminalFailureTypes
     ].forEach((eventName) => attachTypedListener(es, eventName));
 
     es.onerror = () => render();
