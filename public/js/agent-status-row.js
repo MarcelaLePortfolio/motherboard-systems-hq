@@ -25,6 +25,7 @@
 
   const indicators = {};
   const agentActivityAt = Object.create(null);
+  const agentReportedState = Object.create(null);
   const ACTIVE_WINDOW_MS = 60 * 1000;
   const activeAgentsMetricEl = document.getElementById("metric-agents");
 
@@ -44,6 +45,15 @@
     return null;
   }
 
+  function formatAge(ms) {
+    if (!Number.isFinite(ms) || ms < 0) return "0s";
+    const totalSeconds = Math.floor(ms / 1000);
+    if (totalSeconds < 60) return `${totalSeconds}s`;
+    const totalMinutes = Math.floor(totalSeconds / 60);
+    if (totalMinutes < 60) return `${totalMinutes}m`;
+    return `${Math.floor(totalMinutes / 60)}h`;
+  }
+
   function refreshActiveAgentsMetric() {
     if (!activeAgentsMetricEl) return;
 
@@ -57,6 +67,52 @@
     }
 
     setMetricText(activeAgentsMetricEl, String(count));
+  }
+
+  function getAgentPresentation(agentKey, reportedStatus) {
+    const reported = String(reportedStatus || "").trim();
+    const normalized = reported.toLowerCase();
+    const at = parseTimestamp(agentActivityAt[agentKey]);
+
+    if (at == null) {
+      return {
+        kind: "unknown",
+        label: reported || "unknown",
+      };
+    }
+
+    const ageMs = Math.max(0, Date.now() - at);
+    const ageLabel = formatAge(ageMs);
+
+    if (ageMs > ACTIVE_WINDOW_MS) {
+      return {
+        kind: "stale",
+        label: `stale · ${ageLabel} ago`,
+      };
+    }
+
+    if (
+      normalized.includes("error") ||
+      normalized.includes("failed") ||
+      normalized.includes("offline")
+    ) {
+      return {
+        kind: "error",
+        label: `${reported || "error"} · ${ageLabel} ago`,
+      };
+    }
+
+    if (normalized && normalized !== "unknown") {
+      return {
+        kind: "active",
+        label: `${reported} · ${ageLabel} ago`,
+      };
+    }
+
+    return {
+      kind: "active",
+      label: `active · ${ageLabel} ago`,
+    };
   }
 
   setMetricText(activeAgentsMetricEl, "—");
@@ -108,29 +164,15 @@
   const __DISABLE_OPTIONAL_SSE =
     (typeof window !== "undefined" && window.__DISABLE_OPTIONAL_SSE) === true;
 
-  function classifyStatus(statusString) {
-    if (
-      typeof window !== "undefined" &&
-      window.__PHASE16_SSE_OWNER_STARTED
-    ) {
-      return "unknown";
-    }
-
-    const s = (statusString || "").toLowerCase();
-    if (!s) return "unknown";
-    if (s.includes("error") || s.includes("failed") || s.includes("offline")) return "error";
-    if (s.includes("online") || s.includes("ready") || s.includes("ok")) return "online";
-    if (s.includes("queued") || s.includes("pending") || s.includes("init") || s.includes("running")) return "pending";
-    return "unknown";
-  }
-
   function applyVisual(agentKey, statusString) {
     const indicator = indicators[agentKey];
     if (!indicator) return;
 
-    const kind = classifyStatus(statusString);
-    const finalStatus = statusString || "unknown";
-    indicator.status.textContent = finalStatus;
+    agentReportedState[agentKey] = String(statusString || agentReportedState[agentKey] || "unknown");
+
+    const presentation = getAgentPresentation(agentKey, agentReportedState[agentKey]);
+    const kind = presentation.kind;
+    indicator.status.textContent = presentation.label;
 
     indicator.row.className =
       "w-full min-h-0 rounded-md border px-3 py-1.5 flex items-center justify-between shadow-sm";
@@ -153,7 +195,7 @@
     indicator.status.className = "text-[11px] font-medium truncate";
 
     switch (kind) {
-      case "online":
+      case "active":
         indicator.row.classList.add("bg-gray-900", "border-gray-700");
         indicator.label.classList.add("text-slate-100");
         indicator.status.classList.add("text-emerald-300/90");
@@ -163,7 +205,7 @@
         indicator.label.classList.add("text-slate-100");
         indicator.status.classList.add("text-rose-300/90");
         break;
-      case "pending":
+      case "stale":
         indicator.row.classList.add("bg-gray-900", "border-gray-700");
         indicator.label.classList.add("text-slate-100");
         indicator.status.classList.add("text-amber-200/90");
@@ -175,6 +217,12 @@
         indicator.status.classList.add("text-slate-300/75");
         break;
     }
+  }
+
+  function refreshAgentRows() {
+    Object.keys(indicators).forEach((key) => {
+      applyVisual(key, agentReportedState[key] || "unknown");
+    });
   }
 
   Object.keys(indicators).forEach((key) => applyVisual(key, "unknown"));
