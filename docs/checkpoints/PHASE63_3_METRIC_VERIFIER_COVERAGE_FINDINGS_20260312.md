@@ -3,54 +3,51 @@ Date: 2026-03-12
 
 ## Summary
 
-Initial Phase 63.3 verifier coverage audit findings captured from the verified Phase 63.2 golden baseline.
+Phase 63.3 metric verifier coverage audit confirms that current verification remains presence-oriented rather than semantics-oriented.
 
 ## Current Verifier Reality
 
-Current Phase 63 baseline verification is still effectively presence-first.
+`script/verify-phase63-telemetry-baseline.sh` is a thin entrypoint that delegates to:
 
-Observed verifier path:
+- `scripts/verify-phase62-dashboard-golden.sh`
 
-- `scripts/verify-phase63-telemetry-baseline.sh`
-- delegates to `scripts/verify-phase62-dashboard-golden.sh`
-
-Current passing checks confirm:
+Current verification confirms:
 
 - protected layout contract
 - metric anchor presence
-- protected dashboard structure
-- baseline shell stability
+- phase62b metric binding marker presence
 
-Current checks do **not** yet verify:
+Current verification does **not** confirm:
 
 - metric semantic behavior
-- null / idle behavior
-- error / reset behavior
+- null/idle behavior
+- error/reset behavior
 - calculation-path assumptions
-- live telemetry interpretation outcomes
 
 ## Assessment
 
-Current verifier scope is intentionally narrow and remains appropriate for the protected baseline because it minimizes risk to the structurally locked dashboard.
+This is acceptable for the protected baseline because:
 
-Presence-only verification is not a defect by itself.
+- structure remains the highest-priority invariant
+- metric anchors are protected
+- semantic telemetry audits have now been documented separately in Phase 63.3 checkpoints
 
-It is a coverage boundary.
+However:
+
+- semantic assumptions currently live in audit docs, not executable verification
 
 ## Decision
 
-Do not broaden the verifier yet.
+Phase 63 verification is currently:
 
-First finish the audit corridor and identify the narrowest semantic checks that could be added later without destabilizing the protected baseline.
+presence-only for metric tiles
+plus structural/layout protection
+
+Phase 63.3 is therefore **not closed** yet from this point in the audit chain.
 
 ## Next
 
-Proceed to a narrow planning checkpoint for possible future semantic verifier additions:
-
-- JS corridor evidence only
-- no verifier mutation yet
-- no layout mutation
-- no producer mutation
+Proceed with a narrow audit of which semantic checks could be added safely later without destabilizing the protected baseline.
 
 ## Safety
 
@@ -58,4 +55,4 @@ No layout mutation.
 No ID changes.
 No structural wrappers.
 No producer mutation.
-No verifier mutation in this pass.
+No verifier mutation in this step.
