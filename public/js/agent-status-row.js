@@ -24,6 +24,42 @@
   };
 
   const indicators = {};
+  const agentActivityAt = Object.create(null);
+  const ACTIVE_WINDOW_MS = 60 * 1000;
+  const activeAgentsMetricEl = document.getElementById("metric-agents");
+
+  function setMetricText(el, value) {
+    if (!el) return;
+    el.textContent = value;
+  }
+
+  function parseTimestamp(value) {
+    if (typeof value === "number" && Number.isFinite(value)) return value;
+    if (typeof value === "string" && value.trim()) {
+      const n = Number(value);
+      if (Number.isFinite(n)) return n;
+      const parsed = Date.parse(value);
+      if (Number.isFinite(parsed)) return parsed;
+    }
+    return null;
+  }
+
+  function refreshActiveAgentsMetric() {
+    if (!activeAgentsMetricEl) return;
+
+    const now = Date.now();
+    let count = 0;
+
+    for (const name of AGENTS) {
+      const key = name.toLowerCase();
+      const at = parseTimestamp(agentActivityAt[key]);
+      if (at != null && now - at <= ACTIVE_WINDOW_MS) count += 1;
+    }
+
+    setMetricText(activeAgentsMetricEl, String(count));
+  }
+
+  setMetricText(activeAgentsMetricEl, "—");
 
   const stack = document.createElement("div");
   stack.className = "w-full flex flex-col gap-0.5";
@@ -185,11 +221,23 @@
           value.health ??
           value.mode ??
           "unknown";
+
+        const at =
+          value.at ??
+          value.ts ??
+          value.last_activity ??
+          value.lastActivity ??
+          value.last_seen ??
+          value.lastSeen ??
+          null;
+        if (at != null) agentActivityAt[key] = at;
       }
 
       applyVisual(key, String(status || "unknown"));
       applied = true;
     }
+
+    refreshActiveAgentsMetric();
     return applied;
   }
 
@@ -208,7 +256,18 @@
       data.mode ??
       "unknown";
 
+    const at =
+      data.at ??
+      data.ts ??
+      data.last_activity ??
+      data.lastActivity ??
+      data.last_seen ??
+      data.lastSeen ??
+      null;
+    if (at != null) agentActivityAt[agentName] = at;
+
     applyVisual(agentName, String(status || "unknown"));
+    refreshActiveAgentsMetric();
     return true;
   }
 
@@ -247,5 +306,6 @@
   source.onerror = (err) => {
     console.warn("agent-status-row.js: OPS SSE error:", err);
     Object.keys(indicators).forEach((key) => applyVisual(key, "unknown"));
+    setMetricText(activeAgentsMetricEl, "—");
   };
 })();
