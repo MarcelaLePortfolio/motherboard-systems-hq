@@ -42,14 +42,18 @@ router.get("/api/task-events-sse", (req, res) => {
   const pool = globalThis.__DB_POOL;
   try {
     const o = pool?.options || {};
+    const TASK_EVENTS_DB_URL_RAW = process.env.POSTGRES_URL || process.env.DATABASE_URL || "";
+    const TASK_EVENTS_DB_URL_HAS_PASSWORD = /\/\/[^:]+:[^@]+@/.test(TASK_EVENTS_DB_URL_RAW);
     console.log("[task-events] pool cfg", {
-      host: o.host || null,
-      port: o.port || null,
-      user: o.user || null,
-      database: o.database || null,
-      password_type: typeof o.password,
-      password_len: (o.password == null ? null : String(o.password).length),
-      has_password: (o.password != null),
+      mode: (TASK_EVENTS_DB_URL_RAW ? "url" : "params"),
+      DB_URL_present: Boolean(TASK_EVENTS_DB_URL_RAW),
+      host: o.host ?? null,
+      port: o.port ?? null,
+      user: o.user ?? null,
+      database: o.database ?? null,
+      password_type: (TASK_EVENTS_DB_URL_RAW ? "url-hidden" : typeof o.password),
+      password_len: (TASK_EVENTS_DB_URL_RAW ? "hidden" : (o.password == null ? null : String(o.password).length)),
+      has_password: (TASK_EVENTS_DB_URL_RAW ? TASK_EVENTS_DB_URL_HAS_PASSWORD : (o.password != null)),
     });
   } catch (_) {}
 
