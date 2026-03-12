@@ -389,37 +389,7 @@
     '.metrics-row .tile'
   ].join(',');
 
-  const findTasksRunningValueNode = () => {
-    const containers = Array.from(document.querySelectorAll(containerSelectors));
-
-    for (const el of containers) {
-      const labelSource = [
-        el.getAttribute?.('data-metric-label') || '',
-        el.getAttribute?.('data-metric-key') || '',
-        el.textContent || ''
-      ].join(' ').toLowerCase();
-
-      if (!labelSource.includes('tasks running')) continue;
-
-      const explicitValue = el.querySelector?.(metricValueSelectors);
-      if (explicitValue) return explicitValue;
-      return el;
-    }
-
-    const textNodes = Array.from(document.querySelectorAll('div,span,p,strong,h2,h3,h4'));
-    for (const node of textNodes) {
-      if ((node.textContent || '').trim().toLowerCase() !== 'tasks running') continue;
-
-      const valueNode =
-        node.parentElement?.querySelector?.(metricValueSelectors) ||
-        node.nextElementSibling ||
-        node.parentElement;
-
-      if (valueNode) return valueNode;
-    }
-
-    return null;
-  };
+  const findTasksRunningValueNode = () => document.getElementById('metric-tasks');
 
   const render = () => {
     const node = findTasksRunningValueNode();
@@ -615,37 +585,7 @@
     '.metrics-row .tile'
   ].join(',');
 
-  const findSuccessRateValueNode = () => {
-    const containers = Array.from(document.querySelectorAll(containerSelectors));
-
-    for (const el of containers) {
-      const labelSource = [
-        el.getAttribute?.('data-metric-label') || '',
-        el.getAttribute?.('data-metric-key') || '',
-        el.textContent || ''
-      ].join(' ').toLowerCase();
-
-      if (!labelSource.includes('success rate')) continue;
-
-      const explicitValue = el.querySelector?.(metricValueSelectors);
-      if (explicitValue) return explicitValue;
-      return el;
-    }
-
-    const textNodes = Array.from(document.querySelectorAll('div,span,p,strong,h2,h3,h4'));
-    for (const node of textNodes) {
-      if ((node.textContent || '').trim().toLowerCase() !== 'success rate') continue;
-
-      const valueNode =
-        node.parentElement?.querySelector?.(metricValueSelectors) ||
-        node.nextElementSibling ||
-        node.parentElement;
-
-      if (valueNode) return valueNode;
-    }
-
-    return null;
-  };
+  const findSuccessRateValueNode = () => document.getElementById('metric-success');
 
   const render = () => {
     const node = findSuccessRateValueNode();
@@ -883,37 +823,7 @@
     '.metrics-row .tile'
   ].join(',');
 
-  const findLatencyValueNode = () => {
-    const containers = Array.from(document.querySelectorAll(containerSelectors));
-
-    for (const el of containers) {
-      const labelSource = [
-        el.getAttribute?.('data-metric-label') || '',
-        el.getAttribute?.('data-metric-key') || '',
-        el.textContent || ''
-      ].join(' ').toLowerCase();
-
-      if (!labelSource.includes('latency')) continue;
-
-      const explicitValue = el.querySelector?.(metricValueSelectors);
-      if (explicitValue) return explicitValue;
-      return el;
-    }
-
-    const textNodes = Array.from(document.querySelectorAll('div,span,p,strong,h2,h3,h4'));
-    for (const node of textNodes) {
-      if ((node.textContent || '').trim().toLowerCase() !== 'latency') continue;
-
-      const valueNode =
-        node.parentElement?.querySelector?.(metricValueSelectors) ||
-        node.nextElementSibling ||
-        node.parentElement;
-
-      if (valueNode) return valueNode;
-    }
-
-    return null;
-  };
+  const findLatencyValueNode = () => document.getElementById('metric-latency');
 
   const formatLatency = (ms) => {
     if (!Number.isFinite(ms) || ms <= 0) return '—';
