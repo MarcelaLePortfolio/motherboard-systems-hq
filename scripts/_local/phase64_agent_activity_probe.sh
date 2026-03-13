@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-BASE_URL="${1:-http://localhost:3000}"
+BASE_URL="${1:-http://127.0.0.1:8080}"
 MAX_WAIT_SECONDS="${MAX_WAIT_SECONDS:-45}"
 
 echo "== Phase 64 agent activity probe =="
@@ -16,7 +16,10 @@ echo "-- wait for dashboard readiness"
 deadline=$((SECONDS + MAX_WAIT_SECONDS))
 until curl -fsS "$BASE_URL/dashboard" >/tmp/phase64_dashboard.html 2>/dev/null; do
   if (( SECONDS >= deadline )); then
-    echo "ERROR: dashboard did not become reachable within ${MAX_WAIT_SECONDS}s"
+    echo "ERROR: dashboard did not become reachable within ${MAX_WAIT_SECONDS}s at $BASE_URL"
+    echo
+    echo "-- docker port map"
+    docker compose port dashboard 3000 || true
     echo
     echo "-- recent dashboard logs"
     docker compose logs --tail=120 dashboard || true
