@@ -383,6 +383,95 @@
       font-size: 12px;
     }
 
+    /* Phase 64.3 — equal-height workspace cards with internal telemetry scrolling */
+    #phase61-workspace-grid {
+      align-items: stretch;
+    }
+
+    #phase61-operator-column,
+    #phase61-telemetry-column {
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #operator-workspace-card,
+    #observational-workspace-card {
+      flex: 1 1 auto;
+      height: 100%;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #operator-panels,
+    #observational-panels {
+      flex: 1 1 auto;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #op-panel-chat,
+    #op-panel-delegation,
+    #obs-panel-recent,
+    #obs-panel-activity,
+    #obs-panel-events {
+      flex: 1 1 auto;
+      min-height: 0;
+    }
+
+    #op-panel-chat.active,
+    #op-panel-delegation.active,
+    #obs-panel-recent.active,
+    #obs-panel-activity.active,
+    #obs-panel-events.active {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+
+    #recent-tasks-card,
+    #task-activity-card,
+    #task-events-card {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #recent-tasks-card > [data-phase61-shell="recent"],
+    #task-activity-card > [data-phase61-shell="history"] {
+      flex: 1 1 auto;
+      min-height: 0;
+    }
+
+    #recent-tasks-card [data-phase61-list="recent"],
+    #task-activity-card [data-phase61-list="history"] {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    #mb-task-events-panel-anchor,
+    .phase61-events-fill {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    @media (max-width: 1023px) {
+      #phase61-operator-column,
+      #phase61-telemetry-column,
+      #operator-workspace-card,
+      #observational-workspace-card {
+        height: auto;
+      }
+    }
+
+
     @media (max-width: 920px) {
       .task-events-panel .task-event,
       [data-phase61-task-events] .task-event,
