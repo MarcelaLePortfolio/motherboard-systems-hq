@@ -202,21 +202,22 @@ NO layout restructuring outside the protected container.
     if (!agent) return;
 
     const eventState = String(payload?.state ?? payload?.status ?? payload?.kind ?? "").toLowerCase();
+      const eventToken = eventState.split(".").pop();
     const taskId = payload?.task_id ?? payload?.taskId ?? null;
     const runId = payload?.run_id ?? payload?.runId ?? null;
     const ts = Number(payload?.ts ?? payload?.timestamp ?? Date.now()) || Date.now();
 
     if (
-      eventState === "started" ||
-      eventState === "running" ||
-      eventState === "created" ||
-      eventState === "dispatch" ||
-      eventState === "assigned"
-    ) {
+        eventToken === "started" ||
+        eventToken === "running" ||
+        eventToken === "created" ||
+        eventToken === "dispatch" ||
+        eventToken === "assigned"
+      ) {
       markBusy(agent, {
         taskId,
         runId,
-        lastEvent: eventState || "running",
+        lastEvent: eventToken || eventState || "running",
         source: "task-events",
         updatedAt: ts,
       });
@@ -224,17 +225,17 @@ NO layout restructuring outside the protected container.
     }
 
     if (
-      eventState === "completed" ||
-      eventState === "failed" ||
-      eventState === "cancelled" ||
-      eventState === "canceled" ||
-      eventState === "timeout" ||
-      eventState === "terminal"
-    ) {
+        eventToken === "completed" ||
+        eventToken === "failed" ||
+        eventToken === "cancelled" ||
+        eventToken === "canceled" ||
+        eventToken === "timeout" ||
+        eventToken === "terminal"
+      ) {
       markIdle(agent, {
         clearTask: true,
         clearRun: true,
-        lastEvent: eventState || "idle",
+        lastEvent: eventToken || eventState || "idle",
         source: "task-events",
         updatedAt: ts,
       });

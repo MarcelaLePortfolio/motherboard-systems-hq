@@ -80,7 +80,7 @@ export async function dbDelegateTask(pool, body = {}) {
     pool,
     kind: "task.created",
     task_id: row?.task_id ?? task_id,
-    actor: body?.actor ?? payload.source,
+    actor: body?.actor ?? body?.agent ?? payload.agent ?? payload.source,
     payload: {
       source: payload.source,
       title: row?.title ?? title,
@@ -139,7 +139,7 @@ export async function dbCompleteTask(pool, body = {}) {
     pool,
     kind: k,
     task_id: row.task_id ?? row.id,
-    actor: body?.actor ?? body?.source ?? "api",
+    actor: body?.actor ?? body?.agent ?? payload.agent ?? body?.source ?? "api",
     payload: {
       status: row.status,
       error: body?.error ?? null,

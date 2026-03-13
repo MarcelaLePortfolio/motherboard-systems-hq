@@ -121,7 +121,7 @@ apiTasksRouter.post("/create", async (req, res) => {
       kind: "task.created",
       task_id,
       run_id: b.run_id ?? b.runId ?? null,
-      actor: b.actor ?? "api",
+      actor: b.actor ?? b.agent ?? "api",
       payload: {
         title: b.title ?? null,
         agent: b.agent ?? null,
@@ -161,7 +161,7 @@ apiTasksRouter.post("/complete", async (req, res) => {
       kind: "task.completed",
       task_id,
       run_id: b.run_id ?? b.runId ?? null,
-      actor: b.actor ?? "api",
+      actor: b.actor ?? b.agent ?? "api",
       payload: {
         status: b.status ?? "complete",
         result: b.result ?? null,
@@ -199,7 +199,7 @@ apiTasksRouter.post("/fail", async (req, res) => {
       kind: "task.failed",
       task_id,
       run_id: b.run_id ?? b.runId ?? null,
-      actor: b.actor ?? "api",
+      actor: b.actor ?? b.agent ?? "api",
       payload: {
         status: b.status ?? "failed",
         error: b.error ?? b.err ?? null,
@@ -240,7 +240,7 @@ apiTasksRouter.post("/cancel", async (req, res) => {
       kind: "task.canceled",
       task_id,
       run_id: b.run_id ?? b.runId ?? null,
-      actor: b.actor ?? "api",
+      actor: b.actor ?? b.agent ?? "api",
       payload: {
         reason: b.reason ?? null,
         source: b.source ?? "api",
