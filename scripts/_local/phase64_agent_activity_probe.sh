@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+BASE_URL="${1:-http://localhost:3000}"
+
+echo "== Phase 64 agent activity probe =="
+echo "BASE_URL=$BASE_URL"
+
+echo
+echo "-- layout contract"
+bash scripts/verify-phase62-layout-contract.sh
+
+echo
+echo "-- dashboard html"
+curl -fsS "$BASE_URL/dashboard" >/tmp/phase64_dashboard.html
+
+echo
+echo "-- phase64 loader asset"
+curl -fsS "$BASE_URL/js/phase64_agent_activity_bootstrap.js" >/tmp/phase64_agent_activity_bootstrap.js
+
+echo
+echo "-- phase64 wire asset"
+curl -fsS "$BASE_URL/js/phase64_agent_activity_wire.js" >/tmp/phase64_agent_activity_wire.js
+
+echo
+echo "-- asset presence checks"
+grep -q 'phase64_agent_activity_bootstrap.js' /tmp/phase64_dashboard.html || {
+  echo "ERROR: dashboard is not loading phase64_agent_activity_bootstrap.js"
+  exit 1
+}
+
+grep -q 'window.__PHASE64_LOADER__' /tmp/phase64_agent_activity_bootstrap.js || {
+  echo "ERROR: bootstrap asset contents unexpected"
+  exit 1
+}
+
+grep -q 'window.taskEventsStream' /tmp/phase64_agent_activity_wire.js || {
+  echo "ERROR: agent activity wire asset contents unexpected"
+  exit 1
+}
+
+echo
+echo "-- live http probe"
+bash scripts/_local/phase63_live_http_probe.sh
+
+echo
+echo "PASS: Phase 64 agent activity assets reachable and layout contract still passing"
