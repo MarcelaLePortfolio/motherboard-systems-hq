@@ -2,6 +2,7 @@
 set -euo pipefail
 
 BASE_URL="${1:-http://localhost:3000}"
+MAX_WAIT_SECONDS="${MAX_WAIT_SECONDS:-45}"
 
 echo "== Phase 64 agent activity probe =="
 echo "BASE_URL=$BASE_URL"
@@ -11,8 +12,18 @@ echo "-- layout contract"
 bash scripts/verify-phase62-layout-contract.sh
 
 echo
-echo "-- dashboard html"
-curl -fsS "$BASE_URL/dashboard" >/tmp/phase64_dashboard.html
+echo "-- wait for dashboard readiness"
+deadline=$((SECONDS + MAX_WAIT_SECONDS))
+until curl -fsS "$BASE_URL/dashboard" >/tmp/phase64_dashboard.html 2>/dev/null; do
+  if (( SECONDS >= deadline )); then
+    echo "ERROR: dashboard did not become reachable within ${MAX_WAIT_SECONDS}s"
+    echo
+    echo "-- recent dashboard logs"
+    docker compose logs --tail=120 dashboard || true
+    exit 1
+  fi
+  sleep 2
+done
 
 echo
 echo "-- phase64 loader asset"
@@ -29,7 +40,7 @@ grep -q 'phase64_agent_activity_bootstrap.js' /tmp/phase64_dashboard.html || {
   exit 1
 }
 
-grep -q 'window.__PHASE64_LOADER__' /tmp/phase64_agent_activity_bootstrap.js || {
+grep -q 'window.__PHASE64_AGENT_WIRE_LOADED__' /tmp/phase64_agent_activity_bootstrap.js || {
   echo "ERROR: bootstrap asset contents unexpected"
   exit 1
 }
