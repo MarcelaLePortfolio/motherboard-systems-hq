@@ -108,6 +108,16 @@ NO layout restructuring outside the protected container.
     return document.getElementById("agent-status-container");
   }
 
+  function getActiveAgentCount() {
+    return AGENTS.filter((agent) => computeVisualStatus(agent) === "busy").length;
+  }
+
+  function renderMetricAgents() {
+    const el = document.getElementById("metric-agents");
+    if (!el) return;
+    el.textContent = String(getActiveAgentCount());
+  }
+
   function renderAgentPool() {
     const container = ensureContainer();
     if (!container) return;
@@ -142,6 +152,17 @@ NO layout restructuring outside the protected container.
         }).join("")}
       </div>
     `;
+
+    renderMetricAgents();
+
+    window.__PHASE64_AGENT_ACTIVITY_STATE__ = {
+      activeAgents: getActiveAgentCount(),
+      agents: AGENTS.map((agent) => ({
+        agent,
+        visualState: computeVisualStatus(agent),
+        ...state[agent],
+      })),
+    };
   }
 
   function updateAgent(agent, patch) {
@@ -241,7 +262,14 @@ NO layout restructuring outside the protected container.
         const isTerminal = Boolean(row?.is_terminal);
         const taskStatus = String(row?.task_status ?? "").toLowerCase();
 
-        if (!isTerminal && taskStatus && taskStatus !== "completed" && taskStatus !== "failed" && taskStatus !== "cancelled" && taskStatus !== "canceled") {
+        if (
+          !isTerminal &&
+          taskStatus &&
+          taskStatus !== "completed" &&
+          taskStatus !== "failed" &&
+          taskStatus !== "cancelled" &&
+          taskStatus !== "canceled"
+        ) {
           busyByAgent.set(agent, row);
         }
       }
@@ -266,6 +294,8 @@ NO layout restructuring outside the protected container.
           });
         }
       }
+
+      renderMetricAgents();
     } catch (_) {
       // Preserve last known state on reconcile failure.
     }
@@ -311,6 +341,7 @@ NO layout restructuring outside the protected container.
     if (!container) return;
 
     renderAgentPool();
+    renderMetricAgents();
     wireTaskEvents();
     startPolling();
   }
