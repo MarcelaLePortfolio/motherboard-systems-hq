@@ -85,6 +85,13 @@
     shell.style.gap = "10px";
     shell.style.minHeight = "320px";
 
+    const probeEl = document.createElement("div");
+    probeEl.setAttribute("data-phase61-probe", key);
+    probeEl.style.fontSize = "11px";
+    probeEl.style.opacity = ".55";
+    probeEl.style.padding = "2px 0";
+    probeEl.textContent = `probe:${key}:boot`;
+
     const statusEl = document.createElement("div");
     statusEl.setAttribute("data-phase61-status", key);
     statusEl.style.fontSize = "12px";
@@ -96,10 +103,11 @@
     listEl.style.flexDirection = "column";
     listEl.style.gap = "8px";
 
+    shell.appendChild(probeEl);
     shell.appendChild(statusEl);
     shell.appendChild(listEl);
 
-    return { shell, statusEl, listEl };
+    return { shell, probeEl, statusEl, listEl };
   }
 
   function ensureOwnedCard(card, key) {
@@ -111,9 +119,10 @@
       shell = owned.shell;
     }
 
+    const probeEl = shell.querySelector(`[data-phase61-probe="${key}"]`);
     const statusEl = shell.querySelector(`[data-phase61-status="${key}"]`);
     const listEl = shell.querySelector(`[data-phase61-list="${key}"]`);
-    return { shell, statusEl, listEl };
+    return { shell, probeEl, statusEl, listEl };
   }
 
   function renderEmpty(listEl, message) {
@@ -180,7 +189,7 @@
 
   function historyRowHtml(item) {
     return `
-      <div class="rounded-xl border border-slate-800 bg-slate-950/60 px-3 py-3">
+      <div class="rounded-xl border border-slate-800 bg-slate-950/60 px-3 py-3" data-phase61-history-row="${escapeHtml(item.id)}">
         <div class="flex items-start justify-between gap-3">
           <div class="min-w-0">
             <div class="text-sm font-medium text-slate-100 break-all">${escapeHtml(item.id)}</div>
@@ -204,6 +213,7 @@
     }
 
     const parts = ensureOwnedCard(card, "recent");
+    parts.probeEl.textContent = "probe:recent:loading";
     parts.statusEl.textContent = "Loading recent tasks…";
 
     try {
@@ -213,6 +223,7 @@
       log("recent rows", rows.length);
 
       if (!rows.length) {
+        parts.probeEl.textContent = "probe:recent:empty";
         parts.statusEl.textContent = "No recent tasks returned.";
         renderEmpty(parts.listEl, "No recent tasks yet.");
         return;
@@ -224,9 +235,11 @@
         .map(recentRowHtml)
         .join("");
 
+      parts.probeEl.textContent = `probe:recent:rows:${rows.length}`;
       parts.statusEl.textContent = `Loaded ${rows.length} recent task${rows.length === 1 ? "" : "s"}`;
       card.setAttribute("data-phase61-rendered", String(rows.length));
     } catch (err) {
+      parts.probeEl.textContent = `probe:recent:error:${err.message}`;
       parts.statusEl.textContent = "Recent Tasks unavailable";
       renderEmpty(parts.listEl, `Error loading Recent Tasks: ${err.message}`);
       console.error("[phase61_recent_history_wire] refreshRecent failed", err);
@@ -241,6 +254,7 @@
     }
 
     const parts = ensureOwnedCard(card, "history");
+    parts.probeEl.textContent = "probe:history:loading";
     parts.statusEl.textContent = "Loading task history…";
 
     try {
@@ -249,6 +263,7 @@
       log("history rows", rows.length);
 
       if (!rows.length) {
+        parts.probeEl.textContent = "probe:history:empty";
         parts.statusEl.textContent = "No task history returned.";
         renderEmpty(parts.listEl, "No task history yet.");
         return;
@@ -260,9 +275,11 @@
         .map(historyRowHtml)
         .join("");
 
+      parts.probeEl.textContent = `probe:history:rows:${rows.length}`;
       parts.statusEl.textContent = `Loaded ${rows.length} run${rows.length === 1 ? "" : "s"}`;
       card.setAttribute("data-phase61-rendered", String(rows.length));
     } catch (err) {
+      parts.probeEl.textContent = `probe:history:error:${err.message}`;
       parts.statusEl.textContent = "Task Activity unavailable";
       renderEmpty(parts.listEl, `Error loading Task Activity: ${err.message}`);
       console.error("[phase61_recent_history_wire] refreshHistory failed", err);
