@@ -1,21 +1,124 @@
-(() => {
+(function () {
   const RECENT_ENDPOINT = "/api/tasks?limit=12";
   const HISTORY_ENDPOINT = "/api/runs?limit=20";
-  const REFRESH_MS = 15000;
 
-  function fmtTime(value) {
-    if (value == null || value === "") return "—";
-    const d = new Date(value);
-    if (!Number.isNaN(d.getTime())) return d.toLocaleString();
-    if (typeof value === "number") {
-      const n = new Date(value);
-      if (!Number.isNaN(n.getTime())) return n.toLocaleString();
-    }
-    return String(value);
+  function fetchJson(url) {
+    return fetch(url, {
+      headers: { Accept: "application/json" },
+      cache: "no-store",
+    }).then(async (res) => {
+      const text = await res.text();
+      let data = {};
+      try {
+        data = text ? JSON.parse(text) : {};
+      } catch (err) {
+        throw new Error(`Invalid JSON from ${url}: ${err.message}`);
+      }
+      if (!res.ok) {
+        throw new Error(data?.error || data?.message || `HTTP ${res.status}`);
+      }
+      return data;
+    });
   }
 
-  function esc(value) {
-    return String(value ?? "")
+  function ensureOwnedCard(card, key) {
+    const statusId = `${key}-status`;
+    const listId = `${key}-list`;
+
+    let statusEl = card.querySelector(`#${statusId}`);
+    if (!statusEl) {
+      statusEl = document.createElement("div");
+      statusEl.id = statusId;
+      statusEl.className = "text-xs text-slate-400 mb-3";
+      card.appendChild(statusEl);
+    }
+
+    let listEl = card.querySelector(`#${listId}`);
+    if (!listEl) {
+      listEl = document.createElement("div");
+      listEl.id = listId;
+      listEl.className = "space-y-2";
+      card.appendChild(listEl);
+    }
+
+    return { statusEl, listEl };
+  }
+
+  function renderEmpty(listEl, message) {
+    listEl.innerHTML =
+      `<div class="rounded-xl border border-slate-800 bg-slate-950/60 px-3 py-3 text-sm text-slate-400">${message}</div>`;
+  }
+
+  function normalizeRecentTask(row) {
+    const payload = row?.payload && typeof row.payload === "object" ? row.payload : {};
+    return {
+      id: String(row?.task_id ?? row?.id ?? "unknown"),
+      title: row?.title || payload?.title || "(untitled)",
+      status: String(row?.status || payload?.status || "unknown"),
+      kind: String(row?.kind || payload?.kind || "task"),
+      updated_at: row?.updated_at || row?.created_at || null,
+      agent: payload?.agent || payload?.target || row?.agent || "unassigned",
+    };
+  }
+
+  function recentRowHtml(item) {
+    const when = item.updated_at
+      ? new Date(item.updated_at).toLocaleString()
+      : "unknown time";
+
+    return `
+      <div class="rounded-xl border border-slate-800 bg-slate-950/60 px-3 py-3">
+        <div class="flex items-start justify-between gap-3">
+          <div class="min-w-0">
+            <div class="text-sm font-medium text-slate-100 truncate">${escapeHtml(item.title)}</div>
+            <div class="mt-1 text-xs text-slate-400 break-all">${escapeHtml(item.id)}</div>
+          </div>
+          <div class="shrink-0 text-xs uppercase tracking-wide text-teal-300">${escapeHtml(item.status)}</div>
+        </div>
+        <div class="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-xs text-slate-400">
+          <span>kind: ${escapeHtml(item.kind)}</span>
+          <span>agent: ${escapeHtml(item.agent)}</span>
+          <span>updated: ${escapeHtml(when)}</span>
+        </div>
+      </div>
+    `;
+  }
+
+  function normalizeRun(row) {
+    return {
+      id: String(row?.run_id ?? row?.id ?? "unknown"),
+      status: String(row?.status ?? "unknown"),
+      started_at: row?.started_at || row?.created_at || null,
+      updated_at: row?.updated_at || row?.finished_at || null,
+    };
+  }
+
+  function historyRowHtml(item) {
+    const started = item.started_at
+      ? new Date(item.started_at).toLocaleString()
+      : "unknown";
+    const updated = item.updated_at
+      ? new Date(item.updated_at).toLocaleString()
+      : "unknown";
+
+    return `
+      <div class="rounded-xl border border-slate-800 bg-slate-950/60 px-3 py-3">
+        <div class="flex items-start justify-between gap-3">
+          <div class="min-w-0">
+            <div class="text-sm font-medium text-slate-100 break-all">${escapeHtml(item.id)}</div>
+          </div>
+          <div class="shrink-0 text-xs uppercase tracking-wide text-cyan-300">${escapeHtml(item.status)}</div>
+        </div>
+        <div class="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-xs text-slate-400">
+          <span>started: ${escapeHtml(started)}</span>
+          <span>updated: ${escapeHtml(updated)}</span>
+        </div>
+      </div>
+    `;
+  }
+
+  function escapeHtml(value) {
+    return String(value == null ? "" : value)
       .replace(/&/g, "&amp;")
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;")
@@ -23,138 +126,20 @@
       .replace(/'/g, "&#39;");
   }
 
-  function statusTone(status) {
-    const s = String(status ?? "").toLowerCase();
-    if (/fail|error|cancel|timeout/.test(s)) return "rgba(240,90,90,0.95)";
-    if (/complete|done|success|ok/.test(s)) return "rgba(80,200,120,0.95)";
-    if (/queue|pending|wait|retry|hold/.test(s)) return "rgba(250,204,21,0.95)";
-    if (/run|start|active|lease|progress|created/.test(s)) return "rgba(96,165,250,0.95)";
-    return "rgba(255,255,255,0.18)";
+  function extractRecentRows(payload) {
+    if (Array.isArray(payload)) return payload;
+    if (Array.isArray(payload?.tasks)) return payload.tasks;
+    if (Array.isArray(payload?.rows)) return payload.rows;
+    if (Array.isArray(payload?.data)) return payload.data;
+    return [];
   }
 
-  function renderEmpty(listEl, text) {
-    listEl.innerHTML = `<div style="font-size:12px;opacity:.72;padding:8px 2px;">${esc(text)}</div>`;
-  }
-
-  function renderRows(listEl, rows) {
-    listEl.innerHTML = rows.join("");
-  }
-
-  function normalizeRecentTask(row) {
-    return {
-      title: row.title ?? row.task ?? row.name ?? row.task_id ?? "Untitled task",
-      taskId: row.task_id ?? row.id ?? row.taskId ?? "—",
-      status: row.status ?? row.state ?? "unknown",
-      agent: row.agent ?? row.actor ?? row.owner ?? "—",
-      updatedAt: row.updated_at ?? row.updatedAt ?? row.ts ?? row.created_at ?? row.createdAt ?? null,
-    };
-  }
-
-  function normalizeRun(row) {
-    return {
-      runId: row.run_id ?? row.runId ?? row.id ?? "—",
-      taskId: row.task_id ?? row.taskId ?? row.title ?? "—",
-      status: row.task_status ?? row.status ?? row.state ?? "unknown",
-      agent: row.agent ?? row.actor ?? row.owner ?? row.last_actor ?? "—",
-      updatedAt: row.updated_at ?? row.updatedAt ?? row.last_event_ts ?? row.ts ?? row.created_at ?? row.createdAt ?? null,
-    };
-  }
-
-  function recentRowHtml(item) {
-    return `
-      <div style="position:relative;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;padding:10px 12px 10px 14px;border:1px solid rgba(255,255,255,0.08);border-radius:12px;background:rgba(255,255,255,0.03);">
-        <span aria-hidden="true" style="position:absolute;left:0;top:10px;bottom:10px;width:3px;border-radius:999px;background:${statusTone(item.status)};"></span>
-        <div style="min-width:0;">
-          <div style="font-size:13px;font-weight:600;color:rgba(255,255,255,0.94);word-break:break-word;">${esc(item.title)}</div>
-          <div style="margin-top:4px;font-size:12px;color:rgba(255,255,255,0.7);word-break:break-word;">task=${esc(item.taskId)} • agent=${esc(item.agent)}</div>
-        </div>
-        <div style="text-align:right;">
-          <div style="font-size:12px;font-weight:600;color:rgba(255,255,255,0.88);">${esc(item.status)}</div>
-          <div style="margin-top:4px;font-size:11px;color:rgba(255,255,255,0.6);white-space:nowrap;">${esc(fmtTime(item.updatedAt))}</div>
-        </div>
-      </div>
-    `;
-  }
-
-  function historyRowHtml(item) {
-    return `
-      <div style="position:relative;display:grid;grid-template-columns:minmax(110px,130px) minmax(0,1fr) auto;gap:10px;padding:10px 12px 10px 14px;border:1px solid rgba(255,255,255,0.08);border-radius:12px;background:rgba(255,255,255,0.03);">
-        <span aria-hidden="true" style="position:absolute;left:0;top:10px;bottom:10px;width:3px;border-radius:999px;background:${statusTone(item.status)};"></span>
-        <div style="font-size:11px;color:rgba(255,255,255,0.64);font-variant-numeric:tabular-nums;white-space:nowrap;">${esc(item.runId)}</div>
-        <div style="min-width:0;">
-          <div style="font-size:12px;font-weight:600;color:rgba(255,255,255,0.9);word-break:break-word;">task=${esc(item.taskId)}</div>
-          <div style="margin-top:4px;font-size:12px;color:rgba(255,255,255,0.7);word-break:break-word;">agent=${esc(item.agent)} • status=${esc(item.status)}</div>
-        </div>
-        <div style="font-size:11px;color:rgba(255,255,255,0.6);white-space:nowrap;">${esc(fmtTime(item.updatedAt))}</div>
-      </div>
-    `;
-  }
-
-  function buildOwnedShell(key) {
-    const shell = document.createElement("div");
-    shell.setAttribute("data-phase61-shell", key);
-    shell.style.display = "flex";
-    shell.style.flexDirection = "column";
-    shell.style.gap = "10px";
-    shell.style.minHeight = "320px";
-
-    const statusEl = document.createElement("div");
-    statusEl.setAttribute("data-phase61-status", key);
-    statusEl.style.fontSize = "12px";
-    statusEl.style.opacity = ".72";
-
-    const listEl = document.createElement("div");
-    listEl.setAttribute("data-phase61-list", key);
-    listEl.style.display = "flex";
-    listEl.style.flexDirection = "column";
-    listEl.style.gap = "8px";
-
-    shell.appendChild(statusEl);
-    shell.appendChild(listEl);
-
-    return { shell, statusEl, listEl };
-  }
-
-  function ensureOwnedCard(target, key) {
-    let shell = target.querySelector(`:scope > [data-phase61-shell="${key}"]`);
-    if (shell) {
-      return {
-        shell,
-        statusEl: shell.querySelector(`[data-phase61-status="${key}"]`),
-        listEl: shell.querySelector(`[data-phase61-list="${key}"]`)
-      };
-    }
-
-    target.innerHTML = "";
-    target.removeAttribute("data-empty");
-    target.removeAttribute("data-panel");
-    target.removeAttribute("data-probe");
-    target.querySelectorAll("*").forEach((node) => {
-      node.removeAttribute?.("data-empty");
-      node.removeAttribute?.("data-probe");
-    });
-
-    const owned = buildOwnedShell(key);
-    target.appendChild(owned.shell);
-    return owned;
-  }
-
-  function ensureHistoryCard(panel) {
-    let card = panel.querySelector(':scope > [data-phase61-history-card="true"]');
-    if (card) return card;
-
-    panel.innerHTML = "";
-    card = document.createElement("section");
-    card.className = "obs-surface";
-    card.setAttribute("data-phase61-history-card", "true");
-    panel.appendChild(card);
-    return card;
-  }
-
-  async function fetchJson(url) {
-    const res = await fetch(url, { headers: { Accept: "application/json" } });
-    if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
-    return res.json();
+  function extractHistoryRows(payload) {
+    if (Array.isArray(payload)) return payload;
+    if (Array.isArray(payload?.runs)) return payload.runs;
+    if (Array.isArray(payload?.rows)) return payload.rows;
+    if (Array.isArray(payload?.data)) return payload.data;
+    return [];
   }
 
   async function refreshRecent() {
@@ -166,13 +151,7 @@
 
     try {
       const payload = await fetchJson(RECENT_ENDPOINT);
-      const rows = Array.isArray(payload)
-        ? payload
-        : Array.isArray(payload.rows)
-        ? payload.rows
-        : Array.isArray(payload.tasks)
-        ? payload.tasks
-        : [];
+      const rows = extractRecentRows(payload);
 
       if (!rows.length) {
         statusEl.textContent = "No recent tasks returned.";
@@ -180,32 +159,31 @@
         return;
       }
 
-      const html = rows.slice(0, 12).map(normalizeRecentTask).map(recentRowHtml);
+      const html = rows
+        .slice(0, 12)
+        .map(normalizeRecentTask)
+        .map(recentRowHtml)
+        .join("");
+
+      listEl.innerHTML = html;
       statusEl.textContent = `Loaded ${rows.length} recent task${rows.length === 1 ? "" : "s"}`;
-      renderRows(listEl, html);
     } catch (err) {
       statusEl.textContent = "Recent Tasks unavailable";
       renderEmpty(listEl, `Error loading Recent Tasks: ${err.message}`);
+      console.error("[phase61_recent_history_wire] refreshRecent failed", err);
     }
   }
 
   async function refreshHistory() {
-    const panel = document.getElementById("obs-panel-activity");
-    if (!panel) return;
+    const card = document.getElementById("task-activity-card");
+    if (!card) return;
 
-    const card = ensureHistoryCard(panel);
     const { statusEl, listEl } = ensureOwnedCard(card, "history");
     statusEl.textContent = "Loading task history…";
 
     try {
       const payload = await fetchJson(HISTORY_ENDPOINT);
-      const rows = Array.isArray(payload)
-        ? payload
-        : Array.isArray(payload.rows)
-        ? payload.rows
-        : Array.isArray(payload.runs)
-        ? payload.runs
-        : [];
+      const rows = extractHistoryRows(payload);
 
       if (!rows.length) {
         statusEl.textContent = "No task history returned.";
@@ -213,12 +191,18 @@
         return;
       }
 
-      const html = rows.slice(0, 20).map(normalizeRun).map(historyRowHtml);
-      statusEl.textContent = `Loaded ${rows.length} history row${rows.length === 1 ? "" : "s"}`;
-      renderRows(listEl, html);
+      const html = rows
+        .slice(0, 12)
+        .map(normalizeRun)
+        .map(historyRowHtml)
+        .join("");
+
+      listEl.innerHTML = html;
+      statusEl.textContent = `Loaded ${rows.length} run${rows.length === 1 ? "" : "s"}`;
     } catch (err) {
-      statusEl.textContent = "Task History unavailable";
-      renderEmpty(listEl, `Error loading Task History: ${err.message}`);
+      statusEl.textContent = "Task Activity unavailable";
+      renderEmpty(listEl, `Error loading Task Activity: ${err.message}`);
+      console.error("[phase61_recent_history_wire] refreshHistory failed", err);
     }
   }
 
@@ -226,14 +210,17 @@
     await Promise.allSettled([refreshRecent(), refreshHistory()]);
   }
 
+  function debounceRefresh() {
+    if (window.__PHASE61_RECENT_HISTORY_DEBOUNCE) {
+      window.clearTimeout(window.__PHASE61_RECENT_HISTORY_DEBOUNCE);
+    }
+    window.__PHASE61_RECENT_HISTORY_DEBOUNCE = window.setTimeout(refreshAll, 400);
+  }
+
   function boot() {
     refreshAll();
-    setInterval(refreshAll, REFRESH_MS);
-
-    window.addEventListener("mb.task.event", () => {
-      window.clearTimeout(window.__PHASE61_RECENT_HISTORY_DEBOUNCE);
-      window.__PHASE61_RECENT_HISTORY_DEBOUNCE = window.setTimeout(refreshAll, 400);
-    });
+    window.addEventListener("mb.task.event", debounceRefresh);
+    window.setInterval(refreshAll, 10000);
   }
 
   if (document.readyState === "loading") {
