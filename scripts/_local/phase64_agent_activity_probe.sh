@@ -29,6 +29,10 @@ until curl -fsS "$BASE_URL/dashboard" >/tmp/phase64_dashboard.html 2>/dev/null; 
 done
 
 echo
+echo "-- existing loader chain asset"
+curl -fsS "$BASE_URL/js/phase61_recent_history_wire.js" >/tmp/phase61_recent_history_wire.js
+
+echo
 echo "-- phase64 loader asset"
 curl -fsS "$BASE_URL/js/phase64_agent_activity_bootstrap.js" >/tmp/phase64_agent_activity_bootstrap.js
 
@@ -38,8 +42,8 @@ curl -fsS "$BASE_URL/js/phase64_agent_activity_wire.js" >/tmp/phase64_agent_acti
 
 echo
 echo "-- asset presence checks"
-grep -q 'phase64_agent_activity_bootstrap.js' /tmp/phase64_dashboard.html || {
-  echo "ERROR: dashboard is not loading phase64_agent_activity_bootstrap.js"
+grep -q 'phase64_agent_activity_bootstrap.js' /tmp/phase61_recent_history_wire.js || {
+  echo "ERROR: phase61_recent_history_wire.js is not chaining phase64_agent_activity_bootstrap.js"
   exit 1
 }
 
@@ -58,4 +62,4 @@ echo "-- live http probe"
 bash scripts/_local/phase63_live_http_probe.sh
 
 echo
-echo "PASS: Phase 64 agent activity assets reachable and layout contract still passing"
+echo "PASS: Phase 64 agent activity assets reachable, chained, and layout contract still passing"
