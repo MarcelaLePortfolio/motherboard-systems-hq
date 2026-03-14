@@ -44,7 +44,7 @@ echo "PASS broken recovery hook absent"
 
 echo
 echo "== task-events mount uniqueness =="
-COUNT="$(grep -c 'mb-task-events-panel-anchor' "$HTML")"
+COUNT="$(grep -o 'id="mb-task-events-panel-anchor"' "$HTML" | wc -l | tr -d ' ')"
 if [ "$COUNT" -ne 1 ]; then
   echo "FAIL task-events mounted $COUNT times"
   exit 22
