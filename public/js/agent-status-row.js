@@ -364,7 +364,7 @@
   window.__PHASE63_SHARED_TASK_EVENTS_METRICS__ = true;
 
   const tasksNode = document.getElementById('metric-tasks');
-  const successNode = document.getElementById('metric-success') || document.getElementById('metric-success-rate');
+  const successNode = document.getElementById('metric-success');
   const latencyNode = document.getElementById('metric-latency');
 
   const runningTaskIds = new Set();
@@ -586,84 +586,28 @@
     });
   };
 
-    const bootstrapFromTasks = async () => {
-      try {
-        const res = await fetch('/api/tasks?limit=200', {
-          headers: { Accept: 'application/json' },
-          cache: 'no-store'
-        });
-
-        if (!res.ok) {
-          render();
-          return;
-        }
-
-        const parsed = await res.json().catch(() => null);
-        const rows = Array.isArray(parsed)
-          ? parsed
-          : Array.isArray(parsed?.tasks)
-            ? parsed.tasks
-            : Array.isArray(parsed?.rows)
-              ? parsed.rows
-              : [];
-
-        rows.forEach((row) => {
-          const taskId = getTaskId(row);
-          const status = normalize(
-            row?.status ??
-            row?.task_status ??
-            row?.state ??
-            row?.payload?.status
-          );
-
-          if (!taskId || !status) return;
-
-          if (runningTypes.has(status)) {
-            runningTaskIds.add(taskId);
-            if (!taskStartTimes.has(taskId)) {
-              taskStartTimes.set(taskId, getEventTs(row));
-            }
-            return;
-          }
-
-          if (terminalSuccessTypes.has(status)) {
-            completedCount += 1;
-            return;
-          }
-
-          if (terminalFailureTypes.has(status)) {
-            failedCount += 1;
-          }
-        });
-      } catch {
-        // fail closed to live SSE only
-      }
-
+  const connect = () => {
+    let es;
+    try {
+      es = new EventSource('/events/task-events');
+    } catch {
       render();
-    };
+      return;
+    }
 
-    const connect = () => {
-      let es;
-      try {
-        es = new EventSource('/events/task-events');
-      } catch {
-        render();
-        return;
-      }
+    es.onmessage = (evt) => ingestMessage(evt.data);
 
-      es.onmessage = (evt) => ingestMessage(evt.data);
+    [
+      ...runningTypes,
+      ...terminalSuccessTypes,
+      ...terminalFailureTypes
+    ].forEach((eventName) => attachTypedListener(es, eventName));
 
-      [
-        ...runningTypes,
-        ...terminalSuccessTypes,
-        ...terminalFailureTypes
-      ].forEach((eventName) => attachTypedListener(es, eventName));
+    es.onerror = () => render();
+    window.addEventListener('beforeunload', () => es.close(), { once: true });
+  };
 
-      es.onerror = () => render();
-      window.addEventListener('beforeunload', () => es.close(), { once: true });
-    };
-
-    render();
-    bootstrapFromTasks().finally(() => connect());
-    window.setInterval(render, 10000);
+  render();
+  connect();
+  window.setInterval(render, 10000);
 })();

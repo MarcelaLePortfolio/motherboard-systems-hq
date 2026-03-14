@@ -383,127 +383,6 @@
       font-size: 12px;
     }
 
-    /* Phase 64.3 telemetry fixed-height scroll enforcement */
-    #phase61-workspace-grid {
-      align-items: stretch;
-    }
-
-    #phase61-operator-column,
-    #phase61-telemetry-column {
-      display: flex;
-      flex-direction: column;
-      min-height: 0;
-    }
-
-    #operator-workspace-card,
-    #observational-workspace-card {
-      display: flex;
-      flex-direction: column;
-      flex: 1 1 auto;
-      min-height: 0;
-      height: 100%;
-    }
-
-    #operator-panels,
-    #observational-panels {
-      position: relative;
-      flex: 1 1 auto;
-      min-height: 0;
-      height: 100%;
-    }
-
-    #operator-panels > [data-workspace-panel],
-    #observational-panels > [data-workspace-panel] {
-      min-height: 0;
-    }
-
-    #operator-panels > [data-workspace-panel][hidden],
-    #observational-panels > [data-workspace-panel][hidden] {
-      display: none !important;
-    }
-
-    #operator-panels > [data-workspace-panel].active:not([hidden]),
-    #observational-panels > [data-workspace-panel].active:not([hidden]) {
-      display: flex !important;
-      flex-direction: column;
-      flex: 1 1 auto;
-      min-height: 0;
-      height: 100%;
-    }
-
-    #recent-tasks-card,
-    #task-activity-card,
-    #task-events-card {
-      display: flex;
-      flex-direction: column;
-      flex: 1 1 auto;
-      min-height: 0;
-      height: 100%;
-    }
-
-    #recent-tasks-card,
-    #task-activity-card {
-      overflow: hidden;
-    }
-
-    [data-phase61-shell="recent"],
-    [data-phase61-shell="history"] {
-      display: flex;
-      flex-direction: column;
-      flex: 1 1 auto;
-      min-height: 0;
-      height: 100%;
-      overflow: hidden;
-    }
-
-    [data-phase61-list="recent"],
-    [data-phase61-list="history"] {
-      flex: 1 1 auto;
-      min-height: 0;
-      overflow-y: auto;
-      overflow-x: hidden;
-      padding-right: 4px;
-    }
-
-    #task-events-card,
-    #mb-task-events-panel-anchor {
-      flex: 1 1 auto;
-      min-height: 0;
-      height: 100%;
-    }
-
-    #mb-task-events-panel-anchor {
-      overflow: hidden;
-    }
-
-    @media (max-width: 1023px) {
-      #operator-workspace-card,
-      #observational-workspace-card,
-      #operator-panels,
-      #observational-panels,
-      #operator-panels > [data-workspace-panel].active:not([hidden]),
-      #observational-panels > [data-workspace-panel].active:not([hidden]),
-      #recent-tasks-card,
-      #task-activity-card,
-      #task-events-card,
-      #mb-task-events-panel-anchor,
-      [data-phase61-shell="recent"],
-      [data-phase61-shell="history"],
-      [data-phase61-list="recent"],
-      [data-phase61-list="history"] {
-        height: auto;
-        min-height: auto;
-        max-height: none;
-      }
-
-      [data-phase61-list="recent"],
-      [data-phase61-list="history"],
-      #mb-task-events-panel-anchor {
-        overflow: visible;
-      }
-    }
-    /* /Phase 64.3 telemetry fixed-height scroll enforcement */
-
     @media (max-width: 920px) {
       .task-events-panel .task-event,
       [data-phase61-task-events] .task-event,
@@ -743,9 +622,7 @@
   
   <script src="js/phase61_tabs_workspace.js"></script>
 
-    <script src="js/phase61_recent_history_wire.js?v=phase64_3_minimal_fix_20260314a"></script>
-  <script src="js/phase64_agent_activity_bootstrap.js"></script>
-  <script src="js/phase64_agent_activity_debug.js"></script>
+    <script src="js/phase61_recent_history_wire.js"></script>
   <script src="bundle.js"></script>
   <script src="js/phase60_live_clock.js"></script>
   <script id="phase61-task-events-polish-script">

@@ -317,16 +317,3 @@
     boot();
   }
 })();
-
-/* Phase 64 loader — behavior only */
-(function(){
-  if(!window.__PHASE64_LOADER__){
-    window.__PHASE64_LOADER__=true;
-
-    const s=document.createElement("script");
-    s.src="/js/phase64_agent_activity_bootstrap.js";
-    s.defer=true;
-
-    document.head.appendChild(s);
-  }
-})();
