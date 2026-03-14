@@ -385,10 +385,6 @@
 
     
     /* Phase 64.3 telemetry fixed-height scroll enforcement */
-    #phase61-workspace-shell {
-      min-height: 0;
-    }
-
     #phase61-workspace-grid {
       align-items: stretch;
     }
@@ -402,62 +398,70 @@
 
     #operator-workspace-card,
     #observational-workspace-card {
-      height: clamp(520px, 62vh, 720px);
-      min-height: clamp(520px, 62vh, 720px);
-      max-height: clamp(520px, 62vh, 720px);
-      overflow: hidden;
+      min-height: 0;
       display: flex;
       flex-direction: column;
     }
 
     #operator-panels,
-    #observational-panels,
-    #op-panel-chat,
-    #op-panel-delegation,
-    #obs-panel-recent,
-    #obs-panel-activity,
-    #obs-panel-events {
+    #observational-panels {
       flex: 1 1 auto;
       min-height: 0;
-      height: 100%;
-      overflow: hidden;
+      position: relative;
+    }
+
+    #operator-panels > [data-workspace-panel],
+    #observational-panels > [data-workspace-panel] {
+      min-height: 0;
+    }
+
+    #operator-panels > [data-workspace-panel][hidden],
+    #observational-panels > [data-workspace-panel][hidden] {
+      display: none !important;
+    }
+
+    #operator-panels > [data-workspace-panel].active:not([hidden]),
+    #observational-panels > [data-workspace-panel].active:not([hidden]) {
       display: flex;
       flex-direction: column;
+      flex: 1 1 auto;
+      min-height: 0;
+    }
+
+    #op-panel-chat.active:not([hidden]),
+    #op-panel-delegation.active:not([hidden]),
+    #obs-panel-recent.active:not([hidden]),
+    #obs-panel-activity.active:not([hidden]),
+    #obs-panel-events.active:not([hidden]) {
+      display: flex;
+      flex-direction: column;
+      flex: 1 1 auto;
+      min-height: 0;
     }
 
     #recent-tasks-card,
     #task-activity-card,
     #task-events-card {
-      flex: 1 1 auto;
-      min-height: 0;
-      height: 100%;
-      overflow: hidden;
       display: flex;
       flex-direction: column;
-    }
-
-    #tasks-widget,
-    #task-activity-graph,
-    #mb-task-events-panel-anchor {
+      flex: 1 1 auto;
       min-height: 0;
+      overflow: hidden;
     }
 
     [data-phase61-shell="recent"],
     [data-phase61-shell="history"] {
-      flex: 1 1 auto;
-      min-height: 0;
-      height: 100%;
-      overflow: hidden;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow: hidden;
     }
 
     [data-phase61-list="recent"],
     [data-phase61-list="history"] {
       flex: 1 1 auto;
       min-height: 0;
-      height: 100%;
       overflow-y: auto;
       overflow-x: hidden;
       padding-right: 4px;
@@ -465,19 +469,14 @@
 
     @media (max-width: 1023px) {
       #operator-workspace-card,
-      #observational-workspace-card {
-        height: auto;
-        min-height: auto;
-        max-height: none;
-      }
-
-      #operator-panels,
-      #observational-panels,
-      #op-panel-chat,
-      #op-panel-delegation,
-      #obs-panel-recent,
-      #obs-panel-activity,
-      #obs-panel-events,
+      #observational-workspace-card,
+      #operator-panels > [data-workspace-panel].active:not([hidden]),
+      #observational-panels > [data-workspace-panel].active:not([hidden]),
+      #op-panel-chat.active:not([hidden]),
+      #op-panel-delegation.active:not([hidden]),
+      #obs-panel-recent.active:not([hidden]),
+      #obs-panel-activity.active:not([hidden]),
+      #obs-panel-events.active:not([hidden]),
       #recent-tasks-card,
       #task-activity-card,
       #task-events-card,
@@ -487,6 +486,11 @@
       [data-phase61-list="history"] {
         height: auto;
         min-height: auto;
+        max-height: none;
+      }
+
+      [data-phase61-list="recent"],
+      [data-phase61-list="history"] {
         overflow: visible;
       }
     }
