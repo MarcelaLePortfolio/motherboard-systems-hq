@@ -7,6 +7,7 @@
   let reconnectTimer = null;
   let owned = null;
   let rows = [];
+  let observer = null;
 
   function escapeHtml(value) {
     return String(value ?? "")
@@ -22,7 +23,11 @@
     const n = Number(value);
     const d = Number.isFinite(n) ? new Date(n) : new Date(value);
     if (Number.isNaN(d.getTime())) return String(value);
-    return d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+    return d.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    });
   }
 
   function statusTone(text) {
@@ -30,201 +35,275 @@
     if (/(fail|error|cancel|timeout|denied)/.test(t)) return "#f87171";
     if (/(complete|completed|success|done)/.test(t)) return "#4ade80";
     if (/(queue|queued|wait|pending|hold|sleep)/.test(t)) return "#fbbf24";
-    if (/(run|start|resume|lease|dispatch|ack|progress|heartbeat|active)/.test(t)) return "#60a5fa";
+    if (/(run|start|resume|lease|dispatch|ack|progress|heartbeat|active|created)/.test(t)) return "#60a5fa";
     return "#cbd5e1";
   }
 
   function classifyEvent(payload) {
     const text = JSON.stringify(payload || {}).toLowerCase();
-    return /(task|run|lease|dispatch|heartbeat|queue|queued|start|started|complete|completed|cancel|cancelled|failed|error|progress)/.test(text);
+    return /(task|run|lease|dispatch|heartbeat|queue|queued|start|started|create|created|complete|completed|cancel|cancelled|failed|error|progress)/.test(text);
   }
 
-  function normalize(payload) {
-    const p = payload && typeof payload === "object" ? payload : {};
-    const event = p.payload && typeof p.payload === "object" ? p.payload : p;
-
+  function normalizeEvent(payload) {
     const kind =
-      p.kind ||
-      p.event ||
-      event.kind ||
-      event.event ||
-      event.type ||
-      event.status ||
-      "task.event";
+      payload?.kind ||
+      payload?.event ||
+      payload?.type ||
+      payload?.name ||
+      "event";
+
+    const ts =
+      payload?.ts ||
+      payload?.timestamp ||
+      payload?.created_at ||
+      payload?.updated_at ||
+      Date.now();
 
     const taskId =
-      event.task_id ||
-      event.taskId ||
-      p.task_id ||
-      p.taskId ||
-      "—";
-
-    const runId =
-      event.run_id ||
-      event.runId ||
-      p.run_id ||
-      p.runId ||
+      payload?.task_id ||
+      payload?.taskId ||
+      payload?.task ||
+      payload?.id ||
       "—";
 
     const actor =
-      event.actor ||
-      event.agent ||
-      event.owner ||
-      p.actor ||
-      p.agent ||
+      payload?.actor ||
+      payload?.agent ||
+      payload?.owner ||
+      payload?.source ||
       "system";
 
-    const ts =
-      event.ts ||
-      event.updated_at ||
-      event.updatedAt ||
-      event.created_at ||
-      event.createdAt ||
-      p.ts ||
-      Date.now();
+    const status =
+      payload?.status ||
+      payload?.state ||
+      payload?.result ||
+      kind;
 
-    const detailParts = [];
-    if (taskId && taskId !== "—") detailParts.push(`task=${taskId}`);
-    if (runId && runId !== "—") detailParts.push(`run=${runId}`);
-    if (actor) detailParts.push(`actor=${actor}`);
-
-    return {
-      id: `${ts}:${kind}:${taskId}:${runId}:${Math.random().toString(36).slice(2, 8)}`,
-      kind: String(kind),
-      ts,
-      detail: detailParts.join(" · "),
-    };
+    return { kind, ts, taskId, actor, status };
   }
 
-  function ensureOwnedPanel() {
-    const anchor = document.getElementById("mb-task-events-panel-anchor");
-    if (!anchor) return null;
+  function getMountHost() {
+    return (
+      document.getElementById("mb-task-events-panel-anchor") ||
+      document.getElementById("task-events-card") ||
+      document.querySelector("#obs-panel-events .task-events-panel") ||
+      document.querySelector("#obs-panel-events [data-phase61-task-events]") ||
+      document.querySelector("#obs-panel-events [data-tab-panel='task-events']") ||
+      document.querySelector("#obs-panel-events")
+    );
+  }
 
-    if (owned && owned.anchor === anchor) return owned;
+  function eventRowHtml(item) {
+    return `
+      <div
+        data-phase64-task-event-row="1"
+        style="
+          display:grid;
+          grid-template-columns: 160px 180px minmax(0,1fr);
+          gap:14px;
+          align-items:start;
+          padding:12px 14px;
+          border-top:1px solid rgba(148,163,184,.12);
+          font-size:12px;
+          line-height:1.35;
+        "
+      >
+        <div style="color:#94a3b8; white-space:nowrap;">${escapeHtml(formatTs(item.ts))}</div>
+        <div style="color:${statusTone(item.status)}; font-weight:600; white-space:nowrap;">${escapeHtml(item.kind)}</div>
+        <div style="min-width:0; color:#cbd5e1; overflow-wrap:anywhere;">
+          task=${escapeHtml(item.taskId)} · actor=${escapeHtml(item.actor)}
+        </div>
+      </div>
+    `;
+  }
 
-    anchor.innerHTML = "";
+  function applyHostContract(host) {
+    host.style.display = "flex";
+    host.style.flexDirection = "column";
+    host.style.flex = "1 1 auto";
+    host.style.minHeight = "0";
+    host.style.height = "100%";
+    host.style.width = "100%";
+    host.style.overflow = "hidden";
+    host.style.maxWidth = "100%";
+    host.style.position = "relative";
+    host.style.inset = "auto";
+    host.style.margin = "0";
+    host.style.transform = "none";
+  }
 
-    const shell = document.createElement("div");
-    shell.setAttribute("data-phase64-task-events-recovery", "true");
-    shell.style.display = "flex";
-    shell.style.flexDirection = "column";
-    shell.style.height = "100%";
-    shell.style.minHeight = "0";
-    shell.style.overflow = "hidden";
-    shell.style.gap = "10px";
+  function buildOwnedPanel() {
+    const root = document.createElement("section");
+    root.setAttribute("data-phase64-task-events-root", "1");
+    root.style.display = "flex";
+    root.style.flexDirection = "column";
+    root.style.flex = "1 1 auto";
+    root.style.minHeight = "0";
+    root.style.height = "100%";
+    root.style.width = "100%";
+    root.style.overflow = "hidden";
+    root.style.border = "1px solid rgba(148,163,184,.16)";
+    root.style.borderRadius = "20px";
+    root.style.background = "rgba(2,6,23,.72)";
+    root.style.backdropFilter = "blur(6px)";
+
+    const header = document.createElement("div");
+    header.style.display = "flex";
+    header.style.alignItems = "center";
+    header.style.justifyContent = "space-between";
+    header.style.gap = "12px";
+    header.style.padding = "16px 18px";
+    header.style.borderBottom = "1px solid rgba(148,163,184,.12)";
+
+    const title = document.createElement("div");
+    title.textContent = "Task Events";
+    title.style.fontSize = "14px";
+    title.style.fontWeight = "600";
+    title.style.letterSpacing = ".02em";
+    title.style.color = "#e5e7eb";
 
     const status = document.createElement("div");
-    status.setAttribute("data-phase64-task-events-status", "true");
+    status.setAttribute("data-phase64-task-events-status", "1");
     status.style.fontSize = "12px";
-    status.style.opacity = ".72";
-    status.textContent = "Task Events recovery stream booting…";
+    status.style.color = "#94a3b8";
+    status.textContent = "Connecting…";
 
-    const list = document.createElement("div");
-    list.setAttribute("data-phase64-task-events-list", "true");
-    list.style.display = "flex";
-    list.style.flexDirection = "column";
-    list.style.gap = "8px";
-    list.style.flex = "1 1 auto";
-    list.style.minHeight = "0";
-    list.style.overflowY = "auto";
-    list.style.overflowX = "hidden";
-    list.style.paddingRight = "4px";
+    const body = document.createElement("div");
+    body.setAttribute("data-phase64-task-events-body", "1");
+    body.style.flex = "1 1 auto";
+    body.style.minHeight = "0";
+    body.style.height = "100%";
+    body.style.overflowY = "auto";
+    body.style.overflowX = "hidden";
 
-    shell.appendChild(status);
-    shell.appendChild(list);
-    anchor.appendChild(shell);
+    header.appendChild(title);
+    header.appendChild(status);
+    root.appendChild(header);
+    root.appendChild(body);
 
-    owned = { anchor, shell, status, list };
-    render();
+    return { root, status, body };
+  }
+
+  function ensurePanel() {
+    const host = getMountHost();
+    if (!host) return null;
+
+    applyHostContract(host);
+
+    let root = host.querySelector(":scope > [data-phase64-task-events-root='1']");
+    if (!root) {
+      host.innerHTML = "";
+      owned = buildOwnedPanel();
+      host.appendChild(owned.root);
+      root = owned.root;
+    }
+
+    if (!owned || owned.root !== root) {
+      owned = {
+        root,
+        status: root.querySelector("[data-phase64-task-events-status]"),
+        body: root.querySelector("[data-phase64-task-events-body]"),
+      };
+    }
+
     return owned;
   }
 
   function render() {
-    const panel = ensureOwnedPanel();
+    const panel = ensurePanel();
     if (!panel) return;
 
     if (!rows.length) {
-      panel.list.innerHTML =
-        '<div class="rounded-xl border border-slate-800 bg-slate-950/60 px-3 py-3 text-sm text-slate-400">Waiting for live task events…</div>';
+      panel.status.textContent = es ? "Live" : "Connecting…";
+      panel.body.innerHTML = `
+        <div style="padding:18px; color:#e5e7eb; font-size:13px;">
+          Waiting for events…
+        </div>
+      `;
       return;
     }
 
-    panel.list.innerHTML = rows
-      .map(
-        (row) => `
-        <div class="rounded-xl border border-slate-800 bg-slate-950/60 px-3 py-3" data-phase64-task-event-row="${escapeHtml(row.id)}">
-          <div class="flex items-start justify-between gap-3">
-            <div class="min-w-0">
-              <div class="text-sm font-medium text-slate-100 break-all">${escapeHtml(row.kind)}</div>
-              <div class="mt-1 text-xs text-slate-400 break-all">${escapeHtml(row.detail || "—")}</div>
-            </div>
-            <div class="shrink-0 text-xs uppercase tracking-wide" style="color:${statusTone(row.kind)}">${escapeHtml(formatTs(row.ts))}</div>
-          </div>
-        </div>`
-      )
-      .join("");
+    panel.status.textContent = es ? `Live · ${rows.length} buffered` : "Reconnecting…";
+    panel.body.innerHTML = rows.map(eventRowHtml).join("");
   }
 
-  function setStatus(text) {
-    const panel = ensureOwnedPanel();
-    if (!panel) return;
-    panel.status.textContent = text;
-  }
-
-  function pushRow(payload) {
+  function pushEvent(payload) {
     if (!classifyEvent(payload)) return;
-    rows.unshift(normalize(payload));
-    rows = rows.slice(0, MAX_ROWS);
-    setStatus(`Live task events connected · showing ${rows.length} event${rows.length === 1 ? "" : "s"}`);
+    rows.unshift(normalizeEvent(payload));
+    if (rows.length > MAX_ROWS) rows.length = MAX_ROWS;
     render();
   }
 
+  function scheduleReconnect() {
+    if (reconnectTimer) return;
+    reconnectTimer = window.setTimeout(() => {
+      reconnectTimer = null;
+      connect();
+    }, RETRY_MS);
+  }
+
   function connect() {
-    window.clearTimeout(reconnectTimer);
+    const panel = ensurePanel();
+    if (panel) panel.status.textContent = "Connecting…";
+
     if (es) {
       es.close();
       es = null;
     }
 
-    ensureOwnedPanel();
-    setStatus("Connecting live task events…");
+    const next = new EventSource(OPS_URL);
+    es = next;
 
-    es = new EventSource(OPS_URL);
-
-    es.onopen = () => {
-      setStatus(`Live task events connected · showing ${rows.length} event${rows.length === 1 ? "" : "s"}`);
+    next.onopen = () => {
+      const p = ensurePanel();
+      if (p) p.status.textContent = rows.length ? `Live · ${rows.length} buffered` : "Live";
     };
 
-    es.onmessage = (evt) => {
-      let payload = null;
+    next.onmessage = (event) => {
       try {
-        payload = JSON.parse(evt.data);
-      } catch {
-        payload = { raw: evt.data, kind: "ops.message" };
+        const payload = JSON.parse(event.data);
+        pushEvent(payload);
+      } catch (_err) {
+        // ignore malformed frames
       }
-      pushRow(payload);
     };
 
-    es.onerror = () => {
-      setStatus("Task Events stream disconnected · retrying…");
+    next.onerror = () => {
+      const p = ensurePanel();
+      if (p) p.status.textContent = "Reconnecting…";
       if (es) {
         es.close();
         es = null;
       }
-      window.clearTimeout(reconnectTimer);
-      reconnectTimer = window.setTimeout(connect, RETRY_MS);
+      scheduleReconnect();
     };
   }
 
+  function installObserver() {
+    if (observer) observer.disconnect();
+    observer = new MutationObserver(() => {
+      ensurePanel();
+      render();
+    });
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ["class", "hidden", "style"],
+    });
+  }
+
   function start() {
-    ensureOwnedPanel();
+    ensurePanel();
+    render();
     connect();
+    installObserver();
+    window.setInterval(render, 1500);
   }
 
   window.__PHASE64_TASK_EVENTS_RECOVERY__ = {
-    start,
     reconnect: connect,
-    getRows: () => rows.slice(),
+    rows: () => rows.length,
   };
 
   if (document.readyState === "loading") {
