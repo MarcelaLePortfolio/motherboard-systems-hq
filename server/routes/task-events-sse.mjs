@@ -14,64 +14,7 @@ function _sleep(ms) {
   return new Promise((r) => setTimeout(r, ms));
 }
 
-function _sseWrite(res, payload = {}) {
-  if (!res || res.writableEnded) return;
-
-  const normalized =
-    payload && typeof payload === "object" && !Array.isArray(payload)
-      ? payload
-      : { data: payload };
-
-  const event = normalized?.event ?? null;
-  const id = normalized?.id ?? null;
-  const data = normalized?.data ?? {};
-
-  if (event === "task.event") {
-    if (!res.__phase64TaskEventSeen) {
-      res.__phase64TaskEventSeen = new Set();
-    }
-
-    const dedupeKey =
-      id ??
-      data?.id ??
-      [
-        data?.type ?? "task.event",
-        data?.taskId ?? data?.task_id ?? "no-task",
-        data?.runId ?? data?.run_id ?? "no-run",
-        data?.ts ?? "no-ts",
-      ].join(":");
-
-    if (res.__phase64TaskEventSeen.has(dedupeKey)) {
-      return;
-    }
-
-    res.__phase64TaskEventSeen.add(dedupeKey);
-
-    if (res.__phase64TaskEventSeen.size > 5000) {
-      const keep = Array.from(res.__phase64TaskEventSeen).slice(-2000);
-      res.__phase64TaskEventSeen = new Set(keep);
-    }
-  }
-
-  if (id != null) {
-    res.write(`id: ${id}\n`);
-  }
-
-  if (event) {
-    res.write(`event: ${event}\n`);
-  }
-
-  const body =
-    typeof data === "string"
-      ? data
-      : JSON.stringify(data);
-
-  for (const line of String(body).split("\n")) {
-    res.write(`data: ${line}\n`);
-  }
-
-  res.write("\n");
-}) {
+function _sseWrite(res, { id, event, data }) {
   if (id != null) res.write(`id: ${id}\n`);
   if (event) res.write(`event: ${event}\n`);
   const payload = typeof data === "string" ? data : JSON.stringify(data);
