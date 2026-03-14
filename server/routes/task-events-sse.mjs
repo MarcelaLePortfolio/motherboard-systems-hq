@@ -14,7 +14,69 @@ function _sleep(ms) {
   return new Promise((r) => setTimeout(r, ms));
 }
 
-function _sseWrite(res, { id, event, data }) {
+const __phase64TaskEventsSeenByRes = new WeakMap();
+
+function __phase64TaskEventKey(payload = {}) {
+  if ((payload?.event ?? null) !== "task.event") return null;
+
+  const data = payload?.data ?? {};
+  const directId = payload?.id ?? data?.id ?? null;
+  if (directId != null) return `id:${directId}`;
+
+  const taskId = data?.taskId ?? data?.task_id ?? data?.meta?.task_id ?? null;
+  const runId = data?.runId ?? data?.run_id ?? data?.meta?.run_id ?? null;
+  const eventType = data?.type ?? data?.kind ?? null;
+  const ts = data?.ts ?? data?.createdAt ?? data?.created_at ?? null;
+
+  return `composite:${taskId ?? "na"}:${runId ?? "na"}:${eventType ?? "na"}:${ts ?? "na"}`;
+}
+
+function __phase64ShouldWriteTaskEvent(res, payload = {}) {
+  const key = __phase64TaskEventKey(payload);
+  if (!key) return true;
+
+  let seen = __phase64TaskEventsSeenByRes.get(res);
+  if (!seen) {
+    seen = new Set();
+    __phase64TaskEventsSeenByRes.set(res, seen);
+  }
+
+  if (seen.has(key)) return false;
+
+  seen.add(key);
+
+  if (seen.size > 10000) {
+    const keep = key;
+    seen.clear();
+    seen.add(keep);
+  }
+
+  return true;
+}
+
+function _sseWrite(res, payload = {}) {
+  if (!res || res.writableEnded) return;
+  if (!__phase64ShouldWriteTaskEvent(res, payload)) return;
+
+  if (payload.id != null) {
+    res.write(`id: ${payload.id}\n`);
+  }
+
+  if (payload.event) {
+    res.write(`event: ${payload.event}\n`);
+  }
+
+  const body =
+    typeof payload.data === "string"
+      ? payload.data
+      : JSON.stringify(payload.data ?? {});
+
+  for (const line of String(body).split("\n")) {
+    res.write(`data: ${line}\n`);
+  }
+
+  res.write("\n");
+}) {
   if (id != null) res.write(`id: ${id}\n`);
   if (event) res.write(`event: ${event}\n`);
   const payload = typeof data === "string" ? data : JSON.stringify(data);
