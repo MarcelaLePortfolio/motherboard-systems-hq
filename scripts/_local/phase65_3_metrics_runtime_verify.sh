@@ -2,6 +2,39 @@
 set -euo pipefail
 
 OUT="${1:-/tmp/phase65_metrics_runtime_verify.out}"
+BASE_URL="${BASE_URL:-http://localhost:3000}"
+
+wait_for_dashboard() {
+  local url="$1"
+  local attempts="${2:-60}"
+  local sleep_s="${3:-2}"
+  local i
+  for i in $(seq 1 "$attempts"); do
+    if curl -fsS "$url" >/dev/null 2>&1; then
+      echo "dashboard_up=1"
+      return 0
+    fi
+    sleep "$sleep_s"
+  done
+  echo "dashboard_up=0"
+  return 1
+}
+
+sample_task_events() {
+  local url="$1"
+  local seconds="${2:-12}"
+
+  if command -v timeout >/dev/null 2>&1; then
+    timeout "${seconds}s" curl -NfsS "$url" || true
+    return 0
+  fi
+
+  curl -NfsS "$url" &
+  local pid=$!
+  sleep "$seconds" || true
+  kill "$pid" >/dev/null 2>&1 || true
+  wait "$pid" 2>/dev/null || true
+}
 
 {
   echo "== Phase 65 runtime verification =="
@@ -22,29 +55,23 @@ OUT="${1:-/tmp/phase65_metrics_runtime_verify.out}"
 
   echo
   echo "-- wait for dashboard --"
-  for i in $(seq 1 30); do
-    if curl -fsS http://localhost:3000 >/dev/null 2>&1; then
-      echo "dashboard_up=1"
-      break
-    fi
-    sleep 2
-  done
+  wait_for_dashboard "$BASE_URL" 60 2 || true
 
   echo
   echo "-- dashboard metric hooks --"
-  curl -fsS http://localhost:3000 | grep -nE 'metric-tasks|metric-success|metric-latency' || true
+  curl -fsS "$BASE_URL" | grep -nE 'metric-tasks|metric-success|metric-latency' || true
 
   echo
   echo "-- task-events SSE probe (idle health) --"
-  timeout 12s curl -NfsS http://localhost:3000/events/task-events || true
+  sample_task_events "$BASE_URL/events/task-events" 12
 
   echo
   echo "-- current recent tasks snapshot --"
-  curl -fsS 'http://localhost:3000/api/tasks?limit=12' || true
+  curl -fsS "$BASE_URL/api/tasks?limit=12" || true
 
   echo
   echo "-- current runs snapshot --"
-  curl -fsS 'http://localhost:3000/api/runs?limit=20' || true
+  curl -fsS "$BASE_URL/api/runs?limit=20" || true
 
   echo
   echo "Manual browser verification checklist:"
