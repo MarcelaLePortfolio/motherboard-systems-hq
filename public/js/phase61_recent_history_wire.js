@@ -77,26 +77,13 @@
     );
   }
 
-  function applyCardScrollContract(card) {
-    if (!card) return;
-    card.style.display = "flex";
-    card.style.flexDirection = "column";
-    card.style.flex = "1 1 auto";
-    card.style.minHeight = "0";
-    card.style.height = "100%";
-    card.style.overflow = "hidden";
-  }
-
   function buildOwnedShell(key) {
     const shell = document.createElement("div");
     shell.setAttribute("data-phase61-shell", key);
     shell.style.display = "flex";
     shell.style.flexDirection = "column";
     shell.style.gap = "10px";
-    shell.style.flex = "1 1 auto";
-    shell.style.minHeight = "0";
-    shell.style.height = "100%";
-    shell.style.overflow = "hidden";
+    shell.style.minHeight = "320px";
 
     const probeEl = document.createElement("div");
     probeEl.setAttribute("data-phase61-probe", key);
@@ -109,19 +96,12 @@
     statusEl.setAttribute("data-phase61-status", key);
     statusEl.style.fontSize = "12px";
     statusEl.style.opacity = ".72";
-    statusEl.style.flex = "0 0 auto";
 
     const listEl = document.createElement("div");
     listEl.setAttribute("data-phase61-list", key);
     listEl.style.display = "flex";
     listEl.style.flexDirection = "column";
     listEl.style.gap = "8px";
-    listEl.style.flex = "1 1 auto";
-    listEl.style.minHeight = "0";
-    listEl.style.height = "100%";
-    listEl.style.overflowY = "auto";
-    listEl.style.overflowX = "hidden";
-    listEl.style.paddingRight = "4px";
 
     shell.appendChild(probeEl);
     shell.appendChild(statusEl);
@@ -131,8 +111,6 @@
   }
 
   function ensureOwnedCard(card, key) {
-    applyCardScrollContract(card);
-
     let shell = card.querySelector(`:scope > [data-phase61-shell="${key}"]`);
     if (!shell) {
       card.innerHTML = "";
@@ -144,31 +122,6 @@
     const probeEl = shell.querySelector(`[data-phase61-probe="${key}"]`);
     const statusEl = shell.querySelector(`[data-phase61-status="${key}"]`);
     const listEl = shell.querySelector(`[data-phase61-list="${key}"]`);
-
-    shell.style.display = "flex";
-    shell.style.flexDirection = "column";
-    shell.style.gap = "10px";
-    shell.style.flex = "1 1 auto";
-    shell.style.minHeight = "0";
-    shell.style.height = "100%";
-    shell.style.overflow = "hidden";
-
-    if (statusEl) {
-      statusEl.style.flex = "0 0 auto";
-    }
-
-    if (listEl) {
-      listEl.style.display = "flex";
-      listEl.style.flexDirection = "column";
-      listEl.style.gap = "8px";
-      listEl.style.flex = "1 1 auto";
-      listEl.style.minHeight = "0";
-      listEl.style.height = "100%";
-      listEl.style.overflowY = "auto";
-      listEl.style.overflowX = "hidden";
-      listEl.style.paddingRight = "4px";
-    }
-
     return { shell, probeEl, statusEl, listEl };
   }
 
@@ -217,7 +170,7 @@
 
   function recentRowHtml(item) {
     return `
-      <div class="rounded-xl border border-slate-800 bg-slate-950/60 px-3 py-3 shrink-0" data-phase61-recent-row="${escapeHtml(item.id)}">
+      <div class="rounded-xl border border-slate-800 bg-slate-950/60 px-3 py-3" data-phase61-recent-row="${escapeHtml(item.id)}">
         <div class="flex items-start justify-between gap-3">
           <div class="min-w-0">
             <div class="text-sm font-medium text-slate-100 truncate">${escapeHtml(item.title)}</div>
@@ -236,7 +189,7 @@
 
   function historyRowHtml(item) {
     return `
-      <div class="rounded-xl border border-slate-800 bg-slate-950/60 px-3 py-3 shrink-0" data-phase61-history-row="${escapeHtml(item.id)}">
+      <div class="rounded-xl border border-slate-800 bg-slate-950/60 px-3 py-3" data-phase61-history-row="${escapeHtml(item.id)}">
         <div class="flex items-start justify-between gap-3">
           <div class="min-w-0">
             <div class="text-sm font-medium text-slate-100 break-all">${escapeHtml(item.id)}</div>
@@ -307,7 +260,6 @@
     try {
       const payload = await fetchJson(HISTORY_ENDPOINT);
       const rows = extractHistoryRows(payload);
-      log("history payload", payload);
       log("history rows", rows.length);
 
       if (!rows.length) {
@@ -318,18 +270,18 @@
       }
 
       parts.listEl.innerHTML = rows
-        .slice(0, 20)
+        .slice(0, 12)
         .map(normalizeRun)
         .map(historyRowHtml)
         .join("");
 
       parts.probeEl.textContent = `probe:history:rows:${rows.length}`;
-      parts.statusEl.textContent = `Loaded ${rows.length} history row${rows.length === 1 ? "" : "s"}`;
+      parts.statusEl.textContent = `Loaded ${rows.length} run${rows.length === 1 ? "" : "s"}`;
       card.setAttribute("data-phase61-rendered", String(rows.length));
     } catch (err) {
       parts.probeEl.textContent = `probe:history:error:${err.message}`;
-      parts.statusEl.textContent = "Task History unavailable";
-      renderEmpty(parts.listEl, `Error loading Task History: ${err.message}`);
+      parts.statusEl.textContent = "Task Activity unavailable";
+      renderEmpty(parts.listEl, `Error loading Task Activity: ${err.message}`);
       console.error("[phase61_recent_history_wire] refreshHistory failed", err);
     }
   }
@@ -338,22 +290,43 @@
     await Promise.allSettled([refreshRecent(), refreshHistory()]);
   }
 
-  function start() {
-    refreshAll();
-    window.clearInterval(window.__PHASE61_RECENT_HISTORY_TIMER__);
-    window.__PHASE61_RECENT_HISTORY_TIMER__ = window.setInterval(refreshAll, REFRESH_MS);
+  function debounceRefresh() {
+    if (window.__PHASE61_RECENT_HISTORY_DEBOUNCE) {
+      window.clearTimeout(window.__PHASE61_RECENT_HISTORY_DEBOUNCE);
+    }
+    window.__PHASE61_RECENT_HISTORY_DEBOUNCE = window.setTimeout(refreshAll, 400);
   }
 
-  window.__PHASE61_RECENT_HISTORY_WIRE = {
-    refreshRecent,
-    refreshHistory,
-    refreshAll,
-    start,
-  };
+  function boot() {
+    log("boot");
+    refreshAll();
+    window.addEventListener("mb.task.event", debounceRefresh);
+    window.setInterval(refreshAll, REFRESH_MS);
+    window.__PHASE61_RECENT_HISTORY_WIRE = {
+      refreshAll,
+      refreshRecent,
+      refreshHistory,
+      findRecentCard,
+      findHistoryCard,
+    };
+  }
 
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", start, { once: true });
+    document.addEventListener("DOMContentLoaded", boot, { once: true });
   } else {
-    start();
+    boot();
+  }
+})();
+
+/* Phase 64 loader — behavior only */
+(function(){
+  if(!window.__PHASE64_LOADER__){
+    window.__PHASE64_LOADER__=true;
+
+    const s=document.createElement("script");
+    s.src="/js/phase64_agent_activity_bootstrap.js";
+    s.defer=true;
+
+    document.head.appendChild(s);
   }
 })();
