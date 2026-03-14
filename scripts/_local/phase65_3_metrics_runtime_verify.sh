@@ -2,11 +2,25 @@
 set -euo pipefail
 
 OUT="${1:-/tmp/phase65_metrics_runtime_verify.out}"
-BASE_URL="${BASE_URL:-http://localhost:3000}"
+DEFAULT_BASE_URL="${BASE_URL:-http://localhost:3000}"
 
-wait_for_dashboard() {
+resolve_dashboard_container_id() {
+  docker compose ps -q dashboard 2>/dev/null || true
+}
+
+resolve_base_url() {
+  local mapped
+  mapped="$(docker compose port dashboard 3000 2>/dev/null | tail -n 1 || true)"
+  if [[ -n "${mapped}" ]]; then
+    echo "http://${mapped}"
+    return 0
+  fi
+  echo "${DEFAULT_BASE_URL}"
+}
+
+wait_for_url() {
   local url="$1"
-  local attempts="${2:-60}"
+  local attempts="${2:-90}"
   local sleep_s="${3:-2}"
   local i
   for i in $(seq 1 "$attempts"); do
@@ -20,7 +34,23 @@ wait_for_dashboard() {
   return 1
 }
 
-sample_task_events() {
+wait_for_container_http() {
+  local cid="$1"
+  local attempts="${2:-90}"
+  local sleep_s="${3:-2}"
+  local i
+  for i in $(seq 1 "$attempts"); do
+    if docker exec "$cid" sh -lc 'curl -fsS http://127.0.0.1:3000 >/dev/null 2>&1'; then
+      echo "container_http_up=1"
+      return 0
+    fi
+    sleep "$sleep_s"
+  done
+  echo "container_http_up=0"
+  return 1
+}
+
+sample_task_events_host() {
   local url="$1"
   local seconds="${2:-12}"
 
@@ -34,6 +64,23 @@ sample_task_events() {
   sleep "$seconds" || true
   kill "$pid" >/dev/null 2>&1 || true
   wait "$pid" 2>/dev/null || true
+}
+
+sample_task_events_container() {
+  local cid="$1"
+  local seconds="${2:-12}"
+
+  docker exec "$cid" sh -lc "
+    if command -v timeout >/dev/null 2>&1; then
+      timeout ${seconds}s curl -NfsS http://127.0.0.1:3000/events/task-events || true
+    else
+      curl -NfsS http://127.0.0.1:3000/events/task-events &
+      pid=\$!
+      sleep ${seconds} || true
+      kill \$pid >/dev/null 2>&1 || true
+      wait \$pid 2>/dev/null || true
+    fi
+  " || true
 }
 
 {
@@ -54,24 +101,74 @@ sample_task_events() {
   docker compose up -d dashboard
 
   echo
-  echo "-- wait for dashboard --"
-  wait_for_dashboard "$BASE_URL" 60 2 || true
+  echo "-- compose status --"
+  docker compose ps dashboard || true
+
+  CID="$(resolve_dashboard_container_id)"
+  BASE_URL_RESOLVED="$(resolve_base_url)"
 
   echo
-  echo "-- dashboard metric hooks --"
-  curl -fsS "$BASE_URL" | grep -nE 'metric-tasks|metric-success|metric-latency' || true
+  echo "-- resolved runtime targets --"
+  echo "container_id=${CID:-<none>}"
+  echo "base_url=${BASE_URL_RESOLVED}"
 
   echo
-  echo "-- task-events SSE probe (idle health) --"
-  sample_task_events "$BASE_URL/events/task-events" 12
+  echo "-- wait for host dashboard url --"
+  wait_for_url "$BASE_URL_RESOLVED" 90 2 || true
 
   echo
-  echo "-- current recent tasks snapshot --"
-  curl -fsS "$BASE_URL/api/tasks?limit=12" || true
+  echo "-- wait for in-container dashboard http --"
+  if [[ -n "${CID}" ]]; then
+    wait_for_container_http "$CID" 90 2 || true
+  else
+    echo "container_http_up=0"
+  fi
 
   echo
-  echo "-- current runs snapshot --"
-  curl -fsS "$BASE_URL/api/runs?limit=20" || true
+  echo "-- dashboard metric hooks (host if reachable) --"
+  curl -fsS "$BASE_URL_RESOLVED" | grep -nE 'metric-tasks|metric-success|metric-latency' || true
+
+  echo
+  echo "-- dashboard metric hooks (container fallback) --"
+  if [[ -n "${CID}" ]]; then
+    docker exec "$CID" sh -lc "curl -fsS http://127.0.0.1:3000 | grep -nE 'metric-tasks|metric-success|metric-latency'" || true
+  fi
+
+  echo
+  echo "-- task-events SSE probe (host if reachable) --"
+  sample_task_events_host "$BASE_URL_RESOLVED/events/task-events" 12
+
+  echo
+  echo "-- task-events SSE probe (container fallback) --"
+  if [[ -n "${CID}" ]]; then
+    sample_task_events_container "$CID" 12
+  fi
+
+  echo
+  echo "-- current recent tasks snapshot (host if reachable) --"
+  curl -fsS "$BASE_URL_RESOLVED/api/tasks?limit=12" || true
+
+  echo
+  echo "-- current recent tasks snapshot (container fallback) --"
+  if [[ -n "${CID}" ]]; then
+    docker exec "$CID" sh -lc "curl -fsS http://127.0.0.1:3000/api/tasks?limit=12" || true
+  fi
+
+  echo
+  echo "-- current runs snapshot (host if reachable) --"
+  curl -fsS "$BASE_URL_RESOLVED/api/runs?limit=20" || true
+
+  echo
+  echo "-- current runs snapshot (container fallback) --"
+  if [[ -n "${CID}" ]]; then
+    docker exec "$CID" sh -lc "curl -fsS http://127.0.0.1:3000/api/runs?limit=20" || true
+  fi
+
+  echo
+  echo "-- recent container logs --"
+  if [[ -n "${CID}" ]]; then
+    docker logs --tail 120 "$CID" || true
+  fi
 
   echo
   echo "Manual browser verification checklist:"
