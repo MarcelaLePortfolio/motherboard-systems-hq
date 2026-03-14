@@ -16,8 +16,33 @@ echo "== dashboard health =="
 curl -I "${BASE_URL}/dashboard"
 echo
 
-echo "== sampling /events/ops for 12s =="
-timeout 12s curl -NfsS "${BASE_URL}/events/ops" > "$TMP_FILE" || true
+echo "== sampling /events/ops for 12s (mac-compatible) =="
+python3 - <<'PY' "$BASE_URL" "$TMP_FILE"
+import subprocess
+import sys
+import time
+from pathlib import Path
+
+base_url = sys.argv[1]
+out_path = Path(sys.argv[2])
+
+with out_path.open("wb") as f:
+    proc = subprocess.Popen(
+        ["curl", "-NfsS", f"{base_url}/events/ops"],
+        stdout=f,
+        stderr=subprocess.DEVNULL,
+    )
+    try:
+        time.sleep(12)
+    finally:
+        if proc.poll() is None:
+            proc.terminate()
+            try:
+                proc.wait(timeout=2)
+            except subprocess.TimeoutExpired:
+                proc.kill()
+                proc.wait()
+PY
 echo
 
 echo "== raw sample head =="
@@ -33,7 +58,7 @@ grep '^event:' "$TMP_FILE" | sort | uniq -c || true
 echo
 
 echo "== data payload summary =="
-python3 <<'PY' "$TMP_FILE"
+python3 - <<'PY' "$TMP_FILE"
 import json
 import re
 import sys
