@@ -383,7 +383,6 @@
       font-size: 12px;
     }
 
-    
     /* Phase 64.3 telemetry fixed-height scroll enforcement */
     #phase61-workspace-grid {
       align-items: stretch;
@@ -391,9 +390,9 @@
 
     #phase61-operator-column,
     #phase61-telemetry-column {
-      min-height: 0;
       display: flex;
       flex-direction: column;
+      min-height: 0;
     }
 
     #operator-workspace-card,
@@ -407,12 +406,10 @@
 
     #operator-panels,
     #observational-panels {
-      display: flex;
-      flex-direction: column;
+      position: relative;
       flex: 1 1 auto;
       min-height: 0;
       height: 100%;
-      position: relative;
     }
 
     #operator-panels > [data-workspace-panel],
@@ -427,7 +424,7 @@
 
     #operator-panels > [data-workspace-panel].active:not([hidden]),
     #observational-panels > [data-workspace-panel].active:not([hidden]) {
-      display: flex;
+      display: flex !important;
       flex-direction: column;
       flex: 1 1 auto;
       min-height: 0;
@@ -449,17 +446,6 @@
       overflow: hidden;
     }
 
-    #task-events-card,
-    #mb-task-events-panel-anchor {
-      min-height: 0;
-      flex: 1 1 auto;
-      height: 100%;
-    }
-
-    #mb-task-events-panel-anchor {
-      overflow: hidden;
-    }
-
     [data-phase61-shell="recent"],
     [data-phase61-shell="history"] {
       display: flex;
@@ -477,6 +463,17 @@
       overflow-y: auto;
       overflow-x: hidden;
       padding-right: 4px;
+    }
+
+    #task-events-card,
+    #mb-task-events-panel-anchor {
+      flex: 1 1 auto;
+      min-height: 0;
+      height: 100%;
+    }
+
+    #mb-task-events-panel-anchor {
+      overflow: hidden;
     }
 
     @media (max-width: 1023px) {
@@ -506,9 +503,6 @@
       }
     }
     /* /Phase 64.3 telemetry fixed-height scroll enforcement */
-
-
-
 
     @media (max-width: 920px) {
       .task-events-panel .task-event,
@@ -749,7 +743,7 @@
   
   <script src="js/phase61_tabs_workspace.js"></script>
 
-    <script src="js/phase61_recent_history_wire.js"></script>
+    <script src="js/phase61_recent_history_wire.js?v=phase64_3_minimal_fix_20260314a"></script>
   <script src="js/phase64_agent_activity_bootstrap.js"></script>
   <script src="js/phase64_agent_activity_debug.js"></script>
   <script src="bundle.js"></script>
