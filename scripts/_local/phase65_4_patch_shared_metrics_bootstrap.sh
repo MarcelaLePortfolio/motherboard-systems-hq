@@ -3,44 +3,28 @@ set -euo pipefail
 
 python3 << 'PY'
 from pathlib import Path
+import re
 import sys
 
 path = Path("public/js/agent-status-row.js")
 src = path.read_text()
 
-old_success = "const successNode = document.getElementById('metric-success');"
-new_success = "const successNode = document.getElementById('metric-success') || document.getElementById('metric-success-rate');"
+orig = src
 
-if old_success not in src:
-    sys.exit("expected success metric hook not found")
+src, n1 = re.subn(
+    r"const successNode = document\.getElementById\('metric-success'\);",
+    "const successNode = document.getElementById('metric-success') || document.getElementById('metric-success-rate');",
+    src,
+    count=1,
+)
 
-src = src.replace(old_success, new_success, 1)
+if n1 == 0:
+    print("warning: success metric hook line not found; continuing", file=sys.stderr)
 
-anchor = """    const connect = () => {
-      let es;
-      try {
-        es = new EventSource('/events/task-events');
-      } catch {
-        render();
-        return;
-      }
-
-      es.onmessage = (evt) => ingestMessage(evt.data);
-
-      [
-        ...runningTypes,
-        ...terminalSuccessTypes,
-        ...terminalFailureTypes
-      ].forEach((eventName) => attachTypedListener(es, eventName));
-
-      es.onerror = () => render();
-      window.addEventListener('beforeunload', () => es.close(), { once: true });
-    };
-
-    render();
-    connect();
-    window.setInterval(render, 10000);
-"""
+block_pattern = re.compile(
+    r"""(?P<indent>[ \t]*)const connect = \(\) => \{\n(?P<body>.*?)\n(?P=indent)\};\n\n(?P=indent)render\(\);\n(?P=indent)connect\(\);\n(?P=indent)window\.setInterval\(render, 10000\);""",
+    re.DOTALL,
+)
 
 replacement = """    const bootstrapFromTasks = async () => {
       try {
@@ -121,14 +105,18 @@ replacement = """    const bootstrapFromTasks = async () => {
 
     render();
     bootstrapFromTasks().finally(() => connect());
-    window.setInterval(render, 10000);
-"""
+    window.setInterval(render, 10000);"""
 
-if anchor not in src:
-    sys.exit("expected metrics connect/render block not found")
+src, n2 = block_pattern.subn(replacement, src, count=1)
 
-src = src.replace(anchor, replacement, 1)
-path.write_text(src)
+if n2 == 0:
+    sys.exit("failed: metrics connect/render block not found")
+
+if src == orig:
+    print("no source changes were necessary")
+else:
+    path.write_text(src)
+    print("patched public/js/agent-status-row.js")
 PY
 
 bash scripts/_local/phase64_7_dashboard_layout_script_mount_guard.sh
