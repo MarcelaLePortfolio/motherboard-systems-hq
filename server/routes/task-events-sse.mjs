@@ -14,7 +14,59 @@ function _sleep(ms) {
   return new Promise((r) => setTimeout(r, ms));
 }
 
-function _sseWrite(res, { id, event, data }) {
+
+const __phase64TaskEventSeen = new Set();
+function __phase64TaskEventDedupKey(payload) {
+  const event = payload?.event ?? null;
+  if (event !== "task.event") return null;
+  return (
+    payload?.id ??
+    payload?.data?.id ??
+    payload?.data?.eventId ??
+    payload?.data?.meta?.id ??
+    null
+  );
+}
+function __phase64ShouldWriteTaskEvent(payload) {
+  const key = __phase64TaskEventDedupKey(payload);
+  if (!key) return true;
+  if (__phase64TaskEventSeen.has(key)) return false;
+  __phase64TaskEventSeen.add(key);
+  if (__phase64TaskEventSeen.size > 5000) {
+    const first = __phase64TaskEventSeen.values().next();
+    if (!first.done) __phase64TaskEventSeen.delete(first.value);
+  }
+  return true;
+}
+
+function _sseWrite(res, payload = {}) {
+  if (!res || res.writableEnded) return;
+  if (!__phase64ShouldWriteTaskEvent(payload)) return;
+
+  const id = payload?.id ?? null;
+  const event = payload?.event ?? null;
+  const rawData = payload?.data ?? {};
+
+  if (id != null) {
+    res.write(`id: ${id}\n`);
+  }
+
+  if (event) {
+    res.write(`event: ${event}\n`);
+  }
+
+  const body =
+    typeof rawData === "string"
+      ? rawData
+      : JSON.stringify(rawData);
+
+  for (const line of String(body).split("\n")) {
+    res.write(`data: ${line}\n`);
+  }
+
+  res.write("\n");
+}
+) {
   if (id != null) res.write(`id: ${id}\n`);
   if (event) res.write(`event: ${event}\n`);
   const payload = typeof data === "string" ? data : JSON.stringify(data);
