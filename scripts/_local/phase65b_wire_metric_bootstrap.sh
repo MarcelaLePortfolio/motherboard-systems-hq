@@ -3,7 +3,6 @@ set -euo pipefail
 
 TARGET="public/js/dashboard-bundle-entry.js"
 MARKER='/* PHASE65B_TELEMETRY_BOOTSTRAP */'
-SCRIPT_LINE='document.body.appendChild(Object.assign(document.createElement("script"),{src:"/js/telemetry/phase65b_metric_bootstrap.js",defer:true}));'
 
 if grep -Fq "$MARKER" "$TARGET"; then
   echo "Phase 65B bootstrap already wired"
@@ -12,15 +11,21 @@ fi
 
 TMP_FILE="$(mktemp)"
 
-{
-  cat "$TARGET"
-  printf '\n%s\n' "$MARKER"
-  printf '(function(){\n'
-  printf '  if (typeof document === "undefined") return;\n'
-  printf '  if (document.querySelector(\'script[src="/js/telemetry/phase65b_metric_bootstrap.js"]\')) return;\n'
-  printf '  %s\n' "$SCRIPT_LINE"
-  printf '})();\n'
-} > "$TMP_FILE"
+cat "$TARGET" > "$TMP_FILE"
+
+cat >> "$TMP_FILE" << 'BLOCK'
+
+/* PHASE65B_TELEMETRY_BOOTSTRAP */
+(function () {
+  if (typeof document === "undefined") return;
+  if (document.querySelector('script[src="/js/telemetry/phase65b_metric_bootstrap.js"]')) return;
+
+  const script = document.createElement("script");
+  script.src = "/js/telemetry/phase65b_metric_bootstrap.js";
+  script.defer = true;
+  document.body.appendChild(script);
+})();
+BLOCK
 
 mv "$TMP_FILE" "$TARGET"
 echo "Phase 65B bootstrap wired into $TARGET"
