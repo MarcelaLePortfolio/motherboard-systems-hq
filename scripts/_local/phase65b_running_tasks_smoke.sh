@@ -16,31 +16,36 @@ grep -F '/js/telemetry/phase65b_metric_bootstrap.js' public/js/dashboard-bundle-
 echo "OK"
 echo
 
-echo "3 Checking running tasks selector exists in protected dashboard..."
-if grep -F 'data-metric="running-tasks"' public/dashboard.html >/dev/null; then
+echo "3 Checking protected running tasks tile anchor exists..."
+if grep -F 'id="metric-tasks"' public/dashboard.html >/dev/null; then
   echo "OK"
 else
-  echo "MISSING: data-metric=\"running-tasks\" not found in protected dashboard"
+  echo 'MISSING: id="metric-tasks" not found in protected dashboard'
   echo "STOP: do not continue metric hydration against an assumed selector"
   echo "Run: bash scripts/_local/phase65b_inspect_metric_targets.sh"
   exit 1
 fi
 echo
 
-echo "4 Running protection gate..."
+echo "4 Checking reducer targets protected anchor..."
+grep -F 'getElementById("metric-tasks")' public/js/telemetry/running_tasks_metric.js >/dev/null
+echo "OK"
+echo
+
+echo "5 Running protection gate..."
 bash scripts/_local/phase65_pre_commit_protection_gate.sh
 echo
 
-echo "5 Rebuilding dashboard..."
+echo "6 Rebuilding dashboard..."
 docker compose build dashboard
 docker compose up -d dashboard
 echo
 
-echo "6 Checking dashboard container status..."
+echo "7 Checking dashboard container status..."
 docker compose ps dashboard
 echo
 
-echo "7 Checking served bundle contains telemetry bootstrap..."
+echo "8 Checking served bundle contains telemetry bootstrap..."
 if command -v curl >/dev/null 2>&1; then
   curl -fsSL http://localhost:3000/js/dashboard-bundle-entry.js | grep -F '/js/telemetry/phase65b_metric_bootstrap.js' >/dev/null
   echo "OK"
