@@ -9,91 +9,107 @@ NO DOM STRUCTURE MUTATION
 NO CONTAINER INSERTION
 */
 
-(function(){
+(function () {
+  const ACTIVE_EVENT_TYPES = new Set([
+    "task.created",
+    "task.started",
+    "task.running",
+  ]);
 
-let activeTasks = new Set();
+  const TERMINAL_EVENT_TYPES = new Set([
+    "task.completed",
+    "task.failed",
+    "task.cancelled",
+  ]);
 
-function isStartEvent(type){
-    return (
-        type === "task.created" ||
-        type === "task.started" ||
-        type === "task.running"
-    );
-}
+  const activeTasks = new Set();
 
-function isTerminalEvent(type){
-    return (
-        type === "task.completed" ||
-        type === "task.failed" ||
-        type === "task.cancelled"
-    );
-}
+  function getMetricNode() {
+    return document.getElementById("metric-tasks");
+  }
 
-function updateMetric(){
+  function render() {
+    const node = getMetricNode();
+    if (!node) return;
+    node.textContent = String(activeTasks.size);
+  }
 
-    const metric = document.querySelector('[data-metric="running-tasks"]');
+  function getEventType(payload) {
+    return payload?.type || payload?.event || payload?.name || "";
+  }
 
-    if(!metric) return;
+  function getTaskId(payload) {
+    return payload?.task_id || payload?.taskId || payload?.id || "";
+  }
 
-    metric.textContent = activeTasks.size;
+  function processPayload(payload) {
+    const type = getEventType(payload);
+    const taskId = getTaskId(payload);
 
-}
+    if (!type || !taskId) return;
 
-function processEvent(evt){
-
-    if(!evt) return;
-
-    const type = evt.type || evt.event || evt.name;
-    const id =
-        evt.task_id ||
-        evt.taskId ||
-        evt.id;
-
-    if(!type || !id) return;
-
-    if(isStartEvent(type)){
-        activeTasks.add(id);
+    if (ACTIVE_EVENT_TYPES.has(type)) {
+      activeTasks.add(taskId);
     }
 
-    if(isTerminalEvent(type)){
-        activeTasks.delete(id);
+    if (TERMINAL_EVENT_TYPES.has(type)) {
+      activeTasks.delete(taskId);
     }
 
-    updateMetric();
+    render();
+  }
 
-}
+  function attachToTaskEventsSource(source) {
+    if (!source || source.__phase65bRunningTasksBound) return;
 
-function attachStream(){
+    source.__phase65bRunningTasksBound = true;
 
-    if(!window.taskEventsStream) return;
-
-    window.taskEventsStream.addEventListener("message", function(e){
-
-        try{
-
-            const data = JSON.parse(e.data);
-
-            processEvent(data);
-
-        }catch(err){
-            console.warn("running_tasks_metric parse error");
-        }
-
+    source.addEventListener("message", function (e) {
+      try {
+        processPayload(JSON.parse(e.data));
+      } catch (err) {
+        console.warn("running_tasks_metric parse error");
+      }
     });
+  }
 
-}
+  function patchEventSource() {
+    if (window.__phase65bRunningTasksEventSourcePatched) return;
 
-function bootstrap(){
+    const NativeEventSource = window.EventSource;
+    if (typeof NativeEventSource !== "function") {
+      render();
+      return;
+    }
 
-    attachStream();
-    updateMetric();
+    function PatchedEventSource(url, config) {
+      const source = new NativeEventSource(url, config);
 
-}
+      try {
+        const urlText = String(url || "");
+        if (urlText.includes("/events/task-events")) {
+          attachToTaskEventsSource(source);
+        }
+      } catch (err) {
+        console.warn("running_tasks_metric attach error");
+      }
 
-if(document.readyState === "loading"){
+      return source;
+    }
+
+    PatchedEventSource.prototype = NativeEventSource.prototype;
+    window.EventSource = PatchedEventSource;
+    window.__phase65bRunningTasksEventSourcePatched = true;
+  }
+
+  function bootstrap() {
+    patchEventSource();
+    render();
+  }
+
+  if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", bootstrap);
-}else{
+  } else {
     bootstrap();
-}
-
+  }
 })();
