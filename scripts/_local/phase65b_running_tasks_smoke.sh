@@ -45,13 +45,20 @@ echo "7 Checking dashboard container status..."
 docker compose ps dashboard
 echo
 
-echo "8 Checking served bundle contains telemetry bootstrap..."
-if command -v curl >/dev/null 2>&1; then
-  curl -fsSL http://localhost:3000/js/dashboard-bundle-entry.js | grep -F '/js/telemetry/phase65b_metric_bootstrap.js' >/dev/null
-  echo "OK"
-else
-  echo "curl not available; skipped served bundle check"
-fi
+echo "8 Waiting for dashboard HTTP readiness on :8080..."
+for _ in 1 2 3 4 5 6 7 8 9 10; do
+  if curl -fsSL http://localhost:8080/ >/dev/null 2>&1; then
+    echo "OK"
+    break
+  fi
+  sleep 1
+done
+curl -fsSL http://localhost:8080/ >/dev/null
+echo
+
+echo "9 Checking served bundle contains telemetry bootstrap..."
+curl -fsSL http://localhost:8080/js/dashboard-bundle-entry.js | grep -F '/js/telemetry/phase65b_metric_bootstrap.js' >/dev/null
+echo "OK"
 echo
 
 echo "PHASE 65B RUNNING TASKS SMOKE PASS"
