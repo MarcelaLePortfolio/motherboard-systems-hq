@@ -5,6 +5,7 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$ROOT_DIR"
 
 MODE="${1:-status}"
+DASHBOARD_HEALTH_URL="${DASHBOARD_HEALTH_URL:-http://localhost:8080/api/health}"
 
 OUT_DIR="artifacts/operator-guidance"
 mkdir -p "$OUT_DIR"
@@ -14,7 +15,7 @@ timestamp() {
 }
 
 dashboard_ok() {
-  docker ps --format '{{.Names}}' | grep -qx dashboard
+  docker compose ps dashboard 2>/dev/null | grep -q "Up"
 }
 
 gate_ok() {
@@ -22,7 +23,7 @@ gate_ok() {
 }
 
 api_ok() {
-  curl -sf http://localhost:3000/api/health >/dev/null 2>&1
+  curl -sf "$DASHBOARD_HEALTH_URL" >/dev/null 2>&1
 }
 
 classify_risk() {
@@ -49,14 +50,14 @@ recommended_next_action() {
   local risk
   risk="$(classify_risk)"
   case "$risk" in
-    LOW) echo "Continue Phase 72 guidance refinement" ;;
+    LOW) echo "Continue controlled development" ;;
     HIGH) echo "Stop and restore golden anchor before further modification" ;;
     *) echo "Verify runtime health before continuing" ;;
   esac
 }
 
 system_state() {
-  if dashboard_ok; then
+  if dashboard_ok && api_ok; then
     echo "HEALTHY"
   else
     echo "DEGRADED"
@@ -66,6 +67,7 @@ system_state() {
 print_status() {
   echo "PHASE 72 — OPERATOR GUIDANCE"
   echo "generated_at=$(timestamp)"
+  echo "dashboard_health_url=$DASHBOARD_HEALTH_URL"
   echo "system_state=$(system_state)"
   echo "risk=$(classify_risk)"
   echo "recommended_next_action=$(recommended_next_action)"
@@ -79,7 +81,7 @@ write_report() {
 
   {
     print_status
-    echo "dashboard_container=$(dashboard_ok && echo present || echo missing)"
+    echo "dashboard_container=$(dashboard_ok && echo up || echo down)"
     echo "protection_gate=$(gate_ok && echo pass || echo fail)"
     echo "api_health=$(api_ok && echo responding || echo not_responding)"
     echo "git_commit=$(git rev-parse --short HEAD 2>/dev/null || echo unknown)"

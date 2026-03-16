@@ -4,6 +4,7 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$ROOT_DIR"
 
+DASHBOARD_HEALTH_URL="${DASHBOARD_HEALTH_URL:-http://localhost:8080/api/health}"
 OUT_DIR="artifacts/operational-closeout"
 mkdir -p "$OUT_DIR"
 
@@ -14,10 +15,10 @@ TAG="v80.0-safe-iteration-engine-golden"
 exec > >(tee "$LOG_FILE") 2>&1
 
 wait_for_api() {
-  local attempts=30
+  local attempts=45
   local i=1
   while [[ "$i" -le "$attempts" ]]; do
-    if curl -sf http://localhost:3000/api/health >/dev/null 2>&1; then
+    if curl -sf "$DASHBOARD_HEALTH_URL" >/dev/null 2>&1; then
       return 0
     fi
     sleep 2
@@ -32,6 +33,7 @@ echo "generated_at=$(date +"%Y-%m-%d %H:%M:%S")"
 echo "repo=$(basename "$ROOT_DIR")"
 echo "branch=$(git rev-parse --abbrev-ref HEAD)"
 echo "commit=$(git rev-parse --short HEAD)"
+echo "dashboard_health_url=$DASHBOARD_HEALTH_URL"
 
 echo ""
 echo "STEP 1 — CONTAINER REBUILD"
