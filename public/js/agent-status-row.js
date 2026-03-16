@@ -481,7 +481,8 @@
 
   const render = () => {
     if (tasksNode) {
-      tasksNode.textContent = String(runningTaskIds.size);
+      // Phase 65B.2: metric-tasks ownership transferred to telemetry reducer
+      // Legacy direct write removed intentionally.
     }
 
     if (successNode) {
