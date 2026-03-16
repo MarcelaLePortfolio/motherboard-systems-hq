@@ -8,6 +8,7 @@ cp "$TARGET" "$BACKUP"
 
 python3 - << 'PY'
 from pathlib import Path
+
 target = Path("public/js/agent-status-row.js")
 text = target.read_text()
 
