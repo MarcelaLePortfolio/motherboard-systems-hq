@@ -38,27 +38,27 @@ Success Rate
 • No duplicate writers remain
 
 Latency
-• Ownership transferred to telemetry
-• Agent row no longer primary writer
-• Runtime verified
+• Telemetry owned
+• Ownership transferred safely
+• No duplicate writers remain
 
 Agent Activity
-• Confirmed owned by phase64 agent activity wire
-• No conflicts detected
+• Confirmed owned by phase64_agent_activity_wire.js
+• No ownership conflicts detected
 
 DEFERRED METRICS
 
 Queue Depth
-Formula complete.
-Reducer design complete.
-Blocked only by tile allocation.
+• Formula complete
+• Reducer design complete
+• Blocked only by tile allocation
 
 Failed Tasks
-Design possible.
-No available tile without replacement.
+• Design possible
+• No available tile without replacement
 
 Agent Activity Summary
-Already represented via metric-agents and agent pool.
+• Already represented via metric-agents and agent pool
 
 PROTECTION VERIFICATION
 
@@ -121,4 +121,3 @@ or
 Phase 66 — Observability Expansion Planning
 
 Only after explicit tile allocation decision.
-
