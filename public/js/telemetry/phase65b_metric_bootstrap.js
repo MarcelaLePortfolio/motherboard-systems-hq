@@ -1,27 +1,16 @@
-/*
-PHASE 65B SAFE TELEMETRY BOOTSTRAP
-
-SAFE RULES:
-NO SCRIPT ORDER CHANGE
-NO BUNDLE MUTATION
-ISOLATED LOADER ONLY
-*/
-
 (function () {
-  const SCRIPT_ID = "phase65b-running-tasks-metric";
-
-  function loadScript(src) {
-    if (document.getElementById(SCRIPT_ID)) return;
+  function load(src) {
+    if (document.querySelector(`script[src="${src}"]`)) return;
 
     const s = document.createElement("script");
-    s.id = SCRIPT_ID;
     s.src = src;
     s.defer = true;
     document.body.appendChild(s);
   }
 
   function init() {
-    loadScript("/js/telemetry/running_tasks_metric.js");
+    load("/js/telemetry/phase65b_metric_ownership_guard.js");
+    load("/js/telemetry/running_tasks_metric.js");
   }
 
   if (document.readyState === "loading") {
