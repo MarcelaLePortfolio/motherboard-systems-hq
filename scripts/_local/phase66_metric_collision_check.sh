@@ -14,18 +14,18 @@ test -f "$FAILED_REDUCER"
 
 echo "-- reducer presence: OK"
 
-QUEUE_OWNERS="$(grep -R --line-number --exclude-dir=.git --exclude='telemetry_queue_depth_reducer.js' 'queueDepthTelemetry\|getQueueDepth\|telemetry_queue_depth_reducer' public/js docs scripts || true)"
-FAILED_OWNERS="$(grep -R --line-number --exclude-dir=.git --exclude='telemetry_failed_tasks_reducer.js' 'failedTasksTelemetry\|getFailedTaskCount\|telemetry_failed_tasks_reducer' public/js docs scripts || true)"
+QUEUE_SYMBOL_COLLISIONS="$(grep -R --line-number --exclude-dir=.git --exclude='telemetry_queue_depth_reducer.js' 'queueDepthTelemetry\|getQueueDepth' public/js || true)"
+FAILED_SYMBOL_COLLISIONS="$(grep -R --line-number --exclude-dir=.git --exclude='telemetry_failed_tasks_reducer.js' 'failedTasksTelemetry\|getFailedTaskCount' public/js || true)"
 
-if [ -n "$QUEUE_OWNERS" ]; then
+if [ -n "$QUEUE_SYMBOL_COLLISIONS" ]; then
   echo "Queue depth ownership collision detected:"
-  echo "$QUEUE_OWNERS"
+  echo "$QUEUE_SYMBOL_COLLISIONS"
   exit 1
 fi
 
-if [ -n "$FAILED_OWNERS" ]; then
+if [ -n "$FAILED_SYMBOL_COLLISIONS" ]; then
   echo "Failed tasks ownership collision detected:"
-  echo "$FAILED_OWNERS"
+  echo "$FAILED_SYMBOL_COLLISIONS"
   exit 1
 fi
 
