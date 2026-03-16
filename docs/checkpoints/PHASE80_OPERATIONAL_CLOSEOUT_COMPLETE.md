@@ -8,13 +8,12 @@ OBJECTIVE
 Close the Phase 80 corridor with full operational checkpointing.
 
 This closeout confirms that the safe iteration engine is committed,
-runtime-verified, and checkpointed after successful rerun.
+runtime-verified, and checkpointed after a successful rerun with healthy
+dashboard runtime.
 
 ────────────────────────────────
 
 CLOSEOUT ACTIONS COMPLETED
-
-Safe iteration engine executed successfully.
 
 Dashboard container rebuilt.
 
@@ -22,7 +21,9 @@ Dashboard container restarted.
 
 Runtime container status rechecked.
 
-Dashboard API health rechecked.
+Dashboard API health verified before operator verification.
+
+Safe iteration engine executed successfully.
 
 Preflight rerun after rebuild.
 
@@ -54,6 +55,6 @@ v80.0-safe-iteration-engine-golden
 
 PHASE RESULT
 
-Phase 80 corridor fully checkpointed after successful closeout rerun.
+Phase 80 corridor fully checkpointed after successful operational closeout rerun.
 
 Operational closeout complete.

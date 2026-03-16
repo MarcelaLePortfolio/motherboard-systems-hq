@@ -13,6 +13,19 @@ TAG="v80.0-safe-iteration-engine-golden"
 
 exec > >(tee "$LOG_FILE") 2>&1
 
+wait_for_api() {
+  local attempts=30
+  local i=1
+  while [[ "$i" -le "$attempts" ]]; do
+    if curl -sf http://localhost:3000/api/health >/dev/null 2>&1; then
+      return 0
+    fi
+    sleep 2
+    i=$((i + 1))
+  done
+  return 1
+}
+
 echo "PHASE 80 — OPERATIONAL CLOSEOUT"
 echo "--------------------------------"
 echo "generated_at=$(date +"%Y-%m-%d %H:%M:%S")"
@@ -21,30 +34,29 @@ echo "branch=$(git rev-parse --abbrev-ref HEAD)"
 echo "commit=$(git rev-parse --short HEAD)"
 
 echo ""
-echo "STEP 1 — SAFE ITERATION ENGINE"
-bash scripts/_local/phase80_safe_iteration_engine.sh
-
-echo ""
-echo "STEP 2 — CONTAINER REBUILD"
+echo "STEP 1 — CONTAINER REBUILD"
 docker compose build dashboard
 
 echo ""
-echo "STEP 3 — CONTAINER RESTART"
+echo "STEP 2 — CONTAINER RESTART"
 docker compose up -d dashboard
 
 echo ""
-echo "STEP 4 — CONTAINER STATUS"
+echo "STEP 3 — CONTAINER STATUS"
 docker compose ps
 
 echo ""
-echo "STEP 5 — DASHBOARD HEALTH"
-if curl -sf http://localhost:3000/api/health; then
-  echo
+echo "STEP 4 — WAIT FOR DASHBOARD HEALTH"
+if wait_for_api; then
   echo "dashboard_health=responding"
 else
   echo "dashboard_health=not_responding" >&2
   exit 1
 fi
+
+echo ""
+echo "STEP 5 — SAFE ITERATION ENGINE"
+bash scripts/_local/phase80_safe_iteration_engine.sh
 
 echo ""
 echo "STEP 6 — FINAL PREFLIGHT"
@@ -55,7 +67,7 @@ echo "STEP 7 — FINAL RISK SURFACE"
 bash scripts/_local/phase78_operator_risk_surface.sh
 
 echo ""
-echo "STEP 8 — FINAL TAG READINESS"
+echo "STEP 8 — TAG READINESS"
 git status --short --branch
 
 echo ""
