@@ -491,16 +491,10 @@
       // Phase 65C: metric-success ownership transferred to telemetry reducer
       // Legacy direct write removed intentionally.
     }
-
     if (latencyNode) {
-      if (!recentDurationsMs.length) {
-        latencyNode.textContent = '—';
-      } else {
-        const avg =
-          recentDurationsMs.reduce((sum, value) => sum + value, 0) /
-          recentDurationsMs.length;
-        latencyNode.textContent = formatLatency(avg);
-      }
+      // Phase 65C: metric-latency ownership transferred to telemetry reducer
+      // Legacy direct write removed intentionally.
+    }
     }
   };
 

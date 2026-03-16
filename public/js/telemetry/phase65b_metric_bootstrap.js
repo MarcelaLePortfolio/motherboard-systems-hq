@@ -12,6 +12,7 @@
     load("/js/telemetry/phase65b_metric_ownership_guard.js");
     load("/js/telemetry/running_tasks_metric.js");
     load("/js/telemetry/success_rate_metric.js");
+    load("/js/telemetry/latency_metric.js");
   }
 
   if (document.readyState === "loading") {
