@@ -1,0 +1,29 @@
+[
+  {
+    "event_type": "task.created",
+    "task_id": "task-001",
+    "run_id": "run-001",
+    "ts": 1742169600000,
+    "state": "created",
+    "actor": "system",
+    "metadata": {
+      "source": "phase68-sample"
+    }
+  },
+  {
+    "event_type": "task.started",
+    "task_id": "task-001",
+    "run_id": "run-001",
+    "ts": 1742169601000,
+    "state": "started",
+    "actor": "workerA"
+  },
+  {
+    "event_type": "task.completed",
+    "task_id": "task-001",
+    "run_id": "run-001",
+    "ts": 1742169602000,
+    "state": "completed",
+    "actor": "workerA"
+  }
+]
