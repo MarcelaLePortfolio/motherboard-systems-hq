@@ -66,7 +66,8 @@
       if (at != null && now - at <= ACTIVE_WINDOW_MS) count += 1;
     }
 
-    setMetricText(activeAgentsMetricEl, String(count));
+    // Phase 65B.6: metric-agents ownership transferred to phase64_agent_activity_wire.js
+    // Legacy direct write removed intentionally.
   }
 
   function getAgentPresentation(agentKey, reportedStatus) {
@@ -115,7 +116,8 @@
     };
   }
 
-  setMetricText(activeAgentsMetricEl, "—");
+  // Phase 65B.6: metric-agents reset ownership transferred to phase64_agent_activity_wire.js
+  // Legacy direct write removed intentionally.
 
   const stack = document.createElement("div");
   stack.className = "w-full flex flex-col gap-0.5";
@@ -354,7 +356,8 @@
   source.onerror = (err) => {
     console.warn("agent-status-row.js: OPS SSE error:", err);
     Object.keys(indicators).forEach((key) => applyVisual(key, "unknown"));
-    setMetricText(activeAgentsMetricEl, "—");
+    // Phase 65B.6: metric-agents error-state ownership transferred to phase64_agent_activity_wire.js
+    // Legacy direct write removed intentionally.
   };
 })();
 ;/* PHASE63_SHARED_TASK_EVENTS_METRICS */
