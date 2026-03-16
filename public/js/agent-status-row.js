@@ -487,12 +487,9 @@
       // Phase 65B.2: metric-tasks ownership transferred to telemetry reducer
       // Legacy direct write removed intentionally.
     }
-
     if (successNode) {
-      const total = completedCount + failedCount;
-      successNode.textContent = total > 0
-        ? `${Math.round((completedCount / total) * 100)}%`
-        : '—';
+      // Phase 65C: metric-success ownership transferred to telemetry reducer
+      // Legacy direct write removed intentionally.
     }
 
     if (latencyNode) {
