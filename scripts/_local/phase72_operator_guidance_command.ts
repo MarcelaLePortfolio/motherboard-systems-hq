@@ -9,6 +9,7 @@ STRICT:
 - NO automation authority
 */
 
+import { pathToFileURL } from "node:url";
 import {
   interpretOperatorGuidance,
   summarizeGuidance,
@@ -42,7 +43,13 @@ export function runOperatorGuidanceCommand(
   };
 }
 
-if (require.main === module) {
+const isDirectRun =
+  typeof process !== "undefined" &&
+  Array.isArray(process.argv) &&
+  typeof process.argv[1] === "string" &&
+  import.meta.url === pathToFileURL(process.argv[1]).href;
+
+if (isDirectRun) {
   const raw = process.argv[2];
   const parsed: OperatorSignals = raw ? JSON.parse(raw) : {};
 
