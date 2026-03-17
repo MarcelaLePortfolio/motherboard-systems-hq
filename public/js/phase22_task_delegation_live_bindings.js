@@ -6,6 +6,7 @@
   const runningTaskIds = new Set();
   const terminalTaskIds = new Set();
   const completedTaskIds = new Set();
+  const failedTaskIds = new Set();
 
   const STATUS_CLASS = {
     queued: "task-status-queued",
@@ -139,6 +140,27 @@
     }
   }
 
+  function updateFailedTaskDerivation(ev, task) {
+    const id = task?.id ? String(task.id) : null;
+    if (!id) return;
+
+    const kind = String(ev?.kind ?? "").toLowerCase();
+    const status =
+      task?.status ??
+      ev?.status ??
+      ev?.payload?.status ??
+      ev?.task?.status ??
+      null;
+
+    if (failedTaskIds.has(id)) return;
+
+    if (isSuccessKind(kind) || isSuccessStatus(status)) return;
+
+    if (isFailureKind(kind) || isFailureStatus(status)) {
+      failedTaskIds.add(id);
+    }
+  }
+
   function pluckId(ev) {
     return ev?.task_id ?? ev?.taskId ?? ev?.task?.id ?? null;
   }
@@ -217,6 +239,7 @@
     updateCounterNode("failed", failed);
     updateCounterNode("running", runningTaskIds.size);
     updateCounterNode("completed", completedTaskIds.size);
+    updateCounterNode("failed-terminal", failedTaskIds.size);
   }
 
   function ingestTask(task) {
@@ -239,6 +262,7 @@
 
     updateRunningTaskDerivation(ev, t);
     updateCompletedTaskDerivation(ev, t);
+    updateFailedTaskDerivation(ev, t);
 
     if (t.id) ingestTask(t);
     else updateCountersUI();
@@ -262,8 +286,10 @@
       runningTaskIds,
       terminalTaskIds,
       completedTaskIds,
+      failedTaskIds,
       getRunningTasksCount: () => runningTaskIds.size,
       getCompletedTasksCount: () => completedTaskIds.size,
+      getFailedTasksCount: () => failedTaskIds.size,
     };
     console.log("[phase22] bindings attached");
   }
