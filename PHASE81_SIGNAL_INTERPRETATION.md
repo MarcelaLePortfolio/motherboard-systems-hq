@@ -148,3 +148,164 @@ Next Step:
 Queue Pressure derivation function design pending.
 
 END PHASE 81 DOCTRINE
+
+────────────────────────────────
+
+PHASE 81.2 — QUEUE PRESSURE DERIVATION MODEL
+
+Purpose:
+Define the deterministic calculation model for Queue Pressure Signal before any implementation work begins.
+
+Signal ID:
+signal.queue_pressure
+
+Derivation Type:
+Relationship classification (multi-metric comparison)
+
+Inputs:
+
+Required metrics:
+- queue_latency (L)
+- queue_throughput (T)
+
+Optional future extension (NOT USED in Phase 81):
+- task arrival rate
+- queue depth
+
+Observation Window:
+
+Signals must use a fixed observation window identical to the telemetry window already used for latency and throughput.
+
+No dynamic windows allowed.
+No adaptive windows allowed.
+
+Fail closed if window alignment cannot be verified.
+
+Normalization Rule:
+
+Latency and throughput must be interpreted as directional change rather than absolute magnitude.
+
+Allowed comparisons:
+
+ΔL (latency trend)
+ΔT (throughput trend)
+
+Where:
+
+ΔL > 0 = latency increasing
+ΔL = 0 = latency stable
+ΔL < 0 = latency decreasing
+
+ΔT > 0 = throughput increasing
+ΔT = 0 = throughput stable
+ΔT < 0 = throughput decreasing
+
+Trend Determination Rule:
+
+Trend classification must be based on comparison between:
+current window vs previous window.
+
+No multi-window averaging allowed in Phase 81.
+No smoothing algorithms allowed.
+No statistical modeling allowed.
+
+Classification Matrix:
+
+If:
+
+ΔL stable AND ΔT stable
+→ stable
+
+ΔL increasing AND ΔT stable/decreasing
+→ increasing
+
+ΔL increasing AND ΔT increasing
+→ variable
+
+ΔL decreasing AND ΔT stable/increasing
+→ decreasing
+
+ΔL decreasing AND ΔT decreasing
+→ variable
+
+Conflicting oscillation patterns
+→ variable
+
+Insufficient window data
+→ indeterminate
+
+Tie Handling Rule:
+
+If trends conflict without clear dominance:
+→ variable
+
+If insufficient data points:
+→ indeterminate
+
+Null Safety:
+
+If any required metric is null:
+→ indeterminate
+
+If window comparison fails:
+→ indeterminate
+
+Fail closed.
+
+Determinism Rules:
+
+Classification must:
+- depend only on ΔL and ΔT
+- produce identical output for identical inputs
+- contain no randomness
+- contain no heuristics
+- contain no inferred context
+
+Explicitly forbidden:
+
+Weighting models
+Scoring systems
+Probabilistic interpretation
+Machine learning inference
+Predictive modeling
+
+Interpretation Limits:
+
+Queue Pressure Signal describes only observed relationship behavior.
+
+It does NOT:
+
+Predict saturation
+Detect overload
+Determine backlog severity
+Estimate risk
+Recommend response
+
+Verification Model:
+
+Known cases must verify:
+
+L stable / T stable → stable
+L rising / T falling → increasing
+L falling / T rising → decreasing
+L rising / T rising → variable
+Missing data → indeterminate
+
+Safe Phase Boundary:
+
+This milestone defines Queue Pressure derivation logic only.
+
+No implementation.
+No reducers.
+No UI.
+No Atlas integration.
+No guidance logic.
+
+Current Status:
+
+Queue Pressure Derivation Model COMPLETE
+
+Next Step:
+
+Phase 81.3 — Queue Pressure Verification Case Definitions
+
