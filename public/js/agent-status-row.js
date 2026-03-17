@@ -367,7 +367,7 @@
   window.__PHASE63_SHARED_TASK_EVENTS_METRICS__ = true;
 
   const tasksNode = document.getElementById('metric-tasks');
-  const successNode = document.getElementById('metric-success');
+  const successNode = null; // Phase 62B: success writer neutralized; telemetry module remains sole writer
   const latencyNode = document.getElementById('metric-latency');
 
   const runningTaskIds = new Set();
@@ -522,8 +522,8 @@
       if (!seenTerminalEvents.has(dedupeKey)) {
         seenTerminalEvents.add(dedupeKey);
 
-        if (terminalSuccessTypes.has(eventType)) completedCount += 1;
-        if (terminalFailureTypes.has(eventType)) failedCount += 1;
+        if (terminalSuccessTypes.has(eventType)) completedCount += 1; // observer-only state retained
+        if (terminalFailureTypes.has(eventType)) failedCount += 1; // observer-only state retained
 
         const startTs = taskStartTimes.get(taskId);
         if (Number.isFinite(startTs)) {
