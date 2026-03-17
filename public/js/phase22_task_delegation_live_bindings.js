@@ -3,6 +3,8 @@
 
   const TASK_EVENT_NAME = "mb.task.event";
   const tasks = new Map();
+  const runningTaskIds = new Set();
+  const terminalTaskIds = new Set();
 
   const STATUS_CLASS = {
     queued: "task-status-queued",
@@ -16,6 +18,79 @@
     if (v === "done" || v === "complete" || v === "completed") return "done";
     if (v === "failed" || v === "error") return "failed";
     return v || "unknown";
+  }
+
+  function isTerminalKind(kind) {
+    const v = String(kind ?? "").toLowerCase();
+    return (
+      v === "task.completed" ||
+      v === "task.failed" ||
+      v === "task.cancelled" ||
+      v === "task.canceled"
+    );
+  }
+
+  function isRunningKind(kind) {
+    const v = String(kind ?? "").toLowerCase();
+    return (
+      v === "task.created" ||
+      v === "task.started" ||
+      v === "task.running"
+    );
+  }
+
+  function isTerminalStatus(status) {
+    const v = normStatus(status);
+    return (
+      v === "done" ||
+      v === "failed" ||
+      v === "cancelled" ||
+      v === "canceled" ||
+      v === "complete" ||
+      v === "completed" ||
+      v === "error"
+    );
+  }
+
+  function isRunningStatus(status) {
+    const v = normStatus(status);
+    return (
+      v === "queued" ||
+      v === "pending" ||
+      v === "running" ||
+      v === "started" ||
+      v === "active" ||
+      v === "in_progress" ||
+      v === "in-progress"
+    );
+  }
+
+  function updateRunningTaskDerivation(ev, task) {
+    const id = task?.id ? String(task.id) : null;
+    if (!id) return;
+
+    const kind = String(ev?.kind ?? "").toLowerCase();
+    const status =
+      task?.status ??
+      ev?.status ??
+      ev?.payload?.status ??
+      ev?.task?.status ??
+      null;
+
+    if (terminalTaskIds.has(id)) {
+      runningTaskIds.delete(id);
+      return;
+    }
+
+    if (isTerminalKind(kind) || isTerminalStatus(status)) {
+      runningTaskIds.delete(id);
+      terminalTaskIds.add(id);
+      return;
+    }
+
+    if (isRunningKind(kind) || isRunningStatus(status)) {
+      runningTaskIds.add(id);
+    }
   }
 
   function pluckId(ev) {
@@ -69,8 +144,21 @@
     for (const n of nodes) setStatusOnNode(n, task.status);
   }
 
+  function updateCounterNode(key, value) {
+    const el =
+      document.getElementById(`task-count-${key}`) ||
+      document.getElementById(`tasks-${key}-count`) ||
+      document.querySelector?.(`[data-task-count="${key}"]`) ||
+      null;
+
+    if (el) el.textContent = String(value);
+  }
+
   function updateCountersUI() {
-    let queued = 0, done = 0, failed = 0;
+    let queued = 0;
+    let done = 0;
+    let failed = 0;
+
     for (const t of tasks.values()) {
       const s = normStatus(t.status);
       if (s === "queued") queued++;
@@ -78,20 +166,10 @@
       else if (s === "failed") failed++;
     }
 
-    const map = [
-      ["queued", queued],
-      ["done", done],
-      ["failed", failed],
-    ];
-
-    for (const [k, v] of map) {
-      const el =
-        document.getElementById(`task-count-${k}`) ||
-        document.getElementById(`tasks-${k}-count`) ||
-        document.querySelector?.(`[data-task-count="${k}"]`) ||
-        null;
-      if (el) el.textContent = String(v);
-    }
+    updateCounterNode("queued", queued);
+    updateCounterNode("done", done);
+    updateCounterNode("failed", failed);
+    updateCounterNode("running", runningTaskIds.size);
   }
 
   function ingestTask(task) {
@@ -106,11 +184,16 @@
 
   function onTaskEvent(ev) {
     const t = pluckTask(ev);
+
     if (!t.id && ev?.kind) {
       if (ev.kind === "task.completed") t.status = "done";
       if (ev.kind === "task.failed") t.status = "failed";
     }
+
+    updateRunningTaskDerivation(ev, t);
+
     if (t.id) ingestTask(t);
+    else updateCountersUI();
   }
 
   function attach() {
@@ -118,10 +201,21 @@
     window.__PHASE22_TASK_UI_BOUND = true;
 
     window.addEventListener(TASK_EVENT_NAME, (e) => {
-      try { if (window.__UI_DEBUG || window.__PHASE22_DEBUG) if (window.__UI_DEBUG || window.__PHASE22_DEBUG) console.log("[phase22] mb.task.event", e.detail); onTaskEvent(e.detail); } catch {}
+      try {
+        if (window.__UI_DEBUG || window.__PHASE22_DEBUG) {
+          console.log("[phase22] mb.task.event", e.detail);
+        }
+        onTaskEvent(e.detail);
+      } catch {}
     });
 
-    window.__PHASE22_TASK_UI = { tasks }; console.log("[phase22] bindings attached");
+    window.__PHASE22_TASK_UI = {
+      tasks,
+      runningTaskIds,
+      terminalTaskIds,
+      getRunningTasksCount: () => runningTaskIds.size,
+    };
+    console.log("[phase22] bindings attached");
   }
 
   if (document.readyState === "loading") {
