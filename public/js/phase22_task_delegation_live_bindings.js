@@ -5,6 +5,7 @@
   const tasks = new Map();
   const runningTaskIds = new Set();
   const terminalTaskIds = new Set();
+  const completedTaskIds = new Set();
 
   const STATUS_CLASS = {
     queued: "task-status-queued",
@@ -39,6 +40,20 @@
     );
   }
 
+  function isSuccessKind(kind) {
+    const v = String(kind ?? "").toLowerCase();
+    return v === "task.completed";
+  }
+
+  function isFailureKind(kind) {
+    const v = String(kind ?? "").toLowerCase();
+    return (
+      v === "task.failed" ||
+      v === "task.cancelled" ||
+      v === "task.canceled"
+    );
+  }
+
   function isTerminalStatus(status) {
     const v = normStatus(status);
     return (
@@ -50,6 +65,16 @@
       v === "completed" ||
       v === "error"
     );
+  }
+
+  function isSuccessStatus(status) {
+    const v = normStatus(status);
+    return v === "done" || v === "complete" || v === "completed";
+  }
+
+  function isFailureStatus(status) {
+    const v = normStatus(status);
+    return v === "failed" || v === "cancelled" || v === "canceled" || v === "error";
   }
 
   function isRunningStatus(status) {
@@ -90,6 +115,27 @@
 
     if (isRunningKind(kind) || isRunningStatus(status)) {
       runningTaskIds.add(id);
+    }
+  }
+
+  function updateCompletedTaskDerivation(ev, task) {
+    const id = task?.id ? String(task.id) : null;
+    if (!id) return;
+
+    const kind = String(ev?.kind ?? "").toLowerCase();
+    const status =
+      task?.status ??
+      ev?.status ??
+      ev?.payload?.status ??
+      ev?.task?.status ??
+      null;
+
+    if (completedTaskIds.has(id)) return;
+
+    if (isFailureKind(kind) || isFailureStatus(status)) return;
+
+    if (isSuccessKind(kind) || isSuccessStatus(status)) {
+      completedTaskIds.add(id);
     }
   }
 
@@ -170,6 +216,7 @@
     updateCounterNode("done", done);
     updateCounterNode("failed", failed);
     updateCounterNode("running", runningTaskIds.size);
+    updateCounterNode("completed", completedTaskIds.size);
   }
 
   function ingestTask(task) {
@@ -191,6 +238,7 @@
     }
 
     updateRunningTaskDerivation(ev, t);
+    updateCompletedTaskDerivation(ev, t);
 
     if (t.id) ingestTask(t);
     else updateCountersUI();
@@ -213,7 +261,9 @@
       tasks,
       runningTaskIds,
       terminalTaskIds,
+      completedTaskIds,
       getRunningTasksCount: () => runningTaskIds.size,
+      getCompletedTasksCount: () => completedTaskIds.size,
     };
     console.log("[phase22] bindings attached");
   }
