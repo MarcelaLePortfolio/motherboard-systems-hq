@@ -57,8 +57,17 @@ Telemetry now sole writer.
     }
   }
 
-  function getEventType(payload) {
-    return String(payload?.type || payload?.event || payload?.name || payload?.status || payload?.state || "")
+  function getEventType(payload, fallbackEventName) {
+    return String(
+      payload?.type ||
+        payload?.event ||
+        payload?.name ||
+        payload?.kind ||
+        payload?.status ||
+        payload?.state ||
+        fallbackEventName ||
+        ""
+    )
       .trim()
       .toLowerCase();
   }
@@ -66,11 +75,13 @@ Telemetry now sole writer.
   function getTaskId(payload) {
     return String(
       payload?.task_id ??
-      payload?.taskId ??
-      payload?.id ??
-      payload?.data?.task_id ??
-      payload?.data?.taskId ??
-      ""
+        payload?.taskId ??
+        payload?.id ??
+        payload?.data?.task_id ??
+        payload?.data?.taskId ??
+        payload?.meta?.task_id ??
+        payload?.meta?.taskId ??
+        ""
     ).trim();
   }
 
@@ -98,10 +109,32 @@ Telemetry now sole writer.
     return Date.now();
   }
 
-  function processPayload(payload) {
-    const type = getEventType(payload);
-    const taskId = getTaskId(payload);
-    const ts = getEventTs(payload);
+  function normalizePayload(payload, fallbackEventName) {
+    const value = payload && typeof payload === "object" ? { ...payload } : {};
+    const meta = value.meta && typeof value.meta === "object" ? value.meta : null;
+
+    if (value.kind === "task.event" && value.type) {
+      value.kind = value.type;
+    }
+
+    if (meta) {
+      if (value.task_id == null && meta.task_id != null) value.task_id = meta.task_id;
+      if (value.taskId == null && meta.taskId != null) value.taskId = meta.taskId;
+      if (value.status == null && meta.status != null) value.status = meta.status;
+      if (value.state == null && meta.state != null) value.state = meta.state;
+      if (value.event == null && meta.event != null) value.event = meta.event;
+      if (value.type == null && meta.type != null) value.type = meta.type;
+    }
+
+    value.__phase62bFallbackEventName = fallbackEventName || "";
+    return value;
+  }
+
+  function processPayload(payload, fallbackEventName) {
+    const normalized = normalizePayload(payload, fallbackEventName);
+    const type = getEventType(normalized, fallbackEventName);
+    const taskId = getTaskId(normalized);
+    const ts = getEventTs(normalized);
 
     if (!type) {
       render();
@@ -135,17 +168,30 @@ Telemetry now sole writer.
 
     source.__phase65cSuccessBound = true;
 
-    source.addEventListener("message", (e) => {
+    const handle = (fallbackEventName, e) => {
       try {
         const parsed = JSON.parse(e.data);
         if (Array.isArray(parsed)) {
-          parsed.forEach(processPayload);
+          parsed.forEach((item) => processPayload(item, fallbackEventName));
         } else {
-          processPayload(parsed);
+          processPayload(parsed, fallbackEventName);
         }
       } catch {
         console.warn("success_rate_metric parse error");
       }
+    };
+
+    const eventNames = [
+      "message",
+      "task.event",
+      "task.completed",
+      "task.failed",
+      "task.updated",
+      "task.status",
+    ];
+
+    eventNames.forEach((eventName) => {
+      source.addEventListener(eventName, (e) => handle(eventName, e));
     });
   }
 

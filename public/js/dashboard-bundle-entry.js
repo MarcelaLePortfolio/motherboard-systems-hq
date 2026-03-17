@@ -27,18 +27,9 @@ import "./dashboard-delegation.js";
 // TEMP: dashboard graph disabled until canvas is present on all pages
 // import "./dashboard-graph.js";
 
-
 // Phase 22: task-events live UI
 import "./task-events-sse-client.js";
 import "./phase22_task_delegation_live_bindings.js";
 
-/* PHASE65B_TELEMETRY_BOOTSTRAP */
-(function () {
-  if (typeof document === "undefined") return;
-  if (document.querySelector('script[src="/js/telemetry/phase65b_metric_bootstrap.js"]')) return;
-
-  const script = document.createElement("script");
-  script.src = "/js/telemetry/phase65b_metric_bootstrap.js";
-  script.defer = true;
-  document.body.appendChild(script);
-})();
+// Phase 62B/65C: telemetry metric ownership bootstrap
+import "./telemetry/phase65b_metric_bootstrap.js";
