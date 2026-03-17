@@ -7,7 +7,7 @@ type QueueLatencyTask = {
 }
 
 type QueueLatencyCardProps = {
-  tasks: QueueLatencyTask[]
+  tasks?: QueueLatencyTask[]
   title?: string
 }
 
@@ -28,12 +28,12 @@ function formatSeconds(value: number): string {
 }
 
 export default function QueueLatencyCard({
-  tasks,
+  tasks = [],
   title = 'Queue Latency',
 }: QueueLatencyCardProps) {
 
   const stats = React.useMemo(() => {
-    return computeQueueLatency(tasks || [])
+    return computeQueueLatency(tasks)
   }, [tasks])
 
   return (
