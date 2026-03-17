@@ -553,3 +553,184 @@ Queue Pressure Verification Case Definitions COMPLETE
 Next Step:
 Phase 81.4 — Queue Pressure Pure Derivation Function Design
 
+
+────────────────────────────────
+
+PHASE 81.4 — QUEUE PRESSURE PURE DERIVATION FUNCTION DESIGN
+
+Purpose:
+Define the pure function contract for Queue Pressure Signal so implementation can occur later without ambiguity or behavioral drift.
+
+Signal ID:
+signal.queue_pressure
+
+Function Name:
+deriveQueuePressureSignal
+
+Function Type:
+Pure deterministic classifier
+
+Function Inputs:
+- prior_latency
+- current_latency
+- prior_throughput
+- current_throughput
+
+Input Requirements:
+- all inputs must be numeric or null
+- no implicit type coercion allowed
+- undefined values must be treated as null
+- non-numeric values must fail closed
+
+Function Output:
+One of:
+- stable
+- increasing
+- decreasing
+- variable
+- indeterminate
+
+Output Type:
+QueuePressureSignalClassification
+
+Evaluation Rule:
+The function must classify Queue Pressure solely from directional comparison between prior and current metric windows.
+
+No external state allowed.
+No reducer state allowed.
+No runtime context allowed.
+No operator context allowed.
+
+Directional Helpers:
+
+Latency direction:
+- if current_latency > prior_latency -> rising
+- if current_latency = prior_latency -> stable
+- if current_latency < prior_latency -> falling
+
+Throughput direction:
+- if current_throughput > prior_throughput -> rising
+- if current_throughput = prior_throughput -> stable
+- if current_throughput < prior_throughput -> falling
+
+Evaluation Precedence:
+
+Step 1:
+Validate all inputs.
+If any required input is null or non-numeric
+-> indeterminate
+
+Step 2:
+Determine latency direction.
+
+Step 3:
+Determine throughput direction.
+
+Step 4:
+Apply classification matrix in fixed order.
+
+Fixed Classification Matrix:
+
+1.
+latency stable
+throughput stable
+-> stable
+
+2.
+latency rising
+throughput stable
+-> increasing
+
+3.
+latency rising
+throughput falling
+-> increasing
+
+4.
+latency falling
+throughput stable
+-> decreasing
+
+5.
+latency falling
+throughput rising
+-> decreasing
+
+6.
+latency rising
+throughput rising
+-> variable
+
+7.
+latency falling
+throughput falling
+-> variable
+
+8.
+all other unmatched combinations
+-> variable
+
+Fixed Order Rule:
+The classification matrix must be evaluated in the exact order defined above.
+
+No weighting allowed.
+No score aggregation allowed.
+No tie-break heuristics allowed.
+
+Null Safety Rule:
+If any of the following is null:
+- prior_latency
+- current_latency
+- prior_throughput
+- current_throughput
+
+Return:
+- indeterminate
+
+Non-Numeric Safety Rule:
+If any input is not a valid number:
+- indeterminate
+
+Determinism Rule:
+Given identical inputs, the function must always return identical output.
+
+The function must contain:
+- no randomness
+- no time dependency
+- no hidden state
+- no metric history beyond provided inputs
+- no adaptive thresholds
+
+Explicitly Forbidden:
+- smoothing
+- averaging across multiple windows
+- confidence scoring
+- trend weighting
+- probability estimates
+- predictive logic
+- severity labels
+- action labels
+
+Verification Mapping Requirement:
+The function contract must satisfy all previously defined cases:
+- QP-01 through QP-15
+
+Any future implementation that cannot satisfy those cases violates this design.
+
+Phase Safety Constraint:
+This step defines the pure function contract only.
+
+It does NOT authorize:
+- implementation in runtime code
+- registry insertion
+- Atlas integration
+- workspace presentation
+- operator guidance
+- automation coupling
+
+Current Status:
+Queue Pressure Pure Derivation Function Design COMPLETE
+
+Next Step:
+Phase 81.5 — Queue Pressure Determinism Verification Harness Definition
+
