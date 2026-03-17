@@ -1,0 +1,14 @@
+FULL OUTPUT (truncated for safety)
+
+28:  const successNode = document.getElementById('metric-success');
+148:    if (successNode) {
+150:      successNode.textContent = total > 0
+
+37:  let completedCount = 0;
+149:      const total = completedCount + failedCount;
+151:        ? `${Math.round((completedCount / total) * 100)}%`
+191:        if (terminalSuccessTypes.has(eventType)) completedCount += 1;
+
+38:  let failedCount = 0;
+149:      const total = completedCount + failedCount;
+192:        if (terminalFailureTypes.has(eventType)) failedCount += 1;
