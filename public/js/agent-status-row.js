@@ -495,8 +495,7 @@
       // Phase 65C: metric-latency ownership transferred to telemetry reducer
       // Legacy direct write removed intentionally.
     }
-    }
-  };
+    };
 
   const ingestEvent = (eventName, payload) => {
     const taskId = getTaskId(payload);
