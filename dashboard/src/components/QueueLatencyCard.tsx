@@ -1,5 +1,5 @@
 import React from 'react'
-import { computeQueueLatency } from '../telemetry/queueLatency'
+import { computeQueueLatency } from '../telemetry'
 
 type QueueLatencyTask = {
   created_at?: string | null
@@ -12,7 +12,10 @@ type QueueLatencyCardProps = {
 }
 
 function formatSeconds(value: number): string {
-  if (!Number.isFinite(value) || value <= 0) return '0s'
+
+  if (!Number.isFinite(value) || value <= 0) {
+    return '0s'
+  }
 
   if (value < 60) {
     return `${value.toFixed(2)}s`
@@ -34,6 +37,7 @@ export default function QueueLatencyCard({
   }, [tasks])
 
   return (
+
     <section
       aria-label="queue-latency-card"
       className="rounded-xl border border-white/10 bg-black/20 p-4"
@@ -96,5 +100,6 @@ export default function QueueLatencyCard({
       </div>
 
     </section>
+
   )
 }
