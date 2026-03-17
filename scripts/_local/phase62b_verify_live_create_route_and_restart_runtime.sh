@@ -8,6 +8,9 @@ SUMMARY="PHASE62B_LIVE_CREATE_ROUTE_RESTART_SUMMARY_${TS}.md"
 TMP1="$(mktemp)"
 TMP2="$(mktemp)"
 
+INITIAL_RUN_ID="missing"
+FINAL_RUN_ID="missing"
+
 cleanup() {
   rm -f "$TMP1" "$TMP2"
 }
@@ -33,77 +36,75 @@ raise SystemExit(1)
 PY
 }
 
-{
-  echo "PHASE 62B — LIVE CREATE ROUTE RESTART CHECK"
-  echo "generated_at=$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
-  echo "base_url=${BASE_URL}"
-  echo
+exec > >(tee "$OUT") 2>&1
 
-  echo "== source proof =="
-  grep -n 'let run_id = b.run_id' server/routes/api-tasks-postgres.mjs || true
-  grep -n 'res.status(201).json({ ok: true, task_id, run_id, event: evt });' server/routes/api-tasks-postgres.mjs || true
-  echo
+echo "PHASE 62B — LIVE CREATE ROUTE RESTART CHECK"
+echo "generated_at=$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+echo "base_url=${BASE_URL}"
+echo
 
-  echo "== initial live create probe =="
-  curl -fsS -X POST "${BASE_URL}/api/tasks/create" \
-    -H 'Content-Type: application/json' \
-    -d '{
-      "title":"phase62b live create route restart check",
-      "status":"queued",
-      "meta":{"actor":"phase62b-restart-check","note":"initial probe"}
-    }' | tee "$TMP1"
-  echo
-  echo
+echo "== source proof =="
+grep -n 'let run_id = b.run_id' server/routes/api-tasks-postgres.mjs || true
+grep -n 'res.status(201).json({ ok: true, task_id, run_id, event: evt });' server/routes/api-tasks-postgres.mjs || true
+echo
 
-  INITIAL_RUN_ID="missing"
-  if INITIAL_RUN_ID_EXTRACTED="$(extract_run_id "$TMP1" 2>/dev/null)"; then
-    INITIAL_RUN_ID="$INITIAL_RUN_ID_EXTRACTED"
-  fi
-  echo "initial_run_id=${INITIAL_RUN_ID}"
-  echo
+echo "== initial live create probe =="
+curl -fsS -X POST "${BASE_URL}/api/tasks/create" \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "title":"phase62b live create route restart check",
+    "status":"queued",
+    "meta":{"actor":"phase62b-restart-check","note":"initial probe"}
+  }' | tee "$TMP1"
+echo
+echo
 
-  if [ "$INITIAL_RUN_ID" = "missing" ]; then
-    echo "== runtime appears stale: attempting docker compose refresh =="
-    if docker compose version >/dev/null 2>&1; then
-      docker compose ps || true
-      docker compose up -d --build
-      echo
-      echo "== waiting for runtime =="
-      sleep 8
-    else
-      echo "docker compose unavailable"
-    fi
+if INITIAL_RUN_ID_EXTRACTED="$(extract_run_id "$TMP1" 2>/dev/null)"; then
+  INITIAL_RUN_ID="$INITIAL_RUN_ID_EXTRACTED"
+fi
+echo "initial_run_id=${INITIAL_RUN_ID}"
+echo
+
+if [ "$INITIAL_RUN_ID" = "missing" ]; then
+  echo "== runtime appears stale: attempting docker compose refresh =="
+  if docker compose version >/dev/null 2>&1; then
+    docker compose ps || true
+    docker compose up -d --build
     echo
+    echo "== waiting for runtime =="
+    sleep 8
   else
-    echo "== runtime already serving run_id-enabled create route =="
-    echo
+    echo "docker compose unavailable"
   fi
-
-  echo "== post-refresh live create probe =="
-  curl -fsS -X POST "${BASE_URL}/api/tasks/create" \
-    -H 'Content-Type: application/json' \
-    -d '{
-      "title":"phase62b live create route restart check post-refresh",
-      "status":"queued",
-      "meta":{"actor":"phase62b-restart-check","note":"post-refresh probe"}
-    }' | tee "$TMP2"
   echo
+else
+  echo "== runtime already serving run_id-enabled create route =="
   echo
+fi
 
-  FINAL_RUN_ID="missing"
-  if FINAL_RUN_ID_EXTRACTED="$(extract_run_id "$TMP2" 2>/dev/null)"; then
-    FINAL_RUN_ID="$FINAL_RUN_ID_EXTRACTED"
-  fi
-  echo "final_run_id=${FINAL_RUN_ID}"
-  echo
+echo "== post-refresh live create probe =="
+curl -fsS -X POST "${BASE_URL}/api/tasks/create" \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "title":"phase62b live create route restart check post-refresh",
+    "status":"queued",
+    "meta":{"actor":"phase62b-restart-check","note":"post-refresh probe"}
+  }' | tee "$TMP2"
+echo
+echo
 
-  echo "== decision =="
-  if [ "$FINAL_RUN_ID" = "missing" ]; then
-    echo "live_create_route_run_id_present=no"
-  else
-    echo "live_create_route_run_id_present=yes"
-  fi
-} | tee "$OUT"
+if FINAL_RUN_ID_EXTRACTED="$(extract_run_id "$TMP2" 2>/dev/null)"; then
+  FINAL_RUN_ID="$FINAL_RUN_ID_EXTRACTED"
+fi
+echo "final_run_id=${FINAL_RUN_ID}"
+echo
+
+echo "== decision =="
+if [ "$FINAL_RUN_ID" = "missing" ]; then
+  echo "live_create_route_run_id_present=no"
+else
+  echo "live_create_route_run_id_present=yes"
+fi
 
 cat > "$SUMMARY" <<EOF2
 PHASE 62B — LIVE CREATE ROUTE RESTART SUMMARY
@@ -131,5 +132,6 @@ Artifacts:
 - inspection_log=${OUT}
 EOF2
 
+echo
 echo "summary_written=${SUMMARY}"
 echo "inspection_log=${OUT}"
