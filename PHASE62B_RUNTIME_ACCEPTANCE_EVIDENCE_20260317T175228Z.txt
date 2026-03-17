@@ -1,0 +1,79 @@
+PHASE 62B — RUNTIME ACCEPTANCE EVIDENCE
+generated_at=2026-03-17T17:52:28Z
+base_url=http://127.0.0.1:8080
+
+== route reachability ==
+{"ok":true,"tasks":[{"id":"17","task_id":"t_aabbf43c-5102-4d76-b80c-a75243f07582","title":"phase62b runtime failure candidate","status":"queued","updated_at":"2026-03-17T17:42:44.392Z"},{"id":"16","task_id":"t_3065467d-00af-4bcb-8125-acd7a085229f","title":"phase62b runtime success candidate","status":"queued","updated_at":"2026-03-17T17:42:42.288Z"},{"id":"15","task_id":"t_0ec3817c-933a-4106-9cd7-a01ac1bd8263","title":"phase62b live create route restart check post-refresh","status":"queued","updated_at":"2026-03-17T17:42:42.216Z"},{"id":"14","task_id":"t_11574f78-6511-4d47-b22a-e5bf120966c4","title":"phase62b live create route restart check","status":"queued","updated_at":"2026-03-17T17:42:42.138Z"},{"id":"13","task_id":"t_2b928083-d81b-468a-a260-697a3e8b32be","title":"phase62b live create route restart check post-refresh","status":"queued","updated_at":"2026-03-17T17:30:28.013Z"}]}
+
+== latest validation artifact ==
+latest_validation_log=PHASE62B_REAL_RUNTIME_VALIDATION_20260317T174242Z.txt
+-- extracted terminal route results --
+8:== step 1: create success candidate ==
+9:{"ok":true,"task_id":"t_3065467d-00af-4bcb-8125-acd7a085229f","run_id":"run_f2d0e3cb-1b5f-40bf-8042-ae2ef5083750"}{"ok":true,"task_id":"t_3065467d-00af-4bcb-8125-acd7a085229f","run_id":"run_f2d0e3cb-1b5f-40bf-8042-ae2ef5083750"}
+11:success_task_id=t_3065467d-00af-4bcb-8125-acd7a085229f
+12:success_task_id=t_3065467d-00af-4bcb-8125-acd7a085229f
+13:success_run_id=run_f2d0e3cb-1b5f-40bf-8042-ae2ef5083750
+14:success_run_id=run_f2d0e3cb-1b5f-40bf-8042-ae2ef5083750
+17:== step 2: complete success candidate ==
+18:{"ok":true,"task_id":"t_3065467d-00af-4bcb-8125-acd7a085229f"}{"ok":true,"task_id":"t_3065467d-00af-4bcb-8125-acd7a085229f"}
+20:== step 3: create failure candidate ==
+21:{"ok":true,"task_id":"t_aabbf43c-5102-4d76-b80c-a75243f07582","run_id":"run_58deafb4-be85-4aec-be58-0141d73ef3a7"}{"ok":true,"task_id":"t_aabbf43c-5102-4d76-b80c-a75243f07582","run_id":"run_58deafb4-be85-4aec-be58-0141d73ef3a7"}
+23:failure_task_id=t_aabbf43c-5102-4d76-b80c-a75243f07582
+24:failure_task_id=t_aabbf43c-5102-4d76-b80c-a75243f07582
+25:failure_run_id=run_58deafb4-be85-4aec-be58-0141d73ef3a7
+26:failure_run_id=run_58deafb4-be85-4aec-be58-0141d73ef3a7
+29:== step 4: fail failure candidate ==
+30:{"ok":true,"task_id":"t_aabbf43c-5102-4d76-b80c-a75243f07582"}{"ok":true,"task_id":"t_aabbf43c-5102-4d76-b80c-a75243f07582"}
+
+
+== live dashboard asset ownership checks ==
+-- direct success writer in bundle --
+bundle_direct_success_writer_present=no
+
+-- source neutralization --
+shared_metrics_success_writer_neutralized=yes
+
+-- bootstrap import --
+dashboard_bundle_imports_bootstrap=yes
+
+-- telemetry success listeners --
+9:    "task.completed",
+20:    "task.failed",
+184:    const eventNames = [
+187:      "task.completed",
+188:      "task.failed",
+193:    eventNames.forEach((eventName) => {
+194:      source.addEventListener(eventName, (e) => handle(eventName, e));
+227:    document.addEventListener("DOMContentLoaded", bootstrap);
+
+
+== postgres terminal event evidence ==
+postgres_container=ac18d04a90e7c151cb746e0943b99f86c89e356decac6e56a3ce3bcfa31c6ecb
+-- terminal event counts in task_events --
+task_created_events=0
+task_completed_events=0
+task_failed_events=0
+
+-- latest terminal events --
+
+-- latest tasks rows --
+
+
+== terminal derivation from /api/tasks snapshot ==
+api_tasks_success=0
+api_tasks_failed=0
+api_tasks_running=1
+api_tasks_queued=15
+api_tasks_terminal_total=0
+api_tasks_success_rate=0
+
+
+== decision scaffold ==
+terminal_success_event_observed=no
+terminal_failure_event_observed=no
+bundle_writer_regression=no
+ownership_regression=no
+
+== limits of terminal-only proof ==
+terminal_can_prove=route success, terminal events persisted, bundle writer state, source ownership state
+terminal_cannot_fully_prove=visual layout stability, exact dashboard Success Rate movement, exact on-screen Latency rendering
