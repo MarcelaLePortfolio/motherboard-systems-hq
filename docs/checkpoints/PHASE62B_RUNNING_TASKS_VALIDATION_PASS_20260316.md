@@ -5,17 +5,15 @@ Date: 2026-03-16
 
 BASELINE
 Branch: phase65b-running-tasks-hydration
-HEAD: 0203a142
+HEAD: 7b1f7d2c
 
 git status --short
-?? docs/checkpoints/PHASE62B_RUNNING_TASKS_VALIDATION_PASS_20260316.md
-?? scripts/_local/phase62b_running_tasks_validation_pass.sh
+ M docs/checkpoints/PHASE62B_RUNNING_TASKS_VALIDATION_PASS_20260316.md
+ M scripts/_local/phase62b_running_tasks_validation_pass.sh
 
 ────────────────────────────────
 
 IMPLEMENTATION DIFF
- public/js/phase22_task_delegation_live_bindings.js | 128 ++++++++++++++++++---
- 1 file changed, 111 insertions(+), 17 deletions(-)
 
 ────────────────────────────────
 
@@ -42,23 +40,29 @@ RUNNING TASKS SURFACE SNAPSHOT
 ────────────────────────────────
 
 PACKAGE VALIDATION COMMANDS
-test
-test:orchestration
+test = bash ./scripts/phase42_scope_gate.sh && (echo "(no test script)" && exit 0)
+test:orchestration = node --import tsx --test server/orchestration/*.test.ts
 
 ────────────────────────────────
 
 VALIDATION RESULTS
 
 SKIP telemetry:replay-check (script not present)
+
 SKIP telemetry:drift-check (script not present)
+
 SKIP layout:contract-check (script not present)
+
 >>> test
 
 > test
-> bash ./scripts/phase42_scope_gate.sh && (echo "(no test script)" && exit 0) --runInBand
+> bash ./scripts/phase42_scope_gate.sh && (echo "(no test script)" && exit 0)
 
-RESULT: FAIL
-
+=== phase42_scope_gate ===
+file=PHASE42_SCOPE.md
+OK: no TBD remains in PHASE42_SCOPE.md
+(no test script)
+RESULT: PASS
 
 ────────────────────────────────
 
