@@ -3,23 +3,29 @@ set -euo pipefail
 
 echo "Phase 80.3 — Queue Pressure Metric Local Verification"
 
-node -e "
-const { computeQueuePressure } = require('../dist/telemetry/computeQueuePressure')
+if command -v npx >/dev/null 2>&1; then
+  if npx --yes tsx --version >/dev/null 2>&1; then
+    npx --yes tsx src/telemetry/computeQueuePressure.test.ts
+    echo "Queue Pressure metric verified locally via tsx"
+    exit 0
+  fi
 
-function assertEqual(actual, expected, label){
-  if(actual !== expected){
-    throw new Error('FAIL: ' + label + ' expected ' + expected + ' got ' + actual)
-  }
-}
+  if npx --yes ts-node --version >/dev/null 2>&1; then
+    npx --yes ts-node src/telemetry/computeQueuePressure.test.ts
+    echo "Queue Pressure metric verified locally via ts-node"
+    exit 0
+  fi
+fi
 
-assertEqual(computeQueuePressure(0,10),0,'zero running')
-assertEqual(computeQueuePressure(5,10),0.5,'half capacity')
-assertEqual(computeQueuePressure(10,10),1,'full capacity')
-assertEqual(computeQueuePressure(12,10),1.2,'over capacity')
-assertEqual(computeQueuePressure(5,0),0,'zero capacity')
-assertEqual(computeQueuePressure(-1,10),0,'negative running')
+if [ -f dist/telemetry/computeQueuePressure.test.js ]; then
+  node dist/telemetry/computeQueuePressure.test.js
+  echo "Queue Pressure metric verified locally via compiled dist"
+  exit 0
+fi
 
-console.log('Phase 80.3 verification PASSED')
-"
-
-echo "Queue Pressure metric verified locally"
+echo "No supported TypeScript runner or compiled dist test found." >&2
+echo "Expected one of:" >&2
+echo "  - npx tsx" >&2
+echo "  - npx ts-node" >&2
+echo "  - dist/telemetry/computeQueuePressure.test.js" >&2
+exit 1
