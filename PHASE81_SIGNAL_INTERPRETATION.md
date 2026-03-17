@@ -309,3 +309,247 @@ Next Step:
 
 Phase 81.3 — Queue Pressure Verification Case Definitions
 
+
+────────────────────────────────
+
+PHASE 81.3 — QUEUE PRESSURE VERIFICATION CASE DEFINITIONS
+
+Purpose:
+Define deterministic verification cases for Queue Pressure Signal so future implementation can be validated against fixed expected outcomes.
+
+Signal ID:
+signal.queue_pressure
+
+Verification Rule:
+Every verification case must use:
+- fixed prior window inputs
+- fixed current window inputs
+- explicit expected classification
+- no inferred interpretation
+
+Window Comparison Basis:
+Each case compares:
+- prior window queue_latency
+- current window queue_latency
+- prior window queue_throughput
+- current window queue_throughput
+
+Trend Legend:
+- rising = current > prior
+- stable = current = prior
+- falling = current < prior
+
+Verification Cases:
+
+Case QP-01
+Prior:
+- latency = 120
+- throughput = 50
+Current:
+- latency = 120
+- throughput = 50
+Expected:
+- stable
+Reason:
+- latency stable
+- throughput stable
+
+Case QP-02
+Prior:
+- latency = 120
+- throughput = 50
+Current:
+- latency = 160
+- throughput = 40
+Expected:
+- increasing
+Reason:
+- latency rising
+- throughput falling
+
+Case QP-03
+Prior:
+- latency = 120
+- throughput = 50
+Current:
+- latency = 160
+- throughput = 50
+Expected:
+- increasing
+Reason:
+- latency rising
+- throughput stable
+
+Case QP-04
+Prior:
+- latency = 120
+- throughput = 50
+Current:
+- latency = 90
+- throughput = 60
+Expected:
+- decreasing
+Reason:
+- latency falling
+- throughput rising
+
+Case QP-05
+Prior:
+- latency = 120
+- throughput = 50
+Current:
+- latency = 90
+- throughput = 50
+Expected:
+- decreasing
+Reason:
+- latency falling
+- throughput stable
+
+Case QP-06
+Prior:
+- latency = 120
+- throughput = 50
+Current:
+- latency = 160
+- throughput = 60
+Expected:
+- variable
+Reason:
+- latency rising
+- throughput rising
+
+Case QP-07
+Prior:
+- latency = 120
+- throughput = 50
+Current:
+- latency = 90
+- throughput = 40
+Expected:
+- variable
+Reason:
+- latency falling
+- throughput falling
+
+Case QP-08
+Prior:
+- latency = 120
+- throughput = 50
+Current:
+- latency = null
+- throughput = 50
+Expected:
+- indeterminate
+Reason:
+- required metric missing
+
+Case QP-09
+Prior:
+- latency = 120
+- throughput = 50
+Current:
+- latency = 120
+- throughput = null
+Expected:
+- indeterminate
+Reason:
+- required metric missing
+
+Case QP-10
+Prior:
+- latency = null
+- throughput = 50
+Current:
+- latency = 120
+- throughput = 50
+Expected:
+- indeterminate
+Reason:
+- prior comparison window incomplete
+
+Case QP-11
+Prior:
+- latency = 120
+- throughput = null
+Current:
+- latency = 120
+- throughput = 50
+Expected:
+- indeterminate
+Reason:
+- prior comparison window incomplete
+
+Case QP-12
+Prior:
+- latency = 120
+- throughput = 50
+Current:
+- latency = 121
+- throughput = 49
+Expected:
+- increasing
+Reason:
+- latency rising
+- throughput falling
+
+Case QP-13
+Prior:
+- latency = 120
+- throughput = 50
+Current:
+- latency = 119
+- throughput = 51
+Expected:
+- decreasing
+Reason:
+- latency falling
+- throughput rising
+
+Case QP-14
+Prior:
+- latency = 120
+- throughput = 50
+Current:
+- latency = 121
+- throughput = 51
+Expected:
+- variable
+Reason:
+- latency rising
+- throughput rising
+
+Case QP-15
+Prior:
+- latency = 120
+- throughput = 50
+Current:
+- latency = 119
+- throughput = 49
+Expected:
+- variable
+Reason:
+- latency falling
+- throughput falling
+
+Acceptance Requirements:
+- all cases must map exactly to expected classification
+- identical inputs must always produce identical results
+- null handling must always fail closed to indeterminate
+- no heuristic reinterpretation allowed
+
+Safety Constraint:
+Verification cases validate only signal classification correctness.
+They do not authorize:
+- implementation shortcuts
+- UI integration
+- Atlas integration
+- guidance generation
+- behavioral coupling
+
+Current Status:
+Queue Pressure Verification Case Definitions COMPLETE
+
+Next Step:
+Phase 81.4 — Queue Pressure Pure Derivation Function Design
+
