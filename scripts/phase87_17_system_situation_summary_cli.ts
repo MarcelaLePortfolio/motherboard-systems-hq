@@ -1,6 +1,6 @@
+import { readFileSync } from "node:fs";
 import { getSystemSituationSummary } from "../src/cognition";
 import type { SystemSituationSignals } from "../src/cognition";
-import { readFileSync } from "node:fs";
 
 function parseSignalsArg(raw: string | undefined): SystemSituationSignals {
   if (!raw) {
@@ -36,6 +36,12 @@ function parseSignalsArg(raw: string | undefined): SystemSituationSignals {
 }
 
 function readSignalsFromArgs(argv: string[]): string | undefined {
+  const stdinFlagIndex = argv.indexOf("--stdin");
+
+  if (stdinFlagIndex >= 0) {
+    return readFileSync(0, "utf8").trim();
+  }
+
   const fileFlagIndex = argv.indexOf("--file");
 
   if (fileFlagIndex >= 0) {

@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+if [[ "${1:-}" == "--stdin" ]]; then
+  npx tsx scripts/phase87_17_system_situation_summary_cli.ts --stdin
+  exit 0
+fi
+
 if [[ "${1:-}" == "--file" ]]; then
   JSON_FILE="${2:-}"
   if [[ -z "$JSON_FILE" ]]; then
