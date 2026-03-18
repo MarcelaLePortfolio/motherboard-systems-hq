@@ -4,6 +4,7 @@ import {
   buildSituationSummary,
   getSituationSummary,
   getSituationSummarySnapshot,
+  getSystemSituationSummary,
   renderSituationSummary,
 } from "./index";
 
@@ -40,6 +41,7 @@ function runSmoke(): string {
   const rendered = renderSituationSummary(summary);
   const builtRendered = buildRenderedSituationSummary(signals);
   const getterRendered = getSituationSummary(signals);
+  const systemRendered = getSystemSituationSummary(signals);
   const snapshot = getSituationSummarySnapshot(signals);
 
   const expected =
@@ -52,6 +54,7 @@ function runSmoke(): string {
   assert(rendered === expected, "Rendered summary mismatch");
   assert(builtRendered === expected, "Built rendered summary mismatch");
   assert(getterRendered === expected, "Getter rendered summary mismatch");
+  assert(systemRendered === expected, "System rendered summary mismatch");
   assert(snapshot.rendered === expected, "Snapshot rendered summary mismatch");
   assert(snapshot.summary.summaryLines.length === 5, "Snapshot summary line count mismatch");
 

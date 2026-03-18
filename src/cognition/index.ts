@@ -18,6 +18,7 @@ export { buildSituationSummary } from "./buildSituationSummary";
 export { renderSituationSummary } from "./renderSituationSummary";
 export { buildRenderedSituationSummary } from "./buildRenderedSituationSummary";
 export { getSituationSummary } from "./getSituationSummary";
+export { getSystemSituationSummary } from "./getSystemSituationSummary";
 
 export {
   getSituationSummarySnapshot,
