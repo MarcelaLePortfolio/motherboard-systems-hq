@@ -22,7 +22,7 @@ JSON
   echo "────────────────────────────────"
 
   npx tsx scripts/phase87_13_situation_summary_cli.ts --file "$TMP_JSON_FILE"
-  ./scripts/phase87_14_print_situation_summary.sh "$(cat "$TMP_JSON_FILE")"
+  ./scripts/phase87_14_print_situation_summary.sh --file "$TMP_JSON_FILE"
 
   echo "RESULT: PASS"
 } | tee "$OUTPUT_FILE"
