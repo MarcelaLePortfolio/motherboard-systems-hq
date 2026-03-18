@@ -1,0 +1,6 @@
+PHASE 87.13 CLI SMOKE EVIDENCE
+Generated: 2026-03-18T22:40:44Z
+Branch: phase65b-running-tasks-hydration
+Commit: f78c3f018a3813a0d6a1b13e57affc5d9060f120
+────────────────────────────────
+RESULT: PASS
