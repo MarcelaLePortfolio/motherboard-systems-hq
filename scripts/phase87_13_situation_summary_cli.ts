@@ -35,12 +35,11 @@ function parseSignalsArg(raw: string | undefined): SystemSituationSignals {
 }
 
 function main(): void {
-  const signals = parseSignalsArg(process.argv[2]);
+  const rawSignals = process.env.SITUATION_SIGNALS_JSON ?? process.argv[2];
+  const signals = parseSignalsArg(rawSignals);
   const snapshot = getSituationSummarySnapshot(signals);
 
-  process.stdout.write(
-    JSON.stringify(snapshot, null, 2) + "\n"
-  );
+  process.stdout.write(JSON.stringify(snapshot, null, 2) + "\n");
 }
 
 main();
