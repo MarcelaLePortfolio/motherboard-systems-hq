@@ -1,6 +1,6 @@
-PHASE 85 — OPERATOR PRESENTATION LAYER
+PHASE 84.4 — OPERATOR PRESENTATION LAYER
 
-Classification: Display Implementation  
+Classification: Display Definition  
 Change Type: Dashboard Read-Only Extension  
 Runtime Impact: NONE  
 Authority Change: NONE  
@@ -9,29 +9,29 @@ Authority Change: NONE
 
 OBJECTIVE
 
-Implement operator presentation layer that surfaces cognition stack outputs without introducing behavior coupling.
+Define operator presentation layer that surfaces cognition stack outputs without introducing behavior coupling.
 
-This phase renders:
+This milestone specifies how the dashboard renders:
 
 Signal summaries  
 Operator status  
 System cognition state  
 
-No automation added.
-No execution logic added.
+No automation added.  
+No execution logic added.  
 
 Display only.
 
 ────────────────────────────────
 
-PHASE 85.0 — STATUS SURFACE MODEL
+PHASE 84.4.1 — STATUS SURFACE MODEL
 
-Operator visible status blocks planned:
+Operator visible status blocks:
 
-System Health
-Queue Pressure
-Execution Stability
-Telemetry Integrity
+System Health  
+Queue Pressure  
+Execution Stability  
+Telemetry Integrity  
 
 Status source:
 
@@ -39,27 +39,27 @@ Phase 83 summary layer outputs.
 
 Rules:
 
-No new calculations.
-No derived logic beyond summary outputs.
-No inference layer.
+No new calculations.  
+No derived logic beyond summary outputs.  
+No inference layer.  
 
 Dashboard is a mirror, not a brain.
 
 ────────────────────────────────
 
-PHASE 85.1 — SUMMARY RENDERING STRUCTURE
+PHASE 84.4.2 — SUMMARY RENDERING STRUCTURE
 
-Planned display structure:
+Display structure:
 
-Operator Status Panel:
+Operator Status Panel
 
-Status Level:
+Status Level:  
 STABLE | WATCH | PRESSURE | DEGRADED | BLOCKED
 
-Signal Source:
+Signal Source:  
 Summary registry entry
 
-Explanation:
+Explanation:  
 Agent explanation text from Phase 84 doctrine.
 
 Display example structure:
@@ -73,32 +73,32 @@ Pure rendering.
 
 ────────────────────────────────
 
-PHASE 85.2 — OPERATOR VISIBILITY RULES
+PHASE 84.4.3 — OPERATOR VISIBILITY RULES
 
 Dashboard must:
 
-Show status source
-Show classification reason
-Show signal origin
+Show status source  
+Show classification reason  
+Show signal origin  
 
 Dashboard must NOT:
 
-Recommend actions
-Trigger workflows
-Suggest scaling
-Modify tasks
+Recommend actions  
+Trigger workflows  
+Suggest scaling  
+Modify tasks  
 
 Operator remains decision authority.
 
 ────────────────────────────────
 
-PHASE 85.3 — SAFETY GUARANTEES
+PHASE 84.4.4 — SAFETY GUARANTEES
 
-No reducer changes.
-No telemetry mutation.
-No task mutation.
-No worker interaction.
-No agent execution coupling.
+No reducer changes.  
+No telemetry mutation.  
+No task mutation.  
+No worker interaction.  
+No agent execution coupling.  
 
 Display reads only:
 
@@ -110,32 +110,22 @@ Read only.
 
 ────────────────────────────────
 
-PHASE 85 COMPLETION CONDITIONS
+COMPLETION CONDITIONS
 
-Display model documented.
-Operator status surfaces defined.
-Rendering structure defined.
-Safety boundaries verified.
+Display model documented.  
+Operator status surfaces defined.  
+Rendering structure defined.  
+Safety boundaries verified.  
 
 Verification method:
 
-Documentation review.
+Documentation review.  
 
 CI not required.
 
 ────────────────────────────────
 
-EXPECTED FOLLOWUP
+STATE
 
-Phase 86 (future):
-
-Operator cognition UX refinement:
-
-Status color mapping  
-Signal grouping
-Visual clarity improvements
-
-Still display-only.
-
-Still safe.
+Phase 84.4 COMPLETE.
 
