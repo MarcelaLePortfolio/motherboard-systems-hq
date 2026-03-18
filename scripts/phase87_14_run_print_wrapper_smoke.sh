@@ -2,6 +2,7 @@
 set -euo pipefail
 
 OUTPUT_FILE="PHASE87_14_PRINT_WRAPPER_SMOKE_EVIDENCE.txt"
+SIGNALS_JSON='{"stability":"stable","executionRisk":"none","cognition":"consistent","signalCoherence":"coherent","operatorAttention":"none"}'
 
 {
   echo "PHASE 87.14 PRINT WRAPPER SMOKE EVIDENCE"
@@ -10,7 +11,7 @@ OUTPUT_FILE="PHASE87_14_PRINT_WRAPPER_SMOKE_EVIDENCE.txt"
   echo "Commit: $(git rev-parse HEAD)"
   echo "────────────────────────────────"
 
-  ./scripts/phase87_14_print_situation_summary.sh '{"stability":"stable","executionRisk":"none","cognition":"consistent","signalCoherence":"coherent","operatorAttention":"none"}'
+  ./scripts/phase87_14_print_situation_summary.sh "$SIGNALS_JSON"
 
   echo "RESULT: PASS"
 } | tee "$OUTPUT_FILE"
