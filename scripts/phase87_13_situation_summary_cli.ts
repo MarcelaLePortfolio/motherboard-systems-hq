@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import { getSituationSummarySnapshot } from "../src/cognition";
 import type { SystemSituationSignals } from "../src/cognition";
 
@@ -9,7 +10,7 @@ function parseSignalsArg(raw: string | undefined): SystemSituationSignals {
   const parsed = JSON.parse(raw) as unknown;
 
   if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
-    throw new Error("Signals argument must be a JSON object");
+    throw new Error("Signals input must be a JSON object");
   }
 
   const candidate = parsed as Record<string, unknown>;
@@ -34,8 +35,24 @@ function parseSignalsArg(raw: string | undefined): SystemSituationSignals {
   };
 }
 
+function readSignalsFromArgs(argv: string[]): string | undefined {
+  const fileFlagIndex = argv.indexOf("--file");
+
+  if (fileFlagIndex >= 0) {
+    const filePath = argv[fileFlagIndex + 1];
+
+    if (!filePath) {
+      throw new Error("Missing file path after --file");
+    }
+
+    return readFileSync(filePath, "utf8").trim();
+  }
+
+  return process.env.SITUATION_SIGNALS_JSON ?? argv[2];
+}
+
 function main(): void {
-  const rawSignals = process.env.SITUATION_SIGNALS_JSON ?? process.argv[2];
+  const rawSignals = readSignalsFromArgs(process.argv);
   const signals = parseSignalsArg(rawSignals);
   const snapshot = getSituationSummarySnapshot(signals);
 
