@@ -9,6 +9,12 @@ import { ensureTasksTaskIdColumn } from "./server/db_bootstrap_tasks_task_id.mjs
 import { registerOrchestratorStateRoute } from "./server/orchestrator_state_route.mjs";
 import { registerPhase19DebugRoutes } from "./server/phase19_debug_routes_dump.mjs";
 import { apiTasksRouter } from "./server/routes/api-tasks-postgres.mjs";
+import systemHealthRouter, {
+  buildSystemHealthSnapshot,
+} from "./routes/diagnostics/systemHealth.js";
+import {
+  reduceSystemHealthSnapshotToGuidanceReduction,
+} from "./routes/diagnostics/operatorGuidanceRuntime.js";
 
 // Phase 44 — server HTTP mutation-route enforcement boundary (off/shadow/enforce)
 import { createMutationEnforcementMiddleware } from "./server/enforcement/phase44_mutation_enforcer.mjs";
@@ -177,6 +183,9 @@ app.post("/api/tasks-mutations/delegate-taskspec", async (req, res) => phase23Ha
 app.use("/api/tasks", apiTasksRouter);
 app.use("/api/tasks-mutations", apiTasksMutationsRouter);
 
+
+app.use("/diagnostics/system-health", systemHealthRouter);
+app.use("/diagnostics/systemHealth", systemHealthRouter);
 // --- Phase 16.7: dev-only emit endpoints (local debug) ---
 app.post("/api/dev/emit-reflection", (req, res) => {
   try {
@@ -446,6 +455,73 @@ app.get("/events/tasks", async (req, res) => {
       res.write(`event: error\ndata: ${JSON.stringify({ error: String(e), ts: Date.now() })}\n\n`);
     }
   }, 2000);
+
+  res.on("close", () => {
+    clearInterval(ping);
+    clearInterval(poll);
+  });
+});
+
+// ---- Operator Guidance SSE ----
+app.get("/events/operator-guidance", (req, res) => {
+  res.writeHead(200, {
+    "Content-Type": "text/event-stream",
+    "Cache-Control": "no-cache",
+    Connection: "keep-alive",
+  });
+
+  res.write(`: ready\n`);
+  res.write(`:\n`);
+
+  let closed = false;
+  req.on("close", () => {
+    closed = true;
+  });
+
+  const sendSnapshot = () => {
+    try {
+      const snapshot = buildSystemHealthSnapshot();
+      const reduction = reduceSystemHealthSnapshotToGuidanceReduction(snapshot);
+      res.write(
+        `event: operator_guidance\ndata: ${JSON.stringify({
+          reduction,
+          source: "diagnostics/system-health",
+          ts: Date.now(),
+        })}\n\n`
+      );
+    } catch (e) {
+      res.write(`event: error\ndata: ${JSON.stringify({ error: String(e), ts: Date.now() })}\n\n`);
+    }
+  };
+
+  sendSnapshot();
+
+  const ping = setInterval(() => {
+    if (closed) return;
+    res.write(`: ping ${Date.now()}\n\n`);
+  }, 5000);
+
+  let lastHash = "";
+  const poll = setInterval(() => {
+    if (closed) return;
+    try {
+      const snapshot = buildSystemHealthSnapshot();
+      const reduction = reduceSystemHealthSnapshotToGuidanceReduction(snapshot);
+      const payload = JSON.stringify(reduction);
+      if (payload !== lastHash) {
+        lastHash = payload;
+        res.write(
+          `event: operator_guidance\ndata: ${JSON.stringify({
+            reduction,
+            source: "diagnostics/system-health",
+            ts: Date.now(),
+          })}\n\n`
+        );
+      }
+    } catch (e) {
+      res.write(`event: error\ndata: ${JSON.stringify({ error: String(e), ts: Date.now() })}\n\n`);
+    }
+  }, 5000);
 
   res.on("close", () => {
     clearInterval(ping);
