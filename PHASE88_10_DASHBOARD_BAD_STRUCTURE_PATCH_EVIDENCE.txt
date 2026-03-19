@@ -1,7 +1,7 @@
 PHASE 88.10 DASHBOARD BAD STRUCTURE PATCH EVIDENCE
-Generated: 2026-03-19T17:36:08Z
+Generated: 2026-03-19T17:36:39Z
 Branch: phase65b-running-tasks-hydration
-Commit: 62bab837d55ec997ffebdfc521224062fc585bb7
+Commit: 3b095a7e9a27fd417babcbfa612b5c9292a52ca8
 ────────────────────────────────
 SECTION: updatePanel block
     async function updatePanel(id, endpoint) {
@@ -10,6 +10,26 @@ SECTION: updatePanel block
       try {
         const res = await fetch(endpoint);
         const data = await res.json();
+
+        if (
+          id === "system-health-content" &&
+          data &&
+          typeof data === "object" &&
+          typeof data.situationSummary === "string"
+        ) {
+          const {
+            situationSummary,
+            ...rest
+          } = data;
+
+          el.textContent =
+            JSON.stringify(rest, null, 2) +
+            "\n\nSITUATION SUMMARY\n" +
+            situationSummary;
+
+          return;
+        }
+
         el.textContent = JSON.stringify(data, null, 2);
       } catch {
         el.textContent = "⚠️ Unavailable: " + endpoint;
@@ -23,33 +43,12 @@ SECTION: updatePanel block
       await updatePanel("introspective-sim", "/diagnostics/introspective-sim");
       await updatePanel("system-chronicle", "/diagnostics/system-chronicle");
       await updatePanel("tasks", "/tasks/recent");
-      await updatePanel("logs", "/logs/recent");
-    }
-
-    window.addEventListener("load", () => {
-      refreshAllDiagnostics();
-      setInterval(refreshAllDiagnostics, 15000);
-  </div>
-</details>
-    });
-
-    // Chat Logic
-    const chatLog = document.getElementById("chatLog");
-    const userInput = document.getElementById("userInput");
-    const sendBtn = document.getElementById("sendBtn");
-
-    async function sendMessage() {
-      const message = userInput.value.trim();
-      if (!message) return;
-      appendMessage("You", message);
-      userInput.value = "";
-
-      try {
-        const res = await fetch("/delegate", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message })
 ────────────────────────────────
 SECTION: system health target
 150:    <pre id="system-health-content">Loading...</pre>
-205:      await updatePanel("system-health-content", "/diagnostics/system-health");
+200:          id === "system-health-content" &&
+203:          typeof data.situationSummary === "string"
+206:            situationSummary,
+212:            "\n\nSITUATION SUMMARY\n" +
+213:            situationSummary;
+225:      await updatePanel("system-health-content", "/diagnostics/system-health");

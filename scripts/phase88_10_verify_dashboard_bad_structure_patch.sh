@@ -11,7 +11,7 @@ OUTPUT_FILE="PHASE88_10_DASHBOARD_BAD_STRUCTURE_PATCH_EVIDENCE.txt"
   echo "────────────────────────────────"
 
   echo "SECTION: updatePanel block"
-  sed -n '192,236p' public/dashboard.html.bad_structure
+  sed -n '192,230p' public/dashboard.html.bad_structure
 
   echo "────────────────────────────────"
   echo "SECTION: system health target"
