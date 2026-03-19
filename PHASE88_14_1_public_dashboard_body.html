@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <style id="matilda-chat-typography-polish">
+    #matilda-chat-transcript p {
+      line-height: 1.45 !important;
+      margin-bottom: 0.55rem !important;
+    }
+    #matilda-chat-transcript .user-message {
+      color: #dbeafe !important;
+    }
+    #matilda-chat-transcript .matilda-message {
+      color: #a7f3d0 !important;
+    }
+  
+  /* Phase 62: Agent Pool + Metrics dual top row */
+  .phase62-top-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 16px;
+    align-items: stretch;
+  }
+
+  .phase62-top-col {
+    min-width: 0;
+  }
+
+  .phase62-top-col > section,
+  .phase62-top-col > div {
+    height: 100%;
+    margin-bottom: 0 !important;
+  }
+
+  #agent-status-container.phase62-agent-pool {
+    margin-bottom: 0 !important;
+  }
+
+  @media (max-width: 1100px) {
+    .phase62-top-row {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Phase 62: consolidated metrics telemetry tile styling */
+  #metrics-row.phase62-metrics-tiles {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 12px !important;
+    align-items: stretch !important;
+  }
+
+  #metrics-row.phase62-metrics-tiles > .phase62-metric-card,
+  #metrics-row.phase62-metrics-tiles > .phase62-metric-tile,
+  #metrics-row.phase62-metrics-tiles > div.phase62-metric-card {
+    min-height: 72px !important;
+    padding: 12px 12px 10px 12px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    align-items: flex-start !important;
+    gap: 8px !important;
+  }
+
+  #metrics-row.phase62-metrics-tiles .phase62-metric-value {
+    order: 1 !important;
+    font-size: 2.5rem !important;
+    line-height: 1 !important;
+    letter-spacing: -0.04em !important;
+    margin: 0 !important;
+  }
+
+  #metrics-row.phase62-metrics-tiles .phase62-metric-label {
+    order: 2 !important;
+    font-size: 0.68rem !important;
+    line-height: 0.9rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.08em !important;
+    opacity: 0.82 !important;
+    margin: 0 !important;
+  }
+</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Motherboard Systems Operator Console</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="css/broadcast.css" />
+  <link rel="stylesheet" href="css/dashboard.css?v=darkmode" />
+  <link rel="stylesheet" href="css/dashboard-reflections.css" />
+  <link rel="stylesheet" href="css/agent-status-row.css" />
+  <link rel="stylesheet" href="css/matilda-chat.css" />
+  <link rel="stylesheet" href="css/demo_layout_trim.css" />
+  <link rel="stylesheet" href="/css/phase13_5_operator_ux.css" />
+  <link rel="stylesheet" href="css/phase59_demo_focus.css" />
+  <link rel="stylesheet" href="css/phase60_live_polish.css" />
+  <link rel="stylesheet" href="css/phase61_workspace_consolidation.css" />
+  <link rel="stylesheet" href="css/phase61_tabs_observational_workspace.css" />
+
+    <style id="phase61-layout-polish">
+      #phase61-workspace-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 1.5rem;
+        align-items: stretch;
+      }
+
+      #phase61-operator-column,
+      #phase61-telemetry-column {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+      }
+
+      #operator-workspace-card,
+      #observational-workspace-card {
+        display: flex;
+        flex-direction: column;
+        min-height: 36rem;
+        height: 100%;
+      }
+
+      #operator-panels,
+      #observational-panels {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+      }
+
+      #op-panel-chat,
+      #op-panel-delegation,
+      #obs-panel-recent,
+      #obs-panel-activity,
+      #obs-panel-events {
+        height: 100%;
+      }
+
+      #op-panel-chat .obs-surface,
+      #op-panel-delegation .obs-surface,
+      #obs-panel-recent .obs-surface,
+      #obs-panel-activity .obs-surface,
+      #obs-panel-events .obs-surface {
+        min-height: 100%;
+      }
+
+      #matilda-chat-card,
+      #delegation-card,
+      #recent-tasks-card,
+      #task-activity-card,
+      #task-events-card {
+        display: flex;
+        flex-direction: column;
+      }
+
+      #operator-tabs,
+      #observational-tabs {
+        margin-bottom: 1.1rem;
+      }
+
+      #op-panel-chat,
+      #op-panel-delegation,
+      #obs-panel-recent,
+      #obs-panel-activity,
+      #obs-panel-events {
+        padding-top: 0.1rem;
+      }
+
+      #matilda-chat-root {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      #matilda-chat-transcript {
+        min-height: 14rem;
+        height: 14rem;
+      }
+
+      #matilda-chat-root > .flex.space-x-3.items-end {
+        margin-top: auto;
+      }
+
+      #delegation-card {
+        justify-content: flex-start;
+      }
+
+      #delegation-input {
+        min-height: 8rem;
+      }
+
+      #task-activity-card .h-64 {
+        height: 100%;
+        min-height: 18rem;
+      }
+
+      #task-events-card.phase61-events-fill {
+        min-height: 100%;
+        height: 100%;
+      }
+
+      #task-events-card.phase61-events-fill #mb-task-events-panel-anchor {
+        flex: 1 1 auto;
+        min-height: 18rem;
+      }
+
+      #atlas-status-card {
+        width: 100%;
+      }
+
+      @media (max-width: 1023px) {
+        #phase61-workspace-grid {
+          grid-template-columns: 1fr;
+        }
+
+        #operator-workspace-card,
+        #observational-workspace-card {
+          min-height: auto;
+        }
+
+        #matilda-chat-transcript {
+          min-height: 13rem;
+          height: 13rem;
+        }
+      }
+
+      #phase61-atlas-band {
+        width: 100%;
+      }
+
+#atlas-status-card {
+  grid-column: 1 / -1;
+}
+
+
+      #phase61-atlas-band #atlas-status-card {
+        width: 100%;
+      }
+    </style>
+
+    <style id="phase61-task-events-polish">
+    .task-events-panel,
+    [data-phase61-task-events],
+    [data-tab-panel="task-events"],
+    #task-events-panel,
+    #task-events,
+    .task-events {
+      min-height: 360px;
+    }
+
+    .task-events-panel .task-events-list,
+    [data-phase61-task-events] .task-events-list,
+    [data-tab-panel="task-events"] .task-events-list,
+    #task-events-panel .task-events-list,
+    #task-events .task-events-list,
+    .task-events .task-events-list,
+    .task-events-panel ul,
+    [data-phase61-task-events] ul,
+    [data-tab-panel="task-events"] ul,
+    #task-events-panel ul,
+    #task-events ul,
+    .task-events ul {
+      max-height: 420px;
+      overflow: auto;
+      padding-right: 6px;
+      overscroll-behavior: contain;
+      scroll-behavior: smooth;
+    }
+
+    .task-events-panel .task-event,
+    [data-phase61-task-events] .task-event,
+    [data-tab-panel="task-events"] .task-event,
+    #task-events-panel .task-event,
+    #task-events .task-event,
+    .task-events .task-event,
+    .task-events-panel li,
+    [data-phase61-task-events] li,
+    [data-tab-panel="task-events"] li,
+    #task-events-panel li,
+    #task-events li,
+    .task-events li {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(96px, 120px) minmax(120px, 160px) 1fr;
+      gap: 10px;
+      align-items: start;
+      padding: 10px 12px 10px 14px;
+      margin-bottom: 8px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      line-height: 1.35;
+      font-size: 12px;
+    }
+
+    .task-events-panel .task-event::before,
+    [data-phase61-task-events] .task-event::before,
+    [data-tab-panel="task-events"] .task-event::before,
+    #task-events-panel .task-event::before,
+    #task-events .task-event::before,
+    .task-events .task-event::before,
+    .task-events-panel li::before,
+    [data-phase61-task-events] li::before,
+    [data-tab-panel="task-events"] li::before,
+    #task-events-panel li::before,
+    #task-events li::before,
+    .task-events li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 10px;
+      bottom: 10px;
+      width: 3px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.18);
+    }
+
+    .task-events-panel .task-event.phase61-event-terminal::before,
+    [data-phase61-task-events] .task-event.phase61-event-terminal::before,
+    [data-tab-panel="task-events"] .task-event.phase61-event-terminal::before,
+    #task-events-panel .task-event.phase61-event-terminal::before,
+    #task-events .task-event.phase61-event-terminal::before,
+    .task-events .task-event.phase61-event-terminal::before,
+    .task-events-panel li.phase61-event-terminal::before,
+    [data-phase61-task-events] li.phase61-event-terminal::before,
+    [data-tab-panel="task-events"] li.phase61-event-terminal::before,
+    #task-events-panel li.phase61-event-terminal::before,
+    #task-events li.phase61-event-terminal::before,
+    .task-events li.phase61-event-terminal::before {
+      background: rgba(244, 114, 182, 0.95);
+    }
+
+    .task-events-panel .task-event.phase61-event-active::before,
+    [data-phase61-task-events] .task-event.phase61-event-active::before,
+    [data-tab-panel="task-events"] .task-event.phase61-event-active::before,
+    #task-events-panel .task-event.phase61-event-active::before,
+    #task-events .task-event.phase61-event-active::before,
+    .task-events .task-event.phase61-event-active::before,
+    .task-events-panel li.phase61-event-active::before,
+    [data-phase61-task-events] li.phase61-event-active::before,
+    [data-tab-panel="task-events"] li.phase61-event-active::before,
+    #task-events-panel li.phase61-event-active::before,
+    #task-events li.phase61-event-active::before,
+    .task-events li.phase61-event-active::before {
+      background: rgba(34, 197, 94, 0.95);
+    }
+
+    .task-events-panel .task-event.phase61-event-waiting::before,
+    [data-phase61-task-events] .task-event.phase61-event-waiting::before,
+    [data-tab-panel="task-events"] .task-event.phase61-event-waiting::before,
+    #task-events-panel .task-event.phase61-event-waiting::before,
+    #task-events .task-event.phase61-event-waiting::before,
+    .task-events .task-event.phase61-event-waiting::before,
+    .task-events-panel li.phase61-event-waiting::before,
+    [data-phase61-task-events] li.phase61-event-waiting::before,
+    [data-tab-panel="task-events"] li.phase61-event-waiting::before,
+    #task-events-panel li.phase61-event-waiting::before,
+    #task-events li.phase61-event-waiting::before,
+    .task-events li.phase61-event-waiting::before {
+      background: rgba(250, 204, 21, 0.95);
+    }
+
+    .phase61-task-event-time {
+      font-variant-numeric: tabular-nums;
+      color: rgba(255,255,255,0.68);
+      white-space: nowrap;
+    }
+
+    .phase61-task-event-kind {
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      color: rgba(255,255,255,0.92);
+      word-break: break-word;
+    }
+
+    .phase61-task-event-detail {
+      color: rgba(255,255,255,0.78);
+      word-break: break-word;
+    }
+
+    .phase61-task-event-empty {
+      padding: 12px 2px 2px;
+      color: rgba(255,255,255,0.62);
+      font-size: 12px;
+    }
+
+    @media (max-width: 920px) {
+      .task-events-panel .task-event,
+      [data-phase61-task-events] .task-event,
+      [data-tab-panel="task-events"] .task-event,
+      #task-events-panel .task-event,
+      #task-events .task-event,
+      .task-events .task-event,
+      .task-events-panel li,
+      [data-phase61-task-events] li,
+      [data-tab-panel="task-events"] li,
+      #task-events-panel li,
+      #task-events li,
+      .task-events li {
+        grid-template-columns: 1fr;
+        gap: 4px;
+      }
+    }
+  </style>
+</head>
+
+<body class="bg-gray-900 text-gray-100 min-h-screen p-4">
+  <header class="phase59-shell flex flex-col gap-4 mb-6 lg:flex-row lg:items-center lg:justify-between">
+    <div>
+      <p class="text-xs uppercase tracking-[0.24em] text-teal-300/70 mb-2">Motherboard Systems</p>
+      <h1 class="text-3xl font-bold text-teal-400">
+        Operator Console
+      </h1>
+    </div>
+    <div
+      id="global-status"
+      class="bg-gray-800 border border-gray-700 rounded-2xl shadow-xl px-4 py-3 flex flex-wrap items-center gap-x-5 gap-y-2"
+    >
+      <span class="text-sm font-semibold">
+        Uptime:
+        <span id="uptime-display" class="text-green-400">Calculating...</span>
+      </span>
+      <div class="flex items-center gap-2">
+        <div id="system-health-indicator" class="w-3 h-3 rounded-full bg-red-500 animate-pulse"></div>
+        <span class="text-sm">
+          Health:
+          <span id="health-status">Critical</span>
+        </span>
+      </div>
+      <span class="phase62-metric-label text-xs uppercase tracking-wide text-gray-400">
+        Probe lifecycle and task activity visible below.
+      </span>
+    </div>
+  </header>
+
+  
+
+  <main class="phase59-shell space-y-6">
+    <section id="system-health-diagnostics-card" class="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700">
+      <div class="flex items-center justify-between mb-4 border-b border-gray-700 pb-3">
+        <h2 class="text-xl font-semibold">System Health Diagnostics</h2>
+        <span class="text-xs uppercase tracking-[0.2em] text-gray-400">Read Only</span>
+      </div>
+      <pre id="system-health-content" class="bg-gray-900 border border-gray-700 rounded-xl p-4 text-sm text-gray-200 overflow-x-auto whitespace-pre-wrap">Loading system health...</pre>
+    </section>
+    <section class="phase62-top-row" data-phase="62">
+      <div class="phase62-top-col phase62-top-col--agents">
+<section
+    id="agent-status-container" class="phase59-shell phase62-agent-pool bg-gray-800 p-4 rounded-2xl shadow-2xl flex flex-wrap gap-4 items-center border border-gray-700"
+    class="phase59-shell bg-gray-800 p-4 rounded-2xl shadow-2xl flex flex-wrap gap-4 items-center border border-gray-700"
+  >
+    <h2 class="text-lg font-semibold text-gray-200 w-full">
+      Agent Pool
+    </h2>
+    <span class="text-gray-500">Loading agents...</span>
+  </section>
+      </div>
+      <div class="phase62-top-col phase62-top-col--metrics">
+<section
+      id="metrics-row"
+      class="phase62-metrics-tiles grid grid-cols-2 gap-3 auto-rows-fr"
+      aria-label="System metrics"
+    >
+      <div class="phase62-metric-card phase62-metric-tile bg-gray-800 p-3 rounded-2xl shadow-lg border border-gray-700 min-h-[76px] flex flex-col justify-between">
+        <p class="phase62-metric-value text-4xl font-bold text-blue-400 leading-none" id="metric-agents" data-phase62b-metric-anchor="true">--</p>
+        <p class="phase62-metric-label text-xs uppercase tracking-wide text-gray-400">Active Agents</p>
+      </div>
+      <div class="phase62-metric-card bg-gray-800 p-3 rounded-2xl shadow-lg border border-gray-700 min-h-[76px] flex flex-col justify-between">
+        <p class="phase62-metric-value text-4xl font-bold text-yellow-400 leading-none" id="metric-tasks" data-phase62b-metric-anchor="true">--</p>
+        <p class="phase62-metric-label text-xs uppercase tracking-wide text-gray-400">Tasks Running</p>
+      </div>
+      <div class="phase62-metric-card bg-gray-800 p-3 rounded-2xl shadow-lg border border-gray-700 min-h-[76px] flex flex-col justify-between">
+        <p class="phase62-metric-value text-4xl font-bold text-green-400 leading-none" id="metric-success" data-phase62b-metric-anchor="true">--</p>
+        <p class="phase62-metric-label text-xs uppercase tracking-wide text-gray-400">Success Rate</p>
+      </div>
+      <div class="phase62-metric-card bg-gray-800 p-3 rounded-2xl shadow-lg border border-gray-700 min-h-[76px] flex flex-col justify-between">
+        <p class="phase62-metric-value text-4xl font-bold text-red-400 leading-none" id="metric-latency" data-phase62b-metric-anchor="true">--</p>
+        <p class="phase62-metric-label text-xs uppercase tracking-wide text-gray-400">Latency (ms)</p>
+      </div>
+    </section>
+      </div>
+    </section>
+
+    
+      <section id="phase61-workspace-shell" class="space-y-4">
+        <div id="phase61-workspace-grid">
+                            <section id="phase61-operator-column" class="space-y-4" aria-label="Operator workspace">
+            <section id="operator-workspace-card" class="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700" data-workspace-root>
+              <div class="flex items-center justify-between mb-4 border-b border-gray-700 pb-3">
+                <h2 class="text-xl font-semibold">Operator Workspace</h2>
+              </div>
+
+              <div id="operator-tabs" role="tablist" aria-label="Operator workspace tabs">
+                <button id="op-tab-chat" class="obs-tab active" type="button" data-workspace-tab data-target="op-panel-chat" role="tab" aria-selected="true" aria-controls="op-panel-chat">
+                  Chat
+                </button>
+                <button id="op-tab-delegation" class="obs-tab" type="button" data-workspace-tab data-target="op-panel-delegation" role="tab" aria-selected="false" aria-controls="op-panel-delegation">
+                  Delegation
+                </button>
+              </div>
+
+              <div id="operator-panels">
+                <div id="op-panel-chat" class="obs-panel active" data-workspace-panel role="tabpanel" aria-labelledby="op-tab-chat">
+                  <section id="matilda-chat-card" class="obs-surface">
+                    <div id="matilda-chat-root" class="space-y-3">
+                      <div id="matilda-chat-transcript" class="bg-gray-900 border border-gray-700 rounded-xl p-3 h-64 overflow-y-auto text-sm">
+                        <p class="text-gray-500 italic">Chat with Matilda about tasks, status, or next steps...</p>
+                      </div>
+                      <div class="flex space-x-3 items-end">
+                        <textarea id="matilda-chat-input" rows="3" class="flex-1 bg-gray-900 border border-gray-700 rounded-xl p-3 text-sm resize-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500" placeholder="Type a message to Matilda and press Enter or click Send..."></textarea>
+                        <button id="matilda-chat-send" class="px-5 py-2 rounded-xl font-semibold text-sm bg-purple-500 hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-400 transition transform hover:-translate-y-0.5 shadow-lg">Send</button>
+                        <button id="matilda-chat-quick-check" class="px-3 py-2 rounded-xl font-semibold text-xs bg-gray-700 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-400 transition shadow-lg">Quick check</button>
+                      </div>
+                      <p id="matilda-helper-text-ops" class="text-xs text-gray-400 mt-1">Matilda is currently using a placeholder /api/chat stub (Phase 11.3 baseline).</p>
+                    </div>
+                  </section>
+                </div>
+
+                <div id="op-panel-delegation" class="obs-panel" data-workspace-panel role="tabpanel" aria-labelledby="op-tab-delegation" hidden>
+                  <section id="delegation-card" class="obs-surface space-y-4">
+                    <h2 class="text-xl font-semibold border-b border-gray-700 pb-2">Task Delegation</h2>
+                    <textarea id="delegation-input" rows="4" class="w-full bg-gray-900 border border-gray-700 p-3 rounded-xl focus:ring-teal-500 focus:border-teal-500 resize-none text-white placeholder-gray-500" placeholder="Delegate a new task or modify system parameters..."></textarea>
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+                      <button id="delegation-submit" class="w-full md:w-auto bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded-xl transition duration-200">Submit Delegation</button>
+                      <button id="complete-task-btn" class="w-full md:w-auto bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-xl transition duration-200">Complete Task (Alpha)</button>
+                    </div>
+                    <div id="delegation-status-panel" class="mt-4 rounded-xl border border-gray-700 bg-gray-900/70 p-4 min-h-[140px]">
+                      <div class="text-xs uppercase tracking-[0.2em] text-gray-500 mb-3">Delegation Status</div>
+                      <div id="delegation-response" class="text-sm text-gray-300 leading-6">
+                        Awaiting operator input.<br>
+                        Results from delegation requests will appear here.
+                      </div>
+                    </div>
+                  </section>
+                </div>
+              </div>
+            </section>
+          </section>
+
+          <section id="phase61-telemetry-column" class="space-y-4" aria-label="Observational workspace">
+            <section id="observational-workspace-card" class="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700" data-workspace-root>
+              <div class="flex items-center justify-between mb-4 border-b border-gray-700 pb-3">
+                <h2 class="text-xl font-semibold">Telemetry Workspace</h2>
+              </div>
+
+              <div id="observational-tabs" role="tablist" aria-label="Observational workspace tabs">
+                <button id="obs-tab-recent" class="obs-tab active" type="button" data-workspace-tab data-target="obs-panel-recent" role="tab" aria-selected="true" aria-controls="obs-panel-recent">
+                  Recent Tasks
+                </button>
+                <button id="obs-tab-activity" class="obs-tab" type="button" data-workspace-tab data-target="obs-panel-activity" role="tab" aria-selected="false" aria-controls="obs-panel-activity">
+                  Task History
+                </button>
+                <button id="obs-tab-events" class="obs-tab" type="button" data-workspace-tab data-target="obs-panel-events" role="tab" aria-selected="false" aria-controls="obs-panel-events">
+                  Task Events
+                </button>
+              </div>
+
+              <div id="observational-panels">
+                <div id="obs-panel-recent" class="obs-panel active" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-recent">
+                  <section id="recent-tasks-card" class="obs-surface">
+                    <div class="flex items-center justify-between mb-4 border-b border-gray-700 pb-2">
+                    </div>
+                    <div id="tasks-widget"></div>
+                  </section>
+                </div>
+
+                <div id="obs-panel-activity" class="obs-panel" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-activity" hidden>
+                  <section id="task-activity-card" class="obs-surface">
+                    
+                    <div class="h-64">
+                      <canvas id="task-activity-graph" class="w-full h-full"></canvas>
+                    </div>
+                  </section>
+                </div>
+
+                <div id="obs-panel-events" class="obs-panel" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-events" hidden>
+                  <section id="task-events-card" class="obs-surface phase61-events-fill">
+                    <div class="flex items-center justify-between mb-4 border-b border-gray-700 pb-2">
+                    </div>
+                    <div id="mb-task-events-panel-anchor"></div>
+                  </section>
+                </div>
+              </div>
+            </section>
+          </section>
+    <section id="phase61-atlas-band" class="space-y-4">
+    </section>
+    </section>
+  
+
+<section id="atlas-status-card" class="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700">
+        <h2
+          class="text-xl font-semibold mb-4 border-b border-gray-700 pb-2 flex justify-between items-center"
+        >
+          Atlas Subsystem Status
+          <span
+            id="atlas-health"
+            class="text-xs font-medium px-2 py-1 rounded-full bg-orange-500 text-white"
+          >
+            Degraded
+          </span>
+        </h2>
+        <div id="atlas-status-details" class="space-y-2 text-gray-300">
+          <p>
+            Core Engine:
+            <span class="text-yellow-400">Initializing...</span>
+          </p>
+        </div>
+      </section>
+
+</main>
+
+  <div id="phase59-compat-roots" hidden aria-hidden="true">
+    <div id="project-visual-output"></div>
+    <div id="recentLogs"></div>
+    <ul id="ops-alerts-list"></ul>
+  </div>
+
+  <div id="reflections" data-panel="reflections">
+    <ul id="reflections-list" data-role="reflections-list"></ul>
+  </div>
+
+  <div id="phase16-sse-indicator" style="position:fixed;right:10px;bottom:10px;z-index:9999;font:12px ui-monospace;opacity:.7;pointer-events:none">
+    <span id="phase16-sse-indicator-text" style="padding:4px 8px;border-radius:9999px;border:1px solid rgba(255,255,255,.18);background:rgba(0,0,0,.25)">SSE: …</span>
+  </div>
+
+  <script>
+    console.log("[diag] dashboard static isolation mode active");
+  </script>
+  
+  <script src="js/phase61_tabs_workspace.js"></script>
+
+    <script src="js/phase61_recent_history_wire.js"></script>
+  <script>
+    (() => {
+      const SYSTEM_HEALTH_ENDPOINT = "/diagnostics/system-health";
+      const SYSTEM_HEALTH_TARGET_ID = "system-health-content";
+
+      async function refreshSystemHealthPanel() {
+        const el = document.getElementById(SYSTEM_HEALTH_TARGET_ID);
+        if (!el) return;
+
+        try {
+          const res = await fetch(SYSTEM_HEALTH_ENDPOINT);
+          const contentType = res.headers.get("content-type") || "";
+
+          if (contentType.includes("application/json")) {
+            const data = await res.json();
+
+            if (
+              data &&
+              typeof data === "object" &&
+              typeof data.situationSummary === "string"
+            ) {
+              const { situationSummary, ...rest } = data;
+              el.textContent =
+                JSON.stringify(rest, null, 2) +
+                "\n\nSITUATION SUMMARY\n" +
+                situationSummary;
+              return;
+            }
+
+            el.textContent = JSON.stringify(data, null, 2);
+            return;
+          }
+
+          el.textContent = await res.text();
+        } catch (error) {
+          el.textContent = "⚠️ Unavailable: " + SYSTEM_HEALTH_ENDPOINT;
+        }
+      }
+
+      window.addEventListener("load", () => {
+        refreshSystemHealthPanel();
+        window.setInterval(refreshSystemHealthPanel, 15000);
+      });
+    })();
+  </script>
+  <script src="bundle.js"></script>
+  <script src="js/phase60_live_clock.js"></script>
+  <script id="phase61-task-events-polish-script">
+    (() => {
+      const SELECTORS = [
+        '[data-tab-panel="task-events"]',
+        '[data-phase61-task-events]',
+        '#task-events-panel',
+        '#task-events',
+        '.task-events-panel',
+        '.task-events'
+      ];
+
+      const EVENT_ACTIVE = /run|start|resume|lease|dispatch|ack|progress|active|heartbeat/i;
+      const EVENT_WAITING = /queue|queued|pending|wait|retry|hold|sleep/i;
+      const EVENT_TERMINAL = /complete|completed|success|failed|error|cancel|cancelled|timeout|terminal/i;
+
+      const findPanel = () => {
+        for (const selector of SELECTORS) {
+          const node = document.querySelector(selector);
+          if (node) return node;
+        }
+        return null;
+      };
+
+      const classify = (text) => {
+        if (EVENT_TERMINAL.test(text)) return 'phase61-event-terminal';
+        if (EVENT_WAITING.test(text)) return 'phase61-event-waiting';
+        if (EVENT_ACTIVE.test(text)) return 'phase61-event-active';
+        return '';
+      };
+
+      const normalizeRow = (row) => {
+        if (row.dataset.phase61Polished === '1') return;
+        row.dataset.phase61Polished = '1';
+        row.classList.add('task-event');
+
+        const raw = (row.innerText || row.textContent || '').replace(/\s+/g, ' ').trim();
+        const parts = raw.split(/\s+[|·•]\s+|\s{2,}/).filter(Boolean);
+
+        const timeMatch = raw.match(/\b\d{1,2}:\d{2}(?::\d{2})?(?:\.\d+)?(?:\s?[AP]M)?\b|\b\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}(?::\d{2})?(?:\.\d+)?Z?\b/i);
+        const timeText = timeMatch ? timeMatch[0] : (parts[0] || '');
+        const remaining = parts.filter((part, index) => !(index === 0 && part === timeText));
+        const kindText = remaining[0] || 'event';
+        const detailText = remaining.slice(1).join(' • ') || raw;
+
+        row.classList.add(classify(`${kindText} ${detailText}`));
+
+        row.innerHTML = `
+          <div class="phase61-task-event-time">${timeText || '—'}</div>
+          <div class="phase61-task-event-kind">${kindText}</div>
+          <div class="phase61-task-event-detail">${detailText}</div>
+        `;
+      };
+
+      const polish = () => {
+        const panel = findPanel();
+        if (!panel) return;
+
+        panel.setAttribute('data-phase61-task-events', 'true');
+
+        const rows = panel.querySelectorAll('li, .task-event, [data-task-event-row]');
+        rows.forEach(normalizeRow);
+
+        if (!rows.length && !panel.querySelector('.phase61-task-event-empty')) {
+          const empty = document.createElement('div');
+          empty.className = 'phase61-task-event-empty';
+          empty.textContent = 'No task events yet.';
+          panel.appendChild(empty);
+        }
+      };
+
+      const boot = () => {
+        polish();
+        const panel = findPanel();
+        if (!panel) return;
+
+        const observer = new MutationObserver(() => polish());
+        observer.observe(panel, { childList: true, subtree: true, characterData: true });
+      };
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', boot, { once: true });
+      } else {
+        boot();
+      }
+    })();
+  </script>
+</body>
+</html>
+<style>
+#task-events-card {
+  height:100%;
+  display:flex;
+  flex-direction:column;
+}
+
+#mb-task-events-panel-anchor {
+  flex:1;
+}
+</style>
+<style>
+#matilda-chat-root{
+  display:flex;
+  flex-direction:column;
+  height:100%;
+}
+
+#matilda-chat-transcript{
+  flex:1;
+}
+
+#matilda-helper-text-ops{
+  margin-top:auto;
+  opacity:.7;
+}
+</style>
