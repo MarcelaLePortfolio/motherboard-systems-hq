@@ -38,3 +38,18 @@ export function operatorGuidanceReducer(
       return state;
   }
 }
+
+export function replaceOperatorGuidance(
+  payload: OperatorGuidanceEnvelope,
+): OperatorGuidanceAction {
+  return {
+    type: "operatorGuidance/replace",
+    payload,
+  };
+}
+
+export function resetOperatorGuidance(): OperatorGuidanceAction {
+  return {
+    type: "operatorGuidance/reset",
+  };
+}
