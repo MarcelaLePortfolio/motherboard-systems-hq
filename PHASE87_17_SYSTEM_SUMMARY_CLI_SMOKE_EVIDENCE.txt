@@ -1,6 +1,6 @@
 PHASE 87.17 SYSTEM SUMMARY CLI SMOKE EVIDENCE
-Generated: 2026-03-18T22:48:27Z
+Generated: 2026-03-18T22:50:17Z
 Branch: phase65b-running-tasks-hydration
-Commit: bb2da2ab1a2fcb81e092db43b9554e882e452dfd
+Commit: eb5612d73ad7c9584107b4f26b893058e09b9ffe
 ────────────────────────────────
 RESULT: PASS
