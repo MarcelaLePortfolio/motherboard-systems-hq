@@ -1,0 +1,28 @@
+[phase25] task_events_emit loaded 2026-03-19T18:01:20.800Z file= file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/task_events_emit.mjs
+[phase25] api-tasks-postgres loaded 2026-03-19T18:01:20.801Z file= file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/api-tasks-postgres.mjs
+[phase19] orchestrator_state_route mounted {
+  file: 'file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/orchestrator_state_route.mjs',
+  envSnapshot: {
+    PHASE18_ENABLE_ORCHESTRATION: undefined,
+    PHASE19_ENABLE_ORCH_STATE: undefined
+  }
+}
+[SSE] /events/ops + /events/reflections registered
+[db] effective pool config {
+  mode: 'url',
+  DB_URL_present: true,
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'url-hidden',
+  password_len: 'hidden',
+  has_password: true
+}
+Database pool initialized
+[phase25] __DB_POOL set { has: true, type: 'BoundPool' }
+Server running on http://0.0.0.0:3000
+[HTTP] GET /dashboard
+[HTTP] GET /diagnostics/system-health
+[HTTP] GET /diagnostics/systemHealth
+[HTTP] GET /dashboard
