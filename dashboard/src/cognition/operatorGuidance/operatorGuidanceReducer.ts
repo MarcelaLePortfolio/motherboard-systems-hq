@@ -1,23 +1,37 @@
-import {
-  EMPTY_OPERATOR_GUIDANCE_ENVELOPE,
-  type OperatorGuidanceEnvelope,
+import type {
+  OperatorGuidanceReduction,
+  OperatorGuidanceStreamEvent,
 } from "./operatorGuidance";
+import {
+  EMPTY_OPERATOR_GUIDANCE_REDUCTION,
+  EMPTY_OPERATOR_GUIDANCE_STREAM_EVENT,
+} from "./operatorGuidance";
+import {
+  normalizeOperatorGuidanceReduction,
+  normalizeOperatorGuidanceStreamEvent,
+} from "./operatorGuidanceRenderContract";
 
 export interface OperatorGuidanceState {
-  envelope: OperatorGuidanceEnvelope;
+  reduction: OperatorGuidanceReduction;
+  lastEvent: OperatorGuidanceStreamEvent;
 }
 
 export type OperatorGuidanceAction =
   | {
       type: "operatorGuidance/replace";
-      payload: OperatorGuidanceEnvelope;
+      payload: OperatorGuidanceReduction;
+    }
+  | {
+      type: "operatorGuidance/streamEvent";
+      payload: OperatorGuidanceStreamEvent;
     }
   | {
       type: "operatorGuidance/reset";
     };
 
 export const INITIAL_OPERATOR_GUIDANCE_STATE: OperatorGuidanceState = {
-  envelope: EMPTY_OPERATOR_GUIDANCE_ENVELOPE,
+  reduction: EMPTY_OPERATOR_GUIDANCE_REDUCTION,
+  lastEvent: EMPTY_OPERATOR_GUIDANCE_STREAM_EVENT,
 };
 
 export function operatorGuidanceReducer(
@@ -25,11 +39,26 @@ export function operatorGuidanceReducer(
   action: OperatorGuidanceAction,
 ): OperatorGuidanceState {
   switch (action.type) {
-    case "operatorGuidance/replace":
+    case "operatorGuidance/replace": {
+      const reduction = normalizeOperatorGuidanceReduction(action.payload);
       return {
         ...state,
-        envelope: action.payload,
+        reduction,
+        lastEvent: {
+          reduction,
+          source: state.lastEvent.source,
+          ts: state.lastEvent.ts,
+        },
       };
+    }
+
+    case "operatorGuidance/streamEvent": {
+      const lastEvent = normalizeOperatorGuidanceStreamEvent(action.payload);
+      return {
+        reduction: lastEvent.reduction,
+        lastEvent,
+      };
+    }
 
     case "operatorGuidance/reset":
       return INITIAL_OPERATOR_GUIDANCE_STATE;
@@ -40,10 +69,19 @@ export function operatorGuidanceReducer(
 }
 
 export function replaceOperatorGuidance(
-  payload: OperatorGuidanceEnvelope,
+  payload: OperatorGuidanceReduction,
 ): OperatorGuidanceAction {
   return {
     type: "operatorGuidance/replace",
+    payload,
+  };
+}
+
+export function applyOperatorGuidanceStreamEvent(
+  payload: OperatorGuidanceStreamEvent,
+): OperatorGuidanceAction {
+  return {
+    type: "operatorGuidance/streamEvent",
     payload,
   };
 }

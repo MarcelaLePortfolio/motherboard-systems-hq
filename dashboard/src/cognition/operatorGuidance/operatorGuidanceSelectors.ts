@@ -1,20 +1,46 @@
-import type { OperatorGuidanceEnvelope } from "./operatorGuidance";
+import type {
+  OperatorGuidanceConfidence,
+  OperatorGuidanceReduction,
+  OperatorGuidanceRenderModel,
+  OperatorGuidanceStreamEvent,
+} from "./operatorGuidance";
 import type { OperatorGuidanceState } from "./operatorGuidanceReducer";
+import { buildOperatorGuidanceRenderModel } from "./operatorGuidanceRenderContract";
 
-export function selectOperatorGuidanceEnvelope(
+export function selectOperatorGuidanceReduction(
   state: OperatorGuidanceState,
-): OperatorGuidanceEnvelope {
-  return state.envelope;
+): OperatorGuidanceReduction {
+  return state.reduction;
+}
+
+export function selectOperatorGuidanceStreamEvent(
+  state: OperatorGuidanceState,
+): OperatorGuidanceStreamEvent {
+  return state.lastEvent;
+}
+
+export function selectOperatorGuidanceRenderModel(
+  state: OperatorGuidanceState,
+): OperatorGuidanceRenderModel {
+  return buildOperatorGuidanceRenderModel(state.lastEvent);
 }
 
 export function selectOperatorGuidanceConfidence(
   state: OperatorGuidanceState,
-): OperatorGuidanceEnvelope["confidence"] {
-  return state.envelope.confidence;
+): OperatorGuidanceConfidence {
+  return state.reduction.surfaceConfidence;
 }
 
 export function selectOperatorGuidanceSources(
   state: OperatorGuidanceState,
 ): string[] {
-  return state.envelope.sources;
+  const deduped = new Set<string>();
+
+  for (const guidance of state.reduction.envelope.guidance) {
+    for (const source of guidance.signalSource) {
+      deduped.add(source);
+    }
+  }
+
+  return [...deduped];
 }

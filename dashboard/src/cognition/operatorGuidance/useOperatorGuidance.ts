@@ -1,17 +1,25 @@
 import { useMemo, useReducer } from "react";
 
-import type { OperatorGuidanceEnvelope } from "./operatorGuidance";
+import type {
+  OperatorGuidanceReduction,
+  OperatorGuidanceRenderModel,
+  OperatorGuidanceStreamEvent,
+} from "./operatorGuidance";
 import {
   INITIAL_OPERATOR_GUIDANCE_STATE,
+  applyOperatorGuidanceStreamEvent,
   operatorGuidanceReducer,
   replaceOperatorGuidance,
   resetOperatorGuidance,
 } from "./operatorGuidanceReducer";
+import { buildOperatorGuidanceRenderModel } from "./operatorGuidanceRenderContract";
 
 export interface UseOperatorGuidanceResult {
-  envelope: OperatorGuidanceEnvelope;
-  replaceEnvelope: (nextEnvelope: OperatorGuidanceEnvelope) => void;
-  resetEnvelope: () => void;
+  reduction: OperatorGuidanceReduction;
+  renderModel: OperatorGuidanceRenderModel;
+  replaceReduction: (nextReduction: OperatorGuidanceReduction) => void;
+  applyStreamEvent: (nextEvent: OperatorGuidanceStreamEvent) => void;
+  reset: () => void;
 }
 
 export function useOperatorGuidance(): UseOperatorGuidanceResult {
@@ -22,14 +30,18 @@ export function useOperatorGuidance(): UseOperatorGuidanceResult {
 
   return useMemo(
     () => ({
-      envelope: state.envelope,
-      replaceEnvelope: (nextEnvelope: OperatorGuidanceEnvelope) => {
-        dispatch(replaceOperatorGuidance(nextEnvelope));
+      reduction: state.reduction,
+      renderModel: buildOperatorGuidanceRenderModel(state.lastEvent),
+      replaceReduction: (nextReduction: OperatorGuidanceReduction) => {
+        dispatch(replaceOperatorGuidance(nextReduction));
       },
-      resetEnvelope: () => {
+      applyStreamEvent: (nextEvent: OperatorGuidanceStreamEvent) => {
+        dispatch(applyOperatorGuidanceStreamEvent(nextEvent));
+      },
+      reset: () => {
         dispatch(resetOperatorGuidance());
       },
     }),
-    [state.envelope],
+    [state.lastEvent, state.reduction],
   );
 }
