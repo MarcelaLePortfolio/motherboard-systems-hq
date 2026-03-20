@@ -1,0 +1,40 @@
+PHASE 62B — SUCCESS RATE LIVE HYDRATION READINESS CHECK
+generated_at=2026-03-17T16:34:34Z
+
+== branch ==
+phase65b-running-tasks-hydration
+
+== single-writer corridor precondition ==
+370:  const successNode = null; // Phase 62B: success writer neutralized; telemetry module remains sole writer
+14:    load("/js/telemetry/success_rate_metric.js");
+bundle_direct_success_writer_present=no
+
+== success metric attach corridor ==
+138:    source.addEventListener("message", (e) => {
+9:    "task.completed",
+10:    "task.complete",
+11:    "task.done",
+12:    "task.success",
+20:    "task.failed",
+
+== task-events client named events ==
+133:    if (kind === "task.created") tally.created += 1;
+134:    if (kind === "task.completed") tally.completed += 1;
+135:    if (kind === "task.failed") tally.failed += 1;
+270:    if (eventName === "task.event") {
+274:      if (ev.kind === "task.event" && ev.type) ev.kind = ev.type;
+292:    if (ev.kind === "task.created" || ev.kind === "task.completed" || ev.kind === "task.failed") {
+339:      "task.event",
+340:      "task.created",
+341:      "task.completed",
+342:      "task.failed",
+343:      "task.updated",
+344:      "task.status",
+
+== success metric bootstrap path ==
+14:    load("/js/telemetry/success_rate_metric.js");
+
+== key decision summary ==
+ready_for_hydration_patch=yes
+success_metric_currently_reads_message=yes
+named_terminal_events_present=yes

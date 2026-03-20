@@ -1,0 +1,108 @@
+PHASE 88.3 AUTHORITATIVE SYSTEM HEALTH ROUTE
+Generated: 2026-03-19T17:29:27Z
+Branch: phase65b-running-tasks-hydration
+Commit: 5c8ed3a9e55a57db4eaa1eff50373b514134ffbc
+Repo: /Users/marcela-dev/Projects/Motherboard_Systems_HQ
+────────────────────────────────
+FILE: routes/diagnostics/systemHealth.ts
+EXISTS: yes
+BYTES: 0
+LINES: 0
+HEAD:
+────────────────────────────────
+FILE: routes/diagnostics/systemHealth.js
+EXISTS: yes
+BYTES: 267
+LINES: 13
+HEAD:
+import express from "express";
+const router = express.Router();
+
+router.get("/", (req, res) => {
+  res.json({
+    status: "OK",
+    uptime: process.uptime(),
+    memory: process.memoryUsage(),
+    timestamp: new Date().toISOString()
+  });
+});
+
+export default router;
+────────────────────────────────
+FILE: routes/routes/diagnostics/systemHealth.ts
+EXISTS: yes
+BYTES: 242
+LINES: 10
+HEAD:
+import express from "express";
+export const systemHealth = express.Router();
+
+systemHealth.get("/", (_req, res) => {
+  res.json({
+    ok: true,
+    timestamp: new Date().toISOString(),
+    message: "🩺 System Health route active"
+  });
+});
+────────────────────────────────
+FILE: routes/routes/diagnostics/systemHealth.js
+EXISTS: yes
+BYTES: 267
+LINES: 13
+HEAD:
+import express from "express";
+const router = express.Router();
+
+router.get("/", (req, res) => {
+  res.json({
+    status: "OK",
+    uptime: process.uptime(),
+    memory: process.memoryUsage(),
+    timestamp: new Date().toISOString()
+  });
+});
+
+export default router;
+────────────────────────────────
+FILE: routes_backup/diagnostics/systemHealth.ts
+EXISTS: yes
+BYTES: 259
+LINES: 17
+HEAD:
+import express, { Request, Response } from "express";
+const router = express.Router();
+
+
+
+
+
+
+
+
+systemHealth.get("/", (_req, res) => {
+  res.json({
+    ok: true,
+    timestamp: new Date().toISOString(),
+    message: "🩺 System Health route active"
+  });
+});
+────────────────────────────────
+FILE: routes_backup/diagnostics/systemHealth.js
+EXISTS: yes
+BYTES: 267
+LINES: 13
+HEAD:
+import express from "express";
+const router = express.Router();
+
+router.get("/", (req, res) => {
+  res.json({
+    status: "OK",
+    uptime: process.uptime(),
+    memory: process.memoryUsage(),
+    timestamp: new Date().toISOString()
+  });
+});
+
+export default router;
+────────────────────────────────

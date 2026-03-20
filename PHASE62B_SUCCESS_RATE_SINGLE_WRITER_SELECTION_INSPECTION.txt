@@ -1,0 +1,88 @@
+PHASE 62B — SUCCESS RATE SINGLE WRITER CORRIDOR SELECTION
+generated_at=2026-03-17T04:38:51Z
+
+== branch ==
+phase65b-running-tasks-hydration
+
+== locate all success metric writers ==
+public/index.html:88:        <p id="metric-success-rate" class="text-2xl font-bold text-green-400">--</p>
+public/js/agent-status-row.js:370:  const successNode = document.getElementById('metric-success');
+public/js/agent-status-row.js:491:      // Phase 65C: metric-success ownership transferred to telemetry reducer
+public/js/telemetry/success_rate_metric.js:41:    return document.getElementById("metric-success");
+public/bundle.js:28:  const successNode = document.getElementById('metric-success');
+public/dashboard.html:465:        <p class="phase62-metric-value text-4xl font-bold text-green-400 leading-none" id="metric-success" data-phase62b-metric-anchor="true">--</p>
+public/dashboard.html.phase61_agent_emoji_backup:395:        <p id="metric-success-rate" class="text-2xl font-bold text-green-400">--</p>
+public/bundle-core.js:26:    const metricSuccessRate = document.getElementById("metric-success-rate");
+
+== locate all successNode writers ==
+public/js/agent-status-row.js:370:  const successNode = document.getElementById('metric-success');
+public/js/agent-status-row.js:490:    if (successNode) {
+public/bundle.js:28:  const successNode = document.getElementById('metric-success');
+public/bundle.js:148:    if (successNode) {
+public/bundle.js:150:      successNode.textContent = total > 0
+
+== locate completed/failed counters ==
+public/js/agent-status-row.js:379:  let completedCount = 0;
+public/js/agent-status-row.js:380:  let failedCount = 0;
+public/js/agent-status-row.js:525:        if (terminalSuccessTypes.has(eventType)) completedCount += 1;
+public/js/agent-status-row.js:526:        if (terminalFailureTypes.has(eventType)) failedCount += 1;
+public/js/telemetry/success_rate_metric.js:37:  let completedCount = 0;
+public/js/telemetry/success_rate_metric.js:38:  let failedCount = 0;
+public/js/telemetry/success_rate_metric.js:48:    const total = completedCount + failedCount;
+public/js/telemetry/success_rate_metric.js:49:    const value = total > 0 ? `${Math.round((completedCount / total) * 100)}%` : "—";
+public/js/telemetry/success_rate_metric.js:127:    if (isSuccess) completedCount += 1;
+public/js/telemetry/success_rate_metric.js:128:    if (isFailure) failedCount += 1;
+public/bundle.js:37:  let completedCount = 0;
+public/bundle.js:38:  let failedCount = 0;
+public/bundle.js:149:      const total = completedCount + failedCount;
+public/bundle.js:151:        ? `${Math.round((completedCount / total) * 100)}%`
+public/bundle.js:191:        if (terminalSuccessTypes.has(eventType)) completedCount += 1;
+public/bundle.js:192:        if (terminalFailureTypes.has(eventType)) failedCount += 1;
+
+== telemetry module load confirmation ==
+public/js/telemetry/phase65b_metric_bootstrap.js:14:    load("/js/telemetry/success_rate_metric.js");
+
+== bootstrap load path ==
+     1	(function () {
+     2	  function load(src) {
+     3	    if (document.querySelector(`script[src="${src}"]`)) return;
+     4	
+     5	    const s = document.createElement("script");
+     6	    s.src = src;
+     7	    s.defer = true;
+     8	    document.body.appendChild(s);
+     9	  }
+    10	
+    11	  function init() {
+    12	    load("/js/telemetry/phase65b_metric_ownership_guard.js");
+    13	    load("/js/telemetry/running_tasks_metric.js");
+    14	    load("/js/telemetry/success_rate_metric.js");
+    15	    load("/js/telemetry/latency_metric.js");
+    16	  }
+    17	
+    18	  if (document.readyState === "loading") {
+    19	    document.addEventListener("DOMContentLoaded", init);
+    20	  } else {
+    21	    init();
+    22	  }
+    23	})();
+
+== bundle writer presence check ==
+28:  const successNode = document.getElementById('metric-success');
+37:  let completedCount = 0;
+38:  let failedCount = 0;
+148:    if (successNode) {
+149:      const total = completedCount + failedCount;
+150:      successNode.textContent = total > 0
+151:        ? `${Math.round((completedCount / total) * 100)}%`
+191:        if (terminalSuccessTypes.has(eventType)) completedCount += 1;
+192:        if (terminalFailureTypes.has(eventType)) failedCount += 1;
+
+== authoritative corridor decision rule ==
+Authoritative writer must be:
+1 telemetry module based
+2 loaded via bootstrap
+3 single writer confirmed
+
+== next action ==
+If multiple writers exist, select telemetry module as authority and neutralize others without layout or transport change.

@@ -1,0 +1,196 @@
+PHASE 88.14.3 LIVE HEALTH AND DASHBOARD CANDIDATES
+Generated: 2026-03-19T17:50:30Z
+Branch: phase65b-running-tasks-hydration
+Commit: 2e2b0158e2f39e6d913af1d5037cdff99d78de8c
+Base URL: http://127.0.0.1:3000
+────────────────────────────────
+SECTION: HEALTH CANDIDATES
+URL: http://127.0.0.1:3000/diagnostics/system-health
+STATUS: 404
+BODY TYPE: html-or-text
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot GET /diagnostics/system-health</pre>
+</body>
+</html>
+────────────────────────────────
+URL: http://127.0.0.1:3000/diagnostics/systemHealth
+STATUS: 404
+BODY TYPE: html-or-text
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot GET /diagnostics/systemHealth</pre>
+</body>
+</html>
+────────────────────────────────
+URL: http://127.0.0.1:3000/system-health
+STATUS: 404
+BODY TYPE: html-or-text
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot GET /system-health</pre>
+</body>
+</html>
+────────────────────────────────
+URL: http://127.0.0.1:3000/health
+STATUS: 404
+BODY TYPE: html-or-text
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot GET /health</pre>
+</body>
+</html>
+────────────────────────────────
+SECTION: DASHBOARD CANDIDATES
+URL: http://127.0.0.1:3000/dashboard
+STATUS: 200
+BODY TYPE: html-or-text
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <style id="matilda-chat-typography-polish">
+    #matilda-chat-transcript p {
+      line-height: 1.45 !important;
+      margin-bottom: 0.55rem !important;
+    }
+    #matilda-chat-transcript .user-message {
+      color: #dbeafe !important;
+    }
+    #matilda-chat-transcript .matilda-message {
+      color: #a7f3d0 !important;
+    }
+  
+  /* Phase 62: Agent Pool + Metrics dual top row */
+  .phase62-top-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 16px;
+    align-items: stretch;
+  }
+
+  .phase62-top-col {
+    min-width: 0;
+  }
+
+  .phase62-top-col > section,
+  .phase62-top-col > div {
+    height: 100%;
+    margin-bottom: 0 !important;
+  }
+
+  #agent-status-container.phase62-agent-pool {
+    margin-bottom: 0 !important;
+  }
+
+  @media (max-width: 1100px) {
+    .phase62-top-row {
+      grid-template-columns: 1fr;
+────────────────────────────────
+URL: http://127.0.0.1:3000/public/dashboard.html
+STATUS: 200
+BODY TYPE: html-or-text
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <style id="matilda-chat-typography-polish">
+    #matilda-chat-transcript p {
+      line-height: 1.45 !important;
+      margin-bottom: 0.55rem !important;
+    }
+    #matilda-chat-transcript .user-message {
+      color: #dbeafe !important;
+    }
+    #matilda-chat-transcript .matilda-message {
+      color: #a7f3d0 !important;
+    }
+  
+  /* Phase 62: Agent Pool + Metrics dual top row */
+  .phase62-top-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 16px;
+    align-items: stretch;
+  }
+
+  .phase62-top-col {
+    min-width: 0;
+  }
+
+  .phase62-top-col > section,
+  .phase62-top-col > div {
+    height: 100%;
+    margin-bottom: 0 !important;
+  }
+
+  #agent-status-container.phase62-agent-pool {
+    margin-bottom: 0 !important;
+  }
+
+  @media (max-width: 1100px) {
+    .phase62-top-row {
+      grid-template-columns: 1fr;
+────────────────────────────────
+URL: http://127.0.0.1:3000/
+STATUS: 200
+BODY TYPE: html-or-text
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <style id="matilda-chat-typography-polish">
+    #matilda-chat-transcript p {
+      line-height: 1.45 !important;
+      margin-bottom: 0.55rem !important;
+    }
+    #matilda-chat-transcript .user-message {
+      color: #dbeafe !important;
+    }
+    #matilda-chat-transcript .matilda-message {
+      color: #a7f3d0 !important;
+    }
+  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Motherboard Systems Operator Console</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="css/broadcast.css" />
+  <link rel="stylesheet" href="css/dashboard.css?v=darkmode" />
+  <link rel="stylesheet" href="css/dashboard-reflections.css" />
+  <link rel="stylesheet" href="css/agent-status-row.css" />
+  <link rel="stylesheet" href="css/matilda-chat.css" />
+  <link rel="stylesheet" href="css/demo_layout_trim.css" />
+  <link rel="stylesheet" href="css/phase59_demo_focus.css" />
+</head>
+
+<body class="bg-gray-900 text-gray-100 min-h-screen p-4">
+  <header class="phase59-shell flex flex-col gap-4 mb-6 lg:flex-row lg:items-center lg:justify-between">
+    <div>
+      <p class="text-xs uppercase tracking-[0.24em] text-teal-300/70 mb-2">Motherboard Systems</p>
+      <h1 class="text-3xl font-bold text-teal-400">
+        Operator Console
+      </h1>
+    </div>
+────────────────────────────────

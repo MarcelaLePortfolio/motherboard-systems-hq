@@ -1,0 +1,32 @@
+== Phase 61.5.5z prove agent-status route updates ops snapshot ==
+timestamp: 2026-03-11T02:07:55Z
+
+== branch / head ==
+phase61-cherry-pick-recovery
+3a059421
+
+== POST /api/ops/agent-status ==
+{"ok":true,"agent":"Matilda","state":"running","at":1773194875284}
+{"ok":true,"agent":"Cade","state":"queued","at":1773194875292}
+{"ok":true,"agent":"Effie","state":"ready","at":1773194875299}
+{"ok":true,"agent":"Atlas","state":"ready","at":1773194875306}
+
+== bounded /events/ops sample after posts ==
+event: hello
+data: {"kind":"ops","ts":1773194875312,"msg":"SSE ops connected"}
+
+event: ops.state
+data: {"status":"live","lastHeartbeatAt":null,"agents":{"Matilda":{"state":"running","at":1773194875284,"meta":{"source":"phase61_5_5z_probe"}},"Cade":{"state":"queued","at":1773194875292,"meta":{"source":"phase61_5_5z_probe"}},"Effie":{"state":"ready","at":1773194875299,"meta":{"source":"phase61_5_5z_probe"}},"Atlas":{"state":"ready","at":1773194875306,"meta":{"source":"phase61_5_5z_probe"}}}}
+
+event: heartbeat
+data: {"ts":1773194878312}
+
+event: heartbeat
+data: {"ts":1773194881312}
+
+
+
+== extracted agent-bearing lines ==
+4:event: ops.state
+5:data: {"status":"live","lastHeartbeatAt":null,"agents":{"Matilda":{"state":"running","at":1773194875284,"meta":{"source":"phase61_5_5z_probe"}},"Cade":{"state":"queued","at":1773194875292,"meta":{"source":"phase61_5_5z_probe"}},"Effie":{"state":"ready","at":1773194875299,"meta":{"source":"phase61_5_5z_probe"}},"Atlas":{"state":"ready","at":1773194875306,"meta":{"source":"phase61_5_5z_probe"}}}}
+

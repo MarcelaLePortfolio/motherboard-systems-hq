@@ -42,14 +42,18 @@ router.get("/api/task-events-sse", (req, res) => {
   const pool = globalThis.__DB_POOL;
   try {
     const o = pool?.options || {};
+    const TASK_EVENTS_DB_URL_RAW = process.env.POSTGRES_URL || process.env.DATABASE_URL || "";
+    const TASK_EVENTS_DB_URL_HAS_PASSWORD = /\/\/[^:]+:[^@]+@/.test(TASK_EVENTS_DB_URL_RAW);
     console.log("[task-events] pool cfg", {
-      host: o.host || null,
-      port: o.port || null,
-      user: o.user || null,
-      database: o.database || null,
-      password_type: typeof o.password,
-      password_len: (o.password == null ? null : String(o.password).length),
-      has_password: (o.password != null),
+      mode: (TASK_EVENTS_DB_URL_RAW ? "url" : "params"),
+      DB_URL_present: Boolean(TASK_EVENTS_DB_URL_RAW),
+      host: o.host ?? null,
+      port: o.port ?? null,
+      user: o.user ?? null,
+      database: o.database ?? null,
+      password_type: (TASK_EVENTS_DB_URL_RAW ? "url-hidden" : typeof o.password),
+      password_len: (TASK_EVENTS_DB_URL_RAW ? "hidden" : (o.password == null ? null : String(o.password).length)),
+      has_password: (TASK_EVENTS_DB_URL_RAW ? TASK_EVENTS_DB_URL_HAS_PASSWORD : (o.password != null)),
     });
   } catch (_) {}
 
@@ -93,7 +97,7 @@ router.get("/api/task-events-sse", (req, res) => {
           `
           select id, kind, payload, task_id, run_id, actor, created_at
           from task_events
-          where created_at > to_timestamp($1 / 1000.0)
+          where (extract(epoch from created_at) * 1000)::bigint > $1
           order by created_at asc
           limit $2
           `,
@@ -104,7 +108,7 @@ router.get("/api/task-events-sse", (req, res) => {
           `
           select id, kind, payload, created_at
           from task_events
-          where created_at > to_timestamp($1 / 1000.0)
+          where (extract(epoch from created_at) * 1000)::bigint > $1
           order by created_at asc
           limit $2
           `,
@@ -123,8 +127,11 @@ const rows = q?.rows || [];
       backoffMs = 150;
 
       for (const r of rows) {
-        const _ms = (r.created_at instanceof Date) ? r.created_at.getTime() : Date.parse(r.created_at);
-          if (Number.isFinite(_ms)) cursor = Math.max(cursor, _ms);
+        const _msRaw = (r.created_at instanceof Date)
+          ? r.created_at.getTime()
+          : Date.parse(r.created_at);
+        const _ms = Number.isFinite(_msRaw) ? Math.floor(_msRaw) : null;
+        if (Number.isFinite(_ms)) cursor = Math.max(cursor, _ms);
         const payload = _safeJsonParse(r.payload);
           const taskIdCol = (r.task_id ?? null);
           const runIdCol  = (r.run_id  ?? null);

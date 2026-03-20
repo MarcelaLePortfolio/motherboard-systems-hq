@@ -390,30 +390,238 @@
       console.warn("agent-status-row.js: #agent-status-container not found.");
       return;
     }
+    const title = container.querySelector("h2");
     container.innerHTML = "";
-    const AGENTS = ["Matilda", "Cade", "Effie", "Atlas"];
+    if (title) container.appendChild(title);
+    const AGENTS = ["Matilda", "Atlas", "Cade", "Effie"];
+    const AGENT_EMOJI = {
+      matilda: "\u{1F5E3}\uFE0F",
+      atlas: "\u{1F9ED}",
+      cade: "\u{1F4BB}",
+      effie: "\u{1F4CA}"
+    };
     const indicators = {};
-    const row = document.createElement("div");
-    row.className = "flex flex-wrap gap-4 items-center";
-    container.appendChild(row);
+    const agentActivityAt = /* @__PURE__ */ Object.create(null);
+    const agentReportedState = /* @__PURE__ */ Object.create(null);
+    const ACTIVE_WINDOW_MS = 60 * 1e3;
+    const activeAgentsMetricEl = document.getElementById("metric-agents");
+    function setMetricText(el, value) {
+      if (!el) return;
+      el.textContent = value;
+    }
+    function parseTimestamp(value) {
+      if (typeof value === "number" && Number.isFinite(value)) return value;
+      if (typeof value === "string" && value.trim()) {
+        const n = Number(value);
+        if (Number.isFinite(n)) return n;
+        const parsed = Date.parse(value);
+        if (Number.isFinite(parsed)) return parsed;
+      }
+      return null;
+    }
+    function formatAge(ms) {
+      if (!Number.isFinite(ms) || ms < 0) return "0s";
+      const totalSeconds = Math.floor(ms / 1e3);
+      if (totalSeconds < 60) return `${totalSeconds}s`;
+      const totalMinutes = Math.floor(totalSeconds / 60);
+      if (totalMinutes < 60) return `${totalMinutes}m`;
+      return `${Math.floor(totalMinutes / 60)}h`;
+    }
+    function refreshActiveAgentsMetric() {
+      if (!activeAgentsMetricEl) return;
+      const now = Date.now();
+      let count = 0;
+      for (const name of AGENTS) {
+        const key = name.toLowerCase();
+        const at = parseTimestamp(agentActivityAt[key]);
+        if (at != null && now - at <= ACTIVE_WINDOW_MS) count += 1;
+      }
+    }
+    function getAgentPresentation(agentKey, reportedStatus) {
+      const reported = String(reportedStatus || "").trim();
+      const normalized = reported.toLowerCase();
+      const at = parseTimestamp(agentActivityAt[agentKey]);
+      if (at == null) {
+        return {
+          kind: "unknown",
+          label: reported || "unknown"
+        };
+      }
+      const ageMs = Math.max(0, Date.now() - at);
+      const ageLabel = formatAge(ageMs);
+      if (ageMs > ACTIVE_WINDOW_MS) {
+        return {
+          kind: "stale",
+          label: `stale \xB7 ${ageLabel} ago`
+        };
+      }
+      if (normalized.includes("error") || normalized.includes("failed") || normalized.includes("offline")) {
+        return {
+          kind: "error",
+          label: `${reported || "error"} \xB7 ${ageLabel} ago`
+        };
+      }
+      if (normalized && normalized !== "unknown") {
+        return {
+          kind: "active",
+          label: `${reported} \xB7 ${ageLabel} ago`
+        };
+      }
+      return {
+        kind: "active",
+        label: `active \xB7 ${ageLabel} ago`
+      };
+    }
+    const stack = document.createElement("div");
+    stack.className = "w-full flex flex-col gap-0.5";
+    container.appendChild(stack);
     AGENTS.forEach((name) => {
-      const pill = document.createElement("div");
-      pill.className = "px-3 py-1 rounded-full bg-gray-700 text-sm flex items-center gap-2 shadow";
-      const dot = document.createElement("span");
-      dot.className = "w-2 h-2 rounded-full bg-yellow-400";
+      const key = name.toLowerCase();
+      const row = document.createElement("div");
+      row.className = "w-full min-h-0 rounded-md bg-slate-600/55 border border-slate-500/35 px-3 py-1.5 flex items-center justify-between shadow-sm";
+      const left = document.createElement("div");
+      left.className = "flex items-center gap-3 min-w-0 h-[18px]";
+      const emoji = document.createElement("span");
+      emoji.className = "inline-flex items-center justify-center shrink-0";
+      emoji.textContent = AGENT_EMOJI[key] || "\u2022";
+      emoji.style.width = "18px";
+      emoji.style.minWidth = "18px";
+      emoji.style.height = "18px";
+      emoji.style.minHeight = "18px";
+      emoji.style.fontSize = "14px";
+      emoji.style.lineHeight = "1";
+      emoji.style.background = "transparent";
+      emoji.style.borderRadius = "0";
+      emoji.style.boxShadow = "none";
+      emoji.style.marginRight = "0";
       const label = document.createElement("span");
-      label.textContent = `${name}: \u23F3`;
-      pill.dataset.agent = name.toLowerCase();
-      pill.append(dot, label);
-      row.appendChild(pill);
-      indicators[name.toLowerCase()] = { pill, dot, label };
+      label.className = "text-[13px] font-semibold tracking-tight text-slate-100/95 truncate";
+      label.textContent = name;
+      const status = document.createElement("span");
+      status.className = "text-[12px] font-medium text-slate-200/90 truncate";
+      status.textContent = "unknown";
+      left.append(emoji, label);
+      row.append(left, status);
+      stack.appendChild(row);
+      indicators[key] = { row, emoji, label, status };
     });
     const OPS_SSE_URL = `/events/ops`;
     const __DISABLE_OPTIONAL_SSE = (typeof window !== "undefined" && window.__DISABLE_OPTIONAL_SSE) === true;
+    function applyVisual(agentKey, statusString) {
+      const indicator = indicators[agentKey];
+      if (!indicator) return;
+      agentReportedState[agentKey] = String(statusString || agentReportedState[agentKey] || "unknown");
+      const presentation = getAgentPresentation(agentKey, agentReportedState[agentKey]);
+      const kind = presentation.kind;
+      indicator.status.textContent = presentation.label;
+      indicator.row.className = "w-full min-h-0 rounded-md border px-3 py-1.5 flex items-center justify-between shadow-sm";
+      indicator.emoji.className = "inline-flex items-center justify-center shrink-0";
+      indicator.emoji.textContent = AGENT_EMOJI[agentKey] || "\u2022";
+      indicator.emoji.style.display = "inline-flex";
+      indicator.emoji.style.width = "18px";
+      indicator.emoji.style.minWidth = "18px";
+      indicator.emoji.style.height = "18px";
+      indicator.emoji.style.minHeight = "18px";
+      indicator.emoji.style.fontSize = "14px";
+      indicator.emoji.style.lineHeight = "1";
+      indicator.emoji.style.background = "transparent";
+      indicator.emoji.style.borderRadius = "0";
+      indicator.emoji.style.boxShadow = "none";
+      indicator.emoji.style.marginRight = "0";
+      indicator.label.className = "text-[13px] font-semibold tracking-tight truncate";
+      indicator.status.className = "text-[11px] font-medium truncate";
+      switch (kind) {
+        case "active":
+          indicator.row.classList.add("bg-gray-900", "border-gray-700");
+          indicator.label.classList.add("text-slate-100");
+          indicator.status.classList.add("text-emerald-300/90");
+          break;
+        case "error":
+          indicator.row.classList.add("bg-gray-900", "border-gray-700");
+          indicator.label.classList.add("text-slate-100");
+          indicator.status.classList.add("text-rose-300/90");
+          break;
+        case "stale":
+          indicator.row.classList.add("bg-gray-900", "border-gray-700");
+          indicator.label.classList.add("text-slate-100");
+          indicator.status.classList.add("text-amber-200/90");
+          break;
+        case "unknown":
+        default:
+          indicator.row.classList.add("bg-gray-900", "border-gray-700");
+          indicator.label.classList.add("text-slate-100");
+          indicator.status.classList.add("text-slate-300/75");
+          break;
+      }
+    }
+    function refreshAgentRows() {
+      Object.keys(indicators).forEach((key) => {
+        applyVisual(key, agentReportedState[key] || "unknown");
+      });
+    }
+    Object.keys(indicators).forEach((key) => applyVisual(key, "unknown"));
     if (__DISABLE_OPTIONAL_SSE) {
-      console.warn("[agent-status-row] Optional SSE disabled (Phase 16 pending):", OPS_SSE_URL);
-      Object.keys(indicators).forEach((key) => applyVisual(key, "unknown"));
+      console.warn("[agent-status-row] Optional SSE disabled:", OPS_SSE_URL);
       return;
+    }
+    function parseJson(raw) {
+      try {
+        return JSON.parse(raw);
+      } catch {
+        return null;
+      }
+    }
+    function extractPayload(data) {
+      if (!data || typeof data !== "object") return null;
+      if (data.payload && typeof data.payload === "object") return data.payload;
+      if (data.data && typeof data.data === "object") return data.data;
+      if (data.state && typeof data.state === "object") return data.state;
+      return data;
+    }
+    function applyAgentMap(payload) {
+      if (!payload || typeof payload !== "object") return false;
+      const agents = payload.agents;
+      if (!agents || typeof agents !== "object") return false;
+      let applied = false;
+      for (const [name, value] of Object.entries(agents)) {
+        const key = String(name || "").toLowerCase();
+        if (!indicators[key]) continue;
+        let status = "unknown";
+        if (typeof value === "string") {
+          status = value;
+        } else if (value && typeof value === "object") {
+          status = value.status ?? value.state ?? value.level ?? value.health ?? value.mode ?? "unknown";
+          const at = value.at ?? value.ts ?? value.last_activity ?? value.lastActivity ?? value.last_seen ?? value.lastSeen ?? null;
+          if (at != null) agentActivityAt[key] = at;
+        }
+        applyVisual(key, String(status || "unknown"));
+        applied = true;
+      }
+      refreshActiveAgentsMetric();
+      return applied;
+    }
+    function applySingleAgent(data) {
+      if (!data || typeof data !== "object") return false;
+      const agentName = (data.agent || data.actor || data.source || data.worker || data.name || "").toString().toLowerCase();
+      if (!agentName || !indicators[agentName]) return false;
+      const status = data.status ?? data.state ?? data.level ?? data.health ?? data.mode ?? "unknown";
+      const at = data.at ?? data.ts ?? data.last_activity ?? data.lastActivity ?? data.last_seen ?? data.lastSeen ?? null;
+      if (at != null) agentActivityAt[agentName] = at;
+      applyVisual(agentName, String(status || "unknown"));
+      refreshActiveAgentsMetric();
+      return true;
+    }
+    function handleOpsEvent(eventName, event) {
+      const data = parseJson(event.data);
+      if (!data) return;
+      const payload = extractPayload(data);
+      if (eventName === "ops.state") {
+        if (applyAgentMap(payload)) return;
+      }
+      if (applyAgentMap(data)) return;
+      if (applyAgentMap(payload)) return;
+      applySingleAgent(payload);
+      applySingleAgent(data);
     }
     let source;
     try {
@@ -422,74 +630,194 @@
       console.error("agent-status-row.js: Failed to open OPS SSE connection:", err);
       return;
     }
-    function classifyStatus(statusString) {
-      if (typeof window !== "undefined" && window.__PHASE16_SSE_OWNER_STARTED) {
-        return null;
-      }
-      const s = (statusString || "").toLowerCase();
-      if (!s) return "unknown";
-      if (s.includes("error") || s.includes("failed") || s.includes("offline")) {
-        return "error";
-      }
-      if (s.includes("online") || s.includes("ready") || s.includes("ok")) {
-        return "online";
-      }
-      if (s.includes("queued") || s.includes("pending") || s.includes("init")) {
-        return "pending";
-      }
-      return "unknown";
-    }
-    function applyVisual(agentKey, statusString) {
-      const indicator = indicators[agentKey];
-      if (!indicator) return;
-      const kind = classifyStatus(statusString);
-      const { pill, dot, label } = indicator;
-      dot.className = "w-2 h-2 rounded-full";
-      pill.classList.remove("border", "border-red-400", "border-green-400", "border-yellow-300");
-      switch (kind) {
-        case "online":
-          dot.classList.add("bg-green-400");
-          pill.classList.add("border", "border-green-400");
-          break;
-        case "error":
-          dot.classList.add("bg-red-400");
-          pill.classList.add("border", "border-red-400");
-          break;
-        case "pending":
-          dot.classList.add("bg-yellow-300");
-          pill.classList.add("border", "border-yellow-300");
-          break;
-        case "unknown":
-        default:
-          dot.classList.add("bg-gray-500");
-          break;
-      }
-      const prettyName = agentKey.charAt(0).toUpperCase() + agentKey.slice(1);
-      const finalStatus = statusString || "unknown";
-      label.textContent = `${prettyName}: ${finalStatus}`;
-    }
-    if (!source) return null;
-    source.onmessage = (event) => {
-      let payloadRaw = event.data;
-      let data;
-      try {
-        data = JSON.parse(payloadRaw);
-      } catch {
-        return;
-      }
-      const agentName = (data.agent || data.actor || data.source || data.worker || "").toString();
-      if (!agentName) return;
-      const key = agentName.toLowerCase();
-      if (!indicators[key]) {
-        return;
-      }
-      const status = (data.status || data.state || data.level || "").toString() || "unknown";
-      applyVisual(key, status);
-    };
+    if (!source) return;
+    source.onmessage = (event) => handleOpsEvent("message", event);
+    source.addEventListener("hello", (event) => handleOpsEvent("hello", event));
+    source.addEventListener("ops.state", (event) => handleOpsEvent("ops.state", event));
+    source.addEventListener("state", (event) => handleOpsEvent("state", event));
+    source.addEventListener("update", (event) => handleOpsEvent("update", event));
     source.onerror = (err) => {
       console.warn("agent-status-row.js: OPS SSE error:", err);
       Object.keys(indicators).forEach((key) => applyVisual(key, "unknown"));
     };
+  })();
+  (() => {
+    if (typeof window === "undefined") return;
+    if (window.__PHASE63_SHARED_TASK_EVENTS_METRICS__) return;
+    window.__PHASE63_SHARED_TASK_EVENTS_METRICS__ = true;
+    const tasksNode = document.getElementById("metric-tasks");
+    const successNode = null;
+    const latencyNode = document.getElementById("metric-latency");
+    const runningTaskIds = /* @__PURE__ */ new Set();
+    const taskStartTimes = /* @__PURE__ */ new Map();
+    const seenTerminalEvents = /* @__PURE__ */ new Set();
+    const recentDurationsMs = [];
+    const maxSamples = 50;
+    let completedCount = 0;
+    let failedCount = 0;
+    const runningTypes = /* @__PURE__ */ new Set([
+      "created",
+      "queued",
+      "leased",
+      "started",
+      "running",
+      "in_progress",
+      "delegated",
+      "retrying"
+    ]);
+    const terminalSuccessTypes = /* @__PURE__ */ new Set([
+      "completed",
+      "complete",
+      "done",
+      "success"
+    ]);
+    const terminalFailureTypes = /* @__PURE__ */ new Set([
+      "failed",
+      "error",
+      "cancelled",
+      "canceled",
+      "timed_out",
+      "timeout",
+      "terminated",
+      "aborted"
+    ]);
+    const terminalTypes = /* @__PURE__ */ new Set([
+      ...terminalSuccessTypes,
+      ...terminalFailureTypes
+    ]);
+    const normalize = (value) => String(value || "").trim().toLowerCase().replace(/\s+/g, "_");
+    const safeJsonParse = (value) => {
+      try {
+        return JSON.parse(value);
+      } catch {
+        return null;
+      }
+    };
+    const getTaskId = (payload) => payload?.task_id ?? payload?.taskId ?? payload?.id ?? payload?.data?.task_id ?? payload?.data?.taskId ?? null;
+    const getEventType = (eventName, payload) => normalize(
+      payload?.type ?? payload?.event ?? payload?.status ?? payload?.state ?? eventName
+    );
+    const toMs = (value) => {
+      if (typeof value === "number" && Number.isFinite(value)) {
+        return value > 1e12 ? value : value * 1e3;
+      }
+      if (typeof value === "string" && value.trim()) {
+        const asNum = Number(value);
+        if (Number.isFinite(asNum)) {
+          return asNum > 1e12 ? asNum : asNum * 1e3;
+        }
+        const parsed = Date.parse(value);
+        if (Number.isFinite(parsed)) return parsed;
+      }
+      return Date.now();
+    };
+    const getEventTs = (payload) => toMs(
+      payload?.ts ?? payload?.timestamp ?? payload?.at ?? payload?.time ?? payload?.created_at ?? payload?.updated_at ?? Date.now()
+    );
+    const formatLatency = (ms) => {
+      if (!Number.isFinite(ms) || ms <= 0) return "\u2014";
+      if (ms < 1e3) return `${Math.round(ms)}ms`;
+      const seconds = ms / 1e3;
+      if (seconds < 60) return `${seconds.toFixed(seconds >= 10 ? 0 : 1)}s`;
+      const minutes = seconds / 60;
+      return `${minutes.toFixed(minutes >= 10 ? 0 : 1)}m`;
+    };
+    const render = () => {
+      if (tasksNode) {
+      }
+      if (successNode) {
+      }
+      if (latencyNode) {
+      }
+    };
+    const ingestEvent = (eventName, payload) => {
+      const taskId = getTaskId(payload);
+      const eventType = getEventType(eventName, payload);
+      const eventTs = getEventTs(payload);
+      if (!taskId) {
+        render();
+        return;
+      }
+      if (runningTypes.has(eventType)) {
+        runningTaskIds.add(taskId);
+        if (!taskStartTimes.has(taskId)) {
+          taskStartTimes.set(taskId, eventTs);
+        }
+      }
+      if (terminalTypes.has(eventType)) {
+        runningTaskIds.delete(taskId);
+        const dedupeKey = `${taskId}|${eventType}|${eventTs}`;
+        if (!seenTerminalEvents.has(dedupeKey)) {
+          seenTerminalEvents.add(dedupeKey);
+          if (terminalSuccessTypes.has(eventType)) completedCount += 1;
+          if (terminalFailureTypes.has(eventType)) failedCount += 1;
+          const startTs = taskStartTimes.get(taskId);
+          if (Number.isFinite(startTs)) {
+            const duration = Math.max(0, eventTs - startTs);
+            recentDurationsMs.push(duration);
+            if (recentDurationsMs.length > maxSamples) {
+              recentDurationsMs.splice(0, recentDurationsMs.length - maxSamples);
+            }
+          }
+        }
+        taskStartTimes.delete(taskId);
+      }
+      render();
+    };
+    const ingestMessage = (raw, forcedEventName = null) => {
+      const parsed = typeof raw === "string" ? safeJsonParse(raw) : raw;
+      if (!parsed) return;
+      if (Array.isArray(parsed)) {
+        parsed.forEach((item) => ingestEvent(forcedEventName, item));
+        return;
+      }
+      const candidateLists = [
+        parsed?.events,
+        parsed?.payload?.events,
+        parsed?.task_events,
+        parsed?.items
+      ];
+      for (const list of candidateLists) {
+        if (Array.isArray(list)) {
+          list.forEach((item) => ingestEvent(forcedEventName, item));
+          return;
+        }
+      }
+      ingestEvent(
+        forcedEventName ?? parsed?.event ?? parsed?.type ?? parsed?.status,
+        parsed?.payload ?? parsed?.data ?? parsed
+      );
+    };
+    const attachTypedListener = (es, eventName) => {
+      es.addEventListener(eventName, (evt) => {
+        const parsed = safeJsonParse(evt.data);
+        if (parsed !== null) {
+          ingestMessage({ event: eventName, payload: parsed }, eventName);
+        } else {
+          ingestMessage({ event: eventName, payload: { type: eventName } }, eventName);
+        }
+      });
+    };
+    const connect = () => {
+      let es;
+      try {
+        es = new EventSource("/events/task-events");
+      } catch {
+        render();
+        return;
+      }
+      es.onmessage = (evt) => ingestMessage(evt.data);
+      [
+        ...runningTypes,
+        ...terminalSuccessTypes,
+        ...terminalFailureTypes
+      ].forEach((eventName) => attachTypedListener(es, eventName));
+      es.onerror = () => render();
+      window.addEventListener("beforeunload", () => es.close(), { once: true });
+    };
+    render();
+    connect();
+    window.setInterval(render, 1e4);
   })();
 
   // public/js/dashboard-broadcast.js
@@ -742,6 +1070,183 @@
     document.addEventListener("DOMContentLoaded", wireChat);
   })();
 
+  // public/js/dashboard-delegation.js
+  (function() {
+    console.log("[dashboard-delegation] module loaded");
+    function $(id) {
+      return document.getElementById(id);
+    }
+    function getSafeFetch() {
+      var f = window.fetch;
+      var t = typeof f;
+      console.log("[dashboard-delegation] detected fetch type:", t);
+      if (t !== "function") {
+        console.error("[dashboard-delegation] fetch is not a function; value:", f);
+        return null;
+      }
+      return f.bind(window);
+    }
+    function escapeHtml(value) {
+      return String(value == null ? "" : value).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+    }
+    function formatJsonBlock(obj) {
+      return '<pre class="mt-3 overflow-x-auto whitespace-pre-wrap break-words rounded-lg bg-black/20 p-3 text-xs text-gray-300">' + escapeHtml(JSON.stringify(obj, null, 2)) + "</pre>";
+    }
+    function setResponseState(kind, html) {
+      var response = $("delegation-response");
+      var panel = $("delegation-status-panel");
+      if (!response) return;
+      response.innerHTML = html;
+      if (!panel) return;
+      panel.classList.remove("border-gray-700", "border-teal-600", "border-green-600", "border-red-600", "border-amber-500");
+      if (kind === "sending") panel.classList.add("border-teal-600");
+      else if (kind === "success") panel.classList.add("border-green-600");
+      else if (kind === "error") panel.classList.add("border-red-600");
+      else if (kind === "waiting") panel.classList.add("border-amber-500");
+      else panel.classList.add("border-gray-700");
+    }
+    function setIdle() {
+      setResponseState(
+        "idle",
+        "Awaiting operator input.<br>Results from delegation requests will appear here."
+      );
+    }
+    function setSending(text) {
+      setResponseState(
+        "sending",
+        '<div class="text-teal-300 font-medium">Sending delegation\u2026</div><div class="mt-2 text-gray-400">Preparing request for the orchestration layer.</div>' + (text ? '<div class="mt-3 rounded-lg bg-black/20 p-3 text-xs text-gray-300 break-words">' + escapeHtml(text) + "</div>" : "")
+      );
+    }
+    function setWaiting() {
+      setResponseState(
+        "waiting",
+        '<div class="text-amber-300 font-medium">Still waiting on delegation response\u2026</div><div class="mt-2 text-gray-400">The request may still be processing.</div>'
+      );
+    }
+    function setSuccess(data) {
+      var summary = "Delegation accepted.";
+      if (data && typeof data === "object") {
+        summary = data.message || data.status || data.result || data.reply || data.ok && "Delegation accepted." || summary;
+      }
+      setResponseState(
+        "success",
+        '<div class="text-green-300 font-medium">' + escapeHtml(summary) + '</div><div class="mt-2 text-gray-400">Request completed successfully.</div>' + (data && typeof data === "object" ? formatJsonBlock(data) : "")
+      );
+    }
+    function setError(message, extra) {
+      setResponseState(
+        "error",
+        '<div class="text-red-300 font-medium">Delegation failed.</div><div class="mt-2 text-gray-300">' + escapeHtml(message || "Unknown error") + "</div>" + (extra ? '<div class="mt-3 text-xs text-gray-400 break-words">' + escapeHtml(extra) + "</div>" : "")
+      );
+    }
+    async function onDelegationClick() {
+      var input = $("delegation-input");
+      var btn = $("delegation-submit");
+      if (!input) {
+        console.warn("[dashboard-delegation] delegation input not found at click time");
+        setError("Delegation input field was not found.");
+        return;
+      }
+      var value = String(input.value || "").trim();
+      if (!value) {
+        console.warn("[dashboard-delegation] empty delegation input; skipping");
+        setError("Please enter a delegation request before submitting.");
+        return;
+      }
+      console.log("[dashboard-delegation] sending delegation:", value);
+      var safeFetch = getSafeFetch();
+      if (!safeFetch) {
+        console.error("[dashboard-delegation] aborting delegation because fetch is unavailable or invalid");
+        setError("Browser fetch is unavailable.");
+        return;
+      }
+      var oldText = btn ? btn.textContent || "Submit Delegation" : "Submit Delegation";
+      var waitingTimer = null;
+      try {
+        if (btn) {
+          btn.disabled = true;
+          btn.textContent = "Sending...";
+          btn.classList.add("opacity-70", "cursor-not-allowed");
+        }
+        setSending(value);
+        waitingTimer = window.setTimeout(setWaiting, 4e3);
+        var res;
+        try {
+          res = await safeFetch("/api/delegate-task", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Accept": "application/json"
+            },
+            body: JSON.stringify({ prompt: value, message: value, text: value, task: value })
+          });
+        } catch (err) {
+          console.error("[dashboard-delegation] fetch threw before response:", err);
+          throw err;
+        }
+        console.log("[dashboard-delegation] fetch returned:", {
+          ok: res && res.ok,
+          status: res && res.status,
+          statusText: res && res.statusText
+        });
+        var data = null;
+        var rawText = "";
+        try {
+          rawText = await res.text();
+          data = rawText ? JSON.parse(rawText) : {};
+        } catch (err) {
+          console.error("[dashboard-delegation] error parsing JSON response:", err);
+          data = { error: "Non-JSON response from /api/delegate-task", raw: rawText || "" };
+        }
+        console.log("[dashboard-delegation] delegation response:", data);
+        if (!res.ok) {
+          setError(
+            data && (data.error || data.message || data.statusText) || "HTTP " + res.status + " " + (res.statusText || ""),
+            rawText
+          );
+          return;
+        }
+        setSuccess(data);
+      } catch (err) {
+        setError(err && err.message ? err.message : String(err));
+      } finally {
+        if (waitingTimer) window.clearTimeout(waitingTimer);
+        if (btn) {
+          btn.disabled = false;
+          btn.textContent = oldText;
+          btn.classList.remove("opacity-70", "cursor-not-allowed");
+        }
+      }
+    }
+    function init() {
+      var btn = $("delegation-submit");
+      var input = $("delegation-input");
+      if (!btn || !input) {
+        console.warn("[dashboard-delegation] delegation button or input not found in init");
+        return;
+      }
+      setIdle();
+      if (btn.dataset.delegationWired === "true") {
+        console.log("[dashboard-delegation] Task Delegation wiring already active");
+        return;
+      }
+      btn.dataset.delegationWired = "true";
+      btn.addEventListener("click", onDelegationClick);
+      input.addEventListener("keydown", function(e) {
+        if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
+          e.preventDefault();
+          onDelegationClick();
+        }
+      });
+      console.log("[dashboard-delegation] Task Delegation wiring active");
+    }
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", init, { once: true });
+    } else {
+      init();
+    }
+  })();
+
   // public/js/task-events-sse-client.js
   (() => {
     const SSE_URL = "/events/task-events";
@@ -771,7 +1276,7 @@
       panel.style.backdropFilter = "blur(10px)";
       panel.style.boxShadow = "0 10px 30px rgba(0,0,0,0.35)";
       panel.style.color = "rgba(255,255,255,0.92)";
-      panel.style.fontFamily = "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace";
+      panel.style.fontFamily = "ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial";
       if (!anchored) {
         panel.style.position = "fixed";
         panel.style.right = "12px";
@@ -787,9 +1292,9 @@
       header.style.padding = "10px 12px";
       header.style.borderBottom = "1px solid rgba(255,255,255,0.10)";
       const title = document.createElement("div");
-      title.textContent = "TASK EVENTS (live)";
+      title.textContent = "Task Events";
       title.style.fontSize = "12px";
-      title.style.letterSpacing = "0.08em";
+      title.style.letterSpacing = "0.06em";
       title.style.opacity = "0.9";
       const right = document.createElement("div");
       right.style.display = "flex";
@@ -800,6 +1305,7 @@
       counts.textContent = "created:0  completed:0  failed:0";
       counts.style.fontSize = "11px";
       counts.style.opacity = "0.85";
+      counts.style.fontVariantNumeric = "tabular-nums";
       const dot = document.createElement("span");
       dot.setAttribute("aria-label", "task-events connection");
       dot.title = "task-events connection";
@@ -856,37 +1362,99 @@
       const el = document.getElementById(COUNTS_ID);
       if (el) el.textContent = `created:${tally.created}  completed:${tally.completed}  failed:${tally.failed}`;
     }
-    function formatLine(ev, fallbackKind) {
-      const ts = typeof ev.ts === "number" ? new Date(ev.ts).toISOString() : (/* @__PURE__ */ new Date()).toISOString();
-      const tid = ev.task_id ?? ev.taskId ?? "unknown";
-      const run = ev.run_id ?? ev.runId ?? "";
-      const msg = ev.msg ?? ev.message ?? "";
-      const extras = [];
-      if (run) extras.push(`run=${run}`);
-      if (ev.actor) extras.push(`actor=${ev.actor}`);
-      if (ev.status) extras.push(`status=${ev.status}`);
-      if (typeof ev.cursor === "number") extras.push(`cursor=${ev.cursor}`);
-      const extraStr = extras.length ? ` (${extras.join(" ")})` : "";
-      return `${ts}  ${ev.kind ?? fallbackKind ?? "event"}  task=${tid}${extraStr}${msg ? " \u2014 " + msg : ""}`;
+    function isoText(ts) {
+      if (typeof ts === "number") return new Date(ts).toISOString();
+      if (typeof ts === "string" && ts.trim()) {
+        const d = new Date(ts);
+        if (!Number.isNaN(d.getTime())) return d.toISOString();
+        return ts.trim();
+      }
+      return (/* @__PURE__ */ new Date()).toISOString();
     }
-    function appendLine(text, kind) {
+    function classifyKind(kind, message, status) {
+      const text = `${kind || ""} ${message || ""} ${status || ""}`.toLowerCase();
+      if (/fail|error|cancel|timeout/.test(text)) return "terminal-error";
+      if (/complete|done|success/.test(text)) return "terminal-success";
+      if (/queue|pending|retry|wait|hold|sleep/.test(text)) return "waiting";
+      if (/open|start|run|resume|lease|dispatch|ack|progress|update|active|heartbeat/.test(text)) return "active";
+      return "neutral";
+    }
+    function accentColor(tone) {
+      if (tone === "terminal-error") return "rgba(240,90,90,0.95)";
+      if (tone === "terminal-success") return "rgba(80,200,120,0.95)";
+      if (tone === "waiting") return "rgba(250,204,21,0.95)";
+      if (tone === "active") return "rgba(96,165,250,0.95)";
+      return "rgba(255,255,255,0.18)";
+    }
+    function buildEventRecord(ev, fallbackKind) {
+      const ts = isoText(ev.ts);
+      const kind = String(ev.kind ?? fallbackKind ?? "event");
+      const taskId = ev.task_id ?? ev.taskId ?? "unknown";
+      const runId = ev.run_id ?? ev.runId ?? "";
+      const actor = ev.actor ?? ev.meta?.actor ?? ev.meta?.owner ?? "";
+      const status = ev.status ?? ev.meta?.status ?? "";
+      const cursor = typeof ev.cursor === "number" || typeof ev.cursor === "string" ? String(ev.cursor) : "";
+      const message = String(ev.msg ?? ev.message ?? "").trim();
+      const detailParts = [];
+      detailParts.push(`task=${taskId}`);
+      if (runId) detailParts.push(`run=${runId}`);
+      if (actor) detailParts.push(`actor=${actor}`);
+      if (status) detailParts.push(`status=${status}`);
+      if (cursor) detailParts.push(`cursor=${cursor}`);
+      if (message) detailParts.push(message);
+      const detail = detailParts.join(" \u2022 ");
+      const tone = classifyKind(kind, message, status);
+      return { ts, kind, detail, tone };
+    }
+    function appendEvent(ev, fallbackKind) {
       ensurePanel();
       const feed = document.getElementById(FEED_ID);
       if (!feed) return;
+      const record = buildEventRecord(ev, fallbackKind);
       const row = document.createElement("div");
-      row.style.whiteSpace = "pre-wrap";
-      row.style.wordBreak = "break-word";
-      row.style.fontSize = "11px";
-      row.style.lineHeight = "1.35";
-      row.style.padding = "6px 8px";
+      row.className = `phase61-task-event phase61-task-event-${record.tone}`;
+      row.dataset.eventKind = record.kind;
+      row.dataset.eventTone = record.tone;
+      row.style.position = "relative";
+      row.style.display = "grid";
+      row.style.gridTemplateColumns = "minmax(112px, 132px) minmax(150px, 170px) 1fr";
+      row.style.gap = "10px";
+      row.style.alignItems = "start";
+      row.style.padding = "10px 12px 10px 14px";
+      row.style.marginBottom = "8px";
       row.style.border = "1px solid rgba(255,255,255,0.10)";
       row.style.borderRadius = "12px";
-      row.style.marginBottom = "8px";
       row.style.background = "rgba(255,255,255,0.03)";
-      if (kind === "task.completed") row.style.borderColor = "rgba(80,200,120,0.35)";
-      if (kind === "task.failed") row.style.borderColor = "rgba(240,90,90,0.35)";
-      if (kind === "heartbeat") row.style.opacity = "0.65";
-      row.textContent = text;
+      row.style.lineHeight = "1.35";
+      row.style.fontSize = "12px";
+      const accent = document.createElement("span");
+      accent.setAttribute("aria-hidden", "true");
+      accent.style.position = "absolute";
+      accent.style.left = "0";
+      accent.style.top = "10px";
+      accent.style.bottom = "10px";
+      accent.style.width = "3px";
+      accent.style.borderRadius = "999px";
+      accent.style.background = accentColor(record.tone);
+      const time = document.createElement("div");
+      time.textContent = record.ts;
+      time.style.color = "rgba(255,255,255,0.68)";
+      time.style.fontVariantNumeric = "tabular-nums";
+      time.style.whiteSpace = "nowrap";
+      const kind = document.createElement("div");
+      kind.textContent = record.kind;
+      kind.style.color = "rgba(255,255,255,0.92)";
+      kind.style.fontWeight = "600";
+      kind.style.letterSpacing = "0.01em";
+      kind.style.wordBreak = "break-word";
+      const detail = document.createElement("div");
+      detail.textContent = record.detail || "\u2014";
+      detail.style.color = "rgba(255,255,255,0.78)";
+      detail.style.wordBreak = "break-word";
+      row.appendChild(accent);
+      row.appendChild(time);
+      row.appendChild(kind);
+      row.appendChild(detail);
       feed.prepend(row);
       const children = Array.from(feed.children);
       if (children.length > 60) {
@@ -920,6 +1488,7 @@
           if (ev.run_id == null && ev.meta.run_id != null) ev.run_id = ev.meta.run_id;
           if (ev.actor == null && ev.meta.actor != null) ev.actor = ev.meta.actor;
           if (ev.actor == null && ev.meta.owner != null) ev.actor = ev.meta.owner;
+          if (ev.status == null && ev.meta.status != null) ev.status = ev.meta.status;
         }
       }
       if (!ev.kind) ev.kind = eventName;
@@ -929,7 +1498,7 @@
       if (ev.kind === "task.created" || ev.kind === "task.completed" || ev.kind === "task.failed") {
         bumpCounts(String(ev.kind));
       }
-      appendLine(formatLine(ev, eventName), String(ev.kind ?? eventName));
+      appendEvent(ev, eventName);
       if (window.__UI_DEBUG) try {
         console.log("[task-events] mb.task.event", ev);
       } catch {
@@ -952,7 +1521,7 @@
       es.onopen = () => {
         attempt = 0;
         setDot("open");
-        appendLine(`${(/* @__PURE__ */ new Date()).toISOString()}  sse.open  url=${url}`, "sse.open");
+        appendEvent({ ts: Date.now(), kind: "sse.open", message: `url=${url}` }, "sse.open");
         console.log("[phase22] task-events SSE open", url);
       };
       es.onerror = () => {
@@ -964,7 +1533,7 @@
         es = null;
         attempt += 1;
         const delay = Math.min(15e3, 500 * Math.pow(2, Math.min(6, attempt)));
-        appendLine(`${(/* @__PURE__ */ new Date()).toISOString()}  sse.error  reconnect_in=${delay}ms`, "sse.error");
+        appendEvent({ ts: Date.now(), kind: "sse.error", message: `reconnect_in=${delay}ms` }, "sse.error");
         console.log("[phase22] task-events SSE error; reconnect in", delay);
         setTimeout(connect, delay);
       };
@@ -1006,6 +1575,10 @@
   (() => {
     const TASK_EVENT_NAME = "mb.task.event";
     const tasks = /* @__PURE__ */ new Map();
+    const runningTaskIds = /* @__PURE__ */ new Set();
+    const terminalTaskIds = /* @__PURE__ */ new Set();
+    const completedTaskIds = /* @__PURE__ */ new Set();
+    const failedTaskIds = /* @__PURE__ */ new Set();
     const STATUS_CLASS = {
       queued: "task-status-queued",
       done: "task-status-done",
@@ -1017,6 +1590,78 @@
       if (v === "done" || v === "complete" || v === "completed") return "done";
       if (v === "failed" || v === "error") return "failed";
       return v || "unknown";
+    }
+    function isTerminalKind(kind) {
+      const v = String(kind ?? "").toLowerCase();
+      return v === "task.completed" || v === "task.failed" || v === "task.cancelled" || v === "task.canceled";
+    }
+    function isRunningKind(kind) {
+      const v = String(kind ?? "").toLowerCase();
+      return v === "task.created" || v === "task.started" || v === "task.running";
+    }
+    function isSuccessKind(kind) {
+      const v = String(kind ?? "").toLowerCase();
+      return v === "task.completed";
+    }
+    function isFailureKind(kind) {
+      const v = String(kind ?? "").toLowerCase();
+      return v === "task.failed" || v === "task.cancelled" || v === "task.canceled";
+    }
+    function isTerminalStatus(status) {
+      const v = normStatus(status);
+      return v === "done" || v === "failed" || v === "cancelled" || v === "canceled" || v === "complete" || v === "completed" || v === "error";
+    }
+    function isSuccessStatus(status) {
+      const v = normStatus(status);
+      return v === "done" || v === "complete" || v === "completed";
+    }
+    function isFailureStatus(status) {
+      const v = normStatus(status);
+      return v === "failed" || v === "cancelled" || v === "canceled" || v === "error";
+    }
+    function isRunningStatus(status) {
+      const v = normStatus(status);
+      return v === "queued" || v === "pending" || v === "running" || v === "started" || v === "active" || v === "in_progress" || v === "in-progress";
+    }
+    function updateRunningTaskDerivation(ev, task) {
+      const id = task?.id ? String(task.id) : null;
+      if (!id) return;
+      const kind = String(ev?.kind ?? "").toLowerCase();
+      const status = task?.status ?? ev?.status ?? ev?.payload?.status ?? ev?.task?.status ?? null;
+      if (terminalTaskIds.has(id)) {
+        runningTaskIds.delete(id);
+        return;
+      }
+      if (isTerminalKind(kind) || isTerminalStatus(status)) {
+        runningTaskIds.delete(id);
+        terminalTaskIds.add(id);
+        return;
+      }
+      if (isRunningKind(kind) || isRunningStatus(status)) {
+        runningTaskIds.add(id);
+      }
+    }
+    function updateCompletedTaskDerivation(ev, task) {
+      const id = task?.id ? String(task.id) : null;
+      if (!id) return;
+      const kind = String(ev?.kind ?? "").toLowerCase();
+      const status = task?.status ?? ev?.status ?? ev?.payload?.status ?? ev?.task?.status ?? null;
+      if (completedTaskIds.has(id)) return;
+      if (isFailureKind(kind) || isFailureStatus(status)) return;
+      if (isSuccessKind(kind) || isSuccessStatus(status)) {
+        completedTaskIds.add(id);
+      }
+    }
+    function updateFailedTaskDerivation(ev, task) {
+      const id = task?.id ? String(task.id) : null;
+      if (!id) return;
+      const kind = String(ev?.kind ?? "").toLowerCase();
+      const status = task?.status ?? ev?.status ?? ev?.payload?.status ?? ev?.task?.status ?? null;
+      if (failedTaskIds.has(id)) return;
+      if (isSuccessKind(kind) || isSuccessStatus(status)) return;
+      if (isFailureKind(kind) || isFailureStatus(status)) {
+        failedTaskIds.add(id);
+      }
     }
     function pluckId(ev) {
       return ev?.task_id ?? ev?.taskId ?? ev?.task?.id ?? null;
@@ -1054,23 +1699,26 @@
       ].filter(Boolean);
       for (const n of nodes2) setStatusOnNode(n, task.status);
     }
+    function updateCounterNode(key, value) {
+      const el = document.getElementById(`task-count-${key}`) || document.getElementById(`tasks-${key}-count`) || document.querySelector?.(`[data-task-count="${key}"]`) || null;
+      if (el) el.textContent = String(value);
+    }
     function updateCountersUI() {
-      let queued = 0, done = 0, failed = 0;
+      let queued = 0;
+      let done = 0;
+      let failed = 0;
       for (const t of tasks.values()) {
         const s = normStatus(t.status);
         if (s === "queued") queued++;
         else if (s === "done") done++;
         else if (s === "failed") failed++;
       }
-      const map = [
-        ["queued", queued],
-        ["done", done],
-        ["failed", failed]
-      ];
-      for (const [k, v] of map) {
-        const el = document.getElementById(`task-count-${k}`) || document.getElementById(`tasks-${k}-count`) || document.querySelector?.(`[data-task-count="${k}"]`) || null;
-        if (el) el.textContent = String(v);
-      }
+      updateCounterNode("queued", queued);
+      updateCounterNode("done", done);
+      updateCounterNode("failed", failed);
+      updateCounterNode("running", runningTaskIds.size);
+      updateCounterNode("completed", completedTaskIds.size);
+      updateCounterNode("failed-terminal", failedTaskIds.size);
     }
     function ingestTask(task) {
       if (!task?.id) return;
@@ -1087,7 +1735,11 @@
         if (ev.kind === "task.completed") t.status = "done";
         if (ev.kind === "task.failed") t.status = "failed";
       }
+      updateRunningTaskDerivation(ev, t);
+      updateCompletedTaskDerivation(ev, t);
+      updateFailedTaskDerivation(ev, t);
       if (t.id) ingestTask(t);
+      else updateCountersUI();
     }
     function attach() {
       if (window.__PHASE22_TASK_UI_BOUND) return;
@@ -1095,19 +1747,50 @@
       window.addEventListener(TASK_EVENT_NAME, (e) => {
         try {
           if (window.__UI_DEBUG || window.__PHASE22_DEBUG) {
-            if (window.__UI_DEBUG || window.__PHASE22_DEBUG) console.log("[phase22] mb.task.event", e.detail);
+            console.log("[phase22] mb.task.event", e.detail);
           }
           onTaskEvent(e.detail);
         } catch {
         }
       });
-      window.__PHASE22_TASK_UI = { tasks };
+      window.__PHASE22_TASK_UI = {
+        tasks,
+        runningTaskIds,
+        terminalTaskIds,
+        completedTaskIds,
+        failedTaskIds,
+        getRunningTasksCount: () => runningTaskIds.size,
+        getCompletedTasksCount: () => completedTaskIds.size,
+        getFailedTasksCount: () => failedTaskIds.size
+      };
       console.log("[phase22] bindings attached");
     }
     if (document.readyState === "loading") {
       document.addEventListener("DOMContentLoaded", attach, { once: true });
     } else {
       attach();
+    }
+  })();
+
+  // public/js/telemetry/phase65b_metric_bootstrap.js
+  (function() {
+    function load(src) {
+      if (document.querySelector(`script[src="${src}"]`)) return;
+      const s = document.createElement("script");
+      s.src = src;
+      s.defer = true;
+      document.body.appendChild(s);
+    }
+    function init() {
+      load("/js/telemetry/phase65b_metric_ownership_guard.js");
+      load("/js/telemetry/running_tasks_metric.js");
+      load("/js/telemetry/success_rate_metric.js");
+      load("/js/telemetry/latency_metric.js");
+    }
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", init);
+    } else {
+      init();
     }
   })();
 

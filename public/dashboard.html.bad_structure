@@ -195,6 +195,26 @@
       try {
         const res = await fetch(endpoint);
         const data = await res.json();
+
+        if (
+          id === "system-health-content" &&
+          data &&
+          typeof data === "object" &&
+          typeof data.situationSummary === "string"
+        ) {
+          const {
+            situationSummary,
+            ...rest
+          } = data;
+
+          el.textContent =
+            JSON.stringify(rest, null, 2) +
+            "\n\nSITUATION SUMMARY\n" +
+            situationSummary;
+
+          return;
+        }
+
         el.textContent = JSON.stringify(data, null, 2);
       } catch {
         el.textContent = "⚠️ Unavailable: " + endpoint;

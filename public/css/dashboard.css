@@ -182,3 +182,21 @@
 
 /* Phase 16: include temporary HUD mitigation */
 @import "./phase16_hud_mitigation.css";
+
+/* Phase 63 — global dashboard background lock */
+html,
+body {
+  background: #030712 !important;
+  background-color: #030712 !important;
+}
+
+body {
+  color: #f3f4f6 !important;
+  min-height: 100vh;
+}
+
+main,
+#dashboard-root,
+.app-shell {
+  background: transparent !important;
+}
