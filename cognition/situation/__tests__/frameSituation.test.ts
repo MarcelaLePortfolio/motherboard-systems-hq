@@ -18,6 +18,7 @@ describe("frameSituation", () => {
     expect(frame.attentionLevel).toBe("HIGH");
     expect(frame.orderHint).toBe(100);
     expect(frame.summary).toContain("critical");
+    expect(frame.context).toBeUndefined();
   });
 
   it("produces deterministic WARNING PERFORMANCE frame", () => {
@@ -30,6 +31,7 @@ describe("frameSituation", () => {
     expect(frame.title).toBe("Performance Warning");
     expect(frame.attentionLevel).toBe("MEDIUM");
     expect(frame.orderHint).toBe(200);
+    expect(frame.context).toBeUndefined();
   });
 
   it("produces deterministic INFO frame", () => {
@@ -42,5 +44,29 @@ describe("frameSituation", () => {
     expect(frame.title).toBe("Situation Informational");
     expect(frame.attentionLevel).toBe("LOW");
     expect(frame.orderHint).toBe(300);
+    expect(frame.context).toBeUndefined();
+  });
+
+  it("preserves flexible context when provided", () => {
+    const context = {
+      component: "workerA",
+      metric: "queue_latency",
+      value: 842,
+      trend: "increasing",
+    };
+
+    const frame = frameSituation(
+      {
+        category: SituationCategory.PERFORMANCE,
+        severity: SituationSeverity.WARNING,
+        confidence: ConfidenceLevel.MEDIUM,
+      },
+      context
+    );
+
+    expect(frame.context).toEqual(context);
+    expect(frame.title).toBe("Performance Warning");
+    expect(frame.attentionLevel).toBe("MEDIUM");
+    expect(frame.orderHint).toBe(200);
   });
 });
