@@ -1,5 +1,7 @@
 import type { SituationClassification } from "./situation.types";
 
+export type AttentionLevel = "LOW" | "MEDIUM" | "HIGH";
+
 export interface SituationFrame {
   classification: SituationClassification;
 
@@ -12,8 +14,8 @@ export interface SituationFrame {
   // Optional deeper context (future phases may use)
   detail?: string;
 
-  // Optional render hints (no behavior authority)
-  attentionLevel?: "LOW" | "MEDIUM" | "HIGH";
+  // Derived from severity (do not set manually)
+  attentionLevel: AttentionLevel;
 
   // Deterministic render ordering hint
   orderHint?: number;
