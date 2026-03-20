@@ -1,7 +1,7 @@
 import type { GuidanceOutput } from "../guidance/guidanceOutput.types.ts";
 import { toGoldenGuidanceOutput } from "../guidance/goldenGuidanceOutput.ts";
 import type { SituationFrame } from "../situation/situationFrame.types.ts";
-import { deriveOperatorAcknowledgement } from "./deriveOperatorAcknowledgement.ts";
+import { createOperatorAcknowledgement } from "./deriveOperatorAcknowledgement.ts";
 import { deriveOperatorAttention } from "./deriveOperatorAttention.ts";
 import { composeOperatorInteractionOutput } from "./composeOperatorInteractionOutput.ts";
 import { deriveOperatorSurface } from "./deriveOperatorSurface.ts";
@@ -24,7 +24,7 @@ export function deriveOperatorCognition(
   const attention = deriveOperatorAttention(surface.priority);
 
   const acknowledgement =
-    deriveOperatorAcknowledgement(surface);
+    createOperatorAcknowledgement(surface);
 
   const workflow = deriveOperatorWorkflowState(
     surface,
