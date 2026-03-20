@@ -1,4 +1,4 @@
-import { ConfidenceLevel } from "../guidance/guidance.types.ts";
+import { ConfidenceLevel } from "../../scripts/_local/phase92_fix_guidance_imports.sh";
 import {
   SituationCategory,
   SituationSeverity,

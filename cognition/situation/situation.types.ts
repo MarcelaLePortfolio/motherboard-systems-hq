@@ -1,4 +1,4 @@
-import type { ConfidenceLevel } from "../guidance/guidance.types.ts";
+import type { ConfidenceLevel } from "../../scripts/_local/phase92_fix_guidance_imports.sh";
 
 export enum SituationCategory {
   HEALTH = "HEALTH",

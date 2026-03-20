@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 
-import { ConfidenceLevel } from "../../guidance/guidance.types.ts";
+import { ConfidenceLevel } from "../../scripts/_local/phase92_fix_guidance_imports.sh";
 import { frameSituation } from "../frameSituation.ts";
 import { SituationCategory, SituationSeverity } from "../situation.types.ts";
 
