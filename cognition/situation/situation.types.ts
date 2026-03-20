@@ -1,16 +1,16 @@
-import type { ConfidenceLevel } from "../../scripts/_local/phase92_fix_guidance_imports.sh";
+import type { ConfidenceLevel } from "../guidance/guidance.types.ts";
 
 export enum SituationCategory {
   HEALTH = "HEALTH",
   PERFORMANCE = "PERFORMANCE",
   RISK = "RISK",
-  INFO = "INFO"
+  INFO = "INFO",
 }
 
 export enum SituationSeverity {
   INFO = "INFO",
   WARNING = "WARNING",
-  CRITICAL = "CRITICAL"
+  CRITICAL = "CRITICAL",
 }
 
 export interface SituationClassification {
