@@ -17,7 +17,6 @@ function buildTitle(classification: SituationClassification): string {
         return "Critical Performance Risk";
       case SituationCategory.RISK:
         return "Critical Operational Risk";
-      case SituationCategory.INFO:
       default:
         return "Critical Situation Detected";
     }
@@ -31,7 +30,6 @@ function buildTitle(classification: SituationClassification): string {
         return "Performance Warning";
       case SituationCategory.RISK:
         return "Operational Risk Warning";
-      case SituationCategory.INFO:
       default:
         return "Situation Warning";
     }
@@ -44,7 +42,6 @@ function buildTitle(classification: SituationClassification): string {
       return "Performance Status Stable";
     case SituationCategory.RISK:
       return "Risk Status Informational";
-    case SituationCategory.INFO:
     default:
       return "Situation Informational";
   }
@@ -61,7 +58,6 @@ function buildSummary(classification: SituationClassification): string {
         return `Performance signals indicate a critical degradation with ${confidence.toLowerCase()} confidence.`;
       case SituationCategory.RISK:
         return `Operational risk signals indicate a critical condition with ${confidence.toLowerCase()} confidence.`;
-      case SituationCategory.INFO:
       default:
         return `Situation signals indicate a critical condition with ${confidence.toLowerCase()} confidence.`;
     }
@@ -75,7 +71,6 @@ function buildSummary(classification: SituationClassification): string {
         return `Performance signals indicate a warning condition with ${confidence.toLowerCase()} confidence.`;
       case SituationCategory.RISK:
         return `Operational risk signals indicate a warning condition with ${confidence.toLowerCase()} confidence.`;
-      case SituationCategory.INFO:
       default:
         return `Situation signals indicate a warning condition with ${confidence.toLowerCase()} confidence.`;
     }
@@ -88,7 +83,6 @@ function buildSummary(classification: SituationClassification): string {
       return `Performance signals are informational with ${confidence.toLowerCase()} confidence.`;
     case SituationCategory.RISK:
       return `Operational risk signals are informational with ${confidence.toLowerCase()} confidence.`;
-    case SituationCategory.INFO:
     default:
       return `Situation signals are informational with ${confidence.toLowerCase()} confidence.`;
   }
@@ -100,19 +94,20 @@ function deriveOrderHint(classification: SituationClassification): number {
       return 100;
     case SituationSeverity.WARNING:
       return 200;
-    case SituationSeverity.INFO:
     default:
       return 300;
   }
 }
 
 export function frameSituation(
-  classification: SituationClassification
+  classification: SituationClassification,
+  context?: Record<string, unknown>
 ): SituationFrame {
   return {
     classification,
     title: buildTitle(classification),
     summary: buildSummary(classification),
+    context,
     attentionLevel: deriveAttentionLevel(classification.severity),
     orderHint: deriveOrderHint(classification),
   };
