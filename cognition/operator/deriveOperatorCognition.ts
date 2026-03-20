@@ -1,64 +1,42 @@
-import type { SituationFrame }
-from "../situation/situationFrame.types.ts";
-
-import type { GuidanceOutput }
-from "../guidance/guidanceOutput.types.ts";
-
-import { deriveOperatorSurface }
-from "./deriveOperatorSurface.ts";
-
-import { deriveOperatorAttention }
-from "./deriveOperatorAttention.ts";
-
-import { createOperatorAcknowledgement }
-from "./deriveOperatorAcknowledgement.ts";
-
-import { deriveOperatorWorkflowState }
-from "./deriveOperatorWorkflow.ts";
-
-import { composeOperatorInteractionOutput }
-from "./composeOperatorInteractionOutput.ts";
+import type { GuidanceOutput } from "../guidance/guidanceOutput.types.ts";
+import { toGoldenGuidanceOutput } from "../guidance/goldenGuidanceOutput.ts";
+import type { SituationFrame } from "../situation/situationFrame.types.ts";
+import { deriveOperatorAcknowledgement } from "./deriveOperatorAcknowledgement.ts";
+import { deriveOperatorAttention } from "./deriveOperatorAttention.ts";
+import { composeOperatorInteractionOutput } from "./composeOperatorInteractionOutput.ts";
+import { deriveOperatorSurface } from "./deriveOperatorSurface.ts";
+import { deriveOperatorWorkflowState } from "./deriveOperatorWorkflow.ts";
 
 export function deriveOperatorCognition(
-  situation:SituationFrame,
-  guidance:GuidanceOutput
-){
+  situation: SituationFrame,
+  guidance: GuidanceOutput
+) {
+  const goldenGuidance = toGoldenGuidanceOutput(guidance);
 
-  const surface =
-    deriveOperatorSurface(
-      situation,
-      guidance
-    );
+  const baseSurface = deriveOperatorSurface(goldenGuidance);
 
-  const attention =
-    deriveOperatorAttention(
-      surface.priority
-    );
+  const surface = {
+    ...baseSurface,
+    title: situation.title,
+    explanation: situation.summary,
+  };
+
+  const attention = deriveOperatorAttention(surface.priority);
 
   const acknowledgement =
-    createOperatorAcknowledgement(
-      surface
-    );
+    deriveOperatorAcknowledgement(surface);
 
-  const workflow =
-    deriveOperatorWorkflowState(
-      surface,
-      attention,
-      acknowledgement
-    );
+  const workflow = deriveOperatorWorkflowState(
+    surface,
+    attention,
+    acknowledgement
+  );
 
   return composeOperatorInteractionOutput({
-
     surface,
-
     attention,
-
     acknowledgement,
-
     workflow,
-
-    history:[]
-
+    history: [],
   });
-
 }
