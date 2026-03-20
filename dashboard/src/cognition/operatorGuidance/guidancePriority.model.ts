@@ -1,3 +1,5 @@
+import { scoreToPriority } from "./guidancePriority.thresholds";
+
 export enum GuidancePriority {
   HIGH = "HIGH",
   MED = "MED",
@@ -11,13 +13,13 @@ const severityWeight = {
   HIGH: 3,
   MED: 2,
   LOW: 1
-};
+} as const;
 
 const confidenceWeight = {
   HIGH: 3,
   MED: 2,
   LOW: 1
-};
+} as const;
 
 export function computePriorityScore(
   severity: GuidanceSeverity,
@@ -31,8 +33,5 @@ export function derivePriority(
   confidence: GuidanceConfidence
 ): GuidancePriority {
   const score = computePriorityScore(severity, confidence);
-
-  if (score >= 7) return GuidancePriority.HIGH;
-  if (score >= 4) return GuidancePriority.MED;
-  return GuidancePriority.LOW;
+  return scoreToPriority(score);
 }
