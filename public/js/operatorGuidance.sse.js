@@ -1,5 +1,6 @@
 (function () {
   const ENDPOINT = "/events/operator-guidance";
+  const LOG = "[operator-guidance]";
 
   function byId(id) {
     return document.getElementById(id);
@@ -17,6 +18,13 @@
   function renderReduction(reduction, source) {
     const responseEl = byId("operator-guidance-response");
     const metaEl = byId("operator-guidance-meta");
+
+    console.log(LOG, "renderReduction called", {
+      hasResponseEl: !!responseEl,
+      hasMetaEl: !!metaEl,
+      source: source,
+      reduction: reduction
+    });
 
     if (!responseEl || !metaEl) return;
 
@@ -65,30 +73,55 @@
       "<br>Signals: " + escapeHtml(String(signalCount)) +
       "<br>Conflicts: " + escapeHtml(conflicting) +
       "<br>Source: " + escapeHtml(sourceLabel);
+
+    console.log(LOG, "panel updated", {
+      responseHTML: responseEl.innerHTML,
+      metaHTML: metaEl.innerHTML
+    });
   }
 
   function connect() {
+    const responseEl = byId("operator-guidance-response");
+    const metaEl = byId("operator-guidance-meta");
+
+    console.log(LOG, "boot", {
+      endpoint: ENDPOINT,
+      readyState: document.readyState,
+      hasResponseEl: !!responseEl,
+      hasMetaEl: !!metaEl
+    });
+
+    if (!responseEl || !metaEl) {
+      console.warn(LOG, "panel elements missing at boot");
+    }
+
     const stream = new EventSource(ENDPOINT);
 
+    stream.addEventListener("open", function () {
+      console.log(LOG, "EventSource open");
+    });
+
     stream.addEventListener("operator_guidance", function (e) {
+      console.log(LOG, "operator_guidance event received", e.data);
       try {
         const payload = JSON.parse(e.data);
         renderReduction(payload?.reduction || null, payload?.source || null);
       } catch (err) {
-        console.error("Operator guidance parse failure", err);
+        console.error(LOG, "parse failure", err);
       }
     });
 
     stream.onerror = function (err) {
-      console.warn("Operator guidance stream disconnected", err);
+      console.warn(LOG, "stream disconnected", err);
     };
 
-    console.log("Operator guidance stream connected");
+    window.__OPERATOR_GUIDANCE_STREAM__ = stream;
+    console.log(LOG, "stream connected");
   }
 
-  try {
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", connect, { once: true });
+  } else {
     connect();
-  } catch (err) {
-    console.error("Operator guidance SSE failed", err);
   }
 })();
