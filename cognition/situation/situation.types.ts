@@ -17,4 +17,7 @@ export interface SituationClassification {
   category: SituationCategory;
   severity: SituationSeverity;
   confidence: ConfidenceLevel;
+
+  metadata?: Record<string, unknown>;
+  signals?: string[];
 }
