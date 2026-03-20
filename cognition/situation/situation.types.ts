@@ -1,3 +1,5 @@
+import type { ConfidenceLevel } from "../guidance/guidance.types.ts";
+
 export enum SituationCategory {
   HEALTH = "HEALTH",
   PERFORMANCE = "PERFORMANCE",
@@ -11,13 +13,10 @@ export enum SituationSeverity {
   CRITICAL = "CRITICAL"
 }
 
-import type { ConfidenceLevel } from "../guidance/guidance.types";
-
 export interface SituationClassification {
   category: SituationCategory;
   severity: SituationSeverity;
   confidence: ConfidenceLevel;
-
   metadata?: Record<string, unknown>;
   signals?: string[];
 }

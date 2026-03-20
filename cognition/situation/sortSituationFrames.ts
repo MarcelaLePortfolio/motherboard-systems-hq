@@ -1,4 +1,4 @@
-import type { SituationFrame } from "./situationFrame.types";
+import type { SituationFrame } from "./situationFrame.types.ts";
 
 function compareStrings(a: string, b: string): number {
   return a.localeCompare(b);
@@ -8,7 +8,10 @@ export function compareSituationFrames(
   a: SituationFrame,
   b: SituationFrame
 ): number {
-  const orderDelta = (a.orderHint ?? Number.MAX_SAFE_INTEGER) - (b.orderHint ?? Number.MAX_SAFE_INTEGER);
+  const orderDelta =
+    (a.orderHint ?? Number.MAX_SAFE_INTEGER) -
+    (b.orderHint ?? Number.MAX_SAFE_INTEGER);
+
   if (orderDelta !== 0) {
     return orderDelta;
   }
@@ -21,8 +24,6 @@ export function compareSituationFrames(
   return compareStrings(a.summary, b.summary);
 }
 
-export function sortSituationFrames(
-  frames: SituationFrame[]
-): SituationFrame[] {
+export function sortSituationFrames(frames: SituationFrame[]): SituationFrame[] {
   return [...frames].sort(compareSituationFrames);
 }

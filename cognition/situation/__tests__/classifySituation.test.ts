@@ -1,9 +1,9 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 
-import { ConfidenceLevel } from "../../guidance/guidance.types";
-import { classifySituation } from "../classifySituation";
-import { SituationCategory, SituationSeverity } from "../situation.types";
+import { ConfidenceLevel } from "../../guidance/guidance.types.ts";
+import { classifySituation } from "../classifySituation.ts";
+import { SituationCategory, SituationSeverity } from "../situation.types.ts";
 
 test("classifySituation returns deterministic defaults when no input is provided", () => {
   assert.deepEqual(classifySituation(), {

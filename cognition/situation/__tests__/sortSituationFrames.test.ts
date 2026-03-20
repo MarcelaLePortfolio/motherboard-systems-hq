@@ -1,10 +1,10 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 
-import { sortSituationFrames } from "../sortSituationFrames";
-import type { SituationFrame } from "../situationFrame.types";
-import { SituationCategory, SituationSeverity } from "../situation.types";
-import { ConfidenceLevel } from "../../guidance/guidance.types";
+import { ConfidenceLevel } from "../../guidance/guidance.types.ts";
+import { sortSituationFrames } from "../sortSituationFrames.ts";
+import type { SituationFrame } from "../situationFrame.types.ts";
+import { SituationCategory, SituationSeverity } from "../situation.types.ts";
 
 function makeFrame(overrides: Partial<SituationFrame> = {}): SituationFrame {
   return {

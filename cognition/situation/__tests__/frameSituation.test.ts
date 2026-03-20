@@ -1,9 +1,9 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 
-import { frameSituation } from "../frameSituation";
-import { SituationCategory, SituationSeverity } from "../situation.types";
-import { ConfidenceLevel } from "../../guidance/guidance.types";
+import { ConfidenceLevel } from "../../guidance/guidance.types.ts";
+import { frameSituation } from "../frameSituation.ts";
+import { SituationCategory, SituationSeverity } from "../situation.types.ts";
 
 test("frameSituation produces deterministic CRITICAL HEALTH frame", () => {
   const frame = frameSituation({

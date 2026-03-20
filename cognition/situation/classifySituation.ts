@@ -1,9 +1,9 @@
-import { ConfidenceLevel } from "../guidance/guidance.types";
+import { ConfidenceLevel } from "../guidance/guidance.types.ts";
 import {
   SituationCategory,
   SituationSeverity,
   type SituationClassification,
-} from "./situation.types";
+} from "./situation.types.ts";
 
 export function classifySituation(
   input: Partial<SituationClassification> = {}
