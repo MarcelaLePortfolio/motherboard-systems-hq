@@ -14,6 +14,9 @@ export interface SituationFrame {
   // Optional deeper context (future phases may use)
   detail?: string;
 
+  // Flexible supporting facts for operator understanding
+  context?: Record<string, unknown>;
+
   // Derived from severity (do not set manually)
   attentionLevel: AttentionLevel;
 
