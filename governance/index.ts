@@ -5,6 +5,7 @@ Phase 97.1 — Imports Wiring
 Phase 97.2 — Reference Exposure
 Phase 97.3 — Mapping Exposure
 Phase 97.4 — Guard Exposure
+Phase 97.5 — Signal Exposure
 ────────────────────────────────
 */
 
@@ -36,7 +37,7 @@ VERIFICATION
 /*
 SIGNALS
 */
-// export * from './signals';
+export * from './signals';
 
 /*
 MAPPINGS
