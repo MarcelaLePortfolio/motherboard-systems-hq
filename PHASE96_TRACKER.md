@@ -74,8 +74,16 @@ Completion Notes:
 - no runtime behavior changed
 
 96.6 Containerization
-STATUS: PENDING
+STATUS: COMPLETE
 Goal:
+Ensure governance structures are treated as part of system infrastructure.
+
+Completion Notes:
+- governance/GOVERNANCE_LAYER.md added
+- governance layer formally classified as system infrastructure
+- structural integration completed
+- no runtime behavior changed
+
 Confirm runtime safety and container consistency after governance additions.
 
 96.7 Golden Checkpoint
