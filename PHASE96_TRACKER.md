@@ -41,9 +41,15 @@ Completion Notes:
 - no runtime behavior changed
 
 96.3 Permissions
-STATUS: PENDING
+STATUS: COMPLETE
 Goal:
 Formalize operator vs system vs worker authority boundaries.
+
+Completion Notes:
+- governance/permissionModel.ts added
+- future-expandable permission structure established
+- role + authority + grant source + constraints modeled
+- no runtime behavior changed
 
 96.4 Capabilities
 STATUS: PENDING
