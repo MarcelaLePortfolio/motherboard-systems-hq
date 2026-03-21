@@ -465,13 +465,28 @@ app.get("/events/tasks", async (req, res) => {
 // ---- Operator Guidance SSE ----
 app.get("/events/operator-guidance", (req, res) => {
   res.writeHead(200, {
-    "Content-Type": "text/event-stream",
-    "Cache-Control": "no-cache",
+    "Content-Type": "text/event-stream; charset=utf-8",
+    "Cache-Control": "no-cache, no-transform",
     Connection: "keep-alive",
+    "X-Accel-Buffering": "no",
   });
 
-  res.write(`: ready\n`);
-  res.write(`:\n`);
+  if (typeof res.flushHeaders === "function") {
+    res.flushHeaders();
+  }
+
+  try { req.socket?.setTimeout?.(0); } catch (_) {}
+  try { req.socket?.setNoDelay?.(true); } catch (_) {}
+  try { req.socket?.setKeepAlive?.(true); } catch (_) {}
+
+  const writeFrame = (frame) => {
+    res.write(frame);
+    if (typeof res.flush === "function") {
+      try { res.flush(); } catch (_) {}
+    }
+  };
+
+  writeFrame(`: ready\n\n`);
 
   let closed = false;
   req.on("close", () => {
@@ -482,7 +497,7 @@ app.get("/events/operator-guidance", (req, res) => {
     try {
       const snapshot = buildSystemHealthSnapshot();
       const reduction = reduceSystemHealthSnapshotToGuidanceReduction(snapshot);
-      res.write(
+      writeFrame(
         `event: operator_guidance\ndata: ${JSON.stringify({
           reduction,
           source: "diagnostics/system-health",
@@ -490,7 +505,12 @@ app.get("/events/operator-guidance", (req, res) => {
         })}\n\n`
       );
     } catch (e) {
-      res.write(`event: error\ndata: ${JSON.stringify({ error: String(e), ts: Date.now() })}\n\n`);
+      writeFrame(
+        `event: error\ndata: ${JSON.stringify({
+          error: String(e),
+          ts: Date.now(),
+        })}\n\n`
+      );
     }
   };
 
@@ -498,7 +518,7 @@ app.get("/events/operator-guidance", (req, res) => {
 
   const ping = setInterval(() => {
     if (closed) return;
-    res.write(`: ping ${Date.now()}\n\n`);
+    writeFrame(`: ping ${Date.now()}\n\n`);
   }, 5000);
 
   let lastHash = "";
@@ -510,7 +530,7 @@ app.get("/events/operator-guidance", (req, res) => {
       const payload = JSON.stringify(reduction);
       if (payload !== lastHash) {
         lastHash = payload;
-        res.write(
+        writeFrame(
           `event: operator_guidance\ndata: ${JSON.stringify({
             reduction,
             source: "diagnostics/system-health",
@@ -519,7 +539,12 @@ app.get("/events/operator-guidance", (req, res) => {
         );
       }
     } catch (e) {
-      res.write(`event: error\ndata: ${JSON.stringify({ error: String(e), ts: Date.now() })}\n\n`);
+      writeFrame(
+        `event: error\ndata: ${JSON.stringify({
+          error: String(e),
+          ts: Date.now(),
+        })}\n\n`
+      );
     }
   }, 5000);
 
