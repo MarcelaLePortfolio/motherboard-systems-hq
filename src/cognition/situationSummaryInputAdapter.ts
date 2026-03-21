@@ -51,9 +51,116 @@ function normalizeOperatorAttention(
   return "unknown";
 }
 
+function isBoolean(value: unknown): value is boolean {
+  return typeof value === "boolean";
+}
+
+function isString(value: unknown): value is string {
+  return typeof value === "string";
+}
+
+function isFiniteNumber(value: unknown): value is number {
+  return typeof value === "number" && Number.isFinite(value);
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null;
+}
+
+function hasGovernanceAwarenessStructure(
+  value: unknown
+): value is GovernanceAwarenessSurface["structure"] {
+  if (!isRecord(value)) return false;
+
+  return (
+    isBoolean(value.capabilityRegistryVisible) &&
+    isBoolean(value.workerAuthorityModelVisible) &&
+    isBoolean(value.permissionAuthorityModelVisible)
+  );
+}
+
+function hasGovernanceAwarenessSignal(
+  value: unknown
+): value is GovernanceAwarenessSurface["signals"]["governanceAwarenessSignals"][number] {
+  if (!isRecord(value)) return false;
+
+  return (
+    isString(value.name) &&
+    isBoolean(value.active) &&
+    isString(value.summary)
+  );
+}
+
+function hasGovernanceAwarenessSignals(
+  value: unknown
+): value is GovernanceAwarenessSurface["signals"] {
+  if (!isRecord(value)) return false;
+  if (!Array.isArray(value.governanceAwarenessSignals)) return false;
+
+  return value.governanceAwarenessSignals.every(hasGovernanceAwarenessSignal);
+}
+
+function hasBoundarySummary(
+  value: unknown
+): value is { visible: boolean; summary: string } {
+  if (!isRecord(value)) return false;
+
+  return isBoolean(value.visible) && isString(value.summary);
+}
+
+function hasGovernanceAuthorityBoundaryAwareness(
+  value: unknown
+): value is GovernanceAwarenessSurface["authorityBoundaries"] {
+  if (!isRecord(value)) return false;
+
+  return (
+    hasBoundarySummary(value.workerAuthorityBoundary) &&
+    hasBoundarySummary(value.permissionAuthorityBoundary)
+  );
+}
+
+function hasGovernanceVerificationSummary(
+  value: unknown
+): value is GovernanceAwarenessSurface["verification"] {
+  if (!isRecord(value)) return false;
+
+  return (
+    isBoolean(value.isVerified) &&
+    isString(value.lastVerifiedAt) &&
+    isFiniteNumber(value.invariantTotal) &&
+    isFiniteNumber(value.invariantFailures)
+  );
+}
+
+export function isGovernanceAwarenessSurface(
+  value: unknown
+): value is GovernanceAwarenessSurface {
+  if (!isRecord(value)) return false;
+
+  return (
+    hasGovernanceAwarenessStructure(value.structure) &&
+    hasGovernanceAwarenessSignals(value.signals) &&
+    hasGovernanceAuthorityBoundaryAwareness(value.authorityBoundaries) &&
+    hasGovernanceVerificationSummary(value.verification)
+  );
+}
+
+export function sanitizeGovernanceAwarenessSurface(
+  value?: GovernanceAwarenessSurface
+): GovernanceAwarenessSurface | undefined {
+  if (!value) return undefined;
+  return isGovernanceAwarenessSurface(value) ? value : undefined;
+}
+
 export function adaptSituationSummaryInputs(
   signals: SystemSituationSignals
 ): SituationSummaryInputs {
+  const governanceAwareness = sanitizeGovernanceAwarenessSurface(
+    signals.governanceAwareness
+  );
+
+  void governanceAwareness;
+
   return {
     stabilityState: normalizeStability(signals.stability),
     executionRiskState: normalizeExecutionRisk(signals.executionRisk),

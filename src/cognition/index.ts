@@ -11,6 +11,8 @@ export {
 
 export {
   adaptSituationSummaryInputs,
+  isGovernanceAwarenessSurface,
+  sanitizeGovernanceAwarenessSurface,
   type SystemSituationSignals,
 } from "./situationSummaryInputAdapter";
 
