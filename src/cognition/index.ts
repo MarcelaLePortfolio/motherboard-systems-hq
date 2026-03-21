@@ -7,6 +7,7 @@ export {
   type CognitionState,
   type SignalCoherenceState,
   type OperatorAttentionState,
+  type GovernanceCognitionState,
 } from "./situationSummaryComposer";
 
 export {

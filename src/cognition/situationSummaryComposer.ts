@@ -24,12 +24,18 @@ export type OperatorAttentionState =
   | "required"
   | "unknown";
 
+export type GovernanceCognitionState =
+  | "verified"
+  | "attention"
+  | "unknown";
+
 export type SituationSummaryInputs = {
   stabilityState?: StabilityState;
   executionRiskState?: ExecutionRiskState;
   cognitionState?: CognitionState;
   signalCoherenceState?: SignalCoherenceState;
   operatorAttentionState?: OperatorAttentionState;
+  governanceCognitionState?: GovernanceCognitionState;
 };
 
 export type SituationSummary = {
@@ -38,6 +44,7 @@ export type SituationSummary = {
   cognitionState: CognitionState;
   signalCoherenceState: SignalCoherenceState;
   operatorAttentionState: OperatorAttentionState;
+  governanceCognitionState: GovernanceCognitionState;
   summaryLines: string[];
 };
 
@@ -68,6 +75,12 @@ function normalizeCoherence(
 function normalizeAttention(
   state?: OperatorAttentionState
 ): OperatorAttentionState {
+  return state ?? "unknown";
+}
+
+function normalizeGovernanceCognition(
+  state?: GovernanceCognitionState
+): GovernanceCognitionState {
   return state ?? "unknown";
 }
 
@@ -102,6 +115,12 @@ function attentionLine(state: OperatorAttentionState): string {
   return "OPERATOR ATTENTION STATE UNKNOWN";
 }
 
+function governanceCognitionLine(state: GovernanceCognitionState): string {
+  if (state === "verified") return "GOVERNANCE CONDITION VERIFIED";
+  if (state === "attention") return "GOVERNANCE REVIEW RECOMMENDED";
+  return "GOVERNANCE CONDITION UNKNOWN";
+}
+
 export function composeSituationSummary(
   inputs: SituationSummaryInputs
 ): SituationSummary {
@@ -110,6 +129,9 @@ export function composeSituationSummary(
   const cognition = normalizeCognition(inputs.cognitionState);
   const coherence = normalizeCoherence(inputs.signalCoherenceState);
   const attention = normalizeAttention(inputs.operatorAttentionState);
+  const governanceCognition = normalizeGovernanceCognition(
+    inputs.governanceCognitionState
+  );
 
   const summaryLines = [
     stabilityLine(stability),
@@ -117,6 +139,7 @@ export function composeSituationSummary(
     cognitionLine(cognition),
     coherenceLine(coherence),
     attentionLine(attention),
+    governanceCognitionLine(governanceCognition),
   ];
 
   return {
@@ -125,6 +148,7 @@ export function composeSituationSummary(
     cognitionState: cognition,
     signalCoherenceState: coherence,
     operatorAttentionState: attention,
+    governanceCognitionState: governanceCognition,
     summaryLines,
   };
 }

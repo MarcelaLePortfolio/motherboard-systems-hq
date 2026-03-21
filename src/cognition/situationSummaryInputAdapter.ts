@@ -152,6 +152,31 @@ export function sanitizeGovernanceAwarenessSurface(
   return isGovernanceAwarenessSurface(value) ? value : undefined;
 }
 
+function normalizeGovernanceCognition(
+  awareness?: GovernanceAwarenessSurface
+): SituationSummaryInputs["governanceCognitionState"] {
+  if (!awareness) return "unknown";
+
+  const structureVisible =
+    awareness.structure.capabilityRegistryVisible &&
+    awareness.structure.workerAuthorityModelVisible &&
+    awareness.structure.permissionAuthorityModelVisible;
+
+  const authorityVisible =
+    awareness.authorityBoundaries.workerAuthorityBoundary.visible &&
+    awareness.authorityBoundaries.permissionAuthorityBoundary.visible;
+
+  const verificationHealthy =
+    awareness.verification.isVerified &&
+    awareness.verification.invariantFailures === 0;
+
+  if (structureVisible && authorityVisible && verificationHealthy) {
+    return "verified";
+  }
+
+  return "attention";
+}
+
 export function adaptSituationSummaryInputs(
   signals: SystemSituationSignals
 ): SituationSummaryInputs {
@@ -159,13 +184,12 @@ export function adaptSituationSummaryInputs(
     signals.governanceAwareness
   );
 
-  void governanceAwareness;
-
   return {
     stabilityState: normalizeStability(signals.stability),
     executionRiskState: normalizeExecutionRisk(signals.executionRisk),
     cognitionState: normalizeCognition(signals.cognition),
     signalCoherenceState: normalizeSignalCoherence(signals.signalCoherence),
     operatorAttentionState: normalizeOperatorAttention(signals.operatorAttention),
+    governanceCognitionState: normalizeGovernanceCognition(governanceAwareness),
   };
 }
