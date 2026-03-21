@@ -115,7 +115,13 @@ export function runGovernanceAwarenessGuardsSmoke(): GovernanceAwarenessGuardsSm
   };
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+const isDirectExecution =
+  typeof process !== "undefined" &&
+  Array.isArray(process.argv) &&
+  typeof process.argv[1] === "string" &&
+  process.argv[1].includes("governanceAwarenessGuards.smoke.ts");
+
+if (isDirectExecution) {
   const result = runGovernanceAwarenessGuardsSmoke();
   process.stdout.write(`${JSON.stringify(result, null, 2)}\n`);
 }
