@@ -1,5 +1,6 @@
 import { strict as assert } from "node:assert";
 import {
+  buildGovernanceAwarenessSignals,
   isGovernanceAwarenessSurface,
   sanitizeGovernanceAwarenessSurface,
   type GovernanceAwarenessSurface,
@@ -80,7 +81,8 @@ export type GovernanceAwarenessGuardsSmokeResult = {
   ok: true;
   validAccepted: true;
   invalidRejected: true;
-  validSignalCount: number;
+  derivedSignalCount: number;
+  derivedSignalNames: string[];
 };
 
 export function runGovernanceAwarenessGuardsSmoke(): GovernanceAwarenessGuardsSmokeResult {
@@ -106,12 +108,30 @@ export function runGovernanceAwarenessGuardsSmoke(): GovernanceAwarenessGuardsSm
     undefined
   );
 
+  const derivedSignals = buildGovernanceAwarenessSignals(
+    VALID_GOVERNANCE_AWARENESS_SURFACE
+  );
+
+  assert.equal(derivedSignals.governanceAwarenessSignals.length, 4);
+  assert.deepEqual(
+    derivedSignals.governanceAwarenessSignals.map((signal) => signal.name),
+    [
+      "capability_registry_visible",
+      "worker_authority_boundary_visible",
+      "permission_authority_boundary_visible",
+      "governance_verification_healthy",
+    ]
+  );
+  assert.equal(derivedSignals.governanceAwarenessSignals.every((signal) => signal.active), true);
+
   return {
     ok: true,
     validAccepted: true,
     invalidRejected: true,
-    validSignalCount:
-      VALID_GOVERNANCE_AWARENESS_SURFACE.signals.governanceAwarenessSignals.length,
+    derivedSignalCount: derivedSignals.governanceAwarenessSignals.length,
+    derivedSignalNames: derivedSignals.governanceAwarenessSignals.map(
+      (signal) => signal.name
+    ),
   };
 }
 
