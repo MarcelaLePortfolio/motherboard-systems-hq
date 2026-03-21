@@ -14,6 +14,15 @@ export {
   type SystemSituationSignals,
 } from "./situationSummaryInputAdapter";
 
+export type {
+  GovernanceAwarenessSurface,
+  GovernanceAwarenessStructure,
+  GovernanceAwarenessSignal,
+  GovernanceAwarenessSignals,
+  GovernanceAuthorityBoundaryAwareness,
+  GovernanceVerificationSummary,
+} from "../../shared/types/governance";
+
 export { buildSituationSummary } from "./buildSituationSummary";
 export { renderSituationSummary } from "./renderSituationSummary";
 export { buildRenderedSituationSummary } from "./buildRenderedSituationSummary";

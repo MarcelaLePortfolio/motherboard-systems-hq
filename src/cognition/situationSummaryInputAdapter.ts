@@ -1,3 +1,4 @@
+import type { GovernanceAwarenessSurface } from "../../shared/types/governance";
 import type { SituationSummaryInputs } from "./situationSummaryComposer";
 
 export type SystemSituationSignals = {
@@ -6,6 +7,7 @@ export type SystemSituationSignals = {
   cognition?: string;
   signalCoherence?: string;
   operatorAttention?: string;
+  governanceAwareness?: GovernanceAwarenessSurface;
 };
 
 function normalizeStability(
