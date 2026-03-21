@@ -6,6 +6,7 @@ Phase 97.2 — Reference Exposure
 Phase 97.3 — Mapping Exposure
 Phase 97.4 — Guard Exposure
 Phase 97.5 — Signal Exposure
+Phase 97.6 — Verification Exposure
 ────────────────────────────────
 */
 
@@ -32,7 +33,7 @@ export * from './guards';
 /*
 VERIFICATION
 */
-// export * from './verification';
+export * from './verification';
 
 /*
 SIGNALS
