@@ -52,9 +52,15 @@ Completion Notes:
 - no runtime behavior changed
 
 96.4 Capabilities
-STATUS: PENDING
+STATUS: COMPLETE
 Goal:
 Create explicit capability registry describing what system components can do.
+
+Completion Notes:
+- governance/capabilityModel.ts added
+- future-expandable capability registry established
+- role + capability + execution impact modeled
+- no runtime behavior changed
 
 96.5 Verification
 STATUS: PENDING
