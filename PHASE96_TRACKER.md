@@ -87,8 +87,16 @@ Completion Notes:
 Confirm runtime safety and container consistency after governance additions.
 
 96.7 Golden Checkpoint
-STATUS: PENDING
+STATUS: COMPLETE
 Goal:
+Freeze governance foundation as architectural baseline.
+
+Completion Notes:
+- governance/GOVERNANCE_BASELINE_PHASE96.md added
+- governance declared architectural baseline
+- future authority drift prevention established
+- phase ready for golden tagging
+
 Lock Phase 96 with tag and documentation.
 
 --------------------------------------------------
