@@ -1,3 +1,7 @@
+export {
+  buildGovernanceAwarenessSignals,
+} from "./governanceAwareness.types";
+
 export type {
   GovernanceAwarenessSurface,
   GovernanceAwarenessStructure,

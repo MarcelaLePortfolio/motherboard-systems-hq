@@ -38,3 +38,38 @@ export interface GovernanceAwarenessSurface {
   readonly authorityBoundaries: GovernanceAuthorityBoundaryAwareness;
   readonly verification: GovernanceVerificationSummary;
 }
+
+export function buildGovernanceAwarenessSignals(
+  awareness: GovernanceAwarenessSurface
+): GovernanceAwarenessSignals {
+  return {
+    governanceAwarenessSignals: [
+      {
+        name: "capability_registry_visible",
+        active: awareness.structure.capabilityRegistryVisible,
+        summary: awareness.structure.capabilityRegistryVisible
+          ? "capability registry visible to governance awareness surface"
+          : "capability registry not visible to governance awareness surface",
+      },
+      {
+        name: "worker_authority_boundary_visible",
+        active: awareness.authorityBoundaries.workerAuthorityBoundary.visible,
+        summary: awareness.authorityBoundaries.workerAuthorityBoundary.summary,
+      },
+      {
+        name: "permission_authority_boundary_visible",
+        active: awareness.authorityBoundaries.permissionAuthorityBoundary.visible,
+        summary: awareness.authorityBoundaries.permissionAuthorityBoundary.summary,
+      },
+      {
+        name: "governance_verification_healthy",
+        active:
+          awareness.verification.isVerified &&
+          awareness.verification.invariantFailures === 0,
+        summary: awareness.verification.isVerified
+          ? "governance verification passed without invariant failures"
+          : "governance verification not currently confirmed",
+      },
+    ],
+  };
+}
