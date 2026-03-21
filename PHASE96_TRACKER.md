@@ -30,9 +30,15 @@ Do NOT begin Phase 97 work until this condition is satisfied.
 MILESTONES
 
 96.2 Worker
-STATUS: PENDING
+STATUS: COMPLETE
 Goal:
 Clarify worker role boundaries and execution model within governance structure.
+
+Completion Notes:
+- governance/workerModel.ts added
+- future-expandable worker classification established
+- worker authority boundaries defined structurally
+- no runtime behavior changed
 
 96.3 Permissions
 STATUS: PENDING
