@@ -3,6 +3,7 @@
 GOVERNANCE NAMESPACE BARREL
 Phase 97.1 — Imports Wiring
 Phase 97.2 — Reference Exposure
+Phase 97.3 — Mapping Exposure
 ────────────────────────────────
 */
 
@@ -36,3 +37,7 @@ SIGNALS
 */
 // export * from './signals';
 
+/*
+MAPPINGS
+*/
+export * from './mappings';
