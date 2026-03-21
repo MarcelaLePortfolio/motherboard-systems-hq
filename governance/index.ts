@@ -7,7 +7,20 @@ Phase 97.3 — Mapping Exposure
 Phase 97.4 — Guard Exposure
 Phase 97.5 — Signal Exposure
 Phase 97.6 — Verification Exposure
+Phase 97.7 — Freeze Marker
 ────────────────────────────────
+
+PHASE STATUS
+- Phase 97 governance integration scaffold complete
+- Namespace surface stabilized for current phase
+- Structural exports intentionally limited
+- Further expansion must occur in later phases only
+*/
+
+/*
+FREEZE NOTICE
+This barrel is considered phase-frozen at Phase 97.7.
+Do not expand scope here outside explicitly approved later-phase work.
 */
 
 /*
