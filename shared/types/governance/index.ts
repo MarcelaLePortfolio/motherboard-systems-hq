@@ -1,4 +1,4 @@
-export {
+export type {
   GovernanceAwarenessSurface,
   GovernanceAwarenessStructure,
   GovernanceAwarenessSignal,
