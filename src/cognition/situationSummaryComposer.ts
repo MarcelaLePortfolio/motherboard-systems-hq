@@ -36,6 +36,10 @@ export type SituationSummaryInputs = {
   signalCoherenceState?: SignalCoherenceState;
   operatorAttentionState?: OperatorAttentionState;
   governanceCognitionState?: GovernanceCognitionState;
+  operationalConfidence?: {
+    level: "HIGH" | "MEDIUM" | "LOW" | "UNKNOWN";
+    source?: "governance" | "cognition" | "signals";
+  };
 };
 
 export type SituationSummary = {
@@ -153,6 +157,7 @@ export function composeSituationSummary(
     signalCoherenceState: coherence,
     operatorAttentionState: attention,
     governanceCognitionState: governanceCognition,
+    operationalConfidence: inputs.operationalConfidence,
     summaryLines,
   };
 }
