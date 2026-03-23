@@ -26,15 +26,15 @@ export function verifyOperationalConfidenceDeterminism(): void {
     );
   }
 
-  if (first.score !== 84) {
+  if (first.score !== 85) {
     throw new Error(
-      `Operational confidence invariant failed: expected score 84, received ${first.score}.`,
+      `Operational confidence invariant failed: expected score 85, received ${first.score}.`,
     );
   }
 
-  if (first.level !== "MEDIUM") {
+  if (first.level !== "HIGH") {
     throw new Error(
-      `Operational confidence invariant failed: expected level MEDIUM, received ${first.level}.`,
+      `Operational confidence invariant failed: expected level HIGH, received ${first.level}.`,
     );
   }
 
