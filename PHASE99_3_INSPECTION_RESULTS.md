@@ -1,46 +1,59 @@
 # Phase 99.3 — Situation Summary Contract Inspection Results
 
 ## Status
-INSPECTION PENDING
+INSPECTION COMPLETE
 
-## Target search areas
-- src/**/situation*summary*
-- src/**/summary*
-- src/**/cognition*
-- src/**/selector*
-- src/**/types*
-- src/**/reducer*
-
-## Required findings
-- exact file path
-- exact exported type or interface name
-- exact optional insertion point
-- downstream consumers
-- confirmation that no runtime wiring is required
-
-## Inspection commands to run
-rg -n "situation summary|SituationSummary|situationSummary|summary" src
-rg -n "interface .*Summary|type .*Summary" src
-rg -n "select.*Summary|build.*Summary|compose.*Summary" src
-rg -n "governance" src
-
-## Result capture template
+## Confirmed findings
 
 ### Primary contract file
-TBD
+src/cognition/situationSummaryComposer.ts
 
-### Primary contract symbol
-TBD
+### Primary contract symbols
+- SituationSummaryInputs
+- SituationSummary
 
 ### Optional field insertion point
-TBD
+Add an optional operational confidence field to `SituationSummary` in:
+- src/cognition/situationSummaryComposer.ts
 
-### Downstream consumers
-TBD
+Candidate shape:
+- optional
+- cognition-safe
+- non-breaking
+- summary-safe
 
-### Risk assessment
-TBD
+### Confirmed supporting adapter file
+src/cognition/situationSummaryInputAdapter.ts
+
+### Confirmed downstream consumers
+- src/cognition/buildSituationSummary.ts
+- src/cognition/renderSituationSummary.ts
+- src/cognition/buildRenderedSituationSummary.ts
+- src/cognition/getSituationSummary.ts
+- src/cognition/getSystemSituationSummary.ts
+- src/cognition/getSituationSummarySnapshot.ts
+- src/cognition/index.ts
+- smoke coverage under src/cognition/*.smoke.ts
+
+### Governance touchpoints already present
+- governanceCognitionState already exists in situation summary composition
+- governance awareness already flows through:
+  - src/cognition/situationSummaryInputAdapter.ts
+  - src/cognition/situationSummaryComposer.ts
+
+## Risk assessment
+LOW
+
+Reason:
+- governance cognition is already integrated into the situation summary path
+- insertion can remain optional
+- rendered summary can remain unchanged initially
+- snapshot consumers can remain non-breaking if field is additive only
+
+## Safe next step
+Phase 99.3 may proceed with a minimal additive contract change only.
 
 ## Rule
-Do not modify production files until all TBD fields are replaced with confirmed repo facts.
+Do not change rendering behavior in the next move.
+Add optional summary data only.
 
