@@ -1,27 +1,25 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+run_smoke() {
+  local file="$1"
+
+  echo "Running $file ..."
+  if command -v pnpm >/dev/null 2>&1; then
+    pnpm exec tsx "$file"
+  else
+    npx tsx "$file"
+  fi
+  echo
+}
+
 echo "Phase 99.3 — Behavioral drift verification"
 echo
 
-echo "Running cognition situation summary integration smoke..."
-npm run test -- src/cognition/situationSummaryIntegration.smoke.ts || true
+run_smoke "src/cognition/situationSummaryIntegration.smoke.ts"
+run_smoke "src/cognition/situationSummaryRender.smoke.ts"
+run_smoke "src/cognition/getSituationSummarySnapshot.smoke.ts"
+run_smoke "src/cognition/governanceCognition.smoke.ts"
+run_smoke "src/cognition/index.smoke.ts"
 
-echo
-echo "Running rendered summary smoke..."
-npm run test -- src/cognition/situationSummaryRender.smoke.ts || true
-
-echo
-echo "Running snapshot smoke..."
-npm run test -- src/cognition/getSituationSummarySnapshot.smoke.ts || true
-
-echo
-echo "Running governance cognition smoke..."
-npm run test -- src/cognition/governanceCognition.smoke.ts || true
-
-echo
-echo "Running cognition index smoke..."
-npm run test -- src/cognition/index.smoke.ts || true
-
-echo
 echo "Phase 99.3 verification run complete."
