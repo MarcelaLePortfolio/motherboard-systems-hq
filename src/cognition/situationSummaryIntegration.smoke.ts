@@ -7,15 +7,12 @@ function assert(condition: boolean, message: string): void {
 }
 
 function runSmoke(): string {
-
   const summary = buildSituationSummary({
-
     stability: "stable",
     executionRisk: "none",
     cognition: "consistent",
     signalCoherence: "coherent",
-    operatorAttention: "none"
-
+    operatorAttention: "none",
   });
 
   assert(!!summary, "Summary missing");
@@ -26,7 +23,7 @@ function runSmoke(): string {
   );
 
   assert(
-    summary.summaryLines.length === 5,
+    summary.summaryLines.length === 6,
     "Unexpected summary structure"
   );
 
@@ -55,8 +52,12 @@ function runSmoke(): string {
     "Unexpected operator attention line"
   );
 
-  return "PASS";
+  assert(
+    summary.summaryLines[5] === "GOVERNANCE CONDITION UNKNOWN",
+    "Unexpected governance cognition line"
+  );
 
+  return "PASS";
 }
 
 const result = runSmoke();
