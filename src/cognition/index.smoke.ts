@@ -16,12 +16,12 @@ function assert(condition: boolean, message: string): void {
 
 function runSmoke(): string {
   const signals = {
-    stability: "stable",
-    executionRisk: "none",
-    cognition: "consistent",
-    signalCoherence: "coherent",
-    operatorAttention: "none",
-  } as const;
+    stability: "stable" as const,
+    executionRisk: "none" as const,
+    cognition: "consistent" as const,
+    signalCoherence: "coherent" as const,
+    operatorAttention: "none" as const,
+  };
 
   const inputs = adaptSituationSummaryInputs(signals);
 
@@ -36,6 +36,10 @@ function runSmoke(): string {
     inputs.operatorAttentionState === "none",
     "Unexpected adapted operatorAttentionState"
   );
+  assert(
+    inputs.governanceCognitionState === "unknown",
+    "Unexpected adapted governanceCognitionState"
+  );
 
   const summary = buildSituationSummary(signals);
   const rendered = renderSituationSummary(summary);
@@ -44,19 +48,21 @@ function runSmoke(): string {
   const systemRendered = getSystemSituationSummary(signals);
   const snapshot = getSituationSummarySnapshot(signals);
 
-  const expected =
-    "SYSTEM STABLE\n" +
-    "NO EXECUTION RISK DETECTED\n" +
-    "COGNITION SIGNALS CONSISTENT\n" +
-    "SIGNALS COHERENT\n" +
-    "NO OPERATOR ACTION REQUIRED";
+  const expected = [
+    "SYSTEM STABLE",
+    "NO EXECUTION RISK DETECTED",
+    "COGNITION SIGNALS CONSISTENT",
+    "SIGNALS COHERENT",
+    "NO OPERATOR ACTION REQUIRED",
+    "GOVERNANCE CONDITION UNKNOWN",
+  ].join("\n");
 
   assert(rendered === expected, "Rendered summary mismatch");
   assert(builtRendered === expected, "Built rendered summary mismatch");
   assert(getterRendered === expected, "Getter rendered summary mismatch");
   assert(systemRendered === expected, "System rendered summary mismatch");
   assert(snapshot.rendered === expected, "Snapshot rendered summary mismatch");
-  assert(snapshot.summary.summaryLines.length === 5, "Snapshot summary line count mismatch");
+  assert(snapshot.summary.summaryLines.length === 6, "Snapshot summary line count mismatch");
 
   return "PASS";
 }
