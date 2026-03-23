@@ -16,7 +16,6 @@ function runSmoke(): string {
   });
 
   assert(!!snapshot.summary, "Snapshot summary missing");
-  assert(typeof snapshot.rendered === "string", "Snapshot rendered output missing");
 
   assert(snapshot.summary.stabilityState === "stable", "Unexpected stabilityState");
   assert(snapshot.summary.executionRiskState === "none", "Unexpected executionRiskState");
@@ -29,15 +28,24 @@ function runSmoke(): string {
     snapshot.summary.operatorAttentionState === "none",
     "Unexpected operatorAttentionState"
   );
+  assert(
+    snapshot.summary.governanceCognitionState === "unknown",
+    "Unexpected governanceCognitionState"
+  );
 
-  const expectedRendered =
-    "SYSTEM STABLE\n" +
-    "NO EXECUTION RISK DETECTED\n" +
-    "COGNITION SIGNALS CONSISTENT\n" +
-    "SIGNALS COHERENT\n" +
-    "NO OPERATOR ACTION REQUIRED";
+  const expectedRendered = [
+    "SYSTEM STABLE",
+    "NO EXECUTION RISK DETECTED",
+    "COGNITION SIGNALS CONSISTENT",
+    "SIGNALS COHERENT",
+    "NO OPERATOR ACTION REQUIRED",
+    "GOVERNANCE CONDITION UNKNOWN",
+  ].join("\n");
 
-  assert(snapshot.rendered === expectedRendered, "Snapshot rendered output mismatch");
+  assert(
+    snapshot.rendered === expectedRendered,
+    "Snapshot rendered output mismatch"
+  );
 
   return "PASS";
 }
