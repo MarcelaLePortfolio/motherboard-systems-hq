@@ -45,6 +45,10 @@ export type SituationSummary = {
   signalCoherenceState: SignalCoherenceState;
   operatorAttentionState: OperatorAttentionState;
   governanceCognitionState: GovernanceCognitionState;
+  operationalConfidence?: {
+    level: "HIGH" | "MEDIUM" | "LOW" | "UNKNOWN";
+    source?: "governance" | "cognition" | "signals";
+  };
   summaryLines: string[];
 };
 
