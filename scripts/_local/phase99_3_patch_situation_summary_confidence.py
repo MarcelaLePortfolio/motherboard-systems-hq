@@ -131,7 +131,7 @@ if "function buildSituationOperationalConfidence(" not in text:
         sys.exit("Could not find SituationSummary type marker.")
     text = text[:marker_match.start()] + helper_block + text[marker_match.start():]
 
-if "operationalConfidence" not in text:
+if "operationalConfidence?: OperationalConfidence;" not in text:
     text, count = re.subn(
         r'(governanceCognitionState:\s*GovernanceCognitionState;\n)',
         r'\1  operationalConfidence?: OperationalConfidence;\n',
@@ -142,24 +142,22 @@ if "operationalConfidence" not in text:
         sys.exit("Could not add operationalConfidence field to SituationSummary.")
 
 if "operationalConfidence: buildSituationOperationalConfidence(" not in text:
-    return_pattern = re.compile(
-        r'(\n\s*governanceCognitionState,\n)(\s*summaryLines,\n\s*};)',
-        re.MULTILINE,
-    )
-    if not return_pattern.search(text):
-        sys.exit("Could not find situation summary return block.")
-    text = return_pattern.sub(
-        r'\1'
-        r'    operationalConfidence: buildSituationOperationalConfidence({\n'
-        r'      stabilityState,\n'
-        r'      executionRiskState,\n'
-        r'      cognitionState,\n'
-        r'      signalCoherenceState,\n'
-        r'      governanceCognitionState,\n'
-        r'    }),\n'
-        r'\2',
-        text,
-        count=1,
-    )
+    summary_index = text.find("summaryLines,")
+    if summary_index == -1:
+        sys.exit("Could not locate summaryLines field in situation summary composer.")
+
+    return_index = text.rfind("return {", 0, summary_index)
+    if return_index == -1:
+        sys.exit("Could not locate return object for situation summary.")
+
+    insertion = """    operationalConfidence: buildSituationOperationalConfidence({
+      stabilityState,
+      executionRiskState,
+      cognitionState,
+      signalCoherenceState,
+      governanceCognitionState,
+    }),
+"""
+    text = text[:summary_index] + insertion + text[summary_index:]
 
 path.write_text(text)
