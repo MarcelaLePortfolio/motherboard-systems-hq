@@ -18,12 +18,14 @@ function runSmoke(): string {
 
   const rendered = renderSituationSummary(summary);
 
-  const expected =
-    "SYSTEM STABLE\n" +
-    "NO EXECUTION RISK DETECTED\n" +
-    "COGNITION SIGNALS CONSISTENT\n" +
-    "SIGNALS COHERENT\n" +
-    "NO OPERATOR ACTION REQUIRED";
+  const expected = [
+    "SYSTEM STABLE",
+    "NO EXECUTION RISK DETECTED",
+    "COGNITION SIGNALS CONSISTENT",
+    "SIGNALS COHERENT",
+    "NO OPERATOR ACTION REQUIRED",
+    "GOVERNANCE CONDITION UNKNOWN",
+  ].join("\n");
 
   assert(rendered === expected, "Rendered situation summary mismatch");
 
@@ -33,5 +35,5 @@ function runSmoke(): string {
 const result = runSmoke();
 
 if (result !== "PASS") {
-  throw new Error("Render smoke failed");
+  throw new Error("Rendered situation summary smoke failed");
 }
