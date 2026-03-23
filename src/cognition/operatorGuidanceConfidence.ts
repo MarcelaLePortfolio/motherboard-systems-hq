@@ -1,4 +1,8 @@
 import type { OperationalConfidence } from "./confidence";
+
+export interface OperatorGuidanceConfidenceInput {
+  operationalConfidence?: OperationalConfidence;
+}
 /*
 PHASE 89 — CONFIDENCE FRAMING MODEL
 Defines bounded confidence interpretation rules.
