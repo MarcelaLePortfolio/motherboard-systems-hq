@@ -7,10 +7,12 @@ text = path.read_text()
 
 import_line = 'import { synthesizeOperationalConfidence, type OperationalConfidence } from "./confidence";\n'
 if import_line not in text:
-    text = import_line + text
+    if text.startswith("import "):
+        text = import_line + text
+    else:
+        text = import_line + "\n" + text
 
-if "type SituationConfidenceStateValue" not in text:
-    helper_block = '''
+helper_block = '''
 type SituationConfidenceStateValue = string | null | undefined;
 
 function normalizeSituationConfidenceState(
@@ -119,22 +121,33 @@ function buildSituationOperationalConfidence(args: {
 }
 
 '''
-    marker = "export interface SituationSummary"
-    if marker not in text:
-        sys.exit("Could not find SituationSummary interface marker.")
-    text = text.replace(marker, helper_block + marker, 1)
 
-text = re.sub(
-    r'(governanceCognitionState:\s*GovernanceCognitionState;\n)',
-    r'\1  operationalConfidence?: OperationalConfidence;\n',
-    text,
-    count=1,
-)
+if "function buildSituationOperationalConfidence(" not in text:
+    marker_match = re.search(
+        r'export\s+(?:interface|type)\s+SituationSummary(?:\s*=\s*)?\s*\{',
+        text,
+    )
+    if not marker_match:
+        sys.exit("Could not find SituationSummary type marker.")
+    text = text[:marker_match.start()] + helper_block + text[marker_match.start():]
 
-return_pattern = re.compile(r'(\n\s*governanceCognitionState,\n)(\s*summaryLines,\n\s*};)')
-if "operationalConfidence:" not in text:
+if "operationalConfidence" not in text:
+    text, count = re.subn(
+        r'(governanceCognitionState:\s*GovernanceCognitionState;\n)',
+        r'\1  operationalConfidence?: OperationalConfidence;\n',
+        text,
+        count=1,
+    )
+    if count == 0:
+        sys.exit("Could not add operationalConfidence field to SituationSummary.")
+
+if "operationalConfidence: buildSituationOperationalConfidence(" not in text:
+    return_pattern = re.compile(
+        r'(\n\s*governanceCognitionState,\n)(\s*summaryLines,\n\s*};)',
+        re.MULTILINE,
+    )
     if not return_pattern.search(text):
-        sys.exit("Could not find return object block for situation summary.")
+        sys.exit("Could not find situation summary return block.")
     text = return_pattern.sub(
         r'\1'
         r'    operationalConfidence: buildSituationOperationalConfidence({\n'
