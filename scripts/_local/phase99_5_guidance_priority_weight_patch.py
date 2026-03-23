@@ -1,36 +1,38 @@
 from pathlib import Path
 import sys
 
-target = None
+target = Path("src/cognition/operatorGuidanceConfidence.ts")
 
-for p in Path("src").rglob("*guidance*confidence*.ts"):
-    target = p
-    break
-
-if not target:
-    sys.exit("guidance confidence file not found")
+if not target.exists():
+    sys.exit("src/cognition/operatorGuidanceConfidence.ts not found")
 
 text = target.read_text()
 
-if "confidencePriorityWeight" not in text:
+if 'import type { OperationalConfidence } from "./confidence";' not in text:
+    text = 'import type { OperationalConfidence } from "./confidence";\n' + text
+
+if "export function confidencePriorityWeight(" not in text:
     text += """
 
-export function confidencePriorityWeight(confidence?: OperationalConfidence): number {
-  if (!confidence) return 1
+export function confidencePriorityWeight(
+  confidence?: OperationalConfidence,
+): number {
+  if (!confidence) {
+    return 1;
+  }
 
   switch (confidence.level) {
     case "HIGH":
-      return 1
+      return 1;
     case "MEDIUM":
-      return 1.1
+      return 1.1;
     case "LOW":
-      return 1.25
+      return 1.25;
     default:
-      return 1
+      return 1;
   }
 }
 """
 
 target.write_text(text)
-
-print("Patched:", target)
+print(f"Patched: {target}")

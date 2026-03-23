@@ -90,3 +90,23 @@ export function mapOperationalConfidenceToGuidanceModifier(
 
   return 0;
 }
+
+
+export function confidencePriorityWeight(
+  confidence?: OperationalConfidence,
+): number {
+  if (!confidence) {
+    return 1;
+  }
+
+  switch (confidence.level) {
+    case "HIGH":
+      return 1;
+    case "MEDIUM":
+      return 1.1;
+    case "LOW":
+      return 1.25;
+    default:
+      return 1;
+  }
+}
