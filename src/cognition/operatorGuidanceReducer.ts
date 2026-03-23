@@ -16,6 +16,15 @@ import {
 } from "./operatorGuidanceMapping";
 import { assessGuidanceConfidence } from "./operatorGuidanceConfidence";
 
+
+function applyOperationalConfidencePriorityWeight(
+  priority: applyOperationalConfidencePriorityWeight(number, input.operationalConfidence),
+  confidence?: import("./confidence").OperationalConfidence,
+): number {
+  return Math.round(priority * confidencePriorityWeight(confidence));
+}
+
+
 export type OperatorHealthSurface = {
   signals: GuidanceSignalObservation[];
   generatedAt: number;
