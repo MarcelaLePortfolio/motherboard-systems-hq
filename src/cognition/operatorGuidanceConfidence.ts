@@ -1,3 +1,4 @@
+import type { OperationalConfidence } from "./confidence";
 /*
 PHASE 89 — CONFIDENCE FRAMING MODEL
 Defines bounded confidence interpretation rules.
@@ -72,3 +73,16 @@ export function assessGuidanceConfidence(
 
 export const CONFIDENCE_MODEL_VERSION = "phase_89" as const;
 
+
+
+export function mapOperationalConfidenceToGuidanceModifier(
+  confidence?: OperationalConfidence,
+): number {
+  if (!confidence) return 0;
+
+  if (confidence.level === "HIGH") return 1;
+  if (confidence.level === "MEDIUM") return 0;
+  if (confidence.level === "LOW") return -1;
+
+  return 0;
+}
