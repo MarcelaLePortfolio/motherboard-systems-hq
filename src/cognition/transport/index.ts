@@ -20,6 +20,7 @@ export * from "./cognitionTransport.severity"
 export * from "./cognitionTransport.label"
 export * from "./cognitionTransport.interpretation"
 export * from "./cognitionTransport.risk"
+export * from "./cognitionTransport.governance"
 export * from "./CognitionTransportDiagnostics.types"
 export * from "./CognitionTransportDiagnostics.builder"
 export * from "./transportReplaySafety.assert"
@@ -29,6 +30,5 @@ Barrel rules:
 
 Single export surface
 No runtime behavior
-Phase 115 preserved
-Phase 116 risk classification added
+Phase 116 governance readiness added
 */
