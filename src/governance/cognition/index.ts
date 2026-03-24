@@ -67,3 +67,12 @@ export { selectGovernanceLiveWiringDecision } from "./select_governance_live_wir
 
 export { proveGovernanceLiveWiringDecision } from "./prove_governance_live_wiring_decision";
 export type { GovernanceLiveWiringDecisionProof } from "./prove_governance_live_wiring_decision";
+
+export type { GovernanceAuthorizationGate, GovernanceAuthorizationGateStatus } from "./governance_authorization_gate";
+export { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";
+
+export type { GovernanceAuthorizationGateSelection } from "./select_governance_authorization_gate";
+export { selectGovernanceAuthorizationGate } from "./select_governance_authorization_gate";
+
+export { proveGovernanceAuthorizationGate } from "./prove_governance_authorization_gate";
+export type { GovernanceAuthorizationGateProof } from "./prove_governance_authorization_gate";
