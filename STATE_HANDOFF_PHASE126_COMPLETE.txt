@@ -1,0 +1,187 @@
+STATE HANDOFF — DO NOT LOSE CONTEXT
+
+ASSISTANT OPERATES IN ENGINEERING CONTINUATION MODE
+
+────────────────────────────────
+
+PHASE STATUS
+
+Phase 120 — Dashboard Consumption Wiring COMPLETE
+Phase 121 — Dashboard Consumption Registry Structure COMPLETE
+Phase 122 — Consumption Registry Constants + Section Guard COMPLETE
+Phase 123 — Consumption Registry Integrity Guard COMPLETE
+Phase 124 — Consumption Registry Validation Pipeline COMPLETE
+Phase 125 — Consumption Registry Integration Entrypoint COMPLETE
+Phase 126 — Consumption Registry Merge COMPLETE
+
+Golden / checkpoint tags:
+v120-dashboard-consumption-adapter-golden
+v120.1-post-container-verification
+v121.0-consumption-registry-structure
+v122.0-consumption-registry-constants
+v122.1-consumption-section-guard
+v123.0-consumption-integrity-guard
+v124.0-consumption-validation-pipeline
+v124.1-consumption-registry-complete
+v125.0-consumption-registry-integration
+v125.1-consumption-registry-integration-verified
+v126.0-consumption-registry-merged
+
+Branch state:
+phase119-dashboard-cognition-contract
+clean working tree
+origin synced
+
+────────────────────────────────
+
+CURRENT SYSTEM STATE
+
+System stable
+System deterministic
+System protected
+System governed
+System cognition-first
+System safe to extend
+
+Dashboard cognition transport now includes:
+
+Contract surface
+Consumption adapter
+Consumption registry structure
+Registry constants
+Section validation
+Integrity validation
+Validation pipeline
+Registry integration entrypoint
+
+No runtime UI coupling introduced.
+No DOM mutation introduced.
+No reducer mutation introduced.
+No telemetry mutation introduced.
+No authority expansion introduced.
+
+────────────────────────────────
+
+DELIVERED ARTIFACTS
+
+src/cognition/transport/cognitionTransport.dashboardConsumption.types.ts
+src/cognition/transport/cognitionTransport.dashboardConsumption.ts
+src/cognition/transport/cognitionTransport.dashboardConsumption.invariants.ts
+src/cognition/transport/cognitionTransport.dashboardConsumption.test.ts
+src/cognition/transport/index.ts
+
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.types.ts
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.ts
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.invariants.ts
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.validate.ts
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.freeze.ts
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.build.ts
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.guard.ts
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.constants.ts
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.sectionGuard.ts
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.integrity.ts
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.pipeline.ts
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.integration.ts
+src/cognition/transport/consumptionRegistry/index.ts
+
+scripts/_local/phase120_dashboard_consumption_smoke.sh
+scripts/_local/phase120_container_verify.sh
+scripts/_local/phase120_status_check.sh
+scripts/phase120_seal.sh
+scripts/phase121_start.sh
+
+STATE_HANDOFF_PHASE120_COMPLETE.txt
+STATE_HANDOFF_PHASE126_COMPLETE.txt
+
+────────────────────────────────
+
+ARCHITECTURAL STATE
+
+Dashboard cognition boundary now layers as:
+
+Transport
+→ Contract
+→ Consumption Adapter
+→ Consumption Registry
+→ Validation Pipeline
+→ Integration Entrypoint
+→ Future UI consumption surface
+
+All current work remains:
+
+Read-only
+Pure where intended
+Deterministic
+Structurally isolated
+Safe for future bounded extension
+
+Known note:
+The registry core currently preserves an internal empty REGISTRY constant and returns derived structures rather than mutating shared runtime state. The integrated export is DASHBOARD_CONSUMPTION_REGISTRY via initializeDashboardConsumptionRegistry(). Future work should preserve deterministic replacement behavior and avoid accidental dual-source drift.
+
+────────────────────────────────
+
+NEXT PHASE TARGET
+
+Phase 127 — Consumption Registry Runtime Reconciliation
+
+Objective:
+
+Reconcile registry structure and integration surface into one deterministic runtime-safe pattern without widening scope.
+
+Scope:
+
+Align registry builder/output contract
+Eliminate internal registry ambiguity
+Preserve deterministic initialization semantics
+Keep integration read-only and explicit
+
+Explicit NON-GOALS:
+
+No UI rendering
+No DOM changes
+No reducer changes
+No telemetry producer changes
+No authority expansion
+No async coupling
+No dashboard mutation
+
+Success definition:
+
+Single clear registry ownership model
+Deterministic initialization path
+No ambiguous runtime source of truth
+System remains stable and cognition-first
+
+────────────────────────────────
+
+ENGINEERING CONTINUATION RULES
+
+No phase echo.
+No architectural rewrites.
+No scope widening.
+One narrow deterministic step at a time.
+
+If instability appears:
+
+Restore last stable tag.
+Never fix forward.
+Verify contracts.
+Proceed with one narrow change.
+
+────────────────────────────────
+
+SYSTEM POSTURE
+
+System remains:
+
+Stable
+Deterministic
+Governed
+Cognition-first
+Human-directed
+Safe to extend
+
+Phase 126 sealed by state.
+Phase 127 ready.
+
+STATE HANDOFF COMPLETE
