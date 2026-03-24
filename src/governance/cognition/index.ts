@@ -121,3 +121,12 @@ export { selectGovernanceFinalPreLiveRegistryArchiveRecord } from "./select_gove
 
 export { proveGovernanceFinalPreLiveRegistryArchiveRecord } from "./prove_governance_final_pre_live_registry_archive_record";
 export type { GovernanceFinalPreLiveRegistryArchiveRecordProof } from "./prove_governance_final_pre_live_registry_archive_record";
+
+export type { GovernanceFinalPreLiveRegistrySummaryCapsule } from "./governance_final_pre_live_registry_summary_capsule";
+export { buildGovernanceFinalPreLiveRegistrySummaryCapsule } from "./build_governance_final_pre_live_registry_summary_capsule";
+
+export type { GovernanceFinalPreLiveRegistrySummaryCapsuleSelection } from "./select_governance_final_pre_live_registry_summary_capsule";
+export { selectGovernanceFinalPreLiveRegistrySummaryCapsule } from "./select_governance_final_pre_live_registry_summary_capsule";
+
+export { proveGovernanceFinalPreLiveRegistrySummaryCapsule } from "./prove_governance_final_pre_live_registry_summary_capsule";
+export type { GovernanceFinalPreLiveRegistrySummaryCapsuleProof } from "./prove_governance_final_pre_live_registry_summary_capsule";
