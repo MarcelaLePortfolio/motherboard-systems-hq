@@ -7,3 +7,4 @@ export * from "./consumption_registry_enforcement_snapshot";
 export * from "./consumption_registry_enforcement_bundle";
 export * from "./consumption_registry_enforcement_runtime_guard";
 export * from "./consumption_registry_enforcement_readonly_view";
+export * from "./consumption_registry_enforcement_entrypoint";
