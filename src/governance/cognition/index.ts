@@ -29,3 +29,13 @@ export { registerGovernanceDashboardContract } from "./register_governance_dashb
 export { normalizeGovernanceDashboardContractRegistration } from "./normalize_governance_dashboard_contract_registration";
 export { proveGovernanceDashboardContractRegistration } from "./prove_governance_dashboard_contract_registration";
 export type { GovernanceDashboardContractRegistrationProof } from "./prove_governance_dashboard_contract_registration";
+
+export type { GovernanceRuntimeRegistryExport } from "./governance_runtime_registry_export";
+export { buildGovernanceRuntimeRegistryExport } from "./build_governance_runtime_registry_export";
+
+export type { GovernanceRuntimeRegistryExportSelection } from "./select_governance_runtime_registry_export";
+export { selectGovernanceRuntimeRegistryExport } from "./select_governance_runtime_registry_export";
+
+export { normalizeGovernanceRuntimeRegistryExport } from "./normalize_governance_runtime_registry_export";
+export { proveGovernanceRuntimeRegistryExport } from "./prove_governance_runtime_registry_export";
+export type { GovernanceRuntimeRegistryExportProof } from "./prove_governance_runtime_registry_export";
