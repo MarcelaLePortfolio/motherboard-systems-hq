@@ -7,11 +7,13 @@ export * from "./cognitionTransport.types";
 export * from "./cognitionTransport.registry";
 export * from "./cognitionTransport.snapshot";
 export * from "./cognitionTransport.verify";
+export * from "./cognitionTransport.invariants";
+export * from "./cognitionTransport.failure";
 
 /*
 Barrel rules:
 
 Single export surface.
 No runtime behavior.
-Types + registry + verification + snapshot only.
+Types + registry + verification + invariants + failure + snapshot only.
 */
