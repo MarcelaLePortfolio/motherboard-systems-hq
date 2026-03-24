@@ -14,6 +14,7 @@ export * from "./cognitionTransport.policy";
 export * from "./cognitionTransport.health";
 export * from "./cognitionTransport.diagnostics";
 export * from "./cognitionTransport.operator";
+export * from "./cognitionTransport.replay";
 export * from "./CognitionTransportDiagnostics.types";
 export * from "./CognitionTransportDiagnostics.builder";
 export * from "./transportReplaySafety.assert";
@@ -24,5 +25,5 @@ Barrel rules:
 Single export surface.
 No runtime behavior.
 Phase 113 exports preserved.
-Phase 114 diagnostics + operator exposure exports added without drift.
+Phase 114 diagnostics + operator exposure + replay exports added without drift.
 */
