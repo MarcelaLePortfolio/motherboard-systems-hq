@@ -12,3 +12,4 @@ export * from "./dashboardConsumption.registry.pipeline";
 export * from "./dashboardConsumption.registry.runtime";
 export * from "./dashboardConsumption.registry.integration";
 export * from "./dashboardConsumption.registry.finalize";
+export * from "./consumption_registry_enforcement";
