@@ -12,3 +12,8 @@ export * from "./governanceOutcomeSurfaceTypes";
 export * from "./governanceOutcomeSurfaceBuilder";
 export * from "./governanceOutcomeSurfaceProof";
 
+
+export * from "./governanceOperatorAwarenessTypes";
+export * from "./governanceOperatorAwarenessBuilder";
+export * from "./governanceOperatorAwarenessSummary";
+
