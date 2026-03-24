@@ -58,3 +58,12 @@ export { selectGovernanceLiveRegistryWiringReadiness } from "./select_governance
 
 export { proveGovernanceLiveRegistryWiringReadiness } from "./prove_governance_live_registry_wiring_readiness";
 export type { GovernanceLiveRegistryWiringReadinessProof } from "./prove_governance_live_registry_wiring_readiness";
+
+export type { GovernanceLiveWiringDecision, GovernanceLiveWiringDecisionStatus } from "./governance_live_wiring_decision";
+export { buildGovernanceLiveWiringDecision } from "./build_governance_live_wiring_decision";
+
+export type { GovernanceLiveWiringDecisionSelection } from "./select_governance_live_wiring_decision";
+export { selectGovernanceLiveWiringDecision } from "./select_governance_live_wiring_decision";
+
+export { proveGovernanceLiveWiringDecision } from "./prove_governance_live_wiring_decision";
+export type { GovernanceLiveWiringDecisionProof } from "./prove_governance_live_wiring_decision";
