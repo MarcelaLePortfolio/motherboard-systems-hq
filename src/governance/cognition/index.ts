@@ -39,3 +39,13 @@ export { selectGovernanceRuntimeRegistryExport } from "./select_governance_runti
 export { normalizeGovernanceRuntimeRegistryExport } from "./normalize_governance_runtime_registry_export";
 export { proveGovernanceRuntimeRegistryExport } from "./prove_governance_runtime_registry_export";
 export type { GovernanceRuntimeRegistryExportProof } from "./prove_governance_runtime_registry_export";
+
+export type { GovernanceSharedRegistryOwnerBundle } from "./governance_shared_registry_owner_bundle";
+export { buildGovernanceSharedRegistryOwnerBundle } from "./build_governance_shared_registry_owner_bundle";
+
+export type { GovernanceSharedRegistryOwnerBundleSelection } from "./select_governance_shared_registry_owner_bundle";
+export { selectGovernanceSharedRegistryOwnerBundle } from "./select_governance_shared_registry_owner_bundle";
+
+export { normalizeGovernanceSharedRegistryOwnerBundle } from "./normalize_governance_shared_registry_owner_bundle";
+export { proveGovernanceSharedRegistryOwnerBundle } from "./prove_governance_shared_registry_owner_bundle";
+export type { GovernanceSharedRegistryOwnerBundleProof } from "./prove_governance_shared_registry_owner_bundle";
