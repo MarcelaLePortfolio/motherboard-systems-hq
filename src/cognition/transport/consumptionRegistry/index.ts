@@ -5,3 +5,4 @@ export * from "./consumption_registry_enforcement_fixture";
 export * from "./consumption_registry_enforcement_proof";
 export * from "./consumption_registry_enforcement_snapshot";
 export * from "./consumption_registry_enforcement_bundle";
+export * from "./consumption_registry_enforcement_runtime_guard";
