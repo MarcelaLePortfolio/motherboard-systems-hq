@@ -112,3 +112,12 @@ export { selectGovernanceFinalDeliveryReceipt } from "./select_governance_final_
 
 export { proveGovernanceFinalDeliveryReceipt } from "./prove_governance_final_delivery_receipt";
 export type { GovernanceFinalDeliveryReceiptProof } from "./prove_governance_final_delivery_receipt";
+
+export type { GovernanceFinalPreLiveRegistryArchiveRecord } from "./governance_final_pre_live_registry_archive_record";
+export { buildGovernanceFinalPreLiveRegistryArchiveRecord } from "./build_governance_final_pre_live_registry_archive_record";
+
+export type { GovernanceFinalPreLiveRegistryArchiveRecordSelection } from "./select_governance_final_pre_live_registry_archive_record";
+export { selectGovernanceFinalPreLiveRegistryArchiveRecord } from "./select_governance_final_pre_live_registry_archive_record";
+
+export { proveGovernanceFinalPreLiveRegistryArchiveRecord } from "./prove_governance_final_pre_live_registry_archive_record";
+export type { GovernanceFinalPreLiveRegistryArchiveRecordProof } from "./prove_governance_final_pre_live_registry_archive_record";
