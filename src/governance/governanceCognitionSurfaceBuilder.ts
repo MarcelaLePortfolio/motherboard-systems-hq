@@ -28,11 +28,9 @@ import {
 function getHighestSeverity(
   signals: GovernanceOperatorAwarenessSignal[]
 ): GovernanceAwarenessSeverity {
-
   let highest: GovernanceAwarenessSeverity = "LOW";
 
   for (const signal of signals) {
-
     if (signal.severity === "CRITICAL") {
       return "CRITICAL";
     }
@@ -57,7 +55,6 @@ function getHighestSeverity(
 export function buildGovernanceCognitionSurface(
   signals: GovernanceOperatorAwarenessSignal[]
 ): GovernanceCognitionSurface {
-
   const summary =
     summarizeGovernanceOperatorAwareness(signals);
 
@@ -77,4 +74,3 @@ export function buildGovernanceCognitionSurface(
     deterministic: true
   };
 }
-
