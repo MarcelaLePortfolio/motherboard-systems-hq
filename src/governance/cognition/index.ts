@@ -23,3 +23,9 @@ export { selectGovernanceDashboardConsumptionView } from "./select_governance_da
 
 export { proveGovernanceDashboardConsumptionView } from "./prove_governance_dashboard_consumption_view";
 export type { GovernanceDashboardConsumptionProof } from "./prove_governance_dashboard_consumption_view";
+
+export type { GovernanceDashboardContractRegistration } from "./governance_dashboard_contract_registration";
+export { registerGovernanceDashboardContract } from "./register_governance_dashboard_contract";
+export { normalizeGovernanceDashboardContractRegistration } from "./normalize_governance_dashboard_contract_registration";
+export { proveGovernanceDashboardContractRegistration } from "./prove_governance_dashboard_contract_registration";
+export type { GovernanceDashboardContractRegistrationProof } from "./prove_governance_dashboard_contract_registration";
