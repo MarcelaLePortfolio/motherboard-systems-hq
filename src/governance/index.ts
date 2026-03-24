@@ -18,3 +18,7 @@ export * from "./governanceOperatorAwarenessBuilder";
 export * from "./governanceOperatorAwarenessSummary";
 
 export * from "./governanceOperatorAwarenessProof";
+
+export * from "./governanceCognitionSurfaceTypes";
+export * from "./governanceCognitionSurfaceBuilder";
+export * from "./governanceCognitionSurfaceProof";
