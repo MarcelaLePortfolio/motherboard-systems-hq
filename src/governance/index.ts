@@ -22,3 +22,6 @@ export * from "./governanceOperatorAwarenessProof";
 export * from "./governanceCognitionSurfaceTypes";
 export * from "./governanceCognitionSurfaceBuilder";
 export * from "./governanceCognitionSurfaceProof";
+
+export * from "./governanceCognitionSelectors";
+export * from "./governanceCognitionSelectorsProof";
