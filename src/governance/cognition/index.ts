@@ -103,3 +103,12 @@ export { selectGovernancePreLiveRegistryDeliveryManifest } from "./select_govern
 
 export { proveGovernancePreLiveRegistryDeliveryManifest } from "./prove_governance_pre_live_registry_delivery_manifest";
 export type { GovernancePreLiveRegistryDeliveryManifestProof } from "./prove_governance_pre_live_registry_delivery_manifest";
+
+export type { GovernanceFinalDeliveryReceipt } from "./governance_final_delivery_receipt";
+export { buildGovernanceFinalDeliveryReceipt } from "./build_governance_final_delivery_receipt";
+
+export type { GovernanceFinalDeliveryReceiptSelection } from "./select_governance_final_delivery_receipt";
+export { selectGovernanceFinalDeliveryReceipt } from "./select_governance_final_delivery_receipt";
+
+export { proveGovernanceFinalDeliveryReceipt } from "./prove_governance_final_delivery_receipt";
+export type { GovernanceFinalDeliveryReceiptProof } from "./prove_governance_final_delivery_receipt";
