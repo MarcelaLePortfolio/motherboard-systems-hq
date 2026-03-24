@@ -9,5 +9,6 @@ export * from "./dashboardConsumption.registry.guard";
 export * from "./dashboardConsumption.registry.sectionGuard";
 export * from "./dashboardConsumption.registry.integrity";
 export * from "./dashboardConsumption.registry.pipeline";
+export * from "./dashboardConsumption.registry.runtime";
 export * from "./dashboardConsumption.registry.integration";
 export * from "./dashboardConsumption.registry.finalize";
