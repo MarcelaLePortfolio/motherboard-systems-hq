@@ -94,3 +94,12 @@ export { selectGovernancePreLiveRegistryHandoffEnvelope } from "./select_governa
 
 export { proveGovernancePreLiveRegistryHandoffEnvelope } from "./prove_governance_pre_live_registry_handoff_envelope";
 export type { GovernancePreLiveRegistryHandoffEnvelopeProof } from "./prove_governance_pre_live_registry_handoff_envelope";
+
+export type { GovernancePreLiveRegistryDeliveryManifest } from "./governance_pre_live_registry_delivery_manifest";
+export { buildGovernancePreLiveRegistryDeliveryManifest } from "./build_governance_pre_live_registry_delivery_manifest";
+
+export type { GovernancePreLiveRegistryDeliveryManifestSelection } from "./select_governance_pre_live_registry_delivery_manifest";
+export { selectGovernancePreLiveRegistryDeliveryManifest } from "./select_governance_pre_live_registry_delivery_manifest";
+
+export { proveGovernancePreLiveRegistryDeliveryManifest } from "./prove_governance_pre_live_registry_delivery_manifest";
+export type { GovernancePreLiveRegistryDeliveryManifestProof } from "./prove_governance_pre_live_registry_delivery_manifest";
