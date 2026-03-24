@@ -1,33 +1,29 @@
 /*
-Phase 151A — Registry Owner Mutation Surface
-FIRST CONTROLLED REGISTRY MUTATION INTERFACE (NO LIVE MUTATION YET)
+Phase 151H — Registry Owner Integration
 
 Purpose:
-Define the single allowed mutation entrypoint.
-Enforce governance-first mutation structure.
-Provide deterministic interface only.
+Make RegistryOwner the single controlled entrypoint for all registry mutation.
 
-This file introduces ZERO active mutation.
-Interface definition only.
+RegistryOwner becomes the only component allowed to submit mutation
+requests to the RegistryMutationCoordinator.
+
+This preserves the single-owner mutation doctrine.
 */
+
+import { RegistryMutationCoordinator } from "./registry_mutation_coordinator"
 
 export type CapabilityMetadata = {
   capability_id: string
-  capability_name: string
-  capability_class: string
   governance_class: string
-  execution_boundaries: string
-  authority_scope: string
-  operator_id: string
-  registration_timestamp: string
-  verification_state: "pending" | "verified" | "rejected"
+  description: string
+  created_by: string
+  created_at: string
 }
 
 export type RegistryMutationRequest = {
   mutation_id: string
   operator_id: string
-  intent: string
-  mutation_type: "CAPABILITY_METADATA_REGISTER"
+  mutation_type: string
   capability: CapabilityMetadata
   timestamp: string
 }
@@ -38,36 +34,36 @@ export type RegistryMutationResult = {
   reason?: string
 }
 
-/*
-Registry Owner
-
-Single allowed mutation surface.
-
-Future phases will wire:
-
-Authorization
-Logging
-Snapshots
-Verification
-
-Current phase only defines interface.
-*/
-
 export class RegistryOwner {
+  private coordinator: RegistryMutationCoordinator
+  private ownerId: string
 
-  registerCapabilityMetadata(
-    request: RegistryMutationRequest
+  constructor(
+    coordinator: RegistryMutationCoordinator,
+    ownerId = "registry-owner"
+  ) {
+    this.coordinator = coordinator
+    this.ownerId = ownerId
+  }
+
+  registerCapability(
+    operatorId: string,
+    capability: CapabilityMetadata
   ): RegistryMutationResult {
 
-    // Phase 151A rule:
-    // Reject all mutations until safety wiring exists.
-
-    return {
-      mutation_id: request.mutation_id,
-      accepted: false,
-      reason: "Registry mutation not enabled (Phase 151A interface only)"
+    const request: RegistryMutationRequest = {
+      mutation_id: `${capability.capability_id}::register::${Date.now()}`,
+      operator_id: operatorId,
+      mutation_type: "CAPABILITY_METADATA_REGISTER",
+      capability,
+      timestamp: new Date().toISOString()
     }
 
+    return this.coordinator.evaluateMutation(request)
+  }
+
+  getOwnerId(): string {
+    return this.ownerId
   }
 
 }
