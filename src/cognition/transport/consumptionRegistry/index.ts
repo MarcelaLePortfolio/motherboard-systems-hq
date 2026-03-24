@@ -6,4 +6,5 @@ export * from "./dashboardConsumption.registry.validate";
 export * from "./dashboardConsumption.registry.freeze";
 export * from "./dashboardConsumption.registry.build";
 export * from "./dashboardConsumption.registry.guard";
+export * from "./dashboardConsumption.registry.sectionGuard";
 export * from "./dashboardConsumption.registry.finalize";
