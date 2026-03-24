@@ -1,22 +1,3 @@
-/*
-PHASE 113 — COGNITION TRANSPORT BARREL
-Deterministic export surface for transport layer
-*/
-
-export * from "./cognitionTransport.types";
-export * from "./cognitionTransport.registry";
-export * from "./cognitionTransport.snapshot";
-export * from "./cognitionTransport.verify";
-export * from "./cognitionTransport.invariants";
-export * from "./cognitionTransport.failure";
-export * from "./cognitionTransport.validate";
-export * from "./cognitionTransport.policy";
-export * from "./cognitionTransport.health";
-
-/*
-Barrel rules:
-
-Single export surface.
-No runtime behavior.
-Types + registry + verification + invariants + failure + validation + policy + health + snapshot only.
-*/
+export * from "./CognitionTransportDiagnostics.types"
+export * from "./CognitionTransportDiagnostics.builder"
+export * from "./transportReplaySafety.assert"
