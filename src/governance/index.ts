@@ -25,3 +25,6 @@ export * from "./governanceCognitionSurfaceProof";
 
 export * from "./governanceCognitionSelectors";
 export * from "./governanceCognitionSelectorsProof";
+
+export * from "./governanceCognitionIntegrationHooks";
+export * from "./governanceCognitionIntegrationProof";
