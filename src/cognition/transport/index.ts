@@ -9,11 +9,12 @@ export * from "./cognitionTransport.snapshot";
 export * from "./cognitionTransport.verify";
 export * from "./cognitionTransport.invariants";
 export * from "./cognitionTransport.failure";
+export * from "./cognitionTransport.validate";
 
 /*
 Barrel rules:
 
 Single export surface.
 No runtime behavior.
-Types + registry + verification + invariants + failure + snapshot only.
+Types + registry + verification + invariants + failure + validation + snapshot only.
 */
