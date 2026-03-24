@@ -1,5 +1,5 @@
 /*
-PHASE 117 — COGNITION TRANSPORT BARREL
+PHASE 118 — COGNITION TRANSPORT BARREL
 Deterministic export surface for transport layer
 */
 
@@ -22,6 +22,7 @@ export * from "./cognitionTransport.interpretation"
 export * from "./cognitionTransport.risk"
 export * from "./cognitionTransport.governance"
 export * from "./cognitionTransport.operatorView"
+export * from "./cognitionTransport.presentation"
 export * from "./CognitionTransportDiagnostics.types"
 export * from "./CognitionTransportDiagnostics.builder"
 export * from "./transportReplaySafety.assert"
@@ -31,6 +32,6 @@ Barrel rules:
 
 Single export surface
 No runtime behavior
-Phase 116 preserved
-Phase 117 operator cognition surface added
+Phase 117 preserved
+Phase 118 presentation contract added
 */
