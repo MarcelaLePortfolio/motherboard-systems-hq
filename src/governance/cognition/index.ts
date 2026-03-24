@@ -14,3 +14,12 @@ export type { OperatorSafeGovernanceCognitionPackage } from "./package_governanc
 
 export { proveGovernanceCognitionSnapshot } from "./prove_governance_cognition_snapshot";
 export type { GovernanceCognitionSnapshotProof } from "./prove_governance_cognition_snapshot";
+
+export type { GovernanceDashboardConsumptionView } from "./governance_dashboard_consumption_contract";
+export { buildGovernanceDashboardConsumptionView } from "./build_governance_dashboard_consumption_view";
+
+export type { GovernanceDashboardConsumptionSelection } from "./select_governance_dashboard_consumption_view";
+export { selectGovernanceDashboardConsumptionView } from "./select_governance_dashboard_consumption_view";
+
+export { proveGovernanceDashboardConsumptionView } from "./prove_governance_dashboard_consumption_view";
+export type { GovernanceDashboardConsumptionProof } from "./prove_governance_dashboard_consumption_view";
