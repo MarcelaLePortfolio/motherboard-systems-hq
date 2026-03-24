@@ -16,6 +16,7 @@ export * from "./cognitionTransport.diagnostics"
 export * from "./cognitionTransport.operator"
 export * from "./cognitionTransport.replay"
 export * from "./cognitionTransport.summary"
+export * from "./cognitionTransport.severity"
 export * from "./CognitionTransportDiagnostics.types"
 export * from "./CognitionTransportDiagnostics.builder"
 export * from "./transportReplaySafety.assert"
@@ -26,5 +27,5 @@ Barrel rules:
 Single export surface
 No runtime behavior
 Phase 114 preserved
-Phase 115 summary added without drift
+Phase 115 severity classification added
 */
