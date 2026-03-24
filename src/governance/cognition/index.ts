@@ -49,3 +49,12 @@ export { selectGovernanceSharedRegistryOwnerBundle } from "./select_governance_s
 export { normalizeGovernanceSharedRegistryOwnerBundle } from "./normalize_governance_shared_registry_owner_bundle";
 export { proveGovernanceSharedRegistryOwnerBundle } from "./prove_governance_shared_registry_owner_bundle";
 export type { GovernanceSharedRegistryOwnerBundleProof } from "./prove_governance_shared_registry_owner_bundle";
+
+export type { GovernanceLiveRegistryWiringReadiness } from "./governance_live_registry_wiring_readiness";
+export { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";
+
+export type { GovernanceLiveRegistryWiringReadinessSelection } from "./select_governance_live_registry_wiring_readiness";
+export { selectGovernanceLiveRegistryWiringReadiness } from "./select_governance_live_registry_wiring_readiness";
+
+export { proveGovernanceLiveRegistryWiringReadiness } from "./prove_governance_live_registry_wiring_readiness";
+export type { GovernanceLiveRegistryWiringReadinessProof } from "./prove_governance_live_registry_wiring_readiness";
