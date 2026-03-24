@@ -17,3 +17,4 @@ export * from "./governanceOperatorAwarenessTypes";
 export * from "./governanceOperatorAwarenessBuilder";
 export * from "./governanceOperatorAwarenessSummary";
 
+export * from "./governanceOperatorAwarenessProof";
