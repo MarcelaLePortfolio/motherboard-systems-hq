@@ -1,264 +1,267 @@
-GOVERNANCE CONSTRAINT CLASSIFICATION MODEL — MACHINE READABLE PLANNING (Phase 197 Draft)
+STATE CONTINUATION — GOVERNANCE ENFORCEMENT PREPARATION
 
-Purpose:
-
-Define how governance constraints are classified to support evaluation, visibility, and future enforcement translation without enabling execution authority.
-
-Scope:
-
-Documentation only.
-No runtime classification engine.
-No execution integration.
-No mutation capability.
+(Post-Phase 247.1 planning artifact)
 
 ────────────────────────────────
 
-CLASSIFICATION PURPOSE
+PURPOSE
 
-Constraint classification exists to:
+Define how governance constraints will be classified before any enforcement translation occurs.
 
-Organize governance constraints
-Clarify risk posture
-Support operator understanding
-Enable deterministic indexing
-Prepare enforcement translation structure
+This is still:
 
-Classification must NEVER:
+Read-only
+Non-enforcing
+Documentation only
+No runtime interaction
 
-Authorize behavior
-Trigger enforcement
-Modify runtime behavior
-Grant permissions
-
-Classification is cognition organization only.
+Goal is classification clarity only.
 
 ────────────────────────────────
 
 CLASSIFICATION DIMENSIONS
 
-Constraints classified across five deterministic dimensions:
+Governance constraints will be classified across four dimensions:
 
-1 — Functional Type
-2 — Risk Level
-3 — Authority Impact
-4 — Governance Tier
-5 — Readiness Impact
+Severity
+Evaluation Type
+Violation Class
+Decision Category
 
-────────────────────────────────
-
-FUNCTIONAL TYPES
-
-Execution Gate
-
-Purpose:
-Prevent premature execution discussion.
-
-Examples:
-
-Execution prerequisites
-Approval requirements
-Governance readiness checks
-
-Authority Boundary
-
-Purpose:
-Protect human authority.
-
-Examples:
-
-Operator authority rules
-Registry ownership rules
-Mutation isolation rules
-
-Safety Constraint
-
-Purpose:
-Prevent unsafe system evolution.
-
-Examples:
-
-Failure modeling
-Recovery modeling
-Safety interlocks
-
-Governance Integrity
-
-Purpose:
-Protect governance structure.
-
-Examples:
-
-Audit model requirements
-Documentation integrity
-Registry integrity
-
-Translation Constraint
-
-Purpose:
-Prepare enforcement modeling.
-
-Examples:
-
-Constraint schema
-Evaluation semantics
-Visibility mapping
+This allows deterministic interpretation later without introducing execution behavior.
 
 ────────────────────────────────
 
-RISK LEVELS
-
-LOW
-
-Documentation alignment.
-
-MEDIUM
-
-Structural governance gaps.
-
-HIGH
-
-Execution readiness blockers.
+SEVERITY LEVEL MODEL
 
 CRITICAL
 
-Authority boundary risks.
+Violations that threaten:
+
+Human authority
+Execution boundaries
+Registry integrity
+Governance guarantees
+
+Future intent:
+Execution must never proceed if violated.
+
+Examples:
+
+Autonomous execution attempt
+Registry mutation by agent
+Authority escalation attempt
+
+HIGH
+
+Violations affecting safety posture but not immediate authority breach.
+
+Examples:
+
+Missing governance evaluation
+Incomplete task observability
+Improper lifecycle transition
+
+MEDIUM
+
+Structural deviations not affecting safety guarantees.
+
+Examples:
+
+Telemetry classification mismatch
+Incomplete metadata
+Non-canonical task state
+
+LOW
+
+Informational governance drift.
+
+Examples:
+
+Naming inconsistencies
+Documentation drift
+Non-critical ordering issues
+
+INFO
+
+Non-violations.
+Observational signals only.
 
 ────────────────────────────────
 
-AUTHORITY IMPACT CLASSES
+EVALUATION TYPE MODEL
 
-NONE
+STATIC
 
-No authority impact.
+Evaluated against structure or definition.
 
-AWARENESS
+Examples:
 
-Operator awareness only.
+Registry ownership model
+Agent role definitions
+Governance doctrine integrity
 
-PROTECTION
+DYNAMIC
 
-Protects authority boundaries.
+Evaluated against runtime signals (future).
 
-BLOCKING
+Examples:
 
-Prevents execution discussion.
+Task lifecycle transitions
+Execution triggers
+Policy evaluation ordering
 
-────────────────────────────────
+DECLARATIVE
 
-GOVERNANCE TIERS
+Evaluated against governance doctrine statements.
 
-Tier 0
+Examples:
 
-Documentation doctrine.
+Authority flow contract
+Execution safety boundary
+Operator protection rules
 
-Tier 1
+INTEGRITY
 
-Structural invariants.
+Evaluated against system consistency.
 
-Tier 2
+Examples:
 
-Prerequisite readiness.
-
-Tier 3
-
-Future enforcement translation.
-
-Tier 4
-
-Authority protection.
-
-────────────────────────────────
-
-READINESS IMPACT
-
-NONE
-
-No readiness impact.
-
-SUPPORTING
-
-Supports readiness evaluation.
-
-REQUIRED
-
-Required for governance maturity.
-
-BLOCKING
-
-Blocks execution readiness discussion.
+Duplicate IDs
+Invalid transitions
+Missing references
 
 ────────────────────────────────
 
-CONSTRAINT CLASSIFICATION OBJECT (PLANNING)
+VIOLATION CLASS MODEL
 
-constraint_id:
-functional_type:
-risk_level:
-authority_impact:
-governance_tier:
-readiness_impact:
-execution_linked: false
+AUTHORITY VIOLATION
+
+Authority boundary crossed.
+
+EXECUTION VIOLATION
+
+Execution safety model broken.
+
+REGISTRY VIOLATION
+
+Registry ownership or mutation breach.
+
+TASK VIOLATION
+
+Task lifecycle inconsistency.
+
+AGENT VIOLATION
+
+Agent behavior outside definition.
+
+GOVERNANCE VIOLATION
+
+Governance evaluation bypassed.
+
+INTEGRITY VIOLATION
+
+Structural consistency issue.
+
+OBSERVABILITY VIOLATION
+
+Loss of visibility.
+
+────────────────────────────────
+
+GOVERNANCE DECISION CATEGORIES
+
+Future governance decisions may fall into:
+
+ALLOW
+
+No violation detected.
+
+WARN
+
+Non-blocking issue detected.
+
+REVIEW
+
+Human review required.
+
+BLOCK (FUTURE)
+
+Execution must not proceed.
+
+ESCALATE
+
+Requires operator attention.
+
+IGNORE
+
+Informational only.
+
+NOTE:
+
+BLOCK remains theoretical until enforcement phases.
+
+────────────────────────────────
+
+CLASSIFICATION STRUCTURE MODEL
+
+Future constraint structure may include:
+
+Constraint ID
+Category
+Severity
+Evaluation Type
+Violation Class
+Decision Category
+Human Impact Level
+System Impact Level
 
 Example:
 
-constraint_id: GOV-CONSTRAINT-021
-functional_type: Execution Gate
-risk_level: CRITICAL
-authority_impact: BLOCKING
-governance_tier: Tier 2
-readiness_impact: BLOCKING
-execution_linked: false
+ID: GOV-TASK-004
+CATEGORY: Task Lifecycle
+SEVERITY: HIGH
+EVALUATION: DECLARATIVE
+VIOLATION: TASK VIOLATION
+DECISION: REVIEW
+
+Documentation only.
 
 ────────────────────────────────
 
-CLASSIFICATION SAFETY RULES
+SAFETY DECLARATION
 
-Classification must remain:
+No enforcement introduced.
+No runtime behavior changed.
+No telemetry changes.
+No reducers.
+No workers.
+No policy engines.
+No mutation surfaces.
 
-Read only
-Documentation driven
+System remains:
+
 Deterministic
-Human interpretable
-Non executable
-
-Classification must never:
-
-Trigger enforcement
-Modify authority
-Grant permissions
-Drive runtime behavior
+Governance-first
+Execution-gated
+Human-authority preserved
 
 ────────────────────────────────
 
-FUTURE TRANSLATION ORDER
+NEXT SAFE MODELING TARGET
 
-Constraint classification must exist before:
+Phase 247.2 candidate:
 
-Governance registry indexing model
-Governance readiness modeling
-Governance maturity modeling
-Enforcement translation planning
+Governance Evaluation Semantics Model
 
-Translation path:
+Goal:
 
-Constraint definition
-→ Evaluation semantics
-→ Registry structure
-→ Visibility mapping
-→ Prerequisite verification
-→ Classification model
-→ Registry indexing
-→ Readiness modeling
-→ Enforcement translation
-→ Execution readiness discussion
+Define how governance determines:
 
-────────────────────────────────
+Pass
+Fail
+Review
+Escalation triggers
 
-NEXT DOCUMENTATION TARGETS
-
-Governance registry indexing model
-Governance readiness modeling
-Governance maturity modeling
-Governance classification index
-Governance maturity indicators
+Still documentation-only.
 
