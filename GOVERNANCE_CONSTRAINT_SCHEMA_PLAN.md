@@ -1,196 +1,178 @@
-GOVERNANCE CONSTRAINT SCHEMA — MACHINE READABLE PLANNING (Phase 192 Draft)
+STATE CONTINUATION — GOVERNANCE ENFORCEMENT PREPARATION
 
-Purpose:
-
-Define the structural schema that will eventually allow governance doctrine to become machine-readable without enabling execution authority.
-
-Scope:
-
-Documentation only.
-No runtime wiring.
-No execution linkage.
-No mutation capability.
+(Post-Phase 247 planning artifact)
 
 ────────────────────────────────
 
-DESIGN GOALS
+PURPOSE
 
-Constraints must be:
+Prepare machine-readable governance translation without introducing execution authority.
+
+This document defines the first enforcement translation surface:
+
+Governance Constraint Schema
+
+This remains:
+
+Read-only
+Non-enforcing
+Non-executing
+Documentation-only
+
+This is a modeling step only.
+
+────────────────────────────────
+
+OBJECTIVE
+
+Convert governance doctrine into structured constraint categories that can later become enforcement rules.
+
+Focus:
+
+Define WHAT must be enforced
+Not HOW enforcement executes
+
+No runtime wiring permitted.
+
+────────────────────────────────
+
+GOVERNANCE CONSTRAINT CATEGORIES (INITIAL MODEL)
+
+Authority Constraints
+
+Prevent system self-authorization
+Prevent agent authority escalation
+Require human initiation of execution
+Protect operator override capability
+
+Execution Constraints
+
+Execution cannot occur without governance pass
+Execution cannot expand scope
+Execution must remain task-bounded
+Execution must remain reversible
+
+Registry Constraints
+
+Registry cannot self-modify
+Agents cannot mutate registry
+Registry ownership must remain human
+Registry reads allowed / writes restricted
+
+Task Lifecycle Constraints
+
+Tasks must originate from operator or approved routing
+Tasks cannot change intent post-creation
+Tasks must terminate deterministically
+Tasks must remain observable
+
+Agent Behavioral Constraints
+
+Agents cannot self-spawn
+Agents cannot self-upgrade
+Agents cannot change role definition
+Agents cannot request execution authority
+
+Operator Protection Constraints
+
+Operator intent cannot be overridden
+Operator visibility cannot be reduced
+Operator must remain final authority
+Operator intervention must remain possible
+
+Governance Constraints
+
+Governance must evaluate before execution
+Governance must remain read-only
+Governance must never mutate runtime state
+Governance must remain deterministic
+
+────────────────────────────────
+
+CONSTRAINT STRUCTURE MODEL
+
+Future machine-readable representation may follow structure:
+
+Constraint ID
+Constraint Category
+Constraint Statement
+Affected Surface
+Required Condition
+Violation Condition
+Expected Response
+Severity Level
+
+Example model:
+
+CONSTRAINT_ID: GOV-AUTH-001
+CATEGORY: Authority
+RULE: System cannot self authorize execution
+SURFACE: Execution layer
+CONDITION: Execution requires operator trigger
+VIOLATION: Autonomous execution detected
+RESPONSE: Block execution (future)
+SEVERITY: CRITICAL
+
+This is documentation only.
+
+No enforcement logic introduced.
+
+────────────────────────────────
+
+NEXT GOVERNANCE MODELING STEPS
+
+Safe planning corridor:
+
+Governance constraint schema expansion
+Constraint classification model
+Governance evaluation semantics
+Governance prerequisite mapping
+Enforcement translation planning
+
+Still prohibited:
+
+Runtime enforcement
+Execution integration
+Worker gating
+Policy wiring
+Mutation controls
+
+────────────────────────────────
+
+SAFETY DECLARATION
+
+This phase introduces:
+
+No runtime changes
+No reducers
+No telemetry changes
+No execution capability
+No registry mutation
+No operator tooling
+
+This is a cognition layer only.
+
+System remains:
 
 Deterministic
-Machine readable
-Human auditable
-Execution isolated
-Authority preserving
-Composable
-Versionable
-
-Constraints must NOT:
-
-Trigger execution
-Grant permissions
-Mutate registry
-Authorize actions
-Bypass governance layers
+Governance-first
+Execution-gated
+Human-authority preserved
 
 ────────────────────────────────
 
-CONSTRAINT TIERS
+NEXT SAFE PHASE TARGET
 
-Tier 0 — Documentation Constraints
+Phase 247 candidate:
 
-Purpose:
-Human readable doctrine translation.
+Governance Constraint Classification Model
 
-Examples:
+Goal:
 
-Execution requires approval
-Mutation requires authority confirmation
-Operator visibility must remain read-only
+Define severity levels
+Define evaluation types
+Define violation classes
+Define governance decision categories
 
-Form:
-
-statement_id
-description
-risk_class
-authority_level
-
-Tier 1 — Structural Constraints
-
-Purpose:
-Define system invariants.
-
-Examples:
-
-Registry must have single runtime owner
-Execution cannot occur without governance approval state
-Dashboard cannot mutate runtime state
-
-Form:
-
-constraint_id
-invariant_type
-applies_to
-violation_condition
-detection_method
-
-Tier 2 — Governance Preconditions
-
-Purpose:
-Define what must exist before execution discussion.
-
-Examples:
-
-Approval model present
-Audit model present
-Rollback model present
-Threat model present
-Failure recovery defined
-
-Form:
-
-prerequisite_id
-required_component
-verification_source
-status_field
-
-Tier 3 — Future Enforcement Translation (NOT ACTIVE)
-
-Purpose:
-Prepare shape of enforcement logic without enabling it.
-
-Examples:
-
-IF execution_requested
-THEN governance_check_required
-
-Form:
-
-constraint_id
-trigger_type
-evaluation_rule
-blocked_outcome
-allowed_outcome
-
-NOTE:
-
-These remain documentation artifacts only.
-
-────────────────────────────────
-
-CONSTRAINT OBJECT SHAPE (PLANNING)
-
-Proposed deterministic format:
-
-Constraint:
-
-id:
-type:
-tier:
-description:
-applies_to:
-authority_required:
-risk_level:
-violation_signal:
-detection_source:
-human_override_possible:
-execution_linked: false
-
-Example:
-
-id: GOV-CONSTRAINT-001
-type: execution_gate
-tier: 2
-description: Execution requires governance readiness
-applies_to: execution_capabilities
-authority_required: human
-risk_level: critical
-violation_signal: governance_prerequisite_missing
-detection_source: governance_registry
-human_override_possible: true
-execution_linked: false
-
-────────────────────────────────
-
-EVALUATION SEMANTICS (PLANNING ONLY)
-
-Constraints evaluate as:
-
-PASS
-BLOCKED
-UNDEFINED
-NOT_APPLICABLE
-
-NEVER:
-
-EXECUTE
-AUTHORIZE
-MUTATE
-
-Evaluation remains cognition only.
-
-────────────────────────────────
-
-GOVERNANCE SAFETY RULE
-
-Before any enforcement discussion:
-
-All constraints must remain:
-
-Read only
-Non executable
-Non binding
-Human interpreted
-
-Translation must precede enforcement.
-
-────────────────────────────────
-
-NEXT DOCUMENTATION TARGETS
-
-Governance evaluation semantics
-Constraint registry structure
-Governance visibility mapping
-Prerequisite verification definitions
-Constraint classification model
+This prepares enforcement translation safely.
 
