@@ -1,238 +1,220 @@
-STATE CONTINUATION — GOVERNANCE COGNITION CONFIDENCE MODEL
+GOVERNANCE COGNITION CONFIDENCE MODEL
+Phase 249.7
 
-(Phase 249.3 planning artifact)
+Purpose:
+Define how governance expresses confidence without implying authority, certainty, or execution validity.
 
-────────────────────────────────
-
-PURPOSE
-
-Define how governance cognition should express confidence in its own evaluations.
-
-This establishes confidence semantics only.
-
-No runtime behavior.
-No UI implementation.
-No execution interaction.
-
-Documentation-only modeling.
+Confidence must communicate signal quality, not decision correctness.
 
 ────────────────────────────────
 
-CONFIDENCE OBJECTIVE
+FOUNDATIONAL PRINCIPLE
 
-Governance should communicate not only:
+Confidence measures:
 
-What it believes
+Signal reliability.
+Data completeness.
+Rule determinism.
 
-But also:
+Confidence does NOT measure:
 
-How certain it is.
+Correctness of operator decision.
+Execution safety.
+System approval.
 
-Confidence allows operator to understand:
-
-Evaluation reliability
-Information completeness
-Risk of uncertainty
-
-Governance must remain honest about uncertainty.
-
-────────────────────────────────
-
-CONFIDENCE PRINCIPLE
-
-Governance must never present uncertain evaluations as certain.
-
-Uncertainty must be visible.
-
-Confidence must reflect:
-
-Signal completeness
-Observability quality
-Evaluation clarity
-Dependency stability
-
-Confidence improves safe decision making.
+Governance expresses confidence.
+Operator retains authority.
 
 ────────────────────────────────
 
-PROPOSED CONFIDENCE LEVELS
+CONFIDENCE MODEL STRUCTURE
+
+Governance confidence consists of four components:
+
+Signal Quality
+Data Completeness
+Rule Strength
+Stability Over Time
+
+Confidence is derived from these dimensions.
+
+Confidence must remain explainable.
+
+────────────────────────────────
+
+CONFIDENCE LEVEL DEFINITIONS
 
 HIGH CONFIDENCE
 
+Conditions:
+
+Deterministic rule satisfied
+Complete telemetry present
+No conflicting signals
+Stable observations
+
 Meaning:
 
-All required signals present.
-No ambiguity.
-Deterministic evaluation.
+Signals strongly support advisory.
 
-Examples:
+Safe output example:
 
-SYSTEM_SAFE with full observability.
-AUTHORITY_CONFIRMED.
-
-Operator meaning:
-
-Governance assessment highly reliable.
+"High confidence advisory based on deterministic policy match."
 
 ────────────────────────────────
 
-MODERATE CONFIDENCE
+MEDIUM CONFIDENCE
+
+Conditions:
+
+Strong signals present
+Minor gaps exist
+No major contradictions
 
 Meaning:
 
-Minor uncertainty present.
-Evaluation mostly complete.
+Advisory likely useful but incomplete.
 
-Examples:
+Safe output example:
 
-Minor observability drift.
-Single non-critical unknown.
-
-Operator meaning:
-
-Governance assessment reliable but not perfect.
+"Medium confidence advisory based on available telemetry."
 
 ────────────────────────────────
 
 LOW CONFIDENCE
 
+Conditions:
+
+Incomplete telemetry
+Conflicting signals
+Partial rule evaluation
+
 Meaning:
 
-Significant unknowns present.
+Governance insight uncertain.
 
-Examples:
+Safe output example:
 
-PREREQUISITE_UNKNOWN.
-Missing telemetry signals.
-
-Operator meaning:
-
-Governance cannot fully guarantee assessment.
+"Low confidence advisory due to incomplete inputs."
 
 ────────────────────────────────
 
 UNKNOWN CONFIDENCE
 
+Conditions:
+
+Missing critical data
+Telemetry unavailable
+Policy cannot evaluate
+
 Meaning:
 
-Governance lacks required signals.
+Governance cannot assess reliably.
 
-Examples:
+Safe output example:
 
-Telemetry unavailable.
-Evaluation incomplete.
-
-Operator meaning:
-
-Assessment uncertain.
-Treat cautiously.
+"Confidence unknown due to insufficient data."
 
 ────────────────────────────────
 
-CONFIDENCE INPUT FACTORS
+CONFIDENCE EXPRESSION RULES
 
-Confidence may conceptually depend on:
+Governance must:
 
-Signal completeness
-Signal consistency
-Prerequisite clarity
-Observability coverage
-Evaluation determinism
+Attach confidence to advisory outputs.
+Avoid absolute language unless deterministic.
+Expose uncertainty where present.
 
-Documentation semantics only.
+Governance must never:
 
-────────────────────────────────
+Claim certainty without deterministic rule.
+Suppress uncertainty.
+Frame confidence as authority.
 
-CONFIDENCE SAFETY PRINCIPLE
+Confidence must always be:
 
-Lower confidence must never appear safer than higher confidence.
-
-Example:
-
-LOW CONFIDENCE SYSTEM_SAFE
-
-Should never appear safer than:
-
-HIGH CONFIDENCE SYSTEM_SAFE
-
-Confidence modifies interpretation.
+Transparent
+Proportional
+Explainable
+Non-directive
 
 ────────────────────────────────
 
-CONFIDENCE PRESENTATION PRINCIPLE
+CONFIDENCE DEGRADATION RULES
 
-Confidence should be expressed as:
+Confidence must automatically degrade when:
 
-High confidence
-Moderate confidence
-Low confidence
-Unknown confidence
+Telemetry gaps appear
+Signal conflicts arise
+Data freshness declines
+Rule coverage incomplete
 
-Not numeric precision.
+Confidence must never increase without:
 
-Human-readable preferred.
+Additional signals
+Improved data completeness
+Deterministic rule satisfaction
 
-────────────────────────────────
-
-CONFIDENCE INTERPRETATION RULE
-
-Operator should interpret:
-
-High confidence → strong trust
-Moderate → reasonable trust
-Low → cautious interpretation
-Unknown → assume uncertainty
-
-Governance informs.
-Operator decides.
+Confidence must be conservative.
 
 ────────────────────────────────
 
 CONFIDENCE SAFETY RULE
 
-Confidence must never:
+When confidence decreases:
 
-Trigger execution
-Modify tasks
-Modify registry
-Command agents
-Override operator authority
+Governance must increase transparency.
 
-Confidence is cognition support only.
+Governance must reduce recommendation strength.
 
-────────────────────────────────
+Operator decision weight increases.
 
-SAFETY DECLARATION
-
-This phase introduces:
-
-No runtime logic
-No reducers
-No telemetry wiring
-No worker integration
-No registry interaction
-No execution behavior
-No UI implementation
-No policy engines
-
-System remains:
-
-Deterministic
-Governance-first
-Execution-gated
-Human-authority preserved
+System must bias toward human judgment.
 
 ────────────────────────────────
 
-NEXT SAFE MODELING TARGET
+CONFIDENCE LANGUAGE CONSTRAINTS
 
-Phase 249.4 candidate:
+Allowed language:
 
-Governance Cognition Transparency Model
+"Advisory"
+"Signal suggests"
+"Based on available telemetry"
+"Confidence level"
 
-Goal:
+Disallowed language:
 
-Define how governance remains explainable and auditable to operators.
+"Required"
+"Must"
+"System determined"
+"Action needed"
 
-Documentation-only continuation.
+Governance remains advisory.
+
+────────────────────────────────
+
+ARCHITECTURAL OUTCOME
+
+Governance confidence now modeled as:
+
+Signal calibration layer
+Uncertainty communication layer
+Advisory reliability indicator
+Non-authoritative guidance metric
+
+Confidence cannot:
+
+Authorize action
+Block workflows
+Imply enforcement
+
+Confidence exists only to inform operator cognition.
+
+────────────────────────────────
+
+NEXT GOVERNANCE TARGETS
+
+Phase 249.8 — Governance Explainability Model
+Phase 249.9 — Governance Constraint Schema Model
+Phase 250 — Governance Enforcement Translation Preparation
 
