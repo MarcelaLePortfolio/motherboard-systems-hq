@@ -1,270 +1,237 @@
-STATE CONTINUATION — GOVERNANCE ENFORCEMENT PREPARATION
+# GOVERNANCE EVALUATION SEMANTICS MODEL
+Phase 250
 
-(Post-Phase 247.2 planning artifact)
+## PURPOSE
 
-────────────────────────────────
+Define how governance evaluates constraint schemas without granting enforcement or execution authority.
 
-PURPOSE
+This model defines how signals are interpreted safely and deterministically.
 
-Define how governance evaluation decisions are determined before any enforcement exists.
+---
 
-This document defines semantic meaning only.
+## CORE RULE
 
-No runtime behavior.
-No enforcement.
-No policy wiring.
+Evaluation produces awareness, not action.
 
-Documentation layer only.
+Governance may evaluate.
 
-────────────────────────────────
+Governance may never execute.
 
-GOVERNANCE EVALUATION OBJECTIVE
+Governance may never mutate runtime state.
 
-Governance evaluation must eventually answer:
+---
 
-Is the system operating within defined safety doctrine?
+## EVALUATION INPUTS
 
-Evaluation must remain:
+Evaluation may only use:
 
-Deterministic
-Explainable
-Auditable
-Human interpretable
+Telemetry signals  
+Registry state  
+Task lifecycle state  
+Agent state  
+Constraint schemas  
+Governance doctrine  
 
-Governance must never:
+Never allowed:
 
-Execute
-Mutate
-Authorize
-Block directly
+Intent inference  
+Behavior prediction  
+Heuristic reasoning  
+Probability guessing  
 
-Governance only evaluates.
+Evaluation must remain deterministic.
 
-────────────────────────────────
+---
 
-CORE EVALUATION OUTCOMES
+## SIGNAL INTERPRETATION RULE
 
-PASS
+Signals must be interpreted exactly as defined.
 
-All constraints satisfied.
+Never allowed:
 
-Meaning:
+Signal reinterpretation  
+Meaning expansion  
+Context invention  
 
-System operating within doctrine.
-No review required.
+If signal unclear:
 
-Future interpretation:
+Governance must mark:
 
-Execution eligibility remains possible.
+SIGNAL AMBIGUOUS
 
-FAIL
+Confidence must downgrade.
 
-Critical constraint violated.
+---
 
-Meaning:
+## EVALUATION OUTPUT STATES
 
-System safety boundary breached.
+Evaluation must only produce:
 
-Future interpretation:
+COMPLIANT  
+NON-COMPLIANT  
+INSUFFICIENT SIGNAL  
+SIGNAL CONFLICT  
+OUT OF SCOPE  
 
-Execution must not proceed.
+No additional states allowed.
 
-REVIEW
+---
 
-Uncertain or incomplete evaluation.
+## OUTPUT DEFINITIONS
 
-Meaning:
+COMPLIANT:
 
-Governance cannot determine safe status.
+Signals match constraint expectations.
 
-Future interpretation:
+NON-COMPLIANT:
 
-Human review required.
+Signals violate constraint structure.
 
-WARN
+INSUFFICIENT SIGNAL:
 
-Non-critical deviation detected.
+Missing required inputs.
 
-Meaning:
+SIGNAL CONFLICT:
 
-System remains safe but drift observed.
+Signals disagree.
 
-Future interpretation:
+OUT OF SCOPE:
 
-Execution may proceed with awareness.
+Constraint not applicable.
 
-ESCALATE
+---
 
-Human attention required.
+## OUTPUT SAFETY RULE
 
-Meaning:
+Evaluation outputs must never:
 
-Potential safety or authority concern.
+Trigger enforcement.
 
-Future interpretation:
+Outputs only inform governance visibility layer.
 
-Operator awareness required before continuation.
+---
 
-INFO
+## EVALUATION STRUCTURE
 
-Observation only.
+Each evaluation must include:
 
-Meaning:
+Constraint ID  
+Input signals  
+Evaluation result  
+Confidence tier  
+Explanation reference  
+Operator visibility requirement  
 
-No action required.
+Example:
 
-────────────────────────────────
+CONSTRAINT:
+AUTHORITY_001
 
-EVALUATION SIGNAL SOURCES (MODEL ONLY)
+INPUT:
+Registry mutation request
 
-Future governance evaluation may reference:
+RESULT:
+NON-COMPLIANT
 
-Task lifecycle signals
-Registry structure state
-Agent role definitions
-Authority flow mappings
-Governance doctrine definitions
-Observability completeness
-Execution prerequisite models
+CONFIDENCE:
+HIGH
 
-No signal wiring introduced here.
+VISIBILITY:
+Operator alert required.
 
-────────────────────────────────
+---
 
-EVALUATION LOGIC MODEL
+## SIGNAL LIMIT RULE
 
-Governance evaluation should follow deterministic sequence:
+Governance may only evaluate:
 
-1 Constraint identified
-2 Constraint evaluated
-3 Violation classification determined
-4 Severity mapped
-5 Evaluation outcome assigned
-6 Governance decision categorized
+Present signals.
 
-Example flow:
+Never allowed:
 
-Constraint:
-Execution requires operator trigger.
+Future prediction  
+Behavior modeling  
+Pattern inference  
 
-Observed:
-Execution attempt without operator.
+Evaluation must remain present-state only.
 
-Result:
+---
 
-Violation class:
-AUTHORITY VIOLATION
+## CONFLICT HANDLING RULE
 
-Severity:
-CRITICAL
+If signals conflict:
 
-Outcome:
-FAIL
+Evaluation must output:
 
-Decision category:
-ESCALATE (future BLOCK)
+SIGNAL CONFLICT
 
-Documentation only.
+Governance must:
 
-────────────────────────────────
+Downgrade confidence  
+Inform operator  
+Provide no resolution  
 
-ESCALATION SEMANTICS
+Operator decides resolution.
 
-Escalation indicates:
+---
 
-Human awareness required.
-Not automatic system action.
+## CONFIDENCE INTERLOCK
 
-Future governance may recommend:
+Evaluation confidence must depend on:
 
-Operator review
-System pause recommendation
-Execution deferral recommendation
+Signal completeness  
+Signal agreement  
+Doctrine clarity  
 
-Governance does not act.
+Confidence must drop if:
 
-Governance informs.
+Signals missing  
+Signals conflict  
+Doctrine unclear  
 
-────────────────────────────────
+Confidence must never rise without new signals.
 
-REVIEW SEMANTICS
+---
 
-Review indicates:
+## VALIDATION PREPARATION RULE
 
-Incomplete information
-Ambiguous classification
-Conflicting signals
+Evaluation prepares:
 
-Future behavior may require:
+Future validation logic.
 
-Human interpretation
-Governance re-evaluation
-Additional observability
+Evaluation does NOT perform:
 
-Governance remains advisory.
+Blocking  
+Execution gating  
+Task mutation  
 
-────────────────────────────────
+Evaluation prepares structure only.
 
-FAIL SEMANTICS
+---
 
-Fail indicates:
+## SAFETY GUARANTEE
 
-Clear violation of safety doctrine.
+Evaluation layer must remain:
 
-Future enforcement translation may:
+Read-only  
+Deterministic  
+Authority preserving  
+Execution isolated  
 
-Block execution
-Require operator decision
-Require remediation
+---
 
-Still documentation only.
+## NEXT MODEL TARGET
 
-────────────────────────────────
+Next governance model:
 
-PASS SEMANTICS
+Governance Enforcement Gate Model
 
-Pass indicates:
+Will define:
 
-Governance constraints satisfied.
+Validation vs blocking separation  
+Enforcement staging logic  
+Operator override preservation  
+Execution introduction prerequisites  
 
-Future interpretation:
-
-Execution eligibility possible (not automatic).
-
-Human authority still required.
-
-────────────────────────────────
-
-SAFETY DECLARATION
-
-This phase introduces:
-
-No runtime logic
-No reducers
-No telemetry changes
-No execution integration
-No worker interaction
-No registry mutation
-No operator tooling
-
-System remains:
-
-Deterministic
-Governance-first
-Execution-gated
-Human-authority preserved
-
-────────────────────────────────
-
-NEXT SAFE MODELING TARGET
-
-Phase 247.3 candidate:
-
-Governance Prerequisite Verification Model
-
-Goal:
-
-Define what must be true before execution is ever considered safe.
-
-This remains documentation-only.
+Phase 251 target.
 
