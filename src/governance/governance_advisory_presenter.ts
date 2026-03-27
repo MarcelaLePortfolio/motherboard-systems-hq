@@ -1,113 +1,82 @@
 /*
-Phase 292 — Governance Advisory Presentation Layer
-
-Purpose:
-Provide deterministic formatting structures for operator-readable
-governance advisory output.
-
-SAFETY:
-
-Read-only
-Pure formatting layer
-No runtime wiring
-No reducers
-No execution interaction
-No mutation capability
+Phase 293 — Governance Advisory Presenter
+Deterministic presentation builder (read-only cognition layer)
+No routing
+No execution
+No mutation
 */
 
-import {
-  GovernanceAdvisorySignal,
-  GovernanceSeverity
-} from "./governance_advisory_contract";
-
-export interface GovernancePresentationGroup {
-
-  severity: GovernanceSeverity;
-
-  signals: GovernanceAdvisorySignal[];
-
-  count: number;
-
+export type GovernanceSignal = {
+  id: string
+  severity: string
 }
 
-export interface GovernancePresentationReport {
-
-  generated_at: string;
-
-  groups: GovernancePresentationGroup[];
-
-  total_signals: number;
-
+export type GovernanceSeverityGroup = {
+  severity: string
+  count: number
+  signals: GovernanceSignal[]
 }
 
-const severityOrder: GovernanceSeverity[] = [
+export type GovernancePresentation = {
+  total_signals: number
+  groups: GovernanceSeverityGroup[]
+}
+
+const SEVERITY_ORDER = [
   "critical",
   "risk",
   "warning",
-  "notice",
   "info"
-];
+]
 
 export function groupSignalsBySeverity(
-  signals: GovernanceAdvisorySignal[]
-): GovernancePresentationGroup[] {
+  signals: GovernanceSignal[]
+): GovernanceSeverityGroup[] {
 
-  const map = new Map<GovernanceSeverity, GovernanceAdvisorySignal[]>();
-
-  for (const severity of severityOrder) {
-    map.set(severity, []);
-  }
+  const map = new Map<string, GovernanceSignal[]>()
 
   for (const signal of signals) {
 
-    const bucket = map.get(signal.severity);
-
-    if (bucket) {
-      bucket.push(signal);
+    if (!map.has(signal.severity)) {
+      map.set(signal.severity, [])
     }
+
+    map.get(signal.severity)!.push(signal)
 
   }
 
-  const groups: GovernancePresentationGroup[] = [];
+  const groups: GovernanceSeverityGroup[] = []
 
-  for (const severity of severityOrder) {
-
-    const bucket = map.get(severity)!;
-
-    if (bucket.length === 0) {
-      continue;
-    }
+  for (const [severity, items] of map.entries()) {
 
     groups.push({
-
       severity,
-
-      signals: bucket,
-
-      count: bucket.length
-
-    });
+      count: items.length,
+      signals: items
+    })
 
   }
 
-  return groups;
+  groups.sort((a,b) => {
+    return (
+      SEVERITY_ORDER.indexOf(a.severity)
+      - SEVERITY_ORDER.indexOf(b.severity)
+    )
+  })
+
+  return groups
 
 }
 
 export function buildGovernancePresentation(
-  signals: GovernanceAdvisorySignal[]
-): GovernancePresentationReport {
+  signals: GovernanceSignal[]
+): GovernancePresentation {
 
-  const groups = groupSignalsBySeverity(signals);
+  const groups = groupSignalsBySeverity(signals)
 
   return {
-
-    generated_at: new Date().toISOString(),
-
-    groups,
-
-    total_signals: signals.length
-
-  };
+    total_signals: signals.length,
+    groups
+  }
 
 }
