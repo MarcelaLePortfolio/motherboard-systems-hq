@@ -1,220 +1,228 @@
-GOVERNANCE COGNITION CONFIDENCE MODEL
+# GOVERNANCE COGNITION CONFIDENCE MODEL
 Phase 249.7
 
-Purpose:
-Define how governance expresses confidence without implying authority, certainty, or execution validity.
+## PURPOSE
 
-Confidence must communicate signal quality, not decision correctness.
+Define how governance cognition measures confidence, how confidence affects behavior, and how confidence degradation must safely reduce governance influence.
 
-────────────────────────────────
+This model follows Phase 249.6 failure modeling.
 
-FOUNDATIONAL PRINCIPLE
+---
 
-Confidence measures:
+## CORE RULE
 
-Signal reliability.
-Data completeness.
-Rule determinism.
+Confidence controls governance influence.
 
-Confidence does NOT measure:
+Higher confidence:
+Allows structured validation signals.
 
-Correctness of operator decision.
-Execution safety.
-System approval.
+Lower confidence:
+Reduces governance influence.
 
-Governance expresses confidence.
-Operator retains authority.
+Zero confidence:
+Governance becomes advisory only.
 
-────────────────────────────────
+Governance confidence must never increase authority.
 
-CONFIDENCE MODEL STRUCTURE
+Confidence only reduces influence.
 
-Governance confidence consists of four components:
+---
 
-Signal Quality
-Data Completeness
-Rule Strength
-Stability Over Time
+## CONFIDENCE TIERS
 
-Confidence is derived from these dimensions.
-
-Confidence must remain explainable.
-
-────────────────────────────────
-
-CONFIDENCE LEVEL DEFINITIONS
-
-HIGH CONFIDENCE
+Tier 5 — HIGH CONFIDENCE
 
 Conditions:
 
-Deterministic rule satisfied
-Complete telemetry present
-No conflicting signals
-Stable observations
+• Complete telemetry present
+• Doctrine alignment confirmed
+• No signal conflict
+• Schema certainty verified
 
-Meaning:
+Governance behavior:
 
-Signals strongly support advisory.
+• May validate structure
+• May flag risk
+• May recommend operator review
 
-Safe output example:
+Never allowed:
 
-"High confidence advisory based on deterministic policy match."
+• Blocking execution
+• Authority expansion
+• Behavioral interpretation
 
-────────────────────────────────
+---
 
-MEDIUM CONFIDENCE
-
-Conditions:
-
-Strong signals present
-Minor gaps exist
-No major contradictions
-
-Meaning:
-
-Advisory likely useful but incomplete.
-
-Safe output example:
-
-"Medium confidence advisory based on available telemetry."
-
-────────────────────────────────
-
-LOW CONFIDENCE
+Tier 4 — MODERATE CONFIDENCE
 
 Conditions:
 
-Incomplete telemetry
-Conflicting signals
-Partial rule evaluation
+• Minor signal gaps
+• Minor ambiguity
+• Partial doctrine mapping
 
-Meaning:
+Governance behavior:
 
-Governance insight uncertain.
+• Inform operator
+• Flag possible risk
+• Mark MODERATE CONFIDENCE
 
-Safe output example:
+Restrictions:
 
-"Low confidence advisory due to incomplete inputs."
+• No validation escalation
+• No enforcement recommendation
 
-────────────────────────────────
+---
 
-UNKNOWN CONFIDENCE
+Tier 3 — LOW CONFIDENCE
 
 Conditions:
 
-Missing critical data
-Telemetry unavailable
-Policy cannot evaluate
+• Missing signals
+• Uncertain doctrine mapping
+• Possible interpretation gaps
 
-Meaning:
+Governance behavior:
 
-Governance cannot assess reliably.
+• Inform only
+• Mark LOW CONFIDENCE
+• Provide uncertainty explanation
 
-Safe output example:
+Restrictions:
 
-"Confidence unknown due to insufficient data."
+• No validation
+• No structural recommendation
+• No risk classification escalation
 
-────────────────────────────────
+---
 
-CONFIDENCE EXPRESSION RULES
+Tier 2 — VERY LOW CONFIDENCE
 
-Governance must:
+Conditions:
 
-Attach confidence to advisory outputs.
-Avoid absolute language unless deterministic.
-Expose uncertainty where present.
+• Significant missing context
+• Conflicting signals
+• Model uncertainty
 
-Governance must never:
+Governance behavior:
 
-Claim certainty without deterministic rule.
-Suppress uncertainty.
-Frame confidence as authority.
+Enter SAFE INFORM MODE:
 
-Confidence must always be:
+• Inform operator only
+• No conclusions
+• No recommendations
 
-Transparent
-Proportional
-Explainable
-Non-directive
+Restrictions:
 
-────────────────────────────────
+• No structural claims
+• No governance conclusions
+• No evaluation output beyond awareness
 
-CONFIDENCE DEGRADATION RULES
+---
 
-Confidence must automatically degrade when:
+Tier 1 — ZERO CONFIDENCE
 
-Telemetry gaps appear
-Signal conflicts arise
-Data freshness declines
-Rule coverage incomplete
+Conditions:
 
-Confidence must never increase without:
+• Governance cannot evaluate safely
+• Severe signal conflict
+• Missing doctrine alignment
 
-Additional signals
-Improved data completeness
-Deterministic rule satisfaction
+Governance behavior:
 
-Confidence must be conservative.
+Enter ADVISORY ONLY STATE:
 
-────────────────────────────────
+• Awareness only
+• No evaluation output
+• No interpretation
 
-CONFIDENCE SAFETY RULE
+Governance must state:
 
-When confidence decreases:
+CONFIDENCE INSUFFICIENT FOR EVALUATION
 
-Governance must increase transparency.
+---
 
-Governance must reduce recommendation strength.
+## CONFIDENCE DOWNGRADE RULE
 
-Operator decision weight increases.
+Confidence must automatically downgrade if:
 
-System must bias toward human judgment.
+• Signals disappear
+• Signals conflict
+• Schema uncertainty appears
+• Doctrine mapping unclear
+• Runtime drift detected
 
-────────────────────────────────
+Confidence may never auto-upgrade without new verified signals.
 
-CONFIDENCE LANGUAGE CONSTRAINTS
+---
 
-Allowed language:
+## CONFIDENCE EXPLAINABILITY RULE
 
-"Advisory"
-"Signal suggests"
-"Based on available telemetry"
-"Confidence level"
+Governance must always explain:
 
-Disallowed language:
+Why confidence is at current level.
 
-"Required"
-"Must"
-"System determined"
-"Action needed"
+Confidence output must include:
 
-Governance remains advisory.
+Confidence tier
+Reason
+Signal completeness state
+Conflict state
+Doctrine alignment state
 
-────────────────────────────────
+---
 
-ARCHITECTURAL OUTCOME
+## CONFIDENCE SAFETY RULE
 
-Governance confidence now modeled as:
+Confidence must never:
 
-Signal calibration layer
-Uncertainty communication layer
-Advisory reliability indicator
-Non-authoritative guidance metric
+Increase governance authority.
 
-Confidence cannot:
+Confidence only controls:
 
-Authorize action
-Block workflows
-Imply enforcement
+How much governance speaks,
+not what governance can do.
 
-Confidence exists only to inform operator cognition.
+Authority limits remain unchanged.
 
-────────────────────────────────
+---
 
-NEXT GOVERNANCE TARGETS
+## FAILURE INTERLOCK
 
-Phase 249.8 — Governance Explainability Model
-Phase 249.9 — Governance Constraint Schema Model
-Phase 250 — Governance Enforcement Translation Preparation
+If failure model (Phase 249.6) activates:
+
+Confidence must drop automatically.
+
+Failure always overrides confidence.
+
+Failure always reduces influence.
+
+---
+
+## OPERATOR PROTECTION RULE
+
+If confidence < Tier 4:
+
+Governance must clearly state:
+
+OPERATOR DECISION REQUIRED
+
+This preserves human authority visibility.
+
+---
+
+## NEXT MODEL TARGET
+
+Next governance cognition model:
+
+Governance Explainability Model
+
+Will define:
+
+Explanation structure
+Operator visibility formatting
+Governance reasoning exposure limits
+Explanation safety rules
+
+Phase 249.8 target.
 
