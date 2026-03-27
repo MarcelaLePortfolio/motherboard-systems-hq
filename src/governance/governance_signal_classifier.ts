@@ -1,10 +1,11 @@
 /*
-PHASE 287 — GOVERNANCE SIGNAL CLASSIFIER (FIRST CODE ARTIFACT)
+PHASE 288 — GOVERNANCE SIGNAL CLASSIFIER STRUCTURAL HARDENING
 
 Purpose:
-First safe governance module implementation.
+Strengthen the first governance code artifact without introducing runtime
+integration, execution influence, or mutation capability.
 
-This module is intentionally:
+This module remains:
 
 READ ONLY
 ADVISORY ONLY
@@ -34,118 +35,136 @@ Architecture rule:
 
 Pure function behavior only.
 
-Input → Classification → Output
+Input -> Classification -> Output
 
 No side effects allowed.
 */
 
-export type GovernanceSignal = {
+export type GovernanceSignalSource =
+    | "operator"
+    | "telemetry"
+    | "policy"
+    | "agent"
+    | "task"
 
+export type GovernanceSignalSeverity =
+    | "info"
+    | "notice"
+    | "caution"
+    | "risk"
+
+export type GovernanceSignal = {
     signal_id: string
     signal_type: string
-
-    source:
-
-        | "operator"
-        | "telemetry"
-        | "policy"
-        | "agent"
-        | "task"
-
-    severity:
-
-        | "info"
-        | "notice"
-        | "caution"
-        | "risk"
-
+    source: GovernanceSignalSource
+    severity: GovernanceSignalSeverity
     ts: number
-
     payload?: Record<string, unknown>
-
 }
 
+export type GovernanceClassificationLabel =
+    | "SAFE"
+    | "CAUTION"
+    | "RISK"
+    | "UNKNOWN"
+
+export type GovernanceClassificationReason =
+    | "MISSING_REQUIRED_FIELDS"
+    | "RISK_SIGNAL_DETECTED"
+    | "CAUTION_SIGNAL_DETECTED"
+    | "SAFE_SIGNAL_DETECTED"
+
 export type GovernanceClassification = {
-
-    classification:
-
-        | "SAFE"
-        | "CAUTION"
-        | "RISK"
-        | "UNKNOWN"
-
+    classification: GovernanceClassificationLabel
+    reason: GovernanceClassificationReason
     advisory_message: string
-
     governance_safe: true
+    deterministic: true
+}
 
+export type GovernanceAuditRecord = {
+    signal_id: string
+    signal_type: string
+    classification: GovernanceClassificationLabel
+    reason: GovernanceClassificationReason
+    ts: number
+    governance_safe: true
+}
+
+function hasRequiredSignalFields(
+    signal: GovernanceSignal | null | undefined
+): signal is GovernanceSignal {
+    return Boolean(
+        signal &&
+        signal.signal_id &&
+        signal.signal_type &&
+        signal.source &&
+        signal.severity &&
+        typeof signal.ts === "number"
+    )
 }
 
 export function classifyGovernanceSignal(
-    signal: GovernanceSignal
+    signal: GovernanceSignal | null | undefined
 ): GovernanceClassification {
-
     /*
-    Phase 287 rule:
+    Phase 288 rule:
 
     Deterministic classification only.
     No external access.
     No mutation.
+    No side effects.
     */
 
-    if (!signal || !signal.signal_type) {
-
+    if (!hasRequiredSignalFields(signal)) {
         return {
-
             classification: "UNKNOWN",
-
-            advisory_message:
-                "Signal missing required fields",
-
-            governance_safe: true
-
+            reason: "MISSING_REQUIRED_FIELDS",
+            advisory_message: "Signal missing required fields",
+            governance_safe: true,
+            deterministic: true
         }
-
     }
 
     if (signal.severity === "risk") {
-
         return {
-
             classification: "RISK",
-
-            advisory_message:
-                "Risk level governance signal detected",
-
-            governance_safe: true
-
+            reason: "RISK_SIGNAL_DETECTED",
+            advisory_message: "Risk level governance signal detected",
+            governance_safe: true,
+            deterministic: true
         }
-
     }
 
     if (signal.severity === "caution") {
-
         return {
-
             classification: "CAUTION",
-
-            advisory_message:
-                "Caution level governance signal detected",
-
-            governance_safe: true
-
+            reason: "CAUTION_SIGNAL_DETECTED",
+            advisory_message: "Caution level governance signal detected",
+            governance_safe: true,
+            deterministic: true
         }
-
     }
 
     return {
-
         classification: "SAFE",
-
-        advisory_message:
-            "Signal classified as safe",
-
-        governance_safe: true
-
+        reason: "SAFE_SIGNAL_DETECTED",
+        advisory_message: "Signal classified as safe",
+        governance_safe: true,
+        deterministic: true
     }
+}
 
+export function createGovernanceAuditRecord(
+    signal: GovernanceSignal | null | undefined,
+    classification: GovernanceClassification
+): GovernanceAuditRecord {
+    return {
+        signal_id: signal?.signal_id ?? "unknown-signal-id",
+        signal_type: signal?.signal_type ?? "unknown-signal-type",
+        classification: classification.classification,
+        reason: classification.reason,
+        ts: signal?.ts ?? 0,
+        governance_safe: true
+    }
 }
