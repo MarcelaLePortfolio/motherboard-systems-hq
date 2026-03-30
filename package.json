@@ -4,5 +4,8 @@
   "private": true,
   "scripts": {
     "verify:replay": "tsx scripts/_local/verification/check-replay-verification.ts"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
   }
 }
