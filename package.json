@@ -1,33 +1,8 @@
 {
-  "type": "module",
+  "name": "motherboard-systems-hq",
+  "version": "1.0.0",
+  "private": true,
   "scripts": {
-    "build:dashboard-bundle": "esbuild public/js/dashboard-bundle-entry.js --bundle --outfile=public/bundle.js --sourcemap",
-    "test:orchestration": "node --import tsx --test server/orchestration/*.test.ts",
-    "test": "bash ./scripts/phase42_scope_gate.sh && (echo \"(no test script)\" && exit 0)"
-  },
-  "devDependencies": {
-    "@types/better-sqlite3": "^7.6.13",
-    "@types/cors": "^2.8.19",
-    "@types/node": "^24.10.1",
-    "@types/uuid": "^10.0.0",
-    "drizzle-kit": "^0.31.8",
-    "esbuild": "^0.27.0",
-    "tsx": "^4.21.0",
-    "typescript": "^5.9.3"
-  },
-  "dependencies": {
-    "better-sqlite3": "^12.4.1",
-    "body-parser": "^2.2.0",
-    "chart.js": "^4.5.1",
-    "chokidar": "^4.0.3",
-    "cors": "^2.8.5",
-    "drizzle-orm": "^0.45.1",
-    "express": "^5.1.0",
-    "node-fetch": "^3.3.2",
-    "pg": "^8.16.3",
-    "proper-lockfile": "^4.1.2",
-    "serve": "^14.2.5",
-    "sqlite3": "^5.1.7",
-    "uuid": "^13.0.0"
+    "verify:replay": "tsx scripts/_local/verification/check-replay-verification.ts"
   }
 }
