@@ -1,8 +1,7 @@
 /*
-Phase 372 — Replay Fixture Runner (breadth expansion)
+Phase 372 — Replay Fixture Runner (boundary coverage expansion)
 
-Adds missing-sequence, missing-timestamp, and missing-type fixtures
-to deterministic proof coverage.
+Adds replay boundary fixtures to deterministic proof coverage.
 */
 
 import {
@@ -15,6 +14,8 @@ import {
   MISSING_SEQUENCE_FIXTURE,
   MISSING_TIMESTAMP_FIXTURE,
   MISSING_TYPE_FIXTURE,
+  MISSING_REPLAY_ID_FIXTURE,
+  MISSING_EVENTS_ARRAY_FIXTURE,
   ReplayFixture
 } from "./replay_fixture_library";
 
@@ -70,6 +71,16 @@ const FIXTURES: FixtureExpectation[] = [
   {
     name: "missing type",
     fixture: MISSING_TYPE_FIXTURE,
+    shouldPass: false
+  },
+  {
+    name: "missing replay id",
+    fixture: MISSING_REPLAY_ID_FIXTURE,
+    shouldPass: false
+  },
+  {
+    name: "missing events array",
+    fixture: MISSING_EVENTS_ARRAY_FIXTURE,
     shouldPass: false
   }
 ];

@@ -16,7 +16,9 @@ const EXPECTED: ExpectedDiagnostic[] = [
   { fixture: "missing field", codes: ["MISSING_ID"] },
   { fixture: "missing sequence", codes: ["MISSING_SEQUENCE"] },
   { fixture: "missing timestamp", codes: ["MISSING_TIMESTAMP"] },
-  { fixture: "missing type", codes: ["MISSING_TYPE"] }
+  { fixture: "missing type", codes: ["MISSING_TYPE"] },
+  { fixture: "missing replay id", codes: ["REPLAY_ID_MISSING"] },
+  { fixture: "missing events array", codes: ["REPLAY_EVENTS_ARRAY_MISSING"] }
 ];
 
 function main() {

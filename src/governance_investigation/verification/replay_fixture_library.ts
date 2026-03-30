@@ -1,5 +1,5 @@
 /*
-Phase 372 — Replay Fixture Library (breadth expansion)
+Phase 372 — Replay Fixture Library (boundary coverage expansion)
 
 Purpose:
 Provide deterministic fixtures for replay structure verification.
@@ -20,8 +20,8 @@ export type ReplayEvent = {
 };
 
 export type ReplayFixture = {
-  replayId: string;
-  events: ReplayEvent[];
+  replayId?: string;
+  events?: ReplayEvent[];
 };
 
 export const VALID_REPLAY_FIXTURE: ReplayFixture = {
@@ -137,4 +137,19 @@ export const MISSING_TYPE_FIXTURE: ReplayFixture = {
       timestamp: "2026-01-01T00:00:00.000Z"
     }
   ]
+};
+
+export const MISSING_REPLAY_ID_FIXTURE: ReplayFixture = {
+  events: [
+    {
+      id: "evt-1",
+      sequence: 1,
+      timestamp: "2026-01-01T00:00:00.000Z",
+      type: "TASK_CREATED"
+    }
+  ]
+};
+
+export const MISSING_EVENTS_ARRAY_FIXTURE: ReplayFixture = {
+  replayId: "fixture-missing-events-array"
 };
