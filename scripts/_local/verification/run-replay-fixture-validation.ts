@@ -1,27 +1,15 @@
 import { runReplayFixtureValidation } from "../../../src/governance_investigation/verification/replay_fixture_runner";
+import { summarizeReplayFixtureValidation } from "../../../src/governance_investigation/verification/replay_fixture_summary";
 
 const results = runReplayFixtureValidation();
-
-const failures = results.filter(result => !result.pass);
+const summary = summarizeReplayFixtureValidation(results);
 
 for (const result of results) {
   console.log(JSON.stringify(result));
 }
 
-if (failures.length > 0) {
-  console.error(
-    JSON.stringify({
-      ok: false,
-      failureCount: failures.length,
-      failures
-    })
-  );
+console.log(JSON.stringify(summary));
+
+if (!summary.ok) {
   process.exit(1);
 }
-
-console.log(
-  JSON.stringify({
-    ok: true,
-    fixtureCount: results.length
-  })
-);
