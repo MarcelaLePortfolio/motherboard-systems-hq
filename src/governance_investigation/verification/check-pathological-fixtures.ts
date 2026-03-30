@@ -1,9 +1,9 @@
 /*
-Phase 376 — Pathological Fixture Deterministic Ordering Proof
+Phase 394 — Pathological Fixture Diagnostic Module Resolution Hardening
 
 Purpose:
-Add deterministic ordering verification to ensure fixture stability.
-Prevents non-deterministic drift in verification results.
+Resolve diagnostic code module shape deterministically and fail clearly when
+the diagnostic registry is unavailable or malformed.
 
 Safety:
 Read-only verification.
@@ -12,10 +12,31 @@ No execution integration.
 */
 
 import { PATHOLOGICAL_REPLAY_FIXTURES } from "./replay_pathological_fixtures";
-import { REPLAY_VIOLATION_CODES } from "./replay_violation_codes";
+import * as replayViolationModule from "./replay_violation_codes";
+
+type ViolationCodeMap = Record<string, unknown>;
+
+function resolveViolationCodeMap(): ViolationCodeMap {
+  const candidates: unknown[] = [
+    (replayViolationModule as { REPLAY_VIOLATION_CODES?: unknown }).REPLAY_VIOLATION_CODES,
+    (replayViolationModule as { default?: unknown }).default,
+    replayViolationModule
+  ];
+
+  for (const candidate of candidates) {
+    if (candidate && typeof candidate === "object") {
+      return candidate as ViolationCodeMap;
+    }
+  }
+
+  console.error(
+    "[replay-pathological-check] Diagnostic code registry unavailable or malformed"
+  );
+  process.exit(1);
+}
 
 function assertDeterministicOrdering() {
-  const ids = PATHOLOGICAL_REPLAY_FIXTURES.map(f => f.id);
+  const ids = PATHOLOGICAL_REPLAY_FIXTURES.map((fixture) => fixture.id);
   const sorted = [...ids].sort();
 
   for (let i = 0; i < ids.length; i++) {
@@ -36,8 +57,10 @@ function main() {
 
   assertDeterministicOrdering();
 
+  const violationCodes = resolveViolationCodeMap();
+
   for (const fixture of PATHOLOGICAL_REPLAY_FIXTURES) {
-    if (!REPLAY_VIOLATION_CODES[fixture.expectedViolation]) {
+    if (!(fixture.expectedViolation in violationCodes)) {
       console.error(
         "[replay-pathological-check] Unknown violation code:",
         fixture.id,
@@ -52,7 +75,9 @@ function main() {
     process.exit(1);
   }
 
-  console.log("[replay-pathological-check] PASS: deterministic ordering + valid diagnostics");
+  console.log(
+    "[replay-pathological-check] PASS: deterministic ordering + valid diagnostics"
+  );
 }
 
 main();
