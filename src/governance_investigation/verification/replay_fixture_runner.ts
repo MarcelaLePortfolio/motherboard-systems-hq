@@ -1,7 +1,8 @@
 /*
-Phase 371 — Replay Fixture Runner (expanded coverage)
+Phase 372 — Replay Fixture Runner (breadth expansion)
 
-Adds missing-field fixture to deterministic proof set.
+Adds missing-sequence, missing-timestamp, and missing-type fixtures
+to deterministic proof coverage.
 */
 
 import {
@@ -11,6 +12,9 @@ import {
   EMPTY_EVENTS_FIXTURE,
   MALFORMED_TIMESTAMP_FIXTURE,
   MISSING_FIELD_FIXTURE,
+  MISSING_SEQUENCE_FIXTURE,
+  MISSING_TIMESTAMP_FIXTURE,
+  MISSING_TYPE_FIXTURE,
   ReplayFixture
 } from "./replay_fixture_library";
 
@@ -51,6 +55,21 @@ const FIXTURES: FixtureExpectation[] = [
   {
     name: "missing field",
     fixture: MISSING_FIELD_FIXTURE,
+    shouldPass: false
+  },
+  {
+    name: "missing sequence",
+    fixture: MISSING_SEQUENCE_FIXTURE,
+    shouldPass: false
+  },
+  {
+    name: "missing timestamp",
+    fixture: MISSING_TIMESTAMP_FIXTURE,
+    shouldPass: false
+  },
+  {
+    name: "missing type",
+    fixture: MISSING_TYPE_FIXTURE,
     shouldPass: false
   }
 ];

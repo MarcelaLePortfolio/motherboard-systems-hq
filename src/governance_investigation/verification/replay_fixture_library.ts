@@ -1,5 +1,5 @@
 /*
-Phase 371 — Replay Fixture Library (expanded)
+Phase 372 — Replay Fixture Library (breadth expansion)
 
 Purpose:
 Provide deterministic fixtures for replay structure verification.
@@ -102,6 +102,39 @@ export const MISSING_FIELD_FIXTURE: ReplayFixture = {
       sequence: 1,
       timestamp: "2026-01-01T00:00:00.000Z",
       type: "TASK_CREATED"
+    }
+  ]
+};
+
+export const MISSING_SEQUENCE_FIXTURE: ReplayFixture = {
+  replayId: "fixture-missing-sequence",
+  events: [
+    {
+      id: "evt-1",
+      timestamp: "2026-01-01T00:00:00.000Z",
+      type: "TASK_CREATED"
+    }
+  ]
+};
+
+export const MISSING_TIMESTAMP_FIXTURE: ReplayFixture = {
+  replayId: "fixture-missing-timestamp",
+  events: [
+    {
+      id: "evt-1",
+      sequence: 1,
+      type: "TASK_CREATED"
+    }
+  ]
+};
+
+export const MISSING_TYPE_FIXTURE: ReplayFixture = {
+  replayId: "fixture-missing-type",
+  events: [
+    {
+      id: "evt-1",
+      sequence: 1,
+      timestamp: "2026-01-01T00:00:00.000Z"
     }
   ]
 };
