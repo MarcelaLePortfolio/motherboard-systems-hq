@@ -1,15 +1,7 @@
 /*
-Phase 371 — Replay Fixture Runner
+Phase 371 — Replay Fixture Runner (expanded coverage)
 
-Purpose:
-Execute deterministic structural verification against replay fixtures.
-
-Properties:
-- Read only
-- Deterministic
-- No runtime coupling
-- No reducer coupling
-- No execution authority
+Adds missing-field fixture to deterministic proof set.
 */
 
 import {
@@ -18,6 +10,7 @@ import {
   DUPLICATE_SEQUENCE_FIXTURE,
   EMPTY_EVENTS_FIXTURE,
   MALFORMED_TIMESTAMP_FIXTURE,
+  MISSING_FIELD_FIXTURE,
   ReplayFixture
 } from "./replay_fixture_library";
 
@@ -53,6 +46,11 @@ const FIXTURES: FixtureExpectation[] = [
   {
     name: "malformed timestamp",
     fixture: MALFORMED_TIMESTAMP_FIXTURE,
+    shouldPass: false
+  },
+  {
+    name: "missing field",
+    fixture: MISSING_FIELD_FIXTURE,
     shouldPass: false
   }
 ];
