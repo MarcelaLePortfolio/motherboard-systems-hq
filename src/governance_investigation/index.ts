@@ -10,3 +10,4 @@ export * from "./governance_playback_reducer";
 export * from "./governance_operator_playback_view";
 export * from "./governance_playback_proof";
 export * from "./governance_dashboard_playback_contract";
+export * from "./governance_playback_assembly";
