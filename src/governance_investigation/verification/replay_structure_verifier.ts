@@ -1,10 +1,10 @@
 /*
-Phase 371 — Replay Structure Verifier Hardening
+Phase 372 — Replay Structure Verifier Boundary Hardening
 
 Purpose:
-Provide deterministic structural replay verification with explicit
-required-field checks, non-empty event enforcement, sequence validation,
-and ISO timestamp validation.
+Accept unknown replay payloads at the verifier boundary and validate
+them deterministically without requiring callers to satisfy a trusted
+compile-time structure first.
 
 Properties:
 - Read only
@@ -31,6 +31,10 @@ export type ReplayStructureVerificationResult = {
   violations: string[];
 };
 
+function isObjectRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null;
+}
+
 function isNonEmptyString(value: unknown): value is string {
   return typeof value === "string" && value.trim().length > 0;
 }
@@ -54,73 +58,82 @@ function isStrictIsoTimestamp(value: unknown): value is string {
 }
 
 export function verifyReplayStructure(
-  replay: ReplayStructure
+  replay: unknown
 ): ReplayStructureVerificationResult {
   const violations: string[] = [];
 
-  if (!replay || typeof replay !== "object") {
+  if (!isObjectRecord(replay)) {
     return {
       valid: false,
       violations: ["Replay payload missing"]
     };
   }
 
-  if (!isNonEmptyString(replay.replayId)) {
+  const replayId = replay["replayId"];
+  const events = replay["events"];
+
+  if (!isNonEmptyString(replayId)) {
     violations.push("Replay missing replayId");
   }
 
-  if (!Array.isArray(replay.events)) {
+  if (!Array.isArray(events)) {
     violations.push("Replay missing events array");
-  } else if (replay.events.length === 0) {
-    violations.push("Replay must contain at least one event");
-  }
 
-  if (!Array.isArray(replay.events)) {
     return {
-      valid: violations.length === 0,
+      valid: false,
       violations
     };
+  }
+
+  if (events.length === 0) {
+    violations.push("Replay must contain at least one event");
   }
 
   const seenSequences = new Set<number>();
   let previousSequence: number | null = null;
 
-  replay.events.forEach((event, index) => {
-    if (!event || typeof event !== "object") {
+  events.forEach((event, index) => {
+    if (!isObjectRecord(event)) {
       violations.push(`Event ${index} missing`);
       return;
     }
 
-    if (!isNonEmptyString(event.id)) {
+    const id = event["id"];
+    const sequence = event["sequence"];
+    const timestamp = event["timestamp"];
+    const type = event["type"];
+
+    if (!isNonEmptyString(id)) {
       violations.push(`Event ${index} missing id`);
     }
 
-    if (!isPositiveInteger(event.sequence)) {
+    if (sequence === undefined) {
+      violations.push(`Event ${index} missing sequence`);
+    } else if (!isPositiveInteger(sequence)) {
       violations.push(`Event ${index} invalid sequence`);
     }
 
-    if (!isStrictIsoTimestamp(event.timestamp)) {
+    if (timestamp === undefined) {
+      violations.push(`Event ${index} missing timestamp`);
+    } else if (!isStrictIsoTimestamp(timestamp)) {
       violations.push(`Event ${index} invalid timestamp`);
     }
 
-    if (!isNonEmptyString(event.type)) {
+    if (!isNonEmptyString(type)) {
       violations.push(`Event ${index} missing type`);
     }
 
-    if (isPositiveInteger(event.sequence)) {
-      if (seenSequences.has(event.sequence)) {
+    if (isPositiveInteger(sequence)) {
+      if (seenSequences.has(sequence)) {
         violations.push(`Event ${index} duplicate sequence`);
       }
 
-      if (
-        previousSequence !== null &&
-        event.sequence <= previousSequence
-      ) {
+      if (previousSequence !== null && sequence <= previousSequence) {
         violations.push("Event ordering violation");
       }
 
-      seenSequences.add(event.sequence);
-      previousSequence = event.sequence;
+      seenSequences.add(sequence);
+      previousSequence = sequence;
     }
   });
 
