@@ -1,5 +1,5 @@
 /*
-Phase 371 — Replay Fixture Library (verification depth start)
+Phase 371 — Replay Fixture Library (expanded)
 
 Purpose:
 Provide deterministic fixtures for replay structure verification.
@@ -13,10 +13,10 @@ Properties:
 */
 
 export type ReplayEvent = {
-  id: string;
-  sequence: number;
-  timestamp: string;
-  type: string;
+  id?: string;
+  sequence?: number;
+  timestamp?: string;
+  type?: string;
 };
 
 export type ReplayFixture = {
@@ -90,6 +90,17 @@ export const MALFORMED_TIMESTAMP_FIXTURE: ReplayFixture = {
       id: "evt-1",
       sequence: 1,
       timestamp: "not-a-time",
+      type: "TASK_CREATED"
+    }
+  ]
+};
+
+export const MISSING_FIELD_FIXTURE: ReplayFixture = {
+  replayId: "fixture-missing-field",
+  events: [
+    {
+      sequence: 1,
+      timestamp: "2026-01-01T00:00:00.000Z",
       type: "TASK_CREATED"
     }
   ]
