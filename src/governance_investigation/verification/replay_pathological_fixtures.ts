@@ -1,8 +1,8 @@
 /*
-Phase 373 — Replay Pathological Fixture Expansion
+Phase 393 — Replay Pathological Fixture Ordering Correction
 
 Purpose:
-Increase verification breadth by introducing deterministic pathological replay cases.
+Restore deterministic fixture ordering required by verification proofs.
 No runtime coupling.
 No execution integration.
 Verification-only assets.
@@ -22,6 +22,13 @@ export type ReplayPathologicalFixture = {
 
 export const PATHOLOGICAL_REPLAY_FIXTURES: ReplayPathologicalFixture[] = [
   {
+    id: "duplicate-terminal-event",
+    description: "Replay contains duplicate terminal state",
+    eventSequence: ["task.created", "task.completed", "task.completed"],
+    expectedViolation: "REPLAY_DUPLICATE_TERMINAL_EVENT"
+  },
+
+  {
     id: "missing-root-event",
     description: "Replay sequence missing required root event",
     eventSequence: ["task.updated", "task.completed"],
@@ -36,16 +43,9 @@ export const PATHOLOGICAL_REPLAY_FIXTURES: ReplayPathologicalFixture[] = [
   },
 
   {
-    id: "duplicate-terminal-event",
-    description: "Replay contains duplicate terminal state",
-    eventSequence: ["task.created","task.completed","task.completed"],
-    expectedViolation: "REPLAY_DUPLICATE_TERMINAL_EVENT"
-  },
-
-  {
     id: "unknown-event-type",
     description: "Replay contains undefined event type",
-    eventSequence: ["task.created","task.unknown"],
+    eventSequence: ["task.created", "task.unknown"],
     expectedViolation: "REPLAY_UNKNOWN_EVENT"
   }
 ];
