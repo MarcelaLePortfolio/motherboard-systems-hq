@@ -8,3 +8,4 @@ export * from "./governance_playback_navigation";
 export * from "./governance_playback_invariants";
 export * from "./governance_playback_reducer";
 export * from "./governance_operator_playback_view";
+export * from "./governance_playback_proof";
