@@ -1,88 +1,176 @@
-# Governance Trust Signal Taxonomy
-Phase: 401.9  
-Classification: Trust Signal Classification Layer  
-Runtime Impact: NONE  
-Execution Impact: NONE  
+GOVERNANCE TRUST SIGNAL TAXONOMY
+Phase: 401.11
+Classification: Documentation Only
+Runtime Impact: NONE
 
-## Purpose
+────────────────────────────────
 
-Define the allowed classes of trust signals without changing trust meaning.
+PURPOSE
 
-Taxonomy organizes trust signals.
-Taxonomy does NOT redefine trust.
+Define the normalized vocabulary used to describe trust cognition states.
 
-## Trust Signal Classes
+This taxonomy ensures:
 
-Trust signals may belong only to these classes:
+Consistency of meaning  
+Operator interpretation clarity  
+Deterministic classification  
+Signal stability  
 
-• Evidence Trust
-Confidence based on presence and completeness of supporting governance evidence.
+No behavioral meaning permitted.
 
-• Replay Trust
-Confidence based on deterministic replay verification success.
+────────────────────────────────
 
-• Determinism Trust
-Confidence based on determinism verification stability.
+TRUST SIGNAL TIERS
 
-• Consistency Trust
-Confidence based on cross-signal agreement.
+Trust signals are organized into five descriptive tiers:
 
-• Explanation Trust
-Confidence based on completeness of governance explanations.
+HIGH
+STABLE
+WATCH
+DEGRADED
+UNKNOWN
 
-• Coverage Trust
-Confidence based on completeness of governance evaluation coverage.
+These represent cognition quality only.
 
-• Reliability Trust
-Confidence based on signal stability across replay and restart.
+Never execution readiness.
 
-## Trust Signal Class Rules
+────────────────────────────────
 
-Each trust signal must:
+TIER DEFINITIONS
 
-Belong to exactly one primary class.
+HIGH
 
-Trust signals may reference secondary context but must maintain one classification anchor.
+Meaning:
 
-## Trust Class Boundaries
+Cognition verified.
+Signals consistent.
+No anomalies detected.
 
-Trust classes must NOT:
+Implication:
 
-Overlap in meaning  
-Duplicate semantics  
-Introduce authority meaning  
-Introduce execution meaning  
+Cognition considered highly reliable.
 
-## Trust Classification Rules
+Non-implication:
 
-Classification must depend only on:
+Does NOT authorize execution.
 
-Signal origin  
-Signal purpose  
-Signal evidence type  
-Signal verification method  
+────────────────────────────────
 
-Classification must NOT depend on:
+STABLE
 
-Confidence value  
-UI representation  
-Operator interpretation  
-Presentation formatting  
+Meaning:
 
-## Trust Class Stability
+Cognition functioning normally.
+No known reliability concerns.
 
-Trust classes must remain:
+Implication:
 
-Stable across governance refactors  
-Stable across replay  
-Stable across documentation changes  
+Normal cognition confidence.
 
-Trust classes may only change if:
+Non-implication:
 
-A new governance cognition capability is introduced.
+Does NOT imply execution safety.
 
-## Completion Condition
+────────────────────────────────
 
-Phase 401.9 considered stable when:
+WATCH
 
-All trust signals can be classified without ambiguity.
+Meaning:
+
+Minor cognition irregularities detected.
+No correctness failure.
+
+Implication:
+
+Operator awareness recommended.
+
+Non-implication:
+
+Does NOT suggest intervention.
+
+────────────────────────────────
+
+DEGRADED
+
+Meaning:
+
+Cognition reliability reduced.
+Investigation may be useful.
+
+Implication:
+
+Reduced confidence.
+
+Non-implication:
+
+Does NOT suggest execution halt.
+
+────────────────────────────────
+
+UNKNOWN
+
+Meaning:
+
+Insufficient data to classify cognition reliability.
+
+Implication:
+
+Confidence undetermined.
+
+Non-implication:
+
+Does NOT imply risk.
+
+────────────────────────────────
+
+SIGNAL NORMALIZATION RULES
+
+Trust signals must:
+
+Use only defined vocabulary.
+Avoid synonyms.
+Avoid narrative phrasing.
+Avoid interpretation language.
+
+Example allowed:
+
+"Trust state: DEGRADED"
+
+Example prohibited:
+
+"System seems unstable."
+
+────────────────────────────────
+
+SIGNAL STABILITY RULE
+
+Trust classification must not oscillate rapidly without justification.
+
+Signal changes require:
+
+Deterministic reason.
+Observable condition change.
+
+No speculative transitions allowed.
+
+────────────────────────────────
+
+SUCCESS CONDITION
+
+Operators can interpret trust meaning instantly without explanation.
+
+Vocabulary remains small and stable.
+
+────────────────────────────────
+
+FAILURE CONDITION
+
+If taxonomy expands without need:
+
+Model becomes unstable.
+
+Vocabulary must remain minimal.
+
+────────────────────────────────
+
+END OF DOCUMENT
