@@ -5,3 +5,4 @@ coverage/
 .artifacts/docker/*.tar
 .artifacts/docker/*.tar.gz
 .artifacts/docker/*.tgz
+docs/phase423_2_step1_*_output.txt
