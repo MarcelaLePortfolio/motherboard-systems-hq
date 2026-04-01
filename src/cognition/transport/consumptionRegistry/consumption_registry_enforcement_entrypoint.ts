@@ -1,3 +1,4 @@
+import { getGovernanceExecutionEligibilitySnapshot } from "../../../governance/cognition";
 import {
   createConsumptionRegistryEnforcementReadonlyView,
   type ConsumptionRegistryEnforcementReadonlyView,
@@ -11,7 +12,17 @@ export interface ConsumptionRegistryEnforcementEntrypointResult {
 }
 
 export function runConsumptionRegistryEnforcementEntrypoint(): ConsumptionRegistryEnforcementEntrypointResult {
+  const governance = getGovernanceExecutionEligibilitySnapshot();
   const view = createConsumptionRegistryEnforcementReadonlyView();
+
+  if (!governance.authorizationEligible) {
+    return {
+      ok: false,
+      blockedByGovernance: true,
+      governanceReason: governance.governanceReason,
+      view,
+    };
+  }
 
   return {
     ok: view.ok,
