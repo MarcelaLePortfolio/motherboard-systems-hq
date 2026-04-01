@@ -1,0 +1,1657 @@
+# Phase 423.2 — Step 1 Continuation
+Execution Anchor Hunt — Direct Link Verification Pass
+
+Updated: 2026-04-01 21:00:00 UTC
+
+## Step 1.5 — Single-file co-location check
+
+### Execution anchor matches
+
+- `docs/phase423_2_step1_execution_anchor_hunt_output.txt:21` — `src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:11:export function runConsumptionRegistryEnforcementEntrypoint(): ConsumptionRegistryEnforcementEntrypointResult {`
+- `docs/phase423_2_step1_execution_anchor_hunt_output.txt:405` — `src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:11:export function runConsumptionRegistryEnforcementEntrypoint(): ConsumptionRegistryEnforcementEntrypointResult {`
+- `docs/phase423_2_step1_candidate_surface_findings.md:144` — `- runConsumptionRegistryEnforcementEntrypoint`
+- `docs/phase423_2_step1_anchor_resolution_findings.md:140` — `src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts::runConsumptionRegistryEnforcementEntrypoint`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:14` — `export function runConsumptionRegistryEnforcementEntrypoint(): ConsumptionRegistryEnforcementEntrypointResult {`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:441` — `src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:11:export function runConsumptionRegistryEnforcementEntrypoint(): ConsumptionRegistryEnforcementEntrypointResult {`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:508` — `src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:11:export function runConsumptionRegistryEnforcementEntrypoint(): ConsumptionRegistryEnforcementEntrypointResult {`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:509` — `./docs/phase423_2_step1_execution_anchor_hunt_output.txt:21:src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:11:export function runConsumptionRegistryEnforcementEntrypoint(): ConsumptionRegistryEnforcementEntrypointResult {`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:510` — `./docs/phase423_2_step1_execution_anchor_hunt_output.txt:405:src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:11:export function runConsumptionRegistryEnforcementEntrypoint(): ConsumptionRegistryEnforcementEntrypointResult {`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:511` — `./docs/phase423_2_step1_candidate_surface_findings.md:144:- runConsumptionRegistryEnforcementEntrypoint`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:512` — `./docs/phase423_2_step1_anchor_resolution_findings.md:140:src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts::runConsumptionRegistryEnforcementEntrypoint`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:513` — `./docs/phase423_2_step1_topology_confirmation_output.txt:14:export function runConsumptionRegistryEnforcementEntrypoint(): ConsumptionRegistryEnforcementEntrypointResult {`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:514` — `./docs/phase423_2_step1_topology_confirmation_output.txt:441:src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:11:export function runConsumptionRegistryEnforcementEntrypoint(): ConsumptionRegistryEnforcementEntrypointResult {`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:515` — `./docs/phase423_2_step1_anchor_hunt_findings.md:21:- exported symbol: runConsumptionRegistryEnforcementEntrypoint`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:516` — `./docs/phase423_2_step1_anchor_hunt_findings.md:101:src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts::runConsumptionRegistryEnforcementEntrypoint`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:517` — `./docs/phase423_2_step1_topology_confirmation.sh:32:grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:518` — `./docs/phase423_2_step1_topology_confirmation.sh:36:grep -RniE 'runConsumptionRegistryEnforcementEntrypoint' src test . || true`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:519` — `./scripts/_local/phase128_consumption_registry_entrypoint_smoke.sh:13:grep -q 'export function runConsumptionRegistryEnforcementEntrypoint' "$ENTRYPOINT_FILE" || {`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:520` — `./scripts/_local/phase128_consumption_registry_entrypoint_smoke.sh:14:  echo "Expected runConsumptionRegistryEnforcementEntrypoint export missing"`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:527` — `./src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:11:export function runConsumptionRegistryEnforcementEntrypoint(): ConsumptionRegistryEnforcementEntrypointResult {`
+- `docs/phase423_2_step1_anchor_hunt_findings.md:21` — `- exported symbol: runConsumptionRegistryEnforcementEntrypoint`
+- `docs/phase423_2_step1_anchor_hunt_findings.md:101` — `src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts::runConsumptionRegistryEnforcementEntrypoint`
+- `docs/phase423_2_step1_topology_confirmation_findings.md:24` — `- runConsumptionRegistryEnforcementEntrypoint`
+- `docs/phase423_2_step1_topology_confirmation_findings.md:130` — `No additional invocation sites for runConsumptionRegistryEnforcementEntrypoint were surfaced in the topology confirmation output.`
+- `docs/phase423_2_step1_topology_confirmation_findings.md:159` — `- runConsumptionRegistryEnforcementEntrypoint`
+- `docs/phase423_2_step1_topology_confirmation_findings.md:217` — `- runConsumptionRegistryEnforcementEntrypoint`
+- `docs/phase423_2_step1_topology_confirmation.sh:32` — `grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true`
+- `docs/phase423_2_step1_topology_confirmation.sh:36` — `grep -RniE 'runConsumptionRegistryEnforcementEntrypoint' src test . || true`
+- `scripts/_local/phase423_2_step1_continuation.sh:18` — `EXECUTION = "runConsumptionRegistryEnforcementEntrypoint"`
+- `scripts/_local/phase128_consumption_registry_entrypoint_smoke.sh:13` — `grep -q 'export function runConsumptionRegistryEnforcementEntrypoint' "$ENTRYPOINT_FILE" || {`
+- `scripts/_local/phase128_consumption_registry_entrypoint_smoke.sh:14` — `echo "Expected runConsumptionRegistryEnforcementEntrypoint export missing"`
+- `src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:11` — `export function runConsumptionRegistryEnforcementEntrypoint(): ConsumptionRegistryEnforcementEntrypointResult {`
+
+### Governance anchor matches
+
+#### `buildGovernanceLiveRegistryWiringReadiness`
+
+- `docs/phase423_2_step1_execution_anchor_hunt_output.txt:465` — `src/governance/cognition/build_governance_live_registry_wiring_readiness.ts:15:export function buildGovernanceLiveRegistryWiringReadiness(`
+- `docs/phase423_2_step1_candidate_surface_findings.md:125` — `- buildGovernanceLiveRegistryWiringReadiness`
+- `docs/phase423_2_step1_anchor_resolution_findings.md:41` — `- buildGovernanceLiveRegistryWiringReadiness`
+- `docs/phase423_2_step1_anchor_resolution_findings.md:146` — `src/governance/cognition/build_governance_live_registry_wiring_readiness.ts::buildGovernanceLiveRegistryWiringReadiness`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:112` — `export function buildGovernanceLiveRegistryWiringReadiness(`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:451` — `src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:17:import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:452` — `src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:58:  const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:454` — `src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:17:import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:457` — `src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:75:  const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:460` — `src/governance/cognition/prove_governance_final_delivery_receipt.ts:17:import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:463` — `src/governance/cognition/prove_governance_final_delivery_receipt.ts:71:  const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:466` — `src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:17:import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:469` — `src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:65:  const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:472` — `src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:17:import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:475` — `src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:69:  const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:478` — `src/governance/cognition/prove_governance_authorization_gate.ts:17:import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:481` — `src/governance/cognition/prove_governance_authorization_gate.ts:63:  const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:484` — `src/governance/cognition/prove_governance_live_wiring_decision.ts:17:import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:486` — `src/governance/cognition/prove_governance_live_wiring_decision.ts:61:  const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:488` — `src/governance/cognition/build_governance_live_registry_wiring_readiness.ts:15:export function buildGovernanceLiveRegistryWiringReadiness(`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:490` — `src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:17:import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:493` — `src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:73:  const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:496` — `src/governance/cognition/index.ts:54:export { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:499` — `src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:17:import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:502` — `src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:67:  const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:517` — `./docs/phase423_2_step1_topology_confirmation.sh:32:grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true`
+- `docs/phase423_2_step1_anchor_hunt_findings.md:60` — `- exported symbol: buildGovernanceLiveRegistryWiringReadiness`
+- `docs/phase423_2_step1_topology_confirmation_findings.md:51` — `- src/governance/cognition/build_governance_live_registry_wiring_readiness.ts::buildGovernanceLiveRegistryWiringReadiness`
+- `docs/phase423_2_step1_topology_confirmation_findings.md:76` — `buildGovernanceLiveRegistryWiringReadiness`
+- `docs/phase423_2_step1_topology_confirmation_findings.md:136` — `- buildGovernanceLiveRegistryWiringReadiness`
+- `docs/phase423_2_step1_topology_confirmation_findings.md:219` — `- buildGovernanceLiveRegistryWiringReadiness`
+- `docs/phase423_2_step1_topology_confirmation.sh:32` — `grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true`
+- `docs/phase423_2_step1_remaining_anchor_resolution_output.txt:18` — `export function buildGovernanceLiveRegistryWiringReadiness(`
+- `scripts/_local/phase146_governance_final_delivery_receipt_report.ts:12` — `buildGovernanceLiveRegistryWiringReadiness,`
+- `scripts/_local/phase146_governance_final_delivery_receipt_report.ts:40` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
+- `scripts/_local/phase142_governance_authorization_gate_report.ts:12` — `buildGovernanceLiveRegistryWiringReadiness,`
+- `scripts/_local/phase142_governance_authorization_gate_report.ts:36` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
+- `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:12` — `buildGovernanceLiveRegistryWiringReadiness,`
+- `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:46` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
+- `scripts/_local/phase423_2_step1_continuation.sh:20` — `"buildGovernanceLiveRegistryWiringReadiness",`
+- `scripts/_local/phase423_2_step1_continuation.sh:258` — `#### `buildGovernanceLiveRegistryWiringReadiness``
+- `scripts/_local/phase423_2_step1_continuation.sh:260` — `{fmt_matches("buildGovernanceLiveRegistryWiringReadiness")}`
+- `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:12` — `buildGovernanceLiveRegistryWiringReadiness,`
+- `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:43` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
+- `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:12` — `buildGovernanceLiveRegistryWiringReadiness,`
+- `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:48` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
+- `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_report.ts:12` — `buildGovernanceLiveRegistryWiringReadiness,`
+- `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_report.ts:37` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
+- `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_report.ts:12` — `buildGovernanceLiveRegistryWiringReadiness,`
+- `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_report.ts:39` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
+- `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_report.ts:12` — `buildGovernanceLiveRegistryWiringReadiness,`
+- `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_report.ts:41` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
+- `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_smoke.ts:12` — `buildGovernanceLiveRegistryWiringReadiness,`
+- `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_smoke.ts:45` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
+- `scripts/_local/phase142_governance_authorization_gate_smoke.ts:12` — `buildGovernanceLiveRegistryWiringReadiness,`
+- `scripts/_local/phase142_governance_authorization_gate_smoke.ts:42` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
+- `scripts/_local/phase140_governance_live_registry_wiring_readiness_report.ts:12` — `buildGovernanceLiveRegistryWiringReadiness,`
+- `scripts/_local/phase140_governance_live_registry_wiring_readiness_report.ts:34` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
+- `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_report.ts:12` — `buildGovernanceLiveRegistryWiringReadiness,`
+- `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_report.ts:38` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
+- `scripts/_local/phase141_governance_live_wiring_decision_smoke.ts:12` — `buildGovernanceLiveRegistryWiringReadiness,`
+- `scripts/_local/phase141_governance_live_wiring_decision_smoke.ts:41` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
+- `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_smoke.ts:12` — `buildGovernanceLiveRegistryWiringReadiness,`
+- `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_smoke.ts:44` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
+- `scripts/_local/phase140_governance_live_registry_wiring_readiness_smoke.ts:12` — `buildGovernanceLiveRegistryWiringReadiness,`
+- `scripts/_local/phase140_governance_live_registry_wiring_readiness_smoke.ts:40` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
+- `scripts/_local/phase141_governance_live_wiring_decision_report.ts:12` — `buildGovernanceLiveRegistryWiringReadiness,`
+- `scripts/_local/phase141_governance_live_wiring_decision_report.ts:35` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
+- `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_smoke.ts:12` — `buildGovernanceLiveRegistryWiringReadiness,`
+- `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_smoke.ts:47` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
+- `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_report.ts:12` — `buildGovernanceLiveRegistryWiringReadiness,`
+- `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_report.ts:42` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
+- `src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:17` — `import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";`
+- `src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:58` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
+- `src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:17` — `import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";`
+- `src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:75` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
+- `src/governance/cognition/prove_governance_final_delivery_receipt.ts:17` — `import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";`
+- `src/governance/cognition/prove_governance_final_delivery_receipt.ts:71` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
+- `src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:17` — `import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";`
+- `src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:65` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
+- `src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:17` — `import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";`
+- `src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:69` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
+- `src/governance/cognition/prove_governance_authorization_gate.ts:17` — `import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";`
+- `src/governance/cognition/prove_governance_authorization_gate.ts:63` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
+- `src/governance/cognition/prove_governance_live_wiring_decision.ts:17` — `import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";`
+- `src/governance/cognition/prove_governance_live_wiring_decision.ts:61` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
+- `src/governance/cognition/build_governance_live_registry_wiring_readiness.ts:15` — `export function buildGovernanceLiveRegistryWiringReadiness(`
+- `src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:17` — `import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";`
+- `src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:73` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
+- `src/governance/cognition/index.ts:54` — `export { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";`
+- `src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:17` — `import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";`
+- `src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:67` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
+
+#### `buildGovernanceLiveWiringDecision`
+
+- `docs/phase423_2_step1_execution_anchor_hunt_output.txt:461` — `src/governance/cognition/build_governance_live_wiring_decision.ts:24:export function buildGovernanceLiveWiringDecision(`
+- `docs/phase423_2_step1_candidate_surface_findings.md:102` — `- buildGovernanceLiveWiringDecision`
+- `docs/phase423_2_step1_anchor_resolution_findings.md:61` — `- buildGovernanceLiveWiringDecision`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:184` — `export function buildGovernanceLiveWiringDecision(`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:453` — `src/governance/cognition/build_governance_live_wiring_decision.ts:24:export function buildGovernanceLiveWiringDecision(`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:455` — `src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:18:import { buildGovernanceLiveWiringDecision } from "./build_governance_live_wiring_decision";`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:458` — `src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:76:  const decision = buildGovernanceLiveWiringDecision(readiness);`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:461` — `src/governance/cognition/prove_governance_final_delivery_receipt.ts:18:import { buildGovernanceLiveWiringDecision } from "./build_governance_live_wiring_decision";`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:464` — `src/governance/cognition/prove_governance_final_delivery_receipt.ts:72:  const decision = buildGovernanceLiveWiringDecision(readiness);`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:467` — `src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:18:import { buildGovernanceLiveWiringDecision } from "./build_governance_live_wiring_decision";`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:470` — `src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:66:  const decision = buildGovernanceLiveWiringDecision(readiness);`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:473` — `src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:18:import { buildGovernanceLiveWiringDecision } from "./build_governance_live_wiring_decision";`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:476` — `src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:70:  const decision = buildGovernanceLiveWiringDecision(readiness);`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:479` — `src/governance/cognition/prove_governance_authorization_gate.ts:18:import { buildGovernanceLiveWiringDecision } from "./build_governance_live_wiring_decision";`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:482` — `src/governance/cognition/prove_governance_authorization_gate.ts:64:  const decision = buildGovernanceLiveWiringDecision(readiness);`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:485` — `src/governance/cognition/prove_governance_live_wiring_decision.ts:18:import { buildGovernanceLiveWiringDecision } from "./build_governance_live_wiring_decision";`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:487` — `src/governance/cognition/prove_governance_live_wiring_decision.ts:62:  const decision = buildGovernanceLiveWiringDecision(readiness);`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:491` — `src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:18:import { buildGovernanceLiveWiringDecision } from "./build_governance_live_wiring_decision";`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:494` — `src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:74:  const decision = buildGovernanceLiveWiringDecision(readiness);`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:497` — `src/governance/cognition/index.ts:63:export { buildGovernanceLiveWiringDecision } from "./build_governance_live_wiring_decision";`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:500` — `src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:18:import { buildGovernanceLiveWiringDecision } from "./build_governance_live_wiring_decision";`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:503` — `src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:68:  const decision = buildGovernanceLiveWiringDecision(readiness);`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:517` — `./docs/phase423_2_step1_topology_confirmation.sh:32:grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true`
+- `docs/phase423_2_step1_anchor_hunt_findings.md:64` — `- exported symbol: buildGovernanceLiveWiringDecision`
+- `docs/phase423_2_step1_topology_confirmation_findings.md:59` — `- src/governance/cognition/build_governance_live_wiring_decision.ts::buildGovernanceLiveWiringDecision`
+- `docs/phase423_2_step1_topology_confirmation_findings.md:77` — `→ buildGovernanceLiveWiringDecision`
+- `docs/phase423_2_step1_topology_confirmation_findings.md:137` — `- buildGovernanceLiveWiringDecision`
+- `docs/phase423_2_step1_topology_confirmation_findings.md:220` — `- buildGovernanceLiveWiringDecision`
+- `docs/phase423_2_step1_topology_confirmation.sh:32` — `grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true`
+- `docs/phase423_2_step1_remaining_anchor_resolution_output.txt:90` — `export function buildGovernanceLiveWiringDecision(`
+- `scripts/_local/phase146_governance_final_delivery_receipt_report.ts:13` — `buildGovernanceLiveWiringDecision,`
+- `scripts/_local/phase146_governance_final_delivery_receipt_report.ts:41` — `const decision = buildGovernanceLiveWiringDecision(readiness);`
+- `scripts/_local/phase142_governance_authorization_gate_report.ts:13` — `buildGovernanceLiveWiringDecision,`
+- `scripts/_local/phase142_governance_authorization_gate_report.ts:37` — `const decision = buildGovernanceLiveWiringDecision(readiness);`
+- `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:13` — `buildGovernanceLiveWiringDecision,`
+- `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:47` — `const decision = buildGovernanceLiveWiringDecision(readiness);`
+- `scripts/_local/phase423_2_step1_continuation.sh:21` — `"buildGovernanceLiveWiringDecision",`
+- `scripts/_local/phase423_2_step1_continuation.sh:262` — `#### `buildGovernanceLiveWiringDecision``
+- `scripts/_local/phase423_2_step1_continuation.sh:264` — `{fmt_matches("buildGovernanceLiveWiringDecision")}`
+- `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:13` — `buildGovernanceLiveWiringDecision,`
+- `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:44` — `const decision = buildGovernanceLiveWiringDecision(readiness);`
+- `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:13` — `buildGovernanceLiveWiringDecision,`
+- `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:49` — `const decision = buildGovernanceLiveWiringDecision(readiness);`
+- `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_report.ts:13` — `buildGovernanceLiveWiringDecision,`
+- `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_report.ts:38` — `const decision = buildGovernanceLiveWiringDecision(readiness);`
+- `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_report.ts:13` — `buildGovernanceLiveWiringDecision,`
+- `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_report.ts:40` — `const decision = buildGovernanceLiveWiringDecision(readiness);`
+- `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_report.ts:13` — `buildGovernanceLiveWiringDecision,`
+- `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_report.ts:42` — `const decision = buildGovernanceLiveWiringDecision(readiness);`
+- `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_smoke.ts:13` — `buildGovernanceLiveWiringDecision,`
+- `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_smoke.ts:46` — `const decision = buildGovernanceLiveWiringDecision(readiness);`
+- `scripts/_local/phase142_governance_authorization_gate_smoke.ts:13` — `buildGovernanceLiveWiringDecision,`
+- `scripts/_local/phase142_governance_authorization_gate_smoke.ts:43` — `const decision = buildGovernanceLiveWiringDecision(readiness);`
+- `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_report.ts:13` — `buildGovernanceLiveWiringDecision,`
+- `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_report.ts:39` — `const decision = buildGovernanceLiveWiringDecision(readiness);`
+- `scripts/_local/phase141_governance_live_wiring_decision_smoke.ts:13` — `buildGovernanceLiveWiringDecision,`
+- `scripts/_local/phase141_governance_live_wiring_decision_smoke.ts:42` — `const decision = buildGovernanceLiveWiringDecision(readiness);`
+- `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_smoke.ts:13` — `buildGovernanceLiveWiringDecision,`
+- `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_smoke.ts:45` — `const decision = buildGovernanceLiveWiringDecision(readiness);`
+- `scripts/_local/phase141_governance_live_wiring_decision_report.ts:13` — `buildGovernanceLiveWiringDecision,`
+- `scripts/_local/phase141_governance_live_wiring_decision_report.ts:36` — `const decision = buildGovernanceLiveWiringDecision(readiness);`
+- `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_smoke.ts:13` — `buildGovernanceLiveWiringDecision,`
+- `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_smoke.ts:48` — `const decision = buildGovernanceLiveWiringDecision(readiness);`
+- `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_report.ts:13` — `buildGovernanceLiveWiringDecision,`
+- `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_report.ts:43` — `const decision = buildGovernanceLiveWiringDecision(readiness);`
+- `src/governance/cognition/build_governance_live_wiring_decision.ts:24` — `export function buildGovernanceLiveWiringDecision(`
+- `src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:18` — `import { buildGovernanceLiveWiringDecision } from "./build_governance_live_wiring_decision";`
+- `src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:76` — `const decision = buildGovernanceLiveWiringDecision(readiness);`
+- `src/governance/cognition/prove_governance_final_delivery_receipt.ts:18` — `import { buildGovernanceLiveWiringDecision } from "./build_governance_live_wiring_decision";`
+- `src/governance/cognition/prove_governance_final_delivery_receipt.ts:72` — `const decision = buildGovernanceLiveWiringDecision(readiness);`
+- `src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:18` — `import { buildGovernanceLiveWiringDecision } from "./build_governance_live_wiring_decision";`
+- `src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:66` — `const decision = buildGovernanceLiveWiringDecision(readiness);`
+- `src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:18` — `import { buildGovernanceLiveWiringDecision } from "./build_governance_live_wiring_decision";`
+- `src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:70` — `const decision = buildGovernanceLiveWiringDecision(readiness);`
+- `src/governance/cognition/prove_governance_authorization_gate.ts:18` — `import { buildGovernanceLiveWiringDecision } from "./build_governance_live_wiring_decision";`
+- `src/governance/cognition/prove_governance_authorization_gate.ts:64` — `const decision = buildGovernanceLiveWiringDecision(readiness);`
+- `src/governance/cognition/prove_governance_live_wiring_decision.ts:18` — `import { buildGovernanceLiveWiringDecision } from "./build_governance_live_wiring_decision";`
+- `src/governance/cognition/prove_governance_live_wiring_decision.ts:62` — `const decision = buildGovernanceLiveWiringDecision(readiness);`
+- `src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:18` — `import { buildGovernanceLiveWiringDecision } from "./build_governance_live_wiring_decision";`
+- `src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:74` — `const decision = buildGovernanceLiveWiringDecision(readiness);`
+- `src/governance/cognition/index.ts:63` — `export { buildGovernanceLiveWiringDecision } from "./build_governance_live_wiring_decision";`
+- `src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:18` — `import { buildGovernanceLiveWiringDecision } from "./build_governance_live_wiring_decision";`
+- `src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:68` — `const decision = buildGovernanceLiveWiringDecision(readiness);`
+
+#### `buildGovernanceAuthorizationGate`
+
+- `docs/phase423_2_step1_execution_anchor_hunt_output.txt:466` — `src/governance/cognition/build_governance_authorization_gate.ts:24:export function buildGovernanceAuthorizationGate(`
+- `docs/phase423_2_step1_candidate_surface_findings.md:79` — `- buildGovernanceAuthorizationGate`
+- `docs/phase423_2_step1_candidate_surface_findings.md:191` — `src/governance/cognition/build_governance_authorization_gate.ts::buildGovernanceAuthorizationGate`
+- `docs/phase423_2_step1_anchor_resolution_findings.md:143` — `src/governance/cognition/build_governance_authorization_gate.ts::buildGovernanceAuthorizationGate`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:249` — `export function buildGovernanceAuthorizationGate(`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:456` — `src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:19:import { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:459` — `src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:77:  const gate = buildGovernanceAuthorizationGate(decision);`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:462` — `src/governance/cognition/prove_governance_final_delivery_receipt.ts:19:import { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:465` — `src/governance/cognition/prove_governance_final_delivery_receipt.ts:73:  const gate = buildGovernanceAuthorizationGate(decision);`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:468` — `src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:19:import { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:471` — `src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:67:  const gate = buildGovernanceAuthorizationGate(decision);`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:474` — `src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:19:import { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:477` — `src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:71:  const gate = buildGovernanceAuthorizationGate(decision);`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:480` — `src/governance/cognition/prove_governance_authorization_gate.ts:19:import { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:483` — `src/governance/cognition/prove_governance_authorization_gate.ts:65:  const gate = buildGovernanceAuthorizationGate(decision);`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:489` — `src/governance/cognition/build_governance_authorization_gate.ts:24:export function buildGovernanceAuthorizationGate(`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:492` — `src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:19:import { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:495` — `src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:75:  const gate = buildGovernanceAuthorizationGate(decision);`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:498` — `src/governance/cognition/index.ts:72:export { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:501` — `src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:19:import { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:504` — `src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:69:  const gate = buildGovernanceAuthorizationGate(decision);`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:517` — `./docs/phase423_2_step1_topology_confirmation.sh:32:grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true`
+- `docs/phase423_2_step1_anchor_hunt_findings.md:40` — `- exported symbol: buildGovernanceAuthorizationGate`
+- `docs/phase423_2_step1_anchor_hunt_findings.md:104` — `src/governance/cognition/build_governance_authorization_gate.ts::buildGovernanceAuthorizationGate`
+- `docs/phase423_2_step1_topology_confirmation_findings.md:67` — `- src/governance/cognition/build_governance_authorization_gate.ts::buildGovernanceAuthorizationGate`
+- `docs/phase423_2_step1_topology_confirmation_findings.md:78` — `→ buildGovernanceAuthorizationGate`
+- `docs/phase423_2_step1_topology_confirmation_findings.md:138` — `- buildGovernanceAuthorizationGate`
+- `docs/phase423_2_step1_topology_confirmation_findings.md:221` — `- buildGovernanceAuthorizationGate`
+- `docs/phase423_2_step1_topology_confirmation.sh:32` — `grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true`
+- `scripts/_local/phase146_governance_final_delivery_receipt_report.ts:14` — `buildGovernanceAuthorizationGate,`
+- `scripts/_local/phase146_governance_final_delivery_receipt_report.ts:42` — `const gate = buildGovernanceAuthorizationGate(decision);`
+- `scripts/_local/phase142_governance_authorization_gate_report.ts:14` — `buildGovernanceAuthorizationGate,`
+- `scripts/_local/phase142_governance_authorization_gate_report.ts:38` — `const gate = buildGovernanceAuthorizationGate(decision);`
+- `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:14` — `buildGovernanceAuthorizationGate,`
+- `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:48` — `const gate = buildGovernanceAuthorizationGate(decision);`
+- `scripts/_local/phase423_2_step1_continuation.sh:22` — `"buildGovernanceAuthorizationGate",`
+- `scripts/_local/phase423_2_step1_continuation.sh:266` — `#### `buildGovernanceAuthorizationGate``
+- `scripts/_local/phase423_2_step1_continuation.sh:268` — `{fmt_matches("buildGovernanceAuthorizationGate")}`
+- `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:14` — `buildGovernanceAuthorizationGate,`
+- `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:45` — `const gate = buildGovernanceAuthorizationGate(decision);`
+- `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:14` — `buildGovernanceAuthorizationGate,`
+- `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:50` — `const gate = buildGovernanceAuthorizationGate(decision);`
+- `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_report.ts:14` — `buildGovernanceAuthorizationGate,`
+- `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_report.ts:39` — `const gate = buildGovernanceAuthorizationGate(decision);`
+- `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_report.ts:14` — `buildGovernanceAuthorizationGate,`
+- `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_report.ts:41` — `const gate = buildGovernanceAuthorizationGate(decision);`
+- `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_report.ts:14` — `buildGovernanceAuthorizationGate,`
+- `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_report.ts:43` — `const gate = buildGovernanceAuthorizationGate(decision);`
+- `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_smoke.ts:14` — `buildGovernanceAuthorizationGate,`
+- `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_smoke.ts:47` — `const gate = buildGovernanceAuthorizationGate(decision);`
+- `scripts/_local/phase142_governance_authorization_gate_smoke.ts:14` — `buildGovernanceAuthorizationGate,`
+- `scripts/_local/phase142_governance_authorization_gate_smoke.ts:44` — `const gate = buildGovernanceAuthorizationGate(decision);`
+- `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_report.ts:14` — `buildGovernanceAuthorizationGate,`
+- `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_report.ts:40` — `const gate = buildGovernanceAuthorizationGate(decision);`
+- `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_smoke.ts:14` — `buildGovernanceAuthorizationGate,`
+- `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_smoke.ts:46` — `const gate = buildGovernanceAuthorizationGate(decision);`
+- `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_smoke.ts:14` — `buildGovernanceAuthorizationGate,`
+- `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_smoke.ts:49` — `const gate = buildGovernanceAuthorizationGate(decision);`
+- `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_report.ts:14` — `buildGovernanceAuthorizationGate,`
+- `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_report.ts:44` — `const gate = buildGovernanceAuthorizationGate(decision);`
+- `src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:19` — `import { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";`
+- `src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:77` — `const gate = buildGovernanceAuthorizationGate(decision);`
+- `src/governance/cognition/prove_governance_final_delivery_receipt.ts:19` — `import { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";`
+- `src/governance/cognition/prove_governance_final_delivery_receipt.ts:73` — `const gate = buildGovernanceAuthorizationGate(decision);`
+- `src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:19` — `import { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";`
+- `src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:67` — `const gate = buildGovernanceAuthorizationGate(decision);`
+- `src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:19` — `import { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";`
+- `src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:71` — `const gate = buildGovernanceAuthorizationGate(decision);`
+- `src/governance/cognition/prove_governance_authorization_gate.ts:19` — `import { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";`
+- `src/governance/cognition/prove_governance_authorization_gate.ts:65` — `const gate = buildGovernanceAuthorizationGate(decision);`
+- `src/governance/cognition/build_governance_authorization_gate.ts:24` — `export function buildGovernanceAuthorizationGate(`
+- `src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:19` — `import { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";`
+- `src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:75` — `const gate = buildGovernanceAuthorizationGate(decision);`
+- `src/governance/cognition/index.ts:72` — `export { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";`
+- `src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:19` — `import { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";`
+- `src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:69` — `const gate = buildGovernanceAuthorizationGate(decision);`
+
+#### `evaluateGovernancePolicy`
+
+- `docs/phase423_2_step1_anchor_resolution_findings.md:81` — `- evaluateGovernancePolicy`
+- `docs/phase423_2_step1_anchor_resolution_findings.md:149` — `src/governance/governance_policy_engine.ts::evaluateGovernancePolicy`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:312` — `export function evaluateGovernancePolicy(`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:447` — `src/governance/governance_policy_engine.test.ts:7:import { evaluateGovernancePolicy } from "./governance_policy_engine"`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:448` — `src/governance/governance_policy_engine.test.ts:15:const safe = evaluateGovernancePolicy({`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:449` — `src/governance/governance_policy_engine.test.ts:23:const warn = evaluateGovernancePolicy({`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:450` — `src/governance/governance_policy_engine.test.ts:31:const critical = evaluateGovernancePolicy({`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:505` — `src/governance/governance_policy_engine.ts:20:export function evaluateGovernancePolicy(`
+- `docs/phase423_2_step1_topology_confirmation_output.txt:517` — `./docs/phase423_2_step1_topology_confirmation.sh:32:grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true`
+- `docs/phase423_2_step1_topology_confirmation_findings.md:97` — `- src/governance/governance_policy_engine.ts::evaluateGovernancePolicy`
+- `docs/phase423_2_step1_topology_confirmation_findings.md:151` — `No additional runtime execution surface linking the recorded execution entry chain to evaluateGovernancePolicy was surfaced in this topology confirmation output.`
+- `docs/phase423_2_step1_topology_confirmation_findings.md:184` — `evaluateGovernancePolicy`
+- `docs/phase423_2_step1_topology_confirmation_findings.md:222` — `- evaluateGovernancePolicy`
+- `docs/phase423_2_step1_topology_confirmation.sh:32` — `grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true`
+- `docs/phase423_2_step1_remaining_anchor_resolution_output.txt:152` — `export function evaluateGovernancePolicy(`
+- `scripts/_local/phase423_2_step1_continuation.sh:23` — `"evaluateGovernancePolicy",`
+- `scripts/_local/phase423_2_step1_continuation.sh:270` — `#### `evaluateGovernancePolicy``
+- `scripts/_local/phase423_2_step1_continuation.sh:272` — `{fmt_matches("evaluateGovernancePolicy")}`
+- `scripts/_local/phase323_run_governance_policy_engine_smoke.ts:1` — `import { evaluateGovernancePolicy } from "../../src/governance/governance_policy_engine";`
+- `scripts/_local/phase323_run_governance_policy_engine_smoke.ts:9` — `const safe = evaluateGovernancePolicy({`
+- `scripts/_local/phase323_run_governance_policy_engine_smoke.ts:20` — `const warning = evaluateGovernancePolicy({`
+- `scripts/_local/phase323_run_governance_policy_engine_smoke.ts:31` — `const critical = evaluateGovernancePolicy({`
+- `scripts/_local/phase323_run_governance_policy_engine_smoke.ts:42` — `const review = evaluateGovernancePolicy({`
+- `src/governance/governance_policy_engine.test.ts:7` — `import { evaluateGovernancePolicy } from "./governance_policy_engine"`
+- `src/governance/governance_policy_engine.test.ts:15` — `const safe = evaluateGovernancePolicy({`
+- `src/governance/governance_policy_engine.test.ts:23` — `const warn = evaluateGovernancePolicy({`
+- `src/governance/governance_policy_engine.test.ts:31` — `const critical = evaluateGovernancePolicy({`
+- `src/governance/governance_policy_engine.ts:20` — `export function evaluateGovernancePolicy(`
+
+### Direct co-location result
+
+- `docs/phase423_2_step1_anchor_hunt_findings.md`
+- `docs/phase423_2_step1_anchor_resolution_findings.md`
+- `docs/phase423_2_step1_candidate_surface_findings.md`
+- `docs/phase423_2_step1_execution_anchor_hunt_output.txt`
+- `docs/phase423_2_step1_topology_confirmation.sh`
+- `docs/phase423_2_step1_topology_confirmation_findings.md`
+- `docs/phase423_2_step1_topology_confirmation_output.txt`
+- `scripts/_local/phase423_2_step1_continuation.sh`
+
+Deterministic finding: execution and governance anchors are co-located in the file paths above.
+
+## Step 1.6 — Execution call stack trace
+
+### Execution ladder
+
+- Target: `runConsumptionRegistryEnforcementEntrypoint`
+  - `<top-level>` → `runConsumptionRegistryEnforcementEntrypoint` at `docs/phase423_2_step1_execution_anchor_hunt_output.txt:21`
+  - `<top-level>` → `runConsumptionRegistryEnforcementEntrypoint` at `docs/phase423_2_step1_execution_anchor_hunt_output.txt:405`
+  - `runConsumptionRegistryEnforcementEntrypoint` → `runConsumptionRegistryEnforcementEntrypoint` at `src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:11`
+
+### Execution ladder root-surface candidates
+
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_hunt_output.txt:21` → `src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:11:export function runConsumptionRegistryEnforcementEntrypoint(): ConsumptionRegistryEnforcementEntrypointResult {`
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_hunt_output.txt:405` → `src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:11:export function runConsumptionRegistryEnforcementEntrypoint(): ConsumptionRegistryEnforcementEntrypointResult {`
+- `runConsumptionRegistryEnforcementEntrypoint` via `src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:11` → `export function runConsumptionRegistryEnforcementEntrypoint(): ConsumptionRegistryEnforcementEntrypointResult {`
+
+## Step 1.7 — Governance call stack trace
+
+### Governance ladder
+
+- Target: `buildGovernanceLiveRegistryWiringReadiness`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_hunt_output.txt:465`
+  - `buildGovernanceResult` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_topology_confirmation_output.txt:452`
+  - `buildGovernanceResult` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_topology_confirmation_output.txt:457`
+  - `buildGovernanceResult` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_topology_confirmation_output.txt:463`
+  - `buildGovernanceResult` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_topology_confirmation_output.txt:469`
+  - `buildGovernanceResult` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_topology_confirmation_output.txt:475`
+  - `buildGovernanceResult` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_topology_confirmation_output.txt:481`
+  - `buildGovernanceResult` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_topology_confirmation_output.txt:486`
+  - `buildGovernanceResult` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_topology_confirmation_output.txt:493`
+  - `buildGovernanceResult` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_topology_confirmation_output.txt:502`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `scripts/_local/phase146_governance_final_delivery_receipt_report.ts:40`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `scripts/_local/phase142_governance_authorization_gate_report.ts:36`
+  - `assert` → `buildGovernanceLiveRegistryWiringReadiness` at `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:46`
+  - `assert` → `buildGovernanceLiveRegistryWiringReadiness` at `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:43`
+  - `assert` → `buildGovernanceLiveRegistryWiringReadiness` at `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:48`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_report.ts:37`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_report.ts:39`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_report.ts:41`
+  - `assert` → `buildGovernanceLiveRegistryWiringReadiness` at `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_smoke.ts:45`
+  - `assert` → `buildGovernanceLiveRegistryWiringReadiness` at `scripts/_local/phase142_governance_authorization_gate_smoke.ts:42`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `scripts/_local/phase140_governance_live_registry_wiring_readiness_report.ts:34`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_report.ts:38`
+  - `assert` → `buildGovernanceLiveRegistryWiringReadiness` at `scripts/_local/phase141_governance_live_wiring_decision_smoke.ts:41`
+  - `assert` → `buildGovernanceLiveRegistryWiringReadiness` at `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_smoke.ts:44`
+  - `assert` → `buildGovernanceLiveRegistryWiringReadiness` at `scripts/_local/phase140_governance_live_registry_wiring_readiness_smoke.ts:40`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `scripts/_local/phase141_governance_live_wiring_decision_report.ts:35`
+  - `assert` → `buildGovernanceLiveRegistryWiringReadiness` at `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_smoke.ts:47`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_report.ts:42`
+  - `proveGovernanceLiveRegistryWiringReadiness` → `buildGovernanceLiveRegistryWiringReadiness` at `src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:58`
+  - `proveGovernanceFinalPreLiveRegistrySummaryCapsule` → `buildGovernanceLiveRegistryWiringReadiness` at `src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:75`
+  - `proveGovernanceFinalDeliveryReceipt` → `buildGovernanceLiveRegistryWiringReadiness` at `src/governance/cognition/prove_governance_final_delivery_receipt.ts:71`
+  - `proveGovernanceFinalPreLiveRegistryContractPackage` → `buildGovernanceLiveRegistryWiringReadiness` at `src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:65`
+  - `proveGovernancePreLiveRegistryDeliveryManifest` → `buildGovernanceLiveRegistryWiringReadiness` at `src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:69`
+  - `proveGovernanceAuthorizationGate` → `buildGovernanceLiveRegistryWiringReadiness` at `src/governance/cognition/prove_governance_authorization_gate.ts:63`
+  - `proveGovernanceLiveWiringDecision` → `buildGovernanceLiveRegistryWiringReadiness` at `src/governance/cognition/prove_governance_live_wiring_decision.ts:61`
+  - `buildGovernanceLiveRegistryWiringReadiness` → `buildGovernanceLiveRegistryWiringReadiness` at `src/governance/cognition/build_governance_live_registry_wiring_readiness.ts:15`
+  - `proveGovernanceFinalPreLiveRegistryArchiveRecord` → `buildGovernanceLiveRegistryWiringReadiness` at `src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:73`
+  - `proveGovernancePreLiveRegistryHandoffEnvelope` → `buildGovernanceLiveRegistryWiringReadiness` at `src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:67`
+- Target: `buildGovernanceLiveWiringDecision`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_execution_anchor_hunt_output.txt:461`
+  - `buildGovernanceResult` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_topology_confirmation_output.txt:458`
+  - `buildGovernanceResult` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_topology_confirmation_output.txt:464`
+  - `buildGovernanceResult` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_topology_confirmation_output.txt:470`
+  - `buildGovernanceResult` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_topology_confirmation_output.txt:476`
+  - `buildGovernanceResult` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_topology_confirmation_output.txt:482`
+  - `buildGovernanceResult` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_topology_confirmation_output.txt:487`
+  - `buildGovernanceResult` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_topology_confirmation_output.txt:494`
+  - `buildGovernanceResult` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_topology_confirmation_output.txt:503`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `scripts/_local/phase146_governance_final_delivery_receipt_report.ts:41`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `scripts/_local/phase142_governance_authorization_gate_report.ts:37`
+  - `assert` → `buildGovernanceLiveWiringDecision` at `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:47`
+  - `assert` → `buildGovernanceLiveWiringDecision` at `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:44`
+  - `assert` → `buildGovernanceLiveWiringDecision` at `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:49`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_report.ts:38`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_report.ts:40`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_report.ts:42`
+  - `assert` → `buildGovernanceLiveWiringDecision` at `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_smoke.ts:46`
+  - `assert` → `buildGovernanceLiveWiringDecision` at `scripts/_local/phase142_governance_authorization_gate_smoke.ts:43`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_report.ts:39`
+  - `assert` → `buildGovernanceLiveWiringDecision` at `scripts/_local/phase141_governance_live_wiring_decision_smoke.ts:42`
+  - `assert` → `buildGovernanceLiveWiringDecision` at `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_smoke.ts:45`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `scripts/_local/phase141_governance_live_wiring_decision_report.ts:36`
+  - `assert` → `buildGovernanceLiveWiringDecision` at `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_smoke.ts:48`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_report.ts:43`
+  - `proveGovernanceFinalPreLiveRegistrySummaryCapsule` → `buildGovernanceLiveWiringDecision` at `src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:76`
+  - `proveGovernanceFinalDeliveryReceipt` → `buildGovernanceLiveWiringDecision` at `src/governance/cognition/prove_governance_final_delivery_receipt.ts:72`
+  - `proveGovernanceFinalPreLiveRegistryContractPackage` → `buildGovernanceLiveWiringDecision` at `src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:66`
+  - `proveGovernancePreLiveRegistryDeliveryManifest` → `buildGovernanceLiveWiringDecision` at `src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:70`
+  - `proveGovernanceAuthorizationGate` → `buildGovernanceLiveWiringDecision` at `src/governance/cognition/prove_governance_authorization_gate.ts:64`
+  - `proveGovernanceLiveWiringDecision` → `buildGovernanceLiveWiringDecision` at `src/governance/cognition/prove_governance_live_wiring_decision.ts:62`
+  - `proveGovernanceFinalPreLiveRegistryArchiveRecord` → `buildGovernanceLiveWiringDecision` at `src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:74`
+  - `proveGovernancePreLiveRegistryHandoffEnvelope` → `buildGovernanceLiveWiringDecision` at `src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:68`
+- Target: `buildGovernanceAuthorizationGate`
+  - `<top-level>` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_execution_anchor_hunt_output.txt:466`
+  - `buildGovernanceResult` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_topology_confirmation_output.txt:459`
+  - `buildGovernanceResult` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_topology_confirmation_output.txt:465`
+  - `buildGovernanceResult` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_topology_confirmation_output.txt:471`
+  - `buildGovernanceResult` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_topology_confirmation_output.txt:477`
+  - `buildGovernanceResult` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_topology_confirmation_output.txt:483`
+  - `buildGovernanceResult` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_topology_confirmation_output.txt:495`
+  - `buildGovernanceResult` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_topology_confirmation_output.txt:504`
+  - `<top-level>` → `buildGovernanceAuthorizationGate` at `scripts/_local/phase146_governance_final_delivery_receipt_report.ts:42`
+  - `<top-level>` → `buildGovernanceAuthorizationGate` at `scripts/_local/phase142_governance_authorization_gate_report.ts:38`
+  - `assert` → `buildGovernanceAuthorizationGate` at `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:48`
+  - `assert` → `buildGovernanceAuthorizationGate` at `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:45`
+  - `assert` → `buildGovernanceAuthorizationGate` at `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:50`
+  - `<top-level>` → `buildGovernanceAuthorizationGate` at `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_report.ts:39`
+  - `<top-level>` → `buildGovernanceAuthorizationGate` at `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_report.ts:41`
+  - `<top-level>` → `buildGovernanceAuthorizationGate` at `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_report.ts:43`
+  - `assert` → `buildGovernanceAuthorizationGate` at `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_smoke.ts:47`
+  - `assert` → `buildGovernanceAuthorizationGate` at `scripts/_local/phase142_governance_authorization_gate_smoke.ts:44`
+  - `<top-level>` → `buildGovernanceAuthorizationGate` at `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_report.ts:40`
+  - `assert` → `buildGovernanceAuthorizationGate` at `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_smoke.ts:46`
+  - `assert` → `buildGovernanceAuthorizationGate` at `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_smoke.ts:49`
+  - `<top-level>` → `buildGovernanceAuthorizationGate` at `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_report.ts:44`
+  - `proveGovernanceFinalPreLiveRegistrySummaryCapsule` → `buildGovernanceAuthorizationGate` at `src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:77`
+  - `proveGovernanceFinalDeliveryReceipt` → `buildGovernanceAuthorizationGate` at `src/governance/cognition/prove_governance_final_delivery_receipt.ts:73`
+  - `proveGovernanceFinalPreLiveRegistryContractPackage` → `buildGovernanceAuthorizationGate` at `src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:67`
+  - `proveGovernancePreLiveRegistryDeliveryManifest` → `buildGovernanceAuthorizationGate` at `src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:71`
+  - `proveGovernanceAuthorizationGate` → `buildGovernanceAuthorizationGate` at `src/governance/cognition/prove_governance_authorization_gate.ts:65`
+  - `proveGovernanceFinalPreLiveRegistryArchiveRecord` → `buildGovernanceAuthorizationGate` at `src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:75`
+  - `proveGovernancePreLiveRegistryHandoffEnvelope` → `buildGovernanceAuthorizationGate` at `src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:69`
+- Target: `evaluateGovernancePolicy`
+  - `buildGovernanceResult` → `evaluateGovernancePolicy` at `docs/phase423_2_step1_topology_confirmation_output.txt:448`
+  - `buildGovernanceResult` → `evaluateGovernancePolicy` at `docs/phase423_2_step1_topology_confirmation_output.txt:449`
+  - `buildGovernanceResult` → `evaluateGovernancePolicy` at `docs/phase423_2_step1_topology_confirmation_output.txt:450`
+  - `assert` → `evaluateGovernancePolicy` at `scripts/_local/phase323_run_governance_policy_engine_smoke.ts:9`
+  - `assert` → `evaluateGovernancePolicy` at `scripts/_local/phase323_run_governance_policy_engine_smoke.ts:20`
+  - `assert` → `evaluateGovernancePolicy` at `scripts/_local/phase323_run_governance_policy_engine_smoke.ts:31`
+  - `assert` → `evaluateGovernancePolicy` at `scripts/_local/phase323_run_governance_policy_engine_smoke.ts:42`
+  - `assert` → `evaluateGovernancePolicy` at `src/governance/governance_policy_engine.test.ts:15`
+  - `assert` → `evaluateGovernancePolicy` at `src/governance/governance_policy_engine.test.ts:23`
+  - `assert` → `evaluateGovernancePolicy` at `src/governance/governance_policy_engine.test.ts:31`
+- Target: `buildGovernanceResult`
+  - `<top-level>` → `buildGovernanceResult` at `docs/phase423_2_step1_execution_anchor_hunt_output.txt:480`
+  - `assert` → `buildGovernanceResult` at `src/governance/governance_explanation_builder.test.ts:10`
+  - `assert` → `buildGovernanceResult` at `src/governance/governance_explanation_builder.test.ts:24`
+  - `assert` → `buildGovernanceResult` at `src/governance/governance_explanation_builder.test.ts:38`
+  - `runGovernancePipeline` → `buildGovernanceResult` at `src/governance/governance_decision_pipeline.ts:47`
+  - `assert` → `buildGovernanceResult` at `src/governance/governance_audit_log.test.ts:10`
+- Target: `assert`
+  - `<top-level>` → `assert` at `PHASE80_2_EXTERNAL_DASHBOARD_CONSUMER_DISCOVERY_20260317T183750Z.md:372`
+  - `<top-level>` → `assert` at `PHASE88_6_SYSTEM_HEALTH_ROUTE_REGISTRATION.txt:794`
+  - `<top-level>` → `assert` at `PHASE88_6_SYSTEM_HEALTH_ROUTE_REGISTRATION.txt:1194`
+  - `<top-level>` → `assert` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:504`
+  - `<top-level>` → `assert` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:527`
+  - `<top-level>` → `assert` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:528`
+  - `<top-level>` → `assert` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:529`
+  - `<top-level>` → `assert` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:530`
+  - `<top-level>` → `assert` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:624`
+  - `<top-level>` → `assert` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:662`
+  - `<top-level>` → `assert` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:663`
+  - `<top-level>` → `assert` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:664`
+  - `<top-level>` → `assert` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:668`
+  - `<top-level>` → `assert` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:752`
+  - `<top-level>` → `assert` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:978`
+  - `<top-level>` → `assert` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:995`
+  - `<top-level>` → `assert` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:996`
+  - `<top-level>` → `assert` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:997`
+  - `<top-level>` → `assert` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:998`
+  - `<top-level>` → `assert` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:999`
+  - `<top-level>` → `assert` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1000`
+  - `<top-level>` → `assert` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1479`
+  - `<top-level>` → `assert` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1502`
+  - `<top-level>` → `assert` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1503`
+  - `<top-level>` → `assert` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1504`
+  - `<top-level>` → `assert` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1505`
+  - `<top-level>` → `assert` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1599`
+  - `<top-level>` → `assert` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1637`
+  - `<top-level>` → `assert` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1638`
+  - `<top-level>` → `assert` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1639`
+  - `<top-level>` → `assert` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1643`
+  - `<top-level>` → `assert` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1727`
+  - `<top-level>` → `assert` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8400`
+  - `<top-level>` → `assert` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8402`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_hunt_output.txt:6`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_hunt_output.txt:61`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_hunt_output.txt:90`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_hunt_output.txt:161`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_hunt_output.txt:162`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_hunt_output.txt:327`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_hunt_output.txt:342`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_hunt_output.txt:347`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_hunt_output.txt:351`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_hunt_output.txt:352`
+  - `<top-level>` → `assert` at `docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:5884`
+  - `<top-level>` → `assert` at `docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:5765`
+  - `assert` → `assert` at `dashboard/src/cognition/operatorGuidance/guidanceSafetyConfirmation.test.ts:6`
+  - `assert` → `assert` at `dashboard/src/cognition/operatorGuidance/guidanceSafetyConfirmation.test.ts:16`
+  - `assert` → `assert` at `dashboard/src/cognition/operatorGuidance/guidanceSafetyConfirmation.test.ts:17`
+  - `assert` → `assert` at `dashboard/src/cognition/operatorGuidance/guidanceSafetyConfirmation.test.ts:18`
+  - `assert` → `assert` at `dashboard/src/cognition/operatorGuidance/guidanceSafetyConfirmation.test.ts:24`
+  - `assert` → `assert` at `dashboard/src/cognition/operatorGuidance/guidanceSafetyConfirmation.test.ts:25`
+  - `assert` → `assert` at `dashboard/src/cognition/operatorGuidance/guidanceSafetyConfirmation.test.ts:26`
+  - `assert` → `assert` at `dashboard/src/cognition/operatorGuidance/guidanceSafetyConfirmation.test.ts:32`
+  - `assert` → `assert` at `dashboard/src/cognition/operatorGuidance/guidanceSafetyConfirmation.test.ts:33`
+  - `assert` → `assert` at `dashboard/src/cognition/operatorGuidance/guidanceSafetyConfirmation.test.ts:34`
+  - `assert` → `assert` at `dashboard/src/cognition/operatorGuidance/guidanceGrouping.test.ts:5`
+  - `assert` → `assert` at `dashboard/src/cognition/operatorGuidance/guidanceGrouping.test.ts:20`
+  - `assert` → `assert` at `dashboard/src/cognition/operatorGuidance/guidanceGrouping.test.ts:21`
+  - `assert` → `assert` at `dashboard/src/cognition/operatorGuidance/guidanceGrouping.test.ts:22`
+  - `assert` → `assert` at `dashboard/src/cognition/operatorGuidance/guidanceGrouping.test.ts:24`
+  - `assert` → `assert` at `dashboard/src/cognition/operatorGuidance/guidanceGrouping.test.ts:25`
+  - `assert` → `assert` at `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:56`
+  - `assert` → `assert` at `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:57`
+  - `assert` → `assert` at `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:58`
+  - `assert` → `assert` at `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:59`
+  - `assert` → `assert` at `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:60`
+  - `assert` → `assert` at `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:61`
+  - `assert` → `assert` at `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:62`
+  - `assert` → `assert` at `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:63`
+  - `assert` → `assert` at `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:64`
+  - `assert` → `assert` at `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:65`
+  - `assert` → `assert` at `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:66`
+  - `assert` → `assert` at `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:67`
+  - `assert` → `assert` at `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:68`
+  - `assert` → `assert` at `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:69`
+  - `assert` → `assert` at `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:70`
+  - `assert` → `assert` at `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:71`
+  - `assert` → `assert` at `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:72`
+  - `assert` → `assert` at `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:8`
+  - `testSafeSuggestions` → `assert` at `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:18`
+  - `testSafeSuggestions` → `assert` at `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:20`
+  - `testSafeSuggestions` → `assert` at `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:25`
+  - `testSafeSuggestions` → `assert` at `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:30`
+  - `testCautionSuggestions` → `assert` at `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:42`
+  - `testCautionSuggestions` → `assert` at `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:47`
+  - `testCautionSuggestions` → `assert` at `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:52`
+  - `testCautionSuggestions` → `assert` at `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:57`
+  - `testRiskSuggestions` → `assert` at `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:70`
+  - `testRiskSuggestions` → `assert` at `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:75`
+  - `testRiskSuggestions` → `assert` at `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:80`
+  - `testRiskSuggestions` → `assert` at `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:85`
+  - `testRiskSuggestions` → `assert` at `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:90`
+  - `assert` → `assert` at `scripts/_local/phase135_governance_cognition_snapshot_smoke.ts:26`
+  - `assert` → `assert` at `scripts/_local/phase135_governance_cognition_snapshot_smoke.ts:27`
+  - `assert` → `assert` at `scripts/_local/phase135_governance_cognition_snapshot_smoke.ts:28`
+  - `assert` → `assert` at `scripts/_local/phase135_governance_cognition_snapshot_smoke.ts:29`
+  - `assert` → `assert` at `scripts/_local/phase135_governance_cognition_snapshot_smoke.ts:30`
+  - `assert` → `assert` at `scripts/_local/phase135_governance_cognition_snapshot_smoke.ts:31`
+  - `runPhase99_2OperationalConfidenceSmoke` → `assert` at `scripts/_local/phase99_2_operational_confidence_smoke.ts:31`
+  - `runPhase99_2OperationalConfidenceSmoke` → `assert` at `scripts/_local/phase99_2_operational_confidence_smoke.ts:32`
+  - `runPhase99_2OperationalConfidenceSmoke` → `assert` at `scripts/_local/phase99_2_operational_confidence_smoke.ts:33`
+  - `runPhase99_2OperationalConfidenceSmoke` → `assert` at `scripts/_local/phase99_2_operational_confidence_smoke.ts:39`
+  - `runPhase99_2OperationalConfidenceSmoke` → `assert` at `scripts/_local/phase99_2_operational_confidence_smoke.ts:43`
+  - `runPhase99_2OperationalConfidenceSmoke` → `assert` at `scripts/_local/phase99_2_operational_confidence_smoke.ts:47`
+  - `assert` → `assert` at `scripts/_local/phase139_governance_shared_registry_owner_bundle_smoke.ts:16`
+  - `assert` → `assert` at `scripts/_local/phase139_governance_shared_registry_owner_bundle_smoke.ts:42`
+  - `assert` → `assert` at `scripts/_local/phase139_governance_shared_registry_owner_bundle_smoke.ts:43`
+  - `assert` → `assert` at `scripts/_local/phase139_governance_shared_registry_owner_bundle_smoke.ts:44`
+  - `assert` → `assert` at `scripts/_local/phase139_governance_shared_registry_owner_bundle_smoke.ts:45`
+  - `assert` → `assert` at `scripts/_local/phase139_governance_shared_registry_owner_bundle_smoke.ts:46`
+  - `assert` → `assert` at `scripts/_local/phase139_governance_shared_registry_owner_bundle_smoke.ts:47`
+  - `assert` → `assert` at `scripts/_local/phase139_governance_shared_registry_owner_bundle_smoke.ts:48`
+  - `assert` → `assert` at `scripts/_local/phase139_governance_shared_registry_owner_bundle_smoke.ts:49`
+  - `assert` → `assert` at `scripts/_local/phase139_governance_shared_registry_owner_bundle_smoke.ts:50`
+  - `assert` → `assert` at `scripts/_local/phase139_governance_shared_registry_owner_bundle_smoke.ts:51`
+  - `testHighSeverityEnforcesRecoveryBeforeProgress` → `assert` at `scripts/_local/phase77_adaptation_guardrails_smoke.ts:28`
+  - `testHighSeverityEnforcesRecoveryBeforeProgress` → `assert` at `scripts/_local/phase77_adaptation_guardrails_smoke.ts:33`
+  - `testHighSeverityEnforcesRecoveryBeforeProgress` → `assert` at `scripts/_local/phase77_adaptation_guardrails_smoke.ts:38`
+  - `testHighSeverityEnforcesRecoveryBeforeProgress` → `assert` at `scripts/_local/phase77_adaptation_guardrails_smoke.ts:43`
+  - `testMediumSeverityEnforcesDiagnosticsBeforeProgress` → `assert` at `scripts/_local/phase77_adaptation_guardrails_smoke.ts:60`
+  - `testMediumSeverityEnforcesDiagnosticsBeforeProgress` → `assert` at `scripts/_local/phase77_adaptation_guardrails_smoke.ts:65`
+  - `testNoGuardrailsForNoneSeverity` → `assert` at `scripts/_local/phase77_adaptation_guardrails_smoke.ts:79`
+  - `testNoGuardrailsForNoneSeverity` → `assert` at `scripts/_local/phase77_adaptation_guardrails_smoke.ts:85`
+  - `assert` → `assert` at `scripts/_local/phase138_governance_runtime_registry_export_smoke.ts:14`
+  - `assert` → `assert` at `scripts/_local/phase138_governance_runtime_registry_export_smoke.ts:38`
+  - `assert` → `assert` at `scripts/_local/phase138_governance_runtime_registry_export_smoke.ts:39`
+  - `assert` → `assert` at `scripts/_local/phase138_governance_runtime_registry_export_smoke.ts:40`
+  - `assert` → `assert` at `scripts/_local/phase138_governance_runtime_registry_export_smoke.ts:41`
+  - `assert` → `assert` at `scripts/_local/phase138_governance_runtime_registry_export_smoke.ts:42`
+  - `assert` → `assert` at `scripts/_local/phase138_governance_runtime_registry_export_smoke.ts:43`
+  - `assert` → `assert` at `scripts/_local/phase138_governance_runtime_registry_export_smoke.ts:44`
+  - `assert` → `assert` at `scripts/_local/phase138_governance_runtime_registry_export_smoke.ts:45`
+  - `assert` → `assert` at `scripts/_local/phase138_governance_runtime_registry_export_smoke.ts:46`
+  - `assert` → `assert` at `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:20`
+  - `assert` → `assert` at `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:50`
+  - `assert` → `assert` at `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:51`
+  - `assert` → `assert` at `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:52`
+  - `assert` → `assert` at `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:53`
+  - `assert` → `assert` at `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:54`
+  - `assert` → `assert` at `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:55`
+  - `assert` → `assert` at `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:56`
+  - `assert` → `assert` at `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:57`
+  - `assert` → `assert` at `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:58`
+  - `assert` → `assert` at `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:59`
+  - `assert` → `assert` at `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:60`
+  - `assert` → `assert` at `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:61`
+  - `assert` → `assert` at `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:62`
+  - `assert` → `assert` at `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:63`
+  - `assert` → `assert` at `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:25`
+  - `assert` → `assert` at `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:60`
+  - `assert` → `assert` at `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:61`
+  - `assert` → `assert` at `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:62`
+  - `assert` → `assert` at `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:63`
+  - `assert` → `assert` at `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:64`
+  - `assert` → `assert` at `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:65`
+  - `assert` → `assert` at `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:66`
+  - `assert` → `assert` at `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:67`
+  - `assert` → `assert` at `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:68`
+  - `assert` → `assert` at `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:69`
+  - `assert` → `assert` at `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:70`
+  - `assert` → `assert` at `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:71`
+  - `assert` → `assert` at `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:72`
+  - `assert` → `assert` at `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:73`
+  - `assert` → `assert` at `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:74`
+  - `assert` → `assert` at `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:75`
+  - `assert` → `assert` at `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:76`
+  - `assert` → `assert` at `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:77`
+  - `assert` → `assert` at `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:78`
+  - `assert` → `assert` at `scripts/_local/phase73_operator_safety_gates_smoke.ts:8`
+  - `testSafeAllowsNarrowWork` → `assert` at `scripts/_local/phase73_operator_safety_gates_smoke.ts:18`
+  - `testSafeAllowsNarrowWork` → `assert` at `scripts/_local/phase73_operator_safety_gates_smoke.ts:19`
+  - `testSafeAllowsNarrowWork` → `assert` at `scripts/_local/phase73_operator_safety_gates_smoke.ts:20`
+  - `testCautionBlocksHighImpactWork` → `assert` at `scripts/_local/phase73_operator_safety_gates_smoke.ts:29`
+  - `testCautionBlocksHighImpactWork` → `assert` at `scripts/_local/phase73_operator_safety_gates_smoke.ts:30`
+  - `testCautionBlocksHighImpactWork` → `assert` at `scripts/_local/phase73_operator_safety_gates_smoke.ts:31`
+  - `testCautionAllowsVerification` → `assert` at `scripts/_local/phase73_operator_safety_gates_smoke.ts:40`
+  - `testCautionAllowsVerification` → `assert` at `scripts/_local/phase73_operator_safety_gates_smoke.ts:41`
+  - `testCautionAllowsVerification` → `assert` at `scripts/_local/phase73_operator_safety_gates_smoke.ts:42`
+  - `testRiskBlocksForwardChange` → `assert` at `scripts/_local/phase73_operator_safety_gates_smoke.ts:51`
+  - `testRiskBlocksForwardChange` → `assert` at `scripts/_local/phase73_operator_safety_gates_smoke.ts:52`
+  - `testRiskBlocksForwardChange` → `assert` at `scripts/_local/phase73_operator_safety_gates_smoke.ts:53`
+  - `testRiskAllowsRecovery` → `assert` at `scripts/_local/phase73_operator_safety_gates_smoke.ts:62`
+  - `testRiskAllowsRecovery` → `assert` at `scripts/_local/phase73_operator_safety_gates_smoke.ts:63`
+  - `testRiskAllowsRecovery` → `assert` at `scripts/_local/phase73_operator_safety_gates_smoke.ts:64`
+  - `testRecoveryPlaybookIntegration` → `assert` at `scripts/_local/phase76_playbook_selection_smoke.ts:20`
+  - `testRecoveryPlaybookIntegration` → `assert` at `scripts/_local/phase76_playbook_selection_smoke.ts:25`
+  - `testRecoveryPlaybookIntegration` → `assert` at `scripts/_local/phase76_playbook_selection_smoke.ts:30`
+  - `testDiagnosticsPlaybookIntegration` → `assert` at `scripts/_local/phase76_playbook_selection_smoke.ts:41`
+  - `testDiagnosticsPlaybookIntegration` → `assert` at `scripts/_local/phase76_playbook_selection_smoke.ts:46`
+  - `testProgressPlaybookIntegration` → `assert` at `scripts/_local/phase76_playbook_selection_smoke.ts:55`
+  - `testProgressPlaybookIntegration` → `assert` at `scripts/_local/phase76_playbook_selection_smoke.ts:60`
+  - `testHighSeverityRecoveryOrdering` → `assert` at `scripts/_local/phase77_adaptive_playbook_ordering_smoke.ts:20`
+  - `testHighSeverityRecoveryOrdering` → `assert` at `scripts/_local/phase77_adaptive_playbook_ordering_smoke.ts:25`
+  - `testHighSeverityRecoveryOrdering` → `assert` at `scripts/_local/phase77_adaptive_playbook_ordering_smoke.ts:30`
+  - `testHighSeverityRecoveryOrdering` → `assert` at `scripts/_local/phase77_adaptive_playbook_ordering_smoke.ts:35`
+  - `testHighSeverityDiagnosticsOrdering` → `assert` at `scripts/_local/phase77_adaptive_playbook_ordering_smoke.ts:46`
+  - `testHighSeverityDiagnosticsOrdering` → `assert` at `scripts/_local/phase77_adaptive_playbook_ordering_smoke.ts:51`
+  - `testHighSeverityDiagnosticsOrdering` → `assert` at `scripts/_local/phase77_adaptive_playbook_ordering_smoke.ts:56`
+  - `testSafeProgressOrdering` → `assert` at `scripts/_local/phase77_adaptive_playbook_ordering_smoke.ts:65`
+- Target: `proveGovernanceLiveRegistryWiringReadiness`
+  - `<top-level>` → `proveGovernanceLiveRegistryWiringReadiness` at `scripts/_local/phase140_governance_live_registry_wiring_readiness_report.ts:36`
+  - `assert` → `proveGovernanceLiveRegistryWiringReadiness` at `scripts/_local/phase140_governance_live_registry_wiring_readiness_smoke.ts:42`
+  - `proveGovernanceLiveRegistryWiringReadiness` → `proveGovernanceLiveRegistryWiringReadiness` at `src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:40`
+- Target: `proveGovernanceFinalPreLiveRegistrySummaryCapsule`
+  - `assert` → `proveGovernanceFinalPreLiveRegistrySummaryCapsule` at `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:58`
+  - `<top-level>` → `proveGovernanceFinalPreLiveRegistrySummaryCapsule` at `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_report.ts:52`
+  - `proveGovernanceFinalPreLiveRegistrySummaryCapsule` → `proveGovernanceFinalPreLiveRegistrySummaryCapsule` at `src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:57`
+- Target: `proveGovernanceFinalDeliveryReceipt`
+  - `<top-level>` → `proveGovernanceFinalDeliveryReceipt` at `scripts/_local/phase146_governance_final_delivery_receipt_report.ts:48`
+  - `assert` → `proveGovernanceFinalDeliveryReceipt` at `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:54`
+- Target: `proveGovernanceFinalPreLiveRegistryContractPackage`
+  - `assert` → `proveGovernanceFinalPreLiveRegistryContractPackage` at `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:48`
+  - `<top-level>` → `proveGovernanceFinalPreLiveRegistryContractPackage` at `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_report.ts:42`
+  - `proveGovernanceFinalPreLiveRegistryContractPackage` → `proveGovernanceFinalPreLiveRegistryContractPackage` at `src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:47`
+- Target: `proveGovernancePreLiveRegistryDeliveryManifest`
+  - `<top-level>` → `proveGovernancePreLiveRegistryDeliveryManifest` at `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_report.ts:46`
+  - `assert` → `proveGovernancePreLiveRegistryDeliveryManifest` at `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_smoke.ts:52`
+  - `proveGovernancePreLiveRegistryDeliveryManifest` → `proveGovernancePreLiveRegistryDeliveryManifest` at `src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:51`
+- Target: `proveGovernanceAuthorizationGate`
+  - `<top-level>` → `proveGovernanceAuthorizationGate` at `scripts/_local/phase142_governance_authorization_gate_report.ts:40`
+  - `assert` → `proveGovernanceAuthorizationGate` at `scripts/_local/phase142_governance_authorization_gate_smoke.ts:46`
+- Target: `proveGovernanceLiveWiringDecision`
+  - `assert` → `proveGovernanceLiveWiringDecision` at `scripts/_local/phase141_governance_live_wiring_decision_smoke.ts:44`
+  - `<top-level>` → `proveGovernanceLiveWiringDecision` at `scripts/_local/phase141_governance_live_wiring_decision_report.ts:38`
+- Target: `proveGovernanceFinalPreLiveRegistryArchiveRecord`
+  - `<top-level>` → `proveGovernanceFinalPreLiveRegistryArchiveRecord` at `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_report.ts:50`
+  - `assert` → `proveGovernanceFinalPreLiveRegistryArchiveRecord` at `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_smoke.ts:56`
+  - `proveGovernanceFinalPreLiveRegistryArchiveRecord` → `proveGovernanceFinalPreLiveRegistryArchiveRecord` at `src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:55`
+- Target: `proveGovernancePreLiveRegistryHandoffEnvelope`
+  - `<top-level>` → `proveGovernancePreLiveRegistryHandoffEnvelope` at `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_report.ts:44`
+  - `assert` → `proveGovernancePreLiveRegistryHandoffEnvelope` at `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_smoke.ts:50`
+  - `proveGovernancePreLiveRegistryHandoffEnvelope` → `proveGovernancePreLiveRegistryHandoffEnvelope` at `src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:49`
+- Target: `runGovernancePipeline`
+  - `<top-level>` → `runGovernancePipeline` at `docs/phase423_2_step1_execution_anchor_hunt_output.txt:475`
+  - `assert` → `runGovernancePipeline` at `src/governance/governance_decision_pipeline.test.ts:9`
+  - `assert` → `runGovernancePipeline` at `src/governance/governance_decision_pipeline.test.ts:21`
+  - `assert` → `runGovernancePipeline` at `src/governance/governance_decision_pipeline.test.ts:28`
+- Target: `testSafeSuggestions`
+  - `testSafeSuggestions` → `testSafeSuggestions` at `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:15`
+  - `run` → `testSafeSuggestions` at `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:99`
+- Target: `testCautionSuggestions`
+  - `testCautionSuggestions` → `testCautionSuggestions` at `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:36`
+  - `run` → `testCautionSuggestions` at `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:101`
+- Target: `testRiskSuggestions`
+  - `testRiskSuggestions` → `testRiskSuggestions` at `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:64`
+  - `run` → `testRiskSuggestions` at `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:103`
+- Target: `runPhase99_2OperationalConfidenceSmoke`
+  - `runPhase99_2OperationalConfidenceSmoke` → `runPhase99_2OperationalConfidenceSmoke` at `scripts/_local/phase99_2_operational_confidence_smoke.ts:55`
+- Target: `testHighSeverityEnforcesRecoveryBeforeProgress`
+  - `run` → `testHighSeverityEnforcesRecoveryBeforeProgress` at `scripts/_local/phase77_adaptation_guardrails_smoke.ts:92`
+- Target: `testMediumSeverityEnforcesDiagnosticsBeforeProgress`
+  - `run` → `testMediumSeverityEnforcesDiagnosticsBeforeProgress` at `scripts/_local/phase77_adaptation_guardrails_smoke.ts:93`
+- Target: `testNoGuardrailsForNoneSeverity`
+  - `run` → `testNoGuardrailsForNoneSeverity` at `scripts/_local/phase77_adaptation_guardrails_smoke.ts:94`
+- Target: `testSafeAllowsNarrowWork`
+  - `testSafeAllowsNarrowWork` → `testSafeAllowsNarrowWork` at `scripts/_local/phase73_operator_safety_gates_smoke.ts:15`
+  - `run` → `testSafeAllowsNarrowWork` at `scripts/_local/phase73_operator_safety_gates_smoke.ts:68`
+- Target: `testCautionBlocksHighImpactWork`
+  - `testCautionBlocksHighImpactWork` → `testCautionBlocksHighImpactWork` at `scripts/_local/phase73_operator_safety_gates_smoke.ts:23`
+  - `run` → `testCautionBlocksHighImpactWork` at `scripts/_local/phase73_operator_safety_gates_smoke.ts:69`
+- Target: `testCautionAllowsVerification`
+  - `testCautionAllowsVerification` → `testCautionAllowsVerification` at `scripts/_local/phase73_operator_safety_gates_smoke.ts:34`
+  - `run` → `testCautionAllowsVerification` at `scripts/_local/phase73_operator_safety_gates_smoke.ts:70`
+- Target: `testRiskBlocksForwardChange`
+  - `testRiskBlocksForwardChange` → `testRiskBlocksForwardChange` at `scripts/_local/phase73_operator_safety_gates_smoke.ts:45`
+  - `run` → `testRiskBlocksForwardChange` at `scripts/_local/phase73_operator_safety_gates_smoke.ts:71`
+- Target: `testRiskAllowsRecovery`
+  - `testRiskAllowsRecovery` → `testRiskAllowsRecovery` at `scripts/_local/phase73_operator_safety_gates_smoke.ts:56`
+  - `run` → `testRiskAllowsRecovery` at `scripts/_local/phase73_operator_safety_gates_smoke.ts:72`
+- Target: `testRecoveryPlaybookIntegration`
+  - `run` → `testRecoveryPlaybookIntegration` at `scripts/_local/phase76_playbook_selection_smoke.ts:67`
+- Target: `testDiagnosticsPlaybookIntegration`
+  - `run` → `testDiagnosticsPlaybookIntegration` at `scripts/_local/phase76_playbook_selection_smoke.ts:68`
+- Target: `testProgressPlaybookIntegration`
+  - `run` → `testProgressPlaybookIntegration` at `scripts/_local/phase76_playbook_selection_smoke.ts:69`
+- Target: `testHighSeverityRecoveryOrdering`
+  - `run` → `testHighSeverityRecoveryOrdering` at `scripts/_local/phase77_adaptive_playbook_ordering_smoke.ts:83`
+- Target: `testHighSeverityDiagnosticsOrdering`
+  - `run` → `testHighSeverityDiagnosticsOrdering` at `scripts/_local/phase77_adaptive_playbook_ordering_smoke.ts:84`
+- Target: `testSafeProgressOrdering`
+  - `run` → `testSafeProgressOrdering` at `scripts/_local/phase77_adaptive_playbook_ordering_smoke.ts:85`
+- Target: `testRiskPrioritizesRecovery`
+  - `testRiskPrioritizesRecovery` → `testRiskPrioritizesRecovery` at `scripts/_local/phase75_operator_helper_priority_smoke.ts:14`
+  - `run` → `testRiskPrioritizesRecovery` at `scripts/_local/phase75_operator_helper_priority_smoke.ts:51`
+- Target: `testCautionPrioritizesDiagnostics`
+  - `testCautionPrioritizesDiagnostics` → `testCautionPrioritizesDiagnostics` at `scripts/_local/phase75_operator_helper_priority_smoke.ts:26`
+  - `run` → `testCautionPrioritizesDiagnostics` at `scripts/_local/phase75_operator_helper_priority_smoke.ts:53`
+- Target: `testSafePrioritizesProgress`
+  - `testSafePrioritizesProgress` → `testSafePrioritizesProgress` at `scripts/_local/phase75_operator_helper_priority_smoke.ts:38`
+  - `run` → `testSafePrioritizesProgress` at `scripts/_local/phase75_operator_helper_priority_smoke.ts:55`
+- Target: `testNoSignals`
+  - `run` → `testNoSignals` at `scripts/_local/phase77_signal_severity_model_smoke.ts:44`
+- Target: `testSingleSignalHigh`
+  - `run` → `testSingleSignalHigh` at `scripts/_local/phase77_signal_severity_model_smoke.ts:45`
+- Target: `testMultipleSignalsHigh`
+  - `run` → `testMultipleSignalsHigh` at `scripts/_local/phase77_signal_severity_model_smoke.ts:46`
+- Target: `testSafeState`
+  - `testSafeState` → `testSafeState` at `scripts/_local/phase72_operator_guidance_smoke.ts:15`
+  - `run` → `testSafeState` at `scripts/_local/phase72_operator_guidance_smoke.ts:40`
+- Target: `testCautionState`
+  - `testCautionState` → `testCautionState` at `scripts/_local/phase72_operator_guidance_smoke.ts:22`
+  - `run` → `testCautionState` at `scripts/_local/phase72_operator_guidance_smoke.ts:41`
+- Target: `testRiskState`
+  - `testRiskState` → `testRiskState` at `scripts/_local/phase72_operator_guidance_smoke.ts:30`
+  - `run` → `testRiskState` at `scripts/_local/phase72_operator_guidance_smoke.ts:42`
+- Target: `testRiskOrdering`
+  - `run` → `testRiskOrdering` at `scripts/_local/phase75_ranked_helpers_smoke.ts:55`
+- Target: `testCautionOrdering`
+  - `run` → `testCautionOrdering` at `scripts/_local/phase75_ranked_helpers_smoke.ts:57`
+- Target: `testSafeOrdering`
+  - `run` → `testSafeOrdering` at `scripts/_local/phase75_ranked_helpers_smoke.ts:59`
+- Target: `testRecoveryPlaybook`
+  - `run` → `testRecoveryPlaybook` at `scripts/_local/phase76_playbook_smoke.ts:60`
+- Target: `testDiagnosticsPlaybook`
+  - `run` → `testDiagnosticsPlaybook` at `scripts/_local/phase76_playbook_smoke.ts:62`
+- Target: `testProgressPlaybook`
+  - `run` → `testProgressPlaybook` at `scripts/_local/phase76_playbook_smoke.ts:64`
+- Target: `runGovernanceVerificationSmoke`
+  - `runGovernanceVerificationSmoke` → `runGovernanceVerificationSmoke` at `governance/governanceVerification.smoke.ts:60`
+- Target: `runSmoke`
+  - `runSmoke` → `runSmoke` at `routes/diagnostics/systemHealthSituationSummary.smoke.ts:11`
+  - `runSmoke` → `runSmoke` at `routes/diagnostics/systemHealthSituationSummary.smoke.ts:35`
+  - `runSmoke` → `runSmoke` at `routes/diagnostics/systemHealth.js.route.smoke.ts:42`
+  - `runSmoke` → `runSmoke` at `routes/diagnostics/systemHealth.js.route.smoke.ts:75`
+  - `runSmoke` → `runSmoke` at `routes/diagnostics/systemHealth.route.smoke.ts:32`
+  - `runSmoke` → `runSmoke` at `routes/diagnostics/systemHealth.route.smoke.ts:65`
+  - `runSmoke` → `runSmoke` at `src/cognition/index.smoke.ts:70`
+  - `runSmoke` → `runSmoke` at `src/cognition/getSituationSummary.smoke.ts:37`
+  - `runSmoke` → `runSmoke` at `src/cognition/situationSummaryRender.smoke.ts:35`
+  - `runSmoke` → `runSmoke` at `src/cognition/getSituationSummary.unknown.smoke.ts:24`
+  - `runSmoke` → `runSmoke` at `src/cognition/situationSummaryIntegration.smoke.ts:63`
+  - `runSmoke` → `runSmoke` at `src/cognition/buildRenderedSituationSummary.smoke.ts:30`
+  - `runSmoke` → `runSmoke` at `src/cognition/situationSummaryCli.smoke.ts:63`
+  - `runSmoke` → `runSmoke` at `src/cognition/getSystemSituationSummary.smoke.ts:30`
+  - `runSmoke` → `runSmoke` at `src/cognition/getSituationSummary.degraded.smoke.ts:30`
+  - `runSmoke` → `runSmoke` at `src/cognition/getSituationSummarySnapshot.smoke.ts:53`
+  - `runSmoke` → `runSmoke` at `src/cognition/systemSituationSummaryCli.smoke.ts:38`
+- Target: `runOperatorGuidanceSmokeMatrix`
+  - `<top-level>` → `runOperatorGuidanceSmokeMatrix` at `docs/phase423_2_step1_execution_anchor_hunt_output.txt:418`
+  - `runOperatorGuidanceSmokeMatrix` → `runOperatorGuidanceSmokeMatrix` at `src/cognition/operatorGuidance.smoke.ts:125`
+  - `runOperatorGuidanceSmokeMatrix` → `runOperatorGuidanceSmokeMatrix` at `src/cognition/operatorGuidance.smoke.ts:179`
+- Target: `proveGovernanceRuntimeRegistryExport`
+  - `assert` → `proveGovernanceRuntimeRegistryExport` at `scripts/_local/phase138_governance_runtime_registry_export_smoke.ts:36`
+  - `<top-level>` → `proveGovernanceRuntimeRegistryExport` at `scripts/_local/phase138_governance_runtime_registry_export_report.ts:30`
+  - `proveGovernanceRuntimeRegistryExport` → `proveGovernanceRuntimeRegistryExport` at `src/governance/cognition/prove_governance_runtime_registry_export.ts:34`
+- Target: `proveGovernanceDashboardConsumptionView`
+  - `assert` → `proveGovernanceDashboardConsumptionView` at `scripts/_local/phase136_governance_dashboard_consumption_smoke.ts:28`
+  - `<top-level>` → `proveGovernanceDashboardConsumptionView` at `scripts/_local/phase136_governance_dashboard_consumption_report.ts:22`
+  - `proveGovernanceDashboardConsumptionView` → `proveGovernanceDashboardConsumptionView` at `src/governance/cognition/prove_governance_dashboard_consumption_view.ts:29`
+- Target: `proveGovernanceCognitionSnapshot`
+  - `assert` → `proveGovernanceCognitionSnapshot` at `scripts/_local/phase135_governance_cognition_snapshot_smoke.ts:24`
+  - `<top-level>` → `proveGovernanceCognitionSnapshot` at `scripts/_local/phase135_governance_cognition_snapshot_report.ts:18`
+- Target: `proveGovernanceDashboardContractRegistration`
+  - `<top-level>` → `proveGovernanceDashboardContractRegistration` at `scripts/_local/phase137_governance_dashboard_contract_registration_report.ts:24`
+  - `assert` → `proveGovernanceDashboardContractRegistration` at `scripts/_local/phase137_governance_dashboard_contract_registration_smoke.ts:30`
+  - `proveGovernanceDashboardContractRegistration` → `proveGovernanceDashboardContractRegistration` at `src/governance/cognition/prove_governance_dashboard_contract_registration.ts:30`
+- Target: `proveGovernanceSharedRegistryOwnerBundle`
+  - `assert` → `proveGovernanceSharedRegistryOwnerBundle` at `scripts/_local/phase139_governance_shared_registry_owner_bundle_smoke.ts:40`
+  - `<top-level>` → `proveGovernanceSharedRegistryOwnerBundle` at `scripts/_local/phase139_governance_shared_registry_owner_bundle_report.ts:34`
+  - `proveGovernanceSharedRegistryOwnerBundle` → `proveGovernanceSharedRegistryOwnerBundle` at `src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:37`
+- Target: `run`
+  - `pushReflection` → `run` at `reflection-push.ts:7`
+  - `<top-level>` → `run` at `ops-sse-bootstrap.ts:15`
+  - `<top-level>` → `run` at `PHASE25_UI_INFERENCE_AUDIT_SCOPED.md:110`
+  - `<top-level>` → `run` at `PHASE25_UI_INFERENCE_AUDIT_SCOPED.md:176`
+  - `<top-level>` → `run` at `PHASE25_UI_INFERENCE_AUDIT_SCOPED.md:215`
+  - `<top-level>` → `run` at `PHASE25_UI_INFERENCE_AUDIT_SCOPED.md:225`
+  - `<top-level>` → `run` at `ensure-task-events-main.ts:15`
+  - `insertReflection` → `run` at `run-live-delegation.ts:5`
+  - `insertTask` → `run` at `run-live-delegation.ts:10`
+  - `validateTaskEvent` → `run` at `validateTaskEvent.ts:15`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:335`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:679`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:691`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:692`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:694`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:775`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:791`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:792`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:794`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1310`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1654`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1666`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1667`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1669`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1750`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1766`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1767`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1769`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1901`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2024`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2101`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2109`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2168`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2382`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2539`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2730`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2842`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2909`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2915`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2938`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2989`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3433`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3727`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3763`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3867`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3873`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:4076`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:4253`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:4259`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:4366`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:4609`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:4615`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:4616`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:4617`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:4637`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:4643`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:4644`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:4645`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:4881`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:4933`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:4956`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:4957`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:4990`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:5405`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:5425`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:5448`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:5449`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:5691`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:5697`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:5698`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:5699`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:5706`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:5707`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:5708`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:5711`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:5735`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:6287`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:6461`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:6487`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:6538`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:6543`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:6595`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:6909`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:6945`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:7084`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:7164`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:7229`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:7296`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:7302`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:7815`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8061`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8472`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8478`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8508`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8622`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8740`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8743`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8744`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8745`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8763`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8764`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8765`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8766`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8789`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8791`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8792`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8793`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8794`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8795`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8796`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8797`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8800`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8802`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8803`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8804`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8805`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8810`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8811`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8812`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8813`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8814`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8816`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8817`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8818`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8819`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8820`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8821`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8822`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8826`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8830`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8831`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8832`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8833`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8838`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8960`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8989`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:9024`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:9026`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:9167`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:9180`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:9194`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:9201`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:9279`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:9307`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:9329`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:9431`
+  - `<top-level>` → `run` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:9437`
+  - `<top-level>` → `run` at `PHASE25_UI_INFERENCE_AUDIT.md:91`
+  - `<top-level>` → `run` at `PHASE25_UI_INFERENCE_AUDIT.md:143`
+  - `<top-level>` → `run` at `PHASE25_UI_INFERENCE_AUDIT.md:180`
+  - `<top-level>` → `run` at `PHASE25_UI_INFERENCE_AUDIT.md:186`
+  - `<top-level>` → `run` at `delegations.ts:15`
+  - `<top-level>` → `run` at `PHASE62B_TASKS_COMPLETE_500_INSPECTION_20260317T165843Z.txt:107`
+  - `<top-level>` → `run` at `delegate.ts:63`
+  - `<top-level>` → `run` at `delegate.ts:70`
+  - `<top-level>` → `run` at `PHASE62B_NEXT_SAFE_METRIC_DISCOVERY.txt:107`
+  - `executeDelegation` → `run` at `cade-delegation-watcher.ts:22`
+  - `cleanupOldData` → `run` at `pruneDatabase.ts:13`
+  - `registerEntity` → `run` at `create-entity.ts:105`
+  - `registerEntity` → `run` at `create-entity.ts:110`
+  - `registerEntity` → `run` at `create-entity.ts:118`
+  - `registerEntity` → `run` at `create-entity.ts:123`
+  - `runDemoSequence` → `run` at `run-demo-sequence.ts:8`
+  - `runDemoSequence` → `run` at `run-demo-sequence.ts:9`
+  - `runDemoSequence` → `run` at `run-demo-sequence.ts:19`
+  - `runDemoSequence` → `run` at `run-demo-sequence.ts:29`
+  - `<top-level>` → `run` at `PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1180`
+  - `<top-level>` → `run` at `PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1184`
+  - `<top-level>` → `run` at `PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1185`
+  - `<top-level>` → `run` at `PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1186`
+  - `<top-level>` → `run` at `PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1214`
+  - `<top-level>` → `run` at `PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1216`
+  - `<top-level>` → `run` at `PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1217`
+  - `<top-level>` → `run` at `PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1218`
+  - `<top-level>` → `run` at `PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1281`
+  - `<top-level>` → `run` at `PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1283`
+  - `<top-level>` → `run` at `PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1284`
+  - `<top-level>` → `run` at `PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1285`
+  - `<top-level>` → `run` at `PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1286`
+  - `<top-level>` → `run` at `PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1287`
+  - `<top-level>` → `run` at `PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1288`
+  - `<top-level>` → `run` at `PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1289`
+  - `<top-level>` → `run` at `PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1294`
+  - `<top-level>` → `run` at `PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1297`
+  - `<top-level>` → `run` at `PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1298`
+  - `<top-level>` → `run` at `PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1299`
+  - `<top-level>` → `run` at `PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1303`
+  - `<top-level>` → `run` at `PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1313`
+  - `<top-level>` → `run` at `PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1314`
+  - `<top-level>` → `run` at `PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1315`
+  - `<top-level>` → `run` at `PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1316`
+  - `<top-level>` → `run` at `PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1318`
+  - `<top-level>` → `run` at `PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1320`
+  - `<top-level>` → `run` at `PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1321`
+  - `<top-level>` → `run` at `PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1322`
+  - `<top-level>` → `run` at `PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1324`
+  - `<top-level>` → `run` at `PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1325`
+  - `<top-level>` → `run` at `PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1326`
+  - `<top-level>` → `run` at `PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1327`
+  - `<top-level>` → `run` at `PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1333`
+- Target: `pushReflection`
+  - `executeDelegation` → `pushReflection` at `cade-delegation-watcher.ts:27`
+  - `executeDelegation` → `pushReflection` at `snapshots/20251114-114821/scripts/agents/cade-delegation-watcher.ts:27`
+  - `executeDelegation` → `pushReflection` at `snapshots/20251114-114707/scripts/agents/cade-delegation-watcher.ts:27`
+  - `executeDelegation` → `pushReflection` at `scripts_backup/agents/cade-delegation-watcher.ts:27`
+  - `executeDelegation` → `pushReflection` at `scripts_backup/scripts/agents/cade-delegation-watcher.ts:27`
+  - `executeDelegation` → `pushReflection` at `scripts/agents/cade-delegation-watcher.ts:27`
+  - `executeDelegation` → `pushReflection` at `ts-backup/cade-delegation-watcher.ts:27`
+  - `executeDelegation` → `pushReflection` at `scripts_backup_2/agents/cade-delegation-watcher.ts:27`
+- Target: `insertReflection`
+  - `simulateLiveDelegation` → `insertReflection` at `run-live-delegation.ts:16`
+  - `simulateLiveDelegation` → `insertReflection` at `run-live-delegation.ts:20`
+  - `simulateLiveDelegation` → `insertReflection` at `run-live-delegation.ts:24`
+  - `simulateLiveDelegation` → `insertReflection` at `run-live-delegation.ts:28`
+  - `simulateLiveDelegation` → `insertReflection` at `snapshots/20251114-114821/scripts/demo/run-live-delegation.ts:16`
+  - `simulateLiveDelegation` → `insertReflection` at `snapshots/20251114-114821/scripts/demo/run-live-delegation.ts:20`
+  - `simulateLiveDelegation` → `insertReflection` at `snapshots/20251114-114821/scripts/demo/run-live-delegation.ts:24`
+  - `simulateLiveDelegation` → `insertReflection` at `snapshots/20251114-114821/scripts/demo/run-live-delegation.ts:28`
+  - `simulateLiveDelegation` → `insertReflection` at `snapshots/20251114-114707/scripts/demo/run-live-delegation.ts:16`
+  - `simulateLiveDelegation` → `insertReflection` at `snapshots/20251114-114707/scripts/demo/run-live-delegation.ts:20`
+  - `simulateLiveDelegation` → `insertReflection` at `snapshots/20251114-114707/scripts/demo/run-live-delegation.ts:24`
+  - `simulateLiveDelegation` → `insertReflection` at `snapshots/20251114-114707/scripts/demo/run-live-delegation.ts:28`
+  - `simulateLiveDelegation` → `insertReflection` at `scripts_backup/demo/run-live-delegation.ts:16`
+  - `simulateLiveDelegation` → `insertReflection` at `scripts_backup/demo/run-live-delegation.ts:20`
+  - `simulateLiveDelegation` → `insertReflection` at `scripts_backup/demo/run-live-delegation.ts:24`
+  - `simulateLiveDelegation` → `insertReflection` at `scripts_backup/demo/run-live-delegation.ts:28`
+  - `simulateLiveDelegation` → `insertReflection` at `scripts_backup/scripts/demo/run-live-delegation.ts:16`
+  - `simulateLiveDelegation` → `insertReflection` at `scripts_backup/scripts/demo/run-live-delegation.ts:20`
+  - `simulateLiveDelegation` → `insertReflection` at `scripts_backup/scripts/demo/run-live-delegation.ts:24`
+  - `simulateLiveDelegation` → `insertReflection` at `scripts_backup/scripts/demo/run-live-delegation.ts:28`
+  - `simulateLiveDelegation` → `insertReflection` at `scripts/demo/run-live-delegation.ts:16`
+  - `simulateLiveDelegation` → `insertReflection` at `scripts/demo/run-live-delegation.ts:20`
+  - `simulateLiveDelegation` → `insertReflection` at `scripts/demo/run-live-delegation.ts:24`
+  - `simulateLiveDelegation` → `insertReflection` at `scripts/demo/run-live-delegation.ts:28`
+  - `simulateLiveDelegation` → `insertReflection` at `ts-backup/run-live-delegation.ts:16`
+  - `simulateLiveDelegation` → `insertReflection` at `ts-backup/run-live-delegation.ts:20`
+  - `simulateLiveDelegation` → `insertReflection` at `ts-backup/run-live-delegation.ts:24`
+  - `simulateLiveDelegation` → `insertReflection` at `ts-backup/run-live-delegation.ts:28`
+  - `simulateLiveDelegation` → `insertReflection` at `scripts_backup_2/demo/run-live-delegation.ts:16`
+  - `simulateLiveDelegation` → `insertReflection` at `scripts_backup_2/demo/run-live-delegation.ts:20`
+  - `simulateLiveDelegation` → `insertReflection` at `scripts_backup_2/demo/run-live-delegation.ts:24`
+  - `simulateLiveDelegation` → `insertReflection` at `scripts_backup_2/demo/run-live-delegation.ts:28`
+- Target: `insertTask`
+  - `simulateLiveDelegation` → `insertTask` at `run-live-delegation.ts:17`
+  - `simulateLiveDelegation` → `insertTask` at `run-live-delegation.ts:21`
+  - `simulateLiveDelegation` → `insertTask` at `run-live-delegation.ts:25`
+  - `simulateLiveDelegation` → `insertTask` at `run-live-delegation.ts:29`
+  - `simulateLiveDelegation` → `insertTask` at `snapshots/20251114-114821/scripts/demo/run-live-delegation.ts:17`
+  - `simulateLiveDelegation` → `insertTask` at `snapshots/20251114-114821/scripts/demo/run-live-delegation.ts:21`
+  - `simulateLiveDelegation` → `insertTask` at `snapshots/20251114-114821/scripts/demo/run-live-delegation.ts:25`
+  - `simulateLiveDelegation` → `insertTask` at `snapshots/20251114-114821/scripts/demo/run-live-delegation.ts:29`
+  - `simulateLiveDelegation` → `insertTask` at `snapshots/20251114-114707/scripts/demo/run-live-delegation.ts:17`
+  - `simulateLiveDelegation` → `insertTask` at `snapshots/20251114-114707/scripts/demo/run-live-delegation.ts:21`
+  - `simulateLiveDelegation` → `insertTask` at `snapshots/20251114-114707/scripts/demo/run-live-delegation.ts:25`
+  - `simulateLiveDelegation` → `insertTask` at `snapshots/20251114-114707/scripts/demo/run-live-delegation.ts:29`
+  - `simulateLiveDelegation` → `insertTask` at `scripts_backup/demo/run-live-delegation.ts:17`
+  - `simulateLiveDelegation` → `insertTask` at `scripts_backup/demo/run-live-delegation.ts:21`
+  - `simulateLiveDelegation` → `insertTask` at `scripts_backup/demo/run-live-delegation.ts:25`
+  - `simulateLiveDelegation` → `insertTask` at `scripts_backup/demo/run-live-delegation.ts:29`
+  - `simulateLiveDelegation` → `insertTask` at `scripts_backup/scripts/demo/run-live-delegation.ts:17`
+  - `simulateLiveDelegation` → `insertTask` at `scripts_backup/scripts/demo/run-live-delegation.ts:21`
+  - `simulateLiveDelegation` → `insertTask` at `scripts_backup/scripts/demo/run-live-delegation.ts:25`
+  - `simulateLiveDelegation` → `insertTask` at `scripts_backup/scripts/demo/run-live-delegation.ts:29`
+  - `simulateLiveDelegation` → `insertTask` at `scripts/demo/run-live-delegation.ts:17`
+  - `simulateLiveDelegation` → `insertTask` at `scripts/demo/run-live-delegation.ts:21`
+  - `simulateLiveDelegation` → `insertTask` at `scripts/demo/run-live-delegation.ts:25`
+  - `simulateLiveDelegation` → `insertTask` at `scripts/demo/run-live-delegation.ts:29`
+  - `simulateLiveDelegation` → `insertTask` at `ts-backup/run-live-delegation.ts:17`
+  - `simulateLiveDelegation` → `insertTask` at `ts-backup/run-live-delegation.ts:21`
+  - `simulateLiveDelegation` → `insertTask` at `ts-backup/run-live-delegation.ts:25`
+  - `simulateLiveDelegation` → `insertTask` at `ts-backup/run-live-delegation.ts:29`
+  - `simulateLiveDelegation` → `insertTask` at `scripts_backup_2/demo/run-live-delegation.ts:17`
+  - `simulateLiveDelegation` → `insertTask` at `scripts_backup_2/demo/run-live-delegation.ts:21`
+  - `simulateLiveDelegation` → `insertTask` at `scripts_backup_2/demo/run-live-delegation.ts:25`
+  - `simulateLiveDelegation` → `insertTask` at `scripts_backup_2/demo/run-live-delegation.ts:29`
+- Target: `validateTaskEvent`
+  - `printReport` → `validateTaskEvent` at `scripts/_local/phase68_event_schema_validator.ts:206`
+- Target: `executeDelegation`
+  - `checkPendingDelegations` → `executeDelegation` at `cade-delegation-watcher.ts:36`
+  - `<top-level>` → `executeDelegation` at `PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1190`
+  - `<top-level>` → `executeDelegation` at `PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1198`
+  - `<top-level>` → `executeDelegation` at `PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1249`
+  - `<top-level>` → `executeDelegation` at `PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1255`
+  - `<top-level>` → `executeDelegation` at `PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1375`
+  - `<top-level>` → `executeDelegation` at `PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1431`
+  - `<top-level>` → `executeDelegation` at `PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1525`
+  - `<top-level>` → `executeDelegation` at `PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1540`
+  - `checkPendingDelegations` → `executeDelegation` at `snapshots/20251114-114821/scripts/agents/cade-delegation-watcher.ts:36`
+  - `checkPendingDelegations` → `executeDelegation` at `snapshots/20251114-114707/scripts/agents/cade-delegation-watcher.ts:36`
+  - `checkPendingDelegations` → `executeDelegation` at `scripts_backup/agents/cade-delegation-watcher.ts:36`
+  - `checkPendingDelegations` → `executeDelegation` at `scripts_backup/scripts/agents/cade-delegation-watcher.ts:36`
+  - `checkPendingDelegations` → `executeDelegation` at `scripts/agents/cade-delegation-watcher.ts:36`
+  - `checkPendingDelegations` → `executeDelegation` at `ts-backup/cade-delegation-watcher.ts:36`
+  - `checkPendingDelegations` → `executeDelegation` at `scripts_backup_2/agents/cade-delegation-watcher.ts:36`
+- Target: `cleanupOldData`
+  - `checkAgents` → `cleanupOldData` at `agentWatchdog.ts:46`
+  - `checkAgents` → `cleanupOldData` at `snapshots/20251114-114821/scripts/utils/agentWatchdog.ts:46`
+  - `checkAgents` → `cleanupOldData` at `snapshots/20251114-114707/scripts/utils/agentWatchdog.ts:46`
+  - `checkAgents` → `cleanupOldData` at `scripts_backup/utils/agentWatchdog.ts:46`
+  - `checkAgents` → `cleanupOldData` at `scripts_backup/scripts/utils/agentWatchdog.ts:46`
+  - `checkAgents` → `cleanupOldData` at `scripts/utils/agentWatchdog.ts:46`
+  - `checkAgents` → `cleanupOldData` at `ts-backup/agentWatchdog.ts:46`
+  - `checkAgents` → `cleanupOldData` at `scripts_backup_2/utils/agentWatchdog.ts:46`
+- Target: `registerEntity`
+  - `createEntity` → `registerEntity` at `create-entity.ts:162`
+  - `createEntity` → `registerEntity` at `scripts_backup/scripts/ops/create-entity.ts:162`
+  - `createEntity` → `registerEntity` at `scripts_backup/ops/create-entity.ts:162`
+  - `createEntity` → `registerEntity` at `scripts/ops/create-entity.ts:162`
+  - `createEntity` → `registerEntity` at `ts-backup/create-entity.ts:162`
+  - `createEntity` → `registerEntity` at `scripts_backup_2/ops/create-entity.ts:162`
+- Target: `runDemoSequence`
+  - `runDemoSequence` → `runDemoSequence` at `run-demo-sequence.ts:40`
+  - `runDemoSequence` → `runDemoSequence` at `snapshots/20251114-114821/scripts/demo/run-demo-sequence.ts:40`
+  - `runDemoSequence` → `runDemoSequence` at `snapshots/20251114-114707/scripts/demo/run-demo-sequence.ts:40`
+  - `runDemoSequence` → `runDemoSequence` at `scripts_backup/demo/run-demo-sequence.ts:40`
+  - `runDemoSequence` → `runDemoSequence` at `scripts_backup/scripts/demo/run-demo-sequence.ts:40`
+  - `runDemoSequence` → `runDemoSequence` at `scripts/demo/run-demo-sequence.ts:40`
+  - `runDemoSequence` → `runDemoSequence` at `ts-backup/run-demo-sequence.ts:40`
+  - `runDemoSequence` → `runDemoSequence` at `scripts_backup_2/demo/run-demo-sequence.ts:40`
+- Target: `runDemoPlayback`
+  - `runDemoPlayback` → `runDemoPlayback` at `run-demo-playback.ts:45`
+  - `runDemoPlayback` → `runDemoPlayback` at `scripts_backup/demo/run-demo-playback.ts:45`
+  - `runDemoPlayback` → `runDemoPlayback` at `scripts_backup/scripts/demo/run-demo-playback.ts:45`
+  - `runDemoPlayback` → `runDemoPlayback` at `scripts/demo/run-demo-playback.ts:45`
+  - `runDemoPlayback` → `runDemoPlayback` at `ts-backup/run-demo-playback.ts:45`
+  - `runDemoPlayback` → `runDemoPlayback` at `scripts_backup_2/demo/run-demo-playback.ts:45`
+- Target: `pruneReflections`
+  - `cleanupOldData` → `pruneReflections` at `pruneDatabase.ts:7`
+  - `cleanupOldData` → `pruneReflections` at `snapshots/20251114-114821/scripts/utils/pruneDatabase.ts:7`
+  - `cleanupOldData` → `pruneReflections` at `snapshots/20251114-114707/scripts/utils/pruneDatabase.ts:7`
+  - `cleanupOldData` → `pruneReflections` at `scripts_backup/utils/pruneDatabase.ts:7`
+  - `cleanupOldData` → `pruneReflections` at `scripts_backup/scripts/utils/pruneDatabase.ts:7`
+  - `cleanupOldData` → `pruneReflections` at `scripts/utils/pruneDatabase.ts:7`
+  - `cleanupOldData` → `pruneReflections` at `ts-backup/pruneDatabase.ts:7`
+  - `cleanupOldData` → `pruneReflections` at `scripts_backup_2/utils/pruneDatabase.ts:7`
+- Target: `logReflection`
+  - `logReflection` → `logReflection` at `demo-cinematic-sequence.ts:16`
+  - `logReflection` → `logReflection` at `demo-cinematic-sequence.ts:17`
+  - `logReflection` → `logReflection` at `demo-cinematic-sequence.ts:18`
+  - `logReflection` → `logReflection` at `demo-cinematic-sequence.ts:19`
+  - `logReflection` → `logReflection` at `demo-cinematic-sequence.ts:20`
+  - `logReflection` → `logReflection` at `demo-cinematic-sequence.ts:21`
+  - `<top-level>` → `logReflection` at `PHASE80_2_EXTERNAL_DASHBOARD_CONSUMER_DISCOVERY_20260317T183750Z.md:41`
+  - `<top-level>` → `logReflection` at `PHASE80_2_EXTERNAL_DASHBOARD_CONSUMER_DISCOVERY_20260317T183750Z.md:42`
+  - `<top-level>` → `logReflection` at `PHASE80_2_EXTERNAL_DASHBOARD_CONSUMER_DISCOVERY_20260317T183750Z.md:54`
+  - `<top-level>` → `logReflection` at `PHASE80_2_EXTERNAL_DASHBOARD_CONSUMER_DISCOVERY_20260317T183750Z.md:55`
+  - `<top-level>` → `logReflection` at `PHASE80_2_EXTERNAL_DASHBOARD_CONSUMER_DISCOVERY_20260317T183750Z.md:56`
+  - `<top-level>` → `logReflection` at `PHASE80_2_EXTERNAL_DASHBOARD_CONSUMER_DISCOVERY_20260317T183750Z.md:123`
+  - `<top-level>` → `logReflection` at `PHASE80_2_EXTERNAL_DASHBOARD_CONSUMER_DISCOVERY_20260317T183750Z.md:124`
+  - `<top-level>` → `logReflection` at `PHASE80_2_EXTERNAL_DASHBOARD_CONSUMER_DISCOVERY_20260317T183750Z.md:134`
+  - `<top-level>` → `logReflection` at `PHASE80_2_EXTERNAL_DASHBOARD_CONSUMER_DISCOVERY_20260317T183750Z.md:135`
+  - `<top-level>` → `logReflection` at `PHASE80_2_EXTERNAL_DASHBOARD_CONSUMER_DISCOVERY_20260317T183750Z.md:300`
+  - `<top-level>` → `logReflection` at `PHASE80_2_EXTERNAL_DASHBOARD_CONSUMER_DISCOVERY_20260317T183750Z.md:301`
+  - `<top-level>` → `logReflection` at `PHASE80_2_EXTERNAL_DASHBOARD_CONSUMER_DISCOVERY_20260317T183750Z.md:302`
+  - `<top-level>` → `logReflection` at `PHASE80_2_EXTERNAL_DASHBOARD_CONSUMER_DISCOVERY_20260317T183750Z.md:397`
+  - `<top-level>` → `logReflection` at `PHASE80_2_EXTERNAL_DASHBOARD_CONSUMER_DISCOVERY_20260317T183750Z.md:398`
+  - `<top-level>` → `logReflection` at `PHASE80_2_EXTERNAL_DASHBOARD_CONSUMER_DISCOVERY_20260317T183750Z.md:418`
+  - `<top-level>` → `logReflection` at `PHASE80_2_EXTERNAL_DASHBOARD_CONSUMER_DISCOVERY_20260317T183750Z.md:419`
+  - `<top-level>` → `logReflection` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:7249`
+  - `<top-level>` → `logReflection` at `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:7250`
+  - `createAtlas` → `logReflection` at `scripts_backup/run-create-atlas.ts:23`
+  - `createAtlas` → `logReflection` at `scripts_backup/run-create-atlas.ts:38`
+  - `createAtlas` → `logReflection` at `scripts_backup/run-create-atlas.ts:47`
+  - `createAtlas` → `logReflection` at `scripts_backup/run-create-atlas.ts:49`
+  - `createAtlas` → `logReflection` at `scripts_backup/run-create-atlas.ts:54`
+  - `createAtlas` → `logReflection` at `scripts_backup/run-create-atlas.ts:59`
+  - `logReflection` → `logReflection` at `scripts_backup/sequences/demo-cinematic-sequence.ts:16`
+  - `logReflection` → `logReflection` at `scripts_backup/sequences/demo-cinematic-sequence.ts:17`
+  - `logReflection` → `logReflection` at `scripts_backup/sequences/demo-cinematic-sequence.ts:18`
+  - `logReflection` → `logReflection` at `scripts_backup/sequences/demo-cinematic-sequence.ts:19`
+  - `logReflection` → `logReflection` at `scripts_backup/sequences/demo-cinematic-sequence.ts:20`
+  - `logReflection` → `logReflection` at `scripts_backup/sequences/demo-cinematic-sequence.ts:21`
+  - `createAtlas` → `logReflection` at `scripts_backup/scripts/run-create-atlas.ts:23`
+  - `createAtlas` → `logReflection` at `scripts_backup/scripts/run-create-atlas.ts:38`
+  - `createAtlas` → `logReflection` at `scripts_backup/scripts/run-create-atlas.ts:47`
+  - `createAtlas` → `logReflection` at `scripts_backup/scripts/run-create-atlas.ts:49`
+  - `createAtlas` → `logReflection` at `scripts_backup/scripts/run-create-atlas.ts:54`
+  - `createAtlas` → `logReflection` at `scripts_backup/scripts/run-create-atlas.ts:59`
+  - `logReflection` → `logReflection` at `scripts_backup/scripts/sequences/demo-cinematic-sequence.ts:16`
+  - `logReflection` → `logReflection` at `scripts_backup/scripts/sequences/demo-cinematic-sequence.ts:17`
+  - `logReflection` → `logReflection` at `scripts_backup/scripts/sequences/demo-cinematic-sequence.ts:18`
+  - `logReflection` → `logReflection` at `scripts_backup/scripts/sequences/demo-cinematic-sequence.ts:19`
+  - `logReflection` → `logReflection` at `scripts_backup/scripts/sequences/demo-cinematic-sequence.ts:20`
+  - `logReflection` → `logReflection` at `scripts_backup/scripts/sequences/demo-cinematic-sequence.ts:21`
+  - `<top-level>` → `logReflection` at `docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:508`
+  - `<top-level>` → `logReflection` at `docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:509`
+  - `<top-level>` → `logReflection` at `docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:2504`
+  - `<top-level>` → `logReflection` at `docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:2505`
+  - `<top-level>` → `logReflection` at `docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:4710`
+  - `<top-level>` → `logReflection` at `docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:4711`
+  - `<top-level>` → `logReflection` at `docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:4979`
+  - `<top-level>` → `logReflection` at `docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:4994`
+  - `<top-level>` → `logReflection` at `docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:4995`
+  - `<top-level>` → `logReflection` at `docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:5088`
+  - `<top-level>` → `logReflection` at `docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:5089`
+  - `<top-level>` → `logReflection` at `docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:5236`
+  - `<top-level>` → `logReflection` at `docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:5237`
+  - `<top-level>` → `logReflection` at `docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:68`
+  - `<top-level>` → `logReflection` at `docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:69`
+  - `<top-level>` → `logReflection` at `docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:4202`
+  - `<top-level>` → `logReflection` at `docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:4203`
+  - `<top-level>` → `logReflection` at `docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:4331`
+  - `<top-level>` → `logReflection` at `docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:4332`
+  - `<top-level>` → `logReflection` at `docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:4358`
+  - `<top-level>` → `logReflection` at `docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:4359`
+  - `<top-level>` → `logReflection` at `docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:6234`
+  - `<top-level>` → `logReflection` at `docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:6235`
+  - `<top-level>` → `logReflection` at `docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:6236`
+  - `<top-level>` → `logReflection` at `docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:6726`
+  - `<top-level>` → `logReflection` at `docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:6727`
+  - `createAtlas` → `logReflection` at `scripts/run-create-atlas.ts:23`
+  - `createAtlas` → `logReflection` at `scripts/run-create-atlas.ts:38`
+  - `createAtlas` → `logReflection` at `scripts/run-create-atlas.ts:47`
+  - `createAtlas` → `logReflection` at `scripts/run-create-atlas.ts:49`
+  - `createAtlas` → `logReflection` at `scripts/run-create-atlas.ts:54`
+  - `createAtlas` → `logReflection` at `scripts/run-create-atlas.ts:59`
+  - `logReflection` → `logReflection` at `scripts/sequences/demo-cinematic-sequence.ts:16`
+  - `logReflection` → `logReflection` at `scripts/sequences/demo-cinematic-sequence.ts:17`
+  - `logReflection` → `logReflection` at `scripts/sequences/demo-cinematic-sequence.ts:18`
+  - `logReflection` → `logReflection` at `scripts/sequences/demo-cinematic-sequence.ts:19`
+  - `logReflection` → `logReflection` at `scripts/sequences/demo-cinematic-sequence.ts:20`
+  - `logReflection` → `logReflection` at `scripts/sequences/demo-cinematic-sequence.ts:21`
+  - `buildAtlas` → `logReflection` at `scripts/sequences/atlas-build-sequence.ts:21`
+  - `buildAtlas` → `logReflection` at `scripts/sequences/atlas-build-sequence.ts:24`
+  - `buildAtlas` → `logReflection` at `scripts/sequences/atlas-build-sequence.ts:27`
+  - `buildAtlas` → `logReflection` at `scripts/sequences/atlas-build-sequence.ts:30`
+  - `buildAtlas` → `logReflection` at `scripts/sequences/atlas-build-sequence.ts:33`
+  - `buildAtlas` → `logReflection` at `scripts/sequences/atlas-build-sequence.ts:36`
+  - `buildAtlas` → `logReflection` at `scripts/sequences/atlas-build-sequence.ts:39`
+  - `buildAtlas` → `logReflection` at `scripts/sequences/atlas-build-sequence.ts:42`
+  - `logReflection` → `logReflection` at `ts-backup/demo-cinematic-sequence.ts:16`
+  - `logReflection` → `logReflection` at `ts-backup/demo-cinematic-sequence.ts:17`
+  - `logReflection` → `logReflection` at `ts-backup/demo-cinematic-sequence.ts:18`
+  - `logReflection` → `logReflection` at `ts-backup/demo-cinematic-sequence.ts:19`
+  - `logReflection` → `logReflection` at `ts-backup/demo-cinematic-sequence.ts:20`
+  - `logReflection` → `logReflection` at `ts-backup/demo-cinematic-sequence.ts:21`
+  - `createAtlas` → `logReflection` at `scripts_backup_2/run-create-atlas.ts:23`
+  - `createAtlas` → `logReflection` at `scripts_backup_2/run-create-atlas.ts:38`
+  - `createAtlas` → `logReflection` at `scripts_backup_2/run-create-atlas.ts:47`
+  - `createAtlas` → `logReflection` at `scripts_backup_2/run-create-atlas.ts:49`
+  - `createAtlas` → `logReflection` at `scripts_backup_2/run-create-atlas.ts:54`
+  - `createAtlas` → `logReflection` at `scripts_backup_2/run-create-atlas.ts:59`
+  - `logReflection` → `logReflection` at `scripts_backup_2/sequences/demo-cinematic-sequence.ts:16`
+  - `logReflection` → `logReflection` at `scripts_backup_2/sequences/demo-cinematic-sequence.ts:17`
+  - `logReflection` → `logReflection` at `scripts_backup_2/sequences/demo-cinematic-sequence.ts:18`
+  - `logReflection` → `logReflection` at `scripts_backup_2/sequences/demo-cinematic-sequence.ts:19`
+  - `logReflection` → `logReflection` at `scripts_backup_2/sequences/demo-cinematic-sequence.ts:20`
+  - `logReflection` → `logReflection` at `scripts_backup_2/sequences/demo-cinematic-sequence.ts:21`
+- Target: `simulateLiveDelegation`
+  - `simulateLiveDelegation` → `simulateLiveDelegation` at `run-live-delegation.ts:34`
+  - `simulateLiveDelegation` → `simulateLiveDelegation` at `snapshots/20251114-114821/scripts/demo/run-live-delegation.ts:34`
+  - `simulateLiveDelegation` → `simulateLiveDelegation` at `snapshots/20251114-114707/scripts/demo/run-live-delegation.ts:34`
+  - `simulateLiveDelegation` → `simulateLiveDelegation` at `scripts_backup/demo/run-live-delegation.ts:34`
+  - `simulateLiveDelegation` → `simulateLiveDelegation` at `scripts_backup/scripts/demo/run-live-delegation.ts:34`
+  - `simulateLiveDelegation` → `simulateLiveDelegation` at `scripts/demo/run-live-delegation.ts:34`
+  - `simulateLiveDelegation` → `simulateLiveDelegation` at `ts-backup/run-live-delegation.ts:34`
+  - `simulateLiveDelegation` → `simulateLiveDelegation` at `scripts_backup_2/demo/run-live-delegation.ts:34`
+- Target: `printReport`
+  - `main` → `printReport` at `scripts/_local/phase68_event_schema_validator.ts:241`
+- Target: `checkPendingDelegations`
+  - No callers found.
+- Target: `checkAgents`
+  - No callers found.
+- Target: `createEntity`
+  - `<top-level>` → `createEntity` at `run-create-atlas.ts:8`
+  - `<top-level>` → `createEntity` at `scripts_backup/scripts/ops/run-create-atlas.ts:8`
+  - `<top-level>` → `createEntity` at `scripts_backup/ops/run-create-atlas.ts:8`
+  - `<top-level>` → `createEntity` at `scripts/ops/run-create-atlas.ts:8`
+  - `<top-level>` → `createEntity` at `ts-backup/run-create-atlas.ts:8`
+  - `<top-level>` → `createEntity` at `scripts_backup_2/ops/run-create-atlas.ts:8`
+- Target: `createAtlas`
+  - `createAtlas` → `createAtlas` at `scripts_backup/run-create-atlas.ts:57`
+  - `createAtlas` → `createAtlas` at `scripts_backup/scripts/run-create-atlas.ts:57`
+  - `createAtlas` → `createAtlas` at `scripts/run-create-atlas.ts:57`
+  - `createAtlas` → `createAtlas` at `scripts_backup_2/run-create-atlas.ts:57`
+- Target: `buildAtlas`
+  - `buildAtlas` → `buildAtlas` at `scripts/sequences/atlas-build-sequence.ts:47`
+- Target: `main`
+  - `main` → `main` at `verify-dashboard-sync.ts:18`
+  - `main` → `main` at `verify-dashboard-sync.ts:25`
+  - `main` → `main` at `submit-task.ts:97`
+  - `main` → `main` at `archive/legacy_cade_helpers/cade_planner.cjs:77`
+  - `<top-level>` → `main` at `reflections-stream/reflections_stream.py:123`
+  - `<top-level>` → `main` at `reflections-stream/reflections_stream.py:133`
+  - `main` → `main` at `snapshots/20251114-114821/scripts/demo/verify-dashboard-sync.ts:18`
+  - `main` → `main` at `snapshots/20251114-114821/scripts/demo/verify-dashboard-sync.ts:25`
+  - `ans` → `main` at `snapshots/20251114-114821/scripts/_local/matilda_tasks/onboard_agent.mjs:171`
+  - `main` → `main` at `snapshots/20251114-114821/scripts/_local/agent-runtime/submit-task.ts:97`
+  - `main` → `main` at `snapshots/20251114-114821/scripts/_local/agent-runtime/cade_runtime.mts:40`
+  - `main` → `main` at `snapshots/20251114-114707/scripts/demo/verify-dashboard-sync.ts:18`
+  - `main` → `main` at `snapshots/20251114-114707/scripts/demo/verify-dashboard-sync.ts:25`
+  - `ans` → `main` at `snapshots/20251114-114707/scripts/_local/matilda_tasks/onboard_agent.mjs:171`
+  - `main` → `main` at `snapshots/20251114-114707/scripts/_local/agent-runtime/submit-task.ts:97`
+  - `main` → `main` at `snapshots/20251114-114707/scripts/_local/agent-runtime/cade_runtime.mts:40`
+  - `main` → `main` at `scripts_backup/demo/verify-dashboard-sync.ts:18`
+  - `main` → `main` at `scripts_backup/demo/verify-dashboard-sync.ts:25`
+  - `main` → `main` at `scripts_backup/scripts/demo/verify-dashboard-sync.ts:18`
+  - `main` → `main` at `scripts_backup/scripts/demo/verify-dashboard-sync.ts:25`
+  - `ans` → `main` at `scripts_backup/scripts/_local/matilda_tasks/onboard_agent.mjs:171`
+  - `main` → `main` at `scripts_backup/scripts/_local/agent-runtime/submit-task.ts:97`
+  - `main` → `main` at `scripts_backup/scripts/_local/agent-runtime/cade_runtime.mts:40`
+  - `ans` → `main` at `scripts_backup/_local/matilda_tasks/onboard_agent.mjs:171`
+  - `main` → `main` at `scripts_backup/_local/agent-runtime/submit-task.ts:97`
+  - `main` → `main` at `scripts_backup/_local/agent-runtime/cade_runtime.mts:40`
+  - `main` → `main` at `scripts/phase25_writer_smoke.mjs:57`
+  - `<top-level>` → `main` at `scripts/phase54_regression_harness.sh:210`
+  - `main` → `main` at `scripts/phase88_5_capture_system_health_route_payload.ts:58`
+  - `main` → `main` at `scripts/phase87_13_situation_summary_cli.ts:62`
+  - `main` → `main` at `scripts/phase88_8_capture_system_health_js_route_payload.ts:58`
+  - `main` → `main` at `scripts/phase45_prove_deterministic_decision_flip.mjs:205`
+  - `rawSince` → `main` at `scripts/phase36_4_inject_run_list_route.py:142`
+  - `rawSince` → `main` at `scripts/phase36_4_inject_run_list_route.py:157`
+  - `main` → `main` at `scripts/phase87_17_system_situation_summary_cli.ts:68`
+  - `main` → `main` at `scripts/phase87_1_situation_summary_smoke.ts:156`
+  - `main` → `main` at `scripts/demo/verify-dashboard-sync.ts:18`
+  - `main` → `main` at `scripts/demo/verify-dashboard-sync.ts:25`
+  - `__run` → `main` at `scripts/_ops/phase40_1_patch_worker_shadow.mjs:57`
+  - `main` → `main` at `scripts/_ops/phase40_1_patch_execution_path.mjs:165`
+  - `main` → `main` at `scripts/_ops/phase40_1_patch_execution_path.mjs:192`
+  - `<top-level>` → `main` at `scripts/_local/phase59_dashboard_audit.py:60`
+  - `<top-level>` → `main` at `scripts/_local/phase59_dashboard_audit.py:97`
+  - `<top-level>` → `main` at `scripts/_local/surgical_pvo_transplant.py:57`
+  - `<top-level>` → `main` at `scripts/_local/surgical_pvo_transplant.py:110`
+  - `<top-level>` → `main` at `scripts/_local/surgical_pvo_transplant_v2.py:42`
+  - `<top-level>` → `main` at `scripts/_local/surgical_pvo_transplant_v2.py:105`
+  - `main` → `main` at `scripts/_local/phase68_event_schema_validator.ts:250`
+  - `<top-level>` → `main` at `scripts/_local/ensure_dashboard_static_assets.py:33`
+  - `<top-level>` → `main` at `scripts/_local/ensure_dashboard_static_assets.py:92`
+  - `<top-level>` → `main` at `scripts/_local/phase149_execution_capability_audit.py:124`
+  - `<top-level>` → `main` at `scripts/_local/phase149_execution_capability_audit.py:154`
+  - `ans` → `main` at `scripts/_local/matilda_tasks/onboard_agent.mjs:171`
+  - `actualCodes` → `main` at `scripts/_local/verification/check-replay-diagnostic-codes.ts:84`
+  - `main` → `main` at `scripts/_local/verification/check-replay-verification.ts:21`
+  - `main` → `main` at `scripts/_local/agent-runtime/submit-task.ts:97`
+  - `main` → `main` at `scripts/_local/agent-runtime/cade_runtime.mts:40`
+  - `main` → `main` at `scripts/operator/registry_inspect.ts:19`
+  - `main` → `main` at `scripts/operator/registry_inspect.ts:55`
+  - `<top-level>` → `main` at `ops-stream/ops_stream.py:112`
+  - `<top-level>` → `main` at `ops-stream/ops_stream.py:122`
+  - `main` → `main` at `ts-backup/verify-dashboard-sync.ts:18`
+  - `main` → `main` at `ts-backup/verify-dashboard-sync.ts:25`
+  - `main` → `main` at `ts-backup/submit-task.ts:97`
+  - `main` → `main` at `scripts_backup_2/demo/verify-dashboard-sync.ts:18`
+  - `main` → `main` at `scripts_backup_2/demo/verify-dashboard-sync.ts:25`
+  - `ans` → `main` at `scripts_backup_2/_local/matilda_tasks/onboard_agent.mjs:171`
+  - `main` → `main` at `scripts_backup_2/_local/agent-runtime/submit-task.ts:97`
+  - `main` → `main` at `scripts_backup_2/_local/agent-runtime/cade_runtime.mts:40`
+  - `main` → `main` at `src/governance_investigation/verification/check-pathological-fixture-reproducibility.ts:48`
+  - `main` → `main` at `src/governance_investigation/verification/check-pathological-fixture-diagnostic-stability.ts:40`
+  - `main` → `main` at `src/governance_investigation/verification/check-pathological-fixtures.ts:83`
+- Target: `ans`
+  - `toRadians` → `ans` at `public/bundle-core.js:1023`
+  - `calcMin` → `ans` at `public/bundle-core.js:5076`
+  - `calcMin` → `ans` at `public/bundle-core.js:5079`
+  - `radiusLength` → `ans` at `public/bundle-core.js:5530`
+  - `titleArgs` → `ans` at `public/bundle-core.js:7249`
+  - `decimal` → `ans` at `public/bundle-core.js:7451`
+  - `decimal` → `ans` at `public/bundle-core.js:7592`
+  - `decimal` → `ans` at `public/bundle-core.js:7749`
+  - `relativeLabelSize` → `ans` at `public/bundle-core.js:13317`
+  - `offset` → `ans` at `public/bundle-core.js:13454`
+  - `createPointLabelContext` → `ans` at `public/bundle-core.js:13981`
+  - `_applyBounds` → `ans` at `public/bundle-core.js:14497`
+- Target: `rawSince`
+  - No callers found.
+- Target: `__run`
+  - No callers found.
+- Target: `actualCodes`
+  - No callers found.
+
+### Governance ladder root-surface candidates
+
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_hunt_output.txt:465` → `src/governance/cognition/build_governance_live_registry_wiring_readiness.ts:15:export function buildGovernanceLiveRegistryWiringReadiness(`
+- `<top-level>` via `scripts/_local/phase146_governance_final_delivery_receipt_report.ts:40` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
+- `<top-level>` via `scripts/_local/phase142_governance_authorization_gate_report.ts:36` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
+- `assert` via `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:43` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
+- `assert` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:48` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
+- `<top-level>` via `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_report.ts:37` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
+- `<top-level>` via `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_report.ts:39` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
+- `<top-level>` via `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_report.ts:41` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
+- `assert` via `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_smoke.ts:45` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
+- `<top-level>` via `scripts/_local/phase140_governance_live_registry_wiring_readiness_report.ts:34` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
+- `<top-level>` via `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_report.ts:38` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
+- `assert` via `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_smoke.ts:44` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
+- `assert` via `scripts/_local/phase140_governance_live_registry_wiring_readiness_smoke.ts:40` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
+- `<top-level>` via `scripts/_local/phase141_governance_live_wiring_decision_report.ts:35` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
+- `assert` via `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_smoke.ts:47` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
+- `<top-level>` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_report.ts:42` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
+- `proveGovernanceLiveRegistryWiringReadiness` via `src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:58` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
+- `proveGovernanceFinalPreLiveRegistrySummaryCapsule` via `src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:75` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
+- `proveGovernanceFinalPreLiveRegistryContractPackage` via `src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:65` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
+- `proveGovernancePreLiveRegistryDeliveryManifest` via `src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:69` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
+- `buildGovernanceLiveRegistryWiringReadiness` via `src/governance/cognition/build_governance_live_registry_wiring_readiness.ts:15` → `export function buildGovernanceLiveRegistryWiringReadiness(`
+- `proveGovernanceFinalPreLiveRegistryArchiveRecord` via `src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:73` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
+- `proveGovernancePreLiveRegistryHandoffEnvelope` via `src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:67` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_hunt_output.txt:461` → `src/governance/cognition/build_governance_live_wiring_decision.ts:24:export function buildGovernanceLiveWiringDecision(`
+- `<top-level>` via `scripts/_local/phase146_governance_final_delivery_receipt_report.ts:41` → `const decision = buildGovernanceLiveWiringDecision(readiness);`
+- `<top-level>` via `scripts/_local/phase142_governance_authorization_gate_report.ts:37` → `const decision = buildGovernanceLiveWiringDecision(readiness);`
+- `assert` via `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:44` → `const decision = buildGovernanceLiveWiringDecision(readiness);`
+- `assert` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:49` → `const decision = buildGovernanceLiveWiringDecision(readiness);`
+- `<top-level>` via `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_report.ts:38` → `const decision = buildGovernanceLiveWiringDecision(readiness);`
+- `<top-level>` via `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_report.ts:40` → `const decision = buildGovernanceLiveWiringDecision(readiness);`
+- `<top-level>` via `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_report.ts:42` → `const decision = buildGovernanceLiveWiringDecision(readiness);`
+- `assert` via `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_smoke.ts:46` → `const decision = buildGovernanceLiveWiringDecision(readiness);`
+- `<top-level>` via `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_report.ts:39` → `const decision = buildGovernanceLiveWiringDecision(readiness);`
+- `assert` via `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_smoke.ts:45` → `const decision = buildGovernanceLiveWiringDecision(readiness);`
+- `<top-level>` via `scripts/_local/phase141_governance_live_wiring_decision_report.ts:36` → `const decision = buildGovernanceLiveWiringDecision(readiness);`
+- `assert` via `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_smoke.ts:48` → `const decision = buildGovernanceLiveWiringDecision(readiness);`
+- `<top-level>` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_report.ts:43` → `const decision = buildGovernanceLiveWiringDecision(readiness);`
+- `proveGovernanceFinalPreLiveRegistrySummaryCapsule` via `src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:76` → `const decision = buildGovernanceLiveWiringDecision(readiness);`
+- `proveGovernanceFinalPreLiveRegistryContractPackage` via `src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:66` → `const decision = buildGovernanceLiveWiringDecision(readiness);`
+- `proveGovernancePreLiveRegistryDeliveryManifest` via `src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:70` → `const decision = buildGovernanceLiveWiringDecision(readiness);`
+- `proveGovernanceFinalPreLiveRegistryArchiveRecord` via `src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:74` → `const decision = buildGovernanceLiveWiringDecision(readiness);`
+- `proveGovernancePreLiveRegistryHandoffEnvelope` via `src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:68` → `const decision = buildGovernanceLiveWiringDecision(readiness);`
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_hunt_output.txt:466` → `src/governance/cognition/build_governance_authorization_gate.ts:24:export function buildGovernanceAuthorizationGate(`
+- `<top-level>` via `scripts/_local/phase146_governance_final_delivery_receipt_report.ts:42` → `const gate = buildGovernanceAuthorizationGate(decision);`
+- `<top-level>` via `scripts/_local/phase142_governance_authorization_gate_report.ts:38` → `const gate = buildGovernanceAuthorizationGate(decision);`
+- `assert` via `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:45` → `const gate = buildGovernanceAuthorizationGate(decision);`
+- `assert` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:50` → `const gate = buildGovernanceAuthorizationGate(decision);`
+- `<top-level>` via `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_report.ts:39` → `const gate = buildGovernanceAuthorizationGate(decision);`
+- `<top-level>` via `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_report.ts:41` → `const gate = buildGovernanceAuthorizationGate(decision);`
+- `<top-level>` via `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_report.ts:43` → `const gate = buildGovernanceAuthorizationGate(decision);`
+- `assert` via `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_smoke.ts:47` → `const gate = buildGovernanceAuthorizationGate(decision);`
+- `<top-level>` via `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_report.ts:40` → `const gate = buildGovernanceAuthorizationGate(decision);`
+- `assert` via `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_smoke.ts:46` → `const gate = buildGovernanceAuthorizationGate(decision);`
+- `assert` via `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_smoke.ts:49` → `const gate = buildGovernanceAuthorizationGate(decision);`
+- `<top-level>` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_report.ts:44` → `const gate = buildGovernanceAuthorizationGate(decision);`
+- `proveGovernanceFinalPreLiveRegistrySummaryCapsule` via `src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:77` → `const gate = buildGovernanceAuthorizationGate(decision);`
+- `proveGovernanceFinalPreLiveRegistryContractPackage` via `src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:67` → `const gate = buildGovernanceAuthorizationGate(decision);`
+- `proveGovernancePreLiveRegistryDeliveryManifest` via `src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:71` → `const gate = buildGovernanceAuthorizationGate(decision);`
+- `proveGovernanceFinalPreLiveRegistryArchiveRecord` via `src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:75` → `const gate = buildGovernanceAuthorizationGate(decision);`
+- `proveGovernancePreLiveRegistryHandoffEnvelope` via `src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:69` → `const gate = buildGovernanceAuthorizationGate(decision);`
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_hunt_output.txt:480` → `src/governance/governance_enforcement_result.ts:34:export function buildGovernanceResult(`
+- `<top-level>` via `PHASE80_2_EXTERNAL_DASHBOARD_CONSUMER_DISCOVERY_20260317T183750Z.md:372` → `./scripts/_local/phase77_signal_severity_model_smoke.ts:38:  assert(result.telemetryGap === "HIGH", "Expected HIGH telemetry gap severity");`
+- `<top-level>` via `PHASE88_6_SYSTEM_HEALTH_ROUTE_REGISTRATION.txt:794` → `./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8402:./scripts/_local/phase77_signal_severity_model_smoke.ts:39:  assert(result.diagnosticsFailure === "HIGH", "Expected HIGH diagnostics failure severity");`
+- `<top-level>` via `PHASE88_6_SYSTEM_HEALTH_ROUTE_REGISTRATION.txt:1194` → `./scripts/_local/phase77_signal_severity_model_smoke.ts:39:  assert(result.diagnosticsFailure === "HIGH", "Expected HIGH diagnostics failure severity");`
+- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:504` → `./src/cognition/systemSituationSummaryCli.smoke.ts:33:  assert(output === expected, "System situation summary CLI output mismatch");`
+- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:527` → `./src/cognition/getSituationSummarySnapshot.smoke.ts:18:  assert(!!snapshot.summary, "Snapshot summary missing");`
+- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:528` → `./src/cognition/getSituationSummarySnapshot.smoke.ts:21:  assert(snapshot.summary.stabilityState === "stable", "Unexpected stabilityState");`
+- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:529` → `./src/cognition/getSituationSummarySnapshot.smoke.ts:22:  assert(snapshot.summary.executionRiskState === "none", "Unexpected executionRiskState");`
+- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:530` → `./src/cognition/getSituationSummarySnapshot.smoke.ts:23:  assert(snapshot.summary.cognitionState === "consistent", "Unexpected cognitionState");`
+- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:624` → `./src/cognition/getSystemSituationSummary.smoke.ts:25:  assert(rendered === expected, "System situation summary mismatch");`
+- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:662` → `./src/cognition/situationSummaryCli.smoke.ts:38:  assert(parsed.summary.stabilityState === "stable", "Unexpected stabilityState");`
+- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:663` → `./src/cognition/situationSummaryCli.smoke.ts:39:  assert(parsed.summary.executionRiskState === "none", "Unexpected executionRiskState");`
+- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:664` → `./src/cognition/situationSummaryCli.smoke.ts:40:  assert(parsed.summary.cognitionState === "consistent", "Unexpected cognitionState");`
+- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:668` → `./src/cognition/situationSummaryCli.smoke.ts:58:  assert(parsed.summary.summaryLines.length === 5, "Unexpected summaryLines length");`
+- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:752` → `./src/cognition/situationSummaryIntegration.smoke.ts:21:  assert(!!summary, "Summary missing");`
+- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:978` → `./src/cognition/situationSummaryRender.smoke.ts:28:  assert(rendered === expected, "Rendered situation summary mismatch");`
+- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:995` → `./src/cognition/index.smoke.ts:54:  assert(rendered === expected, "Rendered summary mismatch");`
+- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:996` → `./src/cognition/index.smoke.ts:55:  assert(builtRendered === expected, "Built rendered summary mismatch");`
+- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:997` → `./src/cognition/index.smoke.ts:56:  assert(getterRendered === expected, "Getter rendered summary mismatch");`
+- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:998` → `./src/cognition/index.smoke.ts:57:  assert(systemRendered === expected, "System rendered summary mismatch");`
+- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:999` → `./src/cognition/index.smoke.ts:58:  assert(snapshot.rendered === expected, "Snapshot rendered summary mismatch");`
+- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1000` → `./src/cognition/index.smoke.ts:59:  assert(snapshot.summary.summaryLines.length === 5, "Snapshot summary line count mismatch");`
+- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1479` → `./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:504:./src/cognition/systemSituationSummaryCli.smoke.ts:33:  assert(output === expected, "System situation summary CLI output mismatch");`
+- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1502` → `./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:527:./src/cognition/getSituationSummarySnapshot.smoke.ts:18:  assert(!!snapshot.summary, "Snapshot summary missing");`
+- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1503` → `./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:528:./src/cognition/getSituationSummarySnapshot.smoke.ts:21:  assert(snapshot.summary.stabilityState === "stable", "Unexpected stabilityState");`
+- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1504` → `./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:529:./src/cognition/getSituationSummarySnapshot.smoke.ts:22:  assert(snapshot.summary.executionRiskState === "none", "Unexpected executionRiskState");`
+- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1505` → `./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:530:./src/cognition/getSituationSummarySnapshot.smoke.ts:23:  assert(snapshot.summary.cognitionState === "consistent", "Unexpected cognitionState");`
+- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1599` → `./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:624:./src/cognition/getSystemSituationSummary.smoke.ts:25:  assert(rendered === expected, "System situation summary mismatch");`
+- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1637` → `./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:662:./src/cognition/situationSummaryCli.smoke.ts:38:  assert(parsed.summary.stabilityState === "stable", "Unexpected stabilityState");`
+- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1638` → `./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:663:./src/cognition/situationSummaryCli.smoke.ts:39:  assert(parsed.summary.executionRiskState === "none", "Unexpected executionRiskState");`
+- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1639` → `./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:664:./src/cognition/situationSummaryCli.smoke.ts:40:  assert(parsed.summary.cognitionState === "consistent", "Unexpected cognitionState");`
+- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1643` → `./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:668:./src/cognition/situationSummaryCli.smoke.ts:58:  assert(parsed.summary.summaryLines.length === 5, "Unexpected summaryLines length");`
+- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1727` → `./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:752:./src/cognition/situationSummaryIntegration.smoke.ts:21:  assert(!!summary, "Summary missing");`
+- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8400` → `./scripts/_local/phase77_signal_severity_model_smoke.ts:20:  assert(result.healthAnomaly === "NONE", "Expected NONE health anomaly severity");`
+- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8402` → `./scripts/_local/phase77_signal_severity_model_smoke.ts:39:  assert(result.diagnosticsFailure === "HIGH", "Expected HIGH diagnostics failure severity");`
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_hunt_output.txt:6` → `src/cognition/index.smoke.ts:29:  assert(inputs.executionRiskState === "none", "Unexpected adapted executionRiskState");`
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_hunt_output.txt:61` → `src/cognition/situationSummaryCli.smoke.ts:39:  assert(parsed.summary.executionRiskState === "none", "Unexpected executionRiskState");`
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_hunt_output.txt:90` → `src/cognition/getSituationSummarySnapshot.smoke.ts:21:  assert(snapshot.summary.executionRiskState === "none", "Unexpected executionRiskState");`
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_hunt_output.txt:161` → `src/governance/cognition/prove_governance_authorization_gate.ts:101:  assert(gate.gateStatus === "open", "Authorization gate status must evaluate to open.");`
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_hunt_output.txt:162` → `src/governance/cognition/prove_governance_authorization_gate.ts:102:  assert(gate.authorizationEligible === true, "Authorization gate eligibility must evaluate to true.");`
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_hunt_output.txt:327` → `src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:86:  assert(readiness.readyForLiveOwnerWiring === true, "Readiness must evaluate to true.");`
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_hunt_output.txt:342` → `src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:109:  assert(contractPackage.handoffEligible === true, "Contract package handoff eligibility must evaluate to true.");`
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_hunt_output.txt:347` → `src/governance/cognition/prove_governance_authorization_gate.ts:102:  assert(gate.authorizationEligible === true, "Authorization gate eligibility must evaluate to true.");`
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_hunt_output.txt:351` → `src/governance/cognition/prove_governance_live_wiring_decision.ts:94:  assert(decision.decisionStatus === "eligible", "Decision status must evaluate to eligible.");`
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_hunt_output.txt:352` → `src/governance/cognition/prove_governance_live_wiring_decision.ts:95:  assert(decision.eligibleForExplicitLiveWiring === true, "Decision eligibility must evaluate to true.");`
+- `<top-level>` via `docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:5884` → `./scripts/_local/phase77_signal_severity_model_smoke.ts:38:  assert(result.telemetryGap === "HIGH", "Expected HIGH telemetry gap severity");`
+- `<top-level>` via `docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:5765` → `./scripts/_local/phase77_signal_severity_model_smoke.ts:38:  assert(result.telemetryGap === "HIGH", "Expected HIGH telemetry gap severity");`
+- `assert` via `dashboard/src/cognition/operatorGuidance/guidanceSafetyConfirmation.test.ts:6` → `function assert(condition: boolean, label: string) {`
+- `assert` via `dashboard/src/cognition/operatorGuidance/guidanceSafetyConfirmation.test.ts:16` → `assert(lowRiskPriority === GuidancePriority.LOW, "low-risk priority must remain LOW");`
+- `assert` via `dashboard/src/cognition/operatorGuidance/guidanceSafetyConfirmation.test.ts:17` → `assert(lowRiskConfidence === GuidanceConfidenceTier.LOW, "low-risk confidence must remain LOW");`
+- `assert` via `dashboard/src/cognition/operatorGuidance/guidanceSafetyConfirmation.test.ts:18` → `assert(lowRiskUi.label === "INFORMATIONAL", "low-risk UI must remain INFORMATIONAL");`
+- `assert` via `dashboard/src/cognition/operatorGuidance/guidanceSafetyConfirmation.test.ts:24` → `assert(workflowPriority === GuidancePriority.MED, "workflow priority must remain MED");`
+- `assert` via `dashboard/src/cognition/operatorGuidance/guidanceSafetyConfirmation.test.ts:25` → `assert(workflowConfidence === GuidanceConfidenceTier.HIGH, "workflow confidence must remain HIGH");`
+- `assert` via `dashboard/src/cognition/operatorGuidance/guidanceSafetyConfirmation.test.ts:26` → `assert(workflowUi.label === "CAUTION", "workflow UI must remain CAUTION");`
+- `assert` via `dashboard/src/cognition/operatorGuidance/guidanceSafetyConfirmation.test.ts:32` → `assert(highRiskPriority === GuidancePriority.HIGH, "high-risk priority must remain HIGH");`
+- `assert` via `dashboard/src/cognition/operatorGuidance/guidanceSafetyConfirmation.test.ts:33` → `assert(highRiskConfidence === GuidanceConfidenceTier.VERY_HIGH, "high-risk confidence must remain VERY_HIGH");`
+- `assert` via `dashboard/src/cognition/operatorGuidance/guidanceSafetyConfirmation.test.ts:34` → `assert(highRiskUi.label === "CRITICAL_WARNING", "high-risk UI must remain CRITICAL_WARNING");`
+- `assert` via `dashboard/src/cognition/operatorGuidance/guidanceGrouping.test.ts:5` → `function assert(condition: boolean, label: string) {`
+- `assert` via `dashboard/src/cognition/operatorGuidance/guidanceGrouping.test.ts:20` → `assert(grouped.HEALTH.length === 2, "HEALTH count");`
+- `assert` via `dashboard/src/cognition/operatorGuidance/guidanceGrouping.test.ts:21` → `assert(grouped.RISK.length === 1, "RISK count");`
+- `assert` via `dashboard/src/cognition/operatorGuidance/guidanceGrouping.test.ts:22` → `assert(grouped.WORKFLOW.length === 1, "WORKFLOW count");`
+- `assert` via `dashboard/src/cognition/operatorGuidance/guidanceGrouping.test.ts:24` → `assert(grouped.HEALTH[0].id === "a", "priority ordering");`
+- `assert` via `dashboard/src/cognition/operatorGuidance/guidanceGrouping.test.ts:25` → `assert(grouped.HEALTH[1].id === "b", "secondary ordering");`
+- `assert` via `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:8` → `function assert(condition: boolean, message: string) {`
+- `testSafeSuggestions` via `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:18` → `assert(results.length === 1, "Expected 1 SAFE suggestion");`
+- `testSafeSuggestions` via `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:20` → `assert(`
+- `testSafeSuggestions` via `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:25` → `assert(`
+- `testSafeSuggestions` via `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:30` → `assert(`
+- `testCautionSuggestions` via `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:42` → `assert(`
+- `testCautionSuggestions` via `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:47` → `assert(`
+- `testCautionSuggestions` via `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:52` → `assert(`
+- `testCautionSuggestions` via `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:57` → `assert(`
+- `testRiskSuggestions` via `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:70` → `assert(`
+- `testRiskSuggestions` via `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:75` → `assert(`
+- `testRiskSuggestions` via `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:80` → `assert(`
+- `testRiskSuggestions` via `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:85` → `assert(`
+- `testRiskSuggestions` via `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:90` → `assert(`
+- `assert` via `scripts/_local/phase139_governance_shared_registry_owner_bundle_smoke.ts:16` → `function assert(condition: unknown, message: string): asserts condition {`
+- `assert` via `scripts/_local/phase139_governance_shared_registry_owner_bundle_smoke.ts:42` → `assert(normalizedOwnerBundle.readOnly === true, "Owner bundle must remain read-only.");`
+- `assert` via `scripts/_local/phase139_governance_shared_registry_owner_bundle_smoke.ts:43` → `assert(normalizedOwnerBundle.dashboardSafe === true, "Owner bundle must remain dashboard-safe.");`
+- `assert` via `scripts/_local/phase139_governance_shared_registry_owner_bundle_smoke.ts:44` → `assert(normalizedOwnerBundle.ownerKey === "shared-runtime-registry-owner", "Owner key must match.");`
+- `assert` via `scripts/_local/phase139_governance_shared_registry_owner_bundle_smoke.ts:45` → `assert(normalizedOwnerBundle.exportKey === "governance-runtime-registry-export", "Export key must match.");`
+- `assert` via `scripts/_local/phase139_governance_shared_registry_owner_bundle_smoke.ts:46` → `assert(normalizedOwnerBundle.registryKey === "governance-dashboard-consumption", "Registry key must match.");`
+- `assert` via `scripts/_local/phase139_governance_shared_registry_owner_bundle_smoke.ts:47` → `assert(normalizedOwnerBundle.contractId === "governance.dashboard.consumption", "Contract id must match.");`
+- `assert` via `scripts/_local/phase139_governance_shared_registry_owner_bundle_smoke.ts:48` → `assert(normalizedOwnerBundle.registryExport.registration.payload.signalCount === 2, "Normalized owner bundle signal count must be deduplicated.");`
+- `assert` via `scripts/_local/phase139_governance_shared_registry_owner_bundle_smoke.ts:49` → `assert(normalizedOwnerBundle.registryExport.registration.payload.signals.join("|") === "authority|routing", "Normalized owner bundle signals must be sorted.");`
+- `assert` via `scripts/_local/phase139_governance_shared_registry_owner_bundle_smoke.ts:50` → `assert(selection.signalCount === 2, "Owner bundle selection must preserve signal count.");`
+- `assert` via `scripts/_local/phase139_governance_shared_registry_owner_bundle_smoke.ts:51` → `assert(proof.pass === true, "Governance shared registry owner bundle proof must pass.");`
+- `assert` via `scripts/_local/phase138_governance_runtime_registry_export_smoke.ts:14` → `function assert(condition: unknown, message: string): asserts condition {`
+- `assert` via `scripts/_local/phase138_governance_runtime_registry_export_smoke.ts:38` → `assert(normalizedExport.readOnly === true, "Runtime registry export must remain read-only.");`
+- `assert` via `scripts/_local/phase138_governance_runtime_registry_export_smoke.ts:39` → `assert(normalizedExport.dashboardSafe === true, "Runtime registry export must remain dashboard-safe.");`
+- `assert` via `scripts/_local/phase138_governance_runtime_registry_export_smoke.ts:40` → `assert(normalizedExport.exportKey === "governance-runtime-registry-export", "Export key must match.");`
+- `assert` via `scripts/_local/phase138_governance_runtime_registry_export_smoke.ts:41` → `assert(normalizedExport.registryKey === "governance-dashboard-consumption", "Registry key must match.");`
+- `assert` via `scripts/_local/phase138_governance_runtime_registry_export_smoke.ts:42` → `assert(normalizedExport.contractId === "governance.dashboard.consumption", "Contract id must match.");`
+- `assert` via `scripts/_local/phase138_governance_runtime_registry_export_smoke.ts:43` → `assert(normalizedExport.registration.payload.signalCount === 2, "Normalized export signal count must be deduplicated.");`
+- `assert` via `scripts/_local/phase138_governance_runtime_registry_export_smoke.ts:44` → `assert(normalizedExport.registration.payload.signals.join("|") === "authority|routing", "Normalized export signals must be sorted.");`
+- `assert` via `scripts/_local/phase138_governance_runtime_registry_export_smoke.ts:45` → `assert(selection.signalCount === 2, "Registry export selection must preserve signal count.");`
+- `assert` via `scripts/_local/phase138_governance_runtime_registry_export_smoke.ts:46` → `assert(proof.pass === true, "Governance runtime registry export proof must pass.");`
+- `assert` via `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:20` → `function assert(condition: unknown, message: string): asserts condition {`
+- `assert` via `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:50` → `assert(contractPackage.readOnly === true, "Contract package must remain read-only.");`
+- `assert` via `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:51` → `assert(contractPackage.dashboardSafe === true, "Contract package must remain dashboard-safe.");`
+- `assert` via `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:52` → `assert(contractPackage.packageKey === "governance-final-pre-live-registry-contract-package", "Package key must match.");`
+- `assert` via `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:53` → `assert(contractPackage.gateKey === "governance-authorization-gate", "Gate key must match.");`
+- `assert` via `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:54` → `assert(contractPackage.decisionKey === "governance-live-wiring-decision", "Decision key must match.");`
+- `assert` via `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:55` → `assert(contractPackage.readinessKey === "governance-live-registry-wiring-readiness", "Readiness key must match.");`
+- `assert` via `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:56` → `assert(contractPackage.ownerKey === "shared-runtime-registry-owner", "Owner key must match.");`
+- `assert` via `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:57` → `assert(contractPackage.exportKey === "governance-runtime-registry-export", "Export key must match.");`
+- `assert` via `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:58` → `assert(contractPackage.registryKey === "governance-dashboard-consumption", "Registry key must match.");`
+- `assert` via `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:59` → `assert(contractPackage.contractId === "governance.dashboard.consumption", "Contract id must match.");`
+- `assert` via `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:60` → `assert(contractPackage.packageStatus === "prepared", "Contract package status must evaluate to prepared.");`
+- `assert` via `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:61` → `assert(contractPackage.handoffEligible === true, "Contract package must evaluate to true.");`
+- `assert` via `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:62` → `assert(selection.signalCount === 2, "Contract package selection must preserve signal count.");`
+- `assert` via `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:63` → `assert(proof.pass === true, "Governance final pre-live contract package proof must pass.");`
+- `assert` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:25` → `function assert(condition: unknown, message: string): asserts condition {`
+- `assert` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:60` → `assert(capsule.readOnly === true, "Capsule must remain read-only.");`
+- `assert` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:61` → `assert(capsule.dashboardSafe === true, "Capsule must remain dashboard-safe.");`
+- `assert` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:62` → `assert(capsule.capsuleKey === "governance-final-pre-live-registry-summary-capsule", "Capsule key must match.");`
+- `assert` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:63` → `assert(capsule.archiveKey === "governance-final-pre-live-registry-archive-record", "Archive key must match.");`
+- `assert` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:64` → `assert(capsule.receiptKey === "governance-final-delivery-receipt", "Receipt key must match.");`
+- `assert` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:65` → `assert(capsule.manifestKey === "governance-pre-live-registry-delivery-manifest", "Manifest key must match.");`
+- `assert` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:66` → `assert(capsule.envelopeKey === "governance-pre-live-registry-handoff-envelope", "Envelope key must match.");`
+- `assert` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:67` → `assert(capsule.packageKey === "governance-final-pre-live-registry-contract-package", "Package key must match.");`
+- `assert` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:68` → `assert(capsule.gateKey === "governance-authorization-gate", "Gate key must match.");`
+- `assert` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:69` → `assert(capsule.decisionKey === "governance-live-wiring-decision", "Decision key must match.");`
+- `assert` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:70` → `assert(capsule.readinessKey === "governance-live-registry-wiring-readiness", "Readiness key must match.");`
+- `assert` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:71` → `assert(capsule.ownerKey === "shared-runtime-registry-owner", "Owner key must match.");`
+- `assert` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:72` → `assert(capsule.exportKey === "governance-runtime-registry-export", "Export key must match.");`
+- `assert` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:73` → `assert(capsule.registryKey === "governance-dashboard-consumption", "Registry key must match.");`
+- `assert` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:74` → `assert(capsule.contractId === "governance.dashboard.consumption", "Contract id must match.");`
+- `assert` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:75` → `assert(capsule.capsuleStatus === "summarized", "Capsule status must evaluate to summarized.");`
+- `assert` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:76` → `assert(capsule.summaryReady === true, "Capsule must evaluate to true.");`
+- `assert` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:77` → `assert(selection.signalCount === 2, "Capsule selection must preserve signal count.");`
+- `assert` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:78` → `assert(proof.pass === true, "Governance summary capsule proof must pass.");`
+- `assert` via `scripts/_local/phase73_operator_safety_gates_smoke.ts:8` → `function assert(condition: boolean, message: string) {`
+- `testSafeAllowsNarrowWork` via `scripts/_local/phase73_operator_safety_gates_smoke.ts:18` → `assert(result.gate === "ALLOW", "Expected ALLOW for safe narrow work");`
+- `testSafeAllowsNarrowWork` via `scripts/_local/phase73_operator_safety_gates_smoke.ts:19` → `assert(result.allowed === true, "Expected allowed=true for safe narrow work");`
+- `testSafeAllowsNarrowWork` via `scripts/_local/phase73_operator_safety_gates_smoke.ts:20` → `assert(result.riskLevel === "SAFE", "Expected SAFE risk level");`
+- `testCautionBlocksHighImpactWork` via `scripts/_local/phase73_operator_safety_gates_smoke.ts:29` → `assert(result.gate === "BLOCK", "Expected BLOCK for caution high-impact work");`
+- `testCautionBlocksHighImpactWork` via `scripts/_local/phase73_operator_safety_gates_smoke.ts:30` → `assert(result.allowed === false, "Expected allowed=false for caution high-impact work");`
+- `testCautionBlocksHighImpactWork` via `scripts/_local/phase73_operator_safety_gates_smoke.ts:31` → `assert(result.riskLevel === "CAUTION", "Expected CAUTION risk level");`
+
+## Step 1.8 — Ladder comparison
+
+### Function-level intersections
+
+- None detected.
+
+### File-level intersections
+
+- `docs/phase423_2_step1_execution_anchor_hunt_output.txt`
+
+### Intersection result
+
+- Classification: **CASE A/B — intersection present**
+- Combined intersecting topology surfaces:
+  - `docs/phase423_2_step1_anchor_hunt_findings.md`
+  - `docs/phase423_2_step1_anchor_resolution_findings.md`
+  - `docs/phase423_2_step1_candidate_surface_findings.md`
+  - `docs/phase423_2_step1_execution_anchor_hunt_output.txt`
+  - `docs/phase423_2_step1_topology_confirmation.sh`
+  - `docs/phase423_2_step1_topology_confirmation_findings.md`
+  - `docs/phase423_2_step1_topology_confirmation_output.txt`
+  - `scripts/_local/phase423_2_step1_continuation.sh`
+
+## Deterministic conclusion
+
+Integrated governed execution evidence detected: execution and governance ladders intersect.
+
+## Boundary note
+
+This document records topology evidence only.
+No runtime mutation performed.
+No architecture changes performed.
+No fix proposals included.
