@@ -26,8 +26,12 @@ SKIP_DIRS = {
 }
 TEXT_EXTS = {
     ".ts", ".tsx", ".js", ".jsx", ".mjs", ".cjs", ".json", ".md", ".sh",
-    ".yml", ".yaml", ".sql", ".txt", ".env", ".css", ".scss", ".html"
+    ".yml", ".yaml", ".sql", ".txt", ".env", ".css", ".scss", ".html", ".py"
 }
+EXCLUDED_GENERATED_PATH_PATTERNS = [
+    re.compile(r"^docs/phase423_2_step1_.*"),
+    re.compile(r"^scripts/_local/phase423_2_step1_continuation\.sh$"),
+]
 DEF_PATTERNS = [
     re.compile(r'^\s*export\s+(?:async\s+)?function\s+([A-Za-z_]\w*)\s*\('),
     re.compile(r'^\s*(?:async\s+)?function\s+([A-Za-z_]\w*)\s*\('),
@@ -41,7 +45,13 @@ ROOT_SURFACE_HINTS = [
     "dashboard", "operator", "registry", "trigger", "execution", "surface",
 ]
 
+def is_excluded_generated_path(rel_path: str) -> bool:
+    return any(p.search(rel_path) for p in EXCLUDED_GENERATED_PATH_PATTERNS)
+
 def should_skip(path: Path) -> bool:
+    rel = path.relative_to(ROOT).as_posix()
+    if is_excluded_generated_path(rel):
+        return True
     if any(part in SKIP_DIRS for part in path.parts):
         return True
     if path.is_dir():
@@ -226,6 +236,13 @@ Execution Anchor Hunt — Direct Link Verification Pass
 
 Updated: {timestamp}
 
+## Scope control
+
+Excluded generated self-reference surfaces from this pass:
+
+- `docs/phase423_2_step1_*`
+- `scripts/_local/phase423_2_step1_continuation.sh`
+
 ## Step 1.5 — Single-file co-location check
 
 ### Execution anchor matches
@@ -304,6 +321,7 @@ content += f"""
 ## Boundary note
 
 This document records topology evidence only.
+Generated proof artifacts were excluded from topology comparison to prevent self-referential contamination.
 No runtime mutation performed.
 No architecture changes performed.
 No fix proposals included.
