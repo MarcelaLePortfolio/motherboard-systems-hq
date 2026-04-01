@@ -5,6 +5,8 @@ import {
 
 export interface ConsumptionRegistryEnforcementEntrypointResult {
   ok: boolean;
+  blockedByGovernance: boolean;
+  governanceReason: string | null;
   view: ConsumptionRegistryEnforcementReadonlyView;
 }
 
@@ -13,6 +15,8 @@ export function runConsumptionRegistryEnforcementEntrypoint(): ConsumptionRegist
 
   return {
     ok: view.ok,
+    blockedByGovernance: false,
+    governanceReason: null,
     view,
   };
 }
