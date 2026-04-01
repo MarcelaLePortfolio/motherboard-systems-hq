@@ -1,7 +1,7 @@
 # Phase 423.2 — Step 1 Continuation
 Execution Anchor Hunt — Direct Link Verification Pass
 
-Updated: 2026-04-01 21:00:00 UTC
+Updated: 2026-04-01 21:04:25 UTC
 
 ## Step 1.5 — Single-file co-location check
 
@@ -29,13 +29,60 @@ Updated: 2026-04-01 21:00:00 UTC
 - `docs/phase423_2_step1_topology_confirmation_output.txt:527` — `./src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:11:export function runConsumptionRegistryEnforcementEntrypoint(): ConsumptionRegistryEnforcementEntrypointResult {`
 - `docs/phase423_2_step1_anchor_hunt_findings.md:21` — `- exported symbol: runConsumptionRegistryEnforcementEntrypoint`
 - `docs/phase423_2_step1_anchor_hunt_findings.md:101` — `src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts::runConsumptionRegistryEnforcementEntrypoint`
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:10` — `- `docs/phase423_2_step1_execution_anchor_hunt_output.txt:21` — `src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:11:export function runConsumptionRegistryEnforcementEntrypoint(): ConsumptionRegistryEnforcementEntrypointResult {``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:11` — `- `docs/phase423_2_step1_execution_anchor_hunt_output.txt:405` — `src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:11:export function runConsumptionRegistryEnforcementEntrypoint(): ConsumptionRegistryEnforcementEntrypointResult {``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:12` — `- `docs/phase423_2_step1_candidate_surface_findings.md:144` — `- runConsumptionRegistryEnforcementEntrypoint``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:13` — `- `docs/phase423_2_step1_anchor_resolution_findings.md:140` — `src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts::runConsumptionRegistryEnforcementEntrypoint``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:14` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:14` — `export function runConsumptionRegistryEnforcementEntrypoint(): ConsumptionRegistryEnforcementEntrypointResult {``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:15` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:441` — `src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:11:export function runConsumptionRegistryEnforcementEntrypoint(): ConsumptionRegistryEnforcementEntrypointResult {``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:16` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:508` — `src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:11:export function runConsumptionRegistryEnforcementEntrypoint(): ConsumptionRegistryEnforcementEntrypointResult {``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:17` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:509` — `./docs/phase423_2_step1_execution_anchor_hunt_output.txt:21:src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:11:export function runConsumptionRegistryEnforcementEntrypoint(): ConsumptionRegistryEnforcementEntrypointResult {``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:18` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:510` — `./docs/phase423_2_step1_execution_anchor_hunt_output.txt:405:src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:11:export function runConsumptionRegistryEnforcementEntrypoint(): ConsumptionRegistryEnforcementEntrypointResult {``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:19` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:511` — `./docs/phase423_2_step1_candidate_surface_findings.md:144:- runConsumptionRegistryEnforcementEntrypoint``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:20` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:512` — `./docs/phase423_2_step1_anchor_resolution_findings.md:140:src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts::runConsumptionRegistryEnforcementEntrypoint``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:21` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:513` — `./docs/phase423_2_step1_topology_confirmation_output.txt:14:export function runConsumptionRegistryEnforcementEntrypoint(): ConsumptionRegistryEnforcementEntrypointResult {``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:22` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:514` — `./docs/phase423_2_step1_topology_confirmation_output.txt:441:src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:11:export function runConsumptionRegistryEnforcementEntrypoint(): ConsumptionRegistryEnforcementEntrypointResult {``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:23` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:515` — `./docs/phase423_2_step1_anchor_hunt_findings.md:21:- exported symbol: runConsumptionRegistryEnforcementEntrypoint``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:24` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:516` — `./docs/phase423_2_step1_anchor_hunt_findings.md:101:src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts::runConsumptionRegistryEnforcementEntrypoint``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:25` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:517` — `./docs/phase423_2_step1_topology_confirmation.sh:32:grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:26` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:518` — `./docs/phase423_2_step1_topology_confirmation.sh:36:grep -RniE 'runConsumptionRegistryEnforcementEntrypoint' src test . || true``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:27` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:519` — `./scripts/_local/phase128_consumption_registry_entrypoint_smoke.sh:13:grep -q 'export function runConsumptionRegistryEnforcementEntrypoint' "$ENTRYPOINT_FILE" || {``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:28` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:520` — `./scripts/_local/phase128_consumption_registry_entrypoint_smoke.sh:14:  echo "Expected runConsumptionRegistryEnforcementEntrypoint export missing"``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:29` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:527` — `./src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:11:export function runConsumptionRegistryEnforcementEntrypoint(): ConsumptionRegistryEnforcementEntrypointResult {``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:30` — `- `docs/phase423_2_step1_anchor_hunt_findings.md:21` — `- exported symbol: runConsumptionRegistryEnforcementEntrypoint``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:31` — `- `docs/phase423_2_step1_anchor_hunt_findings.md:101` — `src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts::runConsumptionRegistryEnforcementEntrypoint``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:32` — `- `docs/phase423_2_step1_topology_confirmation_findings.md:24` — `- runConsumptionRegistryEnforcementEntrypoint``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:33` — `- `docs/phase423_2_step1_topology_confirmation_findings.md:130` — `No additional invocation sites for runConsumptionRegistryEnforcementEntrypoint were surfaced in the topology confirmation output.``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:34` — `- `docs/phase423_2_step1_topology_confirmation_findings.md:159` — `- runConsumptionRegistryEnforcementEntrypoint``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:35` — `- `docs/phase423_2_step1_topology_confirmation_findings.md:217` — `- runConsumptionRegistryEnforcementEntrypoint``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:36` — `- `docs/phase423_2_step1_topology_confirmation.sh:32` — `grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:37` — `- `docs/phase423_2_step1_topology_confirmation.sh:36` — `grep -RniE 'runConsumptionRegistryEnforcementEntrypoint' src test . || true``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:38` — `- `scripts/_local/phase423_2_step1_continuation.sh:18` — `EXECUTION = "runConsumptionRegistryEnforcementEntrypoint"``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:39` — `- `scripts/_local/phase128_consumption_registry_entrypoint_smoke.sh:13` — `grep -q 'export function runConsumptionRegistryEnforcementEntrypoint' "$ENTRYPOINT_FILE" || {``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:40` — `- `scripts/_local/phase128_consumption_registry_entrypoint_smoke.sh:14` — `echo "Expected runConsumptionRegistryEnforcementEntrypoint export missing"``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:41` — `- `src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:11` — `export function runConsumptionRegistryEnforcementEntrypoint(): ConsumptionRegistryEnforcementEntrypointResult {``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:72` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:517` — `./docs/phase423_2_step1_topology_confirmation.sh:32:grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:78` — `- `docs/phase423_2_step1_topology_confirmation.sh:32` — `grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:164` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:517` — `./docs/phase423_2_step1_topology_confirmation.sh:32:grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:170` — `- `docs/phase423_2_step1_topology_confirmation.sh:32` — `grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:249` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:517` — `./docs/phase423_2_step1_topology_confirmation.sh:32:grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:256` — `- `docs/phase423_2_step1_topology_confirmation.sh:32` — `grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:315` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:517` — `./docs/phase423_2_step1_topology_confirmation.sh:32:grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:320` — `- `docs/phase423_2_step1_topology_confirmation.sh:32` — `grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:353` — `- Target: `runConsumptionRegistryEnforcementEntrypoint``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:354` — `- `<top-level>` → `runConsumptionRegistryEnforcementEntrypoint` at `docs/phase423_2_step1_execution_anchor_hunt_output.txt:21``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:355` — `- `<top-level>` → `runConsumptionRegistryEnforcementEntrypoint` at `docs/phase423_2_step1_execution_anchor_hunt_output.txt:405``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:356` — `- `runConsumptionRegistryEnforcementEntrypoint` → `runConsumptionRegistryEnforcementEntrypoint` at `src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:11``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:360` — `- `<top-level>` via `docs/phase423_2_step1_execution_anchor_hunt_output.txt:21` → `src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:11:export function runConsumptionRegistryEnforcementEntrypoint(): ConsumptionRegistryEnforcementEntrypointResult {``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:361` — `- `<top-level>` via `docs/phase423_2_step1_execution_anchor_hunt_output.txt:405` → `src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:11:export function runConsumptionRegistryEnforcementEntrypoint(): ConsumptionRegistryEnforcementEntrypointResult {``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:362` — `- `runConsumptionRegistryEnforcementEntrypoint` via `src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:11` → `export function runConsumptionRegistryEnforcementEntrypoint(): ConsumptionRegistryEnforcementEntrypointResult {``
 - `docs/phase423_2_step1_topology_confirmation_findings.md:24` — `- runConsumptionRegistryEnforcementEntrypoint`
 - `docs/phase423_2_step1_topology_confirmation_findings.md:130` — `No additional invocation sites for runConsumptionRegistryEnforcementEntrypoint were surfaced in the topology confirmation output.`
 - `docs/phase423_2_step1_topology_confirmation_findings.md:159` — `- runConsumptionRegistryEnforcementEntrypoint`
 - `docs/phase423_2_step1_topology_confirmation_findings.md:217` — `- runConsumptionRegistryEnforcementEntrypoint`
 - `docs/phase423_2_step1_topology_confirmation.sh:32` — `grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true`
 - `docs/phase423_2_step1_topology_confirmation.sh:36` — `grep -RniE 'runConsumptionRegistryEnforcementEntrypoint' src test . || true`
-- `scripts/_local/phase423_2_step1_continuation.sh:18` — `EXECUTION = "runConsumptionRegistryEnforcementEntrypoint"`
+- `scripts/_local/phase423_2_step1_continuation.sh:15` — `EXECUTION = "runConsumptionRegistryEnforcementEntrypoint"`
 - `scripts/_local/phase128_consumption_registry_entrypoint_smoke.sh:13` — `grep -q 'export function runConsumptionRegistryEnforcementEntrypoint' "$ENTRYPOINT_FILE" || {`
 - `scripts/_local/phase128_consumption_registry_entrypoint_smoke.sh:14` — `echo "Expected runConsumptionRegistryEnforcementEntrypoint export missing"`
 - `src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:11` — `export function runConsumptionRegistryEnforcementEntrypoint(): ConsumptionRegistryEnforcementEntrypointResult {`
@@ -71,6 +118,169 @@ Updated: 2026-04-01 21:00:00 UTC
 - `docs/phase423_2_step1_topology_confirmation_output.txt:502` — `src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:67:  const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
 - `docs/phase423_2_step1_topology_confirmation_output.txt:517` — `./docs/phase423_2_step1_topology_confirmation.sh:32:grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true`
 - `docs/phase423_2_step1_anchor_hunt_findings.md:60` — `- exported symbol: buildGovernanceLiveRegistryWiringReadiness`
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:25` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:517` — `./docs/phase423_2_step1_topology_confirmation.sh:32:grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:36` — `- `docs/phase423_2_step1_topology_confirmation.sh:32` — `grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:45` — `#### `buildGovernanceLiveRegistryWiringReadiness``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:47` — `- `docs/phase423_2_step1_execution_anchor_hunt_output.txt:465` — `src/governance/cognition/build_governance_live_registry_wiring_readiness.ts:15:export function buildGovernanceLiveRegistryWiringReadiness(``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:48` — `- `docs/phase423_2_step1_candidate_surface_findings.md:125` — `- buildGovernanceLiveRegistryWiringReadiness``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:49` — `- `docs/phase423_2_step1_anchor_resolution_findings.md:41` — `- buildGovernanceLiveRegistryWiringReadiness``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:50` — `- `docs/phase423_2_step1_anchor_resolution_findings.md:146` — `src/governance/cognition/build_governance_live_registry_wiring_readiness.ts::buildGovernanceLiveRegistryWiringReadiness``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:51` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:112` — `export function buildGovernanceLiveRegistryWiringReadiness(``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:52` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:451` — `src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:17:import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:53` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:452` — `src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:58:  const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:54` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:454` — `src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:17:import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:55` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:457` — `src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:75:  const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:56` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:460` — `src/governance/cognition/prove_governance_final_delivery_receipt.ts:17:import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:57` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:463` — `src/governance/cognition/prove_governance_final_delivery_receipt.ts:71:  const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:58` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:466` — `src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:17:import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:59` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:469` — `src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:65:  const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:60` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:472` — `src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:17:import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:61` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:475` — `src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:69:  const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:62` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:478` — `src/governance/cognition/prove_governance_authorization_gate.ts:17:import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:63` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:481` — `src/governance/cognition/prove_governance_authorization_gate.ts:63:  const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:64` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:484` — `src/governance/cognition/prove_governance_live_wiring_decision.ts:17:import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:65` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:486` — `src/governance/cognition/prove_governance_live_wiring_decision.ts:61:  const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:66` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:488` — `src/governance/cognition/build_governance_live_registry_wiring_readiness.ts:15:export function buildGovernanceLiveRegistryWiringReadiness(``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:67` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:490` — `src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:17:import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:68` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:493` — `src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:73:  const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:69` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:496` — `src/governance/cognition/index.ts:54:export { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:70` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:499` — `src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:17:import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:71` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:502` — `src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:67:  const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:72` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:517` — `./docs/phase423_2_step1_topology_confirmation.sh:32:grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:73` — `- `docs/phase423_2_step1_anchor_hunt_findings.md:60` — `- exported symbol: buildGovernanceLiveRegistryWiringReadiness``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:74` — `- `docs/phase423_2_step1_topology_confirmation_findings.md:51` — `- src/governance/cognition/build_governance_live_registry_wiring_readiness.ts::buildGovernanceLiveRegistryWiringReadiness``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:75` — `- `docs/phase423_2_step1_topology_confirmation_findings.md:76` — `buildGovernanceLiveRegistryWiringReadiness``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:76` — `- `docs/phase423_2_step1_topology_confirmation_findings.md:136` — `- buildGovernanceLiveRegistryWiringReadiness``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:77` — `- `docs/phase423_2_step1_topology_confirmation_findings.md:219` — `- buildGovernanceLiveRegistryWiringReadiness``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:78` — `- `docs/phase423_2_step1_topology_confirmation.sh:32` — `grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:79` — `- `docs/phase423_2_step1_remaining_anchor_resolution_output.txt:18` — `export function buildGovernanceLiveRegistryWiringReadiness(``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:80` — `- `scripts/_local/phase146_governance_final_delivery_receipt_report.ts:12` — `buildGovernanceLiveRegistryWiringReadiness,``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:81` — `- `scripts/_local/phase146_governance_final_delivery_receipt_report.ts:40` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:82` — `- `scripts/_local/phase142_governance_authorization_gate_report.ts:12` — `buildGovernanceLiveRegistryWiringReadiness,``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:83` — `- `scripts/_local/phase142_governance_authorization_gate_report.ts:36` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:84` — `- `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:12` — `buildGovernanceLiveRegistryWiringReadiness,``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:85` — `- `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:46` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:86` — `- `scripts/_local/phase423_2_step1_continuation.sh:20` — `"buildGovernanceLiveRegistryWiringReadiness",``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:87` — `- `scripts/_local/phase423_2_step1_continuation.sh:258` — `#### `buildGovernanceLiveRegistryWiringReadiness```
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:88` — `- `scripts/_local/phase423_2_step1_continuation.sh:260` — `{fmt_matches("buildGovernanceLiveRegistryWiringReadiness")}``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:89` — `- `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:12` — `buildGovernanceLiveRegistryWiringReadiness,``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:90` — `- `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:43` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:91` — `- `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:12` — `buildGovernanceLiveRegistryWiringReadiness,``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:92` — `- `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:48` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:93` — `- `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_report.ts:12` — `buildGovernanceLiveRegistryWiringReadiness,``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:94` — `- `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_report.ts:37` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:95` — `- `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_report.ts:12` — `buildGovernanceLiveRegistryWiringReadiness,``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:96` — `- `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_report.ts:39` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:97` — `- `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_report.ts:12` — `buildGovernanceLiveRegistryWiringReadiness,``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:98` — `- `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_report.ts:41` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:99` — `- `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_smoke.ts:12` — `buildGovernanceLiveRegistryWiringReadiness,``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:100` — `- `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_smoke.ts:45` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:101` — `- `scripts/_local/phase142_governance_authorization_gate_smoke.ts:12` — `buildGovernanceLiveRegistryWiringReadiness,``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:102` — `- `scripts/_local/phase142_governance_authorization_gate_smoke.ts:42` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:103` — `- `scripts/_local/phase140_governance_live_registry_wiring_readiness_report.ts:12` — `buildGovernanceLiveRegistryWiringReadiness,``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:104` — `- `scripts/_local/phase140_governance_live_registry_wiring_readiness_report.ts:34` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:105` — `- `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_report.ts:12` — `buildGovernanceLiveRegistryWiringReadiness,``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:106` — `- `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_report.ts:38` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:107` — `- `scripts/_local/phase141_governance_live_wiring_decision_smoke.ts:12` — `buildGovernanceLiveRegistryWiringReadiness,``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:108` — `- `scripts/_local/phase141_governance_live_wiring_decision_smoke.ts:41` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:109` — `- `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_smoke.ts:12` — `buildGovernanceLiveRegistryWiringReadiness,``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:110` — `- `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_smoke.ts:44` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:111` — `- `scripts/_local/phase140_governance_live_registry_wiring_readiness_smoke.ts:12` — `buildGovernanceLiveRegistryWiringReadiness,``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:112` — `- `scripts/_local/phase140_governance_live_registry_wiring_readiness_smoke.ts:40` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:113` — `- `scripts/_local/phase141_governance_live_wiring_decision_report.ts:12` — `buildGovernanceLiveRegistryWiringReadiness,``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:114` — `- `scripts/_local/phase141_governance_live_wiring_decision_report.ts:35` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:115` — `- `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_smoke.ts:12` — `buildGovernanceLiveRegistryWiringReadiness,``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:116` — `- `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_smoke.ts:47` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:117` — `- `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_report.ts:12` — `buildGovernanceLiveRegistryWiringReadiness,``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:118` — `- `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_report.ts:42` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:119` — `- `src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:17` — `import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:120` — `- `src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:58` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:121` — `- `src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:17` — `import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:122` — `- `src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:75` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:123` — `- `src/governance/cognition/prove_governance_final_delivery_receipt.ts:17` — `import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:124` — `- `src/governance/cognition/prove_governance_final_delivery_receipt.ts:71` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:125` — `- `src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:17` — `import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:126` — `- `src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:65` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:127` — `- `src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:17` — `import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:128` — `- `src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:69` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:129` — `- `src/governance/cognition/prove_governance_authorization_gate.ts:17` — `import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:130` — `- `src/governance/cognition/prove_governance_authorization_gate.ts:63` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:131` — `- `src/governance/cognition/prove_governance_live_wiring_decision.ts:17` — `import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:132` — `- `src/governance/cognition/prove_governance_live_wiring_decision.ts:61` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:133` — `- `src/governance/cognition/build_governance_live_registry_wiring_readiness.ts:15` — `export function buildGovernanceLiveRegistryWiringReadiness(``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:134` — `- `src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:17` — `import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:135` — `- `src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:73` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:136` — `- `src/governance/cognition/index.ts:54` — `export { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:137` — `- `src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:17` — `import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:138` — `- `src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:67` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:164` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:517` — `./docs/phase423_2_step1_topology_confirmation.sh:32:grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:170` — `- `docs/phase423_2_step1_topology_confirmation.sh:32` — `grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:249` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:517` — `./docs/phase423_2_step1_topology_confirmation.sh:32:grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:256` — `- `docs/phase423_2_step1_topology_confirmation.sh:32` — `grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:315` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:517` — `./docs/phase423_2_step1_topology_confirmation.sh:32:grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:320` — `- `docs/phase423_2_step1_topology_confirmation.sh:32` — `grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:368` — `- Target: `buildGovernanceLiveRegistryWiringReadiness``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:369` — `- `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_hunt_output.txt:465``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:370` — `- `buildGovernanceResult` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_topology_confirmation_output.txt:452``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:371` — `- `buildGovernanceResult` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_topology_confirmation_output.txt:457``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:372` — `- `buildGovernanceResult` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_topology_confirmation_output.txt:463``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:373` — `- `buildGovernanceResult` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_topology_confirmation_output.txt:469``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:374` — `- `buildGovernanceResult` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_topology_confirmation_output.txt:475``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:375` — `- `buildGovernanceResult` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_topology_confirmation_output.txt:481``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:376` — `- `buildGovernanceResult` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_topology_confirmation_output.txt:486``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:377` — `- `buildGovernanceResult` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_topology_confirmation_output.txt:493``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:378` — `- `buildGovernanceResult` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_topology_confirmation_output.txt:502``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:379` — `- `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `scripts/_local/phase146_governance_final_delivery_receipt_report.ts:40``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:380` — `- `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `scripts/_local/phase142_governance_authorization_gate_report.ts:36``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:381` — `- `assert` → `buildGovernanceLiveRegistryWiringReadiness` at `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:46``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:382` — `- `assert` → `buildGovernanceLiveRegistryWiringReadiness` at `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:43``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:383` — `- `assert` → `buildGovernanceLiveRegistryWiringReadiness` at `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:48``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:384` — `- `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_report.ts:37``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:385` — `- `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_report.ts:39``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:386` — `- `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_report.ts:41``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:387` — `- `assert` → `buildGovernanceLiveRegistryWiringReadiness` at `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_smoke.ts:45``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:388` — `- `assert` → `buildGovernanceLiveRegistryWiringReadiness` at `scripts/_local/phase142_governance_authorization_gate_smoke.ts:42``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:389` — `- `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `scripts/_local/phase140_governance_live_registry_wiring_readiness_report.ts:34``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:390` — `- `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_report.ts:38``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:391` — `- `assert` → `buildGovernanceLiveRegistryWiringReadiness` at `scripts/_local/phase141_governance_live_wiring_decision_smoke.ts:41``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:392` — `- `assert` → `buildGovernanceLiveRegistryWiringReadiness` at `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_smoke.ts:44``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:393` — `- `assert` → `buildGovernanceLiveRegistryWiringReadiness` at `scripts/_local/phase140_governance_live_registry_wiring_readiness_smoke.ts:40``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:394` — `- `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `scripts/_local/phase141_governance_live_wiring_decision_report.ts:35``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:395` — `- `assert` → `buildGovernanceLiveRegistryWiringReadiness` at `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_smoke.ts:47``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:396` — `- `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_report.ts:42``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:397` — `- `proveGovernanceLiveRegistryWiringReadiness` → `buildGovernanceLiveRegistryWiringReadiness` at `src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:58``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:398` — `- `proveGovernanceFinalPreLiveRegistrySummaryCapsule` → `buildGovernanceLiveRegistryWiringReadiness` at `src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:75``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:399` — `- `proveGovernanceFinalDeliveryReceipt` → `buildGovernanceLiveRegistryWiringReadiness` at `src/governance/cognition/prove_governance_final_delivery_receipt.ts:71``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:400` — `- `proveGovernanceFinalPreLiveRegistryContractPackage` → `buildGovernanceLiveRegistryWiringReadiness` at `src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:65``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:401` — `- `proveGovernancePreLiveRegistryDeliveryManifest` → `buildGovernanceLiveRegistryWiringReadiness` at `src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:69``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:402` — `- `proveGovernanceAuthorizationGate` → `buildGovernanceLiveRegistryWiringReadiness` at `src/governance/cognition/prove_governance_authorization_gate.ts:63``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:403` — `- `proveGovernanceLiveWiringDecision` → `buildGovernanceLiveRegistryWiringReadiness` at `src/governance/cognition/prove_governance_live_wiring_decision.ts:61``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:404` — `- `buildGovernanceLiveRegistryWiringReadiness` → `buildGovernanceLiveRegistryWiringReadiness` at `src/governance/cognition/build_governance_live_registry_wiring_readiness.ts:15``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:405` — `- `proveGovernanceFinalPreLiveRegistryArchiveRecord` → `buildGovernanceLiveRegistryWiringReadiness` at `src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:73``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:406` — `- `proveGovernancePreLiveRegistryHandoffEnvelope` → `buildGovernanceLiveRegistryWiringReadiness` at `src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:67``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1424` — `- `<top-level>` via `docs/phase423_2_step1_execution_anchor_hunt_output.txt:465` → `src/governance/cognition/build_governance_live_registry_wiring_readiness.ts:15:export function buildGovernanceLiveRegistryWiringReadiness(``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1425` — `- `<top-level>` via `scripts/_local/phase146_governance_final_delivery_receipt_report.ts:40` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1426` — `- `<top-level>` via `scripts/_local/phase142_governance_authorization_gate_report.ts:36` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1427` — `- `assert` via `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:43` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1428` — `- `assert` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:48` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1429` — `- `<top-level>` via `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_report.ts:37` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1430` — `- `<top-level>` via `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_report.ts:39` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1431` — `- `<top-level>` via `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_report.ts:41` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1432` — `- `assert` via `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_smoke.ts:45` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1433` — `- `<top-level>` via `scripts/_local/phase140_governance_live_registry_wiring_readiness_report.ts:34` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1434` — `- `<top-level>` via `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_report.ts:38` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1435` — `- `assert` via `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_smoke.ts:44` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1436` — `- `assert` via `scripts/_local/phase140_governance_live_registry_wiring_readiness_smoke.ts:40` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1437` — `- `<top-level>` via `scripts/_local/phase141_governance_live_wiring_decision_report.ts:35` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1438` — `- `assert` via `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_smoke.ts:47` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1439` — `- `<top-level>` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_report.ts:42` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1440` — `- `proveGovernanceLiveRegistryWiringReadiness` via `src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:58` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1441` — `- `proveGovernanceFinalPreLiveRegistrySummaryCapsule` via `src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:75` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1442` — `- `proveGovernanceFinalPreLiveRegistryContractPackage` via `src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:65` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1443` — `- `proveGovernancePreLiveRegistryDeliveryManifest` via `src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:69` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1444` — `- `buildGovernanceLiveRegistryWiringReadiness` via `src/governance/cognition/build_governance_live_registry_wiring_readiness.ts:15` → `export function buildGovernanceLiveRegistryWiringReadiness(``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1445` — `- `proveGovernanceFinalPreLiveRegistryArchiveRecord` via `src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:73` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1446` — `- `proveGovernancePreLiveRegistryHandoffEnvelope` via `src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:67` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
 - `docs/phase423_2_step1_topology_confirmation_findings.md:51` — `- src/governance/cognition/build_governance_live_registry_wiring_readiness.ts::buildGovernanceLiveRegistryWiringReadiness`
 - `docs/phase423_2_step1_topology_confirmation_findings.md:76` — `buildGovernanceLiveRegistryWiringReadiness`
 - `docs/phase423_2_step1_topology_confirmation_findings.md:136` — `- buildGovernanceLiveRegistryWiringReadiness`
@@ -81,61 +291,6 @@ Updated: 2026-04-01 21:00:00 UTC
 - `scripts/_local/phase146_governance_final_delivery_receipt_report.ts:40` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
 - `scripts/_local/phase142_governance_authorization_gate_report.ts:12` — `buildGovernanceLiveRegistryWiringReadiness,`
 - `scripts/_local/phase142_governance_authorization_gate_report.ts:36` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
-- `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:12` — `buildGovernanceLiveRegistryWiringReadiness,`
-- `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:46` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
-- `scripts/_local/phase423_2_step1_continuation.sh:20` — `"buildGovernanceLiveRegistryWiringReadiness",`
-- `scripts/_local/phase423_2_step1_continuation.sh:258` — `#### `buildGovernanceLiveRegistryWiringReadiness``
-- `scripts/_local/phase423_2_step1_continuation.sh:260` — `{fmt_matches("buildGovernanceLiveRegistryWiringReadiness")}`
-- `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:12` — `buildGovernanceLiveRegistryWiringReadiness,`
-- `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:43` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
-- `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:12` — `buildGovernanceLiveRegistryWiringReadiness,`
-- `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:48` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
-- `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_report.ts:12` — `buildGovernanceLiveRegistryWiringReadiness,`
-- `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_report.ts:37` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
-- `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_report.ts:12` — `buildGovernanceLiveRegistryWiringReadiness,`
-- `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_report.ts:39` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
-- `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_report.ts:12` — `buildGovernanceLiveRegistryWiringReadiness,`
-- `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_report.ts:41` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
-- `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_smoke.ts:12` — `buildGovernanceLiveRegistryWiringReadiness,`
-- `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_smoke.ts:45` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
-- `scripts/_local/phase142_governance_authorization_gate_smoke.ts:12` — `buildGovernanceLiveRegistryWiringReadiness,`
-- `scripts/_local/phase142_governance_authorization_gate_smoke.ts:42` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
-- `scripts/_local/phase140_governance_live_registry_wiring_readiness_report.ts:12` — `buildGovernanceLiveRegistryWiringReadiness,`
-- `scripts/_local/phase140_governance_live_registry_wiring_readiness_report.ts:34` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
-- `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_report.ts:12` — `buildGovernanceLiveRegistryWiringReadiness,`
-- `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_report.ts:38` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
-- `scripts/_local/phase141_governance_live_wiring_decision_smoke.ts:12` — `buildGovernanceLiveRegistryWiringReadiness,`
-- `scripts/_local/phase141_governance_live_wiring_decision_smoke.ts:41` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
-- `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_smoke.ts:12` — `buildGovernanceLiveRegistryWiringReadiness,`
-- `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_smoke.ts:44` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
-- `scripts/_local/phase140_governance_live_registry_wiring_readiness_smoke.ts:12` — `buildGovernanceLiveRegistryWiringReadiness,`
-- `scripts/_local/phase140_governance_live_registry_wiring_readiness_smoke.ts:40` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
-- `scripts/_local/phase141_governance_live_wiring_decision_report.ts:12` — `buildGovernanceLiveRegistryWiringReadiness,`
-- `scripts/_local/phase141_governance_live_wiring_decision_report.ts:35` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
-- `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_smoke.ts:12` — `buildGovernanceLiveRegistryWiringReadiness,`
-- `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_smoke.ts:47` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
-- `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_report.ts:12` — `buildGovernanceLiveRegistryWiringReadiness,`
-- `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_report.ts:42` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
-- `src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:17` — `import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";`
-- `src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:58` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
-- `src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:17` — `import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";`
-- `src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:75` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
-- `src/governance/cognition/prove_governance_final_delivery_receipt.ts:17` — `import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";`
-- `src/governance/cognition/prove_governance_final_delivery_receipt.ts:71` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
-- `src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:17` — `import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";`
-- `src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:65` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
-- `src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:17` — `import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";`
-- `src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:69` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
-- `src/governance/cognition/prove_governance_authorization_gate.ts:17` — `import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";`
-- `src/governance/cognition/prove_governance_authorization_gate.ts:63` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
-- `src/governance/cognition/prove_governance_live_wiring_decision.ts:17` — `import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";`
-- `src/governance/cognition/prove_governance_live_wiring_decision.ts:61` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
-- `src/governance/cognition/build_governance_live_registry_wiring_readiness.ts:15` — `export function buildGovernanceLiveRegistryWiringReadiness(`
-- `src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:17` — `import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";`
-- `src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:73` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
-- `src/governance/cognition/index.ts:54` — `export { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";`
-- `src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:17` — `import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";`
-- `src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:67` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
 
 #### `buildGovernanceLiveWiringDecision`
 
@@ -163,6 +318,151 @@ Updated: 2026-04-01 21:00:00 UTC
 - `docs/phase423_2_step1_topology_confirmation_output.txt:503` — `src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:68:  const decision = buildGovernanceLiveWiringDecision(readiness);`
 - `docs/phase423_2_step1_topology_confirmation_output.txt:517` — `./docs/phase423_2_step1_topology_confirmation.sh:32:grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true`
 - `docs/phase423_2_step1_anchor_hunt_findings.md:64` — `- exported symbol: buildGovernanceLiveWiringDecision`
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:25` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:517` — `./docs/phase423_2_step1_topology_confirmation.sh:32:grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:36` — `- `docs/phase423_2_step1_topology_confirmation.sh:32` — `grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:72` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:517` — `./docs/phase423_2_step1_topology_confirmation.sh:32:grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:78` — `- `docs/phase423_2_step1_topology_confirmation.sh:32` — `grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:140` — `#### `buildGovernanceLiveWiringDecision``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:142` — `- `docs/phase423_2_step1_execution_anchor_hunt_output.txt:461` — `src/governance/cognition/build_governance_live_wiring_decision.ts:24:export function buildGovernanceLiveWiringDecision(``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:143` — `- `docs/phase423_2_step1_candidate_surface_findings.md:102` — `- buildGovernanceLiveWiringDecision``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:144` — `- `docs/phase423_2_step1_anchor_resolution_findings.md:61` — `- buildGovernanceLiveWiringDecision``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:145` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:184` — `export function buildGovernanceLiveWiringDecision(``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:146` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:453` — `src/governance/cognition/build_governance_live_wiring_decision.ts:24:export function buildGovernanceLiveWiringDecision(``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:147` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:455` — `src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:18:import { buildGovernanceLiveWiringDecision } from "./build_governance_live_wiring_decision";``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:148` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:458` — `src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:76:  const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:149` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:461` — `src/governance/cognition/prove_governance_final_delivery_receipt.ts:18:import { buildGovernanceLiveWiringDecision } from "./build_governance_live_wiring_decision";``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:150` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:464` — `src/governance/cognition/prove_governance_final_delivery_receipt.ts:72:  const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:151` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:467` — `src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:18:import { buildGovernanceLiveWiringDecision } from "./build_governance_live_wiring_decision";``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:152` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:470` — `src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:66:  const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:153` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:473` — `src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:18:import { buildGovernanceLiveWiringDecision } from "./build_governance_live_wiring_decision";``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:154` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:476` — `src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:70:  const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:155` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:479` — `src/governance/cognition/prove_governance_authorization_gate.ts:18:import { buildGovernanceLiveWiringDecision } from "./build_governance_live_wiring_decision";``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:156` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:482` — `src/governance/cognition/prove_governance_authorization_gate.ts:64:  const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:157` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:485` — `src/governance/cognition/prove_governance_live_wiring_decision.ts:18:import { buildGovernanceLiveWiringDecision } from "./build_governance_live_wiring_decision";``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:158` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:487` — `src/governance/cognition/prove_governance_live_wiring_decision.ts:62:  const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:159` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:491` — `src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:18:import { buildGovernanceLiveWiringDecision } from "./build_governance_live_wiring_decision";``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:160` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:494` — `src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:74:  const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:161` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:497` — `src/governance/cognition/index.ts:63:export { buildGovernanceLiveWiringDecision } from "./build_governance_live_wiring_decision";``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:162` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:500` — `src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:18:import { buildGovernanceLiveWiringDecision } from "./build_governance_live_wiring_decision";``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:163` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:503` — `src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:68:  const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:164` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:517` — `./docs/phase423_2_step1_topology_confirmation.sh:32:grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:165` — `- `docs/phase423_2_step1_anchor_hunt_findings.md:64` — `- exported symbol: buildGovernanceLiveWiringDecision``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:166` — `- `docs/phase423_2_step1_topology_confirmation_findings.md:59` — `- src/governance/cognition/build_governance_live_wiring_decision.ts::buildGovernanceLiveWiringDecision``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:167` — `- `docs/phase423_2_step1_topology_confirmation_findings.md:77` — `→ buildGovernanceLiveWiringDecision``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:168` — `- `docs/phase423_2_step1_topology_confirmation_findings.md:137` — `- buildGovernanceLiveWiringDecision``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:169` — `- `docs/phase423_2_step1_topology_confirmation_findings.md:220` — `- buildGovernanceLiveWiringDecision``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:170` — `- `docs/phase423_2_step1_topology_confirmation.sh:32` — `grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:171` — `- `docs/phase423_2_step1_remaining_anchor_resolution_output.txt:90` — `export function buildGovernanceLiveWiringDecision(``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:172` — `- `scripts/_local/phase146_governance_final_delivery_receipt_report.ts:13` — `buildGovernanceLiveWiringDecision,``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:173` — `- `scripts/_local/phase146_governance_final_delivery_receipt_report.ts:41` — `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:174` — `- `scripts/_local/phase142_governance_authorization_gate_report.ts:13` — `buildGovernanceLiveWiringDecision,``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:175` — `- `scripts/_local/phase142_governance_authorization_gate_report.ts:37` — `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:176` — `- `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:13` — `buildGovernanceLiveWiringDecision,``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:177` — `- `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:47` — `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:178` — `- `scripts/_local/phase423_2_step1_continuation.sh:21` — `"buildGovernanceLiveWiringDecision",``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:179` — `- `scripts/_local/phase423_2_step1_continuation.sh:262` — `#### `buildGovernanceLiveWiringDecision```
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:180` — `- `scripts/_local/phase423_2_step1_continuation.sh:264` — `{fmt_matches("buildGovernanceLiveWiringDecision")}``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:181` — `- `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:13` — `buildGovernanceLiveWiringDecision,``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:182` — `- `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:44` — `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:183` — `- `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:13` — `buildGovernanceLiveWiringDecision,``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:184` — `- `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:49` — `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:185` — `- `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_report.ts:13` — `buildGovernanceLiveWiringDecision,``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:186` — `- `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_report.ts:38` — `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:187` — `- `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_report.ts:13` — `buildGovernanceLiveWiringDecision,``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:188` — `- `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_report.ts:40` — `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:189` — `- `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_report.ts:13` — `buildGovernanceLiveWiringDecision,``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:190` — `- `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_report.ts:42` — `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:191` — `- `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_smoke.ts:13` — `buildGovernanceLiveWiringDecision,``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:192` — `- `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_smoke.ts:46` — `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:193` — `- `scripts/_local/phase142_governance_authorization_gate_smoke.ts:13` — `buildGovernanceLiveWiringDecision,``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:194` — `- `scripts/_local/phase142_governance_authorization_gate_smoke.ts:43` — `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:195` — `- `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_report.ts:13` — `buildGovernanceLiveWiringDecision,``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:196` — `- `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_report.ts:39` — `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:197` — `- `scripts/_local/phase141_governance_live_wiring_decision_smoke.ts:13` — `buildGovernanceLiveWiringDecision,``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:198` — `- `scripts/_local/phase141_governance_live_wiring_decision_smoke.ts:42` — `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:199` — `- `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_smoke.ts:13` — `buildGovernanceLiveWiringDecision,``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:200` — `- `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_smoke.ts:45` — `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:201` — `- `scripts/_local/phase141_governance_live_wiring_decision_report.ts:13` — `buildGovernanceLiveWiringDecision,``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:202` — `- `scripts/_local/phase141_governance_live_wiring_decision_report.ts:36` — `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:203` — `- `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_smoke.ts:13` — `buildGovernanceLiveWiringDecision,``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:204` — `- `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_smoke.ts:48` — `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:205` — `- `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_report.ts:13` — `buildGovernanceLiveWiringDecision,``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:206` — `- `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_report.ts:43` — `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:207` — `- `src/governance/cognition/build_governance_live_wiring_decision.ts:24` — `export function buildGovernanceLiveWiringDecision(``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:208` — `- `src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:18` — `import { buildGovernanceLiveWiringDecision } from "./build_governance_live_wiring_decision";``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:209` — `- `src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:76` — `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:210` — `- `src/governance/cognition/prove_governance_final_delivery_receipt.ts:18` — `import { buildGovernanceLiveWiringDecision } from "./build_governance_live_wiring_decision";``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:211` — `- `src/governance/cognition/prove_governance_final_delivery_receipt.ts:72` — `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:212` — `- `src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:18` — `import { buildGovernanceLiveWiringDecision } from "./build_governance_live_wiring_decision";``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:213` — `- `src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:66` — `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:214` — `- `src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:18` — `import { buildGovernanceLiveWiringDecision } from "./build_governance_live_wiring_decision";``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:215` — `- `src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:70` — `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:216` — `- `src/governance/cognition/prove_governance_authorization_gate.ts:18` — `import { buildGovernanceLiveWiringDecision } from "./build_governance_live_wiring_decision";``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:217` — `- `src/governance/cognition/prove_governance_authorization_gate.ts:64` — `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:218` — `- `src/governance/cognition/prove_governance_live_wiring_decision.ts:18` — `import { buildGovernanceLiveWiringDecision } from "./build_governance_live_wiring_decision";``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:219` — `- `src/governance/cognition/prove_governance_live_wiring_decision.ts:62` — `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:220` — `- `src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:18` — `import { buildGovernanceLiveWiringDecision } from "./build_governance_live_wiring_decision";``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:221` — `- `src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:74` — `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:222` — `- `src/governance/cognition/index.ts:63` — `export { buildGovernanceLiveWiringDecision } from "./build_governance_live_wiring_decision";``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:223` — `- `src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:18` — `import { buildGovernanceLiveWiringDecision } from "./build_governance_live_wiring_decision";``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:224` — `- `src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:68` — `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:249` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:517` — `./docs/phase423_2_step1_topology_confirmation.sh:32:grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:256` — `- `docs/phase423_2_step1_topology_confirmation.sh:32` — `grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:315` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:517` — `./docs/phase423_2_step1_topology_confirmation.sh:32:grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:320` — `- `docs/phase423_2_step1_topology_confirmation.sh:32` — `grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:407` — `- Target: `buildGovernanceLiveWiringDecision``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:408` — `- `<top-level>` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_execution_anchor_hunt_output.txt:461``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:409` — `- `buildGovernanceResult` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_topology_confirmation_output.txt:458``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:410` — `- `buildGovernanceResult` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_topology_confirmation_output.txt:464``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:411` — `- `buildGovernanceResult` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_topology_confirmation_output.txt:470``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:412` — `- `buildGovernanceResult` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_topology_confirmation_output.txt:476``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:413` — `- `buildGovernanceResult` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_topology_confirmation_output.txt:482``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:414` — `- `buildGovernanceResult` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_topology_confirmation_output.txt:487``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:415` — `- `buildGovernanceResult` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_topology_confirmation_output.txt:494``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:416` — `- `buildGovernanceResult` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_topology_confirmation_output.txt:503``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:417` — `- `<top-level>` → `buildGovernanceLiveWiringDecision` at `scripts/_local/phase146_governance_final_delivery_receipt_report.ts:41``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:418` — `- `<top-level>` → `buildGovernanceLiveWiringDecision` at `scripts/_local/phase142_governance_authorization_gate_report.ts:37``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:419` — `- `assert` → `buildGovernanceLiveWiringDecision` at `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:47``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:420` — `- `assert` → `buildGovernanceLiveWiringDecision` at `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:44``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:421` — `- `assert` → `buildGovernanceLiveWiringDecision` at `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:49``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:422` — `- `<top-level>` → `buildGovernanceLiveWiringDecision` at `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_report.ts:38``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:423` — `- `<top-level>` → `buildGovernanceLiveWiringDecision` at `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_report.ts:40``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:424` — `- `<top-level>` → `buildGovernanceLiveWiringDecision` at `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_report.ts:42``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:425` — `- `assert` → `buildGovernanceLiveWiringDecision` at `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_smoke.ts:46``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:426` — `- `assert` → `buildGovernanceLiveWiringDecision` at `scripts/_local/phase142_governance_authorization_gate_smoke.ts:43``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:427` — `- `<top-level>` → `buildGovernanceLiveWiringDecision` at `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_report.ts:39``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:428` — `- `assert` → `buildGovernanceLiveWiringDecision` at `scripts/_local/phase141_governance_live_wiring_decision_smoke.ts:42``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:429` — `- `assert` → `buildGovernanceLiveWiringDecision` at `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_smoke.ts:45``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:430` — `- `<top-level>` → `buildGovernanceLiveWiringDecision` at `scripts/_local/phase141_governance_live_wiring_decision_report.ts:36``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:431` — `- `assert` → `buildGovernanceLiveWiringDecision` at `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_smoke.ts:48``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:432` — `- `<top-level>` → `buildGovernanceLiveWiringDecision` at `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_report.ts:43``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:433` — `- `proveGovernanceFinalPreLiveRegistrySummaryCapsule` → `buildGovernanceLiveWiringDecision` at `src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:76``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:434` — `- `proveGovernanceFinalDeliveryReceipt` → `buildGovernanceLiveWiringDecision` at `src/governance/cognition/prove_governance_final_delivery_receipt.ts:72``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:435` — `- `proveGovernanceFinalPreLiveRegistryContractPackage` → `buildGovernanceLiveWiringDecision` at `src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:66``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:436` — `- `proveGovernancePreLiveRegistryDeliveryManifest` → `buildGovernanceLiveWiringDecision` at `src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:70``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:437` — `- `proveGovernanceAuthorizationGate` → `buildGovernanceLiveWiringDecision` at `src/governance/cognition/prove_governance_authorization_gate.ts:64``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:438` — `- `proveGovernanceLiveWiringDecision` → `buildGovernanceLiveWiringDecision` at `src/governance/cognition/prove_governance_live_wiring_decision.ts:62``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:439` — `- `proveGovernanceFinalPreLiveRegistryArchiveRecord` → `buildGovernanceLiveWiringDecision` at `src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:74``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:440` — `- `proveGovernancePreLiveRegistryHandoffEnvelope` → `buildGovernanceLiveWiringDecision` at `src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:68``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1447` — `- `<top-level>` via `docs/phase423_2_step1_execution_anchor_hunt_output.txt:461` → `src/governance/cognition/build_governance_live_wiring_decision.ts:24:export function buildGovernanceLiveWiringDecision(``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1448` — `- `<top-level>` via `scripts/_local/phase146_governance_final_delivery_receipt_report.ts:41` → `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1449` — `- `<top-level>` via `scripts/_local/phase142_governance_authorization_gate_report.ts:37` → `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1450` — `- `assert` via `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:44` → `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1451` — `- `assert` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:49` → `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1452` — `- `<top-level>` via `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_report.ts:38` → `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1453` — `- `<top-level>` via `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_report.ts:40` → `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1454` — `- `<top-level>` via `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_report.ts:42` → `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1455` — `- `assert` via `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_smoke.ts:46` → `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1456` — `- `<top-level>` via `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_report.ts:39` → `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1457` — `- `assert` via `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_smoke.ts:45` → `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1458` — `- `<top-level>` via `scripts/_local/phase141_governance_live_wiring_decision_report.ts:36` → `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1459` — `- `assert` via `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_smoke.ts:48` → `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1460` — `- `<top-level>` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_report.ts:43` → `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1461` — `- `proveGovernanceFinalPreLiveRegistrySummaryCapsule` via `src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:76` → `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1462` — `- `proveGovernanceFinalPreLiveRegistryContractPackage` via `src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:66` → `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1463` — `- `proveGovernancePreLiveRegistryDeliveryManifest` via `src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:70` → `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1464` — `- `proveGovernanceFinalPreLiveRegistryArchiveRecord` via `src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:74` → `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1465` — `- `proveGovernancePreLiveRegistryHandoffEnvelope` via `src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:68` → `const decision = buildGovernanceLiveWiringDecision(readiness);``
 - `docs/phase423_2_step1_topology_confirmation_findings.md:59` — `- src/governance/cognition/build_governance_live_wiring_decision.ts::buildGovernanceLiveWiringDecision`
 - `docs/phase423_2_step1_topology_confirmation_findings.md:77` — `→ buildGovernanceLiveWiringDecision`
 - `docs/phase423_2_step1_topology_confirmation_findings.md:137` — `- buildGovernanceLiveWiringDecision`
@@ -175,9 +475,9 @@ Updated: 2026-04-01 21:00:00 UTC
 - `scripts/_local/phase142_governance_authorization_gate_report.ts:37` — `const decision = buildGovernanceLiveWiringDecision(readiness);`
 - `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:13` — `buildGovernanceLiveWiringDecision,`
 - `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:47` — `const decision = buildGovernanceLiveWiringDecision(readiness);`
-- `scripts/_local/phase423_2_step1_continuation.sh:21` — `"buildGovernanceLiveWiringDecision",`
-- `scripts/_local/phase423_2_step1_continuation.sh:262` — `#### `buildGovernanceLiveWiringDecision``
-- `scripts/_local/phase423_2_step1_continuation.sh:264` — `{fmt_matches("buildGovernanceLiveWiringDecision")}`
+- `scripts/_local/phase423_2_step1_continuation.sh:18` — `"buildGovernanceLiveWiringDecision",`
+- `scripts/_local/phase423_2_step1_continuation.sh:241` — `#### `buildGovernanceLiveWiringDecision``
+- `scripts/_local/phase423_2_step1_continuation.sh:243` — `{fmt_matches("buildGovernanceLiveWiringDecision")}`
 - `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:13` — `buildGovernanceLiveWiringDecision,`
 - `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:44` — `const decision = buildGovernanceLiveWiringDecision(readiness);`
 - `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:13` — `buildGovernanceLiveWiringDecision,`
@@ -194,34 +494,6 @@ Updated: 2026-04-01 21:00:00 UTC
 - `scripts/_local/phase142_governance_authorization_gate_smoke.ts:43` — `const decision = buildGovernanceLiveWiringDecision(readiness);`
 - `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_report.ts:13` — `buildGovernanceLiveWiringDecision,`
 - `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_report.ts:39` — `const decision = buildGovernanceLiveWiringDecision(readiness);`
-- `scripts/_local/phase141_governance_live_wiring_decision_smoke.ts:13` — `buildGovernanceLiveWiringDecision,`
-- `scripts/_local/phase141_governance_live_wiring_decision_smoke.ts:42` — `const decision = buildGovernanceLiveWiringDecision(readiness);`
-- `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_smoke.ts:13` — `buildGovernanceLiveWiringDecision,`
-- `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_smoke.ts:45` — `const decision = buildGovernanceLiveWiringDecision(readiness);`
-- `scripts/_local/phase141_governance_live_wiring_decision_report.ts:13` — `buildGovernanceLiveWiringDecision,`
-- `scripts/_local/phase141_governance_live_wiring_decision_report.ts:36` — `const decision = buildGovernanceLiveWiringDecision(readiness);`
-- `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_smoke.ts:13` — `buildGovernanceLiveWiringDecision,`
-- `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_smoke.ts:48` — `const decision = buildGovernanceLiveWiringDecision(readiness);`
-- `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_report.ts:13` — `buildGovernanceLiveWiringDecision,`
-- `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_report.ts:43` — `const decision = buildGovernanceLiveWiringDecision(readiness);`
-- `src/governance/cognition/build_governance_live_wiring_decision.ts:24` — `export function buildGovernanceLiveWiringDecision(`
-- `src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:18` — `import { buildGovernanceLiveWiringDecision } from "./build_governance_live_wiring_decision";`
-- `src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:76` — `const decision = buildGovernanceLiveWiringDecision(readiness);`
-- `src/governance/cognition/prove_governance_final_delivery_receipt.ts:18` — `import { buildGovernanceLiveWiringDecision } from "./build_governance_live_wiring_decision";`
-- `src/governance/cognition/prove_governance_final_delivery_receipt.ts:72` — `const decision = buildGovernanceLiveWiringDecision(readiness);`
-- `src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:18` — `import { buildGovernanceLiveWiringDecision } from "./build_governance_live_wiring_decision";`
-- `src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:66` — `const decision = buildGovernanceLiveWiringDecision(readiness);`
-- `src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:18` — `import { buildGovernanceLiveWiringDecision } from "./build_governance_live_wiring_decision";`
-- `src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:70` — `const decision = buildGovernanceLiveWiringDecision(readiness);`
-- `src/governance/cognition/prove_governance_authorization_gate.ts:18` — `import { buildGovernanceLiveWiringDecision } from "./build_governance_live_wiring_decision";`
-- `src/governance/cognition/prove_governance_authorization_gate.ts:64` — `const decision = buildGovernanceLiveWiringDecision(readiness);`
-- `src/governance/cognition/prove_governance_live_wiring_decision.ts:18` — `import { buildGovernanceLiveWiringDecision } from "./build_governance_live_wiring_decision";`
-- `src/governance/cognition/prove_governance_live_wiring_decision.ts:62` — `const decision = buildGovernanceLiveWiringDecision(readiness);`
-- `src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:18` — `import { buildGovernanceLiveWiringDecision } from "./build_governance_live_wiring_decision";`
-- `src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:74` — `const decision = buildGovernanceLiveWiringDecision(readiness);`
-- `src/governance/cognition/index.ts:63` — `export { buildGovernanceLiveWiringDecision } from "./build_governance_live_wiring_decision";`
-- `src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:18` — `import { buildGovernanceLiveWiringDecision } from "./build_governance_live_wiring_decision";`
-- `src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:68` — `const decision = buildGovernanceLiveWiringDecision(readiness);`
 
 #### `buildGovernanceAuthorizationGate`
 
@@ -249,6 +521,139 @@ Updated: 2026-04-01 21:00:00 UTC
 - `docs/phase423_2_step1_topology_confirmation_output.txt:517` — `./docs/phase423_2_step1_topology_confirmation.sh:32:grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true`
 - `docs/phase423_2_step1_anchor_hunt_findings.md:40` — `- exported symbol: buildGovernanceAuthorizationGate`
 - `docs/phase423_2_step1_anchor_hunt_findings.md:104` — `src/governance/cognition/build_governance_authorization_gate.ts::buildGovernanceAuthorizationGate`
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:25` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:517` — `./docs/phase423_2_step1_topology_confirmation.sh:32:grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:36` — `- `docs/phase423_2_step1_topology_confirmation.sh:32` — `grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:72` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:517` — `./docs/phase423_2_step1_topology_confirmation.sh:32:grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:78` — `- `docs/phase423_2_step1_topology_confirmation.sh:32` — `grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:164` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:517` — `./docs/phase423_2_step1_topology_confirmation.sh:32:grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:170` — `- `docs/phase423_2_step1_topology_confirmation.sh:32` — `grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:226` — `#### `buildGovernanceAuthorizationGate``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:228` — `- `docs/phase423_2_step1_execution_anchor_hunt_output.txt:466` — `src/governance/cognition/build_governance_authorization_gate.ts:24:export function buildGovernanceAuthorizationGate(``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:229` — `- `docs/phase423_2_step1_candidate_surface_findings.md:79` — `- buildGovernanceAuthorizationGate``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:230` — `- `docs/phase423_2_step1_candidate_surface_findings.md:191` — `src/governance/cognition/build_governance_authorization_gate.ts::buildGovernanceAuthorizationGate``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:231` — `- `docs/phase423_2_step1_anchor_resolution_findings.md:143` — `src/governance/cognition/build_governance_authorization_gate.ts::buildGovernanceAuthorizationGate``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:232` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:249` — `export function buildGovernanceAuthorizationGate(``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:233` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:456` — `src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:19:import { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:234` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:459` — `src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:77:  const gate = buildGovernanceAuthorizationGate(decision);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:235` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:462` — `src/governance/cognition/prove_governance_final_delivery_receipt.ts:19:import { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:236` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:465` — `src/governance/cognition/prove_governance_final_delivery_receipt.ts:73:  const gate = buildGovernanceAuthorizationGate(decision);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:237` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:468` — `src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:19:import { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:238` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:471` — `src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:67:  const gate = buildGovernanceAuthorizationGate(decision);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:239` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:474` — `src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:19:import { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:240` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:477` — `src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:71:  const gate = buildGovernanceAuthorizationGate(decision);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:241` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:480` — `src/governance/cognition/prove_governance_authorization_gate.ts:19:import { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:242` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:483` — `src/governance/cognition/prove_governance_authorization_gate.ts:65:  const gate = buildGovernanceAuthorizationGate(decision);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:243` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:489` — `src/governance/cognition/build_governance_authorization_gate.ts:24:export function buildGovernanceAuthorizationGate(``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:244` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:492` — `src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:19:import { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:245` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:495` — `src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:75:  const gate = buildGovernanceAuthorizationGate(decision);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:246` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:498` — `src/governance/cognition/index.ts:72:export { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:247` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:501` — `src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:19:import { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:248` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:504` — `src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:69:  const gate = buildGovernanceAuthorizationGate(decision);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:249` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:517` — `./docs/phase423_2_step1_topology_confirmation.sh:32:grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:250` — `- `docs/phase423_2_step1_anchor_hunt_findings.md:40` — `- exported symbol: buildGovernanceAuthorizationGate``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:251` — `- `docs/phase423_2_step1_anchor_hunt_findings.md:104` — `src/governance/cognition/build_governance_authorization_gate.ts::buildGovernanceAuthorizationGate``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:252` — `- `docs/phase423_2_step1_topology_confirmation_findings.md:67` — `- src/governance/cognition/build_governance_authorization_gate.ts::buildGovernanceAuthorizationGate``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:253` — `- `docs/phase423_2_step1_topology_confirmation_findings.md:78` — `→ buildGovernanceAuthorizationGate``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:254` — `- `docs/phase423_2_step1_topology_confirmation_findings.md:138` — `- buildGovernanceAuthorizationGate``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:255` — `- `docs/phase423_2_step1_topology_confirmation_findings.md:221` — `- buildGovernanceAuthorizationGate``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:256` — `- `docs/phase423_2_step1_topology_confirmation.sh:32` — `grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:257` — `- `scripts/_local/phase146_governance_final_delivery_receipt_report.ts:14` — `buildGovernanceAuthorizationGate,``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:258` — `- `scripts/_local/phase146_governance_final_delivery_receipt_report.ts:42` — `const gate = buildGovernanceAuthorizationGate(decision);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:259` — `- `scripts/_local/phase142_governance_authorization_gate_report.ts:14` — `buildGovernanceAuthorizationGate,``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:260` — `- `scripts/_local/phase142_governance_authorization_gate_report.ts:38` — `const gate = buildGovernanceAuthorizationGate(decision);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:261` — `- `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:14` — `buildGovernanceAuthorizationGate,``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:262` — `- `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:48` — `const gate = buildGovernanceAuthorizationGate(decision);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:263` — `- `scripts/_local/phase423_2_step1_continuation.sh:22` — `"buildGovernanceAuthorizationGate",``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:264` — `- `scripts/_local/phase423_2_step1_continuation.sh:266` — `#### `buildGovernanceAuthorizationGate```
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:265` — `- `scripts/_local/phase423_2_step1_continuation.sh:268` — `{fmt_matches("buildGovernanceAuthorizationGate")}``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:266` — `- `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:14` — `buildGovernanceAuthorizationGate,``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:267` — `- `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:45` — `const gate = buildGovernanceAuthorizationGate(decision);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:268` — `- `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:14` — `buildGovernanceAuthorizationGate,``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:269` — `- `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:50` — `const gate = buildGovernanceAuthorizationGate(decision);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:270` — `- `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_report.ts:14` — `buildGovernanceAuthorizationGate,``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:271` — `- `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_report.ts:39` — `const gate = buildGovernanceAuthorizationGate(decision);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:272` — `- `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_report.ts:14` — `buildGovernanceAuthorizationGate,``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:273` — `- `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_report.ts:41` — `const gate = buildGovernanceAuthorizationGate(decision);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:274` — `- `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_report.ts:14` — `buildGovernanceAuthorizationGate,``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:275` — `- `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_report.ts:43` — `const gate = buildGovernanceAuthorizationGate(decision);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:276` — `- `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_smoke.ts:14` — `buildGovernanceAuthorizationGate,``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:277` — `- `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_smoke.ts:47` — `const gate = buildGovernanceAuthorizationGate(decision);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:278` — `- `scripts/_local/phase142_governance_authorization_gate_smoke.ts:14` — `buildGovernanceAuthorizationGate,``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:279` — `- `scripts/_local/phase142_governance_authorization_gate_smoke.ts:44` — `const gate = buildGovernanceAuthorizationGate(decision);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:280` — `- `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_report.ts:14` — `buildGovernanceAuthorizationGate,``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:281` — `- `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_report.ts:40` — `const gate = buildGovernanceAuthorizationGate(decision);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:282` — `- `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_smoke.ts:14` — `buildGovernanceAuthorizationGate,``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:283` — `- `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_smoke.ts:46` — `const gate = buildGovernanceAuthorizationGate(decision);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:284` — `- `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_smoke.ts:14` — `buildGovernanceAuthorizationGate,``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:285` — `- `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_smoke.ts:49` — `const gate = buildGovernanceAuthorizationGate(decision);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:286` — `- `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_report.ts:14` — `buildGovernanceAuthorizationGate,``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:287` — `- `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_report.ts:44` — `const gate = buildGovernanceAuthorizationGate(decision);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:288` — `- `src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:19` — `import { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:289` — `- `src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:77` — `const gate = buildGovernanceAuthorizationGate(decision);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:290` — `- `src/governance/cognition/prove_governance_final_delivery_receipt.ts:19` — `import { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:291` — `- `src/governance/cognition/prove_governance_final_delivery_receipt.ts:73` — `const gate = buildGovernanceAuthorizationGate(decision);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:292` — `- `src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:19` — `import { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:293` — `- `src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:67` — `const gate = buildGovernanceAuthorizationGate(decision);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:294` — `- `src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:19` — `import { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:295` — `- `src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:71` — `const gate = buildGovernanceAuthorizationGate(decision);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:296` — `- `src/governance/cognition/prove_governance_authorization_gate.ts:19` — `import { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:297` — `- `src/governance/cognition/prove_governance_authorization_gate.ts:65` — `const gate = buildGovernanceAuthorizationGate(decision);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:298` — `- `src/governance/cognition/build_governance_authorization_gate.ts:24` — `export function buildGovernanceAuthorizationGate(``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:299` — `- `src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:19` — `import { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:300` — `- `src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:75` — `const gate = buildGovernanceAuthorizationGate(decision);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:301` — `- `src/governance/cognition/index.ts:72` — `export { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:302` — `- `src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:19` — `import { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:303` — `- `src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:69` — `const gate = buildGovernanceAuthorizationGate(decision);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:315` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:517` — `./docs/phase423_2_step1_topology_confirmation.sh:32:grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:320` — `- `docs/phase423_2_step1_topology_confirmation.sh:32` — `grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:441` — `- Target: `buildGovernanceAuthorizationGate``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:442` — `- `<top-level>` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_execution_anchor_hunt_output.txt:466``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:443` — `- `buildGovernanceResult` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_topology_confirmation_output.txt:459``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:444` — `- `buildGovernanceResult` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_topology_confirmation_output.txt:465``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:445` — `- `buildGovernanceResult` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_topology_confirmation_output.txt:471``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:446` — `- `buildGovernanceResult` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_topology_confirmation_output.txt:477``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:447` — `- `buildGovernanceResult` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_topology_confirmation_output.txt:483``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:448` — `- `buildGovernanceResult` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_topology_confirmation_output.txt:495``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:449` — `- `buildGovernanceResult` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_topology_confirmation_output.txt:504``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:450` — `- `<top-level>` → `buildGovernanceAuthorizationGate` at `scripts/_local/phase146_governance_final_delivery_receipt_report.ts:42``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:451` — `- `<top-level>` → `buildGovernanceAuthorizationGate` at `scripts/_local/phase142_governance_authorization_gate_report.ts:38``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:452` — `- `assert` → `buildGovernanceAuthorizationGate` at `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:48``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:453` — `- `assert` → `buildGovernanceAuthorizationGate` at `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:45``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:454` — `- `assert` → `buildGovernanceAuthorizationGate` at `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:50``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:455` — `- `<top-level>` → `buildGovernanceAuthorizationGate` at `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_report.ts:39``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:456` — `- `<top-level>` → `buildGovernanceAuthorizationGate` at `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_report.ts:41``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:457` — `- `<top-level>` → `buildGovernanceAuthorizationGate` at `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_report.ts:43``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:458` — `- `assert` → `buildGovernanceAuthorizationGate` at `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_smoke.ts:47``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:459` — `- `assert` → `buildGovernanceAuthorizationGate` at `scripts/_local/phase142_governance_authorization_gate_smoke.ts:44``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:460` — `- `<top-level>` → `buildGovernanceAuthorizationGate` at `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_report.ts:40``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:461` — `- `assert` → `buildGovernanceAuthorizationGate` at `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_smoke.ts:46``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:462` — `- `assert` → `buildGovernanceAuthorizationGate` at `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_smoke.ts:49``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:463` — `- `<top-level>` → `buildGovernanceAuthorizationGate` at `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_report.ts:44``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:464` — `- `proveGovernanceFinalPreLiveRegistrySummaryCapsule` → `buildGovernanceAuthorizationGate` at `src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:77``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:465` — `- `proveGovernanceFinalDeliveryReceipt` → `buildGovernanceAuthorizationGate` at `src/governance/cognition/prove_governance_final_delivery_receipt.ts:73``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:466` — `- `proveGovernanceFinalPreLiveRegistryContractPackage` → `buildGovernanceAuthorizationGate` at `src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:67``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:467` — `- `proveGovernancePreLiveRegistryDeliveryManifest` → `buildGovernanceAuthorizationGate` at `src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:71``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:468` — `- `proveGovernanceAuthorizationGate` → `buildGovernanceAuthorizationGate` at `src/governance/cognition/prove_governance_authorization_gate.ts:65``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:469` — `- `proveGovernanceFinalPreLiveRegistryArchiveRecord` → `buildGovernanceAuthorizationGate` at `src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:75``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:470` — `- `proveGovernancePreLiveRegistryHandoffEnvelope` → `buildGovernanceAuthorizationGate` at `src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:69``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1466` — `- `<top-level>` via `docs/phase423_2_step1_execution_anchor_hunt_output.txt:466` → `src/governance/cognition/build_governance_authorization_gate.ts:24:export function buildGovernanceAuthorizationGate(``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1467` — `- `<top-level>` via `scripts/_local/phase146_governance_final_delivery_receipt_report.ts:42` → `const gate = buildGovernanceAuthorizationGate(decision);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1468` — `- `<top-level>` via `scripts/_local/phase142_governance_authorization_gate_report.ts:38` → `const gate = buildGovernanceAuthorizationGate(decision);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1469` — `- `assert` via `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:45` → `const gate = buildGovernanceAuthorizationGate(decision);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1470` — `- `assert` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:50` → `const gate = buildGovernanceAuthorizationGate(decision);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1471` — `- `<top-level>` via `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_report.ts:39` → `const gate = buildGovernanceAuthorizationGate(decision);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1472` — `- `<top-level>` via `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_report.ts:41` → `const gate = buildGovernanceAuthorizationGate(decision);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1473` — `- `<top-level>` via `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_report.ts:43` → `const gate = buildGovernanceAuthorizationGate(decision);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1474` — `- `assert` via `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_smoke.ts:47` → `const gate = buildGovernanceAuthorizationGate(decision);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1475` — `- `<top-level>` via `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_report.ts:40` → `const gate = buildGovernanceAuthorizationGate(decision);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1476` — `- `assert` via `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_smoke.ts:46` → `const gate = buildGovernanceAuthorizationGate(decision);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1477` — `- `assert` via `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_smoke.ts:49` → `const gate = buildGovernanceAuthorizationGate(decision);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1478` — `- `<top-level>` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_report.ts:44` → `const gate = buildGovernanceAuthorizationGate(decision);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1479` — `- `proveGovernanceFinalPreLiveRegistrySummaryCapsule` via `src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:77` → `const gate = buildGovernanceAuthorizationGate(decision);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1480` — `- `proveGovernanceFinalPreLiveRegistryContractPackage` via `src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:67` → `const gate = buildGovernanceAuthorizationGate(decision);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1481` — `- `proveGovernancePreLiveRegistryDeliveryManifest` via `src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:71` → `const gate = buildGovernanceAuthorizationGate(decision);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1482` — `- `proveGovernanceFinalPreLiveRegistryArchiveRecord` via `src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:75` → `const gate = buildGovernanceAuthorizationGate(decision);``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:1483` — `- `proveGovernancePreLiveRegistryHandoffEnvelope` via `src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:69` → `const gate = buildGovernanceAuthorizationGate(decision);``
 - `docs/phase423_2_step1_topology_confirmation_findings.md:67` — `- src/governance/cognition/build_governance_authorization_gate.ts::buildGovernanceAuthorizationGate`
 - `docs/phase423_2_step1_topology_confirmation_findings.md:78` — `→ buildGovernanceAuthorizationGate`
 - `docs/phase423_2_step1_topology_confirmation_findings.md:138` — `- buildGovernanceAuthorizationGate`
@@ -260,9 +665,9 @@ Updated: 2026-04-01 21:00:00 UTC
 - `scripts/_local/phase142_governance_authorization_gate_report.ts:38` — `const gate = buildGovernanceAuthorizationGate(decision);`
 - `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:14` — `buildGovernanceAuthorizationGate,`
 - `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:48` — `const gate = buildGovernanceAuthorizationGate(decision);`
-- `scripts/_local/phase423_2_step1_continuation.sh:22` — `"buildGovernanceAuthorizationGate",`
-- `scripts/_local/phase423_2_step1_continuation.sh:266` — `#### `buildGovernanceAuthorizationGate``
-- `scripts/_local/phase423_2_step1_continuation.sh:268` — `{fmt_matches("buildGovernanceAuthorizationGate")}`
+- `scripts/_local/phase423_2_step1_continuation.sh:19` — `"buildGovernanceAuthorizationGate",`
+- `scripts/_local/phase423_2_step1_continuation.sh:245` — `#### `buildGovernanceAuthorizationGate``
+- `scripts/_local/phase423_2_step1_continuation.sh:247` — `{fmt_matches("buildGovernanceAuthorizationGate")}`
 - `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:14` — `buildGovernanceAuthorizationGate,`
 - `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:45` — `const gate = buildGovernanceAuthorizationGate(decision);`
 - `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:14` — `buildGovernanceAuthorizationGate,`
@@ -292,15 +697,6 @@ Updated: 2026-04-01 21:00:00 UTC
 - `src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:19` — `import { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";`
 - `src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:67` — `const gate = buildGovernanceAuthorizationGate(decision);`
 - `src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:19` — `import { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";`
-- `src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:71` — `const gate = buildGovernanceAuthorizationGate(decision);`
-- `src/governance/cognition/prove_governance_authorization_gate.ts:19` — `import { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";`
-- `src/governance/cognition/prove_governance_authorization_gate.ts:65` — `const gate = buildGovernanceAuthorizationGate(decision);`
-- `src/governance/cognition/build_governance_authorization_gate.ts:24` — `export function buildGovernanceAuthorizationGate(`
-- `src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:19` — `import { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";`
-- `src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:75` — `const gate = buildGovernanceAuthorizationGate(decision);`
-- `src/governance/cognition/index.ts:72` — `export { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";`
-- `src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:19` — `import { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";`
-- `src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:69` — `const gate = buildGovernanceAuthorizationGate(decision);`
 
 #### `evaluateGovernancePolicy`
 
@@ -313,15 +709,63 @@ Updated: 2026-04-01 21:00:00 UTC
 - `docs/phase423_2_step1_topology_confirmation_output.txt:450` — `src/governance/governance_policy_engine.test.ts:31:const critical = evaluateGovernancePolicy({`
 - `docs/phase423_2_step1_topology_confirmation_output.txt:505` — `src/governance/governance_policy_engine.ts:20:export function evaluateGovernancePolicy(`
 - `docs/phase423_2_step1_topology_confirmation_output.txt:517` — `./docs/phase423_2_step1_topology_confirmation.sh:32:grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true`
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:25` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:517` — `./docs/phase423_2_step1_topology_confirmation.sh:32:grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:36` — `- `docs/phase423_2_step1_topology_confirmation.sh:32` — `grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:72` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:517` — `./docs/phase423_2_step1_topology_confirmation.sh:32:grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:78` — `- `docs/phase423_2_step1_topology_confirmation.sh:32` — `grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:164` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:517` — `./docs/phase423_2_step1_topology_confirmation.sh:32:grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:170` — `- `docs/phase423_2_step1_topology_confirmation.sh:32` — `grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:249` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:517` — `./docs/phase423_2_step1_topology_confirmation.sh:32:grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:256` — `- `docs/phase423_2_step1_topology_confirmation.sh:32` — `grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:305` — `#### `evaluateGovernancePolicy``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:307` — `- `docs/phase423_2_step1_anchor_resolution_findings.md:81` — `- evaluateGovernancePolicy``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:308` — `- `docs/phase423_2_step1_anchor_resolution_findings.md:149` — `src/governance/governance_policy_engine.ts::evaluateGovernancePolicy``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:309` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:312` — `export function evaluateGovernancePolicy(``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:310` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:447` — `src/governance/governance_policy_engine.test.ts:7:import { evaluateGovernancePolicy } from "./governance_policy_engine"``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:311` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:448` — `src/governance/governance_policy_engine.test.ts:15:const safe = evaluateGovernancePolicy({``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:312` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:449` — `src/governance/governance_policy_engine.test.ts:23:const warn = evaluateGovernancePolicy({``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:313` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:450` — `src/governance/governance_policy_engine.test.ts:31:const critical = evaluateGovernancePolicy({``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:314` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:505` — `src/governance/governance_policy_engine.ts:20:export function evaluateGovernancePolicy(``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:315` — `- `docs/phase423_2_step1_topology_confirmation_output.txt:517` — `./docs/phase423_2_step1_topology_confirmation.sh:32:grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:316` — `- `docs/phase423_2_step1_topology_confirmation_findings.md:97` — `- src/governance/governance_policy_engine.ts::evaluateGovernancePolicy``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:317` — `- `docs/phase423_2_step1_topology_confirmation_findings.md:151` — `No additional runtime execution surface linking the recorded execution entry chain to evaluateGovernancePolicy was surfaced in this topology confirmation output.``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:318` — `- `docs/phase423_2_step1_topology_confirmation_findings.md:184` — `evaluateGovernancePolicy``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:319` — `- `docs/phase423_2_step1_topology_confirmation_findings.md:222` — `- evaluateGovernancePolicy``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:320` — `- `docs/phase423_2_step1_topology_confirmation.sh:32` — `grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:321` — `- `docs/phase423_2_step1_remaining_anchor_resolution_output.txt:152` — `export function evaluateGovernancePolicy(``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:322` — `- `scripts/_local/phase423_2_step1_continuation.sh:23` — `"evaluateGovernancePolicy",``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:323` — `- `scripts/_local/phase423_2_step1_continuation.sh:270` — `#### `evaluateGovernancePolicy```
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:324` — `- `scripts/_local/phase423_2_step1_continuation.sh:272` — `{fmt_matches("evaluateGovernancePolicy")}``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:325` — `- `scripts/_local/phase323_run_governance_policy_engine_smoke.ts:1` — `import { evaluateGovernancePolicy } from "../../src/governance/governance_policy_engine";``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:326` — `- `scripts/_local/phase323_run_governance_policy_engine_smoke.ts:9` — `const safe = evaluateGovernancePolicy({``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:327` — `- `scripts/_local/phase323_run_governance_policy_engine_smoke.ts:20` — `const warning = evaluateGovernancePolicy({``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:328` — `- `scripts/_local/phase323_run_governance_policy_engine_smoke.ts:31` — `const critical = evaluateGovernancePolicy({``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:329` — `- `scripts/_local/phase323_run_governance_policy_engine_smoke.ts:42` — `const review = evaluateGovernancePolicy({``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:330` — `- `src/governance/governance_policy_engine.test.ts:7` — `import { evaluateGovernancePolicy } from "./governance_policy_engine"``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:331` — `- `src/governance/governance_policy_engine.test.ts:15` — `const safe = evaluateGovernancePolicy({``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:332` — `- `src/governance/governance_policy_engine.test.ts:23` — `const warn = evaluateGovernancePolicy({``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:333` — `- `src/governance/governance_policy_engine.test.ts:31` — `const critical = evaluateGovernancePolicy({``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:334` — `- `src/governance/governance_policy_engine.ts:20` — `export function evaluateGovernancePolicy(``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:471` — `- Target: `evaluateGovernancePolicy``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:472` — `- `buildGovernanceResult` → `evaluateGovernancePolicy` at `docs/phase423_2_step1_topology_confirmation_output.txt:448``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:473` — `- `buildGovernanceResult` → `evaluateGovernancePolicy` at `docs/phase423_2_step1_topology_confirmation_output.txt:449``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:474` — `- `buildGovernanceResult` → `evaluateGovernancePolicy` at `docs/phase423_2_step1_topology_confirmation_output.txt:450``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:475` — `- `assert` → `evaluateGovernancePolicy` at `scripts/_local/phase323_run_governance_policy_engine_smoke.ts:9``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:476` — `- `assert` → `evaluateGovernancePolicy` at `scripts/_local/phase323_run_governance_policy_engine_smoke.ts:20``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:477` — `- `assert` → `evaluateGovernancePolicy` at `scripts/_local/phase323_run_governance_policy_engine_smoke.ts:31``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:478` — `- `assert` → `evaluateGovernancePolicy` at `scripts/_local/phase323_run_governance_policy_engine_smoke.ts:42``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:479` — `- `assert` → `evaluateGovernancePolicy` at `src/governance/governance_policy_engine.test.ts:15``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:480` — `- `assert` → `evaluateGovernancePolicy` at `src/governance/governance_policy_engine.test.ts:23``
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md:481` — `- `assert` → `evaluateGovernancePolicy` at `src/governance/governance_policy_engine.test.ts:31``
 - `docs/phase423_2_step1_topology_confirmation_findings.md:97` — `- src/governance/governance_policy_engine.ts::evaluateGovernancePolicy`
 - `docs/phase423_2_step1_topology_confirmation_findings.md:151` — `No additional runtime execution surface linking the recorded execution entry chain to evaluateGovernancePolicy was surfaced in this topology confirmation output.`
 - `docs/phase423_2_step1_topology_confirmation_findings.md:184` — `evaluateGovernancePolicy`
 - `docs/phase423_2_step1_topology_confirmation_findings.md:222` — `- evaluateGovernancePolicy`
 - `docs/phase423_2_step1_topology_confirmation.sh:32` — `grep -RniE 'runConsumptionRegistryEnforcementEntrypoint|createConsumptionRegistryEnforcementReadonlyView|createConsumptionRegistryEnforcementBundle|buildGovernanceLiveRegistryWiringReadiness|buildGovernanceLiveWiringDecision|buildGovernanceAuthorizationGate|evaluateGovernancePolicy' src || true`
 - `docs/phase423_2_step1_remaining_anchor_resolution_output.txt:152` — `export function evaluateGovernancePolicy(`
-- `scripts/_local/phase423_2_step1_continuation.sh:23` — `"evaluateGovernancePolicy",`
-- `scripts/_local/phase423_2_step1_continuation.sh:270` — `#### `evaluateGovernancePolicy``
-- `scripts/_local/phase423_2_step1_continuation.sh:272` — `{fmt_matches("evaluateGovernancePolicy")}`
+- `scripts/_local/phase423_2_step1_continuation.sh:20` — `"evaluateGovernancePolicy",`
+- `scripts/_local/phase423_2_step1_continuation.sh:249` — `#### `evaluateGovernancePolicy``
+- `scripts/_local/phase423_2_step1_continuation.sh:251` — `{fmt_matches("evaluateGovernancePolicy")}`
 - `scripts/_local/phase323_run_governance_policy_engine_smoke.ts:1` — `import { evaluateGovernancePolicy } from "../../src/governance/governance_policy_engine";`
 - `scripts/_local/phase323_run_governance_policy_engine_smoke.ts:9` — `const safe = evaluateGovernancePolicy({`
 - `scripts/_local/phase323_run_governance_policy_engine_smoke.ts:20` — `const warning = evaluateGovernancePolicy({`
@@ -339,6 +783,7 @@ Updated: 2026-04-01 21:00:00 UTC
 - `docs/phase423_2_step1_anchor_resolution_findings.md`
 - `docs/phase423_2_step1_candidate_surface_findings.md`
 - `docs/phase423_2_step1_execution_anchor_hunt_output.txt`
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md`
 - `docs/phase423_2_step1_topology_confirmation.sh`
 - `docs/phase423_2_step1_topology_confirmation_findings.md`
 - `docs/phase423_2_step1_topology_confirmation_output.txt`
@@ -353,12 +798,40 @@ Deterministic finding: execution and governance anchors are co-located in the fi
 - Target: `runConsumptionRegistryEnforcementEntrypoint`
   - `<top-level>` → `runConsumptionRegistryEnforcementEntrypoint` at `docs/phase423_2_step1_execution_anchor_hunt_output.txt:21`
   - `<top-level>` → `runConsumptionRegistryEnforcementEntrypoint` at `docs/phase423_2_step1_execution_anchor_hunt_output.txt:405`
+  - `<top-level>` → `runConsumptionRegistryEnforcementEntrypoint` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:10`
+  - `<top-level>` → `runConsumptionRegistryEnforcementEntrypoint` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:11`
+  - `<top-level>` → `runConsumptionRegistryEnforcementEntrypoint` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:14`
+  - `<top-level>` → `runConsumptionRegistryEnforcementEntrypoint` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:15`
+  - `<top-level>` → `runConsumptionRegistryEnforcementEntrypoint` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:16`
+  - `<top-level>` → `runConsumptionRegistryEnforcementEntrypoint` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:17`
+  - `<top-level>` → `runConsumptionRegistryEnforcementEntrypoint` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:18`
+  - `<top-level>` → `runConsumptionRegistryEnforcementEntrypoint` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:21`
+  - `<top-level>` → `runConsumptionRegistryEnforcementEntrypoint` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:22`
+  - `<top-level>` → `runConsumptionRegistryEnforcementEntrypoint` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:29`
+  - `<top-level>` → `runConsumptionRegistryEnforcementEntrypoint` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:41`
+  - `<top-level>` → `runConsumptionRegistryEnforcementEntrypoint` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:360`
+  - `<top-level>` → `runConsumptionRegistryEnforcementEntrypoint` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:361`
+  - `<top-level>` → `runConsumptionRegistryEnforcementEntrypoint` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:362`
   - `runConsumptionRegistryEnforcementEntrypoint` → `runConsumptionRegistryEnforcementEntrypoint` at `src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:11`
 
 ### Execution ladder root-surface candidates
 
 - `<top-level>` via `docs/phase423_2_step1_execution_anchor_hunt_output.txt:21` → `src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:11:export function runConsumptionRegistryEnforcementEntrypoint(): ConsumptionRegistryEnforcementEntrypointResult {`
 - `<top-level>` via `docs/phase423_2_step1_execution_anchor_hunt_output.txt:405` → `src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:11:export function runConsumptionRegistryEnforcementEntrypoint(): ConsumptionRegistryEnforcementEntrypointResult {`
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:10` → `- `docs/phase423_2_step1_execution_anchor_hunt_output.txt:21` — `src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:11:export function runConsumptionRegistryEnforcementEntrypoint(): ConsumptionRegistryEnforcementEntrypointResult {``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:11` → `- `docs/phase423_2_step1_execution_anchor_hunt_output.txt:405` — `src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:11:export function runConsumptionRegistryEnforcementEntrypoint(): ConsumptionRegistryEnforcementEntrypointResult {``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:14` → `- `docs/phase423_2_step1_topology_confirmation_output.txt:14` — `export function runConsumptionRegistryEnforcementEntrypoint(): ConsumptionRegistryEnforcementEntrypointResult {``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:15` → `- `docs/phase423_2_step1_topology_confirmation_output.txt:441` — `src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:11:export function runConsumptionRegistryEnforcementEntrypoint(): ConsumptionRegistryEnforcementEntrypointResult {``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:16` → `- `docs/phase423_2_step1_topology_confirmation_output.txt:508` — `src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:11:export function runConsumptionRegistryEnforcementEntrypoint(): ConsumptionRegistryEnforcementEntrypointResult {``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:17` → `- `docs/phase423_2_step1_topology_confirmation_output.txt:509` — `./docs/phase423_2_step1_execution_anchor_hunt_output.txt:21:src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:11:export function runConsumptionRegistryEnforcementEntrypoint(): ConsumptionRegistryEnforcementEntrypointResult {``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:18` → `- `docs/phase423_2_step1_topology_confirmation_output.txt:510` — `./docs/phase423_2_step1_execution_anchor_hunt_output.txt:405:src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:11:export function runConsumptionRegistryEnforcementEntrypoint(): ConsumptionRegistryEnforcementEntrypointResult {``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:21` → `- `docs/phase423_2_step1_topology_confirmation_output.txt:513` — `./docs/phase423_2_step1_topology_confirmation_output.txt:14:export function runConsumptionRegistryEnforcementEntrypoint(): ConsumptionRegistryEnforcementEntrypointResult {``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:22` → `- `docs/phase423_2_step1_topology_confirmation_output.txt:514` — `./docs/phase423_2_step1_topology_confirmation_output.txt:441:src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:11:export function runConsumptionRegistryEnforcementEntrypoint(): ConsumptionRegistryEnforcementEntrypointResult {``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:29` → `- `docs/phase423_2_step1_topology_confirmation_output.txt:527` — `./src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:11:export function runConsumptionRegistryEnforcementEntrypoint(): ConsumptionRegistryEnforcementEntrypointResult {``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:41` → `- `src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:11` — `export function runConsumptionRegistryEnforcementEntrypoint(): ConsumptionRegistryEnforcementEntrypointResult {``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:360` → `- `<top-level>` via `docs/phase423_2_step1_execution_anchor_hunt_output.txt:21` → `src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:11:export function runConsumptionRegistryEnforcementEntrypoint(): ConsumptionRegistryEnforcementEntrypointResult {``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:361` → `- `<top-level>` via `docs/phase423_2_step1_execution_anchor_hunt_output.txt:405` → `src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:11:export function runConsumptionRegistryEnforcementEntrypoint(): ConsumptionRegistryEnforcementEntrypointResult {``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:362` → `- `runConsumptionRegistryEnforcementEntrypoint` via `src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:11` → `export function runConsumptionRegistryEnforcementEntrypoint(): ConsumptionRegistryEnforcementEntrypointResult {``
 - `runConsumptionRegistryEnforcementEntrypoint` via `src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:11` → `export function runConsumptionRegistryEnforcementEntrypoint(): ConsumptionRegistryEnforcementEntrypointResult {`
 
 ## Step 1.7 — Governance call stack trace
@@ -376,6 +849,70 @@ Deterministic finding: execution and governance anchors are co-located in the fi
   - `buildGovernanceResult` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_topology_confirmation_output.txt:486`
   - `buildGovernanceResult` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_topology_confirmation_output.txt:493`
   - `buildGovernanceResult` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_topology_confirmation_output.txt:502`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:47`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:51`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:53`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:55`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:57`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:59`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:61`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:63`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:65`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:66`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:68`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:71`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:79`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:81`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:83`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:85`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:90`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:92`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:94`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:96`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:98`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:100`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:102`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:104`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:106`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:108`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:110`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:112`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:114`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:116`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:118`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:120`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:122`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:124`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:126`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:128`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:130`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:132`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:133`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:135`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:138`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1424`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1425`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1426`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1427`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1428`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1429`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1430`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1431`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1432`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1433`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1434`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1435`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1436`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1437`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1438`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1439`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1440`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1441`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1442`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1443`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1444`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1445`
+  - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1446`
   - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `scripts/_local/phase146_governance_final_delivery_receipt_report.ts:40`
   - `<top-level>` → `buildGovernanceLiveRegistryWiringReadiness` at `scripts/_local/phase142_governance_authorization_gate_report.ts:36`
   - `assert` → `buildGovernanceLiveRegistryWiringReadiness` at `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:46`
@@ -414,6 +951,62 @@ Deterministic finding: execution and governance anchors are co-located in the fi
   - `buildGovernanceResult` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_topology_confirmation_output.txt:487`
   - `buildGovernanceResult` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_topology_confirmation_output.txt:494`
   - `buildGovernanceResult` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_topology_confirmation_output.txt:503`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:142`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:145`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:146`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:148`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:150`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:152`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:154`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:156`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:158`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:160`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:163`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:171`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:173`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:175`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:177`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:182`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:184`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:186`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:188`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:190`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:192`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:194`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:196`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:198`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:200`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:202`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:204`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:206`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:207`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:209`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:211`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:213`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:215`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:217`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:219`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:221`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:224`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1447`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1448`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1449`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1450`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1451`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1452`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1453`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1454`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1455`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1456`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1457`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1458`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1459`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1460`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1461`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1462`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1463`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1464`
+  - `<top-level>` → `buildGovernanceLiveWiringDecision` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1465`
   - `<top-level>` → `buildGovernanceLiveWiringDecision` at `scripts/_local/phase146_governance_final_delivery_receipt_report.ts:41`
   - `<top-level>` → `buildGovernanceLiveWiringDecision` at `scripts/_local/phase142_governance_authorization_gate_report.ts:37`
   - `assert` → `buildGovernanceLiveWiringDecision` at `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:47`
@@ -447,6 +1040,56 @@ Deterministic finding: execution and governance anchors are co-located in the fi
   - `buildGovernanceResult` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_topology_confirmation_output.txt:483`
   - `buildGovernanceResult` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_topology_confirmation_output.txt:495`
   - `buildGovernanceResult` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_topology_confirmation_output.txt:504`
+  - `<top-level>` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:228`
+  - `<top-level>` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:232`
+  - `<top-level>` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:234`
+  - `<top-level>` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:236`
+  - `<top-level>` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:238`
+  - `<top-level>` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:240`
+  - `<top-level>` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:242`
+  - `<top-level>` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:243`
+  - `<top-level>` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:245`
+  - `<top-level>` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:248`
+  - `<top-level>` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:258`
+  - `<top-level>` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:260`
+  - `<top-level>` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:262`
+  - `<top-level>` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:267`
+  - `<top-level>` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:269`
+  - `<top-level>` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:271`
+  - `<top-level>` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:273`
+  - `<top-level>` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:275`
+  - `<top-level>` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:277`
+  - `<top-level>` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:279`
+  - `<top-level>` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:281`
+  - `<top-level>` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:283`
+  - `<top-level>` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:285`
+  - `<top-level>` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:287`
+  - `<top-level>` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:289`
+  - `<top-level>` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:291`
+  - `<top-level>` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:293`
+  - `<top-level>` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:295`
+  - `<top-level>` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:297`
+  - `<top-level>` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:298`
+  - `<top-level>` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:300`
+  - `<top-level>` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:303`
+  - `<top-level>` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1466`
+  - `<top-level>` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1467`
+  - `<top-level>` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1468`
+  - `<top-level>` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1469`
+  - `<top-level>` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1470`
+  - `<top-level>` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1471`
+  - `<top-level>` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1472`
+  - `<top-level>` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1473`
+  - `<top-level>` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1474`
+  - `<top-level>` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1475`
+  - `<top-level>` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1476`
+  - `<top-level>` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1477`
+  - `<top-level>` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1478`
+  - `<top-level>` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1479`
+  - `<top-level>` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1480`
+  - `<top-level>` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1481`
+  - `<top-level>` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1482`
+  - `<top-level>` → `buildGovernanceAuthorizationGate` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1483`
   - `<top-level>` → `buildGovernanceAuthorizationGate` at `scripts/_local/phase146_governance_final_delivery_receipt_report.ts:42`
   - `<top-level>` → `buildGovernanceAuthorizationGate` at `scripts/_local/phase142_governance_authorization_gate_report.ts:38`
   - `assert` → `buildGovernanceAuthorizationGate` at `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:48`
@@ -472,6 +1115,20 @@ Deterministic finding: execution and governance anchors are co-located in the fi
   - `buildGovernanceResult` → `evaluateGovernancePolicy` at `docs/phase423_2_step1_topology_confirmation_output.txt:448`
   - `buildGovernanceResult` → `evaluateGovernancePolicy` at `docs/phase423_2_step1_topology_confirmation_output.txt:449`
   - `buildGovernanceResult` → `evaluateGovernancePolicy` at `docs/phase423_2_step1_topology_confirmation_output.txt:450`
+  - `<top-level>` → `evaluateGovernancePolicy` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:309`
+  - `<top-level>` → `evaluateGovernancePolicy` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:311`
+  - `<top-level>` → `evaluateGovernancePolicy` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:312`
+  - `<top-level>` → `evaluateGovernancePolicy` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:313`
+  - `<top-level>` → `evaluateGovernancePolicy` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:314`
+  - `<top-level>` → `evaluateGovernancePolicy` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:321`
+  - `<top-level>` → `evaluateGovernancePolicy` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:326`
+  - `<top-level>` → `evaluateGovernancePolicy` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:327`
+  - `<top-level>` → `evaluateGovernancePolicy` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:328`
+  - `<top-level>` → `evaluateGovernancePolicy` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:329`
+  - `<top-level>` → `evaluateGovernancePolicy` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:331`
+  - `<top-level>` → `evaluateGovernancePolicy` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:332`
+  - `<top-level>` → `evaluateGovernancePolicy` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:333`
+  - `<top-level>` → `evaluateGovernancePolicy` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:334`
   - `assert` → `evaluateGovernancePolicy` at `scripts/_local/phase323_run_governance_policy_engine_smoke.ts:9`
   - `assert` → `evaluateGovernancePolicy` at `scripts/_local/phase323_run_governance_policy_engine_smoke.ts:20`
   - `assert` → `evaluateGovernancePolicy` at `scripts/_local/phase323_run_governance_policy_engine_smoke.ts:31`
@@ -481,6 +1138,7 @@ Deterministic finding: execution and governance anchors are co-located in the fi
   - `assert` → `evaluateGovernancePolicy` at `src/governance/governance_policy_engine.test.ts:31`
 - Target: `buildGovernanceResult`
   - `<top-level>` → `buildGovernanceResult` at `docs/phase423_2_step1_execution_anchor_hunt_output.txt:480`
+  - `<top-level>` → `buildGovernanceResult` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1484`
   - `assert` → `buildGovernanceResult` at `src/governance/governance_explanation_builder.test.ts:10`
   - `assert` → `buildGovernanceResult` at `src/governance/governance_explanation_builder.test.ts:24`
   - `assert` → `buildGovernanceResult` at `src/governance/governance_explanation_builder.test.ts:38`
@@ -531,6 +1189,145 @@ Deterministic finding: execution and governance anchors are co-located in the fi
   - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_hunt_output.txt:347`
   - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_hunt_output.txt:351`
   - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_hunt_output.txt:352`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1485`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1486`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1487`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1488`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1489`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1490`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1491`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1492`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1493`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1494`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1495`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1496`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1497`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1498`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1499`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1500`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1501`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1502`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1503`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1504`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1505`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1506`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1507`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1508`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1509`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1510`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1511`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1512`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1513`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1514`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1515`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1516`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1517`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1518`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1519`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1520`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1521`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1522`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1523`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1524`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1525`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1526`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1527`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1528`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1529`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1530`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1531`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1532`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1533`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1534`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1535`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1536`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1537`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1538`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1539`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1540`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1541`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1542`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1543`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1544`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1545`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1546`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1547`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1548`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1549`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1550`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1551`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1552`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1553`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1554`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1555`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1556`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1557`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1558`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1559`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1560`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1561`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1562`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1563`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1564`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1565`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1566`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1567`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1568`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1569`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1570`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1571`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1572`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1573`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1574`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1575`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1576`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1577`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1578`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1579`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1580`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1581`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1582`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1583`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1584`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1585`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1586`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1587`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1588`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1589`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1590`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1591`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1592`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1593`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1594`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1595`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1596`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1597`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1598`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1599`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1600`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1601`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1602`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1603`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1604`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1605`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1606`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1607`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1608`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1609`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1610`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1611`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1612`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1613`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1614`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1615`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1616`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1617`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1618`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1619`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1620`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1621`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1622`
+  - `<top-level>` → `assert` at `docs/phase423_2_step1_execution_anchor_link_resolution.md:1623`
   - `<top-level>` → `assert` at `docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:5884`
   - `<top-level>` → `assert` at `docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:5765`
   - `assert` → `assert` at `dashboard/src/cognition/operatorGuidance/guidanceSafetyConfirmation.test.ts:6`
@@ -548,145 +1345,6 @@ Deterministic finding: execution and governance anchors are co-located in the fi
   - `assert` → `assert` at `dashboard/src/cognition/operatorGuidance/guidanceGrouping.test.ts:21`
   - `assert` → `assert` at `dashboard/src/cognition/operatorGuidance/guidanceGrouping.test.ts:22`
   - `assert` → `assert` at `dashboard/src/cognition/operatorGuidance/guidanceGrouping.test.ts:24`
-  - `assert` → `assert` at `dashboard/src/cognition/operatorGuidance/guidanceGrouping.test.ts:25`
-  - `assert` → `assert` at `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:56`
-  - `assert` → `assert` at `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:57`
-  - `assert` → `assert` at `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:58`
-  - `assert` → `assert` at `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:59`
-  - `assert` → `assert` at `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:60`
-  - `assert` → `assert` at `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:61`
-  - `assert` → `assert` at `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:62`
-  - `assert` → `assert` at `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:63`
-  - `assert` → `assert` at `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:64`
-  - `assert` → `assert` at `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:65`
-  - `assert` → `assert` at `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:66`
-  - `assert` → `assert` at `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:67`
-  - `assert` → `assert` at `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:68`
-  - `assert` → `assert` at `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:69`
-  - `assert` → `assert` at `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:70`
-  - `assert` → `assert` at `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:71`
-  - `assert` → `assert` at `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:72`
-  - `assert` → `assert` at `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:8`
-  - `testSafeSuggestions` → `assert` at `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:18`
-  - `testSafeSuggestions` → `assert` at `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:20`
-  - `testSafeSuggestions` → `assert` at `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:25`
-  - `testSafeSuggestions` → `assert` at `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:30`
-  - `testCautionSuggestions` → `assert` at `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:42`
-  - `testCautionSuggestions` → `assert` at `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:47`
-  - `testCautionSuggestions` → `assert` at `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:52`
-  - `testCautionSuggestions` → `assert` at `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:57`
-  - `testRiskSuggestions` → `assert` at `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:70`
-  - `testRiskSuggestions` → `assert` at `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:75`
-  - `testRiskSuggestions` → `assert` at `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:80`
-  - `testRiskSuggestions` → `assert` at `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:85`
-  - `testRiskSuggestions` → `assert` at `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:90`
-  - `assert` → `assert` at `scripts/_local/phase135_governance_cognition_snapshot_smoke.ts:26`
-  - `assert` → `assert` at `scripts/_local/phase135_governance_cognition_snapshot_smoke.ts:27`
-  - `assert` → `assert` at `scripts/_local/phase135_governance_cognition_snapshot_smoke.ts:28`
-  - `assert` → `assert` at `scripts/_local/phase135_governance_cognition_snapshot_smoke.ts:29`
-  - `assert` → `assert` at `scripts/_local/phase135_governance_cognition_snapshot_smoke.ts:30`
-  - `assert` → `assert` at `scripts/_local/phase135_governance_cognition_snapshot_smoke.ts:31`
-  - `runPhase99_2OperationalConfidenceSmoke` → `assert` at `scripts/_local/phase99_2_operational_confidence_smoke.ts:31`
-  - `runPhase99_2OperationalConfidenceSmoke` → `assert` at `scripts/_local/phase99_2_operational_confidence_smoke.ts:32`
-  - `runPhase99_2OperationalConfidenceSmoke` → `assert` at `scripts/_local/phase99_2_operational_confidence_smoke.ts:33`
-  - `runPhase99_2OperationalConfidenceSmoke` → `assert` at `scripts/_local/phase99_2_operational_confidence_smoke.ts:39`
-  - `runPhase99_2OperationalConfidenceSmoke` → `assert` at `scripts/_local/phase99_2_operational_confidence_smoke.ts:43`
-  - `runPhase99_2OperationalConfidenceSmoke` → `assert` at `scripts/_local/phase99_2_operational_confidence_smoke.ts:47`
-  - `assert` → `assert` at `scripts/_local/phase139_governance_shared_registry_owner_bundle_smoke.ts:16`
-  - `assert` → `assert` at `scripts/_local/phase139_governance_shared_registry_owner_bundle_smoke.ts:42`
-  - `assert` → `assert` at `scripts/_local/phase139_governance_shared_registry_owner_bundle_smoke.ts:43`
-  - `assert` → `assert` at `scripts/_local/phase139_governance_shared_registry_owner_bundle_smoke.ts:44`
-  - `assert` → `assert` at `scripts/_local/phase139_governance_shared_registry_owner_bundle_smoke.ts:45`
-  - `assert` → `assert` at `scripts/_local/phase139_governance_shared_registry_owner_bundle_smoke.ts:46`
-  - `assert` → `assert` at `scripts/_local/phase139_governance_shared_registry_owner_bundle_smoke.ts:47`
-  - `assert` → `assert` at `scripts/_local/phase139_governance_shared_registry_owner_bundle_smoke.ts:48`
-  - `assert` → `assert` at `scripts/_local/phase139_governance_shared_registry_owner_bundle_smoke.ts:49`
-  - `assert` → `assert` at `scripts/_local/phase139_governance_shared_registry_owner_bundle_smoke.ts:50`
-  - `assert` → `assert` at `scripts/_local/phase139_governance_shared_registry_owner_bundle_smoke.ts:51`
-  - `testHighSeverityEnforcesRecoveryBeforeProgress` → `assert` at `scripts/_local/phase77_adaptation_guardrails_smoke.ts:28`
-  - `testHighSeverityEnforcesRecoveryBeforeProgress` → `assert` at `scripts/_local/phase77_adaptation_guardrails_smoke.ts:33`
-  - `testHighSeverityEnforcesRecoveryBeforeProgress` → `assert` at `scripts/_local/phase77_adaptation_guardrails_smoke.ts:38`
-  - `testHighSeverityEnforcesRecoveryBeforeProgress` → `assert` at `scripts/_local/phase77_adaptation_guardrails_smoke.ts:43`
-  - `testMediumSeverityEnforcesDiagnosticsBeforeProgress` → `assert` at `scripts/_local/phase77_adaptation_guardrails_smoke.ts:60`
-  - `testMediumSeverityEnforcesDiagnosticsBeforeProgress` → `assert` at `scripts/_local/phase77_adaptation_guardrails_smoke.ts:65`
-  - `testNoGuardrailsForNoneSeverity` → `assert` at `scripts/_local/phase77_adaptation_guardrails_smoke.ts:79`
-  - `testNoGuardrailsForNoneSeverity` → `assert` at `scripts/_local/phase77_adaptation_guardrails_smoke.ts:85`
-  - `assert` → `assert` at `scripts/_local/phase138_governance_runtime_registry_export_smoke.ts:14`
-  - `assert` → `assert` at `scripts/_local/phase138_governance_runtime_registry_export_smoke.ts:38`
-  - `assert` → `assert` at `scripts/_local/phase138_governance_runtime_registry_export_smoke.ts:39`
-  - `assert` → `assert` at `scripts/_local/phase138_governance_runtime_registry_export_smoke.ts:40`
-  - `assert` → `assert` at `scripts/_local/phase138_governance_runtime_registry_export_smoke.ts:41`
-  - `assert` → `assert` at `scripts/_local/phase138_governance_runtime_registry_export_smoke.ts:42`
-  - `assert` → `assert` at `scripts/_local/phase138_governance_runtime_registry_export_smoke.ts:43`
-  - `assert` → `assert` at `scripts/_local/phase138_governance_runtime_registry_export_smoke.ts:44`
-  - `assert` → `assert` at `scripts/_local/phase138_governance_runtime_registry_export_smoke.ts:45`
-  - `assert` → `assert` at `scripts/_local/phase138_governance_runtime_registry_export_smoke.ts:46`
-  - `assert` → `assert` at `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:20`
-  - `assert` → `assert` at `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:50`
-  - `assert` → `assert` at `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:51`
-  - `assert` → `assert` at `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:52`
-  - `assert` → `assert` at `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:53`
-  - `assert` → `assert` at `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:54`
-  - `assert` → `assert` at `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:55`
-  - `assert` → `assert` at `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:56`
-  - `assert` → `assert` at `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:57`
-  - `assert` → `assert` at `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:58`
-  - `assert` → `assert` at `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:59`
-  - `assert` → `assert` at `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:60`
-  - `assert` → `assert` at `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:61`
-  - `assert` → `assert` at `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:62`
-  - `assert` → `assert` at `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:63`
-  - `assert` → `assert` at `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:25`
-  - `assert` → `assert` at `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:60`
-  - `assert` → `assert` at `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:61`
-  - `assert` → `assert` at `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:62`
-  - `assert` → `assert` at `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:63`
-  - `assert` → `assert` at `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:64`
-  - `assert` → `assert` at `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:65`
-  - `assert` → `assert` at `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:66`
-  - `assert` → `assert` at `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:67`
-  - `assert` → `assert` at `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:68`
-  - `assert` → `assert` at `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:69`
-  - `assert` → `assert` at `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:70`
-  - `assert` → `assert` at `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:71`
-  - `assert` → `assert` at `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:72`
-  - `assert` → `assert` at `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:73`
-  - `assert` → `assert` at `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:74`
-  - `assert` → `assert` at `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:75`
-  - `assert` → `assert` at `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:76`
-  - `assert` → `assert` at `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:77`
-  - `assert` → `assert` at `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:78`
-  - `assert` → `assert` at `scripts/_local/phase73_operator_safety_gates_smoke.ts:8`
-  - `testSafeAllowsNarrowWork` → `assert` at `scripts/_local/phase73_operator_safety_gates_smoke.ts:18`
-  - `testSafeAllowsNarrowWork` → `assert` at `scripts/_local/phase73_operator_safety_gates_smoke.ts:19`
-  - `testSafeAllowsNarrowWork` → `assert` at `scripts/_local/phase73_operator_safety_gates_smoke.ts:20`
-  - `testCautionBlocksHighImpactWork` → `assert` at `scripts/_local/phase73_operator_safety_gates_smoke.ts:29`
-  - `testCautionBlocksHighImpactWork` → `assert` at `scripts/_local/phase73_operator_safety_gates_smoke.ts:30`
-  - `testCautionBlocksHighImpactWork` → `assert` at `scripts/_local/phase73_operator_safety_gates_smoke.ts:31`
-  - `testCautionAllowsVerification` → `assert` at `scripts/_local/phase73_operator_safety_gates_smoke.ts:40`
-  - `testCautionAllowsVerification` → `assert` at `scripts/_local/phase73_operator_safety_gates_smoke.ts:41`
-  - `testCautionAllowsVerification` → `assert` at `scripts/_local/phase73_operator_safety_gates_smoke.ts:42`
-  - `testRiskBlocksForwardChange` → `assert` at `scripts/_local/phase73_operator_safety_gates_smoke.ts:51`
-  - `testRiskBlocksForwardChange` → `assert` at `scripts/_local/phase73_operator_safety_gates_smoke.ts:52`
-  - `testRiskBlocksForwardChange` → `assert` at `scripts/_local/phase73_operator_safety_gates_smoke.ts:53`
-  - `testRiskAllowsRecovery` → `assert` at `scripts/_local/phase73_operator_safety_gates_smoke.ts:62`
-  - `testRiskAllowsRecovery` → `assert` at `scripts/_local/phase73_operator_safety_gates_smoke.ts:63`
-  - `testRiskAllowsRecovery` → `assert` at `scripts/_local/phase73_operator_safety_gates_smoke.ts:64`
-  - `testRecoveryPlaybookIntegration` → `assert` at `scripts/_local/phase76_playbook_selection_smoke.ts:20`
-  - `testRecoveryPlaybookIntegration` → `assert` at `scripts/_local/phase76_playbook_selection_smoke.ts:25`
-  - `testRecoveryPlaybookIntegration` → `assert` at `scripts/_local/phase76_playbook_selection_smoke.ts:30`
-  - `testDiagnosticsPlaybookIntegration` → `assert` at `scripts/_local/phase76_playbook_selection_smoke.ts:41`
-  - `testDiagnosticsPlaybookIntegration` → `assert` at `scripts/_local/phase76_playbook_selection_smoke.ts:46`
-  - `testProgressPlaybookIntegration` → `assert` at `scripts/_local/phase76_playbook_selection_smoke.ts:55`
-  - `testProgressPlaybookIntegration` → `assert` at `scripts/_local/phase76_playbook_selection_smoke.ts:60`
-  - `testHighSeverityRecoveryOrdering` → `assert` at `scripts/_local/phase77_adaptive_playbook_ordering_smoke.ts:20`
-  - `testHighSeverityRecoveryOrdering` → `assert` at `scripts/_local/phase77_adaptive_playbook_ordering_smoke.ts:25`
-  - `testHighSeverityRecoveryOrdering` → `assert` at `scripts/_local/phase77_adaptive_playbook_ordering_smoke.ts:30`
-  - `testHighSeverityRecoveryOrdering` → `assert` at `scripts/_local/phase77_adaptive_playbook_ordering_smoke.ts:35`
-  - `testHighSeverityDiagnosticsOrdering` → `assert` at `scripts/_local/phase77_adaptive_playbook_ordering_smoke.ts:46`
-  - `testHighSeverityDiagnosticsOrdering` → `assert` at `scripts/_local/phase77_adaptive_playbook_ordering_smoke.ts:51`
-  - `testHighSeverityDiagnosticsOrdering` → `assert` at `scripts/_local/phase77_adaptive_playbook_ordering_smoke.ts:56`
-  - `testSafeProgressOrdering` → `assert` at `scripts/_local/phase77_adaptive_playbook_ordering_smoke.ts:65`
 - Target: `proveGovernanceLiveRegistryWiringReadiness`
   - `<top-level>` → `proveGovernanceLiveRegistryWiringReadiness` at `scripts/_local/phase140_governance_live_registry_wiring_readiness_report.ts:36`
   - `assert` → `proveGovernanceLiveRegistryWiringReadiness` at `scripts/_local/phase140_governance_live_registry_wiring_readiness_smoke.ts:42`
@@ -1422,6 +2080,70 @@ Deterministic finding: execution and governance anchors are co-located in the fi
 ### Governance ladder root-surface candidates
 
 - `<top-level>` via `docs/phase423_2_step1_execution_anchor_hunt_output.txt:465` → `src/governance/cognition/build_governance_live_registry_wiring_readiness.ts:15:export function buildGovernanceLiveRegistryWiringReadiness(`
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:47` → `- `docs/phase423_2_step1_execution_anchor_hunt_output.txt:465` — `src/governance/cognition/build_governance_live_registry_wiring_readiness.ts:15:export function buildGovernanceLiveRegistryWiringReadiness(``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:51` → `- `docs/phase423_2_step1_topology_confirmation_output.txt:112` — `export function buildGovernanceLiveRegistryWiringReadiness(``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:53` → `- `docs/phase423_2_step1_topology_confirmation_output.txt:452` — `src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:58:  const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:55` → `- `docs/phase423_2_step1_topology_confirmation_output.txt:457` — `src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:75:  const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:57` → `- `docs/phase423_2_step1_topology_confirmation_output.txt:463` — `src/governance/cognition/prove_governance_final_delivery_receipt.ts:71:  const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:59` → `- `docs/phase423_2_step1_topology_confirmation_output.txt:469` — `src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:65:  const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:61` → `- `docs/phase423_2_step1_topology_confirmation_output.txt:475` — `src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:69:  const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:63` → `- `docs/phase423_2_step1_topology_confirmation_output.txt:481` — `src/governance/cognition/prove_governance_authorization_gate.ts:63:  const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:65` → `- `docs/phase423_2_step1_topology_confirmation_output.txt:486` — `src/governance/cognition/prove_governance_live_wiring_decision.ts:61:  const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:66` → `- `docs/phase423_2_step1_topology_confirmation_output.txt:488` — `src/governance/cognition/build_governance_live_registry_wiring_readiness.ts:15:export function buildGovernanceLiveRegistryWiringReadiness(``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:68` → `- `docs/phase423_2_step1_topology_confirmation_output.txt:493` — `src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:73:  const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:71` → `- `docs/phase423_2_step1_topology_confirmation_output.txt:502` — `src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:67:  const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:79` → `- `docs/phase423_2_step1_remaining_anchor_resolution_output.txt:18` — `export function buildGovernanceLiveRegistryWiringReadiness(``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:81` → `- `scripts/_local/phase146_governance_final_delivery_receipt_report.ts:40` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:83` → `- `scripts/_local/phase142_governance_authorization_gate_report.ts:36` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:85` → `- `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:46` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:90` → `- `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:43` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:92` → `- `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:48` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:94` → `- `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_report.ts:37` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:96` → `- `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_report.ts:39` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:98` → `- `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_report.ts:41` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:100` → `- `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_smoke.ts:45` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:102` → `- `scripts/_local/phase142_governance_authorization_gate_smoke.ts:42` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:104` → `- `scripts/_local/phase140_governance_live_registry_wiring_readiness_report.ts:34` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:106` → `- `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_report.ts:38` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:108` → `- `scripts/_local/phase141_governance_live_wiring_decision_smoke.ts:41` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:110` → `- `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_smoke.ts:44` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:112` → `- `scripts/_local/phase140_governance_live_registry_wiring_readiness_smoke.ts:40` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:114` → `- `scripts/_local/phase141_governance_live_wiring_decision_report.ts:35` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:116` → `- `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_smoke.ts:47` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:118` → `- `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_report.ts:42` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:120` → `- `src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:58` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:122` → `- `src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:75` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:124` → `- `src/governance/cognition/prove_governance_final_delivery_receipt.ts:71` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:126` → `- `src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:65` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:128` → `- `src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:69` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:130` → `- `src/governance/cognition/prove_governance_authorization_gate.ts:63` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:132` → `- `src/governance/cognition/prove_governance_live_wiring_decision.ts:61` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:133` → `- `src/governance/cognition/build_governance_live_registry_wiring_readiness.ts:15` — `export function buildGovernanceLiveRegistryWiringReadiness(``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:135` → `- `src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:73` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:138` → `- `src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:67` — `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:1424` → `- `<top-level>` via `docs/phase423_2_step1_execution_anchor_hunt_output.txt:465` → `src/governance/cognition/build_governance_live_registry_wiring_readiness.ts:15:export function buildGovernanceLiveRegistryWiringReadiness(``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:1425` → `- `<top-level>` via `scripts/_local/phase146_governance_final_delivery_receipt_report.ts:40` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:1426` → `- `<top-level>` via `scripts/_local/phase142_governance_authorization_gate_report.ts:36` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:1427` → `- `assert` via `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:43` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:1428` → `- `assert` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:48` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:1429` → `- `<top-level>` via `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_report.ts:37` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:1430` → `- `<top-level>` via `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_report.ts:39` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:1431` → `- `<top-level>` via `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_report.ts:41` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:1432` → `- `assert` via `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_smoke.ts:45` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:1433` → `- `<top-level>` via `scripts/_local/phase140_governance_live_registry_wiring_readiness_report.ts:34` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:1434` → `- `<top-level>` via `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_report.ts:38` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:1435` → `- `assert` via `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_smoke.ts:44` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:1436` → `- `assert` via `scripts/_local/phase140_governance_live_registry_wiring_readiness_smoke.ts:40` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:1437` → `- `<top-level>` via `scripts/_local/phase141_governance_live_wiring_decision_report.ts:35` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:1438` → `- `assert` via `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_smoke.ts:47` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:1439` → `- `<top-level>` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_report.ts:42` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:1440` → `- `proveGovernanceLiveRegistryWiringReadiness` via `src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:58` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:1441` → `- `proveGovernanceFinalPreLiveRegistrySummaryCapsule` via `src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:75` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:1442` → `- `proveGovernanceFinalPreLiveRegistryContractPackage` via `src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:65` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:1443` → `- `proveGovernancePreLiveRegistryDeliveryManifest` via `src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:69` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:1444` → `- `buildGovernanceLiveRegistryWiringReadiness` via `src/governance/cognition/build_governance_live_registry_wiring_readiness.ts:15` → `export function buildGovernanceLiveRegistryWiringReadiness(``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:1445` → `- `proveGovernanceFinalPreLiveRegistryArchiveRecord` via `src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:73` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:1446` → `- `proveGovernancePreLiveRegistryHandoffEnvelope` via `src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:67` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);``
 - `<top-level>` via `scripts/_local/phase146_governance_final_delivery_receipt_report.ts:40` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
 - `<top-level>` via `scripts/_local/phase142_governance_authorization_gate_report.ts:36` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
 - `assert` via `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:43` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
@@ -1445,6 +2167,62 @@ Deterministic finding: execution and governance anchors are co-located in the fi
 - `proveGovernanceFinalPreLiveRegistryArchiveRecord` via `src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:73` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
 - `proveGovernancePreLiveRegistryHandoffEnvelope` via `src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:67` → `const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);`
 - `<top-level>` via `docs/phase423_2_step1_execution_anchor_hunt_output.txt:461` → `src/governance/cognition/build_governance_live_wiring_decision.ts:24:export function buildGovernanceLiveWiringDecision(`
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:142` → `- `docs/phase423_2_step1_execution_anchor_hunt_output.txt:461` — `src/governance/cognition/build_governance_live_wiring_decision.ts:24:export function buildGovernanceLiveWiringDecision(``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:145` → `- `docs/phase423_2_step1_topology_confirmation_output.txt:184` — `export function buildGovernanceLiveWiringDecision(``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:146` → `- `docs/phase423_2_step1_topology_confirmation_output.txt:453` — `src/governance/cognition/build_governance_live_wiring_decision.ts:24:export function buildGovernanceLiveWiringDecision(``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:148` → `- `docs/phase423_2_step1_topology_confirmation_output.txt:458` — `src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:76:  const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:150` → `- `docs/phase423_2_step1_topology_confirmation_output.txt:464` — `src/governance/cognition/prove_governance_final_delivery_receipt.ts:72:  const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:152` → `- `docs/phase423_2_step1_topology_confirmation_output.txt:470` — `src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:66:  const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:154` → `- `docs/phase423_2_step1_topology_confirmation_output.txt:476` — `src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:70:  const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:156` → `- `docs/phase423_2_step1_topology_confirmation_output.txt:482` — `src/governance/cognition/prove_governance_authorization_gate.ts:64:  const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:158` → `- `docs/phase423_2_step1_topology_confirmation_output.txt:487` — `src/governance/cognition/prove_governance_live_wiring_decision.ts:62:  const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:160` → `- `docs/phase423_2_step1_topology_confirmation_output.txt:494` — `src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:74:  const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:163` → `- `docs/phase423_2_step1_topology_confirmation_output.txt:503` — `src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:68:  const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:171` → `- `docs/phase423_2_step1_remaining_anchor_resolution_output.txt:90` — `export function buildGovernanceLiveWiringDecision(``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:173` → `- `scripts/_local/phase146_governance_final_delivery_receipt_report.ts:41` — `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:175` → `- `scripts/_local/phase142_governance_authorization_gate_report.ts:37` — `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:177` → `- `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:47` — `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:182` → `- `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:44` — `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:184` → `- `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:49` — `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:186` → `- `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_report.ts:38` — `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:188` → `- `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_report.ts:40` — `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:190` → `- `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_report.ts:42` — `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:192` → `- `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_smoke.ts:46` — `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:194` → `- `scripts/_local/phase142_governance_authorization_gate_smoke.ts:43` — `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:196` → `- `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_report.ts:39` — `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:198` → `- `scripts/_local/phase141_governance_live_wiring_decision_smoke.ts:42` — `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:200` → `- `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_smoke.ts:45` — `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:202` → `- `scripts/_local/phase141_governance_live_wiring_decision_report.ts:36` — `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:204` → `- `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_smoke.ts:48` — `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:206` → `- `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_report.ts:43` — `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:207` → `- `src/governance/cognition/build_governance_live_wiring_decision.ts:24` — `export function buildGovernanceLiveWiringDecision(``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:209` → `- `src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:76` — `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:211` → `- `src/governance/cognition/prove_governance_final_delivery_receipt.ts:72` — `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:213` → `- `src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:66` — `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:215` → `- `src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:70` — `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:217` → `- `src/governance/cognition/prove_governance_authorization_gate.ts:64` — `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:219` → `- `src/governance/cognition/prove_governance_live_wiring_decision.ts:62` — `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:221` → `- `src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:74` — `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:224` → `- `src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:68` — `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:1447` → `- `<top-level>` via `docs/phase423_2_step1_execution_anchor_hunt_output.txt:461` → `src/governance/cognition/build_governance_live_wiring_decision.ts:24:export function buildGovernanceLiveWiringDecision(``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:1448` → `- `<top-level>` via `scripts/_local/phase146_governance_final_delivery_receipt_report.ts:41` → `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:1449` → `- `<top-level>` via `scripts/_local/phase142_governance_authorization_gate_report.ts:37` → `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:1450` → `- `assert` via `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:44` → `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:1451` → `- `assert` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:49` → `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:1452` → `- `<top-level>` via `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_report.ts:38` → `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:1453` → `- `<top-level>` via `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_report.ts:40` → `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:1454` → `- `<top-level>` via `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_report.ts:42` → `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:1455` → `- `assert` via `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_smoke.ts:46` → `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:1456` → `- `<top-level>` via `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_report.ts:39` → `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:1457` → `- `assert` via `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_smoke.ts:45` → `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:1458` → `- `<top-level>` via `scripts/_local/phase141_governance_live_wiring_decision_report.ts:36` → `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:1459` → `- `assert` via `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_smoke.ts:48` → `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:1460` → `- `<top-level>` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_report.ts:43` → `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:1461` → `- `proveGovernanceFinalPreLiveRegistrySummaryCapsule` via `src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:76` → `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:1462` → `- `proveGovernanceFinalPreLiveRegistryContractPackage` via `src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:66` → `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:1463` → `- `proveGovernancePreLiveRegistryDeliveryManifest` via `src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:70` → `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:1464` → `- `proveGovernanceFinalPreLiveRegistryArchiveRecord` via `src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:74` → `const decision = buildGovernanceLiveWiringDecision(readiness);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:1465` → `- `proveGovernancePreLiveRegistryHandoffEnvelope` via `src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:68` → `const decision = buildGovernanceLiveWiringDecision(readiness);``
 - `<top-level>` via `scripts/_local/phase146_governance_final_delivery_receipt_report.ts:41` → `const decision = buildGovernanceLiveWiringDecision(readiness);`
 - `<top-level>` via `scripts/_local/phase142_governance_authorization_gate_report.ts:37` → `const decision = buildGovernanceLiveWiringDecision(readiness);`
 - `assert` via `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:44` → `const decision = buildGovernanceLiveWiringDecision(readiness);`
@@ -1464,163 +2242,43 @@ Deterministic finding: execution and governance anchors are co-located in the fi
 - `proveGovernanceFinalPreLiveRegistryArchiveRecord` via `src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:74` → `const decision = buildGovernanceLiveWiringDecision(readiness);`
 - `proveGovernancePreLiveRegistryHandoffEnvelope` via `src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:68` → `const decision = buildGovernanceLiveWiringDecision(readiness);`
 - `<top-level>` via `docs/phase423_2_step1_execution_anchor_hunt_output.txt:466` → `src/governance/cognition/build_governance_authorization_gate.ts:24:export function buildGovernanceAuthorizationGate(`
-- `<top-level>` via `scripts/_local/phase146_governance_final_delivery_receipt_report.ts:42` → `const gate = buildGovernanceAuthorizationGate(decision);`
-- `<top-level>` via `scripts/_local/phase142_governance_authorization_gate_report.ts:38` → `const gate = buildGovernanceAuthorizationGate(decision);`
-- `assert` via `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:45` → `const gate = buildGovernanceAuthorizationGate(decision);`
-- `assert` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:50` → `const gate = buildGovernanceAuthorizationGate(decision);`
-- `<top-level>` via `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_report.ts:39` → `const gate = buildGovernanceAuthorizationGate(decision);`
-- `<top-level>` via `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_report.ts:41` → `const gate = buildGovernanceAuthorizationGate(decision);`
-- `<top-level>` via `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_report.ts:43` → `const gate = buildGovernanceAuthorizationGate(decision);`
-- `assert` via `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_smoke.ts:47` → `const gate = buildGovernanceAuthorizationGate(decision);`
-- `<top-level>` via `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_report.ts:40` → `const gate = buildGovernanceAuthorizationGate(decision);`
-- `assert` via `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_smoke.ts:46` → `const gate = buildGovernanceAuthorizationGate(decision);`
-- `assert` via `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_smoke.ts:49` → `const gate = buildGovernanceAuthorizationGate(decision);`
-- `<top-level>` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_report.ts:44` → `const gate = buildGovernanceAuthorizationGate(decision);`
-- `proveGovernanceFinalPreLiveRegistrySummaryCapsule` via `src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:77` → `const gate = buildGovernanceAuthorizationGate(decision);`
-- `proveGovernanceFinalPreLiveRegistryContractPackage` via `src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:67` → `const gate = buildGovernanceAuthorizationGate(decision);`
-- `proveGovernancePreLiveRegistryDeliveryManifest` via `src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:71` → `const gate = buildGovernanceAuthorizationGate(decision);`
-- `proveGovernanceFinalPreLiveRegistryArchiveRecord` via `src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:75` → `const gate = buildGovernanceAuthorizationGate(decision);`
-- `proveGovernancePreLiveRegistryHandoffEnvelope` via `src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:69` → `const gate = buildGovernanceAuthorizationGate(decision);`
-- `<top-level>` via `docs/phase423_2_step1_execution_anchor_hunt_output.txt:480` → `src/governance/governance_enforcement_result.ts:34:export function buildGovernanceResult(`
-- `<top-level>` via `PHASE80_2_EXTERNAL_DASHBOARD_CONSUMER_DISCOVERY_20260317T183750Z.md:372` → `./scripts/_local/phase77_signal_severity_model_smoke.ts:38:  assert(result.telemetryGap === "HIGH", "Expected HIGH telemetry gap severity");`
-- `<top-level>` via `PHASE88_6_SYSTEM_HEALTH_ROUTE_REGISTRATION.txt:794` → `./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8402:./scripts/_local/phase77_signal_severity_model_smoke.ts:39:  assert(result.diagnosticsFailure === "HIGH", "Expected HIGH diagnostics failure severity");`
-- `<top-level>` via `PHASE88_6_SYSTEM_HEALTH_ROUTE_REGISTRATION.txt:1194` → `./scripts/_local/phase77_signal_severity_model_smoke.ts:39:  assert(result.diagnosticsFailure === "HIGH", "Expected HIGH diagnostics failure severity");`
-- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:504` → `./src/cognition/systemSituationSummaryCli.smoke.ts:33:  assert(output === expected, "System situation summary CLI output mismatch");`
-- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:527` → `./src/cognition/getSituationSummarySnapshot.smoke.ts:18:  assert(!!snapshot.summary, "Snapshot summary missing");`
-- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:528` → `./src/cognition/getSituationSummarySnapshot.smoke.ts:21:  assert(snapshot.summary.stabilityState === "stable", "Unexpected stabilityState");`
-- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:529` → `./src/cognition/getSituationSummarySnapshot.smoke.ts:22:  assert(snapshot.summary.executionRiskState === "none", "Unexpected executionRiskState");`
-- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:530` → `./src/cognition/getSituationSummarySnapshot.smoke.ts:23:  assert(snapshot.summary.cognitionState === "consistent", "Unexpected cognitionState");`
-- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:624` → `./src/cognition/getSystemSituationSummary.smoke.ts:25:  assert(rendered === expected, "System situation summary mismatch");`
-- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:662` → `./src/cognition/situationSummaryCli.smoke.ts:38:  assert(parsed.summary.stabilityState === "stable", "Unexpected stabilityState");`
-- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:663` → `./src/cognition/situationSummaryCli.smoke.ts:39:  assert(parsed.summary.executionRiskState === "none", "Unexpected executionRiskState");`
-- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:664` → `./src/cognition/situationSummaryCli.smoke.ts:40:  assert(parsed.summary.cognitionState === "consistent", "Unexpected cognitionState");`
-- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:668` → `./src/cognition/situationSummaryCli.smoke.ts:58:  assert(parsed.summary.summaryLines.length === 5, "Unexpected summaryLines length");`
-- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:752` → `./src/cognition/situationSummaryIntegration.smoke.ts:21:  assert(!!summary, "Summary missing");`
-- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:978` → `./src/cognition/situationSummaryRender.smoke.ts:28:  assert(rendered === expected, "Rendered situation summary mismatch");`
-- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:995` → `./src/cognition/index.smoke.ts:54:  assert(rendered === expected, "Rendered summary mismatch");`
-- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:996` → `./src/cognition/index.smoke.ts:55:  assert(builtRendered === expected, "Built rendered summary mismatch");`
-- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:997` → `./src/cognition/index.smoke.ts:56:  assert(getterRendered === expected, "Getter rendered summary mismatch");`
-- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:998` → `./src/cognition/index.smoke.ts:57:  assert(systemRendered === expected, "System rendered summary mismatch");`
-- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:999` → `./src/cognition/index.smoke.ts:58:  assert(snapshot.rendered === expected, "Snapshot rendered summary mismatch");`
-- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1000` → `./src/cognition/index.smoke.ts:59:  assert(snapshot.summary.summaryLines.length === 5, "Snapshot summary line count mismatch");`
-- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1479` → `./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:504:./src/cognition/systemSituationSummaryCli.smoke.ts:33:  assert(output === expected, "System situation summary CLI output mismatch");`
-- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1502` → `./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:527:./src/cognition/getSituationSummarySnapshot.smoke.ts:18:  assert(!!snapshot.summary, "Snapshot summary missing");`
-- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1503` → `./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:528:./src/cognition/getSituationSummarySnapshot.smoke.ts:21:  assert(snapshot.summary.stabilityState === "stable", "Unexpected stabilityState");`
-- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1504` → `./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:529:./src/cognition/getSituationSummarySnapshot.smoke.ts:22:  assert(snapshot.summary.executionRiskState === "none", "Unexpected executionRiskState");`
-- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1505` → `./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:530:./src/cognition/getSituationSummarySnapshot.smoke.ts:23:  assert(snapshot.summary.cognitionState === "consistent", "Unexpected cognitionState");`
-- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1599` → `./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:624:./src/cognition/getSystemSituationSummary.smoke.ts:25:  assert(rendered === expected, "System situation summary mismatch");`
-- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1637` → `./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:662:./src/cognition/situationSummaryCli.smoke.ts:38:  assert(parsed.summary.stabilityState === "stable", "Unexpected stabilityState");`
-- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1638` → `./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:663:./src/cognition/situationSummaryCli.smoke.ts:39:  assert(parsed.summary.executionRiskState === "none", "Unexpected executionRiskState");`
-- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1639` → `./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:664:./src/cognition/situationSummaryCli.smoke.ts:40:  assert(parsed.summary.cognitionState === "consistent", "Unexpected cognitionState");`
-- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1643` → `./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:668:./src/cognition/situationSummaryCli.smoke.ts:58:  assert(parsed.summary.summaryLines.length === 5, "Unexpected summaryLines length");`
-- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1727` → `./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:752:./src/cognition/situationSummaryIntegration.smoke.ts:21:  assert(!!summary, "Summary missing");`
-- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8400` → `./scripts/_local/phase77_signal_severity_model_smoke.ts:20:  assert(result.healthAnomaly === "NONE", "Expected NONE health anomaly severity");`
-- `<top-level>` via `PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8402` → `./scripts/_local/phase77_signal_severity_model_smoke.ts:39:  assert(result.diagnosticsFailure === "HIGH", "Expected HIGH diagnostics failure severity");`
-- `<top-level>` via `docs/phase423_2_step1_execution_anchor_hunt_output.txt:6` → `src/cognition/index.smoke.ts:29:  assert(inputs.executionRiskState === "none", "Unexpected adapted executionRiskState");`
-- `<top-level>` via `docs/phase423_2_step1_execution_anchor_hunt_output.txt:61` → `src/cognition/situationSummaryCli.smoke.ts:39:  assert(parsed.summary.executionRiskState === "none", "Unexpected executionRiskState");`
-- `<top-level>` via `docs/phase423_2_step1_execution_anchor_hunt_output.txt:90` → `src/cognition/getSituationSummarySnapshot.smoke.ts:21:  assert(snapshot.summary.executionRiskState === "none", "Unexpected executionRiskState");`
-- `<top-level>` via `docs/phase423_2_step1_execution_anchor_hunt_output.txt:161` → `src/governance/cognition/prove_governance_authorization_gate.ts:101:  assert(gate.gateStatus === "open", "Authorization gate status must evaluate to open.");`
-- `<top-level>` via `docs/phase423_2_step1_execution_anchor_hunt_output.txt:162` → `src/governance/cognition/prove_governance_authorization_gate.ts:102:  assert(gate.authorizationEligible === true, "Authorization gate eligibility must evaluate to true.");`
-- `<top-level>` via `docs/phase423_2_step1_execution_anchor_hunt_output.txt:327` → `src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:86:  assert(readiness.readyForLiveOwnerWiring === true, "Readiness must evaluate to true.");`
-- `<top-level>` via `docs/phase423_2_step1_execution_anchor_hunt_output.txt:342` → `src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:109:  assert(contractPackage.handoffEligible === true, "Contract package handoff eligibility must evaluate to true.");`
-- `<top-level>` via `docs/phase423_2_step1_execution_anchor_hunt_output.txt:347` → `src/governance/cognition/prove_governance_authorization_gate.ts:102:  assert(gate.authorizationEligible === true, "Authorization gate eligibility must evaluate to true.");`
-- `<top-level>` via `docs/phase423_2_step1_execution_anchor_hunt_output.txt:351` → `src/governance/cognition/prove_governance_live_wiring_decision.ts:94:  assert(decision.decisionStatus === "eligible", "Decision status must evaluate to eligible.");`
-- `<top-level>` via `docs/phase423_2_step1_execution_anchor_hunt_output.txt:352` → `src/governance/cognition/prove_governance_live_wiring_decision.ts:95:  assert(decision.eligibleForExplicitLiveWiring === true, "Decision eligibility must evaluate to true.");`
-- `<top-level>` via `docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:5884` → `./scripts/_local/phase77_signal_severity_model_smoke.ts:38:  assert(result.telemetryGap === "HIGH", "Expected HIGH telemetry gap severity");`
-- `<top-level>` via `docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:5765` → `./scripts/_local/phase77_signal_severity_model_smoke.ts:38:  assert(result.telemetryGap === "HIGH", "Expected HIGH telemetry gap severity");`
-- `assert` via `dashboard/src/cognition/operatorGuidance/guidanceSafetyConfirmation.test.ts:6` → `function assert(condition: boolean, label: string) {`
-- `assert` via `dashboard/src/cognition/operatorGuidance/guidanceSafetyConfirmation.test.ts:16` → `assert(lowRiskPriority === GuidancePriority.LOW, "low-risk priority must remain LOW");`
-- `assert` via `dashboard/src/cognition/operatorGuidance/guidanceSafetyConfirmation.test.ts:17` → `assert(lowRiskConfidence === GuidanceConfidenceTier.LOW, "low-risk confidence must remain LOW");`
-- `assert` via `dashboard/src/cognition/operatorGuidance/guidanceSafetyConfirmation.test.ts:18` → `assert(lowRiskUi.label === "INFORMATIONAL", "low-risk UI must remain INFORMATIONAL");`
-- `assert` via `dashboard/src/cognition/operatorGuidance/guidanceSafetyConfirmation.test.ts:24` → `assert(workflowPriority === GuidancePriority.MED, "workflow priority must remain MED");`
-- `assert` via `dashboard/src/cognition/operatorGuidance/guidanceSafetyConfirmation.test.ts:25` → `assert(workflowConfidence === GuidanceConfidenceTier.HIGH, "workflow confidence must remain HIGH");`
-- `assert` via `dashboard/src/cognition/operatorGuidance/guidanceSafetyConfirmation.test.ts:26` → `assert(workflowUi.label === "CAUTION", "workflow UI must remain CAUTION");`
-- `assert` via `dashboard/src/cognition/operatorGuidance/guidanceSafetyConfirmation.test.ts:32` → `assert(highRiskPriority === GuidancePriority.HIGH, "high-risk priority must remain HIGH");`
-- `assert` via `dashboard/src/cognition/operatorGuidance/guidanceSafetyConfirmation.test.ts:33` → `assert(highRiskConfidence === GuidanceConfidenceTier.VERY_HIGH, "high-risk confidence must remain VERY_HIGH");`
-- `assert` via `dashboard/src/cognition/operatorGuidance/guidanceSafetyConfirmation.test.ts:34` → `assert(highRiskUi.label === "CRITICAL_WARNING", "high-risk UI must remain CRITICAL_WARNING");`
-- `assert` via `dashboard/src/cognition/operatorGuidance/guidanceGrouping.test.ts:5` → `function assert(condition: boolean, label: string) {`
-- `assert` via `dashboard/src/cognition/operatorGuidance/guidanceGrouping.test.ts:20` → `assert(grouped.HEALTH.length === 2, "HEALTH count");`
-- `assert` via `dashboard/src/cognition/operatorGuidance/guidanceGrouping.test.ts:21` → `assert(grouped.RISK.length === 1, "RISK count");`
-- `assert` via `dashboard/src/cognition/operatorGuidance/guidanceGrouping.test.ts:22` → `assert(grouped.WORKFLOW.length === 1, "WORKFLOW count");`
-- `assert` via `dashboard/src/cognition/operatorGuidance/guidanceGrouping.test.ts:24` → `assert(grouped.HEALTH[0].id === "a", "priority ordering");`
-- `assert` via `dashboard/src/cognition/operatorGuidance/guidanceGrouping.test.ts:25` → `assert(grouped.HEALTH[1].id === "b", "secondary ordering");`
-- `assert` via `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:8` → `function assert(condition: boolean, message: string) {`
-- `testSafeSuggestions` via `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:18` → `assert(results.length === 1, "Expected 1 SAFE suggestion");`
-- `testSafeSuggestions` via `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:20` → `assert(`
-- `testSafeSuggestions` via `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:25` → `assert(`
-- `testSafeSuggestions` via `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:30` → `assert(`
-- `testCautionSuggestions` via `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:42` → `assert(`
-- `testCautionSuggestions` via `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:47` → `assert(`
-- `testCautionSuggestions` via `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:52` → `assert(`
-- `testCautionSuggestions` via `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:57` → `assert(`
-- `testRiskSuggestions` via `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:70` → `assert(`
-- `testRiskSuggestions` via `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:75` → `assert(`
-- `testRiskSuggestions` via `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:80` → `assert(`
-- `testRiskSuggestions` via `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:85` → `assert(`
-- `testRiskSuggestions` via `scripts/_local/phase74_operator_workflow_helpers_smoke.ts:90` → `assert(`
-- `assert` via `scripts/_local/phase139_governance_shared_registry_owner_bundle_smoke.ts:16` → `function assert(condition: unknown, message: string): asserts condition {`
-- `assert` via `scripts/_local/phase139_governance_shared_registry_owner_bundle_smoke.ts:42` → `assert(normalizedOwnerBundle.readOnly === true, "Owner bundle must remain read-only.");`
-- `assert` via `scripts/_local/phase139_governance_shared_registry_owner_bundle_smoke.ts:43` → `assert(normalizedOwnerBundle.dashboardSafe === true, "Owner bundle must remain dashboard-safe.");`
-- `assert` via `scripts/_local/phase139_governance_shared_registry_owner_bundle_smoke.ts:44` → `assert(normalizedOwnerBundle.ownerKey === "shared-runtime-registry-owner", "Owner key must match.");`
-- `assert` via `scripts/_local/phase139_governance_shared_registry_owner_bundle_smoke.ts:45` → `assert(normalizedOwnerBundle.exportKey === "governance-runtime-registry-export", "Export key must match.");`
-- `assert` via `scripts/_local/phase139_governance_shared_registry_owner_bundle_smoke.ts:46` → `assert(normalizedOwnerBundle.registryKey === "governance-dashboard-consumption", "Registry key must match.");`
-- `assert` via `scripts/_local/phase139_governance_shared_registry_owner_bundle_smoke.ts:47` → `assert(normalizedOwnerBundle.contractId === "governance.dashboard.consumption", "Contract id must match.");`
-- `assert` via `scripts/_local/phase139_governance_shared_registry_owner_bundle_smoke.ts:48` → `assert(normalizedOwnerBundle.registryExport.registration.payload.signalCount === 2, "Normalized owner bundle signal count must be deduplicated.");`
-- `assert` via `scripts/_local/phase139_governance_shared_registry_owner_bundle_smoke.ts:49` → `assert(normalizedOwnerBundle.registryExport.registration.payload.signals.join("|") === "authority|routing", "Normalized owner bundle signals must be sorted.");`
-- `assert` via `scripts/_local/phase139_governance_shared_registry_owner_bundle_smoke.ts:50` → `assert(selection.signalCount === 2, "Owner bundle selection must preserve signal count.");`
-- `assert` via `scripts/_local/phase139_governance_shared_registry_owner_bundle_smoke.ts:51` → `assert(proof.pass === true, "Governance shared registry owner bundle proof must pass.");`
-- `assert` via `scripts/_local/phase138_governance_runtime_registry_export_smoke.ts:14` → `function assert(condition: unknown, message: string): asserts condition {`
-- `assert` via `scripts/_local/phase138_governance_runtime_registry_export_smoke.ts:38` → `assert(normalizedExport.readOnly === true, "Runtime registry export must remain read-only.");`
-- `assert` via `scripts/_local/phase138_governance_runtime_registry_export_smoke.ts:39` → `assert(normalizedExport.dashboardSafe === true, "Runtime registry export must remain dashboard-safe.");`
-- `assert` via `scripts/_local/phase138_governance_runtime_registry_export_smoke.ts:40` → `assert(normalizedExport.exportKey === "governance-runtime-registry-export", "Export key must match.");`
-- `assert` via `scripts/_local/phase138_governance_runtime_registry_export_smoke.ts:41` → `assert(normalizedExport.registryKey === "governance-dashboard-consumption", "Registry key must match.");`
-- `assert` via `scripts/_local/phase138_governance_runtime_registry_export_smoke.ts:42` → `assert(normalizedExport.contractId === "governance.dashboard.consumption", "Contract id must match.");`
-- `assert` via `scripts/_local/phase138_governance_runtime_registry_export_smoke.ts:43` → `assert(normalizedExport.registration.payload.signalCount === 2, "Normalized export signal count must be deduplicated.");`
-- `assert` via `scripts/_local/phase138_governance_runtime_registry_export_smoke.ts:44` → `assert(normalizedExport.registration.payload.signals.join("|") === "authority|routing", "Normalized export signals must be sorted.");`
-- `assert` via `scripts/_local/phase138_governance_runtime_registry_export_smoke.ts:45` → `assert(selection.signalCount === 2, "Registry export selection must preserve signal count.");`
-- `assert` via `scripts/_local/phase138_governance_runtime_registry_export_smoke.ts:46` → `assert(proof.pass === true, "Governance runtime registry export proof must pass.");`
-- `assert` via `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:20` → `function assert(condition: unknown, message: string): asserts condition {`
-- `assert` via `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:50` → `assert(contractPackage.readOnly === true, "Contract package must remain read-only.");`
-- `assert` via `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:51` → `assert(contractPackage.dashboardSafe === true, "Contract package must remain dashboard-safe.");`
-- `assert` via `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:52` → `assert(contractPackage.packageKey === "governance-final-pre-live-registry-contract-package", "Package key must match.");`
-- `assert` via `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:53` → `assert(contractPackage.gateKey === "governance-authorization-gate", "Gate key must match.");`
-- `assert` via `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:54` → `assert(contractPackage.decisionKey === "governance-live-wiring-decision", "Decision key must match.");`
-- `assert` via `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:55` → `assert(contractPackage.readinessKey === "governance-live-registry-wiring-readiness", "Readiness key must match.");`
-- `assert` via `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:56` → `assert(contractPackage.ownerKey === "shared-runtime-registry-owner", "Owner key must match.");`
-- `assert` via `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:57` → `assert(contractPackage.exportKey === "governance-runtime-registry-export", "Export key must match.");`
-- `assert` via `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:58` → `assert(contractPackage.registryKey === "governance-dashboard-consumption", "Registry key must match.");`
-- `assert` via `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:59` → `assert(contractPackage.contractId === "governance.dashboard.consumption", "Contract id must match.");`
-- `assert` via `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:60` → `assert(contractPackage.packageStatus === "prepared", "Contract package status must evaluate to prepared.");`
-- `assert` via `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:61` → `assert(contractPackage.handoffEligible === true, "Contract package must evaluate to true.");`
-- `assert` via `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:62` → `assert(selection.signalCount === 2, "Contract package selection must preserve signal count.");`
-- `assert` via `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:63` → `assert(proof.pass === true, "Governance final pre-live contract package proof must pass.");`
-- `assert` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:25` → `function assert(condition: unknown, message: string): asserts condition {`
-- `assert` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:60` → `assert(capsule.readOnly === true, "Capsule must remain read-only.");`
-- `assert` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:61` → `assert(capsule.dashboardSafe === true, "Capsule must remain dashboard-safe.");`
-- `assert` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:62` → `assert(capsule.capsuleKey === "governance-final-pre-live-registry-summary-capsule", "Capsule key must match.");`
-- `assert` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:63` → `assert(capsule.archiveKey === "governance-final-pre-live-registry-archive-record", "Archive key must match.");`
-- `assert` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:64` → `assert(capsule.receiptKey === "governance-final-delivery-receipt", "Receipt key must match.");`
-- `assert` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:65` → `assert(capsule.manifestKey === "governance-pre-live-registry-delivery-manifest", "Manifest key must match.");`
-- `assert` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:66` → `assert(capsule.envelopeKey === "governance-pre-live-registry-handoff-envelope", "Envelope key must match.");`
-- `assert` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:67` → `assert(capsule.packageKey === "governance-final-pre-live-registry-contract-package", "Package key must match.");`
-- `assert` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:68` → `assert(capsule.gateKey === "governance-authorization-gate", "Gate key must match.");`
-- `assert` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:69` → `assert(capsule.decisionKey === "governance-live-wiring-decision", "Decision key must match.");`
-- `assert` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:70` → `assert(capsule.readinessKey === "governance-live-registry-wiring-readiness", "Readiness key must match.");`
-- `assert` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:71` → `assert(capsule.ownerKey === "shared-runtime-registry-owner", "Owner key must match.");`
-- `assert` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:72` → `assert(capsule.exportKey === "governance-runtime-registry-export", "Export key must match.");`
-- `assert` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:73` → `assert(capsule.registryKey === "governance-dashboard-consumption", "Registry key must match.");`
-- `assert` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:74` → `assert(capsule.contractId === "governance.dashboard.consumption", "Contract id must match.");`
-- `assert` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:75` → `assert(capsule.capsuleStatus === "summarized", "Capsule status must evaluate to summarized.");`
-- `assert` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:76` → `assert(capsule.summaryReady === true, "Capsule must evaluate to true.");`
-- `assert` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:77` → `assert(selection.signalCount === 2, "Capsule selection must preserve signal count.");`
-- `assert` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:78` → `assert(proof.pass === true, "Governance summary capsule proof must pass.");`
-- `assert` via `scripts/_local/phase73_operator_safety_gates_smoke.ts:8` → `function assert(condition: boolean, message: string) {`
-- `testSafeAllowsNarrowWork` via `scripts/_local/phase73_operator_safety_gates_smoke.ts:18` → `assert(result.gate === "ALLOW", "Expected ALLOW for safe narrow work");`
-- `testSafeAllowsNarrowWork` via `scripts/_local/phase73_operator_safety_gates_smoke.ts:19` → `assert(result.allowed === true, "Expected allowed=true for safe narrow work");`
-- `testSafeAllowsNarrowWork` via `scripts/_local/phase73_operator_safety_gates_smoke.ts:20` → `assert(result.riskLevel === "SAFE", "Expected SAFE risk level");`
-- `testCautionBlocksHighImpactWork` via `scripts/_local/phase73_operator_safety_gates_smoke.ts:29` → `assert(result.gate === "BLOCK", "Expected BLOCK for caution high-impact work");`
-- `testCautionBlocksHighImpactWork` via `scripts/_local/phase73_operator_safety_gates_smoke.ts:30` → `assert(result.allowed === false, "Expected allowed=false for caution high-impact work");`
-- `testCautionBlocksHighImpactWork` via `scripts/_local/phase73_operator_safety_gates_smoke.ts:31` → `assert(result.riskLevel === "CAUTION", "Expected CAUTION risk level");`
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:228` → `- `docs/phase423_2_step1_execution_anchor_hunt_output.txt:466` — `src/governance/cognition/build_governance_authorization_gate.ts:24:export function buildGovernanceAuthorizationGate(``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:232` → `- `docs/phase423_2_step1_topology_confirmation_output.txt:249` — `export function buildGovernanceAuthorizationGate(``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:234` → `- `docs/phase423_2_step1_topology_confirmation_output.txt:459` — `src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:77:  const gate = buildGovernanceAuthorizationGate(decision);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:236` → `- `docs/phase423_2_step1_topology_confirmation_output.txt:465` — `src/governance/cognition/prove_governance_final_delivery_receipt.ts:73:  const gate = buildGovernanceAuthorizationGate(decision);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:238` → `- `docs/phase423_2_step1_topology_confirmation_output.txt:471` — `src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:67:  const gate = buildGovernanceAuthorizationGate(decision);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:240` → `- `docs/phase423_2_step1_topology_confirmation_output.txt:477` — `src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:71:  const gate = buildGovernanceAuthorizationGate(decision);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:242` → `- `docs/phase423_2_step1_topology_confirmation_output.txt:483` — `src/governance/cognition/prove_governance_authorization_gate.ts:65:  const gate = buildGovernanceAuthorizationGate(decision);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:243` → `- `docs/phase423_2_step1_topology_confirmation_output.txt:489` — `src/governance/cognition/build_governance_authorization_gate.ts:24:export function buildGovernanceAuthorizationGate(``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:245` → `- `docs/phase423_2_step1_topology_confirmation_output.txt:495` — `src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:75:  const gate = buildGovernanceAuthorizationGate(decision);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:248` → `- `docs/phase423_2_step1_topology_confirmation_output.txt:504` — `src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:69:  const gate = buildGovernanceAuthorizationGate(decision);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:258` → `- `scripts/_local/phase146_governance_final_delivery_receipt_report.ts:42` — `const gate = buildGovernanceAuthorizationGate(decision);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:260` → `- `scripts/_local/phase142_governance_authorization_gate_report.ts:38` — `const gate = buildGovernanceAuthorizationGate(decision);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:262` → `- `scripts/_local/phase146_governance_final_delivery_receipt_smoke.ts:48` — `const gate = buildGovernanceAuthorizationGate(decision);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:267` → `- `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:45` — `const gate = buildGovernanceAuthorizationGate(decision);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:269` → `- `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:50` — `const gate = buildGovernanceAuthorizationGate(decision);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:271` → `- `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_report.ts:39` — `const gate = buildGovernanceAuthorizationGate(decision);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:273` → `- `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_report.ts:41` — `const gate = buildGovernanceAuthorizationGate(decision);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:275` → `- `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_report.ts:43` — `const gate = buildGovernanceAuthorizationGate(decision);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:277` → `- `scripts/_local/phase145_governance_pre_live_registry_delivery_manifest_smoke.ts:47` — `const gate = buildGovernanceAuthorizationGate(decision);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:279` → `- `scripts/_local/phase142_governance_authorization_gate_smoke.ts:44` — `const gate = buildGovernanceAuthorizationGate(decision);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:281` → `- `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_report.ts:40` — `const gate = buildGovernanceAuthorizationGate(decision);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:283` → `- `scripts/_local/phase144_governance_pre_live_registry_handoff_envelope_smoke.ts:46` — `const gate = buildGovernanceAuthorizationGate(decision);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:285` → `- `scripts/_local/phase147_governance_final_pre_live_registry_archive_record_smoke.ts:49` — `const gate = buildGovernanceAuthorizationGate(decision);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:287` → `- `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_report.ts:44` — `const gate = buildGovernanceAuthorizationGate(decision);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:289` → `- `src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:77` — `const gate = buildGovernanceAuthorizationGate(decision);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:291` → `- `src/governance/cognition/prove_governance_final_delivery_receipt.ts:73` — `const gate = buildGovernanceAuthorizationGate(decision);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:293` → `- `src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:67` — `const gate = buildGovernanceAuthorizationGate(decision);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:295` → `- `src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:71` — `const gate = buildGovernanceAuthorizationGate(decision);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:297` → `- `src/governance/cognition/prove_governance_authorization_gate.ts:65` — `const gate = buildGovernanceAuthorizationGate(decision);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:298` → `- `src/governance/cognition/build_governance_authorization_gate.ts:24` — `export function buildGovernanceAuthorizationGate(``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:300` → `- `src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:75` — `const gate = buildGovernanceAuthorizationGate(decision);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:303` → `- `src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:69` — `const gate = buildGovernanceAuthorizationGate(decision);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:1466` → `- `<top-level>` via `docs/phase423_2_step1_execution_anchor_hunt_output.txt:466` → `src/governance/cognition/build_governance_authorization_gate.ts:24:export function buildGovernanceAuthorizationGate(``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:1467` → `- `<top-level>` via `scripts/_local/phase146_governance_final_delivery_receipt_report.ts:42` → `const gate = buildGovernanceAuthorizationGate(decision);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:1468` → `- `<top-level>` via `scripts/_local/phase142_governance_authorization_gate_report.ts:38` → `const gate = buildGovernanceAuthorizationGate(decision);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:1469` → `- `assert` via `scripts/_local/phase143_governance_final_pre_live_registry_contract_package_smoke.ts:45` → `const gate = buildGovernanceAuthorizationGate(decision);``
+- `<top-level>` via `docs/phase423_2_step1_execution_anchor_link_resolution.md:1470` → `- `assert` via `scripts/_local/phase148_governance_final_pre_live_registry_summary_capsule_smoke.ts:50` → `const gate = buildGovernanceAuthorizationGate(decision);``
 
 ## Step 1.8 — Ladder comparison
 
@@ -1631,6 +2289,7 @@ Deterministic finding: execution and governance anchors are co-located in the fi
 ### File-level intersections
 
 - `docs/phase423_2_step1_execution_anchor_hunt_output.txt`
+- `docs/phase423_2_step1_execution_anchor_link_resolution.md`
 
 ### Intersection result
 
@@ -1640,6 +2299,7 @@ Deterministic finding: execution and governance anchors are co-located in the fi
   - `docs/phase423_2_step1_anchor_resolution_findings.md`
   - `docs/phase423_2_step1_candidate_surface_findings.md`
   - `docs/phase423_2_step1_execution_anchor_hunt_output.txt`
+  - `docs/phase423_2_step1_execution_anchor_link_resolution.md`
   - `docs/phase423_2_step1_topology_confirmation.sh`
   - `docs/phase423_2_step1_topology_confirmation_findings.md`
   - `docs/phase423_2_step1_topology_confirmation_output.txt`

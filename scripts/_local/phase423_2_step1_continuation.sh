@@ -1,14 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
+IFS=$'\n\t'
 
 REPORT="docs/phase423_2_step1_execution_anchor_link_resolution.md"
-TMP_DIR="$(mktemp -d)"
-trap 'rm -rf "$TMP_DIR"' EXIT
 
 python3 <<'PY'
-import os
 import re
-import json
 from pathlib import Path
 from datetime import datetime, timezone
 
@@ -38,7 +35,6 @@ DEF_PATTERNS = [
     re.compile(r'^\s*const\s+([A-Za-z_]\w*)\s*=\s*(?:async\s*)?\('),
     re.compile(r'^\s*export\s+const\s+([A-Za-z_]\w*)\s*=\s*(?:async\s*)?[^=]*=>'),
     re.compile(r'^\s*const\s+([A-Za-z_]\w*)\s*=\s*(?:async\s*)?[^=]*=>'),
-    re.compile(r'^\s*export\s+async\s+function\s+([A-Za-z_]\w*)\s*\('),
 ]
 ROOT_SURFACE_HINTS = [
     "app/", "pages/", "src/app/", "src/pages/", "route.ts", "routes/", "router/",
@@ -46,19 +42,16 @@ ROOT_SURFACE_HINTS = [
 ]
 
 def should_skip(path: Path) -> bool:
-    parts = set(path.parts)
-    if parts & SKIP_DIRS:
+    if any(part in SKIP_DIRS for part in path.parts):
         return True
     if path.is_dir():
         return False
     if path.suffix.lower() in TEXT_EXTS:
         return False
     try:
-        if path.stat().st_size > 1_500_000:
-            return True
+        return path.stat().st_size > 1_500_000
     except Exception:
         return True
-    return False
 
 def iter_files(root: Path):
     for p in root.rglob("*"):
@@ -69,14 +62,12 @@ def iter_files(root: Path):
 
 def read_lines(path: Path):
     try:
-        text = path.read_text(encoding="utf-8", errors="ignore")
-        return text.splitlines()
+        return path.read_text(encoding="utf-8", errors="ignore").splitlines()
     except Exception:
         return []
 
 files = list(iter_files(ROOT))
 all_lines = {}
-definitions = {}
 file_defs = {}
 matches = {name: [] for name in [EXECUTION] + GOVERNANCE}
 
@@ -89,19 +80,16 @@ for f in files:
         for pat in DEF_PATTERNS:
             m = pat.search(line)
             if m:
-                fn = m.group(1)
-                defs.append((i, fn))
-                definitions.setdefault(fn, []).append({"file": rel, "line": i})
+                defs.append((i, m.group(1)))
                 break
         for name in matches:
             if name in line:
                 matches[name].append({"file": rel, "line": i, "text": line.strip()})
     file_defs[rel] = defs
 
-def enclosing_function(file: str, line_no: int):
-    defs = file_defs.get(file, [])
+def enclosing_function(file_path: str, line_no: int):
     candidate = None
-    for ln, fn in defs:
+    for ln, fn in file_defs.get(file_path, []):
         if ln <= line_no:
             candidate = (fn, ln)
         else:
@@ -111,20 +99,22 @@ def enclosing_function(file: str, line_no: int):
     return None
 
 def find_calls(target: str):
-    out = []
     needle = f"{target}("
-    for file, lines in all_lines.items():
+    out = []
+    for file_path, lines in all_lines.items():
         for i, line in enumerate(lines, start=1):
             if needle in line:
-                inside = enclosing_function(file, i)
-                is_definition = bool(re.search(rf'\bfunction\s+{re.escape(target)}\s*\(', line)) or bool(re.search(rf'\bconst\s+{re.escape(target)}\b', line))
+                inside = enclosing_function(file_path, i)
+                is_definition = (
+                    re.search(rf'\bfunction\s+{re.escape(target)}\s*\(', line) is not None
+                    or re.search(rf'\bconst\s+{re.escape(target)}\b', line) is not None
+                )
                 out.append({
                     "target": target,
-                    "file": file,
+                    "file": file_path,
                     "line": i,
                     "text": line.strip(),
                     "inside_function": inside["function"] if inside else None,
-                    "inside_function_line": inside["defined_at_line"] if inside else None,
                     "is_definition_line": is_definition,
                 })
     return out
@@ -155,6 +145,25 @@ def expand_ladder(seed_targets, max_depth=8):
         depth += 1
     return ladder
 
+def flatten_ladder(ladder):
+    funcs = set()
+    files_seen = set()
+    roots = []
+    for level in ladder:
+        for c in level["calls"]:
+            caller = c["inside_function"] or "<top-level>"
+            funcs.add(caller)
+            files_seen.add(c["file"])
+            if c["inside_function"] is None or any(h in c["file"] for h in ROOT_SURFACE_HINTS):
+                roots.append({
+                    "target": c["target"],
+                    "caller": caller,
+                    "file": c["file"],
+                    "line": c["line"],
+                    "text": c["text"],
+                })
+    return funcs, files_seen, roots
+
 exec_ladder = expand_ladder([EXECUTION])
 gov_ladder = expand_ladder(GOVERNANCE)
 
@@ -162,49 +171,19 @@ exec_files = {m["file"] for m in matches[EXECUTION]}
 gov_files = {m["file"] for name in GOVERNANCE for m in matches[name]}
 co_located = sorted(exec_files & gov_files)
 
-def flatten_ladder(ladder):
-    rows = []
-    funcs = set()
-    files = set()
-    roots = []
-    for level in ladder:
-        target = level["target"]
-        for c in level["calls"]:
-            caller = c["inside_function"] or "<top-level>"
-            key = f"{caller} @ {c['file']}"
-            rows.append({
-                "target": target,
-                "caller": caller,
-                "file": c["file"],
-                "line": c["line"],
-                "text": c["text"],
-                "key": key,
-            })
-            funcs.add(caller)
-            files.add(c["file"])
-            if c["inside_function"] is None or any(h in c["file"] for h in ROOT_SURFACE_HINTS):
-                roots.append({
-                    "target": target,
-                    "caller": caller,
-                    "file": c["file"],
-                    "line": c["line"],
-                    "text": c["text"],
-                })
-    return rows, funcs, files, roots
-
-exec_rows, exec_funcs, exec_ladder_files, exec_roots = flatten_ladder(exec_ladder)
-gov_rows, gov_funcs, gov_ladder_files, gov_roots = flatten_ladder(gov_ladder)
+exec_funcs, exec_ladder_files, exec_roots = flatten_ladder(exec_ladder)
+gov_funcs, gov_ladder_files, gov_roots = flatten_ladder(gov_ladder)
 
 func_intersection = sorted((exec_funcs & gov_funcs) - {"<top-level>"})
 file_intersection = sorted(exec_ladder_files & gov_ladder_files)
 topology_intersection = sorted(set(co_located) | set(file_intersection))
 
 if func_intersection or file_intersection:
-    conclusion = "Integrated governed execution evidence detected: execution and governance ladders intersect."
     case = "CASE A/B — intersection present"
+    conclusion = "Integrated governed execution evidence detected: execution and governance ladders intersect."
 else:
-    conclusion = "No execution/governance ladder intersection detected in this pass. Surfaces remain separate in currently observed topology."
     case = "CASE C — no intersection"
+    conclusion = "No execution/governance ladder intersection detected in this pass. Surfaces remain separate in currently observed topology."
 
 timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
 
