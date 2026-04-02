@@ -1,0 +1,30 @@
+PHASE 426 — STEP 2
+Enforcement Boundary Location Classification
+--------------------------------------------
+
+This document is a proof placeholder to be populated from existing evidence.
+
+Objective:
+
+Classify where enforcement must attach relative to
+buildGovernanceAuthorizationGate.
+
+Candidate boundary locations under review:
+
+- BEFORE_GATEWAY
+- IN_GATEWAY
+- AFTER_GATEWAY
+
+Classification criteria:
+
+- preserves governance as admission mediator
+- does not require execution self-authorization
+- preserves operator primacy
+- preserves invariant independence
+- avoids UI/reporting authority leakage
+
+This step remains PROOF ONLY.
+No wiring.
+No runtime mutation.
+No enforcement insertion.
+
