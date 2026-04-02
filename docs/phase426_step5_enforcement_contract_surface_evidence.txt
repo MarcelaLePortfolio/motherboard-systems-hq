@@ -1,0 +1,12 @@
+authorization contract structures
+
+authorization decision structures
+
+authorization result structures
+
+authorization outcome structures
+
+governance decision envelope indicators
+
+governance admission indicators
+
