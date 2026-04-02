@@ -1,0 +1,435 @@
+governance evaluation indicators
+src/governance/governance_policy_engine.test.ts:7:import { evaluateGovernancePolicy } from "./governance_policy_engine"
+src/governance/governance_policy_engine.test.ts:15:const safe = evaluateGovernancePolicy({
+src/governance/governance_policy_engine.test.ts:23:const warn = evaluateGovernancePolicy({
+src/governance/governance_policy_engine.test.ts:31:const critical = evaluateGovernancePolicy({
+src/governance/governance_enforcement_evaluator.test.ts:7:import { evaluateGovernanceSignal } from "./governance_enforcement_evaluator"
+src/governance/governance_enforcement_evaluator.test.ts:15:const safe = evaluateGovernanceSignal("safe")
+src/governance/governance_enforcement_evaluator.test.ts:20:const warn = evaluateGovernanceSignal("warning")
+src/governance/governance_enforcement_evaluator.test.ts:24:const critical = evaluateGovernanceSignal("critical")
+src/governance/governance_policy_engine.ts:20:export function evaluateGovernancePolicy(
+src/governance/governance_enforcement_evaluator.ts:19:export function evaluateGovernanceSignal(
+
+governance evidence indicators
+src/governance_operator_guide/governance_operator_guide_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_compendium/governance_operator_compendium_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_bundle/governance_operator_bundle_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_dictionary/governance_operator_dictionary_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_ledger/governance_operator_ledger_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_handbook/governance_operator_handbook_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_map/governance_operator_map_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_register/governance_operator_register_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_lexicon/governance_operator_lexicon_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_briefing/governance_operator_briefing_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_manifest_index/governance_operator_manifest_index_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_session/governance_operator_session_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_console/governance_operator_console_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_directory/governance_operator_directory_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_investigation/governance_playback_navigation_assembly.ts:17:    trace: {
+src/governance_investigation/governance_playback_navigation_assembly.ts:26:      audit: [],
+src/governance_investigation/governance_playback_navigation_assembly.ts:42:        audit_refs: [],
+src/governance_investigation/governance_timeline_types.ts:12:  | "audit"
+src/governance_investigation/governance_timeline_types.ts:27:  readonly audits?: readonly GovernanceAuditReference[];
+src/governance_investigation/governance_timeline_types.ts:71:  for (const audit of seed.audits ?? []) {
+src/governance_investigation/governance_timeline_types.ts:73:      type: "audit",
+src/governance_investigation/governance_timeline_types.ts:74:      timestamp: audit.timestamp,
+src/governance_investigation/governance_timeline_types.ts:75:      source: audit.source,
+src/governance_investigation/governance_timeline_types.ts:76:      reference_id: audit.reference_id,
+src/governance_investigation/governance_timeline_types.ts:77:      label: audit.audit_id,
+src/governance_investigation/governance_investigation_reducer.ts:1:import type { GovernanceDecisionTrace } from "./governance_decision_trace";
+src/governance_investigation/governance_investigation_reducer.ts:10:  readonly audit_count: number;
+src/governance_investigation/governance_investigation_reducer.ts:15:  trace: GovernanceDecisionTrace,
+src/governance_investigation/governance_investigation_reducer.ts:18:    decision_id: trace.decision.decision_id,
+src/governance_investigation/governance_investigation_reducer.ts:19:    policy_id: trace.decision.policy_id,
+src/governance_investigation/governance_investigation_reducer.ts:20:    disposition: trace.decision.disposition,
+src/governance_investigation/governance_investigation_reducer.ts:21:    explanation_summary: trace.explanation?.summary ?? null,
+src/governance_investigation/governance_investigation_reducer.ts:22:    signal_count: trace.signals.length,
+src/governance_investigation/governance_investigation_reducer.ts:23:    audit_count: trace.audit.length,
+src/governance_investigation/governance_investigation_reducer.ts:24:    timeline: trace.timeline,
+src/governance_investigation/governance_decision_trace.ts:27:  readonly audit?: readonly GovernanceAuditReference[];
+src/governance_investigation/governance_decision_trace.ts:36:  readonly audit: readonly GovernanceAuditReference[];
+src/governance_investigation/governance_decision_trace.ts:50:    audit_refs: seed.audit,
+src/governance_investigation/governance_decision_trace.ts:57:    audit: Object.freeze([...(seed.audit ?? [])]),
+src/governance_investigation/governance_decision_trace.ts:63:      audits: seed.audit,
+src/governance_investigation/governance_playback_assembly.ts:1:import type { GovernanceDecisionTrace } from "./governance_decision_trace";
+src/governance_investigation/governance_playback_assembly.ts:24:  readonly trace: GovernanceDecisionTrace;
+src/governance_investigation/governance_playback_assembly.ts:32:    decision_id: seed.trace.decision.decision_id,
+src/governance_investigation/governance_playback_assembly.ts:33:    timeline: seed.trace.timeline,
+src/governance_investigation/index.ts:3:export * from "./governance_decision_trace";
+src/governance_investigation/governance_operator_investigation_view.ts:1:import type { GovernanceDecisionTrace } from "./governance_decision_trace";
+src/governance_investigation/governance_operator_investigation_view.ts:17:    readonly audit_ids: readonly string[];
+src/governance_investigation/governance_operator_investigation_view.ts:22:  trace: GovernanceDecisionTrace,
+src/governance_investigation/governance_operator_investigation_view.ts:24:  const summary = reduceGovernanceInvestigation(trace);
+src/governance_investigation/governance_operator_investigation_view.ts:28:      decision_id: trace.decision.decision_id,
+src/governance_investigation/governance_operator_investigation_view.ts:29:      policy_id: trace.decision.policy_id,
+src/governance_investigation/governance_operator_investigation_view.ts:30:      disposition: trace.decision.disposition,
+src/governance_investigation/governance_operator_investigation_view.ts:33:    explanation: trace.explanation?.summary ?? null,
+src/governance_investigation/governance_operator_investigation_view.ts:35:      signal_ids: Object.freeze(trace.signals.map((signal) => signal.signal_id)),
+src/governance_investigation/governance_operator_investigation_view.ts:36:      audit_ids: Object.freeze(trace.audit.map((audit) => audit.audit_id)),
+src/governance_investigation/governance_playback_assembly_proof.ts:1:import type { GovernanceDecisionTrace } from "./governance_decision_trace";
+src/governance_investigation/governance_playback_assembly_proof.ts:13:  trace: GovernanceDecisionTrace,
+src/governance_investigation/governance_playback_assembly_proof.ts:18:    trace,
+src/governance_investigation/governance_investigation_types.ts:39:  readonly audit_id: GovernanceAuditId;
+src/governance_investigation/governance_investigation_types.ts:52:  readonly audit_refs: readonly GovernanceAuditReference[];
+src/governance_investigation/governance_investigation_types.ts:59:  readonly audit_refs?: readonly GovernanceAuditReference[];
+src/governance_investigation/governance_investigation_types.ts:72:    audit_refs: Object.freeze([...(seed.audit_refs ?? [])]),
+src/governance_visibility/governance_visibility_contract.ts:6:  "cannot change audit log",
+src/governance_visibility/governance_visibility_snapshot.ts:13:  audit?: unknown;
+src/governance_visibility/governance_visibility_snapshot.ts:27:    audit_recorded: input.audit != null,
+src/governance_visibility/governance_visibility_formatter.ts:24:  return `Audit recorded: ${record.audit_recorded ? "yes" : "no"}`;
+src/governance_visibility/governance_visibility_model.ts:10:  audit_recorded: boolean;
+src/governance_operator_registry/governance_operator_registry_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_record/governance_operator_record_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_glossary/governance_operator_glossary_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_export/governance_operator_export_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_manifest/governance_operator_manifest_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_traceability/governance_traceability_model.ts:7:  "audit_capture",
+src/governance_traceability/governance_traceability_model.ts:21:  audit_recorded: boolean;
+src/governance_traceability/governance_traceability_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_traceability/governance_traceability_snapshot.ts:4:} from "./governance_traceability_model";
+src/governance_traceability/governance_traceability_snapshot.ts:14:  audit?: unknown;
+src/governance_traceability/governance_traceability_snapshot.ts:30:    audit_recorded: input.audit != null,
+src/governance_traceability/governance_traceability_formatter.ts:1:import type { GovernanceTraceabilityRecord } from "./governance_traceability_model";
+src/governance_traceability/governance_traceability_formatter.ts:10:  return `Decision trace: ${record.decision_id} (${record.decision})`;
+src/governance_traceability/index.ts:3:} from "./governance_traceability_model";
+src/governance_traceability/index.ts:8:} from "./governance_traceability_model";
+src/governance_traceability/index.ts:16:} from "./governance_traceability_formatter";
+src/governance_traceability/index.ts:20:} from "./governance_traceability_snapshot";
+src/governance_traceability/index.ts:24:} from "./governance_traceability_snapshot";
+src/governance_traceability/index.ts:29:} from "./governance_traceability_contract";
+src/governance_operator_archive/governance_operator_archive_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_logbook/governance_operator_logbook_contract.ts:6:  "cannot alter audit artifacts",
+src/governance/governance_audit_trace_emitter.test.ts:1:import { emitGovernanceAuditTrace } from "./governance_audit_trace_emitter"
+src/governance/governance_audit_trace_emitter.test.ts:4:describe("Governance audit trace emitter", () => {
+src/governance/governance_audit_trace_emitter.test.ts:6:  it("emits a trace with expected structure", () => {
+src/governance/governance_audit_trace_emitter.test.ts:13:    expect(result.governance_audit_trace)
+src/governance/governance_audit_trace_emitter.test.ts:16:    expect(result.governance_audit_trace.signal_count)
+src/governance/governance_audit_trace_emitter.test.ts:19:    expect(result.governance_audit_trace.operator_authority)
+src/governance/governance_signal_classifier.ts:32:Produces governance audit outputs
+src/governance/governance_decision_pipeline.ts:10:audit record
+src/governance/governance_decision_pipeline.ts:25:import { buildGovernanceAuditRecord } from "./governance_audit_log"
+src/governance/governance_decision_pipeline.ts:37:  audit_ts: number
+src/governance/governance_decision_pipeline.ts:56:  const audit = buildGovernanceAuditRecord(result)
+src/governance/governance_decision_pipeline.ts:68:    audit_ts: audit.ts
+src/governance/governance_advisory_contract.ts:76:  Governance reasoning trace (read-only cognition explanation)
+src/governance/governance_audit_trace_emitter.ts:11:  const trace = {
+src/governance/governance_audit_trace_emitter.ts:38:    governance_audit_trace: trace,
+src/governance/governance_audit_trace_emitter.ts:40:    audit_visibility: "operator_available",
+src/governance/governance_audit_trace_emitter.ts:42:    governance_accountability: "traceable"
+src/governance/governance_audit_log.test.ts:2:import { buildGovernanceAuditRecord } from "./governance_audit_log"
+src/governance/governance_audit_log.test.ts:34:console.log("Governance audit log deterministic")
+src/governance/governance_audit_log.ts:4:Creates a deterministic governance audit record layer.
+src/governance/governance_audit_log.ts:7:Provide traceable governance decisions without affecting execution.
+src/governance/governance_signal_classifier.test.ts:14:- audit record generation
+src/governance/governance_signal_classifier.test.ts:73:  const auditRecord = createGovernanceAuditRecord(riskSignal, riskClassification);
+src/governance/governance_signal_classifier.test.ts:74:  assert.equal(auditRecord.signal_id, "sig-risk-1");
+src/governance/governance_signal_classifier.test.ts:75:  assert.equal(auditRecord.signal_type, "policy_violation_warning");
+src/governance/governance_signal_classifier.test.ts:76:  assert.equal(auditRecord.classification, "RISK");
+src/governance/governance_signal_classifier.test.ts:77:  assert.equal(auditRecord.reason, "RISK_SIGNAL_DETECTED");
+src/governance/governance_signal_classifier.test.ts:78:  assert.equal(auditRecord.governance_safe, true);
+src/governance_operator_packet/governance_operator_packet_builder.ts:23:  audit_recorded: boolean;
+src/governance_operator_packet/governance_operator_packet_builder.ts:58:        input.audit_recorded,
+src/governance_operator_packet/governance_operator_packet_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_packet/governance_operator_packet_formatter.ts:38:  auditRecorded: boolean,
+src/governance_operator_packet/governance_operator_packet_formatter.ts:40:  return `Artifacts: explanation=${explanationAvailable ? "yes" : "no"}, audit=${auditRecorded ? "yes" : "no"}`;
+src/governance_operator_index/governance_operator_index_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_reporting/governance_reporting_builder.ts:21:  audit_recorded: boolean;
+src/governance_reporting/governance_reporting_builder.ts:66:          label: "audit",
+src/governance_reporting/governance_reporting_builder.ts:67:          value: `Audit recorded: ${input.audit_recorded ? "yes" : "no"}`,
+src/governance_reporting/governance_reporting_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_catalog/governance_operator_catalog_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_manual/governance_operator_manual_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_atlas/governance_operator_atlas_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_snapshot/governance_operator_snapshot_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_handoff/governance_operator_handoff_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_digest/governance_digest_formatter.ts:36:  auditRecorded: boolean,
+src/governance_digest/governance_digest_formatter.ts:38:  return `Artifacts: explanation=${explanationAvailable ? "yes" : "no"}, audit=${auditRecorded ? "yes" : "no"}`;
+src/governance_digest/governance_digest_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_digest/governance_digest_builder.ts:22:  audit_recorded: boolean;
+src/governance_digest/governance_digest_builder.ts:54:        input.audit_recorded,
+src/governance_operator_playbook/governance_operator_playbook_contract.ts:6:  "cannot alter audit artifacts",
+src/governance_operator_reference/governance_operator_reference_contract.ts:6:  "cannot alter audit artifacts",
+
+authorization decision indicators
+
+governance signal indicators
+src/cognition/situationSummaryInputAdapter.ts:84:): value is GovernanceAwarenessSurface["signals"]["governanceAwarenessSignals"][number] {
+src/cognition/situationSummaryInputAdapter.ts:96:): value is GovernanceAwarenessSurface["signals"] {
+src/cognition/situationSummaryInputAdapter.ts:142:    hasGovernanceAwarenessSignals(value.signals) &&
+src/governance_investigation/governance_timeline_types.ts:28:  readonly signals?: readonly GovernanceSignalReference[];
+src/governance_investigation/governance_decision_trace.ts:19:  readonly policy_id: GovernancePolicyId;
+src/governance_investigation/governance_decision_trace.ts:28:  readonly signals?: readonly GovernanceSignalReference[];
+src/governance_investigation/governance_decision_trace.ts:29:  readonly policy?: GovernancePolicyReference | null;
+src/governance_investigation/governance_decision_trace.ts:37:  readonly signals: readonly GovernanceSignalReference[];
+src/governance_investigation/governance_decision_trace.ts:38:  readonly policy: GovernancePolicyReference | null;
+src/governance_investigation/governance_investigation_types.ts:16:  readonly signal_id: GovernanceSignalId;
+src/governance_investigation/governance_investigation_types.ts:26:  readonly policy_id: GovernancePolicyId;
+src/governance_investigation/governance_investigation_types.ts:48:  readonly policy_id: GovernancePolicyId;
+src/governance_investigation/governance_investigation_types.ts:49:  readonly signals: readonly GovernanceSignalReference[];
+src/governance_investigation/governance_investigation_types.ts:57:  readonly signals?: readonly GovernanceSignalReference[];
+src/governance/governance_policy_router.ts:28:      "Governance policy routing failure — no matching policy"
+src/governance/governanceCognitionSelectorsProof.ts:60:    buildGovernanceCognitionSurface(signals);
+src/governance/governance_policy_router.test.ts:1:import { routeGovernancePolicy } from "./governance_policy_router"
+src/governance/governance_policy_router.test.ts:30:console.log("Governance policy router deterministic")
+src/governance/governance_policy_engine.test.ts:7:import { evaluateGovernancePolicy } from "./governance_policy_engine"
+src/governance/governance_policy_engine.test.ts:39:console.log("Governance policy engine deterministic")
+src/governance/governance_advisory_contract.test.ts:12:    const signals: GovernanceAdvisorySignal[] = [
+src/governance/governance_advisory_contract.test.ts:31:    const signals: GovernanceAdvisorySignal[] = [
+src/governance/governance_operator_explanation_layer.ts:16:      "Governance signals indicate caution. Operator review recommended."
+src/governance/governance_operator_explanation_layer.ts:23:      "Governance signals indicate elevated risk. Operator attention required before continuation."
+src/governance/governanceCognitionSurfaceProof.ts:53:    buildGovernanceCognitionSurface(signals);
+src/governance/governance_signal_classifier.ts:95:    signal: GovernanceSignal | null | undefined
+src/governance/governance_signal_classifier.ts:96:): signal is GovernanceSignal {
+src/governance/governance_signal_classifier.ts:108:    signal: GovernanceSignal | null | undefined
+src/governance/governance_signal_classifier.ts:159:    signal: GovernanceSignal | null | undefined,
+src/governance/governance_signal_registry.test.ts:1:import { buildGovernanceSignalExplanationRegistry } from "./governance_signal_explanation_registry"
+src/governance/governance_signal_registry.test.ts:4:describe("Governance signal explanation registry", () => {
+src/governance/governanceCognitionIntegrationProof.ts:57:    buildGovernanceCognitionSurface(signals);
+src/governance/cognition/index.ts:92:export type { GovernanceExecutionEligibilitySnapshot } from "./get_governance_execution_eligibility_snapshot";
+src/governance/cognition/index.ts:93:export { getGovernanceExecutionEligibilitySnapshot } from "./get_governance_execution_eligibility_snapshot";
+src/governance/governance_fixture_integrity_sentinel.ts:28:      throw new Error("Governance fixture drift: signals missing")
+src/governance/governanceCognitionSurfaceBuilder.ts:29:  signals: GovernanceOperatorAwarenessSignal[]
+src/governance/governanceCognitionSurfaceBuilder.ts:56:  signals: GovernanceOperatorAwarenessSignal[]
+src/governance/governanceCognitionSurfaceBuilder.ts:59:    summarizeGovernanceOperatorAwareness(signals);
+src/governance/governance_advisory_presenter.test.ts:61:    const report = buildGovernancePresentation(signals);
+src/governance/governance_stability_index.test.ts:1:import { computeGovernanceSignalStabilityIndex } from "./governance_signal_stability_index"
+src/governance/governance_decision_pipeline.ts:19:import { routeGovernancePolicy } from "./governance_policy_router"
+src/governance/governance_decision_pipeline.ts:45:  const policy = routeGovernancePolicy(decision)
+src/governance/governance_advisory_normalizer.test.ts:46:    const result = normalizeGovernanceSignals(signals);
+src/governance/governance_advisory_normalizer.test.ts:63:    const result = normalizeGovernanceSignals(signals);
+src/governance/governance_advisory_presenter.ts:17:  signals: GovernanceSignal[]
+src/governance/governance_advisory_presenter.ts:33:  signals: GovernanceSignal[]
+src/governance/governance_advisory_presenter.ts:72:  signals: GovernanceSignal[]
+src/governance/governanceOperatorAwarenessProof.ts:58:    summarizeGovernanceOperatorAwareness(signals);
+src/governance/governance_advisory_normalizer.ts:21:function buildSignalKey(signal: GovernanceAdvisorySignal): string {
+src/governance/governance_advisory_normalizer.ts:32:  signals: GovernanceAdvisorySignal[]
+src/governance/governance_advisory_contract.ts:104:  signals: GovernanceAdvisorySignal[];
+src/governance/governance_advisory_contract.ts:123:  signals: GovernanceAdvisorySignal[]
+src/governance/governanceOperatorAwarenessSummary.ts:20:  signals: GovernanceOperatorAwarenessSignal[]
+src/governance/governance_advisory_report_builder.ts:27:  signals: GovernanceAdvisorySignal[]
+src/governance/governance_advisory_pipeline.ts:39:  signals: GovernanceSignal[]
+src/governance/governance_advisory_pipeline.ts:43:    buildGovernancePresentation(signals)
+src/governance/governanceCognitionSurfaceTypes.ts:28:  signals: GovernanceOperatorAwarenessSignal[];
+src/governance_operator_packet/governance_operator_packet_builder.ts:36:      text: formatGovernanceOperatorPacketPolicy(input.policy_route ?? null),
+src/governance_reporting/governance_reporting_builder.ts:39:          value: formatGovernanceReportPolicy(input.policy_route ?? null),
+src/governance_reporting/governance_reporting_formatter.ts:18:export function formatGovernanceReportPolicy(policyRoute: string | null): string {
+src/governance_digest/governance_digest_formatter.ts:18:export function formatGovernanceDigestPolicy(policyRoute: string | null): string {
+src/governance_digest/governance_digest_builder.ts:40:      text: formatGovernanceDigestPolicy(input.policy_route ?? null),
+
+operator explanation indicators
+src/governance_operator_guide/governance_operator_guide_contract.ts:5:  "cannot alter explanation",
+src/governance_operator_compendium/governance_operator_compendium_contract.ts:5:  "cannot alter explanation",
+src/governance_operator_bundle/governance_operator_bundle_contract.ts:5:  "cannot alter explanation",
+src/governance_operator_dictionary/governance_operator_dictionary_contract.ts:5:  "cannot alter explanation",
+src/governance_operator_ledger/governance_operator_ledger_contract.ts:5:  "cannot alter explanation",
+src/cognition/operatorGuidanceReducer.ts:74:    confidenceReason: confidence.reason,
+src/cognition/transport/cognitionTransport.failure.ts:15:  reason: TransportFailureReason;
+src/cognition/transport/cognitionTransport.failure.ts:26:export function transportFailure(reason: TransportFailureReason): TransportFailure {
+src/cognition/transport/cognitionTransport.failure.ts:30:    reason
+src/cognition/transport/cognitionTransport.failure.ts:47:All failures must return reason.
+src/cognition/transport/cognitionTransport.operatorView.ts:23:    ...interpretation.reasons,
+src/cognition/transport/cognitionTransport.interpretation.ts:16:  reasons: string[]
+src/cognition/transport/cognitionTransport.interpretation.ts:31:    reasons: severity.reasons,
+src/cognition/transport/cognitionTransport.risk.ts:17:  reasons: string[]
+src/cognition/transport/cognitionTransport.risk.ts:38:    reasons: severity.reasons
+src/cognition/transport/cognitionTransport.severity.ts:17:  reasons: string[]
+src/cognition/transport/cognitionTransport.severity.ts:24:  const reasons: string[] = []
+src/cognition/transport/cognitionTransport.severity.ts:27:    reasons.push("registry inconsistent")
+src/cognition/transport/cognitionTransport.severity.ts:30:    reasons.push("replay unsafe")
+src/cognition/transport/cognitionTransport.severity.ts:33:    reasons.push("transport failures detected")
+src/cognition/transport/cognitionTransport.severity.ts:37:  if (reasons.length === 0)
+src/cognition/transport/cognitionTransport.severity.ts:39:  else if (reasons.length === 1)
+src/cognition/transport/cognitionTransport.severity.ts:41:  else if (reasons.length === 2)
+src/cognition/transport/cognitionTransport.severity.ts:49:    reasons
+src/cognition/confidence/confidence.types.ts:37:  readonly reason: string;
+src/cognition/confidence/confidence.types.ts:50:  readonly reasoning: OperationalConfidenceReasoning;
+src/cognition/confidence/confidenceFactors.ts:22:  readonly reasonTemplate: (score: number) => string;
+src/cognition/confidence/confidenceFactors.ts:30:      reasonTemplate: (score) =>
+src/cognition/confidence/confidenceFactors.ts:36:      reasonTemplate: (score) => `Runtime health evaluated at ${score}/100.`,
+src/cognition/confidence/confidenceFactors.ts:41:      reasonTemplate: (score) =>
+src/cognition/confidence/confidenceFactors.ts:47:      reasonTemplate: (score) =>
+src/cognition/confidence/confidenceFactors.ts:82:      reason: descriptor.reasonTemplate(score),
+src/cognition/confidence/confidenceSynthesizer.ts:41:    reasoning: {
+src/cognition/confidence/confidenceInvariant.ts:41:  if (first.reasoning.factors.length !== 4) {
+src/cognition/confidence/confidenceInvariant.ts:43:      `Operational confidence invariant failed: expected 4 factors, received ${first.reasoning.factors.length}.`,
+src/cognition/operatorGuidanceConfidence.ts:17:  reason: string;
+src/cognition/operatorGuidanceConfidence.ts:29:      reason: "No signals available for interpretation.",
+src/cognition/operatorGuidanceConfidence.ts:46:      reason: "Stalled signals observed but root cause not proven.",
+src/cognition/operatorGuidanceConfidence.ts:55:      reason: "Degraded signals observed without systemic failure.",
+src/cognition/operatorGuidanceConfidence.ts:64:      reason: "Signal quality insufficient for strong interpretation.",
+src/cognition/operatorGuidanceConfidence.ts:72:    reason: "Signals consistently indicate healthy state.",
+src/governance_operator_handbook/governance_operator_handbook_contract.ts:5:  "cannot alter explanation",
+src/governance_operator_map/governance_operator_map_contract.ts:5:  "cannot alter explanation",
+src/governance_operator_register/governance_operator_register_contract.ts:5:  "cannot alter explanation",
+src/governance_operator_lexicon/governance_operator_lexicon_contract.ts:5:  "cannot alter explanation",
+src/governance_operator_briefing/governance_operator_briefing_contract.ts:5:  "cannot alter explanation",
+src/governance_operator_manifest_index/governance_operator_manifest_index_contract.ts:5:  "cannot alter explanation",
+src/governance_operator_session/governance_operator_session_contract.ts:5:  "cannot alter explanation",
+src/governance_operator_console/governance_operator_console_contract.ts:5:  "cannot alter explanation",
+src/governance_operator_directory/governance_operator_directory_contract.ts:5:  "cannot alter explanation",
+src/governance_investigation/governance_playback_navigation_assembly.ts:25:      explanation: null,
+src/governance_investigation/governance_playback_navigation_assembly.ts:41:        explanation_id: null,
+src/governance_investigation/governance_timeline_types.ts:11:  | "explanation"
+src/governance_investigation/governance_timeline_types.ts:26:  readonly explanation?: GovernanceExplanationRecord | null;
+src/governance_investigation/governance_timeline_types.ts:61:  if (seed.explanation) {
+src/governance_investigation/governance_timeline_types.ts:63:      type: "explanation",
+src/governance_investigation/governance_timeline_types.ts:65:      source: "governance_explanation",
+src/governance_investigation/governance_timeline_types.ts:66:      reference_id: seed.explanation.reference_id,
+src/governance_investigation/governance_timeline_types.ts:67:      label: seed.explanation.explanation_id,
+src/governance_investigation/governance_investigation_reducer.ts:8:  readonly explanation_summary: string | null;
+src/governance_investigation/governance_investigation_reducer.ts:21:    explanation_summary: trace.explanation?.summary ?? null,
+src/governance_investigation/governance_decision_trace.ts:26:  readonly explanation?: GovernanceExplanationRecord | null;
+src/governance_investigation/governance_decision_trace.ts:35:  readonly explanation: GovernanceExplanationRecord | null;
+src/governance_investigation/governance_decision_trace.ts:49:    explanation: seed.explanation ?? null,
+src/governance_investigation/governance_decision_trace.ts:56:    explanation: seed.explanation ?? null,
+src/governance_investigation/governance_decision_trace.ts:62:      explanation: seed.explanation ?? null,
+src/governance_investigation/governance_operator_investigation_view.ts:14:  readonly explanation: string | null;
+src/governance_investigation/governance_operator_investigation_view.ts:33:    explanation: trace.explanation?.summary ?? null,
+src/governance_investigation/governance_investigation_types.ts:32:  readonly explanation_id: GovernanceExplanationId;
+src/governance_investigation/governance_investigation_types.ts:51:  readonly explanation_id: GovernanceExplanationId | null;
+src/governance_investigation/governance_investigation_types.ts:58:  readonly explanation?: GovernanceExplanationRecord | null;
+src/governance_investigation/governance_investigation_types.ts:71:    explanation_id: seed.explanation?.explanation_id ?? null,
+src/governance_visibility/governance_visibility_contract.ts:5:  "cannot change explanation",
+src/governance_visibility/governance_visibility_snapshot.ts:12:  explanation?: unknown;
+src/governance_visibility/governance_visibility_snapshot.ts:26:    explanation_available: input.explanation != null,
+src/governance_visibility/governance_visibility_formatter.ts:20:  return `Explanation available: ${record.explanation_available ? "yes" : "no"}`;
+src/governance_visibility/governance_visibility_model.ts:9:  explanation_available: boolean;
+src/governance_operator_registry/governance_operator_registry_contract.ts:5:  "cannot alter explanation",
+src/governance_operator_record/governance_operator_record_contract.ts:5:  "cannot alter explanation",
+src/governance_operator_glossary/governance_operator_glossary_contract.ts:5:  "cannot alter explanation",
+src/governance_operator_export/governance_operator_export_contract.ts:5:  "cannot alter explanation",
+src/governance_operator_manifest/governance_operator_manifest_contract.ts:5:  "cannot alter explanation",
+src/governance_traceability/governance_traceability_model.ts:6:  "explanation_capture",
+src/governance_traceability/governance_traceability_model.ts:20:  explanation_available: boolean;
+src/governance_traceability/governance_traceability_contract.ts:5:  "cannot alter explanation",
+src/governance_traceability/governance_traceability_snapshot.ts:13:  explanation?: unknown;
+src/governance_traceability/governance_traceability_snapshot.ts:29:    explanation_available: input.explanation != null,
+src/governance_operator_archive/governance_operator_archive_contract.ts:5:  "cannot alter explanation",
+src/governance_operator_logbook/governance_operator_logbook_contract.ts:5:  "cannot alter explanation",
+src/governance/governance_signal_explanation_registry.ts:14:      let explanation =
+src/governance/governance_signal_explanation_registry.ts:18:        explanation =
+src/governance/governance_signal_explanation_registry.ts:23:        explanation =
+src/governance/governance_signal_explanation_registry.ts:35:        explanation,
+src/governance/governanceCognitionSelectorsProof.ts:55:      reason: "selector-proof"
+src/governance/governanceExecutionRoutingClassifier.ts:36:    reason: routing.reason,
+src/governance/governance_advisory_contract.test.ts:20:        reasoning: "Signal classified as informational.",
+src/governance/governance_advisory_contract.test.ts:39:        reasoning: "Notice-level condition present.",
+src/governance/governance_advisory_contract.test.ts:51:        reasoning: "Critical severity must dominate report severity.",
+src/governance/governance_advisory_contract.test.ts:63:        reasoning: "Warning present but not highest.",
+src/governance/governance_operator_explanation_layer.ts:11:  let explanation = "System operating within governance bounds"
+src/governance/governance_operator_explanation_layer.ts:15:    explanation =
+src/governance/governance_operator_explanation_layer.ts:22:    explanation =
+src/governance/governance_operator_explanation_layer.ts:31:    operator_explanation: explanation,
+src/governance/governanceCognitionSurfaceProof.ts:48:      reason: "cognition-surface-proof"
+src/governance/governanceExecutionRoutingProof.ts:41:        reason: "determinism-proof"
+src/governance/governance_signal_classifier.ts:79:    reason: GovernanceClassificationReason
+src/governance/governance_signal_classifier.ts:89:    reason: GovernanceClassificationReason
+src/governance/governance_signal_classifier.ts:122:            reason: "MISSING_REQUIRED_FIELDS",
+src/governance/governance_signal_classifier.ts:132:            reason: "RISK_SIGNAL_DETECTED",
+src/governance/governance_signal_classifier.ts:142:            reason: "CAUTION_SIGNAL_DETECTED",
+src/governance/governance_signal_classifier.ts:151:        reason: "SAFE_SIGNAL_DETECTED",
+src/governance/governance_signal_classifier.ts:166:        reason: classification.reason,
+src/governance/governance_signal_registry.test.ts:1:import { buildGovernanceSignalExplanationRegistry } from "./governance_signal_explanation_registry"
+src/governance/governance_signal_registry.test.ts:4:describe("Governance signal explanation registry", () => {
+src/governance/governance_signal_registry.test.ts:6:  it("builds explanations for all signals", () => {
+src/governance/governanceCognitionIntegrationProof.ts:52:      reason: "integration-proof"
+src/governance/governanceOperatorAwarenessTypes.ts:42:  reason: string;
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:88:  assert(selected.readinessReasonCount >= 4, "Readiness must expose deterministic reasons.");
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:104:  assert(selected.capsuleReasonCount >= 4, "Capsule must expose deterministic reasons.");
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:96:  assert(selected.receiptReasonCount >= 4, "Receipt must expose deterministic reasons.");
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:111:  assert(selected.packageReasonCount >= 4, "Contract package must expose deterministic reasons.");
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:125:  assert(selected.manifestReasonCount >= 4, "Manifest must expose deterministic reasons.");
+src/governance/cognition/prove_governance_authorization_gate.ts:104:  assert(selected.authorizationReasonCount >= 4, "Authorization gate must expose deterministic reasons.");
+src/governance/cognition/prove_governance_live_wiring_decision.ts:97:  assert(selected.decisionReasonCount >= 4, "Decision must expose deterministic reasons.");
+src/governance/cognition/build_governance_live_registry_wiring_readiness.ts:18:  const reasons = uniqueSorted([
+src/governance/cognition/build_governance_live_registry_wiring_readiness.ts:53:    readinessReasons: reasons,
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:100:  assert(selected.archiveReasonCount >= 4, "Archive record must expose deterministic reasons.");
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:118:  assert(selected.envelopeReasonCount >= 4, "Envelope must expose deterministic reasons.");
+src/governance/governance_explanation_builder.test.ts:2:import { buildGovernanceExplanation } from "./governance_explanation_builder"
+src/governance/governance_explanation_builder.test.ts:21:  "Allow explanation summary mismatch"
+src/governance/governance_explanation_builder.test.ts:35:  "Warn explanation summary mismatch"
+src/governance/governance_explanation_builder.test.ts:49:  "Block explanation summary mismatch"
+src/governance/governance_explanation_builder.test.ts:52:console.log("Governance explanation builder deterministic")
+src/governance/governance_explanation_layer.test.ts:1:import { buildGovernanceOperatorExplanation } from "./governance_operator_explanation_layer"
+src/governance/governance_explanation_layer.test.ts:8:describe("Governance operator explanation layer", () => {
+src/governance/governance_explanation_layer.test.ts:10:  it("returns normal explanation for empty signals", () => {
+src/governance/governance_explanation_layer.test.ts:22:  it("returns warning explanation", () => {
+src/governance/governance_explanation_layer.test.ts:34:  it("returns critical explanation", () => {
+src/governance/governanceOutcomeSurfaceTypes.ts:38:  reason: string;
+src/governance/governanceOutcomeSurfaceBuilder.ts:47:    reason: routing.reason
+src/governance/governance_advisory_presenter.test.ts:20:    reasoning: "test",
+src/governance/governance_explanation_builder.ts:4:Builds deterministic human-readable explanations from
+src/governance/governance_explanation_builder.ts:8:Ensure governance decisions are transparent, explainable,
+src/governance/governance_decision_pipeline.ts:9:explanation →
+src/governance/governance_decision_pipeline.ts:23:import { buildGovernanceExplanation } from "./governance_explanation_builder"
+src/governance/governance_decision_pipeline.ts:33:  explanation_summary: string
+src/governance/governance_decision_pipeline.ts:49:    policy.reason,
+src/governance/governance_decision_pipeline.ts:54:  const explanation = buildGovernanceExplanation(result)
+src/governance/governance_decision_pipeline.ts:64:    explanation_summary: explanation.summary,
+src/governance/governance_decision_pipeline.ts:66:    operator_guidance: explanation.operator_guidance,
+src/governance/governance_advisory_normalizer.test.ts:17:    reasoning: "test",
+src/governance/governance_enforcement_contract.ts:23:  reason: GovernanceEnforcementReason
+src/governance/governance_enforcement_contract.ts:31:  reason: GovernanceEnforcementReason
+src/governance/governance_enforcement_contract.ts:35:    reason,
+src/governance/governanceOperatorAwarenessProof.ts:47:      reason: "awareness-proof"
+src/governance/governance_pipeline_invariants.ts:42:    id: "inv-explainability",
+src/governance/governance_pipeline_invariants.ts:43:    rule: "All governance decisions must be explainable",
+src/governance/governanceOutcomeSurfaceProof.ts:43:        reason: "surface-proof"
+src/governance/governance_advisory_contract.ts:60:  Human readable explanation
+src/governance/governance_advisory_contract.ts:65:  Deterministic explanation detail
+src/governance/governance_advisory_contract.ts:76:  Governance reasoning trace (read-only cognition explanation)
+src/governance/governance_advisory_contract.ts:78:  reasoning: string;
+src/governance/governanceExecutionRouting.ts:28:  reason: string;
+src/governance/governanceExecutionRouting.ts:34:  reason: string;
+src/governance/governanceExecutionRouting.ts:50:        reason: input.reason,
+src/governance/governanceExecutionRouting.ts:58:        reason: input.reason,
+src/governance/governanceExecutionRouting.ts:66:        reason: input.reason,
+src/governance/governanceExecutionRouting.ts:74:        reason: input.reason,
+src/governance/governanceExecutionRouting.ts:82:        reason: input.reason,
+src/governance/governance_enforcement_result.ts:7:return structured, explainable results.
+src/governance/governance_enforcement_result.ts:19:  reason: GovernanceEnforcementReason
+src/governance/governance_enforcement_result.ts:23:  explanation: string
+src/governance/governance_enforcement_result.ts:36:  reason: GovernanceEnforcementReason,
+src/governance/governance_enforcement_result.ts:38:  explanation: string
+src/governance/governance_enforcement_result.ts:45:    reason,
+src/governance/governance_enforcement_result.ts:49:    explanation,
+src/governance/governanceOperatorAwarenessBuilder.ts:45:    reason: surface.reason
+src/governance/governance_decision_pipeline.test.ts:17:  allow.explanation_summary === "Governance check passed",
+src/governance/governance_decision_pipeline.test.ts:18:  "Allow explanation mismatch"
+src/governance/governance_audit_log.ts:18:  reason: string
+src/governance/governance_audit_log.ts:20:  explanation: string
+src/governance/governance_audit_log.ts:38:    reason: result.reason,
+src/governance/governance_audit_log.ts:40:    explanation: result.explanation,
+src/governance/governanceExecutionRoutingTypes.ts:20:  reason: string;
+src/governance/governance_signal_classifier.test.ts:57:  assert.equal(riskClassification.reason, "RISK_SIGNAL_DETECTED");
+src/governance/governance_signal_classifier.test.ts:63:  assert.equal(cautionClassification.reason, "CAUTION_SIGNAL_DETECTED");
+src/governance/governance_signal_classifier.test.ts:67:  assert.equal(safeClassification.reason, "SAFE_SIGNAL_DETECTED");
+src/governance/governance_signal_classifier.test.ts:71:  assert.equal(unknownClassification.reason, "MISSING_REQUIRED_FIELDS");
+src/governance/governance_signal_classifier.test.ts:77:  assert.equal(auditRecord.reason, "RISK_SIGNAL_DETECTED");
+src/governance/governance_policy_registry.ts:19:  reason: GovernanceEnforcementReason
+src/governance/governance_policy_registry.ts:31:    reason: "no_violation_detected",
+src/governance/governance_policy_registry.ts:41:    reason: "operator_review_required",
+src/governance/governance_policy_registry.ts:51:    reason: "governance_critical_detected",
+src/governance_operator_packet/governance_operator_packet_builder.ts:22:  explanation_available: boolean;
+src/governance_operator_packet/governance_operator_packet_builder.ts:57:        input.explanation_available,
+src/governance_operator_packet/governance_operator_packet_contract.ts:5:  "cannot alter explanation",
+src/governance_operator_packet/governance_operator_packet_formatter.ts:37:  explanationAvailable: boolean,
+src/governance_operator_packet/governance_operator_packet_formatter.ts:40:  return `Artifacts: explanation=${explanationAvailable ? "yes" : "no"}, audit=${auditRecorded ? "yes" : "no"}`;
+src/governance_operator_index/governance_operator_index_contract.ts:5:  "cannot alter explanation",
+src/governance_reporting/governance_reporting_builder.ts:20:  explanation_available: boolean;
+src/governance_reporting/governance_reporting_builder.ts:62:          label: "explanation",
+src/governance_reporting/governance_reporting_builder.ts:63:          value: `Explanation available: ${input.explanation_available ? "yes" : "no"}`,
+src/governance_reporting/governance_reporting_contract.ts:5:  "cannot alter explanation",
+src/governance_operator_catalog/governance_operator_catalog_contract.ts:5:  "cannot alter explanation",
+src/governance_operator_manual/governance_operator_manual_contract.ts:5:  "cannot alter explanation",
+src/governance_operator_atlas/governance_operator_atlas_contract.ts:5:  "cannot alter explanation",
+src/governance_operator_snapshot/governance_operator_snapshot_contract.ts:5:  "cannot alter explanation",
+src/governance_operator_handoff/governance_operator_handoff_contract.ts:5:  "cannot alter explanation",
+src/governance_digest/governance_digest_formatter.ts:35:  explanationAvailable: boolean,
+src/governance_digest/governance_digest_formatter.ts:38:  return `Artifacts: explanation=${explanationAvailable ? "yes" : "no"}, audit=${auditRecorded ? "yes" : "no"}`;
+src/governance_digest/governance_digest_contract.ts:5:  "cannot alter explanation",
+src/governance_digest/governance_digest_builder.ts:21:  explanation_available: boolean;
+src/governance_digest/governance_digest_builder.ts:53:        input.explanation_available,
+src/governance_operator_playbook/governance_operator_playbook_contract.ts:5:  "cannot alter explanation",
+src/governance_operator_reference/governance_operator_reference_contract.ts:5:  "cannot alter explanation",
+
