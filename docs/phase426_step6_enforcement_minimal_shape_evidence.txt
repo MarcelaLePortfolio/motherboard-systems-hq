@@ -1,0 +1,79 @@
+authorization decision structure fields
+
+decision validation indicators
+src/cognition/governanceAwarenessGuards.smoke.ts:58:        summary: "invalid payload should fail because structure is malformed",
+src/cognition/governanceAwarenessGuards.smoke.ts:82:  validAccepted: true;
+src/cognition/governanceAwarenessGuards.smoke.ts:83:  invalidRejected: true;
+src/cognition/governanceAwarenessGuards.smoke.ts:129:    validAccepted: true,
+src/cognition/governanceAwarenessGuards.smoke.ts:130:    invalidRejected: true,
+src/governance_investigation/governance_dashboard_playback_contract.ts:13:    readonly is_valid: boolean;
+src/governance_investigation/governance_dashboard_playback_contract.ts:35:      is_valid: !isEmpty
+src/governance_investigation/governance_playback_proof.ts:16:  readonly initial_valid: boolean;
+src/governance_investigation/governance_playback_proof.ts:17:  readonly next_valid: boolean;
+src/governance_investigation/governance_playback_proof.ts:18:  readonly previous_valid: boolean;
+src/governance_investigation/governance_playback_proof.ts:19:  readonly start_valid: boolean;
+src/governance_investigation/governance_playback_proof.ts:20:  readonly end_valid: boolean;
+src/governance_investigation/governance_playback_proof.ts:21:  readonly jump_valid: boolean;
+src/governance_investigation/governance_playback_proof.ts:22:  readonly all_valid: boolean;
+src/governance_investigation/governance_playback_proof.ts:52:    initial_valid: verifyState(initial),
+src/governance_investigation/governance_playback_proof.ts:53:    next_valid: verifyState(steppedNext),
+src/governance_investigation/governance_playback_proof.ts:54:    previous_valid: verifyState(steppedPrevious),
+src/governance_investigation/governance_playback_proof.ts:55:    start_valid: verifyState(movedStart),
+src/governance_investigation/governance_playback_proof.ts:56:    end_valid: verifyState(movedEnd),
+src/governance_investigation/governance_playback_proof.ts:57:    jump_valid: verifyState(jumpedMiddle),
+src/governance_investigation/governance_playback_proof.ts:58:    all_valid: false,
+src/governance_investigation/governance_playback_proof.ts:63:    all_valid:
+src/governance_investigation/governance_playback_proof.ts:64:      result.initial_valid &&
+src/governance_investigation/governance_playback_proof.ts:65:      result.next_valid &&
+src/governance_investigation/governance_playback_proof.ts:66:      result.previous_valid &&
+src/governance_investigation/governance_playback_proof.ts:67:      result.start_valid &&
+src/governance_investigation/governance_playback_proof.ts:68:      result.end_valid &&
+src/governance_investigation/governance_playback_proof.ts:69:      result.jump_valid,
+src/governance_investigation/verification/replay_fixture_diagnostics.ts:6:validation results.
+src/governance_investigation/verification/replay_fixture_runner.ts:32:    name: "valid replay",
+src/governance_investigation/verification/replay_fixture_runner.ts:95:      actual: result.valid,
+src/governance_investigation/verification/replay_fixture_runner.ts:96:      pass: result.valid === test.shouldPass,
+src/governance_investigation/verification/replay_pathological_fixtures.ts:40:    description: "Replay contains invalid event ordering",
+src/governance_investigation/verification/run-replay-pathological-proof-suite.ts:6:Aggregates structural validity, deterministic ordering, and fixture reproducibility checks.
+src/governance_investigation/verification/replay_fixture_library.ts:28:  replayId: "fixture-valid-001",
+src/governance_investigation/verification/replay_fixture_summary.ts:5:Provide deterministic aggregation for replay fixture validation results.
+src/governance_investigation/verification/check-pathological-fixtures.ts:79:    "[replay-pathological-check] PASS: deterministic ordering + valid diagnostics"
+src/governance_investigation/verification/replay_structure_verifier.ts:5:Accept unknown replay payloads at the verifier boundary and validate
+src/governance_investigation/verification/replay_structure_verifier.ts:30:  valid: boolean;
+src/governance_investigation/verification/replay_structure_verifier.ts:67:      valid: false,
+src/governance_investigation/verification/replay_structure_verifier.ts:83:      valid: false,
+src/governance_investigation/verification/replay_structure_verifier.ts:113:      violations.push(`Event ${index} invalid sequence`);
+src/governance_investigation/verification/replay_structure_verifier.ts:119:      violations.push(`Event ${index} invalid timestamp`);
+src/governance_investigation/verification/replay_structure_verifier.ts:141:    valid: violations.length === 0,
+src/governance_investigation/governance_playback_assembly.ts:20:  readonly is_valid: boolean;
+src/governance_investigation/governance_playback_assembly.ts:45:    is_valid: verifyPlaybackState(playback),
+src/governance_investigation/governance_playback_assembly_proof.ts:5:  readonly playback_valid: boolean;
+src/governance_investigation/governance_playback_assembly_proof.ts:9:  readonly all_valid: boolean;
+src/governance_investigation/governance_playback_assembly_proof.ts:22:  const playbackValid = assembled.is_valid;
+src/governance_investigation/governance_playback_assembly_proof.ts:55:    playback_valid: playbackValid,
+src/governance_investigation/governance_playback_assembly_proof.ts:59:    all_valid:
+src/governance/governance_advisory_summary_builder.test.ts:3:Deterministic cognition validation
+src/governance/governanceCognitionSelectorsProof.ts:3: * Deterministic validation of selector safety.
+src/governance/governanceCognitionSurfaceProof.ts:3: * Deterministic proof surface validating dashboard-ready governance cognition data.
+src/governance/governanceExecutionRoutingProof.ts:3: * Deterministic proof surface validating routing invariants.
+src/governance/governanceCognitionIntegrationProof.ts:3: * Deterministic validation of safe cognition integration hooks.
+src/governance/governance_advisory_operator_view.test.ts:3:Deterministic cognition validation
+src/governance/governance_fixture_integrity_sentinel.test.ts:6:  it("fixtures remain structurally valid", () => {
+src/governance/governanceOperatorAwarenessProof.ts:3: * Deterministic proof surface validating read-only operator awareness behavior.
+src/governance/governance_pipeline_invariants.ts:49:export function validateGovernanceInvariants(): boolean {
+src/governance/governanceOutcomeSurfaceProof.ts:3: * Deterministic validation that outcome surfaces remain read-only cognition artifacts.
+src/governance/governance_fixture_corpus.test.ts:3:Deterministic corpus validation
+src/governance/governance_pipeline_invariants.test.ts:1:import { validateGovernanceInvariants } from "./governance_pipeline_invariants"
+src/governance/governance_pipeline_invariants.test.ts:9:const valid = validateGovernanceInvariants()
+src/governance/governance_pipeline_invariants.test.ts:12:  valid === true,
+src/governance/governance_pipeline_invariants.test.ts:13:  "Governance invariants validation failed"
+src/governance/governance_advisory_digest.test.ts:3:Deterministic cognition validation
+
+admissibility indicators
+
+decision integrity indicators
+src/governance/governance_fixture_integrity_sentinel.test.ts:4:describe("Governance fixture integrity", () => {
+src/governance/governance_cognition_integrity_sentinel.test.ts:4:describe("Governance cognition integrity", () => {
+
+authorization verification indicators
+
