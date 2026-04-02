@@ -1,0 +1,1605 @@
+PHASE 423.5 — STEP 4
+Invariant Compatibility Verification
+------------------------------------
+
+governance invariant definitions
+src/governance_operator_guide/governance_operator_guide_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_operator_compendium/governance_operator_compendium_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_operator_bundle/governance_operator_bundle_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_operator_dictionary/governance_operator_dictionary_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_operator_ledger/governance_operator_ledger_contract.ts:4:  "cannot affect invariant evaluation",
+src/cognition/exposure/cognition.exposure.ts:16:export * from "../invariants";
+src/cognition/transport/cognitionTransport.validate.ts:6:import { transportRegistryIsConsistent } from "./cognitionTransport.invariants";
+src/cognition/transport/cognitionTransport.summary.ts:28:      diagnostics.invariantHealthy,
+src/cognition/transport/CognitionTransportDiagnostics.builder.ts:8:  invariantHealthy: boolean
+src/cognition/transport/CognitionTransportDiagnostics.builder.ts:19:    invariantHealthy: input.invariantHealthy,
+src/cognition/transport/cognitionTransport.replay.ts:7:import { transportRegistryIsConsistent } from "./cognitionTransport.invariants";
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.invariants.ts:36:      throw new Error("Registry ordering invariant violated");
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.validate.ts:8:} from "./dashboardConsumption.registry.invariants";
+src/cognition/transport/cognitionTransport.dashboardConsumption.invariants.ts:32:      throw new Error("Dashboard consumption payload ordering invariant violated");
+src/cognition/transport/cognitionTransport.diagnostics.ts:8:import { transportRegistryIsConsistent } from "./cognitionTransport.invariants";
+src/cognition/transport/cognitionTransport.diagnostics.ts:15:  const invariantHealthy = transportRegistryIsConsistent();
+src/cognition/transport/cognitionTransport.diagnostics.ts:20:    verificationHealthy: invariantHealthy,
+src/cognition/transport/cognitionTransport.diagnostics.ts:22:    invariantHealthy,
+src/cognition/transport/cognitionTransport.diagnostics.ts:35:Derived from existing transport health, snapshot, and invariant surfaces.
+src/cognition/transport/cognitionTransport.health.ts:7:import { transportRegistryIsConsistent } from "./cognitionTransport.invariants";
+src/cognition/transport/CognitionTransportDiagnostics.types.ts:5:  invariantHealthy: boolean
+src/cognition/transport/cognitionTransport.types.ts:55:Transport invariants:
+src/cognition/transport/index.ts:3:export * from "./cognitionTransport.dashboardConsumption.invariants";
+src/cognition/transport/cognitionTransport.dashboardConsumption.test.ts:7:} from "./cognitionTransport.dashboardConsumption.invariants";
+src/cognition/transport/cognitionTransport.dashboardConsumption.ts:39:      throw new Error("Dashboard consumption key ordering invariant violated");
+src/cognition/transport/cognitionTransport.invariants.ts:3:Deterministic invariant definitions (no runtime mutation)
+src/cognition/transport/cognitionTransport.invariants.ts:31:Invariant rules:
+src/cognition/confidence/confidenceInvariant.proof.ts:1:import { verifyOperationalConfidenceDeterminism } from "./confidenceInvariant";
+src/cognition/confidence/confidenceInvariant.ts:31:      `Operational confidence invariant failed: expected score 85, received ${first.score}.`,
+src/cognition/confidence/confidenceInvariant.ts:37:      `Operational confidence invariant failed: expected level HIGH, received ${first.level}.`,
+src/cognition/confidence/confidenceInvariant.ts:43:      `Operational confidence invariant failed: expected 4 factors, received ${first.reasoning.factors.length}.`,
+src/cognition/confidence/index.ts:32:} from "./confidenceInvariant";
+src/cognition/entry/cognition.entry.ts:19:export * from "../invariants-read";
+src/cognition/contracts/cognition.contracts.ts:6: * enforce deterministic structure, and prepare invariant validation.
+src/cognition/contracts/cognition.contracts.ts:45:  invariant: string;
+src/cognition/lock/cognition.lock.ts:19:  "invariants",
+src/cognition/invariants/cognition.invariants.ts:2: * Phase 100.2 — Cognition Invariants
+src/cognition/invariants/cognition.invariants.ts:5: * Establish invariant guards to ensure cognition contracts
+src/cognition/invariants/cognition.invariants.ts:13: * - Pure invariant checks only
+src/cognition/invariants/cognition.invariants.ts:34:export function invariantConfidence(value: string): boolean {
+src/cognition/invariants/cognition.invariants.ts:38:export function invariantGovernanceStatus(value: string): boolean {
+src/cognition/invariants/cognition.invariants.ts:42:export function invariantSituationSummary(
+src/cognition/invariants/cognition.invariants.ts:54:  if (!invariantConfidence(envelope.situation.confidence)) {
+src/cognition/invariants/cognition.invariants.ts:65:export function invariantGovernance(
+src/cognition/invariants/cognition.invariants.ts:79:    if (!item.invariant) {
+src/cognition/invariants/cognition.invariants.ts:83:    if (!invariantGovernanceStatus(item.status)) {
+src/cognition/invariants/cognition.invariants.ts:91:export function invariantGuidance(
+src/cognition/invariants/cognition.invariants.ts:105:    if (!invariantConfidence(item.confidence)) {
+src/cognition/invariants/cognition.invariants.ts:117:export function cognitionInvariantCheck(
+src/cognition/invariants/cognition.invariants.ts:121:  if (!invariantSituationSummary(envelope)) {
+src/cognition/invariants/cognition.invariants.ts:125:  if (!invariantGovernance(envelope)) {
+src/cognition/invariants/cognition.invariants.ts:129:  if (!invariantGuidance(envelope)) {
+src/cognition/invariants/index.ts:1:export * from "./cognition.invariants";
+src/cognition/drift/cognition.drift.guard.ts:17:import { cognitionInvariantCheck } from "../invariants/cognition.invariants";
+src/cognition/drift/cognition.drift.guard.ts:29:  const valid = cognitionInvariantCheck(envelope);
+src/cognition/situationSummaryInputAdapter.ts:130:    isFiniteNumber(value.invariantTotal) &&
+src/cognition/situationSummaryInputAdapter.ts:131:    isFiniteNumber(value.invariantFailures)
+src/cognition/situationSummaryInputAdapter.ts:171:    awareness.verification.invariantFailures === 0;
+src/cognition/governanceAwarenessGuards.smoke.ts:42:    invariantTotal: 4,
+src/cognition/governanceAwarenessGuards.smoke.ts:43:    invariantFailures: 0,
+src/cognition/governanceAwarenessGuards.smoke.ts:75:    invariantTotal: 4,
+src/cognition/governanceAwarenessGuards.smoke.ts:76:    invariantFailures: 0,
+src/cognition/operatorGuidance.ts:93:Safety invariants (type-level guarantees):
+src/cognition/invariants-read/cognition.read.invariants.ts:2: * Phase 103.2 — Invariants
+src/cognition/invariants-read/cognition.read.invariants.ts:5: * Establish deterministic read invariants for cognition consumption.
+src/cognition/invariants-read/cognition.read.invariants.ts:29: * Invariant rule:
+src/cognition/invariants-read/index.ts:1:export * from "./cognition.read.invariants";
+src/cognition/operatorGuidanceSafety.ts:3:Bounded operator guidance runtime invariants.
+src/cognition/replay/cognition.replay.proof.ts:17:import { cognitionInvariantCheck } from "../invariants/cognition.invariants";
+src/cognition/replay/cognition.replay.proof.ts:30:  const firstInvariant = cognitionInvariantCheck(envelope);
+src/cognition/replay/cognition.replay.proof.ts:31:  const secondInvariant = cognitionInvariantCheck(envelope);
+src/cognition/replay/cognition.replay.proof.ts:37:    firstInvariant === secondInvariant &&
+src/cognition/replay/cognition.replay.proof.ts:42:    firstPassValid: firstInvariant,
+src/cognition/replay/cognition.replay.proof.ts:43:    secondPassValid: secondInvariant,
+src/cognition/governanceCognition.smoke.ts:36:    invariantTotal: 4,
+src/cognition/governanceCognition.smoke.ts:37:    invariantFailures: 0,
+src/cognition/governanceCognition.smoke.ts:69:    invariantTotal: 4,
+src/cognition/governanceCognition.smoke.ts:70:    invariantFailures: 1,
+src/governance_operator_handbook/governance_operator_handbook_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_operator_map/governance_operator_map_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_operator_register/governance_operator_register_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_operator_lexicon/governance_operator_lexicon_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_operator_briefing/governance_operator_briefing_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_operator_manifest_index/governance_operator_manifest_index_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_operator_session/governance_operator_session_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_operator_console/governance_operator_console_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_operator_directory/governance_operator_directory_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_investigation/governance_playback_proof.ts:12:import { verifyPlaybackState } from "./governance_playback_invariants";
+src/governance_investigation/governance_playback_assembly.ts:14:import { verifyPlaybackState } from "./governance_playback_invariants";
+src/governance_investigation/index.ts:8:export * from "./governance_playback_invariants";
+src/governance_visibility/governance_visibility_snapshot.ts:11:  invariants_triggered?: readonly string[];
+src/governance_visibility/governance_visibility_snapshot.ts:25:    invariants_triggered: [...(input.invariants_triggered ?? [])],
+src/governance_visibility/governance_visibility_formatter.ts:11:export function formatInvariantSummary(record: GovernanceVisibilityRecord): string {
+src/governance_visibility/governance_visibility_formatter.ts:12:  return `Invariants triggered: ${formatList(record.invariants_triggered)}`;
+src/governance_visibility/index.ts:10:  formatInvariantSummary,
+src/governance_visibility/governance_visibility_model.ts:8:  invariants_triggered: string[];
+src/governance_operator_registry/governance_operator_registry_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_operator_record/governance_operator_record_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_operator_glossary/governance_operator_glossary_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_operator_export/governance_operator_export_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_operator_manifest/governance_operator_manifest_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_traceability/governance_traceability_model.ts:5:  "invariant_evaluation",
+src/governance_traceability/governance_traceability_model.ts:18:  invariants_triggered: string[];
+src/governance_traceability/governance_traceability_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_traceability/governance_traceability_snapshot.ts:11:  invariants_triggered?: readonly string[];
+src/governance_traceability/governance_traceability_snapshot.ts:27:    invariants_triggered: [...(input.invariants_triggered ?? [])],
+src/governance_traceability/governance_traceability_formatter.ts:25:export function formatDecisionTraceInvariants(
+src/governance_traceability/governance_traceability_formatter.ts:28:  return `Invariants triggered: ${formatList(record.invariants_triggered)}`;
+src/governance_traceability/index.ts:14:  formatDecisionTraceInvariants,
+src/governance_operator_archive/governance_operator_archive_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_operator_logbook/governance_operator_logbook_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance/governance_policy_router.ts:9:to a declared governance rule.
+src/governance/governanceExecutionRoutingProof.ts:3: * Deterministic proof surface validating routing invariants.
+src/governance/cognition/prove_governance_cognition_snapshot.ts:4: * Deterministic proof surface for snapshot packaging invariants.
+src/governance/governance_pipeline_invariants.ts:2:Phase 330 — Governance Pipeline Invariants
+src/governance/governance_pipeline_invariants.ts:4:Defines non-negotiable governance safety invariants.
+src/governance/governance_pipeline_invariants.ts:11:export interface GovernanceInvariant {
+src/governance/governance_pipeline_invariants.ts:21:export const GOVERNANCE_INVARIANTS: GovernanceInvariant[] = [
+src/governance/governance_pipeline_invariants.ts:49:export function validateGovernanceInvariants(): boolean {
+src/governance/governance_audit_log.test.ts:31:  "Authority invariant violated"
+src/governance/governance_pipeline_invariants.test.ts:1:import { validateGovernanceInvariants } from "./governance_pipeline_invariants"
+src/governance/governance_pipeline_invariants.test.ts:9:const valid = validateGovernanceInvariants()
+src/governance/governance_pipeline_invariants.test.ts:13:  "Governance invariants validation failed"
+src/governance/governance_pipeline_invariants.test.ts:16:console.log("Governance invariants deterministic")
+src/governance_operator_packet/governance_operator_packet_builder.ts:11:  formatGovernanceOperatorPacketInvariants,
+src/governance_operator_packet/governance_operator_packet_builder.ts:20:  invariants_triggered?: readonly string[];
+src/governance_operator_packet/governance_operator_packet_builder.ts:42:      key: "invariants",
+src/governance_operator_packet/governance_operator_packet_builder.ts:43:      text: formatGovernanceOperatorPacketInvariants(
+src/governance_operator_packet/governance_operator_packet_builder.ts:44:        input.invariants_triggered ?? [],
+src/governance_operator_packet/governance_operator_packet_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_operator_packet/governance_operator_packet_formatter.ts:24:export function formatGovernanceOperatorPacketInvariants(
+src/governance_operator_packet/governance_operator_packet_formatter.ts:25:  invariants: readonly string[],
+src/governance_operator_packet/governance_operator_packet_formatter.ts:27:  return `Invariants: ${formatList(invariants)}`;
+src/governance_operator_packet/index.ts:13:  formatGovernanceOperatorPacketInvariants,
+src/governance_operator_index/governance_operator_index_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_reporting/governance_reporting_builder.ts:8:  formatGovernanceReportInvariants,
+src/governance_reporting/governance_reporting_builder.ts:18:  invariants_triggered?: readonly string[];
+src/governance_reporting/governance_reporting_builder.ts:47:          label: "invariants",
+src/governance_reporting/governance_reporting_builder.ts:48:          value: formatGovernanceReportInvariants(
+src/governance_reporting/governance_reporting_builder.ts:49:            input.invariants_triggered ?? [],
+src/governance_reporting/governance_reporting_formatter.ts:22:export function formatGovernanceReportInvariants(
+src/governance_reporting/governance_reporting_formatter.ts:23:  invariants: readonly string[],
+src/governance_reporting/governance_reporting_formatter.ts:25:  return `Invariants triggered: ${formatList(invariants)}`;
+src/governance_reporting/governance_reporting_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_reporting/index.ts:10:  formatGovernanceReportInvariants,
+src/governance_operator_catalog/governance_operator_catalog_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_operator_manual/governance_operator_manual_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_operator_atlas/governance_operator_atlas_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_operator_snapshot/governance_operator_snapshot_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_operator_handoff/governance_operator_handoff_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_digest/governance_digest_formatter.ts:22:export function formatGovernanceDigestInvariants(
+src/governance_digest/governance_digest_formatter.ts:23:  invariants: readonly string[],
+src/governance_digest/governance_digest_formatter.ts:25:  return `Invariants: ${formatList(invariants)}`;
+src/governance_digest/index.ts:10:  formatGovernanceDigestInvariants,
+src/governance_digest/governance_digest_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_digest/governance_digest_builder.ts:9:  formatGovernanceDigestInvariants,
+src/governance_digest/governance_digest_builder.ts:19:  invariants_triggered?: readonly string[];
+src/governance_digest/governance_digest_builder.ts:43:      key: "invariants",
+src/governance_digest/governance_digest_builder.ts:44:      text: formatGovernanceDigestInvariants(input.invariants_triggered ?? []),
+src/governance_operator_playbook/governance_operator_playbook_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_operator_reference/governance_operator_reference_contract.ts:4:  "cannot affect invariant evaluation",
+
+execution invariant assumptions
+src/governance/governance_advisory_contract.test.ts:46:        domain: "execution_boundary",
+src/governance/governance_advisory_contract.ts:38:  | "execution_boundary"
+
+readonly boundary enforcement
+src/governance_operator_guide/governance_operator_guide_builder.ts:17:  section_titles?: readonly string[];
+src/governance_operator_guide/governance_operator_guide_formatter.ts:1:function formatList(values: readonly string[]): string {
+src/governance_operator_guide/governance_operator_guide_formatter.ts:19:  sectionTitles: readonly string[],
+src/governance_operator_guide/governance_operator_guide_contract.ts:1:export const GOVERNANCE_OPERATOR_GUIDE_LAYER_GUARANTEES = Object.freeze([
+src/governance_operator_guide/governance_operator_guide_contract.ts:12:export function getGovernanceOperatorGuideLayerGuarantees(): readonly string[] {
+src/governance_operator_compendium/governance_operator_compendium_contract.ts:1:export const GOVERNANCE_OPERATOR_COMPENDIUM_LAYER_GUARANTEES = Object.freeze([
+src/governance_operator_compendium/governance_operator_compendium_contract.ts:12:export function getGovernanceOperatorCompendiumLayerGuarantees(): readonly string[] {
+src/governance_operator_compendium/governance_operator_compendium_formatter.ts:1:function formatList(values: readonly string[]): string {
+src/governance_operator_compendium/governance_operator_compendium_formatter.ts:19:  sectionTitles: readonly string[],
+src/governance_operator_compendium/governance_operator_compendium_builder.ts:17:  section_titles?: readonly string[];
+src/governance_operator_bundle/governance_operator_bundle_formatter.ts:1:function formatList(values: readonly string[]): string {
+src/governance_operator_bundle/governance_operator_bundle_formatter.ts:19:  sectionTitles: readonly string[],
+src/governance_operator_bundle/governance_operator_bundle_builder.ts:17:  section_titles?: readonly string[];
+src/governance_operator_bundle/governance_operator_bundle_contract.ts:1:export const GOVERNANCE_OPERATOR_BUNDLE_LAYER_GUARANTEES = Object.freeze([
+src/governance_operator_bundle/governance_operator_bundle_contract.ts:12:export function getGovernanceOperatorBundleLayerGuarantees(): readonly string[] {
+src/governance_operator_dictionary/governance_operator_dictionary_contract.ts:1:export const GOVERNANCE_OPERATOR_DICTIONARY_LAYER_GUARANTEES = Object.freeze([
+src/governance_operator_dictionary/governance_operator_dictionary_contract.ts:12:export function getGovernanceOperatorDictionaryLayerGuarantees(): readonly string[] {
+src/governance_operator_dictionary/governance_operator_dictionary_builder.ts:14:  terms?: readonly string[];
+src/governance_operator_dictionary/governance_operator_dictionary_formatter.ts:1:function formatList(values: readonly string[]): string {
+src/governance_operator_dictionary/governance_operator_dictionary_formatter.ts:10:  terms: readonly string[],
+src/governance_operator_ledger/governance_operator_ledger_contract.ts:1:export const GOVERNANCE_OPERATOR_LEDGER_LAYER_GUARANTEES = Object.freeze([
+src/governance_operator_ledger/governance_operator_ledger_contract.ts:12:export function getGovernanceOperatorLedgerLayerGuarantees(): readonly string[] {
+src/governance_operator_ledger/governance_operator_ledger_builder.ts:17:  section_titles?: readonly string[];
+src/governance_operator_ledger/governance_operator_ledger_formatter.ts:1:function formatList(values: readonly string[]): string {
+src/governance_operator_ledger/governance_operator_ledger_formatter.ts:19:  sectionTitles: readonly string[],
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.integrity.ts:6:  entries: readonly DashboardConsumptionRegistryEntry[]
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.finalize.ts:14:  entries: readonly DashboardConsumptionRegistryEntry[]
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.finalize.ts:15:): readonly DashboardConsumptionRegistryEntry[] {
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.guard.ts:6:  entries: readonly DashboardConsumptionRegistryEntry[]
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:5:} from "./consumption_registry_enforcement_readonly_view";
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.integration.ts:10:  readonly DashboardConsumptionRegistryEntry[] = Object.freeze([]);
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.integration.ts:13:  entries: readonly DashboardConsumptionRegistryEntry[]
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.invariants.ts:28:  entries: readonly DashboardConsumptionRegistryEntry[]
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.runtime.ts:16:  readonly DashboardConsumptionRegistryEntry[] = Object.freeze([]);
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.runtime.ts:19:  entries: readonly DashboardConsumptionRegistryEntry[]
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.runtime.ts:28:  readonly DashboardConsumptionRegistryEntry[] {
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.build.ts:6:  freezeDashboardConsumptionRegistry
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.build.ts:7:} from "./dashboardConsumption.registry.freeze";
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.build.ts:10:  entries: readonly DashboardConsumptionRegistryEntry[]
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.build.ts:11:): readonly DashboardConsumptionRegistryEntry[] {
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.build.ts:13:  return freezeDashboardConsumptionRegistry(entries);
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.ts:30:  readonly DashboardConsumptionRegistryEntry[] {
+src/cognition/transport/consumptionRegistry/index.ts:9:export * from "./consumption_registry_enforcement_readonly_view";
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.freeze.ts:9:export function freezeDashboardConsumptionRegistry(
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.freeze.ts:10:  entries: readonly DashboardConsumptionRegistryEntry[]
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.freeze.ts:11:): readonly DashboardConsumptionRegistryEntry[] {
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.freeze.ts:15:  return Object.freeze([...entries]);
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.pipeline.ts:14:  entries: readonly DashboardConsumptionRegistryEntry[]
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.pipeline.ts:15:): readonly DashboardConsumptionRegistryEntry[] {
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.validate.ts:11:  entries: readonly DashboardConsumptionRegistryEntry[]
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.types.ts:2:  readonly contractId: string;
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.types.ts:3:  readonly adapterId: string;
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.types.ts:4:  readonly version: string;
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.types.ts:5:  readonly section: string;
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.types.ts:9:  readonly entries: readonly DashboardConsumptionRegistryEntry[];
+src/cognition/transport/cognitionTransport.dashboardConsumption.types.ts:9:  | readonly DashboardContractValue[]
+src/cognition/transport/cognitionTransport.dashboardConsumption.types.ts:10:  | { readonly [key: string]: DashboardContractValue };
+src/cognition/transport/cognitionTransport.dashboardConsumption.types.ts:13:  readonly contractId: string;
+src/cognition/transport/cognitionTransport.dashboardConsumption.types.ts:14:  readonly version: string;
+src/cognition/transport/cognitionTransport.dashboardConsumption.types.ts:15:  readonly generatedAt: string;
+src/cognition/transport/cognitionTransport.dashboardConsumption.types.ts:16:  readonly source: string;
+src/cognition/transport/cognitionTransport.dashboardConsumption.types.ts:17:  readonly section: string;
+src/cognition/transport/cognitionTransport.dashboardConsumption.types.ts:18:  readonly payload: Readonly<Record<string, DashboardContractValue>>;
+src/cognition/transport/cognitionTransport.dashboardConsumption.types.ts:19:  readonly metadata?: Readonly<Record<string, DashboardContractValue>>;
+src/cognition/transport/cognitionTransport.dashboardConsumption.types.ts:23:  readonly key: string;
+src/cognition/transport/cognitionTransport.dashboardConsumption.types.ts:24:  readonly value: DashboardContractValue;
+src/cognition/transport/cognitionTransport.dashboardConsumption.types.ts:28:  readonly contractId: string;
+src/cognition/transport/cognitionTransport.dashboardConsumption.types.ts:29:  readonly version: string;
+src/cognition/transport/cognitionTransport.dashboardConsumption.types.ts:30:  readonly generatedAt: string;
+src/cognition/transport/cognitionTransport.dashboardConsumption.types.ts:31:  readonly source: string;
+src/cognition/transport/cognitionTransport.dashboardConsumption.types.ts:32:  readonly section: string;
+src/cognition/transport/cognitionTransport.dashboardConsumption.types.ts:33:  readonly entries: readonly DashboardConsumptionEntry[];
+src/cognition/transport/cognitionTransport.dashboardConsumption.types.ts:37:  readonly contractId: string;
+src/cognition/transport/cognitionTransport.dashboardConsumption.types.ts:38:  readonly section: string;
+src/cognition/transport/cognitionTransport.dashboardConsumption.types.ts:39:  readonly entries: readonly DashboardConsumptionEntry[];
+src/cognition/transport/cognitionTransport.dashboardConsumption.test.ts:13:function deepFreeze<T>(obj: T): T {
+src/cognition/transport/cognitionTransport.dashboardConsumption.test.ts:14:  Object.freeze(obj);
+src/cognition/transport/cognitionTransport.dashboardConsumption.test.ts:24:      deepFreeze(value);
+src/cognition/transport/cognitionTransport.dashboardConsumption.test.ts:31:const contract: DashboardConsumptionContract = deepFreeze({
+src/cognition/transport/cognitionTransport.dashboardConsumption.ts:10:): readonly DashboardConsumptionEntry[] {
+src/cognition/confidence/confidence.types.ts:21:  readonly lowUpperExclusive: 60;
+src/cognition/confidence/confidence.types.ts:22:  readonly mediumUpperExclusive: 85;
+src/cognition/confidence/confidence.types.ts:26:  readonly governanceHealth: 30;
+src/cognition/confidence/confidence.types.ts:27:  readonly runtimeHealth: 25;
+src/cognition/confidence/confidence.types.ts:28:  readonly cognitionCompleteness: 25;
+src/cognition/confidence/confidence.types.ts:29:  readonly signalConsistency: 20;
+src/cognition/confidence/confidence.types.ts:33:  readonly factor: OperationalConfidenceFactorKey;
+src/cognition/confidence/confidence.types.ts:34:  readonly score: number;
+src/cognition/confidence/confidence.types.ts:35:  readonly weight: number;
+src/cognition/confidence/confidence.types.ts:36:  readonly weightedContribution: number;
+src/cognition/confidence/confidence.types.ts:37:  readonly reason: string;
+src/cognition/confidence/confidence.types.ts:41:  readonly summary: readonly string[];
+src/cognition/confidence/confidence.types.ts:42:  readonly factors: readonly OperationalConfidenceFactorExplanation[];
+src/cognition/confidence/confidence.types.ts:46:  readonly score: number;
+src/cognition/confidence/confidence.types.ts:47:  readonly level: OperationalConfidenceLevel;
+src/cognition/confidence/confidence.types.ts:48:  readonly thresholds: OperationalConfidenceThresholds;
+src/cognition/confidence/confidence.types.ts:49:  readonly weights: OperationalConfidenceWeights;
+src/cognition/confidence/confidence.types.ts:50:  readonly reasoning: OperationalConfidenceReasoning;
+src/cognition/confidence/confidenceFactors.ts:9:  readonly score: number;
+src/cognition/confidence/confidenceFactors.ts:13:  readonly governanceHealth: OperationalConfidenceFactorInput;
+src/cognition/confidence/confidenceFactors.ts:14:  readonly runtimeHealth: OperationalConfidenceFactorInput;
+src/cognition/confidence/confidenceFactors.ts:15:  readonly cognitionCompleteness: OperationalConfidenceFactorInput;
+src/cognition/confidence/confidenceFactors.ts:16:  readonly signalConsistency: OperationalConfidenceFactorInput;
+src/cognition/confidence/confidenceFactors.ts:20:  readonly key: OperationalConfidenceFactorKey;
+src/cognition/confidence/confidenceFactors.ts:21:  readonly weight: number;
+src/cognition/confidence/confidenceFactors.ts:22:  readonly reasonTemplate: (score: number) => string;
+src/cognition/confidence/confidenceFactors.ts:25:export const OPERATIONAL_CONFIDENCE_FACTOR_DESCRIPTORS: readonly OperationalConfidenceFactorDescriptor[] =
+src/cognition/confidence/confidenceFactors.ts:71:): readonly OperationalConfidenceFactorExplanation[] {
+src/cognition/situationSummaryComposer.ts:59:    readonly positive: readonly string[];
+src/cognition/situationSummaryComposer.ts:60:    readonly negative: readonly string[];
+src/cognition/situationSummaryComposer.ts:61:    readonly unknown?: readonly string[];
+src/cognition/situationSummaryComposer.ts:62:    readonly positiveScore: number;
+src/cognition/situationSummaryComposer.ts:63:    readonly negativeScore: number;
+src/cognition/situationSummaryComposer.ts:64:    readonly unknownScore: number;
+src/cognition/situationSummaryComposer.ts:65:    readonly fallbackScore: number;
+src/cognition/situationSummaryComposer.ts:90:  readonly stabilityState: string;
+src/cognition/situationSummaryComposer.ts:91:  readonly executionRiskState: string;
+src/cognition/situationSummaryComposer.ts:92:  readonly cognitionState: string;
+src/cognition/situationSummaryComposer.ts:93:  readonly signalCoherenceState: string;
+src/cognition/situationSummaryComposer.ts:94:  readonly governanceCognitionState: string;
+src/governance_operator_handbook/governance_operator_handbook_formatter.ts:1:function formatList(values: readonly string[]): string {
+src/governance_operator_handbook/governance_operator_handbook_formatter.ts:19:  sectionTitles: readonly string[],
+src/governance_operator_handbook/governance_operator_handbook_contract.ts:1:export const GOVERNANCE_OPERATOR_HANDBOOK_LAYER_GUARANTEES = Object.freeze([
+src/governance_operator_handbook/governance_operator_handbook_contract.ts:12:export function getGovernanceOperatorHandbookLayerGuarantees(): readonly string[] {
+src/governance_operator_handbook/governance_operator_handbook_builder.ts:17:  section_titles?: readonly string[];
+src/governance_operator_map/governance_operator_map_formatter.ts:1:function formatList(values: readonly string[]): string {
+src/governance_operator_map/governance_operator_map_formatter.ts:19:  sectionTitles: readonly string[],
+src/governance_operator_map/governance_operator_map_builder.ts:17:  section_titles?: readonly string[];
+src/governance_operator_map/governance_operator_map_contract.ts:1:export const GOVERNANCE_OPERATOR_MAP_LAYER_GUARANTEES = Object.freeze([
+src/governance_operator_map/governance_operator_map_contract.ts:12:export function getGovernanceOperatorMapLayerGuarantees(): readonly string[] {
+src/governance_operator_register/governance_operator_register_builder.ts:17:  section_titles?: readonly string[];
+src/governance_operator_register/governance_operator_register_contract.ts:1:export const GOVERNANCE_OPERATOR_REGISTER_LAYER_GUARANTEES = Object.freeze([
+src/governance_operator_register/governance_operator_register_contract.ts:12:export function getGovernanceOperatorRegisterLayerGuarantees(): readonly string[] {
+src/governance_operator_register/governance_operator_register_formatter.ts:1:function formatList(values: readonly string[]): string {
+src/governance_operator_register/governance_operator_register_formatter.ts:19:  sectionTitles: readonly string[],
+src/governance_operator_lexicon/governance_operator_lexicon_contract.ts:1:export const GOVERNANCE_OPERATOR_LEXICON_LAYER_GUARANTEES = Object.freeze([
+src/governance_operator_lexicon/governance_operator_lexicon_contract.ts:12:export function getGovernanceOperatorLexiconLayerGuarantees(): readonly string[] {
+src/governance_operator_lexicon/governance_operator_lexicon_builder.ts:14:  terms?: readonly string[];
+src/governance_operator_lexicon/governance_operator_lexicon_formatter.ts:1:function formatList(values: readonly string[]): string {
+src/governance_operator_lexicon/governance_operator_lexicon_formatter.ts:10:  terms: readonly string[],
+src/governance_operator_briefing/governance_operator_briefing_contract.ts:1:export const GOVERNANCE_OPERATOR_BRIEFING_LAYER_GUARANTEES = Object.freeze([
+src/governance_operator_briefing/governance_operator_briefing_contract.ts:12:export function getGovernanceOperatorBriefingLayerGuarantees(): readonly string[] {
+src/governance_operator_briefing/governance_operator_briefing_builder.ts:17:  section_titles?: readonly string[];
+src/governance_operator_briefing/governance_operator_briefing_formatter.ts:1:function formatList(values: readonly string[]): string {
+src/governance_operator_briefing/governance_operator_briefing_formatter.ts:19:  sectionTitles: readonly string[],
+src/governance_operator_manifest_index/governance_operator_manifest_index_contract.ts:1:export const GOVERNANCE_OPERATOR_MANIFEST_INDEX_LAYER_GUARANTEES = Object.freeze([
+src/governance_operator_manifest_index/governance_operator_manifest_index_contract.ts:12:export function getGovernanceOperatorManifestIndexLayerGuarantees(): readonly string[] {
+src/governance_operator_manifest_index/governance_operator_manifest_index_builder.ts:17:  section_titles?: readonly string[];
+src/governance_operator_manifest_index/governance_operator_manifest_index_formatter.ts:1:function formatList(values: readonly string[]): string {
+src/governance_operator_manifest_index/governance_operator_manifest_index_formatter.ts:19:  sectionTitles: readonly string[],
+src/governance_operator_session/governance_operator_session_contract.ts:1:export const GOVERNANCE_OPERATOR_SESSION_LAYER_GUARANTEES = Object.freeze([
+src/governance_operator_session/governance_operator_session_contract.ts:12:export function getGovernanceOperatorSessionLayerGuarantees(): readonly string[] {
+src/governance_operator_session/governance_operator_session_formatter.ts:1:function formatList(values: readonly string[]): string {
+src/governance_operator_session/governance_operator_session_formatter.ts:19:  sectionTitles: readonly string[],
+src/governance_operator_session/governance_operator_session_builder.ts:17:  section_titles?: readonly string[];
+src/governance_operator_console/governance_operator_console_contract.ts:1:export const GOVERNANCE_OPERATOR_CONSOLE_LAYER_GUARANTEES = Object.freeze([
+src/governance_operator_console/governance_operator_console_contract.ts:12:export function getGovernanceOperatorConsoleLayerGuarantees(): readonly string[] {
+src/governance_operator_console/governance_operator_console_builder.ts:17:  section_titles?: readonly string[];
+src/governance_operator_console/governance_operator_console_formatter.ts:1:function formatList(values: readonly string[]): string {
+src/governance_operator_console/governance_operator_console_formatter.ts:19:  sectionTitles: readonly string[],
+src/governance_operator_directory/governance_operator_directory_formatter.ts:1:function formatList(values: readonly string[]): string {
+src/governance_operator_directory/governance_operator_directory_formatter.ts:19:  sectionTitles: readonly string[],
+src/governance_operator_directory/governance_operator_directory_builder.ts:17:  section_titles?: readonly string[];
+src/governance_operator_directory/governance_operator_directory_contract.ts:1:export const GOVERNANCE_OPERATOR_DIRECTORY_LAYER_GUARANTEES = Object.freeze([
+src/governance_operator_directory/governance_operator_directory_contract.ts:12:export function getGovernanceOperatorDirectoryLayerGuarantees(): readonly string[] {
+src/governance_investigation/governance_timeline_types.ts:17:  readonly type: GovernanceTimelineEventType;
+src/governance_investigation/governance_timeline_types.ts:18:  readonly timestamp: string;
+src/governance_investigation/governance_timeline_types.ts:19:  readonly source: string;
+src/governance_investigation/governance_timeline_types.ts:20:  readonly reference_id: GovernanceReferenceId;
+src/governance_investigation/governance_timeline_types.ts:21:  readonly label: string;
+src/governance_investigation/governance_timeline_types.ts:25:  readonly decision: GovernanceDecisionRecord;
+src/governance_investigation/governance_timeline_types.ts:26:  readonly explanation?: GovernanceExplanationRecord | null;
+src/governance_investigation/governance_timeline_types.ts:27:  readonly audits?: readonly GovernanceAuditReference[];
+src/governance_investigation/governance_timeline_types.ts:28:  readonly signals?: readonly GovernanceSignalReference[];
+src/governance_investigation/governance_timeline_types.ts:33:): readonly GovernanceTimelineEvent[] {
+src/governance_investigation/governance_timeline_types.ts:81:  return Object.freeze(
+src/governance_investigation/governance_dashboard_playback_contract.ts:4:  readonly view: OperatorGovernancePlaybackView;
+src/governance_investigation/governance_dashboard_playback_contract.ts:5:  readonly controls: {
+src/governance_investigation/governance_dashboard_playback_contract.ts:6:    readonly can_step_backward: boolean;
+src/governance_investigation/governance_dashboard_playback_contract.ts:7:    readonly can_step_forward: boolean;
+src/governance_investigation/governance_dashboard_playback_contract.ts:8:    readonly can_jump: boolean;
+src/governance_investigation/governance_dashboard_playback_contract.ts:9:    readonly can_reset: boolean;
+src/governance_investigation/governance_dashboard_playback_contract.ts:11:  readonly status: {
+src/governance_investigation/governance_dashboard_playback_contract.ts:12:    readonly is_empty: boolean;
+src/governance_investigation/governance_dashboard_playback_contract.ts:13:    readonly is_valid: boolean;
+src/governance_investigation/governance_dashboard_playback_contract.ts:14:    readonly current_position: number | null;
+src/governance_investigation/governance_dashboard_playback_contract.ts:15:    readonly total_events: number;
+src/governance_investigation/governance_playback_reducer.ts:4:  readonly decision_id: string;
+src/governance_investigation/governance_playback_reducer.ts:5:  readonly cursor_index: number;
+src/governance_investigation/governance_playback_reducer.ts:6:  readonly total_events: number;
+src/governance_investigation/governance_playback_reducer.ts:7:  readonly current_event_type: string | null;
+src/governance_investigation/governance_playback_reducer.ts:8:  readonly current_event_label: string | null;
+src/governance_investigation/governance_playback_reducer.ts:9:  readonly has_current_event: boolean;
+src/governance_investigation/governance_playback_reducer.ts:10:  readonly can_step_backward: boolean;
+src/governance_investigation/governance_playback_reducer.ts:11:  readonly can_step_forward: boolean;
+src/governance_investigation/governance_playback_reducer.ts:12:  readonly is_at_start: boolean;
+src/governance_investigation/governance_playback_reducer.ts:13:  readonly is_at_end: boolean;
+src/governance_investigation/governance_playback_reducer.ts:14:  readonly progress_ratio: number;
+src/governance_investigation/governance_investigation_reducer.ts:5:  readonly decision_id: string;
+src/governance_investigation/governance_investigation_reducer.ts:6:  readonly policy_id: string;
+src/governance_investigation/governance_investigation_reducer.ts:7:  readonly disposition: string;
+src/governance_investigation/governance_investigation_reducer.ts:8:  readonly explanation_summary: string | null;
+src/governance_investigation/governance_investigation_reducer.ts:9:  readonly signal_count: number;
+src/governance_investigation/governance_investigation_reducer.ts:10:  readonly audit_count: number;
+src/governance_investigation/governance_investigation_reducer.ts:11:  readonly timeline: readonly GovernanceTimelineEvent[];
+src/governance_investigation/governance_playback_proof.ts:16:  readonly initial_valid: boolean;
+src/governance_investigation/governance_playback_proof.ts:17:  readonly next_valid: boolean;
+src/governance_investigation/governance_playback_proof.ts:18:  readonly previous_valid: boolean;
+src/governance_investigation/governance_playback_proof.ts:19:  readonly start_valid: boolean;
+src/governance_investigation/governance_playback_proof.ts:20:  readonly end_valid: boolean;
+src/governance_investigation/governance_playback_proof.ts:21:  readonly jump_valid: boolean;
+src/governance_investigation/governance_playback_proof.ts:22:  readonly all_valid: boolean;
+src/governance_investigation/governance_playback_proof.ts:26:  readonly decision_id: string;
+src/governance_investigation/governance_playback_proof.ts:27:  readonly timeline: readonly GovernanceTimelineEvent[];
+src/governance_investigation/governance_decision_trace.ts:19:  readonly policy_id: GovernancePolicyId;
+src/governance_investigation/governance_decision_trace.ts:20:  readonly title: string;
+src/governance_investigation/governance_decision_trace.ts:21:  readonly reference_id: string;
+src/governance_investigation/governance_decision_trace.ts:25:  readonly decision: GovernanceDecisionRecord;
+src/governance_investigation/governance_decision_trace.ts:26:  readonly explanation?: GovernanceExplanationRecord | null;
+src/governance_investigation/governance_decision_trace.ts:27:  readonly audit?: readonly GovernanceAuditReference[];
+src/governance_investigation/governance_decision_trace.ts:28:  readonly signals?: readonly GovernanceSignalReference[];
+src/governance_investigation/governance_decision_trace.ts:29:  readonly policy?: GovernancePolicyReference | null;
+src/governance_investigation/governance_decision_trace.ts:33:  readonly investigation: GovernanceInvestigationRecord;
+src/governance_investigation/governance_decision_trace.ts:34:  readonly decision: GovernanceDecisionRecord;
+src/governance_investigation/governance_decision_trace.ts:35:  readonly explanation: GovernanceExplanationRecord | null;
+src/governance_investigation/governance_decision_trace.ts:36:  readonly audit: readonly GovernanceAuditReference[];
+src/governance_investigation/governance_decision_trace.ts:37:  readonly signals: readonly GovernanceSignalReference[];
+src/governance_investigation/governance_decision_trace.ts:38:  readonly policy: GovernancePolicyReference | null;
+src/governance_investigation/governance_decision_trace.ts:39:  readonly timeline: readonly GovernanceTimelineEvent[];
+src/governance_investigation/governance_decision_trace.ts:57:    audit: Object.freeze([...(seed.audit ?? [])]),
+src/governance_investigation/governance_decision_trace.ts:58:    signals: Object.freeze([...(seed.signals ?? [])]),
+src/governance_investigation/governance_playback_assembly.ts:17:  readonly playback: GovernancePlaybackState;
+src/governance_investigation/governance_playback_assembly.ts:18:  readonly operator_view: OperatorGovernancePlaybackView;
+src/governance_investigation/governance_playback_assembly.ts:19:  readonly dashboard_contract: GovernanceDashboardPlaybackContract;
+src/governance_investigation/governance_playback_assembly.ts:20:  readonly is_valid: boolean;
+src/governance_investigation/governance_playback_assembly.ts:24:  readonly trace: GovernanceDecisionTrace;
+src/governance_investigation/governance_playback_assembly.ts:25:  readonly cursor_index?: number;
+src/governance_investigation/governance_playback_types.ts:5:  readonly decision_id: GovernanceDecisionId;
+src/governance_investigation/governance_playback_types.ts:6:  readonly cursor_index: number;
+src/governance_investigation/governance_playback_types.ts:7:  readonly timeline: readonly GovernanceTimelineEvent[];
+src/governance_investigation/governance_playback_types.ts:8:  readonly current_event: GovernanceTimelineEvent | null;
+src/governance_investigation/governance_playback_types.ts:9:  readonly total_events: number;
+src/governance_investigation/governance_playback_types.ts:13:  readonly decision_id: GovernanceDecisionId;
+src/governance_investigation/governance_playback_types.ts:14:  readonly timeline: readonly GovernanceTimelineEvent[];
+src/governance_investigation/governance_playback_types.ts:15:  readonly cursor_index?: number;
+src/governance_investigation/governance_playback_types.ts:27:      timeline: Object.freeze([...seed.timeline]),
+src/governance_investigation/governance_playback_types.ts:39:    timeline: Object.freeze([...seed.timeline]),
+src/governance_investigation/governance_operator_playback_view.ts:8:  readonly header: {
+src/governance_investigation/governance_operator_playback_view.ts:9:    readonly decision_id: string;
+src/governance_investigation/governance_operator_playback_view.ts:10:    readonly cursor_index: number;
+src/governance_investigation/governance_operator_playback_view.ts:11:    readonly total_events: number;
+src/governance_investigation/governance_operator_playback_view.ts:13:  readonly summary: GovernancePlaybackReducedState;
+src/governance_investigation/governance_operator_playback_view.ts:14:  readonly current_event: {
+src/governance_investigation/governance_operator_playback_view.ts:15:    readonly type: string | null;
+src/governance_investigation/governance_operator_playback_view.ts:16:    readonly label: string | null;
+src/governance_investigation/governance_operator_playback_view.ts:17:    readonly timestamp: string | null;
+src/governance_investigation/governance_operator_playback_view.ts:18:    readonly source: string | null;
+src/governance_investigation/governance_operator_playback_view.ts:19:    readonly reference_id: string | null;
+src/governance_investigation/governance_operator_playback_view.ts:21:  readonly navigation: {
+src/governance_investigation/governance_operator_playback_view.ts:22:    readonly can_step_backward: boolean;
+src/governance_investigation/governance_operator_playback_view.ts:23:    readonly can_step_forward: boolean;
+src/governance_investigation/governance_operator_playback_view.ts:24:    readonly is_at_start: boolean;
+src/governance_investigation/governance_operator_playback_view.ts:25:    readonly is_at_end: boolean;
+src/governance_investigation/governance_operator_playback_view.ts:26:    readonly progress_ratio: number;
+src/governance_investigation/governance_operator_investigation_view.ts:8:  readonly header: {
+src/governance_investigation/governance_operator_investigation_view.ts:9:    readonly decision_id: string;
+src/governance_investigation/governance_operator_investigation_view.ts:10:    readonly policy_id: string;
+src/governance_investigation/governance_operator_investigation_view.ts:11:    readonly disposition: string;
+src/governance_investigation/governance_operator_investigation_view.ts:13:  readonly summary: GovernanceInvestigationReducedState;
+src/governance_investigation/governance_operator_investigation_view.ts:14:  readonly explanation: string | null;
+src/governance_investigation/governance_operator_investigation_view.ts:15:  readonly references: {
+src/governance_investigation/governance_operator_investigation_view.ts:16:    readonly signal_ids: readonly string[];
+src/governance_investigation/governance_operator_investigation_view.ts:17:    readonly audit_ids: readonly string[];
+src/governance_investigation/governance_operator_investigation_view.ts:35:      signal_ids: Object.freeze(trace.signals.map((signal) => signal.signal_id)),
+src/governance_investigation/governance_operator_investigation_view.ts:36:      audit_ids: Object.freeze(trace.audit.map((audit) => audit.audit_id)),
+src/governance_investigation/governance_playback_assembly_proof.ts:5:  readonly playback_valid: boolean;
+src/governance_investigation/governance_playback_assembly_proof.ts:6:  readonly operator_view_matches_playback: boolean;
+src/governance_investigation/governance_playback_assembly_proof.ts:7:  readonly dashboard_contract_matches_view: boolean;
+src/governance_investigation/governance_playback_assembly_proof.ts:8:  readonly dashboard_status_matches_playback: boolean;
+src/governance_investigation/governance_playback_assembly_proof.ts:9:  readonly all_valid: boolean;
+src/governance_investigation/governance_investigation_types.ts:16:  readonly signal_id: GovernanceSignalId;
+src/governance_investigation/governance_investigation_types.ts:17:  readonly signal_type: string;
+src/governance_investigation/governance_investigation_types.ts:18:  readonly source: string;
+src/governance_investigation/governance_investigation_types.ts:19:  readonly reference_id: GovernanceReferenceId;
+src/governance_investigation/governance_investigation_types.ts:20:  readonly timestamp: string;
+src/governance_investigation/governance_investigation_types.ts:24:  readonly decision_id: GovernanceDecisionId;
+src/governance_investigation/governance_investigation_types.ts:25:  readonly timestamp: string;
+src/governance_investigation/governance_investigation_types.ts:26:  readonly policy_id: GovernancePolicyId;
+src/governance_investigation/governance_investigation_types.ts:27:  readonly disposition: GovernanceDecisionDisposition;
+src/governance_investigation/governance_investigation_types.ts:28:  readonly reference_id: GovernanceReferenceId;
+src/governance_investigation/governance_investigation_types.ts:32:  readonly explanation_id: GovernanceExplanationId;
+src/governance_investigation/governance_investigation_types.ts:33:  readonly decision_id: GovernanceDecisionId;
+src/governance_investigation/governance_investigation_types.ts:34:  readonly summary: string;
+src/governance_investigation/governance_investigation_types.ts:35:  readonly reference_id: GovernanceReferenceId;
+src/governance_investigation/governance_investigation_types.ts:39:  readonly audit_id: GovernanceAuditId;
+src/governance_investigation/governance_investigation_types.ts:40:  readonly reference_id: GovernanceReferenceId;
+src/governance_investigation/governance_investigation_types.ts:41:  readonly timestamp: string;
+src/governance_investigation/governance_investigation_types.ts:42:  readonly source: string;
+src/governance_investigation/governance_investigation_types.ts:46:  readonly decision_id: GovernanceDecisionId;
+src/governance_investigation/governance_investigation_types.ts:47:  readonly timestamp: string;
+src/governance_investigation/governance_investigation_types.ts:48:  readonly policy_id: GovernancePolicyId;
+src/governance_investigation/governance_investigation_types.ts:49:  readonly signals: readonly GovernanceSignalReference[];
+src/governance_investigation/governance_investigation_types.ts:50:  readonly decision: GovernanceDecisionRecord;
+src/governance_investigation/governance_investigation_types.ts:51:  readonly explanation_id: GovernanceExplanationId | null;
+src/governance_investigation/governance_investigation_types.ts:52:  readonly audit_refs: readonly GovernanceAuditReference[];
+src/governance_investigation/governance_investigation_types.ts:56:  readonly decision: GovernanceDecisionRecord;
+src/governance_investigation/governance_investigation_types.ts:57:  readonly signals?: readonly GovernanceSignalReference[];
+src/governance_investigation/governance_investigation_types.ts:58:  readonly explanation?: GovernanceExplanationRecord | null;
+src/governance_investigation/governance_investigation_types.ts:59:  readonly audit_refs?: readonly GovernanceAuditReference[];
+src/governance_investigation/governance_investigation_types.ts:69:    signals: Object.freeze([...(seed.signals ?? [])]),
+src/governance_investigation/governance_investigation_types.ts:72:    audit_refs: Object.freeze([...(seed.audit_refs ?? [])]),
+src/governance_visibility/governance_visibility_contract.ts:1:export const GOVERNANCE_VISIBILITY_LAYER_GUARANTEES = Object.freeze([
+src/governance_visibility/governance_visibility_contract.ts:9:export function getGovernanceVisibilityLayerGuarantees(): readonly string[] {
+src/governance_visibility/governance_visibility_snapshot.ts:11:  invariants_triggered?: readonly string[];
+src/governance_visibility/governance_visibility_formatter.ts:3:function formatList(values: readonly string[]): string {
+src/governance_operator_registry/governance_operator_registry_formatter.ts:1:function formatList(values: readonly string[]): string {
+src/governance_operator_registry/governance_operator_registry_formatter.ts:19:  sectionTitles: readonly string[],
+src/governance_operator_registry/governance_operator_registry_builder.ts:17:  section_titles?: readonly string[];
+src/governance_operator_registry/governance_operator_registry_contract.ts:1:export const GOVERNANCE_OPERATOR_REGISTRY_LAYER_GUARANTEES = Object.freeze([
+src/governance_operator_registry/governance_operator_registry_contract.ts:12:export function getGovernanceOperatorRegistryLayerGuarantees(): readonly string[] {
+src/governance_operator_record/governance_operator_record_contract.ts:1:export const GOVERNANCE_OPERATOR_RECORD_LAYER_GUARANTEES = Object.freeze([
+src/governance_operator_record/governance_operator_record_contract.ts:12:export function getGovernanceOperatorRecordLayerGuarantees(): readonly string[] {
+src/governance_operator_record/governance_operator_record_builder.ts:17:  section_titles?: readonly string[];
+src/governance_operator_record/governance_operator_record_formatter.ts:1:function formatList(values: readonly string[]): string {
+src/governance_operator_record/governance_operator_record_formatter.ts:19:  sectionTitles: readonly string[],
+src/governance_operator_glossary/governance_operator_glossary_contract.ts:1:export const GOVERNANCE_OPERATOR_GLOSSARY_LAYER_GUARANTEES = Object.freeze([
+src/governance_operator_glossary/governance_operator_glossary_contract.ts:12:export function getGovernanceOperatorGlossaryLayerGuarantees(): readonly string[] {
+src/governance_operator_glossary/governance_operator_glossary_builder.ts:15:  terms?: readonly string[];
+src/governance_operator_glossary/governance_operator_glossary_formatter.ts:1:function formatList(values: readonly string[]): string {
+src/governance_operator_glossary/governance_operator_glossary_formatter.ts:10:  terms: readonly string[],
+src/governance_operator_export/governance_operator_export_formatter.ts:1:function formatList(values: readonly string[]): string {
+src/governance_operator_export/governance_operator_export_formatter.ts:19:  sectionTitles: readonly string[],
+src/governance_operator_export/governance_operator_export_contract.ts:1:export const GOVERNANCE_OPERATOR_EXPORT_LAYER_GUARANTEES = Object.freeze([
+src/governance_operator_export/governance_operator_export_contract.ts:12:export function getGovernanceOperatorExportLayerGuarantees(): readonly string[] {
+src/governance_operator_export/governance_operator_export_builder.ts:17:  section_titles?: readonly string[];
+src/governance_operator_manifest/governance_operator_manifest_builder.ts:17:  section_titles?: readonly string[];
+src/governance_operator_manifest/governance_operator_manifest_formatter.ts:1:function formatList(values: readonly string[]): string {
+src/governance_operator_manifest/governance_operator_manifest_formatter.ts:19:  sectionTitles: readonly string[],
+src/governance_operator_manifest/governance_operator_manifest_contract.ts:1:export const GOVERNANCE_OPERATOR_MANIFEST_LAYER_GUARANTEES = Object.freeze([
+src/governance_operator_manifest/governance_operator_manifest_contract.ts:12:export function getGovernanceOperatorManifestLayerGuarantees(): readonly string[] {
+src/governance_traceability/governance_traceability_contract.ts:1:export const GOVERNANCE_TRACEABILITY_LAYER_GUARANTEES = Object.freeze([
+src/governance_traceability/governance_traceability_contract.ts:9:export function getGovernanceTraceabilityLayerGuarantees(): readonly string[] {
+src/governance_traceability/governance_traceability_snapshot.ts:11:  invariants_triggered?: readonly string[];
+src/governance_traceability/governance_traceability_snapshot.ts:12:  completed_stages?: readonly GovernanceTraceabilityStage[];
+src/governance_traceability/governance_traceability_formatter.ts:3:function formatList(values: readonly string[]): string {
+src/governance_operator_archive/governance_operator_archive_formatter.ts:1:function formatList(values: readonly string[]): string {
+src/governance_operator_archive/governance_operator_archive_formatter.ts:19:  sectionTitles: readonly string[],
+src/governance_operator_archive/governance_operator_archive_builder.ts:17:  section_titles?: readonly string[];
+src/governance_operator_archive/governance_operator_archive_contract.ts:1:export const GOVERNANCE_OPERATOR_ARCHIVE_LAYER_GUARANTEES = Object.freeze([
+src/governance_operator_archive/governance_operator_archive_contract.ts:12:export function getGovernanceOperatorArchiveLayerGuarantees(): readonly string[] {
+src/governance_operator_logbook/governance_operator_logbook_contract.ts:1:export const GOVERNANCE_OPERATOR_LOGBOOK_LAYER_GUARANTEES = Object.freeze([
+src/governance_operator_logbook/governance_operator_logbook_contract.ts:12:export function getGovernanceOperatorLogbookLayerGuarantees(): readonly string[] {
+src/governance_operator_logbook/governance_operator_logbook_builder.ts:17:  section_titles?: readonly string[];
+src/governance_operator_logbook/governance_operator_logbook_formatter.ts:1:function formatList(values: readonly string[]): string {
+src/governance_operator_logbook/governance_operator_logbook_formatter.ts:19:  sectionTitles: readonly string[],
+src/governance/governanceCognitionSelectorsProof.ts:36:  readonly: true;
+src/governance/governanceCognitionSelectorsProof.ts:79:    readonly: true,
+src/governance/governanceCognitionSurfaceProof.ts:29:  readonly: true;
+src/governance/governanceCognitionSurfaceProof.ts:55:  if (!surface.readonly || !surface.deterministic || !surface.operatorVisible) {
+src/governance/governanceCognitionSurfaceProof.ts:66:    readonly: true,
+src/governance/governanceCognitionIntegrationProof.ts:33:  readonly: true;
+src/governance/governanceCognitionIntegrationProof.ts:72:    readonly: true,
+src/governance/governanceOperatorAwarenessTypes.ts:40:  readonly: true;
+src/governance/governanceOperatorAwarenessTypes.ts:50:  readonly: true;
+src/governance/cognition/prove_governance_runtime_registry_export.ts:18:  readonly pass: true;
+src/governance/cognition/prove_governance_runtime_registry_export.ts:19:  readonly deterministic: true;
+src/governance/cognition/prove_governance_runtime_registry_export.ts:20:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/prove_governance_runtime_registry_export.ts:21:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/prove_governance_runtime_registry_export.ts:22:  readonly contractId: "governance.dashboard.consumption";
+src/governance/cognition/prove_governance_runtime_registry_export.ts:23:  readonly signalCount: number;
+src/governance/cognition/prove_governance_runtime_registry_export.ts:24:  readonly signals: readonly string[];
+src/governance/cognition/prove_governance_runtime_registry_export.ts:25:  readonly readOnly: true;
+src/governance/cognition/prove_governance_runtime_registry_export.ts:79:  return Object.freeze({
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:21:  readonly pass: true;
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:22:  readonly deterministic: true;
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:23:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:24:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:25:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:26:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:27:  readonly contractId: "governance.dashboard.consumption";
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:28:  readonly readyForLiveOwnerWiring: boolean;
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:29:  readonly readinessReasonCount: number;
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:30:  readonly signalCount: number;
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:31:  readonly readOnly: true;
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:90:  return Object.freeze({
+src/governance/cognition/select_governance_shared_registry_owner_bundle.ts:10:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/select_governance_shared_registry_owner_bundle.ts:11:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/select_governance_shared_registry_owner_bundle.ts:12:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/select_governance_shared_registry_owner_bundle.ts:13:  readonly contractId: "governance.dashboard.consumption";
+src/governance/cognition/select_governance_shared_registry_owner_bundle.ts:14:  readonly channel: "dashboard";
+src/governance/cognition/select_governance_shared_registry_owner_bundle.ts:15:  readonly surface: "governance";
+src/governance/cognition/select_governance_shared_registry_owner_bundle.ts:16:  readonly mode: "read-only";
+src/governance/cognition/select_governance_shared_registry_owner_bundle.ts:17:  readonly signalCount: number;
+src/governance/cognition/select_governance_shared_registry_owner_bundle.ts:18:  readonly readOnly: true;
+src/governance/cognition/select_governance_shared_registry_owner_bundle.ts:19:  readonly deterministic: true;
+src/governance/cognition/select_governance_shared_registry_owner_bundle.ts:25:  return Object.freeze({
+src/governance/cognition/governance_dashboard_contract_registration.ts:16:  readonly kind: "governance-dashboard-contract-registration";
+src/governance/cognition/governance_dashboard_contract_registration.ts:17:  readonly version: 1;
+src/governance/cognition/governance_dashboard_contract_registration.ts:19:  readonly contractId: "governance.dashboard.consumption";
+src/governance/cognition/governance_dashboard_contract_registration.ts:20:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/governance_dashboard_contract_registration.ts:21:  readonly channel: "dashboard";
+src/governance/cognition/governance_dashboard_contract_registration.ts:22:  readonly surface: "governance";
+src/governance/cognition/governance_dashboard_contract_registration.ts:23:  readonly mode: "read-only";
+src/governance/cognition/governance_dashboard_contract_registration.ts:25:  readonly ts: number;
+src/governance/cognition/governance_dashboard_contract_registration.ts:27:  readonly payload: GovernanceDashboardConsumptionView;
+src/governance/cognition/governance_dashboard_contract_registration.ts:29:  readonly operatorSafe: true;
+src/governance/cognition/governance_dashboard_contract_registration.ts:30:  readonly dashboardSafe: true;
+src/governance/cognition/governance_dashboard_contract_registration.ts:31:  readonly readOnly: true;
+src/governance/cognition/governance_dashboard_contract_registration.ts:32:  readonly deterministic: true;
+src/governance/cognition/governance_final_pre_live_registry_contract_package.ts:18:  readonly kind: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/governance_final_pre_live_registry_contract_package.ts:19:  readonly version: 1;
+src/governance/cognition/governance_final_pre_live_registry_contract_package.ts:21:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/governance_final_pre_live_registry_contract_package.ts:22:  readonly gateKey: "governance-authorization-gate";
+src/governance/cognition/governance_final_pre_live_registry_contract_package.ts:23:  readonly decisionKey: "governance-live-wiring-decision";
+src/governance/cognition/governance_final_pre_live_registry_contract_package.ts:24:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/governance_final_pre_live_registry_contract_package.ts:25:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/governance_final_pre_live_registry_contract_package.ts:26:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/governance_final_pre_live_registry_contract_package.ts:27:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/governance_final_pre_live_registry_contract_package.ts:28:  readonly contractId: "governance.dashboard.consumption";
+src/governance/cognition/governance_final_pre_live_registry_contract_package.ts:30:  readonly channel: "dashboard";
+src/governance/cognition/governance_final_pre_live_registry_contract_package.ts:31:  readonly surface: "governance";
+src/governance/cognition/governance_final_pre_live_registry_contract_package.ts:32:  readonly mode: "read-only";
+src/governance/cognition/governance_final_pre_live_registry_contract_package.ts:34:  readonly ts: number;
+src/governance/cognition/governance_final_pre_live_registry_contract_package.ts:36:  readonly packageStatus: "prepared";
+src/governance/cognition/governance_final_pre_live_registry_contract_package.ts:37:  readonly handoffEligible: boolean;
+src/governance/cognition/governance_final_pre_live_registry_contract_package.ts:38:  readonly packageReasons: readonly string[];
+src/governance/cognition/governance_final_pre_live_registry_contract_package.ts:40:  readonly authorizationGate: GovernanceAuthorizationGate;
+src/governance/cognition/governance_final_pre_live_registry_contract_package.ts:42:  readonly operatorSafe: true;
+src/governance/cognition/governance_final_pre_live_registry_contract_package.ts:43:  readonly dashboardSafe: true;
+src/governance/cognition/governance_final_pre_live_registry_contract_package.ts:44:  readonly readOnly: true;
+src/governance/cognition/governance_final_pre_live_registry_contract_package.ts:45:  readonly deterministic: true;
+src/governance/cognition/build_governance_dashboard_consumption_view.ts:11:function uniqueSorted(values: readonly string[]): readonly string[] {
+src/governance/cognition/build_governance_dashboard_consumption_view.ts:12:  return Object.freeze([...new Set(values)].sort());
+src/governance/cognition/build_governance_dashboard_consumption_view.ts:21:  return Object.freeze({
+src/governance/cognition/build_governance_final_pre_live_registry_archive_record.ts:11:function uniqueSorted(values: readonly string[]): readonly string[] {
+src/governance/cognition/build_governance_final_pre_live_registry_archive_record.ts:12:  return Object.freeze([...new Set(values)].sort());
+src/governance/cognition/build_governance_final_pre_live_registry_archive_record.ts:26:  return Object.freeze({
+src/governance/cognition/build_governance_final_delivery_receipt.ts:11:function uniqueSorted(values: readonly string[]): readonly string[] {
+src/governance/cognition/build_governance_final_delivery_receipt.ts:12:  return Object.freeze([...new Set(values)].sort());
+src/governance/cognition/build_governance_final_delivery_receipt.ts:26:  return Object.freeze({
+src/governance/cognition/governance_authorization_gate.ts:22:  readonly kind: "governance-authorization-gate";
+src/governance/cognition/governance_authorization_gate.ts:23:  readonly version: 1;
+src/governance/cognition/governance_authorization_gate.ts:25:  readonly gateKey: "governance-authorization-gate";
+src/governance/cognition/governance_authorization_gate.ts:26:  readonly decisionKey: "governance-live-wiring-decision";
+src/governance/cognition/governance_authorization_gate.ts:27:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/governance_authorization_gate.ts:28:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/governance_authorization_gate.ts:29:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/governance_authorization_gate.ts:30:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/governance_authorization_gate.ts:31:  readonly contractId: "governance.dashboard.consumption";
+src/governance/cognition/governance_authorization_gate.ts:33:  readonly channel: "dashboard";
+src/governance/cognition/governance_authorization_gate.ts:34:  readonly surface: "governance";
+src/governance/cognition/governance_authorization_gate.ts:35:  readonly mode: "read-only";
+src/governance/cognition/governance_authorization_gate.ts:37:  readonly ts: number;
+src/governance/cognition/governance_authorization_gate.ts:39:  readonly gateStatus: GovernanceAuthorizationGateStatus;
+src/governance/cognition/governance_authorization_gate.ts:40:  readonly authorizationEligible: boolean;
+src/governance/cognition/governance_authorization_gate.ts:41:  readonly authorizationReasons: readonly string[];
+src/governance/cognition/governance_authorization_gate.ts:43:  readonly decision: GovernanceLiveWiringDecision;
+src/governance/cognition/governance_authorization_gate.ts:45:  readonly operatorSafe: true;
+src/governance/cognition/governance_authorization_gate.ts:46:  readonly dashboardSafe: true;
+src/governance/cognition/governance_authorization_gate.ts:47:  readonly readOnly: true;
+src/governance/cognition/governance_authorization_gate.ts:48:  readonly deterministic: true;
+src/governance/cognition/build_governance_pre_live_registry_delivery_manifest.ts:11:function uniqueSorted(values: readonly string[]): readonly string[] {
+src/governance/cognition/build_governance_pre_live_registry_delivery_manifest.ts:12:  return Object.freeze([...new Set(values)].sort());
+src/governance/cognition/build_governance_pre_live_registry_delivery_manifest.ts:26:  return Object.freeze({
+src/governance/cognition/governance_live_wiring_decision.ts:22:  readonly kind: "governance-live-wiring-decision";
+src/governance/cognition/governance_live_wiring_decision.ts:23:  readonly version: 1;
+src/governance/cognition/governance_live_wiring_decision.ts:25:  readonly decisionKey: "governance-live-wiring-decision";
+src/governance/cognition/governance_live_wiring_decision.ts:26:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/governance_live_wiring_decision.ts:27:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/governance_live_wiring_decision.ts:28:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/governance_live_wiring_decision.ts:29:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/governance_live_wiring_decision.ts:30:  readonly contractId: "governance.dashboard.consumption";
+src/governance/cognition/governance_live_wiring_decision.ts:32:  readonly channel: "dashboard";
+src/governance/cognition/governance_live_wiring_decision.ts:33:  readonly surface: "governance";
+src/governance/cognition/governance_live_wiring_decision.ts:34:  readonly mode: "read-only";
+src/governance/cognition/governance_live_wiring_decision.ts:36:  readonly ts: number;
+src/governance/cognition/governance_live_wiring_decision.ts:38:  readonly decisionStatus: GovernanceLiveWiringDecisionStatus;
+src/governance/cognition/governance_live_wiring_decision.ts:39:  readonly eligibleForExplicitLiveWiring: boolean;
+src/governance/cognition/governance_live_wiring_decision.ts:40:  readonly decisionReasons: readonly string[];
+src/governance/cognition/governance_live_wiring_decision.ts:42:  readonly readiness: GovernanceLiveRegistryWiringReadiness;
+src/governance/cognition/governance_live_wiring_decision.ts:44:  readonly operatorSafe: true;
+src/governance/cognition/governance_live_wiring_decision.ts:45:  readonly dashboardSafe: true;
+src/governance/cognition/governance_live_wiring_decision.ts:46:  readonly readOnly: true;
+src/governance/cognition/governance_live_wiring_decision.ts:47:  readonly deterministic: true;
+src/governance/cognition/build_governance_live_wiring_decision.ts:14:function uniqueSorted(values: readonly string[]): readonly string[] {
+src/governance/cognition/build_governance_live_wiring_decision.ts:15:  return Object.freeze([...new Set(values)].sort());
+src/governance/cognition/build_governance_live_wiring_decision.ts:36:  return Object.freeze({
+src/governance/cognition/build_governance_pre_live_registry_handoff_envelope.ts:11:function uniqueSorted(values: readonly string[]): readonly string[] {
+src/governance/cognition/build_governance_pre_live_registry_handoff_envelope.ts:12:  return Object.freeze([...new Set(values)].sort());
+src/governance/cognition/build_governance_pre_live_registry_handoff_envelope.ts:26:  return Object.freeze({
+src/governance/cognition/select_governance_final_pre_live_registry_archive_record.ts:10:  readonly archiveKey: "governance-final-pre-live-registry-archive-record";
+src/governance/cognition/select_governance_final_pre_live_registry_archive_record.ts:11:  readonly receiptKey: "governance-final-delivery-receipt";
+src/governance/cognition/select_governance_final_pre_live_registry_archive_record.ts:12:  readonly manifestKey: "governance-pre-live-registry-delivery-manifest";
+src/governance/cognition/select_governance_final_pre_live_registry_archive_record.ts:13:  readonly envelopeKey: "governance-pre-live-registry-handoff-envelope";
+src/governance/cognition/select_governance_final_pre_live_registry_archive_record.ts:14:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/select_governance_final_pre_live_registry_archive_record.ts:15:  readonly gateKey: "governance-authorization-gate";
+src/governance/cognition/select_governance_final_pre_live_registry_archive_record.ts:16:  readonly decisionKey: "governance-live-wiring-decision";
+src/governance/cognition/select_governance_final_pre_live_registry_archive_record.ts:17:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/select_governance_final_pre_live_registry_archive_record.ts:18:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/select_governance_final_pre_live_registry_archive_record.ts:19:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/select_governance_final_pre_live_registry_archive_record.ts:20:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/select_governance_final_pre_live_registry_archive_record.ts:21:  readonly contractId: "governance.dashboard.consumption";
+src/governance/cognition/select_governance_final_pre_live_registry_archive_record.ts:22:  readonly archiveStatus: "recorded";
+src/governance/cognition/select_governance_final_pre_live_registry_archive_record.ts:23:  readonly archivalReady: boolean;
+src/governance/cognition/select_governance_final_pre_live_registry_archive_record.ts:24:  readonly archiveReasonCount: number;
+src/governance/cognition/select_governance_final_pre_live_registry_archive_record.ts:25:  readonly signalCount: number;
+src/governance/cognition/select_governance_final_pre_live_registry_archive_record.ts:26:  readonly readOnly: true;
+src/governance/cognition/select_governance_final_pre_live_registry_archive_record.ts:27:  readonly deterministic: true;
+src/governance/cognition/select_governance_final_pre_live_registry_archive_record.ts:33:  return Object.freeze({
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:29:  readonly pass: true;
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:30:  readonly deterministic: true;
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:31:  readonly capsuleKey: "governance-final-pre-live-registry-summary-capsule";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:32:  readonly archiveKey: "governance-final-pre-live-registry-archive-record";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:33:  readonly receiptKey: "governance-final-delivery-receipt";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:34:  readonly manifestKey: "governance-pre-live-registry-delivery-manifest";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:35:  readonly envelopeKey: "governance-pre-live-registry-handoff-envelope";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:36:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:37:  readonly gateKey: "governance-authorization-gate";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:38:  readonly decisionKey: "governance-live-wiring-decision";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:39:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:40:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:41:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:42:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:43:  readonly contractId: "governance.dashboard.consumption";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:44:  readonly capsuleStatus: "summarized";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:45:  readonly summaryReady: boolean;
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:46:  readonly capsuleReasonCount: number;
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:47:  readonly signalCount: number;
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:48:  readonly readOnly: true;
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:106:  return Object.freeze({
+src/governance/cognition/select_governance_pre_live_registry_delivery_manifest.ts:10:  readonly manifestKey: "governance-pre-live-registry-delivery-manifest";
+src/governance/cognition/select_governance_pre_live_registry_delivery_manifest.ts:11:  readonly envelopeKey: "governance-pre-live-registry-handoff-envelope";
+src/governance/cognition/select_governance_pre_live_registry_delivery_manifest.ts:12:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/select_governance_pre_live_registry_delivery_manifest.ts:13:  readonly gateKey: "governance-authorization-gate";
+src/governance/cognition/select_governance_pre_live_registry_delivery_manifest.ts:14:  readonly decisionKey: "governance-live-wiring-decision";
+src/governance/cognition/select_governance_pre_live_registry_delivery_manifest.ts:15:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/select_governance_pre_live_registry_delivery_manifest.ts:16:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/select_governance_pre_live_registry_delivery_manifest.ts:17:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/select_governance_pre_live_registry_delivery_manifest.ts:18:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/select_governance_pre_live_registry_delivery_manifest.ts:19:  readonly contractId: "governance.dashboard.consumption";
+src/governance/cognition/select_governance_pre_live_registry_delivery_manifest.ts:20:  readonly manifestStatus: "prepared";
+src/governance/cognition/select_governance_pre_live_registry_delivery_manifest.ts:21:  readonly deliveryReady: boolean;
+src/governance/cognition/select_governance_pre_live_registry_delivery_manifest.ts:22:  readonly manifestReasonCount: number;
+src/governance/cognition/select_governance_pre_live_registry_delivery_manifest.ts:23:  readonly signalCount: number;
+src/governance/cognition/select_governance_pre_live_registry_delivery_manifest.ts:24:  readonly readOnly: true;
+src/governance/cognition/select_governance_pre_live_registry_delivery_manifest.ts:25:  readonly deterministic: true;
+src/governance/cognition/select_governance_pre_live_registry_delivery_manifest.ts:31:  return Object.freeze({
+src/governance/cognition/select_governance_final_pre_live_registry_summary_capsule.ts:10:  readonly capsuleKey: "governance-final-pre-live-registry-summary-capsule";
+src/governance/cognition/select_governance_final_pre_live_registry_summary_capsule.ts:11:  readonly archiveKey: "governance-final-pre-live-registry-archive-record";
+src/governance/cognition/select_governance_final_pre_live_registry_summary_capsule.ts:12:  readonly receiptKey: "governance-final-delivery-receipt";
+src/governance/cognition/select_governance_final_pre_live_registry_summary_capsule.ts:13:  readonly manifestKey: "governance-pre-live-registry-delivery-manifest";
+src/governance/cognition/select_governance_final_pre_live_registry_summary_capsule.ts:14:  readonly envelopeKey: "governance-pre-live-registry-handoff-envelope";
+src/governance/cognition/select_governance_final_pre_live_registry_summary_capsule.ts:15:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/select_governance_final_pre_live_registry_summary_capsule.ts:16:  readonly gateKey: "governance-authorization-gate";
+src/governance/cognition/select_governance_final_pre_live_registry_summary_capsule.ts:17:  readonly decisionKey: "governance-live-wiring-decision";
+src/governance/cognition/select_governance_final_pre_live_registry_summary_capsule.ts:18:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/select_governance_final_pre_live_registry_summary_capsule.ts:19:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/select_governance_final_pre_live_registry_summary_capsule.ts:20:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/select_governance_final_pre_live_registry_summary_capsule.ts:21:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/select_governance_final_pre_live_registry_summary_capsule.ts:22:  readonly contractId: "governance.dashboard.consumption";
+src/governance/cognition/select_governance_final_pre_live_registry_summary_capsule.ts:23:  readonly capsuleStatus: "summarized";
+src/governance/cognition/select_governance_final_pre_live_registry_summary_capsule.ts:24:  readonly summaryReady: boolean;
+src/governance/cognition/select_governance_final_pre_live_registry_summary_capsule.ts:25:  readonly capsuleReasonCount: number;
+src/governance/cognition/select_governance_final_pre_live_registry_summary_capsule.ts:26:  readonly signalCount: number;
+src/governance/cognition/select_governance_final_pre_live_registry_summary_capsule.ts:27:  readonly readOnly: true;
+src/governance/cognition/select_governance_final_pre_live_registry_summary_capsule.ts:28:  readonly deterministic: true;
+src/governance/cognition/select_governance_final_pre_live_registry_summary_capsule.ts:34:  return Object.freeze({
+src/governance/cognition/governance_cognition_snapshot_contract.ts:25:  readonly ts: number;
+src/governance/cognition/governance_cognition_snapshot_contract.ts:27:  readonly routingStatus: GovernanceCognitionStatus;
+src/governance/cognition/governance_cognition_snapshot_contract.ts:28:  readonly authorityStatus: GovernanceCognitionStatus;
+src/governance/cognition/governance_cognition_snapshot_contract.ts:29:  readonly registryStatus: GovernanceCognitionStatus;
+src/governance/cognition/governance_cognition_snapshot_contract.ts:31:  readonly overallStatus: GovernanceCognitionStatus;
+src/governance/cognition/governance_cognition_snapshot_contract.ts:32:  readonly severity: GovernanceCognitionSeverity;
+src/governance/cognition/governance_cognition_snapshot_contract.ts:34:  readonly signals: readonly string[];
+src/governance/cognition/governance_cognition_snapshot_contract.ts:36:  readonly deterministic: true;
+src/governance/cognition/governance_pre_live_registry_delivery_manifest.ts:18:  readonly kind: "governance-pre-live-registry-delivery-manifest";
+src/governance/cognition/governance_pre_live_registry_delivery_manifest.ts:19:  readonly version: 1;
+src/governance/cognition/governance_pre_live_registry_delivery_manifest.ts:21:  readonly manifestKey: "governance-pre-live-registry-delivery-manifest";
+src/governance/cognition/governance_pre_live_registry_delivery_manifest.ts:22:  readonly envelopeKey: "governance-pre-live-registry-handoff-envelope";
+src/governance/cognition/governance_pre_live_registry_delivery_manifest.ts:23:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/governance_pre_live_registry_delivery_manifest.ts:24:  readonly gateKey: "governance-authorization-gate";
+src/governance/cognition/governance_pre_live_registry_delivery_manifest.ts:25:  readonly decisionKey: "governance-live-wiring-decision";
+src/governance/cognition/governance_pre_live_registry_delivery_manifest.ts:26:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/governance_pre_live_registry_delivery_manifest.ts:27:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/governance_pre_live_registry_delivery_manifest.ts:28:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/governance_pre_live_registry_delivery_manifest.ts:29:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/governance_pre_live_registry_delivery_manifest.ts:30:  readonly contractId: "governance.dashboard.consumption";
+src/governance/cognition/governance_pre_live_registry_delivery_manifest.ts:32:  readonly channel: "dashboard";
+src/governance/cognition/governance_pre_live_registry_delivery_manifest.ts:33:  readonly surface: "governance";
+src/governance/cognition/governance_pre_live_registry_delivery_manifest.ts:34:  readonly mode: "read-only";
+src/governance/cognition/governance_pre_live_registry_delivery_manifest.ts:36:  readonly ts: number;
+src/governance/cognition/governance_pre_live_registry_delivery_manifest.ts:38:  readonly manifestStatus: "prepared";
+src/governance/cognition/governance_pre_live_registry_delivery_manifest.ts:39:  readonly deliveryReady: boolean;
+src/governance/cognition/governance_pre_live_registry_delivery_manifest.ts:40:  readonly manifestReasons: readonly string[];
+src/governance/cognition/governance_pre_live_registry_delivery_manifest.ts:42:  readonly handoffEnvelope: GovernancePreLiveRegistryHandoffEnvelope;
+src/governance/cognition/governance_pre_live_registry_delivery_manifest.ts:44:  readonly operatorSafe: true;
+src/governance/cognition/governance_pre_live_registry_delivery_manifest.ts:45:  readonly dashboardSafe: true;
+src/governance/cognition/governance_pre_live_registry_delivery_manifest.ts:46:  readonly readOnly: true;
+src/governance/cognition/governance_pre_live_registry_delivery_manifest.ts:47:  readonly deterministic: true;
+src/governance/cognition/build_governance_shared_registry_owner_bundle.ts:14:  return Object.freeze({
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts:18:  readonly kind: "governance-final-pre-live-registry-summary-capsule";
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts:19:  readonly version: 1;
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts:21:  readonly capsuleKey: "governance-final-pre-live-registry-summary-capsule";
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts:22:  readonly archiveKey: "governance-final-pre-live-registry-archive-record";
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts:23:  readonly receiptKey: "governance-final-delivery-receipt";
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts:24:  readonly manifestKey: "governance-pre-live-registry-delivery-manifest";
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts:25:  readonly envelopeKey: "governance-pre-live-registry-handoff-envelope";
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts:26:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts:27:  readonly gateKey: "governance-authorization-gate";
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts:28:  readonly decisionKey: "governance-live-wiring-decision";
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts:29:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts:30:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts:31:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts:32:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts:33:  readonly contractId: "governance.dashboard.consumption";
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts:35:  readonly channel: "dashboard";
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts:36:  readonly surface: "governance";
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts:37:  readonly mode: "read-only";
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts:39:  readonly ts: number;
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts:41:  readonly capsuleStatus: "summarized";
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts:42:  readonly summaryReady: boolean;
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts:43:  readonly capsuleReasons: readonly string[];
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts:45:  readonly archiveRecord: GovernanceFinalPreLiveRegistryArchiveRecord;
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts:47:  readonly operatorSafe: true;
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts:48:  readonly dashboardSafe: true;
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts:49:  readonly readOnly: true;
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts:50:  readonly deterministic: true;
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:27:  readonly pass: true;
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:28:  readonly deterministic: true;
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:29:  readonly receiptKey: "governance-final-delivery-receipt";
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:30:  readonly manifestKey: "governance-pre-live-registry-delivery-manifest";
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:31:  readonly envelopeKey: "governance-pre-live-registry-handoff-envelope";
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:32:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:33:  readonly gateKey: "governance-authorization-gate";
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:34:  readonly decisionKey: "governance-live-wiring-decision";
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:35:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:36:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:37:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:38:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:39:  readonly contractId: "governance.dashboard.consumption";
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:40:  readonly receiptStatus: "acknowledged";
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:41:  readonly acknowledgementReady: boolean;
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:42:  readonly receiptReasonCount: number;
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:43:  readonly signalCount: number;
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:44:  readonly readOnly: true;
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:98:  return Object.freeze({
+src/governance/cognition/get_governance_execution_eligibility_snapshot.ts:11:  readonly authorizationEligible: boolean;
+src/governance/cognition/get_governance_execution_eligibility_snapshot.ts:12:  readonly governanceReason: string | null;
+src/governance/cognition/get_governance_execution_eligibility_snapshot.ts:18:  return Object.freeze({
+src/governance/cognition/select_governance_dashboard_consumption_view.ts:10:  readonly headlineStatus: GovernanceDashboardConsumptionView["overallStatus"];
+src/governance/cognition/select_governance_dashboard_consumption_view.ts:11:  readonly headlineSeverity: GovernanceDashboardConsumptionView["severity"];
+src/governance/cognition/select_governance_dashboard_consumption_view.ts:12:  readonly signalCount: number;
+src/governance/cognition/select_governance_dashboard_consumption_view.ts:13:  readonly readOnly: true;
+src/governance/cognition/select_governance_dashboard_consumption_view.ts:14:  readonly deterministic: true;
+src/governance/cognition/select_governance_dashboard_consumption_view.ts:20:  return Object.freeze({
+src/governance/cognition/governance_final_pre_live_registry_archive_record.ts:18:  readonly kind: "governance-final-pre-live-registry-archive-record";
+src/governance/cognition/governance_final_pre_live_registry_archive_record.ts:19:  readonly version: 1;
+src/governance/cognition/governance_final_pre_live_registry_archive_record.ts:21:  readonly archiveKey: "governance-final-pre-live-registry-archive-record";
+src/governance/cognition/governance_final_pre_live_registry_archive_record.ts:22:  readonly receiptKey: "governance-final-delivery-receipt";
+src/governance/cognition/governance_final_pre_live_registry_archive_record.ts:23:  readonly manifestKey: "governance-pre-live-registry-delivery-manifest";
+src/governance/cognition/governance_final_pre_live_registry_archive_record.ts:24:  readonly envelopeKey: "governance-pre-live-registry-handoff-envelope";
+src/governance/cognition/governance_final_pre_live_registry_archive_record.ts:25:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/governance_final_pre_live_registry_archive_record.ts:26:  readonly gateKey: "governance-authorization-gate";
+src/governance/cognition/governance_final_pre_live_registry_archive_record.ts:27:  readonly decisionKey: "governance-live-wiring-decision";
+src/governance/cognition/governance_final_pre_live_registry_archive_record.ts:28:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/governance_final_pre_live_registry_archive_record.ts:29:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/governance_final_pre_live_registry_archive_record.ts:30:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/governance_final_pre_live_registry_archive_record.ts:31:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/governance_final_pre_live_registry_archive_record.ts:32:  readonly contractId: "governance.dashboard.consumption";
+src/governance/cognition/governance_final_pre_live_registry_archive_record.ts:34:  readonly channel: "dashboard";
+src/governance/cognition/governance_final_pre_live_registry_archive_record.ts:35:  readonly surface: "governance";
+src/governance/cognition/governance_final_pre_live_registry_archive_record.ts:36:  readonly mode: "read-only";
+src/governance/cognition/governance_final_pre_live_registry_archive_record.ts:38:  readonly ts: number;
+src/governance/cognition/governance_final_pre_live_registry_archive_record.ts:40:  readonly archiveStatus: "recorded";
+src/governance/cognition/governance_final_pre_live_registry_archive_record.ts:41:  readonly archivalReady: boolean;
+src/governance/cognition/governance_final_pre_live_registry_archive_record.ts:42:  readonly archiveReasons: readonly string[];
+src/governance/cognition/governance_final_pre_live_registry_archive_record.ts:44:  readonly receipt: GovernanceFinalDeliveryReceipt;
+src/governance/cognition/governance_final_pre_live_registry_archive_record.ts:46:  readonly operatorSafe: true;
+src/governance/cognition/governance_final_pre_live_registry_archive_record.ts:47:  readonly dashboardSafe: true;
+src/governance/cognition/governance_final_pre_live_registry_archive_record.ts:48:  readonly readOnly: true;
+src/governance/cognition/governance_final_pre_live_registry_archive_record.ts:49:  readonly deterministic: true;
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:24:  readonly pass: true;
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:25:  readonly deterministic: true;
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:26:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:27:  readonly gateKey: "governance-authorization-gate";
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:28:  readonly decisionKey: "governance-live-wiring-decision";
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:29:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:30:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:31:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:32:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:33:  readonly contractId: "governance.dashboard.consumption";
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:34:  readonly packageStatus: "prepared";
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:35:  readonly handoffEligible: boolean;
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:36:  readonly packageReasonCount: number;
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:37:  readonly signalCount: number;
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:38:  readonly readOnly: true;
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:113:  return Object.freeze({
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:26:  readonly pass: true;
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:27:  readonly deterministic: true;
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:28:  readonly manifestKey: "governance-pre-live-registry-delivery-manifest";
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:29:  readonly envelopeKey: "governance-pre-live-registry-handoff-envelope";
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:30:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:31:  readonly gateKey: "governance-authorization-gate";
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:32:  readonly decisionKey: "governance-live-wiring-decision";
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:33:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:34:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:35:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:36:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:37:  readonly contractId: "governance.dashboard.consumption";
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:38:  readonly manifestStatus: "prepared";
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:39:  readonly deliveryReady: boolean;
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:40:  readonly manifestReasonCount: number;
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:41:  readonly signalCount: number;
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:42:  readonly readOnly: true;
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:127:  return Object.freeze({
+src/governance/cognition/select_governance_final_pre_live_registry_contract_package.ts:10:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/select_governance_final_pre_live_registry_contract_package.ts:11:  readonly gateKey: "governance-authorization-gate";
+src/governance/cognition/select_governance_final_pre_live_registry_contract_package.ts:12:  readonly decisionKey: "governance-live-wiring-decision";
+src/governance/cognition/select_governance_final_pre_live_registry_contract_package.ts:13:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/select_governance_final_pre_live_registry_contract_package.ts:14:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/select_governance_final_pre_live_registry_contract_package.ts:15:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/select_governance_final_pre_live_registry_contract_package.ts:16:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/select_governance_final_pre_live_registry_contract_package.ts:17:  readonly contractId: "governance.dashboard.consumption";
+src/governance/cognition/select_governance_final_pre_live_registry_contract_package.ts:18:  readonly packageStatus: "prepared";
+src/governance/cognition/select_governance_final_pre_live_registry_contract_package.ts:19:  readonly handoffEligible: boolean;
+src/governance/cognition/select_governance_final_pre_live_registry_contract_package.ts:20:  readonly packageReasonCount: number;
+src/governance/cognition/select_governance_final_pre_live_registry_contract_package.ts:21:  readonly signalCount: number;
+src/governance/cognition/select_governance_final_pre_live_registry_contract_package.ts:22:  readonly readOnly: true;
+src/governance/cognition/select_governance_final_pre_live_registry_contract_package.ts:23:  readonly deterministic: true;
+src/governance/cognition/select_governance_final_pre_live_registry_contract_package.ts:29:  return Object.freeze({
+src/governance/cognition/prove_governance_dashboard_consumption_view.ts:14:  readonly pass: true;
+src/governance/cognition/prove_governance_dashboard_consumption_view.ts:15:  readonly deterministic: true;
+src/governance/cognition/prove_governance_dashboard_consumption_view.ts:16:  readonly overallStatus: string;
+src/governance/cognition/prove_governance_dashboard_consumption_view.ts:17:  readonly severity: string;
+src/governance/cognition/prove_governance_dashboard_consumption_view.ts:18:  readonly signalCount: number;
+src/governance/cognition/prove_governance_dashboard_consumption_view.ts:19:  readonly signals: readonly string[];
+src/governance/cognition/prove_governance_dashboard_consumption_view.ts:20:  readonly readOnly: true;
+src/governance/cognition/prove_governance_dashboard_consumption_view.ts:51:  return Object.freeze({
+src/governance/cognition/governance_shared_registry_owner_bundle.ts:16:  readonly kind: "governance-shared-registry-owner-bundle";
+src/governance/cognition/governance_shared_registry_owner_bundle.ts:17:  readonly version: 1;
+src/governance/cognition/governance_shared_registry_owner_bundle.ts:19:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/governance_shared_registry_owner_bundle.ts:20:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/governance_shared_registry_owner_bundle.ts:21:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/governance_shared_registry_owner_bundle.ts:22:  readonly contractId: "governance.dashboard.consumption";
+src/governance/cognition/governance_shared_registry_owner_bundle.ts:24:  readonly channel: "dashboard";
+src/governance/cognition/governance_shared_registry_owner_bundle.ts:25:  readonly surface: "governance";
+src/governance/cognition/governance_shared_registry_owner_bundle.ts:26:  readonly mode: "read-only";
+src/governance/cognition/governance_shared_registry_owner_bundle.ts:28:  readonly ts: number;
+src/governance/cognition/governance_shared_registry_owner_bundle.ts:30:  readonly registryExport: GovernanceRuntimeRegistryExport;
+src/governance/cognition/governance_shared_registry_owner_bundle.ts:32:  readonly operatorSafe: true;
+src/governance/cognition/governance_shared_registry_owner_bundle.ts:33:  readonly dashboardSafe: true;
+src/governance/cognition/governance_shared_registry_owner_bundle.ts:34:  readonly readOnly: true;
+src/governance/cognition/governance_shared_registry_owner_bundle.ts:35:  readonly deterministic: true;
+src/governance/cognition/governance_dashboard_consumption_contract.ts:16:  readonly kind: "governance-dashboard-consumption-view";
+src/governance/cognition/governance_dashboard_consumption_contract.ts:17:  readonly version: 1;
+src/governance/cognition/governance_dashboard_consumption_contract.ts:19:  readonly ts: number;
+src/governance/cognition/governance_dashboard_consumption_contract.ts:21:  readonly overallStatus: GovernanceCognitionStatus;
+src/governance/cognition/governance_dashboard_consumption_contract.ts:22:  readonly severity: GovernanceCognitionSeverity;
+src/governance/cognition/governance_dashboard_consumption_contract.ts:24:  readonly routingStatus: GovernanceCognitionStatus;
+src/governance/cognition/governance_dashboard_consumption_contract.ts:25:  readonly authorityStatus: GovernanceCognitionStatus;
+src/governance/cognition/governance_dashboard_consumption_contract.ts:26:  readonly registryStatus: GovernanceCognitionStatus;
+src/governance/cognition/governance_dashboard_consumption_contract.ts:28:  readonly signalCount: number;
+src/governance/cognition/governance_dashboard_consumption_contract.ts:29:  readonly signals: readonly string[];
+src/governance/cognition/governance_dashboard_consumption_contract.ts:31:  readonly operatorSafe: true;
+src/governance/cognition/governance_dashboard_consumption_contract.ts:32:  readonly dashboardSafe: true;
+src/governance/cognition/governance_dashboard_consumption_contract.ts:33:  readonly readOnly: true;
+src/governance/cognition/governance_dashboard_consumption_contract.ts:34:  readonly deterministic: true;
+src/governance/cognition/select_governance_runtime_registry_export.ts:10:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/select_governance_runtime_registry_export.ts:11:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/select_governance_runtime_registry_export.ts:12:  readonly contractId: "governance.dashboard.consumption";
+src/governance/cognition/select_governance_runtime_registry_export.ts:13:  readonly channel: "dashboard";
+src/governance/cognition/select_governance_runtime_registry_export.ts:14:  readonly surface: "governance";
+src/governance/cognition/select_governance_runtime_registry_export.ts:15:  readonly mode: "read-only";
+src/governance/cognition/select_governance_runtime_registry_export.ts:16:  readonly signalCount: number;
+src/governance/cognition/select_governance_runtime_registry_export.ts:17:  readonly readOnly: true;
+src/governance/cognition/select_governance_runtime_registry_export.ts:18:  readonly deterministic: true;
+src/governance/cognition/select_governance_runtime_registry_export.ts:24:  return Object.freeze({
+src/governance/cognition/prove_governance_authorization_gate.ts:23:  readonly pass: true;
+src/governance/cognition/prove_governance_authorization_gate.ts:24:  readonly deterministic: true;
+src/governance/cognition/prove_governance_authorization_gate.ts:25:  readonly gateKey: "governance-authorization-gate";
+src/governance/cognition/prove_governance_authorization_gate.ts:26:  readonly decisionKey: "governance-live-wiring-decision";
+src/governance/cognition/prove_governance_authorization_gate.ts:27:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/prove_governance_authorization_gate.ts:28:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/prove_governance_authorization_gate.ts:29:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/prove_governance_authorization_gate.ts:30:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/prove_governance_authorization_gate.ts:31:  readonly contractId: "governance.dashboard.consumption";
+src/governance/cognition/prove_governance_authorization_gate.ts:32:  readonly gateStatus: "open" | "closed";
+src/governance/cognition/prove_governance_authorization_gate.ts:33:  readonly authorizationEligible: boolean;
+src/governance/cognition/prove_governance_authorization_gate.ts:34:  readonly authorizationReasonCount: number;
+src/governance/cognition/prove_governance_authorization_gate.ts:35:  readonly signalCount: number;
+src/governance/cognition/prove_governance_authorization_gate.ts:36:  readonly readOnly: true;
+src/governance/cognition/prove_governance_authorization_gate.ts:106:  return Object.freeze({
+src/governance/cognition/prove_governance_live_wiring_decision.ts:22:  readonly pass: true;
+src/governance/cognition/prove_governance_live_wiring_decision.ts:23:  readonly deterministic: true;
+src/governance/cognition/prove_governance_live_wiring_decision.ts:24:  readonly decisionKey: "governance-live-wiring-decision";
+src/governance/cognition/prove_governance_live_wiring_decision.ts:25:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/prove_governance_live_wiring_decision.ts:26:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/prove_governance_live_wiring_decision.ts:27:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/prove_governance_live_wiring_decision.ts:28:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/prove_governance_live_wiring_decision.ts:29:  readonly contractId: "governance.dashboard.consumption";
+src/governance/cognition/prove_governance_live_wiring_decision.ts:30:  readonly decisionStatus: "eligible" | "ineligible";
+src/governance/cognition/prove_governance_live_wiring_decision.ts:31:  readonly eligibleForExplicitLiveWiring: boolean;
+src/governance/cognition/prove_governance_live_wiring_decision.ts:32:  readonly decisionReasonCount: number;
+src/governance/cognition/prove_governance_live_wiring_decision.ts:33:  readonly signalCount: number;
+src/governance/cognition/prove_governance_live_wiring_decision.ts:34:  readonly readOnly: true;
+src/governance/cognition/prove_governance_live_wiring_decision.ts:99:  return Object.freeze({
+src/governance/cognition/select_governance_final_delivery_receipt.ts:10:  readonly receiptKey: "governance-final-delivery-receipt";
+src/governance/cognition/select_governance_final_delivery_receipt.ts:11:  readonly manifestKey: "governance-pre-live-registry-delivery-manifest";
+src/governance/cognition/select_governance_final_delivery_receipt.ts:12:  readonly envelopeKey: "governance-pre-live-registry-handoff-envelope";
+src/governance/cognition/select_governance_final_delivery_receipt.ts:13:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/select_governance_final_delivery_receipt.ts:14:  readonly gateKey: "governance-authorization-gate";
+src/governance/cognition/select_governance_final_delivery_receipt.ts:15:  readonly decisionKey: "governance-live-wiring-decision";
+src/governance/cognition/select_governance_final_delivery_receipt.ts:16:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/select_governance_final_delivery_receipt.ts:17:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/select_governance_final_delivery_receipt.ts:18:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/select_governance_final_delivery_receipt.ts:19:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/select_governance_final_delivery_receipt.ts:20:  readonly contractId: "governance.dashboard.consumption";
+src/governance/cognition/select_governance_final_delivery_receipt.ts:21:  readonly receiptStatus: "acknowledged";
+src/governance/cognition/select_governance_final_delivery_receipt.ts:22:  readonly acknowledgementReady: boolean;
+src/governance/cognition/select_governance_final_delivery_receipt.ts:23:  readonly receiptReasonCount: number;
+src/governance/cognition/select_governance_final_delivery_receipt.ts:24:  readonly signalCount: number;
+src/governance/cognition/select_governance_final_delivery_receipt.ts:25:  readonly readOnly: true;
+src/governance/cognition/select_governance_final_delivery_receipt.ts:26:  readonly deterministic: true;
+src/governance/cognition/select_governance_final_delivery_receipt.ts:32:  return Object.freeze({
+src/governance/cognition/build_governance_cognition_snapshot.ts:16:  readonly routingStatus: GovernanceCognitionStatus;
+src/governance/cognition/build_governance_cognition_snapshot.ts:17:  readonly authorityStatus: GovernanceCognitionStatus;
+src/governance/cognition/build_governance_cognition_snapshot.ts:18:  readonly registryStatus: GovernanceCognitionStatus;
+src/governance/cognition/build_governance_cognition_snapshot.ts:20:  readonly signals: readonly string[];
+src/governance/cognition/build_governance_cognition_snapshot.ts:21:  readonly ts: number;
+src/governance/cognition/build_governance_cognition_snapshot.ts:70:  return Object.freeze({
+src/governance/cognition/build_governance_cognition_snapshot.ts:80:    signals: Object.freeze([...input.signals]),
+src/governance/cognition/prove_governance_cognition_snapshot.ts:13:  readonly pass: true;
+src/governance/cognition/prove_governance_cognition_snapshot.ts:14:  readonly deterministic: true;
+src/governance/cognition/prove_governance_cognition_snapshot.ts:15:  readonly normalizedSignalOrder: readonly string[];
+src/governance/cognition/prove_governance_cognition_snapshot.ts:16:  readonly packagedKind: "governance-cognition-snapshot";
+src/governance/cognition/prove_governance_cognition_snapshot.ts:17:  readonly packagedVersion: 1;
+src/governance/cognition/prove_governance_cognition_snapshot.ts:18:  readonly overallStatus: string;
+src/governance/cognition/prove_governance_cognition_snapshot.ts:19:  readonly severity: string;
+src/governance/cognition/prove_governance_cognition_snapshot.ts:47:  return Object.freeze({
+src/governance/cognition/prove_governance_dashboard_contract_registration.ts:15:  readonly pass: true;
+src/governance/cognition/prove_governance_dashboard_contract_registration.ts:16:  readonly deterministic: true;
+src/governance/cognition/prove_governance_dashboard_contract_registration.ts:17:  readonly contractId: "governance.dashboard.consumption";
+src/governance/cognition/prove_governance_dashboard_contract_registration.ts:18:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/prove_governance_dashboard_contract_registration.ts:19:  readonly signalCount: number;
+src/governance/cognition/prove_governance_dashboard_contract_registration.ts:20:  readonly signals: readonly string[];
+src/governance/cognition/prove_governance_dashboard_contract_registration.ts:21:  readonly readOnly: true;
+src/governance/cognition/prove_governance_dashboard_contract_registration.ts:62:  return Object.freeze({
+src/governance/cognition/build_governance_live_registry_wiring_readiness.ts:11:function uniqueSorted(values: readonly string[]): readonly string[] {
+src/governance/cognition/build_governance_live_registry_wiring_readiness.ts:12:  return Object.freeze([...new Set(values)].sort());
+src/governance/cognition/build_governance_live_registry_wiring_readiness.ts:36:  return Object.freeze({
+src/governance/cognition/build_governance_authorization_gate.ts:14:function uniqueSorted(values: readonly string[]): readonly string[] {
+src/governance/cognition/build_governance_authorization_gate.ts:15:  return Object.freeze([...new Set(values)].sort());
+src/governance/cognition/build_governance_authorization_gate.ts:36:  return Object.freeze({
+src/governance/cognition/build_governance_final_pre_live_registry_summary_capsule.ts:11:function uniqueSorted(values: readonly string[]): readonly string[] {
+src/governance/cognition/build_governance_final_pre_live_registry_summary_capsule.ts:12:  return Object.freeze([...new Set(values)].sort());
+src/governance/cognition/build_governance_final_pre_live_registry_summary_capsule.ts:26:  return Object.freeze({
+src/governance/cognition/governance_pre_live_registry_handoff_envelope.ts:18:  readonly kind: "governance-pre-live-registry-handoff-envelope";
+src/governance/cognition/governance_pre_live_registry_handoff_envelope.ts:19:  readonly version: 1;
+src/governance/cognition/governance_pre_live_registry_handoff_envelope.ts:21:  readonly envelopeKey: "governance-pre-live-registry-handoff-envelope";
+src/governance/cognition/governance_pre_live_registry_handoff_envelope.ts:22:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/governance_pre_live_registry_handoff_envelope.ts:23:  readonly gateKey: "governance-authorization-gate";
+src/governance/cognition/governance_pre_live_registry_handoff_envelope.ts:24:  readonly decisionKey: "governance-live-wiring-decision";
+src/governance/cognition/governance_pre_live_registry_handoff_envelope.ts:25:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/governance_pre_live_registry_handoff_envelope.ts:26:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/governance_pre_live_registry_handoff_envelope.ts:27:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/governance_pre_live_registry_handoff_envelope.ts:28:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/governance_pre_live_registry_handoff_envelope.ts:29:  readonly contractId: "governance.dashboard.consumption";
+src/governance/cognition/governance_pre_live_registry_handoff_envelope.ts:31:  readonly channel: "dashboard";
+src/governance/cognition/governance_pre_live_registry_handoff_envelope.ts:32:  readonly surface: "governance";
+src/governance/cognition/governance_pre_live_registry_handoff_envelope.ts:33:  readonly mode: "read-only";
+src/governance/cognition/governance_pre_live_registry_handoff_envelope.ts:35:  readonly ts: number;
+src/governance/cognition/governance_pre_live_registry_handoff_envelope.ts:37:  readonly envelopeStatus: "wrapped";
+src/governance/cognition/governance_pre_live_registry_handoff_envelope.ts:38:  readonly handoffReady: boolean;
+src/governance/cognition/governance_pre_live_registry_handoff_envelope.ts:39:  readonly envelopeReasons: readonly string[];
+src/governance/cognition/governance_pre_live_registry_handoff_envelope.ts:41:  readonly contractPackage: GovernanceFinalPreLiveRegistryContractPackage;
+src/governance/cognition/governance_pre_live_registry_handoff_envelope.ts:43:  readonly operatorSafe: true;
+src/governance/cognition/governance_pre_live_registry_handoff_envelope.ts:44:  readonly dashboardSafe: true;
+src/governance/cognition/governance_pre_live_registry_handoff_envelope.ts:45:  readonly readOnly: true;
+src/governance/cognition/governance_pre_live_registry_handoff_envelope.ts:46:  readonly deterministic: true;
+src/governance/cognition/normalize_governance_shared_registry_owner_bundle.ts:9:function uniqueSorted(values: readonly string[]): readonly string[] {
+src/governance/cognition/normalize_governance_shared_registry_owner_bundle.ts:10:  return Object.freeze([...new Set(values)].sort());
+src/governance/cognition/normalize_governance_shared_registry_owner_bundle.ts:20:  return Object.freeze({
+src/governance/cognition/normalize_governance_shared_registry_owner_bundle.ts:22:    registryExport: Object.freeze({
+src/governance/cognition/normalize_governance_shared_registry_owner_bundle.ts:24:      registration: Object.freeze({
+src/governance/cognition/normalize_governance_shared_registry_owner_bundle.ts:26:        payload: Object.freeze({
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:28:  readonly pass: true;
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:29:  readonly deterministic: true;
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:30:  readonly archiveKey: "governance-final-pre-live-registry-archive-record";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:31:  readonly receiptKey: "governance-final-delivery-receipt";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:32:  readonly manifestKey: "governance-pre-live-registry-delivery-manifest";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:33:  readonly envelopeKey: "governance-pre-live-registry-handoff-envelope";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:34:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:35:  readonly gateKey: "governance-authorization-gate";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:36:  readonly decisionKey: "governance-live-wiring-decision";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:37:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:38:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:39:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:40:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:41:  readonly contractId: "governance.dashboard.consumption";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:42:  readonly archiveStatus: "recorded";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:43:  readonly archivalReady: boolean;
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:44:  readonly archiveReasonCount: number;
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:45:  readonly signalCount: number;
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:46:  readonly readOnly: true;
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:102:  return Object.freeze({
+src/governance/cognition/governance_live_registry_wiring_readiness.ts:18:  readonly kind: "governance-live-registry-wiring-readiness";
+src/governance/cognition/governance_live_registry_wiring_readiness.ts:19:  readonly version: 1;
+src/governance/cognition/governance_live_registry_wiring_readiness.ts:21:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/governance_live_registry_wiring_readiness.ts:22:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/governance_live_registry_wiring_readiness.ts:23:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/governance_live_registry_wiring_readiness.ts:24:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/governance_live_registry_wiring_readiness.ts:25:  readonly contractId: "governance.dashboard.consumption";
+src/governance/cognition/governance_live_registry_wiring_readiness.ts:27:  readonly channel: "dashboard";
+src/governance/cognition/governance_live_registry_wiring_readiness.ts:28:  readonly surface: "governance";
+src/governance/cognition/governance_live_registry_wiring_readiness.ts:29:  readonly mode: "read-only";
+src/governance/cognition/governance_live_registry_wiring_readiness.ts:31:  readonly ts: number;
+src/governance/cognition/governance_live_registry_wiring_readiness.ts:33:  readonly readyForLiveOwnerWiring: boolean;
+src/governance/cognition/governance_live_registry_wiring_readiness.ts:34:  readonly readinessReasons: readonly string[];
+src/governance/cognition/governance_live_registry_wiring_readiness.ts:36:  readonly ownerBundle: GovernanceSharedRegistryOwnerBundle;
+src/governance/cognition/governance_live_registry_wiring_readiness.ts:38:  readonly operatorSafe: true;
+src/governance/cognition/governance_live_registry_wiring_readiness.ts:39:  readonly dashboardSafe: true;
+src/governance/cognition/governance_live_registry_wiring_readiness.ts:40:  readonly readOnly: true;
+src/governance/cognition/governance_live_registry_wiring_readiness.ts:41:  readonly deterministic: true;
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:20:  readonly pass: true;
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:21:  readonly deterministic: true;
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:22:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:23:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:24:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:25:  readonly contractId: "governance.dashboard.consumption";
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:26:  readonly signalCount: number;
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:27:  readonly signals: readonly string[];
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:28:  readonly readOnly: true;
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:88:  return Object.freeze({
+src/governance/cognition/package_governance_cognition_snapshot.ts:14:  readonly kind: "governance-cognition-snapshot";
+src/governance/cognition/package_governance_cognition_snapshot.ts:15:  readonly version: 1;
+src/governance/cognition/package_governance_cognition_snapshot.ts:16:  readonly snapshot: GovernanceCognitionSnapshot;
+src/governance/cognition/package_governance_cognition_snapshot.ts:17:  readonly operatorSafe: true;
+src/governance/cognition/package_governance_cognition_snapshot.ts:18:  readonly dashboardReady: true;
+src/governance/cognition/package_governance_cognition_snapshot.ts:19:  readonly deterministic: true;
+src/governance/cognition/package_governance_cognition_snapshot.ts:22:function uniqueSorted(values: readonly string[]): readonly string[] {
+src/governance/cognition/package_governance_cognition_snapshot.ts:23:  return Object.freeze([...new Set(values)].sort());
+src/governance/cognition/package_governance_cognition_snapshot.ts:31:  const operatorSafeSnapshot: GovernanceCognitionSnapshot = Object.freeze({
+src/governance/cognition/package_governance_cognition_snapshot.ts:37:  return Object.freeze({
+src/governance/cognition/normalize_governance_runtime_registry_export.ts:9:function uniqueSorted(values: readonly string[]): readonly string[] {
+src/governance/cognition/normalize_governance_runtime_registry_export.ts:10:  return Object.freeze([...new Set(values)].sort());
+src/governance/cognition/normalize_governance_runtime_registry_export.ts:18:  return Object.freeze({
+src/governance/cognition/normalize_governance_runtime_registry_export.ts:20:    registration: Object.freeze({
+src/governance/cognition/normalize_governance_runtime_registry_export.ts:22:      payload: Object.freeze({
+src/governance/cognition/select_governance_pre_live_registry_handoff_envelope.ts:10:  readonly envelopeKey: "governance-pre-live-registry-handoff-envelope";
+src/governance/cognition/select_governance_pre_live_registry_handoff_envelope.ts:11:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/select_governance_pre_live_registry_handoff_envelope.ts:12:  readonly gateKey: "governance-authorization-gate";
+src/governance/cognition/select_governance_pre_live_registry_handoff_envelope.ts:13:  readonly decisionKey: "governance-live-wiring-decision";
+src/governance/cognition/select_governance_pre_live_registry_handoff_envelope.ts:14:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/select_governance_pre_live_registry_handoff_envelope.ts:15:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/select_governance_pre_live_registry_handoff_envelope.ts:16:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/select_governance_pre_live_registry_handoff_envelope.ts:17:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/select_governance_pre_live_registry_handoff_envelope.ts:18:  readonly contractId: "governance.dashboard.consumption";
+src/governance/cognition/select_governance_pre_live_registry_handoff_envelope.ts:19:  readonly envelopeStatus: "wrapped";
+src/governance/cognition/select_governance_pre_live_registry_handoff_envelope.ts:20:  readonly handoffReady: boolean;
+src/governance/cognition/select_governance_pre_live_registry_handoff_envelope.ts:21:  readonly envelopeReasonCount: number;
+src/governance/cognition/select_governance_pre_live_registry_handoff_envelope.ts:22:  readonly signalCount: number;
+src/governance/cognition/select_governance_pre_live_registry_handoff_envelope.ts:23:  readonly readOnly: true;
+src/governance/cognition/select_governance_pre_live_registry_handoff_envelope.ts:24:  readonly deterministic: true;
+src/governance/cognition/select_governance_pre_live_registry_handoff_envelope.ts:30:  return Object.freeze({
+src/governance/cognition/select_governance_authorization_gate.ts:10:  readonly gateKey: "governance-authorization-gate";
+src/governance/cognition/select_governance_authorization_gate.ts:11:  readonly decisionKey: "governance-live-wiring-decision";
+src/governance/cognition/select_governance_authorization_gate.ts:12:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/select_governance_authorization_gate.ts:13:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/select_governance_authorization_gate.ts:14:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/select_governance_authorization_gate.ts:15:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/select_governance_authorization_gate.ts:16:  readonly contractId: "governance.dashboard.consumption";
+src/governance/cognition/select_governance_authorization_gate.ts:17:  readonly gateStatus: "open" | "closed";
+src/governance/cognition/select_governance_authorization_gate.ts:18:  readonly authorizationEligible: boolean;
+src/governance/cognition/select_governance_authorization_gate.ts:19:  readonly authorizationReasonCount: number;
+src/governance/cognition/select_governance_authorization_gate.ts:20:  readonly signalCount: number;
+src/governance/cognition/select_governance_authorization_gate.ts:21:  readonly readOnly: true;
+src/governance/cognition/select_governance_authorization_gate.ts:22:  readonly deterministic: true;
+src/governance/cognition/select_governance_authorization_gate.ts:28:  return Object.freeze({
+src/governance/cognition/normalize_governance_snapshot.ts:14:  return Object.freeze({
+src/governance/cognition/normalize_governance_snapshot.ts:16:    signals: Object.freeze(
+src/governance/cognition/normalize_governance_dashboard_contract_registration.ts:9:function uniqueSorted(values: readonly string[]): readonly string[] {
+src/governance/cognition/normalize_governance_dashboard_contract_registration.ts:10:  return Object.freeze([...new Set(values)].sort());
+src/governance/cognition/normalize_governance_dashboard_contract_registration.ts:16:  return Object.freeze({
+src/governance/cognition/normalize_governance_dashboard_contract_registration.ts:18:    payload: Object.freeze({
+src/governance/cognition/governance_final_delivery_receipt.ts:18:  readonly kind: "governance-final-delivery-receipt";
+src/governance/cognition/governance_final_delivery_receipt.ts:19:  readonly version: 1;
+src/governance/cognition/governance_final_delivery_receipt.ts:21:  readonly receiptKey: "governance-final-delivery-receipt";
+src/governance/cognition/governance_final_delivery_receipt.ts:22:  readonly manifestKey: "governance-pre-live-registry-delivery-manifest";
+src/governance/cognition/governance_final_delivery_receipt.ts:23:  readonly envelopeKey: "governance-pre-live-registry-handoff-envelope";
+src/governance/cognition/governance_final_delivery_receipt.ts:24:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/governance_final_delivery_receipt.ts:25:  readonly gateKey: "governance-authorization-gate";
+src/governance/cognition/governance_final_delivery_receipt.ts:26:  readonly decisionKey: "governance-live-wiring-decision";
+src/governance/cognition/governance_final_delivery_receipt.ts:27:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/governance_final_delivery_receipt.ts:28:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/governance_final_delivery_receipt.ts:29:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/governance_final_delivery_receipt.ts:30:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/governance_final_delivery_receipt.ts:31:  readonly contractId: "governance.dashboard.consumption";
+src/governance/cognition/governance_final_delivery_receipt.ts:33:  readonly channel: "dashboard";
+src/governance/cognition/governance_final_delivery_receipt.ts:34:  readonly surface: "governance";
+src/governance/cognition/governance_final_delivery_receipt.ts:35:  readonly mode: "read-only";
+src/governance/cognition/governance_final_delivery_receipt.ts:37:  readonly ts: number;
+src/governance/cognition/governance_final_delivery_receipt.ts:39:  readonly receiptStatus: "acknowledged";
+src/governance/cognition/governance_final_delivery_receipt.ts:40:  readonly acknowledgementReady: boolean;
+src/governance/cognition/governance_final_delivery_receipt.ts:41:  readonly receiptReasons: readonly string[];
+src/governance/cognition/governance_final_delivery_receipt.ts:43:  readonly manifest: GovernancePreLiveRegistryDeliveryManifest;
+src/governance/cognition/governance_final_delivery_receipt.ts:45:  readonly operatorSafe: true;
+src/governance/cognition/governance_final_delivery_receipt.ts:46:  readonly dashboardSafe: true;
+src/governance/cognition/governance_final_delivery_receipt.ts:47:  readonly readOnly: true;
+src/governance/cognition/governance_final_delivery_receipt.ts:48:  readonly deterministic: true;
+src/governance/cognition/register_governance_dashboard_contract.ts:13:  return Object.freeze({
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:25:  readonly pass: true;
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:26:  readonly deterministic: true;
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:27:  readonly envelopeKey: "governance-pre-live-registry-handoff-envelope";
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:28:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:29:  readonly gateKey: "governance-authorization-gate";
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:30:  readonly decisionKey: "governance-live-wiring-decision";
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:31:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:32:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:33:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:34:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:35:  readonly contractId: "governance.dashboard.consumption";
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:36:  readonly envelopeStatus: "wrapped";
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:37:  readonly handoffReady: boolean;
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:38:  readonly envelopeReasonCount: number;
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:39:  readonly signalCount: number;
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:40:  readonly readOnly: true;
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:120:  return Object.freeze({
+src/governance/cognition/build_governance_final_pre_live_registry_contract_package.ts:11:function uniqueSorted(values: readonly string[]): readonly string[] {
+src/governance/cognition/build_governance_final_pre_live_registry_contract_package.ts:12:  return Object.freeze([...new Set(values)].sort());
+src/governance/cognition/build_governance_final_pre_live_registry_contract_package.ts:26:  return Object.freeze({
+src/governance/cognition/select_governance_live_registry_wiring_readiness.ts:10:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/select_governance_live_registry_wiring_readiness.ts:11:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/select_governance_live_registry_wiring_readiness.ts:12:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/select_governance_live_registry_wiring_readiness.ts:13:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/select_governance_live_registry_wiring_readiness.ts:14:  readonly contractId: "governance.dashboard.consumption";
+src/governance/cognition/select_governance_live_registry_wiring_readiness.ts:15:  readonly readyForLiveOwnerWiring: boolean;
+src/governance/cognition/select_governance_live_registry_wiring_readiness.ts:16:  readonly readinessReasonCount: number;
+src/governance/cognition/select_governance_live_registry_wiring_readiness.ts:17:  readonly signalCount: number;
+src/governance/cognition/select_governance_live_registry_wiring_readiness.ts:18:  readonly readOnly: true;
+src/governance/cognition/select_governance_live_registry_wiring_readiness.ts:19:  readonly deterministic: true;
+src/governance/cognition/select_governance_live_registry_wiring_readiness.ts:25:  return Object.freeze({
+src/governance/cognition/governance_runtime_registry_export.ts:17:  readonly kind: "governance-runtime-registry-export";
+src/governance/cognition/governance_runtime_registry_export.ts:18:  readonly version: 1;
+src/governance/cognition/governance_runtime_registry_export.ts:20:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/governance_runtime_registry_export.ts:21:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/governance_runtime_registry_export.ts:22:  readonly contractId: "governance.dashboard.consumption";
+src/governance/cognition/governance_runtime_registry_export.ts:24:  readonly channel: "dashboard";
+src/governance/cognition/governance_runtime_registry_export.ts:25:  readonly surface: "governance";
+src/governance/cognition/governance_runtime_registry_export.ts:26:  readonly mode: "read-only";
+src/governance/cognition/governance_runtime_registry_export.ts:28:  readonly ts: number;
+src/governance/cognition/governance_runtime_registry_export.ts:30:  readonly registration: GovernanceDashboardContractRegistration;
+src/governance/cognition/governance_runtime_registry_export.ts:32:  readonly operatorSafe: true;
+src/governance/cognition/governance_runtime_registry_export.ts:33:  readonly dashboardSafe: true;
+src/governance/cognition/governance_runtime_registry_export.ts:34:  readonly readOnly: true;
+src/governance/cognition/governance_runtime_registry_export.ts:35:  readonly deterministic: true;
+src/governance/cognition/select_governance_live_wiring_decision.ts:10:  readonly decisionKey: "governance-live-wiring-decision";
+src/governance/cognition/select_governance_live_wiring_decision.ts:11:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/select_governance_live_wiring_decision.ts:12:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/select_governance_live_wiring_decision.ts:13:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/select_governance_live_wiring_decision.ts:14:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/select_governance_live_wiring_decision.ts:15:  readonly contractId: "governance.dashboard.consumption";
+src/governance/cognition/select_governance_live_wiring_decision.ts:16:  readonly decisionStatus: "eligible" | "ineligible";
+src/governance/cognition/select_governance_live_wiring_decision.ts:17:  readonly eligibleForExplicitLiveWiring: boolean;
+src/governance/cognition/select_governance_live_wiring_decision.ts:18:  readonly decisionReasonCount: number;
+src/governance/cognition/select_governance_live_wiring_decision.ts:19:  readonly signalCount: number;
+src/governance/cognition/select_governance_live_wiring_decision.ts:20:  readonly readOnly: true;
+src/governance/cognition/select_governance_live_wiring_decision.ts:21:  readonly deterministic: true;
+src/governance/cognition/select_governance_live_wiring_decision.ts:27:  return Object.freeze({
+src/governance/cognition/build_governance_runtime_registry_export.ts:14:  return Object.freeze({
+src/governance/governanceCognitionSurfaceBuilder.ts:73:    readonly: true,
+src/governance/governanceOutcomeSurfaceTypes.ts:35:  readonly: true;
+src/governance/governanceOutcomeSurfaceBuilder.ts:44:    readonly: true,
+src/governance/governanceOperatorAwarenessProof.ts:28:  readonly: true;
+src/governance/governanceOperatorAwarenessProof.ts:52:    if (!signal.readonly || !signal.deterministic || !signal.operatorVisible) {
+src/governance/governanceOperatorAwarenessProof.ts:60:  if (!summary.readonly || !summary.deterministic) {
+src/governance/governanceOperatorAwarenessProof.ts:66:    readonly: true,
+src/governance/governanceCognitionIntegrationHooks.ts:34:  readonly: true;
+src/governance/governanceCognitionIntegrationHooks.ts:51:    readonly: true,
+src/governance/governanceOutcomeSurfaceProof.ts:22:  readonly: true;
+src/governance/governanceOutcomeSurfaceProof.ts:46:    if (!surface.readonly || !surface.deterministic) {
+src/governance/governanceOutcomeSurfaceProof.ts:52:      readonly: true,
+src/governance/governanceOperatorAwarenessSummary.ts:45:    readonly: true,
+src/governance/governanceOperatorAwarenessBuilder.ts:43:    readonly: true,
+src/governance/governanceCognitionSurfaceTypes.ts:32:  readonly: true;
+src/governance_operator_packet/governance_operator_packet_builder.ts:20:  invariants_triggered?: readonly string[];
+src/governance_operator_packet/governance_operator_packet_builder.ts:21:  completed_stages?: readonly string[];
+src/governance_operator_packet/governance_operator_packet_contract.ts:1:export const GOVERNANCE_OPERATOR_PACKET_LAYER_GUARANTEES = Object.freeze([
+src/governance_operator_packet/governance_operator_packet_contract.ts:12:export function getGovernanceOperatorPacketLayerGuarantees(): readonly string[] {
+src/governance_operator_packet/governance_operator_packet_formatter.ts:1:function formatList(values: readonly string[]): string {
+src/governance_operator_packet/governance_operator_packet_formatter.ts:25:  invariants: readonly string[],
+src/governance_operator_packet/governance_operator_packet_formatter.ts:31:  stages: readonly string[],
+src/governance_operator_index/governance_operator_index_formatter.ts:1:function formatList(values: readonly string[]): string {
+src/governance_operator_index/governance_operator_index_formatter.ts:19:  sectionTitles: readonly string[],
+src/governance_operator_index/governance_operator_index_builder.ts:17:  section_titles?: readonly string[];
+src/governance_operator_index/governance_operator_index_contract.ts:1:export const GOVERNANCE_OPERATOR_INDEX_LAYER_GUARANTEES = Object.freeze([
+src/governance_operator_index/governance_operator_index_contract.ts:12:export function getGovernanceOperatorIndexLayerGuarantees(): readonly string[] {
+src/governance_reporting/governance_reporting_builder.ts:18:  invariants_triggered?: readonly string[];
+src/governance_reporting/governance_reporting_builder.ts:19:  completed_stages?: readonly string[];
+src/governance_reporting/governance_reporting_formatter.ts:1:function formatList(values: readonly string[]): string {
+src/governance_reporting/governance_reporting_formatter.ts:23:  invariants: readonly string[],
+src/governance_reporting/governance_reporting_formatter.ts:29:  stages: readonly string[],
+src/governance_reporting/governance_reporting_contract.ts:1:export const GOVERNANCE_REPORTING_LAYER_GUARANTEES = Object.freeze([
+src/governance_reporting/governance_reporting_contract.ts:10:export function getGovernanceReportingLayerGuarantees(): readonly string[] {
+src/governance_operator_catalog/governance_operator_catalog_builder.ts:17:  section_titles?: readonly string[];
+src/governance_operator_catalog/governance_operator_catalog_contract.ts:1:export const GOVERNANCE_OPERATOR_CATALOG_LAYER_GUARANTEES = Object.freeze([
+src/governance_operator_catalog/governance_operator_catalog_contract.ts:12:export function getGovernanceOperatorCatalogLayerGuarantees(): readonly string[] {
+src/governance_operator_catalog/governance_operator_catalog_formatter.ts:1:function formatList(values: readonly string[]): string {
+src/governance_operator_catalog/governance_operator_catalog_formatter.ts:19:  sectionTitles: readonly string[],
+src/governance_operator_manual/governance_operator_manual_builder.ts:17:  section_titles?: readonly string[];
+src/governance_operator_manual/governance_operator_manual_contract.ts:1:export const GOVERNANCE_OPERATOR_MANUAL_LAYER_GUARANTEES = Object.freeze([
+src/governance_operator_manual/governance_operator_manual_contract.ts:12:export function getGovernanceOperatorManualLayerGuarantees(): readonly string[] {
+src/governance_operator_manual/governance_operator_manual_formatter.ts:1:function formatList(values: readonly string[]): string {
+src/governance_operator_manual/governance_operator_manual_formatter.ts:19:  sectionTitles: readonly string[],
+src/governance_operator_atlas/governance_operator_atlas_builder.ts:17:  section_titles?: readonly string[];
+src/governance_operator_atlas/governance_operator_atlas_formatter.ts:1:function formatList(values: readonly string[]): string {
+src/governance_operator_atlas/governance_operator_atlas_formatter.ts:19:  sectionTitles: readonly string[],
+src/governance_operator_atlas/governance_operator_atlas_contract.ts:1:export const GOVERNANCE_OPERATOR_ATLAS_LAYER_GUARANTEES = Object.freeze([
+src/governance_operator_atlas/governance_operator_atlas_contract.ts:12:export function getGovernanceOperatorAtlasLayerGuarantees(): readonly string[] {
+src/governance_operator_snapshot/governance_operator_snapshot_formatter.ts:1:function formatList(values: readonly string[]): string {
+src/governance_operator_snapshot/governance_operator_snapshot_formatter.ts:19:  sectionTitles: readonly string[],
+src/governance_operator_snapshot/governance_operator_snapshot_builder.ts:17:  section_titles?: readonly string[];
+src/governance_operator_snapshot/governance_operator_snapshot_contract.ts:1:export const GOVERNANCE_OPERATOR_SNAPSHOT_LAYER_GUARANTEES = Object.freeze([
+src/governance_operator_snapshot/governance_operator_snapshot_contract.ts:12:export function getGovernanceOperatorSnapshotLayerGuarantees(): readonly string[] {
+src/governance_operator_handoff/governance_operator_handoff_formatter.ts:1:function formatList(values: readonly string[]): string {
+src/governance_operator_handoff/governance_operator_handoff_formatter.ts:19:  sectionTitles: readonly string[],
+src/governance_operator_handoff/governance_operator_handoff_builder.ts:17:  section_titles?: readonly string[];
+src/governance_operator_handoff/governance_operator_handoff_contract.ts:1:export const GOVERNANCE_OPERATOR_HANDOFF_LAYER_GUARANTEES = Object.freeze([
+src/governance_operator_handoff/governance_operator_handoff_contract.ts:12:export function getGovernanceOperatorHandoffLayerGuarantees(): readonly string[] {
+src/governance_digest/governance_digest_formatter.ts:1:function formatList(values: readonly string[]): string {
+src/governance_digest/governance_digest_formatter.ts:23:  invariants: readonly string[],
+src/governance_digest/governance_digest_formatter.ts:29:  stages: readonly string[],
+src/governance_digest/governance_digest_contract.ts:1:export const GOVERNANCE_DIGEST_LAYER_GUARANTEES = Object.freeze([
+src/governance_digest/governance_digest_contract.ts:11:export function getGovernanceDigestLayerGuarantees(): readonly string[] {
+src/governance_digest/governance_digest_builder.ts:19:  invariants_triggered?: readonly string[];
+src/governance_digest/governance_digest_builder.ts:20:  completed_stages?: readonly string[];
+src/governance_operator_playbook/governance_operator_playbook_contract.ts:1:export const GOVERNANCE_OPERATOR_PLAYBOOK_LAYER_GUARANTEES = Object.freeze([
+src/governance_operator_playbook/governance_operator_playbook_contract.ts:12:export function getGovernanceOperatorPlaybookLayerGuarantees(): readonly string[] {
+src/governance_operator_playbook/governance_operator_playbook_formatter.ts:1:function formatList(values: readonly string[]): string {
+src/governance_operator_playbook/governance_operator_playbook_formatter.ts:19:  sectionTitles: readonly string[],
+src/governance_operator_playbook/governance_operator_playbook_builder.ts:17:  section_titles?: readonly string[];
+src/governance_operator_reference/governance_operator_reference_builder.ts:17:  section_titles?: readonly string[];
+src/governance_operator_reference/governance_operator_reference_formatter.ts:1:function formatList(values: readonly string[]): string {
+src/governance_operator_reference/governance_operator_reference_formatter.ts:19:  sectionTitles: readonly string[],
+src/governance_operator_reference/governance_operator_reference_contract.ts:1:export const GOVERNANCE_OPERATOR_REFERENCE_LAYER_GUARANTEES = Object.freeze([
+src/governance_operator_reference/governance_operator_reference_contract.ts:12:export function getGovernanceOperatorReferenceLayerGuarantees(): readonly string[] {
+
+contract stability guarantees
+src/cognition/phase104.seal.ts:5: * Establish cognition integration boundary as stable and sealed.
+src/cognition/phase104.seal.ts:19:  "Cognition integration boundary is stable and approved.";
+src/cognition/index.smoke.ts:19:    stability: "stable" as const,
+src/cognition/index.smoke.ts:28:  assert(inputs.stabilityState === "stable", "Unexpected adapted stabilityState");
+src/cognition/getSituationSummary.smoke.ts:13:    stability: "stable",
+src/cognition/situationSummaryRender.smoke.ts:12:    stability: "stable",
+src/cognition/transport/cognitionTransport.label.ts:24:      return "Transport unstable"
+src/cognition/transport/cognitionTransport.dashboardConsumption.invariants.ts:10:  if (!contract.version) {
+src/cognition/transport/cognitionTransport.dashboardConsumption.invariants.ts:11:    throw new Error("Dashboard consumption contract missing version");
+src/cognition/phase105.seal.ts:5: * Establish cognition enablement boundary as stable.
+src/cognition/phase105.seal.ts:19:  "Cognition enablement boundary is stable and approved.";
+src/cognition/situationSummaryIntegration.smoke.ts:11:    stability: "stable",
+src/cognition/situationSummaryIntegration.smoke.ts:32:    "Unexpected stability line"
+src/cognition/situationSummaryComposer.ts:4:  | "stable"
+src/cognition/situationSummaryComposer.ts:35:  stabilityState?: StabilityState;
+src/cognition/situationSummaryComposer.ts:90:  readonly stabilityState: string;
+src/cognition/situationSummaryComposer.ts:99:      positive: ["aware", "verified", "aligned", "integrated", "healthy", "stable"],
+src/cognition/situationSummaryComposer.ts:108:  const runtimeStability = scoreStableUnknownRiskState(args.stabilityState, {
+src/cognition/situationSummaryComposer.ts:109:    positive: ["stable", "healthy", "normal"],
+src/cognition/situationSummaryComposer.ts:110:    negative: ["degraded", "unstable", "critical", "failing"],
+src/cognition/situationSummaryComposer.ts:138:      positive: ["coherent", "consistent", "aligned", "stable"],
+src/cognition/situationSummaryComposer.ts:156:  stabilityState: StabilityState;
+src/cognition/situationSummaryComposer.ts:206:function stabilityLine(state: StabilityState): string {
+src/cognition/situationSummaryComposer.ts:207:  if (state === "stable") return "SYSTEM STABLE";
+src/cognition/situationSummaryComposer.ts:246:  const stability = normalizeStability(inputs.stabilityState);
+src/cognition/situationSummaryComposer.ts:256:    stabilityLine(stability),
+src/cognition/situationSummaryComposer.ts:265:    stabilityState: stability,
+src/cognition/situationSummaryComposer.ts:273:      stabilityState,
+src/cognition/phase107.seal.ts:5: * Establish cognition dispatch boundary as stable.
+src/cognition/phase107.seal.ts:19:  "Cognition dispatch boundary is stable and approved.";
+src/cognition/phase106.seal.ts:5: * Establish cognition routing boundary as stable.
+src/cognition/phase106.seal.ts:19:  "Cognition routing boundary is stable and approved.";
+src/cognition/buildRenderedSituationSummary.smoke.ts:11:    stability: "stable",
+src/cognition/situationSummaryCli.smoke.ts:16:        stability: "stable",
+src/cognition/situationSummaryCli.smoke.ts:28:      stabilityState: string;
+src/cognition/situationSummaryCli.smoke.ts:38:  assert(parsed.summary.stabilityState === "stable", "Unexpected stabilityState");
+src/cognition/situationSummaryInputAdapter.ts:5:  stability?: string;
+src/cognition/situationSummaryInputAdapter.ts:15:): SituationSummaryInputs["stabilityState"] {
+src/cognition/situationSummaryInputAdapter.ts:16:  if (value === "stable") return "stable";
+src/cognition/situationSummaryInputAdapter.ts:188:    stabilityState: normalizeStability(signals.stability),
+src/cognition/operatorGuidanceMapping.ts:117:        `System health is currently stable: ${signal.summary}`,
+src/cognition/phase112.seal.ts:5: * Establish cognition span boundary as stable.
+src/cognition/phase112.seal.ts:19:  "Cognition span boundary is stable and approved.";
+src/cognition/getSystemSituationSummary.smoke.ts:11:    stability: "stable",
+src/cognition/phase110.seal.ts:5: * Establish cognition link boundary as stable.
+src/cognition/phase110.seal.ts:19:  "Cognition link boundary is stable and approved.";
+src/cognition/getSituationSummary.degraded.smoke.ts:11:    stability: "degraded",
+src/cognition/getSituationSummarySnapshot.smoke.ts:11:    stability: "stable",
+src/cognition/getSituationSummarySnapshot.smoke.ts:20:  assert(snapshot.summary.stabilityState === "stable", "Unexpected stabilityState");
+src/cognition/phase109.seal.ts:5: * Establish cognition channel boundary as stable.
+src/cognition/phase109.seal.ts:19:  "Cognition channel boundary is stable and approved.";
+src/cognition/systemSituationSummaryCli.smoke.ts:16:        stability: "stable",
+src/cognition/phase108.seal.ts:5: * Establish cognition relay boundary as stable.
+src/cognition/phase108.seal.ts:19:  "Cognition relay boundary is stable and approved.";
+src/cognition/governanceCognition.smoke.ts:83:    stability: "stable",
+src/cognition/phase111.seal.ts:5: * Establish cognition bridge boundary as stable.
+src/cognition/phase111.seal.ts:19:  "Cognition bridge boundary is stable and approved.";
+src/governance_investigation/verification/replay_violation_codes.ts:7:default registry shapes for stable module resolution.
+src/governance_investigation/verification/run-replay-verification-proof-suite.ts:17:import "./run-replay-diagnostic-stability-proof";
+src/governance_investigation/verification/check-pathological-fixture-diagnostic-stability.ts:5:Ensure deterministic diagnostic ordering and stability across repeated verification passes.
+src/governance_investigation/verification/check-pathological-fixture-diagnostic-stability.ts:28:        "[replay-diagnostic-stability] Diagnostic ordering drift detected at iteration:",
+src/governance_investigation/verification/check-pathological-fixture-diagnostic-stability.ts:36:    "[replay-diagnostic-stability] PASS: diagnostic ordering stable"
+src/governance_investigation/verification/run-replay-diagnostic-stability-proof.ts:5:Add deterministic runner for diagnostic stability verification.
+src/governance_investigation/verification/run-replay-diagnostic-stability-proof.ts:16:import "./check-pathological-fixture-diagnostic-stability";
+src/governance_investigation/verification/run-replay-diagnostic-stability-proof.ts:18:console.log("[replay-diagnostic-stability-proof] PASS: diagnostic stability verification completed");
+src/governance/governance_replay_verifier.test.ts:14:      .toBe("stable")
+src/governance/governance_policy_engine.test.ts:3:Ensures policy evaluation remains stable
+src/governance/governance_enforcement_evaluator.test.ts:3:Ensures enforcement decisions remain stable
+src/governance/governance_drift_guard.test.ts:6:  it("governance pipeline remains stable", () => {
+src/governance/governance_drift_guard.test.ts:12:      .toBe("governance-stable")
+src/governance/governance_drift_expectations.ts:25:    status: "governance-stable"
+src/governance/governance_cognition_regression_sentinel.ts:33:    advisory_replay: "stable",
+src/governance/cognition/prove_governance_runtime_registry_export.ts:36:    routingStatus: "stable",
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:42:    routingStatus: "stable",
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:59:    routingStatus: "stable",
+src/governance/cognition/governance_cognition_snapshot_contract.ts:18:  | "stable"
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:55:    routingStatus: "stable",
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:49:    routingStatus: "stable",
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:53:    routingStatus: "stable",
+src/governance/cognition/prove_governance_dashboard_consumption_view.ts:31:    routingStatus: "stable",
+src/governance/cognition/prove_governance_authorization_gate.ts:47:    routingStatus: "stable",
+src/governance/cognition/prove_governance_live_wiring_decision.ts:45:    routingStatus: "stable",
+src/governance/cognition/build_governance_cognition_snapshot.ts:51:  return "stable";
+src/governance/cognition/prove_governance_cognition_snapshot.ts:31:    authorityStatus: "stable",
+src/governance/cognition/prove_governance_dashboard_contract_registration.ts:32:    routingStatus: "stable",
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:57:    routingStatus: "stable",
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:39:    routingStatus: "stable",
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:51:    routingStatus: "stable",
+src/governance/governance_fixture_integrity_sentinel.ts:39:    governance_tests: "stable"
+src/governance/governance_cognition_replay_verifier.ts:24:      "Governance cognition replay instability detected"
+src/governance/governance_cognition_replay_verifier.ts:35:    cognition_replay: "stable",
+src/governance/governance_cognition_determinism_sentinel.test.ts:4:  it("remains stable across canonical fixtures", () => {
+src/governance/governance_cognition_determinism_sentinel.test.ts:8:    expect(result.cognition_replay).toBe("stable")
+src/governance/governance_stability_index.test.ts:1:import { computeGovernanceSignalStabilityIndex } from "./governance_signal_stability_index"
+src/governance/governance_stability_index.test.ts:8:describe("Governance stability index", () => {
+src/governance/governance_stability_index.test.ts:17:    expect(result.governance_stability_index)
+src/governance/governance_stability_index.test.ts:20:    expect(result.stability_band)
+src/governance/governance_stability_index.test.ts:21:      .toBe("stable")
+src/governance/governance_stability_index.test.ts:32:    expect(result.governance_stability_index)
+src/governance/governance_stability_index.test.ts:44:    expect(result.governance_stability_index)
+src/governance/governance_fixture_integrity_sentinel.test.ts:18:      .toBe("stable")
+src/governance/governance_cognition_determinism_sentinel.ts:28:    cognition_replay: "stable",
+src/governance/governance_advisory_normalizer.ts:6:deduplication, and stable reporting structure.
+src/governance/governance_signal_stability_index.ts:11:  let instability = 0
+src/governance/governance_signal_stability_index.ts:16:      instability += 1
+src/governance/governance_signal_stability_index.ts:20:      instability += 3
+src/governance/governance_signal_stability_index.ts:25:  const stability =
+src/governance/governance_signal_stability_index.ts:26:    Math.max(0, 100 - (instability * 10))
+src/governance/governance_signal_stability_index.ts:28:  let stability_band = "stable"
+src/governance/governance_signal_stability_index.ts:30:  if(stability < 70){
+src/governance/governance_signal_stability_index.ts:31:    stability_band = "variable"
+src/governance/governance_signal_stability_index.ts:34:  if(stability < 40){
+src/governance/governance_signal_stability_index.ts:35:    stability_band = "unstable"
+src/governance/governance_signal_stability_index.ts:40:    governance_stability_index: stability,
+src/governance/governance_signal_stability_index.ts:42:    stability_band,
+src/governance/governance_signal_stability_index.ts:47:      stability_band === "stable"
+src/governance/governance_advisory_stability_sentinel.ts:32:      "Governance advisory instability detected"
+src/governance/governance_advisory_stability_sentinel.ts:38:    advisory_stability: "verified",
+src/governance/governance_advisory_stability_sentinel.test.ts:2:from "./governance_advisory_stability_sentinel"
+src/governance/governance_advisory_stability_sentinel.test.ts:4:describe("Governance advisory stability", () => {
+src/governance/governance_advisory_stability_sentinel.test.ts:11:    expect(result.advisory_stability)
+src/governance/governance_cognition_regression_sentinel.test.ts:6:  it("governance cognition remains stable", () => {
+src/governance/governance_cognition_regression_sentinel.test.ts:15:      .toBe("stable")
+
+execution read boundaries
+src/cognition/transport/cognitionTransport.summary.ts:3:Deterministic aggregation surface (read-only)
+src/cognition/transport/cognitionTransport.replay.ts:3:Deterministic replay-oriented assertion surface (read-only)
+src/cognition/transport/cognitionTransport.snapshot.ts:3:Deterministic observability surface (read-only)
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_fixture.ts:30:      consumerId: "overview-panel",
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_fixture.ts:37:      consumerId: "signals-panel",
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_fixture.ts:47:      consumerId: "",
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_fixture.ts:49:      source: "fixture-missing-consumer",
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_fixture.ts:54:      consumerId: "signals-panel",
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_fixture.ts:61:      consumerId: "signals-panel",
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement.ts:2:  | "missing-consumer"
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement.ts:6:  consumerId?: string | null;
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement.ts:38:    normalizeValue(entry.consumerId),
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement.ts:43:  return normalizeValue(entry.consumerId).length > 0;
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement.ts:71:        kind: "missing-consumer",
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement.ts:74:          "Consumption registry entry is missing a deterministic consumerId.",
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement.ts:98:          "Consumption registry ownership is ambiguous. A single consumer key resolved to multiple owners.",
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement.ts:109:          "Consumption registry ownership is incomplete. A deterministic ownerId is required for every consumer key.",
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_validation.ts:40:      const consumerId = normalizeValue(entry.consumerId) || "<missing-consumer>";
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_validation.ts:44:      return `${contractId}/${sectionKey}/${consumerId}/${ownerId}/${source}`;
+src/cognition/transport/cognitionTransport.diagnostics.ts:3:Deterministic read-only diagnostics integration
+src/cognition/transport/cognitionTransport.health.ts:3:Deterministic health evaluation (read-only)
+src/cognition/transport/cognitionTransport.operator.ts:3:Deterministic read-only operator awareness contract
+src/cognition/route/cognition.route.ts:6: * consumers without changing runtime behavior.
+src/cognition/route/cognition.route.ts:22:  "Cognition routing must remain bounded and read-only.";
+src/cognition/bridge/cognition.bridge.ts:22:  "Cognition bridge must remain bounded and read-only.";
+src/cognition/dispatch/cognition.dispatch.ts:22:  "Cognition dispatch must remain bounded and read-only.";
+src/cognition/operator-read/cognition.operator-read.ts:5: * Provide a read-only operator-facing cognition projection
+src/cognition/surface/cognition.surface.ts:6: * consumers without changing runtime behavior.
+src/cognition/channel/cognition.channel.ts:22:  "Cognition channels must remain bounded and read-only.";
+src/cognition/span/cognition.span.ts:22:  "Cognition span must remain bounded and read-only.";
+src/cognition/link/cognition.link.ts:22:  "Cognition link must remain bounded and read-only.";
+src/cognition/relay/cognition.relay.ts:22:  "Cognition relay must remain bounded and read-only.";
+src/cognition/hook/cognition.hook.ts:6: * system consumers without changing runtime behavior.
+src/cognition/gateway/cognition.gateway.ts:6: * downstream read consumers.
+src/cognition/gateway/cognition.gateway.ts:20: * Downstream consumers should import cognition reads from this module
+src/cognition/selectors/cognition.selectors.ts:5: * Provide pure, read-only selectors over cognition contract envelopes.
+src/governance/cognition/prove_governance_runtime_registry_export.ts:25:  readonly readOnly: true;
+src/governance/cognition/prove_governance_runtime_registry_export.ts:68:  assert(normalizedExport.readOnly === true, "Runtime registry export must remain read-only.");
+src/governance/cognition/prove_governance_runtime_registry_export.ts:87:    readOnly: true as const
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:31:  readonly readOnly: true;
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:85:  assert(readiness.readOnly === true, "Readiness must remain read-only.");
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:101:    readOnly: true as const
+src/governance/cognition/select_governance_shared_registry_owner_bundle.ts:16:  readonly mode: "read-only";
+src/governance/cognition/select_governance_shared_registry_owner_bundle.ts:18:  readonly readOnly: true;
+src/governance/cognition/select_governance_shared_registry_owner_bundle.ts:34:    readOnly: true as const,
+src/governance/cognition/governance_dashboard_contract_registration.ts:23:  readonly mode: "read-only";
+src/governance/cognition/governance_dashboard_contract_registration.ts:31:  readonly readOnly: true;
+src/governance/cognition/governance_final_pre_live_registry_contract_package.ts:32:  readonly mode: "read-only";
+src/governance/cognition/governance_final_pre_live_registry_contract_package.ts:44:  readonly readOnly: true;
+src/governance/cognition/build_governance_dashboard_consumption_view.ts:4: * Pure read-only adapter from operator-safe snapshot package
+src/governance/cognition/build_governance_dashboard_consumption_view.ts:39:    readOnly: true as const,
+src/governance/cognition/build_governance_final_pre_live_registry_archive_record.ts:57:    readOnly: true as const,
+src/governance/cognition/build_governance_final_delivery_receipt.ts:56:    readOnly: true as const,
+src/governance/cognition/governance_authorization_gate.ts:35:  readonly mode: "read-only";
+src/governance/cognition/governance_authorization_gate.ts:47:  readonly readOnly: true;
+src/governance/cognition/build_governance_pre_live_registry_delivery_manifest.ts:55:    readOnly: true as const,
+src/governance/cognition/governance_live_wiring_decision.ts:34:  readonly mode: "read-only";
+src/governance/cognition/governance_live_wiring_decision.ts:46:  readonly readOnly: true;
+src/governance/cognition/build_governance_live_wiring_decision.ts:61:    readOnly: true as const,
+src/governance/cognition/build_governance_pre_live_registry_handoff_envelope.ts:54:    readOnly: true as const,
+src/governance/cognition/select_governance_final_pre_live_registry_archive_record.ts:26:  readonly readOnly: true;
+src/governance/cognition/select_governance_final_pre_live_registry_archive_record.ts:50:    readOnly: true as const,
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:48:  readonly readOnly: true;
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:100:  assert(capsule.readOnly === true, "Capsule must remain read-only.");
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:126:    readOnly: true as const
+src/governance/cognition/select_governance_pre_live_registry_delivery_manifest.ts:24:  readonly readOnly: true;
+src/governance/cognition/select_governance_pre_live_registry_delivery_manifest.ts:46:    readOnly: true as const,
+src/governance/cognition/select_governance_final_pre_live_registry_summary_capsule.ts:27:  readonly readOnly: true;
+src/governance/cognition/select_governance_final_pre_live_registry_summary_capsule.ts:52:    readOnly: true as const,
+src/governance/cognition/governance_pre_live_registry_delivery_manifest.ts:34:  readonly mode: "read-only";
+src/governance/cognition/governance_pre_live_registry_delivery_manifest.ts:46:  readonly readOnly: true;
+src/governance/cognition/build_governance_shared_registry_owner_bundle.ts:33:    readOnly: true as const,
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts:37:  readonly mode: "read-only";
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts:49:  readonly readOnly: true;
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:44:  readonly readOnly: true;
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:92:  assert(receipt.readOnly === true, "Receipt must remain read-only.");
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:116:    readOnly: true as const
+src/governance/cognition/select_governance_dashboard_consumption_view.ts:13:  readonly readOnly: true;
+src/governance/cognition/select_governance_dashboard_consumption_view.ts:24:    readOnly: true as const,
+src/governance/cognition/governance_final_pre_live_registry_archive_record.ts:36:  readonly mode: "read-only";
+src/governance/cognition/governance_final_pre_live_registry_archive_record.ts:48:  readonly readOnly: true;
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:38:  readonly readOnly: true;
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:107:  assert(contractPackage.readOnly === true, "Contract package must remain read-only.");
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:128:    readOnly: true as const
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:42:  readonly readOnly: true;
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:121:  assert(manifest.readOnly === true, "Manifest must remain read-only.");
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:144:    readOnly: true as const
+src/governance/cognition/select_governance_final_pre_live_registry_contract_package.ts:22:  readonly readOnly: true;
+src/governance/cognition/select_governance_final_pre_live_registry_contract_package.ts:42:    readOnly: true as const,
+src/governance/cognition/prove_governance_dashboard_consumption_view.ts:4: * Deterministic proof surface for read-only dashboard consumption preparation.
+src/governance/cognition/prove_governance_dashboard_consumption_view.ts:20:  readonly readOnly: true;
+src/governance/cognition/prove_governance_dashboard_consumption_view.ts:45:  assert(view.readOnly === true, "View must remain read-only.");
+src/governance/cognition/prove_governance_dashboard_consumption_view.ts:58:    readOnly: true as const
+src/governance/cognition/governance_shared_registry_owner_bundle.ts:26:  readonly mode: "read-only";
+src/governance/cognition/governance_shared_registry_owner_bundle.ts:34:  readonly readOnly: true;
+src/governance/cognition/governance_dashboard_consumption_contract.ts:33:  readonly readOnly: true;
+src/governance/cognition/select_governance_runtime_registry_export.ts:15:  readonly mode: "read-only";
+src/governance/cognition/select_governance_runtime_registry_export.ts:17:  readonly readOnly: true;
+src/governance/cognition/select_governance_runtime_registry_export.ts:32:    readOnly: true as const,
+src/governance/cognition/prove_governance_authorization_gate.ts:36:  readonly readOnly: true;
+src/governance/cognition/prove_governance_authorization_gate.ts:100:  assert(gate.readOnly === true, "Authorization gate must remain read-only.");
+src/governance/cognition/prove_governance_authorization_gate.ts:120:    readOnly: true as const
+src/governance/cognition/prove_governance_live_wiring_decision.ts:34:  readonly readOnly: true;
+src/governance/cognition/prove_governance_live_wiring_decision.ts:93:  assert(decision.readOnly === true, "Decision must remain read-only.");
+src/governance/cognition/prove_governance_live_wiring_decision.ts:112:    readOnly: true as const
+src/governance/cognition/select_governance_final_delivery_receipt.ts:25:  readonly readOnly: true;
+src/governance/cognition/select_governance_final_delivery_receipt.ts:48:    readOnly: true as const,
+src/governance/cognition/prove_governance_dashboard_contract_registration.ts:21:  readonly readOnly: true;
+src/governance/cognition/prove_governance_dashboard_contract_registration.ts:57:  assert(normalizedRegistration.readOnly === true, "Registration must remain read-only.");
+src/governance/cognition/prove_governance_dashboard_contract_registration.ts:69:    readOnly: true as const
+src/governance/cognition/build_governance_live_registry_wiring_readiness.ts:22:    "read-only",
+src/governance/cognition/build_governance_live_registry_wiring_readiness.ts:30:    ownerBundle.readOnly === true &&
+src/governance/cognition/build_governance_live_registry_wiring_readiness.ts:59:    readOnly: true as const,
+src/governance/cognition/build_governance_authorization_gate.ts:62:    readOnly: true as const,
+src/governance/cognition/build_governance_final_pre_live_registry_summary_capsule.ts:58:    readOnly: true as const,
+src/governance/cognition/governance_pre_live_registry_handoff_envelope.ts:33:  readonly mode: "read-only";
+src/governance/cognition/governance_pre_live_registry_handoff_envelope.ts:45:  readonly readOnly: true;
+src/governance/cognition/normalize_governance_shared_registry_owner_bundle.ts:32:          readOnly: true as const,
+src/governance/cognition/normalize_governance_shared_registry_owner_bundle.ts:37:        readOnly: true as const,
+src/governance/cognition/normalize_governance_shared_registry_owner_bundle.ts:42:      readOnly: true as const,
+src/governance/cognition/normalize_governance_shared_registry_owner_bundle.ts:47:    readOnly: true as const,
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:46:  readonly readOnly: true;
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:96:  assert(archiveRecord.readOnly === true, "Archive record must remain read-only.");
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:121:    readOnly: true as const
+src/governance/cognition/governance_live_registry_wiring_readiness.ts:29:  readonly mode: "read-only";
+src/governance/cognition/governance_live_registry_wiring_readiness.ts:40:  readonly readOnly: true;
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:28:  readonly readOnly: true;
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:77:  assert(normalizedOwnerBundle.readOnly === true, "Owner bundle must remain read-only.");
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:97:    readOnly: true as const
+src/governance/cognition/normalize_governance_runtime_registry_export.ts:28:        readOnly: true as const,
+src/governance/cognition/normalize_governance_runtime_registry_export.ts:33:      readOnly: true as const,
+src/governance/cognition/normalize_governance_runtime_registry_export.ts:38:    readOnly: true as const,
+src/governance/cognition/select_governance_pre_live_registry_handoff_envelope.ts:23:  readonly readOnly: true;
+src/governance/cognition/select_governance_pre_live_registry_handoff_envelope.ts:44:    readOnly: true as const,
+src/governance/cognition/select_governance_authorization_gate.ts:21:  readonly readOnly: true;
+src/governance/cognition/select_governance_authorization_gate.ts:40:    readOnly: true as const,
+src/governance/cognition/normalize_governance_dashboard_contract_registration.ts:24:      readOnly: true as const,
+src/governance/cognition/normalize_governance_dashboard_contract_registration.ts:29:    readOnly: true as const,
+src/governance/cognition/governance_final_delivery_receipt.ts:35:  readonly mode: "read-only";
+src/governance/cognition/governance_final_delivery_receipt.ts:47:  readonly readOnly: true;
+src/governance/cognition/register_governance_dashboard_contract.ts:21:    mode: "read-only" as const,
+src/governance/cognition/register_governance_dashboard_contract.ts:29:    readOnly: true as const,
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:40:  readonly readOnly: true;
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:114:  assert(envelope.readOnly === true, "Envelope must remain read-only.");
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:136:    readOnly: true as const
+src/governance/cognition/build_governance_final_pre_live_registry_contract_package.ts:53:    readOnly: true as const,
+src/governance/cognition/select_governance_live_registry_wiring_readiness.ts:18:  readonly readOnly: true;
+src/governance/cognition/select_governance_live_registry_wiring_readiness.ts:34:    readOnly: true as const,
+src/governance/cognition/governance_runtime_registry_export.ts:26:  readonly mode: "read-only";
+src/governance/cognition/governance_runtime_registry_export.ts:34:  readonly readOnly: true;
+src/governance/cognition/select_governance_live_wiring_decision.ts:20:  readonly readOnly: true;
+src/governance/cognition/select_governance_live_wiring_decision.ts:38:    readOnly: true as const,
+src/governance/cognition/build_governance_runtime_registry_export.ts:32:    readOnly: true as const,
+src/governance/governance_advisory_presenter.ts:3:Deterministic presentation builder (read-only cognition layer)
+src/governance/governanceOperatorAwarenessProof.ts:3: * Deterministic proof surface validating read-only operator awareness behavior.
+src/governance/governanceOutcomeSurfaceProof.ts:3: * Deterministic validation that outcome surfaces remain read-only cognition artifacts.
+src/governance/governance_advisory_contract.ts:76:  Governance reasoning trace (read-only cognition explanation)
+src/governance/governanceOperatorAwarenessSummary.ts:3: * Deterministic aggregation for read-only operator cognition signals.
+src/governance/governanceOperatorAwarenessBuilder.ts:3: * Pure read-only awareness signal construction.
+src/governance/governanceCognitionSurfaceTypes.ts:3: * Dashboard-ready read-only cognition data contract.
+
