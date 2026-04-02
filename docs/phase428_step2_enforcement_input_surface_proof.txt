@@ -1,0 +1,65 @@
+PHASE 428 — STEP 2
+Enforcement Input Surface Proof
+--------------------------------
+
+OBJECTIVE
+
+Define the structural inputs enforcement is allowed to consume.
+
+This prevents enforcement from reading unsafe domains
+like execution state, operator UI state, or reporting layers.
+
+DEFINITION ONLY.
+
+NO:
+
+runtime checks
+data reads
+contract changes
+implementation decisions
+
+--------------------------------
+
+CORE QUESTION
+
+What information is enforcement allowed to see?
+
+Candidate permitted inputs:
+
+• authorization decision contract
+• governance eligibility results
+• governance policy evaluation outputs
+• admissibility classification result
+• governance evidence references
+
+Candidate prohibited inputs:
+
+• execution runtime state
+• task lifecycle state
+• execution outcomes
+• operator interaction state
+• UI state
+• reporting state
+• retry counters
+• telemetry state
+
+--------------------------------
+
+INPUT SAFETY GOALS
+
+Enforcement inputs must:
+
+Come only from governance decision surfaces
+Remain replay-stable
+Remain deterministic
+Remain execution-independent
+Remain operator-independent
+
+Enforcement must never derive inputs from:
+
+execution
+UI
+reporting
+operator behavior
+runtime timing
+
