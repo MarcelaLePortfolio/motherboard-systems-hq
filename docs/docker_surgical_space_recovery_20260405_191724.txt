@@ -1,0 +1,216 @@
+DOCKER SURGICAL SPACE RECOVERY
+Timestamp: Sun Apr  5 19:17:24 PDT 2026
+
+SAFETY POSTURE
+- This script does NOT delete containers, images, volumes, networks, databases, or application code.
+- This script does NOT mutate docker-compose files or repo source.
+- This script only compresses older Docker Desktop log files and rotated log files.
+- Current live .log files are left untouched.
+
+==== HOST DISK BEFORE ====
+Filesystem        Size    Used   Avail Capacity iused ifree %iused  Mounted on
+/dev/disk3s1s1   228Gi    17Gi    46Gi    27%    427k  482M    0%   /
+
+==== DOCKER DATA BEFORE ====
+ 48G	/Users/marcela-dev/Library/Containers/com.docker.docker/Data
+ 51M	/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log
+
+==== TARGET FILES (PREVIEW) ====
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.backend.log.0
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.backend.log.1
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.backend.log.2
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.backend.log.3
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.backend.log.4
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.backend.log.5
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.backend.log.6
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.backend.log.7
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.backend.log.8
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-2026-03-25.log
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-2026-03-26.log
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-2026-03-27.log
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-2026-03-28.log
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-2026-03-29.log
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-2026-03-30.log
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-2026-03-31.log
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-2026-04-01.log
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-errd-2026-04-02.log
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-ui-console-2026-03-09.log
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-ui-console-2026-03-10.log
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-ui-console-2026-03-11.log
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/httpproxy.log.0
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/monitor.log.0
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/monitor.log.1
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/monitor.log.2
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/monitor.log.3
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/monitor.log.4
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/monitor.log.5
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/monitor.log.6
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/monitor.log.7
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/monitor.log.8
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.0
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.1
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.10
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.11
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.12
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.13
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.14
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.15
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.16
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.17
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.18
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.2
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.3
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.4
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.6
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.7
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.8
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.9
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.0
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.1
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.2
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.3
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.4
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.5
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.6
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.7
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.8
+
+==== TARGET SIZE BEFORE ====
+ 47M	total
+
+==== COMPRESSING TARGET FILES ====
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/monitor.log.5
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/monitor.log.2
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/monitor.log.3
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/monitor.log.4
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-ui-console-2026-03-11.log
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-ui-console-2026-03-10.log
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.backend.log.8
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.backend.log.6
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.backend.log.1
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.backend.log.0
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.backend.log.7
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-2026-03-28.log
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-2026-03-29.log
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/monitor.log.8
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-2026-03-27.log
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/monitor.log.1
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/monitor.log.6
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-2026-03-26.log
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/monitor.log.7
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/monitor.log.0
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-2026-03-30.log
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-2026-03-25.log
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-2026-03-31.log
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-2026-04-01.log
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/httpproxy.log.0
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-errd-2026-04-02.log
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-ui-console-2026-03-09.log
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.backend.log.2
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.backend.log.5
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.backend.log.4
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.backend.log.3
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.13
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.14
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.15
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.12
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.9
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.0
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.7
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.4
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.3
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.6
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.1
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.8
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.2
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.5
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.17
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.10
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.11
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.16
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.18
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.0
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.7
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.4
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.3
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.8
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.6
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.1
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.2
+Compressing: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5
+Compression pass complete
+
+==== GZ FILES AFTER ====
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.backend.log.0.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.backend.log.1.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.backend.log.2.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.backend.log.3.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.backend.log.4.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.backend.log.5.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.backend.log.6.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.backend.log.7.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.backend.log.8.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-2026-03-25.log.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-2026-03-26.log.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-2026-03-27.log.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-2026-03-28.log.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-2026-03-29.log.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-2026-03-30.log.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-2026-03-31.log.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-2026-04-01.log.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-errd-2026-04-02.log.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-ui-console-2026-03-09.log.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-ui-console-2026-03-10.log.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-ui-console-2026-03-11.log.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/httpproxy.log.0.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/monitor.log.0.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/monitor.log.1.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/monitor.log.2.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/monitor.log.3.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/monitor.log.4.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/monitor.log.5.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/monitor.log.6.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/monitor.log.7.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/monitor.log.8.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.0.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.1.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.10.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.11.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.12.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.13.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.14.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.15.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.16.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.17.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.18.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.2.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.3.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.4.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.6.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.7.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.8.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.9.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.0.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.1.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.2.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.3.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.4.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.5.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.6.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.7.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.8.gz
+
+==== DOCKER DATA AFTER ====
+ 48G	/Users/marcela-dev/Library/Containers/com.docker.docker/Data
+6.4M	/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log
+
+==== HOST DISK AFTER ====
+Filesystem        Size    Used   Avail Capacity iused ifree %iused  Mounted on
+/dev/disk3s1s1   228Gi    17Gi    46Gi    27%    427k  482M    0%   /
+
+==== SAFETY NOTE ====
+Only rotated / historical Docker Desktop logs were compressed.
+No Docker images, containers, volumes, project files, or databases were deleted.
+
