@@ -116,7 +116,7 @@ Execution State:
 
 Execution requires:
 
-Governance approval
+Governance review
 Operator approval
 Deterministic path
 
