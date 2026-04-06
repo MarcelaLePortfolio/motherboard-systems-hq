@@ -21,9 +21,7 @@ NORMALIZED_READINESS
 NOT_READY_FOR_CONTROLLED_MOUNT
 
 SELECTION_METHOD
-First ranked path line extracted from ranked candidate section.
-If Step 11 ranked section missing/invalid, fallback to Step 10.
+Repaired from Step 16 recovery audit using recomputed target preference.
 
 NEXT_ACTION_RULE
 Do not mount. Return to shortlist generation.
-
