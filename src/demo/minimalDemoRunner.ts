@@ -1,3 +1,11 @@
+import fs from "node:fs";
+import path from "node:path";
+
+export type DemoTaskDefinition = {
+  id: string;
+  name: string;
+};
+
 export type DemoRequest = {
   requestId: string;
   description: string;
@@ -5,14 +13,6 @@ export type DemoRequest = {
   governanceEvaluated: boolean;
   authorityOrderingValid: boolean;
   tasks: DemoTaskDefinition[];
-};
-
-export type DemoTaskDefinition = {
-  id: "task-1" | "task-2" | "task-3";
-  name:
-    | "Dependency Verification"
-    | "Governance Review Confirmation"
-    | "Execution Readiness Assessment";
 };
 
 export type AdmissionResult = {
@@ -34,8 +34,8 @@ export type TraversalState =
 export type TaskOutcome = "SUCCESS" | "FAILED" | "BLOCKED";
 
 export type TaskExecutionRecord = {
-  taskId: DemoTaskDefinition["id"];
-  taskName: DemoTaskDefinition["name"];
+  taskId: string;
+  taskName: string;
   traversalPosition: number;
   outcome: TaskOutcome;
   verificationConfirmed: boolean;
@@ -46,24 +46,33 @@ export type DemoReport = {
   requestId: string;
   requestSummary: string;
   admissionDecision: AdmissionResult["decision"];
+  denialReasons: string[];
   traversalOrder: string[];
   traversalState: TraversalState;
   taskOutcomes: TaskExecutionRecord[];
   finalDemoResult: "DEMO_SUCCESS" | "DEMO_FAILED";
 };
 
-const EXPECTED_TASK_ORDER: DemoTaskDefinition["id"][] = [
-  "task-1",
-  "task-2",
-  "task-3",
-];
+function loadRequestFromFile(requestFilePath: string): DemoRequest {
+  const absolutePath = path.resolve(requestFilePath);
+  const raw = fs.readFileSync(absolutePath, "utf8");
+  return JSON.parse(raw) as DemoRequest;
+}
 
 function hasValidTaskStructure(tasks: DemoTaskDefinition[]): boolean {
-  if (tasks.length !== EXPECTED_TASK_ORDER.length) {
+  if (!Array.isArray(tasks) || tasks.length === 0) {
     return false;
   }
 
-  return tasks.every((task, index) => task.id === EXPECTED_TASK_ORDER[index]);
+  return tasks.every((task, index) => {
+    const expectedId = `task-${index + 1}`;
+    return (
+      typeof task.id === "string" &&
+      task.id === expectedId &&
+      typeof task.name === "string" &&
+      task.name.trim().length > 0
+    );
+  });
 }
 
 export function runAdmissionCheck(request: DemoRequest): AdmissionResult {
@@ -97,45 +106,34 @@ export function runAdmissionCheck(request: DemoRequest): AdmissionResult {
   };
 }
 
+function classifyTaskOutcome(task: DemoTaskDefinition): TaskOutcome {
+  const normalized = task.name.toLowerCase();
+
+  if (normalized.includes("fail")) {
+    return "FAILED";
+  }
+
+  if (normalized.includes("block")) {
+    return "BLOCKED";
+  }
+
+  return "SUCCESS";
+}
+
 function executeBoundedTask(
   task: DemoTaskDefinition,
   traversalPosition: number,
 ): TaskExecutionRecord {
-  const logicalTimestamp = `STEP_${traversalPosition}`;
+  const outcome = classifyTaskOutcome(task);
 
-  switch (task.id) {
-    case "task-1":
-      return {
-        taskId: task.id,
-        taskName: task.name,
-        traversalPosition,
-        outcome: "SUCCESS",
-        verificationConfirmed: true,
-        logicalTimestamp,
-      };
-    case "task-2":
-      return {
-        taskId: task.id,
-        taskName: task.name,
-        traversalPosition,
-        outcome: "SUCCESS",
-        verificationConfirmed: true,
-        logicalTimestamp,
-      };
-    case "task-3":
-      return {
-        taskId: task.id,
-        taskName: task.name,
-        traversalPosition,
-        outcome: "SUCCESS",
-        verificationConfirmed: true,
-        logicalTimestamp,
-      };
-    default: {
-      const exhaustiveCheck: never = task.id;
-      throw new Error(`Unhandled task id: ${exhaustiveCheck}`);
-    }
-  }
+  return {
+    taskId: task.id,
+    taskName: task.name,
+    traversalPosition,
+    outcome,
+    verificationConfirmed: true,
+    logicalTimestamp: `STEP_${traversalPosition}`,
+  };
 }
 
 export function runDeterministicTraversal(
@@ -178,7 +176,7 @@ export function buildDemoReport(
   const finalDemoResult =
     admission.decision === "ADMITTED" &&
     traversalState === "COMPLETED" &&
-    taskOutcomes.length === EXPECTED_TASK_ORDER.length &&
+    taskOutcomes.length === request.tasks.length &&
     taskOutcomes.every((record) => record.outcome === "SUCCESS")
       ? "DEMO_SUCCESS"
       : "DEMO_FAILED";
@@ -187,6 +185,7 @@ export function buildDemoReport(
     requestId: request.requestId,
     requestSummary: request.description,
     admissionDecision: admission.decision,
+    denialReasons: admission.denialReasons,
     traversalOrder: request.tasks.map((task) => task.name),
     traversalState,
     taskOutcomes,
@@ -206,30 +205,12 @@ export function runMinimalDemo(request: DemoRequest): DemoReport {
   );
 }
 
-const defaultDemoRequest: DemoRequest = {
-  requestId: "fl4-demo-request-001",
-  description:
-    "Create a project to evaluate deployment readiness for a new service. Include three tasks: dependency verification, governance review, and execution readiness assessment. Require approval before any execution preparation.",
-  approved: true,
-  governanceEvaluated: true,
-  authorityOrderingValid: true,
-  tasks: [
-    {
-      id: "task-1",
-      name: "Dependency Verification",
-    },
-    {
-      id: "task-2",
-      name: "Governance Review Confirmation",
-    },
-    {
-      id: "task-3",
-      name: "Execution Readiness Assessment",
-    },
-  ],
-};
-
-if (require.main === module) {
-  const report = runMinimalDemo(defaultDemoRequest);
+function main(): void {
+  const requestFilePath =
+    process.argv[2] ?? "requests/canonical_demo_request.json";
+  const request = loadRequestFromFile(requestFilePath);
+  const report = runMinimalDemo(request);
   console.log(JSON.stringify(report, null, 2));
 }
+
+main();
