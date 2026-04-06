@@ -1,0 +1,141 @@
+DOCKER DATA DEEP AUDIT AND RECHECK
+Timestamp: Sun Apr  5 19:19:36 PDT 2026
+
+SAFETY POSTURE
+- Read-only audit only.
+- No deletion of images, containers, volumes, databases, or project files.
+- No repo code mutation.
+
+==== HOST DISK ====
+Filesystem        Size    Used   Avail Capacity iused ifree %iused  Mounted on
+/dev/disk3s1s1   228Gi    17Gi    46Gi    27%    427k  482M    0%   /
+
+==== TOP-LEVEL DOCKER DATA USAGE ====
+  0B	/Users/marcela-dev/Library/Containers/com.docker.docker/Data/docker-desktop-build.sock
+  0B	/Users/marcela-dev/Library/Containers/com.docker.docker/Data/ethernet-vfkit.sock
+  0B	/Users/marcela-dev/Library/Containers/com.docker.docker/Data/extensions
+  0B	/Users/marcela-dev/Library/Containers/com.docker.docker/Data/filesystem-fd.sock
+  0B	/Users/marcela-dev/Library/Containers/com.docker.docker/Data/filesystem-volume.sock
+  0B	/Users/marcela-dev/Library/Containers/com.docker.docker/Data/forkexecd.sock
+  0B	/Users/marcela-dev/Library/Containers/com.docker.docker/Data/virtualization.sock
+  0B	/Users/marcela-dev/Library/Containers/com.docker.docker/Data/vpnkit-bridge-fd.sock
+4.0K	/Users/marcela-dev/Library/Containers/com.docker.docker/Data/locked-directories
+4.0K	/Users/marcela-dev/Library/Containers/com.docker.docker/Data/tasks
+ 20K	/Users/marcela-dev/Library/Containers/com.docker.docker/Data/cagent
+6.4M	/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log
+ 48G	/Users/marcela-dev/Library/Containers/com.docker.docker/Data/vms
+
+==== DEEP AUDIT: LARGEST PATHS UNDER DOCKER DATA (TOP 120) ====
+  0B	/Users/marcela-dev/Library/Containers/com.docker.docker/Data/extensions
+4.0K	/Users/marcela-dev/Library/Containers/com.docker.docker/Data/tasks
+ 20K	/Users/marcela-dev/Library/Containers/com.docker.docker/Data/cagent
+2.7M	/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm
+3.7M	/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host
+6.4M	/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log
+ 48G	/Users/marcela-dev/Library/Containers/com.docker.docker/Data
+ 48G	/Users/marcela-dev/Library/Containers/com.docker.docker/Data/vms
+ 48G	/Users/marcela-dev/Library/Containers/com.docker.docker/Data/vms/0
+ 48G	/Users/marcela-dev/Library/Containers/com.docker.docker/Data/vms/0/data
+
+==== SUSPECT VM / DISK / IMAGE FILES ====
+-rw-r--r--@ 1 marcela-dev  staff   228G Apr  2 11:43 /Users/marcela-dev/Library/Containers/com.docker.docker/Data/vms/0/data/Docker.raw
+
+==== LARGE FILES UNDER DOCKER DATA (>500M) ====
+-rw-r--r--@ 1 marcela-dev  staff   228G Apr  2 11:43 /Users/marcela-dev/Library/Containers/com.docker.docker/Data/vms/0/data/Docker.raw
+
+==== DOCKER RUN DIR ====
+total 0
+drwxr-xr-x@  2 marcela-dev  staff   64 Apr  2 11:44 .
+drwxr-xr-x@ 14 marcela-dev  staff  448 Mar 11 11:32 ..
+
+==== DOCKER CLIENT / SERVER RECHECK ====
+Client:
+ Version:           29.1.3
+ API version:       1.52
+ Go version:        go1.25.5
+ Git commit:        f52814d
+ Built:             Fri Dec 12 14:48:46 2025
+ OS/Arch:           darwin/arm64
+ Context:           desktop-linux
+failed to connect to the docker API at unix:///Users/marcela-dev/.docker/run/docker.sock; check if the path is correct and if the daemon is running: dial unix /Users/marcela-dev/.docker/run/docker.sock: connect: no such file or directory
+
+Client:
+ Version:    29.1.3
+ Context:    desktop-linux
+ Debug Mode: false
+ Plugins:
+  ai: Docker AI Agent - Ask Gordon (Docker Inc.)
+    Version:  v1.17.1
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-ai
+  buildx: Docker Buildx (Docker Inc.)
+    Version:  v0.30.1-desktop.1
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-buildx
+  compose: Docker Compose (Docker Inc.)
+    Version:  v2.40.3-desktop.1
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-compose
+  debug: Get a shell into any image or container (Docker Inc.)
+    Version:  0.0.45
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-debug
+  desktop: Docker Desktop commands (Docker Inc.)
+    Version:  v0.2.0
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-desktop
+  extension: Manages Docker extensions (Docker Inc.)
+    Version:  v0.2.31
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-extension
+  init: Creates Docker-related starter files for your project (Docker Inc.)
+    Version:  v1.4.0
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-init
+  mcp: Docker MCP Plugin (Docker Inc.)
+    Version:  v0.34.0
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-mcp
+  model: Docker Model Runner (Docker Inc.)
+    Version:  v1.0.2
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-model
+  offload: Docker Offload (Docker Inc.)
+    Version:  v0.5.33
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-offload
+  pass: Docker Pass Secrets Manager Plugin (beta) (Docker Inc.)
+    Version:  v0.0.21
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-pass
+  sandbox: Docker Sandbox (Docker Inc.)
+    Version:  v0.6.0
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-sandbox
+  sbom: View the packaged-based Software Bill Of Materials (SBOM) for an image (Anchore Inc.)
+    Version:  0.6.0
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-sbom
+  scout: Docker Scout (Docker Inc.)
+    Version:  v1.18.3
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-scout
+
+Server:
+failed to connect to the docker API at unix:///Users/marcela-dev/.docker/run/docker.sock; check if the path is correct and if the daemon is running: dial unix /Users/marcela-dev/.docker/run/docker.sock: connect: no such file or directory
+
+==== CONTEXT RECHECK ====
+NAME              DESCRIPTION                               DOCKER ENDPOINT                                     ERROR
+default           Current DOCKER_HOST based configuration   unix:///var/run/docker.sock                         
+desktop-linux *   Docker Desktop                            unix:///Users/marcela-dev/.docker/run/docker.sock   
+
+==== LOCAL DASHBOARD STATUS ====
+COMMAND   PID        USER   FD   TYPE            DEVICE SIZE/OFF NODE NAME
+node    33302 marcela-dev   13u  IPv4 0x2574a63839a45e9      0t0  TCP *:3000 (LISTEN)
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Fri, 20 Mar 2026 18:02:44 GMT
+ETag: W/"282b-19d0c69f798"
+Content-Type: text/html; charset=utf-8
+Content-Length: 10283
+Date: Mon, 06 Apr 2026 02:19:37 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+
+==== DOCKERIZED DASHBOARD STATUS ====
+
+==== INTERPRETATION BOUNDARY ====
+This audit identifies where Docker Desktop data usage is concentrated.
+It does not delete anything.
+It does not mutate application code.
+It does not restart Docker.
+
