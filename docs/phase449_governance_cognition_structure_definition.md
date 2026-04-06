@@ -1,301 +1,287 @@
 PHASE 449 — GOVERNANCE COGNITION STRUCTURE DEFINITION
-FL-3 PREPARATION CORRIDOR
 
-Classification:
-STRUCTURAL COGNITION DEFINITION PHASE
-
-Purpose:
-
-Define the structural cognition model governance will use to reason about
-operator work WITHOUT introducing:
-
-• Runtime evaluation
-• Policy engines
-• Execution behavior
-• Automation logic
-• Authority redistribution
-
-This phase defines structure only.
-
-No behavior permitted.
+STRUCTURAL CORRIDOR ONLY
+NO EXECUTION INTRODUCTION
+NO RUNTIME BEHAVIOR
+NO POLICY ENGINES
 
 ────────────────────────────────
 
 OBJECTIVE
 
-Establish the structural containers required for governance reasoning so that:
+Define the structural cognition model governance will use to reason about
+operator work during FL-3 without introducing evaluation behavior.
 
-Governance decisions become:
+This phase defines:
 
-• Deterministic
-• Explainable
-• Traceable
-• Structurally auditable
+• Reasoning structure shape
+• Decision structure shape
+• Explanation structure shape
+• Cognition packaging boundaries
+• Invariant preservation
 
-Without triggering evaluation behavior.
+This phase does NOT define:
 
-This creates the cognition skeleton FL-3 requires.
-
-────────────────────────────────
-
-GOVERNANCE COGNITION MODEL (STRUCTURAL LAYERS)
-
-Governance cognition is defined as five structural layers:
-
-1 — Work Understanding Structure
-Defines how governance structurally understands operator work.
-
-2 — Safety Understanding Structure
-Defines how governance structurally reasons about safety.
-
-3 — Prerequisite Understanding Structure
-Defines structural dependency awareness.
-
-4 — Decision Structure
-Defines how governance decisions are represented.
-
-5 — Explanation Structure
-Defines how reasoning becomes explainable.
-
-No evaluation logic exists here.
-
-Only structure.
-
-────────────────────────────────
-
-LAYER 1 — WORK UNDERSTANDING STRUCTURE
-
-Purpose:
-
-Define how governance structurally sees a project.
-
-Structural model:
-
-GovernanceWorkUnderstanding:
-
-projectId
-projectStructureReference
-taskCount
-dependencyCount
-executionPathReference
-complexityClassification
-unknownSurfaceMarkers
-
-Important:
-
-UNKNOWN must be representable.
-
-Governance must be allowed to say:
-
-INSUFFICIENT STRUCTURE
-
-No inference allowed yet.
+• Decision logic
+• Evaluation algorithms
+• Safety policy rules
+• Runtime governance behavior
+• Execution eligibility logic
 
 Structure only.
 
 ────────────────────────────────
 
-LAYER 2 — SAFETY UNDERSTANDING STRUCTURE
+GOVERNANCE COGNITION PURPOSE
 
-Purpose:
+Governance cognition exists to:
 
-Define how governance structurally classifies safety posture.
+Allow the system to explain *why* work is allowed or blocked
+without allowing governance to *execute* decisions.
 
-GovernanceSafetyUnderstanding:
+Cognition provides:
 
-riskSurfaceMarkers
-externalInteractionMarkers
-resourceUsageMarkers
-operatorImpactMarkers
-unknownRiskMarkers
-classificationConfidence
+Understanding
+Traceability
+Explanation
+Visibility
 
-Important invariant:
+NOT:
 
-Unknown risk must be structurally representable.
-
-No scoring logic allowed.
-
-No risk calculation allowed.
-
-Only containers.
-
-────────────────────────────────
-
-LAYER 3 — PREREQUISITE UNDERSTANDING STRUCTURE
-
-Purpose:
-
-Define dependency awareness structure.
-
-GovernancePrerequisiteUnderstanding:
-
-missingPrerequisites
-dependencyChains
-operatorInputsRequired
-approvalDependencies
-structureCompletenessMarkers
-
-Important invariant:
-
-Missing prerequisite must structurally block readiness.
-
-No readiness logic here.
-
-Only representation.
-
-────────────────────────────────
-
-LAYER 4 — GOVERNANCE DECISION STRUCTURE
-
-Purpose:
-
-Define decision containers.
-
-GovernanceDecisionStructure:
-
-decisionId
-decisionType
-
-Allowed decision types:
-
-ALLOW_STRUCTURAL_PROGRESS
-REQUIRES_OPERATOR_DECISION
-STRUCTURE_INCOMPLETE
-SAFETY_REVIEW_REQUIRED
-
-Decision must contain:
-
-decisionReasonReferences
-decisionEvidenceReferences
-decisionExplanationReference
-decisionConfidenceMarker
-
-Important invariant:
-
-Decision must always reference evidence container.
-
-────────────────────────────────
-
-LAYER 5 — GOVERNANCE EXPLANATION STRUCTURE
-
-Purpose:
-
-Define explainability container.
-
-GovernanceExplanationStructure:
-
-explanationId
-decisionId
-structuralFindings
-missingInformation
-safetyObservations
-prerequisiteObservations
-reasoningTraceReference
-evidenceReferenceList
+Authority expansion
+Automation
+Execution triggers
 
 Invariant:
 
-Every governance decision must be explainable.
+Cognition must remain descriptive.
 
-No opaque decisions allowed.
+Never prescriptive.
 
-Explanation must be possible BEFORE evaluation logic exists.
+────────────────────────────────
+
+GOVERNANCE COGNITION STRUCTURE MODEL
+
+Governance cognition will consist of five structural layers:
+
+1 — Intake Understanding Layer
+2 — Evaluation Framing Layer
+3 — Decision Framing Layer
+4 — Explanation Layer
+5 — Evidence Layer
+
+These are structural containers only.
+
+No behavior defined.
+
+────────────────────────────────
+
+LAYER 1 — INTAKE UNDERSTANDING STRUCTURE
+
+Purpose:
+
+Describe how governance *understands* a request structurally.
+
+Structure fields:
+
+request_id
+request_type
+project_shape_detected
+task_count_detected
+dependency_presence
+unknown_structure_flags
+
+Invariant:
+
+Understanding must not evaluate safety.
+
+Only describe structure.
+
+────────────────────────────────
+
+LAYER 2 — EVALUATION FRAMING STRUCTURE
+
+Purpose:
+
+Describe what governance *would consider* when evaluating.
+
+Structure fields:
+
+safety_review_required (boolean)
+prerequisite_review_required (boolean)
+authority_review_required (boolean)
+execution_boundary_detected (boolean)
+
+Invariant:
+
+This layer cannot approve or deny.
+
+Only declare evaluation dimensions.
+
+────────────────────────────────
+
+LAYER 3 — DECISION FRAMING STRUCTURE
+
+Purpose:
+
+Define the structure governance uses to present decisions.
+
+Structure fields:
+
+decision_required (boolean)
+
+possible_outcomes:
+
+ALLOW
+BLOCK
+REQUIRES_OPERATOR_APPROVAL
+INSUFFICIENT_INFORMATION
+
+decision_blockers_present (boolean)
+
+approval_required (boolean)
+
+Invariant:
+
+No outcome selection defined here.
+
+Only possible outcome space.
+
+────────────────────────────────
+
+LAYER 4 — EXPLANATION STRUCTURE
+
+Purpose:
+
+Guarantee governance can explain decisions deterministically.
+
+Structure fields:
+
+explanation_id
+decision_context_reference
+governance_reasoning_summary
+blocking_reason_summary
+approval_reason_summary
+
+Invariant:
+
+Explanation must be reproducible from evidence.
+
+Explanation must never reference runtime behavior.
+
+────────────────────────────────
+
+LAYER 5 — EVIDENCE STRUCTURE
+
+Purpose:
+
+Ensure every governance cognition result is traceable.
+
+Structure fields:
+
+evidence_id
+request_reference
+structure_evidence_links
+governance_reference_links
+invariant_check_results
+
+Invariant:
+
+All cognition must link to evidence.
+
+No free reasoning allowed.
+
+────────────────────────────────
+
+GOVERNANCE COGNITION OUTPUT CONTAINER
+
+All governance cognition must be packaged into:
+
+GovernanceCognitionResult
+
+Structural shape:
+
+GovernanceCognitionResult
+
+contains:
+
+intake_understanding
+evaluation_frame
+decision_frame
+explanation_frame
+evidence_frame
+
+Invariant:
+
+Cognition result must be immutable after creation.
 
 ────────────────────────────────
 
 GOVERNANCE COGNITION INVARIANTS
 
-These invariants must hold:
-
-Governance cognition must never:
+Cognition must NEVER:
 
 Trigger execution
-Authorize execution
-Block execution automatically
-Generate tasks
-Modify projects
-Infer missing data
+Approve execution
+Block execution
+Modify tasks
+Modify project structure
+Create automation
 
-Governance cognition may only:
+Cognition may ONLY:
 
 Describe
-Classify
-Reference
+Frame
 Explain
-Expose uncertainty
-
-Cognition remains advisory structure.
-
-Authority unchanged.
+Trace
+Expose
 
 ────────────────────────────────
 
-AUTHORITY ORDERING CHECK
+AUTHORITY PRESERVATION RULE
 
-Human → Governance → Enforcement → Execution
+Cognition cannot change authority ordering.
 
-Governance cognition must NOT:
+Human remains final decision authority.
 
-Bypass operator approval
-Trigger enforcement
-Trigger execution
+Governance remains advisory decision authority.
 
-Decision structure must remain approval-gated.
+Enforcement remains mediation only.
 
-Invariant preserved.
+Execution remains consumer only.
 
 ────────────────────────────────
 
-FL-3 CONTRIBUTION
+FL-3 RELEVANCE
 
-This phase enables:
+This structure enables:
 
-Capability Bucket 2 — Governance Cognition
+Governance explanation guarantees
+Decision visibility
+Operator trust
+Deterministic reasoning trace
 
-Progress condition achieved:
+This structure prepares:
 
-Governance reasoning structures now defined.
+FL-3 Governance Cognition bucket.
 
-Completion not yet achieved.
-
-Next required work:
-
-Reasoning trace structure
-Evidence linkage structure
-Explanation normalization structure
-
-No runtime reasoning yet.
+Behavior introduction deferred.
 
 ────────────────────────────────
 
-NEXT SAFE MICRO STEP (449.1)
+PHASE 449 STATUS
 
-Define:
+Governance cognition structural definition:
 
-Governance reasoning trace structure.
+INITIAL STRUCTURE ESTABLISHED
 
-Goal:
+Next possible structural work:
 
-Allow governance to structurally describe:
+Decision explanation refinement
+Cognition normalization model
+Reasoning trace container definition
 
-HOW it reasoned.
+No wiring authorized.
 
-Without reasoning behavior.
-
-Definition only.
-
-────────────────────────────────
-
-PHASE STATUS
-
-Phase 449:
-
-STRUCTURAL COGNITION MODEL DEFINED
-
-Behavior introduced: NO
-Execution expanded: NO
-Authority changed: NO
-
-Deterministic stop safe.
+STRUCTURAL CORRIDOR REMAINS ACTIVE.
 
