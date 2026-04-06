@@ -1,0 +1,137 @@
+DOCKER FAST RECOVERY AND DASHBOARD VERIFY
+Timestamp: Sun Apr  5 18:56:27 PDT 2026
+
+==== STEP 1: QUIT DOCKER DESKTOP ====
+Quit signal sent
+
+==== STEP 2: CLEAN STUCK DOCKER DESKTOP PROCESSES ====
+marcela-dev      13584   0.0  0.2 411630832  26464   ??  S    11Mar26   5:31.44 /Applications/Docker.app/Contents/MacOS/com.docker.backend
+marcela-dev      13584   0.0  0.2 411630832  26464   ??  S    11Mar26   5:31.44 /Applications/Docker.app/Contents/MacOS/com.docker.backend
+
+==== STEP 3: START DOCKER DESKTOP ====
+Start command issued at: Sun Apr  5 18:58:36 PDT 2026
+
+==== STEP 4: WAIT FOR DOCKER DAEMON ====
+Attempt 1: daemon not ready
+Attempt 2: daemon not ready
+Attempt 3: daemon not ready
+Attempt 4: daemon not ready
+Attempt 5: daemon not ready
+Attempt 6: daemon not ready
+Attempt 7: daemon not ready
+Attempt 8: daemon not ready
+Attempt 9: daemon not ready
+Attempt 10: daemon not ready
+Attempt 11: daemon not ready
+Attempt 12: daemon not ready
+Attempt 13: daemon not ready
+Attempt 14: daemon not ready
+Attempt 15: daemon not ready
+Attempt 16: daemon not ready
+Attempt 17: daemon not ready
+Attempt 18: daemon not ready
+Attempt 19: daemon not ready
+Attempt 20: daemon not ready
+Attempt 21: daemon not ready
+Attempt 22: daemon not ready
+Attempt 23: daemon not ready
+Attempt 24: daemon not ready
+Attempt 25: daemon not ready
+Attempt 26: daemon not ready
+Attempt 27: daemon not ready
+Attempt 28: daemon not ready
+Attempt 29: daemon not ready
+Attempt 30: daemon not ready
+Attempt 31: daemon not ready
+Attempt 32: daemon not ready
+Attempt 33: daemon not ready
+Attempt 34: daemon not ready
+Attempt 35: daemon not ready
+Attempt 36: daemon not ready
+
+==== STEP 5: DOCKER STATUS ====
+Client:
+ Version:    29.1.3
+ Context:    desktop-linux
+ Debug Mode: false
+ Plugins:
+  ai: Docker AI Agent - Ask Gordon (Docker Inc.)
+    Version:  v1.17.1
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-ai
+  buildx: Docker Buildx (Docker Inc.)
+    Version:  v0.30.1-desktop.1
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-buildx
+  compose: Docker Compose (Docker Inc.)
+    Version:  v2.40.3-desktop.1
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-compose
+  debug: Get a shell into any image or container (Docker Inc.)
+    Version:  0.0.45
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-debug
+  desktop: Docker Desktop commands (Docker Inc.)
+    Version:  v0.2.0
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-desktop
+  extension: Manages Docker extensions (Docker Inc.)
+    Version:  v0.2.31
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-extension
+  init: Creates Docker-related starter files for your project (Docker Inc.)
+    Version:  v1.4.0
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-init
+  mcp: Docker MCP Plugin (Docker Inc.)
+    Version:  v0.34.0
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-mcp
+  model: Docker Model Runner (Docker Inc.)
+    Version:  v1.0.2
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-model
+  offload: Docker Offload (Docker Inc.)
+    Version:  v0.5.33
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-offload
+  pass: Docker Pass Secrets Manager Plugin (beta) (Docker Inc.)
+    Version:  v0.0.21
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-pass
+  sandbox: Docker Sandbox (Docker Inc.)
+    Version:  v0.6.0
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-sandbox
+  sbom: View the packaged-based Software Bill Of Materials (SBOM) for an image (Anchore Inc.)
+    Version:  0.6.0
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-sbom
+  scout: Docker Scout (Docker Inc.)
+    Version:  v1.18.3
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-scout
+
+Server:
+failed to connect to the docker API at unix:///Users/marcela-dev/.docker/run/docker.sock; check if the path is correct and if the daemon is running: dial unix /Users/marcela-dev/.docker/run/docker.sock: connect: no such file or directory
+
+failed to connect to the docker API at unix:///Users/marcela-dev/.docker/run/docker.sock; check if the path is correct and if the daemon is running: dial unix /Users/marcela-dev/.docker/run/docker.sock: connect: no such file or directory
+
+==== STEP 6: RESTART CONTAINERIZED STACK ====
+Skipped compose restart because daemon is unavailable
+
+==== STEP 7: COMPOSE STATUS ====
+Cannot connect to the Docker daemon at unix:///Users/marcela-dev/.docker/run/docker.sock. Is the docker daemon running?
+
+==== STEP 8: PORT CHECK ====
+COMMAND   PID        USER   FD   TYPE            DEVICE SIZE/OFF NODE NAME
+node    33302 marcela-dev   13u  IPv4 0x2574a63839a45e9      0t0  TCP *:3000 (LISTEN)
+
+==== STEP 9: DASHBOARD HTTP VERIFY ====
+
+
+
+
+==== STEP 10: LOCAL :3000 CHECK ====
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Fri, 20 Mar 2026 18:02:44 GMT
+ETag: W/"282b-19d0c69f798"
+Content-Type: text/html; charset=utf-8
+Content-Length: 10283
+Date: Mon, 06 Apr 2026 02:01:43 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+
+==== FINAL RESULT ====
+Docker daemon did NOT recover.
+
