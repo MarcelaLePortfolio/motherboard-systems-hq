@@ -1,19 +1,13 @@
 import fs from "node:fs";
 import path from "node:path";
+import { pathToFileURL } from "node:url";
+import {
+  parsePromptToDemoRequest,
+  type DemoRequest,
+  type DemoTaskDefinition,
+} from "./promptToDemoRequest";
 
-export type DemoTaskDefinition = {
-  id: string;
-  name: string;
-};
-
-export type DemoRequest = {
-  requestId: string;
-  description: string;
-  approved: boolean;
-  governanceEvaluated: boolean;
-  authorityOrderingValid: boolean;
-  tasks: DemoTaskDefinition[];
-};
+export type { DemoRequest, DemoTaskDefinition } from "./promptToDemoRequest";
 
 export type AdmissionResult = {
   requestId: string;
@@ -45,6 +39,7 @@ export type TaskExecutionRecord = {
 export type DemoReport = {
   requestId: string;
   requestSummary: string;
+  generatedRequest: DemoRequest;
   admissionDecision: AdmissionResult["decision"];
   denialReasons: string[];
   traversalOrder: string[];
@@ -53,7 +48,14 @@ export type DemoReport = {
   finalDemoResult: "DEMO_SUCCESS" | "DEMO_FAILED";
 };
 
-function loadRequestFromFile(requestFilePath: string): DemoRequest {
+export type RunPromptInput = {
+  prompt: string;
+  approved?: boolean;
+  governanceEvaluated?: boolean;
+  authorityOrderingValid?: boolean;
+};
+
+export function loadRequestFromFile(requestFilePath: string): DemoRequest {
   const absolutePath = path.resolve(requestFilePath);
   const raw = fs.readFileSync(absolutePath, "utf8");
   return JSON.parse(raw) as DemoRequest;
@@ -122,7 +124,7 @@ function classifyTaskOutcome(task: DemoTaskDefinition): TaskOutcome {
 
 function executeBoundedTask(
   task: DemoTaskDefinition,
-  traversalPosition: number,
+  traversalPosition: number
 ): TaskExecutionRecord {
   const outcome = classifyTaskOutcome(task);
 
@@ -138,7 +140,7 @@ function executeBoundedTask(
 
 export function runDeterministicTraversal(
   request: DemoRequest,
-  admission: AdmissionResult,
+  admission: AdmissionResult
 ): { traversalState: TraversalState; taskOutcomes: TaskExecutionRecord[] } {
   if (admission.decision !== "ADMITTED") {
     return {
@@ -171,7 +173,7 @@ export function buildDemoReport(
   request: DemoRequest,
   admission: AdmissionResult,
   traversalState: TraversalState,
-  taskOutcomes: TaskExecutionRecord[],
+  taskOutcomes: TaskExecutionRecord[]
 ): DemoReport {
   const finalDemoResult =
     admission.decision === "ADMITTED" &&
@@ -184,6 +186,7 @@ export function buildDemoReport(
   return {
     requestId: request.requestId,
     requestSummary: request.description,
+    generatedRequest: request,
     admissionDecision: admission.decision,
     denialReasons: admission.denialReasons,
     traversalOrder: request.tasks.map((task) => task.name),
@@ -201,8 +204,13 @@ export function runMinimalDemo(request: DemoRequest): DemoReport {
     request,
     admission,
     traversal.traversalState,
-    traversal.taskOutcomes,
+    traversal.taskOutcomes
   );
+}
+
+export function runMinimalDemoFromPrompt(input: RunPromptInput): DemoReport {
+  const request = parsePromptToDemoRequest(input);
+  return runMinimalDemo(request);
 }
 
 function main(): void {
@@ -213,4 +221,11 @@ function main(): void {
   console.log(JSON.stringify(report, null, 2));
 }
 
-main();
+const isDirectRun =
+  typeof process !== "undefined" &&
+  Boolean(process.argv[1]) &&
+  import.meta.url === pathToFileURL(process.argv[1]).href;
+
+if (isDirectRun) {
+  main();
+}
