@@ -1,0 +1,721 @@
+PHASE 456.5 — IMPLEMENTATION STEP 10
+Mount Target Shortlist
+--------------------------------
+
+Goal:
+Identify the single safest dashboard file for first SystemHealthBlock mount.
+
+Shortlist criteria:
+1. Must be a top-level dashboard/operator/governance page or layout
+2. Must already render visible panels/sections
+3. Must allow single top-of-tree insertion
+4. Must avoid touching producers, pipelines, or registries
+
+Candidate files from repository paths
+app/demo-runtime/page.tsx
+src/cognition/governanceAwarenessGuards.smoke.ts
+src/cognition/governanceCognition.smoke.ts
+src/cognition/operator-read/cognition.operator-read.ts
+src/cognition/operator-read/index.ts
+src/cognition/operatorGuidance.live.ts
+src/cognition/operatorGuidance.smoke.ts
+src/cognition/operatorGuidance.ts
+src/cognition/operatorGuidanceConfidence.ts
+src/cognition/operatorGuidanceMapping.ts
+src/cognition/operatorGuidanceReducer.ts
+src/cognition/operatorGuidanceSafety.ts
+src/cognition/transport/cognitionTransport.dashboard.ts
+src/cognition/transport/cognitionTransport.dashboardConsumption.invariants.ts
+src/cognition/transport/cognitionTransport.dashboardConsumption.test.ts
+src/cognition/transport/cognitionTransport.dashboardConsumption.ts
+src/cognition/transport/cognitionTransport.dashboardConsumption.types.ts
+src/cognition/transport/cognitionTransport.governance.ts
+src/cognition/transport/cognitionTransport.operator.ts
+src/cognition/transport/cognitionTransport.operatorView.ts
+src/components/dashboard/SystemHealthBlock.tsx
+src/governance_digest/governance_digest_builder.ts
+src/governance_digest/governance_digest_contract.ts
+src/governance_digest/governance_digest_formatter.ts
+src/governance_digest/governance_digest_model.ts
+src/governance_digest/index.ts
+src/governance_investigation/governance_dashboard_playback_contract.ts
+src/governance_investigation/governance_decision_trace.ts
+src/governance_investigation/governance_investigation_types.ts
+src/governance_investigation/governance_operator_investigation_view.ts
+src/governance_investigation/governance_operator_playback_view.ts
+src/governance_investigation/governance_playback_assembly_proof.ts
+src/governance_investigation/governance_playback_assembly.ts
+src/governance_investigation/governance_playback_invariants.ts
+src/governance_investigation/governance_playback_navigation_assembly.ts
+src/governance_investigation/governance_playback_navigation.ts
+src/governance_investigation/governance_playback_proof.ts
+src/governance_investigation/governance_playback_types.ts
+src/governance_investigation/governance_timeline_types.ts
+src/governance_investigation/index.ts
+src/governance_investigation/verification/check-pathological-fixture-diagnostic-stability.ts
+src/governance_investigation/verification/check-pathological-fixture-reproducibility.ts
+src/governance_investigation/verification/check-pathological-fixtures.ts
+src/governance_investigation/verification/replay_fixture_diagnostics.ts
+src/governance_investigation/verification/replay_fixture_library.ts
+src/governance_investigation/verification/replay_fixture_runner.ts
+src/governance_investigation/verification/replay_fixture_summary.ts
+src/governance_investigation/verification/replay_pathological_fixtures.ts
+src/governance_investigation/verification/replay_structure_verifier.ts
+src/governance_investigation/verification/replay_violation_codes.ts
+src/governance_investigation/verification/run-pathological-fixture-proof.ts
+src/governance_investigation/verification/run-replay-diagnostic-stability-proof.ts
+src/governance_investigation/verification/run-replay-pathological-proof-suite.ts
+src/governance_investigation/verification/run-replay-verification-proof-suite.ts
+src/governance_operator_archive/governance_operator_archive_builder.ts
+src/governance_operator_archive/governance_operator_archive_contract.ts
+src/governance_operator_archive/governance_operator_archive_formatter.ts
+src/governance_operator_archive/governance_operator_archive_model.ts
+src/governance_operator_archive/index.ts
+src/governance_operator_atlas/governance_operator_atlas_builder.ts
+src/governance_operator_atlas/governance_operator_atlas_contract.ts
+src/governance_operator_atlas/governance_operator_atlas_formatter.ts
+src/governance_operator_atlas/governance_operator_atlas_model.ts
+src/governance_operator_atlas/index.ts
+src/governance_operator_briefing/governance_operator_briefing_builder.ts
+src/governance_operator_briefing/governance_operator_briefing_contract.ts
+src/governance_operator_briefing/governance_operator_briefing_formatter.ts
+src/governance_operator_briefing/governance_operator_briefing_model.ts
+src/governance_operator_briefing/index.ts
+src/governance_operator_bundle/governance_operator_bundle_builder.ts
+src/governance_operator_bundle/governance_operator_bundle_contract.ts
+src/governance_operator_bundle/governance_operator_bundle_formatter.ts
+src/governance_operator_bundle/governance_operator_bundle_model.ts
+src/governance_operator_bundle/index.ts
+src/governance_operator_catalog/governance_operator_catalog_builder.ts
+src/governance_operator_catalog/governance_operator_catalog_contract.ts
+src/governance_operator_catalog/governance_operator_catalog_formatter.ts
+src/governance_operator_catalog/governance_operator_catalog_model.ts
+src/governance_operator_catalog/index.ts
+src/governance_operator_compendium/governance_operator_compendium_builder.ts
+src/governance_operator_compendium/governance_operator_compendium_contract.ts
+src/governance_operator_compendium/governance_operator_compendium_formatter.ts
+src/governance_operator_compendium/governance_operator_compendium_model.ts
+src/governance_operator_compendium/index.ts
+src/governance_operator_console/governance_operator_console_builder.ts
+src/governance_operator_console/governance_operator_console_contract.ts
+src/governance_operator_console/governance_operator_console_formatter.ts
+src/governance_operator_console/governance_operator_console_model.ts
+src/governance_operator_console/index.ts
+src/governance_operator_dictionary/governance_operator_dictionary_builder.ts
+src/governance_operator_dictionary/governance_operator_dictionary_contract.ts
+src/governance_operator_dictionary/governance_operator_dictionary_formatter.ts
+src/governance_operator_dictionary/governance_operator_dictionary_model.ts
+src/governance_operator_dictionary/index.ts
+src/governance_operator_directory/governance_operator_directory_builder.ts
+src/governance_operator_directory/governance_operator_directory_contract.ts
+src/governance_operator_directory/governance_operator_directory_formatter.ts
+src/governance_operator_directory/governance_operator_directory_model.ts
+src/governance_operator_directory/index.ts
+src/governance_operator_export/governance_operator_export_builder.ts
+src/governance_operator_export/governance_operator_export_contract.ts
+src/governance_operator_export/governance_operator_export_formatter.ts
+src/governance_operator_export/governance_operator_export_model.ts
+src/governance_operator_export/index.ts
+src/governance_operator_glossary/governance_operator_glossary_builder.ts
+src/governance_operator_glossary/governance_operator_glossary_contract.ts
+src/governance_operator_glossary/governance_operator_glossary_formatter.ts
+src/governance_operator_glossary/governance_operator_glossary_model.ts
+src/governance_operator_glossary/index.ts
+src/governance_operator_guide/governance_operator_guide_builder.ts
+src/governance_operator_guide/governance_operator_guide_contract.ts
+src/governance_operator_guide/governance_operator_guide_formatter.ts
+src/governance_operator_guide/governance_operator_guide_model.ts
+src/governance_operator_guide/index.ts
+src/governance_operator_handbook/governance_operator_handbook_builder.ts
+src/governance_operator_handbook/governance_operator_handbook_contract.ts
+src/governance_operator_handbook/governance_operator_handbook_formatter.ts
+src/governance_operator_handbook/governance_operator_handbook_model.ts
+src/governance_operator_handbook/index.ts
+src/governance_operator_handoff/governance_operator_handoff_builder.ts
+src/governance_operator_handoff/governance_operator_handoff_contract.ts
+src/governance_operator_handoff/governance_operator_handoff_formatter.ts
+src/governance_operator_handoff/governance_operator_handoff_model.ts
+src/governance_operator_handoff/index.ts
+src/governance_operator_index/governance_operator_index_builder.ts
+src/governance_operator_index/governance_operator_index_contract.ts
+src/governance_operator_index/governance_operator_index_formatter.ts
+src/governance_operator_index/governance_operator_index_model.ts
+src/governance_operator_index/index.ts
+src/governance_operator_ledger/governance_operator_ledger_builder.ts
+src/governance_operator_ledger/governance_operator_ledger_contract.ts
+src/governance_operator_ledger/governance_operator_ledger_formatter.ts
+src/governance_operator_ledger/governance_operator_ledger_model.ts
+src/governance_operator_ledger/index.ts
+src/governance_operator_lexicon/governance_operator_lexicon_builder.ts
+src/governance_operator_lexicon/governance_operator_lexicon_contract.ts
+src/governance_operator_lexicon/governance_operator_lexicon_formatter.ts
+src/governance_operator_lexicon/governance_operator_lexicon_model.ts
+src/governance_operator_lexicon/index.ts
+src/governance_operator_logbook/governance_operator_logbook_builder.ts
+src/governance_operator_logbook/governance_operator_logbook_contract.ts
+src/governance_operator_logbook/governance_operator_logbook_formatter.ts
+src/governance_operator_logbook/governance_operator_logbook_model.ts
+src/governance_operator_logbook/index.ts
+src/governance_operator_manifest_index/governance_operator_manifest_index_builder.ts
+src/governance_operator_manifest_index/governance_operator_manifest_index_contract.ts
+src/governance_operator_manifest_index/governance_operator_manifest_index_formatter.ts
+src/governance_operator_manifest_index/governance_operator_manifest_index_model.ts
+src/governance_operator_manifest_index/index.ts
+src/governance_operator_manifest/governance_operator_manifest_builder.ts
+src/governance_operator_manifest/governance_operator_manifest_contract.ts
+src/governance_operator_manifest/governance_operator_manifest_formatter.ts
+src/governance_operator_manifest/governance_operator_manifest_model.ts
+src/governance_operator_manifest/index.ts
+src/governance_operator_manual/governance_operator_manual_builder.ts
+src/governance_operator_manual/governance_operator_manual_contract.ts
+src/governance_operator_manual/governance_operator_manual_formatter.ts
+src/governance_operator_manual/governance_operator_manual_model.ts
+src/governance_operator_manual/index.ts
+src/governance_operator_map/governance_operator_map_builder.ts
+src/governance_operator_map/governance_operator_map_contract.ts
+src/governance_operator_map/governance_operator_map_formatter.ts
+src/governance_operator_map/governance_operator_map_model.ts
+src/governance_operator_map/index.ts
+src/governance_operator_packet/governance_operator_packet_builder.ts
+src/governance_operator_packet/governance_operator_packet_contract.ts
+src/governance_operator_packet/governance_operator_packet_formatter.ts
+src/governance_operator_packet/governance_operator_packet_model.ts
+src/governance_operator_packet/index.ts
+src/governance_operator_playbook/governance_operator_playbook_builder.ts
+src/governance_operator_playbook/governance_operator_playbook_contract.ts
+src/governance_operator_playbook/governance_operator_playbook_formatter.ts
+src/governance_operator_playbook/governance_operator_playbook_model.ts
+src/governance_operator_playbook/index.ts
+src/governance_operator_record/governance_operator_record_builder.ts
+src/governance_operator_record/governance_operator_record_contract.ts
+src/governance_operator_record/governance_operator_record_formatter.ts
+src/governance_operator_record/governance_operator_record_model.ts
+src/governance_operator_record/index.ts
+src/governance_operator_reference/governance_operator_reference_builder.ts
+src/governance_operator_reference/governance_operator_reference_contract.ts
+src/governance_operator_reference/governance_operator_reference_formatter.ts
+src/governance_operator_reference/governance_operator_reference_model.ts
+src/governance_operator_reference/index.ts
+src/governance_operator_register/governance_operator_register_builder.ts
+src/governance_operator_register/governance_operator_register_contract.ts
+src/governance_operator_register/governance_operator_register_formatter.ts
+src/governance_operator_register/governance_operator_register_model.ts
+src/governance_operator_register/index.ts
+src/governance_operator_session/governance_operator_session_builder.ts
+src/governance_operator_session/governance_operator_session_contract.ts
+src/governance_operator_session/governance_operator_session_formatter.ts
+src/governance_operator_session/governance_operator_session_model.ts
+src/governance_operator_session/index.ts
+src/governance_operator_snapshot/governance_operator_snapshot_builder.ts
+src/governance_operator_snapshot/governance_operator_snapshot_contract.ts
+src/governance_operator_snapshot/governance_operator_snapshot_formatter.ts
+src/governance_operator_snapshot/governance_operator_snapshot_model.ts
+src/governance_operator_snapshot/index.ts
+src/governance_reporting/governance_reporting_builder.ts
+src/governance_reporting/governance_reporting_contract.ts
+src/governance_reporting/governance_reporting_formatter.ts
+src/governance_reporting/governance_reporting_model.ts
+src/governance_reporting/index.ts
+src/governance_traceability/governance_traceability_contract.ts
+src/governance_traceability/governance_traceability_formatter.ts
+src/governance_traceability/governance_traceability_model.ts
+src/governance_traceability/governance_traceability_snapshot.ts
+src/governance_traceability/index.ts
+src/governance_visibility/governance_visibility_contract.ts
+src/governance_visibility/governance_visibility_formatter.ts
+src/governance_visibility/governance_visibility_model.ts
+src/governance_visibility/governance_visibility_snapshot.ts
+src/governance_visibility/index.ts
+src/governance/cognition/build_governance_authorization_gate.ts
+src/governance/cognition/build_governance_cognition_snapshot.ts
+src/governance/cognition/build_governance_dashboard_consumption_view.ts
+src/governance/cognition/build_governance_final_delivery_receipt.ts
+src/governance/cognition/build_governance_live_wiring_decision.ts
+src/governance/cognition/get_governance_execution_eligibility_snapshot.ts
+src/governance/cognition/governance_authorization_gate.ts
+src/governance/cognition/governance_cognition_snapshot_contract.ts
+src/governance/cognition/governance_dashboard_consumption_contract.ts
+src/governance/cognition/governance_dashboard_contract_registration.ts
+src/governance/cognition/governance_final_delivery_receipt.ts
+src/governance/cognition/governance_live_wiring_decision.ts
+src/governance/cognition/index.ts
+src/governance/cognition/normalize_governance_dashboard_contract_registration.ts
+src/governance/cognition/normalize_governance_snapshot.ts
+src/governance/cognition/operationalConfidence.selector.ts
+src/governance/cognition/operationalConfidence.synthesizer.ts
+src/governance/cognition/operationalConfidence.test.ts
+src/governance/cognition/operationalConfidence.types.ts
+src/governance/cognition/package_governance_cognition_snapshot.ts
+src/governance/cognition/prove_governance_authorization_gate.ts
+src/governance/cognition/prove_governance_cognition_snapshot.ts
+src/governance/cognition/prove_governance_dashboard_consumption_view.ts
+src/governance/cognition/prove_governance_dashboard_contract_registration.ts
+src/governance/cognition/prove_governance_final_delivery_receipt.ts
+src/governance/cognition/prove_governance_live_wiring_decision.ts
+src/governance/cognition/register_governance_dashboard_contract.ts
+src/governance/cognition/select_governance_authorization_gate.ts
+src/governance/cognition/select_governance_dashboard_consumption_view.ts
+src/governance/cognition/select_governance_final_delivery_receipt.ts
+src/governance/cognition/select_governance_live_wiring_decision.ts
+src/governance/governance_advisory_consistency_guard.test.ts
+src/governance/governance_advisory_consistency_guard.ts
+src/governance/governance_advisory_contract_lock.test.ts
+src/governance/governance_advisory_contract_lock.ts
+src/governance/governance_advisory_contract.test.ts
+src/governance/governance_advisory_contract.ts
+src/governance/governance_advisory_digest.test.ts
+src/governance/governance_advisory_digest.ts
+src/governance/governance_advisory_normalizer.test.ts
+src/governance/governance_advisory_normalizer.ts
+src/governance/governance_advisory_operator_view.test.ts
+src/governance/governance_advisory_operator_view.ts
+src/governance/governance_advisory_presenter.test.ts
+src/governance/governance_advisory_presenter.ts
+src/governance/governance_advisory_report_builder.ts
+src/governance/governance_advisory_stability_sentinel.test.ts
+src/governance/governance_advisory_stability_sentinel.ts
+src/governance/governance_advisory_summary_builder.test.ts
+src/governance/governance_advisory_summary_builder.ts
+src/governance/governance_audit_log.test.ts
+src/governance/governance_audit_log.ts
+src/governance/governance_audit_trace_emitter.test.ts
+src/governance/governance_audit_trace_emitter.ts
+src/governance/governance_cognition_determinism_sentinel.test.ts
+src/governance/governance_cognition_determinism_sentinel.ts
+src/governance/governance_cognition_integrity_sentinel.test.ts
+src/governance/governance_cognition_integrity_sentinel.ts
+src/governance/governance_cognition_regression_sentinel.test.ts
+src/governance/governance_cognition_regression_sentinel.ts
+src/governance/governance_cognition_replay_verifier.ts
+src/governance/governance_confidence_score.test.ts
+src/governance/governance_contradiction_detector.test.ts
+src/governance/governance_contradiction_detector.ts
+src/governance/governance_drift_expectations.ts
+src/governance/governance_drift_guard.test.ts
+src/governance/governance_drift_guard.ts
+src/governance/governance_drift_sentinel.test.ts
+src/governance/governance_drift_sentinel.ts
+src/governance/governance_enforcement_contract.ts
+src/governance/governance_enforcement_evaluator.test.ts
+src/governance/governance_enforcement_evaluator.ts
+src/governance/governance_enforcement_result.ts
+src/governance/governance_explanation_builder.test.ts
+src/governance/governance_explanation_builder.ts
+src/governance/governance_explanation_layer.test.ts
+src/governance/governance_fixture_corpus.test.ts
+src/governance/governance_fixture_corpus.ts
+src/governance/governance_fixture_integrity_sentinel.test.ts
+src/governance/governance_fixture_integrity_sentinel.ts
+src/governance/governance_operator_confidence_score.ts
+src/governance/governance_operator_explanation_layer.ts
+src/governance/governance_policy_router.test.ts
+src/governance/governance_policy_router.ts
+src/governance/governance_replay_verifier.test.ts
+src/governance/governance_stability_index.test.ts
+src/governance/governanceCognitionIntegrationHooks.ts
+src/governance/governanceCognitionIntegrationProof.ts
+src/governance/governanceCognitionSelectors.ts
+src/governance/governanceCognitionSelectorsProof.ts
+src/governance/governanceCognitionSurfaceBuilder.ts
+src/governance/governanceCognitionSurfaceProof.ts
+src/governance/governanceCognitionSurfaceTypes.ts
+src/governance/governanceExecutionRouting.ts
+src/governance/governanceExecutionRoutingClassifier.ts
+src/governance/governanceExecutionRoutingProof.ts
+src/governance/governanceExecutionRoutingTypes.ts
+src/governance/governanceOperatorAwarenessBuilder.ts
+src/governance/governanceOperatorAwarenessProof.ts
+src/governance/governanceOperatorAwarenessSummary.ts
+src/governance/governanceOperatorAwarenessTypes.ts
+src/governance/governanceOutcomeSurfaceBuilder.ts
+src/governance/governanceOutcomeSurfaceProof.ts
+src/governance/governanceOutcomeSurfaceTypes.ts
+src/governance/index.ts
+
+Candidate files containing top-level render roots
+--- app/demo-runtime/page.tsx
+"use client";
+
+import { useMemo, useState } from "react";
+
+type TaskExecutionRecord = {
+  taskId: string;
+  taskName: string;
+  traversalPosition: number;
+  outcome: "SUCCESS" | "FAILED" | "BLOCKED";
+  verificationConfirmed: boolean;
+  logicalTimestamp: string;
+};
+
+type DemoReport = {
+  requestId: string;
+  requestSummary: string;
+  generatedRequest: {
+    approved: boolean;
+    governanceEvaluated: boolean;
+    authorityOrderingValid: boolean;
+    tasks: { id: string; name: string }[];
+  };
+  admissionDecision: "ADMITTED" | "DENIED";
+  denialReasons: string[];
+  traversalOrder: string[];
+  traversalState: "NOT_STARTED" | "IN_PROGRESS" | "COMPLETED" | "BLOCKED";
+  taskOutcomes: TaskExecutionRecord[];
+  finalDemoResult: "DEMO_SUCCESS" | "DEMO_FAILED";
+};
+
+type SummaryBadgeProps = {
+  label: string;
+  value: string;
+};
+
+function SummaryBadge({ label, value }: SummaryBadgeProps) {
+  return (
+    <div
+      style={{
+        border: "1px solid #d9d9d9",
+        borderRadius: "0.75rem",
+        padding: "0.85rem 1rem",
+        background: "#fff",
+        minWidth: "180px",
+      }}
+    >
+      <div
+        style={{
+          fontSize: "0.78rem",
+          textTransform: "uppercase",
+          letterSpacing: "0.06em",
+          color: "#666",
+          marginBottom: "0.35rem",
+        }}
+      >
+        {label}
+      </div>
+      <div style={{ fontWeight: 700, fontSize: "1rem", color: "#111" }}>{value}</div>
+    </div>
+  );
+}
+
+export default function DemoRuntimePage() {
+  const [prompt, setPrompt] = useState(
+    "Create a project to evaluate deployment readiness for a new service. Include three tasks: dependency verification, governance review, and execution readiness assessment. Require approval before any execution preparation."
+  );
+  const [approved, setApproved] = useState(true);
+  const [governanceEvaluated, setGovernanceEvaluated] = useState(true);
+  const [authorityOrderingValid, setAuthorityOrderingValid] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [report, setReport] = useState<DemoReport | null>(null);
+  const [error, setError] = useState<string>("");
+
+  const governanceExplanation = useMemo(() => {
+    if (!report) {
+      return "";
+    }
+
+    if (report.admissionDecision === "ADMITTED") {
+      return "Request admitted because approval is present, governance evaluation is present, authority ordering is valid, and task structure passed integrity checks.";
+    }
+
+    if (report.denialReasons.length > 0) {
+      return `Request denied because: ${report.denialReasons.join(", ")}.`;
+    }
+
+    return "Request denied because one or more governance admission conditions were not satisfied.";
+  }, [report]);
+
+  async function runDemo() {
+    setLoading(true);
+    setError("");
+    setReport(null);
+
+    try {
+      const response = await fetch("/api/demo-runtime", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          prompt,
+          approved,
+          governanceEvaluated,
+          authorityOrderingValid,
+        }),
+      });
+
+      const data = (await response.json()) as DemoReport | { error: string };
+
+      if (!response.ok) {
+        throw new Error("error" in data ? data.error : "Demo runtime failed.");
+      }
+
+      setReport(data as DemoReport);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Unknown dashboard error.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <main style={{ padding: "2rem", maxWidth: "1120px", margin: "0 auto" }}>
+      <h1 style={{ marginBottom: "0.5rem", fontSize: "2rem" }}>Governed Runtime Demo</h1>
+      <p style={{ marginBottom: "1.5rem", color: "#444", lineHeight: 1.5 }}>
+        Enter a natural-language operator request and run it through the governed runtime
+        pipeline. The result surface is organized around request, admission, execution,
+        and outcome so the system can be understood quickly without code inspection.
+      </p>
+
+      <section
+        style={{
+          border: "1px solid #ddd",
+          borderRadius: "0.9rem",
+          padding: "1rem",
+          background: "#fafafa",
+          marginBottom: "1.5rem",
+        }}
+      >
+        <label style={{ display: "block", fontWeight: 700, marginBottom: "0.5rem" }}>
+          Operator Request
+        </label>
+        <textarea
+          value={prompt}
+          onChange={(event) => setPrompt(event.target.value)}
+          rows={7}
+          style={{
+            width: "100%",
+            padding: "0.85rem",
+            borderRadius: "0.65rem",
+            border: "1px solid #ccc",
+            marginBottom: "1rem",
+            fontFamily: "inherit",
+            fontSize: "0.98rem",
+          }}
+        />
+
+        <div style={{ display: "flex", gap: "1.25rem", marginBottom: "1rem", flexWrap: "wrap" }}>
+          <label>
+            <input
+              type="checkbox"
+              checked={approved}
+              onChange={(event) => setApproved(event.target.checked)}
+              style={{ marginRight: "0.5rem" }}
+            />
+            Approved
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              checked={governanceEvaluated}
+              onChange={(event) => setGovernanceEvaluated(event.target.checked)}
+              style={{ marginRight: "0.5rem" }}
+            />
+            Governance evaluated
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              checked={authorityOrderingValid}
+              onChange={(event) => setAuthorityOrderingValid(event.target.checked)}
+              style={{ marginRight: "0.5rem" }}
+            />
+            Authority ordering valid
+          </label>
+        </div>
+
+        <button
+          onClick={runDemo}
+          disabled={loading}
+          style={{
+            padding: "0.8rem 1rem",
+            borderRadius: "0.6rem",
+            border: "1px solid #111",
+            background: "#111",
+            color: "#fff",
+            cursor: loading ? "not-allowed" : "pointer",
+            fontWeight: 700,
+          }}
+        >
+          {loading ? "Running…" : "Run governed demo"}
+        </button>
+      </section>
+
+      {error ? (
+        <div
+          style={{
+            padding: "0.85rem 1rem",
+            borderRadius: "0.65rem",
+            background: "#fee",
+            color: "#900",
+            marginBottom: "1rem",
+            border: "1px solid #f3b7b7",
+          }}
+        >
+          {error}
+        </div>
+      ) : null}
+
+
+--- src/components/dashboard/SystemHealthBlock.tsx
+type SystemHealthSignals = {
+  governance?: string;
+  execution?: string;
+  approval?: string;
+  executionMode?: string;
+};
+
+export function SystemHealthBlock({ signals }: { signals?: SystemHealthSignals }) {
+  return (
+    <section aria-label="System status">
+      <h2>SYSTEM STATUS</h2>
+      <p>DEMO CAPABLE</p>
+      <ul>
+        <li>Governance: {signals?.governance ?? "—"}</li>
+        <li>Execution: {signals?.execution ?? "—"}</li>
+        <li>Approval: {signals?.approval ?? "—"}</li>
+        <li>Execution Mode: {signals?.executionMode ?? "—"}</li>
+      </ul>
+    </section>
+  );
+}
+
+--- src/governance_investigation/governance_playback_invariants.ts
+import type { GovernancePlaybackState } from "./governance_playback_types";
+
+export function isPlaybackCursorValid(
+  state: GovernancePlaybackState,
+): boolean {
+  if (state.total_events === 0) {
+    return state.cursor_index === -1;
+  }
+
+  return (
+    state.cursor_index >= 0 &&
+    state.cursor_index < state.total_events
+  );
+}
+
+export function isPlaybackCurrentEventValid(
+  state: GovernancePlaybackState,
+): boolean {
+  if (state.total_events === 0) {
+    return state.current_event === null;
+  }
+
+  return (
+    state.current_event ===
+    state.timeline[state.cursor_index]
+  );
+}
+
+export function isPlaybackTotalValid(
+  state: GovernancePlaybackState,
+): boolean {
+  return state.total_events === state.timeline.length;
+}
+
+export function verifyPlaybackState(
+  state: GovernancePlaybackState,
+): boolean {
+  return (
+    isPlaybackCursorValid(state) &&
+    isPlaybackCurrentEventValid(state) &&
+    isPlaybackTotalValid(state)
+  );
+}
+
+--- src/governance/governance_advisory_presenter.ts
+/*
+Phase 293 — Governance Advisory Presenter
+Deterministic presentation builder (read-only cognition layer)
+No routing
+No execution
+No mutation
+*/
+
+export type GovernanceSignal = {
+  id: string
+  severity: string
+}
+
+export type GovernanceSeverityGroup = {
+  severity: string
+  count: number
+  signals: GovernanceSignal[]
+}
+
+export type GovernancePresentation = {
+  total_signals: number
+  groups: GovernanceSeverityGroup[]
+}
+
+const SEVERITY_ORDER = [
+  "critical",
+  "risk",
+  "warning",
+  "info"
+]
+
+export function groupSignalsBySeverity(
+  signals: GovernanceSignal[]
+): GovernanceSeverityGroup[] {
+
+  const map = new Map<string, GovernanceSignal[]>()
+
+  for (const signal of signals) {
+
+    if (!map.has(signal.severity)) {
+      map.set(signal.severity, [])
+    }
+
+    map.get(signal.severity)!.push(signal)
+
+  }
+
+  const groups: GovernanceSeverityGroup[] = []
+
+  for (const [severity, items] of map.entries()) {
+
+    groups.push({
+      severity,
+      count: items.length,
+      signals: items
+    })
+
+  }
+
+  groups.sort((a,b) => {
+    return (
+      SEVERITY_ORDER.indexOf(a.severity)
+      - SEVERITY_ORDER.indexOf(b.severity)
+    )
+  })
+
+  return groups
+
+}
+
+export function buildGovernancePresentation(
+  signals: GovernanceSignal[]
+): GovernancePresentation {
+
+  const groups = groupSignalsBySeverity(signals)
+
+  return {
+    total_signals: signals.length,
+    groups
+  }
+
+}
+
+
+Files already importing panel-like UI
+
+Top-of-file snippets for safest likely page/layout targets
+
+Recommendation rule:
+Choose the first file that is:
+- a visible page/layout/dashboard root
+- already rendering the main dashboard sections
+- not a producer or infrastructure file
+- safe for single import + single top insertion
+
