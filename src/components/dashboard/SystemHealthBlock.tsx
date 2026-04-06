@@ -11,10 +11,10 @@ export function SystemHealthBlock({ signals }: { signals?: SystemHealthSignals }
       <h2>SYSTEM STATUS</h2>
       <p>DEMO CAPABLE</p>
       <ul>
-        <li>Governance: {signals?.governance ?? "—"}</li>
-        <li>Execution: {signals?.execution ?? "—"}</li>
-        <li>Approval: {signals?.approval ?? "—"}</li>
-        <li>Execution Mode: {signals?.executionMode ?? "—"}</li>
+        <li>Governance: {signals?.governance ?? "UNKNOWN"}</li>
+        <li>Execution: {signals?.execution ?? "UNKNOWN"}</li>
+        <li>Approval: {signals?.approval ?? "UNKNOWN"}</li>
+        <li>Execution Mode: {signals?.executionMode ?? "UNKNOWN"}</li>
       </ul>
     </section>
   );
