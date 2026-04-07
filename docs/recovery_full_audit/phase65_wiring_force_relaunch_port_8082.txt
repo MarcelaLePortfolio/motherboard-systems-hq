@@ -1,4 +1,10 @@
 ===== phase65_wiring =====
+WORKTREE=../mbhq_recovery_visual_compare/phase65_wiring
+PROJECT=mbhq_phase65_wiring
+PORT=8082
+
+./scripts/_local/phase457_force_relaunch_recovery_compare.sh: line 42: cd: ../mbhq_recovery_visual_compare/phase65_wiring: No such file or directory
+--- compose down ---
  Container mbhq_phase65_wiring-dashboard-1  Stopping
  Container mbhq_phase65_wiring-dashboard-1  Stopped
  Container mbhq_phase65_wiring-dashboard-1  Removing
@@ -7,10 +13,12 @@
  Container mbhq_phase65_wiring-postgres-1  Stopped
  Container mbhq_phase65_wiring-postgres-1  Removing
  Container mbhq_phase65_wiring-postgres-1  Removed
- Network mbhq_phase65_wiring_default  Removing
  Volume mbhq_phase65_wiring_pgdata  Removing
+ Network mbhq_phase65_wiring_default  Removing
  Volume mbhq_phase65_wiring_pgdata  Removed
  Network mbhq_phase65_wiring_default  Removed
+
+--- compose up ---
 #1 [internal] load local bake definitions
 #1 reading from stdin 728B done
 #1 DONE 0.0s
@@ -31,7 +39,7 @@
 #5 DONE 0.0s
 
 #6 [internal] load build context
-#6 transferring context: 202.15kB 0.1s done
+#6 transferring context: 197.63kB 0.1s done
 #6 DONE 0.1s
 
 #7 [2/7] WORKDIR /app
@@ -55,14 +63,15 @@
 #13 exporting to image
 #13 exporting layers
 #13 exporting layers 0.5s done
-#13 exporting manifest sha256:a630c5fd8b41b23a00273ad1be922071355166d1fb548e7a2187b2e0128f8e49 done
-#13 exporting config sha256:1d890827086f83bd2898294b42426a96c0434a1e733e586fbccbe33d8db27f8f done
-#13 exporting attestation manifest sha256:89f9ff694c56dc6b9db5ee83466ac4f799c8ab2520109f9f32414c562b59da37 done
-#13 exporting manifest list sha256:0ec4bcca48ed023e479187e3d8a5b63fb8de7920174888eef8406b99b76f82af done
+#13 exporting manifest sha256:bcee4452d058e44c6c7f8f85fcd1de6e97e698659a5b00042c1fb16baec981cf
+#13 exporting manifest sha256:bcee4452d058e44c6c7f8f85fcd1de6e97e698659a5b00042c1fb16baec981cf done
+#13 exporting config sha256:c0b07660b4a3a81b7e8eb3456d6fd88a25628a690bb25c1dad6a0bb2d97b0133 done
+#13 exporting attestation manifest sha256:d8bdf37c625dd414c0d13c4fd8ab1400236499f1862373ab0658c96e5cf6b8b0 done
+#13 exporting manifest list sha256:ad3d295e6bcaa8aa6240b535a726187abcb6e9d9d445950f70b76e8fb26b21bb done
 #13 naming to docker.io/library/mbhq_phase65_wiring-dashboard:latest done
 #13 unpacking to docker.io/library/mbhq_phase65_wiring-dashboard:latest
 #13 unpacking to docker.io/library/mbhq_phase65_wiring-dashboard:latest 0.2s done
-#13 DONE 0.8s
+#13 DONE 0.7s
 
 #14 resolving provenance for metadata file
 #14 DONE 0.0s
@@ -76,11 +85,24 @@
  Container mbhq_phase65_wiring-dashboard-1  Creating
  Container mbhq_phase65_wiring-dashboard-1  Created
  Container mbhq_phase65_wiring-postgres-1  Starting
-Error response from daemon: failed to set up container networking: driver failed programming external connectivity on endpoint mbhq_phase65_wiring-postgres-1 (ddae2e89aff3ea98dd83bbdea6f0ed9718ca31fc351417bc47bc34acdc820633): Bind for 0.0.0.0:5432 failed: port is already allocated
+Error response from daemon: failed to set up container networking: driver failed programming external connectivity on endpoint mbhq_phase65_wiring-postgres-1 (4571c0cc241b1cf5b75a9b7108e61821595601ecf6991724e0f8ea4a238a4e8a): Bind for 0.0.0.0:5432 failed: port is already allocated
+
+--- sleep ---
+
+--- compose ps -a ---
 NAME                              IMAGE                           COMMAND                  SERVICE     CREATED          STATUS    PORTS
 mbhq_phase65_wiring-dashboard-1   mbhq_phase65_wiring-dashboard   "docker-entrypoint.s…"   dashboard   10 seconds ago   Created   
 mbhq_phase65_wiring-postgres-1    postgres:16-alpine              "docker-entrypoint.s…"   postgres    10 seconds ago   Created   
+
+--- dashboard logs ---
+
+--- postgres logs ---
+
+--- http head ---
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
 curl: (7) Failed to connect to localhost port 8082 after 0 ms: Couldn't connect to server
+
+--- port listen ---
+

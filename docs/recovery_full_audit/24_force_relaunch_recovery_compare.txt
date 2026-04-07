@@ -1,3 +1,6 @@
 PHASE 457 - FORCE RELAUNCH RECOVERY COMPARE
 ===========================================
 
+PURPOSE
+Force-stop and relaunch each recovery candidate with dashboard host ports only.
+

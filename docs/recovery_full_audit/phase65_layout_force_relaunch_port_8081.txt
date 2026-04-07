@@ -1,4 +1,9 @@
 ===== phase65_layout =====
+WORKTREE=../mbhq_recovery_visual_compare/phase65_layout
+PROJECT=mbhq_phase65_layout
+PORT=8081
+
+--- compose down ---
  Container mbhq_phase65_layout-dashboard-1  Stopping
  Container mbhq_phase65_layout-dashboard-1  Stopped
  Container mbhq_phase65_layout-dashboard-1  Removing
@@ -11,16 +16,19 @@
  Network mbhq_phase65_layout_default  Removing
  Volume mbhq_phase65_layout_pgdata  Removed
  Network mbhq_phase65_layout_default  Removed
+
+--- compose up ---
 #1 [internal] load local bake definitions
 #1 reading from stdin 728B done
 #1 DONE 0.0s
 
 #2 [internal] load build definition from Dockerfile.dashboard
+#2 transferring dockerfile: 40B
 #2 transferring dockerfile: 741B done
 #2 DONE 0.0s
 
 #3 [internal] load metadata for docker.io/library/node:20-alpine
-#3 DONE 0.6s
+#3 DONE 0.4s
 
 #4 [internal] load .dockerignore
 #4 transferring context: 129B done
@@ -37,33 +45,31 @@
 #7 [2/7] WORKDIR /app
 #7 CACHED
 
-#8 [3/7] COPY package*.json ./
+#8 [6/7] COPY . .
 #8 CACHED
 
-#9 [4/7] COPY package-lock.json* ./
+#9 [3/7] COPY package*.json ./
 #9 CACHED
 
-#10 [5/7] RUN npm config set fetch-retries 5     && npm config set fetch-retry-factor 2     && npm config set fetch-retry-mintimeout 10000     && npm config set fetch-retry-maxtimeout 60000     && (npm config set registry https://registry.npmmirror.com/         && npm ci --no-audit --no-fund       || npm config set registry https://registry.npmjs.org/         && npm ci --no-audit --no-fund)     && apk add --no-cache curl ripgrep
+#10 [4/7] COPY package-lock.json* ./
 #10 CACHED
 
-#11 [6/7] COPY . .
-#11 DONE 0.2s
+#11 [5/7] RUN npm config set fetch-retries 5     && npm config set fetch-retry-factor 2     && npm config set fetch-retry-mintimeout 10000     && npm config set fetch-retry-maxtimeout 60000     && (npm config set registry https://registry.npmmirror.com/         && npm ci --no-audit --no-fund       || npm config set registry https://registry.npmjs.org/         && npm ci --no-audit --no-fund)     && apk add --no-cache curl ripgrep
+#11 CACHED
 
 #12 [7/7] COPY public/ ./public/
-#12 DONE 0.0s
+#12 CACHED
 
 #13 exporting to image
-#13 exporting layers
-#13 exporting layers 0.5s done
+#13 exporting layers done
 #13 exporting manifest sha256:f2e42a6e7a71e340da0bc8f780286021f648e944153093cb939ac37be4991620
 #13 exporting manifest sha256:f2e42a6e7a71e340da0bc8f780286021f648e944153093cb939ac37be4991620 done
 #13 exporting config sha256:a76a81fb21760ec822a114fc80cc55b5fd9b2f3944f51b222a40b51ee533182b done
-#13 exporting attestation manifest sha256:cd39d594f6b932fdc6bb97f3bbd7d917e3466a8eb2df92a2ffc5e1e6138cd8be done
-#13 exporting manifest list sha256:6b18ecbd217d6fb25c8e8d57f2587f071b29f00326648d8502a1681434475fc1 done
+#13 exporting attestation manifest sha256:143d5bef7979e0fc72a42822d002f4e88ee9d711832d82d2661afb47091a4962 done
+#13 exporting manifest list sha256:f5d67bca9f01dd5fc6480c3a7c4b389d2266da5e9f901fcb2d77514d3758d791 done
 #13 naming to docker.io/library/mbhq_phase65_layout-dashboard:latest done
-#13 unpacking to docker.io/library/mbhq_phase65_layout-dashboard:latest
-#13 unpacking to docker.io/library/mbhq_phase65_layout-dashboard:latest 0.2s done
-#13 DONE 0.8s
+#13 unpacking to docker.io/library/mbhq_phase65_layout-dashboard:latest done
+#13 DONE 0.0s
 
 #14 resolving provenance for metadata file
 #14 DONE 0.0s
@@ -77,11 +83,24 @@
  Container mbhq_phase65_layout-dashboard-1  Creating
  Container mbhq_phase65_layout-dashboard-1  Created
  Container mbhq_phase65_layout-postgres-1  Starting
-Error response from daemon: failed to set up container networking: driver failed programming external connectivity on endpoint mbhq_phase65_layout-postgres-1 (38f6237e6d7e23b6de1b0c56f3b23eb9b56e85c763e5e88d35fad465df8df902): Bind for 0.0.0.0:5432 failed: port is already allocated
+Error response from daemon: failed to set up container networking: driver failed programming external connectivity on endpoint mbhq_phase65_layout-postgres-1 (a26501d442cf3ea3ddd8c5ebb3e4fd574da8707938dcbce9f5c49deb5e250ce4): Bind for 0.0.0.0:5432 failed: port is already allocated
+
+--- sleep ---
+
+--- compose ps -a ---
 NAME                              IMAGE                           COMMAND                  SERVICE     CREATED          STATUS    PORTS
-mbhq_phase65_layout-dashboard-1   mbhq_phase65_layout-dashboard   "docker-entrypoint.s…"   dashboard   10 seconds ago   Created   
-mbhq_phase65_layout-postgres-1    postgres:16-alpine              "docker-entrypoint.s…"   postgres    10 seconds ago   Created   
+mbhq_phase65_layout-dashboard-1   mbhq_phase65_layout-dashboard   "docker-entrypoint.s…"   dashboard   11 seconds ago   Created   
+mbhq_phase65_layout-postgres-1    postgres:16-alpine              "docker-entrypoint.s…"   postgres    11 seconds ago   Created   
+
+--- dashboard logs ---
+
+--- postgres logs ---
+
+--- http head ---
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
 curl: (7) Failed to connect to localhost port 8081 after 0 ms: Couldn't connect to server
+
+--- port listen ---
+

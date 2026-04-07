@@ -1,4 +1,10 @@
 ===== operator_guidance =====
+WORKTREE=../mbhq_recovery_visual_compare/operator_guidance
+PROJECT=mbhq_operator_guidance
+PORT=8083
+
+./scripts/_local/phase457_force_relaunch_recovery_compare.sh: line 42: cd: ../mbhq_recovery_visual_compare/operator_guidance: No such file or directory
+--- compose down ---
  Container mbhq_operator_guidance-dashboard-1  Stopping
  Container mbhq_operator_guidance-dashboard-1  Stopped
  Container mbhq_operator_guidance-dashboard-1  Removing
@@ -11,12 +17,14 @@
  Volume mbhq_operator_guidance_pgdata  Removing
  Volume mbhq_operator_guidance_pgdata  Removed
  Network mbhq_operator_guidance_default  Removed
+
+--- compose up ---
 #1 [internal] load local bake definitions
-#1 reading from stdin 740B done
+#1 reading from stdin 734B done
 #1 DONE 0.0s
 
 #2 [internal] load build definition from Dockerfile.dashboard
-#2 transferring dockerfile: 885B done
+#2 transferring dockerfile: 741B done
 #2 DONE 0.0s
 
 #3 [internal] load metadata for docker.io/library/node:20-alpine
@@ -31,7 +39,7 @@
 #5 DONE 0.0s
 
 #6 [internal] load build context
-#6 transferring context: 251.17kB 0.1s done
+#6 transferring context: 197.63kB 0.1s done
 #6 DONE 0.1s
 
 #7 [2/7] WORKDIR /app
@@ -54,15 +62,16 @@
 
 #13 exporting to image
 #13 exporting layers
-#13 exporting layers 0.8s done
-#13 exporting manifest sha256:6f293267c72db38c3ec45387394acb6e432db8807f3b1ee5591993459d4a3974 done
-#13 exporting config sha256:c22f622183157e102a6caaedd834bd102e1a7e256552ce2c76b4eb30ca076e4f done
-#13 exporting attestation manifest sha256:d8a96dc0afb5214c139182105a7fa90a25033470b410ead9010c1f99c328aba2 done
-#13 exporting manifest list sha256:686631aed55c226615d3c9d719d3ed8ef944767eda7257fac4340c281eb5ef06 done
+#13 exporting layers 0.5s done
+#13 exporting manifest sha256:c7d3c4de6f3f32080a0acc528230f45305bdbf7447222f34a9c33c8931e3d3de
+#13 exporting manifest sha256:c7d3c4de6f3f32080a0acc528230f45305bdbf7447222f34a9c33c8931e3d3de done
+#13 exporting config sha256:d166cfe12666708456fc88a63d056840ca3497ab5d5772fc11c540d50845cd67 done
+#13 exporting attestation manifest sha256:8d5590edc02e46fe800a8286fe2d7281ac938d3630e15fc33f5084c1e00b0316 done
+#13 exporting manifest list sha256:e80ff3fdf73ecd171400fd36301df4bc82285a4788869ced4e9ae787c1bfb4b3 done
 #13 naming to docker.io/library/mbhq_operator_guidance-dashboard:latest done
 #13 unpacking to docker.io/library/mbhq_operator_guidance-dashboard:latest
-#13 unpacking to docker.io/library/mbhq_operator_guidance-dashboard:latest 0.3s done
-#13 DONE 1.1s
+#13 unpacking to docker.io/library/mbhq_operator_guidance-dashboard:latest 0.2s done
+#13 DONE 0.8s
 
 #14 resolving provenance for metadata file
 #14 DONE 0.0s
@@ -76,11 +85,24 @@
  Container mbhq_operator_guidance-dashboard-1  Creating
  Container mbhq_operator_guidance-dashboard-1  Created
  Container mbhq_operator_guidance-postgres-1  Starting
-Error response from daemon: failed to set up container networking: driver failed programming external connectivity on endpoint mbhq_operator_guidance-postgres-1 (5e73dc27c31f1cd14b3803c9f77aa2a7431fa189af05a82cb709ebc1f16adde3): Bind for 0.0.0.0:5432 failed: port is already allocated
+Error response from daemon: failed to set up container networking: driver failed programming external connectivity on endpoint mbhq_operator_guidance-postgres-1 (5e9265b8ac75ee064f6fd19bc61cde66259b65e90152435c3fb8c9ef74d9a662): Bind for 0.0.0.0:5432 failed: port is already allocated
+
+--- sleep ---
+
+--- compose ps -a ---
 NAME                                 IMAGE                              COMMAND                  SERVICE     CREATED          STATUS    PORTS
 mbhq_operator_guidance-dashboard-1   mbhq_operator_guidance-dashboard   "docker-entrypoint.s…"   dashboard   10 seconds ago   Created   
 mbhq_operator_guidance-postgres-1    postgres:16-alpine                 "docker-entrypoint.s…"   postgres    10 seconds ago   Created   
+
+--- dashboard logs ---
+
+--- postgres logs ---
+
+--- http head ---
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
 curl: (7) Failed to connect to localhost port 8083 after 0 ms: Couldn't connect to server
+
+--- port listen ---
+
