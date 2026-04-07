@@ -9,3 +9,17 @@ node_modules
 coverage
 dist
 tmp
+docs/*.txt
+docs/*.log
+docs/*.json
+docs/*.out
+docs/*.output
+docs/*.trace
+docs/*.dump
+docs/**/*.txt
+docs/**/*.log
+docs/**/*.json
+docs/**/*.out
+docs/**/*.output
+docs/**/*.trace
+docs/**/*.dump
