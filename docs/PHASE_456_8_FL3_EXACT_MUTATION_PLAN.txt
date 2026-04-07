@@ -1,0 +1,44 @@
+PHASE 456.8 - FL3 EXACT MUTATION PLAN
+-------------------------------------
+
+CLASSIFICATION
+Exact mutation planning only.
+No implementation yet.
+No wiring yet.
+No runtime mutation yet.
+
+PURPOSE
+Define the exact minimal code mutation required to introduce the FL-3 intake normalization bridge.
+
+MUTATION_TARGET
+Single intake entry surface.
+Single request normalization adapter.
+Single translation function.
+
+MUTATION_ACTIONS
+Add request translation shape.
+Map arbitrary operator request into governed intake structure.
+Forward translated request into existing intake path.
+
+MUTATION_CONSTRAINTS
+Single file preferred.
+Single module maximum.
+No downstream edits.
+No governance edits.
+No execution edits.
+
+ROLLBACK_RULE
+Mutation must be easily removable.
+No structural coupling.
+No cross-module dependencies.
+
+SUCCESS_CRITERIA
+Exact mutation surface identified.
+Mutation remains intake-side only.
+Proof implementation may begin after this step.
+
+NEXT_STEP
+PHASE_456_8_FL3_IMPLEMENTATION_EXECUTION
+
+DETERMINISTIC_STOP
+Stop after mutation plan recorded.
