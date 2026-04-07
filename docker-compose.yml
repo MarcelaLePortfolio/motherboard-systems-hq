@@ -5,8 +5,6 @@ services:
       POSTGRES_USER: ${PGUSER:-postgres}
       POSTGRES_PASSWORD: ${PGPASSWORD:-postgres}
       POSTGRES_DB: ${PGDATABASE:-postgres}
-    ports:
-      - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
 
@@ -31,8 +29,6 @@ services:
       PGUSER: ${PGUSER:-postgres}
     depends_on:
       - postgres
-    ports:
-      - "8080:3000"
 
 volumes:
   pgdata:
