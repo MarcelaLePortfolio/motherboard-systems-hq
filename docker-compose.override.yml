@@ -1,7 +1,6 @@
 services:
   dashboard:
-    environment:
-      POLICY_ENFORCE_MODE: ${POLICY_ENFORCE_MODE:-}
-      POSTGRES_URL: "postgres://postgres:postgres@postgres:5432/postgres"
     ports:
-      - "8080:3000"
+      - "8091:3000"
+  postgres:
+    ports: []
