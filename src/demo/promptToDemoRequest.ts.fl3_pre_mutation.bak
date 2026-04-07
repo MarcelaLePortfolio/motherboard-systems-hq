@@ -91,12 +91,6 @@ function buildFallbackTasks(prompt: string): string[] {
 }
 
 export function parsePromptToDemoRequest(
-/**
- * FL3_INTAKE_NORMALIZATION_BRIDGE
- * Temporary intake-side proof marker for FL-3 bounded translation corridor.
- * No governance, execution, routing, or reporting mutation permitted here.
- */
-
   input: PromptToDemoRequestInput
 ): DemoRequest {
   const normalizedPrompt = normalizeWhitespace(input.prompt);
