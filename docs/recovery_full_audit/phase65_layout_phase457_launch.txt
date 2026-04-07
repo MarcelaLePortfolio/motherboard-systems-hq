@@ -1,0 +1,211 @@
+NAME=phase65_layout
+BRANCH=recovery/phase65_layout
+WORKTREE=../mbhq_recovery_visual_compare/phase65_layout
+PORT=8081
+PROJECT=mbhq_phase65_layout
+
+--- fixing compose ---
+ Container phase65_layout-dashboard-1  Stopping
+ Container phase65_layout-dashboard-1  Stopped
+ Container phase65_layout-dashboard-1  Removing
+ Container phase65_layout-dashboard-1  Removed
+ Container phase65_layout-postgres-1  Stopping
+ Container phase65_layout-postgres-1  Stopped
+ Container phase65_layout-postgres-1  Removing
+ Container phase65_layout-postgres-1  Removed
+ Network phase65_layout_default  Removing
+ Volume phase65_layout_pgdata  Removing
+ Volume phase65_layout_pgdata  Removed
+ Network phase65_layout_default  Removed
+--- compose up ---
+ Container mbhq_phase65_layout-dashboard-1  Stopping
+ Container mbhq_phase65_layout-dashboard-1  Stopped
+ Container mbhq_phase65_layout-dashboard-1  Removing
+ Container mbhq_phase65_layout-dashboard-1  Removed
+ Container mbhq_phase65_layout-postgres-1  Stopping
+ Container mbhq_phase65_layout-postgres-1  Stopped
+ Container mbhq_phase65_layout-postgres-1  Removing
+ Container mbhq_phase65_layout-postgres-1  Removed
+ Network mbhq_phase65_layout_default  Removing
+ Volume mbhq_phase65_layout_pgdata  Removing
+ Volume mbhq_phase65_layout_pgdata  Removed
+ Network mbhq_phase65_layout_default  Removed
+#1 [internal] load local bake definitions
+#1 reading from stdin 728B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.dashboard
+#2 transferring dockerfile: 741B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:20-alpine
+#3 DONE 0.6s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 129B done
+#4 DONE 0.0s
+
+#5 [1/7] FROM docker.io/library/node:20-alpine@sha256:f598378b5240225e6beab68fa9f356db1fb8efe55173e6d4d8153113bb8f333c
+#5 resolve docker.io/library/node:20-alpine@sha256:f598378b5240225e6beab68fa9f356db1fb8efe55173e6d4d8153113bb8f333c 0.0s done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 200.66kB 0.1s done
+#6 DONE 0.1s
+
+#7 [2/7] WORKDIR /app
+#7 CACHED
+
+#8 [3/7] COPY package*.json ./
+#8 CACHED
+
+#9 [4/7] COPY package-lock.json* ./
+#9 CACHED
+
+#10 [5/7] RUN npm config set fetch-retries 5     && npm config set fetch-retry-factor 2     && npm config set fetch-retry-mintimeout 10000     && npm config set fetch-retry-maxtimeout 60000     && (npm config set registry https://registry.npmmirror.com/         && npm ci --no-audit --no-fund       || npm config set registry https://registry.npmjs.org/         && npm ci --no-audit --no-fund)     && apk add --no-cache curl ripgrep
+#10 CACHED
+
+#11 [6/7] COPY . .
+#11 DONE 0.3s
+
+#12 [7/7] COPY public/ ./public/
+#12 DONE 0.0s
+
+#13 exporting to image
+#13 exporting layers
+#13 exporting layers 0.5s done
+#13 exporting manifest sha256:ab18ab8748e88ac11698e9db66431c555813f1fc045c712b549f107d2b043994
+#13 exporting manifest sha256:ab18ab8748e88ac11698e9db66431c555813f1fc045c712b549f107d2b043994 done
+#13 exporting config sha256:82f37fcfad2d194f083a78893518b9ec25bf349f7ef00db98b61a5cd77e5c9d6 done
+#13 exporting attestation manifest sha256:8fd40c4a32c16cb93a6274325cc16c4fe00b75294f5597015b786aa22e45cd27 done
+#13 exporting manifest list sha256:0dbbe02694a34d92034647cbe7478ebef6a239b9a78544b012d4f14dc5bf7e60 done
+#13 naming to docker.io/library/mbhq_phase65_layout-dashboard:latest done
+#13 unpacking to docker.io/library/mbhq_phase65_layout-dashboard:latest
+#13 unpacking to docker.io/library/mbhq_phase65_layout-dashboard:latest 0.2s done
+#13 DONE 0.7s
+
+#14 resolving provenance for metadata file
+#14 DONE 0.0s
+ mbhq_phase65_layout-dashboard  Built
+ Network mbhq_phase65_layout_default  Creating
+ Network mbhq_phase65_layout_default  Created
+ Volume mbhq_phase65_layout_pgdata  Creating
+ Volume mbhq_phase65_layout_pgdata  Created
+ Container mbhq_phase65_layout-postgres-1  Creating
+ Container mbhq_phase65_layout-postgres-1  Created
+ Container mbhq_phase65_layout-dashboard-1  Creating
+ Container mbhq_phase65_layout-dashboard-1  Created
+ Container mbhq_phase65_layout-postgres-1  Starting
+ Container mbhq_phase65_layout-postgres-1  Started
+ Container mbhq_phase65_layout-dashboard-1  Starting
+ Container mbhq_phase65_layout-dashboard-1  Started
+
+--- compose ps ---
+NAME                              IMAGE                           COMMAND                  SERVICE     CREATED         STATUS                     PORTS
+mbhq_phase65_layout-dashboard-1   mbhq_phase65_layout-dashboard   "docker-entrypoint.s…"   dashboard   8 seconds ago   Exited (1) 7 seconds ago   
+mbhq_phase65_layout-postgres-1    postgres:16-alpine              "docker-entrypoint.s…"   postgres    8 seconds ago   Up 8 seconds               5432/tcp
+
+--- dashboard logs ---
+dashboard-1  | [phase25] task_events_emit loaded 2026-04-07T19:53:59.951Z file= file:///app/server/task_events_emit.mjs
+dashboard-1  | [phase25] api-tasks-postgres loaded 2026-04-07T19:53:59.952Z file= file:///app/server/routes/api-tasks-postgres.mjs
+dashboard-1  | [phase19] orchestrator_state_route mounted {
+dashboard-1  |   file: 'file:///app/server/orchestrator_state_route.mjs',
+dashboard-1  |   envSnapshot: {
+dashboard-1  |     PHASE18_ENABLE_ORCHESTRATION: undefined,
+dashboard-1  |     PHASE19_ENABLE_ORCH_STATE: undefined
+dashboard-1  |   }
+dashboard-1  | }
+dashboard-1  | [SSE] /events/ops + /events/reflections registered
+dashboard-1  | [db] effective pool config {
+dashboard-1  |   mode: 'url',
+dashboard-1  |   DB_URL_present: true,
+dashboard-1  |   host: null,
+dashboard-1  |   port: null,
+dashboard-1  |   user: null,
+dashboard-1  |   database: null,
+dashboard-1  |   password_type: 'url-hidden',
+dashboard-1  |   password_len: 'hidden',
+dashboard-1  |   has_password: true
+dashboard-1  | }
+dashboard-1  | [db] waiting for postgres... elapsed=7ms code=ECONNREFUSED
+dashboard-1  | /app/node_modules/pg-pool/index.js:45
+dashboard-1  |     Error.captureStackTrace(err)
+dashboard-1  |           ^
+dashboard-1  | 
+dashboard-1  | error: relation "tasks" does not exist
+dashboard-1  |     at /app/node_modules/pg-pool/index.js:45:11
+dashboard-1  |     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+dashboard-1  |     at async ensureTasksTaskIdColumn (file:///app/server/db_bootstrap_tasks_task_id.mjs:3:3)
+dashboard-1  |     at async file:///app/server.mjs:317:1 {
+dashboard-1  |   length: 103,
+dashboard-1  |   severity: 'ERROR',
+dashboard-1  |   code: '42P01',
+dashboard-1  |   detail: undefined,
+dashboard-1  |   hint: undefined,
+dashboard-1  |   position: undefined,
+dashboard-1  |   internalPosition: undefined,
+dashboard-1  |   internalQuery: undefined,
+dashboard-1  |   where: undefined,
+dashboard-1  |   schema: undefined,
+dashboard-1  |   table: undefined,
+dashboard-1  |   column: undefined,
+dashboard-1  |   dataType: undefined,
+dashboard-1  |   constraint: undefined,
+dashboard-1  |   file: 'namespace.c',
+dashboard-1  |   line: '434',
+dashboard-1  |   routine: 'RangeVarGetRelidExtended'
+dashboard-1  | }
+dashboard-1  | 
+dashboard-1  | Node.js v20.20.2
+
+--- postgres logs ---
+postgres-1  | 2026-04-07 19:54:00.026 UTC [35] WARNING:  no usable system locales were found
+postgres-1  | performing post-bootstrap initialization ... ok
+postgres-1  | initdb: warning: enabling "trust" authentication for local connections
+postgres-1  | initdb: hint: You can change this by editing pg_hba.conf or using the option -A, or --auth-local and --auth-host, the next time you run initdb.
+postgres-1  | syncing data to disk ... ok
+postgres-1  | 
+postgres-1  | 
+postgres-1  | Success. You can now start the database server using:
+postgres-1  | 
+postgres-1  |     pg_ctl -D /var/lib/postgresql/data -l logfile start
+postgres-1  | 
+postgres-1  | waiting for server to start....2026-04-07 19:54:00.228 UTC [41] LOG:  starting PostgreSQL 16.13 on aarch64-unknown-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit
+postgres-1  | 2026-04-07 19:54:00.229 UTC [41] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+postgres-1  | 2026-04-07 19:54:00.230 UTC [44] LOG:  database system was shut down at 2026-04-07 19:54:00 UTC
+postgres-1  | 2026-04-07 19:54:00.231 UTC [41] LOG:  database system is ready to accept connections
+postgres-1  |  done
+postgres-1  | server started
+postgres-1  | 
+postgres-1  | /usr/local/bin/docker-entrypoint.sh: ignoring /docker-entrypoint-initdb.d/*
+postgres-1  | 
+postgres-1  | waiting for server to shut down....2026-04-07 19:54:00.342 UTC [41] LOG:  received fast shutdown request
+postgres-1  | 2026-04-07 19:54:00.342 UTC [41] LOG:  aborting any active transactions
+postgres-1  | 2026-04-07 19:54:00.343 UTC [41] LOG:  background worker "logical replication launcher" (PID 47) exited with exit code 1
+postgres-1  | 2026-04-07 19:54:00.343 UTC [42] LOG:  shutting down
+postgres-1  | 2026-04-07 19:54:00.344 UTC [42] LOG:  checkpoint starting: shutdown immediate
+postgres-1  | 2026-04-07 19:54:00.346 UTC [42] LOG:  checkpoint complete: wrote 3 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.001 s, sync=0.001 s, total=0.003 s; sync files=2, longest=0.001 s, average=0.001 s; distance=0 kB, estimate=0 kB; lsn=0/14F2618, redo lsn=0/14F2618
+postgres-1  | 2026-04-07 19:54:00.347 UTC [41] LOG:  database system is shut down
+postgres-1  |  done
+postgres-1  | server stopped
+postgres-1  | 
+postgres-1  | PostgreSQL init process complete; ready for start up.
+postgres-1  | 
+postgres-1  | 2026-04-07 19:54:00.462 UTC [1] LOG:  starting PostgreSQL 16.13 on aarch64-unknown-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit
+postgres-1  | 2026-04-07 19:54:00.462 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+postgres-1  | 2026-04-07 19:54:00.462 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+postgres-1  | 2026-04-07 19:54:00.463 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+postgres-1  | 2026-04-07 19:54:00.465 UTC [55] LOG:  database system was shut down at 2026-04-07 19:54:00 UTC
+postgres-1  | 2026-04-07 19:54:00.467 UTC [1] LOG:  database system is ready to accept connections
+postgres-1  | 2026-04-07 19:54:00.480 UTC [59] ERROR:  relation "tasks" does not exist
+postgres-1  | 2026-04-07 19:54:00.480 UTC [59] STATEMENT:  alter table tasks add column if not exists task_id text;
+
+--- port listen ---
+
+--- http head ---
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+curl: (7) Failed to connect to localhost port 8081 after 0 ms: Couldn't connect to server
+
+--- title ---
