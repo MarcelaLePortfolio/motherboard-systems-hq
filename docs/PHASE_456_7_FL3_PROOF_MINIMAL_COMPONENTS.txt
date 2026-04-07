@@ -1,0 +1,42 @@
+PHASE 456.7 - FL3 PROOF MINIMAL COMPONENTS
+------------------------------------------
+
+CLASSIFICATION
+Minimal component identification only.
+No implementation.
+No wiring.
+No runtime mutation.
+
+PURPOSE
+Identify the smallest component set required to prove FL-3 capability translation without drifting into execution expansion.
+
+MINIMAL_COMPONENT_SET
+1. Previously unseen operator request example.
+2. Intake normalization surface.
+3. Governance evaluation entry boundary.
+4. Explicit operator approval surface.
+5. Execution preparation visibility surface.
+6. Outcome reporting surface.
+
+COMPONENT_RULES
+Reuse existing structures wherever possible.
+Do not introduce new execution capability layers.
+Do not redesign worker routing.
+Do not modify governance engine internals.
+
+DEPENDENCY_EXPECTATIONS
+Intake must connect before governance.
+Approval must remain explicit.
+Execution preparation must remain visibility-only.
+Outcome must close the operator-visible loop.
+
+SUCCESS_CRITERIA
+Minimal proof component set is fully enumerated.
+No unnecessary component added.
+Bridge remains intake-side only.
+
+NEXT_STEP
+PHASE_456_7_FL3_PROOF_COMPONENT_LOCATION_SCAN
+
+DETERMINISTIC_STOP
+Stop after minimal component set is recorded.
