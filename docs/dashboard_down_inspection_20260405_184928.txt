@@ -1,0 +1,33 @@
+DASHBOARD DOWN INSPECTION
+Timestamp: 
+
+==== GIT STATE ====
+phase119-dashboard-cognition-contract
+94a0f3d4
+
+==== CONTAINER STATUS ====
+
+==== DASHBOARD CONTAINERS ====
+
+==== POSTGRES CONTAINERS ====
+
+==== COMPOSE STATUS ====
+
+==== DASHBOARD LOGS ====
+==== POSTGRES LOGS ====
+==== PORT CHECK ====
+
+==== HTTP CHECK ====
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Fri, 20 Mar 2026 18:02:44 GMT
+ETag: W/"282b-19d0c69f798"
+Content-Type: text/html; charset=utf-8
+Content-Length: 10283
+Date: Mon, 06 Apr 2026 01:49:29 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+
