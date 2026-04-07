@@ -1,0 +1,94 @@
+=== BRANCHES CONTAINING IMPORTANT COMMITS ===
+
+--- COMMIT ac8c4e47 ---
++ feature/phase59-dashboard-composition
+  remotes/origin/feature/phase59-dashboard-composition
+
+--- COMMIT 589a4ef0 ---
++ feature/phase59-dashboard-composition
+  remotes/origin/feature/phase59-dashboard-composition
+
+--- COMMIT 11eda5c3 ---
+  feature/phase58b-probe-lifecycle-visibility
++ feature/phase59-dashboard-composition
+  remotes/origin/feature/phase58b-probe-lifecycle-visibility
+  remotes/origin/feature/phase59-dashboard-composition
+
+--- COMMIT 8a1edc3c ---
+  feature/phase58b-probe-lifecycle-visibility
++ feature/phase59-dashboard-composition
+  remotes/origin/feature/phase58b-probe-lifecycle-visibility
+  remotes/origin/feature/phase59-dashboard-composition
+
+--- COMMIT 87142a84 ---
+  feature/phase58b-probe-lifecycle-visibility
++ feature/phase59-dashboard-composition
+  remotes/origin/feature/phase58b-probe-lifecycle-visibility
+  remotes/origin/feature/phase59-dashboard-composition
+
+--- COMMIT a8392b19 ---
+  feature/phase58b-probe-lifecycle-visibility
++ feature/phase59-dashboard-composition
+  remotes/origin/feature/phase58b-probe-lifecycle-visibility
+  remotes/origin/feature/phase59-dashboard-composition
+
+--- COMMIT 7577fd7c ---
+  feature/phase58b-probe-lifecycle-visibility
++ feature/phase59-dashboard-composition
+  remotes/origin/feature/phase58b-probe-lifecycle-visibility
+  remotes/origin/feature/phase59-dashboard-composition
+
+--- COMMIT 9525179b ---
+  backup/phase61-push-failure-20260310-171713
+  feature/phase58-handoff-complete
+  feature/phase58a-event-stream-containment
+  feature/phase58b-probe-lifecycle-visibility
+  feature/phase59-console-composition-pass
++ feature/phase59-dashboard-composition
+  feature/phase59-remove-demo-extras
+  fix/dashboard-unresponsive-direct-scripts
+  main
+  phase-92-operator-situation-interpretation
+  phase114-transport-diagnostics
+  phase115-transport-diagnostics-consumption
+  phase116-transport-governance-alignment
+  phase117-operator-cognition-surfacing
+  phase118-operator-presentation-contracts
+* phase119-dashboard-cognition-contract
+  remotes/origin/HEAD -> origin/main
+  remotes/origin/feature/phase58-handoff-complete
+  remotes/origin/feature/phase58a-event-stream-containment
+  remotes/origin/feature/phase58b-probe-lifecycle-visibility
+  remotes/origin/feature/phase59-console-composition-pass
+  remotes/origin/feature/phase59-dashboard-composition
+  remotes/origin/feature/phase59-remove-demo-extras
+  remotes/origin/fix/dashboard-unresponsive-direct-scripts
+  remotes/origin/fix/phase57c-api-tasks-probe
+  remotes/origin/main
+  remotes/origin/phase-89-guidance-schema
+  remotes/origin/phase-90-1-operator-guidance-panel-shell
+  remotes/origin/phase-92-operator-situation-interpretation
+  remotes/origin/phase114-transport-diagnostics
+  remotes/origin/phase115-transport-diagnostics-consumption
+  remotes/origin/phase116-transport-governance-alignment
+  remotes/origin/phase117-operator-cognition-surfacing
+  remotes/origin/phase118-operator-presentation-contracts
+  remotes/origin/phase119-dashboard-cognition-contract
+  remotes/origin/phase61-agent-emoji-pass
+  remotes/origin/phase61-agent-emoji-pass-clean
+  remotes/origin/phase61-cherry-pick-recovery
+  remotes/origin/phase62-dashboard-layout
+  remotes/origin/phase63-telemetry-enrichment
+  remotes/origin/phase65b-running-tasks-hydration
+
+--- COMMIT a0668b43 ---
++ feature/phase59-dashboard-composition
+  remotes/origin/feature/phase59-dashboard-composition
+
+--- COMMIT ec3edc0f ---
+* phase119-dashboard-cognition-contract
+  remotes/origin/phase119-dashboard-cognition-contract
+
+--- COMMIT 5f561c97 ---
+* phase119-dashboard-cognition-contract
+  remotes/origin/phase119-dashboard-cognition-contract

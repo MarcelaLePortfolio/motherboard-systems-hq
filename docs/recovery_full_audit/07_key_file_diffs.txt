@@ -1,0 +1,33 @@
+=== DIFF OF KEY UI / WIRING FILES BETWEEN ROOT AND RECOVERY ===
+
+===== public/js/phase58c_idle_states.js =====
+ public/js/phase58c_idle_states.js | 173 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 173 insertions(+)
+
+===== public/js/phase58d_operator_console.js =====
+ public/js/phase58d_operator_console.js | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+===== public/js/probe-lifecycle-card.js =====
+ public/js/probe-lifecycle-card.js | 353 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 353 insertions(+)
+
+===== server.mjs =====
+ server.mjs | 116 ++++---------------------------------------------------------
+ 1 file changed, 7 insertions(+), 109 deletions(-)
+
+===== server/routes/api-tasks-postgres.mjs =====
+ server/routes/api-tasks-postgres.mjs | 18 +++++++-----------
+ 1 file changed, 7 insertions(+), 11 deletions(-)
+
+===== server/routes/task-events-sse.mjs =====
+ server/routes/task-events-sse.mjs | 89 +++++++++++++++++++--------------------
+ 1 file changed, 44 insertions(+), 45 deletions(-)
+
+===== server/tasks-mutations.mjs =====
+ server/tasks-mutations.mjs | 150 ++++++++++++++-------------------------------
+ 1 file changed, 45 insertions(+), 105 deletions(-)
+
+===== src/demo/promptToDemoRequest.ts =====
+ src/demo/promptToDemoRequest.ts | 126 ----------------------------------------
+ 1 file changed, 126 deletions(-)
