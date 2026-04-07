@@ -1,0 +1,86 @@
+===== operator_guidance =====
+ Container mbhq_operator_guidance-dashboard-1  Stopping
+ Container mbhq_operator_guidance-dashboard-1  Stopped
+ Container mbhq_operator_guidance-dashboard-1  Removing
+ Container mbhq_operator_guidance-dashboard-1  Removed
+ Container mbhq_operator_guidance-postgres-1  Stopping
+ Container mbhq_operator_guidance-postgres-1  Stopped
+ Container mbhq_operator_guidance-postgres-1  Removing
+ Container mbhq_operator_guidance-postgres-1  Removed
+ Network mbhq_operator_guidance_default  Removing
+ Volume mbhq_operator_guidance_pgdata  Removing
+ Volume mbhq_operator_guidance_pgdata  Removed
+ Network mbhq_operator_guidance_default  Removed
+#1 [internal] load local bake definitions
+#1 reading from stdin 740B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.dashboard
+#2 transferring dockerfile: 885B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:20-alpine
+#3 DONE 0.2s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 129B done
+#4 DONE 0.0s
+
+#5 [1/7] FROM docker.io/library/node:20-alpine@sha256:f598378b5240225e6beab68fa9f356db1fb8efe55173e6d4d8153113bb8f333c
+#5 resolve docker.io/library/node:20-alpine@sha256:f598378b5240225e6beab68fa9f356db1fb8efe55173e6d4d8153113bb8f333c 0.0s done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 251.17kB 0.1s done
+#6 DONE 0.1s
+
+#7 [2/7] WORKDIR /app
+#7 CACHED
+
+#8 [3/7] COPY package*.json ./
+#8 CACHED
+
+#9 [4/7] COPY package-lock.json* ./
+#9 CACHED
+
+#10 [5/7] RUN npm config set fetch-retries 5     && npm config set fetch-retry-factor 2     && npm config set fetch-retry-mintimeout 10000     && npm config set fetch-retry-maxtimeout 60000     && (npm config set registry https://registry.npmmirror.com/         && npm ci --no-audit --no-fund       || npm config set registry https://registry.npmjs.org/         && npm ci --no-audit --no-fund)     && apk add --no-cache curl ripgrep
+#10 CACHED
+
+#11 [6/7] COPY . .
+#11 DONE 0.2s
+
+#12 [7/7] COPY public/ ./public/
+#12 DONE 0.0s
+
+#13 exporting to image
+#13 exporting layers
+#13 exporting layers 0.8s done
+#13 exporting manifest sha256:6f293267c72db38c3ec45387394acb6e432db8807f3b1ee5591993459d4a3974 done
+#13 exporting config sha256:c22f622183157e102a6caaedd834bd102e1a7e256552ce2c76b4eb30ca076e4f done
+#13 exporting attestation manifest sha256:d8a96dc0afb5214c139182105a7fa90a25033470b410ead9010c1f99c328aba2 done
+#13 exporting manifest list sha256:686631aed55c226615d3c9d719d3ed8ef944767eda7257fac4340c281eb5ef06 done
+#13 naming to docker.io/library/mbhq_operator_guidance-dashboard:latest done
+#13 unpacking to docker.io/library/mbhq_operator_guidance-dashboard:latest
+#13 unpacking to docker.io/library/mbhq_operator_guidance-dashboard:latest 0.3s done
+#13 DONE 1.1s
+
+#14 resolving provenance for metadata file
+#14 DONE 0.0s
+ mbhq_operator_guidance-dashboard  Built
+ Network mbhq_operator_guidance_default  Creating
+ Network mbhq_operator_guidance_default  Created
+ Volume mbhq_operator_guidance_pgdata  Creating
+ Volume mbhq_operator_guidance_pgdata  Created
+ Container mbhq_operator_guidance-postgres-1  Creating
+ Container mbhq_operator_guidance-postgres-1  Created
+ Container mbhq_operator_guidance-dashboard-1  Creating
+ Container mbhq_operator_guidance-dashboard-1  Created
+ Container mbhq_operator_guidance-postgres-1  Starting
+Error response from daemon: failed to set up container networking: driver failed programming external connectivity on endpoint mbhq_operator_guidance-postgres-1 (5e73dc27c31f1cd14b3803c9f77aa2a7431fa189af05a82cb709ebc1f16adde3): Bind for 0.0.0.0:5432 failed: port is already allocated
+NAME                                 IMAGE                              COMMAND                  SERVICE     CREATED          STATUS    PORTS
+mbhq_operator_guidance-dashboard-1   mbhq_operator_guidance-dashboard   "docker-entrypoint.s…"   dashboard   10 seconds ago   Created   
+mbhq_operator_guidance-postgres-1    postgres:16-alpine                 "docker-entrypoint.s…"   postgres    10 seconds ago   Created   
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+curl: (7) Failed to connect to localhost port 8083 after 0 ms: Couldn't connect to server
