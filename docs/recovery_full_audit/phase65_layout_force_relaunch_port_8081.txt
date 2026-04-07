@@ -1,5 +1,5 @@
 ===== phase65_layout =====
-WORKTREE=../mbhq_recovery_visual_compare/phase65_layout
+WORKTREE=/Users/marcela-dev/Projects/Motherboard_Systems_HQ/../mbhq_recovery_visual_compare/phase65_layout
 PROJECT=mbhq_phase65_layout
 PORT=8081
 
@@ -23,7 +23,6 @@ PORT=8081
 #1 DONE 0.0s
 
 #2 [internal] load build definition from Dockerfile.dashboard
-#2 transferring dockerfile: 40B
 #2 transferring dockerfile: 741B done
 #2 DONE 0.0s
 
@@ -42,19 +41,19 @@ PORT=8081
 #6 transferring context: 197.63kB 0.1s done
 #6 DONE 0.1s
 
-#7 [2/7] WORKDIR /app
+#7 [3/7] COPY package*.json ./
 #7 CACHED
 
-#8 [6/7] COPY . .
+#8 [4/7] COPY package-lock.json* ./
 #8 CACHED
 
-#9 [3/7] COPY package*.json ./
+#9 [2/7] WORKDIR /app
 #9 CACHED
 
-#10 [4/7] COPY package-lock.json* ./
+#10 [5/7] RUN npm config set fetch-retries 5     && npm config set fetch-retry-factor 2     && npm config set fetch-retry-mintimeout 10000     && npm config set fetch-retry-maxtimeout 60000     && (npm config set registry https://registry.npmmirror.com/         && npm ci --no-audit --no-fund       || npm config set registry https://registry.npmjs.org/         && npm ci --no-audit --no-fund)     && apk add --no-cache curl ripgrep
 #10 CACHED
 
-#11 [5/7] RUN npm config set fetch-retries 5     && npm config set fetch-retry-factor 2     && npm config set fetch-retry-mintimeout 10000     && npm config set fetch-retry-maxtimeout 60000     && (npm config set registry https://registry.npmmirror.com/         && npm ci --no-audit --no-fund       || npm config set registry https://registry.npmjs.org/         && npm ci --no-audit --no-fund)     && apk add --no-cache curl ripgrep
+#11 [6/7] COPY . .
 #11 CACHED
 
 #12 [7/7] COPY public/ ./public/
@@ -62,11 +61,10 @@ PORT=8081
 
 #13 exporting to image
 #13 exporting layers done
-#13 exporting manifest sha256:f2e42a6e7a71e340da0bc8f780286021f648e944153093cb939ac37be4991620
 #13 exporting manifest sha256:f2e42a6e7a71e340da0bc8f780286021f648e944153093cb939ac37be4991620 done
 #13 exporting config sha256:a76a81fb21760ec822a114fc80cc55b5fd9b2f3944f51b222a40b51ee533182b done
-#13 exporting attestation manifest sha256:143d5bef7979e0fc72a42822d002f4e88ee9d711832d82d2661afb47091a4962 done
-#13 exporting manifest list sha256:f5d67bca9f01dd5fc6480c3a7c4b389d2266da5e9f901fcb2d77514d3758d791 done
+#13 exporting attestation manifest sha256:7da2a316ea1914294dc544913a0b488f5a33611b9eef153566c40d8150e24036 done
+#13 exporting manifest list sha256:38a980415b704fba20b41322a21063e05c3fe8f5b57009eb471a78cfff6b332e done
 #13 naming to docker.io/library/mbhq_phase65_layout-dashboard:latest done
 #13 unpacking to docker.io/library/mbhq_phase65_layout-dashboard:latest done
 #13 DONE 0.0s
@@ -83,14 +81,14 @@ PORT=8081
  Container mbhq_phase65_layout-dashboard-1  Creating
  Container mbhq_phase65_layout-dashboard-1  Created
  Container mbhq_phase65_layout-postgres-1  Starting
-Error response from daemon: failed to set up container networking: driver failed programming external connectivity on endpoint mbhq_phase65_layout-postgres-1 (a26501d442cf3ea3ddd8c5ebb3e4fd574da8707938dcbce9f5c49deb5e250ce4): Bind for 0.0.0.0:5432 failed: port is already allocated
+Error response from daemon: failed to set up container networking: driver failed programming external connectivity on endpoint mbhq_phase65_layout-postgres-1 (97e3ad3263a8d9620e7719f294b71e4c6143eb4cbc51febb05b9a2a1035413f0): Bind for 0.0.0.0:5432 failed: port is already allocated
 
 --- sleep ---
 
 --- compose ps -a ---
 NAME                              IMAGE                           COMMAND                  SERVICE     CREATED          STATUS    PORTS
-mbhq_phase65_layout-dashboard-1   mbhq_phase65_layout-dashboard   "docker-entrypoint.s…"   dashboard   11 seconds ago   Created   
-mbhq_phase65_layout-postgres-1    postgres:16-alpine              "docker-entrypoint.s…"   postgres    11 seconds ago   Created   
+mbhq_phase65_layout-dashboard-1   mbhq_phase65_layout-dashboard   "docker-entrypoint.s…"   dashboard   10 seconds ago   Created   
+mbhq_phase65_layout-postgres-1    postgres:16-alpine              "docker-entrypoint.s…"   postgres    10 seconds ago   Created   
 
 --- dashboard logs ---
 

@@ -1,9 +1,8 @@
 ===== operator_guidance =====
-WORKTREE=../mbhq_recovery_visual_compare/operator_guidance
+WORKTREE=/Users/marcela-dev/Projects/Motherboard_Systems_HQ/../mbhq_recovery_visual_compare/operator_guidance
 PROJECT=mbhq_operator_guidance
 PORT=8083
 
-./scripts/_local/phase457_force_relaunch_recovery_compare.sh: line 42: cd: ../mbhq_recovery_visual_compare/operator_guidance: No such file or directory
 --- compose down ---
  Container mbhq_operator_guidance-dashboard-1  Stopping
  Container mbhq_operator_guidance-dashboard-1  Stopped
@@ -20,58 +19,56 @@ PORT=8083
 
 --- compose up ---
 #1 [internal] load local bake definitions
-#1 reading from stdin 734B done
+#1 reading from stdin 740B done
 #1 DONE 0.0s
 
 #2 [internal] load build definition from Dockerfile.dashboard
-#2 transferring dockerfile: 741B done
+#2 transferring dockerfile: 885B done
 #2 DONE 0.0s
 
 #3 [internal] load metadata for docker.io/library/node:20-alpine
-#3 DONE 0.2s
+#3 DONE 0.4s
 
 #4 [internal] load .dockerignore
 #4 transferring context: 129B done
 #4 DONE 0.0s
 
 #5 [1/7] FROM docker.io/library/node:20-alpine@sha256:f598378b5240225e6beab68fa9f356db1fb8efe55173e6d4d8153113bb8f333c
-#5 resolve docker.io/library/node:20-alpine@sha256:f598378b5240225e6beab68fa9f356db1fb8efe55173e6d4d8153113bb8f333c 0.0s done
+#5 resolve docker.io/library/node:20-alpine@sha256:f598378b5240225e6beab68fa9f356db1fb8efe55173e6d4d8153113bb8f333c done
 #5 DONE 0.0s
 
 #6 [internal] load build context
-#6 transferring context: 197.63kB 0.1s done
+#6 transferring context: 251.17kB 0.1s done
 #6 DONE 0.1s
 
-#7 [2/7] WORKDIR /app
+#7 [4/7] COPY package-lock.json* ./
 #7 CACHED
 
-#8 [3/7] COPY package*.json ./
+#8 [2/7] WORKDIR /app
 #8 CACHED
 
-#9 [4/7] COPY package-lock.json* ./
+#9 [3/7] COPY package*.json ./
 #9 CACHED
 
 #10 [5/7] RUN npm config set fetch-retries 5     && npm config set fetch-retry-factor 2     && npm config set fetch-retry-mintimeout 10000     && npm config set fetch-retry-maxtimeout 60000     && (npm config set registry https://registry.npmmirror.com/         && npm ci --no-audit --no-fund       || npm config set registry https://registry.npmjs.org/         && npm ci --no-audit --no-fund)     && apk add --no-cache curl ripgrep
 #10 CACHED
 
 #11 [6/7] COPY . .
-#11 DONE 0.2s
+#11 CACHED
 
 #12 [7/7] COPY public/ ./public/
-#12 DONE 0.0s
+#12 CACHED
 
 #13 exporting to image
-#13 exporting layers
-#13 exporting layers 0.5s done
-#13 exporting manifest sha256:c7d3c4de6f3f32080a0acc528230f45305bdbf7447222f34a9c33c8931e3d3de
-#13 exporting manifest sha256:c7d3c4de6f3f32080a0acc528230f45305bdbf7447222f34a9c33c8931e3d3de done
-#13 exporting config sha256:d166cfe12666708456fc88a63d056840ca3497ab5d5772fc11c540d50845cd67 done
-#13 exporting attestation manifest sha256:8d5590edc02e46fe800a8286fe2d7281ac938d3630e15fc33f5084c1e00b0316 done
-#13 exporting manifest list sha256:e80ff3fdf73ecd171400fd36301df4bc82285a4788869ced4e9ae787c1bfb4b3 done
+#13 exporting layers done
+#13 exporting manifest sha256:6f293267c72db38c3ec45387394acb6e432db8807f3b1ee5591993459d4a3974 done
+#13 exporting config sha256:c22f622183157e102a6caaedd834bd102e1a7e256552ce2c76b4eb30ca076e4f done
+#13 exporting attestation manifest sha256:d90fb5edf5b8d976ece16f904225969a3de538f5ec027c658d71418854054161 done
+#13 exporting manifest list sha256:59329058976edaaa9a98b886e67c2710d27a4bec13607ece409b458514ac85a7 done
 #13 naming to docker.io/library/mbhq_operator_guidance-dashboard:latest done
 #13 unpacking to docker.io/library/mbhq_operator_guidance-dashboard:latest
-#13 unpacking to docker.io/library/mbhq_operator_guidance-dashboard:latest 0.2s done
-#13 DONE 0.8s
+#13 unpacking to docker.io/library/mbhq_operator_guidance-dashboard:latest 0.3s done
+#13 DONE 0.3s
 
 #14 resolving provenance for metadata file
 #14 DONE 0.0s
@@ -85,14 +82,14 @@ PORT=8083
  Container mbhq_operator_guidance-dashboard-1  Creating
  Container mbhq_operator_guidance-dashboard-1  Created
  Container mbhq_operator_guidance-postgres-1  Starting
-Error response from daemon: failed to set up container networking: driver failed programming external connectivity on endpoint mbhq_operator_guidance-postgres-1 (5e9265b8ac75ee064f6fd19bc61cde66259b65e90152435c3fb8c9ef74d9a662): Bind for 0.0.0.0:5432 failed: port is already allocated
+Error response from daemon: failed to set up container networking: driver failed programming external connectivity on endpoint mbhq_operator_guidance-postgres-1 (ec4e3f8ead6ac315eeb87497b6a84a36f2c8d15515169b404dfd09474ba766fa): Bind for 0.0.0.0:5432 failed: port is already allocated
 
 --- sleep ---
 
 --- compose ps -a ---
 NAME                                 IMAGE                              COMMAND                  SERVICE     CREATED          STATUS    PORTS
-mbhq_operator_guidance-dashboard-1   mbhq_operator_guidance-dashboard   "docker-entrypoint.s…"   dashboard   10 seconds ago   Created   
-mbhq_operator_guidance-postgres-1    postgres:16-alpine                 "docker-entrypoint.s…"   postgres    10 seconds ago   Created   
+mbhq_operator_guidance-dashboard-1   mbhq_operator_guidance-dashboard   "docker-entrypoint.s…"   dashboard   11 seconds ago   Created   
+mbhq_operator_guidance-postgres-1    postgres:16-alpine                 "docker-entrypoint.s…"   postgres    11 seconds ago   Created   
 
 --- dashboard logs ---
 

@@ -4,10 +4,10 @@ set -euo pipefail
 ROOT="$(git rev-parse --show-toplevel)"
 cd "$ROOT"
 
-mkdir -p docs/recovery_full_audit
+mkdir -p "$ROOT/docs/recovery_full_audit"
 
-WT_BASE="../mbhq_recovery_visual_compare"
-SUMMARY="docs/recovery_full_audit/24_force_relaunch_recovery_compare.txt"
+WT_BASE="$ROOT/../mbhq_recovery_visual_compare"
+SUMMARY="$ROOT/docs/recovery_full_audit/24_force_relaunch_recovery_compare.txt"
 
 TARGETS=(
   "phase65_layout|8081|mbhq_phase65_layout"

@@ -1,9 +1,8 @@
 ===== phase65_wiring =====
-WORKTREE=../mbhq_recovery_visual_compare/phase65_wiring
+WORKTREE=/Users/marcela-dev/Projects/Motherboard_Systems_HQ/../mbhq_recovery_visual_compare/phase65_wiring
 PROJECT=mbhq_phase65_wiring
 PORT=8082
 
-./scripts/_local/phase457_force_relaunch_recovery_compare.sh: line 42: cd: ../mbhq_recovery_visual_compare/phase65_wiring: No such file or directory
 --- compose down ---
  Container mbhq_phase65_wiring-dashboard-1  Stopping
  Container mbhq_phase65_wiring-dashboard-1  Stopped
@@ -13,8 +12,8 @@ PORT=8082
  Container mbhq_phase65_wiring-postgres-1  Stopped
  Container mbhq_phase65_wiring-postgres-1  Removing
  Container mbhq_phase65_wiring-postgres-1  Removed
- Volume mbhq_phase65_wiring_pgdata  Removing
  Network mbhq_phase65_wiring_default  Removing
+ Volume mbhq_phase65_wiring_pgdata  Removing
  Volume mbhq_phase65_wiring_pgdata  Removed
  Network mbhq_phase65_wiring_default  Removed
 
@@ -39,39 +38,37 @@ PORT=8082
 #5 DONE 0.0s
 
 #6 [internal] load build context
-#6 transferring context: 197.63kB 0.1s done
+#6 transferring context: 202.15kB 0.1s done
 #6 DONE 0.1s
 
-#7 [2/7] WORKDIR /app
+#7 [4/7] COPY package-lock.json* ./
 #7 CACHED
 
-#8 [3/7] COPY package*.json ./
+#8 [5/7] RUN npm config set fetch-retries 5     && npm config set fetch-retry-factor 2     && npm config set fetch-retry-mintimeout 10000     && npm config set fetch-retry-maxtimeout 60000     && (npm config set registry https://registry.npmmirror.com/         && npm ci --no-audit --no-fund       || npm config set registry https://registry.npmjs.org/         && npm ci --no-audit --no-fund)     && apk add --no-cache curl ripgrep
 #8 CACHED
 
-#9 [4/7] COPY package-lock.json* ./
+#9 [2/7] WORKDIR /app
 #9 CACHED
 
-#10 [5/7] RUN npm config set fetch-retries 5     && npm config set fetch-retry-factor 2     && npm config set fetch-retry-mintimeout 10000     && npm config set fetch-retry-maxtimeout 60000     && (npm config set registry https://registry.npmmirror.com/         && npm ci --no-audit --no-fund       || npm config set registry https://registry.npmjs.org/         && npm ci --no-audit --no-fund)     && apk add --no-cache curl ripgrep
+#10 [3/7] COPY package*.json ./
 #10 CACHED
 
 #11 [6/7] COPY . .
-#11 DONE 0.2s
+#11 CACHED
 
 #12 [7/7] COPY public/ ./public/
-#12 DONE 0.0s
+#12 CACHED
 
 #13 exporting to image
-#13 exporting layers
-#13 exporting layers 0.5s done
-#13 exporting manifest sha256:bcee4452d058e44c6c7f8f85fcd1de6e97e698659a5b00042c1fb16baec981cf
-#13 exporting manifest sha256:bcee4452d058e44c6c7f8f85fcd1de6e97e698659a5b00042c1fb16baec981cf done
-#13 exporting config sha256:c0b07660b4a3a81b7e8eb3456d6fd88a25628a690bb25c1dad6a0bb2d97b0133 done
-#13 exporting attestation manifest sha256:d8bdf37c625dd414c0d13c4fd8ab1400236499f1862373ab0658c96e5cf6b8b0 done
-#13 exporting manifest list sha256:ad3d295e6bcaa8aa6240b535a726187abcb6e9d9d445950f70b76e8fb26b21bb done
+#13 exporting layers done
+#13 exporting manifest sha256:a630c5fd8b41b23a00273ad1be922071355166d1fb548e7a2187b2e0128f8e49 done
+#13 exporting config sha256:1d890827086f83bd2898294b42426a96c0434a1e733e586fbccbe33d8db27f8f done
+#13 exporting attestation manifest sha256:5f0b3e2ac4627eda4dea2f6449ee2550cefec8a59c95d0d67574a486fb7d56b1 done
+#13 exporting manifest list sha256:640620f1e21223ce53b84a4ac3e899fb1e7f5dc6e865675d3a84b5c2e875b257 done
 #13 naming to docker.io/library/mbhq_phase65_wiring-dashboard:latest done
 #13 unpacking to docker.io/library/mbhq_phase65_wiring-dashboard:latest
 #13 unpacking to docker.io/library/mbhq_phase65_wiring-dashboard:latest 0.2s done
-#13 DONE 0.7s
+#13 DONE 0.2s
 
 #14 resolving provenance for metadata file
 #14 DONE 0.0s
@@ -85,14 +82,14 @@ PORT=8082
  Container mbhq_phase65_wiring-dashboard-1  Creating
  Container mbhq_phase65_wiring-dashboard-1  Created
  Container mbhq_phase65_wiring-postgres-1  Starting
-Error response from daemon: failed to set up container networking: driver failed programming external connectivity on endpoint mbhq_phase65_wiring-postgres-1 (4571c0cc241b1cf5b75a9b7108e61821595601ecf6991724e0f8ea4a238a4e8a): Bind for 0.0.0.0:5432 failed: port is already allocated
+Error response from daemon: failed to set up container networking: driver failed programming external connectivity on endpoint mbhq_phase65_wiring-postgres-1 (a8eeab19cec7304b085650bf1049676f581c67c59bf00827ecef1198cc3b0a53): Bind for 0.0.0.0:5432 failed: port is already allocated
 
 --- sleep ---
 
 --- compose ps -a ---
 NAME                              IMAGE                           COMMAND                  SERVICE     CREATED          STATUS    PORTS
-mbhq_phase65_wiring-dashboard-1   mbhq_phase65_wiring-dashboard   "docker-entrypoint.s…"   dashboard   10 seconds ago   Created   
-mbhq_phase65_wiring-postgres-1    postgres:16-alpine              "docker-entrypoint.s…"   postgres    10 seconds ago   Created   
+mbhq_phase65_wiring-dashboard-1   mbhq_phase65_wiring-dashboard   "docker-entrypoint.s…"   dashboard   11 seconds ago   Created   
+mbhq_phase65_wiring-postgres-1    postgres:16-alpine              "docker-entrypoint.s…"   postgres    11 seconds ago   Created   
 
 --- dashboard logs ---
 
