@@ -47,19 +47,19 @@ CREATE TABLE
 #6 transferring context: 202.26kB 0.1s done
 #6 DONE 0.1s
 
-#7 [4/7] COPY package-lock.json* ./
+#7 [3/7] COPY package*.json ./
 #7 CACHED
 
-#8 [3/7] COPY package*.json ./
+#8 [4/7] COPY package-lock.json* ./
 #8 CACHED
 
 #9 [5/7] RUN npm config set fetch-retries 5     && npm config set fetch-retry-factor 2     && npm config set fetch-retry-mintimeout 10000     && npm config set fetch-retry-maxtimeout 60000     && (npm config set registry https://registry.npmmirror.com/         && npm ci --no-audit --no-fund       || npm config set registry https://registry.npmjs.org/         && npm ci --no-audit --no-fund)     && apk add --no-cache curl ripgrep
 #9 CACHED
 
-#10 [6/7] COPY . .
+#10 [2/7] WORKDIR /app
 #10 CACHED
 
-#11 [2/7] WORKDIR /app
+#11 [6/7] COPY . .
 #11 CACHED
 
 #12 [7/7] COPY public/ ./public/
@@ -69,8 +69,8 @@ CREATE TABLE
 #13 exporting layers done
 #13 exporting manifest sha256:23656373709029ae0d6b6b68778b9ea46738bdff4e21454bd659f270812ec8b7 done
 #13 exporting config sha256:f2af5122eff3ef7834ee7e949f840cd04e040d1ad716527f545984dfe7b5f4b9 done
-#13 exporting attestation manifest sha256:85298a936b305cf9d0877f521dccaa854e215663eae3983ea3ccebbace592269 done
-#13 exporting manifest list sha256:08591aae46d455ec38c65632e3dddacfbbc3bc24f20f8214408929e98114eed5 done
+#13 exporting attestation manifest sha256:b580cd9bd1c96fdfa13914a664d3416629396f4daad89eda250311a583d332ed done
+#13 exporting manifest list sha256:055a4bcef394d71d210b3222c8516e7ae0ca49e3eb78b0c2ea7e852252ad9a74 done
 #13 naming to docker.io/library/phase65_wiring-dashboard:latest
 #13 naming to docker.io/library/phase65_wiring-dashboard:latest done
 #13 unpacking to docker.io/library/phase65_wiring-dashboard:latest done
@@ -83,10 +83,10 @@ CREATE TABLE
  Container phase65_wiring-dashboard-1  Creating
  Container phase65_wiring-dashboard-1  Created
  Container phase65_wiring-dashboard-1  Starting
-Error response from daemon: failed to set up container networking: driver failed programming external connectivity on endpoint phase65_wiring-dashboard-1 (5eb007cc1118bbd185ce0c4fb5af62174fc5798788f853d031b6fbe60c81d2ab): Bind for 0.0.0.0:8080 failed: port is already allocated
+Error response from daemon: failed to set up container networking: driver failed programming external connectivity on endpoint phase65_wiring-dashboard-1 (06f81b54e2e3a098ca682d8b5937a7108edd98cc3fbb859122effecced11e696): Bind for 0.0.0.0:8080 failed: port is already allocated
 --- compose ps -a ---
 NAME                         IMAGE                      COMMAND                  SERVICE     CREATED          STATUS          PORTS
-phase65_wiring-dashboard-1   phase65_wiring-dashboard   "docker-entrypoint.s…"   dashboard   8 seconds ago    Created         
+phase65_wiring-dashboard-1   phase65_wiring-dashboard   "docker-entrypoint.s…"   dashboard   9 seconds ago    Created         
 phase65_wiring-postgres-1    postgres:16-alpine         "docker-entrypoint.s…"   postgres    16 seconds ago   Up 15 seconds   5432/tcp
 
 --- dashboard logs ---
