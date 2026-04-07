@@ -1,0 +1,103 @@
+===== phase65_wiring =====
+WORKTREE=../mbhq_recovery_visual_compare/phase65_wiring
+PORT=8092
+
+ Container phase65_wiring-dashboard-1  Stopping
+ Container phase65_wiring-dashboard-1  Stopped
+ Container phase65_wiring-dashboard-1  Removing
+ Container phase65_wiring-dashboard-1  Removed
+ Container phase65_wiring-postgres-1  Stopping
+ Container phase65_wiring-postgres-1  Stopped
+ Container phase65_wiring-postgres-1  Removing
+ Container phase65_wiring-postgres-1  Removed
+ Volume phase65_wiring_pgdata  Removing
+ Network phase65_wiring_default  Removing
+ Volume phase65_wiring_pgdata  Removed
+ Network phase65_wiring_default  Removed
+ Network phase65_wiring_default  Creating
+ Network phase65_wiring_default  Created
+ Volume phase65_wiring_pgdata  Creating
+ Volume phase65_wiring_pgdata  Created
+ Container phase65_wiring-postgres-1  Creating
+ Container phase65_wiring-postgres-1  Created
+ Container phase65_wiring-postgres-1  Starting
+ Container phase65_wiring-postgres-1  Started
+CREATE TABLE
+CREATE TABLE
+#1 [internal] load local bake definitions
+#1 reading from stdin 718B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.dashboard
+#2 transferring dockerfile: 741B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:20-alpine
+#3 DONE 0.6s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 129B done
+#4 DONE 0.0s
+
+#5 [1/7] FROM docker.io/library/node:20-alpine@sha256:f598378b5240225e6beab68fa9f356db1fb8efe55173e6d4d8153113bb8f333c
+#5 resolve docker.io/library/node:20-alpine@sha256:f598378b5240225e6beab68fa9f356db1fb8efe55173e6d4d8153113bb8f333c 0.0s done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 202.26kB 0.1s done
+#6 DONE 0.1s
+
+#7 [4/7] COPY package-lock.json* ./
+#7 CACHED
+
+#8 [3/7] COPY package*.json ./
+#8 CACHED
+
+#9 [5/7] RUN npm config set fetch-retries 5     && npm config set fetch-retry-factor 2     && npm config set fetch-retry-mintimeout 10000     && npm config set fetch-retry-maxtimeout 60000     && (npm config set registry https://registry.npmmirror.com/         && npm ci --no-audit --no-fund       || npm config set registry https://registry.npmjs.org/         && npm ci --no-audit --no-fund)     && apk add --no-cache curl ripgrep
+#9 CACHED
+
+#10 [6/7] COPY . .
+#10 CACHED
+
+#11 [2/7] WORKDIR /app
+#11 CACHED
+
+#12 [7/7] COPY public/ ./public/
+#12 CACHED
+
+#13 exporting to image
+#13 exporting layers done
+#13 exporting manifest sha256:23656373709029ae0d6b6b68778b9ea46738bdff4e21454bd659f270812ec8b7 done
+#13 exporting config sha256:f2af5122eff3ef7834ee7e949f840cd04e040d1ad716527f545984dfe7b5f4b9 done
+#13 exporting attestation manifest sha256:85298a936b305cf9d0877f521dccaa854e215663eae3983ea3ccebbace592269 done
+#13 exporting manifest list sha256:08591aae46d455ec38c65632e3dddacfbbc3bc24f20f8214408929e98114eed5 done
+#13 naming to docker.io/library/phase65_wiring-dashboard:latest
+#13 naming to docker.io/library/phase65_wiring-dashboard:latest done
+#13 unpacking to docker.io/library/phase65_wiring-dashboard:latest done
+#13 DONE 0.0s
+
+#14 resolving provenance for metadata file
+#14 DONE 0.0s
+ phase65_wiring-dashboard  Built
+ Container phase65_wiring-postgres-1  Running
+ Container phase65_wiring-dashboard-1  Creating
+ Container phase65_wiring-dashboard-1  Created
+ Container phase65_wiring-dashboard-1  Starting
+Error response from daemon: failed to set up container networking: driver failed programming external connectivity on endpoint phase65_wiring-dashboard-1 (5eb007cc1118bbd185ce0c4fb5af62174fc5798788f853d031b6fbe60c81d2ab): Bind for 0.0.0.0:8080 failed: port is already allocated
+--- compose ps -a ---
+NAME                         IMAGE                      COMMAND                  SERVICE     CREATED          STATUS          PORTS
+phase65_wiring-dashboard-1   phase65_wiring-dashboard   "docker-entrypoint.s…"   dashboard   8 seconds ago    Created         
+phase65_wiring-postgres-1    postgres:16-alpine         "docker-entrypoint.s…"   postgres    16 seconds ago   Up 15 seconds   5432/tcp
+
+--- dashboard logs ---
+
+--- port listen ---
+
+--- http headers ---
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+curl: (7) Failed to connect to localhost port 8092 after 0 ms: Couldn't connect to server
+
+--- title ---
+
