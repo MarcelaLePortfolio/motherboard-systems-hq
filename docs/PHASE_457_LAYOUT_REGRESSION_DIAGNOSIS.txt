@@ -1,0 +1,42 @@
+PHASE 457 - DASHBOARD LAYOUT REGRESSION DIAGNOSIS
+-------------------------------------------------
+
+CLASSIFICATION
+Diagnosis only.
+No implementation.
+No wiring.
+No execution expansion.
+
+PURPOSE
+Record why the dashboard reopened with an older Operator Console layout after Docker recovery and rebuild.
+
+OBSERVED_RUNTIME_STATE
+- Docker prune/recovery occurred before dashboard restart.
+- Dashboard container was rebuilt from current branch HEAD.
+- Postgres volume was effectively fresh and required schema bootstrap.
+- Dashboard now serves successfully from the rebuilt local image on port 8080.
+
+EVIDENCE
+- Current UI shows the older 'Operator Console' / 'Matilda Chat Console' / 'Task Delegation' surface.
+- Search output shows those exact strings embedded in current bundled dashboard assets and source maps.
+- The current branch runtime is therefore serving assets compiled from older dashboard source currently present in the repository state.
+- This indicates the newer layout previously seen was not what the current rebuilt branch serves now.
+
+DETERMINISTIC_CONCLUSION
+The layout is back to the older version because Docker is now running a freshly rebuilt image from the current checked-out repository state, and that state contains the older dashboard bundle/layout sources.
+
+WHAT_THIS_IS_NOT
+- Not Docker randomly reverting UI state.
+- Not a browser-only issue by itself.
+- Not caused by the schema bootstrap error once the dashboard became healthy.
+
+MOST_LIKELY_ROOT_CAUSES
+1. The newer dashboard layout existed only in a previously built/pruned image layer.
+2. The newer layout exists on a different branch, tag, or worktree than the one currently checked out.
+3. The newer layout changes were never committed on this branch before rebuild.
+
+NEXT_SAFE_ACTION
+Identify the exact currently served dashboard entry/template/bundle source and then locate the newer layout commit/branch/tag before making any restorative mutation.
+
+DETERMINISTIC_STOP
+Stop after diagnosis is recorded.
