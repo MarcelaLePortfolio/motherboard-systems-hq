@@ -1,0 +1,615 @@
+PHASE 456.8 - FL3 IMPLEMENTATION EXECUTION
+------------------------------------------
+
+CLASSIFICATION
+Implementation execution entry only.
+Evidence-guided mutation start.
+Single-boundary mutation corridor.
+
+PURPOSE
+Begin FL-3 implementation execution by extracting the exact intake-side mutation candidate before any code edit occurs.
+
+EXECUTION_RULE
+Do not mutate until a single intake-side target is evidenced.
+Do not mutate governance, execution, routing, or reporting layers.
+Do not proceed beyond one-file or one-module boundary.
+
+TARGET_EVIDENCE_SCAN
+==== operator request / intake candidates ====
+src/demo/minimalDemoRunner.ts:13:  requestId: string;
+src/demo/minimalDemoRunner.ts:40:  requestId: string;
+src/demo/minimalDemoRunner.ts:41:  requestSummary: string;
+src/demo/minimalDemoRunner.ts:58:export function loadRequestFromFile(requestFilePath: string): DemoRequest {
+src/demo/minimalDemoRunner.ts:59:  const absolutePath = path.resolve(requestFilePath);
+src/demo/minimalDemoRunner.ts:80:export function runAdmissionCheck(request: DemoRequest): AdmissionResult {
+src/demo/minimalDemoRunner.ts:82:  const structureIntegrityValid = hasValidTaskStructure(request.tasks);
+src/demo/minimalDemoRunner.ts:84:  if (!request.approved) {
+src/demo/minimalDemoRunner.ts:88:  if (!request.governanceEvaluated) {
+src/demo/minimalDemoRunner.ts:92:  if (!request.authorityOrderingValid) {
+src/demo/minimalDemoRunner.ts:101:    requestId: request.requestId,
+src/demo/minimalDemoRunner.ts:102:    approved: request.approved,
+src/demo/minimalDemoRunner.ts:103:    governanceEvaluated: request.governanceEvaluated,
+src/demo/minimalDemoRunner.ts:104:    authorityOrderingValid: request.authorityOrderingValid,
+src/demo/minimalDemoRunner.ts:112:  const normalized = task.name.toLowerCase();
+src/demo/minimalDemoRunner.ts:114:  if (normalized.includes("fail")) {
+src/demo/minimalDemoRunner.ts:118:  if (normalized.includes("block")) {
+src/demo/minimalDemoRunner.ts:142:  request: DemoRequest,
+src/demo/minimalDemoRunner.ts:154:  for (const [index, task] of request.tasks.entries()) {
+src/demo/minimalDemoRunner.ts:173:  request: DemoRequest,
+src/demo/minimalDemoRunner.ts:181:    taskOutcomes.length === request.tasks.length &&
+src/demo/minimalDemoRunner.ts:187:    requestId: request.requestId,
+src/demo/minimalDemoRunner.ts:188:    requestSummary: request.description,
+src/demo/minimalDemoRunner.ts:189:    generatedRequest: request,
+src/demo/minimalDemoRunner.ts:192:    traversalOrder: request.tasks.map((task) => task.name),
+src/demo/minimalDemoRunner.ts:199:export function runMinimalDemo(request: DemoRequest): DemoReport {
+src/demo/minimalDemoRunner.ts:200:  const admission = runAdmissionCheck(request);
+src/demo/minimalDemoRunner.ts:201:  const traversal = runDeterministicTraversal(request, admission);
+src/demo/minimalDemoRunner.ts:204:    request,
+src/demo/minimalDemoRunner.ts:212:  const request = parsePromptToDemoRequest(input);
+src/demo/minimalDemoRunner.ts:213:  return runMinimalDemo(request);
+src/demo/minimalDemoRunner.ts:217:  const requestFilePath =
+src/demo/minimalDemoRunner.ts:218:    process.argv[2] ?? "requests/canonical_demo_request.json";
+src/demo/minimalDemoRunner.ts:219:  const request = loadRequestFromFile(requestFilePath);
+src/demo/minimalDemoRunner.ts:220:  const report = runMinimalDemo(request);
+src/demo/promptToDemoRequest.ts:14:  requestId: string;
+src/demo/promptToDemoRequest.ts:22:function normalizeWhitespace(value: string): string {
+src/demo/promptToDemoRequest.ts:35:  const cleaned = normalizeWhitespace(
+src/demo/promptToDemoRequest.ts:50:  const normalized = normalizeWhitespace(prompt);
+src/demo/promptToDemoRequest.ts:51:  const includeMatch = normalized.match(
+src/demo/promptToDemoRequest.ts:96:  const normalizedPrompt = normalizeWhitespace(input.prompt);
+src/demo/promptToDemoRequest.ts:97:  const extractedTasks = extractTasksFromPrompt(normalizedPrompt);
+src/demo/promptToDemoRequest.ts:99:    extractedTasks.length > 0 ? extractedTasks : buildFallbackTasks(normalizedPrompt);
+src/demo/promptToDemoRequest.ts:106:  const requestIdBase = normalizedPrompt
+src/demo/promptToDemoRequest.ts:110:    .slice(0, 40) || "runtime-demo-request";
+src/demo/promptToDemoRequest.ts:113:    requestId: `${requestIdBase}-${tasks.length}`,
+src/demo/promptToDemoRequest.ts:114:    description: normalizedPrompt,
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement.ts:28:function normalizeValue(value: string | null | undefined): string {
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement.ts:36:    normalizeValue(entry.contractId),
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement.ts:37:    normalizeValue(entry.sectionKey),
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement.ts:38:    normalizeValue(entry.consumerId),
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement.ts:43:  return normalizeValue(entry.consumerId).length > 0;
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement.ts:47:  return normalizeValue(entry.ownerId).length > 0;
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement.ts:90:      new Set(group.map((entry) => normalizeValue(entry.ownerId)).filter(Boolean)),
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_validation.ts:16:function normalizeValue(value: string | null | undefined): string {
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_validation.ts:31:    return normalizeValue(left.ownerId).localeCompare(normalizeValue(right.ownerId));
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_validation.ts:38:      const contractId = normalizeValue(entry.contractId) || "<missing-contract>";
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_validation.ts:39:      const sectionKey = normalizeValue(entry.sectionKey) || "<missing-section>";
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_validation.ts:40:      const consumerId = normalizeValue(entry.consumerId) || "<missing-consumer>";
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_validation.ts:41:      const ownerId = normalizeValue(entry.ownerId) || "<missing-owner>";
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_validation.ts:42:      const source = normalizeValue(entry.source) || "<missing-source>";
+src/cognition/situationSummaryComposer.ts:50:function normalizeSituationConfidenceState(
+src/cognition/situationSummaryComposer.ts:68:  const normalized = normalizeSituationConfidenceState(value);
+src/cognition/situationSummaryComposer.ts:70:  if (!normalized) {
+src/cognition/situationSummaryComposer.ts:74:  if ((config.unknown ?? ["unknown"]).some((token) => normalized.includes(token))) {
+src/cognition/situationSummaryComposer.ts:78:  if (config.positive.some((token) => normalized.includes(token))) {
+src/cognition/situationSummaryComposer.ts:82:  if (config.negative.some((token) => normalized.includes(token))) {
+src/cognition/situationSummaryComposer.ts:170:function normalizeStability(
+src/cognition/situationSummaryComposer.ts:176:function normalizeExecutionRisk(
+src/cognition/situationSummaryComposer.ts:182:function normalizeCognition(
+src/cognition/situationSummaryComposer.ts:188:function normalizeCoherence(
+src/cognition/situationSummaryComposer.ts:194:function normalizeAttention(
+src/cognition/situationSummaryComposer.ts:200:function normalizeGovernanceCognition(
+src/cognition/situationSummaryComposer.ts:246:  const stability = normalizeStability(inputs.stabilityState);
+src/cognition/situationSummaryComposer.ts:247:  const executionRisk = normalizeExecutionRisk(inputs.executionRiskState);
+src/cognition/situationSummaryComposer.ts:248:  const cognition = normalizeCognition(inputs.cognitionState);
+src/cognition/situationSummaryComposer.ts:249:  const coherence = normalizeCoherence(inputs.signalCoherenceState);
+src/cognition/situationSummaryComposer.ts:250:  const attention = normalizeAttention(inputs.operatorAttentionState);
+src/cognition/situationSummaryComposer.ts:251:  const governanceCognition = normalizeGovernanceCognition(
+src/cognition/situationSummaryInputAdapter.ts:13:function normalizeStability(
+src/cognition/situationSummaryInputAdapter.ts:21:function normalizeExecutionRisk(
+src/cognition/situationSummaryInputAdapter.ts:29:function normalizeCognition(
+src/cognition/situationSummaryInputAdapter.ts:37:function normalizeSignalCoherence(
+src/cognition/situationSummaryInputAdapter.ts:45:function normalizeOperatorAttention(
+src/cognition/situationSummaryInputAdapter.ts:155:function normalizeGovernanceCognition(
+src/cognition/situationSummaryInputAdapter.ts:188:    stabilityState: normalizeStability(signals.stability),
+src/cognition/situationSummaryInputAdapter.ts:189:    executionRiskState: normalizeExecutionRisk(signals.executionRisk),
+src/cognition/situationSummaryInputAdapter.ts:190:    cognitionState: normalizeCognition(signals.cognition),
+src/cognition/situationSummaryInputAdapter.ts:191:    signalCoherenceState: normalizeSignalCoherence(signals.signalCoherence),
+src/cognition/situationSummaryInputAdapter.ts:192:    operatorAttentionState: normalizeOperatorAttention(signals.operatorAttention),
+src/cognition/situationSummaryInputAdapter.ts:193:    governanceCognitionState: normalizeGovernanceCognition(governanceAwareness),
+src/governance_investigation/verification/replay_fixture_diagnostics.ts:5:Attach normalized deterministic diagnostics to replay fixture
+src/governance_investigation/verification/replay_fixture_diagnostics.ts:16:  normalizeViolations,
+src/governance_investigation/verification/replay_fixture_diagnostics.ts:38:    violationDiagnostics: normalizeViolations(result.violations)
+src/governance_investigation/governance_playback_types.ts:33:  const requestedCursor = seed.cursor_index ?? 0;
+src/governance_investigation/governance_playback_types.ts:34:  const cursorIndex = Math.min(Math.max(requestedCursor, 0), totalEvents - 1);
+src/governance/cognition/prove_governance_runtime_registry_export.ts:8:import { normalizeGovernanceSnapshot } from "./normalize_governance_snapshot";
+src/governance/cognition/prove_governance_runtime_registry_export.ts:12:import { normalizeGovernanceDashboardContractRegistration } from "./normalize_governance_dashboard_contract_registration";
+src/governance/cognition/prove_governance_runtime_registry_export.ts:15:import { normalizeGovernanceRuntimeRegistryExport } from "./normalize_governance_runtime_registry_export";
+src/governance/cognition/prove_governance_runtime_registry_export.ts:43:  const normalizedSnapshot = normalizeGovernanceSnapshot(snapshot);
+src/governance/cognition/prove_governance_runtime_registry_export.ts:44:  const packaged = packageGovernanceCognitionSnapshot(normalizedSnapshot);
+src/governance/cognition/prove_governance_runtime_registry_export.ts:47:  const normalizedRegistration = normalizeGovernanceDashboardContractRegistration(registration);
+src/governance/cognition/prove_governance_runtime_registry_export.ts:48:  const registryExport = buildGovernanceRuntimeRegistryExport(normalizedRegistration);
+src/governance/cognition/prove_governance_runtime_registry_export.ts:49:  const normalizedExport = normalizeGovernanceRuntimeRegistryExport(registryExport);
+src/governance/cognition/prove_governance_runtime_registry_export.ts:50:  const selected = selectGovernanceRuntimeRegistryExport(normalizedExport);
+src/governance/cognition/prove_governance_runtime_registry_export.ts:53:    normalizedExport.kind === "governance-runtime-registry-export",
+src/governance/cognition/prove_governance_runtime_registry_export.ts:57:    normalizedExport.exportKey === "governance-runtime-registry-export",
+src/governance/cognition/prove_governance_runtime_registry_export.ts:61:    normalizedExport.registryKey === "governance-dashboard-consumption",
+src/governance/cognition/prove_governance_runtime_registry_export.ts:65:    normalizedExport.contractId === "governance.dashboard.consumption",
+src/governance/cognition/prove_governance_runtime_registry_export.ts:68:  assert(normalizedExport.readOnly === true, "Runtime registry export must remain read-only.");
+src/governance/cognition/prove_governance_runtime_registry_export.ts:70:    normalizedExport.registration.payload.signals.join("|") === "authority|registry|routing",
+src/governance/cognition/prove_governance_runtime_registry_export.ts:74:    normalizedExport.registration.payload.signalCount === 3,
+src/governance/cognition/prove_governance_runtime_registry_export.ts:75:    "Runtime registry export signal count must reflect normalized unique signals."
+src/governance/cognition/prove_governance_runtime_registry_export.ts:77:  assert(selected.signalCount === 3, "Selected export signal count must match normalized signal count.");
+src/governance/cognition/prove_governance_runtime_registry_export.ts:86:    signals: normalizedExport.registration.payload.signals,
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:8:import { normalizeGovernanceSnapshot } from "./normalize_governance_snapshot";
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:12:import { normalizeGovernanceDashboardContractRegistration } from "./normalize_governance_dashboard_contract_registration";
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:14:import { normalizeGovernanceRuntimeRegistryExport } from "./normalize_governance_runtime_registry_export";
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:16:import { normalizeGovernanceSharedRegistryOwnerBundle } from "./normalize_governance_shared_registry_owner_bundle";
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:49:  const normalizedSnapshot = normalizeGovernanceSnapshot(snapshot);
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:50:  const packaged = packageGovernanceCognitionSnapshot(normalizedSnapshot);
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:53:  const normalizedRegistration = normalizeGovernanceDashboardContractRegistration(registration);
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:54:  const registryExport = buildGovernanceRuntimeRegistryExport(normalizedRegistration);
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:55:  const normalizedExport = normalizeGovernanceRuntimeRegistryExport(registryExport);
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:56:  const ownerBundle = buildGovernanceSharedRegistryOwnerBundle(normalizedExport);
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:57:  const normalizedOwnerBundle = normalizeGovernanceSharedRegistryOwnerBundle(ownerBundle);
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:58:  const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:87:  assert(selected.signalCount === 3, "Selected readiness signal count must match normalized signal count.");
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:8:import { normalizeGovernanceSnapshot } from "./normalize_governance_snapshot";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:12:import { normalizeGovernanceDashboardContractRegistration } from "./normalize_governance_dashboard_contract_registration";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:14:import { normalizeGovernanceRuntimeRegistryExport } from "./normalize_governance_runtime_registry_export";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:16:import { normalizeGovernanceSharedRegistryOwnerBundle } from "./normalize_governance_shared_registry_owner_bundle";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:66:  const normalizedSnapshot = normalizeGovernanceSnapshot(snapshot);
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:67:  const packagedSnapshot = packageGovernanceCognitionSnapshot(normalizedSnapshot);
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:70:  const normalizedRegistration = normalizeGovernanceDashboardContractRegistration(registration);
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:71:  const registryExport = buildGovernanceRuntimeRegistryExport(normalizedRegistration);
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:72:  const normalizedExport = normalizeGovernanceRuntimeRegistryExport(registryExport);
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:73:  const ownerBundle = buildGovernanceSharedRegistryOwnerBundle(normalizedExport);
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:74:  const normalizedOwnerBundle = normalizeGovernanceSharedRegistryOwnerBundle(ownerBundle);
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:75:  const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:103:  assert(selected.signalCount === 3, "Selected capsule signal count must match normalized signal count.");
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:8:import { normalizeGovernanceSnapshot } from "./normalize_governance_snapshot";
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:12:import { normalizeGovernanceDashboardContractRegistration } from "./normalize_governance_dashboard_contract_registration";
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:14:import { normalizeGovernanceRuntimeRegistryExport } from "./normalize_governance_runtime_registry_export";
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:16:import { normalizeGovernanceSharedRegistryOwnerBundle } from "./normalize_governance_shared_registry_owner_bundle";
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:62:  const normalizedSnapshot = normalizeGovernanceSnapshot(snapshot);
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:63:  const packagedSnapshot = packageGovernanceCognitionSnapshot(normalizedSnapshot);
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:66:  const normalizedRegistration = normalizeGovernanceDashboardContractRegistration(registration);
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:67:  const registryExport = buildGovernanceRuntimeRegistryExport(normalizedRegistration);
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:68:  const normalizedExport = normalizeGovernanceRuntimeRegistryExport(registryExport);
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:69:  const ownerBundle = buildGovernanceSharedRegistryOwnerBundle(normalizedExport);
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:70:  const normalizedOwnerBundle = normalizeGovernanceSharedRegistryOwnerBundle(ownerBundle);
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:71:  const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:95:  assert(selected.signalCount === 3, "Selected receipt signal count must match normalized signal count.");
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:8:import { normalizeGovernanceSnapshot } from "./normalize_governance_snapshot";
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:12:import { normalizeGovernanceDashboardContractRegistration } from "./normalize_governance_dashboard_contract_registration";
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:14:import { normalizeGovernanceRuntimeRegistryExport } from "./normalize_governance_runtime_registry_export";
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:16:import { normalizeGovernanceSharedRegistryOwnerBundle } from "./normalize_governance_shared_registry_owner_bundle";
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:56:  const normalizedSnapshot = normalizeGovernanceSnapshot(snapshot);
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:57:  const packagedSnapshot = packageGovernanceCognitionSnapshot(normalizedSnapshot);
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:60:  const normalizedRegistration = normalizeGovernanceDashboardContractRegistration(registration);
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:61:  const registryExport = buildGovernanceRuntimeRegistryExport(normalizedRegistration);
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:62:  const normalizedExport = normalizeGovernanceRuntimeRegistryExport(registryExport);
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:63:  const ownerBundle = buildGovernanceSharedRegistryOwnerBundle(normalizedExport);
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:64:  const normalizedOwnerBundle = normalizeGovernanceSharedRegistryOwnerBundle(ownerBundle);
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:65:  const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:110:  assert(selected.signalCount === 3, "Selected package signal count must match normalized signal count.");
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:8:import { normalizeGovernanceSnapshot } from "./normalize_governance_snapshot";
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:12:import { normalizeGovernanceDashboardContractRegistration } from "./normalize_governance_dashboard_contract_registration";
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:14:import { normalizeGovernanceRuntimeRegistryExport } from "./normalize_governance_runtime_registry_export";
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:16:import { normalizeGovernanceSharedRegistryOwnerBundle } from "./normalize_governance_shared_registry_owner_bundle";
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:60:  const normalizedSnapshot = normalizeGovernanceSnapshot(snapshot);
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:61:  const packagedSnapshot = packageGovernanceCognitionSnapshot(normalizedSnapshot);
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:64:  const normalizedRegistration = normalizeGovernanceDashboardContractRegistration(registration);
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:65:  const registryExport = buildGovernanceRuntimeRegistryExport(normalizedRegistration);
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:66:  const normalizedExport = normalizeGovernanceRuntimeRegistryExport(registryExport);
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:67:  const ownerBundle = buildGovernanceSharedRegistryOwnerBundle(normalizedExport);
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:68:  const normalizedOwnerBundle = normalizeGovernanceSharedRegistryOwnerBundle(ownerBundle);
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:69:  const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:124:  assert(selected.signalCount === 3, "Selected manifest signal count must match normalized signal count.");
+src/governance/cognition/prove_governance_dashboard_consumption_view.ts:8:import { normalizeGovernanceSnapshot } from "./normalize_governance_snapshot";
+src/governance/cognition/prove_governance_dashboard_consumption_view.ts:38:  const normalized = normalizeGovernanceSnapshot(snapshot);
+src/governance/cognition/prove_governance_dashboard_consumption_view.ts:39:  const packaged = packageGovernanceCognitionSnapshot(normalized);
+src/governance/cognition/prove_governance_authorization_gate.ts:8:import { normalizeGovernanceSnapshot } from "./normalize_governance_snapshot";
+src/governance/cognition/prove_governance_authorization_gate.ts:12:import { normalizeGovernanceDashboardContractRegistration } from "./normalize_governance_dashboard_contract_registration";
+src/governance/cognition/prove_governance_authorization_gate.ts:14:import { normalizeGovernanceRuntimeRegistryExport } from "./normalize_governance_runtime_registry_export";
+src/governance/cognition/prove_governance_authorization_gate.ts:16:import { normalizeGovernanceSharedRegistryOwnerBundle } from "./normalize_governance_shared_registry_owner_bundle";
+src/governance/cognition/prove_governance_authorization_gate.ts:54:  const normalizedSnapshot = normalizeGovernanceSnapshot(snapshot);
+src/governance/cognition/prove_governance_authorization_gate.ts:55:  const packaged = packageGovernanceCognitionSnapshot(normalizedSnapshot);
+src/governance/cognition/prove_governance_authorization_gate.ts:58:  const normalizedRegistration = normalizeGovernanceDashboardContractRegistration(registration);
+src/governance/cognition/prove_governance_authorization_gate.ts:59:  const registryExport = buildGovernanceRuntimeRegistryExport(normalizedRegistration);
+src/governance/cognition/prove_governance_authorization_gate.ts:60:  const normalizedExport = normalizeGovernanceRuntimeRegistryExport(registryExport);
+src/governance/cognition/prove_governance_authorization_gate.ts:61:  const ownerBundle = buildGovernanceSharedRegistryOwnerBundle(normalizedExport);
+src/governance/cognition/prove_governance_authorization_gate.ts:62:  const normalizedOwnerBundle = normalizeGovernanceSharedRegistryOwnerBundle(ownerBundle);
+src/governance/cognition/prove_governance_authorization_gate.ts:63:  const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);
+src/governance/cognition/prove_governance_authorization_gate.ts:103:  assert(selected.signalCount === 3, "Selected gate signal count must match normalized signal count.");
+src/governance/cognition/prove_governance_live_wiring_decision.ts:8:import { normalizeGovernanceSnapshot } from "./normalize_governance_snapshot";
+src/governance/cognition/prove_governance_live_wiring_decision.ts:12:import { normalizeGovernanceDashboardContractRegistration } from "./normalize_governance_dashboard_contract_registration";
+src/governance/cognition/prove_governance_live_wiring_decision.ts:14:import { normalizeGovernanceRuntimeRegistryExport } from "./normalize_governance_runtime_registry_export";
+src/governance/cognition/prove_governance_live_wiring_decision.ts:16:import { normalizeGovernanceSharedRegistryOwnerBundle } from "./normalize_governance_shared_registry_owner_bundle";
+src/governance/cognition/prove_governance_live_wiring_decision.ts:52:  const normalizedSnapshot = normalizeGovernanceSnapshot(snapshot);
+src/governance/cognition/prove_governance_live_wiring_decision.ts:53:  const packaged = packageGovernanceCognitionSnapshot(normalizedSnapshot);
+src/governance/cognition/prove_governance_live_wiring_decision.ts:56:  const normalizedRegistration = normalizeGovernanceDashboardContractRegistration(registration);
+src/governance/cognition/prove_governance_live_wiring_decision.ts:57:  const registryExport = buildGovernanceRuntimeRegistryExport(normalizedRegistration);
+src/governance/cognition/prove_governance_live_wiring_decision.ts:58:  const normalizedExport = normalizeGovernanceRuntimeRegistryExport(registryExport);
+src/governance/cognition/prove_governance_live_wiring_decision.ts:59:  const ownerBundle = buildGovernanceSharedRegistryOwnerBundle(normalizedExport);
+src/governance/cognition/prove_governance_live_wiring_decision.ts:60:  const normalizedOwnerBundle = normalizeGovernanceSharedRegistryOwnerBundle(ownerBundle);
+src/governance/cognition/prove_governance_live_wiring_decision.ts:61:  const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);
+src/governance/cognition/prove_governance_live_wiring_decision.ts:96:  assert(selected.signalCount === 3, "Selected decision signal count must match normalized signal count.");
+src/governance/cognition/prove_governance_cognition_snapshot.ts:9:import { normalizeGovernanceSnapshot } from "./normalize_governance_snapshot";
+src/governance/cognition/prove_governance_cognition_snapshot.ts:15:  readonly normalizedSignalOrder: readonly string[];
+src/governance/cognition/prove_governance_cognition_snapshot.ts:37:  const normalized = normalizeGovernanceSnapshot(built);
+src/governance/cognition/prove_governance_cognition_snapshot.ts:38:  const packaged = packageGovernanceCognitionSnapshot(normalized);
+src/governance/cognition/prove_governance_cognition_snapshot.ts:40:  assert(normalized.deterministic === true, "Normalized snapshot must remain deterministic.");
+src/governance/cognition/prove_governance_cognition_snapshot.ts:50:    normalizedSignalOrder: packaged.snapshot.signals,
+src/governance/cognition/prove_governance_dashboard_contract_registration.ts:8:import { normalizeGovernanceSnapshot } from "./normalize_governance_snapshot";
+src/governance/cognition/prove_governance_dashboard_contract_registration.ts:12:import { normalizeGovernanceDashboardContractRegistration } from "./normalize_governance_dashboard_contract_registration";
+src/governance/cognition/prove_governance_dashboard_contract_registration.ts:39:  const normalizedSnapshot = normalizeGovernanceSnapshot(snapshot);
+src/governance/cognition/prove_governance_dashboard_contract_registration.ts:40:  const packaged = packageGovernanceCognitionSnapshot(normalizedSnapshot);
+src/governance/cognition/prove_governance_dashboard_contract_registration.ts:43:  const normalizedRegistration = normalizeGovernanceDashboardContractRegistration(registration);
+src/governance/cognition/prove_governance_dashboard_contract_registration.ts:46:    normalizedRegistration.kind === "governance-dashboard-contract-registration",
+src/governance/cognition/prove_governance_dashboard_contract_registration.ts:50:    normalizedRegistration.contractId === "governance.dashboard.consumption",
+src/governance/cognition/prove_governance_dashboard_contract_registration.ts:54:    normalizedRegistration.registryKey === "governance-dashboard-consumption",
+src/governance/cognition/prove_governance_dashboard_contract_registration.ts:57:  assert(normalizedRegistration.readOnly === true, "Registration must remain read-only.");
+src/governance/cognition/prove_governance_dashboard_contract_registration.ts:58:  assert(normalizedRegistration.dashboardSafe === true, "Registration must remain dashboard-safe.");
+src/governance/cognition/prove_governance_dashboard_contract_registration.ts:59:  assert(normalizedRegistration.payload.signals.join("|") === "authority|registry|routing", "Signals must be deduplicated and sorted.");
+src/governance/cognition/prove_governance_dashboard_contract_registration.ts:60:  assert(normalizedRegistration.payload.signalCount === 3, "Signal count must reflect normalized unique signals.");
+src/governance/cognition/prove_governance_dashboard_contract_registration.ts:65:    contractId: normalizedRegistration.contractId,
+src/governance/cognition/prove_governance_dashboard_contract_registration.ts:66:    registryKey: normalizedRegistration.registryKey,
+src/governance/cognition/prove_governance_dashboard_contract_registration.ts:67:    signalCount: normalizedRegistration.payload.signalCount,
+src/governance/cognition/prove_governance_dashboard_contract_registration.ts:68:    signals: normalizedRegistration.payload.signals,
+src/governance/cognition/normalize_governance_shared_registry_owner_bundle.ts:4: * Defensive deterministic normalization for owner-facing export bundles.
+src/governance/cognition/normalize_governance_shared_registry_owner_bundle.ts:13:export function normalizeGovernanceSharedRegistryOwnerBundle(
+src/governance/cognition/normalize_governance_shared_registry_owner_bundle.ts:16:  const normalizedSignals = uniqueSorted(
+src/governance/cognition/normalize_governance_shared_registry_owner_bundle.ts:28:          signals: normalizedSignals,
+src/governance/cognition/normalize_governance_shared_registry_owner_bundle.ts:29:          signalCount: normalizedSignals.length,
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:8:import { normalizeGovernanceSnapshot } from "./normalize_governance_snapshot";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:12:import { normalizeGovernanceDashboardContractRegistration } from "./normalize_governance_dashboard_contract_registration";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:14:import { normalizeGovernanceRuntimeRegistryExport } from "./normalize_governance_runtime_registry_export";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:16:import { normalizeGovernanceSharedRegistryOwnerBundle } from "./normalize_governance_shared_registry_owner_bundle";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:64:  const normalizedSnapshot = normalizeGovernanceSnapshot(snapshot);
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:65:  const packagedSnapshot = packageGovernanceCognitionSnapshot(normalizedSnapshot);
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:68:  const normalizedRegistration = normalizeGovernanceDashboardContractRegistration(registration);
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:69:  const registryExport = buildGovernanceRuntimeRegistryExport(normalizedRegistration);
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:70:  const normalizedExport = normalizeGovernanceRuntimeRegistryExport(registryExport);
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:71:  const ownerBundle = buildGovernanceSharedRegistryOwnerBundle(normalizedExport);
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:72:  const normalizedOwnerBundle = normalizeGovernanceSharedRegistryOwnerBundle(ownerBundle);
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:73:  const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:99:  assert(selected.signalCount === 3, "Selected archive signal count must match normalized signal count.");
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:8:import { normalizeGovernanceSnapshot } from "./normalize_governance_snapshot";
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:12:import { normalizeGovernanceDashboardContractRegistration } from "./normalize_governance_dashboard_contract_registration";
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:14:import { normalizeGovernanceRuntimeRegistryExport } from "./normalize_governance_runtime_registry_export";
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:16:import { normalizeGovernanceSharedRegistryOwnerBundle } from "./normalize_governance_shared_registry_owner_bundle";
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:46:  const normalizedSnapshot = normalizeGovernanceSnapshot(snapshot);
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:47:  const packaged = packageGovernanceCognitionSnapshot(normalizedSnapshot);
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:50:  const normalizedRegistration = normalizeGovernanceDashboardContractRegistration(registration);
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:51:  const registryExport = buildGovernanceRuntimeRegistryExport(normalizedRegistration);
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:52:  const normalizedExport = normalizeGovernanceRuntimeRegistryExport(registryExport);
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:53:  const ownerBundle = buildGovernanceSharedRegistryOwnerBundle(normalizedExport);
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:54:  const normalizedOwnerBundle = normalizeGovernanceSharedRegistryOwnerBundle(ownerBundle);
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:55:  const selected = selectGovernanceSharedRegistryOwnerBundle(normalizedOwnerBundle);
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:58:    normalizedOwnerBundle.kind === "governance-shared-registry-owner-bundle",
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:62:    normalizedOwnerBundle.ownerKey === "shared-runtime-registry-owner",
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:66:    normalizedOwnerBundle.exportKey === "governance-runtime-registry-export",
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:70:    normalizedOwnerBundle.registryKey === "governance-dashboard-consumption",
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:74:    normalizedOwnerBundle.contractId === "governance.dashboard.consumption",
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:77:  assert(normalizedOwnerBundle.readOnly === true, "Owner bundle must remain read-only.");
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:79:    normalizedOwnerBundle.registryExport.registration.payload.signals.join("|") === "authority|registry|routing",
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:83:    normalizedOwnerBundle.registryExport.registration.payload.signalCount === 3,
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:84:    "Owner bundle signal count must reflect normalized unique signals."
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:86:  assert(selected.signalCount === 3, "Selected owner bundle signal count must match normalized signal count.");
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:96:    signals: normalizedOwnerBundle.registryExport.registration.payload.signals,
+src/governance/cognition/package_governance_cognition_snapshot.ts:11:import { normalizeGovernanceSnapshot } from "./normalize_governance_snapshot";
+src/governance/cognition/package_governance_cognition_snapshot.ts:29:  const normalized = normalizeGovernanceSnapshot(snapshot);
+src/governance/cognition/package_governance_cognition_snapshot.ts:32:    ...normalized,
+src/governance/cognition/package_governance_cognition_snapshot.ts:33:    signals: uniqueSorted(normalized.signals),
+src/governance/cognition/normalize_governance_runtime_registry_export.ts:4: * Defensive deterministic normalization for registry-facing export surfaces.
+src/governance/cognition/normalize_governance_runtime_registry_export.ts:13:export function normalizeGovernanceRuntimeRegistryExport(
+src/governance/cognition/normalize_governance_runtime_registry_export.ts:16:  const normalizedSignals = uniqueSorted(registryExport.registration.payload.signals);
+src/governance/cognition/normalize_governance_runtime_registry_export.ts:24:        signals: normalizedSignals,
+src/governance/cognition/normalize_governance_runtime_registry_export.ts:25:        signalCount: normalizedSignals.length,
+src/governance/cognition/index.ts:8:export { normalizeGovernanceSnapshot } from "./normalize_governance_snapshot";
+src/governance/cognition/index.ts:16:export { normalizeGovernanceDashboardContractRegistration } from "./normalize_governance_dashboard_contract_registration";
+src/governance/cognition/index.ts:20:export { normalizeGovernanceRuntimeRegistryExport } from "./normalize_governance_runtime_registry_export";
+src/governance/cognition/index.ts:24:export { normalizeGovernanceSharedRegistryOwnerBundle } from "./normalize_governance_shared_registry_owner_bundle";
+src/governance/cognition/normalize_governance_snapshot.ts:5: * Defensive normalization only.
+src/governance/cognition/normalize_governance_snapshot.ts:10:export function normalizeGovernanceSnapshot(
+src/governance/cognition/normalize_governance_dashboard_contract_registration.ts:4: * Defensive deterministic normalization for registry-facing registration.
+src/governance/cognition/normalize_governance_dashboard_contract_registration.ts:13:export function normalizeGovernanceDashboardContractRegistration(
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:8:import { normalizeGovernanceSnapshot } from "./normalize_governance_snapshot";
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:12:import { normalizeGovernanceDashboardContractRegistration } from "./normalize_governance_dashboard_contract_registration";
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:14:import { normalizeGovernanceRuntimeRegistryExport } from "./normalize_governance_runtime_registry_export";
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:16:import { normalizeGovernanceSharedRegistryOwnerBundle } from "./normalize_governance_shared_registry_owner_bundle";
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:58:  const normalizedSnapshot = normalizeGovernanceSnapshot(snapshot);
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:59:  const packagedSnapshot = packageGovernanceCognitionSnapshot(normalizedSnapshot);
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:62:  const normalizedRegistration = normalizeGovernanceDashboardContractRegistration(registration);
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:63:  const registryExport = buildGovernanceRuntimeRegistryExport(normalizedRegistration);
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:64:  const normalizedExport = normalizeGovernanceRuntimeRegistryExport(registryExport);
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:65:  const ownerBundle = buildGovernanceSharedRegistryOwnerBundle(normalizedExport);
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:66:  const normalizedOwnerBundle = normalizeGovernanceSharedRegistryOwnerBundle(ownerBundle);
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:67:  const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:117:  assert(selected.signalCount === 3, "Selected envelope signal count must match normalized signal count.");
+src/governance/governance_advisory_normalizer.test.ts:1:import { normalizeGovernanceSignals } from "./governance_advisory_normalizer";
+src/governance/governance_advisory_normalizer.test.ts:24:describe("normalizeGovernanceSignals", () => {
+src/governance/governance_advisory_normalizer.test.ts:30:    const result = normalizeGovernanceSignals([s1,s1]);
+src/governance/governance_advisory_normalizer.test.ts:46:    const result = normalizeGovernanceSignals(signals);
+src/governance/governance_advisory_normalizer.test.ts:63:    const result = normalizeGovernanceSignals(signals);
+src/governance/governance_advisory_normalizer.ts:31:export function normalizeGovernanceSignals(
+
+==== governance entry candidates ====
+src/cognition/governanceAwarenessGuards.smoke.ts:88:export function runGovernanceAwarenessGuardsSmoke(): GovernanceAwarenessGuardsSmokeResult {
+src/cognition/governanceAwarenessGuards.smoke.ts:145:  const result = runGovernanceAwarenessGuardsSmoke();
+src/cognition/governanceCognition.smoke.ts:81:export function runGovernanceCognitionSmoke(): GovernanceCognitionSmokeResult {
+src/cognition/governanceCognition.smoke.ts:125:  const result = runGovernanceCognitionSmoke();
+src/governance_investigation/governance_playback_proof.ts:34:export function runGovernancePlaybackProof(
+src/governance_investigation/governance_playback_assembly_proof.ts:12:export function runGovernancePlaybackAssemblyProof(
+src/governance/governance_advisory_contract_lock.ts:1:import { runGovernanceAdvisoryPipeline }
+src/governance/governance_advisory_contract_lock.ts:2:from "./governance_advisory_pipeline"
+src/governance/governance_advisory_contract_lock.ts:7:    runGovernanceAdvisoryPipeline({
+src/governance/governance_signal_explanation_registry.ts:1:import { runGovernanceAdvisoryPipeline } from "./governance_advisory_pipeline"
+src/governance/governance_signal_explanation_registry.ts:6:    runGovernanceAdvisoryPipeline(fixture)
+src/governance/governance_policy_engine.test.ts:7:import { evaluateGovernancePolicy } from "./governance_policy_engine"
+src/governance/governance_policy_engine.test.ts:15:const safe = evaluateGovernancePolicy({
+src/governance/governance_policy_engine.test.ts:23:const warn = evaluateGovernancePolicy({
+src/governance/governance_policy_engine.test.ts:31:const critical = evaluateGovernancePolicy({
+src/governance/governance_operator_explanation_layer.ts:1:import { runGovernanceAdvisoryPipeline } from "./governance_advisory_pipeline"
+src/governance/governance_operator_explanation_layer.ts:6:    runGovernanceAdvisoryPipeline(fixture)
+src/governance/governance_enforcement_evaluator.test.ts:7:import { evaluateGovernanceSignal } from "./governance_enforcement_evaluator"
+src/governance/governance_enforcement_evaluator.test.ts:15:const safe = evaluateGovernanceSignal("safe")
+src/governance/governance_enforcement_evaluator.test.ts:20:const warn = evaluateGovernanceSignal("warning")
+src/governance/governance_enforcement_evaluator.test.ts:24:const critical = evaluateGovernanceSignal("critical")
+src/governance/governance_drift_guard.test.ts:1:import { runGovernanceDriftGuard }
+src/governance/governance_drift_guard.test.ts:6:  it("governance pipeline remains stable", () => {
+src/governance/governance_drift_guard.test.ts:9:      runGovernanceDriftGuard()
+src/governance/governance_drift_expectations.ts:1:import { runGovernanceDriftSentinel } from "./governance_drift_sentinel"
+src/governance/governance_drift_expectations.ts:6:    runGovernanceDriftSentinel()
+src/governance/governance_cognition_regression_sentinel.ts:1:import { runGovernanceAdvisoryPipeline }
+src/governance/governance_cognition_regression_sentinel.ts:2:from "./governance_advisory_pipeline"
+src/governance/governance_cognition_regression_sentinel.ts:11:    runGovernanceAdvisoryPipeline(
+src/governance/governance_cognition_regression_sentinel.ts:16:    runGovernanceAdvisoryPipeline(
+src/governance/governance_cognition_integrity_sentinel.ts:1:import { runGovernanceAdvisoryPipeline }
+src/governance/governance_cognition_integrity_sentinel.ts:2:from "./governance_advisory_pipeline"
+src/governance/governance_cognition_integrity_sentinel.ts:7:    runGovernanceAdvisoryPipeline({
+src/governance/governance_pipeline_order_guard.test.ts:2:from "./governance_pipeline_order_guard"
+src/governance/governance_cognition_replay_verifier.ts:1:import { runGovernanceAdvisoryPipeline } from "./governance_advisory_pipeline"
+src/governance/governance_cognition_replay_verifier.ts:10:      runGovernanceAdvisoryPipeline(fixture)
+src/governance/governance_policy_engine.ts:20:export function evaluateGovernancePolicy(
+src/governance/governance_advisory_consistency_guard.ts:1:import { runGovernanceAdvisoryPipeline } from "./governance_advisory_pipeline"
+src/governance/governance_advisory_consistency_guard.ts:6:    runGovernanceAdvisoryPipeline(fixture)
+src/governance/governance_drift_guard.ts:4:export function runGovernanceDriftGuard() {
+src/governance/governance_enforcement_evaluator.ts:19:export function evaluateGovernanceSignal(
+src/governance/governance_contradiction_detector.ts:1:import { runGovernanceAdvisoryPipeline } from "./governance_advisory_pipeline"
+src/governance/governance_contradiction_detector.ts:6:    runGovernanceAdvisoryPipeline(fixture)
+src/governance/governance_decision_pipeline.ts:13:Create a single governance evaluation path to prevent
+src/governance/governance_decision_pipeline.ts:41:export function runGovernancePipeline(
+src/governance/governance_cognition_determinism_sentinel.ts:1:import { runGovernanceAdvisoryPipeline } from "./governance_advisory_pipeline"
+src/governance/governance_cognition_determinism_sentinel.ts:18:    const run1 = runGovernanceAdvisoryPipeline(fixture)
+src/governance/governance_cognition_determinism_sentinel.ts:19:    const run2 = runGovernanceAdvisoryPipeline(fixture)
+src/governance/governance_drift_sentinel.test.ts:8:  runGovernanceAdvisoryPipeline
+src/governance/governance_drift_sentinel.test.ts:9:} from "./governance_advisory_pipeline"
+src/governance/governance_drift_sentinel.test.ts:25:      runGovernanceAdvisoryPipeline(
+src/governance/governance_drift_sentinel.test.ts:37:      runGovernanceAdvisoryPipeline(
+src/governance/governance_drift_sentinel.test.ts:49:      runGovernanceAdvisoryPipeline(
+src/governance/governance_drift_sentinel.test.ts:61:      runGovernanceAdvisoryPipeline(
+src/governance/governance_signal_stability_index.ts:1:import { runGovernanceAdvisoryPipeline } from "./governance_advisory_pipeline"
+src/governance/governance_signal_stability_index.ts:6:    runGovernanceAdvisoryPipeline(fixture)
+src/governance/governance_advisory_stability_sentinel.ts:1:import { runGovernanceAdvisoryPipeline }
+src/governance/governance_advisory_stability_sentinel.ts:2:from "./governance_advisory_pipeline"
+src/governance/governance_advisory_stability_sentinel.ts:11:    runGovernanceAdvisoryPipeline(
+src/governance/governance_advisory_stability_sentinel.ts:16:    runGovernanceAdvisoryPipeline(
+src/governance/governance_advisory_stability_sentinel.ts:21:    runGovernanceAdvisoryPipeline(
+src/governance/governance_advisory_pipeline.test.ts:7:  runGovernanceAdvisoryPipeline
+src/governance/governance_advisory_pipeline.test.ts:8:} from "./governance_advisory_pipeline"
+src/governance/governance_advisory_pipeline.test.ts:14:describe("governance advisory pipeline", () => {
+src/governance/governance_advisory_pipeline.test.ts:19:      runGovernanceAdvisoryPipeline([
+src/governance/governance_advisory_pipeline.test.ts:40:      runGovernanceAdvisoryPipeline([])
+src/governance/governance_drift_sentinel.ts:2:  runGovernanceAdvisoryPipeline
+src/governance/governance_drift_sentinel.ts:3:} from "./governance_advisory_pipeline"
+src/governance/governance_drift_sentinel.ts:12:export function runGovernanceDriftSentinel() {
+src/governance/governance_drift_sentinel.ts:15:    runGovernanceAdvisoryPipeline(
+src/governance/governance_drift_sentinel.ts:20:    runGovernanceAdvisoryPipeline(
+src/governance/governance_drift_sentinel.ts:25:    runGovernanceAdvisoryPipeline(
+src/governance/governance_drift_sentinel.ts:30:    runGovernanceAdvisoryPipeline(
+src/governance/governance_fixture_corpus.test.ts:7:  runGovernanceAdvisoryPipeline
+src/governance/governance_fixture_corpus.test.ts:8:} from "./governance_advisory_pipeline"
+src/governance/governance_fixture_corpus.test.ts:27:      runGovernanceAdvisoryPipeline(
+src/governance/governance_fixture_corpus.test.ts:39:      runGovernanceAdvisoryPipeline(
+src/governance/governance_fixture_corpus.test.ts:51:      runGovernanceAdvisoryPipeline(
+src/governance/governance_fixture_corpus.test.ts:63:      runGovernanceAdvisoryPipeline(
+src/governance/governance_fixture_corpus.test.ts:75:      runGovernanceAdvisoryPipeline(
+src/governance/governance_decision_pipeline.test.ts:1:import { runGovernancePipeline } from "./governance_decision_pipeline"
+src/governance/governance_decision_pipeline.test.ts:9:const allow = runGovernancePipeline("allow")
+src/governance/governance_decision_pipeline.test.ts:21:const warn = runGovernancePipeline("warn")
+src/governance/governance_decision_pipeline.test.ts:28:const block = runGovernancePipeline("block")
+src/governance/governance_audit_trace_emitter.ts:1:import { runGovernanceAdvisoryPipeline } from "./governance_advisory_pipeline"
+src/governance/governance_audit_trace_emitter.ts:6:    runGovernanceAdvisoryPipeline(fixture)
+src/governance/governance_advisory_pipeline.ts:38:export function runGovernanceAdvisoryPipeline(
+src/governance/governance_pipeline_invariants.test.ts:1:import { validateGovernanceInvariants } from "./governance_pipeline_invariants"
+src/governance/governance_pipeline_order_guard.ts:1:import { runGovernanceAdvisoryPipeline }
+src/governance/governance_pipeline_order_guard.ts:2:from "./governance_advisory_pipeline"
+src/governance/governance_pipeline_order_guard.ts:7:    runGovernanceAdvisoryPipeline({
+src/governance/governance_operator_confidence_score.ts:1:import { runGovernanceAdvisoryPipeline } from "./governance_advisory_pipeline"
+src/governance/governance_operator_confidence_score.ts:6:    runGovernanceAdvisoryPipeline(fixture)
+src/governance/governance_signal_classifier.test.ts:28:function runGovernanceSignalClassifierTests(): void {
+src/governance/governance_signal_classifier.test.ts:83:runGovernanceSignalClassifierTests();
+
+==== packaging / adapter candidates ====
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.invariants.ts:13:  if (!entry.adapterId) {
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.invariants.ts:14:    throw new Error("Registry entry missing adapterId");
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.types.ts:3:  readonly adapterId: string;
+src/cognition/entry/cognition.entry.ts:17:export * from "../adapter";
+src/cognition/lock/cognition.lock.ts:27:  "adapter"
+src/cognition/adapter/cognition.adapter.ts:5: * Provide a clean operator-facing cognition consumption adapter
+src/cognition/adapter/index.ts:1:export * from "./cognition.adapter";
+src/cognition/operatorGuidanceMapping.ts:259:  const rule = GUIDANCE_INTERPRETATION_RULES.find((candidate) =>
+src/cognition/operatorGuidanceMapping.ts:260:    candidate.matches(signal),
+src/cognition/invariants-read/cognition.read.invariants.ts:16:import { buildOperatorCognitionView } from "../adapter";
+src/governance_investigation/verification/replay_violation_codes.ts:7:default registry shapes for stable module resolution.
+src/governance_investigation/verification/check-pathological-fixtures.ts:5:Resolve diagnostic code module shape deterministically and fail clearly when
+src/governance_investigation/verification/check-pathological-fixtures.ts:20:  const candidates: unknown[] = [
+src/governance_investigation/verification/check-pathological-fixtures.ts:26:  for (const candidate of candidates) {
+src/governance_investigation/verification/check-pathological-fixtures.ts:27:    if (candidate && typeof candidate === "object") {
+src/governance_investigation/verification/check-pathological-fixtures.ts:28:      return candidate as ViolationCodeMap;
+src/governance/governance_advisory_contract_lock.ts:12:    throw new Error("Governance advisory drift: result shape changed")
+src/governance/governance_advisory_contract_lock.ts:31:    governance_shape: "verified",
+src/governance/cognition/prove_governance_runtime_registry_export.ts:9:import { packageGovernanceCognitionSnapshot } from "./package_governance_cognition_snapshot";
+src/governance/cognition/prove_governance_runtime_registry_export.ts:44:  const packaged = packageGovernanceCognitionSnapshot(normalizedSnapshot);
+src/governance/cognition/prove_governance_runtime_registry_export.ts:45:  const view = buildGovernanceDashboardConsumptionView(packaged);
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:9:import { packageGovernanceCognitionSnapshot } from "./package_governance_cognition_snapshot";
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:50:  const packaged = packageGovernanceCognitionSnapshot(normalizedSnapshot);
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:51:  const view = buildGovernanceDashboardConsumptionView(packaged);
+src/governance/cognition/governance_final_pre_live_registry_contract_package.ts:4: * Deterministic final contract package bundling governance authorization
+src/governance/cognition/governance_final_pre_live_registry_contract_package.ts:18:  readonly kind: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/governance_final_pre_live_registry_contract_package.ts:21:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/governance_final_pre_live_registry_contract_package.ts:36:  readonly packageStatus: "prepared";
+src/governance/cognition/governance_final_pre_live_registry_contract_package.ts:38:  readonly packageReasons: readonly string[];
+src/governance/cognition/build_governance_dashboard_consumption_view.ts:4: * Pure read-only adapter from operator-safe snapshot package
+src/governance/cognition/build_governance_dashboard_consumption_view.ts:8:import type { OperatorSafeGovernanceCognitionPackage } from "./package_governance_cognition_snapshot";
+src/governance/cognition/build_governance_final_pre_live_registry_archive_record.ts:4: * Pure deterministic adapter from final delivery receipt
+src/governance/cognition/build_governance_final_pre_live_registry_archive_record.ts:34:    packageKey: receipt.packageKey,
+src/governance/cognition/build_governance_final_delivery_receipt.ts:4: * Pure deterministic adapter from pre-live registry delivery manifest
+src/governance/cognition/build_governance_final_delivery_receipt.ts:33:    packageKey: manifest.packageKey,
+src/governance/cognition/build_governance_pre_live_registry_delivery_manifest.ts:4: * Pure deterministic adapter from pre-live registry handoff envelope
+src/governance/cognition/build_governance_pre_live_registry_delivery_manifest.ts:32:    packageKey: handoffEnvelope.packageKey,
+src/governance/cognition/build_governance_live_wiring_decision.ts:4: * Pure deterministic adapter from live registry wiring readiness
+src/governance/cognition/build_governance_pre_live_registry_handoff_envelope.ts:4: * Pure deterministic adapter from final pre-live registry contract package
+src/governance/cognition/build_governance_pre_live_registry_handoff_envelope.ts:8:import type { GovernanceFinalPreLiveRegistryContractPackage } from "./governance_final_pre_live_registry_contract_package";
+src/governance/cognition/build_governance_pre_live_registry_handoff_envelope.ts:21:    ...contractPackage.packageReasons,
+src/governance/cognition/build_governance_pre_live_registry_handoff_envelope.ts:31:    packageKey: contractPackage.packageKey,
+src/governance/cognition/select_governance_final_pre_live_registry_archive_record.ts:14:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/select_governance_final_pre_live_registry_archive_record.ts:38:    packageKey: archiveRecord.packageKey,
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:9:import { packageGovernanceCognitionSnapshot } from "./package_governance_cognition_snapshot";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:20:import { buildGovernanceFinalPreLiveRegistryContractPackage } from "./build_governance_final_pre_live_registry_contract_package";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:36:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:67:  const packagedSnapshot = packageGovernanceCognitionSnapshot(normalizedSnapshot);
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:68:  const view = buildGovernanceDashboardConsumptionView(packagedSnapshot);
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:92:  assert(capsule.packageKey === "governance-final-pre-live-registry-contract-package", "Package key must match.");
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:114:    packageKey: selected.packageKey,
+src/governance/cognition/select_governance_pre_live_registry_delivery_manifest.ts:12:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/select_governance_pre_live_registry_delivery_manifest.ts:34:    packageKey: manifest.packageKey,
+src/governance/cognition/select_governance_final_pre_live_registry_summary_capsule.ts:15:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/select_governance_final_pre_live_registry_summary_capsule.ts:40:    packageKey: capsule.packageKey,
+src/governance/cognition/governance_pre_live_registry_delivery_manifest.ts:23:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/build_governance_shared_registry_owner_bundle.ts:4: * Pure deterministic adapter from runtime-registry-facing export
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts:26:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:9:import { packageGovernanceCognitionSnapshot } from "./package_governance_cognition_snapshot";
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:20:import { buildGovernanceFinalPreLiveRegistryContractPackage } from "./build_governance_final_pre_live_registry_contract_package";
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:32:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:63:  const packagedSnapshot = packageGovernanceCognitionSnapshot(normalizedSnapshot);
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:64:  const view = buildGovernanceDashboardConsumptionView(packagedSnapshot);
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:84:  assert(receipt.packageKey === "governance-final-pre-live-registry-contract-package", "Package key must match.");
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:104:    packageKey: selected.packageKey,
+src/governance/cognition/governance_final_pre_live_registry_archive_record.ts:25:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:4: * Deterministic proof surface for final bundled pre-live registry package.
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:9:import { packageGovernanceCognitionSnapshot } from "./package_governance_cognition_snapshot";
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:20:import { buildGovernanceFinalPreLiveRegistryContractPackage } from "./build_governance_final_pre_live_registry_contract_package";
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:21:import { selectGovernanceFinalPreLiveRegistryContractPackage } from "./select_governance_final_pre_live_registry_contract_package";
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:26:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:34:  readonly packageStatus: "prepared";
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:36:  readonly packageReasonCount: number;
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:57:  const packagedSnapshot = packageGovernanceCognitionSnapshot(normalizedSnapshot);
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:58:  const view = buildGovernanceDashboardConsumptionView(packagedSnapshot);
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:72:    contractPackage.kind === "governance-final-pre-live-registry-contract-package",
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:73:    "Contract package kind must match."
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:76:    contractPackage.packageKey === "governance-final-pre-live-registry-contract-package",
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:107:  assert(contractPackage.readOnly === true, "Contract package must remain read-only.");
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:108:  assert(contractPackage.packageStatus === "prepared", "Package status must evaluate to prepared.");
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:109:  assert(contractPackage.handoffEligible === true, "Contract package handoff eligibility must evaluate to true.");
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:110:  assert(selected.signalCount === 3, "Selected package signal count must match normalized signal count.");
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:111:  assert(selected.packageReasonCount >= 4, "Contract package must expose deterministic reasons.");
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:116:    packageKey: selected.packageKey,
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:124:    packageStatus: selected.packageStatus,
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:126:    packageReasonCount: selected.packageReasonCount,
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:9:import { packageGovernanceCognitionSnapshot } from "./package_governance_cognition_snapshot";
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:20:import { buildGovernanceFinalPreLiveRegistryContractPackage } from "./build_governance_final_pre_live_registry_contract_package";
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:30:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:61:  const packagedSnapshot = packageGovernanceCognitionSnapshot(normalizedSnapshot);
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:62:  const view = buildGovernanceDashboardConsumptionView(packagedSnapshot);
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:90:    manifest.packageKey === "governance-final-pre-live-registry-contract-package",
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:132:    packageKey: selected.packageKey,
+src/governance/cognition/select_governance_final_pre_live_registry_contract_package.ts:4: * Read-only deterministic package selection surface.
+src/governance/cognition/select_governance_final_pre_live_registry_contract_package.ts:7:import type { GovernanceFinalPreLiveRegistryContractPackage } from "./governance_final_pre_live_registry_contract_package";
+src/governance/cognition/select_governance_final_pre_live_registry_contract_package.ts:10:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/select_governance_final_pre_live_registry_contract_package.ts:18:  readonly packageStatus: "prepared";
+src/governance/cognition/select_governance_final_pre_live_registry_contract_package.ts:20:  readonly packageReasonCount: number;
+src/governance/cognition/select_governance_final_pre_live_registry_contract_package.ts:30:    packageKey: contractPackage.packageKey,
+src/governance/cognition/select_governance_final_pre_live_registry_contract_package.ts:38:    packageStatus: contractPackage.packageStatus,
+src/governance/cognition/select_governance_final_pre_live_registry_contract_package.ts:40:    packageReasonCount: contractPackage.packageReasons.length,
+src/governance/cognition/prove_governance_dashboard_consumption_view.ts:9:import { packageGovernanceCognitionSnapshot } from "./package_governance_cognition_snapshot";
+src/governance/cognition/prove_governance_dashboard_consumption_view.ts:39:  const packaged = packageGovernanceCognitionSnapshot(normalized);
+src/governance/cognition/prove_governance_dashboard_consumption_view.ts:40:  const view = buildGovernanceDashboardConsumptionView(packaged);
+src/governance/cognition/prove_governance_authorization_gate.ts:9:import { packageGovernanceCognitionSnapshot } from "./package_governance_cognition_snapshot";
+src/governance/cognition/prove_governance_authorization_gate.ts:55:  const packaged = packageGovernanceCognitionSnapshot(normalizedSnapshot);
+src/governance/cognition/prove_governance_authorization_gate.ts:56:  const view = buildGovernanceDashboardConsumptionView(packaged);
+src/governance/cognition/prove_governance_live_wiring_decision.ts:9:import { packageGovernanceCognitionSnapshot } from "./package_governance_cognition_snapshot";
+src/governance/cognition/prove_governance_live_wiring_decision.ts:53:  const packaged = packageGovernanceCognitionSnapshot(normalizedSnapshot);
+src/governance/cognition/prove_governance_live_wiring_decision.ts:54:  const view = buildGovernanceDashboardConsumptionView(packaged);
+src/governance/cognition/select_governance_final_delivery_receipt.ts:13:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/select_governance_final_delivery_receipt.ts:36:    packageKey: receipt.packageKey,
+src/governance/cognition/prove_governance_cognition_snapshot.ts:4: * Deterministic proof surface for snapshot packaging invariants.
+src/governance/cognition/prove_governance_cognition_snapshot.ts:10:import { packageGovernanceCognitionSnapshot } from "./package_governance_cognition_snapshot";
+src/governance/cognition/prove_governance_cognition_snapshot.ts:16:  readonly packagedKind: "governance-cognition-snapshot";
+src/governance/cognition/prove_governance_cognition_snapshot.ts:17:  readonly packagedVersion: 1;
+src/governance/cognition/prove_governance_cognition_snapshot.ts:38:  const packaged = packageGovernanceCognitionSnapshot(normalized);
+src/governance/cognition/prove_governance_cognition_snapshot.ts:41:  assert(packaged.operatorSafe === true, "Packaged snapshot must be operator-safe.");
+src/governance/cognition/prove_governance_cognition_snapshot.ts:42:  assert(packaged.dashboardReady === true, "Packaged snapshot must be dashboard-ready.");
+src/governance/cognition/prove_governance_cognition_snapshot.ts:43:  assert(packaged.snapshot.signals.join("|") === "authority|registry|routing", "Signals must be deduplicated and sorted.");
+src/governance/cognition/prove_governance_cognition_snapshot.ts:44:  assert(packaged.snapshot.overallStatus === "review", "Overall status must preserve deterministic precedence.");
+src/governance/cognition/prove_governance_cognition_snapshot.ts:45:  assert(packaged.snapshot.severity === "elevated", "Severity must preserve deterministic precedence.");
+src/governance/cognition/prove_governance_cognition_snapshot.ts:50:    normalizedSignalOrder: packaged.snapshot.signals,
+src/governance/cognition/prove_governance_cognition_snapshot.ts:51:    packagedKind: packaged.kind,
+src/governance/cognition/prove_governance_cognition_snapshot.ts:52:    packagedVersion: packaged.version,
+src/governance/cognition/prove_governance_cognition_snapshot.ts:53:    overallStatus: packaged.snapshot.overallStatus,
+src/governance/cognition/prove_governance_cognition_snapshot.ts:54:    severity: packaged.snapshot.severity
+src/governance/cognition/prove_governance_dashboard_contract_registration.ts:9:import { packageGovernanceCognitionSnapshot } from "./package_governance_cognition_snapshot";
+src/governance/cognition/prove_governance_dashboard_contract_registration.ts:40:  const packaged = packageGovernanceCognitionSnapshot(normalizedSnapshot);
+src/governance/cognition/prove_governance_dashboard_contract_registration.ts:41:  const view = buildGovernanceDashboardConsumptionView(packaged);
+src/governance/cognition/build_governance_live_registry_wiring_readiness.ts:4: * Pure deterministic adapter from shared-registry-owner-facing bundle
+src/governance/cognition/build_governance_authorization_gate.ts:4: * Pure deterministic adapter from explicit live wiring decision
+src/governance/cognition/build_governance_final_pre_live_registry_summary_capsule.ts:4: * Pure deterministic adapter from final pre-live registry archive record
+src/governance/cognition/build_governance_final_pre_live_registry_summary_capsule.ts:35:    packageKey: archiveRecord.packageKey,
+src/governance/cognition/governance_pre_live_registry_handoff_envelope.ts:5: * contract package for future explicitly authorized live runtime registry
+src/governance/cognition/governance_pre_live_registry_handoff_envelope.ts:15:import type { GovernanceFinalPreLiveRegistryContractPackage } from "./governance_final_pre_live_registry_contract_package";
+src/governance/cognition/governance_pre_live_registry_handoff_envelope.ts:22:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:9:import { packageGovernanceCognitionSnapshot } from "./package_governance_cognition_snapshot";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:20:import { buildGovernanceFinalPreLiveRegistryContractPackage } from "./build_governance_final_pre_live_registry_contract_package";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:34:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:65:  const packagedSnapshot = packageGovernanceCognitionSnapshot(normalizedSnapshot);
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:66:  const view = buildGovernanceDashboardConsumptionView(packagedSnapshot);
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:88:  assert(archiveRecord.packageKey === "governance-final-pre-live-registry-contract-package", "Package key must match.");
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:109:    packageKey: selected.packageKey,
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:9:import { packageGovernanceCognitionSnapshot } from "./package_governance_cognition_snapshot";
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:47:  const packaged = packageGovernanceCognitionSnapshot(normalizedSnapshot);
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:48:  const view = buildGovernanceDashboardConsumptionView(packaged);
+src/governance/cognition/package_governance_cognition_snapshot.ts:4: * Operator-safe deterministic packaging layer for dashboard-safe consumption.
+src/governance/cognition/package_governance_cognition_snapshot.ts:26:export function packageGovernanceCognitionSnapshot(
+src/governance/cognition/index.ts:9:export { packageGovernanceCognitionSnapshot } from "./package_governance_cognition_snapshot";
+src/governance/cognition/index.ts:50:export type { GovernanceFinalPreLiveRegistryContractPackage } from "./governance_final_pre_live_registry_contract_package";
+src/governance/cognition/index.ts:51:export { buildGovernanceFinalPreLiveRegistryContractPackage } from "./build_governance_final_pre_live_registry_contract_package";
+src/governance/cognition/index.ts:52:export type { GovernanceFinalPreLiveRegistryContractPackageSelection } from "./select_governance_final_pre_live_registry_contract_package";
+src/governance/cognition/index.ts:53:export { selectGovernanceFinalPreLiveRegistryContractPackage } from "./select_governance_final_pre_live_registry_contract_package";
+src/governance/cognition/index.ts:54:export { proveGovernanceFinalPreLiveRegistryContractPackage } from "./prove_governance_final_pre_live_registry_contract_package";
+src/governance/cognition/index.ts:55:export type { GovernanceFinalPreLiveRegistryContractPackageProof } from "./prove_governance_final_pre_live_registry_contract_package";
+src/governance/cognition/select_governance_pre_live_registry_handoff_envelope.ts:11:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/select_governance_pre_live_registry_handoff_envelope.ts:32:    packageKey: envelope.packageKey,
+src/governance/cognition/governance_final_delivery_receipt.ts:24:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/register_governance_dashboard_contract.ts:4: * Pure deterministic registration adapter.
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:9:import { packageGovernanceCognitionSnapshot } from "./package_governance_cognition_snapshot";
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:20:import { buildGovernanceFinalPreLiveRegistryContractPackage } from "./build_governance_final_pre_live_registry_contract_package";
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:28:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:59:  const packagedSnapshot = packageGovernanceCognitionSnapshot(normalizedSnapshot);
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:60:  const view = buildGovernanceDashboardConsumptionView(packagedSnapshot);
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:83:    envelope.packageKey === "governance-final-pre-live-registry-contract-package",
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:124:    packageKey: selected.packageKey,
+src/governance/cognition/build_governance_final_pre_live_registry_contract_package.ts:4: * Pure deterministic adapter from authorization gate
+src/governance/cognition/build_governance_final_pre_live_registry_contract_package.ts:5: * to final bundled pre-live registry contract package.
+src/governance/cognition/build_governance_final_pre_live_registry_contract_package.ts:9:import type { GovernanceFinalPreLiveRegistryContractPackage } from "./governance_final_pre_live_registry_contract_package";
+src/governance/cognition/build_governance_final_pre_live_registry_contract_package.ts:20:  const packageReasons = uniqueSorted([
+src/governance/cognition/build_governance_final_pre_live_registry_contract_package.ts:22:    "final-contract-package-prepared",
+src/governance/cognition/build_governance_final_pre_live_registry_contract_package.ts:27:    kind: "governance-final-pre-live-registry-contract-package" as const,
+src/governance/cognition/build_governance_final_pre_live_registry_contract_package.ts:30:    packageKey: "governance-final-pre-live-registry-contract-package" as const,
+src/governance/cognition/build_governance_final_pre_live_registry_contract_package.ts:45:    packageStatus: "prepared" as const,
+src/governance/cognition/build_governance_final_pre_live_registry_contract_package.ts:47:    packageReasons,
+src/governance/cognition/build_governance_runtime_registry_export.ts:4: * Pure deterministic adapter from governance dashboard contract registration
+src/governance/governance_fixture_integrity_sentinel.ts:24:      throw new Error("Governance fixture drift: fixture shape changed")
+src/governance/governance_advisory_contract_lock.test.ts:14:    expect(result.governance_shape)
+
+==== project ingestion candidates ====
+
+==== selection rule ====
+Select the single safest intake-side file that is upstream of governance evaluation and downstream of operator request entry.
+
+NEXT_STEP
+PHASE_456_8_FL3_IMPLEMENTATION_TARGET_DECISION
+
+DETERMINISTIC_STOP
+Stop after exact mutation target evidence is recorded.
