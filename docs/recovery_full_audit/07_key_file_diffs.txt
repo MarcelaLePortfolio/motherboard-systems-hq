@@ -1,33 +1,1263 @@
 === DIFF OF KEY UI / WIRING FILES BETWEEN ROOT AND RECOVERY ===
 
 ===== public/js/phase58c_idle_states.js =====
- public/js/phase58c_idle_states.js | 173 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 173 insertions(+)
+diff --git a/public/js/phase58c_idle_states.js b/public/js/phase58c_idle_states.js
+new file mode 100644
+index 00000000..5684e12f
+--- /dev/null
++++ b/public/js/phase58c_idle_states.js
+@@ -0,0 +1,173 @@
++(() => {
++  "use strict";
++
++  const REFLECTIONS_TEXT = "Waiting for first reflection";
++  const OPS_TEXT = "No agent signals yet";
++  const TASKS_TEXT = "Waiting for first task event beyond heartbeat";
++
++  function q(sel, root = document) {
++    try {
++      return root.querySelector(sel);
++    } catch {
++      return null;
++    }
++  }
++
++  function ensureInlineStyle() {
++    if (document.getElementById("phase58c-idle-style")) return;
++
++    const style = document.createElement("style");
++    style.id = "phase58c-idle-style";
++    style.textContent = `
++      .phase58c-idle-state {
++        list-style: none;
++        border: 1px solid rgba(255,255,255,0.10);
++        background: rgba(255,255,255,0.03);
++        border-radius: 12px;
++        padding: 12px 14px;
++        color: rgba(255,255,255,0.78);
++        font-size: 12px;
++        line-height: 1.45;
++      }
++      .phase58c-idle-state strong {
++        display: block;
++        color: rgba(255,255,255,0.92);
++        font-weight: 600;
++        margin-bottom: 4px;
++      }
++      .phase58c-idle-state span {
++        display: block;
++        color: rgba(255,255,255,0.60);
++      }
++    `;
++    document.head.appendChild(style);
++  }
++
++  function buildIdleNode(title, detail, tagName = "li") {
++    const el = document.createElement(tagName);
++    el.className = "phase58c-idle-state";
++    el.setAttribute("data-phase58c-idle", "true");
++
++    const strong = document.createElement("strong");
++    strong.textContent = title;
++    el.appendChild(strong);
++
++    if (detail) {
++      const span = document.createElement("span");
++      span.textContent = detail;
++      el.appendChild(span);
++    }
++
++    return el;
++  }
++
++  function listHasRealItems(list) {
++    const children = Array.from(list.children || []);
++    return children.some((child) => {
++      if (!(child instanceof HTMLElement)) return false;
++      if (child.dataset.phase58cIdle === "true") return false;
++      return (child.textContent || "").trim().length > 0;
++    });
++  }
++
++  function ensureIdleList(list, title, detail) {
++    if (!list) return;
++    ensureInlineStyle();
++
++    const existing = q('[data-phase58c-idle="true"]', list);
++    const hasReal = listHasRealItems(list);
++
++    if (hasReal) {
++      if (existing) existing.remove();
++      return;
++    }
++
++    if (existing) return;
++
++    const tagName = list.tagName && /^(UL|OL)$/i.test(list.tagName) ? "li" : "div";
++    list.appendChild(buildIdleNode(title, detail, tagName));
++  }
++
++  function normalizeSSEIndicatorText() {
++    const candidates = [
++      q("#ops-sse-indicator .meta"),
++      q("#reflections-sse-indicator .meta"),
++      q("#phase16-sse-indicator-text"),
++      q("#phase16_reflections_status"),
++    ].filter(Boolean);
++
++    candidates.forEach((node) => {
++      const text = (node.textContent || "").trim();
++      if (!text) return;
++      if (text.includes("disconnected") && text.includes("last: —")) {
++        node.textContent = text.replace("disconnected", "idle");
++      } else if (text === "SSE: …") {
++        node.textContent = "SSE: idle";
++      } else if (text.toLowerCase().includes("waiting for js")) {
++        node.textContent = "reflections: idle";
++      }
++    });
++  }
++
++  function patchReflections() {
++    const list =
++      q("#reflections-list") ||
++      q('[data-role="reflections-list"]') ||
++      q('[data-panel="reflections"] ul') ||
++      q("#reflections");
++
++    if (!list) return;
++
++    const empty = q("#reflections-empty") || q('[data-role="reflections-empty"]');
++    if (empty) empty.style.display = "none";
++
++    ensureIdleList(
++      list,
++      REFLECTIONS_TEXT,
++      "This panel will populate automatically once the first reflection arrives."
++    );
++  }
++
++  function patchOps() {
++    const list = q("#ops-alerts-list") || q('[data-role="ops-alerts-list"]');
++    if (!list) return;
++
++    ensureIdleList(
++      list,
++      OPS_TEXT,
++      "Agent activity will appear here when the operator console receives its first signal."
++    );
++  }
++
++  function patchRecentTasks() {
++    const empty = q('[data-empty="recent-tasks"]');
++    if (!empty) return;
++
++    const body = q(".text-xs, .text-sm, p, div", empty);
++    if (body && (body.textContent || "").includes("heartbeats")) {
++      body.textContent = TASKS_TEXT;
++    }
++  }
++
++  function applyIdleUX() {
++    patchReflections();
++    patchOps();
++    patchRecentTasks();
++    normalizeSSEIndicatorText();
++  }
++
++  function boot() {
++    applyIdleUX();
++    window.addEventListener("ops.state", applyIdleUX);
++    window.addEventListener("reflections.state", applyIdleUX);
++    window.addEventListener("mb:ops:update", applyIdleUX);
++    window.addEventListener("mb:reflections:update", applyIdleUX);
++    window.addEventListener("mb.task.event", applyIdleUX);
++  }
++
++  if (document.readyState === "loading") {
++    document.addEventListener("DOMContentLoaded", boot, { once: true });
++  } else {
++    boot();
++  }
++})();
 
 ===== public/js/phase58d_operator_console.js =====
- public/js/phase58d_operator_console.js | 4 ++++
- 1 file changed, 4 insertions(+)
+diff --git a/public/js/phase58d_operator_console.js b/public/js/phase58d_operator_console.js
+new file mode 100644
+index 00000000..c7796e17
+--- /dev/null
++++ b/public/js/phase58d_operator_console.js
+@@ -0,0 +1,4 @@
++(() => {
++  "use strict";
++  console.log("[phase58d] disabled during Phase 59 stability recovery");
++})();
 
 ===== public/js/probe-lifecycle-card.js =====
- public/js/probe-lifecycle-card.js | 353 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 353 insertions(+)
+diff --git a/public/js/probe-lifecycle-card.js b/public/js/probe-lifecycle-card.js
+new file mode 100644
+index 00000000..e7263617
+--- /dev/null
++++ b/public/js/probe-lifecycle-card.js
+@@ -0,0 +1,353 @@
++(() => {
++  const PANEL_ID = "mb-task-events-panel";
++  const FEED_ID = "mb-task-events-feed";
++  const CARD_ID = "mb-probe-lifecycle-card";
++  const STATE_ID = "mb-probe-lifecycle-state";
++  const META_ID = "mb-probe-lifecycle-meta";
++  const STEPS_ID = "mb-probe-lifecycle-steps";
++  const RUNS_API = "/api/runs";
++  const PROBE_RUN_ID = "policy.probe.run";
++
++  const state = {
++    runId: PROBE_RUN_ID,
++    status: "idle",
++    eventCount: 0,
++    lastTs: null,
++    lastKind: null,
++    started: false,
++    running: false,
++    completed: false,
++    failed: false,
++  };
++
++  function fmtFull(ts) {
++    return typeof ts === "number" && Number.isFinite(ts)
++      ? new Date(ts).toLocaleString()
++      : "—";
++  }
++
++  function getVisual(status) {
++    if (status === "completed") {
++      return {
++        label: "Completed",
++        border: "rgba(34,197,94,0.34)",
++        background: "rgba(34,197,94,0.10)",
++        badge: "rgba(34,197,94,0.16)",
++      };
++    }
++
++    if (status === "failed") {
++      return {
++        label: "Failed",
++        border: "rgba(239,68,68,0.34)",
++        background: "rgba(239,68,68,0.10)",
++        badge: "rgba(239,68,68,0.16)",
++      };
++    }
++
++    if (status === "running") {
++      return {
++        label: "Running",
++        border: "rgba(99,102,241,0.34)",
++        background: "rgba(79,70,229,0.12)",
++        badge: "rgba(99,102,241,0.16)",
++      };
++    }
++
++    if (status === "started") {
++      return {
++        label: "Started",
++        border: "rgba(59,130,246,0.34)",
++        background: "rgba(59,130,246,0.10)",
++        badge: "rgba(59,130,246,0.16)",
++      };
++    }
++
++    return {
++      label: "Idle",
++      border: "rgba(148,163,184,0.24)",
++      background: "rgba(255,255,255,0.03)",
++      badge: "rgba(148,163,184,0.16)",
++    };
++  }
++
++  function inferStatusFromKind(kind, currentStatus) {
++    const k = String(kind || "");
++
++    if (
++      k === "task.failed" ||
++      k === "policy.probe.denied" ||
++      k === "policy.probe.blocked" ||
++      k === "policy.probe.failed"
++    ) {
++      return "failed";
++    }
++
++    if (k === "task.completed" || k === "policy.probe.completed") {
++      return "completed";
++    }
++
++    if (
++      k === "task.running" ||
++      k === "policy.probe.allowed" ||
++      k === "policy.probe.running" ||
++      k === "policy.probe.visible"
++    ) {
++      return "running";
++    }
++
++    if (
++      k === "task.created" ||
++      k === "task.started" ||
++      k === "policy.probe.started"
++    ) {
++      return "started";
++    }
++
++    return currentStatus === "idle" ? "started" : currentStatus;
++  }
++
++  function ensureCard() {
++    const panel = document.getElementById(PANEL_ID);
++    const feed = document.getElementById(FEED_ID);
++    if (!panel || !feed) return null;
++
++    let card = document.getElementById(CARD_ID);
++    if (card) return card;
++
++    card = document.createElement("section");
++    card.id = CARD_ID;
++    card.style.margin = "14px 16px 0";
++    card.style.border = "1px solid rgba(148,163,184,0.24)";
++    card.style.borderRadius = "16px";
++    card.style.padding = "12px 14px";
++    card.style.background = "rgba(255,255,255,0.03)";
++    card.style.boxShadow = "inset 0 1px 0 rgba(255,255,255,0.03)";
++
++    const top = document.createElement("div");
++    top.style.display = "flex";
++    top.style.alignItems = "center";
++    top.style.justifyContent = "space-between";
++    top.style.gap = "12px";
++
++    const titleWrap = document.createElement("div");
++    titleWrap.style.minWidth = "0";
++
++    const title = document.createElement("div");
++    title.textContent = "Probe lifecycle";
++    title.style.fontSize = "13px";
++    title.style.fontWeight = "700";
++    title.style.letterSpacing = "0.02em";
++
++    const badge = document.createElement("div");
++    badge.id = STATE_ID;
++    badge.style.marginTop = "6px";
++    badge.style.display = "inline-flex";
++    badge.style.alignItems = "center";
++    badge.style.gap = "6px";
++    badge.style.padding = "4px 8px";
++    badge.style.borderRadius = "999px";
++    badge.style.fontSize = "11px";
++    badge.style.fontWeight = "700";
++    badge.style.letterSpacing = "0.03em";
++    badge.textContent = "Idle";
++
++    titleWrap.appendChild(title);
++    titleWrap.appendChild(badge);
++
++    const meta = document.createElement("div");
++    meta.id = META_ID;
++    meta.style.fontSize = "11px";
++    meta.style.lineHeight = "1.5";
++    meta.style.opacity = "0.78";
++    meta.style.textAlign = "right";
++    meta.style.whiteSpace = "pre-line";
++    meta.textContent = "run policy.probe.run\n0 events · last activity —\nlast kind —";
++
++    top.appendChild(titleWrap);
++    top.appendChild(meta);
++
++    const steps = document.createElement("div");
++    steps.id = STEPS_ID;
++    steps.style.display = "flex";
++    steps.style.flexWrap = "wrap";
++    steps.style.gap = "8px";
++    steps.style.marginTop = "10px";
++
++    card.appendChild(top);
++    card.appendChild(steps);
++    panel.insertBefore(card, feed);
++
++    return card;
++  }
++
++  function render() {
++    const card = ensureCard();
++    const badge = document.getElementById(STATE_ID);
++    const meta = document.getElementById(META_ID);
++    const steps = document.getElementById(STEPS_ID);
++    if (!card || !badge || !meta || !steps) return;
++
++    const visual = getVisual(state.status);
++
++    card.style.borderColor = visual.border;
++    card.style.background = visual.background;
++
++    badge.textContent = visual.label;
++    badge.style.background = visual.badge;
++    badge.style.border = `1px solid ${visual.border}`;
++    badge.style.color = "rgba(255,255,255,0.95)";
++
++    meta.textContent =
++      `run ${state.runId}\n` +
++      `${state.eventCount} events · last activity ${fmtFull(state.lastTs)}\n` +
++      `last kind ${state.lastKind || "—"}`;
++
++    const chips = [
++      { label: "Started", done: state.started, active: state.status === "started" },
++      { label: "Running", done: state.running, active: state.status === "running" },
++      {
++        label: state.failed ? "Failed" : "Completed",
++        done: state.completed || state.failed,
++        active: state.status === "completed" || state.status === "failed",
++      },
++    ];
++
++    steps.innerHTML = "";
++
++    for (const chip of chips) {
++      const el = document.createElement("div");
++      el.style.display = "inline-flex";
++      el.style.alignItems = "center";
++      el.style.gap = "6px";
++      el.style.padding = "6px 10px";
++      el.style.borderRadius = "999px";
++      el.style.fontSize = "11px";
++      el.style.fontWeight = "600";
++      el.style.letterSpacing = "0.02em";
++      el.style.border = "1px solid rgba(148,163,184,0.22)";
++      el.style.background = "rgba(255,255,255,0.03)";
++      el.style.opacity = chip.done || chip.active ? "1" : "0.72";
++
++      if (chip.active) {
++        el.style.borderColor = visual.border;
++        el.style.background = visual.badge;
++      } else if (chip.done) {
++        el.style.borderColor = "rgba(148,163,184,0.30)";
++        el.style.background = "rgba(255,255,255,0.06)";
++      }
++
++      const dot = document.createElement("span");
++      dot.style.display = "inline-block";
++      dot.style.width = "8px";
++      dot.style.height = "8px";
++      dot.style.borderRadius = "999px";
++      dot.style.background = chip.done || chip.active
++        ? "rgba(255,255,255,0.92)"
++        : "rgba(148,163,184,0.68)";
++
++      const text = document.createElement("span");
++      text.textContent = chip.label;
++
++      el.appendChild(dot);
++      el.appendChild(text);
++      steps.appendChild(el);
++    }
++  }
++
++  function updateFromProbeEvent(detail) {
++    const runId = String(detail?.run_id ?? detail?.runId ?? "");
++    const kind = String(detail?.kind ?? "");
++    const isProbe = runId === PROBE_RUN_ID || kind.startsWith("policy.probe");
++    if (!isProbe) return;
++
++    state.runId = runId || PROBE_RUN_ID;
++    state.eventCount += 1;
++    state.lastTs = typeof detail?.ts === "number" ? detail.ts : Date.now();
++    state.lastKind = kind || "event";
++    state.status = inferStatusFromKind(kind, state.status);
++
++    if (state.status === "started") {
++      state.started = true;
++    } else if (state.status === "running") {
++      state.started = true;
++      state.running = true;
++    } else if (state.status === "completed") {
++      state.started = true;
++      state.running = true;
++      state.completed = true;
++      state.failed = false;
++    } else if (state.status === "failed") {
++      state.started = true;
++      state.running = true;
++      state.failed = true;
++      state.completed = false;
++    }
++
++    render();
++  }
++
++  async function hydrateFromRuns() {
++    try {
++      const res = await fetch(RUNS_API, { credentials: "same-origin" });
++      if (!res.ok) return;
++      const data = await res.json();
++      const rows = Array.isArray(data?.rows) ? data.rows : [];
++      const probeRow = rows.find((row) => String(row?.run_id || "") === PROBE_RUN_ID);
++      if (!probeRow) {
++        render();
++        return;
++      }
++
++      state.runId = String(probeRow.run_id || PROBE_RUN_ID);
++      state.lastTs = Number(probeRow.last_event_ts || Date.now());
++      state.lastKind = String(probeRow.last_event_kind || "—");
++      state.status = inferStatusFromKind(state.lastKind, state.status);
++
++      if (state.status === "started") {
++        state.started = true;
++      } else if (state.status === "running") {
++        state.started = true;
++        state.running = true;
++      } else if (state.status === "completed") {
++        state.started = true;
++        state.running = true;
++        state.completed = true;
++      } else if (state.status === "failed") {
++        state.started = true;
++        state.running = true;
++        state.failed = true;
++      }
++
++      render();
++    } catch (_) {
++      render();
++    }
++  }
++
++  function boot() {
++    render();
++    hydrateFromRuns();
++    window.addEventListener("mb.task.event", (event) => updateFromProbeEvent(event.detail));
++
++    const observer = new MutationObserver(() => {
++      if (document.getElementById(PANEL_ID) && !document.getElementById(CARD_ID)) {
++        render();
++      }
++    });
++
++    observer.observe(document.documentElement, { childList: true, subtree: true });
++
++    setInterval(() => {
++      if (document.getElementById(PANEL_ID)) {
++        render();
++      }
++    }, 3000);
++  }
++
++  if (document.readyState === "loading") {
++    document.addEventListener("DOMContentLoaded", boot, { once: true });
++  } else {
++    boot();
++  }
++})();
 
 ===== server.mjs =====
- server.mjs | 116 ++++---------------------------------------------------------
- 1 file changed, 7 insertions(+), 109 deletions(-)
+diff --git a/server.mjs b/server.mjs
+index 2bbd0deb..8aa375be 100644
+--- a/server.mjs
++++ b/server.mjs
+@@ -9,12 +9,6 @@ import { ensureTasksTaskIdColumn } from "./server/db_bootstrap_tasks_task_id.mjs
+ import { registerOrchestratorStateRoute } from "./server/orchestrator_state_route.mjs";
+ import { registerPhase19DebugRoutes } from "./server/phase19_debug_routes_dump.mjs";
+ import { apiTasksRouter } from "./server/routes/api-tasks-postgres.mjs";
+-import systemHealthRouter, {
+-  buildSystemHealthSnapshot,
+-} from "./routes/diagnostics/systemHealth.js";
+-import {
+-  reduceSystemHealthSnapshotToGuidanceReduction,
+-} from "./routes/diagnostics/operatorGuidanceRuntime.js";
+ 
+ // Phase 44 — server HTTP mutation-route enforcement boundary (off/shadow/enforce)
+ import { createMutationEnforcementMiddleware } from "./server/enforcement/phase44_mutation_enforcer.mjs";
+@@ -183,9 +177,6 @@ app.post("/api/tasks-mutations/delegate-taskspec", async (req, res) => phase23Ha
+ app.use("/api/tasks", apiTasksRouter);
+ app.use("/api/tasks-mutations", apiTasksMutationsRouter);
+ 
+-
+-app.use("/diagnostics/system-health", systemHealthRouter);
+-app.use("/diagnostics/systemHealth", systemHealthRouter);
+ // --- Phase 16.7: dev-only emit endpoints (local debug) ---
+ app.post("/api/dev/emit-reflection", (req, res) => {
+   try {
+@@ -306,17 +297,16 @@ const pool = DB_URL
+ 
+ try {
+   const o = pool?.options || {};
+-  const SERVER_DB_URL_HAS_PASSWORD = /\/\/[^:]+:[^@]+@/.test(DB_URL_RAW);
+   const safe = {
+     mode: (DB_URL ? "url" : "params"),
+     DB_URL_present: Boolean(DB_URL),
+-    host: o.host ?? null,
+-    port: o.port ?? null,
+-    user: o.user ?? null,
+-    database: o.database ?? null,
+-    password_type: (DB_URL ? "url-hidden" : typeof o.password),
+-    password_len: (DB_URL ? "hidden" : (o.password == null ? null : String(o.password).length)),
+-    has_password: (DB_URL ? SERVER_DB_URL_HAS_PASSWORD : (o.password != null)),
++    host: o.host || null,
++    port: o.port || null,
++    user: o.user || null,
++    database: o.database || null,
++    password_type: typeof o.password,
++    password_len: (o.password == null ? null : String(o.password).length),
++    has_password: (o.password != null),
+   };
+   console.log("[db] effective pool config", safe);
+ } catch (e) {
+@@ -462,98 +452,6 @@ app.get("/events/tasks", async (req, res) => {
+   });
+ });
+ 
+-// ---- Operator Guidance SSE ----
+-app.get("/events/operator-guidance", (req, res) => {
+-  res.writeHead(200, {
+-    "Content-Type": "text/event-stream; charset=utf-8",
+-    "Cache-Control": "no-cache, no-transform",
+-    Connection: "keep-alive",
+-    "X-Accel-Buffering": "no",
+-  });
+-
+-  if (typeof res.flushHeaders === "function") {
+-    res.flushHeaders();
+-  }
+-
+-  try { req.socket?.setTimeout?.(0); } catch (_) {}
+-  try { req.socket?.setNoDelay?.(true); } catch (_) {}
+-  try { req.socket?.setKeepAlive?.(true); } catch (_) {}
+-
+-  const writeFrame = (frame) => {
+-    res.write(frame);
+-    if (typeof res.flush === "function") {
+-      try { res.flush(); } catch (_) {}
+-    }
+-  };
+-
+-  writeFrame(`: ready\n\n`);
+-
+-  let closed = false;
+-  req.on("close", () => {
+-    closed = true;
+-  });
+-
+-  const sendSnapshot = () => {
+-    try {
+-      const snapshot = buildSystemHealthSnapshot();
+-      const reduction = reduceSystemHealthSnapshotToGuidanceReduction(snapshot);
+-      writeFrame(
+-        `event: operator_guidance\ndata: ${JSON.stringify({
+-          reduction,
+-          source: "diagnostics/system-health",
+-          ts: Date.now(),
+-        })}\n\n`
+-      );
+-    } catch (e) {
+-      writeFrame(
+-        `event: error\ndata: ${JSON.stringify({
+-          error: String(e),
+-          ts: Date.now(),
+-        })}\n\n`
+-      );
+-    }
+-  };
+-
+-  sendSnapshot();
+-
+-  const ping = setInterval(() => {
+-    if (closed) return;
+-    writeFrame(`: ping ${Date.now()}\n\n`);
+-  }, 5000);
+-
+-  let lastHash = "";
+-  const poll = setInterval(() => {
+-    if (closed) return;
+-    try {
+-      const snapshot = buildSystemHealthSnapshot();
+-      const reduction = reduceSystemHealthSnapshotToGuidanceReduction(snapshot);
+-      const payload = JSON.stringify(reduction);
+-      if (payload !== lastHash) {
+-        lastHash = payload;
+-        writeFrame(
+-          `event: operator_guidance\ndata: ${JSON.stringify({
+-            reduction,
+-            source: "diagnostics/system-health",
+-            ts: Date.now(),
+-          })}\n\n`
+-        );
+-      }
+-    } catch (e) {
+-      writeFrame(
+-        `event: error\ndata: ${JSON.stringify({
+-          error: String(e),
+-          ts: Date.now(),
+-        })}\n\n`
+-      );
+-    }
+-  }, 5000);
+-
+-  res.on("close", () => {
+-    clearInterval(ping);
+-    clearInterval(poll);
+-  });
+-});
+-
+ // ---- Ops heartbeat (minimal, no SSE dependency) ----
+ app.get("/api/ops-heartbeat", (req, res) => {
+   lastOpsHeartbeat = Date.now();
 
 ===== server/routes/api-tasks-postgres.mjs =====
- server/routes/api-tasks-postgres.mjs | 18 +++++++-----------
- 1 file changed, 7 insertions(+), 11 deletions(-)
+diff --git a/server/routes/api-tasks-postgres.mjs b/server/routes/api-tasks-postgres.mjs
+index 5007793b..754136de 100644
+--- a/server/routes/api-tasks-postgres.mjs
++++ b/server/routes/api-tasks-postgres.mjs
+@@ -83,10 +83,6 @@ apiTasksRouter.post("/create", async (req, res) => {
+ 
+     const b = _asJson(req);
+ 
+-    let run_id = b.run_id ?? b.runId ?? null;
+-    if (!run_id) run_id = `run_${crypto.randomUUID()}`;
+-    run_id = String(run_id);
+-
+     // Accept caller-provided task_id; otherwise create a task row + mint a stable string task_id.
+     let task_id = b.task_id ?? b.taskId ?? b.id ?? null;
+ 
+@@ -114,7 +110,7 @@ apiTasksRouter.post("/create", async (req, res) => {
+         task_id,
+         b.title ?? null,
+         b.status ?? "queued",
+-        run_id,
++        b.run_id ?? b.runId ?? null,
+         b.action_tier ?? "A",
+         b.notes ?? null,
+       ]
+@@ -124,8 +120,8 @@ apiTasksRouter.post("/create", async (req, res) => {
+       pool,
+       kind: "task.created",
+       task_id,
+-      run_id,
+-      actor: b.actor ?? b.agent ?? "api",
++      run_id: b.run_id ?? b.runId ?? null,
++      actor: b.actor ?? "api",
+       payload: {
+         title: b.title ?? null,
+         agent: b.agent ?? null,
+@@ -135,7 +131,7 @@ apiTasksRouter.post("/create", async (req, res) => {
+       },
+     });
+ 
+-    res.status(201).json({ ok: true, task_id, run_id, event: evt });
++    res.status(201).json({ ok: true, task_id, event: evt });
+   } catch (e) {
+     console.error("[phase25] /api/tasks error", e);
+ 
+@@ -165,7 +161,7 @@ apiTasksRouter.post("/complete", async (req, res) => {
+       kind: "task.completed",
+       task_id,
+       run_id: b.run_id ?? b.runId ?? null,
+-      actor: b.actor ?? b.agent ?? "api",
++      actor: b.actor ?? "api",
+       payload: {
+         status: b.status ?? "complete",
+         result: b.result ?? null,
+@@ -203,7 +199,7 @@ apiTasksRouter.post("/fail", async (req, res) => {
+       kind: "task.failed",
+       task_id,
+       run_id: b.run_id ?? b.runId ?? null,
+-      actor: b.actor ?? b.agent ?? "api",
++      actor: b.actor ?? "api",
+       payload: {
+         status: b.status ?? "failed",
+         error: b.error ?? b.err ?? null,
+@@ -244,7 +240,7 @@ apiTasksRouter.post("/cancel", async (req, res) => {
+       kind: "task.canceled",
+       task_id,
+       run_id: b.run_id ?? b.runId ?? null,
+-      actor: b.actor ?? b.agent ?? "api",
++      actor: b.actor ?? "api",
+       payload: {
+         reason: b.reason ?? null,
+         source: b.source ?? "api",
 
 ===== server/routes/task-events-sse.mjs =====
- server/routes/task-events-sse.mjs | 89 +++++++++++++++++++--------------------
- 1 file changed, 44 insertions(+), 45 deletions(-)
+diff --git a/server/routes/task-events-sse.mjs b/server/routes/task-events-sse.mjs
+index 8d695b0b..82e9d400 100644
+--- a/server/routes/task-events-sse.mjs
++++ b/server/routes/task-events-sse.mjs
+@@ -28,10 +28,10 @@ function _safeJsonParse(s) {
+ }
+ 
+ router.get("/api/task-events-sse", (req, res) => {
+-    res.redirect(307, "/events/task-events");
+-  });
++  res.redirect(307, "/events/task-events");
++});
+ 
+-  router.get("/events/task-events", async (req, res) => {
++router.get("/events/task-events", async (req, res) => {
+   res.status(200);
+   res.setHeader("Content-Type", "text/event-stream; charset=utf-8");
+   res.setHeader("Cache-Control", "no-cache, no-transform");
+@@ -42,18 +42,14 @@ router.get("/api/task-events-sse", (req, res) => {
+   const pool = globalThis.__DB_POOL;
+   try {
+     const o = pool?.options || {};
+-    const TASK_EVENTS_DB_URL_RAW = process.env.POSTGRES_URL || process.env.DATABASE_URL || "";
+-    const TASK_EVENTS_DB_URL_HAS_PASSWORD = /\/\/[^:]+:[^@]+@/.test(TASK_EVENTS_DB_URL_RAW);
+     console.log("[task-events] pool cfg", {
+-      mode: (TASK_EVENTS_DB_URL_RAW ? "url" : "params"),
+-      DB_URL_present: Boolean(TASK_EVENTS_DB_URL_RAW),
+-      host: o.host ?? null,
+-      port: o.port ?? null,
+-      user: o.user ?? null,
+-      database: o.database ?? null,
+-      password_type: (TASK_EVENTS_DB_URL_RAW ? "url-hidden" : typeof o.password),
+-      password_len: (TASK_EVENTS_DB_URL_RAW ? "hidden" : (o.password == null ? null : String(o.password).length)),
+-      has_password: (TASK_EVENTS_DB_URL_RAW ? TASK_EVENTS_DB_URL_HAS_PASSWORD : (o.password != null)),
++      host: o.host || null,
++      port: o.port || null,
++      user: o.user || null,
++      database: o.database || null,
++      password_type: typeof o.password,
++      password_len: (o.password == null ? null : String(o.password).length),
++      has_password: (o.password != null),
+     });
+   } catch (_) {}
+ 
+@@ -74,49 +70,48 @@ router.get("/api/task-events-sse", (req, res) => {
+   const backoffMax = 1500;
+   const batchLimit = 200;
+ 
+-  // If first connect, start from latest so we don't dump the whole table by default.
+   if (cursor == null) {
+-      try {
+-        const r = await pool.query(`
+-          select coalesce((extract(epoch from max(created_at)) * 1000)::bigint, 0) as max_ms
+-          from task_events
+-        `);
+-        cursor = _intOrNull(r?.rows?.[0]?.max_ms) ?? 0;
+-      } catch (_) {
+-        cursor = 0;
+-      }
++    try {
++      const r = await pool.query(`
++        select coalesce((extract(epoch from max(created_at)) * 1000)::bigint, 0) as max_ms
++        from task_events
++      `);
++      cursor = _intOrNull(r?.rows?.[0]?.max_ms) ?? 0;
++    } catch (_) {
++      cursor = 0;
+     }
++  }
+ 
+-    _sseWrite(res, { event: "hello", data: { kind: "task-events", cursor, ts: Date.now() } });
++  _sseWrite(res, { event: "hello", data: { kind: "task-events", cursor, ts: Date.now() } });
+ 
+   while (!closed) {
+     try {
+       let q;
+-        try {
+-          q = await pool.query(
++      try {
++        q = await pool.query(
+           `
+           select id, kind, payload, task_id, run_id, actor, created_at
+           from task_events
+-          where (extract(epoch from created_at) * 1000)::bigint > $1
++          where created_at > to_timestamp($1 / 1000.0)
+           order by created_at asc
+           limit $2
+           `,
+-            [cursor, batchLimit]
+-          );
+-        } catch (_e) {
+-          q = await pool.query(
++          [cursor, batchLimit]
++        );
++      } catch (_e) {
++        q = await pool.query(
+           `
+           select id, kind, payload, created_at
+           from task_events
+-          where (extract(epoch from created_at) * 1000)::bigint > $1
++          where created_at > to_timestamp($1 / 1000.0)
+           order by created_at asc
+           limit $2
+           `,
+-            [cursor, batchLimit]
+-          );
+-        }
++          [cursor, batchLimit]
++        );
++      }
+ 
+-const rows = q?.rows || [];
++      const rows = q?.rows || [];
+       if (rows.length === 0) {
+         _sseWrite(res, { event: "heartbeat", data: { ts: Date.now(), cursor } });
+         await _sleep(backoffMs);
+@@ -127,15 +122,19 @@ const rows = q?.rows || [];
+       backoffMs = 150;
+ 
+       for (const r of rows) {
+-        const _msRaw = (r.created_at instanceof Date)
+-          ? r.created_at.getTime()
+-          : Date.parse(r.created_at);
+-        const _ms = Number.isFinite(_msRaw) ? Math.floor(_msRaw) : null;
+-        if (Number.isFinite(_ms)) cursor = Math.max(cursor, _ms);
++        const createdAtMs =
++          r.created_at instanceof Date
++            ? r.created_at.getTime()
++            : Date.parse(r.created_at);
++
++        if (Number.isFinite(createdAtMs)) {
++          cursor = Math.max(cursor, createdAtMs + 1);
++        }
++
+         const payload = _safeJsonParse(r.payload);
+-          const taskIdCol = (r.task_id ?? null);
+-          const runIdCol  = (r.run_id  ?? null);
+-          const actorCol  = (r.actor   ?? null);
++        const taskIdCol = (r.task_id ?? null);
++        const runIdCol = (r.run_id ?? null);
++        const actorCol = (r.actor ?? null);
+ 
+         _sseWrite(res, {
+           id: String(r.id),
 
 ===== server/tasks-mutations.mjs =====
- server/tasks-mutations.mjs | 150 ++++++++++++++-------------------------------
- 1 file changed, 45 insertions(+), 105 deletions(-)
+diff --git a/server/tasks-mutations.mjs b/server/tasks-mutations.mjs
+index 370a74ef..e29b8b81 100644
+--- a/server/tasks-mutations.mjs
++++ b/server/tasks-mutations.mjs
+@@ -1,150 +1,90 @@
+-import { randomUUID } from "node:crypto";
+ import { emitTaskEvent } from "./task_events_emit.mjs";
+-import { assertNotEnforced } from "./policy/enforce.mjs";
+-
+-function normalizeTaskId(body = {}) {
+-  return body?.task_id || body?.taskId || `task.${randomUUID()}`;
+-}
+-
+-function normalizeTitle(body = {}) {
+-  return (
+-    body?.title ||
+-    body?.prompt ||
+-    body?.message ||
+-    body?.text ||
+-    body?.task ||
+-    "Delegated task"
+-  );
+-}
+ 
+-function buildPayload(body = {}) {
+-  return {
+-    agent: body?.agent || "cade",
+-    source: body?.source || "api",
+-    trace_id: body?.trace_id || body?.traceId || null,
+-    meta: body?.meta || null,
+-  };
+-}
++import { assertNotEnforced } from "./policy/enforce.mjs";
+ 
+-export async function dbDelegateTask(pool, body = {}) {
++export async function dbDelegateTask(pool, body) {
++  // Phase50: DB write-path enforcement (tasks)
+   assertNotEnforced("tasks.mutations");
+ 
+-  const task_id = normalizeTaskId(body);
+-  const title = normalizeTitle(body);
+-  const status = "queued";
++  const title = body?.title || "(untitled)";
++  const agent = body?.agent || "cade";
+   const notes = body?.notes || "";
+-  const run_id = body?.run_id || body?.runId || null;
+-  const action_tier = body?.action_tier || body?.actionTier || "A";
+-  const kind = body?.kind || "delegated";
+-  const payload = buildPayload(body);
++  const source = body?.source || "api";
++  const traceId = body?.trace_id || body?.traceId || null;
++  const meta = body?.meta ?? null;
++
++  const task_id = body?.task_id ?? body?.taskId ?? null;
+ 
+   const r = await pool.query(
+-    `insert into tasks (
+-      task_id,
+-      title,
+-      status,
+-      notes,
+-      run_id,
+-      action_tier,
+-      kind,
+-      payload
+-    )
+-    values ($1, $2, $3, $4, $5, $6, $7, $8::jsonb)
+-    returning
+-      id::text,
+-      task_id,
+-      title,
+-      status,
+-      notes,
+-      run_id,
+-      action_tier,
+-      kind,
+-      payload,
+-      created_at,
+-      updated_at`,
+-    [
+-      task_id,
+-      title,
+-      status,
+-      notes,
+-      run_id,
+-      action_tier,
+-      kind,
+-      JSON.stringify(payload),
+-    ],
++    `insert into tasks (task_id, title, agent, status, notes, source, trace_id, meta)
++     values ($1, $2, $3, 'queued', $4, $5, $6, $7)
++     returning id::text, task_id, title, agent, status, notes, source, trace_id, error, meta, created_at, updated_at`,
++    [task_id, title, agent, notes, source, traceId, meta]
+   );
+ 
+   const row = r.rows?.[0];
+-
+   await emitTaskEvent({
+     pool,
+     kind: "task.created",
+-    task_id: row?.task_id ?? task_id,
+-    actor: body?.actor ?? body?.agent ?? payload.agent ?? payload.source,
++    task_id: row?.task_id ?? row?.id ?? null,
++    actor: body?.actor ?? source,
+     payload: {
+-      source: payload.source,
+-      title: row?.title ?? title,
+-      target: payload.agent,
+-      status: row?.status ?? status,
+-      task: row ?? null,
+-      meta: payload.meta,
+-    },
++        source,
++        title: row?.title ?? null,
++        target: row?.agent ?? null,
++        status: row?.status ?? "queued",
++        task: row ?? null,
++        meta: row?.meta ?? null,
++      },
+   });
+ 
+   return row;
+ }
+ 
+-export async function dbCompleteTask(pool, body = {}) {
++export async function dbCompleteTask(pool, body) {
++  // Phase50: DB write-path enforcement (tasks)
+   assertNotEnforced("tasks.mutations");
+ 
+   const id = body?.task_id ?? body?.taskId ?? body?.id;
+-  const int_id = String(id || "").match(/^\d+$/) ? Number(id) : null;
++  const int_id = (String(id).match(/^\d+$/) ? Number(id) : null);
+   if (!id) throw new Error("taskId required");
+ 
+   const status = body?.status || "done";
+-  const notePatch =
+-    body?.notes ??
+-    body?.error ??
+-    body?.message ??
+-    null;
++  const error = body?.error ?? null;
++  const meta = body?.meta ?? null;
+ 
+   const r = await pool.query(
+     `update tasks
+        set status = $3,
+-           notes = coalesce($4, notes),
++           error = $4,
++           meta = coalesce($5, meta),
+            updated_at = now()
+-     where (id = $1) or (task_id = $2)
+-     returning
+-       id::text,
+-       task_id,
+-       title,
+-       status,
+-       notes,
+-       run_id,
+-       action_tier,
+-       kind,
+-       payload,
+-       created_at,
+-       updated_at`,
+-    [int_id, String(id), status, notePatch],
++     where (id = $1) OR (task_id = $2)
++     returning id::text, task_id, title, agent, status, notes, source, trace_id, error, meta, created_at, updated_at`,
++    [int_id, String(id), status, error, meta]
+   );
+ 
+-  if (!r.rows?.[0]) throw new Error(`task not found: ${id}`);
++  if (!r.rows[0]) throw new Error(`task not found: ${id}`);
+ 
+   const row = r.rows[0];
+-  const k = body?.kind ?? body?.event_kind ?? body?.eventKind ?? "task.event";
+-  const payload = row?.payload && typeof row.payload === "object" ? row.payload : {};
++    // Phase 25: FORBIDDEN — do not derive lifecycle kind from task status.
++    // Caller may supply a canonical kind; otherwise emit a non-lifecycle event.
++    const k =
++      body?.kind ??
++      body?.event_kind ??
++      body?.eventKind ??
++      "task.event";
++
+ 
+   await emitTaskEvent({
+     pool,
+     kind: k,
+     task_id: row.task_id ?? row.id,
+-    actor: body?.actor ?? body?.agent ?? payload.agent ?? body?.source ?? "api",
++    actor: body?.actor ?? (body?.source || "api"),
+     payload: {
+       status: row.status,
+-      error: body?.error ?? null,
+-      source: body?.source || payload.source || "api",
+-      task: row,
++      error: row.error ?? null,
++      source: body?.source || "api",
+     },
+   });
+ 
 
 ===== src/demo/promptToDemoRequest.ts =====
- src/demo/promptToDemoRequest.ts | 126 ----------------------------------------
- 1 file changed, 126 deletions(-)
+diff --git a/src/demo/promptToDemoRequest.ts b/src/demo/promptToDemoRequest.ts
+deleted file mode 100644
+index 40953f86..00000000
+--- a/src/demo/promptToDemoRequest.ts
++++ /dev/null
+@@ -1,126 +0,0 @@
+-export type PromptToDemoRequestInput = {
+-  prompt: string;
+-  approved?: boolean;
+-  governanceEvaluated?: boolean;
+-  authorityOrderingValid?: boolean;
+-};
+-
+-export type DemoTaskDefinition = {
+-  id: string;
+-  name: string;
+-};
+-
+-export type DemoRequest = {
+-  requestId: string;
+-  description: string;
+-  approved: boolean;
+-  governanceEvaluated: boolean;
+-  authorityOrderingValid: boolean;
+-  tasks: DemoTaskDefinition[];
+-};
+-
+-function normalizeWhitespace(value: string): string {
+-  return value.replace(/\s+/g, " ").trim();
+-}
+-
+-function titleCase(value: string): string {
+-  return value
+-    .split(" ")
+-    .filter(Boolean)
+-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+-    .join(" ");
+-}
+-
+-function sanitizeTaskName(value: string): string {
+-  const cleaned = normalizeWhitespace(
+-    value
+-      .replace(/^and\s+/i, "")
+-      .replace(/^then\s+/i, "")
+-      .replace(/[.;]+$/g, "")
+-  );
+-
+-  if (!cleaned) {
+-    return "";
+-  }
+-
+-  return titleCase(cleaned);
+-}
+-
+-function extractTasksFromPrompt(prompt: string): string[] {
+-  const normalized = normalizeWhitespace(prompt);
+-  const includeMatch = normalized.match(
+-    /include(?:\s+\w+)?\s+tasks?\s*:\s*(.+?)(?:\.\s|$)/i
+-  );
+-
+-  const taskBlock = includeMatch?.[1];
+-
+-  if (!taskBlock) {
+-    return [];
+-  }
+-
+-  return taskBlock
+-    .split(/,|\band\b/gi)
+-    .map(sanitizeTaskName)
+-    .filter(Boolean);
+-}
+-
+-function buildFallbackTasks(prompt: string): string[] {
+-  const lowered = prompt.toLowerCase();
+-
+-  if (lowered.includes("launch")) {
+-    return [
+-      "Prerequisite Verification",
+-      "Governance Confirmation",
+-      "Launch Readiness Assessment",
+-    ];
+-  }
+-
+-  if (lowered.includes("deployment")) {
+-    return [
+-      "Dependency Verification",
+-      "Governance Review Confirmation",
+-      "Execution Readiness Assessment",
+-    ];
+-  }
+-
+-  return [
+-    "Scope Verification",
+-    "Governance Review Confirmation",
+-    "Execution Readiness Assessment",
+-  ];
+-}
+-
+-export function parsePromptToDemoRequest(
+-/**
+- * FL3_INTAKE_NORMALIZATION_BRIDGE
+- * Temporary intake-side proof marker for FL-3 bounded translation corridor.
+- * No governance, execution, routing, or reporting mutation permitted here.
+- */
+-
+-  input: PromptToDemoRequestInput
+-): DemoRequest {
+-  const normalizedPrompt = normalizeWhitespace(input.prompt);
+-  const extractedTasks = extractTasksFromPrompt(normalizedPrompt);
+-  const taskNames =
+-    extractedTasks.length > 0 ? extractedTasks : buildFallbackTasks(normalizedPrompt);
+-
+-  const tasks: DemoTaskDefinition[] = taskNames.map((name, index) => ({
+-    id: `task-${index + 1}`,
+-    name,
+-  }));
+-
+-  const requestIdBase = normalizedPrompt
+-    .toLowerCase()
+-    .replace(/[^a-z0-9]+/g, "-")
+-    .replace(/^-+|-+$/g, "")
+-    .slice(0, 40) || "runtime-demo-request";
+-
+-  return {
+-    requestId: `${requestIdBase}-${tasks.length}`,
+-    description: normalizedPrompt,
+-    approved: input.approved ?? true,
+-    governanceEvaluated: input.governanceEvaluated ?? true,
+-    authorityOrderingValid: input.authorityOrderingValid ?? true,
+-    tasks,
+-  };
+-}
