@@ -1,0 +1,27 @@
+PHASE 457E FALLBACK SCRIPT TAG REINSTATEMENT
+============================================
+
+TARGET=public/dashboard.html
+LIVE_URL=http://localhost:8080/dashboard.html
+
+===== LOCAL SCRIPT TAG CHECK =====
+727:    <script src="/js/phase457_restore_task_panels.js"></script>
+757:<script src="/js/phase457_restore_task_panels.js"></script>
+
+===== LIVE SCRIPT TAG CHECK =====
+727:    <script src="/js/phase457_restore_task_panels.js"></script>
+757:<script src="/js/phase457_restore_task_panels.js"></script>
+
+===== PANEL IDS =====
+567:                    <div id="tasks-widget"></div>
+619:    <div id="recentLogs"></div>
+201:      #task-events-card.phase61-events-fill #mb-task-events-panel-anchor {
+584:                    <div id="mb-task-events-panel-anchor"></div>
+737:#mb-task-events-panel-anchor {
+508:                      <div id="operator-guidance-panel" class="mt-4 rounded-xl border border-gray-700 bg-gray-900/70 p-4 min-h-[140px]">
+510:                        <div id="operator-guidance-response" class="text-sm text-gray-300 leading-6">
+514:                        <div id="operator-guidance-meta" class="mt-3 text-xs text-gray-500 leading-5">
+
+===== QUICK RESULT =====
+LOCAL_TAG=1
+LIVE_TAG=1
