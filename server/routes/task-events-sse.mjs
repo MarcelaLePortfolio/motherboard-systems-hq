@@ -1,168 +1,211 @@
 import express from "express";
+import pg from "pg";
 
 const router = express.Router();
+const { Pool } = pg;
 
-function _intOrNull(v) {
-  if (v == null) return null;
-  const n = Number(v);
-  if (!Number.isFinite(n)) return null;
-  const i = Math.floor(n);
-  return i >= 0 ? i : null;
+const DB_URL = process.env.POSTGRES_URL || process.env.DATABASE_URL || "";
+
+let pool = null;
+
+function getPool() {
+  if (pool) return pool;
+  if (!DB_URL) return null;
+  pool = new Pool({ connectionString: DB_URL });
+  return pool;
 }
 
-function _sleep(ms) {
-  return new Promise((r) => setTimeout(r, ms));
+function intOrNull(value) {
+  const n = Number(value);
+  return Number.isFinite(n) ? Math.trunc(n) : null;
 }
 
-function _sseWrite(res, { id, event, data }) {
-  if (id != null) res.write(`id: ${id}\n`);
+function sseWrite(res, { event, data }) {
   if (event) res.write(`event: ${event}\n`);
-  const payload = typeof data === "string" ? data : JSON.stringify(data);
-  res.write(`data: ${payload}\n\n`);
+  res.write(`data: ${JSON.stringify(data)}\n\n`);
 }
 
-function _safeJsonParse(s) {
-  if (s == null) return null;
-  if (typeof s !== "string") return s;
-  try { return JSON.parse(s); } catch (_) { return s; }
+function normalizeKind(kind) {
+  const v = String(kind || "").trim();
+  return v || "task.event";
+}
+
+function normalizeRow(row) {
+  const payload =
+    row && row.payload && typeof row.payload === "object" && !Array.isArray(row.payload)
+      ? row.payload
+      : {};
+
+  const kind = normalizeKind(row?.kind);
+
+  return {
+    ...payload,
+    id: row?.id ?? null,
+    task_id: row?.task_id ?? payload.task_id ?? payload.taskId ?? null,
+    taskId: row?.task_id ?? payload.taskId ?? payload.task_id ?? null,
+    kind,
+    actor: row?.actor ?? payload.actor ?? null,
+    run_id: row?.run_id ?? payload.run_id ?? payload.runId ?? null,
+    runId: row?.run_id ?? payload.runId ?? payload.run_id ?? null,
+    ts: Number(row?.ts ?? payload.ts ?? Date.now()),
+    created_at: row?.created_at ?? payload.created_at ?? null
+  };
 }
 
 router.get("/api/task-events-sse", (req, res) => {
-    res.redirect(307, "/events/task-events");
-  });
+  res.redirect(307, "/events/task-events");
+});
 
-  router.get("/events/task-events", async (req, res) => {
-  res.status(200);
+router.get("/events/task-events", async (req, res) => {
   res.setHeader("Content-Type", "text/event-stream; charset=utf-8");
   res.setHeader("Cache-Control", "no-cache, no-transform");
   res.setHeader("Connection", "keep-alive");
   res.setHeader("X-Accel-Buffering", "no");
-  res.flushHeaders?.();
 
-  const pool = globalThis.__DB_POOL;
-  try {
-    const o = pool?.options || {};
-    const TASK_EVENTS_DB_URL_RAW = process.env.POSTGRES_URL || process.env.DATABASE_URL || "";
-    const TASK_EVENTS_DB_URL_HAS_PASSWORD = /\/\/[^:]+:[^@]+@/.test(TASK_EVENTS_DB_URL_RAW);
-    console.log("[task-events] pool cfg", {
-      mode: (TASK_EVENTS_DB_URL_RAW ? "url" : "params"),
-      DB_URL_present: Boolean(TASK_EVENTS_DB_URL_RAW),
-      host: o.host ?? null,
-      port: o.port ?? null,
-      user: o.user ?? null,
-      database: o.database ?? null,
-      password_type: (TASK_EVENTS_DB_URL_RAW ? "url-hidden" : typeof o.password),
-      password_len: (TASK_EVENTS_DB_URL_RAW ? "hidden" : (o.password == null ? null : String(o.password).length)),
-      has_password: (TASK_EVENTS_DB_URL_RAW ? TASK_EVENTS_DB_URL_HAS_PASSWORD : (o.password != null)),
+  if (typeof res.flushHeaders === "function") {
+    res.flushHeaders();
+  }
+
+  const db = getPool();
+
+  if (!db) {
+    sseWrite(res, {
+      event: "error",
+      data: {
+        kind: "task-events",
+        msg: "missing POSTGRES_URL/DATABASE_URL",
+        ts: Date.now()
+      }
     });
-  } catch (_) {}
-
-  if (!pool) {
-    _sseWrite(res, { event: "error", data: { msg: "DB pool not initialized", ts: Date.now() } });
     res.end();
     return;
   }
 
-  const headerLast = req.get("Last-Event-ID");
-  const qAfter = req.query?.after;
-  let cursor = _intOrNull(headerLast) ?? _intOrNull(qAfter) ?? null;
-
   let closed = false;
-  req.on("close", () => { closed = true; });
+  let polling = false;
 
-  let backoffMs = 150;
-  const backoffMax = 1500;
-  const batchLimit = 200;
+  const requestedCursor =
+    intOrNull(req.query.cursor) ??
+    intOrNull(req.query.since) ??
+    intOrNull(req.query.ts);
 
-  // If first connect, start from latest so we don't dump the whole table by default.
-  if (cursor == null) {
-      try {
-        const r = await pool.query(`
-          select coalesce((extract(epoch from max(created_at)) * 1000)::bigint, 0) as max_ms
-          from task_events
-        `);
-        cursor = _intOrNull(r?.rows?.[0]?.max_ms) ?? 0;
-      } catch (_) {
-        cursor = 0;
-      }
+  let cursor = requestedCursor;
+
+  try {
+    if (cursor == null) {
+      const seed = await db.query(
+        `
+        select coalesce(max(ts), 0)::bigint as cursor
+        from task_events
+        `
+      );
+      cursor = intOrNull(seed.rows?.[0]?.cursor) ?? 0;
     }
 
-    _sseWrite(res, { event: "hello", data: { kind: "task-events", cursor, ts: Date.now() } });
+    sseWrite(res, {
+      event: "hello",
+      data: {
+        kind: "task-events",
+        cursor,
+        ts: Date.now()
+      }
+    });
 
-  while (!closed) {
-    try {
-      let q;
-        try {
-          q = await pool.query(
-          `
-          select id, kind, payload, task_id, run_id, actor, created_at
-          from task_events
-          where (extract(epoch from created_at) * 1000)::bigint > $1
-          order by created_at asc
-          limit $2
-          `,
-            [cursor, batchLimit]
-          );
-        } catch (_e) {
-          q = await pool.query(
-          `
-          select id, kind, payload, created_at
-          from task_events
-          where (extract(epoch from created_at) * 1000)::bigint > $1
-          order by created_at asc
-          limit $2
-          `,
-            [cursor, batchLimit]
-          );
+    const heartbeat = setInterval(() => {
+      if (closed) return;
+      sseWrite(res, {
+        event: "heartbeat",
+        data: {
+          ts: Date.now(),
+          cursor
         }
-
-const rows = q?.rows || [];
-      if (rows.length === 0) {
-        _sseWrite(res, { event: "heartbeat", data: { ts: Date.now(), cursor } });
-        await _sleep(backoffMs);
-        backoffMs = Math.min(backoffMs + 75, backoffMax);
-        continue;
-      }
-
-      backoffMs = 150;
-
-      for (const r of rows) {
-        const _msRaw = (r.created_at instanceof Date)
-          ? r.created_at.getTime()
-          : Date.parse(r.created_at);
-        const _ms = Number.isFinite(_msRaw) ? Math.floor(_msRaw) : null;
-        if (Number.isFinite(_ms)) cursor = Math.max(cursor, _ms);
-        const payload = _safeJsonParse(r.payload);
-          const taskIdCol = (r.task_id ?? null);
-          const runIdCol  = (r.run_id  ?? null);
-          const actorCol  = (r.actor   ?? null);
-
-        _sseWrite(res, {
-          id: String(r.id),
-          event: "task.event",
-          data: {
-            id: r.id,
-            type: r.kind,
-            ts: (payload?.ts ?? Date.now()),
-            taskId: (taskIdCol ?? payload?.taskId ?? payload?.task_id ?? null),
-            runId: (runIdCol ?? payload?.runId ?? payload?.run_id ?? null),
-            actor: (actorCol ?? payload?.actor ?? payload?.owner ?? null),
-            meta: payload,
-            createdAt: r.created_at ?? null,
-          },
-        });
-      }
-    } catch (e) {
-      _sseWrite(res, {
-        event: "error",
-        data: { msg: "task-events stream error", detail: e?.message || String(e), ts: Date.now() },
       });
-      await _sleep(backoffMs);
-      backoffMs = Math.min(Math.floor(backoffMs * 1.5), backoffMax);
-    }
-  }
+    }, 1000);
 
-  try { res.end(); } catch (_) {}
+    const poll = async () => {
+      if (closed || polling) return;
+      polling = true;
+
+      try {
+        const result = await db.query(
+          `
+          select
+            id,
+            task_id,
+            kind,
+            actor,
+            payload,
+            run_id,
+            created_at,
+            coalesce(ts, (extract(epoch from created_at) * 1000)::bigint) as ts
+          from task_events
+          where coalesce(ts, (extract(epoch from created_at) * 1000)::bigint) > $1
+          order by coalesce(ts, (extract(epoch from created_at) * 1000)::bigint) asc, id asc
+          limit 200
+          `,
+          [cursor]
+        );
+
+        for (const row of result.rows) {
+          const payload = normalizeRow(row);
+          const eventName = normalizeKind(row.kind);
+
+          sseWrite(res, {
+            event: eventName,
+            data: payload
+          });
+
+          sseWrite(res, {
+            event: "task.event",
+            data: payload
+          });
+
+          const nextCursor = intOrNull(payload.ts);
+          if (nextCursor != null && nextCursor > cursor) {
+            cursor = nextCursor;
+          }
+        }
+      } catch (err) {
+        sseWrite(res, {
+          event: "error",
+          data: {
+            kind: "task-events",
+            msg: "task-events stream error",
+            detail: err?.message || String(err),
+            ts: Date.now(),
+            cursor
+          }
+        });
+      } finally {
+        polling = false;
+      }
+    };
+
+    const interval = setInterval(() => {
+      void poll();
+    }, 800);
+
+    void poll();
+
+    req.on("close", () => {
+      closed = true;
+      clearInterval(interval);
+      clearInterval(heartbeat);
+      res.end();
+    });
+  } catch (err) {
+    sseWrite(res, {
+      event: "error",
+      data: {
+        kind: "task-events",
+        msg: "task-events stream bootstrap error",
+        detail: err?.message || String(err),
+        ts: Date.now(),
+        cursor: cursor ?? 0
+      }
+    });
+    res.end();
+  }
 });
 
 export default router;
