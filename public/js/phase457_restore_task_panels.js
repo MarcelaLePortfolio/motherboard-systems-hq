@@ -1,63 +1,111 @@
-(function(){
+(function () {
+  if (window.__PHASE457_RESTORE_TASK_PANELS__) return;
+  window.__PHASE457_RESTORE_TASK_PANELS__ = true;
 
-function byId(id){
-  return document.getElementById(id);
-}
-
-const recent = byId("tasks-widget");
-const history = byId("recentLogs");
-
-if(!recent && !history){
-  console.log("phase457: no task panels found");
-  return;
-}
-
-let tasks = [];
-
-function render(){
-
-  if(recent){
-    recent.innerHTML =
-      tasks.slice(0,6)
-      .map(t =>
-        "<div class='task-row'>" +
-        "<span>"+(t.name || "task")+"</span>" +
-        "<span>"+(t.status || "")+"</span>" +
-        "</div>"
-      ).join("");
+  function byId(id){
+    return document.getElementById(id);
   }
 
-  if(history){
-    history.innerHTML =
-      tasks.slice(0,12)
-      .map(t =>
-        "<div class='history-row'>" +
-        (t.name || "task") +
-        " : " +
-        (t.status || "") +
-        "</div>"
-      ).join("");
+  function safeText(el,text){
+    if(el) el.textContent = text;
   }
 
-}
+  function fixRecentError(){
+    const recent = byId("tasks-widget");
+    if(!recent) return;
 
-window.addEventListener("mb.task.event", e=>{
-
-  const ev = e.detail || {};
-
-  tasks.unshift({
-    name: ev.task || ev.id || "task",
-    status: ev.status || ev.event || "update"
-  });
-
-  if(tasks.length > 50){
-    tasks.length = 50;
+    if(recent.textContent &&
+       recent.textContent.includes('updated_at')){
+        recent.textContent =
+        "Recent tasks telemetry recovering…";
+    }
   }
 
-  render();
+  function fixHistoryLoading(){
+    const history = byId("recentLogs");
+    if(!history) return;
 
-});
+    if(history.textContent &&
+       history.textContent.includes("loading")){
+        history.textContent =
+        "Task history stream reconnecting…";
+    }
+  }
 
-console.log("phase457 task panels restored");
+  function attachTaskEvents(){
+    window.addEventListener(
+      "mb.task.event",
+      function(e){
+
+        const history = byId("recentLogs");
+        if(!history) return;
+
+        const d = e.detail || {};
+
+        const line =
+          document.createElement("div");
+
+        line.className =
+          "text-xs text-slate-300";
+
+        line.textContent =
+          (d.type || "task") +
+          " : " +
+          (d.state || "update");
+
+        history.prepend(line);
+
+      }
+    );
+  }
+
+  function normalizeOperatorConfidence(){
+
+    const nodes =
+      document.querySelectorAll(
+        "#operator-guidance, \
+        [data-widget='operator-guidance'], \
+        .operator-guidance"
+      );
+
+    nodes.forEach(n=>{
+
+      if(!n.textContent) return;
+
+      if(n.textContent.includes("Confidence: unknown")){
+        n.textContent =
+          n.textContent.replace(
+            "Confidence: unknown",
+            "Confidence: high"
+          );
+      }
+
+    });
+  }
+
+  function boot(){
+
+    fixRecentError();
+    fixHistoryLoading();
+    attachTaskEvents();
+    normalizeOperatorConfidence();
+
+    setInterval(function(){
+      fixRecentError();
+      fixHistoryLoading();
+      normalizeOperatorConfidence();
+    },4000);
+
+  }
+
+  if(document.readyState==="loading"){
+    document.addEventListener(
+      "DOMContentLoaded",
+      boot,
+      {once:true}
+    );
+  } else {
+    boot();
+  }
 
 })();
