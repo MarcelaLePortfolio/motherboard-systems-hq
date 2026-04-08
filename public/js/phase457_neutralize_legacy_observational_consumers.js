@@ -5,6 +5,13 @@
   window.__PHASE457_NEUTRALIZER_ACTIVE__ = true;
   window.__PHASE457_OPS_RENDERER_OWNER__ = "phase457";
 
+  const STATE = {
+    observer: null,
+    scheduled: false,
+    rendering: false,
+    lastGuidanceSignature: ""
+  };
+
   function byId(id) {
     return document.getElementById(id);
   }
@@ -30,6 +37,10 @@
 
     if (!probeLike) return;
 
+    if (raw.trim() === fallbackText && node.getAttribute("data-phase457-neutralized") === kind) {
+      return;
+    }
+
     node.textContent = fallbackText;
     node.setAttribute("data-phase457-neutralized", kind);
   }
@@ -39,11 +50,11 @@
     setIfProbeLike(byId("recentLogs"), "history", "No task history yet.");
 
     const anchor = byId("mb-task-events-panel-anchor");
-    if (anchor) {
-      const raw = String(anchor.textContent || "");
-      if (!raw.trim() || /loading|probe:|updated_at|run_view/i.test(raw)) {
-        anchor.setAttribute("data-phase457-neutralized", "events");
-      }
+    if (!anchor) return;
+
+    const raw = String(anchor.textContent || "");
+    if (!raw.trim() || /loading|probe:|updated_at|run_view/i.test(raw)) {
+      anchor.setAttribute("data-phase457-neutralized", "events");
     }
   }
 
@@ -102,9 +113,9 @@
       summary: summary || "System guidance available.",
       detail: detail || "",
       confidence: confidenceMatch ? confidenceMatch[1].trim() : "high confidence",
-      signals: signalsMatch ? signalsMatch[1].trim() : "",
-      conflicts: conflictsMatch ? conflictsMatch[1].trim() : "",
-      source: sourceMatch ? sourceMatch[1].trim() : ""
+      signals: signalsMatch ? signalsMatch[1].trim() : "1",
+      conflicts: conflictsMatch ? conflictsMatch[1].trim() : "none",
+      source: sourceMatch ? sourceMatch[1].trim() : "diagnostics/system-health"
     };
   }
 
@@ -117,15 +128,34 @@
       .replace(/'/g, "&#39;");
   }
 
+  function buildGuidanceSignature(fields) {
+    return JSON.stringify([
+      fields.severity,
+      fields.summary,
+      fields.detail,
+      fields.confidence,
+      fields.signals,
+      fields.conflicts,
+      fields.source
+    ]);
+  }
+
   function renderStructuredGuidance(fields, response, meta) {
     if (!response || !meta || !fields) return;
+
+    const signature = buildGuidanceSignature(fields);
+    if (STATE.lastGuidanceSignature === signature &&
+        response.getAttribute("data-phase457-neutralized") === "guidance" &&
+        meta.getAttribute("data-phase457-neutralized") === "guidance") {
+      return;
+    }
 
     const summaryHtml = `<div class="font-semibold text-gray-100">${escapeHtml(fields.summary)}</div>`;
     const detailHtml = fields.detail
       ? `<div class="mt-2 text-gray-300">${escapeHtml(fields.detail)}</div>`
       : "";
 
-    response.innerHTML =
+    const responseHtml =
       `<div data-phase457-guidance-structured="true">` +
       `<div class="uppercase tracking-wide text-xs text-gray-400 mb-2">${escapeHtml(fields.severity)}</div>` +
       summaryHtml +
@@ -139,16 +169,33 @@
       `Source: ${fields.source || "diagnostics/system-health"}`
     ];
 
-    meta.innerHTML =
+    const metaHtml =
       `<div data-phase457-guidance-meta="true" class="space-y-1">` +
-      metaLines.map(line => `<div>${escapeHtml(line)}</div>`).join("") +
+      metaLines.map((line) => `<div>${escapeHtml(line)}</div>`).join("") +
       `</div>`;
 
-    response.setAttribute("data-phase457-neutralized", "guidance");
-    meta.setAttribute("data-phase457-neutralized", "guidance");
+    if (response.innerHTML === responseHtml && meta.innerHTML === metaHtml) {
+      STATE.lastGuidanceSignature = signature;
+      response.setAttribute("data-phase457-neutralized", "guidance");
+      meta.setAttribute("data-phase457-neutralized", "guidance");
+      return;
+    }
+
+    STATE.rendering = true;
+    try {
+      response.innerHTML = responseHtml;
+      meta.innerHTML = metaHtml;
+      response.setAttribute("data-phase457-neutralized", "guidance");
+      meta.setAttribute("data-phase457-neutralized", "guidance");
+      STATE.lastGuidanceSignature = signature;
+    } finally {
+      STATE.rendering = false;
+    }
   }
 
   function normalizeOperatorGuidance() {
+    if (STATE.rendering) return;
+
     const response = byId("operator-guidance-response");
     const meta = byId("operator-guidance-meta");
     if (!response || !meta) return;
@@ -162,17 +209,28 @@
     renderStructuredGuidance(fields, response, meta);
   }
 
-  let guidanceObserver = null;
+  function runNormalizationPass() {
+    STATE.scheduled = false;
+    normalizeLegacyStatusPanels();
+    normalizeOperatorGuidance();
+  }
+
+  function scheduleNormalization() {
+    if (STATE.scheduled || STATE.rendering) return;
+    STATE.scheduled = true;
+    window.requestAnimationFrame(runNormalizationPass);
+  }
 
   function attachGuidanceObserver() {
     const panel = byId("operator-guidance-panel");
-    if (!panel || guidanceObserver) return;
+    if (!panel || STATE.observer) return;
 
-    guidanceObserver = new MutationObserver(() => {
-      normalizeOperatorGuidance();
+    STATE.observer = new MutationObserver(() => {
+      if (STATE.rendering) return;
+      scheduleNormalization();
     });
 
-    guidanceObserver.observe(panel, {
+    STATE.observer.observe(panel, {
       childList: true,
       subtree: true,
       characterData: true
@@ -180,15 +238,13 @@
   }
 
   function boot() {
-    normalizeLegacyStatusPanels();
-    normalizeOperatorGuidance();
+    runNormalizationPass();
     attachGuidanceObserver();
 
-    setInterval(() => {
-      normalizeLegacyStatusPanels();
-      normalizeOperatorGuidance();
-      attachGuidanceObserver();
-    }, 500);
+    window.addEventListener("pageshow", scheduleNormalization, { passive: true });
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden) scheduleNormalization();
+    });
   }
 
   if (document.readyState === "loading") {
