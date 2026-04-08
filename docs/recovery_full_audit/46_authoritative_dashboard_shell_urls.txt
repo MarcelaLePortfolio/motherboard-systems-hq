@@ -1,0 +1,19 @@
+PHASE 457 - AUTHORITATIVE DASHBOARD SHELL URLS
+==============================================
+
+AUTHORITATIVE RULE
+Use /dashboard.html as the visual validation surface.
+
+Do not use / for dashboard shell validation unless explicitly proving index-entry behavior.
+
+KNOWN GOOD VISUAL CHECKS
+- http://localhost:8131/dashboard.html
+- http://localhost:8132/dashboard.html
+- http://localhost:8133/dashboard.html
+- http://localhost:8134/dashboard.html
+
+KNOWN ROOT ENTRYPOINTS (OLDER SHELL SURFACE)
+- http://localhost:8131/
+- http://localhost:8132/
+- http://localhost:8133/
+- http://localhost:8134/
