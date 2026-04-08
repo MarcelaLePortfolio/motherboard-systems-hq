@@ -1,0 +1,395 @@
+===== cba8b3c0 =====
+LABEL=Consolidate operator column into tabbed workspace
+URL=http://localhost:8121
+LOG=docs/recovery_full_audit/tabbed_cba8b3c0_boot.txt
+
+SHA=cba8b3c0
+LABEL=Consolidate operator column into tabbed workspace
+WORKTREE=../mbhq_recovery_visual_compare/tabbed_cba8b3c0
+PORT=8121
+
+--- compose ps -a ---
+NAME                          IMAGE                       COMMAND                  SERVICE     CREATED          STATUS          PORTS
+tabbed_cba8b3c0-dashboard-1   tabbed_cba8b3c0-dashboard   "docker-entrypoint.s…"   dashboard   8 seconds ago    Up 8 seconds    0.0.0.0:8121->3000/tcp, [::]:8121->3000/tcp
+tabbed_cba8b3c0-postgres-1    postgres:16-alpine          "docker-entrypoint.s…"   postgres    18 seconds ago   Up 17 seconds   5432/tcp
+
+--- dashboard logs ---
+dashboard-1  | [phase25] task_events_emit loaded 2026-04-08T16:02:47.578Z file= file:///app/server/task_events_emit.mjs
+dashboard-1  | [phase25] api-tasks-postgres loaded 2026-04-08T16:02:47.579Z file= file:///app/server/routes/api-tasks-postgres.mjs
+dashboard-1  | [phase19] orchestrator_state_route mounted {
+dashboard-1  |   file: 'file:///app/server/orchestrator_state_route.mjs',
+dashboard-1  |   envSnapshot: {
+dashboard-1  |     PHASE18_ENABLE_ORCHESTRATION: undefined,
+dashboard-1  |     PHASE19_ENABLE_ORCH_STATE: undefined
+dashboard-1  |   }
+dashboard-1  | }
+dashboard-1  | [SSE] /events/ops + /events/reflections registered
+dashboard-1  | [db] effective pool config {
+dashboard-1  |   mode: 'url',
+dashboard-1  |   DB_URL_present: true,
+dashboard-1  |   host: null,
+dashboard-1  |   port: null,
+dashboard-1  |   user: null,
+dashboard-1  |   database: null,
+dashboard-1  |   password_type: 'undefined',
+dashboard-1  |   password_len: null,
+dashboard-1  |   has_password: false
+dashboard-1  | }
+dashboard-1  | Database pool initialized
+dashboard-1  | [phase25] __DB_POOL set { has: true, type: 'BoundPool' }
+dashboard-1  | Server running on http://0.0.0.0:3000
+
+--- port listen ---
+COMMAND    PID        USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+com.docke 1066 marcela-dev  215u  IPv6 0xdd2dc4ecdd5d64fd      0t0  TCP *:8121 (LISTEN)
+
+--- http headers ---
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0 10283    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Wed, 08 Apr 2026 16:02:37 GMT
+ETag: W/"282b-19d6dd4d148"
+Content-Type: text/html; charset=utf-8
+Content-Length: 10283
+Date: Wed, 08 Apr 2026 16:02:55 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+
+--- title ---
+<title>Motherboard Systems Operator Console</title>
+
+--- visual markers ---
+Agent Pool
+Atlas Subsystem Status
+Matilda Chat Console
+Operator Console
+Recent Tasks
+Task Activity Over Time
+Task Delegation
+
+--- tab ids ---
+
+--- url ---
+http://localhost:8121
+
+===== 74a241ca =====
+LABEL=Phase 61: consolidate operator workspace layout
+URL=http://localhost:8122
+LOG=docs/recovery_full_audit/tabbed_74a241ca_boot.txt
+
+SHA=74a241ca
+LABEL=Phase 61: consolidate operator workspace layout
+WORKTREE=../mbhq_recovery_visual_compare/tabbed_74a241ca
+PORT=8122
+
+--- compose ps -a ---
+NAME                          IMAGE                       COMMAND                  SERVICE     CREATED          STATUS          PORTS
+tabbed_74a241ca-dashboard-1   tabbed_74a241ca-dashboard   "docker-entrypoint.s…"   dashboard   9 seconds ago    Up 8 seconds    0.0.0.0:8122->3000/tcp, [::]:8122->3000/tcp
+tabbed_74a241ca-postgres-1    postgres:16-alpine          "docker-entrypoint.s…"   postgres    17 seconds ago   Up 16 seconds   5432/tcp
+
+--- dashboard logs ---
+dashboard-1  | [phase25] task_events_emit loaded 2026-04-08T16:03:05.012Z file= file:///app/server/task_events_emit.mjs
+dashboard-1  | [phase25] api-tasks-postgres loaded 2026-04-08T16:03:05.013Z file= file:///app/server/routes/api-tasks-postgres.mjs
+dashboard-1  | [phase19] orchestrator_state_route mounted {
+dashboard-1  |   file: 'file:///app/server/orchestrator_state_route.mjs',
+dashboard-1  |   envSnapshot: {
+dashboard-1  |     PHASE18_ENABLE_ORCHESTRATION: undefined,
+dashboard-1  |     PHASE19_ENABLE_ORCH_STATE: undefined
+dashboard-1  |   }
+dashboard-1  | }
+dashboard-1  | [SSE] /events/ops + /events/reflections registered
+dashboard-1  | [db] effective pool config {
+dashboard-1  |   mode: 'url',
+dashboard-1  |   DB_URL_present: true,
+dashboard-1  |   host: null,
+dashboard-1  |   port: null,
+dashboard-1  |   user: null,
+dashboard-1  |   database: null,
+dashboard-1  |   password_type: 'undefined',
+dashboard-1  |   password_len: null,
+dashboard-1  |   has_password: false
+dashboard-1  | }
+dashboard-1  | Database pool initialized
+dashboard-1  | [phase25] __DB_POOL set { has: true, type: 'BoundPool' }
+dashboard-1  | Server running on http://0.0.0.0:3000
+
+--- port listen ---
+COMMAND    PID        USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+com.docke 1066 marcela-dev  227u  IPv6 0xcde604ce0b6ad6fe      0t0  TCP *:8122 (LISTEN)
+
+--- http headers ---
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0 10283    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Wed, 08 Apr 2026 16:02:55 GMT
+ETag: W/"282b-19d6dd51798"
+Content-Type: text/html; charset=utf-8
+Content-Length: 10283
+Date: Wed, 08 Apr 2026 16:03:13 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+
+--- title ---
+<title>Motherboard Systems Operator Console</title>
+
+--- visual markers ---
+Agent Pool
+Atlas Subsystem Status
+Matilda Chat Console
+Operator Console
+Recent Tasks
+Task Activity Over Time
+Task Delegation
+
+--- tab ids ---
+
+--- url ---
+http://localhost:8122
+
+===== df791714 =====
+LABEL=Phase 61: add observational workspace tab system
+URL=http://localhost:8123
+LOG=docs/recovery_full_audit/tabbed_df791714_boot.txt
+
+SHA=df791714
+LABEL=Phase 61: add observational workspace tab system
+WORKTREE=../mbhq_recovery_visual_compare/tabbed_df791714
+PORT=8123
+
+--- compose ps -a ---
+NAME                          IMAGE                       COMMAND                  SERVICE     CREATED          STATUS          PORTS
+tabbed_df791714-dashboard-1   tabbed_df791714-dashboard   "docker-entrypoint.s…"   dashboard   8 seconds ago    Up 8 seconds    0.0.0.0:8123->3000/tcp, [::]:8123->3000/tcp
+tabbed_df791714-postgres-1    postgres:16-alpine          "docker-entrypoint.s…"   postgres    17 seconds ago   Up 16 seconds   5432/tcp
+
+--- dashboard logs ---
+dashboard-1  | [phase25] task_events_emit loaded 2026-04-08T16:03:22.429Z file= file:///app/server/task_events_emit.mjs
+dashboard-1  | [phase25] api-tasks-postgres loaded 2026-04-08T16:03:22.429Z file= file:///app/server/routes/api-tasks-postgres.mjs
+dashboard-1  | [phase19] orchestrator_state_route mounted {
+dashboard-1  |   file: 'file:///app/server/orchestrator_state_route.mjs',
+dashboard-1  |   envSnapshot: {
+dashboard-1  |     PHASE18_ENABLE_ORCHESTRATION: undefined,
+dashboard-1  |     PHASE19_ENABLE_ORCH_STATE: undefined
+dashboard-1  |   }
+dashboard-1  | }
+dashboard-1  | [SSE] /events/ops + /events/reflections registered
+dashboard-1  | [db] effective pool config {
+dashboard-1  |   mode: 'url',
+dashboard-1  |   DB_URL_present: true,
+dashboard-1  |   host: null,
+dashboard-1  |   port: null,
+dashboard-1  |   user: null,
+dashboard-1  |   database: null,
+dashboard-1  |   password_type: 'undefined',
+dashboard-1  |   password_len: null,
+dashboard-1  |   has_password: false
+dashboard-1  | }
+dashboard-1  | Database pool initialized
+dashboard-1  | [phase25] __DB_POOL set { has: true, type: 'BoundPool' }
+dashboard-1  | Server running on http://0.0.0.0:3000
+
+--- port listen ---
+COMMAND    PID        USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+com.docke 1066 marcela-dev  229u  IPv6 0xba3508fed42a5122      0t0  TCP *:8123 (LISTEN)
+
+--- http headers ---
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0 10283    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Wed, 08 Apr 2026 16:03:13 GMT
+ETag: W/"282b-19d6dd55de8"
+Content-Type: text/html; charset=utf-8
+Content-Length: 10283
+Date: Wed, 08 Apr 2026 16:03:30 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+
+--- title ---
+<title>Motherboard Systems Operator Console</title>
+
+--- visual markers ---
+Agent Pool
+Atlas Subsystem Status
+Matilda Chat Console
+Operator Console
+Recent Tasks
+Task Activity Over Time
+Task Delegation
+
+--- tab ids ---
+
+--- url ---
+http://localhost:8123
+
+===== d2601c1e =====
+LABEL=Phase 61: convert telemetry column into tabbed observational workspace
+URL=http://localhost:8124
+LOG=docs/recovery_full_audit/tabbed_d2601c1e_boot.txt
+
+SHA=d2601c1e
+LABEL=Phase 61: convert telemetry column into tabbed observational workspace
+WORKTREE=../mbhq_recovery_visual_compare/tabbed_d2601c1e
+PORT=8124
+
+--- compose ps -a ---
+NAME                          IMAGE                       COMMAND                  SERVICE     CREATED          STATUS          PORTS
+tabbed_d2601c1e-dashboard-1   tabbed_d2601c1e-dashboard   "docker-entrypoint.s…"   dashboard   8 seconds ago    Up 8 seconds    0.0.0.0:8124->3000/tcp, [::]:8124->3000/tcp
+tabbed_d2601c1e-postgres-1    postgres:16-alpine          "docker-entrypoint.s…"   postgres    16 seconds ago   Up 16 seconds   5432/tcp
+
+--- dashboard logs ---
+dashboard-1  | [phase25] task_events_emit loaded 2026-04-08T16:03:39.808Z file= file:///app/server/task_events_emit.mjs
+dashboard-1  | [phase25] api-tasks-postgres loaded 2026-04-08T16:03:39.809Z file= file:///app/server/routes/api-tasks-postgres.mjs
+dashboard-1  | [phase19] orchestrator_state_route mounted {
+dashboard-1  |   file: 'file:///app/server/orchestrator_state_route.mjs',
+dashboard-1  |   envSnapshot: {
+dashboard-1  |     PHASE18_ENABLE_ORCHESTRATION: undefined,
+dashboard-1  |     PHASE19_ENABLE_ORCH_STATE: undefined
+dashboard-1  |   }
+dashboard-1  | }
+dashboard-1  | [SSE] /events/ops + /events/reflections registered
+dashboard-1  | [db] effective pool config {
+dashboard-1  |   mode: 'url',
+dashboard-1  |   DB_URL_present: true,
+dashboard-1  |   host: null,
+dashboard-1  |   port: null,
+dashboard-1  |   user: null,
+dashboard-1  |   database: null,
+dashboard-1  |   password_type: 'undefined',
+dashboard-1  |   password_len: null,
+dashboard-1  |   has_password: false
+dashboard-1  | }
+dashboard-1  | Database pool initialized
+dashboard-1  | [phase25] __DB_POOL set { has: true, type: 'BoundPool' }
+dashboard-1  | Server running on http://0.0.0.0:3000
+
+--- port listen ---
+COMMAND    PID        USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+com.docke 1066 marcela-dev  231u  IPv6 0x95b406738da1aff3      0t0  TCP *:8124 (LISTEN)
+
+--- http headers ---
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0 10283    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Wed, 08 Apr 2026 16:03:30 GMT
+ETag: W/"282b-19d6dd5a050"
+Content-Type: text/html; charset=utf-8
+Content-Length: 10283
+Date: Wed, 08 Apr 2026 16:03:47 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+
+--- title ---
+<title>Motherboard Systems Operator Console</title>
+
+--- visual markers ---
+Agent Pool
+Atlas Subsystem Status
+Matilda Chat Console
+Operator Console
+Recent Tasks
+Task Activity Over Time
+Task Delegation
+
+--- tab ids ---
+
+--- url ---
+http://localhost:8124
+
+===== 9c68c540 =====
+LABEL=Restore Phase 61 dashboard to last good visual state
+URL=http://localhost:8125
+LOG=docs/recovery_full_audit/tabbed_9c68c540_boot.txt
+
+SHA=9c68c540
+LABEL=Restore Phase 61 dashboard to last good visual state
+WORKTREE=../mbhq_recovery_visual_compare/tabbed_9c68c540
+PORT=8125
+
+--- compose ps -a ---
+NAME                          IMAGE                       COMMAND                  SERVICE     CREATED          STATUS          PORTS
+tabbed_9c68c540-dashboard-1   tabbed_9c68c540-dashboard   "docker-entrypoint.s…"   dashboard   8 seconds ago    Up 8 seconds    0.0.0.0:8125->3000/tcp, [::]:8125->3000/tcp
+tabbed_9c68c540-postgres-1    postgres:16-alpine          "docker-entrypoint.s…"   postgres    17 seconds ago   Up 16 seconds   5432/tcp
+
+--- dashboard logs ---
+dashboard-1  | [phase25] task_events_emit loaded 2026-04-08T16:03:57.268Z file= file:///app/server/task_events_emit.mjs
+dashboard-1  | [phase25] api-tasks-postgres loaded 2026-04-08T16:03:57.269Z file= file:///app/server/routes/api-tasks-postgres.mjs
+dashboard-1  | [phase19] orchestrator_state_route mounted {
+dashboard-1  |   file: 'file:///app/server/orchestrator_state_route.mjs',
+dashboard-1  |   envSnapshot: {
+dashboard-1  |     PHASE18_ENABLE_ORCHESTRATION: undefined,
+dashboard-1  |     PHASE19_ENABLE_ORCH_STATE: undefined
+dashboard-1  |   }
+dashboard-1  | }
+dashboard-1  | [SSE] /events/ops + /events/reflections registered
+dashboard-1  | [db] effective pool config {
+dashboard-1  |   mode: 'url',
+dashboard-1  |   DB_URL_present: true,
+dashboard-1  |   host: null,
+dashboard-1  |   port: null,
+dashboard-1  |   user: null,
+dashboard-1  |   database: null,
+dashboard-1  |   password_type: 'undefined',
+dashboard-1  |   password_len: null,
+dashboard-1  |   has_password: false
+dashboard-1  | }
+dashboard-1  | Database pool initialized
+dashboard-1  | [phase25] __DB_POOL set { has: true, type: 'BoundPool' }
+dashboard-1  | Server running on http://0.0.0.0:3000
+
+--- port listen ---
+COMMAND    PID        USER   FD   TYPE            DEVICE SIZE/OFF NODE NAME
+com.docke 1066 marcela-dev  233u  IPv6 0x6ce3c55dbcb57f5      0t0  TCP *:8125 (LISTEN)
+
+--- http headers ---
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0 10283    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Wed, 08 Apr 2026 16:03:48 GMT
+ETag: W/"282b-19d6dd5e6a0"
+Content-Type: text/html; charset=utf-8
+Content-Length: 10283
+Date: Wed, 08 Apr 2026 16:04:05 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+
+--- title ---
+<title>Motherboard Systems Operator Console</title>
+
+--- visual markers ---
+Agent Pool
+Atlas Subsystem Status
+Matilda Chat Console
+Operator Console
+Recent Tasks
+Task Activity Over Time
+Task Delegation
+
+--- tab ids ---
+
+--- url ---
+http://localhost:8125
+
