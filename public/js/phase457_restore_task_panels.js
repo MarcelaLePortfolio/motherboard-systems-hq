@@ -1,247 +1,251 @@
 (function () {
-  if (window.__PHASE457_RESTORE_TASK_PANELS_V2__) return;
-  window.__PHASE457_RESTORE_TASK_PANELS_V2__ = true;
+  if (typeof window === "undefined" || typeof document === "undefined") return;
+  if (window.__PHASE457_RESTORE_TASK_PANELS_ACTIVE__) return;
+  window.__PHASE457_RESTORE_TASK_PANELS_ACTIVE__ = true;
+
+  var MAX_RECENT = 8;
+  var MAX_HISTORY = 12;
+  var MAX_EVENTS = 20;
+  var TASKS_API = "/api/tasks";
+
+  var state = {
+    recent: [],
+    history: [],
+    events: [],
+    bootstrapped: false,
+    sourceOpen: false,
+    sourceError: false,
+    es: null
+  };
 
   function byId(id) {
     return document.getElementById(id);
   }
 
-  function safeParse(raw) {
-    try {
-      return JSON.parse(raw);
-    } catch (_) {
-      return null;
-    }
+  function escapeHtml(value) {
+    return String(value == null ? "" : value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
   }
 
-  function eventPayload(eventName, raw) {
-    const parsed = typeof raw === "string" ? safeParse(raw) : raw;
-    const base = parsed && typeof parsed === "object" ? parsed : { raw: raw };
-    const payload =
-      base && typeof base === "object"
-        ? (base.payload || base.data || base.state || base)
-        : {};
-
-    const ev = Object.assign({}, payload);
-
-    if (!ev.kind) ev.kind = payload.type || payload.event || base.type || base.event || eventName || "task.event";
-    if (!ev.task_id) ev.task_id = payload.task_id || payload.taskId || payload.id || base.task_id || base.taskId || base.id || null;
-    if (!ev.status) ev.status = payload.status || payload.state || base.status || base.state || null;
-    if (!ev.title) ev.title = payload.title || payload.name || base.title || base.name || null;
-    if (!ev.ts) ev.ts = payload.ts || payload.timestamp || payload.at || base.ts || base.timestamp || Date.now();
-    if (!ev.message) ev.message = payload.message || payload.msg || base.message || base.msg || "";
-    return ev;
-  }
-
-  function formatWhen(ts) {
-    const d = new Date(typeof ts === "number" ? ts : Date.parse(ts));
-    if (Number.isNaN(d.getTime())) return "now";
-    return d.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
-  }
-
-  function normalizeStatus(s) {
-    const v = String(s || "").trim().toLowerCase();
-    if (!v) return "update";
-    if (v === "completed" || v === "complete") return "done";
+  function normalizeStatus(value) {
+    var v = String(value == null ? "" : value).trim().toLowerCase();
+    if (!v) return "unknown";
+    if (v === "complete" || v === "completed" || v === "success") return "done";
+    if (v === "pending") return "queued";
     return v;
   }
 
-  const state = {
-    recent: [],
-    history: [],
-    taskEvents: [],
-    sourceOpen: false,
-    sourceError: false
-  };
-
-  function upsertRecent(ev) {
-    const taskId = String(ev.task_id || ev.title || ev.kind || "task");
-    const item = {
-      id: taskId,
-      title: ev.title || taskId,
-      status: normalizeStatus(ev.status || ev.kind),
-      when: formatWhen(ev.ts)
-    };
-
-    state.recent = [item].concat(state.recent.filter(function (x) {
-      return x.id !== taskId;
-    })).slice(0, 6);
+  function taskLabel(task) {
+    return (
+      task.title ||
+      task.name ||
+      task.task_id ||
+      task.taskId ||
+      task.id ||
+      "task"
+    );
   }
 
-  function pushHistory(ev) {
+  function taskStatus(task) {
+    return normalizeStatus(
+      task.status ||
+      task.state ||
+      task.kind ||
+      task.event ||
+      "unknown"
+    );
+  }
+
+  function eventKind(ev) {
+    return (
+      ev.kind ||
+      ev.type ||
+      ev.event ||
+      ev.status ||
+      "event"
+    );
+  }
+
+  function dedupeBy(list, keyFn) {
+    var seen = Object.create(null);
+    return list.filter(function (item) {
+      var key = keyFn(item);
+      if (seen[key]) return false;
+      seen[key] = true;
+      return true;
+    });
+  }
+
+  function pushRecent(task) {
+    state.recent.unshift({
+      label: taskLabel(task),
+      status: taskStatus(task)
+    });
+    state.recent = dedupeBy(state.recent, function (row) {
+      return row.label + "|" + row.status;
+    }).slice(0, MAX_RECENT);
+  }
+
+  function pushHistory(task) {
     state.history.unshift({
-      title: ev.title || ev.task_id || "task",
-      status: normalizeStatus(ev.status || ev.kind),
-      when: formatWhen(ev.ts)
+      label: taskLabel(task),
+      status: taskStatus(task)
     });
-    state.history = state.history.slice(0, 12);
+    state.history = dedupeBy(state.history, function (row) {
+      return row.label + "|" + row.status;
+    }).slice(0, MAX_HISTORY);
   }
 
-  function pushTaskEvent(ev) {
-    state.taskEvents.unshift({
-      kind: ev.kind || "task.event",
-      task: ev.task_id || ev.title || "task",
-      status: normalizeStatus(ev.status || "update"),
-      when: formatWhen(ev.ts),
-      message: ev.message || ""
+  function pushEvent(ev) {
+    state.events.unshift({
+      kind: eventKind(ev),
+      detail:
+        ev.task_id ||
+        ev.taskId ||
+        ev.id ||
+        ev.run_id ||
+        ev.runId ||
+        ""
     });
-    state.taskEvents = state.taskEvents.slice(0, 20);
+    state.events = dedupeBy(state.events, function (row) {
+      return row.kind + "|" + row.detail;
+    }).slice(0, MAX_EVENTS);
   }
 
   function renderRecent() {
-    const root = byId("tasks-widget");
-    if (!root) return;
+    var host = byId("tasks-widget");
+    if (!host) return;
 
     if (!state.recent.length) {
-      root.innerHTML = "<div class='text-xs text-slate-400'>Waiting for recent task activity…</div>";
+      host.innerHTML =
+        '<div class="text-sm text-gray-500">Waiting for recent tasks…</div>';
       return;
     }
 
-    root.innerHTML = state.recent.map(function (t) {
-      return [
-        "<div class='flex items-center justify-between gap-3 py-1 border-b border-slate-700/40 last:border-b-0'>",
-        "<span class='text-sm text-slate-200 truncate'>", String(t.title), "</span>",
-        "<span class='text-xs text-slate-400 shrink-0'>", String(t.status), " · ", String(t.when), "</span>",
+    host.innerHTML = state.recent.map(function (row) {
+      return (
+        '<div class="flex items-center justify-between gap-3 py-1 text-sm">' +
+          '<span class="truncate text-gray-200">' + escapeHtml(row.label) + '</span>' +
+          '<span class="shrink-0 text-xs text-gray-500">' + escapeHtml(row.status) + '</span>' +
         "</div>"
-      ].join("");
+      );
     }).join("");
   }
 
   function renderHistory() {
-    const root = byId("recentLogs");
-    if (!root) return;
+    var host = byId("recentLogs");
+    if (!host) return;
 
     if (!state.history.length) {
-      root.innerHTML = "<div class='text-xs text-slate-400'>Waiting for task history…</div>";
+      host.innerHTML =
+        '<div class="text-sm text-gray-500">Waiting for task history…</div>';
       return;
     }
 
-    root.innerHTML = state.history.map(function (t) {
-      return [
-        "<div class='py-1 border-b border-slate-700/40 last:border-b-0'>",
-        "<div class='text-sm text-slate-200'>", String(t.title), "</div>",
-        "<div class='text-xs text-slate-400'>", String(t.status), " · ", String(t.when), "</div>",
+    host.innerHTML = state.history.map(function (row) {
+      return (
+        '<div class="py-1 text-sm text-gray-300">' +
+          '<span class="text-gray-200">' + escapeHtml(row.label) + '</span>' +
+          '<span class="text-gray-500"> · ' + escapeHtml(row.status) + "</span>" +
         "</div>"
-      ].join("");
+      );
     }).join("");
   }
 
-  function ensureTaskEventsFeed() {
-    var panel = byId("mb-task-events-feed");
-    if (panel) return panel;
+  function renderEvents() {
+    var anchor = byId("mb-task-events-panel-anchor");
+    if (!anchor) return;
 
-    var anchor =
-      byId("mb-task-events-panel-anchor") ||
-      byId("task-events-card") ||
-      byId("obs-panel-events");
+    if (!state.events.length) return;
 
-    if (!anchor) return null;
+    var existingPanel = byId("mb-task-events-panel");
+    if (existingPanel) return;
 
-    var wrap = byId("phase457-task-events-fallback");
-    if (wrap) return wrap;
-
-    wrap = document.createElement("div");
-    wrap.id = "phase457-task-events-fallback";
-    wrap.className = "mt-2 space-y-2";
-    anchor.appendChild(wrap);
-    return wrap;
-  }
-
-  function renderTaskEvents() {
-    const root = ensureTaskEventsFeed();
-    if (!root) return;
-
-    if (!state.taskEvents.length) {
-      root.innerHTML = "<div class='text-xs text-slate-400'>Waiting for task events…</div>";
-      return;
-    }
-
-    root.innerHTML = state.taskEvents.map(function (e) {
-      return [
-        "<div class='rounded-md border border-slate-700/50 px-3 py-2 bg-slate-900/40'>",
-        "<div class='text-xs text-slate-400'>", String(e.when), "</div>",
-        "<div class='text-sm text-slate-200'>", String(e.kind), "</div>",
-        "<div class='text-xs text-slate-400'>", String(e.task), " · ", String(e.status), "</div>",
-        e.message ? "<div class='text-xs text-slate-500 mt-1'>" + String(e.message) + "</div>" : "",
+    anchor.innerHTML = state.events.map(function (row) {
+      return (
+        '<div class="mb-1 text-xs text-gray-500">' +
+          escapeHtml(row.kind + (row.detail ? " · " + row.detail : "")) +
         "</div>"
-      ].join("");
+      );
     }).join("");
-  }
-
-  function clearProbeNoise() {
-    var recent = byId("tasks-widget");
-    if (recent && /probe:recent:error|updated_at does not exist/i.test(recent.textContent || "")) {
-      recent.innerHTML = "<div class='text-xs text-slate-400'>Recent tasks fallback active…</div>";
-    }
-
-    var history = byId("recentLogs");
-    if (history && /probe:history:loading|loading task history/i.test(history.textContent || "")) {
-      history.innerHTML = "<div class='text-xs text-slate-400'>Task history fallback active…</div>";
-    }
-  }
-
-  function normalizeOperatorConfidence() {
-    var candidates = Array.from(document.querySelectorAll("body *"));
-    candidates.forEach(function (n) {
-      var txt = n.textContent || "";
-      if (!txt.includes("Confidence: unknown")) return;
-      n.textContent = txt.replace("Confidence: unknown", "Confidence: high confidence");
-    });
   }
 
   function renderAll() {
-    clearProbeNoise();
     renderRecent();
     renderHistory();
-    renderTaskEvents();
-    normalizeOperatorConfidence();
+    renderEvents();
   }
 
-  function ingest(eventName, raw) {
-    var ev = eventPayload(eventName, raw);
-    upsertRecent(ev);
-    pushHistory(ev);
-    pushTaskEvent(ev);
+  function ingestEventPayload(payload) {
+    if (!payload || typeof payload !== "object") return;
+    pushRecent(payload);
+    pushHistory(payload);
+    pushEvent(payload);
     renderAll();
   }
 
   function bindWindowBridge() {
     window.addEventListener("mb.task.event", function (e) {
-      ingest("mb.task.event", e.detail || {});
+      ingestEventPayload(e.detail || {});
     });
   }
 
-  function connectDirectTaskEvents() {
-    if (window.__PHASE457_DIRECT_TASK_EVENT_SOURCE__) return;
-    window.__PHASE457_DIRECT_TASK_EVENT_SOURCE__ = true;
+  function ingestFrame(eventName, raw) {
+    var data = raw;
+    if (typeof raw === "string") {
+      try {
+        data = JSON.parse(raw);
+      } catch (_) {
+        data = { kind: eventName };
+      }
+    }
 
-    var es;
+    if (Array.isArray(data)) {
+      data.forEach(ingestEventPayload);
+      return;
+    }
+
+    if (data && typeof data === "object" && Array.isArray(data.events)) {
+      data.events.forEach(ingestEventPayload);
+      return;
+    }
+
+    if (data && typeof data === "object" && data.payload && typeof data.payload === "object") {
+      ingestEventPayload(data.payload);
+      return;
+    }
+
+    ingestEventPayload(data || { kind: eventName });
+  }
+
+  function connectDirectTaskEvents() {
+    if (state.es) return;
+
     try {
-      es = new EventSource("/events/task-events");
+      state.es = new EventSource("/events/task-events");
     } catch (_) {
+      state.sourceError = true;
       renderAll();
       return;
     }
 
-    function onFrame(name, evt) {
-      state.sourceOpen = true;
-      state.sourceError = false;
-      ingest(name, evt && evt.data ? evt.data : {});
-    }
-
-    es.onopen = function () {
+    state.es.onopen = function () {
       state.sourceOpen = true;
       state.sourceError = false;
       renderAll();
     };
 
-    es.onerror = function () {
+    state.es.onerror = function () {
       state.sourceError = true;
       renderAll();
     };
 
-    es.onmessage = function (evt) {
-      onFrame("message", evt);
+    state.es.onmessage = function (evt) {
+      ingestFrame("message", evt && evt.data ? evt.data : {});
     };
 
     [
@@ -254,14 +258,35 @@
       "task.status",
       "heartbeat"
     ].forEach(function (name) {
-      es.addEventListener(name, function (evt) {
-        onFrame(name, evt);
+      state.es.addEventListener(name, function (evt) {
+        ingestFrame(name, evt && evt.data ? evt.data : {});
       });
     });
   }
 
+  function bootstrapFromApi() {
+    if (state.bootstrapped) return;
+    state.bootstrapped = true;
+
+    fetch(TASKS_API)
+      .then(function (r) {
+        if (!r.ok) throw new Error("tasks bootstrap failed");
+        return r.json();
+      })
+      .then(function (data) {
+        if (!Array.isArray(data)) return;
+        data.slice(0, MAX_HISTORY).forEach(function (task) {
+          pushRecent(task);
+          pushHistory(task);
+        });
+        renderAll();
+      })
+      .catch(function () {});
+  }
+
   function boot() {
     bindWindowBridge();
+    bootstrapFromApi();
     connectDirectTaskEvents();
     renderAll();
     setInterval(renderAll, 4000);
