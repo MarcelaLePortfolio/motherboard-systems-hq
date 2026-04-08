@@ -1,0 +1,2436 @@
+PHASE 457 — CANDIDATE SOURCE VERIFICATION
+=========================================
+
+--- phase65_layout package.json ---
+{
+  "type": "module",
+  "scripts": {
+    "build:dashboard-bundle": "esbuild public/js/dashboard-bundle-entry.js --bundle --outfile=public/bundle.js --sourcemap",
+    "test:orchestration": "node --import tsx --test server/orchestration/*.test.ts",
+    "test": "bash ./scripts/phase42_scope_gate.sh && (echo \"(no test script)\" && exit 0)"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/cors": "^2.8.19",
+    "@types/node": "^24.10.1",
+    "@types/uuid": "^10.0.0",
+    "drizzle-kit": "^0.31.8",
+    "esbuild": "^0.27.0",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "better-sqlite3": "^12.4.1",
+    "body-parser": "^2.2.0",
+    "chart.js": "^4.5.1",
+    "chokidar": "^4.0.3",
+    "cors": "^2.8.5",
+    "drizzle-orm": "^0.45.1",
+    "express": "^5.1.0",
+    "node-fetch": "^3.3.2",
+    "pg": "^8.16.3",
+    "proper-lockfile": "^4.1.2",
+    "serve": "^14.2.5",
+    "sqlite3": "^5.1.7",
+    "uuid": "^13.0.0"
+  }
+}
+
+--- phase65_wiring package.json ---
+{
+  "type": "module",
+  "scripts": {
+    "build:dashboard-bundle": "esbuild public/js/dashboard-bundle-entry.js --bundle --outfile=public/bundle.js --sourcemap",
+    "test:orchestration": "node --import tsx --test server/orchestration/*.test.ts",
+    "test": "bash ./scripts/phase42_scope_gate.sh && (echo \"(no test script)\" && exit 0)"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/cors": "^2.8.19",
+    "@types/node": "^24.10.1",
+    "@types/uuid": "^10.0.0",
+    "drizzle-kit": "^0.31.8",
+    "esbuild": "^0.27.0",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "better-sqlite3": "^12.4.1",
+    "body-parser": "^2.2.0",
+    "chart.js": "^4.5.1",
+    "chokidar": "^4.0.3",
+    "cors": "^2.8.5",
+    "drizzle-orm": "^0.45.1",
+    "express": "^5.1.0",
+    "node-fetch": "^3.3.2",
+    "pg": "^8.16.3",
+    "proper-lockfile": "^4.1.2",
+    "serve": "^14.2.5",
+    "sqlite3": "^5.1.7",
+    "uuid": "^13.0.0"
+  }
+}
+
+--- operator_guidance package.json ---
+{
+  "type": "module",
+  "scripts": {
+    "build:dashboard-bundle": "esbuild public/js/dashboard-bundle-entry.js --bundle --outfile=public/bundle.js --sourcemap",
+    "test:orchestration": "node --import tsx --test server/orchestration/*.test.ts",
+    "test": "bash ./scripts/phase42_scope_gate.sh && (echo \"(no test script)\" && exit 0)"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/cors": "^2.8.19",
+    "@types/node": "^24.10.1",
+    "@types/uuid": "^10.0.0",
+    "drizzle-kit": "^0.31.8",
+    "esbuild": "^0.27.0",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "better-sqlite3": "^12.4.1",
+    "body-parser": "^2.2.0",
+    "chart.js": "^4.5.1",
+    "chokidar": "^4.0.3",
+    "cors": "^2.8.5",
+    "drizzle-orm": "^0.45.1",
+    "express": "^5.1.0",
+    "node-fetch": "^3.3.2",
+    "pg": "^8.16.3",
+    "proper-lockfile": "^4.1.2",
+    "serve": "^14.2.5",
+    "sqlite3": "^5.1.7",
+    "uuid": "^13.0.0"
+  }
+}
+
+--- phase65_layout server entry ---
+_archive
+add_sample_tasks.js
+agent_ticker.log
+agent-heartbeat.ts
+agent-to-cade.ts
+agent-to-effie.ts
+agent.ts
+agents
+agentsStatus.ts
+agentWatchdog.ts
+ambient-placeholders.d.ts
+archive
+artifacts
+askRouter.runtime.ts
+askRouter.ts
+atlas.ts
+audit.ts
+autonomicAdaptation.ts
+backup_cade_runtime_fixed.cjs
+backup.crontab
+backup.sh
+BRANCH_PROTECTION_PROOF.txt
+broken_eslint_files.txt
+bs-config.json
+buildUI.ts
+cade_status.ts
+cade_task_processor_clean.ts
+cade_task_processor.bak.ts
+cade_task_processor.ts
+cade-create-webpage.ts
+cade-delegation-watcher.ts
+cade-processor.ts
+cade.log
+cade.ts
+capacitor.config.ts
+chain.ts
+chainState.ts
+client.ts
+commit.ts
+config
+config.js
+create-cheese-page.ts
+create-entity.ts
+createFile.ts
+custom.d.ts
+db
+delegate_task_settings_panel.txt
+delegate.ts
+delegation-test.json
+delegation-test.txt
+delegations-result-stub.ts
+delegations.ts
+demo-cinematic-sequence.ts
+dev-server.ts
+dist
+docker-compose.override.yml
+docker-compose.phase31.7-worker.yml
+docker-compose.phase45_1.startup_determinism.yml
+docker-compose.phase457.override.yml
+docker-compose.phase457.port.override.yml
+docker-compose.phase46.dashboard_heap.override.yml
+docker-compose.phase47.enforce.override.yml
+docker-compose.phase47.postgres_url.override.yml
+docker-compose.phase54.enforce.override.yml
+docker-compose.phase54.postgres_bootstrap.override.yml
+docker-compose.phase54.shadow.override.yml
+docker-compose.phase57.shadow.env.override.yml
+docker-compose.worker.phase32.yml
+docker-compose.worker.phase34.yml
+docker-compose.workers.yml
+docker-compose.yml
+docker-compose.yml.broken
+docker-compose.yml.pre_phase457_fix
+docker-entrypoint-initdb.d
+Dockerfile
+Dockerfile.backup-scheduler
+Dockerfile.dashboard
+Dockerfile.ops-stream
+Dockerfile.reflections-stream
+Dockerfile.worker
+docs
+drizzle
+drizzle_pg
+drizzle.config.json
+drizzle.pg.config.json
+ecosystem.config.cjs
+ecosystem.sse-streams.config.cjs
+ecosystem.staging.config.cjs
+effie_task_processor.ts
+effie.ts
+ensure-task-events-main.ts
+ensure-task-events.ts
+ensurePaths.ts
+eslint.config.js
+events.ts
+eventsAgents.ts
+exports
+express-stubs.d.ts
+external
+handleTask.ts
+HANDOFF_PHASE15_OPTIONAL_SSE_DISABLED.md
+HANDOFF_PHASE15_STATUS.md
+HANDOFF_PHASE16_THREAD_STARTER.md
+import_check.log
+index.ts
+init_db.sql
+install.ts
+introspectiveSim.ts
+launch-atlas.ts
+launch-cade.ts
+launch-effie.ts
+launch-matilda.ts
+legal
+log.ts
+logs
+logs.ts
+Makefile
+matilda_chat.ts
+matilda_task_processor.ts
+matilda-chat-stub.js
+matilda-chat-stub.ts
+matilda-delegate.ts
+matilda.ts
+memory
+MILESTONE_2_COMPLETE.txt
+MILESTONE_3_PARTIAL_COMPLETE_2.txt
+MILESTONE_3_PARTIAL_COMPLETE.txt
+mirror
+Motherboard_Project_Scope.txt
+next-env.d.ts
+next.config.mjs
+notes
+ollamaChat.ts
+ollamaPlan.ts
+ops-sse-bootstrap.ts
+ops-sse-server.mjs
+ops-sse-server.ts
+ops-stream
+ops.ts
+package-lock.json
+package.json
+package.json.backup.20251118043553
+patent
+persistentInsight.ts
+PHASE11_AFTER_REBUILD_SUCCESS.md
+PHASE11_AFTER_STUBS_NEXT_STEP.md
+PHASE11_BRANCHES.md
+PHASE11_BUNDLING_CURRENT_STATUS.md
+PHASE11_BUNDLING_HANDOFF.md
+PHASE11_BUNDLING_STATUS.md
+PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md
+PHASE11_BUNDLING_STEP2_STRATEGY.md
+PHASE11_BUNDLING_STEP3_IMPLEMENTATION_PLAN.md
+PHASE11_BUNDLING_STEP3A_STATUS.md
+PHASE11_BUNDLING_STEP3B_BROADCAST_STATUS.md
+PHASE11_BUNDLING_STEP3B_IMPLEMENTATION.md
+PHASE11_BUNDLING_STEP3B_INSPECTION_RUN.md
+PHASE11_BUNDLING_STEP3B_NEXT_ACTIONS.md
+PHASE11_BUNDLING_STEP3B_TASK_GRAPH_STATUS.md
+PHASE11_CONTAINER_STATUS_AFTER_REBUILD.md
+PHASE11_CONTAINER_STATUS.md
+PHASE11_CURRENT_ACTION.md
+PHASE11_DASHBOARD_BROADCAST_REMOVAL_NOTE.txt
+PHASE11_DASHBOARD_PHASE11_SESSION_SUMMARY.md
+PHASE11_DASHBOARD_RENDERING_STATUS.md
+PHASE11_DASHBOARD_RENDERING_VERIFICATION_CHECKLIST.md
+PHASE11_DASHBOARD_RESTORE.md
+PHASE11_DASHBOARD_SERVER_RUN_LOG.md
+PHASE11_DASHBOARD_VISUAL_CHECK_HANDOFF.md
+PHASE11_DASHBOARD_VISUAL_CHECK_NOTES.md
+PHASE11_DASHBOARD_VISUAL_CHECK_RUN_THIS_NEXT.md
+PHASE11_DASHBOARD_VISUAL_CHECK_STATUS.md
+PHASE11_DASHBOARD_VISUAL_CHECK_TODO.md
+PHASE11_DB_ENDPOINTS_STATUS.md
+PHASE11_DB_TASK_ENDPOINTS_DEBUG.md
+PHASE11_DELEGATE_TASK_EXECUTION_NOTE.md
+PHASE11_DELEGATE_TASK_QUICKSTART.md
+PHASE11_DELEGATE_TASK_RESULT.md
+PHASE11_FINAL_PRE_EXECUTION_SIGNAL.md
+PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md
+PHASE11_IMMEDIATE_RUNTIME_COMMAND.md
+PHASE11_MATILDA_CHAT_COMPLETION_HANDOFF.md
+PHASE11_MATILDA_CHAT_UX_PLAN.md
+PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md
+PHASE11_NEXT_MICRO_STEPS.md
+PHASE11_NEXT_RUNTIME_AFTER_STUBS.md
+PHASE11_NEXT_STEPS_RECOMMENDATION.md
+PHASE11_OPS_DASHBOARD_VERIFICATION_HANDOFF.md
+PHASE11_OPS_DASHBOARD_VERIFICATION_LOG.md
+PHASE11_OPS_EVENT_STREAM_HANDOFF.md
+PHASE11_OPS_EVENT_STREAM_VERIFICATION.md
+PHASE11_OPS_GLOBALS_STATUS.md
+PHASE11_OPS_PILL_BROWSER_CHECK.md
+PHASE11_OPS_PILL_BUNDLED_STABLE_TAG.md
+PHASE11_OPS_PILL_NO_SIGNAL_DIAG.md
+PHASE11_OPS_PILL_NO_SIGNAL_GREPS.md
+PHASE11_OPS_PILL_REBUILD_MARKER.md
+PHASE11_OPS_PILL_REVERT_TO_V11_3_NOTE.md
+PHASE11_OPS_PILL_STATUS.md
+PHASE11_OPS_PILL_STEP1_STATUS.md
+PHASE11_OPS_SSE_DISABLED.md
+PHASE11_OPS_SSE_RUNTIME_CHECK.md
+PHASE11_OPS_SSE_RUNTIME_LOG.md
+PHASE11_QUICK_CHECK_BUTTON_COMPLETION.md
+PHASE11_READY_FOR_CONTAINER_REBUILD.md
+PHASE11_REBUILD_RUN_2_NOTE.md
+PHASE11_RECOMMENDED_NEXT_STEP.md
+PHASE11_REFLECTIONS_SSE_BACKEND_TODO.md
+PHASE11_REFLECTIONS_SSE_SHIM_STATUS.md
+PHASE11_RUN_THIS_NOW.md
+PHASE11_RUNTIME_ENTRYPOINT.md
+PHASE11_RUNTIME_SINGLE_LINE.md
+PHASE11_RUNTIME_STATUS.md
+PHASE11_RUNTIME_TODO.md
+PHASE11_SERVERMJS_ROUTE_FIX.md
+PHASE11_SESSION_WRAPUP.md
+PHASE11_STATUS_SNAPSHOT.md
+PHASE11_STEP3_DASHBOARD_BEHAVIOR_AUDIT.md
+PHASE11_STEP3_OPS_PILL_FINAL_VERIFICATION.md
+PHASE11_STEP4_FUNCTIONAL_VERIFICATION_PLAN.md
+PHASE11_STOP_WRITING_AND_EXECUTE.md
+PHASE11_STUBBED_TASK_ENDPOINTS_STATUS.md
+PHASE11_TASK_DELEGATION_CURL_TESTS.md
+PHASE11_TASK_DELEGATION_RUN_SEQUENCE.md
+PHASE11_THREAD_RESUME_GUIDE.md
+PHASE11_v11.10_NEXT_VERIFICATION.md
+PHASE11_v11.10_POST_SSE_REMOVAL_CHECK.txt
+PHASE11_v11.10_STATUS_AND_NEXT_STEPS.md
+PHASE11_v11.10_TAG.txt
+PHASE11_v11.9_NEXT_TASKS_DASHBOARD_CHAT_REFLECTIONS.md
+PHASE11_v11.9_RUNTIME_NOTES.md
+PHASE11_VERIFICATION_HANDOFF.md
+PHASE11_VISUAL_OUTPUT_VERIFICATION_AND_NEXT_STEPS.md
+PHASE11_VISUAL_OUTPUT_VERIFICATION_HANDOFF.md
+PHASE11_VISUAL_OUTPUT_VERIFICATION_STEPS_TODO.md
+PHASE11_WHATS_NEXT_INLINE.md
+PHASE11_ZERO_MORE_DOCS_EXECUTE_NOW.md
+PHASE13_5_v13.5.4_HANDOFF.md
+PHASE13_5_v13.5.5_HANDOFF.md
+PHASE14_1_TASK_CONTRACT.md
+PHASE14_2_INTEGRATION_TODO.md
+PHASE14_2_VALIDATION.md
+PHASE14_2_VERIFIED.md
+PHASE14_PLAN.md
+PHASE15_PROJECT_VISUAL_OUTPUT_WIRING.md
+PHASE16_v16.1_SINGLETON_OK_HANDOFF.md
+PHASE18_HANDOFF_ONE_LINER.txt
+PHASE18_HANDOFF.txt
+PHASE19_NEXT_STEPS.md
+PHASE19_POSTGRES_BASELINE_HANDOFF.txt
+PHASE20_HANDOFF.md
+PHASE21_HANDOFF_NEXT.md
+PHASE21_HANDOFF_ONE_LINER.txt
+PHASE24_ORCHESTRATION_NEXT.md
+PHASE24_STEP1_LIFECYCLE_NORMALIZATION.md
+PHASE25_AUTHORITY_ORCHESTRATION_CONTRACT.md
+PHASE25_FOLD_FUNCTION_SPEC.md
+PHASE25_NEXT_STEPS.md
+PHASE25_SINGLE_WRITER_DECLARATION.md
+PHASE25_UI_INFERENCE_AUDIT_SCOPED.md
+PHASE25_UI_INFERENCE_AUDIT.md
+PHASE26_CONTAINER_STATUS.txt
+PHASE26_HANDOFF_ONE_LINER.txt
+PHASE26_SUPERVISOR_SUMMARY.txt
+PHASE27_FAILURE_RETRY_CONTRACT.md
+PHASE27_SUPERVISOR_SUMMARY.txt
+PHASE28_HANDOFF.md
+PHASE29_HANDOFF.md
+phase3-final-test.txt
+phase3-new-test.txt
+phase3-run4.txt
+phase3-run5.txt
+phase3-test-file.txt
+PHASE30_HANDOFF.md
+PHASE31_HANDOFF.md
+PHASE32_DONE.md
+PHASE32_DRIZZLE_LANES_HANDOFF.md
+PHASE32_DRIZZLE_PG_GOTCHAS.md
+PHASE32_DRIZZLE_PG_TRACKING_NOTE.md
+PHASE32_SUPERVISOR_SUMMARY.txt
+PHASE33_DONE.txt
+PHASE33_HANDOFF_ONE_LINER.txt
+PHASE33_NEXT.md
+PHASE33_SUPERVISOR_SUMMARY.md
+PHASE34_NEXT.md
+PHASE35_HANDOFF.md
+PHASE36_2_HANDOFF.md
+PHASE36_2.md
+PHASE36_3_HANDOFF.md
+PHASE36_3_NEXT.md
+PHASE36_4.md
+PHASE36_5_NEXT.md
+PHASE36_6.md
+PHASE37_0_HANDOFF_ONELINER.txt
+PHASE37_0_HANDOFF.md
+PHASE37_0.md
+PHASE37_1_HANDOFF_ONELINER.txt
+PHASE37_1_TERMINAL_EVENT_PROVENANCE.md
+PHASE37_2_ALIGNMENT_OPTIONS.md
+PHASE37_2_DECISION_RECORD.md
+PHASE37_2_HANDOFF_ONELINER.txt
+PHASE37_3_HANDOFF.md
+PHASE37_4_DECISION_RECORD.md
+PHASE37_4_HANDOFF_ONELINER.txt
+PHASE37_4_PLAN.md
+PHASE37_5_HANDOFF_ONELINER.txt
+PHASE37_5_STATUS.md
+PHASE37_6_HANDOFF_ONELINER.txt
+PHASE37_6_HYPOTHESIS.md
+PHASE37_6_NEXT.md
+PHASE37_7_IMPLEMENTATION_PLAN.md
+PHASE37_7.md
+PHASE37_ACCEPTANCE_CHECKS.sql
+PHASE37_READINESS_GATE.md
+PHASE37_RUN_PROJECTION_CONTRACT.md
+PHASE37_RUN_VIEW_DEFINITION.sql
+PHASE37_RUN_VIEW_PROVENANCE_HINTS.md
+PHASE37_RUN_VIEW_PROVENANCE_MATRIX.md
+PHASE37_STATUS_SUMMARY.md
+PHASE37_STATUS.md
+PHASE38_HANDOFF_ONE_LINER.md
+PHASE39_1.md
+PHASE39_2_NEXT.md
+PHASE39_3_NEXT.md
+PHASE39_4_NEXT.md
+PHASE39_ACTION_TIER_POLICY.md
+PHASE39_ARCHIVE_NOTE.md
+PHASE39_COMPLETE.md
+PHASE39_EXECUTIVE_SUMMARY.md
+PHASE39_FINAL_STATE.md
+PHASE39_GOLDEN_TAG_PLAN.md
+PHASE39_HANDOFF_ONE_LINER.md
+PHASE39_LOCK_CONFIRMATION.md
+PHASE39_NEXT.md
+PHASE39_PHASE40_READY.md
+PHASE39_PROJECT_INDEX_UPDATE.md
+PHASE39_STATE_SEALED.md
+PHASE39_STOPPING_POINT.md
+PHASE39_TERMINAL_STOP.md
+PHASE39_THREAD_HANDOFF.md
+PHASE39.md
+phase4-test-file.txt
+PHASE40_5.md
+PHASE40_ACCEPTANCE_CHECKS.sql
+PHASE40_NEXT.md
+PHASE41_ACCEPTANCE.md
+PHASE41.md
+PHASE42_0.md
+PHASE42_1.md
+PHASE42_BRANCH_PROTECTION_REVIEW_GATE.md
+PHASE42_GH_DEVICE_AUTH_NOTES.md
+PHASE42_MERGE_RECORD.md
+PHASE42_NEXT_STEPS_RULESET_FIX.md
+PHASE42_POSTMORTEM.md
+PHASE42_PR_ONLY_REVERT.md
+PHASE42_PR.md
+PHASE42_RULESET_DUPLICATE_RULESETS_FIX.md
+PHASE42_RULESET_REVIEW_GATE_FIX.md
+PHASE42_SCOPE.md
+PHASE42.md
+PHASE43_COMPLETE.md
+PHASE43_GOVERNANCE_BASELINE.md
+PHASE43_PR.md
+PHASE43_SCOPE.md
+PHASE44_ENFORCEMENT_PROMOTION_PLAN.md
+PHASE44_HANDOFF.md
+PHASE44_SCOPE.md
+PHASE44.md
+PHASE46.md
+phase5-test-file.txt
+phase6-test-file.txt
+PHASE61_OPERATOR_WORKSPACE_CONSOLIDATION.md
+PHASE61_STATUS_NOTE.md
+PHASE61_WORKSPACE_CONSOLIDATION.md
+phase7-test-file.txt
+phase8-test-file.txt
+pnpm-lock.yaml
+pnpm-workspace.yaml
+policy
+ports.ts
+PR_PHASE39_1.md
+prewarm-all-agents.ts
+prewarm-demo.ts
+privacy
+Project_Scope_Overview_20250731.txt
+PROJECT_VISUAL_OUTPUT_CONTAINER_DEPLOYMENT.md
+projects
+pruneDatabase.ts
+public
+public_broken_rollback_1762824556
+pyproject.toml
+readFile.ts
+README.md
+RECOVERY_CHECKPOINTS.md
+reflection_index.ts
+reflection-loader.ts
+reflection-push.ts
+reflection-sse-lite.ts
+reflection-sse-server.ts
+reflection-watcher.ts
+reflections-sse-server.ts
+reflections-stream
+reflections.ts
+reset-roundtrip.ts
+reset.ts
+restore-golden.sh
+retryCreateAgent.ts
+routes
+routes_backup
+run_tests.sh
+run-create-atlas.ts
+run-demo-playback.ts
+run-demo-sequence.ts
+run-effie-maint.ts
+run-live-delegation.ts
+runSkill.ts
+scripts
+scripts_backup
+scripts_backup_2
+secrets
+seed_agents.js
+serve-health.cjs
+server
+server.cjs.backup-20251118-161015
+server.log
+server.mjs
+server.mjs.backup-20251118-161429
+server.mjs.backup-20251118-161525
+server.mjs.backup-20251118-161734
+server.mjs.backup-20251204-154936
+server.ts
+snapshot.sh
+snapshots
+sql
+sse-stubs.d.ts
+start_all.sh
+start-all-agents.sh
+start.ts
+submit-task.ts
+systemChronicle.ts
+systemHealth.ts
+taskRouter.ts
+tasks.ts
+temp_delegate_code.js
+test
+test_runtime_simulation.ts
+test-cade-state.ts
+test-rehydration.ts
+toggle_agents.sh
+tools
+ts-backup
+tsconfig.json
+tsconfig.json.bak
+types
+ui
+validateTaskEvent.ts
+verify_settings_panel.sh
+verify-dashboard-sync.ts
+visual_previews
+
+--- phase65_wiring server entry ---
+_archive
+add_sample_tasks.js
+agent_ticker.log
+agent-heartbeat.ts
+agent-to-cade.ts
+agent-to-effie.ts
+agent.ts
+agents
+agentsStatus.ts
+agentWatchdog.ts
+ambient-placeholders.d.ts
+archive
+artifacts
+askRouter.runtime.ts
+askRouter.ts
+atlas.ts
+audit.ts
+autonomicAdaptation.ts
+backup_cade_runtime_fixed.cjs
+backup.crontab
+backup.sh
+BRANCH_PROTECTION_PROOF.txt
+broken_eslint_files.txt
+bs-config.json
+buildUI.ts
+cade_status.ts
+cade_task_processor_clean.ts
+cade_task_processor.bak.ts
+cade_task_processor.ts
+cade-create-webpage.ts
+cade-delegation-watcher.ts
+cade-processor.ts
+cade.log
+cade.ts
+capacitor.config.ts
+chain.ts
+chainState.ts
+client.ts
+commit.ts
+config
+config.js
+create-cheese-page.ts
+create-entity.ts
+createFile.ts
+custom.d.ts
+db
+delegate_task_settings_panel.txt
+delegate.ts
+delegation-test.json
+delegation-test.txt
+delegations-result-stub.ts
+delegations.ts
+demo-cinematic-sequence.ts
+dev-server.ts
+dist
+docker-compose.override.yml
+docker-compose.phase31.7-worker.yml
+docker-compose.phase45_1.startup_determinism.yml
+docker-compose.phase457.override.yml
+docker-compose.phase457.port.override.yml
+docker-compose.phase46.dashboard_heap.override.yml
+docker-compose.phase47.enforce.override.yml
+docker-compose.phase47.postgres_url.override.yml
+docker-compose.phase54.enforce.override.yml
+docker-compose.phase54.postgres_bootstrap.override.yml
+docker-compose.phase54.shadow.override.yml
+docker-compose.phase57.shadow.env.override.yml
+docker-compose.worker.phase32.yml
+docker-compose.worker.phase34.yml
+docker-compose.workers.yml
+docker-compose.yml
+docker-compose.yml.pre_phase457_fix
+docker-entrypoint-initdb.d
+Dockerfile
+Dockerfile.backup-scheduler
+Dockerfile.dashboard
+Dockerfile.ops-stream
+Dockerfile.reflections-stream
+Dockerfile.worker
+docs
+drizzle
+drizzle_pg
+drizzle.config.json
+drizzle.pg.config.json
+ecosystem.config.cjs
+ecosystem.sse-streams.config.cjs
+ecosystem.staging.config.cjs
+effie_task_processor.ts
+effie.ts
+ensure-task-events-main.ts
+ensure-task-events.ts
+ensurePaths.ts
+eslint.config.js
+events.ts
+eventsAgents.ts
+exports
+express-stubs.d.ts
+external
+handleTask.ts
+HANDOFF_PHASE15_OPTIONAL_SSE_DISABLED.md
+HANDOFF_PHASE15_STATUS.md
+HANDOFF_PHASE16_THREAD_STARTER.md
+import_check.log
+index.ts
+init_db.sql
+install.ts
+introspectiveSim.ts
+launch-atlas.ts
+launch-cade.ts
+launch-effie.ts
+launch-matilda.ts
+legal
+log.ts
+logs
+logs.ts
+Makefile
+matilda_chat.ts
+matilda_task_processor.ts
+matilda-chat-stub.js
+matilda-chat-stub.ts
+matilda-delegate.ts
+matilda.ts
+memory
+MILESTONE_2_COMPLETE.txt
+MILESTONE_3_PARTIAL_COMPLETE_2.txt
+MILESTONE_3_PARTIAL_COMPLETE.txt
+mirror
+Motherboard_Project_Scope.txt
+next-env.d.ts
+next.config.mjs
+notes
+ollamaChat.ts
+ollamaPlan.ts
+ops-sse-bootstrap.ts
+ops-sse-server.mjs
+ops-sse-server.ts
+ops-stream
+ops.ts
+package-lock.json
+package.json
+package.json.backup.20251118043553
+patent
+persistentInsight.ts
+PHASE11_AFTER_REBUILD_SUCCESS.md
+PHASE11_AFTER_STUBS_NEXT_STEP.md
+PHASE11_BRANCHES.md
+PHASE11_BUNDLING_CURRENT_STATUS.md
+PHASE11_BUNDLING_HANDOFF.md
+PHASE11_BUNDLING_STATUS.md
+PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md
+PHASE11_BUNDLING_STEP2_STRATEGY.md
+PHASE11_BUNDLING_STEP3_IMPLEMENTATION_PLAN.md
+PHASE11_BUNDLING_STEP3A_STATUS.md
+PHASE11_BUNDLING_STEP3B_BROADCAST_STATUS.md
+PHASE11_BUNDLING_STEP3B_IMPLEMENTATION.md
+PHASE11_BUNDLING_STEP3B_INSPECTION_RUN.md
+PHASE11_BUNDLING_STEP3B_NEXT_ACTIONS.md
+PHASE11_BUNDLING_STEP3B_TASK_GRAPH_STATUS.md
+PHASE11_CONTAINER_STATUS_AFTER_REBUILD.md
+PHASE11_CONTAINER_STATUS.md
+PHASE11_CURRENT_ACTION.md
+PHASE11_DASHBOARD_BROADCAST_REMOVAL_NOTE.txt
+PHASE11_DASHBOARD_PHASE11_SESSION_SUMMARY.md
+PHASE11_DASHBOARD_RENDERING_STATUS.md
+PHASE11_DASHBOARD_RENDERING_VERIFICATION_CHECKLIST.md
+PHASE11_DASHBOARD_RESTORE.md
+PHASE11_DASHBOARD_SERVER_RUN_LOG.md
+PHASE11_DASHBOARD_VISUAL_CHECK_HANDOFF.md
+PHASE11_DASHBOARD_VISUAL_CHECK_NOTES.md
+PHASE11_DASHBOARD_VISUAL_CHECK_RUN_THIS_NEXT.md
+PHASE11_DASHBOARD_VISUAL_CHECK_STATUS.md
+PHASE11_DASHBOARD_VISUAL_CHECK_TODO.md
+PHASE11_DB_ENDPOINTS_STATUS.md
+PHASE11_DB_TASK_ENDPOINTS_DEBUG.md
+PHASE11_DELEGATE_TASK_EXECUTION_NOTE.md
+PHASE11_DELEGATE_TASK_QUICKSTART.md
+PHASE11_DELEGATE_TASK_RESULT.md
+PHASE11_FINAL_PRE_EXECUTION_SIGNAL.md
+PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md
+PHASE11_IMMEDIATE_RUNTIME_COMMAND.md
+PHASE11_MATILDA_CHAT_COMPLETION_HANDOFF.md
+PHASE11_MATILDA_CHAT_UX_PLAN.md
+PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md
+PHASE11_NEXT_MICRO_STEPS.md
+PHASE11_NEXT_RUNTIME_AFTER_STUBS.md
+PHASE11_NEXT_STEPS_RECOMMENDATION.md
+PHASE11_OPS_DASHBOARD_VERIFICATION_HANDOFF.md
+PHASE11_OPS_DASHBOARD_VERIFICATION_LOG.md
+PHASE11_OPS_EVENT_STREAM_HANDOFF.md
+PHASE11_OPS_EVENT_STREAM_VERIFICATION.md
+PHASE11_OPS_GLOBALS_STATUS.md
+PHASE11_OPS_PILL_BROWSER_CHECK.md
+PHASE11_OPS_PILL_BUNDLED_STABLE_TAG.md
+PHASE11_OPS_PILL_NO_SIGNAL_DIAG.md
+PHASE11_OPS_PILL_NO_SIGNAL_GREPS.md
+PHASE11_OPS_PILL_REBUILD_MARKER.md
+PHASE11_OPS_PILL_REVERT_TO_V11_3_NOTE.md
+PHASE11_OPS_PILL_STATUS.md
+PHASE11_OPS_PILL_STEP1_STATUS.md
+PHASE11_OPS_SSE_DISABLED.md
+PHASE11_OPS_SSE_RUNTIME_CHECK.md
+PHASE11_OPS_SSE_RUNTIME_LOG.md
+PHASE11_QUICK_CHECK_BUTTON_COMPLETION.md
+PHASE11_READY_FOR_CONTAINER_REBUILD.md
+PHASE11_REBUILD_RUN_2_NOTE.md
+PHASE11_RECOMMENDED_NEXT_STEP.md
+PHASE11_REFLECTIONS_SSE_BACKEND_TODO.md
+PHASE11_REFLECTIONS_SSE_SHIM_STATUS.md
+PHASE11_RUN_THIS_NOW.md
+PHASE11_RUNTIME_ENTRYPOINT.md
+PHASE11_RUNTIME_SINGLE_LINE.md
+PHASE11_RUNTIME_STATUS.md
+PHASE11_RUNTIME_TODO.md
+PHASE11_SERVERMJS_ROUTE_FIX.md
+PHASE11_SESSION_WRAPUP.md
+PHASE11_STATUS_SNAPSHOT.md
+PHASE11_STEP3_DASHBOARD_BEHAVIOR_AUDIT.md
+PHASE11_STEP3_OPS_PILL_FINAL_VERIFICATION.md
+PHASE11_STEP4_FUNCTIONAL_VERIFICATION_PLAN.md
+PHASE11_STOP_WRITING_AND_EXECUTE.md
+PHASE11_STUBBED_TASK_ENDPOINTS_STATUS.md
+PHASE11_TASK_DELEGATION_CURL_TESTS.md
+PHASE11_TASK_DELEGATION_RUN_SEQUENCE.md
+PHASE11_THREAD_RESUME_GUIDE.md
+PHASE11_v11.10_NEXT_VERIFICATION.md
+PHASE11_v11.10_POST_SSE_REMOVAL_CHECK.txt
+PHASE11_v11.10_STATUS_AND_NEXT_STEPS.md
+PHASE11_v11.10_TAG.txt
+PHASE11_v11.9_NEXT_TASKS_DASHBOARD_CHAT_REFLECTIONS.md
+PHASE11_v11.9_RUNTIME_NOTES.md
+PHASE11_VERIFICATION_HANDOFF.md
+PHASE11_VISUAL_OUTPUT_VERIFICATION_AND_NEXT_STEPS.md
+PHASE11_VISUAL_OUTPUT_VERIFICATION_HANDOFF.md
+PHASE11_VISUAL_OUTPUT_VERIFICATION_STEPS_TODO.md
+PHASE11_WHATS_NEXT_INLINE.md
+PHASE11_ZERO_MORE_DOCS_EXECUTE_NOW.md
+PHASE13_5_v13.5.4_HANDOFF.md
+PHASE13_5_v13.5.5_HANDOFF.md
+PHASE14_1_TASK_CONTRACT.md
+PHASE14_2_INTEGRATION_TODO.md
+PHASE14_2_VALIDATION.md
+PHASE14_2_VERIFIED.md
+PHASE14_PLAN.md
+PHASE15_PROJECT_VISUAL_OUTPUT_WIRING.md
+PHASE16_v16.1_SINGLETON_OK_HANDOFF.md
+PHASE18_HANDOFF_ONE_LINER.txt
+PHASE18_HANDOFF.txt
+PHASE19_NEXT_STEPS.md
+PHASE19_POSTGRES_BASELINE_HANDOFF.txt
+PHASE20_HANDOFF.md
+PHASE21_HANDOFF_NEXT.md
+PHASE21_HANDOFF_ONE_LINER.txt
+PHASE24_ORCHESTRATION_NEXT.md
+PHASE24_STEP1_LIFECYCLE_NORMALIZATION.md
+PHASE25_AUTHORITY_ORCHESTRATION_CONTRACT.md
+PHASE25_FOLD_FUNCTION_SPEC.md
+PHASE25_NEXT_STEPS.md
+PHASE25_SINGLE_WRITER_DECLARATION.md
+PHASE25_UI_INFERENCE_AUDIT_SCOPED.md
+PHASE25_UI_INFERENCE_AUDIT.md
+PHASE26_CONTAINER_STATUS.txt
+PHASE26_HANDOFF_ONE_LINER.txt
+PHASE26_SUPERVISOR_SUMMARY.txt
+PHASE27_FAILURE_RETRY_CONTRACT.md
+PHASE27_SUPERVISOR_SUMMARY.txt
+PHASE28_HANDOFF.md
+PHASE29_HANDOFF.md
+phase3-final-test.txt
+phase3-new-test.txt
+phase3-run4.txt
+phase3-run5.txt
+phase3-test-file.txt
+PHASE30_HANDOFF.md
+PHASE31_HANDOFF.md
+PHASE32_DONE.md
+PHASE32_DRIZZLE_LANES_HANDOFF.md
+PHASE32_DRIZZLE_PG_GOTCHAS.md
+PHASE32_DRIZZLE_PG_TRACKING_NOTE.md
+PHASE32_SUPERVISOR_SUMMARY.txt
+PHASE33_DONE.txt
+PHASE33_HANDOFF_ONE_LINER.txt
+PHASE33_NEXT.md
+PHASE33_SUPERVISOR_SUMMARY.md
+PHASE34_NEXT.md
+PHASE35_HANDOFF.md
+PHASE36_2_HANDOFF.md
+PHASE36_2.md
+PHASE36_3_HANDOFF.md
+PHASE36_3_NEXT.md
+PHASE36_4.md
+PHASE36_5_NEXT.md
+PHASE36_6.md
+PHASE37_0_HANDOFF_ONELINER.txt
+PHASE37_0_HANDOFF.md
+PHASE37_0.md
+PHASE37_1_HANDOFF_ONELINER.txt
+PHASE37_1_TERMINAL_EVENT_PROVENANCE.md
+PHASE37_2_ALIGNMENT_OPTIONS.md
+PHASE37_2_DECISION_RECORD.md
+PHASE37_2_HANDOFF_ONELINER.txt
+PHASE37_3_HANDOFF.md
+PHASE37_4_DECISION_RECORD.md
+PHASE37_4_HANDOFF_ONELINER.txt
+PHASE37_4_PLAN.md
+PHASE37_5_HANDOFF_ONELINER.txt
+PHASE37_5_STATUS.md
+PHASE37_6_HANDOFF_ONELINER.txt
+PHASE37_6_HYPOTHESIS.md
+PHASE37_6_NEXT.md
+PHASE37_7_IMPLEMENTATION_PLAN.md
+PHASE37_7.md
+PHASE37_ACCEPTANCE_CHECKS.sql
+PHASE37_READINESS_GATE.md
+PHASE37_RUN_PROJECTION_CONTRACT.md
+PHASE37_RUN_VIEW_DEFINITION.sql
+PHASE37_RUN_VIEW_PROVENANCE_HINTS.md
+PHASE37_RUN_VIEW_PROVENANCE_MATRIX.md
+PHASE37_STATUS_SUMMARY.md
+PHASE37_STATUS.md
+PHASE38_HANDOFF_ONE_LINER.md
+PHASE39_1.md
+PHASE39_2_NEXT.md
+PHASE39_3_NEXT.md
+PHASE39_4_NEXT.md
+PHASE39_ACTION_TIER_POLICY.md
+PHASE39_ARCHIVE_NOTE.md
+PHASE39_COMPLETE.md
+PHASE39_EXECUTIVE_SUMMARY.md
+PHASE39_FINAL_STATE.md
+PHASE39_GOLDEN_TAG_PLAN.md
+PHASE39_HANDOFF_ONE_LINER.md
+PHASE39_LOCK_CONFIRMATION.md
+PHASE39_NEXT.md
+PHASE39_PHASE40_READY.md
+PHASE39_PROJECT_INDEX_UPDATE.md
+PHASE39_STATE_SEALED.md
+PHASE39_STOPPING_POINT.md
+PHASE39_TERMINAL_STOP.md
+PHASE39_THREAD_HANDOFF.md
+PHASE39.md
+phase4-test-file.txt
+PHASE40_5.md
+PHASE40_ACCEPTANCE_CHECKS.sql
+PHASE40_NEXT.md
+PHASE41_ACCEPTANCE.md
+PHASE41.md
+PHASE42_0.md
+PHASE42_1.md
+PHASE42_BRANCH_PROTECTION_REVIEW_GATE.md
+PHASE42_GH_DEVICE_AUTH_NOTES.md
+PHASE42_MERGE_RECORD.md
+PHASE42_NEXT_STEPS_RULESET_FIX.md
+PHASE42_POSTMORTEM.md
+PHASE42_PR_ONLY_REVERT.md
+PHASE42_PR.md
+PHASE42_RULESET_DUPLICATE_RULESETS_FIX.md
+PHASE42_RULESET_REVIEW_GATE_FIX.md
+PHASE42_SCOPE.md
+PHASE42.md
+PHASE43_COMPLETE.md
+PHASE43_GOVERNANCE_BASELINE.md
+PHASE43_PR.md
+PHASE43_SCOPE.md
+PHASE44_ENFORCEMENT_PROMOTION_PLAN.md
+PHASE44_HANDOFF.md
+PHASE44_SCOPE.md
+PHASE44.md
+PHASE46.md
+phase5-test-file.txt
+phase6-test-file.txt
+PHASE61_OPERATOR_WORKSPACE_CONSOLIDATION.md
+PHASE61_STATUS_NOTE.md
+PHASE61_WORKSPACE_CONSOLIDATION.md
+phase7-test-file.txt
+phase8-test-file.txt
+pnpm-lock.yaml
+pnpm-workspace.yaml
+policy
+ports.ts
+PR_PHASE39_1.md
+prewarm-all-agents.ts
+prewarm-demo.ts
+privacy
+Project_Scope_Overview_20250731.txt
+PROJECT_VISUAL_OUTPUT_CONTAINER_DEPLOYMENT.md
+projects
+pruneDatabase.ts
+public
+public_broken_rollback_1762824556
+pyproject.toml
+readFile.ts
+README.md
+RECOVERY_CHECKPOINTS.md
+reflection_index.ts
+reflection-loader.ts
+reflection-push.ts
+reflection-sse-lite.ts
+reflection-sse-server.ts
+reflection-watcher.ts
+reflections-sse-server.ts
+reflections-stream
+reflections.ts
+reset-roundtrip.ts
+reset.ts
+restore-golden.sh
+retryCreateAgent.ts
+routes
+routes_backup
+run_tests.sh
+run-create-atlas.ts
+run-demo-playback.ts
+run-demo-sequence.ts
+run-effie-maint.ts
+run-live-delegation.ts
+runSkill.ts
+scripts
+scripts_backup
+scripts_backup_2
+secrets
+seed_agents.js
+serve-health.cjs
+server
+server.cjs.backup-20251118-161015
+server.log
+server.mjs
+server.mjs.backup-20251118-161429
+server.mjs.backup-20251118-161525
+server.mjs.backup-20251118-161734
+server.mjs.backup-20251204-154936
+server.ts
+snapshot.sh
+snapshots
+sql
+sse-stubs.d.ts
+start_all.sh
+start-all-agents.sh
+start.ts
+submit-task.ts
+systemChronicle.ts
+systemHealth.ts
+taskRouter.ts
+tasks.ts
+temp_delegate_code.js
+test
+test_runtime_simulation.ts
+test-cade-state.ts
+test-rehydration.ts
+toggle_agents.sh
+tools
+ts-backup
+tsconfig.json
+tsconfig.json.bak
+types
+ui
+validateTaskEvent.ts
+verify_settings_panel.sh
+verify-dashboard-sync.ts
+visual_previews
+
+--- operator_guidance server entry ---
+_archive
+add_sample_tasks.js
+agent_ticker.log
+agent-heartbeat.ts
+agent-to-cade.ts
+agent-to-effie.ts
+agent.ts
+agents
+agentsStatus.ts
+agentWatchdog.ts
+ambient-placeholders.d.ts
+archive
+artifacts
+askRouter.runtime.ts
+askRouter.ts
+atlas.ts
+audit.ts
+autonomicAdaptation.ts
+backup_cade_runtime_fixed.cjs
+backup.crontab
+backup.sh
+BRANCH_PROTECTION_PROOF.txt
+broken_eslint_files.txt
+bs-config.json
+buildUI.ts
+cade_status.ts
+cade_task_processor_clean.ts
+cade_task_processor.bak.ts
+cade_task_processor.ts
+cade-create-webpage.ts
+cade-delegation-watcher.ts
+cade-processor.ts
+cade.log
+cade.ts
+capacitor.config.ts
+chain.ts
+chainState.ts
+client.ts
+cognition
+commit.ts
+config
+config.js
+CONTAINER_AUTHORITY_MAP_AUDIT.txt
+CONTAINER_AUTHORITY_RECONCILIATION_SNAPSHOT.md
+CONTAINER_RECONCILIATION_NEXT_STEP.md
+create-cheese-page.ts
+create-entity.ts
+createFile.ts
+custom.d.ts
+dashboard
+db
+delegate_task_settings_panel.txt
+delegate.ts
+delegation-test.json
+delegation-test.txt
+delegations-result-stub.ts
+delegations.ts
+demo-cinematic-sequence.ts
+dev-server.ts
+dist
+docker-compose.override.yml
+docker-compose.phase31.7-worker.yml
+docker-compose.phase45_1.startup_determinism.yml
+docker-compose.phase457.override.yml
+docker-compose.phase457.port.override.yml
+docker-compose.phase46.dashboard_heap.override.yml
+docker-compose.phase47.enforce.override.yml
+docker-compose.phase47.postgres_url.override.yml
+docker-compose.phase54.enforce.override.yml
+docker-compose.phase54.postgres_bootstrap.override.yml
+docker-compose.phase54.shadow.override.yml
+docker-compose.phase57.shadow.env.override.yml
+docker-compose.worker.phase32.yml
+docker-compose.worker.phase34.yml
+docker-compose.workers.yml
+docker-compose.yml
+docker-compose.yml.pre_phase457_fix
+docker-entrypoint-initdb.d
+Dockerfile
+Dockerfile.backup-scheduler
+Dockerfile.dashboard
+Dockerfile.ops-stream
+Dockerfile.reflections-stream
+Dockerfile.worker
+docs
+drizzle
+drizzle_pg
+drizzle.config.json
+drizzle.pg.config.json
+ecosystem.config.cjs
+ecosystem.sse-streams.config.cjs
+ecosystem.staging.config.cjs
+effie_task_processor.ts
+effie.ts
+ensure-task-events-main.ts
+ensure-task-events.ts
+ensurePaths.ts
+eslint.config.js
+events.ts
+eventsAgents.ts
+exports
+express-stubs.d.ts
+external
+handleTask.ts
+HANDOFF_PHASE15_OPTIONAL_SSE_DISABLED.md
+HANDOFF_PHASE15_STATUS.md
+HANDOFF_PHASE16_THREAD_STARTER.md
+HANDOFF_PHASE62B_SUCCESS_VALIDATION_READY_20260317.md
+import_check.log
+index.ts
+init_db.sql
+install.ts
+introspectiveSim.ts
+launch-atlas.ts
+launch-cade.ts
+launch-effie.ts
+launch-matilda.ts
+legal
+log.ts
+logs
+logs.ts
+Makefile
+matilda_chat.ts
+matilda_task_processor.ts
+matilda-chat-stub.js
+matilda-chat-stub.ts
+matilda-delegate.ts
+matilda.ts
+memory
+MILESTONE_2_COMPLETE.txt
+MILESTONE_3_PARTIAL_COMPLETE_2.txt
+MILESTONE_3_PARTIAL_COMPLETE.txt
+mirror
+Motherboard_Project_Scope.txt
+next-env.d.ts
+next.config.mjs
+notes
+ollamaChat.ts
+ollamaPlan.ts
+ops-sse-bootstrap.ts
+ops-sse-server.mjs
+ops-sse-server.ts
+ops-stream
+ops.ts
+package-lock.json
+package.json
+package.json.backup.20251118043553
+patent
+persistentInsight.ts
+PHASE_80_3_COMPLETION.md
+PHASE_80_3_QUEUE_PRESSURE_METRIC.md
+PHASE_80_4_METRIC_LOCAL_VALIDATION_WIRING.md
+PHASE_80_5_DERIVED_METRIC_EXPOSURE_READINESS.md
+PHASE_80_6_NEUTRAL_TELEMETRY_DISPLAY_CONTRACT.md
+PHASE_80_7_TELEMETRY_EXPOSURE_SAFETY_GATES.md
+PHASE_80_8_DERIVED_METRIC_EXPOSURE_STAGING_PLAN.md
+PHASE_80_9_METRIC_EXPOSURE_APPROVAL_PROTOCOL.md
+PHASE_81_1_QUEUE_THROUGHPUT_METRIC.md
+PHASE_81_10_QUEUE_WAIT_TIME_EXPOSURE_SAFETY_REVIEW.md
+PHASE_81_11_QUEUE_WAIT_TIME_REGISTRY_ENTRY.md
+PHASE_81_12_QUEUE_WAIT_TIME_VERIFICATION_HARNESS.md
+PHASE_81_13_QUEUE_WAIT_TIME_DRIFT_SAFEGUARDS.md
+PHASE_81_14_QUEUE_WAIT_TIME_THEORETICAL_BOUNDS.md
+PHASE_81_2_QUEUE_THROUGHPUT_IMPLEMENTATION.md
+PHASE_81_3_THROUGHPUT_EXPOSURE_SAFETY_REVIEW.md
+PHASE_81_4_DERIVED_METRIC_REGISTRY_ENTRY.md
+PHASE_81_5_SIGNAL_LAYER_NEXT.md
+PHASE_81_5_THROUGHPUT_VERIFICATION_HARNESS.md
+PHASE_81_6_QUEUE_PRESSURE_CLASSIFICATION_TESTS.md
+PHASE_81_6_THROUGHPUT_DRIFT_SAFEGUARDS.md
+PHASE_81_7_SIGNAL_REGISTRY_ENTRY.md
+PHASE_81_8_QUEUE_WAIT_TIME_METRIC_DEFINITION.md
+PHASE_81_8_SIGNAL_LAYER_CLOSURE.md
+PHASE_81_9_QUEUE_WAIT_TIME_PURE_FUNCTION.md
+PHASE_81_TELEMETRY_EXPANSION_CANDIDATE_REVIEW.md
+PHASE_82_1_COMPOSITION_VERIFICATION.md
+PHASE_82_1_TASK_EXECUTION_DURATION_DEFINITION.md
+PHASE_82_2_COMPOSITION_REGISTRY.md
+PHASE_82_2_TASK_EXECUTION_DURATION_PURE_FUNCTION.md
+PHASE_82_3_COMPOSITION_CLOSURE.md
+PHASE_82_3_TASK_EXECUTION_DURATION_EXPOSURE_SAFETY_REVIEW.md
+PHASE_82_4_TASK_EXECUTION_DURATION_REGISTRY_ENTRY.md
+PHASE_82_5_TASK_EXECUTION_DURATION_VERIFICATION_HARNESS.md
+PHASE_82_6_TASK_EXECUTION_DURATION_DASHBOARD_EXPOSURE_PLAN.md
+PHASE_82_7_TASK_EXECUTION_DURATION_TELEMETRY_DOCUMENTATION_UPDATE.md
+PHASE_82_8_TASK_EXECUTION_DURATION_PHASE_CLOSEOUT.md
+PHASE_82_DERIVED_TELEMETRY_CANDIDATE_SELECTION.md
+PHASE_82_SIGNAL_COMPOSITION_FOUNDATION.md
+PHASE_83_0_SUMMARY_DOCTRINE.md
+PHASE_83_1_SUMMARY_MODEL.md
+PHASE_83_1_TASK_QUEUE_WAIT_DURATION_DEFINITION.md
+PHASE_83_2_SUMMARY_RULES.md
+PHASE_83_2_TASK_QUEUE_WAIT_DURATION_PURE_FUNCTION.md
+PHASE_83_3_SUMMARY_REGISTRY.md
+PHASE_83_3_TASK_QUEUE_WAIT_DURATION_EXPOSURE_SAFETY_REVIEW.md
+PHASE_83_4_SUMMARY_SAFETY.md
+PHASE_83_4_TASK_QUEUE_WAIT_DURATION_REGISTRY_ENTRY.md
+PHASE_83_5_SUMMARY_VERIFICATION.md
+PHASE_83_5_TASK_QUEUE_WAIT_DURATION_VERIFICATION_HARNESS.md
+PHASE_83_6_SUMMARY_CLOSURE.md
+PHASE_83_6_TASK_QUEUE_WAIT_DURATION_DASHBOARD_EXPOSURE_PLAN.md
+PHASE_83_7_TASK_QUEUE_WAIT_DURATION_TELEMETRY_DOCUMENTATION.md
+PHASE_83_8_TASK_QUEUE_WAIT_DURATION_PHASE_CLOSEOUT.md
+PHASE_83_DERIVED_TELEMETRY_EXPANSION_CANDIDATES.md
+PHASE_84_1_TASK_TOTAL_LIFECYCLE_DURATION_DEFINITION.md
+PHASE_84_10_TASK_TOTAL_LIFECYCLE_DURATION_VERIFICATION_RESULTS.md
+PHASE_84_11_TASK_TOTAL_LIFECYCLE_DURATION_WORKSTREAM_CLOSEOUT.md
+PHASE_84_12_TASK_TOTAL_LIFECYCLE_DURATION_CORRIDOR_AUDIT.md
+PHASE_84_13_DERIVED_TELEMETRY_EXPANSION_READINESS.md
+PHASE_84_14_DERIVED_TELEMETRY_CANDIDATE_IDENTIFICATION.md
+PHASE_84_15_TASK_EXECUTION_DURATION_DESIGN.md
+PHASE_84_16_TASK_EXECUTION_DURATION_SAFETY_REVIEW.md
+PHASE_84_17_TASK_EXECUTION_DURATION_REGISTRY_ENTRY.md
+PHASE_84_18_TASK_EXECUTION_DURATION_VERIFICATION_HARNESS.md
+PHASE_84_19_TASK_EXECUTION_DURATION_VERIFICATION_IMPLEMENTATION.md
+PHASE_84_2_TASK_TOTAL_LIFECYCLE_DURATION_PURE_FUNCTION.md
+PHASE_84_20_TASK_EXECUTION_DURATION_VERIFICATION_EXECUTION.md
+PHASE_84_21_TASK_EXECUTION_DURATION_VERIFICATION_RESULTS.md
+PHASE_84_22_TASK_EXECUTION_DURATION_WORKSTREAM_CLOSEOUT.md
+PHASE_84_3_TASK_TOTAL_LIFECYCLE_DURATION_EXPOSURE_SAFETY.md
+PHASE_84_4_OPERATOR_PRESENTATION_LAYER.md
+PHASE_84_4_TASK_TOTAL_LIFECYCLE_DURATION_REGISTRY_ENTRY.md
+PHASE_84_5_OPERATOR_COGNITION_UX_REFINEMENT.md
+PHASE_84_5_TASK_TOTAL_LIFECYCLE_DURATION_VERIFICATION_HARNESS.md
+PHASE_84_6_TASK_TOTAL_LIFECYCLE_DURATION_DASHBOARD_EXPOSURE_PLAN.md
+PHASE_84_7_TASK_TOTAL_LIFECYCLE_DURATION_LOCAL_VERIFICATION.md
+PHASE_84_8_TASK_TOTAL_LIFECYCLE_DURATION_VERIFICATION_IMPLEMENTATION.md
+PHASE_84_9_TASK_TOTAL_LIFECYCLE_DURATION_VERIFICATION_EXECUTION.md
+PHASE_84_DERIVED_TELEMETRY_NEXT_CANDIDATES.md
+PHASE_84_PLANNING_LAYER_INIT.md
+PHASE_85_1_TREND_INDICATORS.md
+PHASE_85_2_TIME_CONTEXT.md
+PHASE_85_3_HISTORY_COMPARE.md
+PHASE_85_4_SIGNAL_STABILITY.md
+PHASE_85_5_SCAN_OPTIMIZATION.md
+PHASE_85_6_COGNITION_CLOSURE.md
+PHASE_86_1_PATTERN_SIGNALS.md
+PHASE_86_2_CORRELATION_VIEW.md
+PHASE_86_3_MULTI_SIGNAL_GROUPS.md
+PHASE_86_4_REASONING_HINTS.md
+PHASE_86_5_COGNITION_SIMPLIFICATION.md
+PHASE_86_6_COGNITION_EVOLUTION_CLOSURE.md
+PHASE_87_1_SITUATION_SUMMARY.md
+PHASE_91_GUIDANCE_INTELLIGENCE_REFINEMENT.md
+PHASE_NUMBERING_CORRECTION_2026_03_18.md
+PHASE11_AFTER_REBUILD_SUCCESS.md
+PHASE11_AFTER_STUBS_NEXT_STEP.md
+PHASE11_BRANCHES.md
+PHASE11_BUNDLING_CURRENT_STATUS.md
+PHASE11_BUNDLING_HANDOFF.md
+PHASE11_BUNDLING_STATUS.md
+PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md
+PHASE11_BUNDLING_STEP2_STRATEGY.md
+PHASE11_BUNDLING_STEP3_IMPLEMENTATION_PLAN.md
+PHASE11_BUNDLING_STEP3A_STATUS.md
+PHASE11_BUNDLING_STEP3B_BROADCAST_STATUS.md
+PHASE11_BUNDLING_STEP3B_IMPLEMENTATION.md
+PHASE11_BUNDLING_STEP3B_INSPECTION_RUN.md
+PHASE11_BUNDLING_STEP3B_NEXT_ACTIONS.md
+PHASE11_BUNDLING_STEP3B_TASK_GRAPH_STATUS.md
+PHASE11_CONTAINER_STATUS_AFTER_REBUILD.md
+PHASE11_CONTAINER_STATUS.md
+PHASE11_CURRENT_ACTION.md
+PHASE11_DASHBOARD_BROADCAST_REMOVAL_NOTE.txt
+PHASE11_DASHBOARD_PHASE11_SESSION_SUMMARY.md
+PHASE11_DASHBOARD_RENDERING_STATUS.md
+PHASE11_DASHBOARD_RENDERING_VERIFICATION_CHECKLIST.md
+PHASE11_DASHBOARD_RESTORE.md
+PHASE11_DASHBOARD_SERVER_RUN_LOG.md
+PHASE11_DASHBOARD_VISUAL_CHECK_HANDOFF.md
+PHASE11_DASHBOARD_VISUAL_CHECK_NOTES.md
+PHASE11_DASHBOARD_VISUAL_CHECK_RUN_THIS_NEXT.md
+PHASE11_DASHBOARD_VISUAL_CHECK_STATUS.md
+PHASE11_DASHBOARD_VISUAL_CHECK_TODO.md
+PHASE11_DB_ENDPOINTS_STATUS.md
+PHASE11_DB_TASK_ENDPOINTS_DEBUG.md
+PHASE11_DELEGATE_TASK_EXECUTION_NOTE.md
+PHASE11_DELEGATE_TASK_QUICKSTART.md
+PHASE11_DELEGATE_TASK_RESULT.md
+PHASE11_FINAL_PRE_EXECUTION_SIGNAL.md
+PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md
+PHASE11_IMMEDIATE_RUNTIME_COMMAND.md
+PHASE11_MATILDA_CHAT_COMPLETION_HANDOFF.md
+PHASE11_MATILDA_CHAT_UX_PLAN.md
+PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md
+PHASE11_NEXT_MICRO_STEPS.md
+PHASE11_NEXT_RUNTIME_AFTER_STUBS.md
+PHASE11_NEXT_STEPS_RECOMMENDATION.md
+PHASE11_OPS_DASHBOARD_VERIFICATION_HANDOFF.md
+PHASE11_OPS_DASHBOARD_VERIFICATION_LOG.md
+PHASE11_OPS_EVENT_STREAM_HANDOFF.md
+PHASE11_OPS_EVENT_STREAM_VERIFICATION.md
+PHASE11_OPS_GLOBALS_STATUS.md
+PHASE11_OPS_PILL_BROWSER_CHECK.md
+PHASE11_OPS_PILL_BUNDLED_STABLE_TAG.md
+PHASE11_OPS_PILL_NO_SIGNAL_DIAG.md
+PHASE11_OPS_PILL_NO_SIGNAL_GREPS.md
+PHASE11_OPS_PILL_REBUILD_MARKER.md
+PHASE11_OPS_PILL_REVERT_TO_V11_3_NOTE.md
+PHASE11_OPS_PILL_STATUS.md
+PHASE11_OPS_PILL_STEP1_STATUS.md
+PHASE11_OPS_SSE_DISABLED.md
+PHASE11_OPS_SSE_RUNTIME_CHECK.md
+PHASE11_OPS_SSE_RUNTIME_LOG.md
+PHASE11_QUICK_CHECK_BUTTON_COMPLETION.md
+PHASE11_READY_FOR_CONTAINER_REBUILD.md
+PHASE11_REBUILD_RUN_2_NOTE.md
+PHASE11_RECOMMENDED_NEXT_STEP.md
+PHASE11_REFLECTIONS_SSE_BACKEND_TODO.md
+PHASE11_REFLECTIONS_SSE_SHIM_STATUS.md
+PHASE11_RUN_THIS_NOW.md
+PHASE11_RUNTIME_ENTRYPOINT.md
+PHASE11_RUNTIME_SINGLE_LINE.md
+PHASE11_RUNTIME_STATUS.md
+PHASE11_RUNTIME_TODO.md
+PHASE11_SERVERMJS_ROUTE_FIX.md
+PHASE11_SESSION_WRAPUP.md
+PHASE11_STATUS_SNAPSHOT.md
+PHASE11_STEP3_DASHBOARD_BEHAVIOR_AUDIT.md
+PHASE11_STEP3_OPS_PILL_FINAL_VERIFICATION.md
+PHASE11_STEP4_FUNCTIONAL_VERIFICATION_PLAN.md
+PHASE11_STOP_WRITING_AND_EXECUTE.md
+PHASE11_STUBBED_TASK_ENDPOINTS_STATUS.md
+PHASE11_TASK_DELEGATION_CURL_TESTS.md
+PHASE11_TASK_DELEGATION_RUN_SEQUENCE.md
+PHASE11_THREAD_RESUME_GUIDE.md
+PHASE11_v11.10_NEXT_VERIFICATION.md
+PHASE11_v11.10_POST_SSE_REMOVAL_CHECK.txt
+PHASE11_v11.10_STATUS_AND_NEXT_STEPS.md
+PHASE11_v11.10_TAG.txt
+PHASE11_v11.9_NEXT_TASKS_DASHBOARD_CHAT_REFLECTIONS.md
+PHASE11_v11.9_RUNTIME_NOTES.md
+PHASE11_VERIFICATION_HANDOFF.md
+PHASE11_VISUAL_OUTPUT_VERIFICATION_AND_NEXT_STEPS.md
+PHASE11_VISUAL_OUTPUT_VERIFICATION_HANDOFF.md
+PHASE11_VISUAL_OUTPUT_VERIFICATION_STEPS_TODO.md
+PHASE11_WHATS_NEXT_INLINE.md
+PHASE11_ZERO_MORE_DOCS_EXECUTE_NOW.md
+PHASE13_5_v13.5.4_HANDOFF.md
+PHASE13_5_v13.5.5_HANDOFF.md
+PHASE14_1_TASK_CONTRACT.md
+PHASE14_2_INTEGRATION_TODO.md
+PHASE14_2_VALIDATION.md
+PHASE14_2_VERIFIED.md
+PHASE14_PLAN.md
+PHASE15_PROJECT_VISUAL_OUTPUT_WIRING.md
+PHASE16_v16.1_SINGLETON_OK_HANDOFF.md
+PHASE18_HANDOFF_ONE_LINER.txt
+PHASE18_HANDOFF.txt
+PHASE19_NEXT_STEPS.md
+PHASE19_POSTGRES_BASELINE_HANDOFF.txt
+PHASE20_HANDOFF.md
+PHASE21_HANDOFF_NEXT.md
+PHASE21_HANDOFF_ONE_LINER.txt
+PHASE24_ORCHESTRATION_NEXT.md
+PHASE24_STEP1_LIFECYCLE_NORMALIZATION.md
+PHASE25_AUTHORITY_ORCHESTRATION_CONTRACT.md
+PHASE25_FOLD_FUNCTION_SPEC.md
+PHASE25_NEXT_STEPS.md
+PHASE25_SINGLE_WRITER_DECLARATION.md
+PHASE25_UI_INFERENCE_AUDIT_SCOPED.md
+PHASE25_UI_INFERENCE_AUDIT.md
+PHASE26_CONTAINER_STATUS.txt
+PHASE26_HANDOFF_ONE_LINER.txt
+PHASE26_SUPERVISOR_SUMMARY.txt
+PHASE27_FAILURE_RETRY_CONTRACT.md
+PHASE27_SUPERVISOR_SUMMARY.txt
+PHASE28_HANDOFF.md
+PHASE29_HANDOFF.md
+phase3-final-test.txt
+phase3-new-test.txt
+phase3-run4.txt
+phase3-run5.txt
+phase3-test-file.txt
+PHASE30_HANDOFF.md
+PHASE31_HANDOFF.md
+PHASE32_DONE.md
+PHASE32_DRIZZLE_LANES_HANDOFF.md
+PHASE32_DRIZZLE_PG_GOTCHAS.md
+PHASE32_DRIZZLE_PG_TRACKING_NOTE.md
+PHASE32_SUPERVISOR_SUMMARY.txt
+PHASE33_DONE.txt
+PHASE33_HANDOFF_ONE_LINER.txt
+PHASE33_NEXT.md
+PHASE33_SUPERVISOR_SUMMARY.md
+PHASE34_NEXT.md
+PHASE35_HANDOFF.md
+PHASE36_2_HANDOFF.md
+PHASE36_2.md
+PHASE36_3_HANDOFF.md
+PHASE36_3_NEXT.md
+PHASE36_4.md
+PHASE36_5_NEXT.md
+PHASE36_6.md
+PHASE37_0_HANDOFF_ONELINER.txt
+PHASE37_0_HANDOFF.md
+PHASE37_0.md
+PHASE37_1_HANDOFF_ONELINER.txt
+PHASE37_1_TERMINAL_EVENT_PROVENANCE.md
+PHASE37_2_ALIGNMENT_OPTIONS.md
+PHASE37_2_DECISION_RECORD.md
+PHASE37_2_HANDOFF_ONELINER.txt
+PHASE37_3_HANDOFF.md
+PHASE37_4_DECISION_RECORD.md
+PHASE37_4_HANDOFF_ONELINER.txt
+PHASE37_4_PLAN.md
+PHASE37_5_HANDOFF_ONELINER.txt
+PHASE37_5_STATUS.md
+PHASE37_6_HANDOFF_ONELINER.txt
+PHASE37_6_HYPOTHESIS.md
+PHASE37_6_NEXT.md
+PHASE37_7_IMPLEMENTATION_PLAN.md
+PHASE37_7.md
+PHASE37_ACCEPTANCE_CHECKS.sql
+PHASE37_READINESS_GATE.md
+PHASE37_RUN_PROJECTION_CONTRACT.md
+PHASE37_RUN_VIEW_DEFINITION.sql
+PHASE37_RUN_VIEW_PROVENANCE_HINTS.md
+PHASE37_RUN_VIEW_PROVENANCE_MATRIX.md
+PHASE37_STATUS_SUMMARY.md
+PHASE37_STATUS.md
+PHASE38_HANDOFF_ONE_LINER.md
+PHASE39_1.md
+PHASE39_2_NEXT.md
+PHASE39_3_NEXT.md
+PHASE39_4_NEXT.md
+PHASE39_ACTION_TIER_POLICY.md
+PHASE39_ARCHIVE_NOTE.md
+PHASE39_COMPLETE.md
+PHASE39_EXECUTIVE_SUMMARY.md
+PHASE39_FINAL_STATE.md
+PHASE39_GOLDEN_TAG_PLAN.md
+PHASE39_HANDOFF_ONE_LINER.md
+PHASE39_LOCK_CONFIRMATION.md
+PHASE39_NEXT.md
+PHASE39_PHASE40_READY.md
+PHASE39_PROJECT_INDEX_UPDATE.md
+PHASE39_STATE_SEALED.md
+PHASE39_STOPPING_POINT.md
+PHASE39_TERMINAL_STOP.md
+PHASE39_THREAD_HANDOFF.md
+PHASE39.md
+phase4-test-file.txt
+PHASE40_5.md
+PHASE40_ACCEPTANCE_CHECKS.sql
+PHASE40_NEXT.md
+PHASE41_ACCEPTANCE.md
+PHASE41.md
+PHASE42_0.md
+PHASE42_1.md
+PHASE42_BRANCH_PROTECTION_REVIEW_GATE.md
+PHASE42_GH_DEVICE_AUTH_NOTES.md
+PHASE42_MERGE_RECORD.md
+PHASE42_NEXT_STEPS_RULESET_FIX.md
+PHASE42_POSTMORTEM.md
+PHASE42_PR_ONLY_REVERT.md
+PHASE42_PR.md
+PHASE42_RULESET_DUPLICATE_RULESETS_FIX.md
+PHASE42_RULESET_REVIEW_GATE_FIX.md
+PHASE42_SCOPE.md
+PHASE42.md
+PHASE43_COMPLETE.md
+PHASE43_GOVERNANCE_BASELINE.md
+PHASE43_PR.md
+PHASE43_SCOPE.md
+PHASE44_ENFORCEMENT_PROMOTION_PLAN.md
+PHASE44_HANDOFF.md
+PHASE44_SCOPE.md
+PHASE44.md
+PHASE46.md
+phase5-test-file.txt
+phase6-test-file.txt
+PHASE61_OPERATOR_WORKSPACE_CONSOLIDATION.md
+PHASE61_STATUS_NOTE.md
+PHASE61_WORKSPACE_CONSOLIDATION.md
+PHASE62B_BUNDLE_REBUILD_AFTER_SUCCESS_NEUTRALIZATION_SUMMARY.txt
+PHASE62B_BUNDLE_REBUILD_AFTER_SUCCESS_NEUTRALIZATION.txt
+PHASE62B_BUNDLE_SUCCESS_WRITER_ORIGIN_INSPECTION.txt
+PHASE62B_BUNDLE_SUCCESS_WRITER_SUMMARY.txt
+PHASE62B_CONCISE_STATUS_SUMMARY_20260317.md
+PHASE62B_DASHBOARD_ASSET_LOAD_PATH_INSPECTION.txt
+PHASE62B_DASHBOARD_ASSET_LOAD_PATH_SUMMARY.txt
+PHASE62B_LIVE_CREATE_ROUTE_RESTART_CHECK_20260317T173014Z.txt
+PHASE62B_LIVE_CREATE_ROUTE_RESTART_CHECK_20260317T174242Z.txt
+PHASE62B_LIVE_CREATE_ROUTE_RESTART_SUMMARY_20260317T173014Z.md
+PHASE62B_LIVE_CREATE_ROUTE_RESTART_SUMMARY_20260317T174242Z.md
+PHASE62B_LIVE_VALIDATION_BLOCKER_FINDINGS_20260317.md
+PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt
+PHASE62B_LIVE_VALIDATION_BLOCKER_SUMMARY_20260317.txt
+PHASE62B_NEXT_SAFE_METRIC_DISCOVERY.txt
+PHASE62B_NEXT_SAFE_METRIC_SELECTION_20260317.md
+PHASE62B_POST_REBUILD_SUCCESS_SINGLE_WRITER_SUMMARY.txt
+PHASE62B_POST_REBUILD_SUCCESS_SINGLE_WRITER_VERIFICATION.txt
+PHASE62B_REAL_RUNTIME_VALIDATION_20260317T165636Z.txt
+PHASE62B_REAL_RUNTIME_VALIDATION_20260317T172805Z.txt
+PHASE62B_REAL_RUNTIME_VALIDATION_20260317T174242Z.txt
+PHASE62B_RUN_ID_CONTRACT_MISMATCH_INSPECTION_20260317T170836Z.txt
+PHASE62B_RUN_ID_CONTRACT_MISMATCH_SUMMARY_20260317T170836Z.md
+PHASE62B_RUNTIME_ACCEPTANCE_EVIDENCE_20260317T175228Z.txt
+PHASE62B_RUNTIME_ACCEPTANCE_EVIDENCE_20260317T180048Z.txt
+PHASE62B_RUNTIME_ACCEPTANCE_EVIDENCE_SUMMARY_20260317T175228Z.md
+PHASE62B_RUNTIME_ACCEPTANCE_EVIDENCE_SUMMARY_20260317T180048Z.md
+PHASE62B_RUNTIME_STATUS_CONCISE_SUMMARY_20260317.md
+PHASE62B_RUNTIME_TRIGGER_ROUTE_CONCISE_SUMMARY_20260317.md
+PHASE62B_SERVER_METRICS_SURFACE_INSPECTION.txt
+PHASE62B_SUCCESS_RATE_BOOTSTRAP_AND_ATTACH_SUMMARY.txt
+PHASE62B_SUCCESS_RATE_BOOTSTRAP_AND_ATTACH_VERIFICATION.txt
+PHASE62B_SUCCESS_RATE_CORRIDOR_READY_FOR_LIVE_VALIDATION_20260317.md
+PHASE62B_SUCCESS_RATE_CORRIDOR_SELECTION_DECISION_20260317.md
+PHASE62B_SUCCESS_RATE_FINAL_ACCEPTANCE_TEMPLATE_20260317.md
+PHASE62B_SUCCESS_RATE_LIVE_HYDRATION_READINESS_SUMMARY.txt
+PHASE62B_SUCCESS_RATE_LIVE_HYDRATION_READINESS.txt
+PHASE62B_SUCCESS_RATE_LIVE_VALIDATION_RESULT_20260317.md
+PHASE62B_SUCCESS_RATE_LIVE_VALIDATION_RUNBOOK_20260317.md
+PHASE62B_SUCCESS_RATE_SINGLE_WRITER_BLOCKER_20260317.md
+PHASE62B_SUCCESS_RATE_SINGLE_WRITER_SELECTION_INSPECTION.txt
+PHASE62B_SUCCESS_RATE_SURFACE_INSPECTION.txt
+PHASE62B_SUCCESS_RATE_TERMINAL_LISTENER_VERIFICATION_FIX_SUMMARY.txt
+PHASE62B_SUCCESS_RATE_TERMINAL_LISTENER_VERIFICATION_FIX.txt
+PHASE62B_SUCCESS_RATE_WRITER_CONFLICT_INSPECTION.txt
+PHASE62B_SUCCESS_SINGLE_WRITER_VERIFICATION.txt
+PHASE62B_TASKS_COMPLETE_500_INSPECTION_20260317T165843Z.txt
+PHASE62B_TASKS_COMPLETE_500_SUMMARY_20260317T165843Z.md
+PHASE62B_TASKS_QUEUED_BLOCKER_FINDINGS_20260317.md
+PHASE62B_TASKS_QUEUED_DISCOVERY_CAPTURE.md
+PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt
+PHASE62B_TASKS_QUEUED_DISCOVERY_RUNBOOK.md
+PHASE62B_TASKS_QUEUED_EXECUTION_PLAN.md
+PHASE62B_TASKS_QUEUED_PROTOCOL.md
+PHASE62B_TERMINAL_EVIDENCE_STATUS_20260317.md
+PHASE62B_TERMINAL_METRICS_EVIDENCE_20260317T174758Z.txt
+phase7-test-file.txt
+phase8-test-file.txt
+PHASE80_2_DASHBOARD_ENTRY_DISCOVERY_20260317T183312Z.md
+PHASE80_2_DEEP_DASHBOARD_INVENTORY_20260317T183521Z.md
+PHASE80_2_EXTERNAL_DASHBOARD_CONSUMER_DISCOVERY_20260317T183750Z.md
+PHASE80_2_QUEUE_LATENCY_COMPLETE_2026-03-17.md
+PHASE80_2_QUEUE_LATENCY_MOUNT_DISCOVERY_20260317T183232Z.md
+PHASE80_2_QUEUE_LATENCY_RUNTIME_CHECK_20260317T183944Z.txt
+PHASE80_2_QUEUE_LATENCY_STATUS_2026-03-17.md
+PHASE80_2_QUEUE_LATENCY_WIRING_BLOCKED_2026-03-17.md
+PHASE81_SIGNAL_INTERPRETATION.md
+PHASE87_0_OPERATOR_COGNITIVE_INTELLIGENCE.md
+PHASE87_1_COMPLETE.md
+PHASE87_1_LOCAL_VERIFICATION.md
+PHASE87_1_SITUATION_SUMMARY_COMPOSER.md
+PHASE87_1_SMOKE_EVIDENCE.txt
+PHASE87_10_UNKNOWN_GETTER_SMOKE_EVIDENCE.txt
+PHASE87_11_SNAPSHOT_SMOKE_EVIDENCE.txt
+PHASE87_12_COGNITION_INDEX_SMOKE_EVIDENCE.txt
+PHASE87_13_CLI_SMOKE_EVIDENCE.txt
+PHASE87_14_PRINT_WRAPPER_SMOKE_EVIDENCE.txt
+PHASE87_15_SYSTEM_SUMMARY_SMOKE_EVIDENCE.txt
+PHASE87_16_COGNITION_INDEX_SMOKE_EVIDENCE.txt
+PHASE87_17_SYSTEM_SUMMARY_CLI_SMOKE_EVIDENCE.txt
+PHASE87_18_PRINT_SYSTEM_SUMMARY_WRAPPER_SMOKE_EVIDENCE.txt
+PHASE87_19_SYSTEM_SUMMARY_MATRIX_EVIDENCE.txt
+PHASE87_2_SITUATION_SUMMARY_INPUT_MAPPING.md
+PHASE87_20_ALL_SYSTEM_SUMMARY_SMOKES_EVIDENCE.txt
+PHASE87_21_SYSTEM_SUMMARY_STDIN_SMOKE_EVIDENCE.txt
+PHASE87_3_INTEGRATION_SMOKE_EVIDENCE.txt
+PHASE87_5_PIPELINE_SMOKE_EVIDENCE.txt
+PHASE87_6_RENDER_SMOKE_EVIDENCE.txt
+PHASE87_7_RENDERED_PIPELINE_SMOKE_EVIDENCE.txt
+PHASE87_8_GETTER_SMOKE_EVIDENCE.txt
+PHASE87_9_DEGRADED_GETTER_SMOKE_EVIDENCE.txt
+PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt
+PHASE88_1_SYSTEM_HEALTH_ATTACHMENT_SMOKE_EVIDENCE.txt
+PHASE88_10_DASHBOARD_BAD_STRUCTURE_PATCH_EVIDENCE.txt
+PHASE88_11_DASHBOARD_ENTRYPOINT_INSPECTION.txt
+PHASE88_12_SERVED_DASHBOARD_DIAGNOSTICS_SURFACE.txt
+PHASE88_13_SERVED_DASHBOARD_SYSTEM_HEALTH_PANEL_EVIDENCE.txt
+PHASE88_14_1_dashboard_body.txt
+PHASE88_14_1_dashboard_headers.txt
+PHASE88_14_1_health_body.json
+PHASE88_14_1_health_headers.txt
+PHASE88_14_1_LIVE_DASHBOARD_ROUTE_DIAGNOSIS.txt
+PHASE88_14_1_public_dashboard_body.html
+PHASE88_14_1_public_dashboard_headers.txt
+PHASE88_14_1_root_body.txt
+PHASE88_14_1_root_headers.txt
+PHASE88_14_10_DASHBOARD_HEADERS.txt
+PHASE88_14_10_DASHBOARD.html
+PHASE88_14_10_LIVE_SYSTEM_HEALTH_AND_DASHBOARD_VERIFICATION.txt
+PHASE88_14_10_SERVER_RESTART.log
+PHASE88_14_10_SUCCESS_SUMMARY.txt
+PHASE88_14_10_SYSTEM_HEALTH_ALIAS_HEADERS.txt
+PHASE88_14_10_SYSTEM_HEALTH_ALIAS_RESPONSE.json
+PHASE88_14_10_SYSTEM_HEALTH_PRIMARY_HEADERS.txt
+PHASE88_14_10_SYSTEM_HEALTH_PRIMARY_RESPONSE.json
+PHASE88_14_12_TAG_PROTECTION_AND_PHASE89_ALIGNMENT.txt
+PHASE88_14_13_CONTAINER_RUNTIME_PROTECTION_BOOT.log
+PHASE88_14_13_CONTAINER_RUNTIME_PROTECTION_PASS.txt
+PHASE88_14_2_PUBLIC_DASHBOARD_SYSTEM_HEALTH_RESPONSE.json
+PHASE88_14_3_LIVE_HEALTH_AND_DASHBOARD_CANDIDATES.txt
+PHASE88_14_4_LIVE_SERVER_DIAGNOSTICS_MOUNTS.txt
+PHASE88_14_5_SERVER_RESTART.log
+PHASE88_14_5_SYSTEM_HEALTH_RESPONSE.json
+PHASE88_14_6_MOUNT_FAILURE_STATE.txt
+PHASE88_14_7_SERVER_RESTART.log
+PHASE88_14_7_SYSTEM_HEALTH_RESPONSE.json
+PHASE88_14_LIVE_SYSTEM_HEALTH_RESPONSE.json
+PHASE88_14_SERVER_BOOT.log
+PHASE88_2_SYSTEM_HEALTH_ROUTE_INSPECTION.txt
+PHASE88_3_AUTHORITATIVE_SYSTEM_HEALTH_ROUTE.txt
+PHASE88_4_SYSTEM_HEALTH_ROUTE_SMOKE_EVIDENCE.txt
+PHASE88_5_SYSTEM_HEALTH_ROUTE_PAYLOAD_EVIDENCE.txt
+PHASE88_5_SYSTEM_HEALTH_ROUTE_PAYLOAD.json
+PHASE88_6_SYSTEM_HEALTH_ROUTE_REGISTRATION.txt
+PHASE88_7_SYSTEM_HEALTH_JS_ROUTE_SMOKE_EVIDENCE.txt
+PHASE88_8_SYSTEM_HEALTH_JS_ROUTE_PAYLOAD_EVIDENCE.txt
+PHASE88_8_SYSTEM_HEALTH_JS_ROUTE_PAYLOAD.json
+PHASE88_9_DASHBOARD_SYSTEM_HEALTH_CONSUMER_INSPECTION.txt
+PHASE95_GOLDEN_CHECKPOINT.md
+pnpm-lock.yaml
+pnpm-workspace.yaml
+policy
+ports.ts
+POST_GOLDEN_PROTECTION_AUDIT.txt
+POST_GOLDEN_PROTECTION_ROUTINE.md
+POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt
+PR_PHASE39_1.md
+prewarm-all-agents.ts
+prewarm-demo.ts
+privacy
+Project_Scope_Overview_20250731.txt
+PROJECT_VISUAL_OUTPUT_CONTAINER_DEPLOYMENT.md
+projects
+pruneDatabase.ts
+public
+public_broken_rollback_1762824556
+pyproject.toml
+readFile.ts
+README.md
+RECOVERY_CHECKPOINTS.md
+reflection_index.ts
+reflection-loader.ts
+reflection-push.ts
+reflection-sse-lite.ts
+reflection-sse-server.ts
+reflection-watcher.ts
+reflections-sse-server.ts
+reflections-stream
+reflections.ts
+reset-roundtrip.ts
+reset.ts
+restore-golden.sh
+retryCreateAgent.ts
+routes
+routes_backup
+run_tests.sh
+run-create-atlas.ts
+run-demo-playback.ts
+run-demo-sequence.ts
+run-effie-maint.ts
+run-live-delegation.ts
+runSkill.ts
+scripts
+scripts_backup
+scripts_backup_2
+secrets
+seed_agents.js
+serve-health.cjs
+server
+server.cjs.backup-20251118-161015
+server.log
+server.mjs
+server.mjs.backup-20251118-161429
+server.mjs.backup-20251118-161525
+server.mjs.backup-20251118-161734
+server.mjs.backup-20251204-154936
+server.ts
+snapshot.sh
+snapshots
+sql
+src
+sse-stubs.d.ts
+start_all.sh
+start-all-agents.sh
+start.ts
+STATE_HANDOFF_2026-03-17_PHASE62B_ACCEPTED.md
+STATE_HANDOFF_2026-03-17.md
+STATE_HANDOFF_PHASE_81_4.md
+STATE_HANDOFF_PHASE_81_COMPLETE.md
+STATE_HANDOFF_PHASE_82_COMPLETE.md
+STATE_HANDOFF_PHASE_83_COMPLETE.md
+STATE_HANDOFF_PHASE_84_CORRECTED.md
+STATE_HANDOFF_PHASE_84_PLANNING_COMPLETE.md
+STATE_HANDOFF_PHASE_86_COMPLETE_FOR_NEW_THREAD.md
+STATE_HANDOFF_POST_NUMBERING_CORRECTION.md
+submit-task.ts
+systemChronicle.ts
+systemHealth.ts
+taskRouter.ts
+tasks.ts
+temp_delegate_code.js
+test
+test_runtime_simulation.ts
+test-cade-state.ts
+test-rehydration.ts
+toggle_agents.sh
+tools
+ts-backup
+tsconfig.json
+tsconfig.json.bak
+types
+ui
+validateTaskEvent.ts
+verify_settings_panel.sh
+verify-dashboard-sync.ts
+visual_previews
+
+--- detect identical builds ---
+Files ../mbhq_recovery_visual_compare/phase65_layout/.git and ../mbhq_recovery_visual_compare/phase65_wiring/.git differ
+Files ../mbhq_recovery_visual_compare/phase65_layout/docker-compose.override.yml and ../mbhq_recovery_visual_compare/phase65_wiring/docker-compose.override.yml differ
+Files ../mbhq_recovery_visual_compare/phase65_layout/docker-compose.phase457.override.yml and ../mbhq_recovery_visual_compare/phase65_wiring/docker-compose.phase457.override.yml differ
+Files ../mbhq_recovery_visual_compare/phase65_layout/docker-compose.phase457.port.override.yml and ../mbhq_recovery_visual_compare/phase65_wiring/docker-compose.phase457.port.override.yml differ
+Files ../mbhq_recovery_visual_compare/phase65_layout/docker-compose.yml and ../mbhq_recovery_visual_compare/phase65_wiring/docker-compose.yml differ
+Only in ../mbhq_recovery_visual_compare/phase65_layout: docker-compose.yml.broken
+Files ../mbhq_recovery_visual_compare/phase65_layout/docker-compose.yml.pre_phase457_fix and ../mbhq_recovery_visual_compare/phase65_wiring/docker-compose.yml.pre_phase457_fix differ
+Only in ../mbhq_recovery_visual_compare/phase65_wiring/docs/checkpoints: PHASE65A_PROTECTION_HARDENING_COMPLETE_20260314.md
+Only in ../mbhq_recovery_visual_compare/phase65_wiring/docs/checkpoints: PHASE65B_10_CLOSURE_20260315.md
+Only in ../mbhq_recovery_visual_compare/phase65_wiring/docs/checkpoints: PHASE65B_2_RUNNING_TASKS_OWNERSHIP_TRANSFER_COMPLETE_20260315.md
+Only in ../mbhq_recovery_visual_compare/phase65_wiring/docs/checkpoints: PHASE65B_3_REMAINING_METRIC_OWNERSHIP_AUDIT_20260315.md
+Only in ../mbhq_recovery_visual_compare/phase65_wiring/docs/checkpoints: PHASE65B_4_NEXT_SAFE_BOUNDARY_METRIC_AGENTS_AUDIT_20260315.md
+Only in ../mbhq_recovery_visual_compare/phase65_wiring/docs/checkpoints: PHASE65B_5_METRIC_AGENTS_AUDIT_FINDINGS_20260315.md
+Only in ../mbhq_recovery_visual_compare/phase65_wiring/docs/checkpoints: PHASE65B_6_METRIC_AGENTS_DUPLICATE_WRITER_DETECTED_20260315.md
+Only in ../mbhq_recovery_visual_compare/phase65_wiring/docs/checkpoints: PHASE65B_7_METRIC_AGENTS_OWNERSHIP_TRANSFER_COMPLETE_20260315.md
+Only in ../mbhq_recovery_visual_compare/phase65_wiring/docs/checkpoints: PHASE65B_8_FINAL_OWNERSHIP_MAP_VERIFICATION_20260315.md
+Only in ../mbhq_recovery_visual_compare/phase65_wiring/docs/checkpoints: PHASE65B_9_EXIT_READINESS_20260315.md
+Only in ../mbhq_recovery_visual_compare/phase65_wiring/docs/checkpoints: PHASE65B_RUNNING_TASKS_STATUS_20260314.md
+Only in ../mbhq_recovery_visual_compare/phase65_wiring/docs/checkpoints: PHASE65C_BREAKDOWN_20260315.md
+Only in ../mbhq_recovery_visual_compare/phase65_wiring/docs/checkpoints: PHASE65C_COMPLETION_CHECKPOINT_20260315.md
+Only in ../mbhq_recovery_visual_compare/phase65_wiring/docs/checkpoints: PHASE65C_NEXT_TARGET_DECISION_20260315.md
+Only in ../mbhq_recovery_visual_compare/phase65_wiring/docs/checkpoints: PHASE65C_PARTIAL_CHECKPOINT_LATENCY_TRANSFER_20260315.md
+Only in ../mbhq_recovery_visual_compare/phase65_wiring/docs/checkpoints: PHASE65C_PARTIAL_CHECKPOINT_SUCCESS_TRANSFER_20260315.md
+Only in ../mbhq_recovery_visual_compare/phase65_wiring/docs/checkpoints: PHASE65C_QUEUE_DEPTH_ANCHOR_AUDIT_20260315.md
+Only in ../mbhq_recovery_visual_compare/phase65_wiring/docs/checkpoints: PHASE65C_REAL_REPO_CONFIRMED_20260315.md
+Only in ../mbhq_recovery_visual_compare/phase65_wiring/docs/checkpoints: PHASE65C_SUCCESS_METRIC_CONTRACT_20260315.md
+Only in ../mbhq_recovery_visual_compare/phase65_wiring/docs/checkpoints: PHASE66A_QUEUE_DEPTH_REDUCER_DESIGN_20260316.md
+Only in ../mbhq_recovery_visual_compare/phase65_wiring/docs/checkpoints: PHASE66_OBSERVABILITY_EXPANSION_PLAN_20260316.md
+Only in ../mbhq_recovery_visual_compare/phase65_wiring/docs: protection
+Files ../mbhq_recovery_visual_compare/phase65_layout/public/js/agent-status-row.js and ../mbhq_recovery_visual_compare/phase65_wiring/public/js/agent-status-row.js differ
+Files ../mbhq_recovery_visual_compare/phase65_layout/public/js/dashboard-bundle-entry.js and ../mbhq_recovery_visual_compare/phase65_wiring/public/js/dashboard-bundle-entry.js differ
+Only in ../mbhq_recovery_visual_compare/phase65_wiring/public/js: telemetry
+Only in ../mbhq_recovery_visual_compare/phase65_wiring/public/js: telemetry_queue_depth_reducer.js
+Only in ../mbhq_recovery_visual_compare/phase65_wiring/scripts/_local: phase65_layout_drift_guard.sh
+Only in ../mbhq_recovery_visual_compare/phase65_wiring/scripts/_local: phase65_pre_commit_protection_gate.sh
+Only in ../mbhq_recovery_visual_compare/phase65_wiring/scripts/_local: phase65_protected_file_guard.sh
+Only in ../mbhq_recovery_visual_compare/phase65_wiring/scripts/_local: phase65_protection_checklist.sh
+Only in ../mbhq_recovery_visual_compare/phase65_wiring/scripts/_local: phase65b_audit_metric_agents_ownership.sh
+Only in ../mbhq_recovery_visual_compare/phase65_wiring/scripts/_local: phase65b_audit_metric_ownership.sh
+Only in ../mbhq_recovery_visual_compare/phase65_wiring/scripts/_local: phase65b_audit_remaining_metric_writers.sh
+Only in ../mbhq_recovery_visual_compare/phase65_wiring/scripts/_local: phase65b_exit_guard.sh
+Only in ../mbhq_recovery_visual_compare/phase65_wiring/scripts/_local: phase65b_guard_all_current_metric_owners.sh
+Only in ../mbhq_recovery_visual_compare/phase65_wiring/scripts/_local: phase65b_guard_metric_agents_ownership.sh
+Only in ../mbhq_recovery_visual_compare/phase65_wiring/scripts/_local: phase65b_guard_remaining_metric_ownership.sh
+Only in ../mbhq_recovery_visual_compare/phase65_wiring/scripts/_local: phase65b_inspect_metric_agents_context.sh
+Only in ../mbhq_recovery_visual_compare/phase65_wiring/scripts/_local: phase65b_inspect_metric_targets.sh
+Only in ../mbhq_recovery_visual_compare/phase65_wiring/scripts/_local: phase65b_metric_agents_ownership_smoke.sh
+Only in ../mbhq_recovery_visual_compare/phase65_wiring/scripts/_local: phase65b_metric_ownership_smoke.sh
+Only in ../mbhq_recovery_visual_compare/phase65_wiring/scripts/_local: phase65b_remove_legacy_metric_agents_writer.sh
+Only in ../mbhq_recovery_visual_compare/phase65_wiring/scripts/_local: phase65b_remove_legacy_metric_tasks_writer.sh
+Only in ../mbhq_recovery_visual_compare/phase65_wiring/scripts/_local: phase65b_running_tasks_smoke.sh
+Only in ../mbhq_recovery_visual_compare/phase65_wiring/scripts/_local: phase65b_verify_final_metric_ownership_map.sh
+Only in ../mbhq_recovery_visual_compare/phase65_wiring/scripts/_local: phase65b_wire_metric_bootstrap.sh
+Only in ../mbhq_recovery_visual_compare/phase65_wiring/scripts/_local: phase65c_audit_metric_agents_and_next_tile_options.sh
+Only in ../mbhq_recovery_visual_compare/phase65_wiring/scripts/_local: phase65c_inspect_queue_depth_target.sh
+Only in ../mbhq_recovery_visual_compare/phase65_wiring/scripts/_local: phase65c_inspect_remaining_metric_owners.sh
+Only in ../mbhq_recovery_visual_compare/phase65_wiring/scripts/_local: phase65c_inspect_success_transfer_target.sh
+Only in ../mbhq_recovery_visual_compare/phase65_wiring/scripts/_local: phase65c_latency_metric_smoke.sh
+Only in ../mbhq_recovery_visual_compare/phase65_wiring/scripts/_local: phase65c_success_metric_smoke.sh
+Only in ../mbhq_recovery_visual_compare/phase65_wiring/scripts/_local: phase65c_transfer_metric_latency_ownership.py
+Only in ../mbhq_recovery_visual_compare/phase65_wiring/scripts/_local: phase65c_transfer_metric_success_ownership.py
+
+Files ../mbhq_recovery_visual_compare/phase65_layout/.git and ../mbhq_recovery_visual_compare/operator_guidance/.git differ
+Only in ../mbhq_recovery_visual_compare/operator_guidance: .phase88_14_10_server.pid
+Only in ../mbhq_recovery_visual_compare/operator_guidance: .phase88_14_5_server.pid
+Only in ../mbhq_recovery_visual_compare/operator_guidance: .phase88_14_7_server.pid
+Only in ../mbhq_recovery_visual_compare/operator_guidance: .phase88_14_server.pid
+Only in ../mbhq_recovery_visual_compare/operator_guidance: CONTAINER_AUTHORITY_MAP_AUDIT.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: CONTAINER_AUTHORITY_RECONCILIATION_SNAPSHOT.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: CONTAINER_RECONCILIATION_NEXT_STEP.md
+Files ../mbhq_recovery_visual_compare/phase65_layout/Dockerfile.dashboard and ../mbhq_recovery_visual_compare/operator_guidance/Dockerfile.dashboard differ
+Only in ../mbhq_recovery_visual_compare/operator_guidance: HANDOFF_PHASE62B_SUCCESS_VALIDATION_READY_20260317.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE62B_BUNDLE_REBUILD_AFTER_SUCCESS_NEUTRALIZATION.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE62B_BUNDLE_REBUILD_AFTER_SUCCESS_NEUTRALIZATION_SUMMARY.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE62B_BUNDLE_SUCCESS_WRITER_ORIGIN_INSPECTION.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE62B_BUNDLE_SUCCESS_WRITER_SUMMARY.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE62B_CONCISE_STATUS_SUMMARY_20260317.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE62B_DASHBOARD_ASSET_LOAD_PATH_INSPECTION.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE62B_DASHBOARD_ASSET_LOAD_PATH_SUMMARY.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE62B_LIVE_CREATE_ROUTE_RESTART_CHECK_20260317T173014Z.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE62B_LIVE_CREATE_ROUTE_RESTART_CHECK_20260317T174242Z.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE62B_LIVE_CREATE_ROUTE_RESTART_SUMMARY_20260317T173014Z.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE62B_LIVE_CREATE_ROUTE_RESTART_SUMMARY_20260317T174242Z.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE62B_LIVE_VALIDATION_BLOCKER_FINDINGS_20260317.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE62B_LIVE_VALIDATION_BLOCKER_SUMMARY_20260317.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE62B_NEXT_SAFE_METRIC_DISCOVERY.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE62B_NEXT_SAFE_METRIC_SELECTION_20260317.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE62B_POST_REBUILD_SUCCESS_SINGLE_WRITER_SUMMARY.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE62B_POST_REBUILD_SUCCESS_SINGLE_WRITER_VERIFICATION.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE62B_REAL_RUNTIME_VALIDATION_20260317T165636Z.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE62B_REAL_RUNTIME_VALIDATION_20260317T172805Z.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE62B_REAL_RUNTIME_VALIDATION_20260317T174242Z.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE62B_RUNTIME_ACCEPTANCE_EVIDENCE_20260317T175228Z.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE62B_RUNTIME_ACCEPTANCE_EVIDENCE_20260317T180048Z.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE62B_RUNTIME_ACCEPTANCE_EVIDENCE_SUMMARY_20260317T175228Z.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE62B_RUNTIME_ACCEPTANCE_EVIDENCE_SUMMARY_20260317T180048Z.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE62B_RUNTIME_STATUS_CONCISE_SUMMARY_20260317.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE62B_RUNTIME_TRIGGER_ROUTE_CONCISE_SUMMARY_20260317.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE62B_RUN_ID_CONTRACT_MISMATCH_INSPECTION_20260317T170836Z.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE62B_RUN_ID_CONTRACT_MISMATCH_SUMMARY_20260317T170836Z.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE62B_SERVER_METRICS_SURFACE_INSPECTION.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE62B_SUCCESS_RATE_BOOTSTRAP_AND_ATTACH_SUMMARY.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE62B_SUCCESS_RATE_BOOTSTRAP_AND_ATTACH_VERIFICATION.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE62B_SUCCESS_RATE_CORRIDOR_READY_FOR_LIVE_VALIDATION_20260317.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE62B_SUCCESS_RATE_CORRIDOR_SELECTION_DECISION_20260317.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE62B_SUCCESS_RATE_FINAL_ACCEPTANCE_TEMPLATE_20260317.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE62B_SUCCESS_RATE_LIVE_HYDRATION_READINESS.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE62B_SUCCESS_RATE_LIVE_HYDRATION_READINESS_SUMMARY.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE62B_SUCCESS_RATE_LIVE_VALIDATION_RESULT_20260317.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE62B_SUCCESS_RATE_LIVE_VALIDATION_RUNBOOK_20260317.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE62B_SUCCESS_RATE_SINGLE_WRITER_BLOCKER_20260317.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE62B_SUCCESS_RATE_SINGLE_WRITER_SELECTION_INSPECTION.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE62B_SUCCESS_RATE_SURFACE_INSPECTION.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE62B_SUCCESS_RATE_TERMINAL_LISTENER_VERIFICATION_FIX.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE62B_SUCCESS_RATE_TERMINAL_LISTENER_VERIFICATION_FIX_SUMMARY.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE62B_SUCCESS_RATE_WRITER_CONFLICT_INSPECTION.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE62B_SUCCESS_SINGLE_WRITER_VERIFICATION.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE62B_TASKS_COMPLETE_500_INSPECTION_20260317T165843Z.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE62B_TASKS_COMPLETE_500_SUMMARY_20260317T165843Z.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE62B_TASKS_QUEUED_BLOCKER_FINDINGS_20260317.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE62B_TASKS_QUEUED_DISCOVERY_CAPTURE.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE62B_TASKS_QUEUED_DISCOVERY_RUNBOOK.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE62B_TASKS_QUEUED_EXECUTION_PLAN.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE62B_TASKS_QUEUED_PROTOCOL.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE62B_TERMINAL_EVIDENCE_STATUS_20260317.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE62B_TERMINAL_METRICS_EVIDENCE_20260317T174758Z.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE80_2_DASHBOARD_ENTRY_DISCOVERY_20260317T183312Z.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE80_2_DEEP_DASHBOARD_INVENTORY_20260317T183521Z.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE80_2_EXTERNAL_DASHBOARD_CONSUMER_DISCOVERY_20260317T183750Z.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE80_2_QUEUE_LATENCY_COMPLETE_2026-03-17.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE80_2_QUEUE_LATENCY_MOUNT_DISCOVERY_20260317T183232Z.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE80_2_QUEUE_LATENCY_RUNTIME_CHECK_20260317T183944Z.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE80_2_QUEUE_LATENCY_STATUS_2026-03-17.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE80_2_QUEUE_LATENCY_WIRING_BLOCKED_2026-03-17.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE81_SIGNAL_INTERPRETATION.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE87_0_OPERATOR_COGNITIVE_INTELLIGENCE.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE87_10_UNKNOWN_GETTER_SMOKE_EVIDENCE.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE87_11_SNAPSHOT_SMOKE_EVIDENCE.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE87_12_COGNITION_INDEX_SMOKE_EVIDENCE.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE87_13_CLI_SMOKE_EVIDENCE.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE87_14_PRINT_WRAPPER_SMOKE_EVIDENCE.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE87_15_SYSTEM_SUMMARY_SMOKE_EVIDENCE.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE87_16_COGNITION_INDEX_SMOKE_EVIDENCE.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE87_17_SYSTEM_SUMMARY_CLI_SMOKE_EVIDENCE.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE87_18_PRINT_SYSTEM_SUMMARY_WRAPPER_SMOKE_EVIDENCE.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE87_19_SYSTEM_SUMMARY_MATRIX_EVIDENCE.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE87_1_COMPLETE.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE87_1_LOCAL_VERIFICATION.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE87_1_SITUATION_SUMMARY_COMPOSER.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE87_1_SMOKE_EVIDENCE.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE87_20_ALL_SYSTEM_SUMMARY_SMOKES_EVIDENCE.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE87_21_SYSTEM_SUMMARY_STDIN_SMOKE_EVIDENCE.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE87_2_SITUATION_SUMMARY_INPUT_MAPPING.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE87_3_INTEGRATION_SMOKE_EVIDENCE.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE87_5_PIPELINE_SMOKE_EVIDENCE.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE87_6_RENDER_SMOKE_EVIDENCE.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE87_7_RENDERED_PIPELINE_SMOKE_EVIDENCE.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE87_8_GETTER_SMOKE_EVIDENCE.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE87_9_DEGRADED_GETTER_SMOKE_EVIDENCE.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE88_10_DASHBOARD_BAD_STRUCTURE_PATCH_EVIDENCE.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE88_11_DASHBOARD_ENTRYPOINT_INSPECTION.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE88_12_SERVED_DASHBOARD_DIAGNOSTICS_SURFACE.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE88_13_SERVED_DASHBOARD_SYSTEM_HEALTH_PANEL_EVIDENCE.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE88_14_10_DASHBOARD.html
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE88_14_10_DASHBOARD_HEADERS.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE88_14_10_LIVE_SYSTEM_HEALTH_AND_DASHBOARD_VERIFICATION.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE88_14_10_SERVER_RESTART.log
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE88_14_10_SUCCESS_SUMMARY.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE88_14_10_SYSTEM_HEALTH_ALIAS_HEADERS.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE88_14_10_SYSTEM_HEALTH_ALIAS_RESPONSE.json
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE88_14_10_SYSTEM_HEALTH_PRIMARY_HEADERS.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE88_14_10_SYSTEM_HEALTH_PRIMARY_RESPONSE.json
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE88_14_12_TAG_PROTECTION_AND_PHASE89_ALIGNMENT.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE88_14_13_CONTAINER_RUNTIME_PROTECTION_BOOT.log
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE88_14_13_CONTAINER_RUNTIME_PROTECTION_PASS.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE88_14_1_LIVE_DASHBOARD_ROUTE_DIAGNOSIS.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE88_14_1_dashboard_body.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE88_14_1_dashboard_headers.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE88_14_1_health_body.json
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE88_14_1_health_headers.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE88_14_1_public_dashboard_body.html
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE88_14_1_public_dashboard_headers.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE88_14_1_root_body.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE88_14_1_root_headers.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE88_14_2_PUBLIC_DASHBOARD_SYSTEM_HEALTH_RESPONSE.json
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE88_14_3_LIVE_HEALTH_AND_DASHBOARD_CANDIDATES.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE88_14_4_LIVE_SERVER_DIAGNOSTICS_MOUNTS.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE88_14_5_SERVER_RESTART.log
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE88_14_5_SYSTEM_HEALTH_RESPONSE.json
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE88_14_6_MOUNT_FAILURE_STATE.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE88_14_7_SERVER_RESTART.log
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE88_14_7_SYSTEM_HEALTH_RESPONSE.json
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE88_14_LIVE_SYSTEM_HEALTH_RESPONSE.json
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE88_14_SERVER_BOOT.log
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE88_1_SYSTEM_HEALTH_ATTACHMENT_SMOKE_EVIDENCE.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE88_2_SYSTEM_HEALTH_ROUTE_INSPECTION.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE88_3_AUTHORITATIVE_SYSTEM_HEALTH_ROUTE.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE88_4_SYSTEM_HEALTH_ROUTE_SMOKE_EVIDENCE.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE88_5_SYSTEM_HEALTH_ROUTE_PAYLOAD.json
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE88_5_SYSTEM_HEALTH_ROUTE_PAYLOAD_EVIDENCE.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE88_6_SYSTEM_HEALTH_ROUTE_REGISTRATION.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE88_7_SYSTEM_HEALTH_JS_ROUTE_SMOKE_EVIDENCE.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE88_8_SYSTEM_HEALTH_JS_ROUTE_PAYLOAD.json
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE88_8_SYSTEM_HEALTH_JS_ROUTE_PAYLOAD_EVIDENCE.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE88_9_DASHBOARD_SYSTEM_HEALTH_CONSUMER_INSPECTION.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE95_GOLDEN_CHECKPOINT.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_80_3_COMPLETION.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_80_3_QUEUE_PRESSURE_METRIC.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_80_4_METRIC_LOCAL_VALIDATION_WIRING.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_80_5_DERIVED_METRIC_EXPOSURE_READINESS.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_80_6_NEUTRAL_TELEMETRY_DISPLAY_CONTRACT.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_80_7_TELEMETRY_EXPOSURE_SAFETY_GATES.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_80_8_DERIVED_METRIC_EXPOSURE_STAGING_PLAN.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_80_9_METRIC_EXPOSURE_APPROVAL_PROTOCOL.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_81_10_QUEUE_WAIT_TIME_EXPOSURE_SAFETY_REVIEW.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_81_11_QUEUE_WAIT_TIME_REGISTRY_ENTRY.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_81_12_QUEUE_WAIT_TIME_VERIFICATION_HARNESS.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_81_13_QUEUE_WAIT_TIME_DRIFT_SAFEGUARDS.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_81_14_QUEUE_WAIT_TIME_THEORETICAL_BOUNDS.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_81_1_QUEUE_THROUGHPUT_METRIC.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_81_2_QUEUE_THROUGHPUT_IMPLEMENTATION.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_81_3_THROUGHPUT_EXPOSURE_SAFETY_REVIEW.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_81_4_DERIVED_METRIC_REGISTRY_ENTRY.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_81_5_SIGNAL_LAYER_NEXT.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_81_5_THROUGHPUT_VERIFICATION_HARNESS.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_81_6_QUEUE_PRESSURE_CLASSIFICATION_TESTS.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_81_6_THROUGHPUT_DRIFT_SAFEGUARDS.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_81_7_SIGNAL_REGISTRY_ENTRY.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_81_8_QUEUE_WAIT_TIME_METRIC_DEFINITION.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_81_8_SIGNAL_LAYER_CLOSURE.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_81_9_QUEUE_WAIT_TIME_PURE_FUNCTION.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_81_TELEMETRY_EXPANSION_CANDIDATE_REVIEW.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_82_1_COMPOSITION_VERIFICATION.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_82_1_TASK_EXECUTION_DURATION_DEFINITION.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_82_2_COMPOSITION_REGISTRY.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_82_2_TASK_EXECUTION_DURATION_PURE_FUNCTION.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_82_3_COMPOSITION_CLOSURE.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_82_3_TASK_EXECUTION_DURATION_EXPOSURE_SAFETY_REVIEW.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_82_4_TASK_EXECUTION_DURATION_REGISTRY_ENTRY.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_82_5_TASK_EXECUTION_DURATION_VERIFICATION_HARNESS.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_82_6_TASK_EXECUTION_DURATION_DASHBOARD_EXPOSURE_PLAN.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_82_7_TASK_EXECUTION_DURATION_TELEMETRY_DOCUMENTATION_UPDATE.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_82_8_TASK_EXECUTION_DURATION_PHASE_CLOSEOUT.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_82_DERIVED_TELEMETRY_CANDIDATE_SELECTION.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_82_SIGNAL_COMPOSITION_FOUNDATION.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_83_0_SUMMARY_DOCTRINE.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_83_1_SUMMARY_MODEL.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_83_1_TASK_QUEUE_WAIT_DURATION_DEFINITION.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_83_2_SUMMARY_RULES.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_83_2_TASK_QUEUE_WAIT_DURATION_PURE_FUNCTION.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_83_3_SUMMARY_REGISTRY.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_83_3_TASK_QUEUE_WAIT_DURATION_EXPOSURE_SAFETY_REVIEW.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_83_4_SUMMARY_SAFETY.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_83_4_TASK_QUEUE_WAIT_DURATION_REGISTRY_ENTRY.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_83_5_SUMMARY_VERIFICATION.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_83_5_TASK_QUEUE_WAIT_DURATION_VERIFICATION_HARNESS.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_83_6_SUMMARY_CLOSURE.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_83_6_TASK_QUEUE_WAIT_DURATION_DASHBOARD_EXPOSURE_PLAN.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_83_7_TASK_QUEUE_WAIT_DURATION_TELEMETRY_DOCUMENTATION.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_83_8_TASK_QUEUE_WAIT_DURATION_PHASE_CLOSEOUT.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_83_DERIVED_TELEMETRY_EXPANSION_CANDIDATES.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_84_10_TASK_TOTAL_LIFECYCLE_DURATION_VERIFICATION_RESULTS.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_84_11_TASK_TOTAL_LIFECYCLE_DURATION_WORKSTREAM_CLOSEOUT.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_84_12_TASK_TOTAL_LIFECYCLE_DURATION_CORRIDOR_AUDIT.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_84_13_DERIVED_TELEMETRY_EXPANSION_READINESS.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_84_14_DERIVED_TELEMETRY_CANDIDATE_IDENTIFICATION.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_84_15_TASK_EXECUTION_DURATION_DESIGN.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_84_16_TASK_EXECUTION_DURATION_SAFETY_REVIEW.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_84_17_TASK_EXECUTION_DURATION_REGISTRY_ENTRY.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_84_18_TASK_EXECUTION_DURATION_VERIFICATION_HARNESS.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_84_19_TASK_EXECUTION_DURATION_VERIFICATION_IMPLEMENTATION.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_84_1_TASK_TOTAL_LIFECYCLE_DURATION_DEFINITION.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_84_20_TASK_EXECUTION_DURATION_VERIFICATION_EXECUTION.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_84_21_TASK_EXECUTION_DURATION_VERIFICATION_RESULTS.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_84_22_TASK_EXECUTION_DURATION_WORKSTREAM_CLOSEOUT.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_84_2_TASK_TOTAL_LIFECYCLE_DURATION_PURE_FUNCTION.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_84_3_TASK_TOTAL_LIFECYCLE_DURATION_EXPOSURE_SAFETY.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_84_4_OPERATOR_PRESENTATION_LAYER.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_84_4_TASK_TOTAL_LIFECYCLE_DURATION_REGISTRY_ENTRY.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_84_5_OPERATOR_COGNITION_UX_REFINEMENT.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_84_5_TASK_TOTAL_LIFECYCLE_DURATION_VERIFICATION_HARNESS.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_84_6_TASK_TOTAL_LIFECYCLE_DURATION_DASHBOARD_EXPOSURE_PLAN.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_84_7_TASK_TOTAL_LIFECYCLE_DURATION_LOCAL_VERIFICATION.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_84_8_TASK_TOTAL_LIFECYCLE_DURATION_VERIFICATION_IMPLEMENTATION.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_84_9_TASK_TOTAL_LIFECYCLE_DURATION_VERIFICATION_EXECUTION.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_84_DERIVED_TELEMETRY_NEXT_CANDIDATES.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_84_PLANNING_LAYER_INIT.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_85_1_TREND_INDICATORS.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_85_2_TIME_CONTEXT.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_85_3_HISTORY_COMPARE.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_85_4_SIGNAL_STABILITY.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_85_5_SCAN_OPTIMIZATION.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_85_6_COGNITION_CLOSURE.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_86_1_PATTERN_SIGNALS.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_86_2_CORRELATION_VIEW.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_86_3_MULTI_SIGNAL_GROUPS.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_86_4_REASONING_HINTS.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_86_5_COGNITION_SIMPLIFICATION.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_86_6_COGNITION_EVOLUTION_CLOSURE.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_87_1_SITUATION_SUMMARY.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_91_GUIDANCE_INTELLIGENCE_REFINEMENT.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: PHASE_NUMBERING_CORRECTION_2026_03_18.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: POST_GOLDEN_PROTECTION_AUDIT.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: POST_GOLDEN_PROTECTION_ROUTINE.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt
+Only in ../mbhq_recovery_visual_compare/operator_guidance: STATE_HANDOFF_2026-03-17.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: STATE_HANDOFF_2026-03-17_PHASE62B_ACCEPTED.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: STATE_HANDOFF_PHASE_81_4.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: STATE_HANDOFF_PHASE_81_COMPLETE.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: STATE_HANDOFF_PHASE_82_COMPLETE.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: STATE_HANDOFF_PHASE_83_COMPLETE.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: STATE_HANDOFF_PHASE_84_CORRECTED.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: STATE_HANDOFF_PHASE_84_PLANNING_COMPLETE.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: STATE_HANDOFF_PHASE_86_COMPLETE_FOR_NEW_THREAD.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: STATE_HANDOFF_POST_NUMBERING_CORRECTION.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance: cognition
+Only in ../mbhq_recovery_visual_compare/operator_guidance: dashboard
+Files ../mbhq_recovery_visual_compare/phase65_layout/docker-compose.override.yml and ../mbhq_recovery_visual_compare/operator_guidance/docker-compose.override.yml differ
+Files ../mbhq_recovery_visual_compare/phase65_layout/docker-compose.phase457.override.yml and ../mbhq_recovery_visual_compare/operator_guidance/docker-compose.phase457.override.yml differ
+Files ../mbhq_recovery_visual_compare/phase65_layout/docker-compose.phase457.port.override.yml and ../mbhq_recovery_visual_compare/operator_guidance/docker-compose.phase457.port.override.yml differ
+Files ../mbhq_recovery_visual_compare/phase65_layout/docker-compose.yml and ../mbhq_recovery_visual_compare/operator_guidance/docker-compose.yml differ
+Only in ../mbhq_recovery_visual_compare/phase65_layout: docker-compose.yml.broken
+Files ../mbhq_recovery_visual_compare/phase65_layout/docker-compose.yml.pre_phase457_fix and ../mbhq_recovery_visual_compare/operator_guidance/docker-compose.yml.pre_phase457_fix differ
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs: PHASE62B_NEXT_TARGET_RUNNING_TASKS.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs: PHASE62B_RUNNING_TASKS_EXECUTION_PROTOCOL.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs: PHASE62B_RUNNING_TASKS_IMPLEMENTATION_START.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs: STATE_HANDOFF_PHASE80_1_OPERATOR_SYSTEM.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE62B_NEXT_METRIC_SELECTION_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE62B_NEXT_METRIC_SELECTION_20260316_B.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE62B_NEXT_TARGET_SELECTION_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE62B_RUNNING_TASKS_GATE_REVIEW_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE62B_RUNNING_TASKS_GATE_STATUS_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE62B_RUNNING_TASKS_HANDOFF_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE62B_RUNNING_TASKS_LOCAL_VERIFICATION_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE62B_RUNNING_TASKS_STATUS_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE62B_RUNNING_TASKS_SURFACE_SELECTION_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE62B_RUNNING_TASKS_SURFACE_SHORTLIST_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE62B_RUNNING_TASKS_VALIDATION_PASS_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE62B_RUNNING_TASKS_VERIFICATION_STATUS_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE62B_TASKS_COMPLETED_EXECUTION_PROTOCOL_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE62B_TASKS_COMPLETED_HANDOFF_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE62B_TASKS_COMPLETED_LOCAL_VERIFICATION_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE62B_TASKS_COMPLETED_STATUS_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE62B_TASKS_FAILED_EXECUTION_PROTOCOL_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE62B_TASKS_FAILED_HANDOFF_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE62B_TASKS_FAILED_LOCAL_VERIFICATION_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE62B_TASKS_FAILED_STATUS_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE65A_PROTECTION_HARDENING_COMPLETE_20260314.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE65B_10_CLOSURE_20260315.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE65B_2_RUNNING_TASKS_OWNERSHIP_TRANSFER_COMPLETE_20260315.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE65B_3_REMAINING_METRIC_OWNERSHIP_AUDIT_20260315.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE65B_4_NEXT_SAFE_BOUNDARY_METRIC_AGENTS_AUDIT_20260315.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE65B_5_METRIC_AGENTS_AUDIT_FINDINGS_20260315.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE65B_6_METRIC_AGENTS_DUPLICATE_WRITER_DETECTED_20260315.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE65B_7_METRIC_AGENTS_OWNERSHIP_TRANSFER_COMPLETE_20260315.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE65B_8_FINAL_OWNERSHIP_MAP_VERIFICATION_20260315.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE65B_9_EXIT_READINESS_20260315.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE65B_RUNNING_TASKS_STATUS_20260314.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE65C_BREAKDOWN_20260315.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE65C_COMPLETION_CHECKPOINT_20260315.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE65C_NEXT_TARGET_DECISION_20260315.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE65C_PARTIAL_CHECKPOINT_LATENCY_TRANSFER_20260315.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE65C_PARTIAL_CHECKPOINT_SUCCESS_TRANSFER_20260315.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE65C_QUEUE_DEPTH_ANCHOR_AUDIT_20260315.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE65C_REAL_REPO_CONFIRMED_20260315.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE65C_SUCCESS_METRIC_CONTRACT_20260315.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE66A_COMPLETION_CHECKPOINT_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE66A_QUEUE_DEPTH_REDUCER_DESIGN_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE66A_TELEMETRY_INTEGRITY_VERIFICATION_PLAN_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE66B_COMPLETION_CHECKPOINT_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE66B_TELEMETRY_AUDIT_TOOLING_PLAN_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE66C_FAILED_TASK_METRIC_DESIGN_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE66C_REDUCER_EVENT_ASSUMPTIONS_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE66_COMPLETION_CHECKPOINT_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE66_OBSERVABILITY_EXPANSION_PLAN_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE67A_RUNTIME_COMPAT_CHECKPOINT_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE67B_EVENT_SHAPE_INSPECTION_CHECKPOINT_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE67C_METRIC_READOUT_BINDING_PLAN_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE67D_METRIC_SLOT_DISCOVERY_CHECKPOINT_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE67E_BINDING_TARGET_SELECTION_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE67F_NO_BIND_CHECKPOINT_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE67_STATE_HANDOFF_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE68_DRIFT_DETECTION_FOUNDATION_COMPLETE.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE68_OPTIONS_MAP_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE69_REPLAY_CORPUS_FOUNDATION_COMPLETE.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE70A_HEALTH_SNAPSHOT_FOUNDATION_COMPLETE.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE70B_DIAGNOSTICS_REPORT_COMPLETE.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE70C_OPERATOR_SIGNALS_COMPLETE.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE72_EXAMPLE_OUTPUT_VERIFIED_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE72_OPERATOR_GUIDANCE_FINALIZED_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE72_OPERATOR_GUIDANCE_LAYER_COMPLETE.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE72_OPERATOR_GUIDANCE_LAYER_COMPLETE_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE72_SMOKE_VERIFICATION_READY_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE72_SMOKE_VERIFIED_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE73_OPERATOR_SAFETY_GATES_COMPLETE.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE74_OPERATOR_WORKFLOW_HELPERS_COMPLETE.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE74_OPERATOR_WORKFLOW_HELPERS_COMPLETE_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE75_HELPER_PRIORITIZATION_COMPLETE_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE75_OPERATOR_PREFLIGHT_COMPLETE.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE76_OPERATOR_PLAYBOOKS_FOUNDATION_COMPLETE_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE76_OPERATOR_START_COMMAND_COMPLETE.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE76_PLAYBOOK_SELECTION_INTEGRATION_COMPLETE_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE77_ADAPTATION_GUARDRAILS_COMPLETE_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE77_ADAPTIVE_PLAYBOOK_ORDERING_COMPLETE_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE77_ADAPTIVE_WORKFLOWS_COMPLETE_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE77_OPERATOR_DAILY_LOOP_COMPLETE.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE77_SIGNAL_SEVERITY_FOUNDATION_COMPLETE_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE78_OPERATOR_RISK_SURFACE_COMPLETE.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE78_OPERATOR_RUNBOOK_ASSERTIONS_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE78_OPERATOR_RUNBOOK_SMOKE_RESULTS_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE78_OPERATOR_RUNBOOK_SYSTEM_HANDOFF_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE78_OPERATOR_RUNBOOK_SYSTEM_STATUS_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE79_5_CONTROLLED_AUTOMATION_RISK_MODELING_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE79_AUTHORITY_MODEL_CONTRACT_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE79_CHANGE_IMPACT_PREVIEW_COMPLETE.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE79_COMPLETION_HANDOFF_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE79_CONFIRMATION_GATE_CONTRACT_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE79_CONTROLLED_AUTOMATION_BOUNDARY_SPEC_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE79_CONTROLLED_AUTOMATION_PREPARATION_PLAN_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE79_NOOP_INTERFACE_CONTRACT_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE79_RECOVERY_FIRST_AUTOMATION_CONSTRAINTS_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE79_VALIDATION_CHECKLIST_20260316.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE80_OPERATIONAL_CLOSEOUT_COMPLETE.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE80_SAFE_ITERATION_ENGINE_COMPLETE.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE88_14_10_LIVE_SYSTEM_HEALTH_ATTACHMENT_COMPLETE.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE88_14_12_TAG_PROTECTION_AND_PHASE89_ALIGNMENT.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs/checkpoints: PHASE88_14_13_CONTAINER_RUNTIME_PROTECTION_PASS.md
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs: plans
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs: protection
+Only in ../mbhq_recovery_visual_compare/operator_guidance/docs: telemetry
+Files ../mbhq_recovery_visual_compare/phase65_layout/public/bundle.js and ../mbhq_recovery_visual_compare/operator_guidance/public/bundle.js differ
+Files ../mbhq_recovery_visual_compare/phase65_layout/public/bundle.js.map and ../mbhq_recovery_visual_compare/operator_guidance/public/bundle.js.map differ
+Files ../mbhq_recovery_visual_compare/phase65_layout/public/dashboard.html and ../mbhq_recovery_visual_compare/operator_guidance/public/dashboard.html differ
+Files ../mbhq_recovery_visual_compare/phase65_layout/public/dashboard.html.bad_structure and ../mbhq_recovery_visual_compare/operator_guidance/public/dashboard.html.bad_structure differ
+Files ../mbhq_recovery_visual_compare/phase65_layout/public/js/agent-status-row.js and ../mbhq_recovery_visual_compare/operator_guidance/public/js/agent-status-row.js differ
+Files ../mbhq_recovery_visual_compare/phase65_layout/public/js/dashboard-bundle-entry.js and ../mbhq_recovery_visual_compare/operator_guidance/public/js/dashboard-bundle-entry.js differ
+Only in ../mbhq_recovery_visual_compare/operator_guidance/public/js: operatorGuidance.sse.js
+Files ../mbhq_recovery_visual_compare/phase65_layout/public/js/phase22_task_delegation_live_bindings.js and ../mbhq_recovery_visual_compare/operator_guidance/public/js/phase22_task_delegation_live_bindings.js differ
+Only in ../mbhq_recovery_visual_compare/operator_guidance/public/js: telemetry
+Only in ../mbhq_recovery_visual_compare/operator_guidance/public/js: telemetry_failed_tasks_reducer.js
+Only in ../mbhq_recovery_visual_compare/operator_guidance/public/js: telemetry_queue_depth_reducer.js
+Only in ../mbhq_recovery_visual_compare/operator_guidance/routes/diagnostics: operatorGuidanceRuntime.js
+Files ../mbhq_recovery_visual_compare/phase65_layout/routes/diagnostics/systemHealth.js and ../mbhq_recovery_visual_compare/operator_guidance/routes/diagnostics/systemHealth.js differ
+Only in ../mbhq_recovery_visual_compare/operator_guidance/routes/diagnostics: systemHealth.js.route.smoke.ts
+Only in ../mbhq_recovery_visual_compare/operator_guidance/routes/diagnostics: systemHealth.route.smoke.ts
+Files ../mbhq_recovery_visual_compare/phase65_layout/routes/diagnostics/systemHealth.ts and ../mbhq_recovery_visual_compare/operator_guidance/routes/diagnostics/systemHealth.ts differ
+Only in ../mbhq_recovery_visual_compare/operator_guidance/routes/diagnostics: systemHealthSituationSummary.smoke.ts
+Only in ../mbhq_recovery_visual_compare/operator_guidance/routes/diagnostics: systemHealthSituationSummary.ts
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: container_authority_map_audit.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: container_reconciliation_summary.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: fixtures
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: operator_guidance.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: operator_guidance_next_action.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase62b_apply_tasks_queued_metric.py
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase62b_bundle_success_writer_origin_inspect.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase62b_dashboard_asset_load_path_inspect.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase62b_execute_real_runtime_validation_and_capture_result.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase62b_extract_runtime_acceptance_evidence.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase62b_extract_terminal_metrics_evidence.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase62b_fix_agent_status_row_render_syntax_and_rebuild_bundle.py
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase62b_fix_run_id_create_contract_and_runtime_validation.py
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase62b_fix_success_rate_terminal_listener_verification.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase62b_inspect_run_id_contract_mismatch.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase62b_inspect_tasks_complete_500.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase62b_neutralize_success_writer_in_agent_status_row.py
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase62b_next_runtime_validation_step.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase62b_next_safe_metric_discovery.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase62b_open_manual_validation_artifacts.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase62b_rebuild_dashboard_bundle_after_success_writer_neutralization.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase62b_record_live_validation_blocker_and_inspect_routes.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase62b_rerun_runtime_validation_after_run_id_fix.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase62b_resume_runtime_validation_after_live_route_refresh.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase62b_run_hardened_runtime_acceptance_evidence.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase62b_run_real_success_rate_runtime_validation.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase62b_running_tasks_candidate_extract.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase62b_running_tasks_discovery.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase62b_running_tasks_gate_review.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase62b_running_tasks_local_verification.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase62b_running_tasks_surface_shortlist.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase62b_running_tasks_validation_pass.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase62b_server_metrics_surface_inspect.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase62b_success_rate_final_acceptance_template.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase62b_success_rate_live_hydration_readiness_check.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase62b_success_rate_live_validation_result_template.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase62b_success_rate_live_validation_runbook.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase62b_success_rate_single_writer_selection_inspect.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase62b_success_rate_surface_inspect.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase62b_success_rate_writer_conflict_inspect.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase62b_tasks_completed_local_verification.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase62b_tasks_failed_local_verification.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase62b_tasks_queued_discovery.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase62b_verify_bundle_single_writer_success_corridor.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase62b_verify_live_create_route_and_restart_runtime.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase62b_verify_success_rate_bootstrap_and_terminal_attach.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase62b_verify_success_single_writer_corridor.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase65_layout_drift_guard.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase65_pre_commit_protection_gate.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase65_protected_file_guard.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase65_protection_checklist.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase65b_audit_metric_agents_ownership.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase65b_audit_metric_ownership.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase65b_audit_remaining_metric_writers.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase65b_exit_guard.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase65b_guard_all_current_metric_owners.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase65b_guard_metric_agents_ownership.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase65b_guard_remaining_metric_ownership.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase65b_inspect_metric_agents_context.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase65b_inspect_metric_targets.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase65b_metric_agents_ownership_smoke.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase65b_metric_ownership_smoke.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase65b_remove_legacy_metric_agents_writer.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase65b_remove_legacy_metric_tasks_writer.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase65b_running_tasks_smoke.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase65b_verify_final_metric_ownership_map.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase65b_wire_metric_bootstrap.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase65c_audit_metric_agents_and_next_tile_options.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase65c_inspect_queue_depth_target.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase65c_inspect_remaining_metric_owners.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase65c_inspect_success_transfer_target.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase65c_latency_metric_smoke.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase65c_success_metric_smoke.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase65c_transfer_metric_latency_ownership.py
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase65c_transfer_metric_success_ownership.py
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase66_metric_collision_check.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase66a_determinism_check.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase66a_reducer_replay_check.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase66b_telemetry_audit.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase67_runtime_compat_check.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase67b_event_shape_inspection.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase67d_metric_slot_discovery.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase68_event_schema_validator.ts
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase68_telemetry_contract_check.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase68_validator_smoke.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase68_verify_all.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase69_replay_capture.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase69_replay_runner.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase69_verify_all.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase70a_health_snapshot.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase70a_operator_health.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase70a_run_health_snapshot.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase70a_verify_operator_health.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase70b_generate_diagnostics_report.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase70b_operator_diagnostics.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase70c_operator_signals.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase70c_run_operator_signals.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase71_operator_awareness.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase71_run_operator_awareness.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase72_guidance_contract.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase72_guidance_example.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase72_operator_guidance_command.ts
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase72_operator_guidance_interpreter.ts
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase72_operator_guidance_report.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase72_operator_guidance_schema.ts
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase72_operator_guidance_smoke.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase72_operator_guidance_smoke.ts
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase72_operator_guidance_snapshot.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase72_operator_safety_classifier.ts
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase72_run_guidance_smoke.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase72_run_operator_guidance_smoke.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase73_operator_safety_gate.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase73_operator_safety_gate_smoke.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase73_operator_safety_gates.ts
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase73_operator_safety_gates_smoke.ts
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase73_run_safety_gate.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase73_run_safety_gates_smoke.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase74_operator_workflow_helper.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase74_operator_workflow_helpers.ts
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase74_operator_workflow_helpers_smoke.ts
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase74_operator_workflow_smoke.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase74_run_workflow_helpers_smoke.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase75_operator_helper_priority.ts
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase75_operator_helper_priority_smoke.ts
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase75_operator_preflight.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase75_operator_preflight_smoke.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase75_operator_ranked_helpers.ts
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase75_ranked_helpers_smoke.ts
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase75_run_priority_model_smoke.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase75_run_ranked_helpers_smoke.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase76_operator_playbook_selection.ts
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase76_operator_playbooks.ts
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase76_operator_start_command.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase76_operator_start_command_smoke.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase76_playbook_selection_smoke.ts
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase76_playbook_smoke.ts
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase76_run_playbook_selection_smoke.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase76_run_playbook_smoke.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase77_adaptation_guardrails.ts
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase77_adaptation_guardrails_smoke.ts
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase77_adaptive_playbook_ordering.ts
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase77_adaptive_playbook_ordering_smoke.ts
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase77_multi_signal_weighting.ts
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase77_operator_daily_loop.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase77_operator_daily_loop_smoke.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase77_run_adaptation_guardrails_smoke.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase77_run_adaptive_playbook_ordering_smoke.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase77_run_signal_severity_smoke.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase77_signal_severity_model.ts
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase77_signal_severity_model_smoke.ts
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase78_operator_risk_surface.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase78_operator_risk_surface_smoke.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase79_change_impact_preview.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase79_change_impact_preview_smoke.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase80_finalize_workspace_clean.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase80_operational_closeout.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase80_safe_iteration_engine.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase80_safe_iteration_engine_smoke.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase92_fix_guidance_imports.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase92_repair_confidence_imports.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase92_repair_confidencelevel_imports.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase92_repair_confidencelevel_source.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase92_repair_situation_imports.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase92_verify_after_import_repair.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase92_verify_situation_tests.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase95_8_dashboard_healthcheck_hardening.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: phase95_8_verify_dashboard_health.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: post_golden_protection_audit.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts/_local: post_phase95_container_reconciliation_audit.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: operator-runbook-assert.ts
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: operator-runbook-smoke.ts
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: operator_status.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase80_2_deep_dashboard_inventory.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase80_2_find_dashboard_entrypoints.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase80_2_find_external_dashboard_consumers.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase80_2_find_queue_latency_mount.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase80_2_run_external_dashboard_consumer_discovery.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase80_2_run_queue_latency_mount_discovery.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase80_2_verify_queue_latency_metric.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase80_3_verify_queue_pressure_metric.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase87_10_run_unknown_getter_smoke.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase87_11_run_snapshot_smoke.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase87_12_run_cognition_index_smoke.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase87_13_run_cli_smoke.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase87_13_situation_summary_cli.ts
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase87_14_print_situation_summary.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase87_14_run_print_wrapper_smoke.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase87_15_run_system_summary_smoke.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase87_16_run_cognition_index_smoke.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase87_17_run_system_summary_cli_smoke.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase87_17_system_situation_summary_cli.ts
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase87_18_print_system_situation_summary.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase87_18_run_print_system_summary_wrapper_smoke.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase87_19_run_system_summary_matrix.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase87_1_run_situation_summary_smoke.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase87_1_situation_summary_smoke.ts
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase87_20_run_all_system_summary_smokes.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase87_21_run_system_summary_stdin_smoke.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase87_3_run_situation_summary_integration_smoke.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase87_5_run_pipeline_smoke.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase87_6_run_render_smoke.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase87_7_run_rendered_pipeline_smoke.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase87_8_run_getter_smoke.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase87_9_run_degraded_getter_smoke.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase88_0_find_operator_surface_candidates.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase88_10_patch_dashboard_bad_structure_system_health_panel.mjs
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase88_10_verify_dashboard_bad_structure_patch.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase88_11_inspect_dashboard_entrypoint.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase88_12_inspect_served_dashboard_diagnostics_surface.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase88_13_patch_served_dashboard_system_health_panel.mjs
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase88_13_verify_served_dashboard_system_health_panel.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase88_14_10_restart_and_verify_live_system_health_and_dashboard.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase88_14_12_tag_protection_and_phase89_alignment.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase88_14_13_container_runtime_protection_pass.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase88_14_1_diagnose_live_dashboard_route.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase88_14_2_verify_public_dashboard_system_health_attachment.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase88_14_3_diagnose_live_health_and_dashboard_candidates.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase88_14_4_inspect_live_server_diagnostics_mounts.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase88_14_5_patch_server_mount_system_health.mjs
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase88_14_5_restart_and_verify_system_health_mount.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase88_14_6_inspect_mount_failure_state.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase88_14_7_restart_and_verify_live_system_health_route.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase88_14_8_force_restart_and_verify_system_health_routes.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase88_14_verify_live_dashboard_system_health_attachment.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase88_1_run_system_health_attachment_smoke.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase88_2_inspect_system_health_route.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase88_3_find_authoritative_system_health_route.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase88_4_run_system_health_route_smoke.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase88_5_capture_system_health_route_payload.ts
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase88_5_run_system_health_route_payload_capture.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase88_6_find_system_health_route_registration.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase88_7_run_system_health_js_route_smoke.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase88_8_capture_system_health_js_route_payload.ts
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase88_8_run_system_health_js_route_payload_capture.sh
+Only in ../mbhq_recovery_visual_compare/operator_guidance/scripts: phase88_9_inspect_dashboard_system_health_consumer.sh
+Files ../mbhq_recovery_visual_compare/phase65_layout/server/routes/api-tasks-postgres.mjs and ../mbhq_recovery_visual_compare/operator_guidance/server/routes/api-tasks-postgres.mjs differ
+Files ../mbhq_recovery_visual_compare/phase65_layout/server.mjs and ../mbhq_recovery_visual_compare/operator_guidance/server.mjs differ
+Only in ../mbhq_recovery_visual_compare/operator_guidance: src
+
+DONE
