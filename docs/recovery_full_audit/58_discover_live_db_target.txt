@@ -1,0 +1,172 @@
+PHASE 457H — DISCOVER LIVE DB TARGET
+====================================
+
+===== CONTAINERS =====
+NAME                                 IMAGE                              COMMAND                  SERVICE     CREATED         STATUS                   PORTS
+motherboard_systems_hq-dashboard-1   motherboard_systems_hq-dashboard   "docker-entrypoint.s…"   dashboard   3 minutes ago   Up 3 minutes (healthy)   0.0.0.0:8080->3000/tcp, [::]:8080->3000/tcp
+motherboard_systems_hq-postgres-1    postgres:16-alpine                 "docker-entrypoint.s…"   postgres    25 hours ago    Up 25 hours              0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+
+===== POSTGRES DATABASES =====
+                                                      List of databases
+   Name    |  Owner   | Encoding | Locale Provider |  Collate   |   Ctype    | ICU Locale | ICU Rules |   Access privileges   
+-----------+----------+----------+-----------------+------------+------------+------------+-----------+-----------------------
+ postgres  | postgres | UTF8     | libc            | en_US.utf8 | en_US.utf8 |            |           | 
+ template0 | postgres | UTF8     | libc            | en_US.utf8 | en_US.utf8 |            |           | =c/postgres          +
+           |          |          |                 |            |            |            |           | postgres=CTc/postgres
+ template1 | postgres | UTF8     | libc            | en_US.utf8 | en_US.utf8 |            |           | =c/postgres          +
+           |          |          |                 |            |            |            |           | postgres=CTc/postgres
+(3 rows)
+
+
+===== DASHBOARD ENV (DB SIGNALS) =====
+PGDATABASE=postgres
+PGHOST=postgres
+PGPORT=5432
+PGUSER=postgres
+POSTGRES_URL=postgres://postgres:postgres@postgres:5432/postgres
+
+===== COMPOSE DB SETTINGS =====
+5:      POSTGRES_USER: ${PGUSER:-postgres}
+6:      POSTGRES_PASSWORD: ${PGPASSWORD:-postgres}
+7:      POSTGRES_DB: ${PGDATABASE:-postgres}
+27:      PGDATABASE: ${PGDATABASE:-postgres}
+31:      PGUSER: ${PGUSER:-postgres}
+
+===== SERVER DB REFERENCES =====
+server/db.js:1:import { Pool } from "pg";
+server/db.js:8:  globalThis.__MBHQ_POOL = new Pool({ connectionString: POSTGRES_URL });
+server/worker/phase26_task_worker.mjs:4:import { Pool } from "pg";
+server/worker/phase26_task_worker.mjs:60:const pool = new Pool({ connectionString: POSTGRES_URL });
+server/worker/phase27_markers.mjs:3:import { Pool } from "pg";
+server/worker/phase27_markers.mjs:15:    mustEnv("DATABASE_URL") ||
+server/worker/phase27_markers.mjs:18:  if (!url) throw new Error("worker: missing POSTGRES_URL/DATABASE_URL/PGURL");
+server/worker/phase27_markers.mjs:20:  const pool = new Pool({ connectionString: url });
+server/routes/task-events-sse.mjs:45:    const TASK_EVENTS_DB_URL_RAW = process.env.POSTGRES_URL || process.env.DATABASE_URL || "";
+server/routes/phase36_run_view.mjs:1:import { Pool } from "pg";
+server/routes/phase36_run_view.mjs:17:  const url = process.env.POSTGRES_URL || process.env.DATABASE_URL;
+server/routes/phase36_run_view.mjs:28:        database: process.env.PGDATABASE || "postgres",
+server/routes/phase36_run_view.mjs:32:    globalThis.__PHASE36_RUNVIEW_POOL = new Pool({
+scripts/phase25_writer_smoke.mjs:5:import pg from "pg";
+scripts/phase25_writer_smoke.mjs:12:    process.env.DATABASE_URL ||
+scripts/phase25_writer_smoke.mjs:29:  const pool = new Pool({ connectionString: databaseUrl });
+scripts/phase54_regression_harness.sh:110:  db="$(docker exec "${pgc}" sh -lc 'printf "%s" "${POSTGRES_DB:-postgres}"')"
+scripts/phase54_regression_harness.sh:199:  export POSTGRES_URL="${POSTGRES_URL:-${DATABASE_URL:-postgres://postgres:postgres@127.0.0.1:5432/postgres?sslmode=disable}}"
+scripts/phase54_regression_harness.sh:200:  export DATABASE_URL="${DATABASE_URL:-${POSTGRES_URL}}"
+scripts/phase19_task_events_app_smoke.cjs:11:  process.env.DATABASE_URL ||
+scripts/phase19_task_events_app_smoke.cjs:17:  console.error("Missing DATABASE_URL/POSTGRES_URL env var.");
+scripts/phase19_complete_task_runner.mjs:1:import pg from "pg";
+scripts/phase19_complete_task_runner.mjs:5:  process.env.DATABASE_URL ||
+scripts/phase19_complete_task_runner.mjs:11:  console.error("Missing DATABASE_URL/POSTGRES_URL");
+scripts/phase55_terminal_event_precedence.sh:4:# Requires POSTGRES_URL (or DATABASE_URL) to be set by the harness/overrides.
+scripts/phase55_terminal_event_precedence.sh:5:DB_URL="${POSTGRES_URL:-${DATABASE_URL:-}}"
+scripts/phase55_terminal_event_precedence.sh:7:  echo "ERROR: POSTGRES_URL (or DATABASE_URL) is required for Phase 55 invariant." >&2
+scripts/phase28_worker_watch.sh:22:DB=${POSTGRES_DB:-postgres}
+scripts/phase19_delegate_task_runner.mjs:1:import pg from "pg";
+scripts/phase19_delegate_task_runner.mjs:5:  process.env.DATABASE_URL ||
+scripts/phase19_delegate_task_runner.mjs:11:  console.error("Missing DATABASE_URL/POSTGRES_URL");
+scripts/phase20_db_smoketest.mjs:1:import pg from "pg";
+scripts/phase20_db_smoketest.mjs:5:const DB_URL_RAW = process.env.POSTGRES_URL || process.env.DATABASE_URL || "";
+scripts/phase20_db_smoketest.mjs:28:      database: process.env.PGDATABASE || "postgres",
+scripts/phase20_db_smoketest.mjs:33:const pool = new Pool(cfg);
+scripts/phase45_regression_policy_grants.sh:17:PGDB="$(docker exec "$PGC" sh -lc 'printf "%s" "${POSTGRES_DB:-}"' || true)"
+scripts/phase19_apply_postgres_sql_via_container.sh:35:PG_DB="$(docker exec "$PG_CID" printenv POSTGRES_DB 2>/dev/null || true)"
+scripts/phase47_smoke.sh:24:DB="${POSTGRES_DB:-postgres}"
+scripts/phase50_node_write_attempt.mjs:1:import pg from "pg";
+scripts/phase50_node_write_attempt.mjs:4:const url = process.env.POSTGRES_URL || process.env.DATABASE_URL;
+scripts/phase50_node_write_attempt.mjs:6:  console.error("ERROR: set POSTGRES_URL (or DATABASE_URL) to run this smoke.");
+scripts/db/inspect-dashboard-db-env.sh:9:  env | grep -E "DATABASE_URL|PGHOST|PGUSER|PGPASSWORD|PGDATABASE|POSTGRES" || echo "(none)"
+scripts/db/inspect-dashboard-db-env.sh:14:    if [ -n "${PGUSER:-}" ] && [ -n "${PGDATABASE:-}" ]; then
+scripts/db/inspect-dashboard-db-env.sh:20:      echo "PGUSER/PGDATABASE not set; trying manual connection to postgres://user:password@postgres:5432/motherboarddb"
+scripts/db/create-dashboard-db.sh:10:  : "${POSTGRES_DB:?POSTGRES_DB is required}"
+scripts/db/create-dashboard-db.sh:12:  echo "➡️ Using POSTGRES_USER=${POSTGRES_USER}, POSTGRES_DB=${POSTGRES_DB} as control database"
+scripts/db/create-dashboard-db.sh:14:  EXISTS=$(psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -tAc "SELECT 1 FROM pg_database WHERE datname = '\''dashboard_db'\''")
+scripts/db/create-dashboard-db.sh:18:    psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -c "CREATE DATABASE dashboard_db OWNER postgres;"
+scripts/db/inspect-postgres.sh:12:  echo "psql: list roles (\\du) using \$POSTGRES_USER / \$POSTGRES_DB if available..."
+scripts/db/inspect-postgres.sh:14:    if [ -n "${POSTGRES_USER:-}" ] && [ -n "${POSTGRES_DB:-}" ]; then
+scripts/db/inspect-postgres.sh:16:      echo "Connecting with: psql -U \"$POSTGRES_USER\" -d \"$POSTGRES_DB\""
+scripts/db/inspect-postgres.sh:18:      psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -c "\du" || echo "(psql \\du failed)"
+scripts/db/inspect-postgres.sh:23:      psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -c "\l" || echo "(psql \\l failed)"
+scripts/db/inspect-postgres.sh:26:      echo "POSTGRES_USER or POSTGRES_DB not set; skipping psql introspection."
+scripts/db/create-postgres-role.sh:10:  : \"\${POSTGRES_DB:?POSTGRES_DB is required}\"
+scripts/db/create-postgres-role.sh:12:  echo \"➡️ Using POSTGRES_USER=\${POSTGRES_USER}, POSTGRES_DB=\${POSTGRES_DB}\"
+scripts/db/create-postgres-role.sh:14:  CHECK=\$(psql -U \"\$POSTGRES_USER\" -d \"\$POSTGRES_DB\" -tAc \"SELECT 1 FROM pg_roles WHERE rolname='postgres'\")
+scripts/db/create-postgres-role.sh:17:    psql -U \"\$POSTGRES_USER\" -d \"\$POSTGRES_DB\" -c \"CREATE ROLE postgres WITH LOGIN PASSWORD 'password';\"
+scripts/phase19_task_events_smoke.cjs:4:  process.env.DATABASE_URL ||
+scripts/phase19_task_events_smoke.cjs:10:  console.error("Missing DATABASE_URL/POSTGRES_URL env var.");
+scripts/phase19_export_postgres_env.sh:12:PG_DB="$(docker exec "$PG_CID" printenv POSTGRES_DB)"
+scripts/phase19_export_postgres_env.sh:14:DATABASE_URL="postgres://${PG_USER}:${PG_PASS}@127.0.0.1:5432/${PG_DB}"
+scripts/phase19_export_postgres_env.sh:15:printf "export DATABASE_URL=%q\n" "$DATABASE_URL"
+scripts/phase19_export_postgres_env.sh:16:printf "export POSTGRES_URL=%q\n" "$DATABASE_URL"
+scripts/_local/fix_task_events_db_logging_signal.sh:18:replacement = """\\1const TASK_EVENTS_DB_URL_RAW = process.env.POSTGRES_URL || process.env.DATABASE_URL || "";
+scripts/_local/phase62b_extract_runtime_acceptance_evidence.sh:27:  pg_db="$(extract_env_from_container "$cid" POSTGRES_DB)"
+scripts/_local/phase62b_extract_runtime_acceptance_evidence.sh:125:    PG_DB="$(extract_env_from_container "$PG_CID" POSTGRES_DB)"
+scripts/_local/phase62b_extract_runtime_acceptance_evidence.sh:127:    echo "postgres_db=${PG_DB:-<missing>}"
+scripts/phase19_tasks_postgres_doctor.sh:57:echo "== check: DATABASE_URL/POSTGRES_URL present =="
+scripts/phase19_tasks_postgres_doctor.sh:58:if [[ -z "${DATABASE_URL:-}" && -z "${POSTGRES_URL:-}" ]]; then
+scripts/phase19_tasks_postgres_doctor.sh:59:  echo "Missing DATABASE_URL/POSTGRES_URL env var."
+scripts/phase19_tasks_postgres_doctor.sh:69:  process.env.DATABASE_URL ||
+scripts/phase19_tasks_postgres_doctor.sh:74:if (!url) { console.error("Missing DATABASE_URL/POSTGRES_URL env var."); process.exit(2); }
+scripts/phase19_fail_task_runner.mjs:1:import pg from "pg";
+scripts/phase19_fail_task_runner.mjs:5:  process.env.DATABASE_URL ||
+scripts/phase19_fail_task_runner.mjs:11:  console.error("Missing DATABASE_URL/POSTGRES_URL");
+scripts/phase27_apply_retry_bootstrap.mjs:1:import pg from "pg";
+scripts/phase27_apply_retry_bootstrap.mjs:20:const DB_URL_RAW = process.env.POSTGRES_URL || process.env.DATABASE_URL || "";
+scripts/phase27_apply_retry_bootstrap.mjs:24:  ? new Pool({ connectionString: DB_URL })
+scripts/phase27_apply_retry_bootstrap.mjs:25:  : new Pool({
+scripts/phase27_apply_retry_bootstrap.mjs:30:      database: process.env.PGDATABASE || "postgres",
+scripts/phase27_wire_worker_backoff.sh:63:import { Pool } from "pg";
+scripts/phase27_wire_worker_backoff.sh:75:    mustEnv("DATABASE_URL") ||
+scripts/phase27_wire_worker_backoff.sh:78:  if (!url) throw new Error("worker: missing POSTGRES_URL/DATABASE_URL/PGURL");
+scripts/phase27_wire_worker_backoff.sh:80:  const pool = new Pool({ connectionString: url });
+
+===== DERIVED ACTUAL DB =====
+ACTUAL_DB=postgres
+
+===== TASK TABLE IN ACTUAL DB =====
+                                        Table "public.tasks"
+    Column    |           Type           | Collation | Nullable |              Default              
+--------------+--------------------------+-----------+----------+-----------------------------------
+ id           | bigint                   |           | not null | nextval('tasks_id_seq'::regclass)
+ task_id      | text                     |           |          | 
+ status       | text                     |           |          | 
+ kind         | text                     |           |          | 
+ payload      | jsonb                    |           |          | 
+ created_at   | timestamp with time zone |           |          | now()
+ updated_at   | timestamp with time zone |           |          | now()
+ title        | text                     |           |          | 
+ action_tier  | text                     |           |          | 
+ run_id       | text                     |           |          | 
+ claimed_by   | text                     |           |          | 
+ notes        | text                     |           |          | 
+ attempts     | integer                  |           | not null | 0
+ max_attempts | integer                  |           |          | 
+Indexes:
+    "tasks_pkey" PRIMARY KEY, btree (id)
+    "tasks_task_id_idx" btree (task_id)
+    "tasks_task_id_key" UNIQUE CONSTRAINT, btree (task_id)
+
+
+===== TASK_EVENTS TABLE IN ACTUAL DB =====
+                                             Table "public.task_events"
+   Column   |           Type           | Collation | Nullable |                       Default                       
+------------+--------------------------+-----------+----------+-----------------------------------------------------
+ id         | bigint                   |           | not null | nextval('task_events_id_seq'::regclass)
+ task_id    | text                     |           |          | 
+ kind       | text                     |           |          | 
+ actor      | text                     |           |          | 
+ payload    | jsonb                    |           |          | 
+ created_at | timestamp with time zone |           |          | now()
+ run_id     | text                     |           |          | 
+ ts         | bigint                   |           | not null | (EXTRACT(epoch FROM now()) * 1000::numeric)::bigint
+Indexes:
+    "task_events_pkey" PRIMARY KEY, btree (id)
+    "task_events_created_at_idx" btree (created_at)
+    "task_events_task_id_idx" btree (task_id)
+
+
+===== updated_at SEARCH IN ACTUAL DB =====
+ table_name | column_name 
+------------+-------------
+ tasks      | updated_at
+(1 row)
+
