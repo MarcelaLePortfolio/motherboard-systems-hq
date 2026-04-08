@@ -6,10 +6,9 @@
   window.__PHASE457_OPS_RENDERER_OWNER__ = "phase457";
 
   const STATE = {
-    observer: null,
     scheduled: false,
     rendering: false,
-    lastGuidanceSignature: ""
+    observer: null
   };
 
   function byId(id) {
@@ -20,26 +19,27 @@
     return String((node && node.textContent) || "").replace(/\s+/g, " ").trim();
   }
 
-  function setIfProbeLike(node, kind, fallbackText) {
-    if (!node) return;
+  function isProbeLike(raw) {
+    const text = String(raw || "");
+    const lower = text.toLowerCase();
 
-    const raw = String(node.textContent || "");
-    const lower = raw.toLowerCase();
-
-    const probeLike =
-      !raw.trim() ||
+    return (
+      !text.trim() ||
       /probe:/.test(lower) ||
       /loading/.test(lower) ||
       /updated_at/.test(lower) ||
       /column "updated_at" does not exist/.test(lower) ||
       /run_view/.test(lower) ||
-      /relation "run_view" does not exist/.test(lower);
+      /relation "run_view" does not exist/.test(lower) ||
+      /error loading task activity/.test(lower) ||
+      /error loading task history/.test(lower) ||
+      /error loading recent tasks/.test(lower)
+    );
+  }
 
-    if (!probeLike) return;
-
-    if (raw.trim() === fallbackText && node.getAttribute("data-phase457-neutralized") === kind) {
-      return;
-    }
+  function setIfProbeLike(node, kind, fallbackText) {
+    if (!node) return;
+    if (!isProbeLike(node.textContent || "")) return;
 
     node.textContent = fallbackText;
     node.setAttribute("data-phase457-neutralized", kind);
@@ -50,10 +50,7 @@
     setIfProbeLike(byId("recentLogs"), "history", "No task history yet.");
 
     const anchor = byId("mb-task-events-panel-anchor");
-    if (!anchor) return;
-
-    const raw = String(anchor.textContent || "");
-    if (!raw.trim() || /loading|probe:|updated_at|run_view/i.test(raw)) {
+    if (anchor && isProbeLike(anchor.textContent || "")) {
       anchor.setAttribute("data-phase457-neutralized", "events");
     }
   }
@@ -113,9 +110,9 @@
       summary: summary || "System guidance available.",
       detail: detail || "",
       confidence: confidenceMatch ? confidenceMatch[1].trim() : "high confidence",
-      signals: signalsMatch ? signalsMatch[1].trim() : "1",
-      conflicts: conflictsMatch ? conflictsMatch[1].trim() : "none",
-      source: sourceMatch ? sourceMatch[1].trim() : "diagnostics/system-health"
+      signals: signalsMatch ? signalsMatch[1].trim() : "",
+      conflicts: conflictsMatch ? conflictsMatch[1].trim() : "",
+      source: sourceMatch ? sourceMatch[1].trim() : ""
     };
   }
 
@@ -128,34 +125,15 @@
       .replace(/'/g, "&#39;");
   }
 
-  function buildGuidanceSignature(fields) {
-    return JSON.stringify([
-      fields.severity,
-      fields.summary,
-      fields.detail,
-      fields.confidence,
-      fields.signals,
-      fields.conflicts,
-      fields.source
-    ]);
-  }
-
   function renderStructuredGuidance(fields, response, meta) {
     if (!response || !meta || !fields) return;
-
-    const signature = buildGuidanceSignature(fields);
-    if (STATE.lastGuidanceSignature === signature &&
-        response.getAttribute("data-phase457-neutralized") === "guidance" &&
-        meta.getAttribute("data-phase457-neutralized") === "guidance") {
-      return;
-    }
 
     const summaryHtml = `<div class="font-semibold text-gray-100">${escapeHtml(fields.summary)}</div>`;
     const detailHtml = fields.detail
       ? `<div class="mt-2 text-gray-300">${escapeHtml(fields.detail)}</div>`
       : "";
 
-    const responseHtml =
+    response.innerHTML =
       `<div data-phase457-guidance-structured="true">` +
       `<div class="uppercase tracking-wide text-xs text-gray-400 mb-2">${escapeHtml(fields.severity)}</div>` +
       summaryHtml +
@@ -169,33 +147,16 @@
       `Source: ${fields.source || "diagnostics/system-health"}`
     ];
 
-    const metaHtml =
+    meta.innerHTML =
       `<div data-phase457-guidance-meta="true" class="space-y-1">` +
       metaLines.map((line) => `<div>${escapeHtml(line)}</div>`).join("") +
       `</div>`;
 
-    if (response.innerHTML === responseHtml && meta.innerHTML === metaHtml) {
-      STATE.lastGuidanceSignature = signature;
-      response.setAttribute("data-phase457-neutralized", "guidance");
-      meta.setAttribute("data-phase457-neutralized", "guidance");
-      return;
-    }
-
-    STATE.rendering = true;
-    try {
-      response.innerHTML = responseHtml;
-      meta.innerHTML = metaHtml;
-      response.setAttribute("data-phase457-neutralized", "guidance");
-      meta.setAttribute("data-phase457-neutralized", "guidance");
-      STATE.lastGuidanceSignature = signature;
-    } finally {
-      STATE.rendering = false;
-    }
+    response.setAttribute("data-phase457-neutralized", "guidance");
+    meta.setAttribute("data-phase457-neutralized", "guidance");
   }
 
   function normalizeOperatorGuidance() {
-    if (STATE.rendering) return;
-
     const response = byId("operator-guidance-response");
     const meta = byId("operator-guidance-meta");
     if (!response || !meta) return;
@@ -206,7 +167,12 @@
     const fields = parseGuidanceFields(raw);
     if (!fields) return;
 
-    renderStructuredGuidance(fields, response, meta);
+    STATE.rendering = true;
+    try {
+      renderStructuredGuidance(fields, response, meta);
+    } finally {
+      STATE.rendering = false;
+    }
   }
 
   function runNormalizationPass() {
