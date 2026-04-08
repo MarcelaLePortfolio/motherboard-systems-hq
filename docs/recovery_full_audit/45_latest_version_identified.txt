@@ -1,0 +1,44 @@
+PHASE 457 - LATEST VERSION IDENTIFIED
+=====================================
+
+RESULT
+The remembered/latest dashboard version is being served from:
+
+/dashboard.html
+
+NOT from:
+
+/
+
+ROOT CAUSE NOW PROVED
+- / serves public/index.html
+- /dashboard.html serves public/dashboard.html
+- public/index.html remained on the older shell
+- public/dashboard.html contained the newer tabbed/shared-row shell we were actually trying to recover
+
+WHY THE RECOVERY FELT WRONG
+We kept visually validating the wrong entrypoint first.
+That made correct recovery candidates appear older than they actually were.
+
+CONFIRMED VISUAL TARGET CLASS
+The correct/latest dashboard shell includes:
+- shared operator card structure
+- shared observational/task card structure
+- tabbed workspace markers
+- phase62-top-row lineage
+- no legacy output-display driven shell at the entrypoint we were checking first
+
+SAFE WORKING RULE GOING FORWARD
+When validating dashboard recovery or comparing historical shells:
+
+1. Check /dashboard.html first
+2. Do not treat / as the authoritative visual shell unless explicitly proven
+3. Separate index-entry validation from dashboard-shell validation
+
+CURRENT STATUS
+- Latest visual shell identified
+- Recovery target class confirmed
+- Prior mismatch explained by entrypoint confusion, not disappearance
+
+NEXT SAFE STEP
+Use /dashboard.html as the authoritative recovery validation surface for any further wiring, cognition, governance, or layout checks.
