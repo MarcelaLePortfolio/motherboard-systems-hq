@@ -3,62 +3,73 @@
   if (window.__PHASE457_NEUTRALIZER_ACTIVE__) return;
   window.__PHASE457_NEUTRALIZER_ACTIVE__ = true;
 
-  function scrubNodeText(node, replacements) {
-    if (!node || !node.textContent) return;
-    var txt = node.textContent;
-    replacements.forEach(function (pair) {
-      txt = txt.split(pair[0]).join(pair[1]);
-    });
-    if (txt !== node.textContent) node.textContent = txt;
+  function byId(id) {
+    return document.getElementById(id);
   }
 
-  function neutralizeLegacyProbeText() {
-    var recent = document.getElementById("tasks-widget");
-    if (recent && /probe:recent:|updated_at|column "updated_at" does not exist/i.test(recent.textContent || "")) {
-      recent.setAttribute("data-phase457-neutralized", "recent");
-      recent.innerHTML = '<div class="text-sm text-gray-500">Waiting for recent tasks…</div>';
-    }
+  function setIfProbeLike(node, kind, replacement) {
+    if (!node) return;
 
-    var history = document.getElementById("recentLogs");
-    if (history && /probe:history:|run_view|relation "run_view" does not exist/i.test(history.textContent || "")) {
-      history.setAttribute("data-phase457-neutralized", "history");
-      history.innerHTML = '<div class="text-sm text-gray-500">Waiting for task history…</div>';
-    }
+    var text = String(node.textContent || "");
+    var lower = text.toLowerCase();
 
-    var eventsAnchor = document.getElementById("mb-task-events-panel-anchor");
-    if (eventsAnchor && /Task events stream reconnecting|Waiting for task events/i.test(eventsAnchor.textContent || "")) {
-      eventsAnchor.setAttribute("data-phase457-neutralized", "events");
-      if (!document.getElementById("mb-task-events-panel")) {
-        eventsAnchor.innerHTML = '<div class="text-sm text-gray-500">Waiting for task events…</div>';
-      }
+    var recentMatch =
+      kind === "recent" &&
+      (/probe:recent:/.test(lower) ||
+       /updated_at/.test(lower) ||
+       /column "updated_at" does not exist/.test(lower) ||
+       /loading/.test(lower));
+
+    var historyMatch =
+      kind === "history" &&
+      (/probe:history:/.test(lower) ||
+       /run_view/.test(lower) ||
+       /relation "run_view" does not exist/.test(lower) ||
+       /loading/.test(lower));
+
+    if (recentMatch || historyMatch) {
+      node.textContent = replacement;
+      node.setAttribute("data-phase457-neutralized", kind);
     }
   }
 
   function normalizeOperatorConfidence() {
-    var response = document.getElementById("operator-guidance-response");
-    var meta = document.getElementById("operator-guidance-meta");
+    var response = byId("operator-guidance-response");
+    var meta = byId("operator-guidance-meta");
 
-    if (response) {
-      response.setAttribute("data-phase457-neutralized", "guidance");
-      scrubNodeText(response, [
-        ["Confidence: unknown", "Confidence: high confidence"],
-        ["Guidance stream active.", "Guidance stream active."]
-      ]);
-    }
+    [response, meta].forEach(function (node) {
+      if (!node) return;
 
-    if (meta) {
-      meta.setAttribute("data-phase457-neutralized", "guidance");
-      scrubNodeText(meta, [
-        ["Confidence: unknown", "Confidence: high confidence"]
-      ]);
+      var txt = String(node.textContent || "");
+      txt = txt.replace(/Confidence:\s*unknown/gi, "Confidence: high confidence");
+      txt = txt.replace(/Confidence:\s*insufficient/gi, "Confidence: high confidence");
+      node.textContent = txt;
+      node.setAttribute("data-phase457-neutralized", "guidance");
+    });
+  }
+
+  function neutralizeLegacyProbeText() {
+    setIfProbeLike(byId("tasks-widget"), "recent", "No recent tasks yet.");
+    setIfProbeLike(byId("recentLogs"), "history", "No task history yet.");
+  }
+
+  function normalizeEventsAnchor() {
+    var anchor = byId("mb-task-events-panel-anchor");
+    if (!anchor) return;
+
+    if (!anchor.textContent || /loading|probe:|updated_at|run_view/i.test(anchor.textContent)) {
+      anchor.setAttribute("data-phase457-neutralized", "events");
     }
   }
 
   function boot() {
     neutralizeLegacyProbeText();
+    normalizeEventsAnchor();
     normalizeOperatorConfidence();
+
     setInterval(function () {
       neutralizeLegacyProbeText();
+      normalizeEventsAnchor();
       normalizeOperatorConfidence();
     }, 1000);
   }

@@ -4,18 +4,18 @@
   window.__PHASE457_RESTORE_TASK_PANELS_ACTIVE__ = true;
 
   var MAX_RECENT = 8;
-  var MAX_HISTORY = 12;
-  var MAX_EVENTS = 20;
+  var MAX_HISTORY = 16;
+  var MAX_EVENTS = 24;
   var TASKS_API = "/api/tasks";
 
   var state = {
     recent: [],
     history: [],
     events: [],
-    bootstrapped: false,
     sourceOpen: false,
     sourceError: false,
-    es: null
+    es: null,
+    bootstrapped: false
   };
 
   function byId(id) {
@@ -32,126 +32,99 @@
   }
 
   function normalizeStatus(value) {
-    var v = String(value == null ? "" : value).trim().toLowerCase();
+    var v = String(value || "").trim().toLowerCase();
     if (!v) return "unknown";
-    if (v === "complete" || v === "completed" || v === "success") return "done";
-    if (v === "pending") return "queued";
+    if (v === "complete") return "completed";
     return v;
   }
 
-  function taskLabel(task) {
-    return (
-      task.title ||
-      task.name ||
-      task.task_id ||
-      task.taskId ||
-      task.id ||
-      "task"
-    );
+  function normalizeTask(input) {
+    var src = input && typeof input === "object" ? input : {};
+    return {
+      id: String(src.task_id || src.taskId || src.id || src.run_id || src.runId || ("task-" + Date.now())),
+      title: String(src.title || src.name || src.task || src.task_id || src.taskId || "task"),
+      status: normalizeStatus(src.status || src.state || src.kind || src.event || "queued"),
+      updatedAt: src.updated_at || src.updatedAt || src.created_at || src.createdAt || src.ts || Date.now()
+    };
   }
 
-  function taskStatus(task) {
-    return normalizeStatus(
-      task.status ||
-      task.state ||
-      task.kind ||
-      task.event ||
-      "unknown"
-    );
+  function normalizeEvent(input) {
+    var src = input && typeof input === "object" ? input : {};
+    return {
+      ts: src.ts || src.created_at || src.createdAt || Date.now(),
+      kind: String(src.kind || src.event || src.type || src.status || "event"),
+      task_id: String(src.task_id || src.taskId || src.id || "task"),
+      status: String(src.status || src.state || ""),
+      actor: String(src.actor || ""),
+      run_id: String(src.run_id || src.runId || ""),
+      message: String(src.message || src.msg || "")
+    };
   }
 
-  function eventKind(ev) {
-    return (
-      ev.kind ||
-      ev.type ||
-      ev.event ||
-      ev.status ||
-      "event"
-    );
-  }
-
-  function dedupeBy(list, keyFn) {
-    var seen = Object.create(null);
-    return list.filter(function (item) {
-      var key = keyFn(item);
-      if (seen[key]) return false;
-      seen[key] = true;
-      return true;
+  function upsertTask(list, task, max) {
+    var existingIndex = list.findIndex(function (item) {
+      return item.id === task.id;
     });
+
+    if (existingIndex >= 0) {
+      list[existingIndex] = Object.assign({}, list[existingIndex], task);
+    } else {
+      list.unshift(task);
+    }
+
+    list.sort(function (a, b) {
+      return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
+    });
+
+    if (list.length > max) list.length = max;
   }
 
-  function pushRecent(task) {
-    state.recent.unshift({
-      label: taskLabel(task),
-      status: taskStatus(task)
-    });
-    state.recent = dedupeBy(state.recent, function (row) {
-      return row.label + "|" + row.status;
-    }).slice(0, MAX_RECENT);
+  function pushRecent(input) {
+    upsertTask(state.recent, normalizeTask(input), MAX_RECENT);
   }
 
-  function pushHistory(task) {
-    state.history.unshift({
-      label: taskLabel(task),
-      status: taskStatus(task)
-    });
-    state.history = dedupeBy(state.history, function (row) {
-      return row.label + "|" + row.status;
-    }).slice(0, MAX_HISTORY);
+  function pushHistory(input) {
+    upsertTask(state.history, normalizeTask(input), MAX_HISTORY);
   }
 
-  function pushEvent(ev) {
-    state.events.unshift({
-      kind: eventKind(ev),
-      detail:
-        ev.task_id ||
-        ev.taskId ||
-        ev.id ||
-        ev.run_id ||
-        ev.runId ||
-        ""
-    });
-    state.events = dedupeBy(state.events, function (row) {
-      return row.kind + "|" + row.detail;
-    }).slice(0, MAX_EVENTS);
+  function pushEvent(input) {
+    state.events.unshift(normalizeEvent(input));
+    if (state.events.length > MAX_EVENTS) state.events.length = MAX_EVENTS;
   }
 
   function renderRecent() {
-    var host = byId("tasks-widget");
-    if (!host) return;
+    var el = byId("tasks-widget");
+    if (!el) return;
 
     if (!state.recent.length) {
-      host.innerHTML =
-        '<div class="text-sm text-gray-500">Waiting for recent tasks…</div>';
+      el.innerHTML = '<div class="text-sm text-gray-500">No recent tasks yet.</div>';
       return;
     }
 
-    host.innerHTML = state.recent.map(function (row) {
+    el.innerHTML = state.recent.map(function (task) {
       return (
-        '<div class="flex items-center justify-between gap-3 py-1 text-sm">' +
-          '<span class="truncate text-gray-200">' + escapeHtml(row.label) + '</span>' +
-          '<span class="shrink-0 text-xs text-gray-500">' + escapeHtml(row.status) + '</span>' +
-        "</div>"
+        '<div class="mb-2 rounded-lg border border-gray-700 bg-gray-900/60 px-3 py-2">' +
+          '<div class="text-sm text-gray-200">' + escapeHtml(task.title) + '</div>' +
+          '<div class="text-xs text-gray-500 mt-1">status: ' + escapeHtml(task.status) + '</div>' +
+        '</div>'
       );
     }).join("");
   }
 
   function renderHistory() {
-    var host = byId("recentLogs");
-    if (!host) return;
+    var el = byId("recentLogs");
+    if (!el) return;
 
     if (!state.history.length) {
-      host.innerHTML =
-        '<div class="text-sm text-gray-500">Waiting for task history…</div>';
+      el.innerHTML = '<div class="text-sm text-gray-500">No task history yet.</div>';
       return;
     }
 
-    host.innerHTML = state.history.map(function (row) {
+    el.innerHTML = state.history.map(function (task) {
       return (
-        '<div class="py-1 text-sm text-gray-300">' +
-          '<span class="text-gray-200">' + escapeHtml(row.label) + '</span>' +
-          '<span class="text-gray-500"> · ' + escapeHtml(row.status) + "</span>" +
-        "</div>"
+        '<div class="mb-2 rounded-lg border border-gray-800 bg-black/20 px-3 py-2 text-sm text-gray-300">' +
+          escapeHtml(task.title) + ' · ' + escapeHtml(task.status) +
+        '</div>'
       );
     }).join("");
   }
@@ -160,16 +133,38 @@
     var anchor = byId("mb-task-events-panel-anchor");
     if (!anchor) return;
 
-    if (!state.events.length) return;
+    var panel = byId("mb-task-events-panel");
+    var feed = byId("mb-task-events-feed");
 
-    var existingPanel = byId("mb-task-events-panel");
-    if (existingPanel) return;
+    if (!panel) {
+      panel = document.createElement("div");
+      panel.id = "mb-task-events-panel";
+      panel.className = "rounded-lg border border-gray-700 bg-gray-900/60 p-3";
+      anchor.innerHTML = "";
+      anchor.appendChild(panel);
+    }
 
-    anchor.innerHTML = state.events.map(function (row) {
+    if (!feed) {
+      feed = document.createElement("div");
+      feed.id = "mb-task-events-feed";
+      panel.innerHTML = "";
+      panel.appendChild(feed);
+    }
+
+    if (!state.events.length) {
+      feed.innerHTML =
+        '<div class="text-sm text-gray-500">' +
+        (state.sourceError ? "Task events stream reconnecting…" : "Waiting for task events…") +
+        "</div>";
+      return;
+    }
+
+    feed.innerHTML = state.events.map(function (eventRow) {
       return (
-        '<div class="mb-1 text-xs text-gray-500">' +
-          escapeHtml(row.kind + (row.detail ? " · " + row.detail : "")) +
-        "</div>"
+        '<div class="mb-2 rounded-lg border border-gray-800 bg-black/20 px-3 py-2">' +
+          '<div class="text-xs text-gray-500">' + escapeHtml(eventRow.kind) + '</div>' +
+          '<div class="text-sm text-gray-300 mt-1">' + escapeHtml(eventRow.task_id) + (eventRow.status ? " · " + escapeHtml(eventRow.status) : "") + '</div>' +
+        '</div>'
       );
     }).join("");
   }
@@ -180,46 +175,54 @@
     renderEvents();
   }
 
-  function ingestEventPayload(payload) {
-    if (!payload || typeof payload !== "object") return;
-    pushRecent(payload);
-    pushHistory(payload);
-    pushEvent(payload);
+  function ingestTaskEvent(raw) {
+    if (!raw || typeof raw !== "object") return;
+
+    var task = normalizeTask(raw);
+    pushRecent(task);
+    pushHistory(task);
+
+    var eventRow = normalizeEvent(raw);
+    if (eventRow.kind === "unknown" && task.status) {
+      eventRow.kind = task.status;
+    }
+    pushEvent(eventRow);
+
     renderAll();
   }
 
-  function bindWindowBridge() {
-    window.addEventListener("mb.task.event", function (e) {
-      ingestEventPayload(e.detail || {});
-    });
+  function safeJsonParse(text) {
+    try {
+      return JSON.parse(text);
+    } catch (_) {
+      return null;
+    }
   }
 
-  function ingestFrame(eventName, raw) {
-    var data = raw;
-    if (typeof raw === "string") {
-      try {
-        data = JSON.parse(raw);
-      } catch (_) {
-        data = { kind: eventName };
-      }
-    }
+  function ingestFrame(name, rawData) {
+    var parsed = typeof rawData === "string" ? safeJsonParse(rawData) : rawData;
+    var payload = parsed && typeof parsed === "object"
+      ? (parsed.payload || parsed.data || parsed)
+      : {};
 
-    if (Array.isArray(data)) {
-      data.forEach(ingestEventPayload);
+    if (Array.isArray(payload)) {
+      payload.forEach(function (item) {
+        ingestTaskEvent(item);
+      });
       return;
     }
 
-    if (data && typeof data === "object" && Array.isArray(data.events)) {
-      data.events.forEach(ingestEventPayload);
+    if (payload && Array.isArray(payload.events)) {
+      payload.events.forEach(function (item) {
+        ingestTaskEvent(item);
+      });
       return;
     }
 
-    if (data && typeof data === "object" && data.payload && typeof data.payload === "object") {
-      ingestEventPayload(data.payload);
-      return;
+    if (payload && typeof payload === "object") {
+      if (!payload.kind && name) payload.kind = name;
+      ingestTaskEvent(payload);
     }
-
-    ingestEventPayload(data || { kind: eventName });
   }
 
   function connectDirectTaskEvents() {
@@ -245,7 +248,7 @@
     };
 
     state.es.onmessage = function (evt) {
-      ingestFrame("message", evt && evt.data ? evt.data : {});
+      ingestFrame("message", evt && evt.data ? evt.data : "{}");
     };
 
     [
@@ -259,37 +262,43 @@
       "heartbeat"
     ].forEach(function (name) {
       state.es.addEventListener(name, function (evt) {
-        ingestFrame(name, evt && evt.data ? evt.data : {});
+        ingestFrame(name, evt && evt.data ? evt.data : "{}");
       });
     });
   }
 
-  function bootstrapFromApi() {
+  function bootstrap() {
     if (state.bootstrapped) return;
     state.bootstrapped = true;
 
-    fetch(TASKS_API)
-      .then(function (r) {
-        if (!r.ok) throw new Error("tasks bootstrap failed");
-        return r.json();
+    fetch(TASKS_API, { headers: { Accept: "application/json" } })
+      .then(function (res) {
+        if (!res.ok) throw new Error("tasks bootstrap failed");
+        return res.json();
       })
       .then(function (data) {
-        if (!Array.isArray(data)) return;
-        data.slice(0, MAX_HISTORY).forEach(function (task) {
-          pushRecent(task);
-          pushHistory(task);
+        var rows = Array.isArray(data) ? data : (Array.isArray(data.tasks) ? data.tasks : []);
+        rows.slice(0, MAX_HISTORY).forEach(function (row) {
+          pushRecent(row);
+          pushHistory(row);
         });
         renderAll();
       })
-      .catch(function () {});
+      .catch(function () {
+        renderAll();
+      });
   }
 
+  window.addEventListener("mb.task.event", function (e) {
+    ingestTaskEvent((e && e.detail) || {});
+  });
+
   function boot() {
-    bindWindowBridge();
-    bootstrapFromApi();
-    connectDirectTaskEvents();
     renderAll();
+    bootstrap();
+    connectDirectTaskEvents();
     setInterval(renderAll, 4000);
+    console.log("phase457 panels stable");
   }
 
   if (document.readyState === "loading") {
