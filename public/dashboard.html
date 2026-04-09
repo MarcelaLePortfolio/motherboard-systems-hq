@@ -725,7 +725,95 @@
   </script>
     <script src="/js/operatorGuidance.sse.js?v=phase96-live-1"></script>
     <script src="/js/phase457_restore_task_panels.js"></script>
-    <script src="/js/phase457_neutralize_legacy_observational_consumers.js"></script>
+    <script id="phase464x-guidance-dom-probe">
+(() => {
+  const ids = [
+    "operator-guidance-panel",
+    "operator-guidance-response",
+    "operator-guidance-meta",
+    "atlas-status-card",
+    "atlas-status-details"
+  ];
+
+  function byId(id) { return document.getElementById(id); }
+
+  function install() {
+    const panel = byId("operator-guidance-panel");
+    const response = byId("operator-guidance-response");
+    const meta = byId("operator-guidance-meta");
+    const atlas = byId("atlas-status-card");
+
+    if (!panel || !response || !meta) return;
+
+    if (window.__PHASE464X_GUIDANCE_DOM_PROBE_ACTIVE__) return;
+    window.__PHASE464X_GUIDANCE_DOM_PROBE_ACTIVE__ = true;
+
+    const sink = document.createElement("pre");
+    sink.id = "phase464x-guidance-dom-probe";
+    sink.style.cssText = [
+      "margin-top:12px",
+      "max-height:220px",
+      "overflow:auto",
+      "white-space:pre-wrap",
+      "font-size:11px",
+      "line-height:1.4",
+      "padding:10px",
+      "border:1px solid rgba(255,255,255,.12)",
+      "border-radius:12px",
+      "background:rgba(0,0,0,.25)",
+      "color:#93c5fd"
+    ].join(";");
+    sink.textContent = "[phase464x probe] armed\n";
+    panel.appendChild(sink);
+
+    const log = (msg) => {
+      sink.textContent += msg + "\n";
+      sink.scrollTop = sink.scrollHeight;
+      console.log("[phase464x probe]", msg);
+    };
+
+    ids.forEach((id) => {
+      const node = byId(id);
+      if (!node) return;
+
+      const obs = new MutationObserver((mutations) => {
+        mutations.forEach((m) => {
+          const targetId = (m.target && m.target.id) || id;
+          const text = (node.innerText || node.textContent || "").replace(/\s+/g, " ").trim().slice(0, 220);
+          log(`target=${targetId} type=${m.type} added=${m.addedNodes ? m.addedNodes.length : 0} removed=${m.removedNodes ? m.removedNodes.length : 0} text="${text}"`);
+        });
+      });
+
+      obs.observe(node, {
+        childList: true,
+        subtree: true,
+        characterData: true
+      });
+
+      log(`observer attached to #${id}`);
+    });
+
+    window.addEventListener("focus", () => log("window focus"));
+    document.addEventListener("visibilitychange", () => log(`visibility=${document.visibilityState}`));
+
+    if (atlas) {
+      const atlasObs = new ResizeObserver(() => {
+        log(`atlas-top=${Math.round(atlas.getBoundingClientRect().top)} panel-height=${Math.round(panel.getBoundingClientRect().height)}`);
+      });
+      atlasObs.observe(atlas);
+      atlasObs.observe(panel);
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", install, { once: true });
+  } else {
+    install();
+  }
+})();
+</script>
+
+<script src="/js/phase457_neutralize_legacy_observational_consumers.js"></script>
 </body>
 </html>
 <style>
