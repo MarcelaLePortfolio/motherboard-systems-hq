@@ -1,0 +1,20 @@
+PHASE 456 — RUN_VIEW REPAIR ON CANONICAL STACK
+Generated: 2026-04-09T18:02:39Z
+
+=== PRECHECK ===
+Filesystem      Size    Used   Avail Capacity iused ifree %iused  Mounted on
+/dev/disk3s5   228Gi   125Gi    68Gi    65%    570k  708M    0%   /System/Volumes/Data
+
+phase119-dashboard-cognition-contract
+45bef3449939cc3bf6f395b4dd0c89cb686b9fc1
+
+?? docs/PHASE_456_RUN_VIEW_REPAIR_PLAN.md
+?? docs/phase456_run_view_repair_on_canonical_stack.txt
+?? scripts/phase456_run_view_repair_on_canonical_stack.sh
+
+=== CANONICAL STACK STATE ===
+NAME                                 IMAGE                              COMMAND                  SERVICE     CREATED        STATUS                    PORTS
+motherboard_systems_hq-dashboard-1   motherboard_systems_hq-dashboard   "docker-entrypoint.s…"   dashboard   21 hours ago   Up 29 minutes (healthy)   0.0.0.0:8080->3000/tcp, [::]:8080->3000/tcp
+motherboard_systems_hq-postgres-1    postgres:16-alpine                 "docker-entrypoint.s…"   postgres    21 hours ago   Up 29 minutes             0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+
+=== VERIFY EXPECTED MIGRATION FILES IN REPO ===
