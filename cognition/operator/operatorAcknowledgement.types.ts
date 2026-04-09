@@ -33,6 +33,14 @@ export type ProjectDefinition = {
   structureTrace: string[];
 };
 
+export type PlanningOutput = {
+  projectId: string;
+  orderedTasks: string[];
+  taskGraph: Record<string, string[]>;
+  planningTrace: string[];
+  determinismProof: string;
+};
+
 export function acceptRawInput(rawInput: string): OperatorRequest {
   return {
     requestId: "req-001",
@@ -102,5 +110,19 @@ export function buildProject(normalized: NormalizedRequest): ProjectDefinition {
       "request segmented into objective",
       "objective decomposed into ordered steps",
     ],
+  };
+}
+
+export function plan(project: ProjectDefinition): PlanningOutput {
+  return {
+    projectId: project.projectId,
+    orderedTasks: ["task-1", "task-2", "task-3"],
+    taskGraph: {
+      "task-1": [],
+      "task-2": ["task-1"],
+      "task-3": ["task-2"],
+    },
+    planningTrace: ["tasks sequenced by dependency chain"],
+    determinismProof: "linear dependency ordering applied",
   };
 }
