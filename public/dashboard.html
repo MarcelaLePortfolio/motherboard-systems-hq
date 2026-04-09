@@ -727,14 +727,6 @@
     <script src="/js/phase457_restore_task_panels.js"></script>
     <script id="phase464x-guidance-dom-probe">
 (() => {
-  const ids = [
-    "operator-guidance-panel",
-    "operator-guidance-response",
-    "operator-guidance-meta",
-    "atlas-status-card",
-    "atlas-status-details"
-  ];
-
   function byId(id) { return document.getElementById(id); }
 
   function install() {
@@ -744,15 +736,17 @@
     const atlas = byId("atlas-status-card");
 
     if (!panel || !response || !meta) return;
+    if (window.__PHASE464X_GUIDANCE_STACK_PROBE_ACTIVE__) return;
+    window.__PHASE464X_GUIDANCE_STACK_PROBE_ACTIVE__ = true;
 
-    if (window.__PHASE464X_GUIDANCE_DOM_PROBE_ACTIVE__) return;
-    window.__PHASE464X_GUIDANCE_DOM_PROBE_ACTIVE__ = true;
+    const existing = byId("phase464x-guidance-dom-probe");
+    if (existing) existing.remove();
 
     const sink = document.createElement("pre");
     sink.id = "phase464x-guidance-dom-probe";
     sink.style.cssText = [
       "margin-top:12px",
-      "max-height:220px",
+      "max-height:260px",
       "overflow:auto",
       "white-space:pre-wrap",
       "font-size:11px",
@@ -763,24 +757,32 @@
       "background:rgba(0,0,0,.25)",
       "color:#93c5fd"
     ].join(";");
-    sink.textContent = "[phase464x probe] armed\n";
+    sink.textContent = "[phase464x stack probe] armed\n";
     panel.appendChild(sink);
 
     const log = (msg) => {
       sink.textContent += msg + "\n";
       sink.scrollTop = sink.scrollHeight;
-      console.log("[phase464x probe]", msg);
+      console.log("[phase464x stack probe]", msg);
     };
 
-    ids.forEach((id) => {
-      const node = byId(id);
-      if (!node) return;
+    const shortStack = () => {
+      try {
+        return String(new Error().stack || "")
+          .split("\n")
+          .slice(2, 8)
+          .map((s) => s.trim())
+          .join(" || ");
+      } catch {
+        return "stack-unavailable";
+      }
+    };
 
+    const watchNode = (node, id) => {
       const obs = new MutationObserver((mutations) => {
         mutations.forEach((m) => {
-          const targetId = (m.target && m.target.id) || id;
           const text = (node.innerText || node.textContent || "").replace(/\s+/g, " ").trim().slice(0, 220);
-          log(`target=${targetId} type=${m.type} added=${m.addedNodes ? m.addedNodes.length : 0} removed=${m.removedNodes ? m.removedNodes.length : 0} text="${text}"`);
+          log(`mutation target=${id} type=${m.type} added=${m.addedNodes ? m.addedNodes.length : 0} removed=${m.removedNodes ? m.removedNodes.length : 0} text="${text}" stack="${shortStack()}"`);
         });
       });
 
@@ -791,10 +793,12 @@
       });
 
       log(`observer attached to #${id}`);
-    });
+    };
 
-    window.addEventListener("focus", () => log("window focus"));
-    document.addEventListener("visibilitychange", () => log(`visibility=${document.visibilityState}`));
+    [panel, response, meta].forEach((node) => watchNode(node, node.id));
+
+    window.addEventListener("focus", () => log(`window focus stack="${shortStack()}"`));
+    document.addEventListener("visibilitychange", () => log(`visibility=${document.visibilityState} stack="${shortStack()}"`));
 
     if (atlas) {
       const atlasObs = new ResizeObserver(() => {
