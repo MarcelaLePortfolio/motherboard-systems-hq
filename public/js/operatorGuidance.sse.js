@@ -1,34 +1,84 @@
-(() => {
-  "use strict";
+/**
+ * PHASE 464.X — HARDENED SINGLE-SOURCE GUIDANCE STREAM
+ *
+ * Root cause (confirmed by behavior):
+ * - Tab open / tab focus re-runs initialization
+ * - Existing EventSource not cleaned or guarded
+ * - Multiple streams stack → flood resumes
+ *
+ * Fix strategy (STRICTLY SINGLE FILE):
+ * 1. Global singleton guard (prevents duplicate init)
+ * 2. Active EventSource tracking
+ * 3. Hard cleanup before re-init
+ * 4. Visibility-safe (NO auto reconnect on focus)
+ */
 
-  if (window.__PHASE456_MINIMAL_GUIDANCE_EMITTER__) return;
-  window.__PHASE456_MINIMAL_GUIDANCE_EMITTER__ = true;
+(function () {
+  // 🔒 GLOBAL SINGLETON GUARD
+  if (window.__OPERATOR_GUIDANCE_STREAM_ACTIVE__) {
+    return;
+  }
+  window.__OPERATOR_GUIDANCE_STREAM_ACTIVE__ = true;
 
-  function byId(id) {
-    return document.getElementById(id);
+  let eventSource = null;
+
+  const RESPONSE_EL = document.getElementById("operator-guidance-response");
+  const META_EL = document.getElementById("operator-guidance-meta");
+
+  function closeStream() {
+    if (eventSource) {
+      try {
+        eventSource.close();
+      } catch (_) {}
+      eventSource = null;
+    }
   }
 
-  function renderBaseline() {
-    const response = byId("operator-guidance-response");
-    const meta = byId("operator-guidance-meta");
+  function startStream() {
+    // 🧹 HARD RESET BEFORE START
+    closeStream();
 
-    if (!response || !meta) return;
+    // 🚫 DO NOT start if already active
+    if (eventSource) return;
 
-    response.textContent =
-      "SYSTEM_HEALTH • INFO • HIGH\n" +
-      "System operational. No active tasks. Awaiting operator input.";
+    eventSource = new EventSource("/api/operator-guidance");
 
-    meta.textContent =
-      "Source: deterministic-baseline • Confidence: high • Mode: stable";
+    eventSource.onmessage = (event) => {
+      try {
+        const data = JSON.parse(event.data);
+
+        // OVERWRITE ONLY (no append)
+        if (RESPONSE_EL) {
+          RESPONSE_EL.textContent = data.message || "";
+        }
+
+        if (META_EL) {
+          META_EL.textContent = data.meta || "";
+        }
+      } catch (_) {}
+    };
+
+    eventSource.onerror = () => {
+      // ❗ Do NOT auto-reconnect (prevents stacking)
+      closeStream();
+    };
   }
 
-  function boot() {
-    renderBaseline();
-  }
+  // 🚀 INITIAL LOAD ONLY
+  startStream();
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", boot, { once: true });
-  } else {
-    boot();
-  }
+  // 🧠 VISIBILITY HANDLING (NO RE-INIT)
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "hidden") {
+      // Optional: close when hidden (safe)
+      closeStream();
+      window.__OPERATOR_GUIDANCE_STREAM_ACTIVE__ = false;
+    }
+  });
+
+  // 🧹 HARD CLEANUP ON NAVIGATION
+  window.addEventListener("beforeunload", () => {
+    closeStream();
+    window.__OPERATOR_GUIDANCE_STREAM_ACTIVE__ = false;
+  });
 })();
