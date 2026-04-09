@@ -1,0 +1,17 @@
+{
+  "projectId": "proj-001",
+  "orderedTasks": [
+    "task-1",
+    "task-2",
+    "task-3"
+  ],
+  "taskGraph": {
+    "task-1": [],
+    "task-2": ["task-1"],
+    "task-3": ["task-2"]
+  },
+  "planningTrace": [
+    "tasks sequenced by dependency chain"
+  ],
+  "determinismProof": "linear dependency ordering applied"
+}
