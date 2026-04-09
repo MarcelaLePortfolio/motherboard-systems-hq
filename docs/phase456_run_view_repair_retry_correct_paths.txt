@@ -1,0 +1,31 @@
+PHASE 456 — RUN_VIEW REPAIR RETRY (CORRECT PATHS)
+Generated: 2026-04-09T18:07:40Z
+
+=== PRECHECK ===
+Filesystem      Size    Used   Avail Capacity iused ifree %iused  Mounted on
+/dev/disk3s5   228Gi   125Gi    68Gi    65%    570k  708M    0%   /System/Volumes/Data
+
+phase119-dashboard-cognition-contract
+7f20f3c1e6cac3217ed47d9aaf2632608efc5e90
+
+?? docs/phase456_run_view_repair_retry_correct_paths.txt
+?? scripts/phase456_run_view_repair_retry_correct_paths.sh
+
+=== CANONICAL STACK STATE ===
+NAME                                 IMAGE                              COMMAND                  SERVICE     CREATED        STATUS                    PORTS
+motherboard_systems_hq-dashboard-1   motherboard_systems_hq-dashboard   "docker-entrypoint.s…"   dashboard   21 hours ago   Up 34 minutes (healthy)   0.0.0.0:8080->3000/tcp, [::]:8080->3000/tcp
+motherboard_systems_hq-postgres-1    postgres:16-alpine                 "docker-entrypoint.s…"   postgres    22 hours ago   Up 34 minutes             0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+
+=== VERIFY CORRECT RUN_VIEW FILES IN REPO ===
+-rw-r--r--  1 marcela-dev  staff  3064 Mar  4 15:00 drizzle_pg/0007_phase36_1_run_view.sql
+-rw-r--r--  1 marcela-dev  staff  1260 Feb 10 12:28 drizzle_pg/0007_phase36_2_run_view_contract.sql
+
+=== VERIFY CORRECT RUN_VIEW FILES IN DASHBOARD CONTAINER ===
+-rw-r--r--    1 root     root          3064 Mar  4 23:00 /app/drizzle_pg/0007_phase36_1_run_view.sql
+-rw-r--r--    1 root     root          1260 Feb 10 20:28 /app/drizzle_pg/0007_phase36_2_run_view_contract.sql
+
+=== CHECK WHETHER run_view EXISTS BEFORE REPAIR ===
+
+run_view_exists_before=0
+
+=== APPLY ONLY RUN_VIEW MIGRATIONS TO CANONICAL POSTGRES ===
