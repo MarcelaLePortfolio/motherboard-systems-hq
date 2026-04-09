@@ -1,0 +1,78 @@
+{
+  "inputBefore": {
+    "requestId": "req-001",
+    "timestamp": 1700000000000,
+    "rawInput": "Create a system that monitors API uptime and alerts me when failures occur.",
+    "inputType": "text",
+    "source": "operator",
+    "metadata": {}
+  },
+  "first": {
+    "requestId": "req-001",
+    "canonicalText": "create a system that monitors api uptime and alerts me when failures occur",
+    "tokens": [
+      "create",
+      "a",
+      "system",
+      "that",
+      "monitors",
+      "api",
+      "uptime",
+      "and",
+      "alerts",
+      "me",
+      "when",
+      "failures",
+      "occur"
+    ],
+    "detectedIntent": "unknown",
+    "ambiguityFlags": [],
+    "normalizationTrace": [
+      "lowercase transformation",
+      "punctuation removal",
+      "whitespace tokenization"
+    ]
+  },
+  "second": {
+    "requestId": "req-001",
+    "canonicalText": "create a system that monitors api uptime and alerts me when failures occur",
+    "tokens": [
+      "create",
+      "a",
+      "system",
+      "that",
+      "monitors",
+      "api",
+      "uptime",
+      "and",
+      "alerts",
+      "me",
+      "when",
+      "failures",
+      "occur"
+    ],
+    "detectedIntent": "unknown",
+    "ambiguityFlags": [],
+    "normalizationTrace": [
+      "lowercase transformation",
+      "punctuation removal",
+      "whitespace tokenization"
+    ]
+  },
+  "inputAfterFirstCall": {
+    "requestId": "req-001",
+    "timestamp": 1700000000000,
+    "rawInput": "Create a system that monitors API uptime and alerts me when failures occur.",
+    "inputType": "text",
+    "source": "operator",
+    "metadata": {}
+  },
+  "inputAfterSecondCall": {
+    "requestId": "req-001",
+    "timestamp": 1700000000000,
+    "rawInput": "Create a system that monitors API uptime and alerts me when failures occur.",
+    "inputType": "text",
+    "source": "operator",
+    "metadata": {}
+  }
+}
