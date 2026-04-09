@@ -1,0 +1,8 @@
+{
+  "requestId": "req-001",
+  "timestamp": 1700000000000,
+  "rawInput": "test input",
+  "inputType": "text",
+  "source": "operator",
+  "metadata": {}
+}
