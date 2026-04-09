@@ -1,0 +1,156 @@
+{
+  "inputBefore": {
+    "requestId": "req-001",
+    "canonicalText": "create a system that monitors api uptime and alerts me when failures occur",
+    "tokens": [
+      "create",
+      "a",
+      "system",
+      "that",
+      "monitors",
+      "api",
+      "uptime",
+      "and",
+      "alerts",
+      "me",
+      "when",
+      "failures",
+      "occur"
+    ],
+    "detectedIntent": "unknown",
+    "ambiguityFlags": [],
+    "normalizationTrace": [
+      "lowercase transformation",
+      "punctuation removal",
+      "whitespace tokenization"
+    ]
+  },
+  "first": {
+    "projectId": "proj-001",
+    "sourceRequestId": "req-001",
+    "tasks": [
+      {
+        "taskId": "task-1",
+        "description": "define monitoring target",
+        "dependencies": [],
+        "status": "unplanned"
+      },
+      {
+        "taskId": "task-2",
+        "description": "define uptime check mechanism",
+        "dependencies": [
+          "task-1"
+        ],
+        "status": "unplanned"
+      },
+      {
+        "taskId": "task-3",
+        "description": "define alert trigger conditions",
+        "dependencies": [
+          "task-2"
+        ],
+        "status": "unplanned"
+      }
+    ],
+    "constraints": [],
+    "assumptions": [],
+    "unknowns": [
+      "api endpoints unspecified",
+      "alert delivery method unspecified"
+    ],
+    "structureTrace": [
+      "request segmented into objective",
+      "objective decomposed into ordered steps"
+    ]
+  },
+  "second": {
+    "projectId": "proj-001",
+    "sourceRequestId": "req-001",
+    "tasks": [
+      {
+        "taskId": "task-1",
+        "description": "define monitoring target",
+        "dependencies": [],
+        "status": "unplanned"
+      },
+      {
+        "taskId": "task-2",
+        "description": "define uptime check mechanism",
+        "dependencies": [
+          "task-1"
+        ],
+        "status": "unplanned"
+      },
+      {
+        "taskId": "task-3",
+        "description": "define alert trigger conditions",
+        "dependencies": [
+          "task-2"
+        ],
+        "status": "unplanned"
+      }
+    ],
+    "constraints": [],
+    "assumptions": [],
+    "unknowns": [
+      "api endpoints unspecified",
+      "alert delivery method unspecified"
+    ],
+    "structureTrace": [
+      "request segmented into objective",
+      "objective decomposed into ordered steps"
+    ]
+  },
+  "inputAfterFirstCall": {
+    "requestId": "req-001",
+    "canonicalText": "create a system that monitors api uptime and alerts me when failures occur",
+    "tokens": [
+      "create",
+      "a",
+      "system",
+      "that",
+      "monitors",
+      "api",
+      "uptime",
+      "and",
+      "alerts",
+      "me",
+      "when",
+      "failures",
+      "occur"
+    ],
+    "detectedIntent": "unknown",
+    "ambiguityFlags": [],
+    "normalizationTrace": [
+      "lowercase transformation",
+      "punctuation removal",
+      "whitespace tokenization"
+    ]
+  },
+  "inputAfterSecondCall": {
+    "requestId": "req-001",
+    "canonicalText": "create a system that monitors api uptime and alerts me when failures occur",
+    "tokens": [
+      "create",
+      "a",
+      "system",
+      "that",
+      "monitors",
+      "api",
+      "uptime",
+      "and",
+      "alerts",
+      "me",
+      "when",
+      "failures",
+      "occur"
+    ],
+    "detectedIntent": "unknown",
+    "ambiguityFlags": [],
+    "normalizationTrace": [
+      "lowercase transformation",
+      "punctuation removal",
+      "whitespace tokenization"
+    ]
+  }
+}
