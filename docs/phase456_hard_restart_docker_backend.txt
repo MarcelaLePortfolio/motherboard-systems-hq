@@ -1,0 +1,2146 @@
+PHASE 456 — HARD RESTART DOCKER BACKEND
+Generated: 2026-04-09T17:32:30Z
+
+=== PRECHECK ===
+Filesystem      Size    Used   Avail Capacity iused ifree %iused  Mounted on
+/dev/disk3s5   228Gi   125Gi    68Gi    65%    570k  709M    0%   /System/Volumes/Data
+
+phase119-dashboard-cognition-contract
+5a42a745ed9496f67cb811aa49b36690fc6078a9
+
+?? docs/PHASE_456_HARD_RESTART_DOCKER_BACKEND_PLAN.md
+?? docs/phase456_hard_restart_docker_backend.txt
+?? scripts/phase456_hard_restart_docker_backend.sh
+
+=== BEFORE: DOCKER PROCESS SNAPSHOT ===
+marcela-dev       1115   0.0  0.2 411624624  26336   ??  S    Tue09AM   0:04.17 /Applications/Docker.app/Contents/Resources/bin/cagent api --listen unix:///Users/marcela-dev/Library/Containers/com.docker.docker/Data/docker-cagent.sock --models-gateway https://ai-backend-service.docker.com/proxy?origin=desktop&desktopVersion=4.55.0 --pull-interval 15 docker/gordon
+marcela-dev       1063   0.0  0.2 411605456  33568   ??  S    Tue09AM   0:12.55 /Applications/Docker.app/Contents/MacOS/com.docker.backend
+root               333   0.0  0.0 411901696   1616   ??  Ss   Tue09AM   0:00.09 /Library/PrivilegedHelperTools/com.docker.vmnetd
+marcela-dev      94453   0.0  0.1 411342272  23248   ??  S    10:32AM   0:00.01 (docker)
+marcela-dev      94446   0.0  0.0 410068880   1008 s233  S+   10:32AM   0:00.00 tee docs/phase456_hard_restart_docker_backend.txt
+marcela-dev      94445   0.0  0.0 410211728   1392 s233  S+   10:32AM   0:00.00 bash ./scripts/phase456_hard_restart_docker_backend.sh
+marcela-dev      94444   0.0  0.0 410200464   1648 s233  S+   10:32AM   0:00.00 bash ./scripts/phase456_hard_restart_docker_backend.sh
+
+=== STEP 1: CLEANLY QUIT DOCKER DESKTOP ===
+
+=== STEP 2: FORCE-STOP USER-LEVEL DOCKER PROCESSES ===
+
+=== STEP 3: REMOVE ONLY STALE USER RUNTIME SOCKETS ===
+
+total 0
+drwxr-xr-x@  2 marcela-dev  staff   64 Apr  9 09:45 .
+drwxr-xr-x@ 14 marcela-dev  staff  448 Apr  7 09:42 ..
+
+=== STEP 4: START DOCKER DESKTOP ===
+
+=== STEP 5: WAIT FOR DOCKER DAEMON ===
+Docker daemon not ready yet (attempt 1/72)...
+Docker daemon is ready.
+
+=== STEP 6: START EXISTING COMPOSE STACK ONLY ===
+
+=== STEP 7: VERIFY STACK ===
+NAME                                 IMAGE                              COMMAND                  SERVICE     CREATED        STATUS                                     PORTS
+motherboard_systems_hq-dashboard-1   motherboard_systems_hq-dashboard   "docker-entrypoint.s…"   dashboard   21 hours ago   Up Less than a second (health: starting)   0.0.0.0:8080->3000/tcp, [::]:8080->3000/tcp
+motherboard_systems_hq-postgres-1    postgres:16-alpine                 "docker-entrypoint.s…"   postgres    21 hours ago   Up Less than a second                      0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+
+COMMAND     PID        USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+com.docke 94513 marcela-dev  217u  IPv6 0x65a673b49d7d56cd      0t0  TCP *:8080 (LISTEN)
+
+
+=== STEP 8: DASHBOARD LOGS ===
+----- LOGS: motherboard_systems_hq-dashboard-1 -----
+  accept: 'application/json'
+}
+[HTTP] GET /api/runs?limit=20
+[HTTP] GET /api/tasks?limit=12
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/dashboard.html',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+  accept: 'application/json'
+}
+[HTTP] GET /api/runs?limit=20
+[HTTP] GET /api/runs?limit=20
+[HTTP] GET /api/tasks?limit=12
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/dashboard.html',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+  accept: 'application/json'
+}
+[HTTP] GET /api/runs?limit=20
+[HTTP] GET /api/tasks?limit=12
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/dashboard.html',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+  accept: 'application/json'
+}
+[HTTP] GET /api/runs?limit=20
+[HTTP] GET /api/tasks?limit=12
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/dashboard.html',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+  accept: 'application/json'
+}
+[HTTP] GET /api/runs?limit=20
+[HTTP] GET /api/runs?limit=20
+[HTTP] GET /api/tasks?limit=12
+[HTTP] GET /api/runs?limit=20
+[HTTP] GET /api/tasks?limit=12
+[HTTP] GET /api/tasks?limit=12
+[HTTP] GET /api/runs?limit=20
+[HTTP] GET /api/runs?limit=20
+[HTTP] GET /css/broadcast.css
+[HTTP] GET /css/demo_layout_trim.css
+[HTTP] GET /css/dashboard-reflections.css
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/dashboard.html',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+  accept: 'application/json'
+}
+[HTTP] GET /css/dashboard.css?v=darkmode
+[HTTP] GET /css/phase13_5_operator_ux.css
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/dashboard.html',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+  accept: 'application/json'
+}
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/dashboard.html',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+  accept: 'application/json'
+}
+[HTTP] GET /css/agent-status-row.css
+[HTTP] GET /css/matilda-chat.css
+[HTTP] GET /css/phase59_demo_focus.css
+[HTTP] GET /css/phase60_live_polish.css
+[HTTP] GET /css/phase61_workspace_consolidation.css
+[HTTP] GET /css/phase61_tabs_observational_workspace.css
+[HTTP] GET /js/phase61_tabs_workspace.js
+[HTTP] GET /bundle.js
+[HTTP] GET /js/phase60_live_clock.js
+[HTTP] GET /js/phase61_recent_history_wire.js
+[HTTP] GET /js/operatorGuidance.sse.js?v=phase96-live-1
+[HTTP] GET /js/phase457_restore_task_panels.js
+[HTTP] GET /js/phase457_neutralize_legacy_observational_consumers.js
+[HTTP] GET /events/ops
+[HTTP] GET /events/ops
+[HTTP] GET /api/tasks?limit=12
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/dashboard.html',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+  accept: 'application/json'
+}
+[HTTP] GET /api/runs?limit=20
+[HTTP] GET /api/tasks
+[HTTP] GET /events/ops
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/dashboard.html',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+  accept: 'application/json'
+}
+[HTTP] GET /events/reflections
+(node:1) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///app/routes/diagnostics/operatorGuidanceRuntime.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /app/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+----- LOGS: motherboard_systems_hq-postgres-1 -----
+	          actor,
+	          lease_expires_at,
+	          lease_fresh,
+	          lease_ttl_ms,
+	          last_heartbeat_ts,
+	          heartbeat_age_ms,
+	          terminal_event_kind,
+	          terminal_event_ts,
+	          terminal_event_id
+	  
+	        FROM run_view
+	        
+	        ORDER BY
+	          last_event_ts DESC NULLS LAST,
+	          last_event_id DESC NULLS LAST,
+	          run_id DESC
+	        LIMIT $1::int
+	      
+2026-04-09 16:21:51.489 UTC [2135] ERROR:  relation "run_view" does not exist at character 435
+2026-04-09 16:21:51.489 UTC [2135] STATEMENT:  
+	        
+	    SELECT
+	          run_id,
+	          task_id,
+	          task_status,
+	          is_terminal,
+	          last_event_id,
+	          last_event_ts,
+	          last_event_kind,
+	          actor,
+	          lease_expires_at,
+	          lease_fresh,
+	          lease_ttl_ms,
+	          last_heartbeat_ts,
+	          heartbeat_age_ms,
+	          terminal_event_kind,
+	          terminal_event_ts,
+	          terminal_event_id
+	  
+	        FROM run_view
+	        
+	        ORDER BY
+	          last_event_ts DESC NULLS LAST,
+	          last_event_id DESC NULLS LAST,
+	          run_id DESC
+	        LIMIT $1::int
+	      
+2026-04-09 16:21:51.490 UTC [2136] ERROR:  relation "run_view" does not exist at character 435
+2026-04-09 16:21:51.490 UTC [2136] STATEMENT:  
+	        
+	    SELECT
+	          run_id,
+	          task_id,
+	          task_status,
+	          is_terminal,
+	          last_event_id,
+	          last_event_ts,
+	          last_event_kind,
+	          actor,
+	          lease_expires_at,
+	          lease_fresh,
+	          lease_ttl_ms,
+	          last_heartbeat_ts,
+	          heartbeat_age_ms,
+	          terminal_event_kind,
+	          terminal_event_ts,
+	          terminal_event_id
+	  
+	        FROM run_view
+	        
+	        ORDER BY
+	          last_event_ts DESC NULLS LAST,
+	          last_event_id DESC NULLS LAST,
+	          run_id DESC
+	        LIMIT $1::int
+	      
+2026-04-09 16:21:51.501 UTC [2139] ERROR:  relation "run_view" does not exist at character 435
+2026-04-09 16:21:51.501 UTC [2139] STATEMENT:  
+	        
+	    SELECT
+	          run_id,
+	          task_id,
+	          task_status,
+	          is_terminal,
+	          last_event_id,
+	          last_event_ts,
+	          last_event_kind,
+	          actor,
+	          lease_expires_at,
+	          lease_fresh,
+	          lease_ttl_ms,
+	          last_heartbeat_ts,
+	          heartbeat_age_ms,
+	          terminal_event_kind,
+	          terminal_event_ts,
+	          terminal_event_id
+	  
+	        FROM run_view
+	        
+	        ORDER BY
+	          last_event_ts DESC NULLS LAST,
+	          last_event_id DESC NULLS LAST,
+	          run_id DESC
+	        LIMIT $1::int
+	      
+
+----- LOGS: entry_5a8bf4228d45145c920dbf217a80af01319bc4e9-dashboard-1 -----
+[HTTP] GET /api/runs?limit=20
+[phase25] /api/tasks list error error: column "updated_at" does not exist
+    at /app/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async file:///app/server/routes/api-tasks-postgres.mjs:54:15 {
+  length: 173,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: 'Perhaps you meant to reference the column "tasks.created_at".',
+  position: '43',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3729',
+  routine: 'errorMissingColumn'
+}
+[task-events] pool cfg {
+  mode: 'url',
+  DB_URL_present: true,
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'url-hidden',
+  password_len: 'hidden',
+  has_password: true
+}
+[HTTP] GET /api/tasks?limit=12
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8134/dashboard.html',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+  accept: 'application/json'
+}
+[HTTP] GET /api/runs?limit=20
+[phase25] /api/tasks list error error: column "updated_at" does not exist
+    at /app/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async file:///app/server/routes/api-tasks-postgres.mjs:54:15 {
+  length: 173,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: 'Perhaps you meant to reference the column "tasks.created_at".',
+  position: '43',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3729',
+  routine: 'errorMissingColumn'
+}
+[task-events] pool cfg {
+  mode: 'url',
+  DB_URL_present: true,
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'url-hidden',
+  password_len: 'hidden',
+  has_password: true
+}
+[HTTP] GET /api/tasks?limit=12
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8134/dashboard.html',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+  accept: 'application/json'
+}
+[HTTP] GET /api/runs?limit=20
+[phase25] /api/tasks list error error: column "updated_at" does not exist
+    at /app/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async file:///app/server/routes/api-tasks-postgres.mjs:54:15 {
+  length: 173,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: 'Perhaps you meant to reference the column "tasks.created_at".',
+  position: '43',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3729',
+  routine: 'errorMissingColumn'
+}
+[task-events] pool cfg {
+  mode: 'url',
+  DB_URL_present: true,
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'url-hidden',
+  password_len: 'hidden',
+  has_password: true
+}
+
+----- LOGS: entry_e190b90dc788bc889f1fe5f9f9db147139e43498-dashboard-1 -----
+[HTTP] GET /api/runs?limit=20
+[HTTP] GET /api/runs?limit=50
+[HTTP] GET /api/tasks?limit=12
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8133/dashboard.html',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+  accept: 'application/json'
+}
+[HTTP] GET /api/runs?limit=20
+[HTTP] GET /api/runs?limit=20
+[HTTP] GET /api/runs?limit=50
+[HTTP] GET /api/tasks?limit=12
+[HTTP] GET /api/runs?limit=50
+[HTTP] GET /api/runs?limit=50
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8133/dashboard.html',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+  accept: 'application/json'
+}
+[phase25] /api/tasks list error error: column "updated_at" does not exist
+    at /app/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async file:///app/server/routes/api-tasks-postgres.mjs:54:15 {
+  length: 173,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: 'Perhaps you meant to reference the column "tasks.created_at".',
+  position: '43',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3729',
+  routine: 'errorMissingColumn'
+}
+[phase25] /api/tasks list error error: column "updated_at" does not exist
+    at /app/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async file:///app/server/routes/api-tasks-postgres.mjs:54:15 {
+  length: 173,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: 'Perhaps you meant to reference the column "tasks.created_at".',
+  position: '43',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3729',
+  routine: 'errorMissingColumn'
+}
+[phase25] /api/tasks list error error: column "updated_at" does not exist
+    at /app/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async file:///app/server/routes/api-tasks-postgres.mjs:54:15 {
+  length: 173,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: 'Perhaps you meant to reference the column "tasks.created_at".',
+  position: '43',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3729',
+  routine: 'errorMissingColumn'
+}
+[phase25] /api/tasks list error error: column "updated_at" does not exist
+    at /app/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async file:///app/server/routes/api-tasks-postgres.mjs:54:15 {
+  length: 173,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: 'Perhaps you meant to reference the column "tasks.created_at".',
+  position: '43',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3729',
+  routine: 'errorMissingColumn'
+}
+[HTTP] GET /
+[HTTP] GET /dashboard.html
+[HTTP] GET /bundle.js
+[HTTP] GET /bundle-core.js
+[HTTP] GET /dashboard.html
+[HTTP] GET /bundle.js
+[HTTP] GET /bundle-core.js
+
+----- LOGS: entry_ee8ea4f820b46206a3c5dbe172454e8f8d368ea6-dashboard-1 -----
+  referer: 'http://localhost:8132/dashboard.html',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+  accept: 'application/json'
+}
+[phase25] /api/tasks list error error: column "updated_at" does not exist
+    at /app/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async file:///app/server/routes/api-tasks-postgres.mjs:54:15 {
+  length: 173,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: 'Perhaps you meant to reference the column "tasks.created_at".',
+  position: '43',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3729',
+  routine: 'errorMissingColumn'
+}
+[HTTP] GET /api/runs?limit=20
+[task-events] pool cfg {
+  mode: 'url',
+  DB_URL_present: true,
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'url-hidden',
+  password_len: 'hidden',
+  has_password: true
+}
+[HTTP] GET /api/tasks?limit=12
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8132/dashboard.html',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+  accept: 'application/json'
+}
+[phase25] /api/tasks list error error: column "updated_at" does not exist
+    at /app/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async file:///app/server/routes/api-tasks-postgres.mjs:54:15 {
+  length: 173,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: 'Perhaps you meant to reference the column "tasks.created_at".',
+  position: '43',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3729',
+  routine: 'errorMissingColumn'
+}
+[HTTP] GET /api/runs?limit=20
+[task-events] pool cfg {
+  mode: 'url',
+  DB_URL_present: true,
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'url-hidden',
+  password_len: 'hidden',
+  has_password: true
+}
+[HTTP] GET /api/tasks?limit=12
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8132/dashboard.html',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+  accept: 'application/json'
+}
+[phase25] /api/tasks list error error: column "updated_at" does not exist
+    at /app/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async file:///app/server/routes/api-tasks-postgres.mjs:54:15 {
+  length: 173,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: 'Perhaps you meant to reference the column "tasks.created_at".',
+  position: '43',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3729',
+  routine: 'errorMissingColumn'
+}
+[HTTP] GET /api/runs?limit=20
+[HTTP] GET /
+[HTTP] GET /dashboard.html
+[HTTP] GET /bundle.js
+[HTTP] GET /bundle-core.js
+[HTTP] GET /dashboard.html
+[HTTP] GET /bundle.js
+[HTTP] GET /bundle-core.js
+
+----- LOGS: entry_3e320f1b3628bb6ada53daf5b76f9acf311d1df5-dashboard-1 -----
+[phase25] /api/tasks list error error: column "updated_at" does not exist
+    at /app/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async file:///app/server/routes/api-tasks-postgres.mjs:54:15 {
+  length: 173,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: 'Perhaps you meant to reference the column "tasks.created_at".',
+  position: '43',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3729',
+  routine: 'errorMissingColumn'
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[HTTP] GET /api/tasks?limit=12
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8131/dashboard.html',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+  accept: 'application/json'
+}
+[HTTP] GET /api/runs?limit=20
+[phase25] /api/tasks list error error: column "updated_at" does not exist
+    at /app/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async file:///app/server/routes/api-tasks-postgres.mjs:54:15 {
+  length: 173,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: 'Perhaps you meant to reference the column "tasks.created_at".',
+  position: '43',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3729',
+  routine: 'errorMissingColumn'
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[HTTP] GET /api/tasks?limit=12
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8131/dashboard.html',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+  accept: 'application/json'
+}
+[HTTP] GET /api/runs?limit=20
+[phase25] /api/tasks list error error: column "updated_at" does not exist
+    at /app/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async file:///app/server/routes/api-tasks-postgres.mjs:54:15 {
+  length: 173,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: 'Perhaps you meant to reference the column "tasks.created_at".',
+  position: '43',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3729',
+  routine: 'errorMissingColumn'
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[HTTP] GET /
+[HTTP] GET /dashboard.html
+[HTTP] GET /bundle.js
+[HTTP] GET /bundle-core.js
+[HTTP] GET /dashboard.html
+[HTTP] GET /bundle.js
+[HTTP] GET /bundle-core.js
+
+----- LOGS: tabbed_9c68c540-dashboard-1 -----
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+
+----- LOGS: tabbed_d2601c1e-dashboard-1 -----
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+
+----- LOGS: tabbed_df791714-dashboard-1 -----
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+
+----- LOGS: tabbed_74a241ca-dashboard-1 -----
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+
+----- LOGS: tabbed_cba8b3c0-dashboard-1 -----
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+
+----- LOGS: shell_244cdde5-dashboard-1 -----
+[phase25] task_events_emit loaded 2026-04-08T00:41:53.370Z file= file:///app/server/task_events_emit.mjs
+[phase25] api-tasks-postgres loaded 2026-04-08T00:41:53.371Z file= file:///app/server/routes/api-tasks-postgres.mjs
+[phase19] orchestrator_state_route mounted {
+  file: 'file:///app/server/orchestrator_state_route.mjs',
+  envSnapshot: {
+    PHASE18_ENABLE_ORCHESTRATION: undefined,
+    PHASE19_ENABLE_ORCH_STATE: undefined
+  }
+}
+[SSE] /events/ops + /events/reflections registered
+[db] effective pool config {
+  mode: 'url',
+  DB_URL_present: true,
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+Database pool initialized
+[phase25] __DB_POOL set { has: true, type: 'BoundPool' }
+Server running on http://0.0.0.0:3000
+[HTTP] HEAD /
+[HTTP] GET /
+[HTTP] GET /
+[HTTP] HEAD /
+[HTTP] GET /
+[HTTP] GET /
+[HTTP] GET /
+[HTTP] GET /css/broadcast.css
+[HTTP] GET /css/dashboard.css?v=darkmode
+[HTTP] GET /css/matilda-chat.css
+[HTTP] GET /css/dashboard-reflections.css
+[HTTP] GET /css/agent-status-row.css
+[HTTP] GET /favicon.ico
+
+----- LOGS: shell_27b7ddf3-dashboard-1 -----
+[phase25] task_events_emit loaded 2026-04-08T00:41:37.242Z file= file:///app/server/task_events_emit.mjs
+[phase25] api-tasks-postgres loaded 2026-04-08T00:41:37.243Z file= file:///app/server/routes/api-tasks-postgres.mjs
+[phase19] orchestrator_state_route mounted {
+  file: 'file:///app/server/orchestrator_state_route.mjs',
+  envSnapshot: {
+    PHASE18_ENABLE_ORCHESTRATION: undefined,
+    PHASE19_ENABLE_ORCH_STATE: undefined
+  }
+}
+[SSE] /events/ops + /events/reflections registered
+[db] effective pool config {
+  mode: 'url',
+  DB_URL_present: true,
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+Database pool initialized
+[phase25] __DB_POOL set { has: true, type: 'BoundPool' }
+Server running on http://0.0.0.0:3000
+[HTTP] HEAD /
+[HTTP] GET /
+[HTTP] GET /
+[HTTP] HEAD /
+[HTTP] GET /
+[HTTP] GET /
+[HTTP] GET /
+[HTTP] GET /css/broadcast.css
+[HTTP] GET /css/dashboard.css?v=darkmode
+[HTTP] GET /css/agent-status-row.css
+[HTTP] GET /css/dashboard-reflections.css
+[HTTP] GET /css/matilda-chat.css
+[HTTP] GET /css/demo_layout_trim.css
+[HTTP] GET /favicon.ico
+
+----- LOGS: shell_ecac1fb1-dashboard-1 -----
+[phase25] task_events_emit loaded 2026-04-08T00:41:20.989Z file= file:///app/server/task_events_emit.mjs
+[phase25] api-tasks-postgres loaded 2026-04-08T00:41:20.990Z file= file:///app/server/routes/api-tasks-postgres.mjs
+[phase19] orchestrator_state_route mounted {
+  file: 'file:///app/server/orchestrator_state_route.mjs',
+  envSnapshot: {
+    PHASE18_ENABLE_ORCHESTRATION: undefined,
+    PHASE19_ENABLE_ORCH_STATE: undefined
+  }
+}
+[SSE] /events/ops + /events/reflections registered
+[db] effective pool config {
+  mode: 'url',
+  DB_URL_present: true,
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+Database pool initialized
+[phase25] __DB_POOL set { has: true, type: 'BoundPool' }
+Server running on http://0.0.0.0:3000
+[HTTP] HEAD /
+[HTTP] GET /
+[HTTP] GET /
+[HTTP] HEAD /
+[HTTP] GET /
+[HTTP] GET /
+[HTTP] GET /
+[HTTP] GET /css/broadcast.css
+[HTTP] GET /css/dashboard.css?v=darkmode
+[HTTP] GET /css/dashboard-reflections.css
+[HTTP] GET /css/agent-status-row.css
+[HTTP] GET /css/phase59_demo_focus.css
+[HTTP] GET /css/demo_layout_trim.css
+[HTTP] GET /css/matilda-chat.css
+[HTTP] GET /favicon.ico
+
+----- LOGS: shell_c63a60e7-dashboard-1 -----
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+
+----- LOGS: shell_33f5c0e2-dashboard-1 -----
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+[task-events] pool cfg {
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'undefined',
+  password_len: null,
+  has_password: false
+}
+
+----- LOGS: operator_guidance-dashboard-1 -----
+[HTTP] GET /events/ops
+[HTTP] GET /events/ops
+[HTTP] GET /events/ops
+[HTTP] GET /events/reflections
+[task-events] pool cfg {
+  mode: 'url',
+  DB_URL_present: true,
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'url-hidden',
+  password_len: 'hidden',
+  has_password: true
+}
+[HTTP] GET /
+[HTTP] GET /favicon.ico
+[HTTP] GET /css/broadcast.css
+[HTTP] GET /css/dashboard.css?v=darkmode
+[HTTP] GET /css/phase59_demo_focus.css
+[HTTP] GET /css/dashboard-reflections.css
+[HTTP] GET /css/agent-status-row.css
+[HTTP] GET /js/agent-status-row.js
+[HTTP] GET /css/matilda-chat.css
+[HTTP] GET /js/phase60_live_clock.js
+[HTTP] GET /bundle.js
+[HTTP] GET /css/demo_layout_trim.css
+[HTTP] GET /events/ops
+[task-events] pool cfg {
+  mode: 'url',
+  DB_URL_present: true,
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'url-hidden',
+  password_len: 'hidden',
+  has_password: true
+}
+[HTTP] GET /events/ops
+[HTTP] GET /events/ops
+[HTTP] GET /js/telemetry/phase65b_metric_ownership_guard.js
+[HTTP] GET /js/telemetry/running_tasks_metric.js
+[HTTP] GET /events/ops
+[HTTP] GET /events/reflections
+[HTTP] GET /favicon.ico
+[task-events] pool cfg {
+  mode: 'url',
+  DB_URL_present: true,
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'url-hidden',
+  password_len: 'hidden',
+  has_password: true
+}
+[HTTP] GET /events/ops
+[HTTP] GET /events/ops
+[task-events] pool cfg {
+  mode: 'url',
+  DB_URL_present: true,
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'url-hidden',
+  password_len: 'hidden',
+  has_password: true
+}
+[HTTP] GET /events/reflections
+[HTTP] GET /events/ops
+[HTTP] GET /events/ops
+[HTTP] GET /events/ops
+[HTTP] GET /events/ops
+[HTTP] GET /events/reflections
+[task-events] pool cfg {
+  mode: 'url',
+  DB_URL_present: true,
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'url-hidden',
+  password_len: 'hidden',
+  has_password: true
+}
+[HTTP] GET /events/ops
+[HTTP] GET /events/ops
+[HTTP] GET /
+[HTTP] GET /bundle.js
+[HTTP] GET /bundle-core.js
+[HTTP] HEAD /
+[HTTP] GET /events/ops
+[HTTP] GET /events/reflections
+[HTTP] GET /events/ops
+[task-events] pool cfg {
+  mode: 'url',
+  DB_URL_present: true,
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'url-hidden',
+  password_len: 'hidden',
+  has_password: true
+}
+[HTTP] GET /events/ops
+[HTTP] GET /events/ops
+[task-events] pool cfg {
+  mode: 'url',
+  DB_URL_present: true,
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'url-hidden',
+  password_len: 'hidden',
+  has_password: true
+}
+
+----- LOGS: phase65_wiring-dashboard-1 -----
+[phase25] task_events_emit loaded 2026-04-07T23:12:28.841Z file= file:///app/server/task_events_emit.mjs
+[phase25] api-tasks-postgres loaded 2026-04-07T23:12:28.841Z file= file:///app/server/routes/api-tasks-postgres.mjs
+[phase19] orchestrator_state_route mounted {
+  file: 'file:///app/server/orchestrator_state_route.mjs',
+  envSnapshot: {
+    PHASE18_ENABLE_ORCHESTRATION: undefined,
+    PHASE19_ENABLE_ORCH_STATE: undefined
+  }
+}
+[SSE] /events/ops + /events/reflections registered
+[db] effective pool config {
+  mode: 'url',
+  DB_URL_present: true,
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'url-hidden',
+  password_len: 'hidden',
+  has_password: true
+}
+Database pool initialized
+[phase25] __DB_POOL set { has: true, type: 'BoundPool' }
+Server running on http://0.0.0.0:3000
+[HTTP] HEAD /
+[HTTP] GET /
+[HTTP] GET /
+[HTTP] GET /css/broadcast.css
+[HTTP] GET /css/dashboard.css?v=darkmode
+[HTTP] GET /css/dashboard-reflections.css
+[HTTP] GET /css/agent-status-row.css
+[HTTP] GET /css/matilda-chat.css
+[HTTP] GET /css/demo_layout_trim.css
+[HTTP] GET /css/phase59_demo_focus.css
+[HTTP] GET /js/agent-status-row.js
+[HTTP] GET /bundle.js
+[HTTP] GET /js/phase60_live_clock.js
+[HTTP] GET /events/ops
+[HTTP] GET /events/ops
+[task-events] pool cfg {
+  mode: 'url',
+  DB_URL_present: true,
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'url-hidden',
+  password_len: 'hidden',
+  has_password: true
+}
+[HTTP] GET /events/reflections
+[HTTP] GET /events/ops
+[task-events] pool cfg {
+  mode: 'url',
+  DB_URL_present: true,
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'url-hidden',
+  password_len: 'hidden',
+  has_password: true
+}
+[HTTP] GET /favicon.ico
+[task-events] pool cfg {
+  mode: 'url',
+  DB_URL_present: true,
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'url-hidden',
+  password_len: 'hidden',
+  has_password: true
+}
+[task-events] pool cfg {
+  mode: 'url',
+  DB_URL_present: true,
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'url-hidden',
+  password_len: 'hidden',
+  has_password: true
+}
+[task-events] pool cfg {
+  mode: 'url',
+  DB_URL_present: true,
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'url-hidden',
+  password_len: 'hidden',
+  has_password: true
+}
+[HTTP] GET /
+[HTTP] GET /bundle.js
+[HTTP] GET /bundle-core.js
+[HTTP] HEAD /
+
+----- LOGS: phase65_layout-dashboard-1 -----
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'url-hidden',
+  password_len: 'hidden',
+  has_password: true
+}
+[HTTP] GET /events/ops
+[HTTP] GET /events/ops
+[HTTP] GET /events/reflections
+[HTTP] GET /events/ops
+[HTTP] GET /events/reflections
+[HTTP] GET /events/ops
+[HTTP] GET /events/ops
+[HTTP] GET /events/ops
+[HTTP] GET /events/ops
+[task-events] pool cfg {
+  mode: 'url',
+  DB_URL_present: true,
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'url-hidden',
+  password_len: 'hidden',
+  has_password: true
+}
+[task-events] pool cfg {
+  mode: 'url',
+  DB_URL_present: true,
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'url-hidden',
+  password_len: 'hidden',
+  has_password: true
+}
+[HTTP] GET /
+[HTTP] GET /css/broadcast.css
+[HTTP] GET /css/dashboard.css?v=darkmode
+[HTTP] GET /css/phase59_demo_focus.css
+[HTTP] GET /css/dashboard-reflections.css
+[HTTP] GET /css/matilda-chat.css
+[HTTP] GET /js/agent-status-row.js
+[HTTP] GET /bundle.js
+[HTTP] GET /css/demo_layout_trim.css
+[HTTP] GET /js/phase60_live_clock.js
+[HTTP] GET /css/agent-status-row.css
+[HTTP] GET /events/ops
+[HTTP] GET /events/ops
+[task-events] pool cfg {
+  mode: 'url',
+  DB_URL_present: true,
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'url-hidden',
+  password_len: 'hidden',
+  has_password: true
+}
+[HTTP] GET /events/ops
+[HTTP] GET /events/ops
+[HTTP] GET /events/reflections
+[task-events] pool cfg {
+  mode: 'url',
+  DB_URL_present: true,
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'url-hidden',
+  password_len: 'hidden',
+  has_password: true
+}
+[HTTP] GET /favicon.ico
+[HTTP] GET /
+[HTTP] GET /css/dashboard.css?v=darkmode
+[HTTP] GET /css/dashboard-reflections.css
+[HTTP] GET /css/demo_layout_trim.css
+[HTTP] GET /css/broadcast.css
+[HTTP] GET /css/phase59_demo_focus.css
+[HTTP] GET /css/agent-status-row.css
+[HTTP] GET /js/agent-status-row.js
+[HTTP] GET /css/matilda-chat.css
+[HTTP] GET /js/phase60_live_clock.js
+[HTTP] GET /bundle.js
+[HTTP] GET /events/ops
+[HTTP] GET /events/ops
+[HTTP] GET /events/ops
+[task-events] pool cfg {
+  mode: 'url',
+  DB_URL_present: true,
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'url-hidden',
+  password_len: 'hidden',
+  has_password: true
+}
+[HTTP] GET /events/ops
+[HTTP] GET /events/reflections
+[task-events] pool cfg {
+  mode: 'url',
+  DB_URL_present: true,
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'url-hidden',
+  password_len: 'hidden',
+  has_password: true
+}
+[HTTP] GET /favicon.ico
+[HTTP] GET /
+[HTTP] GET /bundle.js
+[HTTP] GET /bundle-core.js
+[HTTP] HEAD /
+
+----- LOGS: mbhq_operator_guidance-dashboard-1 -----
+
+----- LOGS: mbhq_phase65_wiring-dashboard-1 -----
+
+----- LOGS: mbhq_phase65_layout-dashboard-1 -----
+[phase25] task_events_emit loaded 2026-04-07T19:53:59.951Z file= file:///app/server/task_events_emit.mjs
+[phase25] api-tasks-postgres loaded 2026-04-07T19:53:59.952Z file= file:///app/server/routes/api-tasks-postgres.mjs
+[phase19] orchestrator_state_route mounted {
+  file: 'file:///app/server/orchestrator_state_route.mjs',
+  envSnapshot: {
+    PHASE18_ENABLE_ORCHESTRATION: undefined,
+    PHASE19_ENABLE_ORCH_STATE: undefined
+  }
+}
+[SSE] /events/ops + /events/reflections registered
+[db] effective pool config {
+  mode: 'url',
+  DB_URL_present: true,
+  host: null,
+  port: null,
+  user: null,
+  database: null,
+  password_type: 'url-hidden',
+  password_len: 'hidden',
+  has_password: true
+}
+[db] waiting for postgres... elapsed=7ms code=ECONNREFUSED
+/app/node_modules/pg-pool/index.js:45
+    Error.captureStackTrace(err)
+          ^
+
+error: relation "tasks" does not exist
+    at /app/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async ensureTasksTaskIdColumn (file:///app/server/db_bootstrap_tasks_task_id.mjs:3:3)
+    at async file:///app/server.mjs:317:1 {
+  length: 103,
+  severity: 'ERROR',
+  code: '42P01',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'namespace.c',
+  line: '434',
+  routine: 'RangeVarGetRelidExtended'
+}
+
+Node.js v20.20.2
+
