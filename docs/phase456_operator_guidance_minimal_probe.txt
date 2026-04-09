@@ -1,13 +1,51 @@
-PHASE 456 — OPERATOR GUIDANCE MINIMAL PROBE
-Generated: 2026-04-09T18:19:05Z
+PHASE 456 — OPERATOR GUIDANCE MINIMAL PROBE (FIXED)
+Generated: 2026-04-09T18:21:51Z
 
 === OPS STREAM (FIRST 20 LINES) ===
+event: hello
+data: {"kind":"ops","ts":1775758911023,"msg":"SSE ops connected"}
+
+event: ops.state
+data: {"status":"unknown","lastHeartbeatAt":null,"agents":{}}
+
+event: heartbeat
+data: {"ts":1775758914028}
+
+event: heartbeat
+data: {"ts":1775758917035}
+
+event: heartbeat
+data: {"ts":1775758920037}
+
+: keepalive\n\nevent: heartbeat
+data: {"ts":1775758923041}
+
+event: heartbeat
+data: {"ts":1775758926043}
 
 === REFLECTIONS STREAM (FIRST 20 LINES) ===
+event: hello
+data: {"kind":"reflections","ts":1775758929074,"msg":"SSE reflections connected"}
+
+event: reflections.state
+data: {"items":[],"lastAt":null}
+
+event: heartbeat
+data: {"ts":1775758932075}
+
+event: heartbeat
+data: {"ts":1775758935082}
+
+event: heartbeat
+data: {"ts":1775758938088}
+
+: keepalive\n\nevent: heartbeat
+data: {"ts":1775758941093}
+
+event: heartbeat
+data: {"ts":1775758944100}
 
 === DASHBOARD LOGS (LAST 40) ===
-dashboard-1  | [HTTP] GET /api/tasks?limit=12
-dashboard-1  | [HTTP] GET /api/runs?limit=20
 dashboard-1  | [HTTP] GET /events/ops
 dashboard-1  | [HTTP] GET /api/tasks
 dashboard-1  | [phase57c-router] /api/tasks probe {
@@ -46,4 +84,6 @@ dashboard-1  | [HTTP] HEAD /dashboard.html
 dashboard-1  | [HTTP] HEAD /js/operatorGuidance.sse.js?v=phase96-live-1
 dashboard-1  | [HTTP] GET /dashboard.html
 dashboard-1  | [HTTP] GET /js/operatorGuidance.sse.js?v=phase96-live-1
+dashboard-1  | [HTTP] GET /events/ops
+dashboard-1  | [HTTP] GET /events/reflections
 
