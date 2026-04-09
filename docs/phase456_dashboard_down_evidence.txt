@@ -1,0 +1,302 @@
+PHASE 456 — DASHBOARD DOWN EVIDENCE PASS
+Generated: 2026-04-09T17:01:17Z
+
+=== REPO STATE ===
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ
+phase119-dashboard-cognition-contract
+7ad1dbf3fde6b22ab845325abfeb36ce81fb0fb4
+
+ D docs/PHASE_456_REPO_PROTECTION_CHECKPOINT.md
+ M pnpm-lock.yaml
+?? docs/phase456_dashboard_down_evidence.txt
+?? scripts/phase456_dashboard_down_evidence_pass.sh
+
+=== DISK STATE ===
+Filesystem      Size    Used   Avail Capacity iused ifree %iused  Mounted on
+/dev/disk3s5   228Gi   192Gi   1.3Gi   100%    570k   13M    4%   /System/Volumes/Data
+
+=== DOCKER DESKTOP PROCESSES ===
+marcela-dev       1115   0.0  0.2 411624624  25664   ??  S    Tue09AM   0:04.00 /Applications/Docker.app/Contents/Resources/bin/cagent api --listen unix:///Users/marcela-dev/Library/Containers/com.docker.docker/Data/docker-cagent.sock --models-gateway https://ai-backend-service.docker.com/proxy?origin=desktop&desktopVersion=4.55.0 --pull-interval 15 docker/gordon
+marcela-dev       1067   0.0  0.2 411587952  33920   ??  S    Tue09AM   0:07.53 /Applications/Docker.app/Contents/MacOS/com.docker.backend fork
+marcela-dev       1063   0.0  0.2 411605456  33344   ??  S    Tue09AM   0:12.20 /Applications/Docker.app/Contents/MacOS/com.docker.backend
+root               333   0.0  0.0 411901696   1616   ??  Ss   Tue09AM   0:00.08 /Library/PrivilegedHelperTools/com.docker.vmnetd
+
+=== DOCKER CLI INFO ===
+Client:
+ Version:    29.1.3
+ Context:    desktop-linux
+ Debug Mode: false
+ Plugins:
+  ai: Docker AI Agent - Ask Gordon (Docker Inc.)
+    Version:  v1.17.1
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-ai
+  buildx: Docker Buildx (Docker Inc.)
+    Version:  v0.30.1-desktop.1
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-buildx
+  compose: Docker Compose (Docker Inc.)
+    Version:  v2.40.3-desktop.1
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-compose
+  debug: Get a shell into any image or container (Docker Inc.)
+    Version:  0.0.45
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-debug
+  desktop: Docker Desktop commands (Docker Inc.)
+    Version:  v0.2.0
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-desktop
+  extension: Manages Docker extensions (Docker Inc.)
+    Version:  v0.2.31
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-extension
+  init: Creates Docker-related starter files for your project (Docker Inc.)
+    Version:  v1.4.0
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-init
+  mcp: Docker MCP Plugin (Docker Inc.)
+    Version:  v0.34.0
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-mcp
+  model: Docker Model Runner (Docker Inc.)
+    Version:  v1.0.2
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-model
+  offload: Docker Offload (Docker Inc.)
+    Version:  v0.5.33
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-offload
+  pass: Docker Pass Secrets Manager Plugin (beta) (Docker Inc.)
+    Version:  v0.0.21
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-pass
+  sandbox: Docker Sandbox (Docker Inc.)
+    Version:  v0.6.0
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-sandbox
+  sbom: View the packaged-based Software Bill Of Materials (SBOM) for an image (Anchore Inc.)
+    Version:  0.6.0
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-sbom
+  scout: Docker Scout (Docker Inc.)
+    Version:  v1.18.3
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-scout
+
+Server:
+failed to connect to the docker API at unix:///Users/marcela-dev/.docker/run/docker.sock; check if the path is correct and if the daemon is running: dial unix /Users/marcela-dev/.docker/run/docker.sock: connect: no such file or directory
+
+=== DOCKER COMPOSE PS ===
+Cannot connect to the Docker daemon at unix:///Users/marcela-dev/.docker/run/docker.sock. Is the docker daemon running?
+
+=== ALL CONTAINERS ===
+failed to connect to the docker API at unix:///Users/marcela-dev/.docker/run/docker.sock; check if the path is correct and if the daemon is running: dial unix /Users/marcela-dev/.docker/run/docker.sock: connect: no such file or directory
+
+=== PORT 8080 LISTENER ===
+
+=== HTTP CHECK localhost:8080 ===
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+curl: (7) Failed to connect to localhost port 8080 after 0 ms: Couldn't connect to server
+
+=== HTTP CHECK localhost:3000 ===
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+curl: (7) Failed to connect to localhost port 3000 after 0 ms: Couldn't connect to server
+
+=== DASHBOARD CONTAINER LOG CANDIDATES ===
+
+=== COMPOSE FILE CANDIDATES ===
+./docker-compose.yml
+
+=== DASHBOARD FILE TARGETS ===
+src/cognition/operatorGuidanceReducer.ts:3:Attaches bounded operator guidance generation to the health surface domain.
+src/cognition/operatorGuidance.smoke.ts:3:Deterministic bounded operator guidance verification.
+src/cognition/operatorGuidance.live.ts:3:Deterministic local verification harness for bounded operator guidance.
+src/cognition/operatorGuidance.ts:2:PHASE 89 — BOUNDED OPERATOR GUIDANCE LAYER
+src/cognition/operatorGuidanceSafety.ts:3:Bounded operator guidance runtime invariants.
+src/cognition/operatorGuidanceSafety.ts:209:        "Operator guidance safety proof failed.",
+src/governance_operator_console/governance_operator_console_formatter.ts:9:  return `Governance operator console: ${decisionId} (${decision})`;
+./STATE_HANDOFF_PHASE_401_TRUST_SIGNALING_COMPLETE.md:199:Motherboard Systems HQ continuation  
+./PHASE_401_VERIFICATION_SEAL.txt:58:Motherboard Systems HQ continuation
+./AGENT_SAFETY_DOCTRINE.md:1:MOTHERBOARD SYSTEMS HQ
+./STATE_HANDOFF_PHASE_81_COMPLETE.md:3:Phase 62 Layout Evolution → Phase 62.2 Layout Contract Protected → Phase 62B Telemetry Hydration COMPLETE → Phase 63 Telemetry Integration Golden → Phase 64 Protection Corridor → Phase 65A Protection Hardening COMPLETE → Phase 65B Telemetry Ownership Consolidation COMPLETE → Phase 65C Telemetry Hydration Continuation COMPLETE → Phase 66 Observability Expansion Planning COMPLETE → Phase 67 Telemetry Reducer Safety COMPLETE → Phase 68 Telemetry Drift Detection COMPLETE → Phase 69 Telemetry Replay Corpus COMPLETE → Phase 70A Health Snapshot COMPLETE → Phase 70B Diagnostics Report COMPLETE → Phase 70C Operator Signals COMPLETE → Phase 71 Operator Awareness Layer COMPLETE → Phase 71.1 Operator Status Entry COMPLETE → Phase 72 Operator Guidance Layer COMPLETE → Phase 73 Operator Safety Gates COMPLETE → Phase 74 Operator Workflow Helpers COMPLETE → Phase 75 Helper Prioritization COMPLETE → Phase 76 Operator Playbooks COMPLETE → Phase 77 Adaptive Operator Workflows COMPLETE → Phase 78 Operator Runbook System COMPLETE → Phase 79 Controlled Automation Preparation COMPLETE → Phase 79.5 Automation Risk Modeling COMPLETE → Phase 80 Safe Iteration Engine COMPLETE → Phase 80.1 Workspace Clean Finalizer COMPLETE → Phase 80.2 Queue Latency Metric COMPLETE → Phase 80.3 Task Lifecycle Duration Metric COMPLETE → Phase 80.4 Task Execution Duration Metric COMPLETE → Phase 80.5 Metric Exposure Approval Protocol COMPLETE → Phase 80.6 Telemetry Expansion Candidate Review COMPLETE → Phase 80.7 Queue Throughput Metric Definition COMPLETE → Phase 80.8 Queue Throughput Pure Function Implementation COMPLETE → Phase 80.9 Throughput Exposure Safety Review COMPLETE → Phase 80.10 Derived Metric Registry Entry COMPLETE → Phase 80.11 Throughput Local Verification Harness COMPLETE → Phase 80.12 Throughput Metric Drift Safeguards COMPLETE → Phase 80.13 Throughput Metric Theoretical Bounds COMPLETE → Phase 81 Signal Interpretation Doctrine COMPLETE → Phase 81.1 Queue Pressure Signal Definition COMPLETE → Phase 81.2 Queue Pressure Derivation Model COMPLETE → Phase 81.3 Queue Pressure Verification Cases COMPLETE → Phase 81.4 Queue Pressure Pure Function Design COMPLETE → Phase 81.5 Queue Pressure Classification Model COMPLETE → Phase 81.6 Queue Pressure Classification Verification COMPLETE → Phase 81.7 Queue Pressure Signal Registry COMPLETE → Phase 81.8 Signal Interpretation Layer COMPLETE
+./STATE_HANDOFF_PHASE_81_COMPLETE.md:11:Motherboard Systems HQ remains in protected engineering state.
+./public_broken_rollback_1762824556/dashboard.html:1:<header style="text-align:center; padding:1rem 0; font-family:Inter, sans-serif; font-size:1.8rem; font-weight:600; letter-spacing:0.5px; color:#222; border-bottom:2px solid #eee;">🖥️ Motherboard Systems</header>
+./Project_Scope_Overview_20250731.txt:2:# 🌐 Motherboard Systems HQ – Full Project Scope Overview (As of 2025-07-31)
+./Project_Scope_Overview_20250731.txt:4:This document consolidates the **full project scope** for Motherboard Systems HQ, integrating:
+./PHASE88_14_12_TAG_PROTECTION_AND_PHASE89_ALIGNMENT.txt:31:Consistency check versus predicted Phase 89 = bounded operator guidance:
+./PHASE88_14_12_TAG_PROTECTION_AND_PHASE89_ALIGNMENT.txt:34:- Bounded operator guidance should focus on constrained operator-facing guidance logic
+./PHASE88_14_12_TAG_PROTECTION_AND_PHASE89_ALIGNMENT.txt:37:- Phase 89 should remain BOUNDED OPERATOR GUIDANCE
+./PHASE88_14_12_TAG_PROTECTION_AND_PHASE89_ALIGNMENT.txt:41:Phase 89 = bounded operator guidance for the now-live health surface
+./GOVERNANCE_ENFORCEMENT_BOUNDARY.md:1:MOTHERBOARD SYSTEMS HQ
+./restore-golden.sh:4:echo "🔄 Restoring Motherboard Systems HQ to v1.0.0-golden..."
+./tools/restore-from-latest.sh:5:DEST="$HOME/Desktop/Motherboard Systems HQ"
+./PHASE96_TRACKER.md:107:Operator guidance pipeline validated.
+./STATE_HANDOFF_PHASE_352.md:12:Motherboard Systems HQ
+./STATE_HANDOFF_PHASE_352.md:174:Phase 338 — Governance operator console layer
+./STATE_HANDOFF_PHASE_352.md:336:Phase 338 → Governance operator console layer COMPLETE
+./PHASE88_12_SERVED_DASHBOARD_DIAGNOSTICS_SURFACE.txt:197:  <title>Motherboard Systems Operator Console</title>
+./PHASE88_12_SERVED_DASHBOARD_DIAGNOSTICS_SURFACE.txt:524:      <p class="text-xs uppercase tracking-[0.24em] text-teal-300/70 mb-2">Motherboard Systems</p>
+./PHASE88_12_SERVED_DASHBOARD_DIAGNOSTICS_SURFACE.txt:526:        Operator Console
+./STATE_HANDOFF_PHASE_84_PLANNING_COMPLETE.md:3:Phase 62 Layout Evolution → Phase 62.2 Layout Contract Protected → Phase 62B Telemetry Hydration COMPLETE → Phase 63 Telemetry Integration Golden → Phase 64 Protection Corridor → Phase 65A Protection Hardening COMPLETE → Phase 65B Telemetry Ownership Consolidation COMPLETE → Phase 65C Telemetry Hydration Continuation COMPLETE → Phase 66 Observability Expansion Planning COMPLETE → Phase 67 Telemetry Reducer Safety COMPLETE → Phase 68 Telemetry Drift Detection COMPLETE → Phase 69 Telemetry Replay Corpus COMPLETE → Phase 70A Health Snapshot COMPLETE → Phase 70B Diagnostics Report COMPLETE → Phase 70C Operator Signals COMPLETE → Phase 71 Operator Awareness Layer COMPLETE → Phase 71.1 Operator Status Entry COMPLETE → Phase 72 Operator Guidance Layer COMPLETE → Phase 73 Operator Safety Gates COMPLETE → Phase 74 Operator Workflow Helpers COMPLETE → Phase 75 Helper Prioritization COMPLETE → Phase 76 Operator Playbooks COMPLETE → Phase 77 Adaptive Operator Workflows COMPLETE → Phase 78 Operator Runbook System COMPLETE → Phase 79 Controlled Automation Preparation COMPLETE (planning only) → Phase 79.5 Automation Risk Modeling COMPLETE (theoretical only) → Phase 80 Safe Iteration Engine COMPLETE → Phase 80.1 Workspace Clean Finalizer COMPLETE → Phase 80.2 Queue Latency Metric COMPLETE → Phase 80.3 Task Lifecycle Duration Metric COMPLETE → Phase 80.4 Task Execution Duration Metric COMPLETE → Phase 80.5 Metric Exposure Approval Protocol COMPLETE → Phase 80.6 Telemetry Expansion Candidate Review COMPLETE → Phase 80.7 Queue Throughput Metric Definition COMPLETE → Phase 80.8 Queue Throughput Pure Function Implementation COMPLETE → Phase 80.9 Throughput Exposure Safety Review COMPLETE → Phase 80.10 Derived Metric Registry Entry COMPLETE → Phase 80.11 Throughput Local Verification Harness COMPLETE → Phase 80.12 Throughput Metric Drift Safeguards COMPLETE → Phase 80.13 Throughput Metric Theoretical Bounds COMPLETE → Phase 81 Signal Interpretation Doctrine COMPLETE → Phase 81.1 Queue Pressure Signal Definition COMPLETE → Phase 81.2 Queue Pressure Derivation Model COMPLETE → Phase 81.3 Queue Pressure Verification Cases COMPLETE → Phase 81.4 Queue Pressure Pure Function Design COMPLETE → Phase 81.5 Queue Pressure Classification Model COMPLETE → Phase 81.6 Queue Pressure Classification Verification COMPLETE → Phase 81.7 Queue Pressure Signal Registry COMPLETE → Phase 81.8 Signal Interpretation Layer COMPLETE → Phase 82 Composition Foundation COMPLETE → Phase 82.1 Composition Verification COMPLETE → Phase 82.2 Composition Registry COMPLETE → Phase 82.3 Composition Closure COMPLETE → Phase 83 Summary Doctrine COMPLETE → Phase 83.1 Summary Model COMPLETE → Phase 83.2 Summary Rules COMPLETE → Phase 83.3 Summary Registry COMPLETE → Phase 83.4 Summary Safety COMPLETE → Phase 83.5 Summary Verification COMPLETE → Phase 83.6 Summary Closure COMPLETE → Phase 84 Status Translation Planning COMPLETE → Phase 84.1 Operator Display Planning COMPLETE → Phase 84.2 Agent Explanation Planning COMPLETE → Phase 84.3 Planning Closure COMPLETE
+./GOVERNANCE_README.md:5:This governance layer exists to define and organize the structural governance model for Motherboard Systems HQ.
+./GOVERNANCE_README.md:19:Motherboard Systems HQ remains a deterministic, human-directed orchestration system.
+./PHASE80_2_EXTERNAL_DASHBOARD_CONSUMER_DISCOVERY_20260317T183750Z.md:349:./scripts/_local/phase72_operator_guidance_schema.ts:3:Canonical read-only output model for operator guidance.
+./PHASE80_2_EXTERNAL_DASHBOARD_CONSUMER_DISCOVERY_20260317T183750Z.md:358:./scripts/_local/phase72_operator_guidance_command.ts:3:Read-only operator guidance command.
+./PHASE80_2_EXTERNAL_DASHBOARD_CONSUMER_DISCOVERY_20260317T183750Z.md:373:./scripts/_local/phase72_operator_guidance_smoke.ts:3:Verifies operator guidance produces stable outputs.
+./STATE_HANDOFF_PHASE_84_CORRECTED.md:3:Phase 62 Layout Evolution → Phase 62.2 Layout Contract Protected → Phase 62B Telemetry Hydration COMPLETE → Phase 63 Telemetry Integration Golden → Phase 64 Protection Corridor → Phase 65A Protection Hardening COMPLETE → Phase 65B Telemetry Ownership Consolidation COMPLETE → Phase 65C Telemetry Hydration Continuation COMPLETE → Phase 66 Observability Expansion Planning COMPLETE → Phase 67 Telemetry Reducer Safety COMPLETE → Phase 68 Telemetry Drift Detection COMPLETE → Phase 69 Telemetry Replay Corpus COMPLETE → Phase 70A Health Snapshot COMPLETE → Phase 70B Diagnostics Report COMPLETE → Phase 70C Operator Signals COMPLETE → Phase 71 Operator Awareness Layer COMPLETE → Phase 71.1 Operator Status Entry COMPLETE → Phase 72 Operator Guidance Layer COMPLETE → Phase 73 Operator Safety Gates COMPLETE → Phase 74 Operator Workflow Helpers COMPLETE → Phase 75 Helper Prioritization COMPLETE → Phase 76 Operator Playbooks COMPLETE → Phase 77 Adaptive Operator Workflows COMPLETE → Phase 78 Operator Runbook System COMPLETE → Phase 79 Controlled Automation Preparation COMPLETE (planning only) → Phase 79.5 Automation Risk Modeling COMPLETE (theoretical only) → Phase 80 Safe Iteration Engine COMPLETE → Phase 80.1 Workspace Clean Finalizer COMPLETE → Phase 80.2 Queue Latency Metric COMPLETE → Phase 80.3 Task Lifecycle Duration Metric COMPLETE → Phase 80.4 Task Execution Duration Metric COMPLETE → Phase 80.5 Metric Exposure Approval Protocol COMPLETE → Phase 80.6 Telemetry Expansion Candidate Review COMPLETE → Phase 80.7 Queue Throughput Metric Definition COMPLETE → Phase 80.8 Queue Throughput Pure Function Implementation COMPLETE → Phase 80.9 Throughput Exposure Safety Review COMPLETE → Phase 80.10 Derived Metric Registry Entry COMPLETE → Phase 80.11 Throughput Local Verification Harness COMPLETE → Phase 80.12 Throughput Metric Drift Safeguards COMPLETE → Phase 80.13 Throughput Metric Theoretical Bounds COMPLETE (definition only) → Phase 81 Signal Interpretation Doctrine COMPLETE → Phase 81.1 Queue Pressure Signal Definition COMPLETE → Phase 81.2 Queue Pressure Derivation Model COMPLETE → Phase 81.3 Queue Pressure Verification Cases COMPLETE → Phase 81.4 Queue Pressure Pure Function Design COMPLETE → Phase 81.5 Queue Pressure Classification Model COMPLETE → Phase 81.6 Queue Pressure Classification Verification COMPLETE → Phase 81.7 Queue Pressure Signal Registry COMPLETE → Phase 81.8 Signal Interpretation Layer COMPLETE → Phase 82 Composition Foundation COMPLETE → Phase 82.1 Composition Verification COMPLETE → Phase 82.2 Composition Registry COMPLETE → Phase 82.3 Composition Closure COMPLETE → Phase 83 Summary Doctrine COMPLETE → Phase 83.1 Summary Model COMPLETE → Phase 83.2 Summary Rules COMPLETE → Phase 83.3 Summary Registry COMPLETE → Phase 83.4 Summary Safety COMPLETE → Phase 83.5 Summary Verification COMPLETE → Phase 83.6 Summary Closure COMPLETE → Phase 84 Planning Layer COMPLETE → Phase 84.1 Status Translation Doctrine COMPLETE → Phase 84.2 Operator Display Planning COMPLETE → Phase 84.3 Agent Explanation Planning COMPLETE → Phase 84.4 Operator Presentation Layer COMPLETE → Phase 84.5 Operator Cognition UX Refinement COMPLETE → Phase 84.6 Planning Closure COMPLETE
+./dist/scripts/_local/matilda_tasks/onboard_agent.mjs:17:// © Motherboard Systems HQ
+./snapshots/20251114-114821/public/dashboard.html.bak.1762372376:1:<header style="text-align:center; padding:1rem 0; font-family:Inter, sans-serif; font-size:1.8rem; font-weight:600; letter-spacing:0.5px; color:#222; border-bottom:2px solid #eee;">🖥️ Motherboard Systems</header>
+./snapshots/20251114-114821/public/dashboard.css:385:/* <0001fb09> ✨ Motherboard Systems Header Glow — Dark Mode Accent */
+./snapshots/20251114-114821/public/dashboard.html:1:<header style="text-align:center; padding:1rem 0; font-family:Inter, sans-serif; font-size:1.8rem; font-weight:600; letter-spacing:0.5px; color:#222; border-bottom:2px solid #eee;">🖥️ Motherboard Systems</header>
+./snapshots/20251114-114821/scripts/system/watchdog_agents.sh:3:# 🛡️ Motherboard Systems HQ - Agent Watchdog
+./snapshots/20251114-114821/scripts/system/toggle_agents.sh:3:# 🔄 Motherboard Systems HQ - Toggle Agents
+./snapshots/20251114-114821/scripts/_local/matilda_tasks/onboard_agent.mjs:17:// © Motherboard Systems HQ
+./snapshots/20251114-114821/scripts/_local/agent-runtime/output/welcome_kit.md:2:# 🤖 Welcome to the Motherboard Systems HQ
+./snapshots/20251114-114821/scripts/_local/agent-runtime/output/agent_onboarding.txt:2:Welcome to Motherboard Systems HQ, Agent!
+./snapshots/20251114-114707/public/dashboard.html.bak.1762372376:1:<header style="text-align:center; padding:1rem 0; font-family:Inter, sans-serif; font-size:1.8rem; font-weight:600; letter-spacing:0.5px; color:#222; border-bottom:2px solid #eee;">🖥️ Motherboard Systems</header>
+./snapshots/20251114-114707/public/dashboard.css:385:/* <0001fb09> ✨ Motherboard Systems Header Glow — Dark Mode Accent */
+./snapshots/20251114-114707/public/dashboard.html:1:<header style="text-align:center; padding:1rem 0; font-family:Inter, sans-serif; font-size:1.8rem; font-weight:600; letter-spacing:0.5px; color:#222; border-bottom:2px solid #eee;">🖥️ Motherboard Systems</header>
+./snapshots/20251114-114707/scripts/system/watchdog_agents.sh:3:# 🛡️ Motherboard Systems HQ - Agent Watchdog
+./snapshots/20251114-114707/scripts/system/toggle_agents.sh:3:# 🔄 Motherboard Systems HQ - Toggle Agents
+./snapshots/20251114-114707/scripts/_local/matilda_tasks/onboard_agent.mjs:17:// © Motherboard Systems HQ
+./snapshots/20251114-114707/scripts/_local/agent-runtime/output/welcome_kit.md:2:# 🤖 Welcome to the Motherboard Systems HQ
+./snapshots/20251114-114707/scripts/_local/agent-runtime/output/agent_onboarding.txt:2:Welcome to Motherboard Systems HQ, Agent!
+./STATE_HANDOFF_PHASE135.md:10:Motherboard Systems HQ
+./STATE_HANDOFF_PHASE135.md:267:Operator guidance cognition  
+./ARCHITECTURE_OVERVIEW.md:1:MOTHERBOARD SYSTEMS HQ
+./ARCHITECTURE_OVERVIEW.md:6:Motherboard Systems HQ is a human-directed orchestration system
+./PHASE_91_GUIDANCE_INTELLIGENCE_REFINEMENT.md:5:Refine operator guidance cognition so the dashboard communicates:
+./STATE_HANDOFF_PHASE_162_1.md:12:Motherboard Systems HQ
+./PHASE_83_7_TASK_QUEUE_WAIT_DURATION_TELEMETRY_DOCUMENTATION.md:65:OPERATOR GUIDANCE ENTRY
+./STATE_HANDOFF_PHASE140.md:10:Motherboard Systems HQ
+./STATE_HANDOFF_PHASE140.md:300:Operator guidance cognition
+./PHASE62B_DASHBOARD_ASSET_LOAD_PATH_INSPECTION.txt:87:    84	  <title>Motherboard Systems Operator Console</title>
+./PHASE62B_DASHBOARD_ASSET_LOAD_PATH_INSPECTION.txt:286:    21	  <title>Motherboard Systems Operator Console</title>
+./PHASE62B_DASHBOARD_ASSET_LOAD_PATH_INSPECTION.txt:301:    36	      <p class="text-xs uppercase tracking-[0.24em] text-teal-300/70 mb-2">Motherboard Systems</p>
+./PHASE62B_DASHBOARD_ASSET_LOAD_PATH_INSPECTION.txt:303:    38	        Operator Console
+./toggle_agents.sh:3:# 🔀 Toggle between stub agents and full agents for Motherboard Systems HQ
+./projects/registry.example.json:6:      "name": "Motherboard Systems HQ",
+./STATE_HANDOFF_2026-03-17.md:3:Phase 62 Layout Evolution → Phase 62.2 Layout Contract Protected → Phase 62B Telemetry Hydration COMPLETE → Phase 63 Telemetry Integration Golden → Phase 64 Protection Corridor → Phase 65A Protection Hardening COMPLETE → Phase 65B Telemetry Ownership Consolidation COMPLETE → Phase 65C Telemetry Hydration Continuation COMPLETE → Phase 66 Observability Expansion Planning COMPLETE → Phase 67 Telemetry Reducer Safety COMPLETE → Phase 68 Telemetry Drift Detection COMPLETE → Phase 69 Telemetry Replay Corpus COMPLETE → Phase 70A Health Snapshot COMPLETE → Phase 70B Diagnostics Report COMPLETE → Phase 70C Operator Signals COMPLETE → Phase 71 Operator Awareness Layer COMPLETE → Phase 71.1 Operator Status Entry COMPLETE → Phase 72 Operator Guidance Layer COMPLETE → Phase 73 Operator Safety Gates COMPLETE → Phase 74 Operator Workflow Helpers COMPLETE → Phase 75 Helper Prioritization COMPLETE → Phase 76 Operator Playbooks COMPLETE → Phase 77 Adaptive Operator Workflows COMPLETE → Phase 78 Operator Runbook System COMPLETE → Phase 79 Controlled Automation Preparation COMPLETE (planning only) → Phase 79.5 Automation Risk Modeling COMPLETE (theoretical only) → Phase 80 Safe Iteration Engine COMPLETE → Phase 80.1 Workspace Clean Finalizer COMPLETE → Phase 80.2 Queue Latency Metric COMPLETE → Phase 80.3 Queue Pressure Metric INITIALIZED
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:230:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2786:./docs/PHASE59_STATUS_NOTE.md:33:- `ecac1fb1` — Phase 59: compose operator console layout from stable baseline
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:311:./docs/PHASE59_STATUS_NOTE.md:33:- `ecac1fb1` — Phase 59: compose operator console layout from stable baseline
+./STATE_HANDOFF_PHASE_401_12_COMPLETE.txt:158:Motherboard Systems HQ continuation
+./PHASE_81_6_THROUGHPUT_DRIFT_SAFEGUARDS.md:20:Phase 72 Operator Guidance Layer COMPLETE →
+./PHASE81_SIGNAL_INTERPRETATION.md:42:Operator guidance belongs to Phase 83.
+./PHASE81_SIGNAL_INTERPRETATION.md:143:No operator guidance work is included in this phase step.
+./PHASE81_SIGNAL_INTERPRETATION.md:728:- operator guidance
+./tests/governance_operator_console/governance_operator_console_model.test.ts:7:      headline: "Governance operator console: dec-700 (WARN)",
+./tests/governance_operator_console/governance_operator_console_formatter.test.ts:14:      "Governance operator console: dec-700 (BLOCK)",
+./tests/governance_operator_console/governance_operator_console_builder.test.ts:5:  it("builds a deterministic governance operator console", () => {
+./tests/governance_operator_console/governance_operator_console_builder.test.ts:14:      headline: "Governance operator console: dec-701 (WARN)",
+./STATE_HANDOFF_PHASE144.md:10:Motherboard Systems HQ
+./STATE_HANDOFF_PHASE144.md:328:Operator guidance cognition
+./STATE_HANDOFF_PHASE_86_COMPLETE_FOR_NEW_THREAD.md:3:Phase 62 Layout Evolution → Phase 62.2 Layout Contract Protected → Phase 62B Telemetry Hydration COMPLETE → Phase 63 Telemetry Integration Golden → Phase 64 Protection Corridor → Phase 65A Protection Hardening COMPLETE → Phase 65B Telemetry Ownership Consolidation COMPLETE → Phase 65C Telemetry Hydration Continuation COMPLETE → Phase 66 Observability Expansion Planning COMPLETE → Phase 67 Telemetry Reducer Safety COMPLETE → Phase 68 Telemetry Drift Detection COMPLETE → Phase 69 Telemetry Replay Corpus COMPLETE → Phase 70A Health Snapshot COMPLETE → Phase 70B Diagnostics Report COMPLETE → Phase 70C Operator Signals COMPLETE → Phase 71 Operator Awareness Layer COMPLETE → Phase 71.1 Operator Status Entry COMPLETE → Phase 72 Operator Guidance Layer COMPLETE → Phase 73 Operator Safety Gates COMPLETE → Phase 74 Operator Workflow Helpers COMPLETE → Phase 75 Helper Prioritization COMPLETE → Phase 76 Operator Playbooks COMPLETE → Phase 77 Adaptive Operator Workflows COMPLETE → Phase 78 Operator Runbook System COMPLETE → Phase 79 Controlled Automation Preparation COMPLETE (planning only) → Phase 79.5 Automation Risk Modeling COMPLETE (theoretical only) → Phase 80 Safe Iteration Engine COMPLETE → Phase 80.1 Workspace Clean Finalizer COMPLETE → Phase 80.2 Queue Latency Metric COMPLETE → Phase 80.3 Task Lifecycle Duration Metric COMPLETE → Phase 80.4 Task Execution Duration Metric COMPLETE → Phase 80.5 Metric Exposure Approval Protocol COMPLETE → Phase 80.6 Telemetry Expansion Candidate Review COMPLETE → Phase 80.7 Queue Throughput Metric Definition COMPLETE → Phase 80.8 Queue Throughput Pure Function Implementation COMPLETE → Phase 80.9 Throughput Exposure Safety Review COMPLETE → Phase 80.10 Derived Metric Registry Entry COMPLETE → Phase 80.11 Throughput Local Verification Harness COMPLETE → Phase 80.12 Throughput Metric Drift Safeguards COMPLETE → Phase 80.13 Throughput Metric Theoretical Bounds COMPLETE (definition only) → Phase 81 Signal Interpretation Doctrine COMPLETE → Phase 81.1 Queue Pressure Signal Definition COMPLETE → Phase 81.2 Queue Pressure Derivation Model COMPLETE → Phase 81.3 Queue Pressure Verification Cases COMPLETE → Phase 81.4 Queue Pressure Pure Function Design COMPLETE → Phase 81.5 Queue Pressure Classification Model COMPLETE → Phase 81.6 Queue Pressure Classification Verification COMPLETE → Phase 81.7 Queue Pressure Signal Registry COMPLETE → Phase 81.8 Signal Interpretation Layer COMPLETE → Phase 82 Composition Foundation COMPLETE → Phase 82.1 Composition Verification COMPLETE → Phase 82.2 Composition Registry COMPLETE → Phase 82.3 Composition Closure COMPLETE → Phase 83 Summary Doctrine COMPLETE → Phase 83.1 Summary Model COMPLETE → Phase 83.2 Summary Rules COMPLETE → Phase 83.3 Summary Registry COMPLETE → Phase 83.4 Summary Safety COMPLETE → Phase 83.5 Summary Verification COMPLETE → Phase 83.6 Summary Closure COMPLETE → Phase 84 Cognition Planning Layer COMPLETE → Phase 85 Cognition Structuring Layer COMPLETE → Phase 86 Cognition Evolution Layer COMPLETE
+./STATE_HANDOFF_PHASE_86_COMPLETE_FOR_NEW_THREAD.md:11:Motherboard Systems HQ is operating in a protected engineering state.
+./STATE_HANDOFF_PHASE_86_COMPLETE_FOR_NEW_THREAD.md:52:Phase 72 operator guidance layer COMPLETE  
+./STATE_HANDOFF_PHASE_86_COMPLETE_FOR_NEW_THREAD.md:121:OPERATOR GUIDANCE INTERPRETATION ACTIVE  
+./AUTHORITY_FLOW_CONTRACT.md:1:MOTHERBOARD SYSTEMS HQ
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:922:./PHASE80_2_EXTERNAL_DASHBOARD_CONSUMER_DISCOVERY_20260317T183750Z.md:349:./scripts/_local/phase72_operator_guidance_schema.ts:3:Canonical read-only output model for operator guidance.
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:931:./PHASE80_2_EXTERNAL_DASHBOARD_CONSUMER_DISCOVERY_20260317T183750Z.md:358:./scripts/_local/phase72_operator_guidance_command.ts:3:Read-only operator guidance command.
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:941:./PHASE80_2_EXTERNAL_DASHBOARD_CONSUMER_DISCOVERY_20260317T183750Z.md:373:./scripts/_local/phase72_operator_guidance_smoke.ts:3:Verifies operator guidance produces stable outputs.
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1868:./STATE_HANDOFF_PHASE_86_COMPLETE_FOR_NEW_THREAD.md:52:Phase 72 operator guidance layer COMPLETE  
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2008:./STATE_HANDOFF_PHASE_81_4.md:52:Phase 72 operator guidance layer COMPLETE  
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2070:./PHASE81_SIGNAL_INTERPRETATION.md:143:No operator guidance work is included in this phase step.
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2072:./PHASE81_SIGNAL_INTERPRETATION.md:728:- operator guidance
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2306:./HANDOFF_PHASE62B_SUCCESS_VALIDATION_READY_20260317.md:41:Phase 72 operator guidance layer COMPLETE.
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2445:./docs/STATE_HANDOFF_PHASE80_1_OPERATOR_SYSTEM.md:27:Phase 72 operator guidance layer COMPLETE
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2671:./docs/PHASE58D_OPERATOR_CONSOLE_VISUAL_HIERARCHY.md:4:Refine the dashboard into an intentional operator console with clear visual hierarchy, balanced layout, and confidence-building observability.
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2780:./docs/PHASE59_STATUS_NOTE.md:5:The current Phase 59 operator console composition is considered acceptable as a controlled stopping point.
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2781:./docs/PHASE59_STATUS_NOTE.md:9:The dashboard now reads as a coherent operator console with:
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2786:./docs/PHASE59_STATUS_NOTE.md:33:- `ecac1fb1` — Phase 59: compose operator console layout from stable baseline
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3160:./docs/PHASE58C_EMPTY_STATES_COLD_START.md:76:The dashboard should feel like an operator console, not a temporary debug arrangement.
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3642:./docs/PHASE58A_EVENT_STREAM_CONTAINMENT.md:24:3. Event feed resembles a debug log rather than an operator console.
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:4152:./docs/checkpoints/PHASE72_OPERATOR_GUIDANCE_FINALIZED_20260316.md:32:System now provides deterministic operator guidance.
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:4306:./docs/checkpoints/PHASE78_OPERATOR_RUNBOOK_SYSTEM_HANDOFF_20260316.md:27:Phase 72 operator guidance layer COMPLETE  
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:4756:./docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:1750:./docs/PHASE58C_EMPTY_STATES_COLD_START.md:76:The dashboard should feel like an operator console, not a temporary debug arrangement.
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:4759:./docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:1771:./docs/PHASE58D_OPERATOR_CONSOLE_VISUAL_HIERARCHY.md:4:Refine the dashboard into an intentional operator console with clear visual hierarchy, balanced layout, and confidence-building observability.
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:4767:./docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:1905:./docs/PHASE59_STATUS_NOTE.md:9:The dashboard now reads as a coherent operator console with:
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:4839:./docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:2689:./docs/checkpoints/PHASE64_6_WORKSPACE_INTERACTIVITY_CONTRACT.md:7:Protect the dashboard against regressions where it still renders visually but no longer behaves like an interactive operator console.
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:5259:./docs/checkpoints/PHASE72_OPERATOR_GUIDANCE_LAYER_COMPLETE.md:8:Introduce deterministic operator guidance derived from existing protection,
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:5263:./docs/checkpoints/PHASE72_OPERATOR_GUIDANCE_LAYER_COMPLETE.md:24:Unified operator guidance entrypoint:
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:5463:./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:874:./docs/checkpoints/PHASE64_6_WORKSPACE_INTERACTIVITY_CONTRACT.md:7:Protect the dashboard against regressions where it still renders visually but no longer behaves like an interactive operator console.
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:5480:./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:1621:./docs/PHASE58C_EMPTY_STATES_COLD_START.md:76:The dashboard should feel like an operator console, not a temporary debug arrangement.
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:5483:./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:1625:./docs/PHASE58D_OPERATOR_CONSOLE_VISUAL_HIERARCHY.md:4:Refine the dashboard into an intentional operator console with clear visual hierarchy, balanced layout, and confidence-building observability.
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:5485:./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:1628:./docs/PHASE59_STATUS_NOTE.md:9:The dashboard now reads as a coherent operator console with:
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:6396:./docs/checkpoints/PHASE64_6_WORKSPACE_INTERACTIVITY_CONTRACT.md:7:Protect the dashboard against regressions where it still renders visually but no longer behaves like an interactive operator console.
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:6467:./docs/checkpoints/PHASE72_OPERATOR_GUIDANCE_LAYER_COMPLETE_20260316.md:8:Introduce deterministic operator guidance layer providing:
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:6765:./public/css/phase60_live_polish.css:201:/* Normalize operator console body spacing */
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:7282:./PHASE14_PLAN.md:10:Make Motherboard Systems HQ feel “boringly reliable” in day-to-day operator use:
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:7622:./scripts/_local/phase72_operator_guidance_schema.ts:3:Canonical read-only output model for operator guidance.
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:7688:./scripts/_local/phase72_guidance_contract.sh:24:grep -q "PHASE 72 — OPERATOR GUIDANCE" scripts/_local/operator_guidance.sh
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8074:./scripts/_local/phase72_operator_guidance_command.ts:3:Read-only operator guidance command.
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8204:./scripts/_local/phase72_operator_guidance_smoke.ts:3:Verifies operator guidance produces stable outputs.
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8335:./scripts/_local/phase72_operator_guidance_smoke.sh:67:echo "PASS: operator guidance contract verified"
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8374:./STATE_HANDOFF_2026-03-17_PHASE62B_ACCEPTED.md:27:Phase 72 operator guidance layer COMPLETE  
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8566:./STATE_HANDOFF_PHASE_83_COMPLETE.md:52:Phase 72 operator guidance layer COMPLETE  
+./patent/unique-claims.md:2:# Draft Provisional Patent Claims – Motherboard Systems HQ
+./patent/README.md:2:# Patent Documentation – Motherboard Systems HQ
+./STATE_HANDOFF_POST_PHASE_190_5.txt:12:Motherboard Systems HQ
+./STATE_HANDOFF_PHASE145.md:10:Motherboard Systems HQ
+./STATE_HANDOFF_PHASE145.md:335:Operator guidance cognition
+./STATE_HANDOFF_PHASE_82_COMPLETE.md:3:Phase 62 Layout Evolution → Phase 62.2 Layout Contract Protected → Phase 62B Telemetry Hydration COMPLETE → Phase 63 Telemetry Integration Golden → Phase 64 Protection Corridor → Phase 65A Protection Hardening COMPLETE → Phase 65B Telemetry Ownership Consolidation COMPLETE → Phase 65C Telemetry Hydration Continuation COMPLETE → Phase 66 Observability Expansion Planning COMPLETE → Phase 67 Telemetry Reducer Safety COMPLETE → Phase 68 Telemetry Drift Detection COMPLETE → Phase 69 Telemetry Replay Corpus COMPLETE → Phase 70A Health Snapshot COMPLETE → Phase 70B Diagnostics Report COMPLETE → Phase 70C Operator Signals COMPLETE → Phase 71 Operator Awareness Layer COMPLETE → Phase 71.1 Operator Status Entry COMPLETE → Phase 72 Operator Guidance Layer COMPLETE → Phase 73 Operator Safety Gates COMPLETE → Phase 74 Operator Workflow Helpers COMPLETE → Phase 75 Helper Prioritization COMPLETE → Phase 76 Operator Playbooks COMPLETE → Phase 77 Adaptive Operator Workflows COMPLETE → Phase 78 Operator Runbook System COMPLETE → Phase 79 Controlled Automation Preparation COMPLETE → Phase 79.5 Automation Risk Modeling COMPLETE → Phase 80 Safe Iteration Engine COMPLETE → Phase 80.1 Workspace Clean Finalizer COMPLETE → Phase 80.2 Queue Latency Metric COMPLETE → Phase 80.3 Task Lifecycle Duration Metric COMPLETE → Phase 80.4 Task Execution Duration Metric COMPLETE → Phase 80.5 Metric Exposure Approval Protocol COMPLETE → Phase 80.6 Telemetry Expansion Candidate Review COMPLETE → Phase 80.7 Queue Throughput Metric Definition COMPLETE → Phase 80.8 Queue Throughput Pure Function Implementation COMPLETE → Phase 80.9 Throughput Exposure Safety Review COMPLETE → Phase 80.10 Derived Metric Registry Entry COMPLETE → Phase 80.11 Throughput Local Verification Harness COMPLETE → Phase 80.12 Throughput Metric Drift Safeguards COMPLETE → Phase 80.13 Throughput Metric Theoretical Bounds COMPLETE → Phase 81 Signal Interpretation Doctrine COMPLETE → Phase 81.1 Queue Pressure Signal Definition COMPLETE → Phase 81.2 Queue Pressure Derivation Model COMPLETE → Phase 81.3 Queue Pressure Verification Cases COMPLETE → Phase 81.4 Queue Pressure Pure Function Design COMPLETE → Phase 81.5 Queue Pressure Classification Model COMPLETE → Phase 81.6 Queue Pressure Classification Verification COMPLETE → Phase 81.7 Queue Pressure Signal Registry COMPLETE → Phase 81.8 Signal Interpretation Layer COMPLETE → Phase 82 Composition Foundation COMPLETE → Phase 82.1 Composition Verification COMPLETE → Phase 82.2 Composition Registry COMPLETE → Phase 82.3 Composition Closure COMPLETE
+./STATE_HANDOFF_PHASE_82_COMPLETE.md:11:Motherboard Systems HQ remains in protected engineering state.
+./scripts_backup/system/watchdog_agents.sh:3:# 🛡️ Motherboard Systems HQ - Agent Watchdog
+./scripts_backup/system/toggle_agents.sh:3:# 🔄 Motherboard Systems HQ - Toggle Agents
+./scripts_backup/scripts/system/watchdog_agents.sh:3:# 🛡️ Motherboard Systems HQ - Agent Watchdog
+./scripts_backup/scripts/system/toggle_agents.sh:3:# 🔄 Motherboard Systems HQ - Toggle Agents
+./scripts_backup/scripts/_local/matilda_tasks/onboard_agent.mjs:17:// © Motherboard Systems HQ
+./scripts_backup/scripts/_local/agent-runtime/output/welcome_kit.md:2:# 🤖 Welcome to the Motherboard Systems HQ
+./scripts_backup/scripts/_local/agent-runtime/output/agent_onboarding.txt:2:Welcome to Motherboard Systems HQ, Agent!
+./scripts_backup/_local/matilda_tasks/onboard_agent.mjs:17:// © Motherboard Systems HQ
+./scripts_backup/_local/agent-runtime/output/welcome_kit.md:2:# 🤖 Welcome to the Motherboard Systems HQ
+./scripts_backup/_local/agent-runtime/output/agent_onboarding.txt:2:Welcome to Motherboard Systems HQ, Agent!
+./PHASE_82_6_TASK_EXECUTION_DURATION_DASHBOARD_EXPOSURE_PLAN.md:94:Operator guidance must clarify:
+./docs/phase422_3_proof_execution_permission_gate.md:2:Motherboard Systems HQ — Execution Introduction Corridor
+./docs/governance_evaluation_determinism_guarantees.md:1:Motherboard Systems HQ
+./docs/phase427_step3_admissibility_invariant_evidence.txt:525:src/cognition/operatorGuidanceSafety.ts:209:        "Operator guidance safety proof failed.",
+./docs/PHASE_426_ENFORCEMENT_CONTRACT_SURFACE_CLASSIFICATION.md:2:Motherboard Systems HQ
+./docs/governance_phase_397_final_state.md:1:Motherboard Systems HQ
+./docs/governance_phase_397_final_state.md:98:Motherboard Systems HQ continuation
+./docs/governance_constraint_translation_mapping_model.md:1:Motherboard Systems HQ
+./docs/phase422_5_proof_execution_reporting_surface.md:2:Motherboard Systems HQ — Execution Introduction Corridor
+./docs/phase424_step5_enforcement_topology_evidence_trace.txt:92:src/cognition/operatorGuidanceSafety.ts:3:Bounded operator guidance runtime invariants.
+./docs/PHASE_429_ENFORCEMENT_ARCHITECTURE_PLACEMENT_CLASSIFICATION.md:2:Motherboard Systems HQ
+./docs/PHASE_456_6_STEP2_WORDING_ALIGNMENT_ANALYSIS.txt:51:Potential drift exists if dashboard says DEMO CAPABLE while operator guidance lacks matching readiness phrasing.
+./docs/PHASE58A_EVENT_STREAM_CONTAINMENT.md:24:3. Event feed resembles a debug log rather than an operator console.
+./docs/PHASE_424_ENFORCEMENT_TOPOLOGY_CLASSIFICATION.md:2:Motherboard Systems HQ
+./docs/phase423_1_proof_execution_runtime_boundary.md:2:Motherboard Systems HQ — Execution Introduction Corridor
+./docs/PHASE_425_GOVERNANCE_ENFORCEMENT_ANCHOR_CLASSIFICATION.md:2:Motherboard Systems HQ
+./docs/PHASE_427_ADMISSIBILITY_STATE_MODEL_CLASSIFICATION.md:2:Motherboard Systems HQ
+./docs/governance_verification_normalization_plan.md:1:Motherboard Systems HQ
+./docs/governance_phase_397_corridor_seal.md:1:Motherboard Systems HQ
+./docs/phase422_first_governed_proof_architecture.md:2:Motherboard Systems HQ — Execution Introduction Corridor
+./docs/PHASE_456_5_IMPLEMENTATION_STEP7_MOUNTPOINT_DISCOVERY.txt:1020:src/cognition/operatorGuidanceSafety.ts:209:        "Operator guidance safety proof failed.",
+./docs/PHASE_456_5_IMPLEMENTATION_STEP7_MOUNTPOINT_DISCOVERY.txt:1375:src/governance_operator_console/governance_operator_console_formatter.ts:9:  return `Governance operator console: ${decisionId} (${decision})`;
+./docs/PHASE_456_5_IMPLEMENTATION_STEP7_MOUNTPOINT_DISCOVERY.txt:4366:src/cognition/operatorGuidanceReducer.ts:3:Attaches bounded operator guidance generation to the health surface domain.
+./docs/PHASE_456_5_IMPLEMENTATION_STEP7_MOUNTPOINT_DISCOVERY.txt:6251:Attaches bounded operator guidance generation to the health surface domain.
+./docs/PHASE_456_5_IMPLEMENTATION_STEP7_MOUNTPOINT_DISCOVERY.txt:7974:Deterministic bounded operator guidance verification.
+./docs/PHASE_456_5_IMPLEMENTATION_STEP7_MOUNTPOINT_DISCOVERY.txt:8489:Deterministic local verification harness for bounded operator guidance.
+./docs/PHASE_456_5_IMPLEMENTATION_STEP7_MOUNTPOINT_DISCOVERY.txt:9205:PHASE 89 — BOUNDED OPERATOR GUIDANCE LAYER
+./docs/PHASE_456_5_IMPLEMENTATION_STEP7_MOUNTPOINT_DISCOVERY.txt:9426:Bounded operator guidance runtime invariants.
+./docs/PHASE_456_5_IMPLEMENTATION_STEP7_MOUNTPOINT_DISCOVERY.txt:9632:        "Operator guidance safety proof failed.",
+./docs/PHASE_456_5_IMPLEMENTATION_STEP7_MOUNTPOINT_DISCOVERY.txt:11382:  return `Governance operator console: ${decisionId} (${decision})`;
+./docs/phase422_2_proof_execution_entrypoint_definition.md:2:Motherboard Systems HQ — Execution Introduction Corridor
+./docs/phase370_replay_verification_plan.md:2:Motherboard Systems HQ
+./docs/phase370_replay_verification_plan.md:219:Motherboard Systems HQ continuation
+./docs/PHASE_427_ADMISSIBILITY_TRANSITION_MODEL_CLASSIFICATION.md:2:Motherboard Systems HQ
+./docs/phase425_step4_enforcement_anchor_evidence_trace.txt:731:src/cognition/operatorGuidanceReducer.ts:3:Attaches bounded operator guidance generation to the health surface domain.
+./docs/phase425_step4_enforcement_anchor_evidence_trace.txt:792:src/cognition/operatorGuidance.smoke.ts:3:Deterministic bounded operator guidance verification.
+./docs/phase425_step4_enforcement_anchor_evidence_trace.txt:794:src/cognition/operatorGuidance.live.ts:3:Deterministic local verification harness for bounded operator guidance.
+./docs/phase425_step4_enforcement_anchor_evidence_trace.txt:795:src/cognition/operatorGuidanceSafety.ts:3:Bounded operator guidance runtime invariants.
+./docs/dashboard_down_followup_20260405_185007.txt:52:  <title>Motherboard Systems Operator Console</title>
+./docs/dashboard_down_followup_20260405_185007.txt:67:      <p class="text-xs uppercase tracking-[0.24em] text-teal-300/70 mb-2">Motherboard Systems</p>
+./docs/dashboard_down_followup_20260405_185007.txt:69:        Operator Console
+./docs/phase422_4_proof_execution_outcome_packaging.md:2:Motherboard Systems HQ — Execution Introduction Corridor
+./docs/governance_phase_398_evaluation_structure_complete.md:1:Motherboard Systems HQ
+./docs/governance_constraint_prerequisite_failure_model.md:1:Motherboard Systems HQ
+./docs/phase371_handoff.md:12:Motherboard Systems HQ
+./docs/phase371_handoff.md:508:Motherboard Systems HQ continuation
+./docs/phase429_step1_enforcement_architecture_placement_evidence.txt:678:src/cognition/operatorGuidance.ts:2:PHASE 89 — BOUNDED OPERATOR GUIDANCE LAYER
+./docs/phase429_step1_enforcement_architecture_placement_evidence.txt:721:src/cognition/operatorGuidanceSafety.ts:209:        "Operator guidance safety proof failed.",
+./docs/PHASE_456_6_STEP4_MINIMAL_CORRECTION_CORRIDOR_DECISION.txt:92:Potential drift exists if dashboard says DEMO CAPABLE while operator guidance lacks matching readiness phrasing.
+./docs/phase455_2_demo_capability_runtime_seal.md:36:Motherboard Systems HQ now possesses:
+./docs/PHASE_456_STEP1_DASHBOARD_EXPOSURE_EVIDENCE.md:24:Operator Console exposes:
+./docs/PHASE_456_STEP1_DASHBOARD_EXPOSURE_EVIDENCE.md:40:Operator Guidance exposes:
+./docs/PHASE_457_LAYOUT_SEARCH.txt:19:./PHASE88_12_SERVED_DASHBOARD_DIAGNOSTICS_SURFACE.txt:197:  <title>Motherboard Systems Operator Console</title>
+./docs/PHASE_457_LAYOUT_SEARCH.txt:20:./PHASE88_12_SERVED_DASHBOARD_DIAGNOSTICS_SURFACE.txt:526:        Operator Console
+./docs/PHASE_457_LAYOUT_SEARCH.txt:75:./PHASE62B_DASHBOARD_ASSET_LOAD_PATH_INSPECTION.txt:87:    84	  <title>Motherboard Systems Operator Console</title>
+./docs/PHASE_457_LAYOUT_SEARCH.txt:76:./PHASE62B_DASHBOARD_ASSET_LOAD_PATH_INSPECTION.txt:286:    21	  <title>Motherboard Systems Operator Console</title>
+./docs/PHASE_457_LAYOUT_SEARCH.txt:77:./PHASE62B_DASHBOARD_ASSET_LOAD_PATH_INSPECTION.txt:303:    38	        Operator Console
+./docs/PHASE_457_LAYOUT_SEARCH.txt:249:./docs/dashboard_down_followup_20260405_185007.txt:52:  <title>Motherboard Systems Operator Console</title>
+
