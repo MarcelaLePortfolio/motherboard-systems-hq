@@ -1,0 +1,1291 @@
+PHASE 456 — COMPOSE SERVICE AND DB FAILURE FOCUS
+Generated: 2026-04-09T17:33:51Z
+
+=== PRECHECK ===
+Filesystem      Size    Used   Avail Capacity iused ifree %iused  Mounted on
+/dev/disk3s5   228Gi   125Gi    68Gi    65%    570k  709M    0%   /System/Volumes/Data
+
+phase119-dashboard-cognition-contract
+3f963427f6697d578ee1522979cf2ccbe03dd67f
+
+?? docs/phase456_compose_service_and_db_failure_focus.txt
+?? scripts/phase456_compose_service_and_db_failure_focus.sh
+
+=== CURRENT COMPOSE FILE ===
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ${PGUSER:-postgres}
+      POSTGRES_PASSWORD: ${PGPASSWORD:-postgres}
+      POSTGRES_DB: ${PGDATABASE:-postgres}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  dashboard:
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: Dockerfile.dashboard
+      args:
+        GIT_SHA: ${GIT_SHA:-unknown}
+        BUILD_TIME: ${BUILD_TIME:-unknown}
+    environment:
+      POLICY_SHADOW_ENABLED: ${POLICY_SHADOW_ENABLED:-0}
+      POLICY_ENFORCE_ENABLED: ${POLICY_ENFORCE_ENABLED:-0}
+      BUILD_TIME: ${BUILD_TIME:-unknown}
+      GIT_SHA: ${GIT_SHA:-unknown}
+      PGDATABASE: ${PGDATABASE:-postgres}
+      PGHOST: ${PGHOST:-postgres}
+      PGPASSWORD: ${PGPASSWORD:-postgres}
+      PGPORT: ${PGPORT:-5432}
+      PGUSER: ${PGUSER:-postgres}
+    depends_on:
+      - postgres
+    ports:
+      - "8080:3000"
+
+volumes:
+  pgdata:
+
+=== CURRENT COMPOSE STATE ===
+NAME                                 IMAGE                              COMMAND                  SERVICE     CREATED        STATUS                        PORTS
+motherboard_systems_hq-dashboard-1   motherboard_systems_hq-dashboard   "docker-entrypoint.s…"   dashboard   21 hours ago   Up About a minute (healthy)   0.0.0.0:8080->3000/tcp, [::]:8080->3000/tcp
+motherboard_systems_hq-postgres-1    postgres:16-alpine                 "docker-entrypoint.s…"   postgres    21 hours ago   Up About a minute             0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+
+=== ALL DASHBOARD / POSTGRES CONTAINERS ===
+motherboard_systems_hq-dashboard-1                           motherboard_systems_hq-dashboard                           Up About a minute (healthy)       0.0.0.0:8080->3000/tcp, [::]:8080->3000/tcp
+motherboard_systems_hq-postgres-1                            postgres:16-alpine                                         Up About a minute                 0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+entry_5a8bf4228d45145c920dbf217a80af01319bc4e9-dashboard-1   entry_5a8bf4228d45145c920dbf217a80af01319bc4e9-dashboard   Exited (255) About a minute ago   0.0.0.0:8134->3000/tcp
+entry_5a8bf4228d45145c920dbf217a80af01319bc4e9-postgres-1    postgres:16-alpine                                         Exited (255) About a minute ago   5432/tcp
+entry_e190b90dc788bc889f1fe5f9f9db147139e43498-dashboard-1   entry_e190b90dc788bc889f1fe5f9f9db147139e43498-dashboard   Exited (255) About a minute ago   0.0.0.0:8133->3000/tcp
+entry_e190b90dc788bc889f1fe5f9f9db147139e43498-postgres-1    postgres:16-alpine                                         Exited (255) About a minute ago   5432/tcp
+entry_ee8ea4f820b46206a3c5dbe172454e8f8d368ea6-dashboard-1   entry_ee8ea4f820b46206a3c5dbe172454e8f8d368ea6-dashboard   Exited (255) About a minute ago   0.0.0.0:8132->3000/tcp
+entry_ee8ea4f820b46206a3c5dbe172454e8f8d368ea6-postgres-1    postgres:16-alpine                                         Exited (255) About a minute ago   5432/tcp
+entry_3e320f1b3628bb6ada53daf5b76f9acf311d1df5-dashboard-1   entry_3e320f1b3628bb6ada53daf5b76f9acf311d1df5-dashboard   Exited (255) About a minute ago   0.0.0.0:8131->3000/tcp
+entry_3e320f1b3628bb6ada53daf5b76f9acf311d1df5-postgres-1    postgres:16-alpine                                         Exited (255) About a minute ago   5432/tcp
+tabbed_9c68c540-dashboard-1                                  tabbed_9c68c540-dashboard                                  Exited (255) About a minute ago   0.0.0.0:8125->3000/tcp
+tabbed_9c68c540-postgres-1                                   postgres:16-alpine                                         Exited (255) About a minute ago   5432/tcp
+tabbed_d2601c1e-dashboard-1                                  tabbed_d2601c1e-dashboard                                  Exited (255) About a minute ago   0.0.0.0:8124->3000/tcp
+tabbed_d2601c1e-postgres-1                                   postgres:16-alpine                                         Exited (255) About a minute ago   5432/tcp
+tabbed_df791714-dashboard-1                                  tabbed_df791714-dashboard                                  Exited (255) About a minute ago   0.0.0.0:8123->3000/tcp
+tabbed_df791714-postgres-1                                   postgres:16-alpine                                         Exited (255) About a minute ago   5432/tcp
+tabbed_74a241ca-dashboard-1                                  tabbed_74a241ca-dashboard                                  Exited (255) About a minute ago   0.0.0.0:8122->3000/tcp
+tabbed_74a241ca-postgres-1                                   postgres:16-alpine                                         Exited (255) About a minute ago   5432/tcp
+tabbed_cba8b3c0-dashboard-1                                  tabbed_cba8b3c0-dashboard                                  Exited (255) About a minute ago   0.0.0.0:8121->3000/tcp
+tabbed_cba8b3c0-postgres-1                                   postgres:16-alpine                                         Exited (255) About a minute ago   5432/tcp
+shell_244cdde5-dashboard-1                                   shell_244cdde5-dashboard                                   Exited (255) About a minute ago   0.0.0.0:8105->3000/tcp
+shell_244cdde5-postgres-1                                    postgres:16-alpine                                         Exited (255) About a minute ago   5432/tcp
+shell_27b7ddf3-dashboard-1                                   shell_27b7ddf3-dashboard                                   Exited (255) About a minute ago   0.0.0.0:8104->3000/tcp
+shell_27b7ddf3-postgres-1                                    postgres:16-alpine                                         Exited (255) About a minute ago   5432/tcp
+shell_ecac1fb1-dashboard-1                                   shell_ecac1fb1-dashboard                                   Exited (255) About a minute ago   0.0.0.0:8103->3000/tcp
+shell_ecac1fb1-postgres-1                                    postgres:16-alpine                                         Exited (255) About a minute ago   5432/tcp
+shell_c63a60e7-dashboard-1                                   shell_c63a60e7-dashboard                                   Exited (255) About a minute ago   0.0.0.0:8102->3000/tcp
+shell_c63a60e7-postgres-1                                    postgres:16-alpine                                         Exited (255) About a minute ago   5432/tcp
+shell_33f5c0e2-dashboard-1                                   shell_33f5c0e2-dashboard                                   Exited (255) About a minute ago   0.0.0.0:8101->3000/tcp
+shell_33f5c0e2-postgres-1                                    postgres:16-alpine                                         Exited (255) About a minute ago   5432/tcp
+operator_guidance-dashboard-1                                operator_guidance-dashboard                                Exited (255) About a minute ago   0.0.0.0:8093->3000/tcp
+operator_guidance-postgres-1                                 postgres:16-alpine                                         Exited (255) About a minute ago   5432/tcp
+phase65_wiring-dashboard-1                                   phase65_wiring-dashboard                                   Exited (255) About a minute ago   0.0.0.0:8092->3000/tcp
+phase65_wiring-postgres-1                                    postgres:16-alpine                                         Exited (255) About a minute ago   5432/tcp
+phase65_layout-dashboard-1                                   phase65_layout-dashboard                                   Exited (255) About a minute ago   0.0.0.0:8091->3000/tcp
+phase65_layout-postgres-1                                    postgres:16-alpine                                         Exited (255) About a minute ago   5432/tcp
+mbhq_operator_guidance-dashboard-1                           mbhq_operator_guidance-dashboard                           Created                           
+mbhq_operator_guidance-postgres-1                            postgres:16-alpine                                         Exited (255) About a minute ago   5432/tcp
+mbhq_phase65_wiring-dashboard-1                              mbhq_phase65_wiring-dashboard                              Created                           
+mbhq_phase65_wiring-postgres-1                               postgres:16-alpine                                         Exited (255) About a minute ago   5432/tcp
+mbhq_phase65_layout-dashboard-1                              mbhq_phase65_layout-dashboard                              Exited (1) 46 hours ago           
+mbhq_phase65_layout-postgres-1                               postgres:16-alpine                                         Exited (255) About a minute ago   5432/tcp
+
+=== PORT OWNERS ===
+COMMAND     PID        USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+com.docke 94513 marcela-dev  217u  IPv6 0x65a673b49d7d56cd      0t0  TCP *:8080 (LISTEN)
+
+=== HTTP CHECKS ===
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0 10283    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Tue, 07 Apr 2026 18:43:42 GMT
+ETag: W/"282b-19d6941ef30"
+Content-Type: text/html; charset=utf-8
+Content-Length: 10283
+Date: Thu, 09 Apr 2026 17:33:52 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+curl: (7) Failed to connect to localhost port 3000 after 0 ms: Couldn't connect to server
+
+=== COMPOSE LOGS: DASHBOARD ===
+dashboard-1  |   accept: 'application/json'
+dashboard-1  | }
+dashboard-1  | [HTTP] GET /api/tasks?limit=12
+dashboard-1  | [phase57c-router] /api/tasks probe {
+dashboard-1  |   originalUrl: '/api/tasks?limit=12',
+dashboard-1  |   baseUrl: '/api/tasks',
+dashboard-1  |   path: '/',
+dashboard-1  |   referer: 'http://localhost:8080/dashboard.html',
+dashboard-1  |   userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+dashboard-1  |   accept: 'application/json'
+dashboard-1  | }
+dashboard-1  | [HTTP] GET /api/runs?limit=20
+dashboard-1  | [HTTP] GET /api/tasks?limit=12
+dashboard-1  | [phase57c-router] /api/tasks probe {
+dashboard-1  |   originalUrl: '/api/tasks?limit=12',
+dashboard-1  |   baseUrl: '/api/tasks',
+dashboard-1  |   path: '/',
+dashboard-1  |   referer: 'http://localhost:8080/dashboard.html',
+dashboard-1  |   userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+dashboard-1  |   accept: 'application/json'
+dashboard-1  | }
+dashboard-1  | [HTTP] GET /api/runs?limit=20
+dashboard-1  | [HTTP] GET /api/runs?limit=20
+dashboard-1  | [HTTP] GET /api/tasks?limit=12
+dashboard-1  | [phase57c-router] /api/tasks probe {
+dashboard-1  |   originalUrl: '/api/tasks?limit=12',
+dashboard-1  |   baseUrl: '/api/tasks',
+dashboard-1  |   path: '/',
+dashboard-1  |   referer: 'http://localhost:8080/dashboard.html',
+dashboard-1  |   userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+dashboard-1  |   accept: 'application/json'
+dashboard-1  | }
+dashboard-1  | [HTTP] GET /api/runs?limit=20
+dashboard-1  | [HTTP] GET /api/tasks?limit=12
+dashboard-1  | [phase57c-router] /api/tasks probe {
+dashboard-1  |   originalUrl: '/api/tasks?limit=12',
+dashboard-1  |   baseUrl: '/api/tasks',
+dashboard-1  |   path: '/',
+dashboard-1  |   referer: 'http://localhost:8080/dashboard.html',
+dashboard-1  |   userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+dashboard-1  |   accept: 'application/json'
+dashboard-1  | }
+dashboard-1  | [HTTP] GET /api/runs?limit=20
+dashboard-1  | [HTTP] GET /api/tasks?limit=12
+dashboard-1  | [phase57c-router] /api/tasks probe {
+dashboard-1  |   originalUrl: '/api/tasks?limit=12',
+dashboard-1  |   baseUrl: '/api/tasks',
+dashboard-1  |   path: '/',
+dashboard-1  |   referer: 'http://localhost:8080/dashboard.html',
+dashboard-1  |   userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+dashboard-1  |   accept: 'application/json'
+dashboard-1  | }
+dashboard-1  | [HTTP] GET /api/runs?limit=20
+dashboard-1  | [HTTP] GET /api/runs?limit=20
+dashboard-1  | [HTTP] GET /api/tasks?limit=12
+dashboard-1  | [HTTP] GET /api/runs?limit=20
+dashboard-1  | [HTTP] GET /api/tasks?limit=12
+dashboard-1  | [HTTP] GET /api/tasks?limit=12
+dashboard-1  | [HTTP] GET /api/runs?limit=20
+dashboard-1  | [HTTP] GET /api/runs?limit=20
+dashboard-1  | [HTTP] GET /css/broadcast.css
+dashboard-1  | [HTTP] GET /css/demo_layout_trim.css
+dashboard-1  | [HTTP] GET /css/dashboard-reflections.css
+dashboard-1  | [phase57c-router] /api/tasks probe {
+dashboard-1  |   originalUrl: '/api/tasks?limit=12',
+dashboard-1  |   baseUrl: '/api/tasks',
+dashboard-1  |   path: '/',
+dashboard-1  |   referer: 'http://localhost:8080/dashboard.html',
+dashboard-1  |   userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+dashboard-1  |   accept: 'application/json'
+dashboard-1  | }
+dashboard-1  | [HTTP] GET /css/dashboard.css?v=darkmode
+dashboard-1  | [HTTP] GET /css/phase13_5_operator_ux.css
+dashboard-1  | [phase57c-router] /api/tasks probe {
+dashboard-1  |   originalUrl: '/api/tasks?limit=12',
+dashboard-1  |   baseUrl: '/api/tasks',
+dashboard-1  |   path: '/',
+dashboard-1  |   referer: 'http://localhost:8080/dashboard.html',
+dashboard-1  |   userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+dashboard-1  |   accept: 'application/json'
+dashboard-1  | }
+dashboard-1  | [phase57c-router] /api/tasks probe {
+dashboard-1  |   originalUrl: '/api/tasks?limit=12',
+dashboard-1  |   baseUrl: '/api/tasks',
+dashboard-1  |   path: '/',
+dashboard-1  |   referer: 'http://localhost:8080/dashboard.html',
+dashboard-1  |   userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+dashboard-1  |   accept: 'application/json'
+dashboard-1  | }
+dashboard-1  | [HTTP] GET /css/agent-status-row.css
+dashboard-1  | [HTTP] GET /css/matilda-chat.css
+dashboard-1  | [HTTP] GET /css/phase59_demo_focus.css
+dashboard-1  | [HTTP] GET /css/phase60_live_polish.css
+dashboard-1  | [HTTP] GET /css/phase61_workspace_consolidation.css
+dashboard-1  | [HTTP] GET /css/phase61_tabs_observational_workspace.css
+dashboard-1  | [HTTP] GET /js/phase61_tabs_workspace.js
+dashboard-1  | [HTTP] GET /bundle.js
+dashboard-1  | [HTTP] GET /js/phase60_live_clock.js
+dashboard-1  | [HTTP] GET /js/phase61_recent_history_wire.js
+dashboard-1  | [HTTP] GET /js/operatorGuidance.sse.js?v=phase96-live-1
+dashboard-1  | [HTTP] GET /js/phase457_restore_task_panels.js
+dashboard-1  | [HTTP] GET /js/phase457_neutralize_legacy_observational_consumers.js
+dashboard-1  | [HTTP] GET /events/ops
+dashboard-1  | [HTTP] GET /events/ops
+dashboard-1  | [HTTP] GET /api/tasks?limit=12
+dashboard-1  | [phase57c-router] /api/tasks probe {
+dashboard-1  |   originalUrl: '/api/tasks?limit=12',
+dashboard-1  |   baseUrl: '/api/tasks',
+dashboard-1  |   path: '/',
+dashboard-1  |   referer: 'http://localhost:8080/dashboard.html',
+dashboard-1  |   userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+dashboard-1  |   accept: 'application/json'
+dashboard-1  | }
+dashboard-1  | [HTTP] GET /api/runs?limit=20
+dashboard-1  | [HTTP] GET /api/tasks
+dashboard-1  | [HTTP] GET /events/ops
+dashboard-1  | [phase57c-router] /api/tasks probe {
+dashboard-1  |   originalUrl: '/api/tasks',
+dashboard-1  |   baseUrl: '/api/tasks',
+dashboard-1  |   path: '/',
+dashboard-1  |   referer: 'http://localhost:8080/dashboard.html',
+dashboard-1  |   userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+dashboard-1  |   accept: 'application/json'
+dashboard-1  | }
+dashboard-1  | [HTTP] GET /events/reflections
+dashboard-1  | (node:1) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///app/routes/diagnostics/operatorGuidanceRuntime.js is not specified and it doesn't parse as CommonJS.
+dashboard-1  | Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+dashboard-1  | To eliminate this warning, add "type": "module" to /app/package.json.
+dashboard-1  | (Use `node --trace-warnings ...` to show where the warning was created)
+dashboard-1  | [phase25] task_events_emit loaded 2026-04-09T17:32:50.395Z file= file:///app/server/task_events_emit.mjs
+dashboard-1  | [phase25] api-tasks-postgres loaded 2026-04-09T17:32:50.400Z file= file:///app/server/routes/api-tasks-postgres.mjs
+dashboard-1  | [phase19] orchestrator_state_route mounted {
+dashboard-1  |   file: 'file:///app/server/orchestrator_state_route.mjs',
+dashboard-1  |   envSnapshot: {
+dashboard-1  |     PHASE18_ENABLE_ORCHESTRATION: undefined,
+dashboard-1  |     PHASE19_ENABLE_ORCH_STATE: undefined
+dashboard-1  |   }
+dashboard-1  | }
+dashboard-1  | [SSE] /events/ops + /events/reflections registered
+dashboard-1  | [db] effective pool config {
+dashboard-1  |   mode: 'url',
+dashboard-1  |   DB_URL_present: true,
+dashboard-1  |   host: null,
+dashboard-1  |   port: null,
+dashboard-1  |   user: null,
+dashboard-1  |   database: null,
+dashboard-1  |   password_type: 'url-hidden',
+dashboard-1  |   password_len: 'hidden',
+dashboard-1  |   has_password: true
+dashboard-1  | }
+dashboard-1  | Database pool initialized
+dashboard-1  | [phase25] __DB_POOL set { has: true, type: 'BoundPool' }
+dashboard-1  | Server running on http://0.0.0.0:3000
+dashboard-1  | [HTTP] GET /dashboard.html
+dashboard-1  | [HTTP] GET /css/broadcast.css
+dashboard-1  | [HTTP] GET /css/dashboard.css?v=darkmode
+dashboard-1  | [HTTP] GET /css/phase59_demo_focus.css
+dashboard-1  | [HTTP] GET /css/agent-status-row.css
+dashboard-1  | [HTTP] GET /css/phase60_live_polish.css
+dashboard-1  | [HTTP] GET /css/dashboard-reflections.css
+dashboard-1  | [HTTP] GET /css/phase61_workspace_consolidation.css
+dashboard-1  | [HTTP] GET /css/phase61_tabs_observational_workspace.css
+dashboard-1  | [HTTP] GET /css/demo_layout_trim.css
+dashboard-1  | [HTTP] GET /css/matilda-chat.css
+dashboard-1  | [HTTP] GET /js/phase61_tabs_workspace.js
+dashboard-1  | [HTTP] GET /css/phase13_5_operator_ux.css
+dashboard-1  | [HTTP] GET /js/phase60_live_clock.js
+dashboard-1  | [HTTP] GET /js/phase61_recent_history_wire.js
+dashboard-1  | [HTTP] GET /bundle.js
+dashboard-1  | [HTTP] GET /js/operatorGuidance.sse.js?v=phase96-live-1
+dashboard-1  | [HTTP] GET /js/phase457_restore_task_panels.js
+dashboard-1  | [HTTP] GET /js/phase457_neutralize_legacy_observational_consumers.js
+dashboard-1  | [HTTP] GET /api/tasks?limit=12
+dashboard-1  | [HTTP] GET /api/runs?limit=20
+dashboard-1  | [HTTP] GET /js/telemetry/phase65b_metric_ownership_guard.js
+dashboard-1  | [phase57c-router] /api/tasks probe {
+dashboard-1  |   originalUrl: '/api/tasks?limit=12',
+dashboard-1  |   baseUrl: '/api/tasks',
+dashboard-1  |   path: '/',
+dashboard-1  |   referer: 'http://localhost:8080/dashboard.html',
+dashboard-1  |   userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+dashboard-1  |   accept: 'application/json'
+dashboard-1  | }
+dashboard-1  | [HTTP] GET /js/telemetry/running_tasks_metric.js
+dashboard-1  | [HTTP] GET /api/tasks
+dashboard-1  | [HTTP] GET /js/telemetry/success_rate_metric.js
+dashboard-1  | [phase57c-router] /api/tasks probe {
+dashboard-1  |   originalUrl: '/api/tasks',
+dashboard-1  |   baseUrl: '/api/tasks',
+dashboard-1  |   path: '/',
+dashboard-1  |   referer: 'http://localhost:8080/dashboard.html',
+dashboard-1  |   userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+dashboard-1  |   accept: 'application/json'
+dashboard-1  | }
+dashboard-1  | [HTTP] GET /js/telemetry/latency_metric.js
+dashboard-1  | [HTTP] GET /events/ops
+dashboard-1  | [HTTP] GET /events/ops
+dashboard-1  | [HTTP] GET /events/ops
+dashboard-1  | [HTTP] GET /events/reflections
+dashboard-1  | [HTTP] HEAD /
+
+=== COMPOSE LOGS: POSTGRES ===
+postgres-1  | 	          terminal_event_ts,
+postgres-1  | 	          terminal_event_id
+postgres-1  | 	  
+postgres-1  | 	        FROM run_view
+postgres-1  | 	        
+postgres-1  | 	        ORDER BY
+postgres-1  | 	          last_event_ts DESC NULLS LAST,
+postgres-1  | 	          last_event_id DESC NULLS LAST,
+postgres-1  | 	          run_id DESC
+postgres-1  | 	        LIMIT $1::int
+postgres-1  | 	      
+postgres-1  | 2026-04-09 16:21:51.482 UTC [2130] ERROR:  relation "run_view" does not exist at character 435
+postgres-1  | 2026-04-09 16:21:51.482 UTC [2130] STATEMENT:  
+postgres-1  | 	        
+postgres-1  | 	    SELECT
+postgres-1  | 	          run_id,
+postgres-1  | 	          task_id,
+postgres-1  | 	          task_status,
+postgres-1  | 	          is_terminal,
+postgres-1  | 	          last_event_id,
+postgres-1  | 	          last_event_ts,
+postgres-1  | 	          last_event_kind,
+postgres-1  | 	          actor,
+postgres-1  | 	          lease_expires_at,
+postgres-1  | 	          lease_fresh,
+postgres-1  | 	          lease_ttl_ms,
+postgres-1  | 	          last_heartbeat_ts,
+postgres-1  | 	          heartbeat_age_ms,
+postgres-1  | 	          terminal_event_kind,
+postgres-1  | 	          terminal_event_ts,
+postgres-1  | 	          terminal_event_id
+postgres-1  | 	  
+postgres-1  | 	        FROM run_view
+postgres-1  | 	        
+postgres-1  | 	        ORDER BY
+postgres-1  | 	          last_event_ts DESC NULLS LAST,
+postgres-1  | 	          last_event_id DESC NULLS LAST,
+postgres-1  | 	          run_id DESC
+postgres-1  | 	        LIMIT $1::int
+postgres-1  | 	      
+postgres-1  | 2026-04-09 16:21:51.485 UTC [2133] ERROR:  relation "run_view" does not exist at character 435
+postgres-1  | 2026-04-09 16:21:51.485 UTC [2133] STATEMENT:  
+postgres-1  | 	        
+postgres-1  | 	    SELECT
+postgres-1  | 	          run_id,
+postgres-1  | 	          task_id,
+postgres-1  | 	          task_status,
+postgres-1  | 	          is_terminal,
+postgres-1  | 	          last_event_id,
+postgres-1  | 	          last_event_ts,
+postgres-1  | 	          last_event_kind,
+postgres-1  | 	          actor,
+postgres-1  | 	          lease_expires_at,
+postgres-1  | 	          lease_fresh,
+postgres-1  | 	          lease_ttl_ms,
+postgres-1  | 	          last_heartbeat_ts,
+postgres-1  | 	          heartbeat_age_ms,
+postgres-1  | 	          terminal_event_kind,
+postgres-1  | 	          terminal_event_ts,
+postgres-1  | 	          terminal_event_id
+postgres-1  | 	  
+postgres-1  | 	        FROM run_view
+postgres-1  | 	        
+postgres-1  | 	        ORDER BY
+postgres-1  | 	          last_event_ts DESC NULLS LAST,
+postgres-1  | 	          last_event_id DESC NULLS LAST,
+postgres-1  | 	          run_id DESC
+postgres-1  | 	        LIMIT $1::int
+postgres-1  | 	      
+postgres-1  | 2026-04-09 16:21:51.489 UTC [2135] ERROR:  relation "run_view" does not exist at character 435
+postgres-1  | 2026-04-09 16:21:51.489 UTC [2135] STATEMENT:  
+postgres-1  | 	        
+postgres-1  | 	    SELECT
+postgres-1  | 	          run_id,
+postgres-1  | 	          task_id,
+postgres-1  | 	          task_status,
+postgres-1  | 	          is_terminal,
+postgres-1  | 	          last_event_id,
+postgres-1  | 	          last_event_ts,
+postgres-1  | 	          last_event_kind,
+postgres-1  | 	          actor,
+postgres-1  | 	          lease_expires_at,
+postgres-1  | 	          lease_fresh,
+postgres-1  | 	          lease_ttl_ms,
+postgres-1  | 	          last_heartbeat_ts,
+postgres-1  | 	          heartbeat_age_ms,
+postgres-1  | 	          terminal_event_kind,
+postgres-1  | 	          terminal_event_ts,
+postgres-1  | 	          terminal_event_id
+postgres-1  | 	  
+postgres-1  | 	        FROM run_view
+postgres-1  | 	        
+postgres-1  | 	        ORDER BY
+postgres-1  | 	          last_event_ts DESC NULLS LAST,
+postgres-1  | 	          last_event_id DESC NULLS LAST,
+postgres-1  | 	          run_id DESC
+postgres-1  | 	        LIMIT $1::int
+postgres-1  | 	      
+postgres-1  | 2026-04-09 16:21:51.490 UTC [2136] ERROR:  relation "run_view" does not exist at character 435
+postgres-1  | 2026-04-09 16:21:51.490 UTC [2136] STATEMENT:  
+postgres-1  | 	        
+postgres-1  | 	    SELECT
+postgres-1  | 	          run_id,
+postgres-1  | 	          task_id,
+postgres-1  | 	          task_status,
+postgres-1  | 	          is_terminal,
+postgres-1  | 	          last_event_id,
+postgres-1  | 	          last_event_ts,
+postgres-1  | 	          last_event_kind,
+postgres-1  | 	          actor,
+postgres-1  | 	          lease_expires_at,
+postgres-1  | 	          lease_fresh,
+postgres-1  | 	          lease_ttl_ms,
+postgres-1  | 	          last_heartbeat_ts,
+postgres-1  | 	          heartbeat_age_ms,
+postgres-1  | 	          terminal_event_kind,
+postgres-1  | 	          terminal_event_ts,
+postgres-1  | 	          terminal_event_id
+postgres-1  | 	  
+postgres-1  | 	        FROM run_view
+postgres-1  | 	        
+postgres-1  | 	        ORDER BY
+postgres-1  | 	          last_event_ts DESC NULLS LAST,
+postgres-1  | 	          last_event_id DESC NULLS LAST,
+postgres-1  | 	          run_id DESC
+postgres-1  | 	        LIMIT $1::int
+postgres-1  | 	      
+postgres-1  | 2026-04-09 16:21:51.501 UTC [2139] ERROR:  relation "run_view" does not exist at character 435
+postgres-1  | 2026-04-09 16:21:51.501 UTC [2139] STATEMENT:  
+postgres-1  | 	        
+postgres-1  | 	    SELECT
+postgres-1  | 	          run_id,
+postgres-1  | 	          task_id,
+postgres-1  | 	          task_status,
+postgres-1  | 	          is_terminal,
+postgres-1  | 	          last_event_id,
+postgres-1  | 	          last_event_ts,
+postgres-1  | 	          last_event_kind,
+postgres-1  | 	          actor,
+postgres-1  | 	          lease_expires_at,
+postgres-1  | 	          lease_fresh,
+postgres-1  | 	          lease_ttl_ms,
+postgres-1  | 	          last_heartbeat_ts,
+postgres-1  | 	          heartbeat_age_ms,
+postgres-1  | 	          terminal_event_kind,
+postgres-1  | 	          terminal_event_ts,
+postgres-1  | 	          terminal_event_id
+postgres-1  | 	  
+postgres-1  | 	        FROM run_view
+postgres-1  | 	        
+postgres-1  | 	        ORDER BY
+postgres-1  | 	          last_event_ts DESC NULLS LAST,
+postgres-1  | 	          last_event_id DESC NULLS LAST,
+postgres-1  | 	          run_id DESC
+postgres-1  | 	        LIMIT $1::int
+postgres-1  | 	      
+
+=== SEARCH: TASK TABLE BOOTSTRAP / MIGRATION / DB URL ===
+server/db_bootstrap_tasks_task_id.mjs:1:export async function ensureTasksTaskIdColumn(pool) {
+server/db_bootstrap_tasks_task_id.mjs:4:  await pool.query(`create index if not exists tasks_task_id_idx on tasks(task_id);`);
+server/db_wait_ready.mjs:1:export async function waitForPostgresReady(pool, {
+server/db_wait_ready.mjs:39:        console.log(`[db] waiting for postgres... elapsed=${elapsed}ms code=${code ?? "?"}`);
+server/db.js:2:const POSTGRES_URL = process.env.POSTGRES_URL;
+server/db.js:3:if (!POSTGRES_URL) {
+server/db.js:4:  throw new Error("POSTGRES_URL is required (server/db.js).");
+server/db.js:8:  globalThis.__MBHQ_POOL = new Pool({ connectionString: POSTGRES_URL });
+server/db_bootstrap_tasks_retry_semantics.mjs:2: * Phase 27 — Tasks table retry + lease semantics (Postgres bootstrap)
+server/worker/phase30_db_doctor_pretty.sh:3:: "${POSTGRES_URL:?POSTGRES_URL required}"
+server/worker/phase30_db_doctor_pretty.sh:5:row="$(psql "$POSTGRES_URL" -v ON_ERROR_STOP=1 -qtAc "
+server/worker/phase26_task_worker.mjs:24:const POSTGRES_URL = process.env.POSTGRES_URL;
+server/worker/phase26_task_worker.mjs:25:if (!POSTGRES_URL) throw new Error("POSTGRES_URL required");
+server/worker/phase26_task_worker.mjs:60:const pool = new Pool({ connectionString: POSTGRES_URL });
+server/worker/phase27_markers.mjs:14:    mustEnv("POSTGRES_URL") ||
+server/worker/phase27_markers.mjs:15:    mustEnv("DATABASE_URL") ||
+server/worker/phase27_markers.mjs:18:  if (!url) throw new Error("worker: missing POSTGRES_URL/DATABASE_URL/PGURL");
+server/worker/phase29_db_doctor.sh:3:: "${POSTGRES_URL:?POSTGRES_URL required}"
+server/worker/phase29_db_doctor.sh:5:psql "$POSTGRES_URL" -v ON_ERROR_STOP=1 -qtAc "
+server/routes/api-tasks-postgres.mjs:4:console.log("[phase25] api-tasks-postgres loaded", new Date().toISOString(), "file=", import.meta.url);
+server/routes/task-events-sse.mjs:7:const DB_URL = process.env.POSTGRES_URL || process.env.DATABASE_URL || "";
+server/routes/task-events-sse.mjs:13:  if (!DB_URL) return null;
+server/routes/task-events-sse.mjs:14:  pool = new Pool({ connectionString: DB_URL });
+server/routes/task-events-sse.mjs:76:        msg: "missing POSTGRES_URL/DATABASE_URL",
+server/routes/phase36_run_view.mjs:17:  const url = process.env.POSTGRES_URL || process.env.DATABASE_URL;
+server/routes/phase36_run_view.mjs:20:  // NOTE: In containers, PGHOST should be "postgres" (service DNS), not 127.0.0.1.
+server/routes/phase36_run_view.mjs:26:        user: process.env.PGUSER || "postgres",
+server/routes/phase36_run_view.mjs:27:        password: process.env.PGPASSWORD || "postgres",
+server/routes/phase36_run_view.mjs:28:        database: process.env.PGDATABASE || "postgres",
+server/policy/policy_grants.ts:31:    "../postgres",
+server/sql/phase54_bootstrap.sql:3:-- Phase 54 bootstrap: ensure fresh Postgres boot has the schema the dashboard expects.
+server/sql/phase54_bootstrap.sql:4:-- This file is run by the official postgres image ONLY on first init (empty PGDATA).
+scripts/smoke/phase34_reclaim_proof.zsh:3:: "${POSTGRES_URL:?export POSTGRES_URL=postgres://... first}"
+scripts/smoke/phase34_reclaim_proof.zsh:7:PSQLRC=/dev/null psql -X -q "$POSTGRES_URL" -v ON_ERROR_STOP=1 -P pager=off -c \
+scripts/smoke/phase34_reclaim_proof.zsh:13:  PSQLRC=/dev/null psql -X -q "$POSTGRES_URL" -v ON_ERROR_STOP=1 -At <<'SQL'
+scripts/smoke/phase34_reclaim_proof.zsh:37:PSQLRC=/dev/null psql -X -q "$POSTGRES_URL" -v ON_ERROR_STOP=1 -P pager=off -c \
+scripts/smoke/phase34_reclaim_proof.zsh:40:PSQLRC=/dev/null psql -X -q "$POSTGRES_URL" -v ON_ERROR_STOP=1 -P pager=off -c "
+scripts/smoke/phase34_reclaim_proof.zsh:70:PSQLRC=/dev/null psql -X -q "$POSTGRES_URL" -v ON_ERROR_STOP=1 -P pager=off -c \
+scripts/smoke/phase34_reclaim_proof.zsh:76:PSQLRC=/dev/null psql -X -q "$POSTGRES_URL" -v ON_ERROR_STOP=1 -P pager=off -c \
+scripts/smoke/phase34_reclaim_proof.zsh:82:PSQLRC=/dev/null psql -X -q "$POSTGRES_URL" -v ON_ERROR_STOP=1 -P pager=off -c \
+scripts/smoke/phase35_epoch_owner_proof.zsh:7:PSQL_BASE=(docker compose exec -T postgres psql -U postgres -d postgres -v ON_ERROR_STOP=1 -q -X -P pager=off)
+scripts/smoke/phase35_epoch_owner_proof.zsh:27:echo "== phase35: ensure postgres up + ready =="
+scripts/smoke/phase35_epoch_owner_proof.zsh:34:docker compose up -d postgres >/dev/null
+scripts/smoke/phase35_epoch_owner_proof.zsh:36:  if docker compose exec -T postgres pg_isready -U postgres >/dev/null 2>&1; then
+scripts/smoke/phase35_epoch_owner_proof.zsh:37:    echo "OK: postgres ready"
+scripts/smoke/phase35_epoch_owner_proof.zsh:42:docker compose exec -T postgres pg_isready -U postgres >/dev/null 2>&1 || {
+scripts/smoke/phase35_epoch_owner_proof.zsh:43:  echo "FAIL: postgres not ready"
+scripts/smoke/phase35_epoch_owner_proof.zsh:45:  docker compose logs --no-color --tail=120 postgres || true
+scripts/smoke/phase35_epoch_owner_proof.zsh:168:        'docker','compose','exec','-T','postgres','psql',
+scripts/smoke/phase35_epoch_owner_proof.zsh:169:        '-U','postgres','-d','postgres',
+scripts/phase25_writer_smoke.mjs:12:    process.env.DATABASE_URL ||
+scripts/phase25_writer_smoke.mjs:13:    process.env.POSTGRES_URL ||
+scripts/phase25_writer_smoke.mjs:18:  return "postgres://postgres:postgres@127.0.0.1:5432/postgres";
+scripts/phase40_tierA_claim_gate_smoke.sh:14:  PGC="$(docker ps --format '{{.Names}}' | awk '$0=="motherboard_systems_hq-postgres-1"{print; exit}')"
+scripts/phase40_tierA_claim_gate_smoke.sh:17:  PGC="$(docker ps --format '{{.Names}}' | awk 'tolower($0) ~ /postgres/ {print; exit}')"
+scripts/phase40_tierA_claim_gate_smoke.sh:19:: "${PGC:?ERROR: postgres container not found (start your compose stack)}"
+scripts/phase40_tierA_claim_gate_smoke.sh:34:docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<SQL
+scripts/phase40_tierA_claim_gate_smoke.sh:49:docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 \
+scripts/phase40_tierA_claim_gate_smoke.sh:55:docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 \
+scripts/phase40_tierA_claim_gate_smoke.sh:60:RES1="$(docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -Atc \
+scripts/phase40_tierA_claim_gate_smoke.sh:64:RES2="$(docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -Atc \
+scripts/phase54_regression_harness.sh:8:  -f docker-compose.phase54.postgres_bootstrap.override.yml
+scripts/phase54_regression_harness.sh:9:  -f docker-compose.phase47.postgres_url.override.yml
+scripts/phase54_regression_harness.sh:10:  -f docker-compose.phase54.postgres_bootstrap.override.yml
+scripts/phase54_regression_harness.sh:57:    DC -f docker-compose.yml -f docker-compose.workers.yml -f docker-compose.phase54.shadow.override.yml -f docker-compose.phase47.postgres_url.override.yml up -d --build
+scripts/phase54_regression_harness.sh:59:    DC -f docker-compose.yml -f docker-compose.workers.yml -f docker-compose.phase54.enforce.override.yml -f docker-compose.phase47.postgres_url.override.yml up -d --build
+scripts/phase54_regression_harness.sh:92:  id="$(docker compose ps -q postgres 2>/dev/null || true)"
+scripts/phase54_regression_harness.sh:97:  if docker ps --format '{{.Names}}' | grep -q '^motherboard_systems_hq-postgres-1$'; then
+scripts/phase54_regression_harness.sh:98:    echo "motherboard_systems_hq-postgres-1"
+scripts/phase54_regression_harness.sh:101:  echo "ERROR: cannot locate postgres container" >&2
+scripts/phase54_regression_harness.sh:109:  user="$(docker exec "${pgc}" sh -lc 'printf "%s" "${POSTGRES_USER:-postgres}"')"
+scripts/phase54_regression_harness.sh:110:  db="$(docker exec "${pgc}" sh -lc 'printf "%s" "${POSTGRES_DB:-postgres}"')"
+scripts/phase54_regression_harness.sh:198:  # Compose maps postgres -> localhost:5432, and CI runs with trust auth.
+scripts/phase54_regression_harness.sh:199:  export POSTGRES_URL="${POSTGRES_URL:-${DATABASE_URL:-postgres://postgres:postgres@127.0.0.1:5432/postgres?sslmode=disable}}"
+scripts/phase54_regression_harness.sh:200:  export DATABASE_URL="${DATABASE_URL:-${POSTGRES_URL}}"
+scripts/phase54_regression_harness.sh:201:  export PGPASSWORD="${PGPASSWORD:-postgres}"
+scripts/phase54_regression_harness.sh:204:DC exec -T postgres psql -U postgres -d postgres -v ON_ERROR_STOP=1 < scripts/sql/migrations/phase55_run_lifecycle_immutability.sql
+scripts/phase54_regression_harness.sh:224:  echo "=== Phase 54 debug: postgres logs ==="
+scripts/phase54_regression_harness.sh:225:  DC logs --no-color --tail=200 postgres || true
+scripts/phase46_crash_snapshot.sh:16:for n in motherboard_systems_hq-dashboard-1 motherboard_systems_hq-workerA-1 motherboard_systems_hq-workerB-1 motherboard_systems_hq-postgres-1; do
+scripts/phase46_crash_snapshot.sh:24:$COMPOSE logs --no-color --tail=250 dashboard postgres workerA workerB | tee -a "$OUT/03_logs_tail.txt" || true
+scripts/phase31_7_verify_container_reclaim.sh:5:PG="motherboard_systems_hq-postgres-1"
+scripts/phase31_7_verify_container_reclaim.sh:7:docker exec -i "$PG" sh -lc 'psql -U postgres -d postgres -Atc "select 1;"' >/dev/null
+scripts/phase31_7_verify_container_reclaim.sh:8:BASE_EVENT_ID="$(docker exec -i "$PG" sh -lc 'psql -U postgres -d postgres -Atc "select coalesce(max(id),0) from task_events;"')"
+scripts/phase31_7_verify_container_reclaim.sh:9:BASE_TASK_ID="$(docker exec -i "$PG" sh -lc 'psql -U postgres -d postgres -Atc "select coalesce(max(id),0) from tasks;"')"
+scripts/phase31_7_verify_container_reclaim.sh:16:  docker exec -i "$PG" sh -lc "psql -U postgres -d postgres -v ON_ERROR_STOP=1 -Atc \
+scripts/phase31_7_verify_container_reclaim.sh:29:docker exec -i "$PG" sh -lc "psql -U postgres -d postgres -Atc \
+scripts/phase31_7_verify_container_reclaim.sh:37:docker exec -i "$PG" sh -lc "psql -U postgres -d postgres -Atc \
+scripts/phase31_7_verify_container_reclaim.sh:54:docker exec -i "$PG" sh -lc "psql -U postgres -d postgres -Atc \
+scripts/matilda-chat-phase2-resume.sh:32:echo "🐳 Starting dashboard + Postgres via Docker helper script..."
+scripts/phase57_ci_bootstrap.sh:6:docker compose up -d postgres
+scripts/phase57_ci_bootstrap.sh:8:PG_CTN="${COMPOSE_PROJECT_NAME}-postgres-1"
+scripts/phase57_ci_bootstrap.sh:10:  echo "ERROR: expected postgres container not found: $PG_CTN" >&2
+scripts/phase57_ci_bootstrap.sh:15:echo "Waiting for postgres to be ready..."
+scripts/phase57_ci_bootstrap.sh:17:  if docker exec "$PG_CTN" pg_isready -U postgres >/dev/null 2>&1; then
+scripts/phase57_ci_bootstrap.sh:26:  if docker exec "$PG_CTN" psql -h 127.0.0.1 -U postgres -d postgres -v ON_ERROR_STOP=1 -c "select 1" >/dev/null 2>&1; then
+scripts/phase57_ci_bootstrap.sh:34:  docker exec -i "$PG_CTN" psql -h 127.0.0.1 -U postgres -d postgres -v ON_ERROR_STOP=1
+scripts/phase19_postgres_apply_task_events.sql:1:-- Phase 19: Postgres task_events schema (fully idempotent)
+scripts/phase19_task_events_app_smoke.cjs:2: * Phase 19: app-level Postgres write -> read smoke test for public.task_events
+scripts/phase19_task_events_app_smoke.cjs:5: *   eval "$(scripts/phase19_export_postgres_env.sh)"
+scripts/phase19_task_events_app_smoke.cjs:11:  process.env.DATABASE_URL ||
+scripts/phase19_task_events_app_smoke.cjs:12:  process.env.POSTGRES_URL ||
+scripts/phase19_task_events_app_smoke.cjs:13:  process.env.POSTGRES_URI ||
+scripts/phase19_task_events_app_smoke.cjs:14:  process.env.POSTGRES_CONNECTION_STRING;
+scripts/phase19_task_events_app_smoke.cjs:17:  console.error("Missing DATABASE_URL/POSTGRES_URL env var.");
+scripts/phase39_action_tier_claim_smoke.sh:6:PGC="$(docker ps --format '{{.Names}}' | grep -E '^motherboard_systems_hq-postgres-1$' || true)"
+scripts/phase39_action_tier_claim_smoke.sh:8:  PGC="$(docker ps --format '{{.Names}}' | grep -E 'postgres' | head -n 1 || true)"
+scripts/phase39_action_tier_claim_smoke.sh:10:: "${PGC:?ERROR: postgres container not found}"
+scripts/phase39_action_tier_claim_smoke.sh:22:docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<'SQL'
+scripts/phase39_action_tier_claim_smoke.sh:55:docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<SQL
+scripts/phase39_action_tier_claim_smoke.sh:122:docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 < /tmp/phase39_claim_exec.sql
+scripts/phase19_complete_task_runner.mjs:5:  process.env.DATABASE_URL ||
+scripts/phase19_complete_task_runner.mjs:6:  process.env.POSTGRES_URL ||
+scripts/phase19_complete_task_runner.mjs:7:  process.env.POSTGRES_URI ||
+scripts/phase19_complete_task_runner.mjs:8:  process.env.POSTGRES_CONNECTION_STRING;
+scripts/phase19_complete_task_runner.mjs:11:  console.error("Missing DATABASE_URL/POSTGRES_URL");
+scripts/phase55_terminal_event_precedence.sh:4:# Requires POSTGRES_URL (or DATABASE_URL) to be set by the harness/overrides.
+scripts/phase55_terminal_event_precedence.sh:5:DB_URL="${POSTGRES_URL:-${DATABASE_URL:-}}"
+scripts/phase55_terminal_event_precedence.sh:6:if [[ -z "${DB_URL}" ]]; then
+scripts/phase55_terminal_event_precedence.sh:7:  echo "ERROR: POSTGRES_URL (or DATABASE_URL) is required for Phase 55 invariant." >&2
+scripts/phase55_terminal_event_precedence.sh:16:psql "${DB_URL}" -v ON_ERROR_STOP=1 -f "scripts/sql/invariants/phase55_terminal_event_precedence.sql" >/dev/null
+scripts/phase28_worker_watch.sh:7:PGCTR="${PGCTR:-motherboard_systems_hq-postgres-1}"
+scripts/phase28_worker_watch.sh:22:DB=${POSTGRES_DB:-postgres}
+scripts/phase28_worker_watch.sh:23:psql -U ${POSTGRES_USER:-postgres} -d "$DB" -c "
+scripts/phase19_delegate_task_runner.mjs:5:  process.env.DATABASE_URL ||
+scripts/phase19_delegate_task_runner.mjs:6:  process.env.POSTGRES_URL ||
+scripts/phase19_delegate_task_runner.mjs:7:  process.env.POSTGRES_URI ||
+scripts/phase19_delegate_task_runner.mjs:8:  process.env.POSTGRES_CONNECTION_STRING;
+scripts/phase19_delegate_task_runner.mjs:11:  console.error("Missing DATABASE_URL/POSTGRES_URL");
+scripts/phase20_db_smoketest.mjs:5:const DB_URL_RAW = process.env.POSTGRES_URL || process.env.DATABASE_URL || "";
+scripts/phase20_db_smoketest.mjs:9:    if (!/^postgres(ql)?:\/\//i.test(raw)) return raw;
+scripts/phase20_db_smoketest.mjs:13:    if (hasUser && !hasPw) u.password = String(process.env.PGPASSWORD || "postgres");
+scripts/phase20_db_smoketest.mjs:19:const DB_URL = _normalizeDbUrl(DB_URL_RAW);
+scripts/phase20_db_smoketest.mjs:21:const cfg = DB_URL
+scripts/phase20_db_smoketest.mjs:22:  ? { connectionString: DB_URL }
+scripts/phase20_db_smoketest.mjs:24:      host: process.env.PGHOST || "postgres",
+scripts/phase20_db_smoketest.mjs:26:      user: process.env.PGUSER || "postgres",
+scripts/phase20_db_smoketest.mjs:27:      password: String(process.env.PGPASSWORD || "postgres"),
+scripts/phase20_db_smoketest.mjs:28:      database: process.env.PGDATABASE || "postgres",
+scripts/phase20_db_smoketest.mjs:31:console.log("[smoke] using", DB_URL ? { mode: "url", hasPw: /\/\/[^:]+:[^@]*@/.test(DB_URL) } : { mode: "params", ...{ host: cfg.host, port: cfg.port, user: cfg.user, database: cfg.database, passwordType: typeof cfg.password, passwordLen: String(cfg.password||"").length } });
+scripts/phase39_action_tier_policy_smoke.sh:8:  /^motherboard_systems_hq-postgres-1$/ {print; found=1; exit}
+scripts/phase39_action_tier_policy_smoke.sh:13:  PGC="$(docker ps --format '{{.Names}}' | grep -E 'postgres' | head -n 1 || true)"
+scripts/phase39_action_tier_policy_smoke.sh:16:: "${PGC:?ERROR: postgres container not found (is the stack up?)}"
+scripts/phase39_action_tier_policy_smoke.sh:23:  docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -qAt <<'SQL'
+scripts/phase39_action_tier_policy_smoke.sh:54:  docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -f - < sql/policy/action_tier_validate.sql
+scripts/phase45_regression_policy_grants.sh:9:PGC="${PGC:-motherboard_systems_hq-postgres-1}"
+scripts/phase45_regression_policy_grants.sh:12:echo "=== Phase45: ensure postgres container present ==="
+scripts/phase45_regression_policy_grants.sh:13:docker ps --format '{{.Names}}' | grep -qx "$PGC" || { echo "ERROR: postgres container $PGC not running"; exit 1; }
+scripts/phase45_regression_policy_grants.sh:15:echo "=== Phase45: detect PG user/db from container env (fallback postgres) ==="
+scripts/phase45_regression_policy_grants.sh:16:PGUSER="$(docker exec "$PGC" sh -lc 'printf "%s" "${POSTGRES_USER:-}"' || true)"
+scripts/phase45_regression_policy_grants.sh:17:PGDB="$(docker exec "$PGC" sh -lc 'printf "%s" "${POSTGRES_DB:-}"' || true)"
+scripts/phase45_regression_policy_grants.sh:18:[ -n "$PGUSER" ] || PGUSER="postgres"
+scripts/phase45_regression_policy_grants.sh:19:[ -n "$PGDB" ] || PGDB="postgres"
+scripts/phase30_smoke_canonical_ready.sh:4:: "${POSTGRES_URL:?POSTGRES_URL required}"
+scripts/phase30_smoke_canonical_ready.sh:11:has_jsonb="$(psql "$POSTGRES_URL" -qtAc "select count(*)::int from information_schema.columns where table_name='task_events' and column_name='payload_jsonb'")"
+scripts/phase30_smoke_canonical_ready.sh:14:  psql "$POSTGRES_URL" -v ON_ERROR_STOP=1 -f server/worker/phase29_db_migrate_to_phase27.sql
+scripts/phase30_smoke_canonical_ready.sh:18:psql "$POSTGRES_URL" -v ON_ERROR_STOP=1 -f server/worker/phase30_contract_check.sql
+scripts/phase19_apply_postgres_sql_via_container.sh:19:  SVC="$(docker compose config --services 2>/dev/null | rg -n 'postgres' | head -n 1 | sed -E 's/^[0-9]+://')"
+scripts/phase19_apply_postgres_sql_via_container.sh:23:  SVC="postgres"
+scripts/phase19_apply_postgres_sql_via_container.sh:33:PG_USER="$(docker exec "$PG_CID" printenv POSTGRES_USER 2>/dev/null || true)"
+scripts/phase19_apply_postgres_sql_via_container.sh:34:PG_PASS="$(docker exec "$PG_CID" printenv POSTGRES_PASSWORD 2>/dev/null || true)"
+scripts/phase19_apply_postgres_sql_via_container.sh:35:PG_DB="$(docker exec "$PG_CID" printenv POSTGRES_DB 2>/dev/null || true)"
+scripts/phase19_apply_postgres_sql_via_container.sh:38:  echo "error: could not read POSTGRES_* env vars from container: $PG_CID (service: $SVC)"
+scripts/phase28_smoke_one.sh:4:: "${POSTGRES_URL:?POSTGRES_URL required}"
+scripts/phase28_smoke_one.sh:7:  psql "$POSTGRES_URL" -qtAc 'select 1' >/dev/null 2>&1 && break
+scripts/phase28_smoke_one.sh:12:HAS_PAYLOAD="$(psql "$POSTGRES_URL" -qtAc "select count(*)::int from information_schema.columns where table_name='tasks' and column_name='payload'")"
+scripts/phase28_smoke_one.sh:18:  TASK_ID="$(psql "$POSTGRES_URL" -v ON_ERROR_STOP=1 -qtAc "
+scripts/phase28_smoke_one.sh:32:  TASK_ID="$(psql "$POSTGRES_URL" -v ON_ERROR_STOP=1 -qtAc "
+scripts/phase28_smoke_one.sh:89:psql "$POSTGRES_URL" -v ON_ERROR_STOP=1 -qtAc "
+scripts/phase28_smoke_one.sh:107:psql "$POSTGRES_URL" -v ON_ERROR_STOP=1 -qtAc "
+scripts/phase50_smoke_db_writepath_enforce.sh:8:  PGC="$(docker ps --format '{{.Names}}' | grep -E 'postgres' | head -n 1 || true)"
+scripts/phase50_smoke_db_writepath_enforce.sh:11:  echo "ERROR: could not auto-detect postgres container. Set PGC=..." >&2
+scripts/phase50_smoke_db_writepath_enforce.sh:16:  docker exec -i "$PGC" psql -v ON_ERROR_STOP=1 -U postgres -d postgres -Atc "$1"
+scripts/phase50_smoke_db_writepath_enforce.sh:18:# Resolve POSTGRES_URL from compose config by default.
+scripts/phase50_smoke_db_writepath_enforce.sh:19:POSTGRES_URL="${POSTGRES_URL:-}"
+scripts/phase50_smoke_db_writepath_enforce.sh:20:if [[ -z "${POSTGRES_URL}" ]]; then
+scripts/phase50_smoke_db_writepath_enforce.sh:21:  POSTGRES_URL="$(docker compose config 2>/dev/null | awk '/POSTGRES_URL:/{print $2; exit}' || true)"
+scripts/phase50_smoke_db_writepath_enforce.sh:23:if [[ -z "${POSTGRES_URL}" ]]; then
+scripts/phase50_smoke_db_writepath_enforce.sh:24:  echo "ERROR: POSTGRES_URL not found. Set POSTGRES_URL=postgres://... (or ensure compose config includes it)." >&2
+scripts/phase50_smoke_db_writepath_enforce.sh:29:echo "POSTGRES_URL=$POSTGRES_URL"
+scripts/phase50_smoke_db_writepath_enforce.sh:38:POLICY_ENFORCE_MODE="enforce" POSTGRES_URL="$POSTGRES_URL" node scripts/phase50_node_write_attempt.mjs
+scripts/ci_demo_hardening_smoke.sh:10:if [ -f docker-compose.phase47.postgres_url.override.yml ]; then
+scripts/ci_demo_hardening_smoke.sh:11:  COMPOSE_FILES+=( -f docker-compose.phase47.postgres_url.override.yml )
+scripts/ci_demo_hardening_smoke.sh:13:if [ -f docker-compose.phase54.postgres_bootstrap.override.yml ]; then
+scripts/ci_demo_hardening_smoke.sh:14:  COMPOSE_FILES+=( -f docker-compose.phase54.postgres_bootstrap.override.yml )
+scripts/ci_demo_hardening_smoke.sh:44:echo "== Detect postgres service =="
+scripts/ci_demo_hardening_smoke.sh:45:PG_SERVICE="$(docker compose ps --services | grep -E 'postgres|db' | head -n1 || true)"
+scripts/ci_demo_hardening_smoke.sh:47:  echo "ERROR: postgres service not found"
+scripts/ci_demo_hardening_smoke.sh:54:docker compose exec -T "$PG_SERVICE" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -c \
+scripts/phase29_smoke_migrate_then_smoke.sh:4:: "${POSTGRES_URL:?POSTGRES_URL required}"
+scripts/phase29_smoke_migrate_then_smoke.sh:10:psql "$POSTGRES_URL" -v ON_ERROR_STOP=1 -f server/worker/phase29_db_migrate_to_phase27.sql
+scripts/phase36_2_run_observability_smoke.sh:9:: "${PGC:=motherboard_systems_hq-postgres-1}"
+scripts/phase36_2_run_observability_smoke.sh:22:echo "=== sanity: postgres container exists ==="
+scripts/phase36_2_run_observability_smoke.sh:23:docker ps --format '{{.Names}}' | rg -qx "$PGC" || { echo "ERROR: postgres container not running: $PGC"; exit 2; }
+scripts/phase36_2_run_observability_smoke.sh:26:docker exec -i "$PGC" psql -U postgres -d postgres <<SQL
+scripts/phase36_2_run_observability_smoke.sh:32:docker exec -i "$PGC" psql -U postgres -d postgres <<SQL
+scripts/phase36_2_run_observability_smoke.sh:39:docker exec -i "$PGC" psql -U postgres -d postgres <<SQL
+scripts/phase36_2_run_observability_smoke.sh:46:docker exec -i "$PGC" psql -U postgres -d postgres <<SQL
+scripts/phase37_0_capture_run_view_docs.zsh:7:# Robust postgres container detection (works across compose project name changes)
+scripts/phase37_0_capture_run_view_docs.zsh:11:      tolower($2) ~ /(postgres|postgis)/ && tolower($1) ~ /(postgres|db)/ { print $1; exit }
+scripts/phase37_0_capture_run_view_docs.zsh:16:  echo "ERROR: could not find a running postgres container." >&2
+scripts/phase37_0_capture_run_view_docs.zsh:23:# Capture authoritative run_view definition (as Postgres sees it)
+scripts/phase37_0_capture_run_view_docs.zsh:24:docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -At <<'SQL' \
+scripts/phase37_0_capture_run_view_docs.zsh:27:-- Phase 37.0 planning artifact: authoritative run_view SQL as Postgres sees it
+scripts/phase37_0_capture_run_view_docs.zsh:33:docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -At -F '|' <<'SQL' > "$tmp_cols"
+scripts/phase37_0_capture_run_view_docs.zsh:59:- `PHASE37_RUN_VIEW_DEFINITION.sql` (authoritative view definition as captured from Postgres)
+scripts/phase47_smoke.sh:9:# Important: run psql *inside* the postgres container as the postgres role.
+scripts/phase47_smoke.sh:14:# Find postgres container (supports common naming)
+scripts/phase47_smoke.sh:15:PGC="$(docker ps --format '{{.Names}}' | grep -E '(^|-)postgres-1$' | head -n1 || true)"
+scripts/phase47_smoke.sh:17:  PGC="$(docker ps --format '{{.Names}}' | grep -E 'postgres' | head -n1 || true)"
+scripts/phase47_smoke.sh:19:: "${PGC:?ERROR: postgres container not found (is docker compose up?)}"
+scripts/phase47_smoke.sh:24:DB="${POSTGRES_DB:-postgres}"
+scripts/phase47_smoke.sh:26:docker exec -i "$PGC" sh -lc "psql -v ON_ERROR_STOP=1 -U postgres -d \"$DB\" -f - " < "$SQL_PATH_IN_REPO" \
+scripts/phase41_scenario_matrix_dump.sh:4:PGC="$(docker ps --format '{{.Names}}' | grep -E '^motherboard_systems_hq-postgres-1$' || true)"
+scripts/phase41_scenario_matrix_dump.sh:5:: "${PGC:?ERROR: postgres container not found (expected motherboard_systems_hq-postgres-1)}"
+scripts/phase41_scenario_matrix_dump.sh:7:docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 < sql/phase41_scenario_matrix_run_view.sql
+scripts/phase32_null_max_attempts_claim_smoke.sh:6:PGC="$(docker ps --format '{{.Names}}' | grep -E '^motherboard_systems_hq-postgres-1$' || true)"
+scripts/phase32_null_max_attempts_claim_smoke.sh:7:: "${PGC:?ERROR: postgres container not found}"
+scripts/phase32_null_max_attempts_claim_smoke.sh:16:docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<'SQL'
+scripts/phase32_null_max_attempts_claim_smoke.sh:38:docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<SQL
+scripts/phase32_null_max_attempts_claim_smoke.sh:65:docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 < /tmp/phase32_claim_exec.sql
+scripts/phase32_null_max_attempts_claim_smoke.sh:69:docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<SQL
+scripts/phase51_smoke_http_enforce_403.sh:10:  PGC="$(docker ps --format '{{.Names}}' | grep -E 'postgres' | head -n 1 || true)"
+scripts/phase51_smoke_http_enforce_403.sh:13:  echo "ERROR: could not auto-detect postgres container. Set PGC=..." >&2
+scripts/phase51_smoke_http_enforce_403.sh:17:sql() { docker exec -i "$PGC" psql -v ON_ERROR_STOP=1 -U postgres -d postgres -Atc "$1"; }
+scripts/phase50_node_write_attempt.mjs:4:const url = process.env.POSTGRES_URL || process.env.DATABASE_URL;
+scripts/phase50_node_write_attempt.mjs:6:  console.error("ERROR: set POSTGRES_URL (or DATABASE_URL) to run this smoke.");
+scripts/phase46_task_events_sse_smoke.sh:30:echo "=== 3) postgres logs: ensure old failure signatures are absent ==="
+scripts/phase46_task_events_sse_smoke.sh:32:if docker logs --tail 400 motherboard_systems_hq-postgres-1 2>/dev/null | rg -n "$BAD_RE" ; then
+scripts/phase46_task_events_sse_smoke.sh:33:  echo "ERR: found forbidden postgres log signature(s) above" >&2
+scripts/phase46_task_events_sse_smoke.sh:36:echo "OK: no forbidden postgres signatures detected"
+scripts/phase52_smoke_api_tasks_create_201.sh:10:  PGC="$(docker ps --format '{{.Names}}' | grep -E 'postgres' | head -n 1 || true)"
+scripts/phase52_smoke_api_tasks_create_201.sh:13:  echo "ERROR: could not auto-detect postgres container. Set PGC=..." >&2
+scripts/phase52_smoke_api_tasks_create_201.sh:17:sql() { docker exec -i "$PGC" psql -v ON_ERROR_STOP=1 -U postgres -d postgres -Atc "$1"; }
+scripts/phase46_recovery_primitives.sh:15:pg="$(docker ps --format '{{.Names}}' | grep -E 'postgres' | head -n1 || true)"
+scripts/phase46_recovery_primitives.sh:23:  docker logs --tail=400 "${pg}" > "${bundle_dir}/postgres_tail.log" 2>/dev/null || true
+scripts/phase251_protective_seal.sh:77:  echo "== Postgres logs =="
+scripts/phase251_protective_seal.sh:78:  docker compose -f "$COMPOSE_FILE" logs --tail=40 postgres || true
+scripts/db/inspect-dashboard-db-env.sh:8:  echo "Environment vars relevant to Postgres:"
+scripts/db/inspect-dashboard-db-env.sh:9:  env | grep -E "DATABASE_URL|PGHOST|PGUSER|PGPASSWORD|PGDATABASE|POSTGRES" || echo "(none)"
+scripts/db/inspect-dashboard-db-env.sh:20:      echo "PGUSER/PGDATABASE not set; trying manual connection to postgres://user:password@postgres:5432/motherboarddb"
+scripts/db/inspect-dashboard-db-env.sh:21:      echo "PGPASSWORD=password psql -h postgres -U user -d motherboarddb -c \"SELECT current_user, current_database();\""
+scripts/db/inspect-dashboard-db-env.sh:22:      PGPASSWORD=password psql -h postgres -U user -d motherboarddb -c "SELECT current_user, current_database();" || echo "(manual psql test failed)"
+scripts/db/create-dashboard-db.sh:4:echo "🗄️ Ensuring 'dashboard_db' database exists in docker postgres container..."
+scripts/db/create-dashboard-db.sh:6:docker-compose exec postgres sh -c '
+scripts/db/create-dashboard-db.sh:9:  : "${POSTGRES_USER:?POSTGRES_USER is required}"
+scripts/db/create-dashboard-db.sh:10:  : "${POSTGRES_DB:?POSTGRES_DB is required}"
+scripts/db/create-dashboard-db.sh:12:  echo "➡️ Using POSTGRES_USER=${POSTGRES_USER}, POSTGRES_DB=${POSTGRES_DB} as control database"
+scripts/db/create-dashboard-db.sh:14:  EXISTS=$(psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -tAc "SELECT 1 FROM pg_database WHERE datname = '\''dashboard_db'\''")
+scripts/db/create-dashboard-db.sh:17:    echo "🆕 Creating database dashboard_db owned by postgres..."
+scripts/db/create-dashboard-db.sh:18:    psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -c "CREATE DATABASE dashboard_db OWNER postgres;"
+scripts/db/inspect-postgres.sh:4:echo "🔎 Inspecting Postgres env + roles inside docker-compose 'postgres' service..."
+scripts/db/inspect-postgres.sh:7:docker-compose exec postgres bash -lc '
+scripts/db/inspect-postgres.sh:8:  echo "POSTGRES_* env variables:"
+scripts/db/inspect-postgres.sh:9:  env | grep -E "^POSTGRES_" || echo "(no POSTGRES_* variables visible)"
+scripts/db/inspect-postgres.sh:12:  echo "psql: list roles (\\du) using \$POSTGRES_USER / \$POSTGRES_DB if available..."
+scripts/db/inspect-postgres.sh:14:    if [ -n "${POSTGRES_USER:-}" ] && [ -n "${POSTGRES_DB:-}" ]; then
+scripts/db/inspect-postgres.sh:16:      echo "Connecting with: psql -U \"$POSTGRES_USER\" -d \"$POSTGRES_DB\""
+scripts/db/inspect-postgres.sh:18:      psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -c "\du" || echo "(psql \\du failed)"
+scripts/db/inspect-postgres.sh:23:      psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -c "\l" || echo "(psql \\l failed)"
+scripts/db/inspect-postgres.sh:26:      echo "POSTGRES_USER or POSTGRES_DB not set; skipping psql introspection."
+scripts/db/inspect-postgres.sh:35:echo "✅ Postgres inspect complete."
+scripts/db/create-postgres-role.sh:4:echo "🔐 Ensuring 'postgres' role exists in docker postgres container..."
+scripts/db/create-postgres-role.sh:6:docker-compose exec postgres sh -c "
+scripts/db/create-postgres-role.sh:9:  : \"\${POSTGRES_USER:?POSTGRES_USER is required}\"
+scripts/db/create-postgres-role.sh:10:  : \"\${POSTGRES_DB:?POSTGRES_DB is required}\"
+scripts/db/create-postgres-role.sh:12:  echo \"➡️ Using POSTGRES_USER=\${POSTGRES_USER}, POSTGRES_DB=\${POSTGRES_DB}\"
+scripts/db/create-postgres-role.sh:14:  CHECK=\$(psql -U \"\$POSTGRES_USER\" -d \"\$POSTGRES_DB\" -tAc \"SELECT 1 FROM pg_roles WHERE rolname='postgres'\")
+scripts/db/create-postgres-role.sh:16:    echo \"🆕 Creating role postgres...\"
+scripts/db/create-postgres-role.sh:17:    psql -U \"\$POSTGRES_USER\" -d \"\$POSTGRES_DB\" -c \"CREATE ROLE postgres WITH LOGIN PASSWORD 'password';\"
+scripts/db/create-postgres-role.sh:19:    echo \"✅ Role postgres already exists.\"
+scripts/phase57_snapshot_smoke.sh:10:  -f docker-compose.phase47.postgres_url.override.yml
+scripts/phase57_snapshot_smoke.sh:11:  -f docker-compose.phase54.postgres_bootstrap.override.yml
+scripts/phase57_snapshot_smoke.sh:35:PSQL_AT=(docker compose "${COMPOSE_FILES[@]}" exec -T postgres psql -U postgres -d postgres -v ON_ERROR_STOP=1 -At)
+scripts/phase57_snapshot_smoke.sh:36:PSQL_RAW=(docker compose "${COMPOSE_FILES[@]}" exec -T postgres psql -U postgres -d postgres -v ON_ERROR_STOP=1)
+scripts/phase57_snapshot_smoke.sh:46:  if is_service_running postgres && is_service_running dashboard; then
+scripts/phase57_snapshot_smoke.sh:125:  docker compose "${COMPOSE_FILES[@]}" logs --tail=200 dashboard workerA workerB postgres || true
+scripts/phase39_action_tier_smoke.sh:28:PGC="$(find_container '(^|-)postgres-1$')"
+scripts/phase39_action_tier_smoke.sh:29:[[ -n "${PGC:-}" ]] || die "postgres container not found (name must match /postgres-1$/)"
+scripts/phase39_action_tier_smoke.sh:40:  docker exec -i "${PSQL_ENV[@]}" "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 "$@"
+scripts/phase39_action_tier_smoke.sh:59:note "Using: postgres_container=$PGC psql_statement_timeout_ms=$PSQL_STATEMENT_TIMEOUT_MS psql_lock_timeout_ms=$PSQL_LOCK_TIMEOUT_MS run_tag=$RUN_TAG"
+scripts/phase33_smoke.sh:30:# best-effort compose up; do not fail smoke if postgres can't bind 5432 (common local conflict)
+scripts/phase33_smoke.sh:51:echo "== quick db sanity (if psql + POSTGRES_URL are available) =="
+scripts/phase33_smoke.sh:52:if command -v psql >/dev/null 2>&1 && [[ -n "${POSTGRES_URL:-}" ]]; then
+scripts/phase33_smoke.sh:53:  PSQLRC=/dev/null psql -X -q "$POSTGRES_URL" -v ON_ERROR_STOP=1 -c "select count(*) as tasks_total from tasks;" || true
+scripts/phase33_smoke.sh:54:  PSQLRC=/dev/null psql -X -q "$POSTGRES_URL" -v ON_ERROR_STOP=1 -c "select kind, count(*) from task_events group by kind order by count(*) desc;" || true
+scripts/phase33_smoke.sh:56:  echo "psql/POSTGRES_URL not set; skipping DB sanity."
+scripts/phase19_task_events_smoke.cjs:4:  process.env.DATABASE_URL ||
+scripts/phase19_task_events_smoke.cjs:5:  process.env.POSTGRES_URL ||
+scripts/phase19_task_events_smoke.cjs:6:  process.env.POSTGRES_URI ||
+scripts/phase19_task_events_smoke.cjs:7:  process.env.POSTGRES_CONNECTION_STRING;
+scripts/phase19_task_events_smoke.cjs:10:  console.error("Missing DATABASE_URL/POSTGRES_URL env var.");
+scripts/phase34_reclaim_kill_verify.sh:7:: "${POSTGRES_URL:?POSTGRES_URL required}"
+scripts/phase34_reclaim_kill_verify.sh:10:PSQL_BASE=(env PSQLRC=/dev/null psql -X -q "$POSTGRES_URL" -v ON_ERROR_STOP=1)
+scripts/phase39_value_gate_smoke.sh:26:echo "=== ensure postgres is running (expected motherboard_systems_hq-postgres-1) ==="
+scripts/phase39_value_gate_smoke.sh:27:PGC="$(docker ps --format '{{.Names}}' | grep -E '^motherboard_systems_hq-postgres-1$' | head -n 1 || true)"
+scripts/phase39_value_gate_smoke.sh:30:    docker compose -f docker-compose.yml up -d postgres
+scripts/phase39_value_gate_smoke.sh:33:PGC="$(docker ps --format '{{.Names}}' | grep -E '^motherboard_systems_hq-postgres-1$' | head -n 1 || true)"
+scripts/phase39_value_gate_smoke.sh:34:: "${PGC:?ERROR: postgres container not found (expected motherboard_systems_hq-postgres-1)}"
+scripts/phase39_value_gate_smoke.sh:36:echo "=== wait for postgres ready ==="
+scripts/phase39_value_gate_smoke.sh:38:  if docker exec -i "$PGC" pg_isready -U postgres -d postgres >/dev/null 2>&1; then
+scripts/phase39_value_gate_smoke.sh:39:    echo "OK: postgres ready"
+scripts/phase39_value_gate_smoke.sh:44:    echo "ERROR: postgres not ready" >&2
+scripts/phase39_value_gate_smoke.sh:72:docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<SQL
+scripts/phase39_value_gate_smoke.sh:79:docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<SQL
+scripts/phase39_value_gate_smoke.sh:93:docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<SQL
+scripts/phase36_3_probe_run_view.sh:6:PGC="$(docker ps --format '{{.Names}}' | grep -E "^${P}-postgres-1$" || true)"
+scripts/phase36_3_probe_run_view.sh:7:: "${PGC:?ERROR: postgres container not found (expected ${P}-postgres-1)}"
+scripts/phase36_3_probe_run_view.sh:10:docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<'SQL'
+scripts/phase36_3_probe_run_view.sh:17:docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<'SQL'
+scripts/phase36_3_probe_run_view.sh:43:docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<'SQL'
+scripts/phase36_3_probe_run_view.sh:53:docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<'SQL'
+scripts/phase41_invariants_gate.sh:4:PGC="$(docker ps --format '{{.Names}}' | grep -E '^motherboard_systems_hq-postgres-1$' || true)"
+scripts/phase41_invariants_gate.sh:5:: "${PGC:?ERROR: postgres container not found (expected motherboard_systems_hq-postgres-1)}"
+scripts/phase41_invariants_gate.sh:11:docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -q -t -A < sql/phase41_invariants_run_view.sql > "$TMP"
+scripts/phase456_compose_service_and_db_failure_focus.sh:28:  echo "=== ALL DASHBOARD / POSTGRES CONTAINERS ==="
+scripts/phase456_compose_service_and_db_failure_focus.sh:29:  docker ps -a --format 'table {{.Names}}\t{{.Image}}\t{{.Status}}\t{{.Ports}}' | grep -Ei 'dashboard|postgres|motherboard|mbhq|phase65|operator_guidance' || true
+scripts/phase456_compose_service_and_db_failure_focus.sh:46:  echo "=== COMPOSE LOGS: POSTGRES ==="
+scripts/phase456_compose_service_and_db_failure_focus.sh:47:  docker compose logs --tail 200 postgres 2>&1 || true
+scripts/phase456_compose_service_and_db_failure_focus.sh:51:  grep -RniE "ensureTasksTaskIdColumn|CREATE TABLE tasks|create table tasks|tasks_task_id|DB_URL|DATABASE_URL|postgres" server src scripts app . 2>/dev/null | head -500 || true
+scripts/phase456_compose_service_and_db_failure_focus.sh:55:  grep -RniE "DB_URL|DATABASE_URL|POSTGRES|env_file|environment:" docker-compose.yml .env* . 2>/dev/null | head -300 || true
+scripts/phase19_export_postgres_env.sh:4:PG_CID="$(docker compose ps -q postgres | head -n 1)"
+scripts/phase19_export_postgres_env.sh:6:  echo "echo 'postgres container not found (docker compose ps -q postgres)'; return 2"
+scripts/phase19_export_postgres_env.sh:10:PG_USER="$(docker exec "$PG_CID" printenv POSTGRES_USER)"
+scripts/phase19_export_postgres_env.sh:11:PG_PASS="$(docker exec "$PG_CID" printenv POSTGRES_PASSWORD)"
+scripts/phase19_export_postgres_env.sh:12:PG_DB="$(docker exec "$PG_CID" printenv POSTGRES_DB)"
+scripts/phase19_export_postgres_env.sh:14:DATABASE_URL="postgres://${PG_USER}:${PG_PASS}@127.0.0.1:5432/${PG_DB}"
+scripts/phase19_export_postgres_env.sh:15:printf "export DATABASE_URL=%q\n" "$DATABASE_URL"
+scripts/phase19_export_postgres_env.sh:16:printf "export POSTGRES_URL=%q\n" "$DATABASE_URL"
+scripts/phase27_fix_claim_one_sql.sh:11:if [ -n "${POSTGRES_URL:-}" ] && command -v psql >/dev/null 2>&1; then
+scripts/phase27_fix_claim_one_sql.sh:12:  if psql "$POSTGRES_URL" -X -A -t -q -c \
+scripts/phase32_verify.sh:6:PGURL="postgres://postgres:postgres@127.0.0.1:5432/postgres"
+scripts/_local/phase62b_inspect_tasks_complete_500.sh:27:  sed -n '130,210p' server/routes/api-tasks-postgres.mjs || true
+scripts/_local/phase62b_inspect_tasks_complete_500.sh:32:    server/routes/api-tasks-postgres.mjs server server/enforcement 2>/dev/null || true
+scripts/_local/phase457_repair_shell_candidate_boot_yaml_and_relaunch.sh:74:in_postgres = False
+scripts/_local/phase457_repair_shell_candidate_boot_yaml_and_relaunch.sh:81:        in_postgres = (stripped == "postgres:")
+scripts/_local/phase457_repair_shell_candidate_boot_yaml_and_relaunch.sh:84:    if in_postgres and line.startswith("    ports:"):
+scripts/_local/phase457_repair_shell_candidate_boot_yaml_and_relaunch.sh:107:  postgres:
+scripts/_local/phase457_repair_shell_candidate_boot_yaml_and_relaunch.sh:119:    echo "--- start postgres ---"
+scripts/_local/phase457_repair_shell_candidate_boot_yaml_and_relaunch.sh:120:    docker compose -f docker-compose.yml -f docker-compose.phase457.port.override.yml up -d postgres
+scripts/_local/phase457_repair_shell_candidate_boot_yaml_and_relaunch.sh:126:    docker compose -f docker-compose.yml -f docker-compose.phase457.port.override.yml exec -T postgres psql -U postgres -d postgres <<'SQL'
+scripts/_local/phase457_repair_shell_candidate_boot_yaml_and_relaunch.sh:161:    echo "--- postgres logs ---"
+scripts/_local/phase457_repair_shell_candidate_boot_yaml_and_relaunch.sh:162:    docker compose -f docker-compose.yml -f docker-compose.phase457.port.override.yml logs postgres --tail=60 || true
+scripts/_local/fix_task_events_db_logging_signal.sh:18:replacement = """\\1const TASK_EVENTS_DB_URL_RAW = process.env.POSTGRES_URL || process.env.DATABASE_URL || "";
+scripts/_local/fix_task_events_db_logging_signal.sh:19:\\1const TASK_EVENTS_DB_URL_HAS_PASSWORD = /\\/\\/[^:]+:[^@]+@/.test(TASK_EVENTS_DB_URL_RAW);
+scripts/_local/fix_task_events_db_logging_signal.sh:21:\\1  mode: (TASK_EVENTS_DB_URL_RAW ? "url" : "params"),
+scripts/_local/fix_task_events_db_logging_signal.sh:22:\\1  DB_URL_present: Boolean(TASK_EVENTS_DB_URL_RAW),
+scripts/_local/fix_task_events_db_logging_signal.sh:27:\\1  password_type: (TASK_EVENTS_DB_URL_RAW ? "url-hidden" : typeof o.password),
+scripts/_local/fix_task_events_db_logging_signal.sh:28:\\1  password_len: (TASK_EVENTS_DB_URL_RAW ? "hidden" : (o.password == null ? null : String(o.password).length)),
+scripts/_local/fix_task_events_db_logging_signal.sh:29:\\1  has_password: (TASK_EVENTS_DB_URL_RAW ? TASK_EVENTS_DB_URL_HAS_PASSWORD : (o.password != null)),
+scripts/_local/phase457_verify_root_vs_dashboard_entrypoint.sh:48:in_postgres = False
+scripts/_local/phase457_verify_root_vs_dashboard_entrypoint.sh:54:        in_postgres = stripped == "postgres:"
+scripts/_local/phase457_verify_root_vs_dashboard_entrypoint.sh:56:    if (in_dashboard or in_postgres) and line.startswith("    ports:"):
+scripts/_local/phase457_verify_root_vs_dashboard_entrypoint.sh:72:  postgres:
+scripts/_local/phase457_verify_root_vs_dashboard_entrypoint.sh:77:    docker compose -f docker-compose.yml -f docker-compose.override.yml up -d postgres
+scripts/_local/phase457_verify_root_vs_dashboard_entrypoint.sh:80:    docker compose -f docker-compose.yml -f docker-compose.override.yml exec -T postgres psql -U postgres -d postgres <<'SQL'
+scripts/_local/phase64_3_fix_named_agent_signal_path.sh:27:    "server/routes/api-tasks-postgres.mjs",
+scripts/_local/phase457_full_recovery_audit_tail.sh:18:    server/routes/api-tasks-postgres.mjs \
+scripts/_local/phase457_inspect_failed_relaunch_state.sh:84:    echo "[postgres logs]"
+scripts/_local/phase457_inspect_failed_relaunch_state.sh:85:    docker logs "$(docker ps -aq --filter "name=${PROJECT}-postgres-1" | head -n 1)" 2>&1 | tail -n 120 || true
+scripts/_local/phase457_relaunch_recovery_compare_no_pg_host_ports.sh:36:  postgres:
+scripts/_local/phase457_relaunch_recovery_compare_no_pg_host_ports.sh:71:    echo "--- postgres logs ---"
+scripts/_local/phase457_relaunch_recovery_compare_no_pg_host_ports.sh:75:      logs postgres --tail=40 || true
+scripts/_local/phase457_relaunch_recovery_compare_no_pg_host_ports.sh:83:  echo "PHASE 457 - RECOVERY VISUAL COMPARE RELAUNCH (NO POSTGRES HOST PORTS)"
+scripts/_local/phase457_relaunch_recovery_compare_no_pg_host_ports.sh:88:  echo "Postgres remains internal to each compose project so 5432 host conflicts cannot block startup."
+scripts/_local/phase457_boot_shell_candidates.sh:37:  docker compose up -d --build postgres || true
+scripts/_local/phase62b_extract_runtime_acceptance_evidence.sh:12:  docker compose ps -q postgres 2>/dev/null | head -n 1
+scripts/_local/phase62b_extract_runtime_acceptance_evidence.sh:26:  pg_user="$(extract_env_from_container "$cid" POSTGRES_USER)"
+scripts/_local/phase62b_extract_runtime_acceptance_evidence.sh:27:  pg_db="$(extract_env_from_container "$cid" POSTGRES_DB)"
+scripts/_local/phase62b_extract_runtime_acceptance_evidence.sh:28:  pg_pass="$(extract_env_from_container "$cid" POSTGRES_PASSWORD)"
+scripts/_local/phase62b_extract_runtime_acceptance_evidence.sh:30:  [ -n "$pg_user" ] || pg_user="postgres"
+scripts/_local/phase62b_extract_runtime_acceptance_evidence.sh:31:  [ -n "$pg_db" ] || pg_db="postgres"
+scripts/_local/phase62b_extract_runtime_acceptance_evidence.sh:113:  echo "== postgres terminal event evidence =="
+scripts/_local/phase62b_extract_runtime_acceptance_evidence.sh:115:  echo "postgres_container=${PG_CID:-<missing>}"
+scripts/_local/phase62b_extract_runtime_acceptance_evidence.sh:124:    PG_USER="$(extract_env_from_container "$PG_CID" POSTGRES_USER)"
+scripts/_local/phase62b_extract_runtime_acceptance_evidence.sh:125:    PG_DB="$(extract_env_from_container "$PG_CID" POSTGRES_DB)"
+scripts/_local/phase62b_extract_runtime_acceptance_evidence.sh:126:    echo "postgres_user=${PG_USER:-<missing>}"
+scripts/_local/phase62b_extract_runtime_acceptance_evidence.sh:127:    echo "postgres_db=${PG_DB:-<missing>}"
+scripts/_local/phase457_remove_base_dashboard_port_and_boot_remaining.sh:42:    if current_service in {"postgres", "dashboard"} and line.startswith("    ports:"):
+scripts/_local/phase457_remove_base_dashboard_port_and_boot_remaining.sh:65:  postgres:
+scripts/_local/phase457_remove_base_dashboard_port_and_boot_remaining.sh:77:    echo "--- start postgres ---"
+scripts/_local/phase457_remove_base_dashboard_port_and_boot_remaining.sh:78:    docker compose up -d postgres
+scripts/_local/phase457_remove_base_dashboard_port_and_boot_remaining.sh:84:    docker compose exec -T postgres psql -U postgres -d postgres <<'SQL'
+scripts/_local/phase457_remove_base_dashboard_port_and_boot_remaining.sh:116:    echo "--- postgres logs ---"
+scripts/_local/phase457_remove_base_dashboard_port_and_boot_remaining.sh:117:    docker compose logs postgres --tail=80 || true
+scripts/_local/phase457_fix_remaining_recovery_worktrees_and_launch.sh:36:in_postgres = False
+scripts/_local/phase457_fix_remaining_recovery_worktrees_and_launch.sh:43:        if stripped == "postgres:":
+scripts/_local/phase457_fix_remaining_recovery_worktrees_and_launch.sh:44:            in_postgres = True
+scripts/_local/phase457_fix_remaining_recovery_worktrees_and_launch.sh:47:            in_postgres = False
+scripts/_local/phase457_fix_remaining_recovery_worktrees_and_launch.sh:50:    if in_postgres and line.startswith("    ports:"):
+scripts/_local/phase457_fix_remaining_recovery_worktrees_and_launch.sh:70:  postgres:
+scripts/_local/phase457_fix_remaining_recovery_worktrees_and_launch.sh:109:  postgres:
+scripts/_local/phase457_fix_remaining_recovery_worktrees_and_launch.sh:144:    echo "--- postgres logs ---"
+scripts/_local/phase457_fix_remaining_recovery_worktrees_and_launch.sh:148:      logs postgres --tail=40 || true
+scripts/_local/phase457_force_relaunch_recovery_compare.sh:46:  postgres:
+scripts/_local/phase457_force_relaunch_recovery_compare.sh:85:    echo "--- postgres logs ---"
+scripts/_local/phase457_force_relaunch_recovery_compare.sh:89:      logs postgres --tail=80 || true
+scripts/_local/phase62b_inspect_run_id_contract_mismatch.sh:19:  sed -n '70,145p' server/routes/api-tasks-postgres.mjs
+scripts/_local/phase62b_inspect_run_id_contract_mismatch.sh:23:  sed -n '146,186p' server/routes/api-tasks-postgres.mjs
+scripts/_local/phase62b_inspect_run_id_contract_mismatch.sh:27:  sed -n '184,224p' server/routes/api-tasks-postgres.mjs
+scripts/_local/phase457_boot_remaining_candidates_with_runtime_seed.sh:38:in_postgres = False
+scripts/_local/phase457_boot_remaining_candidates_with_runtime_seed.sh:45:        if stripped == "postgres:":
+scripts/_local/phase457_boot_remaining_candidates_with_runtime_seed.sh:46:            in_postgres = True
+scripts/_local/phase457_boot_remaining_candidates_with_runtime_seed.sh:49:            in_postgres = False
+scripts/_local/phase457_boot_remaining_candidates_with_runtime_seed.sh:52:    if in_postgres and line.startswith("    ports:"):
+scripts/_local/phase457_boot_remaining_candidates_with_runtime_seed.sh:74:  postgres:
+scripts/_local/phase457_boot_remaining_candidates_with_runtime_seed.sh:86:    echo "--- start postgres ---"
+scripts/_local/phase457_boot_remaining_candidates_with_runtime_seed.sh:87:    docker compose up -d postgres
+scripts/_local/phase457_boot_remaining_candidates_with_runtime_seed.sh:93:    docker compose exec -T postgres psql -U postgres -d postgres <<'SQL'
+scripts/_local/phase457_boot_remaining_candidates_with_runtime_seed.sh:125:    echo "--- postgres logs ---"
+scripts/_local/phase457_boot_remaining_candidates_with_runtime_seed.sh:126:    docker compose logs postgres --tail=80 || true
+scripts/_local/phase457_remove_base_dashboard_port_from_shell_candidates.sh:109:  postgres:
+scripts/_local/phase457_remove_base_dashboard_port_from_shell_candidates.sh:121:    echo "--- start postgres ---"
+scripts/_local/phase457_remove_base_dashboard_port_from_shell_candidates.sh:122:    docker compose -f docker-compose.yml -f docker-compose.phase457.port.override.yml up -d postgres
+scripts/_local/phase457_remove_base_dashboard_port_from_shell_candidates.sh:128:    docker compose -f docker-compose.yml -f docker-compose.phase457.port.override.yml exec -T postgres psql -U postgres -d postgres <<'SQL'
+scripts/_local/phase457_remove_base_dashboard_port_from_shell_candidates.sh:163:    echo "--- postgres logs ---"
+scripts/_local/phase457_remove_base_dashboard_port_from_shell_candidates.sh:164:    docker compose -f docker-compose.yml -f docker-compose.phase457.port.override.yml logs postgres --tail=60 || true
+scripts/_local/phase61_5_6b_audit_real_agent_status_producers_only.sh:36:    server/routes/api-tasks-postgres.mjs \
+scripts/_local/phase31_6_recent_tasks_debug.sh:30:compose up -d postgres dashboard --scale "${WORKER_SVC}=0"
+scripts/_local/phase31_6_recent_tasks_debug.sh:32:compose up -d postgres dashboard
+scripts/_local/phase457_inspect_next_candidate_boots.sh:42:  echo "[postgres logs]"
+scripts/_local/phase457_inspect_next_candidate_boots.sh:43:  docker compose logs postgres --tail=80 || true
+scripts/_local/phase457o_capture_post_force_runtime_state.sh:74:  echo "===== POSTGRES COUNTS ====="
+scripts/_local/phase457o_capture_post_force_runtime_state.sh:75:  docker exec motherboard_systems_hq-postgres-1 psql -U postgres -d postgres -c "select count(*) as task_count from tasks;" 2>&1 || true
+scripts/_local/phase457o_capture_post_force_runtime_state.sh:76:  docker exec motherboard_systems_hq-postgres-1 psql -U postgres -d postgres -c "select count(*) as task_event_count from task_events;" 2>&1 || true
+scripts/_local/phase64_named_agent_path_audit.sh:29:  server/routes/api-tasks-postgres.mjs \
+scripts/_local/phase457_boot_true_tabbed_workspace_candidates.sh:40:    in_postgres = False
+scripts/_local/phase457_boot_true_tabbed_workspace_candidates.sh:48:            in_postgres = stripped == "postgres:"
+scripts/_local/phase457_boot_true_tabbed_workspace_candidates.sh:51:        if (in_dashboard or in_postgres) and line.startswith("    ports:"):
+scripts/_local/phase457_boot_true_tabbed_workspace_candidates.sh:70:  postgres:
+scripts/_local/phase457_boot_true_tabbed_workspace_candidates.sh:75:    docker compose -f docker-compose.yml -f docker-compose.override.yml up -d postgres
+scripts/_local/phase457_boot_true_tabbed_workspace_candidates.sh:78:    docker compose -f docker-compose.yml -f docker-compose.override.yml exec -T postgres psql -U postgres -d postgres <<'SQL'
+scripts/_local/phase62b_fix_run_id_create_contract_and_runtime_validation.py:6:route_file = Path("server/routes/api-tasks-postgres.mjs")
+scripts/_local/phase457_boot_next_recovery_candidates.sh:31:  postgres:
+scripts/_local/phase457_boot_next_recovery_candidates.sh:36:    docker compose up -d postgres
+scripts/_local/phase457_boot_next_recovery_candidates.sh:40:    docker compose exec -T postgres psql -U postgres -d postgres <<'SQL'
+scripts/_local/phase457_build_shell_shortlist_and_boot.sh:115:  postgres:
+scripts/_local/phase457_build_shell_shortlist_and_boot.sh:120:    docker compose up -d postgres
+scripts/_local/phase457_build_shell_shortlist_and_boot.sh:123:    docker compose exec -T postgres psql -U postgres -d postgres <<'SQL'
+scripts/_local/phase62b_verify_live_create_route_and_restart_runtime.sh:47:grep -n 'let run_id = b.run_id' server/routes/api-tasks-postgres.mjs || true
+scripts/_local/phase62b_verify_live_create_route_and_restart_runtime.sh:48:grep -n 'res.status(201).json({ ok: true, task_id, run_id, event: evt });' server/routes/api-tasks-postgres.mjs || true
+scripts/_local/fix_server_db_logging_signal.sh:13:    mode: (DB_URL ? "url" : "params"),
+scripts/_local/fix_server_db_logging_signal.sh:14:    DB_URL_present: Boolean(DB_URL),
+scripts/_local/fix_server_db_logging_signal.sh:25:new = """  const SERVER_DB_URL_HAS_PASSWORD = /\\/\\/[^:]+:[^@]+@/.test(DB_URL_RAW);
+scripts/_local/fix_server_db_logging_signal.sh:27:    mode: (DB_URL ? "url" : "params"),
+scripts/_local/fix_server_db_logging_signal.sh:28:    DB_URL_present: Boolean(DB_URL),
+scripts/_local/fix_server_db_logging_signal.sh:33:    password_type: (DB_URL ? "url-hidden" : typeof o.password),
+scripts/_local/fix_server_db_logging_signal.sh:34:    password_len: (DB_URL ? "hidden" : (o.password == null ? null : String(o.password).length)),
+scripts/_local/fix_server_db_logging_signal.sh:35:    has_password: (DB_URL ? SERVER_DB_URL_HAS_PASSWORD : (o.password != null)),
+scripts/_local/phase64_apply_named_agent_defaults.sh:36:    "server/routes/api-tasks-postgres.mjs",
+scripts/_local/phase457_diagnose_recovery_compare_runtime.sh:27:  docker ps -a --format '{{.Names}}' | grep -E 'mbhq_phase65_layout|mbhq_phase65_wiring|mbhq_operator_guidance|dashboard|postgres' || true
+scripts/_local/dashboard_down_inspection.sh:37:echo "==== POSTGRES CONTAINERS ===="
+scripts/_local/dashboard_down_inspection.sh:38:docker ps -a | grep -i postgres || true
+scripts/_local/dashboard_down_inspection.sh:52:echo "==== POSTGRES LOGS ===="
+scripts/_local/dashboard_down_inspection.sh:53:for c in $(docker ps -a --format '{{.Names}}' | grep -i postgres); do
+scripts/_local/phase457p_emit_fresh_task_event_and_capture_runtime_followthrough.sh:5:PG_CID="motherboard_systems_hq-postgres-1"
+scripts/_local/phase457p_emit_fresh_task_event_and_capture_runtime_followthrough.sh:7:DB="postgres"
+scripts/_local/phase457p_emit_fresh_task_event_and_capture_runtime_followthrough.sh:16:  docker exec "$PG_CID" psql -U postgres -d "$DB" -c "
+scripts/_local/phase457p_emit_fresh_task_event_and_capture_runtime_followthrough.sh:23:  docker exec "$PG_CID" psql -U postgres -d "$DB" -c "
+scripts/_local/phase457p_emit_fresh_task_event_and_capture_runtime_followthrough.sh:33:  docker exec "$PG_CID" psql -U postgres -d "$DB" -c "
+scripts/_local/phase457p_emit_fresh_task_event_and_capture_runtime_followthrough.sh:40:  docker exec "$PG_CID" psql -U postgres -d "$DB" -c "
+scripts/_local/phase457p_emit_fresh_task_event_and_capture_runtime_followthrough.sh:70:  docker exec "$PG_CID" psql -U postgres -d "$DB" -Atqc "
+scripts/_local/phase149_5_tag_and_containerize.sh:41:  echo "[phase149.5] postgres health snapshot"
+scripts/_local/phase149_5_tag_and_containerize.sh:42:  docker compose -f docker-compose.yml ps postgres || true
+scripts/phase41_tierA_claim_gate_smoke.sh:14:PGC="$(docker ps --format '{{.Names}}' | awk '$1=="motherboard_systems_hq-postgres-1"{print $1; exit}')"
+scripts/phase41_tierA_claim_gate_smoke.sh:15:: "${PGC:?ERROR: postgres container not found (expected motherboard_systems_hq-postgres-1)}"
+scripts/phase41_tierA_claim_gate_smoke.sh:18:docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<'SQL'
+scripts/phase41_tierA_claim_gate_smoke.sh:30:docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<SQL
+scripts/phase41_tierA_claim_gate_smoke.sh:54:    docker exec -i "$PGC" psql -U postgres -d postgres \
+scripts/phase41_tierA_claim_gate_smoke.sh:106:docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<SQL
+scripts/debug/phase35_worker_no_complete_probe.zsh:10:POSTGRES_URL="${POSTGRES_URL:-postgres://postgres:postgres@127.0.0.1:5432/postgres}"
+scripts/debug/phase35_worker_no_complete_probe.zsh:68:  echo "  COMPOSE_FILE=<file> P_WORKERS=$P_WORKERS POSTGRES_URL=... ./scripts/debug/phase35_worker_no_complete_probe.zsh"
+scripts/debug/phase35_worker_no_complete_probe.zsh:76:echo "POSTGRES_URL=$POSTGRES_URL"
+scripts/debug/phase35_worker_no_complete_probe.zsh:83:docker compose -p "$P_WORKERS" -f "$COMPOSE_FILE" config | rg -n '(POSTGRES_URL|PHASE(26|27|28|34|35)_(CLAIM_ONE_SQL|MARK_SUCCESS_SQL|MARK_FAILURE_SQL)|LEASE|EPOCH|OWNER|WORKER_)' || true
+scripts/debug/phase35_worker_no_complete_probe.zsh:97:    env | sort | grep -E "^(POSTGRES_URL|PHASE(26|27|28|34|35)_|WORKER_|NODE_|TZ=)" || true
+scripts/debug/phase35_worker_no_complete_probe.zsh:117:  psql "$POSTGRES_URL" -v ON_ERROR_STOP=1 <<'SQL'
+scripts/debug/phase35_triage.zsh:10:POSTGRES_URL="${POSTGRES_URL:-postgres://postgres:postgres@127.0.0.1:5432/postgres}"
+scripts/debug/phase35_triage.zsh:20:echo "POSTGRES_URL=$POSTGRES_URL"
+scripts/debug/phase35_triage.zsh:27:docker compose -p "$P_WORKERS" -f "$COMPOSE_FILE" config | rg -n '(image:|build:|POSTGRES_URL|WORKER_OWNER|PHASE(26|27|32|34|35)_(CLAIM_ONE_SQL|MARK_SUCCESS_SQL|MARK_FAILURE_SQL|HEARTBEAT|RECLAIM)|LEASE|EPOCH|OWNER)' || true
+scripts/debug/phase35_triage.zsh:48:psql "$POSTGRES_URL" -v ON_ERROR_STOP=1 <<'SQL'
+scripts/phase19_tasks_postgres_doctor.sh:7:echo "=== Phase 19 Tasks/Postgres Doctor ==="
+scripts/phase19_tasks_postgres_doctor.sh:16:echo "== docker: postgres containers =="
+scripts/phase19_tasks_postgres_doctor.sh:17:docker ps --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}' | rg -n '(postgres|motherboard-postgres|NAMES)' || true
+scripts/phase19_tasks_postgres_doctor.sh:20:PG_CID="$(docker compose ps -q postgres 2>/dev/null | head -n 1 || true)"
+scripts/phase19_tasks_postgres_doctor.sh:22:  PG_CID="$(docker ps --filter "status=running" --filter "name=postgres" --format '{{.ID}}' | head -n 1 || true)"
+scripts/phase19_tasks_postgres_doctor.sh:26:  echo "No running Postgres container found. Start it first (docker compose up -d)."
+scripts/phase19_tasks_postgres_doctor.sh:33:echo "== docker: selected postgres container =="
+scripts/phase19_tasks_postgres_doctor.sh:40:  echo "Selected Postgres container is not running. Start it first (docker compose up -d)."
+scripts/phase19_tasks_postgres_doctor.sh:44:echo "== postgres env (inside container) =="
+scripts/phase19_tasks_postgres_doctor.sh:45:docker exec "$PG_CID" env | rg -n '^POSTGRES_' || true
+scripts/phase19_tasks_postgres_doctor.sh:57:echo "== check: DATABASE_URL/POSTGRES_URL present =="
+scripts/phase19_tasks_postgres_doctor.sh:58:if [[ -z "${DATABASE_URL:-}" && -z "${POSTGRES_URL:-}" ]]; then
+scripts/phase19_tasks_postgres_doctor.sh:59:  echo "Missing DATABASE_URL/POSTGRES_URL env var."
+scripts/phase19_tasks_postgres_doctor.sh:69:  process.env.DATABASE_URL ||
+scripts/phase19_tasks_postgres_doctor.sh:70:  process.env.POSTGRES_URL ||
+scripts/phase19_tasks_postgres_doctor.sh:71:  process.env.POSTGRES_URI ||
+scripts/phase19_tasks_postgres_doctor.sh:72:  process.env.POSTGRES_CONNECTION_STRING;
+scripts/phase19_tasks_postgres_doctor.sh:74:if (!url) { console.error("Missing DATABASE_URL/POSTGRES_URL env var."); process.exit(2); }
+scripts/phase19_tasks_postgres_doctor.sh:92:    console.error("task_events missing in Postgres. Create it before proceeding.");
+scripts/phase19_fail_task_runner.mjs:5:  process.env.DATABASE_URL ||
+
+=== SEARCH: COMPOSE ENV SOURCES ===
+docker-compose.yml:2:  postgres:
+docker-compose.yml:3:    image: postgres:16-alpine
+docker-compose.yml:4:    environment:
+docker-compose.yml:5:      POSTGRES_USER: ${PGUSER:-postgres}
+docker-compose.yml:6:      POSTGRES_PASSWORD: ${PGPASSWORD:-postgres}
+docker-compose.yml:7:      POSTGRES_DB: ${PGDATABASE:-postgres}
+docker-compose.yml:11:      - pgdata:/var/lib/postgresql/data
+docker-compose.yml:14:    env_file:
+docker-compose.yml:22:    environment:
+docker-compose.yml:27:      PGDATABASE: ${PGDATABASE:-postgres}
+docker-compose.yml:28:      PGHOST: ${PGHOST:-postgres}
+docker-compose.yml:29:      PGPASSWORD: ${PGPASSWORD:-postgres}
+docker-compose.yml:31:      PGUSER: ${PGUSER:-postgres}
+docker-compose.yml:33:      - postgres
+.env:3:POSTGRES_URL=postgres://postgres:postgres@postgres:5432/postgres
+./docker-compose.phase31.7-worker.yml:8:    environment:
+./docker-compose.phase31.7-worker.yml:9:      POSTGRES_URL: postgres://postgres:postgres@127.0.0.1:5432/postgres
+./PHASE32_DRIZZLE_PG_TRACKING_NOTE.md:1:# Phase 32 — Postgres Drizzle tracking (confirmed)
+./PHASE32_DRIZZLE_PG_TRACKING_NOTE.md:3:## What Drizzle uses on Postgres
+./PHASE32_DRIZZLE_PG_TRACKING_NOTE.md:6:- Verified present in DB: `postgres` on `postgres://postgres:postgres@127.0.0.1:5432/postgres`
+./PHASE32_DRIZZLE_PG_TRACKING_NOTE.md:16:- `psql "$POSTGRES_URL" -c "\dt drizzle.*"`
+./PHASE32_DRIZZLE_PG_TRACKING_NOTE.md:17:- `psql "$POSTGRES_URL" -c "select * from drizzle.__drizzle_migrations order by id;"`
+./PHASE11_NEXT_RUNTIME_AFTER_STUBS.md:22:- postgres-1 → database system is ready to accept connections
+./STATE_HANDOFF_PHASE_401_TRUST_SIGNALING_COMPLETE.md:99:postgres running  
+./PHASE88_14_SERVER_BOOT.log:2:[phase25] api-tasks-postgres loaded 2026-03-19T17:44:28.551Z file= file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/api-tasks-postgres.mjs
+./PHASE88_14_SERVER_BOOT.log:13:  DB_URL_present: true,
+./PHASE11_TASK_DELEGATION_RUN_SEQUENCE.md:8:- Container: dashboard + Postgres running and healthy
+./PHASE11_TASK_DELEGATION_RUN_SEQUENCE.md:22:- postgres-1   | database system is ready to accept connections
+./pnpm-lock.yaml:235:  postgres-array@2.0.0:
+./pnpm-lock.yaml:239:  postgres-bytea@1.0.0:
+./pnpm-lock.yaml:243:  postgres-date@1.0.7:
+./pnpm-lock.yaml:247:  postgres-interval@1.2.0:
+./pnpm-lock.yaml:541:      postgres-array: 2.0.0
+./pnpm-lock.yaml:542:      postgres-bytea: 1.0.0
+./pnpm-lock.yaml:543:      postgres-date: 1.0.7
+./pnpm-lock.yaml:544:      postgres-interval: 1.2.0
+./pnpm-lock.yaml:560:  postgres-array@2.0.0: {}
+./pnpm-lock.yaml:562:  postgres-bytea@1.0.0: {}
+./pnpm-lock.yaml:564:  postgres-date@1.0.7: {}
+./pnpm-lock.yaml:566:  postgres-interval@1.2.0:
+./PHASE62B_RUNTIME_ACCEPTANCE_EVIDENCE_20260317T180048Z.txt:54:== postgres terminal event evidence ==
+./PHASE62B_RUNTIME_ACCEPTANCE_EVIDENCE_20260317T180048Z.txt:55:postgres_container=ac18d04a90e7c151cb746e0943b99f86c89e356decac6e56a3ce3bcfa31c6ecb
+./PHASE62B_RUNTIME_ACCEPTANCE_EVIDENCE_20260317T180048Z.txt:56:postgres_user=postgres
+./PHASE62B_RUNTIME_ACCEPTANCE_EVIDENCE_20260317T180048Z.txt:57:postgres_db=postgres
+./PHASE21_HANDOFF_ONE_LINER.txt:1:Start from tag v21.0-task-events-sse-golden. Task-events SSE is live (hello+heartbeat) and streams task.event frames (task.created/task.completed) from Postgres; /api/tasks-mutations/* writes task_events and updates tasks.
+./PHASE_401_VERIFICATION_SEAL.txt:21:postgres running
+./PHASE_401_VERIFICATION_SEAL.txt:34:Postgres status:
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:34:server/routes/api-tasks-postgres.mjs:161:      kind: "task.completed",
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:35:server/routes/api-tasks-postgres.mjs:199:      kind: "task.failed",
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:675:server/routes/api-tasks-postgres.mjs:38:// GET /api/tasks?limit=25  -> recent tasks for dashboard widget
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:676:server/routes/api-tasks-postgres.mjs:40:  console.log("[phase57c-router] /api/tasks probe", {
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:677:server/routes/api-tasks-postgres.mjs:66:    console.error("[phase25] /api/tasks list error", e);
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:678:server/routes/api-tasks-postgres.mjs:71:// POST /api/tasks/create  { task_id?, title?, agent?, run_id?, ... }
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:679:server/routes/api-tasks-postgres.mjs:77:    console.log("[phase25] /api/tasks/create pool snapshot", {
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:680:server/routes/api-tasks-postgres.mjs:136:    console.error("[phase25] /api/tasks error", e);
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:681:server/routes/api-tasks-postgres.mjs:146:// POST /api/tasks/complete  { task_id, status?, run_id?, ... }
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:682:server/routes/api-tasks-postgres.mjs:150:    assertNotEnforced("http:/api/tasks/create");
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:683:server/routes/api-tasks-postgres.mjs:174:    console.error("[phase25] /api/tasks error", e);
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:684:server/routes/api-tasks-postgres.mjs:184:// POST /api/tasks/fail  { task_id, error?, status?, run_id?, ... }
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:685:server/routes/api-tasks-postgres.mjs:188:    assertNotEnforced("http:/api/tasks/complete");
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:686:server/routes/api-tasks-postgres.mjs:212:    console.error("[phase25] /api/tasks error", e);
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:687:server/routes/api-tasks-postgres.mjs:222:// POST /api/tasks/cancel  { task_id, run_id?, ... }
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:688:server/routes/api-tasks-postgres.mjs:226:    assertNotEnforced("http:/api/tasks/cancel");
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:689:server/routes/api-tasks-postgres.mjs:229:    assertNotEnforced("http:/api/tasks/fail");
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:690:server/routes/api-tasks-postgres.mjs:252:    console.error("[phase25] /api/tasks error", e);
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:721:public/js/phase31_6_seed_task_button.js:15:    "/api/tasks-postgres",
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:1261:server/routes/api-tasks-postgres.mjs:121:      kind: "task.created",
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:1262:server/routes/api-tasks-postgres.mjs:161:      kind: "task.completed",
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:1263:server/routes/api-tasks-postgres.mjs:199:      kind: "task.failed",
+./docker-compose.phase47.enforce.override.yml:3:    environment:
+./docker-compose.phase47.enforce.override.yml:7:    environment:
+./docker-compose.phase47.enforce.override.yml:11:    environment:
+./PHASE11_CONTAINER_STATUS_AFTER_REBUILD.md:14:  - Postgres container:
+./PHASE11_CONTAINER_STATUS_AFTER_REBUILD.md:16:    - PostgreSQL 16.11 running and accepting connections
+./PHASE11_STUBBED_TASK_ENDPOINTS_STATUS.md:8:- Stubs are inserted *before* any DB-backed routes, ensuring Postgres is not touched.
+./PHASE11_STUBBED_TASK_ENDPOINTS_STATUS.md:31:- postgres-1 → "database system is ready to accept connections"
+./PHASE11_DB_TASK_ENDPOINTS_DEBUG.md:5:- Docker Compose stack is running: dashboard + postgres.
+./PHASE11_DB_TASK_ENDPOINTS_DEBUG.md:6:- Postgres inspection shows:
+./PHASE11_DB_TASK_ENDPOINTS_DEBUG.md:7:  - POSTGRES_USER=user
+./PHASE11_DB_TASK_ENDPOINTS_DEBUG.md:8:  - POSTGRES_DB=motherboarddb
+./PHASE11_DB_TASK_ENDPOINTS_DEBUG.md:10:  - Databases present: motherboarddb, postgres, template0, template1.
+./PHASE11_DB_TASK_ENDPOINTS_DEBUG.md:12:  - scripts/db/create-postgres-role.sh
+./PHASE11_DB_TASK_ENDPOINTS_DEBUG.md:13:    - Ensures role "postgres" exists with LOGIN and password "password".
+./PHASE11_DB_TASK_ENDPOINTS_DEBUG.md:15:    - Ensures database "dashboard_db" exists (OWNER postgres).
+./PHASE11_DB_TASK_ENDPOINTS_DEBUG.md:19:- Successfully created role "postgres" in Postgres.
+./PHASE11_DB_TASK_ENDPOINTS_DEBUG.md:24:    - "password authentication failed for user \"postgres\""
+./PHASE11_DB_TASK_ENDPOINTS_DEBUG.md:42:2. Tail the postgres container logs.
+./PHASE37_ACCEPTANCE_CHECKS.sql:18:--   docker exec -i motherboard_systems_hq-postgres-1 psql -U postgres -d postgres -v ON_ERROR_STOP=1 -f PHASE37_ACCEPTANCE_CHECKS.sql
+./PHASE62B_RUNTIME_ACCEPTANCE_EVIDENCE_20260317T175228Z.txt:50:== postgres terminal event evidence ==
+./PHASE62B_RUNTIME_ACCEPTANCE_EVIDENCE_20260317T175228Z.txt:51:postgres_container=ac18d04a90e7c151cb746e0943b99f86c89e356decac6e56a3ce3bcfa31c6ecb
+./docker-compose.phase47.postgres_url.override.yml:3:    environment:
+./docker-compose.phase47.postgres_url.override.yml:4:      POSTGRES_URL: "postgres://postgres:postgres@postgres:5432/postgres"
+./PHASE11_RECOMMENDED_NEXT_STEP.md:118:  * Align `DATABASE_URL` / pool configuration,
+./PHASE32_DONE.md:1:# Phase 32 — DONE ✅ (Drizzle migrations split: SQLite + Postgres lanes)
+./PHASE32_DONE.md:6:- **Postgres lane**: `drizzle_pg/` runs clean with `drizzle.pg.config.json`
+./PHASE32_DONE.md:9:## Confirmed Postgres migration tracking
+./PHASE32_DONE.md:22:- `psql "$POSTGRES_URL" -c "select count(*) from drizzle.__drizzle_migrations;"`
+./PHASE_178_CHECKPOINT_STATUS.md:19:postgres running
+./STATE_HANDOFF_PHASE_352.md:119:Postgres task/event system
+./STATE_HANDOFF_PHASE_352.md:397:Postgres:
+./drizzle_pg/meta/_journal.json:3:  "dialect": "postgresql",
+./docker-compose.phase46.dashboard_heap.override.yml:3:    environment:
+./PHASE33_NEXT.md:5:- SQLite + Postgres migrations are clean and verified.
+./PHASE33_NEXT.md:17:  - Postgres-only → `drizzle_pg/` (+ `drizzle_pg/meta/_journal.json` and `drizzle.__drizzle_migrations`)
+./docker-compose.override.yml:3:    environment:
+./docker-compose.override.yml:5:      POSTGRES_URL: "postgres://postgres:postgres@postgres:5432/postgres"
+./PHASE32_DRIZZLE_PG_GOTCHAS.md:4:- Drizzle tracks Postgres migrations in: `drizzle.__drizzle_migrations`
+./PHASE88_14_10_SERVER_RESTART.log:2:[phase25] api-tasks-postgres loaded 2026-03-19T18:01:20.801Z file= file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/api-tasks-postgres.mjs
+./PHASE88_14_10_SERVER_RESTART.log:13:  DB_URL_present: true,
+./PHASE11_REBUILD_RUN_2_NOTE.md:10:- Postgres is ready
+./PHASE80_2_EXTERNAL_DASHBOARD_CONSUMER_DISCOVERY_20260317T183750Z.md:92:./seed_agents.js:7:  database: process.env.POSTGRES_DB || 'dashboard_db',
+./docker-compose.phase45_1.startup_determinism.yml:2:  postgres:
+./docker-compose.phase45_1.startup_determinism.yml:4:      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-postgres} -h 127.0.0.1 -p 5432"]
+./docker-compose.phase45_1.startup_determinism.yml:12:      postgres:
+./STATE_HANDOFF_PHASE_130.txt:21:Postgres:
+./reflections-stream/reflections_stream.py:18:DB_HOST = os.environ.get("PG_HOST", "postgres")
+./STATUS_CHECKPOINT_PHASE286.md:16:- Postgres container running
+./STATE_HANDOFF_PHASE135.md:71:Postgres task/event system  
+./STATE_HANDOFF_PHASE135.md:216:Postgres state at handoff:
+./PHASE11_AFTER_STUBS_NEXT_STEP.md:11:- The backend no longer touches Postgres for task delegation
+./PHASE11_AFTER_STUBS_NEXT_STEP.md:12:- The ENOTFOUND postgres error is bypassed
+./PHASE11_DELEGATE_TASK_EXECUTION_NOTE.md:6:- Container: dashboard + Postgres running and healthy
+./STATE_HANDOFF_PHASE_162_1.md:75:Postgres task/event system  
+./STATE_HANDOFF_PHASE_162_1.md:238:Postgres state:
+./STATE_HANDOFF_PHASE140.md:71:Postgres task/event system
+./STATE_HANDOFF_PHASE140.md:231:Postgres state at handoff:
+./PHASE62B_LIVE_CREATE_ROUTE_RESTART_CHECK_20260317T173014Z.txt:17:motherboard_systems_hq-postgres-1    postgres:16-alpine                 "docker-entrypoint.s…"   postgres    3 days ago     Up 3 days     0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+./PHASE29_HANDOFF.md:33:- POSTGRES_URL=... ./scripts/phase29_smoke_migrate_then_smoke.sh
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:27:  postgres:
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:28:    image: postgres:16-alpine
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:29:    environment:
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:30:      POSTGRES_USER: ${PGUSER:-postgres}
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:31:      POSTGRES_PASSWORD: ${PGPASSWORD:-postgres}
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:32:      POSTGRES_DB: ${PGDATABASE:-postgres}
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:36:      - pgdata:/var/lib/postgresql/data
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:39:    env_file:
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:47:    environment:
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:52:      PGDATABASE: ${PGDATABASE:-postgres}
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:53:      PGHOST: ${PGHOST:-postgres}
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:54:      PGPASSWORD: ${PGPASSWORD:-postgres}
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:56:      PGUSER: ${PGUSER:-postgres}
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:58:      - postgres
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:131:./PHASE37_ACCEPTANCE_CHECKS.sql:18:--   docker exec -i motherboard_systems_hq-postgres-1 psql -U postgres -d postgres -v ON_ERROR_STOP=1 -f PHASE37_ACCEPTANCE_CHECKS.sql
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:165:./PHASE62B_LIVE_CREATE_ROUTE_RESTART_CHECK_20260317T173014Z.txt:17:motherboard_systems_hq-postgres-1    postgres:16-alpine                 "docker-entrypoint.s…"   postgres    3 days ago     Up 3 days     0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:182:./PHASE35_HANDOFF.md:44:# Bring up stack (postgres via docker-compose.yml; workers via workers compose)
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:183:./PHASE35_HANDOFF.md:45:docker compose -f docker-compose.yml up -d postgres
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:185:./PHASE35_HANDOFF.md:47:docker ps --format 'table {{.Names}}\t{{.Status}}\t{{.Image}}' | rg -n 'motherboard_systems_hq-(postgres|workerA|workerB)-1' || true
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:187:./PHASE35_HANDOFF.md:50:PG_CONT="$(docker ps --format '{{.Names}}' | awk '/motherboard_systems_hq-postgres-1/{print; exit} /postgres/{print; exit}')"
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:188:./PHASE35_HANDOFF.md:51:docker exec -i "$PG_CONT" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<'SQL'
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:197:./PHASE11_DB_ENDPOINTS_STATUS.md:9:Stack: docker-compose (dashboard + postgres)
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:199:./PHASE11_DB_ENDPOINTS_STATUS.md:144:Provide a DATABASE_URL via docker-compose.yml that matches the Postgres roles we already set up, or
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:222:./PHASE11_v11.10_STATUS_AND_NEXT_STEPS.md:9:* Dashboard + postgres containers: up via docker-compose on port 8080.
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:232:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:4295:./scripts/phase19_tasks_postgres_doctor.sh:22:  PG_CID="$(docker ps --filter "status=running" --filter "name=postgres" --format '{{.ID}}' | head -n 1 || true)"
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:284:./server.mjs.backup-20251204-154936:45:  host: process.env.DB_HOST || 'postgres', // 'postgres' is the service name in docker-compose
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:295:./docs/PHASE35_CLOSURE.md:6:- Canonical workers compose: docker-compose.workers.yml uses POSTGRES_URL=postgres service and WORKER_OWNER defaults via WORKER_OWNER_A/WORKER_OWNER_B; PHASE26_WORKER_ACTOR unset.
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:401:./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:77:./docker-compose.phase47.postgres_url.override.yml:2:  dashboard:
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:444:./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:2621:./PHASE11_DB_ENDPOINTS_STATUS.md:9:Stack: docker-compose (dashboard + postgres)
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:448:./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:3016:./PHASE11_VISUAL_OUTPUT_VERIFICATION_HANDOFF.md:16:- docker compose ps shows dashboard + postgres UP
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:450:./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:3071:./PHASE19_NEXT_STEPS.md:4:- docker compose services: postgres + dashboard
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:451:./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:3072:./PHASE19_POSTGRES_BASELINE_HANDOFF.txt:5:- docker compose services: postgres + dashboard
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:474:./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:4512:./scripts/_local/phase31_6_recent_tasks_debug.sh:30:compose up -d postgres dashboard --scale "${WORKER_SVC}=0"
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:475:./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:4513:./scripts/_local/phase31_6_recent_tasks_debug.sh:32:compose up -d postgres dashboard
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:574:./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:5888:./scripts/db/create-dashboard-db.sh:4:echo "🗄️ Ensuring 'dashboard_db' database exists in docker postgres container..."
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:587:./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:6203:./scripts/phase57_snapshot_smoke.sh:125:  docker compose "${COMPOSE_FILES[@]}" logs --tail=200 dashboard workerA workerB postgres || true
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:590:./docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:212:./docker-compose.phase47.postgres_url.override.yml:2:  dashboard:
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:624:./docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:933:./PHASE11_DB_ENDPOINTS_STATUS.md:9:Stack: docker-compose (dashboard + postgres)
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:646:./docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:2159:./PHASE19_NEXT_STEPS.md:4:- docker compose services: postgres + dashboard
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:652:./docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:2676:./PHASE19_POSTGRES_BASELINE_HANDOFF.txt:5:- docker compose services: postgres + dashboard
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:663:./docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:3270:./PHASE11_VISUAL_OUTPUT_VERIFICATION_HANDOFF.md:16:- docker compose ps shows dashboard + postgres UP
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:701:./docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:5050:./scripts/db/create-dashboard-db.sh:4:echo "🗄️ Ensuring 'dashboard_db' database exists in docker postgres container..."
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:705:./docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:5123:./scripts/phase57_snapshot_smoke.sh:125:  docker compose "${COMPOSE_FILES[@]}" logs --tail=200 dashboard workerA workerB postgres || true
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:795:./docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:6416:./scripts/_local/phase31_6_recent_tasks_debug.sh:30:compose up -d postgres dashboard --scale "${WORKER_SVC}=0"
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:796:./docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:6417:./scripts/_local/phase31_6_recent_tasks_debug.sh:32:compose up -d postgres dashboard
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:825:./docker-compose.worker.phase32.yml:10:      POSTGRES_URL: postgres://postgres:postgres@host.docker.internal:5432/postgres
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:828:./docker-compose.worker.phase32.yml:28:      POSTGRES_URL: postgres://postgres:postgres@host.docker.internal:5432/postgres
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:848:./scripts/phase31_7_verify_container_reclaim.sh:7:docker exec -i "$PG" sh -lc 'psql -U postgres -d postgres -Atc "select 1;"' >/dev/null
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:849:./scripts/phase31_7_verify_container_reclaim.sh:8:BASE_EVENT_ID="$(docker exec -i "$PG" sh -lc 'psql -U postgres -d postgres -Atc "select coalesce(max(id),0) from task_events;"')"
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:850:./scripts/phase31_7_verify_container_reclaim.sh:9:BASE_TASK_ID="$(docker exec -i "$PG" sh -lc 'psql -U postgres -d postgres -Atc "select coalesce(max(id),0) from tasks;"')"
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:851:./scripts/phase31_7_verify_container_reclaim.sh:16:  docker exec -i "$PG" sh -lc "psql -U postgres -d postgres -v ON_ERROR_STOP=1 -Atc \
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:852:./scripts/phase31_7_verify_container_reclaim.sh:29:docker exec -i "$PG" sh -lc "psql -U postgres -d postgres -Atc \
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:853:./scripts/phase31_7_verify_container_reclaim.sh:37:docker exec -i "$PG" sh -lc "psql -U postgres -d postgres -Atc \
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:854:./scripts/phase31_7_verify_container_reclaim.sh:54:docker exec -i "$PG" sh -lc "psql -U postgres -d postgres -Atc \
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:867:./scripts/phase54_regression_harness.sh:8:  -f docker-compose.phase54.postgres_bootstrap.override.yml
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:868:./scripts/phase54_regression_harness.sh:9:  -f docker-compose.phase47.postgres_url.override.yml
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:869:./scripts/phase54_regression_harness.sh:10:  -f docker-compose.phase54.postgres_bootstrap.override.yml
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:879:./scripts/phase54_regression_harness.sh:57:    DC -f docker-compose.yml -f docker-compose.workers.yml -f docker-compose.phase54.shadow.override.yml -f docker-compose.phase47.postgres_url.override.yml up -d --build
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:880:./scripts/phase54_regression_harness.sh:59:    DC -f docker-compose.yml -f docker-compose.workers.yml -f docker-compose.phase54.enforce.override.yml -f docker-compose.phase47.postgres_url.override.yml up -d --build
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:883:./scripts/phase54_regression_harness.sh:92:  id="$(docker compose ps -q postgres 2>/dev/null || true)"
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:884:./scripts/phase54_regression_harness.sh:97:  if docker ps --format '{{.Names}}' | grep -q '^motherboard_systems_hq-postgres-1$'; then
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:885:./scripts/phase54_regression_harness.sh:109:  user="$(docker exec "${pgc}" sh -lc 'printf "%s" "${POSTGRES_USER:-postgres}"')"
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:886:./scripts/phase54_regression_harness.sh:110:  db="$(docker exec "${pgc}" sh -lc 'printf "%s" "${POSTGRES_DB:-postgres}"')"
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:896:./PHASE26_CONTAINER_STATUS.txt:7:- `docker compose run` requires explicit -e POSTGRES_URL=... because compose expands ${POSTGRES_URL} on the host at parse-time.
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:897:./scripts/phase40_tierA_claim_gate_smoke.sh:14:  PGC="$(docker ps --format '{{.Names}}' | awk '$0=="motherboard_systems_hq-postgres-1"{print; exit}')"
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:898:./scripts/phase40_tierA_claim_gate_smoke.sh:17:  PGC="$(docker ps --format '{{.Names}}' | awk 'tolower($0) ~ /postgres/ {print; exit}')"
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:899:./scripts/phase40_tierA_claim_gate_smoke.sh:19:: "${PGC:?ERROR: postgres container not found (start your compose stack)}"
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:900:./scripts/phase40_tierA_claim_gate_smoke.sh:34:docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<SQL
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:901:./scripts/phase40_tierA_claim_gate_smoke.sh:49:docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 \
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:902:./scripts/phase40_tierA_claim_gate_smoke.sh:55:docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 \
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:903:./scripts/phase40_tierA_claim_gate_smoke.sh:60:RES1="$(docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -Atc \
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:904:./scripts/phase40_tierA_claim_gate_smoke.sh:64:RES2="$(docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -Atc \
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:907:./scripts/smoke/phase35_epoch_owner_proof.zsh:7:PSQL_BASE=(docker compose exec -T postgres psql -U postgres -d postgres -v ON_ERROR_STOP=1 -q -X -P pager=off)
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:913:./scripts/smoke/phase35_epoch_owner_proof.zsh:34:docker compose up -d postgres >/dev/null
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:914:./scripts/smoke/phase35_epoch_owner_proof.zsh:36:  if docker compose exec -T postgres pg_isready -U postgres >/dev/null 2>&1; then
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:915:./scripts/smoke/phase35_epoch_owner_proof.zsh:42:docker compose exec -T postgres pg_isready -U postgres >/dev/null 2>&1 || {
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:917:./scripts/smoke/phase35_epoch_owner_proof.zsh:45:  docker compose logs --no-color --tail=120 postgres || true
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:924:./scripts/smoke/phase35_epoch_owner_proof.zsh:168:        'docker','compose','exec','-T','postgres','psql',
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:927:./scripts/phase19_tasks_postgres_doctor.sh:16:echo "== docker: postgres containers =="
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:928:./scripts/phase19_tasks_postgres_doctor.sh:17:docker ps --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}' | rg -n '(postgres|motherboard-postgres|NAMES)' || true
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:929:./scripts/phase19_tasks_postgres_doctor.sh:20:PG_CID="$(docker compose ps -q postgres 2>/dev/null | head -n 1 || true)"
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:930:./scripts/phase19_tasks_postgres_doctor.sh:22:  PG_CID="$(docker ps --filter "status=running" --filter "name=postgres" --format '{{.ID}}' | head -n 1 || true)"
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:931:./scripts/phase19_tasks_postgres_doctor.sh:26:  echo "No running Postgres container found. Start it first (docker compose up -d)."
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:932:./scripts/phase19_tasks_postgres_doctor.sh:30:PG_NAME="$(docker inspect -f '{{.Name}}' "$PG_CID" 2>/dev/null | sed 's#^/##' || true)"
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:933:./scripts/phase19_tasks_postgres_doctor.sh:31:PG_STATE="$(docker inspect -f '{{.State.Status}}' "$PG_CID" 2>/dev/null || true)"
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:934:./scripts/phase19_tasks_postgres_doctor.sh:33:echo "== docker: selected postgres container =="
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:935:./scripts/phase19_tasks_postgres_doctor.sh:40:  echo "Selected Postgres container is not running. Start it first (docker compose up -d)."
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:936:./scripts/phase19_tasks_postgres_doctor.sh:45:docker exec "$PG_CID" env | rg -n '^POSTGRES_' || true
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:941:./scripts/debug/phase35_triage.zsh:27:docker compose -p "$P_WORKERS" -f "$COMPOSE_FILE" config | rg -n '(image:|build:|POSTGRES_URL|WORKER_OWNER|PHASE(26|27|32|34|35)_(CLAIM_ONE_SQL|MARK_SUCCESS_SQL|MARK_FAILURE_SQL|HEARTBEAT|RECLAIM)|LEASE|EPOCH|OWNER)' || true
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:948:./scripts/phase45_regression_policy_grants.sh:13:docker ps --format '{{.Names}}' | grep -qx "$PGC" || { echo "ERROR: postgres container $PGC not running"; exit 1; }
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:949:./scripts/phase45_regression_policy_grants.sh:16:PGUSER="$(docker exec "$PGC" sh -lc 'printf "%s" "${POSTGRES_USER:-}"' || true)"
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:950:./scripts/phase45_regression_policy_grants.sh:17:PGDB="$(docker exec "$PGC" sh -lc 'printf "%s" "${POSTGRES_DB:-}"' || true)"
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:967:./scripts/debug/phase35_worker_no_complete_probe.zsh:83:docker compose -p "$P_WORKERS" -f "$COMPOSE_FILE" config | rg -n '(POSTGRES_URL|PHASE(26|27|28|34|35)_(CLAIM_ONE_SQL|MARK_SUCCESS_SQL|MARK_FAILURE_SQL)|LEASE|EPOCH|OWNER|WORKER_)' || true
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:975:./scripts/phase39_action_tier_policy_smoke.sh:13:  PGC="$(docker ps --format '{{.Names}}' | grep -E 'postgres' | head -n 1 || true)"
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:976:./scripts/phase39_action_tier_policy_smoke.sh:23:  docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -qAt <<'SQL'
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:977:./scripts/phase39_action_tier_policy_smoke.sh:54:  docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -f - < sql/policy/action_tier_validate.sql
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:978:./scripts/phase39_action_tier_claim_smoke.sh:6:PGC="$(docker ps --format '{{.Names}}' | grep -E '^motherboard_systems_hq-postgres-1$' || true)"
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:979:./scripts/phase39_action_tier_claim_smoke.sh:8:  PGC="$(docker ps --format '{{.Names}}' | grep -E 'postgres' | head -n 1 || true)"
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:980:./scripts/phase39_action_tier_claim_smoke.sh:22:docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<'SQL'
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:981:./scripts/phase39_action_tier_claim_smoke.sh:55:docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<SQL
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:982:./scripts/phase39_action_tier_claim_smoke.sh:122:docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 < /tmp/phase39_claim_exec.sql
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:994:./scripts/phase57_ci_bootstrap.sh:6:docker compose up -d postgres
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:997:./scripts/phase57_ci_bootstrap.sh:17:  if docker exec "$PG_CTN" pg_isready -U postgres >/dev/null 2>&1; then
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:998:./scripts/phase57_ci_bootstrap.sh:26:  if docker exec "$PG_CTN" psql -h 127.0.0.1 -U postgres -d postgres -v ON_ERROR_STOP=1 -c "select 1" >/dev/null 2>&1; then
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:999:./scripts/phase57_ci_bootstrap.sh:34:  docker exec -i "$PG_CTN" psql -h 127.0.0.1 -U postgres -d postgres -v ON_ERROR_STOP=1
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1049:./scripts/phase41_tierA_claim_gate_smoke.sh:14:PGC="$(docker ps --format '{{.Names}}' | awk '$1=="motherboard_systems_hq-postgres-1"{print $1; exit}')"
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1050:./scripts/phase41_tierA_claim_gate_smoke.sh:18:docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<'SQL'
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1051:./scripts/phase41_tierA_claim_gate_smoke.sh:30:docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<SQL
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1052:./scripts/phase41_tierA_claim_gate_smoke.sh:54:    docker exec -i "$PGC" psql -U postgres -d postgres \
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1053:./scripts/phase41_tierA_claim_gate_smoke.sh:106:docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<SQL
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1058:./scripts/phase19_apply_postgres_sql_via_container.sh:9:  echo "usage: $0 <sql-file-path-on-host> [logfile] [compose-service-name]"
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1059:./scripts/phase19_apply_postgres_sql_via_container.sh:19:  SVC="$(docker compose config --services 2>/dev/null | rg -n 'postgres' | head -n 1 | sed -E 's/^[0-9]+://')"
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1060:./scripts/phase19_apply_postgres_sql_via_container.sh:26:PG_CID="$(docker compose ps -q "$SVC" 2>/dev/null | head -n 1 || true)"
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1061:./scripts/phase19_apply_postgres_sql_via_container.sh:28:  echo "error: could not resolve container id for compose service: $SVC"
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1062:./scripts/phase19_apply_postgres_sql_via_container.sh:29:  echo "hint: docker compose config --services"
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1063:./scripts/phase19_apply_postgres_sql_via_container.sh:33:PG_USER="$(docker exec "$PG_CID" printenv POSTGRES_USER 2>/dev/null || true)"
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1064:./scripts/phase19_apply_postgres_sql_via_container.sh:34:PG_PASS="$(docker exec "$PG_CID" printenv POSTGRES_PASSWORD 2>/dev/null || true)"
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1065:./scripts/phase19_apply_postgres_sql_via_container.sh:35:PG_DB="$(docker exec "$PG_CID" printenv POSTGRES_DB 2>/dev/null || true)"
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1066:./scripts/phase19_apply_postgres_sql_via_container.sh:39:  docker inspect "$PG_CID" --format 'name={{.Name}} state={{.State.Status}} image={{.Config.Image}}' || true
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1067:./scripts/phase19_apply_postgres_sql_via_container.sh:44:cat "$SQL_FILE" | docker exec -e PGPASSWORD="$PG_PASS" -i "$PG_CID" \
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1068:./scripts/phase50_smoke_db_writepath_enforce.sh:8:  PGC="$(docker ps --format '{{.Names}}' | grep -E 'postgres' | head -n 1 || true)"
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1069:./scripts/phase50_smoke_db_writepath_enforce.sh:16:  docker exec -i "$PGC" psql -v ON_ERROR_STOP=1 -U postgres -d postgres -Atc "$1"
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1070:./scripts/phase50_smoke_db_writepath_enforce.sh:18:# Resolve POSTGRES_URL from compose config by default.
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1071:./scripts/phase50_smoke_db_writepath_enforce.sh:21:  POSTGRES_URL="$(docker compose config 2>/dev/null | awk '/POSTGRES_URL:/{print $2; exit}' || true)"
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1072:./scripts/phase50_smoke_db_writepath_enforce.sh:24:  echo "ERROR: POSTGRES_URL not found. Set POSTGRES_URL=postgres://... (or ensure compose config includes it)." >&2
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1077:./scripts/ci_demo_hardening_smoke.sh:10:if [ -f docker-compose.phase47.postgres_url.override.yml ]; then
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1078:./scripts/ci_demo_hardening_smoke.sh:11:  COMPOSE_FILES+=( -f docker-compose.phase47.postgres_url.override.yml )
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1079:./scripts/ci_demo_hardening_smoke.sh:13:if [ -f docker-compose.phase54.postgres_bootstrap.override.yml ]; then
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1080:./scripts/ci_demo_hardening_smoke.sh:14:  COMPOSE_FILES+=( -f docker-compose.phase54.postgres_bootstrap.override.yml )
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1087:./scripts/ci_demo_hardening_smoke.sh:45:PG_SERVICE="$(docker compose ps --services | grep -E 'postgres|db' | head -n1 || true)"
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1089:./scripts/ci_demo_hardening_smoke.sh:54:docker compose exec -T "$PG_SERVICE" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -c \
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1091:./scripts/phase32_null_max_attempts_claim_smoke.sh:6:PGC="$(docker ps --format '{{.Names}}' | grep -E '^motherboard_systems_hq-postgres-1$' || true)"
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1092:./scripts/phase32_null_max_attempts_claim_smoke.sh:16:docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<'SQL'
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1093:./scripts/phase32_null_max_attempts_claim_smoke.sh:38:docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<SQL
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1094:./scripts/phase32_null_max_attempts_claim_smoke.sh:65:docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 < /tmp/phase32_claim_exec.sql
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1095:./scripts/phase32_null_max_attempts_claim_smoke.sh:69:docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<SQL
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1096:./scripts/phase37_0_capture_run_view_docs.zsh:7:# Robust postgres container detection (works across compose project name changes)
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1099:./scripts/phase37_0_capture_run_view_docs.zsh:24:docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -At <<'SQL' \
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1100:./scripts/phase37_0_capture_run_view_docs.zsh:33:docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -At -F '|' <<'SQL' > "$tmp_cols"
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1110:./scripts/phase36_2_run_observability_smoke.sh:23:docker ps --format '{{.Names}}' | rg -qx "$PGC" || { echo "ERROR: postgres container not running: $PGC"; exit 2; }
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1111:./scripts/phase36_2_run_observability_smoke.sh:26:docker exec -i "$PGC" psql -U postgres -d postgres <<SQL
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1112:./scripts/phase36_2_run_observability_smoke.sh:32:docker exec -i "$PGC" psql -U postgres -d postgres <<SQL
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1113:./scripts/phase36_2_run_observability_smoke.sh:39:docker exec -i "$PGC" psql -U postgres -d postgres <<SQL
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1114:./scripts/phase36_2_run_observability_smoke.sh:46:docker exec -i "$PGC" psql -U postgres -d postgres <<SQL
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1115:./scripts/phase47_smoke.sh:15:PGC="$(docker ps --format '{{.Names}}' | grep -E '(^|-)postgres-1$' | head -n1 || true)"
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1116:./scripts/phase47_smoke.sh:17:  PGC="$(docker ps --format '{{.Names}}' | grep -E 'postgres' | head -n1 || true)"
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1117:./scripts/phase47_smoke.sh:19:: "${PGC:?ERROR: postgres container not found (is docker compose up?)}"
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1118:./scripts/phase47_smoke.sh:26:docker exec -i "$PGC" sh -lc "psql -v ON_ERROR_STOP=1 -U postgres -d \"$DB\" -f - " < "$SQL_PATH_IN_REPO" \
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1119:./scripts/phase41_scenario_matrix_dump.sh:4:PGC="$(docker ps --format '{{.Names}}' | grep -E '^motherboard_systems_hq-postgres-1$' || true)"
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1120:./scripts/phase41_scenario_matrix_dump.sh:7:docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 < sql/phase41_scenario_matrix_run_view.sql
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1124:./scripts/phase46_recovery_primitives.sh:15:pg="$(docker ps --format '{{.Names}}' | grep -E 'postgres' | head -n1 || true)"
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1127:./scripts/phase46_recovery_primitives.sh:23:  docker logs --tail=400 "${pg}" > "${bundle_dir}/postgres_tail.log" 2>/dev/null || true
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1130:./scripts/phase46_task_events_sse_smoke.sh:32:if docker logs --tail 400 motherboard_systems_hq-postgres-1 2>/dev/null | rg -n "$BAD_RE" ; then
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1142:./scripts/phase39_value_gate_smoke.sh:27:PGC="$(docker ps --format '{{.Names}}' | grep -E '^motherboard_systems_hq-postgres-1$' | head -n 1 || true)"
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1144:./scripts/phase39_value_gate_smoke.sh:30:    docker compose -f docker-compose.yml up -d postgres
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1145:./scripts/phase39_value_gate_smoke.sh:33:PGC="$(docker ps --format '{{.Names}}' | grep -E '^motherboard_systems_hq-postgres-1$' | head -n 1 || true)"
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1146:./scripts/phase39_value_gate_smoke.sh:38:  if docker exec -i "$PGC" pg_isready -U postgres -d postgres >/dev/null 2>&1; then
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1153:./scripts/phase39_value_gate_smoke.sh:72:docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<SQL
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1154:./scripts/phase39_value_gate_smoke.sh:79:docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<SQL
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1155:./scripts/phase39_value_gate_smoke.sh:93:docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<SQL
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1160:./scripts/phase51_smoke_http_enforce_403.sh:10:  PGC="$(docker ps --format '{{.Names}}' | grep -E 'postgres' | head -n 1 || true)"
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1161:./scripts/phase51_smoke_http_enforce_403.sh:17:sql() { docker exec -i "$PGC" psql -v ON_ERROR_STOP=1 -U postgres -d postgres -Atc "$1"; }
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1164:./scripts/phase57_snapshot_smoke.sh:10:  -f docker-compose.phase47.postgres_url.override.yml
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1165:./scripts/phase57_snapshot_smoke.sh:11:  -f docker-compose.phase54.postgres_bootstrap.override.yml
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1176:./scripts/phase57_snapshot_smoke.sh:35:PSQL_AT=(docker compose "${COMPOSE_FILES[@]}" exec -T postgres psql -U postgres -d postgres -v ON_ERROR_STOP=1 -At)
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1177:./scripts/phase57_snapshot_smoke.sh:36:PSQL_RAW=(docker compose "${COMPOSE_FILES[@]}" exec -T postgres psql -U postgres -d postgres -v ON_ERROR_STOP=1)
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1184:./scripts/phase57_snapshot_smoke.sh:125:  docker compose "${COMPOSE_FILES[@]}" logs --tail=200 dashboard workerA workerB postgres || true
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1185:./scripts/phase52_smoke_api_tasks_create_201.sh:10:  PGC="$(docker ps --format '{{.Names}}' | grep -E 'postgres' | head -n 1 || true)"
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1186:./scripts/phase52_smoke_api_tasks_create_201.sh:17:sql() { docker exec -i "$PGC" psql -v ON_ERROR_STOP=1 -U postgres -d postgres -Atc "$1"; }
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1199:./scripts/phase33_smoke.sh:30:# best-effort compose up; do not fail smoke if postgres can't bind 5432 (common local conflict)
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1204:./scripts/db/create-postgres-role.sh:4:echo "🔐 Ensuring 'postgres' role exists in docker postgres container..."
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1205:./scripts/db/create-postgres-role.sh:6:docker-compose exec postgres sh -c "
+
