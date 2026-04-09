@@ -1,0 +1,1668 @@
+PHASE 464.X — SYSTEM HEALTH REPEAT EVIDENCE
+===========================================
+
+Timestamp (UTC): 2026-04-09T21:10:10Z
+Repo root: /Users/marcela-dev/Projects/Motherboard_Systems_HQ
+
+1) Browser files mentioning Atlas / system health / operator guidance
+public/dashboard.html.phase61_agent_emoji_backup:140:      #atlas-status-card {
+public/dashboard.html.phase61_agent_emoji_backup:164:#atlas-status-card {
+public/dashboard.html.phase61_agent_emoji_backup:169:      #phase61-atlas-band #atlas-status-card {
+public/dashboard.html.phase61_agent_emoji_backup:349:      id="global-status"
+public/dashboard.html.phase61_agent_emoji_backup:360:          <span id="health-status">Critical</span>
+public/dashboard.html.phase61_agent_emoji_backup:508:<section id="atlas-status-card" class="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700">
+public/dashboard.html.phase61_agent_emoji_backup:512:          Atlas Subsystem Status
+public/dashboard.html.phase61_agent_emoji_backup:514:            id="atlas-health"
+public/dashboard.html.phase61_agent_emoji_backup:520:        <div id="atlas-status-details" class="space-y-2 text-gray-300">
+public/css/phase61_workspace_consolidation.css:47:#atlas-status-card {
+public/css/phase61_workspace_consolidation.css:104:#atlas-status-card {
+public/css/phase61_workspace_consolidation.css:140:  #atlas-status-card {
+public/css/phase59_demo_focus.css:49:#atlas-status-card {
+public/css/phase59_demo_focus.css:60:#atlas-status-card,
+public/css/phase60_live_polish.css:226:[data-panel="atlas-status"] {
+public/index.html:42:      id="global-status"
+public/index.html:53:          <span id="health-status">Critical</span>
+public/index.html:205:      <section id="atlas-status-card" class="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700">
+public/index.html:209:          Atlas Subsystem Status
+public/index.html:211:            id="atlas-health"
+public/index.html:217:        <div id="atlas-status-details" class="space-y-2 text-gray-300">
+public/bundle-core.js:23:    const healthStatus = document.getElementById("health-status");
+public/dashboard.html:206:      #atlas-status-card {
+public/dashboard.html:230:#atlas-status-card {
+public/dashboard.html:235:      #phase61-atlas-band #atlas-status-card {
+public/dashboard.html:415:      id="global-status"
+public/dashboard.html:426:          <span id="health-status">Critical</span>
+public/dashboard.html:508:                      <div id="operator-guidance-panel" class="mt-4 rounded-xl border border-gray-700 bg-gray-900/70 p-4 min-h-[140px]">
+public/dashboard.html:510:                        <div id="operator-guidance-response" class="text-sm text-gray-300 leading-6">
+public/dashboard.html:514:                        <div id="operator-guidance-meta" class="mt-3 text-xs text-gray-500 leading-5">
+public/dashboard.html:595:<section id="atlas-status-card" class="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700">
+public/dashboard.html:599:          Atlas Subsystem Status
+public/dashboard.html:601:            id="atlas-health"
+public/dashboard.html:607:        <div id="atlas-status-details" class="space-y-2 text-gray-300">
+public/js/phase457_controlled_proof.js:5:  // Remove phase457 proof as a second operator-guidance writer.
+public/js/phase457_controlled_proof.js:16:    return !!byId("operator-guidance-response") && !!byId("operator-guidance-meta");
+public/js/operatorGuidance.sse.js:25:  const RESPONSE_EL = document.getElementById("operator-guidance-response");
+public/js/operatorGuidance.sse.js:26:  const META_EL = document.getElementById("operator-guidance-meta");
+public/js/operatorGuidance.sse.js:44:    eventSource = new EventSource("/api/operator-guidance");
+
+2) Browser files using append / innerHTML / insertAdjacent / appendChild
+public/js/phase22_task_delegation_live_bindings.js:199:    if (sub) sub.textContent = s;
+public/js/phase22_task_delegation_live_bindings.js:222:    if (el) el.textContent = String(value);
+public/js/phase61_recent_history_wire.js:93:    probeEl.textContent = `probe:${key}:boot`;
+public/js/phase61_recent_history_wire.js:106:    shell.appendChild(probeEl);
+public/js/phase61_recent_history_wire.js:107:    shell.appendChild(statusEl);
+public/js/phase61_recent_history_wire.js:108:    shell.appendChild(listEl);
+public/js/phase61_recent_history_wire.js:116:      card.innerHTML = "";
+public/js/phase61_recent_history_wire.js:118:      card.appendChild(owned.shell);
+public/js/phase61_recent_history_wire.js:129:    listEl.innerHTML =
+public/js/phase61_recent_history_wire.js:216:    parts.probeEl.textContent = "probe:recent:loading";
+public/js/phase61_recent_history_wire.js:217:    parts.statusEl.textContent = "Loading recent tasks…";
+public/js/phase61_recent_history_wire.js:226:        parts.probeEl.textContent = "probe:recent:empty";
+public/js/phase61_recent_history_wire.js:227:        parts.statusEl.textContent = "No recent tasks returned.";
+public/js/phase61_recent_history_wire.js:232:      parts.listEl.innerHTML = rows
+public/js/phase61_recent_history_wire.js:238:      parts.probeEl.textContent = `probe:recent:rows:${rows.length}`;
+public/js/phase61_recent_history_wire.js:239:      parts.statusEl.textContent = `Loaded ${rows.length} recent task${rows.length === 1 ? "" : "s"}`;
+public/js/phase61_recent_history_wire.js:242:      parts.probeEl.textContent = `probe:recent:error:${err.message}`;
+public/js/phase61_recent_history_wire.js:243:      parts.statusEl.textContent = "Recent Tasks unavailable";
+public/js/phase61_recent_history_wire.js:257:    parts.probeEl.textContent = "probe:history:loading";
+public/js/phase61_recent_history_wire.js:258:    parts.statusEl.textContent = "Loading task history…";
+public/js/phase61_recent_history_wire.js:266:        parts.probeEl.textContent = "probe:history:empty";
+public/js/phase61_recent_history_wire.js:267:        parts.statusEl.textContent = "No task history returned.";
+public/js/phase61_recent_history_wire.js:272:      parts.listEl.innerHTML = rows
+public/js/phase61_recent_history_wire.js:278:      parts.probeEl.textContent = `probe:history:rows:${rows.length}`;
+public/js/phase61_recent_history_wire.js:279:      parts.statusEl.textContent = `Loaded ${rows.length} run${rows.length === 1 ? "" : "s"}`;
+public/js/phase61_recent_history_wire.js:282:      parts.probeEl.textContent = `probe:history:error:${err.message}`;
+public/js/phase61_recent_history_wire.js:283:      parts.statusEl.textContent = "Task Activity unavailable";
+public/js/phase64_agent_activity_bootstrap.js:19:  document.head.appendChild(s);
+public/js/phase64_agent_activity_debug.js:11:      badge: el.querySelector('.agent-state')?.textContent?.trim() ?? null,
+public/js/phase64_agent_activity_debug.js:12:      summary: el.querySelector('[data-agent-summary="true"]')?.textContent?.trim() ?? null,
+public/js/phase64_agent_activity_debug.js:13:      updated: el.querySelector('[data-agent-updated="true"]')?.textContent?.trim() ?? null,
+public/js/phase64_agent_activity_debug.js:23:      html: container?.outerHTML ?? null,
+public/js/telemetry/phase65b_metric_bootstrap.js:17:      document.head.appendChild(script);
+public/js/telemetry/phase65b_metric_ownership_guard.js:22:      "textContent"
+public/js/telemetry/phase65b_metric_ownership_guard.js:29:    Object.defineProperty(node, "textContent", {
+public/js/telemetry/running_tasks_metric.js:32:        node.textContent = String(activeTasks.size);
+public/js/telemetry/running_tasks_metric.js:35:      node.textContent = String(activeTasks.size);
+public/js/telemetry/latency_metric.js:85:        node.textContent = value;
+public/js/telemetry/latency_metric.js:88:      node.textContent = value;
+public/js/telemetry/success_rate_metric.js:53:        node.textContent = value;
+public/js/telemetry/success_rate_metric.js:56:      node.textContent = value;
+public/js/project-visual-output.js:13:    stamp.textContent = "PVO TARGET = " + (el.className || "(no class)") + " @ " + new Date().toISOString();
+public/js/project-visual-output.js:18:    mark.textContent = "PVO subscriber loaded @ " + new Date().toISOString();
+public/js/project-visual-output.js:28:    header.textContent =
+public/js/project-visual-output.js:38:    pre.textContent = JSON.stringify(obj, null, 2);
+public/js/project-visual-output.js:39:    el.appendChild(pre);
+public/js/project-visual-output.js:45:    div.textContent = msg || "";
+public/js/project-visual-output.js:46:    el.appendChild(div);
+public/js/project-visual-output.js:51:    el.appendChild(headerLine(a));
+public/js/project-visual-output.js:64:      wrap.innerHTML = p.content;
+public/js/project-visual-output.js:65:      el.appendChild(wrap);
+public/js/matilda-chat-console.js:11:    line.textContent = label + text;
+public/js/matilda-chat-console.js:12:    transcriptEl.appendChild(line);
+public/js/matilda-chat-console.js:20:      sendBtn.textContent = isSending ? "Sending..." : "Send";
+public/js/task-events-sse-client.js:56:    title.textContent = "Task Events";
+public/js/task-events-sse-client.js:68:    counts.textContent = "created:0  completed:0  failed:0";
+public/js/task-events-sse-client.js:85:    btn.textContent = "×";
+public/js/task-events-sse-client.js:98:    right.appendChild(dot);
+public/js/task-events-sse-client.js:99:    right.appendChild(counts);
+public/js/task-events-sse-client.js:100:    right.appendChild(btn);
+public/js/task-events-sse-client.js:102:    header.appendChild(title);
+public/js/task-events-sse-client.js:103:    header.appendChild(right);
+public/js/task-events-sse-client.js:111:    panel.appendChild(header);
+public/js/task-events-sse-client.js:112:    panel.appendChild(feed);
+public/js/task-events-sse-client.js:114:    root.appendChild(panel);
+public/js/task-events-sse-client.js:138:    if (el) el.textContent = `created:${tally.created}  completed:${tally.completed}  failed:${tally.failed}`;
+public/js/task-events-sse-client.js:228:    time.textContent = record.ts;
+public/js/task-events-sse-client.js:234:    kind.textContent = record.kind;
+public/js/task-events-sse-client.js:241:    detail.textContent = record.detail || "—";
+public/js/task-events-sse-client.js:245:    row.appendChild(accent);
+public/js/task-events-sse-client.js:246:    row.appendChild(time);
+public/js/task-events-sse-client.js:247:    row.appendChild(kind);
+public/js/task-events-sse-client.js:248:    row.appendChild(detail);
+public/js/phase64_agent_activity_wire.js:118:    el.textContent = String(getActiveAgentCount());
+public/js/phase64_agent_activity_wire.js:125:    container.innerHTML = `
+public/js/phase31_6_seed_task_button.js:27:      el.textContent = msg;
+public/js/phase31_6_seed_task_button.js:28:      document.body.appendChild(el);
+public/js/phase31_6_seed_task_button.js:83:    const oldText = btn.textContent || "Seed Task";
+public/js/phase31_6_seed_task_button.js:87:      btn.textContent = "Seeding...";
+public/js/phase31_6_seed_task_button.js:92:      btn.textContent = oldText;
+public/js/agent-status-row.js:14:  container.innerHTML = "";
+public/js/agent-status-row.js:15:  if (title) container.appendChild(title);
+public/js/agent-status-row.js:34:    el.textContent = value;
+public/js/agent-status-row.js:124:  container.appendChild(stack);
+public/js/agent-status-row.js:138:    emoji.textContent = AGENT_EMOJI[key] || "•";
+public/js/agent-status-row.js:152:    label.textContent = name;
+public/js/agent-status-row.js:156:    status.textContent = "unknown";
+public/js/agent-status-row.js:158:    left.append(emoji, label);
+public/js/agent-status-row.js:159:    row.append(left, status);
+public/js/agent-status-row.js:160:    stack.appendChild(row);
+public/js/agent-status-row.js:177:    indicator.status.textContent = presentation.label;
+public/js/agent-status-row.js:183:    indicator.emoji.textContent = AGENT_EMOJI[agentKey] || "•";
+public/js/task-delegation.js:8:        messageDisplay.textContent = 'Searching for an IDLE agent...';
+public/js/task-delegation.js:24:                messageDisplay.textContent = `Success! Assigned task "${data.agent.current_task}" to Agent ${data.agent.agent_name}.`;
+public/js/task-delegation.js:27:                messageDisplay.textContent = `Failure: ${data.message || 'No IDLE agents available.'}`;
+public/js/task-delegation.js:33:            messageDisplay.textContent = 'Delegation failed due to network error.';
+public/js/dashboard-delegation.js:39:    response.innerHTML = html;
+public/js/dashboard-delegation.js:128:    var oldText = btn ? (btn.textContent || "Submit Delegation") : "Submit Delegation";
+public/js/dashboard-delegation.js:134:        btn.textContent = "Sending...";
+public/js/dashboard-delegation.js:189:        btn.textContent = oldText;
+public/js/task-completion.js:11:        messageDisplay.textContent = `Attempting to complete task for ${AGENT_TO_COMPLETE}...`;
+public/js/task-completion.js:26:                messageDisplay.textContent = data.message;
+public/js/task-completion.js:29:                messageDisplay.textContent = `Failure: ${data.message || 'Task completion failed.'}`;
+public/js/task-completion.js:35:            messageDisplay.textContent = 'Completion failed due to network error.';
+public/js/dashboard-status.js:42:    if (text) n.textContent = text;
+public/js/dashboard-status.js:49:    s.textContent = `
+public/js/dashboard-status.js:69:    document.head.appendChild(s);
+public/js/dashboard-status.js:91:        document.body.appendChild(tray);
+public/js/dashboard-status.js:100:    node.append(
+public/js/dashboard-status.js:109:        wrap.appendChild(node);
+public/js/dashboard-status.js:110:        anchor.appendChild(wrap);
+public/js/dashboard-status.js:113:        wrap.appendChild(node);
+public/js/dashboard-status.js:114:        anchor.appendChild(wrap);
+public/js/dashboard-status.js:117:      anchor.appendChild(node);
+public/js/dashboard-status.js:128:    meta.textContent = `${label}: ${connected ? "connected" : "disconnected"} · last: ${lastAt ? formatAge(NOW() - lastAt) : "—"}`;
+public/js/dashboard-status.js:279:        return heads.find(h => (h.textContent || "").toLowerCase().includes("reflections")) || null;
+public/js/operatorGuidance.sse.js:52:          RESPONSE_EL.textContent = data.message || "";
+public/js/operatorGuidance.sse.js:56:          META_EL.textContent = data.meta || "";
+public/js/phase457_restore_task_panels.js:100:      el.innerHTML = '<div class="text-sm text-gray-500">No recent tasks yet.</div>';
+public/js/phase457_restore_task_panels.js:104:    el.innerHTML = state.recent.map(function (task) {
+public/js/phase457_restore_task_panels.js:119:      el.innerHTML = '<div class="text-sm text-gray-500">No task history yet.</div>';
+public/js/phase457_restore_task_panels.js:123:    el.innerHTML = state.history.map(function (task) {
+public/js/phase457_restore_task_panels.js:143:      anchor.innerHTML = "";
+public/js/phase457_restore_task_panels.js:144:      anchor.appendChild(panel);
+public/js/phase457_restore_task_panels.js:150:      panel.innerHTML = "";
+public/js/phase457_restore_task_panels.js:151:      panel.appendChild(feed);
+public/js/phase457_restore_task_panels.js:155:      feed.innerHTML =
+public/js/phase457_restore_task_panels.js:162:    feed.innerHTML = state.events.map(function (eventRow) {
+public/js/dashboard-broadcast.js:20:container.innerHTML = parts.join("");
+public/js/ops-pill-state.js:22:    pill.textContent = "OPS: Unknown";
+public/js/ops-pill-state.js:30:      document.body.appendChild(pill);
+public/js/ops-pill-state.js:58:    pill.textContent = label;
+public/js/phase457_neutralize_legacy_observational_consumers.js:31:    if (!isProbeLike(node.textContent || "")) return;
+public/js/phase457_neutralize_legacy_observational_consumers.js:32:    node.textContent = fallbackText;
+public/js/phase60_live_clock.js:22:    el.textContent = formatUptime(elapsed);
+public/js/heartbeat-stale-indicator.js:55:    document.body.appendChild(el);
+public/js/heartbeat-stale-indicator.js:62:    el.textContent = ok
+public/js/heartbeat-stale-indicator.js:71:      el.textContent = "HB ? (shim not loaded)";
+public/js/dashboard-tasks-widget.js:63:      mount.innerHTML = `
+public/js/dashboard-tasks-widget.js:99:      ui.errorEl.innerHTML = state.lastError
+public/js/dashboard-tasks-widget.js:105:      ui.listEl.innerHTML = `
+public/js/dashboard-tasks-widget.js:202:    for (const s of task_status || []) p.append("task_status", String(s));
+public/js/dashboard-tasks-widget.js:238:    hdr.innerHTML = `<div style="display:flex;align-items:center;gap:10px;justify-content:space-between;">
+public/js/dashboard-tasks-widget.js:245:    wrap.appendChild(hdr);
+public/js/dashboard-tasks-widget.js:256:    controls.innerHTML = `
+public/js/dashboard-tasks-widget.js:294:    body.appendChild(controls);
+public/js/dashboard-tasks-widget.js:301:    body.appendChild(statusLine);
+public/js/dashboard-tasks-widget.js:309:    table.innerHTML = `
+public/js/dashboard-tasks-widget.js:325:    tableWrap.appendChild(table);
+public/js/dashboard-tasks-widget.js:326:    body.appendChild(tableWrap);
+public/js/dashboard-tasks-widget.js:328:    wrap.appendChild(body);
+public/js/dashboard-tasks-widget.js:329:    root.appendChild(wrap);
+public/js/dashboard-tasks-widget.js:358:      $tbody.innerHTML = "";
+public/js/dashboard-tasks-widget.js:361:        tr.innerHTML = `
+public/js/dashboard-tasks-widget.js:372:        $tbody.appendChild(tr);
+public/js/dashboard-tasks-widget.js:382:      statusLine.textContent = "GET /api/runs" + (q ? "?" + q : "");
+public/js/dashboard-tasks-widget.js:389:        statusLine.textContent += `  → count=${j.count ?? (j.rows?.length ?? 0)}`;
+public/js/dashboard-tasks-widget.js:391:        statusLine.textContent += `  → ERROR: ${String(e?.message || e)}`;
+
+3) Browser files using intervals / SSE / reconnect / DOMContentLoaded
+public/js/ops-sse-listener.js:6:// Close any existing OPS EventSource to avoid duplicates on hot reloads
+public/js/ops-sse-listener.js:11:console.warn("[OPS SSE] Error closing previous EventSource:", e);
+public/js/ops-sse-listener.js:15:if (typeof EventSource === "undefined") {
+public/js/ops-sse-listener.js:16:console.error("[OPS SSE] EventSource is not supported in this browser.");
+public/js/ops-sse-listener.js:26:    const es = (window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(OPS_SSE_URL));
+public/js/ops-sse-listener.js:64:console.error("[OPS pm2-status] Failed to parse payload:", err, event.data);
+public/js/ops-heartbeat-pinger.js:5:  if (document.readyState === "loading") {
+public/js/ops-heartbeat-pinger.js:6:    document.addEventListener("DOMContentLoaded", () => {
+public/js/ops-heartbeat-pinger.js:8:      setInterval(ping, 5000);
+public/js/ops-heartbeat-pinger.js:12:    setInterval(ping, 5000);
+public/js/phase22_task_delegation_live_bindings.js:102:      ev?.payload?.status ??
+public/js/phase22_task_delegation_live_bindings.js:130:      ev?.payload?.status ??
+public/js/phase22_task_delegation_live_bindings.js:151:      ev?.payload?.status ??
+public/js/phase22_task_delegation_live_bindings.js:173:      ev?.payload?.status ??
+public/js/phase22_task_delegation_live_bindings.js:182:      error: ev?.error ?? ev?.payload?.error ?? t?.error ?? null,
+public/js/phase22_task_delegation_live_bindings.js:297:  if (document.readyState === "loading") {
+public/js/phase22_task_delegation_live_bindings.js:298:    document.addEventListener("DOMContentLoaded", attach, { once: true });
+public/js/phase61_recent_history_wire.js:133:  function extractRecentRows(payload) {
+public/js/phase61_recent_history_wire.js:134:    if (Array.isArray(payload)) return payload;
+public/js/phase61_recent_history_wire.js:135:    if (Array.isArray(payload?.tasks)) return payload.tasks;
+public/js/phase61_recent_history_wire.js:136:    if (Array.isArray(payload?.rows)) return payload.rows;
+public/js/phase61_recent_history_wire.js:137:    if (Array.isArray(payload?.data)) return payload.data;
+public/js/phase61_recent_history_wire.js:141:  function extractHistoryRows(payload) {
+public/js/phase61_recent_history_wire.js:142:    if (Array.isArray(payload)) return payload;
+public/js/phase61_recent_history_wire.js:143:    if (Array.isArray(payload?.runs)) return payload.runs;
+public/js/phase61_recent_history_wire.js:144:    if (Array.isArray(payload?.rows)) return payload.rows;
+public/js/phase61_recent_history_wire.js:145:    if (Array.isArray(payload?.data)) return payload.data;
+public/js/phase61_recent_history_wire.js:150:    const payload = row?.payload && typeof row.payload === "object" ? row.payload : {};
+public/js/phase61_recent_history_wire.js:153:      title: row?.title || payload?.title || row?.task || row?.name || "(untitled)",
+public/js/phase61_recent_history_wire.js:154:      status: String(row?.status || payload?.status || "unknown"),
+public/js/phase61_recent_history_wire.js:155:      kind: String(row?.kind || payload?.kind || "task"),
+public/js/phase61_recent_history_wire.js:157:      agent: row?.agent || payload?.agent || payload?.target || row?.actor || row?.owner || "unassigned",
+public/js/phase61_recent_history_wire.js:216:    parts.probeEl.textContent = "probe:recent:loading";
+public/js/phase61_recent_history_wire.js:220:      const payload = await fetchJson(RECENT_ENDPOINT);
+public/js/phase61_recent_history_wire.js:221:      const rows = extractRecentRows(payload);
+public/js/phase61_recent_history_wire.js:222:      log("recent payload", payload);
+public/js/phase61_recent_history_wire.js:244:      renderEmpty(parts.listEl, `Error loading Recent Tasks: ${err.message}`);
+public/js/phase61_recent_history_wire.js:257:    parts.probeEl.textContent = "probe:history:loading";
+public/js/phase61_recent_history_wire.js:261:      const payload = await fetchJson(HISTORY_ENDPOINT);
+public/js/phase61_recent_history_wire.js:262:      const rows = extractHistoryRows(payload);
+public/js/phase61_recent_history_wire.js:284:      renderEmpty(parts.listEl, `Error loading Task Activity: ${err.message}`);
+public/js/phase61_recent_history_wire.js:304:    window.setInterval(refreshAll, REFRESH_MS);
+public/js/phase61_recent_history_wire.js:314:  if (document.readyState === "loading") {
+public/js/phase61_recent_history_wire.js:315:    document.addEventListener("DOMContentLoaded", boot, { once: true });
+public/js/phase64_agent_activity_bootstrap.js:3:Ensures agent activity wiring loads without modifying layout.
+public/js/phase64_agent_activity_bootstrap.js:8:function loadPhase64(){
+public/js/phase64_agent_activity_bootstrap.js:23:if(document.readyState==="loading"){
+public/js/phase64_agent_activity_bootstrap.js:24:  document.addEventListener("DOMContentLoaded",loadPhase64);
+public/js/phase64_agent_activity_bootstrap.js:26:  loadPhase64();
+public/js/reflections-sse-dashboard.js:10:// TODO: Re-enable EventSource wiring once a valid text/event-stream endpoint
+public/js/sse-heartbeat-shim.js:4: * Wrap EventSource so connection + any SSE message updates a normalized heartbeat store.
+public/js/sse-heartbeat-shim.js:33:  const NativeEventSource = w.EventSource;
+public/js/sse-heartbeat-shim.js:34:  if (!NativeEventSource || NativeEventSource.__hbWrapped) return;
+public/js/sse-heartbeat-shim.js:44:  function HeartbeatEventSource(url, eventSourceInitDict) {
+public/js/sse-heartbeat-shim.js:50:    const es = new NativeEventSource(url, eventSourceInitDict);
+public/js/sse-heartbeat-shim.js:81:  HeartbeatEventSource.prototype = NativeEventSource.prototype;
+public/js/sse-heartbeat-shim.js:82:  HeartbeatEventSource.__hbWrapped = true;
+public/js/sse-heartbeat-shim.js:84:  w.EventSource = HeartbeatEventSource;
+public/js/dashboard-graph.js:46:setInterval(renderGraph, 3000);
+public/js/telemetry/phase65b_metric_bootstrap.js:7:  function load(src) {
+public/js/telemetry/phase65b_metric_bootstrap.js:19:      console.error("[telemetry-bootstrap] failed to load:", src, err);
+public/js/telemetry/phase65b_metric_bootstrap.js:24:    load("/js/telemetry/phase65b_metric_ownership_guard.js");
+public/js/telemetry/phase65b_metric_bootstrap.js:25:    load("/js/telemetry/running_tasks_metric.js");
+public/js/telemetry/phase65b_metric_bootstrap.js:26:    load("/js/telemetry/success_rate_metric.js");
+public/js/telemetry/phase65b_metric_bootstrap.js:27:    load("/js/telemetry/latency_metric.js");
+public/js/telemetry/phase65b_metric_bootstrap.js:28:    load("/js/telemetry/queue_latency_metric.js");
+public/js/telemetry/phase65b_metric_bootstrap.js:31:  if (document.readyState === "loading") {
+public/js/telemetry/phase65b_metric_bootstrap.js:32:    document.addEventListener("DOMContentLoaded", start, { once: true });
+public/js/telemetry/phase65b_metric_ownership_guard.js:65:  if (document.readyState === "loading") {
+public/js/telemetry/phase65b_metric_ownership_guard.js:66:    document.addEventListener("DOMContentLoaded", bootstrap);
+public/js/telemetry/running_tasks_metric.js:39:  function processPayload(payload) {
+public/js/telemetry/running_tasks_metric.js:40:    const type = payload?.type || payload?.event || payload?.name;
+public/js/telemetry/running_tasks_metric.js:41:    const id = payload?.task_id || payload?.taskId || payload?.id;
+public/js/telemetry/running_tasks_metric.js:63:        processPayload(JSON.parse(e.data));
+public/js/telemetry/running_tasks_metric.js:70:  function patchEventSource() {
+public/js/telemetry/running_tasks_metric.js:73:    const Native = window.EventSource;
+public/js/telemetry/running_tasks_metric.js:89:    window.EventSource = Wrapped;
+public/js/telemetry/running_tasks_metric.js:94:    patchEventSource();
+public/js/telemetry/running_tasks_metric.js:98:  if (document.readyState === "loading") {
+public/js/telemetry/running_tasks_metric.js:99:    document.addEventListener("DOMContentLoaded", bootstrap);
+public/js/telemetry/latency_metric.js:92:  function getEventType(payload) {
+public/js/telemetry/latency_metric.js:94:      payload?.type ||
+public/js/telemetry/latency_metric.js:95:        payload?.event ||
+public/js/telemetry/latency_metric.js:96:        payload?.name ||
+public/js/telemetry/latency_metric.js:97:        payload?.status ||
+public/js/telemetry/latency_metric.js:98:        payload?.state ||
+public/js/telemetry/latency_metric.js:105:  function getTaskId(payload) {
+public/js/telemetry/latency_metric.js:107:      payload?.task_id ??
+public/js/telemetry/latency_metric.js:108:        payload?.taskId ??
+public/js/telemetry/latency_metric.js:109:        payload?.id ??
+public/js/telemetry/latency_metric.js:110:        payload?.data?.task_id ??
+public/js/telemetry/latency_metric.js:111:        payload?.data?.taskId ??
+public/js/telemetry/latency_metric.js:131:  function getEventTs(payload) {
+public/js/telemetry/latency_metric.js:133:      payload?.ts ??
+public/js/telemetry/latency_metric.js:134:        payload?.timestamp ??
+public/js/telemetry/latency_metric.js:135:        payload?.at ??
+public/js/telemetry/latency_metric.js:136:        payload?.time ??
+public/js/telemetry/latency_metric.js:137:        payload?.created_at ??
+public/js/telemetry/latency_metric.js:138:        payload?.updated_at ??
+public/js/telemetry/latency_metric.js:143:  function processPayload(payload) {
+public/js/telemetry/latency_metric.js:144:    const type = getEventType(payload);
+public/js/telemetry/latency_metric.js:145:    const taskId = getTaskId(payload);
+public/js/telemetry/latency_metric.js:146:    const eventTs = getEventTs(payload);
+public/js/telemetry/latency_metric.js:190:          parsed.forEach(processPayload);
+public/js/telemetry/latency_metric.js:192:          processPayload(parsed);
+public/js/telemetry/latency_metric.js:200:  function patchEventSource() {
+public/js/telemetry/latency_metric.js:203:    const Native = window.EventSource;
+public/js/telemetry/latency_metric.js:219:    window.EventSource = Wrapped;
+public/js/telemetry/latency_metric.js:224:    patchEventSource();
+public/js/telemetry/latency_metric.js:228:  if (document.readyState === "loading") {
+public/js/telemetry/latency_metric.js:229:    document.addEventListener("DOMContentLoaded", bootstrap);
+public/js/telemetry/success_rate_metric.js:60:  function getEventType(payload, fallbackEventName) {
+public/js/telemetry/success_rate_metric.js:62:      payload?.type ||
+public/js/telemetry/success_rate_metric.js:63:        payload?.event ||
+public/js/telemetry/success_rate_metric.js:64:        payload?.name ||
+public/js/telemetry/success_rate_metric.js:65:        payload?.kind ||
+public/js/telemetry/success_rate_metric.js:66:        payload?.status ||
+public/js/telemetry/success_rate_metric.js:67:        payload?.state ||
+public/js/telemetry/success_rate_metric.js:75:  function getTaskId(payload) {
+public/js/telemetry/success_rate_metric.js:77:      payload?.task_id ??
+public/js/telemetry/success_rate_metric.js:78:        payload?.taskId ??
+public/js/telemetry/success_rate_metric.js:79:        payload?.id ??
+public/js/telemetry/success_rate_metric.js:80:        payload?.data?.task_id ??
+public/js/telemetry/success_rate_metric.js:81:        payload?.data?.taskId ??
+public/js/telemetry/success_rate_metric.js:82:        payload?.meta?.task_id ??
+public/js/telemetry/success_rate_metric.js:83:        payload?.meta?.taskId ??
+public/js/telemetry/success_rate_metric.js:88:  function getEventTs(payload) {
+public/js/telemetry/success_rate_metric.js:90:      payload?.ts ??
+public/js/telemetry/success_rate_metric.js:91:      payload?.timestamp ??
+public/js/telemetry/success_rate_metric.js:92:      payload?.at ??
+public/js/telemetry/success_rate_metric.js:93:      payload?.time ??
+public/js/telemetry/success_rate_metric.js:94:      payload?.created_at ??
+public/js/telemetry/success_rate_metric.js:95:      payload?.updated_at ??
+public/js/telemetry/success_rate_metric.js:112:  function normalizePayload(payload, fallbackEventName) {
+public/js/telemetry/success_rate_metric.js:113:    const value = payload && typeof payload === "object" ? { ...payload } : {};
+public/js/telemetry/success_rate_metric.js:133:  function processPayload(payload, fallbackEventName) {
+public/js/telemetry/success_rate_metric.js:134:    const normalized = normalizePayload(payload, fallbackEventName);
+public/js/telemetry/success_rate_metric.js:175:          parsed.forEach((item) => processPayload(item, fallbackEventName));
+public/js/telemetry/success_rate_metric.js:177:          processPayload(parsed, fallbackEventName);
+public/js/telemetry/success_rate_metric.js:198:  function patchEventSource() {
+public/js/telemetry/success_rate_metric.js:201:    const Native = window.EventSource;
+public/js/telemetry/success_rate_metric.js:217:    window.EventSource = Wrapped;
+public/js/telemetry/success_rate_metric.js:222:    patchEventSource();
+public/js/telemetry/success_rate_metric.js:226:  if (document.readyState === "loading") {
+public/js/telemetry/success_rate_metric.js:227:    document.addEventListener("DOMContentLoaded", bootstrap);
+public/js/project-visual-output.js:18:    mark.textContent = "PVO subscriber loaded @ " + new Date().toISOString();
+public/js/project-visual-output.js:54:      const p = a.payload || {};
+public/js/project-visual-output.js:60:    const p = a.payload || {};
+public/js/project-visual-output.js:73:  const es = new EventSource("/events/artifacts");
+public/js/agent-status.js:1:document.addEventListener('DOMContentLoaded', () => {
+public/js/matilda-chat-console.js:118:  document.addEventListener("DOMContentLoaded", wireChat);
+public/js/task-events-sse-client.js:313:    es = new EventSource(url);
+public/js/task-events-sse-client.js:353:    setInterval(() => {
+public/js/task-events-sse-client.js:360:  if (document.readyState === "loading") {
+public/js/task-events-sse-client.js:361:    document.addEventListener("DOMContentLoaded", boot, { once: true });
+public/js/phase64_agent_activity_wire.js:200:  function ingestTaskEvent(payload) {
+public/js/phase64_agent_activity_wire.js:201:    const agent = normalizeAgentName(payload?.actor ?? payload?.agent ?? payload?.owner);
+public/js/phase64_agent_activity_wire.js:204:    const eventState = String(payload?.state ?? payload?.status ?? payload?.kind ?? "").toLowerCase();
+public/js/phase64_agent_activity_wire.js:206:    const taskId = payload?.task_id ?? payload?.taskId ?? null;
+public/js/phase64_agent_activity_wire.js:207:    const runId = payload?.run_id ?? payload?.runId ?? null;
+public/js/phase64_agent_activity_wire.js:208:    const ts = Number(payload?.ts ?? payload?.timestamp ?? Date.now()) || Date.now();
+public/js/phase64_agent_activity_wire.js:254:      const payload = await res.json();
+public/js/phase64_agent_activity_wire.js:255:      const rows = Array.isArray(payload?.rows) ? payload.rows : [];
+public/js/phase64_agent_activity_wire.js:311:        const payload = JSON.parse(event.data);
+public/js/phase64_agent_activity_wire.js:312:        ingestTaskEvent(payload);
+public/js/phase64_agent_activity_wire.js:326:      ownedTaskEventsStream = new EventSource("/events/task-events");
+public/js/phase64_agent_activity_wire.js:337:    pollTimer = window.setInterval(reconcileFromRuns, POLL_MS);
+public/js/phase64_agent_activity_wire.js:350:  if (document.readyState === "loading") {
+public/js/phase64_agent_activity_wire.js:351:    document.addEventListener("DOMContentLoaded", bootstrap, { once: true });
+public/js/phase16_sse_backoff.js:14: * - At most ONE underlying EventSource at any moment
+public/js/phase16_sse_backoff.js:51:    // user listeners (EventSource-like)
+public/js/phase16_sse_backoff.js:132:        es = new EventSource(url);
+public/js/phase31_6_seed_task_button.js:50:      payload: {
+public/js/phase31_6_seed_task_button.js:86:      btn.dataset.loading = "1";
+public/js/phase31_6_seed_task_button.js:91:      btn.dataset.loading = "0";
+public/js/agent-status-row.js:245:  function extractPayload(data) {
+public/js/agent-status-row.js:247:    if (data.payload && typeof data.payload === "object") return data.payload;
+public/js/agent-status-row.js:253:  function applyAgentMap(payload) {
+public/js/agent-status-row.js:254:    if (!payload || typeof payload !== "object") return false;
+public/js/agent-status-row.js:255:    const agents = payload.agents;
+public/js/agent-status-row.js:328:    const payload = extractPayload(data);
+public/js/agent-status-row.js:331:      if (applyAgentMap(payload)) return;
+public/js/agent-status-row.js:335:    if (applyAgentMap(payload)) return;
+public/js/agent-status-row.js:336:    applySingleAgent(payload);
+public/js/agent-status-row.js:342:    source = (window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(OPS_SSE_URL));
+public/js/agent-status-row.js:430:  const getTaskId = (payload) =>
+public/js/agent-status-row.js:431:    payload?.task_id ??
+public/js/agent-status-row.js:432:    payload?.taskId ??
+public/js/agent-status-row.js:433:    payload?.id ??
+public/js/agent-status-row.js:434:    payload?.data?.task_id ??
+public/js/agent-status-row.js:435:    payload?.data?.taskId ??
+public/js/agent-status-row.js:438:  const getEventType = (eventName, payload) =>
+public/js/agent-status-row.js:440:      payload?.type ??
+public/js/agent-status-row.js:441:      payload?.event ??
+public/js/agent-status-row.js:442:      payload?.status ??
+public/js/agent-status-row.js:443:      payload?.state ??
+public/js/agent-status-row.js:465:  const getEventTs = (payload) =>
+public/js/agent-status-row.js:467:      payload?.ts ??
+public/js/agent-status-row.js:468:      payload?.timestamp ??
+public/js/agent-status-row.js:469:      payload?.at ??
+public/js/agent-status-row.js:470:      payload?.time ??
+public/js/agent-status-row.js:471:      payload?.created_at ??
+public/js/agent-status-row.js:472:      payload?.updated_at ??
+public/js/agent-status-row.js:500:  const ingestEvent = (eventName, payload) => {
+public/js/agent-status-row.js:501:    const taskId = getTaskId(payload);
+public/js/agent-status-row.js:502:    const eventType = getEventType(eventName, payload);
+public/js/agent-status-row.js:503:    const eventTs = getEventTs(payload);
+public/js/agent-status-row.js:554:      parsed?.payload?.events,
+public/js/agent-status-row.js:568:      parsed?.payload ?? parsed?.data ?? parsed
+public/js/agent-status-row.js:576:        ingestMessage({ event: eventName, payload: parsed }, eventName);
+public/js/agent-status-row.js:578:        ingestMessage({ event: eventName, payload: { type: eventName } }, eventName);
+public/js/agent-status-row.js:586:      es = new EventSource('/events/task-events');
+public/js/agent-status-row.js:601:    window.addEventListener('beforeunload', () => es.close(), { once: true });
+public/js/agent-status-row.js:606:  window.setInterval(render, 10000);
+public/js/task-activity.js:5:document.addEventListener('DOMContentLoaded', () => {
+public/js/task-delegation.js:1:document.addEventListener('DOMContentLoaded', () => {
+public/js/phase457_controlled_proof.js:28:  if (document.readyState === "loading") {
+public/js/phase457_controlled_proof.js:29:    document.addEventListener("DOMContentLoaded", boot, { once: true });
+public/js/dashboard-delegation.js:2:  console.log("[dashboard-delegation] module loaded");
+public/js/dashboard-delegation.js:223:  if (document.readyState === "loading") {
+public/js/dashboard-delegation.js:224:    document.addEventListener("DOMContentLoaded", init, { once: true });
+public/js/ops-globals-bridge.js:6:  if (typeof window === "undefined" || typeof EventSource === "undefined") return;
+public/js/ops-globals-bridge.js:8:  // Avoid multiple initializations if bundle is loaded twice
+public/js/ops-globals-bridge.js:49:    const es = (window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(opsUrl));
+public/js/ops-globals-bridge.js:52:    // Phase16: guard null EventSource before handlers
+public/js/ops-globals-bridge.js:61:    // Phase16: guard null EventSource before handlers (onerror)
+public/js/ops-globals-bridge.js:66:      console.warn("[ops-globals-bridge] EventSource error:", err);
+public/js/ops-globals-bridge.js:69:    console.warn("[ops-globals-bridge] Failed to init EventSource:", err);
+public/js/task-completion.js:1:document.addEventListener('DOMContentLoaded', () => {
+public/js/phase457_execution_guard.js:14:      lastPayloadHash: null
+public/js/phase457_execution_guard.js:18:  function hashPayload(p) {
+public/js/phase457_execution_guard.js:26:  function canExecute(payload) {
+public/js/phase457_execution_guard.js:31:    const hash = hashPayload(payload);
+public/js/phase457_execution_guard.js:34:    lock.lastPayloadHash = hash;
+public/js/phase457_execution_guard.js:40:  function isDuplicate(payload) {
+public/js/phase457_execution_guard.js:42:    const hash = hashPayload(payload);
+public/js/phase457_execution_guard.js:43:    return hash && hash === lock.lastPayloadHash;
+public/js/phase457_execution_guard.js:47:  window.__PHASE457_SAFE_EXECUTE__ = function(payload, renderFn) {
+public/js/phase457_execution_guard.js:48:    if (!payload || typeof renderFn !== "function") return;
+public/js/phase457_execution_guard.js:50:    // Reject duplicate payloads
+public/js/phase457_execution_guard.js:51:    if (isDuplicate(payload)) return;
+public/js/phase457_execution_guard.js:54:    if (!canExecute(payload)) return;
+public/js/phase457_execution_guard.js:57:    renderFn(payload);
+public/js/dashboard-status.js:4: * - Consume /events/ops + /events/reflections via EventSource
+public/js/dashboard-status.js:10: * EventSource.onmessage only receives UNNAMED events, so we must addEventListener()
+public/js/dashboard-status.js:172:  function extractPayload(parsed) {
+public/js/dashboard-status.js:174:    if (parsed.payload !== undefined) return parsed.payload;
+public/js/dashboard-status.js:194:    const es = (window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(url));
+public/js/dashboard-status.js:198:    // Phase16: guard null EventSource before handlers
+public/js/dashboard-status.js:210:      const payload = extractPayload(parsed);
+public/js/dashboard-status.js:214:        g[key].state = (payload && typeof payload === "object") ? payload : { value: payload };
+public/js/dashboard-status.js:217:        if (payload && typeof payload === "object") {
+public/js/dashboard-status.js:218:          if (typeof payload.path === "string" && "value" in payload) {
+public/js/dashboard-status.js:219:            g[key].state = applyDotPathPatch(g[key].state, payload);
+public/js/dashboard-status.js:221:            g[key].state = shallowMerge(g[key].state, payload);
+public/js/dashboard-status.js:223:        } else if (payload !== null && payload !== undefined) {
+public/js/dashboard-status.js:224:          g[key].state = shallowMerge(g[key].state, { lastValue: payload });
+public/js/dashboard-status.js:292:    setInterval(() => {
+public/js/dashboard-status.js:299:  document.readyState === "loading"
+public/js/dashboard-status.js:300:    ? document.addEventListener("DOMContentLoaded", boot, { once: true })
+public/js/sse-reflections-shim.js:1:// Phase 11 – SSE shim to disable Reflections EventSource until backend is ready
+public/js/sse-reflections-shim.js:5:  if (typeof window.EventSource === "undefined") return;
+public/js/sse-reflections-shim.js:7:  const NativeEventSource = window.EventSource;
+public/js/sse-reflections-shim.js:9:  function ReflectionsSafeEventSource(url, eventSourceInitDict) {
+public/js/sse-reflections-shim.js:12:        "[SSE SHIM] Reflections SSE disabled; backend not available. Returning dummy EventSource."
+public/js/sse-reflections-shim.js:29:    return new NativeEventSource(url, eventSourceInitDict);
+public/js/sse-reflections-shim.js:32:  ReflectionsSafeEventSource.prototype = NativeEventSource.prototype;
+public/js/sse-reflections-shim.js:33:  window.EventSource = ReflectionsSafeEventSource;
+public/js/dashboard-graph-loader.js:2:// Dynamic loader for the task activity graph, now wrapped in a guarded init()
+public/js/dashboard-graph-loader.js:3:// so it doesn't register multiple listeners when the bundle is reloaded.
+public/js/dashboard-graph-loader.js:31:console.error("Failed to load tasks for graph:", err);
+public/js/dashboard-graph-loader.js:37:* Initialize the dynamic task graph loader in a guarded way so it
+public/js/dashboard-graph-loader.js:50:if (document.readyState === "loading") {
+public/js/dashboard-graph-loader.js:51:window.addEventListener("DOMContentLoaded", fetchTasksAndRender);
+public/js/operatorGuidance.sse.js:6: * - Existing EventSource not cleaned or guarded
+public/js/operatorGuidance.sse.js:11: * 2. Active EventSource tracking
+public/js/operatorGuidance.sse.js:44:    eventSource = new EventSource("/api/operator-guidance");
+public/js/operatorGuidance.sse.js:71:  document.addEventListener("visibilitychange", () => {
+public/js/operatorGuidance.sse.js:80:  window.addEventListener("beforeunload", () => {
+public/js/phase457_restore_task_panels.js:204:    var payload = parsed && typeof parsed === "object"
+public/js/phase457_restore_task_panels.js:205:      ? (parsed.payload || parsed.data || parsed)
+public/js/phase457_restore_task_panels.js:208:    if (Array.isArray(payload)) {
+public/js/phase457_restore_task_panels.js:209:      payload.forEach(function (item) {
+public/js/phase457_restore_task_panels.js:215:    if (payload && Array.isArray(payload.events)) {
+public/js/phase457_restore_task_panels.js:216:      payload.events.forEach(function (item) {
+public/js/phase457_restore_task_panels.js:222:    if (payload && typeof payload === "object") {
+public/js/phase457_restore_task_panels.js:223:      if (!payload.kind && name) payload.kind = name;
+public/js/phase457_restore_task_panels.js:224:      ingestTaskEvent(payload);
+public/js/phase457_restore_task_panels.js:232:      state.es = new EventSource("/events/task-events");
+public/js/phase457_restore_task_panels.js:300:    setInterval(renderAll, 4000);
+public/js/phase457_restore_task_panels.js:304:  if (document.readyState === "loading") {
+public/js/phase457_restore_task_panels.js:305:    document.addEventListener("DOMContentLoaded", boot, { once: true });
+public/js/task-activity-graph.js:8: * Exported so dashboard-graph-loader.js can import it.
+public/js/phase61_tabs_workspace.js:1:document.addEventListener("DOMContentLoaded", () => {
+public/js/delegation-wire.js:7:console.log("[delegation-wire] script loaded");
+public/js/delegation-wire.js:73:if (document.readyState === "loading") {
+public/js/delegation-wire.js:74:document.addEventListener("DOMContentLoaded", initDelegationWiring);
+public/js/phase457_neutralize_legacy_observational_consumers.js:22:      /loading/.test(lower) ||
+public/js/phase457_neutralize_legacy_observational_consumers.js:48:  if (document.readyState === "loading") {
+public/js/phase457_neutralize_legacy_observational_consumers.js:49:    document.addEventListener("DOMContentLoaded", boot, { once: true });
+public/js/dashboard-broadcast.js:2:// Wrapped in a guarded init() so we don't create duplicate intervals on reload.
+public/js/dashboard-broadcast.js:26:setInterval(() => {
+public/js/dashboard-broadcast.js:59:if (document.readyState === "loading") {
+public/js/dashboard-broadcast.js:60:window.addEventListener("DOMContentLoaded", run);
+public/js/ops-pill-state.js:62:  setInterval(applyState, POLL_INTERVAL_MS);
+public/js/sse-tasks-singleton.js:4: * Strict reuse of /events/tasks EventSource to prevent connect/abort churn.
+public/js/sse-tasks-singleton.js:10:  if (!window.EventSource) return;
+public/js/sse-tasks-singleton.js:14:  const NativeEventSource = window.EventSource;
+public/js/sse-tasks-singleton.js:63:    const es = new NativeEventSource(url, init);
+public/js/sse-tasks-singleton.js:88:  function TasksSafeEventSource(url, eventSourceInitDict) {
+public/js/sse-tasks-singleton.js:89:    if (!isTasksUrl(url)) return new NativeEventSource(url, eventSourceInitDict);
+public/js/sse-tasks-singleton.js:121:  TasksSafeEventSource.prototype = NativeEventSource.prototype;
+public/js/sse-tasks-singleton.js:122:  window.EventSource = TasksSafeEventSource;
+public/js/sse-tasks-singleton.js:124:  window.addEventListener("beforeunload", () => {
+public/js/phase60_live_clock.js:20:  setInterval(() => {
+public/js/dashboard-tasks-widget.js:27:    loading: false,
+public/js/dashboard-tasks-widget.js:107:          ${state.loading && !state.tasks.length ? `<div style="opacity:.7">Loading…</div>` : ""}
+public/js/dashboard-tasks-widget.js:124:              : !state.loading
+public/js/dashboard-tasks-widget.js:150:      state.loading = true;
+public/js/dashboard-tasks-widget.js:163:        state.loading = false;
+public/js/dashboard-tasks-widget.js:406:    if (state.runsPanelTimer) clearInterval(state.runsPanelTimer);
+public/js/dashboard-tasks-widget.js:407:    state.runsPanelTimer = setInterval(() => {
+public/js/dashboard-tasks-widget.js:408:      if (document.hidden) return;
+public/js/dashboard-tasks-widget.js:415:  document.addEventListener("DOMContentLoaded", () => {
+public/js/dashboard-tasks-widget.js:433:  setInterval(() => {
+public/js/dashboard-tasks-widget.js:434:    if (document.hidden) return;
+public/js/heartbeat-stale-indicator.js:71:      el.textContent = "HB ? (shim not loaded)";
+public/js/heartbeat-stale-indicator.js:84:  if (document.readyState === "loading") {
+public/js/heartbeat-stale-indicator.js:85:    document.addEventListener("DOMContentLoaded", () => {
+public/js/heartbeat-stale-indicator.js:87:      setInterval(tick, 1000);
+public/js/heartbeat-stale-indicator.js:91:    setInterval(tick, 1000);
+
+4) Focused likely candidates
+
+FILE: public/js/dashboard-status.js
+----------------------------------------
+4: * - Consume /events/ops + /events/reflections via EventSource
+10: * EventSource.onmessage only receives UNNAMED events, so we must addEventListener()
+69:    document.head.appendChild(s);
+91:        document.body.appendChild(tray);
+100:    node.append(
+109:        wrap.appendChild(node);
+110:        anchor.appendChild(wrap);
+113:        wrap.appendChild(node);
+114:        anchor.appendChild(wrap);
+117:      anchor.appendChild(node);
+172:  function extractPayload(parsed) {
+174:    if (parsed.payload !== undefined) return parsed.payload;
+194:    const es = (window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(url));
+198:    // Phase16: guard null EventSource before handlers
+210:      const payload = extractPayload(parsed);
+214:        g[key].state = (payload && typeof payload === "object") ? payload : { value: payload };
+217:        if (payload && typeof payload === "object") {
+218:          if (typeof payload.path === "string" && "value" in payload) {
+219:            g[key].state = applyDotPathPatch(g[key].state, payload);
+221:            g[key].state = shallowMerge(g[key].state, payload);
+223:        } else if (payload !== null && payload !== undefined) {
+224:          g[key].state = shallowMerge(g[key].state, { lastValue: payload });
+292:    setInterval(() => {
+299:  document.readyState === "loading"
+300:    ? document.addEventListener("DOMContentLoaded", boot, { once: true })
+
+
+FILE: public/js/phase457_restore_task_panels.js
+----------------------------------------
+100:      el.innerHTML = '<div class="text-sm text-gray-500">No recent tasks yet.</div>';
+104:    el.innerHTML = state.recent.map(function (task) {
+119:      el.innerHTML = '<div class="text-sm text-gray-500">No task history yet.</div>';
+123:    el.innerHTML = state.history.map(function (task) {
+143:      anchor.innerHTML = "";
+144:      anchor.appendChild(panel);
+150:      panel.innerHTML = "";
+151:      panel.appendChild(feed);
+155:      feed.innerHTML =
+162:    feed.innerHTML = state.events.map(function (eventRow) {
+204:    var payload = parsed && typeof parsed === "object"
+205:      ? (parsed.payload || parsed.data || parsed)
+208:    if (Array.isArray(payload)) {
+209:      payload.forEach(function (item) {
+215:    if (payload && Array.isArray(payload.events)) {
+216:      payload.events.forEach(function (item) {
+222:    if (payload && typeof payload === "object") {
+223:      if (!payload.kind && name) payload.kind = name;
+224:      ingestTaskEvent(payload);
+232:      state.es = new EventSource("/events/task-events");
+300:    setInterval(renderAll, 4000);
+304:  if (document.readyState === "loading") {
+305:    document.addEventListener("DOMContentLoaded", boot, { once: true });
+
+
+FILE: public/js/ops-globals-bridge.js
+----------------------------------------
+6:  if (typeof window === "undefined" || typeof EventSource === "undefined") return;
+8:  // Avoid multiple initializations if bundle is loaded twice
+49:    const es = (window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(opsUrl));
+52:    // Phase16: guard null EventSource before handlers
+61:    // Phase16: guard null EventSource before handlers (onerror)
+66:      console.warn("[ops-globals-bridge] EventSource error:", err);
+69:    console.warn("[ops-globals-bridge] Failed to init EventSource:", err);
+
+
+FILE: public/js/ops-sse-listener.js
+----------------------------------------
+6:// Close any existing OPS EventSource to avoid duplicates on hot reloads
+11:console.warn("[OPS SSE] Error closing previous EventSource:", e);
+15:if (typeof EventSource === "undefined") {
+16:console.error("[OPS SSE] EventSource is not supported in this browser.");
+26:    const es = (window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(OPS_SSE_URL));
+64:console.error("[OPS pm2-status] Failed to parse payload:", err, event.data);
+
+
+FILE: public/js/agent-status-row.js
+----------------------------------------
+14:  container.innerHTML = "";
+15:  if (title) container.appendChild(title);
+124:  container.appendChild(stack);
+158:    left.append(emoji, label);
+159:    row.append(left, status);
+160:    stack.appendChild(row);
+245:  function extractPayload(data) {
+247:    if (data.payload && typeof data.payload === "object") return data.payload;
+253:  function applyAgentMap(payload) {
+254:    if (!payload || typeof payload !== "object") return false;
+255:    const agents = payload.agents;
+328:    const payload = extractPayload(data);
+331:      if (applyAgentMap(payload)) return;
+335:    if (applyAgentMap(payload)) return;
+336:    applySingleAgent(payload);
+342:    source = (window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(OPS_SSE_URL));
+430:  const getTaskId = (payload) =>
+431:    payload?.task_id ??
+432:    payload?.taskId ??
+433:    payload?.id ??
+434:    payload?.data?.task_id ??
+435:    payload?.data?.taskId ??
+438:  const getEventType = (eventName, payload) =>
+440:      payload?.type ??
+441:      payload?.event ??
+442:      payload?.status ??
+443:      payload?.state ??
+465:  const getEventTs = (payload) =>
+467:      payload?.ts ??
+468:      payload?.timestamp ??
+469:      payload?.at ??
+470:      payload?.time ??
+471:      payload?.created_at ??
+472:      payload?.updated_at ??
+500:  const ingestEvent = (eventName, payload) => {
+501:    const taskId = getTaskId(payload);
+502:    const eventType = getEventType(eventName, payload);
+503:    const eventTs = getEventTs(payload);
+554:      parsed?.payload?.events,
+568:      parsed?.payload ?? parsed?.data ?? parsed
+576:        ingestMessage({ event: eventName, payload: parsed }, eventName);
+578:        ingestMessage({ event: eventName, payload: { type: eventName } }, eventName);
+586:      es = new EventSource('/events/task-events');
+601:    window.addEventListener('beforeunload', () => es.close(), { once: true });
+606:  window.setInterval(render, 10000);
+
+
+FILE: public/js/dashboard-tasks-widget.js
+----------------------------------------
+27:    loading: false,
+63:      mount.innerHTML = `
+99:      ui.errorEl.innerHTML = state.lastError
+105:      ui.listEl.innerHTML = `
+107:          ${state.loading && !state.tasks.length ? `<div style="opacity:.7">Loading…</div>` : ""}
+124:              : !state.loading
+150:      state.loading = true;
+163:        state.loading = false;
+202:    for (const s of task_status || []) p.append("task_status", String(s));
+238:    hdr.innerHTML = `<div style="display:flex;align-items:center;gap:10px;justify-content:space-between;">
+245:    wrap.appendChild(hdr);
+256:    controls.innerHTML = `
+294:    body.appendChild(controls);
+301:    body.appendChild(statusLine);
+309:    table.innerHTML = `
+325:    tableWrap.appendChild(table);
+326:    body.appendChild(tableWrap);
+328:    wrap.appendChild(body);
+329:    root.appendChild(wrap);
+358:      $tbody.innerHTML = "";
+361:        tr.innerHTML = `
+372:        $tbody.appendChild(tr);
+406:    if (state.runsPanelTimer) clearInterval(state.runsPanelTimer);
+407:    state.runsPanelTimer = setInterval(() => {
+415:  document.addEventListener("DOMContentLoaded", () => {
+433:  setInterval(() => {
+
+
+FILE: public/js/operatorGuidance.sse.js
+----------------------------------------
+6: * - Existing EventSource not cleaned or guarded
+11: * 2. Active EventSource tracking
+25:  const RESPONSE_EL = document.getElementById("operator-guidance-response");
+26:  const META_EL = document.getElementById("operator-guidance-meta");
+44:    eventSource = new EventSource("/api/operator-guidance");
+80:  window.addEventListener("beforeunload", () => {
+
+
+FILE: public/dashboard.html
+----------------------------------------
+206:      #atlas-status-card {
+230:#atlas-status-card {
+235:      #phase61-atlas-band #atlas-status-card {
+508:                      <div id="operator-guidance-panel" class="mt-4 rounded-xl border border-gray-700 bg-gray-900/70 p-4 min-h-[140px]">
+510:                        <div id="operator-guidance-response" class="text-sm text-gray-300 leading-6">
+514:                        <div id="operator-guidance-meta" class="mt-3 text-xs text-gray-500 leading-5">
+595:<section id="atlas-status-card" class="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700">
+599:          Atlas Subsystem Status
+601:            id="atlas-health"
+607:        <div id="atlas-status-details" class="space-y-2 text-gray-300">
+686:        row.innerHTML = `
+706:          panel.appendChild(empty);
+719:      if (document.readyState === 'loading') {
+720:        document.addEventListener('DOMContentLoaded', boot, { once: true });
+
+
+5) Focused excerpts: dashboard-status.js
+/**
+ * Phase 16: Dashboard wiring for OPS + Reflections SSE streams.
+ *
+ * - Consume /events/ops + /events/reflections via EventSource
+ * - Treat *.state as "initial paint" (replace baseline state)
+ * - Treat subsequent events as incremental updates (merge / patch)
+ * - Add tiny “connected / last event” UI indicator for each stream
+ *
+ * NOTE: Your SSE server emits NAMED events (e.g. "ops.state", "reflections.state").
+ * EventSource.onmessage only receives UNNAMED events, so we must addEventListener()
+ * for the named event types we care about.
+ */
+
+(() => {
+  "use strict";
+
+  const OPS_SSE_URL = "/events/ops";
+  const REFLECTIONS_SSE_URL = "/events/reflections";
+
+  const NOW = () => Date.now();
+
+  function safeJsonParse(s) {
+    try { return JSON.parse(s); } catch { return null; }
+  }
+
+  function formatAge(ms) {
+    if (!Number.isFinite(ms)) return "—";
+    const s = Math.floor(ms / 1000);
+    if (s < 60) return `${s}s`;
+    const m = Math.floor(s / 60);
+    if (m < 60) return `${m}m`;
+    return `${Math.floor(m / 60)}h`;
+  }
+
+  function el(tag, attrs = {}, text = "") {
+    const n = document.createElement(tag);
+    for (const [k, v] of Object.entries(attrs)) {
+      if (k === "class") n.className = v;
+      else if (k === "style") n.setAttribute("style", v);
+      else n.setAttribute(k, v);
+    }
+    if (text) n.textContent = text;
+    return n;
+  }
+
+  function ensureStyles() {
+    if (document.getElementById("phase16-sse-style")) return;
+    const s = el("style", { id: "phase16-sse-style" });
+    s.textContent = `
+      .sse-indicator {
+        display:inline-flex;
+        align-items:center;
+        gap:6px;
+        font-size:11px;
+        line-height:1;
+        opacity:.85;
+        user-select:none;
+        white-space:nowrap;
+      }
+      .sse-indicator .dot {
+        width:7px; height:7px; border-radius:999px;
+        background:#555;
+        box-shadow:0 0 0 1px rgba(255,255,255,.08) inset;
+      }
+      .sse-indicator[data-connected="true"] .dot { background:#2dd4bf; }
+      .sse-indicator[data-connected="false"] .dot { background:#f97316; }
+      .sse-indicator .meta { font-variant-numeric: tabular-nums; }
+    `;
+    document.head.appendChild(s);
+  }
+
+  function mount(anchor, id, label) {
+    ensureStyles();
+
+    if (!anchor) {
+      let tray = document.getElementById("phase16-sse-tray");
+      if (!tray) {
+        tray = el("div", {
+          id: "phase16-sse-tray",
+          style: [
+            "position:fixed",
+            "left:10px",
+            "bottom:10px",
+            "display:flex",
+            "flex-direction:column",
+            "gap:6px",
+            "z-index:9999",
+            "pointer-events:none",
+          ].join(";")
+        });
+        document.body.appendChild(tray);
+      }
+      anchor = tray;
+    }
+
+    let node = document.getElementById(id);
+    if (node) return node;
+
+    node = el("span", { id, class: "sse-indicator", "data-connected": "false" });
+    node.append(
+      el("span", { class: "dot", "aria-hidden": "true" }),
+      el("span", { class: "meta" }, `${label}: disconnected · last: —`)
+    );
+
+    // try to place nicely; otherwise append
+    try {
+      if (anchor.matches && anchor.matches("header,h1,h2,h3,h4,strong")) {
+        const wrap = el("span", { style: "margin-left:8px" });
+        wrap.appendChild(node);
+        anchor.appendChild(wrap);
+      } else {
+        const wrap = el("div", { style: "margin-top:4px" });
+        wrap.appendChild(node);
+        anchor.appendChild(wrap);
+      }
+    } catch {
+      anchor.appendChild(node);
+    }
+
+    return node;
+  }
+
+  function set(ind, label, connected, lastAt) {
+    if (!ind) return;
+    ind.dataset.connected = connected ? "true" : "false";
+    const meta = ind.querySelector(".meta");
+    if (!meta) return;
+    meta.textContent = `${label}: ${connected ? "connected" : "disconnected"} · last: ${lastAt ? formatAge(NOW() - lastAt) : "—"}`;
+  }
+
+  function ensureGlobal() {
+    window.__MB_STREAMS ||= {
+      ops: { connected: false, lastAt: 0, state: {}, es: null },
+      reflections: { connected: false, lastAt: 0, state: {}, es: null },
+    };
+    return window.__MB_STREAMS;
+  }
+
+  function shallowMerge(target, patch) {
+    if (!target || typeof target !== "object") target = {};
+    if (!patch || typeof patch !== "object") return target;
+    return Object.assign(target, patch);
+  }
+
+  // Minimal dot-path patch support: { path:"a.b.c", value:any }
+  function applyDotPathPatch(state, patch) {
+    if (!state || typeof state !== "object") state = {};
+    const path = patch && typeof patch.path === "string" ? patch.path : "";
+    if (!path) return state;
+    const parts = path.split(".").filter(Boolean);
+    if (!parts.length) return state;
+    let cur = state;
+    for (let i = 0; i < parts.length - 1; i++) {
+      const k = parts[i];
+      if (!cur[k] || typeof cur[k] !== "object") cur[k] = {};
+      cur = cur[k];
+    }
+    cur[parts[parts.length - 1]] = patch.value;
+    return state;
+  }
+
+  function isStateEvent(evtType, parsed) {
+    if (typeof evtType === "string" && evtType.endsWith(".state")) return true;
+    if (parsed && typeof parsed === "object") {
+      if (parsed.state && typeof parsed.state === "object") return true;
+      if (typeof parsed.type === "string" && parsed.type.includes("state")) return true;
+      if (typeof parsed.event === "string" && parsed.event.includes("state")) return true;
+    }
+    return false;
+  }
+
+  function extractPayload(parsed) {
+    if (!parsed || typeof parsed !== "object") return parsed;
+    if (parsed.payload !== undefined) return parsed.payload;
+    if (parsed.data !== undefined) return parsed.data;
+    if (parsed.delta !== undefined) return parsed.delta;
+    if (parsed.patch !== undefined) return parsed.patch;
+    if (parsed.state !== undefined) return parsed.state;
+    return parsed;
+  }
+
+  function connect(key, label, url, ind) {
+  // Phase16: bail if SSE owner already started
+  if (typeof window !== "undefined" && window.__PHASE16_SSE_OWNER_STARTED) {
+    return null;
+  }
+
+    const g = ensureGlobal();
+
+    // close any existing connection
+    try { g[key].es && g[key].es.close(); } catch {}
+    g[key].es = null;
+
+    const es = (window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(url));
+    g[key].es = es;
+
+
+    // Phase16: guard null EventSource before handlers
+    if (!es) return null;
+
+    const tick = () => set(ind, label, g[key].connected, g[key].lastAt);
+
+    es.onopen = () => { g[key].connected = true; tick(); };
+    es.onerror = () => { g[key].connected = false; tick(); };
+
+    const handle = (evtType, e) => {
+      g[key].lastAt = NOW();
+
+      const parsed = safeJsonParse(e && e.data ? e.data : "");
+      const payload = extractPayload(parsed);
+
+      if (isStateEvent(evtType, parsed)) {
+        // initial paint: replace
+        g[key].state = (payload && typeof payload === "object") ? payload : { value: payload };
+      } else {
+        // incremental: patch or merge
+        if (payload && typeof payload === "object") {
+          if (typeof payload.path === "string" && "value" in payload) {
+            g[key].state = applyDotPathPatch(g[key].state, payload);
+          } else {
+            g[key].state = shallowMerge(g[key].state, payload);
+          }
+        } else if (payload !== null && payload !== undefined) {
+          g[key].state = shallowMerge(g[key].state, { lastValue: payload });
+        }
+      }
+
+      tick();
+      try {
+        window.dispatchEvent(new CustomEvent(`mb:${key}:update`, {
+          detail: { event: evtType, state: g[key].state, raw: parsed }
+        }));
+      } catch {}
+    };
+
+    // Unnamed events (rare in your streams, but safe)
+    es.onmessage = (e) => handle("message", e);
+
+    // Named events (your streams DO emit these)
+    const eventNames = [
+      "hello",
+      `${key}.state`,
+      `${key}.update`,
+      `${key}.patch`,
+      `${key}.delta`,
+      "state",
+      "update",
+      "patch",
+      "delta",
+    ];
+
+    for (const name of eventNames) {
+      try {
+        es.addEventListener(name, (e) => handle(name, e));
+      } catch {}
+    }
+
+    tick();
+  }
+
+
+6) Focused excerpts: agent-status-row.js
+// Phase 60 — Agent Pool compact console rows
+// Cosmetic renderer only.
+// Keeps the existing OPS SSE behavior, but restores the intended
+// dense operator-console row appearance with role emojis.
+
+(() => {
+  const container = document.getElementById("agent-status-container");
+  if (!container) {
+    console.warn("agent-status-row.js: #agent-status-container not found.");
+    return;
+  }
+
+  const title = container.querySelector("h2");
+  container.innerHTML = "";
+  if (title) container.appendChild(title);
+
+  const AGENTS = ["Matilda", "Atlas", "Cade", "Effie"];
+
+  const AGENT_EMOJI = {
+    matilda: "🗣️",
+    atlas: "🧭",
+    cade: "💻",
+    effie: "📊",
+  };
+
+  const indicators = {};
+  const agentActivityAt = Object.create(null);
+  const agentReportedState = Object.create(null);
+  const ACTIVE_WINDOW_MS = 60 * 1000;
+  const activeAgentsMetricEl = document.getElementById("metric-agents");
+
+  function setMetricText(el, value) {
+    if (!el) return;
+    el.textContent = value;
+  }
+
+  function parseTimestamp(value) {
+    if (typeof value === "number" && Number.isFinite(value)) return value;
+    if (typeof value === "string" && value.trim()) {
+      const n = Number(value);
+      if (Number.isFinite(n)) return n;
+      const parsed = Date.parse(value);
+      if (Number.isFinite(parsed)) return parsed;
+    }
+    return null;
+  }
+
+  function formatAge(ms) {
+    if (!Number.isFinite(ms) || ms < 0) return "0s";
+    const totalSeconds = Math.floor(ms / 1000);
+    if (totalSeconds < 60) return `${totalSeconds}s`;
+    const totalMinutes = Math.floor(totalSeconds / 60);
+    if (totalMinutes < 60) return `${totalMinutes}m`;
+    return `${Math.floor(totalMinutes / 60)}h`;
+  }
+
+  function refreshActiveAgentsMetric() {
+    if (!activeAgentsMetricEl) return;
+
+    const now = Date.now();
+    let count = 0;
+
+    for (const name of AGENTS) {
+      const key = name.toLowerCase();
+      const at = parseTimestamp(agentActivityAt[key]);
+      if (at != null && now - at <= ACTIVE_WINDOW_MS) count += 1;
+    }
+
+    // Phase 65B.6: metric-agents ownership transferred to phase64_agent_activity_wire.js
+    // Legacy direct write removed intentionally.
+  }
+
+  function getAgentPresentation(agentKey, reportedStatus) {
+    const reported = String(reportedStatus || "").trim();
+    const normalized = reported.toLowerCase();
+    const at = parseTimestamp(agentActivityAt[agentKey]);
+
+    if (at == null) {
+      return {
+        kind: "unknown",
+        label: reported || "unknown",
+      };
+    }
+
+    const ageMs = Math.max(0, Date.now() - at);
+    const ageLabel = formatAge(ageMs);
+
+    if (ageMs > ACTIVE_WINDOW_MS) {
+      return {
+        kind: "stale",
+        label: `stale · ${ageLabel} ago`,
+      };
+    }
+
+    if (
+      normalized.includes("error") ||
+      normalized.includes("failed") ||
+      normalized.includes("offline")
+    ) {
+      return {
+        kind: "error",
+        label: `${reported || "error"} · ${ageLabel} ago`,
+      };
+    }
+
+    if (normalized && normalized !== "unknown") {
+      return {
+        kind: "active",
+        label: `${reported} · ${ageLabel} ago`,
+      };
+    }
+
+    return {
+      kind: "active",
+      label: `active · ${ageLabel} ago`,
+    };
+  }
+
+  // Phase 65B.6: metric-agents reset ownership transferred to phase64_agent_activity_wire.js
+  // Legacy direct write removed intentionally.
+
+  const stack = document.createElement("div");
+  stack.className = "w-full flex flex-col gap-0.5";
+  container.appendChild(stack);
+
+  AGENTS.forEach((name) => {
+    const key = name.toLowerCase();
+
+    const row = document.createElement("div");
+    row.className =
+      "w-full min-h-0 rounded-md bg-slate-600/55 border border-slate-500/35 px-3 py-1.5 flex items-center justify-between shadow-sm";
+
+    const left = document.createElement("div");
+    left.className = "flex items-center gap-3 min-w-0 h-[18px]";
+
+    const emoji = document.createElement("span");
+    emoji.className = "inline-flex items-center justify-center shrink-0";
+    emoji.textContent = AGENT_EMOJI[key] || "•";
+    emoji.style.width = "18px";
+    emoji.style.minWidth = "18px";
+    emoji.style.height = "18px";
+    emoji.style.minHeight = "18px";
+    emoji.style.fontSize = "14px";
+    emoji.style.lineHeight = "1";
+    emoji.style.background = "transparent";
+    emoji.style.borderRadius = "0";
+    emoji.style.boxShadow = "none";
+    emoji.style.marginRight = "0";
+
+    const label = document.createElement("span");
+    label.className = "text-[13px] font-semibold tracking-tight text-slate-100/95 truncate";
+    label.textContent = name;
+
+    const status = document.createElement("span");
+    status.className = "text-[12px] font-medium text-slate-200/90 truncate";
+    status.textContent = "unknown";
+
+    left.append(emoji, label);
+    row.append(left, status);
+    stack.appendChild(row);
+
+    indicators[key] = { row, emoji, label, status };
+  });
+
+  const OPS_SSE_URL = `/events/ops`;
+  const __DISABLE_OPTIONAL_SSE =
+    (typeof window !== "undefined" && window.__DISABLE_OPTIONAL_SSE) === true;
+
+  function applyVisual(agentKey, statusString) {
+    const indicator = indicators[agentKey];
+    if (!indicator) return;
+
+    agentReportedState[agentKey] = String(statusString || agentReportedState[agentKey] || "unknown");
+
+    const presentation = getAgentPresentation(agentKey, agentReportedState[agentKey]);
+    const kind = presentation.kind;
+    indicator.status.textContent = presentation.label;
+
+    indicator.row.className =
+      "w-full min-h-0 rounded-md border px-3 py-1.5 flex items-center justify-between shadow-sm";
+
+    indicator.emoji.className = "inline-flex items-center justify-center shrink-0";
+    indicator.emoji.textContent = AGENT_EMOJI[agentKey] || "•";
+    indicator.emoji.style.display = "inline-flex";
+    indicator.emoji.style.width = "18px";
+    indicator.emoji.style.minWidth = "18px";
+    indicator.emoji.style.height = "18px";
+    indicator.emoji.style.minHeight = "18px";
+    indicator.emoji.style.fontSize = "14px";
+    indicator.emoji.style.lineHeight = "1";
+    indicator.emoji.style.background = "transparent";
+    indicator.emoji.style.borderRadius = "0";
+    indicator.emoji.style.boxShadow = "none";
+    indicator.emoji.style.marginRight = "0";
+
+    indicator.label.className = "text-[13px] font-semibold tracking-tight truncate";
+    indicator.status.className = "text-[11px] font-medium truncate";
+
+    switch (kind) {
+      case "active":
+        indicator.row.classList.add("bg-gray-900", "border-gray-700");
+        indicator.label.classList.add("text-slate-100");
+        indicator.status.classList.add("text-emerald-300/90");
+        break;
+      case "error":
+        indicator.row.classList.add("bg-gray-900", "border-gray-700");
+        indicator.label.classList.add("text-slate-100");
+        indicator.status.classList.add("text-rose-300/90");
+        break;
+      case "stale":
+        indicator.row.classList.add("bg-gray-900", "border-gray-700");
+        indicator.label.classList.add("text-slate-100");
+        indicator.status.classList.add("text-amber-200/90");
+        break;
+      case "unknown":
+      default:
+        indicator.row.classList.add("bg-gray-900", "border-gray-700");
+        indicator.label.classList.add("text-slate-100");
+        indicator.status.classList.add("text-slate-300/75");
+        break;
+    }
+  }
+
+  function refreshAgentRows() {
+    Object.keys(indicators).forEach((key) => {
+      applyVisual(key, agentReportedState[key] || "unknown");
+    });
+  }
+
+  Object.keys(indicators).forEach((key) => applyVisual(key, "unknown"));
+
+  if (__DISABLE_OPTIONAL_SSE) {
+    console.warn("[agent-status-row] Optional SSE disabled:", OPS_SSE_URL);
+    return;
+  }
+
+  function parseJson(raw) {
+    try {
+      return JSON.parse(raw);
+    } catch {
+      return null;
+    }
+  }
+
+  function extractPayload(data) {
+    if (!data || typeof data !== "object") return null;
+    if (data.payload && typeof data.payload === "object") return data.payload;
+    if (data.data && typeof data.data === "object") return data.data;
+    if (data.state && typeof data.state === "object") return data.state;
+    return data;
+  }
+
+  function applyAgentMap(payload) {
+    if (!payload || typeof payload !== "object") return false;
+    const agents = payload.agents;
+    if (!agents || typeof agents !== "object") return false;
+
+    let applied = false;
+    for (const [name, value] of Object.entries(agents)) {
+      const key = String(name || "").toLowerCase();
+
+7) Focused excerpts: phase457_restore_task_panels.js
+(function () {
+  if (typeof window === "undefined" || typeof document === "undefined") return;
+  if (window.__PHASE457_RESTORE_TASK_PANELS_ACTIVE__) return;
+  window.__PHASE457_RESTORE_TASK_PANELS_ACTIVE__ = true;
+
+  var MAX_RECENT = 8;
+  var MAX_HISTORY = 16;
+  var MAX_EVENTS = 24;
+  var TASKS_API = "/api/tasks";
+
+  var state = {
+    recent: [],
+    history: [],
+    events: [],
+    sourceOpen: false,
+    sourceError: false,
+    es: null,
+    bootstrapped: false
+  };
+
+  function byId(id) {
+    return document.getElementById(id);
+  }
+
+  function escapeHtml(value) {
+    return String(value == null ? "" : value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  function normalizeStatus(value) {
+    var v = String(value || "").trim().toLowerCase();
+    if (!v) return "unknown";
+    if (v === "complete") return "completed";
+    return v;
+  }
+
+  function normalizeTask(input) {
+    var src = input && typeof input === "object" ? input : {};
+    return {
+      id: String(src.task_id || src.taskId || src.id || src.run_id || src.runId || ("task-" + Date.now())),
+      title: String(src.title || src.name || src.task || src.task_id || src.taskId || "task"),
+      status: normalizeStatus(src.status || src.state || src.kind || src.event || "queued"),
+      updatedAt: src.updated_at || src.updatedAt || src.created_at || src.createdAt || src.ts || Date.now()
+    };
+  }
+
+  function normalizeEvent(input) {
+    var src = input && typeof input === "object" ? input : {};
+    return {
+      ts: src.ts || src.created_at || src.createdAt || Date.now(),
+      kind: String(src.kind || src.event || src.type || src.status || "event"),
+      task_id: String(src.task_id || src.taskId || src.id || "task"),
+      status: String(src.status || src.state || ""),
+      actor: String(src.actor || ""),
+      run_id: String(src.run_id || src.runId || ""),
+      message: String(src.message || src.msg || "")
+    };
+  }
+
+  function upsertTask(list, task, max) {
+    var existingIndex = list.findIndex(function (item) {
+      return item.id === task.id;
+    });
+
+    if (existingIndex >= 0) {
+      list[existingIndex] = Object.assign({}, list[existingIndex], task);
+    } else {
+      list.unshift(task);
+    }
+
+    list.sort(function (a, b) {
+      return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
+    });
+
+    if (list.length > max) list.length = max;
+  }
+
+  function pushRecent(input) {
+    upsertTask(state.recent, normalizeTask(input), MAX_RECENT);
+  }
+
+  function pushHistory(input) {
+    upsertTask(state.history, normalizeTask(input), MAX_HISTORY);
+  }
+
+  function pushEvent(input) {
+    state.events.unshift(normalizeEvent(input));
+    if (state.events.length > MAX_EVENTS) state.events.length = MAX_EVENTS;
+  }
+
+  function renderRecent() {
+    var el = byId("tasks-widget");
+    if (!el) return;
+
+    if (!state.recent.length) {
+      el.innerHTML = '<div class="text-sm text-gray-500">No recent tasks yet.</div>';
+      return;
+    }
+
+    el.innerHTML = state.recent.map(function (task) {
+      return (
+        '<div class="mb-2 rounded-lg border border-gray-700 bg-gray-900/60 px-3 py-2">' +
+          '<div class="text-sm text-gray-200">' + escapeHtml(task.title) + '</div>' +
+          '<div class="text-xs text-gray-500 mt-1">status: ' + escapeHtml(task.status) + '</div>' +
+        '</div>'
+      );
+    }).join("");
+  }
+
+  function renderHistory() {
+    var el = byId("recentLogs");
+    if (!el) return;
+
+    if (!state.history.length) {
+      el.innerHTML = '<div class="text-sm text-gray-500">No task history yet.</div>';
+      return;
+    }
+
+    el.innerHTML = state.history.map(function (task) {
+      return (
+        '<div class="mb-2 rounded-lg border border-gray-800 bg-black/20 px-3 py-2 text-sm text-gray-300">' +
+          escapeHtml(task.title) + ' · ' + escapeHtml(task.status) +
+        '</div>'
+      );
+    }).join("");
+  }
+
+  function renderEvents() {
+    var anchor = byId("mb-task-events-panel-anchor");
+    if (!anchor) return;
+
+    var panel = byId("mb-task-events-panel");
+    var feed = byId("mb-task-events-feed");
+
+    if (!panel) {
+      panel = document.createElement("div");
+      panel.id = "mb-task-events-panel";
+      panel.className = "rounded-lg border border-gray-700 bg-gray-900/60 p-3";
+      anchor.innerHTML = "";
+      anchor.appendChild(panel);
+    }
+
+    if (!feed) {
+      feed = document.createElement("div");
+      feed.id = "mb-task-events-feed";
+      panel.innerHTML = "";
+      panel.appendChild(feed);
+    }
+
+    if (!state.events.length) {
+      feed.innerHTML =
+        '<div class="text-sm text-gray-500">' +
+        (state.sourceError ? "Task events stream reconnecting…" : "Waiting for task events…") +
+        "</div>";
+      return;
+    }
+
+    feed.innerHTML = state.events.map(function (eventRow) {
+      return (
+        '<div class="mb-2 rounded-lg border border-gray-800 bg-black/20 px-3 py-2">' +
+          '<div class="text-xs text-gray-500">' + escapeHtml(eventRow.kind) + '</div>' +
+          '<div class="text-sm text-gray-300 mt-1">' + escapeHtml(eventRow.task_id) + (eventRow.status ? " · " + escapeHtml(eventRow.status) : "") + '</div>' +
+        '</div>'
+      );
+    }).join("");
+  }
+
+  function renderAll() {
+    renderRecent();
+    renderHistory();
+    renderEvents();
+  }
+
+  function ingestTaskEvent(raw) {
+    if (!raw || typeof raw !== "object") return;
+
+    var task = normalizeTask(raw);
+    pushRecent(task);
+    pushHistory(task);
+
+    var eventRow = normalizeEvent(raw);
+    if (eventRow.kind === "unknown" && task.status) {
+      eventRow.kind = task.status;
+    }
+    pushEvent(eventRow);
+
+    renderAll();
+  }
+
+  function safeJsonParse(text) {
+    try {
+      return JSON.parse(text);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  function ingestFrame(name, rawData) {
+    var parsed = typeof rawData === "string" ? safeJsonParse(rawData) : rawData;
+    var payload = parsed && typeof parsed === "object"
+      ? (parsed.payload || parsed.data || parsed)
+      : {};
+
+    if (Array.isArray(payload)) {
+      payload.forEach(function (item) {
+        ingestTaskEvent(item);
+      });
+      return;
+    }
+
+    if (payload && Array.isArray(payload.events)) {
+      payload.events.forEach(function (item) {
+        ingestTaskEvent(item);
+      });
+      return;
+    }
+
+    if (payload && typeof payload === "object") {
+      if (!payload.kind && name) payload.kind = name;
+      ingestTaskEvent(payload);
+    }
+  }
+
+  function connectDirectTaskEvents() {
+    if (state.es) return;
+
+    try {
+      state.es = new EventSource("/events/task-events");
+    } catch (_) {
+      state.sourceError = true;
+      renderAll();
+      return;
+    }
+
+    state.es.onopen = function () {
+      state.sourceOpen = true;
+      state.sourceError = false;
+      renderAll();
+    };
+
+    state.es.onerror = function () {
+      state.sourceError = true;
+      renderAll();
+    };
+
+    state.es.onmessage = function (evt) {
+      ingestFrame("message", evt && evt.data ? evt.data : "{}");
+    };
+
+    [
+      "hello",
+      "task.event",
+      "task.created",
+      "task.completed",
+      "task.failed",
+      "task.updated",
+
+8) Focused excerpts: dashboard.html around operator guidance + Atlas
+        <p class="phase62-metric-label text-xs uppercase tracking-wide text-gray-400">Latency (ms)</p>
+      </div>
+    </section>
+      </div>
+    </section>
+
+    
+      <section id="phase61-workspace-shell" class="space-y-4">
+        <div id="phase61-workspace-grid">
+                            <section id="phase61-operator-column" class="space-y-4" aria-label="Operator workspace">
+            <section id="operator-workspace-card" class="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700" data-workspace-root>
+              <div class="flex items-center justify-between mb-4 border-b border-gray-700 pb-3">
+                <h2 class="text-xl font-semibold">Operator Workspace</h2>
+              </div>
+
+              <div id="operator-tabs" role="tablist" aria-label="Operator workspace tabs">
+                <button id="op-tab-chat" class="obs-tab active" type="button" data-workspace-tab data-target="op-panel-chat" role="tab" aria-selected="true" aria-controls="op-panel-chat">
+                  Chat
+                </button>
+                <button id="op-tab-delegation" class="obs-tab" type="button" data-workspace-tab data-target="op-panel-delegation" role="tab" aria-selected="false" aria-controls="op-panel-delegation">
+                  Delegation
+                </button>
+              </div>
+
+              <div id="operator-panels">
+                <div id="op-panel-chat" class="obs-panel active" data-workspace-panel role="tabpanel" aria-labelledby="op-tab-chat">
+                  <section id="matilda-chat-card" class="obs-surface">
+                    <div id="matilda-chat-root" class="space-y-3">
+                      <div id="matilda-chat-transcript" class="bg-gray-900 border border-gray-700 rounded-xl p-3 h-64 overflow-y-auto text-sm">
+                        <p class="text-gray-500 italic">Chat with Matilda about tasks, status, or next steps...</p>
+                      </div>
+                      <div class="flex space-x-3 items-end">
+                        <textarea id="matilda-chat-input" rows="3" class="flex-1 bg-gray-900 border border-gray-700 rounded-xl p-3 text-sm resize-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500" placeholder="Type a message to Matilda and press Enter or click Send..."></textarea>
+                        <button id="matilda-chat-send" class="px-5 py-2 rounded-xl font-semibold text-sm bg-purple-500 hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-400 transition transform hover:-translate-y-0.5 shadow-lg">Send</button>
+                        <button id="matilda-chat-quick-check" class="px-3 py-2 rounded-xl font-semibold text-xs bg-gray-700 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-400 transition shadow-lg">Quick check</button>
+                      </div>
+                      <p id="matilda-helper-text-ops" class="text-xs text-gray-400 mt-1">Matilda is currently using a placeholder /api/chat stub (Phase 11.3 baseline).</p>
+
+                      <div id="operator-guidance-panel" class="mt-4 rounded-xl border border-gray-700 bg-gray-900/70 p-4 min-h-[140px]">
+                        <div class="text-xs uppercase tracking-[0.2em] text-gray-500 mb-3">Operator Guidance</div>
+                        <div id="operator-guidance-response" class="text-sm text-gray-300 leading-6">
+                          Awaiting bounded guidance stream.<br>
+                          Live operator guidance will appear here when visibility wiring is active.
+                        </div>
+                        <div id="operator-guidance-meta" class="mt-3 text-xs text-gray-500 leading-5">
+                          Confidence: insufficient<br>
+                          Sources: diagnostics/system-health
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+                </div>
+
+                <div id="op-panel-delegation" class="obs-panel" data-workspace-panel role="tabpanel" aria-labelledby="op-tab-delegation" hidden>
+                  <section id="delegation-card" class="obs-surface space-y-4">
+                    <h2 class="text-xl font-semibold border-b border-gray-700 pb-2">Task Delegation</h2>
+                    <textarea id="delegation-input" rows="4" class="w-full bg-gray-900 border border-gray-700 p-3 rounded-xl focus:ring-teal-500 focus:border-teal-500 resize-none text-white placeholder-gray-500" placeholder="Delegate a new task or modify system parameters..."></textarea>
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+                      <button id="delegation-submit" class="w-full md:w-auto bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded-xl transition duration-200">Submit Delegation</button>
+                      <button id="complete-task-btn" class="w-full md:w-auto bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-xl transition duration-200">Complete Task (Alpha)</button>
+                    </div>
+                    <div id="delegation-status-panel" class="mt-4 rounded-xl border border-gray-700 bg-gray-900/70 p-4 min-h-[140px]">
+                      <div class="text-xs uppercase tracking-[0.2em] text-gray-500 mb-3">Delegation Status</div>
+                      <div id="delegation-response" class="text-sm text-gray-300 leading-6">
+                        Awaiting operator input.<br>
+                        Results from delegation requests will appear here.
+                      </div>
+                    </div>
+                  </section>
+                </div>
+              </div>
+            </section>
+          </section>
+
+          <section id="phase61-telemetry-column" class="space-y-4" aria-label="Observational workspace">
+            <section id="observational-workspace-card" class="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700" data-workspace-root>
+              <div class="flex items-center justify-between mb-4 border-b border-gray-700 pb-3">
+                <h2 class="text-xl font-semibold">Telemetry Workspace</h2>
+              </div>
+
+              <div id="observational-tabs" role="tablist" aria-label="Observational workspace tabs">
+                <button id="obs-tab-recent" class="obs-tab active" type="button" data-workspace-tab data-target="obs-panel-recent" role="tab" aria-selected="true" aria-controls="obs-panel-recent">
+                  Recent Tasks
+                </button>
+                <button id="obs-tab-activity" class="obs-tab" type="button" data-workspace-tab data-target="obs-panel-activity" role="tab" aria-selected="false" aria-controls="obs-panel-activity">
+                  Task History
+                </button>
+                <button id="obs-tab-events" class="obs-tab" type="button" data-workspace-tab data-target="obs-panel-events" role="tab" aria-selected="false" aria-controls="obs-panel-events">
+                  Task Events
+                </button>
+              </div>
+
+              <div id="observational-panels">
+                <div id="obs-panel-recent" class="obs-panel active" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-recent">
+                  <section id="recent-tasks-card" class="obs-surface">
+                    <div class="flex items-center justify-between mb-4 border-b border-gray-700 pb-2">
+                    </div>
+                    <div id="tasks-widget"></div>
+                  </section>
+                </div>
+
+                <div id="obs-panel-activity" class="obs-panel" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-activity" hidden>
+                  <section id="task-activity-card" class="obs-surface">
+                    
+                    <div class="h-64">
+                      <canvas id="task-activity-graph" class="w-full h-full"></canvas>
+                    </div>
+                  </section>
+                </div>
+
+                <div id="obs-panel-events" class="obs-panel" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-events" hidden>
+                  <section id="task-events-card" class="obs-surface phase61-events-fill">
+                    <div class="flex items-center justify-between mb-4 border-b border-gray-700 pb-2">
+                    </div>
+                    <div id="mb-task-events-panel-anchor"></div>
+                  </section>
+                </div>
+              </div>
+            </section>
+          </section>
+    <section id="phase61-atlas-band" class="space-y-4">
+    </section>
+    </section>
+  
+
+<section id="atlas-status-card" class="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700">
+        <h2
+          class="text-xl font-semibold mb-4 border-b border-gray-700 pb-2 flex justify-between items-center"
+        >
+          Atlas Subsystem Status
+          <span
+            id="atlas-health"
+            class="text-xs font-medium px-2 py-1 rounded-full bg-orange-500 text-white"
+          >
+            Degraded
+          </span>
+        </h2>
+        <div id="atlas-status-details" class="space-y-2 text-gray-300">
+          <p>
+            Core Engine:
+            <span class="text-yellow-400">Initializing...</span>
+          </p>
+        </div>
+      </section>
+
+</main>
+
+  <div id="phase59-compat-roots" hidden aria-hidden="true">
+    <div id="project-visual-output"></div>
+    <div id="recentLogs"></div>
+    <ul id="ops-alerts-list"></ul>
+
+9) Decision gate
+- Identify the file that both receives health/task/SSE input and performs append/growth behavior.
+- Next mutation must remain ONE FILE ONLY after explicit producer proof.
