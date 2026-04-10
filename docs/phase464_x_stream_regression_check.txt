@@ -1,0 +1,4 @@
+PHASE 464.X — STREAM REGRESSION CHECK
+=====================================
+
+STEP 1 — Capture 5 consecutive responses
