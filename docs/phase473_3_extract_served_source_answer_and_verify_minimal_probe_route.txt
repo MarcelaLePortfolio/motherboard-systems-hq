@@ -1,0 +1,89 @@
+PHASE 473.3 — EXTRACT SERVED SOURCE ANSWER + VERIFY MINIMAL PROBE ROUTE
+======================================================================
+
+SINCE_TS: 2026-04-10T22:51:26Z
+
+STEP 1 — Pull only the high-signal lines from phase473.2
+1186:./scripts/phase469_5_summarize_8080_probe_and_next_action.sh:19:  rg -n "READY_ON_8080|HOST_8080_NOT_READY|GET http://localhost:8080/dashboard.html|GET http://localhost:8080/bundle.js|GET http://localhost:8080/api/tasks|HTTP/1.1|HTTP/2|Content-Type:|Cannot GET|Not Found|column \"title\" does not exist|CLASSIFICATION:" "$SRC" || true
+1623:SENTINEL=PHASE4732_SENTINEL_1775861395
+1631:--- served body size ---
+1634:SENTINEL_ABSENT_IN_SERVED_DASHBOARD
+1750:CLASSIFICATION: DASHBOARD_HTML_IS_SERVED_FROM_SOMEWHERE_ELSE
+
+STEP 2 — Show the actual dashboard-serving lines from live server files only
+server.ts:16:app.use(express.static(publicPath));
+server.ts:22:  res.sendFile(path.join(publicPath, "dashboard.html"));
+server.mjs:171:app.use(express.static(path.join(__dirname, "public")));
+server.mjs:172:app.use("/css", express.static(path.join(__dirname, "public", "css")));
+server.mjs:173:app.use("/js", express.static(path.join(__dirname, "public", "js")));
+server.mjs:174:app.use("/img", express.static(path.join(__dirname, "public", "img")));
+server.mjs:335:app.use("/public", express.static(path.join(__dirname, "public")));
+server.mjs:336:app.get("/bundle.js", (req, res) => res.sendFile(path.join(__dirname, "public", "bundle.js")));
+server.mjs:339:app.get("/bundle.js.map", (req, res) => res.sendFile(path.join(__dirname, "public", "bundle.js.map")));
+server.mjs:340:app.get("/dashboard", (req, res) => res.sendFile(path.join(__dirname, "public", "dashboard.html")));
+
+STEP 3 — Confirm what exists inside the running container
+
+-- /app/public/dashboard.html --
+979 /app/public/dashboard.html
+
+-- /app/public/minimal_probe.html --
+
+-- public dir html files --
+/app/public/cheese-page.html
+/app/public/dashboard.html
+/app/public/dashboard.pre-bundle-tag.html
+/app/public/delegation-test.html
+/app/public/delegation_success.html
+/app/public/high-tide.html
+/app/public/index.html
+/app/public/mean-girls-quote.html
+/app/public/mean-girls-quote2.html
+/app/public/test-demo.html
+
+STEP 4 — If minimal_probe is missing in container, prove static file mount/build mismatch
+CONTAINER_MISSING_MINIMAL_PROBE
+
+STEP 5 — Fresh probe for dashboard + minimal probe
+--- GET /dashboard.html ---
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0 36422    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Fri, 10 Apr 2026 17:36:53 GMT
+ETag: W/"8e46-19d7877d708"
+Content-Type: text/html; charset=utf-8
+Content-Length: 36422
+Date: Fri, 10 Apr 2026 22:51:27 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+
+--- GET /minimal_probe.html ---
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0   158    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+HTTP/1.1 404 Not Found
+X-Powered-By: Express
+Content-Security-Policy: default-src 'none'
+X-Content-Type-Options: nosniff
+Content-Type: text/html; charset=utf-8
+Content-Length: 158
+Date: Fri, 10 Apr 2026 22:51:27 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+
+STEP 6 — Fresh dashboard logs
+dashboard-1  | [HTTP] HEAD /dashboard.html
+dashboard-1  | [HTTP] HEAD /minimal_probe.html
+
+STEP 7 — Classification
+CLASSIFICATION: CONTAINER_NOT_USING_UPDATED_PUBLIC_TREE
+
+DECISION TARGET
+- If container is not using updated public tree, next step is container/public sync isolation.
+- If container sees new files, next step is exact route precedence isolation.
