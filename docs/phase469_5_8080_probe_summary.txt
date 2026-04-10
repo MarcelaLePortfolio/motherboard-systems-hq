@@ -1,0 +1,37 @@
+PHASE 469.5 — 8080 PROBE SUMMARY
+================================
+
+SOURCE: docs/phase469_4_verify_host_port_8080_and_dashboard_refresh.txt
+
+STEP 1 — Key HTTP result lines
+12:READY_ON_8080 attempt=1
+15:--- GET http://localhost:8080/dashboard.html ---
+18:  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0HTTP/1.1 200 OK
+24:Content-Type: text/html; charset=utf-8
+1011:--- GET http://localhost:8080/bundle.js ---
+1014:  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0HTTP/1.1 200 OK
+1020:Content-Type: text/javascript; charset=utf-8
+2830:--- GET http://localhost:8080/api/tasks ---
+2834:HTTP/1.1 200 OK
+2836:Content-Type: application/json; charset=utf-8
+2859:CLASSIFICATION: SERVER_PATH_CLEAN_ON_CORRECT_HOST_PORT
+
+STEP 2 — Fresh error-only lines
+830:      return String(new Error().stack || "")
+1415:      console.warn("agent-status-row.js: #agent-status-container not found.");
+2161:    function setError(message, extra) {
+2171:        console.warn("[dashboard-delegation] delegation input not found at click time");
+2172:        setError("Delegation input field was not found.");
+2178:        setError("Please enter a delegation request before submitting.");
+2185:        setError("Browser fetch is unavailable.");
+2228:          setError(
+2236:        setError(err && err.message ? err.message : String(err));
+2250:        console.warn("[dashboard-delegation] delegation button or input not found in init");
+
+STEP 3 — Final classification
+STATUS: SERVER_PATH_CLEAN_ON_8080
+
+STEP 4 — Next action
+- If SERVER_PATH_CLEAN_ON_8080: capture browser console errors next.
+- If TASKS_ROUTE_ERROR_STILL_PRESENT: inspect /api/tasks response body next.
+- If HOST_8080_NOT_READY: stay in boot/readiness corridor.
