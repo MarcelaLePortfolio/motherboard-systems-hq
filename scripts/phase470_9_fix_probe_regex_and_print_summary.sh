@@ -3,6 +3,17 @@ set -euo pipefail
 
 cd "$(git rev-parse --show-toplevel)"
 
+SCRIPT="scripts/phase470_8_probe_remaining_live_dashboard_surfaces.sh"
+SUMMARY_OUT="docs/phase470_9_probe_regex_fix_and_summary.txt"
+
+mkdir -p docs
+
+cat > "$SCRIPT" <<'EOT'
+#!/usr/bin/env bash
+set -euo pipefail
+
+cd "$(git rev-parse --show-toplevel)"
+
 OUT="docs/phase470_8_remaining_live_dashboard_surfaces.txt"
 HTML="public/dashboard.html"
 BUNDLE="public/bundle.js"
@@ -95,3 +106,26 @@ mkdir -p docs
 
 echo "Wrote $OUT"
 sed -n '1,260p' "$OUT"
+EOT
+
+chmod +x "$SCRIPT"
+"$SCRIPT"
+
+{
+  echo "PHASE 470.9 — PROBE REGEX FIX SUMMARY"
+  echo "===================================="
+  echo
+  echo "SOURCE: docs/phase470_8_remaining_live_dashboard_surfaces.txt"
+  echo
+  echo "STEP 1 — Count lines"
+  rg -n "EventSource count:|setInterval count:|setTimeout count:|fetch count:|CLASSIFICATION:" docs/phase470_8_remaining_live_dashboard_surfaces.txt || true
+  echo
+  echo "STEP 2 — Heavy request lines"
+  rg -n "GET /events/ops count:|GET /events/task-events count:|GET /api/tasks count:|GET /api/runs count:" docs/phase470_8_remaining_live_dashboard_surfaces.txt || true
+  echo
+  echo "STEP 3 — Next action"
+  echo "- Use the classification from phase470.8 as the next isolation target."
+} > "$SUMMARY_OUT"
+
+echo "Wrote $SUMMARY_OUT"
+sed -n '1,220p' "$SUMMARY_OUT"
