@@ -1,0 +1,83 @@
+PHASE 473.0 — FORCE MINIMAL HTML SHELL AND VERIFY
+================================================
+
+SINCE_TS: 2026-04-10T22:45:46Z
+
+STEP 1 — Confirm minimal HTML written
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Minimal Test Shell</title>
+</head>
+<body>
+  <h1>Minimal HTML Shell</h1>
+  <p>If this freezes, the issue is NOT your app code.</p>
+</body>
+</html>
+
+STEP 2 — Restart dashboard
+ Container motherboard_systems_hq-dashboard-1  Restarting
+ Container motherboard_systems_hq-dashboard-1  Started
+
+STEP 3 — Wait for host port 8080 readiness
+READY_ON_8080 attempt=2
+
+STEP 4 — Probe
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0 36422    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Fri, 10 Apr 2026 17:36:53 GMT
+ETag: W/"8e46-19d7877d708"
+Content-Type: text/html; charset=utf-8
+Content-Length: 36422
+Date: Fri, 10 Apr 2026 22:45:50 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+
+STEP 5 — Logs
+dashboard-1  | (node:1) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///app/routes/diagnostics/systemHealth.js is not specified and it doesn't parse as CommonJS.
+dashboard-1  | Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+dashboard-1  | To eliminate this warning, add "type": "module" to /app/package.json.
+dashboard-1  | (Use `node --trace-warnings ...` to show where the warning was created)
+dashboard-1  | [phase25] task_events_emit loaded 2026-04-10T22:45:48.274Z file= file:///app/server/task_events_emit.mjs
+dashboard-1  | [phase25] api-tasks-postgres loaded 2026-04-10T22:45:48.275Z file= file:///app/server/routes/api-tasks-postgres.mjs
+dashboard-1  | [phase19] orchestrator_state_route mounted {
+dashboard-1  |   file: 'file:///app/server/orchestrator_state_route.mjs',
+dashboard-1  |   envSnapshot: {
+dashboard-1  |     PHASE18_ENABLE_ORCHESTRATION: undefined,
+dashboard-1  |     PHASE19_ENABLE_ORCH_STATE: undefined
+dashboard-1  |   }
+dashboard-1  | }
+dashboard-1  | [SSE] /events/ops + /events/reflections registered
+dashboard-1  | [db] effective pool config {
+dashboard-1  |   mode: 'url',
+dashboard-1  |   DB_URL_present: true,
+dashboard-1  |   host: null,
+dashboard-1  |   port: null,
+dashboard-1  |   user: null,
+dashboard-1  |   database: null,
+dashboard-1  |   password_type: 'url-hidden',
+dashboard-1  |   password_len: 'hidden',
+dashboard-1  |   has_password: true
+dashboard-1  | }
+dashboard-1  | Database pool initialized
+dashboard-1  | [phase25] __DB_POOL set { has: true, type: 'BoundPool' }
+dashboard-1  | Server running on http://0.0.0.0:3000
+dashboard-1  | [HTTP] GET /dashboard.html
+dashboard-1  | [HTTP] HEAD /dashboard.html
+
+STEP 6 — Classification
+CLASSIFICATION: MINIMAL_HTML_READY_FOR_FINAL_ISOLATION
+
+DECISION TARGET
+- Open http://localhost:8080/dashboard.html
+- Report exactly one of:
+  • MINIMAL_HTML_STABLE
+  • MINIMAL_HTML_STILL_UNRESPONSIVE
+  • WHITE_SCREEN_RETURNED
