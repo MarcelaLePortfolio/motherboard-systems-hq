@@ -1,0 +1,226 @@
+PHASE 465.2 — BRIDGE CONTRACT EXTRACTION
+=========================================
+
+OBJECTIVE:
+- Extract exact structural touchpoints forming the partial bridge
+- NO mutation — evidence only
+
+STEP 1 — Governance → Preparation adjacency
+no direct governance→prep adjacency found
+
+STEP 2 — Preparation → Execution adjacency
+no direct prep→execution adjacency found
+
+STEP 3 — Intake → Governance linkage
+no intake→governance linkage found
+
+STEP 4 — Extract candidate bridge chain (multi-hop)
+src/governance_operator_reference/governance_operator_reference_model.ts-6-export interface GovernanceOperatorReferenceMetadata {
+src/governance_operator_reference/governance_operator_reference_model.ts-7-  decision_id: string;
+src/governance_operator_reference/governance_operator_reference_model.ts-8-  reference_version: string;
+src/governance_operator_reference/governance_operator_reference_model.ts:9:  ready: boolean;
+src/governance_operator_reference/governance_operator_reference_model.ts-10-  complete: boolean;
+src/governance_operator_reference/governance_operator_reference_model.ts-11-  timestamp: number;
+src/governance_operator_reference/governance_operator_reference_model.ts-12-}
+--
+server/sql/phase45_policy_grants.sql:1:-- Phase 45: auditable policy_grants (override authority model)
+server/sql/phase45_policy_grants.sql-2--- Deterministic + auditable override authority surface.
+server/sql/phase45_policy_grants.sql-3-
+server/sql/phase45_policy_grants.sql-4-BEGIN;
+server/sql/phase45_policy_grants.sql-5-
+server/sql/phase45_policy_grants.sql-6-CREATE EXTENSION IF NOT EXISTS pgcrypto;
+server/sql/phase45_policy_grants.sql-7-
+server/sql/phase45_policy_grants.sql:8:CREATE TABLE IF NOT EXISTS policy_grants (
+server/sql/phase45_policy_grants.sql-9-  grant_id     uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+server/sql/phase45_policy_grants.sql-10-
+server/sql/phase45_policy_grants.sql-11-  created_at   timestamptz NOT NULL DEFAULT now(),
+--
+server/sql/phase45_policy_grants.sql-21-  metadata     jsonb       NOT NULL DEFAULT '{}'::jsonb
+server/sql/phase45_policy_grants.sql-22-);
+server/sql/phase45_policy_grants.sql-23-
+server/sql/phase45_policy_grants.sql:24:CREATE INDEX IF NOT EXISTS policy_grants_subject_scope_idx
+server/sql/phase45_policy_grants.sql:25:  ON policy_grants (subject, scope);
+server/sql/phase45_policy_grants.sql-26-
+server/sql/phase45_policy_grants.sql:27:CREATE INDEX IF NOT EXISTS policy_grants_subject_scope_decision_idx
+server/sql/phase45_policy_grants.sql:28:  ON policy_grants (subject, scope, decision);
+server/sql/phase45_policy_grants.sql-29-
+server/sql/phase45_policy_grants.sql:30:CREATE INDEX IF NOT EXISTS policy_grants_expires_at_idx
+server/sql/phase45_policy_grants.sql:31:  ON policy_grants (expires_at);
+server/sql/phase45_policy_grants.sql-32-
+server/sql/phase45_policy_grants.sql:33:CREATE OR REPLACE VIEW policy_grants_active AS
+server/sql/phase45_policy_grants.sql-34-SELECT *
+server/sql/phase45_policy_grants.sql:35:FROM policy_grants
+server/sql/phase45_policy_grants.sql-36-WHERE expires_at IS NULL OR expires_at > now();
+server/sql/phase45_policy_grants.sql-37-
+server/sql/phase45_policy_grants.sql-38-COMMIT;
+--
+src/governance_operator_reference/index.ts-2-  GovernanceOperatorReferenceLine,
+src/governance_operator_reference/index.ts-3-  GovernanceOperatorReferenceMetadata,
+src/governance_operator_reference/index.ts-4-  GovernanceOperatorReferenceRecord,
+src/governance_operator_reference/index.ts:5:} from "./governance_operator_reference_model";
+src/governance_operator_reference/index.ts-6-
+src/governance_operator_reference/index.ts-7-export {
+src/governance_operator_reference/index.ts-8-  formatGovernanceOperatorReferenceCompleteness,
+--
+src/governance_operator_reference/index.ts-11-  formatGovernanceOperatorReferenceReadiness,
+src/governance_operator_reference/index.ts-12-  formatGovernanceOperatorReferenceSections,
+src/governance_operator_reference/index.ts-13-  formatGovernanceOperatorReferenceVersion,
+src/governance_operator_reference/index.ts:14:} from "./governance_operator_reference_formatter";
+src/governance_operator_reference/index.ts-15-
+src/governance_operator_reference/index.ts:16:export type { GovernanceOperatorReferenceInput } from "./governance_operator_reference_builder";
+src/governance_operator_reference/index.ts:17:export { buildGovernanceOperatorReference } from "./governance_operator_reference_builder";
+src/governance_operator_reference/index.ts-18-
+src/governance_operator_reference/index.ts-19-export {
+src/governance_operator_reference/index.ts-20-  GOVERNANCE_OPERATOR_REFERENCE_LAYER_GUARANTEES,
+src/governance_operator_reference/index.ts-21-  getGovernanceOperatorReferenceLayerGuarantees,
+src/governance_operator_reference/index.ts:22:} from "./governance_operator_reference_contract";
+--
+server/sql/phase47_decision_correctness_invariants.sql-128-    EXECUTE format($q$
+server/sql/phase47_decision_correctness_invariants.sql-129-      SELECT 1
+server/sql/phase47_decision_correctness_invariants.sql-130-      FROM public.tasks t
+server/sql/phase47_decision_correctness_invariants.sql:131:      WHERE t.%1$I = 'running'
+server/sql/phase47_decision_correctness_invariants.sql-132-        AND (
+server/sql/phase47_decision_correctness_invariants.sql-133-          t.%2$I IS NULL OR
+server/sql/phase47_decision_correctness_invariants.sql-134-          t.%3$I IS NULL OR
+--
+server/sql/phase47_decision_correctness_invariants.sql-139-    INTO hit;
+server/sql/phase47_decision_correctness_invariants.sql-140-
+server/sql/phase47_decision_correctness_invariants.sql-141-    IF hit IS NOT NULL THEN
+server/sql/phase47_decision_correctness_invariants.sql:142:      RAISE EXCEPTION 'Phase47 invariant failure: running task missing/expired lease';
+server/sql/phase47_decision_correctness_invariants.sql-143-    END IF;
+server/sql/phase47_decision_correctness_invariants.sql-144-  END IF;
+server/sql/phase47_decision_correctness_invariants.sql-145-
+--
+src/governance_operator_reference/governance_operator_reference_formatter.ts-22-}
+src/governance_operator_reference/governance_operator_reference_formatter.ts-23-
+src/governance_operator_reference/governance_operator_reference_formatter.ts-24-export function formatGovernanceOperatorReferenceReadiness(
+src/governance_operator_reference/governance_operator_reference_formatter.ts:25:  ready: boolean,
+src/governance_operator_reference/governance_operator_reference_formatter.ts-26-): string {
+src/governance_operator_reference/governance_operator_reference_formatter.ts:27:  return `Reference ready: ${ready ? "yes" : "no"}`;
+src/governance_operator_reference/governance_operator_reference_formatter.ts-28-}
+src/governance_operator_reference/governance_operator_reference_formatter.ts-29-
+src/governance_operator_reference/governance_operator_reference_formatter.ts-30-export function formatGovernanceOperatorReferenceCompleteness(
+--
+server/sql/phase40_6_shadow_audit_task_events.sql-6-WITH e AS (
+server/sql/phase40_6_shadow_audit_task_events.sql-7-  SELECT
+server/sql/phase40_6_shadow_audit_task_events.sql-8-    te.task_id,
+server/sql/phase40_6_shadow_audit_task_events.sql:9:    te.run_id,
+server/sql/phase40_6_shadow_audit_task_events.sql-10-    te.id AS event_uuid,
+server/sql/phase40_6_shadow_audit_task_events.sql-11-    te.created_at AS at,
+server/sql/phase40_6_shadow_audit_task_events.sql-12-    te.ts AS ts,
+--
+server/sql/phase40_6_shadow_audit_task_events.sql-16-k AS (
+server/sql/phase40_6_shadow_audit_task_events.sql-17-  SELECT
+server/sql/phase40_6_shadow_audit_task_events.sql-18-    task_id,
+server/sql/phase40_6_shadow_audit_task_events.sql:19:    run_id,
+server/sql/phase40_6_shadow_audit_task_events.sql-20-    row_number() OVER (
+server/sql/phase40_6_shadow_audit_task_events.sql-21-      PARTITION BY task_id
+server/sql/phase40_6_shadow_audit_task_events.sql-22-      ORDER BY at ASC, ts ASC, event_uuid ASC
+--
+server/sql/phase40_6_shadow_audit_task_events.sql-27-    kind,
+server/sql/phase40_6_shadow_audit_task_events.sql-28-    CASE WHEN kind IN ('completed','failed','canceled','cancelled') THEN 1 ELSE 0 END AS is_terminal,
+server/sql/phase40_6_shadow_audit_task_events.sql-29-    CASE WHEN kind = 'created' THEN 1 ELSE 0 END AS is_created,
+server/sql/phase40_6_shadow_audit_task_events.sql:30:    CASE WHEN kind = 'running' THEN 1 ELSE 0 END AS is_running
+server/sql/phase40_6_shadow_audit_task_events.sql-31-  FROM e
+server/sql/phase40_6_shadow_audit_task_events.sql-32-),
+server/sql/phase40_6_shadow_audit_task_events.sql-33-agg AS (
+server/sql/phase40_6_shadow_audit_task_events.sql-34-  SELECT
+server/sql/phase40_6_shadow_audit_task_events.sql-35-    task_id,
+server/sql/phase40_6_shadow_audit_task_events.sql:36:    min(run_id) AS run_id_any,
+server/sql/phase40_6_shadow_audit_task_events.sql-37-    min(at) AS first_at,
+server/sql/phase40_6_shadow_audit_task_events.sql-38-    max(at) AS last_at,
+server/sql/phase40_6_shadow_audit_task_events.sql-39-    count(*)::int AS event_count,
+server/sql/phase40_6_shadow_audit_task_events.sql-40-    sum(is_created)::int AS created_count,
+server/sql/phase40_6_shadow_audit_task_events.sql:41:    sum(is_running)::int AS running_count,
+server/sql/phase40_6_shadow_audit_task_events.sql-42-    sum(is_terminal)::int AS terminal_count
+server/sql/phase40_6_shadow_audit_task_events.sql-43-  FROM k
+server/sql/phase40_6_shadow_audit_task_events.sql-44-  GROUP BY task_id
+--
+server/sql/phase40_6_shadow_audit_task_events.sql-61-  WHERE is_created = 1
+server/sql/phase40_6_shadow_audit_task_events.sql-62-  ORDER BY task_id, event_id ASC
+server/sql/phase40_6_shadow_audit_task_events.sql-63-),
+server/sql/phase40_6_shadow_audit_task_events.sql:64:first_running AS (
+server/sql/phase40_6_shadow_audit_task_events.sql-65-  SELECT DISTINCT ON (task_id)
+server/sql/phase40_6_shadow_audit_task_events.sql-66-    task_id,
+server/sql/phase40_6_shadow_audit_task_events.sql:67:    at AS running_at,
+server/sql/phase40_6_shadow_audit_task_events.sql:68:    event_id AS running_event_id
+server/sql/phase40_6_shadow_audit_task_events.sql-69-  FROM k
+server/sql/phase40_6_shadow_audit_task_events.sql:70:  WHERE is_running = 1
+server/sql/phase40_6_shadow_audit_task_events.sql-71-  ORDER BY task_id, event_id ASC
+server/sql/phase40_6_shadow_audit_task_events.sql-72-),
+server/sql/phase40_6_shadow_audit_task_events.sql-73-first_terminal AS (
+--
+server/sql/phase40_6_shadow_audit_task_events.sql-92-issues AS (
+server/sql/phase40_6_shadow_audit_task_events.sql-93-  SELECT
+server/sql/phase40_6_shadow_audit_task_events.sql-94-    a.task_id,
+server/sql/phase40_6_shadow_audit_task_events.sql:95:    a.run_id_any AS run_id,
+server/sql/phase40_6_shadow_audit_task_events.sql-96-    a.first_at,
+server/sql/phase40_6_shadow_audit_task_events.sql-97-    a.last_at,
+server/sql/phase40_6_shadow_audit_task_events.sql-98-    a.event_count,
+server/sql/phase40_6_shadow_audit_task_events.sql-99-    a.created_count,
+server/sql/phase40_6_shadow_audit_task_events.sql:100:    a.running_count,
+server/sql/phase40_6_shadow_audit_task_events.sql-101-    a.terminal_count,
+server/sql/phase40_6_shadow_audit_task_events.sql-102-    le.last_kind,
+server/sql/phase40_6_shadow_audit_task_events.sql-103-    le.last_kind_at,
+--
+server/sql/phase40_6_shadow_audit_task_events.sql-107-    CASE
+server/sql/phase40_6_shadow_audit_task_events.sql-108-      WHEN a.created_count = 0 THEN 'MISSING_CREATED'
+server/sql/phase40_6_shadow_audit_task_events.sql-109-      WHEN a.created_count > 1 THEN 'MULTIPLE_CREATED'
+server/sql/phase40_6_shadow_audit_task_events.sql:110:      WHEN a.running_count > 1 THEN 'MULTIPLE_RUNNING'
+server/sql/phase40_6_shadow_audit_task_events.sql-111-      WHEN a.terminal_count > 1 THEN 'MULTIPLE_TERMINAL'
+server/sql/phase40_6_shadow_audit_task_events.sql:112:      WHEN ft.terminal_event_id IS NOT NULL AND fr.running_event_id IS NOT NULL AND ft.terminal_event_id < fr.running_event_id THEN 'TERMINAL_BEFORE_RUNNING'
+server/sql/phase40_6_shadow_audit_task_events.sql-113-      WHEN ft.terminal_event_id IS NOT NULL AND fc.created_event_id IS NOT NULL AND ft.terminal_event_id < fc.created_event_id THEN 'TERMINAL_BEFORE_CREATED'
+server/sql/phase40_6_shadow_audit_task_events.sql-114-      WHEN COALESCE(at2.events_after_terminal,0) > 0 THEN 'EVENTS_AFTER_TERMINAL'
+server/sql/phase40_6_shadow_audit_task_events.sql-115-      ELSE NULL
+--
+server/sql/phase40_6_shadow_audit_task_events.sql-117-  FROM agg a
+server/sql/phase40_6_shadow_audit_task_events.sql-118-  LEFT JOIN last_event le USING (task_id)
+server/sql/phase40_6_shadow_audit_task_events.sql-119-  LEFT JOIN first_created fc USING (task_id)
+server/sql/phase40_6_shadow_audit_task_events.sql:120:  LEFT JOIN first_running fr USING (task_id)
+server/sql/phase40_6_shadow_audit_task_events.sql-121-  LEFT JOIN first_terminal ft USING (task_id)
+server/sql/phase40_6_shadow_audit_task_events.sql-122-  LEFT JOIN after_terminal at2 USING (task_id)
+server/sql/phase40_6_shadow_audit_task_events.sql-123-)
+server/sql/phase40_6_shadow_audit_task_events.sql-124-SELECT
+server/sql/phase40_6_shadow_audit_task_events.sql-125-  task_id,
+server/sql/phase40_6_shadow_audit_task_events.sql:126:  run_id,
+server/sql/phase40_6_shadow_audit_task_events.sql-127-  first_at,
+server/sql/phase40_6_shadow_audit_task_events.sql-128-  last_at,
+server/sql/phase40_6_shadow_audit_task_events.sql-129-  event_count,
+server/sql/phase40_6_shadow_audit_task_events.sql-130-  created_count,
+server/sql/phase40_6_shadow_audit_task_events.sql:131:  running_count,
+server/sql/phase40_6_shadow_audit_task_events.sql-132-  terminal_count,
+server/sql/phase40_6_shadow_audit_task_events.sql-133-  last_kind,
+server/sql/phase40_6_shadow_audit_task_events.sql-134-  last_kind_at,
+--
+src/governance_operator_reference/governance_operator_reference_builder.ts-1-import type {
+src/governance_operator_reference/governance_operator_reference_builder.ts-2-  GovernanceOperatorReferenceLine,
+src/governance_operator_reference/governance_operator_reference_builder.ts-3-  GovernanceOperatorReferenceRecord,
+src/governance_operator_reference/governance_operator_reference_builder.ts:4:} from "./governance_operator_reference_model";
+src/governance_operator_reference/governance_operator_reference_builder.ts-5-import {
+src/governance_operator_reference/governance_operator_reference_builder.ts-6-  formatGovernanceOperatorReferenceCompleteness,
+src/governance_operator_reference/governance_operator_reference_builder.ts-7-  formatGovernanceOperatorReferenceDecision,
+--
+src/governance_operator_reference/governance_operator_reference_builder.ts-9-  formatGovernanceOperatorReferenceReadiness,
+src/governance_operator_reference/governance_operator_reference_builder.ts-10-  formatGovernanceOperatorReferenceSections,
+src/governance_operator_reference/governance_operator_reference_builder.ts-11-  formatGovernanceOperatorReferenceVersion,
+src/governance_operator_reference/governance_operator_reference_builder.ts:12:} from "./governance_operator_reference_formatter";
+src/governance_operator_reference/governance_operator_reference_builder.ts-13-
+src/governance_operator_reference/governance_operator_reference_builder.ts-14-export interface GovernanceOperatorReferenceInput {
+src/governance_operator_reference/governance_operator_reference_builder.ts-15-  decision_id: string;
+--
+src/governance_operator_reference/governance_operator_reference_builder.ts-21-export function buildGovernanceOperatorReference(
+src/governance_operator_reference/governance_operator_reference_builder.ts-22-  input: GovernanceOperatorReferenceInput,
+src/governance_operator_reference/governance_operator_reference_builder.ts-23-): GovernanceOperatorReferenceRecord {
+src/governance_operator_reference/governance_operator_reference_builder.ts:24:  const ready = true;
+src/governance_operator_reference/governance_operator_reference_builder.ts-25-  const complete = true;
+src/governance_operator_reference/governance_operator_reference_builder.ts-26-  const referenceVersion = "1";
+src/governance_operator_reference/governance_operator_reference_builder.ts-27-
+
+STEP 5 — Detect missing link (gap analysis)
+GAP ANALYSIS: FULL_CHAIN_DISCONNECTED
+
+DECISION TARGET:
+- Identify exact structural chain segments
+- Confirm where bridge stops (prep boundary)
+- Next: formalize contract WITHOUT enabling execution
+
