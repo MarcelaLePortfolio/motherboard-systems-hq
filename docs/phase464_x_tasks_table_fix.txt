@@ -1,0 +1,16 @@
+PHASE 464.X — FIX: MISSING tasks TABLE
+======================================
+
+STEP 1 — Apply minimal safe schema fix (create table if not exists)
+CREATE TABLE
+
+STEP 2 — Restart dashboard container
+ Container motherboard_systems_hq-dashboard-1  Restarting
+ Container motherboard_systems_hq-dashboard-1  Started
+
+STEP 3 — Wait for boot
+Waited 3 seconds
+
+STEP 4 — Re-test endpoint
+REQUEST_FAILED
+
