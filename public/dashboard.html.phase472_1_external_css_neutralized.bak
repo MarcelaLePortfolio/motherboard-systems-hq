@@ -83,18 +83,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Motherboard Systems Operator Console</title>
 
-<!-- phase472.1 temporary neutralization: stylesheet removed for bare-html freeze isolation :: <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" /> -->
-<!-- phase472.1 temporary neutralization: stylesheet removed for bare-html freeze isolation :: <link rel="stylesheet" href="css/broadcast.css" /> -->
-<!-- phase472.1 temporary neutralization: stylesheet removed for bare-html freeze isolation :: <link rel="stylesheet" href="css/dashboard.css?v=darkmode" /> -->
-<!-- phase472.1 temporary neutralization: stylesheet removed for bare-html freeze isolation :: <link rel="stylesheet" href="css/dashboard-reflections.css" /> -->
-<!-- phase472.1 temporary neutralization: stylesheet removed for bare-html freeze isolation :: <link rel="stylesheet" href="css/agent-status-row.css" /> -->
-<!-- phase472.1 temporary neutralization: stylesheet removed for bare-html freeze isolation :: <link rel="stylesheet" href="css/matilda-chat.css" /> -->
-<!-- phase472.1 temporary neutralization: stylesheet removed for bare-html freeze isolation :: <link rel="stylesheet" href="css/demo_layout_trim.css" /> -->
-<!-- phase472.1 temporary neutralization: stylesheet removed for bare-html freeze isolation :: <link rel="stylesheet" href="/css/phase13_5_operator_ux.css" /> -->
-<!-- phase472.1 temporary neutralization: stylesheet removed for bare-html freeze isolation :: <link rel="stylesheet" href="css/phase59_demo_focus.css" /> -->
-<!-- phase472.1 temporary neutralization: stylesheet removed for bare-html freeze isolation :: <link rel="stylesheet" href="css/phase60_live_polish.css" /> -->
-<!-- phase472.1 temporary neutralization: stylesheet removed for bare-html freeze isolation :: <link rel="stylesheet" href="css/phase61_workspace_consolidation.css" /> -->
-<!-- phase472.1 temporary neutralization: stylesheet removed for bare-html freeze isolation :: <link rel="stylesheet" href="css/phase61_tabs_observational_workspace.css" /> -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="css/broadcast.css" />
+  <link rel="stylesheet" href="css/dashboard.css?v=darkmode" />
+  <link rel="stylesheet" href="css/dashboard-reflections.css" />
+  <link rel="stylesheet" href="css/agent-status-row.css" />
+  <link rel="stylesheet" href="css/matilda-chat.css" />
+  <link rel="stylesheet" href="css/demo_layout_trim.css" />
+  <link rel="stylesheet" href="/css/phase13_5_operator_ux.css" />
+  <link rel="stylesheet" href="css/phase59_demo_focus.css" />
+  <link rel="stylesheet" href="css/phase60_live_polish.css" />
+  <link rel="stylesheet" href="css/phase61_workspace_consolidation.css" />
+  <link rel="stylesheet" href="css/phase61_tabs_observational_workspace.css" />
 
     <style id="phase61-layout-polish">
       #phase61-workspace-grid {
