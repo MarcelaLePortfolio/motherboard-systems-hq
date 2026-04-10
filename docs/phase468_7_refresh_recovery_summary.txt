@@ -1,0 +1,38 @@
+PHASE 468.7 — REFRESH RECOVERY SUMMARY
+======================================
+
+SOURCE: docs/phase468_6_tasks_route_minimum_schema_and_verify.txt
+
+STEP 1 — /api/tasks response lines
+6:- Add the minimum route-required task columns missing from the live tasks table.
+27:--- GET /api/tasks ---
+72:dashboard-1  | [HTTP] GET /api/tasks?limit=12
+82:dashboard-1  | [HTTP] GET /api/tasks
+91:dashboard-1  | [phase25] /api/tasks list error error: column "title" does not exist
+106:dashboard-1  |   column: undefined,
+113:dashboard-1  | [phase25] /api/tasks list error error: column "title" does not exist
+128:dashboard-1  |   column: undefined,
+170:CLASSIFICATION: FURTHER_SCHEMA_OR_BOOT_REVIEW_REQUIRED
+174:- If not aligned: inspect remaining route-selected columns only.
+
+STEP 2 — Dashboard entrypoint lines
+34:--- GET /dashboard.html ---
+41:--- GET /bundle.js ---
+48:dashboard-1  | [HTTP] GET /dashboard.html
+49:dashboard-1  | [HTTP] GET /dashboard.html
+50:dashboard-1  | [HTTP] GET /dashboard.html
+64:dashboard-1  | [HTTP] GET /bundle.js
+139:dashboard-1  | [HTTP] GET /dashboard.html
+
+STEP 3 — Recent dashboard error lines
+91:dashboard-1  | [phase25] /api/tasks list error error: column "title" does not exist
+96:dashboard-1  |   severity: 'ERROR',
+113:dashboard-1  | [phase25] /api/tasks list error error: column "title" does not exist
+118:dashboard-1  |   severity: 'ERROR',
+
+STEP 4 — Final classification
+STATUS: MORE_REVIEW_NEEDED
+
+STEP 5 — Immediate next action
+- Hard refresh the browser on http://localhost:8080/dashboard.html
+- If the page is still white, capture the browser console error next.
