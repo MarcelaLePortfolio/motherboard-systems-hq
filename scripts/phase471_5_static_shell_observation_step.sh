@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cd "$(git rev-parse --show-toplevel)"
+
+OUT="docs/phase471_5_static_shell_observation_step.txt"
+mkdir -p docs
+
+cat > "$OUT" <<'EOT'
+PHASE 471.5 — STATIC SHELL OBSERVATION STEP
+===========================================
+
+RESULT
+- dashboard.html is serving cleanly
+- bundle.js is no longer booting in the page
+- current evidence isolates the freeze to the JavaScript boot layer, not the static HTML shell
+
+DO THIS NOW
+1. Open:
+   http://localhost:8080/dashboard.html
+
+2. Let it sit for 30–60 seconds.
+
+3. Check only:
+   - Does the page remain visible?
+   - Can you scroll?
+   - Does it still go white?
+   - Does it still become unresponsive?
+
+RETURN TO CHATGPT WITH EXACTLY ONE OF THESE
+- STATIC_SHELL_STABLE
+- STATIC_SHELL_STILL_UNRESPONSIVE
+- WHITE_SCREEN_RETURNED
+
+OPTIONAL
+- add roughly how many seconds passed before failure
+EOT
+
+echo "Wrote $OUT"
+sed -n '1,220p' "$OUT"
+
+if command -v open >/dev/null 2>&1; then
+  open "http://localhost:8080/dashboard.html" || true
+fi
