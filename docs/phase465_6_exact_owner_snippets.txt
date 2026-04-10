@@ -1,0 +1,1763 @@
+PHASE 465.6 — EXACT OWNER SNIPPET EXTRACTION
+============================================
+
+SELECTED OWNERS
+- Intake: server/taskContract.mjs
+- Governance: server/policy/policy_eval.mjs
+- Execution/Preparation: server/orchestration/policy-pipeline.ts
+
+SELECTION BASIS
+- Intake owner selected from shortlist because it contains normalize/validate task contract logic.
+- Governance owner selected from shortlist because it is the strongest live policy evaluation surface.
+- Execution/preparation owner selected from live orchestration surfaces rather than SQL false positives.
+
+FILE: server/taskContract.mjs
+----------------------------------------
+1) High-signal lines
+7:  - We normalize legacy status strings into the Phase 14 enum.
+13:  "running",
+22:export function normalizeStatus(raw) {
+27:  if (s === "started") return "running";
+29:  // already canonical
+36:export function normalizeTaskForRead(raw = {}) {
+43:    status: normalizeStatus(raw.status),
+56:export function normalizeTaskForWrite(raw = {}) {
+58:  const base = normalizeTaskForRead(raw);
+67:export function validateNewTask(task) {
+68:  if (!task.title) throw new Error("Task title is required");
+69:  if (!task.agent) throw new Error("Task agent is required");
+70:  if (!TASK_STATUSES.has(task.status)) throw new Error(`Invalid status: ${task.status}`);
+73:export function validateTransition(prevStatusRaw, nextStatusRaw) {
+74:  const prevStatus = normalizeStatus(prevStatusRaw);
+75:  const nextStatus = normalizeStatus(nextStatusRaw);
+86:    // ✅ FIX: allow delegated -> complete (and blocked, if you want to support "pause" without running)
+87:    delegated: ["running", "blocked", "complete", "canceled", "failed"],
+88:    running: ["complete", "blocked", "canceled", "failed"],
+89:    blocked: ["running", "complete", "canceled", "failed"],
+
+2) Focused excerpts
+----- server/taskContract.mjs lines 1-47 -----
+/*
+  Phase 14.2 — Task contract validation + normalization
+  Small + defensive, no external deps.
+
+  Notes:
+  - We preserve DB timestamps on read.
+  - We normalize legacy status strings into the Phase 14 enum.
+*/
+
+export const TASK_STATUSES = new Set([
+  "queued",
+  "delegated",
+  "running",
+  "blocked",
+  "complete",
+  "canceled",
+  "failed",
+]);
+
+export const TERMINAL_STATUSES = new Set(["complete", "canceled", "failed"]);
+
+export function normalizeStatus(raw) {
+  const s = (typeof raw === "string" ? raw : "").trim().toLowerCase();
+
+  // legacy mappings
+  if (s === "completed") return "complete";
+  if (s === "started") return "running";
+
+  // already canonical
+  if (TASK_STATUSES.has(s)) return s;
+
+  // tolerate empty/unknown -> queued
+  return "queued";
+}
+
+export function normalizeTaskForRead(raw = {}) {
+  const now = new Date().toISOString();
+
+  return {
+    id: raw.id != null ? String(raw.id) : null,
+    title: typeof raw.title === "string" ? raw.title.trim() : "",
+    agent: typeof raw.agent === "string" ? raw.agent.trim() : "",
+    status: normalizeStatus(raw.status),
+
+    notes: raw.notes ?? null,
+    source: raw.source ?? null,
+    trace_id: raw.trace_id ?? null,
+
+----- server/taskContract.mjs lines 1-53 -----
+/*
+  Phase 14.2 — Task contract validation + normalization
+  Small + defensive, no external deps.
+
+  Notes:
+  - We preserve DB timestamps on read.
+  - We normalize legacy status strings into the Phase 14 enum.
+*/
+
+export const TASK_STATUSES = new Set([
+  "queued",
+  "delegated",
+  "running",
+  "blocked",
+  "complete",
+  "canceled",
+  "failed",
+]);
+
+export const TERMINAL_STATUSES = new Set(["complete", "canceled", "failed"]);
+
+export function normalizeStatus(raw) {
+  const s = (typeof raw === "string" ? raw : "").trim().toLowerCase();
+
+  // legacy mappings
+  if (s === "completed") return "complete";
+  if (s === "started") return "running";
+
+  // already canonical
+  if (TASK_STATUSES.has(s)) return s;
+
+  // tolerate empty/unknown -> queued
+  return "queued";
+}
+
+export function normalizeTaskForRead(raw = {}) {
+  const now = new Date().toISOString();
+
+  return {
+    id: raw.id != null ? String(raw.id) : null,
+    title: typeof raw.title === "string" ? raw.title.trim() : "",
+    agent: typeof raw.agent === "string" ? raw.agent.trim() : "",
+    status: normalizeStatus(raw.status),
+
+    notes: raw.notes ?? null,
+    source: raw.source ?? null,
+    trace_id: raw.trace_id ?? null,
+    error: raw.error ?? null,
+    meta: raw.meta ?? null,
+
+    created_at: raw.created_at || raw.createdAt || now,
+    updated_at: raw.updated_at || raw.updatedAt || now,
+  };
+
+----- server/taskContract.mjs lines 2-62 -----
+  Phase 14.2 — Task contract validation + normalization
+  Small + defensive, no external deps.
+
+  Notes:
+  - We preserve DB timestamps on read.
+  - We normalize legacy status strings into the Phase 14 enum.
+*/
+
+export const TASK_STATUSES = new Set([
+  "queued",
+  "delegated",
+  "running",
+  "blocked",
+  "complete",
+  "canceled",
+  "failed",
+]);
+
+export const TERMINAL_STATUSES = new Set(["complete", "canceled", "failed"]);
+
+export function normalizeStatus(raw) {
+  const s = (typeof raw === "string" ? raw : "").trim().toLowerCase();
+
+  // legacy mappings
+  if (s === "completed") return "complete";
+  if (s === "started") return "running";
+
+  // already canonical
+  if (TASK_STATUSES.has(s)) return s;
+
+  // tolerate empty/unknown -> queued
+  return "queued";
+}
+
+export function normalizeTaskForRead(raw = {}) {
+  const now = new Date().toISOString();
+
+  return {
+    id: raw.id != null ? String(raw.id) : null,
+    title: typeof raw.title === "string" ? raw.title.trim() : "",
+    agent: typeof raw.agent === "string" ? raw.agent.trim() : "",
+    status: normalizeStatus(raw.status),
+
+    notes: raw.notes ?? null,
+    source: raw.source ?? null,
+    trace_id: raw.trace_id ?? null,
+    error: raw.error ?? null,
+    meta: raw.meta ?? null,
+
+    created_at: raw.created_at || raw.createdAt || now,
+    updated_at: raw.updated_at || raw.updatedAt || now,
+  };
+}
+
+export function normalizeTaskForWrite(raw = {}) {
+  const now = new Date().toISOString();
+  const base = normalizeTaskForRead(raw);
+
+  return {
+    ...base,
+    created_at: base.created_at || now,
+
+----- server/taskContract.mjs lines 7-67 -----
+  - We normalize legacy status strings into the Phase 14 enum.
+*/
+
+export const TASK_STATUSES = new Set([
+  "queued",
+  "delegated",
+  "running",
+  "blocked",
+  "complete",
+  "canceled",
+  "failed",
+]);
+
+export const TERMINAL_STATUSES = new Set(["complete", "canceled", "failed"]);
+
+export function normalizeStatus(raw) {
+  const s = (typeof raw === "string" ? raw : "").trim().toLowerCase();
+
+  // legacy mappings
+  if (s === "completed") return "complete";
+  if (s === "started") return "running";
+
+  // already canonical
+  if (TASK_STATUSES.has(s)) return s;
+
+  // tolerate empty/unknown -> queued
+  return "queued";
+}
+
+export function normalizeTaskForRead(raw = {}) {
+  const now = new Date().toISOString();
+
+  return {
+    id: raw.id != null ? String(raw.id) : null,
+    title: typeof raw.title === "string" ? raw.title.trim() : "",
+    agent: typeof raw.agent === "string" ? raw.agent.trim() : "",
+    status: normalizeStatus(raw.status),
+
+    notes: raw.notes ?? null,
+    source: raw.source ?? null,
+    trace_id: raw.trace_id ?? null,
+    error: raw.error ?? null,
+    meta: raw.meta ?? null,
+
+    created_at: raw.created_at || raw.createdAt || now,
+    updated_at: raw.updated_at || raw.updatedAt || now,
+  };
+}
+
+export function normalizeTaskForWrite(raw = {}) {
+  const now = new Date().toISOString();
+  const base = normalizeTaskForRead(raw);
+
+  return {
+    ...base,
+    created_at: base.created_at || now,
+    updated_at: now,
+  };
+}
+
+export function validateNewTask(task) {
+
+----- server/taskContract.mjs lines 9-69 -----
+
+export const TASK_STATUSES = new Set([
+  "queued",
+  "delegated",
+  "running",
+  "blocked",
+  "complete",
+  "canceled",
+  "failed",
+]);
+
+export const TERMINAL_STATUSES = new Set(["complete", "canceled", "failed"]);
+
+export function normalizeStatus(raw) {
+  const s = (typeof raw === "string" ? raw : "").trim().toLowerCase();
+
+  // legacy mappings
+  if (s === "completed") return "complete";
+  if (s === "started") return "running";
+
+  // already canonical
+  if (TASK_STATUSES.has(s)) return s;
+
+  // tolerate empty/unknown -> queued
+  return "queued";
+}
+
+export function normalizeTaskForRead(raw = {}) {
+  const now = new Date().toISOString();
+
+  return {
+    id: raw.id != null ? String(raw.id) : null,
+    title: typeof raw.title === "string" ? raw.title.trim() : "",
+    agent: typeof raw.agent === "string" ? raw.agent.trim() : "",
+    status: normalizeStatus(raw.status),
+
+    notes: raw.notes ?? null,
+    source: raw.source ?? null,
+    trace_id: raw.trace_id ?? null,
+    error: raw.error ?? null,
+    meta: raw.meta ?? null,
+
+    created_at: raw.created_at || raw.createdAt || now,
+    updated_at: raw.updated_at || raw.updatedAt || now,
+  };
+}
+
+export function normalizeTaskForWrite(raw = {}) {
+  const now = new Date().toISOString();
+  const base = normalizeTaskForRead(raw);
+
+  return {
+    ...base,
+    created_at: base.created_at || now,
+    updated_at: now,
+  };
+}
+
+export function validateNewTask(task) {
+  if (!task.title) throw new Error("Task title is required");
+  if (!task.agent) throw new Error("Task agent is required");
+
+----- server/taskContract.mjs lines 16-76 -----
+  "canceled",
+  "failed",
+]);
+
+export const TERMINAL_STATUSES = new Set(["complete", "canceled", "failed"]);
+
+export function normalizeStatus(raw) {
+  const s = (typeof raw === "string" ? raw : "").trim().toLowerCase();
+
+  // legacy mappings
+  if (s === "completed") return "complete";
+  if (s === "started") return "running";
+
+  // already canonical
+  if (TASK_STATUSES.has(s)) return s;
+
+  // tolerate empty/unknown -> queued
+  return "queued";
+}
+
+export function normalizeTaskForRead(raw = {}) {
+  const now = new Date().toISOString();
+
+  return {
+    id: raw.id != null ? String(raw.id) : null,
+    title: typeof raw.title === "string" ? raw.title.trim() : "",
+    agent: typeof raw.agent === "string" ? raw.agent.trim() : "",
+    status: normalizeStatus(raw.status),
+
+    notes: raw.notes ?? null,
+    source: raw.source ?? null,
+    trace_id: raw.trace_id ?? null,
+    error: raw.error ?? null,
+    meta: raw.meta ?? null,
+
+    created_at: raw.created_at || raw.createdAt || now,
+    updated_at: raw.updated_at || raw.updatedAt || now,
+  };
+}
+
+export function normalizeTaskForWrite(raw = {}) {
+  const now = new Date().toISOString();
+  const base = normalizeTaskForRead(raw);
+
+  return {
+    ...base,
+    created_at: base.created_at || now,
+    updated_at: now,
+  };
+}
+
+export function validateNewTask(task) {
+  if (!task.title) throw new Error("Task title is required");
+  if (!task.agent) throw new Error("Task agent is required");
+  if (!TASK_STATUSES.has(task.status)) throw new Error(`Invalid status: ${task.status}`);
+}
+
+export function validateTransition(prevStatusRaw, nextStatusRaw) {
+  const prevStatus = normalizeStatus(prevStatusRaw);
+  const nextStatus = normalizeStatus(nextStatusRaw);
+
+
+----- server/taskContract.mjs lines 23-83 -----
+  const s = (typeof raw === "string" ? raw : "").trim().toLowerCase();
+
+  // legacy mappings
+  if (s === "completed") return "complete";
+  if (s === "started") return "running";
+
+  // already canonical
+  if (TASK_STATUSES.has(s)) return s;
+
+  // tolerate empty/unknown -> queued
+  return "queued";
+}
+
+export function normalizeTaskForRead(raw = {}) {
+  const now = new Date().toISOString();
+
+  return {
+    id: raw.id != null ? String(raw.id) : null,
+    title: typeof raw.title === "string" ? raw.title.trim() : "",
+    agent: typeof raw.agent === "string" ? raw.agent.trim() : "",
+    status: normalizeStatus(raw.status),
+
+    notes: raw.notes ?? null,
+    source: raw.source ?? null,
+    trace_id: raw.trace_id ?? null,
+    error: raw.error ?? null,
+    meta: raw.meta ?? null,
+
+    created_at: raw.created_at || raw.createdAt || now,
+    updated_at: raw.updated_at || raw.updatedAt || now,
+  };
+}
+
+export function normalizeTaskForWrite(raw = {}) {
+  const now = new Date().toISOString();
+  const base = normalizeTaskForRead(raw);
+
+  return {
+    ...base,
+    created_at: base.created_at || now,
+    updated_at: now,
+  };
+}
+
+export function validateNewTask(task) {
+  if (!task.title) throw new Error("Task title is required");
+  if (!task.agent) throw new Error("Task agent is required");
+  if (!TASK_STATUSES.has(task.status)) throw new Error(`Invalid status: ${task.status}`);
+}
+
+export function validateTransition(prevStatusRaw, nextStatusRaw) {
+  const prevStatus = normalizeStatus(prevStatusRaw);
+  const nextStatus = normalizeStatus(nextStatusRaw);
+
+  if (prevStatus === nextStatus) return;
+
+  if (TERMINAL_STATUSES.has(prevStatus)) {
+    throw new Error(`Cannot transition from terminal status: ${prevStatus}`);
+  }
+
+  // Phase 14 contract transitions
+
+----- server/taskContract.mjs lines 36-96 -----
+export function normalizeTaskForRead(raw = {}) {
+  const now = new Date().toISOString();
+
+  return {
+    id: raw.id != null ? String(raw.id) : null,
+    title: typeof raw.title === "string" ? raw.title.trim() : "",
+    agent: typeof raw.agent === "string" ? raw.agent.trim() : "",
+    status: normalizeStatus(raw.status),
+
+    notes: raw.notes ?? null,
+    source: raw.source ?? null,
+    trace_id: raw.trace_id ?? null,
+    error: raw.error ?? null,
+    meta: raw.meta ?? null,
+
+    created_at: raw.created_at || raw.createdAt || now,
+    updated_at: raw.updated_at || raw.updatedAt || now,
+  };
+}
+
+export function normalizeTaskForWrite(raw = {}) {
+  const now = new Date().toISOString();
+  const base = normalizeTaskForRead(raw);
+
+  return {
+    ...base,
+    created_at: base.created_at || now,
+    updated_at: now,
+  };
+}
+
+export function validateNewTask(task) {
+  if (!task.title) throw new Error("Task title is required");
+  if (!task.agent) throw new Error("Task agent is required");
+  if (!TASK_STATUSES.has(task.status)) throw new Error(`Invalid status: ${task.status}`);
+}
+
+export function validateTransition(prevStatusRaw, nextStatusRaw) {
+  const prevStatus = normalizeStatus(prevStatusRaw);
+  const nextStatus = normalizeStatus(nextStatusRaw);
+
+  if (prevStatus === nextStatus) return;
+
+  if (TERMINAL_STATUSES.has(prevStatus)) {
+    throw new Error(`Cannot transition from terminal status: ${prevStatus}`);
+  }
+
+  // Phase 14 contract transitions
+  const allowed = {
+    queued: ["delegated", "canceled", "failed"],
+    // ✅ FIX: allow delegated -> complete (and blocked, if you want to support "pause" without running)
+    delegated: ["running", "blocked", "complete", "canceled", "failed"],
+    running: ["complete", "blocked", "canceled", "failed"],
+    blocked: ["running", "complete", "canceled", "failed"],
+  };
+
+  const nextAllowed = allowed[prevStatus] || [];
+  if (!nextAllowed.includes(nextStatus)) {
+    throw new Error(`Invalid transition: ${prevStatus} → ${nextStatus}`);
+  }
+}
+
+----- server/taskContract.mjs lines 38-98 -----
+
+  return {
+    id: raw.id != null ? String(raw.id) : null,
+    title: typeof raw.title === "string" ? raw.title.trim() : "",
+    agent: typeof raw.agent === "string" ? raw.agent.trim() : "",
+    status: normalizeStatus(raw.status),
+
+    notes: raw.notes ?? null,
+    source: raw.source ?? null,
+    trace_id: raw.trace_id ?? null,
+    error: raw.error ?? null,
+    meta: raw.meta ?? null,
+
+    created_at: raw.created_at || raw.createdAt || now,
+    updated_at: raw.updated_at || raw.updatedAt || now,
+  };
+}
+
+export function normalizeTaskForWrite(raw = {}) {
+  const now = new Date().toISOString();
+  const base = normalizeTaskForRead(raw);
+
+  return {
+    ...base,
+    created_at: base.created_at || now,
+    updated_at: now,
+  };
+}
+
+export function validateNewTask(task) {
+  if (!task.title) throw new Error("Task title is required");
+  if (!task.agent) throw new Error("Task agent is required");
+  if (!TASK_STATUSES.has(task.status)) throw new Error(`Invalid status: ${task.status}`);
+}
+
+export function validateTransition(prevStatusRaw, nextStatusRaw) {
+  const prevStatus = normalizeStatus(prevStatusRaw);
+  const nextStatus = normalizeStatus(nextStatusRaw);
+
+  if (prevStatus === nextStatus) return;
+
+  if (TERMINAL_STATUSES.has(prevStatus)) {
+    throw new Error(`Cannot transition from terminal status: ${prevStatus}`);
+  }
+
+  // Phase 14 contract transitions
+  const allowed = {
+    queued: ["delegated", "canceled", "failed"],
+    // ✅ FIX: allow delegated -> complete (and blocked, if you want to support "pause" without running)
+    delegated: ["running", "blocked", "complete", "canceled", "failed"],
+    running: ["complete", "blocked", "canceled", "failed"],
+    blocked: ["running", "complete", "canceled", "failed"],
+  };
+
+  const nextAllowed = allowed[prevStatus] || [];
+  if (!nextAllowed.includes(nextStatus)) {
+    throw new Error(`Invalid transition: ${prevStatus} → ${nextStatus}`);
+  }
+}
+
+----- server/taskContract.mjs lines 47-107 -----
+    trace_id: raw.trace_id ?? null,
+    error: raw.error ?? null,
+    meta: raw.meta ?? null,
+
+    created_at: raw.created_at || raw.createdAt || now,
+    updated_at: raw.updated_at || raw.updatedAt || now,
+  };
+}
+
+export function normalizeTaskForWrite(raw = {}) {
+  const now = new Date().toISOString();
+  const base = normalizeTaskForRead(raw);
+
+  return {
+    ...base,
+    created_at: base.created_at || now,
+    updated_at: now,
+  };
+}
+
+export function validateNewTask(task) {
+  if (!task.title) throw new Error("Task title is required");
+  if (!task.agent) throw new Error("Task agent is required");
+  if (!TASK_STATUSES.has(task.status)) throw new Error(`Invalid status: ${task.status}`);
+}
+
+export function validateTransition(prevStatusRaw, nextStatusRaw) {
+  const prevStatus = normalizeStatus(prevStatusRaw);
+  const nextStatus = normalizeStatus(nextStatusRaw);
+
+  if (prevStatus === nextStatus) return;
+
+  if (TERMINAL_STATUSES.has(prevStatus)) {
+    throw new Error(`Cannot transition from terminal status: ${prevStatus}`);
+  }
+
+  // Phase 14 contract transitions
+  const allowed = {
+    queued: ["delegated", "canceled", "failed"],
+    // ✅ FIX: allow delegated -> complete (and blocked, if you want to support "pause" without running)
+    delegated: ["running", "blocked", "complete", "canceled", "failed"],
+    running: ["complete", "blocked", "canceled", "failed"],
+    blocked: ["running", "complete", "canceled", "failed"],
+  };
+
+  const nextAllowed = allowed[prevStatus] || [];
+  if (!nextAllowed.includes(nextStatus)) {
+    throw new Error(`Invalid transition: ${prevStatus} → ${nextStatus}`);
+  }
+}
+
+----- server/taskContract.mjs lines 48-108 -----
+    error: raw.error ?? null,
+    meta: raw.meta ?? null,
+
+    created_at: raw.created_at || raw.createdAt || now,
+    updated_at: raw.updated_at || raw.updatedAt || now,
+  };
+}
+
+export function normalizeTaskForWrite(raw = {}) {
+  const now = new Date().toISOString();
+  const base = normalizeTaskForRead(raw);
+
+  return {
+    ...base,
+    created_at: base.created_at || now,
+    updated_at: now,
+  };
+}
+
+export function validateNewTask(task) {
+  if (!task.title) throw new Error("Task title is required");
+  if (!task.agent) throw new Error("Task agent is required");
+  if (!TASK_STATUSES.has(task.status)) throw new Error(`Invalid status: ${task.status}`);
+}
+
+export function validateTransition(prevStatusRaw, nextStatusRaw) {
+  const prevStatus = normalizeStatus(prevStatusRaw);
+  const nextStatus = normalizeStatus(nextStatusRaw);
+
+  if (prevStatus === nextStatus) return;
+
+  if (TERMINAL_STATUSES.has(prevStatus)) {
+    throw new Error(`Cannot transition from terminal status: ${prevStatus}`);
+  }
+
+  // Phase 14 contract transitions
+  const allowed = {
+    queued: ["delegated", "canceled", "failed"],
+    // ✅ FIX: allow delegated -> complete (and blocked, if you want to support "pause" without running)
+    delegated: ["running", "blocked", "complete", "canceled", "failed"],
+    running: ["complete", "blocked", "canceled", "failed"],
+    blocked: ["running", "complete", "canceled", "failed"],
+  };
+
+  const nextAllowed = allowed[prevStatus] || [];
+  if (!nextAllowed.includes(nextStatus)) {
+    throw new Error(`Invalid transition: ${prevStatus} → ${nextStatus}`);
+  }
+}
+
+----- server/taskContract.mjs lines 49-109 -----
+    meta: raw.meta ?? null,
+
+    created_at: raw.created_at || raw.createdAt || now,
+    updated_at: raw.updated_at || raw.updatedAt || now,
+  };
+}
+
+export function normalizeTaskForWrite(raw = {}) {
+  const now = new Date().toISOString();
+  const base = normalizeTaskForRead(raw);
+
+  return {
+    ...base,
+    created_at: base.created_at || now,
+    updated_at: now,
+  };
+}
+
+export function validateNewTask(task) {
+  if (!task.title) throw new Error("Task title is required");
+  if (!task.agent) throw new Error("Task agent is required");
+  if (!TASK_STATUSES.has(task.status)) throw new Error(`Invalid status: ${task.status}`);
+}
+
+export function validateTransition(prevStatusRaw, nextStatusRaw) {
+  const prevStatus = normalizeStatus(prevStatusRaw);
+  const nextStatus = normalizeStatus(nextStatusRaw);
+
+  if (prevStatus === nextStatus) return;
+
+  if (TERMINAL_STATUSES.has(prevStatus)) {
+    throw new Error(`Cannot transition from terminal status: ${prevStatus}`);
+  }
+
+  // Phase 14 contract transitions
+  const allowed = {
+    queued: ["delegated", "canceled", "failed"],
+    // ✅ FIX: allow delegated -> complete (and blocked, if you want to support "pause" without running)
+    delegated: ["running", "blocked", "complete", "canceled", "failed"],
+    running: ["complete", "blocked", "canceled", "failed"],
+    blocked: ["running", "complete", "canceled", "failed"],
+  };
+
+  const nextAllowed = allowed[prevStatus] || [];
+  if (!nextAllowed.includes(nextStatus)) {
+    throw new Error(`Invalid transition: ${prevStatus} → ${nextStatus}`);
+  }
+}
+
+
+FILE: server/policy/policy_eval.mjs
+----------------------------------------
+1) High-signal lines
+1:import { policyEnforceEnabled } from "./policy_flags.mjs";
+4: * Shadow-mode policy evaluation.
+6: * - Returns an audit payload (and would-be enforcement decision).
+8:export async function policyEvalShadow(ctx = {}, env = process.env) {
+11:  const task = ctx.task ?? ctx?.payload?.task ?? null;
+12:  const run = ctx.run ?? ctx?.payload?.run ?? null;
+16:    task_id: task?.task_id ?? task?.taskId ?? task?.id ?? null,
+17:    run_id: run?.run_id ?? run?.runId ?? run?.id ?? null,
+18:    kind: task?.kind ?? task?.type ?? null,
+19:    action_tier: task?.action_tier ?? task?.actionTier ?? null,
+20:    attempts: task?.attempts ?? null,
+21:    max_attempts: task?.max_attempts ?? task?.maxAttempts ?? null,
+22:    claimed_by: task?.claimed_by ?? task?.claimedBy ?? null,
+26:  // Shadow-only decision skeleton (no enforcement unless explicitly enabled elsewhere).
+28:  const decision = {
+30:    enforce: policyEnforceEnabled(env),
+37:    decision.reasons.push({ code: "unknown_action_tier", value: String(signals.action_tier) });
+41:    version: "policy-shadow-v1",
+42:    decision,
+
+2) Focused excerpts
+----- server/policy/policy_eval.mjs lines 1-41 -----
+import { policyEnforceEnabled } from "./policy_flags.mjs";
+
+/**
+ * Shadow-mode policy evaluation.
+ * - Must be side-effect free.
+ * - Returns an audit payload (and would-be enforcement decision).
+ */
+export async function policyEvalShadow(ctx = {}, env = process.env) {
+  const now = Date.now();
+
+  const task = ctx.task ?? ctx?.payload?.task ?? null;
+  const run = ctx.run ?? ctx?.payload?.run ?? null;
+
+  // Minimal, deterministic, non-hallucinated signals:
+  const signals = {
+    task_id: task?.task_id ?? task?.taskId ?? task?.id ?? null,
+    run_id: run?.run_id ?? run?.runId ?? run?.id ?? null,
+    kind: task?.kind ?? task?.type ?? null,
+    action_tier: task?.action_tier ?? task?.actionTier ?? null,
+    attempts: task?.attempts ?? null,
+    max_attempts: task?.max_attempts ?? task?.maxAttempts ?? null,
+    claimed_by: task?.claimed_by ?? task?.claimedBy ?? null,
+    now_ms: now,
+  };
+
+  // Shadow-only decision skeleton (no enforcement unless explicitly enabled elsewhere).
+  // Keep conservative: default allow with unknown confidence.
+  const decision = {
+    allow: true,
+    enforce: policyEnforceEnabled(env),
+    reasons: [],
+    confidence: "unknown",
+  };
+
+  // Example deterministic checks (no blocking in shadow mode):
+  if (signals.action_tier && !["A", "B", "C"].includes(String(signals.action_tier))) {
+    decision.reasons.push({ code: "unknown_action_tier", value: String(signals.action_tier) });
+  }
+
+  return {
+    version: "policy-shadow-v1",
+
+----- server/policy/policy_eval.mjs lines 1-44 -----
+import { policyEnforceEnabled } from "./policy_flags.mjs";
+
+/**
+ * Shadow-mode policy evaluation.
+ * - Must be side-effect free.
+ * - Returns an audit payload (and would-be enforcement decision).
+ */
+export async function policyEvalShadow(ctx = {}, env = process.env) {
+  const now = Date.now();
+
+  const task = ctx.task ?? ctx?.payload?.task ?? null;
+  const run = ctx.run ?? ctx?.payload?.run ?? null;
+
+  // Minimal, deterministic, non-hallucinated signals:
+  const signals = {
+    task_id: task?.task_id ?? task?.taskId ?? task?.id ?? null,
+    run_id: run?.run_id ?? run?.runId ?? run?.id ?? null,
+    kind: task?.kind ?? task?.type ?? null,
+    action_tier: task?.action_tier ?? task?.actionTier ?? null,
+    attempts: task?.attempts ?? null,
+    max_attempts: task?.max_attempts ?? task?.maxAttempts ?? null,
+    claimed_by: task?.claimed_by ?? task?.claimedBy ?? null,
+    now_ms: now,
+  };
+
+  // Shadow-only decision skeleton (no enforcement unless explicitly enabled elsewhere).
+  // Keep conservative: default allow with unknown confidence.
+  const decision = {
+    allow: true,
+    enforce: policyEnforceEnabled(env),
+    reasons: [],
+    confidence: "unknown",
+  };
+
+  // Example deterministic checks (no blocking in shadow mode):
+  if (signals.action_tier && !["A", "B", "C"].includes(String(signals.action_tier))) {
+    decision.reasons.push({ code: "unknown_action_tier", value: String(signals.action_tier) });
+  }
+
+  return {
+    version: "policy-shadow-v1",
+    decision,
+    signals,
+  };
+
+----- server/policy/policy_eval.mjs lines 1-46 -----
+import { policyEnforceEnabled } from "./policy_flags.mjs";
+
+/**
+ * Shadow-mode policy evaluation.
+ * - Must be side-effect free.
+ * - Returns an audit payload (and would-be enforcement decision).
+ */
+export async function policyEvalShadow(ctx = {}, env = process.env) {
+  const now = Date.now();
+
+  const task = ctx.task ?? ctx?.payload?.task ?? null;
+  const run = ctx.run ?? ctx?.payload?.run ?? null;
+
+  // Minimal, deterministic, non-hallucinated signals:
+  const signals = {
+    task_id: task?.task_id ?? task?.taskId ?? task?.id ?? null,
+    run_id: run?.run_id ?? run?.runId ?? run?.id ?? null,
+    kind: task?.kind ?? task?.type ?? null,
+    action_tier: task?.action_tier ?? task?.actionTier ?? null,
+    attempts: task?.attempts ?? null,
+    max_attempts: task?.max_attempts ?? task?.maxAttempts ?? null,
+    claimed_by: task?.claimed_by ?? task?.claimedBy ?? null,
+    now_ms: now,
+  };
+
+  // Shadow-only decision skeleton (no enforcement unless explicitly enabled elsewhere).
+  // Keep conservative: default allow with unknown confidence.
+  const decision = {
+    allow: true,
+    enforce: policyEnforceEnabled(env),
+    reasons: [],
+    confidence: "unknown",
+  };
+
+  // Example deterministic checks (no blocking in shadow mode):
+  if (signals.action_tier && !["A", "B", "C"].includes(String(signals.action_tier))) {
+    decision.reasons.push({ code: "unknown_action_tier", value: String(signals.action_tier) });
+  }
+
+  return {
+    version: "policy-shadow-v1",
+    decision,
+    signals,
+  };
+}
+
+----- server/policy/policy_eval.mjs lines 1-48 -----
+import { policyEnforceEnabled } from "./policy_flags.mjs";
+
+/**
+ * Shadow-mode policy evaluation.
+ * - Must be side-effect free.
+ * - Returns an audit payload (and would-be enforcement decision).
+ */
+export async function policyEvalShadow(ctx = {}, env = process.env) {
+  const now = Date.now();
+
+  const task = ctx.task ?? ctx?.payload?.task ?? null;
+  const run = ctx.run ?? ctx?.payload?.run ?? null;
+
+  // Minimal, deterministic, non-hallucinated signals:
+  const signals = {
+    task_id: task?.task_id ?? task?.taskId ?? task?.id ?? null,
+    run_id: run?.run_id ?? run?.runId ?? run?.id ?? null,
+    kind: task?.kind ?? task?.type ?? null,
+    action_tier: task?.action_tier ?? task?.actionTier ?? null,
+    attempts: task?.attempts ?? null,
+    max_attempts: task?.max_attempts ?? task?.maxAttempts ?? null,
+    claimed_by: task?.claimed_by ?? task?.claimedBy ?? null,
+    now_ms: now,
+  };
+
+  // Shadow-only decision skeleton (no enforcement unless explicitly enabled elsewhere).
+  // Keep conservative: default allow with unknown confidence.
+  const decision = {
+    allow: true,
+    enforce: policyEnforceEnabled(env),
+    reasons: [],
+    confidence: "unknown",
+  };
+
+  // Example deterministic checks (no blocking in shadow mode):
+  if (signals.action_tier && !["A", "B", "C"].includes(String(signals.action_tier))) {
+    decision.reasons.push({ code: "unknown_action_tier", value: String(signals.action_tier) });
+  }
+
+  return {
+    version: "policy-shadow-v1",
+    decision,
+    signals,
+  };
+}
+
+----- server/policy/policy_eval.mjs lines 1-51 -----
+import { policyEnforceEnabled } from "./policy_flags.mjs";
+
+/**
+ * Shadow-mode policy evaluation.
+ * - Must be side-effect free.
+ * - Returns an audit payload (and would-be enforcement decision).
+ */
+export async function policyEvalShadow(ctx = {}, env = process.env) {
+  const now = Date.now();
+
+  const task = ctx.task ?? ctx?.payload?.task ?? null;
+  const run = ctx.run ?? ctx?.payload?.run ?? null;
+
+  // Minimal, deterministic, non-hallucinated signals:
+  const signals = {
+    task_id: task?.task_id ?? task?.taskId ?? task?.id ?? null,
+    run_id: run?.run_id ?? run?.runId ?? run?.id ?? null,
+    kind: task?.kind ?? task?.type ?? null,
+    action_tier: task?.action_tier ?? task?.actionTier ?? null,
+    attempts: task?.attempts ?? null,
+    max_attempts: task?.max_attempts ?? task?.maxAttempts ?? null,
+    claimed_by: task?.claimed_by ?? task?.claimedBy ?? null,
+    now_ms: now,
+  };
+
+  // Shadow-only decision skeleton (no enforcement unless explicitly enabled elsewhere).
+  // Keep conservative: default allow with unknown confidence.
+  const decision = {
+    allow: true,
+    enforce: policyEnforceEnabled(env),
+    reasons: [],
+    confidence: "unknown",
+  };
+
+  // Example deterministic checks (no blocking in shadow mode):
+  if (signals.action_tier && !["A", "B", "C"].includes(String(signals.action_tier))) {
+    decision.reasons.push({ code: "unknown_action_tier", value: String(signals.action_tier) });
+  }
+
+  return {
+    version: "policy-shadow-v1",
+    decision,
+    signals,
+  };
+}
+
+----- server/policy/policy_eval.mjs lines 1-52 -----
+import { policyEnforceEnabled } from "./policy_flags.mjs";
+
+/**
+ * Shadow-mode policy evaluation.
+ * - Must be side-effect free.
+ * - Returns an audit payload (and would-be enforcement decision).
+ */
+export async function policyEvalShadow(ctx = {}, env = process.env) {
+  const now = Date.now();
+
+  const task = ctx.task ?? ctx?.payload?.task ?? null;
+  const run = ctx.run ?? ctx?.payload?.run ?? null;
+
+  // Minimal, deterministic, non-hallucinated signals:
+  const signals = {
+    task_id: task?.task_id ?? task?.taskId ?? task?.id ?? null,
+    run_id: run?.run_id ?? run?.runId ?? run?.id ?? null,
+    kind: task?.kind ?? task?.type ?? null,
+    action_tier: task?.action_tier ?? task?.actionTier ?? null,
+    attempts: task?.attempts ?? null,
+    max_attempts: task?.max_attempts ?? task?.maxAttempts ?? null,
+    claimed_by: task?.claimed_by ?? task?.claimedBy ?? null,
+    now_ms: now,
+  };
+
+  // Shadow-only decision skeleton (no enforcement unless explicitly enabled elsewhere).
+  // Keep conservative: default allow with unknown confidence.
+  const decision = {
+    allow: true,
+    enforce: policyEnforceEnabled(env),
+    reasons: [],
+    confidence: "unknown",
+  };
+
+  // Example deterministic checks (no blocking in shadow mode):
+  if (signals.action_tier && !["A", "B", "C"].includes(String(signals.action_tier))) {
+    decision.reasons.push({ code: "unknown_action_tier", value: String(signals.action_tier) });
+  }
+
+  return {
+    version: "policy-shadow-v1",
+    decision,
+    signals,
+  };
+}
+
+----- server/policy/policy_eval.mjs lines 1-56 -----
+import { policyEnforceEnabled } from "./policy_flags.mjs";
+
+/**
+ * Shadow-mode policy evaluation.
+ * - Must be side-effect free.
+ * - Returns an audit payload (and would-be enforcement decision).
+ */
+export async function policyEvalShadow(ctx = {}, env = process.env) {
+  const now = Date.now();
+
+  const task = ctx.task ?? ctx?.payload?.task ?? null;
+  const run = ctx.run ?? ctx?.payload?.run ?? null;
+
+  // Minimal, deterministic, non-hallucinated signals:
+  const signals = {
+    task_id: task?.task_id ?? task?.taskId ?? task?.id ?? null,
+    run_id: run?.run_id ?? run?.runId ?? run?.id ?? null,
+    kind: task?.kind ?? task?.type ?? null,
+    action_tier: task?.action_tier ?? task?.actionTier ?? null,
+    attempts: task?.attempts ?? null,
+    max_attempts: task?.max_attempts ?? task?.maxAttempts ?? null,
+    claimed_by: task?.claimed_by ?? task?.claimedBy ?? null,
+    now_ms: now,
+  };
+
+  // Shadow-only decision skeleton (no enforcement unless explicitly enabled elsewhere).
+  // Keep conservative: default allow with unknown confidence.
+  const decision = {
+    allow: true,
+    enforce: policyEnforceEnabled(env),
+    reasons: [],
+    confidence: "unknown",
+  };
+
+  // Example deterministic checks (no blocking in shadow mode):
+  if (signals.action_tier && !["A", "B", "C"].includes(String(signals.action_tier))) {
+    decision.reasons.push({ code: "unknown_action_tier", value: String(signals.action_tier) });
+  }
+
+  return {
+    version: "policy-shadow-v1",
+    decision,
+    signals,
+  };
+}
+
+----- server/policy/policy_eval.mjs lines 1-57 -----
+import { policyEnforceEnabled } from "./policy_flags.mjs";
+
+/**
+ * Shadow-mode policy evaluation.
+ * - Must be side-effect free.
+ * - Returns an audit payload (and would-be enforcement decision).
+ */
+export async function policyEvalShadow(ctx = {}, env = process.env) {
+  const now = Date.now();
+
+  const task = ctx.task ?? ctx?.payload?.task ?? null;
+  const run = ctx.run ?? ctx?.payload?.run ?? null;
+
+  // Minimal, deterministic, non-hallucinated signals:
+  const signals = {
+    task_id: task?.task_id ?? task?.taskId ?? task?.id ?? null,
+    run_id: run?.run_id ?? run?.runId ?? run?.id ?? null,
+    kind: task?.kind ?? task?.type ?? null,
+    action_tier: task?.action_tier ?? task?.actionTier ?? null,
+    attempts: task?.attempts ?? null,
+    max_attempts: task?.max_attempts ?? task?.maxAttempts ?? null,
+    claimed_by: task?.claimed_by ?? task?.claimedBy ?? null,
+    now_ms: now,
+  };
+
+  // Shadow-only decision skeleton (no enforcement unless explicitly enabled elsewhere).
+  // Keep conservative: default allow with unknown confidence.
+  const decision = {
+    allow: true,
+    enforce: policyEnforceEnabled(env),
+    reasons: [],
+    confidence: "unknown",
+  };
+
+  // Example deterministic checks (no blocking in shadow mode):
+  if (signals.action_tier && !["A", "B", "C"].includes(String(signals.action_tier))) {
+    decision.reasons.push({ code: "unknown_action_tier", value: String(signals.action_tier) });
+  }
+
+  return {
+    version: "policy-shadow-v1",
+    decision,
+    signals,
+  };
+}
+
+----- server/policy/policy_eval.mjs lines 1-58 -----
+import { policyEnforceEnabled } from "./policy_flags.mjs";
+
+/**
+ * Shadow-mode policy evaluation.
+ * - Must be side-effect free.
+ * - Returns an audit payload (and would-be enforcement decision).
+ */
+export async function policyEvalShadow(ctx = {}, env = process.env) {
+  const now = Date.now();
+
+  const task = ctx.task ?? ctx?.payload?.task ?? null;
+  const run = ctx.run ?? ctx?.payload?.run ?? null;
+
+  // Minimal, deterministic, non-hallucinated signals:
+  const signals = {
+    task_id: task?.task_id ?? task?.taskId ?? task?.id ?? null,
+    run_id: run?.run_id ?? run?.runId ?? run?.id ?? null,
+    kind: task?.kind ?? task?.type ?? null,
+    action_tier: task?.action_tier ?? task?.actionTier ?? null,
+    attempts: task?.attempts ?? null,
+    max_attempts: task?.max_attempts ?? task?.maxAttempts ?? null,
+    claimed_by: task?.claimed_by ?? task?.claimedBy ?? null,
+    now_ms: now,
+  };
+
+  // Shadow-only decision skeleton (no enforcement unless explicitly enabled elsewhere).
+  // Keep conservative: default allow with unknown confidence.
+  const decision = {
+    allow: true,
+    enforce: policyEnforceEnabled(env),
+    reasons: [],
+    confidence: "unknown",
+  };
+
+  // Example deterministic checks (no blocking in shadow mode):
+  if (signals.action_tier && !["A", "B", "C"].includes(String(signals.action_tier))) {
+    decision.reasons.push({ code: "unknown_action_tier", value: String(signals.action_tier) });
+  }
+
+  return {
+    version: "policy-shadow-v1",
+    decision,
+    signals,
+  };
+}
+
+----- server/policy/policy_eval.mjs lines 1-59 -----
+import { policyEnforceEnabled } from "./policy_flags.mjs";
+
+/**
+ * Shadow-mode policy evaluation.
+ * - Must be side-effect free.
+ * - Returns an audit payload (and would-be enforcement decision).
+ */
+export async function policyEvalShadow(ctx = {}, env = process.env) {
+  const now = Date.now();
+
+  const task = ctx.task ?? ctx?.payload?.task ?? null;
+  const run = ctx.run ?? ctx?.payload?.run ?? null;
+
+  // Minimal, deterministic, non-hallucinated signals:
+  const signals = {
+    task_id: task?.task_id ?? task?.taskId ?? task?.id ?? null,
+    run_id: run?.run_id ?? run?.runId ?? run?.id ?? null,
+    kind: task?.kind ?? task?.type ?? null,
+    action_tier: task?.action_tier ?? task?.actionTier ?? null,
+    attempts: task?.attempts ?? null,
+    max_attempts: task?.max_attempts ?? task?.maxAttempts ?? null,
+    claimed_by: task?.claimed_by ?? task?.claimedBy ?? null,
+    now_ms: now,
+  };
+
+  // Shadow-only decision skeleton (no enforcement unless explicitly enabled elsewhere).
+  // Keep conservative: default allow with unknown confidence.
+  const decision = {
+    allow: true,
+    enforce: policyEnforceEnabled(env),
+    reasons: [],
+    confidence: "unknown",
+  };
+
+  // Example deterministic checks (no blocking in shadow mode):
+  if (signals.action_tier && !["A", "B", "C"].includes(String(signals.action_tier))) {
+    decision.reasons.push({ code: "unknown_action_tier", value: String(signals.action_tier) });
+  }
+
+  return {
+    version: "policy-shadow-v1",
+    decision,
+    signals,
+  };
+}
+
+----- server/policy/policy_eval.mjs lines 1-60 -----
+import { policyEnforceEnabled } from "./policy_flags.mjs";
+
+/**
+ * Shadow-mode policy evaluation.
+ * - Must be side-effect free.
+ * - Returns an audit payload (and would-be enforcement decision).
+ */
+export async function policyEvalShadow(ctx = {}, env = process.env) {
+  const now = Date.now();
+
+  const task = ctx.task ?? ctx?.payload?.task ?? null;
+  const run = ctx.run ?? ctx?.payload?.run ?? null;
+
+  // Minimal, deterministic, non-hallucinated signals:
+  const signals = {
+    task_id: task?.task_id ?? task?.taskId ?? task?.id ?? null,
+    run_id: run?.run_id ?? run?.runId ?? run?.id ?? null,
+    kind: task?.kind ?? task?.type ?? null,
+    action_tier: task?.action_tier ?? task?.actionTier ?? null,
+    attempts: task?.attempts ?? null,
+    max_attempts: task?.max_attempts ?? task?.maxAttempts ?? null,
+    claimed_by: task?.claimed_by ?? task?.claimedBy ?? null,
+    now_ms: now,
+  };
+
+  // Shadow-only decision skeleton (no enforcement unless explicitly enabled elsewhere).
+  // Keep conservative: default allow with unknown confidence.
+  const decision = {
+    allow: true,
+    enforce: policyEnforceEnabled(env),
+    reasons: [],
+    confidence: "unknown",
+  };
+
+  // Example deterministic checks (no blocking in shadow mode):
+  if (signals.action_tier && !["A", "B", "C"].includes(String(signals.action_tier))) {
+    decision.reasons.push({ code: "unknown_action_tier", value: String(signals.action_tier) });
+  }
+
+  return {
+    version: "policy-shadow-v1",
+    decision,
+    signals,
+  };
+}
+
+----- server/policy/policy_eval.mjs lines 1-61 -----
+import { policyEnforceEnabled } from "./policy_flags.mjs";
+
+/**
+ * Shadow-mode policy evaluation.
+ * - Must be side-effect free.
+ * - Returns an audit payload (and would-be enforcement decision).
+ */
+export async function policyEvalShadow(ctx = {}, env = process.env) {
+  const now = Date.now();
+
+  const task = ctx.task ?? ctx?.payload?.task ?? null;
+  const run = ctx.run ?? ctx?.payload?.run ?? null;
+
+  // Minimal, deterministic, non-hallucinated signals:
+  const signals = {
+    task_id: task?.task_id ?? task?.taskId ?? task?.id ?? null,
+    run_id: run?.run_id ?? run?.runId ?? run?.id ?? null,
+    kind: task?.kind ?? task?.type ?? null,
+    action_tier: task?.action_tier ?? task?.actionTier ?? null,
+    attempts: task?.attempts ?? null,
+    max_attempts: task?.max_attempts ?? task?.maxAttempts ?? null,
+    claimed_by: task?.claimed_by ?? task?.claimedBy ?? null,
+    now_ms: now,
+  };
+
+  // Shadow-only decision skeleton (no enforcement unless explicitly enabled elsewhere).
+  // Keep conservative: default allow with unknown confidence.
+  const decision = {
+    allow: true,
+    enforce: policyEnforceEnabled(env),
+    reasons: [],
+    confidence: "unknown",
+  };
+
+  // Example deterministic checks (no blocking in shadow mode):
+  if (signals.action_tier && !["A", "B", "C"].includes(String(signals.action_tier))) {
+    decision.reasons.push({ code: "unknown_action_tier", value: String(signals.action_tier) });
+  }
+
+  return {
+    version: "policy-shadow-v1",
+    decision,
+    signals,
+  };
+}
+
+
+FILE: server/orchestration/policy-pipeline.ts
+----------------------------------------
+1) High-signal lines
+1:import type { OrchestrationEvent, Policy, PolicyContext, PolicyDecision } from "./policy";
+5:  decisions: PolicyDecision[];
+9:export function applyDecisions(ctx: PolicyContext, decisions: PolicyDecision[]): { ctx: PolicyContext; emitted: OrchestrationEvent[] } {
+13:  for (const d of decisions) {
+28:        throw new Error(`unknown decision ${(d as any).kind}`);
+36:export function runPolicyPipeline(ctx: PolicyContext, ev: OrchestrationEvent, policies: Policy[]): PipelineResult {
+47:    decisions: all,
+52:export function runEventLoopOnce(ctx: PolicyContext, events: OrchestrationEvent[], policies: Policy[]): {
+62:    const r = runPolicyPipeline(ctx, ev, policies);
+
+2) Focused excerpts
+----- server/orchestration/policy-pipeline.ts lines 1-41 -----
+import type { OrchestrationEvent, Policy, PolicyContext, PolicyDecision } from "./policy";
+
+export type PipelineResult = {
+  ctx: PolicyContext;
+  decisions: PolicyDecision[];
+  emitted: OrchestrationEvent[];
+};
+
+export function applyDecisions(ctx: PolicyContext, decisions: PolicyDecision[]): { ctx: PolicyContext; emitted: OrchestrationEvent[] } {
+  let next = { ...ctx };
+  const emitted: OrchestrationEvent[] = [];
+
+  for (const d of decisions) {
+    switch (d.kind) {
+      case "noop":
+        break;
+      case "emit":
+        emitted.push(...d.events);
+        break;
+      case "set_mode":
+        next.operatorMode = d.mode;
+        break;
+      case "set_intent":
+        next.intent = d.intent;
+        break;
+      default: {
+        const _exhaustive: never = d;
+        throw new Error(`unknown decision ${(d as any).kind}`);
+      }
+    }
+  }
+
+  return { ctx: next, emitted };
+}
+
+export function runPolicyPipeline(ctx: PolicyContext, ev: OrchestrationEvent, policies: Policy[]): PipelineResult {
+  const all: PolicyDecision[] = [];
+  for (const p of policies) {
+    const out = p.apply(ctx, ev) || [];
+    all.push(...out);
+  }
+
+----- server/orchestration/policy-pipeline.ts lines 1-45 -----
+import type { OrchestrationEvent, Policy, PolicyContext, PolicyDecision } from "./policy";
+
+export type PipelineResult = {
+  ctx: PolicyContext;
+  decisions: PolicyDecision[];
+  emitted: OrchestrationEvent[];
+};
+
+export function applyDecisions(ctx: PolicyContext, decisions: PolicyDecision[]): { ctx: PolicyContext; emitted: OrchestrationEvent[] } {
+  let next = { ...ctx };
+  const emitted: OrchestrationEvent[] = [];
+
+  for (const d of decisions) {
+    switch (d.kind) {
+      case "noop":
+        break;
+      case "emit":
+        emitted.push(...d.events);
+        break;
+      case "set_mode":
+        next.operatorMode = d.mode;
+        break;
+      case "set_intent":
+        next.intent = d.intent;
+        break;
+      default: {
+        const _exhaustive: never = d;
+        throw new Error(`unknown decision ${(d as any).kind}`);
+      }
+    }
+  }
+
+  return { ctx: next, emitted };
+}
+
+export function runPolicyPipeline(ctx: PolicyContext, ev: OrchestrationEvent, policies: Policy[]): PipelineResult {
+  const all: PolicyDecision[] = [];
+  for (const p of policies) {
+    const out = p.apply(ctx, ev) || [];
+    all.push(...out);
+  }
+
+  const applied = applyDecisions(ctx, all);
+
+  return {
+
+----- server/orchestration/policy-pipeline.ts lines 1-49 -----
+import type { OrchestrationEvent, Policy, PolicyContext, PolicyDecision } from "./policy";
+
+export type PipelineResult = {
+  ctx: PolicyContext;
+  decisions: PolicyDecision[];
+  emitted: OrchestrationEvent[];
+};
+
+export function applyDecisions(ctx: PolicyContext, decisions: PolicyDecision[]): { ctx: PolicyContext; emitted: OrchestrationEvent[] } {
+  let next = { ...ctx };
+  const emitted: OrchestrationEvent[] = [];
+
+  for (const d of decisions) {
+    switch (d.kind) {
+      case "noop":
+        break;
+      case "emit":
+        emitted.push(...d.events);
+        break;
+      case "set_mode":
+        next.operatorMode = d.mode;
+        break;
+      case "set_intent":
+        next.intent = d.intent;
+        break;
+      default: {
+        const _exhaustive: never = d;
+        throw new Error(`unknown decision ${(d as any).kind}`);
+      }
+    }
+  }
+
+  return { ctx: next, emitted };
+}
+
+export function runPolicyPipeline(ctx: PolicyContext, ev: OrchestrationEvent, policies: Policy[]): PipelineResult {
+  const all: PolicyDecision[] = [];
+  for (const p of policies) {
+    const out = p.apply(ctx, ev) || [];
+    all.push(...out);
+  }
+
+  const applied = applyDecisions(ctx, all);
+
+  return {
+    ctx: applied.ctx,
+    decisions: all,
+    emitted: applied.emitted,
+  };
+
+----- server/orchestration/policy-pipeline.ts lines 1-53 -----
+import type { OrchestrationEvent, Policy, PolicyContext, PolicyDecision } from "./policy";
+
+export type PipelineResult = {
+  ctx: PolicyContext;
+  decisions: PolicyDecision[];
+  emitted: OrchestrationEvent[];
+};
+
+export function applyDecisions(ctx: PolicyContext, decisions: PolicyDecision[]): { ctx: PolicyContext; emitted: OrchestrationEvent[] } {
+  let next = { ...ctx };
+  const emitted: OrchestrationEvent[] = [];
+
+  for (const d of decisions) {
+    switch (d.kind) {
+      case "noop":
+        break;
+      case "emit":
+        emitted.push(...d.events);
+        break;
+      case "set_mode":
+        next.operatorMode = d.mode;
+        break;
+      case "set_intent":
+        next.intent = d.intent;
+        break;
+      default: {
+        const _exhaustive: never = d;
+        throw new Error(`unknown decision ${(d as any).kind}`);
+      }
+    }
+  }
+
+  return { ctx: next, emitted };
+}
+
+export function runPolicyPipeline(ctx: PolicyContext, ev: OrchestrationEvent, policies: Policy[]): PipelineResult {
+  const all: PolicyDecision[] = [];
+  for (const p of policies) {
+    const out = p.apply(ctx, ev) || [];
+    all.push(...out);
+  }
+
+  const applied = applyDecisions(ctx, all);
+
+  return {
+    ctx: applied.ctx,
+    decisions: all,
+    emitted: applied.emitted,
+  };
+}
+
+export function runEventLoopOnce(ctx: PolicyContext, events: OrchestrationEvent[], policies: Policy[]): {
+  ctx: PolicyContext;
+
+----- server/orchestration/policy-pipeline.ts lines 8-68 -----
+
+export function applyDecisions(ctx: PolicyContext, decisions: PolicyDecision[]): { ctx: PolicyContext; emitted: OrchestrationEvent[] } {
+  let next = { ...ctx };
+  const emitted: OrchestrationEvent[] = [];
+
+  for (const d of decisions) {
+    switch (d.kind) {
+      case "noop":
+        break;
+      case "emit":
+        emitted.push(...d.events);
+        break;
+      case "set_mode":
+        next.operatorMode = d.mode;
+        break;
+      case "set_intent":
+        next.intent = d.intent;
+        break;
+      default: {
+        const _exhaustive: never = d;
+        throw new Error(`unknown decision ${(d as any).kind}`);
+      }
+    }
+  }
+
+  return { ctx: next, emitted };
+}
+
+export function runPolicyPipeline(ctx: PolicyContext, ev: OrchestrationEvent, policies: Policy[]): PipelineResult {
+  const all: PolicyDecision[] = [];
+  for (const p of policies) {
+    const out = p.apply(ctx, ev) || [];
+    all.push(...out);
+  }
+
+  const applied = applyDecisions(ctx, all);
+
+  return {
+    ctx: applied.ctx,
+    decisions: all,
+    emitted: applied.emitted,
+  };
+}
+
+export function runEventLoopOnce(ctx: PolicyContext, events: OrchestrationEvent[], policies: Policy[]): {
+  ctx: PolicyContext;
+  processed: OrchestrationEvent[];
+  emitted: OrchestrationEvent[];
+} {
+  const processed: OrchestrationEvent[] = [];
+  const emitted: OrchestrationEvent[] = [];
+
+  for (const ev of events) {
+    processed.push(ev);
+    const r = runPolicyPipeline(ctx, ev, policies);
+    ctx = r.ctx;
+    emitted.push(...r.emitted);
+  }
+
+  return { ctx, processed, emitted };
+}
+
+----- server/orchestration/policy-pipeline.ts lines 16-76 -----
+        break;
+      case "emit":
+        emitted.push(...d.events);
+        break;
+      case "set_mode":
+        next.operatorMode = d.mode;
+        break;
+      case "set_intent":
+        next.intent = d.intent;
+        break;
+      default: {
+        const _exhaustive: never = d;
+        throw new Error(`unknown decision ${(d as any).kind}`);
+      }
+    }
+  }
+
+  return { ctx: next, emitted };
+}
+
+export function runPolicyPipeline(ctx: PolicyContext, ev: OrchestrationEvent, policies: Policy[]): PipelineResult {
+  const all: PolicyDecision[] = [];
+  for (const p of policies) {
+    const out = p.apply(ctx, ev) || [];
+    all.push(...out);
+  }
+
+  const applied = applyDecisions(ctx, all);
+
+  return {
+    ctx: applied.ctx,
+    decisions: all,
+    emitted: applied.emitted,
+  };
+}
+
+export function runEventLoopOnce(ctx: PolicyContext, events: OrchestrationEvent[], policies: Policy[]): {
+  ctx: PolicyContext;
+  processed: OrchestrationEvent[];
+  emitted: OrchestrationEvent[];
+} {
+  const processed: OrchestrationEvent[] = [];
+  const emitted: OrchestrationEvent[] = [];
+
+  for (const ev of events) {
+    processed.push(ev);
+    const r = runPolicyPipeline(ctx, ev, policies);
+    ctx = r.ctx;
+    emitted.push(...r.emitted);
+  }
+
+  return { ctx, processed, emitted };
+}
+
+----- server/orchestration/policy-pipeline.ts lines 27-87 -----
+        const _exhaustive: never = d;
+        throw new Error(`unknown decision ${(d as any).kind}`);
+      }
+    }
+  }
+
+  return { ctx: next, emitted };
+}
+
+export function runPolicyPipeline(ctx: PolicyContext, ev: OrchestrationEvent, policies: Policy[]): PipelineResult {
+  const all: PolicyDecision[] = [];
+  for (const p of policies) {
+    const out = p.apply(ctx, ev) || [];
+    all.push(...out);
+  }
+
+  const applied = applyDecisions(ctx, all);
+
+  return {
+    ctx: applied.ctx,
+    decisions: all,
+    emitted: applied.emitted,
+  };
+}
+
+export function runEventLoopOnce(ctx: PolicyContext, events: OrchestrationEvent[], policies: Policy[]): {
+  ctx: PolicyContext;
+  processed: OrchestrationEvent[];
+  emitted: OrchestrationEvent[];
+} {
+  const processed: OrchestrationEvent[] = [];
+  const emitted: OrchestrationEvent[] = [];
+
+  for (const ev of events) {
+    processed.push(ev);
+    const r = runPolicyPipeline(ctx, ev, policies);
+    ctx = r.ctx;
+    emitted.push(...r.emitted);
+  }
+
+  return { ctx, processed, emitted };
+}
+
+----- server/orchestration/policy-pipeline.ts lines 32-92 -----
+
+  return { ctx: next, emitted };
+}
+
+export function runPolicyPipeline(ctx: PolicyContext, ev: OrchestrationEvent, policies: Policy[]): PipelineResult {
+  const all: PolicyDecision[] = [];
+  for (const p of policies) {
+    const out = p.apply(ctx, ev) || [];
+    all.push(...out);
+  }
+
+  const applied = applyDecisions(ctx, all);
+
+  return {
+    ctx: applied.ctx,
+    decisions: all,
+    emitted: applied.emitted,
+  };
+}
+
+export function runEventLoopOnce(ctx: PolicyContext, events: OrchestrationEvent[], policies: Policy[]): {
+  ctx: PolicyContext;
+  processed: OrchestrationEvent[];
+  emitted: OrchestrationEvent[];
+} {
+  const processed: OrchestrationEvent[] = [];
+  const emitted: OrchestrationEvent[] = [];
+
+  for (const ev of events) {
+    processed.push(ev);
+    const r = runPolicyPipeline(ctx, ev, policies);
+    ctx = r.ctx;
+    emitted.push(...r.emitted);
+  }
+
+  return { ctx, processed, emitted };
+}
+
+----- server/orchestration/policy-pipeline.ts lines 42-102 -----
+
+  const applied = applyDecisions(ctx, all);
+
+  return {
+    ctx: applied.ctx,
+    decisions: all,
+    emitted: applied.emitted,
+  };
+}
+
+export function runEventLoopOnce(ctx: PolicyContext, events: OrchestrationEvent[], policies: Policy[]): {
+  ctx: PolicyContext;
+  processed: OrchestrationEvent[];
+  emitted: OrchestrationEvent[];
+} {
+  const processed: OrchestrationEvent[] = [];
+  const emitted: OrchestrationEvent[] = [];
+
+  for (const ev of events) {
+    processed.push(ev);
+    const r = runPolicyPipeline(ctx, ev, policies);
+    ctx = r.ctx;
+    emitted.push(...r.emitted);
+  }
+
+  return { ctx, processed, emitted };
+}
+
+
+DECISION TARGET
+- Confirm whether these three files are the true disconnected boundary owners.
+- Next phase should define the explicit structural bridge contract between these owners only.
