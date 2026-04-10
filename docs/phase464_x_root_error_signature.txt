@@ -1,0 +1,151 @@
+PHASE 464.X — ROOT ERROR SIGNATURE EXTRACTION
+=============================================
+
+STEP 1 — Capture last 300 lines of logs
+dashboard-1  | (node:1) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///app/routes/diagnostics/systemHealth.js is not specified and it doesn't parse as CommonJS.
+dashboard-1  | Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+dashboard-1  | To eliminate this warning, add "type": "module" to /app/package.json.
+dashboard-1  | (Use `node --trace-warnings ...` to show where the warning was created)
+dashboard-1  | [phase25] task_events_emit loaded 2026-04-10T18:08:05.538Z file= file:///app/server/task_events_emit.mjs
+dashboard-1  | [phase25] api-tasks-postgres loaded 2026-04-10T18:08:05.538Z file= file:///app/server/routes/api-tasks-postgres.mjs
+dashboard-1  | [phase19] orchestrator_state_route mounted {
+dashboard-1  |   file: 'file:///app/server/orchestrator_state_route.mjs',
+dashboard-1  |   envSnapshot: {
+dashboard-1  |     PHASE18_ENABLE_ORCHESTRATION: undefined,
+dashboard-1  |     PHASE19_ENABLE_ORCH_STATE: undefined
+dashboard-1  |   }
+dashboard-1  | }
+dashboard-1  | [SSE] /events/ops + /events/reflections registered
+dashboard-1  | [db] effective pool config {
+dashboard-1  |   mode: 'url',
+dashboard-1  |   DB_URL_present: true,
+dashboard-1  |   host: null,
+dashboard-1  |   port: null,
+dashboard-1  |   user: null,
+dashboard-1  |   database: null,
+dashboard-1  |   password_type: 'url-hidden',
+dashboard-1  |   password_len: 'hidden',
+dashboard-1  |   has_password: true
+dashboard-1  | }
+dashboard-1  | [db] waiting for postgres... elapsed=7ms code=ECONNREFUSED
+dashboard-1  | /app/node_modules/pg-pool/index.js:45
+dashboard-1  |     Error.captureStackTrace(err)
+dashboard-1  |           ^
+dashboard-1  | 
+dashboard-1  | error: relation "tasks" does not exist
+dashboard-1  |     at /app/node_modules/pg-pool/index.js:45:11
+dashboard-1  |     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+dashboard-1  |     at async ensureTasksTaskIdColumn (file:///app/server/db_bootstrap_tasks_task_id.mjs:3:3)
+dashboard-1  |     at async file:///app/server.mjs:326:1 {
+dashboard-1  |   length: 103,
+dashboard-1  |   severity: 'ERROR',
+dashboard-1  |   code: '42P01',
+dashboard-1  |   detail: undefined,
+dashboard-1  |   hint: undefined,
+dashboard-1  |   position: undefined,
+dashboard-1  |   internalPosition: undefined,
+dashboard-1  |   internalQuery: undefined,
+dashboard-1  |   where: undefined,
+dashboard-1  |   schema: undefined,
+dashboard-1  |   table: undefined,
+dashboard-1  |   column: undefined,
+dashboard-1  |   dataType: undefined,
+dashboard-1  |   constraint: undefined,
+dashboard-1  |   file: 'namespace.c',
+dashboard-1  |   line: '434',
+dashboard-1  |   routine: 'RangeVarGetRelidExtended'
+dashboard-1  | }
+dashboard-1  | 
+dashboard-1  | Node.js v20.20.2
+postgres-1   | The files belonging to this database system will be owned by user "postgres".
+postgres-1   | This user must also own the server process.
+postgres-1   | 
+postgres-1   | The database cluster will be initialized with locale "en_US.utf8".
+postgres-1   | The default database encoding has accordingly been set to "UTF8".
+postgres-1   | The default text search configuration will be set to "english".
+postgres-1   | 
+postgres-1   | Data page checksums are disabled.
+postgres-1   | 
+postgres-1   | fixing permissions on existing directory /var/lib/postgresql/data ... ok
+postgres-1   | creating subdirectories ... ok
+postgres-1   | selecting dynamic shared memory implementation ... posix
+postgres-1   | selecting default max_connections ... 100
+postgres-1   | selecting default shared_buffers ... 128MB
+postgres-1   | selecting default time zone ... UTC
+postgres-1   | creating configuration files ... ok
+postgres-1   | running bootstrap script ... ok
+postgres-1   | sh: locale: not found
+postgres-1   | 2026-04-10 18:08:05.583 UTC [35] WARNING:  no usable system locales were found
+postgres-1   | performing post-bootstrap initialization ... ok
+postgres-1   | syncing data to disk ... ok
+postgres-1   | 
+postgres-1   | 
+postgres-1   | Success. You can now start the database server using:
+postgres-1   | 
+postgres-1   |     pg_ctl -D /var/lib/postgresql/data -l logfile start
+postgres-1   | 
+postgres-1   | initdb: warning: enabling "trust" authentication for local connections
+postgres-1   | initdb: hint: You can change this by editing pg_hba.conf or using the option -A, or --auth-local and --auth-host, the next time you run initdb.
+postgres-1   | waiting for server to start....2026-04-10 18:08:05.777 UTC [41] LOG:  starting PostgreSQL 16.13 on aarch64-unknown-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit
+postgres-1   | 2026-04-10 18:08:05.777 UTC [41] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+postgres-1   | 2026-04-10 18:08:05.779 UTC [44] LOG:  database system was shut down at 2026-04-10 18:08:05 UTC
+postgres-1   | 2026-04-10 18:08:05.780 UTC [41] LOG:  database system is ready to accept connections
+postgres-1   |  done
+postgres-1   | server started
+postgres-1   | 
+postgres-1   | /usr/local/bin/docker-entrypoint.sh: ignoring /docker-entrypoint-initdb.d/*
+postgres-1   | 
+postgres-1   | waiting for server to shut down....2026-04-10 18:08:05.883 UTC [41] LOG:  received fast shutdown request
+postgres-1   | 2026-04-10 18:08:05.883 UTC [41] LOG:  aborting any active transactions
+postgres-1   | 2026-04-10 18:08:05.884 UTC [41] LOG:  background worker "logical replication launcher" (PID 47) exited with exit code 1
+postgres-1   | 2026-04-10 18:08:05.885 UTC [42] LOG:  shutting down
+postgres-1   | 2026-04-10 18:08:05.885 UTC [42] LOG:  checkpoint starting: shutdown immediate
+postgres-1   | 2026-04-10 18:08:05.888 UTC [42] LOG:  checkpoint complete: wrote 3 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.001 s, sync=0.001 s, total=0.004 s; sync files=2, longest=0.001 s, average=0.001 s; distance=0 kB, estimate=0 kB; lsn=0/14F2618, redo lsn=0/14F2618
+postgres-1   | 2026-04-10 18:08:05.889 UTC [41] LOG:  database system is shut down
+postgres-1   |  done
+postgres-1   | server stopped
+postgres-1   | 
+postgres-1   | PostgreSQL init process complete; ready for start up.
+postgres-1   | 
+postgres-1   | 2026-04-10 18:08:06.007 UTC [1] LOG:  starting PostgreSQL 16.13 on aarch64-unknown-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit
+postgres-1   | 2026-04-10 18:08:06.007 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+postgres-1   | 2026-04-10 18:08:06.007 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+postgres-1   | 2026-04-10 18:08:06.008 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+postgres-1   | 2026-04-10 18:08:06.010 UTC [55] LOG:  database system was shut down at 2026-04-10 18:08:05 UTC
+postgres-1   | 2026-04-10 18:08:06.013 UTC [1] LOG:  database system is ready to accept connections
+postgres-1   | 2026-04-10 18:08:06.073 UTC [59] ERROR:  relation "tasks" does not exist
+postgres-1   | 2026-04-10 18:08:06.073 UTC [59] STATEMENT:  alter table tasks add column if not exists task_id text;
+
+STEP 2 — Extract FIRST fatal error block
+---- ERROR BLOCK START ----
+dashboard-1  |     Error.captureStackTrace(err)
+dashboard-1  |           ^
+dashboard-1  | 
+dashboard-1  | error: relation "tasks" does not exist
+dashboard-1  |     at /app/node_modules/pg-pool/index.js:45:11
+dashboard-1  |     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+dashboard-1  |     at async ensureTasksTaskIdColumn (file:///app/server/db_bootstrap_tasks_task_id.mjs:3:3)
+dashboard-1  |     at async file:///app/server.mjs:326:1 {
+dashboard-1  |   length: 103,
+dashboard-1  |   severity: 'ERROR',
+dashboard-1  |   code: '42P01',
+dashboard-1  |   detail: undefined,
+dashboard-1  |   hint: undefined,
+dashboard-1  |   position: undefined,
+dashboard-1  |   internalPosition: undefined,
+dashboard-1  |   internalQuery: undefined,
+dashboard-1  |   where: undefined,
+dashboard-1  |   schema: undefined,
+dashboard-1  |   table: undefined,
+dashboard-1  |   column: undefined,
+dashboard-1  |   dataType: undefined,
+dashboard-1  |   constraint: undefined,
+---- ERROR BLOCK END ----
+
+STEP 3 — Highlight missing dependency signals
+no missing modules detected
+
+STEP 4 — Highlight crash loop indicators
+postgres-1   | 2026-04-10 18:08:05.884 UTC [41] LOG:  background worker "logical replication launcher" (PID 47) exited with exit code 1
+
+
