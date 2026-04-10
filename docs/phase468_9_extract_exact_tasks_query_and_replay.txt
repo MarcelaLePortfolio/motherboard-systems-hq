@@ -1,0 +1,522 @@
+PHASE 468.9 — EXTRACT EXACT TASKS QUERY + REPLAY
+===============================================
+
+TARGET ROUTE: server/routes/api-tasks-postgres.mjs
+
+STEP 1 — Exact route excerpt around failing query
+     1	import express from "express";
+     2	import crypto from "crypto";
+     3	
+     4	console.log("[phase25] api-tasks-postgres loaded", new Date().toISOString(), "file=", import.meta.url);
+     5	import { emitTaskEvent } from "../task_events_emit.mjs";
+     6	import { PolicyEnforcedError, assertNotEnforced } from "../policy/enforce.mjs";
+     7	
+     8	export const apiTasksRouter = express.Router();
+     9	
+    10	function _asJson(req) {
+    11	  const b = req.body;
+    12	  if (b == null) return {};
+    13	  if (typeof b === "object") return b;
+    14	  if (typeof b === "string") {
+    15	    try { return JSON.parse(b); } catch (_) { return { _raw: b }; }
+    16	  }
+    17	  return { _raw: b };
+    18	}
+    19	
+    20	function _getPoolOrFail(res) {
+    21	  const pool = globalThis.__DB_POOL;
+    22	  if (!pool) {
+    23	    res.status(500).json({ ok: false, error: "db_pool_not_initialized" });
+    24	    return null;
+    25	  }
+    26	  return pool;
+    27	}
+    28	
+    29	// Health (non-writing). Keep both endpoints for compatibility.
+    30	apiTasksRouter.get("/healthz", async (_req, res) => {
+    31	  res.status(200).json({ ok: true });
+    32	});
+    33	
+    34	apiTasksRouter.get("/health", async (_req, res) => {
+    35	  res.status(200).json({ ok: true });
+    36	});
+    37	
+    38	// GET /api/tasks?limit=25  -> recent tasks for dashboard widget
+    39	apiTasksRouter.get("/", async (req, res) => {
+    40	  console.log("[phase57c-router] /api/tasks probe", {
+    41	    originalUrl: req.originalUrl,
+    42	    baseUrl: req.baseUrl,
+    43	    path: req.path,
+    44	    referer: req.get("referer") || null,
+    45	    userAgent: req.get("user-agent") || null,
+    46	    accept: req.get("accept") || null,
+    47	  });
+    48	
+    49	  try {
+    50	    const pool = _getPoolOrFail(res);
+    51	    if (!pool) return;
+    52	
+    53	    const limit = Math.max(1, Math.min(200, Number(req.query?.limit ?? 25) || 25));
+    54	    const r = await pool.query(
+    55	      `
+    56	      SELECT id, task_id, title, status, updated_at
+    57	      FROM tasks
+    58	      ORDER BY updated_at DESC NULLS LAST, id DESC
+    59	      LIMIT $1
+    60	      `,
+    61	      [limit]
+    62	    );
+    63	
+    64	    res.status(200).json({ ok: true, tasks: r.rows || [] });
+    65	  } catch (e) {
+    66	    console.error("[phase25] /api/tasks list error", e);
+    67	    res.status(500).json({ ok: false, error: e?.message || String(e) });
+    68	  }
+    69	});
+    70	
+    71	// POST /api/tasks/create  { task_id?, title?, agent?, run_id?, ... }
+    72	apiTasksRouter.post("/create", async (req, res) => {
+    73	  try {
+    74	    const pool = _getPoolOrFail(res);
+    75	    if (!pool) return;
+    76	
+    77	    console.log("[phase25] /api/tasks/create pool snapshot", {
+    78	      hasLocal: !!pool,
+    79	      localType: pool?.constructor?.name,
+    80	      hasGlobal: !!globalThis.__DB_POOL,
+    81	      globalType: globalThis.__DB_POOL?.constructor?.name,
+    82	    });
+    83	
+    84	    const b = _asJson(req);
+    85	
+    86	    let run_id = b.run_id ?? b.runId ?? null;
+    87	    if (!run_id) run_id = `run_${crypto.randomUUID()}`;
+    88	    run_id = String(run_id);
+    89	
+    90	    // Accept caller-provided task_id; otherwise create a task row + mint a stable string task_id.
+    91	    let task_id = b.task_id ?? b.taskId ?? b.id ?? null;
+    92	
+    93	    // Phase52: schema-compat — task_id must never be null (tasks.task_id is NOT NULL)
+    94	    if (!task_id) task_id = `t_${crypto.randomUUID()}`;
+    95	
+    96	    // Normalize to string for lifecycle events
+    97	    task_id = String(task_id);
+    98	
+    99	    // phase25: ensure tasks row exists even when caller provides task_id
+   100	    // (workers claim from tasks, not task_events)
+   101	    await pool.query(
+   102	      `
+   103	      INSERT INTO tasks (task_id, title, status, run_id, action_tier, notes)
+   104	      VALUES ($1, $2, $3, $4, $5, $6)
+   105	      ON CONFLICT (task_id) DO UPDATE
+   106	      SET title       = COALESCE(EXCLUDED.title, tasks.title),
+   107	          status      = COALESCE(EXCLUDED.status, tasks.status),
+   108	          run_id      = COALESCE(EXCLUDED.run_id, tasks.run_id),
+   109	          action_tier = COALESCE(EXCLUDED.action_tier, tasks.action_tier),
+   110	          notes       = COALESCE(EXCLUDED.notes, tasks.notes),
+   111	          updated_at  = now()
+   112	      `,
+   113	      [
+   114	        task_id,
+   115	        b.title ?? null,
+   116	        b.status ?? "queued",
+   117	        run_id,
+   118	        b.action_tier ?? "A",
+   119	        b.notes ?? null,
+   120	      ]
+   121	    );
+   122	
+   123	    const evt = await emitTaskEvent({
+   124	      pool,
+   125	      kind: "task.created",
+   126	      task_id,
+   127	      run_id,
+   128	      actor: b.actor ?? b.agent ?? "api",
+   129	      payload: {
+   130	        title: b.title ?? null,
+   131	        agent: b.agent ?? null,
+   132	        status: b.status ?? "delegated",
+   133	        source: b.source ?? "api",
+   134	        meta: b.meta ?? null,
+   135	      },
+   136	    });
+   137	
+   138	    res.status(201).json({ ok: true, task_id, run_id, event: evt });
+   139	  } catch (e) {
+   140	    console.error("[phase25] /api/tasks error", e);
+   141	
+   142	    if (e instanceof PolicyEnforcedError || e?.code === "POLICY_ENFORCED" || e?.name === "PolicyEnforcedError") {
+   143	      return res.status(403).json({ ok: false, error: "policy.enforced", detail: e?.message || String(e) });
+   144	    }
+   145	
+   146	    res.status(500).json({ ok: false, error: e?.message || String(e) });
+   147	  }
+   148	});
+   149	
+   150	// POST /api/tasks/complete  { task_id, status?, run_id?, ... }
+   151	apiTasksRouter.post("/complete", async (req, res) => {
+   152	  try {
+   153	    // Phase53: enforce gate BEFORE any DB writes
+   154	    assertNotEnforced("http:/api/tasks/create");
+   155	
+   156	    const pool = _getPoolOrFail(res);
+   157	    if (!pool) return;
+   158	
+   159	    const b = _asJson(req);
+   160	    const task_id = b.task_id ?? b.taskId ?? b.id ?? null;
+   161	    if (!task_id) return res.status(400).json({ ok: false, error: "task_id_required" });
+   162	
+   163	    const evt = await emitTaskEvent({
+   164	      pool,
+   165	      kind: "task.completed",
+   166	      task_id,
+   167	      run_id: b.run_id ?? b.runId ?? null,
+   168	      actor: b.actor ?? b.agent ?? "api",
+   169	      payload: {
+   170	        status: b.status ?? "complete",
+   171	        result: b.result ?? null,
+   172	        source: b.source ?? "api",
+   173	      },
+   174	    });
+   175	
+   176	    res.status(200).json({ ok: true, task_id, event: evt });
+   177	  } catch (e) {
+   178	    console.error("[phase25] /api/tasks error", e);
+   179	
+   180	    if (e instanceof PolicyEnforcedError || e?.code === "POLICY_ENFORCED" || e?.name === "PolicyEnforcedError") {
+   181	      return res.status(403).json({ ok: false, error: "policy.enforced", detail: e?.message || String(e) });
+   182	    }
+   183	
+   184	    res.status(500).json({ ok: false, error: e?.message || String(e) });
+   185	  }
+   186	});
+   187	
+   188	// POST /api/tasks/fail  { task_id, error?, status?, run_id?, ... }
+   189	apiTasksRouter.post("/fail", async (req, res) => {
+   190	  try {
+   191	    // Phase53: enforce gate BEFORE any DB writes
+   192	    assertNotEnforced("http:/api/tasks/complete");
+   193	
+   194	    const pool = _getPoolOrFail(res);
+   195	    if (!pool) return;
+   196	
+   197	    const b = _asJson(req);
+   198	    const task_id = b.task_id ?? b.taskId ?? b.id ?? null;
+   199	    if (!task_id) return res.status(400).json({ ok: false, error: "task_id_required" });
+   200	
+   201	    const evt = await emitTaskEvent({
+   202	      pool,
+   203	      kind: "task.failed",
+   204	      task_id,
+   205	      run_id: b.run_id ?? b.runId ?? null,
+   206	      actor: b.actor ?? b.agent ?? "api",
+   207	      payload: {
+   208	        status: b.status ?? "failed",
+   209	        error: b.error ?? b.err ?? null,
+   210	        source: b.source ?? "api",
+   211	      },
+   212	    });
+   213	
+   214	    res.status(200).json({ ok: true, task_id, event: evt });
+   215	  } catch (e) {
+   216	    console.error("[phase25] /api/tasks error", e);
+   217	
+   218	    if (e instanceof PolicyEnforcedError || e?.code === "POLICY_ENFORCED" || e?.name === "PolicyEnforcedError") {
+   219	      return res.status(403).json({ ok: false, error: "policy.enforced", detail: e?.message || String(e) });
+   220	    }
+
+STEP 2 — High-signal query lines
+1-import express from "express";
+2-import crypto from "crypto";
+3-
+4:console.log("[phase25] api-tasks-postgres loaded", new Date().toISOString(), "file=", import.meta.url);
+5-import { emitTaskEvent } from "../task_events_emit.mjs";
+6-import { PolicyEnforcedError, assertNotEnforced } from "../policy/enforce.mjs";
+7-
+8-export const apiTasksRouter = express.Router();
+9-
+10-function _asJson(req) {
+11-  const b = req.body;
+12-  if (b == null) return {};
+--
+15-    try { return JSON.parse(b); } catch (_) { return { _raw: b }; }
+16-  }
+17-  return { _raw: b };
+18-}
+19-
+20-function _getPoolOrFail(res) {
+21-  const pool = globalThis.__DB_POOL;
+22-  if (!pool) {
+23:    res.status(500).json({ ok: false, error: "db_pool_not_initialized" });
+24-    return null;
+25-  }
+26-  return pool;
+27-}
+28-
+29-// Health (non-writing). Keep both endpoints for compatibility.
+30-apiTasksRouter.get("/healthz", async (_req, res) => {
+31:  res.status(200).json({ ok: true });
+32-});
+33-
+34-apiTasksRouter.get("/health", async (_req, res) => {
+35:  res.status(200).json({ ok: true });
+36-});
+37-
+38-// GET /api/tasks?limit=25  -> recent tasks for dashboard widget
+39-apiTasksRouter.get("/", async (req, res) => {
+40-  console.log("[phase57c-router] /api/tasks probe", {
+41-    originalUrl: req.originalUrl,
+42-    baseUrl: req.baseUrl,
+43-    path: req.path,
+44-    referer: req.get("referer") || null,
+45:    userAgent: req.get("user-agent") || null,
+46-    accept: req.get("accept") || null,
+47-  });
+48-
+49-  try {
+50-    const pool = _getPoolOrFail(res);
+51-    if (!pool) return;
+52-
+53-    const limit = Math.max(1, Math.min(200, Number(req.query?.limit ?? 25) || 25));
+54:    const r = await pool.query(
+55-      `
+56:      SELECT id, task_id, title, status, updated_at
+57:      FROM tasks
+58:      ORDER BY updated_at DESC NULLS LAST, id DESC
+59:      LIMIT $1
+60-      `,
+61-      [limit]
+62-    );
+63-
+64:    res.status(200).json({ ok: true, tasks: r.rows || [] });
+65-  } catch (e) {
+66:    console.error("[phase25] /api/tasks list error", e);
+67:    res.status(500).json({ ok: false, error: e?.message || String(e) });
+68-  }
+69-});
+70-
+71:// POST /api/tasks/create  { task_id?, title?, agent?, run_id?, ... }
+72-apiTasksRouter.post("/create", async (req, res) => {
+73-  try {
+74-    const pool = _getPoolOrFail(res);
+75-    if (!pool) return;
+76-
+77-    console.log("[phase25] /api/tasks/create pool snapshot", {
+78-      hasLocal: !!pool,
+79-      localType: pool?.constructor?.name,
+--
+93-    // Phase52: schema-compat — task_id must never be null (tasks.task_id is NOT NULL)
+94-    if (!task_id) task_id = `t_${crypto.randomUUID()}`;
+95-
+96-    // Normalize to string for lifecycle events
+97-    task_id = String(task_id);
+98-
+99-    // phase25: ensure tasks row exists even when caller provides task_id
+100-    // (workers claim from tasks, not task_events)
+101:    await pool.query(
+102-      `
+103:      INSERT INTO tasks (task_id, title, status, run_id, action_tier, notes)
+104-      VALUES ($1, $2, $3, $4, $5, $6)
+105-      ON CONFLICT (task_id) DO UPDATE
+106:      SET title       = COALESCE(EXCLUDED.title, tasks.title),
+107:          status      = COALESCE(EXCLUDED.status, tasks.status),
+108-          run_id      = COALESCE(EXCLUDED.run_id, tasks.run_id),
+109-          action_tier = COALESCE(EXCLUDED.action_tier, tasks.action_tier),
+110:          notes       = COALESCE(EXCLUDED.notes, tasks.notes),
+111:          updated_at  = now()
+112-      `,
+113-      [
+114-        task_id,
+115:        b.title ?? null,
+116:        b.status ?? "queued",
+117-        run_id,
+118-        b.action_tier ?? "A",
+119:        b.notes ?? null,
+120-      ]
+121-    );
+122-
+123-    const evt = await emitTaskEvent({
+124-      pool,
+125-      kind: "task.created",
+126-      task_id,
+127-      run_id,
+128:      actor: b.actor ?? b.agent ?? "api",
+129-      payload: {
+130:        title: b.title ?? null,
+131:        agent: b.agent ?? null,
+132:        status: b.status ?? "delegated",
+133:        source: b.source ?? "api",
+134:        meta: b.meta ?? null,
+135-      },
+136-    });
+137-
+138:    res.status(201).json({ ok: true, task_id, run_id, event: evt });
+139-  } catch (e) {
+140:    console.error("[phase25] /api/tasks error", e);
+141-
+142-    if (e instanceof PolicyEnforcedError || e?.code === "POLICY_ENFORCED" || e?.name === "PolicyEnforcedError") {
+143:      return res.status(403).json({ ok: false, error: "policy.enforced", detail: e?.message || String(e) });
+144-    }
+145-
+146:    res.status(500).json({ ok: false, error: e?.message || String(e) });
+147-  }
+148-});
+149-
+150:// POST /api/tasks/complete  { task_id, status?, run_id?, ... }
+151-apiTasksRouter.post("/complete", async (req, res) => {
+152-  try {
+153-    // Phase53: enforce gate BEFORE any DB writes
+154-    assertNotEnforced("http:/api/tasks/create");
+155-
+156-    const pool = _getPoolOrFail(res);
+157-    if (!pool) return;
+158-
+159-    const b = _asJson(req);
+160-    const task_id = b.task_id ?? b.taskId ?? b.id ?? null;
+161:    if (!task_id) return res.status(400).json({ ok: false, error: "task_id_required" });
+162-
+163-    const evt = await emitTaskEvent({
+164-      pool,
+165-      kind: "task.completed",
+166-      task_id,
+167-      run_id: b.run_id ?? b.runId ?? null,
+168:      actor: b.actor ?? b.agent ?? "api",
+169-      payload: {
+170:        status: b.status ?? "complete",
+171-        result: b.result ?? null,
+172:        source: b.source ?? "api",
+173-      },
+174-    });
+175-
+176:    res.status(200).json({ ok: true, task_id, event: evt });
+177-  } catch (e) {
+178:    console.error("[phase25] /api/tasks error", e);
+179-
+180-    if (e instanceof PolicyEnforcedError || e?.code === "POLICY_ENFORCED" || e?.name === "PolicyEnforcedError") {
+181:      return res.status(403).json({ ok: false, error: "policy.enforced", detail: e?.message || String(e) });
+182-    }
+183-
+184:    res.status(500).json({ ok: false, error: e?.message || String(e) });
+185-  }
+186-});
+187-
+188:// POST /api/tasks/fail  { task_id, error?, status?, run_id?, ... }
+189-apiTasksRouter.post("/fail", async (req, res) => {
+190-  try {
+191-    // Phase53: enforce gate BEFORE any DB writes
+192-    assertNotEnforced("http:/api/tasks/complete");
+193-
+194-    const pool = _getPoolOrFail(res);
+195-    if (!pool) return;
+196-
+197-    const b = _asJson(req);
+198-    const task_id = b.task_id ?? b.taskId ?? b.id ?? null;
+199:    if (!task_id) return res.status(400).json({ ok: false, error: "task_id_required" });
+200-
+201-    const evt = await emitTaskEvent({
+202-      pool,
+203-      kind: "task.failed",
+204-      task_id,
+205-      run_id: b.run_id ?? b.runId ?? null,
+206:      actor: b.actor ?? b.agent ?? "api",
+207-      payload: {
+208:        status: b.status ?? "failed",
+209:        error: b.error ?? b.err ?? null,
+210:        source: b.source ?? "api",
+211-      },
+212-    });
+213-
+214:    res.status(200).json({ ok: true, task_id, event: evt });
+215-  } catch (e) {
+216:    console.error("[phase25] /api/tasks error", e);
+217-
+218-    if (e instanceof PolicyEnforcedError || e?.code === "POLICY_ENFORCED" || e?.name === "PolicyEnforcedError") {
+219:      return res.status(403).json({ ok: false, error: "policy.enforced", detail: e?.message || String(e) });
+220-    }
+221-
+222:    res.status(500).json({ ok: false, error: e?.message || String(e) });
+223-  }
+224-});
+225-
+226-// POST /api/tasks/cancel  { task_id, run_id?, ... }
+227-apiTasksRouter.post("/cancel", async (req, res) => {
+228-  try {
+229-    // Phase53: enforce gate BEFORE any DB writes
+230-    assertNotEnforced("http:/api/tasks/cancel");
+--
+232-    // Phase53: enforce gate BEFORE any DB writes
+233-    assertNotEnforced("http:/api/tasks/fail");
+234-
+235-    const pool = _getPoolOrFail(res);
+236-    if (!pool) return;
+237-
+238-    const b = _asJson(req);
+239-    const task_id = b.task_id ?? b.taskId ?? b.id ?? null;
+240:    if (!task_id) return res.status(400).json({ ok: false, error: "task_id_required" });
+241-
+242-    const evt = await emitTaskEvent({
+243-      pool,
+244-      kind: "task.canceled",
+245-      task_id,
+246-      run_id: b.run_id ?? b.runId ?? null,
+247:      actor: b.actor ?? b.agent ?? "api",
+248-      payload: {
+249-        reason: b.reason ?? null,
+250:        source: b.source ?? "api",
+251-      },
+252-    });
+253-
+254:    res.status(200).json({ ok: true, task_id, event: evt });
+255-  } catch (e) {
+256:    console.error("[phase25] /api/tasks error", e);
+257-
+258-    if (e instanceof PolicyEnforcedError || e?.code === "POLICY_ENFORCED" || e?.name === "PolicyEnforcedError") {
+259:      return res.status(403).json({ ok: false, error: "policy.enforced", detail: e?.message || String(e) });
+260-    }
+261-
+262:    res.status(500).json({ ok: false, error: e?.message || String(e) });
+263-  }
+264-});
+
+STEP 3 — Direct table smoke query in postgres
+ id | title | agent | status | notes | source | trace_id | error | meta | created_at | updated_at 
+----+-------+-------+--------+-------+--------+----------+-------+------+------------+------------
+(0 rows)
+
+
+STEP 4 — Search for alternate tasks relations
+ schemaname | tablename 
+------------+-----------
+ public     | tasks
+(1 row)
+
+
+ schemaname | viewname 
+------------+----------
+(0 rows)
+
+
+STEP 5 — Search path + current DB
+   search_path   
+-----------------
+ "$user", public
+(1 row)
+
+
+ current_database | current_schema 
+------------------+----------------
+ postgres         | public
+(1 row)
+
+
+STEP 6 — Dashboard env DB target
+DATABASE_URL=
+PGDATABASE=postgres
+PGHOST=postgres
+PGPORT=5432
+PGUSER=postgres
+
+STEP 7 — Classification target
+- If direct SELECT succeeds but route still fails, the route query text or relation binding is wrong.
+- If alternate tasks relation exists, the route may be resolving the wrong relation.
+- Next mutation must target the exact failing SQL line only.
