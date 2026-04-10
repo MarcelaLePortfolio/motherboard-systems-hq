@@ -22,4 +22,3 @@ router.get("/", (_req, res) => {
 });
 
 export default router;
-// WARNING: patch did not apply — manual review required
