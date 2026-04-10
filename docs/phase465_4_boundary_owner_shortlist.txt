@@ -1,0 +1,240 @@
+PHASE 465.4 — BOUNDARY OWNER SHORTLIST
+======================================
+
+INPUT: docs/phase465_3_boundary_owner_extraction.txt
+
+STEP 1 — Intake shortlist
+  10 server/taskContract.mjs
+   7 server/routes/task-events-sse.mjs
+   5 server/policy/policy_audit.mjs
+   4 server/tasks-mutations.mjs
+   3 server/policy/grants.mjs
+   3 server/policy/evaluate.mjs
+   2 server/policy/grants/resolvePolicyGrant.mjs
+   2 server/policy/evaluate.legacy.mjs
+   2 server/orchestrator_state_route.mjs
+   1 server/tasks-mutations.mjs-8-
+   1 server/tasks-mutations.mjs-7-
+   1 server/tasks-mutations.mjs-6-
+   1 server/tasks-mutations.mjs-4-
+   1 server/tasks-mutations.mjs-35-
+   1 server/tasks-mutations.mjs-34-
+   1 server/tasks-mutations.mjs-31-
+   1 server/tasks-mutations.mjs-30-
+   1 server/tasks-mutations.mjs-3-import
+   1 server/tasks-mutations.mjs-11-
+   1 server/tasks-mutations.mjs-10-
+
+STEP 2 — Governance shortlist
+  11 server/sql/phase45_policy_grants.sql
+  10 server/policy/policy_eval.mjs
+   9 src/governance_operator_reference/governance_operator_reference_builder.ts
+   9 src/governance_operator_playbook/governance_operator_playbook_builder.ts
+   5 src/governance_operator_reference/index.ts
+   5 src/governance_operator_reference/governance_operator_reference_formatter.ts
+   2 server/policy/policy_flags.mjs
+   2 server/policy/grants.mjs
+   1 src/governance_operator_reference/index.ts-7-export
+   1 src/governance_operator_reference/index.ts-6-
+   1 src/governance_operator_reference/index.ts-4-
+   1 src/governance_operator_reference/index.ts-3-
+   1 src/governance_operator_reference/index.ts-21-
+   1 src/governance_operator_reference/index.ts-20-
+   1 src/governance_operator_reference/index.ts-19-export
+   1 src/governance_operator_reference/index.ts-18-
+   1 src/governance_operator_reference/index.ts-15-
+   1 src/governance_operator_reference/index.ts-13-
+   1 src/governance_operator_reference/index.ts-12-
+   1 src/governance_operator_reference/governance_operator_reference_model.ts-9-
+
+STEP 3 — Execution/preparation shortlist
+  29 server/sql/phase40_6_shadow_audit_task_events.sql
+  26 server/sql/phase47_decision_correctness_invariants.sql
+   2 src/governance_operator_reference/governance_operator_reference_formatter.ts
+   1 src/governance_operator_reference/governance_operator_reference_model.ts-8-
+   1 src/governance_operator_reference/governance_operator_reference_model.ts-7-
+   1 src/governance_operator_reference/governance_operator_reference_model.ts-11-
+   1 src/governance_operator_reference/governance_operator_reference_model.ts-10-
+   1 src/governance_operator_reference/governance_operator_reference_model.ts
+   1 src/governance_operator_reference/governance_operator_reference_formatter.ts-29-
+   1 src/governance_operator_reference/governance_operator_reference_formatter.ts-28-
+   1 src/governance_operator_reference/governance_operator_reference_formatter.ts-26-
+   1 src/governance_operator_reference/governance_operator_reference_formatter.ts-24-export
+   1 src/governance_operator_reference/governance_operator_reference_formatter.ts-23-
+   1 server/sql/phase47_decision_correctness_invariants.sql-99-
+   1 server/sql/phase47_decision_correctness_invariants.sql-97-
+   1 server/sql/phase47_decision_correctness_invariants.sql-96-
+   1 server/sql/phase47_decision_correctness_invariants.sql-90-
+   1 server/sql/phase47_decision_correctness_invariants.sql-9-
+   1 server/sql/phase47_decision_correctness_invariants.sql-89-
+   1 server/sql/phase47_decision_correctness_invariants.sql-87-
+
+STEP 4 — Distinct files declared by boundary
+[intake] server/enforcement/phase44_mutation_enforcer.mjs
+[intake] server/optional-sse.mjs
+[intake] server/orchestrator_state_route.mjs
+[intake] server/policy/evaluate.legacy.mjs
+[intake] server/policy/evaluate.mjs
+[intake] server/policy/grants.mjs
+[intake] server/policy/grants/resolvePolicyGrant.mjs
+[intake] server/policy/policy_audit_shape.mjs
+[intake] server/policy/policy_audit.mjs
+[intake] server/routes/task-events-sse.mjs
+[intake] server/task-events.mjs
+[intake] server/taskContract.mjs
+[intake] server/tasks-mutations.mjs
+[intake] src/cognition/operatorGuidanceSafety.ts
+[intake] src/cognition/situationSummaryComposer.ts
+[intake] src/cognition/situationSummaryInputAdapter.ts
+[intake] src/cognition/transport/cognitionTransport.dashboardConsumption.invariants.ts
+[intake] src/cognition/transport/cognitionTransport.dashboardConsumption.test.ts
+[intake] src/cognition/transport/cognitionTransport.policy.ts
+[intake] src/cognition/transport/cognitionTransport.validate.ts
+[intake] src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_bundle.ts
+[intake] src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_fixture.ts
+[intake] src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_validation.ts
+[intake] src/cognition/transport/consumptionRegistry/consumption_registry_enforcement.ts
+[intake] src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.freeze.ts
+[intake] src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.invariants.ts
+[intake] src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.validate.ts
+[intake] src/demo/minimalDemoRunner.ts
+[intake] src/demo/promptToDemoRequest.ts
+[intake] src/demo/promptToDemoRequest.ts.fl3_pre_mutation.bak
+[intake] src/governance_investigation/governance_playback_types.ts
+[intake] src/governance_investigation/verification/replay_fixture_diagnostics.ts
+[intake] src/governance_investigation/verification/replay_structure_verifier.ts
+[intake] src/governance/cognition/index.ts
+[intake] src/governance/cognition/normalize_governance_dashboard_contract_registration.ts
+[intake] src/governance/cognition/normalize_governance_runtime_registry_export.ts
+[intake] src/governance/cognition/normalize_governance_shared_registry_owner_bundle.ts
+[intake] src/governance/cognition/normalize_governance_snapshot.ts
+[intake] src/governance/cognition/package_governance_cognition_snapshot.ts
+[intake] src/governance/cognition/prove_governance_authorization_gate.ts
+[governance] server/enforcement/phase44_mutation_enforcer.mjs
+[governance] server/guards/phase44_runtime_integrity_guard.mjs
+[governance] server/orchestration/operator-commands.test.ts
+[governance] server/orchestration/operator-commands.ts
+[governance] server/orchestration/policy-pipeline.ts
+[governance] server/orchestration/router.test.ts
+[governance] server/orchestration/router.ts
+[governance] server/orchestration/scheduler.test.ts
+[governance] server/orchestration/scheduler.ts
+[governance] server/orchestration/task-state-machine.ts
+[governance] server/policy/__tests__/combine.test.mjs
+[governance] server/policy/__tests__/determinism_regression.test.mjs
+[governance] server/policy/__tests__/evaluate.test.mjs
+[governance] server/policy/__tests__/load_default_policy.test.mjs
+[governance] server/policy/combine.mjs
+[governance] server/policy/enforce.mjs
+[governance] server/policy/evaluate.legacy.mjs
+[governance] server/policy/evaluate.mjs
+[governance] server/policy/grants.mjs
+[governance] server/policy/grants/resolvePolicyGrant.mjs
+[governance] server/policy/policy_audit_shape.mjs
+[governance] server/policy/policy_audit.mjs
+[governance] server/policy/policy_eval.mjs
+[governance] server/policy/policy_flags.mjs
+[governance] server/policy/policy_grants.ts
+[governance] server/policy/resolvePolicyGrant.mjs
+[governance] server/policy/stable_json.mjs
+[governance] server/routes/api-tasks-postgres.mjs
+[governance] server/routes/phase48_policy_probe.mjs
+[governance] server/sql/phase45_policy_grants.sql
+[governance] server/sql/phase47_decision_correctness_invariants.sql
+[governance] server/task-events.mjs
+[governance] server/tasks-mutations.mjs
+[governance] server/worker/phase26_task_worker.mjs
+[governance] server/worker/phase34_claim_one.sql
+[governance] server/worker/phase34_reclaim_stale.sql
+[governance] src/cognition/confidence/confidence.types.ts
+[governance] src/cognition/confidence/confidenceFactors.ts
+[governance] src/cognition/confidence/confidenceInvariant.ts
+[governance] src/cognition/contracts/cognition.contracts.ts
+[execution] server/_lib/retry.mjs
+[execution] server/api/tasks-mutations/delegate-taskspec.mjs
+[execution] server/artifacts.mjs
+[execution] server/db_bootstrap_tasks_retry_semantics.mjs
+[execution] server/db_bootstrap_tasks_task_id.mjs
+[execution] server/db_bootstrap_tasks_task_id.mjs.bak_phase464x
+[execution] server/db_wait_ready.mjs
+[execution] server/emit-after-response.mjs
+[execution] server/enforcement/phase44_mutation_allowlist.mjs
+[execution] server/enforcement/phase44_mutation_enforcer.mjs
+[execution] server/optional-sse.mjs
+[execution] server/orchestration/deps.test.ts
+[execution] server/orchestration/deps.ts
+[execution] server/orchestration/operator-commands.test.ts
+[execution] server/orchestration/operator-commands.ts
+[execution] server/orchestration/policy-pipeline.ts
+[execution] server/orchestration/policy.ts
+[execution] server/orchestration/router.test.ts
+[execution] server/orchestration/router.ts
+[execution] server/orchestration/scheduler.test.ts
+[execution] server/orchestration/scheduler.ts
+[execution] server/orchestration/task-state-machine.test.ts
+[execution] server/orchestration/task-state-machine.ts
+[execution] server/orchestrator/phase18_orchestration.mjs
+[execution] server/orchestrator/phase18_tick.mjs
+[execution] server/orchestrator/README.md
+[execution] server/policy/__tests__/combine.test.mjs
+[execution] server/policy/__tests__/determinism_regression.test.mjs
+[execution] server/policy/__tests__/evaluate.test.mjs
+[execution] server/policy/__tests__/grants.test.mjs
+[execution] server/policy/evaluate.mjs
+[execution] server/policy/grants.mjs
+[execution] server/policy/policy_audit.mjs
+[execution] server/policy/policy_eval.mjs
+[execution] server/routes/api-tasks-mutations.mjs
+[execution] server/routes/api-tasks-postgres.mjs
+[execution] server/routes/phase36_run_view.mjs
+[execution] server/routes/phase40_6_shadow_audit_task_events.mjs
+[execution] server/routes/phase48_policy_probe.mjs
+[execution] server/routes/task-events-sse.mjs
+
+STEP 5 — Candidate overlap frequencies
+   1 server/worker/phase34_claim_task_id_for_test.sql
+   1 server/worker/phase34_claim_one.sql
+   1 server/worker/phase34_claim_one_pg.sql
+   1 server/worker/phase32_mark_success.sql
+   1 server/worker/phase32_mark_failure.sql
+   1 server/worker/phase32_claim_one.sql
+   1 server/worker/phase30_db_doctor_pretty.sh
+   1 server/worker/phase30_contract_check.sql
+   1 server/worker/phase29_db_migrate_to_phase27.sql
+   1 server/worker/phase29_db_doctor.sh
+   1 server/worker/phase28_mark_success.sql
+   1 server/worker/phase28_mark_failure.sql
+   1 server/worker/phase28_claim_one.sql
+   1 server/worker/phase27_markers.mjs
+   1 server/worker/phase27_mark_success.sql
+   1 server/worker/phase27_mark_failure.sql
+   1 server/worker/phase27_claim_one.sql
+   1 server/worker/phase26_task_worker.mjs
+   1 server/tasks-mutations.mjs
+   1 server/taskContract.mjs
+   1 server/task-lifecycle.ts
+   1 server/task-events.mjs
+   1 server/task_events_emit.mjs
+   1 server/sql/phase54_bootstrap.sql
+   1 server/sql/phase47_decision_correctness_invariants.sql
+   1 server/sql/phase45_policy_grants.sql
+   1 server/sql/phase40_6_shadow_audit_task_events.sql
+   1 server/sql/phase39_claim_one_with_value_gate.sql
+   1 server/routes/task-events-sse.mjs
+   1 server/routes/phase48_policy_probe.mjs
+   1 server/routes/phase40_6_shadow_audit_task_events.mjs
+   1 server/routes/phase36_run_view.mjs
+   1 server/routes/api-tasks-postgres.mjs
+   1 server/routes/api-tasks-mutations.mjs
+   1 server/policy/stable_json.mjs
+   1 server/policy/resolvePolicyGrant.mjs
+   1 server/policy/policy_grants.ts
+   1 server/policy/policy_flags.mjs
+   1 server/policy/policy_eval.mjs
+   1 server/policy/policy_audit.mjs
+
+DECISION TARGET
+- Choose ONE likely owner for intake
+- Choose ONE likely owner for governance
+- Choose ONE likely owner for execution/preparation
+- Next phase should extract exact snippets from only those files
