@@ -754,7 +754,7 @@
     })();
   </script>
     <!-- phase470.6 temporary neutralization: operatorGuidance.sse.js removed to isolate dashboard freeze / unresponsive behavior -->
-<!-- phase471.1 temporary neutralization: /js/phase457_restore_task_panels.js removed to isolate task-events surface -->
+    <script src="/js/phase457_restore_task_panels.js"></script>
     <script id="phase464x-guidance-dom-probe">
 (() => {
   function consoleLog(msg, obj) {
