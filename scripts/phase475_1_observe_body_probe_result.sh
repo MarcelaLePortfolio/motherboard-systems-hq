@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cd "$(git rev-parse --show-toplevel)"
+
+OUT="docs/phase475_1_observe_body_probe_result.txt"
+mkdir -p docs
+
+cat > "$OUT" <<'EOT'
+PHASE 475.1 — OBSERVE BODY PROBE RESULT
+=======================================
+
+STATUS
+- dashboard route has been restored
+- separate body isolation probe is serving correctly
+- this step determines whether the freeze is tied to dashboard body markup or something broader in the browser/rendering path
+
+DO THIS NOW
+1. Open:
+   http://localhost:8080/body_isolation_probe.html
+
+2. Let it sit for 30–60 seconds.
+
+3. Try:
+   - scroll once
+   - click once anywhere harmless
+
+RETURN TO CHATGPT WITH EXACTLY ONE OF THESE
+- BODY_PROBE_STABLE
+- BODY_PROBE_STILL_UNRESPONSIVE
+- WHITE_SCREEN_RETURNED
+EOT
+
+echo "Wrote $OUT"
+sed -n '1,200p' "$OUT"
+
+if command -v open >/dev/null 2>&1; then
+  open "http://localhost:8080/body_isolation_probe.html" || true
+fi
