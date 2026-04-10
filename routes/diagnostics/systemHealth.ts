@@ -13,6 +13,16 @@ router.get("/", (_req, res) => {
   });
 
   res.json({
+  // Phase 464.X SAFE PATCH — normalize output without overriding logic
+  if (Array.isArray(payload)) {
+    const seen = new Set();
+    payload = payload.filter(item => {
+      const key = JSON.stringify(item);
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  }
     status: "OK",
     uptime: process.uptime(),
     memory: process.memoryUsage(),
@@ -22,4 +32,3 @@ router.get("/", (_req, res) => {
 });
 
 export default router;
-// WARNING: patch did not apply — manual review required
