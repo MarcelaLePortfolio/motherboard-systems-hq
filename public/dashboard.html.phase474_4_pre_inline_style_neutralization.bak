@@ -1,7 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- phase474.4 temporary neutralization: inline style block removed for HTML-only layout isolation -->
+  <style id="matilda-chat-typography-polish">
+    #matilda-chat-transcript p {
+      line-height: 1.45 !important;
+      margin-bottom: 0.55rem !important;
+    }
+    #matilda-chat-transcript .user-message {
+      color: #dbeafe !important;
+    }
+    #matilda-chat-transcript .matilda-message {
+      color: #a7f3d0 !important;
+    }
+  
+  /* Phase 62: Agent Pool + Metrics dual top row */
+  .phase62-top-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 16px;
+    align-items: stretch;
+  }
+
+  .phase62-top-col {
+    min-width: 0;
+  }
+
+  .phase62-top-col > section,
+  .phase62-top-col > div {
+    height: 100%;
+    margin-bottom: 0 !important;
+  }
+
+  #agent-status-container.phase62-agent-pool {
+    margin-bottom: 0 !important;
+  }
+
+  @media (max-width: 1100px) {
+    .phase62-top-row {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Phase 62: consolidated metrics telemetry tile styling */
+  #metrics-row.phase62-metrics-tiles {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 12px !important;
+    align-items: stretch !important;
+  }
+
+  #metrics-row.phase62-metrics-tiles > .phase62-metric-card,
+  #metrics-row.phase62-metrics-tiles > .phase62-metric-tile,
+  #metrics-row.phase62-metrics-tiles > div.phase62-metric-card {
+    min-height: 72px !important;
+    padding: 12px 12px 10px 12px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    align-items: flex-start !important;
+    gap: 8px !important;
+  }
+
+  #metrics-row.phase62-metrics-tiles .phase62-metric-value {
+    order: 1 !important;
+    font-size: 2.5rem !important;
+    line-height: 1 !important;
+    letter-spacing: -0.04em !important;
+    margin: 0 !important;
+  }
+
+  #metrics-row.phase62-metrics-tiles .phase62-metric-label {
+    order: 2 !important;
+    font-size: 0.68rem !important;
+    line-height: 0.9rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.08em !important;
+    opacity: 0.82 !important;
+    margin: 0 !important;
+  }
+</style>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Motherboard Systems Operator Console</title>
@@ -19,9 +96,311 @@
 <!-- phase474.3 temporary neutralization: removed local stylesheet :: <link rel="stylesheet" href="css/phase61_workspace_consolidation.css" /> -->
 <!-- phase474.3 temporary neutralization: removed local stylesheet :: <link rel="stylesheet" href="css/phase61_tabs_observational_workspace.css" /> -->
 
-    <!-- phase474.4 temporary neutralization: inline style block removed for HTML-only layout isolation -->
+    <style id="phase61-layout-polish">
+      #phase61-workspace-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 1.5rem;
+        align-items: stretch;
+      }
 
-    <!-- phase474.4 temporary neutralization: inline style block removed for HTML-only layout isolation -->
+      #phase61-operator-column,
+      #phase61-telemetry-column {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+      }
+
+      #operator-workspace-card,
+      #observational-workspace-card {
+        display: flex;
+        flex-direction: column;
+        min-height: 36rem;
+        height: 100%;
+      }
+
+      #operator-panels,
+      #observational-panels {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+      }
+
+      #op-panel-chat,
+      #op-panel-delegation,
+      #obs-panel-recent,
+      #obs-panel-activity,
+      #obs-panel-events {
+        height: 100%;
+      }
+
+      #op-panel-chat .obs-surface,
+      #op-panel-delegation .obs-surface,
+      #obs-panel-recent .obs-surface,
+      #obs-panel-activity .obs-surface,
+      #obs-panel-events .obs-surface {
+        min-height: 100%;
+      }
+
+      #matilda-chat-card,
+      #delegation-card,
+      #recent-tasks-card,
+      #task-activity-card,
+      #task-events-card {
+        display: flex;
+        flex-direction: column;
+      }
+
+      #operator-tabs,
+      #observational-tabs {
+        margin-bottom: 1.1rem;
+      }
+
+      #op-panel-chat,
+      #op-panel-delegation,
+      #obs-panel-recent,
+      #obs-panel-activity,
+      #obs-panel-events {
+        padding-top: 0.1rem;
+      }
+
+      #matilda-chat-root {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      #matilda-chat-transcript {
+        min-height: 14rem;
+        height: 14rem;
+      }
+
+      #matilda-chat-root > .flex.space-x-3.items-end {
+        margin-top: auto;
+      }
+
+      #delegation-card {
+        justify-content: flex-start;
+      }
+
+      #delegation-input {
+        min-height: 8rem;
+      }
+
+      #task-activity-card .h-64 {
+        height: 100%;
+        min-height: 18rem;
+      }
+
+      #task-events-card.phase61-events-fill {
+        min-height: 100%;
+        height: 100%;
+      }
+
+      #task-events-card.phase61-events-fill #mb-task-events-panel-anchor {
+        flex: 1 1 auto;
+        min-height: 18rem;
+      }
+
+      #atlas-status-card {
+        width: 100%;
+      }
+
+      @media (max-width: 1023px) {
+        #phase61-workspace-grid {
+          grid-template-columns: 1fr;
+        }
+
+        #operator-workspace-card,
+        #observational-workspace-card {
+          min-height: auto;
+        }
+
+        #matilda-chat-transcript {
+          min-height: 13rem;
+          height: 13rem;
+        }
+      }
+
+      #phase61-atlas-band {
+        width: 100%;
+      }
+
+#atlas-status-card {
+  grid-column: 1 / -1;
+}
+
+
+      #phase61-atlas-band #atlas-status-card {
+        width: 100%;
+      }
+    </style>
+
+    <style id="phase61-task-events-polish">
+    .task-events-panel,
+    [data-phase61-task-events],
+    [data-tab-panel="task-events"],
+    #task-events-panel,
+    #task-events,
+    .task-events {
+      min-height: 360px;
+    }
+
+    .task-events-panel .task-events-list,
+    [data-phase61-task-events] .task-events-list,
+    [data-tab-panel="task-events"] .task-events-list,
+    #task-events-panel .task-events-list,
+    #task-events .task-events-list,
+    .task-events .task-events-list,
+    .task-events-panel ul,
+    [data-phase61-task-events] ul,
+    [data-tab-panel="task-events"] ul,
+    #task-events-panel ul,
+    #task-events ul,
+    .task-events ul {
+      max-height: 420px;
+      overflow: auto;
+      padding-right: 6px;
+      overscroll-behavior: contain;
+      scroll-behavior: smooth;
+    }
+
+    .task-events-panel .task-event,
+    [data-phase61-task-events] .task-event,
+    [data-tab-panel="task-events"] .task-event,
+    #task-events-panel .task-event,
+    #task-events .task-event,
+    .task-events .task-event,
+    .task-events-panel li,
+    [data-phase61-task-events] li,
+    [data-tab-panel="task-events"] li,
+    #task-events-panel li,
+    #task-events li,
+    .task-events li {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(96px, 120px) minmax(120px, 160px) 1fr;
+      gap: 10px;
+      align-items: start;
+      padding: 10px 12px 10px 14px;
+      margin-bottom: 8px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      line-height: 1.35;
+      font-size: 12px;
+    }
+
+    .task-events-panel .task-event::before,
+    [data-phase61-task-events] .task-event::before,
+    [data-tab-panel="task-events"] .task-event::before,
+    #task-events-panel .task-event::before,
+    #task-events .task-event::before,
+    .task-events .task-event::before,
+    .task-events-panel li::before,
+    [data-phase61-task-events] li::before,
+    [data-tab-panel="task-events"] li::before,
+    #task-events-panel li::before,
+    #task-events li::before,
+    .task-events li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 10px;
+      bottom: 10px;
+      width: 3px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.18);
+    }
+
+    .task-events-panel .task-event.phase61-event-terminal::before,
+    [data-phase61-task-events] .task-event.phase61-event-terminal::before,
+    [data-tab-panel="task-events"] .task-event.phase61-event-terminal::before,
+    #task-events-panel .task-event.phase61-event-terminal::before,
+    #task-events .task-event.phase61-event-terminal::before,
+    .task-events .task-event.phase61-event-terminal::before,
+    .task-events-panel li.phase61-event-terminal::before,
+    [data-phase61-task-events] li.phase61-event-terminal::before,
+    [data-tab-panel="task-events"] li.phase61-event-terminal::before,
+    #task-events-panel li.phase61-event-terminal::before,
+    #task-events li.phase61-event-terminal::before,
+    .task-events li.phase61-event-terminal::before {
+      background: rgba(244, 114, 182, 0.95);
+    }
+
+    .task-events-panel .task-event.phase61-event-active::before,
+    [data-phase61-task-events] .task-event.phase61-event-active::before,
+    [data-tab-panel="task-events"] .task-event.phase61-event-active::before,
+    #task-events-panel .task-event.phase61-event-active::before,
+    #task-events .task-event.phase61-event-active::before,
+    .task-events .task-event.phase61-event-active::before,
+    .task-events-panel li.phase61-event-active::before,
+    [data-phase61-task-events] li.phase61-event-active::before,
+    [data-tab-panel="task-events"] li.phase61-event-active::before,
+    #task-events-panel li.phase61-event-active::before,
+    #task-events li.phase61-event-active::before,
+    .task-events li.phase61-event-active::before {
+      background: rgba(34, 197, 94, 0.95);
+    }
+
+    .task-events-panel .task-event.phase61-event-waiting::before,
+    [data-phase61-task-events] .task-event.phase61-event-waiting::before,
+    [data-tab-panel="task-events"] .task-event.phase61-event-waiting::before,
+    #task-events-panel .task-event.phase61-event-waiting::before,
+    #task-events .task-event.phase61-event-waiting::before,
+    .task-events .task-event.phase61-event-waiting::before,
+    .task-events-panel li.phase61-event-waiting::before,
+    [data-phase61-task-events] li.phase61-event-waiting::before,
+    [data-tab-panel="task-events"] li.phase61-event-waiting::before,
+    #task-events-panel li.phase61-event-waiting::before,
+    #task-events li.phase61-event-waiting::before,
+    .task-events li.phase61-event-waiting::before {
+      background: rgba(250, 204, 21, 0.95);
+    }
+
+    .phase61-task-event-time {
+      font-variant-numeric: tabular-nums;
+      color: rgba(255,255,255,0.68);
+      white-space: nowrap;
+    }
+
+    .phase61-task-event-kind {
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      color: rgba(255,255,255,0.92);
+      word-break: break-word;
+    }
+
+    .phase61-task-event-detail {
+      color: rgba(255,255,255,0.78);
+      word-break: break-word;
+    }
+
+    .phase61-task-event-empty {
+      padding: 12px 2px 2px;
+      color: rgba(255,255,255,0.62);
+      font-size: 12px;
+    }
+
+    @media (max-width: 920px) {
+      .task-events-panel .task-event,
+      [data-phase61-task-events] .task-event,
+      [data-tab-panel="task-events"] .task-event,
+      #task-events-panel .task-event,
+      #task-events .task-event,
+      .task-events .task-event,
+      .task-events-panel li,
+      [data-phase61-task-events] li,
+      [data-tab-panel="task-events"] li,
+      #task-events-panel li,
+      #task-events li,
+      .task-events li {
+        grid-template-columns: 1fr;
+        gap: 4px;
+      }
+    }
+  </style>
 </head>
 
 <body class="bg-gray-900 text-gray-100 min-h-screen p-4">
@@ -571,6 +950,31 @@
   <!-- PHASE4732_SENTINEL_1775861395 -->
 </body>
 </html>
-<!-- phase474.4 temporary neutralization: inline style block removed for HTML-only layout isolation -->
-<!-- phase474.4 temporary neutralization: inline style block removed for HTML-only layout isolation -->
+<style>
+#task-events-card {
+  height:100%;
+  display:flex;
+  flex-direction:column;
+}
+
+#mb-task-events-panel-anchor {
+  flex:1;
+}
+</style>
+<style>
+#matilda-chat-root{
+  display:flex;
+  flex-direction:column;
+  height:100%;
+}
+
+#matilda-chat-transcript{
+  flex:1;
+}
+
+#matilda-helper-text-ops{
+  margin-top:0;
+  opacity:.7;
+}
+</style>
 

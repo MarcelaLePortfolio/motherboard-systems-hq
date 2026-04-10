@@ -1,0 +1,8 @@
+PHASE 474.4 — TRUE TAILWIND ONLY RESULT
+=======================================
+
+RESULT:
+TRUE_TAILWIND_ONLY_STILL_UNRESPONSIVE
+
+OPTIONAL_NOTE:
+Tailwind-only shell still becomes unresponsive.
