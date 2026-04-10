@@ -727,23 +727,51 @@
     <script src="/js/phase457_restore_task_panels.js"></script>
     <script id="phase464x-guidance-dom-probe">
 (() => {
-  function byId(id) { return document.getElementById(id); }
+  console.log("[phase464x stack probe] script loaded");
+
+  function byId(id) {
+    return document.getElementById(id);
+  }
+
+  function shortStack() {
+    try {
+      return String(new Error().stack || "")
+        .split("\n")
+        .slice(2, 8)
+        .map((s) => s.trim())
+        .join(" || ");
+    } catch (_) {
+      return "stack-unavailable";
+    }
+  }
 
   function install() {
+    console.log("[phase464x stack probe] install start");
+
     const panel = byId("operator-guidance-panel");
     const response = byId("operator-guidance-response");
     const meta = byId("operator-guidance-meta");
     const atlas = byId("atlas-status-card");
 
+    console.log("[phase464x stack probe] node check", {
+      panel: !!panel,
+      response: !!response,
+      meta: !!meta,
+      atlas: !!atlas
+    });
+
     if (!panel || !response || !meta) return;
-    if (window.__PHASE464X_GUIDANCE_STACK_PROBE_ACTIVE__) return;
+    if (window.__PHASE464X_GUIDANCE_STACK_PROBE_ACTIVE__) {
+      console.log("[phase464x stack probe] already active");
+      return;
+    }
     window.__PHASE464X_GUIDANCE_STACK_PROBE_ACTIVE__ = true;
 
-    const existing = byId("phase464x-guidance-dom-probe");
+    const existing = byId("phase464x-guidance-dom-probe-output");
     if (existing) existing.remove();
 
     const sink = document.createElement("pre");
-    sink.id = "phase464x-guidance-dom-probe";
+    sink.id = "phase464x-guidance-dom-probe-output";
     sink.style.cssText = [
       "margin-top:12px",
       "max-height:260px",
@@ -760,29 +788,54 @@
     sink.textContent = "[phase464x stack probe] armed\n";
     panel.appendChild(sink);
 
-    const log = (msg) => {
+    function log(msg) {
       sink.textContent += msg + "\n";
       sink.scrollTop = sink.scrollHeight;
       console.log("[phase464x stack probe]", msg);
-    };
+    }
 
-    const shortStack = () => {
-      try {
-        return String(new Error().stack || "")
-          .split("\n")
-          .slice(2, 8)
-          .map((s) => s.trim())
-          .join(" || ");
-      } catch {
-        return "stack-unavailable";
+    function patchNode(node, label) {
+      if (!node || node.__phase464xPatched) return;
+      node.__phase464xPatched = true;
+
+      const proto = Object.getPrototypeOf(node);
+      const textDesc = Object.getOwnPropertyDescriptor(Node.prototype, "textContent") ||
+                       Object.getOwnPropertyDescriptor(proto, "textContent");
+      const htmlDesc = Object.getOwnPropertyDescriptor(Element.prototype, "innerHTML") ||
+                       Object.getOwnPropertyDescriptor(proto, "innerHTML");
+
+      if (textDesc && textDesc.configurable) {
+        Object.defineProperty(node, "textContent", {
+          configurable: true,
+          enumerable: textDesc.enumerable ?? false,
+          get() {
+            return textDesc.get.call(this);
+          },
+          set(value) {
+            log(`setter target=${label} prop=textContent value="${String(value).replace(/\s+/g, " ").slice(0, 220)}" stack="${shortStack()}"`);
+            return textDesc.set.call(this, value);
+          }
+        });
       }
-    };
 
-    const watchNode = (node, id) => {
+      if (htmlDesc && htmlDesc.configurable) {
+        Object.defineProperty(node, "innerHTML", {
+          configurable: true,
+          enumerable: htmlDesc.enumerable ?? false,
+          get() {
+            return htmlDesc.get.call(this);
+          },
+          set(value) {
+            log(`setter target=${label} prop=innerHTML value="${String(value).replace(/\s+/g, " ").slice(0, 220)}" stack="${shortStack()}"`);
+            return htmlDesc.set.call(this, value);
+          }
+        });
+      }
+
       const obs = new MutationObserver((mutations) => {
         mutations.forEach((m) => {
           const text = (node.innerText || node.textContent || "").replace(/\s+/g, " ").trim().slice(0, 220);
-          log(`mutation target=${id} type=${m.type} added=${m.addedNodes ? m.addedNodes.length : 0} removed=${m.removedNodes ? m.removedNodes.length : 0} text="${text}" stack="${shortStack()}"`);
+          log(`mutation target=${label} type=${m.type} added=${m.addedNodes ? m.addedNodes.length : 0} removed=${m.removedNodes ? m.removedNodes.length : 0} text="${text}" stack="${shortStack()}"`);
         });
       });
 
@@ -792,10 +845,12 @@
         characterData: true
       });
 
-      log(`observer attached to #${id}`);
-    };
+      log(`observer attached to #${label}`);
+    }
 
-    [panel, response, meta].forEach((node) => watchNode(node, node.id));
+    patchNode(panel, "operator-guidance-panel");
+    patchNode(response, "operator-guidance-response");
+    patchNode(meta, "operator-guidance-meta");
 
     window.addEventListener("focus", () => log(`window focus stack="${shortStack()}"`));
     document.addEventListener("visibilitychange", () => log(`visibility=${document.visibilityState} stack="${shortStack()}"`));
@@ -807,6 +862,8 @@
       atlasObs.observe(atlas);
       atlasObs.observe(panel);
     }
+
+    log("install complete");
   }
 
   if (document.readyState === "loading") {
