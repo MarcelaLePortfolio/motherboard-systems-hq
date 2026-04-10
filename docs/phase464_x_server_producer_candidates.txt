@@ -1,0 +1,188 @@
+PHASE 464.X — SERVER PRODUCER CANDIDATES
+========================================
+
+Timestamp (UTC): 2026-04-10T17:48:24Z
+Repo root: /Users/marcela-dev/Projects/Motherboard_Systems_HQ
+
+FILE: agent.ts
+----------------------------------------
+19:  setInterval(() => {
+26:      res.writeHead(200, { "Content-Type": "application/json" });
+
+----- agent.ts lines 1-59 -----
+/* eslint-disable import/no-commonjs */
+/**
+ * Mirror Agent stub with HTTP heartbeat on fixed ports + all-path response
+ */
+import http from "http";
+
+const PORT_MAP: Record<string, number> = {
+  cade: 3012,
+  effie: 3013,
+};
+
+export function createAgentRuntime(agent: any) {
+  const name = agent?.name?.toLowerCase() || "agent";
+  const port = PORT_MAP[name] || 0;
+
+  console.log(`Mirror stub: Launching agent runtime for ${name} on port ${port || "no-port"}`);
+
+  // Heartbeat log to keep process alive
+  setInterval(() => {
+    console.log(`✅ ${name} heartbeat...`);
+  }, 10000);
+
+  if (port) {
+    http.createServer((req, res) => {
+      // Respond OK for any path
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ status: "online", agent: name, path: req.url }));
+    }).listen(port, () => {
+      console.log(`🌐 ${name} stub server listening on port ${port}`);
+    });
+  }
+}
+
+----- agent.ts lines 6-66 -----
+
+const PORT_MAP: Record<string, number> = {
+  cade: 3012,
+  effie: 3013,
+};
+
+export function createAgentRuntime(agent: any) {
+  const name = agent?.name?.toLowerCase() || "agent";
+  const port = PORT_MAP[name] || 0;
+
+  console.log(`Mirror stub: Launching agent runtime for ${name} on port ${port || "no-port"}`);
+
+  // Heartbeat log to keep process alive
+  setInterval(() => {
+    console.log(`✅ ${name} heartbeat...`);
+  }, 10000);
+
+  if (port) {
+    http.createServer((req, res) => {
+      // Respond OK for any path
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ status: "online", agent: name, path: req.url }));
+    }).listen(port, () => {
+      console.log(`🌐 ${name} stub server listening on port ${port}`);
+    });
+  }
+}
+
+
+FILE: dev-server.ts
+----------------------------------------
+72:    res.writeHead(200, { "Content-Type": "application/json" });
+88:    res.writeHead(200, { "Content-Type": mime });
+91:    res.writeHead(404);
+
+----- dev-server.ts lines 52-112 -----
+    }
+
+    // Step 2: Strict check — only mark green if PM2 online AND heartbeat responds
+    for (const agent of Object.keys(statusMap)) {
+      const port = HEARTBEAT_PORTS[agent];
+      if (pm2Online[agent] && port && await pingAgent(port)) {
+        statusMap[agent] = "online";
+      }
+    }
+
+    return statusMap;
+  } catch (err) {
+    console.error("❌ Failed to fetch PM2 status:", err);
+    return statusMap;
+  }
+}
+
+createServer(async (req, res) => {
+  if (req.url === "/agent-status.json") {
+    const status = await getAgentStatus();
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify(status));
+    return;
+  }
+
+  let filePath = join(UI_DIR, req.url || "/");
+  if (filePath.endsWith("/")) filePath += "index.html";
+
+  if (existsSync(filePath)) {
+    const ext = filePath.split(".").pop()?.toLowerCase() || "";
+    const mime =
+      ext === "html" ? "text/html" :
+      ext === "js"   ? "application/javascript" :
+      ext === "css"  ? "text/css" :
+      "text/plain";
+
+    res.writeHead(200, { "Content-Type": mime });
+    res.end(readFileSync(filePath));
+  } else {
+    res.writeHead(404);
+    res.end("Not Found");
+  }
+}).listen(PORT, () => {
+  console.log(`✅ Dev server with STRICT agent checks running at http://localhost:${PORT}`);
+});
+
+----- dev-server.ts lines 68-128 -----
+
+createServer(async (req, res) => {
+  if (req.url === "/agent-status.json") {
+    const status = await getAgentStatus();
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify(status));
+    return;
+  }
+
+  let filePath = join(UI_DIR, req.url || "/");
+  if (filePath.endsWith("/")) filePath += "index.html";
+
+  if (existsSync(filePath)) {
+    const ext = filePath.split(".").pop()?.toLowerCase() || "";
+    const mime =
+      ext === "html" ? "text/html" :
+      ext === "js"   ? "application/javascript" :
+      ext === "css"  ? "text/css" :
+      "text/plain";
+
+    res.writeHead(200, { "Content-Type": mime });
+    res.end(readFileSync(filePath));
+  } else {
+    res.writeHead(404);
+    res.end("Not Found");
+  }
+}).listen(PORT, () => {
+  console.log(`✅ Dev server with STRICT agent checks running at http://localhost:${PORT}`);
+});
+
+----- dev-server.ts lines 71-131 -----
+    const status = await getAgentStatus();
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify(status));
+    return;
+  }
+
+  let filePath = join(UI_DIR, req.url || "/");
+  if (filePath.endsWith("/")) filePath += "index.html";
+
+  if (existsSync(filePath)) {
+    const ext = filePath.split(".").pop()?.toLowerCase() || "";
+    const mime =
+      ext === "html" ? "text/html" :
+      ext === "js"   ? "application/javascript" :
+      ext === "css"  ? "text/css" :
+      "text/plain";
+
+    res.writeHead(200, { "Content-Type": mime });
+    res.end(readFileSync(filePath));
+  } else {
+    res.writeHead(404);
+    res.end("Not Found");
+  }
+}).listen(PORT, () => {
+  console.log(`✅ Dev server with STRICT agent checks running at http://localhost:${PORT}`);
+});
+
+
