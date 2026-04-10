@@ -1,0 +1,19 @@
+PHASE 464.X — GOVERNANCE-SAFE DB BOOTSTRAP PATCH
+===============================================
+
+OBJECTIVE:
+- Prevent server crash if 'tasks' table is missing
+- Preserve deterministic behavior (no silent failure)
+- Add defensive guard ONLY at bootstrap boundary
+
+Backup created: server/db_bootstrap_tasks_task_id.mjs.bak_phase464x
+
+STEP — Restart dashboard
+ Container motherboard_systems_hq-dashboard-1  Restarting
+ Container motherboard_systems_hq-dashboard-1  Started
+
+STEP — Wait for boot
+
+STEP — Verify endpoint
+REQUEST_FAILED
+
