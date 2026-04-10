@@ -1,0 +1,14 @@
+PHASE 464.X — POST-FIX HEALTH VERIFICATION
+==========================================
+
+STEP 1 — Check container status
+NAME                                 IMAGE                              COMMAND                  SERVICE     CREATED         STATUS                        PORTS
+motherboard_systems_hq-dashboard-1   motherboard_systems_hq-dashboard   "docker-entrypoint.s…"   dashboard   3 minutes ago   Up About a minute (healthy)   0.0.0.0:8080->3000/tcp, [::]:8080->3000/tcp
+motherboard_systems_hq-postgres-1    postgres:16-alpine                 "docker-entrypoint.s…"   postgres    3 minutes ago   Up 3 minutes                  0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+
+STEP 2 — Wait for server stabilization
+Waited 3 seconds
+
+STEP 3 — Hit system health endpoint
+REQUEST_FAILED
+
