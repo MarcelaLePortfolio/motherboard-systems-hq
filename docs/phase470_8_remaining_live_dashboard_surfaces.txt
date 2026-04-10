@@ -1,0 +1,159 @@
+PHASE 470.8 — PROBE REMAINING LIVE DASHBOARD SURFACES
+=====================================================
+
+SINCE_TS: 2026-04-10T21:26:43Z
+
+STEP 1 — Dashboard script tags still present
+665:  <script src="js/phase61_tabs_workspace.js"></script>
+667:    <script src="js/phase61_recent_history_wire.js"></script>
+668:<script src="bundle.js"></script>
+669:  <script src="js/phase60_live_clock.js"></script>
+757:    <script src="/js/phase457_restore_task_panels.js"></script>
+949:<script src="/js/phase457_neutralize_legacy_observational_consumers.js"></script>
+
+STEP 2 — High-signal live behaviors in dashboard HTML
+756:    <!-- phase470.6 temporary neutralization: operatorGuidance.sse.js removed to isolate dashboard freeze / unresponsive behavior -->
+
+STEP 3 — High-signal live behaviors in bundle
+27:      if (u.includes("/events/ops")) return "ops";
+28:      if (u.includes("/events/task-events") || u.includes("/events/tasks")) return "tasks";
+136:        setInterval(tick, 1e3);
+140:      setInterval(tick, 1e3);
+147:    const OPS_SSE_URL = "/events/ops";
+306:      const es = window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(url);
+377:      setInterval(() => {
+508:    const OPS_SSE_URL = `/events/ops`;
+628:      source = window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(OPS_SSE_URL);
+804:        es = new EventSource("/events/task-events");
+820:    window.setInterval(render, 1e4);
+841:    setInterval(() => {
+894:    const opsUrl = `/events/ops`;
+917:      const es = window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(opsUrl);
+971:    setInterval(applyState, POLL_INTERVAL_MS);
+1031:          var res = await fetch("/api/chat", {
+1040:              "(error talking to /api/chat)"
+1172:        waitingTimer = window.setTimeout(setWaiting, 4e3);
+1175:          res = await safeFetch("/api/delegate-task", {
+1199:          data = { error: "Non-JSON response from /api/delegate-task", raw: rawText || "" };
+1252:    const SSE_URL = "/events/task-events";
+1520:      es = new EventSource(url);
+1538:        setTimeout(connect, delay);
+1557:      setInterval(() => {
+
+STEP 4 — Count live primitives in bundle
+EventSource count: 5
+setInterval count: 0
+setTimeout count: 0
+fetch count: 0
+
+STEP 5 — Fresh host probes
+--- GET /dashboard.html ---
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0 36422    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Fri, 10 Apr 2026 17:36:53 GMT
+ETag: W/"8e46-19d7877d708"
+Content-Type: text/html; charset=utf-8
+Content-Length: 36422
+Date: Fri, 10 Apr 2026 21:26:43 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+
+--- GET /bundle.js ---
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0 69049    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Tue, 07 Apr 2026 18:43:42 GMT
+ETag: W/"10db9-19d6941ef30"
+Content-Type: text/javascript; charset=utf-8
+Content-Length: 69049
+Date: Fri, 10 Apr 2026 21:26:43 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+
+--- GET /api/tasks ---
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0    22    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 22
+ETag: W/"16-95oD+khTG4YC/pLiYfJG2TT/GRQ"
+Date: Fri, 10 Apr 2026 21:26:43 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+
+--- GET /api/runs?limit=20 ---
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0    59    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+HTTP/1.1 500 Internal Server Error
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 59
+ETag: W/"3b-HWni3vqXg1dGsDK7wdfBxf9eE/w"
+Date: Fri, 10 Apr 2026 21:26:43 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+
+--- GET /events/ops ---
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: text/event-stream; charset=utf-8
+Cache-Control: no-cache, no-transform
+Connection: keep-alive
+X-Accel-Buffering: no
+Date: Fri, 10 Apr 2026 21:26:43 GMT
+
+
+--- GET /events/task-events ---
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: text/event-stream; charset=utf-8
+Cache-Control: no-cache, no-transform
+Connection: keep-alive
+X-Accel-Buffering: no
+Date: Fri, 10 Apr 2026 21:26:43 GMT
+
+
+STEP 6 — Fresh dashboard logs after probe window
+dashboard-1  | [HTTP] HEAD /dashboard.html
+dashboard-1  | [HTTP] HEAD /bundle.js
+dashboard-1  | [HTTP] HEAD /api/tasks
+dashboard-1  | [phase57c-router] /api/tasks probe {
+dashboard-1  |   originalUrl: '/api/tasks',
+dashboard-1  |   baseUrl: '/api/tasks',
+dashboard-1  |   path: '/',
+dashboard-1  |   referer: null,
+dashboard-1  |   userAgent: 'curl/8.7.1',
+dashboard-1  |   accept: '*/*'
+dashboard-1  | }
+dashboard-1  | [HTTP] HEAD /api/runs?limit=20
+dashboard-1  | [HTTP] HEAD /events/ops
+
+STEP 7 — Request concentration summary
+GET /events/ops count: 0
+GET /events/task-events count: 0
+GET /api/tasks count: 0
+GET /api/runs count: 0
+
+STEP 8 — Classification
