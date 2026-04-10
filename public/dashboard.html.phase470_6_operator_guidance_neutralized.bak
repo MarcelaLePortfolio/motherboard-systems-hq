@@ -753,7 +753,7 @@
       }
     })();
   </script>
-    <!-- phase470.6 temporary neutralization: operatorGuidance.sse.js removed to isolate dashboard freeze / unresponsive behavior -->
+    <script src="/js/operatorGuidance.sse.js?v=phase96-live-1"></script>
     <script src="/js/phase457_restore_task_panels.js"></script>
     <script id="phase464x-guidance-dom-probe">
 (() => {
