@@ -727,10 +727,43 @@
     <script src="/js/phase457_restore_task_panels.js"></script>
     <script id="phase464x-guidance-dom-probe">
 (() => {
-  console.log("[phase464x stack probe] script loaded");
+  function consoleLog(msg, obj) {
+    console.log("[phase464x stack probe]", msg, obj || "");
+    console.error("[phase464x stack probe]", msg, obj || "");
+  }
 
   function byId(id) {
     return document.getElementById(id);
+  }
+
+  function ensureStatusBadge() {
+    let badge = byId("phase464x-probe-status");
+    if (badge) return badge;
+
+    badge = document.createElement("div");
+    badge.id = "phase464x-probe-status";
+    badge.style.cssText = [
+      "position:fixed",
+      "right:12px",
+      "top:12px",
+      "z-index:99999",
+      "padding:8px 10px",
+      "border-radius:10px",
+      "background:#7f1d1d",
+      "color:#fff",
+      "font:12px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace",
+      "border:1px solid rgba(255,255,255,.18)",
+      "box-shadow:0 6px 20px rgba(0,0,0,.35)"
+    ].join(";");
+    badge.textContent = "phase464x probe booting";
+    document.body.appendChild(badge);
+    return badge;
+  }
+
+  function setBadge(text, ok) {
+    const badge = ensureStatusBadge();
+    badge.textContent = text;
+    badge.style.background = ok ? "#166534" : "#7f1d1d";
   }
 
   function shortStack() {
@@ -746,23 +779,29 @@
   }
 
   function install() {
-    console.log("[phase464x stack probe] install start");
+    consoleLog("install start");
+    setBadge("phase464x probe install start", false);
 
     const panel = byId("operator-guidance-panel");
     const response = byId("operator-guidance-response");
     const meta = byId("operator-guidance-meta");
     const atlas = byId("atlas-status-card");
 
-    console.log("[phase464x stack probe] node check", {
+    consoleLog("node check", {
       panel: !!panel,
       response: !!response,
       meta: !!meta,
       atlas: !!atlas
     });
 
-    if (!panel || !response || !meta) return;
+    if (!panel || !response || !meta) {
+      setBadge("phase464x probe missing target node", false);
+      return;
+    }
+
     if (window.__PHASE464X_GUIDANCE_STACK_PROBE_ACTIVE__) {
-      console.log("[phase464x stack probe] already active");
+      consoleLog("already active");
+      setBadge("phase464x probe already active", true);
       return;
     }
     window.__PHASE464X_GUIDANCE_STACK_PROBE_ACTIVE__ = true;
@@ -791,18 +830,20 @@
     function log(msg) {
       sink.textContent += msg + "\n";
       sink.scrollTop = sink.scrollHeight;
-      console.log("[phase464x stack probe]", msg);
+      consoleLog(msg);
+      setBadge("phase464x probe active", true);
     }
 
     function patchNode(node, label) {
       if (!node || node.__phase464xPatched) return;
       node.__phase464xPatched = true;
 
-      const proto = Object.getPrototypeOf(node);
-      const textDesc = Object.getOwnPropertyDescriptor(Node.prototype, "textContent") ||
-                       Object.getOwnPropertyDescriptor(proto, "textContent");
-      const htmlDesc = Object.getOwnPropertyDescriptor(Element.prototype, "innerHTML") ||
-                       Object.getOwnPropertyDescriptor(proto, "innerHTML");
+      const textDesc =
+        Object.getOwnPropertyDescriptor(Node.prototype, "textContent") ||
+        Object.getOwnPropertyDescriptor(Object.getPrototypeOf(node), "textContent");
+      const htmlDesc =
+        Object.getOwnPropertyDescriptor(Element.prototype, "innerHTML") ||
+        Object.getOwnPropertyDescriptor(Object.getPrototypeOf(node), "innerHTML");
 
       if (textDesc && textDesc.configurable) {
         Object.defineProperty(node, "textContent", {
@@ -855,7 +896,7 @@
     window.addEventListener("focus", () => log(`window focus stack="${shortStack()}"`));
     document.addEventListener("visibilitychange", () => log(`visibility=${document.visibilityState} stack="${shortStack()}"`));
 
-    if (atlas) {
+    if (atlas && "ResizeObserver" in window) {
       const atlasObs = new ResizeObserver(() => {
         log(`atlas-top=${Math.round(atlas.getBoundingClientRect().top)} panel-height=${Math.round(panel.getBoundingClientRect().height)}`);
       });
@@ -866,6 +907,7 @@
     log("install complete");
   }
 
+  consoleLog("script loaded");
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", install, { once: true });
   } else {
