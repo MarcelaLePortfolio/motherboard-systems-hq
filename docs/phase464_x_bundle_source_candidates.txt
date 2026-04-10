@@ -1,0 +1,2221 @@
+PHASE 464.X — BUNDLE SOURCE CANDIDATES
+======================================
+
+Timestamp (UTC): 2026-04-10T17:49:39Z
+Repo root: /Users/marcela-dev/Projects/Motherboard_Systems_HQ
+
+ELIMINATION
+- agent.ts is a heartbeat stub, not guidance producer
+- dev-server.ts is static file server + /agent-status.json only
+- next surface = browser bundle-adjacent source files
+
+FILE: public/js/dashboard-status.js
+----------------------------------------
+4: * - Consume /events/ops + /events/reflections via EventSource
+10: * EventSource.onmessage only receives UNNAMED events, so we must addEventListener()
+42:    if (text) n.textContent = text;
+49:    s.textContent = `
+69:    document.head.appendChild(s);
+91:        document.body.appendChild(tray);
+100:    node.append(
+109:        wrap.appendChild(node);
+110:        anchor.appendChild(wrap);
+113:        wrap.appendChild(node);
+114:        anchor.appendChild(wrap);
+117:      anchor.appendChild(node);
+128:    meta.textContent = `${label}: ${connected ? "connected" : "disconnected"} · last: ${lastAt ? formatAge(NOW() - lastAt) : "—"}`;
+194:    const es = (window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(url));
+198:    // Phase16: guard null EventSource before handlers
+279:        return heads.find(h => (h.textContent || "").toLowerCase().includes("reflections")) || null;
+292:    setInterval(() => {
+
+----- public/js/dashboard-status.js lines 1-44 -----
+/**
+ * Phase 16: Dashboard wiring for OPS + Reflections SSE streams.
+ *
+ * - Consume /events/ops + /events/reflections via EventSource
+ * - Treat *.state as "initial paint" (replace baseline state)
+ * - Treat subsequent events as incremental updates (merge / patch)
+ * - Add tiny “connected / last event” UI indicator for each stream
+ *
+ * NOTE: Your SSE server emits NAMED events (e.g. "ops.state", "reflections.state").
+ * EventSource.onmessage only receives UNNAMED events, so we must addEventListener()
+ * for the named event types we care about.
+ */
+
+(() => {
+  "use strict";
+
+  const OPS_SSE_URL = "/events/ops";
+  const REFLECTIONS_SSE_URL = "/events/reflections";
+
+  const NOW = () => Date.now();
+
+  function safeJsonParse(s) {
+    try { return JSON.parse(s); } catch { return null; }
+  }
+
+  function formatAge(ms) {
+    if (!Number.isFinite(ms)) return "—";
+    const s = Math.floor(ms / 1000);
+    if (s < 60) return `${s}s`;
+    const m = Math.floor(s / 60);
+    if (m < 60) return `${m}m`;
+    return `${Math.floor(m / 60)}h`;
+  }
+
+  function el(tag, attrs = {}, text = "") {
+    const n = document.createElement(tag);
+    for (const [k, v] of Object.entries(attrs)) {
+      if (k === "class") n.className = v;
+      else if (k === "style") n.setAttribute("style", v);
+      else n.setAttribute(k, v);
+    }
+    if (text) n.textContent = text;
+    return n;
+  }
+
+----- public/js/dashboard-status.js lines 1-50 -----
+/**
+ * Phase 16: Dashboard wiring for OPS + Reflections SSE streams.
+ *
+ * - Consume /events/ops + /events/reflections via EventSource
+ * - Treat *.state as "initial paint" (replace baseline state)
+ * - Treat subsequent events as incremental updates (merge / patch)
+ * - Add tiny “connected / last event” UI indicator for each stream
+ *
+ * NOTE: Your SSE server emits NAMED events (e.g. "ops.state", "reflections.state").
+ * EventSource.onmessage only receives UNNAMED events, so we must addEventListener()
+ * for the named event types we care about.
+ */
+
+(() => {
+  "use strict";
+
+  const OPS_SSE_URL = "/events/ops";
+  const REFLECTIONS_SSE_URL = "/events/reflections";
+
+  const NOW = () => Date.now();
+
+  function safeJsonParse(s) {
+    try { return JSON.parse(s); } catch { return null; }
+  }
+
+  function formatAge(ms) {
+    if (!Number.isFinite(ms)) return "—";
+    const s = Math.floor(ms / 1000);
+    if (s < 60) return `${s}s`;
+    const m = Math.floor(s / 60);
+    if (m < 60) return `${m}m`;
+    return `${Math.floor(m / 60)}h`;
+  }
+
+  function el(tag, attrs = {}, text = "") {
+    const n = document.createElement(tag);
+    for (const [k, v] of Object.entries(attrs)) {
+      if (k === "class") n.className = v;
+      else if (k === "style") n.setAttribute("style", v);
+      else n.setAttribute(k, v);
+    }
+    if (text) n.textContent = text;
+    return n;
+  }
+
+  function ensureStyles() {
+    if (document.getElementById("phase16-sse-style")) return;
+    const s = el("style", { id: "phase16-sse-style" });
+    s.textContent = `
+      .sse-indicator {
+
+----- public/js/dashboard-status.js lines 22-82 -----
+  function safeJsonParse(s) {
+    try { return JSON.parse(s); } catch { return null; }
+  }
+
+  function formatAge(ms) {
+    if (!Number.isFinite(ms)) return "—";
+    const s = Math.floor(ms / 1000);
+    if (s < 60) return `${s}s`;
+    const m = Math.floor(s / 60);
+    if (m < 60) return `${m}m`;
+    return `${Math.floor(m / 60)}h`;
+  }
+
+  function el(tag, attrs = {}, text = "") {
+    const n = document.createElement(tag);
+    for (const [k, v] of Object.entries(attrs)) {
+      if (k === "class") n.className = v;
+      else if (k === "style") n.setAttribute("style", v);
+      else n.setAttribute(k, v);
+    }
+    if (text) n.textContent = text;
+    return n;
+  }
+
+  function ensureStyles() {
+    if (document.getElementById("phase16-sse-style")) return;
+    const s = el("style", { id: "phase16-sse-style" });
+    s.textContent = `
+      .sse-indicator {
+        display:inline-flex;
+        align-items:center;
+        gap:6px;
+        font-size:11px;
+        line-height:1;
+        opacity:.85;
+        user-select:none;
+        white-space:nowrap;
+      }
+      .sse-indicator .dot {
+        width:7px; height:7px; border-radius:999px;
+        background:#555;
+        box-shadow:0 0 0 1px rgba(255,255,255,.08) inset;
+      }
+      .sse-indicator[data-connected="true"] .dot { background:#2dd4bf; }
+      .sse-indicator[data-connected="false"] .dot { background:#f97316; }
+      .sse-indicator .meta { font-variant-numeric: tabular-nums; }
+    `;
+    document.head.appendChild(s);
+  }
+
+  function mount(anchor, id, label) {
+    ensureStyles();
+
+    if (!anchor) {
+      let tray = document.getElementById("phase16-sse-tray");
+      if (!tray) {
+        tray = el("div", {
+          id: "phase16-sse-tray",
+          style: [
+            "position:fixed",
+            "left:10px",
+
+----- public/js/dashboard-status.js lines 29-89 -----
+    if (s < 60) return `${s}s`;
+    const m = Math.floor(s / 60);
+    if (m < 60) return `${m}m`;
+    return `${Math.floor(m / 60)}h`;
+  }
+
+  function el(tag, attrs = {}, text = "") {
+    const n = document.createElement(tag);
+    for (const [k, v] of Object.entries(attrs)) {
+      if (k === "class") n.className = v;
+      else if (k === "style") n.setAttribute("style", v);
+      else n.setAttribute(k, v);
+    }
+    if (text) n.textContent = text;
+    return n;
+  }
+
+  function ensureStyles() {
+    if (document.getElementById("phase16-sse-style")) return;
+    const s = el("style", { id: "phase16-sse-style" });
+    s.textContent = `
+      .sse-indicator {
+        display:inline-flex;
+        align-items:center;
+        gap:6px;
+        font-size:11px;
+        line-height:1;
+        opacity:.85;
+        user-select:none;
+        white-space:nowrap;
+      }
+      .sse-indicator .dot {
+        width:7px; height:7px; border-radius:999px;
+        background:#555;
+        box-shadow:0 0 0 1px rgba(255,255,255,.08) inset;
+      }
+      .sse-indicator[data-connected="true"] .dot { background:#2dd4bf; }
+      .sse-indicator[data-connected="false"] .dot { background:#f97316; }
+      .sse-indicator .meta { font-variant-numeric: tabular-nums; }
+    `;
+    document.head.appendChild(s);
+  }
+
+  function mount(anchor, id, label) {
+    ensureStyles();
+
+    if (!anchor) {
+      let tray = document.getElementById("phase16-sse-tray");
+      if (!tray) {
+        tray = el("div", {
+          id: "phase16-sse-tray",
+          style: [
+            "position:fixed",
+            "left:10px",
+            "bottom:10px",
+            "display:flex",
+            "flex-direction:column",
+            "gap:6px",
+            "z-index:9999",
+            "pointer-events:none",
+          ].join(";")
+
+----- public/js/dashboard-status.js lines 49-109 -----
+    s.textContent = `
+      .sse-indicator {
+        display:inline-flex;
+        align-items:center;
+        gap:6px;
+        font-size:11px;
+        line-height:1;
+        opacity:.85;
+        user-select:none;
+        white-space:nowrap;
+      }
+      .sse-indicator .dot {
+        width:7px; height:7px; border-radius:999px;
+        background:#555;
+        box-shadow:0 0 0 1px rgba(255,255,255,.08) inset;
+      }
+      .sse-indicator[data-connected="true"] .dot { background:#2dd4bf; }
+      .sse-indicator[data-connected="false"] .dot { background:#f97316; }
+      .sse-indicator .meta { font-variant-numeric: tabular-nums; }
+    `;
+    document.head.appendChild(s);
+  }
+
+  function mount(anchor, id, label) {
+    ensureStyles();
+
+    if (!anchor) {
+      let tray = document.getElementById("phase16-sse-tray");
+      if (!tray) {
+        tray = el("div", {
+          id: "phase16-sse-tray",
+          style: [
+            "position:fixed",
+            "left:10px",
+            "bottom:10px",
+            "display:flex",
+            "flex-direction:column",
+            "gap:6px",
+            "z-index:9999",
+            "pointer-events:none",
+          ].join(";")
+        });
+        document.body.appendChild(tray);
+      }
+      anchor = tray;
+    }
+
+    let node = document.getElementById(id);
+    if (node) return node;
+
+    node = el("span", { id, class: "sse-indicator", "data-connected": "false" });
+    node.append(
+      el("span", { class: "dot", "aria-hidden": "true" }),
+      el("span", { class: "meta" }, `${label}: disconnected · last: —`)
+    );
+
+    // try to place nicely; otherwise append
+    try {
+      if (anchor.matches && anchor.matches("header,h1,h2,h3,h4,strong")) {
+        const wrap = el("span", { style: "margin-left:8px" });
+        wrap.appendChild(node);
+
+----- public/js/dashboard-status.js lines 71-131 -----
+
+  function mount(anchor, id, label) {
+    ensureStyles();
+
+    if (!anchor) {
+      let tray = document.getElementById("phase16-sse-tray");
+      if (!tray) {
+        tray = el("div", {
+          id: "phase16-sse-tray",
+          style: [
+            "position:fixed",
+            "left:10px",
+            "bottom:10px",
+            "display:flex",
+            "flex-direction:column",
+            "gap:6px",
+            "z-index:9999",
+            "pointer-events:none",
+          ].join(";")
+        });
+        document.body.appendChild(tray);
+      }
+      anchor = tray;
+    }
+
+    let node = document.getElementById(id);
+    if (node) return node;
+
+    node = el("span", { id, class: "sse-indicator", "data-connected": "false" });
+    node.append(
+      el("span", { class: "dot", "aria-hidden": "true" }),
+      el("span", { class: "meta" }, `${label}: disconnected · last: —`)
+    );
+
+    // try to place nicely; otherwise append
+    try {
+      if (anchor.matches && anchor.matches("header,h1,h2,h3,h4,strong")) {
+        const wrap = el("span", { style: "margin-left:8px" });
+        wrap.appendChild(node);
+        anchor.appendChild(wrap);
+      } else {
+        const wrap = el("div", { style: "margin-top:4px" });
+        wrap.appendChild(node);
+        anchor.appendChild(wrap);
+      }
+    } catch {
+      anchor.appendChild(node);
+    }
+
+    return node;
+  }
+
+  function set(ind, label, connected, lastAt) {
+    if (!ind) return;
+    ind.dataset.connected = connected ? "true" : "false";
+    const meta = ind.querySelector(".meta");
+    if (!meta) return;
+    meta.textContent = `${label}: ${connected ? "connected" : "disconnected"} · last: ${lastAt ? formatAge(NOW() - lastAt) : "—"}`;
+  }
+
+  function ensureGlobal() {
+
+----- public/js/dashboard-status.js lines 80-140 -----
+          style: [
+            "position:fixed",
+            "left:10px",
+            "bottom:10px",
+            "display:flex",
+            "flex-direction:column",
+            "gap:6px",
+            "z-index:9999",
+            "pointer-events:none",
+          ].join(";")
+        });
+        document.body.appendChild(tray);
+      }
+      anchor = tray;
+    }
+
+    let node = document.getElementById(id);
+    if (node) return node;
+
+    node = el("span", { id, class: "sse-indicator", "data-connected": "false" });
+    node.append(
+      el("span", { class: "dot", "aria-hidden": "true" }),
+      el("span", { class: "meta" }, `${label}: disconnected · last: —`)
+    );
+
+    // try to place nicely; otherwise append
+    try {
+      if (anchor.matches && anchor.matches("header,h1,h2,h3,h4,strong")) {
+        const wrap = el("span", { style: "margin-left:8px" });
+        wrap.appendChild(node);
+        anchor.appendChild(wrap);
+      } else {
+        const wrap = el("div", { style: "margin-top:4px" });
+        wrap.appendChild(node);
+        anchor.appendChild(wrap);
+      }
+    } catch {
+      anchor.appendChild(node);
+    }
+
+    return node;
+  }
+
+  function set(ind, label, connected, lastAt) {
+    if (!ind) return;
+    ind.dataset.connected = connected ? "true" : "false";
+    const meta = ind.querySelector(".meta");
+    if (!meta) return;
+    meta.textContent = `${label}: ${connected ? "connected" : "disconnected"} · last: ${lastAt ? formatAge(NOW() - lastAt) : "—"}`;
+  }
+
+  function ensureGlobal() {
+    window.__MB_STREAMS ||= {
+      ops: { connected: false, lastAt: 0, state: {}, es: null },
+      reflections: { connected: false, lastAt: 0, state: {}, es: null },
+    };
+    return window.__MB_STREAMS;
+  }
+
+  function shallowMerge(target, patch) {
+    if (!target || typeof target !== "object") target = {};
+
+----- public/js/dashboard-status.js lines 89-149 -----
+          ].join(";")
+        });
+        document.body.appendChild(tray);
+      }
+      anchor = tray;
+    }
+
+    let node = document.getElementById(id);
+    if (node) return node;
+
+    node = el("span", { id, class: "sse-indicator", "data-connected": "false" });
+    node.append(
+      el("span", { class: "dot", "aria-hidden": "true" }),
+      el("span", { class: "meta" }, `${label}: disconnected · last: —`)
+    );
+
+    // try to place nicely; otherwise append
+    try {
+      if (anchor.matches && anchor.matches("header,h1,h2,h3,h4,strong")) {
+        const wrap = el("span", { style: "margin-left:8px" });
+        wrap.appendChild(node);
+        anchor.appendChild(wrap);
+      } else {
+        const wrap = el("div", { style: "margin-top:4px" });
+        wrap.appendChild(node);
+        anchor.appendChild(wrap);
+      }
+    } catch {
+      anchor.appendChild(node);
+    }
+
+    return node;
+  }
+
+  function set(ind, label, connected, lastAt) {
+    if (!ind) return;
+    ind.dataset.connected = connected ? "true" : "false";
+    const meta = ind.querySelector(".meta");
+    if (!meta) return;
+    meta.textContent = `${label}: ${connected ? "connected" : "disconnected"} · last: ${lastAt ? formatAge(NOW() - lastAt) : "—"}`;
+  }
+
+  function ensureGlobal() {
+    window.__MB_STREAMS ||= {
+      ops: { connected: false, lastAt: 0, state: {}, es: null },
+      reflections: { connected: false, lastAt: 0, state: {}, es: null },
+    };
+    return window.__MB_STREAMS;
+  }
+
+  function shallowMerge(target, patch) {
+    if (!target || typeof target !== "object") target = {};
+    if (!patch || typeof patch !== "object") return target;
+    return Object.assign(target, patch);
+  }
+
+  // Minimal dot-path patch support: { path:"a.b.c", value:any }
+  function applyDotPathPatch(state, patch) {
+    if (!state || typeof state !== "object") state = {};
+    const path = patch && typeof patch.path === "string" ? patch.path : "";
+    if (!path) return state;
+
+----- public/js/dashboard-status.js lines 90-150 -----
+        });
+        document.body.appendChild(tray);
+      }
+      anchor = tray;
+    }
+
+    let node = document.getElementById(id);
+    if (node) return node;
+
+    node = el("span", { id, class: "sse-indicator", "data-connected": "false" });
+    node.append(
+      el("span", { class: "dot", "aria-hidden": "true" }),
+      el("span", { class: "meta" }, `${label}: disconnected · last: —`)
+    );
+
+    // try to place nicely; otherwise append
+    try {
+      if (anchor.matches && anchor.matches("header,h1,h2,h3,h4,strong")) {
+        const wrap = el("span", { style: "margin-left:8px" });
+        wrap.appendChild(node);
+        anchor.appendChild(wrap);
+      } else {
+        const wrap = el("div", { style: "margin-top:4px" });
+        wrap.appendChild(node);
+        anchor.appendChild(wrap);
+      }
+    } catch {
+      anchor.appendChild(node);
+    }
+
+    return node;
+  }
+
+  function set(ind, label, connected, lastAt) {
+    if (!ind) return;
+    ind.dataset.connected = connected ? "true" : "false";
+    const meta = ind.querySelector(".meta");
+    if (!meta) return;
+    meta.textContent = `${label}: ${connected ? "connected" : "disconnected"} · last: ${lastAt ? formatAge(NOW() - lastAt) : "—"}`;
+  }
+
+  function ensureGlobal() {
+    window.__MB_STREAMS ||= {
+      ops: { connected: false, lastAt: 0, state: {}, es: null },
+      reflections: { connected: false, lastAt: 0, state: {}, es: null },
+    };
+    return window.__MB_STREAMS;
+  }
+
+  function shallowMerge(target, patch) {
+    if (!target || typeof target !== "object") target = {};
+    if (!patch || typeof patch !== "object") return target;
+    return Object.assign(target, patch);
+  }
+
+  // Minimal dot-path patch support: { path:"a.b.c", value:any }
+  function applyDotPathPatch(state, patch) {
+    if (!state || typeof state !== "object") state = {};
+    const path = patch && typeof patch.path === "string" ? patch.path : "";
+    if (!path) return state;
+    const parts = path.split(".").filter(Boolean);
+
+----- public/js/dashboard-status.js lines 93-153 -----
+      anchor = tray;
+    }
+
+    let node = document.getElementById(id);
+    if (node) return node;
+
+    node = el("span", { id, class: "sse-indicator", "data-connected": "false" });
+    node.append(
+      el("span", { class: "dot", "aria-hidden": "true" }),
+      el("span", { class: "meta" }, `${label}: disconnected · last: —`)
+    );
+
+    // try to place nicely; otherwise append
+    try {
+      if (anchor.matches && anchor.matches("header,h1,h2,h3,h4,strong")) {
+        const wrap = el("span", { style: "margin-left:8px" });
+        wrap.appendChild(node);
+        anchor.appendChild(wrap);
+      } else {
+        const wrap = el("div", { style: "margin-top:4px" });
+        wrap.appendChild(node);
+        anchor.appendChild(wrap);
+      }
+    } catch {
+      anchor.appendChild(node);
+    }
+
+    return node;
+  }
+
+  function set(ind, label, connected, lastAt) {
+    if (!ind) return;
+    ind.dataset.connected = connected ? "true" : "false";
+    const meta = ind.querySelector(".meta");
+    if (!meta) return;
+    meta.textContent = `${label}: ${connected ? "connected" : "disconnected"} · last: ${lastAt ? formatAge(NOW() - lastAt) : "—"}`;
+  }
+
+  function ensureGlobal() {
+    window.__MB_STREAMS ||= {
+      ops: { connected: false, lastAt: 0, state: {}, es: null },
+      reflections: { connected: false, lastAt: 0, state: {}, es: null },
+    };
+    return window.__MB_STREAMS;
+  }
+
+  function shallowMerge(target, patch) {
+    if (!target || typeof target !== "object") target = {};
+    if (!patch || typeof patch !== "object") return target;
+    return Object.assign(target, patch);
+  }
+
+  // Minimal dot-path patch support: { path:"a.b.c", value:any }
+  function applyDotPathPatch(state, patch) {
+    if (!state || typeof state !== "object") state = {};
+    const path = patch && typeof patch.path === "string" ? patch.path : "";
+    if (!path) return state;
+    const parts = path.split(".").filter(Boolean);
+    if (!parts.length) return state;
+    let cur = state;
+    for (let i = 0; i < parts.length - 1; i++) {
+
+----- public/js/dashboard-status.js lines 94-154 -----
+    }
+
+    let node = document.getElementById(id);
+    if (node) return node;
+
+    node = el("span", { id, class: "sse-indicator", "data-connected": "false" });
+    node.append(
+      el("span", { class: "dot", "aria-hidden": "true" }),
+      el("span", { class: "meta" }, `${label}: disconnected · last: —`)
+    );
+
+    // try to place nicely; otherwise append
+    try {
+      if (anchor.matches && anchor.matches("header,h1,h2,h3,h4,strong")) {
+        const wrap = el("span", { style: "margin-left:8px" });
+        wrap.appendChild(node);
+        anchor.appendChild(wrap);
+      } else {
+        const wrap = el("div", { style: "margin-top:4px" });
+        wrap.appendChild(node);
+        anchor.appendChild(wrap);
+      }
+    } catch {
+      anchor.appendChild(node);
+    }
+
+    return node;
+  }
+
+  function set(ind, label, connected, lastAt) {
+    if (!ind) return;
+    ind.dataset.connected = connected ? "true" : "false";
+    const meta = ind.querySelector(".meta");
+    if (!meta) return;
+    meta.textContent = `${label}: ${connected ? "connected" : "disconnected"} · last: ${lastAt ? formatAge(NOW() - lastAt) : "—"}`;
+  }
+
+  function ensureGlobal() {
+    window.__MB_STREAMS ||= {
+      ops: { connected: false, lastAt: 0, state: {}, es: null },
+      reflections: { connected: false, lastAt: 0, state: {}, es: null },
+    };
+    return window.__MB_STREAMS;
+  }
+
+  function shallowMerge(target, patch) {
+    if (!target || typeof target !== "object") target = {};
+    if (!patch || typeof patch !== "object") return target;
+    return Object.assign(target, patch);
+  }
+
+  // Minimal dot-path patch support: { path:"a.b.c", value:any }
+  function applyDotPathPatch(state, patch) {
+    if (!state || typeof state !== "object") state = {};
+    const path = patch && typeof patch.path === "string" ? patch.path : "";
+    if (!path) return state;
+    const parts = path.split(".").filter(Boolean);
+    if (!parts.length) return state;
+    let cur = state;
+    for (let i = 0; i < parts.length - 1; i++) {
+      const k = parts[i];
+
+----- public/js/dashboard-status.js lines 97-157 -----
+    if (node) return node;
+
+    node = el("span", { id, class: "sse-indicator", "data-connected": "false" });
+    node.append(
+      el("span", { class: "dot", "aria-hidden": "true" }),
+      el("span", { class: "meta" }, `${label}: disconnected · last: —`)
+    );
+
+    // try to place nicely; otherwise append
+    try {
+      if (anchor.matches && anchor.matches("header,h1,h2,h3,h4,strong")) {
+        const wrap = el("span", { style: "margin-left:8px" });
+        wrap.appendChild(node);
+        anchor.appendChild(wrap);
+      } else {
+        const wrap = el("div", { style: "margin-top:4px" });
+        wrap.appendChild(node);
+        anchor.appendChild(wrap);
+      }
+    } catch {
+      anchor.appendChild(node);
+    }
+
+    return node;
+  }
+
+  function set(ind, label, connected, lastAt) {
+    if (!ind) return;
+    ind.dataset.connected = connected ? "true" : "false";
+    const meta = ind.querySelector(".meta");
+    if (!meta) return;
+    meta.textContent = `${label}: ${connected ? "connected" : "disconnected"} · last: ${lastAt ? formatAge(NOW() - lastAt) : "—"}`;
+  }
+
+  function ensureGlobal() {
+    window.__MB_STREAMS ||= {
+      ops: { connected: false, lastAt: 0, state: {}, es: null },
+      reflections: { connected: false, lastAt: 0, state: {}, es: null },
+    };
+    return window.__MB_STREAMS;
+  }
+
+  function shallowMerge(target, patch) {
+    if (!target || typeof target !== "object") target = {};
+    if (!patch || typeof patch !== "object") return target;
+    return Object.assign(target, patch);
+  }
+
+  // Minimal dot-path patch support: { path:"a.b.c", value:any }
+  function applyDotPathPatch(state, patch) {
+    if (!state || typeof state !== "object") state = {};
+    const path = patch && typeof patch.path === "string" ? patch.path : "";
+    if (!path) return state;
+    const parts = path.split(".").filter(Boolean);
+    if (!parts.length) return state;
+    let cur = state;
+    for (let i = 0; i < parts.length - 1; i++) {
+      const k = parts[i];
+      if (!cur[k] || typeof cur[k] !== "object") cur[k] = {};
+      cur = cur[k];
+    }
+
+----- public/js/dashboard-status.js lines 108-168 -----
+        const wrap = el("span", { style: "margin-left:8px" });
+        wrap.appendChild(node);
+        anchor.appendChild(wrap);
+      } else {
+        const wrap = el("div", { style: "margin-top:4px" });
+        wrap.appendChild(node);
+        anchor.appendChild(wrap);
+      }
+    } catch {
+      anchor.appendChild(node);
+    }
+
+    return node;
+  }
+
+  function set(ind, label, connected, lastAt) {
+    if (!ind) return;
+    ind.dataset.connected = connected ? "true" : "false";
+    const meta = ind.querySelector(".meta");
+    if (!meta) return;
+    meta.textContent = `${label}: ${connected ? "connected" : "disconnected"} · last: ${lastAt ? formatAge(NOW() - lastAt) : "—"}`;
+  }
+
+  function ensureGlobal() {
+    window.__MB_STREAMS ||= {
+      ops: { connected: false, lastAt: 0, state: {}, es: null },
+      reflections: { connected: false, lastAt: 0, state: {}, es: null },
+    };
+    return window.__MB_STREAMS;
+  }
+
+  function shallowMerge(target, patch) {
+    if (!target || typeof target !== "object") target = {};
+    if (!patch || typeof patch !== "object") return target;
+    return Object.assign(target, patch);
+  }
+
+  // Minimal dot-path patch support: { path:"a.b.c", value:any }
+  function applyDotPathPatch(state, patch) {
+    if (!state || typeof state !== "object") state = {};
+    const path = patch && typeof patch.path === "string" ? patch.path : "";
+    if (!path) return state;
+    const parts = path.split(".").filter(Boolean);
+    if (!parts.length) return state;
+    let cur = state;
+    for (let i = 0; i < parts.length - 1; i++) {
+      const k = parts[i];
+      if (!cur[k] || typeof cur[k] !== "object") cur[k] = {};
+      cur = cur[k];
+    }
+    cur[parts[parts.length - 1]] = patch.value;
+    return state;
+  }
+
+  function isStateEvent(evtType, parsed) {
+    if (typeof evtType === "string" && evtType.endsWith(".state")) return true;
+    if (parsed && typeof parsed === "object") {
+      if (parsed.state && typeof parsed.state === "object") return true;
+      if (typeof parsed.type === "string" && parsed.type.includes("state")) return true;
+      if (typeof parsed.event === "string" && parsed.event.includes("state")) return true;
+    }
+
+----- public/js/dashboard-status.js lines 174-234 -----
+    if (parsed.payload !== undefined) return parsed.payload;
+    if (parsed.data !== undefined) return parsed.data;
+    if (parsed.delta !== undefined) return parsed.delta;
+    if (parsed.patch !== undefined) return parsed.patch;
+    if (parsed.state !== undefined) return parsed.state;
+    return parsed;
+  }
+
+  function connect(key, label, url, ind) {
+  // Phase16: bail if SSE owner already started
+  if (typeof window !== "undefined" && window.__PHASE16_SSE_OWNER_STARTED) {
+    return null;
+  }
+
+    const g = ensureGlobal();
+
+    // close any existing connection
+    try { g[key].es && g[key].es.close(); } catch {}
+    g[key].es = null;
+
+    const es = (window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(url));
+    g[key].es = es;
+
+
+    // Phase16: guard null EventSource before handlers
+    if (!es) return null;
+
+    const tick = () => set(ind, label, g[key].connected, g[key].lastAt);
+
+    es.onopen = () => { g[key].connected = true; tick(); };
+    es.onerror = () => { g[key].connected = false; tick(); };
+
+    const handle = (evtType, e) => {
+      g[key].lastAt = NOW();
+
+      const parsed = safeJsonParse(e && e.data ? e.data : "");
+      const payload = extractPayload(parsed);
+
+      if (isStateEvent(evtType, parsed)) {
+        // initial paint: replace
+        g[key].state = (payload && typeof payload === "object") ? payload : { value: payload };
+      } else {
+        // incremental: patch or merge
+        if (payload && typeof payload === "object") {
+          if (typeof payload.path === "string" && "value" in payload) {
+            g[key].state = applyDotPathPatch(g[key].state, payload);
+          } else {
+            g[key].state = shallowMerge(g[key].state, payload);
+          }
+        } else if (payload !== null && payload !== undefined) {
+          g[key].state = shallowMerge(g[key].state, { lastValue: payload });
+        }
+      }
+
+      tick();
+      try {
+        window.dispatchEvent(new CustomEvent(`mb:${key}:update`, {
+          detail: { event: evtType, state: g[key].state, raw: parsed }
+        }));
+      } catch {}
+    };
+
+----- public/js/dashboard-status.js lines 178-238 -----
+    if (parsed.state !== undefined) return parsed.state;
+    return parsed;
+  }
+
+  function connect(key, label, url, ind) {
+  // Phase16: bail if SSE owner already started
+  if (typeof window !== "undefined" && window.__PHASE16_SSE_OWNER_STARTED) {
+    return null;
+  }
+
+    const g = ensureGlobal();
+
+    // close any existing connection
+    try { g[key].es && g[key].es.close(); } catch {}
+    g[key].es = null;
+
+    const es = (window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(url));
+    g[key].es = es;
+
+
+    // Phase16: guard null EventSource before handlers
+    if (!es) return null;
+
+    const tick = () => set(ind, label, g[key].connected, g[key].lastAt);
+
+    es.onopen = () => { g[key].connected = true; tick(); };
+    es.onerror = () => { g[key].connected = false; tick(); };
+
+    const handle = (evtType, e) => {
+      g[key].lastAt = NOW();
+
+      const parsed = safeJsonParse(e && e.data ? e.data : "");
+      const payload = extractPayload(parsed);
+
+      if (isStateEvent(evtType, parsed)) {
+        // initial paint: replace
+        g[key].state = (payload && typeof payload === "object") ? payload : { value: payload };
+      } else {
+        // incremental: patch or merge
+        if (payload && typeof payload === "object") {
+          if (typeof payload.path === "string" && "value" in payload) {
+            g[key].state = applyDotPathPatch(g[key].state, payload);
+          } else {
+            g[key].state = shallowMerge(g[key].state, payload);
+          }
+        } else if (payload !== null && payload !== undefined) {
+          g[key].state = shallowMerge(g[key].state, { lastValue: payload });
+        }
+      }
+
+      tick();
+      try {
+        window.dispatchEvent(new CustomEvent(`mb:${key}:update`, {
+          detail: { event: evtType, state: g[key].state, raw: parsed }
+        }));
+      } catch {}
+    };
+
+    // Unnamed events (rare in your streams, but safe)
+    es.onmessage = (e) => handle("message", e);
+
+
+----- public/js/dashboard-status.js lines 259-319 -----
+  }
+
+  function findOpsAnchor() {
+    return (
+      document.getElementById("ops-pill") ||
+      document.querySelector("[data-widget='ops-pill']") ||
+      document.querySelector(".ops-pill") ||
+      document.querySelector("#ops") ||
+      null
+    );
+  }
+
+  function findReflectionsAnchor() {
+    return (
+      document.getElementById("reflections-header") ||
+      document.getElementById("reflections") ||
+      document.querySelector("[data-panel='reflections']") ||
+      document.querySelector(".reflections") ||
+      (() => {
+        const heads = Array.from(document.querySelectorAll("h1,h2,h3,h4,header,strong"));
+        return heads.find(h => (h.textContent || "").toLowerCase().includes("reflections")) || null;
+      })()
+    );
+  }
+
+  function boot() {
+    const opsInd = mount(findOpsAnchor(), "ops-sse-indicator", "OPS SSE");
+    const refInd = mount(findReflectionsAnchor(), "reflections-sse-indicator", "Reflections SSE");
+
+    connect("ops", "OPS SSE", OPS_SSE_URL, opsInd);
+    connect("reflections", "Reflections SSE", REFLECTIONS_SSE_URL, refInd);
+
+    // keep age ticking
+    setInterval(() => {
+      const g = ensureGlobal();
+      set(opsInd, "OPS SSE", g.ops.connected, g.ops.lastAt);
+      set(refInd, "Reflections SSE", g.reflections.connected, g.reflections.lastAt);
+    }, 1000);
+  }
+
+  document.readyState === "loading"
+    ? document.addEventListener("DOMContentLoaded", boot, { once: true })
+    : boot();
+})();
+
+// PHASE16_CONNECT_GUARD_FIXED_1767139733
+
+----- public/js/dashboard-status.js lines 272-332 -----
+    return (
+      document.getElementById("reflections-header") ||
+      document.getElementById("reflections") ||
+      document.querySelector("[data-panel='reflections']") ||
+      document.querySelector(".reflections") ||
+      (() => {
+        const heads = Array.from(document.querySelectorAll("h1,h2,h3,h4,header,strong"));
+        return heads.find(h => (h.textContent || "").toLowerCase().includes("reflections")) || null;
+      })()
+    );
+  }
+
+  function boot() {
+    const opsInd = mount(findOpsAnchor(), "ops-sse-indicator", "OPS SSE");
+    const refInd = mount(findReflectionsAnchor(), "reflections-sse-indicator", "Reflections SSE");
+
+    connect("ops", "OPS SSE", OPS_SSE_URL, opsInd);
+    connect("reflections", "Reflections SSE", REFLECTIONS_SSE_URL, refInd);
+
+    // keep age ticking
+    setInterval(() => {
+      const g = ensureGlobal();
+      set(opsInd, "OPS SSE", g.ops.connected, g.ops.lastAt);
+      set(refInd, "Reflections SSE", g.reflections.connected, g.reflections.lastAt);
+    }, 1000);
+  }
+
+  document.readyState === "loading"
+    ? document.addEventListener("DOMContentLoaded", boot, { once: true })
+    : boot();
+})();
+
+// PHASE16_CONNECT_GUARD_FIXED_1767139733
+
+
+FILE: public/js/operatorGuidance.sse.js
+----------------------------------------
+6:  const RESPONSE_EL = document.getElementById("operator-guidance-response");
+7:  const META_EL = document.getElementById("operator-guidance-meta");
+22:    eventSource = new EventSource("/api/operator-guidance");
+30:          RESPONSE_EL.textContent = (data.message || "").trim();
+34:          META_EL.textContent = (data.meta || "").trim();
+
+----- public/js/operatorGuidance.sse.js lines 1-46 -----
+(() => {
+  // HARD SINGLETON (per tab)
+  if (window.__OPERATOR_GUIDANCE_STREAM_ACTIVE__) return;
+  window.__OPERATOR_GUIDANCE_STREAM_ACTIVE__ = true;
+
+  const RESPONSE_EL = document.getElementById("operator-guidance-response");
+  const META_EL = document.getElementById("operator-guidance-meta");
+
+  let eventSource = null;
+
+  function closeStream() {
+    if (eventSource) {
+      eventSource.close();
+      eventSource = null;
+    }
+  }
+
+  function startStream() {
+    // 🚫 NEVER restart if already created
+    if (eventSource) return;
+
+    eventSource = new EventSource("/api/operator-guidance");
+
+    eventSource.onmessage = (event) => {
+      try {
+        const data = JSON.parse(event.data);
+
+        // 🔒 CRITICAL FIX — HARD OVERWRITE (NO ACCUMULATION)
+        if (RESPONSE_EL) {
+          RESPONSE_EL.textContent = (data.message || "").trim();
+        }
+
+        if (META_EL) {
+          META_EL.textContent = (data.meta || "").trim();
+        }
+
+      } catch (_) {}
+    };
+
+    eventSource.onerror = () => {
+      // ❗ NEVER reconnect automatically
+      closeStream();
+    };
+  }
+
+  // 🚀 RUN ONCE ONLY
+
+----- public/js/operatorGuidance.sse.js lines 1-47 -----
+(() => {
+  // HARD SINGLETON (per tab)
+  if (window.__OPERATOR_GUIDANCE_STREAM_ACTIVE__) return;
+  window.__OPERATOR_GUIDANCE_STREAM_ACTIVE__ = true;
+
+  const RESPONSE_EL = document.getElementById("operator-guidance-response");
+  const META_EL = document.getElementById("operator-guidance-meta");
+
+  let eventSource = null;
+
+  function closeStream() {
+    if (eventSource) {
+      eventSource.close();
+      eventSource = null;
+    }
+  }
+
+  function startStream() {
+    // 🚫 NEVER restart if already created
+    if (eventSource) return;
+
+    eventSource = new EventSource("/api/operator-guidance");
+
+    eventSource.onmessage = (event) => {
+      try {
+        const data = JSON.parse(event.data);
+
+        // 🔒 CRITICAL FIX — HARD OVERWRITE (NO ACCUMULATION)
+        if (RESPONSE_EL) {
+          RESPONSE_EL.textContent = (data.message || "").trim();
+        }
+
+        if (META_EL) {
+          META_EL.textContent = (data.meta || "").trim();
+        }
+
+      } catch (_) {}
+    };
+
+    eventSource.onerror = () => {
+      // ❗ NEVER reconnect automatically
+      closeStream();
+    };
+  }
+
+  // 🚀 RUN ONCE ONLY
+  startStream();
+
+----- public/js/operatorGuidance.sse.js lines 2-62 -----
+  // HARD SINGLETON (per tab)
+  if (window.__OPERATOR_GUIDANCE_STREAM_ACTIVE__) return;
+  window.__OPERATOR_GUIDANCE_STREAM_ACTIVE__ = true;
+
+  const RESPONSE_EL = document.getElementById("operator-guidance-response");
+  const META_EL = document.getElementById("operator-guidance-meta");
+
+  let eventSource = null;
+
+  function closeStream() {
+    if (eventSource) {
+      eventSource.close();
+      eventSource = null;
+    }
+  }
+
+  function startStream() {
+    // 🚫 NEVER restart if already created
+    if (eventSource) return;
+
+    eventSource = new EventSource("/api/operator-guidance");
+
+    eventSource.onmessage = (event) => {
+      try {
+        const data = JSON.parse(event.data);
+
+        // 🔒 CRITICAL FIX — HARD OVERWRITE (NO ACCUMULATION)
+        if (RESPONSE_EL) {
+          RESPONSE_EL.textContent = (data.message || "").trim();
+        }
+
+        if (META_EL) {
+          META_EL.textContent = (data.meta || "").trim();
+        }
+
+      } catch (_) {}
+    };
+
+    eventSource.onerror = () => {
+      // ❗ NEVER reconnect automatically
+      closeStream();
+    };
+  }
+
+  // 🚀 RUN ONCE ONLY
+  startStream();
+
+  // 🔒 NO RESTART ON VISIBILITY / FOCUS
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "hidden") {
+      closeStream();
+    }
+  });
+
+  window.addEventListener("beforeunload", () => {
+    closeStream();
+  });
+
+})();
+
+----- public/js/operatorGuidance.sse.js lines 10-70 -----
+
+  function closeStream() {
+    if (eventSource) {
+      eventSource.close();
+      eventSource = null;
+    }
+  }
+
+  function startStream() {
+    // 🚫 NEVER restart if already created
+    if (eventSource) return;
+
+    eventSource = new EventSource("/api/operator-guidance");
+
+    eventSource.onmessage = (event) => {
+      try {
+        const data = JSON.parse(event.data);
+
+        // 🔒 CRITICAL FIX — HARD OVERWRITE (NO ACCUMULATION)
+        if (RESPONSE_EL) {
+          RESPONSE_EL.textContent = (data.message || "").trim();
+        }
+
+        if (META_EL) {
+          META_EL.textContent = (data.meta || "").trim();
+        }
+
+      } catch (_) {}
+    };
+
+    eventSource.onerror = () => {
+      // ❗ NEVER reconnect automatically
+      closeStream();
+    };
+  }
+
+  // 🚀 RUN ONCE ONLY
+  startStream();
+
+  // 🔒 NO RESTART ON VISIBILITY / FOCUS
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "hidden") {
+      closeStream();
+    }
+  });
+
+  window.addEventListener("beforeunload", () => {
+    closeStream();
+  });
+
+})();
+
+----- public/js/operatorGuidance.sse.js lines 14-74 -----
+      eventSource = null;
+    }
+  }
+
+  function startStream() {
+    // 🚫 NEVER restart if already created
+    if (eventSource) return;
+
+    eventSource = new EventSource("/api/operator-guidance");
+
+    eventSource.onmessage = (event) => {
+      try {
+        const data = JSON.parse(event.data);
+
+        // 🔒 CRITICAL FIX — HARD OVERWRITE (NO ACCUMULATION)
+        if (RESPONSE_EL) {
+          RESPONSE_EL.textContent = (data.message || "").trim();
+        }
+
+        if (META_EL) {
+          META_EL.textContent = (data.meta || "").trim();
+        }
+
+      } catch (_) {}
+    };
+
+    eventSource.onerror = () => {
+      // ❗ NEVER reconnect automatically
+      closeStream();
+    };
+  }
+
+  // 🚀 RUN ONCE ONLY
+  startStream();
+
+  // 🔒 NO RESTART ON VISIBILITY / FOCUS
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "hidden") {
+      closeStream();
+    }
+  });
+
+  window.addEventListener("beforeunload", () => {
+    closeStream();
+  });
+
+})();
+
+
+FILE: public/js/phase457_restore_task_panels.js
+----------------------------------------
+100:      el.innerHTML = '<div class="text-sm text-gray-500">No recent tasks yet.</div>';
+104:    el.innerHTML = state.recent.map(function (task) {
+119:      el.innerHTML = '<div class="text-sm text-gray-500">No task history yet.</div>';
+123:    el.innerHTML = state.history.map(function (task) {
+143:      anchor.innerHTML = "";
+144:      anchor.appendChild(panel);
+150:      panel.innerHTML = "";
+151:      panel.appendChild(feed);
+155:      feed.innerHTML =
+162:    feed.innerHTML = state.events.map(function (eventRow) {
+232:      state.es = new EventSource("/events/task-events");
+300:    setInterval(renderAll, 4000);
+
+----- public/js/phase457_restore_task_panels.js lines 80-140 -----
+  }
+
+  function pushRecent(input) {
+    upsertTask(state.recent, normalizeTask(input), MAX_RECENT);
+  }
+
+  function pushHistory(input) {
+    upsertTask(state.history, normalizeTask(input), MAX_HISTORY);
+  }
+
+  function pushEvent(input) {
+    state.events.unshift(normalizeEvent(input));
+    if (state.events.length > MAX_EVENTS) state.events.length = MAX_EVENTS;
+  }
+
+  function renderRecent() {
+    var el = byId("tasks-widget");
+    if (!el) return;
+
+    if (!state.recent.length) {
+      el.innerHTML = '<div class="text-sm text-gray-500">No recent tasks yet.</div>';
+      return;
+    }
+
+    el.innerHTML = state.recent.map(function (task) {
+      return (
+        '<div class="mb-2 rounded-lg border border-gray-700 bg-gray-900/60 px-3 py-2">' +
+          '<div class="text-sm text-gray-200">' + escapeHtml(task.title) + '</div>' +
+          '<div class="text-xs text-gray-500 mt-1">status: ' + escapeHtml(task.status) + '</div>' +
+        '</div>'
+      );
+    }).join("");
+  }
+
+  function renderHistory() {
+    var el = byId("recentLogs");
+    if (!el) return;
+
+    if (!state.history.length) {
+      el.innerHTML = '<div class="text-sm text-gray-500">No task history yet.</div>';
+      return;
+    }
+
+    el.innerHTML = state.history.map(function (task) {
+      return (
+        '<div class="mb-2 rounded-lg border border-gray-800 bg-black/20 px-3 py-2 text-sm text-gray-300">' +
+          escapeHtml(task.title) + ' · ' + escapeHtml(task.status) +
+        '</div>'
+      );
+    }).join("");
+  }
+
+  function renderEvents() {
+    var anchor = byId("mb-task-events-panel-anchor");
+    if (!anchor) return;
+
+    var panel = byId("mb-task-events-panel");
+    var feed = byId("mb-task-events-feed");
+
+    if (!panel) {
+      panel = document.createElement("div");
+
+----- public/js/phase457_restore_task_panels.js lines 84-144 -----
+  }
+
+  function pushHistory(input) {
+    upsertTask(state.history, normalizeTask(input), MAX_HISTORY);
+  }
+
+  function pushEvent(input) {
+    state.events.unshift(normalizeEvent(input));
+    if (state.events.length > MAX_EVENTS) state.events.length = MAX_EVENTS;
+  }
+
+  function renderRecent() {
+    var el = byId("tasks-widget");
+    if (!el) return;
+
+    if (!state.recent.length) {
+      el.innerHTML = '<div class="text-sm text-gray-500">No recent tasks yet.</div>';
+      return;
+    }
+
+    el.innerHTML = state.recent.map(function (task) {
+      return (
+        '<div class="mb-2 rounded-lg border border-gray-700 bg-gray-900/60 px-3 py-2">' +
+          '<div class="text-sm text-gray-200">' + escapeHtml(task.title) + '</div>' +
+          '<div class="text-xs text-gray-500 mt-1">status: ' + escapeHtml(task.status) + '</div>' +
+        '</div>'
+      );
+    }).join("");
+  }
+
+  function renderHistory() {
+    var el = byId("recentLogs");
+    if (!el) return;
+
+    if (!state.history.length) {
+      el.innerHTML = '<div class="text-sm text-gray-500">No task history yet.</div>';
+      return;
+    }
+
+    el.innerHTML = state.history.map(function (task) {
+      return (
+        '<div class="mb-2 rounded-lg border border-gray-800 bg-black/20 px-3 py-2 text-sm text-gray-300">' +
+          escapeHtml(task.title) + ' · ' + escapeHtml(task.status) +
+        '</div>'
+      );
+    }).join("");
+  }
+
+  function renderEvents() {
+    var anchor = byId("mb-task-events-panel-anchor");
+    if (!anchor) return;
+
+    var panel = byId("mb-task-events-panel");
+    var feed = byId("mb-task-events-feed");
+
+    if (!panel) {
+      panel = document.createElement("div");
+      panel.id = "mb-task-events-panel";
+      panel.className = "rounded-lg border border-gray-700 bg-gray-900/60 p-3";
+      anchor.innerHTML = "";
+      anchor.appendChild(panel);
+
+----- public/js/phase457_restore_task_panels.js lines 99-159 -----
+    if (!state.recent.length) {
+      el.innerHTML = '<div class="text-sm text-gray-500">No recent tasks yet.</div>';
+      return;
+    }
+
+    el.innerHTML = state.recent.map(function (task) {
+      return (
+        '<div class="mb-2 rounded-lg border border-gray-700 bg-gray-900/60 px-3 py-2">' +
+          '<div class="text-sm text-gray-200">' + escapeHtml(task.title) + '</div>' +
+          '<div class="text-xs text-gray-500 mt-1">status: ' + escapeHtml(task.status) + '</div>' +
+        '</div>'
+      );
+    }).join("");
+  }
+
+  function renderHistory() {
+    var el = byId("recentLogs");
+    if (!el) return;
+
+    if (!state.history.length) {
+      el.innerHTML = '<div class="text-sm text-gray-500">No task history yet.</div>';
+      return;
+    }
+
+    el.innerHTML = state.history.map(function (task) {
+      return (
+        '<div class="mb-2 rounded-lg border border-gray-800 bg-black/20 px-3 py-2 text-sm text-gray-300">' +
+          escapeHtml(task.title) + ' · ' + escapeHtml(task.status) +
+        '</div>'
+      );
+    }).join("");
+  }
+
+  function renderEvents() {
+    var anchor = byId("mb-task-events-panel-anchor");
+    if (!anchor) return;
+
+    var panel = byId("mb-task-events-panel");
+    var feed = byId("mb-task-events-feed");
+
+    if (!panel) {
+      panel = document.createElement("div");
+      panel.id = "mb-task-events-panel";
+      panel.className = "rounded-lg border border-gray-700 bg-gray-900/60 p-3";
+      anchor.innerHTML = "";
+      anchor.appendChild(panel);
+    }
+
+    if (!feed) {
+      feed = document.createElement("div");
+      feed.id = "mb-task-events-feed";
+      panel.innerHTML = "";
+      panel.appendChild(feed);
+    }
+
+    if (!state.events.length) {
+      feed.innerHTML =
+        '<div class="text-sm text-gray-500">' +
+        (state.sourceError ? "Task events stream reconnecting…" : "Waiting for task events…") +
+        "</div>";
+      return;
+
+----- public/js/phase457_restore_task_panels.js lines 103-163 -----
+
+    el.innerHTML = state.recent.map(function (task) {
+      return (
+        '<div class="mb-2 rounded-lg border border-gray-700 bg-gray-900/60 px-3 py-2">' +
+          '<div class="text-sm text-gray-200">' + escapeHtml(task.title) + '</div>' +
+          '<div class="text-xs text-gray-500 mt-1">status: ' + escapeHtml(task.status) + '</div>' +
+        '</div>'
+      );
+    }).join("");
+  }
+
+  function renderHistory() {
+    var el = byId("recentLogs");
+    if (!el) return;
+
+    if (!state.history.length) {
+      el.innerHTML = '<div class="text-sm text-gray-500">No task history yet.</div>';
+      return;
+    }
+
+    el.innerHTML = state.history.map(function (task) {
+      return (
+        '<div class="mb-2 rounded-lg border border-gray-800 bg-black/20 px-3 py-2 text-sm text-gray-300">' +
+          escapeHtml(task.title) + ' · ' + escapeHtml(task.status) +
+        '</div>'
+      );
+    }).join("");
+  }
+
+  function renderEvents() {
+    var anchor = byId("mb-task-events-panel-anchor");
+    if (!anchor) return;
+
+    var panel = byId("mb-task-events-panel");
+    var feed = byId("mb-task-events-feed");
+
+    if (!panel) {
+      panel = document.createElement("div");
+      panel.id = "mb-task-events-panel";
+      panel.className = "rounded-lg border border-gray-700 bg-gray-900/60 p-3";
+      anchor.innerHTML = "";
+      anchor.appendChild(panel);
+    }
+
+    if (!feed) {
+      feed = document.createElement("div");
+      feed.id = "mb-task-events-feed";
+      panel.innerHTML = "";
+      panel.appendChild(feed);
+    }
+
+    if (!state.events.length) {
+      feed.innerHTML =
+        '<div class="text-sm text-gray-500">' +
+        (state.sourceError ? "Task events stream reconnecting…" : "Waiting for task events…") +
+        "</div>";
+      return;
+    }
+
+    feed.innerHTML = state.events.map(function (eventRow) {
+      return (
+
+----- public/js/phase457_restore_task_panels.js lines 123-183 -----
+    el.innerHTML = state.history.map(function (task) {
+      return (
+        '<div class="mb-2 rounded-lg border border-gray-800 bg-black/20 px-3 py-2 text-sm text-gray-300">' +
+          escapeHtml(task.title) + ' · ' + escapeHtml(task.status) +
+        '</div>'
+      );
+    }).join("");
+  }
+
+  function renderEvents() {
+    var anchor = byId("mb-task-events-panel-anchor");
+    if (!anchor) return;
+
+    var panel = byId("mb-task-events-panel");
+    var feed = byId("mb-task-events-feed");
+
+    if (!panel) {
+      panel = document.createElement("div");
+      panel.id = "mb-task-events-panel";
+      panel.className = "rounded-lg border border-gray-700 bg-gray-900/60 p-3";
+      anchor.innerHTML = "";
+      anchor.appendChild(panel);
+    }
+
+    if (!feed) {
+      feed = document.createElement("div");
+      feed.id = "mb-task-events-feed";
+      panel.innerHTML = "";
+      panel.appendChild(feed);
+    }
+
+    if (!state.events.length) {
+      feed.innerHTML =
+        '<div class="text-sm text-gray-500">' +
+        (state.sourceError ? "Task events stream reconnecting…" : "Waiting for task events…") +
+        "</div>";
+      return;
+    }
+
+    feed.innerHTML = state.events.map(function (eventRow) {
+      return (
+        '<div class="mb-2 rounded-lg border border-gray-800 bg-black/20 px-3 py-2">' +
+          '<div class="text-xs text-gray-500">' + escapeHtml(eventRow.kind) + '</div>' +
+          '<div class="text-sm text-gray-300 mt-1">' + escapeHtml(eventRow.task_id) + (eventRow.status ? " · " + escapeHtml(eventRow.status) : "") + '</div>' +
+        '</div>'
+      );
+    }).join("");
+  }
+
+  function renderAll() {
+    renderRecent();
+    renderHistory();
+    renderEvents();
+  }
+
+  function ingestTaskEvent(raw) {
+    if (!raw || typeof raw !== "object") return;
+
+    var task = normalizeTask(raw);
+    pushRecent(task);
+    pushHistory(task);
+
+----- public/js/phase457_restore_task_panels.js lines 124-184 -----
+      return (
+        '<div class="mb-2 rounded-lg border border-gray-800 bg-black/20 px-3 py-2 text-sm text-gray-300">' +
+          escapeHtml(task.title) + ' · ' + escapeHtml(task.status) +
+        '</div>'
+      );
+    }).join("");
+  }
+
+  function renderEvents() {
+    var anchor = byId("mb-task-events-panel-anchor");
+    if (!anchor) return;
+
+    var panel = byId("mb-task-events-panel");
+    var feed = byId("mb-task-events-feed");
+
+    if (!panel) {
+      panel = document.createElement("div");
+      panel.id = "mb-task-events-panel";
+      panel.className = "rounded-lg border border-gray-700 bg-gray-900/60 p-3";
+      anchor.innerHTML = "";
+      anchor.appendChild(panel);
+    }
+
+    if (!feed) {
+      feed = document.createElement("div");
+      feed.id = "mb-task-events-feed";
+      panel.innerHTML = "";
+      panel.appendChild(feed);
+    }
+
+    if (!state.events.length) {
+      feed.innerHTML =
+        '<div class="text-sm text-gray-500">' +
+        (state.sourceError ? "Task events stream reconnecting…" : "Waiting for task events…") +
+        "</div>";
+      return;
+    }
+
+    feed.innerHTML = state.events.map(function (eventRow) {
+      return (
+        '<div class="mb-2 rounded-lg border border-gray-800 bg-black/20 px-3 py-2">' +
+          '<div class="text-xs text-gray-500">' + escapeHtml(eventRow.kind) + '</div>' +
+          '<div class="text-sm text-gray-300 mt-1">' + escapeHtml(eventRow.task_id) + (eventRow.status ? " · " + escapeHtml(eventRow.status) : "") + '</div>' +
+        '</div>'
+      );
+    }).join("");
+  }
+
+  function renderAll() {
+    renderRecent();
+    renderHistory();
+    renderEvents();
+  }
+
+  function ingestTaskEvent(raw) {
+    if (!raw || typeof raw !== "object") return;
+
+    var task = normalizeTask(raw);
+    pushRecent(task);
+    pushHistory(task);
+
+
+----- public/js/phase457_restore_task_panels.js lines 130-190 -----
+  }
+
+  function renderEvents() {
+    var anchor = byId("mb-task-events-panel-anchor");
+    if (!anchor) return;
+
+    var panel = byId("mb-task-events-panel");
+    var feed = byId("mb-task-events-feed");
+
+    if (!panel) {
+      panel = document.createElement("div");
+      panel.id = "mb-task-events-panel";
+      panel.className = "rounded-lg border border-gray-700 bg-gray-900/60 p-3";
+      anchor.innerHTML = "";
+      anchor.appendChild(panel);
+    }
+
+    if (!feed) {
+      feed = document.createElement("div");
+      feed.id = "mb-task-events-feed";
+      panel.innerHTML = "";
+      panel.appendChild(feed);
+    }
+
+    if (!state.events.length) {
+      feed.innerHTML =
+        '<div class="text-sm text-gray-500">' +
+        (state.sourceError ? "Task events stream reconnecting…" : "Waiting for task events…") +
+        "</div>";
+      return;
+    }
+
+    feed.innerHTML = state.events.map(function (eventRow) {
+      return (
+        '<div class="mb-2 rounded-lg border border-gray-800 bg-black/20 px-3 py-2">' +
+          '<div class="text-xs text-gray-500">' + escapeHtml(eventRow.kind) + '</div>' +
+          '<div class="text-sm text-gray-300 mt-1">' + escapeHtml(eventRow.task_id) + (eventRow.status ? " · " + escapeHtml(eventRow.status) : "") + '</div>' +
+        '</div>'
+      );
+    }).join("");
+  }
+
+  function renderAll() {
+    renderRecent();
+    renderHistory();
+    renderEvents();
+  }
+
+  function ingestTaskEvent(raw) {
+    if (!raw || typeof raw !== "object") return;
+
+    var task = normalizeTask(raw);
+    pushRecent(task);
+    pushHistory(task);
+
+    var eventRow = normalizeEvent(raw);
+    if (eventRow.kind === "unknown" && task.status) {
+      eventRow.kind = task.status;
+    }
+    pushEvent(eventRow);
+
+
+----- public/js/phase457_restore_task_panels.js lines 131-191 -----
+
+  function renderEvents() {
+    var anchor = byId("mb-task-events-panel-anchor");
+    if (!anchor) return;
+
+    var panel = byId("mb-task-events-panel");
+    var feed = byId("mb-task-events-feed");
+
+    if (!panel) {
+      panel = document.createElement("div");
+      panel.id = "mb-task-events-panel";
+      panel.className = "rounded-lg border border-gray-700 bg-gray-900/60 p-3";
+      anchor.innerHTML = "";
+      anchor.appendChild(panel);
+    }
+
+    if (!feed) {
+      feed = document.createElement("div");
+      feed.id = "mb-task-events-feed";
+      panel.innerHTML = "";
+      panel.appendChild(feed);
+    }
+
+    if (!state.events.length) {
+      feed.innerHTML =
+        '<div class="text-sm text-gray-500">' +
+        (state.sourceError ? "Task events stream reconnecting…" : "Waiting for task events…") +
+        "</div>";
+      return;
+    }
+
+    feed.innerHTML = state.events.map(function (eventRow) {
+      return (
+        '<div class="mb-2 rounded-lg border border-gray-800 bg-black/20 px-3 py-2">' +
+          '<div class="text-xs text-gray-500">' + escapeHtml(eventRow.kind) + '</div>' +
+          '<div class="text-sm text-gray-300 mt-1">' + escapeHtml(eventRow.task_id) + (eventRow.status ? " · " + escapeHtml(eventRow.status) : "") + '</div>' +
+        '</div>'
+      );
+    }).join("");
+  }
+
+  function renderAll() {
+    renderRecent();
+    renderHistory();
+    renderEvents();
+  }
+
+  function ingestTaskEvent(raw) {
+    if (!raw || typeof raw !== "object") return;
+
+    var task = normalizeTask(raw);
+    pushRecent(task);
+    pushHistory(task);
+
+    var eventRow = normalizeEvent(raw);
+    if (eventRow.kind === "unknown" && task.status) {
+      eventRow.kind = task.status;
+    }
+    pushEvent(eventRow);
+
+    renderAll();
+
+----- public/js/phase457_restore_task_panels.js lines 135-195 -----
+
+    var panel = byId("mb-task-events-panel");
+    var feed = byId("mb-task-events-feed");
+
+    if (!panel) {
+      panel = document.createElement("div");
+      panel.id = "mb-task-events-panel";
+      panel.className = "rounded-lg border border-gray-700 bg-gray-900/60 p-3";
+      anchor.innerHTML = "";
+      anchor.appendChild(panel);
+    }
+
+    if (!feed) {
+      feed = document.createElement("div");
+      feed.id = "mb-task-events-feed";
+      panel.innerHTML = "";
+      panel.appendChild(feed);
+    }
+
+    if (!state.events.length) {
+      feed.innerHTML =
+        '<div class="text-sm text-gray-500">' +
+        (state.sourceError ? "Task events stream reconnecting…" : "Waiting for task events…") +
+        "</div>";
+      return;
+    }
+
+    feed.innerHTML = state.events.map(function (eventRow) {
+      return (
+        '<div class="mb-2 rounded-lg border border-gray-800 bg-black/20 px-3 py-2">' +
+          '<div class="text-xs text-gray-500">' + escapeHtml(eventRow.kind) + '</div>' +
+          '<div class="text-sm text-gray-300 mt-1">' + escapeHtml(eventRow.task_id) + (eventRow.status ? " · " + escapeHtml(eventRow.status) : "") + '</div>' +
+        '</div>'
+      );
+    }).join("");
+  }
+
+  function renderAll() {
+    renderRecent();
+    renderHistory();
+    renderEvents();
+  }
+
+  function ingestTaskEvent(raw) {
+    if (!raw || typeof raw !== "object") return;
+
+    var task = normalizeTask(raw);
+    pushRecent(task);
+    pushHistory(task);
+
+    var eventRow = normalizeEvent(raw);
+    if (eventRow.kind === "unknown" && task.status) {
+      eventRow.kind = task.status;
+    }
+    pushEvent(eventRow);
+
+    renderAll();
+  }
+
+  function safeJsonParse(text) {
+    try {
+
+----- public/js/phase457_restore_task_panels.js lines 142-202 -----
+      panel.className = "rounded-lg border border-gray-700 bg-gray-900/60 p-3";
+      anchor.innerHTML = "";
+      anchor.appendChild(panel);
+    }
+
+    if (!feed) {
+      feed = document.createElement("div");
+      feed.id = "mb-task-events-feed";
+      panel.innerHTML = "";
+      panel.appendChild(feed);
+    }
+
+    if (!state.events.length) {
+      feed.innerHTML =
+        '<div class="text-sm text-gray-500">' +
+        (state.sourceError ? "Task events stream reconnecting…" : "Waiting for task events…") +
+        "</div>";
+      return;
+    }
+
+    feed.innerHTML = state.events.map(function (eventRow) {
+      return (
+        '<div class="mb-2 rounded-lg border border-gray-800 bg-black/20 px-3 py-2">' +
+          '<div class="text-xs text-gray-500">' + escapeHtml(eventRow.kind) + '</div>' +
+          '<div class="text-sm text-gray-300 mt-1">' + escapeHtml(eventRow.task_id) + (eventRow.status ? " · " + escapeHtml(eventRow.status) : "") + '</div>' +
+        '</div>'
+      );
+    }).join("");
+  }
+
+  function renderAll() {
+    renderRecent();
+    renderHistory();
+    renderEvents();
+  }
+
+  function ingestTaskEvent(raw) {
+    if (!raw || typeof raw !== "object") return;
+
+    var task = normalizeTask(raw);
+    pushRecent(task);
+    pushHistory(task);
+
+    var eventRow = normalizeEvent(raw);
+    if (eventRow.kind === "unknown" && task.status) {
+      eventRow.kind = task.status;
+    }
+    pushEvent(eventRow);
+
+    renderAll();
+  }
+
+  function safeJsonParse(text) {
+    try {
+      return JSON.parse(text);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  function ingestFrame(name, rawData) {
+
+----- public/js/phase457_restore_task_panels.js lines 212-272 -----
+      return;
+    }
+
+    if (payload && Array.isArray(payload.events)) {
+      payload.events.forEach(function (item) {
+        ingestTaskEvent(item);
+      });
+      return;
+    }
+
+    if (payload && typeof payload === "object") {
+      if (!payload.kind && name) payload.kind = name;
+      ingestTaskEvent(payload);
+    }
+  }
+
+  function connectDirectTaskEvents() {
+    if (state.es) return;
+
+    try {
+      state.es = new EventSource("/events/task-events");
+    } catch (_) {
+      state.sourceError = true;
+      renderAll();
+      return;
+    }
+
+    state.es.onopen = function () {
+      state.sourceOpen = true;
+      state.sourceError = false;
+      renderAll();
+    };
+
+    state.es.onerror = function () {
+      state.sourceError = true;
+      renderAll();
+    };
+
+    state.es.onmessage = function (evt) {
+      ingestFrame("message", evt && evt.data ? evt.data : "{}");
+    };
+
+    [
+      "hello",
+      "task.event",
+      "task.created",
+      "task.completed",
+      "task.failed",
+      "task.updated",
+      "task.status",
+      "heartbeat"
+    ].forEach(function (name) {
+      state.es.addEventListener(name, function (evt) {
+        ingestFrame(name, evt && evt.data ? evt.data : "{}");
+      });
+    });
+  }
+
+  function bootstrap() {
+    if (state.bootstrapped) return;
+    state.bootstrapped = true;
+
+----- public/js/phase457_restore_task_panels.js lines 280-340 -----
+        var rows = Array.isArray(data) ? data : (Array.isArray(data.tasks) ? data.tasks : []);
+        rows.slice(0, MAX_HISTORY).forEach(function (row) {
+          pushRecent(row);
+          pushHistory(row);
+        });
+        renderAll();
+      })
+      .catch(function () {
+        renderAll();
+      });
+  }
+
+  window.addEventListener("mb.task.event", function (e) {
+    ingestTaskEvent((e && e.detail) || {});
+  });
+
+  function boot() {
+    renderAll();
+    bootstrap();
+    connectDirectTaskEvents();
+    setInterval(renderAll, 4000);
+    console.log("phase457 panels stable");
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", boot, { once: true });
+  } else {
+    boot();
+  }
+})();
+
+
+FILE: public/js/phase457_neutralize_legacy_observational_consumers.js
+----------------------------------------
+8:  // Disable operator guidance normalization ONLY
+31:    if (!isProbeLike(node.textContent || "")) return;
+32:    node.textContent = fallbackText;
+44:    // Previously caused infinite render loop via MutationObserver
+
+----- public/js/phase457_neutralize_legacy_observational_consumers.js lines 1-48 -----
+(() => {
+  "use strict";
+
+  if (window.__PHASE457_NEUTRALIZER_ACTIVE__) return;
+  window.__PHASE457_NEUTRALIZER_ACTIVE__ = true;
+
+  // 🔒 PHASE 457 HOTFIX:
+  // Disable operator guidance normalization ONLY
+  // Preserve all other panel behavior
+
+  function byId(id) {
+    return document.getElementById(id);
+  }
+
+  function isProbeLike(raw) {
+    const text = String(raw || "");
+    const lower = text.toLowerCase();
+
+    return (
+      !text.trim() ||
+      /probe:/.test(lower) ||
+      /loading/.test(lower) ||
+      /updated_at/.test(lower) ||
+      /run_view/.test(lower) ||
+      /does not exist/.test(lower)
+    );
+  }
+
+  function setIfProbeLike(node, fallbackText) {
+    if (!node) return;
+    if (!isProbeLike(node.textContent || "")) return;
+    node.textContent = fallbackText;
+  }
+
+  function normalizeLegacyStatusPanels() {
+    setIfProbeLike(byId("tasks-widget"), "No recent tasks yet.");
+    setIfProbeLike(byId("recentLogs"), "No task history yet.");
+  }
+
+  function boot() {
+    normalizeLegacyStatusPanels();
+
+    // 🚫 CRITICAL: DO NOT TOUCH OPERATOR GUIDANCE
+    // Previously caused infinite render loop via MutationObserver
+    // Guidance is now controlled ONLY by Phase 456 baseline emitter
+  }
+
+  if (document.readyState === "loading") {
+
+----- public/js/phase457_neutralize_legacy_observational_consumers.js lines 11-71 -----
+  function byId(id) {
+    return document.getElementById(id);
+  }
+
+  function isProbeLike(raw) {
+    const text = String(raw || "");
+    const lower = text.toLowerCase();
+
+    return (
+      !text.trim() ||
+      /probe:/.test(lower) ||
+      /loading/.test(lower) ||
+      /updated_at/.test(lower) ||
+      /run_view/.test(lower) ||
+      /does not exist/.test(lower)
+    );
+  }
+
+  function setIfProbeLike(node, fallbackText) {
+    if (!node) return;
+    if (!isProbeLike(node.textContent || "")) return;
+    node.textContent = fallbackText;
+  }
+
+  function normalizeLegacyStatusPanels() {
+    setIfProbeLike(byId("tasks-widget"), "No recent tasks yet.");
+    setIfProbeLike(byId("recentLogs"), "No task history yet.");
+  }
+
+  function boot() {
+    normalizeLegacyStatusPanels();
+
+    // 🚫 CRITICAL: DO NOT TOUCH OPERATOR GUIDANCE
+    // Previously caused infinite render loop via MutationObserver
+    // Guidance is now controlled ONLY by Phase 456 baseline emitter
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", boot, { once: true });
+  } else {
+    boot();
+  }
+})();
+
+----- public/js/phase457_neutralize_legacy_observational_consumers.js lines 12-72 -----
+    return document.getElementById(id);
+  }
+
+  function isProbeLike(raw) {
+    const text = String(raw || "");
+    const lower = text.toLowerCase();
+
+    return (
+      !text.trim() ||
+      /probe:/.test(lower) ||
+      /loading/.test(lower) ||
+      /updated_at/.test(lower) ||
+      /run_view/.test(lower) ||
+      /does not exist/.test(lower)
+    );
+  }
+
+  function setIfProbeLike(node, fallbackText) {
+    if (!node) return;
+    if (!isProbeLike(node.textContent || "")) return;
+    node.textContent = fallbackText;
+  }
+
+  function normalizeLegacyStatusPanels() {
+    setIfProbeLike(byId("tasks-widget"), "No recent tasks yet.");
+    setIfProbeLike(byId("recentLogs"), "No task history yet.");
+  }
+
+  function boot() {
+    normalizeLegacyStatusPanels();
+
+    // 🚫 CRITICAL: DO NOT TOUCH OPERATOR GUIDANCE
+    // Previously caused infinite render loop via MutationObserver
+    // Guidance is now controlled ONLY by Phase 456 baseline emitter
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", boot, { once: true });
+  } else {
+    boot();
+  }
+})();
+
+----- public/js/phase457_neutralize_legacy_observational_consumers.js lines 24-84 -----
+      /run_view/.test(lower) ||
+      /does not exist/.test(lower)
+    );
+  }
+
+  function setIfProbeLike(node, fallbackText) {
+    if (!node) return;
+    if (!isProbeLike(node.textContent || "")) return;
+    node.textContent = fallbackText;
+  }
+
+  function normalizeLegacyStatusPanels() {
+    setIfProbeLike(byId("tasks-widget"), "No recent tasks yet.");
+    setIfProbeLike(byId("recentLogs"), "No task history yet.");
+  }
+
+  function boot() {
+    normalizeLegacyStatusPanels();
+
+    // 🚫 CRITICAL: DO NOT TOUCH OPERATOR GUIDANCE
+    // Previously caused infinite render loop via MutationObserver
+    // Guidance is now controlled ONLY by Phase 456 baseline emitter
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", boot, { once: true });
+  } else {
+    boot();
+  }
+})();
+
+
