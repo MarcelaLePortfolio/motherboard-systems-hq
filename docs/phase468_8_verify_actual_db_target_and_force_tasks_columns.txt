@@ -1,0 +1,193 @@
+PHASE 468.8 — VERIFY ACTUAL DB TARGET + FORCE TASKS COLUMNS
+===========================================================
+
+STEP 1 — Confirm dashboard DB target
+DATABASE_URL=
+
+STEP 2 — Show tasks schema from postgres container
+                                                                   Table "public.tasks"
+   Column   |            Type             | Collation | Nullable |              Default              | Storage  | Compression | Stats target | Description 
+------------+-----------------------------+-----------+----------+-----------------------------------+----------+-------------+--------------+-------------
+ id         | integer                     |           | not null | nextval('tasks_id_seq'::regclass) | plain    |             |              | 
+ created_at | timestamp without time zone |           |          | now()                             | plain    |             |              | 
+ task_id    | text                        |           |          |                                   | extended |             |              | 
+ status     | text                        |           |          |                                   | extended |             |              | 
+ payload    | jsonb                       |           |          |                                   | extended |             |              | 
+ title      | text                        |           |          |                                   | extended |             |              | 
+ agent      | text                        |           |          |                                   | extended |             |              | 
+ notes      | text                        |           |          |                                   | extended |             |              | 
+ source     | text                        |           |          |                                   | extended |             |              | 
+ trace_id   | text                        |           |          |                                   | extended |             |              | 
+ error      | text                        |           |          |                                   | extended |             |              | 
+ meta       | jsonb                       |           |          |                                   | extended |             |              | 
+ updated_at | timestamp without time zone |           |          | now()                             | plain    |             |              | 
+Indexes:
+    "tasks_pkey" PRIMARY KEY, btree (id)
+    "tasks_task_id_idx" btree (task_id)
+Access method: heap
+
+
+STEP 3 — Force required columns onto public.tasks
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ column_name |          data_type          
+-------------+-----------------------------
+ id          | integer
+ created_at  | timestamp without time zone
+ task_id     | text
+ status      | text
+ payload     | jsonb
+ title       | text
+ agent       | text
+ notes       | text
+ source      | text
+ trace_id    | text
+ error       | text
+ meta        | jsonb
+ updated_at  | timestamp without time zone
+(13 rows)
+
+
+STEP 4 — Restart dashboard
+ Container motherboard_systems_hq-dashboard-1  Restarting
+ Container motherboard_systems_hq-dashboard-1  Started
+
+STEP 5 — Wait for boot
+Waited 5 seconds
+
+STEP 6 — Probe api/tasks after forced schema alignment
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+curl: (7) Failed to connect to localhost port 3000 after 1 ms: Couldn't connect to server
+
+STEP 7 — Recent dashboard logs
+dashboard-1  |   baseUrl: '/api/tasks',
+dashboard-1  |   path: '/',
+dashboard-1  |   referer: 'http://localhost:8080/dashboard.html',
+dashboard-1  |   userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+dashboard-1  |   accept: 'application/json'
+dashboard-1  | }
+dashboard-1  | [HTTP] GET /api/tasks
+dashboard-1  | [phase57c-router] /api/tasks probe {
+dashboard-1  |   originalUrl: '/api/tasks',
+dashboard-1  |   baseUrl: '/api/tasks',
+dashboard-1  |   path: '/',
+dashboard-1  |   referer: 'http://localhost:8080/dashboard.html',
+dashboard-1  |   userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+dashboard-1  |   accept: 'application/json'
+dashboard-1  | }
+dashboard-1  | [phase25] /api/tasks list error error: column "title" does not exist
+dashboard-1  |     at /app/node_modules/pg-pool/index.js:45:11
+dashboard-1  |     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+dashboard-1  |     at async file:///app/server/routes/api-tasks-postgres.mjs:54:15 {
+dashboard-1  |   length: 105,
+dashboard-1  |   severity: 'ERROR',
+dashboard-1  |   code: '42703',
+dashboard-1  |   detail: undefined,
+dashboard-1  |   hint: undefined,
+dashboard-1  |   position: '28',
+dashboard-1  |   internalPosition: undefined,
+dashboard-1  |   internalQuery: undefined,
+dashboard-1  |   where: undefined,
+dashboard-1  |   schema: undefined,
+dashboard-1  |   table: undefined,
+dashboard-1  |   column: undefined,
+dashboard-1  |   dataType: undefined,
+dashboard-1  |   constraint: undefined,
+dashboard-1  |   file: 'parse_relation.c',
+dashboard-1  |   line: '3722',
+dashboard-1  |   routine: 'errorMissingColumn'
+dashboard-1  | }
+dashboard-1  | [phase25] /api/tasks list error error: column "title" does not exist
+dashboard-1  |     at /app/node_modules/pg-pool/index.js:45:11
+dashboard-1  |     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+dashboard-1  |     at async file:///app/server/routes/api-tasks-postgres.mjs:54:15 {
+dashboard-1  |   length: 105,
+dashboard-1  |   severity: 'ERROR',
+dashboard-1  |   code: '42703',
+dashboard-1  |   detail: undefined,
+dashboard-1  |   hint: undefined,
+dashboard-1  |   position: '28',
+dashboard-1  |   internalPosition: undefined,
+dashboard-1  |   internalQuery: undefined,
+dashboard-1  |   where: undefined,
+dashboard-1  |   schema: undefined,
+dashboard-1  |   table: undefined,
+dashboard-1  |   column: undefined,
+dashboard-1  |   dataType: undefined,
+dashboard-1  |   constraint: undefined,
+dashboard-1  |   file: 'parse_relation.c',
+dashboard-1  |   line: '3722',
+dashboard-1  |   routine: 'errorMissingColumn'
+dashboard-1  | }
+dashboard-1  | [HTTP] GET /js/telemetry/phase65b_metric_ownership_guard.js
+dashboard-1  | [HTTP] GET /js/telemetry/running_tasks_metric.js
+dashboard-1  | [HTTP] GET /js/telemetry/success_rate_metric.js
+dashboard-1  | [HTTP] GET /js/telemetry/latency_metric.js
+dashboard-1  | [HTTP] GET /dashboard.html
+dashboard-1  | (node:1) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///app/routes/diagnostics/systemHealth.js is not specified and it doesn't parse as CommonJS.
+dashboard-1  | Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+dashboard-1  | To eliminate this warning, add "type": "module" to /app/package.json.
+dashboard-1  | (Use `node --trace-warnings ...` to show where the warning was created)
+dashboard-1  | [phase25] task_events_emit loaded 2026-04-10T20:21:03.275Z file= file:///app/server/task_events_emit.mjs
+dashboard-1  | [phase25] api-tasks-postgres loaded 2026-04-10T20:21:03.275Z file= file:///app/server/routes/api-tasks-postgres.mjs
+dashboard-1  | [phase19] orchestrator_state_route mounted {
+dashboard-1  |   file: 'file:///app/server/orchestrator_state_route.mjs',
+dashboard-1  |   envSnapshot: {
+dashboard-1  |     PHASE18_ENABLE_ORCHESTRATION: undefined,
+dashboard-1  |     PHASE19_ENABLE_ORCH_STATE: undefined
+dashboard-1  |   }
+dashboard-1  | }
+dashboard-1  | [SSE] /events/ops + /events/reflections registered
+dashboard-1  | [db] effective pool config {
+dashboard-1  |   mode: 'url',
+dashboard-1  |   DB_URL_present: true,
+dashboard-1  |   host: null,
+dashboard-1  |   port: null,
+dashboard-1  |   user: null,
+dashboard-1  |   database: null,
+dashboard-1  |   password_type: 'url-hidden',
+dashboard-1  |   password_len: 'hidden',
+dashboard-1  |   has_password: true
+dashboard-1  | }
+dashboard-1  | Database pool initialized
+dashboard-1  | [phase25] __DB_POOL set { has: true, type: 'BoundPool' }
+dashboard-1  | Server running on http://0.0.0.0:3000
+dashboard-1  | (node:1) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///app/routes/diagnostics/operatorGuidanceRuntime.js is not specified and it doesn't parse as CommonJS.
+dashboard-1  | Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+dashboard-1  | To eliminate this warning, add "type": "module" to /app/package.json.
+dashboard-1  | (Use `node --trace-warnings ...` to show where the warning was created)
+dashboard-1  | [phase25] task_events_emit loaded 2026-04-10T20:23:36.703Z file= file:///app/server/task_events_emit.mjs
+dashboard-1  | [phase25] api-tasks-postgres loaded 2026-04-10T20:23:36.703Z file= file:///app/server/routes/api-tasks-postgres.mjs
+dashboard-1  | [phase19] orchestrator_state_route mounted {
+dashboard-1  |   file: 'file:///app/server/orchestrator_state_route.mjs',
+dashboard-1  |   envSnapshot: {
+dashboard-1  |     PHASE18_ENABLE_ORCHESTRATION: undefined,
+dashboard-1  |     PHASE19_ENABLE_ORCH_STATE: undefined
+dashboard-1  |   }
+dashboard-1  | }
+dashboard-1  | [SSE] /events/ops + /events/reflections registered
+dashboard-1  | [db] effective pool config {
+dashboard-1  |   mode: 'url',
+dashboard-1  |   DB_URL_present: true,
+dashboard-1  |   host: null,
+dashboard-1  |   port: null,
+dashboard-1  |   user: null,
+dashboard-1  |   database: null,
+dashboard-1  |   password_type: 'url-hidden',
+dashboard-1  |   password_len: 'hidden',
+dashboard-1  |   has_password: true
+dashboard-1  | }
+dashboard-1  | Database pool initialized
+dashboard-1  | [phase25] __DB_POOL set { has: true, type: 'BoundPool' }
+dashboard-1  | Server running on http://0.0.0.0:3000
+
+STEP 8 — Classification
+CLASSIFICATION: DASHBOARD_NOT_READING_EXPECTED_TABLE_OR_DB
