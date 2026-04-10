@@ -1,0 +1,23 @@
+PHASE 474.5 — OBSERVE INLINE-STYLE-FREE SHELL
+=============================================
+
+STATUS
+- bundle.js is still disabled
+- local CSS is removed
+- inline <style> blocks are removed
+- only Tailwind remains
+
+DO THIS NOW
+1. Open:
+   http://localhost:8080/dashboard.html
+
+2. Let it sit for 30–60 seconds.
+
+3. Try:
+   - scroll once
+   - click once anywhere harmless
+
+RETURN TO CHATGPT WITH EXACTLY ONE OF THESE
+- INLINE_STYLE_FREE_SHELL_STABLE
+- INLINE_STYLE_FREE_SHELL_STILL_UNRESPONSIVE
+- WHITE_SCREEN_RETURNED
