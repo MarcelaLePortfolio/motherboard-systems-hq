@@ -1,12 +1,13 @@
-export async function ensureTasksTaskIdColumn(pool) {
-  // Phase 464.X — defensive table existence guard
-  await client.query(`
-    CREATE TABLE IF NOT EXISTS tasks (
-      id SERIAL PRIMARY KEY,
-      created_at TIMESTAMP DEFAULT NOW()
-    );
+export async function ensureTasksTaskIdColumn(db = globalThis.__DB_POOL) {
+  if (!db || typeof db.query !== "function") {
+    console.warn("[db_bootstrap_tasks_task_id] skipped: no query-capable db handle available");
+    return { ok: false, skipped: true, reason: "missing_db_handle" };
+  }
+
+  await db.query(`
+    ALTER TABLE public.tasks
+    ADD COLUMN IF NOT EXISTS task_id TEXT
   `);
-  // Idempotent, safe for dev: makes string task_id support durable.
-  await pool.query(`alter table tasks add column if not exists task_id text;`);
-  await pool.query(`create index if not exists tasks_task_id_idx on tasks(task_id);`);
+
+  return { ok: true };
 }
