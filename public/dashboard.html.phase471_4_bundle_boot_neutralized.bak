@@ -665,7 +665,7 @@
   <script src="js/phase61_tabs_workspace.js"></script>
 
     <script src="js/phase61_recent_history_wire.js"></script>
-<!-- phase471.4 temporary neutralization: bundle.js removed to isolate browser freeze to JS boot layer -->
+<script src="bundle.js"></script>
   <script src="js/phase60_live_clock.js"></script>
   <script id="phase61-task-events-polish-script">
     (() => {
