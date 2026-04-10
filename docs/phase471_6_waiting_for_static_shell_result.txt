@@ -1,0 +1,19 @@
+PHASE 471.6 — WAITING FOR STATIC SHELL RESULT
+=============================================
+
+YOU ARE AT THE DECISION POINT.
+
+DO THIS NOW
+1. Open:
+   http://localhost:8080/dashboard.html
+
+2. Wait 30–60 seconds.
+
+3. Try:
+   - scroll once
+   - click once anywhere harmless
+
+RETURN TO CHATGPT WITH EXACTLY ONE OF THESE
+- STATIC_SHELL_STABLE
+- STATIC_SHELL_STILL_UNRESPONSIVE
+- WHITE_SCREEN_RETURNED
