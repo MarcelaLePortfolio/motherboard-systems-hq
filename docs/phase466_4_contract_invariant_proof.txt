@@ -24,10 +24,10 @@ STEP 2 — Contract invariant surface
 77:  preparation: PreparationEnvelope;
 
 STEP 3 — Adapter invariant checks
-FAIL: intake block missing
+OK: intake block present
 OK: governance passthrough present
-FAIL: accepted default missing
-FAIL: emitted_events default missing
+OK: accepted default deterministic
+OK: emitted_events default deterministic
 
 STEP 4 — Non-runtime / non-side-effect checks
 OK: no runtime or nondeterministic behavior detected

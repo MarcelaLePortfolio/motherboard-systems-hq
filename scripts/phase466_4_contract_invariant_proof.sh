@@ -34,10 +34,10 @@ mkdir -p docs
   echo
 
   echo "STEP 3 — Adapter invariant checks"
-  rg -q "intake: {" "$ADAPTER" && echo "OK: intake block present" || echo "FAIL: intake block missing"
-  rg -q "governance: params.governance" "$ADAPTER" && echo "OK: governance passthrough present" || echo "FAIL: governance passthrough missing"
-  rg -q "accepted: params.preparation?.accepted ?? false" "$ADAPTER" && echo "OK: accepted default deterministic" || echo "FAIL: accepted default missing"
-  rg -q "emitted_events: params.preparation?.emitted_events ?? \\[\\]" "$ADAPTER" && echo "OK: emitted_events default deterministic" || echo "FAIL: emitted_events default missing"
+  rg -Fq "intake: {" "$ADAPTER" && echo "OK: intake block present" || echo "FAIL: intake block missing"
+  rg -Fq "governance: params.governance" "$ADAPTER" && echo "OK: governance passthrough present" || echo "FAIL: governance passthrough missing"
+  rg -Fq "accepted: params.preparation?.accepted ?? false" "$ADAPTER" && echo "OK: accepted default deterministic" || echo "FAIL: accepted default missing"
+  rg -Fq "emitted_events: params.preparation?.emitted_events ?? []" "$ADAPTER" && echo "OK: emitted_events default deterministic" || echo "FAIL: emitted_events default missing"
   echo
 
   echo "STEP 4 — Non-runtime / non-side-effect checks"
@@ -49,12 +49,12 @@ mkdir -p docs
   echo
 
   echo "STEP 5 — Fixture contract coverage"
-  rg -q "intake:" "$FIXTURE1" && echo "OK: fixture 1 intake present" || echo "FAIL: fixture 1 intake missing"
-  rg -q "governance:" "$FIXTURE1" && echo "OK: fixture 1 governance present" || echo "FAIL: fixture 1 governance missing"
-  rg -q "preparation:" "$FIXTURE1" && echo "OK: fixture 1 preparation present" || echo "FAIL: fixture 1 preparation missing"
-  rg -q "bridgeAssemblyTaskFixture" "$FIXTURE2" && echo "OK: assembly task fixture present" || echo "FAIL: assembly task fixture missing"
-  rg -q "bridgeAssemblyGovernanceFixture" "$FIXTURE2" && echo "OK: assembly governance fixture present" || echo "FAIL: assembly governance fixture missing"
-  rg -q "bridgeAssemblyPreparationFixture" "$FIXTURE2" && echo "OK: assembly preparation fixture present" || echo "FAIL: assembly preparation fixture missing"
+  rg -Fq "intake:" "$FIXTURE1" && echo "OK: fixture 1 intake present" || echo "FAIL: fixture 1 intake missing"
+  rg -Fq "governance:" "$FIXTURE1" && echo "OK: fixture 1 governance present" || echo "FAIL: fixture 1 governance missing"
+  rg -Fq "preparation:" "$FIXTURE1" && echo "OK: fixture 1 preparation present" || echo "FAIL: fixture 1 preparation missing"
+  rg -Fq "bridgeAssemblyTaskFixture" "$FIXTURE2" && echo "OK: assembly task fixture present" || echo "FAIL: assembly task fixture missing"
+  rg -Fq "bridgeAssemblyGovernanceFixture" "$FIXTURE2" && echo "OK: assembly governance fixture present" || echo "FAIL: assembly governance fixture missing"
+  rg -Fq "bridgeAssemblyPreparationFixture" "$FIXTURE2" && echo "OK: assembly preparation fixture present" || echo "FAIL: assembly preparation fixture missing"
   echo
 
   echo "STEP 6 — Classification"
