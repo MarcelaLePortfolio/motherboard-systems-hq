@@ -1,0 +1,70 @@
+PHASE 464.X — SYSTEM HEALTH PAYLOAD TRACE
+=========================================
+
+TARGET FILE: routes/diagnostics/systemHealth.ts
+
+STEP 1 — Locate response construction
+15:  res.json({
+
+STEP 2 — Locate SYSTEM_HEALTH references
+2:import { buildSystemHealthSituationSummaryPayload } from "./systemHealthSituationSummary";
+12:    operatorAttention: "none",
+16:    status: "OK",
+
+STEP 3 — Extract surrounding logic (focused)
+--------------------------------------------
+5-
+6-router.get("/", (_req, res) => {
+7-  const situationSummaryPayload = buildSystemHealthSituationSummaryPayload({
+8-    stability: "stable",
+9-    executionRisk: "none",
+10-    cognition: "consistent",
+11-    signalCoherence: "coherent",
+12-    operatorAttention: "none",
+13-  });
+14-
+15:  res.json({
+16-    status: "OK",
+17-    uptime: process.uptime(),
+18-    memory: process.memoryUsage(),
+19-    timestamp: new Date().toISOString(),
+20-    ...situationSummaryPayload,
+21-  });
+22-});
+23-
+24-export default router;
+
+STEP 4 — Detect possible loop or array construction
+
+STEP 5 — Top 200 lines for context
+import express from "express";
+import { buildSystemHealthSituationSummaryPayload } from "./systemHealthSituationSummary";
+
+const router = express.Router();
+
+router.get("/", (_req, res) => {
+  const situationSummaryPayload = buildSystemHealthSituationSummaryPayload({
+    stability: "stable",
+    executionRisk: "none",
+    cognition: "consistent",
+    signalCoherence: "coherent",
+    operatorAttention: "none",
+  });
+
+  res.json({
+    status: "OK",
+    uptime: process.uptime(),
+    memory: process.memoryUsage(),
+    timestamp: new Date().toISOString(),
+    ...situationSummaryPayload,
+  });
+});
+
+export default router;
+
+DECISION TARGET
+- Identify if SYSTEM_HEALTH is:
+  • hardcoded
+  • appended in a loop
+  • derived from an array or aggregation
+- Next step: isolate EXACT line causing repetition
