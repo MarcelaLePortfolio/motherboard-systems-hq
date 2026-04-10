@@ -1,0 +1,229 @@
+PHASE 464.X — HARD DIAGNOSE: SERVER DOWN
+========================================
+
+STEP 1 — Docker containers
+NAME                                 IMAGE                              COMMAND                  SERVICE     CREATED        STATUS                  PORTS
+motherboard_systems_hq-dashboard-1   motherboard_systems_hq-dashboard   "docker-entrypoint.s…"   dashboard   23 hours ago   Up 23 hours (healthy)   0.0.0.0:8080->3000/tcp, [::]:8080->3000/tcp
+motherboard_systems_hq-postgres-1    postgres:16-alpine                 "docker-entrypoint.s…"   postgres    46 hours ago   Up 25 hours             0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+
+STEP 2 — Port 3000 listeners
+no process on 3000
+
+STEP 3 — Recent container logs (dashboard)
+dashboard-1  | [HTTP] GET /api/tasks?limit=12
+dashboard-1  | [phase57c-router] /api/tasks probe {
+dashboard-1  |   originalUrl: '/api/tasks?limit=12',
+dashboard-1  |   baseUrl: '/api/tasks',
+dashboard-1  |   path: '/',
+dashboard-1  |   referer: 'http://localhost:8080/dashboard.html',
+dashboard-1  |   userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+dashboard-1  |   accept: 'application/json'
+dashboard-1  | }
+dashboard-1  | [HTTP] GET /api/tasks?limit=12
+dashboard-1  | [HTTP] GET /api/tasks?limit=12
+dashboard-1  | [phase57c-router] /api/tasks probe {
+dashboard-1  |   originalUrl: '/api/tasks?limit=12',
+dashboard-1  |   baseUrl: '/api/tasks',
+dashboard-1  |   path: '/',
+dashboard-1  |   referer: 'http://localhost:8080/dashboard.html',
+dashboard-1  |   userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+dashboard-1  |   accept: 'application/json'
+dashboard-1  | }
+dashboard-1  | [phase57c-router] /api/tasks probe {
+dashboard-1  |   originalUrl: '/api/tasks?limit=12',
+dashboard-1  |   baseUrl: '/api/tasks',
+dashboard-1  |   path: '/',
+dashboard-1  |   referer: 'http://localhost:8080/dashboard.html',
+dashboard-1  |   userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+dashboard-1  |   accept: 'application/json'
+dashboard-1  | }
+dashboard-1  | [HTTP] GET /api/runs?limit=20
+dashboard-1  | [HTTP] GET /api/tasks?limit=12
+dashboard-1  | [HTTP] GET /api/runs?limit=20
+dashboard-1  | [HTTP] GET /api/tasks?limit=12
+dashboard-1  | [HTTP] GET /api/tasks?limit=12
+dashboard-1  | [HTTP] GET /api/runs?limit=20
+dashboard-1  | [HTTP] GET /css/demo_layout_trim.css
+dashboard-1  | [HTTP] GET /css/phase59_demo_focus.css
+dashboard-1  | [HTTP] GET /css/dashboard.css?v=darkmode
+dashboard-1  | [HTTP] GET /css/dashboard-reflections.css
+dashboard-1  | [HTTP] GET /css/agent-status-row.css
+dashboard-1  | [HTTP] GET /css/broadcast.css
+dashboard-1  | [phase57c-router] /api/tasks probe {
+dashboard-1  |   originalUrl: '/api/tasks?limit=12',
+dashboard-1  |   baseUrl: '/api/tasks',
+dashboard-1  |   path: '/',
+dashboard-1  |   referer: 'http://localhost:8080/dashboard.html',
+dashboard-1  |   userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+dashboard-1  |   accept: 'application/json'
+dashboard-1  | }
+dashboard-1  | [phase57c-router] /api/tasks probe {
+dashboard-1  |   originalUrl: '/api/tasks?limit=12',
+dashboard-1  |   baseUrl: '/api/tasks',
+dashboard-1  |   path: '/',
+dashboard-1  |   referer: 'http://localhost:8080/dashboard.html',
+dashboard-1  |   userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+dashboard-1  |   accept: 'application/json'
+dashboard-1  | }
+dashboard-1  | [phase57c-router] /api/tasks probe {
+dashboard-1  |   originalUrl: '/api/tasks?limit=12',
+dashboard-1  |   baseUrl: '/api/tasks',
+dashboard-1  |   path: '/',
+dashboard-1  |   referer: 'http://localhost:8080/dashboard.html',
+dashboard-1  |   userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+dashboard-1  |   accept: 'application/json'
+dashboard-1  | }
+dashboard-1  | [HTTP] GET /css/matilda-chat.css
+dashboard-1  | [HTTP] GET /css/phase13_5_operator_ux.css
+dashboard-1  | [HTTP] GET /css/phase60_live_polish.css
+dashboard-1  | [HTTP] GET /css/phase61_workspace_consolidation.css
+dashboard-1  | [HTTP] GET /css/phase61_tabs_observational_workspace.css
+dashboard-1  | [HTTP] GET /js/phase60_live_clock.js
+dashboard-1  | [HTTP] GET /js/operatorGuidance.sse.js?v=phase96-live-1
+dashboard-1  | [HTTP] GET /js/phase61_tabs_workspace.js
+dashboard-1  | [HTTP] GET /js/phase61_recent_history_wire.js
+dashboard-1  | [HTTP] GET /bundle.js
+dashboard-1  | [HTTP] GET /js/phase457_restore_task_panels.js
+dashboard-1  | [HTTP] GET /js/phase457_neutralize_legacy_observational_consumers.js
+dashboard-1  | [HTTP] GET /.well-known/appspecific/com.chrome.devtools.json
+dashboard-1  | [HTTP] GET /bundle.js.map
+dashboard-1  | [HTTP] GET /events/ops
+dashboard-1  | [HTTP] GET /events/ops
+dashboard-1  | [HTTP] GET /api/runs?limit=20
+dashboard-1  | [HTTP] GET /api/tasks?limit=12
+dashboard-1  | [HTTP] GET /api/tasks
+dashboard-1  | [phase57c-router] /api/tasks probe {
+dashboard-1  |   originalUrl: '/api/tasks?limit=12',
+postgres-1   | 	          last_heartbeat_ts,
+postgres-1   | 	          heartbeat_age_ms,
+postgres-1   | 	          terminal_event_kind,
+postgres-1   | 	          terminal_event_ts,
+postgres-1   | 	          terminal_event_id
+postgres-1   | 	  
+dashboard-1  |   baseUrl: '/api/tasks',
+dashboard-1  |   path: '/',
+dashboard-1  |   referer: 'http://localhost:8080/dashboard.html',
+dashboard-1  |   userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+dashboard-1  |   accept: 'application/json'
+dashboard-1  | }
+dashboard-1  | [phase57c-router] /api/tasks probe {
+dashboard-1  |   originalUrl: '/api/tasks',
+postgres-1   | 	        FROM run_view
+postgres-1   | 	        
+postgres-1   | 	        ORDER BY
+postgres-1   | 	          last_event_ts DESC NULLS LAST,
+postgres-1   | 	          last_event_id DESC NULLS LAST,
+postgres-1   | 	          run_id DESC
+postgres-1   | 	        LIMIT $1::int
+postgres-1   | 	      
+postgres-1   | 2026-04-09 18:07:40.754 UTC [137] ERROR:  column t.lease_expires_at does not exist at character 1304
+postgres-1   | 2026-04-09 18:07:40.754 UTC [137] STATEMENT:  CREATE OR REPLACE VIEW run_view AS
+postgres-1   | 	WITH
+postgres-1   | 	last_event AS (
+postgres-1   | 	  SELECT DISTINCT ON (te.task_id, te.run_id)
+postgres-1   | 	    te.task_id,
+postgres-1   | 	    te.run_id,
+postgres-1   | 	    te.id   AS last_event_id,
+postgres-1   | 	    te.ts   AS last_event_ts,
+postgres-1   | 	    te.kind AS last_event_kind,
+postgres-1   | 	    te.actor AS last_event_actor
+postgres-1   | 	  FROM task_events te
+postgres-1   | 	  WHERE te.run_id IS NOT NULL AND te.run_id <> ''
+postgres-1   | 	  ORDER BY te.task_id, te.run_id, te.id DESC
+postgres-1   | 	),
+postgres-1   | 	last_heartbeat AS (
+dashboard-1  |   baseUrl: '/api/tasks',
+dashboard-1  |   path: '/',
+dashboard-1  |   referer: 'http://localhost:8080/dashboard.html',
+postgres-1   | 	  SELECT
+postgres-1   | 	    te.task_id,
+postgres-1   | 	    te.run_id,
+postgres-1   | 	    MAX(te.ts) AS last_heartbeat_ts
+dashboard-1  |   userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+dashboard-1  |   accept: 'application/json'
+dashboard-1  | }
+dashboard-1  | [HTTP] GET /events/ops
+dashboard-1  | [HTTP] GET /events/reflections
+postgres-1   | 	  FROM task_events te
+postgres-1   | 	  WHERE te.run_id IS NOT NULL AND te.run_id <> ''
+postgres-1   | 	    AND te.kind IN ('heartbeat','task.heartbeat')
+postgres-1   | 	  GROUP BY te.task_id, te.run_id
+postgres-1   | 	),
+postgres-1   | 	terminal_event AS (
+postgres-1   | 	  SELECT DISTINCT ON (te.task_id, te.run_id)
+postgres-1   | 	    te.task_id,
+postgres-1   | 	    te.run_id,
+postgres-1   | 	    te.kind AS terminal_event_kind,
+postgres-1   | 	    te.ts   AS terminal_event_ts,
+postgres-1   | 	    te.id   AS terminal_event_id
+postgres-1   | 	  FROM task_events te
+postgres-1   | 	  WHERE te.run_id IS NOT NULL AND te.run_id <> ''
+postgres-1   | 	    AND te.kind IN ('task.completed','task.failed','task.canceled','task.cancelled','completed','failed','canceled','cancelled')
+postgres-1   | 	  ORDER BY te.task_id, te.run_id, te.id DESC
+postgres-1   | 	)
+postgres-1   | 	SELECT
+postgres-1   | 	  le.run_id,
+postgres-1   | 	  le.task_id,
+postgres-1   | 	  -- actor/owner: prefer latest event.actor; fall back to tasks.claimed_by / tasks.actor
+postgres-1   | 	  COALESCE(NULLIF(le.last_event_actor,''), NULLIF(t.claimed_by,'')) AS actor,
+postgres-1   | 	  -- lease (epoch ms)
+postgres-1   | 	  t.lease_expires_at,
+postgres-1   | 	  CASE
+postgres-1   | 	    WHEN t.lease_expires_at IS NULL THEN NULL
+postgres-1   | 	    ELSE (t.lease_expires_at > (extract(epoch from now()) * 1000.0))::boolean
+postgres-1   | 	  END AS lease_fresh,
+postgres-1   | 	  CASE
+postgres-1   | 	    WHEN t.lease_expires_at IS NULL THEN NULL
+postgres-1   | 	    ELSE GREATEST(0, (t.lease_expires_at - (extract(epoch from now()) * 1000.0)))::bigint
+postgres-1   | 	  END AS lease_ttl_ms,
+postgres-1   | 	  -- heartbeat freshness (epoch ms)
+postgres-1   | 	  lh.last_heartbeat_ts,
+postgres-1   | 	  CASE
+postgres-1   | 	    WHEN lh.last_heartbeat_ts IS NULL THEN NULL
+postgres-1   | 	    ELSE GREATEST(0, ((extract(epoch from now()) * 1000.0) - lh.last_heartbeat_ts))::bigint
+postgres-1   | 	  END AS heartbeat_age_ms,
+postgres-1   | 	  -- last event
+postgres-1   | 	  le.last_event_id,
+postgres-1   | 	  le.last_event_ts,
+postgres-1   | 	  le.last_event_kind,
+postgres-1   | 	  -- terminal precedence: once a terminal_event exists, it wins over any later task.running noise
+postgres-1   | 	  CASE
+postgres-1   | 	    WHEN te.terminal_event_kind IS NOT NULL THEN te.terminal_event_kind
+postgres-1   | 	    ELSE t.status
+postgres-1   | 	  END AS task_status,
+postgres-1   | 	  CASE
+postgres-1   | 	    WHEN te.terminal_event_kind IS NOT NULL THEN TRUE
+postgres-1   | 	    ELSE (t.status IN ('completed','failed','canceled','cancelled'))
+postgres-1   | 	  END AS is_terminal,
+postgres-1   | 	  te.terminal_event_kind,
+postgres-1   | 	  te.terminal_event_ts,
+postgres-1   | 	  te.terminal_event_id
+postgres-1   | 	FROM last_event le
+postgres-1   | 	LEFT JOIN tasks t
+postgres-1   | 	  ON t.task_id = le.task_id
+postgres-1   | 	LEFT JOIN last_heartbeat lh
+postgres-1   | 	  ON lh.task_id = le.task_id AND lh.run_id = le.run_id
+postgres-1   | 	LEFT JOIN terminal_event te
+postgres-1   | 	  ON te.task_id = le.task_id AND te.run_id = le.run_id
+postgres-1   | 	;
+postgres-1   | 2026-04-09 18:17:50.922 UTC [27] LOG:  checkpoint starting: time
+postgres-1   | 2026-04-09 18:17:56.242 UTC [27] LOG:  checkpoint complete: wrote 53 buffers (0.3%); 0 WAL file(s) added, 0 removed, 0 recycled; write=5.308 s, sync=0.007 s, total=5.320 s; sync files=42, longest=0.002 s, average=0.001 s; distance=228 kB, estimate=228 kB; lsn=0/15A8110, redo lsn=0/15A80D8
+postgres-1   | 2026-04-09 18:47:50.317 UTC [27] LOG:  checkpoint starting: time
+postgres-1   | 2026-04-09 18:47:50.326 UTC [27] LOG:  checkpoint complete: wrote 1 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.003 s, sync=0.001 s, total=0.010 s; sync files=1, longest=0.001 s, average=0.001 s; distance=0 kB, estimate=205 kB; lsn=0/15A8318, redo lsn=0/15A82E0
+
+STEP 4 — Attempt direct node process check
+marcela-dev        585   6.2  0.8 1867270048 130624   ??  S    Tue09AM  44:51.05 /Applications/Visual Studio Code.app/Contents/Frameworks/Code Helper.app/Contents/MacOS/Code Helper --type=utility --utility-sub-type=node.mojom.NodeService --lang=en-US --service-sandbox-type=none --user-data-dir=/Users/marcela-dev/Library/Application Support/Code --standard-schemes=vscode-webview,vscode-file --enable-sandbox --secure-schemes=vscode-webview,vscode-file --cors-schemes=vscode-webview,vscode-file --fetch-schemes=vscode-webview,vscode-file --service-worker-schemes=vscode-webview --code-cache-schemes=vscode-webview,vscode-file --shared-files --field-trial-handle=1718379636,r,3178656741805256819,9449114939972444952,262144 --enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EarlyEstablishGpuChannel,EstablishGpuChannelAsync,ScreenCaptureKitPickerScreen,ScreenCaptureKitStreamPickerSonoma --disable-features=CalculateNativeWinOcclusion,LocalNetworkAccessChecks,MacWebContentsOcclusion,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TimeoutHangingVideoCaptureStarts,TraceSiteInstanceGetProcessCreation --variations-seed-version --trace-process-track-uuid=3190708992871164437
+marcela-dev        904   0.1  0.7 1867015376 118496   ??  S    Tue09AM   2:28.98 /Applications/Visual Studio Code.app/Contents/Frameworks/Code Helper (Plugin).app/Contents/MacOS/Code Helper (Plugin) --type=utility --utility-sub-type=node.mojom.NodeService --lang=en-US --service-sandbox-type=none --dns-result-order=ipv4first --experimental-network-inspection --inspect-port=0 --user-data-dir=/Users/marcela-dev/Library/Application Support/Code --standard-schemes=vscode-webview,vscode-file --enable-sandbox --secure-schemes=vscode-webview,vscode-file --cors-schemes=vscode-webview,vscode-file --fetch-schemes=vscode-webview,vscode-file --service-worker-schemes=vscode-webview --code-cache-schemes=vscode-webview,vscode-file --shared-files --field-trial-handle=1718379636,r,3178656741805256819,9449114939972444952,262144 --enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EarlyEstablishGpuChannel,EstablishGpuChannelAsync,ScreenCaptureKitPickerScreen,ScreenCaptureKitStreamPickerSonoma --disable-features=CalculateNativeWinOcclusion,LocalNetworkAccessChecks,MacWebContentsOcclusion,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TimeoutHangingVideoCaptureStarts,TraceSiteInstanceGetProcessCreation --variations-seed-version --trace-process-track-uuid=3190708995682289984
+marcela-dev       1027   0.0  0.2 1881980592  26240   ??  S    Tue09AM   0:03.73 /Applications/Visual Studio Code.app/Contents/Frameworks/Code Helper (Plugin).app/Contents/MacOS/Code Helper (Plugin) /Applications/Visual Studio Code.app/Contents/Resources/app/extensions/json-language-features/server/dist/node/jsonServerMain --node-ipc --clientProcessId=904
+marcela-dev        903   0.0  0.3 1867053712  51088   ??  S    Tue09AM   0:26.56 /Applications/Visual Studio Code.app/Contents/Frameworks/Code Helper.app/Contents/MacOS/Code Helper --type=utility --utility-sub-type=node.mojom.NodeService --lang=en-US --service-sandbox-type=none --user-data-dir=/Users/marcela-dev/Library/Application Support/Code --standard-schemes=vscode-webview,vscode-file --enable-sandbox --secure-schemes=vscode-webview,vscode-file --cors-schemes=vscode-webview,vscode-file --fetch-schemes=vscode-webview,vscode-file --service-worker-schemes=vscode-webview --code-cache-schemes=vscode-webview,vscode-file --shared-files --field-trial-handle=1718379636,r,3178656741805256819,9449114939972444952,262144 --enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EarlyEstablishGpuChannel,EstablishGpuChannelAsync,ScreenCaptureKitPickerScreen,ScreenCaptureKitStreamPickerSonoma --disable-features=CalculateNativeWinOcclusion,LocalNetworkAccessChecks,MacWebContentsOcclusion,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TimeoutHangingVideoCaptureStarts,TraceSiteInstanceGetProcessCreation --variations-seed-version --trace-process-track-uuid=3190708994745248135
+marcela-dev        583   0.0  0.4 1867077664  62624   ??  S    Tue09AM   0:18.96 /Applications/Visual Studio Code.app/Contents/Frameworks/Code Helper.app/Contents/MacOS/Code Helper --type=utility --utility-sub-type=node.mojom.NodeService --lang=en-US --service-sandbox-type=none --user-data-dir=/Users/marcela-dev/Library/Application Support/Code --standard-schemes=vscode-webview,vscode-file --enable-sandbox --secure-schemes=vscode-webview,vscode-file --cors-schemes=vscode-webview,vscode-file --fetch-schemes=vscode-webview,vscode-file --service-worker-schemes=vscode-webview --code-cache-schemes=vscode-webview,vscode-file --shared-files --field-trial-handle=1718379636,r,3178656741805256819,9449114939972444952,262144 --enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EarlyEstablishGpuChannel,EstablishGpuChannelAsync,ScreenCaptureKitPickerScreen,ScreenCaptureKitStreamPickerSonoma --disable-features=CalculateNativeWinOcclusion,LocalNetworkAccessChecks,MacWebContentsOcclusion,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TimeoutHangingVideoCaptureStarts,TraceSiteInstanceGetProcessCreation --variations-seed-version --trace-process-track-uuid=3190708990997080739
+marcela-dev      33257   0.0  0.0 410065776    208 s401  S+   11:07AM   0:00.00 rg node
+
+STEP 5 — Curl root and health
+--- ROOT ---
+root failed
+
+--- HEALTH ---
+health failed
+
+DIAGNOSIS COMPLETE
