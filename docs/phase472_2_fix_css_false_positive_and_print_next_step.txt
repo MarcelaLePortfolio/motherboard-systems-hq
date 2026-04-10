@@ -1,0 +1,32 @@
+PHASE 472.2 — FIX CSS FALSE POSITIVE AND PRINT NEXT STEP
+=======================================================
+
+STEP 1 — Show why phase472.1 misclassified
+The previous check matched stylesheet text inside neutralization comments.
+
+86:<!-- phase472.1 temporary neutralization: stylesheet removed for bare-html freeze isolation :: <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" /> -->
+87:<!-- phase472.1 temporary neutralization: stylesheet removed for bare-html freeze isolation :: <link rel="stylesheet" href="css/broadcast.css" /> -->
+88:<!-- phase472.1 temporary neutralization: stylesheet removed for bare-html freeze isolation :: <link rel="stylesheet" href="css/dashboard.css?v=darkmode" /> -->
+89:<!-- phase472.1 temporary neutralization: stylesheet removed for bare-html freeze isolation :: <link rel="stylesheet" href="css/dashboard-reflections.css" /> -->
+90:<!-- phase472.1 temporary neutralization: stylesheet removed for bare-html freeze isolation :: <link rel="stylesheet" href="css/agent-status-row.css" /> -->
+91:<!-- phase472.1 temporary neutralization: stylesheet removed for bare-html freeze isolation :: <link rel="stylesheet" href="css/matilda-chat.css" /> -->
+92:<!-- phase472.1 temporary neutralization: stylesheet removed for bare-html freeze isolation :: <link rel="stylesheet" href="css/demo_layout_trim.css" /> -->
+93:<!-- phase472.1 temporary neutralization: stylesheet removed for bare-html freeze isolation :: <link rel="stylesheet" href="/css/phase13_5_operator_ux.css" /> -->
+94:<!-- phase472.1 temporary neutralization: stylesheet removed for bare-html freeze isolation :: <link rel="stylesheet" href="css/phase59_demo_focus.css" /> -->
+95:<!-- phase472.1 temporary neutralization: stylesheet removed for bare-html freeze isolation :: <link rel="stylesheet" href="css/phase60_live_polish.css" /> -->
+96:<!-- phase472.1 temporary neutralization: stylesheet removed for bare-html freeze isolation :: <link rel="stylesheet" href="css/phase61_workspace_consolidation.css" /> -->
+97:<!-- phase472.1 temporary neutralization: stylesheet removed for bare-html freeze isolation :: <link rel="stylesheet" href="css/phase61_tabs_observational_workspace.css" /> -->
+
+STEP 2 — Verify actual stylesheet tag absence
+ACTUAL_STYLESHEET_TAG_ABSENT
+
+STEP 3 — Corrected classification
+CLASSIFICATION: BARE_HTML_READY_FOR_BROWSER_FREEZE_ISOLATION
+
+STEP 4 — Browser observation instruction
+Open: http://localhost:8080/dashboard.html
+Let it sit for 30–60 seconds.
+Then report exactly one of:
+- BARE_HTML_STABLE
+- BARE_HTML_STILL_UNRESPONSIVE
+- WHITE_SCREEN_RETURNED
