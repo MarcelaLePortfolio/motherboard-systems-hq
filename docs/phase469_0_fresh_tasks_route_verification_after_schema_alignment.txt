@@ -1,0 +1,156 @@
+PHASE 469.0 — FRESH TASKS ROUTE VERIFICATION AFTER SCHEMA ALIGNMENT
+==================================================================
+
+START_TS: 2026-04-10T20:44:20Z
+
+STEP 1 — Restart dashboard for clean post-alignment verification
+ Container motherboard_systems_hq-dashboard-1  Restarting
+ Container motherboard_systems_hq-dashboard-1  Started
+
+Waited 5 seconds
+
+STEP 2 — Fresh /api/tasks probe
+--- GET /api/tasks ---
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+curl: (7) Failed to connect to localhost port 3000 after 1 ms: Couldn't connect to server
+
+STEP 3 — Fresh /dashboard.html probe
+--- GET /dashboard.html ---
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+curl: (7) Failed to connect to localhost port 3000 after 0 ms: Couldn't connect to server
+
+STEP 4 — Fresh /bundle.js probe
+--- GET /bundle.js ---
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+curl: (7) Failed to connect to localhost port 3000 after 0 ms: Couldn't connect to server
+
+STEP 5 — Targeted fresh log read
+dashboard-1  |   schema: undefined,
+dashboard-1  |   table: undefined,
+dashboard-1  |   column: undefined,
+dashboard-1  |   dataType: undefined,
+dashboard-1  |   constraint: undefined,
+dashboard-1  |   file: 'parse_relation.c',
+dashboard-1  |   line: '3722',
+dashboard-1  |   routine: 'errorMissingColumn'
+dashboard-1  | }
+dashboard-1  | [phase25] /api/tasks list error error: column "title" does not exist
+dashboard-1  |     at /app/node_modules/pg-pool/index.js:45:11
+dashboard-1  |     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+dashboard-1  |     at async file:///app/server/routes/api-tasks-postgres.mjs:54:15 {
+dashboard-1  |   length: 105,
+dashboard-1  |   severity: 'ERROR',
+dashboard-1  |   code: '42703',
+dashboard-1  |   detail: undefined,
+dashboard-1  |   hint: undefined,
+dashboard-1  |   position: '28',
+dashboard-1  |   internalPosition: undefined,
+dashboard-1  |   internalQuery: undefined,
+dashboard-1  |   where: undefined,
+dashboard-1  |   schema: undefined,
+dashboard-1  |   table: undefined,
+dashboard-1  |   column: undefined,
+dashboard-1  |   dataType: undefined,
+dashboard-1  |   constraint: undefined,
+dashboard-1  |   file: 'parse_relation.c',
+dashboard-1  |   line: '3722',
+dashboard-1  |   routine: 'errorMissingColumn'
+dashboard-1  | }
+dashboard-1  | [HTTP] GET /js/telemetry/phase65b_metric_ownership_guard.js
+dashboard-1  | [HTTP] GET /js/telemetry/running_tasks_metric.js
+dashboard-1  | [HTTP] GET /js/telemetry/success_rate_metric.js
+dashboard-1  | [HTTP] GET /js/telemetry/latency_metric.js
+dashboard-1  | [HTTP] GET /dashboard.html
+dashboard-1  | (node:1) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///app/routes/diagnostics/systemHealth.js is not specified and it doesn't parse as CommonJS.
+dashboard-1  | Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+dashboard-1  | To eliminate this warning, add "type": "module" to /app/package.json.
+dashboard-1  | (Use `node --trace-warnings ...` to show where the warning was created)
+dashboard-1  | [phase25] task_events_emit loaded 2026-04-10T20:21:03.275Z file= file:///app/server/task_events_emit.mjs
+dashboard-1  | [phase25] api-tasks-postgres loaded 2026-04-10T20:21:03.275Z file= file:///app/server/routes/api-tasks-postgres.mjs
+dashboard-1  | [phase19] orchestrator_state_route mounted {
+dashboard-1  |   file: 'file:///app/server/orchestrator_state_route.mjs',
+dashboard-1  |   envSnapshot: {
+dashboard-1  |     PHASE18_ENABLE_ORCHESTRATION: undefined,
+dashboard-1  |     PHASE19_ENABLE_ORCH_STATE: undefined
+dashboard-1  |   }
+dashboard-1  | }
+dashboard-1  | [SSE] /events/ops + /events/reflections registered
+dashboard-1  | [db] effective pool config {
+dashboard-1  |   mode: 'url',
+dashboard-1  |   DB_URL_present: true,
+dashboard-1  |   host: null,
+dashboard-1  |   port: null,
+dashboard-1  |   user: null,
+dashboard-1  |   database: null,
+dashboard-1  |   password_type: 'url-hidden',
+dashboard-1  |   password_len: 'hidden',
+dashboard-1  |   has_password: true
+dashboard-1  | }
+dashboard-1  | Database pool initialized
+dashboard-1  | [phase25] __DB_POOL set { has: true, type: 'BoundPool' }
+dashboard-1  | Server running on http://0.0.0.0:3000
+dashboard-1  | (node:1) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///app/routes/diagnostics/operatorGuidanceRuntime.js is not specified and it doesn't parse as CommonJS.
+dashboard-1  | Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+dashboard-1  | To eliminate this warning, add "type": "module" to /app/package.json.
+dashboard-1  | (Use `node --trace-warnings ...` to show where the warning was created)
+dashboard-1  | [phase25] task_events_emit loaded 2026-04-10T20:23:36.703Z file= file:///app/server/task_events_emit.mjs
+dashboard-1  | [phase25] api-tasks-postgres loaded 2026-04-10T20:23:36.703Z file= file:///app/server/routes/api-tasks-postgres.mjs
+dashboard-1  | [phase19] orchestrator_state_route mounted {
+dashboard-1  |   file: 'file:///app/server/orchestrator_state_route.mjs',
+dashboard-1  |   envSnapshot: {
+dashboard-1  |     PHASE18_ENABLE_ORCHESTRATION: undefined,
+dashboard-1  |     PHASE19_ENABLE_ORCH_STATE: undefined
+dashboard-1  |   }
+dashboard-1  | }
+dashboard-1  | [SSE] /events/ops + /events/reflections registered
+dashboard-1  | [db] effective pool config {
+dashboard-1  |   mode: 'url',
+dashboard-1  |   DB_URL_present: true,
+dashboard-1  |   host: null,
+dashboard-1  |   port: null,
+dashboard-1  |   user: null,
+dashboard-1  |   database: null,
+dashboard-1  |   password_type: 'url-hidden',
+dashboard-1  |   password_len: 'hidden',
+dashboard-1  |   has_password: true
+dashboard-1  | }
+dashboard-1  | Database pool initialized
+dashboard-1  | [phase25] __DB_POOL set { has: true, type: 'BoundPool' }
+dashboard-1  | Server running on http://0.0.0.0:3000
+dashboard-1  | (node:1) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///app/routes/diagnostics/systemHealth.js is not specified and it doesn't parse as CommonJS.
+dashboard-1  | Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+dashboard-1  | To eliminate this warning, add "type": "module" to /app/package.json.
+dashboard-1  | (Use `node --trace-warnings ...` to show where the warning was created)
+dashboard-1  | [phase25] task_events_emit loaded 2026-04-10T20:44:22.497Z file= file:///app/server/task_events_emit.mjs
+dashboard-1  | [phase25] api-tasks-postgres loaded 2026-04-10T20:44:22.497Z file= file:///app/server/routes/api-tasks-postgres.mjs
+dashboard-1  | [phase19] orchestrator_state_route mounted {
+dashboard-1  |   file: 'file:///app/server/orchestrator_state_route.mjs',
+dashboard-1  |   envSnapshot: {
+dashboard-1  |     PHASE18_ENABLE_ORCHESTRATION: undefined,
+dashboard-1  |     PHASE19_ENABLE_ORCH_STATE: undefined
+dashboard-1  |   }
+dashboard-1  | }
+dashboard-1  | [SSE] /events/ops + /events/reflections registered
+dashboard-1  | [db] effective pool config {
+dashboard-1  |   mode: 'url',
+dashboard-1  |   DB_URL_present: true,
+dashboard-1  |   host: null,
+dashboard-1  |   port: null,
+dashboard-1  |   user: null,
+dashboard-1  |   database: null,
+dashboard-1  |   password_type: 'url-hidden',
+dashboard-1  |   password_len: 'hidden',
+dashboard-1  |   has_password: true
+dashboard-1  | }
+dashboard-1  | Database pool initialized
+dashboard-1  | [phase25] __DB_POOL set { has: true, type: 'BoundPool' }
+dashboard-1  | Server running on http://0.0.0.0:3000
+
+STEP 6 — Fresh failure classification
+CLASSIFICATION: TITLE_ERROR_STILL_PRESENT
