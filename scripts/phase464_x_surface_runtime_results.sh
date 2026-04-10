@@ -38,7 +38,6 @@ RAW RESPONSE:
 $RESPONSE
 EOT
 
-# HARD GUARANTEE FILE EXISTS BEFORE GIT
 if [ ! -f "$OUT" ]; then
   echo "ERROR: output file was not created"
   exit 1
