@@ -251,16 +251,16 @@
   <!-- phase477.4 temporary neutralization: inline script block removed for structure-only isolation -->
   <!-- phase477.4 temporary neutralization: inline script block removed for structure-only isolation -->
   
-<!-- phase477.6 temporary neutralization: src script removed for pure structure isolation -->
+  <script src="js/phase61_tabs_workspace.js"></script>
 
-<!-- phase477.6 temporary neutralization: src script removed for pure structure isolation -->
+    <script src="js/phase61_recent_history_wire.js"></script>
 <!-- phase471.4 temporary neutralization: bundle.js removed to isolate browser freeze to JS boot layer -->
-<!-- phase477.6 temporary neutralization: src script removed for pure structure isolation -->
+  <script src="js/phase60_live_clock.js"></script>
   <!-- phase477.4 temporary neutralization: inline script block removed for structure-only isolation -->
     <!-- phase470.6 temporary neutralization: operatorGuidance.sse.js removed to isolate dashboard freeze / unresponsive behavior -->
 <!-- phase471.1 temporary neutralization: /js/phase457_restore_task_panels.js removed to isolate task-events surface -->
     <!-- phase477.4 temporary neutralization: inline script block removed for structure-only isolation -->
 
-<!-- phase477.6 temporary neutralization: src script removed for pure structure isolation -->
+<script src="/js/phase457_neutralize_legacy_observational_consumers.js"></script>
   <!-- PHASE4732_SENTINEL_1775861395 --></body>
 </html>
