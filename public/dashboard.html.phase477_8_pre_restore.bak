@@ -158,7 +158,7 @@
                   </section>
                 </div>
               </div>
-            </section>
+</section>
           </section>
 
           <section id="phase61-telemetry-column" class="space-y-4" aria-label="Observational workspace">
@@ -248,20 +248,19 @@
     <span id="phase16-sse-indicator-text" style="padding:4px 8px;border-radius:9999px;border:1px solid rgba(255,255,255,.18);background:rgba(0,0,0,.25)">SSE: …</span>
   </div>
 
+  <!-- phase477.4 temporary neutralization: inline script block removed for structure-only isolation -->
+  <!-- phase477.4 temporary neutralization: inline script block removed for structure-only isolation -->
   
-  
-  
-  
+<!-- phase477.6 temporary neutralization: src script removed for pure structure isolation -->
 
-    
+<!-- phase477.6 temporary neutralization: src script removed for pure structure isolation -->
 <!-- phase471.4 temporary neutralization: bundle.js removed to isolate browser freeze to JS boot layer -->
-  
-  
+<!-- phase477.6 temporary neutralization: src script removed for pure structure isolation -->
+  <!-- phase477.4 temporary neutralization: inline script block removed for structure-only isolation -->
     <!-- phase470.6 temporary neutralization: operatorGuidance.sse.js removed to isolate dashboard freeze / unresponsive behavior -->
 <!-- phase471.1 temporary neutralization: /js/phase457_restore_task_panels.js removed to isolate task-events surface -->
-    
+    <!-- phase477.4 temporary neutralization: inline script block removed for structure-only isolation -->
 
-
-  <!-- PHASE4732_SENTINEL_1775861395 -->
-</body>
+<!-- phase477.6 temporary neutralization: src script removed for pure structure isolation -->
+  <!-- PHASE4732_SENTINEL_1775861395 --></body>
 </html>

@@ -1,0 +1,135 @@
+PHASE 477.8 — RESTORE STRUCTURAL LAYOUT FROM BACKUP (NO SCRIPTS)
+================================================================
+
+SINCE_TS: 2026-04-11T17:30:42Z
+
+STEP 1 — Backup created
+public/dashboard.html.phase477_8_pre_restore.bak
+
+STEP 2 — Rebuild dashboard image
+#1 [internal] load local bake definitions
+#1 reading from stdin 692B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.dashboard
+#2 transferring dockerfile: 885B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:20-alpine
+#3 DONE 0.7s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 320B done
+#4 DONE 0.0s
+
+#5 [1/7] FROM docker.io/library/node:20-alpine@sha256:f598378b5240225e6beab68fa9f356db1fb8efe55173e6d4d8153113bb8f333c
+#5 resolve docker.io/library/node:20-alpine@sha256:f598378b5240225e6beab68fa9f356db1fb8efe55173e6d4d8153113bb8f333c 0.0s done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 448.81kB 0.1s done
+#6 DONE 0.1s
+
+#7 [3/7] COPY package*.json ./
+#7 CACHED
+
+#8 [4/7] COPY package-lock.json* ./
+#8 CACHED
+
+#9 [2/7] WORKDIR /app
+#9 CACHED
+
+#10 [5/7] RUN npm config set fetch-retries 5     && npm config set fetch-retry-factor 2     && npm config set fetch-retry-mintimeout 10000     && npm config set fetch-retry-maxtimeout 60000     && (npm config set registry https://registry.npmmirror.com/         && npm ci --no-audit --no-fund       || npm config set registry https://registry.npmjs.org/         && npm ci --no-audit --no-fund)     && apk add --no-cache curl ripgrep
+#10 CACHED
+
+#11 [6/7] COPY . .
+#11 DONE 0.4s
+
+#12 [7/7] COPY public/ ./public/
+#12 DONE 0.0s
+
+#13 exporting to image
+#13 exporting layers
+#13 exporting layers 0.9s done
+#13 exporting manifest sha256:ab1fd394192f22e440ef343db88756919af049ab85def4b641d7d74e4c471d35
+#13 exporting manifest sha256:ab1fd394192f22e440ef343db88756919af049ab85def4b641d7d74e4c471d35 done
+#13 exporting config sha256:7757e0f69fd5675ef3d1eff810b47d6a73bf7f1ee2020b6b91b15724fe0bb58b done
+#13 exporting attestation manifest sha256:669c4a402ac6e2fe4d2c3e172354fde47c53b527697cb39c8c792ba6281f8d19 done
+#13 exporting manifest list sha256:c13fff27d48a20c8e1ec012403cf66bc28d0d098c2543e53e5945814ac31400e done
+#13 naming to docker.io/library/motherboard_systems_hq-dashboard:latest done
+#13 unpacking to docker.io/library/motherboard_systems_hq-dashboard:latest
+#13 unpacking to docker.io/library/motherboard_systems_hq-dashboard:latest 0.4s done
+#13 DONE 1.3s
+
+#14 resolving provenance for metadata file
+#14 DONE 0.0s
+ motherboard_systems_hq-dashboard  Built
+
+STEP 3 — Recreate dashboard container
+ Container motherboard_systems_hq-postgres-1  Running
+ Container motherboard_systems_hq-dashboard-1  Recreate
+ Container motherboard_systems_hq-dashboard-1  Recreated
+ Container motherboard_systems_hq-dashboard-1  Starting
+ Container motherboard_systems_hq-dashboard-1  Started
+
+STEP 4 — Wait for host port 8080 readiness
+READY_ON_8080 attempt=2
+
+STEP 5 — Probe dashboard route
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0 16002    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Sat, 11 Apr 2026 17:30:42 GMT
+ETag: W/"3e82-19d7d9889d0"
+Content-Type: text/html; charset=utf-8
+Content-Length: 16002
+Date: Sat, 11 Apr 2026 17:30:48 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+
+STEP 6 — Fresh dashboard logs
+dashboard-1  | (node:1) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///app/routes/diagnostics/systemHealth.js is not specified and it doesn't parse as CommonJS.
+dashboard-1  | Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+dashboard-1  | To eliminate this warning, add "type": "module" to /app/package.json.
+dashboard-1  | (Use `node --trace-warnings ...` to show where the warning was created)
+dashboard-1  | [phase25] task_events_emit loaded 2026-04-11T17:30:47.285Z file= file:///app/server/task_events_emit.mjs
+dashboard-1  | [phase25] api-tasks-postgres loaded 2026-04-11T17:30:47.285Z file= file:///app/server/routes/api-tasks-postgres.mjs
+dashboard-1  | [phase19] orchestrator_state_route mounted {
+dashboard-1  |   file: 'file:///app/server/orchestrator_state_route.mjs',
+dashboard-1  |   envSnapshot: {
+dashboard-1  |     PHASE18_ENABLE_ORCHESTRATION: undefined,
+dashboard-1  |     PHASE19_ENABLE_ORCH_STATE: undefined
+dashboard-1  |   }
+dashboard-1  | }
+dashboard-1  | [SSE] /events/ops + /events/reflections registered
+dashboard-1  | [db] effective pool config {
+dashboard-1  |   mode: 'url',
+dashboard-1  |   DB_URL_present: true,
+dashboard-1  |   host: null,
+dashboard-1  |   port: null,
+dashboard-1  |   user: null,
+dashboard-1  |   database: null,
+dashboard-1  |   password_type: 'url-hidden',
+dashboard-1  |   password_len: 'hidden',
+dashboard-1  |   has_password: true
+dashboard-1  | }
+dashboard-1  | Database pool initialized
+dashboard-1  | [phase25] __DB_POOL set { has: true, type: 'BoundPool' }
+dashboard-1  | Server running on http://0.0.0.0:3000
+dashboard-1  | [HTTP] GET /dashboard.html
+dashboard-1  | [HTTP] HEAD /dashboard.html
+
+STEP 7 — Classification
+CLASSIFICATION: STRUCTURAL_LAYOUT_RESTORED_NO_SCRIPTS
+
+DECISION TARGET
+- Open http://localhost:8080/dashboard.html
+- Report EXACTLY one of:
+  • STRUCTURE_RESTORED_CORRECT
+  • STRUCTURE_RESTORED_BUT_BROKEN
+  • WHITE_SCREEN_RETURNED
