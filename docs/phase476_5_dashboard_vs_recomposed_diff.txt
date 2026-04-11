@@ -1,0 +1,90 @@
+PHASE 476.5 — DASHBOARD VS RECOMPOSED DIFF
+==========================================
+
+STEP 1 — Stable recomposed probe recorded
+RECOMPOSED_PROBE_STABLE
+
+STEP 2 — Structural summaries
+dashboard_summary={'line_count': 576, 'has_bundle_tag': False, 'stylesheet_count': 12, 'inline_style_blocks': 0, 'body_len': 545}
+recomposed_summary={'line_count': 596, 'has_bundle_tag': False, 'stylesheet_count': 12, 'inline_style_blocks': 0, 'body_len': 570}
+
+STEP 3 — Unified diff (first 400 lines)
+--- public/dashboard.html
++++ public/dashboard_recomposed_from_stable_quarters_probe.html
+@@ -23,9 +23,17 @@
+ 
+     <!-- phase474.4 temporary neutralization: inline style block removed for HTML-only layout isolation -->
+ </head>
+-
+-<body class="bg-gray-900 text-gray-100 min-h-screen p-4">
+-  <header class="phase59-shell flex flex-col gap-4 mb-6 lg:flex-row lg:items-center lg:justify-between">
++<body><div style="padding: 12px; font-family: sans-serif;">
++  <p><strong>Phase 476.3:</strong> recomposed full-body probe from stable Q1 + Q2 + Q3 + Q4 fragments</p>
++</div>
++
++<div style="padding: 12px; font-family: sans-serif;">
++  <p><strong>Phase 475.4:</strong> Q1 dashboard body probe</p>
++</div>
++<div style="padding: 12px; font-family: sans-serif;">
++  <p><strong>Phase 475.3:</strong> top half dashboard body probe</p>
++</div>
++<header class="phase59-shell flex flex-col gap-4 mb-6 lg:flex-row lg:items-center lg:justify-between">
+     <div>
+       <p class="text-xs uppercase tracking-[0.24em] text-teal-300/70 mb-2">Motherboard Systems</p>
+       <h1 class="text-3xl font-bold text-teal-400">
+@@ -159,7 +167,12 @@
+                   </section>
+                 </div>
+               </div>
+-            </section>
++
++
++<div style="padding: 12px; font-family: sans-serif;">
++  <p><strong>Phase 475.4:</strong> Q2 dashboard body probe</p>
++</div>
++</section>
+           </section>
+ 
+           <section id="phase61-telemetry-column" class="space-y-4" aria-label="Observational workspace">
+@@ -296,7 +309,15 @@
+         '#task-events-panel',
+         '#task-events',
+         '.task-events-panel',
+-        '.task-events'
++
++<div style="padding: 12px; font-family: sans-serif;">
++  <p><strong>Phase 475.9:</strong> Q3 dashboard body probe</p>
++</div>
++<!-- phase475.3 bottom half dashboard body probe -->
++<div style="padding: 12px; font-family: sans-serif;">
++  <p><strong>Phase 475.3:</strong> bottom half dashboard body probe</p>
++</div>
++'.task-events'
+       ];
+ 
+       const EVENT_ACTIVE = /run|start|resume|lease|dispatch|ack|progress|active|heartbeat/i;
+@@ -430,6 +451,9 @@
+   }
+ 
+   function install() {
++<div style="padding: 12px; font-family: sans-serif;">
++  <p><strong>Phase 475.9:</strong> Q4 dashboard body probe</p>
++</div>
+     consoleLog("install start");
+     setBadge("phase464x probe install start", false);
+ 
+@@ -568,9 +592,5 @@
+ </script>
+ 
+ <script src="/js/phase457_neutralize_legacy_observational_consumers.js"></script>
+-  <!-- PHASE4732_SENTINEL_1775861395 -->
+-</body>
++  <!-- PHASE4732_SENTINEL_1775861395 --></body>
+ </html>
+-<!-- phase474.4 temporary neutralization: inline style block removed for HTML-only layout isolation -->
+-<!-- phase474.4 temporary neutralization: inline style block removed for HTML-only layout isolation -->
+-
+
+STEP 4 — Next-action interpretation
+- If dashboard.html contains extra lines not present in the stable recomposed probe, those lines are the highest-confidence fault candidates.
+- Next mutation should remove only the dashboard-only delta while preserving the stable recomposed shape.
