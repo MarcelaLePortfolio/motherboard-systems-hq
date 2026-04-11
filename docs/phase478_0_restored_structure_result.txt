@@ -1,0 +1,8 @@
+PHASE 478.0 — RESTORED STRUCTURE RESULT
+=======================================
+
+RESULT:
+STRUCTURE_RESTORED_BUT_BROKEN
+
+OPTIONAL_NOTE:
+Please replace this note with what still looks wrong, if needed.
