@@ -1,0 +1,18 @@
+PHASE 476.6 — STRIP DASHBOARD TO RECOMPOSED SHAPE
+================================================
+
+ACTION
+- dashboard.html replaced with recomposed stable probe structure
+
+SOURCE
+- public/dashboard_recomposed_from_stable_quarters_probe.html
+
+BACKUP
+- public/dashboard.html.phase476_6_pre_strip.bak
+
+INTENT
+- Force dashboard route to use known-stable recomposed structure
+- Eliminate any hidden corruption from original composition
+
+NEXT STEP
+- Rebuild and observe dashboard route directly
