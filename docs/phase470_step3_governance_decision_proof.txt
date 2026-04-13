@@ -1,0 +1,40 @@
+PHASE 470 STEP 3 — GOVERNANCE DECISION PROOF
+============================================
+
+APPROVED_HASH=5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65
+REJECTED_HASH=d772ad2fb42803e983854e3a1d047adbcf6c011836fa9edc1c67e34accbb81d4
+
+APPROVED EXPECTED FILES
+-----------------------
+docs/proofs/governance_plan_5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65.json
+docs/proofs/approval_plan_5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65.json
+docs/proofs/execution_plan_5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65.json
+
+REJECTED EXPECTED FILES
+-----------------------
+docs/proofs/governance_plan_d772ad2fb42803e983854e3a1d047adbcf6c011836fa9edc1c67e34accbb81d4.json
+docs/proofs/governance_failure_plan_d772ad2fb42803e983854e3a1d047adbcf6c011836fa9edc1c67e34accbb81d4.json
+
+REJECTED BLOCKED FILES
+----------------------
+docs/proofs/approval_plan_d772ad2fb42803e983854e3a1d047adbcf6c011836fa9edc1c67e34accbb81d4.json
+docs/proofs/execution_plan_d772ad2fb42803e983854e3a1d047adbcf6c011836fa9edc1c67e34accbb81d4.json
+
+APPROVED ARTIFACT SNAPSHOT
+--------------------------
+{"planId":"plan_5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65","decision":"APPROVED","decisionId":"decision_5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65"}
+
+{"planId":"plan_5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65","operatorApproval":true,"approvalId":"approval_5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65"}
+
+{"planId":"plan_5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65","taskId":"task_5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65","status":"SUCCEEDED","output":"EXECUTION_OK: echo hello world"}
+
+REJECTED ARTIFACT SNAPSHOT
+--------------------------
+{"planId":"plan_d772ad2fb42803e983854e3a1d047adbcf6c011836fa9edc1c67e34accbb81d4","decision":"REJECTED","decisionId":"decision_d772ad2fb42803e983854e3a1d047adbcf6c011836fa9edc1c67e34accbb81d4"}
+
+{"planId":"plan_d772ad2fb42803e983854e3a1d047adbcf6c011836fa9edc1c67e34accbb81d4","stage":"governance","decision":"REJECTED","reason":"UNSUPPORTED_REQUEST_CLASS"}
+
+BLOCKED FILE CHECK
+------------------
+BLOCKED_AS_EXPECTED: docs/proofs/approval_plan_d772ad2fb42803e983854e3a1d047adbcf6c011836fa9edc1c67e34accbb81d4.json
+BLOCKED_AS_EXPECTED: docs/proofs/execution_plan_d772ad2fb42803e983854e3a1d047adbcf6c011836fa9edc1c67e34accbb81d4.json

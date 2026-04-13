@@ -1,9 +1,1 @@
-{
-  "intakeId": "intake_5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65",
-  "operatorRequest": {
-    "requestId": "req_5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65",
-    "timestamp": "2026-01-01T00:00:00Z",
-    "operatorId": "operator_001",
-    "rawInput": "echo hello world"
-  }
-}
+{"intakeId":"intake_5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65","input":"echo hello world"}
