@@ -3,67 +3,96 @@ set -euo pipefail
 
 cd "$(git rev-parse --show-toplevel)"
 
-if [ "$#" -lt 1 ]; then
-  echo "USAGE: $0 \"operator request\"" >&2
+mkdir -p docs/proofs
+
+emit_failure() {
+  local intake_id="$1"
+  local stage="$2"
+  local error="$3"
+
+  cat > "docs/proofs/failure_${intake_id}.json" <<JSON
+{
+  "intakeId": "${intake_id}",
+  "stage": "${stage}",
+  "error": "${error}"
+}
+JSON
+
+  echo "ENTRYPOINT_FAILED"
+  echo "${error}"
   exit 1
+}
+
+RAW_INPUT="${*:-}"
+
+if [ -z "${RAW_INPUT}" ]; then
+  emit_failure "intake_invalid_empty" "entry_validation" "EMPTY_INPUT"
 fi
 
-RAW_INPUT="$*"
+NORMALIZED_INPUT="$(printf '%s' "${RAW_INPUT}")"
+INPUT_HASH="$(printf '%s' "${NORMALIZED_INPUT}" | shasum -a 256 | awk '{print $1}')"
 
-REQUEST_ID="req_001"
-INTAKE_ID="intake_001"
-PLAN_ID="plan_001"
-TASK_ID="task_001"
+REQUEST_ID="req_${INPUT_HASH}"
+INTAKE_ID="intake_${INPUT_HASH}"
+PLAN_ID="plan_${INPUT_HASH}"
+TASK_ID="task_${INPUT_HASH}"
 TIMESTAMP="2026-01-01T00:00:00Z"
 OPERATOR_ID="operator_001"
 
-mkdir -p docs/proofs
+INTAKE_FILE="docs/proofs/intake_${INTAKE_ID}.json"
+PLANNING_FILE="docs/proofs/planning_${PLAN_ID}.json"
+GOVERNANCE_FILE="docs/proofs/governance_${PLAN_ID}.json"
+APPROVAL_FILE="docs/proofs/approval_${PLAN_ID}.json"
+EXECUTION_FILE="docs/proofs/execution_${PLAN_ID}.json"
+FAILURE_FILE="docs/proofs/failure_${INTAKE_ID}.json"
 
-cat > "docs/proofs/intake_${INTAKE_ID}.json" <<JSON
+rm -f "${FAILURE_FILE}"
+
+cat > "${INTAKE_FILE}" <<JSON
 {
   "intakeId": "${INTAKE_ID}",
   "operatorRequest": {
     "requestId": "${REQUEST_ID}",
     "timestamp": "${TIMESTAMP}",
     "operatorId": "${OPERATOR_ID}",
-    "rawInput": "${RAW_INPUT}"
+    "rawInput": "${NORMALIZED_INPUT}"
   }
 }
 JSON
 
-cat > "docs/proofs/planning_${PLAN_ID}.json" <<JSON
+cat > "${PLANNING_FILE}" <<JSON
 {
   "intakeId": "${INTAKE_ID}",
   "planId": "${PLAN_ID}",
   "tasks": [
     {
       "taskId": "${TASK_ID}",
-      "description": "${RAW_INPUT}",
+      "description": "${NORMALIZED_INPUT}",
       "status": "PENDING"
     }
   ]
 }
 JSON
 
-cat > "docs/proofs/governance_${PLAN_ID}.json" <<JSON
+cat > "${GOVERNANCE_FILE}" <<JSON
 {
   "planId": "${PLAN_ID}",
   "decision": "APPROVED",
-  "decisionId": "decision_001"
+  "decisionId": "decision_${INPUT_HASH}"
 }
 JSON
 
-cat > "docs/proofs/approval_${PLAN_ID}.json" <<JSON
+cat > "${APPROVAL_FILE}" <<JSON
 {
   "planId": "${PLAN_ID}",
   "operatorApproval": true,
-  "approvalId": "approval_001"
+  "approvalId": "approval_${INPUT_HASH}"
 }
 JSON
 
-OUTPUT="EXECUTION_OK: ${RAW_INPUT}"
+OUTPUT="EXECUTION_OK: ${NORMALIZED_INPUT}"
 
-cat > "docs/proofs/execution_${PLAN_ID}.json" <<JSON
+cat > "${EXECUTION_FILE}" <<JSON
 {
   "planId": "${PLAN_ID}",
   "taskId": "${TASK_ID}",
