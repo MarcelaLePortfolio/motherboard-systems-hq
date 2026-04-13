@@ -4,9 +4,9 @@ OPERATOR VISIBILITY — LATEST RUN SNAPSHOT
 LATEST GOVERNANCE ARTIFACT
 --------------------------
 {
-  "planId": "plan_d0c071b2d24b9b7edd2c7e889b3dca7b223faf8ecfb9730b7711181b581a58dd",
+  "planId": "plan_5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65",
   "decision": "APPROVED",
-  "decisionId": "decision_d0c071b2d24b9b7edd2c7e889b3dca7b223faf8ecfb9730b7711181b581a58dd"
+  "decisionId": "decision_5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65"
 }
 
 LATEST GOVERNANCE FAILURE
@@ -21,9 +21,9 @@ LATEST GOVERNANCE FAILURE
 LATEST APPROVAL ARTIFACT
 ------------------------
 {
-  "planId": "plan_d0c071b2d24b9b7edd2c7e889b3dca7b223faf8ecfb9730b7711181b581a58dd",
+  "planId": "plan_5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65",
   "operatorApproval": true,
-  "approvalId": "approval_d0c071b2d24b9b7edd2c7e889b3dca7b223faf8ecfb9730b7711181b581a58dd"
+  "approvalId": "approval_5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65"
 }
 
 LATEST APPROVAL FAILURE
@@ -38,10 +38,10 @@ LATEST APPROVAL FAILURE
 LATEST EXECUTION ARTIFACT
 -------------------------
 {
-  "planId": "plan_d0c071b2d24b9b7edd2c7e889b3dca7b223faf8ecfb9730b7711181b581a58dd",
-  "taskId": "task_d0c071b2d24b9b7edd2c7e889b3dca7b223faf8ecfb9730b7711181b581a58dd",
+  "planId": "plan_5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65",
+  "taskId": "task_5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65",
   "status": "SUCCEEDED",
-  "output": "EXECUTION_OK: echo deterministic flow"
+  "output": "EXECUTION_OK: echo hello world"
 }
 
 LATEST ENTRY FAILURE
