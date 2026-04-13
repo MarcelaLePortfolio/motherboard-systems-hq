@@ -1,0 +1,77 @@
+PHASE 483 — INTAKE LAYER (DEFINITION)
+-------------------------------------
+
+OBJECTIVE:
+Define deterministic intake layer for arbitrary operator requests.
+NO wiring, NO execution, DEFINITION ONLY.
+
+CORE FUNCTION:
+Translate raw operator input → structured intake contract
+
+INTAKE PIPELINE (DEFINITION):
+
+1. RAW INPUT
+   → Unstructured operator request (string)
+
+2. NORMALIZATION
+   → Trim whitespace
+   → Collapse repeated spaces
+   → Preserve original input (no mutation)
+
+3. STRUCTURE EXTRACTION
+   → intent (required)
+   → target (optional)
+   → constraints (optional)
+   → metadata (system-generated)
+
+4. CLASSIFICATION
+   → request_class (enum)
+      • TASK
+      • QUERY
+      • UNKNOWN
+
+5. VALIDATION
+   → Ensure minimal structure exists
+   → No execution triggered
+
+6. OUTPUT CONTRACT
+
+{
+  raw_input: string,
+  normalized_input: string,
+  extracted: {
+    intent: string | null,
+    target: string | null,
+    constraints: string[]
+  },
+  classification: 'TASK' | 'QUERY' | 'UNKNOWN',
+  valid: boolean,
+  trace_id: string
+}
+
+DETERMINISM GUARANTEES:
+
+• Same input → same structured output
+• No randomness
+• No async
+• No external dependency
+
+ISOLATION GUARANTEES:
+
+• No governance coupling
+• No approval coupling
+• No execution coupling
+
+INVARIANTS:
+
+• Raw input preserved
+• Structure is additive only
+• No mutation of meaning
+
+CLASSIFICATION:
+
+DEFINITION PHASE
+NO EXECUTION IMPACT
+
+NEXT:
+PHASE 483 — INTAKE CONTRACT PROOF
