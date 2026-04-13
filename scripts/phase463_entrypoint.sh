@@ -29,6 +29,22 @@ if [ -z "${RAW_INPUT}" ]; then
   emit_failure "intake_invalid_empty" "entry_validation" "EMPTY_INPUT"
 fi
 
+WHITESPACE_STRIPPED="${RAW_INPUT//[[:space:]]/}"
+if [ -z "${WHITESPACE_STRIPPED}" ]; then
+  emit_failure "intake_invalid_whitespace" "entry_validation" "EMPTY_INPUT_NORMALIZED"
+fi
+
+INPUT_LENGTH="${#RAW_INPUT}"
+if [ "${INPUT_LENGTH}" -gt 1024 ]; then
+  INPUT_HASH="$(printf '%s' "${RAW_INPUT}" | shasum -a 256 | awk '{print $1}')"
+  emit_failure "intake_${INPUT_HASH}" "entry_validation" "INPUT_TOO_LONG"
+fi
+
+if printf '%s' "${RAW_INPUT}" | LC_ALL=C grep -q '[^[:print:][:space:]]'; then
+  INPUT_HASH="$(printf '%s' "${RAW_INPUT}" | shasum -a 256 | awk '{print $1}')"
+  emit_failure "intake_${INPUT_HASH}" "entry_validation" "INVALID_CHARACTERS"
+fi
+
 NORMALIZED_INPUT="$(printf '%s' "${RAW_INPUT}")"
 INPUT_HASH="$(printf '%s' "${NORMALIZED_INPUT}" | shasum -a 256 | awk '{print $1}')"
 
