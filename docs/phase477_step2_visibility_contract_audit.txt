@@ -1,0 +1,141 @@
+PHASE 477 STEP 2 — VISIBILITY CONTRACT ISOLATION AUDIT
+======================================================
+
+SNAPSHOT FILES
+--------------
+docs/phase477_visibility_normalized_snapshot_run1.json
+docs/phase477_visibility_normalized_snapshot_run2.json
+docs/phase477_visibility_normalized_snapshot_run3.json
+docs/phase477_visibility_normalized_snapshot_run4.json
+docs/phase477_visibility_normalized_snapshot_run5.json
+
+PRESENCE CHECK
+--------------
+PRESENT: docs/phase477_visibility_normalized_snapshot_run1.json
+PRESENT: docs/phase477_visibility_normalized_snapshot_run2.json
+PRESENT: docs/phase477_visibility_normalized_snapshot_run3.json
+PRESENT: docs/phase477_visibility_normalized_snapshot_run4.json
+PRESENT: docs/phase477_visibility_normalized_snapshot_run5.json
+
+SNAPSHOT CONTENTS
+-----------------
+FILE: docs/phase477_visibility_normalized_snapshot_run1.json
+{
+  "intake": {
+    "intakeId": "intake_5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65",
+    "status": "FAILURE"
+  },
+  "governance": {
+    "decision": "APPROVED",
+    "decisionId": "decision_5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65"
+  },
+  "approval": {
+    "status": "APPROVED",
+    "approvalId": "approval_5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65"
+  },
+  "execution": {
+    "status": "SUCCEEDED",
+    "output": "EXECUTION_OK: echo hello world"
+  },
+  "failure": {
+    "stage": "entry_validation",
+    "error": "EMPTY_INPUT"
+  }
+}
+
+FILE: docs/phase477_visibility_normalized_snapshot_run2.json
+{
+  "intake": {
+    "intakeId": "intake_923c642b38d62b2878c8b188380956b5272b493bf655b84cf6dfe5749b3248df",
+    "status": "FAILURE"
+  },
+  "governance": {
+    "decision": "APPROVED",
+    "decisionId": "decision_923c642b38d62b2878c8b188380956b5272b493bf655b84cf6dfe5749b3248df"
+  },
+  "approval": {
+    "status": "REJECTED",
+    "approvalId": "approval_923c642b38d62b2878c8b188380956b5272b493bf655b84cf6dfe5749b3248df"
+  },
+  "execution": {
+    "status": "SUCCEEDED",
+    "output": "EXECUTION_OK: echo hello world"
+  },
+  "failure": {
+    "stage": "entry_validation",
+    "error": "EMPTY_INPUT"
+  }
+}
+
+FILE: docs/phase477_visibility_normalized_snapshot_run3.json
+{
+  "intake": {
+    "intakeId": "intake_d772ad2fb42803e983854e3a1d047adbcf6c011836fa9edc1c67e34accbb81d4",
+    "status": "FAILURE"
+  },
+  "governance": {
+    "decision": "REJECTED",
+    "decisionId": "decision_d772ad2fb42803e983854e3a1d047adbcf6c011836fa9edc1c67e34accbb81d4"
+  },
+  "approval": {
+    "status": "REJECTED",
+    "approvalId": "approval_923c642b38d62b2878c8b188380956b5272b493bf655b84cf6dfe5749b3248df"
+  },
+  "execution": {
+    "status": "SUCCEEDED",
+    "output": "EXECUTION_OK: echo hello world"
+  },
+  "failure": {
+    "stage": "entry_validation",
+    "error": "EMPTY_INPUT"
+  }
+}
+
+FILE: docs/phase477_visibility_normalized_snapshot_run4.json
+{
+  "intake": {
+    "intakeId": "intake_d772ad2fb42803e983854e3a1d047adbcf6c011836fa9edc1c67e34accbb81d4",
+    "status": "FAILURE"
+  },
+  "governance": {
+    "decision": "REJECTED",
+    "decisionId": "decision_d772ad2fb42803e983854e3a1d047adbcf6c011836fa9edc1c67e34accbb81d4"
+  },
+  "approval": {
+    "status": "REJECTED",
+    "approvalId": "approval_923c642b38d62b2878c8b188380956b5272b493bf655b84cf6dfe5749b3248df"
+  },
+  "execution": {
+    "status": "SUCCEEDED",
+    "output": "EXECUTION_OK: echo hello world"
+  },
+  "failure": {
+    "stage": "entry_validation",
+    "error": "EMPTY_INPUT"
+  }
+}
+
+FILE: docs/phase477_visibility_normalized_snapshot_run5.json
+{
+  "intake": {
+    "intakeId": "intake_d0c071b2d24b9b7edd2c7e889b3dca7b223faf8ecfb9730b7711181b581a58dd",
+    "status": "FAILURE"
+  },
+  "governance": {
+    "decision": "APPROVED",
+    "decisionId": "decision_d0c071b2d24b9b7edd2c7e889b3dca7b223faf8ecfb9730b7711181b581a58dd"
+  },
+  "approval": {
+    "status": "APPROVED",
+    "approvalId": "approval_d0c071b2d24b9b7edd2c7e889b3dca7b223faf8ecfb9730b7711181b581a58dd"
+  },
+  "execution": {
+    "status": "SUCCEEDED",
+    "output": "EXECUTION_OK: echo deterministic flow"
+  },
+  "failure": {
+    "stage": "entry_validation",
+    "error": "EMPTY_INPUT"
+  }
+}
+
