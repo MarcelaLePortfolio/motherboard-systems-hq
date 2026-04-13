@@ -1,0 +1,167 @@
+PHASE 486 — UI CONSUMPTION SURFACE SCAN (TRUNCATED)
+---------------------------------------------------
+
+SCAN ROOTS: app src
+
+1. Dashboard and UI app surfaces (TOP 50)
+app/demo-runtime/page.tsx:65:    "Create a project to evaluate deployment readiness for a new service. Include three tasks: dependency verification, governance review, and execution readiness assessment. Require approval before any execution preparation."
+app/demo-runtime/page.tsx:80:      return "Request admitted because approval is present, governance evaluation is present, authority ordering is valid, and task structure passed integrity checks.";
+app/demo-runtime/page.tsx:117:      setError(err instanceof Error ? err.message : "Unknown dashboard error.");
+src/demo/minimalDemoRunner.ts:85:    denialReasons.push("Approval missing");
+src/demo/promptToDemoRequest.ts:97: * No governance, execution, routing, or reporting mutation permitted here.
+src/cognition/operatorGuidanceReducer.ts:2:PHASE 89 — GUIDANCE REDUCER SCAFFOLD
+src/cognition/operatorGuidanceReducer.ts:3:Attaches bounded operator guidance generation to the health surface domain.
+src/cognition/operatorGuidanceReducer.ts:8:  GuidanceConfidence,
+src/cognition/operatorGuidanceReducer.ts:9:  OperatorGuidance,
+src/cognition/operatorGuidanceReducer.ts:10:  OperatorGuidanceEnvelope,
+src/cognition/operatorGuidanceReducer.ts:11:} from "./operatorGuidance";
+src/cognition/operatorGuidanceReducer.ts:13:  mapSignalsToOperatorGuidance,
+src/cognition/operatorGuidanceReducer.ts:14:  type GuidanceMappingContext,
+src/cognition/operatorGuidanceReducer.ts:15:  type GuidanceSignalObservation,
+src/cognition/operatorGuidanceReducer.ts:16:} from "./operatorGuidanceMapping";
+src/cognition/operatorGuidanceReducer.ts:17:import { assessGuidanceConfidence } from "./operatorGuidanceConfidence";
+src/cognition/operatorGuidanceReducer.ts:20:  signals: GuidanceSignalObservation[];
+src/cognition/operatorGuidanceReducer.ts:24:export type OperatorGuidanceReduction = {
+src/cognition/operatorGuidanceReducer.ts:25:  envelope: OperatorGuidanceEnvelope;
+src/cognition/operatorGuidanceReducer.ts:26:  surfaceConfidence: GuidanceConfidence;
+src/cognition/operatorGuidanceReducer.ts:32:function sortGuidanceDeterministically(
+src/cognition/operatorGuidanceReducer.ts:33:  guidance: OperatorGuidance[],
+src/cognition/operatorGuidanceReducer.ts:34:): OperatorGuidance[] {
+src/cognition/operatorGuidanceReducer.ts:35:  return [...guidance].sort((a, b) => {
+src/cognition/operatorGuidanceReducer.ts:52:export function reduceOperatorHealthSurfaceToGuidance(
+src/cognition/operatorGuidanceReducer.ts:54:  context?: Partial<GuidanceMappingContext>,
+src/cognition/operatorGuidanceReducer.ts:55:): OperatorGuidanceReduction {
+src/cognition/operatorGuidanceReducer.ts:56:  const mappingContext: GuidanceMappingContext = {
+src/cognition/operatorGuidanceReducer.ts:60:  const guidance = sortGuidanceDeterministically(
+src/cognition/operatorGuidanceReducer.ts:61:    mapSignalsToOperatorGuidance(surface.signals, mappingContext),
+src/cognition/operatorGuidanceReducer.ts:64:  const confidence = assessGuidanceConfidence(surface.signals);
+src/cognition/operatorGuidanceReducer.ts:68:      guidance,
+src/cognition/operatorGuidanceReducer.ts:80:export function createEmptyOperatorGuidanceReduction(
+src/cognition/operatorGuidanceReducer.ts:82:): OperatorGuidanceReduction {
+src/cognition/operatorGuidanceReducer.ts:85:      guidance: [],
+src/cognition/transport/cognitionTransport.dashboard.ts:2:PHASE 119 — DASHBOARD COGNITION CONTRACT
+src/cognition/transport/cognitionTransport.dashboard.ts:3:Deterministic dashboard-facing contract (no UI coupling)
+src/cognition/transport/cognitionTransport.dashboard.ts:8:export interface CognitionTransportDashboardContract {
+src/cognition/transport/cognitionTransport.dashboard.ts:16:export function getCognitionTransportDashboardContract(): CognitionTransportDashboardContract {
+src/cognition/transport/cognitionTransport.dashboard.ts:32:Dashboard cognition contract only
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.integrity.ts:2:  DashboardConsumptionRegistryEntry
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.integrity.ts:3:} from "./dashboardConsumption.registry.types";
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.integrity.ts:6:  entries: readonly DashboardConsumptionRegistryEntry[]
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.integrity.ts:15:        "Duplicate dashboard consumption contractId: " + entry.contractId
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.finalize.ts:2:  DashboardConsumptionRegistryEntry
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.finalize.ts:3:} from "./dashboardConsumption.registry.types";
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.finalize.ts:6:  buildDashboardConsumptionRegistry
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.finalize.ts:7:} from "./dashboardConsumption.registry.build";
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.finalize.ts:11:} from "./dashboardConsumption.registry.guard";
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.finalize.ts:13:export function finalizeDashboardConsumptionRegistry(
+
+2. Existing contract consumption points (TOP 50)
+src/cognition/transport/cognitionTransport.summary.ts:48:Cognition visibility only
+src/cognition/operatorGuidance.smoke.ts:83:        summary: "signal visibility incomplete",
+src/cognition/operatorGuidance.live.ts:42:    summary: "signal visibility incomplete",
+src/cognition/operatorGuidanceMapping.ts:249:        `Operator awareness surface has incomplete visibility: ${signal.summary}`,
+src/contracts/reporting/governedExecutionProofReport.ts:24:  visibility: {
+src/contracts/reporting/governedExecutionProofReport.ts:44:    visibility: {
+src/contracts/reporting/operatorConsumableExecutionProofSurface.ts:25:  visibility: {
+src/contracts/reporting/operatorConsumableExecutionProofSurface.ts:60:    visibility: {
+src/governance_investigation/governance_investigation_reducer.ts:1:import type { GovernanceDecisionTrace } from "./governance_decision_trace";
+src/governance_investigation/governance_investigation_reducer.ts:15:  trace: GovernanceDecisionTrace,
+src/governance_investigation/governance_decision_trace.ts:24:export interface GovernanceDecisionTraceSeed {
+src/governance_investigation/governance_decision_trace.ts:32:export interface GovernanceDecisionTrace {
+src/governance_investigation/governance_decision_trace.ts:44:  seed: GovernanceDecisionTraceSeed,
+src/governance_investigation/governance_decision_trace.ts:45:): GovernanceDecisionTrace {
+src/governance_investigation/governance_playback_assembly.ts:1:import type { GovernanceDecisionTrace } from "./governance_decision_trace";
+src/governance_investigation/governance_playback_assembly.ts:24:  readonly trace: GovernanceDecisionTrace;
+src/governance_investigation/index.ts:3:export * from "./governance_decision_trace";
+src/governance_investigation/governance_operator_investigation_view.ts:1:import type { GovernanceDecisionTrace } from "./governance_decision_trace";
+src/governance_investigation/governance_operator_investigation_view.ts:22:  trace: GovernanceDecisionTrace,
+src/governance_investigation/governance_operator_investigation_view.ts:24:  const summary = reduceGovernanceInvestigation(trace);
+src/governance_investigation/governance_playback_assembly_proof.ts:1:import type { GovernanceDecisionTrace } from "./governance_decision_trace";
+src/governance_investigation/governance_playback_assembly_proof.ts:13:  trace: GovernanceDecisionTrace,
+src/governance_visibility/governance_visibility_contract.ts:1:export const GOVERNANCE_VISIBILITY_LAYER_GUARANTEES = Object.freeze([
+src/governance_visibility/governance_visibility_contract.ts:9:export function getGovernanceVisibilityLayerGuarantees(): readonly string[] {
+src/governance_visibility/governance_visibility_contract.ts:10:  return GOVERNANCE_VISIBILITY_LAYER_GUARANTEES;
+src/governance_visibility/governance_visibility_snapshot.ts:2:  GovernanceVisibilityDecision,
+src/governance_visibility/governance_visibility_snapshot.ts:3:  GovernanceVisibilityRecord,
+src/governance_visibility/governance_visibility_snapshot.ts:4:} from "./governance_visibility_model";
+src/governance_visibility/governance_visibility_snapshot.ts:6:export interface GovernanceVisibilitySnapshotInput {
+src/governance_visibility/governance_visibility_snapshot.ts:10:  decision: GovernanceVisibilityDecision;
+src/governance_visibility/governance_visibility_snapshot.ts:17:export function buildGovernanceVisibilitySnapshot(
+src/governance_visibility/governance_visibility_snapshot.ts:18:  input: GovernanceVisibilitySnapshotInput,
+src/governance_visibility/governance_visibility_snapshot.ts:19:): GovernanceVisibilityRecord {
+src/governance_visibility/governance_visibility_formatter.ts:1:import type { GovernanceVisibilityRecord } from "./governance_visibility_model";
+src/governance_visibility/governance_visibility_formatter.ts:7:export function formatDecision(record: GovernanceVisibilityRecord): string {
+src/governance_visibility/governance_visibility_formatter.ts:11:export function formatInvariantSummary(record: GovernanceVisibilityRecord): string {
+src/governance_visibility/governance_visibility_formatter.ts:15:export function formatPolicySummary(record: GovernanceVisibilityRecord): string {
+src/governance_visibility/governance_visibility_formatter.ts:19:export function formatExplanationPresence(record: GovernanceVisibilityRecord): string {
+src/governance_visibility/governance_visibility_formatter.ts:23:export function formatAuditPresence(record: GovernanceVisibilityRecord): string {
+src/governance_visibility/index.ts:2:  GovernanceVisibilityDecision,
+src/governance_visibility/index.ts:3:  GovernanceVisibilityRecord,
+src/governance_visibility/index.ts:4:} from "./governance_visibility_model";
+src/governance_visibility/index.ts:12:} from "./governance_visibility_formatter";
+src/governance_visibility/index.ts:14:export type { GovernanceVisibilitySnapshotInput } from "./governance_visibility_snapshot";
+src/governance_visibility/index.ts:15:export { buildGovernanceVisibilitySnapshot } from "./governance_visibility_snapshot";
+src/governance_visibility/index.ts:18:  GOVERNANCE_VISIBILITY_LAYER_GUARANTEES,
+src/governance_visibility/index.ts:19:  getGovernanceVisibilityLayerGuarantees,
+src/governance_visibility/index.ts:20:} from "./governance_visibility_contract";
+src/governance_visibility/governance_visibility_model.ts:1:export type GovernanceVisibilityDecision = "ALLOW" | "WARN" | "BLOCK";
+src/governance_visibility/governance_visibility_model.ts:3:export interface GovernanceVisibilityRecord {
+
+3. Client-side render entrypoints (TOP 50)
+app/demo-runtime/page.tsx:1:"use client";
+
+4. API/UI boundary references (TOP 50)
+app/demo-runtime/page.tsx:96:      const response = await fetch("/api/demo-runtime", {
+
+5. Explicit non-UI backend surfaces to avoid mutating (TOP 50)
+src/demo/minimalDemoRunner.ts:15:  governanceEvaluated: boolean;
+src/demo/minimalDemoRunner.ts:30:export type TaskExecutionRecord = {
+src/demo/minimalDemoRunner.ts:47:  taskOutcomes: TaskExecutionRecord[];
+src/demo/minimalDemoRunner.ts:54:  governanceEvaluated?: boolean;
+src/demo/minimalDemoRunner.ts:85:    denialReasons.push("Approval missing");
+src/demo/minimalDemoRunner.ts:88:  if (!request.governanceEvaluated) {
+src/demo/minimalDemoRunner.ts:89:    denialReasons.push("Governance evaluation missing");
+src/demo/minimalDemoRunner.ts:103:    governanceEvaluated: request.governanceEvaluated,
+src/demo/minimalDemoRunner.ts:128:): TaskExecutionRecord {
+src/demo/minimalDemoRunner.ts:144:): { traversalState: TraversalState; taskOutcomes: TaskExecutionRecord[] } {
+src/demo/minimalDemoRunner.ts:152:  const taskOutcomes: TaskExecutionRecord[] = [];
+src/demo/minimalDemoRunner.ts:176:  taskOutcomes: TaskExecutionRecord[]
+src/demo/promptToDemoRequest.ts:4:  governanceEvaluated?: boolean;
+src/demo/promptToDemoRequest.ts:17:  governanceEvaluated: boolean;
+src/demo/promptToDemoRequest.ts:73:      "Governance Confirmation",
+src/demo/promptToDemoRequest.ts:81:      "Governance Review Confirmation",
+src/demo/promptToDemoRequest.ts:82:      "Execution Readiness Assessment",
+src/demo/promptToDemoRequest.ts:88:    "Governance Review Confirmation",
+src/demo/promptToDemoRequest.ts:89:    "Execution Readiness Assessment",
+src/demo/promptToDemoRequest.ts:95: * FL3_INTAKE_NORMALIZATION_BRIDGE
+src/demo/promptToDemoRequest.ts:96: * Temporary intake-side proof marker for FL-3 bounded translation corridor.
+src/demo/promptToDemoRequest.ts:97: * No governance, execution, routing, or reporting mutation permitted here.
+src/demo/promptToDemoRequest.ts:122:    governanceEvaluated: input.governanceEvaluated ?? true,
+src/demo/promptToDemoRequest.ts.fl3_pre_mutation.bak:4:  governanceEvaluated?: boolean;
+src/demo/promptToDemoRequest.ts.fl3_pre_mutation.bak:17:  governanceEvaluated: boolean;
+src/demo/promptToDemoRequest.ts.fl3_pre_mutation.bak:73:      "Governance Confirmation",
+src/demo/promptToDemoRequest.ts.fl3_pre_mutation.bak:81:      "Governance Review Confirmation",
+src/demo/promptToDemoRequest.ts.fl3_pre_mutation.bak:82:      "Execution Readiness Assessment",
+src/demo/promptToDemoRequest.ts.fl3_pre_mutation.bak:88:    "Governance Review Confirmation",
+src/demo/promptToDemoRequest.ts.fl3_pre_mutation.bak:89:    "Execution Readiness Assessment",
+src/demo/promptToDemoRequest.ts.fl3_pre_mutation.bak:116:    governanceEvaluated: input.governanceEvaluated ?? true,
+src/governance_operator_guide/governance_operator_guide_model.ts:1:export interface GovernanceOperatorGuideLine {
+src/governance_operator_guide/governance_operator_guide_model.ts:6:export interface GovernanceOperatorGuideMetadata {
+src/governance_operator_guide/governance_operator_guide_model.ts:14:export interface GovernanceOperatorGuideRecord {
+src/governance_operator_guide/governance_operator_guide_model.ts:16:  metadata: GovernanceOperatorGuideMetadata;
+src/governance_operator_guide/governance_operator_guide_model.ts:17:  lines: GovernanceOperatorGuideLine[];
+src/governance_operator_guide/governance_operator_guide_builder.ts:2:  GovernanceOperatorGuideLine,
+src/governance_operator_guide/governance_operator_guide_builder.ts:3:  GovernanceOperatorGuideRecord,
+src/governance_operator_guide/governance_operator_guide_builder.ts:4:} from "./governance_operator_guide_model";
+src/governance_operator_guide/governance_operator_guide_builder.ts:6:  formatGovernanceOperatorGuideCompleteness,
+src/governance_operator_guide/governance_operator_guide_builder.ts:7:  formatGovernanceOperatorGuideDecision,
+src/governance_operator_guide/governance_operator_guide_builder.ts:8:  formatGovernanceOperatorGuideHeadline,
+src/governance_operator_guide/governance_operator_guide_builder.ts:9:  formatGovernanceOperatorGuideReadiness,
+src/governance_operator_guide/governance_operator_guide_builder.ts:10:  formatGovernanceOperatorGuideSections,
+src/governance_operator_guide/governance_operator_guide_builder.ts:11:  formatGovernanceOperatorGuideVersion,
+src/governance_operator_guide/governance_operator_guide_builder.ts:12:} from "./governance_operator_guide_formatter";
+src/governance_operator_guide/governance_operator_guide_builder.ts:14:export interface GovernanceOperatorGuideInput {
+src/governance_operator_guide/governance_operator_guide_builder.ts:21:export function buildGovernanceOperatorGuide(
+src/governance_operator_guide/governance_operator_guide_builder.ts:22:  input: GovernanceOperatorGuideInput,
+src/governance_operator_guide/governance_operator_guide_builder.ts:23:): GovernanceOperatorGuideRecord {
+
