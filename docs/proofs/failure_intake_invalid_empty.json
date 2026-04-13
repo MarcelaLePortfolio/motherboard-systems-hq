@@ -1,1 +1,5 @@
-{"intakeId":"invalid_empty","stage":"entry_validation","error":"EMPTY_INPUT"}
+{
+  "intakeId": "intake_invalid_empty",
+  "stage": "entry_validation",
+  "error": "EMPTY_INPUT"
+}

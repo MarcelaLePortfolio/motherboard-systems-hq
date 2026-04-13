@@ -1,0 +1,9 @@
+{
+  "intakeId": "intake_923c642b38d62b2878c8b188380956b5272b493bf655b84cf6dfe5749b3248df",
+  "operatorRequest": {
+    "requestId": "req_923c642b38d62b2878c8b188380956b5272b493bf655b84cf6dfe5749b3248df",
+    "timestamp": "2026-01-01T00:00:00Z",
+    "operatorId": "operator_001",
+    "rawInput": "echo reject hello world"
+  }
+}
