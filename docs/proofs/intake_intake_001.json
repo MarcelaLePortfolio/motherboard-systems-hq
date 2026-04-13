@@ -1,0 +1,9 @@
+{
+  "intakeId": "intake_001",
+  "operatorRequest": {
+    "requestId": "req_001",
+    "timestamp": "2026-01-01T00:00:00Z",
+    "operatorId": "operator_001",
+    "rawInput": "echo hello world"
+  }
+}
