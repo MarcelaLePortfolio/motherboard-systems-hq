@@ -16,7 +16,7 @@
 <!-- phase474.3 temporary neutralization: removed local stylesheet :: <link rel="stylesheet" href="/css/phase13_5_operator_ux.css" /> -->
 <!-- phase474.3 temporary neutralization: removed local stylesheet :: <link rel="stylesheet" href="css/phase59_demo_focus.css" /> -->
 <!-- phase474.3 temporary neutralization: removed local stylesheet :: <link rel="stylesheet" href="css/phase60_live_polish.css" /> -->
-<link rel="stylesheet" href="css/phase61_workspace_consolidation.css" />
+<!-- phase474.3 temporary neutralization: removed local stylesheet :: <link rel="stylesheet" href="css/phase61_workspace_consolidation.css" /> -->
 <!-- phase474.3 temporary neutralization: removed local stylesheet :: <link rel="stylesheet" href="css/phase61_tabs_observational_workspace.css" /> -->
 
     <!-- phase474.4 temporary neutralization: inline style block removed for HTML-only layout isolation -->
