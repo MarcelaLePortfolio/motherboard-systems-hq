@@ -1,0 +1,108 @@
+PHASE 478.9 — VERIFY CSS FILE EXISTENCE + SERVING
+==================================================
+
+STEP 1 — Check filesystem presence
+--- public/css directory ---
+total 112
+drwxr-xr-x  14 marcela-dev  staff   448 Apr  7 11:43 .
+drwxr-xr-x  79 marcela-dev  staff  2528 Apr 11 11:27 ..
+-rw-r--r--   1 marcela-dev  staff     0 Dec 15 17:49 agent-status-row.css
+-rw-r--r--   1 marcela-dev  staff   516 Dec 15 17:49 broadcast.css
+-rw-r--r--   1 marcela-dev  staff   349 Mar  7 16:33 dashboard-reflections.css
+-rw-r--r--   1 marcela-dev  staff  4461 Apr  7 11:43 dashboard.css
+-rw-r--r--   1 marcela-dev  staff    41 Apr  7 11:43 demo_layout_trim.css
+-rw-r--r--   1 marcela-dev  staff  3628 Mar  7 16:33 matilda-chat.css
+-rw-r--r--   1 marcela-dev  staff  1072 Jan  6 11:44 phase13_5_operator_ux.css
+-rw-r--r--   1 marcela-dev  staff   927 Jan  6 11:44 phase16_hud_mitigation.css
+-rw-r--r--   1 marcela-dev  staff  1644 Apr  7 11:43 phase59_demo_focus.css
+-rw-r--r--   1 marcela-dev  staff  9308 Apr  7 11:43 phase60_live_polish.css
+-rw-r--r--   1 marcela-dev  staff  2356 Apr  7 11:43 phase61_tabs_observational_workspace.css
+-rw-r--r--   1 marcela-dev  staff  2484 Apr  7 11:43 phase61_workspace_consolidation.css
+
+STEP 2 — Check specific files
+FOUND: public/css/dashboard.css
+     202 public/css/dashboard.css
+FOUND: public/css/dashboard-reflections.css
+      15 public/css/dashboard-reflections.css
+
+STEP 3 — Probe HTTP serving
+---- dashboard.css ----
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0  4461    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Tue, 07 Apr 2026 18:43:42 GMT
+ETag: W/"116d-19d6941ef30"
+Content-Type: text/css; charset=utf-8
+Content-Length: 4461
+Date: Mon, 13 Apr 2026 02:59:41 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+
+---- dashboard-reflections.css ----
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0   349    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Sun, 08 Mar 2026 00:33:18 GMT
+ETag: W/"15d-19ccadcdcb0"
+Content-Type: text/css; charset=utf-8
+Content-Length: 349
+Date: Mon, 13 Apr 2026 02:59:41 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+
+STEP 4 — Fetch first 20 lines of each (content check)
+---- dashboard.css CONTENT PREVIEW ----
+
+/* === Agent Status Panel === */
+#agent-status {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background: #111;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+#agent-status h2 {
+  margin-bottom: 0.75rem;
+  font-size: 1.25rem;
+  color: #fff;
+}
+
+#agent-status .agents-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.75rem;
+
+---- dashboard-reflections.css CONTENT PREVIEW ----
+/* <0001fae8> Phase 9.6.3 — Dashboard Reflection Styling */
+#recentLogs {
+  font-family: "Courier New", monospace;
+  color: #e6e6e6;
+  background: rgba(10,10,10,0.75);
+  padding: 12px;
+  overflow-y: auto;
+  max-height: 480px;
+  border-radius: 8px;
+}
+.reflection-line {
+  margin-bottom: 4px;
+  transition: opacity 0.6s ease-in-out;
+  opacity: 1;
+}
+
+STEP 5 — CLASSIFICATION RULE
+- If files are missing → CSS_NOT_LOADING
+- If 404 → CSS_NOT_LOADING
+- If 200 but empty → CSS_LOADING_NOT_APPLYING
+- If full content → CSS_APPLYING_BUT_LAYOUT_STILL_WRONG (likely JS-dependent layout)
+
