@@ -1,0 +1,11 @@
+{
+  "intakeId": "intake_72c4c32a0811b4b2f24a6438dbe9db6c3dd62ead5dba9b331f1249964a3501c2",
+  "planId": "plan_72c4c32a0811b4b2f24a6438dbe9db6c3dd62ead5dba9b331f1249964a3501c2",
+  "tasks": [
+    {
+      "taskId": "task_72c4c32a0811b4b2f24a6438dbe9db6c3dd62ead5dba9b331f1249964a3501c2",
+      "description": "echo reject deterministic flow",
+      "status": "PENDING"
+    }
+  ]
+}

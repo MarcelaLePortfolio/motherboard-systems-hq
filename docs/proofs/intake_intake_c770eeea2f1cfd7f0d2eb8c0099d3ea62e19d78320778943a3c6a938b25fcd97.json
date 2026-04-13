@@ -1,1 +1,9 @@
-{"intakeId":"intake_c770eeea2f1cfd7f0d2eb8c0099d3ea62e19d78320778943a3c6a938b25fcd97","input":"echo hello mars"}
+{
+  "intakeId": "intake_c770eeea2f1cfd7f0d2eb8c0099d3ea62e19d78320778943a3c6a938b25fcd97",
+  "operatorRequest": {
+    "requestId": "req_c770eeea2f1cfd7f0d2eb8c0099d3ea62e19d78320778943a3c6a938b25fcd97",
+    "timestamp": "2026-01-01T00:00:00Z",
+    "operatorId": "operator_001",
+    "rawInput": "echo hello mars"
+  }
+}
