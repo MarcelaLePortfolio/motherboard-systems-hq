@@ -1,0 +1,9 @@
+{
+  "intakeId": "intake_a12871fee210fb8619291eaea194581cbd2531e4b23759d225f6806923f63222",
+  "operatorRequest": {
+    "requestId": "req_a12871fee210fb8619291eaea194581cbd2531e4b23759d225f6806923f63222",
+    "timestamp": "2026-01-01T00:00:00Z",
+    "operatorId": "operator_001",
+    "rawInput": ""
+  }
+}
