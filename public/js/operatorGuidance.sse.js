@@ -54,16 +54,22 @@
     const metaLines = [];
 
     const confidence = firstNonEmpty(reduction?.surfaceConfidence);
-    if (confidence) metaLines.push(`Confidence: ${confidence}`);
+    if (confidence) {
+      metaLines.push(`Confidence: ${confidence}`);
+    }
 
     const confidenceReason = firstNonEmpty(reduction?.confidenceReason);
-    if (confidenceReason) metaLines.push(`Reason: ${confidenceReason}`);
+    if (confidenceReason) {
+      metaLines.push(`Reason: ${confidenceReason}`);
+    }
 
     const signalCount =
       reduction?.signalCount !== undefined && reduction?.signalCount !== null
         ? String(reduction.signalCount).trim()
         : "";
-    if (signalCount) metaLines.push(`Signals: ${signalCount}`);
+    if (signalCount) {
+      metaLines.push(`Signals: ${signalCount}`);
+    }
 
     if (reduction?.conflictingSignals === true) {
       metaLines.push("Conflicts: detected");
@@ -77,7 +83,9 @@
     });
 
     const sources = Array.from(sourceSet).filter(Boolean).join(", ");
-    if (sources) metaLines.push(`Sources: ${sources}`);
+    if (sources) {
+      metaLines.push(`Sources: ${sources}`);
+    }
 
     return { response, metaLines };
   }
@@ -90,7 +98,7 @@
     }
 
     if (META_EL && normalized.metaLines.length) {
-      META_EL.textContent = normalized.metaLines.join("\n");
+      META_EL.innerText = normalized.metaLines.join("\n");
     }
   }
 
