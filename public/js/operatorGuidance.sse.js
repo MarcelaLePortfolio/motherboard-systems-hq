@@ -46,27 +46,14 @@
       .filter(Boolean);
 
     const response = firstNonEmpty(
-      guidanceLines.join("\n"),
+      guidanceLines.join("\n\n"),
       reduction?.confidenceReason,
-      data?.message,
-      data?.summary,
       "No guidance available"
     );
 
-    const sourceSet = new Set();
-    if (data?.source) sourceSet.add(String(data.source).trim());
-    guidanceItems.forEach((item) => {
-      const src = firstNonEmpty(item?.source, item?.domain, item?.key);
-      if (src) sourceSet.add(src);
-    });
-
     const metaLines = [];
 
-    const confidence = firstNonEmpty(
-      reduction?.surfaceConfidence,
-      reduction?.confidence,
-      data?.confidence
-    );
+    const confidence = firstNonEmpty(reduction?.surfaceConfidence);
     if (confidence) metaLines.push(`Confidence: ${confidence}`);
 
     const confidenceReason = firstNonEmpty(reduction?.confidenceReason);
@@ -76,11 +63,18 @@
       reduction?.signalCount !== undefined && reduction?.signalCount !== null
         ? String(reduction.signalCount).trim()
         : "";
-    if (signalCount) metaLines.push(`Signals Observed: ${signalCount}`);
+    if (signalCount) metaLines.push(`Signals: ${signalCount}`);
 
     if (reduction?.conflictingSignals === true) {
-      metaLines.push("Conflicting Signals: yes");
+      metaLines.push("Conflicts: detected");
     }
+
+    const sourceSet = new Set();
+    if (data?.source) sourceSet.add(String(data.source).trim());
+    guidanceItems.forEach((item) => {
+      const src = firstNonEmpty(item?.source, item?.domain);
+      if (src) sourceSet.add(src);
+    });
 
     const sources = Array.from(sourceSet).filter(Boolean).join(", ");
     if (sources) metaLines.push(`Sources: ${sources}`);
