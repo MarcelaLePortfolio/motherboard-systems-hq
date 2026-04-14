@@ -1,0 +1,24 @@
+DOCKER DAEMON RECOVERY
+Generated: 2026-04-14T03:32:32Z
+Repo Root: /Users/marcela-dev/Projects/Motherboard_Systems_HQ
+
+STEP 1 — CHECK DOCKER
+Docker daemon not running
+
+STEP 2 — START DOCKER DESKTOP
+Docker Desktop launch requested
+
+STEP 3 — WAIT FOR DOCKER DAEMON
+Docker daemon ready after 2s
+
+STEP 4 — COMPOSE STATUS BEFORE START
+NAME      IMAGE     COMMAND   SERVICE   CREATED   STATUS    PORTS
+
+STEP 5 — START DASHBOARD STACK
+
+STEP 6 — COMPOSE STATUS AFTER START
+NAME                                 IMAGE                              COMMAND                  SERVICE     CREATED        STATUS                                     PORTS
+motherboard_systems_hq-dashboard-1   motherboard_systems_hq-dashboard   "docker-entrypoint.s…"   dashboard   24 hours ago   Up Less than a second (health: starting)   0.0.0.0:8080->3000/tcp, [::]:8080->3000/tcp
+motherboard_systems_hq-postgres-1    postgres:16-alpine                 "docker-entrypoint.s…"   postgres    3 days ago     Up Less than a second                      0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+
+STEP 7 — HTTP CHECKS
