@@ -1,3 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(git rev-parse --show-toplevel)"
+TARGET="$ROOT/public/js/operatorGuidance.sse.js"
+
+cat > "$TARGET" <<'JS'
 (() => {
   if (window.__OPERATOR_GUIDANCE_STREAM_ACTIVE__) return;
   window.__OPERATOR_GUIDANCE_STREAM_ACTIVE__ = true;
@@ -133,3 +140,7 @@
     closeStream();
   });
 })();
+JS
+
+echo "Updated operatorGuidance.sse.js with reduction-aware mapping"
+
