@@ -11,7 +11,7 @@
   let es = null;
   let reconnectTimer = null;
   let reconnectAttempt = 0;
-  const maxItems = 24;
+  const maxItems = 60;
   const items = [];
 
   function escapeHtml(value) {
@@ -52,10 +52,6 @@
   function normalizeEvent(payload, eventName = "message") {
     const p = parseData(payload) || {};
 
-    if (Array.isArray(p.events)) {
-      return p.events.map((entry) => normalizeEvent(entry, eventName)).filter(Boolean);
-    }
-
     const ts =
       p.ts ||
       p.timestamp ||
@@ -63,45 +59,49 @@
       p.updated_at ||
       Date.now();
 
-    const status =
-      p.status ||
+    const kind =
       p.kind ||
       p.type ||
       p.event ||
       eventName ||
       "event";
 
+    if (kind === "hello" || kind === "heartbeat") {
+      return null;
+    }
+
     const title =
       p.title ||
       p.message ||
       p.detail ||
       p.reason ||
+      p.summary ||
       "Task event received";
 
-    const meta = [];
-    if (p.task_id || p.taskId) meta.push(`task=${p.task_id || p.taskId}`);
-    if (p.run_id || p.runId) meta.push(`run=${p.run_id || p.runId}`);
-    if (p.actor) meta.push(`actor=${p.actor}`);
-    if (p.source) meta.push(`source=${p.source}`);
+    const taskId = p.task_id || p.taskId || "";
+    const runId = p.run_id || p.runId || "";
+    const actor = p.actor || "";
+    const source = p.source || "";
 
     return {
-      id: String(p.id || `${status}:${ts}:${title}`),
+      id: String(p.id || `${kind}:${ts}:${taskId}:${runId}:${title}`),
+      kind: String(kind),
       title: String(title),
-      status: String(status),
       ts,
-      meta: meta.join(" • ")
+      taskId: String(taskId || ""),
+      runId: String(runId || ""),
+      actor: String(actor || ""),
+      source: String(source || "")
     };
   }
 
   function pushEvent(entry) {
     if (!entry) return;
-    if (Array.isArray(entry)) {
-      entry.forEach(pushEvent);
-      return;
-    }
 
     const existingIndex = items.findIndex((item) => item.id === entry.id);
-    if (existingIndex >= 0) items.splice(existingIndex, 1);
+    if (existingIndex >= 0) {
+      items.splice(existingIndex, 1);
+    }
 
     items.unshift(entry);
     if (items.length > maxItems) items.length = maxItems;
@@ -109,28 +109,40 @@
   }
 
   function render(state) {
+    const statusLabel = state === "live" ? "Connected" : "Reconnecting…";
+
     const rows = items.length
-      ? items.map(item => `
-        <div style="border:1px solid rgba(51,65,85,0.9); background:rgba(2,6,23,0.55); border-radius:0.85rem; padding:0.75rem;">
-          <div style="display:flex; justify-content:space-between; gap:0.75rem; align-items:flex-start;">
-            <div style="min-width:0;">
-              <div style="color:#e2e8f0; font-size:0.92rem; line-height:1.35;">${escapeHtml(item.title)}</div>
-              <div style="font-size:0.75rem; color:#94a3b8; margin-top:0.2rem;">${escapeHtml(formatTime(item.ts))}</div>
-              ${item.meta ? `<div style="font-size:0.72rem; color:#94a3b8; margin-top:0.3rem;">${escapeHtml(item.meta)}</div>` : ""}
+      ? items.map((item) => {
+          const metaParts = [];
+          if (item.taskId) metaParts.push(`task=${item.taskId}`);
+          if (item.runId) metaParts.push(`run=${item.runId}`);
+          if (item.actor) metaParts.push(`actor=${item.actor}`);
+          if (item.source) metaParts.push(`source=${item.source}`);
+
+          return `
+            <div style="border-bottom:1px solid rgba(51,65,85,0.6); padding:0.5rem 0;">
+              <div style="display:flex; gap:0.6rem; align-items:flex-start; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:0.76rem; line-height:1.45;">
+                <span style="color:#94a3b8; white-space:nowrap;">${escapeHtml(formatTime(item.ts))}</span>
+                <span style="color:${statusTone(item.kind)}; white-space:nowrap; text-transform:uppercase;">${escapeHtml(item.kind)}</span>
+                <div style="min-width:0; flex:1; color:#e2e8f0;">
+                  <div>${escapeHtml(item.title)}</div>
+                  ${metaParts.length ? `<div style="color:#94a3b8; margin-top:0.18rem;">${escapeHtml(metaParts.join(" • "))}</div>` : ""}
+                </div>
+              </div>
             </div>
-            <div style="color:${statusTone(item.status)}; font-size:0.75rem; white-space:nowrap; text-transform:uppercase;">
-              ${escapeHtml(item.status)}
-            </div>
-          </div>
-        </div>`).join("")
-      : `<div style="color:#94a3b8;">Waiting for task events…</div>`;
+          `;
+        }).join("")
+      : `<div style="color:#94a3b8; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:0.78rem;">No task events in stream yet.</div>`;
 
     root.innerHTML = `
-      <div style="display:flex; flex-direction:column; gap:0.5rem;">
-        <div style="font-size:0.75rem; color:#94a3b8;">
-          ${state === "live" ? "Connected" : "Reconnecting…"}
+      <div style="display:flex; flex-direction:column; gap:0.55rem; min-height:12rem;">
+        <div style="display:flex; justify-content:space-between; gap:0.75rem; align-items:center;">
+          <div style="font-size:0.75rem; color:#94a3b8;">${statusLabel}</div>
+          <div style="font-size:0.72rem; color:#64748b;">Replay from cursor=0 • ${items.length} event${items.length === 1 ? "" : "s"}</div>
         </div>
-        ${rows}
+        <div style="border:1px solid rgba(51,65,85,0.9); background:rgba(2,6,23,0.42); border-radius:0.85rem; padding:0.6rem 0.8rem; overflow:auto; max-height:18rem;">
+          ${rows}
+        </div>
       </div>
     `;
   }
@@ -160,7 +172,7 @@
 
     source.onopen = () => {
       reconnectAttempt = 0;
-      render(items.length ? "live" : "live");
+      render("live");
     };
 
     source.onmessage = handleEvent;
@@ -169,6 +181,7 @@
     source.addEventListener("task.updated", handleEvent);
     source.addEventListener("task.completed", handleEvent);
     source.addEventListener("task.failed", handleEvent);
+    source.addEventListener("error", handleEvent);
 
     source.onerror = () => {
       try { source.close(); } catch (_) {}

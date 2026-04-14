@@ -1,0 +1,27 @@
+PHASE 489 — H2 TASK EVENTS VOLUME AUDIT
+Generated: 2026-04-14T21:02:15Z
+Repo Root: /Users/marcela-dev/Projects/Motherboard_Systems_HQ
+
+=== TASK_EVENTS ROW COUNT ===
+1
+
+=== LATEST 20 TASK_EVENTS ROWS ===
+2026-04-14T18:45:26Z | task.created | task=phase489-demo-task | actor=operator | run=phase489-demo-run
+
+=== LIVE SSE SAMPLE (3s) ===
+event: hello
+data: {"kind":"task-events","cursor":0,"ts":1776200535943}
+
+event: task.created
+data: {"title":"Phase 489 telemetry validation event","source":"phase489-h2-seed","status":"created","message":"Synthetic task event inserted to validate Task Events panel","id":"1","task_id":"phase489-demo-task","taskId":"phase489-demo-task","kind":"task.created","actor":"operator","run_id":"phase489-demo-run","runId":"phase489-demo-run","ts":1776192326355,"created_at":"2026-04-14T18:45:26.354Z"}
+
+event: task.event
+data: {"title":"Phase 489 telemetry validation event","source":"phase489-h2-seed","status":"created","message":"Synthetic task event inserted to validate Task Events panel","id":"1","task_id":"phase489-demo-task","taskId":"phase489-demo-task","kind":"task.created","actor":"operator","run_id":"phase489-demo-run","runId":"phase489-demo-run","ts":1776192326355,"created_at":"2026-04-14T18:45:26.354Z"}
+
+event: heartbeat
+data: {"ts":1776200536949,"cursor":1776192326355}
+
+event: heartbeat
+data: {"ts":1776200537955,"cursor":1776192326355}
+
+
