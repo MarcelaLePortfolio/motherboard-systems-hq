@@ -8,10 +8,16 @@ export async function ensureRunView(pool) {
     select
       t.id::text as id,
       t.task_id::text as task_id,
+      t.run_id::text as run_id,
       t.status::text as status,
       t.updated_at as updated_at,
       t.created_at as created_at,
-      coalesce(t.payload->>'agent', t.payload->>'owner', t.payload->>'actor', 'unassigned')::text as agent
+      coalesce(
+        t.payload->>'agent',
+        t.payload->>'owner',
+        t.payload->>'actor',
+        'unassigned'
+      )::text as agent
     from tasks t
   `);
 }
