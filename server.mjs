@@ -9,6 +9,7 @@ import { ensureTasksTaskIdColumn } from "./server/db_bootstrap_tasks_task_id.mjs
 import { ensureTasksRunIdColumn } from "./server/db_bootstrap_tasks_run_id_column.mjs";
 import { ensureTasksActionTierColumn } from "./server/db_bootstrap_tasks_action_tier_column.mjs";
 import { ensureTasksKindColumn } from "./server/db_bootstrap_tasks_kind_column.mjs";
+import { ensureRunView } from "./server/db_bootstrap_run_view.mjs";
 import { ensureTaskEventsTable } from "./server/db_bootstrap_task_events_table.mjs";
 import { registerOrchestratorStateRoute } from "./server/orchestrator_state_route.mjs";
 import { registerPhase19DebugRoutes } from "./server/phase19_debug_routes_dump.mjs";
@@ -331,6 +332,7 @@ await ensureTasksTaskIdColumn(pool);
 await ensureTasksRunIdColumn(pool);
 await ensureTasksActionTierColumn(pool);
 await ensureTasksKindColumn(pool);
+await ensureRunView(pool);
 await ensureTaskEventsTable(pool);
 console.log("Database pool initialized");
   globalThis.__DB_POOL = pool;
