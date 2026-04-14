@@ -7,6 +7,7 @@ import { fileURLToPath } from "url";
 import pg from "pg";
 import { ensureTasksTaskIdColumn } from "./server/db_bootstrap_tasks_task_id.mjs";
 import { ensureTasksRunIdColumn } from "./server/db_bootstrap_tasks_run_id_column.mjs";
+import { ensureTasksActionTierColumn } from "./server/db_bootstrap_tasks_action_tier_column.mjs";
 import { ensureTaskEventsTable } from "./server/db_bootstrap_task_events_table.mjs";
 import { registerOrchestratorStateRoute } from "./server/orchestrator_state_route.mjs";
 import { registerPhase19DebugRoutes } from "./server/phase19_debug_routes_dump.mjs";
@@ -327,6 +328,7 @@ try {
 await waitForPostgresReady(pool, { timeoutMs: 60_000 });
 await ensureTasksTaskIdColumn(pool);
 await ensureTasksRunIdColumn(pool);
+await ensureTasksActionTierColumn(pool);
 await ensureTaskEventsTable(pool);
 console.log("Database pool initialized");
   globalThis.__DB_POOL = pool;
