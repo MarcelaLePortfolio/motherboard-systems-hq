@@ -579,3 +579,35 @@
   }
 </style>
 
+
+<script id="phase489-h1-operator-guidance-rewire">
+(function () {
+  try {
+    const el = document.querySelector('#operator-guidance-panel');
+
+    if (!el) return;
+
+    fetch('/docs/dashboard_bridge_latest.json?v=' + Date.now())
+      .then(r => r.json())
+      .then(data => {
+        if (!data) return;
+
+        const confidence =
+          data?.uiSummary?.confidence ||
+          data?.confidence ||
+          data?.latestConfidence ||
+          null;
+
+        if (confidence && confidence !== "insufficient") {
+          el.innerText = "Confidence: " + confidence;
+        }
+      })
+      .catch(() => {
+        /* silent fail to preserve UI stability */
+      });
+  } catch (e) {
+    /* no-op */
+  }
+})();
+</script>
+
