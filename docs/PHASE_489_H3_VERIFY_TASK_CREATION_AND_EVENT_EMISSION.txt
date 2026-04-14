@@ -1,0 +1,45 @@
+PHASE 489 — H3 VERIFY TASK CREATION AND EVENT EMISSION
+Generated: 2026-04-14T21:23:42Z
+Repo Root: /Users/marcela-dev/Projects/Motherboard_Systems_HQ
+
+=== COUNTS BEFORE ===
+Tasks API count: 0
+task_events count: 1
+
+=== POST /api/tasks-mutations/delegate ===
+HTTP/1.1 500 Internal Server Error
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 82
+ETag: W/"52-z24cRtl/bBZqSGSrF1hWF5UGJ0s"
+Date: Tue, 14 Apr 2026 21:23:42 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"ok":false,"error":"column \"action_tier\" of relation \"tasks\" does not exist"}
+
+=== POST /api/tasks-mutations/delegate-taskspec ===
+HTTP/1.1 500 Internal Server Error
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 119
+ETag: W/"77-U0/pSrc4atISlTMue2mgeeyhtYo"
+Date: Tue, 14 Apr 2026 21:23:42 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"ok":false,"error":"delegate_taskspec_failed","details":"column \"action_tier\" of relation \"tasks\" does not exist"}
+
+=== COUNTS AFTER ===
+Tasks API count: 0
+task_events count: 1
+
+=== LIVE TASKS API ===
+{"ok":true,"tasks":[]}
+
+=== LATEST 20 TASK_EVENTS ===
+2026-04-14T18:45:26Z | task.created | task=phase489-demo-task | actor=operator | run=phase489-demo-run
+
+=== NEXT ACTION ===
+If tasks and task_events both increase, production path is restored.
+If task creation still fails, inspect next missing tasks schema column from the error.
