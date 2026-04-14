@@ -1,0 +1,598 @@
+PHASE 489 — H1 OPERATOR GUIDANCE SSE TRACE OUTPUT
+Generated: 2026-04-14T17:27:30Z
+Repo Root: /Users/marcela-dev/Projects/Motherboard_Systems_HQ
+
+=== SERVED DASHBOARD SCRIPT TAG CHECK ===
+445:  <script defer src="js/operatorGuidance.sse.js"></script>
+
+=== LOCAL SSE CLIENT SOURCE ===
+(() => {
+  // HARD SINGLETON (per tab)
+  if (window.__OPERATOR_GUIDANCE_STREAM_ACTIVE__) return;
+  window.__OPERATOR_GUIDANCE_STREAM_ACTIVE__ = true;
+
+  const RESPONSE_EL = document.getElementById("operator-guidance-response");
+  const META_EL = document.getElementById("operator-guidance-meta");
+
+  let eventSource = null;
+
+  function closeStream() {
+    if (eventSource) {
+      eventSource.close();
+      eventSource = null;
+    }
+  }
+
+  function startStream() {
+    // 🚫 NEVER restart if already created
+    if (eventSource) return;
+
+    eventSource = new EventSource("/api/operator-guidance");
+
+    eventSource.onmessage = (event) => {
+      try {
+        const data = JSON.parse(event.data);
+
+        // 🔒 CRITICAL FIX — HARD OVERWRITE (NO ACCUMULATION)
+        if (RESPONSE_EL) {
+          RESPONSE_EL.textContent = (data.message || "").trim();
+        }
+
+        if (META_EL) {
+          META_EL.textContent = (data.meta || "").trim();
+        }
+
+      } catch (_) {}
+    };
+
+    eventSource.onerror = () => {
+      // ❗ NEVER reconnect automatically
+      closeStream();
+    };
+  }
+
+  // 🚀 RUN ONCE ONLY
+  startStream();
+
+  // 🔒 NO RESTART ON VISIBILITY / FOCUS
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "hidden") {
+      closeStream();
+    }
+  });
+
+  window.addEventListener("beforeunload", () => {
+    closeStream();
+  });
+
+})();
+
+=== SSE ENDPOINT HEADERS ===
+HTTP/1.1 404 Not Found
+X-Powered-By: Express
+Content-Security-Policy: default-src 'none'
+X-Content-Type-Options: nosniff
+Content-Type: text/html; charset=utf-8
+Content-Length: 160
+Date: Tue, 14 Apr 2026 17:27:30 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot GET /api/operator-guidance</pre>
+</body>
+</html>
+
+=== SSE ENDPOINT BODY SAMPLE (8s timeout) ===
+
+
+=== SERVER-SIDE REFERENCES TO /api/operator-guidance ===
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/dashboard/src/cognition/operatorGuidance/operatorGuidancePanel.tsx:13:      data-testid="operator-guidance-panel"
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/index.html:161:    #operator-guidance-panel,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/index.html:315:                    <div id="operator-guidance-panel" class="mt-3 rounded-xl border border-gray-700 bg-gray-900/70 p-4">
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/index.html:317:                      <div id="operator-guidance-response" class="text-sm text-gray-300 leading-6">
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/index.html:321:                      <div id="operator-guidance-meta" class="mt-3 text-xs text-gray-500 leading-5">
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/index.html:571:  #operator-guidance-panel,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_bottom_half_probe.html:168:    const panel = byId("operator-guidance-panel");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_bottom_half_probe.html:169:    const response = byId("operator-guidance-response");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_bottom_half_probe.html:170:    const meta = byId("operator-guidance-meta");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_bottom_half_probe.html:275:    patchNode(panel, "operator-guidance-panel");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_bottom_half_probe.html:276:    patchNode(response, "operator-guidance-response");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_bottom_half_probe.html:277:    patchNode(meta, "operator-guidance-meta");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/operatorGuidance.sse.js:6:  const RESPONSE_EL = document.getElementById("operator-guidance-response");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/operatorGuidance.sse.js:7:  const META_EL = document.getElementById("operator-guidance-meta");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/operatorGuidance.sse.js:22:    eventSource = new EventSource("/api/operator-guidance");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/phase457_controlled_proof.js:5:  // Remove phase457 proof as a second operator-guidance writer.
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/phase457_controlled_proof.js:16:    return !!byId("operator-guidance-response") && !!byId("operator-guidance-meta");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard.html:128:                      <div id="operator-guidance-panel" class="mt-4 rounded-xl border border-gray-700 bg-gray-900/70 p-4 min-h-[140px]">
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard.html:130:                        <div id="operator-guidance-response" class="text-sm text-gray-300 leading-6">
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard.html:134:                        <div id="operator-guidance-meta" class="mt-3 text-xs text-gray-500 leading-5">
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_top_half_probe.html:132:                      <div id="operator-guidance-panel" class="mt-4 rounded-xl border border-gray-700 bg-gray-900/70 p-4 min-h-[140px]">
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_top_half_probe.html:134:                        <div id="operator-guidance-response" class="text-sm text-gray-300 leading-6">
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_top_half_probe.html:138:                        <div id="operator-guidance-meta" class="mt-3 text-xs text-gray-500 leading-5">
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_q4_probe.html:32:    const panel = byId("operator-guidance-panel");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_q4_probe.html:33:    const response = byId("operator-guidance-response");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_q4_probe.html:34:    const meta = byId("operator-guidance-meta");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_q4_probe.html:139:    patchNode(panel, "operator-guidance-panel");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_q4_probe.html:140:    patchNode(response, "operator-guidance-response");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_q4_probe.html:141:    patchNode(meta, "operator-guidance-meta");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_q1_probe.html:134:                      <div id="operator-guidance-panel" class="mt-4 rounded-xl border border-gray-700 bg-gray-900/70 p-4 min-h-[140px]">
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_q1_probe.html:136:                        <div id="operator-guidance-response" class="text-sm text-gray-300 leading-6">
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_q1_probe.html:140:                        <div id="operator-guidance-meta" class="mt-3 text-xs text-gray-500 leading-5">
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_recomposed_from_stable_quarters_probe.html:137:                      <div id="operator-guidance-panel" class="mt-4 rounded-xl border border-gray-700 bg-gray-900/70 p-4 min-h-[140px]">
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_recomposed_from_stable_quarters_probe.html:139:                        <div id="operator-guidance-response" class="text-sm text-gray-300 leading-6">
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_recomposed_from_stable_quarters_probe.html:143:                        <div id="operator-guidance-meta" class="mt-3 text-xs text-gray-500 leading-5">
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_recomposed_from_stable_quarters_probe.html:460:    const panel = byId("operator-guidance-panel");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_recomposed_from_stable_quarters_probe.html:461:    const response = byId("operator-guidance-response");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_recomposed_from_stable_quarters_probe.html:462:    const meta = byId("operator-guidance-meta");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_recomposed_from_stable_quarters_probe.html:567:    patchNode(panel, "operator-guidance-panel");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_recomposed_from_stable_quarters_probe.html:568:    patchNode(response, "operator-guidance-response");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_recomposed_from_stable_quarters_probe.html:569:    patchNode(meta, "operator-guidance-meta");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.mjs:466:app.get("/events/operator-guidance", (req, res) => {
+
+=== LIKELY SERVER ROUTE / HANDLER FILES ===
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public_broken_rollback_1762824556/dashboard-reflections.js:7:  const evtSource = new EventSource("http://localhost:3101/events/reflections");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public_broken_rollback_1762824556/dashboard-ops.js:4:  const evtSource = new EventSource("http://localhost:3201/events/ops");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public_broken_rollback_1762824556/agent-status-row.js:59:    const evtSource = new EventSource("http://localhost:3101/events/agents");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/verify-dashboard-sync.ts:7:    const response = await fetch(endpoint, { headers: { Accept: "text/event-stream" } });
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114821/public/js/dashboard-ops.js:1:const opsStream = new EventSource("http://localhost:3201/events/ops");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114821/public/js/ops-task-alerts.js:26:  const evtSource = new EventSource("http://localhost:3201/events/ops");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114821/public/js/reflections-viewer.js:56:    const evtSource = new EventSource("http://localhost:3101/events/reflections");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114821/public/dashboard-status.js:9:  const evtSource = new EventSource("http://localhost:3201/events/ops");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114821/public/dashboard-stream.js:6:  const evtSource = new EventSource("http://localhost:3101/events/reflections");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114821/scripts/demo/verify-dashboard-sync.ts:7:    const response = await fetch(endpoint, { headers: { Accept: "text/event-stream" } });
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114821/scripts/server.cjs:23:          res.writeHead(200);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114821/scripts/server.cjs:26:          res.writeHead(400);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114821/scripts/server.cjs:36:        res.writeHead(404);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114821/scripts/server.cjs:39:        res.writeHead(200);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114821/scripts/api/command.cjs:21:          res.writeHead(200);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114821/scripts/api/command.cjs:24:          res.writeHead(400);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114821/scripts/api/command.cjs:29:      res.writeHead(404);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114821/scripts/_local/route-loader/reflection-sse-server.ts:13:  res.writeHead(200, {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114821/scripts/_local/route-loader/reflection-sse-server.ts:14:    "Content-Type": "text/event-stream",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114821/scripts/_local/route-loader/reflection-sse-server.ts:18:  res.write(`data: {"status":"connected"}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114821/scripts/_local/route-loader/ops-sse-server.ts:13:  res.writeHead(200, {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114821/scripts/_local/route-loader/ops-sse-server.ts:14:    "Content-Type": "text/event-stream",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114821/scripts/_local/route-loader/ops-sse-server.ts:18:  res.write(`data: {"status":"connected"}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114821/scripts/_local/dev-server.ts:72:    res.writeHead(200, { "Content-Type": "application/json" });
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114821/scripts/_local/dev-server.ts:88:    res.writeHead(200, { "Content-Type": mime });
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114821/scripts/_local/dev-server.ts:91:    res.writeHead(404);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114821/scripts/servers/reflection-sse-server.ts:10:  res.setHeader("Content-Type", "text/event-stream");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114821/scripts/servers/reflection-sse-server.ts:15:  res.write(`data: {"status":"connected"}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114821/scripts/servers/reflection-sse-server.ts:21:    res.write(`data: ${JSON.stringify(rows)}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114821/scripts/servers/ops-sse-server.ts:10:  res.setHeader("Content-Type", "text/event-stream");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114821/scripts/servers/ops-sse-server.ts:15:  res.write(`data: {"status":"connected"}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114821/scripts/servers/ops-sse-server.ts:21:    res.write(`data: ${JSON.stringify(rows)}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114821/scripts/mirror/agent.mjs:26:      res.writeHead(200, { "Content-Type": "application/json" });
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114821/routes/eventsAgents.ts:33:  res.setHeader("Content-Type", "text/event-stream");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114821/routes/eventsAgents.ts:40:  const ping = setInterval(() => res.write("event: ping\ndata: {}\n\n"), 15000);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114821/routes/events.ts:9:    "Content-Type": "text/event-stream",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114821/routes/events.ts:15:  res.write(`event: ping\ndata: {}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114821/routes/events.ts:20:      res.write(`event: agent\ndata: ${JSON.stringify({ agents })}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114707/public/js/dashboard-ops.js:1:const opsStream = new EventSource("http://localhost:3201/events/ops");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114707/public/js/ops-task-alerts.js:26:  const evtSource = new EventSource("http://localhost:3201/events/ops");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114707/public/js/reflections-viewer.js:56:    const evtSource = new EventSource("http://localhost:3101/events/reflections");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114707/public/dashboard-status.js:9:  const evtSource = new EventSource("http://localhost:3201/events/ops");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114707/public/dashboard-stream.js:6:  const evtSource = new EventSource("http://localhost:3101/events/reflections");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114707/scripts/demo/verify-dashboard-sync.ts:7:    const response = await fetch(endpoint, { headers: { Accept: "text/event-stream" } });
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114707/scripts/server.cjs:23:          res.writeHead(200);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114707/scripts/server.cjs:26:          res.writeHead(400);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114707/scripts/server.cjs:36:        res.writeHead(404);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114707/scripts/server.cjs:39:        res.writeHead(200);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114707/scripts/api/command.cjs:21:          res.writeHead(200);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114707/scripts/api/command.cjs:24:          res.writeHead(400);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114707/scripts/api/command.cjs:29:      res.writeHead(404);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114707/scripts/_local/route-loader/reflection-sse-server.ts:13:  res.writeHead(200, {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114707/scripts/_local/route-loader/reflection-sse-server.ts:14:    "Content-Type": "text/event-stream",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114707/scripts/_local/route-loader/reflection-sse-server.ts:18:  res.write(`data: {"status":"connected"}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114707/scripts/_local/route-loader/ops-sse-server.ts:13:  res.writeHead(200, {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114707/scripts/_local/route-loader/ops-sse-server.ts:14:    "Content-Type": "text/event-stream",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114707/scripts/_local/route-loader/ops-sse-server.ts:18:  res.write(`data: {"status":"connected"}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114707/scripts/_local/dev-server.ts:72:    res.writeHead(200, { "Content-Type": "application/json" });
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114707/scripts/_local/dev-server.ts:88:    res.writeHead(200, { "Content-Type": mime });
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114707/scripts/_local/dev-server.ts:91:    res.writeHead(404);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114707/scripts/servers/reflection-sse-server.ts:10:  res.setHeader("Content-Type", "text/event-stream");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114707/scripts/servers/reflection-sse-server.ts:15:  res.write(`data: {"status":"connected"}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114707/scripts/servers/reflection-sse-server.ts:21:    res.write(`data: ${JSON.stringify(rows)}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114707/scripts/servers/ops-sse-server.ts:10:  res.setHeader("Content-Type", "text/event-stream");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114707/scripts/servers/ops-sse-server.ts:15:  res.write(`data: {"status":"connected"}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114707/scripts/servers/ops-sse-server.ts:21:    res.write(`data: ${JSON.stringify(rows)}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114707/scripts/mirror/agent.mjs:26:      res.writeHead(200, { "Content-Type": "application/json" });
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114707/routes/eventsAgents.ts:33:  res.setHeader("Content-Type", "text/event-stream");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114707/routes/eventsAgents.ts:40:  const ping = setInterval(() => res.write("event: ping\ndata: {}\n\n"), 15000);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114707/routes/events.ts:9:    "Content-Type": "text/event-stream",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114707/routes/events.ts:15:  res.write(`event: ping\ndata: {}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114707/routes/events.ts:20:      res.write(`event: agent\ndata: ${JSON.stringify({ agents })}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/routes_backup/eventsAgents.ts:38:  res.setHeader("Content-Type", "text/event-stream");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/routes_backup/eventsAgents.ts:45:  const ping = setInterval(() => res.write("event: ping\ndata: {}\n\n"), 15000);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/routes_backup/events.ts:14:    "Content-Type": "text/event-stream",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/routes_backup/events.ts:20:  res.write(`event: ping\ndata: {}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/routes_backup/events.ts:25:      res.write(`event: agent\ndata: ${JSON.stringify({ agents })}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/routes_backup/reflections.ts:15:  res.writeHead(200, {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/routes_backup/reflections.ts:16:    "Content-Type": "text/event-stream",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/routes_backup/reflections.ts:21:  res.write(`data: ${JSON.stringify({ status: "connected" })}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/routes_backup/reflections.ts:35:      res.write(`data: ${JSON.stringify(latest)}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/agent.ts:26:      res.writeHead(200, { "Content-Type": "application/json" });
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/eventsAgents.ts:33:  res.setHeader("Content-Type", "text/event-stream");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/eventsAgents.ts:40:  const ping = setInterval(() => res.write("event: ping\ndata: {}\n\n"), 15000);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/optional-sse.mjs:19:  try { res.setHeader("Content-Type", "text/event-stream; charset=utf-8"); } catch {}
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/optional-sse.mjs:28:  res.setHeader("Content-Type", "text/event-stream; charset=utf-8");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/optional-sse.mjs:37:  res.write(line.endsWith("\n") ? line : line + "\n");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/optional-sse.mjs:128:        try { res.write(": once\n\n"); } catch (_) {}
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/optional-sse.mjs:137:      try { res.write(": keepalive\\n\\n"); } catch (_) {}
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/optional-sse.mjs:140:    const __hb=setInterval(()=>{try{res.write("event: heartbeat\n");res.write("data: "+JSON.stringify({ts:Date.now()})+"\n\n")}catch{}},3000);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/artifacts.mjs:11:    res.write(line);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/artifacts.mjs:22:    res.setHeader("Content-Type", "text/event-stream");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/task-events-sse.mjs:24:  if (event) res.write(`event: ${event}\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/task-events-sse.mjs:25:  res.write(`data: ${JSON.stringify(data)}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/task-events-sse.mjs:60:  res.setHeader("Content-Type", "text/event-stream; charset=utf-8");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/ops-sse-server.mjs:73:    res.write("event: " + eventName + "\n");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/ops-sse-server.mjs:74:    res.write("data: " + JSON.stringify(payload) + "\n\n");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/ops-sse-server.mjs:82:    res.writeHead(404, { "Content-Type": "text/plain" });
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/ops-sse-server.mjs:87:  res.writeHead(200, {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/ops-sse-server.mjs:88:    "Content-Type": "text/event-stream",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/demo/verify-dashboard-sync.ts:7:    const response = await fetch(endpoint, { headers: { Accept: "text/event-stream" } });
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/demo/reflection-pacer.js:8:const evtSource = new EventSource("http://localhost:3101/events/reflections");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/sse/reflections-sse-server.ts:23:    "Content-Type": "text/event-stream",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/sse/reflections-sse-server.ts:30:  res.write(`data: <0001fa9e> Reflections SSE stream initialized at ${new Date().toISOString()}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/sse/reflections-sse-server.ts:35:    res.write(`data: ${msg}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/sse/reflections-sse-server.ts:52:    "Content-Type": "text/event-stream",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/sse/reflections-sse-server.ts:61:  res.write(`data: ${JSON.stringify(Object.fromEntries(agents.map(a => [a, "online"])))}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/sse/reflections-sse-server.ts:64:    res.write(`data: ${JSON.stringify(Object.fromEntries(agents.map(a => [a, "online"])))}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/server.cjs:23:          res.writeHead(200);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/server.cjs:26:          res.writeHead(400);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/server.cjs:36:        res.writeHead(404);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/server.cjs:39:        res.writeHead(200);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/scripts/demo/verify-dashboard-sync.ts:7:    const response = await fetch(endpoint, { headers: { Accept: "text/event-stream" } });
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/scripts/demo/reflection-pacer.js:8:const evtSource = new EventSource("http://localhost:3101/events/reflections");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/scripts/sse/reflections-sse-server.ts:23:    "Content-Type": "text/event-stream",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/scripts/sse/reflections-sse-server.ts:30:  res.write(`data: <0001fa9e> Reflections SSE stream initialized at ${new Date().toISOString()}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/scripts/sse/reflections-sse-server.ts:35:    res.write(`data: ${msg}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/scripts/sse/reflections-sse-server.ts:52:    "Content-Type": "text/event-stream",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/scripts/sse/reflections-sse-server.ts:61:  res.write(`data: ${JSON.stringify(Object.fromEntries(agents.map(a => [a, "online"])))}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/scripts/sse/reflections-sse-server.ts:64:    res.write(`data: ${JSON.stringify(Object.fromEntries(agents.map(a => [a, "online"])))}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/scripts/server.cjs:23:          res.writeHead(200);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/scripts/server.cjs:26:          res.writeHead(400);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/scripts/server.cjs:36:        res.writeHead(404);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/scripts/server.cjs:39:        res.writeHead(200);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/scripts/api/command.cjs:21:          res.writeHead(200);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/scripts/api/command.cjs:24:          res.writeHead(400);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/scripts/api/command.cjs:29:      res.writeHead(404);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/scripts/_local/route-loader/reflection-sse-server.ts:18:    "Content-Type": "text/event-stream",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/scripts/_local/route-loader/reflection-sse-server.ts:22:  res.write(`data: {"status":"connected"}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/scripts/_local/route-loader/ops-sse-server.ts:18:    "Content-Type": "text/event-stream",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/scripts/_local/route-loader/ops-sse-server.ts:22:  res.write(`data: {"status":"connected"}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/scripts/_local/dev-server.ts:72:    res.writeHead(200, { "Content-Type": "application/json" });
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/scripts/_local/dev-server.ts:88:    res.writeHead(200, { "Content-Type": mime });
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/scripts/_local/dev-server.ts:91:    res.writeHead(404);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/scripts/servers/reflection-sse-server.ts:16:    "Content-Type": "text/event-stream",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/scripts/servers/reflection-sse-server.ts:21:  res.write(`data: ${JSON.stringify({ status: "connected" })}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/scripts/servers/reflection-sse-server.ts:36:        res.write(`data: ${JSON.stringify(latest)}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/scripts/servers/ops-sse-server.ts:14:  (<any>res).setHeader("Content-Type", "text/event-stream");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/scripts/servers/ops-sse-server.ts:19:  res.write(`data: {"status":"connected"}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/scripts/servers/ops-sse-server.ts:25:    res.write(`data: ${JSON.stringify(rows)}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/scripts/mirror/agent.mjs:26:      res.writeHead(200, { "Content-Type": "application/json" });
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/api/command.cjs:21:          res.writeHead(200);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/api/command.cjs:24:          res.writeHead(400);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/api/command.cjs:29:      res.writeHead(404);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/_local/route-loader/reflection-sse-server.ts:17:  res.writeHead(200, {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/_local/route-loader/reflection-sse-server.ts:18:    "Content-Type": "text/event-stream",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/_local/route-loader/reflection-sse-server.ts:22:  res.write(`data: {"status":"connected"}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/_local/route-loader/ops-sse-server.ts:17:  res.writeHead(200, {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/_local/route-loader/ops-sse-server.ts:18:    "Content-Type": "text/event-stream",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/_local/route-loader/ops-sse-server.ts:22:  res.write(`data: {"status":"connected"}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/_local/dev-server.ts:72:    res.writeHead(200, { "Content-Type": "application/json" });
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/_local/dev-server.ts:88:    res.writeHead(200, { "Content-Type": mime });
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/_local/dev-server.ts:91:    res.writeHead(404);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/servers/reflection-sse-server.ts:15:  res.writeHead(200, {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/servers/reflection-sse-server.ts:16:    "Content-Type": "text/event-stream",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/servers/reflection-sse-server.ts:21:  res.write(`data: ${JSON.stringify({ status: "connected" })}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/servers/reflection-sse-server.ts:36:        res.write(`data: ${JSON.stringify(latest)}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/servers/ops-sse-server.ts:14:  res.setHeader("Content-Type", "text/event-stream");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/servers/ops-sse-server.ts:19:  res.write(`data: {"status":"connected"}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/servers/ops-sse-server.ts:25:    res.write(`data: ${JSON.stringify(rows)}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/mirror/agent.mjs:26:      res.writeHead(200, { "Content-Type": "application/json" });
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/exports/dashboard_phase6.8/js/dashboard-ops.js:2:const opsStream = new EventSource("http://localhost:3201/events/ops");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/exports/dashboard_phase6.8/js/ops-task-alerts.js:26:  const evtSource = new EventSource("http://localhost:3201/events/ops");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/exports/dashboard_phase6.8/js/reflections-viewer.js:56:    const evtSource = new EventSource("http://localhost:3101/events/reflections");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/dashboard/src/cognition/operatorGuidance/operatorGuidanceReducer.ts:4:} from "./operatorGuidance";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/dashboard/src/cognition/operatorGuidance/operatorGuidanceReducer.ts:8:} from "./operatorGuidance";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/dashboard/src/cognition/operatorGuidance/operatorGuidanceReducer.ts:12:} from "./operatorGuidanceRenderContract";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/dashboard/src/cognition/operatorGuidance/operatorGuidanceReducer.ts:21:      type: "operatorGuidance/replace";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/dashboard/src/cognition/operatorGuidance/operatorGuidanceReducer.ts:25:      type: "operatorGuidance/streamEvent";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/dashboard/src/cognition/operatorGuidance/operatorGuidanceReducer.ts:29:      type: "operatorGuidance/reset";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/dashboard/src/cognition/operatorGuidance/operatorGuidanceReducer.ts:37:export function operatorGuidanceReducer(
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/dashboard/src/cognition/operatorGuidance/operatorGuidanceReducer.ts:42:    case "operatorGuidance/replace": {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/dashboard/src/cognition/operatorGuidance/operatorGuidanceReducer.ts:55:    case "operatorGuidance/streamEvent": {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/dashboard/src/cognition/operatorGuidance/operatorGuidanceReducer.ts:63:    case "operatorGuidance/reset":
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/dashboard/src/cognition/operatorGuidance/operatorGuidanceReducer.ts:75:    type: "operatorGuidance/replace",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/dashboard/src/cognition/operatorGuidance/operatorGuidanceReducer.ts:84:    type: "operatorGuidance/streamEvent",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/dashboard/src/cognition/operatorGuidance/operatorGuidanceReducer.ts:91:    type: "operatorGuidance/reset",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/dashboard/src/cognition/operatorGuidance/operatorGuidancePanel.tsx:1:import type { OperatorGuidanceRenderModel } from "./operatorGuidance";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/dashboard/src/cognition/operatorGuidance/operatorGuidancePanel.tsx:13:      data-testid="operator-guidance-panel"
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/dashboard/src/cognition/operatorGuidance/useOperatorGuidance.ts:7:} from "./operatorGuidance";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/dashboard/src/cognition/operatorGuidance/useOperatorGuidance.ts:11:  operatorGuidanceReducer,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/dashboard/src/cognition/operatorGuidance/useOperatorGuidance.ts:14:} from "./operatorGuidanceReducer";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/dashboard/src/cognition/operatorGuidance/useOperatorGuidance.ts:15:import { buildOperatorGuidanceRenderModel } from "./operatorGuidanceRenderContract";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/dashboard/src/cognition/operatorGuidance/useOperatorGuidance.ts:27:    operatorGuidanceReducer,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts:9:} from "./operatorGuidance";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts:13:} from "./operatorGuidance";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/dashboard/src/cognition/operatorGuidance/index.ts:1:export * from "./operatorGuidance";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/dashboard/src/cognition/operatorGuidance/index.ts:2:export * from "./operatorGuidanceReducer";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/dashboard/src/cognition/operatorGuidance/index.ts:3:export * from "./operatorGuidanceSelectors";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/dashboard/src/cognition/operatorGuidance/index.ts:4:export * from "./operatorGuidanceRenderContract";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/dashboard/src/cognition/operatorGuidance/index.ts:5:export * from "./operatorGuidancePanel";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/dashboard/src/cognition/operatorGuidance/operatorGuidanceSelectors.ts:6:} from "./operatorGuidance";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/dashboard/src/cognition/operatorGuidance/operatorGuidanceSelectors.ts:7:import type { OperatorGuidanceState } from "./operatorGuidanceReducer";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/dashboard/src/cognition/operatorGuidance/operatorGuidanceSelectors.ts:8:import { buildOperatorGuidanceRenderModel } from "./operatorGuidanceRenderContract";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/sse-tasks-singleton.js:4: * Strict reuse of /events/tasks EventSource to prevent connect/abort churn.
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/sse-tasks-singleton.js:10:  if (!window.EventSource) return;
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/sse-tasks-singleton.js:14:  const NativeEventSource = window.EventSource;
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/sse-tasks-singleton.js:63:    const es = new NativeEventSource(url, init);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/sse-tasks-singleton.js:88:  function TasksSafeEventSource(url, eventSourceInitDict) {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/sse-tasks-singleton.js:89:    if (!isTasksUrl(url)) return new NativeEventSource(url, eventSourceInitDict);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/sse-tasks-singleton.js:121:  TasksSafeEventSource.prototype = NativeEventSource.prototype;
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/sse-tasks-singleton.js:122:  window.EventSource = TasksSafeEventSource;
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/phase457_restore_task_panels.js:232:      state.es = new EventSource("/events/task-events");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/operatorGuidance.sse.js:6:  const RESPONSE_EL = document.getElementById("operator-guidance-response");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/operatorGuidance.sse.js:7:  const META_EL = document.getElementById("operator-guidance-meta");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/operatorGuidance.sse.js:22:    eventSource = new EventSource("/api/operator-guidance");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/sse-reflections-shim.js:1:// Phase 11 – SSE shim to disable Reflections EventSource until backend is ready
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/sse-reflections-shim.js:5:  if (typeof window.EventSource === "undefined") return;
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/sse-reflections-shim.js:7:  const NativeEventSource = window.EventSource;
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/sse-reflections-shim.js:9:  function ReflectionsSafeEventSource(url, eventSourceInitDict) {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/sse-reflections-shim.js:12:        "[SSE SHIM] Reflections SSE disabled; backend not available. Returning dummy EventSource."
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/sse-reflections-shim.js:29:    return new NativeEventSource(url, eventSourceInitDict);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/sse-reflections-shim.js:32:  ReflectionsSafeEventSource.prototype = NativeEventSource.prototype;
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/sse-reflections-shim.js:33:  window.EventSource = ReflectionsSafeEventSource;
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/dashboard-status.js:4: * - Consume /events/ops + /events/reflections via EventSource
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/dashboard-status.js:10: * EventSource.onmessage only receives UNNAMED events, so we must addEventListener()
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/dashboard-status.js:194:    const es = (window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(url));
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/dashboard-status.js:198:    // Phase16: guard null EventSource before handlers
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/ops-globals-bridge.js:6:  if (typeof window === "undefined" || typeof EventSource === "undefined") return;
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/ops-globals-bridge.js:49:    const es = (window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(opsUrl));
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/ops-globals-bridge.js:52:    // Phase16: guard null EventSource before handlers
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/ops-globals-bridge.js:61:    // Phase16: guard null EventSource before handlers (onerror)
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/ops-globals-bridge.js:66:      console.warn("[ops-globals-bridge] EventSource error:", err);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/ops-globals-bridge.js:69:    console.warn("[ops-globals-bridge] Failed to init EventSource:", err);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/phase457_controlled_proof.js:5:  // Remove phase457 proof as a second operator-guidance writer.
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/phase457_controlled_proof.js:6:  // Guidance panel ownership remains with public/js/operatorGuidance.sse.js only.
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/phase457_controlled_proof.js:16:    return !!byId("operator-guidance-response") && !!byId("operator-guidance-meta");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/agent-status-row.js:342:    source = (window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(OPS_SSE_URL));
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/agent-status-row.js:586:      es = new EventSource('/events/task-events');
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/phase16_sse_backoff.js:14: * - At most ONE underlying EventSource at any moment
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/phase16_sse_backoff.js:51:    // user listeners (EventSource-like)
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/phase16_sse_backoff.js:132:        es = new EventSource(url);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/phase64_agent_activity_wire.js:326:      ownedTaskEventsStream = new EventSource("/events/task-events");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/task-events-sse-client.js:313:    es = new EventSource(url);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/project-visual-output.js:73:  const es = new EventSource("/events/artifacts");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/telemetry/success_rate_metric.js:198:  function patchEventSource() {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/telemetry/success_rate_metric.js:201:    const Native = window.EventSource;
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/telemetry/success_rate_metric.js:217:    window.EventSource = Wrapped;
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/telemetry/success_rate_metric.js:222:    patchEventSource();
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/telemetry/latency_metric.js:200:  function patchEventSource() {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/telemetry/latency_metric.js:203:    const Native = window.EventSource;
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/telemetry/latency_metric.js:219:    window.EventSource = Wrapped;
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/telemetry/latency_metric.js:224:    patchEventSource();
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/telemetry/running_tasks_metric.js:70:  function patchEventSource() {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/telemetry/running_tasks_metric.js:73:    const Native = window.EventSource;
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/telemetry/running_tasks_metric.js:89:    window.EventSource = Wrapped;
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/telemetry/running_tasks_metric.js:94:    patchEventSource();
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/sse-heartbeat-shim.js:4: * Wrap EventSource so connection + any SSE message updates a normalized heartbeat store.
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/sse-heartbeat-shim.js:33:  const NativeEventSource = w.EventSource;
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/sse-heartbeat-shim.js:34:  if (!NativeEventSource || NativeEventSource.__hbWrapped) return;
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/sse-heartbeat-shim.js:44:  function HeartbeatEventSource(url, eventSourceInitDict) {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/sse-heartbeat-shim.js:50:    const es = new NativeEventSource(url, eventSourceInitDict);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/sse-heartbeat-shim.js:81:  HeartbeatEventSource.prototype = NativeEventSource.prototype;
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/sse-heartbeat-shim.js:82:  HeartbeatEventSource.__hbWrapped = true;
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/sse-heartbeat-shim.js:84:  w.EventSource = HeartbeatEventSource;
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/reflections-sse-dashboard.js:10:// TODO: Re-enable EventSource wiring once a valid text/event-stream endpoint
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/ops-sse-listener.js:6:// Close any existing OPS EventSource to avoid duplicates on hot reloads
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/ops-sse-listener.js:11:console.warn("[OPS SSE] Error closing previous EventSource:", e);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/ops-sse-listener.js:15:if (typeof EventSource === "undefined") {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/ops-sse-listener.js:16:console.error("[OPS SSE] EventSource is not supported in this browser.");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/ops-sse-listener.js:26:    const es = (window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(OPS_SSE_URL));
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/bundle.js:23:    const NativeEventSource = w.EventSource;
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/bundle.js:24:    if (!NativeEventSource || NativeEventSource.__hbWrapped) return;
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/bundle.js:32:    function HeartbeatEventSource(url, eventSourceInitDict) {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/bundle.js:38:      const es = new NativeEventSource(url, eventSourceInitDict);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/bundle.js:72:    HeartbeatEventSource.prototype = NativeEventSource.prototype;
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/bundle.js:73:    HeartbeatEventSource.__hbWrapped = true;
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/bundle.js:74:    w.EventSource = HeartbeatEventSource;
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/bundle.js:306:      const es = window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(url);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/bundle.js:628:      source = window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(OPS_SSE_URL);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/bundle.js:804:        es = new EventSource("/events/task-events");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/bundle.js:885:    if (typeof window === "undefined" || typeof EventSource === "undefined") return;
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/bundle.js:917:      const es = window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(opsUrl);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/bundle.js:923:        console.warn("[ops-globals-bridge] EventSource error:", err);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/bundle.js:926:      console.warn("[ops-globals-bridge] Failed to init EventSource:", err);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/bundle.js:1520:      es = new EventSource(url);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard-status.js:9:  const evtSource = new EventSource("http://localhost:3201/events/ops");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/scripts/dashboard-reflections.js:7:  const evtSource = new EventSource("http://localhost:3101/events/reflections");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/scripts/dashboard-ops.js:4:  const evtSource = new EventSource("http://localhost:3201/events/ops");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/scripts/agent-status-row.js:35:    const evtSource = new EventSource("http://localhost:3101/events/agents");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/bundle-core.js:90:      opsSource = (window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(OPS_SSE_URL));
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/bundle-core.js:168:      reflectionsSource = (window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(REFLECTIONS_SSE_URL));
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/bundle-core.js:14800:    const evtSource = (window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource("http://localhost:3101/events/reflections"));
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/bundle-core.js:14815:    const evtSource = (window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource("http://localhost:3201/events/ops"));
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard-stream.js:6:  const evtSource = new EventSource("http://localhost:3101/events/reflections");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/demo/verify-dashboard-sync.ts:7:    const response = await fetch(endpoint, { headers: { Accept: "text/event-stream" } });
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/demo/reflection-pacer.js:8:const evtSource = new EventSource("http://localhost:3101/events/reflections");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/sse/reflections-sse-server.ts:19:    "Content-Type": "text/event-stream",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/sse/reflections-sse-server.ts:26:  res.write(`data: <0001fa9e> Reflections SSE stream initialized at ${new Date().toISOString()}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/sse/reflections-sse-server.ts:31:    res.write(`data: ${msg}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/sse/reflections-sse-server.ts:48:    "Content-Type": "text/event-stream",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/sse/reflections-sse-server.ts:57:  res.write(`data: ${JSON.stringify(Object.fromEntries(agents.map(a => [a, "online"])))}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/sse/reflections-sse-server.ts:60:    res.write(`data: ${JSON.stringify(Object.fromEntries(agents.map(a => [a, "online"])))}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/phase19_task_events_app_smoke.cjs:2: * Phase 19: app-level Postgres write -> read smoke test for public.task_events
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/dashboard-reflections.js:7:  const evtSource = new EventSource("http://localhost:3101/events/reflections");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/dashboard-ops.js:4:  const evtSource = new EventSource("http://localhost:3201/events/ops");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/agents/reflections.ts:9:  res.writeHead(200, {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/agents/reflections.ts:10:    "Content-Type": "text/event-stream",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/agents/reflections.ts:15:  res.write(`data: ${JSON.stringify({ status: "connected" })}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/agents/reflections.ts:28:      res.write(`data: ${JSON.stringify(latest)}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/phase21_wire_task_events_sse.mjs:67:        if (s.includes("/events/ops") || s.includes("/events/reflections") || s.includes("EventSource(")) {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/server.cjs:23:          res.writeHead(200);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/server.cjs:26:          res.writeHead(400);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/server.cjs:36:        res.writeHead(404);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/server.cjs:39:        res.writeHead(200);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/api/command.cjs:21:          res.writeHead(200);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/api/command.cjs:24:          res.writeHead(400);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/api/command.cjs:29:      res.writeHead(404);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/agent-status-row.js:59:    const evtSource = new EventSource("http://localhost:3101/events/agents");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/_local/route-loader/reflection-sse-server.ts:13:  res.writeHead(200, {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/_local/route-loader/reflection-sse-server.ts:14:    "Content-Type": "text/event-stream",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/_local/route-loader/reflection-sse-server.ts:18:  res.write(`data: {"status":"connected"}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/_local/route-loader/ops-sse-server.ts:13:  res.writeHead(200, {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/_local/route-loader/ops-sse-server.ts:14:    "Content-Type": "text/event-stream",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/_local/route-loader/ops-sse-server.ts:18:  res.write(`data: {"status":"connected"}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/_local/phase99_4_guidance_confidence_smoke.ts:4:  "src/cognition/operatorGuidanceConfidence.ts",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/_local/phase99_4_guidance_confidence_smoke.ts:16:  "Expected operatorGuidanceConfidence.ts to import OperationalConfidence.",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/_local/dev-server.ts:72:    res.writeHead(200, { "Content-Type": "application/json" });
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/_local/dev-server.ts:88:    res.writeHead(200, { "Content-Type": mime });
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/_local/dev-server.ts:91:    res.writeHead(404);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/servers/reflection-sse-server.ts:11:  res.writeHead(200, {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/servers/reflection-sse-server.ts:12:    "Content-Type": "text/event-stream",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/servers/reflection-sse-server.ts:17:  res.write(`data: ${JSON.stringify({ status: "connected" })}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/servers/reflection-sse-server.ts:32:        res.write(`data: ${JSON.stringify(latest)}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/servers/ops-sse-server.ts:10:  res.setHeader("Content-Type", "text/event-stream");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/servers/ops-sse-server.ts:15:  res.write(`data: {"status":"connected"}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/servers/ops-sse-server.ts:21:    res.write(`data: ${JSON.stringify(rows)}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/mirror/agent.mjs:26:      res.writeHead(200, { "Content-Type": "application/json" });
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/events.ts:9:    "Content-Type": "text/event-stream",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/events.ts:15:  res.write(`event: ping\ndata: {}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/events.ts:20:      res.write(`event: agent\ndata: ${JSON.stringify({ agents })}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.mjs:17:} from "./routes/diagnostics/operatorGuidanceRuntime.js";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.mjs:130:          try { res.write(frame); } catch (_) {}
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.mjs:137:        try { res.write(`: connected ${name}\n\n`); } catch (_) {}
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.mjs:140:            res.write(`id: ${this.last.id}\nevent: ${this.last.event}\ndata: ${this.last.data}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.mjs:402:  res.writeHead(200, {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.mjs:403:    "Content-Type": "text/event-stream",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.mjs:409:  res.write(`: ready\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.mjs:410:  res.write(`:\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.mjs:424:      res.write(`data: ${JSON.stringify({ tasks: r.rows, source: "db-tasks", ts: Date.now() })}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.mjs:426:      res.write(`event: error\ndata: ${JSON.stringify({ error: String(e), ts: Date.now() })}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.mjs:436:    res.write(`: ping ${Date.now()}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.mjs:452:        res.write(`data: ${JSON.stringify({ tasks: r.rows, source: "db-tasks", ts: Date.now() })}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.mjs:455:      res.write(`event: error\ndata: ${JSON.stringify({ error: String(e), ts: Date.now() })}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.mjs:466:app.get("/events/operator-guidance", (req, res) => {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.mjs:467:  res.writeHead(200, {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.mjs:468:    "Content-Type": "text/event-stream; charset=utf-8",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.mjs:483:    res.write(frame);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.mjs:613:      for (const res of this.clients) { try { res.write(frame); } catch (_) {} }
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.mjs:619:      try { res.write(`: connected ops\n\n`); } catch (_) {}
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.mjs:620:      if (this.last) { try { res.write(`id: ${this.last.id}\nevent: ${this.last.event}\ndata: ${this.last.data}\n\n`); } catch (_) {} }
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.mjs:628:    res.setHeader("Content-Type", "text/event-stream; charset=utf-8");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.mjs:644:    try { res.write(": ops-sse-connected\n\n"); } catch (_) {}
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/reflections.ts:9:  res.writeHead(200, {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/reflections.ts:10:    "Content-Type": "text/event-stream",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/reflections.ts:15:  res.write(`data: ${JSON.stringify({ status: "connected" })}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/reflections.ts:28:      res.write(`data: ${JSON.stringify(latest)}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/dev-server.ts:72:    res.writeHead(200, { "Content-Type": "application/json" });
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/dev-server.ts:88:    res.writeHead(200, { "Content-Type": mime });
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/dev-server.ts:91:    res.writeHead(404);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/ts-backup/verify-dashboard-sync.ts:7:    const response = await fetch(endpoint, { headers: { Accept: "text/event-stream" } });
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/ts-backup/agent.ts:26:      res.writeHead(200, { "Content-Type": "application/json" });
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/ts-backup/eventsAgents.ts:33:  res.setHeader("Content-Type", "text/event-stream");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/ts-backup/eventsAgents.ts:40:  const ping = setInterval(() => res.write("event: ping\ndata: {}\n\n"), 15000);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/ts-backup/events.ts:9:    "Content-Type": "text/event-stream",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/ts-backup/events.ts:15:  res.write(`event: ping\ndata: {}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/ts-backup/events.ts:20:      res.write(`event: agent\ndata: ${JSON.stringify({ agents })}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/ts-backup/reflections.ts:9:  res.writeHead(200, {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/ts-backup/reflections.ts:10:    "Content-Type": "text/event-stream",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/ts-backup/reflections.ts:15:  res.write(`data: ${JSON.stringify({ status: "connected" })}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/ts-backup/reflections.ts:28:      res.write(`data: ${JSON.stringify(latest)}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/ts-backup/dev-server.ts:72:    res.writeHead(200, { "Content-Type": "application/json" });
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/ts-backup/dev-server.ts:88:    res.writeHead(200, { "Content-Type": mime });
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/ts-backup/dev-server.ts:91:    res.writeHead(404);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/ts-backup/reflection-sse-server.ts:11:  res.writeHead(200, {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/ts-backup/reflection-sse-server.ts:12:    "Content-Type": "text/event-stream",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/ts-backup/reflection-sse-server.ts:17:  res.write(`data: ${JSON.stringify({ status: "connected" })}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/ts-backup/reflection-sse-server.ts:32:        res.write(`data: ${JSON.stringify(latest)}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/ts-backup/ops-sse-server.ts:10:  res.setHeader("Content-Type", "text/event-stream");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/ts-backup/ops-sse-server.ts:15:  res.write(`data: {"status":"connected"}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/ts-backup/ops-sse-server.ts:21:    res.write(`data: ${JSON.stringify(rows)}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/ts-backup/reflections-sse-server.ts:19:    "Content-Type": "text/event-stream",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/ts-backup/reflections-sse-server.ts:26:  res.write(`data: <0001fa9e> Reflections SSE stream initialized at ${new Date().toISOString()}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/ts-backup/reflections-sse-server.ts:31:    res.write(`data: ${msg}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/ts-backup/reflections-sse-server.ts:48:    "Content-Type": "text/event-stream",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/ts-backup/reflections-sse-server.ts:57:  res.write(`data: ${JSON.stringify(Object.fromEntries(agents.map(a => [a, "online"])))}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/ts-backup/reflections-sse-server.ts:60:    res.write(`data: ${JSON.stringify(Object.fromEntries(agents.map(a => [a, "online"])))}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/reflection-sse-server.ts:11:  res.writeHead(200, {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/reflection-sse-server.ts:12:    "Content-Type": "text/event-stream",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/reflection-sse-server.ts:17:  res.write(`data: ${JSON.stringify({ status: "connected" })}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/reflection-sse-server.ts:32:        res.write(`data: ${JSON.stringify(latest)}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/routes/reflections.ts:9:  res.writeHead(200, {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/routes/reflections.ts:10:    "Content-Type": "text/event-stream",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/routes/reflections.ts:15:  res.write(`data: ${JSON.stringify({ status: "connected" })}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/routes/reflections.ts:29:      res.write(`data: ${JSON.stringify(latest)}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/routes/routes/eventsAgents.ts:33:  res.setHeader("Content-Type", "text/event-stream");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/routes/routes/eventsAgents.ts:40:  const ping = setInterval(() => res.write("event: ping\ndata: {}\n\n"), 15000);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/routes/routes/events.ts:9:    "Content-Type": "text/event-stream",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/routes/routes/events.ts:15:  res.write(`event: ping\ndata: {}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/routes/routes/events.ts:20:      res.write(`event: agent\ndata: ${JSON.stringify({ agents })}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/routes/routes/reflections.ts:9:  res.writeHead(200, {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/routes/routes/reflections.ts:10:    "Content-Type": "text/event-stream",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/routes/routes/reflections.ts:15:  res.write(`data: ${JSON.stringify({ status: "connected" })}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/routes/routes/reflections.ts:29:      res.write(`data: ${JSON.stringify(latest)}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup_2/demo/verify-dashboard-sync.ts:7:    const response = await fetch(endpoint, { headers: { Accept: "text/event-stream" } });
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup_2/demo/reflection-pacer.js:8:const evtSource = new EventSource("http://localhost:3101/events/reflections");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup_2/sse/reflections-sse-server.ts:23:    "Content-Type": "text/event-stream",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup_2/sse/reflections-sse-server.ts:30:  res.write(`data: <0001fa9e> Reflections SSE stream initialized at ${new Date().toISOString()}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup_2/sse/reflections-sse-server.ts:35:    res.write(`data: ${msg}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup_2/sse/reflections-sse-server.ts:52:    "Content-Type": "text/event-stream",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup_2/sse/reflections-sse-server.ts:61:  res.write(`data: ${JSON.stringify(Object.fromEntries(agents.map(a => [a, "online"])))}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup_2/sse/reflections-sse-server.ts:64:    res.write(`data: ${JSON.stringify(Object.fromEntries(agents.map(a => [a, "online"])))}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup_2/server.cjs:23:          res.writeHead(200);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup_2/server.cjs:26:          res.writeHead(400);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup_2/server.cjs:36:        res.writeHead(404);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup_2/server.cjs:39:        res.writeHead(200);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup_2/api/command.cjs:21:          res.writeHead(200);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup_2/api/command.cjs:24:          res.writeHead(400);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup_2/api/command.cjs:29:      res.writeHead(404);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup_2/_local/route-loader/reflection-sse-server.ts:18:    "Content-Type": "text/event-stream",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup_2/_local/route-loader/reflection-sse-server.ts:22:  res.write(`data: {"status":"connected"}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup_2/_local/route-loader/ops-sse-server.ts:18:    "Content-Type": "text/event-stream",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup_2/_local/route-loader/ops-sse-server.ts:22:  res.write(`data: {"status":"connected"}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup_2/_local/dev-server.ts:72:    res.writeHead(200, { "Content-Type": "application/json" });
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup_2/_local/dev-server.ts:88:    res.writeHead(200, { "Content-Type": mime });
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup_2/_local/dev-server.ts:91:    res.writeHead(404);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup_2/servers/reflection-sse-server.ts:16:    "Content-Type": "text/event-stream",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup_2/servers/reflection-sse-server.ts:21:  res.write(`data: ${JSON.stringify({ status: "connected" })}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup_2/servers/reflection-sse-server.ts:36:        res.write(`data: ${JSON.stringify(latest)}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup_2/servers/ops-sse-server.ts:14:  (<any>res).setHeader("Content-Type", "text/event-stream");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup_2/servers/ops-sse-server.ts:19:  res.write(`data: {"status":"connected"}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup_2/servers/ops-sse-server.ts:25:    res.write(`data: ${JSON.stringify(rows)}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup_2/mirror/agent.mjs:26:      res.writeHead(200, { "Content-Type": "application/json" });
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/ops-sse-server.ts:10:  res.setHeader("Content-Type", "text/event-stream");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/ops-sse-server.ts:15:  res.write(`data: {"status":"connected"}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/ops-sse-server.ts:21:    res.write(`data: ${JSON.stringify(rows)}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/reflections-sse-server.ts:19:    "Content-Type": "text/event-stream",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/reflections-sse-server.ts:26:  res.write(`data: <0001fa9e> Reflections SSE stream initialized at ${new Date().toISOString()}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/reflections-sse-server.ts:31:    res.write(`data: ${msg}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/reflections-sse-server.ts:48:    "Content-Type": "text/event-stream",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/reflections-sse-server.ts:57:  res.write(`data: ${JSON.stringify(Object.fromEntries(agents.map(a => [a, "online"])))}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/reflections-sse-server.ts:60:    res.write(`data: ${JSON.stringify(Object.fromEntries(agents.map(a => [a, "online"])))}\n\n`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/mirror/agent.ts:26:      res.writeHead(200, { "Content-Type": "application/json" });
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/src/cognition/operatorGuidanceReducer.ts:11:} from "./operatorGuidance";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/src/cognition/operatorGuidanceReducer.ts:16:} from "./operatorGuidanceMapping";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/src/cognition/operatorGuidanceReducer.ts:17:import { assessGuidanceConfidence } from "./operatorGuidanceConfidence";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/src/cognition/operatorGuidance.smoke.ts:7:import { reduceOperatorHealthSurfaceToGuidance } from "./operatorGuidanceReducer";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/src/cognition/operatorGuidance.smoke.ts:8:import { assertOperatorGuidanceReductionSafe } from "./operatorGuidanceSafety";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/src/cognition/operatorGuidance.smoke.ts:9:import type { GuidanceSignalObservation } from "./operatorGuidanceMapping";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/src/cognition/operatorGuidance.smoke.ts:180:  process.stdout.write("operatorGuidance smoke matrix passed\n");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/src/cognition/operatorGuidance.live.ts:7:import { reduceOperatorHealthSurfaceToGuidance } from "./operatorGuidanceReducer";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/src/cognition/operatorGuidance.live.ts:8:import { assertOperatorGuidanceReductionSafe } from "./operatorGuidanceSafety";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/src/cognition/operatorGuidance.live.ts:9:import type { GuidanceSignalObservation } from "./operatorGuidanceMapping";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/src/cognition/operatorGuidanceMapping.ts:6:} from "./operatorGuidance";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/src/cognition/operatorGuidanceSafety.ts:13:} from "./operatorGuidance";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/src/cognition/operatorGuidanceSafety.ts:14:import type { OperatorGuidanceReduction } from "./operatorGuidanceReducer";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/src/cognition/operatorGuidanceConfidence.ts:12:import type { GuidanceConfidence } from "./operatorGuidance";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/src/cognition/operatorGuidanceConfidence.ts:13:import type { GuidanceSignalObservation } from "./operatorGuidanceMapping";
+
