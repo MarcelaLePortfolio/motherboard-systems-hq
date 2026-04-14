@@ -1,5 +1,4 @@
 (() => {
-  // HARD SINGLETON (per tab)
   if (window.__OPERATOR_GUIDANCE_STREAM_ACTIVE__) return;
   window.__OPERATOR_GUIDANCE_STREAM_ACTIVE__ = true;
 
@@ -16,37 +15,31 @@
   }
 
   function startStream() {
-    // 🚫 NEVER restart if already created
     if (eventSource) return;
 
-    eventSource = new EventSource("/api/operator-guidance");
+    eventSource = new EventSource("/events/operator-guidance");
 
     eventSource.onmessage = (event) => {
       try {
         const data = JSON.parse(event.data);
 
-        // 🔒 CRITICAL FIX — HARD OVERWRITE (NO ACCUMULATION)
         if (RESPONSE_EL) {
-          RESPONSE_EL.textContent = (data.message || "").trim();
+          RESPONSE_EL.textContent = String(data?.message ?? "").trim();
         }
 
         if (META_EL) {
-          META_EL.textContent = (data.meta || "").trim();
+          META_EL.textContent = String(data?.meta ?? "").trim();
         }
-
       } catch (_) {}
     };
 
     eventSource.onerror = () => {
-      // ❗ NEVER reconnect automatically
       closeStream();
     };
   }
 
-  // 🚀 RUN ONCE ONLY
   startStream();
 
-  // 🔒 NO RESTART ON VISIBILITY / FOCUS
   document.addEventListener("visibilitychange", () => {
     if (document.visibilityState === "hidden") {
       closeStream();
@@ -56,5 +49,4 @@
   window.addEventListener("beforeunload", () => {
     closeStream();
   });
-
 })();
