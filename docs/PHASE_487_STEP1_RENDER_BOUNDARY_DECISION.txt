@@ -1,0 +1,49 @@
+PHASE 487 — STEP 1 RENDER BOUNDARY DECISION
+
+Generated: 2026-04-14T03:22:10Z
+
+────────────────────────────────
+CANDIDATE SCORING
+────────────────────────────────
+ 185 | labels=19  exports=5   hooks=10  | /Users/marcela-dev/Projects/Motherboard_Systems_HQ/app/demo-runtime/page.tsx
+   7 | labels=0   exports=3   hooks=1   | /Users/marcela-dev/Projects/Motherboard_Systems_HQ/exports/dashboard_phase6.8/js/dashboard-ops.js
+   3 | labels=0   exports=1   hooks=0   | /Users/marcela-dev/Projects/Motherboard_Systems_HQ/exports/dashboard_phase6.8/js/dashboard-stream.js
+  -1 | labels=0   exports=3   hooks=5   | /Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard.backup.js
+  47 | labels=0   exports=19  hooks=5   | /Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/dashboard-status.js
+   4 | labels=0   exports=2   hooks=1   | /Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup_2/demo/verify-dashboard-sync.ts
+   4 | labels=0   exports=2   hooks=1   | /Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/demo/verify-dashboard-sync.ts
+   4 | labels=0   exports=2   hooks=1   | /Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/scripts/demo/verify-dashboard-sync.ts
+ 120 | labels=12  exports=0   hooks=0   | /Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/_local/phase136_governance_dashboard_consumption_report.ts
+ 123 | labels=12  exports=1   hooks=0   | /Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/_local/phase136_governance_dashboard_consumption_smoke.ts
+ 140 | labels=14  exports=0   hooks=0   | /Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/_local/phase137_governance_dashboard_contract_registration_report.ts
+ 153 | labels=15  exports=1   hooks=0   | /Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/_local/phase137_governance_dashboard_contract_registration_smoke.ts
+
+────────────────────────────────
+RECOMMENDED SELECTION CRITERIA
+────────────────────────────────
+Choose the file with:
+1. highest label density,
+2. visible dashboard/operator text present,
+3. lowest hook/logic density,
+4. enough existing layout content to regroup by wrappers only.
+
+────────────────────────────────
+TOP CANDIDATES
+────────────────────────────────
+1. /Users/marcela-dev/Projects/Motherboard_Systems_HQ/app/demo-runtime/page.tsx
+   score=185 labels=19 exports=5 hooks=10
+2. /Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/_local/phase137_governance_dashboard_contract_registration_smoke.ts
+   score=153 labels=15 exports=1 hooks=0
+3. /Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/_local/phase137_governance_dashboard_contract_registration_report.ts
+   score=140 labels=14 exports=0 hooks=0
+4. /Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/_local/phase136_governance_dashboard_consumption_smoke.ts
+   score=123 labels=12 exports=1 hooks=0
+5. /Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/_local/phase136_governance_dashboard_consumption_report.ts
+   score=120 labels=12 exports=0 hooks=0
+
+────────────────────────────────
+NEXT ACTION
+────────────────────────────────
+Open the #1 candidate first.
+If it contains the visible dashboard sections and can be regrouped by wrappers only, use it as the Phase 487 Step 1 mutation boundary.
+If not, fall through to the next candidate.
