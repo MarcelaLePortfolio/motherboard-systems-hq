@@ -287,6 +287,66 @@ export default function DemoRuntimePage() {
               background: "#fafafa",
             }}
           >
+            <h3 style={{ marginTop: 0, marginBottom: "0.65rem" }}>Request</h3>
+            <p style={{ marginTop: 0, marginBottom: "0.75rem", lineHeight: 1.5 }}>
+              <strong>Request ID:</strong> {report.requestId}
+            </p>
+            <div>
+              <strong>Natural-language prompt:</strong>
+              <div
+                style={{
+                  marginTop: "0.5rem",
+                  padding: "0.85rem",
+                  borderRadius: "0.65rem",
+                  border: "1px solid #ddd",
+                  background: "#fff",
+                  whiteSpace: "pre-wrap",
+                  lineHeight: 1.6,
+                }}
+              >
+                {report.requestSummary}
+              </div>
+            </div>
+          </div>
+
+          <div
+            style={{
+              border: "1px solid #e2e2e2",
+              borderRadius: "0.75rem",
+              padding: "1rem",
+              marginBottom: "1rem",
+              background: "#fafafa",
+            }}
+          >
+            <h3 style={{ marginTop: 0, marginBottom: "0.65rem" }}>Admission</h3>
+            <GovernanceTraceRow label="Decision" value={report.admissionDecision} />
+            <GovernanceTraceRow label="Approval present" value={report.generatedRequest.approved ? "YES" : "NO"} />
+            <GovernanceTraceRow label="Governance evaluated" value={report.generatedRequest.governanceEvaluated ? "YES" : "NO"} />
+            <GovernanceTraceRow label="Authority ordering valid" value={report.generatedRequest.authorityOrderingValid ? "YES" : "NO"} />
+            <p style={{ marginBottom: 0, lineHeight: 1.6 }}>
+              <strong>Governance explanation:</strong> {governanceExplanation}
+            </p>
+            {report.denialReasons.length > 0 ? (
+              <>
+                <h4 style={{ marginBottom: "0.5rem" }}>Denial reasons</h4>
+                <ul style={{ marginTop: 0 }}>
+                  {report.denialReasons.map((reason) => (
+                    <li key={reason}>{reason}</li>
+                  ))}
+                </ul>
+              </>
+            ) : null}
+          </div>
+
+          <div
+            style={{
+              border: "1px solid #e2e2e2",
+              borderRadius: "0.75rem",
+              padding: "1rem",
+              marginBottom: "1rem",
+              background: "#fafafa",
+            }}
+          >
             <h3 style={{ marginTop: 0, marginBottom: "0.65rem" }}>Execution</h3>
 
             <p><strong>Traversal order:</strong></p>
