@@ -1,0 +1,92 @@
+PHASE 487 — STEP 1
+DEFINITION TEMPLATE (REQUIRED BEFORE START)
+
+────────────────────────────────
+
+OBJECTIVE
+
+Provide a structured template that MUST be completed
+before Phase 487 work can begin.
+
+────────────────────────────────
+
+1. PHASE OBJECTIVE
+
+(Define the exact new capability being introduced)
+
+Example:
+Introduce rule-level governance trace visibility
+through contract expansion and safe UI exposure.
+
+────────────────────────────────
+
+2. SCOPE BOUNDARY
+
+(Select allowed layers — must be explicit)
+
+Allowed:
+[ ] UI
+[ ] Transport
+[ ] Contract
+[ ] Governance
+[ ] Execution
+
+Describe boundary:
+
+────────────────────────────────
+
+3. ALLOWED MUTATIONS
+
+(List ONLY what is permitted)
+
+• 
+• 
+• 
+
+────────────────────────────────
+
+4. PROHIBITED MUTATIONS
+
+(List what must remain frozen)
+
+• 
+• 
+• 
+
+────────────────────────────────
+
+5. RISK CLASSIFICATION
+
+Select one:
+
+LOW / MEDIUM / HIGH
+
+Justification:
+
+────────────────────────────────
+
+6. SUCCESS CONDITION
+
+(Define exact completion criteria)
+
+• 
+• 
+• 
+
+────────────────────────────────
+
+ENFORCEMENT
+
+Phase 487 CANNOT begin until:
+
+• All fields above are filled
+• Scope is unambiguous
+• Mutations are bounded
+• Success condition is testable
+
+────────────────────────────────
+
+CLASSIFICATION
+
+PHASE 487 DEFINITION REQUIRED
+
