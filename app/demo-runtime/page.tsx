@@ -343,10 +343,21 @@ export default function DemoRuntimePage() {
             }}
           >
             <h3 style={{ marginTop: 0, marginBottom: "0.65rem" }}>Execution</h3>
-            <p style={{ marginTop: 0 }}>
+            <p style={{ marginTop: 0, marginBottom: "0.5rem" }}>
               <strong>Deterministic traversal order:</strong>
             </p>
-            <ol style={{ marginTop: "0.5rem" }}>
+            <h4 style={{ marginTop: 0, marginBottom: "0.5rem" }}>Traversal order</h4>
+            {report.traversalOrder.length > 0 ? (
+              <ol style={{ marginTop: 0, marginBottom: "1rem" }}>
+                {report.traversalOrder.map((entry) => (
+                  <li key={entry}>{entry}</li>
+                ))}
+              </ol>
+            ) : (
+              <p style={{ marginTop: 0, marginBottom: "1rem", lineHeight: 1.6 }}>NO DATA</p>
+            )}
+            <h4 style={{ marginTop: 0, marginBottom: "0.5rem" }}>Task definitions</h4>
+            <ol style={{ marginTop: "0.5rem", marginBottom: 0 }}>
               {report.generatedRequest.tasks.map((task) => (
                 <li key={task.id}>
                   {task.id}: {task.name}
