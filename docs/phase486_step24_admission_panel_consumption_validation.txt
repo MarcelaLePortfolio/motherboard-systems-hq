@@ -1,0 +1,74 @@
+PHASE 486 — STEP 24
+ADMISSION PANEL CONSUMPTION VALIDATION
+
+OBJECTIVE
+
+Validate that Step 23 remained a UI-only mutation and that the
+Admission panel refinement used only existing report fields.
+
+COMMIT UNDER VALIDATION
+94507e3fa19f8c1397b969cb3a765d51cd270a8f
+94507e3f Phase 486 Step 23: add passive admission-condition rows to admission panel
+
+FILES CHANGED IN LAST COMMIT
+app/demo-runtime/page.tsx
+
+BACKEND-SCOPE CHANGE CHECK
+RESULT: PASS
+Reason: last commit changed only app/demo-runtime/page.tsx.
+
+TARGET FILE DIFF
+diff --git a/app/demo-runtime/page.tsx b/app/demo-runtime/page.tsx
+index 431ac49f..4167d604 100644
+--- a/app/demo-runtime/page.tsx
++++ b/app/demo-runtime/page.tsx
+@@ -315,9 +315,19 @@ export default function DemoRuntimePage() {
+             }}
+           >
+             <h3 style={{ marginTop: 0, marginBottom: "0.65rem" }}>Admission</h3>
+-            <p style={{ marginTop: 0, lineHeight: 1.6 }}>
+-              <strong>Decision:</strong> {report.admissionDecision}
+-            </p>
++            <GovernanceTraceRow label="Decision" value={report.admissionDecision} />
++            <GovernanceTraceRow
++              label="Approval present"
++              value={report.generatedRequest.approved ? "YES" : "NO"}
++            />
++            <GovernanceTraceRow
++              label="Governance evaluated"
++              value={report.generatedRequest.governanceEvaluated ? "YES" : "NO"}
++            />
++            <GovernanceTraceRow
++              label="Authority ordering valid"
++              value={report.generatedRequest.authorityOrderingValid ? "YES" : "NO"}
++            />
+             <p style={{ marginBottom: 0, lineHeight: 1.6 }}>
+               <strong>Governance explanation:</strong> {governanceExplanation}
+             </p>
+
+ADMISSION PANEL SIGNAL CHECK
+23:  admissionDecision: "ADMITTED" | "DENIED";
+92:    if (report.admissionDecision === "ADMITTED") {
+189:            Governance evaluated
+198:            Authority ordering valid
+246:            <SummaryBadge label="Admission" value={report.admissionDecision} />
+262:            <GovernanceTraceRow label="Admission decision" value={report.admissionDecision} />
+264:              label="Approval present"
+268:              label="Governance evaluated"
+272:              label="Authority ordering valid"
+277:              <strong>Denial reasons:</strong>
+317:            <h3 style={{ marginTop: 0, marginBottom: "0.65rem" }}>Admission</h3>
+318:            <GovernanceTraceRow label="Decision" value={report.admissionDecision} />
+320:              label="Approval present"
+324:              label="Governance evaluated"
+328:              label="Authority ordering valid"
+332:              <strong>Governance explanation:</strong> {governanceExplanation}
+336:                <h4 style={{ marginBottom: "0.5rem" }}>Denial reasons</h4>
+
+NO-TRANSFORMATION CHECK
+RESULT: PASS
+Reason: Admission panel refinement uses direct existing values only.
+
+TYPECHECK
+undefined
+ ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL  Command "tsc" not found
