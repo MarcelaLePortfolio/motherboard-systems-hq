@@ -1,0 +1,399 @@
+PHASE 489 — H5 TASK ACTIVITY WIRING TRACE
+Generated: 2026-04-14T21:38:01Z
+Repo Root: /Users/marcela-dev/Projects/Motherboard_Systems_HQ
+
+=== TASK ACTIVITY DOM ANCHORS ===
+146-      height: 11.5rem;
+147-      overflow-y: auto;
+148-    }
+149-
+150-    #recentTasks,
+151-    #recentLogs,
+152-    #mb-task-events-panel-anchor {
+153-      min-height: 9.5rem;
+154-    }
+155-
+156:    #task-activity-graph {
+157-      width: 100% !important;
+158-      height: 100% !important;
+159-    }
+160-
+161-    #operator-guidance-panel,
+162-    #delegation-status-panel {
+163-      min-height: 7.5rem !important;
+164-    }
+165-
+166-    textarea,
+167-    button,
+168-    .obs-tab {
+169-      -webkit-font-smoothing: antialiased;
+170-    }
+171-
+172-    @media (max-width: 1279px) {
+173-      html {
+174-        font-size: 13px;
+175-      }
+176-
+--
+360-        <section id="phase61-telemetry-column" class="space-y-4" aria-label="Observational workspace">
+361-          <section id="observational-workspace-card" class="bg-gray-800 rounded-2xl shadow-lg border border-gray-700" data-workspace-root>
+362-            <div class="flex items-center justify-between mb-3 border-b border-gray-700 pb-3">
+363-              <h2 class="text-xl font-semibold">Telemetry Console</h2>
+364-            </div>
+365-
+366-            <div id="observational-tabs" role="tablist" aria-label="Telemetry workspace tabs">
+367-              <button id="obs-tab-recent" class="obs-tab active" type="button" data-workspace-tab data-target="obs-panel-recent" role="tab" aria-selected="true" aria-controls="obs-panel-recent">
+368-                Recent Tasks
+369-              </button>
+370:              <button id="obs-tab-activity" class="obs-tab" type="button" data-workspace-tab data-target="obs-panel-activity" role="tab" aria-selected="false" aria-controls="obs-panel-activity">
+371-                Task Activity
+372-              </button>
+373-              <button id="obs-tab-events" class="obs-tab" type="button" data-workspace-tab data-target="obs-panel-events" role="tab" aria-selected="false" aria-controls="obs-panel-events">
+374-                Task History / Events
+375-              </button>
+376-            </div>
+377-
+378-            <div id="observational-panels">
+379-              <div id="obs-panel-recent" class="obs-panel active" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-recent">
+380-                <section id="recent-tasks-card" class="obs-surface space-y-3">
+381-                  <div>
+382-                    <h3 class="text-sm uppercase tracking-[0.2em] text-gray-400 mb-2">Recent Tasks</h3>
+383-                    <div id="recentTasks" class="bg-gray-900 border border-gray-700 rounded-xl p-3 text-sm text-gray-300"></div>
+384-                  </div>
+385-                  <div>
+386-                    <h3 class="text-sm uppercase tracking-[0.2em] text-gray-400 mb-2">Recent Logs</h3>
+387-                    <div id="recentLogs" class="bg-gray-900 border border-gray-700 rounded-xl p-3 text-sm text-gray-300"></div>
+388-                  </div>
+389-                </section>
+390-              </div>
+391-
+392:              <div id="obs-panel-activity" class="obs-panel" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-activity" hidden>
+393:                <section id="task-activity-card" class="obs-surface">
+394-                  <div class="h-64 bg-gray-900 border border-gray-700 rounded-xl p-3">
+395:                    <canvas id="task-activity-graph" class="w-full h-full"></canvas>
+396-                  </div>
+397-                </section>
+398-              </div>
+399-
+400-              <div id="obs-panel-events" class="obs-panel" data-workspace-panel role="tabpanel" aria-labelledby="obs-tab-events" hidden>
+401-                <section id="task-events-card" class="obs-surface">
+402-                  <div id="mb-task-events-panel-anchor" class="bg-gray-900 border border-gray-700 rounded-xl p-3 text-sm text-gray-300"></div>
+403-                </section>
+404-              </div>
+405-            </div>
+406-          </section>
+407-        </section>
+408-      </div>
+409-    </section>
+410-
+411-    <section id="atlas-status-card" class="bg-gray-800 rounded-2xl shadow-lg border border-gray-700">
+412-      <h2 class="text-xl font-semibold mb-3 border-b border-gray-700 pb-2 flex justify-between items-center">
+413-        Atlas Subsystem Status
+414-        <span id="atlas-health" class="text-sm font-medium px-2 py-1 rounded-full bg-orange-500 text-white">
+415-          Degraded
+
+=== SERVED SCRIPT TAGS RELEVANT TO TASK ACTIVITY ===
+156:    #task-activity-graph {
+393:                <section id="task-activity-card" class="obs-surface">
+395:                    <canvas id="task-activity-graph" class="w-full h-full"></canvas>
+454:  <script defer src="js/phase61_tabs_workspace.js"></script>
+456:  <script defer src="js/dashboard-graph.js"></script>
+
+=== TASK ACTIVITY CLIENT FILES ===
+--- FILE: /Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/dashboard-graph.js ---
+// <0001fae8> Phase 6.3 — Task Activity Graph (Phase One)
+import { Chart, registerables } from "chart.js";
+Chart.register(...registerables);
+
+const ctx = document.getElementById("taskActivityGraph").getContext("2d");
+let chart;
+
+async function fetchOPSData() {
+  const res = await fetch("/tmp/ops.json").catch(() => null);
+  if (!res || !res.ok) return [];
+  return await res.json();
+}
+
+async function renderGraph() {
+  const data = await fetchOPSData();
+  const labels = data.map((d) => new Date(d.created_at).toLocaleTimeString());
+  const counts = data.map((_, i) => i + 1);
+
+  if (chart) chart.destroy();
+  chart = new Chart(ctx, {
+    type: "line",
+    data: {
+      labels,
+      datasets: [
+        {
+          label: "Task Activity",
+          data: counts,
+          borderWidth: 2,
+          fill: false,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: true },
+      },
+      scales: {
+        x: { title: { display: true, text: "Time" } },
+        y: { title: { display: true, text: "Task Count" }, beginAtZero: true },
+      },
+    },
+  });
+}
+
+setInterval(renderGraph, 3000);
+renderGraph();
+
+--- FILE: /Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/task-activity.js ---
+// This script initializes the Task Activity Chart using Chart.js.
+
+// Note: We use the global Chart object provided by the Chart.js CDN (chart.umd.js).
+
+document.addEventListener('DOMContentLoaded', () => {
+    const ctx = document.getElementById('task-activity-graph').getContext('2d');
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00'],
+            datasets: [{
+                label: 'Tasks Completed',
+                data: [12, 19, 3, 5, 2, 3, 7],
+                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderWidth: 1
+            },
+            {
+                label: 'Tasks Delegated',
+                data: [8, 11, 2, 4, 1, 2, 5],
+                borderColor: 'rgba(255, 159, 64, 1)',
+                backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+});
+
+--- FILE: /Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/task-activity-graph.js ---
+// <0001fc22> Phase 2.2 — Exported Task Activity Graph Renderer
+
+import { Chart } from "chart.js";
+
+let activityChart;
+
+/**
+ * Exported so dashboard-graph-loader.js can import it.
+ */
+export function renderTaskActivityGraph(ctx, tasks) {
+    // Extract labels and datasets
+    const labels = tasks.map(t => new Date(t.timestamp * 1000).toLocaleTimeString());
+    const completedData = tasks.map(t => t.status === "completed" ? 1 : 0);
+    const failedData = tasks.map(t => t.status === "failed" ? 1 : 0);
+
+    // If chart exists, update it
+    if (activityChart) {
+        activityChart.data.labels = labels;
+        activityChart.data.datasets[0].data = completedData;
+        activityChart.data.datasets[1].data = failedData;
+        activityChart.update();
+        return;
+    }
+
+    // Otherwise create new chart
+    activityChart = new Chart(ctx, {
+        type: "line",
+        data: {
+            labels,
+            datasets: [
+                {
+                    label: "Completed",
+                    data: completedData,
+                    borderColor: "#10b981",
+                    backgroundColor: "rgba(16, 185, 129, 0.2)",
+                    borderWidth: 2,
+                    fill: true
+                },
+                {
+                    label: "Failed",
+                    data: failedData,
+                    borderColor: "#ef4444",
+                    backgroundColor: "rgba(239, 68, 68, 0.2)",
+                    borderWidth: 2,
+                    fill: true
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: { beginAtZero: true }
+            }
+        }
+    });
+}
+
+=== CHART / TASK ACTIVITY CODE REFERENCES ===
+
+=== LIVE ENDPOINT CHECKS ===
+--- http://localhost:8080/api/runs?limit=20 ---
+HTTP/1.1 500 Internal Server Error
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 59
+ETag: W/"3b-HWni3vqXg1dGsDK7wdfBxf9eE/w"
+Date: Tue, 14 Apr 2026 21:38:01 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"ok":false,"error":"relation \"run_view\" does not exist"}
+--- http://localhost:8080/api/tasks ---
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 3846
+ETag: W/"f06-WPF6CdBjzj3HtHAxYEWviiSfETU"
+Date: Tue, 14 Apr 2026 21:38:01 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"ok":true,"tasks":[{"id":212,"task_id":"task.f0c5a1f7-8b13-475a-944e-082fadb76694","title":"H4 stream task #210","status":"queued","updated_at":"2026-04-14T21:37:59.902Z"},{"id":211,"task_id":"task.3e5638b4-992d-405d-96fe-4640718c6455","title":"H4 stream task #209","status":"queued","updated_at":"2026-04-14T21:37:57.841Z"},{"id":210,"task_id":"task.d8aa1be6-5a7c-4f07-adc9-19fec1327ece","title":"H4 stream task #208","status":"queued","updated_at":"2026-04-14T21:37:55.788Z"},{"id":209,"task_id":"task.fd3bdb47-0ff8-4faf-8517-029fd00d0a9c","title":"H4 stream task #207","status":"queued","updated_at":"2026-04-14T21:37:53.735Z"},{"id":208,"task_id":"task.b59f2597-4b21-4ed6-a87a-19ebc73d19f2","title":"H4 stream task #206","status":"queued","updated_at":"2026-04-14T21:37:51.684Z"},{"id":207,"task_id":"task.9cbe2b44-5e09-4269-bf6d-facbab1d582b","title":"H4 stream task #205","status":"queued","updated_at":"2026-04-14T21:37:49.643Z"},{"id":206,"task_id":"task.18db931f-9393-4e60-8dc3-1fd7f4905c0d","title":"H4 stream task #204","status":"queued","updated_at":"2026-04-14T21:37:47.598Z"},{"id":205,"task_id":"task.0dc34576-6ab8-453a-a4c0-a7eea13bbb7f","title":"H4 stream task #203","status":"queued","updated_at":"2026-04-14T21:37:45.558Z"},{"id":204,"task_id":"task.fb484ebf-4460-4313-8678-d20db8cebc09","title":"H4 stream task #202","status":"queued","updated_at":"2026-04-14T21:37:43.510Z"},{"id":203,"task_id":"task.8696b6ed-3655-4f32-8116-8d579bd48a8a","title":"H4 stream task #201","status":"queued","updated_at":"2026-04-14T21:37:41.456Z"},{"id":202,"task_id":"task.40624249-7b5e-40bf-b8f7-37aac2f8a5c3","title":"H4 stream task #200","status":"queued","updated_at":"2026-04-14T21:37:39.407Z"},{"id":201,"task_id":"task.82f0dcf6-4a73-406a-b289-5af76ed28b24","title":"H4 stream task #199","status":"queued","updated_at":"2026-04-14T21:37:37.355Z"},{"id":200,"task_id":"task.e01692cc-28f5-48ad-85db-f4407354f1dc","title":"H4 stream task #198","status":"queued","updated_at":"2026-04-14T21:37:35.303Z"},{"id":199,"task_id":"task.62251cdb-9b4c-4ee9-a0be-9a54a5dff0e2","title":"H4 stream task #197","status":"queued","updated_at":"2026-04-14T21:37:33.249Z"},{"id":198,"task_id":"task.cc0f5ece-ac1d-40b7-8c8e-91bba2e7fe53","title":"H4 stream task #196","status":"queued","updated_at":"2026-04-14T21:37:31.195Z"},{"id":197,"task_id":"task.e89d8478-8218-4c61-81aa-f27177040085","title":"H4 stream task #195","status":"queued","updated_at":"2026-04-14T21:37:29.142Z"},{"id":196,"task_id":"task.e7ce3297-d423-4f48-81ef-719f809f0981","title":"H4 stream task #194","status":"queued","updated_at":"2026-04-14T21:37:27.089Z"},{"id":195,"task_id":"task.074c7c8a-480b-4fcc-a8ce-3991c610ac17","title":"H4 stream task #193","status":"queued","updated_at":"2026-04-14T21:37:25.037Z"},{"id":194,"task_id":"task.eac920f7-b31a-498c-99ce-b1ed393a11dd","title":"H4 stream task #192","status":"queued","updated_at":"2026-04-14T21:37:22.982Z"},{"id":193,"task_id":"task.03fffce8-64d3-45b8-8938-a7f7e523aa70","title":"H4 stream task #191","status":"queued","updated_at":"2026-04-14T21:37:20.929Z"},{"id":192,"task_id":"task.124f4700-46b7-4397-84f1-0090ad064639","title":"H4 stream task #190","status":"queued","updated_at":"2026-04-14T21:37:18.877Z"},{"id":191,"task_id":"task.9629dac3-36f4-47f1-a1de-ade557e8c2b8","title":"H4 stream task #189","status":"queued","updated_at":"2026-04-14T21:37:16.824Z"},{"id":190,"task_id":"task.d8c4c0dd-d298-4ccc-8552-18260ce14f05","title":"H4 stream task #188","status":"queued","updated_at":"2026-04-14T21:37:14.772Z"},{"id":189,"task_id":"task.b6e04a79-7062-47f0-a1dd-33191f1a0136","title":"H4 stream task #187","status":"queued","updated_at":"2026-04-14T21:37:12.723Z"},{"id":188,"task_id":"task.25add068-90b6-4a85-8b46-0d23317ec1cf","title":"H4 stream task #186","status":"queued","updated_at":"2026-04-14T21:37:10.681Z"}]}
+--- http://localhost:8080/events/task-events?cursor=0 ---
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: text/event-stream; charset=utf-8
+Cache-Control: no-cache, no-transform
+Connection: keep-alive
+X-Accel-Buffering: no
+Date: Tue, 14 Apr 2026 21:38:01 GMT
+Transfer-Encoding: chunked
+
+event: hello
+data: {"kind":"task-events","cursor":0,"ts":1776202681661}
+
+event: task.created
+data: {"title":"Phase 489 telemetry validation event","source":"phase489-h2-seed","status":"created","message":"Synthetic task event inserted to validate Task Events panel","id":"1","task_id":"phase489-demo-task","taskId":"phase489-demo-task","kind":"task.created","actor":"operator","run_id":"phase489-demo-run","runId":"phase489-demo-run","ts":1776192326355,"created_at":"2026-04-14T18:45:26.354Z"}
+
+event: task.event
+data: {"title":"Phase 489 telemetry validation event","source":"phase489-h2-seed","status":"created","message":"Synthetic task event inserted to validate Task Events panel","id":"1","task_id":"phase489-demo-task","taskId":"phase489-demo-task","kind":"task.created","actor":"operator","run_id":"phase489-demo-run","runId":"phase489-demo-run","ts":1776192326355,"created_at":"2026-04-14T18:45:26.354Z"}
+
+event: task.created
+data: {"ts":1776201939663,"meta":null,"task":{"id":"1","kind":"delegated","notes":"Verify dbDelegateTask after tasks.run_id bootstrap","title":"Phase 489 H3 delegate verify task","run_id":null,"status":"queued","payload":{"meta":null,"agent":"Cade","source":"phase489-h3-verify","trace_id":null},"task_id":"task.8f999a49-5fa2-43fd-8e44-d01dc7362290","created_at":"2026-04-14T21:25:39.660Z","updated_at":"2026-04-14T21:25:39.660Z","action_tier":"A"},"actor":"Cade","title":"Phase 489 H3 delegate verify task","run_id":null,"source":"phase489-h3-verify","status":"queued","target":"Cade","task_id":"task.8f999a49-5fa2-43fd-8e44-d01dc7362290","id":"2","taskId":"task.8f999a49-5fa2-43fd-8e44-d01dc7362290","kind":"task.created","runId":null,"created_at":"2026-04-14T21:25:39.670Z"}
+
+event: task.event
+data: {"ts":1776201939663,"meta":null,"task":{"id":"1","kind":"delegated","notes":"Verify dbDelegateTask after tasks.run_id bootstrap","title":"Phase 489 H3 delegate verify task","run_id":null,"status":"queued","payload":{"meta":null,"agent":"Cade","source":"phase489-h3-verify","trace_id":null},"task_id":"task.8f999a49-5fa2-43fd-8e44-d01dc7362290","created_at":"2026-04-14T21:25:39.660Z","updated_at":"2026-04-14T21:25:39.660Z","action_tier":"A"},"actor":"Cade","title":"Phase 489 H3 delegate verify task","run_id":null,"source":"phase489-h3-verify","status":"queued","target":"Cade","task_id":"task.8f999a49-5fa2-43fd-8e44-d01dc7362290","id":"2","taskId":"task.8f999a49-5fa2-43fd-8e44-d01dc7362290","kind":"task.created","runId":null,"created_at":"2026-04-14T21:25:39.670Z"}
+
+event: task.created
+data: {"ts":1776201939681,"meta":{"taskspec":null,"external_task_id":null},"task":{"id":"2","kind":"delegated","notes":"","title":"Phase 489 H3 taskspec verify task","run_id":null,"status":"queued","payload":{"meta":{"taskspec":null,"external_task_id":null},"agent":"effie","source":"matilda","trace_id":null},"task_id":"task.af75a0c8-41f7-45e5-9196-4553186198ca","created_at":"2026-04-14T21:25:39.680Z","updated_at":"2026-04-14T21:25:39.680Z","action_tier":"A"},"actor":"effie","title":"Phase 489 H3 taskspec verify task","run_id":null,"source":"matilda","status":"queued","target":"effie","task_id":"task.af75a0c8-41f7-45e5-9196-4553186198ca","id":"3","taskId":"task.af75a0c8-41f7-45e5-9196-4553186198ca","kind":"task.created","runId":null,"created_at":"2026-04-14T21:25:39.688Z"}
+
+event: task.event
+data: {"ts":1776201939681,"meta":{"taskspec":null,"external_task_id":null},"task":{"id":"2","kind":"delegated","notes":"","title":"Phase 489 H3 taskspec verify task","run_id":null,"status":"queued","payload":{"meta":{"taskspec":null,"external_task_id":null},"agent":"effie","source":"matilda","trace_id":null},"task_id":"task.af75a0c8-41f7-45e5-9196-4553186198ca","created_at":"2026-04-14T21:25:39.680Z","updated_at":"2026-04-14T21:25:39.680Z","action_tier":"A"},"actor":"effie","title":"Phase 489 H3 taskspec verify task","run_id":null,"source":"matilda","status":"queued","target":"effie","task_id":"task.af75a0c8-41f7-45e5-9196-4553186198ca","id":"3","taskId":"task.af75a0c8-41f7-45e5-9196-4553186198ca","kind":"task.created","runId":null,"created_at":"2026-04-14T21:25:39.688Z"}
+
+event: task.created
+data: {"ts":1776202232181,"meta":null,"task":{"id":"3","kind":"delegated","notes":"Continuous telemetry generation","title":"H4 stream task #1","run_id":null,"status":"queued","payload":{"meta":null,"agent":"Cade","source":"phase489-h4-generator","trace_id":null},"task_id":"task.eeed08f3-ce1f-42f7-be82-16c93f78fa07","created_at":"2026-04-14T21:30:32.179Z","updated_at":"2026-04-14T21:30:32.179Z","action_tier":"A"},"actor":"Cade","title":"H4 stream task #1","run_id":null,"source":"phase489-h4-generator","status":"queued","target":"Cade","task_id":"task.eeed08f3-ce1f-42f7-be82-16c93f78fa07","id":"4","taskId":"task.eeed08f3-ce1f-42f7-be82-16c93f78fa07","kind":"task.created","runId":null,"created_at":"2026-04-14T21:30:32.188Z"}
+
+event: task.event
+data: {"ts":1776202232181,"meta":null,"task":{"id":"3","kind":"delegated","notes":"Continuous telemetry generation","title":"H4 stream task #1","run_id":null,"status":"queued","payload":{"meta":null,"agent":"Cade","source":"phase489-h4-generator","trace_id":null},"task_id":"task.eeed08f3-ce1f-42f7-be82-16c93f78fa07","created_at":"2026-04-14T21:30:32.179Z","updated_at":"2026-04-14T21:30:32.179Z","action_tier":"A"},"actor":"Cade","title":"H4 stream task #1","run_id":null,"source":"phase489-h4-generator","status":"queued","target":"Cade","task_id":"task.eeed08f3-ce1f-42f7-be82-16c93f78fa07","id":"4","taskId":"task.eeed08f3-ce1f-42f7-be82-16c93f78fa07","kind":"task.created","runId":null,"created_at":"2026-04-14T21:30:32.188Z"}
+
+event: task.created
+data: {"ts":1776202234226,"meta":null,"task":{"id":"4","kind":"delegated","notes":"Continuous telemetry generation","title":"H4 stream task #2","run_id":null,"status":"queued","payload":{"meta":null,"agent":"Cade","source":"phase489-h4-generator","trace_id":null},"task_id":"task.18f74027-4a5d-4926-a085-de0b640d5a46","created_at":"2026-04-14T21:30:34.224Z","updated_at":"2026-04-14T21:30:34.224Z","action_tier":"A"},"actor":"Cade","title":"H4 stream task #2","run_id":null,"source":"phase489-h4-generator","status":"queued","target":"Cade","task_id":"task.18f74027-4a5d-4926-a085-de0b640d5a46","id":"5","taskId":"task.18f74027-4a5d-4926-a085-de0b640d5a46","kind":"task.created","runId":null,"created_at":"2026-04-14T21:30:34.239Z"}
+
+event: task.event
+data: {"ts":1776202234226,"meta":null,"task":{"id":"4","kind":"delegated","notes":"Continuous telemetry generation","title":"H4 stream task #2","run_id":null,"status":"queued","payload":{"meta":null,"agent":"Cade","source":"phase489-h4-generator","trace_id":null},"task_id":"task.18f74027-4a5d-4926-a085-de0b640d5a46","created_at":"2026-04-14T21:30:34.224Z","updated_at":"2026-04-14T21:30:34.224Z","action_tier":"A"},"actor":"Cade","title":"H4 stream task #2","run_id":null,"source":"phase489-h4-generator","status":"queued","target":"Cade","task_id":"task.18f74027-4a5d-4926-a085-de0b640d5a46","id":"5","taskId":"task.18f74027-4a5d-4926-a085-de0b640d5a46","kind":"task.created","runId":null,"created_at":"2026-04-14T21:30:34.239Z"}
+
+event: task.created
+data: {"ts":1776202236283,"meta":null,"task":{"id":"5","kind":"delegated","notes":"Continuous telemetry generation","title":"H4 stream task #3","run_id":null,"status":"queued","payload":{"meta":null,"agent":"Cade","source":"phase489-h4-generator","trace_id":null},"task_id":"task.d00cab0e-d0a6-4ba9-8c43-2615acfff3bc","created_at":"2026-04-14T21:30:36.280Z","updated_at":"2026-04-14T21:30:36.280Z","action_tier":"A"},"actor":"Cade","title":"H4 stream task #3","run_id":null,"source":"phase489-h4-generator","status":"queued","target":"Cade","task_id":"task.d00cab0e-d0a6-4ba9-8c43-2615acfff3bc","id":"6","taskId":"task.d00cab0e-d0a6-4ba9-8c43-2615acfff3bc","kind":"task.created","runId":null,"created_at":"2026-04-14T21:30:36.296Z"}
+
+event: task.event
+data: {"ts":1776202236283,"meta":null,"task":{"id":"5","kind":"delegated","notes":"Continuous telemetry generation","title":"H4 stream task #3","run_id":null,"status":"queued","payload":{"meta":null,"agent":"Cade","source":"phase489-h4-generator","trace_id":null},"task_id":"task.d00cab0e-d0a6-4ba9-8c43-2615acfff3bc","created_at":"2026-04-14T21:30:36.280Z","updated_at":"2026-04-14T21:30:36.280Z","action_tier":"A"},"actor":"Cade","title":"H4 stream task #3","run_id":null,"source":"phase489-h4-generator","status":"queued","target":"Cade","task_id":"task.d00cab0e-d0a6-4ba9-8c43-2615acfff3bc","id":"6","taskId":"task.d00cab0e-d0a6-4ba9-8c43-2615acfff3bc","kind":"task.created","runId":null,"created_at":"2026-04-14T21:30:36.296Z"}
+
+event: task.created
+data: {"ts":1776202238337,"meta":null,"task":{"id":"6","kind":"delegated","notes":"Continuous telemetry generation","title":"H4 stream task #4","run_id":null,"status":"queued","payload":{"meta":null,"agent":"Cade","source":"phase489-h4-generator","trace_id":null},"task_id":"task.128d6f55-cf50-43e3-824f-457d3b0ff67e","created_at":"2026-04-14T21:30:38.335Z","updated_at":"2026-04-14T21:30:38.335Z","action_tier":"A"},"actor":"Cade","title":"H4 stream task #4","run_id":null,"source":"phase489-h4-generator","status":"queued","target":"Cade","task_id":"task.128d6f55-cf50-43e3-824f-457d3b0ff67e","id":"7","taskId":"task.128d6f55-cf50-43e3-824f-457d3b0ff67e","kind":"task.created","runId":null,"created_at":"2026-04-14T21:30:38.348Z"}
+
+event: task.event
+data: {"ts":1776202238337,"meta":null,"task":{"id":"6","kind":"delegated","notes":"Continuous telemetry generation","title":"H4 stream task #4","run_id":null,"status":"queued","payload":{"meta":null,"agent":"Cade","source":"phase489-h4-generator","trace_id":null},"task_id":"task.128d6f55-cf50-43e3-824f-457d3b0ff67e","created_at":"2026-04-14T21:30:38.335Z","updated_at":"2026-04-14T21:30:38.335Z","action_tier":"A"},"actor":"Cade","title":"H4 stream task #4","run_id":null,"source":"phase489-h4-generator","status":"queued","target":"Cade","task_id":"task.128d6f55-cf50-43e3-824f-457d3b0ff67e","id":"7","taskId":"task.128d6f55-cf50-43e3-824f-457d3b0ff67e","kind":"task.created","runId":null,"created_at":"2026-04-14T21:30:38.348Z"}
+
+event: task.created
+data: {"ts":1776202240393,"meta":null,"task":{"id":"7","kind":"delegated","notes":"Continuous telemetry generation","title":"H4 stream task #5","run_id":null,"status":"queued","payload":{"meta":null,"agent":"Cade","source":"phase489-h4-generator","trace_id":null},"task_id":"task.edba6b06-4473-4556-9564-c6969b839427","created_at":"2026-04-14T21:30:40.390Z","updated_at":"2026-04-14T21:30:40.390Z","action_tier":"A"},"actor":"Cade","title":"H4 stream task #5","run_id":null,"source":"phase489-h4-generator","status":"queued","target":"Cade","task_id":"task.edba6b06-4473-4556-9564-c6969b839427","id":"8","taskId":"task.edba6b06-4473-4556-9564-c6969b839427","kind":"task.created","runId":null,"created_at":"2026-04-14T21:30:40.404Z"}
+
+event: task.event
+data: {"ts":1776202240393,"meta":null,"task":{"id":"7","kind":"delegated","notes":"Continuous telemetry generation","title":"H4 stream task #5","run_id":null,"status":"queued","payload":{"meta":null,"agent":"Cade","source":"phase489-h4-generator","trace_id":null},"task_id":"task.edba6b06-4473-4556-9564-c6969b839427","created_at":"2026-04-14T21:30:40.390Z","updated_at":"2026-04-14T21:30:40.390Z","action_tier":"A"},"actor":"Cade","title":"H4 stream task #5","run_id":null,"source":"phase489-h4-generator","status":"queued","target":"Cade","task_id":"task.edba6b06-4473-4556-9564-c6969b839427","id":"8","taskId":"task.edba6b06-4473-4556-9564-c6969b839427","kind":"task.created","runId":null,"created_at":"2026-04-14T21:30:40.404Z"}
+
+event: task.created
+data: {"ts":1776202242434,"meta":null,"task":{"id":"8","kind":"delegated","notes":"Continuous telemetry generation","title":"H4 stream task #6","run_id":null,"status":"queued","payload":{"meta":null,"agent":"Cade","source":"phase489-h4-generator","trace_id":null},"task_id":"task.e60c80d5-16c4-4ff9-b4ee-ca5021be48e1","created_at":"2026-04-14T21:30:42.433Z","updated_at":"2026-04-14T21:30:42.433Z","action_tier":"A"},"actor":"Cade","title":"H4 stream task #6","run_id":null,"source":"phase489-h4-generator","status":"queued","target":"Cade","task_id":"task.e60c80d5-16c4-4ff9-b4ee-ca5021be48e1","id":"9","taskId":"task.e60c80d5-16c4-4ff9-b4ee-ca5021be48e1","kind":"task.created","runId":null,"created_at":"2026-04-14T21:30:42.436Z"}
+
+event: task.event
+data: {"ts":1776202242434,"meta":null,"task":{"id":"8","kind":"delegated","notes":"Continuous telemetry generation","title":"H4 stream task #6","run_id":null,"status":"queued","payload":{"meta":null,"agent":"Cade","source":"phase489-h4-generator","trace_id":null},"task_id":"task.e60c80d5-16c4-4ff9-b4ee-ca5021be48e1","created_at":"2026-04-14T21:30:42.433Z","updated_at":"2026-04-14T21:30:42.433Z","action_tier":"A"},"actor":"Cade","title":"H4 stream task #6","run_id":null,"source":"phase489-h4-generator","status":"queued","target":"Cade","task_id":"task.e60c80d5-16c4-4ff9-b4ee-ca5021be48e1","id":"9","taskId":"task.e60c80d5-16c4-4ff9-b4ee-ca5021be48e1","kind":"task.created","runId":null,"created_at":"2026-04-14T21:30:42.436Z"}
+
+event: task.created
+data: {"ts":1776202244472,"meta":null,"task":{"id":"9","kind":"delegated","notes":"Continuous telemetry generation","title":"H4 stream task #7","run_id":null,"status":"queued","payload":{"meta":null,"agent":"Cade","source":"phase489-h4-generator","trace_id":null},"task_id":"task.d5eef16f-8cb9-42ea-ba7d-041efc08cb08","created_at":"2026-04-14T21:30:44.470Z","updated_at":"2026-04-14T21:30:44.470Z","action_tier":"A"},"actor":"Cade","title":"H4 stream task #7","run_id":null,"source":"phase489-h4-generator","status":"queued","target":"Cade","task_id":"task.d5eef16f-8cb9-42ea-ba7d-041efc08cb08","id":"10","taskId":"task.d5eef16f-8cb9-42ea-ba7d-041efc08cb08","kind":"task.created","runId":null,"created_at":"2026-04-14T21:30:44.475Z"}
+
+event: task.event
+data: {"ts":1776202244472,"meta":null,"task":{"id":"9","kind":"delegated","notes":"Continuous telemetry generation","title":"H4 stream task #7","run_id":null,"status":"queued","payload":{"meta":null,"agent":"Cade","source":"phase489-h4-generator","trace_id":null},"task_id":"task.d5eef16f-8cb9-42ea-ba7d-041efc08cb08","created_at":"2026-04-14T21:30:44.470Z","updated_at":"2026-04-14T21:30:44.470Z","action_tier":"A"},"actor":"Cade","title":"H4 stream task #7","run_id":null,"source":"phase489-h4-generator","status":"queued","target":"Cade","task_id":"task.d5eef16f-8cb9-42ea-ba7d-041efc08cb08","id":"10","taskId":"task.d5eef16f-8cb9-42ea-ba7d-041efc08cb08","kind":"task.created","runId":null,"created_at":"2026-04-14T21:30:44.475Z"}
+
+event: task.created
+data: {"ts":1776202246519,"meta":null,"task":{"id":"10","kind":"delegated","notes":"Continuous telemetry generation","title":"H4 stream task #8","run_id":null,"status":"queued","payload":{"meta":null,"agent":"Cade","source":"phase489-h4-generator","trace_id":null},"task_id":"task.9ece1a66-8a1f-4f8e-b25a-50155e2b741d","created_at":"2026-04-14T21:30:46.517Z","updated_at":"2026-04-14T21:30:46.517Z","action_tier":"A"},"actor":"Cade","title":"H4 stream task #8","run_id":null,"source":"phase489-h4-generator","status":"queued","target":"Cade","task_id":"task.9ece1a66-8a1f-4f8e-b25a-50155e2b741d","id":"11","taskId":"task.9ece1a66-8a1f-4f8e-b25a-50155e2b741d","kind":"task.created","runId":null,"created_at":"2026-04-14T21:30:46.521Z"}
+
+event: task.event
+data: {"ts":1776202246519,"meta":null,"task":{"id":"10","kind":"delegated","notes":"Continuous telemetry generation","title":"H4 stream task #8","run_id":null,"status":"queued","payload":{"meta":null,"agent":"Cade","source":"phase489-h4-generator","trace_id":null},"task_id":"task.9ece1a66-8a1f-4f8e-b25a-50155e2b741d","created_at":"2026-04-14T21:30:46.517Z","updated_at":"2026-04-14T21:30:46.517Z","action_tier":"A"},"actor":"Cade","title":"H4 stream task #8","run_id":null,"source":"phase489-h4-generator","status":"queued","target":"Cade","task_id":"task.9ece1a66-8a1f-4f8e-b25a-50155e2b741d","id":"11","taskId":"task.9ece1a66-8a1f-4f8e-b25a-50155e2b741d","kind":"task.created","runId":null,"created_at":"2026-04-14T21:30:46.521Z"}
+
+event: task.created
+data: {"ts":1776202248566,"meta":null,"task":{"id":"11","kind":"delegated","notes":"Continuous telemetry generation","title":"H4 stream task #9","run_id":null,"status":"queued","payload":{"meta":null,"agent":"Cade","source":"phase489-h4-generator","trace_id":null},"task_id":"task.bad2beab-5389-4746-9585-0c8ce1f65504","created_at":"2026-04-14T21:30:48.563Z","updated_at":"2026-04-14T21:30:48.563Z","action_tier":"A"},"actor":"Cade","title":"H4 stream task #9","run_id":null,"source":"phase489-h4-generator","status":"queued","target":"Cade","task_id":"task.bad2beab-5389-4746-9585-0c8ce1f65504","id":"12","taskId":"task.bad2beab-5389-4746-9585-0c8ce1f65504","kind":"task.created","runId":null,"created_at":"2026-04-14T21:30:48.577Z"}
+
+event: task.event
+data: {"ts":1776202248566,"meta":null,"task":{"id":"11","kind":"delegated","notes":"Continuous telemetry generation","title":"H4 stream task #9","run_id":null,"status":"queued","payload":{"meta":null,"agent":"Cade","source":"phase489-h4-generator","trace_id":null},"task_id":"task.bad2beab-5389-4746-9585-0c8ce1f65504","created_at":"2026-04-14T21:30:48.563Z","updated_at":"2026-04-14T21:30:48.563Z","action_tier":"A"},"actor":"Cade","title":"H4 stream task #9","run_id":null,"source":"phase489-h4-generator","status":"queued","target":"Cade","task_id":"task.bad2beab-5389-4746-9585-0c8ce1f65504","id":"12","taskId":"task.bad2beab-5389-4746-9585-0c8ce1f65504","kind":"task.created","runId":null,"created_at":"2026-04-14T21:30:48.577Z"}
+
+event: task.created
+data: {"ts":1776202250620,"meta":null,"task":{"id":"12","kind":"delegated","notes":"Continuous telemetry generation","title":"H4 stream task #10","run_id":null,"status":"queued","payload":{"meta":null,"agent":"Cade","source":"phase489-h4-generator","trace_id":null},"task_id":"task.0e651b72-184c-45b1-b732-7d74231c0615","created_at":"2026-04-14T21:30:50.617Z","updated_at":"2026-04-14T21:30:50.617Z","action_tier":"A"},"actor":"Cade","title":"H4 stream task #10","run_id":null,"source":"phase489-h4-generator","status":"queued","target":"Cade","task_id":"task.0e651b72-184c-45b1-b732-7d74231c0615","id":"13","taskId":"task.0e651b72-184c-45b1-b732-7d74231c0615","kind":"task.created","runId":null,"created_at":"2026-04-14T21:30:50.631Z"}
+
+event: task.event
+data: {"ts":1776202250620,"meta":null,"task":{"id":"12","kind":"delegated","notes":"Continuous telemetry generation","title":"H4 stream task #10","run_id":null,"status":"queued","payload":{"meta":null,"agent":"Cade","source":"phase489-h4-generator","trace_id":null},"task_id":"task.0e651b72-184c-45b1-b732-7d74231c0615","created_at":"2026-04-14T21:30:50.617Z","updated_at":"2026-04-14T21:30:50.617Z","action_tier":"A"},"actor":"Cade","title":"H4 stream task #10","run_id":null,"source":"phase489-h4-generator","status":"queued","target":"Cade","task_id":"task.0e651b72-184c-45b1-b732-7d74231c0615","id":"13","taskId":"task.0e651b72-184c-45b1-b732-7d74231c0615","kind":"task.created","runId":null,"created_at":"2026-04-14T21:30:50.631Z"}
+
+event: task.created
+data: {"ts":1776202252674,"meta":null,"task":{"id":"13","kind":"delegated","notes":"Continuous telemetry generation","title":"H4 stream task #11","run_id":null,"status":"queued","payload":{"meta":null,"agent":"Cade","source":"phase489-h4-generator","trace_id":null},"task_id":"task.cec4156f-7e95-4b65-8484-90f4cef84b29","created_at":"2026-04-14T21:30:52.671Z","updated_at":"2026-04-14T21:30:52.671Z","action_tier":"A"},"actor":"Cade","title":"H4 stream task #11","run_id":null,"source":"phase489-h4-generator","status":"queued","target":"Cade","task_id":"task.cec4156f-7e95-4b65-8484-90f4cef84b29","id":"14","taskId":"task.cec4156f-7e95-4b65-8484-90f4cef84b29","kind":"task.created","runId":null,"created_at":"2026-04-14T21:30:52.687Z"}
+
+event: task.event
+data: {"ts":1776202252674,"meta":null,"task":{"id":"13","kind":"delegated","notes":"Continuous telemetry generation","title":"H4 stream task #11","run_id":null,"status":"queued","payload":{"meta":null,"agent":"Cade","source":"phase489-h4-generator","trace_id":null},"task_id":"task.cec4156f-7e95-4b65-8484-90f4cef84b29","created_at":"2026-04-14T21:30:52.671Z","updated_at":"2026-04-14T21:30:52.671Z","action_tier":"A"},"actor":"Cade","title":"H4 stream task #11","run_id":null,"source":"phase489-h4-generator","status":"queued","target":"Cade","task_id":"task.cec4156f-7e95-4b65-8484-90f4cef84b29","id":"14","taskId":"task.cec4156f-7e95-4b65-8484-90f4cef84b29","kind":"task.created","runId":null,"created_at":"2026-04-14T21:30:52.687Z"}
+
+event: task.created
+data: {"ts":1776202254725,"meta":null,"task":{"id":"14","kind":"delegated","notes":"Continuous telemetry generation","title":"H4 stream task #12","run_id":null,"status":"queued","payload":{"meta":null,"agent":"Cade","source":"phase489-h4-generator","trace_id":null},"task_id":"task.b7371061-a8c9-42dc-b8dc-786b1edb707a","created_at":"2026-04-14T21:30:54.720Z","updated_at":"2026-04-14T21:30:54.720Z","action_tier":"A"},"actor":"Cade","title":"H4 stream task #12","run_id":null,"source":"phase489-h4-generator","status":"queued","target":"Cade","task_id":"task.b7371061-a8c9-42dc-b8dc-786b1edb707a","id":"15","taskId":"task.b7371061-a8c9-42dc-b8dc-786b1edb707a","kind":"task.created","runId":null,"created_at":"2026-04-14T21:30:54.735Z"}
+
+event: task.event
+data: {"ts":1776202254725,"meta":null,"task":{"id":"14","kind":"delegated","notes":"Continuous telemetry generation","title":"H4 stream task #12","run_id":null,"status":"queued","payload":{"meta":null,"agent":"Cade","source":"phase489-h4-generator","trace_id":null},"task_id":"task.b7371061-a8c9-42dc-b8dc-786b1edb707a","created_at":"2026-04-14T21:30:54.720Z","updated_at":"2026-04-14T21:30:54.720Z","action_tier":"A"},"actor":"Cade","title":"H4 stream task #12","run_id":null,"source":"phase489-h4-generator","status":"queued","target":"Cade","task_id":"task.b7371061-a8c9-42dc-b8dc-786b1edb707a","id":"15","taskId":"task.b7371061-a8c9-42dc-b8dc-786b1edb707a","kind":"task.created","runId":null,"created_at":"2026-04-14T21:30:54.735Z"}
+
+event: task.created
+data: {"ts":1776202256766,"meta":null,"task":{"id":"15","kind":"delegated","notes":"Continuous telemetry generation","title":"H4 stream task #13","run_id":null,"status":"queued","payload":{"meta":null,"agent":"Cade","source":"phase489-h4-generator","trace_id":null},"task_id":"task.a4da7097-78ad-4505-a13c-10dd73585992","created_at":"2026-04-14T21:30:56.763Z","updated_at":"2026-04-14T21:30:56.763Z","action_tier":"A"},"actor":"Cade","title":"H4 stream task #13","run_id":null,"source":"phase489-h4-generator","status":"queued","target":"Cade","task_id":"task.a4da7097-78ad-4505-a13c-10dd73585992","id":"16","taskId":"task.a4da7097-78ad-4505-a13c-10dd73585992","kind":"task.created","runId":null,"created_at":"2026-04-14T21:30:56.776Z"}
+
+event: task.event
+data: {"ts":1776202256766,"meta":null,"task":{"id":"15","kind":"delegated","notes":"Continuous telemetry generation","title":"H4 stream task #13","run_id":null,"status":"queued","payload":{"meta":null,"agent":"Cade","source":"phase489-h4-generator","trace_id":null},"task_id":"task.a4da7097-78ad-4505-a13c-10dd73585992","created_at":"2026-04-14T21:30:56.763Z","updated_at":"2026-04-14T21:30:56.763Z","action_tier":"A"},"actor":"Cade","title":"H4 stream task #13","run_id":null,"source":"phase489-h4-generator","status":"queued","target":"Cade","task_id":"task.a4da7097-78ad-4505-a13c-10dd73585992","id":"16","taskId":"task.a4da7097-78ad-4505-a13c-10dd73585992","kind":"task.created","runId":null,"created_at":"2026-04-14T21:30:56.776Z"}
+
+event: task.created
+data: {"ts":1776202258809,"meta":null,"task":{"id":"16","kind":"delegated","notes":"Continuous telemetry generation","title":"H4 stream task #14","run_id":null,"status":"queued","payload":{"meta":null,"agent":"Cade","source":"phase489-h4-generator","trace_id":null},"task_id":"task.356ca1cd-83a1-443a-974d-fb82f95f6894","created_at":"2026-04-14T21:30:58.806Z","updated_at":"2026-04-14T21:30:58.806Z","action_tier":"A"},"actor":"Cade","title":"H4 stream task #14","run_id":null,"source":"phase489-h4-generator","status":"queued","target":"Cade","task_id":"task.356ca1cd-83a1-443a-974d-fb82f95f6894","id":"17","taskId":"task.356ca1cd-83a1-443a-974d-fb82f95f6894","kind":"task.created","runId":null,"created_at":"2026-04-14T21:30:58.820Z"}
+
+event: task.event
+data: {"ts":1776202258809,"meta":null,"task":{"id":"16","kind":"delegated","notes":"Continuous telemetry generation","title":"H4 stream task #14","run_id":null,"status":"queued","payload":{"meta":null,"agent":"Cade","source":"phase489-h4-generator","trace_id":null},"task_id":"task.356ca1cd-83a1-443a-974d-fb82f95f6894","created_at":"2026-04-14T21:30:58.806Z","updated_at":"2026-04-14T21:30:58.806Z","action_tier":"A"},"actor":"Cade","title":"H4 stream task #14","run_id":null,"source":"phase489-h4-generator","status":"queued","target":"Cade","task_id":"task.356ca1cd-83a1-443a-974d-fb82f95f6894","id":"17","taskId":"task.356ca1cd-83a1-443a-974d-fb82f95f6894","kind":"task.created","runId":null,"created_at":"2026-04-14T21:30:58.820Z"}
+
+event: task.created
+data: {"ts":1776202260854,"meta":null,"task":{"id":"17","kind":"delegated","notes":"Continuous telemetry generation","title":"H4 stream task #15","run_id":null,"status":"queued","payload":{"meta":null,"agent":"Cade","source":"phase489-h4-generator","trace_id":null},"task_id":"task.1e67af9a-16fc-4215-b8d5-5293698bb0ec","created_at":"2026-04-14T21:31:00.852Z","updated_at":"2026-04-14T21:31:00.852Z","action_tier":"A"},"actor":"Cade","title":"H4 stream task #15","run_id":null,"source":"phase489-h4-generator","status":"queued","target":"Cade","task_id":"task.1e67af9a-16fc-4215-b8d5-5293698bb0ec","id":"18","taskId":"task.1e67af9a-16fc-4215-b8d5-5293698bb0ec","kind":"task.created","runId":null,"created_at":"2026-04-14T21:31:00.866Z"}
+
+event: task.event
+data: {"ts":1776202260854,"meta":null,"task":{"id":"17","kind":"delegated","notes":"Continuous telemetry generation","title":"H4 stream task #15","run_id":null,"status":"queued","payload":{"meta":null,"agent":"Cade","source":"phase489-h4-generator","trace_id":null},"task_id":"task.1e67af9a-16fc-4215-b8d5-5293698bb0ec","created_at":"2026-04-14T21:31:00.852Z","updated_at":"2026-04-14T21:31:00.852Z","action_tier":"A"},"actor":"Cade","title":"H4 stream task #15","run_id":null,"source":"phase489-h4-generator","status":"queued","target":"Cade","task_id":"task.1e67af9a-16fc-4215-b8d5-5293698bb0ec","id":"18","taskId":"task.1e67af9a-16fc-4215-b8d5-5293698bb0ec","kind":"task.created","runId":null,"created_at":"2026-04-14T21:31:00.866Z"}
+
+
+=== CURRENT TASKS SNAPSHOT ===
+{"ok":true,"tasks":[{"id":214,"task_id":"task.55f6b254-8088-4586-a4bc-e9c0d0b83e3c","title":"H4 stream task #212","status":"queued","updated_at":"2026-04-14T21:38:04.021Z"},{"id":213,"task_id":"task.9e97b8f4-24f1-4d91-ac09-390650a43354","title":"H4 stream task #211","status":"queued","updated_at":"2026-04-14T21:38:01.961Z"},{"id":212,"task_id":"task.f0c5a1f7-8b13-475a-944e-082fadb76694","title":"H4 stream task #210","status":"queued","updated_at":"2026-04-14T21:37:59.902Z"},{"id":211,"task_id":"task.3e5638b4-992d-405d-96fe-4640718c6455","title":"H4 stream task #209","status":"queued","updated_at":"2026-04-14T21:37:57.841Z"},{"id":210,"task_id":"task.d8aa1be6-5a7c-4f07-adc9-19fec1327ece","title":"H4 stream task #208","status":"queued","updated_at":"2026-04-14T21:37:55.788Z"},{"id":209,"task_id":"task.fd3bdb47-0ff8-4faf-8517-029fd00d0a9c","title":"H4 stream task #207","status":"queued","updated_at":"2026-04-14T21:37:53.735Z"},{"id":208,"task_id":"task.b59f2597-4b21-4ed6-a87a-19ebc73d19f2","title":"H4 stream task #206","status":"queued","updated_at":"2026-04-14T21:37:51.684Z"},{"id":207,"task_id":"task.9cbe2b44-5e09-4269-bf6d-facbab1d582b","title":"H4 stream task #205","status":"queued","updated_at":"2026-04-14T21:37:49.643Z"},{"id":206,"task_id":"task.18db931f-9393-4e60-8dc3-1fd7f4905c0d","title":"H4 stream task #204","status":"queued","updated_at":"2026-04-14T21:37:47.598Z"},{"id":205,"task_id":"task.0dc34576-6ab8-453a-a4c0-a7eea13bbb7f","title":"H4 stream task #203","status":"queued","updated_at":"2026-04-14T21:37:45.558Z"},{"id":204,"task_id":"task.fb484ebf-4460-4313-8678-d20db8cebc09","title":"H4 stream task #202","status":"queued","updated_at":"2026-04-14T21:37:43.510Z"},{"id":203,"task_id":"task.8696b6ed-3655-4f32-8116-8d579bd48a8a","title":"H4 stream task #201","status":"queued","updated_at":"2026-04-14T21:37:41.456Z"},{"id":202,"task_id":"task.40624249-7b5e-40bf-b8f7-37aac2f8a5c3","title":"H4 stream task #200","status":"queued","updated_at":"2026-04-14T21:37:39.407Z"},{"id":201,"task_id":"task.82f0dcf6-4a73-406a-b289-5af76ed28b24","title":"H4 stream task #199","status":"queued","updated_at":"2026-04-14T21:37:37.355Z"},{"id":200,"task_id":"task.e01692cc-28f5-48ad-85db-f4407354f1dc","title":"H4 stream task #198","status":"queued","updated_at":"2026-04-14T21:37:35.303Z"},{"id":199,"task_id":"task.62251cdb-9b4c-4ee9-a0be-9a54a5dff0e2","title":"H4 stream task #197","status":"queued","updated_at":"2026-04-14T21:37:33.249Z"},{"id":198,"task_id":"task.cc0f5ece-ac1d-40b7-8c8e-91bba2e7fe53","title":"H4 stream task #196","status":"queued","updated_at":"2026-04-14T21:37:31.195Z"},{"id":197,"task_id":"task.e89d8478-8218-4c61-81aa-f27177040085","title":"H4 stream task #195","status":"queued","updated_at":"2026-04-14T21:37:29.142Z"},{"id":196,"task_id":"task.e7ce3297-d423-4f48-81ef-719f809f0981","title":"H4 stream task #194","status":"queued","updated_at":"2026-04-14T21:37:27.089Z"},{"id":195,"task_id":"task.074c7c8a-480b-4fcc-a8ce-3991c610ac17","title":"H4 stream task #193","status":"queued","updated_at":"2026-04-14T21:37:25.037Z"},{"id":194,"task_id":"task.eac920f7-b31a-498c-99ce-b1ed393a11dd","title":"H4 stream task #192","status":"queued","updated_at":"2026-04-14T21:37:22.982Z"},{"id":193,"task_id":"task.03fffce8-64d3-45b8-8938-a7f7e523aa70","title":"H4 stream task #191","status":"queued","updated_at":"2026-04-14T21:37:20.929Z"},{"id":192,"task_id":"task.124f4700-46b7-4397-84f1-0090ad064639","title":"H4 stream task #190","status":"queued","updated_at":"2026-04-14T21:37:18.877Z"},{"id":191,"task_id":"task.9629dac3-36f4-47f1-a1de-ade557e8c2b8","title":"H4 stream task #189","status":"queued","updated_at":"2026-04-14T21:37:16.824Z"},{"id":190,"task_id":"task.d8c4c0dd-d298-4ccc-8552-18260ce14f05","title":"H4 stream task #188","status":"queued","updated_at":"2026-04-14T21:37:14.772Z"}]}
+=== NEXT ACTION ===
+Use this trace to identify the first missing binding for Task Activity and patch only that.
