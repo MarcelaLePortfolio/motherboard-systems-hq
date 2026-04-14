@@ -1,26 +1,18 @@
-(function () {
-  if (typeof window === "undefined" || typeof document === "undefined") return;
-  if (window.__PHASE457_RESTORE_TASK_PANELS_ACTIVE__) return;
-  window.__PHASE457_RESTORE_TASK_PANELS_ACTIVE__ = true;
+(() => {
+  const STREAM_URL = "/events/task-events";
+  const ROOT_ID = "mb-task-events-panel-anchor";
 
-  var MAX_RECENT = 8;
-  var MAX_HISTORY = 16;
-  var MAX_EVENTS = 24;
-  var TASKS_API = "/api/tasks";
+  if (window.__PHASE457_TASK_EVENTS_PANEL_ACTIVE__) return;
+  window.__PHASE457_TASK_EVENTS_PANEL_ACTIVE__ = true;
 
-  var state = {
-    recent: [],
-    history: [],
-    events: [],
-    sourceOpen: false,
-    sourceError: false,
-    es: null,
-    bootstrapped: false
-  };
+  const root = document.getElementById(ROOT_ID);
+  if (!root) return;
 
-  function byId(id) {
-    return document.getElementById(id);
-  }
+  let es = null;
+  let reconnectTimer = null;
+  let reconnectAttempt = 0;
+  const maxItems = 24;
+  const items = [];
 
   function escapeHtml(value) {
     return String(value == null ? "" : value)
@@ -31,279 +23,126 @@
       .replace(/'/g, "&#39;");
   }
 
-  function normalizeStatus(value) {
-    var v = String(value || "").trim().toLowerCase();
-    if (!v) return "unknown";
-    if (v === "complete") return "completed";
-    return v;
+  function formatTime(value) {
+    if (value == null || value === "") return "—";
+    const d = new Date(value);
+    if (!Number.isNaN(d.getTime())) return d.toLocaleString();
+    return String(value);
   }
 
-  function normalizeTask(input) {
-    var src = input && typeof input === "object" ? input : {};
-    return {
-      id: String(src.task_id || src.taskId || src.id || src.run_id || src.runId || ("task-" + Date.now())),
-      title: String(src.title || src.name || src.task || src.task_id || src.taskId || "task"),
-      status: normalizeStatus(src.status || src.state || src.kind || src.event || "queued"),
-      updatedAt: src.updated_at || src.updatedAt || src.created_at || src.createdAt || src.ts || Date.now()
-    };
+  function statusTone(status) {
+    const s = String(status || "").toLowerCase();
+    if (/fail|error|cancel|timeout|reject|blocked/.test(s)) return "#f87171";
+    if (/success|complete|done|healthy|ok|approved/.test(s)) return "#4ade80";
+    if (/queue|pending|wait|hold|retry/.test(s)) return "#facc15";
+    if (/run|start|active|progress|created/.test(s)) return "#60a5fa";
+    return "#cbd5e1";
   }
 
-  function normalizeEvent(input) {
-    var src = input && typeof input === "object" ? input : {};
-    return {
-      ts: src.ts || src.created_at || src.createdAt || Date.now(),
-      kind: String(src.kind || src.event || src.type || src.status || "event"),
-      task_id: String(src.task_id || src.taskId || src.id || "task"),
-      status: String(src.status || src.state || ""),
-      actor: String(src.actor || ""),
-      run_id: String(src.run_id || src.runId || ""),
-      message: String(src.message || src.msg || "")
-    };
-  }
-
-  function upsertTask(list, task, max) {
-    var existingIndex = list.findIndex(function (item) {
-      return item.id === task.id;
-    });
-
-    if (existingIndex >= 0) {
-      list[existingIndex] = Object.assign({}, list[existingIndex], task);
-    } else {
-      list.unshift(task);
-    }
-
-    list.sort(function (a, b) {
-      return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
-    });
-
-    if (list.length > max) list.length = max;
-  }
-
-  function pushRecent(input) {
-    upsertTask(state.recent, normalizeTask(input), MAX_RECENT);
-  }
-
-  function pushHistory(input) {
-    upsertTask(state.history, normalizeTask(input), MAX_HISTORY);
-  }
-
-  function pushEvent(input) {
-    state.events.unshift(normalizeEvent(input));
-    if (state.events.length > MAX_EVENTS) state.events.length = MAX_EVENTS;
-  }
-
-  function renderRecent() {
-    var el = byId("tasks-widget");
-    if (!el) return;
-
-    if (!state.recent.length) {
-      el.innerHTML = '<div class="text-sm text-gray-500">No recent tasks yet.</div>';
-      return;
-    }
-
-    el.innerHTML = state.recent.map(function (task) {
-      return (
-        '<div class="mb-2 rounded-lg border border-gray-700 bg-gray-900/60 px-3 py-2">' +
-          '<div class="text-sm text-gray-200">' + escapeHtml(task.title) + '</div>' +
-          '<div class="text-xs text-gray-500 mt-1">status: ' + escapeHtml(task.status) + '</div>' +
-        '</div>'
-      );
-    }).join("");
-  }
-
-  function renderHistory() {
-    var el = byId("recentLogs");
-    if (!el) return;
-
-    if (!state.history.length) {
-      el.innerHTML = '<div class="text-sm text-gray-500">No task history yet.</div>';
-      return;
-    }
-
-    el.innerHTML = state.history.map(function (task) {
-      return (
-        '<div class="mb-2 rounded-lg border border-gray-800 bg-black/20 px-3 py-2 text-sm text-gray-300">' +
-          escapeHtml(task.title) + ' · ' + escapeHtml(task.status) +
-        '</div>'
-      );
-    }).join("");
-  }
-
-  function renderEvents() {
-    var anchor = byId("mb-task-events-panel-anchor");
-    if (!anchor) return;
-
-    var panel = byId("mb-task-events-panel");
-    var feed = byId("mb-task-events-feed");
-
-    if (!panel) {
-      panel = document.createElement("div");
-      panel.id = "mb-task-events-panel";
-      panel.className = "rounded-lg border border-gray-700 bg-gray-900/60 p-3";
-      anchor.innerHTML = "";
-      anchor.appendChild(panel);
-    }
-
-    if (!feed) {
-      feed = document.createElement("div");
-      feed.id = "mb-task-events-feed";
-      panel.innerHTML = "";
-      panel.appendChild(feed);
-    }
-
-    if (!state.events.length) {
-      feed.innerHTML =
-        '<div class="text-sm text-gray-500">' +
-        (state.sourceError ? "Task events stream reconnecting…" : "Waiting for task events…") +
-        "</div>";
-      return;
-    }
-
-    feed.innerHTML = state.events.map(function (eventRow) {
-      return (
-        '<div class="mb-2 rounded-lg border border-gray-800 bg-black/20 px-3 py-2">' +
-          '<div class="text-xs text-gray-500">' + escapeHtml(eventRow.kind) + '</div>' +
-          '<div class="text-sm text-gray-300 mt-1">' + escapeHtml(eventRow.task_id) + (eventRow.status ? " · " + escapeHtml(eventRow.status) : "") + '</div>' +
-        '</div>'
-      );
-    }).join("");
-  }
-
-  function renderAll() {
-    renderRecent();
-    renderHistory();
-    renderEvents();
-  }
-
-  function ingestTaskEvent(raw) {
-    if (!raw || typeof raw !== "object") return;
-
-    var task = normalizeTask(raw);
-    pushRecent(task);
-    pushHistory(task);
-
-    var eventRow = normalizeEvent(raw);
-    if (eventRow.kind === "unknown" && task.status) {
-      eventRow.kind = task.status;
-    }
-    pushEvent(eventRow);
-
-    renderAll();
-  }
-
-  function safeJsonParse(text) {
+  function parseData(raw) {
+    if (raw == null) return null;
+    if (typeof raw === "object") return raw;
     try {
-      return JSON.parse(text);
+      return JSON.parse(raw);
     } catch (_) {
-      return null;
+      return { message: String(raw) };
     }
   }
 
-  function ingestFrame(name, rawData) {
-    var parsed = typeof rawData === "string" ? safeJsonParse(rawData) : rawData;
-    var payload = parsed && typeof parsed === "object"
-      ? (parsed.payload || parsed.data || parsed)
-      : {};
+  function normalizeEvent(payload, eventName = "message") {
+    const p = parseData(payload) || {};
 
-    if (Array.isArray(payload)) {
-      payload.forEach(function (item) {
-        ingestTaskEvent(item);
-      });
+    if (Array.isArray(p.events)) {
+      return p.events.map((entry) => normalizeEvent(entry, eventName)).filter(Boolean);
+    }
+
+    const ts =
+      p.ts ||
+      p.timestamp ||
+      p.created_at ||
+      p.updated_at ||
+      Date.now();
+
+    const status =
+      p.status ||
+      p.type ||
+      p.event ||
+      eventName ||
+      "event";
+
+    const title =
+      p.title ||
+      p.message ||
+      p.detail ||
+      p.reason ||
+      "Task event received";
+
+    return {
+      id: String(p.id || `${eventName}:${ts}`),
+      title: String(title),
+      status: String(status),
+      ts,
+      meta: p.source ? `source=${p.source}` : ""
+    };
+  }
+
+  function pushEvent(entry) {
+    if (!entry) return;
+    if (Array.isArray(entry)) {
+      entry.forEach(pushEvent);
       return;
     }
 
-    if (payload && Array.isArray(payload.events)) {
-      payload.events.forEach(function (item) {
-        ingestTaskEvent(item);
-      });
-      return;
-    }
-
-    if (payload && typeof payload === "object") {
-      if (!payload.kind && name) payload.kind = name;
-      ingestTaskEvent(payload);
-    }
+    items.unshift(entry);
+    if (items.length > maxItems) items.length = maxItems;
+    render("live");
   }
 
-  function connectDirectTaskEvents() {
-    if (state.es) return;
+  function render(state) {
+    const rows = items.length
+      ? items.map(item => `
+        <div style="border:1px solid rgba(51,65,85,0.9); background:rgba(2,6,23,0.55); border-radius:0.85rem; padding:0.75rem;">
+          <div style="display:flex; justify-content:space-between;">
+            <div>
+              <div style="color:#e2e8f0;">${escapeHtml(item.title)}</div>
+              <div style="font-size:0.75rem; color:#94a3b8;">${escapeHtml(formatTime(item.ts))}</div>
+            </div>
+            <div style="color:${statusTone(item.status)}; font-size:0.75rem;">
+              ${escapeHtml(item.status)}
+            </div>
+          </div>
+        </div>`).join("")
+      : `<div style="color:#94a3b8;">Waiting for task events…</div>`;
 
-    try {
-      state.es = new EventSource("/events/task-events");
-    } catch (_) {
-      state.sourceError = true;
-      renderAll();
-      return;
-    }
+    root.innerHTML = `
+      <div style="display:flex; flex-direction:column; gap:0.5rem;">
+        <div style="font-size:0.75rem; color:#94a3b8;">
+          ${state === "live" ? "Connected" : "Reconnecting…"}
+        </div>
+        ${rows}
+      </div>
+    `;
+  }
 
-    state.es.onopen = function () {
-      state.sourceOpen = true;
-      state.sourceError = false;
-      renderAll();
+  function connect() {
+    es = new EventSource(STREAM_URL);
+
+    es.onopen = () => {
+      reconnectAttempt = 0;
+      render("live");
     };
 
-    state.es.onerror = function () {
-      state.sourceError = true;
-      renderAll();
+    es.onmessage = (e) => {
+      pushEvent(normalizeEvent(e.data));
     };
 
-    state.es.onmessage = function (evt) {
-      ingestFrame("message", evt && evt.data ? evt.data : "{}");
+    es.onerror = () => {
+      es.close();
+      render("reconnecting");
+      setTimeout(connect, 2000);
     };
-
-    [
-      "hello",
-      "task.event",
-      "task.created",
-      "task.completed",
-      "task.failed",
-      "task.updated",
-      "task.status",
-      "heartbeat"
-    ].forEach(function (name) {
-      state.es.addEventListener(name, function (evt) {
-        ingestFrame(name, evt && evt.data ? evt.data : "{}");
-      });
-    });
   }
 
-  function bootstrap() {
-    if (state.bootstrapped) return;
-    state.bootstrapped = true;
-
-    fetch(TASKS_API, { headers: { Accept: "application/json" } })
-      .then(function (res) {
-        if (!res.ok) throw new Error("tasks bootstrap failed");
-        return res.json();
-      })
-      .then(function (data) {
-        var rows = Array.isArray(data) ? data : (Array.isArray(data.tasks) ? data.tasks : []);
-        rows.slice(0, MAX_HISTORY).forEach(function (row) {
-          pushRecent(row);
-          pushHistory(row);
-        });
-        renderAll();
-      })
-      .catch(function () {
-        renderAll();
-      });
-  }
-
-  window.addEventListener("mb.task.event", function (e) {
-    ingestTaskEvent((e && e.detail) || {});
-  });
-
-  function boot() {
-    renderAll();
-    bootstrap();
-    connectDirectTaskEvents();
-    setInterval(renderAll, 4000);
-    console.log("phase457 panels stable");
-  }
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", boot, { once: true });
-  } else {
-    boot();
-  }
+  render("reconnecting");
+  connect();
 })();
