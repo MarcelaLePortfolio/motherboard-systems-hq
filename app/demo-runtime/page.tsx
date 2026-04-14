@@ -33,6 +33,11 @@ type SummaryBadgeProps = {
   value: string;
 };
 
+type GovernanceTraceRowProps = {
+  label: string;
+  value: string;
+};
+
 function SummaryBadge({ label, value }: SummaryBadgeProps) {
   return (
     <div
@@ -57,6 +62,14 @@ function SummaryBadge({ label, value }: SummaryBadgeProps) {
       </div>
       <div style={{ fontWeight: 700, fontSize: "1rem", color: "#111" }}>{value}</div>
     </div>
+  );
+}
+
+function GovernanceTraceRow({ label, value }: GovernanceTraceRowProps) {
+  return (
+    <p style={{ marginTop: 0, marginBottom: "0.65rem", lineHeight: 1.6 }}>
+      <strong>{label}:</strong> {value}
+    </p>
   );
 }
 
@@ -234,6 +247,44 @@ export default function DemoRuntimePage() {
             <SummaryBadge label="Traversal" value={report.traversalState} />
             <SummaryBadge label="Final result" value={report.finalDemoResult} />
             <SummaryBadge label="Tasks" value={String(report.generatedRequest.tasks.length)} />
+          </div>
+
+          <div
+            style={{
+              border: "1px solid #e2e2e2",
+              borderRadius: "0.75rem",
+              padding: "1rem",
+              marginBottom: "1rem",
+              background: "#fafafa",
+            }}
+          >
+            <h3 style={{ marginTop: 0, marginBottom: "0.65rem" }}>Governance Trace</h3>
+            <GovernanceTraceRow label="Admission decision" value={report.admissionDecision} />
+            <GovernanceTraceRow
+              label="Approval present"
+              value={report.generatedRequest.approved ? "YES" : "NO"}
+            />
+            <GovernanceTraceRow
+              label="Governance evaluated"
+              value={report.generatedRequest.governanceEvaluated ? "YES" : "NO"}
+            />
+            <GovernanceTraceRow
+              label="Authority ordering valid"
+              value={report.generatedRequest.authorityOrderingValid ? "YES" : "NO"}
+            />
+            <GovernanceTraceRow label="Rule-level trace" value="NO DATA" />
+            <div style={{ marginTop: "0.9rem" }}>
+              <strong>Denial reasons:</strong>
+              {report.denialReasons.length > 0 ? (
+                <ul style={{ marginTop: "0.5rem", marginBottom: 0 }}>
+                  {report.denialReasons.map((reason) => (
+                    <li key={reason}>{reason}</li>
+                  ))}
+                </ul>
+              ) : (
+                <p style={{ marginTop: "0.5rem", marginBottom: 0, lineHeight: 1.6 }}>NONE</p>
+              )}
+            </div>
           </div>
 
           <div
