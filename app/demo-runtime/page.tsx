@@ -315,9 +315,19 @@ export default function DemoRuntimePage() {
             }}
           >
             <h3 style={{ marginTop: 0, marginBottom: "0.65rem" }}>Admission</h3>
-            <p style={{ marginTop: 0, lineHeight: 1.6 }}>
-              <strong>Decision:</strong> {report.admissionDecision}
-            </p>
+            <GovernanceTraceRow label="Decision" value={report.admissionDecision} />
+            <GovernanceTraceRow
+              label="Approval present"
+              value={report.generatedRequest.approved ? "YES" : "NO"}
+            />
+            <GovernanceTraceRow
+              label="Governance evaluated"
+              value={report.generatedRequest.governanceEvaluated ? "YES" : "NO"}
+            />
+            <GovernanceTraceRow
+              label="Authority ordering valid"
+              value={report.generatedRequest.authorityOrderingValid ? "YES" : "NO"}
+            />
             <p style={{ marginBottom: 0, lineHeight: 1.6 }}>
               <strong>Governance explanation:</strong> {governanceExplanation}
             </p>
