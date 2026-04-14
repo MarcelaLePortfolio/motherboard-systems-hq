@@ -1,5 +1,5 @@
 (() => {
-  const STREAM_URL = "/events/task-events";
+  const STREAM_URL = "/events/task-events?cursor=0";
   const ROOT_ID = "mb-task-events-panel-anchor";
 
   if (window.__PHASE457_TASK_EVENTS_PANEL_ACTIVE__) return;
@@ -65,6 +65,7 @@
 
     const status =
       p.status ||
+      p.kind ||
       p.type ||
       p.event ||
       eventName ||
@@ -77,12 +78,18 @@
       p.reason ||
       "Task event received";
 
+    const meta = [];
+    if (p.task_id || p.taskId) meta.push(`task=${p.task_id || p.taskId}`);
+    if (p.run_id || p.runId) meta.push(`run=${p.run_id || p.runId}`);
+    if (p.actor) meta.push(`actor=${p.actor}`);
+    if (p.source) meta.push(`source=${p.source}`);
+
     return {
-      id: String(p.id || `${eventName}:${ts}`),
+      id: String(p.id || `${status}:${ts}:${title}`),
       title: String(title),
       status: String(status),
       ts,
-      meta: p.source ? `source=${p.source}` : ""
+      meta: meta.join(" • ")
     };
   }
 
@@ -93,6 +100,9 @@
       return;
     }
 
+    const existingIndex = items.findIndex((item) => item.id === entry.id);
+    if (existingIndex >= 0) items.splice(existingIndex, 1);
+
     items.unshift(entry);
     if (items.length > maxItems) items.length = maxItems;
     render("live");
@@ -102,12 +112,13 @@
     const rows = items.length
       ? items.map(item => `
         <div style="border:1px solid rgba(51,65,85,0.9); background:rgba(2,6,23,0.55); border-radius:0.85rem; padding:0.75rem;">
-          <div style="display:flex; justify-content:space-between;">
-            <div>
-              <div style="color:#e2e8f0;">${escapeHtml(item.title)}</div>
-              <div style="font-size:0.75rem; color:#94a3b8;">${escapeHtml(formatTime(item.ts))}</div>
+          <div style="display:flex; justify-content:space-between; gap:0.75rem; align-items:flex-start;">
+            <div style="min-width:0;">
+              <div style="color:#e2e8f0; font-size:0.92rem; line-height:1.35;">${escapeHtml(item.title)}</div>
+              <div style="font-size:0.75rem; color:#94a3b8; margin-top:0.2rem;">${escapeHtml(formatTime(item.ts))}</div>
+              ${item.meta ? `<div style="font-size:0.72rem; color:#94a3b8; margin-top:0.3rem;">${escapeHtml(item.meta)}</div>` : ""}
             </div>
-            <div style="color:${statusTone(item.status)}; font-size:0.75rem;">
+            <div style="color:${statusTone(item.status)}; font-size:0.75rem; white-space:nowrap; text-transform:uppercase;">
               ${escapeHtml(item.status)}
             </div>
           </div>
@@ -124,25 +135,66 @@
     `;
   }
 
-  function connect() {
-    es = new EventSource(STREAM_URL);
+  function clearReconnectTimer() {
+    if (reconnectTimer) {
+      clearTimeout(reconnectTimer);
+      reconnectTimer = null;
+    }
+  }
 
-    es.onopen = () => {
+  function scheduleReconnect() {
+    clearReconnectTimer();
+    reconnectAttempt += 1;
+    render("reconnecting");
+    reconnectTimer = setTimeout(connect, Math.min(5000, 1000 * reconnectAttempt));
+  }
+
+  function bindHandlers(source) {
+    const handleEvent = (e) => {
+      const entry = normalizeEvent(e.data, e.type || "message");
+      if (entry) {
+        reconnectAttempt = 0;
+        pushEvent(entry);
+      }
+    };
+
+    source.onopen = () => {
       reconnectAttempt = 0;
-      render("live");
+      render(items.length ? "live" : "live");
     };
 
-    es.onmessage = (e) => {
-      pushEvent(normalizeEvent(e.data));
-    };
+    source.onmessage = handleEvent;
+    source.addEventListener("task.event", handleEvent);
+    source.addEventListener("task.created", handleEvent);
+    source.addEventListener("task.updated", handleEvent);
+    source.addEventListener("task.completed", handleEvent);
+    source.addEventListener("task.failed", handleEvent);
 
-    es.onerror = () => {
-      es.close();
-      render("reconnecting");
-      setTimeout(connect, 2000);
+    source.onerror = () => {
+      try { source.close(); } catch (_) {}
+      scheduleReconnect();
     };
+  }
+
+  function connect() {
+    clearReconnectTimer();
+    if (es) {
+      try { es.close(); } catch (_) {}
+      es = null;
+    }
+
+    render(items.length ? "reconnecting" : "reconnecting");
+    es = new EventSource(STREAM_URL);
+    bindHandlers(es);
   }
 
   render("reconnecting");
   connect();
+
+  window.addEventListener("beforeunload", () => {
+    clearReconnectTimer();
+    if (es) {
+      try { es.close(); } catch (_) {}
+    }
+  });
 })();
