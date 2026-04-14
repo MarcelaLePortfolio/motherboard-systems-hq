@@ -260,18 +260,9 @@ export default function DemoRuntimePage() {
           >
             <h3 style={{ marginTop: 0, marginBottom: "0.65rem" }}>Governance Trace</h3>
             <GovernanceTraceRow label="Admission decision" value={report.admissionDecision} />
-            <GovernanceTraceRow
-              label="Approval present"
-              value={report.generatedRequest.approved ? "YES" : "NO"}
-            />
-            <GovernanceTraceRow
-              label="Governance evaluated"
-              value={report.generatedRequest.governanceEvaluated ? "YES" : "NO"}
-            />
-            <GovernanceTraceRow
-              label="Authority ordering valid"
-              value={report.generatedRequest.authorityOrderingValid ? "YES" : "NO"}
-            />
+            <GovernanceTraceRow label="Approval present" value={report.generatedRequest.approved ? "YES" : "NO"} />
+            <GovernanceTraceRow label="Governance evaluated" value={report.generatedRequest.governanceEvaluated ? "YES" : "NO"} />
+            <GovernanceTraceRow label="Authority ordering valid" value={report.generatedRequest.authorityOrderingValid ? "YES" : "NO"} />
             <GovernanceTraceRow label="Rule-level trace" value="NO DATA" />
             <div style={{ marginTop: "0.9rem" }}>
               <strong>Denial reasons:</strong>
@@ -282,7 +273,7 @@ export default function DemoRuntimePage() {
                   ))}
                 </ul>
               ) : (
-                <p style={{ marginTop: "0.5rem", marginBottom: 0, lineHeight: 1.6 }}>NONE</p>
+                <p style={{ marginTop: "0.5rem", marginBottom: 0 }}>NONE</p>
               )}
             </div>
           </div>
@@ -296,78 +287,21 @@ export default function DemoRuntimePage() {
               background: "#fafafa",
             }}
           >
-            <h3 style={{ marginTop: 0, marginBottom: "0.65rem" }}>Request</h3>
-            <p style={{ margin: 0, lineHeight: 1.5 }}>
-              <strong>Request ID:</strong> {report.requestId}
-            </p>
-            <p style={{ marginBottom: 0, lineHeight: 1.6 }}>
-              <strong>Natural-language prompt:</strong> {report.requestSummary}
-            </p>
-          </div>
-
-          <div
-            style={{
-              border: "1px solid #e2e2e2",
-              borderRadius: "0.75rem",
-              padding: "1rem",
-              marginBottom: "1rem",
-              background: "#fafafa",
-            }}
-          >
-            <h3 style={{ marginTop: 0, marginBottom: "0.65rem" }}>Admission</h3>
-            <GovernanceTraceRow label="Decision" value={report.admissionDecision} />
-            <GovernanceTraceRow
-              label="Approval present"
-              value={report.generatedRequest.approved ? "YES" : "NO"}
-            />
-            <GovernanceTraceRow
-              label="Governance evaluated"
-              value={report.generatedRequest.governanceEvaluated ? "YES" : "NO"}
-            />
-            <GovernanceTraceRow
-              label="Authority ordering valid"
-              value={report.generatedRequest.authorityOrderingValid ? "YES" : "NO"}
-            />
-            <p style={{ marginBottom: 0, lineHeight: 1.6 }}>
-              <strong>Governance explanation:</strong> {governanceExplanation}
-            </p>
-            {report.denialReasons.length > 0 ? (
-              <>
-                <h4 style={{ marginBottom: "0.5rem" }}>Denial reasons</h4>
-                <ul style={{ marginTop: 0 }}>
-                  {report.denialReasons.map((reason) => (
-                    <li key={reason}>{reason}</li>
-                  ))}
-                </ul>
-              </>
-            ) : null}
-          </div>
-
-          <div
-            style={{
-              border: "1px solid #e2e2e2",
-              borderRadius: "0.75rem",
-              padding: "1rem",
-              marginBottom: "1rem",
-              background: "#fafafa",
-            }}
-          >
             <h3 style={{ marginTop: 0, marginBottom: "0.65rem" }}>Execution</h3>
-            <p style={{ marginTop: 0, marginBottom: "0.5rem" }}>
-              <strong>Deterministic traversal order:</strong>
-            </p>
-            <h4 style={{ marginTop: 0, marginBottom: "0.5rem" }}>Traversal order</h4>
+
+            <p><strong>Traversal order:</strong></p>
             {report.traversalOrder.length > 0 ? (
-              <ol style={{ marginTop: 0, marginBottom: "1rem" }}>
-                {report.traversalOrder.map((entry) => (
-                  <li key={entry}>{entry}</li>
+              <ol>
+                {report.traversalOrder.map((entry, idx) => (
+                  <li key={idx}>{entry}</li>
                 ))}
               </ol>
             ) : (
-              <p style={{ marginTop: 0, marginBottom: "1rem", lineHeight: 1.6 }}>NO DATA</p>
+              <p>NO DATA</p>
             )}
-            <h4 style={{ marginTop: 0, marginBottom: "0.5rem" }}>Task definitions</h4>
-            <ol style={{ marginTop: "0.5rem", marginBottom: 0 }}>
+
+            <p><strong>Task definitions:</strong></p>
+            <ol>
               {report.generatedRequest.tasks.map((task) => (
                 <li key={task.id}>
                   {task.id}: {task.name}
@@ -386,9 +320,12 @@ export default function DemoRuntimePage() {
             }}
           >
             <h3 style={{ marginTop: 0, marginBottom: "0.65rem" }}>Outcome</h3>
+
+            <p><strong>Final result:</strong> {report.finalDemoResult}</p>
+
             <ol style={{ marginTop: 0 }}>
               {report.taskOutcomes.map((task) => (
-                <li key={`${task.taskId}-${task.logicalTimestamp}`} style={{ marginBottom: "0.45rem" }}>
+                <li key={`${task.taskId}-${task.logicalTimestamp}`}>
                   <strong>{task.taskName}</strong> — {task.outcome} ({task.logicalTimestamp})
                 </li>
               ))}
