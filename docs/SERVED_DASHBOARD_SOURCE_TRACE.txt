@@ -1,0 +1,89 @@
+SERVED DASHBOARD SOURCE TRACE
+Generated: 2026-04-14T03:54:23Z
+Repo Root: /Users/marcela-dev/Projects/Motherboard_Systems_HQ
+
+=== LOCAL public/dashboard.html MARKERS ===
+58:<section class="phase62-top-row" data-phase="62">
+98:        <div id="phase61-workspace-grid">
+102:                <h2 class="text-xl font-semibold">Operator Workspace</h2>
+167:                <h2 class="text-xl font-semibold">Telemetry Workspace</h2>
+219:          Atlas Subsystem Status
+
+=== LIVE SERVED OUTPUT MARKERS ===
+99:          Operator Tools
+106:            Matilda Chat Console
+209:          Atlas Subsystem Status
+
+=== FILES CONTAINING LIVE-SERVED UNIQUE STRINGS ===
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:594:          Atlas Subsystem Status
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/index.html:99:          Operator Tools
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/index.html:103:      <div id="operator-tools-grid" class="grid gap-6 xl:grid-cols-2">
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/index.html:106:            Matilda Chat Console
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/index.html:177:        Activity Panels
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/index.html:202:        Subsystem Status
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/index.html:209:          Atlas Subsystem Status
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_q2_probe.html:88:          Atlas Subsystem Status
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard.html:219:          Atlas Subsystem Status
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_top_half_probe.html:223:          Atlas Subsystem Status
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_recomposed_from_stable_quarters_probe.html:233:          Atlas Subsystem Status
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:594:          Atlas Subsystem Status
+
+=== FILES CONTAINING RESTORED SPLIT-LAYOUT UNIQUE STRINGS ===
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:17:  .phase62-top-row {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:39:    .phase62-top-row {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:100:      #phase61-workspace-grid {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:211:        #phase61-workspace-grid {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:445:    <section class="phase62-top-row" data-phase="62">
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:485:        <div id="phase61-workspace-grid">
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:489:                <h2 class="text-xl font-semibold">Operator Workspace</h2>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:542:                <h2 class="text-xl font-semibold">Telemetry Workspace</h2>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_q2_probe.html:36:                <h2 class="text-xl font-semibold">Telemetry Workspace</h2>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard.html:58:<section class="phase62-top-row" data-phase="62">
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard.html:98:        <div id="phase61-workspace-grid">
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard.html:102:                <h2 class="text-xl font-semibold">Operator Workspace</h2>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard.html:167:                <h2 class="text-xl font-semibold">Telemetry Workspace</h2>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_top_half_probe.html:62:<section class="phase62-top-row" data-phase="62">
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_top_half_probe.html:102:        <div id="phase61-workspace-grid">
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_top_half_probe.html:106:                <h2 class="text-xl font-semibold">Operator Workspace</h2>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_top_half_probe.html:171:                <h2 class="text-xl font-semibold">Telemetry Workspace</h2>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_q1_probe.html:64:<section class="phase62-top-row" data-phase="62">
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_q1_probe.html:104:        <div id="phase61-workspace-grid">
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_q1_probe.html:108:                <h2 class="text-xl font-semibold">Operator Workspace</h2>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_recomposed_from_stable_quarters_probe.html:67:<section class="phase62-top-row" data-phase="62">
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_recomposed_from_stable_quarters_probe.html:107:        <div id="phase61-workspace-grid">
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_recomposed_from_stable_quarters_probe.html:111:                <h2 class="text-xl font-semibold">Operator Workspace</h2>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_recomposed_from_stable_quarters_probe.html:181:                <h2 class="text-xl font-semibold">Telemetry Workspace</h2>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:17:  .phase62-top-row {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:39:    .phase62-top-row {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:100:      #phase61-workspace-grid {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:211:        #phase61-workspace-grid {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:445:    <section class="phase62-top-row" data-phase="62">
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:485:        <div id="phase61-workspace-grid">
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:489:                <h2 class="text-xl font-semibold">Operator Workspace</h2>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:542:                <h2 class="text-xl font-semibold">Telemetry Workspace</h2>
+
+=== DOCKER / SERVER ENTRYPOINT CANDIDATES ===
+
+=== SERVER FILES REFERENCING Operator Tools OR Matilda Chat Console ===
+--- /Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/index.html ---
+33f5c0e2 Phase 60: restore live uptime polish script
+c63a60e7 Phase 60: restore dashboard runtime scripts for agent pool rendering
+ecac1fb1 Phase 59: compose operator console layout from stable baseline
+27b7ddf3 demo: trim dashboard layout to lifecycle/task panels
+244cdde5 diag: remove phase59 demo-focus stylesheet from static dashboard pages
+3cf87e6f Phase 59: focus dashboard on lifecycle-first demo surface
+17b182d4 diag: strip dashboard runtime script tags from static html
+76a5209e Phase 14.5: dashboard no-cache + stable anchor (avoid Phase 11.3 banner regression)
+ec30cc78 Phase 14.4: fix dashboard Phase 11.3 banner copy to Phase 14
+79c38bfb Phase 11: switch index + dashboard to bundle.js and temporarily disable graph in bundle
+6a4cc65a Phase 11.4: actually render Quick Systems Check button in Ops Matilda chat
+20710429 Phase 11.4: typography polish for Matilda chat transcript
+ad15059d Phase 11.4: add helper text to Ops dashboard Matilda Chat Console
+bf97b836 Enhance Project Visual Output card with 3D monitor styling
+c368ed05 Reset dashboard to clean 2-column layout with single Matilda card and big Project Visual Output screen
+304bfad7 Merge Project Visual Output into single screen on right column
+63600e77 Apply explicit 2-column dashboard layout with Matilda left and ops stack right
+2599f2de Inject Matilda Chat Console script into dashboard non-destructively
+368fdfbe Restore original dashboard UI before Matilda Chat integration
+e2106000 Inject Matilda Chat Console script into dashboard non-destructively
+
