@@ -1,4 +1,37 @@
-(() => {
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(git rev-parse --show-toplevel)"
+OUT="$ROOT/docs/PHASE_489_H1_OPERATOR_GUIDANCE_EVENT_MODE_TRACE.txt"
+
+{
+  echo "PHASE 489 — H1 OPERATOR GUIDANCE EVENT MODE TRACE"
+  echo "Generated: $(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+  echo "Repo Root: $ROOT"
+  echo
+
+  echo "=== SERVER ROUTE SNIPPET ==="
+  route_line="$(grep -n 'app.get("/events/operator-guidance"' "$ROOT/server.mjs" | head -n 1 | cut -d: -f1 || true)"
+  if [[ -n "${route_line:-}" ]]; then
+    start="$(( route_line > 30 ? route_line - 30 : 1 ))"
+    end="$(( route_line + 140 ))"
+    sed -n "${start},${end}p" "$ROOT/server.mjs"
+  else
+    echo "ROUTE NOT FOUND"
+  fi
+  echo
+
+  echo "=== CURRENT CLIENT ==="
+  sed -n '1,240p' "$ROOT/public/js/operatorGuidance.sse.js"
+} > "$OUT"
+
+echo "Wrote $OUT"
+sed -n '1,260p' "$OUT"
+
+python3 - <<'PY'
+from pathlib import Path
+target = Path("public/js/operatorGuidance.sse.js")
+target.write_text("""(() => {
   if (window.__OPERATOR_GUIDANCE_STREAM_ACTIVE__) return;
   window.__OPERATOR_GUIDANCE_STREAM_ACTIVE__ = true;
 
@@ -79,7 +112,7 @@
       parts.push(`Failure Stage: ${failure}`);
     }
 
-    return parts.join("\n").trim();
+    return parts.join("\\n").trim();
   }
 
   function applyPayload(raw) {
@@ -146,3 +179,5 @@
     closeStream();
   });
 })();
+""")
+PY
