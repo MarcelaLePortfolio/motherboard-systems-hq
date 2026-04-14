@@ -23,66 +23,7 @@
     return "";
   }
 
-  function buildResponse(data) {
-    return firstNonEmpty(
-      data?.message,
-      data?.guidance,
-      data?.response,
-      data?.headline,
-      data?.summary,
-      data?.uiSummary?.headline,
-      data?.uiSummary?.detail
-    );
-  }
-
-  function buildMeta(data) {
-    const directMeta = firstNonEmpty(data?.meta);
-    if (directMeta) return directMeta;
-
-    const parts = [];
-
-    const confidence = firstNonEmpty(
-      data?.confidence,
-      data?.uiSummary?.confidence,
-      data?.latestConfidence
-    );
-    if (confidence) parts.append if False else None
-
-    if (confidence) {
-      parts.push(`Confidence: ${confidence}`);
-    }
-
-    const sources = Array.isArray(data?.sources)
-      ? data.sources.filter(Boolean).join(", ")
-      : firstNonEmpty(data?.sources, data?.source);
-    if (sources) {
-      parts.push(`Sources: ${sources}`);
-    }
-
-    const governance = firstNonEmpty(data?.latestGovernanceDecision, data?.governance);
-    if (governance) {
-      parts.push(`Governance: ${governance}`);
-    }
-
-    const approval = firstNonEmpty(data?.latestApprovalStatus, data?.approval);
-    if (approval) {
-      parts.push(`Approval: ${approval}`);
-    }
-
-    const execution = firstNonEmpty(data?.latestExecutionStatus, data?.execution);
-    if (execution) {
-      parts.push(`Execution: ${execution}`);
-    }
-
-    const failure = firstNonEmpty(data?.latestFailureStage, data?.failureStage);
-    if (failure) {
-      parts.push(`Failure Stage: ${failure}`);
-    }
-
-    return parts.join("\n").trim();
-  }
-
-  function applyPayload(raw) {
+  function normalizePayload(raw) {
     let data = raw;
     if (typeof raw === "string") {
       try {
@@ -92,36 +33,84 @@
       }
     }
 
-    const response = buildResponse(data);
-    const meta = buildMeta(data);
+    const reduction = data?.reduction ?? {};
 
-    if (RESPONSE_EL && response) {
-      RESPONSE_EL.textContent = response;
+    return {
+      response: firstNonEmpty(
+        reduction?.message,
+        reduction?.guidance,
+        reduction?.summary,
+        reduction?.headline,
+        reduction?.detail,
+        data?.message,
+        data?.guidance,
+        data?.response,
+        data?.headline,
+        data?.summary,
+        data?.uiSummary?.headline,
+        data?.uiSummary?.detail
+      ),
+      metaLines: [
+        firstNonEmpty(
+          reduction?.confidence ? `Confidence: ${reduction.confidence}` : "",
+          data?.confidence ? `Confidence: ${data.confidence}` : "",
+          data?.uiSummary?.confidence ? `Confidence: ${data.uiSummary.confidence}` : "",
+          data?.latestConfidence ? `Confidence: ${data.latestConfidence}` : ""
+        ),
+        firstNonEmpty(
+          reduction?.source ? `Sources: ${reduction.source}` : "",
+          data?.source ? `Sources: ${data.source}` : "",
+          Array.isArray(data?.sources) && data.sources.length
+            ? `Sources: ${data.sources.filter(Boolean).join(", ")}`
+            : ""
+        ),
+        firstNonEmpty(
+          reduction?.governance ? `Governance: ${reduction.governance}` : "",
+          data?.latestGovernanceDecision ? `Governance: ${data.latestGovernanceDecision}` : "",
+          data?.governance ? `Governance: ${data.governance}` : ""
+        ),
+        firstNonEmpty(
+          reduction?.approval ? `Approval: ${reduction.approval}` : "",
+          data?.latestApprovalStatus ? `Approval: ${data.latestApprovalStatus}` : "",
+          data?.approval ? `Approval: ${data.approval}` : ""
+        ),
+        firstNonEmpty(
+          reduction?.execution ? `Execution: ${reduction.execution}` : "",
+          data?.latestExecutionStatus ? `Execution: ${data.latestExecutionStatus}` : "",
+          data?.execution ? `Execution: ${data.execution}` : ""
+        ),
+        firstNonEmpty(
+          reduction?.failureStage ? `Failure Stage: ${reduction.failureStage}` : "",
+          data?.latestFailureStage ? `Failure Stage: ${data.latestFailureStage}` : "",
+          data?.failureStage ? `Failure Stage: ${data.failureStage}` : ""
+        )
+      ].filter(Boolean)
+    };
+  }
+
+  function applyPayload(raw) {
+    const normalized = normalizePayload(raw);
+
+    if (RESPONSE_EL && normalized.response) {
+      RESPONSE_EL.textContent = normalized.response;
     }
 
-    if (META_EL && meta) {
-      META_EL.textContent = meta;
+    if (META_EL && normalized.metaLines.length) {
+      META_EL.textContent = normalized.metaLines.join("\n");
     }
   }
 
   function attachHandlers(es) {
-    es.onmessage = (event) => {
+    const handleEvent = (event) => {
       try {
         applyPayload(event.data);
       } catch (_) {}
     };
 
-    es.addEventListener("operator-guidance", (event) => {
-      try {
-        applyPayload(event.data);
-      } catch (_) {}
-    });
-
-    es.addEventListener("guidance", (event) => {
-      try {
-        applyPayload(event.data);
-      } catch (_) {}
-    });
+    es.onmessage = handleEvent;
+    es.addEventListener("operator_guidance", handleEvent);
+    es.addEventListener("operator-guidance", handleEvent);
+    es.addEventListener("guidance", handleEvent);
 
     es.onerror = () => {
       closeStream();
