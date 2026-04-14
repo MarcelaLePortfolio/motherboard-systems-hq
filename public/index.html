@@ -1,3 +1,24 @@
 $(sed 's/\.obs-tab {/.obs-tab {\n      opacity: 0.92;\n      box-shadow: 0 6px 14px rgba(0,0,0,0.12);\n      padding: 0.6rem 1rem;\n      font-weight: 600;/g;
 s/\.obs-tab:hover {/.obs-tab:hover {\n      transform: translateY(-0.5px);\n      box-shadow: 0 8px 18px rgba(0,0,0,0.16);/g;
 s/\.obs-tab.active {/.obs-tab.active {\n      transform: none;\n      box-shadow: 0 10px 20px rgba(79,70,229,0.22);\n      font-weight: 700;/g' public/index.html)
+
+<style id="phase487-tab-micro-polish-safe">
+  .obs-tab {
+    opacity: 0.92;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+    padding: 0.6rem 1rem;
+    font-weight: 600;
+  }
+
+  .obs-tab:hover {
+    transform: translateY(-0.5px);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.16);
+  }
+
+  .obs-tab.active {
+    transform: none;
+    box-shadow: 0 10px 20px rgba(79,70,229,0.22);
+    font-weight: 700;
+  }
+</style>
+
