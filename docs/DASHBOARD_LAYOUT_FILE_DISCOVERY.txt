@@ -1,0 +1,5 @@
+DASHBOARD LAYOUT FILE DISCOVERY
+Generated: 2026-04-14T03:44:49Z
+Repo Root: /Users/marcela-dev/Projects/Motherboard_Systems_HQ
+
+=== CANDIDATE FILES BY UI LABEL SEARCH ===
