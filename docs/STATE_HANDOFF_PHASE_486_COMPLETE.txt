@@ -1,0 +1,218 @@
+STATE HANDOFF — DO NOT LOSE CONTEXT
+
+ASSISTANT OPERATES IN ENGINEERING CONTINUATION MODE
+
+(Post-Phase 486 completion — full UI consumption corridor sealed,
+backend frozen, deterministic stop confirmed)
+
+────────────────────────────────
+
+CRITICAL FINISH LINE CONTEXT
+
+Current macro objective:
+
+FINISH LINE 3 — Real-Time Arbitrary Request Capable Demo
+
+Definition:
+
+System must be able to accept a previously unseen operator project request
+and translate it into structured, governed, real-time execution while preserving:
+
+• Governance authority ordering
+• Human approval authority
+• Deterministic execution behavior
+• Governance explanation guarantees
+• Enforcement mediation discipline
+• Execution isolation boundaries
+• Operator visibility guarantees
+• Audit traceability
+
+FL-3 Demo observable flow:
+
+Operator request
+→ Structured intake
+→ Governance evaluation
+→ Operator approval
+→ Governed execution
+→ Outcome reporting
+
+No pre-configuration allowed.
+
+────────────────────────────────
+
+CURRENT CORRIDOR CLASSIFICATION
+
+PHASE 486 — UI CONSUMPTION CORRIDOR
+
+STATUS: COMPLETE
+STATE: STABLE
+MODE: CONSUMPTION-ONLY
+BACKEND: FROZEN
+
+────────────────────────────────
+
+WHAT WAS COMPLETED
+
+The demo runtime UI now exposes all available backend contract fields
+through passive rendering only:
+
+1. Governance Trace Panel
+   • admissionDecision
+   • approved
+   • governanceEvaluated
+   • authorityOrderingValid
+   • denialReasons
+   • rule-level trace: NO DATA (truth-preserving)
+
+2. Admission Panel
+   • admissionDecision
+   • governanceExplanation
+   • denialReasons
+   • approval conditions (explicit rows)
+
+3. Execution Panel
+   • generatedRequest.tasks
+   • traversalOrder (newly surfaced)
+
+4. Outcome Panel
+   • finalDemoResult
+   • taskOutcomes
+
+5. Request Panel
+   • requestId
+   • requestSummary (readability refined, no transformation)
+
+────────────────────────────────
+
+ENGINEERING PROTOCOL BASELINE (PERSISTENT)
+
+Workflow discipline:
+
+• Prove before wiring
+• Evidence before mutation
+• Result shape before behavior
+• Single boundary changes
+• One hypothesis per phase
+• Verify before seal
+• Pattern stabilize before expansion
+
+Mutation discipline:
+
+• Smallest safe change first
+• No deep coupling mutations
+• No multi-layer changes in one phase
+• Entrypoint control preferred over downstream mutation
+
+Stability discipline:
+
+• Restore last golden checkpoint if instability appears
+• Never fix forward
+• Verify contracts before change
+• Prefer restoration over repair
+
+Phase discipline:
+
+• New phases only for new capability classes
+• Micro-steps tracked within phase corridors
+• Deterministic stops required before transition
+
+────────────────────────────────
+
+TERMINAL-SAFE CODEBLOCK PROTOCOL
+
+All execution commands must:
+
+• be inside a single codeblock
+• use deterministic scripts when possible
+• avoid partial command fragments
+• be copy-paste safe
+• follow cat > file << 'EOF' patterns for file writes
+• include git add / commit / push for all changes
+
+No inline command fragments outside codeblocks.
+
+────────────────────────────────
+
+STRICT INVARIANTS (ENFORCED)
+
+UI layer MUST:
+
+• render only existing backend contract fields
+• not derive new meaning
+• not transform values
+• not recompute data
+• not introduce logic branches
+• not introduce async behavior
+
+System MUST preserve:
+
+• deterministic execution
+• replay safety
+• governance integrity
+• approval integrity
+• execution isolation
+• backend immutability
+
+────────────────────────────────
+
+STRICTLY PROHIBITED
+
+• Backend mutation
+• Contract mutation
+• Governance logic mutation
+• Approval flow mutation
+• Execution logic mutation
+• Async expansion
+• Multi-request expansion
+• Synthetic summaries
+• Hidden transformations
+• Logic migration into UI
+
+────────────────────────────────
+
+WHAT IS NOW PROVEN
+
+The system can:
+
+• expose governance-aware execution results
+• surface admission conditions clearly
+• expose execution traversal deterministically
+• present outcome reporting cleanly
+• preserve full backend integrity
+
+All without:
+
+• modifying backend contracts
+• introducing computation
+• breaking determinism
+
+This validates:
+
+PASSIVE UI CONSUMPTION AS A SAFE EXPANSION STRATEGY
+
+────────────────────────────────
+
+NEXT DECISION GATE
+
+Valid options:
+
+1. Cosmetic UI polish (safe)
+2. New corridor selection (requires phase transition)
+3. Handoff / continuation (safe)
+
+No further structural UI work remains in Phase 486.
+
+────────────────────────────────
+
+DETERMINISTIC RESUME POINT
+
+POST-PHASE 486 DECISION GATE
+
+────────────────────────────────
+
+CLASSIFICATION
+
+PHASE 486 COMPLETE
+UI CONSUMPTION CORRIDOR SEALED
+SYSTEM STABLE
+
