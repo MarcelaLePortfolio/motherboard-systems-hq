@@ -473,3 +473,33 @@
   }
 </style>
 
+
+<style id="phase488-h1-top-row-balance">
+  /* Constrain Agent Pool + Metrics to true 50/50 split */
+  .phase62-top-row {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 0.85rem !important;
+    align-items: stretch !important;
+  }
+
+  /* Ensure both sides behave equally */
+  #agent-status-container,
+  #metrics-row {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* Prevent Agent Pool from visually over-expanding */
+  #agent-status-container {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-content: flex-start !important;
+  }
+
+  /* Normalize metrics grid height behavior */
+  #metrics-row {
+    align-content: flex-start !important;
+  }
+</style>
+
