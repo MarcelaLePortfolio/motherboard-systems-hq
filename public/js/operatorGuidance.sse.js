@@ -30,60 +30,62 @@
     } catch (_) {}
 
     const reduction = data?.reduction || {};
+    const envelope = reduction?.envelope || {};
+    const guidanceItems = Array.isArray(envelope?.guidance) ? envelope.guidance : [];
+
+    const guidanceLines = guidanceItems
+      .map((item) =>
+        firstNonEmpty(
+          item?.summary,
+          item?.message,
+          item?.headline,
+          item?.detail,
+          item?.reason
+        )
+      )
+      .filter(Boolean);
 
     const response = firstNonEmpty(
-      reduction?.headline,
-      reduction?.summary,
-      reduction?.detail,
-      reduction?.message,
+      guidanceLines.join("\n"),
+      reduction?.confidenceReason,
       data?.message,
       data?.summary,
       "No guidance available"
     );
 
+    const sourceSet = new Set();
+    if (data?.source) sourceSet.add(String(data.source).trim());
+    guidanceItems.forEach((item) => {
+      const src = firstNonEmpty(item?.source, item?.domain, item?.key);
+      if (src) sourceSet.add(src);
+    });
+
     const metaLines = [];
 
     const confidence = firstNonEmpty(
+      reduction?.surfaceConfidence,
       reduction?.confidence,
       data?.confidence
     );
     if (confidence) metaLines.push(`Confidence: ${confidence}`);
 
-    const source = firstNonEmpty(
-      data?.source,
-      reduction?.source
-    );
-    if (source) metaLines.push(`Sources: ${source}`);
+    const confidenceReason = firstNonEmpty(reduction?.confidenceReason);
+    if (confidenceReason) metaLines.push(`Reason: ${confidenceReason}`);
 
-    const governance = firstNonEmpty(
-      reduction?.governance,
-      reduction?.decision,
-      data?.latestGovernanceDecision
-    );
-    if (governance) metaLines.push(`Governance: ${governance}`);
+    const signalCount =
+      reduction?.signalCount !== undefined && reduction?.signalCount !== null
+        ? String(reduction.signalCount).trim()
+        : "";
+    if (signalCount) metaLines.push(`Signals Observed: ${signalCount}`);
 
-    const approval = firstNonEmpty(
-      reduction?.approval,
-      data?.latestApprovalStatus
-    );
-    if (approval) metaLines.push(`Approval: ${approval}`);
+    if (reduction?.conflictingSignals === true) {
+      metaLines.push("Conflicting Signals: yes");
+    }
 
-    const execution = firstNonEmpty(
-      reduction?.execution,
-      data?.latestExecutionStatus
-    );
-    if (execution) metaLines.push(`Execution: ${execution}`);
+    const sources = Array.from(sourceSet).filter(Boolean).join(", ");
+    if (sources) metaLines.push(`Sources: ${sources}`);
 
-    const failure = firstNonEmpty(
-      reduction?.failureStage,
-      data?.latestFailureStage
-    );
-    if (failure) metaLines.push(`Failure Stage: ${failure}`);
-
-    return {
-      response,
-      metaLines
-    };
+    return { response, metaLines };
   }
 
   function applyPayload(raw) {
