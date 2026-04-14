@@ -11,7 +11,7 @@
   let es = null;
   let reconnectTimer = null;
   let reconnectAttempt = 0;
-  const maxItems = 60;
+  const maxItems = 120;
   const items = [];
 
   function escapeHtml(value) {
@@ -26,12 +26,18 @@
   function formatTime(value) {
     if (value == null || value === "") return "—";
     const d = new Date(value);
-    if (!Number.isNaN(d.getTime())) return d.toLocaleString();
+    if (!Number.isNaN(d.getTime())) {
+      return d.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+      });
+    }
     return String(value);
   }
 
-  function statusTone(status) {
-    const s = String(status || "").toLowerCase();
+  function statusTone(kind) {
+    const s = String(kind || "").toLowerCase();
     if (/fail|error|cancel|timeout|reject|blocked/.test(s)) return "#f87171";
     if (/success|complete|done|healthy|ok|approved/.test(s)) return "#4ade80";
     if (/queue|pending|wait|hold|retry/.test(s)) return "#facc15";
@@ -51,6 +57,17 @@
 
   function normalizeEvent(payload, eventName = "message") {
     const p = parseData(payload) || {};
+    const kind = String(
+      p.kind ||
+      p.type ||
+      p.event ||
+      eventName ||
+      "event"
+    );
+
+    if (kind === "hello" || kind === "heartbeat") {
+      return null;
+    }
 
     const ts =
       p.ts ||
@@ -58,17 +75,6 @@
       p.created_at ||
       p.updated_at ||
       Date.now();
-
-    const kind =
-      p.kind ||
-      p.type ||
-      p.event ||
-      eventName ||
-      "event";
-
-    if (kind === "hello" || kind === "heartbeat") {
-      return null;
-    }
 
     const title =
       p.title ||
@@ -85,13 +91,13 @@
 
     return {
       id: String(p.id || `${kind}:${ts}:${taskId}:${runId}:${title}`),
-      kind: String(kind),
+      kind,
       title: String(title),
       ts,
-      taskId: String(taskId || ""),
-      runId: String(runId || ""),
-      actor: String(actor || ""),
-      source: String(source || "")
+      taskId: String(taskId),
+      runId: String(runId),
+      actor: String(actor),
+      source: String(source),
     };
   }
 
@@ -120,13 +126,13 @@
           if (item.source) metaParts.push(`source=${item.source}`);
 
           return `
-            <div style="border-bottom:1px solid rgba(51,65,85,0.6); padding:0.5rem 0;">
-              <div style="display:flex; gap:0.6rem; align-items:flex-start; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:0.76rem; line-height:1.45;">
+            <div style="padding:0.42rem 0; border-bottom:1px solid rgba(51,65,85,0.5);">
+              <div style="display:grid; grid-template-columns:auto auto 1fr; gap:0.65rem; align-items:start; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:0.76rem; line-height:1.45;">
                 <span style="color:#94a3b8; white-space:nowrap;">${escapeHtml(formatTime(item.ts))}</span>
                 <span style="color:${statusTone(item.kind)}; white-space:nowrap; text-transform:uppercase;">${escapeHtml(item.kind)}</span>
-                <div style="min-width:0; flex:1; color:#e2e8f0;">
-                  <div>${escapeHtml(item.title)}</div>
-                  ${metaParts.length ? `<div style="color:#94a3b8; margin-top:0.18rem;">${escapeHtml(metaParts.join(" • "))}</div>` : ""}
+                <div style="min-width:0;">
+                  <div style="color:#e2e8f0;">${escapeHtml(item.title)}</div>
+                  ${metaParts.length ? `<div style="margin-top:0.14rem; color:#94a3b8;">${escapeHtml(metaParts.join(" • "))}</div>` : ""}
                 </div>
               </div>
             </div>
@@ -138,9 +144,9 @@
       <div style="display:flex; flex-direction:column; gap:0.55rem; min-height:12rem;">
         <div style="display:flex; justify-content:space-between; gap:0.75rem; align-items:center;">
           <div style="font-size:0.75rem; color:#94a3b8;">${statusLabel}</div>
-          <div style="font-size:0.72rem; color:#64748b;">Replay from cursor=0 • ${items.length} event${items.length === 1 ? "" : "s"}</div>
+          <div style="font-size:0.72rem; color:#64748b;">Live log • replay from cursor=0 • ${items.length} event${items.length === 1 ? "" : "s"}</div>
         </div>
-        <div style="border:1px solid rgba(51,65,85,0.9); background:rgba(2,6,23,0.42); border-radius:0.85rem; padding:0.6rem 0.8rem; overflow:auto; max-height:18rem;">
+        <div style="border:1px solid rgba(51,65,85,0.9); background:rgba(2,6,23,0.42); border-radius:0.85rem; padding:0.35rem 0.8rem; overflow:auto; max-height:18rem;">
           ${rows}
         </div>
       </div>
@@ -184,7 +190,9 @@
     source.addEventListener("error", handleEvent);
 
     source.onerror = () => {
-      try { source.close(); } catch (_) {}
+      try {
+        source.close();
+      } catch (_) {}
       scheduleReconnect();
     };
   }
@@ -192,11 +200,13 @@
   function connect() {
     clearReconnectTimer();
     if (es) {
-      try { es.close(); } catch (_) {}
+      try {
+        es.close();
+      } catch (_) {}
       es = null;
     }
 
-    render(items.length ? "reconnecting" : "reconnecting");
+    render("reconnecting");
     es = new EventSource(STREAM_URL);
     bindHandlers(es);
   }
@@ -207,7 +217,9 @@
   window.addEventListener("beforeunload", () => {
     clearReconnectTimer();
     if (es) {
-      try { es.close(); } catch (_) {}
+      try {
+        es.close();
+      } catch (_) {}
     }
   });
 })();
