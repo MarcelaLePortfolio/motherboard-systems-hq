@@ -22,7 +22,7 @@
   function visible(el) {
     if (!el) return false;
     const cs = getComputedStyle(el);
-    return !el.hasAttribute("hidden") && cs.display !== "none";
+    return !el.hasAttribute("hidden") && cs.display !== "none" && cs.visibility !== "hidden";
   }
 
   function lockHeight(el, h) {
@@ -32,10 +32,12 @@
     el.style.maxHeight = px(h);
     el.style.flex = `0 0 ${px(h)}`;
     el.style.boxSizing = "border-box";
+    el.style.minWidth = "0";
   }
 
-  function column(el) {
+  function setVisibleColumn(el) {
     if (!el) return;
+    if (!visible(el)) return;
     el.style.display = "flex";
     el.style.flexDirection = "column";
     el.style.minHeight = "0";
@@ -43,12 +45,13 @@
     el.style.alignSelf = "stretch";
   }
 
-  function fill(el) {
+  function setFill(el) {
     if (!el) return;
     el.style.flex = "1 1 auto";
     el.style.minHeight = "0";
     el.style.height = "100%";
     el.style.maxHeight = "100%";
+    el.style.boxSizing = "border-box";
   }
 
   function findActivePanel(root) {
@@ -65,35 +68,37 @@
     const chatPanel = q("#op-panel-chat");
     const delegationPanel = q("#op-panel-delegation");
 
-    const activeHeight = outerHeight(activePanel);
-    if (!activeHeight || activeHeight < 100) return;
-
-    // 🔥 THIS IS THE FIX:
-    // We DO NOT measure Matilda specifically anymore.
-    // We measure whichever panel is currently visible.
-    // Then force BOTH panels to that height.
+    const targetHeight = outerHeight(activePanel);
+    if (!targetHeight || targetHeight < 100) return;
 
     [chatPanel, delegationPanel].forEach((panel) => {
       if (!panel) return;
 
-      lockHeight(panel, activeHeight);
-      column(panel);
+      lockHeight(panel, targetHeight);
 
-      const card = panel.querySelector("section") || panel;
-      fill(card);
-      column(card);
+      // CRITICAL: do not override hidden panels with display:flex
+      if (!visible(panel)) return;
+
+      setVisibleColumn(panel);
+
+      const card =
+        panel.querySelector(":scope > section") ||
+        panel.querySelector("section") ||
+        panel;
+
+      setFill(card);
+      setVisibleColumn(card);
     });
 
-    // delegation internals
     const status = q("#delegation-status-panel");
-    if (status) {
+    if (status && visible(delegationPanel)) {
       status.style.flex = "1 1 auto";
       status.style.minHeight = "0";
       status.style.overflowY = "auto";
     }
 
     const input = q("#delegation-input") || q("#op-panel-delegation textarea");
-    if (input) {
+    if (input && visible(delegationPanel)) {
       input.style.flex = "0 0 auto";
     }
   }
