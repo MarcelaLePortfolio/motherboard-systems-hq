@@ -24,7 +24,7 @@
   function outerHeight(el) {
     if (!el) return 0;
     const r = el.getBoundingClientRect();
-    const cs = getComputedStyle(el);
+    const cs = window.getComputedStyle(el);
     return Math.round(
       r.height +
       (parseFloat(cs.marginTop) || 0) +
@@ -102,8 +102,17 @@
 
   function syncTelemetryPanels(targetHeight) {
     const observationalPanels = q("#observational-panels");
+    const observationalCard = q("#observational-workspace-card");
+
+    if (observationalCard) {
+      observationalCard.style.overflow = "hidden";
+      observationalCard.style.boxSizing = "border-box";
+    }
+
     if (observationalPanels) {
       observationalPanels.style.alignItems = "stretch";
+      observationalPanels.style.minHeight = "0";
+      observationalPanels.style.overflow = "hidden";
     }
 
     const telemetryPanels = [
@@ -116,6 +125,8 @@
       lockHeight(panel, targetHeight);
       if (!visible(panel)) return;
       setVisibleColumn(panel);
+      panel.style.margin = "0";
+      panel.style.padding = "0";
     });
 
     const recentCard = q("#recent-tasks-card");
@@ -124,6 +135,9 @@
 
     [recentCard, activityCard, eventsCard].forEach((card) => {
       if (!card) return;
+      card.style.margin = "0";
+      card.style.padding = "0";
+      card.style.border = "0";
       setFill(card);
       if (visible(card.closest(".obs-panel") || card)) {
         setVisibleColumn(card);
@@ -140,7 +154,10 @@
       if (!el) return;
       el.style.flex = "1 1 auto";
       el.style.minHeight = "0";
+      el.style.height = "100%";
+      el.style.maxHeight = "100%";
       el.style.overflowY = "auto";
+      el.style.boxSizing = "border-box";
     });
 
     if (activityWrap) {
@@ -151,6 +168,8 @@
       activityWrap.style.display = "flex";
       activityWrap.style.flexDirection = "column";
       activityWrap.style.overflow = "hidden";
+      activityWrap.style.boxSizing = "border-box";
+      activityWrap.style.margin = "0";
     }
 
     if (activityCanvas) {
@@ -159,6 +178,7 @@
       activityCanvas.style.height = "100%";
       activityCanvas.style.maxHeight = "100%";
       activityCanvas.style.display = "block";
+      activityCanvas.style.boxSizing = "border-box";
     }
   }
 

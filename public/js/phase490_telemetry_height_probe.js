@@ -4,12 +4,6 @@
 
   const q = (s) => document.querySelector(s);
 
-  function visible(el) {
-    if (!el) return false;
-    const cs = window.getComputedStyle(el);
-    return !el.hasAttribute("hidden") && cs.display !== "none" && cs.visibility !== "hidden";
-  }
-
   function outerHeight(el) {
     if (!el) return 0;
     const r = el.getBoundingClientRect();
@@ -24,19 +18,7 @@
   function measure(sel) {
     const el = q(sel);
     if (!el) return `${sel}: MISSING`;
-    const cs = getComputedStyle(el);
-    return [
-      `${sel}`,
-      `  visible=${visible(el)}`,
-      `  h=${Math.round(el.getBoundingClientRect().height)}`,
-      `  outer=${outerHeight(el)}`,
-      `  display=${cs.display}`,
-      `  flex=${cs.flex}`,
-      `  minH=${cs.minHeight}`,
-      `  maxH=${cs.maxHeight}`,
-      `  overflowY=${cs.overflowY}`,
-      `  mb=${cs.marginBottom}`
-    ].join("\n");
+    return `${sel}: ${outerHeight(el)}`;
   }
 
   function render() {
@@ -50,8 +32,8 @@
       panel.style.zIndex = "99999";
       panel.style.margin = "0";
       panel.style.padding = "10px 12px";
-      panel.style.maxWidth = "360px";
-      panel.style.maxHeight = "260px";
+      panel.style.maxWidth = "320px";
+      panel.style.maxHeight = "180px";
       panel.style.overflow = "auto";
       panel.style.background = "rgba(2,6,23,0.94)";
       panel.style.color = "#e2e8f0";
@@ -66,26 +48,14 @@
 
     panel.textContent = [
       "PHASE490 TELEMETRY HEIGHTS",
-      "",
       measure("#op-panel-chat"),
-      "",
       measure("#op-panel-delegation"),
-      "",
       measure("#obs-panel-recent"),
-      "",
       measure("#recent-tasks-card"),
-      "",
       measure("#obs-panel-activity"),
-      "",
       measure("#task-activity-card"),
-      "",
       measure("#obs-panel-events"),
-      "",
-      measure("#task-events-card"),
-      "",
-      measure("#observational-panels"),
-      "",
-      measure("#observational-workspace-card")
+      measure("#task-events-card")
     ].join("\n");
   }
 
