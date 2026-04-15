@@ -2,24 +2,6 @@
   if (window.__PHASE490_MEASURED_PANEL_HEIGHT_SYNC__) return;
   window.__PHASE490_MEASURED_PANEL_HEIGHT_SYNC__ = true;
 
-  const PANEL_SELECTORS = [
-    "#op-panel-delegation",
-    "#obs-panel-recent",
-    "#obs-panel-activity",
-    "#obs-panel-events",
-    "#delegation-card",
-    "#recent-tasks-card",
-    "#task-activity-card",
-    "#task-events-card"
-  ];
-
-  const INNER_SCROLL_SELECTORS = [
-    "#delegation-status-panel",
-    "#recentTasks",
-    "#recentLogs",
-    "#mb-task-events-panel-anchor"
-  ];
-
   function px(n) {
     return `${Math.max(0, Math.round(n))}px`;
   }
@@ -30,17 +12,15 @@
     return !el.hasAttribute("hidden") && cs.display !== "none" && cs.visibility !== "hidden";
   }
 
-  function findReferencePanel() {
-    const candidates = [
-      document.querySelector("#op-panel-chat"),
-      document.querySelector('[data-workspace-panel][aria-labelledby="op-tab-chat"]'),
-      document.querySelector("#operator-panels > :not([hidden])")
-    ].filter(Boolean);
-
-    return candidates.find(visible) || null;
+  function q(selector) {
+    return document.querySelector(selector);
   }
 
-  function applyHeight(el, h) {
+  function qa(selector) {
+    return Array.from(document.querySelectorAll(selector));
+  }
+
+  function setExactHeight(el, h) {
     if (!el) return;
     el.style.height = px(h);
     el.style.minHeight = px(h);
@@ -48,65 +28,131 @@
     el.style.boxSizing = "border-box";
   }
 
-  function normalizeInnerLayout() {
-    const delegationInput = document.querySelector("#delegation-input");
-    if (delegationInput) {
-      delegationInput.style.minHeight = "8rem";
-      delegationInput.style.flex = "0 0 auto";
-    }
+  function setFill(el) {
+    if (!el) return;
+    el.style.display = "flex";
+    el.style.flexDirection = "column";
+    el.style.flex = "1 1 auto";
+    el.style.minHeight = "0";
+  }
 
-    INNER_SCROLL_SELECTORS.forEach((selector) => {
-      const el = document.querySelector(selector);
+  function findReferencePanel() {
+    return (
+      q("#op-panel-chat") ||
+      q('[data-workspace-panel][aria-labelledby="op-tab-chat"]') ||
+      q("#operator-panels > :not([hidden])")
+    );
+  }
+
+  function syncOperatorPanels(targetHeight) {
+    const operatorContainers = [
+      q("#op-panel-chat"),
+      q("#op-panel-delegation"),
+      q("#chat-card"),
+      q("#delegation-card")
+    ];
+
+    operatorContainers.forEach((el) => {
       if (!el) return;
-      el.style.overflowY = "auto";
-      el.style.minHeight = "0";
-      el.style.flex = "1 1 auto";
+      setFill(el);
+      setExactHeight(el, targetHeight);
     });
 
-    const graphWrap = document.querySelector("#task-activity-card > div");
-    const graphCanvas = document.querySelector("#task-activity-graph");
-    if (graphWrap) {
-      graphWrap.style.display = "flex";
-      graphWrap.style.flex = "1 1 auto";
-      graphWrap.style.minHeight = "0";
-      graphWrap.style.overflow = "hidden";
+    const delegationStatus = q("#delegation-status-panel");
+    if (delegationStatus) {
+      delegationStatus.style.overflowY = "auto";
+      delegationStatus.style.flex = "1 1 auto";
+      delegationStatus.style.minHeight = "0";
     }
-    if (graphCanvas) {
-      graphCanvas.style.flex = "1 1 auto";
-      graphCanvas.style.height = "100%";
-      graphCanvas.style.maxHeight = "100%";
-      graphCanvas.style.minHeight = "0";
+
+    const delegationInput = q("#delegation-input");
+    if (delegationInput) {
+      delegationInput.style.flex = "0 0 auto";
+      delegationInput.style.minHeight = "8rem";
+    }
+  }
+
+  function syncTelemetryPanels(targetHeight) {
+    const workspaceCard = q("#observational-workspace-card");
+    const panelsRoot = q("#observational-panels");
+    const activePanel =
+      qa("#observational-panels > .obs-panel").find(visible) ||
+      q("#obs-panel-recent");
+
+    [workspaceCard, panelsRoot, activePanel].forEach((el) => {
+      if (!el) return;
+      setFill(el);
+      setExactHeight(el, targetHeight);
+    });
+
+    const telemetryCards = [
+      q("#recent-tasks-card"),
+      q("#task-activity-card"),
+      q("#task-events-card")
+    ];
+
+    telemetryCards.forEach((el) => {
+      if (!el) return;
+      setFill(el);
+      setExactHeight(el, targetHeight);
+    });
+
+    const recentTasks = q("#recentTasks");
+    const recentLogs = q("#recentLogs");
+    const taskEvents = q("#mb-task-events-panel-anchor");
+
+    [recentTasks, recentLogs, taskEvents].forEach((el) => {
+      if (!el) return;
+      el.style.flex = "1 1 auto";
+      el.style.minHeight = "0";
+      el.style.overflowY = "auto";
+    });
+
+    const activityWrap = q("#task-activity-card > div");
+    const activityCanvas = q("#task-activity-graph");
+
+    if (activityWrap) {
+      setFill(activityWrap);
+      setExactHeight(activityWrap, targetHeight);
+      activityWrap.style.overflow = "hidden";
+    }
+
+    if (activityCanvas) {
+      activityCanvas.style.flex = "1 1 auto";
+      activityCanvas.style.minHeight = "0";
+      activityCanvas.style.height = "100%";
+      activityCanvas.style.maxHeight = "100%";
     }
   }
 
   function sync() {
     const ref = findReferencePanel();
-    if (!ref) return;
+    if (!ref || !visible(ref)) return;
 
-    const h = ref.getBoundingClientRect().height;
-    if (!h || h < 50) return;
+    const targetHeight = ref.getBoundingClientRect().height;
+    if (!targetHeight || targetHeight < 100) return;
 
-    document.documentElement.style.setProperty("--phase490-measured-chat-panel-height", px(h));
+    document.documentElement.style.setProperty("--phase490-measured-chat-panel-height", px(targetHeight));
 
-    PANEL_SELECTORS.forEach((selector) => {
-      document.querySelectorAll(selector).forEach((el) => applyHeight(el, h));
-    });
-
-    normalizeInnerLayout();
+    syncOperatorPanels(targetHeight);
+    syncTelemetryPanels(targetHeight);
 
     try {
-      console.log("[phase490] measured Matilda panel height:", Math.round(h));
+      console.log("[phase490] synced exact panel height:", Math.round(targetHeight));
     } catch (_) {}
   }
 
   function boot() {
-    sync();
-
     const rerun = () => window.requestAnimationFrame(sync);
+
+    sync();
     window.addEventListener("resize", rerun);
     window.addEventListener("load", rerun);
     document.addEventListener("click", rerun);
     document.addEventListener("input", rerun);
+
+    const tabRoots = [q("#operator-tabs"), q("#observational-tabs")].filter(Boolean);
+    tabRoots.forEach((root) => root.addEventListener("click", rerun));
 
     const mo = new MutationObserver(rerun);
     mo.observe(document.body, {
