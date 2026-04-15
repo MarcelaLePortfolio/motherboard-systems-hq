@@ -10,6 +10,13 @@
     return document.querySelector(sel);
   }
 
+  function first() {
+    for (const el of arguments) {
+      if (el) return el;
+    }
+    return null;
+  }
+
   function visible(el) {
     if (!el) return false;
     const cs = window.getComputedStyle(el);
@@ -25,18 +32,12 @@
     return Math.round(rect.height + mt + mb);
   }
 
-  function first() {
-    for (const el of arguments) {
-      if (el) return el;
-    }
-    return null;
-  }
-
   function setExactHeight(el, h) {
     if (!el) return;
     el.style.height = px(h);
     el.style.minHeight = px(h);
     el.style.maxHeight = px(h);
+    el.style.flex = `0 0 ${px(h)}`;
     el.style.boxSizing = "border-box";
   }
 
@@ -46,9 +47,24 @@
     el.style.flexDirection = "column";
     el.style.minHeight = "0";
     el.style.overflow = "hidden";
+    el.style.alignSelf = "stretch";
+  }
+
+  function setFill(el) {
+    if (!el) return;
+    el.style.flex = "1 1 auto";
+    el.style.minHeight = "0";
+    el.style.height = "100%";
+    el.style.maxHeight = "100%";
+    el.style.boxSizing = "border-box";
   }
 
   function syncOperatorHeights() {
+    const operatorPanels = first(
+      q("#operator-panels"),
+      q("#operator-workspace-card #operator-panels")
+    );
+
     const chatPanel = first(
       q("#op-panel-chat"),
       q("#operator-panels > #op-panel-chat")
@@ -57,6 +73,12 @@
     const delegationPanel = first(
       q("#op-panel-delegation"),
       q("#operator-panels > #op-panel-delegation")
+    );
+
+    const chatCard = first(
+      q("#chat-card"),
+      q("#op-panel-chat #chat-card"),
+      q("#op-panel-chat > section")
     );
 
     const delegationCard = first(
@@ -76,26 +98,25 @@
       q("#op-panel-delegation .gap-3")
     );
 
-    if (!chatPanel || !delegationPanel || !delegationCard) return;
+    if (!operatorPanels || !chatPanel || !delegationPanel || !chatCard || !delegationCard) return;
     if (!visible(chatPanel) || !visible(delegationPanel)) return;
 
     const target = outerHeight(chatPanel);
     if (!target || target < 100) return;
 
+    operatorPanels.style.alignItems = "stretch";
+
+    setExactHeight(chatPanel, target);
     setExactHeight(delegationPanel, target);
+
+    setColumn(chatPanel);
     setColumn(delegationPanel);
 
-    delegationPanel.style.flex = "0 0 auto";
-    delegationPanel.style.alignSelf = "stretch";
+    setFill(chatCard);
+    setColumn(chatCard);
 
-    delegationCard.style.flex = "1 1 auto";
-    delegationCard.style.minHeight = "0";
-    delegationCard.style.height = "100%";
-    delegationCard.style.maxHeight = "100%";
-    delegationCard.style.display = "flex";
-    delegationCard.style.flexDirection = "column";
-    delegationCard.style.boxSizing = "border-box";
-    delegationCard.style.overflow = "hidden";
+    setFill(delegationCard);
+    setColumn(delegationCard);
 
     if (delegationInput) {
       delegationInput.style.flex = "0 0 auto";

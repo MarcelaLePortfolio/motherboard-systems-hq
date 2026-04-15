@@ -6,12 +6,6 @@
     return document.querySelector(sel);
   }
 
-  function visible(el) {
-    if (!el) return false;
-    const cs = window.getComputedStyle(el);
-    return !el.hasAttribute("hidden") && cs.display !== "none" && cs.visibility !== "hidden";
-  }
-
   function outerHeight(el) {
     if (!el) return 0;
     const rect = el.getBoundingClientRect();
@@ -24,18 +18,7 @@
   function measure(sel) {
     const el = q(sel);
     if (!el) return `${sel}: MISSING`;
-    const cs = window.getComputedStyle(el);
-    return [
-      `${sel}`,
-      `  visible=${visible(el)}`,
-      `  h=${Math.round(el.getBoundingClientRect().height)}`,
-      `  outer=${outerHeight(el)}`,
-      `  display=${cs.display}`,
-      `  flex=${cs.flex}`,
-      `  minH=${cs.minHeight}`,
-      `  maxH=${cs.maxHeight}`,
-      `  mb=${cs.marginBottom}`
-    ].join("\n");
+    return `${sel}: ${outerHeight(el)}`;
   }
 
   function render() {
@@ -49,8 +32,8 @@
       panel.style.zIndex = "99999";
       panel.style.margin = "0";
       panel.style.padding = "10px 12px";
-      panel.style.maxWidth = "360px";
-      panel.style.maxHeight = "260px";
+      panel.style.maxWidth = "300px";
+      panel.style.maxHeight = "180px";
       panel.style.overflow = "auto";
       panel.style.background = "rgba(2,6,23,0.94)";
       panel.style.color = "#e2e8f0";
@@ -64,21 +47,11 @@
     }
 
     panel.textContent = [
-      "PHASE490 OPERATOR HEIGHT PROBE",
-      "",
-      measure("#operator-panels"),
-      "",
+      "PHASE490 HEIGHTS",
       measure("#op-panel-chat"),
-      "",
       measure("#chat-card"),
-      "",
       measure("#op-panel-delegation"),
-      "",
-      measure("#delegation-card"),
-      "",
-      measure("#delegation-status-panel"),
-      "",
-      measure("#delegation-input")
+      measure("#delegation-card")
     ].join("\n");
   }
 
