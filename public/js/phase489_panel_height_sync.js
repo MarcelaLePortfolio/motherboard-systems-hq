@@ -32,40 +32,56 @@
     return Math.round(rect.height + mt + mb);
   }
 
-  function findMatildaReference() {
-    return first(
-      byId("chat-card"),
-      document.querySelector("#op-panel-chat #chat-card"),
-      document.querySelector("#op-panel-chat section"),
-      byId("op-panel-chat")
-    );
+  function setExactHeight(el, h) {
+    if (!el) return;
+    el.style.height = px(h);
+    el.style.minHeight = px(h);
+    el.style.maxHeight = px(h);
+    el.style.boxSizing = "border-box";
   }
 
-  function findDelegationCard() {
-    return first(
-      byId("delegation-card"),
-      document.querySelector("#op-panel-delegation #delegation-card"),
-      document.querySelector("#op-panel-delegation section"),
-      byId("op-panel-delegation")
-    );
+  function setFillColumn(el) {
+    if (!el) return;
+    el.style.display = "flex";
+    el.style.flexDirection = "column";
+    el.style.minHeight = "0";
   }
 
   function syncOperatorHeights() {
-    const reference = findMatildaReference();
-    const delegation = findDelegationCard();
+    const chatPanel = first(
+      byId("op-panel-chat"),
+      document.querySelector("#operator-panels > #op-panel-chat")
+    );
 
-    if (!reference || !delegation || !visible(reference) || !visible(delegation)) return;
+    const delegationPanel = first(
+      byId("op-panel-delegation"),
+      document.querySelector("#operator-panels > #op-panel-delegation")
+    );
 
-    const target = outerHeight(reference);
+    const delegationCard = first(
+      byId("delegation-card"),
+      document.querySelector("#op-panel-delegation #delegation-card"),
+      document.querySelector("#op-panel-delegation section")
+    );
+
+    if (!chatPanel || !delegationPanel || !delegationCard) return;
+    if (!visible(chatPanel) || !visible(delegationPanel)) return;
+
+    const target = outerHeight(chatPanel);
     if (!target || target < 100) return;
 
-    delegation.style.height = px(target);
-    delegation.style.minHeight = px(target);
-    delegation.style.maxHeight = px(target);
-    delegation.style.boxSizing = "border-box";
-    delegation.style.display = "flex";
-    delegation.style.flexDirection = "column";
-    delegation.style.overflow = "hidden";
+    setExactHeight(delegationPanel, target);
+    setFillColumn(delegationPanel);
+    delegationPanel.style.overflow = "hidden";
+
+    delegationCard.style.flex = "1 1 auto";
+    delegationCard.style.minHeight = "0";
+    delegationCard.style.height = "100%";
+    delegationCard.style.maxHeight = "100%";
+    delegationCard.style.display = "flex";
+    delegationCard.style.flexDirection = "column";
+    delegationCard.style.overflow = "hidden";
+    delegationCard.style.boxSizing = "border-box";
 
     const status = byId("delegation-status-panel");
     if (status) {
@@ -84,10 +100,9 @@
   }
 
   function boot() {
-    syncOperatorHeights();
-
     const rerun = () => window.requestAnimationFrame(syncOperatorHeights);
 
+    syncOperatorHeights();
     window.addEventListener("resize", rerun);
     window.addEventListener("load", rerun);
     document.addEventListener("click", rerun);
