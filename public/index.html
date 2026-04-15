@@ -437,8 +437,85 @@
     <span id="phase16-sse-indicator-text" style="padding:4px 8px;border-radius:9999px;border:1px solid rgba(255,255,255,.18);background:rgba(0,0,0,.25)">SSE: …</span>
   </div>
 
+
+
+
+<style id="phase489-unified-panel-heights">
+  /* Match all right-side panels + delegation to chat pane height */
+  #observational-workspace-card,
+  #delegation-status-panel,
+  #recent-tasks-card,
+  #task-activity-card,
+  #task-events-card {
+    height: 100%;
+    min-height: 0;
+  }
+
+  /* Make telemetry + delegation containers flex correctly */
+  #observational-panels,
+  [data-workspace-root],
+  #phase61-telemetry-column {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+  }
+
+  /* Panels stretch evenly */
+  .obs-panel {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Scrollable content areas */
+  #recentTasks,
+  #recentLogs,
+  #mb-task-events-panel-anchor {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    min-height: 0;
+  }
+
+  /* Task Activity graph fills available space */
+  #task-activity-card > div {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+  }
+
+  #task-activity-graph {
+    flex: 1 1 auto !important;
+    height: 100% !important;
+  }
+</style>
+\n<style id="phase489-task-activity-scroll">
+  [data-phase61-shell="history"] {
+    min-height: 0 !important;
+  }
+
+  [data-phase61-list="history"] {
+    max-height: 18rem !important;
+    overflow: auto !important;
+    padding-right: 0.15rem;
+  }
+</style>
+\n<style id="phase489-recent-tasks-scroll">
+  [data-phase61-shell="recent"] {
+    min-height: 0 !important;
+  }
+
+  [data-phase61-list="recent"] {
+    max-height: 18rem !important;
+    overflow: auto !important;
+    padding-right: 0.15rem;
+  }
+</style>
+
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.js"></script>
   <script defer src="js/phase61_tabs_workspace.js"></script>
+  <script defer src="js/phase489_panel_height_sync.js"></script>
   <script defer src="js/phase61_recent_history_wire.js"></script>
   <script defer src="js/dashboard-graph.js"></script>
   <script defer src="js/phase457_restore_task_panels.js"></script>
