@@ -6,10 +6,6 @@
     return `${Math.max(0, Math.round(n))}px`;
   }
 
-  function log() {
-    try { console.log("[phase489-panel-height-sync]", ...arguments); } catch (_) {}
-  }
-
   function byId(id) {
     return document.getElementById(id);
   }
@@ -29,6 +25,33 @@
     if (!el) return false;
     const cs = window.getComputedStyle(el);
     return !el.hasAttribute("hidden") && cs.display !== "none" && cs.visibility !== "hidden";
+  }
+
+  function ensureProbe() {
+    let probe = byId("phase489-height-probe");
+    if (probe) return probe;
+
+    probe = document.createElement("pre");
+    probe.id = "phase489-height-probe";
+    probe.style.position = "fixed";
+    probe.style.right = "12px";
+    probe.style.bottom = "12px";
+    probe.style.zIndex = "99999";
+    probe.style.margin = "0";
+    probe.style.padding = "10px 12px";
+    probe.style.maxWidth = "320px";
+    probe.style.background = "rgba(2,6,23,0.92)";
+    probe.style.color = "#e2e8f0";
+    probe.style.border = "1px solid rgba(71,85,105,0.95)";
+    probe.style.borderRadius = "12px";
+    probe.style.fontSize = "11px";
+    probe.style.lineHeight = "1.35";
+    probe.style.fontFamily = "ui-monospace, SFMono-Regular, Menlo, monospace";
+    probe.style.whiteSpace = "pre-wrap";
+    probe.style.pointerEvents = "none";
+    probe.style.boxShadow = "0 10px 30px rgba(0,0,0,0.35)";
+    document.body.appendChild(probe);
+    return probe;
   }
 
   function findChatPieces() {
@@ -87,10 +110,8 @@
       .map(([name, el]) => ({ name, h: rectHeight(el) }));
 
     const total = included.reduce((sum, item) => sum + item.h, 0);
-    log("reference pieces", included, "total", total);
-
-    if (total > 0) return total;
-    if (pieces.transcript) return rectHeight(pieces.transcript);
+    if (total > 0) return { total, pieces: included };
+    if (pieces.transcript) return { total: rectHeight(pieces.transcript), pieces: [{ name: "transcript", h: rectHeight(pieces.transcript) }] };
     return null;
   }
 
@@ -112,15 +133,27 @@
     if (scroll) el.style.overflowY = "auto";
   }
 
-  function syncPanelHeights() {
-    const targetHeight = computeReferenceHeight();
-    if (!targetHeight) {
-      log("no target height resolved");
-      return;
-    }
+  function renderProbe(targetHeight, targets, pieces) {
+    const probe = ensureProbe();
+    probe.textContent = [
+      "PHASE489 HEIGHT PROBE",
+      `target: ${targetHeight}`,
+      `delegation: ${rectHeight(targets.delegationCard)}`,
+      `recent: ${rectHeight(targets.recentTasksCard)}`,
+      `activity: ${rectHeight(targets.taskActivityCard)}`,
+      `events: ${rectHeight(targets.taskEventsCard)}`,
+      "",
+      "pieces:",
+      ...pieces.map((p) => `${p.name}: ${p.h}`)
+    ].join("\n");
+  }
 
+  function syncPanelHeights() {
+    const reference = computeReferenceHeight();
+    if (!reference) return;
+
+    const targetHeight = reference.total;
     const targets = findTargetPanels();
-    log("targets", Object.fromEntries(Object.entries(targets).map(([k, v]) => [k, !!v])));
 
     [
       targets.delegationCard,
@@ -161,12 +194,7 @@
         panel.style.height = "auto";
       });
 
-    log("applied targetHeight", targetHeight, {
-      delegationCard: rectHeight(targets.delegationCard),
-      recentTasksCard: rectHeight(targets.recentTasksCard),
-      taskActivityCard: rectHeight(targets.taskActivityCard),
-      taskEventsCard: rectHeight(targets.taskEventsCard),
-    });
+    renderProbe(targetHeight, targets, reference.pieces);
   }
 
   function boot() {
@@ -178,7 +206,9 @@
     const obsTabs = byId("observational-tabs");
     const opTabs = byId("operator-tabs");
     [obsTabs, opTabs].filter(Boolean).forEach((root) => {
-      root.addEventListener("click", () => window.requestAnimationFrame(syncPanelHeights));
+      root.addEventListener("click", () => {
+        window.requestAnimationFrame(syncPanelHeights);
+      });
     });
 
     const mo = new MutationObserver(() => window.requestAnimationFrame(syncPanelHeights));
