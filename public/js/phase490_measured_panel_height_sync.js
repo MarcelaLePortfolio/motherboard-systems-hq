@@ -2,19 +2,13 @@
   if (window.__PHASE490_MEASURED_PANEL_HEIGHT_SYNC__) return;
   window.__PHASE490_MEASURED_PANEL_HEIGHT_SYNC__ = true;
 
-  const PANEL_SELECTORS = [
-    "#op-panel-delegation",
-    "#obs-panel-recent",
-    "#obs-panel-activity",
-    "#obs-panel-events",
-    "#delegation-card",
+  const TELEMETRY_CARDS = [
     "#recent-tasks-card",
     "#task-activity-card",
     "#task-events-card"
   ];
 
-  const INNER_SCROLL_SELECTORS = [
-    "#delegation-status-panel",
+  const SCROLL_AREAS = [
     "#recentTasks",
     "#recentLogs",
     "#mb-task-events-panel-anchor"
@@ -30,7 +24,7 @@
     return !el.hasAttribute("hidden") && cs.display !== "none" && cs.visibility !== "hidden";
   }
 
-  function findReferencePanel() {
+  function findMatildaPanel() {
     const candidates = [
       document.querySelector("#op-panel-chat"),
       document.querySelector('[data-workspace-panel][aria-labelledby="op-tab-chat"]'),
@@ -46,65 +40,56 @@
     el.style.minHeight = px(h);
     el.style.maxHeight = px(h);
     el.style.boxSizing = "border-box";
+    el.style.display = "flex";
+    el.style.flexDirection = "column";
   }
 
-  function normalizeInnerLayout() {
-    const delegationInput = document.querySelector("#delegation-input");
-    if (delegationInput) {
-      delegationInput.style.minHeight = "8rem";
-      delegationInput.style.flex = "0 0 auto";
-    }
-
-    INNER_SCROLL_SELECTORS.forEach((selector) => {
-      const el = document.querySelector(selector);
+  function normalizeInner() {
+    SCROLL_AREAS.forEach(sel => {
+      const el = document.querySelector(sel);
       if (!el) return;
-      el.style.overflowY = "auto";
-      el.style.minHeight = "0";
       el.style.flex = "1 1 auto";
+      el.style.minHeight = "0";
+      el.style.overflowY = "auto";
     });
 
     const graphWrap = document.querySelector("#task-activity-card > div");
-    const graphCanvas = document.querySelector("#task-activity-graph");
+    const canvas = document.querySelector("#task-activity-graph");
+
     if (graphWrap) {
-      graphWrap.style.display = "flex";
       graphWrap.style.flex = "1 1 auto";
       graphWrap.style.minHeight = "0";
-      graphWrap.style.overflow = "hidden";
+      graphWrap.style.display = "flex";
     }
-    if (graphCanvas) {
-      graphCanvas.style.flex = "1 1 auto";
-      graphCanvas.style.height = "100%";
-      graphCanvas.style.maxHeight = "100%";
-      graphCanvas.style.minHeight = "0";
+
+    if (canvas) {
+      canvas.style.flex = "1 1 auto";
+      canvas.style.height = "100%";
     }
   }
 
   function sync() {
-    const ref = findReferencePanel();
+    const ref = findMatildaPanel();
     if (!ref) return;
 
     const h = ref.getBoundingClientRect().height;
-    if (!h || h < 50) return;
+    if (!h || h < 100) return;
 
-    document.documentElement.style.setProperty("--phase490-measured-chat-panel-height", px(h));
-
-    PANEL_SELECTORS.forEach((selector) => {
-      document.querySelectorAll(selector).forEach((el) => applyHeight(el, h));
+    TELEMETRY_CARDS.forEach(sel => {
+      document.querySelectorAll(sel).forEach(el => applyHeight(el, h));
     });
 
-    normalizeInnerLayout();
+    normalizeInner();
 
-    try {
-      console.log("[phase490] measured Matilda panel height:", Math.round(h));
-    } catch (_) {}
+    console.log("[phase490] synced telemetry cards to:", Math.round(h));
   }
 
   function boot() {
     sync();
 
-    const rerun = () => window.requestAnimationFrame(sync);
+    const rerun = () => requestAnimationFrame(sync);
+
     window.addEventListener("resize", rerun);
-    window.addEventListener("load", rerun);
     document.addEventListener("click", rerun);
     document.addEventListener("input", rerun);
 
@@ -113,10 +98,10 @@
       subtree: true,
       childList: true,
       attributes: true,
-      attributeFilter: ["class", "style", "hidden", "aria-hidden"]
+      attributeFilter: ["class", "style", "hidden"]
     });
 
-    window.setInterval(sync, 1200);
+    setInterval(sync, 1500);
   }
 
   if (document.readyState === "loading") {
