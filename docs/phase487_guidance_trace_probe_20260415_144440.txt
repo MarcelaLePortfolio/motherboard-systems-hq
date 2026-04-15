@@ -1,0 +1,401 @@
+PHASE 487 — GUIDANCE TRACE PROBE
+timestamp=20260415_144440
+branch=phase119-dashboard-cognition-contract
+commit=f160dfdbe0439b7d01165c38dda3e09e819acfac
+
+=== STEP 1: FIND GUIDANCE RENDER ENTRY ===
+
+=== STEP 2: TRACE STATUS FIELD USAGE ===
+app/api/demo-runtime/route.ts:18:        { status: 400 }
+app/api/demo-runtime/route.ts:29:    return NextResponse.json(report, { status: 200 });
+app/api/demo-runtime/route.ts:34:    return NextResponse.json({ error: message }, { status: 500 });
+src/governance_investigation/governance_playback_assembly_proof.ts:8:  readonly dashboard_status_matches_playback: boolean;
+src/governance_investigation/governance_playback_assembly_proof.ts:45:    assembled.dashboard_contract.status.total_events ===
+src/governance_investigation/governance_playback_assembly_proof.ts:49:        ? assembled.dashboard_contract.status.current_position === null
+src/governance_investigation/governance_playback_assembly_proof.ts:50:        : assembled.dashboard_contract.status.current_position ===
+src/governance_investigation/governance_playback_assembly_proof.ts:58:    dashboard_status_matches_playback: dashboardStatusMatchesPlayback,
+src/governance_investigation/governance_dashboard_playback_contract.ts:11:  readonly status: {
+src/governance_investigation/governance_dashboard_playback_contract.ts:33:    status: {
+src/governance/governance_advisory_consistency_guard.test.ts:10:  it("matches normal status for empty signals", () => {
+src/governance/governance_advisory_consistency_guard.test.ts:22:  it("matches warning status", () => {
+src/governance/governance_advisory_consistency_guard.test.ts:29:    expect(result.expected_status)
+src/governance/governance_advisory_consistency_guard.test.ts:37:  it("matches critical status", () => {
+src/governance/governance_advisory_consistency_guard.test.ts:44:    expect(result.expected_status)
+src/contracts/governanceExecutionBridgeContract.ts:14:  status: string;
+src/contracts/governanceExecutionBridgeContract.ts:27:  status?: string | null;
+src/cognition/contracts/cognition.contracts.ts:46:  status: GovernanceStatus;
+src/cognition/invariants/cognition.invariants.ts:83:    if (!invariantGovernanceStatus(item.status)) {
+src/governance/governanceCognitionSurfaceTypes.ts:27:  status: GovernanceCognitionSurfaceStatus;
+src/components/dashboard/SystemHealthBlock.tsx:10:    <section aria-label="System status">
+src/cognition/operatorGuidanceConfidence.ts:35:  const degraded = signals.filter(s => s.status === "degraded").length;
+src/cognition/operatorGuidanceConfidence.ts:36:  const stalled = signals.filter(s => s.status === "stalled").length;
+src/cognition/operatorGuidanceConfidence.ts:37:  const unknown = signals.filter(s => s.status === "unknown").length;
+src/cognition/operatorGuidanceConfidence.ts:38:  const healthy = signals.filter(s => s.status === "healthy").length;
+src/cognition/operatorGuidanceMapping.ts:13:  status: GuidanceSignalStatus;
+src/cognition/operatorGuidanceMapping.ts:34:function mapStatusToSeverity(status: GuidanceSignalStatus): GuidanceSeverity {
+src/cognition/operatorGuidanceMapping.ts:35:  switch (status) {
+src/cognition/operatorGuidanceMapping.ts:47:function mapStatusToConfidence(status: GuidanceSignalStatus): GuidanceConfidence {
+src/cognition/operatorGuidanceMapping.ts:48:  switch (status) {
+src/cognition/operatorGuidanceMapping.ts:61:  status: GuidanceSignalStatus,
+src/cognition/operatorGuidanceMapping.ts:63:  switch (status) {
+src/cognition/operatorGuidanceMapping.ts:89:  const severity = mapStatusToSeverity(signal.status);
+src/cognition/operatorGuidanceMapping.ts:90:  const confidence = mapStatusToConfidence(signal.status);
+src/cognition/operatorGuidanceMapping.ts:91:  const type = mapStatusToType(signal.status);
+src/cognition/operatorGuidanceMapping.ts:113:      signal.domain === "system_health" && signal.status === "healthy",
+src/cognition/operatorGuidanceMapping.ts:125:      signal.domain === "system_health" && signal.status === "degraded",
+src/cognition/operatorGuidanceMapping.ts:137:      signal.domain === "system_health" && signal.status === "stalled",
+src/cognition/operatorGuidanceMapping.ts:149:      signal.domain === "throughput" && signal.status === "healthy",
+src/cognition/operatorGuidanceMapping.ts:161:      signal.domain === "throughput" && signal.status === "degraded",
+src/cognition/operatorGuidanceMapping.ts:173:      signal.domain === "throughput" && signal.status === "stalled",
+src/cognition/operatorGuidanceMapping.ts:185:      signal.domain === "latency" && signal.status === "degraded",
+src/cognition/operatorGuidanceMapping.ts:197:      signal.domain === "latency" && signal.status === "stalled",
+src/cognition/operatorGuidanceMapping.ts:209:      signal.domain === "task_lifecycle" && signal.status === "degraded",
+src/cognition/operatorGuidanceMapping.ts:221:      signal.domain === "task_lifecycle" && signal.status === "stalled",
+src/cognition/operatorGuidanceMapping.ts:233:      signal.domain === "signal_quality" && signal.status === "unknown",
+src/cognition/operatorGuidanceMapping.ts:245:      signal.domain === "operator_awareness" && signal.status === "unknown",
+src/cognition/operatorGuidance.smoke.ts:34:        status: "healthy",
+src/cognition/operatorGuidance.smoke.ts:50:        status: "degraded",
+src/cognition/operatorGuidance.smoke.ts:66:        status: "stalled",
+src/cognition/operatorGuidance.smoke.ts:82:        status: "unknown",
+src/cognition/operatorGuidance.smoke.ts:98:        status: "healthy",
+src/cognition/operatorGuidance.smoke.ts:106:        status: "degraded",
+src/contracts/__fixtures__/governanceExecutionBridgeContract.fixture.ts:9:      status: "queued",
+src/contracts/__fixtures__/governanceExecutionBridgeContract.fixture.ts:21:      status: "pending",
+src/contracts/__fixtures__/governanceExecutionBridgeAssembly.fixture.ts:11:  status: "queued",
+src/cognition/operatorGuidance.live.ts:17:    status: "healthy",
+src/cognition/operatorGuidance.live.ts:25:    status: "degraded",
+src/cognition/operatorGuidance.live.ts:33:    status: "stalled",
+src/cognition/operatorGuidance.live.ts:41:    status: "unknown",
+src/governance/governance_explanation_layer.test.ts:17:    expect(result.governance_status)
+src/governance/governance_explanation_layer.test.ts:29:    expect(result.governance_status)
+src/governance/governance_explanation_layer.test.ts:41:    expect(result.governance_status)
+src/governance/governance_drift_guard.test.ts:11:    expect(result.governance_status)
+src/contracts/reporting/operatorConsumableExecutionProofSurface.ts:15:    status: "accepted" | "blocked";
+src/contracts/reporting/operatorConsumableExecutionProofSurface.ts:33:  const status = report.summary.accepted ? "accepted" : "blocked";
+src/contracts/reporting/operatorConsumableExecutionProofSurface.ts:36:    status === "accepted"
+src/contracts/reporting/operatorConsumableExecutionProofSurface.ts:50:      status,
+src/governance/governance_cognition_replay_verifier.ts:11:        .operator_view.status
+src/governance/governance_cognition_replay_verifier.ts:33:    baseline_status: baseline,
+src/governance/governance_advisory_contract_lock.ts:23:  if (!("status" in result.operator_view)) {
+src/governance/governance_advisory_contract_lock.ts:24:    throw new Error("Governance advisory drift: operator status missing")
+src/governance/governanceCognitionIntegrationProof.ts:32:  status: string;
+src/governance/governanceCognitionIntegrationProof.ts:71:    status: hooks.getStatus(),
+src/governance/governance_cognition_integrity_sentinel.ts:15:  if (!result.operator_view.status) {
+src/governance/governance_cognition_integrity_sentinel.ts:16:    throw new Error("Governance cognition drift: operator status missing")
+src/governance/governance_cognition_determinism_sentinel.ts:21:    if (run1.operator_view.status !== run2.operator_view.status) {
+src/governance/governanceCognitionSelectorsProof.ts:35:  status: string;
+src/governance/governanceCognitionSelectorsProof.ts:68:  const status =
+src/governance/governanceCognitionSelectorsProof.ts:78:    status,
+src/governance/governance_cognition_regression_sentinel.ts:21:    baseline.operator_view.status !==
+src/governance/governance_cognition_regression_sentinel.ts:22:    replay.operator_view.status
+src/governance/governance_advisory_operator_view.ts:14:  status: "healthy" | "attention" | "critical"
+src/governance/governance_advisory_operator_view.ts:25:      status: "critical",
+src/governance/governance_advisory_operator_view.ts:34:      status: "attention",
+src/governance/governance_advisory_operator_view.ts:43:      status: "attention",
+src/governance/governance_advisory_operator_view.ts:50:    status: "healthy",
+src/governance/governanceCognitionIntegrationHooks.ts:28:  getStatus: () => GovernanceCognitionSurface["status"];
+src/governance/governance_operator_explanation_layer.ts:8:  const status =
+src/governance/governance_operator_explanation_layer.ts:9:    advisory.operator_view.status
+src/governance/governance_operator_explanation_layer.ts:13:  if(status === "warning"){
+src/governance/governance_operator_explanation_layer.ts:20:  if(status === "critical"){
+src/governance/governance_operator_explanation_layer.ts:29:    governance_status: status,
+src/governance/governance_drift_expectations.ts:8:  if (result.empty_status !== "healthy") {
+src/governance/governance_drift_expectations.ts:12:  if (result.critical_status !== "critical") {
+src/governance/governance_drift_expectations.ts:16:  if (result.warning_status !== "attention") {
+src/governance/governance_drift_expectations.ts:20:  if (result.mixed_status !== "critical") {
+src/governance/governance_drift_expectations.ts:25:    status: "governance-stable"
+src/governance/governance_audit_trace_emitter.ts:16:    governance_status:
+src/governance/governance_audit_trace_emitter.ts:17:      advisory.operator_view.status,
+src/governance/governanceCognitionSelectors.ts:27:  return surface.status;
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:93:  assert(receipt.receiptStatus === "acknowledged", "Receipt status must evaluate to acknowledged.");
+src/governance/cognition/prove_governance_live_wiring_decision.ts:94:  assert(decision.decisionStatus === "eligible", "Decision status must evaluate to eligible.");
+src/governance/governanceCognitionSurfaceProof.ts:28:  status: "STABLE" | "ELEVATED" | "REVIEW" | "CRITICAL";
+src/governance/governanceCognitionSurfaceProof.ts:65:    status: surface.status,
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:101:  assert(capsule.capsuleStatus === "summarized", "Capsule status must evaluate to summarized.");
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:122:  assert(manifest.manifestStatus === "prepared", "Manifest status must evaluate to prepared.");
+src/governance/cognition/prove_governance_dashboard_consumption_view.ts:48:  assert(selected.headlineStatus === "review", "Selected status must preserve deterministic precedence.");
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:115:  assert(envelope.envelopeStatus === "wrapped", "Envelope status must evaluate to wrapped.");
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:108:  assert(contractPackage.packageStatus === "prepared", "Package status must evaluate to prepared.");
+src/governance/cognition/prove_governance_authorization_gate.ts:101:  assert(gate.gateStatus === "open", "Authorization gate status must evaluate to open.");
+src/governance/cognition/prove_governance_cognition_snapshot.ts:44:  assert(packaged.snapshot.overallStatus === "review", "Overall status must preserve deterministic precedence.");
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:97:  assert(archiveRecord.archiveStatus === "recorded", "Archive status must evaluate to recorded.");
+src/governance/governanceCognitionSurfaceBuilder.ts:64:  const status =
+src/governance/governanceCognitionSurfaceBuilder.ts:68:    status,
+src/governance/governance_fixture_corpus.test.ts:31:    expect(result.operator_view.status)
+src/governance/governance_fixture_corpus.test.ts:43:    expect(result.operator_view.status)
+src/governance/governance_fixture_corpus.test.ts:55:    expect(result.operator_view.status)
+src/governance/governance_fixture_corpus.test.ts:67:    expect(result.operator_view.status)
+src/governance/governance_fixture_corpus.test.ts:79:    expect(result.operator_view.status)
+src/governance/governance_drift_guard.ts:11:    governance_status:
+src/governance/governance_drift_guard.ts:12:      result.status,
+src/governance/governance_advisory_operator_view.test.ts:36:    expect(view.status)
+src/governance/governance_advisory_operator_view.test.ts:53:    expect(view.status)
+src/governance/governance_advisory_operator_view.test.ts:68:    expect(view.status)
+src/governance/governance_advisory_consistency_guard.ts:8:  const status =
+src/governance/governance_advisory_consistency_guard.ts:9:    advisory.operator_view.status
+src/governance/governance_advisory_consistency_guard.ts:30:    expected !== status
+src/governance/governance_advisory_consistency_guard.ts:34:    advisory_status: status,
+src/governance/governance_advisory_consistency_guard.ts:36:    expected_status: expected,
+src/governance/governance_drift_sentinel.ts:36:    empty_status:
+src/governance/governance_drift_sentinel.ts:37:      empty.operator_view.status,
+src/governance/governance_drift_sentinel.ts:39:    critical_status:
+src/governance/governance_drift_sentinel.ts:40:      critical.operator_view.status,
+src/governance/governance_drift_sentinel.ts:42:    warning_status:
+src/governance/governance_drift_sentinel.ts:43:      warning.operator_view.status,
+src/governance/governance_drift_sentinel.ts:45:    mixed_status:
+src/governance/governance_drift_sentinel.ts:46:      mixed.operator_view.status
+src/governance/governance_drift_sentinel.test.ts:29:    expect(result.operator_view.status)
+src/governance/governance_drift_sentinel.test.ts:41:    expect(result.operator_view.status)
+src/governance/governance_drift_sentinel.test.ts:53:    expect(result.operator_view.status)
+src/governance/governance_drift_sentinel.test.ts:65:    expect(result.operator_view.status)
+src/governance/governance_advisory_pipeline.test.ts:32:    expect(result.operator_view.status)
+src/governance/governance_advisory_pipeline.test.ts:48:    expect(result.operator_view.status)
+src/governance/governance_advisory_stability_sentinel.ts:26:    run1.operator_view.status !==
+src/governance/governance_advisory_stability_sentinel.ts:27:    run2.operator_view.status ||
+src/governance/governance_advisory_stability_sentinel.ts:28:    run2.operator_view.status !==
+src/governance/governance_advisory_stability_sentinel.ts:29:    run3.operator_view.status
+
+=== STEP 3: TRACE REASON FIELD USAGE ===
+app/demo-runtime/page.tsx:268:              <strong>Denial reasons:</strong>
+app/demo-runtime/page.tsx:271:                  {report.denialReasons.map((reason) => (
+app/demo-runtime/page.tsx:272:                    <li key={reason}>{reason}</li>
+app/demo-runtime/page.tsx:331:                <h4 style={{ marginBottom: "0.5rem" }}>Denial reasons</h4>
+app/demo-runtime/page.tsx:333:                  {report.denialReasons.map((reason) => (
+app/demo-runtime/page.tsx:334:                    <li key={reason}>{reason}</li>
+src/governance/governanceOperatorAwarenessProof.ts:47:      reason: "awareness-proof"
+src/governance/governance_policy_registry.ts:19:  reason: GovernanceEnforcementReason
+src/governance/governance_policy_registry.ts:31:    reason: "no_violation_detected",
+src/governance/governance_policy_registry.ts:41:    reason: "operator_review_required",
+src/governance/governance_policy_registry.ts:51:    reason: "governance_critical_detected",
+src/governance/governanceCognitionSelectorsProof.ts:55:      reason: "selector-proof"
+src/governance/governanceCognitionSurfaceProof.ts:48:      reason: "cognition-surface-proof"
+src/governance/governance_signal_classifier.test.ts:57:  assert.equal(riskClassification.reason, "RISK_SIGNAL_DETECTED");
+src/governance/governance_signal_classifier.test.ts:63:  assert.equal(cautionClassification.reason, "CAUTION_SIGNAL_DETECTED");
+src/governance/governance_signal_classifier.test.ts:67:  assert.equal(safeClassification.reason, "SAFE_SIGNAL_DETECTED");
+src/governance/governance_signal_classifier.test.ts:71:  assert.equal(unknownClassification.reason, "MISSING_REQUIRED_FIELDS");
+src/governance/governance_signal_classifier.test.ts:77:  assert.equal(auditRecord.reason, "RISK_SIGNAL_DETECTED");
+src/governance/governance_enforcement_contract.ts:23:  reason: GovernanceEnforcementReason
+src/governance/governance_enforcement_contract.ts:31:  reason: GovernanceEnforcementReason
+src/governance/governance_enforcement_contract.ts:35:    reason,
+src/governance/governanceExecutionRoutingClassifier.ts:36:    reason: routing.reason,
+src/governance/governance_advisory_contract.test.ts:20:        reasoning: "Signal classified as informational.",
+src/governance/governance_advisory_contract.test.ts:39:        reasoning: "Notice-level condition present.",
+src/governance/governance_advisory_contract.test.ts:51:        reasoning: "Critical severity must dominate report severity.",
+src/governance/governance_advisory_contract.test.ts:63:        reasoning: "Warning present but not highest.",
+src/governance/governance_advisory_normalizer.test.ts:17:    reasoning: "test",
+src/governance/governanceExecutionRoutingTypes.ts:20:  reason: string;
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:104:  assert(selected.capsuleReasonCount >= 4, "Capsule must expose deterministic reasons.");
+src/governance/governance_decision_pipeline.ts:49:    policy.reason,
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:88:  assert(selected.readinessReasonCount >= 4, "Readiness must expose deterministic reasons.");
+src/governance/governance_signal_classifier.ts:79:    reason: GovernanceClassificationReason
+src/governance/governance_signal_classifier.ts:89:    reason: GovernanceClassificationReason
+src/governance/governance_signal_classifier.ts:122:            reason: "MISSING_REQUIRED_FIELDS",
+src/governance/governance_signal_classifier.ts:132:            reason: "RISK_SIGNAL_DETECTED",
+src/governance/governance_signal_classifier.ts:142:            reason: "CAUTION_SIGNAL_DETECTED",
+src/governance/governance_signal_classifier.ts:151:        reason: "SAFE_SIGNAL_DETECTED",
+src/governance/governance_signal_classifier.ts:166:        reason: classification.reason,
+src/governance/governanceOperatorAwarenessTypes.ts:42:  reason: string;
+src/governance/governanceExecutionRoutingProof.ts:41:        reason: "determinism-proof"
+src/governance/governanceCognitionIntegrationProof.ts:52:      reason: "integration-proof"
+src/governance/cognition/prove_governance_live_wiring_decision.ts:97:  assert(selected.decisionReasonCount >= 4, "Decision must expose deterministic reasons.");
+src/governance/governance_audit_log.ts:18:  reason: string
+src/governance/governance_audit_log.ts:38:    reason: result.reason,
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:118:  assert(selected.envelopeReasonCount >= 4, "Envelope must expose deterministic reasons.");
+src/governance/governance_advisory_presenter.test.ts:20:    reasoning: "test",
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:100:  assert(selected.archiveReasonCount >= 4, "Archive record must expose deterministic reasons.");
+src/governance/cognition/prove_governance_authorization_gate.ts:104:  assert(selected.authorizationReasonCount >= 4, "Authorization gate must expose deterministic reasons.");
+src/governance/cognition/build_governance_live_registry_wiring_readiness.ts:18:  const reasons = uniqueSorted([
+src/governance/cognition/build_governance_live_registry_wiring_readiness.ts:53:    readinessReasons: reasons,
+src/governance/governanceOutcomeSurfaceBuilder.ts:47:    reason: routing.reason
+src/governance/governanceOutcomeSurfaceTypes.ts:38:  reason: string;
+src/governance/governance_advisory_contract.ts:76:  Governance reasoning trace (read-only cognition explanation)
+src/governance/governance_advisory_contract.ts:78:  reasoning: string;
+src/governance/governanceOperatorAwarenessBuilder.ts:45:    reason: surface.reason
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:125:  assert(selected.manifestReasonCount >= 4, "Manifest must expose deterministic reasons.");
+src/governance/governanceExecutionRouting.ts:28:  reason: string;
+src/governance/governanceExecutionRouting.ts:34:  reason: string;
+src/governance/governanceExecutionRouting.ts:50:        reason: input.reason,
+src/governance/governanceExecutionRouting.ts:58:        reason: input.reason,
+src/governance/governanceExecutionRouting.ts:66:        reason: input.reason,
+src/governance/governanceExecutionRouting.ts:74:        reason: input.reason,
+src/governance/governanceExecutionRouting.ts:82:        reason: input.reason,
+src/governance/governance_enforcement_result.ts:19:  reason: GovernanceEnforcementReason
+src/governance/governance_enforcement_result.ts:36:  reason: GovernanceEnforcementReason,
+src/governance/governance_enforcement_result.ts:45:    reason,
+src/contracts/governanceExecutionBridgeContract.ts:39:  reasons: GovernanceDecisionReason[];
+src/cognition/transport/cognitionTransport.severity.ts:17:  reasons: string[]
+src/cognition/transport/cognitionTransport.severity.ts:24:  const reasons: string[] = []
+src/cognition/transport/cognitionTransport.severity.ts:27:    reasons.push("registry inconsistent")
+src/cognition/transport/cognitionTransport.severity.ts:30:    reasons.push("replay unsafe")
+src/cognition/transport/cognitionTransport.severity.ts:33:    reasons.push("transport failures detected")
+src/cognition/transport/cognitionTransport.severity.ts:37:  if (reasons.length === 0)
+src/cognition/transport/cognitionTransport.severity.ts:39:  else if (reasons.length === 1)
+src/cognition/transport/cognitionTransport.severity.ts:41:  else if (reasons.length === 2)
+src/cognition/transport/cognitionTransport.severity.ts:49:    reasons
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:111:  assert(selected.packageReasonCount >= 4, "Contract package must expose deterministic reasons.");
+src/contracts/__fixtures__/governanceExecutionBridgeContract.fixture.ts:30:      reasons: [],
+src/cognition/transport/cognitionTransport.risk.ts:17:  reasons: string[]
+src/cognition/transport/cognitionTransport.risk.ts:38:    reasons: severity.reasons
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:96:  assert(selected.receiptReasonCount >= 4, "Receipt must expose deterministic reasons.");
+src/cognition/transport/cognitionTransport.failure.ts:15:  reason: TransportFailureReason;
+src/cognition/transport/cognitionTransport.failure.ts:26:export function transportFailure(reason: TransportFailureReason): TransportFailure {
+src/cognition/transport/cognitionTransport.failure.ts:30:    reason
+src/cognition/transport/cognitionTransport.failure.ts:47:All failures must return reason.
+src/contracts/execution/governedExecutionProof.ts:26:  blocked_reason: string | null;
+src/contracts/execution/governedExecutionProof.ts:50:      blocked_reason: "governance_denied",
+src/contracts/execution/governedExecutionProof.ts:69:      blocked_reason: "operator_approval_missing",
+src/contracts/execution/governedExecutionProof.ts:87:    blocked_reason: null,
+src/governance/governanceOutcomeSurfaceProof.ts:43:        reason: "surface-proof"
+src/contracts/__fixtures__/governanceExecutionBridgeAssembly.fixture.ts:26:    reasons: [],
+src/contracts/reporting/operatorConsumableExecutionProofSurface.ts:41:    report.summary.blocked_reason === "governance_denied"
+src/contracts/reporting/operatorConsumableExecutionProofSurface.ts:43:      : report.summary.blocked_reason === "operator_approval_missing"
+src/contracts/reporting/governedExecutionProofReport.ts:15:    blocked_reason: string | null;
+src/contracts/reporting/governedExecutionProofReport.ts:35:      blocked_reason: result.blocked_reason,
+src/cognition/operatorGuidanceConfidence.ts:17:  reason: string;
+src/cognition/operatorGuidanceConfidence.ts:29:      reason: "No signals available for interpretation.",
+src/cognition/operatorGuidanceConfidence.ts:46:      reason: "Stalled signals observed but root cause not proven.",
+src/cognition/operatorGuidanceConfidence.ts:55:      reason: "Degraded signals observed without systemic failure.",
+src/cognition/operatorGuidanceConfidence.ts:64:      reason: "Signal quality insufficient for strong interpretation.",
+src/cognition/operatorGuidanceConfidence.ts:72:    reason: "Signals consistently indicate healthy state.",
+src/cognition/transport/cognitionTransport.interpretation.ts:16:  reasons: string[]
+src/cognition/transport/cognitionTransport.interpretation.ts:31:    reasons: severity.reasons,
+src/contracts/execution/__proofs__/governedExecutionProof.caseproof.ts:29:    blocked_reason: governedExecutionAllowedResult.blocked_reason,
+src/contracts/execution/__proofs__/governedExecutionProof.caseproof.ts:36:    blocked_reason: governedExecutionGovernanceBlockedResult.blocked_reason,
+src/contracts/execution/__proofs__/governedExecutionProof.caseproof.ts:43:    blocked_reason: governedExecutionApprovalMissingResult.blocked_reason,
+src/cognition/operatorGuidanceReducer.ts:74:    confidenceReason: confidence.reason,
+src/cognition/transport/cognitionTransport.operatorView.ts:23:    ...interpretation.reasons,
+src/cognition/confidence/confidenceInvariant.ts:41:  if (first.reasoning.factors.length !== 4) {
+src/cognition/confidence/confidenceInvariant.ts:43:      `Operational confidence invariant failed: expected 4 factors, received ${first.reasoning.factors.length}.`,
+src/cognition/confidence/confidenceSynthesizer.ts:41:    reasoning: {
+src/cognition/confidence/confidenceFactors.ts:22:  readonly reasonTemplate: (score: number) => string;
+src/cognition/confidence/confidenceFactors.ts:30:      reasonTemplate: (score) =>
+src/cognition/confidence/confidenceFactors.ts:36:      reasonTemplate: (score) => `Runtime health evaluated at ${score}/100.`,
+src/cognition/confidence/confidenceFactors.ts:41:      reasonTemplate: (score) =>
+src/cognition/confidence/confidenceFactors.ts:47:      reasonTemplate: (score) =>
+src/cognition/confidence/confidenceFactors.ts:82:      reason: descriptor.reasonTemplate(score),
+src/cognition/confidence/confidence.types.ts:37:  readonly reason: string;
+src/cognition/confidence/confidence.types.ts:50:  readonly reasoning: OperationalConfidenceReasoning;
+
+=== STEP 4: TRACE ANY 'insufficient' ASSIGNMENTS ===
+src/cognition/operatorGuidanceConfidence.ts:28:      confidence: "insufficient",
+src/cognition/operatorGuidanceConfidence.ts:64:      reason: "Signal quality insufficient for strong interpretation.",
+src/cognition/operatorGuidance.smoke.ts:15:  expectedSurfaceConfidence: "high" | "medium" | "low" | "insufficient";
+src/cognition/operatorGuidance.smoke.ts:120:    expectedSurfaceConfidence: "insufficient",
+src/cognition/operatorGuidanceMapping.ts:237:        `Signal quality is insufficient for strong interpretation: ${signal.summary}`,
+src/cognition/operatorGuidance.live.ts:52:  surfaceConfidence: "high" | "medium" | "low" | "insufficient";
+src/cognition/operatorGuidance.ts:17:  | "insufficient";
+src/cognition/operatorGuidanceSafety.ts:43:  "insufficient",
+src/cognition/operatorGuidanceReducer.ts:90:    surfaceConfidence: "insufficient",
+
+=== STEP 5: TRACE STATE INITIALIZATION ===
+app/demo-runtime/page.tsx:3:import { useMemo, useState } from "react";
+app/demo-runtime/page.tsx:77:  const [prompt, setPrompt] = useState(
+app/demo-runtime/page.tsx:80:  const [approved, setApproved] = useState(true);
+app/demo-runtime/page.tsx:81:  const [governanceEvaluated, setGovernanceEvaluated] = useState(true);
+app/demo-runtime/page.tsx:82:  const [authorityOrderingValid, setAuthorityOrderingValid] = useState(true);
+app/demo-runtime/page.tsx:83:  const [loading, setLoading] = useState(false);
+app/demo-runtime/page.tsx:84:  const [report, setReport] = useState<DemoReport | null>(null);
+app/demo-runtime/page.tsx:85:  const [error, setError] = useState<string>("");
+
+=== STEP 6: TRACE EFFECT / HYDRATION ===
+
+=== STEP 7: TARGET FILE SHORTLIST ===
+app/api/demo-runtime/route.ts
+app/demo-runtime/page.tsx
+src/cognition/confidence/confidence.types.ts
+src/cognition/confidence/confidenceFactors.ts
+src/cognition/confidence/confidenceInvariant.ts
+src/cognition/confidence/confidenceSynthesizer.ts
+src/cognition/contracts/cognition.contracts.ts
+src/cognition/invariants/cognition.invariants.ts
+src/cognition/operator-read/cognition.operator-read.ts
+src/cognition/operatorGuidance.live.ts
+src/cognition/operatorGuidance.smoke.ts
+src/cognition/operatorGuidance.ts
+src/cognition/operatorGuidanceConfidence.ts
+src/cognition/operatorGuidanceMapping.ts
+src/cognition/operatorGuidanceReducer.ts
+src/cognition/operatorGuidanceSafety.ts
+src/cognition/selectors/cognition.selectors.ts
+src/cognition/transport/cognitionTransport.failure.ts
+src/cognition/transport/cognitionTransport.interpretation.ts
+src/cognition/transport/cognitionTransport.operatorView.ts
+src/cognition/transport/cognitionTransport.risk.ts
+src/cognition/transport/cognitionTransport.severity.ts
+src/components/dashboard/SystemHealthBlock.tsx
+src/contracts/__fixtures__/governanceExecutionBridgeAssembly.fixture.ts
+src/contracts/__fixtures__/governanceExecutionBridgeContract.fixture.ts
+src/contracts/execution/__proofs__/governedExecutionProof.caseproof.ts
+src/contracts/execution/governedExecutionProof.ts
+src/contracts/governanceExecutionBridgeContract.ts
+src/contracts/reporting/governedExecutionProofReport.ts
+src/contracts/reporting/operatorConsumableExecutionProofSurface.ts
+src/governance_investigation/governance_dashboard_playback_contract.ts
+src/governance_investigation/governance_playback_assembly_proof.ts
+src/governance/cognition/build_governance_live_registry_wiring_readiness.ts
+src/governance/cognition/prove_governance_authorization_gate.ts
+src/governance/cognition/prove_governance_cognition_snapshot.ts
+src/governance/cognition/prove_governance_dashboard_consumption_view.ts
+src/governance/cognition/prove_governance_final_delivery_receipt.ts
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts
+src/governance/cognition/prove_governance_live_wiring_decision.ts
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts
+src/governance/governance_advisory_consistency_guard.test.ts
+src/governance/governance_advisory_consistency_guard.ts
+src/governance/governance_advisory_contract_lock.ts
+src/governance/governance_advisory_contract.test.ts
+src/governance/governance_advisory_contract.ts
+src/governance/governance_advisory_normalizer.test.ts
+src/governance/governance_advisory_operator_view.test.ts
+src/governance/governance_advisory_operator_view.ts
+src/governance/governance_advisory_pipeline.test.ts
+src/governance/governance_advisory_presenter.test.ts
+src/governance/governance_advisory_stability_sentinel.ts
+src/governance/governance_audit_log.ts
+src/governance/governance_audit_trace_emitter.ts
+src/governance/governance_cognition_determinism_sentinel.ts
+src/governance/governance_cognition_integrity_sentinel.ts
+src/governance/governance_cognition_regression_sentinel.ts
+src/governance/governance_cognition_replay_verifier.ts
+src/governance/governance_decision_pipeline.ts
+src/governance/governance_drift_expectations.ts
+src/governance/governance_drift_guard.test.ts
+src/governance/governance_drift_guard.ts
+src/governance/governance_drift_sentinel.test.ts
+src/governance/governance_drift_sentinel.ts
+src/governance/governance_enforcement_contract.ts
+src/governance/governance_enforcement_result.ts
+src/governance/governance_explanation_builder.ts
+src/governance/governance_explanation_layer.test.ts
+src/governance/governance_fixture_corpus.test.ts
+src/governance/governance_operator_explanation_layer.ts
+src/governance/governance_policy_registry.ts
+src/governance/governance_signal_classifier.test.ts
+src/governance/governance_signal_classifier.ts
+src/governance/governanceCognitionIntegrationHooks.ts
+src/governance/governanceCognitionIntegrationProof.ts
+src/governance/governanceCognitionSelectors.ts
+src/governance/governanceCognitionSelectorsProof.ts
+src/governance/governanceCognitionSurfaceBuilder.ts
+src/governance/governanceCognitionSurfaceProof.ts
+src/governance/governanceCognitionSurfaceTypes.ts
+src/governance/governanceExecutionRouting.ts
+src/governance/governanceExecutionRoutingClassifier.ts
+src/governance/governanceExecutionRoutingProof.ts
+src/governance/governanceExecutionRoutingTypes.ts
+src/governance/governanceOperatorAwarenessBuilder.ts
+src/governance/governanceOperatorAwarenessProof.ts
+src/governance/governanceOperatorAwarenessTypes.ts
+src/governance/governanceOutcomeSurfaceBuilder.ts
+src/governance/governanceOutcomeSurfaceProof.ts
+src/governance/governanceOutcomeSurfaceTypes.ts
+
+=== INTERPRETATION TARGET ===
+Identify exact line where:
+• valid governance output becomes 'insufficient'
+• OR UI defaults to insufficient before hydration
+
