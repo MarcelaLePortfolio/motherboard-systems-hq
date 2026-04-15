@@ -27,33 +27,6 @@
     return !el.hasAttribute("hidden") && cs.display !== "none" && cs.visibility !== "hidden";
   }
 
-  function ensureProbe() {
-    let probe = byId("phase489-height-probe");
-    if (probe) return probe;
-
-    probe = document.createElement("pre");
-    probe.id = "phase489-height-probe";
-    probe.style.position = "fixed";
-    probe.style.right = "12px";
-    probe.style.bottom = "12px";
-    probe.style.zIndex = "99999";
-    probe.style.margin = "0";
-    probe.style.padding = "10px 12px";
-    probe.style.maxWidth = "320px";
-    probe.style.background = "rgba(2,6,23,0.92)";
-    probe.style.color = "#e2e8f0";
-    probe.style.border = "1px solid rgba(71,85,105,0.95)";
-    probe.style.borderRadius = "12px";
-    probe.style.fontSize = "11px";
-    probe.style.lineHeight = "1.35";
-    probe.style.fontFamily = "ui-monospace, SFMono-Regular, Menlo, monospace";
-    probe.style.whiteSpace = "pre-wrap";
-    probe.style.pointerEvents = "none";
-    probe.style.boxShadow = "0 10px 30px rgba(0,0,0,0.35)";
-    document.body.appendChild(probe);
-    return probe;
-  }
-
   function findChatPieces() {
     const transcript = first(
       byId("matilda-chat-transcript"),
@@ -107,11 +80,11 @@
     const pieces = findChatPieces();
     const included = Object.entries(pieces)
       .filter(([, el]) => el && visible(el))
-      .map(([name, el]) => ({ name, h: rectHeight(el) }));
+      .map(([, el]) => rectHeight(el));
 
-    const total = included.reduce((sum, item) => sum + item.h, 0);
-    if (total > 0) return { total, pieces: included };
-    if (pieces.transcript) return { total: rectHeight(pieces.transcript), pieces: [{ name: "transcript", h: rectHeight(pieces.transcript) }] };
+    const total = included.reduce((sum, h) => sum + h, 0);
+    if (total > 0) return total;
+    if (pieces.transcript) return rectHeight(pieces.transcript);
     return null;
   }
 
@@ -133,26 +106,10 @@
     if (scroll) el.style.overflowY = "auto";
   }
 
-  function renderProbe(targetHeight, targets, pieces) {
-    const probe = ensureProbe();
-    probe.textContent = [
-      "PHASE489 HEIGHT PROBE",
-      `target: ${targetHeight}`,
-      `delegation: ${rectHeight(targets.delegationCard)}`,
-      `recent: ${rectHeight(targets.recentTasksCard)}`,
-      `activity: ${rectHeight(targets.taskActivityCard)}`,
-      `events: ${rectHeight(targets.taskEventsCard)}`,
-      "",
-      "pieces:",
-      ...pieces.map((p) => `${p.name}: ${p.h}`)
-    ].join("\n");
-  }
-
   function syncPanelHeights() {
-    const reference = computeReferenceHeight();
-    if (!reference) return;
+    const targetHeight = computeReferenceHeight();
+    if (!targetHeight) return;
 
-    const targetHeight = reference.total;
     const targets = findTargetPanels();
 
     [
@@ -193,8 +150,6 @@
         panel.style.minHeight = "0";
         panel.style.height = "auto";
       });
-
-    renderProbe(targetHeight, targets, reference.pieces);
   }
 
   function boot() {
