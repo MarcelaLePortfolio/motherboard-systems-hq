@@ -1,0 +1,41 @@
+SYSTEM HEALTH SUMMARY
+source_file=docs/system_health_check_20260415_143223.txt
+
+=== REBOOT DETECTION ===
+=== LAST REBOOT ===
+                 system boot  Apr 15 14:30 
+
+=== CPU / MEMORY SIGNAL ===
+14:32  up 2 mins, 1 user, load averages: 8.97 4.32 1.76
+=== CPU + MEMORY ===
+Load Avg: 8.97, 4.32, 1.76 
+CPU usage: 35.9% user, 13.24% sys, 51.65% idle 
+MemRegions: 250423 total, 2565M resident, 213M private, 1647M shared.
+PhysMem: 9243M used (1989M wired, 1034M compressor), 6519M unused.
+PID   COMMAND          %CPU TIME     #TH    #WQ  #PORTS MEM   PURG  CMPRS PGRP PPID STATE    BOOSTS      %CPU_ME %CPU_OTHRS UID FAULTS COW  MSGSENT MSGRECV SYSBSD  SYSMACH CSW     PAGEINS IDLEW POWER INSTRS CYCLES JETPRI USER                   #MREGS RPRVT VPRVT VSIZE KPRVT KSHRD
+1045  ReportMemoryExce 0.0  00:00.12 3      1    40     2544K 0B    0B    1045 1    sleeping *0[2]       0.00000 0.00000    269 1082   135  183     80      1114    342     146     222     0     0.0   0      0      0      _reportmemoryexception N/A    N/A   N/A   N/A   N/A   N/A  
+
+=== DOCKER STATUS ===
+Docker not detected
+
+=== PORT BINDINGS ===
+No monitored ports active
+
+=== PM2 STATUS ===
+PM2 not detected
+
+=== ERROR SIGNALS ===
+No critical errors detected
+
+=== CLOUDFARE STATUS ===
+No tunnels running
+
+=== AGENT LOG SIGNAL ===
+No agent log output detected
+
+=== SUMMARY INTERPRETATION ===
+If reboot detected + no panic logs → likely OS-level restart (not code-induced)
+If Docker/PM2 missing → services did not auto-recover
+If ports missing → dashboard/backend not running
+If errors present → inspect logs above
+
