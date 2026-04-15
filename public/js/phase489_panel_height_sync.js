@@ -2,37 +2,30 @@
   if (window.__PHASE489_PANEL_HEIGHT_SYNC_ACTIVE__) return;
   window.__PHASE489_PANEL_HEIGHT_SYNC_ACTIVE__ = true;
 
+  const q = (s) => document.querySelector(s);
+
   function px(n) {
     return `${Math.max(0, Math.round(n))}px`;
   }
 
-  function q(sel) {
-    return document.querySelector(sel);
-  }
-
-  function first() {
-    for (const el of arguments) {
-      if (el) return el;
-    }
-    return null;
+  function outerHeight(el) {
+    if (!el) return 0;
+    const r = el.getBoundingClientRect();
+    const cs = getComputedStyle(el);
+    return Math.round(
+      r.height +
+      (parseFloat(cs.marginTop) || 0) +
+      (parseFloat(cs.marginBottom) || 0)
+    );
   }
 
   function visible(el) {
     if (!el) return false;
-    const cs = window.getComputedStyle(el);
-    return !el.hasAttribute("hidden") && cs.display !== "none" && cs.visibility !== "hidden";
+    const cs = getComputedStyle(el);
+    return !el.hasAttribute("hidden") && cs.display !== "none";
   }
 
-  function outerHeight(el) {
-    if (!el) return 0;
-    const rect = el.getBoundingClientRect();
-    const cs = window.getComputedStyle(el);
-    const mt = parseFloat(cs.marginTop || "0") || 0;
-    const mb = parseFloat(cs.marginBottom || "0") || 0;
-    return Math.round(rect.height + mt + mb);
-  }
-
-  function setExactHeight(el, h) {
+  function lockHeight(el, h) {
     if (!el) return;
     el.style.height = px(h);
     el.style.minHeight = px(h);
@@ -41,7 +34,7 @@
     el.style.boxSizing = "border-box";
   }
 
-  function setColumn(el) {
+  function column(el) {
     if (!el) return;
     el.style.display = "flex";
     el.style.flexDirection = "column";
@@ -50,116 +43,82 @@
     el.style.alignSelf = "stretch";
   }
 
-  function setFill(el) {
+  function fill(el) {
     if (!el) return;
     el.style.flex = "1 1 auto";
     el.style.minHeight = "0";
     el.style.height = "100%";
     el.style.maxHeight = "100%";
-    el.style.boxSizing = "border-box";
   }
 
-  function syncOperatorHeights() {
-    const operatorPanels = first(
-      q("#operator-panels"),
-      q("#operator-workspace-card #operator-panels")
-    );
+  function findActivePanel(root) {
+    return [...root.children].find((el) => visible(el));
+  }
 
-    const chatPanel = first(
-      q("#op-panel-chat"),
-      q("#operator-panels > #op-panel-chat")
-    );
+  function sync() {
+    const operatorPanels = q("#operator-panels");
+    if (!operatorPanels) return;
 
-    const delegationPanel = first(
-      q("#op-panel-delegation"),
-      q("#operator-panels > #op-panel-delegation")
-    );
+    const activePanel = findActivePanel(operatorPanels);
+    if (!activePanel) return;
 
-    const chatCard = first(
-      q("#chat-card"),
-      q("#op-panel-chat #chat-card"),
-      q("#op-panel-chat > section")
-    );
+    const chatPanel = q("#op-panel-chat");
+    const delegationPanel = q("#op-panel-delegation");
 
-    const delegationCard = first(
-      q("#delegation-card"),
-      q("#op-panel-delegation #delegation-card"),
-      q("#op-panel-delegation > section"),
-      q("#op-panel-delegation section")
-    );
+    const activeHeight = outerHeight(activePanel);
+    if (!activeHeight || activeHeight < 100) return;
 
-    const delegationStatus = q("#delegation-status-panel");
-    const delegationInput = first(
-      q("#delegation-input"),
-      q("#op-panel-delegation textarea")
-    );
-    const delegationActions = first(
-      q("#op-panel-delegation .flex.flex-col.md\\:flex-row.md\\:items-center.md\\:justify-between.gap-3"),
-      q("#op-panel-delegation .gap-3")
-    );
+    // 🔥 THIS IS THE FIX:
+    // We DO NOT measure Matilda specifically anymore.
+    // We measure whichever panel is currently visible.
+    // Then force BOTH panels to that height.
 
-    if (!operatorPanels || !chatPanel || !delegationPanel || !chatCard || !delegationCard) return;
-    if (!visible(chatPanel) || !visible(delegationPanel)) return;
+    [chatPanel, delegationPanel].forEach((panel) => {
+      if (!panel) return;
 
-    const target = outerHeight(chatPanel);
-    if (!target || target < 100) return;
+      lockHeight(panel, activeHeight);
+      column(panel);
 
-    operatorPanels.style.alignItems = "stretch";
+      const card = panel.querySelector("section") || panel;
+      fill(card);
+      column(card);
+    });
 
-    setExactHeight(chatPanel, target);
-    setExactHeight(delegationPanel, target);
-
-    setColumn(chatPanel);
-    setColumn(delegationPanel);
-
-    setFill(chatCard);
-    setColumn(chatCard);
-
-    setFill(delegationCard);
-    setColumn(delegationCard);
-
-    if (delegationInput) {
-      delegationInput.style.flex = "0 0 auto";
-      delegationInput.style.height = "auto";
-      delegationInput.style.minHeight = "";
-      delegationInput.style.maxHeight = "";
+    // delegation internals
+    const status = q("#delegation-status-panel");
+    if (status) {
+      status.style.flex = "1 1 auto";
+      status.style.minHeight = "0";
+      status.style.overflowY = "auto";
     }
 
-    if (delegationActions) {
-      delegationActions.style.flex = "0 0 auto";
-    }
-
-    if (delegationStatus) {
-      delegationStatus.style.flex = "1 1 auto";
-      delegationStatus.style.minHeight = "0";
-      delegationStatus.style.height = "auto";
-      delegationStatus.style.maxHeight = "none";
-      delegationStatus.style.overflowY = "auto";
+    const input = q("#delegation-input") || q("#op-panel-delegation textarea");
+    if (input) {
+      input.style.flex = "0 0 auto";
     }
   }
 
   function boot() {
-    const rerun = () => window.requestAnimationFrame(syncOperatorHeights);
+    const rerun = () => requestAnimationFrame(sync);
 
-    syncOperatorHeights();
+    sync();
 
     window.addEventListener("resize", rerun);
     window.addEventListener("load", rerun);
     document.addEventListener("click", rerun);
     document.addEventListener("input", rerun);
 
-    const opTabs = q("#operator-tabs");
-    if (opTabs) opTabs.addEventListener("click", rerun);
+    const tabs = q("#operator-tabs");
+    if (tabs) tabs.addEventListener("click", rerun);
 
     const mo = new MutationObserver(rerun);
     mo.observe(document.body, {
       subtree: true,
       childList: true,
-      attributes: true,
-      attributeFilter: ["class", "style", "hidden", "aria-hidden"]
+      attributes: true
     });
 
-    window.setInterval(syncOperatorHeights, 1200);
+    setInterval(sync, 1200);
   }
 
   if (document.readyState === "loading") {
