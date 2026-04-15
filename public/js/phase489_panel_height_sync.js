@@ -6,92 +6,166 @@
     return `${Math.max(0, Math.round(n))}px`;
   }
 
-  function findChatReferenceHeight() {
-    const transcript =
-      document.getElementById("matilda-chat-transcript") ||
-      document.querySelector("#op-panel-chat #matilda-chat-transcript") ||
-      document.querySelector("#op-panel-chat .bg-gray-900.border.border-gray-700.rounded-xl.p-4.flex-1") ||
-      document.querySelector("#operator-workspace-card #op-panel-chat .flex-1");
+  function log() {
+    try { console.log("[phase489-panel-height-sync]", ...arguments); } catch (_) {}
+  }
 
-    const guidance = document.getElementById("operator-guidance-panel");
-    const helper = document.getElementById("matilda-helper-text-ops");
-    const inputRow =
-      document.querySelector("#op-panel-chat .flex.flex-col.md\\:flex-row.md\\:items-center.md\\:justify-between.gap-3") ||
-      document.querySelector("#op-panel-chat .gap-3");
-    const textarea = document.getElementById("matilda-input");
+  function byId(id) {
+    return document.getElementById(id);
+  }
 
-    if (!transcript) return null;
+  function first() {
+    for (const el of arguments) if (el) return el;
+    return null;
+  }
 
-    const pieces = [transcript, guidance, helper, inputRow, textarea].filter(Boolean);
-    const total = pieces.reduce((sum, el) => sum + el.getBoundingClientRect().height, 0);
+  function rectHeight(el) {
+    if (!el) return 0;
+    const r = el.getBoundingClientRect();
+    return Math.round(r.height || 0);
+  }
 
-    return total > 0 ? total : transcript.getBoundingClientRect().height;
+  function visible(el) {
+    if (!el) return false;
+    const cs = window.getComputedStyle(el);
+    return !el.hasAttribute("hidden") && cs.display !== "none" && cs.visibility !== "hidden";
+  }
+
+  function findChatPieces() {
+    const transcript = first(
+      byId("matilda-chat-transcript"),
+      document.querySelector("#op-panel-chat #matilda-chat-transcript"),
+      document.querySelector("#operator-workspace-card #matilda-chat-transcript")
+    );
+
+    const guidance = first(
+      byId("operator-guidance-panel"),
+      document.querySelector("#op-panel-chat #operator-guidance-panel")
+    );
+
+    const helper = first(
+      byId("matilda-helper-text-ops"),
+      byId("matilda-chat-helper"),
+      document.querySelector("#op-panel-chat .text-xs.text-gray-400")
+    );
+
+    const inputRow = first(
+      document.querySelector("#op-panel-chat .flex.flex-col.md\\:flex-row.md\\:items-center.md\\:justify-between.gap-3"),
+      document.querySelector("#op-panel-chat .gap-3"),
+      document.querySelector("#op-panel-chat textarea")?.closest("div")
+    );
+
+    const textarea = first(
+      byId("matilda-input"),
+      byId("matilda-chat-input"),
+      document.querySelector("#op-panel-chat textarea")
+    );
+
+    return { transcript, guidance, helper, inputRow, textarea };
+  }
+
+  function findTargetPanels() {
+    return {
+      delegationCard: first(byId("delegation-card"), document.querySelector("#op-panel-delegation section")),
+      recentTasksCard: byId("recent-tasks-card"),
+      taskActivityCard: byId("task-activity-card"),
+      taskEventsCard: byId("task-events-card"),
+      delegationStatus: byId("delegation-status-panel"),
+      delegationInput: first(byId("delegation-input"), document.querySelector("#op-panel-delegation textarea")),
+      recentTasks: first(byId("recentTasks"), document.querySelector('[data-phase61-list="recent"]')),
+      recentLogs: byId("recentLogs"),
+      events: byId("mb-task-events-panel-anchor"),
+      activityWrap: document.querySelector("#task-activity-card > div"),
+      activityCanvas: byId("task-activity-graph"),
+    };
+  }
+
+  function computeReferenceHeight() {
+    const pieces = findChatPieces();
+    const included = Object.entries(pieces)
+      .filter(([, el]) => el && visible(el))
+      .map(([name, el]) => ({ name, h: rectHeight(el) }));
+
+    const total = included.reduce((sum, item) => sum + item.h, 0);
+    log("reference pieces", included, "total", total);
+
+    if (total > 0) return total;
+    if (pieces.transcript) return rectHeight(pieces.transcript);
+    return null;
+  }
+
+  function applyPanelHeight(panel, height) {
+    if (!panel) return;
+    panel.style.height = px(height);
+    panel.style.minHeight = px(height);
+    panel.style.maxHeight = px(height);
+    panel.style.display = "flex";
+    panel.style.flexDirection = "column";
+    panel.style.overflow = "hidden";
+    panel.style.boxSizing = "border-box";
+  }
+
+  function applyInnerFill(el, scroll) {
+    if (!el) return;
+    el.style.flex = "1 1 auto";
+    el.style.minHeight = "0";
+    if (scroll) el.style.overflowY = "auto";
   }
 
   function syncPanelHeights() {
-    const targetHeight = findChatReferenceHeight();
-    if (!targetHeight) return;
+    const targetHeight = computeReferenceHeight();
+    if (!targetHeight) {
+      log("no target height resolved");
+      return;
+    }
 
-    const telemetryPanels = [
-      document.getElementById("recent-tasks-card"),
-      document.getElementById("task-activity-card"),
-      document.getElementById("task-events-card"),
-      document.getElementById("delegation-card"),
-    ].filter(Boolean);
+    const targets = findTargetPanels();
+    log("targets", Object.fromEntries(Object.entries(targets).map(([k, v]) => [k, !!v])));
 
-    telemetryPanels.forEach((panel) => {
-      panel.style.height = px(targetHeight);
-      panel.style.minHeight = px(targetHeight);
-      panel.style.maxHeight = px(targetHeight);
-      panel.style.display = "flex";
-      panel.style.flexDirection = "column";
-      panel.style.overflow = "hidden";
+    [
+      targets.delegationCard,
+      targets.recentTasksCard,
+      targets.taskActivityCard,
+      targets.taskEventsCard,
+    ].forEach((panel) => applyPanelHeight(panel, targetHeight));
+
+    [targets.recentTasks, targets.recentLogs, targets.events, targets.delegationStatus].forEach((el) => {
+      applyInnerFill(el, true);
     });
 
-    const recentTasks = document.getElementById("recentTasks");
-    const recentLogs = document.getElementById("recentLogs");
-    const events = document.getElementById("mb-task-events-panel-anchor");
-    const activityWrap = document.querySelector("#task-activity-card > div");
-    const activityCanvas = document.getElementById("task-activity-graph");
-    const delegationStatus = document.getElementById("delegation-status-panel");
-    const delegationTextarea = document.getElementById("delegation-input");
-
-    [recentTasks, recentLogs, events, delegationStatus].filter(Boolean).forEach((el) => {
-      el.style.flex = "1 1 auto";
-      el.style.minHeight = "0";
-      el.style.overflowY = "auto";
-    });
-
-    if (delegationTextarea) {
-      delegationTextarea.style.flex = "1 1 auto";
-      delegationTextarea.style.minHeight = "0";
-      delegationTextarea.style.height = "100%";
+    if (targets.delegationInput) {
+      targets.delegationInput.style.flex = "1 1 auto";
+      targets.delegationInput.style.minHeight = "0";
+      targets.delegationInput.style.height = "100%";
     }
 
-    if (activityWrap) {
-      activityWrap.style.flex = "1 1 auto";
-      activityWrap.style.minHeight = "0";
-      activityWrap.style.height = "100%";
-      activityWrap.style.display = "flex";
+    if (targets.activityWrap) {
+      targets.activityWrap.style.flex = "1 1 auto";
+      targets.activityWrap.style.minHeight = "0";
+      targets.activityWrap.style.height = "100%";
+      targets.activityWrap.style.display = "flex";
+      targets.activityWrap.style.overflow = "hidden";
     }
 
-    if (activityCanvas) {
-      activityCanvas.style.flex = "1 1 auto";
-      activityCanvas.style.minHeight = "0";
-      activityCanvas.style.height = "100%";
-      activityCanvas.style.maxHeight = "100%";
+    if (targets.activityCanvas) {
+      targets.activityCanvas.style.flex = "1 1 auto";
+      targets.activityCanvas.style.minHeight = "0";
+      targets.activityCanvas.style.height = "100%";
+      targets.activityCanvas.style.maxHeight = "100%";
     }
 
-    const panels = [
-      document.getElementById("obs-panel-recent"),
-      document.getElementById("obs-panel-activity"),
-      document.getElementById("obs-panel-events"),
-      document.getElementById("op-panel-delegation"),
-    ].filter(Boolean);
+    [byId("obs-panel-recent"), byId("obs-panel-activity"), byId("obs-panel-events"), byId("op-panel-delegation")]
+      .filter(Boolean)
+      .forEach((panel) => {
+        panel.style.minHeight = "0";
+        panel.style.height = "auto";
+      });
 
-    panels.forEach((panel) => {
-      panel.style.minHeight = "0";
-      panel.style.height = "auto";
+    log("applied targetHeight", targetHeight, {
+      delegationCard: rectHeight(targets.delegationCard),
+      recentTasksCard: rectHeight(targets.recentTasksCard),
+      taskActivityCard: rectHeight(targets.taskActivityCard),
+      taskEventsCard: rectHeight(targets.taskEventsCard),
     });
   }
 
@@ -99,21 +173,15 @@
     syncPanelHeights();
     window.addEventListener("resize", syncPanelHeights);
     window.addEventListener("load", syncPanelHeights);
-    document.addEventListener("click", () => {
-      window.requestAnimationFrame(syncPanelHeights);
-    });
+    document.addEventListener("click", () => window.requestAnimationFrame(syncPanelHeights));
 
-    const obsTabs = document.getElementById("observational-tabs");
-    const opTabs = document.getElementById("operator-tabs");
+    const obsTabs = byId("observational-tabs");
+    const opTabs = byId("operator-tabs");
     [obsTabs, opTabs].filter(Boolean).forEach((root) => {
-      root.addEventListener("click", () => {
-        window.requestAnimationFrame(syncPanelHeights);
-      });
+      root.addEventListener("click", () => window.requestAnimationFrame(syncPanelHeights));
     });
 
-    const mo = new MutationObserver(() => {
-      window.requestAnimationFrame(syncPanelHeights);
-    });
+    const mo = new MutationObserver(() => window.requestAnimationFrame(syncPanelHeights));
     mo.observe(document.body, { subtree: true, childList: true, attributes: true });
   }
 
