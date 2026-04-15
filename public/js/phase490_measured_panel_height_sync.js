@@ -18,37 +18,23 @@
     return `${Math.max(0, Math.round(n))}px`;
   }
 
-  function q(selector) {
-    return document.querySelector(selector);
-  }
-
   function visible(el) {
     if (!el) return false;
     const cs = window.getComputedStyle(el);
     return !el.hasAttribute("hidden") && cs.display !== "none" && cs.visibility !== "hidden";
   }
 
-  function outerHeight(el) {
-    if (!el) return 0;
-    const rect = el.getBoundingClientRect();
-    const cs = window.getComputedStyle(el);
-    const mt = parseFloat(cs.marginTop || "0") || 0;
-    const mb = parseFloat(cs.marginBottom || "0") || 0;
-    return rect.height + mt + mb;
-  }
-
-  function findReferenceCard() {
+  function findMatildaPanel() {
     const candidates = [
-      q("#chat-card"),
-      q("#op-panel-chat #chat-card"),
-      q("#matilda-chat-transcript")?.closest("section"),
-      q("#op-panel-chat")
+      document.querySelector("#op-panel-chat"),
+      document.querySelector('[data-workspace-panel][aria-labelledby="op-tab-chat"]'),
+      document.querySelector("#operator-panels > :not([hidden])")
     ].filter(Boolean);
 
     return candidates.find(visible) || null;
   }
 
-  function applyExactHeight(el, h) {
+  function applyHeight(el, h) {
     if (!el) return;
     el.style.height = px(h);
     el.style.minHeight = px(h);
@@ -56,61 +42,54 @@
     el.style.boxSizing = "border-box";
     el.style.display = "flex";
     el.style.flexDirection = "column";
-    el.style.flex = "0 0 auto";
   }
 
-  function normalizeInnerRegions() {
-    SCROLL_AREAS.forEach((sel) => {
-      const el = q(sel);
+  function normalizeInner() {
+    SCROLL_AREAS.forEach(sel => {
+      const el = document.querySelector(sel);
       if (!el) return;
       el.style.flex = "1 1 auto";
       el.style.minHeight = "0";
       el.style.overflowY = "auto";
     });
 
-    const graphWrap = q("#task-activity-card > div");
-    const canvas = q("#task-activity-graph");
+    const graphWrap = document.querySelector("#task-activity-card > div");
+    const canvas = document.querySelector("#task-activity-graph");
 
     if (graphWrap) {
-      graphWrap.style.display = "flex";
       graphWrap.style.flex = "1 1 auto";
       graphWrap.style.minHeight = "0";
-      graphWrap.style.height = "100%";
-      graphWrap.style.maxHeight = "100%";
-      graphWrap.style.overflow = "hidden";
+      graphWrap.style.display = "flex";
     }
 
     if (canvas) {
       canvas.style.flex = "1 1 auto";
-      canvas.style.minHeight = "0";
       canvas.style.height = "100%";
-      canvas.style.maxHeight = "100%";
     }
   }
 
   function sync() {
-    const ref = findReferenceCard();
+    const ref = findMatildaPanel();
     if (!ref) return;
 
-    const targetHeight = outerHeight(ref);
-    if (!targetHeight || targetHeight < 100) return;
+    const h = ref.getBoundingClientRect().height;
+    if (!h || h < 100) return;
 
-    TELEMETRY_CARDS.forEach((sel) => {
-      document.querySelectorAll(sel).forEach((el) => applyExactHeight(el, targetHeight));
+    TELEMETRY_CARDS.forEach(sel => {
+      document.querySelectorAll(sel).forEach(el => applyHeight(el, h));
     });
 
-    normalizeInnerRegions();
+    normalizeInner();
 
-    console.log("[phase490] synced telemetry cards to chat-card outer height:", Math.round(targetHeight));
+    console.log("[phase490] synced telemetry cards to:", Math.round(h));
   }
 
   function boot() {
     sync();
 
-    const rerun = () => window.requestAnimationFrame(sync);
+    const rerun = () => requestAnimationFrame(sync);
 
     window.addEventListener("resize", rerun);
-    window.addEventListener("load", rerun);
     document.addEventListener("click", rerun);
     document.addEventListener("input", rerun);
 
@@ -119,10 +98,10 @@
       subtree: true,
       childList: true,
       attributes: true,
-      attributeFilter: ["class", "style", "hidden", "aria-hidden"]
+      attributeFilter: ["class", "style", "hidden"]
     });
 
-    window.setInterval(sync, 1500);
+    setInterval(sync, 1500);
   }
 
   if (document.readyState === "loading") {
