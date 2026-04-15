@@ -14,43 +14,96 @@
 
   function outerHeight(el) {
     if (!el) return 0;
-    const rect = el.getBoundingClientRect();
-    const cs = window.getComputedStyle(el);
-    const mt = parseFloat(cs.marginTop || "0") || 0;
-    const mb = parseFloat(cs.marginBottom || "0") || 0;
-    return Math.round(rect.height + mt + mb);
+    return Math.round(el.getBoundingClientRect().height);
   }
 
-  function findReferenceCard() {
-    const candidates = [
-      q("#delegation-card"),
-      q("#chat-card"),
-      q("#op-panel-delegation #delegation-card"),
-      q("#op-panel-chat #chat-card")
-    ].filter(Boolean);
-
-    return candidates.find(visible) || null;
+  function setExactHeight(el, h) {
+    if (!el) return;
+    el.style.height = `${h}px`;
+    el.style.minHeight = `${h}px`;
+    el.style.maxHeight = `${h}px`;
+    el.style.boxSizing = "border-box";
   }
 
-  function sync() {
-    const ref = findReferenceCard();
-    if (!ref) return;
+  function syncTelemetryToOperatorCard() {
+    const operatorCard = q("#operator-workspace-card");
+    const telemetryCard = q("#observational-workspace-card");
+    const telemetryPanels = q("#observational-panels");
 
-    const h = outerHeight(ref);
-    if (!h || h < 100) return;
+    if (!operatorCard || !telemetryCard || !telemetryPanels) return;
 
-    document.documentElement.style.setProperty("--phase490-chat-card-height", `${h}px`);
-    document.documentElement.style.setProperty("--phase490-telemetry-card-height", `calc(${h}px - 4px)`);
+    const targetHeight = outerHeight(operatorCard);
+    if (!targetHeight || targetHeight < 100) return;
+
+    setExactHeight(telemetryCard, targetHeight);
+
+    telemetryCard.style.display = "flex";
+    telemetryCard.style.flexDirection = "column";
+    telemetryCard.style.overflow = "hidden";
+
+    telemetryPanels.style.flex = "1 1 auto";
+    telemetryPanels.style.minHeight = "0";
+    telemetryPanels.style.display = "flex";
+    telemetryPanels.style.flexDirection = "column";
+    telemetryPanels.style.overflow = "hidden";
+
+    document.querySelectorAll("#observational-panels > .obs-panel").forEach((panel) => {
+      if (!visible(panel)) return;
+      panel.style.flex = "1 1 auto";
+      panel.style.minHeight = "0";
+      panel.style.display = "flex";
+      panel.style.flexDirection = "column";
+      panel.style.overflow = "hidden";
+    });
+
+    document.querySelectorAll("#recent-tasks-card, #task-activity-card, #task-events-card").forEach((card) => {
+      if (!visible(card)) return;
+      card.style.flex = "1 1 auto";
+      card.style.minHeight = "0";
+      card.style.height = "100%";
+      card.style.maxHeight = "100%";
+      card.style.display = "flex";
+      card.style.flexDirection = "column";
+      card.style.overflow = "hidden";
+    });
+
+    ["#recentTasks", "#recentLogs", "#mb-task-events-panel-anchor"].forEach((selector) => {
+      const el = q(selector);
+      if (!el) return;
+      el.style.flex = "1 1 auto";
+      el.style.minHeight = "0";
+      el.style.overflowY = "auto";
+    });
+
+    const graphWrap = q("#task-activity-card > div");
+    const graphCanvas = q("#task-activity-graph");
+
+    if (graphWrap) {
+      graphWrap.style.flex = "1 1 auto";
+      graphWrap.style.minHeight = "0";
+      graphWrap.style.height = "100%";
+      graphWrap.style.display = "flex";
+      graphWrap.style.overflow = "hidden";
+    }
+
+    if (graphCanvas) {
+      graphCanvas.style.flex = "1 1 auto";
+      graphCanvas.style.minHeight = "0";
+      graphCanvas.style.height = "100%";
+      graphCanvas.style.maxHeight = "100%";
+    }
   }
 
   function boot() {
-    sync();
+    const rerun = () => window.requestAnimationFrame(syncTelemetryToOperatorCard);
 
-    const rerun = () => window.requestAnimationFrame(sync);
+    syncTelemetryToOperatorCard();
     window.addEventListener("resize", rerun);
     window.addEventListener("load", rerun);
     document.addEventListener("click", rerun);
-    document.addEventListener("input", rerun);
+
+    const tabs = [q("#observational-tabs")].filter(Boolean);
+    tabs.forEach((root) => root.addEventListener("click", rerun));
 
     const mo = new MutationObserver(rerun);
     mo.observe(document.body, {
@@ -60,7 +113,7 @@
       attributeFilter: ["class", "style", "hidden", "aria-hidden"]
     });
 
-    window.setInterval(sync, 1200);
+    window.setInterval(syncTelemetryToOperatorCard, 1200);
   }
 
   if (document.readyState === "loading") {
