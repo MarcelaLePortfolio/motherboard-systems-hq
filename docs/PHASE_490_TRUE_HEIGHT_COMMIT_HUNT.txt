@@ -1,0 +1,297 @@
+PHASE 490 — TRUE HEIGHT PARITY COMMIT HUNT
+Generated: 2026-04-15T17:26:54Z
+
+=== STEP 1: FIND COMMITS THAT CLAIM HEIGHT SUCCESS ===
+c9a1066e Determine whether a durable source checkpoint exists for operator height parity
+2261f073 Run lighter search for operator height parity checkpoint
+eba268d9 Restore layout to last known stable checkpoint where Matilda and Delegation heights matched
+766d15c0 Revert "FIX: enforce height at telemetry container level (not inner cards) to eliminate final mismatch"
+d82d53bc FIX: enforce height at telemetry container level (not inner cards) to eliminate final mismatch
+cbfd3b7c Revert "Tune telemetry card height to matched delegation card with small border correction"
+57ec84a6 Tune telemetry card height to matched delegation card with small border correction
+efa2dfaa Revert "Phase 490: sync telemetry cards to Matilda chat card outer height for exact parity"
+a07f2e62 Phase 490: sync telemetry cards to Matilda chat card outer height for exact parity
+a3a70d09 Phase 490: add on-screen height diagnostic overlay to inspect real panel size mismatch
+3ebbb226 Record Phase 489 stop point and exact unresolved panel height mismatch state
+f3e34e4a Unify heights across delegation and telemetry panels to match Matilda chat pane
+dc420607 Fix operator guidance SSE client route mismatch by switching to /events/operator-guidance
+8279c91c Phase 478.5 search repo artifacts for original local stylesheet tags and restore first matching stylesheet
+b56a4e70 Phase 466.4 fix invariant proof script to use literal matching for structural checks
+ca265ae5 Prove whether root or dashboard entrypoint matches remembered shell
+24075181 Prove why tested Phase 61 candidates do not match remembered shell
+4643cb92 phase-91.1: priority model aligned to threshold classifier
+a3c800dc phase62b: harden runtime evidence extractor against postgres env mismatch
+d7ff48cb phase62b: inspect run_id contract mismatch for terminal task routes
+66e0b283 Phase 63 — fix delegation mutation to match tasks schema
+1f86de05 Phase 61 polish: match telemetry workspace to chat console height
+7e13636a Phase 61 polish: match observational workspace height to operator column
+cac98afd Phase 60: match agent row fill to darker console panel surfaces
+f53e9dc9 Phase 60: restore soft agent row borders matching console styling
+ee39c5c3 Phase 60: match agent row borders to agent pool border
+3d111e45 Phase 54: recreate default network with compose label when mismatched
+c97df1e9 Phase 42: revert direct-to-main bypass commit (restore PR-only main) (#27)
+4df0eb6b Phase 42: add gh device-auth notes to prevent code mismatch
+58c4a680 Phase 37.5: fix run_view terminal_event kind filter to match task.* events (projection-only)
+62bcaea2 (tag: v37.4-phase37-terminal_event-integrity-gaps-planning, origin/feature/phase37-4-terminal-integrity-gaps-planning) Phase 37.4: fill decision record (root cause = run_view terminal_event kind-set mismatch; recommend view-only fix next phase)
+8d4deac1 (tag: v37.1-phase37-planning-terminal_provenance) Phase 37.1: document terminal_event provenance and contract mismatch
+29cbadce phase32: fix drizzle_pg journal tags to match .sql filenames
+65691fe2 (tag: v32.2-golden-retry-backoff-schema-aligned) phase32: add tasks.actor + tasks.run_id to match claim contract
+8d0fd88a worker: auto-match SQL param arity to max
+64a90a29 phase27: claim uses single param (owner) to match bind + schema
+5933f48e (tag: v25.0-task-events-single-writer-ok, origin/feature/phase25-single-writer) phase25: fix postgres schema mismatch + validate task_events lifecycle; SSE verified
+a3695320 Tasks widget: auto-refresh uses fetchTasks() (matches widget implementation)
+36349c82 (tag: v16.8-compose-pg-env-wired) Phase 16: set dashboard PG* env to match postgres service
+895862d3 Set server.mjs default port back to 3000 to match container mapping
+37baefc9 Stabilize postgres role helper to create matching 'postgres' user for DB-backed endpoints
+61204a44 Stabilize postgres role helper to create matching 'postgres' user for DB-backed endpoints
+f4421e9c <0001fae4> 🧩 Phase 6.1 — Adjusted live delegation script to match DB schema
+dcdffe43 <0001fab5> ✅ Stable Gemma Chat — Matilda responses rendering perfectly on dashboard
+d2a74b8a <0001fae4> 🧩 Phase 6.1 — Adjusted live delegation script to match DB schema
+a16961a9 (tag: v0.4.3.4-phase4-gemma-chat-verified) <0001fab5> ✅ Stable Gemma Chat — Matilda responses rendering perfectly on dashboard
+1087c021 <0001fab5> Phase 4.2 — Restored Matilda conversational fallback via ollamaChat() when no skill matched
+780822a8 (tag: v0.4.0-dashboard-stable) ✅ Stable Dashboard (Matilda chat restored, agents/tasks/logs JSON aligned)
+393cb30b 🐛 Fix model mismatch: switched Matilda from llama3.1:8b to llama3:8b (valid Ollama tag).
+278ba86b 🐛 Align schema with DB: remove extra notNull to fix Drizzle insert mismatch
+
+=== STEP 2: FIND COMMITS TOUCHING HEIGHT LOGIC FILES ===
+aa5846f4 Apply evidence-based workspace card height fix by removing card margins and normalizing flex surfaces
+e00c796f Capture live DOM height evidence for operator and telemetry panels from restored Phase 489 baseline
+cccc0142 Restore exact Phase 489 UI baseline with telemetry scrolling and pre-Phase-490 layout behavior
+eba268d9 Restore layout to last known stable checkpoint where Matilda and Delegation heights matched
+0dfe60ee Phase 490: enforce true parent-level height contract across operator and telemetry columns
+545d9423 Restore pre-Phase-490 layout baseline from last known stable stop point
+002142ab Restore last known operator-side stability by disabling Phase 490 runtime height sync experiments
+38cb0f82 Sync telemetry workspace card height to operator workspace card without mutating operator layout
+766d15c0 Revert "FIX: enforce height at telemetry container level (not inner cards) to eliminate final mismatch"
+d82d53bc FIX: enforce height at telemetry container level (not inner cards) to eliminate final mismatch
+446bc957 Force telemetry cards to measured chat height via CSS variable and important overrides
+cbfd3b7c Revert "Tune telemetry card height to matched delegation card with small border correction"
+57ec84a6 Tune telemetry card height to matched delegation card with small border correction
+efa2dfaa Revert "Phase 490: sync telemetry cards to Matilda chat card outer height for exact parity"
+a07f2e62 Phase 490: sync telemetry cards to Matilda chat card outer height for exact parity
+c0dc38df Phase 490: sync all telemetry cards to Matilda chat height without altering operator layout
+9405c842 Revert Phase 490 telemetry height sync change that stacked Matilda and delegation panels
+b8e91a8e Extend measured height sync to apply exact Matilda panel height to telemetry panels
+6656b02c Measure Matilda chat panel height at runtime and apply exact height to delegation and telemetry panels
+265bd73a Remove Phase 490 floating height diagnostic overlay after inspection
+a3a70d09 Phase 490: add on-screen height diagnostic overlay to inspect real panel size mismatch
+c0fe0718 Phase 490: remove runtime height hacks and enforce single parent height contract across operator + telemetry
+b89d5538 Synchronize delegation and telemetry panel heights to Matilda chat pane with runtime measurement
+f3e34e4a Unify heights across delegation and telemetry panels to match Matilda chat pane
+2a9b6785 Make Task Activity panel scroll instead of stretching telemetry container
+31fd4eaf Make Recent Tasks panel scroll instead of stretching telemetry container
+fb260feb Phase 489 H2: restore existing task-events client in telemetry workspace
+b71b7753 Fix operator guidance by removing failed bridge rewire and mounting existing SSE client
+e7d45e81 Phase 489 H1: safely rewire Operator Guidance to dashboard bridge (read-only binding)
+a78a7409 Phase 488 H4: apply micro visual hierarchy polish with CSS-only surface refinement
+6bcbe4ff Phase 488 H2: enforce unified green active state for all tabs
+75a95fcc Phase 488 H2: apply CSS-only tab polish for stronger button-system alignment
+c361d090 Phase 488 H1: enforce true 50/50 top-row balance between Agent Pool and Metrics
+c74fb743 Phase 488 H3A: apply spacing-only refinement (safe retry, no typography impact)
+5a617668 Phase 488 H3: apply safe viewport-fit tightening (spacing + typography reduction, no structural mutation)
+09f3a86f Refine split dashboard layout proportions, button-like tabs, and overall scale
+d8c7138e Recover dashboard after index.html corruption (restore from v487.5 checkpoint)
+a3a2a1f7 Apply safe tab micro-polish via additive style block (no destructive rewrite)
+310b1ca3 Micro-polish: refine tab styling to feel like lightweight buttons while preserving hierarchy
+6090b0e4 Refine split dashboard layout proportions, tab styling, and overall scale
+d7ddd8b8 Restore served operator console split layout in public index with preserved runtime assets
+33f5c0e2 Phase 60: restore live uptime polish script
+c63a60e7 Phase 60: restore dashboard runtime scripts for agent pool rendering
+ecac1fb1 Phase 59: compose operator console layout from stable baseline
+27b7ddf3 (tag: dashboard-stable-static-ui) demo: trim dashboard layout to lifecycle/task panels
+244cdde5 diag: remove phase59 demo-focus stylesheet from static dashboard pages
+3cf87e6f Phase 59: focus dashboard on lifecycle-first demo surface
+17b182d4 diag: strip dashboard runtime script tags from static html
+76a5209e Phase 14.5: dashboard no-cache + stable anchor (avoid Phase 11.3 banner regression)
+ec30cc78 Phase 14.4: fix dashboard Phase 11.3 banner copy to Phase 14
+89420abc (fix/dashboard-layout-restore-9579482a) Try dashboard front-end restore from b91877b4 (keep v11.7 backend)
+79c38bfb Phase 11: switch index + dashboard to bundle.js and temporarily disable graph in bundle
+6a4cc65a Phase 11.4: actually render Quick Systems Check button in Ops Matilda chat
+20710429 Phase 11.4: typography polish for Matilda chat transcript
+ad15059d Phase 11.4: add helper text to Ops dashboard Matilda Chat Console
+bf97b836 Enhance Project Visual Output card with 3D monitor styling
+c368ed05 Reset dashboard to clean 2-column layout with single Matilda card and big Project Visual Output screen
+304bfad7 Merge Project Visual Output into single screen on right column
+63600e77 Apply explicit 2-column dashboard layout with Matilda left and ops stack right
+2599f2de Inject Matilda Chat Console script into dashboard non-destructively
+368fdfbe Restore original dashboard UI before Matilda Chat integration
+e2106000 Inject Matilda Chat Console script into dashboard non-destructively
+4f7987ce Restore original dashboard UI before Matilda Chat integration
+3aca7c69 Wire matilda-chat-console.js into served dashboard (public/index.html)
+627f12a4 Phase 11: switch index + dashboard to bundle.js and temporarily disable graph in bundle
+d4098e00 (tag: v11.4-matilda-micro-ux-complete) Phase 11.4: actually render Quick Systems Check button in Ops Matilda chat
+7398021e Phase 11.4: typography polish for Matilda chat transcript
+c249d477 Phase 11.4: add helper text to Ops dashboard Matilda Chat Console
+235c89c2 Enhance Project Visual Output card with 3D monitor styling
+c82452b0 Reset dashboard to clean 2-column layout with single Matilda card and big Project Visual Output screen
+d9d3aef7 Merge Project Visual Output into single screen on right column
+df5fcbf8 Apply explicit 2-column dashboard layout with Matilda left and ops stack right
+eb7c7e7c Inject Matilda Chat Console script into dashboard non-destructively
+faa78635 Restore original dashboard UI before Matilda Chat integration
+e612b382 Inject Matilda Chat Console script into dashboard non-destructively
+6fde667e Restore original dashboard UI before Matilda Chat integration
+cba8ba47 Wire matilda-chat-console.js into served dashboard (public/index.html)
+e7ad5f8b (tag: v11.1-stable-dashboard, origin/feature/staging-pm2-setup) <checkpoint> v11.0-stable-dashboard (SSE + dashboard stable)
+b91877b4 (tag: v11.0-stable-dashboard, feature/v11-pm2-main-staging) FIX: Resolved all critical external script loading errors and restored core dashboard functionality (Graph, Delegation, Agent Status).
+14c07100 ✅ Completed Matilda wiring: server route, dashboard UI, and handler function all finalized.
+
+=== STEP 3: SEARCH FOR RUNTIME MOUNT (THE REAL CAUSE) ===
+public/index.html:572:  <script defer src="js/phase489_panel_height_sync.js"></script>
+
+=== STEP 4: CHECK IF HEIGHT SCRIPT EXISTS IN CURRENT STATE ===
+MISSING: phase489_panel_height_sync.js (THIS IS LIKELY THE ISSUE)
+
+=== STEP 5: CHECK IF SCRIPT IS MOUNTED IN INDEX ===
+572:  <script defer src="js/phase489_panel_height_sync.js"></script>
+
+=== STEP 6: SHOW COMMIT THAT INTRODUCED HEIGHT SYNC ===
+commit b89d55381b9e389ebbc650202267c0e4544b2724
+Author: Marcela Gama Le <marcelagamale@gmail.com>
+Date:   Tue Apr 14 16:12:35 2026 -0700
+
+    Synchronize delegation and telemetry panel heights to Matilda chat pane with runtime measurement
+
+diff --git a/public/js/phase489_panel_height_sync.js b/public/js/phase489_panel_height_sync.js
+new file mode 100644
+index 00000000..b3ae2b24
+--- /dev/null
++++ b/public/js/phase489_panel_height_sync.js
+@@ -0,0 +1,125 @@
++(() => {
++  if (window.__PHASE489_PANEL_HEIGHT_SYNC_ACTIVE__) return;
++  window.__PHASE489_PANEL_HEIGHT_SYNC_ACTIVE__ = true;
++
++  function px(n) {
++    return `${Math.max(0, Math.round(n))}px`;
++  }
++
++  function findChatReferenceHeight() {
++    const transcript =
++      document.getElementById("matilda-chat-transcript") ||
++      document.querySelector("#op-panel-chat #matilda-chat-transcript") ||
++      document.querySelector("#op-panel-chat .bg-gray-900.border.border-gray-700.rounded-xl.p-4.flex-1") ||
++      document.querySelector("#operator-workspace-card #op-panel-chat .flex-1");
++
++    const guidance = document.getElementById("operator-guidance-panel");
++    const helper = document.getElementById("matilda-helper-text-ops");
++    const inputRow =
++      document.querySelector("#op-panel-chat .flex.flex-col.md\\:flex-row.md\\:items-center.md\\:justify-between.gap-3") ||
++      document.querySelector("#op-panel-chat .gap-3");
++    const textarea = document.getElementById("matilda-input");
++
++    if (!transcript) return null;
++
++    const pieces = [transcript, guidance, helper, inputRow, textarea].filter(Boolean);
++    const total = pieces.reduce((sum, el) => sum + el.getBoundingClientRect().height, 0);
++
++    return total > 0 ? total : transcript.getBoundingClientRect().height;
++  }
++
++  function syncPanelHeights() {
++    const targetHeight = findChatReferenceHeight();
++    if (!targetHeight) return;
++
++    const telemetryPanels = [
++      document.getElementById("recent-tasks-card"),
++      document.getElementById("task-activity-card"),
++      document.getElementById("task-events-card"),
++      document.getElementById("delegation-card"),
++    ].filter(Boolean);
++
++    telemetryPanels.forEach((panel) => {
++      panel.style.height = px(targetHeight);
++      panel.style.minHeight = px(targetHeight);
++      panel.style.maxHeight = px(targetHeight);
++      panel.style.display = "flex";
++      panel.style.flexDirection = "column";
++      panel.style.overflow = "hidden";
++    });
++
++    const recentTasks = document.getElementById("recentTasks");
++    const recentLogs = document.getElementById("recentLogs");
++    const events = document.getElementById("mb-task-events-panel-anchor");
++    const activityWrap = document.querySelector("#task-activity-card > div");
++    const activityCanvas = document.getElementById("task-activity-graph");
++    const delegationStatus = document.getElementById("delegation-status-panel");
++    const delegationTextarea = document.getElementById("delegation-input");
++
++    [recentTasks, recentLogs, events, delegationStatus].filter(Boolean).forEach((el) => {
++      el.style.flex = "1 1 auto";
++      el.style.minHeight = "0";
++      el.style.overflowY = "auto";
++    });
++
++    if (delegationTextarea) {
++      delegationTextarea.style.flex = "1 1 auto";
++      delegationTextarea.style.minHeight = "0";
++      delegationTextarea.style.height = "100%";
++    }
++
++    if (activityWrap) {
++      activityWrap.style.flex = "1 1 auto";
++      activityWrap.style.minHeight = "0";
++      activityWrap.style.height = "100%";
++      activityWrap.style.display = "flex";
++    }
++
++    if (activityCanvas) {
++      activityCanvas.style.flex = "1 1 auto";
++      activityCanvas.style.minHeight = "0";
++      activityCanvas.style.height = "100%";
++      activityCanvas.style.maxHeight = "100%";
++    }
++
++    const panels = [
++      document.getElementById("obs-panel-recent"),
++      document.getElementById("obs-panel-activity"),
++      document.getElementById("obs-panel-events"),
++      document.getElementById("op-panel-delegation"),
++    ].filter(Boolean);
++
++    panels.forEach((panel) => {
++      panel.style.minHeight = "0";
++      panel.style.height = "auto";
++    });
++  }
++
++  function boot() {
++    syncPanelHeights();
++    window.addEventListener("resize", syncPanelHeights);
++    window.addEventListener("load", syncPanelHeights);
++    document.addEventListener("click", () => {
++      window.requestAnimationFrame(syncPanelHeights);
++    });
++
++    const obsTabs = document.getElementById("observational-tabs");
++    const opTabs = document.getElementById("operator-tabs");
++    [obsTabs, opTabs].filter(Boolean).forEach((root) => {
++      root.addEventListener("click", () => {
++        window.requestAnimationFrame(syncPanelHeights);
++      });
++    });
++
++    const mo = new MutationObserver(() => {
++      window.requestAnimationFrame(syncPanelHeights);
++    });
++    mo.observe(document.body, { subtree: true, childList: true, attributes: true });
++  }
++
++  if (document.readyState === "loading") {
++    document.addEventListener("DOMContentLoaded", boot, { once: true });
++  } else {
++    boot();
++  }
++})();
+
+=== DETERMINATION ===
+If phase489_panel_height_sync.js exists but is NOT mounted:
+→ That is the missing piece.
+
+If it is mounted but still not working:
+→ It was relying on DOM structure that has since changed.
+
+If it does NOT exist:
+→ It was removed during Phase 490 cleanup and never restored.
+
+This is NOT a CSS problem anymore.
+This is a missing runtime measurement system.
