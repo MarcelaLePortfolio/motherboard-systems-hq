@@ -37,13 +37,12 @@
     el.style.height = px(h);
     el.style.minHeight = px(h);
     el.style.maxHeight = px(h);
-    el.style.flex = `0 0 ${px(h)}`;
     el.style.boxSizing = "border-box";
     el.style.minWidth = "0";
   }
 
-  function setVisibleColumn(el) {
-    if (!el || !visible(el)) return;
+  function setColumn(el) {
+    if (!el) return;
     el.style.display = "flex";
     el.style.flexDirection = "column";
     el.style.minHeight = "0";
@@ -60,20 +59,32 @@
     el.style.boxSizing = "border-box";
   }
 
-  function syncOperatorPanels(targetHeight) {
+  function syncOperatorPanels() {
     const operatorPanels = q("#operator-panels");
     const chatPanel = q("#op-panel-chat");
     const delegationPanel = q("#op-panel-delegation");
 
     if (!operatorPanels || !chatPanel || !delegationPanel) return;
 
+    const activeOperatorPanel = first(
+      visible(chatPanel) ? chatPanel : null,
+      visible(delegationPanel) ? delegationPanel : null
+    );
+
+    if (!activeOperatorPanel) return;
+
+    const targetHeight = outerHeight(activeOperatorPanel);
+    if (!targetHeight || targetHeight < 100) return;
+
     operatorPanels.style.alignItems = "stretch";
 
     [chatPanel, delegationPanel].forEach((panel) => {
       lockHeight(panel, targetHeight);
+      panel.style.flex = `0 0 ${px(targetHeight)}`;
+
       if (!visible(panel)) return;
 
-      setVisibleColumn(panel);
+      setColumn(panel);
 
       const card =
         panel.querySelector(":scope > section") ||
@@ -81,7 +92,7 @@
         panel;
 
       setFill(card);
-      setVisibleColumn(card);
+      setColumn(card);
     });
 
     const delegationStatus = q("#delegation-status-panel");
@@ -100,20 +111,42 @@
     }
   }
 
-  function syncTelemetryPanels(targetHeight) {
+  function syncOuterWorkspaceCards() {
+    const operatorCard = q("#operator-workspace-card");
+    const telemetryCard = q("#observational-workspace-card");
+
+    if (!operatorCard || !telemetryCard) return;
+
+    const targetOuterHeight = outerHeight(operatorCard);
+    if (!targetOuterHeight || targetOuterHeight < 100) return;
+
+    lockHeight(telemetryCard, targetOuterHeight);
+    telemetryCard.style.flex = `0 0 ${px(targetOuterHeight)}`;
+    setColumn(telemetryCard);
+
+    const telemetryChromeParts = [
+      telemetryCard.querySelector(":scope > .flex.items-center.justify-between"),
+      q("#observational-tabs")
+    ].filter(Boolean);
+
+    telemetryChromeParts.forEach((el) => {
+      el.style.flex = "0 0 auto";
+    });
+
     const observationalPanels = q("#observational-panels");
-    const observationalCard = q("#observational-workspace-card");
-
-    if (observationalCard) {
-      observationalCard.style.overflow = "hidden";
-      observationalCard.style.boxSizing = "border-box";
-    }
-
     if (observationalPanels) {
-      observationalPanels.style.alignItems = "stretch";
+      observationalPanels.style.flex = "1 1 auto";
       observationalPanels.style.minHeight = "0";
       observationalPanels.style.overflow = "hidden";
+      observationalPanels.style.display = "flex";
+      observationalPanels.style.flexDirection = "column";
+      observationalPanels.style.alignItems = "stretch";
     }
+  }
+
+  function syncTelemetryPanels() {
+    const targetHeight = outerHeight(q("#op-panel-chat")) || outerHeight(q("#op-panel-delegation"));
+    if (!targetHeight || targetHeight < 100) return;
 
     const telemetryPanels = [
       q("#obs-panel-recent"),
@@ -123,8 +156,10 @@
 
     telemetryPanels.forEach((panel) => {
       lockHeight(panel, targetHeight);
+      panel.style.flex = `0 0 ${px(targetHeight)}`;
+
       if (!visible(panel)) return;
-      setVisibleColumn(panel);
+      setColumn(panel);
       panel.style.margin = "0";
       panel.style.padding = "0";
     });
@@ -136,12 +171,8 @@
     [recentCard, activityCard, eventsCard].forEach((card) => {
       if (!card) return;
       card.style.margin = "0";
-      card.style.padding = "0";
-      card.style.border = "0";
       setFill(card);
-      if (visible(card.closest(".obs-panel") || card)) {
-        setVisibleColumn(card);
-      }
+      setColumn(card);
     });
 
     const recentTasks = q("#recentTasks");
@@ -183,18 +214,9 @@
   }
 
   function sync() {
-    const activeOperatorPanel = first(
-      visible(q("#op-panel-chat")) ? q("#op-panel-chat") : null,
-      visible(q("#op-panel-delegation")) ? q("#op-panel-delegation") : null
-    );
-
-    if (!activeOperatorPanel) return;
-
-    const targetHeight = outerHeight(activeOperatorPanel);
-    if (!targetHeight || targetHeight < 100) return;
-
-    syncOperatorPanels(targetHeight);
-    syncTelemetryPanels(targetHeight);
+    syncOperatorPanels();
+    syncOuterWorkspaceCards();
+    syncTelemetryPanels();
   }
 
   function boot() {

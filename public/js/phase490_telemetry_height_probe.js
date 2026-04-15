@@ -48,6 +48,8 @@
 
     panel.textContent = [
       "PHASE490 TELEMETRY HEIGHTS",
+      measure("#operator-workspace-card"),
+      measure("#observational-workspace-card"),
       measure("#op-panel-chat"),
       measure("#op-panel-delegation"),
       measure("#obs-panel-recent"),
