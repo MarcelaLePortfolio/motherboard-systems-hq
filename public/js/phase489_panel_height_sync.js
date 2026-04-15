@@ -32,31 +32,6 @@
     return null;
   }
 
-  function findRenderedChatContainer() {
-    return first(
-      q("#chat-card"),
-      q("#op-panel-chat #chat-card"),
-      q("#op-panel-chat > section"),
-      q("#op-panel-chat")
-    );
-  }
-
-  function findDelegationPanel() {
-    return first(
-      q("#op-panel-delegation"),
-      q("#operator-panels > #op-panel-delegation")
-    );
-  }
-
-  function findDelegationCard() {
-    return first(
-      q("#delegation-card"),
-      q("#op-panel-delegation #delegation-card"),
-      q("#op-panel-delegation > section"),
-      q("#op-panel-delegation section")
-    );
-  }
-
   function setExactHeight(el, h) {
     if (!el) return;
     el.style.height = px(h);
@@ -74,18 +49,44 @@
   }
 
   function syncOperatorHeights() {
-    const chatContainer = findRenderedChatContainer();
-    const delegationPanel = findDelegationPanel();
-    const delegationCard = findDelegationCard();
+    const chatPanel = first(
+      q("#op-panel-chat"),
+      q("#operator-panels > #op-panel-chat")
+    );
 
-    if (!chatContainer || !delegationPanel || !delegationCard) return;
-    if (!visible(chatContainer) || !visible(delegationPanel)) return;
+    const delegationPanel = first(
+      q("#op-panel-delegation"),
+      q("#operator-panels > #op-panel-delegation")
+    );
 
-    const target = outerHeight(chatContainer);
+    const delegationCard = first(
+      q("#delegation-card"),
+      q("#op-panel-delegation #delegation-card"),
+      q("#op-panel-delegation > section"),
+      q("#op-panel-delegation section")
+    );
+
+    const delegationStatus = q("#delegation-status-panel");
+    const delegationInput = first(
+      q("#delegation-input"),
+      q("#op-panel-delegation textarea")
+    );
+    const delegationActions = first(
+      q("#op-panel-delegation .flex.flex-col.md\\:flex-row.md\\:items-center.md\\:justify-between.gap-3"),
+      q("#op-panel-delegation .gap-3")
+    );
+
+    if (!chatPanel || !delegationPanel || !delegationCard) return;
+    if (!visible(chatPanel) || !visible(delegationPanel)) return;
+
+    const target = outerHeight(chatPanel);
     if (!target || target < 100) return;
 
     setExactHeight(delegationPanel, target);
     setColumn(delegationPanel);
+
+    delegationPanel.style.flex = "0 0 auto";
+    delegationPanel.style.alignSelf = "stretch";
 
     delegationCard.style.flex = "1 1 auto";
     delegationCard.style.minHeight = "0";
@@ -96,19 +97,23 @@
     delegationCard.style.boxSizing = "border-box";
     delegationCard.style.overflow = "hidden";
 
-    const status = q("#delegation-status-panel");
-    if (status) {
-      status.style.flex = "1 1 auto";
-      status.style.minHeight = "0";
-      status.style.overflowY = "auto";
+    if (delegationInput) {
+      delegationInput.style.flex = "0 0 auto";
+      delegationInput.style.height = "auto";
+      delegationInput.style.minHeight = "";
+      delegationInput.style.maxHeight = "";
     }
 
-    const input = first(
-      q("#delegation-input"),
-      q("#op-panel-delegation textarea")
-    );
-    if (input) {
-      input.style.flex = "0 0 auto";
+    if (delegationActions) {
+      delegationActions.style.flex = "0 0 auto";
+    }
+
+    if (delegationStatus) {
+      delegationStatus.style.flex = "1 1 auto";
+      delegationStatus.style.minHeight = "0";
+      delegationStatus.style.height = "auto";
+      delegationStatus.style.maxHeight = "none";
+      delegationStatus.style.overflowY = "auto";
     }
   }
 
