@@ -660,3 +660,65 @@
 
 
 
+
+<style id="phase490-parent-height-contract">
+/* PHASE 490 — TRUE HEIGHT CONTRACT (NO JS) */
+
+#phase61-root,
+#phase61-main,
+#phase61-columns {
+  height: calc(100vh - 120px); /* adjust header offset if needed */
+  min-height: 600px;
+}
+
+#phase61-columns {
+  display: flex;
+  align-items: stretch;
+  gap: 1rem;
+}
+
+/* LEFT + RIGHT COLUMNS MATCH HEIGHT */
+#phase61-operator-column,
+#phase61-telemetry-column {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* OPERATOR STACK FILLS COLUMN */
+#operator-workspace-card,
+#delegation-workspace-card {
+  flex: 1 1 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* TELEMETRY CARD FILLS COLUMN */
+#observational-workspace-card {
+  flex: 1 1 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* INNER CONTENT SCROLLS */
+#recentTasks,
+#recentLogs,
+#mb-task-events-panel-anchor {
+  overflow-y: auto;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+/* ACTIVITY GRAPH FILLS */
+#task-activity-card,
+#task-activity-card > div,
+#task-activity-graph {
+  flex: 1 1 auto;
+  min-height: 0;
+  height: 100%;
+}
+
+</style>
+
