@@ -1,0 +1,26 @@
+PHASE 490 — OPERATOR HEIGHT GOLDEN BASELINE
+Generated: 2026-04-15T18:31:33Z
+Commit: 395d1a673269cb636ef8f583499ec5e6415ef5e8
+
+STATUS
+- Operator Chat and Delegation panel heights MATCH
+- Telemetry scrolling behavior preserved
+- Hidden operator tab stacking regression resolved
+
+DO NOT LOSE
+- public/js/phase489_panel_height_sync.js
+- public/index.html script mount for phase489_panel_height_sync.js
+
+RESTORE COMMAND
+git restore --source=395d1a673269cb636ef8f583499ec5e6415ef5e8 -- public/js/phase489_panel_height_sync.js public/index.html
+
+REBUILD COMMAND
+docker compose up -d --build
+
+VERIFY
+- Chat tab and Delegation tab must render at matching heights
+- Delegation tab must not stack underneath Chat
+- Telemetry console layout must remain intact
+
+TAG CANDIDATE
+phase490-operator-height-golden
