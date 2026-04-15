@@ -1,0 +1,117 @@
+DASHBOARD RECOVERY AFTER RESTART
+timestamp=20260415_144929
+branch=phase119-dashboard-cognition-contract
+commit=35209dde619bc4346214a0c41d068ce56f2c0c82
+
+=== STEP 1: DOCKER DESKTOP STATUS ===
+Docker daemon unavailable
+Attempting to launch Docker Desktop...
+Docker daemon ready after 2s
+Docker daemon is running
+
+=== STEP 2: START/RESTORE LOCAL CONTAINERS ===
+ Container motherboard_systems_hq-postgres-1  Starting
+ Container motherboard_systems_hq-postgres-1  Started
+ Container motherboard_systems_hq-dashboard-1  Starting
+ Container motherboard_systems_hq-dashboard-1  Started
+
+=== STEP 3: PM2 STATUS BEFORE RECOVERY ===
+┌────┬───────────┬─────────────┬─────────┬─────────┬──────────┬────────┬──────┬───────────┬──────────┬──────────┬──────────┬──────────┐
+│ id │ name      │ namespace   │ version │ mode    │ pid      │ uptime │ ↺    │ status    │ cpu      │ mem      │ user     │ watching │
+└────┴───────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘
+
+=== STEP 4: RESTORE PM2 AGENTS IF LAUNCHERS EXIST ===
+[32m[PM2] [39mStarting /Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/_local/agent-runtime/launch-cade.ts in fork_mode (1 instance)
+(node:3035) [DEP0176] DeprecationWarning: fs.R_OK is deprecated, use fs.constants.R_OK instead
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[32m[PM2] [39mDone.
+┌────┬─────────┬─────────────┬─────────┬─────────┬──────────┬────────┬──────┬───────────┬──────────┬──────────┬──────────┬──────────┐
+│ id │ name    │ namespace   │ version │ mode    │ pid      │ uptime │ ↺    │ status    │ cpu      │ mem      │ user     │ watching │
+├────┼─────────┼─────────────┼─────────┼─────────┼──────────┼────────┼──────┼───────────┼──────────┼──────────┼──────────┼──────────┤
+│ [1m[36m0[39m[22m  │ cade    │ default     │ 1.0.0   │ [7m[1mfork[22m[27m    │ 3036     │ 0s     │ 0    │ [32m[1monline[22m[39m    │ 0%       │ 1.5mb    │ [1mmar… │ [90mdisabled[39m │
+└────┴─────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘
+[32m[PM2] [39mStarting /Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/_local/agent-runtime/launch-matilda.ts in fork_mode (1 instance)
+(node:3048) [DEP0176] DeprecationWarning: fs.R_OK is deprecated, use fs.constants.R_OK instead
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[32m[PM2] [39mDone.
+┌────┬────────────┬─────────────┬─────────┬─────────┬──────────┬────────┬──────┬───────────┬──────────┬──────────┬──────────┬──────────┐
+│ id │ name       │ namespace   │ version │ mode    │ pid      │ uptime │ ↺    │ status    │ cpu      │ mem      │ user     │ watching │
+├────┼────────────┼─────────────┼─────────┼─────────┼──────────┼────────┼──────┼───────────┼──────────┼──────────┼──────────┼──────────┤
+│ [1m[36m0[39m[22m  │ cade       │ default     │ 1.0.0   │ [7m[1mfork[22m[27m    │ 3036     │ 0s     │ 0    │ [32m[1monline[22m[39m    │ 0%       │ 70.2mb   │ [1mmar… │ [90mdisabled[39m │
+│ [1m[36m1[39m[22m  │ matilda    │ default     │ 1.0.0   │ [7m[1mfork[22m[27m    │ 3054     │ 0s     │ 0    │ [32m[1monline[22m[39m    │ 0%       │ 320.0kb  │ [1mmar… │ [90mdisabled[39m │
+└────┴────────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘
+[32m[PM2] [39mStarting /Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/_local/agent-runtime/launch-effie.ts in fork_mode (1 instance)
+(node:3068) [DEP0176] DeprecationWarning: fs.R_OK is deprecated, use fs.constants.R_OK instead
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[32m[PM2] [39mDone.
+┌────┬────────────┬─────────────┬─────────┬─────────┬──────────┬────────┬──────┬───────────┬──────────┬──────────┬──────────┬──────────┐
+│ id │ name       │ namespace   │ version │ mode    │ pid      │ uptime │ ↺    │ status    │ cpu      │ mem      │ user     │ watching │
+├────┼────────────┼─────────────┼─────────┼─────────┼──────────┼────────┼──────┼───────────┼──────────┼──────────┼──────────┼──────────┤
+│ [1m[36m0[39m[22m  │ cade       │ default     │ 1.0.0   │ [7m[1mfork[22m[27m    │ 3062     │ 0s     │ 1    │ [32m[1monline[22m[39m    │ 0%       │ 70.8mb   │ [1mmar… │ [90mdisabled[39m │
+│ [1m[36m2[39m[22m  │ effie      │ default     │ 1.0.0   │ [7m[1mfork[22m[27m    │ 3077     │ 0s     │ 0    │ [32m[1monline[22m[39m    │ 0%       │ 944.0kb  │ [1mmar… │ [90mdisabled[39m │
+│ [1m[36m1[39m[22m  │ matilda    │ default     │ 1.0.0   │ [7m[1mfork[22m[27m    │ 3076     │ 0s     │ 1    │ [32m[1monline[22m[39m    │ 0%       │ 15.8mb   │ [1mmar… │ [90mdisabled[39m │
+└────┴────────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘
+[32m[PM2] [39mSaving current process list...
+[32m[PM2] [39mSuccessfully saved in /Users/marcela-dev/.pm2/dump.pm2
+
+=== STEP 5: RESTORE CLOUDFLARED TUNNELS IF MISSING ===
+Started matilda tunnel
+Started cade tunnel
+Started effie tunnel
+
+=== STEP 6: PORT CHECKS ===
+Port 3000 not listening
+COMMAND    PID        USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+com.docke 2887 marcela-dev  446u  IPv6 0x61219bd638086e78      0t0  TCP *:8080 (LISTEN)
+COMMAND    PID        USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+com.docke 2887 marcela-dev   94u  IPv6 0xd4e4d3841de73cb7      0t0  TCP *:5432 (LISTEN)
+
+=== STEP 7: HTTP CHECKS ===
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+curl: (7) Failed to connect to localhost port 3000 after 0 ms: Couldn't connect to server
+localhost:3000 unreachable
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0 24915    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Wed, 15 Apr 2026 19:02:36 GMT
+ETag: W/"6153-19d92861ce0"
+Content-Type: text/html; charset=utf-8
+Content-Length: 24915
+Date: Wed, 15 Apr 2026 21:49:34 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+
+=== STEP 8: FINAL PROCESS STATE ===
+CONTAINER ID   IMAGE                              COMMAND                  CREATED             STATUS                           PORTS                                         NAMES
+c8842d8169ac   motherboard_systems_hq-dashboard   "docker-entrypoint.s…"   About an hour ago   Up 1 second (health: starting)   0.0.0.0:8080->3000/tcp, [::]:8080->3000/tcp   motherboard_systems_hq-dashboard-1
+977b60ceeaf4   postgres:16-alpine                 "docker-entrypoint.s…"   23 hours ago        Up 1 second                      0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp   motherboard_systems_hq-postgres-1
+
+┌────┬────────────┬─────────────┬─────────┬─────────┬──────────┬────────┬──────┬───────────┬──────────┬──────────┬──────────┬──────────┐
+│ id │ name       │ namespace   │ version │ mode    │ pid      │ uptime │ ↺    │ status    │ cpu      │ mem      │ user     │ watching │
+├────┼────────────┼─────────────┼─────────┼─────────┼──────────┼────────┼──────┼───────────┼──────────┼──────────┼──────────┼──────────┤
+│ [1m[36m0[39m[22m  │ cade       │ default     │ 1.0.0   │ [7m[1mfork[22m[27m    │ 3115     │ 0s     │ 3    │ [32m[1monline[22m[39m    │ 0%       │ 70.7mb   │ [1mmar… │ [90mdisabled[39m │
+│ [1m[36m2[39m[22m  │ effie      │ default     │ 1.0.0   │ [7m[1mfork[22m[27m    │ 3077     │ 0s     │ 0    │ [32m[1monline[22m[39m    │ 0%       │ 54.0mb   │ [1mmar… │ [90mdisabled[39m │
+│ [1m[36m1[39m[22m  │ matilda    │ default     │ 1.0.0   │ [7m[1mfork[22m[27m    │ 3123     │ 0s     │ 3    │ [32m[1monline[22m[39m    │ 0%       │ 20.3mb   │ [1mmar… │ [90mdisabled[39m │
+└────┴────────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘
+
+marcela-dev       3096   8.0  0.2 411547328  30064 s018  S+    2:49PM   0:00.04 cloudflared tunnel run cade
+marcela-dev       3094   7.8  0.2 411555776  29920 s018  S+    2:49PM   0:00.05 cloudflared tunnel run matilda
+marcela-dev       3098   7.5  0.2 411554512  29904 s018  S+    2:49PM   0:00.04 cloudflared tunnel run effie
+
+=== STEP 9: RECENT LOG TAILS ===
+--- matilda.log ---
+--- cade.log ---
+--- effie.log ---
+
+=== FINAL READ ===
+If localhost:3000 or localhost:8080 returns HTTP headers, dashboard recovery succeeded.
+If Docker daemon remained unavailable, open Docker Desktop and rerun this script.
+If ports remain closed but Docker is up, inspect docker compose logs next.
+
