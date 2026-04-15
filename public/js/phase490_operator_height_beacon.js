@@ -51,15 +51,39 @@
     };
   }
 
-  async function send(payload) {
-    try {
-      await fetch("/api/phase16-beacon", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-        keepalive: true
-      });
-    } catch (_) {}
+  function renderDebug(payload) {
+    let pre = document.getElementById("phase490-operator-height-readout");
+    if (!pre) {
+      pre = document.createElement("pre");
+      pre.id = "phase490-operator-height-readout";
+      pre.style.position = "fixed";
+      pre.style.left = "12px";
+      pre.style.bottom = "12px";
+      pre.style.zIndex = "99999";
+      pre.style.margin = "0";
+      pre.style.padding = "10px 12px";
+      pre.style.maxWidth = "360px";
+      pre.style.maxHeight = "220px";
+      pre.style.overflow = "auto";
+      pre.style.background = "rgba(2,6,23,0.94)";
+      pre.style.color = "#e2e8f0";
+      pre.style.border = "1px solid rgba(71,85,105,0.95)";
+      pre.style.borderRadius = "12px";
+      pre.style.fontSize = "11px";
+      pre.style.lineHeight = "1.35";
+      pre.style.fontFamily = "ui-monospace, SFMono-Regular, Menlo, monospace";
+      pre.style.whiteSpace = "pre-wrap";
+      pre.style.pointerEvents = "none";
+      pre.style.boxShadow = "0 10px 30px rgba(0,0,0,0.35)";
+      document.body.appendChild(pre);
+    }
+
+    const rows = payload.measurements.map((m) => {
+      if (!m.found) return `${m.selector}: MISSING`;
+      return `${m.selector}\n  h=${m.height} outer=${m.outerHeight} display=${m.display} flex=${m.flex} mb=${m.marginBottom}`;
+    });
+
+    pre.textContent = ["PHASE490 OPERATOR HEIGHT", ...rows].join("\n");
   }
 
   function capture() {
@@ -79,8 +103,8 @@
       ]
     };
 
-    console.log("[phase490-operator-height-beacon]", payload);
-    send(payload);
+    renderDebug(payload);
+    window.__PHASE490_OPERATOR_HEIGHT_LAST__ = payload;
   }
 
   function boot() {
