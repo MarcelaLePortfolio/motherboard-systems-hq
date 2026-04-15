@@ -554,7 +554,47 @@
     height: 100% !important;
   }
 </style>
-\n<style id="phase489-task-activity-scroll">
+\n
+<style id="phase490-telemetry-card-height-force">
+  #recent-tasks-card,
+  #task-activity-card,
+  #task-events-card {
+    height: var(--phase490-telemetry-card-height) !important;
+    min-height: var(--phase490-telemetry-card-height) !important;
+    max-height: var(--phase490-telemetry-card-height) !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    flex-direction: column !important;
+    flex: 0 0 auto !important;
+    overflow: hidden !important;
+  }
+
+  #recentTasks,
+  #recentLogs,
+  #mb-task-events-panel-anchor {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    overflow-y: auto !important;
+  }
+
+  #task-activity-card > div {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    height: 100% !important;
+    max-height: 100% !important;
+    display: flex !important;
+    overflow: hidden !important;
+  }
+
+  #task-activity-graph {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    height: 100% !important;
+    max-height: 100% !important;
+  }
+</style>
+
+<style id="phase489-task-activity-scroll">
   [data-phase61-shell="history"] {
     min-height: 0 !important;
   }

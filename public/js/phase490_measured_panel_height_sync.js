@@ -2,20 +2,8 @@
   if (window.__PHASE490_MEASURED_PANEL_HEIGHT_SYNC__) return;
   window.__PHASE490_MEASURED_PANEL_HEIGHT_SYNC__ = true;
 
-  const TELEMETRY_CARDS = [
-    "#recent-tasks-card",
-    "#task-activity-card",
-    "#task-events-card"
-  ];
-
-  const SCROLL_AREAS = [
-    "#recentTasks",
-    "#recentLogs",
-    "#mb-task-events-panel-anchor"
-  ];
-
-  function px(n) {
-    return `${Math.max(0, Math.round(n))}px`;
+  function q(selector) {
+    return document.querySelector(selector);
   }
 
   function visible(el) {
@@ -24,72 +12,43 @@
     return !el.hasAttribute("hidden") && cs.display !== "none" && cs.visibility !== "hidden";
   }
 
-  function findMatildaPanel() {
+  function outerHeight(el) {
+    if (!el) return 0;
+    const rect = el.getBoundingClientRect();
+    const cs = window.getComputedStyle(el);
+    const mt = parseFloat(cs.marginTop || "0") || 0;
+    const mb = parseFloat(cs.marginBottom || "0") || 0;
+    return Math.round(rect.height + mt + mb);
+  }
+
+  function findReferenceCard() {
     const candidates = [
-      document.querySelector("#op-panel-chat"),
-      document.querySelector('[data-workspace-panel][aria-labelledby="op-tab-chat"]'),
-      document.querySelector("#operator-panels > :not([hidden])")
+      q("#delegation-card"),
+      q("#chat-card"),
+      q("#op-panel-delegation #delegation-card"),
+      q("#op-panel-chat #chat-card")
     ].filter(Boolean);
 
     return candidates.find(visible) || null;
   }
 
-  function applyHeight(el, h) {
-    if (!el) return;
-    el.style.height = px(h);
-    el.style.minHeight = px(h);
-    el.style.maxHeight = px(h);
-    el.style.boxSizing = "border-box";
-    el.style.display = "flex";
-    el.style.flexDirection = "column";
-  }
-
-  function normalizeInner() {
-    SCROLL_AREAS.forEach(sel => {
-      const el = document.querySelector(sel);
-      if (!el) return;
-      el.style.flex = "1 1 auto";
-      el.style.minHeight = "0";
-      el.style.overflowY = "auto";
-    });
-
-    const graphWrap = document.querySelector("#task-activity-card > div");
-    const canvas = document.querySelector("#task-activity-graph");
-
-    if (graphWrap) {
-      graphWrap.style.flex = "1 1 auto";
-      graphWrap.style.minHeight = "0";
-      graphWrap.style.display = "flex";
-    }
-
-    if (canvas) {
-      canvas.style.flex = "1 1 auto";
-      canvas.style.height = "100%";
-    }
-  }
-
   function sync() {
-    const ref = findMatildaPanel();
+    const ref = findReferenceCard();
     if (!ref) return;
 
-    const h = ref.getBoundingClientRect().height;
+    const h = outerHeight(ref);
     if (!h || h < 100) return;
 
-    TELEMETRY_CARDS.forEach(sel => {
-      document.querySelectorAll(sel).forEach(el => applyHeight(el, h));
-    });
-
-    normalizeInner();
-
-    console.log("[phase490] synced telemetry cards to:", Math.round(h));
+    document.documentElement.style.setProperty("--phase490-chat-card-height", `${h}px`);
+    document.documentElement.style.setProperty("--phase490-telemetry-card-height", `calc(${h}px - 4px)`);
   }
 
   function boot() {
     sync();
 
-    const rerun = () => requestAnimationFrame(sync);
-
+    const rerun = () => window.requestAnimationFrame(sync);
     window.addEventListener("resize", rerun);
+    window.addEventListener("load", rerun);
     document.addEventListener("click", rerun);
     document.addEventListener("input", rerun);
 
@@ -98,10 +57,10 @@
       subtree: true,
       childList: true,
       attributes: true,
-      attributeFilter: ["class", "style", "hidden"]
+      attributeFilter: ["class", "style", "hidden", "aria-hidden"]
     });
 
-    setInterval(sync, 1500);
+    window.setInterval(sync, 1200);
   }
 
   if (document.readyState === "loading") {
