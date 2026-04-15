@@ -20,7 +20,71 @@
   <link rel="stylesheet" href="css/phase61_workspace_consolidation.css" />
   <link rel="stylesheet" href="css/phase61_tabs_observational_workspace.css" />
 
-  <style id="matilda-chat-typography-polish">
+  
+<style id="phase490-height-contract">
+  /* === ROOT LAYOUT CONTRACT === */
+  #phase61-main-grid,
+  #phase61-main-grid > section {
+    display: flex;
+    align-items: stretch;
+  }
+
+  /* === BOTH COLUMNS MATCH HEIGHT === */
+  #operator-workspace-card,
+  #observational-workspace-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* === PANELS FILL THEIR COLUMN === */
+  #op-panel-chat,
+  #op-panel-delegation,
+  #observational-panels {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  /* === EACH TAB PANEL FILLS SAME HEIGHT === */
+  .obs-panel {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  /* === INNER CONTENT SCROLLS (NOT CONTAINERS) === */
+  #recentTasks,
+  #recentLogs,
+  #mb-task-events-panel-anchor {
+    overflow-y: auto;
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  /* === TASK ACTIVITY GRAPH FITS === */
+  #task-activity-card > div {
+    flex: 1 1 auto;
+    display: flex;
+    min-height: 0;
+  }
+
+  #task-activity-graph {
+    height: 100% !important;
+    flex: 1 1 auto;
+  }
+
+  /* === DELEGATION MATCHES CHAT STRUCTURE === */
+  #delegation-status-panel {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    min-height: 0;
+  }
+</style>
+
+<style id="matilda-chat-typography-polish">
     #matilda-chat-transcript p {
       line-height: 1.4 !important;
       margin-bottom: 0.5rem !important;
@@ -515,7 +579,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.js"></script>
   <script defer src="js/phase61_tabs_workspace.js"></script>
-  <script defer src="js/phase489_panel_height_sync.js"></script>
+  
   <script defer src="js/phase61_recent_history_wire.js"></script>
   <script defer src="js/dashboard-graph.js"></script>
   <script defer src="js/phase457_restore_task_panels.js"></script>
