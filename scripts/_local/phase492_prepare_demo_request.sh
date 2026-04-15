@@ -27,6 +27,9 @@ Tasks:
 Constraints:
 - Require approval before execution
 - Provide full reasoning for each step
+
+Additional Requirement:
+- After execution, summarize outcomes in a clear, operator-facing report
 ----------------------------------------
 
 Expected system flow:
@@ -37,6 +40,7 @@ Operator request
 → Approval request
 → Execution (if approved)
 → Outcome reporting in telemetry
+→ Final summarized report
 
 What to watch:
 
@@ -45,6 +49,7 @@ What to watch:
 - Does system request approval?
 - Do tasks appear in telemetry?
 - Does execution produce outputs?
+- Is a final report generated?
 
 NOTE:
 Matilda reply may be silent or partial — this is OK.
