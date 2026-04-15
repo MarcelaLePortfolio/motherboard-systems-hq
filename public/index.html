@@ -490,7 +490,60 @@
     height: 100% !important;
   }
 </style>
-\n<style id="phase489-task-activity-scroll">
+\n
+<style id="phase490-evidence-based-height-fix">
+  /* Phase 490 — evidence-based fix:
+     telemetry cards showed non-zero bottom margin and flex: 0 1 auto.
+     Normalize workspace surface cards without mutating outer layout. */
+
+  #chat-card,
+  #delegation-card,
+  #recent-tasks-card,
+  #task-activity-card,
+  #task-events-card {
+    margin-bottom: 0 !important;
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  #op-panel-chat,
+  #op-panel-delegation,
+  #obs-panel-recent,
+  #obs-panel-activity,
+  #obs-panel-events {
+    min-height: 0 !important;
+  }
+
+  #chat-card,
+  #delegation-card,
+  #recent-tasks-card,
+  #task-activity-card,
+  #task-events-card,
+  #observational-panels > .obs-panel:not([hidden]),
+  #operator-panels > *:not([hidden]) {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  #matilda-chat-transcript,
+  #delegation-status-panel,
+  #mb-task-events-panel-anchor {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    overflow-y: auto !important;
+  }
+
+  #task-activity-card > div,
+  #task-activity-graph {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    height: 100% !important;
+    max-height: 100% !important;
+  }
+</style>
+
+<style id="phase489-task-activity-scroll">
   [data-phase61-shell="history"] {
     min-height: 0 !important;
   }
