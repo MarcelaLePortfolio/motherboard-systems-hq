@@ -6,26 +6,14 @@
     return `${Math.max(0, Math.round(n))}px`;
   }
 
-  function byId(id) {
-    return document.getElementById(id);
-  }
-
-  function first() {
-    for (const el of arguments) {
-      if (el) return el;
-    }
-    return null;
+  function q(sel) {
+    return document.querySelector(sel);
   }
 
   function visible(el) {
     if (!el) return false;
     const cs = window.getComputedStyle(el);
     return !el.hasAttribute("hidden") && cs.display !== "none" && cs.visibility !== "hidden";
-  }
-
-  function rectHeight(el) {
-    if (!el) return 0;
-    return Math.round(el.getBoundingClientRect().height || 0);
   }
 
   function outerHeight(el) {
@@ -37,57 +25,36 @@
     return Math.round(rect.height + mt + mb);
   }
 
-  function findChatPieces() {
-    const transcript = first(
-      byId("matilda-chat-transcript"),
-      document.querySelector("#op-panel-chat #matilda-chat-transcript"),
-      document.querySelector("#operator-workspace-card #matilda-chat-transcript")
-    );
-
-    const guidance = first(
-      byId("operator-guidance-panel"),
-      document.querySelector("#op-panel-chat #operator-guidance-panel")
-    );
-
-    const helper = first(
-      byId("matilda-helper-text-ops"),
-      byId("matilda-chat-helper"),
-      document.querySelector("#op-panel-chat .text-xs.text-gray-400")
-    );
-
-    const inputRow = first(
-      document.querySelector("#op-panel-chat .flex.flex-col.md\\:flex-row.md\\:items-center.md\\:justify-between.gap-3"),
-      document.querySelector("#op-panel-chat .gap-3"),
-      document.querySelector("#op-panel-chat textarea")?.closest("div")
-    );
-
-    const textarea = first(
-      byId("matilda-input"),
-      byId("matilda-chat-input"),
-      document.querySelector("#op-panel-chat textarea")
-    );
-
-    return { transcript, guidance, helper, inputRow, textarea };
+  function first() {
+    for (const el of arguments) {
+      if (el) return el;
+    }
+    return null;
   }
 
-  function computeTrueMatildaHeight() {
-    const pieces = findChatPieces();
-
-    const included = Object.entries(pieces)
-      .filter(([, el]) => el && visible(el))
-      .map(([name, el]) => ({ name, h: rectHeight(el) }));
-
-    const sum = included.reduce((total, part) => total + part.h, 0);
-
-    if (sum > 0) return sum;
-
-    const fallback = first(
-      byId("chat-card"),
-      byId("op-panel-chat"),
-      document.querySelector("#operator-panels > #op-panel-chat")
+  function findRenderedChatContainer() {
+    return first(
+      q("#chat-card"),
+      q("#op-panel-chat #chat-card"),
+      q("#op-panel-chat > section"),
+      q("#op-panel-chat")
     );
+  }
 
-    return outerHeight(fallback);
+  function findDelegationPanel() {
+    return first(
+      q("#op-panel-delegation"),
+      q("#operator-panels > #op-panel-delegation")
+    );
+  }
+
+  function findDelegationCard() {
+    return first(
+      q("#delegation-card"),
+      q("#op-panel-delegation #delegation-card"),
+      q("#op-panel-delegation > section"),
+      q("#op-panel-delegation section")
+    );
   }
 
   function setExactHeight(el, h) {
@@ -107,32 +74,17 @@
   }
 
   function syncOperatorHeights() {
-    const target = computeTrueMatildaHeight();
+    const chatContainer = findRenderedChatContainer();
+    const delegationPanel = findDelegationPanel();
+    const delegationCard = findDelegationCard();
+
+    if (!chatContainer || !delegationPanel || !delegationCard) return;
+    if (!visible(chatContainer) || !visible(delegationPanel)) return;
+
+    const target = outerHeight(chatContainer);
     if (!target || target < 100) return;
 
-    const chatPanel = first(
-      byId("op-panel-chat"),
-      document.querySelector("#operator-panels > #op-panel-chat")
-    );
-
-    const delegationPanel = first(
-      byId("op-panel-delegation"),
-      document.querySelector("#operator-panels > #op-panel-delegation")
-    );
-
-    const delegationCard = first(
-      byId("delegation-card"),
-      document.querySelector("#op-panel-delegation #delegation-card"),
-      document.querySelector("#op-panel-delegation section")
-    );
-
-    if (!chatPanel || !delegationPanel || !delegationCard) return;
-    if (!visible(chatPanel) || !visible(delegationPanel)) return;
-
-    setExactHeight(chatPanel, target);
     setExactHeight(delegationPanel, target);
-
-    setColumn(chatPanel);
     setColumn(delegationPanel);
 
     delegationCard.style.flex = "1 1 auto";
@@ -144,7 +96,7 @@
     delegationCard.style.boxSizing = "border-box";
     delegationCard.style.overflow = "hidden";
 
-    const status = byId("delegation-status-panel");
+    const status = q("#delegation-status-panel");
     if (status) {
       status.style.flex = "1 1 auto";
       status.style.minHeight = "0";
@@ -152,19 +104,11 @@
     }
 
     const input = first(
-      byId("delegation-input"),
-      document.querySelector("#op-panel-delegation textarea")
+      q("#delegation-input"),
+      q("#op-panel-delegation textarea")
     );
     if (input) {
       input.style.flex = "0 0 auto";
-    }
-
-    if (window.__UI_DEBUG) {
-      console.log("[phase489] true matilda height sync", {
-        target,
-        chatPanel: outerHeight(chatPanel),
-        delegationPanel: outerHeight(delegationPanel),
-      });
     }
   }
 
@@ -178,7 +122,7 @@
     document.addEventListener("click", rerun);
     document.addEventListener("input", rerun);
 
-    const opTabs = byId("operator-tabs");
+    const opTabs = q("#operator-tabs");
     if (opTabs) opTabs.addEventListener("click", rerun);
 
     const mo = new MutationObserver(rerun);
