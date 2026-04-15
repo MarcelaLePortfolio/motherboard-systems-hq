@@ -8,6 +8,19 @@
     return `${Math.max(0, Math.round(n))}px`;
   }
 
+  function first() {
+    for (const el of arguments) {
+      if (el) return el;
+    }
+    return null;
+  }
+
+  function visible(el) {
+    if (!el) return false;
+    const cs = window.getComputedStyle(el);
+    return !el.hasAttribute("hidden") && cs.display !== "none" && cs.visibility !== "hidden";
+  }
+
   function outerHeight(el) {
     if (!el) return 0;
     const r = el.getBoundingClientRect();
@@ -17,12 +30,6 @@
       (parseFloat(cs.marginTop) || 0) +
       (parseFloat(cs.marginBottom) || 0)
     );
-  }
-
-  function visible(el) {
-    if (!el) return false;
-    const cs = getComputedStyle(el);
-    return !el.hasAttribute("hidden") && cs.display !== "none" && cs.visibility !== "hidden";
   }
 
   function lockHeight(el, h) {
@@ -36,8 +43,7 @@
   }
 
   function setVisibleColumn(el) {
-    if (!el) return;
-    if (!visible(el)) return;
+    if (!el || !visible(el)) return;
     el.style.display = "flex";
     el.style.flexDirection = "column";
     el.style.minHeight = "0";
@@ -54,29 +60,17 @@
     el.style.boxSizing = "border-box";
   }
 
-  function findActivePanel(root) {
-    return [...root.children].find((el) => visible(el));
-  }
-
-  function sync() {
+  function syncOperatorPanels(targetHeight) {
     const operatorPanels = q("#operator-panels");
-    if (!operatorPanels) return;
-
-    const activePanel = findActivePanel(operatorPanels);
-    if (!activePanel) return;
-
     const chatPanel = q("#op-panel-chat");
     const delegationPanel = q("#op-panel-delegation");
 
-    const targetHeight = outerHeight(activePanel);
-    if (!targetHeight || targetHeight < 100) return;
+    if (!operatorPanels || !chatPanel || !delegationPanel) return;
+
+    operatorPanels.style.alignItems = "stretch";
 
     [chatPanel, delegationPanel].forEach((panel) => {
-      if (!panel) return;
-
       lockHeight(panel, targetHeight);
-
-      // CRITICAL: do not override hidden panels with display:flex
       if (!visible(panel)) return;
 
       setVisibleColumn(panel);
@@ -90,17 +84,97 @@
       setVisibleColumn(card);
     });
 
-    const status = q("#delegation-status-panel");
-    if (status && visible(delegationPanel)) {
-      status.style.flex = "1 1 auto";
-      status.style.minHeight = "0";
-      status.style.overflowY = "auto";
+    const delegationStatus = q("#delegation-status-panel");
+    if (delegationStatus && visible(delegationPanel)) {
+      delegationStatus.style.flex = "1 1 auto";
+      delegationStatus.style.minHeight = "0";
+      delegationStatus.style.height = "auto";
+      delegationStatus.style.maxHeight = "none";
+      delegationStatus.style.overflowY = "auto";
     }
 
-    const input = q("#delegation-input") || q("#op-panel-delegation textarea");
-    if (input && visible(delegationPanel)) {
-      input.style.flex = "0 0 auto";
+    const delegationInput = q("#delegation-input") || q("#op-panel-delegation textarea");
+    if (delegationInput && visible(delegationPanel)) {
+      delegationInput.style.flex = "0 0 auto";
+      delegationInput.style.height = "auto";
     }
+  }
+
+  function syncTelemetryPanels(targetHeight) {
+    const observationalPanels = q("#observational-panels");
+    if (observationalPanels) {
+      observationalPanels.style.alignItems = "stretch";
+    }
+
+    const telemetryPanels = [
+      q("#obs-panel-recent"),
+      q("#obs-panel-activity"),
+      q("#obs-panel-events"),
+    ].filter(Boolean);
+
+    telemetryPanels.forEach((panel) => {
+      lockHeight(panel, targetHeight);
+      if (!visible(panel)) return;
+      setVisibleColumn(panel);
+    });
+
+    const recentCard = q("#recent-tasks-card");
+    const activityCard = q("#task-activity-card");
+    const eventsCard = q("#task-events-card");
+
+    [recentCard, activityCard, eventsCard].forEach((card) => {
+      if (!card) return;
+      setFill(card);
+      if (visible(card.closest(".obs-panel") || card)) {
+        setVisibleColumn(card);
+      }
+    });
+
+    const recentTasks = q("#recentTasks");
+    const recentLogs = q("#recentLogs");
+    const eventsAnchor = q("#mb-task-events-panel-anchor");
+    const activityWrap = q("#task-activity-card > div");
+    const activityCanvas = q("#task-activity-graph");
+
+    [recentTasks, recentLogs, eventsAnchor].forEach((el) => {
+      if (!el) return;
+      el.style.flex = "1 1 auto";
+      el.style.minHeight = "0";
+      el.style.overflowY = "auto";
+    });
+
+    if (activityWrap) {
+      activityWrap.style.flex = "1 1 auto";
+      activityWrap.style.minHeight = "0";
+      activityWrap.style.height = "100%";
+      activityWrap.style.maxHeight = "100%";
+      activityWrap.style.display = "flex";
+      activityWrap.style.flexDirection = "column";
+      activityWrap.style.overflow = "hidden";
+    }
+
+    if (activityCanvas) {
+      activityCanvas.style.flex = "1 1 auto";
+      activityCanvas.style.minHeight = "0";
+      activityCanvas.style.height = "100%";
+      activityCanvas.style.maxHeight = "100%";
+      activityCanvas.style.display = "block";
+    }
+  }
+
+  function sync() {
+    const activeOperatorPanel = first(
+      visible(q("#op-panel-chat")) ? q("#op-panel-chat") : null,
+      visible(q("#op-panel-delegation")) ? q("#op-panel-delegation") : null
+    );
+
+    if (!activeOperatorPanel) return;
+
+    const targetHeight = outerHeight(activeOperatorPanel);
+    if (!targetHeight || targetHeight < 100) return;
+
+    syncOperatorPanels(targetHeight);
+    syncTelemetryPanels(targetHeight);
   }
 
   function boot() {
@@ -113,8 +187,11 @@
     document.addEventListener("click", rerun);
     document.addEventListener("input", rerun);
 
-    const tabs = q("#operator-tabs");
-    if (tabs) tabs.addEventListener("click", rerun);
+    const operatorTabs = q("#operator-tabs");
+    if (operatorTabs) operatorTabs.addEventListener("click", rerun);
+
+    const observationalTabs = q("#observational-tabs");
+    if (observationalTabs) observationalTabs.addEventListener("click", rerun);
 
     const mo = new MutationObserver(rerun);
     mo.observe(document.body, {
