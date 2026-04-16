@@ -6,6 +6,11 @@ cd "$(git rev-parse --show-toplevel)"
 
 STAMP="$(date +%Y%m%d_%H%M%S)"
 OUT="docs/phase487_rebuild_dashboard_for_confidence_fix_${STAMP}.txt"
+TMP_FILES="$(mktemp)"
+
+find app src ui lib pages . \
+  \( -path "./.git" -o -path "./node_modules" -o -path "./.next" -o -path "./dist" -o -path "./coverage" \) -prune -o \
+  \( -name "*.ts" -o -name "*.tsx" -o -name "*.js" -o -name "*.jsx" \) -print 2>/dev/null | sort -u > "${TMP_FILES}"
 
 {
   echo "PHASE 487 — REBUILD DASHBOARD FOR CONFIDENCE FIX"
@@ -15,16 +20,11 @@ OUT="docs/phase487_rebuild_dashboard_for_confidence_fix_${STAMP}.txt"
   echo
 
   echo "=== SOURCE CHECK ==="
-  rg -n -C 3 "insufficient|limited|confidence" src/cognition/operatorGuidanceConfidence.ts src/cognition/operatorGuidanceMapping.ts || true
+  rg -n -C 3 "insufficient|limited|confidence" src/cognition/operatorGuidanceConfidence.ts src/cognition/operatorGuidanceMapping.ts 2>/dev/null || true
   echo
 
   echo "=== REPO-WIDE REMAINING INSUFFICIENT REFERENCES ==="
-  rg -n -C 2 "Confidence: insufficient|confidence.*insufficient|insufficient" app src ui lib pages . \
-    --glob '!.git' \
-    --glob '!node_modules' \
-    --glob '!.next' \
-    --glob '!dist' \
-    --glob '!coverage' || true
+  xargs rg -n -C 2 "Confidence: insufficient|confidence.*insufficient|insufficient" < "${TMP_FILES}" 2>/dev/null || true
   echo
 
   echo "=== DOCKER COMPOSE REBUILD ==="
@@ -53,5 +53,7 @@ OUT="docs/phase487_rebuild_dashboard_for_confidence_fix_${STAMP}.txt"
   echo "If dashboard still shows Confidence: insufficient after rebuild/restart, the remaining source is outside the already-patched mapping files."
   echo
 } > "${OUT}"
+
+rm -f "${TMP_FILES}"
 
 echo "${OUT}"
