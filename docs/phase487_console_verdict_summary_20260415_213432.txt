@@ -1,0 +1,44 @@
+PHASE 487 — CONSOLE VERDICT SUMMARY
+top_file=src/cognition/operatorGuidanceMapping.ts
+exact_lines_file=docs/phase487_exact_line_numbers_20260415_213339.txt
+verdict_file=docs/phase487_boundary_verdict_20260415_213219.txt
+
+SUMMARY:
+• Top candidate file: src/cognition/operatorGuidanceMapping.ts
+• Boundary class: UI-side interpretation boundary
+• Likely mechanism: fallback/default/undefined path collapsing valid or not-yet-hydrated guidance into incorrect insufficient render
+
+TOP MATCHES — GUIDANCE
+77:    "guidance",
+238:        "Observed signal quality does not support high-confidence guidance.",
+276:    .filter((guidance): guidance is OperatorGuidance => guidance !== null);
+
+TOP MATCHES — INSUFFICIENT
+237:        `Signal quality is insufficient for strong interpretation: ${signal.summary}`,
+
+TOP MATCHES — STATUS / REASON
+13:  status: GuidanceSignalStatus;
+34:function mapStatusToSeverity(status: GuidanceSignalStatus): GuidanceSeverity {
+35:  switch (status) {
+47:function mapStatusToConfidence(status: GuidanceSignalStatus): GuidanceConfidence {
+48:  switch (status) {
+61:  status: GuidanceSignalStatus,
+63:  switch (status) {
+89:  const severity = mapStatusToSeverity(signal.status);
+90:  const confidence = mapStatusToConfidence(signal.status);
+91:  const type = mapStatusToType(signal.status);
+113:      signal.domain === "system_health" && signal.status === "healthy",
+125:      signal.domain === "system_health" && signal.status === "degraded",
+137:      signal.domain === "system_health" && signal.status === "stalled",
+149:      signal.domain === "throughput" && signal.status === "healthy",
+161:      signal.domain === "throughput" && signal.status === "degraded",
+173:      signal.domain === "throughput" && signal.status === "stalled",
+
+TOP MATCHES — FALLBACK / DEFAULT / STATE
+
+NEXT PATCH TARGET:
+• Patch only src/cognition/operatorGuidanceMapping.ts
+• Preserve existing contracts
+• Replace incorrect insufficient fallback with a neutral pre-hydration / unavailable render path
+• No backend, governance, approval, or execution changes
+
