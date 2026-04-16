@@ -234,7 +234,7 @@ export const GUIDANCE_INTERPRETATION_RULES: GuidanceInterpretationRule[] = [
     create: (signal) =>
       createBoundedGuidance(
         signal,
-        `Signal quality is insufficient for strong interpretation: ${signal.summary}`,
+        `Signal quality is limited; interpret with caution: ${signal.summary}`,
         "Observed signal quality does not support high-confidence guidance.",
       ),
   },
