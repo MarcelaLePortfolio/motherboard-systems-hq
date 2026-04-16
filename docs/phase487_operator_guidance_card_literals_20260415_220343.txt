@@ -1,0 +1,390 @@
+PHASE 487 — OPERATOR GUIDANCE CARD LITERAL TRACE
+timestamp=20260415_220343
+branch=phase119-dashboard-cognition-contract
+commit=2be025ca9d7d83eea500f558d412fa4f1c61af4d
+
+=== SEARCH: exact card literals ===
+./dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts-109-      executionAuthority:
+./dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts-110-        envelope?.executionAuthority === "none" ? "none" : "none",
+./dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts-111-    },
+./dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts:112:    surfaceConfidence: isConfidence(raw.surfaceConfidence)
+./dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts-113-      ? raw.surfaceConfidence
+./dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts-114-      : "insufficient",
+./dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts-115-    confidenceReason:
+--
+./dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts-167-  return {
+./dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts-168-    title: "Operator guidance",
+./dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts-169-    generatedAtLabel: formatTimestamp(reduction.envelope.generatedAt),
+./dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts:170:    surfaceConfidence: reduction.surfaceConfidence,
+./dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts-171-    confidenceReason: reduction.confidenceReason,
+./dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts-172-    signalCount: reduction.signalCount,
+./dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts-173-    conflictingSignals: reduction.conflictingSignals,
+--
+./dashboard/src/cognition/operatorGuidance/operatorGuidance.ts-47-
+./dashboard/src/cognition/operatorGuidance/operatorGuidance.ts-48-export interface OperatorGuidanceReduction {
+./dashboard/src/cognition/operatorGuidance/operatorGuidance.ts-49-  envelope: OperatorGuidanceEnvelope;
+./dashboard/src/cognition/operatorGuidance/operatorGuidance.ts:50:  surfaceConfidence: OperatorGuidanceConfidence;
+./dashboard/src/cognition/operatorGuidance/operatorGuidance.ts-51-  confidenceReason: string;
+./dashboard/src/cognition/operatorGuidance/operatorGuidance.ts-52-  signalCount: number;
+./dashboard/src/cognition/operatorGuidance/operatorGuidance.ts-53-  conflictingSignals: boolean;
+--
+./dashboard/src/cognition/operatorGuidance/operatorGuidance.ts-73-export interface OperatorGuidanceRenderModel {
+./dashboard/src/cognition/operatorGuidance/operatorGuidance.ts-74-  title: string;
+./dashboard/src/cognition/operatorGuidance/operatorGuidance.ts-75-  generatedAtLabel: string;
+./dashboard/src/cognition/operatorGuidance/operatorGuidance.ts:76:  surfaceConfidence: OperatorGuidanceConfidence;
+./dashboard/src/cognition/operatorGuidance/operatorGuidance.ts-77-  confidenceReason: string;
+./dashboard/src/cognition/operatorGuidance/operatorGuidance.ts-78-  signalCount: number;
+./dashboard/src/cognition/operatorGuidance/operatorGuidance.ts-79-  conflictingSignals: boolean;
+--
+./dashboard/src/cognition/operatorGuidance/operatorGuidance.ts-88-    cognitionVersion: "phase_89",
+./dashboard/src/cognition/operatorGuidance/operatorGuidance.ts-89-    executionAuthority: "none",
+./dashboard/src/cognition/operatorGuidance/operatorGuidance.ts-90-  },
+./dashboard/src/cognition/operatorGuidance/operatorGuidance.ts:91:  surfaceConfidence: "insufficient",
+./dashboard/src/cognition/operatorGuidance/operatorGuidance.ts-92-  confidenceReason: "No signals available for interpretation.",
+./dashboard/src/cognition/operatorGuidance/operatorGuidance.ts-93-  signalCount: 0,
+./dashboard/src/cognition/operatorGuidance/operatorGuidance.ts-94-  conflictingSignals: false,
+--
+./dashboard/src/cognition/operatorGuidance/operatorGuidancePanel.tsx-76-
+./dashboard/src/cognition/operatorGuidance/operatorGuidancePanel.tsx-77-                <div className="mt-3 space-y-1 text-xs text-neutral-500">
+./dashboard/src/cognition/operatorGuidance/operatorGuidancePanel.tsx-78-                  <p>Observed: {item.createdAtLabel}</p>
+./dashboard/src/cognition/operatorGuidance/operatorGuidancePanel.tsx:79:                  <p>Sources: {item.sources.join(", ")}</p>
+./dashboard/src/cognition/operatorGuidance/operatorGuidancePanel.tsx-80-                </div>
+./dashboard/src/cognition/operatorGuidance/operatorGuidancePanel.tsx-81-              </li>
+./dashboard/src/cognition/operatorGuidance/operatorGuidancePanel.tsx-82-            ))}
+--
+./public/js/operatorGuidance.sse.js-55-
+./public/js/operatorGuidance.sse.js-56-    const confidence = firstNonEmpty(reduction?.surfaceConfidence);
+./public/js/operatorGuidance.sse.js-57-    if (confidence) {
+./public/js/operatorGuidance.sse.js:58:      metaLines.push(`Confidence: ${confidence}`);
+./public/js/operatorGuidance.sse.js-59-    }
+./public/js/operatorGuidance.sse.js-60-
+./public/js/operatorGuidance.sse.js-61-    const confidenceReason = firstNonEmpty(reduction?.confidenceReason);
+--
+./public/js/operatorGuidance.sse.js-84-
+./public/js/operatorGuidance.sse.js-85-    const sources = Array.from(sourceSet).filter(Boolean).join(", ");
+./public/js/operatorGuidance.sse.js-86-    if (sources) {
+./public/js/operatorGuidance.sse.js:87:      metaLines.push(`Sources: ${sources}`);
+./public/js/operatorGuidance.sse.js-88-    }
+./public/js/operatorGuidance.sse.js-89-
+./public/js/operatorGuidance.sse.js-90-    return { response, metaLines };
+--
+./routes/diagnostics/operatorGuidanceRuntime.js-163-      cognitionVersion: "phase_89",
+./routes/diagnostics/operatorGuidanceRuntime.js-164-      executionAuthority: "none",
+./routes/diagnostics/operatorGuidanceRuntime.js-165-    },
+./routes/diagnostics/operatorGuidanceRuntime.js:166:    surfaceConfidence: confidence.confidence,
+./routes/diagnostics/operatorGuidanceRuntime.js-167-    confidenceReason: confidence.reason,
+./routes/diagnostics/operatorGuidanceRuntime.js-168-    signalCount: confidence.signalCount,
+./routes/diagnostics/operatorGuidanceRuntime.js-169-    conflictingSignals: confidence.conflictingSignals,
+--
+./scripts/_local/phase99_3_situation_summary_confidence_smoke.ts-27-);
+./scripts/_local/phase99_3_situation_summary_confidence_smoke.ts-28-
+./scripts/_local/phase99_3_situation_summary_confidence_smoke.ts-29-assert(
+./scripts/_local/phase99_3_situation_summary_confidence_smoke.ts:30:  source.includes("operationalConfidence: buildSituationOperationalConfidence({"),
+./scripts/_local/phase99_3_situation_summary_confidence_smoke.ts-31-  "Expected composed situation summary to include operationalConfidence.",
+./scripts/_local/phase99_3_situation_summary_confidence_smoke.ts-32-);
+./scripts/_local/phase99_3_situation_summary_confidence_smoke.ts-33-
+--
+./src/cognition/operatorGuidanceReducer.ts-23-
+./src/cognition/operatorGuidanceReducer.ts-24-export type OperatorGuidanceReduction = {
+./src/cognition/operatorGuidanceReducer.ts-25-  envelope: OperatorGuidanceEnvelope;
+./src/cognition/operatorGuidanceReducer.ts:26:  surfaceConfidence: GuidanceConfidence;
+./src/cognition/operatorGuidanceReducer.ts-27-  confidenceReason: string;
+./src/cognition/operatorGuidanceReducer.ts-28-  signalCount: number;
+./src/cognition/operatorGuidanceReducer.ts-29-  conflictingSignals: boolean;
+--
+./src/cognition/operatorGuidanceReducer.ts-70-      cognitionVersion: "phase_89",
+./src/cognition/operatorGuidanceReducer.ts-71-      executionAuthority: "none",
+./src/cognition/operatorGuidanceReducer.ts-72-    },
+./src/cognition/operatorGuidanceReducer.ts:73:    surfaceConfidence: confidence.confidence,
+./src/cognition/operatorGuidanceReducer.ts-74-    confidenceReason: confidence.reason,
+./src/cognition/operatorGuidanceReducer.ts-75-    signalCount: confidence.signalCount,
+./src/cognition/operatorGuidanceReducer.ts-76-    conflictingSignals: confidence.conflictingSignals,
+--
+./src/cognition/operatorGuidanceReducer.ts-87-      cognitionVersion: "phase_89",
+./src/cognition/operatorGuidanceReducer.ts-88-      executionAuthority: "none",
+./src/cognition/operatorGuidanceReducer.ts-89-    },
+./src/cognition/operatorGuidanceReducer.ts:90:    surfaceConfidence: "insufficient",
+./src/cognition/operatorGuidanceReducer.ts-91-    confidenceReason: "No signals available for interpretation.",
+./src/cognition/operatorGuidanceReducer.ts-92-    signalCount: 0,
+./src/cognition/operatorGuidanceReducer.ts-93-    conflictingSignals: false,
+--
+./src/cognition/situationSummaryComposer.ts-268-    signalCoherenceState: coherence,
+./src/cognition/situationSummaryComposer.ts-269-    operatorAttentionState: attention,
+./src/cognition/situationSummaryComposer.ts-270-    governanceCognitionState: governanceCognition,
+./src/cognition/situationSummaryComposer.ts:271:    operationalConfidence: inputs.operationalConfidence,
+./src/cognition/situationSummaryComposer.ts:272:        operationalConfidence: buildSituationOperationalConfidence({
+./src/cognition/situationSummaryComposer.ts-273-      stabilityState,
+./src/cognition/situationSummaryComposer.ts-274-      executionRiskState,
+./src/cognition/situationSummaryComposer.ts-275-      cognitionState,
+--
+./src/cognition/operatorGuidance.live.ts-49-  ok: true;
+./src/cognition/operatorGuidance.live.ts-50-  generatedAt: number;
+./src/cognition/operatorGuidance.live.ts-51-  guidanceCount: number;
+./src/cognition/operatorGuidance.live.ts:52:  surfaceConfidence: "high" | "medium" | "low" | "insufficient";
+./src/cognition/operatorGuidance.live.ts-53-  conflictingSignals: boolean;
+./src/cognition/operatorGuidance.live.ts-54-  guidanceIds: string[];
+./src/cognition/operatorGuidance.live.ts-55-};
+--
+./src/cognition/operatorGuidance.live.ts-66-    ok: true,
+./src/cognition/operatorGuidance.live.ts-67-    generatedAt: reduction.envelope.generatedAt,
+./src/cognition/operatorGuidance.live.ts-68-    guidanceCount: reduction.envelope.guidance.length,
+./src/cognition/operatorGuidance.live.ts:69:    surfaceConfidence: reduction.surfaceConfidence,
+./src/cognition/operatorGuidance.live.ts-70-    conflictingSignals: reduction.conflictingSignals,
+./src/cognition/operatorGuidance.live.ts-71-    guidanceIds: reduction.envelope.guidance.map((guidance) => guidance.id),
+./src/cognition/operatorGuidance.live.ts-72-  };
+--
+./src/cognition/operatorGuidance.smoke.ts-12-  name: string;
+./src/cognition/operatorGuidance.smoke.ts-13-  signals: GuidanceSignalObservation[];
+./src/cognition/operatorGuidance.smoke.ts-14-  expectedGuidanceCount: number;
+./src/cognition/operatorGuidance.smoke.ts:15:  expectedSurfaceConfidence: "high" | "medium" | "low" | "insufficient";
+./src/cognition/operatorGuidance.smoke.ts-16-  expectedConflictingSignals: boolean;
+./src/cognition/operatorGuidance.smoke.ts-17-};
+./src/cognition/operatorGuidance.smoke.ts-18-
+--
+./src/cognition/operatorGuidance.smoke.ts-38-      },
+./src/cognition/operatorGuidance.smoke.ts-39-    ],
+./src/cognition/operatorGuidance.smoke.ts-40-    expectedGuidanceCount: 1,
+./src/cognition/operatorGuidance.smoke.ts:41:    expectedSurfaceConfidence: "high",
+./src/cognition/operatorGuidance.smoke.ts-42-    expectedConflictingSignals: false,
+./src/cognition/operatorGuidance.smoke.ts-43-  },
+./src/cognition/operatorGuidance.smoke.ts-44-  {
+--
+./src/cognition/operatorGuidance.smoke.ts-54-      },
+./src/cognition/operatorGuidance.smoke.ts-55-    ],
+./src/cognition/operatorGuidance.smoke.ts-56-    expectedGuidanceCount: 1,
+./src/cognition/operatorGuidance.smoke.ts:57:    expectedSurfaceConfidence: "medium",
+./src/cognition/operatorGuidance.smoke.ts-58-    expectedConflictingSignals: false,
+./src/cognition/operatorGuidance.smoke.ts-59-  },
+./src/cognition/operatorGuidance.smoke.ts-60-  {
+--
+./src/cognition/operatorGuidance.smoke.ts-70-      },
+./src/cognition/operatorGuidance.smoke.ts-71-    ],
+./src/cognition/operatorGuidance.smoke.ts-72-    expectedGuidanceCount: 1,
+./src/cognition/operatorGuidance.smoke.ts:73:    expectedSurfaceConfidence: "medium",
+./src/cognition/operatorGuidance.smoke.ts-74-    expectedConflictingSignals: false,
+./src/cognition/operatorGuidance.smoke.ts-75-  },
+./src/cognition/operatorGuidance.smoke.ts-76-  {
+--
+./src/cognition/operatorGuidance.smoke.ts-86-      },
+./src/cognition/operatorGuidance.smoke.ts-87-    ],
+./src/cognition/operatorGuidance.smoke.ts-88-    expectedGuidanceCount: 1,
+./src/cognition/operatorGuidance.smoke.ts:89:    expectedSurfaceConfidence: "low",
+./src/cognition/operatorGuidance.smoke.ts-90-    expectedConflictingSignals: false,
+./src/cognition/operatorGuidance.smoke.ts-91-  },
+./src/cognition/operatorGuidance.smoke.ts-92-  {
+--
+./src/cognition/operatorGuidance.smoke.ts-110-      },
+./src/cognition/operatorGuidance.smoke.ts-111-    ],
+./src/cognition/operatorGuidance.smoke.ts-112-    expectedGuidanceCount: 2,
+./src/cognition/operatorGuidance.smoke.ts:113:    expectedSurfaceConfidence: "medium",
+./src/cognition/operatorGuidance.smoke.ts-114-    expectedConflictingSignals: true,
+./src/cognition/operatorGuidance.smoke.ts-115-  },
+./src/cognition/operatorGuidance.smoke.ts-116-  {
+./src/cognition/operatorGuidance.smoke.ts-117-    name: "no_signals",
+./src/cognition/operatorGuidance.smoke.ts-118-    signals: [],
+./src/cognition/operatorGuidance.smoke.ts-119-    expectedGuidanceCount: 0,
+./src/cognition/operatorGuidance.smoke.ts:120:    expectedSurfaceConfidence: "insufficient",
+./src/cognition/operatorGuidance.smoke.ts-121-    expectedConflictingSignals: false,
+./src/cognition/operatorGuidance.smoke.ts-122-  },
+./src/cognition/operatorGuidance.smoke.ts-123-];
+
+=== SEARCH: remaining insufficient render paths ===
+./dashboard/src/cognition/operatorGuidance/operatorGuidance.ts-2-  | "high"
+./dashboard/src/cognition/operatorGuidance/operatorGuidance.ts-3-  | "medium"
+./dashboard/src/cognition/operatorGuidance/operatorGuidance.ts-4-  | "low"
+./dashboard/src/cognition/operatorGuidance/operatorGuidance.ts:5:  | "insufficient";
+./dashboard/src/cognition/operatorGuidance/operatorGuidance.ts-6-
+./dashboard/src/cognition/operatorGuidance/operatorGuidance.ts-7-export type OperatorGuidanceSeverity =
+./dashboard/src/cognition/operatorGuidance/operatorGuidance.ts-8-  | "info"
+--
+./dashboard/src/cognition/operatorGuidance/operatorGuidance.ts-88-    cognitionVersion: "phase_89",
+./dashboard/src/cognition/operatorGuidance/operatorGuidance.ts-89-    executionAuthority: "none",
+./dashboard/src/cognition/operatorGuidance/operatorGuidance.ts-90-  },
+./dashboard/src/cognition/operatorGuidance/operatorGuidance.ts:91:  surfaceConfidence: "insufficient",
+./dashboard/src/cognition/operatorGuidance/operatorGuidance.ts-92-  confidenceReason: "No signals available for interpretation.",
+./dashboard/src/cognition/operatorGuidance/operatorGuidance.ts-93-  signalCount: 0,
+./dashboard/src/cognition/operatorGuidance/operatorGuidance.ts-94-  conflictingSignals: false,
+--
+./dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts-34-    value === "high" ||
+./dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts-35-    value === "medium" ||
+./dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts-36-    value === "low" ||
+./dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts:37:    value === "insufficient"
+./dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts-38-  );
+./dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts-39-}
+./dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts-40-
+--
+./dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts-111-    },
+./dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts-112-    surfaceConfidence: isConfidence(raw.surfaceConfidence)
+./dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts-113-      ? raw.surfaceConfidence
+./dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts:114:      : "insufficient",
+./dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts-115-    confidenceReason:
+./dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts-116-      typeof raw.confidenceReason === "string"
+./dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts-117-        ? raw.confidenceReason
+--
+./src/cognition/operatorGuidance.smoke.ts-12-  name: string;
+./src/cognition/operatorGuidance.smoke.ts-13-  signals: GuidanceSignalObservation[];
+./src/cognition/operatorGuidance.smoke.ts-14-  expectedGuidanceCount: number;
+./src/cognition/operatorGuidance.smoke.ts:15:  expectedSurfaceConfidence: "high" | "medium" | "low" | "insufficient";
+./src/cognition/operatorGuidance.smoke.ts-16-  expectedConflictingSignals: boolean;
+./src/cognition/operatorGuidance.smoke.ts-17-};
+./src/cognition/operatorGuidance.smoke.ts-18-
+--
+./src/cognition/operatorGuidance.smoke.ts-117-    name: "no_signals",
+./src/cognition/operatorGuidance.smoke.ts-118-    signals: [],
+./src/cognition/operatorGuidance.smoke.ts-119-    expectedGuidanceCount: 0,
+./src/cognition/operatorGuidance.smoke.ts:120:    expectedSurfaceConfidence: "insufficient",
+./src/cognition/operatorGuidance.smoke.ts-121-    expectedConflictingSignals: false,
+./src/cognition/operatorGuidance.smoke.ts-122-  },
+./src/cognition/operatorGuidance.smoke.ts-123-];
+--
+./src/cognition/operatorGuidanceConfidence.ts-61-  if (unknown > 0) {
+./src/cognition/operatorGuidanceConfidence.ts-62-    return {
+./src/cognition/operatorGuidanceConfidence.ts-63-      confidence: "low",
+./src/cognition/operatorGuidanceConfidence.ts:64:      reason: "Signal quality insufficient for strong interpretation.",
+./src/cognition/operatorGuidanceConfidence.ts-65-      signalCount: signals.length,
+./src/cognition/operatorGuidanceConfidence.ts-66-      conflictingSignals,
+./src/cognition/operatorGuidanceConfidence.ts-67-    };
+--
+./src/cognition/operatorGuidance.ts-14-  | "high"
+./src/cognition/operatorGuidance.ts-15-  | "medium"
+./src/cognition/operatorGuidance.ts-16-  | "low"
+./src/cognition/operatorGuidance.ts:17:  | "insufficient";
+./src/cognition/operatorGuidance.ts-18-
+./src/cognition/operatorGuidance.ts-19-export type GuidanceSeverity =
+./src/cognition/operatorGuidance.ts-20-  | "info"
+--
+./src/cognition/operatorGuidance.live.ts-49-  ok: true;
+./src/cognition/operatorGuidance.live.ts-50-  generatedAt: number;
+./src/cognition/operatorGuidance.live.ts-51-  guidanceCount: number;
+./src/cognition/operatorGuidance.live.ts:52:  surfaceConfidence: "high" | "medium" | "low" | "insufficient";
+./src/cognition/operatorGuidance.live.ts-53-  conflictingSignals: boolean;
+./src/cognition/operatorGuidance.live.ts-54-  guidanceIds: string[];
+./src/cognition/operatorGuidance.live.ts-55-};
+--
+./src/cognition/operatorGuidanceReducer.ts-87-      cognitionVersion: "phase_89",
+./src/cognition/operatorGuidanceReducer.ts-88-      executionAuthority: "none",
+./src/cognition/operatorGuidanceReducer.ts-89-    },
+./src/cognition/operatorGuidanceReducer.ts:90:    surfaceConfidence: "insufficient",
+./src/cognition/operatorGuidanceReducer.ts-91-    confidenceReason: "No signals available for interpretation.",
+./src/cognition/operatorGuidanceReducer.ts-92-    signalCount: 0,
+./src/cognition/operatorGuidanceReducer.ts-93-    conflictingSignals: false,
+--
+./routes/diagnostics/operatorGuidanceRuntime.js-24-    case "unknown":
+./routes/diagnostics/operatorGuidanceRuntime.js-25-      return "low";
+./routes/diagnostics/operatorGuidanceRuntime.js-26-    default:
+./routes/diagnostics/operatorGuidanceRuntime.js:27:      return "insufficient";
+./routes/diagnostics/operatorGuidanceRuntime.js-28-  }
+./routes/diagnostics/operatorGuidanceRuntime.js-29-}
+./routes/diagnostics/operatorGuidanceRuntime.js-30-
+--
+./routes/diagnostics/operatorGuidanceRuntime.js-89-function assessSurfaceConfidence(signals) {
+./routes/diagnostics/operatorGuidanceRuntime.js-90-  if (!Array.isArray(signals) || signals.length === 0) {
+./routes/diagnostics/operatorGuidanceRuntime.js-91-    return {
+./routes/diagnostics/operatorGuidanceRuntime.js:92:      confidence: "insufficient",
+./routes/diagnostics/operatorGuidanceRuntime.js-93-      reason: "No signals available for interpretation.",
+./routes/diagnostics/operatorGuidanceRuntime.js-94-      signalCount: 0,
+./routes/diagnostics/operatorGuidanceRuntime.js-95-      conflictingSignals: false,
+--
+./routes/diagnostics/operatorGuidanceRuntime.js-123-  if (hasUnknown) {
+./routes/diagnostics/operatorGuidanceRuntime.js-124-    return {
+./routes/diagnostics/operatorGuidanceRuntime.js-125-      confidence: "low",
+./routes/diagnostics/operatorGuidanceRuntime.js:126:      reason: "Observed signal quality is insufficient for stronger interpretation.",
+./routes/diagnostics/operatorGuidanceRuntime.js-127-      signalCount: signals.length,
+./routes/diagnostics/operatorGuidanceRuntime.js-128-      conflictingSignals: false,
+./routes/diagnostics/operatorGuidanceRuntime.js-129-    };
+--
+./src/cognition/operatorGuidanceSafety.ts-40-  "high",
+./src/cognition/operatorGuidanceSafety.ts-41-  "medium",
+./src/cognition/operatorGuidanceSafety.ts-42-  "low",
+./src/cognition/operatorGuidanceSafety.ts:43:  "insufficient",
+./src/cognition/operatorGuidanceSafety.ts-44-]);
+./src/cognition/operatorGuidanceSafety.ts-45-
+./src/cognition/operatorGuidanceSafety.ts-46-const FORBIDDEN_MESSAGE_PATTERNS = [
+
+=== SEARCH: patched guidance sources ===
+./governance/index.ts-13-PHASE STATUS
+./governance/index.ts-14-- Phase 97 governance integration scaffold complete
+./governance/index.ts-15-- Namespace surface stabilized for current phase
+./governance/index.ts:16:- Structural exports intentionally limited
+./governance/index.ts-17-- Further expansion must occur in later phases only
+./governance/index.ts-18-*/
+./governance/index.ts-19-
+--
+./scripts/_local/phase73_operator_safety_gates.ts-111-      action,
+./scripts/_local/phase73_operator_safety_gates.ts-112-      allowed: true,
+./scripts/_local/phase73_operator_safety_gates.ts-113-      gate: "WARN",
+./scripts/_local/phase73_operator_safety_gates.ts:114:      reason: "caution_state_allows_limited_progress",
+./scripts/_local/phase73_operator_safety_gates.ts-115-      requiredNextStep: "Prefer diagnostics before continuing narrow work.",
+./scripts/_local/phase73_operator_safety_gates.ts-116-      guidanceState: guidance.systemState,
+./scripts/_local/phase73_operator_safety_gates.ts-117-      riskLevel: guidance.riskLevel
+--
+./scripts/_local/phase99_4_guidance_confidence_smoke.ts-1-import { readFileSync } from "node:fs";
+./scripts/_local/phase99_4_guidance_confidence_smoke.ts-2-
+./scripts/_local/phase99_4_guidance_confidence_smoke.ts-3-const source = readFileSync(
+./scripts/_local/phase99_4_guidance_confidence_smoke.ts:4:  "src/cognition/operatorGuidanceConfidence.ts",
+./scripts/_local/phase99_4_guidance_confidence_smoke.ts-5-  "utf8",
+./scripts/_local/phase99_4_guidance_confidence_smoke.ts-6-);
+./scripts/_local/phase99_4_guidance_confidence_smoke.ts-7-
+--
+./scripts/_local/phase99_4_guidance_confidence_smoke.ts-13-
+./scripts/_local/phase99_4_guidance_confidence_smoke.ts-14-assert(
+./scripts/_local/phase99_4_guidance_confidence_smoke.ts-15-  source.includes('import type { OperationalConfidence } from "./confidence";'),
+./scripts/_local/phase99_4_guidance_confidence_smoke.ts:16:  "Expected operatorGuidanceConfidence.ts to import OperationalConfidence.",
+./scripts/_local/phase99_4_guidance_confidence_smoke.ts-17-);
+./scripts/_local/phase99_4_guidance_confidence_smoke.ts-18-
+./scripts/_local/phase99_4_guidance_confidence_smoke.ts-19-assert(
+--
+./src/cognition/operatorGuidanceMapping.ts-238-      createBoundedGuidance(
+./src/cognition/operatorGuidanceMapping.ts-239-        signal,
+./src/cognition/operatorGuidanceMapping.ts-240-        (signal.summary
+./src/cognition/operatorGuidanceMapping.ts:241:          ? `Signal quality is limited; interpret with caution: ${signal.summary}`
+./src/cognition/operatorGuidanceMapping.ts:242:          : `Signal quality currently unavailable; awaiting stronger signal.`),
+./src/cognition/operatorGuidanceMapping.ts-243-        "Observed signal quality does not support high-confidence guidance.",
+./src/cognition/operatorGuidanceMapping.ts-244-      ),
+./src/cognition/operatorGuidanceMapping.ts-245-  },
+--
+./src/cognition/operatorGuidance.smoke.ts-6-
+./src/cognition/operatorGuidance.smoke.ts-7-import { reduceOperatorHealthSurfaceToGuidance } from "./operatorGuidanceReducer";
+./src/cognition/operatorGuidance.smoke.ts-8-import { assertOperatorGuidanceReductionSafe } from "./operatorGuidanceSafety";
+./src/cognition/operatorGuidance.smoke.ts:9:import type { GuidanceSignalObservation } from "./operatorGuidanceMapping";
+./src/cognition/operatorGuidance.smoke.ts-10-
+./src/cognition/operatorGuidance.smoke.ts-11-type SmokeCase = {
+./src/cognition/operatorGuidance.smoke.ts-12-  name: string;
+--
+./src/cognition/operatorGuidanceConfidence.ts-10-*/
+./src/cognition/operatorGuidanceConfidence.ts-11-
+./src/cognition/operatorGuidanceConfidence.ts-12-import type { GuidanceConfidence } from "./operatorGuidance";
+./src/cognition/operatorGuidanceConfidence.ts:13:import type { GuidanceSignalObservation } from "./operatorGuidanceMapping";
+./src/cognition/operatorGuidanceConfidence.ts-14-
+./src/cognition/operatorGuidanceConfidence.ts-15-export type ConfidenceAssessment = {
+./src/cognition/operatorGuidanceConfidence.ts-16-  confidence: GuidanceConfidence;
+--
+./src/cognition/operatorGuidanceConfidence.ts-25-
+./src/cognition/operatorGuidanceConfidence.ts-26-  if (signals.length === 0) {
+./src/cognition/operatorGuidanceConfidence.ts-27-    return {
+./src/cognition/operatorGuidanceConfidence.ts:28:      confidence: "limited",
+./src/cognition/operatorGuidanceConfidence.ts-29-      reason: "No signals available for interpretation.",
+./src/cognition/operatorGuidanceConfidence.ts-30-      signalCount: 0,
+./src/cognition/operatorGuidanceConfidence.ts-31-      conflictingSignals: false,
+--
+./src/cognition/operatorGuidance.live.ts-6-
+./src/cognition/operatorGuidance.live.ts-7-import { reduceOperatorHealthSurfaceToGuidance } from "./operatorGuidanceReducer";
+./src/cognition/operatorGuidance.live.ts-8-import { assertOperatorGuidanceReductionSafe } from "./operatorGuidanceSafety";
+./src/cognition/operatorGuidance.live.ts:9:import type { GuidanceSignalObservation } from "./operatorGuidanceMapping";
+./src/cognition/operatorGuidance.live.ts-10-
+./src/cognition/operatorGuidance.live.ts-11-const NOW = 1_763_600_100_000;
+./src/cognition/operatorGuidance.live.ts-12-
+--
+./src/cognition/operatorGuidanceReducer.ts-13-  mapSignalsToOperatorGuidance,
+./src/cognition/operatorGuidanceReducer.ts-14-  type GuidanceMappingContext,
+./src/cognition/operatorGuidanceReducer.ts-15-  type GuidanceSignalObservation,
+./src/cognition/operatorGuidanceReducer.ts:16:} from "./operatorGuidanceMapping";
+./src/cognition/operatorGuidanceReducer.ts:17:import { assessGuidanceConfidence } from "./operatorGuidanceConfidence";
+./src/cognition/operatorGuidanceReducer.ts-18-
+./src/cognition/operatorGuidanceReducer.ts-19-export type OperatorHealthSurface = {
+./src/cognition/operatorGuidanceReducer.ts-20-  signals: GuidanceSignalObservation[];
+
+=== DECISION TARGET ===
+Find the exact display component containing the visible card literals.
+That component is the next surgical patch site.
+
