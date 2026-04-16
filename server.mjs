@@ -777,3 +777,9 @@ app.get('/api/guidance', (req, res) => {
   });
 });
 
+
+// PHASE 510 FIX — ACTIVATE GUIDANCE ROUTER
+import apiGuidanceRouter from "./server/routes/api-guidance.mjs";
+
+app.use("/api/guidance", apiGuidanceRouter);
+
