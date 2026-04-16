@@ -2,7 +2,7 @@ export type OperatorGuidanceConfidence =
   | "high"
   | "medium"
   | "low"
-  | "insufficient";
+  | "limited";
 
 export type OperatorGuidanceSeverity =
   | "info"
