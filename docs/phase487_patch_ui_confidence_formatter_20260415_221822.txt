@@ -1,0 +1,10 @@
+PHASE 487 — UI CONFIDENCE FORMATTER PATCH
+timestamp=20260415_221822
+patched_files=dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts
+
+=== VERIFICATION ===
+
+=== EXPECTATION ===
+UI must no longer render 'Confidence: insufficient'
+All display-layer fallbacks should now resolve to 'limited'
+

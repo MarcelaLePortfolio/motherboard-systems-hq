@@ -34,7 +34,7 @@ function isConfidence(value: unknown): value is OperatorGuidanceConfidence {
     value === "high" ||
     value === "medium" ||
     value === "low" ||
-    value === "insufficient"
+    value === "limited"
   );
 }
 
