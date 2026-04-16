@@ -1,0 +1,599 @@
+PHASE 487 — CONFIDENCE RENDER SURFACE TRACE
+timestamp=20260415_215257
+branch=phase119-dashboard-cognition-contract
+commit=3127c01b1406b19a19bc0dd119196b38e531a5fb
+search_dirs=app src ui
+
+=== SEARCH: literal insufficient ===
+src/cognition/operatorGuidanceConfidence.ts-62-    return {
+src/cognition/operatorGuidanceConfidence.ts-63-      confidence: "low",
+src/cognition/operatorGuidanceConfidence.ts:64:      reason: "Signal quality insufficient for strong interpretation.",
+src/cognition/operatorGuidanceConfidence.ts-65-      signalCount: signals.length,
+src/cognition/operatorGuidanceConfidence.ts-66-      conflictingSignals,
+--
+src/cognition/operatorGuidanceSafety.ts-41-  "medium",
+src/cognition/operatorGuidanceSafety.ts-42-  "low",
+src/cognition/operatorGuidanceSafety.ts:43:  "insufficient",
+src/cognition/operatorGuidanceSafety.ts-44-]);
+src/cognition/operatorGuidanceSafety.ts-45-
+--
+src/cognition/operatorGuidance.ts-15-  | "medium"
+src/cognition/operatorGuidance.ts-16-  | "low"
+src/cognition/operatorGuidance.ts:17:  | "insufficient";
+src/cognition/operatorGuidance.ts-18-
+src/cognition/operatorGuidance.ts-19-export type GuidanceSeverity =
+--
+src/cognition/operatorGuidance.smoke.ts-13-  signals: GuidanceSignalObservation[];
+src/cognition/operatorGuidance.smoke.ts-14-  expectedGuidanceCount: number;
+src/cognition/operatorGuidance.smoke.ts:15:  expectedSurfaceConfidence: "high" | "medium" | "low" | "insufficient";
+src/cognition/operatorGuidance.smoke.ts-16-  expectedConflictingSignals: boolean;
+src/cognition/operatorGuidance.smoke.ts-17-};
+--
+src/cognition/operatorGuidance.smoke.ts-118-    signals: [],
+src/cognition/operatorGuidance.smoke.ts-119-    expectedGuidanceCount: 0,
+src/cognition/operatorGuidance.smoke.ts:120:    expectedSurfaceConfidence: "insufficient",
+src/cognition/operatorGuidance.smoke.ts-121-    expectedConflictingSignals: false,
+src/cognition/operatorGuidance.smoke.ts-122-  },
+--
+src/cognition/operatorGuidance.live.ts-50-  generatedAt: number;
+src/cognition/operatorGuidance.live.ts-51-  guidanceCount: number;
+src/cognition/operatorGuidance.live.ts:52:  surfaceConfidence: "high" | "medium" | "low" | "insufficient";
+src/cognition/operatorGuidance.live.ts-53-  conflictingSignals: boolean;
+src/cognition/operatorGuidance.live.ts-54-  guidanceIds: string[];
+--
+src/cognition/operatorGuidanceReducer.ts-88-      executionAuthority: "none",
+src/cognition/operatorGuidanceReducer.ts-89-    },
+src/cognition/operatorGuidanceReducer.ts:90:    surfaceConfidence: "insufficient",
+src/cognition/operatorGuidanceReducer.ts-91-    confidenceReason: "No signals available for interpretation.",
+src/cognition/operatorGuidanceReducer.ts-92-    signalCount: 0,
+
+=== SEARCH: operator guidance confidence render ===
+src/contracts/governanceExecutionBridgeContract.ts-38-  enforce: boolean;
+src/contracts/governanceExecutionBridgeContract.ts-39-  reasons: GovernanceDecisionReason[];
+src/contracts/governanceExecutionBridgeContract.ts:40:  confidence: string;
+src/contracts/governanceExecutionBridgeContract.ts-41-}
+src/contracts/governanceExecutionBridgeContract.ts-42-
+--
+src/contracts/__fixtures__/governanceExecutionBridgeContract.fixture.ts-29-      enforce: false,
+src/contracts/__fixtures__/governanceExecutionBridgeContract.fixture.ts-30-      reasons: [],
+src/contracts/__fixtures__/governanceExecutionBridgeContract.fixture.ts:31:      confidence: "unknown",
+src/contracts/__fixtures__/governanceExecutionBridgeContract.fixture.ts-32-    },
+src/contracts/__fixtures__/governanceExecutionBridgeContract.fixture.ts-33-    signals: {
+--
+src/contracts/__fixtures__/governanceExecutionBridgeAssembly.fixture.ts-25-    enforce: false,
+src/contracts/__fixtures__/governanceExecutionBridgeAssembly.fixture.ts-26-    reasons: [],
+src/contracts/__fixtures__/governanceExecutionBridgeAssembly.fixture.ts:27:    confidence: "unknown",
+src/contracts/__fixtures__/governanceExecutionBridgeAssembly.fixture.ts-28-  },
+src/contracts/__fixtures__/governanceExecutionBridgeAssembly.fixture.ts-29-  signals: {
+--
+src/cognition/operatorGuidanceConfidence.ts:1:import type { OperationalConfidence } from "./confidence";
+src/cognition/operatorGuidanceConfidence.ts-2-
+src/cognition/operatorGuidanceConfidence.ts-3-export interface OperatorGuidanceConfidenceInput {
+--
+src/cognition/operatorGuidanceConfidence.ts-6-/*
+src/cognition/operatorGuidanceConfidence.ts-7-PHASE 89 — CONFIDENCE FRAMING MODEL
+src/cognition/operatorGuidanceConfidence.ts:8:Defines bounded confidence interpretation rules.
+src/cognition/operatorGuidanceConfidence.ts-9-No execution authority. Cognition framing only.
+src/cognition/operatorGuidanceConfidence.ts-10-*/
+--
+src/cognition/operatorGuidanceConfidence.ts-14-
+src/cognition/operatorGuidanceConfidence.ts-15-export type ConfidenceAssessment = {
+src/cognition/operatorGuidanceConfidence.ts:16:  confidence: GuidanceConfidence;
+src/cognition/operatorGuidanceConfidence.ts-17-  reason: string;
+src/cognition/operatorGuidanceConfidence.ts-18-  signalCount: number;
+--
+src/cognition/operatorGuidanceConfidence.ts-26-  if (signals.length === 0) {
+src/cognition/operatorGuidanceConfidence.ts-27-    return {
+src/cognition/operatorGuidanceConfidence.ts:28:      confidence: "limited",
+src/cognition/operatorGuidanceConfidence.ts-29-      reason: "No signals available for interpretation.",
+src/cognition/operatorGuidanceConfidence.ts-30-      signalCount: 0,
+--
+src/cognition/operatorGuidanceConfidence.ts-43-  if (stalled > 0) {
+src/cognition/operatorGuidanceConfidence.ts-44-    return {
+src/cognition/operatorGuidanceConfidence.ts:45:      confidence: "medium",
+src/cognition/operatorGuidanceConfidence.ts-46-      reason: "Stalled signals observed but root cause not proven.",
+src/cognition/operatorGuidanceConfidence.ts-47-      signalCount: signals.length,
+--
+src/cognition/operatorGuidanceConfidence.ts-52-  if (degraded > 0) {
+src/cognition/operatorGuidanceConfidence.ts-53-    return {
+src/cognition/operatorGuidanceConfidence.ts:54:      confidence: "medium",
+src/cognition/operatorGuidanceConfidence.ts-55-      reason: "Degraded signals observed without systemic failure.",
+src/cognition/operatorGuidanceConfidence.ts-56-      signalCount: signals.length,
+--
+src/cognition/operatorGuidanceConfidence.ts-61-  if (unknown > 0) {
+src/cognition/operatorGuidanceConfidence.ts-62-    return {
+src/cognition/operatorGuidanceConfidence.ts:63:      confidence: "low",
+src/cognition/operatorGuidanceConfidence.ts-64-      reason: "Signal quality insufficient for strong interpretation.",
+src/cognition/operatorGuidanceConfidence.ts-65-      signalCount: signals.length,
+--
+src/cognition/operatorGuidanceConfidence.ts-69-
+src/cognition/operatorGuidanceConfidence.ts-70-  return {
+src/cognition/operatorGuidanceConfidence.ts:71:    confidence: "high",
+src/cognition/operatorGuidanceConfidence.ts-72-    reason: "Signals consistently indicate healthy state.",
+src/cognition/operatorGuidanceConfidence.ts-73-    signalCount: signals.length,
+--
+src/cognition/operatorGuidanceConfidence.ts-81-
+src/cognition/operatorGuidanceConfidence.ts-82-export function mapOperationalConfidenceToGuidanceModifier(
+src/cognition/operatorGuidanceConfidence.ts:83:  confidence?: OperationalConfidence,
+src/cognition/operatorGuidanceConfidence.ts-84-): number {
+src/cognition/operatorGuidanceConfidence.ts:85:  if (!confidence) return 0;
+src/cognition/operatorGuidanceConfidence.ts-86-
+src/cognition/operatorGuidanceConfidence.ts:87:  if (confidence.level === "HIGH") return 1;
+src/cognition/operatorGuidanceConfidence.ts:88:  if (confidence.level === "MEDIUM") return 0;
+src/cognition/operatorGuidanceConfidence.ts:89:  if (confidence.level === "LOW") return -1;
+src/cognition/operatorGuidanceConfidence.ts-90-
+src/cognition/operatorGuidanceConfidence.ts-91-  return 0;
+--
+src/cognition/operatorGuidanceConfidence.ts-93-
+src/cognition/operatorGuidanceConfidence.ts-94-
+src/cognition/operatorGuidanceConfidence.ts:95:export function confidencePriorityWeight(
+src/cognition/operatorGuidanceConfidence.ts:96:  confidence?: OperationalConfidence,
+src/cognition/operatorGuidanceConfidence.ts-97-): number {
+src/cognition/operatorGuidanceConfidence.ts:98:  if (!confidence) {
+src/cognition/operatorGuidanceConfidence.ts-99-    return 1;
+src/cognition/operatorGuidanceConfidence.ts-100-  }
+src/cognition/operatorGuidanceConfidence.ts-101-
+src/cognition/operatorGuidanceConfidence.ts:102:  switch (confidence.level) {
+src/cognition/operatorGuidanceConfidence.ts-103-    case "HIGH":
+src/cognition/operatorGuidanceConfidence.ts-104-      return 1;
+--
+src/governance/governance_confidence_score.test.ts:1:import { computeGovernanceOperatorConfidence } from "./governance_operator_confidence_score"
+src/governance/governance_confidence_score.test.ts-2-import { GOVERNANCE_FIXTURE_CRITICAL } from "./governance_fixture_corpus"
+src/governance/governance_confidence_score.test.ts-3-
+src/governance/governance_confidence_score.test.ts:4:describe("Governance confidence scoring", () => {
+src/governance/governance_confidence_score.test.ts-5-
+src/governance/governance_confidence_score.test.ts:6:  it("reduces confidence when critical signals exist", () => {
+src/governance/governance_confidence_score.test.ts-7-
+src/governance/governance_confidence_score.test.ts-8-    const result =
+--
+src/governance/governance_confidence_score.test.ts-11-      )
+src/governance/governance_confidence_score.test.ts-12-
+src/governance/governance_confidence_score.test.ts:13:    expect(result.governance_confidence_score)
+src/governance/governance_confidence_score.test.ts-14-      .toBeLessThan(100)
+src/governance/governance_confidence_score.test.ts-15-
+src/governance/governance_confidence_score.test.ts:16:    expect(result.governance_confidence_band)
+src/governance/governance_confidence_score.test.ts-17-      .not.toBe("high")
+src/governance/governance_confidence_score.test.ts-18-
+--
+src/governance/governance_operator_confidence_score.ts-27-  }
+src/governance/governance_operator_confidence_score.ts-28-
+src/governance/governance_operator_confidence_score.ts:29:  let confidence_band = "high"
+src/governance/governance_operator_confidence_score.ts-30-
+src/governance/governance_operator_confidence_score.ts-31-  if(score < 70){
+src/governance/governance_operator_confidence_score.ts:32:    confidence_band = "moderate"
+src/governance/governance_operator_confidence_score.ts-33-  }
+src/governance/governance_operator_confidence_score.ts-34-
+src/governance/governance_operator_confidence_score.ts-35-  if(score < 40){
+src/governance/governance_operator_confidence_score.ts:36:    confidence_band = "low"
+src/governance/governance_operator_confidence_score.ts-37-  }
+src/governance/governance_operator_confidence_score.ts-38-
+src/governance/governance_operator_confidence_score.ts-39-  return {
+src/governance/governance_operator_confidence_score.ts-40-
+src/governance/governance_operator_confidence_score.ts:41:    governance_confidence_score: score,
+src/governance/governance_operator_confidence_score.ts-42-
+src/governance/governance_operator_confidence_score.ts:43:    governance_confidence_band: confidence_band,
+src/governance/governance_operator_confidence_score.ts-44-
+src/governance/governance_operator_confidence_score.ts-45-    advisory_basis: signals.length,
+--
+src/governance/governanceExecutionRoutingTypes.ts-17-  outcome: GovernanceOutcomeType;
+src/governance/governanceExecutionRoutingTypes.ts-18-  destination: GovernanceAuthorityDestination;
+src/governance/governanceExecutionRoutingTypes.ts:19:  confidence: GovernanceRoutingConfidence;
+src/governance/governanceExecutionRoutingTypes.ts-20-  reason: string;
+src/governance/governanceExecutionRoutingTypes.ts-21-  deterministic: true;
+--
+src/governance/cognition/operationalConfidence.synthesizer.ts-19-
+src/governance/cognition/operationalConfidence.synthesizer.ts-20-  for (const c of contributions) {
+src/governance/cognition/operationalConfidence.synthesizer.ts:21:    const r = rank(c.confidence);
+src/governance/cognition/operationalConfidence.synthesizer.ts-22-    if (r < min) {
+src/governance/cognition/operationalConfidence.synthesizer.ts-23-      min = r;
+--
+src/cognition/operatorGuidanceSafety.ts-1-/*
+src/cognition/operatorGuidanceSafety.ts-2-PHASE 89 — SAFETY PROOF
+src/cognition/operatorGuidanceSafety.ts:3:Bounded operator guidance runtime invariants.
+src/cognition/operatorGuidanceSafety.ts-4-Cognition only. No execution authority.
+src/cognition/operatorGuidanceSafety.ts-5-*/
+--
+src/cognition/operatorGuidanceSafety.ts-108-  }
+src/cognition/operatorGuidanceSafety.ts-109-
+src/cognition/operatorGuidanceSafety.ts:110:  if (!ALLOWED_GUIDANCE_CONFIDENCE.has(guidance.confidence)) {
+src/cognition/operatorGuidanceSafety.ts:111:    violations.push(`guidance.confidence is invalid: ${guidance.confidence}`);
+src/cognition/operatorGuidanceSafety.ts-112-  }
+src/cognition/operatorGuidanceSafety.ts-113-
+--
+src/cognition/operatorGuidanceSafety.ts-191-  }
+src/cognition/operatorGuidanceSafety.ts-192-
+src/cognition/operatorGuidanceSafety.ts:193:  assertSafeText("reduction.confidenceReason", reduction.confidenceReason, violations);
+src/cognition/operatorGuidanceSafety.ts-194-
+src/cognition/operatorGuidanceSafety.ts-195-  return {
+--
+src/governance/governanceOperatorAwarenessBuilder.ts-37-    outcome: surface.outcome,
+src/governance/governanceOperatorAwarenessBuilder.ts-38-    destination: surface.destination,
+src/governance/governanceOperatorAwarenessBuilder.ts:39:    confidence: surface.confidence,
+src/governance/governanceOperatorAwarenessBuilder.ts-40-    surfaceLevel: surface.surfaceLevel,
+src/governance/governanceOperatorAwarenessBuilder.ts-41-    severity,
+--
+src/governance/governanceExecutionRoutingClassifier.ts-1-/**
+src/governance/governanceExecutionRoutingClassifier.ts-2- * Phase 129.2 — Governance Execution Routing Classifier
+src/governance/governanceExecutionRoutingClassifier.ts:3: * Deterministic composition layer combining routing + confidence.
+src/governance/governanceExecutionRoutingClassifier.ts-4- *
+src/governance/governanceExecutionRoutingClassifier.ts-5- * NON-GOALS:
+--
+src/governance/governanceExecutionRoutingClassifier.ts-27-    routeGovernanceOutcome(input);
+src/governance/governanceExecutionRoutingClassifier.ts-28-
+src/governance/governanceExecutionRoutingClassifier.ts:29:  const confidence =
+src/governance/governanceExecutionRoutingClassifier.ts-30-    classifyRoutingConfidence(routing.outcome);
+src/governance/governanceExecutionRoutingClassifier.ts-31-
+--
+src/governance/governanceExecutionRoutingClassifier.ts-33-    outcome: routing.outcome,
+src/governance/governanceExecutionRoutingClassifier.ts-34-    destination: routing.destination,
+src/governance/governanceExecutionRoutingClassifier.ts:35:    confidence,
+src/governance/governanceExecutionRoutingClassifier.ts-36-    reason: routing.reason,
+src/governance/governanceExecutionRoutingClassifier.ts-37-    deterministic: true
+--
+src/cognition/operatorGuidance.ts-38-  severity: GuidanceSeverity;
+src/cognition/operatorGuidance.ts-39-
+src/cognition/operatorGuidance.ts:40:  confidence: GuidanceConfidence;
+src/cognition/operatorGuidance.ts-41-
+src/cognition/operatorGuidance.ts-42-  message: string;
+--
+src/governance/governanceOperatorAwarenessTypes.ts-34-  outcome: GovernanceOutcomeType;
+src/governance/governanceOperatorAwarenessTypes.ts-35-  destination: GovernanceAuthorityDestination;
+src/governance/governanceOperatorAwarenessTypes.ts:36:  confidence: GovernanceRoutingConfidence;
+src/governance/governanceOperatorAwarenessTypes.ts-37-  surfaceLevel: GovernanceOutcomeSurfaceLevel;
+src/governance/governanceOperatorAwarenessTypes.ts-38-  severity: GovernanceAwarenessSeverity;
+--
+src/cognition/operatorGuidanceMapping.ts-91-): OperatorGuidance {
+src/cognition/operatorGuidanceMapping.ts-92-  const severity = mapStatusToSeverity(signal.status);
+src/cognition/operatorGuidanceMapping.ts:93:  const confidence = mapStatusToConfidence(signal.status);
+src/cognition/operatorGuidanceMapping.ts-94-  const type = mapStatusToType(signal.status);
+src/cognition/operatorGuidanceMapping.ts-95-
+--
+src/cognition/operatorGuidanceMapping.ts-99-    domain: signal.domain,
+src/cognition/operatorGuidanceMapping.ts-100-    severity,
+src/cognition/operatorGuidanceMapping.ts:101:    confidence,
+src/cognition/operatorGuidanceMapping.ts-102-    message,
+src/cognition/operatorGuidanceMapping.ts-103-    rationale,
+--
+src/cognition/operatorGuidanceMapping.ts-241-          ? `Signal quality is limited; interpret with caution: ${signal.summary}`
+src/cognition/operatorGuidanceMapping.ts-242-          : `Signal quality currently unavailable; awaiting stronger signal.`),
+src/cognition/operatorGuidanceMapping.ts:243:        "Observed signal quality does not support high-confidence guidance.",
+src/cognition/operatorGuidanceMapping.ts-244-      ),
+src/cognition/operatorGuidanceMapping.ts-245-  },
+--
+src/governance/cognition/operationalConfidence.test.ts-8-
+src/governance/cognition/operationalConfidence.test.ts-9-const high = synthesizeOperationalConfidence([
+src/governance/cognition/operationalConfidence.test.ts:10:  { source: "governance", confidence: "HIGH" },
+src/governance/cognition/operationalConfidence.test.ts-11-]);
+src/governance/cognition/operationalConfidence.test.ts-12-
+src/governance/cognition/operationalConfidence.test.ts:13:assert(high.level === "HIGH", "Expected HIGH confidence");
+src/governance/cognition/operationalConfidence.test.ts-14-
+src/governance/cognition/operationalConfidence.test.ts-15-const mixed = synthesizeOperationalConfidence([
+src/governance/cognition/operationalConfidence.test.ts:16:  { source: "governance", confidence: "HIGH" },
+src/governance/cognition/operationalConfidence.test.ts:17:  { source: "signals", confidence: "MEDIUM" },
+src/governance/cognition/operationalConfidence.test.ts-18-]);
+src/governance/cognition/operationalConfidence.test.ts-19-
+src/governance/cognition/operationalConfidence.test.ts:20:assert(mixed.level === "MEDIUM", "Expected MEDIUM confidence");
+src/governance/cognition/operationalConfidence.test.ts-21-
+src/governance/cognition/operationalConfidence.test.ts-22-const low = synthesizeOperationalConfidence([
+src/governance/cognition/operationalConfidence.test.ts:23:  { source: "governance", confidence: "LOW" },
+src/governance/cognition/operationalConfidence.test.ts:24:  { source: "signals", confidence: "HIGH" },
+src/governance/cognition/operationalConfidence.test.ts-25-]);
+src/governance/cognition/operationalConfidence.test.ts-26-
+src/governance/cognition/operationalConfidence.test.ts:27:assert(low.level === "LOW", "Expected LOW confidence");
+src/governance/cognition/operationalConfidence.test.ts-28-
+src/governance/cognition/operationalConfidence.test.ts:29:console.log("phase 99.2 operational confidence deterministic check passed");
+--
+src/governance/cognition/operationalConfidence.types.ts-6-export interface OperationalConfidenceContribution {
+src/governance/cognition/operationalConfidence.types.ts-7-  source: string;
+src/governance/cognition/operationalConfidence.types.ts:8:  confidence: OperationalConfidenceLevel;
+src/governance/cognition/operationalConfidence.types.ts-9-  note?: string;
+src/governance/cognition/operationalConfidence.types.ts-10-}
+--
+src/governance/governanceOutcomeSurfaceBuilder.ts-37-    outcome: routing.outcome,
+src/governance/governanceOutcomeSurfaceBuilder.ts-38-    destination: routing.destination,
+src/governance/governanceOutcomeSurfaceBuilder.ts:39:    confidence: routing.confidence,
+src/governance/governanceOutcomeSurfaceBuilder.ts-40-
+src/governance/governanceOutcomeSurfaceBuilder.ts-41-    surfaceLevel,
+--
+src/governance/governanceOutcomeSurfaceTypes.ts-28-  outcome: GovernanceOutcomeType;
+src/governance/governanceOutcomeSurfaceTypes.ts-29-  destination: GovernanceAuthorityDestination;
+src/governance/governanceOutcomeSurfaceTypes.ts:30:  confidence: GovernanceRoutingConfidence;
+src/governance/governanceOutcomeSurfaceTypes.ts-31-
+src/governance/governanceOutcomeSurfaceTypes.ts-32-  surfaceLevel: GovernanceOutcomeSurfaceLevel;
+--
+src/cognition/operatorGuidance.live.ts-1-/*
+src/cognition/operatorGuidance.live.ts-2-PHASE 89 — LIVE VERIFICATION
+src/cognition/operatorGuidance.live.ts:3:Deterministic local verification harness for bounded operator guidance.
+src/cognition/operatorGuidance.live.ts-4-Cognition only. No execution authority.
+src/cognition/operatorGuidance.live.ts-5-*/
+--
+src/cognition/operatorGuidance.live.ts-50-  generatedAt: number;
+src/cognition/operatorGuidance.live.ts-51-  guidanceCount: number;
+src/cognition/operatorGuidance.live.ts:52:  surfaceConfidence: "high" | "medium" | "low" | "insufficient";
+src/cognition/operatorGuidance.live.ts-53-  conflictingSignals: boolean;
+src/cognition/operatorGuidance.live.ts-54-  guidanceIds: string[];
+--
+src/cognition/operatorGuidance.live.ts-67-    generatedAt: reduction.envelope.generatedAt,
+src/cognition/operatorGuidance.live.ts-68-    guidanceCount: reduction.envelope.guidance.length,
+src/cognition/operatorGuidance.live.ts:69:    surfaceConfidence: reduction.surfaceConfidence,
+src/cognition/operatorGuidance.live.ts-70-    conflictingSignals: reduction.conflictingSignals,
+src/cognition/operatorGuidance.live.ts-71-    guidanceIds: reduction.envelope.guidance.map((guidance) => guidance.id),
+--
+src/cognition/operatorGuidance.smoke.ts-1-/*
+src/cognition/operatorGuidance.smoke.ts-2-PHASE 89 — SMOKE MATRIX
+src/cognition/operatorGuidance.smoke.ts:3:Deterministic bounded operator guidance verification.
+src/cognition/operatorGuidance.smoke.ts-4-Cognition only. No execution authority.
+src/cognition/operatorGuidance.smoke.ts-5-*/
+--
+src/cognition/operatorGuidance.smoke.ts-13-  signals: GuidanceSignalObservation[];
+src/cognition/operatorGuidance.smoke.ts-14-  expectedGuidanceCount: number;
+src/cognition/operatorGuidance.smoke.ts:15:  expectedSurfaceConfidence: "high" | "medium" | "low" | "insufficient";
+src/cognition/operatorGuidance.smoke.ts-16-  expectedConflictingSignals: boolean;
+src/cognition/operatorGuidance.smoke.ts-17-};
+--
+src/cognition/operatorGuidance.smoke.ts-39-    ],
+src/cognition/operatorGuidance.smoke.ts-40-    expectedGuidanceCount: 1,
+src/cognition/operatorGuidance.smoke.ts:41:    expectedSurfaceConfidence: "high",
+src/cognition/operatorGuidance.smoke.ts-42-    expectedConflictingSignals: false,
+src/cognition/operatorGuidance.smoke.ts-43-  },
+--
+src/cognition/operatorGuidance.smoke.ts-55-    ],
+src/cognition/operatorGuidance.smoke.ts-56-    expectedGuidanceCount: 1,
+src/cognition/operatorGuidance.smoke.ts:57:    expectedSurfaceConfidence: "medium",
+src/cognition/operatorGuidance.smoke.ts-58-    expectedConflictingSignals: false,
+src/cognition/operatorGuidance.smoke.ts-59-  },
+--
+src/cognition/operatorGuidance.smoke.ts-71-    ],
+src/cognition/operatorGuidance.smoke.ts-72-    expectedGuidanceCount: 1,
+src/cognition/operatorGuidance.smoke.ts:73:    expectedSurfaceConfidence: "medium",
+src/cognition/operatorGuidance.smoke.ts-74-    expectedConflictingSignals: false,
+src/cognition/operatorGuidance.smoke.ts-75-  },
+--
+src/cognition/operatorGuidance.smoke.ts-87-    ],
+src/cognition/operatorGuidance.smoke.ts-88-    expectedGuidanceCount: 1,
+src/cognition/operatorGuidance.smoke.ts:89:    expectedSurfaceConfidence: "low",
+src/cognition/operatorGuidance.smoke.ts-90-    expectedConflictingSignals: false,
+src/cognition/operatorGuidance.smoke.ts-91-  },
+--
+src/cognition/operatorGuidance.smoke.ts-111-    ],
+src/cognition/operatorGuidance.smoke.ts-112-    expectedGuidanceCount: 2,
+src/cognition/operatorGuidance.smoke.ts:113:    expectedSurfaceConfidence: "medium",
+src/cognition/operatorGuidance.smoke.ts-114-    expectedConflictingSignals: true,
+src/cognition/operatorGuidance.smoke.ts-115-  },
+--
+src/cognition/operatorGuidance.smoke.ts-118-    signals: [],
+src/cognition/operatorGuidance.smoke.ts-119-    expectedGuidanceCount: 0,
+src/cognition/operatorGuidance.smoke.ts:120:    expectedSurfaceConfidence: "insufficient",
+src/cognition/operatorGuidance.smoke.ts-121-    expectedConflictingSignals: false,
+src/cognition/operatorGuidance.smoke.ts-122-  },
+--
+src/cognition/operatorGuidance.smoke.ts-149-    assert(
+src/cognition/operatorGuidance.smoke.ts-150-      reduction.surfaceConfidence === testCase.expectedSurfaceConfidence,
+src/cognition/operatorGuidance.smoke.ts:151:      `${testCase.name}: expected surface confidence ${testCase.expectedSurfaceConfidence}, received ${reduction.surfaceConfidence}`,
+src/cognition/operatorGuidance.smoke.ts-152-    );
+src/cognition/operatorGuidance.smoke.ts-153-
+--
+src/cognition/contracts/cognition.contracts.ts-28-export interface SituationSummaryContract {
+src/cognition/contracts/cognition.contracts.ts-29-  summary: string;
+src/cognition/contracts/cognition.contracts.ts:30:  confidence: CognitionConfidence;
+src/cognition/contracts/cognition.contracts.ts-31-  signals: string[];
+src/cognition/contracts/cognition.contracts.ts-32-  generated_at: string;
+--
+src/cognition/contracts/cognition.contracts.ts-36-  guidance_id: string;
+src/cognition/contracts/cognition.contracts.ts-37-  category: GuidanceCategory;
+src/cognition/contracts/cognition.contracts.ts:38:  confidence: CognitionConfidence;
+src/cognition/contracts/cognition.contracts.ts-39-  message: string;
+src/cognition/contracts/cognition.contracts.ts-40-  related_signals: string[];
+--
+src/cognition/situationSummaryComposer.ts:1:import { synthesizeOperationalConfidence, type OperationalConfidence } from "./confidence";
+src/cognition/situationSummaryComposer.ts-2-
+src/cognition/situationSummaryComposer.ts-3-export type StabilityState =
+--
+src/cognition/situationSummaryComposer.ts-269-    operatorAttentionState: attention,
+src/cognition/situationSummaryComposer.ts-270-    governanceCognitionState: governanceCognition,
+src/cognition/situationSummaryComposer.ts:271:    operationalConfidence: inputs.operationalConfidence,
+src/cognition/situationSummaryComposer.ts:272:        operationalConfidence: buildSituationOperationalConfidence({
+src/cognition/situationSummaryComposer.ts-273-      stabilityState,
+src/cognition/situationSummaryComposer.ts-274-      executionRiskState,
+--
+src/cognition/confidence/index.ts-11-  type OperationalConfidenceThresholds,
+src/cognition/confidence/index.ts-12-  type OperationalConfidenceWeights,
+src/cognition/confidence/index.ts:13:} from "./confidence.types";
+src/cognition/confidence/index.ts-14-
+src/cognition/confidence/index.ts-15-export {
+--
+src/cognition/confidence/index.ts-20-  type OperationalConfidenceFactorInput,
+src/cognition/confidence/index.ts-21-  type OperationalConfidenceInputs,
+src/cognition/confidence/index.ts:22:} from "./confidenceFactors";
+src/cognition/confidence/index.ts-23-
+src/cognition/confidence/index.ts-24-export {
+src/cognition/confidence/index.ts-25-  deriveOperationalConfidenceLevel,
+src/cognition/confidence/index.ts-26-  synthesizeOperationalConfidence,
+src/cognition/confidence/index.ts:27:} from "./confidenceSynthesizer";
+src/cognition/confidence/index.ts-28-
+src/cognition/confidence/index.ts-29-export {
+src/cognition/confidence/index.ts-30-  OPERATIONAL_CONFIDENCE_INVARIANT_INPUT,
+src/cognition/confidence/index.ts-31-  verifyOperationalConfidenceDeterminism,
+src/cognition/confidence/index.ts:32:} from "./confidenceInvariant";
+--
+src/cognition/invariants/cognition.invariants.ts-52-  }
+src/cognition/invariants/cognition.invariants.ts-53-
+src/cognition/invariants/cognition.invariants.ts:54:  if (!invariantConfidence(envelope.situation.confidence)) {
+src/cognition/invariants/cognition.invariants.ts-55-    return false;
+src/cognition/invariants/cognition.invariants.ts-56-  }
+--
+src/cognition/invariants/cognition.invariants.ts-103-    }
+src/cognition/invariants/cognition.invariants.ts-104-
+src/cognition/invariants/cognition.invariants.ts:105:    if (!invariantConfidence(item.confidence)) {
+src/cognition/invariants/cognition.invariants.ts-106-      return false;
+src/cognition/invariants/cognition.invariants.ts-107-    }
+--
+src/cognition/confidence/confidenceInvariant.ts:1:import type { OperationalConfidenceInputs } from "./confidenceFactors";
+src/cognition/confidence/confidenceInvariant.ts:2:import { synthesizeOperationalConfidence } from "./confidenceSynthesizer";
+src/cognition/confidence/confidenceInvariant.ts-3-
+src/cognition/confidence/confidenceInvariant.ts-4-export const OPERATIONAL_CONFIDENCE_INVARIANT_INPUT: OperationalConfidenceInputs =
+--
+src/cognition/confidence/confidenceInvariant.ts-23-  if (firstSerialized !== secondSerialized) {
+src/cognition/confidence/confidenceInvariant.ts-24-    throw new Error(
+src/cognition/confidence/confidenceInvariant.ts:25:      "Operational confidence synthesis is non-deterministic for identical inputs.",
+src/cognition/confidence/confidenceInvariant.ts-26-    );
+src/cognition/confidence/confidenceInvariant.ts-27-  }
+--
+src/cognition/confidence/confidenceInvariant.ts-29-  if (first.score !== 85) {
+src/cognition/confidence/confidenceInvariant.ts-30-    throw new Error(
+src/cognition/confidence/confidenceInvariant.ts:31:      `Operational confidence invariant failed: expected score 85, received ${first.score}.`,
+src/cognition/confidence/confidenceInvariant.ts-32-    );
+src/cognition/confidence/confidenceInvariant.ts-33-  }
+--
+src/cognition/confidence/confidenceInvariant.ts-35-  if (first.level !== "HIGH") {
+src/cognition/confidence/confidenceInvariant.ts-36-    throw new Error(
+src/cognition/confidence/confidenceInvariant.ts:37:      `Operational confidence invariant failed: expected level HIGH, received ${first.level}.`,
+src/cognition/confidence/confidenceInvariant.ts-38-    );
+src/cognition/confidence/confidenceInvariant.ts-39-  }
+--
+src/cognition/confidence/confidenceInvariant.ts-41-  if (first.reasoning.factors.length !== 4) {
+src/cognition/confidence/confidenceInvariant.ts-42-    throw new Error(
+src/cognition/confidence/confidenceInvariant.ts:43:      `Operational confidence invariant failed: expected 4 factors, received ${first.reasoning.factors.length}.`,
+src/cognition/confidence/confidenceInvariant.ts-44-    );
+src/cognition/confidence/confidenceInvariant.ts-45-  }
+--
+src/cognition/confidence/confidenceSynthesizer.ts-4-  type OperationalConfidence,
+src/cognition/confidence/confidenceSynthesizer.ts-5-  type OperationalConfidenceLevel,
+src/cognition/confidence/confidenceSynthesizer.ts:6:} from "./confidence.types";
+src/cognition/confidence/confidenceSynthesizer.ts-7-import {
+src/cognition/confidence/confidenceSynthesizer.ts-8-  buildOperationalConfidenceFactorExplanations,
+src/cognition/confidence/confidenceSynthesizer.ts-9-  type OperationalConfidenceInputs,
+src/cognition/confidence/confidenceSynthesizer.ts:10:} from "./confidenceFactors";
+src/cognition/confidence/confidenceSynthesizer.ts-11-
+src/cognition/confidence/confidenceSynthesizer.ts-12-export function deriveOperationalConfidenceLevel(
+--
+src/cognition/confidence/confidenceFactors.ts-3-  OperationalConfidenceFactorKey,
+src/cognition/confidence/confidenceFactors.ts-4-  OperationalConfidenceWeights,
+src/cognition/confidence/confidenceFactors.ts:5:} from "./confidence.types";
+src/cognition/confidence/confidenceFactors.ts:6:import { OPERATIONAL_CONFIDENCE_WEIGHTS } from "./confidence.types";
+src/cognition/confidence/confidenceFactors.ts-7-
+src/cognition/confidence/confidenceFactors.ts-8-export interface OperationalConfidenceFactorInput {
+--
+src/cognition/operatorGuidanceReducer.ts-1-/*
+src/cognition/operatorGuidanceReducer.ts-2-PHASE 89 — GUIDANCE REDUCER SCAFFOLD
+src/cognition/operatorGuidanceReducer.ts:3:Attaches bounded operator guidance generation to the health surface domain.
+src/cognition/operatorGuidanceReducer.ts-4-Cognition only. No execution authority.
+src/cognition/operatorGuidanceReducer.ts-5-*/
+--
+src/cognition/operatorGuidanceReducer.ts-24-export type OperatorGuidanceReduction = {
+src/cognition/operatorGuidanceReducer.ts-25-  envelope: OperatorGuidanceEnvelope;
+src/cognition/operatorGuidanceReducer.ts:26:  surfaceConfidence: GuidanceConfidence;
+src/cognition/operatorGuidanceReducer.ts:27:  confidenceReason: string;
+src/cognition/operatorGuidanceReducer.ts-28-  signalCount: number;
+src/cognition/operatorGuidanceReducer.ts-29-  conflictingSignals: boolean;
+--
+src/cognition/operatorGuidanceReducer.ts-62-  );
+src/cognition/operatorGuidanceReducer.ts-63-
+src/cognition/operatorGuidanceReducer.ts:64:  const confidence = assessGuidanceConfidence(surface.signals);
+src/cognition/operatorGuidanceReducer.ts-65-
+src/cognition/operatorGuidanceReducer.ts-66-  return {
+--
+src/cognition/operatorGuidanceReducer.ts-71-      executionAuthority: "none",
+src/cognition/operatorGuidanceReducer.ts-72-    },
+src/cognition/operatorGuidanceReducer.ts:73:    surfaceConfidence: confidence.confidence,
+src/cognition/operatorGuidanceReducer.ts:74:    confidenceReason: confidence.reason,
+src/cognition/operatorGuidanceReducer.ts:75:    signalCount: confidence.signalCount,
+src/cognition/operatorGuidanceReducer.ts:76:    conflictingSignals: confidence.conflictingSignals,
+src/cognition/operatorGuidanceReducer.ts-77-  };
+src/cognition/operatorGuidanceReducer.ts-78-}
+--
+src/cognition/operatorGuidanceReducer.ts-88-      executionAuthority: "none",
+src/cognition/operatorGuidanceReducer.ts-89-    },
+src/cognition/operatorGuidanceReducer.ts:90:    surfaceConfidence: "insufficient",
+src/cognition/operatorGuidanceReducer.ts:91:    confidenceReason: "No signals available for interpretation.",
+src/cognition/operatorGuidanceReducer.ts-92-    signalCount: 0,
+src/cognition/operatorGuidanceReducer.ts-93-    conflictingSignals: false,
+--
+src/cognition/confidence/confidenceInvariant.proof.ts:1:import { verifyOperationalConfidenceDeterminism } from "./confidenceInvariant";
+src/cognition/confidence/confidenceInvariant.proof.ts-2-
+src/cognition/confidence/confidenceInvariant.proof.ts-3-export function runOperationalConfidenceProof(): void {
+
+=== SEARCH: diagnostics/system-health source path ===
+src/cognition/operatorGuidanceSafety.ts-22-
+src/cognition/operatorGuidanceSafety.ts-23-const ALLOWED_GUIDANCE_DOMAINS = new Set<GuidanceDomain>([
+src/cognition/operatorGuidanceSafety.ts:24:  "system_health",
+src/cognition/operatorGuidanceSafety.ts-25-  "throughput",
+src/cognition/operatorGuidanceSafety.ts-26-  "latency",
+--
+src/cognition/operatorGuidance.ts-24-
+src/cognition/operatorGuidance.ts-25-export type GuidanceDomain =
+src/cognition/operatorGuidance.ts:26:  | "system_health"
+src/cognition/operatorGuidance.ts-27-  | "throughput"
+src/cognition/operatorGuidance.ts-28-  | "latency"
+--
+src/cognition/operatorGuidanceMapping.ts-111-export const GUIDANCE_INTERPRETATION_RULES: GuidanceInterpretationRule[] = [
+src/cognition/operatorGuidanceMapping.ts-112-  {
+src/cognition/operatorGuidanceMapping.ts:113:    id: "system-health-healthy",
+src/cognition/operatorGuidanceMapping.ts:114:    domain: "system_health",
+src/cognition/operatorGuidanceMapping.ts-115-    matches: (signal) =>
+src/cognition/operatorGuidanceMapping.ts:116:      signal.domain === "system_health" && signal.status === "healthy",
+src/cognition/operatorGuidanceMapping.ts-117-    create: (signal) =>
+src/cognition/operatorGuidanceMapping.ts-118-      createBoundedGuidance(
+--
+src/cognition/operatorGuidanceMapping.ts-123-  },
+src/cognition/operatorGuidanceMapping.ts-124-  {
+src/cognition/operatorGuidanceMapping.ts:125:    id: "system-health-degraded",
+src/cognition/operatorGuidanceMapping.ts:126:    domain: "system_health",
+src/cognition/operatorGuidanceMapping.ts-127-    matches: (signal) =>
+src/cognition/operatorGuidanceMapping.ts:128:      signal.domain === "system_health" && signal.status === "degraded",
+src/cognition/operatorGuidanceMapping.ts-129-    create: (signal) =>
+src/cognition/operatorGuidanceMapping.ts-130-      createBoundedGuidance(
+--
+src/cognition/operatorGuidanceMapping.ts-135-  },
+src/cognition/operatorGuidanceMapping.ts-136-  {
+src/cognition/operatorGuidanceMapping.ts:137:    id: "system-health-stalled",
+src/cognition/operatorGuidanceMapping.ts:138:    domain: "system_health",
+src/cognition/operatorGuidanceMapping.ts-139-    matches: (signal) =>
+src/cognition/operatorGuidanceMapping.ts:140:      signal.domain === "system_health" && signal.status === "stalled",
+src/cognition/operatorGuidanceMapping.ts-141-    create: (signal) =>
+src/cognition/operatorGuidanceMapping.ts-142-      createBoundedGuidance(
+--
+src/cognition/operatorGuidance.live.ts-13-const LIVE_VERIFICATION_SIGNALS: GuidanceSignalObservation[] = [
+src/cognition/operatorGuidance.live.ts-14-  {
+src/cognition/operatorGuidance.live.ts:15:    key: "system-health",
+src/cognition/operatorGuidance.live.ts:16:    domain: "system_health",
+src/cognition/operatorGuidance.live.ts-17-    status: "healthy",
+src/cognition/operatorGuidance.live.ts-18-    summary: "core health signals nominal",
+--
+src/cognition/operatorGuidance.smoke.ts-27-const SMOKE_MATRIX: SmokeCase[] = [
+src/cognition/operatorGuidance.smoke.ts-28-  {
+src/cognition/operatorGuidance.smoke.ts:29:    name: "healthy_system_health",
+src/cognition/operatorGuidance.smoke.ts-30-    signals: [
+src/cognition/operatorGuidance.smoke.ts-31-      {
+src/cognition/operatorGuidance.smoke.ts:32:        key: "system-health",
+src/cognition/operatorGuidance.smoke.ts:33:        domain: "system_health",
+src/cognition/operatorGuidance.smoke.ts-34-        status: "healthy",
+src/cognition/operatorGuidance.smoke.ts-35-        summary: "all monitored health signals nominal",
+--
+src/cognition/operatorGuidance.smoke.ts-94-    signals: [
+src/cognition/operatorGuidance.smoke.ts-95-      {
+src/cognition/operatorGuidance.smoke.ts:96:        key: "system-health",
+src/cognition/operatorGuidance.smoke.ts:97:        domain: "system_health",
+src/cognition/operatorGuidance.smoke.ts-98-        status: "healthy",
+src/cognition/operatorGuidance.smoke.ts-99-        summary: "baseline health appears nominal",
+
+=== SEARCH: limited label propagation ===
+src/cognition/operatorGuidanceConfidence.ts-26-  if (signals.length === 0) {
+src/cognition/operatorGuidanceConfidence.ts-27-    return {
+src/cognition/operatorGuidanceConfidence.ts:28:      confidence: "limited",
+src/cognition/operatorGuidanceConfidence.ts-29-      reason: "No signals available for interpretation.",
+src/cognition/operatorGuidanceConfidence.ts-30-      signalCount: 0,
+--
+src/cognition/operatorGuidanceMapping.ts-239-        signal,
+src/cognition/operatorGuidanceMapping.ts-240-        (signal.summary
+src/cognition/operatorGuidanceMapping.ts:241:          ? `Signal quality is limited; interpret with caution: ${signal.summary}`
+src/cognition/operatorGuidanceMapping.ts-242-          : `Signal quality currently unavailable; awaiting stronger signal.`),
+src/cognition/operatorGuidanceMapping.ts-243-        "Observed signal quality does not support high-confidence guidance.",
+
+=== FINAL READ ===
+Goal: identify the actual render surface still emitting insufficient.
+Likely classes:
+1. third display-layer mapping
+2. stale derived enum-to-label formatter
+3. diagnostics/system-health direct confidence source bypassing prior patch
+
