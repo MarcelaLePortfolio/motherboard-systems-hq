@@ -25,7 +25,7 @@ export function assessGuidanceConfidence(
 
   if (signals.length === 0) {
     return {
-      confidence: "insufficient",
+      confidence: "limited",
       reason: "No signals available for interpretation.",
       signalCount: 0,
       conflictingSignals: false,
