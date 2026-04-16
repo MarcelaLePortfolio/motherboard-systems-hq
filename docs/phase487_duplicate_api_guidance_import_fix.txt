@@ -1,3 +1,17 @@
+PHASE 487 — DUPLICATE apiGuidanceRouter IMPORT FIX
+Timestamp: Thu Apr 16 09:36:29 PDT 2026
+========================================
+
+[1] Matching import occurrences after fix
+782:import apiGuidanceRouter from "./server/routes/api-guidance.mjs";
+
+[2] Syntax check
+
+[3] Restarting local server
+
+[4] HTTP probe
+
+[5] Runtime log tail
 [phase25] task_events_emit loaded 2026-04-16T16:36:29.762Z file= file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/task_events_emit.mjs
 [phase25] api-tasks-postgres loaded 2026-04-16T16:36:29.763Z file= file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/api-tasks-postgres.mjs
 [phase19] orchestrator_state_route mounted {
@@ -38,3 +52,5 @@ Error: read ECONNRESET
 }
 
 Node.js v24.4.0
+
+FIX COMPLETE
