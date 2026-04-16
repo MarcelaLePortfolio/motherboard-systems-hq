@@ -1,9 +1,5 @@
-(node:47841) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/routes/diagnostics/systemHealth.js is not specified and it doesn't parse as CommonJS.
-Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
-To eliminate this warning, add "type": "module" to /Users/marcela-dev/Projects/Motherboard_Systems_HQ/package.json.
-(Use `node --trace-warnings ...` to show where the warning was created)
-[phase25] task_events_emit loaded 2026-04-16T18:15:07.704Z file= file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/task_events_emit.mjs
-[phase25] api-tasks-postgres loaded 2026-04-16T18:15:07.706Z file= file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/api-tasks-postgres.mjs
+[phase25] task_events_emit loaded 2026-04-16T18:15:12.937Z file= file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/task_events_emit.mjs
+[phase25] api-tasks-postgres loaded 2026-04-16T18:15:12.939Z file= file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/api-tasks-postgres.mjs
 [phase19] orchestrator_state_route mounted {
   file: 'file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/orchestrator_state_route.mjs',
   envSnapshot: {
@@ -23,3 +19,9 @@ To eliminate this warning, add "type": "module" to /Users/marcela-dev/Projects/M
   password_len: 'hidden',
   has_password: true
 }
+(node:48437) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/routes/diagnostics/systemHealth.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/marcela-dev/Projects/Motherboard_Systems_HQ/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[db] waiting for postgres... elapsed=3ms code=ECONNREFUSED
+[db] waiting for postgres... elapsed=2016ms code=ECONNREFUSED
