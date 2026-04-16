@@ -24,7 +24,7 @@ function mapStatusToConfidence(status) {
     case "unknown":
       return "low";
     default:
-      return "insufficient";
+      return "limited";
   }
 }
 
@@ -89,7 +89,7 @@ function sortGuidanceDeterministically(guidance) {
 function assessSurfaceConfidence(signals) {
   if (!Array.isArray(signals) || signals.length === 0) {
     return {
-      confidence: "insufficient",
+      confidence: "limited",
       reason: "No signals available for interpretation.",
       signalCount: 0,
       conflictingSignals: false,
