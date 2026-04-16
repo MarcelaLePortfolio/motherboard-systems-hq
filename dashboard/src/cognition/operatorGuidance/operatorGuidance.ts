@@ -88,7 +88,7 @@ export const EMPTY_OPERATOR_GUIDANCE_REDUCTION: OperatorGuidanceReduction = {
     cognitionVersion: "phase_89",
     executionAuthority: "none",
   },
-  surfaceConfidence: "insufficient",
+  surfaceConfidence: "limited",
   confidenceReason: "No signals available for interpretation.",
   signalCount: 0,
   conflictingSignals: false,

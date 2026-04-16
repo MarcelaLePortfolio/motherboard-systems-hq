@@ -49,7 +49,7 @@ export type OperatorGuidanceLiveVerificationResult = {
   ok: true;
   generatedAt: number;
   guidanceCount: number;
-  surfaceConfidence: "high" | "medium" | "low" | "insufficient";
+  surfaceConfidence: "high" | "medium" | "low" | "limited";
   conflictingSignals: boolean;
   guidanceIds: string[];
 };
