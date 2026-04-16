@@ -111,7 +111,7 @@ export function normalizeOperatorGuidanceReduction(
     },
     surfaceConfidence: isConfidence(raw.surfaceConfidence)
       ? raw.surfaceConfidence
-      : "insufficient",
+      : "limited",
     confidenceReason:
       typeof raw.confidenceReason === "string"
         ? raw.confidenceReason
