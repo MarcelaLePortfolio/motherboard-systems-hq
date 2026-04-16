@@ -1,4 +1,7 @@
-import type {
+(signal.summary
+  ? 
+  : 
+)import type {
   GuidanceConfidence,
   GuidanceDomain,
   GuidanceSeverity,
