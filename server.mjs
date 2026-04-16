@@ -729,3 +729,14 @@ if (process.env.PHASE18_ENABLE_ORCHESTRATION === "1") {
 }
 
 registerPhase40_6ShadowAuditTaskEvents(app, { db: __DB_POOL });
+
+// PHASE 508 — GUIDANCE ENDPOINT STUB (STRUCTURAL, NO FAKE SIGNALS)
+
+app.get('/api/guidance', (req, res) => {
+  res.json({
+    guidance_available: false,
+    guidance: null,
+    reason: "no_active_guidance_stream"
+  });
+});
+
