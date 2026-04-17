@@ -1,0 +1,65 @@
+PHASE 488 — FIX POSTGRES BINDING + WORKER RELAUNCH
+Timestamp: Fri Apr 17 13:45:56 PDT 2026
+===============================================
+
+[1] ENSURE POSTGRES CONTAINER RUNNING
+
+[2] VERIFY PORT 5432 LISTENING
+PORT_NOT_LISTENING
+
+[3] LOCAL TCP PROBE
+tcp_connect_fail [Errno 61] Connection refused
+
+[4] RESTART WORKER WITH EXPLICIT DB URL
+
+[5] WORKER STATUS
+marcela-dev      77232   0.0  0.3 411430496  54976 s328  S+    1:58PM   0:00.07 node server/worker/phase26_task_worker.mjs
+
+[6] WORKER LOG
+[phase25] task_events_emit loaded 2026-04-17T20:58:18.289Z file= file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/task_events_emit.mjs
+[phase26][dbg] tick { ts: '2026-04-17T20:58:18.290Z', owner: 'worker-77232' }
+[worker] loop error Error: connect ECONNREFUSED 127.0.0.1:5432
+    at /Users/marcela-dev/Projects/Motherboard_Systems_HQ/node_modules/.pnpm/pg-pool@3.13.0_pg@8.20.0/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async loop (file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/worker/phase26_task_worker.mjs:108:17) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 5432
+}
+[phase26][dbg] sleep_backoff { backoff: 2000 }
+[phase26][dbg] tick { ts: '2026-04-17T20:58:20.295Z', owner: 'worker-77232' }
+[worker] loop error Error: connect ECONNREFUSED 127.0.0.1:5432
+    at /Users/marcela-dev/Projects/Motherboard_Systems_HQ/node_modules/.pnpm/pg-pool@3.13.0_pg@8.20.0/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async loop (file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/worker/phase26_task_worker.mjs:108:17) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 5432
+}
+[phase26][dbg] sleep_backoff { backoff: 4000 }
+[phase26][dbg] tick { ts: '2026-04-17T20:58:24.299Z', owner: 'worker-77232' }
+[worker] loop error Error: connect ECONNREFUSED 127.0.0.1:5432
+    at /Users/marcela-dev/Projects/Motherboard_Systems_HQ/node_modules/.pnpm/pg-pool@3.13.0_pg@8.20.0/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async loop (file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/worker/phase26_task_worker.mjs:108:17) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 5432
+}
+[phase26][dbg] sleep_backoff { backoff: 8000 }
+
+[7] TASK EVENT COUNTS
+NO_POSTGRES_CONTAINER
+
+[8] VERDICT
+- If tcp_connect_ok + no ECONNREFUSED → DB fixed
+- If task.started appears → lifecycle unlocked
+- If still failing → deeper DB config issue
+
+FIX ATTEMPT COMPLETE

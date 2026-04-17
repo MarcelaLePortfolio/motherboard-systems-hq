@@ -1,0 +1,37 @@
+[phase25] task_events_emit loaded 2026-04-17T20:58:18.289Z file= file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/task_events_emit.mjs
+[phase26][dbg] tick { ts: '2026-04-17T20:58:18.290Z', owner: 'worker-77232' }
+[worker] loop error Error: connect ECONNREFUSED 127.0.0.1:5432
+    at /Users/marcela-dev/Projects/Motherboard_Systems_HQ/node_modules/.pnpm/pg-pool@3.13.0_pg@8.20.0/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async loop (file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/worker/phase26_task_worker.mjs:108:17) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 5432
+}
+[phase26][dbg] sleep_backoff { backoff: 2000 }
+[phase26][dbg] tick { ts: '2026-04-17T20:58:20.295Z', owner: 'worker-77232' }
+[worker] loop error Error: connect ECONNREFUSED 127.0.0.1:5432
+    at /Users/marcela-dev/Projects/Motherboard_Systems_HQ/node_modules/.pnpm/pg-pool@3.13.0_pg@8.20.0/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async loop (file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/worker/phase26_task_worker.mjs:108:17) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 5432
+}
+[phase26][dbg] sleep_backoff { backoff: 4000 }
+[phase26][dbg] tick { ts: '2026-04-17T20:58:24.299Z', owner: 'worker-77232' }
+[worker] loop error Error: connect ECONNREFUSED 127.0.0.1:5432
+    at /Users/marcela-dev/Projects/Motherboard_Systems_HQ/node_modules/.pnpm/pg-pool@3.13.0_pg@8.20.0/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async loop (file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/worker/phase26_task_worker.mjs:108:17) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 5432
+}
+[phase26][dbg] sleep_backoff { backoff: 8000 }
