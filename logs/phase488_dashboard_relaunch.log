@@ -26,3 +26,47 @@ To eliminate this warning, add "type": "module" to /Users/marcela-dev/Projects/M
 [db] waiting for postgres... elapsed=2ms code=ECONNREFUSED
 [db] waiting for postgres... elapsed=2020ms code=ECONNREFUSED
 [db] waiting for postgres... elapsed=4037ms code=ECONNREFUSED
+[db] waiting for postgres... elapsed=6056ms code=ECONNREFUSED
+[db] waiting for postgres... elapsed=8068ms code=ECONNREFUSED
+[db] waiting for postgres... elapsed=10084ms code=ECONNREFUSED
+[db] waiting for postgres... elapsed=12100ms code=ECONNREFUSED
+[db] waiting for postgres... elapsed=14116ms code=ECONNREFUSED
+[db] waiting for postgres... elapsed=16132ms code=ECONNREFUSED
+[db] waiting for postgres... elapsed=18151ms code=ECONNREFUSED
+[db] waiting for postgres... elapsed=20168ms code=ECONNREFUSED
+[db] waiting for postgres... elapsed=22187ms code=ECONNREFUSED
+[db] waiting for postgres... elapsed=24203ms code=ECONNREFUSED
+[db] waiting for postgres... elapsed=26221ms code=ECONNREFUSED
+[db] waiting for postgres... elapsed=28240ms code=ECONNREFUSED
+[db] waiting for postgres... elapsed=30256ms code=ECONNREFUSED
+[db] waiting for postgres... elapsed=32274ms code=ECONNREFUSED
+[db] waiting for postgres... elapsed=34290ms code=ECONNREFUSED
+[db] waiting for postgres... elapsed=36306ms code=ECONNREFUSED
+[db] waiting for postgres... elapsed=38322ms code=ECONNREFUSED
+[db] waiting for postgres... elapsed=40339ms code=ECONNREFUSED
+[db] waiting for postgres... elapsed=42356ms code=ECONNREFUSED
+[db] waiting for postgres... elapsed=44373ms code=ECONNREFUSED
+[db] waiting for postgres... elapsed=46390ms code=ECONNREFUSED
+[db] waiting for postgres... elapsed=48406ms code=ECONNREFUSED
+[db] waiting for postgres... elapsed=50422ms code=ECONNREFUSED
+[db] waiting for postgres... elapsed=52439ms code=ECONNREFUSED
+[db] waiting for postgres... elapsed=54457ms code=ECONNREFUSED
+[db] waiting for postgres... elapsed=56474ms code=ECONNREFUSED
+[db] waiting for postgres... elapsed=58489ms code=ECONNREFUSED
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/node_modules/.pnpm/pg-pool@3.13.0_pg@8.20.0/node_modules/pg-pool/index.js:45
+    Error.captureStackTrace(err)
+          ^
+
+Error: connect ECONNREFUSED 127.0.0.1:5432
+    at /Users/marcela-dev/Projects/Motherboard_Systems_HQ/node_modules/.pnpm/pg-pool@3.13.0_pg@8.20.0/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async waitForPostgresReady (file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/db_wait_ready.mjs:19:7)
+    at async file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.mjs:330:1 {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 5432
+}
+
+Node.js v24.4.0
