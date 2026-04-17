@@ -1,3 +1,23 @@
+PHASE 488 — VERIFY DB BOUNDARY + RELAUNCH WORKER
+Timestamp: Fri Apr 17 13:38:16 PDT 2026
+===============================================
+
+[1] DOCKER / POSTGRES READINESS
+docker_not_ready
+
+
+[2] LOCAL TCP PROBE
+tcp_connect_fail 127.0.0.1:5432 [Errno 61] Connection refused
+
+[3] SERVER DB ENV SIGNALS
+POSTGRES_URL=postgres://postgres:postgres@127.0.0.1:5432/postgres
+
+[4] RELAUNCH WORKER WITH EXPLICIT LOCAL POSTGRES URL
+
+[5] WORKER PROCESS
+marcela-dev      77232   0.0  0.3 411430496  54976 s328  S+    1:58PM   0:00.07 node server/worker/phase26_task_worker.mjs
+
+[6] WORKER LOG TAIL
 [phase25] task_events_emit loaded 2026-04-17T20:58:15.119Z file= file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/task_events_emit.mjs
 [phase26][dbg] tick { ts: '2026-04-17T20:58:15.120Z', owner: 'worker-77220' }
 [worker] loop error Error: connect ECONNREFUSED 127.0.0.1:5432
@@ -23,3 +43,16 @@
   port: 5432
 }
 [phase26][dbg] sleep_backoff { backoff: 4000 }
+
+[7] TASK EVENT COUNTS (HTTP VIA SERVER)
+
+
+[8] TASK EVENTS STREAM SAMPLE
+TASK_EVENTS_CAPTURE_ERROR: <urlopen error [Errno 61] Connection refused>
+
+[9] VERDICT
+- If tcp_connect_fail or docker_not_ready: DB availability boundary is the blocker
+- If worker still shows ECONNREFUSED: local Postgres binding is the blocker
+- If worker stays up and new task kinds appear: env wiring was the blocker
+
+TRACE COMPLETE
