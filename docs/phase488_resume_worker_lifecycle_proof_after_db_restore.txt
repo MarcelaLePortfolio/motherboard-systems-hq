@@ -1,0 +1,152 @@
+PHASE 488 — RESUME WORKER LIFECYCLE PROOF AFTER DB RESTORE
+Timestamp: Fri Apr 17 14:08:21 PDT 2026
+========================================
+
+[1] PRECHECK
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Fri, 17 Apr 2026 18:00:12 GMT
+ETag: W/"9295-19d9c99b4ac"
+Content-Type: text/html; charset=utf-8
+Content-Length: 37525
+Date: Fri, 17 Apr 2026 21:08:21 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+
+{"ok":true,"count":50,"rows":[{"run_id":"task.704a2083-855c-4660-bfd8-b69ce118c511","task_id":"task.704a2083-855c-4660-bfd8-b69ce118c511","task_status":"queued","is_terminal":false,"last_event_id":"289","last_event_ts":"1776202835745","last_event_kind":"task.created","actor":"Cade","lease_expires_at":null,"lease_fresh":false,"lease_ttl_ms":null,"last_heartbeat_ts":null,"heartbeat_age_ms":null,"terminal_event_kind":null,"terminal_event_ts":null,"terminal_event_id":null},{"run_id":"task.3bdc9092-6318-4609-a08d-f366b77d1858","task_id":"task.3bdc9092-6318-4609-a08d-f366b77d1858","task_status":"queued","is_terminal":false,"last_event_id":"288","last_event_ts":"1776202833706","last_event_kind":"task.created","actor":"Cade","lease_expires_at":null,"lease_fresh":false,"lease_ttl_ms":null,"last_heartbeat_ts":null,"heartbeat_age_ms":null,"terminal_event_kind":null,"terminal_event_ts":null,"terminal_event_id":null},{"run_id":"task.d76574fc-4571-4fe1-b3e1-0474473d2455","task_id":"task.d76574fc-4571-4fe1-b3e1-0474473d2455","task_status":"queued","is_terminal":false,"last_event_id":"287","last_event_ts":"1776202831676","last_event_kind":"task.created","actor":"Cade","lease_expires_at":null,"leas
+
+[2] REQUIRED SQL FILES
+FOUND server/worker/phase27_claim_one.sql
+FOUND server/worker/phase27_mark_success.sql
+FOUND server/worker/phase27_mark_failure.sql
+
+[3] WORKER PROCESS
+marcela-dev      78619   0.0  0.3 412287264  57744 s339  S+    2:08PM   0:00.07 node server/worker/phase26_task_worker.mjs
+
+[4] WORKER LOG TAIL
+[phase25] task_events_emit loaded 2026-04-17T21:08:22.842Z file= file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/task_events_emit.mjs
+[phase26][dbg] tick { ts: '2026-04-17T21:08:22.845Z', owner: 'worker-78619' }
+[phase26][dbg] claim_attempt
+[worker] loop error error: column "available_at" does not exist
+    at /Users/marcela-dev/Projects/Motherboard_Systems_HQ/node_modules/.pnpm/pg@8.20.0/node_modules/pg/lib/client.js:631:17
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async claimOne (file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/worker/phase26_task_worker.mjs:62:13)
+    at async loop (file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/worker/phase26_task_worker.mjs:133:24) {
+  length: 113,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '159',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+[phase26][dbg] sleep_backoff { backoff: 2000 }
+[phase26][dbg] tick { ts: '2026-04-17T21:08:24.866Z', owner: 'worker-78619' }
+[phase26][dbg] claim_attempt
+[worker] loop error error: column "available_at" does not exist
+    at /Users/marcela-dev/Projects/Motherboard_Systems_HQ/node_modules/.pnpm/pg@8.20.0/node_modules/pg/lib/client.js:631:17
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async claimOne (file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/worker/phase26_task_worker.mjs:62:13)
+    at async loop (file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/worker/phase26_task_worker.mjs:133:24) {
+  length: 113,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '159',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+[phase26][dbg] sleep_backoff { backoff: 4000 }
+[phase26][dbg] tick { ts: '2026-04-17T21:08:28.884Z', owner: 'worker-78619' }
+[phase26][dbg] claim_attempt
+[worker] loop error error: column "available_at" does not exist
+    at /Users/marcela-dev/Projects/Motherboard_Systems_HQ/node_modules/.pnpm/pg@8.20.0/node_modules/pg/lib/client.js:631:17
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async claimOne (file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/worker/phase26_task_worker.mjs:62:13)
+    at async loop (file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/worker/phase26_task_worker.mjs:133:24) {
+  length: 113,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '159',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+[phase26][dbg] sleep_backoff { backoff: 8000 }
+
+[5] TASK EVENT COUNTS
+     kind     | count 
+--------------+-------
+ task.created |   289
+(1 row)
+
+
+[6] /api/runs SNAPSHOT AFTER WORKER RELAUNCH
+{"ok":true,"count":50,"rows":[{"run_id":"task.704a2083-855c-4660-bfd8-b69ce118c511","task_id":"task.704a2083-855c-4660-bfd8-b69ce118c511","task_status":"queued","is_terminal":false,"last_event_id":"289","last_event_ts":"1776202835745","last_event_kind":"task.created","actor":"Cade","lease_expires_at":null,"lease_fresh":false,"lease_ttl_ms":null,"last_heartbeat_ts":null,"heartbeat_age_ms":null,"terminal_event_kind":null,"terminal_event_ts":null,"terminal_event_id":null},{"run_id":"task.3bdc9092-6318-4609-a08d-f366b77d1858","task_id":"task.3bdc9092-6318-4609-a08d-f366b77d1858","task_status":"queued","is_terminal":false,"last_event_id":"288","last_event_ts":"1776202833706","last_event_kind":"task.created","actor":"Cade","lease_expires_at":null,"lease_fresh":false,"lease_ttl_ms":null,"last_heartbeat_ts":null,"heartbeat_age_ms":null,"terminal_event_kind":null,"terminal_event_ts":null,"terminal_event_id":null},{"run_id":"task.d76574fc-4571-4fe1-b3e1-0474473d2455","task_id":"task.d76574fc-4571-4fe1-b3e1-0474473d2455","task_status":"queued","is_terminal":false,"last_event_id":"287","last_event_ts":"1776202831676","last_event_kind":"task.created","actor":"Cade","lease_expires_at":null,"lease_fresh":false,"lease_ttl_ms":null,"last_heartbeat_ts":null,"heartbeat_age_ms":null,"terminal_event_kind":null,"terminal_event_ts":null,"terminal_event_id":null},{"run_id":"task.7654b853-a507-4414-b07d-6a8aa90b3d27","task_id":"task.7654b853-a507-4414-b07d-6a8aa90b3d27","task_status":"queued","is_terminal":false,"last_event_id":"286","last_event_ts":"1776202829630","last_event_kind":"task.created",
+
+[7] TASK EVENTS STREAM SAMPLE
+event: hello
+data: {"kind":"task-events","cursor":1776202835745,"ts":1776460111337}
+
+event: heartbeat
+data: {"ts":1776460112338,"cursor":1776202835745}
+
+event: heartbeat
+data: {"ts":1776460113339,"cursor":1776202835745}
+
+event: heartbeat
+data: {"ts":1776460114339,"cursor":1776202835745}
+
+event: heartbeat
+data: {"ts":1776460115341,"cursor":1776202835745}
+
+event: heartbeat
+data: {"ts":1776460116342,"cursor":1776202835745}
+
+event: heartbeat
+data: {"ts":1776460117343,"cursor":1776202835745}
+
+event: heartbeat
+data: {"ts":1776460118344,"cursor":1776202835745}
+
+event: heartbeat
+
+[8] VERDICT
+- If task.started/task.completed appear, lifecycle corridor is unlocked
+- If worker stays up but no new kinds appear, inspect claim SQL / task selection next
+- If worker crashes, inspect SQL contract mismatch next
+
+PROOF COMPLETE

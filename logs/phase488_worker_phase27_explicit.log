@@ -1,25 +1,105 @@
-[phase25] task_events_emit loaded 2026-04-17T20:58:15.119Z file= file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/task_events_emit.mjs
-[phase26][dbg] tick { ts: '2026-04-17T20:58:15.120Z', owner: 'worker-77220' }
-[worker] loop error Error: connect ECONNREFUSED 127.0.0.1:5432
-    at /Users/marcela-dev/Projects/Motherboard_Systems_HQ/node_modules/.pnpm/pg-pool@3.13.0_pg@8.20.0/node_modules/pg-pool/index.js:45:11
+[phase25] task_events_emit loaded 2026-04-17T21:08:22.842Z file= file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/task_events_emit.mjs
+[phase26][dbg] tick { ts: '2026-04-17T21:08:22.845Z', owner: 'worker-78619' }
+[phase26][dbg] claim_attempt
+[worker] loop error error: column "available_at" does not exist
+    at /Users/marcela-dev/Projects/Motherboard_Systems_HQ/node_modules/.pnpm/pg@8.20.0/node_modules/pg/lib/client.js:631:17
     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
-    at async loop (file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/worker/phase26_task_worker.mjs:108:17) {
-  errno: -61,
-  code: 'ECONNREFUSED',
-  syscall: 'connect',
-  address: '127.0.0.1',
-  port: 5432
+    at async claimOne (file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/worker/phase26_task_worker.mjs:62:13)
+    at async loop (file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/worker/phase26_task_worker.mjs:133:24) {
+  length: 113,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '159',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
 }
 [phase26][dbg] sleep_backoff { backoff: 2000 }
-[phase26][dbg] tick { ts: '2026-04-17T20:58:17.124Z', owner: 'worker-77220' }
-[worker] loop error Error: connect ECONNREFUSED 127.0.0.1:5432
-    at /Users/marcela-dev/Projects/Motherboard_Systems_HQ/node_modules/.pnpm/pg-pool@3.13.0_pg@8.20.0/node_modules/pg-pool/index.js:45:11
+[phase26][dbg] tick { ts: '2026-04-17T21:08:24.866Z', owner: 'worker-78619' }
+[phase26][dbg] claim_attempt
+[worker] loop error error: column "available_at" does not exist
+    at /Users/marcela-dev/Projects/Motherboard_Systems_HQ/node_modules/.pnpm/pg@8.20.0/node_modules/pg/lib/client.js:631:17
     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
-    at async loop (file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/worker/phase26_task_worker.mjs:108:17) {
-  errno: -61,
-  code: 'ECONNREFUSED',
-  syscall: 'connect',
-  address: '127.0.0.1',
-  port: 5432
+    at async claimOne (file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/worker/phase26_task_worker.mjs:62:13)
+    at async loop (file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/worker/phase26_task_worker.mjs:133:24) {
+  length: 113,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '159',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
 }
 [phase26][dbg] sleep_backoff { backoff: 4000 }
+[phase26][dbg] tick { ts: '2026-04-17T21:08:28.884Z', owner: 'worker-78619' }
+[phase26][dbg] claim_attempt
+[worker] loop error error: column "available_at" does not exist
+    at /Users/marcela-dev/Projects/Motherboard_Systems_HQ/node_modules/.pnpm/pg@8.20.0/node_modules/pg/lib/client.js:631:17
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async claimOne (file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/worker/phase26_task_worker.mjs:62:13)
+    at async loop (file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/worker/phase26_task_worker.mjs:133:24) {
+  length: 113,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '159',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+[phase26][dbg] sleep_backoff { backoff: 8000 }
+[phase26][dbg] tick { ts: '2026-04-17T21:08:36.899Z', owner: 'worker-78619' }
+[phase26][dbg] claim_attempt
+[worker] loop error error: column "available_at" does not exist
+    at /Users/marcela-dev/Projects/Motherboard_Systems_HQ/node_modules/.pnpm/pg@8.20.0/node_modules/pg/lib/client.js:631:17
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async claimOne (file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/worker/phase26_task_worker.mjs:62:13)
+    at async loop (file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/worker/phase26_task_worker.mjs:133:24) {
+  length: 113,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '159',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+[phase26][dbg] sleep_backoff { backoff: 16000 }
