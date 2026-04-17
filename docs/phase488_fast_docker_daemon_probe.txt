@@ -1,0 +1,20 @@
+PHASE 488 — FAST DOCKER DAEMON PROBE
+Timestamp: Fri Apr 17 13:50:50 PDT 2026
+========================================
+
+[1] DOCKER INFO (5s timeout)
+DOCKER_INFO_TIMEOUT
+
+[2] HOST PORT 5432
+PORT_NOT_LISTENING
+
+[3] TCP PROBE 127.0.0.1:5432
+DB_PORT_CLOSED [Errno 61] Connection refused
+
+[4] WORKER FIXED LOG
+NO_WORKER_FIXED_LOG
+
+[5] VERDICT
+- DOCKER_INFO_TIMEOUT or nonzero exit => docker daemon boundary
+- PORT_NOT_LISTENING or DB_PORT_CLOSED => postgres host bind boundary
+- DB_PORT_OPEN => next blocker is worker-side
