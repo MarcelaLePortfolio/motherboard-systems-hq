@@ -1,0 +1,51 @@
+PHASE 487 — TRANSITION NOTE
+
+CURRENT STATE
+- Phase 487 sealed
+- Runtime stable
+- Repo synchronized
+- UI + SSE behavior verified
+- Agent pool + task activity restored
+
+TRANSITION DECISION
+
+NEXT PRIORITY:
+PHASE 488 — TASK EVENT MATERIALIZATION (FROM HEARTBEAT → REAL ACTIVITY)
+
+WHY:
+- Task events stream is alive (heartbeat confirmed)
+- /api/runs returning real data (queued tasks exist)
+- BUT:
+  → No visible task progression events (no started/completed/failure lifecycle)
+  → No agent activity transitions (Cade appears idle despite queued tasks)
+
+GOAL:
+Convert passive task state → observable execution lifecycle
+
+TARGET OUTCOMES:
+- task.created → task.started → task.completed (or failure) events visible
+- SSE task-events emits meaningful transitions (not just heartbeat)
+- Agent Pool reflects real runtime state (active agent count > 0 when executing)
+- Recent Tasks + Task Activity panels show real logs
+
+CONSTRAINTS:
+- NO execution autonomy introduction
+- NO governance mutation
+- NO multi-layer changes
+- Single boundary: event emission + lifecycle visibility
+
+ENTRY HYPOTHESIS:
+- Tasks are being created but never transitioned
+- Missing executor loop OR missing event emission after creation
+- Need to verify:
+  → where task.created stops
+  → whether executor exists but is not wired
+  → whether events exist but not emitted to SSE
+
+FIRST ACTION:
+Trace transition boundary after task.created
+
+DETERMINISTIC STOP:
+- Confirm presence OR absence of lifecycle transitions
+- Do not fix yet — prove first
+
