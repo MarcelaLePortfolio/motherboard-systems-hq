@@ -1,0 +1,424 @@
+PHASE 488 — TRACE BEST CLAIM SQL CANDIDATE
+Timestamp: Fri Apr 17 14:27:12 PDT 2026
+========================================
+
+[1] CURRENT LIVE tasks SCHEMA
+ column_name |          data_type          
+-------------+-----------------------------
+ id          | integer
+ created_at  | timestamp without time zone
+ task_id     | text
+ status      | text
+ payload     | jsonb
+ title       | text
+ agent       | text
+ notes       | text
+ source      | text
+ trace_id    | text
+ error       | text
+ meta        | jsonb
+ updated_at  | timestamp without time zone
+ run_id      | text
+ action_tier | text
+ kind        | text
+(16 rows)
+
+
+[2] CLAIM SQL CANDIDATES
+===== server/worker/phase27_claim_one.sql =====
+-- phase27: claim one queued task
+-- Inputs:
+--   $1 = worker_id/owner (text)
+with candidate as (
+  select id
+  from tasks
+  where status = 'queued'
+    and (available_at is null or available_at <= now())
+    and (
+      locked_by is null
+      or lock_expires_at is null
+      or lock_expires_at <= now()
+    )
+  order by
+    coalesce(available_at, created_at) asc,
+    id asc
+  for update skip locked
+  limit 1
+),
+updated as (
+  update tasks t
+  set
+    status = 'running',
+    locked_by = $1::text,
+    lock_expires_at = now() + interval '10 minutes',
+    updated_at = now(),
+    attempt = attempt + 1
+  from candidate c
+  where t.id = c.id
+  returning t.*
+)
+select * from updated;
+
+===== server/worker/phase28_claim_one.sql =====
+-- params:
+-- $1 run_id (text)
+-- $2 owner/locked_by (text)
+
+with picked as (
+  select id
+  from tasks
+  where status = 'queued'
+    
+  AND COALESCE(action_tier, 'A') = 'A'
+and (available_at is null or available_at <= now())
+    and (lock_expires_at is null or lock_expires_at <= now())
+  order by id asc
+  for update skip locked
+  limit 1
+)
+update tasks t
+set status = 'running',
+    run_id = $1,
+    locked_by = $2,
+    lock_expires_at = now() + interval '5 minutes',
+    updated_at = now()
+from picked
+where t.id = picked.id
+returning t.*;
+
+===== server/worker/phase32_claim_one.sql =====
+/*
+Phase 32 — claim one task (no-lease variant)
+Params:
+  $1 = run_id (text)
+  $2 = owner  (text)
+*/
+WITH candidate AS (
+  SELECT id
+  FROM tasks
+  WHERE status IN ('queued','delegated')
+    AND attempts < COALESCE(max_attempts, 3)
+    AND (next_run_at IS NULL OR next_run_at <= now())
+  ORDER BY id ASC
+  FOR UPDATE SKIP LOCKED
+  LIMIT 1
+)
+UPDATE tasks t
+SET
+  status     = 'running',
+  run_id     = $1,
+  claimed_by = $2,
+  task_id    = COALESCE(t.task_id, t.id::text)
+FROM candidate c
+WHERE t.id = c.id
+RETURNING t.*;
+
+===== server/worker/phase34_claim_one.sql =====
+-- Inputs: :owner :now_ms :lease_ms
+-- Claim policy (align with Phase33): claim from status='created'
+
+WITH c AS (
+  SELECT id
+  FROM tasks
+  WHERE status='created'
+  ORDER BY id
+  FOR UPDATE SKIP LOCKED
+  LIMIT 1
+)
+UPDATE tasks t
+SET status='running',
+    claimed_by=:'owner',
+    claimed_at=:'now_ms'::bigint,
+    lease_expires_at=(:'now_ms'::bigint + :'lease_ms'::bigint),
+    lease_epoch=COALESCE(lease_epoch,0)+1
+FROM c
+WHERE t.id=c.id
+RETURNING t.claimed_by;
+
+===== server/worker/phase34_claim_one_pg.sql =====
+-- Inputs: $1=run_id, $2=owner, $3=lease_ms
+-- Claim from status='created' (Phase33 contract)
+WITH c AS (
+  SELECT id, $1::text AS run_id
+  FROM tasks
+  WHERE status='created'
+  ORDER BY id
+  FOR UPDATE SKIP LOCKED
+  LIMIT 1
+)
+UPDATE tasks t
+SET status='running',
+    run_id = c.run_id,
+    claimed_by=$2,
+    claimed_at=(extract(epoch from now())*1000)::bigint,
+    lease_expires_at=((extract(epoch from now())*1000)::bigint + $3::bigint),
+    lease_epoch=COALESCE(lease_epoch,0)+1
+FROM c
+WHERE t.id=c.id
+RETURNING t.id, t.task_id, t.claimed_by, t.lease_expires_at, c.run_id;
+
+===== server/worker/phase35_claim_one_pg.sql =====
+-- Phase 35 claim-one (pg positional)
+-- Inputs:
+--   $1 run_id (text)        -- unused by SQL, preserved for contract parity/logging
+--   $2 owner (text)
+--   $3 lease_ms (bigint)
+WITH c AS (
+  SELECT id
+  FROM tasks
+  WHERE status = 'created'
+  ORDER BY id
+  FOR UPDATE SKIP LOCKED
+  LIMIT 1
+)
+UPDATE tasks t
+SET status = 'running',
+    claimed_by = $2,
+    claimed_at = (extract(epoch from now())*1000)::bigint,
+    lease_expires_at = ((extract(epoch from now())*1000)::bigint + $3::bigint),
+    lease_epoch = COALESCE(t.lease_epoch, 0) + 1
+FROM c
+WHERE t.id = c.id
+RETURNING t.id, t.claimed_by, t.lease_epoch;
+
+[3] SUCCESS / FAILURE SQL CANDIDATES
+===== server/worker/phase27_mark_success.sql =====
+-- Inputs:
+--   $1 = task_id (text) OR id::text
+--   $2 = worker_id (text)
+update tasks
+set
+  status = 'completed',
+  locked_by = null,
+  lock_expires_at = null,
+  updated_at = now()
+where
+  ((task_id = $1::text) or (id::text = $1::text))
+  and (locked_by is null or locked_by = $2::text)
+returning id, task_id, status, attempt, max_attempts;
+
+===== server/worker/phase27_mark_failure.sql =====
+-- Inputs:
+--   $1 = task_id (text) OR id::text
+--   $2 = worker_id (text)
+--   $3 = backoff_ms (int)
+--   $4 = last_error (jsonb)
+with row as (
+  select id, task_id, attempt, max_attempts
+  from tasks
+  where ((task_id = $1::text) or (id::text = $1::text))
+    and (locked_by is null or locked_by = $2::text)
+  for update
+),
+upd as (
+  update tasks t
+  set
+    status = case when row.attempt < row.max_attempts then 'queued' else 'failed' end,
+    available_at = case
+      when row.attempt < row.max_attempts then now() + (($3::int) * interval '1 millisecond')
+      else t.available_at
+    end,
+    last_error = $4::jsonb,
+    locked_by = null,
+    lock_expires_at = null,
+    updated_at = now()
+  from row
+  where t.id = row.id
+  returning t.id, t.task_id, t.status, t.attempt, t.max_attempts, t.available_at
+)
+select * from upd;
+
+===== server/worker/phase28_mark_success.sql =====
+-- params:
+-- $1 id (int)
+update tasks
+set status = 'completed',
+    run_id = null,
+  last_error = null,
+    completed_at = now(),
+    locked_by = null,
+    lock_expires_at = null,
+    updated_at = now()
+where id = $1
+returning *;
+
+===== server/worker/phase28_mark_failure.sql =====
+-- params:
+-- $1 id (int)
+-- $2 status ('queued' | 'failed')
+-- $3 next_attempt (int)
+-- $4 next_available_at (timestamptz, nullable)
+-- $5 last_error (jsonb)
+
+update tasks
+set status = $2,
+    failed_at = case when $2 = 'failed' then now() else failed_at end,
+    attempt = $3,
+    attempts = $3,
+    available_at = $4,
+    next_run_at = $4,
+    last_error = $5::jsonb,
+    locked_by = null,
+    lock_expires_at = null,
+    updated_at = now()
+where id = $1
+returning *;
+
+===== server/worker/phase32_mark_success.sql =====
+/*
+Phase 32 — mark success
+Params:
+  $1 = task_id (text)
+  $2 = run_id  (text|null)
+  $3 = actor   (text|null)
+*/
+UPDATE tasks
+SET
+  status       = 'completed',
+  completed_at = NOW(),
+  run_id       = COALESCE($2, run_id),
+  claimed_by   = COALESCE(NULLIF(claimed_by,''), $3)
+WHERE task_id = $1
+RETURNING *;
+
+===== server/worker/phase32_mark_failure.sql =====
+/*
+Phase 32 — mark failure (no retry scheduling here; keep minimal + deterministic)
+Params:
+  $1 = task_id (text)
+  $2 = run_id  (text|null)
+  $3 = actor   (text|null)
+*/
+UPDATE tasks
+SET
+  status       = 'failed',
+  completed_at = NOW(),
+  run_id       = COALESCE($2, run_id),
+  claimed_by   = COALESCE(NULLIF(claimed_by,''), $3)
+WHERE task_id = $1
+RETURNING *;
+
+===== server/worker/phase34_mark_success.sql =====
+-- Inputs: :task_id
+UPDATE tasks
+SET status='completed',
+    lease_expires_at=NULL
+WHERE id=:'task_id'::bigint
+  AND status='running'
+RETURNING id;
+
+===== server/worker/phase34_mark_failure.sql =====
+-- Inputs: :task_id
+UPDATE tasks
+SET status='failed',
+    lease_expires_at=NULL
+WHERE id=:'task_id'::bigint
+  AND status='running'
+RETURNING id;
+
+===== server/worker/phase34_mark_success_pg.sql =====
+-- Inputs: $1=task_id, $2=run_id, $3=actor
+UPDATE tasks
+SET status='completed',
+    run_id=$2,
+    actor=$3,
+    updated_at=NOW()
+WHERE task_id=$1
+RETURNING id, task_id, status, run_id, actor;
+
+===== server/worker/phase34_mark_failure_pg.sql =====
+-- Inputs: $1=task_id, $2=run_id, $3=actor
+UPDATE tasks
+SET status='failed',
+    run_id=$2,
+    actor=$3,
+    error=COALESCE(error,'worker_mark_failure'),
+    updated_at=NOW()
+WHERE task_id=$1
+RETURNING id, task_id, status, run_id, actor, error;
+
+===== server/worker/phase35_mark_success.sql =====
+WITH updated AS (
+  UPDATE tasks
+     SET status = 'completed',
+         completed_at = NOW()
+   WHERE task_id = $1
+     AND status = 'running'
+     AND claimed_by = $2
+     AND lease_epoch = $3
+  RETURNING task_id
+)
+SELECT task_id FROM updated;
+
+===== server/worker/phase35_mark_failure.sql =====
+WITH updated AS (
+  UPDATE tasks
+     SET status = 'failed',
+         failed_at = NOW()
+   WHERE task_id = $1
+     AND status = 'running'
+     AND claimed_by = $2
+     AND lease_epoch = $3
+  RETURNING task_id
+)
+SELECT task_id FROM updated;
+
+===== server/worker/phase35_mark_success_pg.sql =====
+-- Phase 35 guarded mark_success (pg positional)
+-- Inputs:
+--   $1 task_id (bigint)
+--   $2 owner (text)
+--   $3 lease_epoch (bigint)
+
+UPDATE tasks
+SET status = 'completed',
+    lease_expires_at = NULL
+WHERE id = $1::bigint
+  AND status = 'running'
+  AND claimed_by = $2
+  AND lease_epoch = $3::bigint
+RETURNING id;
+
+===== server/worker/phase35_mark_failure_pg.sql =====
+-- Phase 35 guarded mark_failure (pg positional)
+-- Inputs:
+--   $1 task_id (bigint)
+--   $2 owner (text)
+--   $3 lease_epoch (bigint)
+--   $4 err (text)   -- currently unused by SQL; preserved for call-site parity
+
+UPDATE tasks
+SET status = 'failed',
+    lease_expires_at = NULL
+WHERE id = $1::bigint
+  AND status = 'running'
+  AND claimed_by = $2
+  AND lease_epoch = $3::bigint
+RETURNING id;
+
+[4] TASK STATUS DISTRIBUTION
+ status | count 
+--------+-------
+ queued |   288
+(1 row)
+
+
+[5] SEARCH: WHICH SQL PATHS THE WORKER CAN ACCEPT
+31:  const PHASE34_ENABLE_LEASE = String(process.env.PHASE34_ENABLE_LEASE || "") === "1";
+38:  if (PHASE34_ENABLE_LEASE) {
+39:    process.env.PHASE27_CLAIM_ONE_SQL = process.env.PHASE27_CLAIM_ONE_SQL || "server/worker/phase35_claim_one_pg.sql";
+40:    process.env.PHASE27_MARK_SUCCESS_SQL = process.env.PHASE27_MARK_SUCCESS_SQL || "server/worker/phase35_mark_success_pg.sql";
+41:    process.env.PHASE27_MARK_FAILURE_SQL = process.env.PHASE27_MARK_FAILURE_SQL || "server/worker/phase35_mark_failure_pg.sql";
+45:const CLAIM_ONE_PATH = process.env.PHASE32_CLAIM_ONE_SQL || process.env.PHASE27_CLAIM_ONE_SQL;
+46:const MARK_SUCCESS_PATH = process.env.PHASE32_MARK_SUCCESS_SQL || process.env.PHASE27_MARK_SUCCESS_SQL;
+47:const MARK_FAILURE_PATH = process.env.PHASE32_MARK_FAILURE_SQL || process.env.PHASE27_MARK_FAILURE_SQL;
+56:// Phase 34 SQL (pg-param) — only used when PHASE34_ENABLE_LEASE=1
+62:  const r = await c.query(CLAIM_ONE_SQL, PHASE34_ENABLE_LEASE ? [run_id, owner, PHASE34_LEASE_MS] : [run_id, owner]);
+119:        if (PHASE34_ENABLE_LEASE) {
+
+[6] VERDICT TARGET
+- Identify which claim SQL family matches the live tasks schema best
+- Identify whether status mismatch is also present (queued vs created)
+- Do not mutate yet; choose the smallest compatible SQL path first
+
+TRACE COMPLETE
