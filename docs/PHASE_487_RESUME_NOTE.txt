@@ -1,0 +1,51 @@
+PHASE 487 — RESUME NOTE
+
+Checkpoint: Phase 510 handoff committed and pushed
+Commit: 23377b79
+Branch: phase119-dashboard-cognition-contract
+
+Status:
+• Handoff updated with Matilda Response Gap
+• Operator clarity layer defined
+• Stability corridor intact
+• Backend remains frozen
+
+Immediate Resume Targets:
+
+1. Operator Guidance — restore stability
+2. Matilda — restore response (non-silent baseline)
+3. Task Clarity Layer — introduce human-readable titles (UI-only)
+4. Logs — normalize into narrative format
+5. Telemetry — fill scrolls coherently (no structural mutation)
+
+Critical Constraint Reminder:
+
+DO NOT:
+• Modify backend execution paths
+• Touch governance logic
+• Alter approval system
+• Introduce multi-layer changes
+
+Matilda Directive:
+
+Current:
+• Non-responsive / placeholder behavior
+
+Required progression:
+• Step 1 — restore reply (any deterministic response)
+• Step 2 — ensure response reflects real system state
+• Step 3 — evolve into meaningful operator assistance
+
+Rule:
+Stability → Response → Meaning
+(Not all at once)
+
+Success Condition:
+
+• Operator can understand system state
+• Logs read as narrative
+• Matilda responds consistently (even if simple)
+• Determinism preserved
+
+This is a STABILITY CORRIDOR, not a capability expansion phase.
+
