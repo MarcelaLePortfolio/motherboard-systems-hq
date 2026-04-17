@@ -1,0 +1,880 @@
+PHASE 457 - BRANCH MARKER FOCUS SCAN
+------------------------------------
+
+PURPOSE
+Identify which candidate branches actually contain the newer dashboard/layout marker strings.
+
+CANDIDATE_BRANCHES
+docs/phase57b-dashboard-polish
+feature/phase58a-event-stream-containment
+feature/phase58b-probe-lifecycle-visibility
+feature/phase59-console-composition-pass
+fix/dashboard-layout-restore-9579482a
+feature/matilda-chat-ui
+feature/phase13-operator-polish
+feature/phase15-ops-polish
+feature/phase41-dashboard-alive-smoke-pr
+feature/post-golden-next
+
+
+===== BRANCH: docs/phase57b-dashboard-polish =====
+TIP_COMMIT=3c470d1d
+[recent]
+3c470d1d Phase 57B: add dashboard/operator polish milestones
+b9451572 Merge pull request #98 from MarcelaLePortfolio/fix/phase57-smoke-force-shadow-clean
+245e4d16 Phase 57: force shadow policy in snapshot smoke
+13777ca6 Phase 57: force shadow policy in snapshot smoke
+aacacd34 Merge pull request #97 from MarcelaLePortfolio/fix/phase57-snapshot-smoke-use-ts
+b6450c7d Phase 57: snapshot smoke use last_event_ts (UUID-safe)
+98c8c506 Merge pull request #96 from MarcelaLePortfolio/chore/demo-hardening-golden-demo-doc
+bfc3b419 Docs: define final Demo Hardening tasks + golden demo path verification
+
+[marker hits]
+docs/phase57b-dashboard-polish:PHASE11_AFTER_REBUILD_SUCCESS.md:61:- Move on to Task Delegation UI validation in the containerized dashboard.
+docs/phase57b-dashboard-polish:PHASE11_AFTER_STUBS_NEXT_STEP.md:62:- Task Delegation UI validation in container dashboard
+docs/phase57b-dashboard-polish:PHASE11_BUNDLING_HANDOFF.md:25:   - Matilda Chat Console still works,
+docs/phase57b-dashboard-polish:PHASE11_BUNDLING_HANDOFF.md:26:   - Task Delegation panel works,
+docs/phase57b-dashboard-polish:PHASE11_BUNDLING_HANDOFF.md:34:   - Project Visual Output viewport stability.
+docs/phase57b-dashboard-polish:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:72:Note each script’s role (Matilda Chat, Task Delegation, SSE, layout, utilities, etc.).
+docs/phase57b-dashboard-polish:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:99:  <!-- 🔥 NEW: Matilda Chat Console script (enables the new UI card) -->
+docs/phase57b-dashboard-polish:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:108:3	/js/matilda-chat-console.js	classic	Matilda Chat Console UI: powers the Matilda card, input, and response rendering	Lives in public/js/matilda-chat-console.js
+docs/phase57b-dashboard-polish:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:245:public/js/matilda-chat-console.js – powers the Matilda Chat Console card.
+docs/phase57b-dashboard-polish:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:253:4.3 Task Delegation
+docs/phase57b-dashboard-polish:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:331:It probably attaches to specific elements within the Matilda Chat Console card created by the bundle.
+docs/phase57b-dashboard-polish:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:373:Matilda Chat Console (/js/matilda-chat-console.js)
+docs/phase57b-dashboard-polish:PHASE11_BUNDLING_STEP2_STRATEGY.md:15:Preserves Task Delegation behavior
+docs/phase57b-dashboard-polish:PHASE11_BUNDLING_STEP2_STRATEGY.md:72:Chat handlers (Matilda Chat Console)
+docs/phase57b-dashboard-polish:PHASE11_BUNDLING_STEP2_STRATEGY.md:95:Wire up Matilda Chat Console
+docs/phase57b-dashboard-polish:PHASE11_BUNDLING_STEP2_STRATEGY.md:153:Matilda Chat Console initialization
+docs/phase57b-dashboard-polish:PHASE11_BUNDLING_STEP2_STRATEGY.md:241:Matilda Chat Console works
+docs/phase57b-dashboard-polish:PHASE11_BUNDLING_STEP2_STRATEGY.md:243:Task Delegation works
+docs/phase57b-dashboard-polish:PHASE11_BUNDLING_STEP3_IMPLEMENTATION_PLAN.md:141:Initialize Matilda Chat Console
+docs/phase57b-dashboard-polish:PHASE11_BUNDLING_STEP3_IMPLEMENTATION_PLAN.md:181:5.3 Task Delegation Guard
+docs/phase57b-dashboard-polish:PHASE11_BUNDLING_STEP3_IMPLEMENTATION_PLAN.md:226:Matilda Chat Console works.
+docs/phase57b-dashboard-polish:PHASE11_CONTAINER_STATUS_AFTER_REBUILD.md:30:     - Matilda Chat Console appears and functions using the container backend.
+docs/phase57b-dashboard-polish:PHASE11_CONTAINER_STATUS_AFTER_REBUILD.md:33:2. **Task Delegation UX Validation (Container-Facing)**
+docs/phase57b-dashboard-polish:PHASE11_CONTAINER_STATUS_AFTER_REBUILD.md:35:     - Create a test task via the Task Delegation card.
+docs/phase57b-dashboard-polish:PHASE11_CONTAINER_STATUS_AFTER_REBUILD.md:63:- “Pick up Phase 11 by validating Task Delegation UX inside the containerized dashboard.”
+docs/phase57b-dashboard-polish:PHASE11_CONTAINER_STATUS_AFTER_REBUILD.md:65:This file captures that the container is now rebuilt, restarted, healthy, and ready for Task Delegation + Atlas validation work under Phase 11.
+docs/phase57b-dashboard-polish:PHASE11_DELEGATE_TASK_QUICKSTART.md:27:   - If both succeed → move on to Task Delegation UI validation in the containerized dashboard.
+docs/phase57b-dashboard-polish:PHASE11_DELEGATE_TASK_RESULT.md:87:### Option B – Temporarily Stub Task Delegation (Phase 11 Only)
+docs/phase57b-dashboard-polish:PHASE11_DELEGATE_TASK_RESULT.md:90:- Allow Phase 11 to validate **Task Delegation UX + API behavior** without being blocked by DB config.
+docs/phase57b-dashboard-polish:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:23:  - Matilda Chat Console
+docs/phase57b-dashboard-polish:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:25:  - Task Delegation
+docs/phase57b-dashboard-polish:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:28:  - Large Project Visual Output monitor occupying the top-right region above the collapsible bottom 3.
+docs/phase57b-dashboard-polish:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:51:1️⃣ **Matilda Chat Console – Basic Chat Path**
+docs/phase57b-dashboard-polish:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:53:- In the **Matilda Chat Console**, send a simple message:
+docs/phase57b-dashboard-polish:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:61:2️⃣ **Task Delegation Panel – Delegation Path**
+docs/phase57b-dashboard-polish:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:62:- In the **Task Delegation** area, submit a harmless test task:
+docs/phase57b-dashboard-polish:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:70:3️⃣ **Project Visual Output Monitor – Wiring Check**
+docs/phase57b-dashboard-polish:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:71:- Trigger any action that should write content into the **Project Visual Output** container:
+docs/phase57b-dashboard-polish:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:97:- Matilda Chat Console:
+docs/phase57b-dashboard-polish:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:101:- Task Delegation:
+docs/phase57b-dashboard-polish:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:105:- Project Visual Output monitor:
+docs/phase57b-dashboard-polish:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:6:- Baseline: server.mjs is the active backend, Matilda Chat Console is functional, dashboard layout is stable, Reflections SSE is explicitly deferred.
+docs/phase57b-dashboard-polish:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:12:## 1️⃣ Immediate Focus – Task Delegation UX Validation
+docs/phase57b-dashboard-polish:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:15:- Confirm that the Task Delegation card behaves cleanly end-to-end for both:
+docs/phase57b-dashboard-polish:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:66:2. Task Delegation Card:
+docs/phase57b-dashboard-polish:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:123:When Phase 11’s required goals (Matilda + Task Delegation + Atlas stability) are fully satisfied, we can revisit this decision.
+docs/phase57b-dashboard-polish:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:135:   - No open functional bugs remain for Matilda Chat, Task Delegation, or Atlas status.
+docs/phase57b-dashboard-polish:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:142:     - Task Delegation flows
+docs/phase57b-dashboard-polish:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:155:- “Continue Phase 11 – validate Task Delegation UX from the PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR plan.”
+docs/phase57b-dashboard-polish:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:159:This file establishes Task Delegation UX validation as the immediate next action, keeps Atlas simple, and defers Reflections and bundling until core functional behavior is fully validated.
+docs/phase57b-dashboard-polish:PHASE11_NEXT_RUNTIME_AFTER_STUBS.md:66:- Task Delegation UI validation in the containerized dashboard.
+docs/phase57b-dashboard-polish:PHASE11_NEXT_STEPS_RECOMMENDATION.md:74:Project Visual Output panel has the intended height and alignment.
+docs/phase57b-dashboard-polish:PHASE11_NEXT_STEPS_RECOMMENDATION.md:76:Left-column tiles (Matilda Chat, Key Metrics, Task Delegation, Atlas Status) remain stable.
+docs/phase57b-dashboard-polish:PHASE11_READY_FOR_CONTAINER_REBUILD.md:56:- Move on to Task Delegation UI validation in the containerized dashboard.
+docs/phase57b-dashboard-polish:PHASE11_RECOMMENDED_NEXT_STEP.md:89:  * Project Visual Output viewport
+docs/phase57b-dashboard-polish:PHASE11_RUNTIME_ENTRYPOINT.md:59:- Task Delegation UI validation in the containerized dashboard.
+docs/phase57b-dashboard-polish:PHASE11_RUNTIME_TODO.md:25:     - Move on to Task Delegation UI validation in the containerized dashboard.
+docs/phase57b-dashboard-polish:PHASE11_RUN_THIS_NOW.md:56:If both succeed with clean logs → Move to Task Delegation UI validation.
+docs/phase57b-dashboard-polish:PHASE11_STEP3_DASHBOARD_BEHAVIOR_AUDIT.md:76:## 4. Matilda Chat Console
+docs/phase57b-dashboard-polish:PHASE11_STEP3_DASHBOARD_BEHAVIOR_AUDIT.md:101:## 5. Task Delegation Buttons
+docs/phase57b-dashboard-polish:PHASE11_TASK_DELEGATION_CURL_TESTS.md:1:# Phase 11 – Task Delegation Backend Curl Tests (Container API)
+docs/phase57b-dashboard-polish:PHASE11_TASK_DELEGATION_CURL_TESTS.md:67:Proceed to Dashboard Task Delegation UX validation.
+docs/phase57b-dashboard-polish:PHASE11_TASK_DELEGATION_RUN_SEQUENCE.md:1:# Phase 11 – Task Delegation Curl Run Sequence (Container)
+docs/phase57b-dashboard-polish:PHASE11_TASK_DELEGATION_RUN_SEQUENCE.md:3:Use this file as the concrete “do this now” sequence for Task Delegation backend validation.
+docs/phase57b-dashboard-polish:PHASE11_TASK_DELEGATION_RUN_SEQUENCE.md:86:- Next step: validate Task Delegation UI behavior in the containerized dashboard:
+docs/phase57b-dashboard-polish:PHASE11_TASK_DELEGATION_RUN_SEQUENCE.md:87:  - Use Task Delegation card to create a test task.
+docs/phase57b-dashboard-polish:PHASE11_THREAD_RESUME_GUIDE.md:12:- Matilda Chat Console is fully functional.
+docs/phase57b-dashboard-polish:PHASE11_THREAD_RESUME_GUIDE.md:13:- Task Delegation routes exist but require UX + backend validation.
+docs/phase57b-dashboard-polish:PHASE11_THREAD_RESUME_GUIDE.md:21:**Validate Task Delegation (delegate-task + complete-task)**
+docs/phase57b-dashboard-polish:PHASE11_THREAD_RESUME_GUIDE.md:28:4. Confirm dashboard Task Delegation card behaves without errors.
+docs/phase57b-dashboard-polish:PHASE11_THREAD_RESUME_GUIDE.md:34:## After Task Delegation Validation
+docs/phase57b-dashboard-polish:PHASE11_THREAD_RESUME_GUIDE.md:50:“Continue Phase 11 – Validate Task Delegation UX from the resume guide.”
+docs/phase57b-dashboard-polish:PHASE11_VERIFICATION_HANDOFF.md:29:- Matilda Chat Console  
+docs/phase57b-dashboard-polish:PHASE11_VERIFICATION_HANDOFF.md:31:- Task Delegation  
+docs/phase57b-dashboard-polish:PHASE11_VERIFICATION_HANDOFF.md:35:- Large Project Visual Output screen (3D monitor)
+docs/phase57b-dashboard-polish:PHASE11_VISUAL_OUTPUT_VERIFICATION_AND_NEXT_STEPS.md:1:# Phase 11 – Project Visual Output: Container Verification & Next Steps
+docs/phase57b-dashboard-polish:PHASE11_VISUAL_OUTPUT_VERIFICATION_AND_NEXT_STEPS.md:12:This is the stable visual baseline for the dashboard and Project Visual Output screen.
+docs/phase57b-dashboard-polish:PHASE11_VISUAL_OUTPUT_VERIFICATION_AND_NEXT_STEPS.md:33:   - Matilda Chat Console
+docs/phase57b-dashboard-polish:PHASE11_VISUAL_OUTPUT_VERIFICATION_AND_NEXT_STEPS.md:35:   - Task Delegation
+docs/phase57b-dashboard-polish:PHASE11_VISUAL_OUTPUT_VERIFICATION_AND_NEXT_STEPS.md:39:   - Project Visual Output “screen” card (single, large, centered)
+
+===== BRANCH: feature/phase58a-event-stream-containment =====
+TIP_COMMIT=21d63440
+[recent]
+21d63440 Phase 58A: contain and throttle task event stream
+79957e5e Phase 58D: document operator console visual hierarchy goals (#105)
+6bd129de Phase 58C: document empty states and cold-start presentation goals (#104)
+e0aec30a Phase 58B: document probe lifecycle visibility goals (#103)
+e5fba99e Phase 58A: document dashboard event stream containment and readability goals (#102)
+d007b1a9 Merge pull request #101 from MarcelaLePortfolio/phase57c-golden-saved
+78e0e227 Merge pull request #100 from MarcelaLePortfolio/fix/dashboard-polling-containment
+9525179b Phase 57C: isolate /api/tasks loop by disabling dashboard tasks widget import
+
+[marker hits]
+feature/phase58a-event-stream-containment:PHASE11_AFTER_REBUILD_SUCCESS.md:61:- Move on to Task Delegation UI validation in the containerized dashboard.
+feature/phase58a-event-stream-containment:PHASE11_AFTER_STUBS_NEXT_STEP.md:62:- Task Delegation UI validation in container dashboard
+feature/phase58a-event-stream-containment:PHASE11_BUNDLING_HANDOFF.md:25:   - Matilda Chat Console still works,
+feature/phase58a-event-stream-containment:PHASE11_BUNDLING_HANDOFF.md:26:   - Task Delegation panel works,
+feature/phase58a-event-stream-containment:PHASE11_BUNDLING_HANDOFF.md:34:   - Project Visual Output viewport stability.
+feature/phase58a-event-stream-containment:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:72:Note each script’s role (Matilda Chat, Task Delegation, SSE, layout, utilities, etc.).
+feature/phase58a-event-stream-containment:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:99:  <!-- 🔥 NEW: Matilda Chat Console script (enables the new UI card) -->
+feature/phase58a-event-stream-containment:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:108:3	/js/matilda-chat-console.js	classic	Matilda Chat Console UI: powers the Matilda card, input, and response rendering	Lives in public/js/matilda-chat-console.js
+feature/phase58a-event-stream-containment:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:245:public/js/matilda-chat-console.js – powers the Matilda Chat Console card.
+feature/phase58a-event-stream-containment:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:253:4.3 Task Delegation
+feature/phase58a-event-stream-containment:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:331:It probably attaches to specific elements within the Matilda Chat Console card created by the bundle.
+feature/phase58a-event-stream-containment:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:373:Matilda Chat Console (/js/matilda-chat-console.js)
+feature/phase58a-event-stream-containment:PHASE11_BUNDLING_STEP2_STRATEGY.md:15:Preserves Task Delegation behavior
+feature/phase58a-event-stream-containment:PHASE11_BUNDLING_STEP2_STRATEGY.md:72:Chat handlers (Matilda Chat Console)
+feature/phase58a-event-stream-containment:PHASE11_BUNDLING_STEP2_STRATEGY.md:95:Wire up Matilda Chat Console
+feature/phase58a-event-stream-containment:PHASE11_BUNDLING_STEP2_STRATEGY.md:153:Matilda Chat Console initialization
+feature/phase58a-event-stream-containment:PHASE11_BUNDLING_STEP2_STRATEGY.md:241:Matilda Chat Console works
+feature/phase58a-event-stream-containment:PHASE11_BUNDLING_STEP2_STRATEGY.md:243:Task Delegation works
+feature/phase58a-event-stream-containment:PHASE11_BUNDLING_STEP3_IMPLEMENTATION_PLAN.md:141:Initialize Matilda Chat Console
+feature/phase58a-event-stream-containment:PHASE11_BUNDLING_STEP3_IMPLEMENTATION_PLAN.md:181:5.3 Task Delegation Guard
+feature/phase58a-event-stream-containment:PHASE11_BUNDLING_STEP3_IMPLEMENTATION_PLAN.md:226:Matilda Chat Console works.
+feature/phase58a-event-stream-containment:PHASE11_CONTAINER_STATUS_AFTER_REBUILD.md:30:     - Matilda Chat Console appears and functions using the container backend.
+feature/phase58a-event-stream-containment:PHASE11_CONTAINER_STATUS_AFTER_REBUILD.md:33:2. **Task Delegation UX Validation (Container-Facing)**
+feature/phase58a-event-stream-containment:PHASE11_CONTAINER_STATUS_AFTER_REBUILD.md:35:     - Create a test task via the Task Delegation card.
+feature/phase58a-event-stream-containment:PHASE11_CONTAINER_STATUS_AFTER_REBUILD.md:63:- “Pick up Phase 11 by validating Task Delegation UX inside the containerized dashboard.”
+feature/phase58a-event-stream-containment:PHASE11_CONTAINER_STATUS_AFTER_REBUILD.md:65:This file captures that the container is now rebuilt, restarted, healthy, and ready for Task Delegation + Atlas validation work under Phase 11.
+feature/phase58a-event-stream-containment:PHASE11_DELEGATE_TASK_QUICKSTART.md:27:   - If both succeed → move on to Task Delegation UI validation in the containerized dashboard.
+feature/phase58a-event-stream-containment:PHASE11_DELEGATE_TASK_RESULT.md:87:### Option B – Temporarily Stub Task Delegation (Phase 11 Only)
+feature/phase58a-event-stream-containment:PHASE11_DELEGATE_TASK_RESULT.md:90:- Allow Phase 11 to validate **Task Delegation UX + API behavior** without being blocked by DB config.
+feature/phase58a-event-stream-containment:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:23:  - Matilda Chat Console
+feature/phase58a-event-stream-containment:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:25:  - Task Delegation
+feature/phase58a-event-stream-containment:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:28:  - Large Project Visual Output monitor occupying the top-right region above the collapsible bottom 3.
+feature/phase58a-event-stream-containment:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:51:1️⃣ **Matilda Chat Console – Basic Chat Path**
+feature/phase58a-event-stream-containment:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:53:- In the **Matilda Chat Console**, send a simple message:
+feature/phase58a-event-stream-containment:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:61:2️⃣ **Task Delegation Panel – Delegation Path**
+feature/phase58a-event-stream-containment:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:62:- In the **Task Delegation** area, submit a harmless test task:
+feature/phase58a-event-stream-containment:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:70:3️⃣ **Project Visual Output Monitor – Wiring Check**
+feature/phase58a-event-stream-containment:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:71:- Trigger any action that should write content into the **Project Visual Output** container:
+feature/phase58a-event-stream-containment:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:97:- Matilda Chat Console:
+feature/phase58a-event-stream-containment:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:101:- Task Delegation:
+feature/phase58a-event-stream-containment:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:105:- Project Visual Output monitor:
+feature/phase58a-event-stream-containment:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:6:- Baseline: server.mjs is the active backend, Matilda Chat Console is functional, dashboard layout is stable, Reflections SSE is explicitly deferred.
+feature/phase58a-event-stream-containment:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:12:## 1️⃣ Immediate Focus – Task Delegation UX Validation
+feature/phase58a-event-stream-containment:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:15:- Confirm that the Task Delegation card behaves cleanly end-to-end for both:
+feature/phase58a-event-stream-containment:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:66:2. Task Delegation Card:
+feature/phase58a-event-stream-containment:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:123:When Phase 11’s required goals (Matilda + Task Delegation + Atlas stability) are fully satisfied, we can revisit this decision.
+feature/phase58a-event-stream-containment:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:135:   - No open functional bugs remain for Matilda Chat, Task Delegation, or Atlas status.
+feature/phase58a-event-stream-containment:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:142:     - Task Delegation flows
+feature/phase58a-event-stream-containment:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:155:- “Continue Phase 11 – validate Task Delegation UX from the PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR plan.”
+feature/phase58a-event-stream-containment:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:159:This file establishes Task Delegation UX validation as the immediate next action, keeps Atlas simple, and defers Reflections and bundling until core functional behavior is fully validated.
+feature/phase58a-event-stream-containment:PHASE11_NEXT_RUNTIME_AFTER_STUBS.md:66:- Task Delegation UI validation in the containerized dashboard.
+feature/phase58a-event-stream-containment:PHASE11_NEXT_STEPS_RECOMMENDATION.md:74:Project Visual Output panel has the intended height and alignment.
+feature/phase58a-event-stream-containment:PHASE11_NEXT_STEPS_RECOMMENDATION.md:76:Left-column tiles (Matilda Chat, Key Metrics, Task Delegation, Atlas Status) remain stable.
+feature/phase58a-event-stream-containment:PHASE11_READY_FOR_CONTAINER_REBUILD.md:56:- Move on to Task Delegation UI validation in the containerized dashboard.
+feature/phase58a-event-stream-containment:PHASE11_RECOMMENDED_NEXT_STEP.md:89:  * Project Visual Output viewport
+feature/phase58a-event-stream-containment:PHASE11_RUNTIME_ENTRYPOINT.md:59:- Task Delegation UI validation in the containerized dashboard.
+feature/phase58a-event-stream-containment:PHASE11_RUNTIME_TODO.md:25:     - Move on to Task Delegation UI validation in the containerized dashboard.
+feature/phase58a-event-stream-containment:PHASE11_RUN_THIS_NOW.md:56:If both succeed with clean logs → Move to Task Delegation UI validation.
+feature/phase58a-event-stream-containment:PHASE11_STEP3_DASHBOARD_BEHAVIOR_AUDIT.md:76:## 4. Matilda Chat Console
+feature/phase58a-event-stream-containment:PHASE11_STEP3_DASHBOARD_BEHAVIOR_AUDIT.md:101:## 5. Task Delegation Buttons
+feature/phase58a-event-stream-containment:PHASE11_TASK_DELEGATION_CURL_TESTS.md:1:# Phase 11 – Task Delegation Backend Curl Tests (Container API)
+feature/phase58a-event-stream-containment:PHASE11_TASK_DELEGATION_CURL_TESTS.md:67:Proceed to Dashboard Task Delegation UX validation.
+feature/phase58a-event-stream-containment:PHASE11_TASK_DELEGATION_RUN_SEQUENCE.md:1:# Phase 11 – Task Delegation Curl Run Sequence (Container)
+feature/phase58a-event-stream-containment:PHASE11_TASK_DELEGATION_RUN_SEQUENCE.md:3:Use this file as the concrete “do this now” sequence for Task Delegation backend validation.
+feature/phase58a-event-stream-containment:PHASE11_TASK_DELEGATION_RUN_SEQUENCE.md:86:- Next step: validate Task Delegation UI behavior in the containerized dashboard:
+feature/phase58a-event-stream-containment:PHASE11_TASK_DELEGATION_RUN_SEQUENCE.md:87:  - Use Task Delegation card to create a test task.
+feature/phase58a-event-stream-containment:PHASE11_THREAD_RESUME_GUIDE.md:12:- Matilda Chat Console is fully functional.
+feature/phase58a-event-stream-containment:PHASE11_THREAD_RESUME_GUIDE.md:13:- Task Delegation routes exist but require UX + backend validation.
+feature/phase58a-event-stream-containment:PHASE11_THREAD_RESUME_GUIDE.md:21:**Validate Task Delegation (delegate-task + complete-task)**
+feature/phase58a-event-stream-containment:PHASE11_THREAD_RESUME_GUIDE.md:28:4. Confirm dashboard Task Delegation card behaves without errors.
+feature/phase58a-event-stream-containment:PHASE11_THREAD_RESUME_GUIDE.md:34:## After Task Delegation Validation
+feature/phase58a-event-stream-containment:PHASE11_THREAD_RESUME_GUIDE.md:50:“Continue Phase 11 – Validate Task Delegation UX from the resume guide.”
+feature/phase58a-event-stream-containment:PHASE11_VERIFICATION_HANDOFF.md:29:- Matilda Chat Console  
+feature/phase58a-event-stream-containment:PHASE11_VERIFICATION_HANDOFF.md:31:- Task Delegation  
+feature/phase58a-event-stream-containment:PHASE11_VERIFICATION_HANDOFF.md:35:- Large Project Visual Output screen (3D monitor)
+feature/phase58a-event-stream-containment:PHASE11_VISUAL_OUTPUT_VERIFICATION_AND_NEXT_STEPS.md:1:# Phase 11 – Project Visual Output: Container Verification & Next Steps
+feature/phase58a-event-stream-containment:PHASE11_VISUAL_OUTPUT_VERIFICATION_AND_NEXT_STEPS.md:12:This is the stable visual baseline for the dashboard and Project Visual Output screen.
+feature/phase58a-event-stream-containment:PHASE11_VISUAL_OUTPUT_VERIFICATION_AND_NEXT_STEPS.md:33:   - Matilda Chat Console
+feature/phase58a-event-stream-containment:PHASE11_VISUAL_OUTPUT_VERIFICATION_AND_NEXT_STEPS.md:35:   - Task Delegation
+feature/phase58a-event-stream-containment:PHASE11_VISUAL_OUTPUT_VERIFICATION_AND_NEXT_STEPS.md:39:   - Project Visual Output “screen” card (single, large, centered)
+
+===== BRANCH: feature/phase58b-probe-lifecycle-visibility =====
+TIP_COMMIT=901b6a1b
+[recent]
+901b6a1b Phase 58D: add operator-console verification script
+8a1edc3c Phase 58D: bump dashboard bundle cache key for operator console pass
+11eda5c3 Phase 58D: rebalance dashboard hierarchy toward operator console
+7577fd7c Phase 58C: rebuild dashboard bundle for idle-state cold-start UX
+c70fd8a8 Phase 58C: strengthen idle-state verification against built bundle
+843f2160 Phase 58C: add idle-state verification script
+a8392b19 Phase 58C: add intentional idle states for cold-start dashboard UX
+02605888 Phase 58B: checkpoint task-events SSE stability fix
+
+[marker hits]
+feature/phase58b-probe-lifecycle-visibility:PHASE11_AFTER_REBUILD_SUCCESS.md:61:- Move on to Task Delegation UI validation in the containerized dashboard.
+feature/phase58b-probe-lifecycle-visibility:PHASE11_AFTER_STUBS_NEXT_STEP.md:62:- Task Delegation UI validation in container dashboard
+feature/phase58b-probe-lifecycle-visibility:PHASE11_BUNDLING_HANDOFF.md:25:   - Matilda Chat Console still works,
+feature/phase58b-probe-lifecycle-visibility:PHASE11_BUNDLING_HANDOFF.md:26:   - Task Delegation panel works,
+feature/phase58b-probe-lifecycle-visibility:PHASE11_BUNDLING_HANDOFF.md:34:   - Project Visual Output viewport stability.
+feature/phase58b-probe-lifecycle-visibility:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:72:Note each script’s role (Matilda Chat, Task Delegation, SSE, layout, utilities, etc.).
+feature/phase58b-probe-lifecycle-visibility:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:99:  <!-- 🔥 NEW: Matilda Chat Console script (enables the new UI card) -->
+feature/phase58b-probe-lifecycle-visibility:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:108:3	/js/matilda-chat-console.js	classic	Matilda Chat Console UI: powers the Matilda card, input, and response rendering	Lives in public/js/matilda-chat-console.js
+feature/phase58b-probe-lifecycle-visibility:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:245:public/js/matilda-chat-console.js – powers the Matilda Chat Console card.
+feature/phase58b-probe-lifecycle-visibility:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:253:4.3 Task Delegation
+feature/phase58b-probe-lifecycle-visibility:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:331:It probably attaches to specific elements within the Matilda Chat Console card created by the bundle.
+feature/phase58b-probe-lifecycle-visibility:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:373:Matilda Chat Console (/js/matilda-chat-console.js)
+feature/phase58b-probe-lifecycle-visibility:PHASE11_BUNDLING_STEP2_STRATEGY.md:15:Preserves Task Delegation behavior
+feature/phase58b-probe-lifecycle-visibility:PHASE11_BUNDLING_STEP2_STRATEGY.md:72:Chat handlers (Matilda Chat Console)
+feature/phase58b-probe-lifecycle-visibility:PHASE11_BUNDLING_STEP2_STRATEGY.md:95:Wire up Matilda Chat Console
+feature/phase58b-probe-lifecycle-visibility:PHASE11_BUNDLING_STEP2_STRATEGY.md:153:Matilda Chat Console initialization
+feature/phase58b-probe-lifecycle-visibility:PHASE11_BUNDLING_STEP2_STRATEGY.md:241:Matilda Chat Console works
+feature/phase58b-probe-lifecycle-visibility:PHASE11_BUNDLING_STEP2_STRATEGY.md:243:Task Delegation works
+feature/phase58b-probe-lifecycle-visibility:PHASE11_BUNDLING_STEP3_IMPLEMENTATION_PLAN.md:141:Initialize Matilda Chat Console
+feature/phase58b-probe-lifecycle-visibility:PHASE11_BUNDLING_STEP3_IMPLEMENTATION_PLAN.md:181:5.3 Task Delegation Guard
+feature/phase58b-probe-lifecycle-visibility:PHASE11_BUNDLING_STEP3_IMPLEMENTATION_PLAN.md:226:Matilda Chat Console works.
+feature/phase58b-probe-lifecycle-visibility:PHASE11_CONTAINER_STATUS_AFTER_REBUILD.md:30:     - Matilda Chat Console appears and functions using the container backend.
+feature/phase58b-probe-lifecycle-visibility:PHASE11_CONTAINER_STATUS_AFTER_REBUILD.md:33:2. **Task Delegation UX Validation (Container-Facing)**
+feature/phase58b-probe-lifecycle-visibility:PHASE11_CONTAINER_STATUS_AFTER_REBUILD.md:35:     - Create a test task via the Task Delegation card.
+feature/phase58b-probe-lifecycle-visibility:PHASE11_CONTAINER_STATUS_AFTER_REBUILD.md:63:- “Pick up Phase 11 by validating Task Delegation UX inside the containerized dashboard.”
+feature/phase58b-probe-lifecycle-visibility:PHASE11_CONTAINER_STATUS_AFTER_REBUILD.md:65:This file captures that the container is now rebuilt, restarted, healthy, and ready for Task Delegation + Atlas validation work under Phase 11.
+feature/phase58b-probe-lifecycle-visibility:PHASE11_DELEGATE_TASK_QUICKSTART.md:27:   - If both succeed → move on to Task Delegation UI validation in the containerized dashboard.
+feature/phase58b-probe-lifecycle-visibility:PHASE11_DELEGATE_TASK_RESULT.md:87:### Option B – Temporarily Stub Task Delegation (Phase 11 Only)
+feature/phase58b-probe-lifecycle-visibility:PHASE11_DELEGATE_TASK_RESULT.md:90:- Allow Phase 11 to validate **Task Delegation UX + API behavior** without being blocked by DB config.
+feature/phase58b-probe-lifecycle-visibility:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:23:  - Matilda Chat Console
+feature/phase58b-probe-lifecycle-visibility:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:25:  - Task Delegation
+feature/phase58b-probe-lifecycle-visibility:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:28:  - Large Project Visual Output monitor occupying the top-right region above the collapsible bottom 3.
+feature/phase58b-probe-lifecycle-visibility:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:51:1️⃣ **Matilda Chat Console – Basic Chat Path**
+feature/phase58b-probe-lifecycle-visibility:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:53:- In the **Matilda Chat Console**, send a simple message:
+feature/phase58b-probe-lifecycle-visibility:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:61:2️⃣ **Task Delegation Panel – Delegation Path**
+feature/phase58b-probe-lifecycle-visibility:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:62:- In the **Task Delegation** area, submit a harmless test task:
+feature/phase58b-probe-lifecycle-visibility:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:70:3️⃣ **Project Visual Output Monitor – Wiring Check**
+feature/phase58b-probe-lifecycle-visibility:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:71:- Trigger any action that should write content into the **Project Visual Output** container:
+feature/phase58b-probe-lifecycle-visibility:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:97:- Matilda Chat Console:
+feature/phase58b-probe-lifecycle-visibility:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:101:- Task Delegation:
+feature/phase58b-probe-lifecycle-visibility:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:105:- Project Visual Output monitor:
+feature/phase58b-probe-lifecycle-visibility:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:6:- Baseline: server.mjs is the active backend, Matilda Chat Console is functional, dashboard layout is stable, Reflections SSE is explicitly deferred.
+feature/phase58b-probe-lifecycle-visibility:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:12:## 1️⃣ Immediate Focus – Task Delegation UX Validation
+feature/phase58b-probe-lifecycle-visibility:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:15:- Confirm that the Task Delegation card behaves cleanly end-to-end for both:
+feature/phase58b-probe-lifecycle-visibility:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:66:2. Task Delegation Card:
+feature/phase58b-probe-lifecycle-visibility:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:123:When Phase 11’s required goals (Matilda + Task Delegation + Atlas stability) are fully satisfied, we can revisit this decision.
+feature/phase58b-probe-lifecycle-visibility:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:135:   - No open functional bugs remain for Matilda Chat, Task Delegation, or Atlas status.
+feature/phase58b-probe-lifecycle-visibility:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:142:     - Task Delegation flows
+feature/phase58b-probe-lifecycle-visibility:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:155:- “Continue Phase 11 – validate Task Delegation UX from the PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR plan.”
+feature/phase58b-probe-lifecycle-visibility:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:159:This file establishes Task Delegation UX validation as the immediate next action, keeps Atlas simple, and defers Reflections and bundling until core functional behavior is fully validated.
+feature/phase58b-probe-lifecycle-visibility:PHASE11_NEXT_RUNTIME_AFTER_STUBS.md:66:- Task Delegation UI validation in the containerized dashboard.
+feature/phase58b-probe-lifecycle-visibility:PHASE11_NEXT_STEPS_RECOMMENDATION.md:74:Project Visual Output panel has the intended height and alignment.
+feature/phase58b-probe-lifecycle-visibility:PHASE11_NEXT_STEPS_RECOMMENDATION.md:76:Left-column tiles (Matilda Chat, Key Metrics, Task Delegation, Atlas Status) remain stable.
+feature/phase58b-probe-lifecycle-visibility:PHASE11_READY_FOR_CONTAINER_REBUILD.md:56:- Move on to Task Delegation UI validation in the containerized dashboard.
+feature/phase58b-probe-lifecycle-visibility:PHASE11_RECOMMENDED_NEXT_STEP.md:89:  * Project Visual Output viewport
+feature/phase58b-probe-lifecycle-visibility:PHASE11_RUNTIME_ENTRYPOINT.md:59:- Task Delegation UI validation in the containerized dashboard.
+feature/phase58b-probe-lifecycle-visibility:PHASE11_RUNTIME_TODO.md:25:     - Move on to Task Delegation UI validation in the containerized dashboard.
+feature/phase58b-probe-lifecycle-visibility:PHASE11_RUN_THIS_NOW.md:56:If both succeed with clean logs → Move to Task Delegation UI validation.
+feature/phase58b-probe-lifecycle-visibility:PHASE11_STEP3_DASHBOARD_BEHAVIOR_AUDIT.md:76:## 4. Matilda Chat Console
+feature/phase58b-probe-lifecycle-visibility:PHASE11_STEP3_DASHBOARD_BEHAVIOR_AUDIT.md:101:## 5. Task Delegation Buttons
+feature/phase58b-probe-lifecycle-visibility:PHASE11_TASK_DELEGATION_CURL_TESTS.md:1:# Phase 11 – Task Delegation Backend Curl Tests (Container API)
+feature/phase58b-probe-lifecycle-visibility:PHASE11_TASK_DELEGATION_CURL_TESTS.md:67:Proceed to Dashboard Task Delegation UX validation.
+feature/phase58b-probe-lifecycle-visibility:PHASE11_TASK_DELEGATION_RUN_SEQUENCE.md:1:# Phase 11 – Task Delegation Curl Run Sequence (Container)
+feature/phase58b-probe-lifecycle-visibility:PHASE11_TASK_DELEGATION_RUN_SEQUENCE.md:3:Use this file as the concrete “do this now” sequence for Task Delegation backend validation.
+feature/phase58b-probe-lifecycle-visibility:PHASE11_TASK_DELEGATION_RUN_SEQUENCE.md:86:- Next step: validate Task Delegation UI behavior in the containerized dashboard:
+feature/phase58b-probe-lifecycle-visibility:PHASE11_TASK_DELEGATION_RUN_SEQUENCE.md:87:  - Use Task Delegation card to create a test task.
+feature/phase58b-probe-lifecycle-visibility:PHASE11_THREAD_RESUME_GUIDE.md:12:- Matilda Chat Console is fully functional.
+feature/phase58b-probe-lifecycle-visibility:PHASE11_THREAD_RESUME_GUIDE.md:13:- Task Delegation routes exist but require UX + backend validation.
+feature/phase58b-probe-lifecycle-visibility:PHASE11_THREAD_RESUME_GUIDE.md:21:**Validate Task Delegation (delegate-task + complete-task)**
+feature/phase58b-probe-lifecycle-visibility:PHASE11_THREAD_RESUME_GUIDE.md:28:4. Confirm dashboard Task Delegation card behaves without errors.
+feature/phase58b-probe-lifecycle-visibility:PHASE11_THREAD_RESUME_GUIDE.md:34:## After Task Delegation Validation
+feature/phase58b-probe-lifecycle-visibility:PHASE11_THREAD_RESUME_GUIDE.md:50:“Continue Phase 11 – Validate Task Delegation UX from the resume guide.”
+feature/phase58b-probe-lifecycle-visibility:PHASE11_VERIFICATION_HANDOFF.md:29:- Matilda Chat Console  
+feature/phase58b-probe-lifecycle-visibility:PHASE11_VERIFICATION_HANDOFF.md:31:- Task Delegation  
+feature/phase58b-probe-lifecycle-visibility:PHASE11_VERIFICATION_HANDOFF.md:35:- Large Project Visual Output screen (3D monitor)
+feature/phase58b-probe-lifecycle-visibility:PHASE11_VISUAL_OUTPUT_VERIFICATION_AND_NEXT_STEPS.md:1:# Phase 11 – Project Visual Output: Container Verification & Next Steps
+feature/phase58b-probe-lifecycle-visibility:PHASE11_VISUAL_OUTPUT_VERIFICATION_AND_NEXT_STEPS.md:12:This is the stable visual baseline for the dashboard and Project Visual Output screen.
+feature/phase58b-probe-lifecycle-visibility:PHASE11_VISUAL_OUTPUT_VERIFICATION_AND_NEXT_STEPS.md:33:   - Matilda Chat Console
+feature/phase58b-probe-lifecycle-visibility:PHASE11_VISUAL_OUTPUT_VERIFICATION_AND_NEXT_STEPS.md:35:   - Task Delegation
+feature/phase58b-probe-lifecycle-visibility:PHASE11_VISUAL_OUTPUT_VERIFICATION_AND_NEXT_STEPS.md:39:   - Project Visual Output “screen” card (single, large, centered)
+
+===== BRANCH: feature/phase59-console-composition-pass =====
+TIP_COMMIT=a8c20d76
+[recent]
+a8c20d76 Phase 59: restore dashboard bundle loading on served console
+22bf64f3 Phase 60: load live polish assets in dashboard
+ddeab357 Phase 60: add live uptime ticker for operator console
+2facbe9f Phase 60: non-architectural dashboard live polish (hover + pulse + console feel)
+2da45a11 Document accepted Phase 59 operator console stopping point
+ecac1fb1 Phase 59: compose operator console layout from stable baseline
+9a06e3cb Add Phase 59 dashboard composition audit helper
+4f0fe000 Phase 59: route demo_layout_trim to phase59_demo_focus.css
+
+[marker hits]
+feature/phase59-console-composition-pass:PHASE11_AFTER_REBUILD_SUCCESS.md:61:- Move on to Task Delegation UI validation in the containerized dashboard.
+feature/phase59-console-composition-pass:PHASE11_AFTER_STUBS_NEXT_STEP.md:62:- Task Delegation UI validation in container dashboard
+feature/phase59-console-composition-pass:PHASE11_BUNDLING_HANDOFF.md:25:   - Matilda Chat Console still works,
+feature/phase59-console-composition-pass:PHASE11_BUNDLING_HANDOFF.md:26:   - Task Delegation panel works,
+feature/phase59-console-composition-pass:PHASE11_BUNDLING_HANDOFF.md:34:   - Project Visual Output viewport stability.
+feature/phase59-console-composition-pass:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:72:Note each script’s role (Matilda Chat, Task Delegation, SSE, layout, utilities, etc.).
+feature/phase59-console-composition-pass:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:99:  <!-- 🔥 NEW: Matilda Chat Console script (enables the new UI card) -->
+feature/phase59-console-composition-pass:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:108:3	/js/matilda-chat-console.js	classic	Matilda Chat Console UI: powers the Matilda card, input, and response rendering	Lives in public/js/matilda-chat-console.js
+feature/phase59-console-composition-pass:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:245:public/js/matilda-chat-console.js – powers the Matilda Chat Console card.
+feature/phase59-console-composition-pass:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:253:4.3 Task Delegation
+feature/phase59-console-composition-pass:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:331:It probably attaches to specific elements within the Matilda Chat Console card created by the bundle.
+feature/phase59-console-composition-pass:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:373:Matilda Chat Console (/js/matilda-chat-console.js)
+feature/phase59-console-composition-pass:PHASE11_BUNDLING_STEP2_STRATEGY.md:15:Preserves Task Delegation behavior
+feature/phase59-console-composition-pass:PHASE11_BUNDLING_STEP2_STRATEGY.md:72:Chat handlers (Matilda Chat Console)
+feature/phase59-console-composition-pass:PHASE11_BUNDLING_STEP2_STRATEGY.md:95:Wire up Matilda Chat Console
+feature/phase59-console-composition-pass:PHASE11_BUNDLING_STEP2_STRATEGY.md:153:Matilda Chat Console initialization
+feature/phase59-console-composition-pass:PHASE11_BUNDLING_STEP2_STRATEGY.md:241:Matilda Chat Console works
+feature/phase59-console-composition-pass:PHASE11_BUNDLING_STEP2_STRATEGY.md:243:Task Delegation works
+feature/phase59-console-composition-pass:PHASE11_BUNDLING_STEP3_IMPLEMENTATION_PLAN.md:141:Initialize Matilda Chat Console
+feature/phase59-console-composition-pass:PHASE11_BUNDLING_STEP3_IMPLEMENTATION_PLAN.md:181:5.3 Task Delegation Guard
+feature/phase59-console-composition-pass:PHASE11_BUNDLING_STEP3_IMPLEMENTATION_PLAN.md:226:Matilda Chat Console works.
+feature/phase59-console-composition-pass:PHASE11_CONTAINER_STATUS_AFTER_REBUILD.md:30:     - Matilda Chat Console appears and functions using the container backend.
+feature/phase59-console-composition-pass:PHASE11_CONTAINER_STATUS_AFTER_REBUILD.md:33:2. **Task Delegation UX Validation (Container-Facing)**
+feature/phase59-console-composition-pass:PHASE11_CONTAINER_STATUS_AFTER_REBUILD.md:35:     - Create a test task via the Task Delegation card.
+feature/phase59-console-composition-pass:PHASE11_CONTAINER_STATUS_AFTER_REBUILD.md:63:- “Pick up Phase 11 by validating Task Delegation UX inside the containerized dashboard.”
+feature/phase59-console-composition-pass:PHASE11_CONTAINER_STATUS_AFTER_REBUILD.md:65:This file captures that the container is now rebuilt, restarted, healthy, and ready for Task Delegation + Atlas validation work under Phase 11.
+feature/phase59-console-composition-pass:PHASE11_DELEGATE_TASK_QUICKSTART.md:27:   - If both succeed → move on to Task Delegation UI validation in the containerized dashboard.
+feature/phase59-console-composition-pass:PHASE11_DELEGATE_TASK_RESULT.md:87:### Option B – Temporarily Stub Task Delegation (Phase 11 Only)
+feature/phase59-console-composition-pass:PHASE11_DELEGATE_TASK_RESULT.md:90:- Allow Phase 11 to validate **Task Delegation UX + API behavior** without being blocked by DB config.
+feature/phase59-console-composition-pass:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:23:  - Matilda Chat Console
+feature/phase59-console-composition-pass:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:25:  - Task Delegation
+feature/phase59-console-composition-pass:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:28:  - Large Project Visual Output monitor occupying the top-right region above the collapsible bottom 3.
+feature/phase59-console-composition-pass:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:51:1️⃣ **Matilda Chat Console – Basic Chat Path**
+feature/phase59-console-composition-pass:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:53:- In the **Matilda Chat Console**, send a simple message:
+feature/phase59-console-composition-pass:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:61:2️⃣ **Task Delegation Panel – Delegation Path**
+feature/phase59-console-composition-pass:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:62:- In the **Task Delegation** area, submit a harmless test task:
+feature/phase59-console-composition-pass:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:70:3️⃣ **Project Visual Output Monitor – Wiring Check**
+feature/phase59-console-composition-pass:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:71:- Trigger any action that should write content into the **Project Visual Output** container:
+feature/phase59-console-composition-pass:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:97:- Matilda Chat Console:
+feature/phase59-console-composition-pass:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:101:- Task Delegation:
+feature/phase59-console-composition-pass:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:105:- Project Visual Output monitor:
+feature/phase59-console-composition-pass:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:6:- Baseline: server.mjs is the active backend, Matilda Chat Console is functional, dashboard layout is stable, Reflections SSE is explicitly deferred.
+feature/phase59-console-composition-pass:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:12:## 1️⃣ Immediate Focus – Task Delegation UX Validation
+feature/phase59-console-composition-pass:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:15:- Confirm that the Task Delegation card behaves cleanly end-to-end for both:
+feature/phase59-console-composition-pass:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:66:2. Task Delegation Card:
+feature/phase59-console-composition-pass:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:123:When Phase 11’s required goals (Matilda + Task Delegation + Atlas stability) are fully satisfied, we can revisit this decision.
+feature/phase59-console-composition-pass:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:135:   - No open functional bugs remain for Matilda Chat, Task Delegation, or Atlas status.
+feature/phase59-console-composition-pass:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:142:     - Task Delegation flows
+feature/phase59-console-composition-pass:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:155:- “Continue Phase 11 – validate Task Delegation UX from the PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR plan.”
+feature/phase59-console-composition-pass:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:159:This file establishes Task Delegation UX validation as the immediate next action, keeps Atlas simple, and defers Reflections and bundling until core functional behavior is fully validated.
+feature/phase59-console-composition-pass:PHASE11_NEXT_RUNTIME_AFTER_STUBS.md:66:- Task Delegation UI validation in the containerized dashboard.
+feature/phase59-console-composition-pass:PHASE11_NEXT_STEPS_RECOMMENDATION.md:74:Project Visual Output panel has the intended height and alignment.
+feature/phase59-console-composition-pass:PHASE11_NEXT_STEPS_RECOMMENDATION.md:76:Left-column tiles (Matilda Chat, Key Metrics, Task Delegation, Atlas Status) remain stable.
+feature/phase59-console-composition-pass:PHASE11_READY_FOR_CONTAINER_REBUILD.md:56:- Move on to Task Delegation UI validation in the containerized dashboard.
+feature/phase59-console-composition-pass:PHASE11_RECOMMENDED_NEXT_STEP.md:89:  * Project Visual Output viewport
+feature/phase59-console-composition-pass:PHASE11_RUNTIME_ENTRYPOINT.md:59:- Task Delegation UI validation in the containerized dashboard.
+feature/phase59-console-composition-pass:PHASE11_RUNTIME_TODO.md:25:     - Move on to Task Delegation UI validation in the containerized dashboard.
+feature/phase59-console-composition-pass:PHASE11_RUN_THIS_NOW.md:56:If both succeed with clean logs → Move to Task Delegation UI validation.
+feature/phase59-console-composition-pass:PHASE11_STEP3_DASHBOARD_BEHAVIOR_AUDIT.md:76:## 4. Matilda Chat Console
+feature/phase59-console-composition-pass:PHASE11_STEP3_DASHBOARD_BEHAVIOR_AUDIT.md:101:## 5. Task Delegation Buttons
+feature/phase59-console-composition-pass:PHASE11_TASK_DELEGATION_CURL_TESTS.md:1:# Phase 11 – Task Delegation Backend Curl Tests (Container API)
+feature/phase59-console-composition-pass:PHASE11_TASK_DELEGATION_CURL_TESTS.md:67:Proceed to Dashboard Task Delegation UX validation.
+feature/phase59-console-composition-pass:PHASE11_TASK_DELEGATION_RUN_SEQUENCE.md:1:# Phase 11 – Task Delegation Curl Run Sequence (Container)
+feature/phase59-console-composition-pass:PHASE11_TASK_DELEGATION_RUN_SEQUENCE.md:3:Use this file as the concrete “do this now” sequence for Task Delegation backend validation.
+feature/phase59-console-composition-pass:PHASE11_TASK_DELEGATION_RUN_SEQUENCE.md:86:- Next step: validate Task Delegation UI behavior in the containerized dashboard:
+feature/phase59-console-composition-pass:PHASE11_TASK_DELEGATION_RUN_SEQUENCE.md:87:  - Use Task Delegation card to create a test task.
+feature/phase59-console-composition-pass:PHASE11_THREAD_RESUME_GUIDE.md:12:- Matilda Chat Console is fully functional.
+feature/phase59-console-composition-pass:PHASE11_THREAD_RESUME_GUIDE.md:13:- Task Delegation routes exist but require UX + backend validation.
+feature/phase59-console-composition-pass:PHASE11_THREAD_RESUME_GUIDE.md:21:**Validate Task Delegation (delegate-task + complete-task)**
+feature/phase59-console-composition-pass:PHASE11_THREAD_RESUME_GUIDE.md:28:4. Confirm dashboard Task Delegation card behaves without errors.
+feature/phase59-console-composition-pass:PHASE11_THREAD_RESUME_GUIDE.md:34:## After Task Delegation Validation
+feature/phase59-console-composition-pass:PHASE11_THREAD_RESUME_GUIDE.md:50:“Continue Phase 11 – Validate Task Delegation UX from the resume guide.”
+feature/phase59-console-composition-pass:PHASE11_VERIFICATION_HANDOFF.md:29:- Matilda Chat Console  
+feature/phase59-console-composition-pass:PHASE11_VERIFICATION_HANDOFF.md:31:- Task Delegation  
+feature/phase59-console-composition-pass:PHASE11_VERIFICATION_HANDOFF.md:35:- Large Project Visual Output screen (3D monitor)
+feature/phase59-console-composition-pass:PHASE11_VISUAL_OUTPUT_VERIFICATION_AND_NEXT_STEPS.md:1:# Phase 11 – Project Visual Output: Container Verification & Next Steps
+feature/phase59-console-composition-pass:PHASE11_VISUAL_OUTPUT_VERIFICATION_AND_NEXT_STEPS.md:12:This is the stable visual baseline for the dashboard and Project Visual Output screen.
+feature/phase59-console-composition-pass:PHASE11_VISUAL_OUTPUT_VERIFICATION_AND_NEXT_STEPS.md:33:   - Matilda Chat Console
+feature/phase59-console-composition-pass:PHASE11_VISUAL_OUTPUT_VERIFICATION_AND_NEXT_STEPS.md:35:   - Task Delegation
+feature/phase59-console-composition-pass:PHASE11_VISUAL_OUTPUT_VERIFICATION_AND_NEXT_STEPS.md:39:   - Project Visual Output “screen” card (single, large, centered)
+
+===== BRANCH: fix/dashboard-layout-restore-9579482a =====
+TIP_COMMIT=89420abc
+[recent]
+89420abc Try dashboard front-end restore from b91877b4 (keep v11.7 backend)
+2fbb5a12 Restore good dashboard layout (public/) from 9579482a on top of v11.7 backend
+b8c64d04 Restore full dashboard front-end from v11.7-ops-pill-dashboard-stable
+d17d2c83 Restore dashboard layout HTML/CSS from 7cb174d9 visual-output baseline
+220e94ee Add verification result confirming rollback baseline + restored layout
+9d080aea Add runner script for rollback/layout verification
+beb76b26 Add script to verify rollback baseline and restored dashboard layout state
+549a4ad9 Restore newer dashboard layout HTML/CSS from main onto v11.7 rollback backend
+
+[marker hits]
+fix/dashboard-layout-restore-9579482a:PHASE11_AFTER_REBUILD_SUCCESS.md:61:- Move on to Task Delegation UI validation in the containerized dashboard.
+fix/dashboard-layout-restore-9579482a:PHASE11_AFTER_STUBS_NEXT_STEP.md:62:- Task Delegation UI validation in container dashboard
+fix/dashboard-layout-restore-9579482a:PHASE11_BUNDLING_HANDOFF.md:25:   - Matilda Chat Console still works,
+fix/dashboard-layout-restore-9579482a:PHASE11_BUNDLING_HANDOFF.md:26:   - Task Delegation panel works,
+fix/dashboard-layout-restore-9579482a:PHASE11_BUNDLING_HANDOFF.md:34:   - Project Visual Output viewport stability.
+fix/dashboard-layout-restore-9579482a:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:72:Note each script’s role (Matilda Chat, Task Delegation, SSE, layout, utilities, etc.).
+fix/dashboard-layout-restore-9579482a:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:99:  <!-- 🔥 NEW: Matilda Chat Console script (enables the new UI card) -->
+fix/dashboard-layout-restore-9579482a:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:108:3	/js/matilda-chat-console.js	classic	Matilda Chat Console UI: powers the Matilda card, input, and response rendering	Lives in public/js/matilda-chat-console.js
+fix/dashboard-layout-restore-9579482a:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:245:public/js/matilda-chat-console.js – powers the Matilda Chat Console card.
+fix/dashboard-layout-restore-9579482a:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:253:4.3 Task Delegation
+fix/dashboard-layout-restore-9579482a:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:331:It probably attaches to specific elements within the Matilda Chat Console card created by the bundle.
+fix/dashboard-layout-restore-9579482a:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:373:Matilda Chat Console (/js/matilda-chat-console.js)
+fix/dashboard-layout-restore-9579482a:PHASE11_BUNDLING_STEP2_STRATEGY.md:15:Preserves Task Delegation behavior
+fix/dashboard-layout-restore-9579482a:PHASE11_BUNDLING_STEP2_STRATEGY.md:72:Chat handlers (Matilda Chat Console)
+fix/dashboard-layout-restore-9579482a:PHASE11_BUNDLING_STEP2_STRATEGY.md:95:Wire up Matilda Chat Console
+fix/dashboard-layout-restore-9579482a:PHASE11_BUNDLING_STEP2_STRATEGY.md:153:Matilda Chat Console initialization
+fix/dashboard-layout-restore-9579482a:PHASE11_BUNDLING_STEP2_STRATEGY.md:241:Matilda Chat Console works
+fix/dashboard-layout-restore-9579482a:PHASE11_BUNDLING_STEP2_STRATEGY.md:243:Task Delegation works
+fix/dashboard-layout-restore-9579482a:PHASE11_BUNDLING_STEP3_IMPLEMENTATION_PLAN.md:141:Initialize Matilda Chat Console
+fix/dashboard-layout-restore-9579482a:PHASE11_BUNDLING_STEP3_IMPLEMENTATION_PLAN.md:181:5.3 Task Delegation Guard
+fix/dashboard-layout-restore-9579482a:PHASE11_BUNDLING_STEP3_IMPLEMENTATION_PLAN.md:226:Matilda Chat Console works.
+fix/dashboard-layout-restore-9579482a:PHASE11_CONTAINER_STATUS_AFTER_REBUILD.md:30:     - Matilda Chat Console appears and functions using the container backend.
+fix/dashboard-layout-restore-9579482a:PHASE11_CONTAINER_STATUS_AFTER_REBUILD.md:33:2. **Task Delegation UX Validation (Container-Facing)**
+fix/dashboard-layout-restore-9579482a:PHASE11_CONTAINER_STATUS_AFTER_REBUILD.md:35:     - Create a test task via the Task Delegation card.
+fix/dashboard-layout-restore-9579482a:PHASE11_CONTAINER_STATUS_AFTER_REBUILD.md:63:- “Pick up Phase 11 by validating Task Delegation UX inside the containerized dashboard.”
+fix/dashboard-layout-restore-9579482a:PHASE11_CONTAINER_STATUS_AFTER_REBUILD.md:65:This file captures that the container is now rebuilt, restarted, healthy, and ready for Task Delegation + Atlas validation work under Phase 11.
+fix/dashboard-layout-restore-9579482a:PHASE11_DELEGATE_TASK_QUICKSTART.md:27:   - If both succeed → move on to Task Delegation UI validation in the containerized dashboard.
+fix/dashboard-layout-restore-9579482a:PHASE11_DELEGATE_TASK_RESULT.md:87:### Option B – Temporarily Stub Task Delegation (Phase 11 Only)
+fix/dashboard-layout-restore-9579482a:PHASE11_DELEGATE_TASK_RESULT.md:90:- Allow Phase 11 to validate **Task Delegation UX + API behavior** without being blocked by DB config.
+fix/dashboard-layout-restore-9579482a:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:23:  - Matilda Chat Console
+fix/dashboard-layout-restore-9579482a:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:25:  - Task Delegation
+fix/dashboard-layout-restore-9579482a:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:28:  - Large Project Visual Output monitor occupying the top-right region above the collapsible bottom 3.
+fix/dashboard-layout-restore-9579482a:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:51:1️⃣ **Matilda Chat Console – Basic Chat Path**
+fix/dashboard-layout-restore-9579482a:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:53:- In the **Matilda Chat Console**, send a simple message:
+fix/dashboard-layout-restore-9579482a:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:61:2️⃣ **Task Delegation Panel – Delegation Path**
+fix/dashboard-layout-restore-9579482a:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:62:- In the **Task Delegation** area, submit a harmless test task:
+fix/dashboard-layout-restore-9579482a:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:70:3️⃣ **Project Visual Output Monitor – Wiring Check**
+fix/dashboard-layout-restore-9579482a:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:71:- Trigger any action that should write content into the **Project Visual Output** container:
+fix/dashboard-layout-restore-9579482a:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:97:- Matilda Chat Console:
+fix/dashboard-layout-restore-9579482a:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:101:- Task Delegation:
+fix/dashboard-layout-restore-9579482a:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:105:- Project Visual Output monitor:
+fix/dashboard-layout-restore-9579482a:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:6:- Baseline: server.mjs is the active backend, Matilda Chat Console is functional, dashboard layout is stable, Reflections SSE is explicitly deferred.
+fix/dashboard-layout-restore-9579482a:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:12:## 1️⃣ Immediate Focus – Task Delegation UX Validation
+fix/dashboard-layout-restore-9579482a:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:15:- Confirm that the Task Delegation card behaves cleanly end-to-end for both:
+fix/dashboard-layout-restore-9579482a:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:66:2. Task Delegation Card:
+fix/dashboard-layout-restore-9579482a:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:123:When Phase 11’s required goals (Matilda + Task Delegation + Atlas stability) are fully satisfied, we can revisit this decision.
+fix/dashboard-layout-restore-9579482a:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:135:   - No open functional bugs remain for Matilda Chat, Task Delegation, or Atlas status.
+fix/dashboard-layout-restore-9579482a:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:142:     - Task Delegation flows
+fix/dashboard-layout-restore-9579482a:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:155:- “Continue Phase 11 – validate Task Delegation UX from the PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR plan.”
+fix/dashboard-layout-restore-9579482a:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:159:This file establishes Task Delegation UX validation as the immediate next action, keeps Atlas simple, and defers Reflections and bundling until core functional behavior is fully validated.
+fix/dashboard-layout-restore-9579482a:PHASE11_NEXT_RUNTIME_AFTER_STUBS.md:66:- Task Delegation UI validation in the containerized dashboard.
+fix/dashboard-layout-restore-9579482a:PHASE11_NEXT_STEPS_RECOMMENDATION.md:74:Project Visual Output panel has the intended height and alignment.
+fix/dashboard-layout-restore-9579482a:PHASE11_NEXT_STEPS_RECOMMENDATION.md:76:Left-column tiles (Matilda Chat, Key Metrics, Task Delegation, Atlas Status) remain stable.
+fix/dashboard-layout-restore-9579482a:PHASE11_READY_FOR_CONTAINER_REBUILD.md:56:- Move on to Task Delegation UI validation in the containerized dashboard.
+fix/dashboard-layout-restore-9579482a:PHASE11_RECOMMENDED_NEXT_STEP.md:89:  * Project Visual Output viewport
+fix/dashboard-layout-restore-9579482a:PHASE11_RUNTIME_ENTRYPOINT.md:59:- Task Delegation UI validation in the containerized dashboard.
+fix/dashboard-layout-restore-9579482a:PHASE11_RUNTIME_TODO.md:25:     - Move on to Task Delegation UI validation in the containerized dashboard.
+fix/dashboard-layout-restore-9579482a:PHASE11_RUN_THIS_NOW.md:56:If both succeed with clean logs → Move to Task Delegation UI validation.
+fix/dashboard-layout-restore-9579482a:PHASE11_STEP3_DASHBOARD_BEHAVIOR_AUDIT.md:76:## 4. Matilda Chat Console
+fix/dashboard-layout-restore-9579482a:PHASE11_STEP3_DASHBOARD_BEHAVIOR_AUDIT.md:101:## 5. Task Delegation Buttons
+fix/dashboard-layout-restore-9579482a:PHASE11_TASK_DELEGATION_CURL_TESTS.md:1:# Phase 11 – Task Delegation Backend Curl Tests (Container API)
+fix/dashboard-layout-restore-9579482a:PHASE11_TASK_DELEGATION_CURL_TESTS.md:67:Proceed to Dashboard Task Delegation UX validation.
+fix/dashboard-layout-restore-9579482a:PHASE11_TASK_DELEGATION_RUN_SEQUENCE.md:1:# Phase 11 – Task Delegation Curl Run Sequence (Container)
+fix/dashboard-layout-restore-9579482a:PHASE11_TASK_DELEGATION_RUN_SEQUENCE.md:3:Use this file as the concrete “do this now” sequence for Task Delegation backend validation.
+fix/dashboard-layout-restore-9579482a:PHASE11_TASK_DELEGATION_RUN_SEQUENCE.md:86:- Next step: validate Task Delegation UI behavior in the containerized dashboard:
+fix/dashboard-layout-restore-9579482a:PHASE11_TASK_DELEGATION_RUN_SEQUENCE.md:87:  - Use Task Delegation card to create a test task.
+fix/dashboard-layout-restore-9579482a:PHASE11_THREAD_RESUME_GUIDE.md:12:- Matilda Chat Console is fully functional.
+fix/dashboard-layout-restore-9579482a:PHASE11_THREAD_RESUME_GUIDE.md:13:- Task Delegation routes exist but require UX + backend validation.
+fix/dashboard-layout-restore-9579482a:PHASE11_THREAD_RESUME_GUIDE.md:21:**Validate Task Delegation (delegate-task + complete-task)**
+fix/dashboard-layout-restore-9579482a:PHASE11_THREAD_RESUME_GUIDE.md:28:4. Confirm dashboard Task Delegation card behaves without errors.
+fix/dashboard-layout-restore-9579482a:PHASE11_THREAD_RESUME_GUIDE.md:34:## After Task Delegation Validation
+fix/dashboard-layout-restore-9579482a:PHASE11_THREAD_RESUME_GUIDE.md:50:“Continue Phase 11 – Validate Task Delegation UX from the resume guide.”
+fix/dashboard-layout-restore-9579482a:PHASE11_VERIFICATION_HANDOFF.md:29:- Matilda Chat Console  
+fix/dashboard-layout-restore-9579482a:PHASE11_VERIFICATION_HANDOFF.md:31:- Task Delegation  
+fix/dashboard-layout-restore-9579482a:PHASE11_VERIFICATION_HANDOFF.md:35:- Large Project Visual Output screen (3D monitor)
+fix/dashboard-layout-restore-9579482a:PHASE11_VISUAL_OUTPUT_VERIFICATION_AND_NEXT_STEPS.md:1:# Phase 11 – Project Visual Output: Container Verification & Next Steps
+fix/dashboard-layout-restore-9579482a:PHASE11_VISUAL_OUTPUT_VERIFICATION_AND_NEXT_STEPS.md:12:This is the stable visual baseline for the dashboard and Project Visual Output screen.
+fix/dashboard-layout-restore-9579482a:PHASE11_VISUAL_OUTPUT_VERIFICATION_AND_NEXT_STEPS.md:33:   - Matilda Chat Console
+fix/dashboard-layout-restore-9579482a:PHASE11_VISUAL_OUTPUT_VERIFICATION_AND_NEXT_STEPS.md:35:   - Task Delegation
+fix/dashboard-layout-restore-9579482a:PHASE11_VISUAL_OUTPUT_VERIFICATION_AND_NEXT_STEPS.md:39:   - Project Visual Output “screen” card (single, large, centered)
+
+===== BRANCH: feature/matilda-chat-ui =====
+TIP_COMMIT=aa64114b
+[recent]
+aa64114b ✅ Live polling connected — Cade now updates mockTasks & mockLogs for real-time dashboard refresh
+528ef0b8 ✅ Checkpoint: Cade delegation working (Matilda → Cade). Polling not yet wired to dashboard.
+28947a40 ✅ feat(dashboard): polling for recent tasks/logs now live (mock-backed)
+87849f9c ✨ feat(matilda): hybrid wiring — conversational via Ollama + Cade task delegation
+175376f8 🗨️ feat(matilda): Wired to Ollama for neutral conversational replies
+4241ac3a 💖 feat(dashboard): Matilda persona updated to Millennial Girls’ Girl
+f846fdaa 🧹 chore(dashboard): restore wired dashboard with cleaned baseline styling
+c5d46252 💬 feat(dashboard): Matilda chat now replies conversationally with persona filter
+
+[marker hits]
+feature/matilda-chat-ui:public/dashboard.html:69:  <!-- Recent Tasks -->
+feature/matilda-chat-ui:public/dashboard.html:71:    <h2>Recent Tasks</h2>
+
+===== BRANCH: feature/phase13-operator-polish =====
+TIP_COMMIT=7426dfd2
+[recent]
+7426dfd2 Phase 13.5: add v13.5.5 handoff note
+960aeaef Phase 13.5 UX: fix tasks SSE keepalive to use real newline escapes
+1dd55791 Phase 13.5 UX: normalize tasks SSE keepalive (remove duplicate hb frames)
+3749c90f Phase 13.5: add v13.5.4 handoff note
+d7ecfd56 Phase 13.5 UX: rely on singleton EventSource shim (remove widget force-close)
+c4de7467 Phase 13.5: document optional Tasks SSE UX polish decisions
+59c132bd Phase 13.5: add tasks SSE keepalive heartbeat to prevent idle disconnects
+b978e8aa Phase 13.5: de-duplicate tasks SSE CONNECT log line
+
+[marker hits]
+feature/phase13-operator-polish:PHASE11_AFTER_REBUILD_SUCCESS.md:61:- Move on to Task Delegation UI validation in the containerized dashboard.
+feature/phase13-operator-polish:PHASE11_AFTER_STUBS_NEXT_STEP.md:62:- Task Delegation UI validation in container dashboard
+feature/phase13-operator-polish:PHASE11_BUNDLING_HANDOFF.md:25:   - Matilda Chat Console still works,
+feature/phase13-operator-polish:PHASE11_BUNDLING_HANDOFF.md:26:   - Task Delegation panel works,
+feature/phase13-operator-polish:PHASE11_BUNDLING_HANDOFF.md:34:   - Project Visual Output viewport stability.
+feature/phase13-operator-polish:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:72:Note each script’s role (Matilda Chat, Task Delegation, SSE, layout, utilities, etc.).
+feature/phase13-operator-polish:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:99:  <!-- 🔥 NEW: Matilda Chat Console script (enables the new UI card) -->
+feature/phase13-operator-polish:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:108:3	/js/matilda-chat-console.js	classic	Matilda Chat Console UI: powers the Matilda card, input, and response rendering	Lives in public/js/matilda-chat-console.js
+feature/phase13-operator-polish:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:245:public/js/matilda-chat-console.js – powers the Matilda Chat Console card.
+feature/phase13-operator-polish:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:253:4.3 Task Delegation
+feature/phase13-operator-polish:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:331:It probably attaches to specific elements within the Matilda Chat Console card created by the bundle.
+feature/phase13-operator-polish:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:373:Matilda Chat Console (/js/matilda-chat-console.js)
+feature/phase13-operator-polish:PHASE11_BUNDLING_STEP2_STRATEGY.md:15:Preserves Task Delegation behavior
+feature/phase13-operator-polish:PHASE11_BUNDLING_STEP2_STRATEGY.md:72:Chat handlers (Matilda Chat Console)
+feature/phase13-operator-polish:PHASE11_BUNDLING_STEP2_STRATEGY.md:95:Wire up Matilda Chat Console
+feature/phase13-operator-polish:PHASE11_BUNDLING_STEP2_STRATEGY.md:153:Matilda Chat Console initialization
+feature/phase13-operator-polish:PHASE11_BUNDLING_STEP2_STRATEGY.md:241:Matilda Chat Console works
+feature/phase13-operator-polish:PHASE11_BUNDLING_STEP2_STRATEGY.md:243:Task Delegation works
+feature/phase13-operator-polish:PHASE11_BUNDLING_STEP3_IMPLEMENTATION_PLAN.md:141:Initialize Matilda Chat Console
+feature/phase13-operator-polish:PHASE11_BUNDLING_STEP3_IMPLEMENTATION_PLAN.md:181:5.3 Task Delegation Guard
+feature/phase13-operator-polish:PHASE11_BUNDLING_STEP3_IMPLEMENTATION_PLAN.md:226:Matilda Chat Console works.
+feature/phase13-operator-polish:PHASE11_CONTAINER_STATUS_AFTER_REBUILD.md:30:     - Matilda Chat Console appears and functions using the container backend.
+feature/phase13-operator-polish:PHASE11_CONTAINER_STATUS_AFTER_REBUILD.md:33:2. **Task Delegation UX Validation (Container-Facing)**
+feature/phase13-operator-polish:PHASE11_CONTAINER_STATUS_AFTER_REBUILD.md:35:     - Create a test task via the Task Delegation card.
+feature/phase13-operator-polish:PHASE11_CONTAINER_STATUS_AFTER_REBUILD.md:63:- “Pick up Phase 11 by validating Task Delegation UX inside the containerized dashboard.”
+feature/phase13-operator-polish:PHASE11_CONTAINER_STATUS_AFTER_REBUILD.md:65:This file captures that the container is now rebuilt, restarted, healthy, and ready for Task Delegation + Atlas validation work under Phase 11.
+feature/phase13-operator-polish:PHASE11_DELEGATE_TASK_QUICKSTART.md:27:   - If both succeed → move on to Task Delegation UI validation in the containerized dashboard.
+feature/phase13-operator-polish:PHASE11_DELEGATE_TASK_RESULT.md:87:### Option B – Temporarily Stub Task Delegation (Phase 11 Only)
+feature/phase13-operator-polish:PHASE11_DELEGATE_TASK_RESULT.md:90:- Allow Phase 11 to validate **Task Delegation UX + API behavior** without being blocked by DB config.
+feature/phase13-operator-polish:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:23:  - Matilda Chat Console
+feature/phase13-operator-polish:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:25:  - Task Delegation
+feature/phase13-operator-polish:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:28:  - Large Project Visual Output monitor occupying the top-right region above the collapsible bottom 3.
+feature/phase13-operator-polish:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:51:1️⃣ **Matilda Chat Console – Basic Chat Path**
+feature/phase13-operator-polish:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:53:- In the **Matilda Chat Console**, send a simple message:
+feature/phase13-operator-polish:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:61:2️⃣ **Task Delegation Panel – Delegation Path**
+feature/phase13-operator-polish:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:62:- In the **Task Delegation** area, submit a harmless test task:
+feature/phase13-operator-polish:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:70:3️⃣ **Project Visual Output Monitor – Wiring Check**
+feature/phase13-operator-polish:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:71:- Trigger any action that should write content into the **Project Visual Output** container:
+feature/phase13-operator-polish:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:97:- Matilda Chat Console:
+feature/phase13-operator-polish:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:101:- Task Delegation:
+feature/phase13-operator-polish:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:105:- Project Visual Output monitor:
+feature/phase13-operator-polish:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:6:- Baseline: server.mjs is the active backend, Matilda Chat Console is functional, dashboard layout is stable, Reflections SSE is explicitly deferred.
+feature/phase13-operator-polish:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:12:## 1️⃣ Immediate Focus – Task Delegation UX Validation
+feature/phase13-operator-polish:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:15:- Confirm that the Task Delegation card behaves cleanly end-to-end for both:
+feature/phase13-operator-polish:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:66:2. Task Delegation Card:
+feature/phase13-operator-polish:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:123:When Phase 11’s required goals (Matilda + Task Delegation + Atlas stability) are fully satisfied, we can revisit this decision.
+feature/phase13-operator-polish:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:135:   - No open functional bugs remain for Matilda Chat, Task Delegation, or Atlas status.
+feature/phase13-operator-polish:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:142:     - Task Delegation flows
+feature/phase13-operator-polish:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:155:- “Continue Phase 11 – validate Task Delegation UX from the PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR plan.”
+feature/phase13-operator-polish:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:159:This file establishes Task Delegation UX validation as the immediate next action, keeps Atlas simple, and defers Reflections and bundling until core functional behavior is fully validated.
+feature/phase13-operator-polish:PHASE11_NEXT_RUNTIME_AFTER_STUBS.md:66:- Task Delegation UI validation in the containerized dashboard.
+feature/phase13-operator-polish:PHASE11_NEXT_STEPS_RECOMMENDATION.md:74:Project Visual Output panel has the intended height and alignment.
+feature/phase13-operator-polish:PHASE11_NEXT_STEPS_RECOMMENDATION.md:76:Left-column tiles (Matilda Chat, Key Metrics, Task Delegation, Atlas Status) remain stable.
+feature/phase13-operator-polish:PHASE11_READY_FOR_CONTAINER_REBUILD.md:56:- Move on to Task Delegation UI validation in the containerized dashboard.
+feature/phase13-operator-polish:PHASE11_RECOMMENDED_NEXT_STEP.md:89:  * Project Visual Output viewport
+feature/phase13-operator-polish:PHASE11_RUNTIME_ENTRYPOINT.md:59:- Task Delegation UI validation in the containerized dashboard.
+feature/phase13-operator-polish:PHASE11_RUNTIME_TODO.md:25:     - Move on to Task Delegation UI validation in the containerized dashboard.
+feature/phase13-operator-polish:PHASE11_RUN_THIS_NOW.md:56:If both succeed with clean logs → Move to Task Delegation UI validation.
+feature/phase13-operator-polish:PHASE11_STEP3_DASHBOARD_BEHAVIOR_AUDIT.md:76:## 4. Matilda Chat Console
+feature/phase13-operator-polish:PHASE11_STEP3_DASHBOARD_BEHAVIOR_AUDIT.md:101:## 5. Task Delegation Buttons
+feature/phase13-operator-polish:PHASE11_TASK_DELEGATION_CURL_TESTS.md:1:# Phase 11 – Task Delegation Backend Curl Tests (Container API)
+feature/phase13-operator-polish:PHASE11_TASK_DELEGATION_CURL_TESTS.md:67:Proceed to Dashboard Task Delegation UX validation.
+feature/phase13-operator-polish:PHASE11_TASK_DELEGATION_RUN_SEQUENCE.md:1:# Phase 11 – Task Delegation Curl Run Sequence (Container)
+feature/phase13-operator-polish:PHASE11_TASK_DELEGATION_RUN_SEQUENCE.md:3:Use this file as the concrete “do this now” sequence for Task Delegation backend validation.
+feature/phase13-operator-polish:PHASE11_TASK_DELEGATION_RUN_SEQUENCE.md:86:- Next step: validate Task Delegation UI behavior in the containerized dashboard:
+feature/phase13-operator-polish:PHASE11_TASK_DELEGATION_RUN_SEQUENCE.md:87:  - Use Task Delegation card to create a test task.
+feature/phase13-operator-polish:PHASE11_THREAD_RESUME_GUIDE.md:12:- Matilda Chat Console is fully functional.
+feature/phase13-operator-polish:PHASE11_THREAD_RESUME_GUIDE.md:13:- Task Delegation routes exist but require UX + backend validation.
+feature/phase13-operator-polish:PHASE11_THREAD_RESUME_GUIDE.md:21:**Validate Task Delegation (delegate-task + complete-task)**
+feature/phase13-operator-polish:PHASE11_THREAD_RESUME_GUIDE.md:28:4. Confirm dashboard Task Delegation card behaves without errors.
+feature/phase13-operator-polish:PHASE11_THREAD_RESUME_GUIDE.md:34:## After Task Delegation Validation
+feature/phase13-operator-polish:PHASE11_THREAD_RESUME_GUIDE.md:50:“Continue Phase 11 – Validate Task Delegation UX from the resume guide.”
+feature/phase13-operator-polish:PHASE11_VERIFICATION_HANDOFF.md:29:- Matilda Chat Console  
+feature/phase13-operator-polish:PHASE11_VERIFICATION_HANDOFF.md:31:- Task Delegation  
+feature/phase13-operator-polish:PHASE11_VERIFICATION_HANDOFF.md:35:- Large Project Visual Output screen (3D monitor)
+feature/phase13-operator-polish:PHASE11_VISUAL_OUTPUT_VERIFICATION_AND_NEXT_STEPS.md:1:# Phase 11 – Project Visual Output: Container Verification & Next Steps
+feature/phase13-operator-polish:PHASE11_VISUAL_OUTPUT_VERIFICATION_AND_NEXT_STEPS.md:12:This is the stable visual baseline for the dashboard and Project Visual Output screen.
+feature/phase13-operator-polish:PHASE11_VISUAL_OUTPUT_VERIFICATION_AND_NEXT_STEPS.md:33:   - Matilda Chat Console
+feature/phase13-operator-polish:PHASE11_VISUAL_OUTPUT_VERIFICATION_AND_NEXT_STEPS.md:35:   - Task Delegation
+feature/phase13-operator-polish:PHASE11_VISUAL_OUTPUT_VERIFICATION_AND_NEXT_STEPS.md:39:   - Project Visual Output “screen” card (single, large, centered)
+
+===== BRANCH: feature/phase15-ops-polish =====
+TIP_COMMIT=3a3407f9
+[recent]
+3a3407f9 Phase 15: add concise handoff document for next phase
+81adde90 Phase 15: add Makefile help target for discoverability
+be6cfd6f Phase 15: add Makefile target for one-command confidence checks
+d09f6eaa Phase 15: add shebang to confidence check runner
+aa74b973 Phase 15: add single-command confidence check runner
+b69b2161 Phase 15: document tasks widget polish and smoke check usage
+b8f9bfd6 Phase 15: add tasks widget smoke check script
+dac373c6 Phase 14: stabilize Tasks widget (no blinking, per-task completion state)
+
+[marker hits]
+feature/phase15-ops-polish:PHASE11_AFTER_REBUILD_SUCCESS.md:61:- Move on to Task Delegation UI validation in the containerized dashboard.
+feature/phase15-ops-polish:PHASE11_AFTER_STUBS_NEXT_STEP.md:62:- Task Delegation UI validation in container dashboard
+feature/phase15-ops-polish:PHASE11_BUNDLING_HANDOFF.md:25:   - Matilda Chat Console still works,
+feature/phase15-ops-polish:PHASE11_BUNDLING_HANDOFF.md:26:   - Task Delegation panel works,
+feature/phase15-ops-polish:PHASE11_BUNDLING_HANDOFF.md:34:   - Project Visual Output viewport stability.
+feature/phase15-ops-polish:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:72:Note each script’s role (Matilda Chat, Task Delegation, SSE, layout, utilities, etc.).
+feature/phase15-ops-polish:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:99:  <!-- 🔥 NEW: Matilda Chat Console script (enables the new UI card) -->
+feature/phase15-ops-polish:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:108:3	/js/matilda-chat-console.js	classic	Matilda Chat Console UI: powers the Matilda card, input, and response rendering	Lives in public/js/matilda-chat-console.js
+feature/phase15-ops-polish:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:245:public/js/matilda-chat-console.js – powers the Matilda Chat Console card.
+feature/phase15-ops-polish:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:253:4.3 Task Delegation
+feature/phase15-ops-polish:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:331:It probably attaches to specific elements within the Matilda Chat Console card created by the bundle.
+feature/phase15-ops-polish:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:373:Matilda Chat Console (/js/matilda-chat-console.js)
+feature/phase15-ops-polish:PHASE11_BUNDLING_STEP2_STRATEGY.md:15:Preserves Task Delegation behavior
+feature/phase15-ops-polish:PHASE11_BUNDLING_STEP2_STRATEGY.md:72:Chat handlers (Matilda Chat Console)
+feature/phase15-ops-polish:PHASE11_BUNDLING_STEP2_STRATEGY.md:95:Wire up Matilda Chat Console
+feature/phase15-ops-polish:PHASE11_BUNDLING_STEP2_STRATEGY.md:153:Matilda Chat Console initialization
+feature/phase15-ops-polish:PHASE11_BUNDLING_STEP2_STRATEGY.md:241:Matilda Chat Console works
+feature/phase15-ops-polish:PHASE11_BUNDLING_STEP2_STRATEGY.md:243:Task Delegation works
+feature/phase15-ops-polish:PHASE11_BUNDLING_STEP3_IMPLEMENTATION_PLAN.md:141:Initialize Matilda Chat Console
+feature/phase15-ops-polish:PHASE11_BUNDLING_STEP3_IMPLEMENTATION_PLAN.md:181:5.3 Task Delegation Guard
+feature/phase15-ops-polish:PHASE11_BUNDLING_STEP3_IMPLEMENTATION_PLAN.md:226:Matilda Chat Console works.
+feature/phase15-ops-polish:PHASE11_CONTAINER_STATUS_AFTER_REBUILD.md:30:     - Matilda Chat Console appears and functions using the container backend.
+feature/phase15-ops-polish:PHASE11_CONTAINER_STATUS_AFTER_REBUILD.md:33:2. **Task Delegation UX Validation (Container-Facing)**
+feature/phase15-ops-polish:PHASE11_CONTAINER_STATUS_AFTER_REBUILD.md:35:     - Create a test task via the Task Delegation card.
+feature/phase15-ops-polish:PHASE11_CONTAINER_STATUS_AFTER_REBUILD.md:63:- “Pick up Phase 11 by validating Task Delegation UX inside the containerized dashboard.”
+feature/phase15-ops-polish:PHASE11_CONTAINER_STATUS_AFTER_REBUILD.md:65:This file captures that the container is now rebuilt, restarted, healthy, and ready for Task Delegation + Atlas validation work under Phase 11.
+feature/phase15-ops-polish:PHASE11_DELEGATE_TASK_QUICKSTART.md:27:   - If both succeed → move on to Task Delegation UI validation in the containerized dashboard.
+feature/phase15-ops-polish:PHASE11_DELEGATE_TASK_RESULT.md:87:### Option B – Temporarily Stub Task Delegation (Phase 11 Only)
+feature/phase15-ops-polish:PHASE11_DELEGATE_TASK_RESULT.md:90:- Allow Phase 11 to validate **Task Delegation UX + API behavior** without being blocked by DB config.
+feature/phase15-ops-polish:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:23:  - Matilda Chat Console
+feature/phase15-ops-polish:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:25:  - Task Delegation
+feature/phase15-ops-polish:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:28:  - Large Project Visual Output monitor occupying the top-right region above the collapsible bottom 3.
+feature/phase15-ops-polish:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:51:1️⃣ **Matilda Chat Console – Basic Chat Path**
+feature/phase15-ops-polish:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:53:- In the **Matilda Chat Console**, send a simple message:
+feature/phase15-ops-polish:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:61:2️⃣ **Task Delegation Panel – Delegation Path**
+feature/phase15-ops-polish:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:62:- In the **Task Delegation** area, submit a harmless test task:
+feature/phase15-ops-polish:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:70:3️⃣ **Project Visual Output Monitor – Wiring Check**
+feature/phase15-ops-polish:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:71:- Trigger any action that should write content into the **Project Visual Output** container:
+feature/phase15-ops-polish:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:97:- Matilda Chat Console:
+feature/phase15-ops-polish:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:101:- Task Delegation:
+feature/phase15-ops-polish:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:105:- Project Visual Output monitor:
+feature/phase15-ops-polish:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:6:- Baseline: server.mjs is the active backend, Matilda Chat Console is functional, dashboard layout is stable, Reflections SSE is explicitly deferred.
+feature/phase15-ops-polish:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:12:## 1️⃣ Immediate Focus – Task Delegation UX Validation
+feature/phase15-ops-polish:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:15:- Confirm that the Task Delegation card behaves cleanly end-to-end for both:
+feature/phase15-ops-polish:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:66:2. Task Delegation Card:
+feature/phase15-ops-polish:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:123:When Phase 11’s required goals (Matilda + Task Delegation + Atlas stability) are fully satisfied, we can revisit this decision.
+feature/phase15-ops-polish:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:135:   - No open functional bugs remain for Matilda Chat, Task Delegation, or Atlas status.
+feature/phase15-ops-polish:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:142:     - Task Delegation flows
+feature/phase15-ops-polish:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:155:- “Continue Phase 11 – validate Task Delegation UX from the PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR plan.”
+feature/phase15-ops-polish:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:159:This file establishes Task Delegation UX validation as the immediate next action, keeps Atlas simple, and defers Reflections and bundling until core functional behavior is fully validated.
+feature/phase15-ops-polish:PHASE11_NEXT_RUNTIME_AFTER_STUBS.md:66:- Task Delegation UI validation in the containerized dashboard.
+feature/phase15-ops-polish:PHASE11_NEXT_STEPS_RECOMMENDATION.md:74:Project Visual Output panel has the intended height and alignment.
+feature/phase15-ops-polish:PHASE11_NEXT_STEPS_RECOMMENDATION.md:76:Left-column tiles (Matilda Chat, Key Metrics, Task Delegation, Atlas Status) remain stable.
+feature/phase15-ops-polish:PHASE11_READY_FOR_CONTAINER_REBUILD.md:56:- Move on to Task Delegation UI validation in the containerized dashboard.
+feature/phase15-ops-polish:PHASE11_RECOMMENDED_NEXT_STEP.md:89:  * Project Visual Output viewport
+feature/phase15-ops-polish:PHASE11_RUNTIME_ENTRYPOINT.md:59:- Task Delegation UI validation in the containerized dashboard.
+feature/phase15-ops-polish:PHASE11_RUNTIME_TODO.md:25:     - Move on to Task Delegation UI validation in the containerized dashboard.
+feature/phase15-ops-polish:PHASE11_RUN_THIS_NOW.md:56:If both succeed with clean logs → Move to Task Delegation UI validation.
+feature/phase15-ops-polish:PHASE11_STEP3_DASHBOARD_BEHAVIOR_AUDIT.md:76:## 4. Matilda Chat Console
+feature/phase15-ops-polish:PHASE11_STEP3_DASHBOARD_BEHAVIOR_AUDIT.md:101:## 5. Task Delegation Buttons
+feature/phase15-ops-polish:PHASE11_TASK_DELEGATION_CURL_TESTS.md:1:# Phase 11 – Task Delegation Backend Curl Tests (Container API)
+feature/phase15-ops-polish:PHASE11_TASK_DELEGATION_CURL_TESTS.md:67:Proceed to Dashboard Task Delegation UX validation.
+feature/phase15-ops-polish:PHASE11_TASK_DELEGATION_RUN_SEQUENCE.md:1:# Phase 11 – Task Delegation Curl Run Sequence (Container)
+feature/phase15-ops-polish:PHASE11_TASK_DELEGATION_RUN_SEQUENCE.md:3:Use this file as the concrete “do this now” sequence for Task Delegation backend validation.
+feature/phase15-ops-polish:PHASE11_TASK_DELEGATION_RUN_SEQUENCE.md:86:- Next step: validate Task Delegation UI behavior in the containerized dashboard:
+feature/phase15-ops-polish:PHASE11_TASK_DELEGATION_RUN_SEQUENCE.md:87:  - Use Task Delegation card to create a test task.
+feature/phase15-ops-polish:PHASE11_THREAD_RESUME_GUIDE.md:12:- Matilda Chat Console is fully functional.
+feature/phase15-ops-polish:PHASE11_THREAD_RESUME_GUIDE.md:13:- Task Delegation routes exist but require UX + backend validation.
+feature/phase15-ops-polish:PHASE11_THREAD_RESUME_GUIDE.md:21:**Validate Task Delegation (delegate-task + complete-task)**
+feature/phase15-ops-polish:PHASE11_THREAD_RESUME_GUIDE.md:28:4. Confirm dashboard Task Delegation card behaves without errors.
+feature/phase15-ops-polish:PHASE11_THREAD_RESUME_GUIDE.md:34:## After Task Delegation Validation
+feature/phase15-ops-polish:PHASE11_THREAD_RESUME_GUIDE.md:50:“Continue Phase 11 – Validate Task Delegation UX from the resume guide.”
+feature/phase15-ops-polish:PHASE11_VERIFICATION_HANDOFF.md:29:- Matilda Chat Console  
+feature/phase15-ops-polish:PHASE11_VERIFICATION_HANDOFF.md:31:- Task Delegation  
+feature/phase15-ops-polish:PHASE11_VERIFICATION_HANDOFF.md:35:- Large Project Visual Output screen (3D monitor)
+feature/phase15-ops-polish:PHASE11_VISUAL_OUTPUT_VERIFICATION_AND_NEXT_STEPS.md:1:# Phase 11 – Project Visual Output: Container Verification & Next Steps
+feature/phase15-ops-polish:PHASE11_VISUAL_OUTPUT_VERIFICATION_AND_NEXT_STEPS.md:12:This is the stable visual baseline for the dashboard and Project Visual Output screen.
+feature/phase15-ops-polish:PHASE11_VISUAL_OUTPUT_VERIFICATION_AND_NEXT_STEPS.md:33:   - Matilda Chat Console
+feature/phase15-ops-polish:PHASE11_VISUAL_OUTPUT_VERIFICATION_AND_NEXT_STEPS.md:35:   - Task Delegation
+feature/phase15-ops-polish:PHASE11_VISUAL_OUTPUT_VERIFICATION_AND_NEXT_STEPS.md:39:   - Project Visual Output “screen” card (single, large, centered)
+
+===== BRANCH: feature/phase41-dashboard-alive-smoke-pr =====
+TIP_COMMIT=1109a324
+[recent]
+1109a324 Revert "Phase 41: fix dashboard POSTGRES_URL + add dashboard alive smoke"
+66d627e0 Phase 41: fix dashboard POSTGRES_URL + add dashboard alive smoke
+6a514560 chore: add helper to verify annotated tag points to HEAD (#20)
+5275e2c2 feature/phase41 tierA claim canonical (#19)
+7bd1b360 Merge pull request #18 from MarcelaLePortfolio/feature/phase40-sql-claim-tierA-gate
+c0148a23 Phase 40: enforce Tier A claim gate in canonical SQL + smoke + acceptance
+c9c0aee3 Phase 40: scaffold Tier A claim gate contract artifacts (placeholders)
+466827d1 Merge pull request #17 from MarcelaLePortfolio/feature/phase39-action-tier-policy-semantics
+
+[marker hits]
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_AFTER_REBUILD_SUCCESS.md:61:- Move on to Task Delegation UI validation in the containerized dashboard.
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_AFTER_STUBS_NEXT_STEP.md:62:- Task Delegation UI validation in container dashboard
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_BUNDLING_HANDOFF.md:25:   - Matilda Chat Console still works,
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_BUNDLING_HANDOFF.md:26:   - Task Delegation panel works,
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_BUNDLING_HANDOFF.md:34:   - Project Visual Output viewport stability.
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:72:Note each script’s role (Matilda Chat, Task Delegation, SSE, layout, utilities, etc.).
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:99:  <!-- 🔥 NEW: Matilda Chat Console script (enables the new UI card) -->
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:108:3	/js/matilda-chat-console.js	classic	Matilda Chat Console UI: powers the Matilda card, input, and response rendering	Lives in public/js/matilda-chat-console.js
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:245:public/js/matilda-chat-console.js – powers the Matilda Chat Console card.
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:253:4.3 Task Delegation
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:331:It probably attaches to specific elements within the Matilda Chat Console card created by the bundle.
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:373:Matilda Chat Console (/js/matilda-chat-console.js)
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_BUNDLING_STEP2_STRATEGY.md:15:Preserves Task Delegation behavior
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_BUNDLING_STEP2_STRATEGY.md:72:Chat handlers (Matilda Chat Console)
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_BUNDLING_STEP2_STRATEGY.md:95:Wire up Matilda Chat Console
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_BUNDLING_STEP2_STRATEGY.md:153:Matilda Chat Console initialization
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_BUNDLING_STEP2_STRATEGY.md:241:Matilda Chat Console works
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_BUNDLING_STEP2_STRATEGY.md:243:Task Delegation works
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_BUNDLING_STEP3_IMPLEMENTATION_PLAN.md:141:Initialize Matilda Chat Console
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_BUNDLING_STEP3_IMPLEMENTATION_PLAN.md:181:5.3 Task Delegation Guard
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_BUNDLING_STEP3_IMPLEMENTATION_PLAN.md:226:Matilda Chat Console works.
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_CONTAINER_STATUS_AFTER_REBUILD.md:30:     - Matilda Chat Console appears and functions using the container backend.
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_CONTAINER_STATUS_AFTER_REBUILD.md:33:2. **Task Delegation UX Validation (Container-Facing)**
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_CONTAINER_STATUS_AFTER_REBUILD.md:35:     - Create a test task via the Task Delegation card.
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_CONTAINER_STATUS_AFTER_REBUILD.md:63:- “Pick up Phase 11 by validating Task Delegation UX inside the containerized dashboard.”
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_CONTAINER_STATUS_AFTER_REBUILD.md:65:This file captures that the container is now rebuilt, restarted, healthy, and ready for Task Delegation + Atlas validation work under Phase 11.
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_DELEGATE_TASK_QUICKSTART.md:27:   - If both succeed → move on to Task Delegation UI validation in the containerized dashboard.
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_DELEGATE_TASK_RESULT.md:87:### Option B – Temporarily Stub Task Delegation (Phase 11 Only)
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_DELEGATE_TASK_RESULT.md:90:- Allow Phase 11 to validate **Task Delegation UX + API behavior** without being blocked by DB config.
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:23:  - Matilda Chat Console
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:25:  - Task Delegation
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:28:  - Large Project Visual Output monitor occupying the top-right region above the collapsible bottom 3.
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:51:1️⃣ **Matilda Chat Console – Basic Chat Path**
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:53:- In the **Matilda Chat Console**, send a simple message:
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:61:2️⃣ **Task Delegation Panel – Delegation Path**
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:62:- In the **Task Delegation** area, submit a harmless test task:
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:70:3️⃣ **Project Visual Output Monitor – Wiring Check**
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:71:- Trigger any action that should write content into the **Project Visual Output** container:
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:97:- Matilda Chat Console:
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:101:- Task Delegation:
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:105:- Project Visual Output monitor:
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:6:- Baseline: server.mjs is the active backend, Matilda Chat Console is functional, dashboard layout is stable, Reflections SSE is explicitly deferred.
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:12:## 1️⃣ Immediate Focus – Task Delegation UX Validation
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:15:- Confirm that the Task Delegation card behaves cleanly end-to-end for both:
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:66:2. Task Delegation Card:
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:123:When Phase 11’s required goals (Matilda + Task Delegation + Atlas stability) are fully satisfied, we can revisit this decision.
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:135:   - No open functional bugs remain for Matilda Chat, Task Delegation, or Atlas status.
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:142:     - Task Delegation flows
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:155:- “Continue Phase 11 – validate Task Delegation UX from the PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR plan.”
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:159:This file establishes Task Delegation UX validation as the immediate next action, keeps Atlas simple, and defers Reflections and bundling until core functional behavior is fully validated.
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_NEXT_RUNTIME_AFTER_STUBS.md:66:- Task Delegation UI validation in the containerized dashboard.
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_NEXT_STEPS_RECOMMENDATION.md:74:Project Visual Output panel has the intended height and alignment.
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_NEXT_STEPS_RECOMMENDATION.md:76:Left-column tiles (Matilda Chat, Key Metrics, Task Delegation, Atlas Status) remain stable.
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_READY_FOR_CONTAINER_REBUILD.md:56:- Move on to Task Delegation UI validation in the containerized dashboard.
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_RECOMMENDED_NEXT_STEP.md:89:  * Project Visual Output viewport
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_RUNTIME_ENTRYPOINT.md:59:- Task Delegation UI validation in the containerized dashboard.
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_RUNTIME_TODO.md:25:     - Move on to Task Delegation UI validation in the containerized dashboard.
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_RUN_THIS_NOW.md:56:If both succeed with clean logs → Move to Task Delegation UI validation.
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_STEP3_DASHBOARD_BEHAVIOR_AUDIT.md:76:## 4. Matilda Chat Console
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_STEP3_DASHBOARD_BEHAVIOR_AUDIT.md:101:## 5. Task Delegation Buttons
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_TASK_DELEGATION_CURL_TESTS.md:1:# Phase 11 – Task Delegation Backend Curl Tests (Container API)
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_TASK_DELEGATION_CURL_TESTS.md:67:Proceed to Dashboard Task Delegation UX validation.
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_TASK_DELEGATION_RUN_SEQUENCE.md:1:# Phase 11 – Task Delegation Curl Run Sequence (Container)
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_TASK_DELEGATION_RUN_SEQUENCE.md:3:Use this file as the concrete “do this now” sequence for Task Delegation backend validation.
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_TASK_DELEGATION_RUN_SEQUENCE.md:86:- Next step: validate Task Delegation UI behavior in the containerized dashboard:
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_TASK_DELEGATION_RUN_SEQUENCE.md:87:  - Use Task Delegation card to create a test task.
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_THREAD_RESUME_GUIDE.md:12:- Matilda Chat Console is fully functional.
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_THREAD_RESUME_GUIDE.md:13:- Task Delegation routes exist but require UX + backend validation.
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_THREAD_RESUME_GUIDE.md:21:**Validate Task Delegation (delegate-task + complete-task)**
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_THREAD_RESUME_GUIDE.md:28:4. Confirm dashboard Task Delegation card behaves without errors.
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_THREAD_RESUME_GUIDE.md:34:## After Task Delegation Validation
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_THREAD_RESUME_GUIDE.md:50:“Continue Phase 11 – Validate Task Delegation UX from the resume guide.”
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_VERIFICATION_HANDOFF.md:29:- Matilda Chat Console  
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_VERIFICATION_HANDOFF.md:31:- Task Delegation  
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_VERIFICATION_HANDOFF.md:35:- Large Project Visual Output screen (3D monitor)
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_VISUAL_OUTPUT_VERIFICATION_AND_NEXT_STEPS.md:1:# Phase 11 – Project Visual Output: Container Verification & Next Steps
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_VISUAL_OUTPUT_VERIFICATION_AND_NEXT_STEPS.md:12:This is the stable visual baseline for the dashboard and Project Visual Output screen.
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_VISUAL_OUTPUT_VERIFICATION_AND_NEXT_STEPS.md:33:   - Matilda Chat Console
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_VISUAL_OUTPUT_VERIFICATION_AND_NEXT_STEPS.md:35:   - Task Delegation
+feature/phase41-dashboard-alive-smoke-pr:PHASE11_VISUAL_OUTPUT_VERIFICATION_AND_NEXT_STEPS.md:39:   - Project Visual Output “screen” card (single, large, centered)
+
+===== BRANCH: feature/post-golden-next =====
+TIP_COMMIT=16b5ecc7
+[recent]
+16b5ecc7 Meta: add post-golden next-work tracker
+c183f189 Restore dashboard + server to verified Dec 16 working state (port 3000)
+28fa6ac2 Baseline: Dec 16 dashboard restore verified on port 3000
+b8c64d04 Restore full dashboard front-end from v11.7-ops-pill-dashboard-stable
+d17d2c83 Restore dashboard layout HTML/CSS from 7cb174d9 visual-output baseline
+220e94ee Add verification result confirming rollback baseline + restored layout
+9d080aea Add runner script for rollback/layout verification
+beb76b26 Add script to verify rollback baseline and restored dashboard layout state
+
+[marker hits]
+feature/post-golden-next:PHASE11_AFTER_REBUILD_SUCCESS.md:61:- Move on to Task Delegation UI validation in the containerized dashboard.
+feature/post-golden-next:PHASE11_AFTER_STUBS_NEXT_STEP.md:62:- Task Delegation UI validation in container dashboard
+feature/post-golden-next:PHASE11_BUNDLING_HANDOFF.md:25:   - Matilda Chat Console still works,
+feature/post-golden-next:PHASE11_BUNDLING_HANDOFF.md:26:   - Task Delegation panel works,
+feature/post-golden-next:PHASE11_BUNDLING_HANDOFF.md:34:   - Project Visual Output viewport stability.
+feature/post-golden-next:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:72:Note each script’s role (Matilda Chat, Task Delegation, SSE, layout, utilities, etc.).
+feature/post-golden-next:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:99:  <!-- 🔥 NEW: Matilda Chat Console script (enables the new UI card) -->
+feature/post-golden-next:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:108:3	/js/matilda-chat-console.js	classic	Matilda Chat Console UI: powers the Matilda card, input, and response rendering	Lives in public/js/matilda-chat-console.js
+feature/post-golden-next:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:245:public/js/matilda-chat-console.js – powers the Matilda Chat Console card.
+feature/post-golden-next:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:253:4.3 Task Delegation
+feature/post-golden-next:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:331:It probably attaches to specific elements within the Matilda Chat Console card created by the bundle.
+feature/post-golden-next:PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md:373:Matilda Chat Console (/js/matilda-chat-console.js)
+feature/post-golden-next:PHASE11_BUNDLING_STEP2_STRATEGY.md:15:Preserves Task Delegation behavior
+feature/post-golden-next:PHASE11_BUNDLING_STEP2_STRATEGY.md:72:Chat handlers (Matilda Chat Console)
+feature/post-golden-next:PHASE11_BUNDLING_STEP2_STRATEGY.md:95:Wire up Matilda Chat Console
+feature/post-golden-next:PHASE11_BUNDLING_STEP2_STRATEGY.md:153:Matilda Chat Console initialization
+feature/post-golden-next:PHASE11_BUNDLING_STEP2_STRATEGY.md:241:Matilda Chat Console works
+feature/post-golden-next:PHASE11_BUNDLING_STEP2_STRATEGY.md:243:Task Delegation works
+feature/post-golden-next:PHASE11_BUNDLING_STEP3_IMPLEMENTATION_PLAN.md:141:Initialize Matilda Chat Console
+feature/post-golden-next:PHASE11_BUNDLING_STEP3_IMPLEMENTATION_PLAN.md:181:5.3 Task Delegation Guard
+feature/post-golden-next:PHASE11_BUNDLING_STEP3_IMPLEMENTATION_PLAN.md:226:Matilda Chat Console works.
+feature/post-golden-next:PHASE11_CONTAINER_STATUS_AFTER_REBUILD.md:30:     - Matilda Chat Console appears and functions using the container backend.
+feature/post-golden-next:PHASE11_CONTAINER_STATUS_AFTER_REBUILD.md:33:2. **Task Delegation UX Validation (Container-Facing)**
+feature/post-golden-next:PHASE11_CONTAINER_STATUS_AFTER_REBUILD.md:35:     - Create a test task via the Task Delegation card.
+feature/post-golden-next:PHASE11_CONTAINER_STATUS_AFTER_REBUILD.md:63:- “Pick up Phase 11 by validating Task Delegation UX inside the containerized dashboard.”
+feature/post-golden-next:PHASE11_CONTAINER_STATUS_AFTER_REBUILD.md:65:This file captures that the container is now rebuilt, restarted, healthy, and ready for Task Delegation + Atlas validation work under Phase 11.
+feature/post-golden-next:PHASE11_DELEGATE_TASK_QUICKSTART.md:27:   - If both succeed → move on to Task Delegation UI validation in the containerized dashboard.
+feature/post-golden-next:PHASE11_DELEGATE_TASK_RESULT.md:87:### Option B – Temporarily Stub Task Delegation (Phase 11 Only)
+feature/post-golden-next:PHASE11_DELEGATE_TASK_RESULT.md:90:- Allow Phase 11 to validate **Task Delegation UX + API behavior** without being blocked by DB config.
+feature/post-golden-next:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:23:  - Matilda Chat Console
+feature/post-golden-next:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:25:  - Task Delegation
+feature/post-golden-next:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:28:  - Large Project Visual Output monitor occupying the top-right region above the collapsible bottom 3.
+feature/post-golden-next:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:51:1️⃣ **Matilda Chat Console – Basic Chat Path**
+feature/post-golden-next:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:53:- In the **Matilda Chat Console**, send a simple message:
+feature/post-golden-next:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:61:2️⃣ **Task Delegation Panel – Delegation Path**
+feature/post-golden-next:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:62:- In the **Task Delegation** area, submit a harmless test task:
+feature/post-golden-next:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:70:3️⃣ **Project Visual Output Monitor – Wiring Check**
+feature/post-golden-next:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:71:- Trigger any action that should write content into the **Project Visual Output** container:
+feature/post-golden-next:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:97:- Matilda Chat Console:
+feature/post-golden-next:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:101:- Task Delegation:
+feature/post-golden-next:PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md:105:- Project Visual Output monitor:
+feature/post-golden-next:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:6:- Baseline: server.mjs is the active backend, Matilda Chat Console is functional, dashboard layout is stable, Reflections SSE is explicitly deferred.
+feature/post-golden-next:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:12:## 1️⃣ Immediate Focus – Task Delegation UX Validation
+feature/post-golden-next:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:15:- Confirm that the Task Delegation card behaves cleanly end-to-end for both:
+feature/post-golden-next:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:66:2. Task Delegation Card:
+feature/post-golden-next:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:123:When Phase 11’s required goals (Matilda + Task Delegation + Atlas stability) are fully satisfied, we can revisit this decision.
+feature/post-golden-next:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:135:   - No open functional bugs remain for Matilda Chat, Task Delegation, or Atlas status.
+feature/post-golden-next:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:142:     - Task Delegation flows
+feature/post-golden-next:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:155:- “Continue Phase 11 – validate Task Delegation UX from the PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR plan.”
+feature/post-golden-next:PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md:159:This file establishes Task Delegation UX validation as the immediate next action, keeps Atlas simple, and defers Reflections and bundling until core functional behavior is fully validated.
+feature/post-golden-next:PHASE11_NEXT_RUNTIME_AFTER_STUBS.md:66:- Task Delegation UI validation in the containerized dashboard.
+feature/post-golden-next:PHASE11_NEXT_STEPS_RECOMMENDATION.md:74:Project Visual Output panel has the intended height and alignment.
+feature/post-golden-next:PHASE11_NEXT_STEPS_RECOMMENDATION.md:76:Left-column tiles (Matilda Chat, Key Metrics, Task Delegation, Atlas Status) remain stable.
+feature/post-golden-next:PHASE11_READY_FOR_CONTAINER_REBUILD.md:56:- Move on to Task Delegation UI validation in the containerized dashboard.
+feature/post-golden-next:PHASE11_RECOMMENDED_NEXT_STEP.md:89:  * Project Visual Output viewport
+feature/post-golden-next:PHASE11_RUNTIME_ENTRYPOINT.md:59:- Task Delegation UI validation in the containerized dashboard.
+feature/post-golden-next:PHASE11_RUNTIME_TODO.md:25:     - Move on to Task Delegation UI validation in the containerized dashboard.
+feature/post-golden-next:PHASE11_RUN_THIS_NOW.md:56:If both succeed with clean logs → Move to Task Delegation UI validation.
+feature/post-golden-next:PHASE11_STEP3_DASHBOARD_BEHAVIOR_AUDIT.md:76:## 4. Matilda Chat Console
+feature/post-golden-next:PHASE11_STEP3_DASHBOARD_BEHAVIOR_AUDIT.md:101:## 5. Task Delegation Buttons
+feature/post-golden-next:PHASE11_TASK_DELEGATION_CURL_TESTS.md:1:# Phase 11 – Task Delegation Backend Curl Tests (Container API)
+feature/post-golden-next:PHASE11_TASK_DELEGATION_CURL_TESTS.md:67:Proceed to Dashboard Task Delegation UX validation.
+feature/post-golden-next:PHASE11_TASK_DELEGATION_RUN_SEQUENCE.md:1:# Phase 11 – Task Delegation Curl Run Sequence (Container)
+feature/post-golden-next:PHASE11_TASK_DELEGATION_RUN_SEQUENCE.md:3:Use this file as the concrete “do this now” sequence for Task Delegation backend validation.
+feature/post-golden-next:PHASE11_TASK_DELEGATION_RUN_SEQUENCE.md:86:- Next step: validate Task Delegation UI behavior in the containerized dashboard:
+feature/post-golden-next:PHASE11_TASK_DELEGATION_RUN_SEQUENCE.md:87:  - Use Task Delegation card to create a test task.
+feature/post-golden-next:PHASE11_THREAD_RESUME_GUIDE.md:12:- Matilda Chat Console is fully functional.
+feature/post-golden-next:PHASE11_THREAD_RESUME_GUIDE.md:13:- Task Delegation routes exist but require UX + backend validation.
+feature/post-golden-next:PHASE11_THREAD_RESUME_GUIDE.md:21:**Validate Task Delegation (delegate-task + complete-task)**
+feature/post-golden-next:PHASE11_THREAD_RESUME_GUIDE.md:28:4. Confirm dashboard Task Delegation card behaves without errors.
+feature/post-golden-next:PHASE11_THREAD_RESUME_GUIDE.md:34:## After Task Delegation Validation
+feature/post-golden-next:PHASE11_THREAD_RESUME_GUIDE.md:50:“Continue Phase 11 – Validate Task Delegation UX from the resume guide.”
+feature/post-golden-next:PHASE11_VERIFICATION_HANDOFF.md:29:- Matilda Chat Console  
+feature/post-golden-next:PHASE11_VERIFICATION_HANDOFF.md:31:- Task Delegation  
+feature/post-golden-next:PHASE11_VERIFICATION_HANDOFF.md:35:- Large Project Visual Output screen (3D monitor)
+feature/post-golden-next:PHASE11_VISUAL_OUTPUT_VERIFICATION_AND_NEXT_STEPS.md:1:# Phase 11 – Project Visual Output: Container Verification & Next Steps
+feature/post-golden-next:PHASE11_VISUAL_OUTPUT_VERIFICATION_AND_NEXT_STEPS.md:12:This is the stable visual baseline for the dashboard and Project Visual Output screen.
+feature/post-golden-next:PHASE11_VISUAL_OUTPUT_VERIFICATION_AND_NEXT_STEPS.md:33:   - Matilda Chat Console
+feature/post-golden-next:PHASE11_VISUAL_OUTPUT_VERIFICATION_AND_NEXT_STEPS.md:35:   - Task Delegation
+feature/post-golden-next:PHASE11_VISUAL_OUTPUT_VERIFICATION_AND_NEXT_STEPS.md:39:   - Project Visual Output “screen” card (single, large, centered)

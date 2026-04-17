@@ -1,0 +1,1183 @@
+PHASE 487 — GUIDANCE TRACE PROBE
+timestamp=20260415_144711
+branch=phase119-dashboard-cognition-contract
+commit=bf51461111d7dcccdbe4841fe058e7ccfcb48e5f
+search_dirs=app src ui
+
+=== STEP 1: FIND GUIDANCE RENDER ENTRY ===
+src/governance/governance_decision_pipeline.ts:35:  operator_guidance: string
+src/governance/governance_decision_pipeline.ts:66:    operator_guidance: explanation.operator_guidance,
+src/governance/governance_explanation_builder.ts:20:  operator_guidance: string
+src/governance/governance_explanation_builder.ts:32:  let operator_guidance = ""
+src/governance/governance_explanation_builder.ts:41:    operator_guidance =
+src/governance/governance_explanation_builder.ts:53:    operator_guidance =
+src/governance/governance_explanation_builder.ts:65:    operator_guidance =
+src/governance/governance_explanation_builder.ts:76:    operator_guidance,
+src/governance/governance_advisory_contract.ts:73:  operator_guidance: string;
+src/governance/governance_advisory_normalizer.test.ts:16:    operator_guidance: "none",
+src/governance/governance_advisory_presenter.test.ts:19:    operator_guidance: "none",
+src/cognition/selectors/cognition.selectors.ts:32:  return envelope.guidance ?? [];
+src/cognition/selectors/cognition.selectors.ts:50:  return Array.isArray(envelope.guidance) && envelope.guidance.length > 0;
+src/cognition/operator-read/cognition.operator-read.ts:37:  guidance: OperatorGuidanceContract[];
+src/cognition/operator-read/cognition.operator-read.ts:49:    guidance: selectOperatorGuidance(envelope),
+src/cognition/operatorGuidance.smoke.ts:3:Deterministic bounded operator guidance verification.
+src/cognition/operatorGuidance.smoke.ts:145:      reduction.envelope.guidance.length === testCase.expectedGuidanceCount,
+src/cognition/operatorGuidance.smoke.ts:146:      `${testCase.name}: expected ${testCase.expectedGuidanceCount} guidance items, received ${reduction.envelope.guidance.length}`,
+src/cognition/operatorGuidance.smoke.ts:159:    for (const guidance of reduction.envelope.guidance) {
+src/cognition/operatorGuidance.smoke.ts:161:        guidance.bounded === true,
+src/cognition/operatorGuidance.smoke.ts:166:        guidance.executionImpact === "none",
+src/cognition/operatorGuidance.smoke.ts:171:        guidance.signalSource.length > 0,
+src/cognition/operatorGuidanceMapping.ts:77:    "guidance",
+src/cognition/operatorGuidanceMapping.ts:238:        "Observed signal quality does not support high-confidence guidance.",
+src/cognition/operatorGuidanceMapping.ts:276:    .filter((guidance): guidance is OperatorGuidance => guidance !== null);
+src/cognition/contracts/cognition.contracts.ts:36:  guidance_id: string;
+src/cognition/contracts/cognition.contracts.ts:52:  guidance?: OperatorGuidanceContract[];
+src/cognition/operatorGuidanceSafety.ts:3:Bounded operator guidance runtime invariants.
+src/cognition/operatorGuidanceSafety.ts:90:  guidance: OperatorGuidance,
+src/cognition/operatorGuidanceSafety.ts:94:  if (!guidance.id || guidance.id.trim().length === 0) {
+src/cognition/operatorGuidanceSafety.ts:95:    violations.push("guidance.id must be non-empty.");
+src/cognition/operatorGuidanceSafety.ts:98:  if (!ALLOWED_GUIDANCE_TYPES.has(guidance.type)) {
+src/cognition/operatorGuidanceSafety.ts:99:    violations.push(`guidance.type is invalid: ${guidance.type}`);
+src/cognition/operatorGuidanceSafety.ts:102:  if (!ALLOWED_GUIDANCE_DOMAINS.has(guidance.domain)) {
+src/cognition/operatorGuidanceSafety.ts:103:    violations.push(`guidance.domain is invalid: ${guidance.domain}`);
+src/cognition/operatorGuidanceSafety.ts:106:  if (!ALLOWED_GUIDANCE_SEVERITIES.has(guidance.severity)) {
+src/cognition/operatorGuidanceSafety.ts:107:    violations.push(`guidance.severity is invalid: ${guidance.severity}`);
+src/cognition/operatorGuidanceSafety.ts:110:  if (!ALLOWED_GUIDANCE_CONFIDENCE.has(guidance.confidence)) {
+src/cognition/operatorGuidanceSafety.ts:111:    violations.push(`guidance.confidence is invalid: ${guidance.confidence}`);
+src/cognition/operatorGuidanceSafety.ts:114:  if (guidance.bounded !== true) {
+src/cognition/operatorGuidanceSafety.ts:115:    violations.push("guidance.bounded must remain true.");
+src/cognition/operatorGuidanceSafety.ts:118:  if (guidance.executionImpact !== "none") {
+src/cognition/operatorGuidanceSafety.ts:119:    violations.push("guidance.executionImpact must remain 'none'.");
+src/cognition/operatorGuidanceSafety.ts:122:  if (!Array.isArray(guidance.signalSource) || guidance.signalSource.length === 0) {
+src/cognition/operatorGuidanceSafety.ts:123:    violations.push("guidance.signalSource must contain at least one source.");
+src/cognition/operatorGuidanceSafety.ts:126:  if (!isFiniteTimestamp(guidance.createdAt)) {
+src/cognition/operatorGuidanceSafety.ts:127:    violations.push("guidance.createdAt must be a finite non-negative timestamp.");
+src/cognition/operatorGuidanceSafety.ts:130:  assertSafeText("guidance.message", guidance.message, violations);
+src/cognition/operatorGuidanceSafety.ts:131:  assertSafeText("guidance.rationale", guidance.rationale, violations);
+src/cognition/operatorGuidanceSafety.ts:156:  if (!Array.isArray(envelope.guidance)) {
+src/cognition/operatorGuidanceSafety.ts:157:    violations.push("envelope.guidance must be an array.");
+src/cognition/operatorGuidanceSafety.ts:159:    envelope.guidance.forEach((guidance, index) => {
+src/cognition/operatorGuidanceSafety.ts:160:      const result = validateOperatorGuidance(guidance);
+src/cognition/operatorGuidanceSafety.ts:162:        violations.push(`envelope.guidance[${index}]: ${violation}`);
+src/cognition/operatorGuidanceSafety.ts:209:        "Operator guidance safety proof failed.",
+src/cognition/operatorGuidance.live.ts:3:Deterministic local verification harness for bounded operator guidance.
+src/cognition/operatorGuidance.live.ts:51:  guidanceCount: number;
+src/cognition/operatorGuidance.live.ts:54:  guidanceIds: string[];
+src/cognition/operatorGuidance.live.ts:68:    guidanceCount: reduction.envelope.guidance.length,
+src/cognition/operatorGuidance.live.ts:71:    guidanceIds: reduction.envelope.guidance.map((guidance) => guidance.id),
+src/cognition/invariants/cognition.invariants.ts:95:  if (!envelope.guidance) {
+src/cognition/invariants/cognition.invariants.ts:99:  for (const item of envelope.guidance) {
+src/cognition/invariants/cognition.invariants.ts:101:    if (!item.guidance_id) {
+src/cognition/operatorGuidance.ts:83:  guidance: OperatorGuidance[];
+src/governance/governance_advisory_contract.test.ts:19:        operator_guidance: "No action required.",
+src/governance/governance_advisory_contract.test.ts:38:        operator_guidance: "Review when convenient.",
+src/governance/governance_advisory_contract.test.ts:50:        operator_guidance: "Escalate to operator review immediately.",
+src/governance/governance_advisory_contract.test.ts:62:        operator_guidance: "Review registry assumptions.",
+src/cognition/operatorGuidanceReducer.ts:3:Attaches bounded operator guidance generation to the health surface domain.
+src/cognition/operatorGuidanceReducer.ts:33:  guidance: OperatorGuidance[],
+src/cognition/operatorGuidanceReducer.ts:35:  return [...guidance].sort((a, b) => {
+src/cognition/operatorGuidanceReducer.ts:60:  const guidance = sortGuidanceDeterministically(
+src/cognition/operatorGuidanceReducer.ts:68:      guidance,
+src/cognition/operatorGuidanceReducer.ts:85:      guidance: [],
+
+=== STEP 2: TRACE STATUS FIELD USAGE ===
+app/api/demo-runtime/route.ts:18:        { status: 400 }
+app/api/demo-runtime/route.ts:29:    return NextResponse.json(report, { status: 200 });
+app/api/demo-runtime/route.ts:34:    return NextResponse.json({ error: message }, { status: 500 });
+src/contracts/governanceExecutionBridgeContract.ts:14:  status: string;
+src/contracts/governanceExecutionBridgeContract.ts:27:  status?: string | null;
+src/governance_investigation/governance_playback_assembly_proof.ts:8:  readonly dashboard_status_matches_playback: boolean;
+src/governance_investigation/governance_playback_assembly_proof.ts:44:  const dashboardStatusMatchesPlayback =
+src/governance_investigation/governance_playback_assembly_proof.ts:45:    assembled.dashboard_contract.status.total_events ===
+src/governance_investigation/governance_playback_assembly_proof.ts:49:        ? assembled.dashboard_contract.status.current_position === null
+src/governance_investigation/governance_playback_assembly_proof.ts:50:        : assembled.dashboard_contract.status.current_position ===
+src/governance_investigation/governance_playback_assembly_proof.ts:58:    dashboard_status_matches_playback: dashboardStatusMatchesPlayback,
+src/governance_investigation/governance_playback_assembly_proof.ts:63:      dashboardStatusMatchesPlayback,
+src/contracts/__fixtures__/governanceExecutionBridgeContract.fixture.ts:9:      status: "queued",
+src/contracts/__fixtures__/governanceExecutionBridgeContract.fixture.ts:21:      status: "pending",
+src/contracts/__fixtures__/governanceExecutionBridgeAssembly.fixture.ts:11:  status: "queued",
+src/contracts/reporting/operatorConsumableExecutionProofSurface.ts:15:    status: "accepted" | "blocked";
+src/contracts/reporting/operatorConsumableExecutionProofSurface.ts:33:  const status = report.summary.accepted ? "accepted" : "blocked";
+src/contracts/reporting/operatorConsumableExecutionProofSurface.ts:36:    status === "accepted"
+src/contracts/reporting/operatorConsumableExecutionProofSurface.ts:50:      status,
+src/governance_investigation/governance_dashboard_playback_contract.ts:11:  readonly status: {
+src/governance_investigation/governance_dashboard_playback_contract.ts:33:    status: {
+src/cognition/phase111.seal.ts:16:export const COGNITION_BRIDGE_STATUS = "sealed";
+src/cognition/phase108.seal.ts:16:export const COGNITION_RELAY_STATUS = "sealed";
+src/cognition/operatorGuidanceConfidence.ts:35:  const degraded = signals.filter(s => s.status === "degraded").length;
+src/cognition/operatorGuidanceConfidence.ts:36:  const stalled = signals.filter(s => s.status === "stalled").length;
+src/cognition/operatorGuidanceConfidence.ts:37:  const unknown = signals.filter(s => s.status === "unknown").length;
+src/cognition/operatorGuidanceConfidence.ts:38:  const healthy = signals.filter(s => s.status === "healthy").length;
+src/governance/governance_advisory_consistency_guard.test.ts:10:  it("matches normal status for empty signals", () => {
+src/governance/governance_advisory_consistency_guard.test.ts:22:  it("matches warning status", () => {
+src/governance/governance_advisory_consistency_guard.test.ts:29:    expect(result.expected_status)
+src/governance/governance_advisory_consistency_guard.test.ts:37:  it("matches critical status", () => {
+src/governance/governance_advisory_consistency_guard.test.ts:44:    expect(result.expected_status)
+src/cognition/phase109.seal.ts:16:export const COGNITION_CHANNEL_STATUS = "sealed";
+src/governance/governanceCognitionSurfaceTypes.ts:20:export type GovernanceCognitionSurfaceStatus =
+src/governance/governanceCognitionSurfaceTypes.ts:27:  status: GovernanceCognitionSurfaceStatus;
+src/governance/governanceCognitionSurfaceTypes.ts:36:export function mapGovernanceCognitionSurfaceStatus(
+src/governance/governanceCognitionSurfaceTypes.ts:38:): GovernanceCognitionSurfaceStatus {
+src/governance/governanceCognitionSelectorsProof.ts:27:  selectGovernanceCognitionStatus,
+src/governance/governanceCognitionSelectorsProof.ts:35:  status: string;
+src/governance/governanceCognitionSelectorsProof.ts:68:  const status =
+src/governance/governanceCognitionSelectorsProof.ts:69:    selectGovernanceCognitionStatus(surface);
+src/governance/governanceCognitionSelectorsProof.ts:78:    status,
+src/governance/governance_cognition_determinism_sentinel.ts:21:    if (run1.operator_view.status !== run2.operator_view.status) {
+src/governance/governanceCognitionSurfaceProof.ts:28:  status: "STABLE" | "ELEVATED" | "REVIEW" | "CRITICAL";
+src/governance/governanceCognitionSurfaceProof.ts:65:    status: surface.status,
+src/governance/cognition/select_governance_live_wiring_decision.ts:16:  readonly decisionStatus: "eligible" | "ineligible";
+src/governance/cognition/select_governance_live_wiring_decision.ts:34:    decisionStatus: decision.decisionStatus,
+src/governance/governance_advisory_operator_view.ts:14:  status: "healthy" | "attention" | "critical"
+src/governance/governance_advisory_operator_view.ts:25:      status: "critical",
+src/governance/governance_advisory_operator_view.ts:34:      status: "attention",
+src/governance/governance_advisory_operator_view.ts:43:      status: "attention",
+src/governance/governance_advisory_operator_view.ts:50:    status: "healthy",
+src/governance/governance_drift_guard.ts:11:    governance_status:
+src/governance/governance_drift_guard.ts:12:      result.status,
+src/governance/governance_drift_guard.test.ts:11:    expect(result.governance_status)
+src/governance/governanceCognitionSurfaceBuilder.ts:25:  mapGovernanceCognitionSurfaceStatus
+src/governance/governanceCognitionSurfaceBuilder.ts:64:  const status =
+src/governance/governanceCognitionSurfaceBuilder.ts:65:    mapGovernanceCognitionSurfaceStatus(highestSeverity);
+src/governance/governanceCognitionSurfaceBuilder.ts:68:    status,
+src/governance/governance_advisory_contract_lock.ts:23:  if (!("status" in result.operator_view)) {
+src/governance/governance_advisory_contract_lock.ts:24:    throw new Error("Governance advisory drift: operator status missing")
+src/governance/governance_audit_trace_emitter.ts:16:    governance_status:
+src/governance/governance_audit_trace_emitter.ts:17:      advisory.operator_view.status,
+src/governance/governanceCognitionIntegrationHooks.ts:19:  selectGovernanceCognitionStatus,
+src/governance/governanceCognitionIntegrationHooks.ts:28:  getStatus: () => GovernanceCognitionSurface["status"];
+src/governance/governanceCognitionIntegrationHooks.ts:42:    getStatus: () => selectGovernanceCognitionStatus(surface),
+src/governance/governance_advisory_consistency_guard.ts:8:  const status =
+src/governance/governance_advisory_consistency_guard.ts:9:    advisory.operator_view.status
+src/governance/governance_advisory_consistency_guard.ts:30:    expected !== status
+src/governance/governance_advisory_consistency_guard.ts:34:    advisory_status: status,
+src/governance/governance_advisory_consistency_guard.ts:36:    expected_status: expected,
+src/governance/governanceCognitionSelectors.ts:16:  GovernanceCognitionSurfaceStatus
+src/governance/governanceCognitionSelectors.ts:24:export function selectGovernanceCognitionStatus(
+src/governance/governanceCognitionSelectors.ts:26:): GovernanceCognitionSurfaceStatus {
+src/governance/governanceCognitionSelectors.ts:27:  return surface.status;
+src/governance/cognition/build_governance_final_pre_live_registry_contract_package.ts:45:    packageStatus: "prepared" as const,
+src/governance/governance_operator_explanation_layer.ts:8:  const status =
+src/governance/governance_operator_explanation_layer.ts:9:    advisory.operator_view.status
+src/governance/governance_operator_explanation_layer.ts:13:  if(status === "warning"){
+src/governance/governance_operator_explanation_layer.ts:20:  if(status === "critical"){
+src/governance/governance_operator_explanation_layer.ts:29:    governance_status: status,
+src/cognition/phase110.seal.ts:16:export const COGNITION_LINK_STATUS = "sealed";
+src/governance/cognition/governance_final_pre_live_registry_archive_record.ts:40:  readonly archiveStatus: "recorded";
+src/governance/governance_cognition_integrity_sentinel.ts:15:  if (!result.operator_view.status) {
+src/governance/governance_cognition_integrity_sentinel.ts:16:    throw new Error("Governance cognition drift: operator status missing")
+src/governance/governance_explanation_layer.test.ts:17:    expect(result.governance_status)
+src/governance/governance_explanation_layer.test.ts:29:    expect(result.governance_status)
+src/governance/governance_explanation_layer.test.ts:41:    expect(result.governance_status)
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:36:  readonly envelopeStatus: "wrapped";
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:51:    routingStatus: "stable",
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:52:    authorityStatus: "review",
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:53:    registryStatus: "attention",
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:115:  assert(envelope.envelopeStatus === "wrapped", "Envelope status must evaluate to wrapped.");
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:132:    envelopeStatus: selected.envelopeStatus,
+src/governance/cognition/build_governance_pre_live_registry_delivery_manifest.ts:47:    manifestStatus: "prepared" as const,
+src/governance/cognition/select_governance_dashboard_consumption_view.ts:10:  readonly headlineStatus: GovernanceDashboardConsumptionView["overallStatus"];
+src/governance/cognition/select_governance_dashboard_consumption_view.ts:21:    headlineStatus: view.overallStatus,
+src/governance/governance_cognition_replay_verifier.ts:11:        .operator_view.status
+src/governance/governance_cognition_replay_verifier.ts:33:    baseline_status: baseline,
+src/governance/governance_fixture_corpus.test.ts:31:    expect(result.operator_view.status)
+src/governance/governance_fixture_corpus.test.ts:43:    expect(result.operator_view.status)
+src/governance/governance_fixture_corpus.test.ts:55:    expect(result.operator_view.status)
+src/governance/governance_fixture_corpus.test.ts:67:    expect(result.operator_view.status)
+src/governance/governance_fixture_corpus.test.ts:79:    expect(result.operator_view.status)
+src/governance/cognition/prove_governance_runtime_registry_export.ts:36:    routingStatus: "stable",
+src/governance/cognition/prove_governance_runtime_registry_export.ts:37:    authorityStatus: "review",
+src/governance/cognition/prove_governance_runtime_registry_export.ts:38:    registryStatus: "attention",
+src/governance/cognition/governance_authorization_gate.ts:17:export type GovernanceAuthorizationGateStatus =
+src/governance/cognition/governance_authorization_gate.ts:39:  readonly gateStatus: GovernanceAuthorizationGateStatus;
+src/governance/cognition/get_governance_execution_eligibility_snapshot.ts:20:    governanceReason: proof.authorizationEligible ? null : proof.gateStatus,
+src/governance/governance_cognition_regression_sentinel.ts:21:    baseline.operator_view.status !==
+src/governance/governance_cognition_regression_sentinel.ts:22:    replay.operator_view.status
+src/governance/cognition/governance_final_delivery_receipt.ts:39:  readonly receiptStatus: "acknowledged";
+src/governance/governanceCognitionIntegrationProof.ts:32:  status: string;
+src/governance/governanceCognitionIntegrationProof.ts:71:    status: hooks.getStatus(),
+src/governance/governance_drift_expectations.ts:8:  if (result.empty_status !== "healthy") {
+src/governance/governance_drift_expectations.ts:12:  if (result.critical_status !== "critical") {
+src/governance/governance_drift_expectations.ts:16:  if (result.warning_status !== "attention") {
+src/governance/governance_drift_expectations.ts:20:  if (result.mixed_status !== "critical") {
+src/governance/governance_drift_expectations.ts:25:    status: "governance-stable"
+src/governance/governance_drift_sentinel.ts:36:    empty_status:
+src/governance/governance_drift_sentinel.ts:37:      empty.operator_view.status,
+src/governance/governance_drift_sentinel.ts:39:    critical_status:
+src/governance/governance_drift_sentinel.ts:40:      critical.operator_view.status,
+src/governance/governance_drift_sentinel.ts:42:    warning_status:
+src/governance/governance_drift_sentinel.ts:43:      warning.operator_view.status,
+src/governance/governance_drift_sentinel.ts:45:    mixed_status:
+src/governance/governance_drift_sentinel.ts:46:      mixed.operator_view.status
+src/governance/governance_advisory_operator_view.test.ts:36:    expect(view.status)
+src/governance/governance_advisory_operator_view.test.ts:53:    expect(view.status)
+src/governance/governance_advisory_operator_view.test.ts:68:    expect(view.status)
+src/governance/cognition/build_governance_final_delivery_receipt.ts:48:    receiptStatus: "acknowledged" as const,
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:40:  readonly receiptStatus: "acknowledged";
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:55:    routingStatus: "stable",
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:56:    authorityStatus: "review",
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:57:    registryStatus: "attention",
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:93:  assert(receipt.receiptStatus === "acknowledged", "Receipt status must evaluate to acknowledged.");
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:112:    receiptStatus: selected.receiptStatus,
+src/governance/cognition/governance_final_pre_live_registry_contract_package.ts:36:  readonly packageStatus: "prepared";
+src/governance/cognition/build_governance_dashboard_consumption_view.ts:27:    overallStatus: snapshot.overallStatus,
+src/governance/cognition/build_governance_dashboard_consumption_view.ts:30:    routingStatus: snapshot.routingStatus,
+src/governance/cognition/build_governance_dashboard_consumption_view.ts:31:    authorityStatus: snapshot.authorityStatus,
+src/governance/cognition/build_governance_dashboard_consumption_view.ts:32:    registryStatus: snapshot.registryStatus,
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:42:    routingStatus: "stable",
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:43:    authorityStatus: "review",
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:44:    registryStatus: "attention",
+src/cognition/phase112.seal.ts:16:export const COGNITION_SPAN_STATUS = "sealed";
+src/governance/governance_advisory_pipeline.test.ts:32:    expect(result.operator_view.status)
+src/governance/governance_advisory_pipeline.test.ts:48:    expect(result.operator_view.status)
+src/governance/cognition/build_governance_pre_live_registry_handoff_envelope.ts:46:    envelopeStatus: "wrapped" as const,
+src/governance/cognition/select_governance_pre_live_registry_delivery_manifest.ts:20:  readonly manifestStatus: "prepared";
+src/governance/cognition/select_governance_pre_live_registry_delivery_manifest.ts:42:    manifestStatus: manifest.manifestStatus,
+src/governance/cognition/build_governance_final_pre_live_registry_archive_record.ts:49:    archiveStatus: "recorded" as const,
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts:41:  readonly capsuleStatus: "summarized";
+src/governance/cognition/select_governance_final_pre_live_registry_archive_record.ts:22:  readonly archiveStatus: "recorded";
+src/governance/cognition/select_governance_final_pre_live_registry_archive_record.ts:46:    archiveStatus: archiveRecord.archiveStatus,
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:44:  readonly capsuleStatus: "summarized";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:59:    routingStatus: "stable",
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:60:    authorityStatus: "review",
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:61:    registryStatus: "attention",
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:101:  assert(capsule.capsuleStatus === "summarized", "Capsule status must evaluate to summarized.");
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:122:    capsuleStatus: selected.capsuleStatus,
+src/cognition/operatorGuidanceMapping.ts:8:export type GuidanceSignalStatus = "healthy" | "degraded" | "stalled" | "unknown";
+src/cognition/operatorGuidanceMapping.ts:13:  status: GuidanceSignalStatus;
+src/cognition/operatorGuidanceMapping.ts:34:function mapStatusToSeverity(status: GuidanceSignalStatus): GuidanceSeverity {
+src/cognition/operatorGuidanceMapping.ts:35:  switch (status) {
+src/cognition/operatorGuidanceMapping.ts:47:function mapStatusToConfidence(status: GuidanceSignalStatus): GuidanceConfidence {
+src/cognition/operatorGuidanceMapping.ts:48:  switch (status) {
+src/cognition/operatorGuidanceMapping.ts:60:function mapStatusToType(
+src/cognition/operatorGuidanceMapping.ts:61:  status: GuidanceSignalStatus,
+src/cognition/operatorGuidanceMapping.ts:63:  switch (status) {
+src/cognition/operatorGuidanceMapping.ts:89:  const severity = mapStatusToSeverity(signal.status);
+src/cognition/operatorGuidanceMapping.ts:90:  const confidence = mapStatusToConfidence(signal.status);
+src/cognition/operatorGuidanceMapping.ts:91:  const type = mapStatusToType(signal.status);
+src/cognition/operatorGuidanceMapping.ts:113:      signal.domain === "system_health" && signal.status === "healthy",
+src/cognition/operatorGuidanceMapping.ts:125:      signal.domain === "system_health" && signal.status === "degraded",
+src/cognition/operatorGuidanceMapping.ts:137:      signal.domain === "system_health" && signal.status === "stalled",
+src/cognition/operatorGuidanceMapping.ts:149:      signal.domain === "throughput" && signal.status === "healthy",
+src/cognition/operatorGuidanceMapping.ts:161:      signal.domain === "throughput" && signal.status === "degraded",
+src/cognition/operatorGuidanceMapping.ts:173:      signal.domain === "throughput" && signal.status === "stalled",
+src/cognition/operatorGuidanceMapping.ts:185:      signal.domain === "latency" && signal.status === "degraded",
+src/cognition/operatorGuidanceMapping.ts:197:      signal.domain === "latency" && signal.status === "stalled",
+src/cognition/operatorGuidanceMapping.ts:209:      signal.domain === "task_lifecycle" && signal.status === "degraded",
+src/cognition/operatorGuidanceMapping.ts:221:      signal.domain === "task_lifecycle" && signal.status === "stalled",
+src/cognition/operatorGuidanceMapping.ts:233:      signal.domain === "signal_quality" && signal.status === "unknown",
+src/cognition/operatorGuidanceMapping.ts:245:      signal.domain === "operator_awareness" && signal.status === "unknown",
+src/governance/cognition/select_governance_authorization_gate.ts:17:  readonly gateStatus: "open" | "closed";
+src/governance/cognition/select_governance_authorization_gate.ts:36:    gateStatus: gate.gateStatus,
+src/governance/cognition/build_governance_live_wiring_decision.ts:11:  GovernanceLiveWiringDecisionStatus
+src/governance/cognition/build_governance_live_wiring_decision.ts:18:function deriveDecisionStatus(
+src/governance/cognition/build_governance_live_wiring_decision.ts:20:): GovernanceLiveWiringDecisionStatus {
+src/governance/cognition/build_governance_live_wiring_decision.ts:27:  const decisionStatus = deriveDecisionStatus(readiness);
+src/governance/cognition/build_governance_live_wiring_decision.ts:28:  const eligibleForExplicitLiveWiring = decisionStatus === "eligible";
+src/governance/cognition/build_governance_live_wiring_decision.ts:32:    decisionStatus,
+src/governance/cognition/build_governance_live_wiring_decision.ts:53:    decisionStatus,
+src/governance/governance_advisory_stability_sentinel.ts:26:    run1.operator_view.status !==
+src/governance/governance_advisory_stability_sentinel.ts:27:    run2.operator_view.status ||
+src/governance/governance_advisory_stability_sentinel.ts:28:    run2.operator_view.status !==
+src/governance/governance_advisory_stability_sentinel.ts:29:    run3.operator_view.status
+src/components/dashboard/SystemHealthBlock.tsx:10:    <section aria-label="System status">
+src/components/dashboard/SystemHealthBlock.tsx:11:      <h2>SYSTEM STATUS</h2>
+src/governance/cognition/select_governance_final_pre_live_registry_summary_capsule.ts:23:  readonly capsuleStatus: "summarized";
+src/governance/cognition/select_governance_final_pre_live_registry_summary_capsule.ts:48:    capsuleStatus: capsule.capsuleStatus,
+src/governance/cognition/prove_governance_cognition_snapshot.ts:18:  readonly overallStatus: string;
+src/governance/cognition/prove_governance_cognition_snapshot.ts:30:    routingStatus: "attention",
+src/governance/cognition/prove_governance_cognition_snapshot.ts:31:    authorityStatus: "stable",
+src/governance/cognition/prove_governance_cognition_snapshot.ts:32:    registryStatus: "review",
+src/governance/cognition/prove_governance_cognition_snapshot.ts:44:  assert(packaged.snapshot.overallStatus === "review", "Overall status must preserve deterministic precedence.");
+src/governance/cognition/prove_governance_cognition_snapshot.ts:53:    overallStatus: packaged.snapshot.overallStatus,
+src/governance/cognition/governance_pre_live_registry_delivery_manifest.ts:38:  readonly manifestStatus: "prepared";
+src/governance/cognition/governance_cognition_snapshot_contract.ts:17:export type GovernanceCognitionStatus =
+src/governance/cognition/governance_cognition_snapshot_contract.ts:27:  readonly routingStatus: GovernanceCognitionStatus;
+src/governance/cognition/governance_cognition_snapshot_contract.ts:28:  readonly authorityStatus: GovernanceCognitionStatus;
+src/governance/cognition/governance_cognition_snapshot_contract.ts:29:  readonly registryStatus: GovernanceCognitionStatus;
+src/governance/cognition/governance_cognition_snapshot_contract.ts:31:  readonly overallStatus: GovernanceCognitionStatus;
+src/governance/cognition/select_governance_pre_live_registry_handoff_envelope.ts:19:  readonly envelopeStatus: "wrapped";
+src/governance/cognition/select_governance_pre_live_registry_handoff_envelope.ts:40:    envelopeStatus: envelope.envelopeStatus,
+src/governance/cognition/governance_live_wiring_decision.ts:17:export type GovernanceLiveWiringDecisionStatus =
+src/governance/cognition/governance_live_wiring_decision.ts:38:  readonly decisionStatus: GovernanceLiveWiringDecisionStatus;
+src/governance/cognition/prove_governance_authorization_gate.ts:32:  readonly gateStatus: "open" | "closed";
+src/governance/cognition/prove_governance_authorization_gate.ts:47:    routingStatus: "stable",
+src/governance/cognition/prove_governance_authorization_gate.ts:48:    authorityStatus: "review",
+src/governance/cognition/prove_governance_authorization_gate.ts:49:    registryStatus: "attention",
+src/governance/cognition/prove_governance_authorization_gate.ts:101:  assert(gate.gateStatus === "open", "Authorization gate status must evaluate to open.");
+src/governance/cognition/prove_governance_authorization_gate.ts:116:    gateStatus: selected.gateStatus,
+src/governance/cognition/build_governance_cognition_snapshot.ts:12:  GovernanceCognitionStatus
+src/governance/cognition/build_governance_cognition_snapshot.ts:16:  readonly routingStatus: GovernanceCognitionStatus;
+src/governance/cognition/build_governance_cognition_snapshot.ts:17:  readonly authorityStatus: GovernanceCognitionStatus;
+src/governance/cognition/build_governance_cognition_snapshot.ts:18:  readonly registryStatus: GovernanceCognitionStatus;
+src/governance/cognition/build_governance_cognition_snapshot.ts:25:  routing: GovernanceCognitionStatus,
+src/governance/cognition/build_governance_cognition_snapshot.ts:26:  authority: GovernanceCognitionStatus,
+src/governance/cognition/build_governance_cognition_snapshot.ts:27:  registry: GovernanceCognitionStatus
+src/governance/cognition/build_governance_cognition_snapshot.ts:40:  routing: GovernanceCognitionStatus,
+src/governance/cognition/build_governance_cognition_snapshot.ts:41:  authority: GovernanceCognitionStatus,
+src/governance/cognition/build_governance_cognition_snapshot.ts:42:  registry: GovernanceCognitionStatus
+src/governance/cognition/build_governance_cognition_snapshot.ts:43:): GovernanceCognitionStatus {
+src/governance/cognition/build_governance_cognition_snapshot.ts:59:    input.routingStatus,
+src/governance/cognition/build_governance_cognition_snapshot.ts:60:    input.authorityStatus,
+src/governance/cognition/build_governance_cognition_snapshot.ts:61:    input.registryStatus
+src/governance/cognition/build_governance_cognition_snapshot.ts:65:    input.routingStatus,
+src/governance/cognition/build_governance_cognition_snapshot.ts:66:    input.authorityStatus,
+src/governance/cognition/build_governance_cognition_snapshot.ts:67:    input.registryStatus
+src/governance/cognition/build_governance_cognition_snapshot.ts:73:    routingStatus: input.routingStatus,
+src/governance/cognition/build_governance_cognition_snapshot.ts:74:    authorityStatus: input.authorityStatus,
+src/governance/cognition/build_governance_cognition_snapshot.ts:75:    registryStatus: input.registryStatus,
+src/governance/cognition/build_governance_cognition_snapshot.ts:77:    overallStatus: overall,
+src/governance/cognition/governance_dashboard_consumption_contract.ts:12:  GovernanceCognitionStatus
+src/governance/cognition/governance_dashboard_consumption_contract.ts:21:  readonly overallStatus: GovernanceCognitionStatus;
+src/governance/cognition/governance_dashboard_consumption_contract.ts:24:  readonly routingStatus: GovernanceCognitionStatus;
+src/governance/cognition/governance_dashboard_consumption_contract.ts:25:  readonly authorityStatus: GovernanceCognitionStatus;
+src/governance/cognition/governance_dashboard_consumption_contract.ts:26:  readonly registryStatus: GovernanceCognitionStatus;
+src/governance/cognition/prove_governance_live_wiring_decision.ts:30:  readonly decisionStatus: "eligible" | "ineligible";
+src/governance/cognition/prove_governance_live_wiring_decision.ts:45:    routingStatus: "stable",
+src/governance/cognition/prove_governance_live_wiring_decision.ts:46:    authorityStatus: "review",
+src/governance/cognition/prove_governance_live_wiring_decision.ts:47:    registryStatus: "attention",
+src/governance/cognition/prove_governance_live_wiring_decision.ts:94:  assert(decision.decisionStatus === "eligible", "Decision status must evaluate to eligible.");
+src/governance/cognition/prove_governance_live_wiring_decision.ts:108:    decisionStatus: selected.decisionStatus,
+src/governance/governance_drift_sentinel.test.ts:29:    expect(result.operator_view.status)
+src/governance/governance_drift_sentinel.test.ts:41:    expect(result.operator_view.status)
+src/governance/governance_drift_sentinel.test.ts:53:    expect(result.operator_view.status)
+src/governance/governance_drift_sentinel.test.ts:65:    expect(result.operator_view.status)
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:38:  readonly manifestStatus: "prepared";
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:53:    routingStatus: "stable",
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:54:    authorityStatus: "review",
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:55:    registryStatus: "attention",
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:122:  assert(manifest.manifestStatus === "prepared", "Manifest status must evaluate to prepared.");
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:140:    manifestStatus: selected.manifestStatus,
+src/cognition/operatorGuidance.live.ts:17:    status: "healthy",
+src/cognition/operatorGuidance.live.ts:25:    status: "degraded",
+src/cognition/operatorGuidance.live.ts:33:    status: "stalled",
+src/cognition/operatorGuidance.live.ts:41:    status: "unknown",
+src/governance/cognition/prove_governance_dashboard_contract_registration.ts:32:    routingStatus: "stable",
+src/governance/cognition/prove_governance_dashboard_contract_registration.ts:33:    authorityStatus: "review",
+src/governance/cognition/prove_governance_dashboard_contract_registration.ts:34:    registryStatus: "attention",
+src/governance/cognition/select_governance_final_delivery_receipt.ts:21:  readonly receiptStatus: "acknowledged";
+src/governance/cognition/select_governance_final_delivery_receipt.ts:44:    receiptStatus: receipt.receiptStatus,
+src/governance/cognition/prove_governance_dashboard_consumption_view.ts:16:  readonly overallStatus: string;
+src/governance/cognition/prove_governance_dashboard_consumption_view.ts:31:    routingStatus: "stable",
+src/governance/cognition/prove_governance_dashboard_consumption_view.ts:32:    authorityStatus: "review",
+src/governance/cognition/prove_governance_dashboard_consumption_view.ts:33:    registryStatus: "attention",
+src/governance/cognition/prove_governance_dashboard_consumption_view.ts:48:  assert(selected.headlineStatus === "review", "Selected status must preserve deterministic precedence.");
+src/governance/cognition/prove_governance_dashboard_consumption_view.ts:54:    overallStatus: selected.headlineStatus,
+src/governance/cognition/governance_pre_live_registry_handoff_envelope.ts:37:  readonly envelopeStatus: "wrapped";
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:39:    routingStatus: "stable",
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:40:    authorityStatus: "review",
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:41:    registryStatus: "attention",
+src/governance/cognition/select_governance_final_pre_live_registry_contract_package.ts:18:  readonly packageStatus: "prepared";
+src/governance/cognition/select_governance_final_pre_live_registry_contract_package.ts:38:    packageStatus: contractPackage.packageStatus,
+src/governance/cognition/index.ts:3:  GovernanceRoutingStatus,
+src/governance/cognition/index.ts:4:  GovernanceAuthorityStatus,
+src/governance/cognition/index.ts:5:  GovernanceRegistryStatus
+src/governance/cognition/index.ts:35:  GovernanceLiveWiringDecisionStatus
+src/governance/cognition/index.ts:43:export type { GovernanceAuthorizationGate, GovernanceAuthorizationGateStatus } from "./governance_authorization_gate";
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:34:  readonly packageStatus: "prepared";
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:49:    routingStatus: "stable",
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:50:    authorityStatus: "review",
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:51:    registryStatus: "attention",
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:108:  assert(contractPackage.packageStatus === "prepared", "Package status must evaluate to prepared.");
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:124:    packageStatus: selected.packageStatus,
+src/governance/cognition/build_governance_authorization_gate.ts:11:  GovernanceAuthorizationGateStatus
+src/governance/cognition/build_governance_authorization_gate.ts:18:function deriveGateStatus(
+src/governance/cognition/build_governance_authorization_gate.ts:20:): GovernanceAuthorizationGateStatus {
+src/governance/cognition/build_governance_authorization_gate.ts:27:  const gateStatus = deriveGateStatus(decision);
+src/governance/cognition/build_governance_authorization_gate.ts:28:  const authorizationEligible = gateStatus === "open";
+src/governance/cognition/build_governance_authorization_gate.ts:32:    gateStatus,
+src/governance/cognition/build_governance_authorization_gate.ts:54:    gateStatus,
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:42:  readonly archiveStatus: "recorded";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:57:    routingStatus: "stable",
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:58:    authorityStatus: "review",
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:59:    registryStatus: "attention",
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:97:  assert(archiveRecord.archiveStatus === "recorded", "Archive status must evaluate to recorded.");
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:117:    archiveStatus: selected.archiveStatus,
+src/governance/cognition/build_governance_final_pre_live_registry_summary_capsule.ts:50:    capsuleStatus: "summarized" as const,
+src/cognition/phase104.seal.ts:16:export const COGNITION_INTEGRATION_STATUS = "sealed";
+src/cognition/phase105.seal.ts:16:export const COGNITION_ENABLEMENT_STATUS = "sealed";
+src/cognition/invariants/cognition.invariants.ts:19:  GovernanceStatus
+src/cognition/invariants/cognition.invariants.ts:28:const VALID_GOVERNANCE: GovernanceStatus[] = [
+src/cognition/invariants/cognition.invariants.ts:38:export function invariantGovernanceStatus(value: string): boolean {
+src/cognition/invariants/cognition.invariants.ts:39:  return VALID_GOVERNANCE.includes(value as GovernanceStatus);
+src/cognition/invariants/cognition.invariants.ts:83:    if (!invariantGovernanceStatus(item.status)) {
+src/cognition/operatorGuidance.smoke.ts:34:        status: "healthy",
+src/cognition/operatorGuidance.smoke.ts:50:        status: "degraded",
+src/cognition/operatorGuidance.smoke.ts:66:        status: "stalled",
+src/cognition/operatorGuidance.smoke.ts:82:        status: "unknown",
+src/cognition/operatorGuidance.smoke.ts:98:        status: "healthy",
+src/cognition/operatorGuidance.smoke.ts:106:        status: "degraded",
+src/cognition/contracts/cognition.contracts.ts:18:export type GovernanceStatus =
+src/cognition/contracts/cognition.contracts.ts:46:  status: GovernanceStatus;
+src/cognition/phase107.seal.ts:16:export const COGNITION_DISPATCH_STATUS = "sealed";
+src/cognition/phase106.seal.ts:16:export const COGNITION_ROUTING_STATUS = "sealed";
+
+=== STEP 3: TRACE REASON FIELD USAGE ===
+app/demo-runtime/page.tsx:24:  denialReasons: string[];
+app/demo-runtime/page.tsx:96:    if (report.denialReasons.length > 0) {
+app/demo-runtime/page.tsx:97:      return `Request denied because: ${report.denialReasons.join(", ")}.`;
+app/demo-runtime/page.tsx:268:              <strong>Denial reasons:</strong>
+app/demo-runtime/page.tsx:269:              {report.denialReasons.length > 0 ? (
+app/demo-runtime/page.tsx:271:                  {report.denialReasons.map((reason) => (
+app/demo-runtime/page.tsx:272:                    <li key={reason}>{reason}</li>
+app/demo-runtime/page.tsx:329:            {report.denialReasons.length > 0 ? (
+app/demo-runtime/page.tsx:331:                <h4 style={{ marginBottom: "0.5rem" }}>Denial reasons</h4>
+app/demo-runtime/page.tsx:333:                  {report.denialReasons.map((reason) => (
+app/demo-runtime/page.tsx:334:                    <li key={reason}>{reason}</li>
+src/contracts/governanceExecutionBridgeContract.ts:31:export interface GovernanceDecisionReason {
+src/contracts/governanceExecutionBridgeContract.ts:39:  reasons: GovernanceDecisionReason[];
+src/contracts/execution/governedExecutionProof.ts:26:  blocked_reason: string | null;
+src/contracts/execution/governedExecutionProof.ts:50:      blocked_reason: "governance_denied",
+src/contracts/execution/governedExecutionProof.ts:69:      blocked_reason: "operator_approval_missing",
+src/contracts/execution/governedExecutionProof.ts:87:    blocked_reason: null,
+src/contracts/execution/__proofs__/governedExecutionProof.caseproof.ts:29:    blocked_reason: governedExecutionAllowedResult.blocked_reason,
+src/contracts/execution/__proofs__/governedExecutionProof.caseproof.ts:36:    blocked_reason: governedExecutionGovernanceBlockedResult.blocked_reason,
+src/contracts/execution/__proofs__/governedExecutionProof.caseproof.ts:43:    blocked_reason: governedExecutionApprovalMissingResult.blocked_reason,
+src/contracts/__fixtures__/governanceExecutionBridgeContract.fixture.ts:30:      reasons: [],
+src/contracts/__fixtures__/governanceExecutionBridgeAssembly.fixture.ts:26:    reasons: [],
+src/contracts/reporting/operatorConsumableExecutionProofSurface.ts:41:    report.summary.blocked_reason === "governance_denied"
+src/contracts/reporting/operatorConsumableExecutionProofSurface.ts:43:      : report.summary.blocked_reason === "operator_approval_missing"
+src/contracts/reporting/governedExecutionProofReport.ts:15:    blocked_reason: string | null;
+src/contracts/reporting/governedExecutionProofReport.ts:35:      blocked_reason: result.blocked_reason,
+src/cognition/operatorGuidanceConfidence.ts:17:  reason: string;
+src/cognition/operatorGuidanceConfidence.ts:29:      reason: "No signals available for interpretation.",
+src/cognition/operatorGuidanceConfidence.ts:46:      reason: "Stalled signals observed but root cause not proven.",
+src/cognition/operatorGuidanceConfidence.ts:55:      reason: "Degraded signals observed without systemic failure.",
+src/cognition/operatorGuidanceConfidence.ts:64:      reason: "Signal quality insufficient for strong interpretation.",
+src/cognition/operatorGuidanceConfidence.ts:72:    reason: "Signals consistently indicate healthy state.",
+src/governance/governanceOperatorAwarenessTypes.ts:42:  reason: string;
+src/governance/governanceCognitionIntegrationProof.ts:52:      reason: "integration-proof"
+src/governance/governance_policy_registry.ts:11:  GovernanceEnforcementReason
+src/governance/governance_policy_registry.ts:19:  reason: GovernanceEnforcementReason
+src/governance/governance_policy_registry.ts:31:    reason: "no_violation_detected",
+src/governance/governance_policy_registry.ts:41:    reason: "operator_review_required",
+src/governance/governance_policy_registry.ts:51:    reason: "governance_critical_detected",
+src/governance/governance_signal_classifier.test.ts:57:  assert.equal(riskClassification.reason, "RISK_SIGNAL_DETECTED");
+src/governance/governance_signal_classifier.test.ts:63:  assert.equal(cautionClassification.reason, "CAUTION_SIGNAL_DETECTED");
+src/governance/governance_signal_classifier.test.ts:67:  assert.equal(safeClassification.reason, "SAFE_SIGNAL_DETECTED");
+src/governance/governance_signal_classifier.test.ts:71:  assert.equal(unknownClassification.reason, "MISSING_REQUIRED_FIELDS");
+src/governance/governance_signal_classifier.test.ts:77:  assert.equal(auditRecord.reason, "RISK_SIGNAL_DETECTED");
+src/governance/governance_signal_classifier.ts:71:export type GovernanceClassificationReason =
+src/governance/governance_signal_classifier.ts:79:    reason: GovernanceClassificationReason
+src/governance/governance_signal_classifier.ts:89:    reason: GovernanceClassificationReason
+src/governance/governance_signal_classifier.ts:122:            reason: "MISSING_REQUIRED_FIELDS",
+src/governance/governance_signal_classifier.ts:132:            reason: "RISK_SIGNAL_DETECTED",
+src/governance/governance_signal_classifier.ts:142:            reason: "CAUTION_SIGNAL_DETECTED",
+src/governance/governance_signal_classifier.ts:151:        reason: "SAFE_SIGNAL_DETECTED",
+src/governance/governance_signal_classifier.ts:166:        reason: classification.reason,
+src/cognition/operatorGuidanceSafety.ts:193:  assertSafeText("reduction.confidenceReason", reduction.confidenceReason, violations);
+src/governance/governanceExecutionRoutingProof.ts:41:        reason: "determinism-proof"
+src/governance/governanceExecutionRoutingTypes.ts:20:  reason: string;
+src/governance/governanceCognitionSelectorsProof.ts:55:      reason: "selector-proof"
+src/governance/governanceExecutionRoutingClassifier.ts:36:    reason: routing.reason,
+src/governance/governanceOutcomeSurfaceProof.ts:43:        reason: "surface-proof"
+src/governance/governanceCognitionSurfaceProof.ts:48:      reason: "cognition-surface-proof"
+src/governance/governance_advisory_contract.test.ts:20:        reasoning: "Signal classified as informational.",
+src/governance/governance_advisory_contract.test.ts:39:        reasoning: "Notice-level condition present.",
+src/governance/governance_advisory_contract.test.ts:51:        reasoning: "Critical severity must dominate report severity.",
+src/governance/governance_advisory_contract.test.ts:63:        reasoning: "Warning present but not highest.",
+src/governance/governance_audit_log.ts:18:  reason: string
+src/governance/governance_audit_log.ts:38:    reason: result.reason,
+src/governance/governanceOperatorAwarenessBuilder.ts:45:    reason: surface.reason
+src/governance/governance_enforcement_result.ts:12:  GovernanceEnforcementReason
+src/governance/governance_enforcement_result.ts:19:  reason: GovernanceEnforcementReason
+src/governance/governance_enforcement_result.ts:36:  reason: GovernanceEnforcementReason,
+src/governance/governance_enforcement_result.ts:45:    reason,
+src/governance/governanceOperatorAwarenessProof.ts:47:      reason: "awareness-proof"
+src/governance/governance_advisory_contract.ts:76:  Governance reasoning trace (read-only cognition explanation)
+src/governance/governance_advisory_contract.ts:78:  reasoning: string;
+src/governance/governanceExecutionRouting.ts:28:  reason: string;
+src/governance/governanceExecutionRouting.ts:34:  reason: string;
+src/governance/governanceExecutionRouting.ts:50:        reason: input.reason,
+src/governance/governanceExecutionRouting.ts:58:        reason: input.reason,
+src/governance/governanceExecutionRouting.ts:66:        reason: input.reason,
+src/governance/governanceExecutionRouting.ts:74:        reason: input.reason,
+src/governance/governanceExecutionRouting.ts:82:        reason: input.reason,
+src/governance/governance_enforcement_contract.ts:15:export type GovernanceEnforcementReason =
+src/governance/governance_enforcement_contract.ts:23:  reason: GovernanceEnforcementReason
+src/governance/governance_enforcement_contract.ts:31:  reason: GovernanceEnforcementReason
+src/governance/governance_enforcement_contract.ts:35:    reason,
+src/governance/governance_advisory_normalizer.test.ts:17:    reasoning: "test",
+src/governance/governanceOutcomeSurfaceTypes.ts:38:  reason: string;
+src/governance/governance_decision_pipeline.ts:49:    policy.reason,
+src/cognition/confidence/index.ts:10:  type OperationalConfidenceReasoning,
+src/cognition/confidence/confidenceInvariant.ts:41:  if (first.reasoning.factors.length !== 4) {
+src/cognition/confidence/confidenceInvariant.ts:43:      `Operational confidence invariant failed: expected 4 factors, received ${first.reasoning.factors.length}.`,
+src/cognition/confidence/confidenceSynthesizer.ts:41:    reasoning: {
+src/cognition/confidence/confidenceFactors.ts:22:  readonly reasonTemplate: (score: number) => string;
+src/cognition/confidence/confidenceFactors.ts:30:      reasonTemplate: (score) =>
+src/cognition/confidence/confidenceFactors.ts:36:      reasonTemplate: (score) => `Runtime health evaluated at ${score}/100.`,
+src/cognition/confidence/confidenceFactors.ts:41:      reasonTemplate: (score) =>
+src/cognition/confidence/confidenceFactors.ts:47:      reasonTemplate: (score) =>
+src/cognition/confidence/confidenceFactors.ts:82:      reason: descriptor.reasonTemplate(score),
+src/governance/governance_advisory_presenter.test.ts:20:    reasoning: "test",
+src/cognition/confidence/confidence.types.ts:37:  readonly reason: string;
+src/cognition/confidence/confidence.types.ts:40:export interface OperationalConfidenceReasoning {
+src/cognition/confidence/confidence.types.ts:50:  readonly reasoning: OperationalConfidenceReasoning;
+src/governance/governanceOutcomeSurfaceBuilder.ts:47:    reason: routing.reason
+src/governance/cognition/governance_live_wiring_decision.ts:40:  readonly decisionReasons: readonly string[];
+src/cognition/operatorGuidanceReducer.ts:27:  confidenceReason: string;
+src/cognition/operatorGuidanceReducer.ts:74:    confidenceReason: confidence.reason,
+src/cognition/operatorGuidanceReducer.ts:91:    confidenceReason: "No signals available for interpretation.",
+src/governance/cognition/governance_final_pre_live_registry_contract_package.ts:38:  readonly packageReasons: readonly string[];
+src/governance/cognition/build_governance_pre_live_registry_delivery_manifest.ts:20:  const manifestReasons = uniqueSorted([
+src/governance/cognition/build_governance_pre_live_registry_delivery_manifest.ts:21:    ...handoffEnvelope.envelopeReasons,
+src/governance/cognition/build_governance_pre_live_registry_delivery_manifest.ts:49:    manifestReasons,
+src/governance/cognition/select_governance_live_wiring_decision.ts:18:  readonly decisionReasonCount: number;
+src/governance/cognition/select_governance_live_wiring_decision.ts:36:    decisionReasonCount: decision.decisionReasons.length,
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:29:  readonly readinessReasonCount: number;
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:88:  assert(selected.readinessReasonCount >= 4, "Readiness must expose deterministic reasons.");
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:99:    readinessReasonCount: selected.readinessReasonCount,
+src/demo/minimalDemoRunner.ts:19:  denialReasons: string[];
+src/demo/minimalDemoRunner.ts:44:  denialReasons: string[];
+src/demo/minimalDemoRunner.ts:81:  const denialReasons: string[] = [];
+src/demo/minimalDemoRunner.ts:85:    denialReasons.push("Approval missing");
+src/demo/minimalDemoRunner.ts:89:    denialReasons.push("Governance evaluation missing");
+src/demo/minimalDemoRunner.ts:93:    denialReasons.push("Authority ordering invalid");
+src/demo/minimalDemoRunner.ts:97:    denialReasons.push("Task structure invalid");
+src/demo/minimalDemoRunner.ts:106:    decision: denialReasons.length === 0 ? "ADMITTED" : "DENIED",
+src/demo/minimalDemoRunner.ts:107:    denialReasons,
+src/demo/minimalDemoRunner.ts:191:    denialReasons: admission.denialReasons,
+src/governance/cognition/build_governance_final_delivery_receipt.ts:20:  const receiptReasons = uniqueSorted([
+src/governance/cognition/build_governance_final_delivery_receipt.ts:21:    ...manifest.manifestReasons,
+src/governance/cognition/build_governance_final_delivery_receipt.ts:50:    receiptReasons,
+src/governance/cognition/build_governance_final_pre_live_registry_archive_record.ts:20:  const archiveReasons = uniqueSorted([
+src/governance/cognition/build_governance_final_pre_live_registry_archive_record.ts:21:    ...receipt.receiptReasons,
+src/governance/cognition/build_governance_final_pre_live_registry_archive_record.ts:51:    archiveReasons,
+src/governance/cognition/prove_governance_live_wiring_decision.ts:32:  readonly decisionReasonCount: number;
+src/governance/cognition/prove_governance_live_wiring_decision.ts:97:  assert(selected.decisionReasonCount >= 4, "Decision must expose deterministic reasons.");
+src/governance/cognition/prove_governance_live_wiring_decision.ts:110:    decisionReasonCount: selected.decisionReasonCount,
+src/governance/cognition/select_governance_live_registry_wiring_readiness.ts:16:  readonly readinessReasonCount: number;
+src/governance/cognition/select_governance_live_registry_wiring_readiness.ts:32:    readinessReasonCount: readiness.readinessReasons.length,
+src/governance/cognition/governance_authorization_gate.ts:41:  readonly authorizationReasons: readonly string[];
+src/governance/cognition/select_governance_final_pre_live_registry_summary_capsule.ts:25:  readonly capsuleReasonCount: number;
+src/governance/cognition/select_governance_final_pre_live_registry_summary_capsule.ts:50:    capsuleReasonCount: capsule.capsuleReasons.length,
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:36:  readonly packageReasonCount: number;
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:111:  assert(selected.packageReasonCount >= 4, "Contract package must expose deterministic reasons.");
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:126:    packageReasonCount: selected.packageReasonCount,
+src/governance/cognition/prove_governance_authorization_gate.ts:34:  readonly authorizationReasonCount: number;
+src/governance/cognition/prove_governance_authorization_gate.ts:104:  assert(selected.authorizationReasonCount >= 4, "Authorization gate must expose deterministic reasons.");
+src/governance/cognition/prove_governance_authorization_gate.ts:118:    authorizationReasonCount: selected.authorizationReasonCount,
+src/governance/cognition/get_governance_execution_eligibility_snapshot.ts:12:  readonly governanceReason: string | null;
+src/governance/cognition/get_governance_execution_eligibility_snapshot.ts:20:    governanceReason: proof.authorizationEligible ? null : proof.gateStatus,
+src/governance/cognition/build_governance_final_pre_live_registry_contract_package.ts:20:  const packageReasons = uniqueSorted([
+src/governance/cognition/build_governance_final_pre_live_registry_contract_package.ts:21:    ...authorizationGate.authorizationReasons,
+src/governance/cognition/build_governance_final_pre_live_registry_contract_package.ts:47:    packageReasons,
+src/governance/cognition/select_governance_final_pre_live_registry_archive_record.ts:24:  readonly archiveReasonCount: number;
+src/governance/cognition/select_governance_final_pre_live_registry_archive_record.ts:48:    archiveReasonCount: archiveRecord.archiveReasons.length,
+src/governance/cognition/build_governance_live_wiring_decision.ts:30:  const decisionReasons = uniqueSorted([
+src/governance/cognition/build_governance_live_wiring_decision.ts:31:    ...readiness.readinessReasons,
+src/governance/cognition/build_governance_live_wiring_decision.ts:55:    decisionReasons,
+src/governance/cognition/select_governance_pre_live_registry_delivery_manifest.ts:22:  readonly manifestReasonCount: number;
+src/governance/cognition/select_governance_pre_live_registry_delivery_manifest.ts:44:    manifestReasonCount: manifest.manifestReasons.length,
+src/governance/cognition/governance_live_registry_wiring_readiness.ts:34:  readonly readinessReasons: readonly string[];
+src/governance/cognition/governance_final_pre_live_registry_archive_record.ts:42:  readonly archiveReasons: readonly string[];
+src/governance/cognition/governance_pre_live_registry_delivery_manifest.ts:40:  readonly manifestReasons: readonly string[];
+src/governance/cognition/select_governance_final_pre_live_registry_contract_package.ts:20:  readonly packageReasonCount: number;
+src/governance/cognition/select_governance_final_pre_live_registry_contract_package.ts:40:    packageReasonCount: contractPackage.packageReasons.length,
+src/governance/cognition/build_governance_live_registry_wiring_readiness.ts:18:  const reasons = uniqueSorted([
+src/governance/cognition/build_governance_live_registry_wiring_readiness.ts:53:    readinessReasons: reasons,
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:38:  readonly envelopeReasonCount: number;
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:118:  assert(selected.envelopeReasonCount >= 4, "Envelope must expose deterministic reasons.");
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:134:    envelopeReasonCount: selected.envelopeReasonCount,
+src/governance/cognition/build_governance_pre_live_registry_handoff_envelope.ts:20:  const envelopeReasons = uniqueSorted([
+src/governance/cognition/build_governance_pre_live_registry_handoff_envelope.ts:21:    ...contractPackage.packageReasons,
+src/governance/cognition/build_governance_pre_live_registry_handoff_envelope.ts:48:    envelopeReasons,
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:40:  readonly manifestReasonCount: number;
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:125:  assert(selected.manifestReasonCount >= 4, "Manifest must expose deterministic reasons.");
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:142:    manifestReasonCount: selected.manifestReasonCount,
+src/cognition/transport/cognitionTransport.severity.ts:17:  reasons: string[]
+src/cognition/transport/cognitionTransport.severity.ts:24:  const reasons: string[] = []
+src/cognition/transport/cognitionTransport.severity.ts:27:    reasons.push("registry inconsistent")
+src/cognition/transport/cognitionTransport.severity.ts:30:    reasons.push("replay unsafe")
+src/cognition/transport/cognitionTransport.severity.ts:33:    reasons.push("transport failures detected")
+src/cognition/transport/cognitionTransport.severity.ts:37:  if (reasons.length === 0)
+src/cognition/transport/cognitionTransport.severity.ts:39:  else if (reasons.length === 1)
+src/cognition/transport/cognitionTransport.severity.ts:41:  else if (reasons.length === 2)
+src/cognition/transport/cognitionTransport.severity.ts:49:    reasons
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:46:  readonly capsuleReasonCount: number;
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:104:  assert(selected.capsuleReasonCount >= 4, "Capsule must expose deterministic reasons.");
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:124:    capsuleReasonCount: selected.capsuleReasonCount,
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:44:  readonly archiveReasonCount: number;
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:100:  assert(selected.archiveReasonCount >= 4, "Archive record must expose deterministic reasons.");
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:119:    archiveReasonCount: selected.archiveReasonCount,
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:42:  readonly receiptReasonCount: number;
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:96:  assert(selected.receiptReasonCount >= 4, "Receipt must expose deterministic reasons.");
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:114:    receiptReasonCount: selected.receiptReasonCount,
+src/governance/cognition/select_governance_final_delivery_receipt.ts:23:  readonly receiptReasonCount: number;
+src/governance/cognition/select_governance_final_delivery_receipt.ts:46:    receiptReasonCount: receipt.receiptReasons.length,
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts:43:  readonly capsuleReasons: readonly string[];
+src/governance/cognition/build_governance_final_pre_live_registry_summary_capsule.ts:20:  const capsuleReasons = uniqueSorted([
+src/governance/cognition/build_governance_final_pre_live_registry_summary_capsule.ts:21:    ...archiveRecord.archiveReasons,
+src/governance/cognition/build_governance_final_pre_live_registry_summary_capsule.ts:52:    capsuleReasons,
+src/governance/cognition/governance_pre_live_registry_handoff_envelope.ts:39:  readonly envelopeReasons: readonly string[];
+src/cognition/transport/cognitionTransport.risk.ts:17:  reasons: string[]
+src/cognition/transport/cognitionTransport.risk.ts:38:    reasons: severity.reasons
+src/governance/cognition/select_governance_pre_live_registry_handoff_envelope.ts:21:  readonly envelopeReasonCount: number;
+src/governance/cognition/select_governance_pre_live_registry_handoff_envelope.ts:42:    envelopeReasonCount: envelope.envelopeReasons.length,
+src/governance/cognition/governance_final_delivery_receipt.ts:41:  readonly receiptReasons: readonly string[];
+src/governance/cognition/build_governance_authorization_gate.ts:30:  const authorizationReasons = uniqueSorted([
+src/governance/cognition/build_governance_authorization_gate.ts:31:    ...decision.decisionReasons,
+src/governance/cognition/build_governance_authorization_gate.ts:56:    authorizationReasons,
+src/governance/cognition/select_governance_authorization_gate.ts:19:  readonly authorizationReasonCount: number;
+src/governance/cognition/select_governance_authorization_gate.ts:38:    authorizationReasonCount: gate.authorizationReasons.length,
+src/cognition/transport/cognitionTransport.failure.ts:6:export type TransportFailureReason =
+src/cognition/transport/cognitionTransport.failure.ts:15:  reason: TransportFailureReason;
+src/cognition/transport/cognitionTransport.failure.ts:26:export function transportFailure(reason: TransportFailureReason): TransportFailure {
+src/cognition/transport/cognitionTransport.failure.ts:30:    reason
+src/cognition/transport/cognitionTransport.failure.ts:47:All failures must return reason.
+src/cognition/transport/cognitionTransport.interpretation.ts:16:  reasons: string[]
+src/cognition/transport/cognitionTransport.interpretation.ts:31:    reasons: severity.reasons,
+src/cognition/transport/cognitionTransport.operatorView.ts:23:    ...interpretation.reasons,
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:10:  governanceReason: string | null;
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:22:      governanceReason: governance.governanceReason,
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:30:    governanceReason: null,
+
+=== STEP 4: TRACE ANY 'insufficient' ASSIGNMENTS ===
+src/cognition/operatorGuidanceConfidence.ts:28:      confidence: "insufficient",
+src/cognition/operatorGuidanceConfidence.ts:64:      reason: "Signal quality insufficient for strong interpretation.",
+src/cognition/operatorGuidanceSafety.ts:43:  "insufficient",
+src/cognition/operatorGuidance.ts:17:  | "insufficient";
+src/cognition/operatorGuidanceMapping.ts:237:        `Signal quality is insufficient for strong interpretation: ${signal.summary}`,
+src/cognition/operatorGuidance.live.ts:52:  surfaceConfidence: "high" | "medium" | "low" | "insufficient";
+src/cognition/operatorGuidance.smoke.ts:15:  expectedSurfaceConfidence: "high" | "medium" | "low" | "insufficient";
+src/cognition/operatorGuidance.smoke.ts:120:    expectedSurfaceConfidence: "insufficient",
+src/cognition/operatorGuidanceReducer.ts:90:    surfaceConfidence: "insufficient",
+
+=== STEP 5: TRACE STATE INITIALIZATION ===
+app/demo-runtime/page.tsx:3:import { useMemo, useState } from "react";
+app/demo-runtime/page.tsx:76:export default function DemoRuntimePage() {
+app/demo-runtime/page.tsx:77:  const [prompt, setPrompt] = useState(
+app/demo-runtime/page.tsx:80:  const [approved, setApproved] = useState(true);
+app/demo-runtime/page.tsx:81:  const [governanceEvaluated, setGovernanceEvaluated] = useState(true);
+app/demo-runtime/page.tsx:82:  const [authorityOrderingValid, setAuthorityOrderingValid] = useState(true);
+app/demo-runtime/page.tsx:83:  const [loading, setLoading] = useState(false);
+app/demo-runtime/page.tsx:84:  const [report, setReport] = useState<DemoReport | null>(null);
+app/demo-runtime/page.tsx:85:  const [error, setError] = useState<string>("");
+src/governance_investigation/verification/check-pathological-fixtures.ts:22:    (replayViolationModule as { default?: unknown }).default,
+src/governance_investigation/verification/replay_violation_codes.ts:7:default registry shapes for stable module resolution.
+src/governance_investigation/verification/replay_violation_codes.ts:45:export default REPLAY_VIOLATION_CODES;
+src/cognition/operatorGuidanceConfidence.ts:109:    default:
+src/governance/governanceOperatorAwarenessTypes.ts:70:    default: {
+src/governance/governanceExecutionRoutingTypes.ts:45:    default: {
+src/governance/governanceCognitionSurfaceTypes.ts:52:    default: {
+src/governance/governanceOutcomeSurfaceTypes.ts:62:    default: {
+src/governance/governanceExecutionRouting.ts:86:    default: {
+src/cognition/situationSummaryComposer.ts:65:    readonly fallbackScore: number;
+src/cognition/situationSummaryComposer.ts:86:  return config.fallbackScore;
+src/cognition/situationSummaryComposer.ts:104:      fallbackScore: 70,
+src/cognition/situationSummaryComposer.ts:114:    fallbackScore: 70,
+src/cognition/situationSummaryComposer.ts:123:    fallbackScore: 65,
+src/cognition/situationSummaryComposer.ts:132:    fallbackScore: 70,
+src/cognition/situationSummaryComposer.ts:143:      fallbackScore: 70,
+
+=== STEP 6: TRACE EFFECT / HYDRATION ===
+src/governance_visibility/governance_visibility_model.ts:6:  policy_matched: string | null;
+app/demo-runtime/page.tsx:83:  const [loading, setLoading] = useState(false);
+app/demo-runtime/page.tsx:84:  const [report, setReport] = useState<DemoReport | null>(null);
+app/demo-runtime/page.tsx:106:    setReport(null);
+app/demo-runtime/page.tsx:204:          disabled={loading}
+app/demo-runtime/page.tsx:211:            cursor: loading ? "not-allowed" : "pointer",
+app/demo-runtime/page.tsx:215:          {loading ? "Running…" : "Run governed demo"}
+app/demo-runtime/page.tsx:232:      ) : null}
+app/demo-runtime/page.tsx:338:            ) : null}
+app/demo-runtime/page.tsx:407:              {JSON.stringify(report, null, 2)}
+app/demo-runtime/page.tsx:411:      ) : null}
+src/governance_visibility/governance_visibility_snapshot.ts:9:  policy_matched?: string | null;
+src/governance_visibility/governance_visibility_snapshot.ts:23:    policy_matched: input.policy_matched ?? null,
+src/governance_visibility/governance_visibility_snapshot.ts:26:    explanation_available: input.explanation != null,
+src/governance_visibility/governance_visibility_snapshot.ts:27:    audit_recorded: input.audit != null,
+src/governance_investigation/governance_playback_navigation.ts:16:    current_event: state.timeline[nextIndex] ?? null,
+src/governance_investigation/governance_playback_navigation.ts:33:    current_event: state.timeline[prevIndex] ?? null,
+src/governance_investigation/governance_playback_navigation.ts:51:    current_event: state.timeline[bounded] ?? null,
+src/governance_investigation/governance_playback_navigation.ts:63:    current_event: state.timeline[0] ?? null,
+src/governance_investigation/governance_playback_navigation.ts:77:    current_event: state.timeline[last] ?? null,
+src/governance_digest/governance_digest_builder.ts:18:  policy_route?: string | null;
+src/governance_digest/governance_digest_builder.ts:40:      text: formatGovernanceDigestPolicy(input.policy_route ?? null),
+src/governance_investigation/governance_investigation_types.ts:51:  readonly explanation_id: GovernanceExplanationId | null;
+src/governance_investigation/governance_investigation_types.ts:58:  readonly explanation?: GovernanceExplanationRecord | null;
+src/governance_investigation/governance_investigation_types.ts:71:    explanation_id: seed.explanation?.explanation_id ?? null,
+src/governance_investigation/governance_playback_assembly_proof.ts:32:      (assembled.playback.current_event?.type ?? null) &&
+src/governance_investigation/governance_playback_assembly_proof.ts:34:      (assembled.playback.current_event?.label ?? null);
+src/governance_investigation/governance_playback_assembly_proof.ts:49:        ? assembled.dashboard_contract.status.current_position === null
+src/governance_digest/governance_digest_formatter.ts:18:export function formatGovernanceDigestPolicy(policyRoute: string | null): string {
+src/contracts/governanceExecutionBridgeContract.ts:11:  id: string | null;
+src/contracts/governanceExecutionBridgeContract.ts:25:  run_id: string | null;
+src/contracts/governanceExecutionBridgeContract.ts:26:  task_id: string | null;
+src/contracts/governanceExecutionBridgeContract.ts:27:  status?: string | null;
+src/contracts/governanceExecutionBridgeContract.ts:44:  task_id: string | null;
+src/contracts/governanceExecutionBridgeContract.ts:45:  run_id: string | null;
+src/contracts/governanceExecutionBridgeContract.ts:46:  kind: string | null;
+src/contracts/governanceExecutionBridgeContract.ts:47:  action_tier: string | null;
+src/contracts/governanceExecutionBridgeContract.ts:48:  attempts: number | null;
+src/contracts/governanceExecutionBridgeContract.ts:49:  max_attempts: number | null;
+src/contracts/governanceExecutionBridgeContract.ts:50:  claimed_by: string | null;
+src/governance_investigation/governance_operator_investigation_view.ts:14:  readonly explanation: string | null;
+src/governance_investigation/governance_operator_investigation_view.ts:33:    explanation: trace.explanation?.summary ?? null,
+src/governance_investigation/governance_playback_invariants.ts:20:    return state.current_event === null;
+src/contracts/execution/governedExecutionProof.ts:15:  approval_id: string | null;
+src/contracts/execution/governedExecutionProof.ts:16:  approved_by: string | null;
+src/contracts/execution/governedExecutionProof.ts:26:  blocked_reason: string | null;
+src/contracts/execution/governedExecutionProof.ts:29:    task_id: string | null;
+src/contracts/execution/governedExecutionProof.ts:30:    run_id: string | null;
+src/contracts/execution/governedExecutionProof.ts:87:    blocked_reason: null,
+src/governance_investigation/governance_operator_playback_view.ts:15:    readonly type: string | null;
+src/governance_investigation/governance_operator_playback_view.ts:16:    readonly label: string | null;
+src/governance_investigation/governance_operator_playback_view.ts:17:    readonly timestamp: string | null;
+src/governance_investigation/governance_operator_playback_view.ts:18:    readonly source: string | null;
+src/governance_investigation/governance_operator_playback_view.ts:19:    readonly reference_id: string | null;
+src/governance_investigation/governance_operator_playback_view.ts:43:      type: state.current_event?.type ?? null,
+src/governance_investigation/governance_operator_playback_view.ts:44:      label: state.current_event?.label ?? null,
+src/governance_investigation/governance_operator_playback_view.ts:45:      timestamp: state.current_event?.timestamp ?? null,
+src/governance_investigation/governance_operator_playback_view.ts:46:      source: state.current_event?.source ?? null,
+src/governance_investigation/governance_operator_playback_view.ts:47:      reference_id: state.current_event?.reference_id ?? null,
+src/governance_investigation/governance_playback_types.ts:8:  readonly current_event: GovernanceTimelineEvent | null;
+src/governance_investigation/governance_playback_types.ts:28:      current_event: null,
+src/governance_investigation/governance_playback_types.ts:40:    current_event: seed.timeline[cursorIndex] ?? null,
+src/contracts/execution/__fixtures__/governedExecutionProof.fixture.ts:47:    approval_id: null,
+src/contracts/execution/__fixtures__/governedExecutionProof.fixture.ts:48:    approved_by: null,
+src/governance_investigation/governance_decision_trace.ts:26:  readonly explanation?: GovernanceExplanationRecord | null;
+src/governance_investigation/governance_decision_trace.ts:29:  readonly policy?: GovernancePolicyReference | null;
+src/governance_investigation/governance_decision_trace.ts:35:  readonly explanation: GovernanceExplanationRecord | null;
+src/governance_investigation/governance_decision_trace.ts:38:  readonly policy: GovernancePolicyReference | null;
+src/governance_investigation/governance_decision_trace.ts:49:    explanation: seed.explanation ?? null,
+src/governance_investigation/governance_decision_trace.ts:56:    explanation: seed.explanation ?? null,
+src/governance_investigation/governance_decision_trace.ts:59:    policy: seed.policy ?? null,
+src/governance_investigation/governance_decision_trace.ts:62:      explanation: seed.explanation ?? null,
+src/governance_investigation/verification/replay_structure_verifier.ts:35:  return typeof value === "object" && value !== null;
+src/governance_investigation/verification/replay_structure_verifier.ts:93:  let previousSequence: number | null = null;
+src/governance_investigation/verification/replay_structure_verifier.ts:110:    if (sequence === undefined) {
+src/governance_investigation/verification/replay_structure_verifier.ts:116:    if (timestamp === undefined) {
+src/governance_investigation/verification/replay_structure_verifier.ts:131:      if (previousSequence !== null && sequence <= previousSequence) {
+src/contracts/__fixtures__/governanceExecutionBridgeContract.fixture.ts:10:      notes: null,
+src/contracts/__fixtures__/governanceExecutionBridgeContract.fixture.ts:13:      error: null,
+src/contracts/__fixtures__/governanceExecutionBridgeContract.fixture.ts:21:      status: "pending",
+src/contracts/__fixtures__/governanceExecutionBridgeContract.fixture.ts:40:      claimed_by: null,
+src/contracts/__fixtures__/governanceExecutionBridgeAssembly.fixture.ts:12:  notes: null,
+src/contracts/__fixtures__/governanceExecutionBridgeAssembly.fixture.ts:15:  error: null,
+src/contracts/__fixtures__/governanceExecutionBridgeAssembly.fixture.ts:36:    claimed_by: null,
+src/governance_investigation/verification/replay_pathological_fixtures.ts:47:    description: "Replay contains undefined event type",
+src/contracts/reporting/governedExecutionProofReport.ts:15:    blocked_reason: string | null;
+src/governance_investigation/governance_investigation_reducer.ts:8:  readonly explanation_summary: string | null;
+src/governance_investigation/governance_investigation_reducer.ts:21:    explanation_summary: trace.explanation?.summary ?? null,
+src/governance_investigation/governance_playback_reducer.ts:7:  readonly current_event_type: string | null;
+src/governance_investigation/governance_playback_reducer.ts:8:  readonly current_event_label: string | null;
+src/governance_investigation/governance_playback_reducer.ts:20:  const hasCurrentEvent = state.current_event !== null;
+src/governance_investigation/governance_playback_reducer.ts:29:    current_event_type: state.current_event?.type ?? null,
+src/governance_investigation/governance_playback_reducer.ts:30:    current_event_label: state.current_event?.label ?? null,
+src/governance_investigation/governance_dashboard_playback_contract.ts:14:    readonly current_position: number | null;
+src/governance_investigation/governance_dashboard_playback_contract.ts:39:      current_position: isEmpty ? null : view.header.cursor_index + 1,
+src/governance_investigation/governance_timeline_types.ts:26:  readonly explanation?: GovernanceExplanationRecord | null;
+src/governance_investigation/governance_playback_navigation_assembly.ts:25:      explanation: null,
+src/governance_investigation/governance_playback_navigation_assembly.ts:28:      policy: null,
+src/governance_investigation/governance_playback_navigation_assembly.ts:41:        explanation_id: null,
+src/governance_reporting/governance_reporting_formatter.ts:18:export function formatGovernanceReportPolicy(policyRoute: string | null): string {
+src/governance_reporting/governance_reporting_builder.ts:17:  policy_route?: string | null;
+src/governance_reporting/governance_reporting_builder.ts:39:          value: formatGovernanceReportPolicy(input.policy_route ?? null),
+src/cognition/selectors/cognition.selectors.ts:25:): SituationSummaryContract | null {
+src/cognition/selectors/cognition.selectors.ts:26:  return envelope.situation ?? null;
+src/cognition/selectors/cognition.selectors.ts:44:  return envelope.situation != null;
+src/governance_operator_packet/governance_operator_packet_formatter.ts:19:  policyRoute: string | null,
+src/governance_operator_packet/governance_operator_packet_builder.ts:19:  policy_route?: string | null;
+src/governance_operator_packet/governance_operator_packet_builder.ts:36:      text: formatGovernanceOperatorPacketPolicy(input.policy_route ?? null),
+src/cognition/governanceCognition.smoke.ts:119:  typeof process !== "undefined" &&
+src/cognition/governanceCognition.smoke.ts:126:  process.stdout.write(`${JSON.stringify(result, null, 2)}\n`);
+src/governance/governance_policy_registry.ts:60:): GovernancePolicyDefinition | undefined {
+src/governance/governance_signal_classifier.test.ts:53:  const missingFieldSignal = null;
+src/governance/governance_signal_classifier.ts:95:    signal: GovernanceSignal | null | undefined
+src/governance/governance_signal_classifier.ts:108:    signal: GovernanceSignal | null | undefined
+src/governance/governance_signal_classifier.ts:159:    signal: GovernanceSignal | null | undefined,
+src/governance/governance_advisory_digest.test.ts:39:  it("returns null when empty", () => {
+src/governance/governance_advisory_digest.test.ts:48:      .toBe(null)
+src/governance/governance_advisory_pipeline.test.ts:46:      .toBe(null)
+src/cognition/situationSummaryComposer.ts:48:type SituationConfidenceStateValue = string | null | undefined;
+src/governance_traceability/governance_traceability_snapshot.ts:9:  policy_route?: string | null;
+src/governance_traceability/governance_traceability_snapshot.ts:25:    policy_route: input.policy_route ?? null,
+src/governance_traceability/governance_traceability_snapshot.ts:29:    explanation_available: input.explanation != null,
+src/governance_traceability/governance_traceability_snapshot.ts:30:    audit_recorded: input.audit != null,
+src/cognition/governanceAwarenessGuards.smoke.ts:108:    undefined
+src/cognition/governanceAwarenessGuards.smoke.ts:139:  typeof process !== "undefined" &&
+src/cognition/governanceAwarenessGuards.smoke.ts:146:  process.stdout.write(`${JSON.stringify(result, null, 2)}\n`);
+src/governance_traceability/governance_traceability_model.ts:16:  policy_route: string | null;
+src/cognition/operatorGuidanceMapping.ts:14:  value?: number | string | boolean | null;
+src/cognition/operatorGuidanceMapping.ts:258:): OperatorGuidance | null {
+src/cognition/operatorGuidanceMapping.ts:264:    return null;
+src/cognition/operatorGuidanceMapping.ts:276:    .filter((guidance): guidance is OperatorGuidance => guidance !== null);
+src/cognition/situationSummaryInputAdapter.ts:67:  return typeof value === "object" && value !== null;
+src/cognition/situationSummaryInputAdapter.ts:150:): GovernanceAwarenessSurface | undefined {
+src/cognition/situationSummaryInputAdapter.ts:151:  if (!value) return undefined;
+src/cognition/situationSummaryInputAdapter.ts:152:  return isGovernanceAwarenessSurface(value) ? value : undefined;
+src/governance/governance_advisory_digest.ts:19:  highest_severity: string | null
+src/governance/governance_advisory_digest.ts:36:  let highest: string | null = null
+src/cognition/operator-read/cognition.operator-read.ts:36:  situation: SituationSummaryContract | null;
+src/demo/minimalDemoRunner.ts:221:  console.log(JSON.stringify(report, null, 2));
+src/demo/minimalDemoRunner.ts:225:  typeof process !== "undefined" &&
+src/cognition/operatorGuidance.live.ts:77:  process.stdout.write(`${JSON.stringify(result, null, 2)}\n`);
+src/cognition/transport/cognitionTransport.verify.ts:27:Reject undefined transport.
+src/cognition/transport/cognitionTransport.dashboardConsumption.test.ts:20:      value !== null &&
+src/cognition/transport/transportReplaySafety.assert.ts:2:  if (snapshot === null || snapshot === undefined) return false
+src/cognition/transport/cognitionTransport.dashboardConsumption.types.ts:5:  | null;
+src/cognition/transport/CognitionTransportDiagnostics.types.ts:9:  lastVerificationTs: number | null
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.types.ts:14:) => DashboardConsumptionRegistryEntry | undefined;
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_validation.ts:16:function normalizeValue(value: string | null | undefined): string {
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:10:  governanceReason: string | null;
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:30:    governanceReason: null,
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement.ts:6:  consumerId?: string | null;
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement.ts:7:  ownerId?: string | null;
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement.ts:8:  contractId?: string | null;
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement.ts:9:  sectionKey?: string | null;
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement.ts:10:  source?: string | null;
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement.ts:28:function normalizeValue(value: string | null | undefined): string {
+src/governance/cognition/get_governance_execution_eligibility_snapshot.ts:12:  readonly governanceReason: string | null;
+src/governance/cognition/get_governance_execution_eligibility_snapshot.ts:20:    governanceReason: proof.authorizationEligible ? null : proof.gateStatus,
+
+=== STEP 7: TARGET FILE SHORTLIST ===
+app/api/demo-runtime/route.ts
+app/demo-runtime/page.tsx
+src/cognition/confidence/confidence.types.ts
+src/cognition/confidence/confidenceFactors.ts
+src/cognition/confidence/confidenceInvariant.ts
+src/cognition/confidence/confidenceSynthesizer.ts
+src/cognition/confidence/index.ts
+src/cognition/contracts/cognition.contracts.ts
+src/cognition/invariants/cognition.invariants.ts
+src/cognition/operator-read/cognition.operator-read.ts
+src/cognition/operatorGuidance.live.ts
+src/cognition/operatorGuidance.smoke.ts
+src/cognition/operatorGuidance.ts
+src/cognition/operatorGuidanceConfidence.ts
+src/cognition/operatorGuidanceMapping.ts
+src/cognition/operatorGuidanceReducer.ts
+src/cognition/operatorGuidanceSafety.ts
+src/cognition/phase104.seal.ts
+src/cognition/phase105.seal.ts
+src/cognition/phase106.seal.ts
+src/cognition/phase107.seal.ts
+src/cognition/phase108.seal.ts
+src/cognition/phase109.seal.ts
+src/cognition/phase110.seal.ts
+src/cognition/phase111.seal.ts
+src/cognition/phase112.seal.ts
+src/cognition/selectors/cognition.selectors.ts
+src/cognition/transport/cognitionTransport.failure.ts
+src/cognition/transport/cognitionTransport.interpretation.ts
+src/cognition/transport/cognitionTransport.operatorView.ts
+src/cognition/transport/cognitionTransport.risk.ts
+src/cognition/transport/cognitionTransport.severity.ts
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts
+src/components/dashboard/SystemHealthBlock.tsx
+src/contracts/__fixtures__/governanceExecutionBridgeAssembly.fixture.ts
+src/contracts/__fixtures__/governanceExecutionBridgeContract.fixture.ts
+src/contracts/execution/__proofs__/governedExecutionProof.caseproof.ts
+src/contracts/execution/governedExecutionProof.ts
+src/contracts/governanceExecutionBridgeContract.ts
+src/contracts/reporting/governedExecutionProofReport.ts
+src/contracts/reporting/operatorConsumableExecutionProofSurface.ts
+src/demo/minimalDemoRunner.ts
+src/governance_investigation/governance_dashboard_playback_contract.ts
+src/governance_investigation/governance_playback_assembly_proof.ts
+src/governance/cognition/build_governance_authorization_gate.ts
+src/governance/cognition/build_governance_cognition_snapshot.ts
+src/governance/cognition/build_governance_dashboard_consumption_view.ts
+src/governance/cognition/build_governance_final_delivery_receipt.ts
+src/governance/cognition/build_governance_final_pre_live_registry_archive_record.ts
+src/governance/cognition/build_governance_final_pre_live_registry_contract_package.ts
+src/governance/cognition/build_governance_final_pre_live_registry_summary_capsule.ts
+src/governance/cognition/build_governance_live_registry_wiring_readiness.ts
+src/governance/cognition/build_governance_live_wiring_decision.ts
+src/governance/cognition/build_governance_pre_live_registry_delivery_manifest.ts
+src/governance/cognition/build_governance_pre_live_registry_handoff_envelope.ts
+src/governance/cognition/get_governance_execution_eligibility_snapshot.ts
+src/governance/cognition/governance_authorization_gate.ts
+src/governance/cognition/governance_cognition_snapshot_contract.ts
+src/governance/cognition/governance_dashboard_consumption_contract.ts
+src/governance/cognition/governance_final_delivery_receipt.ts
+src/governance/cognition/governance_final_pre_live_registry_archive_record.ts
+src/governance/cognition/governance_final_pre_live_registry_contract_package.ts
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts
+src/governance/cognition/governance_live_registry_wiring_readiness.ts
+src/governance/cognition/governance_live_wiring_decision.ts
+src/governance/cognition/governance_pre_live_registry_delivery_manifest.ts
+src/governance/cognition/governance_pre_live_registry_handoff_envelope.ts
+src/governance/cognition/index.ts
+src/governance/cognition/prove_governance_authorization_gate.ts
+src/governance/cognition/prove_governance_cognition_snapshot.ts
+src/governance/cognition/prove_governance_dashboard_consumption_view.ts
+src/governance/cognition/prove_governance_dashboard_contract_registration.ts
+src/governance/cognition/prove_governance_final_delivery_receipt.ts
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts
+src/governance/cognition/prove_governance_live_wiring_decision.ts
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts
+src/governance/cognition/prove_governance_runtime_registry_export.ts
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts
+src/governance/cognition/select_governance_authorization_gate.ts
+src/governance/cognition/select_governance_dashboard_consumption_view.ts
+src/governance/cognition/select_governance_final_delivery_receipt.ts
+src/governance/cognition/select_governance_final_pre_live_registry_archive_record.ts
+src/governance/cognition/select_governance_final_pre_live_registry_contract_package.ts
+src/governance/cognition/select_governance_final_pre_live_registry_summary_capsule.ts
+src/governance/cognition/select_governance_live_registry_wiring_readiness.ts
+src/governance/cognition/select_governance_live_wiring_decision.ts
+src/governance/cognition/select_governance_pre_live_registry_delivery_manifest.ts
+src/governance/cognition/select_governance_pre_live_registry_handoff_envelope.ts
+src/governance/governance_advisory_consistency_guard.test.ts
+src/governance/governance_advisory_consistency_guard.ts
+src/governance/governance_advisory_contract_lock.ts
+src/governance/governance_advisory_contract.test.ts
+src/governance/governance_advisory_contract.ts
+src/governance/governance_advisory_normalizer.test.ts
+src/governance/governance_advisory_operator_view.test.ts
+src/governance/governance_advisory_operator_view.ts
+src/governance/governance_advisory_pipeline.test.ts
+src/governance/governance_advisory_presenter.test.ts
+src/governance/governance_advisory_stability_sentinel.ts
+src/governance/governance_audit_log.ts
+src/governance/governance_audit_trace_emitter.ts
+src/governance/governance_cognition_determinism_sentinel.ts
+src/governance/governance_cognition_integrity_sentinel.ts
+src/governance/governance_cognition_regression_sentinel.ts
+src/governance/governance_cognition_replay_verifier.ts
+src/governance/governance_decision_pipeline.ts
+src/governance/governance_drift_expectations.ts
+src/governance/governance_drift_guard.test.ts
+src/governance/governance_drift_guard.ts
+src/governance/governance_drift_sentinel.test.ts
+src/governance/governance_drift_sentinel.ts
+src/governance/governance_enforcement_contract.ts
+src/governance/governance_enforcement_result.ts
+src/governance/governance_explanation_builder.ts
+src/governance/governance_explanation_layer.test.ts
+src/governance/governance_fixture_corpus.test.ts
+src/governance/governance_operator_explanation_layer.ts
+src/governance/governance_policy_registry.ts
+src/governance/governance_signal_classifier.test.ts
+src/governance/governance_signal_classifier.ts
+src/governance/governanceCognitionIntegrationHooks.ts
+src/governance/governanceCognitionIntegrationProof.ts
+src/governance/governanceCognitionSelectors.ts
+src/governance/governanceCognitionSelectorsProof.ts
+src/governance/governanceCognitionSurfaceBuilder.ts
+src/governance/governanceCognitionSurfaceProof.ts
+src/governance/governanceCognitionSurfaceTypes.ts
+src/governance/governanceExecutionRouting.ts
+src/governance/governanceExecutionRoutingClassifier.ts
+src/governance/governanceExecutionRoutingProof.ts
+src/governance/governanceExecutionRoutingTypes.ts
+src/governance/governanceOperatorAwarenessBuilder.ts
+src/governance/governanceOperatorAwarenessProof.ts
+src/governance/governanceOperatorAwarenessTypes.ts
+src/governance/governanceOutcomeSurfaceBuilder.ts
+src/governance/governanceOutcomeSurfaceProof.ts
+src/governance/governanceOutcomeSurfaceTypes.ts
+
+=== STEP 8: LIKELY FAILURE BOUNDARIES ===
+app/api/demo-runtime/route.ts:18:        { status: 400 }
+app/api/demo-runtime/route.ts:29:    return NextResponse.json(report, { status: 200 });
+app/api/demo-runtime/route.ts:34:    return NextResponse.json({ error: message }, { status: 500 });
+app/demo-runtime/page.tsx:24:  denialReasons: string[];
+app/demo-runtime/page.tsx:76:export default function DemoRuntimePage() {
+app/demo-runtime/page.tsx:96:    if (report.denialReasons.length > 0) {
+app/demo-runtime/page.tsx:97:      return `Request denied because: ${report.denialReasons.join(", ")}.`;
+app/demo-runtime/page.tsx:268:              <strong>Denial reasons:</strong>
+app/demo-runtime/page.tsx:269:              {report.denialReasons.length > 0 ? (
+app/demo-runtime/page.tsx:271:                  {report.denialReasons.map((reason) => (
+app/demo-runtime/page.tsx:272:                    <li key={reason}>{reason}</li>
+app/demo-runtime/page.tsx:329:            {report.denialReasons.length > 0 ? (
+app/demo-runtime/page.tsx:331:                <h4 style={{ marginBottom: "0.5rem" }}>Denial reasons</h4>
+app/demo-runtime/page.tsx:333:                  {report.denialReasons.map((reason) => (
+app/demo-runtime/page.tsx:334:                    <li key={reason}>{reason}</li>
+src/contracts/governanceExecutionBridgeContract.ts:14:  status: string;
+src/contracts/governanceExecutionBridgeContract.ts:27:  status?: string | null;
+src/contracts/governanceExecutionBridgeContract.ts:31:export interface GovernanceDecisionReason {
+src/contracts/governanceExecutionBridgeContract.ts:39:  reasons: GovernanceDecisionReason[];
+src/contracts/execution/governedExecutionProof.ts:26:  blocked_reason: string | null;
+src/contracts/execution/governedExecutionProof.ts:50:      blocked_reason: "governance_denied",
+src/contracts/execution/governedExecutionProof.ts:69:      blocked_reason: "operator_approval_missing",
+src/contracts/execution/governedExecutionProof.ts:87:    blocked_reason: null,
+src/contracts/execution/__proofs__/governedExecutionProof.caseproof.ts:29:    blocked_reason: governedExecutionAllowedResult.blocked_reason,
+src/contracts/execution/__proofs__/governedExecutionProof.caseproof.ts:36:    blocked_reason: governedExecutionGovernanceBlockedResult.blocked_reason,
+src/contracts/execution/__proofs__/governedExecutionProof.caseproof.ts:43:    blocked_reason: governedExecutionApprovalMissingResult.blocked_reason,
+src/governance_investigation/governance_playback_assembly_proof.ts:8:  readonly dashboard_status_matches_playback: boolean;
+src/governance_investigation/governance_playback_assembly_proof.ts:44:  const dashboardStatusMatchesPlayback =
+src/governance_investigation/governance_playback_assembly_proof.ts:45:    assembled.dashboard_contract.status.total_events ===
+src/governance_investigation/governance_playback_assembly_proof.ts:49:        ? assembled.dashboard_contract.status.current_position === null
+src/governance_investigation/governance_playback_assembly_proof.ts:50:        : assembled.dashboard_contract.status.current_position ===
+src/governance_investigation/governance_playback_assembly_proof.ts:58:    dashboard_status_matches_playback: dashboardStatusMatchesPlayback,
+src/governance_investigation/governance_playback_assembly_proof.ts:63:      dashboardStatusMatchesPlayback,
+src/contracts/__fixtures__/governanceExecutionBridgeContract.fixture.ts:9:      status: "queued",
+src/contracts/__fixtures__/governanceExecutionBridgeContract.fixture.ts:21:      status: "pending",
+src/contracts/__fixtures__/governanceExecutionBridgeContract.fixture.ts:30:      reasons: [],
+src/contracts/__fixtures__/governanceExecutionBridgeAssembly.fixture.ts:11:  status: "queued",
+src/contracts/__fixtures__/governanceExecutionBridgeAssembly.fixture.ts:26:    reasons: [],
+src/governance_investigation/verification/check-pathological-fixtures.ts:22:    (replayViolationModule as { default?: unknown }).default,
+src/contracts/reporting/operatorConsumableExecutionProofSurface.ts:15:    status: "accepted" | "blocked";
+src/contracts/reporting/operatorConsumableExecutionProofSurface.ts:33:  const status = report.summary.accepted ? "accepted" : "blocked";
+src/contracts/reporting/operatorConsumableExecutionProofSurface.ts:36:    status === "accepted"
+src/contracts/reporting/operatorConsumableExecutionProofSurface.ts:41:    report.summary.blocked_reason === "governance_denied"
+src/contracts/reporting/operatorConsumableExecutionProofSurface.ts:43:      : report.summary.blocked_reason === "operator_approval_missing"
+src/contracts/reporting/operatorConsumableExecutionProofSurface.ts:50:      status,
+src/governance_investigation/verification/replay_violation_codes.ts:7:default registry shapes for stable module resolution.
+src/governance_investigation/verification/replay_violation_codes.ts:45:export default REPLAY_VIOLATION_CODES;
+src/contracts/reporting/governedExecutionProofReport.ts:15:    blocked_reason: string | null;
+src/contracts/reporting/governedExecutionProofReport.ts:35:      blocked_reason: result.blocked_reason,
+src/governance_investigation/governance_dashboard_playback_contract.ts:11:  readonly status: {
+src/governance_investigation/governance_dashboard_playback_contract.ts:33:    status: {
+src/cognition/phase111.seal.ts:16:export const COGNITION_BRIDGE_STATUS = "sealed";
+src/cognition/selectors/cognition.selectors.ts:19:  OperatorGuidanceContract,
+src/cognition/selectors/cognition.selectors.ts:29:export function selectOperatorGuidance(
+src/cognition/selectors/cognition.selectors.ts:31:): OperatorGuidanceContract[] {
+src/cognition/selectors/cognition.selectors.ts:32:  return envelope.guidance ?? [];
+src/cognition/selectors/cognition.selectors.ts:47:export function selectHasOperatorGuidance(
+src/cognition/selectors/cognition.selectors.ts:50:  return Array.isArray(envelope.guidance) && envelope.guidance.length > 0;
+src/cognition/selectors/cognition.selectors.ts:63:  hasGuidance: boolean;
+src/cognition/selectors/cognition.selectors.ts:68:    hasGuidance: selectHasOperatorGuidance(envelope),
+src/cognition/phase108.seal.ts:16:export const COGNITION_RELAY_STATUS = "sealed";
+src/cognition/operatorGuidanceConfidence.ts:3:export interface OperatorGuidanceConfidenceInput {
+src/cognition/operatorGuidanceConfidence.ts:12:import type { GuidanceConfidence } from "./operatorGuidance";
+src/cognition/operatorGuidanceConfidence.ts:13:import type { GuidanceSignalObservation } from "./operatorGuidanceMapping";
+src/cognition/operatorGuidanceConfidence.ts:16:  confidence: GuidanceConfidence;
+src/cognition/operatorGuidanceConfidence.ts:17:  reason: string;
+src/cognition/operatorGuidanceConfidence.ts:22:export function assessGuidanceConfidence(
+src/cognition/operatorGuidanceConfidence.ts:23:  signals: GuidanceSignalObservation[]
+src/cognition/operatorGuidanceConfidence.ts:28:      confidence: "insufficient",
+src/cognition/operatorGuidanceConfidence.ts:29:      reason: "No signals available for interpretation.",
+src/cognition/operatorGuidanceConfidence.ts:35:  const degraded = signals.filter(s => s.status === "degraded").length;
+src/cognition/operatorGuidanceConfidence.ts:36:  const stalled = signals.filter(s => s.status === "stalled").length;
+src/cognition/operatorGuidanceConfidence.ts:37:  const unknown = signals.filter(s => s.status === "unknown").length;
+src/cognition/operatorGuidanceConfidence.ts:38:  const healthy = signals.filter(s => s.status === "healthy").length;
+src/cognition/operatorGuidanceConfidence.ts:46:      reason: "Stalled signals observed but root cause not proven.",
+src/cognition/operatorGuidanceConfidence.ts:55:      reason: "Degraded signals observed without systemic failure.",
+src/cognition/operatorGuidanceConfidence.ts:64:      reason: "Signal quality insufficient for strong interpretation.",
+src/cognition/operatorGuidanceConfidence.ts:72:    reason: "Signals consistently indicate healthy state.",
+src/cognition/operatorGuidanceConfidence.ts:82:export function mapOperationalConfidenceToGuidanceModifier(
+src/cognition/operatorGuidanceConfidence.ts:109:    default:
+src/cognition/phase109.seal.ts:16:export const COGNITION_CHANNEL_STATUS = "sealed";
+src/governance/governance_policy_registry.ts:11:  GovernanceEnforcementReason
+src/governance/governance_policy_registry.ts:19:  reason: GovernanceEnforcementReason
+src/governance/governance_policy_registry.ts:31:    reason: "no_violation_detected",
+src/governance/governance_policy_registry.ts:41:    reason: "operator_review_required",
+src/governance/governance_policy_registry.ts:51:    reason: "governance_critical_detected",
+src/governance/governance_signal_classifier.test.ts:57:  assert.equal(riskClassification.reason, "RISK_SIGNAL_DETECTED");
+src/governance/governance_signal_classifier.test.ts:63:  assert.equal(cautionClassification.reason, "CAUTION_SIGNAL_DETECTED");
+src/governance/governance_signal_classifier.test.ts:67:  assert.equal(safeClassification.reason, "SAFE_SIGNAL_DETECTED");
+src/governance/governance_signal_classifier.test.ts:71:  assert.equal(unknownClassification.reason, "MISSING_REQUIRED_FIELDS");
+src/governance/governance_signal_classifier.test.ts:77:  assert.equal(auditRecord.reason, "RISK_SIGNAL_DETECTED");
+src/governance/governance_advisory_consistency_guard.test.ts:10:  it("matches normal status for empty signals", () => {
+src/governance/governance_advisory_consistency_guard.test.ts:22:  it("matches warning status", () => {
+src/governance/governance_advisory_consistency_guard.test.ts:29:    expect(result.expected_status)
+src/governance/governance_advisory_consistency_guard.test.ts:37:  it("matches critical status", () => {
+src/governance/governance_advisory_consistency_guard.test.ts:44:    expect(result.expected_status)
+src/governance/governanceExecutionRoutingTypes.ts:20:  reason: string;
+src/governance/governanceExecutionRoutingTypes.ts:45:    default: {
+src/cognition/operatorGuidance.smoke.ts:3:Deterministic bounded operator guidance verification.
+src/cognition/operatorGuidance.smoke.ts:7:import { reduceOperatorHealthSurfaceToGuidance } from "./operatorGuidanceReducer";
+src/cognition/operatorGuidance.smoke.ts:8:import { assertOperatorGuidanceReductionSafe } from "./operatorGuidanceSafety";
+src/cognition/operatorGuidance.smoke.ts:9:import type { GuidanceSignalObservation } from "./operatorGuidanceMapping";
+src/cognition/operatorGuidance.smoke.ts:13:  signals: GuidanceSignalObservation[];
+src/cognition/operatorGuidance.smoke.ts:14:  expectedGuidanceCount: number;
+src/cognition/operatorGuidance.smoke.ts:15:  expectedSurfaceConfidence: "high" | "medium" | "low" | "insufficient";
+src/cognition/operatorGuidance.smoke.ts:34:        status: "healthy",
+src/cognition/operatorGuidance.smoke.ts:40:    expectedGuidanceCount: 1,
+src/cognition/operatorGuidance.smoke.ts:50:        status: "degraded",
+src/cognition/operatorGuidance.smoke.ts:56:    expectedGuidanceCount: 1,
+src/cognition/operatorGuidance.smoke.ts:66:        status: "stalled",
+src/cognition/operatorGuidance.smoke.ts:72:    expectedGuidanceCount: 1,
+src/cognition/operatorGuidance.smoke.ts:82:        status: "unknown",
+src/cognition/operatorGuidance.smoke.ts:88:    expectedGuidanceCount: 1,
+src/cognition/operatorGuidance.smoke.ts:98:        status: "healthy",
+src/cognition/operatorGuidance.smoke.ts:106:        status: "degraded",
+src/cognition/operatorGuidance.smoke.ts:112:    expectedGuidanceCount: 2,
+src/cognition/operatorGuidance.smoke.ts:119:    expectedGuidanceCount: 0,
+src/cognition/operatorGuidance.smoke.ts:120:    expectedSurfaceConfidence: "insufficient",
+src/cognition/operatorGuidance.smoke.ts:125:export function runOperatorGuidanceSmokeMatrix(): void {
+src/cognition/operatorGuidance.smoke.ts:127:    const reduction = reduceOperatorHealthSurfaceToGuidance({
+src/cognition/operatorGuidance.smoke.ts:132:    assertOperatorGuidanceReductionSafe(reduction);
+src/cognition/operatorGuidance.smoke.ts:145:      reduction.envelope.guidance.length === testCase.expectedGuidanceCount,
+src/cognition/operatorGuidance.smoke.ts:146:      `${testCase.name}: expected ${testCase.expectedGuidanceCount} guidance items, received ${reduction.envelope.guidance.length}`,
+src/cognition/operatorGuidance.smoke.ts:159:    for (const guidance of reduction.envelope.guidance) {
+src/cognition/operatorGuidance.smoke.ts:161:        guidance.bounded === true,
+src/cognition/operatorGuidance.smoke.ts:166:        guidance.executionImpact === "none",
+src/cognition/operatorGuidance.smoke.ts:171:        guidance.signalSource.length > 0,
+src/cognition/operatorGuidance.smoke.ts:179:  runOperatorGuidanceSmokeMatrix();
+src/cognition/operatorGuidance.smoke.ts:180:  process.stdout.write("operatorGuidance smoke matrix passed\n");
+src/cognition/phase107.seal.ts:16:export const COGNITION_DISPATCH_STATUS = "sealed";
+src/governance/governanceCognitionSurfaceTypes.ts:20:export type GovernanceCognitionSurfaceStatus =
+src/governance/governanceCognitionSurfaceTypes.ts:27:  status: GovernanceCognitionSurfaceStatus;
+src/governance/governanceCognitionSurfaceTypes.ts:36:export function mapGovernanceCognitionSurfaceStatus(
+src/governance/governanceCognitionSurfaceTypes.ts:38:): GovernanceCognitionSurfaceStatus {
+src/governance/governanceCognitionSurfaceTypes.ts:52:    default: {
+src/cognition/operatorGuidanceSafety.ts:3:Bounded operator guidance runtime invariants.
+src/cognition/operatorGuidanceSafety.ts:8:  GuidanceConfidence,
+src/cognition/operatorGuidanceSafety.ts:9:  GuidanceDomain,
+src/cognition/operatorGuidanceSafety.ts:10:  GuidanceSeverity,
+src/cognition/operatorGuidanceSafety.ts:11:  OperatorGuidance,
+src/cognition/operatorGuidanceSafety.ts:12:  OperatorGuidanceEnvelope,
+src/cognition/operatorGuidanceSafety.ts:13:} from "./operatorGuidance";
+src/cognition/operatorGuidanceSafety.ts:14:import type { OperatorGuidanceReduction } from "./operatorGuidanceReducer";
+src/cognition/operatorGuidanceSafety.ts:16:const ALLOWED_GUIDANCE_TYPES = new Set<OperatorGuidance["type"]>([
+src/cognition/operatorGuidanceSafety.ts:23:const ALLOWED_GUIDANCE_DOMAINS = new Set<GuidanceDomain>([
+src/cognition/operatorGuidanceSafety.ts:32:const ALLOWED_GUIDANCE_SEVERITIES = new Set<GuidanceSeverity>([
+src/cognition/operatorGuidanceSafety.ts:39:const ALLOWED_GUIDANCE_CONFIDENCE = new Set<GuidanceConfidence>([
+src/cognition/operatorGuidanceSafety.ts:43:  "insufficient",
+src/cognition/operatorGuidanceSafety.ts:65:export type OperatorGuidanceSafetyCheck = {
+src/cognition/operatorGuidanceSafety.ts:89:export function validateOperatorGuidance(
+src/cognition/operatorGuidanceSafety.ts:90:  guidance: OperatorGuidance,
+src/cognition/operatorGuidanceSafety.ts:91:): OperatorGuidanceSafetyCheck {
+src/cognition/operatorGuidanceSafety.ts:94:  if (!guidance.id || guidance.id.trim().length === 0) {
+src/cognition/operatorGuidanceSafety.ts:95:    violations.push("guidance.id must be non-empty.");
+src/cognition/operatorGuidanceSafety.ts:98:  if (!ALLOWED_GUIDANCE_TYPES.has(guidance.type)) {
+src/cognition/operatorGuidanceSafety.ts:99:    violations.push(`guidance.type is invalid: ${guidance.type}`);
+src/cognition/operatorGuidanceSafety.ts:102:  if (!ALLOWED_GUIDANCE_DOMAINS.has(guidance.domain)) {
+src/cognition/operatorGuidanceSafety.ts:103:    violations.push(`guidance.domain is invalid: ${guidance.domain}`);
+src/cognition/operatorGuidanceSafety.ts:106:  if (!ALLOWED_GUIDANCE_SEVERITIES.has(guidance.severity)) {
+src/cognition/operatorGuidanceSafety.ts:107:    violations.push(`guidance.severity is invalid: ${guidance.severity}`);
+src/cognition/operatorGuidanceSafety.ts:110:  if (!ALLOWED_GUIDANCE_CONFIDENCE.has(guidance.confidence)) {
+src/cognition/operatorGuidanceSafety.ts:111:    violations.push(`guidance.confidence is invalid: ${guidance.confidence}`);
+src/cognition/operatorGuidanceSafety.ts:114:  if (guidance.bounded !== true) {
+src/cognition/operatorGuidanceSafety.ts:115:    violations.push("guidance.bounded must remain true.");
+src/cognition/operatorGuidanceSafety.ts:118:  if (guidance.executionImpact !== "none") {
+src/cognition/operatorGuidanceSafety.ts:119:    violations.push("guidance.executionImpact must remain 'none'.");
+src/cognition/operatorGuidanceSafety.ts:122:  if (!Array.isArray(guidance.signalSource) || guidance.signalSource.length === 0) {
+src/cognition/operatorGuidanceSafety.ts:123:    violations.push("guidance.signalSource must contain at least one source.");
+src/cognition/operatorGuidanceSafety.ts:126:  if (!isFiniteTimestamp(guidance.createdAt)) {
+src/cognition/operatorGuidanceSafety.ts:127:    violations.push("guidance.createdAt must be a finite non-negative timestamp.");
+src/cognition/operatorGuidanceSafety.ts:130:  assertSafeText("guidance.message", guidance.message, violations);
+src/cognition/operatorGuidanceSafety.ts:131:  assertSafeText("guidance.rationale", guidance.rationale, violations);
+src/cognition/operatorGuidanceSafety.ts:139:export function validateOperatorGuidanceEnvelope(
+src/cognition/operatorGuidanceSafety.ts:140:  envelope: OperatorGuidanceEnvelope,
+src/cognition/operatorGuidanceSafety.ts:141:): OperatorGuidanceSafetyCheck {
+src/cognition/operatorGuidanceSafety.ts:156:  if (!Array.isArray(envelope.guidance)) {
+src/cognition/operatorGuidanceSafety.ts:157:    violations.push("envelope.guidance must be an array.");
+src/cognition/operatorGuidanceSafety.ts:159:    envelope.guidance.forEach((guidance, index) => {
+src/cognition/operatorGuidanceSafety.ts:160:      const result = validateOperatorGuidance(guidance);
+src/cognition/operatorGuidanceSafety.ts:162:        violations.push(`envelope.guidance[${index}]: ${violation}`);
+src/cognition/operatorGuidanceSafety.ts:173:export function validateOperatorGuidanceReduction(
+src/cognition/operatorGuidanceSafety.ts:174:  reduction: OperatorGuidanceReduction,
+src/cognition/operatorGuidanceSafety.ts:175:): OperatorGuidanceSafetyCheck {
+src/cognition/operatorGuidanceSafety.ts:178:  const envelopeCheck = validateOperatorGuidanceEnvelope(reduction.envelope);
+src/cognition/operatorGuidanceSafety.ts:181:  if (!ALLOWED_GUIDANCE_CONFIDENCE.has(reduction.surfaceConfidence)) {
+src/cognition/operatorGuidanceSafety.ts:193:  assertSafeText("reduction.confidenceReason", reduction.confidenceReason, violations);
+src/cognition/operatorGuidanceSafety.ts:201:export function assertOperatorGuidanceReductionSafe(
+src/cognition/operatorGuidanceSafety.ts:202:  reduction: OperatorGuidanceReduction,
+src/cognition/operatorGuidanceSafety.ts:204:  const result = validateOperatorGuidanceReduction(reduction);
+src/cognition/operatorGuidanceSafety.ts:209:        "Operator guidance safety proof failed.",
+src/governance/governanceExecutionRoutingClassifier.ts:36:    reason: routing.reason,
+src/cognition/phase110.seal.ts:16:export const COGNITION_LINK_STATUS = "sealed";
+src/cognition/contracts/cognition.contracts.ts:18:export type GovernanceStatus =
+src/cognition/contracts/cognition.contracts.ts:23:export type GuidanceCategory =
+src/cognition/contracts/cognition.contracts.ts:35:export interface OperatorGuidanceContract {
+src/cognition/contracts/cognition.contracts.ts:36:  guidance_id: string;
+src/cognition/contracts/cognition.contracts.ts:37:  category: GuidanceCategory;
+src/cognition/contracts/cognition.contracts.ts:46:  status: GovernanceStatus;
+src/cognition/contracts/cognition.contracts.ts:52:  guidance?: OperatorGuidanceContract[];
+src/cognition/phase104.seal.ts:16:export const COGNITION_INTEGRATION_STATUS = "sealed";
+
+=== INTERPRETATION TARGET ===
+Identify exact line where:
+• valid governance output becomes insufficient
+• OR UI defaults to insufficient before hydration
+

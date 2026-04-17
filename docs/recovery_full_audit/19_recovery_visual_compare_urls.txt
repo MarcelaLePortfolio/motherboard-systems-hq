@@ -1,0 +1,8 @@
+PHASE 457 - RECOVERY VISUAL COMPARE URLS
+=======================================
+
+phase65_layout      -> http://localhost:8081
+phase65_wiring      -> http://localhost:8082
+operator_guidance   -> http://localhost:8083
+
+Next step: visually compare all three and identify the exact desired checkpoint.

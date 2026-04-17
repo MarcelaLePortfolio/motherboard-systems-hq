@@ -1,0 +1,58 @@
+PHASE 482 — RULE ORDERING + EDGE CASE PROOF
+------------------------------------------
+
+TEST MATRIX (DEFINITION-LEVEL VALIDATION)
+
+CASE 1 — EMPTY INPUT
+Expected: EMPTY_INPUT triggers before all others
+Result: PASS (highest priority rule)
+
+CASE 2 — MISSING INTENT (non-empty but vague input)
+Expected: MISSING_INTENT triggers before DEFAULT_ALLOW
+Dependency: Must be ordered before DEFAULT_ALLOW
+Result: ORDERING REQUIRED
+
+CASE 3 — AMBIGUOUS SCOPE vs MISSING INTENT
+Expected: MISSING_INTENT fires first if no action present
+Else: AMBIGUOUS_SCOPE fires
+Result: NON-CONFLICTING WITH PROPER ORDERING
+
+CASE 4 — UNSUPPORTED_OPERATION_TYPE
+Expected: Fires after intent is detected but before DEFAULT_ALLOW
+Result: ORDERING REQUIRED
+
+CASE 5 — POLICY CONFLICT
+Expected: First-match invariant resolves deterministically
+No dual execution allowed
+Result: SAFE UNDER CURRENT MODEL
+
+CASE 6 — DEFAULT_ALLOW FALLTHROUGH
+Expected: Only triggers if no prior rule matches
+Result: SAFE
+
+------------------------------------------
+REQUIRED RULE ORDER (DEFINITION ONLY):
+
+1. EMPTY_INPUT
+2. MISSING_INTENT
+3. AMBIGUOUS_SCOPE
+4. UNSUPPORTED_OPERATION_TYPE
+5. DISALLOWED_PATTERN
+6. UNSUPPORTED_REQUEST_CLASS
+7. DEFAULT_ALLOW
+
+------------------------------------------
+INVARIANT VALIDATION:
+
+• First-match rule preserved
+• No overlap causing non-determinism
+• No async or side effects introduced
+• No execution coupling
+• Replay-safe ordering maintained
+
+------------------------------------------
+RESULT:
+RULE SET SAFE FOR CONTROLLED EXPANSION
+
+NEXT:
+PHASE 482 — ORDER LOCK + FINAL POLICY EXPANSION SEAL

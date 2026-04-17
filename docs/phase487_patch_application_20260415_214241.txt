@@ -1,0 +1,18 @@
+PHASE 487 — GUIDANCE PATCH APPLICATION
+timestamp=20260415_214241
+target_file=src/cognition/operatorGuidanceMapping.ts
+
+=== PATCH TYPE ===
+Convert static message into guarded conditional rendering
+
+=== BEFORE ===
+Signal quality is limited; interpret with caution: ${signal.summary}
+
+=== AFTER ===
+(signal.summary ? caution message : neutral unavailable message)
+
+=== INTENT ===
+Prevent premature or misleading guidance when signal is absent or weak.
+Preserve existing contracts.
+UI-only change.
+

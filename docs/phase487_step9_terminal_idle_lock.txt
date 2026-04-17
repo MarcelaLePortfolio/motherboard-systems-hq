@@ -1,0 +1,86 @@
+PHASE 487 — STEP 9
+TERMINAL IDLE LOCK
+
+────────────────────────────────
+
+OBJECTIVE
+
+Finalize and enforce a hard terminal-level idle lock,
+ensuring no further commits, scripts, or actions are taken
+until operator definition is received.
+
+────────────────────────────────
+
+LOCK STATUS
+
+Phase 487:
+
+• BLOCKED
+• UNAUTHORIZED
+• DEFINITION-INCOMPLETE
+
+System state:
+
+• IDLE
+• STABLE
+• NON-MUTATING
+
+────────────────────────────────
+
+TERMINAL BEHAVIOR RULE
+
+From this point forward:
+
+• no new scripts may be created
+• no files may be modified
+• no commits may be made
+• no pushes may occur
+• no tags may be created
+
+Until operator definition is provided.
+
+────────────────────────────────
+
+ENFORCEMENT INTENT
+
+This lock prevents:
+
+• unnecessary checkpoint spam
+• artificial progress signals
+• drift via continued “documentation steps”
+• illusion of forward motion
+
+────────────────────────────────
+
+ONLY VALID INPUT
+
+Operator must provide:
+
+Completed Phase 487 definition
+
+────────────────────────────────
+
+UNLOCK CONDITION
+
+System unlocks ONLY when:
+
+All six required definition fields are:
+
+• present
+• explicit
+• bounded
+• testable
+
+────────────────────────────────
+
+DETERMINISTIC RESUME POINT
+
+PHASE 487 — OPERATOR DEFINITION VALIDATION
+
+────────────────────────────────
+
+CLASSIFICATION
+
+TERMINAL LOCK ACTIVE
+NO FURTHER OUTPUT AUTHORIZED
+

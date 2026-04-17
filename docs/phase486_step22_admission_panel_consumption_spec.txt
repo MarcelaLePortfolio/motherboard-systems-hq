@@ -1,0 +1,133 @@
+PHASE 486 — STEP 22
+ADMISSION PANEL CONSUMPTION SPEC
+
+────────────────────────────────
+
+OBJECTIVE
+
+Define the next safe UI-only refinement for the existing Admission panel
+using already-available fields only.
+
+This is a specification step only.
+No UI mutation occurs here.
+
+────────────────────────────────
+
+INPUT BASIS
+
+Existing Admission panel already renders:
+
+• report.admissionDecision
+• governanceExplanation
+• report.denialReasons
+
+Existing report fields also available:
+
+• report.generatedRequest.approved
+• report.generatedRequest.governanceEvaluated
+• report.generatedRequest.authorityOrderingValid
+
+────────────────────────────────
+
+REFINEMENT GOAL
+
+Improve structural clarity of the Admission panel by exposing existing
+admission-condition inputs directly inside the panel.
+
+This is visibility expansion only.
+
+────────────────────────────────
+
+EXACT FIELDS TO SURFACE
+
+Under Admission panel, add passive rows for:
+
+1. Approval present
+   Value:
+   report.generatedRequest.approved ? "YES" : "NO"
+
+2. Governance evaluated
+   Value:
+   report.generatedRequest.governanceEvaluated ? "YES" : "NO"
+
+3. Authority ordering valid
+   Value:
+   report.generatedRequest.authorityOrderingValid ? "YES" : "NO"
+
+Existing fields remain unchanged:
+
+4. Decision
+   Value:
+   report.admissionDecision
+
+5. Governance explanation
+   Value:
+   governanceExplanation
+
+6. Denial reasons
+   Value:
+   existing list behavior unchanged
+
+────────────────────────────────
+
+PLACEMENT RULE
+
+Inside existing:
+
+Admission
+
+panel in app/demo-runtime/page.tsx
+
+Placement order:
+
+• Decision
+• Approval present
+• Governance evaluated
+• Authority ordering valid
+• Governance explanation
+• Denial reasons
+
+────────────────────────────────
+
+NO-TRANSFORMATION RULE
+
+UI must NOT:
+
+• derive new admission states
+• compress explanation meaning
+• synthesize denial reasons
+• combine fields into new labels
+• infer hidden governance logic
+
+UI must only:
+
+• render existing values directly
+
+────────────────────────────────
+
+NO-DATA RULE
+
+No additional NO DATA behavior required for this refinement
+because all targeted fields already exist on the current report shape.
+
+────────────────────────────────
+
+COMPLETION CONDITION
+
+This spec is complete when:
+
+• exact fields are named
+• exact placement is named
+• no-transformation rule is defined
+• implementation can proceed as one UI-only mutation
+
+────────────────────────────────
+
+CLASSIFICATION
+
+ADMISSION PANEL PASSIVE CONSUMPTION SPEC COMPLETE
+
+Next corridor:
+
+Phase 486 Step 23 — implement passive admission-condition rows in existing Admission panel
+

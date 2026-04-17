@@ -1,0 +1,45 @@
+PHASE 487 — DASHBOARD DOWN RECOVERY
+Timestamp: Thu Apr 16 09:35:05 PDT 2026
+========================================
+
+[1] DISK
+Filesystem      Size    Used   Avail Capacity iused ifree %iused  Mounted on
+/dev/disk3s5   228Gi   137Gi    55Gi    72%    587k  580M    0%   /System/Volumes/Data
+
+[2] GIT STATUS
+?? docs/phase487_dashboard_down_recovery_report.txt
+?? docs/phase487_guidance_proof.txt
+?? scripts/_local/phase487_dashboard_down_recovery.sh
+
+[3] PORT CHECK
+COMMAND    PID        USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+com.docke 2887 marcela-dev  166u  IPv6 0x99a35d9d7d9f0ced      0t0  TCP *:8080 (LISTEN)
+
+[4] PROCESS CHECK
+
+[5] HTTP CHECK BEFORE RECOVERY
+
+
+[6] HTTP CHECK AFTER RECOVERY
+
+[7] ROOT SNAPSHOT
+
+[8] RUNTIME LOG TAIL
+file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.mjs:788
+import apiGuidanceRouter from "./server/routes/api-guidance.mjs";
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+SyntaxError: Identifier 'apiGuidanceRouter' has already been declared
+    at compileSourceTextModule (node:internal/modules/esm/utils:351:16)
+    at ModuleLoader.moduleStrategy (node:internal/modules/esm/translators:107:18)
+    at #translate (node:internal/modules/esm/loader:546:12)
+    at ModuleLoader.loadAndTranslate (node:internal/modules/esm/loader:593:27)
+    at async #link (node:internal/modules/esm/module_job:180:19)
+
+Node.js v24.4.0
+
+[9] FINAL PORT CHECK
+COMMAND    PID        USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+com.docke 2887 marcela-dev  166u  IPv6 0x99a35d9d7d9f0ced      0t0  TCP *:8080 (LISTEN)
+
+RECOVERY COMPLETE

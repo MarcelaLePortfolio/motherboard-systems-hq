@@ -1,0 +1,875 @@
+PHASE 487 — DIRECT TOP FILE INSPECTION
+timestamp=20260415_213301
+verdict_file=docs/phase487_boundary_verdict_20260415_213219.txt
+top_candidate_file=docs/phase487_top_boundary_candidate_20260415_212302.txt
+selected_source=src/cognition/operatorGuidanceMapping.ts
+branch=phase119-dashboard-cognition-contract
+commit=a5bb2397b38587d0cd3f680a7f719a9923c33313
+
+=== FULL FILE HEADER ===
+import type {
+  GuidanceConfidence,
+  GuidanceDomain,
+  GuidanceSeverity,
+  OperatorGuidance,
+} from "./operatorGuidance";
+
+export type GuidanceSignalStatus = "healthy" | "degraded" | "stalled" | "unknown";
+
+export type GuidanceSignalObservation = {
+  key: string;
+  domain: GuidanceDomain;
+  status: GuidanceSignalStatus;
+  value?: number | string | boolean | null;
+  summary: string;
+  observedAt: number;
+  source: string;
+};
+
+export type GuidanceMappingContext = {
+  now: number;
+};
+
+export type GuidanceInterpretationRule = {
+  id: string;
+  domain: GuidanceDomain;
+  matches: (signal: GuidanceSignalObservation) => boolean;
+  create: (
+    signal: GuidanceSignalObservation,
+    context: GuidanceMappingContext,
+  ) => OperatorGuidance;
+};
+
+function mapStatusToSeverity(status: GuidanceSignalStatus): GuidanceSeverity {
+  switch (status) {
+    case "healthy":
+      return "info";
+    case "degraded":
+      return "attention";
+    case "stalled":
+      return "elevated";
+    case "unknown":
+      return "attention";
+  }
+}
+
+function mapStatusToConfidence(status: GuidanceSignalStatus): GuidanceConfidence {
+  switch (status) {
+    case "healthy":
+      return "high";
+    case "degraded":
+      return "medium";
+    case "stalled":
+      return "medium";
+    case "unknown":
+      return "low";
+  }
+}
+
+function mapStatusToType(
+  status: GuidanceSignalStatus,
+): OperatorGuidance["type"] {
+  switch (status) {
+    case "healthy":
+      return "informational";
+    case "degraded":
+      return "attention";
+    case "stalled":
+      return "elevated";
+    case "unknown":
+      return "attention";
+  }
+}
+
+function buildGuidanceId(signal: GuidanceSignalObservation): string {
+  return [
+    "guidance",
+    signal.domain,
+    signal.key,
+    String(signal.observedAt),
+  ].join(":");
+}
+
+function createBoundedGuidance(
+  signal: GuidanceSignalObservation,
+  message: string,
+  rationale: string,
+): OperatorGuidance {
+  const severity = mapStatusToSeverity(signal.status);
+  const confidence = mapStatusToConfidence(signal.status);
+  const type = mapStatusToType(signal.status);
+
+  return {
+    id: buildGuidanceId(signal),
+    type,
+    domain: signal.domain,
+    severity,
+    confidence,
+    message,
+    rationale,
+    signalSource: [signal.source, signal.key],
+    bounded: true,
+    executionImpact: "none",
+    createdAt: signal.observedAt,
+  };
+}
+
+export const GUIDANCE_INTERPRETATION_RULES: GuidanceInterpretationRule[] = [
+  {
+    id: "system-health-healthy",
+    domain: "system_health",
+    matches: (signal) =>
+      signal.domain === "system_health" && signal.status === "healthy",
+    create: (signal) =>
+      createBoundedGuidance(
+        signal,
+        `System health is currently stable: ${signal.summary}`,
+        "Observed system health signals are within acceptable bounds.",
+      ),
+  },
+  {
+    id: "system-health-degraded",
+    domain: "system_health",
+    matches: (signal) =>
+      signal.domain === "system_health" && signal.status === "degraded",
+    create: (signal) =>
+      createBoundedGuidance(
+        signal,
+        `System health needs attention: ${signal.summary}`,
+        "Observed system health signals indicate degradation without proving failure.",
+      ),
+  },
+  {
+    id: "system-health-stalled",
+    domain: "system_health",
+    matches: (signal) =>
+      signal.domain === "system_health" && signal.status === "stalled",
+    create: (signal) =>
+      createBoundedGuidance(
+        signal,
+        `System health appears stalled: ${signal.summary}`,
+        "Observed system health signals indicate a sustained non-healthy condition.",
+      ),
+  },
+  {
+    id: "throughput-healthy",
+    domain: "throughput",
+    matches: (signal) =>
+      signal.domain === "throughput" && signal.status === "healthy",
+    create: (signal) =>
+      createBoundedGuidance(
+        signal,
+        `Throughput is within expected range: ${signal.summary}`,
+        "Observed throughput signals do not indicate current pressure.",
+      ),
+  },
+  {
+    id: "throughput-degraded",
+    domain: "throughput",
+    matches: (signal) =>
+      signal.domain === "throughput" && signal.status === "degraded",
+    create: (signal) =>
+      createBoundedGuidance(
+        signal,
+        `Throughput is below expected range: ${signal.summary}`,
+        "Observed throughput signals indicate reduced flow without inferring root cause.",
+      ),
+  },
+  {
+    id: "throughput-stalled",
+    domain: "throughput",
+    matches: (signal) =>
+      signal.domain === "throughput" && signal.status === "stalled",
+    create: (signal) =>
+      createBoundedGuidance(
+        signal,
+        `Throughput appears stalled: ${signal.summary}`,
+        "Observed throughput signals indicate little or no forward movement.",
+      ),
+  },
+  {
+    id: "latency-degraded",
+    domain: "latency",
+    matches: (signal) =>
+      signal.domain === "latency" && signal.status === "degraded",
+    create: (signal) =>
+      createBoundedGuidance(
+        signal,
+        `Latency is elevated: ${signal.summary}`,
+        "Observed latency signals indicate slower-than-expected system response.",
+      ),
+  },
+  {
+    id: "latency-stalled",
+    domain: "latency",
+    matches: (signal) =>
+      signal.domain === "latency" && signal.status === "stalled",
+    create: (signal) =>
+      createBoundedGuidance(
+        signal,
+        `Latency appears materially elevated: ${signal.summary}`,
+        "Observed latency signals indicate a sustained delay condition.",
+      ),
+  },
+  {
+    id: "task-lifecycle-degraded",
+    domain: "task_lifecycle",
+    matches: (signal) =>
+      signal.domain === "task_lifecycle" && signal.status === "degraded",
+    create: (signal) =>
+      createBoundedGuidance(
+        signal,
+        `Task lifecycle progression needs attention: ${signal.summary}`,
+        "Observed task lifecycle signals indicate slower or uneven progression.",
+      ),
+  },
+  {
+    id: "task-lifecycle-stalled",
+    domain: "task_lifecycle",
+    matches: (signal) =>
+
+=== MATCH: insufficient ===
+225-        `Task lifecycle progression appears stalled: ${signal.summary}`,
+226-        "Observed task lifecycle signals indicate a sustained progression gap.",
+227-      ),
+228-  },
+229-  {
+230-    id: "signal-quality-unknown",
+231-    domain: "signal_quality",
+232-    matches: (signal) =>
+233-      signal.domain === "signal_quality" && signal.status === "unknown",
+234-    create: (signal) =>
+235-      createBoundedGuidance(
+236-        signal,
+237:        `Signal quality is insufficient for strong interpretation: ${signal.summary}`,
+238-        "Observed signal quality does not support high-confidence guidance.",
+239-      ),
+240-  },
+241-  {
+242-    id: "operator-awareness-unknown",
+243-    domain: "operator_awareness",
+244-    matches: (signal) =>
+245-      signal.domain === "operator_awareness" && signal.status === "unknown",
+246-    create: (signal) =>
+247-      createBoundedGuidance(
+248-        signal,
+249-        `Operator awareness surface has incomplete visibility: ${signal.summary}`,
+
+=== MATCH: guidance ===
+65-      return "informational";
+66-    case "degraded":
+67-      return "attention";
+68-    case "stalled":
+69-      return "elevated";
+70-    case "unknown":
+71-      return "attention";
+72-  }
+73-}
+74-
+75-function buildGuidanceId(signal: GuidanceSignalObservation): string {
+76-  return [
+77:    "guidance",
+78-    signal.domain,
+79-    signal.key,
+80-    String(signal.observedAt),
+81-  ].join(":");
+82-}
+83-
+84-function createBoundedGuidance(
+85-  signal: GuidanceSignalObservation,
+86-  message: string,
+87-  rationale: string,
+88-): OperatorGuidance {
+89-  const severity = mapStatusToSeverity(signal.status);
+--
+226-        "Observed task lifecycle signals indicate a sustained progression gap.",
+227-      ),
+228-  },
+229-  {
+230-    id: "signal-quality-unknown",
+231-    domain: "signal_quality",
+232-    matches: (signal) =>
+233-      signal.domain === "signal_quality" && signal.status === "unknown",
+234-    create: (signal) =>
+235-      createBoundedGuidance(
+236-        signal,
+237-        `Signal quality is insufficient for strong interpretation: ${signal.summary}`,
+238:        "Observed signal quality does not support high-confidence guidance.",
+239-      ),
+240-  },
+241-  {
+242-    id: "operator-awareness-unknown",
+243-    domain: "operator_awareness",
+244-    matches: (signal) =>
+245-      signal.domain === "operator_awareness" && signal.status === "unknown",
+246-    create: (signal) =>
+247-      createBoundedGuidance(
+248-        signal,
+249-        `Operator awareness surface has incomplete visibility: ${signal.summary}`,
+250-        "Observed awareness signals do not fully support bounded interpretation.",
+--
+264-    return null;
+265-  }
+266-
+267-  return rule.create(signal, context);
+268-}
+269-
+270-export function mapSignalsToOperatorGuidance(
+271-  signals: GuidanceSignalObservation[],
+272-  context: GuidanceMappingContext,
+273-): OperatorGuidance[] {
+274-  return signals
+275-    .map((signal) => mapSignalToOperatorGuidance(signal, context))
+276:    .filter((guidance): guidance is OperatorGuidance => guidance !== null);
+277-}
+
+=== MATCH: status|reason ===
+1-import type {
+2-  GuidanceConfidence,
+3-  GuidanceDomain,
+4-  GuidanceSeverity,
+5-  OperatorGuidance,
+6-} from "./operatorGuidance";
+7-
+8-export type GuidanceSignalStatus = "healthy" | "degraded" | "stalled" | "unknown";
+9-
+10-export type GuidanceSignalObservation = {
+11-  key: string;
+12-  domain: GuidanceDomain;
+13:  status: GuidanceSignalStatus;
+14-  value?: number | string | boolean | null;
+15-  summary: string;
+16-  observedAt: number;
+17-  source: string;
+18-};
+19-
+20-export type GuidanceMappingContext = {
+21-  now: number;
+22-};
+23-
+24-export type GuidanceInterpretationRule = {
+25-  id: string;
+26-  domain: GuidanceDomain;
+27-  matches: (signal: GuidanceSignalObservation) => boolean;
+28-  create: (
+29-    signal: GuidanceSignalObservation,
+30-    context: GuidanceMappingContext,
+31-  ) => OperatorGuidance;
+32-};
+33-
+34:function mapStatusToSeverity(status: GuidanceSignalStatus): GuidanceSeverity {
+35:  switch (status) {
+36-    case "healthy":
+37-      return "info";
+38-    case "degraded":
+39-      return "attention";
+40-    case "stalled":
+41-      return "elevated";
+42-    case "unknown":
+43-      return "attention";
+44-  }
+45-}
+46-
+47:function mapStatusToConfidence(status: GuidanceSignalStatus): GuidanceConfidence {
+48:  switch (status) {
+49-    case "healthy":
+50-      return "high";
+51-    case "degraded":
+52-      return "medium";
+53-    case "stalled":
+54-      return "medium";
+55-    case "unknown":
+56-      return "low";
+57-  }
+58-}
+59-
+60-function mapStatusToType(
+61:  status: GuidanceSignalStatus,
+62-): OperatorGuidance["type"] {
+63:  switch (status) {
+64-    case "healthy":
+65-      return "informational";
+66-    case "degraded":
+67-      return "attention";
+68-    case "stalled":
+69-      return "elevated";
+70-    case "unknown":
+71-      return "attention";
+72-  }
+73-}
+74-
+75-function buildGuidanceId(signal: GuidanceSignalObservation): string {
+--
+77-    "guidance",
+78-    signal.domain,
+79-    signal.key,
+80-    String(signal.observedAt),
+81-  ].join(":");
+82-}
+83-
+84-function createBoundedGuidance(
+85-  signal: GuidanceSignalObservation,
+86-  message: string,
+87-  rationale: string,
+88-): OperatorGuidance {
+89:  const severity = mapStatusToSeverity(signal.status);
+90:  const confidence = mapStatusToConfidence(signal.status);
+91:  const type = mapStatusToType(signal.status);
+92-
+93-  return {
+94-    id: buildGuidanceId(signal),
+95-    type,
+96-    domain: signal.domain,
+97-    severity,
+98-    confidence,
+99-    message,
+100-    rationale,
+101-    signalSource: [signal.source, signal.key],
+102-    bounded: true,
+103-    executionImpact: "none",
+104-    createdAt: signal.observedAt,
+105-  };
+106-}
+107-
+108-export const GUIDANCE_INTERPRETATION_RULES: GuidanceInterpretationRule[] = [
+109-  {
+110-    id: "system-health-healthy",
+111-    domain: "system_health",
+112-    matches: (signal) =>
+113:      signal.domain === "system_health" && signal.status === "healthy",
+114-    create: (signal) =>
+115-      createBoundedGuidance(
+116-        signal,
+117-        `System health is currently stable: ${signal.summary}`,
+118-        "Observed system health signals are within acceptable bounds.",
+119-      ),
+120-  },
+121-  {
+122-    id: "system-health-degraded",
+123-    domain: "system_health",
+124-    matches: (signal) =>
+125:      signal.domain === "system_health" && signal.status === "degraded",
+126-    create: (signal) =>
+127-      createBoundedGuidance(
+128-        signal,
+129-        `System health needs attention: ${signal.summary}`,
+130-        "Observed system health signals indicate degradation without proving failure.",
+131-      ),
+132-  },
+133-  {
+134-    id: "system-health-stalled",
+135-    domain: "system_health",
+136-    matches: (signal) =>
+137:      signal.domain === "system_health" && signal.status === "stalled",
+138-    create: (signal) =>
+139-      createBoundedGuidance(
+140-        signal,
+141-        `System health appears stalled: ${signal.summary}`,
+142-        "Observed system health signals indicate a sustained non-healthy condition.",
+143-      ),
+144-  },
+145-  {
+146-    id: "throughput-healthy",
+147-    domain: "throughput",
+148-    matches: (signal) =>
+149:      signal.domain === "throughput" && signal.status === "healthy",
+150-    create: (signal) =>
+151-      createBoundedGuidance(
+152-        signal,
+153-        `Throughput is within expected range: ${signal.summary}`,
+154-        "Observed throughput signals do not indicate current pressure.",
+155-      ),
+156-  },
+157-  {
+158-    id: "throughput-degraded",
+159-    domain: "throughput",
+160-    matches: (signal) =>
+161:      signal.domain === "throughput" && signal.status === "degraded",
+162-    create: (signal) =>
+163-      createBoundedGuidance(
+164-        signal,
+165-        `Throughput is below expected range: ${signal.summary}`,
+166-        "Observed throughput signals indicate reduced flow without inferring root cause.",
+167-      ),
+168-  },
+169-  {
+170-    id: "throughput-stalled",
+171-    domain: "throughput",
+172-    matches: (signal) =>
+173:      signal.domain === "throughput" && signal.status === "stalled",
+174-    create: (signal) =>
+175-      createBoundedGuidance(
+176-        signal,
+177-        `Throughput appears stalled: ${signal.summary}`,
+178-        "Observed throughput signals indicate little or no forward movement.",
+179-      ),
+180-  },
+181-  {
+182-    id: "latency-degraded",
+183-    domain: "latency",
+184-    matches: (signal) =>
+185:      signal.domain === "latency" && signal.status === "degraded",
+186-    create: (signal) =>
+187-      createBoundedGuidance(
+188-        signal,
+189-        `Latency is elevated: ${signal.summary}`,
+190-        "Observed latency signals indicate slower-than-expected system response.",
+191-      ),
+192-  },
+193-  {
+194-    id: "latency-stalled",
+195-    domain: "latency",
+196-    matches: (signal) =>
+197:      signal.domain === "latency" && signal.status === "stalled",
+198-    create: (signal) =>
+199-      createBoundedGuidance(
+200-        signal,
+201-        `Latency appears materially elevated: ${signal.summary}`,
+202-        "Observed latency signals indicate a sustained delay condition.",
+203-      ),
+204-  },
+205-  {
+206-    id: "task-lifecycle-degraded",
+207-    domain: "task_lifecycle",
+208-    matches: (signal) =>
+209:      signal.domain === "task_lifecycle" && signal.status === "degraded",
+210-    create: (signal) =>
+211-      createBoundedGuidance(
+212-        signal,
+213-        `Task lifecycle progression needs attention: ${signal.summary}`,
+214-        "Observed task lifecycle signals indicate slower or uneven progression.",
+215-      ),
+216-  },
+217-  {
+218-    id: "task-lifecycle-stalled",
+219-    domain: "task_lifecycle",
+220-    matches: (signal) =>
+221:      signal.domain === "task_lifecycle" && signal.status === "stalled",
+222-    create: (signal) =>
+223-      createBoundedGuidance(
+224-        signal,
+225-        `Task lifecycle progression appears stalled: ${signal.summary}`,
+226-        "Observed task lifecycle signals indicate a sustained progression gap.",
+227-      ),
+228-  },
+229-  {
+230-    id: "signal-quality-unknown",
+231-    domain: "signal_quality",
+232-    matches: (signal) =>
+233:      signal.domain === "signal_quality" && signal.status === "unknown",
+234-    create: (signal) =>
+235-      createBoundedGuidance(
+236-        signal,
+237-        `Signal quality is insufficient for strong interpretation: ${signal.summary}`,
+238-        "Observed signal quality does not support high-confidence guidance.",
+239-      ),
+240-  },
+241-  {
+242-    id: "operator-awareness-unknown",
+243-    domain: "operator_awareness",
+244-    matches: (signal) =>
+245:      signal.domain === "operator_awareness" && signal.status === "unknown",
+246-    create: (signal) =>
+247-      createBoundedGuidance(
+248-        signal,
+249-        `Operator awareness surface has incomplete visibility: ${signal.summary}`,
+250-        "Observed awareness signals do not fully support bounded interpretation.",
+251-      ),
+252-  },
+253-];
+254-
+255-export function mapSignalToOperatorGuidance(
+256-  signal: GuidanceSignalObservation,
+257-  context: GuidanceMappingContext,
+
+=== MATCH: fallback|default|useState|initialState ===
+
+=== MATCH: loading|pending|hydrate|hydration|undefined|null ===
+2-  GuidanceConfidence,
+3-  GuidanceDomain,
+4-  GuidanceSeverity,
+5-  OperatorGuidance,
+6-} from "./operatorGuidance";
+7-
+8-export type GuidanceSignalStatus = "healthy" | "degraded" | "stalled" | "unknown";
+9-
+10-export type GuidanceSignalObservation = {
+11-  key: string;
+12-  domain: GuidanceDomain;
+13-  status: GuidanceSignalStatus;
+14:  value?: number | string | boolean | null;
+15-  summary: string;
+16-  observedAt: number;
+17-  source: string;
+18-};
+19-
+20-export type GuidanceMappingContext = {
+21-  now: number;
+22-};
+23-
+24-export type GuidanceInterpretationRule = {
+25-  id: string;
+26-  domain: GuidanceDomain;
+--
+246-    create: (signal) =>
+247-      createBoundedGuidance(
+248-        signal,
+249-        `Operator awareness surface has incomplete visibility: ${signal.summary}`,
+250-        "Observed awareness signals do not fully support bounded interpretation.",
+251-      ),
+252-  },
+253-];
+254-
+255-export function mapSignalToOperatorGuidance(
+256-  signal: GuidanceSignalObservation,
+257-  context: GuidanceMappingContext,
+258:): OperatorGuidance | null {
+259-  const rule = GUIDANCE_INTERPRETATION_RULES.find((candidate) =>
+260-    candidate.matches(signal),
+261-  );
+262-
+263-  if (!rule) {
+264:    return null;
+265-  }
+266-
+267-  return rule.create(signal, context);
+268-}
+269-
+270-export function mapSignalsToOperatorGuidance(
+271-  signals: GuidanceSignalObservation[],
+272-  context: GuidanceMappingContext,
+273-): OperatorGuidance[] {
+274-  return signals
+275-    .map((signal) => mapSignalToOperatorGuidance(signal, context))
+276:    .filter((guidance): guidance is OperatorGuidance => guidance !== null);
+277-}
+
+=== FULL FILE TAIL ===
+}
+
+function mapStatusToType(
+  status: GuidanceSignalStatus,
+): OperatorGuidance["type"] {
+  switch (status) {
+    case "healthy":
+      return "informational";
+    case "degraded":
+      return "attention";
+    case "stalled":
+      return "elevated";
+    case "unknown":
+      return "attention";
+  }
+}
+
+function buildGuidanceId(signal: GuidanceSignalObservation): string {
+  return [
+    "guidance",
+    signal.domain,
+    signal.key,
+    String(signal.observedAt),
+  ].join(":");
+}
+
+function createBoundedGuidance(
+  signal: GuidanceSignalObservation,
+  message: string,
+  rationale: string,
+): OperatorGuidance {
+  const severity = mapStatusToSeverity(signal.status);
+  const confidence = mapStatusToConfidence(signal.status);
+  const type = mapStatusToType(signal.status);
+
+  return {
+    id: buildGuidanceId(signal),
+    type,
+    domain: signal.domain,
+    severity,
+    confidence,
+    message,
+    rationale,
+    signalSource: [signal.source, signal.key],
+    bounded: true,
+    executionImpact: "none",
+    createdAt: signal.observedAt,
+  };
+}
+
+export const GUIDANCE_INTERPRETATION_RULES: GuidanceInterpretationRule[] = [
+  {
+    id: "system-health-healthy",
+    domain: "system_health",
+    matches: (signal) =>
+      signal.domain === "system_health" && signal.status === "healthy",
+    create: (signal) =>
+      createBoundedGuidance(
+        signal,
+        `System health is currently stable: ${signal.summary}`,
+        "Observed system health signals are within acceptable bounds.",
+      ),
+  },
+  {
+    id: "system-health-degraded",
+    domain: "system_health",
+    matches: (signal) =>
+      signal.domain === "system_health" && signal.status === "degraded",
+    create: (signal) =>
+      createBoundedGuidance(
+        signal,
+        `System health needs attention: ${signal.summary}`,
+        "Observed system health signals indicate degradation without proving failure.",
+      ),
+  },
+  {
+    id: "system-health-stalled",
+    domain: "system_health",
+    matches: (signal) =>
+      signal.domain === "system_health" && signal.status === "stalled",
+    create: (signal) =>
+      createBoundedGuidance(
+        signal,
+        `System health appears stalled: ${signal.summary}`,
+        "Observed system health signals indicate a sustained non-healthy condition.",
+      ),
+  },
+  {
+    id: "throughput-healthy",
+    domain: "throughput",
+    matches: (signal) =>
+      signal.domain === "throughput" && signal.status === "healthy",
+    create: (signal) =>
+      createBoundedGuidance(
+        signal,
+        `Throughput is within expected range: ${signal.summary}`,
+        "Observed throughput signals do not indicate current pressure.",
+      ),
+  },
+  {
+    id: "throughput-degraded",
+    domain: "throughput",
+    matches: (signal) =>
+      signal.domain === "throughput" && signal.status === "degraded",
+    create: (signal) =>
+      createBoundedGuidance(
+        signal,
+        `Throughput is below expected range: ${signal.summary}`,
+        "Observed throughput signals indicate reduced flow without inferring root cause.",
+      ),
+  },
+  {
+    id: "throughput-stalled",
+    domain: "throughput",
+    matches: (signal) =>
+      signal.domain === "throughput" && signal.status === "stalled",
+    create: (signal) =>
+      createBoundedGuidance(
+        signal,
+        `Throughput appears stalled: ${signal.summary}`,
+        "Observed throughput signals indicate little or no forward movement.",
+      ),
+  },
+  {
+    id: "latency-degraded",
+    domain: "latency",
+    matches: (signal) =>
+      signal.domain === "latency" && signal.status === "degraded",
+    create: (signal) =>
+      createBoundedGuidance(
+        signal,
+        `Latency is elevated: ${signal.summary}`,
+        "Observed latency signals indicate slower-than-expected system response.",
+      ),
+  },
+  {
+    id: "latency-stalled",
+    domain: "latency",
+    matches: (signal) =>
+      signal.domain === "latency" && signal.status === "stalled",
+    create: (signal) =>
+      createBoundedGuidance(
+        signal,
+        `Latency appears materially elevated: ${signal.summary}`,
+        "Observed latency signals indicate a sustained delay condition.",
+      ),
+  },
+  {
+    id: "task-lifecycle-degraded",
+    domain: "task_lifecycle",
+    matches: (signal) =>
+      signal.domain === "task_lifecycle" && signal.status === "degraded",
+    create: (signal) =>
+      createBoundedGuidance(
+        signal,
+        `Task lifecycle progression needs attention: ${signal.summary}`,
+        "Observed task lifecycle signals indicate slower or uneven progression.",
+      ),
+  },
+  {
+    id: "task-lifecycle-stalled",
+    domain: "task_lifecycle",
+    matches: (signal) =>
+      signal.domain === "task_lifecycle" && signal.status === "stalled",
+    create: (signal) =>
+      createBoundedGuidance(
+        signal,
+        `Task lifecycle progression appears stalled: ${signal.summary}`,
+        "Observed task lifecycle signals indicate a sustained progression gap.",
+      ),
+  },
+  {
+    id: "signal-quality-unknown",
+    domain: "signal_quality",
+    matches: (signal) =>
+      signal.domain === "signal_quality" && signal.status === "unknown",
+    create: (signal) =>
+      createBoundedGuidance(
+        signal,
+        `Signal quality is insufficient for strong interpretation: ${signal.summary}`,
+        "Observed signal quality does not support high-confidence guidance.",
+      ),
+  },
+  {
+    id: "operator-awareness-unknown",
+    domain: "operator_awareness",
+    matches: (signal) =>
+      signal.domain === "operator_awareness" && signal.status === "unknown",
+    create: (signal) =>
+      createBoundedGuidance(
+        signal,
+        `Operator awareness surface has incomplete visibility: ${signal.summary}`,
+        "Observed awareness signals do not fully support bounded interpretation.",
+      ),
+  },
+];
+
+export function mapSignalToOperatorGuidance(
+  signal: GuidanceSignalObservation,
+  context: GuidanceMappingContext,
+): OperatorGuidance | null {
+  const rule = GUIDANCE_INTERPRETATION_RULES.find((candidate) =>
+    candidate.matches(signal),
+  );
+
+  if (!rule) {
+    return null;
+  }
+
+  return rule.create(signal, context);
+}
+
+export function mapSignalsToOperatorGuidance(
+  signals: GuidanceSignalObservation[],
+  context: GuidanceMappingContext,
+): OperatorGuidance[] {
+  return signals
+    .map((signal) => mapSignalToOperatorGuidance(signal, context))
+    .filter((guidance): guidance is OperatorGuidance => guidance !== null);
+}
+
+=== DECISION TARGET ===
+Manually confirm the exact line where:
+1. displayed guidance label is computed
+2. status/reason is read from payload/state
+3. fallback/default/undefined branch can emit insufficient
+
+This output is the final pre-patch inspection artifact.

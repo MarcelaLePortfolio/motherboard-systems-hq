@@ -1,0 +1,32 @@
+PHASE 457H LEGACY OBSERVATIONAL CONSUMER NEUTRALIZATION
+======================================================
+
+TARGET=public/dashboard.html
+LIVE_URL=http://localhost:8080/dashboard.html
+
+===== LOCAL SCRIPT TAG CHECK =====
+728:    <script src="/js/phase457_neutralize_legacy_observational_consumers.js"></script>
+
+===== LIVE SCRIPT TAG CHECK =====
+728:    <script src="/js/phase457_neutralize_legacy_observational_consumers.js"></script>
+
+===== LIVE PANEL IDS =====
+567:                    <div id="tasks-widget"></div>
+619:    <div id="recentLogs"></div>
+201:      #task-events-card.phase61-events-fill #mb-task-events-panel-anchor {
+584:                    <div id="mb-task-events-panel-anchor"></div>
+738:#mb-task-events-panel-anchor {
+510:                        <div id="operator-guidance-response" class="text-sm text-gray-300 leading-6">
+514:                        <div id="operator-guidance-meta" class="mt-3 text-xs text-gray-500 leading-5">
+
+===== LOCAL NEUTRALIZER CHECK =====
+200:  function normalizeOperatorConfidence() {
+241:    normalizeOperatorConfidence();
+213:  function neutralizeLegacyProbeText() {
+240:    neutralizeLegacyProbeText();
+270:  function connectDirectTaskEvents() {
+341:    connectDirectTaskEvents();
+
+===== QUICK RESULT =====
+LOCAL_TAG=1
+LIVE_TAG=1

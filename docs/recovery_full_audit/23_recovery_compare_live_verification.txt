@@ -1,0 +1,45 @@
+PHASE 457 - RECOVERY COMPARE LIVE VERIFICATION
+==============================================
+
+===== phase65_layout =====
+URL=http://localhost:8081
+
+[port listen]
+
+[http headers]
+
+[dashboard markers]
+
+[compose status]
+NAME      IMAGE     COMMAND   SERVICE   CREATED   STATUS    PORTS
+
+[dashboard logs]
+
+===== phase65_wiring =====
+URL=http://localhost:8082
+
+[port listen]
+
+[http headers]
+
+[dashboard markers]
+
+[compose status]
+NAME      IMAGE     COMMAND   SERVICE   CREATED   STATUS    PORTS
+
+[dashboard logs]
+
+===== operator_guidance =====
+URL=http://localhost:8083
+
+[port listen]
+
+[http headers]
+
+[dashboard markers]
+
+[compose status]
+NAME      IMAGE     COMMAND   SERVICE   CREATED   STATUS    PORTS
+
+[dashboard logs]
+

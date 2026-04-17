@@ -1,0 +1,235 @@
+PHASE 486 — STEP 11
+REPORT FIELD INVENTORY FOR PASSIVE GOVERNANCE TRACE RENDER
+
+OBJECTIVE
+
+Inspect the remainder of the selected UI host and identify the exact
+report fields already available for passive governance trace rendering.
+
+TARGET FILE
+app/demo-runtime/page.tsx
+
+REPORT TYPE DEFINITION
+type TaskExecutionRecord = {
+  taskId: string;
+  taskName: string;
+  traversalPosition: number;
+  outcome: "SUCCESS" | "FAILED" | "BLOCKED";
+  verificationConfirmed: boolean;
+  logicalTimestamp: string;
+};
+
+type DemoReport = {
+  requestId: string;
+  requestSummary: string;
+  generatedRequest: {
+    approved: boolean;
+    governanceEvaluated: boolean;
+    authorityOrderingValid: boolean;
+    tasks: { id: string; name: string }[];
+  };
+  admissionDecision: "ADMITTED" | "DENIED";
+  denialReasons: string[];
+  traversalOrder: string[];
+  traversalState: "NOT_STARTED" | "IN_PROGRESS" | "COMPLETED" | "BLOCKED";
+  taskOutcomes: TaskExecutionRecord[];
+  finalDemoResult: "DEMO_SUCCESS" | "DEMO_FAILED";
+};
+
+RUNTIME RESULT SECTION (FULL REMAINDER)
+      {report ? (
+        <section
+          style={{
+            border: "1px solid #ddd",
+            borderRadius: "0.9rem",
+            padding: "1.25rem",
+            background: "#fff",
+          }}
+        >
+          <h2 style={{ marginTop: 0, marginBottom: "1rem" }}>Runtime Result</h2>
+
+          <div style={{ display: "flex", gap: "0.9rem", flexWrap: "wrap", marginBottom: "1.25rem" }}>
+            <SummaryBadge label="Admission" value={report.admissionDecision} />
+            <SummaryBadge label="Traversal" value={report.traversalState} />
+            <SummaryBadge label="Final result" value={report.finalDemoResult} />
+            <SummaryBadge label="Tasks" value={String(report.generatedRequest.tasks.length)} />
+          </div>
+
+          <div
+            style={{
+              border: "1px solid #e2e2e2",
+              borderRadius: "0.75rem",
+              padding: "1rem",
+              marginBottom: "1rem",
+              background: "#fafafa",
+            }}
+          >
+            <h3 style={{ marginTop: 0, marginBottom: "0.65rem" }}>Request</h3>
+            <p style={{ margin: 0, lineHeight: 1.5 }}>
+              <strong>Request ID:</strong> {report.requestId}
+            </p>
+            <p style={{ marginBottom: 0, lineHeight: 1.6 }}>
+              <strong>Natural-language prompt:</strong> {report.requestSummary}
+            </p>
+          </div>
+
+          <div
+            style={{
+              border: "1px solid #e2e2e2",
+              borderRadius: "0.75rem",
+              padding: "1rem",
+              marginBottom: "1rem",
+              background: "#fafafa",
+            }}
+          >
+            <h3 style={{ marginTop: 0, marginBottom: "0.65rem" }}>Admission</h3>
+            <p style={{ marginTop: 0, lineHeight: 1.6 }}>
+              <strong>Decision:</strong> {report.admissionDecision}
+            </p>
+            <p style={{ marginBottom: 0, lineHeight: 1.6 }}>
+              <strong>Governance explanation:</strong> {governanceExplanation}
+            </p>
+            {report.denialReasons.length > 0 ? (
+              <>
+                <h4 style={{ marginBottom: "0.5rem" }}>Denial reasons</h4>
+                <ul style={{ marginTop: 0 }}>
+                  {report.denialReasons.map((reason) => (
+                    <li key={reason}>{reason}</li>
+                  ))}
+                </ul>
+              </>
+            ) : null}
+          </div>
+
+          <div
+            style={{
+              border: "1px solid #e2e2e2",
+              borderRadius: "0.75rem",
+              padding: "1rem",
+              marginBottom: "1rem",
+              background: "#fafafa",
+            }}
+          >
+            <h3 style={{ marginTop: 0, marginBottom: "0.65rem" }}>Execution</h3>
+            <p style={{ marginTop: 0 }}>
+              <strong>Deterministic traversal order:</strong>
+            </p>
+            <ol style={{ marginTop: "0.5rem" }}>
+              {report.generatedRequest.tasks.map((task) => (
+                <li key={task.id}>
+                  {task.id}: {task.name}
+                </li>
+              ))}
+            </ol>
+          </div>
+
+          <div
+            style={{
+              border: "1px solid #e2e2e2",
+              borderRadius: "0.75rem",
+              padding: "1rem",
+              marginBottom: "1rem",
+              background: "#fafafa",
+            }}
+          >
+            <h3 style={{ marginTop: 0, marginBottom: "0.65rem" }}>Outcome</h3>
+            <ol style={{ marginTop: 0 }}>
+              {report.taskOutcomes.map((task) => (
+                <li key={`${task.taskId}-${task.logicalTimestamp}`} style={{ marginBottom: "0.45rem" }}>
+                  <strong>{task.taskName}</strong> — {task.outcome} ({task.logicalTimestamp})
+                </li>
+              ))}
+            </ol>
+          </div>
+
+          <details>
+            <summary style={{ cursor: "pointer", fontWeight: 700 }}>Raw report JSON</summary>
+            <pre
+              style={{
+                overflowX: "auto",
+                background: "#111",
+                color: "#eee",
+                padding: "1rem",
+                borderRadius: "0.5rem",
+                marginTop: "0.9rem",
+              }}
+            >
+              {JSON.stringify(report, null, 2)}
+            </pre>
+          </details>
+        </section>
+      ) : null}
+    </main>
+  );
+}
+
+REPORT FIELD REFERENCES IN FILE
+233:            <SummaryBadge label="Admission" value={report.admissionDecision} />
+234:            <SummaryBadge label="Traversal" value={report.traversalState} />
+235:            <SummaryBadge label="Final result" value={report.finalDemoResult} />
+236:            <SummaryBadge label="Tasks" value={String(report.generatedRequest.tasks.length)} />
+250:              <strong>Request ID:</strong> {report.requestId}
+253:              <strong>Natural-language prompt:</strong> {report.requestSummary}
+268:              <strong>Decision:</strong> {report.admissionDecision}
+273:            {report.denialReasons.length > 0 ? (
+277:                  {report.denialReasons.map((reason) => (
+299:              {report.generatedRequest.tasks.map((task) => (
+318:              {report.taskOutcomes.map((task) => (
+79:    if (report.admissionDecision === "ADMITTED") {
+83:    if (report.denialReasons.length > 0) {
+84:      return `Request denied because: ${report.denialReasons.join(", ")}.`;
+
+GENERATED REQUEST FIELD REFERENCES
+236:            <SummaryBadge label="Tasks" value={String(report.generatedRequest.tasks.length)} />
+299:              {report.generatedRequest.tasks.map((task) => (
+
+DENIAL / ADMISSION / TRAVERSAL FIELD REFERENCES
+15:  requestId: string;
+16:  requestSummary: string;
+23:  admissionDecision: "ADMITTED" | "DENIED";
+233:            <SummaryBadge label="Admission" value={report.admissionDecision} />
+234:            <SummaryBadge label="Traversal" value={report.traversalState} />
+235:            <SummaryBadge label="Final result" value={report.finalDemoResult} />
+24:  denialReasons: string[];
+25:  traversalOrder: string[];
+250:              <strong>Request ID:</strong> {report.requestId}
+253:              <strong>Natural-language prompt:</strong> {report.requestSummary}
+26:  traversalState: "NOT_STARTED" | "IN_PROGRESS" | "COMPLETED" | "BLOCKED";
+268:              <strong>Decision:</strong> {report.admissionDecision}
+27:  taskOutcomes: TaskExecutionRecord[];
+273:            {report.denialReasons.length > 0 ? (
+277:                  {report.denialReasons.map((reason) => (
+28:  finalDemoResult: "DEMO_SUCCESS" | "DEMO_FAILED";
+318:              {report.taskOutcomes.map((task) => (
+79:    if (report.admissionDecision === "ADMITTED") {
+83:    if (report.denialReasons.length > 0) {
+84:      return `Request denied because: ${report.denialReasons.join(", ")}.`;
+
+AVAILABLE GOVERNANCE-ADJACENT FIELDS (EXACT)
+• report.admissionDecision
+• report.denialReasons
+• report.generatedRequest.approved
+• report.generatedRequest.governanceEvaluated
+• report.generatedRequest.authorityOrderingValid
+
+TRACE SHAPE CHECK
+
+TRACE-FIELD-SIGNALS: ABSENT
+
+INTERPRETATION RULE
+
+If rule-level trace fields are absent from the existing report object,
+the governance trace panel must render only exact available governance-adjacent
+fields and explicit NO DATA for rule-level trace details.
+
+NO FABRICATION RULE
+
+Do not invent:
+• rules[]
+• ruleId
+• evaluationResult
+• per-rule reasoning entries
+
+NEXT STEP
+
+Define exact passive panel contents from existing report fields only.
