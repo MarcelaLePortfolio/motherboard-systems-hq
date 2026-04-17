@@ -1,20 +1,0 @@
---- compose ps -a ---
-yaml: line 2: did not find expected key
-
---- dashboard logs ---
-yaml: line 2: did not find expected key
-
---- port listen ---
-
---- http headers ---
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
-curl: (7) Failed to connect to localhost port 8105 after 0 ms: Couldn't connect to server
-
---- title ---
-
---- markers ---
-
---- url ---
-http://localhost:8105

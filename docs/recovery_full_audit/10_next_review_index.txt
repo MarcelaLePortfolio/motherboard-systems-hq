@@ -1,7 +1,0 @@
-=== SUMMARY CANDIDATES ===
-Review these files next:
-docs/recovery_full_audit/03_branch_contains_matrix.txt
-docs/recovery_full_audit/05_ui_marker_search.txt
-docs/recovery_full_audit/06_key_file_histories.txt
-docs/recovery_full_audit/08_other_candidate_branches.txt
-docs/recovery_full_audit/09_snapshot_archive_inventory.txt
