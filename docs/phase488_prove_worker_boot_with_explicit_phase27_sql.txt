@@ -1,0 +1,108 @@
+PHASE 488 — PROVE WORKER BOOT WITH EXPLICIT PHASE27 SQL
+Timestamp: Fri Apr 17 13:27:48 PDT 2026
+========================================
+
+[1] REQUIRED SQL FILES
+FOUND server/worker/phase27_claim_one.sql
+FOUND server/worker/phase27_mark_success.sql
+FOUND server/worker/phase27_mark_failure.sql
+
+[2] WORKER PROCESS CHECK
+WORKER_NOT_RUNNING
+
+[3] WORKER LOG TAIL
+    at async loop (file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/worker/phase26_task_worker.mjs:108:17) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 5432
+}
+[phase26][dbg] sleep_backoff { backoff: 30000 }
+[phase26][dbg] tick { ts: '2026-04-17T20:52:20.074Z', owner: 'worker-74553' }
+[worker] loop error Error: connect ECONNREFUSED 127.0.0.1:5432
+    at /Users/marcela-dev/Projects/Motherboard_Systems_HQ/node_modules/.pnpm/pg-pool@3.13.0_pg@8.20.0/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async loop (file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/worker/phase26_task_worker.mjs:108:17) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 5432
+}
+[phase26][dbg] sleep_backoff { backoff: 30000 }
+[phase26][dbg] tick { ts: '2026-04-17T20:52:50.076Z', owner: 'worker-74553' }
+[worker] loop error Error: connect ECONNREFUSED 127.0.0.1:5432
+    at /Users/marcela-dev/Projects/Motherboard_Systems_HQ/node_modules/.pnpm/pg-pool@3.13.0_pg@8.20.0/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async loop (file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/worker/phase26_task_worker.mjs:108:17) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 5432
+}
+[phase26][dbg] sleep_backoff { backoff: 30000 }
+[phase26][dbg] tick { ts: '2026-04-17T20:53:20.078Z', owner: 'worker-74553' }
+[worker] loop error Error: connect ECONNREFUSED 127.0.0.1:5432
+    at /Users/marcela-dev/Projects/Motherboard_Systems_HQ/node_modules/.pnpm/pg-pool@3.13.0_pg@8.20.0/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async loop (file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/worker/phase26_task_worker.mjs:108:17) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 5432
+}
+[phase26][dbg] sleep_backoff { backoff: 30000 }
+[phase26][dbg] tick { ts: '2026-04-17T20:53:50.080Z', owner: 'worker-74553' }
+[worker] loop error Error: connect ECONNREFUSED 127.0.0.1:5432
+    at /Users/marcela-dev/Projects/Motherboard_Systems_HQ/node_modules/.pnpm/pg-pool@3.13.0_pg@8.20.0/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async loop (file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/worker/phase26_task_worker.mjs:108:17) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 5432
+}
+[phase26][dbg] sleep_backoff { backoff: 30000 }
+[phase26][dbg] tick { ts: '2026-04-17T20:54:20.083Z', owner: 'worker-74553' }
+[worker] loop error Error: connect ECONNREFUSED 127.0.0.1:5432
+    at /Users/marcela-dev/Projects/Motherboard_Systems_HQ/node_modules/.pnpm/pg-pool@3.13.0_pg@8.20.0/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async loop (file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/worker/phase26_task_worker.mjs:108:17) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 5432
+}
+[phase26][dbg] sleep_backoff { backoff: 30000 }
+[phase26][dbg] tick { ts: '2026-04-17T20:54:50.084Z', owner: 'worker-74553' }
+[worker] loop error Error: connect ECONNREFUSED 127.0.0.1:5432
+    at /Users/marcela-dev/Projects/Motherboard_Systems_HQ/node_modules/.pnpm/pg-pool@3.13.0_pg@8.20.0/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async loop (file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/worker/phase26_task_worker.mjs:108:17) {
+  errno: -61,
+  code: 'ECONNREFUSED',
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 5432
+}
+[phase26][dbg] sleep_backoff { backoff: 30000 }
+
+[4] TASK EVENT COUNTS
+NO_POSTGRES_CONTAINER
+
+[5] /api/runs SAMPLE
+
+
+[6] TASK EVENTS STREAM SAMPLE
+TASK_EVENTS_CAPTURE_ERROR: <urlopen error [Errno 61] Connection refused>
+
+[7] VERDICT TARGET
+- If worker stays up and task.started/task.completed appear, boot omission confirmed
+- If worker still fails, inspect SQL contract mismatch next
+
+PROOF COMPLETE
