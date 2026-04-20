@@ -1,13 +1,14 @@
 === PHASE 487 server.ts LIVE START PROBE ===
 
 === Starting server.ts via tsx ===
-npm warn exec The following package was not found and will be installed: tsx@4.21.0
 node:internal/modules/cjs/loader:1369
   const err = new Error(message);
               ^
 
-Error: Cannot find module 'cors'
+Error: Cannot find module 'better-sqlite3'
 Require stack:
+- /Users/marcela-dev/Projects/Motherboard_Systems_HQ/db/client.ts
+- /Users/marcela-dev/Projects/Motherboard_Systems_HQ/routes/api/delegate.ts
 - /Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.ts
     at node:internal/modules/cjs/loader:1369:15
     at nextResolveSimple (/Users/marcela-dev/.npm/_npx/fd45a72a545557e9/node_modules/tsx/dist/register-D46fvsV_.cjs:4:1004)
@@ -20,7 +21,11 @@ Require stack:
     at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1030:22)
     at Module._load (node:internal/modules/cjs/loader:1179:37) {
   code: 'MODULE_NOT_FOUND',
-  requireStack: [ '/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.ts' ]
+  requireStack: [
+    '/Users/marcela-dev/Projects/Motherboard_Systems_HQ/db/client.ts',
+    '/Users/marcela-dev/Projects/Motherboard_Systems_HQ/routes/api/delegate.ts',
+    '/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.ts'
+  ]
 }
 
 Node.js v24.4.0
