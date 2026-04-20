@@ -1,28 +1,33 @@
 === PHASE 487 server.ts LIVE START PROBE ===
 
 === Starting server.ts via tsx ===
-
-/Users/marcela-dev/Projects/Motherboard_Systems_HQ/node_modules/.pnpm/better-sqlite3@12.9.0/node_modules/better-sqlite3/lib/methods/wrappers.js:5
-	return this[cppdb].prepare(sql, this, false);
-	                   ^
-SqliteError: no such table: task_events
-    at Database.prepare (/Users/marcela-dev/Projects/Motherboard_Systems_HQ/node_modules/.pnpm/better-sqlite3@12.9.0/node_modules/better-sqlite3/lib/methods/wrappers.js:5:21)
-    at Database (/Users/marcela-dev/Projects/Motherboard_Systems_HQ/db/client.ts:6:31)
-    at Object.<anonymous> (/Users/marcela-dev/Projects/Motherboard_Systems_HQ/db/client.ts:11:17)
-    at Module._compile (node:internal/modules/cjs/loader:1692:14)
-    at Object.transformer (/Users/marcela-dev/.npm/_npx/fd45a72a545557e9/node_modules/tsx/dist/register-D46fvsV_.cjs:3:1104)
-    at Module.load (node:internal/modules/cjs/loader:1427:32)
-    at Module._load (node:internal/modules/cjs/loader:1250:12)
-    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
-    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
-    at Module.require (node:internal/modules/cjs/loader:1449:12) {
-  code: 'SQLITE_ERROR'
-}
-
-Node.js v24.4.0
+🖥️ Dashboard + Matilda API (Hot Reload) running at http://localhost:3001
 
 === Port 3001 listener check ===
+COMMAND   PID        USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+node    36109 marcela-dev   33u  IPv6 0x932c64b9a9211084      0t0  TCP *:3001 (LISTEN)
 
 === /diagnostics/systemHealth probe ===
+HTTP/1.1 404 Not Found
+X-Powered-By: Express
+Access-Control-Allow-Origin: *
+Content-Security-Policy: default-src 'none'
+X-Content-Type-Options: nosniff
+Content-Type: text/html; charset=utf-8
+Content-Length: 163
+Date: Mon, 20 Apr 2026 21:42:17 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot GET /diagnostics/systemHealth</pre>
+</body>
+</html>
 
 === Tail of startup log ===
