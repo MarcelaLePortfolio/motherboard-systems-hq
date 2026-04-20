@@ -1,0 +1,162 @@
+=== PHASE 487 STARTUP TARGET AUDIT ===
+
+=== 1) Listening processes on 3000 / 3001 / 3012 / 3013 / 3014 ===
+
+=== 2) package.json scripts ===
+verify:replay: tsx scripts/_local/verification/check-replay-verification.ts
+
+=== 3) Candidate startup files (first 60 lines each) ===
+--- server.ts ---
+// <0001fb09> Phase 9.9j — Hot-Reloading Matilda Route (Chat vs Delegation)
+import express from "express";
+import path from "path";
+import cors from "cors";
+import { createRequire } from "module";
+
+const require = createRequire(import.meta.url);
+const app = express();
+app.use(cors());
+app.use(express.json());
+import delegateRoutes from "./routes/api/delegate"; 
+import tasksRoutes from "./routes/api/tasks"; 
+import logsRoutes from "./routes/api/logs";
+
+const publicPath = path.join(process.cwd(), "public");
+app.use(express.static(publicPath));
+app.use(delegateRoutes); 
+app.use(tasksRoutes); 
+app.use(logsRoutes);
+
+app.get("/", (_req, res) => {
+  res.sendFile(path.join(publicPath, "dashboard.html"));
+});
+
+// 🔥 Always fresh import of Matilda
+app.post("/matilda", async (req, res) => {
+  try {
+    delete require.cache[require.resolve("./agents/matilda/matilda.mjs")];
+    const { matilda } = await import("./agents/matilda/matilda.mjs?" + Date.now());
+    const reply = await matilda.handler(req.body.message);
+    res.json({ reply });
+  } catch (err) {
+    console.error("❌ Matilda route error:", err);
+    res.status(500).json({ error: "Matilda is unreachable" });
+  }
+});
+
+const PORT = 3001;
+app.listen(PORT, () => {
+  console.log(`🖥️ Dashboard + Matilda API (Hot Reload) running at http://localhost:${PORT}`);
+});
+
+--- scripts/server.cjs ---
+ 
+const http = require("http");
+const fs = require("fs");
+const path = require("path");
+
+const PORT = 3000;
+const PUBLIC_DIR = path.join(__dirname, "../public");
+const LOG_PATH = path.join(__dirname, "../ops-stream.log");
+
+http
+  .createServer((req, res) => {
+    const { method, url } = req;
+
+    if (method === "POST" && url === "/api/command") {
+      let body = "";
+      req.on("data", chunk => (body += chunk));
+      req.on("end", () => {
+        try {
+          const { command } = JSON.parse(body);
+          const entry = `[${new Date().toISOString()}] ${command}
+`;
+          fs.appendFileSync(LOG_PATH, entry);
+          res.writeHead(200);
+          res.end("Command received");
+        } catch {
+          res.writeHead(400);
+          res.end("Bad request");
+        }
+      });
+      return;
+    }
+
+    const filePath = path.join(PUBLIC_DIR, url === "/" ? "dashboard.html" : url);
+    fs.readFile(filePath, (err, data) => {
+      if (err) {
+        res.writeHead(404);
+        res.end("Not found");
+      } else {
+        res.writeHead(200);
+        res.end(data);
+      }
+    });
+  })
+  .listen(PORT, () => {
+    console.log(`✅ UI + Command server running at http://localhost:${PORT}`);
+  });
+
+--- scripts/_local/dev-server.ts ---
+/* eslint-disable import/no-commonjs */
+/**
+ * Dev server with strict agent status:
+ * Shows green ONLY if PM2 online + HTTP heartbeat responds
+ */
+
+import { createServer } from "http";
+import { execSync } from "child_process";
+import { join } from "path";
+import { existsSync, readFileSync } from "fs";
+import http from "http";
+
+const PORT = 3000;
+const UI_DIR = join(process.cwd(), "ui", "dashboard");
+
+const HEARTBEAT_PORTS: Record<string, number> = {
+  matilda: 3014,
+  cade: 3012,
+  effie: 3013,
+};
+
+function pingAgent(port: number): Promise<boolean> {
+  return new Promise((resolve) => {
+    const req = http.get({ hostname: "127.0.0.1", port, path: "/", timeout: 1000 }, (res) => {
+      resolve(res.statusCode === 200);
+    });
+    req.on("error", () => resolve(false));
+    req.on("timeout", () => {
+      req.destroy();
+      resolve(false);
+    });
+  });
+}
+
+async function getAgentStatus() {
+  const statusMap: Record<string, string> = {
+    matilda: "offline",
+    cade: "offline",
+    effie: "offline",
+  };
+
+  try {
+    const raw = execSync("pm2 jlist").toString();
+    const list = JSON.parse(raw);
+
+    // Step 1: Mark online if PM2 shows status as "online"
+    const pm2Online: Record<string, boolean> = {};
+    for (const proc of list) {
+      if (proc.pm2_env?.status === "online") {
+        pm2Online[proc.name.toLowerCase()] = true;
+      }
+    }
+
+    // Step 2: Strict check — only mark green if PM2 online AND heartbeat responds
+    for (const agent of Object.keys(statusMap)) {
+      const port = HEARTBEAT_PORTS[agent];
+      if (pm2Online[agent] && port && await pingAgent(port)) {
+        statusMap[agent] = "online";
+      }
+    }
+
+=== END PHASE 487 STARTUP TARGET AUDIT ===
