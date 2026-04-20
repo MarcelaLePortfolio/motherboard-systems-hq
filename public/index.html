@@ -183,7 +183,7 @@
 
   <script defer src="js/dashboard-status.js"></script>
   <script defer src="js/agent-status-row.js"></script>
-  <script defer src="js/dashboard-broadcast.js"></script>
+  <script type="module" src="js/dashboard-broadcast.js"></script>
   <script defer src="js/matilda-chat-console.js"></script>
   <script defer src="js/phase64_agent_activity_wire.js"></script>
   <link rel="stylesheet" href="css/phase491_workspace_equal_height.css">
@@ -978,10 +978,6 @@ document.addEventListener("DOMContentLoaded", function () {
   setTimeout(safeRender, 500);
 });
 </script>
-
-
-<script>
-
 
 <script>
 // PHASE 509 — WIRE guidance_availability FROM REAL ENDPOINT (NO FAKE SIGNALS)
