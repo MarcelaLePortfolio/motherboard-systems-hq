@@ -1,0 +1,148 @@
+PHASE 487 ARTIFACT CONTAINMENT REPORT
+Generated: 2026-04-20 09:36:38
+Repo: /Users/marcela-dev/Projects/Motherboard_Systems_HQ
+
+1. CONTAINMENT POLICY
+- Large runtime artifacts must not live in the repo.
+- Prefer overwrite (>) over append (>>).
+- Prefer sampled output over full dumps.
+- Redirect heavy logs/traces/scans to: /tmp/motherboard-systems-hq-artifacts
+
+2. LARGEST FILES IN REPO (TOP 40)
+  2636933120 bytes  ./.artifacts/docker/motherboard_systems_hq-dashboard_phase61-layout-contract-locked-20260310.tar
+  1318838784 bytes  ./.artifacts/docker/motherboard_systems_hq-dashboard_phase61-exact-current-state-20260310.tar
+   528140800 bytes  ./.artifacts/docker/motherboard_systems_hq-dashboard_v60.2-operator-console-polish-preview.tar
+   264614400 bytes  ./.artifacts/docker/motherboard_systems_hq-dashboard_v60.1-recovered-stable-dashboard-checkpoint-20260309.tar
+   264614400 bytes  ./.artifacts/docker/motherboard_systems_hq-dashboard_v60.1-dashboard-hierarchy-polish-preview.tar
+   131796992 bytes  ./.artifacts/docker/motherboard_systems_hq-dashboard_v60.0-agent-pool-polish-preview.tar
+    40327204 bytes  ./docs/phase464_x_phase456_baseline_emitter_candidates.txt
+    31336154 bytes  ./_archive/server_backups/server.js.backup.20251118043821
+    31336144 bytes  ./_archive/server_backups/server.js.backup.20251118043305
+    31336144 bytes  ./_archive/server_backups/server.js.backup.20251118043247
+    18821071 bytes  ./docs/recovery_full_audit/05_ui_marker_search.txt
+    17242877 bytes  ./docs/phase487_identify_actual_8080_server_artifact_20260415_224511.txt
+    16161110 bytes  ./docs/phase464_x_exact_guidance_producer_hunt.txt
+    13193831 bytes  ./docs/phase464_x_api_operator_guidance_producer_evidence.txt
+    11223727 bytes  ./docs/phase486_step5_ui_surface_inventory.txt
+    11138220 bytes  ./docs/phase456_run_view_schema_evidence.txt
+    10261866 bytes  ./docs/phase486_step6_ui_surface_shortlist.txt
+    10100875 bytes  ./docs/phase473_4_trace_container_public_sync_root_cause.txt
+     8536263 bytes  ./docs/phase423_2_step1_execution_anchor_link_resolution.md
+     8033694 bytes  ./docs/PHASE_457_LAYOUT_SEARCH.txt
+     6872471 bytes  ./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt
+     6735414 bytes  ./snapshots/postgres_snapshot_20251120_100809.tar.gz
+     6313092 bytes  ./docs/phase464_3_operator_guidance_tab_reentry_scan.txt
+     6122170 bytes  ./docs/phase464_4_operator_guidance_targeted_review.txt
+     5995070 bytes  ./docs/phase464_x_operator_guidance_server_target_isolation.txt
+     5792488 bytes  ./docs/PHASE_490_OPERATOR_HEIGHT_CHECKPOINT_SEARCH_LIGHT.txt
+     2589779 bytes  ./PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt
+     2440017 bytes  ./docs/recovery_full_audit/08_other_candidate_branches.txt
+     1828954 bytes  ./docs/PHASE_487_STEP1_UI_SURFACE_INVENTORY.txt
+     1782745 bytes  ./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md
+     1555324 bytes  ./docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md
+     1390805 bytes  ./docs/phase456_docker_daemon_failure_focus.txt
+     1325810 bytes  ./docs/phase464_x_exact_guidance_producer_hunt_repaired.txt
+     1153351 bytes  ./docs/PHASE_456_5_IMPLEMENTATION_STEP7_MOUNTPOINT_DISCOVERY.txt
+      652524 bytes  ./docs/phase424_step6_enforcement_topology_determination.txt
+      585657 bytes  ./PHASE80_2_DEEP_DASHBOARD_INVENTORY_20260317T183521Z.md
+      567902 bytes  ./docs/phase465_0_governance_execution_bridge_probe.txt
+      520786 bytes  ./server.log
+      501685 bytes  ./docs/recovery_full_audit/50_observational_task_consumer_trace.txt
+      485852 bytes  ./public/bundle-core.js
+
+3. FILES OVER 50MB
+./.artifacts/docker/motherboard_systems_hq-dashboard_phase61-exact-current-state-20260310.tar
+./.artifacts/docker/motherboard_systems_hq-dashboard_phase61-layout-contract-locked-20260310.tar
+./.artifacts/docker/motherboard_systems_hq-dashboard_v60.0-agent-pool-polish-preview.tar
+./.artifacts/docker/motherboard_systems_hq-dashboard_v60.1-dashboard-hierarchy-polish-preview.tar
+./.artifacts/docker/motherboard_systems_hq-dashboard_v60.1-recovered-stable-dashboard-checkpoint-20260309.tar
+./.artifacts/docker/motherboard_systems_hq-dashboard_v60.2-operator-console-polish-preview.tar
+
+4. SUSPECT ARTIFACT FILES
+./agent_ticker.log
+./artifacts/phase37_3_integrity_gaps_20260211_130102/acceptance.out
+./cade.log
+./docs/PHASE_489_H4_CONTINUOUS_EVENT_STREAM_RUNTIME.log
+./import_check.log
+./logs/cade.log
+./logs/ops.log
+./logs/phase19_apply_sql_20260407_112808.log
+./logs/phase487_dashboard_recovery_runtime.log
+./logs/reflections/atlas.log
+./memory/agent_development_tracker.log
+./memory/cade_runtime_backup.log
+./memory/cade_runtime.log
+./memory/effie_status.log
+./memory/matilda_orchestration.log
+./memory/matilda_status.log
+./memory/matilda_sync.log
+./memory/prune.log
+./memory/ticker.log
+./PHASE88_14_10_SERVER_RESTART.log
+./PHASE88_14_13_CONTAINER_RUNTIME_PROTECTION_BOOT.log
+./PHASE88_14_5_SERVER_RESTART.log
+./PHASE88_14_7_SERVER_RESTART.log
+./PHASE88_14_SERVER_BOOT.log
+./scripts_backup_2/_local/agent-runtime/cade.log
+./scripts_backup_2/_local/agent-runtime/memory/cade_runtime.log
+./scripts_backup_2/system/watchdog.log
+./scripts_backup/_local/agent-runtime/cade.log
+./scripts_backup/_local/agent-runtime/memory/cade_runtime.log
+./scripts_backup/scripts/_local/agent-runtime/cade.log
+./scripts_backup/scripts/_local/agent-runtime/memory/cade_runtime.log
+./scripts_backup/scripts/system/watchdog.log
+./scripts_backup/system/watchdog.log
+./scripts/_local/agent-runtime/cade.log
+./scripts/_local/agent-runtime/memory/cade_runtime.log
+./scripts/system/watchdog.log
+./server.log
+./snapshots/20251114-114707/scripts/_local/agent-runtime/cade.log
+./snapshots/20251114-114707/scripts/_local/agent-runtime/memory/cade_runtime.log
+./snapshots/20251114-114707/scripts/system/watchdog.log
+./snapshots/20251114-114821/scripts/_local/agent-runtime/cade.log
+./snapshots/20251114-114821/scripts/_local/agent-runtime/memory/cade_runtime.log
+./snapshots/20251114-114821/scripts/system/watchdog.log
+./ui/dashboard/ticker-events.log
+
+5. DIRECTORY SIZE SNAPSHOT (TOP 30)
+ 40G	./.git
+4.8G	./.artifacts
+216M	./docs
+ 90M	./_archive
+9.3M	./node_modules
+8.7M	./snapshots
+6.6M	./scripts
+6.6M	./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt
+2.5M	./PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt
+2.2M	./src
+2.2M	./public
+1.7M	./scripts_backup
+848K	./scripts_backup_2
+588K	./dist
+572K	./PHASE80_2_DEEP_DASHBOARD_INVENTORY_20260317T183521Z.md
+544K	./tests
+512K	./server.log
+488K	./server
+484K	./memory
+400K	./ts-backup
+332K	./governance
+296K	./.server.js.swn
+292K	./.server.js.swo
+252K	./cognition
+244K	./PHASE25_UI_INFERENCE_AUDIT_SCOPED.md
+240K	./PHASE25_UI_INFERENCE_AUDIT.md
+212K	./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt
+200K	./routes
+200K	./PHASE88_6_SYSTEM_HEALTH_ROUTE_REGISTRATION.txt
+172K	./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt
+
+6. RECENTLY MODIFIED FILES > 5MB (LAST 24 HOURS)
+
+7. SAFE REDIRECTION TARGET
+/tmp/motherboard-systems-hq-artifacts
+
+8. NEXT ACTIONS
+- Move heavy runtime outputs to /tmp/motherboard-systems-hq-artifacts
+- Replace unsafe append loops with overwrite or capped rotation
+- Keep source-of-truth artifacts in docs/ only when small and bounded
+- Do not delete anything until the report is reviewed
