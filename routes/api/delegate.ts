@@ -6,26 +6,19 @@ const router = express.Router();
 // POST /delegate
 router.post("/delegate", (req, res) => {
   try {
-    const payload = JSON.stringify(req.body || {});
-    const type = "task";
-    const agent = "Matilda";
+    const { task } = req.body;
 
-    const stmt = sqlite.prepare(
-      "INSERT INTO task_events (type, agent, status, payload) VALUES (?, ?, ?, ?)"
-    );
+    const stmt = sqlite.prepare(`
+      INSERT INTO task_events (type, status, created_at)
+      VALUES (?, ?, CURRENT_TIMESTAMP)
+    `);
 
-    const info = stmt.run(type, agent, "received", payload);
-    try { 
-      const submitTask = require("../../scripts/_local/agent-runtime/submit-task"); 
-      submitTask(payload); 
-    } catch (err) { 
-      console.error("❌ Failed to submit task to Cade:", err); 
-    }
+    const result = stmt.run(task || "unknown_task", "queued");
 
     res.json({
       ok: true,
-      message: "Task received",
-      task_id: info.lastInsertRowid
+      delegated: true,
+      id: result.lastInsertRowid,
     });
   } catch (err) {
     console.error("❌ /delegate error:", err);
