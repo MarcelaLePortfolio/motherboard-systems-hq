@@ -1,0 +1,151 @@
+=== PHASE 487 MATILDA REINTRODUCTION SOURCE AUDIT ===
+
+=== 1) current server.ts Matilda surface (first 120 lines) ===
+import express from "express";
+import path from "path";
+import cors from "cors";
+
+const app = express();
+app.use(cors());
+app.use(express.json());
+
+import delegateRoutes from "./routes/api/delegate";
+import tasksRoutes from "./routes/api/tasks";
+import logsRoutes from "./routes/api/logs";
+
+const publicPath = path.join(process.cwd(), "public");
+app.use(express.static(publicPath));
+app.use(delegateRoutes);
+app.use(tasksRoutes);
+app.use(logsRoutes);
+
+app.get("/", (_req, res) => {
+  res.sendFile(path.join(publicPath, "dashboard.html"));
+});
+
+// SAFE Matilda fallback (Phase 487)
+app.post("/matilda", async (_req, res) => {
+  try {
+    res.json({
+      reply: "[Matilda unavailable — fallback active]"
+    });
+  } catch (err) {
+    console.error("❌ Matilda route error:", err);
+    res.status(500).json({ error: "Matilda is unreachable" });
+  }
+});
+
+const PORT = 3001;
+app.listen(PORT, () => {
+  console.log(`🖥️ Dashboard + Matilda API (Hot Reload) running at http://localhost:${PORT}`);
+});
+
+=== 2) actual Matilda module (first 160 lines) ===
+// <0001fb08> Phase 9.9i — Matilda Fully Decoupled Chat & Delegation
+import { ollamaPlan } from "../../scripts/utils/ollamaPlan.ts";
+import { chatWithOllama } from "./utils/matilda_chat.ts";
+
+export const matilda = {
+  name: "Matilda",
+  async handler(message) {
+    console.log(`<0001fb08> Matilda interpreting message: ${message}`);
+    const lower = message.toLowerCase().trim();
+
+    // 🪞 greet or short = direct chat only
+    if (lower.length < 6 || ["hi", "hey", "yo", "hello", "sup"].includes(lower)) {
+      return chatWithOllama(message);
+    }
+
+    // 🧭 Delegation intent check
+    const delegationKeywords = /\b(delegate|cade|effie|task|run|create|generate|execute|validate)\b/;
+    const isDelegation = delegationKeywords.test(lower);
+
+    if (!isDelegation) {
+      return chatWithOllama(message);
+    }
+
+    // 🤖 Delegation logic (separate brain)
+    const plan = `Analyze and delegate this task appropriately: ${message}`;
+    const response = await ollamaPlan(plan);
+    return `🤖 Matilda delegated to Cade and reports: ${response}`;
+  },
+};
+
+=== 3) Matilda local utility (first 160 lines) ===
+// <0001fb07> Matilda Chat Submodule — Direct Ollama Conversation
+import { execSync } from "child_process";
+
+export function chatWithOllama(prompt) {
+  try {
+    const command = `ollama run gemma:2b "You are Matilda, a friendly, natural AI assistant. Keep your tone casual and authentic. Respond to: ${prompt}"`;
+    const output = execSync(command, { encoding: "utf8", stdio: ["pipe", "pipe", "ignore"] });
+    return output.trim();
+  } catch {
+    return "💬 (fallback) I’m here, but can’t seem to connect to my brain right now.";
+  }
+}
+
+=== 4) Ollama plan dependency (first 160 lines) ===
+// <0001fb02> Phase 9.9d — ollamaPlan Hybrid (Reasoning + Chat Fallback)
+import fs from "fs";
+import path from "path";
+import { runSkill } from "./runSkill";
+import { execSync } from "child_process";
+
+/**
+ * 🧠 Hybrid Ollama Planner — uses local reasoning for known skills,
+ * falls back to chat completion if no actionable instruction found.
+ */
+export async function ollamaPlan(planText: string): Promise<string> {
+  console.log(`<0001fb02> 🧠 ollamaPlan interpreting: ${planText}`);
+  const lower = planText.toLowerCase();
+
+  // --- Skill routing ---
+  if (lower.includes("create file") || lower.includes("write file")) {
+    const match = planText.match(/file\s+(\S+)/);
+    const filename = match ? match[1] : `auto_${Date.now()}`;
+    return await runSkill("createFile", { filename });
+  }
+  if (lower.includes("read")) {
+    return await runSkill("readFile", {});
+  }
+
+  // --- Fallback: Chat mode via Ollama ---
+  try {
+    const result = execSync(
+      `ollama run gemma:2b "You are Matilda, an intelligent local AI assistant. Respond conversationally to: ${planText}"`,
+      { encoding: "utf8" }
+    );
+    return result.trim();
+  } catch (err) {
+    console.error("⚠️ Ollama chat fallback failed:", err);
+    return "🧩 (fallback) unable to generate response";
+  }
+}
+
+=== 5) Ask router companion (first 160 lines) ===
+export async function ask(input: string): Promise<string> {
+  return `Stub response for: ${input}`;
+}
+
+=== 6) bounded import scan around Matilda surfaces ===
+agents/matilda.ts/askRouter.ts:1:export async function ask(input: string): Promise<string> {
+agents/matilda.ts/matilda.mjs:2:import { ollamaPlan } from "../../scripts/utils/ollamaPlan.ts";
+agents/matilda.ts/matilda.mjs:3:import { chatWithOllama } from "./utils/matilda_chat.ts";
+agents/matilda.ts/matilda.mjs:5:export const matilda = {
+agents/matilda.ts/matilda.mjs:13:      return chatWithOllama(message);
+agents/matilda.ts/matilda.mjs:21:      return chatWithOllama(message);
+agents/matilda.ts/matilda.mjs:26:    const response = await ollamaPlan(plan);
+agents/matilda.ts/utils/matilda_chat.ts:4:export function chatWithOllama(prompt) {
+agents/matilda.ts/utils/matilda_chat.ts:6:    const command = `ollama run gemma:2b "You are Matilda, a friendly, natural AI assistant. Keep your tone casual and authentic. Respond to: ${prompt}"`;
+scripts/utils/ollamaChat.ts:2: * ollamaChat.ts — diagnostic version to reveal full Ollama payload
+scripts/utils/ollamaChat.ts:4:export async function ollamaChat(message: string): Promise<string> {
+scripts/utils/ollamaChat.ts:17:      console.error("⚠️ ollamaChat HTTP error:", res.status);
+scripts/utils/ollamaChat.ts:41:    console.error("❌ ollamaChat failure:", err);
+scripts/utils/ollamaPlan.ts:1:// <0001fb02> Phase 9.9d — ollamaPlan Hybrid (Reasoning + Chat Fallback)
+scripts/utils/ollamaPlan.ts:11:export async function ollamaPlan(planText: string): Promise<string> {
+scripts/utils/ollamaPlan.ts:12:  console.log(`<0001fb02> 🧠 ollamaPlan interpreting: ${planText}`);
+scripts/utils/ollamaPlan.ts:28:      `ollama run gemma:2b "You are Matilda, an intelligent local AI assistant. Respond conversationally to: ${planText}"`,
+server.ts:24:app.post("/matilda", async (_req, res) => {
+
+=== END PHASE 487 MATILDA REINTRODUCTION SOURCE AUDIT ===
