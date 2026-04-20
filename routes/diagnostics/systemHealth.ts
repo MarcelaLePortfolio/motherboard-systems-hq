@@ -1,23 +1,23 @@
 import express from "express";
-import { buildSystemHealthSituationSummaryPayload } from "./systemHealthSituationSummary";
 
 const router = express.Router();
 
 router.get("/", (_req, res) => {
-  const situationSummaryPayload = buildSystemHealthSituationSummaryPayload({
-    stability: "stable",
-    executionRisk: "none",
-    cognition: "consistent",
-    signalCoherence: "coherent",
-    operatorAttention: "none",
-  });
-
   res.json({
+    ok: true,
     status: "OK",
+    service: "Motherboard Systems HQ",
+    corridor: "Phase 487",
+    mode: "stable-base",
+    diagnostics: {
+      tasksRoute: "active",
+      logsRoute: "active",
+      delegateRoute: "active",
+      matildaRoute: "local-safe-mode",
+    },
+    timestamp: new Date().toISOString(),
     uptime: process.uptime(),
     memory: process.memoryUsage(),
-    timestamp: new Date().toISOString(),
-    ...situationSummaryPayload,
   });
 });
 
