@@ -1,0 +1,71 @@
+=== PHASE 487 better-sqlite3 BUILD SCRIPT AUDIT ===
+
+=== 1) Existing binding files (bounded) ===
+
+=== 2) better-sqlite3 package scripts ===
+package: node_modules/.pnpm/better-sqlite3@12.9.0/node_modules/better-sqlite3/package.json
+version: 12.9.0
+scripts: {
+  install: 'prebuild-install || node-gyp rebuild --release',
+  'build-release': 'node-gyp rebuild --release',
+  'build-debug': 'node-gyp rebuild --debug',
+  test: 'mocha --exit --slow=75 --timeout=5000',
+  benchmark: 'node benchmark',
+  download: 'bash ./deps/download.sh'
+}
+
+=== 3) pnpm config signals ===
+false
+undefined
+ WARN  `pnpm config get` would display an array as comma-separated list due to legacy implementation, use `--json` to print them as json
+better-sqlite3
+
+=== 4) pnpm ignored-builds / approve-builds hints ===
+Automatically ignored builds during installation:
+  None
+Version 10.29.3
+Approve dependencies for running scripts during installation
+
+Options:
+  -g, --global             Approve dependencies of global packages
+
+=== 5) Local native build tool presence ===
+/usr/bin/python3
+Python 3.9.6
+/usr/bin/make
+GNU Make 3.81
+Copyright (C) 2006  Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.
+There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.
+/usr/bin/clang
+Apple clang version 17.0.0 (clang-1700.0.13.5)
+Target: arm64-apple-darwin24.6.0
+Thread model: posix
+InstalledDir: /Library/Developer/CommandLineTools/usr/bin
+/usr/bin/xcode-select
+/Library/Developer/CommandLineTools
+
+=== 6) Recent better-sqlite3 install/rebuild evidence in pnpm logs (bounded) ===
+/Users/marcela-dev/Library/pnpm/store/v10/index/cb/a380c284887fb1728cc22ff78bbe6f9add85e6448f347adc64f26499b9aa1e-fs-constants@1.0.0.json
+/Users/marcela-dev/Library/pnpm/store/v10/index/e0/56d17405fe6d2766a3801416e4b458d88fcfc36016dfabf138603569a5ae34-http-errors@2.0.1.json
+/Users/marcela-dev/Library/pnpm/store/v10/index/2c/e1f120e68f61d1e5251b4241f0c8559b5fc3fb9f33cfab563eb8f51207cdc9-deep-extend@0.6.0.json
+/Users/marcela-dev/Library/pnpm/store/v10/index/2c/a614d620172575200179fd5118e2bbe3168725171ecbdfa7b99cb989bd7525-xtend@4.0.2.json
+/Users/marcela-dev/Library/pnpm/store/v10/index/2d/b833764d21e23ba843d7c22975b86f2d1426a8fe9ce3ab23d309d6c4a3e272-mime-types@3.0.2.json
+/Users/marcela-dev/Library/pnpm/store/v10/index/83/b9c7e8fe9dc838a8268800006a6b1a90ad5489898693e4feba02cdd6f77c88-depd@2.0.0.json
+/Users/marcela-dev/Library/pnpm/store/v10/index/1e/b82cc7ea2baa8ca09e68456ca68713a736f7a27e1d30105e8c4417a80dba94-range-parser@1.2.1.json
+/Users/marcela-dev/Library/pnpm/store/v10/index/84/84b889d5966a2ebd35ecc8751b76c455687da1788fee8834ea4995538b0cef-express@5.2.1.json
+/Users/marcela-dev/Library/pnpm/store/v10/index/4a/9d5a6e52748af0e44b38dc68977112e9cde7f5ef92c149dac30115fabac74a-call-bind-apply-helpers@1.0.2.json
+/Users/marcela-dev/Library/pnpm/store/v10/index/4a/7937d785796b214b869ddf914444b9be96b6305f3dd08f6352e7f3ff26ba7b-merge-descriptors@2.0.0.json
+/Users/marcela-dev/Library/pnpm/store/v10/index/15/d5bdaff8d066149ea21b35677b08d72c4540d16f31c9e67ee8f85813144f13-pgpass@1.0.5.json
+/Users/marcela-dev/Library/pnpm/store/v10/index/8c/9d1bab36b296626d567360cd37923acf033dabe96d8804aff6f460bf3fd863-chownr@1.1.4.json
+/Users/marcela-dev/Library/pnpm/store/v10/index/71/fe8bd83b37879ed55669197be3e7fb900fb13ec5a6a26d1218627830afac4d-iconv-lite@0.7.0.json
+/Users/marcela-dev/Library/pnpm/store/v10/index/71/216d00fb518658efebd20ad214d5650f8e7c4f6778f8bfaed266c395231de5-simple-concat@1.0.1.json
+/Users/marcela-dev/Library/pnpm/store/v10/index/2b/9cd08c3965c5691fed9e7125d574fc1d164cdab1eafc46ef4cc9138374901b-raw-body@3.0.2.json
+/Users/marcela-dev/Library/pnpm/store/v10/index/47/1fd6c9c67ad0739aa8b2808ba70744a288ef3c566c9df53219ed9adc0ca1a4-fresh@2.0.0.json
+/Users/marcela-dev/Library/pnpm/store/v10/index/13/92c35fb5aba7ce4a8a5e5b859bf8ea3f2339e6e82aae4932660cde05467461-setprototypeof@1.2.0.json
+/Users/marcela-dev/Library/pnpm/store/v10/index/14/6807da1f3328d8a6f658e3edd6a79053dc20220af42a796e6f9cda041261e3-es-object-atoms@1.1.1.json
+/Users/marcela-dev/Library/pnpm/store/v10/index/14/22c7b510ff827a428821c48892cec1d9853fec330a60c491cf72ecdb18c5e1-side-channel-list@1.0.0.json
+/Users/marcela-dev/Library/pnpm/store/v10/index/25/5ff2ba0576bb35b988c4528990320ed41dfa7c6d5278de2edd1a70d770f7c9-ini@1.3.8.json
+
+=== END PHASE 487 better-sqlite3 BUILD SCRIPT AUDIT ===
