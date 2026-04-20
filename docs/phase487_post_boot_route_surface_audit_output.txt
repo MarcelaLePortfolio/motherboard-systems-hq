@@ -1,0 +1,176 @@
+=== 1) Mounted route evidence from server.ts ===
+// <0001fb09> Phase 9.9j — Hot-Reloading Matilda Route (Chat vs Delegation)
+import express from "express";
+import path from "path";
+import cors from "cors";
+import { createRequire } from "module";
+
+const require = createRequire(import.meta.url);
+const app = express();
+app.use(cors());
+app.use(express.json());
+import delegateRoutes from "./routes/api/delegate"; 
+import tasksRoutes from "./routes/api/tasks"; 
+import logsRoutes from "./routes/api/logs";
+
+const publicPath = path.join(process.cwd(), "public");
+app.use(express.static(publicPath));
+app.use(delegateRoutes); 
+app.use(tasksRoutes); 
+app.use(logsRoutes);
+
+app.get("/", (_req, res) => {
+  res.sendFile(path.join(publicPath, "dashboard.html"));
+});
+
+// 🔥 Always fresh import of Matilda
+app.post("/matilda", async (req, res) => {
+  try {
+    delete require.cache[require.resolve("./agents/matilda/matilda.mjs")];
+    const { matilda } = await import("./agents/matilda/matilda.mjs?" + Date.now());
+    const reply = await matilda.handler(req.body.message);
+    res.json({ reply });
+  } catch (err) {
+    console.error("❌ Matilda route error:", err);
+    res.status(500).json({ error: "Matilda is unreachable" });
+  }
+});
+
+const PORT = 3001;
+app.listen(PORT, () => {
+  console.log(`🖥️ Dashboard + Matilda API (Hot Reload) running at http://localhost:${PORT}`);
+});
+
+=== 2) Starting bounded live server probe ===
+🖥️ Dashboard + Matilda API (Hot Reload) running at http://localhost:3001
+
+=== 3) Listener check ===
+COMMAND   PID        USER   FD   TYPE            DEVICE SIZE/OFF NODE NAME
+node    36316 marcela-dev   24u  IPv6 0xe18816b131623bd      0t0  TCP *:3001 (LISTEN)
+
+>>> GET http://127.0.0.1:3001/
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Access-Control-Allow-Origin: *
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Sun, 19 Apr 2026 04:22:05 GMT
+ETag: W/"9291-19da3f96cc1"
+Content-Type: text/html; charset=utf-8
+Content-Length: 37521
+Date: Mon, 20 Apr 2026 21:43:37 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Motherboard Systems Operator Console</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="css/broadcast.css" />
+  <link rel="stylesheet" href="css/dashboard.css?v=darkmode" />
+  <link rel="stylesheet" href="css/dashboard-reflections.css" />
+  <link rel="stylesheet" href="css/agent-status-row.css" />
+  <link rel="stylesheet" href="css/matilda-chat.css" />
+  <link rel="stylesheet" href="css/demo_layout_trim.css" />
+  <link rel="stylesheet" href="css/phase59_demo_focus.css" />
+  <link rel="stylesheet" href="css/phase60_live_polish.css" />
+  <link rel="stylesheet" href="css/phase61_workspace_consolidation.css" />
+  <link rel="stylesheet" href="css/phase61_tabs_observational_workspace.css" />
+
+  <style id="matilda-chat-typography-polish">
+    #matilda-chat-transcript p {
+      line-height: 1.4 !important;
+      margin-bottom: 0.5rem !important;
+    }
+
+>>> GET http://127.0.0.1:3001/tasks/recent
+❌ /tasks/recent error: SqliteError: no such column: agent
+    at Database.prepare (/Users/marcela-dev/Projects/Motherboard_Systems_HQ/node_modules/.pnpm/better-sqlite3@12.9.0/node_modules/better-sqlite3/lib/methods/wrappers.js:5:21)
+    at <anonymous> (/Users/marcela-dev/Projects/Motherboard_Systems_HQ/routes/api/tasks.ts:9:25)
+    at Layer.handleRequest (/Users/marcela-dev/Projects/Motherboard_Systems_HQ/node_modules/.pnpm/router@2.2.0/node_modules/router/lib/layer.js:152:17)
+    at next (/Users/marcela-dev/Projects/Motherboard_Systems_HQ/node_modules/.pnpm/router@2.2.0/node_modules/router/lib/route.js:157:13)
+    at Route.dispatch (/Users/marcela-dev/Projects/Motherboard_Systems_HQ/node_modules/.pnpm/router@2.2.0/node_modules/router/lib/route.js:117:3)
+    at handle (/Users/marcela-dev/Projects/Motherboard_Systems_HQ/node_modules/.pnpm/router@2.2.0/node_modules/router/index.js:435:11)
+    at Layer.handleRequest (/Users/marcela-dev/Projects/Motherboard_Systems_HQ/node_modules/.pnpm/router@2.2.0/node_modules/router/lib/layer.js:152:17)
+    at /Users/marcela-dev/Projects/Motherboard_Systems_HQ/node_modules/.pnpm/router@2.2.0/node_modules/router/index.js:295:15
+    at processParams (/Users/marcela-dev/Projects/Motherboard_Systems_HQ/node_modules/.pnpm/router@2.2.0/node_modules/router/index.js:582:12)
+    at next (/Users/marcela-dev/Projects/Motherboard_Systems_HQ/node_modules/.pnpm/router@2.2.0/node_modules/router/index.js:291:5) {
+  code: 'SQLITE_ERROR'
+}
+HTTP/1.1 500 Internal Server Error
+X-Powered-By: Express
+Access-Control-Allow-Origin: *
+Content-Type: application/json; charset=utf-8
+Content-Length: 39
+ETag: W/"27-cnVtV0MJmkS22cTEnjDNzUyrAOY"
+Date: Mon, 20 Apr 2026 21:43:37 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"ok":false,"error":"task_fetch_error"}
+>>> GET http://127.0.0.1:3001/logs/recent
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Access-Control-Allow-Origin: *
+Content-Type: application/json; charset=utf-8
+Content-Length: 2287
+ETag: W/"8ef-bSvwvyHEpL9TYWytlXWe04jLJQ0"
+Date: Mon, 20 Apr 2026 21:43:37 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"ok":true,"logs":[{"id":20,"content":"🌿 Test reflection broadcast trigger at Fri Oct 31 12:41:35 PDT 2025","created_at":"2025-10-31 19:41:35"},{"id":19,"content":"[BROWSER RECHECK] 🔁 Testing active EventSource delivery","created_at":"2025-10-31 19:17:29"},{"id":18,"content":"[FINAL FRONTEND VERIFY] 💫 Testing live broadcast to browser EventSource","created_at":"2025-10-31 19:11:17"},{"id":17,"content":"[FINAL FRONTEND VERIFY] 💫 Testing live broadcast to browser EventSource","created_at":"2025-10-31 19:10:58"},{"id":16,"content":"[FINAL LIVE VERIFY ✅] SSE + Dashboard now synced across ports with CORS enabled.","created_at":"2025-10-31 18:55:42"},{"id":15,"content":"[SSE FIX TEST] 🔧 Unified SSE broadcast working.","created_at":"2025-10-31 18:51:47"},{"id":14,"content":"[FINAL VERIFY] 🚀 Dashboard + SSE real-time sync working perfectly.","created_at":"2025-10-30 20:57:25"},{"id":13,"content":"[LIVE RE-TEST] ⚡ SSE end-to-end sync verification.","created_at":"2025-10-30 20:56:02"},{"id":12,"content":"[FINAL TEST] 🛰️ Dashboard SSE live sync confirmed.","created_at":"2025-10-30 20:54:40"},{"id":11,"content":"[LIVE TEST] 🌐 CORS fixed, both servers live.","created_at":"2025-10-30 20:54:06"},{"id":10,"content":"[SSE FIX TEST] 🔧 Unified SSE broadcast working.","created_at":"2025-10-30 20:47:31"},{"id":9,"content":"[SSE WATCH TEST] 👀 Check watcher detection.","created_at":"2025-10-30 20:45:52"},{"id":8,"content":"[SSE TEST] 🚀 External stream push verified.","created_at":"2025-10-30 20:44:53"},{"id":7,"content":"[TEST] 💾 WAL watcher triggered.","created_at":"2025-10-30 20:35:48"},{"id":6,"content":"[TEST] 🔁 Reflection Watcher Triggered Successfully.","created_at":"2025-10-30 20:34:42"},{"id":5,"content":"[DEMO] ✅ Dashboard stable baseline confirmed.","created_at":"2025-10-30 18:18:01"},{"id":4,"content":"[DEMO] 🔄 SSE stream heartbeat observed.","created_at":"2025-10-30 18:17:26"},{"id":3,"content":"[DEMO] ⚙️ Cade→Effie broadcast cycle simulated.","created_at":"2025-10-30 18:16:41"},{"id":2,"content":"[DEMO] 💬 Matilda chat loop verified end-to-end.","created_at":"2025-10-30 18:16:11"},{"id":1,"content":"[DEMO] <0001f9e0> System reflection: initialization successful.","created_at":"2025-10-30 18:15:11"}]}
+>>> GET http://127.0.0.1:3001/delegate
+HTTP/1.1 404 Not Found
+X-Powered-By: Express
+Access-Control-Allow-Origin: *
+Content-Security-Policy: default-src 'none'
+X-Content-Type-Options: nosniff
+Content-Type: text/html; charset=utf-8
+Content-Length: 147
+Date: Mon, 20 Apr 2026 21:43:37 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot GET /delegate</pre>
+</body>
+</html>
+
+>>> GET http://127.0.0.1:3001/diagnostics/systemHealth
+HTTP/1.1 404 Not Found
+X-Powered-By: Express
+Access-Control-Allow-Origin: *
+Content-Security-Policy: default-src 'none'
+X-Content-Type-Options: nosniff
+Content-Type: text/html; charset=utf-8
+Content-Length: 163
+Date: Mon, 20 Apr 2026 21:43:37 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot GET /diagnostics/systemHealth</pre>
+</body>
+</html>
+
+=== 4) Tail of live log ===
