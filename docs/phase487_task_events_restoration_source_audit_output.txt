@@ -1,0 +1,194 @@
+=== PHASE 487 task_events RESTORATION SOURCE AUDIT ===
+
+=== 1) Candidate backup / seed / schema files ===
+db/audit.ts
+db/client.ts
+db/main_backup_before_rebuild.sqlite
+db/main_backup_before_reflection_fix.sqlite
+db/main_backup_before_type_patch.sqlite
+db/main.db
+db/reflection_index.ts
+db/seeds/phase4_demo_seed.sql
+db/task_events.schema.ts
+
+=== 2) task_events schema file (first 120 lines) ===
+import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
+export const task_events = sqliteTable("task_events", {
+  // Most common pattern in this repo:
+  id: integer("id").primaryKey({ autoIncrement: true }),
+
+  // Adjust these to match your CREATE TABLE statement exactly:
+  kind: text("kind"),
+  payload: text("payload"),
+  created_at: text("created_at"),
+});
+
+=== 3) Seed SQL files (first 160 lines each) ===
+--- db/seeds/phase4_demo_seed.sql ---
+-- <0001fabc> Phase 4.4 — Demo Reset Seed (safe, idempotent)
+PRAGMA journal_mode=WAL;
+
+CREATE TABLE IF NOT EXISTS reflection_index (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  content TEXT NOT NULL,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+DELETE FROM reflection_index WHERE content LIKE '[DEMO]%';
+
+INSERT INTO reflection_index (content, created_at) VALUES
+('[DEMO] <0001f9e0> System reflection: initialization successful.', datetime('now','-3 minutes')),
+('[DEMO] 💬 Matilda chat loop verified end-to-end.',     datetime('now','-2 minutes')),
+('[DEMO] ⚙️ Cade→Effie broadcast cycle simulated.',       datetime('now','-90 seconds')),
+('[DEMO] 🔄 SSE stream heartbeat observed.',              datetime('now','-45 seconds')),
+('[DEMO] ✅ Dashboard stable baseline confirmed.',        datetime('now','-10 seconds'));
+
+
+=== 4) SQLite backup inspection ===
+--- db/main_backup_before_rebuild.sqlite ---
+size_bytes: 16384
+tables: ['reflection_index', 'sqlite_sequence', 'task_events']
+task_events_present: True
+task_events_count: 2
+
+--- db/main_backup_before_reflection_fix.sqlite ---
+size_bytes: 16384
+tables: ['reflection_index', 'sqlite_sequence', 'task_events']
+task_events_present: True
+task_events_count: 2
+
+--- db/main_backup_before_type_patch.sqlite ---
+size_bytes: 16384
+tables: ['reflection_index', 'sqlite_sequence', 'task_events']
+task_events_present: True
+task_events_count: 1
+
+--- db/main.db ---
+size_bytes: 0
+tables: []
+task_events_present: False
+
+
+=== 5) task_events CREATE references in repo (bounded) ===
+./PHASE37_RUN_VIEW_DEFINITION.sql:24:                   FROM task_events te_1
+./PHASE37_RUN_VIEW_DEFINITION.sql:31:                   FROM task_events te_1
+./PHASE37_RUN_VIEW_DEFINITION.sql:40:                   FROM task_events te_1
+./PHASE88_14_SERVER_BOOT.log:1:[phase25] task_events_emit loaded 2026-03-19T17:44:28.547Z file= file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/task_events_emit.mjs
+./PHASE62B_TERMINAL_EVIDENCE_STATUS_20260317.md:26:- Validation-target terminal events persisted in task_events:
+./PHASE37_STATUS_SUMMARY.md:8:- Canonical ordering for “latest” semantics: `task_events.ts` ASC, tie-breaker `task_events.id` ASC.
+./PHASE62B_RUNTIME_ACCEPTANCE_EVIDENCE_20260317T180048Z.txt:59:-- terminal event counts in task_events --
+./PHASE21_HANDOFF_ONE_LINER.txt:1:Start from tag v21.0-task-events-sse-golden. Task-events SSE is live (hello+heartbeat) and streams task.event frames (task.created/task.completed) from Postgres; /api/tasks-mutations/* writes task_events and updates tasks.
+./PHASE37_RUN_VIEW_PROVENANCE_HINTS.md:10:- `task_events.ts` ASC, tie-breaker `task_events.id` ASC
+./PHASE37_4_PLAN.md:5:This means: the system believes the run is terminal, but **no terminal task_events row is being surfaced as the terminal**.
+./PHASE37_4_PLAN.md:14:- `task_events` *does* include `task.completed` for the run_id
+./PHASE37_4_PLAN.md:28:- But we still see `task.completed` in task_events, so why excluded?
+./PHASE37_4_PLAN.md:33:H4) **Data anomaly in task_events**:
+./PHASE37_4_PLAN.md:40:   - Compare the `task_events` terminal row fields against the selector predicates.
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:22:server/task_events_emit.mjs:1:import { appendTaskEvent } from "./task-events.mjs";
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:31:server/api/tasks-mutations/delegate-taskspec.mjs:28: * - Inserts into task_events(kind="task.created") so /events/task-events advances
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:38:server/routes/phase40_6_shadow_audit_task_events.mjs:5:  app.get("/api/shadow/audit/task-events", async (req, res) => {
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:39:server/routes/phase40_6_shadow_audit_task_events.mjs:39:        scope: "phase40.6.shadow-audit.task-events",
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:40:server/routes/phase40_6_shadow_audit_task_events.mjs:48:        scope: "phase40.6.shadow-audit.task-events",
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:125:scripts/phase35_patch_direct_task_events_inserts_to_append.sh:63:        # Ensure file references appendTaskEvent; if not, add import from task-events.mjs when safe.
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:126:scripts/phase35_patch_direct_task_events_inserts_to_append.sh:67:        if "appendTaskEvent" in s2 and "from \"./task-events.mjs\"" not in s2 and "from \"../task-events.mjs\"" not in s2 and "from \"./task-events\"" not in s2:
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:127:scripts/phase35_patch_direct_task_events_inserts_to_append.sh:68:            # Attempt to add a local import only if file is in server/ (same dir as task-events.mjs may vary).
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:128:scripts/phase35_patch_direct_task_events_inserts_to_append.sh:74:            imp = f'import {{ appendTaskEvent }} from "{prefix}task-events.mjs";\n'
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:139:scripts/phase21_wire_task_events_sse.mjs:4:const INJECT = 'import "./task-events-sse-listener.js";\n';
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:140:scripts/phase21_wire_task_events_sse.mjs:24:  if (s.includes("task-events-sse-listener.js")) return { fp, changed: false, why: "already" };
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:141:scripts/phase21_wire_task_events_sse.mjs:43:  const shim = `\n;(()=>{try{import("./task-events-sse-listener.js")}catch(e){}})();\n`;
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:145:scripts/phase22_wire_task_events_ui.sh:6:echo "=== Phase 22: wire /events/task-events into dashboard UI ==="
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:146:scripts/phase22_wire_task_events_ui.sh:9:cat > public/js/task-events-sse-client.js <<'JS'
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:147:scripts/phase22_wire_task_events_ui.sh:11:  const SSE_URL = "/events/task-events";
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:148:scripts/phase22_wire_task_events_ui.sh:14:  const PANEL_ID = "mb-task-events-panel";
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:149:scripts/phase22_wire_task_events_ui.sh:15:  const FEED_ID = "mb-task-events-feed";
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:150:scripts/phase22_wire_task_events_ui.sh:16:  const COUNTS_ID = "mb-task-events-counts";
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:151:scripts/phase22_wire_task_events_ui.sh:65:    dot.setAttribute("aria-label", "task-events connection");
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:152:scripts/phase22_wire_task_events_ui.sh:66:    dot.title = "task-events connection";
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:153:scripts/phase22_wire_task_events_ui.sh:125:    if (kind === "task.completed") tally.completed += 1;
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:154:scripts/phase22_wire_task_events_ui.sh:126:    if (kind === "task.failed") tally.failed += 1;
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:155:scripts/phase22_wire_task_events_ui.sh:161:    if (kind === "task.completed") row.style.borderColor = "rgba(80,200,120,0.35)";
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:156:scripts/phase22_wire_task_events_ui.sh:162:    if (kind === "task.failed") row.style.borderColor = "rgba(240,90,90,0.35)";
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:157:scripts/phase22_wire_task_events_ui.sh:193:    if (ev.kind === "task.completed") node.classList?.add("task-completed");
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:158:scripts/phase22_wire_task_events_ui.sh:194:    if (ev.kind === "task.failed") node.classList?.add("task-failed");
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:159:scripts/phase22_wire_task_events_ui.sh:269:  if rg -n 'task-events-sse-client\.js' "$DASH_HTML" >/dev/null 2>&1; then
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:160:scripts/phase22_wire_task_events_ui.sh:270:    echo "dashboard.html already loads task-events-sse-client.js"
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:161:scripts/phase22_wire_task_events_ui.sh:272:    echo "Injecting <script> for task-events-sse-client.js into public/dashboard.html"
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:162:scripts/phase22_wire_task_events_ui.sh:273:    perl -0777 -i -pe 's@</body>@  <script src="/js/task-events-sse-client.js"></script>\n</body>@s' "$DASH_HTML"
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:163:scripts/phase22_wire_task_events_ui.sh:290:    if rg -n 'task-events-sse-client' "$f" >/dev/null 2>&1; then
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:164:scripts/phase22_wire_task_events_ui.sh:291:      echo "bundle entry already references task-events-sse-client: $f"
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:165:scripts/phase22_wire_task_events_ui.sh:293:      echo "Appending import for task-events-sse-client into: $f"
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:166:scripts/phase22_wire_task_events_ui.sh:294:      printf '\n// Phase 22: task-events live UI\nimport "./task-events-sse-client.js";\n' >> "$f"
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:168:scripts/phase46_task_events_sse_smoke.sh:16:echo "=== 1) alias endpoint returns 307 w/ Location: /events/task-events ==="
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:169:scripts/phase46_task_events_sse_smoke.sh:17:HDRS="$(curl -sS -D- --max-time 2 "${BASE}/api/task-events-sse" -o /dev/null || true)"
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:170:scripts/phase46_task_events_sse_smoke.sh:19:echo "$HDRS" | head -n 1 | rg -q ' 307 ' || { echo "ERR: expected 307 from /api/task-events-sse" >&2; exit 10; }
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:171:scripts/phase46_task_events_sse_smoke.sh:20:echo "$HDRS" | rg -q '^Location:\s*/events/task-events\s*$' || { echo "ERR: expected Location: /events/task-events" >&2; exit 11; }
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:172:scripts/phase46_task_events_sse_smoke.sh:24:OUT="$(curl -sS -N 2>/dev/null --max-time 2 "${BASE}/events/task-events" | head -n 8 || true)"
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:173:scripts/phase46_task_events_sse_smoke.sh:27:printf "%s\n" "$OUT" | rg -q '"kind"\s*:\s*"task-events"' || { echo "ERR: expected kind=task-events in hello payload" >&2; exit 13; }
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:178:scripts/phase46_recovery_primitives.sh:13:curl -fsS "http://127.0.0.1:8080/api/task-events" > "${bundle_dir}/api_task_events.json" || true
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:188:scripts/phase31_7_fix_task_events_contract.sh:5:rg -n --hidden --no-ignore-vcs -S "(/events/task-events|task-events|task_events|task\.event)" server || true
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:189:scripts/phase31_7_fix_task_events_contract.sh:31:mapper = pick(r"/events/task-events|task-events|task_events|task\.event", [server])[0]
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:190:scripts/phase31_7_fix_task_events_contract.sh:90:curl -sS -N --max-time 6 -H 'Accept: text/event-stream' http://127.0.0.1:8080/events/task-events | sed -n '1,120p' | tee tmp/phase31_7_sse.log || true
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:199:scripts/_local/phase61_4_task_events_render_path_patch.sh:8:TARGET_JS="public/js/task-events-sse-client.js"
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:200:scripts/_local/phase61_4_task_events_render_path_patch.sh:31:  const SSE_URL = "/events/task-events";
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:201:scripts/_local/phase61_4_task_events_render_path_patch.sh:33:  const PANEL_ID = "mb-task-events-panel";
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:202:scripts/_local/phase61_4_task_events_render_path_patch.sh:34:  const FEED_ID = "mb-task-events-feed";
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:203:scripts/_local/phase61_4_task_events_render_path_patch.sh:35:  const COUNTS_ID = "mb-task-events-counts";
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:204:scripts/_local/phase61_4_task_events_render_path_patch.sh:36:  const ANCHOR_ID = "mb-task-events-panel-anchor";
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:205:scripts/_local/phase61_4_task_events_render_path_patch.sh:103:    dot.setAttribute("aria-label", "task-events connection");
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:206:scripts/_local/phase61_4_task_events_render_path_patch.sh:104:    dot.title = "task-events connection";
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:207:scripts/_local/phase61_4_task_events_render_path_patch.sh:146:    console.log("[phase22] task-events panel mounted (anchored=%s)", anchored);
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:208:scripts/_local/phase61_4_task_events_render_path_patch.sh:163:    if (kind === "task.completed") tally.completed += 1;
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:209:scripts/_local/phase61_4_task_events_render_path_patch.sh:164:    if (kind === "task.failed") tally.failed += 1;
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:210:scripts/_local/phase61_4_task_events_render_path_patch.sh:321:    if (ev.kind === "task.created" || ev.kind === "task.completed" || ev.kind === "task.failed") {
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:211:scripts/_local/phase61_4_task_events_render_path_patch.sh:326:    if (window.__UI_DEBUG) try { console.log("[task-events] mb.task.event", ev); } catch {}
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:212:scripts/_local/phase61_4_task_events_render_path_patch.sh:348:      console.log("[phase22] task-events SSE open", url);
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:213:scripts/_local/phase61_4_task_events_render_path_patch.sh:359:      console.log("[phase22] task-events SSE error; reconnect in", delay);
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:214:scripts/_local/phase61_4_task_events_render_path_patch.sh:370:      "task.completed",
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:215:scripts/_local/phase61_4_task_events_render_path_patch.sh:371:      "task.failed",
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:216:scripts/_local/phase61_4_task_events_render_path_patch.sh:401:echo "Phase 61.4 task-events render-path patch applied safely."
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:252:scripts/_local/phase64_4_probe_task_events_endpoint_and_mount.sh:7:TASK_EVENTS_SAMPLE="${TMP_DIR}/task-events.sample"
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:253:scripts/_local/phase64_4_probe_task_events_endpoint_and_mount.sh:22:echo "== search repo for task-events frontend mounts =="
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:254:scripts/_local/phase64_4_probe_task_events_endpoint_and_mount.sh:24:  -E '/events/task-events|task-events|EventSource\(' \
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:255:scripts/_local/phase64_4_probe_task_events_endpoint_and_mount.sh:59:echo "== sample /events/task-events for 8s =="
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:256:scripts/_local/phase64_4_probe_task_events_endpoint_and_mount.sh:60:python3 - <<'PY' "${BASE_URL}/events/task-events" "${TASK_EVENTS_SAMPLE}"
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:257:scripts/_local/phase64_4_probe_task_events_endpoint_and_mount.sh:90:echo "== event names from /events/task-events =="
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:258:scripts/_local/phase64_4_audit_task_events_replay_source.sh:7:TASK_EVENTS_SAMPLE="${TMP_DIR}/task-events.sample"
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:259:scripts/_local/phase64_4_audit_task_events_replay_source.sh:27:grep -nE 'router\.get\("/events/task-events"|_sseWrite|cursor|Last-Event-ID|setInterval|while |for \(|SELECT|task_events|ORDER BY|LIMIT' server/routes/task-events-sse.mjs || true
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:260:scripts/_local/phase64_4_audit_task_events_replay_source.sh:31:sed -n '1,260p' server/routes/task-events-sse.mjs
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:261:scripts/_local/phase64_4_audit_task_events_replay_source.sh:35:sed -n '261,520p' server/routes/task-events-sse.mjs
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:262:scripts/_local/phase64_4_audit_task_events_replay_source.sh:38:echo "== sample /events/task-events for 5s =="
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:263:scripts/_local/phase64_4_audit_task_events_replay_source.sh:39:python3 - <<'PY' "${BASE_URL}/events/task-events" "${TASK_EVENTS_SAMPLE}"
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:264:scripts/_local/phase64_4_audit_task_events_replay_source.sh:69:echo "== event names from /events/task-events =="
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:265:scripts/_local/phase64_4_audit_task_events_replay_source.sh:86:shasum server/routes/task-events-sse.mjs
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:280:scripts/_local/fix_task_events_db_logging_signal.sh:10:path = Path("server/routes/task-events-sse.mjs")
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:281:scripts/_local/fix_task_events_db_logging_signal.sh:14:    r'(\s*)console\.log\("\[task-events\] pool cfg",\s*\{.*?\n\1\}\);',
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:282:scripts/_local/fix_task_events_db_logging_signal.sh:20:\\1console.log("[task-events] pool cfg", {
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:283:scripts/_local/fix_task_events_db_logging_signal.sh:34:    raise SystemExit("failed to replace [task-events] pool cfg logger block")
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:284:scripts/_local/fix_task_events_db_logging_signal.sh:37:print("patched server/routes/task-events-sse.mjs")
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:287:scripts/_local/phase64_4_rebuild_and_verify_task_events_writer_hotfix.sh:6:TASK_EVENTS_SAMPLE="${TMP_DIR}/task-events.sample"
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:288:scripts/_local/phase64_4_rebuild_and_verify_task_events_writer_hotfix.sh:21:echo "== sample /events/task-events for 8s =="
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:289:scripts/_local/phase64_4_rebuild_and_verify_task_events_writer_hotfix.sh:22:python3 - <<'PY' "${BASE_URL}/events/task-events" "${TASK_EVENTS_SAMPLE}"
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:290:scripts/_local/phase64_4_rebuild_and_verify_task_events_writer_hotfix.sh:52:echo "== event names from /events/task-events =="
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:291:scripts/_local/phase64_4_rebuild_and_verify_task_events_writer_hotfix.sh:74:'document.querySelector("[data-tab=\"task-events\"], [data-target=\"task-events\"], button[aria-controls=\"obs-panel-events\"]")?.click()' \
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:292:scripts/_local/phase64_4_rebuild_and_verify_task_events_writer_hotfix.sh:75:'document.querySelector("[data-tab-panel=\"task-events\"], #task-events-panel, #obs-panel-events")?.outerHTML'
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:348:scripts/_local/phase61_task_events_wiring_audit_and_capture.sh:20:  grep -RniE 'task events|task-events|Task Events|EventSource|SSE|telemetry|recent tasks|task history' public src scripts server . 2>/dev/null || true
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:349:scripts/_local/phase61_task_events_wiring_audit_and_capture.sh:24:  grep -nE 'task-events|Task Events|telemetry|observational-workspace|workspace-card' public/dashboard.html 2>/dev/null || true
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:350:scripts/_local/phase61_task_events_wiring_audit_and_capture.sh:36:  grep -RniE '/api/.*event|/events|EventSource\\(|text/event-stream|task-events|telemetry' public src server . 2>/dev/null || true
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:365:scripts/_local/phase64_4_hotfix_dedupe_task_events_sse.sh:8:path = Path("server/routes/task-events-sse.mjs")
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:366:scripts/_local/phase64_4_hotfix_dedupe_task_events_sse.sh:33:        raise SystemExit("could not find hello SSE write in server/routes/task-events-sse.mjs")
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:367:scripts/_local/phase64_4_hotfix_dedupe_task_events_sse.sh:57:    raise SystemExit("no task.event SSE writes found to patch in server/routes/task-events-sse.mjs")
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:368:scripts/_local/phase64_4_hotfix_dedupe_task_events_sse.sh:60:    raise SystemExit("no changes applied to server/routes/task-events-sse.mjs")
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:369:scripts/_local/phase64_4_hotfix_dedupe_task_events_sse.sh:63:print(f"patched server/routes/task-events-sse.mjs with duplicate SSE guard; replacements={count}")
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:401:scripts/_local/phase64_5_task_events_contract_guard.sh:42:'document.querySelector("[data-tab=\"task-events\"], [data-target=\"task-events\"], button[aria-controls=\"obs-panel-events\"]")?.click()' \
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:402:scripts/_local/phase64_5_task_events_contract_guard.sh:43:'document.querySelector("[data-tab-panel=\"task-events\"], #task-events-panel, #obs-panel-events")?.outerHTML'
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:407:scripts/_local/phase64_4_rebuild_and_verify_task_events_hotfix.sh:6:SAMPLE="${TMP_DIR}/task-events.sample"
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:408:scripts/_local/phase64_4_rebuild_and_verify_task_events_hotfix.sh:21:echo "== sample /events/task-events for 8s after hotfix =="
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:409:scripts/_local/phase64_4_rebuild_and_verify_task_events_hotfix.sh:22:python3 - <<'PY' "${BASE_URL}/events/task-events" "${SAMPLE}"
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:410:scripts/_local/phase64_4_rebuild_and_verify_task_events_hotfix.sh:72:'document.querySelector("[data-tab=\"task-events\"], [data-target=\"task-events\"], button[aria-controls=\"obs-panel-events\"]")?.click()' \
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:411:scripts/_local/phase64_4_rebuild_and_verify_task_events_hotfix.sh:73:'document.querySelector("[data-tab-panel=\"task-events\"], #task-events-panel, #obs-panel-events")?.outerHTML'
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:414:scripts/_local/phase64_4_restore_task_events_sse_after_bad_hotfix.sh:7:git checkout "$BASE_COMMIT" -- server/routes/task-events-sse.mjs
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:415:scripts/_local/phase64_4_restore_task_events_sse_after_bad_hotfix.sh:21:echo "== task-events endpoint sample =="
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:416:scripts/_local/phase64_4_restore_task_events_sse_after_bad_hotfix.sh:22:python3 - <<'PY' "${BASE_URL}/events/task-events"
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:417:scripts/_local/phase64_4_restore_task_events_sse_after_bad_hotfix.sh:54:echo "restored server/routes/task-events-sse.mjs from ${BASE_COMMIT}"
+
+=== END PHASE 487 task_events RESTORATION SOURCE AUDIT ===
