@@ -1,0 +1,28 @@
+=== PHASE 487 PNPM BUILD POLICY SOURCE AUDIT ===
+
+=== 1) Candidate config files ===
+./package.json
+./pnpm-workspace.yaml
+
+=== 2) Config lines mentioning build policy (bounded) ===
+./package.json:9:    "better-sqlite3": "^12.9.0",
+./pnpm-workspace.yaml:2:  - better-sqlite3
+
+=== 3) Local .npmrc contents (if present) ===
+
+=== 4) pnpm config list (bounded) ===
+@jsr:registry=https://npm.jsr.io/
+config=allow-scripts
+enable-pre-post-install-scripts=true
+enable-pre-post-scripts=true
+enable-scripts=true
+globalconfig=/Users/marcela-dev/Library/Preferences/pnpm/rc
+ignore-builds=false
+ignore-scripts=false
+ignored-built-dependencies[]=better-sqlite3
+npm-globalconfig=/opt/homebrew/Cellar/node/24.4.0/etc/npmrc
+registry=https://registry.npmjs.org/
+script-shell=/bin/bash
+user-agent=pnpm/10.29.3 npm/? node/v24.4.0 darwin arm64
+
+=== END PHASE 487 PNPM BUILD POLICY SOURCE AUDIT ===
