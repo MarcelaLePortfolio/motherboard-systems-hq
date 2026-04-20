@@ -1,0 +1,46 @@
+=== PHASE 487 /tasks/recent FAILURE AUDIT ===
+
+=== 1) tasks route source (first 120 lines) ===
+import express from "express";
+import { sqlite } from "../../db/client";
+
+const router = express.Router();
+
+// GET /tasks/recent
+router.get("/tasks/recent", (req, res) => {
+  try {
+    const rows = sqlite.prepare(
+      "SELECT id, type, agent, status, payload, result, created_at FROM task_events ORDER BY created_at DESC LIMIT 20"
+    ).all();
+
+    res.json({ ok: true, tasks: rows });
+  } catch (err) {
+    console.error("❌ /tasks/recent error:", err);
+    res.status(500).json({ ok: false, error: "task_fetch_error" });
+  }
+});
+
+export default router;
+
+=== 2) Live task_events table schema from restored db ===
+pragma_table_info(task_events):
+(0, 'id', 'INTEGER', 0, None, 1)
+(1, 'type', 'TEXT', 0, None, 0)
+(2, 'status', 'TEXT', 0, None, 0)
+(3, 'created_at', 'DATETIME', 0, 'CURRENT_TIMESTAMP', 0)
+
+sample rows:
+(1, 'reflection_broadcast', 'completed', '2025-11-03 17:31:05')
+(2, 'ops_stream_init', 'active', '2025-11-03 17:31:05')
+
+=== 3) reflection_index schema (for comparison) ===
+pragma_table_info(reflection_index):
+(0, 'id', 'INTEGER', 0, None, 1)
+(1, 'content', 'TEXT', 1, None, 0)
+(2, 'created_at', 'DATETIME', 0, 'CURRENT_TIMESTAMP', 0)
+
+=== 4) direct reproduction of tasks query against sqlite ===
+query: SELECT id, type, agent, status, payload, result, created_at FROM task_events ORDER BY created_at DESC LIMIT 20
+query_error: no such column: agent
+
+=== END PHASE 487 /tasks/recent FAILURE AUDIT ===
