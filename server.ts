@@ -20,12 +20,31 @@ app.get("/", (_req, res) => {
   res.sendFile(path.join(publicPath, "dashboard.html"));
 });
 
-// SAFE Matilda fallback (Phase 487)
-app.post("/matilda", async (_req, res) => {
+function buildMatildaReply(message: unknown): string {
+  const text = typeof message === "string" ? message.trim() : "";
+
+  if (!text) {
+    return "Hi, I’m Matilda. I’m online in a local safe mode right now. Give me a short request and I’ll acknowledge it.";
+  }
+
+  const lower = text.toLowerCase();
+
+  if (["hi", "hello", "hey", "yo", "sup"].includes(lower)) {
+    return "Hi, I’m Matilda. I’m online and responding in local safe mode.";
+  }
+
+  if (lower.includes("status") || lower.includes("are you there")) {
+    return "I’m here and responding in local safe mode. Full Matilda wiring is still pending.";
+  }
+
+  return `I received your message: "${text}". I’m running in local safe mode, so deeper Matilda reasoning is not wired yet.`;
+}
+
+// Phase 487 — deterministic local Matilda route
+app.post("/matilda", async (req, res) => {
   try {
-    res.json({
-      reply: "[Matilda unavailable — fallback active]"
-    });
+    const reply = buildMatildaReply(req.body?.message);
+    res.json({ reply });
   } catch (err) {
     console.error("❌ Matilda route error:", err);
     res.status(500).json({ error: "Matilda is unreachable" });

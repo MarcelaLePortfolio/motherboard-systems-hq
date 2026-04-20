@@ -1,0 +1,38 @@
+import express from "express";
+import path from "path";
+import cors from "cors";
+
+const app = express();
+app.use(cors());
+app.use(express.json());
+
+import delegateRoutes from "./routes/api/delegate";
+import tasksRoutes from "./routes/api/tasks";
+import logsRoutes from "./routes/api/logs";
+
+const publicPath = path.join(process.cwd(), "public");
+app.use(express.static(publicPath));
+app.use(delegateRoutes);
+app.use(tasksRoutes);
+app.use(logsRoutes);
+
+app.get("/", (_req, res) => {
+  res.sendFile(path.join(publicPath, "dashboard.html"));
+});
+
+// SAFE Matilda fallback (Phase 487)
+app.post("/matilda", async (_req, res) => {
+  try {
+    res.json({
+      reply: "[Matilda unavailable — fallback active]"
+    });
+  } catch (err) {
+    console.error("❌ Matilda route error:", err);
+    res.status(500).json({ error: "Matilda is unreachable" });
+  }
+});
+
+const PORT = 3001;
+app.listen(PORT, () => {
+  console.log(`🖥️ Dashboard + Matilda API (Hot Reload) running at http://localhost:${PORT}`);
+});
