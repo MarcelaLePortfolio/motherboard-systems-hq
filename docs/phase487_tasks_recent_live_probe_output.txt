@@ -1,0 +1,32 @@
+=== Starting server.ts via tsx ===
+🖥️ Dashboard + Matilda API (Hot Reload) running at http://localhost:3001
+
+=== Port 3001 listener check ===
+COMMAND   PID        USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+node    36707 marcela-dev   30u  IPv6 0xa0bfaf7429824057      0t0  TCP *:3001 (LISTEN)
+
+=== /tasks/recent probe ===
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Access-Control-Allow-Origin: *
+Content-Type: application/json; charset=utf-8
+Content-Length: 287
+ETag: W/"11f-8cGIa/EhFkNtXL7GbgZGCOeDEP8"
+Date: Mon, 20 Apr 2026 21:46:29 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"ok":true,"tasks":[{"id":1,"type":"reflection_broadcast","agent":null,"status":"completed","payload":null,"result":null,"created_at":"2025-11-03 17:31:05"},{"id":2,"type":"ops_stream_init","agent":null,"status":"active","payload":null,"result":null,"created_at":"2025-11-03 17:31:05"}]}
+=== /logs/recent probe ===
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Access-Control-Allow-Origin: *
+Content-Type: application/json; charset=utf-8
+Content-Length: 2287
+ETag: W/"8ef-bSvwvyHEpL9TYWytlXWe04jLJQ0"
+Date: Mon, 20 Apr 2026 21:46:29 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"ok":true,"logs":[{"id":20,"content":"🌿 Test reflection broadcast trigger at Fri Oct 31 12:41:35 PDT 2025","created_at":"2025-10-31 19:41:35"},{"id":19,"content":"[BROWSER RECHECK] 🔁 Testing active EventSource delivery","created_at":"2025-10-31 19:17:29"},{"id":18,"content":"[FINAL FRONTEND VERIFY] 💫 Testing live broadcast to browser EventSource","created_at":"2025-10-31 19:11:17"},{"id":17,"content":"[FINAL FRONTEND VERIFY] 💫 Testing live broadcast to browser EventSource","created_at":"2025-10-31 19:10:58"},{"id":16,"content":"[FINAL LIVE VERIFY ✅] SSE + Dashboard now synced across ports with CORS enabled.","created_at":"2025-10-31 18:55:42"},{"id":15,"content":"[SSE FIX TEST] 🔧 Unified SSE broadcast working.","created_at":"2025-10-31 18:51:47"},{"id":14,"content":"[FINAL VERIFY] 🚀 Dashboard + SSE real-time sync working perfectly.","created_at":"2025-10-30 20:57:25"},{"id":13,"content":"[LIVE RE-TEST] ⚡ SSE end-to-end sync verification.","created_at":"2025-10-30 20:56:02"},{"id":12,"content":"[FINAL TEST] 🛰️ Dashboard SSE live sync confirmed.","created_at":"2025-10-30 20:54:40"},{"id":11,"content":"[LIVE TEST] 🌐 CORS fixed, both servers live.","created_at":"2025-10-30 20:54:06"},{"id":10,"content":"[SSE FIX TEST] 🔧 Unified SSE broadcast working.","created_at":"2025-10-30 20:47:31"},{"id":9,"content":"[SSE WATCH TEST] 👀 Check watcher detection.","created_at":"2025-10-30 20:45:52"},{"id":8,"content":"[SSE TEST] 🚀 External stream push verified.","created_at":"2025-10-30 20:44:53"},{"id":7,"content":"[TEST] 💾 WAL watcher triggered.","created_at":"2025-10-30 20:35:48"},{"id":6,"content":"[TEST] 🔁 Reflection Watcher Triggered Successfully.","created_at":"2025-10-30 20:34:42"},{"id":5,"content":"[DEMO] ✅ Dashboard stable baseline confirmed.","created_at":"2025-10-30 18:18:01"},{"id":4,"content":"[DEMO] 🔄 SSE stream heartbeat observed.","created_at":"2025-10-30 18:17:26"},{"id":3,"content":"[DEMO] ⚙️ Cade→Effie broadcast cycle simulated.","created_at":"2025-10-30 18:16:41"},{"id":2,"content":"[DEMO] 💬 Matilda chat loop verified end-to-end.","created_at":"2025-10-30 18:16:11"},{"id":1,"content":"[DEMO] <0001f9e0> System reflection: initialization successful.","created_at":"2025-10-30 18:15:11"}]}
+=== Tail of startup log ===
