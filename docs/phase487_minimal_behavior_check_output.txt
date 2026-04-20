@@ -1,0 +1,24 @@
+=== PHASE 487 MINIMAL BEHAVIOR CHECK ===
+
+=== Probing known local targets ===
+--- BASE: http://127.0.0.1:3001 ---
+>>> GET http://127.0.0.1:3001/tasks/recent
+(request failed)
+
+>>> GET http://127.0.0.1:3001/logs/recent
+(request failed)
+
+>>> GET http://127.0.0.1:3001/diagnostics/systemHealth
+(request failed)
+
+--- BASE: http://127.0.0.1:3000 ---
+>>> GET http://127.0.0.1:3000/tasks/recent
+(request failed)
+
+>>> GET http://127.0.0.1:3000/logs/recent
+(request failed)
+
+>>> GET http://127.0.0.1:3000/diagnostics/systemHealth
+(request failed)
+
+=== END PHASE 487 MINIMAL BEHAVIOR CHECK ===
