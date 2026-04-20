@@ -1,0 +1,107 @@
+=== Starting server.ts via tsx ===
+🖥️ Dashboard + Matilda API (Hot Reload) running at http://localhost:3001
+
+=== Port 3001 listener check ===
+COMMAND   PID        USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+node    36908 marcela-dev   24u  IPv6 0xb793d688ff662292      0t0  TCP *:3001 (LISTEN)
+
+=== GET /delegate (control) ===
+HTTP/1.1 404 Not Found
+X-Powered-By: Express
+Access-Control-Allow-Origin: *
+Content-Security-Policy: default-src 'none'
+X-Content-Type-Options: nosniff
+Content-Type: text/html; charset=utf-8
+Content-Length: 147
+Date: Mon, 20 Apr 2026 21:47:43 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot GET /delegate</pre>
+</body>
+</html>
+
+=== GET /diagnostics/systemHealth (control) ===
+HTTP/1.1 404 Not Found
+X-Powered-By: Express
+Access-Control-Allow-Origin: *
+Content-Security-Policy: default-src 'none'
+X-Content-Type-Options: nosniff
+Content-Type: text/html; charset=utf-8
+Content-Length: 163
+Date: Mon, 20 Apr 2026 21:47:43 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot GET /diagnostics/systemHealth</pre>
+</body>
+</html>
+
+=== POST /delegate ===
+❌ /delegate error: SqliteError: table task_events has no column named agent
+    at Database.prepare (/Users/marcela-dev/Projects/Motherboard_Systems_HQ/node_modules/.pnpm/better-sqlite3@12.9.0/node_modules/better-sqlite3/lib/methods/wrappers.js:5:21)
+    at <anonymous> (/Users/marcela-dev/Projects/Motherboard_Systems_HQ/routes/api/delegate.ts:13:25)
+    at Layer.handleRequest (/Users/marcela-dev/Projects/Motherboard_Systems_HQ/node_modules/.pnpm/router@2.2.0/node_modules/router/lib/layer.js:152:17)
+    at next (/Users/marcela-dev/Projects/Motherboard_Systems_HQ/node_modules/.pnpm/router@2.2.0/node_modules/router/lib/route.js:157:13)
+    at Route.dispatch (/Users/marcela-dev/Projects/Motherboard_Systems_HQ/node_modules/.pnpm/router@2.2.0/node_modules/router/lib/route.js:117:3)
+    at handle (/Users/marcela-dev/Projects/Motherboard_Systems_HQ/node_modules/.pnpm/router@2.2.0/node_modules/router/index.js:435:11)
+    at Layer.handleRequest (/Users/marcela-dev/Projects/Motherboard_Systems_HQ/node_modules/.pnpm/router@2.2.0/node_modules/router/lib/layer.js:152:17)
+    at /Users/marcela-dev/Projects/Motherboard_Systems_HQ/node_modules/.pnpm/router@2.2.0/node_modules/router/index.js:295:15
+    at processParams (/Users/marcela-dev/Projects/Motherboard_Systems_HQ/node_modules/.pnpm/router@2.2.0/node_modules/router/index.js:582:12)
+    at next (/Users/marcela-dev/Projects/Motherboard_Systems_HQ/node_modules/.pnpm/router@2.2.0/node_modules/router/index.js:291:5) {
+  code: 'SQLITE_ERROR'
+}
+HTTP/1.1 500 Internal Server Error
+X-Powered-By: Express
+Access-Control-Allow-Origin: *
+Content-Type: application/json; charset=utf-8
+Content-Length: 37
+ETag: W/"25-P4XLeXmmb5RMGzGMksRZE4kiAGA"
+Date: Mon, 20 Apr 2026 21:47:43 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"ok":false,"error":"delegate_error"}
+=== POST /matilda ===
+❌ Matilda route error: Error: Cannot find module './agents/matilda/matilda.mjs'
+Require stack:
+- /Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.ts
+    at node:internal/modules/cjs/loader:1369:15
+    at nextResolveSimple (/Users/marcela-dev/.npm/_npx/fd45a72a545557e9/node_modules/tsx/dist/register-D46fvsV_.cjs:4:1004)
+    at /Users/marcela-dev/.npm/_npx/fd45a72a545557e9/node_modules/tsx/dist/register-D46fvsV_.cjs:3:2630
+    at /Users/marcela-dev/.npm/_npx/fd45a72a545557e9/node_modules/tsx/dist/register-D46fvsV_.cjs:3:1542
+    at resolveTsPaths (/Users/marcela-dev/.npm/_npx/fd45a72a545557e9/node_modules/tsx/dist/register-D46fvsV_.cjs:4:760)
+    at /Users/marcela-dev/.npm/_npx/fd45a72a545557e9/node_modules/tsx/dist/register-D46fvsV_.cjs:4:1102
+    at m._resolveFilename (file:///Users/marcela-dev/.npm/_npx/fd45a72a545557e9/node_modules/tsx/dist/register-B7jrtLTO.mjs:1:789)
+    at require.resolve (node:internal/modules/helpers:145:19)
+    at <anonymous> (/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.ts:28:34)
+    at Layer.handleRequest (/Users/marcela-dev/Projects/Motherboard_Systems_HQ/node_modules/.pnpm/router@2.2.0/node_modules/router/lib/layer.js:152:17) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.ts' ]
+}
+HTTP/1.1 500 Internal Server Error
+X-Powered-By: Express
+Access-Control-Allow-Origin: *
+Content-Type: application/json; charset=utf-8
+Content-Length: 34
+ETag: W/"22-CIHHjw8TR5l51G8x98WJX9CSJaI"
+Date: Mon, 20 Apr 2026 21:47:43 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"error":"Matilda is unreachable"}
+=== Tail of startup log ===
