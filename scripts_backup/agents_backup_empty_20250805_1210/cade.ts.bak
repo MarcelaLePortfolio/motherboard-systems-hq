@@ -1,2 +1,0 @@
-/* eslint-disable import/no-commonjs */
-import { createAgentRuntime } from "../../\1.ts";export const cade = { name: "Cade", port: 3012 };createAgentRuntime(cade);
