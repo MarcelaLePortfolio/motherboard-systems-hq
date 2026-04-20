@@ -1,0 +1,32 @@
+=== PHASE 487 server.ts LIVE START PROBE ===
+
+=== Starting server.ts via tsx ===
+npm warn exec The following package was not found and will be installed: tsx@4.21.0
+node:internal/modules/cjs/loader:1369
+  const err = new Error(message);
+              ^
+
+Error: Cannot find module 'cors'
+Require stack:
+- /Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.ts
+    at node:internal/modules/cjs/loader:1369:15
+    at nextResolveSimple (/Users/marcela-dev/.npm/_npx/fd45a72a545557e9/node_modules/tsx/dist/register-D46fvsV_.cjs:4:1004)
+    at /Users/marcela-dev/.npm/_npx/fd45a72a545557e9/node_modules/tsx/dist/register-D46fvsV_.cjs:3:2630
+    at /Users/marcela-dev/.npm/_npx/fd45a72a545557e9/node_modules/tsx/dist/register-D46fvsV_.cjs:3:1542
+    at resolveTsPaths (/Users/marcela-dev/.npm/_npx/fd45a72a545557e9/node_modules/tsx/dist/register-D46fvsV_.cjs:4:760)
+    at /Users/marcela-dev/.npm/_npx/fd45a72a545557e9/node_modules/tsx/dist/register-D46fvsV_.cjs:4:1102
+    at m._resolveFilename (file:///Users/marcela-dev/.npm/_npx/fd45a72a545557e9/node_modules/tsx/dist/register-B7jrtLTO.mjs:1:789)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1025:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1030:22)
+    at Module._load (node:internal/modules/cjs/loader:1179:37) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.ts' ]
+}
+
+Node.js v24.4.0
+
+=== Port 3001 listener check ===
+
+=== /diagnostics/systemHealth probe ===
+
+=== Tail of startup log ===
