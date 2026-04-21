@@ -18,7 +18,10 @@ fi
 
 if [[ -n "$(git status --porcelain)" ]]; then
   echo "ERROR: Working directory is not clean."
-  echo "Commit or stash changes before proceeding."
+  echo "Dirty files:"
+  git status --short
+  echo
+  echo "Resolve or commit the files above, then re-run this script."
   exit 1
 fi
 
