@@ -371,6 +371,34 @@ app.get("/api/tasks", async (req, res) => {
 });
 
 // ---- Phase 15: real task mutation endpoints (DB-backed) ----
+app.post("/api/chat", async (req, res) => {
+  try {
+    const rawMessage =
+      req.body?.message ??
+      req.body?.prompt ??
+      req.body?.text ??
+      "";
+
+    const message = String(rawMessage || "").trim();
+
+    return res.json({
+      ok: true,
+      agent: "matilda",
+      mode: "phase487-placeholder-stub",
+      reply: message
+        ? `Matilda placeholder online. I received: "${message}". State-aware chat is not restored yet.`
+        : "Matilda placeholder online. Chat route restored, but state-aware chat is not restored yet.",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      ok: false,
+      agent: "matilda",
+      mode: "phase487-placeholder-stub",
+      error: error instanceof Error ? error.message : "Unknown chat stub error",
+    });
+  }
+});
+
 app.post("/api/delegate-task", async (req, res) => {
   try {
     const row = await dbDelegateTask(pool, req.body || {});
