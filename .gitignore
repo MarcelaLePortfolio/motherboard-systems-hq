@@ -11,3 +11,9 @@ docs/phase487_postgres_socket_and_db_url_probe.txt
 docs/phase487_git_pack_bloat_trace.txt
 logs/phase487_runtime_resume.log
 public/*.phase487_pre_*.bak
+
+# Phase 487 volatile docs runtime outputs
+docs/phase487_*probe_output.txt
+docs/phase487_*live_probe_output.txt
+docs/phase487_*surface_probe_output.txt
+docs/phase487_*audit_output.txt
