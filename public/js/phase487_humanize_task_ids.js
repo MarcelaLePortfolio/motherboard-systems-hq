@@ -36,6 +36,7 @@
       }
 
       state.map = next;
+      window.__PHASE487_TASK_TITLE_MAP = next;
     } catch {}
   }
 

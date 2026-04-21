@@ -74,7 +74,9 @@ NO layout restructuring outside the protected container.
     const entry = state[agent];
     if (!entry) return "Awaiting runtime signal";
     if (entry.status === "busy" && entry.taskId) {
-      return `Working on ${entry.taskId}`;
+      const taskId = String(entry.taskId || "").trim();
+      const title = window.__PHASE487_TASK_TITLE_MAP?.get(taskId);
+      return `Working on ${title || taskId}`;
     }
     if (entry.status === "busy") {
       return "Working";
