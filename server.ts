@@ -41,19 +41,41 @@ app.post("/matilda", async (req: Request, res: Response) => {
   }
 });
 
-/**
- * SIMPLE PROXY — forwards API + SSE to runtime (8080)
- */
-async function proxy(req: Request, res: Response, targetPath: string) {
+function buildUpstreamUrl(req: Request): string {
+  const original = req.originalUrl || req.url || "/";
+  return `${RUNTIME_ORIGIN}${original}`;
+}
+
+async function proxy(req: Request, res: Response) {
   try {
-    const url = `${RUNTIME_ORIGIN}${targetPath}${req.url.includes("?") ? req.url.slice(req.url.indexOf("?")) : ""}`;
+    const url = buildUpstreamUrl(req);
+
+    const headers: Record<string, string> = {};
+    const contentType = req.headers["content-type"];
+    if (typeof contentType === "string" && contentType.trim()) {
+      headers["Content-Type"] = contentType;
+    }
+    const accept = req.headers["accept"];
+    if (typeof accept === "string" && accept.trim()) {
+      headers["Accept"] = accept;
+    }
+
+    let body: string | undefined;
+    if (!["GET", "HEAD"].includes(req.method.toUpperCase())) {
+      if (typeof req.body === "string") {
+        body = req.body;
+      } else if (req.body !== undefined && req.body !== null) {
+        body = JSON.stringify(req.body);
+        if (!headers["Content-Type"]) {
+          headers["Content-Type"] = "application/json";
+        }
+      }
+    }
 
     const upstream = await fetch(url, {
       method: req.method,
-      headers: {
-        "Content-Type": req.headers["content-type"] || "application/json",
-      },
-      body: ["GET", "HEAD"].includes(req.method) ? undefined : JSON.stringify(req.body),
+      headers,
+      body,
     });
 
     res.status(upstream.status);
@@ -63,26 +85,25 @@ async function proxy(req: Request, res: Response, targetPath: string) {
       res.setHeader(key, value);
     });
 
-    const contentType = upstream.headers.get("content-type") || "";
-
-    if (contentType.includes("text/event-stream")) {
+    const upstreamType = upstream.headers.get("content-type") || "";
+    if (upstreamType.includes("text/event-stream")) {
       res.setHeader("Content-Type", "text/event-stream");
       res.setHeader("Cache-Control", "no-cache");
       res.setHeader("Connection", "keep-alive");
 
       const reader = upstream.body?.getReader();
-      if (!reader) return res.end();
-
-      async function pump() {
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-          res.write(Buffer.from(value));
-        }
+      if (!reader) {
         res.end();
+        return;
       }
 
-      pump();
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        res.write(Buffer.from(value));
+      }
+
+      res.end();
       return;
     }
 
@@ -96,17 +117,14 @@ async function proxy(req: Request, res: Response, targetPath: string) {
   }
 }
 
-// API routes
-app.use("/api", (req, res) => proxy(req, res, "/api"));
-app.use("/diagnostics", (req, res) => proxy(req, res, "/diagnostics"));
+app.use("/api", proxy);
+app.use("/diagnostics", proxy);
 
-// SSE routes
-app.get("/events/task-events", (req, res) => proxy(req, res, "/events/task-events"));
-app.get("/events/operator-guidance", (req, res) => proxy(req, res, "/events/operator-guidance"));
-app.get("/events/ops", (req, res) => proxy(req, res, "/events/ops"));
-app.get("/events/reflections", (req, res) => proxy(req, res, "/events/reflections"));
+app.get("/events/task-events", proxy);
+app.get("/events/operator-guidance", proxy);
+app.get("/events/ops", proxy);
+app.get("/events/reflections", proxy);
 
-// Root
 app.get("/", (_req, res) => {
   res.sendFile(path.join(publicPath, "dashboard.html"));
 });
