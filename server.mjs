@@ -381,58 +381,14 @@ app.post("/api/chat", async (req, res) => {
 
     const message = String(rawMessage || "").trim();
 
-    const fetchJson = async (url) => {
-      try {
-        const r = await fetch(url);
-        if (!r.ok) return null;
-        return await r.json();
-      } catch {
-        return null;
-      }
-    };
-
-    const [health, tasks] = await Promise.all([
-      fetchJson("http://localhost:3000/diagnostics/system-health"),
-      fetchJson("http://localhost:3000/api/tasks"),
-    ]);
-
-    let healthSummary = "System state unavailable.";
-    if (health && typeof health.situationSummary === "string") {
-      healthSummary = health.situationSummary.trim();
-    }
-
-    let taskSummary = "No recent tasks.";
-    if (tasks && Array.isArray(tasks.tasks) && tasks.tasks.length > 0) {
-      const t = tasks.tasks[0];
-      const title = t.title || "Untitled task";
-      const status = (t.status || "unknown").replace("_", " ");
-      taskSummary = `Latest task: ${title} (status: ${status})`;
-    }
-
-    const replyParts = [];
-
-    if (message) {
-      replyParts.push(`You said: "${message}"`);
-    }
-
-    replyParts.push(healthSummary);
-    replyParts.push(taskSummary);
-
     return res.json({
       ok: true,
       agent: "matilda",
-      mode: "phase487-state-aware-readonly",
-      reply: replyParts.join("\n\n"),
+      mode: "phase487-placeholder-stub",
+      reply: message
+        ? `Matilda placeholder online. I received: "${message}". State-aware chat is not restored yet.`
+        : "Matilda placeholder online. Chat route restored, but state-aware chat is not restored yet.",
     });
-  } catch (error) {
-    return res.status(500).json({
-      ok: false,
-      agent: "matilda",
-      mode: "phase487-state-aware-readonly",
-      error: error instanceof Error ? error.message : "Unknown chat error",
-    });
-  }
-});
   } catch (error) {
     return res.status(500).json({
       ok: false,
