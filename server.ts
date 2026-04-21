@@ -13,11 +13,7 @@ app.use(express.text({ type: ["text/*", "application/xml", "application/x-www-fo
 
 const publicPath = path.join(process.cwd(), "public");
 
-/*
-  Important:
-  - Disable automatic index.html serving from express.static
-  - We want "/" to be served by the explicit dashboard.html route below
-*/
+// Serve static assets, but do not implicitly serve index.html for "/"
 app.use(express.static(publicPath, { index: false }));
 
 function buildMatildaReply(message: unknown): string {
@@ -132,7 +128,7 @@ app.get("/events/ops", proxy);
 app.get("/events/reflections", proxy);
 
 app.get("/", (_req, res) => {
-  res.sendFile(path.join(publicPath, "dashboard.html"));
+  res.sendFile(path.join(publicPath, "index.html"));
 });
 
 app.listen(PORT, () => {
