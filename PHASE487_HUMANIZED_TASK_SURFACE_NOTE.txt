@@ -1,0 +1,32 @@
+PHASE 487 — HUMANIZED TASK SURFACE
+
+Enhancement applied:
+- Task IDs (task.xxxxx) are now dynamically replaced with human-readable titles across:
+  • Agent Pool (e.g., Cade)
+  • Telemetry / task events UI
+  • Any visible text nodes or labels in dashboard
+
+Behavior:
+- Uses live /api/tasks mapping
+- Falls back safely if mapping unavailable
+- Does NOT modify backend or task identity (UI-only transformation)
+
+Result:
+BEFORE:
+Cade
+Working on task.a3e77f01-bb39-...
+
+AFTER:
+Cade
+Working on Phase 487 delegation surface verification request
+
+System impact:
+- Zero backend risk
+- Zero governance impact
+- Pure operator clarity upgrade
+
+Status:
+→ SUCCESS
+→ Stable
+→ UI clarity significantly improved
+
