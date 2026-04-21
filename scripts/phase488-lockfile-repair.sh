@@ -1,39 +1,46 @@
 #!/bin/bash
 
-set -e
+set -euo pipefail
 
 echo "────────────────────────────────"
 echo "PHASE 488 — LOCKFILE REPAIR START"
 echo "────────────────────────────────"
 
-# 1. Safety check — ensure clean working tree
-if [[ -n $(git status --porcelain) ]]; then
+if ! command -v npm >/dev/null 2>&1; then
+  echo "ERROR: npm is not installed or not on PATH."
+  exit 1
+fi
+
+if [[ ! -f package.json ]]; then
+  echo "ERROR: package.json not found. Run this from the repo root."
+  exit 1
+fi
+
+if [[ -n "$(git status --porcelain)" ]]; then
   echo "ERROR: Working directory is not clean."
-  echo "Please commit or stash changes before proceeding."
+  echo "Commit or stash changes before proceeding."
   exit 1
 fi
 
 echo "✔ Working directory clean"
-
-# 2. Remove existing lockfile and node_modules (build-layer only)
-echo "→ Removing lockfile and node_modules..."
+echo "→ Removing existing lockfile and node_modules"
 rm -f package-lock.json
 rm -rf node_modules
 
-# 3. Regenerate lockfile deterministically
-echo "→ Regenerating package-lock.json..."
+echo "→ Regenerating package-lock.json"
 npm install --package-lock-only
 
-# 4. Validate install using npm ci (STRICT check)
-echo "→ Validating with npm ci..."
+echo "→ Validating clean install with npm ci"
 npm ci
 
 echo "✔ npm ci SUCCESS — lockfile synchronized"
-
-# 5. Stage updated lockfile
-git add package-lock.json
+echo "→ Current lockfile diff summary"
+git diff -- package-lock.json || true
 
 echo "────────────────────────────────"
-echo "LOCKFILE REPAIR COMPLETE"
+echo "PHASE 488 — LOCKFILE REPAIR COMPLETE"
 echo "────────────────────────────────"
-echo "Next step: rebuild Docker image to validate cold start"
+echo "NEXT:"
+echo "1. Review package-lock.json diff"
+echo "2. If correct, commit the lockfile"
+echo "3. Then run cold-start Docker rebuild validation"
