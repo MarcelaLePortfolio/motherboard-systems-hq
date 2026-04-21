@@ -2,7 +2,7 @@
   const TASK_ID_RE = /\btask\.[a-f0-9-]{8,}\b/gi;
 
   const state = {
-    taskMap: new Map(),
+    map: new Map(),
   };
 
   function extractTasks(payload) {
@@ -12,18 +12,12 @@
     return [];
   }
 
-  function getId(task) {
-    return task?.task_id || task?.taskId || task?.id || null;
+  function getId(t) {
+    return t?.task_id || t?.taskId || t?.id || null;
   }
 
-  function getTitle(task) {
-    return (
-      task?.title ||
-      task?.task_name ||
-      task?.name ||
-      task?.summary ||
-      null
-    );
+  function getTitle(t) {
+    return t?.title || t?.task_name || t?.name || t?.summary || null;
   }
 
   async function refreshMap() {
@@ -34,75 +28,71 @@
       const json = await res.json();
       const tasks = extractTasks(json);
 
-      const map = new Map();
-
+      const next = new Map();
       for (const t of tasks) {
         const id = getId(t);
         const title = getTitle(t);
-        if (id && title) map.set(id, title);
+        if (id && title) next.set(id, title);
       }
 
-      state.taskMap = map;
-
-      // force immediate re-render
-      rewriteAll();
+      state.map = next;
     } catch {}
   }
 
   function replaceIds(text) {
-    return text.replace(TASK_ID_RE, (id) => {
-      return state.taskMap.get(id) || id;
-    });
+    return text.replace(TASK_ID_RE, (id) => state.map.get(id) || id);
+  }
+
+  function rewriteNode(node) {
+    if (!node || !node.textContent) return;
+
+    const original = node.__orig || node.textContent;
+
+    if (!node.__orig) node.__orig = original;
+
+    const updated = replaceIds(original);
+
+    if (updated !== node.textContent) {
+      node.textContent = updated;
+    }
   }
 
   function rewriteAll() {
-    // ONLY target visible UI containers (more aggressive + reliable)
-    const selectors = [
-      "#agent-pool",
-      "#tasks-widget",
-      "#mb-task-events-panel",
-      "body"
-    ];
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
 
-    selectors.forEach((sel) => {
-      const root = document.querySelector(sel);
-      if (!root) return;
+    let node;
+    while ((node = walker.nextNode())) {
+      rewriteNode(node);
+    }
+  }
 
-      const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+  function patchAgentPoolDirectly() {
+    // HARD FIX: specifically target "Working on task.xxx"
+    const nodes = document.querySelectorAll("*");
 
-      let node;
-      while ((node = walker.nextNode())) {
-        if (!node.textContent) continue;
+    nodes.forEach((el) => {
+      if (!el || !el.textContent) return;
 
-        if (!node.__originalText) {
-          node.__originalText = node.textContent;
-        }
-
-        const updated = replaceIds(node.__originalText);
-
-        if (updated !== node.textContent) {
-          node.textContent = updated;
+      if (el.textContent.includes("Working on task.")) {
+        const replaced = replaceIds(el.textContent);
+        if (replaced !== el.textContent) {
+          el.textContent = replaced;
         }
       }
     });
   }
 
-  function observe() {
-    const obs = new MutationObserver(() => {
-      rewriteAll();
-    });
-
-    obs.observe(document.body, {
-      subtree: true,
-      childList: true,
-      characterData: true,
-    });
+  function loop() {
+    rewriteAll();
+    patchAgentPoolDirectly();
   }
 
   function boot() {
-    observe();
     refreshMap();
     setInterval(refreshMap, 5000);
+
+    loop();
+    setInterval(loop, 1000); // aggressive UI sync
   }
 
   if (document.readyState === "loading") {
