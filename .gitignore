@@ -17,3 +17,8 @@ docs/phase487_*probe_output.txt
 docs/phase487_*live_probe_output.txt
 docs/phase487_*surface_probe_output.txt
 docs/phase487_*audit_output.txt
+# Phase 487 DB runtime sidefiles
+db/*.db-wal
+db/*.db-shm
+db/*.sqlite-wal
+db/*.sqlite-shm
