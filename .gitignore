@@ -24,3 +24,5 @@ db/*.sqlite-wal
 db/*.sqlite-shm
 
 .runtime/
+
+backups/*.sql
