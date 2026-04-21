@@ -89,7 +89,7 @@
 
     const time = new Date(ev.ts || Date.now()).toLocaleTimeString();
 
-    const title = ev.title || ev.task_id || "Task";
+    const title = ev.title || ev.task_title || ev.taskName || ev.task_id || "Task";
 
     row.textContent = `${time} — ${label}: ${title}`;
 

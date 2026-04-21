@@ -67,18 +67,20 @@
   }
 
   function patchAgentPoolDirectly() {
-    // HARD FIX: specifically target "Working on task.xxx"
-    const nodes = document.querySelectorAll("*");
+    const nodes = document.querySelectorAll("#agent-status-container *");
 
     nodes.forEach((el) => {
       if (!el || !el.textContent) return;
 
-      if (el.textContent.includes("Working on task.")) {
-        const replaced = replaceIds(el.textContent);
-        if (replaced !== el.textContent) {
-          el.textContent = replaced;
-        }
-      }
+      const raw = el.textContent.trim();
+      const match = raw.match(/^Working on (task\.[a-f0-9-]{8,})$/i);
+      if (!match) return;
+
+      const taskId = match[1];
+      const title = state.map.get(taskId);
+      if (!title) return;
+
+      el.textContent = `Working on ${title}`;
     });
   }
 

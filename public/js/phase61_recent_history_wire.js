@@ -174,7 +174,7 @@
         <div class="flex items-start justify-between gap-3">
           <div class="min-w-0">
             <div class="text-sm font-medium text-slate-100 truncate">${escapeHtml(item.title)}</div>
-            <div class="mt-1 text-xs text-slate-400 break-all">${escapeHtml(item.id)}</div>
+            <div class="mt-1 text-xs text-slate-400">Reference available in audit trail</div>
           </div>
           <div class="shrink-0 text-xs uppercase tracking-wide" style="color:${statusTone(item.status)}">${escapeHtml(item.status)}</div>
         </div>
@@ -192,8 +192,8 @@
       <div class="rounded-xl border border-slate-800 bg-slate-950/60 px-3 py-3" data-phase61-history-row="${escapeHtml(item.id)}">
         <div class="flex items-start justify-between gap-3">
           <div class="min-w-0">
-            <div class="text-sm font-medium text-slate-100 break-all">${escapeHtml(item.id)}</div>
-            <div class="mt-1 text-xs text-slate-400 break-all">task=${escapeHtml(item.taskId)}</div>
+            <div class="text-sm font-medium text-slate-100 break-all">${escapeHtml(item.title)}</div>
+            <div class="mt-1 text-xs text-slate-400">Task reference preserved in audit trail</div>
           </div>
           <div class="shrink-0 text-xs uppercase tracking-wide" style="color:${statusTone(item.status)}">${escapeHtml(item.status)}</div>
         </div>
