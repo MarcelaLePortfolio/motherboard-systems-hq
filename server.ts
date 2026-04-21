@@ -12,7 +12,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.text({ type: ["text/*", "application/xml", "application/x-www-form-urlencoded"] }));
 
 const publicPath = path.join(process.cwd(), "public");
-app.use(express.static(publicPath));
+
+/*
+  Important:
+  - Disable automatic index.html serving from express.static
+  - We want "/" to be served by the explicit dashboard.html route below
+*/
+app.use(express.static(publicPath, { index: false }));
 
 function buildMatildaReply(message: unknown): string {
   const text = typeof message === "string" ? message.trim() : "";
@@ -36,8 +42,8 @@ app.post("/matilda", async (req: Request, res: Response) => {
   try {
     const reply = buildMatildaReply(req.body?.message);
     res.json({ reply });
-  } catch {
-    res.status(500).json({ error: "Matilda is unreachable" });
+  } catch (err: any) {
+    res.status(500).json({ error: "Matilda is unreachable", detail: err?.message || String(err) });
   }
 });
 
