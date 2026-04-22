@@ -59,6 +59,7 @@
     }
 
     async function handleSend() {
+      console.log("[matilda-chat][DEBUG] handleSend triggered");
       var message = safeTrim(input.value);
       if (!message) return;
 
@@ -67,6 +68,7 @@
       setSendingState(sendBtn, input, true);
 
       try {
+        console.log("[matilda-chat][DEBUG] sending request to /api/chat");
         var res = await fetch("/api/chat", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -83,9 +85,11 @@
         }
 
         var data = await res.json();
+        console.log("[matilda-chat][DEBUG] response received:", data);
         var reply =
           (data && (data.reply || data.message || data.response)) ||
           "(no reply)";
+        console.log("[matilda-chat][DEBUG] appending reply:", reply);
         appendMessage(transcript, "Matilda", reply);
       } catch (err) {
         console.error(err);
