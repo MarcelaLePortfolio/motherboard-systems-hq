@@ -69,7 +69,10 @@
 
       try {
         console.log("[matilda-chat][DEBUG] sending request to /api/chat");
-        var res = await fetch("/api/chat", {
+        console.log("[matilda-chat][DEBUG_FETCH_WRAP] initiating fetch");
+        let res;
+        try {
+          res = await fetch("/api/chat", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ message: message, agent: "matilda" }),
@@ -84,13 +87,28 @@
           return;
         }
 
-        var data = await res.json();
+        if (!res) {
+          console.error("[matilda-chat][DEBUG_FETCH_WRAP] fetch returned undefined");
+          return;
+        }
+        console.log("[matilda-chat][DEBUG_FETCH_WRAP] status:", res.status);
+        let data;
+        try {
+          data = await res.json();
+        } catch (e) {
+          console.error("[matilda-chat][DEBUG_FETCH_WRAP] JSON parse failed", e);
+          return;
+        }
         console.log("[matilda-chat][DEBUG] response received:", data);
         var reply =
           (data && (data.reply || data.message || data.response)) ||
           "(no reply)";
         console.log("[matilda-chat][DEBUG] appending reply:", reply);
+        console.log("[matilda-chat][DEBUG_FETCH_WRAP] final reply:", reply);
         appendMessage(transcript, "Matilda", reply);
+        } catch (err) {
+          console.error("[matilda-chat][DEBUG_FETCH_WRAP] fetch failed", err);
+        }
       } catch (err) {
         console.error(err);
         appendMessage(transcript, "Matilda", "(network error)");
