@@ -1,38 +1,30 @@
-import { Router } from "express";
-import { getAllAgentsStatus } from "../scripts/utils/agentStatus.js";
+import type { Request, Response } from "express";
 
-const router = Router();
-
-// 🧠 Basic Server-Sent Events stream for live agent updates
-router.get("/", async (req, res) => {
-  res.set({
-    "Content-Type": "text/event-stream",
-    "Cache-Control": "no-cache",
+export function eventsRoute(req: Request, res: Response) {
+  res.writeHead(200, {
+    "Content-Type": "text/event-stream; charset=utf-8",
+    "Cache-Control": "no-cache, no-transform",
     Connection: "keep-alive",
   });
 
-  res.flushHeaders();
-  res.write(`event: ping\ndata: {}\n\n`);
+  res.write(`: connected\n\n`);
 
-  const sendStatus = async () => {
-    try {
-      const agents = await getAllAgentsStatus();
-      res.write(`event: agent\ndata: ${JSON.stringify({ agents })}\n\n`);
-    } catch (err) {
-      console.error("❌ SSE broadcast failed:", err);
-    }
+  const send = (event: string, data: any) => {
+    res.write(`event: ${event}\n`);
+    res.write(`data: ${JSON.stringify(data)}\n\n`);
   };
 
-  // Initial snapshot
-  await sendStatus();
+  send("ping", { ts: Date.now() });
 
-  // Heartbeat + refresh every 5 s
-  const interval = setInterval(sendStatus, 5000);
+  const agents: any[] = [];
+  send("agent", { agents });
+
+  const interval = setInterval(() => {
+    send("ping", { ts: Date.now() });
+  }, 15000);
 
   req.on("close", () => {
     clearInterval(interval);
-    console.log("❌ SSE client disconnected");
+    res.end();
   });
-});
-
-export default router;
+}
