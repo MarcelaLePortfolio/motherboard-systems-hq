@@ -1,75 +1,78 @@
 /**
-
-* Matilda chat pipeline stub helper.
-*
-* This does lightweight Matilda-style reasoning/formatting and returns
-* a structured response object that callers (like /api/chat) can forward
-* directly to the UI.
-  */
+ * Matilda chat pipeline helper.
+ *
+ * Deterministic local response layer for /api/chat.
+ * Returns a structured response object without placeholder copy,
+ * external runtime calls, randomness, or async side effects.
+ */
 
 export type MatildaChatInput = {
-message: string;
-agent?: string | null;
+  message: string;
+  agent?: string | null;
 };
 
 export type MatildaChatMeta = {
-timestamp: string;
-pipeline: "matilda-stub";
+  timestamp: string;
+  pipeline: "matilda-stub";
 };
 
 export type MatildaChatResult = {
-ok: boolean;
-agent: string;
-message: string;
-reasoning: string;
-reply: string;
-meta: MatildaChatMeta;
+  ok: boolean;
+  agent: string;
+  message: string;
+  reasoning: string;
+  reply: string;
+  meta: MatildaChatMeta;
 };
 
-export async function runMatildaStub(
-input: MatildaChatInput
-): Promise<MatildaChatResult> {
-const rawMessage = typeof input.message === "string" ? input.message : "";
-const message = rawMessage.trim();
-
-if (!message) {
-throw new Error("MatildaChatStub: 'message' must be a non-empty string.");
+function normalizeWhitespace(value: string): string {
+  return value.replace(/\s+/g, " ").trim();
 }
 
-const rawAgent = input.agent || "matilda";
-const agent = String(rawAgent).toLowerCase();
+export async function runMatildaStub(
+  input: MatildaChatInput
+): Promise<MatildaChatResult> {
+  const rawMessage = typeof input.message === "string" ? input.message : "";
+  const message = normalizeWhitespace(rawMessage);
 
-const timestamp = new Date().toISOString();
+  if (!message) {
+    throw new Error("MatildaChatStub: 'message' must be a non-empty string.");
+  }
 
-const reasoningParts: string[] = [
-`Agent selected: ${agent}`,
-`Message length: ${message.length}`,
-"Mode: Matilda routing stub (no external runtime yet)",
-];
+  const rawAgent = input.agent || "matilda";
+  const agent = String(rawAgent).toLowerCase();
 
-const reasoning = reasoningParts.join(" | ");
+  const reasoningParts: string[] = [
+    `Agent selected: ${agent}`,
+    `Message length: ${message.length}`,
+    "Mode: deterministic local response layer",
+    "External runtime: disabled",
+    "Execution class: UI-safe acknowledgement",
+  ];
 
-const replyLines: string[] = [
-"Matilda routing stub online.",
-`I received: “${message}”.`,
-"In a full pipeline, this helper would forward your request to the live Matilda runtime,",
-"track her internal decision log, and stream the final response back to the UI.",
-"For now, I’m confirming that the Matilda chat pipeline helper is wired and callable.",
-];
+  const reasoning = reasoningParts.join(" | ");
 
-const reply = replyLines.join("\n");
+  const replyLines: string[] = [
+    "Matilda received your request.",
+    `Input: \"${message}\"`,
+    "Status: deterministic local response active.",
+    "Runtime handoff: not enabled in this corridor.",
+    "Next step: provide a specific task or request an auditable system action.",
+  ];
 
-const meta: MatildaChatMeta = {
-timestamp,
-pipeline: "matilda-stub",
-};
+  const reply = replyLines.join("\n");
 
-return {
-ok: true,
-agent,
-message,
-reasoning,
-reply,
-meta,
-};
+  const meta: MatildaChatMeta = {
+    timestamp: "deterministic-local",
+    pipeline: "matilda-stub",
+  };
+
+  return {
+    ok: true,
+    agent,
+    message,
+    reasoning,
+    reply,
+    meta,
+  };
 }
