@@ -1,15 +1,1 @@
-$(awk '
-  BEGIN { inserted=0 }
-  /<head>/ {
-    print;
-    print "  <script src=\"js/phase488_fix_sse_singleton.js\"></script>";
-    inserted=1;
-    next
-  }
-  { print }
-  END {
-    if (inserted==0) {
-      print "<!-- PHASE488 WARNING: <head> tag not found; SSE guard not injected -->" > "/dev/stderr"
-    }
-  }
-' public/index.html)
+$(git show origin/phase119-dashboard-cognition-contract:public/index.html)
