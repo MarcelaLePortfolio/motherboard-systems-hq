@@ -59,6 +59,10 @@
     }
 
     async function handleSend() {
+    // PHASE488_TRACE_START
+    console.log("[PHASE488_TRACE] handleSend invoked");
+    // PHASE488_TRACE_END
+
       console.log("[matilda-chat][DEBUG] handleSend triggered");
       var message = safeTrim(input.value);
       if (!message) return;
