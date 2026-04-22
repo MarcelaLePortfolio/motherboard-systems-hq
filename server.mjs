@@ -67,13 +67,7 @@ app.use((req, res, next) => {
         detail: "mutation blocked by enforcement gate (Phase49)",
         path: req.path,
         method: m,
-          console.log("[API_CHAT_DEBUG] EXITING ROUTE WITHOUT RESPONSE?");
-    next();
-  } catch (err) {
-    console.error("[API_CHAT_DEBUG] ERROR", err);
-    res.status(500).json({ error: "chat route error" });
-  }
-});
+      });
     }
 
     return next();
@@ -377,10 +371,7 @@ app.get("/api/tasks", async (req, res) => {
 });
 
 // ---- Phase 15: real task mutation endpoints (DB-backed) ----
-app.post("/api/chat", (req, res, next) => {
-    console.log("[API_CHAT_DEBUG] HIT", req.body);
-    try {
- async (req, res) => {
+app.post("/api/chat", async (req, res) => {
   try {
     const rawMessage =
       req.body?.message ??
