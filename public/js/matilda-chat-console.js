@@ -1,4 +1,6 @@
 (function () {
+  let inFlight = false;
+
   function log(msg) {
     console.log("[matilda-chat]", msg);
   }
@@ -16,12 +18,9 @@
   function setSendingState(sendBtn, input, isSending) {
     if (sendBtn) {
       sendBtn.disabled = isSending;
-      sendBtn.classList.toggle("opacity-60", isSending);
       sendBtn.textContent = isSending ? "Sending..." : "Send";
     }
-    if (input) {
-      input.disabled = isSending;
-    }
+    if (input) input.disabled = isSending;
   }
 
   async function fetchWithTimeout(url, options, timeoutMs) {
@@ -29,22 +28,16 @@
     const id = setTimeout(() => controller.abort(), timeoutMs);
 
     try {
-      console.log("[PHASE488_TIMEOUT] starting fetch", url);
+      console.log("[PHASE488_TIMEOUT] starting fetch");
       const res = await fetch(url, { ...options, signal: controller.signal });
-      console.log("[PHASE488_TIMEOUT] fetch resolved", res.status);
+      console.log("[PHASE488_TIMEOUT] resolved", res.status);
       return res;
-    } catch (err) {
-      console.error("[PHASE488_TIMEOUT] fetch error", err);
-      throw err;
     } finally {
       clearTimeout(id);
     }
   }
 
   async function wireChat() {
-    var root = document.getElementById("matilda-chat-root");
-    if (!root) return;
-
     var transcript = document.getElementById("matilda-chat-transcript");
     var input = document.getElementById("matilda-chat-input");
     var sendBtn = document.getElementById("matilda-chat-send");
@@ -54,8 +47,15 @@
     async function handleSend() {
       console.log("[PHASE488_TRACE] handleSend invoked");
 
+      if (inFlight) {
+        console.warn("[PHASE488_GUARD] blocked duplicate send");
+        return;
+      }
+
       var message = (input.value || "").trim();
       if (!message) return;
+
+      inFlight = true;
 
       appendMessage(transcript, "You", message);
       input.value = "";
@@ -71,7 +71,7 @@
         const data = await res.json();
         console.log("[PHASE488_TRACE] parsed json", data);
 
-        var reply =
+        const reply =
           (data && (data.reply || data.message || data.response)) ||
           "(no reply)";
 
@@ -79,26 +79,27 @@
       } catch (err) {
         appendMessage(transcript, "Matilda", "(timeout or network failure)");
       } finally {
+        inFlight = false;
         setSendingState(sendBtn, input, false);
       }
     }
 
-    sendBtn.addEventListener("click", handleSend);
+    sendBtn.onclick = handleSend;
 
     var quickBtn = document.getElementById("matilda-chat-quick-check");
     if (quickBtn) {
-      quickBtn.addEventListener("click", function () {
+      quickBtn.onclick = function () {
         input.value = "Quick systems check from dashboard.";
         handleSend();
-      });
+      };
     }
 
-    input.addEventListener("keydown", function (e) {
+    input.onkeydown = function (e) {
       if (e.key === "Enter" && !e.shiftKey) {
         e.preventDefault();
         handleSend();
       }
-    });
+    };
 
     log("Matilda chat wiring complete.");
   }
