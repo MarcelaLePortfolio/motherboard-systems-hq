@@ -6,7 +6,8 @@
   window.__PHASE457_TASK_EVENTS_PANEL_ACTIVE__ = true;
 
   function getRoot() { return document.getElementById(ROOT_ID); }
-  if (!root) return;
+  const root = getRoot();
+    if (!root) return;
 
   let es = null;
   let reconnectTimer = null;
@@ -204,7 +205,7 @@
       es = null;
     }
 
-    es = // PHASE488_DISABLED new EventSource(STREAM_URL);
+    es = new EventSource(STREAM_URL);
     if (!es) {
       return;
     }
