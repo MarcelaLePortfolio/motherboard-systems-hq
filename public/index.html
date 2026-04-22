@@ -1153,6 +1153,42 @@ document.addEventListener("DOMContentLoaded", async function () {
 </script>
 
   <script defer src="/js/phase487_humanize_task_ids.js"></script>
+
+<script>
+(function () {
+  const input = document.querySelector('input[placeholder*="Matilda"]') || document.querySelector('input');
+  const button = document.querySelector('button');
+  const output = document.createElement("pre");
+  output.id = "matilda-output";
+  output.style.whiteSpace = "pre-wrap";
+  output.style.marginTop = "12px";
+
+  if (input && button) {
+    button.parentNode.appendChild(output);
+
+    button.addEventListener("click", async () => {
+      const message = input.value || "";
+      if (!message.trim()) return;
+
+      output.textContent = "…";
+
+      try {
+        const res = await fetch("/api/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message, agent: "matilda" })
+        });
+
+        const data = await res.json();
+        output.textContent = data.reply || JSON.stringify(data, null, 2);
+      } catch (err) {
+        output.textContent = "UI error: " + err.message;
+      }
+    });
+  }
+})();
+</script>
+
 </body>
 </html>
 
