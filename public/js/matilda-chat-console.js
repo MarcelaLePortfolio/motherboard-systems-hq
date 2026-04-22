@@ -115,5 +115,9 @@
     log("Matilda chat wiring complete.");
   }
 
-  document.addEventListener("DOMContentLoaded", wireChat);
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", wireChat);
+  } else {
+    wireChat();
+  }
 })();
