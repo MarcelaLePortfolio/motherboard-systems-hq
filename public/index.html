@@ -185,7 +185,7 @@
   <script defer src="js/agent-status-row.js"></script>
   <script type="module" src="js/dashboard-broadcast.js"></script>
   <script defer src="js/matilda-chat-console.js"></script>
-  <script defer src="js/phase64_agent_activity_wire.js"></script>
+  <!-- phase488n temporary isolation: disabled to reduce /api/runs and /api/tasks polling during Matilda probe :: <script defer src="js/phase64_agent_activity_wire.js"></script> -->
   <link rel="stylesheet" href="css/phase491_workspace_equal_height.css">
 </head>
 
@@ -575,11 +575,11 @@
   <script defer src="js/phase490_operator_height_beacon.js"></script>
   <script defer src="js/phase490_height_evidence_capture.js"></script>
   <script defer src="js/phase489_panel_height_sync.js"></script>
-  <script defer src="js/phase61_recent_history_wire.js"></script>
-  <script defer src="js/dashboard-graph.js"></script>
-  <script defer src="js/phase457_restore_task_panels.js"></script>
+  <!-- phase488n temporary isolation: disabled to reduce /api/runs and /api/tasks polling during Matilda probe :: <script defer src="js/phase61_recent_history_wire.js"></script> -->
+  <!-- phase488n temporary isolation: disabled to reduce /api/tasks polling during Matilda probe :: <script defer src="js/dashboard-graph.js"></script> -->
+  <!-- phase488n temporary isolation: disabled during Matilda probe :: <script defer src="js/phase457_restore_task_panels.js"></script> -->
   <script defer src="js/task-completion.js"></script>
-  <script defer src="js/operatorGuidance.sse.js"></script>
+  <!-- phase488n temporary isolation: disabled during Matilda probe :: <script defer src="js/operatorGuidance.sse.js"></script> -->
 <!-- PHASE 493 REASONING MODAL -->
 <div id="phase493-reasoning-modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:9999;">
   <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#111;padding:20px;border-radius:10px;width:90%;max-width:500px;color:#ddd;">
