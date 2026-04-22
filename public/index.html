@@ -1,1 +1,23 @@
-$(git show origin/phase119-dashboard-cognition-contract:public/index.html)
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>RECOVERY MODE</title>
+</head>
+<body>
+<script>
+fetch('/api/chat', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ message: 'probe', agent: 'matilda' })
+})
+.then(r => r.json())
+.then(d => {
+  document.body.innerText = "RECOVERY OK:\n\n" + (d.reply || JSON.stringify(d, null, 2));
+})
+.catch(e => {
+  document.body.innerText = "RECOVERY FAILED:\n\n" + e;
+});
+</script>
+</body>
+</html>
