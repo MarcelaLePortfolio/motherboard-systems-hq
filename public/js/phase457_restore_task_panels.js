@@ -5,7 +5,7 @@
   if (window.__PHASE457_TASK_EVENTS_PANEL_ACTIVE__) return;
   window.__PHASE457_TASK_EVENTS_PANEL_ACTIVE__ = true;
 
-  const root = document.getElementById(ROOT_ID);
+  function getRoot() { return document.getElementById(ROOT_ID); }
   if (!root) return;
 
   let es = null;
@@ -163,7 +163,6 @@
   function scheduleReconnect() {
     clearReconnectTimer();
     reconnectAttempt += 1;
-    render("reconnecting");
     reconnectTimer = setTimeout(connect, Math.min(5000, 1000 * reconnectAttempt));
   }
 
@@ -193,7 +192,6 @@
       try {
         source.close();
       } catch (_) {}
-      scheduleReconnect();
     };
   }
 
@@ -206,17 +204,13 @@
       es = null;
     }
 
-    render("reconnecting");
     es = // PHASE488_DISABLED new EventSource(STREAM_URL);
     if (!es) {
-      scheduleReconnect();
       return;
     }
     bindHandlers(es);
   }
 
-  render("reconnecting");
-  connect();
 
   window.addEventListener("beforeunload", () => {
     clearReconnectTimer();
@@ -227,3 +221,6 @@
     }
   });
 })();
+
+document.addEventListener("DOMContentLoaded", () => {
+});
