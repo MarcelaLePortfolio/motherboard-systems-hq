@@ -347,8 +347,8 @@ app.get("/bundle.js", (req, res) => res.sendFile(path.join(__dirname, "public", 
 
 app.get("/api/runs", getRunsList);
 app.get("/bundle.js.map", (req, res) => res.sendFile(path.join(__dirname, "public", "bundle.js.map")));
-app.get("/dashboard", (req, res) => res.sendFile(path.join(__dirname, "public", "dashboard.html")));
-app.get("/", (req, res) => res.redirect("/dashboard"));
+app.get("/dashboard", (req, res) => res.redirect("/"));
+app.get("/", (req, res) => res.sendFile(path.join(__dirname, "public", "index.html")));
 
 // ---- Tasks API ----
 app.get("/api/tasks", async (req, res) => {
