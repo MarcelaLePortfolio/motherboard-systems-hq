@@ -194,7 +194,6 @@
     const es = (window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(url));
     g[key].es = es;
 
-
     // Phase16: guard null EventSource before handlers
     if (!es) return null;
 
