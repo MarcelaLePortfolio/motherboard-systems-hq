@@ -318,9 +318,3 @@
   }
 })();
 
-    } catch (err) {
-      log("history refresh failed", err);
-    }
-  }
-
-})();
