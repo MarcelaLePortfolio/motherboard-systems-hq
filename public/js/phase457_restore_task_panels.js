@@ -207,7 +207,11 @@
     }
 
     render("reconnecting");
-    es = new EventSource(STREAM_URL);
+    es = // PHASE488_DISABLED new EventSource(STREAM_URL);
+    if (!es) {
+      scheduleReconnect();
+      return;
+    }
     bindHandlers(es);
   }
 
