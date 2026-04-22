@@ -129,7 +129,7 @@
       emit("connecting", { reason });
 
       try {
-        es = new EventSource(url);
+        es = // PHASE488_DISABLED new EventSource(url);
       } catch (e) {
         connecting = false;
         emit("error", { reason: "new_failed" });

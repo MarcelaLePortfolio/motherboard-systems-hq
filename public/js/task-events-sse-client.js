@@ -112,7 +112,7 @@
   }
 
   function start() {
-    const es = new EventSource(SSE_URL);
+    const es = // PHASE488_DISABLED new EventSource(SSE_URL);
 
     es.onmessage = (msg) => handleFrame("message", msg.data);
 

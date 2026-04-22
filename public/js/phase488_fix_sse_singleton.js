@@ -21,7 +21,7 @@
         return;
       }
 
-      const es = new EventSource(url);
+      const es = // PHASE488_DISABLED new EventSource(url);
       window.__MB_STREAMS[url] = { es };
 
       es.onopen = () => console.log("[PHASE488_FIX] opened:", url);
