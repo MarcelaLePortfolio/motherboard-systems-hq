@@ -378,13 +378,14 @@ app.post("/api/chat", async (req, res) => {
       req.body?.prompt ??
       req.body?.text ??
       "";
+    const requestedAgent = String(req.body?.agent || "matilda").trim().toLowerCase() || "matilda";
 
     const message = String(rawMessage || "").replace(/\s+/g, " ").trim();
 
     if (!message) {
       return res.status(400).json({
         ok: false,
-        agent: "matilda",
+        agent: requestedAgent,
         mode: "deterministic-local-response",
         error: "Missing or invalid 'message' in request body.",
       });
@@ -392,18 +393,18 @@ app.post("/api/chat", async (req, res) => {
 
     return res.json({
       ok: true,
-      agent: "matilda",
+      agent: requestedAgent,
       mode: "deterministic-local-response",
       message,
       reasoning: [
-        "Agent selected: matilda",
+        `Agent selected: ${requestedAgent}`,
         `Message length: ${message.length}`,
         "Mode: deterministic local response layer",
         "External runtime: disabled",
         "Execution class: UI-safe acknowledgement",
       ].join(" | "),
       reply: [
-        "Matilda received your request.",
+        `${requestedAgent.charAt(0).toUpperCase() + requestedAgent.slice(1)} received your request.`,
         `Input: \"${message}\"`,
         "Status: deterministic local response active.",
         "Runtime handoff: not enabled in this corridor.",
@@ -417,7 +418,7 @@ app.post("/api/chat", async (req, res) => {
   } catch (error) {
     return res.status(500).json({
       ok: false,
-      agent: "matilda",
+      agent: String(req.body?.agent || "matilda").trim().toLowerCase() || "matilda",
       mode: "deterministic-local-response",
       error: error instanceof Error ? error.message : "Unknown chat stub error",
     });
