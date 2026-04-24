@@ -408,6 +408,31 @@ app.post("/api/chat", async (req, res) => {
       console.warn("[PHASE489] run_view probe failed", e?.message || e);
     }
 
+    let waitingOn = null;
+
+    try {
+      const db = globalThis.__DB_POOL;
+      if (db) {
+        const r = await db.query(
+          `SELECT status, claimed_by FROM tasks ORDER BY updated_at DESC LIMIT 1`
+        );
+        if (r.rows && r.rows.length > 0) {
+          const row = r.rows[0];
+          if (row.status === "queued") {
+            waitingOn = "task execution";
+          } else if (row.status === "in_progress") {
+            waitingOn = "agent completion";
+          } else if (row.status === "failed") {
+            waitingOn = "error resolution";
+          } else if (row.status === "completed") {
+            waitingOn = "new task";
+          }
+        }
+      }
+    } catch (e) {
+      console.warn("[PHASE493] waiting_on probe failed", e?.message || e);
+    }
+
     let ollamaReply = null;
 
     // PHASE492: Ollama reply promotion with deterministic fallback
@@ -417,7 +442,7 @@ app.post("/api/chat", async (req, res) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           model: "gemma3:4b",
-          prompt: `You are Matilda, the Motherboard Systems operator assistant. Reply conversationally, briefly, and safely. You may use only this read-only context. Do not claim to execute actions. Operator message: "${message}". Context: ${runSummary || "No recent run context."}`,
+          prompt: `You are Matilda, the Motherboard Systems operator assistant. Reply conversationally, briefly, and safely. You may use only this read-only context. Do not claim to execute actions. Operator message: "${message}". Context: ${runSummary || "No recent run context."} Waiting on: ${waitingOn || "unknown"}.`,
           stream: false,
         }),
       });
