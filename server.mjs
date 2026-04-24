@@ -408,24 +408,29 @@ app.post("/api/chat", async (req, res) => {
       console.warn("[PHASE489] run_view probe failed", e?.message || e);
     }
 
-    // PHASE491: Ollama shadow probe only — no reply mutation
+    let ollamaReply = null;
+
+    // PHASE492: Ollama reply promotion with deterministic fallback
     try {
       const ollamaRes = await fetch("http://host.docker.internal:11434/api/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           model: "gemma3:4b",
-          prompt: `You are Matilda. Reply conversationally to this operator message using this read-only context. Message: "${message}". Context: ${runSummary || "No recent run context."}`,
+          prompt: `You are Matilda, the Motherboard Systems operator assistant. Reply conversationally, briefly, and safely. You may use only this read-only context. Do not claim to execute actions. Operator message: "${message}". Context: ${runSummary || "No recent run context."}`,
           stream: false,
         }),
       });
       const ollamaData = await ollamaRes.json();
-      console.log("[PHASE491_OLLAMA_SHADOW]", {
+      if (ollamaRes.ok && ollamaData?.response) {
+        ollamaReply = String(ollamaData.response).trim();
+      }
+      console.log("[PHASE492_OLLAMA_REPLY]", {
         ok: ollamaRes.ok,
-        hasResponse: Boolean(ollamaData?.response),
+        used: Boolean(ollamaReply),
       });
     } catch (e) {
-      console.warn("[PHASE491_OLLAMA_SHADOW] failed", e?.message || e);
+      console.warn("[PHASE492_OLLAMA_REPLY] failed", e?.message || e);
     }
 
     const deterministicReply = (() => {
@@ -448,6 +453,8 @@ app.post("/api/chat", async (req, res) => {
       ].filter(Boolean).join(" ");
     })();
 
+    const finalReply = ollamaReply || deterministicReply;
+
     return res.json({
       ok: true,
       agent: requestedAgent,
@@ -457,13 +464,13 @@ app.post("/api/chat", async (req, res) => {
         `Agent selected: ${requestedAgent}`,
         `Message length: ${message.length}`,
         "Mode: deterministic local response layer",
-        "External runtime: disabled",
+        ollamaReply ? "External runtime: Ollama used" : "External runtime: fallback deterministic",
         "Execution class: UI-safe acknowledgement",
       ].join(" | "),
-      reply: deterministicReply,
+      reply: finalReply,
       meta: {
         timestamp: "deterministic-local",
-        pipeline: "matilda-stub",
+        pipeline: ollamaReply ? "ollama-with-deterministic-fallback" : "matilda-stub",
       },
     });
   } catch (error) {
