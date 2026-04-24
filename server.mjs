@@ -472,6 +472,9 @@ app.post("/api/chat", async (req, res) => {
         return [
           `${name} here.`,
           runSummary ? `Right now, ${runSummary.toLowerCase()}.` : "I’m not seeing any recent runs yet.",
+          `Waiting on: ${waitingOn || "unknown"}.`,
+          `Assigned to: ${agentAssignment || "unassigned"}.`,
+          `Run agent: ${runAgent || "unknown"}.`,
           "Everything else looks stable from this read-only check."
         ].join(" ");
       }
