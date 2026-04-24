@@ -391,6 +391,23 @@ app.post("/api/chat", async (req, res) => {
       });
     }
 
+    let runSummary = null;
+
+    try {
+      const db = globalThis.__DB_POOL;
+      if (db) {
+        const r = await db.query(
+          `SELECT run_id, task_status FROM run_view ORDER BY last_event_ts DESC LIMIT 1`
+        );
+        if (r.rows && r.rows.length > 0) {
+          const row = r.rows[0];
+          runSummary = `Latest run: ${row.run_id} (${row.task_status})`;
+        }
+      }
+    } catch (e) {
+      console.warn("[PHASE489] run_view probe failed", e?.message || e);
+    }
+
     return res.json({
       ok: true,
       agent: requestedAgent,
@@ -406,6 +423,7 @@ app.post("/api/chat", async (req, res) => {
       reply: [
         `${requestedAgent.charAt(0).toUpperCase() + requestedAgent.slice(1)} received your request.`,
         `Input: \"${message}\"`,
+        ...(runSummary ? [runSummary] : []),
         "Status: deterministic local response active.",
         "Runtime handoff: not enabled in this corridor.",
         "Next step: provide a specific task or request an auditable system action.",
