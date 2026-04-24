@@ -392,12 +392,13 @@ app.post("/api/chat", async (req, res) => {
     }
 
     let runSummary = null;
+    let runAgent = null;
 
     try {
       const db = globalThis.__DB_POOL;
       if (db) {
         const r = await db.query(
-          `SELECT run_id, task_status FROM run_view ORDER BY last_event_ts DESC LIMIT 1`
+          `SELECT run_id, task_status, agent FROM run_view ORDER BY last_event_ts DESC LIMIT 1`
         );
         if (r.rows && r.rows.length > 0) {
           const row = r.rows[0];
@@ -411,7 +412,6 @@ app.post("/api/chat", async (req, res) => {
 
     let waitingOn = null;
     let agentAssignment = null;
-    let runAgent = null;
 
 
     try {
