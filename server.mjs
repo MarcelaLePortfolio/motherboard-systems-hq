@@ -420,8 +420,7 @@ app.post("/api/chat", async (req, res) => {
         "External runtime: disabled",
         "Execution class: UI-safe acknowledgement",
       ].join(" | "),
-      reply: [
-        (() => {
+      reply: (() => {
           const name = requestedAgent.charAt(0).toUpperCase() + requestedAgent.slice(1);
           const lowerMessage = message.toLowerCase();
 
@@ -439,8 +438,7 @@ app.post("/api/chat", async (req, res) => {
             runSummary ? `For context, ${runSummary.toLowerCase()}.` : "",
             "Tell me what you want to check next."
           ].filter(Boolean).join(" ");
-        })()
-      ],
+        })(),
       meta: {
         timestamp: "deterministic-local",
         pipeline: "matilda-stub",
