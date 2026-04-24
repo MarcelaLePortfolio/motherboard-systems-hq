@@ -505,6 +505,12 @@ app.post("/api/chat", async (req, res) => {
       meta: {
         timestamp: "deterministic-local",
         pipeline: ollamaReply ? "ollama-with-deterministic-fallback" : "matilda-stub",
+        executionReadiness: (function () {
+          if (waitingOn) return { state: "BLOCKED", reason: waitingOn };
+          if (agentAssignment) return { state: "CLAIMED", agent: agentAssignment };
+          if (runAgent) return { state: "READY", agent: runAgent };
+          return { state: "IDLE" };
+        })(),
       },
     });
   } catch (error) {
