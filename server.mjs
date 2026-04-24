@@ -418,6 +418,8 @@ app.post("/api/chat", async (req, res) => {
         );
         if (r.rows && r.rows.length > 0) {
           const row = r.rows[0];
+          const agentAssignment = row.claimed_by || "unassigned";
+
           if (row.status === "queued") {
             waitingOn = "task execution";
           } else if (row.status === "in_progress") {
@@ -442,7 +444,7 @@ app.post("/api/chat", async (req, res) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           model: "gemma3:4b",
-          prompt: `You are Matilda, the Motherboard Systems operator assistant. Reply conversationally, briefly, and safely. You may use only this read-only context. Do not claim to execute actions. Operator message: "${message}". Context: ${runSummary || "No recent run context."} Waiting on: ${waitingOn || "unknown"}.`,
+          prompt: `You are Matilda, the Motherboard Systems operator assistant. Reply conversationally, briefly, and safely. You may use only this read-only context. Do not claim to execute actions. Operator message: "${message}". Context: ${runSummary || "No recent run context."} Waiting on: ${waitingOn || "unknown"}. Assigned to: ${agentAssignment}.`,
           stream: false,
         }),
       });
