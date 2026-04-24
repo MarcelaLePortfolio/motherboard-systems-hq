@@ -408,6 +408,26 @@ app.post("/api/chat", async (req, res) => {
       console.warn("[PHASE489] run_view probe failed", e?.message || e);
     }
 
+    // PHASE491: Ollama shadow probe only — no reply mutation
+    try {
+      const ollamaRes = await fetch("http://host.docker.internal:11434/api/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "gemma3:4b",
+          prompt: `You are Matilda. Reply conversationally to this operator message using this read-only context. Message: "${message}". Context: ${runSummary || "No recent run context."}`,
+          stream: false,
+        }),
+      });
+      const ollamaData = await ollamaRes.json();
+      console.log("[PHASE491_OLLAMA_SHADOW]", {
+        ok: ollamaRes.ok,
+        hasResponse: Boolean(ollamaData?.response),
+      });
+    } catch (e) {
+      console.warn("[PHASE491_OLLAMA_SHADOW] failed", e?.message || e);
+    }
+
     return res.json({
       ok: true,
       agent: requestedAgent,
