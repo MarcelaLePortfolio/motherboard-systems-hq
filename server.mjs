@@ -421,13 +421,26 @@ app.post("/api/chat", async (req, res) => {
         "Execution class: UI-safe acknowledgement",
       ].join(" | "),
       reply: [
-        `${requestedAgent.charAt(0).toUpperCase() + requestedAgent.slice(1)} received your request.`,
-        `Input: \"${message}\"`,
-        ...(runSummary ? [runSummary] : []),
-        "Status: deterministic local response active.",
-        "Runtime handoff: not enabled in this corridor.",
-        "Next step: provide a specific task or request an auditable system action.",
-      ].join("\n"),
+        (() => {
+          const name = requestedAgent.charAt(0).toUpperCase() + requestedAgent.slice(1);
+          const lowerMessage = message.toLowerCase();
+
+          if (lowerMessage.includes("status")) {
+            return [
+              `${name} here.`,
+              runSummary ? `Right now, ${runSummary.toLowerCase()}.` : "I’m not seeing any recent runs yet.",
+              "Everything else looks stable from this read-only check."
+            ].join(" ");
+          }
+
+          return [
+            `${name} here.`,
+            `I got your message: \"${message}\".`,
+            runSummary ? `For context, ${runSummary.toLowerCase()}.` : "",
+            "Tell me what you want to check next."
+          ].filter(Boolean).join(" ");
+        })()
+      ],
       meta: {
         timestamp: "deterministic-local",
         pipeline: "matilda-stub",
