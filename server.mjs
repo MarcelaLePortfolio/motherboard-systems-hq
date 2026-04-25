@@ -517,6 +517,12 @@ app.post("/api/chat", async (req, res) => {
           if (runAgent) return { state: "READY", agent: runAgent };
           return { state: "IDLE" };
         })(),
+        responseContext: {
+          waitingOn: waitingOn || "unknown",
+          agentAssignment: agentAssignment || "unassigned",
+          runAgent: runAgent || "unknown",
+          hasRunSummary: Boolean(runSummary)
+        },
       },
     });
   } catch (error) {
