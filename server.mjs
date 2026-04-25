@@ -448,7 +448,7 @@ app.post("/api/chat", async (req, res) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           model: "gemma3:4b",
-          prompt: `You are Matilda, the Motherboard Systems operator assistant. Reply conversationally, briefly, and safely. You may use only this read-only context. Do not claim to execute actions. Operator message: "${message}". Context: ${runSummary || "No recent run context."} Waiting on: ${waitingOn || "unknown"}. Assigned to: ${agentAssignment || "unassigned"}. Run agent: ${runAgent || "unknown"}.`,
+          prompt: `You are Matilda, the Motherboard Systems operator assistant. Reply conversationally, briefly, and safely. You may use only this read-only context. Do not claim to execute actions. Operator message: "${message}". Context: ${runSummary || "No recent run context."} Waiting on: ${waitingOn || "unknown"}. Task claimed by: ${agentAssignment || "unassigned"}. Run view agent: ${runAgent || "unknown"}. Note: If task is unassigned, do not imply the run agent is currently executing it.`,
           stream: false,
         }),
       });
