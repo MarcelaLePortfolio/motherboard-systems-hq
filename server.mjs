@@ -487,7 +487,13 @@ app.post("/api/chat", async (req, res) => {
       ].filter(Boolean).join(" ");
     })();
 
-    const finalReply = ollamaReply || deterministicReply;
+    const finalReplyRaw = ollamaReply || deterministicReply;
+
+    // PHASE498: Behavior contract hardening (no implied execution authority)
+    const finalReply = finalReplyRaw
+      .replace(/\b(it is executable|this will execute|i will execute|executing now)\b/gi, "this appears ready")
+      .replace(/\b(yes, it is executable)\b/gi, "this appears ready based on current state")
+      .replace(/\b(i can execute this)\b/gi, "this can be executed through the proper system pathway");
 
     return res.json({
       ok: true,
