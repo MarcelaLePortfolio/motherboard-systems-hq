@@ -169,7 +169,6 @@ async function loop() {
         const stableTaskId = String(task.task_id ?? (`t${task.id}`));
         const workerActor = process.env.PHASE26_WORKER_ACTOR || process.env.WORKER_OWNER || "worker";
 
-        await c.query("COMMIT");
         if (!task) {
           c.release();
           await sleep(TICK_MS);
@@ -209,6 +208,9 @@ async function loop() {
               },
             });
           }
+
+          await c.query("COMMIT");
+          await c.query("COMMIT");
 
           c.release();
           backoff = BACKOFF_BASE_MS;
