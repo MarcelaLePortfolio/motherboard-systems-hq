@@ -214,7 +214,7 @@ async function loop() {
           backoff = BACKOFF_BASE_MS;
           continue;
         }
-        const done = await markSuccess(c, stableTaskId, run_id, workerActor);
+        const done = await markSuccess(c, task.id, owner, task.lease_epoch);
         if (done) {
           await emitTaskEvent({
             pool,
