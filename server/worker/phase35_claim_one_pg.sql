@@ -3,7 +3,10 @@
 --   $1 run_id (text)        -- unused by SQL, preserved for contract parity/logging
 --   $2 owner (text)
 --   $3 lease_ms (bigint)
-WITH c AS (
+WITH params AS (
+  SELECT $1::text AS run_id
+),
+c AS (
   SELECT id
   FROM tasks
   WHERE status = 'created'
