@@ -521,7 +521,10 @@ app.post("/api/chat", async (req, res) => {
           waitingOn: waitingOn || "unknown",
           agentAssignment: agentAssignment || "unassigned",
           runAgent: runAgent || "unknown",
-          hasRunSummary: Boolean(runSummary)
+          hasRunSummary: Boolean(runSummary),
+          isBlocked: Boolean(waitingOn),
+          isAssigned: Boolean(agentAssignment),
+          hasRunAgent: Boolean(runAgent)
         },
       },
     });
