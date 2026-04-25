@@ -1,7 +1,10 @@
 services:
-  dashboard:
+  worker:
+    image: motherboard_systems_hq-dashboard
+    container_name: motherboard_systems_hq-worker-1
+    command: ["node", "server/worker/phase26_task_worker.mjs"]
+    depends_on:
+      - postgres
     environment:
-      POLICY_ENFORCE_MODE: ${POLICY_ENFORCE_MODE:-}
-      POSTGRES_URL: "postgres://postgres:postgres@postgres:5432/postgres"
-    ports:
-      - "8080:3000"
+      - NODE_ENV=development
+    restart: unless-stopped
