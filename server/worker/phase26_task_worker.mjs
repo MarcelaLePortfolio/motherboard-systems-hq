@@ -59,7 +59,8 @@ const PHASE34_RECLAIM_SQL_STR = readSqlFile(process.env.PHASE34_RECLAIM_PG_SQL |
 
 const pool = new Pool({ connectionString: POSTGRES_URL });
 async function claimOne(c, run_id) {
-  const r = await c.query(CLAIM_ONE_SQL, PHASE34_ENABLE_LEASE ? [run_id, owner, PHASE34_LEASE_MS] : [run_id, owner]);
+  const safeRunId = run_id || null;
+  const r = await c.query(CLAIM_ONE_SQL, PHASE34_ENABLE_LEASE ? [safeRunId, owner, PHASE34_LEASE_MS] : [safeRunId, owner]);
   return r.rows?.[0] || null;
 }
 async function markSuccess(c, task_id, run_id, actor) {
