@@ -154,7 +154,7 @@
       status: String(row?.status || payload?.status || "unknown"),
       kind: String(row?.kind || payload?.kind || "task"),
       updatedAt: row?.updated_at || row?.updatedAt || row?.created_at || row?.createdAt || row?.ts || null,
-      agent: row?.agent || payload?.agent || payload?.target || row?.actor || row?.owner || "unassigned",
+      agent: row?.claimed_by || row?.claimedBy || payload?.claimed_by || payload?.claimedBy || row?.agent || payload?.agent || payload?.target || row?.actor || row?.owner || "unassigned",
     };
   }
 
