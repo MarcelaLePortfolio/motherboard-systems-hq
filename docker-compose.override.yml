@@ -7,4 +7,5 @@ services:
       - postgres
     environment:
       - NODE_ENV=development
+      - POSTGRES_URL=postgres://postgres:postgres@postgres:5432/postgres
     restart: unless-stopped
