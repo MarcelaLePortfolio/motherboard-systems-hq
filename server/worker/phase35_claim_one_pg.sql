@@ -9,7 +9,7 @@ WITH params AS (
 c AS (
   SELECT id
   FROM tasks
-  WHERE status = 'created'
+  WHERE status IN ('created','queued')
   ORDER BY id
   FOR UPDATE SKIP LOCKED
   LIMIT 1
