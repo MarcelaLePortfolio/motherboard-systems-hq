@@ -210,7 +210,6 @@ async function loop() {
           }
 
           await c.query("COMMIT");
-          await c.query("COMMIT");
 
           c.release();
           backoff = BACKOFF_BASE_MS;
@@ -231,6 +230,7 @@ async function loop() {
             },
           });
         }
+        await c.query("COMMIT");
         c.release();
         backoff = BACKOFF_BASE_MS;
       } catch (e) {
