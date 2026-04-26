@@ -22,4 +22,11 @@ SET status = 'running',
     lease_epoch = COALESCE(t.lease_epoch, 0) + 1
 FROM c
 WHERE t.id = c.id
-RETURNING t.id, t.claimed_by, t.lease_epoch;
+RETURNING
+  t.id,
+  t.task_id,
+  t.run_id,
+  t.claimed_by,
+  t.lease_epoch,
+  t.attempts,
+  t.max_attempts;
