@@ -166,7 +166,7 @@ async function loop() {
           }
 
         // Phase35: workers must use stable string task_id (tN), not numeric id.
-        const stableTaskId = String(task.task_id ?? (`t${task.id}`));
+        const stableTaskId = String(task.id);
         const workerActor = process.env.PHASE26_WORKER_ACTOR || process.env.WORKER_OWNER || "worker";
 
         if (!task) {
