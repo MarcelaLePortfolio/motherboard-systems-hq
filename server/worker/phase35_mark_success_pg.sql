@@ -11,4 +11,9 @@ WHERE id = $1::bigint
   AND status = 'running'
   AND claimed_by = $2
   AND lease_epoch = $3::bigint
-RETURNING id;
+RETURNING
+  id,
+  task_id,
+  run_id,
+  attempts,
+  max_attempts;
