@@ -204,7 +204,6 @@
           </div>
 
           <div style="display:flex; gap:0.5rem; margin-top:0.4rem; font-size:0.7rem;">
-            <span data-action="inspect" style="cursor:pointer; color:#93c5fd;">Inspect</span>
             <span data-action="copy" style="cursor:pointer; color:#86efac;">${copiedTaskId && copiedTaskId === selectedItem.taskId ? "Copied ✓" : "Copy ID"}</span>
             <span data-action="json" style="cursor:pointer; color:#c4b5fd;">${showJsonForEventId === selectedItem.id ? "Hide JSON" : "View JSON"}</span>
             <span style="opacity:0.4;">Retry</span>
@@ -267,10 +266,6 @@
         const action = el.getAttribute("data-action");
         const selected = items.find((i) => i.id === selectedEventId);
         if (!selected) return;
-
-        if (action === "inspect") {
-          console.log("Inspect task:", selected);
-        }
 
         if (action === "json") {
           showJsonForEventId = showJsonForEventId === selected.id ? "" : selected.id;
