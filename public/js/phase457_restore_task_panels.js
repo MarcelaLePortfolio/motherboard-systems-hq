@@ -478,3 +478,104 @@ if (!window.__retryDifferentBound) {
     }
   });
 }
+
+/* Phase 576 FIX — Retry Differently guaranteed click capture */
+(function () {
+  function attachRetryDifferentHandler() {
+    if (window.__retryDifferentBoundFixed) return;
+    window.__retryDifferentBoundFixed = true;
+
+    document.addEventListener("click", function (e) {
+      const el = e.target.closest('[data-action="retry-different"]');
+
+      if (!el) return;
+
+      console.log("[retry-different] click detected");
+
+      if (!window.selectedItem) {
+        console.warn("[retry-different] no selected item");
+        return;
+      }
+
+      const body = {
+        title: window.selectedItem.title || "Retry task",
+        source: "execution-inspector",
+        kind: "retry-strategy",
+        notes: "Retry with alternative approach",
+        meta: {
+          retry_mode: "strategy_shift",
+          strategy_applied: "prompt_augmentation",
+          retry_of_task_id: window.selectedItem.taskId,
+          retry_of_event_id: window.selectedItem.id,
+          retry_of_kind: window.selectedItem.kind,
+          instruction: "Use a different execution strategy than previous attempt"
+        }
+      };
+
+      fetch("/api/delegate-task", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body)
+      })
+        .then(r => r.json())
+        .then(data => console.log("[retry-different] queued:", data))
+        .catch(err => console.error("[retry-different] failed:", err));
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", attachRetryDifferentHandler);
+  } else {
+    attachRetryDifferentHandler();
+  }
+})();
+
+/* Phase 576 FIX — Retry Differently guaranteed click capture */
+(function () {
+  function attachRetryDifferentHandler() {
+    if (window.__retryDifferentBoundFixed) return;
+    window.__retryDifferentBoundFixed = true;
+
+    document.addEventListener("click", function (e) {
+      const el = e.target.closest('[data-action="retry-different"]');
+      if (!el) return;
+
+      console.log("[retry-different] click detected");
+
+      if (!window.selectedItem) {
+        console.warn("[retry-different] no selected item");
+        return;
+      }
+
+      const body = {
+        title: window.selectedItem.title || "Retry task",
+        source: "execution-inspector",
+        kind: "retry-strategy",
+        notes: "Retry with alternative approach",
+        meta: {
+          retry_mode: "strategy_shift",
+          strategy_applied: "prompt_augmentation",
+          retry_of_task_id: window.selectedItem.taskId,
+          retry_of_event_id: window.selectedItem.id,
+          retry_of_kind: window.selectedItem.kind,
+          instruction: "Use a different execution strategy than previous attempt"
+        }
+      };
+
+      fetch("/api/delegate-task", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body)
+      })
+        .then(r => r.json())
+        .then(data => console.log("[retry-different] queued:", data))
+        .catch(err => console.error("[retry-different] failed:", err));
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", attachRetryDifferentHandler);
+  } else {
+    attachRetryDifferentHandler();
+  }
+})();
