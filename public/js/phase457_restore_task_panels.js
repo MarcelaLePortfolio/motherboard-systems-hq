@@ -206,7 +206,7 @@
           <div style="display:flex; gap:0.5rem; margin-top:0.4rem; font-size:0.7rem;">
             <span data-action="copy" style="cursor:pointer; color:#86efac;">${copiedTaskId && copiedTaskId === selectedItem.taskId ? "Copied ✓" : "Copy ID"}</span>
             <span data-action="json" style="cursor:pointer; color:#c4b5fd;">${showJsonForEventId === selectedItem.id ? "Hide JSON" : "View JSON"}</span>
-            <span style="opacity:0.4;">Retry</span>
+            <span data-action="retry" style="cursor:pointer; color:#facc15;">Retry</span>
             <span style="opacity:0.4;">Cancel</span>
           </div>
 
@@ -266,6 +266,37 @@
         const action = el.getAttribute("data-action");
         const selected = items.find((i) => i.id === selectedEventId);
         if (!selected) return;
+
+        if (action === "retry") {
+          if (!selected) return;
+
+          const body = {
+            title: selected.title || "Retry task",
+            source: "execution-inspector",
+            kind: "retry",
+            notes: "Retry requested from Execution Inspector",
+            meta: {
+              retry_of_task_id: selected.taskId,
+              retry_of_event_id: selected.id,
+              retry_of_kind: selected.kind
+            }
+          };
+
+          fetch("/api/delegate-task", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(body)
+          })
+          .then(r => r.json())
+          .then(data => {
+            console.log("Retry queued:", data);
+          })
+          .catch(err => {
+            console.error("Retry failed:", err);
+          });
+        }
 
         if (action === "json") {
           showJsonForEventId = showJsonForEventId === selected.id ? "" : selected.id;
