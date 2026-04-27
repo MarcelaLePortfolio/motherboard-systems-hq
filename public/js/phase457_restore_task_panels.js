@@ -206,7 +206,7 @@
           <div style="display:flex; gap:0.5rem; margin-top:0.4rem; font-size:0.7rem;">
             <span data-action="copy" style="cursor:pointer; color:#86efac;">${copiedTaskId && copiedTaskId === selectedItem.taskId ? "Copied ✓" : "Copy ID"}</span>
             <span data-action="json" style="cursor:pointer; color:#c4b5fd;">${showJsonForEventId === selectedItem.id ? "Hide JSON" : "View JSON"}</span>
-            <span data-action="retry" style="cursor:pointer; color:#facc15;">Retry</span>
+            <span data-action="retry" style="cursor:pointer; color:#facc15;">Requeue</span>
             <span style="opacity:0.4;">Cancel</span>
           </div>
 
