@@ -6,6 +6,8 @@
   const COUNTS_ID = "mb-task-events-counts";
   const ANCHOR_ID = "mb-task-events-panel-anchor";
 
+  let lastRenderedTaskId = null;
+
   function mountRoot() {
     return document.getElementById(ANCHOR_ID) || document.body;
   }
@@ -101,12 +103,20 @@
 
     const row = document.createElement("div");
     row.style.padding = "6px 10px";
-    row.style.borderBottom = "1px solid rgba(255,255,255,0.05)";
     row.style.fontSize = "12px";
 
+    const currentId = ev.task_id || ev.taskId || null;
+
+    if (currentId && currentId === lastRenderedTaskId) {
+      row.style.borderBottom = "1px solid rgba(255,255,255,0.02)";
+      row.style.paddingLeft = "18px";
+    } else {
+      row.style.borderBottom = "1px solid rgba(255,255,255,0.08)";
+    }
+
     const time = new Date(ev.ts || Date.now()).toLocaleTimeString();
-    const title = ev.title || ev.task_title || ev.taskName || ev.task_id || ev.taskId || "Task";
-    const id = shortId(ev.task_id || ev.taskId);
+    const title = ev.title || ev.task_title || ev.taskName || currentId || "Task";
+    const id = shortId(currentId);
     const sym = symbol(kind);
 
     row.textContent = `${time} — [${id}] ${sym} ${label}: ${title}`;
@@ -116,6 +126,8 @@
     while (feed.children.length > 30) {
       feed.removeChild(feed.lastChild);
     }
+
+    lastRenderedTaskId = currentId;
   }
 
   function handleFrame(eventName, data) {
