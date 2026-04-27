@@ -83,6 +83,12 @@
     return null;
   }
 
+  function shouldRender(kind) {
+    if (!kind) return false;
+    if (kind === "task.event") return false;
+    return true;
+  }
+
   function renderEvent(ev, kind) {
     const label = humanize(kind);
     if (!label) return;
@@ -121,7 +127,7 @@
     }
 
     const kind = parsed.kind || eventName;
-    if (!kind) return;
+    if (!shouldRender(kind)) return;
 
     renderEvent(parsed, kind);
   }
