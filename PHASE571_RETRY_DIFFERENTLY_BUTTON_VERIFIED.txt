@@ -1,0 +1,40 @@
+PHASE 571 — RETRY DIFFERENTLY BUTTON VERIFIED
+
+RESULT:
+PASS
+
+VERIFIED:
+- "Retry Differently" button is now visible in Execution Inspector
+- Positioned alongside:
+  - Copy ID
+  - Requeue
+  - Cancel
+- Styled as inactive (opacity: 0.4)
+- No click handler attached (non-interactive as intended)
+- No regression to existing actions
+
+SYSTEM IMPACT:
+- No backend calls introduced
+- No mutation pathways added
+- No risk to task lifecycle or worker behavior
+
+PRODUCT IMPACT:
+- Operator now sees distinction between:
+  - Requeue (same attempt)
+  - Retry Differently (future smarter retry)
+
+SEMANTIC STATUS:
+- UI now correctly communicates:
+  “There are different kinds of retry — but only one is currently active.”
+
+DISCIPLINE MAINTAINED:
+- Additive only
+- Single-surface change
+- No speculative coupling
+
+NEXT STEP (WHEN READY):
+Design how worker interprets:
+meta.retry_mode = "strategy_shift"
+
+STATUS:
+STABLE — READY FOR FUTURE STRATEGY LAYER
