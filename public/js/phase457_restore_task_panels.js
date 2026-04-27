@@ -14,6 +14,7 @@
   let reconnectAttempt = 0;
   let selectedEventId = "";
   let copiedTaskId = "";
+  let showJsonForEventId = "";
   const maxItems = 120;
   const items = [];
 
@@ -205,9 +206,14 @@
           <div style="display:flex; gap:0.5rem; margin-top:0.4rem; font-size:0.7rem;">
             <span data-action="inspect" style="cursor:pointer; color:#93c5fd;">Inspect</span>
             <span data-action="copy" style="cursor:pointer; color:#86efac;">${copiedTaskId && copiedTaskId === selectedItem.taskId ? "Copied ✓" : "Copy ID"}</span>
+            <span data-action="json" style="cursor:pointer; color:#c4b5fd;">${showJsonForEventId === selectedItem.id ? "Hide JSON" : "View JSON"}</span>
             <span style="opacity:0.4;">Retry</span>
             <span style="opacity:0.4;">Cancel</span>
           </div>
+
+          ${showJsonForEventId === selectedItem.id ? `
+            <pre style="margin-top:0.45rem; max-height:9rem; overflow:auto; background:rgba(2,6,23,0.65); border:1px solid rgba(51,65,85,0.65); border-radius:0.6rem; padding:0.5rem; color:#cbd5e1; font-size:0.68rem; line-height:1.45;">${escapeHtml(JSON.stringify(selectedItem, null, 2))}</pre>
+          ` : ""}
         </div>
       `
       : `
@@ -264,6 +270,11 @@
 
         if (action === "inspect") {
           console.log("Inspect task:", selected);
+        }
+
+        if (action === "json") {
+          showJsonForEventId = showJsonForEventId === selected.id ? "" : selected.id;
+          render(state);
         }
 
         if (action === "copy" && selected.taskId) {
