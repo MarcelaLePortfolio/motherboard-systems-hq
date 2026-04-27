@@ -4,6 +4,7 @@
   const PANEL_ID = "mb-task-events-panel";
   const FEED_ID = "mb-task-events-feed";
   const COUNTS_ID = "mb-task-events-counts";
+  const SELECTED_ID = "mb-task-events-selected";
   const ANCHOR_ID = "mb-task-events-panel-anchor";
 
   let lastRenderedTaskId = null;
@@ -36,6 +37,13 @@
     counts.style.opacity = "0.7";
     counts.textContent = "queued:0 running:0 completed:0 failed:0";
 
+    const selected = document.createElement("div");
+    selected.id = SELECTED_ID;
+    selected.style.padding = "6px 12px";
+    selected.style.fontSize = "11px";
+    selected.style.opacity = "0.75";
+    selected.textContent = "selected: none";
+
     const feed = document.createElement("div");
     feed.id = FEED_ID;
     feed.style.overflow = "auto";
@@ -43,11 +51,12 @@
 
     panel.appendChild(header);
     panel.appendChild(counts);
+    panel.appendChild(selected);
     panel.appendChild(feed);
 
     root.appendChild(panel);
 
-    window.__MB_TASK_EVENTS_PANEL = { feed, counts };
+    window.__MB_TASK_EVENTS_PANEL = { feed, counts, selected };
   }
 
   const tally = { queued: 0, running: 0, completed: 0, failed: 0 };
@@ -130,6 +139,10 @@
     // Phase 538: interaction hook (safe)
     row.onclick = () => {
       console.log("Task selected:", currentId);
+      const selected = document.getElementById(SELECTED_ID);
+      if (selected) {
+        selected.textContent = `selected: [${id}] ${label} — ${title}`;
+      }
     };
 
     feed.prepend(row);
