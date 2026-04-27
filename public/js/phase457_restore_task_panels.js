@@ -46,6 +46,20 @@
     return "#cbd5e1";
   }
 
+  function lifecycleLabel(kind) {
+    const s = String(kind || "").toLowerCase();
+    if (/fail|error/.test(s)) return "✕ Failed";
+    if (/complete|success|done/.test(s)) return "✓ Completed";
+    if (/run|start|claim|active|progress/.test(s)) return "▶ Running";
+    if (/created|queue|pending|wait/.test(s)) return "● Queued";
+    return "";
+  }
+
+  function shortId(id) {
+    if (!id) return "—";
+    return String(id).slice(-6);
+  }
+
   function parseData(raw) {
     if (raw == null) return null;
     if (typeof raw === "object") return raw;
@@ -126,11 +140,14 @@
           if (item.actor) metaParts.push(`actor=${item.actor}`);
           if (item.source) metaParts.push(`source=${item.source}`);
 
+          const label = lifecycleLabel(item.kind) || item.kind;
+          const id = shortId(item.taskId);
+
           return `
             <div style="padding:0.42rem 0; border-bottom:1px solid rgba(51,65,85,0.5);">
               <div style="display:grid; grid-template-columns:auto auto 1fr; gap:0.65rem; align-items:start; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:0.76rem; line-height:1.45;">
                 <span style="color:#94a3b8; white-space:nowrap;">${escapeHtml(formatTime(item.ts))}</span>
-                <span style="color:${statusTone(item.kind)}; white-space:nowrap; text-transform:uppercase;">${escapeHtml(item.kind)}</span>
+                <span style="color:${statusTone(item.kind)}; white-space:nowrap;">[${escapeHtml(id)}] ${escapeHtml(label)}</span>
                 <div style="min-width:0;">
                   <div style="color:#e2e8f0;">${escapeHtml(item.title)}</div>
                   ${metaParts.length ? `<div style="margin-top:0.14rem; color:#94a3b8;">${escapeHtml(metaParts.join(" • "))}</div>` : ""}
