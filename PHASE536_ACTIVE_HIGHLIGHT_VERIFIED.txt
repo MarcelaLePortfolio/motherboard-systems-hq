@@ -1,0 +1,21 @@
+PHASE 536 — ACTIVE TASK HIGHLIGHT VERIFIED
+
+RESULT:
+PASS
+
+VERIFIED:
+- isActiveState() helper present in UI file
+- Active lifecycle states detected correctly:
+  - task.running
+  - task.started
+  - task.claimed
+- Background highlight applied only to active rows
+- No impact to completed/failed rendering
+- No regression in event flow or rendering order
+- Patch applied via exact-anchor surgical method
+
+STATUS:
+Active tasks now visually distinguishable in Execution Trail
+
+SYSTEM STATE:
+Operator can instantly identify in-progress work without scanning full lifecycle
