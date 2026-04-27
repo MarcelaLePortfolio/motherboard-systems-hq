@@ -194,6 +194,14 @@
             ${escapeHtml(formatTime(selectedItem.ts))}
           </div>
 
+          <div style="font-size:0.7rem; color:#64748b; margin-top:0.25rem; font-family:ui-monospace,SFMono-Regular,Menlo,monospace;">
+            ${selectedItem.taskId ? `<div>task_id: ${escapeHtml(selectedItem.taskId)}</div>` : ""}
+            ${selectedItem.runId ? `<div>run_id: ${escapeHtml(selectedItem.runId)}</div>` : ""}
+            ${selectedItem.actor ? `<div>actor: ${escapeHtml(selectedItem.actor)}</div>` : ""}
+            ${selectedItem.source ? `<div>source: ${escapeHtml(selectedItem.source)}</div>` : ""}
+            <div>kind: ${escapeHtml(selectedItem.kind)}</div>
+          </div>
+
           <div style="display:flex; gap:0.5rem; margin-top:0.4rem; font-size:0.7rem;">
             <span data-action="inspect" style="cursor:pointer; color:#93c5fd;">Inspect</span>
             <span data-action="copy" style="cursor:pointer; color:#86efac;">${copiedTaskId && copiedTaskId === selectedItem.taskId ? "Copied ✓" : "Copy ID"}</span>
