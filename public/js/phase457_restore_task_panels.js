@@ -235,6 +235,16 @@
         }
         render(state);
       });
+
+      row.addEventListener("mouseenter", () => {
+        if (row.getAttribute("data-task-event-id") === selectedEventId) return;
+        row.style.background = "rgba(255,255,255,0.03)";
+      });
+
+      row.addEventListener("mouseleave", () => {
+        if (row.getAttribute("data-task-event-id") === selectedEventId) return;
+        row.style.background = "";
+      });
     });
 
     root.querySelectorAll("[data-action]").forEach((el) => {
