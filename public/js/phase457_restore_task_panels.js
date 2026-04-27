@@ -352,6 +352,9 @@
   }
 
 
+  render("connecting");
+  connect();
+
   window.addEventListener("beforeunload", () => {
     clearReconnectTimer();
     if (es) {
