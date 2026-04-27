@@ -50,20 +50,11 @@
 
   const tally = { queued: 0, running: 0, completed: 0, failed: 0 };
 
-  function normalizeKind(kind) {
-    const value = String(kind || "").trim();
-    if (value === "task.created") return "task.created";
-    if (value === "task.running" || value === "task.started" || value === "task.claimed") return "task.running";
-    if (value === "task.completed" || value === "task.succeeded") return "task.completed";
-    if (value === "task.failed" || value === "task.error") return "task.failed";
-    return "";
-  }
-
   function updateCounts(kind) {
     if (kind === "task.created") tally.queued++;
-    if (kind === "task.running") tally.running++;
-    if (kind === "task.completed") tally.completed++;
-    if (kind === "task.failed") tally.failed++;
+    if (kind === "task.running" || kind === "task.started" || kind === "task.claimed") tally.running++;
+    if (kind === "task.completed" || kind === "task.succeeded") tally.completed++;
+    if (kind === "task.failed" || kind === "task.error") tally.failed++;
 
     const el = document.getElementById(COUNTS_ID);
     if (el) {
@@ -71,26 +62,33 @@
     }
   }
 
-  function humanize(kind) {
-    if (kind === "task.created") return "Queued";
-    if (kind === "task.running") return "Running";
-    if (kind === "task.completed") return "Completed";
-    if (kind === "task.failed") return "Failed";
-    return "";
-  }
-
   function shortId(id) {
-    if (!id) return "";
+    if (!id) return "----";
     return String(id).slice(0, 6);
   }
 
+  function symbol(kind) {
+    if (kind === "task.created") return "●";
+    if (kind === "task.running" || kind === "task.started" || kind === "task.claimed") return "▶";
+    if (kind === "task.completed" || kind === "task.succeeded") return "✓";
+    if (kind === "task.failed" || kind === "task.error") return "✕";
+    return "";
+  }
+
+  function humanize(kind) {
+    if (kind === "task.created") return "Queued";
+    if (kind === "task.running" || kind === "task.started" || kind === "task.claimed") return "Running";
+    if (kind === "task.completed" || kind === "task.succeeded") return "Completed";
+    if (kind === "task.failed" || kind === "task.error") return "Failed";
+    return null;
+  }
+
   function renderEvent(ev, kind) {
-    const normalized = normalizeKind(kind);
-    const label = humanize(normalized);
+    const label = humanize(kind);
     if (!label) return;
 
     ensurePanel();
-    updateCounts(normalized);
+    updateCounts(kind);
 
     const feed = document.getElementById(FEED_ID);
     if (!feed) return;
@@ -103,8 +101,9 @@
     const time = new Date(ev.ts || Date.now()).toLocaleTimeString();
     const title = ev.title || ev.task_title || ev.taskName || ev.task_id || ev.taskId || "Task";
     const id = shortId(ev.task_id || ev.taskId);
+    const sym = symbol(kind);
 
-    row.textContent = `${time} — [${id}] ${label}: ${title}`;
+    row.textContent = `${time} — [${id}] ${sym} ${label}: ${title}`;
 
     feed.prepend(row);
 
@@ -121,7 +120,7 @@
       return;
     }
 
-    const kind = normalizeKind(parsed.kind || eventName);
+    const kind = parsed.kind || eventName;
     if (!kind) return;
 
     renderEvent(parsed, kind);
