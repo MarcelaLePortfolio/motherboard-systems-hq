@@ -158,7 +158,8 @@
             `border-bottom:1px solid ${sameTask ? "rgba(51,65,85,0.25)" : "rgba(51,65,85,0.5)"}`,
             sameTask ? "padding-left:0.65rem" : "",
             isActiveKind(item.kind) ? "background:rgba(255,255,255,0.04)" : "",
-            isSelected ? "outline:1px solid rgba(148,163,184,0.7)" : ""
+            isSelected ? "background:rgba(59,130,246,0.12)" : "",
+            isSelected ? "outline:1px solid rgba(147,197,253,0.6)" : ""
           ].filter(Boolean).join("; ");
           lastTaskId = item.taskId;
 
