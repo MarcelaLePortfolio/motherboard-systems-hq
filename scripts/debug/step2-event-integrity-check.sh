@@ -1,41 +1,34 @@
 #!/bin/bash
 
-echo "STEP 2 — EVENT STREAM INTEGRITY CHECK"
-echo "===================================="
+echo "STEP 2 — EVENT STREAM INTEGRITY CHECK (SCHEMA-FIRST)"
+echo "===================================================="
+
+POSTGRES_CONTAINER=$(docker ps --format '{{.Names}}' | grep -i postgres | head -n 1)
+
+if [ -z "$POSTGRES_CONTAINER" ]; then
+  echo "❌ No Postgres container found. Aborting."
+  exit 1
+fi
 
 echo ""
-echo "1. Trigger a fresh task from UI now."
-echo "   (Create any simple task — we are observing lifecycle)"
+echo "Inspecting task_events schema..."
+
+docker exec -i "$POSTGRES_CONTAINER" psql -U postgres -d postgres -c "
+SELECT column_name, data_type
+FROM information_schema.columns
+WHERE table_name = 'task_events'
+ORDER BY ordinal_position;
+"
 
 echo ""
-read -p "Press ENTER after task has completed..."
+echo "Inspecting recent task_events rows..."
 
-echo ""
-echo "2. Checking recent task_events from database..."
-
-docker exec -it $(docker ps --format '{{.Names}}' | grep -i postgres | head -n 1) psql -U postgres -d postgres -c "
-SELECT 
-  event_type,
-  task_id,
-  run_id,
-  attempts,
-  created_at
+docker exec -i "$POSTGRES_CONTAINER" psql -U postgres -d postgres -c "
+SELECT *
 FROM task_events
 ORDER BY created_at DESC
 LIMIT 20;
 "
 
 echo ""
-echo "3. Manual verification required:"
-echo "- Ensure SAME task_id appears across:"
-echo "  • task.created"
-echo "  • task.running"
-echo "  • task.completed"
-echo ""
-echo "- Ensure run_id is consistent"
-echo "- Ensure attempts field is consistent"
-
-echo ""
-echo "RESULT:"
-echo "If all match → STEP 2 PASSED"
-echo "If mismatch → STOP and report immediately"
+echo "Paste output back into ChatGPT."
