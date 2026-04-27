@@ -79,6 +79,11 @@
     return "";
   }
 
+  function shortId(id) {
+    if (!id) return "";
+    return String(id).slice(0, 6);
+  }
+
   function renderEvent(ev, kind) {
     const normalized = normalizeKind(kind);
     const label = humanize(normalized);
@@ -97,8 +102,9 @@
 
     const time = new Date(ev.ts || Date.now()).toLocaleTimeString();
     const title = ev.title || ev.task_title || ev.taskName || ev.task_id || ev.taskId || "Task";
+    const id = shortId(ev.task_id || ev.taskId);
 
-    row.textContent = `${time} — ${label}: ${title}`;
+    row.textContent = `${time} — [${id}] ${label}: ${title}`;
 
     feed.prepend(row);
 
