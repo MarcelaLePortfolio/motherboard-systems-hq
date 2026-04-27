@@ -1,0 +1,25 @@
+PHASE 566 — PAUSE FOR RETRY CONTRACT
+
+RESULT:
+STOP / CLARIFY BEFORE PATCH
+
+WHY:
+Retry is the first real operator mutation.
+Do not wire it until the backend contract is verified.
+
+CURRENT FACTS:
+- Retry is currently inert placeholder
+- /api/delegate-task exists, but its expected payload contract must be confirmed
+- selectedItem currently contains event metadata, not necessarily the original task payload
+
+RISK:
+Posting selectedItem directly may create malformed or duplicate tasks.
+
+NEXT SAFE STEP:
+Audit /api/delegate-task contract before activating Retry.
+
+RUN:
+grep -RIn "app.post.*delegate-task\\|/api/delegate-task\\|delegate-task" server.mjs server public/js | head -n 80
+
+STATUS:
+WAITING ON CONTRACT AUDIT
