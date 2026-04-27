@@ -1,0 +1,35 @@
+PHASE 540 — ACTIVE RENDERER PARITY VERIFIED
+
+RESULT:
+PASS
+
+VERIFIED:
+- isActiveKind() present in active renderer
+- Active state highlight applied via background tint
+- Per-task continuity applied:
+  - padding-left for consecutive same task_id
+  - softened divider for grouped rows
+- rowStyle correctly constructed and injected
+- Rendering remains stable and chronological
+- No regression in SSE handling or event flow
+- Docker rebuild successful and serving updated JS
+
+STATUS:
+Active renderer now matches prior UX improvements:
+- lifecycle symbols + labels
+- task_id grouping
+- noise filtering (in upstream flow)
+- active task highlighting
+- per-task visual continuity
+
+SYSTEM STATE:
+Execution surface is now:
+- high-signal
+- visually grouped
+- lifecycle-aware
+- operator-readable at a glance
+
+NEXT:
+Ready for:
+- interaction layer on active renderer (click → inspect)
+- selected task panel integration (parity with Phase 539 intent)
