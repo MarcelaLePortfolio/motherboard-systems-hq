@@ -54,9 +54,9 @@
 
   function updateCounts(kind) {
     if (kind === "task.created") tally.queued++;
-    if (kind === "task.running" || kind === "task.started" || kind === "task.claimed") tally.running++;
-    if (kind === "task.completed" || kind === "task.succeeded") tally.completed++;
-    if (kind === "task.failed" || kind === "task.error") tally.failed++;
+    if (["task.running","task.started","task.claimed"].includes(kind)) tally.running++;
+    if (["task.completed","task.succeeded"].includes(kind)) tally.completed++;
+    if (["task.failed","task.error"].includes(kind)) tally.failed++;
 
     const el = document.getElementById(COUNTS_ID);
     if (el) {
@@ -64,25 +64,20 @@
     }
   }
 
-  function shortId(id) {
-    if (!id) return "----";
-    return String(id).slice(0, 6);
+  function humanize(kind) {
+    if (kind === "task.created") return "Queued";
+    if (["task.running","task.started","task.claimed"].includes(kind)) return "Running";
+    if (["task.completed","task.succeeded"].includes(kind)) return "Completed";
+    if (["task.failed","task.error"].includes(kind)) return "Failed";
+    return null;
   }
 
   function symbol(kind) {
     if (kind === "task.created") return "●";
-    if (kind === "task.running" || kind === "task.started" || kind === "task.claimed") return "▶";
-    if (kind === "task.completed" || kind === "task.succeeded") return "✓";
-    if (kind === "task.failed" || kind === "task.error") return "✕";
+    if (["task.running","task.started","task.claimed"].includes(kind)) return "▶";
+    if (["task.completed","task.succeeded"].includes(kind)) return "✓";
+    if (["task.failed","task.error"].includes(kind)) return "✕";
     return "";
-  }
-
-  function humanize(kind) {
-    if (kind === "task.created") return "Queued";
-    if (kind === "task.running" || kind === "task.started" || kind === "task.claimed") return "Running";
-    if (kind === "task.completed" || kind === "task.succeeded") return "Completed";
-    if (kind === "task.failed" || kind === "task.error") return "Failed";
-    return null;
   }
 
   function shouldRender(kind) {
@@ -92,7 +87,12 @@
   }
 
   function isActiveState(kind) {
-    return ["task.running", "task.started", "task.claimed"].includes(kind);
+    return ["task.running","task.started","task.claimed"].includes(kind);
+  }
+
+  function shortId(id) {
+    if (!id) return "—";
+    return String(id).slice(-6);
   }
 
   function renderEvent(ev, kind) {
@@ -107,27 +107,30 @@
 
     const row = document.createElement("div");
     row.style.padding = "6px 10px";
+    row.style.borderBottom = "1px solid rgba(255,255,255,0.05)";
     row.style.fontSize = "12px";
-
-    const currentId = ev.task_id || ev.taskId || null;
-
-    if (currentId && currentId === lastRenderedTaskId) {
-      row.style.borderBottom = "1px solid rgba(255,255,255,0.02)";
-      row.style.paddingLeft = "18px";
-    } else {
-      row.style.borderBottom = "1px solid rgba(255,255,255,0.08)";
-    }
+    row.style.cursor = "pointer";
 
     const time = new Date(ev.ts || Date.now()).toLocaleTimeString();
+    const currentId = ev.task_id || ev.taskId;
     const title = ev.title || ev.task_title || ev.taskName || currentId || "Task";
     const id = shortId(currentId);
     const sym = symbol(kind);
+
+    if (currentId && currentId === lastRenderedTaskId) {
+      row.style.paddingLeft = "18px";
+    }
 
     if (isActiveState(kind)) {
       row.style.background = "rgba(255,255,255,0.04)";
     }
 
     row.textContent = `${time} — [${id}] ${sym} ${label}: ${title}`;
+
+    // Phase 538: interaction hook (safe)
+    row.onclick = () => {
+      console.log("Task selected:", currentId);
+    };
 
     feed.prepend(row);
 
@@ -159,12 +162,12 @@
 
     es.onmessage = (msg) => handleFrame("message", msg.data);
 
-    ["task.created", "task.running", "task.started", "task.claimed", "task.completed", "task.succeeded", "task.failed", "task.error", "task.event"].forEach((name) => {
+    ["task.created","task.running","task.started","task.claimed","task.completed","task.succeeded","task.failed","task.error","task.event"].forEach((name) => {
       es.addEventListener(name, (e) => handleFrame(name, e.data));
     });
 
     es.onerror = () => {
-      // silent reconnect — no UI spam
+      // silent reconnect
     };
   }
 
