@@ -1,0 +1,36 @@
+PHASE 572 — WORKER STRATEGY SHIFT AUDIT RESULT
+
+RESULT:
+DO NOT IMPLEMENT WORKER STRATEGY_SHIFT YET
+
+WHY:
+The current worker does not actually execute task intent.
+It currently:
+- claims queued work
+- emits task.running
+- optionally fails via deterministic meta hooks
+- marks success
+- emits task.completed
+
+IMPORTANT:
+Because the worker is not yet performing intent execution, adding prompt augmentation here would not change outcomes.
+
+CONCLUSION:
+Retry Differently should remain a placeholder until there is a real execution layer that consumes:
+- task title
+- payload
+- meta.instruction
+- strategy hints
+
+CURRENT TRUE SEMANTICS:
+- Requeue is meaningful now because it creates a new queued task
+- Retry Differently cannot be meaningful yet because no strategy-consuming executor exists in this worker
+
+NEXT CORRECT TARGET:
+Before enabling Retry Differently, define or locate the actual execution layer where task intent is interpreted.
+
+DO NOT PATCH:
+server/worker/phase26_task_worker.mjs for strategy_shift yet.
+
+STATUS:
+STRATEGY LAYER BLOCKED BY EXECUTION-INTERPRETER GAP
