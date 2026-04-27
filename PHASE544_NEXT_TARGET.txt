@@ -1,0 +1,55 @@
+PHASE 544 — NEXT TARGET
+
+CORRIDOR:
+OPERATOR EXPERIENCE + CONTROL SURFACE
+
+PRIORITY:
+Copy feedback (micro UX reinforcement)
+
+CONTEXT:
+- Copy action works (clipboard write + console log)
+- No visible confirmation to operator
+- UX gap: action feels silent
+
+OBJECTIVE:
+Provide immediate visual feedback after copy action
+
+INITIAL SCOPE (SAFE, UI-ONLY):
+- Temporary inline feedback (e.g., "Copied ✓")
+- Auto-reset after short delay (1–2s)
+
+IMPLEMENTATION PLAN:
+
+1. LOCAL FEEDBACK STATE
+- Introduce transient variable:
+  let copiedTaskId = "";
+
+2. ACTION UPDATE
+- On copy:
+  copiedTaskId = selected.taskId
+  trigger re-render
+
+3. UI DISPLAY
+- Modify "Copy ID" label:
+  If copiedTaskId === selected.taskId:
+    show "Copied ✓"
+  else:
+    show "Copy ID"
+
+4. AUTO RESET
+- setTimeout(() => {
+    copiedTaskId = "";
+    render(state);
+  }, 1500)
+
+CONSTRAINTS:
+- Single file only: public/js/phase457_restore_task_panels.js
+- No backend/SSE changes
+- Additive only
+- No mutation logic
+
+GOAL:
+Make operator actions feel responsive and confirmed
+
+STATUS:
+READY FOR SURGICAL PATCH
