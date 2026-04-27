@@ -1,0 +1,70 @@
+PHASE 574 — INTERPRETER INTEGRATION PLAN (SAFE)
+
+OBJECTIVE:
+Wire execution interpreter into worker WITHOUT breaking lifecycle guarantees
+
+RULES (CRITICAL):
+- Modify ONE file only:
+  server/worker/phase26_task_worker.mjs
+- Do NOT alter:
+  - claim logic
+  - failure logic
+  - success marking
+- Add ONLY between:
+  task.running → markSuccess
+
+INSERTION POINT:
+Right AFTER:
+emitTaskEvent(kind: "task.running")
+
+BEFORE:
+markSuccess(...)
+
+BEHAVIOR:
+
+1. Import interpreter:
+import { interpretTaskExecution } from "./task_execution_interpreter.mjs";
+
+2. Execute interpreter:
+const executionResult = interpretTaskExecution(task);
+
+3. Log result (for now ONLY):
+console.log("[phase574][execution]", executionResult);
+
+4. Attach to completion payload:
+
+MODIFY ONLY THIS BLOCK:
+emitTaskEvent({
+  kind: "task.completed",
+  payload: {
+    ...
+    execution: executionResult   <-- ADD THIS FIELD
+  }
+})
+
+IMPORTANT:
+- Do NOT change existing payload fields
+- Only append `execution`
+
+EXPECTED OUTCOME:
+
+✔ No change to task lifecycle
+✔ Worker still marks success normally
+✔ Execution Inspector now shows:
+   execution.strategy_applied
+   execution.notes
+   execution.output
+
+✔ Strategy shift becomes OBSERVABLE
+✔ Still ZERO behavioral risk
+
+FAILURE CONDITION:
+If ANY of these break:
+- worker loop stability
+- task completion
+- SSE stream
+
+→ REVERT immediately (per build protocol)
+
+STATUS:
+READY FOR SINGLE-FILE SURGICAL PATCH
