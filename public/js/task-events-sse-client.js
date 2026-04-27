@@ -91,6 +91,10 @@
     return true;
   }
 
+  function isActiveState(kind) {
+    return ["task.running", "task.started", "task.claimed"].includes(kind);
+  }
+
   function renderEvent(ev, kind) {
     const label = humanize(kind);
     if (!label) return;
@@ -118,6 +122,10 @@
     const title = ev.title || ev.task_title || ev.taskName || currentId || "Task";
     const id = shortId(currentId);
     const sym = symbol(kind);
+
+    if (isActiveState(kind)) {
+      row.style.background = "rgba(255,255,255,0.04)";
+    }
 
     row.textContent = `${time} — [${id}] ${sym} ${label}: ${title}`;
 
