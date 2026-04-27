@@ -1,0 +1,32 @@
+PHASE 572 — TRUE NEXT TARGET
+
+OBJECTIVE:
+Find or create the execution interpreter layer before enabling Retry Differently.
+
+CURRENT BLOCKER:
+phase26_task_worker.mjs is a lifecycle worker, not an intent executor.
+
+IT DOES:
+- claim task
+- emit running
+- deterministic fail hook
+- mark success
+- emit completed
+
+IT DOES NOT:
+- interpret task title
+- execute task intent
+- consume strategy instructions
+- alter behavior based on retry_mode
+
+THEREFORE:
+Retry Differently cannot be made meaningful inside this worker yet.
+
+NEXT SAFE STEP:
+Audit for an existing execution interpreter / agent execution layer.
+
+RUN:
+grep -RIn "executeTask\\|runTask\\|task intent\\|payload.meta\\|retry_mode\\|strategy_shift\\|agent.*execute\\|markSuccess" server scripts public/js | head -n 120
+
+STATUS:
+READY FOR EXECUTION LAYER DISCOVERY
