@@ -1,0 +1,25 @@
+PHASE 537 — NEXT TARGET
+
+CORRIDOR:
+UX + OBSERVABILITY POLISH
+
+PRIORITY:
+Browser-level verification of Execution Trail behavior
+
+OBJECTIVE:
+Confirm the operator surface visually reflects the completed UI improvements.
+
+VERIFY IN BROWSER:
+- Execution Trail appears on root dashboard
+- New task events render without duplicate task.event noise
+- Rows include:
+  - short task_id prefix
+  - lifecycle symbol
+  - human-readable label
+  - task title/id
+- Running tasks are subtly highlighted
+- Same-task consecutive events visually group with indentation
+- SSE stream remains stable
+
+STATUS:
+READY FOR MANUAL UI CHECK
