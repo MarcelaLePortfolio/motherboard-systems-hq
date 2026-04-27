@@ -1,0 +1,43 @@
+PHASE 547 — NEXT TARGET
+
+CORRIDOR:
+UX POLISH + OPERATOR CLARITY
+
+PRIORITY:
+Cursor affordance for clickability
+
+PROBLEM:
+- Rows are interactive but cursor does not indicate clickability
+- Hover helps, but affordance is still subtle
+
+OBJECTIVE:
+Add cursor:pointer to execution rows
+
+INITIAL SCOPE (SAFE, UI-ONLY):
+- Apply cursor:pointer to all rows
+- Must NOT interfere with:
+  - selection logic
+  - hover logic
+  - active highlighting
+
+IMPLEMENTATION PLAN:
+
+1. ROW STYLE UPDATE
+- In rowStyle array:
+  add:
+    "cursor:pointer"
+
+2. NON-DESTRUCTIVE
+- No conditional logic required
+- Applies uniformly to all rows
+
+CONSTRAINTS:
+- Single file: public/js/phase457_restore_task_panels.js
+- Additive only
+- No backend/API/SSE changes
+
+GOAL:
+Make clickability immediately obvious to operator
+
+STATUS:
+READY FOR SURGICAL PATCH
