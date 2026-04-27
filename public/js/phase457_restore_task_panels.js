@@ -60,6 +60,10 @@
     return String(id).slice(-6);
   }
 
+  function isActiveKind(kind) {
+    return /run|start|claim|active|progress/.test(String(kind || "").toLowerCase());
+  }
+
   function parseData(raw) {
     if (raw == null) return null;
     if (typeof raw === "object") return raw;
@@ -132,6 +136,8 @@
   function render(state) {
     const statusLabel = state === "live" ? "Connected" : "Reconnecting…";
 
+    let lastTaskId = "";
+
     const rows = items.length
       ? items.map((item) => {
           const metaParts = [];
@@ -142,9 +148,17 @@
 
           const label = lifecycleLabel(item.kind) || item.kind;
           const id = shortId(item.taskId);
+          const sameTask = item.taskId && item.taskId === lastTaskId;
+          const rowStyle = [
+            "padding:0.42rem 0",
+            `border-bottom:1px solid ${sameTask ? "rgba(51,65,85,0.25)" : "rgba(51,65,85,0.5)"}`,
+            sameTask ? "padding-left:0.65rem" : "",
+            isActiveKind(item.kind) ? "background:rgba(255,255,255,0.04)" : ""
+          ].filter(Boolean).join("; ");
+          lastTaskId = item.taskId;
 
           return `
-            <div style="padding:0.42rem 0; border-bottom:1px solid rgba(51,65,85,0.5);">
+            <div style="${rowStyle}">
               <div style="display:grid; grid-template-columns:auto auto 1fr; gap:0.65rem; align-items:start; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:0.76rem; line-height:1.45;">
                 <span style="color:#94a3b8; white-space:nowrap;">${escapeHtml(formatTime(item.ts))}</span>
                 <span style="color:${statusTone(item.kind)}; white-space:nowrap;">[${escapeHtml(id)}] ${escapeHtml(label)}</span>
