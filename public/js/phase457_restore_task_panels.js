@@ -176,7 +176,7 @@
             </div>
           `;
         }).join("")
-      : `<div style="color:#94a3b8; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:0.78rem;">No task events in stream yet.</div>`;
+      : `<div style="color:#94a3b8; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:0.78rem;">No task events yet — waiting for activity…<br/><span style="opacity:0.7;">Tasks will appear here as they are created and executed.</span></div>`;
 
     const selectedItem = items.find((i) => i.id === selectedEventId);
 
