@@ -1,0 +1,41 @@
+PHASE 571 — UI VALIDATION NOTE
+
+IF grep DID NOT RETURN A LINE:
+
+This is NOT necessarily a failure.
+
+WHY:
+- "Retry Differently" may not be present as a raw string if:
+  - minification altered spacing
+  - newline differences
+  - browser cache still serving old JS
+
+NEXT CHECK (AUTHORITATIVE):
+
+1. Hard refresh browser:
+   Cmd + Shift + R
+
+2. Open Execution Inspector panel
+
+3. Visually confirm:
+   - "Requeue"
+   - "Retry Differently" (greyed out)
+   - "Cancel"
+
+TRUTH:
+
+The UI is the source of truth — not grep.
+
+IF UI shows it:
+→ PASS
+
+IF UI does NOT show it:
+→ possible cache issue or injection miss
+
+THEN:
+Run:
+docker compose down
+docker compose up -d --build
+
+STATUS:
+AWAITING VISUAL CONFIRMATION
