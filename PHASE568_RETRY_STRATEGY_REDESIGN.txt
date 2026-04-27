@@ -1,0 +1,133 @@
+PHASE 568 — RETRY STRATEGY REDESIGN
+
+QUESTION:
+Should Retry simply run the same task again?
+
+ANSWER:
+No.
+
+A naive retry that repeats the same execution path is only useful for transient failures:
+- temporary worker failure
+- network hiccup
+- timeout
+- race condition
+- unavailable dependency
+
+But if the task failed because the strategy was wrong, repeating the same action is low value.
+
+────────────────────────────────
+
+PRODUCT DECISION:
+
+Retry should become:
+
+"Retry with strategy adjustment"
+
+NOT:
+
+"Run the exact same thing again"
+
+────────────────────────────────
+
+CORRECT RETRY MODEL:
+
+1. BASIC RETRY
+Use when:
+- failure appears transient
+- no evidence of bad plan
+
+Behavior:
+- recreate task
+- preserve lineage
+- same title / intent
+- retry_attempt incremented
+
+2. STRATEGIC RETRY
+Use when:
+- previous execution failed logically
+- task stalled
+- result was unsatisfactory
+- operator wants another approach
+
+Behavior:
+- recreate task with retry metadata
+- include previous failure context
+- instruct executor to alter approach
+
+3. ESCALATED RETRY
+Use when:
+- repeated retries fail
+- task requires stronger agent / different path
+
+Behavior:
+- assign different agent
+- increase action_tier
+- attach prior attempt summary
+- require operator approval if risk increases
+
+────────────────────────────────
+
+MINIMUM SAFE NEXT CHANGE:
+
+Do NOT make Retry more powerful yet.
+
+First, rename current Retry behavior to:
+
+"Retry Copy"
+
+or
+
+"Requeue"
+
+Because current behavior creates a new queued copy, not a true adaptive retry.
+
+────────────────────────────────
+
+BETTER FUTURE UX:
+
+Buttons should eventually become:
+
+- Requeue
+  Same task copy, useful for transient failure
+
+- Retry Differently
+  New task with strategy_shift metadata
+
+- Escalate
+  Assign stronger/different execution path
+
+────────────────────────────────
+
+SAFE METADATA CONTRACT FOR FUTURE STRATEGIC RETRY:
+
+meta: {
+  retry_mode: "strategy_shift",
+  retry_of_task_id: selected.taskId,
+  retry_of_event_id: selected.id,
+  retry_of_kind: selected.kind,
+  instruction: "Retry using a different execution strategy. Avoid repeating the previous failure path.",
+  previous_attempt_summary: selected.title
+}
+
+────────────────────────────────
+
+IMMEDIATE RECOMMENDATION:
+
+Rename current button:
+
+Retry
+→
+Requeue
+
+This makes the UI honest.
+
+Then later add:
+
+Retry Differently
+
+as a separate, smarter action.
+
+────────────────────────────────
+
+STATUS:
+RETRY SEMANTICS NEED PRODUCT CORRECTION BEFORE FURTHER MUTATION WORK
