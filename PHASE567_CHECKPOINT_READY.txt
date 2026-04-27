@@ -1,0 +1,30 @@
+PHASE 567 — CHECKPOINT READY
+
+STATE:
+- Infrastructure: healthy
+- Worker: active + processing-capable
+- Dashboard: serving correct UI
+- Execution Inspector: live + interactive
+- Retry: ACTIVE (safe new-task-copy behavior)
+- JSON inspection: operational
+- Copy ID: operational
+
+OPERATOR CAPABILITY:
+You now have:
+- visibility (Execution Inspector)
+- introspection (JSON)
+- action (Retry)
+
+This marks the transition from:
+PASSIVE OBSERVATION → ACTIVE OPERATION
+
+CLASSIFICATION:
+ACTIONABLE OPERATOR SURFACE
+
+NEXT (WHEN READY):
+- Enable Cancel (state mutation)
+- Add visual confirmation for Retry (UI feedback)
+- Optional: inline task creation
+
+STATUS:
+READY FOR CHECKPOINT TAG
