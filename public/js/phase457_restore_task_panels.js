@@ -12,6 +12,7 @@
   let es = null;
   let reconnectTimer = null;
   let reconnectAttempt = 0;
+  let selectedEventId = "";
   const maxItems = 120;
   const items = [];
 
@@ -149,16 +150,19 @@
           const label = lifecycleLabel(item.kind) || item.kind;
           const id = shortId(item.taskId);
           const sameTask = item.taskId && item.taskId === lastTaskId;
+          const isSelected = item.id === selectedEventId;
           const rowStyle = [
             "padding:0.42rem 0",
+            "cursor:pointer",
             `border-bottom:1px solid ${sameTask ? "rgba(51,65,85,0.25)" : "rgba(51,65,85,0.5)"}`,
             sameTask ? "padding-left:0.65rem" : "",
-            isActiveKind(item.kind) ? "background:rgba(255,255,255,0.04)" : ""
+            isActiveKind(item.kind) ? "background:rgba(255,255,255,0.04)" : "",
+            isSelected ? "outline:1px solid rgba(148,163,184,0.7)" : ""
           ].filter(Boolean).join("; ");
           lastTaskId = item.taskId;
 
           return `
-            <div style="${rowStyle}">
+            <div data-task-event-id="${escapeHtml(item.id)}" style="${rowStyle}">
               <div style="display:grid; grid-template-columns:auto auto 1fr; gap:0.65rem; align-items:start; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:0.76rem; line-height:1.45;">
                 <span style="color:#94a3b8; white-space:nowrap;">${escapeHtml(formatTime(item.ts))}</span>
                 <span style="color:${statusTone(item.kind)}; white-space:nowrap;">[${escapeHtml(id)}] ${escapeHtml(label)}</span>
@@ -183,6 +187,22 @@
         </div>
       </div>
     `;
+
+    root.querySelectorAll("[data-task-event-id]").forEach((row) => {
+      row.addEventListener("click", () => {
+        selectedEventId = row.getAttribute("data-task-event-id") || "";
+        const selected = items.find((item) => item.id === selectedEventId);
+        if (selected) {
+          console.log("Selected task:", {
+            taskId: selected.taskId,
+            kind: selected.kind,
+            title: selected.title,
+            ts: selected.ts
+          });
+        }
+        render(state);
+      });
+    });
   }
 
   function clearReconnectTimer() {
