@@ -191,6 +191,13 @@
           <div style="font-size:0.7rem; color:#64748b; margin-top:0.2rem;">
             ${escapeHtml(formatTime(selectedItem.ts))}
           </div>
+
+          <div style="display:flex; gap:0.5rem; margin-top:0.4rem; font-size:0.7rem;">
+            <span data-action="inspect" style="cursor:pointer; color:#93c5fd;">Inspect</span>
+            <span data-action="copy" style="cursor:pointer; color:#86efac;">Copy ID</span>
+            <span style="opacity:0.4;">Retry</span>
+            <span style="opacity:0.4;">Cancel</span>
+          </div>
         </div>
       `
       : `
@@ -225,6 +232,24 @@
           });
         }
         render(state);
+      });
+    });
+
+    root.querySelectorAll("[data-action]").forEach((el) => {
+      el.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const action = el.getAttribute("data-action");
+        const selected = items.find((i) => i.id === selectedEventId);
+        if (!selected) return;
+
+        if (action === "inspect") {
+          console.log("Inspect task:", selected);
+        }
+
+        if (action === "copy" && selected.taskId) {
+          navigator.clipboard.writeText(selected.taskId);
+          console.log("Copied task ID:", selected.taskId);
+        }
       });
     });
   }
