@@ -176,12 +176,36 @@
         }).join("")
       : `<div style="color:#94a3b8; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:0.78rem;">No task events in stream yet.</div>`;
 
+    const selectedItem = items.find((i) => i.id === selectedEventId);
+
+    const selectedPanel = selectedItem
+      ? `
+        <div style="border:1px solid rgba(51,65,85,0.9); background:rgba(15,23,42,0.6); border-radius:0.75rem; padding:0.5rem 0.8rem;">
+          <div style="font-size:0.7rem; color:#94a3b8; margin-bottom:0.2rem;">Selected Task</div>
+          <div style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:0.78rem; color:#e2e8f0;">
+            [${escapeHtml(shortId(selectedItem.taskId))}] ${escapeHtml(lifecycleLabel(selectedItem.kind) || selectedItem.kind)}
+          </div>
+          <div style="font-size:0.8rem; color:#cbd5f5; margin-top:0.15rem;">
+            ${escapeHtml(selectedItem.title)}
+          </div>
+          <div style="font-size:0.7rem; color:#64748b; margin-top:0.2rem;">
+            ${escapeHtml(formatTime(selectedItem.ts))}
+          </div>
+        </div>
+      `
+      : `
+        <div style="font-size:0.72rem; color:#64748b;">No task selected</div>
+      `;
+
     root.innerHTML = `
       <div style="display:flex; flex-direction:column; gap:0.55rem; min-height:12rem;">
         <div style="display:flex; justify-content:space-between; gap:0.75rem; align-items:center;">
           <div style="font-size:0.75rem; color:#94a3b8;">${statusLabel}</div>
           <div style="font-size:0.72rem; color:#64748b;">Live log • replay from cursor=0 • ${items.length} event${items.length === 1 ? "" : "s"}</div>
         </div>
+
+        ${selectedPanel}
+
         <div style="border:1px solid rgba(51,65,85,0.9); background:rgba(2,6,23,0.42); border-radius:0.85rem; padding:0.35rem 0.8rem; overflow:auto; max-height:18rem;">
           ${rows}
         </div>
