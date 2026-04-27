@@ -207,7 +207,7 @@
             <span data-action="copy" style="cursor:pointer; color:#86efac;">${copiedTaskId && copiedTaskId === selectedItem.taskId ? "Copied ✓" : "Copy ID"}</span>
             <span data-action="json" style="cursor:pointer; color:#c4b5fd;">${showJsonForEventId === selectedItem.id ? "Hide JSON" : "View JSON"}</span>
             <span data-action="retry" style="cursor:pointer; color:#facc15;">Requeue</span>
-            <span data-action="retry-different" style="opacity:0.4;">Retry Differently</span>
+            <span data-action="retry-different" style="cursor:pointer; color:#facc15;">Retry Differently</span>
             <span style="opacity:0.4;">Cancel</span>
           </div>
 
@@ -435,3 +435,46 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 })();
+
+/* Phase 576 SAFE GUARD — Retry Differently handler (idempotent) */
+if (!window.__retryDifferentBound) {
+  window.__retryDifferentBound = true;
+
+  document.addEventListener("click", async (e) => {
+    const el = e.target.closest('[data-action="retry-different"]');
+    if (!el) return;
+
+    if (!window.selectedItem) {
+      console.warn("[retry-different] no selected item");
+      return;
+    }
+
+    const body = {
+      title: window.selectedItem.title || "Retry task",
+      source: "execution-inspector",
+      kind: "retry-strategy",
+      notes: "Retry with alternative approach",
+      meta: {
+        retry_mode: "strategy_shift",
+        strategy_applied: "prompt_augmentation",
+        retry_of_task_id: window.selectedItem.taskId,
+        retry_of_event_id: window.selectedItem.id,
+        retry_of_kind: window.selectedItem.kind,
+        instruction: "Use a different execution strategy than previous attempt"
+      }
+    };
+
+    try {
+      const res = await fetch("/api/delegate-task", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body)
+      });
+
+      const data = await res.json();
+      console.log("[retry-different] queued:", data);
+    } catch (err) {
+      console.error("[retry-different] failed:", err);
+    }
+  });
+}
