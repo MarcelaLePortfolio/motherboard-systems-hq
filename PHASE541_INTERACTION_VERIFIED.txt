@@ -1,0 +1,33 @@
+PHASE 541 — INTERACTION LAYER VERIFIED
+
+RESULT:
+PASS
+
+VERIFIED:
+- data-task-event-id attribute present on rendered rows
+- Click handler successfully bound post-render
+- selectedEventId state updates correctly
+- Selected row visually distinguished via outline
+- Active highlight + grouping preserved (no regression)
+- Console logs structured task selection payload:
+  - taskId
+  - kind
+  - title
+  - timestamp
+- Render loop remains stable after re-render on selection
+- No SSE disruption or duplicate event handling
+
+STATUS:
+Active execution renderer now supports operator interaction
+
+SYSTEM STATE:
+Execution surface capabilities:
+- High-signal lifecycle visibility
+- Per-task grouping
+- Active state highlighting
+- Click-to-select interaction
+- Deterministic UI behavior preserved
+
+NEXT:
+- Selected task context panel (visible UI surface)
+- Optional: inline action affordances (retry / inspect scaffold)
