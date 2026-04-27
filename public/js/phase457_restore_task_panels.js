@@ -13,6 +13,7 @@
   let reconnectTimer = null;
   let reconnectAttempt = 0;
   let selectedEventId = "";
+  let copiedTaskId = "";
   const maxItems = 120;
   const items = [];
 
@@ -194,7 +195,7 @@
 
           <div style="display:flex; gap:0.5rem; margin-top:0.4rem; font-size:0.7rem;">
             <span data-action="inspect" style="cursor:pointer; color:#93c5fd;">Inspect</span>
-            <span data-action="copy" style="cursor:pointer; color:#86efac;">Copy ID</span>
+            <span data-action="copy" style="cursor:pointer; color:#86efac;">${copiedTaskId && copiedTaskId === selectedItem.taskId ? "Copied ✓" : "Copy ID"}</span>
             <span style="opacity:0.4;">Retry</span>
             <span style="opacity:0.4;">Cancel</span>
           </div>
@@ -248,7 +249,15 @@
 
         if (action === "copy" && selected.taskId) {
           navigator.clipboard.writeText(selected.taskId);
+          copiedTaskId = selected.taskId;
           console.log("Copied task ID:", selected.taskId);
+          render(state);
+          setTimeout(() => {
+            if (copiedTaskId === selected.taskId) {
+              copiedTaskId = "";
+              render(state);
+            }
+          }, 1500);
         }
       });
     });
