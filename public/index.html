@@ -1341,6 +1341,22 @@ document.addEventListener("DOMContentLoaded", async function () {
   backdrop-filter: blur(6px);
 }
 
+
+/* Phase 553 — Execution Activity stronger override */
+section#task-events-card.obs-surface {
+  background: linear-gradient(180deg, rgba(2,6,23,0.95) 0%, rgba(2,6,23,0.75) 100%) !important;
+  border: 1px solid rgba(71,85,105,0.95) !important;
+  border-radius: 1rem !important;
+  box-shadow: 0 14px 40px rgba(2,6,23,0.6), inset 0 1px 0 rgba(255,255,255,0.04) !important;
+}
+
+section#task-events-card.obs-surface > #mb-task-events-panel-anchor {
+  background: rgba(2,6,23,0.7) !important;
+  border: 1px solid rgba(71,85,105,0.8) !important;
+  border-radius: 0.85rem !important;
+  backdrop-filter: blur(8px);
+}
+
 </style>
 
 
