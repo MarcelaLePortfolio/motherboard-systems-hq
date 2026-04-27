@@ -1,0 +1,28 @@
+PHASE 530 — READY FOR PATCH
+
+STATUS:
+- SSE handler identified
+- File isolated:
+  ./server/routes/task-events-sse.mjs
+
+NEXT ACTION:
+RUN:
+./phase530_view_target.sh
+
+THEN:
+
+1. Locate this block inside the file:
+   router.get("/events/task-events", async (req, res) => { ... })
+
+2. Copy ONLY that handler block
+   (from router.get(...) to its closing brace)
+
+3. Return it
+
+NO PATCH WILL BE MADE UNTIL:
+- Handler is reviewed
+- Diff is defined
+- Safety is confirmed
+
+YOU ARE NOW AT:
+SURGICAL PATCH STAGE
