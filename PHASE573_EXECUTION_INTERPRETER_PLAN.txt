@@ -1,0 +1,65 @@
+PHASE 573 — EXECUTION INTERPRETER PLAN
+
+OBJECTIVE:
+Introduce minimal execution interpreter layer (non-invasive, observable)
+
+SCOPE:
+- NEW FILE ONLY
+- Do NOT modify worker yet
+- Establish contract before integration
+
+FILE:
+server/worker/task_execution_interpreter.mjs
+
+PURPOSE:
+Bridge between:
+task (data) → execution behavior
+
+RESPONSIBILITIES:
+- Accept task object
+- Extract:
+  - title
+  - payload
+  - meta
+- Detect:
+  - retry_mode
+- Apply:
+  - instruction (if present)
+- Return:
+  {
+    ok: true,
+    strategy_applied: "...",
+    notes: "...",
+    output: "..."
+  }
+
+INITIAL IMPLEMENTATION (SAFE / NO SIDE EFFECTS):
+- No external calls
+- No agent routing
+- Pure transformation + logging
+
+BEHAVIOR v1:
+
+IF meta.retry_mode === "strategy_shift":
+  strategy_applied = "prompt_augmentation"
+  notes = meta.instruction || "strategy shift applied"
+
+ELSE:
+  strategy_applied = "default"
+  notes = "standard execution path"
+
+OUTPUT:
+- echo-style result (placeholder)
+- ensures visibility in logs
+
+IMPORTANT:
+This does NOT change system behavior yet.
+It prepares a clean insertion point.
+
+NEXT (AFTER CREATION):
+Phase 574:
+- call interpreter inside worker
+- inject result into completion payload
+
+STATUS:
+READY FOR SAFE FILE CREATION
