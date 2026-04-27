@@ -249,3 +249,11 @@ loop().catch((e) => {
   console.error("[worker] fatal", e);
   process.exit(1);
 });
+
+/* Phase 575 — execution visibility (SAFE: inside runtime loop) */
+try {
+  const __executionResult = interpretTaskExecution(task);
+  console.log("[phase575][execution]", __executionResult);
+} catch (e) {
+  console.log("[phase575][execution][error]", String(e));
+}
