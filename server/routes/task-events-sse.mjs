@@ -23,6 +23,9 @@ function intOrNull(value) {
 function sseWrite(res, { event, data }) {
   if (event) res.write(`event: ${event}\n`);
   res.write(`data: ${JSON.stringify(data)}\n\n`);
+  if (typeof res.flush === "function") {
+    res.flush();
+  }
 }
 
 function normalizeKind(kind) {
@@ -66,6 +69,12 @@ router.get("/events/task-events", async (req, res) => {
     res.flushHeaders();
   }
 
+  try {
+    req.socket.setTimeout(0);
+    res.socket.setTimeout(0);
+    res.socket.setKeepAlive(true);
+  } catch {}
+
   const db = getPool();
 
   if (!db) {
@@ -102,6 +111,8 @@ router.get("/events/task-events", async (req, res) => {
       cursor = intOrNull(seed.rows?.[0]?.cursor) ?? 0;
     }
 
+    res.write(`: connected ${new Date().toISOString()}\n\n`);
+
     sseWrite(res, {
       event: "hello",
       data: {
@@ -113,6 +124,7 @@ router.get("/events/task-events", async (req, res) => {
 
     const heartbeat = setInterval(() => {
       if (closed) return;
+      res.write(`: heartbeat ${new Date().toISOString()}\n\n`);
       sseWrite(res, {
         event: "heartbeat",
         data: {
@@ -120,7 +132,7 @@ router.get("/events/task-events", async (req, res) => {
           cursor
         }
       });
-    }, 1000);
+    }, 15000);
 
     const poll = async () => {
       if (closed || polling) return;
