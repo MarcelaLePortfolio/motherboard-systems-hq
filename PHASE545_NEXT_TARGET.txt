@@ -1,0 +1,56 @@
+PHASE 545 — NEXT TARGET
+
+CORRIDOR:
+OPERATOR EXPERIENCE + CONTROL SURFACE
+
+PRIORITY:
+Selection persistence + visual clarity
+
+PROBLEM:
+- Selected row highlight resets on re-render
+- Selection exists in state but is not strongly visible in feed
+- Operator may lose visual anchor when stream updates
+
+OBJECTIVE:
+Make selected row visually persistent and clearly distinct
+
+INITIAL SCOPE (SAFE, UI-ONLY):
+- Stronger visual style for selected row
+- Must override:
+  - active highlight
+  - grouping styles
+
+IMPLEMENTATION PLAN:
+
+1. ROW STATE
+- Already exists:
+  selectedEventId
+
+2. STYLE LAYERING
+- In rowStyle:
+  if (item.id === selectedEventId):
+    apply:
+      outline: 1px solid rgba(147,197,253,0.6)
+      background: rgba(59,130,246,0.12)
+
+3. PRIORITY
+- Selected style must override:
+  - active highlight
+  - grouping background
+
+4. NON-DESTRUCTIVE
+- No change to:
+  - SSE
+  - data flow
+  - selection logic
+
+CONSTRAINTS:
+- Single file: public/js/phase457_restore_task_panels.js
+- Additive only
+- No backend/API changes
+
+GOAL:
+Ensure operator always knows what is selected, even during live updates
+
+STATUS:
+READY FOR SURGICAL PATCH
