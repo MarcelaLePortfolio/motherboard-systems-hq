@@ -26,13 +26,13 @@
 
     const header = document.createElement("div");
     header.style.padding = "8px 12px";
-    header.textContent = "Task Activity";
+    header.textContent = "Execution Trail";
 
     const counts = document.createElement("div");
     counts.id = COUNTS_ID;
     counts.style.fontSize = "11px";
     counts.style.opacity = "0.7";
-    counts.textContent = "created:0 completed:0 failed:0";
+    counts.textContent = "queued:0 running:0 completed:0 failed:0";
 
     const feed = document.createElement("div");
     feed.id = FEED_ID;
@@ -48,36 +48,44 @@
     window.__MB_TASK_EVENTS_PANEL = { feed, counts };
   }
 
-  const tally = { created: 0, completed: 0, failed: 0 };
+  const tally = { queued: 0, running: 0, completed: 0, failed: 0 };
+
+  function normalizeKind(kind) {
+    const value = String(kind || "").trim();
+    if (value === "task.created") return "task.created";
+    if (value === "task.running" || value === "task.started" || value === "task.claimed") return "task.running";
+    if (value === "task.completed" || value === "task.succeeded") return "task.completed";
+    if (value === "task.failed" || value === "task.error") return "task.failed";
+    return "";
+  }
 
   function updateCounts(kind) {
-    if (kind === "task.created") tally.created++;
+    if (kind === "task.created") tally.queued++;
+    if (kind === "task.running") tally.running++;
     if (kind === "task.completed") tally.completed++;
     if (kind === "task.failed") tally.failed++;
 
     const el = document.getElementById(COUNTS_ID);
     if (el) {
-      el.textContent = `created:${tally.created} completed:${tally.completed} failed:${tally.failed}`;
+      el.textContent = `queued:${tally.queued} running:${tally.running} completed:${tally.completed} failed:${tally.failed}`;
     }
   }
 
   function humanize(kind) {
-    if (kind === "task.created") return "Task queued";
-    if (kind === "task.completed") return "Task completed";
-    if (kind === "task.failed") return "Task failed";
-    return null;
-  }
-
-  function shouldIgnore(kind) {
-    return ["hello", "heartbeat"].includes(kind);
+    if (kind === "task.created") return "Queued";
+    if (kind === "task.running") return "Running";
+    if (kind === "task.completed") return "Completed";
+    if (kind === "task.failed") return "Failed";
+    return "";
   }
 
   function renderEvent(ev, kind) {
-    const label = humanize(kind);
+    const normalized = normalizeKind(kind);
+    const label = humanize(normalized);
     if (!label) return;
 
     ensurePanel();
-    updateCounts(kind);
+    updateCounts(normalized);
 
     const feed = document.getElementById(FEED_ID);
     if (!feed) return;
@@ -88,12 +96,15 @@
     row.style.fontSize = "12px";
 
     const time = new Date(ev.ts || Date.now()).toLocaleTimeString();
-
-    const title = ev.title || ev.task_title || ev.taskName || ev.task_id || "Task";
+    const title = ev.title || ev.task_title || ev.taskName || ev.task_id || ev.taskId || "Task";
 
     row.textContent = `${time} — ${label}: ${title}`;
 
     feed.prepend(row);
+
+    while (feed.children.length > 30) {
+      feed.removeChild(feed.lastChild);
+    }
   }
 
   function handleFrame(eventName, data) {
@@ -104,19 +115,20 @@
       return;
     }
 
-    if (shouldIgnore(eventName)) return;
-
-    const kind = parsed.kind || eventName;
+    const kind = normalizeKind(parsed.kind || eventName);
+    if (!kind) return;
 
     renderEvent(parsed, kind);
   }
 
   function start() {
-    const es = // PHASE488_DISABLED new EventSource(SSE_URL);
+    ensurePanel();
+
+    const es = new EventSource(SSE_URL);
 
     es.onmessage = (msg) => handleFrame("message", msg.data);
 
-    ["task.created", "task.completed", "task.failed", "task.event"].forEach((name) => {
+    ["task.created", "task.running", "task.started", "task.claimed", "task.completed", "task.succeeded", "task.failed", "task.error", "task.event"].forEach((name) => {
       es.addEventListener(name, (e) => handleFrame(name, e.data));
     });
 
