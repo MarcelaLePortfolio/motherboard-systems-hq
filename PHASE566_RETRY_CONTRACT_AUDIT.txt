@@ -1,0 +1,46 @@
+PHASE 566 — RETRY CONTRACT AUDIT
+
+RESULT:
+RETRY IS POSSIBLE, BUT SHOULD BE IMPLEMENTED AS A NEW TASK COPY
+
+CONFIRMED CONTRACT:
+POST /api/delegate-task accepts a flexible body and creates a queued task.
+
+SUPPORTED INPUTS:
+- task_id / taskId (optional; otherwise generated)
+- title / prompt / message / text / task
+- notes
+- run_id / runId
+- action_tier / actionTier
+- kind
+- agent
+- source
+- trace_id / traceId
+- meta
+
+IMPORTANT:
+A retry should NOT reuse the same task_id.
+If task_id is omitted, dbDelegateTask creates a new task_id automatically.
+
+SAFE RETRY BODY:
+{
+  title: selected.title || "Retry task",
+  source: "execution-inspector",
+  kind: "retry",
+  notes: "Retry requested from Execution Inspector",
+  meta: {
+    retry_of_task_id: selected.taskId,
+    retry_of_event_id: selected.id,
+    retry_of_kind: selected.kind
+  }
+}
+
+RECOMMENDATION:
+Enable Retry as:
+- creates a NEW queued task
+- logs result to console
+- optionally displays "Retry queued ✓"
+- does not mutate the original selected task
+
+STATUS:
+SAFE TO IMPLEMENT WITH NEW TASK COPY SEMANTICS
