@@ -1,0 +1,104 @@
+PHASE 572 — STRATEGY SHIFT DESIGN START
+
+OBJECTIVE:
+Define how "Retry Differently" actually changes execution.
+
+THIS IS NOT A UI PROBLEM.
+THIS IS AN EXECUTION MODEL DECISION.
+
+────────────────────────────────
+
+CURRENT REALITY:
+
+Requeue:
+- Same input
+- Same system path
+- Same likely outcome
+
+Retry Differently (future):
+- Same goal
+- DIFFERENT execution path
+- Increased chance of success
+
+────────────────────────────────
+
+MINIMUM VIABLE STRATEGY SHIFT (RECOMMENDED):
+
+When:
+meta.retry_mode = "strategy_shift"
+
+Worker should:
+
+1. MODIFY EXECUTION CONTEXT
+
+Inject into task processing:
+
+{
+  strategy: "alternative",
+  instruction: "Avoid previous failure path"
+}
+
+2. ADJUST ONE DIMENSION ONLY (v1 constraint)
+
+Choose ONE:
+- agent change (e.g., cade → matilda)
+- reasoning mode (deterministic → ollama)
+- prompt augmentation (add instruction)
+- fallback bypass (force alternate path)
+
+DO NOT mix multiple changes yet.
+
+────────────────────────────────
+
+SAFE V1 IMPLEMENTATION:
+
+Strategy shift = prompt augmentation ONLY
+
+Add to task:
+
+meta:
+  strategy_applied: "prompt_augmentation"
+  instruction: "Use a different approach than previous attempt"
+
+Worker behavior:
+- prepend instruction to execution context
+- do NOT change routing or agent yet
+
+────────────────────────────────
+
+WHY THIS IS CORRECT FIRST STEP:
+
+- zero architectural risk
+- no routing changes
+- fully observable in inspector
+- reversible
+- aligns with current system
+
+────────────────────────────────
+
+DO NOT DO YET:
+
+- agent switching
+- multi-strategy layering
+- escalation tiers
+- hidden logic
+
+Those are Phase 573+.
+
+────────────────────────────────
+
+NEXT SAFE STEP:
+
+Implement worker awareness of:
+
+meta.retry_mode === "strategy_shift"
+
+→ apply prompt augmentation
+
+SINGLE FILE TARGET:
+server/worker/phase26_task_worker.mjs
+
+────────────────────────────────
+
+STATUS:
+READY FOR CONTROLLED EXECUTION LAYER CHANGE
