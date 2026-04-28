@@ -1,4 +1,4 @@
 import { createAgentRuntime } from "../../../mirror/agent";
-import { matilda } from "../../../agents/matilda";
+import { matilda } from "../../agents/matilda";
 
 createAgentRuntime(matilda);
