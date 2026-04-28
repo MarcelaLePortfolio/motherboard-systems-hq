@@ -1,32 +1,23 @@
-/* UNIFIED INSPECTOR ARCHITECTURE — SINGLE SOURCE OF TRUTH
-   Phase Fix: eliminate dual renderers + DOM races + bridge conflict */
-
+/* Execution Inspector Fix — unified renderer (Option 1 canonical DOM root) */
 (function () {
+
   const INSPECTOR_ENDPOINT = "/api/tasks?limit=12";
   const REFRESH_MS = 5000;
 
   function log() {
-    try {
-      console.log("[execution-inspector]", ...arguments);
-    } catch (_) {}
-  }
-
-  function findInspector() {
-    return document.querySelector('[data-phase61-panel="inspector"]') || document.getElementById("execution-inspector");
+    console.log("[execution-inspector]", ...arguments);
   }
 
   function normalizeRows(data) {
-    if (!data) return [];
-    if (Array.isArray(data.tasks)) return data.tasks;
-    if (Array.isArray(data.rows)) return data.rows;
-    if (Array.isArray(data.data)) return data.data;
-    if (Array.isArray(data)) return data;
-    return [];
+    return (data?.tasks || data?.rows || data?.data || []);
   }
 
   function render(rows) {
-    const el = findInspector();
-    if (!el) return;
+    const el = document.getElementById("execution-inspector");
+    if (!el) {
+      console.warn("[execution-inspector] mount not found");
+      return;
+    }
 
     if (!rows.length) {
       el.innerHTML = `
@@ -66,7 +57,7 @@
     }
   }
 
-  // SINGLE LOOP ONLY (no bridge, no fallback, no duplication)
   setInterval(tick, REFRESH_MS);
   tick();
+
 })();
