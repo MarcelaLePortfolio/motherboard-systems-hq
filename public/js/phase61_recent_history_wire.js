@@ -1,11 +1,33 @@
-/* Execution Inspector Fix — unified renderer (Option 1 canonical DOM root) */
+/* Execution Inspector — Isolation Layer (protect from dashboard DOM writers) */
 (function () {
 
+  const INSPECTOR_ID = "execution-inspector";
   const INSPECTOR_ENDPOINT = "/api/tasks?limit=12";
   const REFRESH_MS = 5000;
 
-  function log() {
-    console.log("[execution-inspector]", ...arguments);
+  function ensureInspector() {
+    let el = document.getElementById(INSPECTOR_ID);
+
+    // If missing OR moved under a dashboard-controlled container, reattach to body
+    if (!el || el.parentElement !== document.body) {
+      el = document.createElement("div");
+      el.id = INSPECTOR_ID;
+      el.setAttribute("data-inspector-isolated", "true");
+
+      el.style.position = "relative";
+      el.style.zIndex = "9999";
+      el.style.padding = "12px";
+      el.style.marginTop = "10px";
+      el.style.border = "1px solid rgba(255,255,255,0.08)";
+      el.style.borderRadius = "12px";
+      el.style.background = "rgba(0,0,0,0.35)";
+
+      document.body.appendChild(el);
+
+      console.log("[execution-inspector][isolation] mounted/re-attached to body");
+    }
+
+    return el;
   }
 
   function normalizeRows(data) {
@@ -13,15 +35,12 @@
   }
 
   function render(rows) {
-    const el = document.getElementById("execution-inspector");
-    if (!el) {
-      console.warn("[execution-inspector] mount not found");
-      return;
-    }
+    const el = ensureInspector();
+    if (!el) return;
 
     if (!rows.length) {
       el.innerHTML = `
-        <div style="padding:10px;opacity:.6;font-size:12px">
+        <div style="opacity:.6;font-size:12px;padding:10px;">
           No execution data available
         </div>`;
       return;
@@ -51,11 +70,21 @@
       const rows = normalizeRows(data);
       render(rows);
 
-      log("rendered rows:", rows.length);
+      console.log("[execution-inspector] rendered rows:", rows.length);
     } catch (e) {
       console.log("[execution-inspector] fetch error", e);
     }
   }
+
+  // HARD ISOLATION GUARD: continuously enforce ownership
+  const observer = new MutationObserver(() => {
+    ensureInspector();
+  });
+
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true
+  });
 
   setInterval(tick, REFRESH_MS);
   tick();
