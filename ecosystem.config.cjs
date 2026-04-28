@@ -1,14 +1,17 @@
 module.exports = {
   apps: [
     {
-      name: "reflection-sse-server",
-      script: "scripts/_local/route-loader/reflection-sse-server.ts",
-      interpreter: "tsx",
-      autorestart: true,
+      name: "matilda",
+      script: "dist/scripts/_local/agent-runtime/matilda_runtime.mjs",
+      interpreter: "node",
+      instances: 1,
+      exec_mode: "fork",
       watch: false,
+      autorestart: true,
+      max_restarts: 10,
       env: {
-        NODE_ENV: "development",
-        PORT: 3101
+        NODE_ENV: "production",
+        MATILDA_PORT: 3001
       }
     }
   ]
