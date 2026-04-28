@@ -1,3 +1,4 @@
+if (window.__RECENT_HISTORY_WIRE_BOUND) return; window.__RECENT_HISTORY_WIRE_BOUND = true;
 /* Execution Inspector — Deterministic Mount + Stable Render Contract */
 
 (function () {
