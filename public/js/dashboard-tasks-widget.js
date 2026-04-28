@@ -441,3 +441,15 @@
     scheduleFetchTasks(0);
   }, TASK_POLL_MS);
 })();
+
+/* HARD GUARD — protect Execution Inspector from DOM wipes */
+(function () {
+  const ORIGINAL = Element.prototype.setAttribute;
+
+  Element.prototype.setAttribute = function (name, value) {
+    try {
+      if (this && this.id === "execution-inspector") return;
+    } catch (_) {}
+    return ORIGINAL.call(this, name, value);
+  };
+})();

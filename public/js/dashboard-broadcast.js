@@ -67,3 +67,15 @@ run();
 if (typeof window !== "undefined") {
 window.initBroadcastVisualization = initBroadcastVisualization;
 }
+
+/* HARD GUARD — prevent broadcast layer from wiping inspector */
+(function () {
+  const ORIGINAL = Element.prototype.setAttribute;
+
+  Element.prototype.setAttribute = function (name, value) {
+    try {
+      if (this && this.id === "execution-inspector") return;
+    } catch (_) {}
+    return ORIGINAL.call(this, name, value);
+  };
+})();

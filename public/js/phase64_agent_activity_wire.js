@@ -355,3 +355,15 @@ NO layout restructuring outside the protected container.
     bootstrap();
   }
 })();
+
+/* HARD GUARD — isolate Execution Inspector from activity rehydration */
+(function () {
+  const ORIGINAL = Element.prototype.setAttribute;
+
+  Element.prototype.setAttribute = function (name, value) {
+    try {
+      if (this && this.id === "execution-inspector") return;
+    } catch (_) {}
+    return ORIGINAL.call(this, name, value);
+  };
+})();
