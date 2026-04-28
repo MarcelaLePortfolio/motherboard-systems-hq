@@ -1,7 +1,8 @@
-import path from "path";
-import { createAgentRuntime } from "../../../mirror/agent";
+import { stabilizeRuntime } from "../../../mirror/runtime/stabilization-layer";
 
-// absolute resolution (TSX-safe under PM2)
-import { matilda } from path.resolve(process.cwd(), "agents/matilda");
+stabilizeRuntime();
+
+const { createAgentRuntime } = await import("../../../mirror/agent");
+const { matilda } = await import("../../../agents/matilda");
 
 createAgentRuntime(matilda);
