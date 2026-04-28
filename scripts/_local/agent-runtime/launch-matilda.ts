@@ -1,8 +1,7 @@
 import path from "path";
 import { createAgentRuntime } from "../../../mirror/agent";
-import { matilda } from "../../../agents/matilda";
 
-// force stable resolution context for tsx + pm2
-process.chdir(path.resolve(__dirname, "../../.."));
+// absolute resolution (TSX-safe under PM2)
+import { matilda } from path.resolve(process.cwd(), "agents/matilda");
 
 createAgentRuntime(matilda);
