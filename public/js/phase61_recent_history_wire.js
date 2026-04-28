@@ -1,46 +1,48 @@
-/* Execution Inspector — Isolation Layer (protect from dashboard DOM writers) */
+/* Execution Inspector — Deterministic Mount + Stable Render Contract */
+
 (function () {
 
   const INSPECTOR_ID = "execution-inspector";
   const INSPECTOR_ENDPOINT = "/api/tasks?limit=12";
   const REFRESH_MS = 5000;
 
-  function ensureInspector() {
+  /* =========================
+     HARD BOOTSTRAP MOUNT
+     ========================= */
+  function mountInspector() {
     let el = document.getElementById(INSPECTOR_ID);
 
-    // If missing OR moved under a dashboard-controlled container, reattach to body
-    if (!el || el.parentElement !== document.body) {
+    if (!el) {
       el = document.createElement("div");
       el.id = INSPECTOR_ID;
-      el.setAttribute("data-inspector-isolated", "true");
+      el.setAttribute("data-inspector", "true");
 
-      el.style.position = "relative";
-      el.style.zIndex = "9999";
       el.style.padding = "12px";
       el.style.marginTop = "10px";
       el.style.border = "1px solid rgba(255,255,255,0.08)";
       el.style.borderRadius = "12px";
       el.style.background = "rgba(0,0,0,0.35)";
+      el.style.color = "#fff";
 
       document.body.appendChild(el);
 
-      console.log("[execution-inspector][isolation] mounted/re-attached to body");
+      console.log("[execution-inspector] deterministic mount created");
     }
 
     return el;
   }
 
-  function normalizeRows(data) {
-    return (data?.tasks || data?.rows || data?.data || []);
+  function normalize(data) {
+    return data?.tasks || data?.rows || data?.data || [];
   }
 
   function render(rows) {
-    const el = ensureInspector();
+    const el = mountInspector();
     if (!el) return;
 
-    if (!rows.length) {
+    if (!rows || !rows.length) {
       el.innerHTML = `
-        <div style="opacity:.6;font-size:12px;padding:10px;">
+        <div style="opacity:.6;font-size:12px">
           No execution data available
         </div>`;
       return;
@@ -53,7 +55,7 @@
 
       return `
         <div style="padding:8px;border-bottom:1px solid rgba(255,255,255,0.06)">
-          <div style="font-size:12px;color:#fff">${title}</div>
+          <div style="font-size:12px">${title}</div>
           <div style="font-size:11px;opacity:.6">
             status: ${status} | id: ${id}
           </div>
@@ -67,25 +69,20 @@
       const res = await fetch(INSPECTOR_ENDPOINT, { cache: "no-store" });
       const data = await res.json();
 
-      const rows = normalizeRows(data);
-      render(rows);
+      render(normalize(data));
 
-      console.log("[execution-inspector] rendered rows:", rows.length);
+      console.log("[execution-inspector] rendered rows:", normalize(data).length);
     } catch (e) {
       console.log("[execution-inspector] fetch error", e);
     }
   }
 
-  // HARD ISOLATION GUARD: continuously enforce ownership
-  const observer = new MutationObserver(() => {
-    ensureInspector();
-  });
-
-  observer.observe(document.body, {
+  new MutationObserver(() => mountInspector()).observe(document.body, {
     childList: true,
     subtree: true
   });
 
+  mountInspector();
   setInterval(tick, REFRESH_MS);
   tick();
 
