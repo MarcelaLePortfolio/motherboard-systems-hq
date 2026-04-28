@@ -53,3 +53,28 @@
   setInterval(tick, 5000);
   tick();
 })();
+
+/* Phase A — Execution Inspector fallback mount (demo-safe) */
+(function () {
+  function ensureInspectorMount() {
+    let el = document.getElementById("execution-inspector");
+
+    if (!el) {
+      el = document.createElement("div");
+      el.id = "execution-inspector";
+      el.setAttribute("data-phase61-panel", "inspector");
+      el.style.padding = "12px";
+      el.style.border = "1px solid rgba(255,255,255,0.08)";
+      el.style.borderRadius = "12px";
+      el.style.marginTop = "10px";
+      el.style.background = "rgba(0,0,0,0.2)";
+
+      document.body.appendChild(el);
+
+      console.log("[execution-inspector][fallback] mount created");
+    }
+  }
+
+  ensureInspectorMount();
+  setInterval(ensureInspectorMount, 3000);
+})();
