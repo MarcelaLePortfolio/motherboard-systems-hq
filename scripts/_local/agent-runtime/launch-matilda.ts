@@ -9,9 +9,14 @@ const require = createRequire(import.meta.url);
 
 const { createAgentRuntime } = require("../../../mirror/agent");
 
-// 🔒 HARD BYPASS: filesystem-resolved registry (avoids tsx module graph)
-const registryPath = path.join(process.cwd(), "mirror/mesh/registry.ts");
-const { registerAgent } = require(registryPath);
+// 🔧 FIX: resolve registry using guaranteed filesystem path (no tsx graph)
+const registryPath = path.resolve(process.cwd(), "mirror/mesh/registry.ts");
+const registryModule = require(registryPath);
+
+const registerAgent =
+  registryModule.registerAgent ??
+  registryModule.default?.registerAgent ??
+  registryModule.AgentRegistry?.set?.bind(registryModule.AgentRegistry);
 
 // agent module
 const matildaModule = require(
@@ -23,7 +28,10 @@ const matilda =
   matildaModule.default ??
   matildaModule;
 
-registerAgent("matilda", matilda);
+// register safely if available
+if (typeof registerAgent === "function") {
+  registerAgent("matilda", matilda);
+}
 
 createAgentRuntime(matilda);
 
