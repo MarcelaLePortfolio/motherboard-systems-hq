@@ -16,7 +16,7 @@ function getPool() {
       user: process.env.POSTGRES_USER || "postgres",
       host: process.env.DB_HOST || "postgres",
       database: process.env.POSTGRES_DB || "dashboard_db",
-      password: process.env.POSTGRES_PASSWORD || "password",
+      password: process.env.POSTGRES_PASSWORD || "postgres",
       port: 5432,
     });
     return pool;
