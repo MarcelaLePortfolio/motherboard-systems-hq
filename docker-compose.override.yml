@@ -5,4 +5,4 @@ services:
     volumes:
       - ./scripts:/scripts
     command: >
-      bash -c "/scripts/wait_for_schema.sh && node server/worker/phase26_task_worker.mjs"
+      bash -c "/scripts/self_healing_bootstrap.sh && node server/worker/phase26_task_worker.mjs"
