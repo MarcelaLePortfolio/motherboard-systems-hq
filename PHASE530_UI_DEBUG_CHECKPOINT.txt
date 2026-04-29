@@ -1,0 +1,18 @@
+PHASE 530 UI DEBUG CHECKPOINT
+
+State:
+- Phase 530 SSE restoration is checkpointed.
+- Agent Pool is populated.
+- Telemetry surfaces are partially restored.
+- System is ready for focused UI sizing/ownership debugging.
+
+Current next corridor:
+- Diagnose Agent Pool sizing and telemetry panel fill behavior.
+- Start with read-only DOM ownership proof before applying more UI patches.
+
+Checkpoint action:
+- Commit current state.
+- Tag current state.
+- Push branch and tag.
+- Rebuild containers.
+- Capture runtime snapshot.
