@@ -1,4 +1,4 @@
-export async function ensureTasksTaskIdColumn(db = globalThis.__DB_POOL) {
+export async function disabled_ensureTasksTaskIdColumn(db = globalThis.__DB_POOL) {
   if (!db || typeof db.query !== "function") {
     console.warn("[db_bootstrap_tasks_task_id] skipped: no query-capable db handle available");
     return { ok: false, skipped: true, reason: "missing_db_handle" };

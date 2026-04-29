@@ -1,8 +1,12 @@
 FROM node:20-alpine
+
 WORKDIR /app
+
+RUN apk add --no-cache postgresql-client netcat-openbsd
+
 COPY package*.json ./
 RUN npm install
+
 COPY . .
-EXPOSE 3000
-COPY public/ ./public/
-CMD ["node", "server.js"]
+
+CMD ["node", "server.mjs"]

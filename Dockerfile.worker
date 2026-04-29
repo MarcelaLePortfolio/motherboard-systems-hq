@@ -18,3 +18,13 @@ RUN set -e; \
   else npm install; fi
 COPY . .
 CMD ["node","server/worker/phase26_task_worker.mjs"]
+
+# ensure entrypoint scripts exist inside image
+COPY scripts /scripts
+RUN chmod +x /scripts/docker-entrypoint-guard.sh
+
+# hard guarantee entrypoint exists in image
+COPY scripts/docker-entrypoint-guard.sh /usr/local/bin/docker-entrypoint-guard.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint-guard.sh
+
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint-guard.sh"]

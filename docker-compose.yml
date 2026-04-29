@@ -15,15 +15,14 @@ services:
     command: ["node", "server.mjs"]
     depends_on:
       - postgres
+    ports:
+      - "3000:3000"
 
   worker:
     build:
       context: .
       dockerfile: Dockerfile
     command: ["node", "server/worker/phase26_task_worker.mjs"]
-    environment:
-      POSTGRES_URL: postgres://postgres:postgres@postgres:5432/postgres
-      PHASE27_SQL_PATH: /app/server/worker
     depends_on:
       - postgres
 
