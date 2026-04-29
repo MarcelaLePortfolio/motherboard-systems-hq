@@ -1,0 +1,104 @@
+RESTORE SYSTEM CONTRACT — ENFORCEMENT LAYER
+
+Purpose:
+- Protect all restore checkpoints from accidental or destructive changes.
+- Guarantee that any "stable checkpoint" remains recoverable indefinitely.
+- Prevent future loss scenarios that require manual reconstruction.
+
+═══════════════════════════════════
+NON-NEGOTIABLE RULES
+═══════════════════════════════════
+
+1. TAG IMMUTABILITY (HARD RULE)
+- Tags matching pattern: phase*-*-stable OR phase*-*-one-command-restore
+- MUST NEVER be deleted, moved, or force-updated.
+- These tags are permanent anchors.
+
+2. SNAPSHOT IMMUTABILITY
+- Directory: snapshots/phase*-*
+- Files inside snapshots MUST NOT be edited or deleted.
+- Snapshots are append-only artifacts.
+
+3. RESTORE SCRIPT IMMUTABILITY
+- scripts/restore_phase*.sh MUST NOT be edited after creation.
+- If improvements are needed → create a NEW restore script.
+- Never modify an existing restore path.
+
+4. BACKWARD COMPATIBILITY GUARANTEE
+- Docker service names (postgres, dashboard, worker) MUST remain stable
+  OR restore scripts must be versioned alongside changes.
+- DB credentials must remain compatible OR restore script updated.
+
+5. BRANCH SAFETY
+- Restore scripts must always target a valid branch.
+- If branch strategy changes → create NEW restore path.
+
+6. NO FORCE OPERATIONS ON PROTECTED OBJECTS
+- Disallowed:
+  git tag -d <protected-tag>
+  git push --force (if it affects protected tags or history)
+- Allowed:
+  creating NEW tags
+  creating NEW checkpoints
+
+7. VERSIONED EVOLUTION MODEL
+- Never mutate history.
+- Always create:
+  new checkpoint file
+  new snapshot
+  new tag
+  new restore script
+
+═══════════════════════════════════
+ENFORCEMENT MODEL
+═══════════════════════════════════
+
+This contract is enforced by:
+
+A. HUMAN DISCIPLINE (PRIMARY)
+- All future operations must respect these constraints.
+
+B. NAMING CONVENTION (SECONDARY)
+- Protected assets follow strict naming patterns:
+  phaseXXX-*-stable
+  phaseXXX-*-one-command-restore
+
+C. BUILD PROTOCOL ALIGNMENT
+- Marcela Build Protocol already enforces:
+  - revert discipline
+  - limited speculative changes
+  - checkpoint anchoring
+
+═══════════════════════════════════
+FAILURE PREVENTION GUARANTEE
+═══════════════════════════════════
+
+If this contract is followed:
+
+- No checkpoint can be lost
+- No system state requires reconstruction
+- All failures become reversible
+- Development remains psychologically safe
+
+═══════════════════════════════════
+OPERATING PRINCIPLE
+═══════════════════════════════════
+
+We do not "fix forward" from instability.
+
+We:
+1. Anchor a stable state
+2. Build on top of it
+3. Revert instantly if needed
+
+═══════════════════════════════════
+STATUS
+═══════════════════════════════════
+
+Phase 536 is now:
+- checkpointed
+- tagged
+- snapshotted
+- restorable via single command
+- contractually protected
+
