@@ -3,6 +3,7 @@ import { fileURLToPath } from 'url';
 import path from 'path';
 import pg from 'pg';
 import taskEventsSseRouter from "./server/routes/task-events-sse.mjs";
+import { apiTasksRouter } from "./server/routes/api-tasks-postgres.mjs";
 
 const { Pool } = pg;
 
@@ -48,10 +49,12 @@ const pool = new Pool({
   password: process.env.POSTGRES_PASSWORD || 'password',
   port: 5432,
 });
+globalThis.__DB_POOL = pool;
 
 // Serve static files
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(taskEventsSseRouter);
+app.use('/api/tasks', apiTasksRouter);
 
 // 1. API Endpoint: System Metrics
 app.get('/api/metrics', async (req, res) => {
