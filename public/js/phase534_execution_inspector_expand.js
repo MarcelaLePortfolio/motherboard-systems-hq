@@ -4,7 +4,7 @@
 
   let selectedEventId = "";
   let showJsonForEventId = "";
-  let copiedTaskId = false;
+  let copiedTaskId = "";
 
   function root() {
     return document.getElementById("mb-task-events-panel-anchor");
@@ -44,84 +44,60 @@
     if (!selectedRow) return;
 
     const lines = selectedRow.innerText.split("\n").map((line) => line.trim()).filter(Boolean);
-    const firstLine = lines[0] || "";
-    const title = lines[1] || firstLine || "Selected event";
-    const meta = lines[2] || "";
 
-    const [kindPart, taskPart = ""] = firstLine.split("task=");
-    const kind = kindPart.trim();
-    const taskId = taskPart.trim();
+    const title = lines[1] || "";
+    const meta1 = lines[0] || "";
+    const meta2 = lines[2] || "";
 
-    const [actorPart = "", timePart = ""] = meta.split("•");
-    const actor = actorPart.replace("actor=", "").trim();
-    const timestamp = timePart.trim();
-
-    const content = selectedRow.innerText;
-
-    const existing = container.querySelector("[data-expanded-panel]");
-    if (existing) existing.remove();
-
-    const panel = document.createElement("div");
-    panel.setAttribute("data-expanded-panel", "true");
-    panel.style.border = "1px solid rgba(55,65,81,1)";
-    panel.style.background = "#020617";
-    panel.style.borderRadius = "0.75rem";
-    panel.style.padding = "0.6rem";
-    panel.style.marginBottom = "0.5rem";
-    panel.style.fontSize = "0.75rem";
-    panel.style.color = "#cbd5e1";
+    let panel = container.querySelector("[data-expanded-panel]");
+    if (!panel) {
+      panel = document.createElement("div");
+      panel.setAttribute("data-expanded-panel", "true");
+      panel.style.marginBottom = "0.5rem";
+      panel.style.padding = "0.5rem 0.8rem";
+      panel.style.border = "1px solid rgba(51,65,85,0.9)";
+      panel.style.borderRadius = "0.75rem";
+      panel.style.background = "rgba(15,23,42,0.6)";
+      container.prepend(panel);
+    }
 
     panel.innerHTML = `
-      <div style="font-size:.7rem; color:#94a3b8; margin-bottom:.25rem;">Selected Event</div>
+      <div style="font-size:0.7rem; color:#94a3b8; margin-bottom:0.2rem;">Selected Event</div>
 
-      <div style="font-size:.84rem; font-weight:700; color:#e2e8f0; margin-bottom:.35rem;">
+      <div style="font-size:0.85rem; color:#e2e8f0; margin-bottom:0.25rem;">
         ${escapeHtml(title)}
       </div>
 
-      <div style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.73rem; color:#94a3b8; margin-bottom:.2rem;">
-        ${kind ? `<span style="color:#93c5fd;">${escapeHtml(kind)}</span>` : ""}
-        ${taskId ? `<span> • task=${escapeHtml(taskId)}</span>` : ""}
+      <div style="font-size:0.72rem; color:#cbd5e1;">
+        ${escapeHtml(meta1)}
       </div>
 
-      <div style="font-size:.72rem; color:#64748b; margin-bottom:.5rem;">
-        ${actor ? `actor=${escapeHtml(actor)}` : ""}
-        ${actor && timestamp ? " • " : ""}
-        ${timestamp ? escapeHtml(timestamp) : ""}
+      <div style="font-size:0.7rem; color:#64748b; margin-bottom:0.25rem;">
+        ${escapeHtml(meta2)}
       </div>
 
-      <div style="display:flex; gap:.5rem; font-size:.7rem;">
-        <span data-action="copy" style="cursor:pointer; color:#86efac;">
-          ${copiedTaskId ? "Copied ✓" : "Copy ID"}
-        </span>
+      <div style="display:flex; gap:0.5rem; font-size:0.7rem;">
+        <span data-action="copy" style="cursor:pointer; color:#86efac;">Copy ID</span>
         <span data-action="json" style="cursor:pointer; color:#c4b5fd;">
           ${showJsonForEventId === selectedEventId ? "Hide JSON" : "View JSON"}
         </span>
-        <span data-action="requeue" style="cursor:pointer; color:#facc15;">
-          Requeue
-        </span>
+        <span data-action="requeue" style="cursor:pointer; color:#facc15;">Requeue</span>
+        <span data-action="retry" style="cursor:pointer; color:#facc15;">Retry</span>
       </div>
-
-      ${showJsonForEventId === selectedEventId ? `
-        <pre style="margin-top:.4rem; max-height:8rem; overflow:auto; background:#020617; border:1px solid #374151; padding:.4rem; border-radius:.5rem;">${escapeHtml(content)}</pre>
-      ` : ""}
     `;
-
-    container.prepend(panel);
 
     panel.querySelectorAll("[data-action]").forEach((el) => {
       el.onclick = (e) => {
         e.stopPropagation();
-
         const action = el.getAttribute("data-action");
 
         if (action === "copy") {
-          navigator.clipboard.writeText(content);
-          copiedTaskId = true;
-          renderExpanded();
+          navigator.clipboard.writeText(selectedEventId);
+          copiedTaskId = selectedEventId;
+          el.textContent = "Copied ✓";
           setTimeout(() => {
-            copiedTaskId = false;
-            renderExpanded();
-          }, 1200);
+            el.textContent = "Copy ID";
+          }, 1500);
         }
 
         if (action === "json") {
