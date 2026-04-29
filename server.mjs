@@ -45,8 +45,8 @@ app.use(express.json()); // Middleware to parse JSON body for POST requests
 const pool = new Pool({
   user: process.env.POSTGRES_USER || 'postgres',
   host: process.env.DB_HOST || 'postgres', // 'postgres' is the service name in docker-compose
-  database: process.env.POSTGRES_DB || 'dashboard_db',
-  password: process.env.POSTGRES_PASSWORD || 'password',
+  database: process.env.POSTGRES_DB || 'postgres',
+  password: process.env.POSTGRES_PASSWORD || 'postgres',
   port: 5432,
 });
 globalThis.__DB_POOL = pool;
