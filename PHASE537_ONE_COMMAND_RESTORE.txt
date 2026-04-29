@@ -1,0 +1,20 @@
+PHASE 537 ONE-COMMAND RESTORE
+
+Purpose:
+- Provide a single-command recovery path back to the Phase 536 stable UI baseline.
+- Prevent future debugging spirals by making the known-good state quickly restorable.
+
+Restore command:
+./scripts/restore_phase536_retry_ui_stable.sh
+
+Default restore tag:
+phase536-retry-ui-one-command-restore
+
+Restores:
+- Git state
+- Docker containers
+- Postgres database from the Phase 536 snapshot
+
+Safety:
+- Refuses to run if the working tree is dirty.
+- Allows override with RESTORE_ALLOW_DIRTY=1 only when intentional.
