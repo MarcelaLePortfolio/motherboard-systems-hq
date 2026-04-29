@@ -26,7 +26,7 @@
 
     root.innerHTML = `
       <h2 class="text-xl font-semibold border-b border-gray-700 pb-2 mb-3">Agent Pool</h2>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:0.65rem;">
+      <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0.65rem;">
         ${(rows || []).map((agent) => `
           <div style="border:1px solid rgba(75,85,99,.9);background:rgba(17,24,39,.72);border-radius:.85rem;padding:.75rem;">
             <div style="font-weight:700;color:#e5e7eb;">${esc(agent.agent_name)}</div>
