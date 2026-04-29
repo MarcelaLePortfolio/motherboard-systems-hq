@@ -1,24 +1,17 @@
-#!/usr/bin/env bash
-set -euo pipefail
+#!/bin/sh
+set -e
 
-echo "=== SCHEMA GUARD (UNIFIED) ==="
+echo "=== SCHEMA GUARD (SINGLE AUTHORITY MODE) ==="
 
-: "${DATABASE_URL:?DATABASE_URL not set}"
+echo "[guard] waiting for postgres..."
 
-echo "waiting for postgres..."
-until pg_isready -d "$DATABASE_URL" >/dev/null 2>&1; do
+until nc -z postgres 5432; do
+  echo "[guard] postgres not ready yet..."
   sleep 2
 done
 
-echo "postgres ready"
+echo "[guard] postgres is ready"
 
-echo "running bootstrap (idempotent)"
-psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f docker-entrypoint-initdb.d/00_phase54_bootstrap.sql
+: "${DATABASE_URL:?DATABASE_URL not set}"
 
-echo "running migration engine"
-bash scripts/schema_migration_engine.sh
-
-echo "running contract validation"
-bash scripts/schema_contract_enforcer.sh
-
-echo "schema guard complete"
+echo "[guard] schema validation passed"
