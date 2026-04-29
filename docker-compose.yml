@@ -35,8 +35,6 @@ services:
     ports:
       - "8080:3000"
     entrypoint: ["/scripts/docker-entrypoint-guard.sh"]
-    volumes:
-      - ./scripts:/scripts
 
   worker:
     build: .
@@ -49,8 +47,6 @@ services:
       PGPASSWORD: ${PGPASSWORD:-postgres}
       PGPORT: 5432
       PGUSER: ${PGUSER:-postgres}
-    volumes:
-      - ./scripts:/scripts
     entrypoint: ["/scripts/docker-entrypoint-guard.sh"]
     command: ["node", "server/worker/phase26_task_worker.mjs"]
 
