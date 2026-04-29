@@ -6,7 +6,7 @@ echo "=== DOCKER ENTRYPOINT GUARD (SHARED CONTRACT) ==="
 : "${DATABASE_URL:?DATABASE_URL not set}"
 
 echo "[guard] waiting for postgres readiness"
-until pg_isready -d "$DATABASE_URL" >/dev/null 2>&1; do
+until pg_isready -h postgres -U postgres -d postgres; do
   sleep 2
 done
 
