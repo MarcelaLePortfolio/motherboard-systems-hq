@@ -1,11 +1,2 @@
 services:
-  postgres:
-    command: >
-      bash -c "
-      docker-entrypoint.sh postgres &
-      sleep 8 &&
-      bash /scripts/bootstrap_schema_guard.sh &&
-      wait
-      "
-    volumes:
-      - ./scripts:/scripts
+  postgres: {}
