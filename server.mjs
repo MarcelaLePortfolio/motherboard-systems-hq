@@ -2,6 +2,7 @@ import express from 'express';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import pg from 'pg';
+import taskEventsSseRouter from "./server/routes/task-events-sse.mjs";
 
 const { Pool } = pg;
 
