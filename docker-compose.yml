@@ -1,6 +1,3 @@
-# removed entrypoint override causing runtime crash
-# NOTE: this file is intentionally sanitized to avoid /usr/local/bin/docker-entrypoint-guard.sh dependency
-
 services:
   postgres:
     image: postgres:16-alpine
@@ -15,7 +12,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.dashboard
-    command: ["node", "server.cjs"]
+    command: ["node", "server.mjs"]
     depends_on:
       - postgres
 
@@ -23,7 +20,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    command: ["node", "server.cjs"]
+    command: ["node", "server/phase26_task_worker.mjs"]
     depends_on:
       - postgres
 
