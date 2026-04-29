@@ -50,6 +50,7 @@ const pool = new Pool({
 
 // Serve static files
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(taskEventsSseRouter);
 
 // 1. API Endpoint: System Metrics
 app.get('/api/metrics', async (req, res) => {
