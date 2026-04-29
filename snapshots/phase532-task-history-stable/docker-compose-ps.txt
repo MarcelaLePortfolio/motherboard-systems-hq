@@ -1,0 +1,4 @@
+NAME                                 IMAGE                              COMMAND                  SERVICE     CREATED         STATUS                  PORTS
+motherboard_systems_hq-dashboard-1   motherboard_systems_hq-dashboard   "docker-entrypoint.s…"   dashboard   2 seconds ago   Up Less than a second   0.0.0.0:3000->3000/tcp, [::]:3000->3000/tcp
+motherboard_systems_hq-postgres-1    postgres:16-alpine                 "docker-entrypoint.s…"   postgres    15 hours ago    Up 15 hours             5432/tcp
+motherboard_systems_hq-worker-1      motherboard_systems_hq-worker      "docker-entrypoint.s…"   worker      2 seconds ago   Up Less than a second   
