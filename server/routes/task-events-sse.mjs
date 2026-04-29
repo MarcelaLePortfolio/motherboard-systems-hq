@@ -4,13 +4,24 @@ import pg from "pg";
 const router = express.Router();
 const { Pool } = pg;
 
-const DB_URL = process.env.POSTGRES_URL || process.env.DATABASE_URL || "";
+const DB_URL = process.env.POSTGRES_URL || process.env.DATABASE_URL || null;
 
 let pool = null;
 
 function getPool() {
   if (pool) return pool;
-  if (!DB_URL) return null;
+
+  if (!DB_URL) {
+    pool = new Pool({
+      user: process.env.POSTGRES_USER || "postgres",
+      host: process.env.DB_HOST || "postgres",
+      database: process.env.POSTGRES_DB || "dashboard_db",
+      password: process.env.POSTGRES_PASSWORD || "password",
+      port: 5432,
+    });
+    return pool;
+  }
+
   pool = new Pool({ connectionString: DB_URL });
   return pool;
 }
