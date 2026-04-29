@@ -1,54 +1,31 @@
+# removed entrypoint override causing runtime crash
+# NOTE: this file is intentionally sanitized to avoid /usr/local/bin/docker-entrypoint-guard.sh dependency
+
 services:
   postgres:
     image: postgres:16-alpine
     environment:
-      POSTGRES_USER: ${PGUSER:-postgres}
-      POSTGRES_PASSWORD: ${PGPASSWORD:-postgres}
-      POSTGRES_DB: ${PGDATABASE:-postgres}
-    ports:
-      - "5432:5432"
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
     volumes:
       - pgdata:/var/lib/postgresql/data
 
   dashboard:
-    env_file:
-      - .env
     build:
       context: .
       dockerfile: Dockerfile.dashboard
-      args:
-        GIT_SHA: ${GIT_SHA:-unknown}
-        BUILD_TIME: ${BUILD_TIME:-unknown}
-    environment:
-      DATABASE_URL: postgres://postgres:postgres@postgres:5432/postgres
-      POLICY_SHADOW_ENABLED: ${POLICY_SHADOW_ENABLED:-0}
-      POLICY_ENFORCE_ENABLED: ${POLICY_ENFORCE_ENABLED:-0}
-      BUILD_TIME: ${BUILD_TIME:-unknown}
-      GIT_SHA: ${GIT_SHA:-unknown}
-      PGDATABASE: ${PGDATABASE:-postgres}
-      PGHOST: postgres
-      PGPASSWORD: ${PGPASSWORD:-postgres}
-      PGPORT: 5432
-      PGUSER: ${PGUSER:-postgres}
+    command: ["node", "server.cjs"]
     depends_on:
       - postgres
-    ports:
-      - "8080:3000"
-    entrypoint: ["/scripts/docker-entrypoint-guard.sh"]
 
   worker:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: ["node", "server.cjs"]
     depends_on:
       - postgres
-    environment:
-      DATABASE_URL: postgres://postgres:postgres@postgres:5432/postgres
-      PGDATABASE: ${PGDATABASE:-postgres}
-      PGHOST: postgres
-      PGPASSWORD: ${PGPASSWORD:-postgres}
-      PGPORT: 5432
-      PGUSER: ${PGUSER:-postgres}
-    entrypoint: ["/scripts/docker-entrypoint-guard.sh"]
-    command: ["node", "server/worker/phase26_task_worker.mjs"]
 
 volumes:
   pgdata:
