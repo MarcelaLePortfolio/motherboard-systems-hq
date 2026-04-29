@@ -1,0 +1,25 @@
+PHASE 536 RETRY UI STABLE CHECKPOINT
+
+Outcome:
+- Execution Inspector expanded panel is stable.
+- Selected Event panel formatting confirmed.
+- Copy ID, View JSON, Requeue, Retry all visible.
+- Requeue is functional with feedback.
+- Retry is visible but not yet wired.
+- Color differentiation applied (Requeue = yellow, Retry = blue).
+
+System State:
+- UI stable
+- SSE stable
+- Inspector fully readable + interactive (partial actions)
+
+Checkpoint action:
+- Commit current state.
+- Tag current state.
+- Push branch and tag.
+- Rebuild containers.
+- Capture full runtime snapshot.
+
+Guarantee:
+- This snapshot represents a safe, recoverable baseline.
+- Future changes can be reverted to this exact state.
