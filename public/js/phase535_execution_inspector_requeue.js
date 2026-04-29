@@ -28,15 +28,23 @@
       };
 
       try {
+        btn.textContent = "Requeueing…";
+
         const res = await fetch("/api/delegate-task", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(body)
         });
 
-        console.log("Requeue result:", await res.json());
+        const json = await res.json();
+        console.log("Requeue result:", json);
+
+        btn.textContent = "Requeued ✓";
+        btn.style.color = "#86efac";
       } catch (err) {
         console.error("Requeue failed:", err);
+        btn.textContent = "Requeue failed";
+        btn.style.color = "#f87171";
       }
     };
   }
