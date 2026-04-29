@@ -16,7 +16,7 @@ async function runDemoPlayback() {
   console.log("🎬 Starting Automated Demo Playback Sequence...");
   try {
     console.log("�� Resetting environment to demo baseline...");
-    execSync("bash scripts/demo/restore-demo-baseline.sh", { stdio: "inherit" });
+    execSync("sh scripts/demo/restore-demo-baseline.sh", { stdio: "inherit" });
 
     console.log("💾 Creating fallback Atlas task...");
     execSync("npx tsx scripts/demo/run-create-atlas.ts", { stdio: "inherit" });
@@ -34,7 +34,7 @@ async function runDemoPlayback() {
     }
 
     console.log("🚀 Triggering agent prewarm and live status check...");
-    execSync("bash scripts/demo/prewarm-agents.sh", { stdio: "inherit" });
+    execSync("sh scripts/demo/prewarm-agents.sh", { stdio: "inherit" });
 
     console.log("🎉 Demo playback complete — dashboard should now display synchronized cinematic flow.");
   } catch (err) {
