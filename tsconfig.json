@@ -9,7 +9,7 @@
     "strict": false,
     "skipLibCheck": true,
     "types": ["node", "jest"],
-    "ignoreDeprecations": "6.0"
+    "jsx": "react-jsx"
   },
-  "include": ["scripts", "src"]
+  "include": ["src", "scripts", "agents", "mirror"]
 }
