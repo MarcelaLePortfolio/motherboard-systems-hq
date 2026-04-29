@@ -41,8 +41,10 @@
           const message = event.message || event.msg || event.title || event.detail || "";
           const ts = event.created_at || event.ts || Date.now();
 
+          const eventId = event.id || `${kind}:${taskId}:${ts}:${message}`;
+
           return `
-            <div style="border-bottom:1px solid rgba(75,85,99,.55); padding:.45rem 0; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.75rem; line-height:1.4;">
+            <div data-task-event-id="${escapeHtml(eventId)}" style="border-bottom:1px solid rgba(75,85,99,.55); padding:.45rem 0; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.75rem; line-height:1.4; cursor:pointer;">
               <div style="color:#93c5fd;">${escapeHtml(kind)} <span style="color:#64748b;">task=${escapeHtml(taskId)}</span></div>
               <div style="color:#cbd5e1;">${escapeHtml(message || JSON.stringify(event))}</div>
               <div style="color:#64748b;">actor=${escapeHtml(actor)} • ${escapeHtml(ts)}</div>
