@@ -25,13 +25,15 @@
     if (!root) return;
 
     root.innerHTML = `
-      <h2 class="text-xl font-semibold border-b border-gray-700 pb-2 mb-3">Agent Pool</h2>
-      <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0.65rem;">
+      <h2 class="text-xl font-semibold border-b border-gray-700 pb-2 mb-4">Agent Pool</h2>
+      <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0.9rem;width:100%;">
         ${(rows || []).map((agent) => `
-          <div style="border:1px solid rgba(75,85,99,.9);background:rgba(17,24,39,.72);border-radius:.85rem;padding:.75rem;">
-            <div style="font-weight:700;color:#e5e7eb;">${esc(agent.agent_name)}</div>
-            <div style="font-size:.78rem;color:#94a3b8;margin-top:.2rem;">${esc(agent.status)}</div>
-            <div style="font-size:.78rem;color:#cbd5e1;margin-top:.35rem;">${esc(agent.current_task || "Available")}</div>
+          <div style="min-height:5.4rem;border:1px solid rgba(75,85,99,.9);background:rgba(17,24,39,.72);border-radius:1rem;padding:1rem;display:flex;flex-direction:column;justify-content:space-between;">
+            <div>
+              <div style="font-weight:800;color:#e5e7eb;font-size:1rem;line-height:1.2;">${esc(agent.agent_name)}</div>
+              <div style="font-size:.82rem;color:#94a3b8;margin-top:.35rem;">${esc(agent.status)}</div>
+            </div>
+            <div style="font-size:.84rem;color:#cbd5e1;margin-top:.65rem;">${esc(agent.current_task || "Available")}</div>
           </div>
         `).join("")}
       </div>
@@ -44,9 +46,9 @@
     }
 
     return tasks.map((task) => `
-      <div style="border-bottom:1px solid rgba(51,65,85,.7);padding:.45rem 0;">
-        <div style="color:#e5e7eb;font-size:.82rem;font-weight:600;">${esc(task.title || task.task_id || "Untitled task")}</div>
-        <div style="color:#94a3b8;font-size:.72rem;margin-top:.15rem;">
+      <div style="border-bottom:1px solid rgba(51,65,85,.7);padding:.55rem 0;">
+        <div style="color:#e5e7eb;font-size:.86rem;font-weight:650;">${esc(task.title || task.task_id || "Untitled task")}</div>
+        <div style="color:#94a3b8;font-size:.74rem;margin-top:.2rem;">
           status=${esc(task.status || "unknown")} · id=${esc(task.task_id || task.id || "—")}
         </div>
       </div>
@@ -56,13 +58,30 @@
   function renderRecent(tasks) {
     const recentTasks = document.getElementById("recentTasks");
     const recentLogs = document.getElementById("recentLogs");
+    const recentCard = document.getElementById("recent-tasks-card");
+
+    if (recentCard) {
+      recentCard.style.display = "grid";
+      recentCard.style.gridTemplateRows = "1fr 1fr";
+      recentCard.style.gap = "1rem";
+      recentCard.style.minHeight = "0";
+      recentCard.style.height = "100%";
+    }
+
+    [recentTasks, recentLogs].forEach((el) => {
+      if (!el) return;
+      el.style.minHeight = "0";
+      el.style.height = "100%";
+      el.style.overflow = "auto";
+      el.style.display = "block";
+    });
 
     if (recentTasks) recentTasks.innerHTML = taskRows(tasks);
 
     if (recentLogs) {
       recentLogs.innerHTML = (tasks && tasks.length)
         ? tasks.map((task) => `
-            <div style="border-bottom:1px solid rgba(51,65,85,.55);padding:.4rem 0;color:#cbd5e1;font-size:.78rem;">
+            <div style="border-bottom:1px solid rgba(51,65,85,.55);padding:.5rem 0;color:#cbd5e1;font-size:.8rem;">
               ${esc(task.updated_at || task.created_at || "time unavailable")} · ${esc(task.status || "unknown")} · ${esc(task.title || task.task_id || "Untitled task")}
             </div>
           `).join("")
@@ -73,6 +92,29 @@
   function renderActivity(rows) {
     const canvas = document.getElementById("task-activity-graph");
     if (!canvas || !window.Chart) return;
+
+    const card = document.getElementById("task-activity-card");
+    const shell = canvas.parentElement;
+
+    if (card) {
+      card.style.height = "100%";
+      card.style.minHeight = "0";
+      card.style.display = "flex";
+      card.style.flexDirection = "column";
+    }
+
+    if (shell) {
+      shell.style.flex = "1 1 auto";
+      shell.style.height = "100%";
+      shell.style.minHeight = "0";
+      shell.style.display = "flex";
+      shell.style.padding = "0.75rem";
+    }
+
+    canvas.style.flex = "1 1 auto";
+    canvas.style.width = "100%";
+    canvas.style.height = "100%";
+    canvas.style.minHeight = "0";
 
     const labels = (rows || []).map((row) => {
       const d = new Date(row.timestamp || Date.now());
@@ -88,6 +130,7 @@
       window.__PHASE530_ACTIVITY_CHART__.data.datasets[0].data = created;
       window.__PHASE530_ACTIVITY_CHART__.data.datasets[1].data = completed;
       window.__PHASE530_ACTIVITY_CHART__.data.datasets[2].data = failed;
+      window.__PHASE530_ACTIVITY_CHART__.resize();
       window.__PHASE530_ACTIVITY_CHART__.update();
       return;
     }
@@ -105,7 +148,18 @@
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        scales: { y: { beginAtZero: true } }
+        resizeDelay: 0,
+        layout: {
+          padding: 8
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              precision: 0
+            }
+          }
+        }
       }
     });
   }
