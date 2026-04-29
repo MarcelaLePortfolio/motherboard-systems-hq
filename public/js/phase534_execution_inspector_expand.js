@@ -96,6 +96,9 @@
         <span data-action="json" style="cursor:pointer; color:#c4b5fd;">
           ${showJsonForEventId === selectedEventId ? "Hide JSON" : "View JSON"}
         </span>
+        <span data-action="requeue" style="cursor:pointer; color:#facc15;">
+          Requeue
+        </span>
       </div>
 
       ${showJsonForEventId === selectedEventId ? `
