@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-echo "=== SCHEMA CONTRACT ENFORCER START ==="
+echo "=== SCHEMA VERSION + CONTRACT ENFORCER START ==="
 
 : "${DATABASE_URL:?DATABASE_URL not set}"
 
@@ -12,63 +12,95 @@ done
 
 echo "postgres ready"
 
-psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f docker-entrypoint-initdb.d/00_phase54_bootstrap.sql
+BOOTSTRAP_FILE="docker-entrypoint-initdb.d/00_phase54_bootstrap.sql"
+EXPECTED_VERSION=$(shasum -a 256 "$BOOTSTRAP_FILE" | awk '{print $1}')
 
-echo "bootstrap applied"
+echo "expected schema version: $EXPECTED_VERSION"
 
-# ---- CONTRACT DEFINITION (SOURCE OF TRUTH) ----
-expected_tables=(
-  "tasks"
-  "task_events"
-  "worker_heartbeats"
-)
+# ensure meta table exists
+psql "$DATABASE_URL" -v ON_ERROR_STOP=1 <<'SQL'
+CREATE TABLE IF NOT EXISTS schema_meta (
+  key text PRIMARY KEY,
+  value text
+);
+SQL
 
-check_table () {
-  psql "$DATABASE_URL" -tAc "SELECT to_regclass('public.$1') IS NOT NULL;"
-}
+STORED_VERSION=$(psql "$DATABASE_URL" -tAc "SELECT value FROM schema_meta WHERE key='schema_version'")
 
-echo "validating schema contract..."
+echo "stored schema version: ${STORED_VERSION:-NULL}"
 
-for t in "${expected_tables[@]}"; do
-  exists=$(check_table "$t")
+# drift detection / self-heal
+if [ -z "$STORED_VERSION" ] || [ "$STORED_VERSION" != "$EXPECTED_VERSION" ]; then
+  echo "⚠️ schema drift detected OR missing version → running bootstrap"
+
+  psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f "$BOOTSTRAP_FILE"
+
+  psql "$DATABASE_URL" -v ON_ERROR_STOP=1 <<SQL
+INSERT INTO schema_meta(key, value)
+VALUES ('schema_version', '$EXPECTED_VERSION')
+ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value;
+SQL
+
+  echo "schema version updated"
+else
+  echo "schema version matches"
+fi
+
+# ---- CONTRACT VALIDATION ----
+
+validate_table () {
+  local t=$1
+  local exists
+  exists=$(psql "$DATABASE_URL" -tAc "SELECT to_regclass('public.$t') IS NOT NULL;")
   if [ "$exists" != "t" ]; then
     echo "❌ CONTRACT VIOLATION: missing table $t"
     exit 1
   fi
-done
-
-# ---- COLUMN CONTRACTS ----
-
-validate_columns () {
-  table=$1
-  shift
-  for col in "$@"; do
-    exists=$(psql "$DATABASE_URL" -tAc "
-      SELECT EXISTS (
-        SELECT 1 FROM information_schema.columns
-        WHERE table_schema='public'
-        AND table_name='$table'
-        AND column_name='$col'
-      );
-    ")
-    if [ "$exists" != "t" ]; then
-      echo "❌ CONTRACT VIOLATION: $table missing column $col"
-      exit 1
-    fi
-  done
 }
 
-validate_columns "tasks" "id" "task_id" "status" "kind" "payload" "created_at" "run_id" "claimed_by" "attempts"
-validate_columns "task_events" "id" "task_id" "kind" "actor" "ts"
-validate_columns "worker_heartbeats" "owner" "last_seen_at"
+validate_column () {
+  local table=$1
+  local col=$2
+  local exists
+  exists=$(psql "$DATABASE_URL" -tAc "
+    SELECT EXISTS (
+      SELECT 1 FROM information_schema.columns
+      WHERE table_schema='public'
+      AND table_name='$table'
+      AND column_name='$col'
+    );
+  ")
+  if [ "$exists" != "t" ]; then
+    echo "❌ CONTRACT VIOLATION: $table missing column $col"
+    exit 1
+  fi
+}
+
+echo "validating schema contract..."
+
+validate_table "tasks"
+validate_table "task_events"
+validate_table "worker_heartbeats"
+
+validate_column "tasks" "id"
+validate_column "tasks" "task_id"
+validate_column "tasks" "status"
+validate_column "tasks" "kind"
+validate_column "tasks" "payload"
+validate_column "tasks" "created_at"
+validate_column "tasks" "run_id"
+validate_column "tasks" "claimed_by"
+validate_column "tasks" "attempts"
+
+validate_column "task_events" "id"
+validate_column "task_events" "task_id"
+validate_column "task_events" "kind"
+validate_column "task_events" "actor"
+validate_column "task_events" "ts"
+
+validate_column "worker_heartbeats" "owner"
+validate_column "worker_heartbeats" "last_seen_at"
 
 echo "schema contract satisfied"
 
-# ---- HARD GUARANTEE OUTPUT ----
-psql "$DATABASE_URL" -tAc "
-SELECT 'tasks='||count(*) FROM tasks;
-SELECT 'task_events='||count(*) FROM task_events;
-SELECT 'heartbeats='||count(*) FROM worker_heartbeats;
-"
-
-echo "=== SCHEMA CONTRACT ENFORCER PASS ==="
+echo "=== SCHEMA VERSION + CONTRACT PASS ==="
