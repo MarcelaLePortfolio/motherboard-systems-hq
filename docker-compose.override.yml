@@ -1,21 +1,11 @@
 services:
-  worker:
-    image: motherboard_systems_hq-dashboard
-    container_name: motherboard_systems_hq-worker-1
-    command: ["node", "server/worker/phase26_task_worker.mjs"]
-    depends_on:
-      - postgres
-    environment:
-      - NODE_ENV=development
-      - POSTGRES_URL=postgres://postgres:postgres@postgres:5432/postgres
-      - PHASE34_ENABLE_LEASE=1
-      - PHASE32_CLAIM_ONE_SQL=server/worker/phase35_claim_one_pg.sql
-      - PHASE32_MARK_SUCCESS_SQL=server/worker/phase35_mark_success_pg.sql
-      - PHASE32_MARK_FAILURE_SQL=server/worker/phase35_mark_failure_pg.sql
-    healthcheck:
-      test: ["CMD-SHELL", "ps aux | grep phase26_task_worker | grep -v grep || exit 1"]
-      interval: 30s
-      timeout: 5s
-      start_period: 20s
-      retries: 3
-    restart: unless-stopped
+  postgres:
+    command: >
+      bash -c "
+      docker-entrypoint.sh postgres &
+      sleep 8 &&
+      bash /scripts/bootstrap_schema_guard.sh &&
+      wait
+      "
+    volumes:
+      - ./scripts:/scripts
