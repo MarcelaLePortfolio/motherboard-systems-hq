@@ -1,5 +1,5 @@
-#!/usr/bin/env bash
-set -euo pipefail
+#!/bin/sh
+set -e
 
 echo "=== DOCKER ENTRYPOINT GUARD (SHARED CONTRACT) ==="
 
@@ -11,7 +11,7 @@ until pg_isready -d "$DATABASE_URL" >/dev/null 2>&1; do
 done
 
 echo "[guard] running schema guard"
-bash /scripts/schema_guard.sh
+sh /scripts/schema_guard.sh
 
 echo "[guard] starting service"
 exec "$@"
