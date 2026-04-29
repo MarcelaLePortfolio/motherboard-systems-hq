@@ -2,45 +2,29 @@
   if (window.__PHASE532_TASK_HISTORY_FILL_FIX__) return;
   window.__PHASE532_TASK_HISTORY_FILL_FIX__ = true;
 
-  function fitChartToVisiblePanel() {
-    const panel = document.getElementById("obs-panel-activity");
-    const card = document.getElementById("task-activity-card");
-    const canvas = document.getElementById("task-activity-graph");
-    const chart = window.__PHASE530_ACTIVITY_CHART__;
+  function resizeChart() {
+    if (!window.__PHASE530_ACTIVITY_CHART__) return;
 
-    if (!panel || !card || !canvas || !chart) return;
-    if (panel.hidden || panel.offsetParent === null) return;
+    window.requestAnimationFrame(() => {
+      window.__PHASE530_ACTIVITY_CHART__.resize();
+      window.__PHASE530_ACTIVITY_CHART__.update();
+    });
+  }
 
-    const wrapper = canvas.parentElement;
-    if (!wrapper) return;
+  function bindTabResize() {
+    const tab = document.getElementById("obs-tab-activity");
+    if (!tab) return;
 
-    card.style.height = "100%";
-    card.style.minHeight = "0";
-
-    wrapper.style.height = "100%";
-    wrapper.style.minHeight = "0";
-
-    canvas.style.width = "100%";
-    canvas.style.height = "100%";
-
-    chart.options.maintainAspectRatio = false;
-    chart.resize();
-    chart.update();
+    tab.addEventListener("click", () => {
+      setTimeout(resizeChart, 80);
+      setTimeout(resizeChart, 250);
+      setTimeout(resizeChart, 600);
+    });
   }
 
   function boot() {
-    const tab = document.getElementById("obs-tab-activity");
-
-    if (tab) {
-      tab.addEventListener("click", () => {
-        setTimeout(fitChartToVisiblePanel, 100);
-        setTimeout(fitChartToVisiblePanel, 350);
-        setTimeout(fitChartToVisiblePanel, 800);
-      });
-    }
-
-    setTimeout(fitChartToVisiblePanel, 800);
-    window.addEventListener("resize", fitChartToVisiblePanel);
+    bindTabResize();
+    setTimeout(resizeChart, 500);
   }
 
   if (document.readyState === "loading") {
