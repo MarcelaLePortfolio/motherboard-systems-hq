@@ -1,11 +1,16 @@
 services:
+  dashboard:
+    entrypoint: ["/scripts/docker-entrypoint-guard.sh"]
+    command: ["node", "server.mjs"]
+    environment:
+      POSTGRES_URL: postgres://postgres:postgres@postgres:5432/postgres
+      DATABASE_URL: postgres://postgres:postgres@postgres:5432/postgres
+      SCHEMA_MUTATION_DISABLED: "1"
+
   worker:
-    volumes:
-      - ./scripts:/scripts
     entrypoint: ["/scripts/docker-entrypoint-guard.sh"]
     command: ["node", "server/worker/phase26_task_worker.mjs"]
-
-  dashboard:
-    volumes:
-      - ./scripts:/scripts
-    entrypoint: ["/scripts/docker-entrypoint-guard.sh"]
+    environment:
+      POSTGRES_URL: postgres://postgres:postgres@postgres:5432/postgres
+      DATABASE_URL: postgres://postgres:postgres@postgres:5432/postgres
+      RUN_MIGRATIONS: "1"
