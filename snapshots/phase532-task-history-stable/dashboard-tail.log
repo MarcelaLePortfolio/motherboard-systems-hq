@@ -1,4 +1,4 @@
-dashboard-1  | [phase25] task_events_emit loaded 2026-04-29T22:06:48.130Z file= file:///app/server/task_events_emit.mjs
-dashboard-1  | [phase25] api-tasks-postgres loaded 2026-04-29T22:06:48.131Z file= file:///app/server/routes/api-tasks-postgres.mjs
+dashboard-1  | [phase25] task_events_emit loaded 2026-04-29T22:12:03.503Z file= file:///app/server/task_events_emit.mjs
+dashboard-1  | [phase25] api-tasks-postgres loaded 2026-04-29T22:12:03.504Z file= file:///app/server/routes/api-tasks-postgres.mjs
 dashboard-1  | Server running on http://0.0.0.0:3000
 dashboard-1  | Database pool initialized
