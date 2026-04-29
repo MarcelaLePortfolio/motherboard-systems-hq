@@ -43,6 +43,19 @@
     const selectedRow = container.querySelector(`[data-task-event-id="${selectedEventId}"]`);
     if (!selectedRow) return;
 
+    const lines = selectedRow.innerText.split("\n").map((line) => line.trim()).filter(Boolean);
+    const firstLine = lines[0] || "";
+    const title = lines[1] || firstLine || "Selected event";
+    const meta = lines[2] || "";
+
+    const [kindPart, taskPart = ""] = firstLine.split("task=");
+    const kind = kindPart.trim();
+    const taskId = taskPart.trim();
+
+    const [actorPart = "", timePart = ""] = meta.split("•");
+    const actor = actorPart.replace("actor=", "").trim();
+    const timestamp = timePart.trim();
+
     const content = selectedRow.innerText;
 
     const existing = container.querySelector("[data-expanded-panel]");
@@ -60,7 +73,21 @@
 
     panel.innerHTML = `
       <div style="font-size:.7rem; color:#94a3b8; margin-bottom:.25rem;">Selected Event</div>
-      <div style="margin-bottom:.4rem;">${escapeHtml(content)}</div>
+
+      <div style="font-size:.84rem; font-weight:700; color:#e2e8f0; margin-bottom:.35rem;">
+        ${escapeHtml(title)}
+      </div>
+
+      <div style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.73rem; color:#94a3b8; margin-bottom:.2rem;">
+        ${kind ? `<span style="color:#93c5fd;">${escapeHtml(kind)}</span>` : ""}
+        ${taskId ? `<span> • task=${escapeHtml(taskId)}</span>` : ""}
+      </div>
+
+      <div style="font-size:.72rem; color:#64748b; margin-bottom:.5rem;">
+        ${actor ? `actor=${escapeHtml(actor)}` : ""}
+        ${actor && timestamp ? " • " : ""}
+        ${timestamp ? escapeHtml(timestamp) : ""}
+      </div>
 
       <div style="display:flex; gap:.5rem; font-size:.7rem;">
         <span data-action="copy" style="cursor:pointer; color:#86efac;">
