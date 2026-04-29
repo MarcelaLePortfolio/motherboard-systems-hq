@@ -1,0 +1,23 @@
+PHASE 530 CLEAN STATE
+
+- Working tree is now clean except for intentionally untracked helper scripts:
+  - APPLY_PHASE530_DB_FALLBACK_SAFE.sh
+  - FIX_PHASE530_DB_NAME.sh
+  - FIX_PHASE530_DB_PASSWORD.sh
+
+- Latest commit:
+  Refine Phase 530 visible panel bridge sizing
+
+- Snapshot + tag already captured:
+  phase530-sse-telemetry-partial-restore
+
+- System is now in a stable checkpointed state and safe for next iteration.
+
+Next corridor:
+- Diagnose why UI sizing changes are not visually applying despite correct served JS
+- Likely causes:
+  1. Competing CSS (higher specificity)
+  2. DOM re-render overwrite after bridge render
+  3. Container constraints from parent layout (flex/grid conflict)
+
+Do not proceed until root cause is isolated.
