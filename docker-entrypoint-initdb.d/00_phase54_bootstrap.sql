@@ -15,7 +15,6 @@ CREATE TABLE IF NOT EXISTS public.tasks (
   title text,
   action_tier text,
 
-  -- app/worker expectations (may be unused in earlier phases but must exist)
   run_id text,
   claimed_by text,
   notes text,
@@ -39,7 +38,7 @@ BEGIN
   END IF;
 END
 $$;
--- task_events: ensure table exists, ensure ts is bigint epoch-ms
+
 CREATE TABLE IF NOT EXISTS public.task_events (
   id bigserial PRIMARY KEY,
   task_id text,
@@ -53,7 +52,6 @@ CREATE TABLE IF NOT EXISTS public.task_events (
 CREATE INDEX IF NOT EXISTS task_events_task_id_idx ON public.task_events(task_id);
 CREATE INDEX IF NOT EXISTS task_events_created_at_idx ON public.task_events(created_at);
 
--- Ensure ts exists and is bigint (epoch-ms).
 DO $$
 BEGIN
   IF EXISTS (
@@ -78,5 +76,14 @@ BEGIN
   END IF;
 END
 $$;
+
+-- REQUIRED for worker heartbeat + lease recovery system
+CREATE TABLE IF NOT EXISTS public.worker_heartbeats (
+  owner text PRIMARY KEY,
+  last_seen_at bigint NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS worker_heartbeats_last_seen_idx
+ON public.worker_heartbeats(last_seen_at);
 
 COMMIT;
