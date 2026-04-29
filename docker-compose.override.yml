@@ -1,2 +1,8 @@
 services:
   postgres: {}
+
+  worker:
+    volumes:
+      - ./scripts:/scripts
+    command: >
+      bash -c "/scripts/wait_for_schema.sh && node server/worker/phase26_task_worker.mjs"
