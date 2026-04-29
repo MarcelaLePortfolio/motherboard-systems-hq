@@ -82,7 +82,7 @@
           ${showJsonForEventId === selectedEventId ? "Hide JSON" : "View JSON"}
         </span>
         <span data-action="requeue" style="cursor:pointer; color:#facc15;">Requeue</span>
-        <span data-action="retry" style="cursor:pointer; color:#facc15;">Retry</span>
+        <span data-action="retry" style="cursor:pointer; color:#60a5fa;">Retry</span>
       </div>
     `;
 
