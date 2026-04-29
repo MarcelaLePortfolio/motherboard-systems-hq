@@ -56,7 +56,7 @@
         <div style="font-size:.75rem; color:#94a3b8;">Execution Inspector: ${escapeHtml(state)}</div>
         <div style="font-size:.72rem; color:#64748b;">${events.length} event${events.length === 1 ? "" : "s"}</div>
       </div>
-      <div style="max-height:18rem; overflow:auto;">${rows}</div>
+      <div style="flex:1 1 auto; min-height:0; overflow:auto;">${rows}</div>
     `;
   }
 
