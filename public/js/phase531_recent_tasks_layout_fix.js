@@ -61,19 +61,9 @@
 
   function boot() {
     applyLayout();
-
-    const observer = new MutationObserver(() => {
-      window.requestAnimationFrame(applyLayout);
-    });
-
-    observer.observe(document.body, {
-      childList: true,
-      subtree: true,
-      attributes: true,
-      attributeFilter: ["style", "class", "hidden"],
-    });
-
-    setInterval(applyLayout, 1000);
+    window.requestAnimationFrame(applyLayout);
+    setTimeout(applyLayout, 500);
+    window.addEventListener("resize", applyLayout);
   }
 
   if (document.readyState === "loading") {
