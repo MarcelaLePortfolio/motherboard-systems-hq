@@ -1,0 +1,20 @@
+PHASE 532 TASK HISTORY DIAGNOSIS
+
+Do not patch yet.
+
+Confirmed:
+- Previous canvas pixel-sizing patch caused cross-panel contamination.
+- Reverted successfully.
+- Current served phase532_task_history_fill_fix.js is back to safe baseline.
+
+Next diagnosis:
+- Determine whether the small chart is caused by:
+  1. Chart initialized while Task History tab is hidden
+  2. Canvas measured before panel becomes visible
+  3. Chart.js internal render dimensions not refreshed after tab activation
+
+Safer likely fix:
+- On Task History tab click, call chart.resize() and chart.update() after the panel is visible.
+- Do not move the canvas.
+- Do not change canvas parent ownership.
+- Do not mutate Recent Tasks panel.
