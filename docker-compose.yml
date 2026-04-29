@@ -20,7 +20,10 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    command: ["node", "server/phase26_task_worker.mjs"]
+    command: ["node", "server/worker/phase26_task_worker.mjs"]
+    environment:
+      POSTGRES_URL: postgres://postgres:postgres@postgres:5432/postgres
+      PHASE27_SQL_PATH: /app/server/worker
     depends_on:
       - postgres
 
