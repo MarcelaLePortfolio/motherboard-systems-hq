@@ -1,4 +1,4 @@
-import fs from "fs";
+import fs from "node:fs";
 import { db } from "../../db/client";
 
 export async function validateTaskEvent(eventId: string, payload: any, result: any) {

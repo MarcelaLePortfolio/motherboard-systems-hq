@@ -1,5 +1,5 @@
 // <0001fad4> Phase 4.6 — Reflection Watcher Expanded (WAL/SHM-aware auto-export)
-import fs from "fs";
+import fs from "node:fs";
 import path from "path";
 import Database from "better-sqlite3";
 import chokidar from "chokidar";

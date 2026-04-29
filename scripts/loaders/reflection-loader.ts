@@ -1,5 +1,5 @@
 // <0001fac9> Phase 4.5 — Static Reflections Export (Correct Column: content)
-import fs from "fs";
+import fs from "node:fs";
 import path from "path";
 import Database from "better-sqlite3";
 

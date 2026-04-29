@@ -1,5 +1,5 @@
 // <0001faef> Phase 9.7.4 — Atlas Awakening (Narrative Reflection Sequence)
-import fs from "fs";
+import fs from "node:fs";
 import path from "path";
 
 const logPath = path.join(process.cwd(), "logs/reflections/atlas.log");

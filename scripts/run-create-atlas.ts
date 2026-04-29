@@ -1,5 +1,5 @@
 // <0001fad9> Phase 9.4.1 — Atlas Live Build & Registration
-import fs from "fs";
+import fs from "node:fs";
 import path from "path";
 import { execSync } from "child_process";
 

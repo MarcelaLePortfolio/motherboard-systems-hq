@@ -2,7 +2,7 @@
 // Simulates cinematic agent delegation, reflection flow, and synchronized dashboard updates
 
 import { execSync } from "child_process";
-import fs from "fs";
+import fs from "node:fs";
 import path from "path";
 import { sqlite } from "../../db/client";
 

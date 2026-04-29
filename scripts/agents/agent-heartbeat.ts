@@ -1,6 +1,6 @@
 // ./scripts/agents/agent-heartbeat.ts
 import os from "os";
-import fs from "fs";
+import fs from "node:fs";
 import path from "path";
 import { setInterval } from "timers";
 

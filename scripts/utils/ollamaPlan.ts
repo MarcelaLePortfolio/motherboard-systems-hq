@@ -1,5 +1,5 @@
 // <0001fb02> Phase 9.9d — ollamaPlan Hybrid (Reasoning + Chat Fallback)
-import fs from "fs";
+import fs from "node:fs";
 import path from "path";
 import { runSkill } from "./runSkill";
 import { execSync } from "child_process";

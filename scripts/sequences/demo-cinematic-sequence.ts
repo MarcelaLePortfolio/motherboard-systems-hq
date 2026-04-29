@@ -1,5 +1,5 @@
 // <0001fbb5> Phase 10.4 — Demo Cinematic Sequence (Reflections Stream Replay)
-import fs from "fs";
+import fs from "node:fs";
 import path from "path";
 
 const logPath = path.join(process.cwd(), "logs", "reflections", "demo-cinematic.log");

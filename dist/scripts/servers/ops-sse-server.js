@@ -12,7 +12,7 @@ app.get("/events/ops", (req, res) => {
     res.write(`data: {"status":"connected"}\n\n`);
     const sendUpdate = () => {
         const rows = sqlite
-            .prepare("SELECT id, type, status, agent, created_at FROM task_events ORDER BY created_at DESC LIMIT 10")
+            .prepare("SELECT id, status, agent, created_at FROM task_events ORDER BY created_at DESC LIMIT 10")
             .all();
         res.write(`data: ${JSON.stringify(rows)}\n\n`);
     };

@@ -1,5 +1,5 @@
  
-import fs from "fs";
+import fs from "node:fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import lockfile from "proper-lockfile";

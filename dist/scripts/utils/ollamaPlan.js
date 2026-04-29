@@ -1,4 +1,4 @@
-import { runSkill } from "./runSkill.ts";
+import { runSkill } from "./runSkill";
 import { execSync } from "child_process";
 /**
  * 🧠 Hybrid Ollama Planner — uses local reasoning for known skills,

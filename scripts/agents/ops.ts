@@ -1,6 +1,6 @@
 // ./scripts/agents/ops.ts
 import { setInterval } from "timers";
-import fs from "fs";
+import fs from "node:fs";
 import path from "path";
 
 const OPS_INTERVAL_MS=3000;

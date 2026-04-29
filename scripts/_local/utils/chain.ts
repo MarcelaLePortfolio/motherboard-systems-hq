@@ -1,4 +1,4 @@
-import fs from "fs/promises";
+import fs from "node:fs/promises";
 import path from "path";
 
 const TASK_PATH = path.resolve("memory/chain_task.json");

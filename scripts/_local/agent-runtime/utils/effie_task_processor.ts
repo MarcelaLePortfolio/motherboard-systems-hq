@@ -1,5 +1,5 @@
 /* eslint-disable import/no-commonjs */
-import { readFileSync, writeFileSync } from "fs";
+import { readFileSync, writeFileSync } from "node:fs";
 import { exec } from "child_process";
 
 const filePath = "./memory/agent_chain_state.json";

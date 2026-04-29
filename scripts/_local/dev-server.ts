@@ -7,7 +7,7 @@
 import { createServer } from "http";
 import { execSync } from "child_process";
 import { join } from "path";
-import { existsSync, readFileSync } from "fs";
+import { existsSync, readFileSync } from "node:fs";
 import http from "http";
 
 const PORT = 3000;

@@ -1,6 +1,6 @@
 // scripts/ops/create-entity.ts
 // Universal constructor: builds agents, apps, or generic projects with hidden staging + progressive reveal.
-import fs from "fs";
+import fs from "node:fs";
 import path from "path";
 
 type CreateOptions = {
