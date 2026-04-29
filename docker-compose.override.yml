@@ -5,4 +5,4 @@ services:
     volumes:
       - ./scripts:/scripts
     command: >
-      bash -c "/scripts/schema_contract_enforcer.sh && node server/worker/phase26_task_worker.mjs"
+      bash -c "/scripts/schema_migration_engine.sh && node server/worker/phase26_task_worker.mjs"
