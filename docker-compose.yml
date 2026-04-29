@@ -20,19 +20,39 @@ services:
         GIT_SHA: ${GIT_SHA:-unknown}
         BUILD_TIME: ${BUILD_TIME:-unknown}
     environment:
+      DATABASE_URL: postgres://postgres:postgres@postgres:5432/postgres
       POLICY_SHADOW_ENABLED: ${POLICY_SHADOW_ENABLED:-0}
       POLICY_ENFORCE_ENABLED: ${POLICY_ENFORCE_ENABLED:-0}
       BUILD_TIME: ${BUILD_TIME:-unknown}
       GIT_SHA: ${GIT_SHA:-unknown}
       PGDATABASE: ${PGDATABASE:-postgres}
-      PGHOST: ${PGHOST:-postgres}
+      PGHOST: postgres
       PGPASSWORD: ${PGPASSWORD:-postgres}
-      PGPORT: ${PGPORT:-5432}
+      PGPORT: 5432
       PGUSER: ${PGUSER:-postgres}
     depends_on:
       - postgres
     ports:
       - "8080:3000"
+    entrypoint: ["/scripts/docker-entrypoint-guard.sh"]
+    volumes:
+      - ./scripts:/scripts
+
+  worker:
+    build: .
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@postgres:5432/postgres
+      PGDATABASE: ${PGDATABASE:-postgres}
+      PGHOST: postgres
+      PGPASSWORD: ${PGPASSWORD:-postgres}
+      PGPORT: 5432
+      PGUSER: ${PGUSER:-postgres}
+    volumes:
+      - ./scripts:/scripts
+    entrypoint: ["/scripts/docker-entrypoint-guard.sh"]
+    command: ["node", "server/worker/phase26_task_worker.mjs"]
 
 volumes:
   pgdata:
