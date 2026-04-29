@@ -1,8 +1,6 @@
 services:
-  postgres: {}
-
   worker:
     volumes:
       - ./scripts:/scripts
-    command: >
-      bash -c "/scripts/schema_migration_engine.sh && node server/worker/phase26_task_worker.mjs"
+    entrypoint: ["/scripts/docker-entrypoint.sh"]
+    command: ["node", "server/worker/phase26_task_worker.mjs"]
