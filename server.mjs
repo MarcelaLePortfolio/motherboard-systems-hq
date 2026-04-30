@@ -1,5 +1,7 @@
-const { routeRetryExecution } = require('./retry_execution_router');
-const { enforceRetryContract } = require('./server/retry_contract');
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+const { routeRetryExecution } = require("./server/retry_execution_router.js");
+const { enforceRetryContract } = require("./server/retry_contract.js");
 import express from 'express';
 import { fileURLToPath } from 'url';
 import path from 'path';

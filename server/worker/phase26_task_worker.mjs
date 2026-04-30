@@ -1,4 +1,6 @@
-const { enforceWorkerRetryContract } = require('./worker_retry_enforcer');
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+const { enforceWorkerRetryContract } = require("../worker_retry_enforcer.js");
 import fs from "fs";
 import path from "path";
 
