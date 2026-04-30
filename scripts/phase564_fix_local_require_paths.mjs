@@ -30,35 +30,7 @@ function resolveLocalRequire(fromFile, requested) {
     }
   }
 
-  const requestedBase = path.basename(requested);
-  const fallbackCandidates = [];
-
-  function walk(dir) {
-    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-      if ([".git", "node_modules", ".next", "dist", "_snapshots"].includes(entry.name)) continue;
-      const full = path.join(dir, entry.name);
-      if (entry.isDirectory()) {
-        walk(full);
-      } else {
-        const parsed = path.parse(full);
-        if (parsed.name === requestedBase && [".mjs", ".js", ".cjs"].includes(parsed.ext)) {
-          fallbackCandidates.push(full);
-        }
-      }
-    }
-  }
-
-  walk(root);
-
-  if (fallbackCandidates.length === 1) {
-    let rel = path.relative(fromDir, fallbackCandidates[0]).split(path.sep).join("/");
-    if (!rel.startsWith(".")) rel = `./${rel}`;
-    return rel;
-  }
-
-  throw new Error(
-    `Unable to resolve ${requested} from ${fromFile}. Candidates: ${fallbackCandidates.map(f => path.relative(root, f)).join(", ") || "none"}`
-  );
+  throw new Error(`Unable to resolve ${requested} from ${fromFile}`);
 }
 
 for (const file of files) {
@@ -69,14 +41,10 @@ for (const file of files) {
     ""
   );
 
-  src = src.replace(
-    /require\(["']([^"']+)["']\)/g,
-    (match, requested) => {
-      if (!requested.startsWith(".")) return match;
-      const resolved = resolveLocalRequire(file, requested);
-      return `require("${resolved}")`;
-    }
-  );
+  src = src.replace(/require\(["']([^"']+)["']\)/g, (match, requested) => {
+    if (!requested.startsWith(".")) return match;
+    return `require("${resolveLocalRequire(file, requested)}")`;
+  });
 
   if (src.includes("require(")) {
     src = `import { createRequire } from "module";\nconst require = createRequire(import.meta.url);\n${src}`;
