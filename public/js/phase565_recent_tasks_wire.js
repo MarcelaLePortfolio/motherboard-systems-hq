@@ -20,7 +20,7 @@
     const items = Array.isArray(tasks) ? tasks.slice(0, 8) : [];
 
     if (items.length === 0) {
-      mount.textContent = "No recent tasks.";
+      mount.textContent = "No recent tasks yet.";
       return;
     }
 

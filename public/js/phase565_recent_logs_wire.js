@@ -9,7 +9,7 @@
     mount.innerHTML = "";
 
     if (!Array.isArray(logs) || logs.length === 0) {
-      mount.textContent = "No recent logs.";
+      mount.textContent = "No task history yet.";
       return;
     }
 
