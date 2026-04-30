@@ -1,0 +1,3 @@
+?? PHASE570_COMPLETION_VALIDATED.txt
+?? PHASE570_STEP3_ADD_SUCCESS_COMPLETION.sh
+?? _snapshots/phase570-worker-completion-validated/

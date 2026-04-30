@@ -1,0 +1,25 @@
+worker-1  | [worker] resolved sql contracts: { phase: '32', count: 3 }
+worker-1  | [worker] contract: phase32_claim_one.sql
+worker-1  | [worker] contract: phase32_mark_failure.sql
+worker-1  | [worker] contract: phase32_mark_success.sql
+worker-1  | [worker] started with POSTGRES_URL: postgresql://postgres:postgres@postgres:5432/postgres
+worker-1  | [worker] running in phase: 32
+worker-1  | [worker] owner: worker-e5797b08-b953-4ee5-87ed-70efc143ec10
+worker-1  | [worker] heartbeat
+worker-1  | [worker] claimed task {
+worker-1  |   id: '2',
+worker-1  |   task_id: 't_789d06a0-8fcb-4194-854e-fce93fc0fa68',
+worker-1  |   status: 'running',
+worker-1  |   run_id: 'run_5546ad2c-5012-4131-b6d0-e63c6fca844e',
+worker-1  |   claimed_by: 'worker-e5797b08-b953-4ee5-87ed-70efc143ec10'
+worker-1  | }
+worker-1  | [worker] completed task {
+worker-1  |   id: '2',
+worker-1  |   task_id: 't_789d06a0-8fcb-4194-854e-fce93fc0fa68',
+worker-1  |   status: 'completed',
+worker-1  |   run_id: 'run_5546ad2c-5012-4131-b6d0-e63c6fca844e',
+worker-1  |   claimed_by: 'worker-e5797b08-b953-4ee5-87ed-70efc143ec10',
+worker-1  |   completed_at: 2026-04-30T05:59:58.646Z
+worker-1  | }
+worker-1  | [worker] heartbeat
+worker-1  | [worker] heartbeat

@@ -1,0 +1,19 @@
+PHASE 570 — COMPLETION LIFECYCLE VALIDATED
+
+Validated:
+- Fresh task created through POST /api/tasks/create.
+- Worker claimed queued task.
+- Worker moved task to running.
+- Worker completed task using existing Phase 32 success SQL.
+- completed_at populated successfully.
+- run_id and claimed_by populated by worker.
+
+Observed lifecycle:
+queued → running → completed
+
+Known residue:
+- Older Phase 568 task remains running from before completion logic existed.
+- Do not mutate it during this validation checkpoint unless explicitly cleaning historical residue later.
+
+Checkpoint Target:
+phase570-worker-completion-validated
