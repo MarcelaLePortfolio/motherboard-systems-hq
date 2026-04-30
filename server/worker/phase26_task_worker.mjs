@@ -4,8 +4,10 @@ const { enforceWorkerRetryContract } = require("../worker_retry_enforcer.js");
 import fs from "fs";
 import path from "path";
 
-const POSTGRES_URL = process.env.POSTGRES_URL;
-if (!POSTGRES_URL) throw new Error("POSTGRES_URL required");
+const POSTGRES_URL =
+  process.env.POSTGRES_URL ||
+  process.env.DATABASE_URL ||
+  "postgresql://postgres:postgres@postgres:5432/postgres";
 
 const WORKER_DIR = path.resolve("/app/server/worker");
 
