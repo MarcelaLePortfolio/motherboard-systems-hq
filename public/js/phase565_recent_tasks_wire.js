@@ -10,11 +10,19 @@
     return d.toLocaleString();
   }
 
+  function statusClass(status) {
+    const s = String(status || "").toLowerCase();
+    if (s.includes("complete")) return "text-green-400";
+    if (s.includes("running")) return "text-yellow-400";
+    if (s.includes("queued")) return "text-blue-400";
+    if (s.includes("failed")) return "text-red-400";
+    return "text-gray-400";
+  }
+
   function renderRecentTasks(tasks) {
     const mount = document.getElementById("recentTasks");
     if (!mount) return;
 
-    mount.setAttribute("data-phase565-recent-tasks-wire", "active");
     mount.innerHTML = "";
 
     const items = Array.isArray(tasks) ? tasks.slice(0, 8) : [];
@@ -37,10 +45,15 @@
       title.textContent = text(task.title || task.task_id || task.id, "Untitled task");
 
       const meta = document.createElement("div");
-      meta.className = "mt-2 text-xs text-gray-400 leading-5";
-      meta.textContent =
-        "Status: " + text(task.status, "unknown") +
-        " · Updated: " + formatTime(task.updated_at || task.created_at);
+      meta.className = "mt-2 text-xs leading-5";
+
+      const statusSpan = document.createElement("span");
+      statusSpan.className = statusClass(task.status);
+      statusSpan.textContent = text(task.status, "unknown");
+
+      meta.appendChild(document.createTextNode("Status: "));
+      meta.appendChild(statusSpan);
+      meta.appendChild(document.createTextNode(" · Updated: " + formatTime(task.updated_at || task.created_at)));
 
       card.appendChild(title);
       card.appendChild(meta);
@@ -63,15 +76,11 @@
 
   function startRecentTasksWire() {
     refreshRecentTasks();
-
     let runs = 0;
-    const timer = window.setInterval(function () {
-      runs += 1;
+    const timer = setInterval(function () {
+      runs++;
       refreshRecentTasks();
-
-      if (runs >= 10) {
-        window.clearInterval(timer);
-      }
+      if (runs >= 10) clearInterval(timer);
     }, 500);
   }
 
