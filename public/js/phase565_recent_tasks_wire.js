@@ -76,13 +76,7 @@
 
   function startRecentTasksWire() {
     refreshRecentTasks();
-    let runs = 0;
-    const timer = setInterval(function () {
-      runs++;
-      refreshRecentTasks();
-      if (runs >= 10) clearInterval(timer);
-    }, 500);
-  }
+}
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", startRecentTasksWire, { once: true });
