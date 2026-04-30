@@ -20,6 +20,8 @@ const app = express();
 
 // Phase 11 stubbed task endpoints to avoid Postgres dependency
 app.post("/api/delegate-task", (req, res) => {
+  // PHASE 542 ENFORCEMENT
+  req.body = routeRetryExecution(req.body || {});
   const { title, agent, notes } = req.body || {};
   const fakeId = Math.floor(Date.now() / 1000);
   res.json({
