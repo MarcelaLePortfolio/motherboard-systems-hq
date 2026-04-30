@@ -1,0 +1,17 @@
+PHASE 568 — LIVE TELEMETRY VALIDATED
+
+Validated:
+- Task creation route confirmed: POST /api/tasks/create
+- /api/tasks returns created task
+- Recent Tasks panel renders live task data
+- Recent Logs receives live SSE task event
+- End-to-end telemetry path confirmed:
+  API → DB → Tasks API → UI → SSE → Logs
+
+Decision:
+- Do not modify minor visual status-color mismatch.
+- Leave logs as raw/readable event stream.
+- Leave Recent Tasks as formatted operator view.
+
+Checkpoint Target:
+phase568-live-telemetry-validated
