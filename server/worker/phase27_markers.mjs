@@ -1,3 +1,4 @@
+const { enforceWorkerRetryContract } = require('./worker_retry_enforcer');
 import fs from "node:fs";
 import path from "node:path";
 import { Pool } from "pg";

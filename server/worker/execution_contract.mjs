@@ -1,3 +1,4 @@
+const { enforceWorkerRetryContract } = require('./worker_retry_enforcer');
 function isObject(v) {
   return v !== null && typeof v === "object" && !Array.isArray(v);
 }

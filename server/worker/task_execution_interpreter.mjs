@@ -1,3 +1,4 @@
+const { enforceWorkerRetryContract } = require('./worker_retry_enforcer');
 function unwrapPayload(value) {
   if (!value) return {};
   if (typeof value === "object") return value;

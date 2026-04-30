@@ -1,3 +1,4 @@
+const { enforceWorkerRetryContract } = require('./worker_retry_enforcer');
 import fs from "fs";
 import path from "path";
 

@@ -1,3 +1,4 @@
+const { enforceWorkerRetryContract } = require('./worker_retry_enforcer');
 import process from "process";
 
 if (!process.env.POSTGRES_URL) {
