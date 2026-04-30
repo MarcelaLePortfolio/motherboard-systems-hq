@@ -1,3 +1,4 @@
+const { emitEvent } = require('./observability_logger');
 function routeRetryExecution(task) {
   const strategy = task?.strategy || "standard";
 
@@ -17,5 +18,11 @@ function routeRetryExecution(task) {
     memory_scope: "preserve"
   };
 }
+
+
+  emitEvent({
+    type: "retry.router.loaded",
+    layer: "execution_router"
+  });
 
 module.exports = { routeRetryExecution };
