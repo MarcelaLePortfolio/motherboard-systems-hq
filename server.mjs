@@ -1,3 +1,4 @@
+const { routeRetryExecution } = require('./retry_execution_router');
 const { enforceRetryContract } = require('./server/retry_contract');
 import express from 'express';
 import { fileURLToPath } from 'url';
