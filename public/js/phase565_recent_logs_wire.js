@@ -1,11 +1,20 @@
 (function () {
   const buffer = [];
 
+  function summarizeEvent(data) {
+    if (!data || typeof data !== "object") return String(data || "event received");
+
+    const type = data.type || data.event || data.status || "task event";
+    const id = data.task_id || data.taskId || data.id || "";
+    const status = data.status ? " · " + data.status : "";
+
+    return String(type) + (id ? " · " + id : "") + status;
+  }
+
   function renderLogs(logs) {
     const mount = document.getElementById("recentLogs");
     if (!mount) return;
 
-    mount.setAttribute("data-phase565-recent-logs-wire", "active");
     mount.innerHTML = "";
 
     if (!Array.isArray(logs) || logs.length === 0) {
@@ -19,12 +28,11 @@
 
     logs.slice(-20).reverse().forEach(function (log) {
       const line = document.createElement("div");
-      line.className = "text-xs text-gray-400";
+      line.className = "text-xs text-gray-400 leading-5";
 
       const ts = log.timestamp ? new Date(log.timestamp).toLocaleTimeString() : "";
-      const msg = typeof log === "string" ? log : (log.message || JSON.stringify(log));
+      line.textContent = (ts ? "[" + ts + "] " : "") + log.message;
 
-      line.textContent = (ts ? "[" + ts + "] " : "") + msg;
       list.appendChild(line);
     });
 
@@ -42,7 +50,7 @@
           const data = JSON.parse(e.data);
           buffer.push({
             timestamp: Date.now(),
-            message: JSON.stringify(data)
+            message: summarizeEvent(data)
           });
           renderLogs(buffer);
         } catch (_) {}
