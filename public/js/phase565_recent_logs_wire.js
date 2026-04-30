@@ -3,10 +3,11 @@
     const mount = document.getElementById("recentLogs");
     if (!mount) return;
 
+    mount.setAttribute("data-phase565-recent-logs-wire", "active");
     mount.innerHTML = "";
 
     if (!Array.isArray(logs) || logs.length === 0) {
-      mount.textContent = "No recent logs available.";
+      mount.textContent = "Phase 565 live logs wire active — no recent logs available.";
       return;
     }
 
@@ -22,7 +23,6 @@
       const msg = typeof log === "string" ? log : (log.message || JSON.stringify(log));
 
       line.textContent = (ts ? "[" + ts + "] " : "") + msg;
-
       list.appendChild(line);
     });
 
@@ -30,10 +30,11 @@
   }
 
   function connectSSE() {
+    const buffer = [];
+    renderLogs(buffer);
+
     try {
       const evt = new EventSource("/events/tasks");
-
-      const buffer = [];
 
       evt.onmessage = function (e) {
         try {
@@ -46,11 +47,9 @@
         } catch (_) {}
       };
 
-      evt.onerror = function () {
-        // fail silently, do not disrupt UI
-      };
+      evt.onerror = function () {};
     } catch (_) {
-      renderLogs([]);
+      renderLogs(buffer);
     }
   }
 
