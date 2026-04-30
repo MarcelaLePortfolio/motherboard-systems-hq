@@ -1,52 +1,54 @@
 (function () {
-  function applyGraphFill() {
-    const panel = document.getElementById("obs-panel-activity");
+  async function fetchTasks() {
+    try {
+      const res = await fetch("/api/tasks");
+      const json = await res.json();
+      return json.tasks || [];
+    } catch (e) {
+      console.error("[telemetry] fetch failed", e);
+      return [];
+    }
+  }
+
+  function renderMetrics(tasks) {
     const card = document.getElementById("task-activity-card");
-    const canvas = document.getElementById("task-activity-graph");
-    if (!canvas) return;
+    if (!card) return;
 
-    const wrapper = canvas.parentElement;
+    const queued = tasks.filter(t => t.status === "queued").length;
+    const running = tasks.filter(t => t.status === "running").length;
+    const completed = tasks.filter(t => t.status === "completed").length;
+    const failed = tasks.filter(t => t.status === "failed").length;
 
-    if (panel) {
-      panel.style.display = "flex";
-      panel.style.flexDirection = "column";
-      panel.style.flex = "1 1 auto";
-      panel.style.height = "100%";
-      panel.style.minHeight = "0";
-    }
+    const lastUpdated = tasks[0]?.updated_at || "—";
 
-    if (card) {
-      card.style.display = "flex";
-      card.style.flexDirection = "column";
-      card.style.flex = "1 1 auto";
-      card.style.height = "100%";
-      card.style.minHeight = "0";
-    }
+    card.innerHTML =
+      '<div style="display:flex;flex-direction:column;gap:12px;height:100%;">' +
+      '<div style="font-size:14px;opacity:0.7;">Telemetry Overview</div>' +
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">' +
+      '<div>Queued: <b>' + queued + '</b></div>' +
+      '<div>Running: <b>' + running + '</b></div>' +
+      '<div>Completed: <b>' + completed + '</b></div>' +
+      '<div>Failed: <b>' + failed + '</b></div>' +
+      '</div>' +
+      '<div style="margin-top:auto;font-size:12px;opacity:0.6;">' +
+      'Last update: ' + lastUpdated +
+      '</div>' +
+      '</div>';
+  }
 
-    if (wrapper) {
-      wrapper.classList.remove("h-64");
-      wrapper.style.display = "flex";
-      wrapper.style.flex = "1 1 auto";
-      wrapper.style.height = "100%";
-      wrapper.style.minHeight = "0";
-      wrapper.style.maxHeight = "none";
-    }
+  async function tick() {
+    const tasks = await fetchTasks();
+    renderMetrics(tasks);
+  }
 
-    canvas.removeAttribute("height");
-    canvas.removeAttribute("width");
-    canvas.style.display = "block";
-    canvas.style.flex = "1 1 auto";
-    canvas.style.width = "100%";
-    canvas.style.height = "100%";
-    canvas.style.minHeight = "0";
-    canvas.style.maxHeight = "none";
+  function start() {
+    tick();
+    setInterval(tick, 3000);
   }
 
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", applyGraphFill, { once: true });
+    document.addEventListener("DOMContentLoaded", start, { once: true });
   } else {
-    applyGraphFill();
+    start();
   }
-
-  window.addEventListener("resize", applyGraphFill);
 })();
