@@ -1,4 +1,6 @@
 (function () {
+  const buffer = [];
+
   function renderLogs(logs) {
     const mount = document.getElementById("recentLogs");
     if (!mount) return;
@@ -30,7 +32,6 @@
   }
 
   function connectSSE() {
-    const buffer = [];
     renderLogs(buffer);
 
     try {
@@ -53,9 +54,23 @@
     }
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", connectSSE, { once: true });
-  } else {
+  function startRecentLogsWire() {
     connectSSE();
+
+    let runs = 0;
+    const timer = window.setInterval(function () {
+      runs += 1;
+      renderLogs(buffer);
+
+      if (runs >= 10) {
+        window.clearInterval(timer);
+      }
+    }, 500);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", startRecentLogsWire, { once: true });
+  } else {
+    startRecentLogsWire();
   }
 })();
