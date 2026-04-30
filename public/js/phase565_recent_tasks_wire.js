@@ -14,12 +14,13 @@
     const mount = document.getElementById("recentTasks");
     if (!mount) return;
 
+    mount.setAttribute("data-phase565-recent-tasks-wire", "active");
     mount.innerHTML = "";
 
     const items = Array.isArray(tasks) ? tasks.slice(0, 8) : [];
 
     if (items.length === 0) {
-      mount.textContent = "No recent tasks available.";
+      mount.textContent = "Phase 565 live tasks wire active — no recent tasks available.";
       return;
     }
 
