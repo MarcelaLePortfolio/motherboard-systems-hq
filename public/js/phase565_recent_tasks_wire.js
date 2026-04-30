@@ -61,9 +61,23 @@
     }
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", refreshRecentTasks, { once: true });
-  } else {
+  function startRecentTasksWire() {
     refreshRecentTasks();
+
+    let runs = 0;
+    const timer = window.setInterval(function () {
+      runs += 1;
+      refreshRecentTasks();
+
+      if (runs >= 10) {
+        window.clearInterval(timer);
+      }
+    }, 500);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", startRecentTasksWire, { once: true });
+  } else {
+    startRecentTasksWire();
   }
 })();
