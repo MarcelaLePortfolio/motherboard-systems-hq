@@ -1,4 +1,3 @@
-const { logTaskEvent } = require('./task_event_logger');
 const { routeRetryExecution } = require('./retry_execution_router');
 const { enforceRetryContract } = require('./server/retry_contract');
 import express from 'express';
@@ -21,13 +20,6 @@ const app = express();
 
 // Phase 11 stubbed task endpoints to avoid Postgres dependency
 app.post("/api/delegate-task", (req, res) => {
-  // PHASE EVENT HOOK
-  await logTaskEvent(db, {
-    task_id: req.body?.meta?.retry_of_task_id || req.body?.task_id || "unknown",
-    kind: "task.event.received",
-    actor: "api",
-    payload: req.body
-  });
   // PHASE 542 ENFORCEMENT
   req.body = routeRetryExecution(req.body || {});
   const { title, agent, notes } = req.body || {};
