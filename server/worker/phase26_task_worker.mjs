@@ -51,6 +51,7 @@ function readSql(name) {
 
 const SQL = resolveSqlContracts();
 const CLAIM_SQL = readSql(`phase${SQL.phase}_claim_one.sql`);
+const MARK_SUCCESS_SQL = readSql(`phase${SQL.phase}_mark_success.sql`);
 
 console.log("[worker] resolved sql contracts:", {
   phase: SQL.phase,
@@ -81,6 +82,31 @@ async function claimOnce(pool) {
   return task;
 }
 
+async function completeSuccess(pool, task) {
+  if (!task?.task_id) return null;
+
+  const result = await pool.query(MARK_SUCCESS_SQL, [
+    task.task_id,
+    task.run_id ?? null,
+    OWNER
+  ]);
+
+  const completed = result.rows?.[0] || null;
+
+  if (completed) {
+    console.log("[worker] completed task", {
+      id: completed.id,
+      task_id: completed.task_id,
+      status: completed.status,
+      run_id: completed.run_id,
+      claimed_by: completed.claimed_by,
+      completed_at: completed.completed_at
+    });
+  }
+
+  return completed;
+}
+
 async function main() {
   console.log("[worker] started with POSTGRES_URL:", POSTGRES_URL);
   console.log("[worker] running in phase:", SQL.phase);
@@ -96,7 +122,10 @@ async function main() {
 
   setInterval(async () => {
     try {
-      await claimOnce(pool);
+      const task = await claimOnce(pool);
+      if (task) {
+        await completeSuccess(pool, task);
+      }
     } catch (err) {
       console.error("[worker] claim loop error:", err?.message || err);
     }
