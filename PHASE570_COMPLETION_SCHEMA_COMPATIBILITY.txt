@@ -1,0 +1,17 @@
+PHASE 570 — COMPLETION SCHEMA COMPATIBILITY
+
+Change:
+- Added tasks.completed_at timestamptz null in runtime DB.
+
+Reason:
+- Existing Phase 32 success/failure SQL references completed_at.
+- Completion lifecycle cannot safely run until schema supports that column.
+
+Scope:
+- DB schema compatibility only.
+- No worker completion behavior added yet.
+- No API mutation.
+- No UI mutation.
+
+Next Safe Objective:
+- Wire worker completion using existing phase32_mark_success.sql only after this column is confirmed.
