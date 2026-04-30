@@ -20,7 +20,7 @@
     const items = Array.isArray(tasks) ? tasks.slice(0, 8) : [];
 
     if (items.length === 0) {
-      mount.textContent = "Phase 565 live tasks wire active — no recent tasks available.";
+      mount.textContent = "No recent tasks.";
       return;
     }
 

@@ -9,7 +9,7 @@
     mount.innerHTML = "";
 
     if (!Array.isArray(logs) || logs.length === 0) {
-      mount.textContent = "Phase 565 live logs wire active — no recent logs available.";
+      mount.textContent = "No recent logs.";
       return;
     }
 
