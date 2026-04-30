@@ -1,0 +1,20 @@
+0d442ffb Phase 569: add minimal worker claim loop
+6e6ae693 Phase 569: define safe worker claim-loop boundary
+a97e4c1b Phase 568: document worker lifecycle gap after telemetry validation
+242fabc1 Phase 568: add live telemetry validation snapshot
+6d3ac41a Phase 568: finalize live telemetry validation
+e121f4a0 Phase 568: correct task trigger to active create route
+e7339bb4 Phase 568: add task trigger for telemetry validation
+6828ce89 Phase 568: define live telemetry validation corridor
+35ee301d Phase 567: finalize telemetry runtime cleanup and stabilization
+f49fe08f Phase 567: track Recent Logs reassertion residue cleanup script
+09802c17 Phase 567: remove remaining Recent Logs reassertion residue
+a2975e7e Phase 567: add verification for reassertion removal
+b1f9c0e5 Phase 567: remove Recent Logs reassertion and track cleanup scripts
+c8c862eb Phase 567: remove reassertion loop from Recent Tasks wire
+b011effb Phase 567: define reassertion removal and telemetry stabilization steps
+bd93b4aa Phase 566: track telemetry polish helper scripts
+3e613f89 Phase 566: improve Recent Logs event readability
+07a15d0e Phase 566: add lightweight status coloring to Recent Tasks
+3b188ce2 Phase 566: enforce consistent empty-state text across telemetry panels
+1ee68b07 Phase 566: track marker cleanup script

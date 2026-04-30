@@ -1,0 +1,32 @@
+worker-1  | [worker] resolved sql contracts: { phase: '32', count: 3 }
+worker-1  | [worker] contract: phase32_claim_one.sql
+worker-1  | [worker] contract: phase32_mark_failure.sql
+worker-1  | [worker] contract: phase32_mark_success.sql
+worker-1  | [worker] started with POSTGRES_URL: postgresql://postgres:postgres@postgres:5432/postgres
+worker-1  | [worker] running in phase: 32
+worker-1  | [worker] owner: worker-93cb297b-7e49-477c-88e5-7a1323514b1c
+worker-1  | [worker] claim loop error: column "next_run_at" does not exist
+worker-1  | [worker] claim loop error: column "next_run_at" does not exist
+worker-1  | [worker] claim loop error: column "next_run_at" does not exist
+worker-1  | [worker] claim loop error: column "next_run_at" does not exist
+worker-1  | [worker] claim loop error: column "next_run_at" does not exist
+worker-1  | [worker] heartbeat
+worker-1  | [worker] claim loop error: column "next_run_at" does not exist
+worker-1  | [worker] claim loop error: column "next_run_at" does not exist
+worker-1  | [worker] claim loop error: column "next_run_at" does not exist
+worker-1  | [worker] claimed task {
+worker-1  |   id: '1',
+worker-1  |   task_id: 't_d0410c99-0a81-4ae9-92a3-6f32ebcb2070',
+worker-1  |   status: 'running',
+worker-1  |   run_id: 'run_709ba0d1-82ca-426b-8cbb-9ea9eb55a200',
+worker-1  |   claimed_by: 'worker-93cb297b-7e49-477c-88e5-7a1323514b1c'
+worker-1  | }
+worker-1  | [worker] heartbeat
+worker-1  | [worker] resolved sql contracts: { phase: '32', count: 3 }
+worker-1  | [worker] contract: phase32_claim_one.sql
+worker-1  | [worker] contract: phase32_mark_failure.sql
+worker-1  | [worker] contract: phase32_mark_success.sql
+worker-1  | [worker] started with POSTGRES_URL: postgresql://postgres:postgres@postgres:5432/postgres
+worker-1  | [worker] running in phase: 32
+worker-1  | [worker] owner: worker-4d0adce0-3b8c-412d-8dfd-3d6614018bff
+worker-1  | [worker] heartbeat
