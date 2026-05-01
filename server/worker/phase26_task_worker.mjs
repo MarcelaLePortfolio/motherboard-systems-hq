@@ -66,7 +66,25 @@ for (const f of SQL.files) {
 async function claimOnce(pool) {
   const runId = `run_${crypto.randomUUID()}`;
   const result = await pool.query(CLAIM_SQL, [runId, OWNER]);
-  const task = result.rows?.[0];
+  
+    // --- Phase 583: retry visibility (non-invasive) ---
+    try {
+      const payload = task.payload || {};
+      if (payload && typeof payload === "object") {
+        const retryMode = payload.retry_mode || payload.execution_mode || "none";
+        const retryOf = payload.retry_of_task_id || "none";
+
+        console.log("[worker][retry-context]", {
+          task_id: task.task_id,
+          retry_mode: retryMode,
+          retry_of_task_id: retryOf
+        });
+      }
+    } catch (err) {
+      console.warn("[worker][retry-context] failed to inspect payload");
+    }
+
+const task = result.rows?.[0];
 
   if (!task) {
     return null;
@@ -137,7 +155,25 @@ async function main() {
 
   setInterval(async () => {
     try {
-      const task = await claimOnce(pool);
+      
+    // --- Phase 583: retry visibility (non-invasive) ---
+    try {
+      const payload = task.payload || {};
+      if (payload && typeof payload === "object") {
+        const retryMode = payload.retry_mode || payload.execution_mode || "none";
+        const retryOf = payload.retry_of_task_id || "none";
+
+        console.log("[worker][retry-context]", {
+          task_id: task.task_id,
+          retry_mode: retryMode,
+          retry_of_task_id: retryOf
+        });
+      }
+    } catch (err) {
+      console.warn("[worker][retry-context] failed to inspect payload");
+    }
+
+const task = await claimOnce(pool);
       if (task) {
         await completeSuccess(pool, task);
       }
