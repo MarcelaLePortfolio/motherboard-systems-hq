@@ -1,0 +1,24 @@
+Phase 613 UI discovery condensed finding.
+
+Confirmed:
+- SYSTEM_GAP_OVERVIEW.md committed and pushed.
+- Current gap focus is system-led execution.
+- UI discovery output was too long to share cleanly.
+
+Current important finding:
+- Response compiler exists and is passively invoked by worker.
+- UI does not yet consume CommunicationResult.
+- Current execution output appears in worker logs, not confirmed as rendered through Recent Tasks or Execution Inspector.
+- Next safe step is to produce a concise UI/API mapping from existing discovery output, not add more runtime code.
+
+Next:
+Summarize PHASE613_UI_SURFACE_ACTUAL_INSPECTION.txt into a short, readable finding:
+- Recent Tasks component + endpoint + rendered fields
+- Execution Inspector source + endpoint/event source + rendered fields
+- Task History behavior
+- Exact future insertion point for CommunicationResult
+
+Constraint:
+No code changes.
+No new wiring.
+Documentation only.
