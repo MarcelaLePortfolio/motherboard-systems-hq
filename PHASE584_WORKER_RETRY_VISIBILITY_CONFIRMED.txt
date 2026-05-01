@@ -1,0 +1,14 @@
+Phase 584 worker retry visibility confirmed.
+
+Result:
+- Worker now successfully logs retry context at execution time.
+- execution_mode, cache_policy, memory_scope, and retry_of_task_id are visible.
+- Retry routing intent is fully preserved from API → DB → worker.
+- Logging placement issue has been resolved.
+- System behavior remains unchanged (non-invasive validation only).
+
+Meaning:
+Execution rules are no longer just entry-time enforced — they are now observable at runtime.
+
+Next:
+Checkpoint, tag, and snapshot this state before moving into runtime rule enforcement (Phase 585).
