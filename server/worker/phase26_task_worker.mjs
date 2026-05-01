@@ -163,6 +163,15 @@ async function main() {
               effect: "no_cache_layer_available_yet"
             });
           }
+
+          if (policy.requires_memory_scope_reset) {
+            console.log("[worker][runtime-hook][memory-scope]", {
+              task_id: task.task_id,
+              memory_scope: policy.memory_scope,
+              action: "reset_partial_observed",
+              effect: "no_memory_layer_available_yet"
+            });
+          }
         } catch (err) {
           console.warn("[worker][execution-policy] failed to resolve policy");
         }
