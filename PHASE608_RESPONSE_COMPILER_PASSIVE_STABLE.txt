@@ -1,0 +1,24 @@
+Phase 608 response compiler passive integration stable checkpoint.
+
+Result:
+- Worker execution behavior remains unchanged.
+- Task lifecycle (claim → execute → complete) verified intact.
+- Execution-contract log still appears exactly as before.
+- NEW response-compiler log appears immediately after execution-contract.
+- Tier 1 outcome preview matches execution output.
+- Tier 2 explanation preview matches execution notes.
+- No errors, crashes, or regressions observed.
+- No latency impact detected.
+- No DB, UI, or routing changes introduced.
+- Working tree clean.
+
+Meaning:
+The response compiler is now safely integrated as a passive observer.
+Execution layer remains authoritative and untouched.
+
+Stable Tag:
+phase608-response-compiler-passive-stable
+
+Next:
+Plan controlled promotion of compiler from observer → presentation authority (UI layer), without touching execution.
+
