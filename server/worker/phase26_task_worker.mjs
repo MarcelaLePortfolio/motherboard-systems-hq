@@ -172,6 +172,15 @@ async function main() {
               effect: "no_memory_layer_available_yet"
             });
           }
+
+          if (policy.requires_context_rebuild) {
+            console.log("[worker][runtime-hook][execution-mode]", {
+              task_id: task.task_id,
+              execution_mode: policy.execution_mode,
+              action: "rebuild_context_observed",
+              effect: "no_context_layer_available_yet"
+            });
+          }
         } catch (err) {
           console.warn("[worker][execution-policy] failed to resolve policy");
         }
