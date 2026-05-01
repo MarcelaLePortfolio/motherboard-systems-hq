@@ -6,6 +6,7 @@ import fs from "fs";
 import path from "path";
 import crypto from "crypto";
 import { emitTaskEvent } from "../task_events_emit.mjs";
+import { resolveExecutionPolicy } from "./execution_policy_resolver.mjs";
 
 const POSTGRES_URL =
   process.env.POSTGRES_URL ||
@@ -67,7 +68,7 @@ async function claimOnce(pool) {
   const runId = `run_${crypto.randomUUID()}`;
   const result = await pool.query(CLAIM_SQL, [runId, OWNER]);
 
-const task = result.rows?.[0];
+  const task = result.rows?.[0];
 
   if (!task) {
     return null;
@@ -138,23 +139,23 @@ async function main() {
 
   setInterval(async () => {
     try {
-
-const task = await claimOnce(pool);
+      const task = await claimOnce(pool);
       if (task) {
         try {
-          const payload = task.payload || {};
-          if (payload && typeof payload === "object") {
-            console.log("[worker][retry-context]", {
-              task_id: task.task_id,
-              retry_mode: payload.retry_mode || null,
-              execution_mode: payload.execution_mode || null,
-              cache_policy: payload.cache_policy || null,
-              memory_scope: payload.memory_scope || null,
-              retry_of_task_id: payload.retry_of_task_id || null
-            });
-          }
+          const policy = resolveExecutionPolicy(task);
+
+          console.log("[worker][execution-policy]", {
+            task_id: task.task_id,
+            is_retry: policy.is_retry,
+            execution_mode: policy.execution_mode,
+            cache_policy: policy.cache_policy,
+            memory_scope: policy.memory_scope,
+            requires_context_rebuild: policy.requires_context_rebuild,
+            requires_cache_bypass: policy.requires_cache_bypass,
+            requires_memory_scope_reset: policy.requires_memory_scope_reset
+          });
         } catch (err) {
-          console.warn("[worker][retry-context] failed to inspect claimed task payload");
+          console.warn("[worker][execution-policy] failed to resolve policy");
         }
 
         await completeSuccess(pool, task);
