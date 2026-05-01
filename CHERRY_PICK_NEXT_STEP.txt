@@ -1,0 +1,21 @@
+Next Cherry-Pick Target:
+
+Objective:
+Restore retry execution routing logic server-side to complete full loop:
+UI to task create to worker execution to completion lifecycle.
+
+Target Areas:
+- server/retry_execution_router.js
+- server/retry_contract.js
+- any Phase 542-545 commits related to retry execution and worker handling
+
+Strategy:
+Cherry-pick ONLY retry execution pipeline logic.
+No UI changes.
+No enforcement layers.
+
+Verification After:
+- Retry creates task
+- Worker picks it up
+- Task transitions queued to running to completed or failed
+- SSE emits lifecycle events
