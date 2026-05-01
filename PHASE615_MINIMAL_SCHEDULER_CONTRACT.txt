@@ -1,0 +1,59 @@
+Phase 615 — Minimal Scheduler Contract (Next Execution Step)
+
+OBJECTIVE:
+Introduce a controlled system scheduler as a SINGLE isolated runtime change.
+
+SCOPE (STRICT):
+- One file modification only (server runtime)
+- No API changes
+- No worker changes
+- No UI changes
+
+REQUIRED FEATURES:
+
+1. ENABLE FLAG
+- ENV: SYSTEM_SCHEDULER_ENABLED=true/false
+- Default: disabled
+
+2. INTERVAL
+- ENV: SYSTEM_SCHEDULER_INTERVAL_MS (default 60000)
+
+3. SINGLE TASK GUARD
+- Only allow ONE active system-trigger per interval
+- Do NOT stack or flood
+
+4. TASK PAYLOAD
+{
+  kind: "system-check",
+  title: "System Scheduler Task",
+  payload: {
+    source: "system",
+    intent: "scheduled-check"
+  }
+}
+
+5. ROUTING
+- Must call existing /api/delegate-task endpoint
+- No bypass
+
+6. LOGGING
+- [phase615] scheduler started
+- [phase615] task dispatched
+- [phase615] skipped (guard active)
+
+INSERTION RULE:
+- After server initialization
+- Non-blocking zone
+- Fully removable block
+
+SUCCESS CRITERIA:
+- Scheduler only runs when enabled
+- Exactly one task per interval
+- No flooding
+- Full pipeline execution confirmed
+
+FAILURE PROTOCOL:
+- Remove block immediately
+- Rebuild containers
+- Revert to phase614-system-led-execution-foundation-complete
+
