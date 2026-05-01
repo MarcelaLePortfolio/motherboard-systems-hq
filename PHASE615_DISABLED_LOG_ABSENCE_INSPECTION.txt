@@ -1,0 +1,264 @@
+Phase 615 disabled-log absence inspection.
+
+Goal:
+Inspect why [phase615] scheduler disabled did not appear in dashboard logs, without changing runtime behavior.
+
+Expected:
+- Confirm whether Phase 615 scheduler block exists in local server.js/server.mjs.
+- Confirm whether Phase 615 scheduler block exists in container /app/server.js and /app/server.mjs.
+- Confirm the dashboard container process command.
+- Confirm whether dashboard logs include any startup output around scheduler initialization.
+
+Constraint:
+Inspection only.
+No code changes.
+No runtime wiring.
+
+--- LOCAL PHASE615 BLOCK REFERENCES ---
+server.js:199:// PHASE615 CONTROLLED SYSTEM SCHEDULER (DISABLED BY DEFAULT)
+server.js:200:const SYSTEM_SCHEDULER_ENABLED = String(process.env.SYSTEM_SCHEDULER_ENABLED || "").toLowerCase() === "true";
+server.js:205:if (SYSTEM_SCHEDULER_ENABLED) {
+server.js:206:  console.log("[phase615] scheduler started", {
+server.js:240:  console.log("[phase615] scheduler disabled");
+server.mjs:251:// PHASE615 CONTROLLED SYSTEM SCHEDULER (DISABLED BY DEFAULT)
+server.mjs:252:const SYSTEM_SCHEDULER_ENABLED = String(process.env.SYSTEM_SCHEDULER_ENABLED || "").toLowerCase() === "true";
+server.mjs:257:if (SYSTEM_SCHEDULER_ENABLED) {
+server.mjs:258:  console.log("[phase615] scheduler started", {
+server.mjs:292:  console.log("[phase615] scheduler disabled");
+
+--- CONTAINER PHASE615 BLOCK REFERENCES ---
+/app/server.js:199:// PHASE615 CONTROLLED SYSTEM SCHEDULER (DISABLED BY DEFAULT)
+/app/server.js:200:const SYSTEM_SCHEDULER_ENABLED = String(process.env.SYSTEM_SCHEDULER_ENABLED || "").toLowerCase() === "true";
+/app/server.js:205:if (SYSTEM_SCHEDULER_ENABLED) {
+/app/server.js:206:  console.log("[phase615] scheduler started", {
+/app/server.js:240:  console.log("[phase615] scheduler disabled");
+/app/server.mjs:251:// PHASE615 CONTROLLED SYSTEM SCHEDULER (DISABLED BY DEFAULT)
+/app/server.mjs:252:const SYSTEM_SCHEDULER_ENABLED = String(process.env.SYSTEM_SCHEDULER_ENABLED || "").toLowerCase() === "true";
+/app/server.mjs:257:if (SYSTEM_SCHEDULER_ENABLED) {
+/app/server.mjs:258:  console.log("[phase615] scheduler started", {
+/app/server.mjs:292:  console.log("[phase615] scheduler disabled");
+
+--- DASHBOARD PROCESS COMMAND ---
+    1 root      0:01 node server.js
+
+--- DASHBOARD STARTUP LOGS ---
+  referer: 'http://localhost:3000/',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:3000/',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:3000/',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:3000/',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:3000/',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:3000/',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:3000/',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:3000/',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:3000/',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:3000/',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:3000/',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:3000/',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:3000/',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:3000/',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:3000/',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:3000/',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:3000/',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:3000/',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:3000/',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:3000/',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:3000/',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:3000/',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:3000/',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:3000/',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:3000/',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:3000/',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:3000/',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:3000/',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
