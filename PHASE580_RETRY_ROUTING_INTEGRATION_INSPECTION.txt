@@ -1,0 +1,111 @@
+Phase 580 retry routing integration inspection.
+
+Goal:
+Inspect Phase 541 without cherry-picking the full conflicting commit.
+
+--- PHASE 541 COMMIT SUMMARY ---
+546930e5 Phase 541 wire retry execution routing into backend pipeline
+ .../_local/phase541_wire_retry_execution_router.sh  | 12 ++++++++++++
+ server.mjs                                          |  1 +
+ server/retry_execution_router.js                    | 21 +++++++++++++++++++++
+ 3 files changed, 34 insertions(+)
+
+--- PHASE 541 SERVER.MJS PATCH ---
+commit 546930e599ce26dd415f25d58ac7580b15c1f30a
+Author: Marcela Gama Le <marcelagamale@gmail.com>
+Date:   Wed Apr 29 17:24:35 2026 -0700
+
+    Phase 541 wire retry execution routing into backend pipeline
+
+diff --git a/server.mjs b/server.mjs
+index 39175230..0146c62e 100644
+--- a/server.mjs
++++ b/server.mjs
+@@ -1,3 +1,4 @@
++const { routeRetryExecution } = require('./retry_execution_router');
+ const { enforceRetryContract } = require('./server/retry_contract');
+ import express from 'express';
+ import { fileURLToPath } from 'url';
+
+--- CURRENT SERVER.JS DELEGATE ROUTE ---
+28-
+29-const LOG_DIR = path.join(__dirname, "ui/dashboard");
+30-const LOG_FILE = path.join(LOG_DIR, "ticker-events.log");
+31-
+32-if (!fs.existsSync(LOG_DIR)) fs.mkdirSync(LOG_DIR, { recursive: true });
+33-if (!fs.existsSync(LOG_FILE)) fs.writeFileSync(LOG_FILE, "");
+34-
+35-/**
+36- * PHASE 572 — REAL TASK PIPELINE WIRING
+37- */
+38:app.post("/api/delegate-task", async (req, res) => {
+39-  const body = req.body || {};
+40-
+41-  try {
+42-    const forward = await fetch("http://localhost:3000/api/tasks/create", {
+43-      method: "POST",
+44-      headers: {
+45-        "Content-Type": "application/json"
+46-      },
+47-      body: JSON.stringify({
+48-        title: body.title || body.task || "Delegated task",
+49-        kind: body.kind || "delegation",
+50-        payload: body.meta || {},
+51-        source: body.source || "execution-inspector"
+52-      })
+53-    });
+54-
+55-    const data = await forward.json();
+56-    return res.json(data);
+57-
+58-  } catch (err) {
+59-    console.error("[delegate-task forward error]", err);
+60-
+61-    return res.status(500).json({
+62-      error: "delegate-task forwarding failed",
+63-      details: String(err)
+64-    });
+65-  }
+66-});
+67-
+68-app.get("/api/agent-status", (req, res) => {
+69-  exec("pm2 jlist", (err, stdout) => {
+70-    const statusMap = {
+71-      Matilda: { status: "offline" },
+72-      Cade: { status: "offline" },
+73-      Effie: { status: "offline" },
+74-    };
+75-
+76-    if (!err) {
+77-      try {
+78-        const list = JSON.parse(stdout);
+79-        list.forEach((proc) => {
+80-          const online = proc.pm2_env.status === "online";
+81-          if (proc.name.includes("matilda")) statusMap.Matilda.status = online ? "online" : "offline";
+82-          if (proc.name.includes("cade")) statusMap.Cade.status = online ? "online" : "offline";
+83-          if (proc.name.includes("effie")) statusMap.Effie.status = online ? "online" : "offline";
+84-        });
+85-      } catch {}
+86-    }
+87-
+88-    res.json(statusMap);
+89-  });
+90-});
+91-
+92-app.get("/api/task-history", (req, res) => {
+93-  try {
+94-    const logs = fs.readFileSync(LOG_FILE, "utf-8").trim().split("\n").filter(Boolean);
+95-    const taskEvents = logs
+96-      .map((line) => {
+97-        let entry;
+98-
+99-        try {
+100-          entry = JSON.parse(line);
+101-        } catch {
+102-          const parts = line.split(" | ");
+103-          entry = {
+104-            event: parts[1] || line,
+105-            agent: parts[0] || "unknown",
+106-            timestamp: Math.floor(Date.now() / 1000),
+107-          };
+108-        }
