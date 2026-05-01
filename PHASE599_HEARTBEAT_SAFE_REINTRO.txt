@@ -1,0 +1,14 @@
+Phase 599 heartbeat safe reintroduction.
+
+Fix:
+- Did NOT create a new route file.
+- Extended existing api-health.mjs instead.
+- Ensures route is registered through known working pattern.
+
+Result:
+- /api/system-heartbeat available
+- No dashboard break risk
+- Fully compliant with current server architecture
+
+Status:
+SAFE TO PROCEED
