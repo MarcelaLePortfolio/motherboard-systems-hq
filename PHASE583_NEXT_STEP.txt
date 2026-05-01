@@ -1,0 +1,10 @@
+Phase 583 next step.
+
+Checkpoint:
+- Stable tag exists: phase582-retry-actions-wired-stable
+- Snapshot exists: ../_snapshots/Motherboard_Systems_HQ_phase582_retry_actions_wired_stable
+- Dashboard, worker, and Postgres are running.
+- Working tree is clean.
+
+Next:
+Verify Requeue and Retry from the Execution Inspector UI produce new tasks and lifecycle events.
