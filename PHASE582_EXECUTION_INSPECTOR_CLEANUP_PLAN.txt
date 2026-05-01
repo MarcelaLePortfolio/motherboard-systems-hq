@@ -1,0 +1,19 @@
+Phase 582 Execution Inspector cleanup plan.
+
+Issue:
+Execution Inspector is now populated but visually cluttered because raw JSON payloads are rendered directly.
+
+Next fix:
+Clean only the client renderer in public/js/task-events-sse-client.js.
+
+Rules:
+- No backend changes.
+- No route changes.
+- No layout restore.
+- Render concise lifecycle rows:
+  - event kind
+  - short task id
+  - readable title/message
+  - actor
+  - timestamp
+- Hide raw JSON by default.
