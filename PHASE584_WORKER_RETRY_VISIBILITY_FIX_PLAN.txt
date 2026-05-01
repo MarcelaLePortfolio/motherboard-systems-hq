@@ -1,0 +1,10 @@
+Phase 584 worker retry visibility fix plan.
+
+Observation:
+- DB confirms retry payload persists into tasks.
+- Worker completes retry tasks successfully.
+- Worker visibility log currently fails because inspection is being called when task is null.
+- This is a logging-placement issue, not a payload propagation failure.
+
+Fix:
+Move retry-context logging inside the `if (task)` block so it only inspects claimed tasks.

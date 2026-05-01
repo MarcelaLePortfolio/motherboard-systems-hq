@@ -66,23 +66,6 @@ for (const f of SQL.files) {
 async function claimOnce(pool) {
   const runId = `run_${crypto.randomUUID()}`;
   const result = await pool.query(CLAIM_SQL, [runId, OWNER]);
-  
-    // --- Phase 583: retry visibility (non-invasive) ---
-    try {
-      const payload = task.payload || {};
-      if (payload && typeof payload === "object") {
-        const retryMode = payload.retry_mode || payload.execution_mode || "none";
-        const retryOf = payload.retry_of_task_id || "none";
-
-        console.log("[worker][retry-context]", {
-          task_id: task.task_id,
-          retry_mode: retryMode,
-          retry_of_task_id: retryOf
-        });
-      }
-    } catch (err) {
-      console.warn("[worker][retry-context] failed to inspect payload");
-    }
 
 const task = result.rows?.[0];
 
@@ -155,26 +138,25 @@ async function main() {
 
   setInterval(async () => {
     try {
-      
-    // --- Phase 583: retry visibility (non-invasive) ---
-    try {
-      const payload = task.payload || {};
-      if (payload && typeof payload === "object") {
-        const retryMode = payload.retry_mode || payload.execution_mode || "none";
-        const retryOf = payload.retry_of_task_id || "none";
-
-        console.log("[worker][retry-context]", {
-          task_id: task.task_id,
-          retry_mode: retryMode,
-          retry_of_task_id: retryOf
-        });
-      }
-    } catch (err) {
-      console.warn("[worker][retry-context] failed to inspect payload");
-    }
 
 const task = await claimOnce(pool);
       if (task) {
+        try {
+          const payload = task.payload || {};
+          if (payload && typeof payload === "object") {
+            console.log("[worker][retry-context]", {
+              task_id: task.task_id,
+              retry_mode: payload.retry_mode || null,
+              execution_mode: payload.execution_mode || null,
+              cache_policy: payload.cache_policy || null,
+              memory_scope: payload.memory_scope || null,
+              retry_of_task_id: payload.retry_of_task_id || null
+            });
+          }
+        } catch (err) {
+          console.warn("[worker][retry-context] failed to inspect claimed task payload");
+        }
+
         await completeSuccess(pool, task);
       }
     } catch (err) {
