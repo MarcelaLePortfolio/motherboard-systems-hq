@@ -1,0 +1,11 @@
+Phase 574 stable checkpoint.
+
+State:
+- Dashboard is back up.
+- Execution Inspector renders.
+- Retry/Requeue actions create tasks that appear in Recent Tasks.
+- Success feedback UI added.
+- Working tree should be clean before further cherry-picks.
+
+Next:
+Create checkpoint tag and filesystem snapshot before continuing selective recovery.
