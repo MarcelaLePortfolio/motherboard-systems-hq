@@ -1,0 +1,20 @@
+Phase 600 execution logger refactor stable checkpoint.
+
+Result:
+- Execution policy runtime logging extracted into helper.
+- Worker behavior verified unchanged.
+- Retry task claimed successfully.
+- Execution policy log appeared.
+- Runtime hook logs appeared.
+- Execution contract log appeared.
+- Task completed successfully.
+- Working tree clean.
+
+Meaning:
+The execution loop is cleaner without changing behavior.
+
+Stable Tag:
+phase600-execution-logger-refactor-stable
+
+Next:
+Proceed only from this stable execution-layer base.
