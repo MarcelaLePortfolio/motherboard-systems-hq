@@ -7,6 +7,8 @@ import path from "path";
 import crypto from "crypto";
 import { emitTaskEvent } from "../task_events_emit.mjs";
 import { resolveExecutionPolicy } from "./execution_policy_resolver.mjs";
+import { interpretTaskExecution } from "./task_execution_interpreter.mjs";
+import { safeExecutionContract } from "./execution_contract.mjs";
 
 const POSTGRES_URL =
   process.env.POSTGRES_URL ||
@@ -184,6 +186,20 @@ async function main() {
         } catch (err) {
           console.warn("[worker][execution-policy] failed to resolve policy");
         }
+
+        const executionResult = interpretTaskExecution(task);
+        const contractedExecution = safeExecutionContract(task, executionResult);
+
+        if (!contractedExecution.ok) {
+          throw new Error(`[worker][execution-contract] ${contractedExecution.error || "EXECUTION_CONTRACT_FAILED"}`);
+        }
+
+        console.log("[worker][execution-contract]", {
+          task_id: task.task_id,
+          strategy_applied: contractedExecution.execution.strategy_applied,
+          notes: contractedExecution.execution.notes,
+          output: contractedExecution.execution.output
+        });
 
         await completeSuccess(pool, task);
       }

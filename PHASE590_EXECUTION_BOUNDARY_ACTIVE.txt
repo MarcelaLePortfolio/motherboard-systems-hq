@@ -1,0 +1,9 @@
+Phase 590 execution boundary active.
+
+State:
+- Worker now imports the task execution interpreter and execution contract.
+- Claimed tasks are interpreted before being marked successful.
+- Execution result is validated through safeExecutionContract.
+- If execution contract fails, worker throws before mark-success.
+- If execution contract passes, contracted execution is logged.
+- This introduces a real execution boundary without changing cache/context/memory behavior.
