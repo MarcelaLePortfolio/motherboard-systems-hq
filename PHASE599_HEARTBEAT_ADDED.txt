@@ -1,0 +1,22 @@
+Phase 599 system heartbeat endpoint added.
+
+Purpose:
+- Introduce a minimal, safe observability endpoint.
+- No impact to existing execution pipeline or UI.
+
+Endpoint:
+GET /api/system-heartbeat
+
+Returns:
+- status
+- timestamp
+- process uptime
+- agentPoolHealthy flag (if available)
+
+Safety:
+- Read-only
+- No coupling to SSE or rendering layers
+- Fully isolated addition
+
+Result:
+System now exposes a simple heartbeat for external monitoring and future expansion.
