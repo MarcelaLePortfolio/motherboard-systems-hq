@@ -5,6 +5,7 @@ const { Pool } = require("pg");
 import fs from "fs";
 import path from "path";
 import crypto from "crypto";
+import { emitTaskEvent } from "../task_events_emit.mjs";
 
 const POSTGRES_URL =
   process.env.POSTGRES_URL ||
@@ -101,6 +102,20 @@ async function completeSuccess(pool, task) {
       run_id: completed.run_id,
       claimed_by: completed.claimed_by,
       completed_at: completed.completed_at
+    });
+
+    await emitTaskEvent({
+      pool,
+      kind: "task.completed",
+      task_id: completed.task_id,
+      run_id: completed.run_id ?? task.run_id ?? null,
+      actor: OWNER,
+      payload: {
+        status: completed.status,
+        source: "worker",
+        claimed_by: completed.claimed_by,
+        completed_at: completed.completed_at
+      }
     });
   }
 
