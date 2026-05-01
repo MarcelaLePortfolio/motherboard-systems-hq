@@ -6,6 +6,7 @@
   window.__TASK_EVENTS_SSE_CLIENT_ACTIVE__ = true;
 
   const events = [];
+  const seen = new Set();
   const maxEvents = 80;
 
   function root() {
@@ -25,7 +26,7 @@
     try {
       return JSON.parse(raw);
     } catch {
-      return { kind: "message", message: String(raw ?? "") };
+      return null;
     }
   }
 
@@ -40,7 +41,6 @@
           const actor = event.actor || "system";
           const message = event.message || event.msg || event.title || event.detail || "";
           const ts = event.created_at || event.ts || Date.now();
-
           const eventId = event.id || `${kind}:${taskId}:${ts}:${message}`;
 
           return `
@@ -51,7 +51,7 @@
             </div>
           `;
         }).join("")
-      : `<div style="color:#94a3b8; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.78rem;">No task events yet — waiting for activity…</div>`;
+      : `<div style="color:#94a3b8; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.78rem;">Connected — waiting for task lifecycle events…</div>`;
 
     el.innerHTML = `
       <div style="display:flex; justify-content:space-between; gap:.75rem; align-items:center; margin-bottom:.5rem;">
@@ -63,10 +63,19 @@
   }
 
   function ingest(raw, eventType) {
+    if (eventType === "hello" || eventType === "heartbeat") return;
+
     const event = parse(raw);
-    if (!event || eventType === "heartbeat" || event.kind === "heartbeat") return;
+    if (!event) return;
 
     event.kind = event.kind || eventType || "task.event";
+
+    const taskId = event.task_id || event.taskId || "";
+    if (!taskId || taskId === "unknown") return;
+
+    const eventId = event.id || `${event.kind}:${taskId}:${event.ts || event.created_at || ""}`;
+    if (seen.has(eventId)) return;
+    seen.add(eventId);
 
     events.unshift(event);
     if (events.length > maxEvents) events.length = maxEvents;
@@ -88,7 +97,7 @@
 
     es.onmessage = (event) => ingest(event.data, "message");
 
-    ["hello", "task.event", "task.created", "task.updated", "task.completed", "task.failed", "error"].forEach((type) => {
+    ["task.event", "task.created", "task.updated", "task.completed", "task.failed", "error"].forEach((type) => {
       es.addEventListener(type, (event) => ingest(event.data, type));
     });
   }
