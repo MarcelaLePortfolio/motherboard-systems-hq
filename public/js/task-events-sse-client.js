@@ -106,20 +106,30 @@
     const taskId = e.task_id || e.taskId;
     const title = resolveTitle(e);
 
-    container.querySelector('[data-action="copy-id"]')?.addEventListener("click", () => {
+    container.querySelector('[data-action="copy-id"]')?.addEventListener("click", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
       navigator.clipboard.writeText(taskId);
     });
 
-    container.querySelector('[data-action="requeue"]')?.addEventListener("click", () => {
+    container.querySelector('[data-action="requeue"]')?.addEventListener("click", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
       delegateTask({
         title: title,
-        kind: "requeue",
+        kind: "retry",
         source: "execution-inspector",
-        meta: { retry_of_task_id: taskId }
+        meta: {
+          retry_of_task_id: taskId,
+          retry_mode: "standard"
+        },
+        strategy: "standard"
       });
     });
 
-    container.querySelector('[data-action="retry"]')?.addEventListener("click", () => {
+    container.querySelector('[data-action="retry"]')?.addEventListener("click", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
       delegateTask({
         title: title,
         kind: "retry",
@@ -127,7 +137,8 @@
         meta: {
           retry_of_task_id: taskId,
           retry_mode: "fresh-context"
-        }
+        },
+        strategy: "fresh-context"
       });
     });
   }
@@ -142,6 +153,7 @@
       const runId = e.run_id || e.runId || "";
       const ts = e.created_at || e.ts || Date.now();
       const title = resolveTitle(e);
+      const json = JSON.stringify(e, null, 2);
 
       return `
 <details data-idx="${i}" style="border-top:1px solid rgba(148,163,184,.2); padding:16px 0;">
@@ -167,12 +179,12 @@
     <div>${escapeHtml(contextText(e))}</div>
 
     <div style="margin-top:8px; color:#a78bfa; font-family:monospace;">
-      task=${shortId(taskId)} ${runId ? "• run=" + shortId(runId) : ""}
+      task=${escapeHtml(shortId(taskId))} ${runId ? "• run=" + escapeHtml(shortId(runId)) : ""}
     </div>
 
     <details style="margin-top:10px;">
       <summary style="cursor:pointer;">Advanced ▸</summary>
-      <pre style="margin-top:8px; font-size:11px;">${escapeHtml(JSON.stringify(e, null, 2))}</pre>
+      <pre style="margin-top:8px; font-size:11px;">${escapeHtml(json)}</pre>
     </details>
   </div>
 </details>
@@ -181,7 +193,7 @@
 
     el.innerHTML = `
       <div style="display:flex; justify-content:space-between; margin-bottom:12px;">
-        <span>Execution Inspector: ${state}</span>
+        <span>Execution Inspector: ${escapeHtml(state)}</span>
         <span>${events.length} events</span>
       </div>
       ${rows}
