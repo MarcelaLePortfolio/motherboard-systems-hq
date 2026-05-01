@@ -126,7 +126,6 @@
       <div style="color:#64748b;">Event</div><div>${escapeHtml(kind)}</div>
       <div style="color:#64748b;">Actor</div><div>${escapeHtml(actor)}</div>
       <div style="color:#64748b;">Source</div><div>${escapeHtml(value(e, "source") || "—")}</div>
-      <div style="color:#64748b;">Completed at</div><div>${escapeHtml(value(e, "completed_at") || "—")}</div>
     </div>
 
     <details style="margin-top:12px;">
