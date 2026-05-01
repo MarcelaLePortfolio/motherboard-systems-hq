@@ -114,7 +114,8 @@
 
   </summary>
 
-  <div style="margin:12px 0 0 120px; background:#111827; border:1px solid #334155; border-radius:12px; padding:12px;">
+  <!-- ✅ FIX: removed left indentation -->
+  <div style="margin-top:12px; background:#111827; border:1px solid #334155; border-radius:12px; padding:12px;">
 
     <div style="display:flex; justify-content:flex-end; gap:12px; margin-bottom:10px;">
       <span style="color:#86efac; cursor:pointer;">Copy ID</span>
