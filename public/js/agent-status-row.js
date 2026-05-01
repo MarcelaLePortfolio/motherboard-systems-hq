@@ -1,39 +1,74 @@
 (() => {
   "use strict";
 
-  /**
-   * Phase64 Safety Patch
-   * Disables legacy EventSource usage to prevent SSE duplication.
-   * Phase16 is the single owner of all /events/* streams.
-   */
-
-  if (typeof window !== "undefined" && window.__PHASE16_SSE_OWNER_STARTED) {
+  const container = document.getElementById("agent-status-container");
+  if (!container) {
+    console.warn("agent-status-row.js: #agent-status-container not found.");
     return;
   }
 
-  // Hard disable legacy agent-status-row SSE consumption
-  window.__PHASE64_AGENT_STATUS_DISABLED = true;
+  const AGENTS = ["Matilda", "Atlas", "Cade", "Effie"];
 
-  console.log("[phase64_agent_status_row] disabled: Phase16 SSE ownership enforced");
-})();
+  const AGENT_EMOJI = {
+    Matilda: "🗣️",
+    Atlas: "🧭",
+    Cade: "💻",
+    Effie: "📊"
+  };
 
-// ===== Phase16 Migration Patch (safe event-bus bridge) =====
-(function () {
-  if (typeof window === "undefined") return;
+  function normalizeStatus(value) {
+    return String(value || "unknown").trim().toLowerCase();
+  }
 
-  window.addEventListener("mb.task.event", (e) => {
+  function statusClass(status) {
+    const s = normalizeStatus(status);
+    if (s === "online" || s === "active" || s === "running") return "text-emerald-300/90";
+    if (s === "offline" || s === "stopped") return "text-slate-300/75";
+    if (s === "error" || s === "failed") return "text-rose-300/90";
+    return "text-amber-200/90";
+  }
+
+  function render(data = {}) {
+    const title = container.querySelector("h2")?.outerHTML || '<h2 class="text-xl font-semibold border-b border-gray-700 pb-2 mb-4">Agent Pool</h2>';
+
+    const rows = AGENTS.map((name) => {
+      const raw = data[name] || {};
+      const status = typeof raw === "string" ? raw : raw.status || "unknown";
+
+      return `
+        <div class="w-full min-h-0 rounded-md bg-gray-900 border border-gray-700 px-3 py-1.5 flex items-center justify-between shadow-sm">
+          <div class="flex items-center gap-3 min-w-0 h-[18px]">
+            <span class="inline-flex items-center justify-center shrink-0" style="width:18px;min-width:18px;height:18px;min-height:18px;font-size:14px;line-height:1;">${AGENT_EMOJI[name] || "•"}</span>
+            <span class="text-[13px] font-semibold tracking-tight text-slate-100 truncate">${name}</span>
+          </div>
+          <span class="text-[11px] font-medium truncate ${statusClass(status)}">${status}</span>
+        </div>
+      `;
+    }).join("");
+
+    container.innerHTML = `
+      ${title}
+      <div class="w-full flex flex-col gap-1">
+        ${rows}
+      </div>
+    `;
+  }
+
+  async function refresh() {
     try {
-      const ev = e.detail;
-      if (!ev) return;
+      const res = await fetch("/api/agent-status", { cache: "no-store" });
+      const data = await res.json();
+      render(data);
+    } catch (err) {
+      console.warn("agent-status-row.js: failed to fetch /api/agent-status", err);
+      render({});
+    }
+  }
 
-      // UI-safe no-op hook: preserves system contract without SSE coupling
-      // Existing DOM/UI logic remains untouched above this block
-      // Future Phase16 wiring can extend this safely
+  render({});
+  refresh();
+  window.setInterval(refresh, 15000);
 
-      if (window.__UI_DEBUG) {
-        console.log("[agent-status-row][Phase16]", ev);
-      }
-    } catch (_) {}
-  });
+  window.__PHASE64_AGENT_STATUS_DISABLED = false;
+  console.log("[agent-status-row] active non-SSE renderer using /api/agent-status");
 })();
-// ===== End Phase16 Patch =====
