@@ -201,7 +201,7 @@ const SYSTEM_TRIGGER_INTERVAL_MS = 60000;
 
 setInterval(async () => {
   try {
-    await fetch("http://localhost:8080/api/delegate-task", {
+    await fetch("http://localhost:3000/api/delegate-task", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
