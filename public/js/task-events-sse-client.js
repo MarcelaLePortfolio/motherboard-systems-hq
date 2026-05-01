@@ -7,15 +7,15 @@
 
   const events = [];
   const seen = new Set();
-  const titlesByTaskId = new Map(); // ✅ NEW: persist titles
+  const titlesByTaskId = new Map();
   const maxEvents = 80;
 
   function root() {
     return document.getElementById(ROOT_ID);
   }
 
-  function escapeHtml(value) {
-    return String(value ?? "")
+  function escapeHtml(v) {
+    return String(v ?? "")
       .replace(/&/g, "&amp;")
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;")
@@ -27,76 +27,144 @@
     try { return JSON.parse(raw); } catch { return null; }
   }
 
-  // ✅ NEW: title resolver (safe, no UI change yet)
-  function resolveTitle(event) {
-    const taskId = event.task_id || event.taskId || "";
-    const direct =
-      event.title ||
-      event.message ||
-      event.msg ||
-      event.detail ||
-      event.payload?.title ||
+  function shortId(v) {
+    const s = String(v || "");
+    return s.length > 18 ? s.slice(0, 10) + "…" + s.slice(-6) : s;
+  }
+
+  function formatTime(v) {
+    const d = new Date(Number(v) || v);
+    return Number.isNaN(d.getTime())
+      ? String(v || "")
+      : d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  }
+
+  function payload(e) {
+    return e.payload && typeof e.payload === "object" ? e.payload : e;
+  }
+
+  function resolveTitle(e) {
+    const taskId = e.task_id || e.taskId || "";
+    const p = payload(e);
+
+    const t =
+      e.title ||
+      p.title ||
+      e.message ||
+      p.message ||
+      e.detail ||
+      p.detail ||
       "";
 
-    if (direct && !String(direct).startsWith("{")) {
-      titlesByTaskId.set(taskId, direct);
-      return direct;
+    if (t && !String(t).startsWith("{")) {
+      titlesByTaskId.set(taskId, t);
+      return t;
     }
 
     return titlesByTaskId.get(taskId) || "Untitled task";
+  }
+
+  function status(kind) {
+    if (kind === "task.completed") return "completed";
+    if (kind === "task.created") return "created";
+    if (kind === "task.failed") return "failed";
+    return "event";
+  }
+
+  function color(kind) {
+    if (kind === "task.completed") return "#86efac";
+    if (kind === "task.created") return "#93c5fd";
+    if (kind === "task.failed") return "#f87171";
+    return "#cbd5e1";
   }
 
   function render(state) {
     const el = root();
     if (!el) return;
 
-    const rows = events.length
-      ? events.map((event) => {
-          const kind = event.kind || event.type || "event";
-          const taskId = event.task_id || event.taskId || "unknown";
-          const actor = event.actor || "system";
-          const ts = event.created_at || event.ts || Date.now();
-          const eventId = event.id || `${kind}:${taskId}:${ts}`;
+    const rows = events.map((e) => {
+      const kind = e.kind || "task.event";
+      const taskId = e.task_id || e.taskId || "";
+      const runId = e.run_id || e.runId || "";
+      const actor = e.actor || "system";
+      const ts = e.created_at || e.ts || Date.now();
+      const title = resolveTitle(e);
+      const json = JSON.stringify(e, null, 2);
 
-          const title = resolveTitle(event); // ✅ use persisted title
+      return `
+<details style="border-top:1px solid rgba(148,163,184,.2); padding:14px 0;">
+  <summary style="list-style:none; cursor:pointer; display:grid; grid-template-columns:120px 1fr 140px; gap:16px; align-items:center;">
 
-          return `
-            <div data-task-event-id="${escapeHtml(eventId)}" style="border-bottom:1px solid rgba(75,85,99,.55); padding:.45rem 0; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.75rem; line-height:1.4;">
-              <div style="color:#93c5fd;">${escapeHtml(kind)} <span style="color:#64748b;">task=${escapeHtml(taskId)}</span></div>
-              <div style="color:#e5e7eb; font-weight:600;">${escapeHtml(title)}</div>
-              <div style="color:#64748b;">actor=${escapeHtml(actor)} • ${escapeHtml(ts)}</div>
-            </div>
-          `;
-        }).join("")
-      : `<div style="color:#94a3b8;">Connected — waiting for task lifecycle events…</div>`;
+    <div>
+      <div style="color:${color(kind)}; font-weight:700;">${status(kind)}</div>
+      <div style="color:#64748b; font-size:12px;">${formatTime(ts)}</div>
+    </div>
+
+    <div>
+      <div style="font-weight:700; color:#f8fafc;">${escapeHtml(title)}</div>
+      <div style="color:#a78bfa; font-size:12px; font-family:monospace;">
+        task=${escapeHtml(shortId(taskId))}
+        ${runId ? `· run=${escapeHtml(shortId(runId))}` : ""}
+      </div>
+    </div>
+
+    <div style="color:#94a3b8; font-size:12px; text-align:right;">
+      ${escapeHtml(actor)}
+    </div>
+
+  </summary>
+
+  <div style="margin:12px 0 0 120px; background:#111827; border:1px solid #334155; border-radius:12px; padding:12px;">
+
+    <div style="display:flex; justify-content:flex-end; gap:12px; margin-bottom:10px;">
+      <span style="color:#86efac; cursor:pointer;">Copy ID</span>
+      <span style="color:#facc15; cursor:pointer;">Requeue</span>
+      <span style="color:#60a5fa; cursor:pointer;">Retry</span>
+    </div>
+
+    <div style="font-size:13px; color:#cbd5e1; margin-bottom:8px;">
+      <b>${escapeHtml(kind)}</b> · actor=${escapeHtml(actor)}
+    </div>
+
+    <details>
+      <summary style="color:#60a5fa; cursor:pointer; font-size:12px;">View JSON</summary>
+      <pre style="margin-top:8px; background:#020617; padding:10px; border-radius:8px; font-size:11px; overflow:auto;">
+${escapeHtml(json)}
+      </pre>
+    </details>
+
+  </div>
+</details>
+      `;
+    }).join("");
 
     el.innerHTML = `
-      <div style="display:flex; justify-content:space-between; margin-bottom:.5rem;">
-        <div style="color:#94a3b8;">Execution Inspector: ${escapeHtml(state)}</div>
-        <div style="color:#64748b;">${events.length} events</div>
+      <div style="display:flex; justify-content:space-between; margin-bottom:12px; color:#94a3b8;">
+        <span>Execution Inspector: ${state}</span>
+        <span>${events.length} events</span>
       </div>
-      ${rows}
+      ${rows || '<div style="color:#64748b;">Waiting for events…</div>'}
     `;
   }
 
-  function ingest(raw, eventType) {
-    if (eventType === "hello" || eventType === "heartbeat") return;
+  function ingest(raw, type) {
+    if (type === "hello" || type === "heartbeat") return;
 
-    const event = parse(raw);
-    if (!event) return;
+    const e = parse(raw);
+    if (!e) return;
 
-    event.kind = event.kind || eventType;
+    e.kind = e.kind || type;
 
-    const taskId = event.task_id || event.taskId || "";
+    const taskId = e.task_id || e.taskId || "";
     if (!taskId) return;
 
-    const eventId = event.id || `${event.kind}:${taskId}:${event.ts || event.created_at}`;
-    if (seen.has(eventId)) return;
-    seen.add(eventId);
+    const id = e.id || `${e.kind}:${taskId}:${e.ts || e.created_at}`;
+    if (seen.has(id)) return;
+    seen.add(id);
 
-    resolveTitle(event); // ✅ persist title early
+    resolveTitle(e);
 
-    events.unshift(event);
+    events.unshift(e);
     if (events.length > maxEvents) events.length = maxEvents;
 
     render("Connected");
@@ -110,10 +178,10 @@
     es.onopen = () => render("Connected");
     es.onerror = () => render("Connection error");
 
-    es.onmessage = (event) => ingest(event.data, "message");
+    es.onmessage = (e) => ingest(e.data, "message");
 
-    ["task.created","task.started","task.completed","task.failed"].forEach((type) => {
-      es.addEventListener(type, (event) => ingest(event.data, type));
+    ["task.created","task.started","task.completed","task.failed"].forEach(t => {
+      es.addEventListener(t, e => ingest(e.data, t));
     });
   }
 
