@@ -93,7 +93,7 @@
 
       return `
 <details style="border-top:1px solid rgba(148,163,184,.2); padding:14px 0;">
-  <summary style="list-style:none; cursor:pointer; display:grid; grid-template-columns:120px 1fr; gap:16px; align-items:center;">
+  <summary style="list-style:none; cursor:pointer; display:grid; grid-template-columns:120px 1fr; gap:16px; align-items:center; padding-left:12px;">
 
     <div>
       <div style="color:${color(kind)}; font-weight:700;">${status(kind)}</div>
@@ -111,7 +111,7 @@
   </summary>
 
   <!-- ✅ FIX: removed left indentation -->
-  <div style="width:92%; margin:12px auto 0 auto; background:#111827; border:1px solid #334155; border-radius:12px; padding:12px;">
+  <div style="width:92%; margin:12px auto 0 auto; background:#111827; border:1px solid #334155; border-radius:12px; padding:12px 12px 12px 16px;">
 
     <div style="display:flex; justify-content:flex-end; gap:12px; margin-bottom:10px;">
       <span style="color:#86efac; cursor:pointer;">Copy ID</span>
