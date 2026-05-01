@@ -27,6 +27,15 @@
     try { return JSON.parse(raw); } catch { return null; }
   }
 
+  function payload(e) {
+    return e && e.payload && typeof e.payload === "object" ? e.payload : {};
+  }
+
+  function value(e, key) {
+    const p = payload(e);
+    return e?.[key] ?? p?.[key] ?? "";
+  }
+
   function shortId(v) {
     const s = String(v || "");
     return s.length > 18 ? s.slice(0, 10) + "…" + s.slice(-6) : s;
@@ -37,10 +46,6 @@
     return Number.isNaN(d.getTime())
       ? String(v || "")
       : d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-  }
-
-  function payload(e) {
-    return e.payload && typeof e.payload === "object" ? e.payload : e;
   }
 
   function resolveTitle(e) {
@@ -68,6 +73,7 @@
     if (kind === "task.completed") return "completed";
     if (kind === "task.created") return "created";
     if (kind === "task.failed") return "failed";
+    if (kind === "task.started") return "started";
     return "event";
   }
 
@@ -75,6 +81,7 @@
     if (kind === "task.completed") return "#86efac";
     if (kind === "task.created") return "#93c5fd";
     if (kind === "task.failed") return "#f87171";
+    if (kind === "task.started") return "#facc15";
     return "#cbd5e1";
   }
 
@@ -106,28 +113,29 @@
         task=${escapeHtml(shortId(taskId))}
         ${runId ? `· run=${escapeHtml(shortId(runId))}` : ""}
       </div>
+      <div style="margin-top:8px; display:flex; gap:16px; font-size:13px;">
+        <span data-action="copy-id" style="color:#86efac; cursor:pointer; font-weight:700;">Copy ID</span>
+        <span data-action="requeue" style="color:#facc15; cursor:pointer; font-weight:700;">Requeue</span>
+        <span data-action="retry" style="color:#60a5fa; cursor:pointer; font-weight:700;">Retry</span>
+      </div>
     </div>
 
   </summary>
 
-  <!-- ✅ FIX: removed left indentation -->
-  <div style="width:92%; margin:12px auto 0 auto; background:#111827; border:1px solid #334155; border-radius:12px; padding:12px 12px 12px 16px;">
+  <div style="width:92%; margin:12px auto 0 auto; background:#111827; border:1px solid #334155; border-radius:12px; padding:16px;">
 
-    <div style="display:flex; justify-content:flex-end; gap:12px; margin-bottom:10px;">
-      <span style="color:#86efac; cursor:pointer;">Copy ID</span>
-      <span style="color:#facc15; cursor:pointer;">Requeue</span>
-      <span style="color:#60a5fa; cursor:pointer;">Retry</span>
+    <div style="display:grid; grid-template-columns:140px 1fr; gap:8px 14px; color:#cbd5e1; font-size:13px;">
+      <div style="color:#64748b;">Event</div><div>${escapeHtml(kind)}</div>
+      <div style="color:#64748b;">Actor</div><div>${escapeHtml(actor)}</div>
+      <div style="color:#64748b;">Status</div><div>${escapeHtml(value(e, "status") || status(kind))}</div>
+      <div style="color:#64748b;">Source</div><div>${escapeHtml(value(e, "source") || "—")}</div>
+      <div style="color:#64748b;">Claimed by</div><div>${escapeHtml(value(e, "claimed_by") || "—")}</div>
+      <div style="color:#64748b;">Completed at</div><div>${escapeHtml(value(e, "completed_at") || "—")}</div>
     </div>
 
-    <div style="font-size:13px; color:#cbd5e1; margin-bottom:8px;">
-      <b>${escapeHtml(kind)}</b> · actor=${escapeHtml(actor)}
-    </div>
-
-    <details>
+    <details style="margin-top:12px;">
       <summary style="color:#60a5fa; cursor:pointer; font-size:12px;">View JSON</summary>
-      <pre style="margin-top:8px; background:#020617; padding:10px; border-radius:8px; font-size:11px; overflow:auto;">
-${escapeHtml(json)}
-      </pre>
+      <pre style="margin-top:8px; background:#020617; padding:10px; border-radius:8px; font-size:11px; overflow:auto; max-height:220px; white-space:pre-wrap;">${escapeHtml(json)}</pre>
     </details>
 
   </div>
@@ -137,7 +145,7 @@ ${escapeHtml(json)}
 
     el.innerHTML = `
       <div style="display:flex; justify-content:space-between; margin-bottom:12px; color:#94a3b8;">
-        <span>Execution Inspector: ${state}</span>
+        <span>Execution Inspector: ${escapeHtml(state)}</span>
         <span>${events.length} events</span>
       </div>
       ${rows || '<div style="color:#64748b;">Waiting for events…</div>'}
