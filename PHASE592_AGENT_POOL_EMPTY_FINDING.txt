@@ -1,0 +1,60 @@
+Phase 592 agent pool empty finding.
+
+Finding:
+- /api/agent-status returns Matilda, Atlas, Cade, and Effie.
+- PM2 is unavailable inside the dashboard container, but the backend still returns agent status fallback data.
+- Served dashboard includes #agent-status-container and the loading placeholder.
+- UI references show active scripts:
+  - public/js/agent-status-row.js
+  - public/js/phase64_agent_activity_wire.js
+- Therefore Agent Pool empty state is most likely a frontend hydration/rendering issue, not a missing backend route.
+
+Next:
+Inspect active renderer scripts and patch only the frontend fallback renderer if needed.
+
+--- ACTIVE AGENT STATUS ROW JS ---
+(() => {
+  "use strict";
+
+  /**
+   * Phase64 Safety Patch
+   * Disables legacy EventSource usage to prevent SSE duplication.
+   * Phase16 is the single owner of all /events/* streams.
+   */
+
+  if (typeof window !== "undefined" && window.__PHASE16_SSE_OWNER_STARTED) {
+    return;
+  }
+
+  // Hard disable legacy agent-status-row SSE consumption
+  window.__PHASE64_AGENT_STATUS_DISABLED = true;
+
+  console.log("[phase64_agent_status_row] disabled: Phase16 SSE ownership enforced");
+})();
+
+// ===== Phase16 Migration Patch (safe event-bus bridge) =====
+(function () {
+  if (typeof window === "undefined") return;
+
+  window.addEventListener("mb.task.event", (e) => {
+    try {
+      const ev = e.detail;
+      if (!ev) return;
+
+      // UI-safe no-op hook: preserves system contract without SSE coupling
+      // Existing DOM/UI logic remains untouched above this block
+      // Future Phase16 wiring can extend this safely
+
+      if (window.__UI_DEBUG) {
+        console.log("[agent-status-row][Phase16]", ev);
+      }
+    } catch (_) {}
+  });
+})();
+// ===== End Phase16 Patch =====
+
+--- ACTIVE PHASE64 AGENT ACTIVITY WIRE JS ---
+/* STABILIZED: disabled to enforce single renderer ownership */
+(function () {
+  console.log("[activity-wire] disabled in UI stabilization mode");
+})();
