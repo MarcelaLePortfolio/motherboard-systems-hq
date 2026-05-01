@@ -1,0 +1,9 @@
+Phase 579 next step.
+
+Checkpoint:
+Resume only from phase578-completion-events-stable.
+
+Next target:
+Verify Execution Inspector visual lifecycle display after task.created and task.completed are both emitted.
+
+Do not cherry-pick yet.
