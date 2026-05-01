@@ -1,0 +1,24 @@
+Phase 585 requeue/retry alignment checkpoint.
+
+State:
+- Execution Inspector UI updated to align requeue + retry actions with retry contract.
+- Requeue now routes through delegate-task with retry semantics.
+- Retry continues to support fresh-context execution.
+- enforceRetryContract remains active and enforcing valid retry payloads.
+- Worker visibility and execution policy resolver are both in place.
+
+Result:
+- UI → API → DB → Worker pipeline is now fully aligned for retry behavior.
+- No silent failures or invalid payload paths remain.
+
+Next:
+Move into Phase 586:
+- Begin introducing first REAL runtime enforcement hook (non-breaking)
+- Likely candidate: cache_policy handling (bypass vs reuse)
+- Must follow Marcela protocol:
+  - minimal
+  - isolated
+  - reversible
+  - observable
+
+Checkpoint before any behavioral mutation.
