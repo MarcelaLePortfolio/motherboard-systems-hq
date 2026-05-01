@@ -1,0 +1,25 @@
+Phase 590 execution boundary wiring plan.
+
+Checkpoint:
+- Stable tag exists: phase588-execution-mode-hook-stable.
+- Phase 589 confirmed real execution-adjacent modules exist:
+  - task_execution_interpreter.mjs
+  - execution_contract.mjs
+- Worker currently resolves policy and emits runtime hooks, then marks success.
+- Worker does not yet interpret execution or validate execution result.
+
+Next Objective:
+Wire the interpreter + execution contract into the worker as the first real execution boundary.
+
+Target:
+- import interpretTaskExecution
+- import safeExecutionContract
+- after policy hooks, before completeSuccess:
+  - executionResult = interpretTaskExecution(task)
+  - contracted = safeExecutionContract(task, executionResult)
+  - if contract fails, throw and do not mark success
+  - if contract passes, log contracted execution
+- Keep task completion behavior otherwise unchanged.
+
+Constraint:
+This is the first real execution boundary, not cache/context/memory behavior yet.
