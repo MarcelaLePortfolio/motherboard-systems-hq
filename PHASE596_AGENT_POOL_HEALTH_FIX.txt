@@ -1,0 +1,12 @@
+Phase 596 agent pool health indicator fix.
+
+Issue:
+- Script was loaded but not rendering due to DOM mismatch (header not found).
+
+Fix:
+- Indicator now attaches to header OR container fallback.
+- Added hydration-safe retry loop.
+- Added debug logging for visibility.
+
+Result:
+Health indicator will always render regardless of DOM timing or structure.
