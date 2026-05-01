@@ -18,6 +18,39 @@ const LOG_FILE = path.join(LOG_DIR, "ticker-events.log");
 if (!fs.existsSync(LOG_DIR)) fs.mkdirSync(LOG_DIR, { recursive: true });
 if (!fs.existsSync(LOG_FILE)) fs.writeFileSync(LOG_FILE, "");
 
+/**
+ * PHASE 572 — REAL TASK PIPELINE WIRING
+ */
+app.post("/api/delegate-task", async (req, res) => {
+  const body = req.body || {};
+
+  try {
+    const forward = await fetch("http://localhost:3000/api/tasks/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        title: body.title || body.task || "Delegated task",
+        kind: body.kind || "delegation",
+        payload: body.meta || {},
+        source: body.source || "execution-inspector"
+      })
+    });
+
+    const data = await forward.json();
+    return res.json(data);
+
+  } catch (err) {
+    console.error("[delegate-task forward error]", err);
+
+    return res.status(500).json({
+      error: "delegate-task forwarding failed",
+      details: String(err)
+    });
+  }
+});
+
 app.get("/api/agent-status", (req, res) => {
   exec("pm2 jlist", (err, stdout) => {
     const statusMap = {
@@ -99,22 +132,6 @@ app.get("/api/settings", (req, res) => {
   });
 });
 
-
-app.post("/api/delegate-task", (req, res) => {
-  const body = req.body || {};
-  const fakeId = Math.floor(Date.now() / 1000);
-
-  res.json({
-    id: fakeId,
-    task_id: fakeId,
-    title: body.title || body.task || body.message || "Delegated task",
-    kind: body.kind || "delegation",
-    meta: body.meta || {},
-    status: "delegated",
-    source: body.source || "dashboard"
-  });
-});
-
 app.post("/api/agent-control", (req, res) => {
   const { agent, action } = req.body;
   if (!agent || !action) return res.status(400).json({ success: false, message: "Missing agent or action" });
@@ -141,5 +158,5 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.listen(PORT, () => {
   console.log(`✅ Dashboard live on port ${PORT}`);
-  console.log("Endpoints: /api/agent-status /api/task-history /api/settings");
+  console.log("Execution Inspector now wired to real task pipeline");
 });
