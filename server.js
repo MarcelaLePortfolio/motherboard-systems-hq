@@ -99,6 +99,22 @@ app.get("/api/settings", (req, res) => {
   });
 });
 
+
+app.post("/api/delegate-task", (req, res) => {
+  const body = req.body || {};
+  const fakeId = Math.floor(Date.now() / 1000);
+
+  res.json({
+    id: fakeId,
+    task_id: fakeId,
+    title: body.title || body.task || body.message || "Delegated task",
+    kind: body.kind || "delegation",
+    meta: body.meta || {},
+    status: "delegated",
+    source: body.source || "dashboard"
+  });
+});
+
 app.post("/api/agent-control", (req, res) => {
   const { agent, action } = req.body;
   if (!agent || !action) return res.status(400).json({ success: false, message: "Missing agent or action" });
