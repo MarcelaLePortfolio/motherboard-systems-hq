@@ -1,0 +1,28 @@
+Phase 614 trigger failure inspection.
+
+Finding:
+Runtime evidence did not show [phase614] system-trigger dispatched.
+Worker only showed heartbeat logs and no claimed/completed system-trigger task.
+
+Goal:
+Inspect running container state before applying any fix.
+
+--- LOCAL SERVER TRIGGER BLOCK ---
+251:// PHASE614 SYSTEM TRIGGER (SAFE, REVERSIBLE)
+252:const SYSTEM_TRIGGER_INTERVAL_MS = 60000;
+268:    console.log("[phase614] system-trigger dispatched");
+270:    console.error("[phase614] system-trigger failed:", err.message);
+272:}, SYSTEM_TRIGGER_INTERVAL_MS);
+
+--- CONTAINER SERVER TRIGGER BLOCK ---
+251:// PHASE614 SYSTEM TRIGGER (SAFE, REVERSIBLE)
+252:const SYSTEM_TRIGGER_INTERVAL_MS = 60000;
+268:    console.log("[phase614] system-trigger dispatched");
+270:    console.error("[phase614] system-trigger failed:", err.message);
+272:}, SYSTEM_TRIGGER_INTERVAL_MS);
+
+--- CONTAINER NODE FETCH CHECK ---
+fetch type: function
+
+--- DASHBOARD PROCESS CHECK ---
+    1 root      0:01 node server.js
