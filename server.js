@@ -37,12 +37,20 @@ if (!fs.existsSync(LOG_DIR)) fs.mkdirSync(LOG_DIR, { recursive: true });
 if (!fs.existsSync(LOG_FILE)) fs.writeFileSync(LOG_FILE, "");
 
 /**
- * PHASE 572 — REAL TASK PIPELINE WIRING
+ * PHASE 580 — REAL TASK PIPELINE + RETRY ROUTING WIRING
  */
 app.post("/api/delegate-task", async (req, res) => {
   const body = req.body?.kind === "retry"
     ? routeRetryExecution(req.body || {})
     : (req.body || {});
+
+  const payload = {
+    ...(body.payload && typeof body.payload === "object" ? body.payload : {}),
+    ...(body.meta && typeof body.meta === "object" ? body.meta : {}),
+    execution_mode: body.execution_mode ?? null,
+    cache_policy: body.cache_policy ?? null,
+    memory_scope: body.memory_scope ?? null
+  };
 
   try {
     const forward = await fetch("http://localhost:3000/api/tasks/create", {
@@ -53,14 +61,13 @@ app.post("/api/delegate-task", async (req, res) => {
       body: JSON.stringify({
         title: body.title || body.task || "Delegated task",
         kind: body.kind || "delegation",
-        payload: body.meta || {},
+        payload,
         source: body.source || "execution-inspector"
       })
     });
 
     const data = await forward.json();
     return res.json(data);
-
   } catch (err) {
     console.error("[delegate-task forward error]", err);
 
@@ -75,6 +82,7 @@ app.get("/api/agent-status", (req, res) => {
   exec("pm2 jlist", (err, stdout) => {
     const statusMap = {
       Matilda: { status: "offline" },
+      Atlas: { status: "offline" },
       Cade: { status: "offline" },
       Effie: { status: "offline" },
     };
@@ -85,6 +93,7 @@ app.get("/api/agent-status", (req, res) => {
         list.forEach((proc) => {
           const online = proc.pm2_env.status === "online";
           if (proc.name.includes("matilda")) statusMap.Matilda.status = online ? "online" : "offline";
+          if (proc.name.includes("atlas")) statusMap.Atlas.status = online ? "online" : "offline";
           if (proc.name.includes("cade")) statusMap.Cade.status = online ? "online" : "offline";
           if (proc.name.includes("effie")) statusMap.Effie.status = online ? "online" : "offline";
         });
@@ -134,18 +143,20 @@ app.get("/api/settings", (req, res) => {
   exec("pm2 jlist", (err, stdout) => {
     const agents = [];
 
+    const names = ["Matilda", "Atlas", "Cade", "Effie"];
+
     if (!err) {
       try {
         const list = JSON.parse(stdout);
-        ["Matilda", "Cade", "Effie"].forEach((name) => {
+        names.forEach((name) => {
           const proc = list.find((p) => p.name.toLowerCase().includes(name.toLowerCase()));
           agents.push({ name, status: proc?.pm2_env?.status || "offline" });
         });
       } catch {
-        ["Matilda", "Cade", "Effie"].forEach((name) => agents.push({ name, status: "unknown" }));
+        names.forEach((name) => agents.push({ name, status: "unknown" }));
       }
     } else {
-      ["Matilda", "Cade", "Effie"].forEach((name) => agents.push({ name, status: "offline" }));
+      names.forEach((name) => agents.push({ name, status: "offline" }));
     }
 
     res.json({ agents, features: { logRetention: 50, theme: "light" } });
