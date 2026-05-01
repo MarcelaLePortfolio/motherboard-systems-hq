@@ -1,0 +1,10 @@
+Phase 578 completion events stable checkpoint.
+
+State:
+- Worker now emits task.completed events after marking tasks completed.
+- Verification task produced both task.created and task.completed records in task_events.
+- Dashboard, worker, and Postgres are up.
+- Working tree is clean.
+
+Next:
+Verify Execution Inspector visually shows both task.created and task.completed rows, then checkpoint/tag/snapshot.
