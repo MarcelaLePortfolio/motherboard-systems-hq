@@ -16,8 +16,6 @@
     Effie: "📊"
   };
 
-  let latestHealthy = false;
-
   function normalizeStatus(value) {
     return String(value || "unknown").trim().toLowerCase();
   }
@@ -32,13 +30,16 @@
 
   function render(data = {}) {
     const agents = Object.keys(data || {});
-    latestHealthy = agents.length > 0;
-    window.__AGENT_POOL_HEALTH = latestHealthy;
+    const healthy = agents.length > 0;
+
+    window.__AGENT_POOL_HEALTH = healthy;
     window.__AGENT_POOL_LAST_CHECK = Date.now();
 
-    const healthDot = latestHealthy
-      ? '<span title="Agent Pool connected" style="margin-left:8px;color:#34d399;font-size:12px;">●</span>'
-      : '<span title="Agent Pool disconnected" style="margin-left:8px;color:#f87171;font-size:12px;">○</span>';
+    const time = new Date().toLocaleTimeString();
+
+    const healthDot = healthy
+      ? `<span title="Live • Last check: ${time}" style="margin-left:8px;color:#34d399;font-size:12px;">●</span>`
+      : `<span title="No data • Last check: ${time}" style="margin-left:8px;color:#f87171;font-size:12px;">○</span>`;
 
     const rows = AGENTS.map((name) => {
       const raw = data[name] || {};
@@ -47,16 +48,18 @@
       return `
         <div class="w-full min-h-0 rounded-md bg-gray-900 border border-gray-700 px-3 py-1.5 flex items-center justify-between shadow-sm">
           <div class="flex items-center gap-3 min-w-0 h-[18px]">
-            <span class="inline-flex items-center justify-center shrink-0" style="width:18px;min-width:18px;height:18px;min-height:18px;font-size:14px;line-height:1;">${AGENT_EMOJI[name] || "•"}</span>
-            <span class="text-[13px] font-semibold tracking-tight text-slate-100 truncate">${name}</span>
+            <span style="width:18px;min-width:18px;height:18px;font-size:14px;">${AGENT_EMOJI[name] || "•"}</span>
+            <span class="text-[13px] font-semibold text-slate-100 truncate">${name}</span>
           </div>
-          <span class="text-[11px] font-medium truncate ${statusClass(status)}">${status}</span>
+          <span class="text-[11px] font-medium ${statusClass(status)}">${status}</span>
         </div>
       `;
     }).join("");
 
     container.innerHTML = `
-      <h2 class="text-xl font-semibold border-b border-gray-700 pb-2 mb-4">Agent Pool ${healthDot}</h2>
+      <h2 class="text-xl font-semibold border-b border-gray-700 pb-2 mb-4">
+        Agent Pool ${healthDot}
+      </h2>
       <div class="w-full flex flex-col gap-1">
         ${rows}
       </div>
@@ -67,11 +70,6 @@
     try {
       const res = await fetch("/api/agent-status", { cache: "no-store" });
       const data = await res.json();
-
-      if (window.__UI_DEBUG) {
-        console.log("[agent-status-row] fetched:", data);
-      }
-
       render(data);
     } catch (err) {
       console.warn("agent-status-row.js: failed to fetch /api/agent-status", err);
@@ -85,14 +83,10 @@
 
   window.addEventListener("mb.agent.status", (e) => {
     if (!e?.detail) return;
-    if (window.__UI_DEBUG) {
-      console.log("[agent-status-row] event update:", e.detail);
-    }
     render(e.detail);
   });
 
-  window.__PHASE64_AGENT_STATUS_DISABLED = false;
   window.__AGENT_POOL_RENDERER_LOCKED = true;
 
-  console.log("[agent-status-row] locked renderer active with inline health dot");
+  console.log("[agent-status-row] live health indicator with timestamp active");
 })();
