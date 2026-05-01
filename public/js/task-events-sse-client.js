@@ -83,12 +83,51 @@
   function contextText(e) {
     const kind = e.kind || "task.event";
     const p = payload(e);
+    const retryMode = p.retry_mode || e.retry_mode || "";
+    const executionMode = p.execution_mode || e.execution_mode || "";
+    const isFreshContext = retryMode === "fresh-context" || executionMode === "rebuild_context";
+    const isRetry = retryMode || p.retry_of_task_id || e.retry_of_task_id;
 
-    if (kind === "task.completed") return "Worker completed this task successfully.";
-    if (kind === "task.created" && (p.retry_mode === "fresh-context" || p.execution_mode === "rebuild_context")) return "This retry entered the pipeline with fresh-context routing.";
-    if (kind === "task.created") return "This task was created and entered the execution pipeline.";
-    if (kind === "task.failed") return "This task failed during execution.";
-    if (kind === "task.started") return "Worker started processing this task.";
+    if (kind === "task.completed" && isFreshContext) {
+      return "Retry executed with fresh context and completed successfully.";
+    }
+
+    if (kind === "task.completed" && isRetry) {
+      return "Retry executed and completed successfully.";
+    }
+
+    if (kind === "task.completed") {
+      return "Task completed successfully.";
+    }
+
+    if (kind === "task.created" && isFreshContext) {
+      return "Retry entered the pipeline with fresh-context routing.";
+    }
+
+    if (kind === "task.created" && isRetry) {
+      return "Retry entered the execution pipeline.";
+    }
+
+    if (kind === "task.created") {
+      return "Task entered the execution pipeline.";
+    }
+
+    if (kind === "task.failed" && isFreshContext) {
+      return "Fresh-context retry failed during execution.";
+    }
+
+    if (kind === "task.failed" && isRetry) {
+      return "Retry failed during execution.";
+    }
+
+    if (kind === "task.failed") {
+      return "Task failed during execution.";
+    }
+
+    if (kind === "task.started") {
+      return "Worker started processing this task.";
+    }
+
     return "This lifecycle event was recorded by the system.";
   }
 
