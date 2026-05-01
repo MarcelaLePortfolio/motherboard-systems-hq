@@ -1,0 +1,9 @@
+Phase 577 Execution Inspector verification.
+
+State:
+- Generic hello/message frames are now filtered from Execution Inspector.
+- Only real task lifecycle events with task_id should render.
+- A verification retry task was created after rebuild.
+
+Next:
+Confirm the Execution Inspector visually shows task.created / task.completed lifecycle events.
