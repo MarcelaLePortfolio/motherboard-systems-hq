@@ -16,6 +16,8 @@
     Effie: "📊"
   };
 
+  let latestHealthy = false;
+
   function normalizeStatus(value) {
     return String(value || "unknown").trim().toLowerCase();
   }
@@ -29,7 +31,14 @@
   }
 
   function render(data = {}) {
-    const title = container.querySelector("h2")?.outerHTML || '<h2 class="text-xl font-semibold border-b border-gray-700 pb-2 mb-4">Agent Pool</h2>';
+    const agents = Object.keys(data || {});
+    latestHealthy = agents.length > 0;
+    window.__AGENT_POOL_HEALTH = latestHealthy;
+    window.__AGENT_POOL_LAST_CHECK = Date.now();
+
+    const healthDot = latestHealthy
+      ? '<span title="Agent Pool connected" style="margin-left:8px;color:#34d399;font-size:12px;">●</span>'
+      : '<span title="Agent Pool disconnected" style="margin-left:8px;color:#f87171;font-size:12px;">○</span>';
 
     const rows = AGENTS.map((name) => {
       const raw = data[name] || {};
@@ -47,7 +56,7 @@
     }).join("");
 
     container.innerHTML = `
-      ${title}
+      <h2 class="text-xl font-semibold border-b border-gray-700 pb-2 mb-4">Agent Pool ${healthDot}</h2>
       <div class="w-full flex flex-col gap-1">
         ${rows}
       </div>
@@ -85,5 +94,5 @@
   window.__PHASE64_AGENT_STATUS_DISABLED = false;
   window.__AGENT_POOL_RENDERER_LOCKED = true;
 
-  console.log("[agent-status-row] locked renderer active (fetch + event bridge)");
+  console.log("[agent-status-row] locked renderer active with inline health dot");
 })();
