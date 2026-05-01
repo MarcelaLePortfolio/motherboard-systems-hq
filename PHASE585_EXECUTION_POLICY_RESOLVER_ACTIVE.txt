@@ -1,0 +1,10 @@
+Phase 585 execution policy resolver active.
+
+State:
+- Added a dedicated worker execution policy resolver.
+- Resolver converts task payload fields into explicit runtime policy flags.
+- No behavior mutation is introduced yet.
+- This establishes the enforcement boundary for future real execution hooks.
+
+Next:
+Import resolver into worker, log resolved policy, and verify policy survives at runtime.
