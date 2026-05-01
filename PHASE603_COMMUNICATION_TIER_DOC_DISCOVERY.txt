@@ -1,0 +1,899 @@
+Phase 603 communication-complexity tier documentation discovery.
+
+Answer:
+Yes — the gap overview points directly toward reconstructing the communication-complexity tier system before designing the Response Compiler.
+
+Likely next move:
+- Do NOT reimplement from memory.
+- Search the repo for existing documentation.
+- If found, cherry-pick the authoritative language into a new locked contract document.
+- Only after that should execution/result compiler work continue.
+
+Discovery Goal:
+Find repo references to:
+- communication complexity
+- tier system
+- Tier 1 / Tier 2 / Tier 3
+- outcome / explanation / system trace
+- non-sticky mode
+- response compiler
+- user-facing meaning
+- presentation authority
+- execution-to-communication translation
+
+Rule:
+This phase is read-only discovery plus documentation.
+No runtime code changes.
+
+--- SEARCH COMMUNICATION TIER CANDIDATES ---
+./cognition/guidance/__tests__/composeGuidanceOutput.test.ts
+./cognition/guidance/__tests__/deriveGuidanceAction.test.ts
+./cognition/guidance/__tests__/deriveGuidanceConstraints.test.ts
+./cognition/guidance/__tests__/deriveGuidanceExplanation.test.ts
+./cognition/guidance/__tests__/deriveGuidanceIntent.test.ts
+./cognition/guidance/__tests__/deriveGuidancePriority.test.ts
+./cognition/guidance/__tests__/goldenGuidanceOutput.test.ts
+./cognition/guidance/composeGuidanceOutput.ts
+./cognition/guidance/deriveGuidanceAction.ts
+./cognition/guidance/deriveGuidanceConstraints.ts
+./cognition/guidance/deriveGuidanceExplanation.ts
+./cognition/guidance/deriveGuidanceIntent.ts
+./cognition/guidance/deriveGuidancePriority.ts
+./cognition/guidance/goldenGuidanceOutput.ts
+./cognition/guidance/guidance.types.ts
+./cognition/guidance/guidanceAction.types.ts
+./cognition/guidance/guidanceConstraint.types.ts
+./cognition/guidance/guidanceIntent.types.ts
+./cognition/guidance/guidanceOutput.types.ts
+./cognition/guidance/guidancePriority.types.ts
+./cognition/operator/__tests__/composeOperatorInteractionOutput.test.ts
+./cognition/operator/__tests__/deriveOperatorAcknowledgement.test.ts
+./cognition/operator/__tests__/deriveOperatorAttention.test.ts
+./cognition/operator/__tests__/deriveOperatorCognition.test.ts
+./cognition/operator/__tests__/deriveOperatorHistory.test.ts
+./cognition/operator/__tests__/deriveOperatorSurface.test.ts
+./cognition/operator/__tests__/deriveOperatorWorkflow.test.ts
+./cognition/operator/__tests__/toGoldenOperatorInteractionOutput.test.ts
+./cognition/operator/composeOperatorInteractionOutput.ts
+./cognition/operator/deriveOperatorAcknowledgement.ts
+./cognition/operator/deriveOperatorAttention.ts
+./cognition/operator/deriveOperatorCognition.ts
+./cognition/operator/deriveOperatorHistory.ts
+./cognition/operator/deriveOperatorSurface.ts
+./cognition/operator/deriveOperatorWorkflow.ts
+./cognition/operator/operatorAcknowledgement.types.ts
+./cognition/operator/operatorAttention.types.ts
+./cognition/operator/operatorHistory.types.ts
+./cognition/operator/operatorInteractionOutput.types.ts
+./cognition/operator/operatorSurface.types.ts
+./cognition/operator/operatorWorkflow.types.ts
+./cognition/operator/panel/__tests__/deriveOperatorPanelModel.test.ts
+./cognition/operator/panel/deriveOperatorPanelModel.ts
+./cognition/operator/store/operatorCognition.reducer.ts
+./cognition/operator/store/operatorCognition.selector.ts
+./cognition/operator/store/operatorCognition.selectors.ts
+./cognition/operator/stream/operatorCognition.stream.ts
+./cognition/operator/toGoldenOperatorInteractionOutput.ts
+./cognition/situation/__tests__/classifySituation.test.ts
+./cognition/situation/__tests__/frameSituation.test.ts
+./cognition/situation/__tests__/goldenSituationFrame.test.ts
+./cognition/situation/__tests__/normalizeSituationFrame.test.ts
+./cognition/situation/__tests__/sortSituationFrames.test.ts
+./cognition/situation/classifySituation.ts
+./cognition/situation/deriveAttentionLevel.ts
+./cognition/situation/frameSituation.ts
+./cognition/situation/goldenSituationFrame.ts
+./cognition/situation/normalizeSituationFrame.ts
+./cognition/situation/situation.types.ts
+./cognition/situation/situationFrame.types.ts
+./cognition/situation/sortSituationFrames.ts
+./dashboard/src/cognition/operatorGuidance/guidanceConfidence.model.ts
+./dashboard/src/cognition/operatorGuidance/guidanceConfidence.test.ts
+./dashboard/src/cognition/operatorGuidance/guidanceGrouping.model.ts
+./dashboard/src/cognition/operatorGuidance/guidanceGrouping.test.ts
+./dashboard/src/cognition/operatorGuidance/guidanceOrdering.proof.ts
+./dashboard/src/cognition/operatorGuidance/guidancePriority.model.ts
+./dashboard/src/cognition/operatorGuidance/guidancePriority.test.ts
+./dashboard/src/cognition/operatorGuidance/guidancePriority.thresholds.ts
+./dashboard/src/cognition/operatorGuidance/guidanceRenderStability.test.ts
+./dashboard/src/cognition/operatorGuidance/guidanceSafetyConfirmation.test.ts
+./dashboard/src/cognition/operatorGuidance/guidanceUIClassification.model.ts
+./dashboard/src/cognition/operatorGuidance/guidanceUIClassification.test.ts
+./dashboard/src/cognition/operatorGuidance/index.ts
+./dashboard/src/cognition/operatorGuidance/operatorGuidance.ts
+./dashboard/src/cognition/operatorGuidance/operatorGuidancePanel.tsx
+./dashboard/src/cognition/operatorGuidance/operatorGuidanceReducer.ts
+./dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts
+./dashboard/src/cognition/operatorGuidance/operatorGuidanceSelectors.ts
+./dashboard/src/cognition/operatorGuidance/useOperatorGuidance.ts
+./docs/checkpoints/PHASE61_5_5M_TRACE_OPS_AGENT_STATE_SOURCE_20260310_172330.txt
+./docs/checkpoints/PHASE61_5_5U_TRACE_OPS_STATE_WRITERS_20260310_173753.txt
+./docs/checkpoints/PHASE61_5_5V_TRACE_AGENT_STATUS_PRODUCERS_20260310_173906.txt
+./docs/execution_outcome_reporting_model.md
+./docs/fl3_proof/reporting/outcome_reporting_structure.md
+./docs/governance_cognition_packaging_boundary.md
+./docs/governance_cognition_packet_verification_rules.md
+./docs/governance_constraint_evaluation_explanation_model.md
+./docs/governance_constraint_evaluation_outcome_model.md
+./docs/governance_constraint_evaluation_traceability_model.md
+./docs/governance_constraint_explanation_model.md
+./docs/governance_operator_cognition_exposure_rules.md
+./docs/governance_operator_cognition_mapping_rules.md
+./docs/governance_operator_cognition_structure.md
+./docs/governance_trust_cognition_completeness_seal.md
+./docs/governance_trust_cognition_contract.md
+./docs/governance_trust_cognition_guarantees.md
+./docs/governance_trust_cognition_invariants.md
+./docs/governance_trust_explanation_model.md
+./docs/governance_trust_signal_explanation_surface_model.md
+./docs/governance/PHASE_163_3_OPERATOR_INTELLIGENCE_PRESENTATION_CONTRACT.md
+./docs/governance/PHASE_163_GOVERNANCE_COGNITION_SURFACE_EXPANSION.md
+./docs/governance/PHASE_164_1_OPERATOR_COGNITION_RISK_VISIBILITY_MODEL.md
+./docs/governance/PHASE_164_2_OPERATOR_COGNITION_RISK_INTERPRETATION_RULES.md
+./docs/governance/PHASE_164_3_OPERATOR_COGNITION_RISK_PRESENTATION_CONTRACT.md
+./docs/governance/PHASE_164_4_OPERATOR_RISK_COGNITION_STABILITY_RULES.md
+./docs/governance/PHASE_164_5_OPERATOR_RISK_COGNITION_GOVERNANCE_SEAL.md
+./docs/governance/PHASE_164_GOVERNANCE_COGNITION_EXPANSION_PLANNING.md
+./docs/governance/PHASE_165_1_GOVERNANCE_EXPLAINABILITY_COGNITION_MODEL.md
+./docs/governance/PHASE_165_3_GOVERNANCE_COGNITION_BOUNDARY_REINFORCEMENT.md
+./docs/governance/PHASE_165_GOVERNANCE_COGNITION_ROADMAP_DEFINITION.md
+./docs/governance/PHASE_166_1_GOVERNANCE_COGNITION_CLASSIFICATION_REGISTRY.md
+./docs/governance/PHASE_166_2_GOVERNANCE_COGNITION_NAVIGATION_MAP.md
+./docs/governance/PHASE_166_3_GOVERNANCE_COGNITION_INTEGRITY_RULES.md
+./docs/governance/PHASE_166_GOVERNANCE_COGNITION_INDEX.md
+./docs/governance/PHASE_167_1_GOVERNANCE_COGNITION_PRESERVATION_RULES.md
+./docs/governance/PHASE_167_2_GOVERNANCE_COGNITION_EVOLUTION_CONSTRAINTS.md
+./docs/governance/PHASE_167_GOVERNANCE_COGNITION_STABILITY_CHARTER.md
+./docs/governance/PHASE_168_1_GOVERNANCE_COGNITION_PROTECTION_REGISTRY.md
+./docs/governance/PHASE_168_GOVERNANCE_COGNITION_COMPLETION_MARKER.md
+./docs/governance/PHASE_169_GOVERNANCE_COGNITION_FREEZE_MARKER.md
+./docs/governance/PHASE_170_1_GOVERNANCE_COGNITION_REFERENCE_ANCHOR.md
+./docs/governance/PHASE_170_GOVERNANCE_COGNITION_BASELINE_SNAPSHOT.md
+./docs/governance/PHASE_171_GOVERNANCE_COGNITION_FOUNDATION_CLOSURE.md
+./docs/governance/PHASE_172_8_GOVERNANCE_INTELLIGENCE_TRACEABILITY_MODEL.md
+./docs/governance/PHASE_173_1_GOVERNANCE_INTELLIGENCE_OPERATOR_COGNITION_MAPPING.md
+./docs/governance/PHASE_173_5_GOVERNANCE_INTELLIGENCE_OPERATOR_EXPLANATION_MODEL.md
+./docs/PHASE_446_GOVERNANCE_INTAKE_TRACE_MODEL.md
+./docs/PHASE_457_EXPLANATION_PACKET_FIELDS.txt
+./docs/PHASE_457_EXPLANATION_PACKET_SCOPE.txt
+./docs/PHASE_459_1_INTAKE_TO_GOVERNANCE_TRACE_PROOF.md
+./docs/PHASE_460_1_FULL_FL3_END_TO_END_TRACE_PROOF.md
+./docs/PHASE_461_STEP_3_END_TO_END_PROOF_TRACE_SPEC.md
+./docs/phase_487_guidance_trace_probe_run.md
+./docs/PHASE_489_H1_OPERATOR_GUIDANCE_EVENT_MODE_TRACE.txt
+./docs/PHASE_489_H1_OPERATOR_GUIDANCE_EVENT_PAYLOAD_TRACE.txt
+./docs/PHASE_489_H1_OPERATOR_GUIDANCE_REDUCTION_CONTENT_TRACE.txt
+./docs/PHASE_489_H1_OPERATOR_GUIDANCE_SSE_TRACE_OUTPUT.txt
+./docs/PHASE_489_H1_OPERATOR_GUIDANCE_SSE_TRACE.md
+./docs/PHASE_489_H1_OPERATOR_GUIDANCE_TRACE_OUTPUT.txt
+./docs/PHASE_489_H1_OPERATOR_GUIDANCE_TRACE.md
+./docs/PHASE_489_H2_TASK_EVENTS_STREAM_LIVE_TRACE.txt
+./docs/PHASE_489_H2_TELEMETRY_WIRING_TRACE.txt
+./docs/PHASE_489_H3_TASK_EVENT_PRODUCTION_PATH_TRACE.txt
+./docs/PHASE_489_H5_TASK_ACTIVITY_WIRING_TRACE.txt
+./docs/phase_492_ux_refinement_scope.md
+./docs/phase113_cognition_transport_hardening.md
+./docs/phase401_trust_cognition_corridor_closure.md
+./docs/phase401_trust_cognition_corridor_verification_seal.md
+./docs/phase404_execution_proof_explanation_model.md
+./docs/phase408_execution_outcome_reporting_model.md
+./docs/phase422_4_proof_execution_outcome_packaging.md
+./docs/phase423_2_step3_authorization_execution_trace.md
+./docs/phase423_4_step1_registry_creation_trace.txt
+./docs/phase423_4_step2_registry_write_authority_trace.txt
+./docs/phase423_4_step3_registry_read_authority_trace.txt
+./docs/phase423_5_step1_governance_contract_trace.txt
+./docs/phase423_5_step2_execution_contract_trace.txt
+./docs/phase423_5_step3_field_alignment_trace.txt
+./docs/phase423_5_step4_invariant_compatibility_trace.txt
+./docs/phase424_step1_governance_enforcement_surface_trace.txt
+./docs/phase424_step2_enforcement_call_topology_trace.txt
+./docs/phase424_step3_enforcement_chokepoint_corridor_trace.txt
+./docs/phase424_step5_enforcement_topology_evidence_trace.txt
+./docs/phase425_step2_gateway_chokepoint_context_trace.txt
+./docs/phase425_step4_enforcement_anchor_evidence_trace.txt
+./docs/phase426_step2_boundary_location_evidence_trace.txt
+./docs/phase427_step4_admissibility_explanation_requirements_evidence.txt
+./docs/phase427_step4_admissibility_explanation_requirements_proof.txt
+./docs/phase449_1_governance_reasoning_trace_structure.md
+./docs/phase449_2_governance_cognition_normalization_structure.md
+./docs/phase449_3_governance_cognition_packaging_invariants.md
+./docs/phase449_3_governance_explanation_normalization_structure.md
+./docs/phase449_4_governance_cognition_completeness_seal.md
+./docs/phase449_governance_cognition_structure_definition.md
+./docs/phase450_2_execution_preparation_trace_structure.md
+./docs/phase450_4_execution_outcome_reporting_structure.md
+./docs/phase454_4_outcome_verification_model.md
+./docs/phase464_x_payload_trace.txt
+./docs/phase473_2_trace_actual_dashboard_html_source.txt
+./docs/phase486_step2_governance_trace_render_spec.txt
+./docs/phase486_step26_outcome_panel_consumption_spec.txt
+./docs/phase486_step28_outcome_panel_consumption_validation.txt
+./docs/phase486_step29_ui_consumption_checkpoint_after_outcome.txt
+./docs/phase486_step3_governance_trace_render_probe.txt
+./docs/phase487_failed_matilda_cognition_attempt.md
+./docs/phase487_guidance_trace_probe_20260415_144440.txt
+./docs/phase487_guidance_trace_probe_20260415_144711.txt
+./docs/phase487_tier1_build_cache_prune_result.md
+./docs/phase487_tier2_container_prune_result.md
+./docs/phase487_tier3_image_prune_result.md
+./docs/phase487_trace_exact_visible_card_literals_20260415_221520.txt
+./docs/phase488_best_claim_sql_candidate_trace.txt
+./docs/phase488_trace_post_task_created_boundary.txt
+./docs/phase488_trace_worker_schema_and_boot_path.txt
+./docs/phase502_confidence_trace_snapshot_20260415_235234.html
+./docs/phase502_confidence_trace_verification_20260415_235234.txt
+./docs/phase504_trace_surface_snapshot_20260415_235347.html
+./docs/phase504_trace_surface_verification_20260415_235347.txt
+./docs/recovery_full_audit/50_observational_task_consumer_trace.txt
+./docs/recovery_full_audit/51_operator_workspace_and_cognition_wiring_verification.txt
+./docs/SERVED_DASHBOARD_SOURCE_TRACE.txt
+./drizzle_pg/0008_phase39_action_tier_scaffolding.sql
+./external/io_trace_log.json
+./GOVERNANCE_ADVISORY_PRESENTATION_MODEL.md
+./GOVERNANCE_COGNITION_ARCHITECTURE_COMPLETION_MODEL.md
+./GOVERNANCE_COGNITION_BOUNDARIES_MODEL.md
+./GOVERNANCE_COGNITION_CONFIDENCE_MODEL.md
+./GOVERNANCE_COGNITION_CONSTRAINT_SCHEMA_MODEL.md
+./GOVERNANCE_COGNITION_EXPLAINABILITY_MODEL.md
+./GOVERNANCE_COGNITION_FAILURE_MODES_MODEL.md
+./GOVERNANCE_COGNITION_PRESENTATION_MODEL.md
+./GOVERNANCE_COGNITION_PRIORITIZATION_MODEL.md
+./GOVERNANCE_COGNITION_STABILITY_MODEL.md
+./GOVERNANCE_COGNITION_TRANSPARENCY_MODEL.md
+./GOVERNANCE_SIGNAL_EXPLANATION_MODEL.md
+./governance/02_trust_accountability/GOVERNANCE_ENFORCEMENT_TRACEABILITY_MODEL.md
+./PHASE_332_GOVERNANCE_TRACEABILITY_PLAN.md
+./PHASE_84_4_OPERATOR_PRESENTATION_LAYER.md
+./PHASE_84_5_OPERATOR_COGNITION_UX_REFINEMENT.md
+./PHASE_85_6_COGNITION_CLOSURE.md
+./PHASE_86_5_COGNITION_SIMPLIFICATION.md
+./PHASE_86_6_COGNITION_EVOLUTION_CLOSURE.md
+./PHASE11_MATILDA_CHAT_UX_PLAN.md
+./PHASE39_ACTION_TIER_POLICY.md
+./PHASE528_MATILDA_RESPONSE_RESTORED.md
+./PHASE603_COMMUNICATION_TIER_DOC_DISCOVERY.txt
+./PHASE87_12_COGNITION_INDEX_SMOKE_EVIDENCE.txt
+./PHASE87_16_COGNITION_INDEX_SMOKE_EVIDENCE.txt
+./PHASE88_14_10_SYSTEM_HEALTH_ALIAS_RESPONSE.json
+./PHASE88_14_10_SYSTEM_HEALTH_PRIMARY_RESPONSE.json
+./PHASE88_14_2_PUBLIC_DASHBOARD_SYSTEM_HEALTH_RESPONSE.json
+./PHASE88_14_5_SYSTEM_HEALTH_RESPONSE.json
+./PHASE88_14_7_SYSTEM_HEALTH_RESPONSE.json
+./PHASE88_14_LIVE_SYSTEM_HEALTH_RESPONSE.json
+./public/css/phase13_5_operator_ux.css
+./public/js/phase13_5_operator_ux.js
+./scripts/_local/phase135_governance_cognition_snapshot_report.ts
+./scripts/_local/phase135_governance_cognition_snapshot_smoke.ts
+./scripts/_local/phase135_run_governance_cognition_snapshot_report.sh
+./scripts/_local/phase135_run_governance_cognition_snapshot_smoke.sh
+./scripts/_local/phase292_verify_governance_presentation.sh
+./scripts/_local/phase293_run_governance_presentation_checks.sh
+./scripts/_local/phase321_run_governance_extended_cognition_suite.sh
+./scripts/_local/phase321_run_governance_extended_cognition_suite.ts
+./scripts/_local/phase332_verify_governance_traceability.sh
+./scripts/_local/phase423_2_step3_authorization_trace.sh
+./scripts/_local/phase423_2_step4_execution_consumption_trace.sh
+./scripts/_local/phase457_trace_observational_task_consumers.sh
+./scripts/_local/phase457_verify_operator_workspace_and_cognition_wiring.sh
+./scripts/_local/phase488_trace_best_claim_sql_candidate.sh
+./scripts/_local/phase488_trace_claim_sql_vs_live_tasks_schema.sh
+./scripts/_local/phase488_trace_phase32_minimum_schema_gap.sh
+./scripts/_local/phase488_trace_post_task_created_boundary.sh
+./scripts/_local/phase488_trace_task_event_producers.sh
+./scripts/_local/phase488_trace_tasks_schema_migration_path.sh
+./scripts/_local/phase488_trace_worker_call_arity_vs_sql_contract.sh
+./scripts/_local/phase488a_ui_no_response_diagnose.sh
+./scripts/_local/phase488i_verify_matilda_response.sh
+./scripts/_local/phase488q_verify_trace_is_served.sh
+./scripts/_local/phase488u_manual_outcome_capture_prompt.sh
+./scripts/_local/phase489_h3_patch_tasks_action_tier_bootstrap.py
+./scripts/_local/phase489_h3_trace_task_event_production_path.sh
+./scripts/_local/phase489_h5_trace_task_activity_wiring.sh
+./scripts/_local/phase61_5_5u_trace_ops_state_writers.sh
+./scripts/_local/phase61_5_5v_trace_agent_status_producers.sh
+./scripts/_local/phase61_5_6c_trace_phase34_worker_heartbeat_path.sh
+./scripts/_local/phase99_cognition_invariants.sh
+./scripts/_local/review_phase489_h3_trace_results.sh
+./scripts/_local/trace_operator_guidance_bridge.sh
+./scripts/_local/trace_operator_guidance_event_payload.sh
+./scripts/_local/trace_operator_guidance_reduction_content.sh
+./scripts/_local/trace_operator_guidance_sse_endpoint.sh
+./scripts/_local/trace_served_dashboard_source.sh
+./scripts/_local/trace_task_events_stream_live.sh
+./scripts/_local/trace_telemetry_workspace_wiring.sh
+./scripts/phase39_action_tier_claim_smoke.sh
+./scripts/phase39_action_tier_policy_smoke.sh
+./scripts/phase39_action_tier_smoke.sh
+./scripts/phase40_tierA_claim_gate_smoke.sh
+./scripts/phase41_tierA_claim_gate_smoke.sh
+./scripts/phase424_step3_enforcement_chokepoint_corridor_trace.sh
+./scripts/phase425_step2_gateway_chokepoint_context_trace.sh
+./scripts/phase44_action_tier_guard_smoke.sh
+./scripts/phase464_x_trace_system_health_payload.sh
+./scripts/phase473_2_trace_actual_dashboard_html_source.sh
+./scripts/phase473_4_trace_container_public_sync_root_cause.sh
+./scripts/phase486_step28_validate_outcome_panel_consumption.sh
+./scripts/phase487_8_trace_operator_guidance_route_owner.sh
+./scripts/phase487_guidance_trace_probe.sh
+./scripts/phase487_print_prune_tiers.sh
+./scripts/phase487_record_failed_matilda_cognition_attempt.sh
+./scripts/phase487_tier1_build_cache_prune_with_postcheck.sh
+./scripts/phase487_tier2_container_prune_with_postcheck.sh
+./scripts/phase487_tier3_image_prune_with_postcheck.sh
+./scripts/phase487_trace_confidence_render_surface.sh
+./scripts/phase487_trace_exact_visible_card_literals.sh
+./scripts/phase487_trace_operator_guidance_card_literals.sh
+./scripts/phase487_trace_runtime_served_operator_guidance_string.sh
+./scripts/phase496_wire_explanation_integrity_signal.sh
+./scripts/phase502_verify_confidence_trace_engine.sh
+./scripts/phase503_surface_confidence_trace_to_modal.sh
+./scripts/phase504_verify_trace_surface_render.sh
+./scripts/phase87_12_run_cognition_index_smoke.sh
+./scripts/phase87_16_run_cognition_index_smoke.sh
+./server/db_bootstrap_tasks_action_tier_column.mjs
+./server/emit-after-response.mjs
+./sql/phase40_claim_one_tierA.sql
+./sql/policy/action_tier_policy.sql
+./sql/policy/action_tier_validate.sql
+./src/cognition/adapter/cognition.adapter.ts
+./src/cognition/adapter/index.ts
+./src/cognition/bridge-verify/cognition.bridge.verify.ts
+./src/cognition/bridge-verify/index.ts
+./src/cognition/bridge/cognition.bridge.ts
+./src/cognition/bridge/index.ts
+./src/cognition/buildRenderedSituationSummary.smoke.ts
+./src/cognition/buildRenderedSituationSummary.ts
+./src/cognition/buildSituationSummary.ts
+./src/cognition/channel-verify/cognition.channel.verify.ts
+./src/cognition/channel-verify/index.ts
+./src/cognition/channel/cognition.channel.ts
+./src/cognition/channel/index.ts
+./src/cognition/confidence/confidence.types.ts
+./src/cognition/confidence/confidenceFactors.ts
+./src/cognition/confidence/confidenceInvariant.proof.ts
+./src/cognition/confidence/confidenceInvariant.ts
+./src/cognition/confidence/confidenceSynthesizer.ts
+./src/cognition/confidence/index.ts
+./src/cognition/contracts/cognition.contracts.ts
+./src/cognition/contracts/index.ts
+./src/cognition/dispatch-verify/cognition.dispatch.verify.ts
+./src/cognition/dispatch-verify/index.ts
+./src/cognition/dispatch/cognition.dispatch.ts
+./src/cognition/dispatch/index.ts
+./src/cognition/drift/cognition.drift.guard.ts
+./src/cognition/drift/index.ts
+./src/cognition/entry/cognition.entry.ts
+./src/cognition/entry/index.ts
+./src/cognition/exposure/cognition.exposure.ts
+./src/cognition/exposure/index.ts
+./src/cognition/gateway/cognition.gateway.ts
+./src/cognition/gateway/index.ts
+./src/cognition/getSituationSummary.degraded.smoke.ts
+./src/cognition/getSituationSummary.smoke.ts
+./src/cognition/getSituationSummary.ts
+./src/cognition/getSituationSummary.unknown.smoke.ts
+./src/cognition/getSituationSummarySnapshot.smoke.ts
+./src/cognition/getSituationSummarySnapshot.ts
+./src/cognition/getSystemSituationSummary.smoke.ts
+./src/cognition/getSystemSituationSummary.ts
+./src/cognition/governanceAwarenessGuards.smoke.ts
+./src/cognition/governanceCognition.smoke.ts
+./src/cognition/guard/cognition.guard.ts
+./src/cognition/guard/index.ts
+./src/cognition/hook/cognition.hook.ts
+./src/cognition/hook/index.ts
+./src/cognition/index.smoke.ts
+./src/cognition/index.ts
+./src/cognition/invariants-read/cognition.read.invariants.ts
+./src/cognition/invariants-read/index.ts
+./src/cognition/invariants/cognition.invariants.ts
+./src/cognition/invariants/index.ts
+./src/cognition/link-verify/cognition.link.verify.ts
+./src/cognition/link-verify/index.ts
+./src/cognition/link/cognition.link.ts
+./src/cognition/link/index.ts
+./src/cognition/lock/cognition.lock.ts
+./src/cognition/lock/index.ts
+./src/cognition/operator-read/cognition.operator-read.ts
+./src/cognition/operator-read/index.ts
+./src/cognition/operatorGuidance.live.ts
+./src/cognition/operatorGuidance.smoke.ts
+./src/cognition/operatorGuidance.ts
+./src/cognition/operatorGuidanceConfidence.ts
+./src/cognition/operatorGuidanceMapping.ts
+./src/cognition/operatorGuidanceReducer.ts
+./src/cognition/operatorGuidanceSafety.ts
+./src/cognition/phase104.seal.ts
+./src/cognition/phase105.seal.ts
+./src/cognition/phase106.seal.ts
+./src/cognition/phase107.seal.ts
+./src/cognition/phase108.seal.ts
+./src/cognition/phase109.seal.ts
+./src/cognition/phase110.seal.ts
+./src/cognition/phase111.seal.ts
+./src/cognition/phase112.seal.ts
+./src/cognition/proof/cognition.proof.ts
+./src/cognition/proof/index.ts
+./src/cognition/relay-verify/cognition.relay.verify.ts
+./src/cognition/relay-verify/index.ts
+./src/cognition/relay/cognition.relay.ts
+./src/cognition/relay/index.ts
+./src/cognition/renderSituationSummary.ts
+./src/cognition/replay/cognition.replay.proof.ts
+./src/cognition/replay/index.ts
+./src/cognition/route-verify/cognition.route.verify.ts
+./src/cognition/route-verify/index.ts
+./src/cognition/route/cognition.route.ts
+./src/cognition/route/index.ts
+./src/cognition/selectors/cognition.selectors.ts
+./src/cognition/selectors/index.ts
+./src/cognition/situationSummaryCli.smoke.ts
+./src/cognition/situationSummaryComposer.ts
+./src/cognition/situationSummaryInputAdapter.ts
+./src/cognition/situationSummaryIntegration.smoke.ts
+./src/cognition/situationSummaryRender.smoke.ts
+./src/cognition/span-verify/cognition.span.verify.ts
+./src/cognition/span-verify/index.ts
+./src/cognition/span/cognition.span.ts
+./src/cognition/span/index.ts
+./src/cognition/surface/cognition.surface.ts
+./src/cognition/surface/index.ts
+./src/cognition/systemSituationSummaryCli.smoke.ts
+./src/cognition/transport/cognitionTransport.dashboard.ts
+./src/cognition/transport/cognitionTransport.dashboardConsumption.invariants.ts
+./src/cognition/transport/cognitionTransport.dashboardConsumption.test.ts
+./src/cognition/transport/cognitionTransport.dashboardConsumption.ts
+./src/cognition/transport/cognitionTransport.dashboardConsumption.types.ts
+./src/cognition/transport/cognitionTransport.diagnostics.ts
+./src/cognition/transport/cognitionTransport.failure.ts
+./src/cognition/transport/cognitionTransport.governance.ts
+./src/cognition/transport/cognitionTransport.health.ts
+./src/cognition/transport/cognitionTransport.interpretation.ts
+./src/cognition/transport/cognitionTransport.invariants.ts
+./src/cognition/transport/cognitionTransport.label.ts
+./src/cognition/transport/cognitionTransport.operator.ts
+./src/cognition/transport/cognitionTransport.operatorView.ts
+./src/cognition/transport/cognitionTransport.policy.ts
+./src/cognition/transport/cognitionTransport.presentation.ts
+./src/cognition/transport/cognitionTransport.registry.ts
+./src/cognition/transport/cognitionTransport.replay.ts
+./src/cognition/transport/cognitionTransport.risk.ts
+./src/cognition/transport/cognitionTransport.severity.ts
+./src/cognition/transport/cognitionTransport.snapshot.ts
+./src/cognition/transport/cognitionTransport.summary.ts
+./src/cognition/transport/cognitionTransport.types.ts
+./src/cognition/transport/cognitionTransport.validate.ts
+./src/cognition/transport/cognitionTransport.verify.ts
+./src/cognition/transport/CognitionTransportDiagnostics.builder.ts
+./src/cognition/transport/CognitionTransportDiagnostics.types.ts
+./src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_bundle.ts
+./src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts
+./src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_fixture.ts
+./src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_proof.ts
+./src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_readonly_view.ts
+./src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_report.ts
+./src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_runtime_guard.ts
+./src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_snapshot.ts
+./src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_validation.ts
+./src/cognition/transport/consumptionRegistry/consumption_registry_enforcement.ts
+./src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.build.ts
+./src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.constants.ts
+./src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.finalize.ts
+./src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.freeze.ts
+./src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.guard.ts
+./src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.integration.ts
+./src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.integrity.ts
+./src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.invariants.ts
+./src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.pipeline.ts
+./src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.runtime.ts
+./src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.sectionGuard.ts
+./src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.ts
+./src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.types.ts
+./src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.validate.ts
+./src/cognition/transport/consumptionRegistry/index.ts
+./src/cognition/transport/index.ts
+./src/cognition/transport/transportReplaySafety.assert.ts
+./src/cognition/verify/cognition.verify.ts
+./src/cognition/verify/index.ts
+./src/governance_investigation/governance_decision_trace.ts
+./src/governance_traceability/governance_traceability_contract.ts
+./src/governance_traceability/governance_traceability_formatter.ts
+./src/governance_traceability/governance_traceability_model.ts
+./src/governance_traceability/governance_traceability_snapshot.ts
+./src/governance_traceability/index.ts
+./src/governance/cognition/build_governance_authorization_gate.ts
+./src/governance/cognition/build_governance_cognition_snapshot.ts
+./src/governance/cognition/build_governance_dashboard_consumption_view.ts
+./src/governance/cognition/build_governance_final_delivery_receipt.ts
+./src/governance/cognition/build_governance_final_pre_live_registry_archive_record.ts
+./src/governance/cognition/build_governance_final_pre_live_registry_contract_package.ts
+./src/governance/cognition/build_governance_final_pre_live_registry_summary_capsule.ts
+./src/governance/cognition/build_governance_live_registry_wiring_readiness.ts
+./src/governance/cognition/build_governance_live_wiring_decision.ts
+./src/governance/cognition/build_governance_pre_live_registry_delivery_manifest.ts
+./src/governance/cognition/build_governance_pre_live_registry_handoff_envelope.ts
+./src/governance/cognition/build_governance_runtime_registry_export.ts
+./src/governance/cognition/build_governance_shared_registry_owner_bundle.ts
+./src/governance/cognition/get_governance_execution_eligibility_snapshot.ts
+./src/governance/cognition/governance_authorization_gate.ts
+./src/governance/cognition/governance_cognition_snapshot_contract.ts
+./src/governance/cognition/governance_dashboard_consumption_contract.ts
+./src/governance/cognition/governance_dashboard_contract_registration.ts
+./src/governance/cognition/governance_final_delivery_receipt.ts
+./src/governance/cognition/governance_final_pre_live_registry_archive_record.ts
+./src/governance/cognition/governance_final_pre_live_registry_contract_package.ts
+./src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts
+./src/governance/cognition/governance_live_registry_wiring_readiness.ts
+./src/governance/cognition/governance_live_wiring_decision.ts
+./src/governance/cognition/governance_pre_live_registry_delivery_manifest.ts
+./src/governance/cognition/governance_pre_live_registry_handoff_envelope.ts
+./src/governance/cognition/governance_runtime_registry_export.ts
+./src/governance/cognition/governance_shared_registry_owner_bundle.ts
+./src/governance/cognition/index.ts
+./src/governance/cognition/normalize_governance_dashboard_contract_registration.ts
+./src/governance/cognition/normalize_governance_runtime_registry_export.ts
+./src/governance/cognition/normalize_governance_shared_registry_owner_bundle.ts
+./src/governance/cognition/normalize_governance_snapshot.ts
+./src/governance/cognition/operationalConfidence.selector.ts
+./src/governance/cognition/operationalConfidence.synthesizer.ts
+./src/governance/cognition/operationalConfidence.test.ts
+./src/governance/cognition/operationalConfidence.types.ts
+./src/governance/cognition/package_governance_cognition_snapshot.ts
+./src/governance/cognition/prove_governance_authorization_gate.ts
+./src/governance/cognition/prove_governance_cognition_snapshot.ts
+./src/governance/cognition/prove_governance_dashboard_consumption_view.ts
+./src/governance/cognition/prove_governance_dashboard_contract_registration.ts
+./src/governance/cognition/prove_governance_final_delivery_receipt.ts
+./src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts
+./src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts
+./src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts
+./src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts
+./src/governance/cognition/prove_governance_live_wiring_decision.ts
+./src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts
+./src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts
+./src/governance/cognition/prove_governance_runtime_registry_export.ts
+./src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts
+./src/governance/cognition/register_governance_dashboard_contract.ts
+./src/governance/cognition/select_governance_authorization_gate.ts
+./src/governance/cognition/select_governance_dashboard_consumption_view.ts
+./src/governance/cognition/select_governance_final_delivery_receipt.ts
+./src/governance/cognition/select_governance_final_pre_live_registry_archive_record.ts
+./src/governance/cognition/select_governance_final_pre_live_registry_contract_package.ts
+./src/governance/cognition/select_governance_final_pre_live_registry_summary_capsule.ts
+./src/governance/cognition/select_governance_live_registry_wiring_readiness.ts
+./src/governance/cognition/select_governance_live_wiring_decision.ts
+./src/governance/cognition/select_governance_pre_live_registry_delivery_manifest.ts
+./src/governance/cognition/select_governance_pre_live_registry_handoff_envelope.ts
+./src/governance/cognition/select_governance_runtime_registry_export.ts
+./src/governance/cognition/select_governance_shared_registry_owner_bundle.ts
+./src/governance/governance_audit_trace_emitter.test.ts
+./src/governance/governance_audit_trace_emitter.ts
+./src/governance/governance_cognition_determinism_sentinel.test.ts
+./src/governance/governance_cognition_determinism_sentinel.ts
+./src/governance/governance_cognition_integrity_sentinel.test.ts
+./src/governance/governance_cognition_integrity_sentinel.ts
+./src/governance/governance_cognition_regression_sentinel.test.ts
+./src/governance/governance_cognition_regression_sentinel.ts
+./src/governance/governance_cognition_replay_verifier.ts
+./src/governance/governance_explanation_builder.test.ts
+./src/governance/governance_explanation_builder.ts
+./src/governance/governance_explanation_layer.test.ts
+./src/governance/governance_operator_explanation_layer.ts
+./src/governance/governance_signal_explanation_registry.ts
+./src/governance/governanceCognitionIntegrationHooks.ts
+./src/governance/governanceCognitionIntegrationProof.ts
+./src/governance/governanceCognitionSelectors.ts
+./src/governance/governanceCognitionSelectorsProof.ts
+./src/governance/governanceCognitionSurfaceBuilder.ts
+./src/governance/governanceCognitionSurfaceProof.ts
+./src/governance/governanceCognitionSurfaceTypes.ts
+./src/governance/governanceOutcomeSurfaceBuilder.ts
+./src/governance/governanceOutcomeSurfaceProof.ts
+./src/governance/governanceOutcomeSurfaceTypes.ts
+./tests/governance_traceability/governance_traceability_contract.test.ts
+./tests/governance_traceability/governance_traceability_formatter.test.ts
+./tests/governance_traceability/governance_traceability_model.test.ts
+./tests/governance_traceability/governance_traceability_snapshot.test.ts
+
+--- GREP COMMUNICATION TIER TERMS ---
+./PHASE571_SYSTEM_STATE_SUMMARY.txt:29:- "Retry" = misleading (implies different outcome)
+./PHASE_334_GOVERNANCE_DIGEST_PLAN.md:137:• cannot alter explanation
+./test_runtime_simulation.ts:1:/** * Simulates multiple task types through Matildas full runtime logic stack. * Logs outcomes to console and triggers all major memory systems. */
+./PHASE_357_GOVERNANCE_OPERATOR_MANUAL_PLAN.md:158:• cannot alter explanation
+./GOVERNANCE_DOCTRINE_VERIFICATION_MODEL.md:70:Conflict explanation
+./PHASE_355_GOVERNANCE_OPERATOR_DIRECTORY_PLAN.md:156:• cannot alter explanation
+./PHASE572_WORKER_AUDIT_RESULT.txt:16:Because the worker is not yet performing intent execution, adding prompt augmentation here would not change outcomes.
+./PHASE_401_VERIFICATION_SEAL.txt:48:Phase 401 verification outcome:
+./GOVERNANCE_COGNITION_CONSTRAINT_SCHEMA_MODEL.md:146:Surface authority boundary explanation.
+./PHASE_358_GOVERNANCE_OPERATOR_PLAYBOOK_PLAN.md:159:• cannot alter explanation
+./GOVERNANCE_CONSTRAINT_RISK_CLASSIFICATION_MODEL.md:95:Risk explanation
+./GOVERNANCE_CONSTRAINT_RISK_CLASSIFICATION_MODEL.md:171:Constraint review outcomes
+./PHASE600_EXECUTION_LOOP_FINDING.txt:18:- Do not alter execution outcome.
+./PHASE_83_0_SUMMARY_DOCTRINE.md:101:Support future safe UI explanation
+./PHASE99_3_INSPECTION_PLAN.md:13:## Required outcome
+./PHASE_351_GOVERNANCE_OPERATOR_MAP_PLAN.md:152:• cannot alter explanation
+./PHASE_335_GOVERNANCE_OPERATOR_PACKET_PLAN.md:137:• cannot alter explanation
+./PHASE_361_GOVERNANCE_OPERATOR_REFERENCE_PLAN.md:162:• cannot alter explanation
+./PHASE_349_GOVERNANCE_OPERATOR_INDEX_PLAN.md:150:• cannot alter explanation
+./STATE_HANDOFF_PHASE_352.md:63:Governance explanation guarantees established
+./STATE_HANDOFF_PHASE_352.md:460:Important governance outcome:
+./STATE_HANDOFF_PHASE_352.md:484:Important execution outcome:
+./STATE_HANDOFF_PHASE_352.md:488:Important safety outcome:
+./app/demo-runtime/page.tsx:9:  outcome: "SUCCESS" | "FAILED" | "BLOCKED";
+./app/demo-runtime/page.tsx:142:        and outcome so the system can be understood quickly without code inspection.
+./app/demo-runtime/page.tsx:327:              <strong>Governance explanation:</strong> {governanceExplanation}
+./app/demo-runtime/page.tsx:389:                  <strong>{task.taskName}</strong> — {task.outcome} ({task.logicalTimestamp})
+./STATE_HANDOFF_PHASE_84_PLANNING_COMPLETE.md:15:Agent explanation doctrine defined.  
+./PHASE39_1.md:99:4) Produce an explanation trace:
+./STATE_HANDOFF_PHASE_84_CORRECTED.md:31:Agent explanation doctrine defined.  
+./STATE_HANDOFF_PHASE_130.txt:10:v130.0-governance-outcome-surfaces-golden
+./STATE_HANDOFF_PHASE_130.txt:33:Governance outcome surface types
+./STATE_HANDOFF_PHASE_130.txt:34:Governance outcome surface builder
+./STATE_HANDOFF_PHASE_130.txt:35:Governance outcome surface determinism proof
+./STATE_HANDOFF_PHASE_130.txt:52:Governance cognition now includes a deterministic outcome surface layer that:
+./STATE_HANDOFF_PHASE_130.txt:54:Transforms routing outcomes into operator-safe cognition artifacts
+./STATE_HANDOFF_PHASE_130.txt:69:This establishes governance outcome presentation as a cognition exposure layer only.
+./STATE_HANDOFF_PHASE_130.txt:99:Safely integrate governance outcome surfaces into operator cognition awareness layers without introducing UI coupling or execution routing.
+./PHASE530_STABILIZATION_CHECKPOINT.txt:3:Current outcome:
+./GOVERNANCE_CONSTRAINT_REGISTRY_STRUCTURE.md:131:GOV-CONSTRAINT-001 | Execution Gate | Tier 2 | CRITICAL | Tier 4
+./GOVERNANCE_CONSTRAINT_REGISTRY_STRUCTURE.md:132:GOV-CONSTRAINT-002 | Registry Ownership | Tier 1 | HIGH | Tier 3
+./PHASE61_STATUS_NOTE.md:11:Validated outcomes:
+./STATE_HANDOFF_PHASE135.md:247:Governance outcome classification  
+./STATE_HANDOFF_PHASE135.md:294:Important governance cognition outcome:
+./STATE_HANDOFF_PHASE135.md:298:Important architectural outcome:
+./STATE_HANDOFF_PHASE135.md:302:Important safety outcome:
+./STATE_HANDOFF_PHASE135.md:344:Governance outcome surface builders  
+./PHASE_188_GOVERNANCE_THREAT_MODEL.md:37:Failure outcome:
+./PHASE_188_GOVERNANCE_THREAT_MODEL.md:55:Failure outcome:
+./PHASE_188_GOVERNANCE_THREAT_MODEL.md:73:Failure outcome:
+./PHASE_188_GOVERNANCE_THREAT_MODEL.md:91:Failure outcome:
+./PHASE_188_GOVERNANCE_THREAT_MODEL.md:109:Failure outcome:
+./PHASE_188_GOVERNANCE_THREAT_MODEL.md:127:Failure outcome:
+./PHASE_188_GOVERNANCE_THREAT_MODEL.md:145:Failure outcome:
+./PHASE_188_GOVERNANCE_THREAT_MODEL.md:163:Failure outcome:
+./GOVERNANCE_SIGNAL_TAXONOMY_MODEL.md:59:Expose specific governance rule outcomes.
+./cognition/guidance/guidanceOutput.types.ts:9:  explanation: string;
+./cognition/guidance/goldenGuidanceOutput.ts:6:  explanation: string;
+./cognition/guidance/goldenGuidanceOutput.ts:28:    explanation: normalizeString(output.explanation, "No explanation available."),
+./cognition/guidance/__tests__/goldenGuidanceOutput.test.ts:12:    explanation: " Potential issue detected. Investigation recommended. ",
+./cognition/guidance/__tests__/goldenGuidanceOutput.test.ts:28:    explanation: "Potential issue detected. Investigation recommended.",
+./cognition/guidance/__tests__/goldenGuidanceOutput.test.ts:37:test("toGoldenGuidanceOutput stabilizes empty explanation and action message", () => {
+./cognition/guidance/__tests__/goldenGuidanceOutput.test.ts:41:    explanation: "   ",
+./cognition/guidance/__tests__/goldenGuidanceOutput.test.ts:55:  assert.equal(golden.explanation, "No explanation available.");
+./cognition/guidance/__tests__/goldenGuidanceOutput.test.ts:65:    explanation: "Critical situation detected. Immediate operator attention recommended.",
+./cognition/guidance/__tests__/deriveGuidanceExplanation.test.ts:15:test("ESCALATE explanation stable",()=>{
+./cognition/guidance/__tests__/deriveGuidanceExplanation.test.ts:29:test("MONITOR explanation stable",()=>{
+./cognition/guidance/__tests__/composeGuidanceOutput.test.ts:12:    explanation: " Potential issue detected. Investigation recommended. ",
+./cognition/guidance/__tests__/composeGuidanceOutput.test.ts:29:    explanation: "Potential issue detected. Investigation recommended.",
+./cognition/guidance/__tests__/composeGuidanceOutput.test.ts:48:    explanation: "Critical situation detected. Immediate operator attention recommended.",
+./cognition/guidance/composeGuidanceOutput.ts:33:  explanation: string;
+./cognition/guidance/composeGuidanceOutput.ts:40:    explanation: args.explanation.trim(),
+./cognition/operator/panel/__tests__/deriveOperatorPanelModel.test.ts:8:    explanation: "System requires review",
+./cognition/operator/panel/deriveOperatorPanelModel.ts:5:  explanation: string;
+./cognition/operator/panel/deriveOperatorPanelModel.ts:21:    explanation: cognition.surface.explanation,
+./cognition/operator/deriveOperatorCognition.ts:21:    explanation: situation.summary,
+./cognition/operator/composeOperatorInteractionOutput.ts:16:    explanation: surface.explanation.trim(),
+./cognition/operator/operatorSurface.types.ts:11:  explanation:string;
+./cognition/operator/__tests__/deriveOperatorHistory.test.ts:24:      explanation: "Potential issue detected.",
+./cognition/operator/__tests__/deriveOperatorHistory.test.ts:58:      explanation: "Stable",
+./cognition/operator/__tests__/deriveOperatorHistory.test.ts:84:      explanation: "Stable",
+./cognition/operator/__tests__/deriveOperatorAcknowledgement.test.ts:25:    explanation:"Stable",
+./cognition/operator/__tests__/deriveOperatorAcknowledgement.test.ts:57:    explanation:"Stable",
+./cognition/operator/__tests__/deriveOperatorWorkflow.test.ts:24:        explanation:"Risk",
+./cognition/operator/__tests__/deriveOperatorWorkflow.test.ts:82:        explanation:"Check",
+./cognition/operator/__tests__/toGoldenOperatorInteractionOutput.test.ts:25:        explanation:"Risk detected",
+./cognition/operator/__tests__/toGoldenOperatorInteractionOutput.test.ts:71:          explanation:"Risk detected",
+./cognition/operator/__tests__/toGoldenOperatorInteractionOutput.test.ts:148:        explanation:"Stable",
+./cognition/operator/__tests__/toGoldenOperatorInteractionOutput.test.ts:194:          explanation:"Stable",
+./cognition/operator/__tests__/composeOperatorInteractionOutput.test.ts:13:      explanation: " Potential issue detected. ",
+./cognition/operator/__tests__/composeOperatorInteractionOutput.test.ts:36:        explanation: " Potential issue detected. ",
+./cognition/operator/__tests__/composeOperatorInteractionOutput.test.ts:63:          explanation: " Stable ",
+./cognition/operator/__tests__/composeOperatorInteractionOutput.test.ts:88:          explanation: " Stable ",
+./cognition/operator/__tests__/composeOperatorInteractionOutput.test.ts:112:  assert.equal(output.surface.explanation, "Potential issue detected.");
+./cognition/operator/__tests__/composeOperatorInteractionOutput.test.ts:131:      explanation: "Risk",
+./cognition/operator/__tests__/composeOperatorInteractionOutput.test.ts:154:        explanation: "Risk",
+./cognition/operator/__tests__/deriveOperatorCognition.test.ts:27:      explanation: "Risk detected",
+./cognition/operator/__tests__/deriveOperatorCognition.test.ts:44:  assert.equal(result.surface.explanation, "Health degradation detected");
+./cognition/operator/__tests__/deriveOperatorCognition.test.ts:65:      explanation: "Stable",
+./cognition/operator/__tests__/deriveOperatorCognition.test.ts:81:  assert.equal(result.surface.explanation, "System stable");
+./cognition/operator/__tests__/deriveOperatorSurface.test.ts:18:    explanation:
+./cognition/operator/__tests__/deriveOperatorSurface.test.ts:56:    explanation:"Stable",
+./cognition/operator/__tests__/deriveOperatorSurface.test.ts:74:    explanation:"Stable",
+./cognition/operator/toGoldenOperatorInteractionOutput.ts:12:  explanation:string;
+./cognition/operator/toGoldenOperatorInteractionOutput.ts:38:    explanation:input.surface.explanation,
+./cognition/operator/deriveOperatorSurface.ts:8:  explanation:string,
+./cognition/operator/deriveOperatorSurface.ts:13:    explanation +
+./cognition/operator/deriveOperatorSurface.ts:41:      guidance.explanation,
+./cognition/operator/deriveOperatorSurface.ts:49:    explanation:guidance.explanation,
+./GOVERNANCE_COGNITION_CONFIDENCE_MODEL.md:77:Tier 3 — LOW CONFIDENCE
+./GOVERNANCE_COGNITION_CONFIDENCE_MODEL.md:89:• Provide uncertainty explanation
+./GOVERNANCE_COGNITION_CONFIDENCE_MODEL.md:99:Tier 2 — VERY LOW CONFIDENCE
+./GOVERNANCE_COGNITION_CONFIDENCE_MODEL.md:123:Tier 1 — ZERO CONFIDENCE
+./GOVERNANCE_COGNITION_EXPLAINABILITY_MODEL.md:50:Governance explanations must include:
+./GOVERNANCE_COGNITION_EXPLAINABILITY_MODEL.md:74:Governance explanations must never include:
+./GOVERNANCE_COGNITION_EXPLAINABILITY_MODEL.md:85:• Deterministic explanation
+./GOVERNANCE_COGNITION_EXPLAINABILITY_MODEL.md:126:Same explanation structure.
+./GOVERNANCE_COGNITION_EXPLAINABILITY_MODEL.md:140:Surface explanation failure
+./STATE_HANDOFF_PHASE140.md:257:Governance outcome classification
+./STATE_HANDOFF_PHASE140.md:337:Important governance cognition outcome:
+./STATE_HANDOFF_PHASE140.md:341:Important architectural outcome:
+./STATE_HANDOFF_PHASE140.md:345:Important safety outcome:
+./routes_backup/diagnostics/introspectiveSim.js:7:    outcomes: [],
+./PHASE_341_GOVERNANCE_OPERATOR_SNAPSHOT_PLAN.md:142:• cannot alter explanation
+./PHASE_84_4_OPERATOR_PRESENTATION_LAYER.md:63:Agent explanation text from Phase 84 doctrine.
+./PHASE572_STRATEGY_SHIFT_DESIGN_START.txt:16:- Same likely outcome
+./GOVERNANCE_DECISION_ROUTING_MODEL.md:25:Produce advisory outcomes
+./PHASE586_RUNTIME_HOOK_CACHE_POLICY_PLAN.txt:14:  -> DO NOT alter execution outcome yet
+./STATE_HANDOFF_PHASE_401_12_COMPLETE.txt:24:3d882176 — Trust signal explanation surface model
+./STATE_HANDOFF_PHASE_401_12_COMPLETE.txt:40:Trust signal explanation surface model
+./STATE_HANDOFF_PHASE_401_12_COMPLETE.txt:68:Trust explanations remain optional
+./STATE_HANDOFF_PHASE_401_12_COMPLETE.txt:109:Trust explanation surface COMPLETE
+./PHASE_360_GOVERNANCE_OPERATOR_COMPENDIUM_PLAN.md:161:• cannot alter explanation
+./GOVERNANCE_ADVISORY_PRESENTATION_MODEL.md:51:Advisory explanation
+./PHASE548_NEXT_TARGET.txt:19:- Add short contextual explanation
+./GOVERNANCE_OPERATOR_VERIFICATION_CONTROLS_MODEL.md:33:Override governance outcomes
+./PHASE588_NEXT_RUNTIME_HOOK_PLAN.txt:17:  -> do not alter task outcome
+./PHASE589_RUNTIME_HOOK_REPO_INSPECTION.txt:191:scripts/phase487_docker_controlled_prune_plan.sh:44:### Tier 1 — Build cache only
+./PHASE589_RUNTIME_HOOK_REPO_INSPECTION.txt:299:scripts/phase487_print_prune_tiers.sh:12:echo "Tier 1 — Build cache only"
+./PHASE589_RUNTIME_HOOK_REPO_INSPECTION.txt:318:scripts/phase467_2_prove_execution_caseproof.sh:31:  rg -q 'outcome: governedExecutionAllowedResult.execution.outcome' "$PROOF" && echo "OK: allowed outcome summarized" || echo "FAIL: allowed outcome summary missing"
+./GOVERNANCE_VISIBILITY_MAPPING.md:67:Tier 1 — Governance Cognition Layer
+./GOVERNANCE_VISIBILITY_MAPPING.md:75:Tier 2 — Operator Awareness Layer
+./GOVERNANCE_VISIBILITY_MAPPING.md:83:Tier 3 — Governance Risk Surface
+./PHASE81_SIGNAL_INTERPRETATION.md:31:- predict outcomes
+./PHASE81_SIGNAL_INTERPRETATION.md:318:Define deterministic verification cases for Queue Pressure Signal so future implementation can be validated against fixed expected outcomes.
+./tests/governance_operator_guide/governance_operator_guide_contract.test.ts:13:      "cannot alter explanation",
+./tests/governance_operator_compendium/governance_operator_compendium_contract.test.ts:13:      "cannot alter explanation",
+./tests/governance_operator_bundle/governance_operator_bundle_contract.test.ts:13:      "cannot alter explanation",
+./tests/governance_operator_ledger/governance_operator_ledger_contract.test.ts:14:"cannot alter explanation",
+./tests/governance_operator_handbook/governance_operator_handbook_contract.test.ts:13:      "cannot alter explanation",
+./tests/governance_operator_map/governance_operator_map_contract.test.ts:13:      "cannot alter explanation",
+./tests/governance_operator_register/governance_operator_register_contract.test.ts:13:      "cannot alter explanation",
+./tests/governance_operator_briefing/governance_operator_briefing_contract.test.ts:13:      "cannot alter explanation",
+./tests/governance_operator_manifest_index/governance_operator_manifest_index_contract.test.ts:13:      "cannot alter explanation",
+./tests/governance_operator_session/governance_operator_session_contract.test.ts:13:      "cannot alter explanation",
+./tests/governance_operator_console/governance_operator_console_contract.test.ts:13:      "cannot alter explanation",
+./tests/governance_operator_directory/governance_operator_directory_contract.test.ts:13:      "cannot alter explanation",
+./tests/governance_visibility/governance_visibility_snapshot.test.ts:12:      explanation: { text: "explanation" },
+./tests/governance_visibility/governance_visibility_snapshot.test.ts:23:      explanation_available: true,
+./tests/governance_visibility/governance_visibility_snapshot.test.ts:43:      explanation_available: false,
+./tests/governance_visibility/governance_visibility_formatter.test.ts:20:    explanation_available: true,
+./tests/governance_visibility/governance_visibility_formatter.test.ts:54:  it("formats explanation presence", () => {
+./tests/governance_visibility/governance_visibility_formatter.test.ts:55:    expect(formatExplanationPresence(makeRecord({ explanation_available: true }))).toBe(
+./tests/governance_visibility/governance_visibility_formatter.test.ts:58:    expect(formatExplanationPresence(makeRecord({ explanation_available: false }))).toBe(
+./tests/governance_visibility/governance_visibility_contract.test.ts:13:      "cannot change explanation",
+./tests/governance_visibility/governance_visibility_model.test.ts:12:      explanation_available: true,
+./tests/governance_visibility/governance_visibility_model.test.ts:22:    expect(record.explanation_available).toBe(true);
+./tests/governance_operator_registry/governance_operator_registry_contract.test.ts:13:      "cannot alter explanation",
+./tests/governance_operator_record/governance_operator_record_contract.test.ts:13:      "cannot alter explanation",
+./tests/governance_operator_export/governance_operator_export_contract.test.ts:13:      "cannot alter explanation",
+./tests/governance_operator_manifest/governance_operator_manifest_contract.test.ts:13:      "cannot alter explanation",
+./tests/governance_traceability/governance_traceability_contract.test.ts:13:      "cannot alter explanation",
+./tests/governance_traceability/governance_traceability_snapshot.test.ts:17:      explanation: { present: true },
+./tests/governance_traceability/governance_traceability_snapshot.test.ts:34:      explanation_available: true,
+./tests/governance_traceability/governance_traceability_snapshot.test.ts:56:      explanation_available: false,
+./tests/governance_traceability/governance_traceability_formatter.test.ts:21:    explanation_available: true,
+./tests/governance_traceability/governance_traceability_model.test.ts:14:      "explanation_capture",
+./tests/governance_traceability/governance_traceability_model.test.ts:27:      explanation_available: true,
+./tests/governance_operator_archive/governance_operator_archive_contract.test.ts:13:      "cannot alter explanation",
+./tests/governance_operator_logbook/governance_operator_logbook_contract.test.ts:13:      "cannot alter explanation",
+./tests/governance_operator_packet/governance_operator_packet_formatter.test.ts:47:      "Artifacts: explanation=yes, audit=no",
+./tests/governance_operator_packet/governance_operator_packet_builder.test.ts:12:      explanation_available: true,
+./tests/governance_operator_packet/governance_operator_packet_builder.test.ts:43:            { key: "artifacts", text: "Artifacts: explanation=yes, audit=yes" },
+./tests/governance_operator_packet/governance_operator_packet_builder.test.ts:55:      explanation_available: false,
+./tests/governance_operator_packet/governance_operator_packet_builder.test.ts:63:    expect(result.sections[2]?.lines[0]?.text).toBe("Artifacts: explanation=no, audit=no");
+./tests/governance_operator_packet/governance_operator_packet_contract.test.ts:13:      "cannot alter explanation",
+./tests/governance_operator_index/governance_operator_index_contract.test.ts:13:      "cannot alter explanation",
+./tests/governance_reporting/governance_reporting_contract.test.ts:13:      "cannot alter explanation",
+./tests/governance_reporting/governance_reporting_builder.test.ts:12:      explanation_available: true,
+./tests/governance_reporting/governance_reporting_builder.test.ts:45:            { label: "explanation", value: "Explanation available: yes" },
+./tests/governance_reporting/governance_reporting_builder.test.ts:62:      explanation_available: false,
+./tests/governance_operator_catalog/governance_operator_catalog_contract.test.ts:13:      "cannot alter explanation",
+./tests/governance_operator_manual/governance_operator_manual_contract.test.ts:13:      "cannot alter explanation",
+./tests/governance_operator_atlas/governance_operator_atlas_contract.test.ts:13:      "cannot alter explanation",
+./tests/governance_operator_snapshot/governance_operator_snapshot_contract.test.ts:13:      "cannot alter explanation",
+./tests/governance_operator_handoff/governance_operator_handoff_contract.test.ts:13:      "cannot alter explanation",
+./tests/governance_digest/governance_digest_formatter.test.ts:47:      "Artifacts: explanation=yes, audit=no",
+./tests/governance_digest/governance_digest_contract.test.ts:13:      "cannot alter explanation",
+./tests/governance_digest/governance_digest_builder.test.ts:12:      explanation_available: true,
+./tests/governance_digest/governance_digest_builder.test.ts:26:        { key: "artifacts", text: "Artifacts: explanation=yes, audit=yes" },
+./tests/governance_digest/governance_digest_builder.test.ts:37:      explanation_available: false,
+./tests/governance_digest/governance_digest_builder.test.ts:45:    expect(result.lines[4]?.text).toBe("Artifacts: explanation=no, audit=no");
+./tests/governance_operator_playbook/governance_operator_playbook_contract.test.ts:13:      "cannot alter explanation",
+./tests/governance_operator_reference/governance_operator_reference_contract.test.ts:13:      "cannot alter explanation",
+./STATE_HANDOFF_PHASE144.md:269:Governance outcome classification
+./STATE_HANDOFF_PHASE144.md:373:Important governance cognition outcome:
+./STATE_HANDOFF_PHASE144.md:377:Important architectural outcome:
+./STATE_HANDOFF_PHASE144.md:381:Important safety outcome:
+./PHASE80_2_QUEUE_LATENCY_COMPLETE_2026-03-17.md:14:## Architectural outcome
+./GOVERNANCE_PASSIVE_SIGNALS_IMPLEMENTATION_MODEL.md:60:Decide outcomes
+./PHASE_84_PLANNING_LAYER_INIT.md:18:Agent explanation planning  
+./PHASE_84_PLANNING_LAYER_INIT.md:103:Agent explanation rules:
+./PHASE_84_PLANNING_LAYER_INIT.md:144:Agent explanation rules defined  
+./GOVERNANCE_OPERATOR_REVIEW_MODEL.md:86:Review outcomes must record:
+./STATE_HANDOFF_POST_PHASE_190_5.txt:275:Important governance hardening outcome:
+./STATE_HANDOFF_POST_PHASE_190_5.txt:279:Important doctrine outcome:
+./STATE_HANDOFF_POST_PHASE_190_5.txt:283:Important execution outcome:
+./STATE_HANDOFF_POST_PHASE_190_5.txt:287:Important safety outcome:
+./server/policy/evaluate.mjs:111:  // - { applies: true, outcome: "allow" }
+./server/policy/evaluate.mjs:112:  if (grantResult.applies === true && typeof grantResult.outcome === "string") {
+./server/policy/evaluate.mjs:113:    const o = grantResult.outcome.toLowerCase();
+./STATE_HANDOFF_PHASE145.md:272:Governance outcome classification
+./STATE_HANDOFF_PHASE145.md:382:Important governance cognition outcome:
+./STATE_HANDOFF_PHASE145.md:386:Important architectural outcome:
+./STATE_HANDOFF_PHASE145.md:390:Important safety outcome:
+./PHASE_337_GOVERNANCE_OPERATOR_BRIEFING_PLAN.md:138:• cannot alter explanation
+./docs/phase422_3_proof_execution_permission_gate.md:151:Phase 422.4 — Proof execution outcome packaging definition
+./docs/phase486_step32_request_panel_consumption_validation.txt:75:+              <strong>Governance explanation:</strong> {governanceExplanation}
+./docs/PHASE_456_6_1_STEP3_MINIMAL_DOC_LABEL_CORRECTION_PLAN.txt:60:EP1_FOCUSED_WORDING_DELTA_IWORDING_DELTA_INVENTORY.txt:1341:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:1240:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:1139:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:1038:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:937:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:l language varies between Governance approval, Operator approval, and Await operator approval without a clear ordered explanation.
+./docs/PHASE_456_6_1_STEP3_MINIMAL_DOC_LABEL_CORRECTION_PLAN.txt:61:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:846023:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:448483:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:225412:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:119104:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:64740:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:40102:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:28260:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:16946:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:10147:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:9858:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:9586:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:9298:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:2871:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:2770:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:2669:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:2568:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:2467:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:2366:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELG_DELTA_INVENTORY.txt:3546:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:3444:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:3342:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:3240:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:3104:dRDING_DELTA_INVENTORY.txt:1343:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:1242:docs/PHASE_456_6_1_STEP1_FOCUSED_WORTEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:3852:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:3750:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:3648:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:3546:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:3USED_WORDING_DELTA_INVENTORY.txt:5178:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:5076:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:4974:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:4872:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:4770:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:4668:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:4566:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:4464:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:4362:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:4260:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:4158:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:4056:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:3954:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:3852:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:3750:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:3648:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:3546:dG_DELTA_INVENTORY.txt:25011:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:15302:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:9061:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:8841:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:8642:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTtxt:10314:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:10014:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:9731:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:9434:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:9190:OCUSED_WORDING_DELTA_INVENTORY.txt:4703:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:4601:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:4499:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:4397:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:4295:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:4193:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:4091:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:3989:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:3887:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:3785:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:3683:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:3581:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:3479:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_D_INVENTORY.txt:1979:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:1878:docs/P_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:432:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:331:docs/PHASE_456_6_1_STEP1_FOCUSED_WORD1_FOCUSED_WORDING_DELTA_INVENTORY.txt:35656:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:25927:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:15886:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_D.txt:17590:docs/PHASE_456_6_1G_DELTA_INVENTORY.txt:2669:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:2568:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:2467:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:2366:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:2265:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:2164:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:2063:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:1962:docs/PHASE_456_6_1_STE_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:434:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:333:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:232:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:131:docs/PHASE_456_6_STEP3_MINIMAL_WORDING_DRIFT_CLASSIFICATION.txt:62:Potential drift exists if approval language varies between Governance approval, Operator approval, and Await operator approval without a clear ordered explanation.
+./docs/PHASE_456_6_1_STEP3_MINIMAL_DOC_LABEL_CORRECTION_PLAN.txt:62:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:784204:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:393728:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:215377:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:114008:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:61837:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:33606:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:24555:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:19064:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:16519:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:9906:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:9632:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:9344:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:9105:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:8883:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:8680:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:8498:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:8281:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:8138:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:8033:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:7928:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:7823:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:7718:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:7613:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:7508:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:7403:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:7298:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:7193:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:7088:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:6983:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:6878:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:6773:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:6668:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:6563:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:6458:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:6353:docs/PHASE_SED_WORDING_DELTA_INVENTORY.txt:1682:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:1581:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:1444:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:1343:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:1242:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:1141:docs/PHASE_456_6_1_STEP1_FOCUSED_WOR219:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_HASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:1777:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:1676:docs/PHASE_456_6_1_STEP1_FOCUSED_WO5:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:11109:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:10745:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:10408:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:10103:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:9817:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:9514:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:9265:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:9030:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:8814:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:8618:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:8442:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txtSTEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:2871:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:2770:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:2669:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:2568:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:2467:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVEN_WORDING_DELTA_INVENTORY.txt:3209:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:3073:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:2972:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:2871:docsFOCUSED_WORDING_DELTA_INVENTORY.txt:108:docs/PHASE_456_6_STEP2_WORDING_ALIGNMENT_ANALYSIS.txt:52:Potential drift exists if approval language varies between Governance approval, Operator approval, and Await operator approval without a clear ordered explanation.
+./docs/PHASE_456_6_1_STEP3_MINIMAL_DOC_LABEL_CORRECTION_PLAN.txt:63:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:784205:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:416198:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:225554:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:120981:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:67399:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:37229:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:20358:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:12286:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:11780:docs/PHASE_456_6_1_STEP1_FOCUocs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:3444:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:3342:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:3240:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:3104:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:3003:docs/PHORDING_DELTA_INVENTORY.txt:8460:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:8219:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:8114:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:8009:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:23250:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:14094:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:13512:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:12972:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:12484:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:6408:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:6303:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:6198:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:6093:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:5956:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:5816:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:5711:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:5606:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDI_DELTA_INVENTORY.txt:2654:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:2553:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:2452:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:6407:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:6302:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:6197:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:6092:docs/PHASE_456_D_WORDING_DELTA_INVENTORY.txt:2498:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:2397:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:2296:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:194:docs/PHASE_456_6_1_DOC_AND_LABEL_ALIGNMENT_START.txt:148:Potential drift exists if approval language varies between Governance approval, Operator approval, and Await operator approval without a clear ordered explanation.
+./docs/PHASE_456_6_1_STEP3_MINIMAL_DOC_LABEL_CORRECTION_PLAN.txt:66:SED_WORDING_DELTA_INVENTORY.txt:5814:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:5709:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:5604:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:5499:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:5367:docs/PHASE_456_6_STEP4_MINIMAL_CORRECTION_CORRIDOR_DECISION.txt:93:Potential drift exists if approval language varies between Governance approval, Operator approval, and Await operator approval without a clear ordered explanation.
+./docs/PHASE_456_6_1_STEP3_MINIMAL_DOC_LABEL_CORRECTION_PLAN.txt:68:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:784207:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:416200:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:225556:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:119189:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:66488:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:36635:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:26615:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:16301:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:14915:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:14003:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:13429:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:12898:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:12419:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:11939:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:11482:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:11058:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:10699:docs/PHASE_456_6_1_STEP1_FOCUStxt:6739:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:6634:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:6529:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:6424:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:6319:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:6214:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:6109:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:5972:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:5832:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:5727:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:5622:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:5517:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:5412:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:5272:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:5170:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:5068:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:4966:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:4864:docs/PHASE_456_6_1_STEP1_FOCUSEINVENTORY.txt:11781:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:5815:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:5710:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:5605:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:5500:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:5369:docs/PHASE_456_6_STEP3_MINIMAL_WORDING_DRIFT_CLASSIFICATION.txt:62:Potential drift exists if approval language varies between Governance approval, Operator approval, and Await opDELTA_INVENTORY.txt:1118:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:1017:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:916:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:ING_DELTA_INVENTORY.txt:230:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:129:docs/PHASE_456_6_STEP4_MINIMAL_CORRECTION_CORRIDOR_DECISION.txt:93:Potential drift exists if approval language varies between Governance approval, Operator approval, and Await operator approval without a clear ordered explanation.
+./docs/PHASE_456_6_1_STEP3_MINIMAL_DOC_LABEL_CORRECTION_PLAN.txt:144:docs/phase424_step6_enforcement_topology_determination.txt:4532:src/governance/governance_explanation_builder.test.ts:34:  warnExplanation.summary === "Governance review recommended",
+./docs/PHASE_456_6_1_STEP3_MINIMAL_DOC_LABEL_CORRECTION_PLAN.txt:145:docs/phase424_step6_enforcement_topology_determination.txt:4664:src/governance/governance_explanation_builder.ts:48:    summary = "Governance review recommended"
+./docs/PHASE_456_6_1_STEP3_MINIMAL_DOC_LABEL_CORRECTION_PLAN.txt:155:src/governance/governance_explanation_builder.test.ts:34:  warnExplanation.summary === "Governance review recommended",
+./docs/PHASE_456_6_1_STEP3_MINIMAL_DOC_LABEL_CORRECTION_PLAN.txt:156:src/governance/governance_explanation_builder.ts:48:    summary = "Governance review recommended"
+./docs/PHASE_456_6_1_STEP3_MINIMAL_DOC_LABEL_CORRECTION_PLAN.txt:160:docs/PHASE_456_6_STEP2_WORDING_ALIGNMENT_ANALYSIS.txt:52:Potential drift exists if approval language varies between Governance approval, Operator approval, and Await operator approval without a clear ordered explanation.
+./docs/PHASE_456_6_1_STEP3_MINIMAL_DOC_LABEL_CORRECTION_PLAN.txt:180:docs/PHASE_456_6_STEP2_WORDING_ALIGNMENT_ANALYSIS.txt:52:Potential drift exists if approval language varies between Governance approval, Operator approval, and Await operator approval without a clear ordered explanation.
+./docs/PHASE_456_6_1_STEP3_MINIMAL_DOC_LABEL_CORRECTION_PLAN.txt:192:docs/PHASE_456_5_IMPLEMENTATION_STEP7_MOUNTPOINT_DISCOVERY.txt:2972:src/governance/governance_explanation_builder.test.ts:34:  warnExplanation.summary === "Governance review recommended",
+./docs/PHASE_456_6_1_STEP3_MINIMAL_DOC_LABEL_CORRECTION_PLAN.txt:193:docs/PHASE_456_5_IMPLEMENTATION_STEP7_MOUNTPOINT_DISCOVERY.txt:3108:src/governance/governance_explanation_builder.ts:48:    summary = "Governance review recommended"
+./docs/PHASE_456_6_1_STEP3_MINIMAL_DOC_LABEL_CORRECTION_PLAN.txt:201:docs/PHASE_456_6_STEP4_MINIMAL_CORRECTION_CORRIDOR_DECISION.txt:93:Potential drift exists if approval language varies between Governance approval, Operator approval, and Await operator approval without a clear ordered explanation.
+./docs/PHASE_456_6_1_STEP3_MINIMAL_DOC_LABEL_CORRECTION_PLAN.txt:203:docs/PHASE_456_6_STEP3_MINIMAL_WORDING_DRIFT_CLASSIFICATION.txt:62:Potential drift exists if approval language varies between Governance approval, Operator approval, and Await operator approval without a clear ordered explanation.
+./docs/PHASE_456_6_1_STEP3_MINIMAL_DOC_LABEL_CORRECTION_PLAN.txt:234:docs/phase424_step4_enforcement_spine_convergence_proof.txt:2372:src/governance/governance_explanation_builder.test.ts:34:  warnExplanation.summary === "Governance review recommended",
+./docs/PHASE_456_6_1_STEP3_MINIMAL_DOC_LABEL_CORRECTION_PLAN.txt:235:docs/phase424_step4_enforcement_spine_convergence_proof.txt:2504:src/governance/governance_explanation_builder.ts:48:    summary = "Governance review recommended"
+./docs/PHASE_460_STEP_1_INTEGRATION_BOUNDARY.md:208:• Same input → same flow outcome
+./docs/PHASE_456_8_FL3_SINGLE_BOUNDARY_MUTATION_EXECUTION.txt:136:src/governance/governance_operator_explanation_layer.ts
+./docs/PHASE_456_8_FL3_SINGLE_BOUNDARY_MUTATION_EXECUTION.txt:141:src/governance/governance_signal_explanation_registry.ts
+./docs/PHASE_456_8_FL3_SINGLE_BOUNDARY_MUTATION_EXECUTION.txt:212:src/governance/governance_operator_explanation_layer.ts
+./docs/PHASE_456_8_FL3_SINGLE_BOUNDARY_MUTATION_EXECUTION.txt:217:src/governance/governance_signal_explanation_registry.ts
+./docs/phase465_0_governance_execution_bridge_probe.txt:465:src/governance_investigation/governance_timeline_types.ts:65:      source: "governance_explanation",
+./docs/phase465_0_governance_execution_bridge_probe.txt:919:src/governance/governance_signal_explanation_registry.ts:1:import { runGovernanceAdvisoryPipeline } from "./governance_advisory_pipeline"
+./docs/phase465_0_governance_execution_bridge_probe.txt:920:src/governance/governance_signal_explanation_registry.ts:9:    advisory.governance_signals || []
+./docs/phase465_0_governance_execution_bridge_probe.txt:921:src/governance/governance_signal_explanation_registry.ts:49:    governance_signal_registry: registry,
+./docs/phase465_0_governance_execution_bridge_probe.txt:982:src/governance/governance_explanation_layer.test.ts:1:import { buildGovernanceOperatorExplanation } from "./governance_operator_explanation_layer"
+./docs/phase465_0_governance_execution_bridge_probe.txt:983:src/governance/governance_explanation_layer.test.ts:6:} from "./governance_fixture_corpus"
+./docs/phase465_0_governance_execution_bridge_probe.txt:984:src/governance/governance_explanation_layer.test.ts:17:    expect(result.governance_status)
+./docs/phase465_0_governance_execution_bridge_probe.txt:985:src/governance/governance_explanation_layer.test.ts:29:    expect(result.governance_status)
+./docs/phase465_0_governance_execution_bridge_probe.txt:986:src/governance/governance_explanation_layer.test.ts:41:    expect(result.governance_status)
+./docs/phase465_0_governance_execution_bridge_probe.txt:1028:src/governance/governance_operator_explanation_layer.ts:1:import { runGovernanceAdvisoryPipeline } from "./governance_advisory_pipeline"
+./docs/phase465_0_governance_execution_bridge_probe.txt:1029:src/governance/governance_operator_explanation_layer.ts:11:  let explanation = "System operating within governance bounds"
+./docs/phase465_0_governance_execution_bridge_probe.txt:1030:src/governance/governance_operator_explanation_layer.ts:29:    governance_status: status,
+./docs/phase465_0_governance_execution_bridge_probe.txt:1091:src/governance/governance_signal_registry.test.ts:1:import { buildGovernanceSignalExplanationRegistry } from "./governance_signal_explanation_registry"
+./docs/phase465_0_governance_execution_bridge_probe.txt:1119:src/governance/governance_explanation_builder.test.ts:1:import { buildGovernanceResult } from "./governance_enforcement_result"
+./docs/phase465_0_governance_execution_bridge_probe.txt:1120:src/governance/governance_explanation_builder.test.ts:2:import { buildGovernanceExplanation } from "./governance_explanation_builder"
+./docs/phase465_0_governance_execution_bridge_probe.txt:1121:src/governance/governance_explanation_builder.test.ts:13:  "policy-safe-allow",
+./docs/phase465_0_governance_execution_bridge_probe.txt:1122:src/governance/governance_explanation_builder.test.ts:14:  "No governance violations detected."
+./docs/phase465_0_governance_execution_bridge_probe.txt:1123:src/governance/governance_explanation_builder.test.ts:27:  "policy-warning-warn",
+./docs/phase465_0_governance_execution_bridge_probe.txt:1124:src/governance/governance_explanation_builder.test.ts:40:  "governance_critical_detected",
+./docs/phase465_0_governance_execution_bridge_probe.txt:1125:src/governance/governance_explanation_builder.test.ts:41:  "policy-critical-block",
+./docs/phase465_0_governance_execution_bridge_probe.txt:1126:src/governance/governance_explanation_builder.test.ts:42:  "Critical governance condition detected."
+./docs/phase465_0_governance_execution_bridge_probe.txt:1485:src/governance/governance_decision_pipeline.ts:23:import { buildGovernanceExplanation } from "./governance_explanation_builder"
+./docs/phase465_0_governance_execution_bridge_probe.txt:1506:src/governance/governance_explanation_builder.ts:5:governance enforcement results.
+./docs/phase465_0_governance_execution_bridge_probe.txt:1507:src/governance/governance_explanation_builder.ts:8:Ensure governance decisions are transparent, explainable,
+./docs/phase465_0_governance_execution_bridge_probe.txt:1508:src/governance/governance_explanation_builder.ts:12:import { GovernanceEnforcementResult } from "./governance_enforcement_result"
+./docs/phase465_0_governance_execution_bridge_probe.txt:1509:src/governance/governance_explanation_builder.ts:34:  if (result.decision === "allow") {
+./docs/phase465_0_governance_execution_bridge_probe.txt:1510:src/governance/governance_explanation_builder.ts:39:      "No governance violations were detected. Execution remains under operator authority."
+./docs/phase465_0_governance_execution_bridge_probe.txt:1511:src/governance/governance_explanation_builder.ts:46:  if (result.decision === "warn") {
+./docs/phase465_0_governance_execution_bridge_probe.txt:1512:src/governance/governance_explanation_builder.ts:51:      "A governance caution signal was detected. Operator review is recommended before execution."
+./docs/phase465_0_governance_execution_bridge_probe.txt:1513:src/governance/governance_explanation_builder.ts:58:  if (result.decision === "block") {
+./docs/phase465_0_governance_execution_bridge_probe.txt:1514:src/governance/governance_explanation_builder.ts:63:      "A critical governance protection condition was detected. Execution should not proceed."
+./docs/phase465_0_governance_execution_bridge_probe.txt:1515:src/governance/governance_explanation_builder.ts:66:      "Review governance conditions and adjust the task before retrying."
+./docs/phase465_0_governance_execution_bridge_probe.txt:2060:src/governance/governanceExecutionRouting.ts:3: * Deterministic routing surface for governance outcomes.
+./docs/phase465_0_governance_execution_bridge_probe.txt:2061:src/governance/governanceExecutionRouting.ts:88:      throw new Error("Unknown governance outcome");
+./docs/phase465_0_governance_execution_bridge_probe.txt:2838:src/demo/minimalDemoRunner.ts:129:  const outcome = classifyTaskOutcome(task);
+./docs/phase465_0_governance_execution_bridge_probe.txt:2852:src/demo/minimalDemoRunner.ts:182:    taskOutcomes.every((record) => record.outcome === "SUCCESS")
+./docs/phase465_0_governance_execution_bridge_probe.txt:3173:src/governance/governance_signal_explanation_registry.ts:1:import { runGovernanceAdvisoryPipeline } from "./governance_advisory_pipeline"
+./docs/phase465_0_governance_execution_bridge_probe.txt:3174:src/governance/governance_signal_explanation_registry.ts:6:    runGovernanceAdvisoryPipeline(fixture)
+./docs/phase465_0_governance_execution_bridge_probe.txt:3182:src/governance/governance_operator_explanation_layer.ts:1:import { runGovernanceAdvisoryPipeline } from "./governance_advisory_pipeline"
+./docs/phase465_0_governance_execution_bridge_probe.txt:3183:src/governance/governance_operator_explanation_layer.ts:6:    runGovernanceAdvisoryPipeline(fixture)
+./docs/phase465_0_governance_execution_bridge_probe.txt:3244:src/governance/governance_explanation_builder.ts:54:      "Review task intent and confirm execution is appropriate."
+./docs/phase465_0_governance_execution_bridge_probe.txt:3245:src/governance/governance_explanation_builder.ts:66:      "Review governance conditions and adjust the task before retrying."
+./docs/phase465_0_governance_execution_bridge_probe.txt:3597:src/governance_digest/governance_digest_builder.ts:53:        input.explanation_available,
+./docs/phase465_0_governance_execution_bridge_probe.txt:3690:src/governance_reporting/governance_reporting_builder.ts:63:          value: `Explanation available: ${input.explanation_available ? "yes" : "no"}`,
+./docs/phase465_0_governance_execution_bridge_probe.txt:3773:src/governance_operator_packet/governance_operator_packet_builder.ts:57:        input.explanation_available,
+./docs/phase465_0_governance_execution_bridge_probe.txt:3815:src/cognition/replay/cognition.replay.proof.ts:6: * cognition inputs always produce identical validation outcomes.
+./docs/phase465_0_governance_execution_bridge_probe.txt:3978:src/governance_visibility/governance_visibility_snapshot.ts:26:    explanation_available: input.explanation != null,
+./docs/phase465_0_governance_execution_bridge_probe.txt:3999:src/governance/governanceExecutionRouting.ts:45:  switch (input.outcome) {
+./docs/phase465_0_governance_execution_bridge_probe.txt:4005:src/governance/governanceExecutionRouting.ts:87:      const _exhaustiveCheck: never = input.outcome;
