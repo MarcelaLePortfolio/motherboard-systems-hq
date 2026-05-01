@@ -1,0 +1,15 @@
+Phase 593 agent pool locked.
+
+State:
+- Agent Pool visually confirmed rendering with improved styling.
+- Renderer uses fetch polling (15s) + optional event bridge.
+- No SSE duplication introduced (Phase16 ownership preserved).
+- Debug hooks available via window.__UI_DEBUG.
+- Renderer explicitly locked to prevent future silent disablement.
+
+Result:
+Agent Pool is now:
+- Wired
+- Observable
+- Stable
+- Safe from regression

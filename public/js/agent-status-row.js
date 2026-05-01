@@ -58,6 +58,11 @@
     try {
       const res = await fetch("/api/agent-status", { cache: "no-store" });
       const data = await res.json();
+
+      if (window.__UI_DEBUG) {
+        console.log("[agent-status-row] fetched:", data);
+      }
+
       render(data);
     } catch (err) {
       console.warn("agent-status-row.js: failed to fetch /api/agent-status", err);
@@ -69,6 +74,16 @@
   refresh();
   window.setInterval(refresh, 15000);
 
+  window.addEventListener("mb.agent.status", (e) => {
+    if (!e?.detail) return;
+    if (window.__UI_DEBUG) {
+      console.log("[agent-status-row] event update:", e.detail);
+    }
+    render(e.detail);
+  });
+
   window.__PHASE64_AGENT_STATUS_DISABLED = false;
-  console.log("[agent-status-row] active non-SSE renderer using /api/agent-status");
+  window.__AGENT_POOL_RENDERER_LOCKED = true;
+
+  console.log("[agent-status-row] locked renderer active (fetch + event bridge)");
 })();
