@@ -6,6 +6,10 @@ import { exec } from "child_process";
 import fs from "fs";
 import pg from "pg";
 import { apiTasksRouter } from "./server/routes/api-tasks-postgres.mjs";
+import { createRequire } from "module";
+
+const require = createRequire(import.meta.url);
+const { routeRetryExecution } = require("./server/retry_execution_router.js");
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -36,7 +40,9 @@ if (!fs.existsSync(LOG_FILE)) fs.writeFileSync(LOG_FILE, "");
  * PHASE 572 — REAL TASK PIPELINE WIRING
  */
 app.post("/api/delegate-task", async (req, res) => {
-  const body = req.body || {};
+  const body = req.body?.kind === "retry"
+    ? routeRetryExecution(req.body || {})
+    : (req.body || {});
 
   try {
     const forward = await fetch("http://localhost:3000/api/tasks/create", {
