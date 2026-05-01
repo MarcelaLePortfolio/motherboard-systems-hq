@@ -1,0 +1,66 @@
+Phase 584 worker retry visibility verification.
+
+Issue:
+Worker visibility patch was added, but the first log check only showed startup logs.
+Need to wait for the worker claim loop and verify whether retry metadata appears at runtime.
+
+Goal:
+Confirm whether the worker receives retry payload fields:
+- retry_mode or execution_mode
+- retry_of_task_id
+
+--- WORKER LOGS AFTER CLAIM WINDOW ---
+[phase25] task_events_emit loaded 2026-05-01T16:43:16.932Z file= file:///app/server/task_events_emit.mjs
+[worker] resolved sql contracts: { phase: '32', count: 3 }
+[worker] contract: phase32_claim_one.sql
+[worker] contract: phase32_mark_failure.sql
+[worker] contract: phase32_mark_success.sql
+[worker] started with POSTGRES_URL: postgresql://postgres:postgres@postgres:5432/postgres
+[worker] running in phase: 32
+[worker] owner: worker-a5b1c3f7-c0a2-4ed7-882e-7f8a046a4e20
+[worker] claimed task {
+  id: '15',
+  task_id: 't_5ddbda08-19c0-46f3-a252-63e26bfee3ae',
+  status: 'running',
+  run_id: 'run_87d3af5a-224b-4ccd-b549-44289acbbda7',
+  claimed_by: 'worker-a5b1c3f7-c0a2-4ed7-882e-7f8a046a4e20'
+}
+[worker] completed task {
+  id: '15',
+  task_id: 't_5ddbda08-19c0-46f3-a252-63e26bfee3ae',
+  status: 'completed',
+  run_id: 'run_87d3af5a-224b-4ccd-b549-44289acbbda7',
+  claimed_by: 'worker-a5b1c3f7-c0a2-4ed7-882e-7f8a046a4e20',
+  completed_at: 2026-05-01T16:43:21.998Z
+}
+[phase25] emitTaskEvent ENTER {
+  ts: 1777653802000,
+  kind: 'task.completed',
+  task_id: 't_5ddbda08-19c0-46f3-a252-63e26bfee3ae',
+  hasGlobal: false,
+  globalType: undefined
+}
+[phase25] emitTaskEvent BEFORE CHECK {
+  hasArg: true,
+  hasGlobal: false,
+  globalType: undefined,
+  argType: 'BoundPool'
+}
+[phase25] emitTaskEvent pool {
+  arg: true,
+  argType: 'BoundPool',
+  hasGlobal: false,
+  globalType: undefined
+}
+[worker] heartbeat
+
+--- VERIFY RECENT TASK PAYLOADS ---
+                task_id                 |  status   | kind  |                                                                                            payload                                                                                            |                 claimed_by                  
+----------------------------------------+-----------+-------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------
+ t_5ddbda08-19c0-46f3-a252-63e26bfee3ae | completed | retry | {"cache_policy": "bypass", "memory_scope": "reset_partial", "execution_mode": "rebuild_context", "retry_of_task_id": "phase583-visibility"}                                                   | worker-a5b1c3f7-c0a2-4ed7-882e-7f8a046a4e20
+ t_4578a390-eca1-4134-8a2a-31c356b9b648 | completed | retry | {"cache_policy": "bypass", "memory_scope": "reset_partial", "execution_mode": "rebuild_context", "retry_of_task_id": "phase583-test"}                                                         | worker-e03faf02-8451-4056-a3f6-bb3e0c30a23f
+ t_41cca4c8-750c-4025-9fc0-79e9d3bea8d7 | completed | retry | {"retry_mode": "fresh-context", "cache_policy": "bypass", "memory_scope": "reset_partial", "execution_mode": "rebuild_context", "retry_of_task_id": "t_18b20502-6f56-4dfd-9125-1c66e4b5ec9e"} | worker-66962a95-13bb-4767-80f0-7b5e8df0012a
+ t_18b20502-6f56-4dfd-9125-1c66e4b5ec9e | completed | retry | {"retry_mode": "fresh-context", "cache_policy": "bypass", "memory_scope": "reset_partial", "execution_mode": "rebuild_context", "retry_of_task_id": "phase580-routed-payload-test"}           | worker-4ad5875f-188e-4736-930f-6eb69a929a12
+ t_977f6829-fd42-4008-9d07-11baed2f85cf | completed | retry | {"retry_mode": "fresh-context", "retry_of_task_id": "phase580-test"}                                                                                                                          | worker-f17efaf9-6e7c-4403-bfa7-8e2014e40a41
+(5 rows)
+
