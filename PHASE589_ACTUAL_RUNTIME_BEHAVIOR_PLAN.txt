@@ -1,0 +1,28 @@
+Phase 589 actual runtime behavior plan.
+
+Checkpoint:
+- Stable tag exists: phase588-execution-mode-hook-stable.
+- All three runtime policy hooks are observable:
+  - cache_policy
+  - memory_scope
+  - execution_mode
+- Dashboard, worker, and Postgres are running.
+- Working tree is clean.
+
+Important:
+Do not add fake behavior.
+The worker still has no real cache, memory, or context execution layer.
+
+Next Objective:
+Before mutating behavior, inspect the broader repo for real cache/context/memory modules that can be safely wired.
+
+Search Targets:
+- cache
+- context
+- memory
+- execution
+- runner
+
+Rule:
+Only proceed if a real hook exists.
+If no hook exists, Phase 589 should create a placeholder interface, not pretend execution behavior.
