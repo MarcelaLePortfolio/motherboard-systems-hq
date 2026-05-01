@@ -1,0 +1,50 @@
+Phase 605 response compiler design plan.
+
+Checkpoint:
+- Phase 604 communication contract is defined and committed.
+- CommunicationResult structure is documented:
+  - Tier 1 outcome
+  - Tier 2 explanation
+  - Tier 3 systemTrace
+- Tier enforcement rules are documented.
+- No runtime changes have been made yet.
+
+Objective:
+Design the Response Compiler as the bridge from contracted execution output to CommunicationResult.
+
+Compiler Responsibility:
+- Accept worker execution contract output.
+- Produce a canonical CommunicationResult.
+- Enforce default Tier 1 rendering.
+- Preserve Tier 2 as non-sticky.
+- Preserve Tier 3 as explicit-access-only.
+
+Inputs:
+- contractedExecution.execution.strategy_applied
+- contractedExecution.execution.notes
+- contractedExecution.execution.output
+- contractedExecution.execution.meta
+- task identity fields where available
+
+Outputs:
+CommunicationResult {
+  outcome,
+  explanation,
+  systemTrace
+}
+
+Constraints:
+- No DB schema changes yet.
+- No UI changes yet.
+- No route changes.
+- No mutation of execution behavior.
+- Compiler must be deterministic and pure.
+
+Implementation Direction:
+- Create server/worker/response_compiler.mjs
+- Export compileCommunicationResult(task, contractedExecution, options = {})
+- Return Tier 1 / Tier 2 / Tier 3 object
+- Do not wire into worker until separately planned and verified.
+
+Status:
+READY FOR PURE RESPONSE COMPILER MODULE
