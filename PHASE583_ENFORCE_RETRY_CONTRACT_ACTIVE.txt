@@ -1,0 +1,10 @@
+Phase 583 enforce retry contract active.
+
+State:
+- Prior attempts only documented the intended integration.
+- enforceRetryContract import was missing from server.js.
+- This patch imports enforceRetryContract and injects it into the /api/delegate-task route.
+
+Expected:
+- Invalid retry requests without retry_of_task_id are rejected.
+- Valid retry requests continue through delegate-task.

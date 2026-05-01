@@ -10,6 +10,7 @@ import taskEventsSseRouter from "./server/routes/task-events-sse.mjs";
 import { createRequire } from "module";
 
 const require = createRequire(import.meta.url);
+const { enforceRetryContract } = require("./server/retry_contract.js");
 const { routeRetryExecution } = require("./server/retry_execution_router.js");
 
 const __filename = fileURLToPath(import.meta.url);
@@ -41,7 +42,7 @@ if (!fs.existsSync(LOG_FILE)) fs.writeFileSync(LOG_FILE, "");
 /**
  * PHASE 580 — REAL TASK PIPELINE + RETRY ROUTING WIRING
  */
-app.post("/api/delegate-task", async (req, res) => {
+app.post("/api/delegate-task", enforceRetryContract, async (req, res) => {
   const body = req.body?.kind === "retry"
     ? routeRetryExecution(req.body || {})
     : (req.body || {});
