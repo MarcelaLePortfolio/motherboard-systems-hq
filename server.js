@@ -4,6 +4,8 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { exec } from "child_process";
 import fs from "fs";
+import pg from "pg";
+import { apiTasksRouter } from "./server/routes/api-tasks-postgres.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -11,6 +13,18 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 app.use(express.json());
+
+const { Pool } = pg;
+const pool = new Pool({
+  user: process.env.POSTGRES_USER || "postgres",
+  host: process.env.DB_HOST || "postgres",
+  database: process.env.POSTGRES_DB || "postgres",
+  password: process.env.POSTGRES_PASSWORD || "postgres",
+  port: 5432,
+});
+globalThis.__DB_POOL = pool;
+
+app.use("/api/tasks", apiTasksRouter);
 
 const LOG_DIR = path.join(__dirname, "ui/dashboard");
 const LOG_FILE = path.join(LOG_DIR, "ticker-events.log");
