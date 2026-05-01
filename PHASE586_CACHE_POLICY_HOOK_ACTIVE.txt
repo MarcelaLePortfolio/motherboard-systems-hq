@@ -1,0 +1,13 @@
+Phase 586 cache policy hook active.
+
+State:
+- First runtime execution-policy hook added.
+- cache_policy=bypass now emits an explicit runtime signal.
+- Hook is non-breaking:
+  - no schema change
+  - no task mutation
+  - no execution branch yet
+  - no outcome change
+
+Purpose:
+Make cache bypass observable as a real runtime policy step before wiring future cache behavior.

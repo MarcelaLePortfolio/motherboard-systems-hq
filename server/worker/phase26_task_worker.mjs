@@ -154,6 +154,15 @@ async function main() {
             requires_cache_bypass: policy.requires_cache_bypass,
             requires_memory_scope_reset: policy.requires_memory_scope_reset
           });
+
+          if (policy.requires_cache_bypass) {
+            console.log("[worker][runtime-hook][cache-policy]", {
+              task_id: task.task_id,
+              cache_policy: policy.cache_policy,
+              action: "bypass_observed",
+              effect: "no_cache_layer_available_yet"
+            });
+          }
         } catch (err) {
           console.warn("[worker][execution-policy] failed to resolve policy");
         }
