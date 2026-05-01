@@ -109,10 +109,6 @@
 
     <div>
       <div style="font-weight:700; color:#f8fafc;">${escapeHtml(title)}</div>
-      <div style="color:#a78bfa; font-size:12px; font-family:monospace;">
-        task=${escapeHtml(shortId(taskId))}
-        ${runId ? `· run=${escapeHtml(shortId(runId))}` : ""}
-      </div>
       <div style="margin-top:8px; display:flex; gap:16px; font-size:13px;">
         <span data-action="copy-id" style="color:#86efac; cursor:pointer; font-weight:700;">Copy ID</span>
         <span data-action="requeue" style="color:#facc15; cursor:pointer; font-weight:700;">Requeue</span>
@@ -125,11 +121,11 @@
   <div style="width:92%; margin:12px auto 0 auto; background:#111827; border:1px solid #334155; border-radius:12px; padding:16px;">
 
     <div style="display:grid; grid-template-columns:140px 1fr; gap:8px 14px; color:#cbd5e1; font-size:13px;">
+      <div style="color:#64748b;">Task ID</div><div style="color:#a78bfa;">${escapeHtml(taskId || "—")}</div>
+      <div style="color:#64748b;">Run ID</div><div style="color:#a78bfa;">${escapeHtml(runId || "—")}</div>
       <div style="color:#64748b;">Event</div><div>${escapeHtml(kind)}</div>
       <div style="color:#64748b;">Actor</div><div>${escapeHtml(actor)}</div>
-      <div style="color:#64748b;">Status</div><div>${escapeHtml(value(e, "status") || status(kind))}</div>
       <div style="color:#64748b;">Source</div><div>${escapeHtml(value(e, "source") || "—")}</div>
-      <div style="color:#64748b;">Claimed by</div><div>${escapeHtml(value(e, "claimed_by") || "—")}</div>
       <div style="color:#64748b;">Completed at</div><div>${escapeHtml(value(e, "completed_at") || "—")}</div>
     </div>
 
