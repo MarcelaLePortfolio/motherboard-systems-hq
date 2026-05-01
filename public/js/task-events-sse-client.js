@@ -99,7 +99,7 @@
       const json = JSON.stringify(e, null, 2);
 
       return `
-<details style="border-top:1px solid rgba(148,163,184,.2); padding:14px 0;">
+<details style="border-top:1px solid rgba(148,163,184,.2); padding:16px 0 22px 0;">
   <summary style="list-style:none; cursor:pointer; display:grid; grid-template-columns:120px 1fr; gap:16px; align-items:center; padding-left:12px;">
 
     <div>
@@ -118,19 +118,19 @@
 
   </summary>
 
-  <div style="width:92%; margin:12px auto 0 auto; background:#111827; border:1px solid #334155; border-radius:12px; padding:16px;">
+  <div style="width:92%; margin:14px auto 0 auto; background:#111827; border:1px solid #334155; border-radius:12px; padding:16px 16px 18px 16px; overflow:hidden;">
 
-    <div style="display:grid; grid-template-columns:140px 1fr; gap:8px 14px; color:#cbd5e1; font-size:13px;">
-      <div style="color:#64748b;">Task ID</div><div style="color:#a78bfa;">${escapeHtml(taskId || "—")}</div>
-      <div style="color:#64748b;">Run ID</div><div style="color:#a78bfa;">${escapeHtml(runId || "—")}</div>
+    <div style="display:grid; grid-template-columns:140px minmax(0, 1fr); gap:8px 14px; color:#cbd5e1; font-size:13px;">
+      <div style="color:#64748b;">Task ID</div><div style="color:#a78bfa; word-break:break-all;">${escapeHtml(taskId || "—")}</div>
+      <div style="color:#64748b;">Run ID</div><div style="color:#a78bfa; word-break:break-all;">${escapeHtml(runId || "—")}</div>
       <div style="color:#64748b;">Event</div><div>${escapeHtml(kind)}</div>
-      <div style="color:#64748b;">Actor</div><div>${escapeHtml(actor)}</div>
+      <div style="color:#64748b;">Actor</div><div style="word-break:break-all;">${escapeHtml(actor)}</div>
       <div style="color:#64748b;">Source</div><div>${escapeHtml(value(e, "source") || "—")}</div>
     </div>
 
-    <details style="margin-top:12px;">
+    <details style="margin-top:14px;">
       <summary style="color:#60a5fa; cursor:pointer; font-size:12px;">View JSON</summary>
-      <pre style="margin-top:8px; background:#020617; padding:10px; border-radius:8px; font-size:11px; overflow:auto; max-height:220px; white-space:pre-wrap;">${escapeHtml(json)}</pre>
+      <pre style="box-sizing:border-box; width:100%; margin:10px 0 0 0; background:#020617; padding:12px; border-radius:8px; font-size:11px; overflow:auto; max-height:180px; white-space:pre-wrap; color:#cbd5e1;">${escapeHtml(json)}</pre>
     </details>
 
   </div>
