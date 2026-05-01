@@ -100,11 +100,13 @@ apiTasksRouter.post("/create", async (req, res) => {
     // (workers claim from tasks, not task_events)
     await pool.query(
       `
-      INSERT INTO tasks (task_id, title, status, run_id, action_tier, notes)
-      VALUES ($1, $2, $3, $4, $5, $6)
+      INSERT INTO tasks (task_id, title, status, kind, payload, run_id, action_tier, notes)
+      VALUES ($1, $2, $3, $4, $5::jsonb, $6, $7, $8)
       ON CONFLICT (task_id) DO UPDATE
       SET title       = COALESCE(EXCLUDED.title, tasks.title),
           status      = COALESCE(EXCLUDED.status, tasks.status),
+          kind        = COALESCE(EXCLUDED.kind, tasks.kind),
+          payload     = COALESCE(EXCLUDED.payload, tasks.payload),
           run_id      = COALESCE(EXCLUDED.run_id, tasks.run_id),
           action_tier = COALESCE(EXCLUDED.action_tier, tasks.action_tier),
           notes       = COALESCE(EXCLUDED.notes, tasks.notes),
@@ -114,6 +116,8 @@ apiTasksRouter.post("/create", async (req, res) => {
         task_id,
         b.title ?? null,
         b.status ?? "queued",
+        b.kind ?? null,
+        JSON.stringify(b.payload ?? b.meta ?? {}),
         run_id,
         b.action_tier ?? "A",
         b.notes ?? null,
