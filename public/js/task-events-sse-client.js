@@ -7,6 +7,7 @@
 
   const events = [];
   const seen = new Set();
+  const titlesByTaskId = new Map(); // ✅ NEW: persist titles
   const maxEvents = 80;
 
   function root() {
@@ -23,11 +24,26 @@
   }
 
   function parse(raw) {
-    try {
-      return JSON.parse(raw);
-    } catch {
-      return null;
+    try { return JSON.parse(raw); } catch { return null; }
+  }
+
+  // ✅ NEW: title resolver (safe, no UI change yet)
+  function resolveTitle(event) {
+    const taskId = event.task_id || event.taskId || "";
+    const direct =
+      event.title ||
+      event.message ||
+      event.msg ||
+      event.detail ||
+      event.payload?.title ||
+      "";
+
+    if (direct && !String(direct).startsWith("{")) {
+      titlesByTaskId.set(taskId, direct);
+      return direct;
     }
+
+    return titlesByTaskId.get(taskId) || "Untitled task";
   }
 
   function render(state) {
@@ -39,26 +55,27 @@
           const kind = event.kind || event.type || "event";
           const taskId = event.task_id || event.taskId || "unknown";
           const actor = event.actor || "system";
-          const message = event.message || event.msg || event.title || event.detail || "";
           const ts = event.created_at || event.ts || Date.now();
-          const eventId = event.id || `${kind}:${taskId}:${ts}:${message}`;
+          const eventId = event.id || `${kind}:${taskId}:${ts}`;
+
+          const title = resolveTitle(event); // ✅ use persisted title
 
           return `
-            <div data-task-event-id="${escapeHtml(eventId)}" style="border-bottom:1px solid rgba(75,85,99,.55); padding:.45rem 0; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.75rem; line-height:1.4; cursor:pointer;">
+            <div data-task-event-id="${escapeHtml(eventId)}" style="border-bottom:1px solid rgba(75,85,99,.55); padding:.45rem 0; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.75rem; line-height:1.4;">
               <div style="color:#93c5fd;">${escapeHtml(kind)} <span style="color:#64748b;">task=${escapeHtml(taskId)}</span></div>
-              <div style="color:#cbd5e1;">${escapeHtml(message || JSON.stringify(event))}</div>
+              <div style="color:#e5e7eb; font-weight:600;">${escapeHtml(title)}</div>
               <div style="color:#64748b;">actor=${escapeHtml(actor)} • ${escapeHtml(ts)}</div>
             </div>
           `;
         }).join("")
-      : `<div style="color:#94a3b8; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.78rem;">Connected — waiting for task lifecycle events…</div>`;
+      : `<div style="color:#94a3b8;">Connected — waiting for task lifecycle events…</div>`;
 
     el.innerHTML = `
-      <div style="display:flex; justify-content:space-between; gap:.75rem; align-items:center; margin-bottom:.5rem;">
-        <div style="font-size:.75rem; color:#94a3b8;">Execution Inspector: ${escapeHtml(state)}</div>
-        <div style="font-size:.72rem; color:#64748b;">${events.length} event${events.length === 1 ? "" : "s"}</div>
+      <div style="display:flex; justify-content:space-between; margin-bottom:.5rem;">
+        <div style="color:#94a3b8;">Execution Inspector: ${escapeHtml(state)}</div>
+        <div style="color:#64748b;">${events.length} events</div>
       </div>
-      <div style="flex:1 1 auto; min-height:0; overflow:auto;">${rows}</div>
+      ${rows}
     `;
   }
 
@@ -68,21 +85,19 @@
     const event = parse(raw);
     if (!event) return;
 
-    event.kind = event.kind || eventType || "task.event";
+    event.kind = event.kind || eventType;
 
     const taskId = event.task_id || event.taskId || "";
-    if (!taskId || taskId === "unknown") return;
+    if (!taskId) return;
 
-    const eventId = event.id || `${event.kind}:${taskId}:${event.ts || event.created_at || ""}`;
+    const eventId = event.id || `${event.kind}:${taskId}:${event.ts || event.created_at}`;
     if (seen.has(eventId)) return;
     seen.add(eventId);
 
+    resolveTitle(event); // ✅ persist title early
+
     events.unshift(event);
     if (events.length > maxEvents) events.length = maxEvents;
-
-    try {
-      window.dispatchEvent(new CustomEvent("mb.task.event", { detail: event }));
-    } catch {}
 
     render("Connected");
   }
@@ -97,7 +112,7 @@
 
     es.onmessage = (event) => ingest(event.data, "message");
 
-    ["task.event", "task.created", "task.updated", "task.completed", "task.failed", "error"].forEach((type) => {
+    ["task.created","task.started","task.completed","task.failed"].forEach((type) => {
       es.addEventListener(type, (event) => ingest(event.data, type));
     });
   }
