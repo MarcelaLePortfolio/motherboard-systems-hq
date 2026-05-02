@@ -1,126 +1,91 @@
-PHASE 619 — SYSTEM EXECUTION STATE (FACTUAL)
+PHASE 619 — SYSTEM EXECUTION STATE
 
-QUESTION:
-"Does the system guide execution yet?"
+Question:
+Does the system guide execution yet?
 
-ANSWER:
+Answer:
 PARTIALLY — but not fully.
 
 ────────────────────────────────
 
-CURRENT STATE (VERIFIED)
+CURRENT VERIFIED STATE
 
-1. EXECUTION PIPELINE
-- Tasks are created → claimed → executed → completed
-- Worker runs:
-  executeTaskWithContract(task)
-- Execution is deterministic and functioning
+1. Execution pipeline
+- Tasks are created.
+- Worker claims tasks.
+- Worker executes tasks.
+- Worker completes tasks.
+- Completed task events are emitted.
 
-2. COMMUNICATION TIERS (COMPLETE)
-- Tier 1 (outcome) → surfaced
-- Tier 2 (explanation) → surfaced
-- Tier 3 (systemTrace) → stored (restricted)
+2. Communication tiers
+- Tier 1 outcome is compiled.
+- Tier 2 explanation is compiled.
+- Tier 3 systemTrace is compiled.
+- Tier 1 and Tier 2 now flow into task.completed event payloads.
+- Tier 1 and Tier 2 now flow into /api/tasks.
+- Execution Inspector now surfaces Outcome and Explanation.
 
-Confirmed in:
-- task.completed payload
-- /api/tasks response
-- Execution Inspector UI
-
-3. UI SURFACE (COMPLETE)
-- Execution Inspector now shows:
-  - Outcome
-  - Explanation
-- Data is flowing end-to-end
-
-4. SYSTEM ROLE TODAY
-- Executes tasks
-- Reports results
-- Does NOT decide what to do next
+3. UI visibility
+- Execution Inspector can now show what happened.
+- Operator can see completed task outcome and explanation.
+- Execution visibility is substantially improved.
 
 ────────────────────────────────
 
-WHAT IS MISSING (CRITICAL)
+WHAT THE SYSTEM DOES TODAY
 
-NO SYSTEM-LED EXECUTION GUIDANCE
+The system can:
+- execute tasks
+- complete tasks
+- explain task results
+- surface those results to the operator
 
-The system currently:
-- Does NOT choose next tasks
-- Does NOT prioritize work
-- Does NOT route based on outcomes
-- Does NOT adapt behavior based on results
-
-Execution is:
-→ reactive (user/API triggered)
-NOT:
-→ autonomous or guided
-
-────────────────────────────────
-
-WHAT "GUIDE EXECUTION" MEANS (NOT BUILT YET)
-
-To truly guide execution, system must:
-
-1. READ OUTCOME
-   From:
-   - outcome_preview
-   - explanation_preview
-   - systemTrace
-
-2. INTERPRET STATE
-   Example:
-   - success
-   - failure
-   - blocked
-   - retry needed
-
-3. DECIDE NEXT ACTION
-   Example:
-   - requeue task
-   - escalate
-   - assign agent
-   - generate follow-up task
-
-4. TRIGGER NEW EXECUTION
-   Via:
-   - /api/delegate-task
-   - internal routing
-
-This layer does not exist yet.
+The system does not yet:
+- decide what should happen next
+- prioritize next steps
+- route follow-up actions based on results
+- generate follow-up execution automatically
+- adapt behavior from outcome interpretation
 
 ────────────────────────────────
 
-ACTUAL ARCHITECTURE RIGHT NOW
+CURRENT CHAIN
 
-CURRENT CHAIN:
-User/API → Task Created → Worker Executes → Communication Compiled → UI Displays
+User/API → task created → worker executes → communication compiled → task.completed payload → /api/tasks → Execution Inspector
 
-MISSING CHAIN:
-Outcome → Interpretation → Decision → Next Task
+This is execution visibility.
 
 ────────────────────────────────
 
-GROUND TRUTH SUMMARY
+MISSING CHAIN
 
-✔ System executes tasks  
-✔ System explains results  
-✔ System surfaces results in UI  
+Outcome → interpretation → decision → next action → next task
 
-✘ System does NOT guide execution  
-✘ System does NOT self-direct  
-✘ System does NOT chain tasks  
+This is execution guidance.
+
+That layer does not exist yet.
 
 ────────────────────────────────
 
-NEXT CORRECT CORRIDOR
+GROUND TRUTH
 
-Build:
-EXECUTION INTERPRETATION + ROUTING LAYER
+Execution Visibility: COMPLETE
+Execution Guidance: NOT BUILT YET
+Execution Intelligence: NEXT CORRIDOR
 
-STATUS
+────────────────────────────────
 
-You are at:
-"Execution Visibility COMPLETE"
+NEXT SAFE CORRIDOR
 
-You are NOT yet at:
-"Execution Intelligence"
+Build an execution interpretation and routing layer.
+
+This layer should:
+1. read outcome_preview, explanation_preview, and systemTrace
+2. classify execution result
+3. decide whether the task is complete, blocked, retryable, or follow-up-worthy
+4. recommend or create the next action through the existing task pipeline
+
+Do not modify worker/compiler again unless validation fails.
+Do not bypass API → DB → worker.
+Do not invent a new execution path.
 
