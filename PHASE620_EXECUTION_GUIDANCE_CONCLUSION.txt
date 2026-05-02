@@ -1,0 +1,152 @@
+PHASE 620 — EXECUTION GUIDANCE AUDIT CONCLUSION
+
+INPUT:
+PHASE619_EXECUTION_GUIDANCE_SUMMARY.txt
+
+GOAL:
+Determine if a guidance layer already exists (partially or fully)
+
+────────────────────────────────
+
+FINDINGS
+
+1. INTERPRETATION (EXISTS — BUT LOCAL ONLY)
+- task_execution_interpreter.mjs exists
+- Used inside worker
+- Produces executionResult
+
+LIMITATION:
+→ Not used for decision-making beyond execution
+→ Not reused after completion
+
+STATUS:
+✔ Exists
+✘ Not part of guidance loop
+
+────────────────────────────────
+
+2. RETRY / REQUEUE (EXISTS — UI-DRIVEN)
+
+FOUND:
+- retry_execution_router.js
+- execution_inspector_retry.js
+- execution_inspector_requeue.js
+- retry strategies UI scripts
+
+LIMITATION:
+→ Triggered manually from UI
+→ Not automatically invoked
+→ No system decision logic
+
+STATUS:
+✔ Exists
+✘ Not autonomous
+
+────────────────────────────────
+
+3. TASK CREATION PIPELINE (EXISTS)
+
+FOUND:
+- /api/delegate-task
+- tasks-mutations.mjs
+- api-tasks-postgres.mjs
+
+LIMITATION:
+→ Requires explicit trigger
+→ No internal system caller
+
+STATUS:
+✔ Exists
+✘ Not self-triggered
+
+────────────────────────────────
+
+4. OUTCOME ACCESS (NEWLY ENABLED)
+
+YOU BUILT:
+- outcome_preview
+- explanation_preview
+- systemTrace
+- attached to task.completed
+- exposed via /api/tasks
+- visible in UI
+
+STATUS:
+✔ FULLY AVAILABLE
+
+THIS IS THE MISSING LINK THAT JUST GOT UNLOCKED
+
+────────────────────────────────
+
+ACTUAL GAP (NOW PRECISE)
+
+YOU DO NOT NEED:
+- new execution system
+- new worker logic
+- new retry system
+
+YOU NEED:
+A THIN LAYER THAT CONNECTS:
+
+completed task → interpretation → decision → delegate-task
+
+────────────────────────────────
+
+WHAT DOES NOT EXIST
+
+No file or system currently:
+- reads completed task outcomes
+- evaluates success/failure meaningfully
+- decides next action
+- calls /api/delegate-task automatically
+
+THIS IS THE EXACT GAP
+
+────────────────────────────────
+
+MINIMAL CORRECT ARCHITECTURE
+
+NEW LAYER:
+
+execution_guidance_router.mjs
+
+RESPONSIBILITY:
+- subscribe to task.completed (or poll)
+- read communicationResult
+- classify outcome
+- optionally trigger next task
+
+NO changes to:
+- worker
+- compiler
+- DB schema
+- existing API contracts
+
+────────────────────────────────
+
+FIRST SAFE IMPLEMENTATION
+
+PHASE 621 SHOULD:
+
+1. Read recent completed tasks
+2. Log interpreted state
+3. DO NOT trigger new tasks yet
+
+This is:
+"PASSIVE GUIDANCE"
+
+After validation:
+→ move to ACTIVE
+
+────────────────────────────────
+
+FINAL POSITION
+
+You are not missing infrastructure.
+
+You are missing:
+A CONNECTION LAYER.
+
+And now:
+You have everything required to build it cleanly.
+
