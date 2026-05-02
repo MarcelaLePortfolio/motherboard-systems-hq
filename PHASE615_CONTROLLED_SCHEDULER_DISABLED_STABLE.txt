@@ -1,0 +1,21 @@
+Phase 615 controlled scheduler disabled stable checkpoint.
+
+Result:
+- Controlled scheduler runtime block exists in server.js and server.mjs.
+- Dashboard container includes the scheduler block.
+- Dashboard process runs node server.js.
+- SYSTEM_SCHEDULER_ENABLED is empty.
+- SYSTEM_SCHEDULER_INTERVAL_MS is empty.
+- No [phase615] scheduler started log appeared.
+- No [phase615] task dispatched log appeared.
+- No System Scheduler Task appeared in worker logs.
+- Working tree clean.
+
+Meaning:
+The controlled scheduler is installed but safely disabled by default.
+
+Stable Tag:
+phase615-controlled-scheduler-disabled-stable
+
+Next:
+Enable scheduler explicitly in a controlled verification phase.
