@@ -1,0 +1,49 @@
+PHASE 617 — COMMUNICATION TIER COMPLETION VALIDATION
+
+Status:
+VALIDATED
+
+Scope:
+Execution communication tiers are now compiled and attached to completed task events.
+
+Verified fresh task:
+task_id: t_8f6a3f74-ce6a-476e-b772-19f434635eeb
+
+Verified event:
+kind: task.completed
+event_id: 181
+
+Confirmed payload fields:
+- communicationResult
+- outcome_preview
+- explanation_preview
+
+Confirmed tier structure:
+- Tier 1 / outcome:
+  content: Standard execution prepared for: Delegated task
+  visibility: default
+
+- Tier 2 / explanation:
+  content: standard execution path
+  visibility: on_request
+  persistence: non_sticky
+
+- Tier 3 / systemTrace:
+  task_id present
+  run_id present
+  strategy_applied present
+  execution_meta present
+  compiler_options present
+  visibility: explicit_access_only
+  persistence: non_default
+
+Conclusion:
+The communication tier chain now reaches task.completed event payloads.
+
+Current chain:
+worker execution → response compiler → completed task event payload
+
+Next safe corridor:
+UI surfacing of Tier 1 outcome_preview in Execution Inspector.
+
+Do not modify compiler or worker further unless validation fails.
