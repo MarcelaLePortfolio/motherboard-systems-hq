@@ -25,5 +25,8 @@ export function executeTaskWithContract(task) {
     explanation_preview: communicationResult.explanation.content
   });
 
-  return contractedExecution;
+  return {
+    ...contractedExecution,
+    communicationResult
+  };
 }

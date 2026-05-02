@@ -87,7 +87,7 @@ async function claimOnce(pool) {
   return task;
 }
 
-async function completeSuccess(pool, task) {
+async function completeSuccess(pool, task, executionResult = null) {
   if (!task?.task_id) return null;
 
   const result = await pool.query(MARK_SUCCESS_SQL, [
@@ -118,7 +118,10 @@ async function completeSuccess(pool, task) {
         status: completed.status,
         source: "worker",
         claimed_by: completed.claimed_by,
-        completed_at: completed.completed_at
+        completed_at: completed.completed_at,
+        communicationResult: executionResult?.communicationResult ?? null,
+        outcome_preview: executionResult?.communicationResult?.outcome?.content ?? null,
+        explanation_preview: executionResult?.communicationResult?.explanation?.content ?? null
       }
     });
   }
@@ -151,9 +154,9 @@ async function main() {
           console.warn("[worker][execution-policy] failed to resolve policy");
         }
 
-        executeTaskWithContract(task);
+        const executionResult = executeTaskWithContract(task);
 
-        await completeSuccess(pool, task);
+        await completeSuccess(pool, task, executionResult);
       }
     } catch (err) {
       console.error("[worker] claim loop error:", err?.message || err);
