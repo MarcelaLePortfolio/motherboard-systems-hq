@@ -54,12 +54,17 @@ if (window.__RECENT_HISTORY_WIRE_BOUND) return; window.__RECENT_HISTORY_WIRE_BOU
       const status = r.status || "unknown";
       const id = r.task_id || r.id || "—";
 
+      const outcome = r.outcome_preview || "";
+      const explanation = r.explanation_preview || "";
+
       return `
         <div style="padding:8px;border-bottom:1px solid rgba(255,255,255,0.06)">
           <div style="font-size:12px">${title}</div>
           <div style="font-size:11px;opacity:.6">
             status: ${status} | id: ${id}
           </div>
+          ${outcome ? `<div style="margin-top:6px;font-size:11px;color:#d1fae5"><strong>Outcome:</strong> ${outcome}</div>` : ""}
+          ${explanation ? `<div style="margin-top:3px;font-size:11px;color:#bfdbfe"><strong>Explanation:</strong> ${explanation}</div>` : ""}
         </div>
       `;
     }).join("");
