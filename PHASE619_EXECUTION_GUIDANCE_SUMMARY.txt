@@ -1,0 +1,128 @@
+PHASE 619 — EXECUTION GUIDANCE SUMMARY
+
+Top candidate signals (filtered):
+
+- retry routing
+- follow-up decisioning
+=== SEARCH: execution interpretation / routing / retry ===
+server/db_wait_ready.mjs:8:  // retryable PG error codes we commonly see during startup
+server/db_wait_ready.mjs:9:  const retryCodes = new Set([
+server/db_wait_ready.mjs:27:        retryCodes.has(String(code)) ||
+server/worker_retry_enforcer.js:4:  if (task.kind !== "retry") return task;
+server/worker_retry_enforcer.js:6:  const mode = task.execution_mode || "standard_retry";
+server/worker_retry_enforcer.js:15:    task.execution_mode = "standard_retry";
+server/_lib/retry.mjs:1:export async function retry({ label, tries = 120, delayMs = 250, fn }) {
+server/_lib/retry.mjs:5:      if (i > 1) console.log(`[retry] ${label}: attempt ${i}/${tries}`)
+server/_lib/retry.mjs:11:      // retry only on common "db not ready" failure modes
+server/utils/observability/USAGE.md:18:structuredLog("retry.completed", {
+server/utils/observability/structuredLogger.mjs:20:// structuredLog("retry.invoked", { mode: "standard", taskId: "123" });
+server/retry_execution_router.js:2:  const strategy = task?.strategy || task?.meta?.retry_mode || "standard";
+server/retry_execution_router.js:15:    execution_mode: "standard_retry",
+server/db_bootstrap_tasks_retry_semantics.mjs:2: * Phase 27 — Tasks table retry + lease semantics (Postgres bootstrap)
+server/retry_contract.js:4:  if (body.kind !== "retry") {
+server/retry_contract.js:8:  // Ensure deterministic retry strategy
+server/retry_contract.js:22:  if (!body.meta || !body.meta.retry_of_task_id) {
+server/orchestration/operator-commands.ts:10:  | { type: "task.retry"; id: string }
+server/orchestration/operator-commands.ts:32: * - task retry <id>
+server/orchestration/operator-commands.ts:75:  if (head === "task" && sub === "retry") {
+server/orchestration/operator-commands.ts:77:    if (!id) return { ok: false, error: "task retry requires id" };
+server/orchestration/operator-commands.ts:78:    return { ok: true, cmd: { type: "task.retry", id } };
+server/orchestration/operator-commands.ts:123:    case "task.retry":
+server/orchestration/operator-commands.ts:132:              payload: { op: "task.retry", id: cmd.id },
+server/orchestration/scheduler.ts:16:  backoffBaseMs: number;             // base retry delay
+server/orchestration/scheduler.ts:17:  backoffMaxMs: number;              // max retry delay
+server/orchestration/scheduler.ts:33:  // attempt starts at 1 for first retry
+server/orchestration/task-state-machine.ts:31:  | { type: "task.retry_wait"; ts: number; reason: string; nextAt: number }
+server/orchestration/task-state-machine.ts:75:    case "task.retry_wait": {
+server/worker/backoff.mjs:1:const { enforceWorkerRetryContract } = require('./worker_retry_enforcer');
+server/worker/execution_policy_runtime_logger.mjs:5:      is_retry: policy.is_retry,
+server/worker/execution_policy_resolver.mjs:10:  const retryOfTaskId = payload.retry_of_task_id || null;
+server/worker/execution_policy_resolver.mjs:13:    is_retry: Boolean(retryOfTaskId),
+server/worker/execution_policy_resolver.mjs:14:    retry_of_task_id: retryOfTaskId,
+server/worker/task_execution_interpreter.mjs:51:  if (meta?.retry_mode === "strategy_shift") {
+server/worker/bootstrap_env_fix.mjs:1:const { enforceWorkerRetryContract } = require('./worker_retry_enforcer');
+server/worker/phase34_reclaim_stale.sql:2:-- Reclaim policy (align with Phase33): requeue back to status='created'
+server/worker/execute_task_with_contract.mjs:1:import { interpretTaskExecution } from "./task_execution_interpreter.mjs";
+server/worker/phase32_mark_failure.sql:2:Phase 32 — mark failure (no retry scheduling here; keep minimal + deterministic)
+server/worker/phase26_task_worker.mjs:3:require("../worker_retry_enforcer.js");
+server/worker/phase27_markers.mjs:1:const { enforceWorkerRetryContract } = require('./worker_retry_enforcer');
+server/routes/retry/OBSERVABILITY_INTEGRATION_NOTE.md:3:This file documents how to safely integrate structured logging into retry flows.
+server/routes/retry/OBSERVABILITY_INTEGRATION_NOTE.md:8:- Modify existing retry logic
+server/routes/retry/OBSERVABILITY_INTEGRATION_NOTE.md:15:structuredLog("retry.routed", {
+public/js/phase539_execution_inspector_retry_mode_display.js:12:    const existing = panel.querySelector("[data-retry-mode-display]");
+public/js/phase539_execution_inspector_retry_mode_display.js:21:    // Try to infer retry mode from DOM (best-effort, UI-only signal)
+public/js/phase539_execution_inspector_retry_mode_display.js:26:    else if (text.includes("standard-retry")) mode = "standard-retry";
+public/js/phase539_execution_inspector_retry_mode_display.js:29:    el.setAttribute("data-retry-mode-display", "true");
+public/js/phase539_execution_inspector_retry_mode_display.js:35:    el.textContent = "retry_mode: " + mode;
+public/js/phase538_execution_inspector_retry_strategies.js:9:    const btn = panel.querySelector('[data-action="retry"]');
+public/js/phase538_execution_inspector_retry_strategies.js:22:      const strategy = e.shiftKey ? "fresh-context" : "standard-retry";
+public/js/phase538_execution_inspector_retry_strategies.js:27:        kind: "retry",
+public/js/phase538_execution_inspector_retry_strategies.js:29:          retry_of_task_id: taskId,
+public/js/phase538_execution_inspector_retry_strategies.js:30:          retry_mode: strategy
+public/js/phase457_restore_task_panels.js:6:    const el = e.target.closest('[data-action="retry-different"]');
+public/js/phase457_restore_task_panels.js:9:    console.log("[retry-different][clean] click detected");
+public/js/phase457_restore_task_panels.js:13:      console.warn("[retry-different][clean] no task row found");
+public/js/phase457_restore_task_panels.js:20:      kind: "retry-strategy",
+public/js/phase457_restore_task_panels.js:23:        retry_mode: "strategy_shift",
+public/js/phase457_restore_task_panels.js:25:        retry_of_task_id: row.getAttribute("data-task-id"),
+public/js/phase457_restore_task_panels.js:26:        retry_of_event_id: row.getAttribute("data-id"),
+public/js/phase457_restore_task_panels.js:27:        retry_of_kind: "inspector-row",
+public/js/phase457_restore_task_panels.js:40:      console.log("[retry-different][clean] queued:", data);
+public/js/phase457_restore_task_panels.js:42:      console.error("[retry-different][clean] failed:", err);
+public/js/phase538_execution_inspector_action_groups.js:27:      if (action === "requeue" || action === "retry") {
+public/js/phase574_execution_inspector_success_feedback.js:23:    const retry = e.target.closest('[data-action="retry"]');
+public/js/phase574_execution_inspector_success_feedback.js:24:    const requeue = e.target.closest('[data-action="requeue"]');
+public/js/phase574_execution_inspector_success_feedback.js:26:    if (!retry && !requeue) return;
+public/js/phase535_execution_inspector_requeue.js:9:    const btn = panel.querySelector('[data-action="requeue"]');
+public/js/phase535_execution_inspector_requeue.js:24:        kind: "retry",
+public/js/phase535_execution_inspector_requeue.js:26:          retry_of_task_id: taskId
+public/js/phase573_execution_inspector_debug.js:10:    const retry = e.target.closest('[data-action="retry"]');
+public/js/phase573_execution_inspector_debug.js:11:    const requeue = e.target.closest('[data-action="requeue"]');
+public/js/phase573_execution_inspector_debug.js:13:    if (retry) {
+public/js/phase573_execution_inspector_debug.js:17:    if (requeue) {
+public/js/phase16_sse_backoff.js:16: * - Only ONE retry timer
+public/js/phase16_sse_backoff.js:49:    let retryTimer = null;
+public/js/phase16_sse_backoff.js:79:      if (retryTimer) {
+public/js/phase16_sse_backoff.js:80:        clearTimeout(retryTimer);
+public/js/phase16_sse_backoff.js:81:        retryTimer = null;
+public/js/phase16_sse_backoff.js:89:      emit("retry_scheduled", { reason, delayMs: ms });
+public/js/phase16_sse_backoff.js:91:      retryTimer = setTimeout(() => {
+public/js/phase16_sse_backoff.js:92:        retryTimer = null;
+public/js/phase16_sse_backoff.js:93:        connect("retry");
+public/js/phase16_sse_backoff.js:153:        // Close before retry so we don't stack sockets.
+public/js/phase537_execution_inspector_retry.js:9:    const btn = panel.querySelector('[data-action="retry"]');
+public/js/phase537_execution_inspector_retry.js:24:        kind: "retry",
+public/js/phase537_execution_inspector_retry.js:26:          retry_of_task_id: taskId,
+public/js/phase537_execution_inspector_retry.js:27:          retry_mode: "standard-retry"
+public/js/phase534_execution_inspector_expand.js:84:        <span data-action="requeue" style="cursor:pointer; color:#facc15;">Requeue</span>
+public/js/phase534_execution_inspector_expand.js:85:        <span data-action="retry" style="cursor:pointer; color:#60a5fa;">Retry</span>
+public/js/task-events-sse-client.js:70:    const retryMode = p.retry_mode || "";
+public/js/task-events-sse-client.js:73:    const isFresh = retryMode === "fresh-context" || executionMode === "rebuild_context";
+public/js/task-events-sse-client.js:74:    const isRetry = retryMode || p.retry_of_task_id;
+public/js/task-events-sse-client.js:115:    container.querySelector('[data-action="requeue"]')?.addEventListener("click", (event) => {
+public/js/task-events-sse-client.js:120:        kind: "retry",
+public/js/task-events-sse-client.js:123:          retry_of_task_id: taskId,
+public/js/task-events-sse-client.js:124:          retry_mode: "standard"
+public/js/task-events-sse-client.js:130:    container.querySelector('[data-action="retry"]')?.addEventListener("click", (event) => {
+public/js/task-events-sse-client.js:135:        kind: "retry",
+public/js/task-events-sse-client.js:138:          retry_of_task_id: taskId,
+public/js/task-events-sse-client.js:139:          retry_mode: "fresh-context"
+public/js/task-events-sse-client.js:172:        <span data-action="requeue" style="color:#facc15; cursor:pointer;">Requeue</span>
+public/js/task-events-sse-client.js:173:        <span data-action="retry" style="color:#60a5fa; cursor:pointer;">Retry</span>
+public/js/telemetry/latency_metric.js:16:    "task.retrying",
+public/js/telemetry/latency_metric.js:24:    "retrying",
+public/js/phase457_restore_task_panels.BROKEN_BACKUP.js:47:    if (/queue|pending|wait|hold|retry/.test(s)) return "#facc15";
+public/js/phase457_restore_task_panels.BROKEN_BACKUP.js:209:            <span data-action="retry" style="cursor:pointer; color:#facc15;">Requeue</span>
+public/js/phase457_restore_task_panels.BROKEN_BACKUP.js:210:            <span data-action="retry-different" style="cursor:pointer; color:#facc15;">Retry Differently</span>
+public/js/phase457_restore_task_panels.BROKEN_BACKUP.js:271:        if (action === "retry") {
+public/js/phase457_restore_task_panels.BROKEN_BACKUP.js:277:            kind: "retry",
+public/js/phase457_restore_task_panels.BROKEN_BACKUP.js:280:              retry_of_task_id: selected.taskId,
+public/js/phase457_restore_task_panels.BROKEN_BACKUP.js:281:              retry_of_event_id: selected.id,
+public/js/phase457_restore_task_panels.BROKEN_BACKUP.js:282:              retry_of_kind: selected.kind
+public/js/phase457_restore_task_panels.BROKEN_BACKUP.js:399:    const el = e.target.closest('[data-action="retry-different"]');
+public/js/phase457_restore_task_panels.BROKEN_BACKUP.js:403:      console.warn("[retry-different] no selected item found");
+public/js/phase457_restore_task_panels.BROKEN_BACKUP.js:410:      kind: "retry-strategy",
+
+────────────────────────────────
+
+Key files detected:
