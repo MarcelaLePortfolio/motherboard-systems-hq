@@ -53,9 +53,25 @@ apiTasksRouter.get("/", async (req, res) => {
     const limit = Math.max(1, Math.min(200, Number(req.query?.limit ?? 25) || 25));
     const r = await pool.query(
       `
-      SELECT id, task_id, title, status, claimed_by, updated_at
-      FROM tasks
-      ORDER BY updated_at DESC NULLS LAST, id DESC
+      SELECT
+        t.id,
+        t.task_id,
+        t.title,
+        t.status,
+        t.claimed_by,
+        t.updated_at,
+        completed.payload->>'outcome_preview' AS outcome_preview,
+        completed.payload->>'explanation_preview' AS explanation_preview
+      FROM tasks t
+      LEFT JOIN LATERAL (
+        SELECT te.payload
+        FROM task_events te
+        WHERE te.task_id = t.task_id
+          AND te.kind = 'task.completed'
+        ORDER BY te.id DESC
+        LIMIT 1
+      ) completed ON true
+      ORDER BY t.updated_at DESC NULLS LAST, t.id DESC
       LIMIT $1
       `,
       [limit]
