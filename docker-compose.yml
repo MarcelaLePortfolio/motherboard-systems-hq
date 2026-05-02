@@ -17,6 +17,9 @@ services:
       - postgres
     ports:
       - "3000:3000"
+    environment:
+      - SYSTEM_SCHEDULER_ENABLED=true
+      - SYSTEM_SCHEDULER_INTERVAL_MS=60000
 
   worker:
     build:
