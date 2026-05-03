@@ -1,0 +1,15 @@
+PHASE 532 TASK HISTORY FILL REVERT NOTE
+
+Outcome:
+- Second Task History fill attempt did not visually solve the chart fill issue.
+- Latest attempt was reverted immediately.
+- Dashboard is back to the stable Task History baseline.
+- Do not continue Task History fill attempts without a different diagnostic path.
+
+Rejected approaches:
+- Direct canvas pixel sizing caused cross-panel contamination.
+- Visible-tab resize did not materially improve fill behavior.
+
+Next safe corridor:
+- Leave Task History stable as-is.
+- Move to another UI surface or gather browser computed layout data before retrying.

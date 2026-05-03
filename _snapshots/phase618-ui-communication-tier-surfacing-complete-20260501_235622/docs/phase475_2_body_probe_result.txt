@@ -1,0 +1,8 @@
+PHASE 475.2 — BODY PROBE RESULT
+===============================
+
+RESULT:
+BODY_PROBE_STABLE
+
+OPTIONAL_NOTE:
+The separate body isolation probe appears stable.

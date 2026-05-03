@@ -1,0 +1,26 @@
+Phase 598 lock confirmation.
+
+System State:
+- Git commit: COMPLETE
+- Remote push: COMPLETE
+- Tag: phase598-agent-pool-stable (immutable)
+- Containers: running (dashboard + worker)
+- UI: verified (agent pool + health indicator live)
+- Backend: verified (/api/agent-status responding)
+
+Integrity:
+- No active instability
+- No speculative patches pending
+- Renderer ownership clear and locked
+- Observability layer confirmed
+
+Meaning:
+This is a safe base.
+
+Protocol:
+- Any further work must branch from this state.
+- Revert target is phase598-agent-pool-stable if instability occurs.
+- Do not modify agent pool rendering layer unless explicitly required.
+
+Status:
+READY FOR NEXT CORRIDOR ENTRY

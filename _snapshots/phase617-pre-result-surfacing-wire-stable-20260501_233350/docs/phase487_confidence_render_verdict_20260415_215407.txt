@@ -1,0 +1,179 @@
+PHASE 487 — CONFIDENCE RENDER VERDICT
+source_file=docs/phase487_confidence_render_surface_20260415_215257.txt
+branch=phase119-dashboard-cognition-contract
+commit=cfcd878ce772972cb36e5d688ec31e2282af896a
+
+=== TOP REMAINING INSUFFICIENT MATCHES ===
+7:=== SEARCH: literal insufficient ===
+10:src/cognition/operatorGuidanceConfidence.ts:64:      reason: "Signal quality insufficient for strong interpretation.",
+16:src/cognition/operatorGuidanceSafety.ts:43:  "insufficient",
+22:src/cognition/operatorGuidance.ts:17:  | "insufficient";
+28:src/cognition/operatorGuidance.smoke.ts:15:  expectedSurfaceConfidence: "high" | "medium" | "low" | "insufficient";
+34:src/cognition/operatorGuidance.smoke.ts:120:    expectedSurfaceConfidence: "insufficient",
+40:src/cognition/operatorGuidance.live.ts:52:  surfaceConfidence: "high" | "medium" | "low" | "insufficient";
+46:src/cognition/operatorGuidanceReducer.ts:90:    surfaceConfidence: "insufficient",
+106:src/cognition/operatorGuidanceConfidence.ts-64-      reason: "Signal quality insufficient for strong interpretation.",
+312:src/cognition/operatorGuidance.live.ts:52:  surfaceConfidence: "high" | "medium" | "low" | "insufficient";
+330:src/cognition/operatorGuidance.smoke.ts:15:  expectedSurfaceConfidence: "high" | "medium" | "low" | "insufficient";
+366:src/cognition/operatorGuidance.smoke.ts:120:    expectedSurfaceConfidence: "insufficient",
+507:src/cognition/operatorGuidanceReducer.ts:90:    surfaceConfidence: "insufficient",
+594:Goal: identify the actual render surface still emitting insufficient.
+
+=== TOP CONFIDENCE RENDER MATCHES ===
+1:PHASE 487 — CONFIDENCE RENDER SURFACE TRACE
+8:src/cognition/operatorGuidanceConfidence.ts-62-    return {
+9:src/cognition/operatorGuidanceConfidence.ts-63-      confidence: "low",
+10:src/cognition/operatorGuidanceConfidence.ts:64:      reason: "Signal quality insufficient for strong interpretation.",
+11:src/cognition/operatorGuidanceConfidence.ts-65-      signalCount: signals.length,
+12:src/cognition/operatorGuidanceConfidence.ts-66-      conflictingSignals,
+28:src/cognition/operatorGuidance.smoke.ts:15:  expectedSurfaceConfidence: "high" | "medium" | "low" | "insufficient";
+34:src/cognition/operatorGuidance.smoke.ts:120:    expectedSurfaceConfidence: "insufficient",
+40:src/cognition/operatorGuidance.live.ts:52:  surfaceConfidence: "high" | "medium" | "low" | "insufficient";
+46:src/cognition/operatorGuidanceReducer.ts:90:    surfaceConfidence: "insufficient",
+47:src/cognition/operatorGuidanceReducer.ts-91-    confidenceReason: "No signals available for interpretation.",
+50:=== SEARCH: operator guidance confidence render ===
+53:src/contracts/governanceExecutionBridgeContract.ts:40:  confidence: string;
+59:src/contracts/__fixtures__/governanceExecutionBridgeContract.fixture.ts:31:      confidence: "unknown",
+65:src/contracts/__fixtures__/governanceExecutionBridgeAssembly.fixture.ts:27:    confidence: "unknown",
+69:src/cognition/operatorGuidanceConfidence.ts:1:import type { OperationalConfidence } from "./confidence";
+70:src/cognition/operatorGuidanceConfidence.ts-2-
+71:src/cognition/operatorGuidanceConfidence.ts-3-export interface OperatorGuidanceConfidenceInput {
+73:src/cognition/operatorGuidanceConfidence.ts-6-/*
+74:src/cognition/operatorGuidanceConfidence.ts-7-PHASE 89 — CONFIDENCE FRAMING MODEL
+75:src/cognition/operatorGuidanceConfidence.ts:8:Defines bounded confidence interpretation rules.
+76:src/cognition/operatorGuidanceConfidence.ts-9-No execution authority. Cognition framing only.
+77:src/cognition/operatorGuidanceConfidence.ts-10-*/
+79:src/cognition/operatorGuidanceConfidence.ts-14-
+80:src/cognition/operatorGuidanceConfidence.ts-15-export type ConfidenceAssessment = {
+81:src/cognition/operatorGuidanceConfidence.ts:16:  confidence: GuidanceConfidence;
+82:src/cognition/operatorGuidanceConfidence.ts-17-  reason: string;
+83:src/cognition/operatorGuidanceConfidence.ts-18-  signalCount: number;
+85:src/cognition/operatorGuidanceConfidence.ts-26-  if (signals.length === 0) {
+86:src/cognition/operatorGuidanceConfidence.ts-27-    return {
+87:src/cognition/operatorGuidanceConfidence.ts:28:      confidence: "limited",
+88:src/cognition/operatorGuidanceConfidence.ts-29-      reason: "No signals available for interpretation.",
+89:src/cognition/operatorGuidanceConfidence.ts-30-      signalCount: 0,
+91:src/cognition/operatorGuidanceConfidence.ts-43-  if (stalled > 0) {
+92:src/cognition/operatorGuidanceConfidence.ts-44-    return {
+93:src/cognition/operatorGuidanceConfidence.ts:45:      confidence: "medium",
+94:src/cognition/operatorGuidanceConfidence.ts-46-      reason: "Stalled signals observed but root cause not proven.",
+95:src/cognition/operatorGuidanceConfidence.ts-47-      signalCount: signals.length,
+97:src/cognition/operatorGuidanceConfidence.ts-52-  if (degraded > 0) {
+98:src/cognition/operatorGuidanceConfidence.ts-53-    return {
+99:src/cognition/operatorGuidanceConfidence.ts:54:      confidence: "medium",
+100:src/cognition/operatorGuidanceConfidence.ts-55-      reason: "Degraded signals observed without systemic failure.",
+101:src/cognition/operatorGuidanceConfidence.ts-56-      signalCount: signals.length,
+103:src/cognition/operatorGuidanceConfidence.ts-61-  if (unknown > 0) {
+104:src/cognition/operatorGuidanceConfidence.ts-62-    return {
+105:src/cognition/operatorGuidanceConfidence.ts:63:      confidence: "low",
+106:src/cognition/operatorGuidanceConfidence.ts-64-      reason: "Signal quality insufficient for strong interpretation.",
+107:src/cognition/operatorGuidanceConfidence.ts-65-      signalCount: signals.length,
+109:src/cognition/operatorGuidanceConfidence.ts-69-
+110:src/cognition/operatorGuidanceConfidence.ts-70-  return {
+111:src/cognition/operatorGuidanceConfidence.ts:71:    confidence: "high",
+112:src/cognition/operatorGuidanceConfidence.ts-72-    reason: "Signals consistently indicate healthy state.",
+113:src/cognition/operatorGuidanceConfidence.ts-73-    signalCount: signals.length,
+115:src/cognition/operatorGuidanceConfidence.ts-81-
+116:src/cognition/operatorGuidanceConfidence.ts-82-export function mapOperationalConfidenceToGuidanceModifier(
+117:src/cognition/operatorGuidanceConfidence.ts:83:  confidence?: OperationalConfidence,
+118:src/cognition/operatorGuidanceConfidence.ts-84-): number {
+119:src/cognition/operatorGuidanceConfidence.ts:85:  if (!confidence) return 0;
+120:src/cognition/operatorGuidanceConfidence.ts-86-
+121:src/cognition/operatorGuidanceConfidence.ts:87:  if (confidence.level === "HIGH") return 1;
+122:src/cognition/operatorGuidanceConfidence.ts:88:  if (confidence.level === "MEDIUM") return 0;
+123:src/cognition/operatorGuidanceConfidence.ts:89:  if (confidence.level === "LOW") return -1;
+124:src/cognition/operatorGuidanceConfidence.ts-90-
+125:src/cognition/operatorGuidanceConfidence.ts-91-  return 0;
+127:src/cognition/operatorGuidanceConfidence.ts-93-
+128:src/cognition/operatorGuidanceConfidence.ts-94-
+129:src/cognition/operatorGuidanceConfidence.ts:95:export function confidencePriorityWeight(
+130:src/cognition/operatorGuidanceConfidence.ts:96:  confidence?: OperationalConfidence,
+131:src/cognition/operatorGuidanceConfidence.ts-97-): number {
+132:src/cognition/operatorGuidanceConfidence.ts:98:  if (!confidence) {
+133:src/cognition/operatorGuidanceConfidence.ts-99-    return 1;
+134:src/cognition/operatorGuidanceConfidence.ts-100-  }
+135:src/cognition/operatorGuidanceConfidence.ts-101-
+136:src/cognition/operatorGuidanceConfidence.ts:102:  switch (confidence.level) {
+137:src/cognition/operatorGuidanceConfidence.ts-103-    case "HIGH":
+138:src/cognition/operatorGuidanceConfidence.ts-104-      return 1;
+140:src/governance/governance_confidence_score.test.ts:1:import { computeGovernanceOperatorConfidence } from "./governance_operator_confidence_score"
+141:src/governance/governance_confidence_score.test.ts-2-import { GOVERNANCE_FIXTURE_CRITICAL } from "./governance_fixture_corpus"
+142:src/governance/governance_confidence_score.test.ts-3-
+143:src/governance/governance_confidence_score.test.ts:4:describe("Governance confidence scoring", () => {
+144:src/governance/governance_confidence_score.test.ts-5-
+145:src/governance/governance_confidence_score.test.ts:6:  it("reduces confidence when critical signals exist", () => {
+146:src/governance/governance_confidence_score.test.ts-7-
+147:src/governance/governance_confidence_score.test.ts-8-    const result =
+149:src/governance/governance_confidence_score.test.ts-11-      )
+150:src/governance/governance_confidence_score.test.ts-12-
+151:src/governance/governance_confidence_score.test.ts:13:    expect(result.governance_confidence_score)
+152:src/governance/governance_confidence_score.test.ts-14-      .toBeLessThan(100)
+153:src/governance/governance_confidence_score.test.ts-15-
+154:src/governance/governance_confidence_score.test.ts:16:    expect(result.governance_confidence_band)
+155:src/governance/governance_confidence_score.test.ts-17-      .not.toBe("high")
+156:src/governance/governance_confidence_score.test.ts-18-
+158:src/governance/governance_operator_confidence_score.ts-27-  }
+159:src/governance/governance_operator_confidence_score.ts-28-
+160:src/governance/governance_operator_confidence_score.ts:29:  let confidence_band = "high"
+161:src/governance/governance_operator_confidence_score.ts-30-
+162:src/governance/governance_operator_confidence_score.ts-31-  if(score < 70){
+163:src/governance/governance_operator_confidence_score.ts:32:    confidence_band = "moderate"
+164:src/governance/governance_operator_confidence_score.ts-33-  }
+165:src/governance/governance_operator_confidence_score.ts-34-
+166:src/governance/governance_operator_confidence_score.ts-35-  if(score < 40){
+167:src/governance/governance_operator_confidence_score.ts:36:    confidence_band = "low"
+168:src/governance/governance_operator_confidence_score.ts-37-  }
+169:src/governance/governance_operator_confidence_score.ts-38-
+170:src/governance/governance_operator_confidence_score.ts-39-  return {
+171:src/governance/governance_operator_confidence_score.ts-40-
+172:src/governance/governance_operator_confidence_score.ts:41:    governance_confidence_score: score,
+173:src/governance/governance_operator_confidence_score.ts-42-
+174:src/governance/governance_operator_confidence_score.ts:43:    governance_confidence_band: confidence_band,
+175:src/governance/governance_operator_confidence_score.ts-44-
+176:src/governance/governance_operator_confidence_score.ts-45-    advisory_basis: signals.length,
+180:src/governance/governanceExecutionRoutingTypes.ts:19:  confidence: GovernanceRoutingConfidence;
+184:src/governance/cognition/operationalConfidence.synthesizer.ts-19-
+185:src/governance/cognition/operationalConfidence.synthesizer.ts-20-  for (const c of contributions) {
+186:src/governance/cognition/operationalConfidence.synthesizer.ts:21:    const r = rank(c.confidence);
+187:src/governance/cognition/operationalConfidence.synthesizer.ts-22-    if (r < min) {
+188:src/governance/cognition/operationalConfidence.synthesizer.ts-23-      min = r;
+198:src/cognition/operatorGuidanceSafety.ts:110:  if (!ALLOWED_GUIDANCE_CONFIDENCE.has(guidance.confidence)) {
+199:src/cognition/operatorGuidanceSafety.ts:111:    violations.push(`guidance.confidence is invalid: ${guidance.confidence}`);
+205:src/cognition/operatorGuidanceSafety.ts:193:  assertSafeText("reduction.confidenceReason", reduction.confidenceReason, violations);
+
+=== TOP SYSTEM-HEALTH SOURCE MATCHES ===
+516:=== SEARCH: diagnostics/system-health source path ===
+519:src/cognition/operatorGuidanceSafety.ts:24:  "system_health",
+525:src/cognition/operatorGuidance.ts:26:  | "system_health"
+531:src/cognition/operatorGuidanceMapping.ts:113:    id: "system-health-healthy",
+532:src/cognition/operatorGuidanceMapping.ts:114:    domain: "system_health",
+534:src/cognition/operatorGuidanceMapping.ts:116:      signal.domain === "system_health" && signal.status === "healthy",
+540:src/cognition/operatorGuidanceMapping.ts:125:    id: "system-health-degraded",
+541:src/cognition/operatorGuidanceMapping.ts:126:    domain: "system_health",
+543:src/cognition/operatorGuidanceMapping.ts:128:      signal.domain === "system_health" && signal.status === "degraded",
+549:src/cognition/operatorGuidanceMapping.ts:137:    id: "system-health-stalled",
+550:src/cognition/operatorGuidanceMapping.ts:138:    domain: "system_health",
+552:src/cognition/operatorGuidanceMapping.ts:140:      signal.domain === "system_health" && signal.status === "stalled",
+558:src/cognition/operatorGuidance.live.ts:15:    key: "system-health",
+559:src/cognition/operatorGuidance.live.ts:16:    domain: "system_health",
+565:src/cognition/operatorGuidance.smoke.ts:29:    name: "healthy_system_health",
+568:src/cognition/operatorGuidance.smoke.ts:32:        key: "system-health",
+569:src/cognition/operatorGuidance.smoke.ts:33:        domain: "system_health",
+575:src/cognition/operatorGuidance.smoke.ts:96:        key: "system-health",
+576:src/cognition/operatorGuidance.smoke.ts:97:        domain: "system_health",
+598:3. diagnostics/system-health direct confidence source bypassing prior patch
+
+=== LIKELY NEXT PATCH TARGET ===
+src/cognition/operatorGuidanceConfidence.ts:64:      reason: "Signal quality insufficient for strong interpretation.",
+src/cognition/operatorGuidanceSafety.ts:43:  "insufficient",
+src/cognition/operatorGuidance.ts:17:  | "insufficient";
+src/cognition/operatorGuidance.smoke.ts:15:  expectedSurfaceConfidence: "high" | "medium" | "low" | "insufficient";
+src/cognition/operatorGuidance.smoke.ts:120:    expectedSurfaceConfidence: "insufficient",
+src/cognition/operatorGuidance.live.ts:52:  surfaceConfidence: "high" | "medium" | "low" | "insufficient";
+src/cognition/operatorGuidanceReducer.ts:90:    surfaceConfidence: "insufficient",
+
+=== OPERATOR READ ===
+Push succeeded.
+Large-file push failure has been resolved.
+Next action is to patch the exact remaining render surface still emitting confidence=insufficient.
+

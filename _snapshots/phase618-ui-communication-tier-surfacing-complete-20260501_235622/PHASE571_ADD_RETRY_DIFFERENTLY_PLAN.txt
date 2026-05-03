@@ -1,0 +1,94 @@
+PHASE 571 — ADD "RETRY DIFFERENTLY"
+
+QUESTION:
+Should there still be a Retry option?
+
+ANSWER:
+Yes — but not the old kind.
+
+You now correctly have:
+- Requeue → same task copy (transient retry)
+
+You are missing:
+- Retry Differently → strategy-aware retry
+
+────────────────────────────────
+
+DECISION:
+
+Do NOT rename Requeue back to Retry.
+
+Instead:
+ADD a second action.
+
+FINAL MODEL:
+
+- Requeue
+  → exact copy
+  → same intent
+  → safe, deterministic
+
+- Retry Differently
+  → same goal
+  → different execution strategy
+  → includes guidance metadata
+
+────────────────────────────────
+
+UI DESIGN (MINIMAL):
+
+Current:
+[Copy ID]   [Requeue]   [Cancel]
+
+Next:
+[Copy ID]   [Requeue]   [Retry Differently]   [Cancel]
+
+────────────────────────────────
+
+BEHAVIOR:
+
+Retry Differently should:
+
+POST /api/delegate-task
+
+Body:
+{
+  title: selected.title || "Retry task",
+  source: "execution-inspector",
+  kind: "retry-strategy",
+  notes: "Retry with alternative approach",
+  meta: {
+    retry_mode: "strategy_shift",
+    retry_of_task_id: selected.taskId,
+    retry_of_event_id: selected.id,
+    retry_of_kind: selected.kind,
+    instruction: "Use a different execution strategy than previous attempt"
+  }
+}
+
+────────────────────────────────
+
+IMPORTANT:
+
+Do NOT implement yet.
+
+WHY:
+- This is a new semantic layer
+- Requires clarity on how worker interprets "strategy_shift"
+- Otherwise it behaves identical to Requeue
+
+────────────────────────────────
+
+NEXT SAFE STEP:
+
+Add button ONLY (no behavior)
+→ visual placeholder
+
+Then:
+Design how worker/agent responds to strategy_shift
+
+────────────────────────────────
+
+STATUS:
+REQUEUE = correct
+RETRY DIFFERENTLY = next feature (not yet implemented)

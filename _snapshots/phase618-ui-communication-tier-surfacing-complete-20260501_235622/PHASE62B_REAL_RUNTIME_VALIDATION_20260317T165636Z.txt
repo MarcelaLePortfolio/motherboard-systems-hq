@@ -1,0 +1,12 @@
+PHASE 62B — REAL SUCCESS RATE RUNTIME VALIDATION
+generated_at=2026-03-17T16:56:36Z
+base_url=http://127.0.0.1:8080
+
+== precheck routes ==
+{"ok":true,"tasks":[{"id":"7","task_id":"t_9e9ba3d9-7599-4dcd-959d-048d5a918708","title":"phase64 named-agent smoke","status":"queued","updated_at":"2026-03-13T21:54:17.484Z"},{"id":"6","task_id":"t_d04ee557-b313-4d28-b5a5-e11503c35d14","title":"phase64 named-agent smoke","status":"queued","updated_at":"2026-03-13T21:48:47.323Z"},{"id":"5","task_id":"t_b0d27280-1eae-4966-a622-8a3ba7cb1b74","title":"phase64 named-agent smoke","status":"queued","updated_at":"2026-03-13T21:45:29.503Z"},{"id":"4","task_id":"t_459cff5d-2285-4389-8182-70f81655532b","title":"phase64 named-agent probe","status":"queued","updated_at":"2026-03-13T21:44:12.463Z"},{"id":"3","task_id":"task.ac67065d-fcb6-4248-97d6-5837ddf9494e","title":"test after schema alignment","status":"queued","updated_at":"2026-03-13T16:27:15.559Z"}]}ok: GET /api/tasks reachable
+
+== step 1: create success candidate ==
+{"ok":true,"task_id":"t_e02a0e4c-1979-4312-a6f4-73387926e224"}
+success_task_id=t_e02a0e4c-1979-4312-a6f4-73387926e224
+
+== step 2: complete success candidate ==

@@ -1,0 +1,5 @@
+{
+  "type": "generate_file",
+  "path": "ui/dashboard/public/partials/project-tracker-sections.html",
+  "content": "<div id=\"tracker-backlog\" class=\"tracker-section\">\\n  <h3>Backlog</h3>\\n  <ul>\\n    <li>🛠️ Finish dashboard wiring</li>\\n    <li>🧠 Enable memory fallback for agents</li>\\n  </ul>\\n</div>\\n\\n<div id=\"tracker-in-progress\" class=\"tracker-section\" style=\"display:none;\">\\n  <h3>In Progress</h3>\\n  <ul>\\n    <li>🔁 Cade file generation upgrade</li>\\n  </ul>\\n</div>\\n\\n<div id=\"tracker-completed\" class=\"tracker-section\" style=\"display:none;\">\\n  <h3>Completed</h3>\\n  <ul>\\n    <li>✅ Agent status logic</li>\\n    <li>✅ Project tabs generated</li>\\n  </ul>\\n</div>\\n\\n<style>\\n  .tracker-section {\\n    border: 1px solid #ccc;\\n    padding: 1rem;\\n    border-radius: 6px;\\n    background-color: #fafafa;\\n  }\\n  .tracker-section h3 {\\n    margin-top: 0;\\n  }\\n</style>"
+}

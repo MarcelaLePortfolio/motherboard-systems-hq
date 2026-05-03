@@ -1,0 +1,83 @@
+STATE HANDOFF — DO NOT LOSE CONTEXT
+
+ASSISTANT OPERATES IN ENGINEERING CONTINUATION MODE
+
+(Post-Phase 308 update)
+
+────────────────────────────────
+
+SYSTEM STATE
+
+System stable
+System deterministic
+System protected
+
+Governance cognition complete
+Governance replay protected
+Governance drift sentinel installed
+Governance expectation lock installed
+Governance regression guard installed
+Governance pipeline ordering guard installed
+Governance cognition integrity sentinel installed
+
+Operator exposure not started
+Runtime governance integration intentionally blocked
+
+Branch:
+phase119-dashboard-cognition-contract
+
+Working tree:
+clean
+
+Latest checkpoint:
+Phase 308 committed and pushed
+
+────────────────────────────────
+
+PHASE 308 COMPLETE
+
+Governance Cognition Integrity Sentinel established:
+
+Governance advisory output verification active
+Operator view contract protected
+System view contract protected
+Cognition output integrity locked
+Future cognition regression alarms prepared
+
+This phase is cognition-only.
+
+No runtime mutation
+No execution influence
+No dashboard exposure
+No policy enforcement
+No operator authority interaction
+
+────────────────────────────────
+
+NEXT SAFE CORRIDOR
+
+Phase 309 — Governance Advisory Contract Lock
+
+Will establish:
+
+Advisory output schema lock
+Governance response shape verification
+Operator advisory contract protection
+System advisory contract protection
+Future advisory regression alarms
+
+DO NOT ENTER:
+
+Runtime wiring
+Dashboard exposure
+Policy enforcement
+Agent authority changes
+Task mutation surfaces
+Execution influence
+Operator control surfaces
+
+Continuation rule:
+
+Lock governance advisory contract before operator visibility work.
+
+STATE HANDOFF COMPLETE

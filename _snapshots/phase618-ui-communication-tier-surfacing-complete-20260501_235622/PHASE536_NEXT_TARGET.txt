@@ -1,0 +1,43 @@
+PHASE 536 — NEXT TARGET
+
+CORRIDOR:
+UX + OBSERVABILITY POLISH
+
+PRIORITY:
+Recent-task visibility (state awareness)
+
+PROBLEM:
+- Execution Trail shows flow, but operator cannot quickly identify ACTIVE tasks
+- No clear distinction between:
+  - currently running
+  - already completed
+- Requires scanning multiple rows
+
+OBJECTIVE:
+Highlight active (in-progress) tasks
+
+APPROACH (SAFE, UI-ONLY):
+- Detect lifecycle state in renderEvent()
+- If state is "running / started / claimed":
+  → apply subtle highlight (e.g., brighter text or background tint)
+
+OPTIONAL:
+- Dim completed tasks slightly
+- Keep failed visually distinct (already symbolized)
+
+IMPLEMENTATION:
+- Add helper: isActiveState(kind)
+- Apply style:
+  row.style.background = "rgba(255,255,255,0.04)" (or similar)
+
+CONSTRAINTS:
+- Single file only: public/js/task-events-sse-client.js
+- No backend changes
+- No SSE changes
+- Additive styling only
+
+GOAL:
+Operator can instantly spot what is currently executing
+
+STATUS:
+READY FOR NEXT UI PASS

@@ -1,0 +1,232 @@
+PHASE 88.14.6 MOUNT FAILURE STATE
+Generated: 2026-03-19T17:54:32Z
+Branch: phase65b-running-tasks-hydration
+Commit: 08971edbfa6eccb1bb1323f75d9f627f05aec836
+Base URL: http://127.0.0.1:3000
+────────────────────────────────
+SECTION: server.mjs mount lines
+12:import systemHealthRouter from "./routes/diagnostics/systemHealth.js";
+20:import apiTasksMutationsRouter from "./server/routes/api-tasks-mutations.mjs";
+179:app.use("/api/tasks-mutations", apiTasksMutationsRouter);
+182:app.use("/diagnostics/system-health", systemHealthRouter);
+183:app.use("/diagnostics/systemHealth", systemHealthRouter);
+────────────────────────────────
+SECTION: server.mjs import block head
+import express from "express";
+import { registerApiHealth } from "./server/routes/api-health.mjs";
+import { waitForPostgresReady } from "./server/db_wait_ready.mjs";
+import { registerOptionalSSE } from "./server/optional-sse.mjs";
+import path from "path";
+import { fileURLToPath } from "url";
+import pg from "pg";
+import { ensureTasksTaskIdColumn } from "./server/db_bootstrap_tasks_task_id.mjs";
+import { registerOrchestratorStateRoute } from "./server/orchestrator_state_route.mjs";
+import { registerPhase19DebugRoutes } from "./server/phase19_debug_routes_dump.mjs";
+import { apiTasksRouter } from "./server/routes/api-tasks-postgres.mjs";
+import systemHealthRouter from "./routes/diagnostics/systemHealth.js";
+
+// Phase 44 — server HTTP mutation-route enforcement boundary (off/shadow/enforce)
+import { createMutationEnforcementMiddleware } from "./server/enforcement/phase44_mutation_enforcer.mjs";
+
+import { attachArtifacts } from "./server/artifacts.mjs";
+import { dbDelegateTask, dbCompleteTask } from "./server/tasks-mutations.mjs";
+import taskEventsSSE from "./server/routes/task-events-sse.mjs";
+import apiTasksMutationsRouter from "./server/routes/api-tasks-mutations.mjs";
+import { handleDelegateTaskSpec as phase23HandleDelegateTaskSpec } from "./server/api/tasks-mutations/delegate-taskspec.mjs";
+import { registerPhase36RunView } from "./server/routes/phase36_run_view.mjs";
+import { getRunsList } from "./server/routes/phase36_run_view.mjs";
+
+import { registerPhase40_6ShadowAuditTaskEvents } from "./server/routes/phase40_6_shadow_audit_task_events.mjs";
+import { registerPhase48PolicyProbe } from "./server/routes/phase48_policy_probe.mjs";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+
+const app = express();
+
+
+
+registerApiHealth(app);
+// Phase49: enforce gate on real mutation routes (task path)
+function phase49PolicyEnforceEnabled() {
+  const v = String(process.env.POLICY_ENFORCE_MODE ?? process.env.POLICY_MODE ?? "").trim().toLowerCase();
+  // accept common values without binding to any single previous implementation
+  return v in {"1":1, "true":1, "yes":1, "on":1, "enforce":1, "enabled":1};
+}
+
+app.use((req, res, next) => {
+  try {
+    if (!phase49PolicyEnforceEnabled()) return next();
+    if (req.path === "/api/policy/probe") return next();
+
+    const m = String(req.method || "GET").toUpperCase();
+    const isMut = (m === "POST" || m === "PUT" || m === "PATCH" || m === "DELETE");
+    if (!isMut) return next();
+
+    // Start narrow: enforce on the real task mutation surface.
+    if (req.path.startsWith("/api/tasks")) {
+      return res.status(403).json({
+        error: "policy.enforce",
+        detail: "mutation blocked by enforcement gate (Phase49)",
+        path: req.path,
+        method: m,
+      });
+    }
+
+    return next();
+  } catch (e) {
+    return next(e);
+  }
+});
+
+// Phase 44 — enforce only at HTTP mutation route boundary
+app.use(createMutationEnforcementMiddleware());
+// Phase 23: parse JSON early (avoid empty req.body)
+app.use(express.json());
+
+// Phase 20: task-events SSE (event-sourced)
+app.use(taskEventsSSE);
+  
+registerOrchestratorStateRoute(app);
+registerPhase19DebugRoutes(app);
+if (process.env.PHASE19_DEBUG === "1") {
+  console.log("[phase19] env", {
+────────────────────────────────
+SECTION: server.mjs mount area
+app.use("/js", express.static(path.join(__dirname, "public", "js")));
+app.use("/img", express.static(path.join(__dirname, "public", "img")));
+// Phase 23: TaskSpec adapter -> create task + emit task_events
+app.post("/api/tasks-mutations/delegate-taskspec", async (req, res) => phase23HandleDelegateTaskSpec(req, res, { db: pool, dbDelegateTask }));
+
+// Phase 23: TaskSpec adapter -> create task + emit task_events
+
+
+// Phase 23: TaskSpec adapter -> existing delegate
+
+app.use("/api/tasks", apiTasksRouter);
+app.use("/api/tasks-mutations", apiTasksMutationsRouter);
+
+
+app.use("/diagnostics/system-health", systemHealthRouter);
+app.use("/diagnostics/systemHealth", systemHealthRouter);
+// --- Phase 16.7: dev-only emit endpoints (local debug) ---
+app.post("/api/dev/emit-reflection", (req, res) => {
+  try {
+    const body = req.body || {};
+    const item = {
+      ts: body.ts != null ? body.ts : Date.now(),
+      title: body.title != null ? String(body.title) : "dev",
+────────────────────────────────
+SECTION: PID status
+PID_FILE: .phase88_14_5_server.pid
+PID: 32417
+PROCESS: not running
+────────────────────────────────
+SECTION: boot log tail
+node:internal/modules/esm/resolve:274
+    throw new ERR_MODULE_NOT_FOUND(
+          ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/Users/marcela-dev/Projects/Motherboard_Systems_HQ/routes/diagnostics/systemHealthSituationSummary' imported from /Users/marcela-dev/Projects/Motherboard_Systems_HQ/routes/diagnostics/systemHealth.js
+    at finalizeResolution (node:internal/modules/esm/resolve:274:11)
+    at moduleResolve (node:internal/modules/esm/resolve:859:10)
+    at defaultResolve (node:internal/modules/esm/resolve:983:11)
+    at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:801:12)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:725:25)
+    at ModuleLoader.resolve (node:internal/modules/esm/loader:708:38)
+    at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:309:38)
+    at #link (node:internal/modules/esm/module_job:208:49) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/routes/diagnostics/systemHealthSituationSummary'
+}
+
+Node.js v24.4.0
+────────────────────────────────
+SECTION: live route probes
+URL: http://127.0.0.1:3000/diagnostics/system-health
+HTTP/1.1 404 Not Found
+X-Powered-By: Express
+Content-Security-Policy: default-src 'none'
+X-Content-Type-Options: nosniff
+Content-Type: text/html; charset=utf-8
+Content-Length: 164
+Date: Thu, 19 Mar 2026 17:54:32 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot GET /diagnostics/system-health</pre>
+</body>
+</html>
+────────────────────────────────
+URL: http://127.0.0.1:3000/diagnostics/systemHealth
+HTTP/1.1 404 Not Found
+X-Powered-By: Express
+Content-Security-Policy: default-src 'none'
+X-Content-Type-Options: nosniff
+Content-Type: text/html; charset=utf-8
+Content-Length: 163
+Date: Thu, 19 Mar 2026 17:54:32 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot GET /diagnostics/systemHealth</pre>
+</body>
+</html>
+────────────────────────────────
+URL: http://127.0.0.1:3000/dashboard
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Thu, 19 Mar 2026 17:39:46 GMT
+ETag: W/"75f8-19d072e9395"
+Content-Type: text/html; charset=utf-8
+Content-Length: 30200
+Date: Thu, 19 Mar 2026 17:54:32 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <style id="matilda-chat-typography-polish">
+    #matilda-chat-transcript p {
+      line-height: 1.45 !important;
+      margin-bottom: 0.55rem !important;
+    }
+    #matilda-chat-transcript .user-message {
+      color: #dbeafe !important;
+    }
+    #matilda-chat-transcript .matilda-message {
+      color: #a7f3d0 !important;
+    }
+  
+  /* Phase 62: Agent Pool + Metrics dual top row */
+  .phase62-top-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 16px;
+    align-items: stretch;
+  }
+
+  .phase62-top-col {
+    min-width: 0;
+  }
+
+  .phase62-top-col > section,
+────────────────────────────────

@@ -1,0 +1,12 @@
+Phase 582 context plus advanced JSON stable checkpoint.
+
+State:
+- Execution Inspector renderer is functional.
+- Expanded view direction is confirmed:
+  - remove redundant metadata
+  - replace visible details with plain-language context
+  - keep JSON behind Advanced only
+- Current state is checkpointed before the next visual rewrite.
+
+Next:
+Create tag and filesystem snapshot before implementing the cleaner summary-based expanded view.

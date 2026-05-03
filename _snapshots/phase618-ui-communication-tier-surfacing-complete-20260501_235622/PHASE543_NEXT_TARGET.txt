@@ -1,0 +1,61 @@
+PHASE 543 — NEXT TARGET
+
+CORRIDOR:
+OPERATOR EXPERIENCE + CONTROL SURFACE
+
+PRIORITY:
+Inline action affordances (non-destructive)
+
+CONTEXT:
+- Execution surface now:
+  - high-signal
+  - interactive (click-to-select)
+  - context-aware (selected panel)
+- Still read-only (no visible actions)
+
+OBJECTIVE:
+Introduce lightweight, non-destructive action affordances
+
+INITIAL SCOPE (SAFE):
+- Add subtle action row inside Selected Task panel
+- No backend calls
+- No task mutation
+- UI + console only
+
+ACTIONS (DISPLAY ONLY):
+- Inspect (logs structured payload)
+- Copy Task ID (to clipboard)
+- Future placeholders:
+  - Retry (disabled)
+  - Cancel (disabled)
+
+IMPLEMENTATION PLAN:
+
+1. PANEL EXTENSION
+- Append action bar under selected task details
+
+2. BUTTON STYLE
+- Minimal inline buttons (low visual weight)
+- Match UI tone (muted, monospace-friendly)
+
+3. HANDLERS
+- Inspect:
+  console.log("Inspect task:", selectedItem)
+- Copy:
+  navigator.clipboard.writeText(selectedItem.taskId)
+
+4. SAFETY
+- No API calls
+- No mutation
+- Fully reversible UI layer
+
+CONSTRAINTS:
+- Single file: public/js/phase457_restore_task_panels.js
+- Additive only
+- No SSE/backend changes
+
+GOAL:
+Begin bridging from selection → actionable operator surface
+
+STATUS:
+READY FOR SURGICAL PATCH

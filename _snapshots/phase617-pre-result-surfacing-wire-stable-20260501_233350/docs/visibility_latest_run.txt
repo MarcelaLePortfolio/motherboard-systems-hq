@@ -1,0 +1,54 @@
+OPERATOR VISIBILITY — LATEST RUN SNAPSHOT
+=========================================
+
+LATEST GOVERNANCE ARTIFACT
+--------------------------
+{
+  "planId": "plan_d0c071b2d24b9b7edd2c7e889b3dca7b223faf8ecfb9730b7711181b581a58dd",
+  "decision": "APPROVED",
+  "decisionId": "decision_d0c071b2d24b9b7edd2c7e889b3dca7b223faf8ecfb9730b7711181b581a58dd"
+}
+
+LATEST GOVERNANCE FAILURE
+-------------------------
+{
+  "planId": "plan_d772ad2fb42803e983854e3a1d047adbcf6c011836fa9edc1c67e34accbb81d4",
+  "stage": "governance",
+  "decision": "REJECTED",
+  "reason": "UNSUPPORTED_REQUEST_CLASS"
+}
+
+LATEST APPROVAL ARTIFACT
+------------------------
+{
+  "planId": "plan_d0c071b2d24b9b7edd2c7e889b3dca7b223faf8ecfb9730b7711181b581a58dd",
+  "operatorApproval": true,
+  "approvalId": "approval_d0c071b2d24b9b7edd2c7e889b3dca7b223faf8ecfb9730b7711181b581a58dd"
+}
+
+LATEST APPROVAL FAILURE
+-----------------------
+{
+  "planId": "plan_923c642b38d62b2878c8b188380956b5272b493bf655b84cf6dfe5749b3248df",
+  "stage": "approval",
+  "decision": "REJECTED",
+  "reason": "OPERATOR_REJECTED_PATTERN"
+}
+
+LATEST EXECUTION ARTIFACT
+-------------------------
+{
+  "planId": "plan_d0c071b2d24b9b7edd2c7e889b3dca7b223faf8ecfb9730b7711181b581a58dd",
+  "taskId": "task_d0c071b2d24b9b7edd2c7e889b3dca7b223faf8ecfb9730b7711181b581a58dd",
+  "status": "SUCCEEDED",
+  "output": "EXECUTION_OK: echo deterministic flow"
+}
+
+LATEST ENTRY FAILURE
+--------------------
+{
+  "intakeId": "intake_invalid_empty",
+  "stage": "entry_validation",
+  "error": "EMPTY_INPUT"
+}
+

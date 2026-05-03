@@ -1,0 +1,47 @@
+PHASE 548 — NEXT TARGET
+
+CORRIDOR:
+UX POLISH + OPERATOR CONFIDENCE
+
+PRIORITY:
+Empty-state + first-time clarity
+
+PROBLEM:
+- When no events exist, UI shows a minimal message
+- Lacks guidance for operator on what to expect or do
+- First-time experience feels ambiguous
+
+OBJECTIVE:
+Improve empty-state clarity and guidance
+
+INITIAL SCOPE (SAFE, UI-ONLY):
+- Enhance "No task events" message
+- Add short contextual explanation
+
+IMPLEMENTATION PLAN:
+
+1. EMPTY STATE COPY
+Replace:
+"No task events in stream yet."
+
+With:
+"No task events yet — waiting for activity…"
+
+Optional second line:
+"Tasks will appear here as they are created and executed."
+
+2. STYLE
+- Keep monospace tone
+- Slightly softer color (existing gray is fine)
+- No layout changes
+
+CONSTRAINTS:
+- Single file: public/js/phase457_restore_task_panels.js
+- Replace string only (no structural changes)
+- No backend/API/SSE changes
+
+GOAL:
+Make system feel alive and intentional even before first event
+
+STATUS:
+READY FOR SURGICAL PATCH

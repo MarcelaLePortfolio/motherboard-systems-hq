@@ -1,0 +1,8 @@
+{
+  "requestId": "req-001",
+  "timestamp": 1700000000000,
+  "rawInput": "Create a system that monitors API uptime and alerts me when failures occur.",
+  "inputType": "text",
+  "source": "operator",
+  "metadata": {}
+}

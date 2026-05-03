@@ -1,0 +1,546 @@
+PHASE 423.4 — STEP 3
+Registry Read Authority Trace
+--------------------------------
+
+readonly view builders
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:3:  createConsumptionRegistryEnforcementReadonlyView,
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:16:  const view = createConsumptionRegistryEnforcementReadonlyView();
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_readonly_view.ts:15:export function createConsumptionRegistryEnforcementReadonlyView(): ConsumptionRegistryEnforcementReadonlyView {
+src/governance/cognition/prove_governance_runtime_registry_export.ts:20:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/prove_governance_runtime_registry_export.ts:21:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:23:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:24:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:25:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:26:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/select_governance_shared_registry_owner_bundle.ts:10:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/select_governance_shared_registry_owner_bundle.ts:11:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/select_governance_shared_registry_owner_bundle.ts:12:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/governance_dashboard_contract_registration.ts:20:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/governance_final_pre_live_registry_contract_package.ts:18:  readonly kind: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/governance_final_pre_live_registry_contract_package.ts:21:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/governance_final_pre_live_registry_contract_package.ts:24:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/governance_final_pre_live_registry_contract_package.ts:25:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/governance_final_pre_live_registry_contract_package.ts:26:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/governance_final_pre_live_registry_contract_package.ts:27:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/governance_authorization_gate.ts:27:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/governance_authorization_gate.ts:28:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/governance_authorization_gate.ts:29:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/governance_authorization_gate.ts:30:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/governance_live_wiring_decision.ts:26:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/governance_live_wiring_decision.ts:27:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/governance_live_wiring_decision.ts:28:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/governance_live_wiring_decision.ts:29:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/select_governance_final_pre_live_registry_archive_record.ts:10:  readonly archiveKey: "governance-final-pre-live-registry-archive-record";
+src/governance/cognition/select_governance_final_pre_live_registry_archive_record.ts:12:  readonly manifestKey: "governance-pre-live-registry-delivery-manifest";
+src/governance/cognition/select_governance_final_pre_live_registry_archive_record.ts:13:  readonly envelopeKey: "governance-pre-live-registry-handoff-envelope";
+src/governance/cognition/select_governance_final_pre_live_registry_archive_record.ts:14:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/select_governance_final_pre_live_registry_archive_record.ts:17:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/select_governance_final_pre_live_registry_archive_record.ts:18:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/select_governance_final_pre_live_registry_archive_record.ts:19:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/select_governance_final_pre_live_registry_archive_record.ts:20:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:31:  readonly capsuleKey: "governance-final-pre-live-registry-summary-capsule";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:32:  readonly archiveKey: "governance-final-pre-live-registry-archive-record";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:34:  readonly manifestKey: "governance-pre-live-registry-delivery-manifest";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:35:  readonly envelopeKey: "governance-pre-live-registry-handoff-envelope";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:36:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:39:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:40:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:41:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:42:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/select_governance_pre_live_registry_delivery_manifest.ts:10:  readonly manifestKey: "governance-pre-live-registry-delivery-manifest";
+src/governance/cognition/select_governance_pre_live_registry_delivery_manifest.ts:11:  readonly envelopeKey: "governance-pre-live-registry-handoff-envelope";
+src/governance/cognition/select_governance_pre_live_registry_delivery_manifest.ts:12:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/select_governance_pre_live_registry_delivery_manifest.ts:15:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/select_governance_pre_live_registry_delivery_manifest.ts:16:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/select_governance_pre_live_registry_delivery_manifest.ts:17:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/select_governance_pre_live_registry_delivery_manifest.ts:18:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/select_governance_final_pre_live_registry_summary_capsule.ts:10:  readonly capsuleKey: "governance-final-pre-live-registry-summary-capsule";
+src/governance/cognition/select_governance_final_pre_live_registry_summary_capsule.ts:11:  readonly archiveKey: "governance-final-pre-live-registry-archive-record";
+src/governance/cognition/select_governance_final_pre_live_registry_summary_capsule.ts:13:  readonly manifestKey: "governance-pre-live-registry-delivery-manifest";
+src/governance/cognition/select_governance_final_pre_live_registry_summary_capsule.ts:14:  readonly envelopeKey: "governance-pre-live-registry-handoff-envelope";
+src/governance/cognition/select_governance_final_pre_live_registry_summary_capsule.ts:15:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/select_governance_final_pre_live_registry_summary_capsule.ts:18:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/select_governance_final_pre_live_registry_summary_capsule.ts:19:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/select_governance_final_pre_live_registry_summary_capsule.ts:20:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/select_governance_final_pre_live_registry_summary_capsule.ts:21:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/governance_cognition_snapshot_contract.ts:29:  readonly registryStatus: GovernanceCognitionStatus;
+src/governance/cognition/governance_pre_live_registry_delivery_manifest.ts:18:  readonly kind: "governance-pre-live-registry-delivery-manifest";
+src/governance/cognition/governance_pre_live_registry_delivery_manifest.ts:21:  readonly manifestKey: "governance-pre-live-registry-delivery-manifest";
+src/governance/cognition/governance_pre_live_registry_delivery_manifest.ts:22:  readonly envelopeKey: "governance-pre-live-registry-handoff-envelope";
+src/governance/cognition/governance_pre_live_registry_delivery_manifest.ts:23:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/governance_pre_live_registry_delivery_manifest.ts:26:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/governance_pre_live_registry_delivery_manifest.ts:27:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/governance_pre_live_registry_delivery_manifest.ts:28:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/governance_pre_live_registry_delivery_manifest.ts:29:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts:18:  readonly kind: "governance-final-pre-live-registry-summary-capsule";
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts:21:  readonly capsuleKey: "governance-final-pre-live-registry-summary-capsule";
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts:22:  readonly archiveKey: "governance-final-pre-live-registry-archive-record";
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts:24:  readonly manifestKey: "governance-pre-live-registry-delivery-manifest";
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts:25:  readonly envelopeKey: "governance-pre-live-registry-handoff-envelope";
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts:26:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts:29:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts:30:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts:31:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts:32:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:30:  readonly manifestKey: "governance-pre-live-registry-delivery-manifest";
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:31:  readonly envelopeKey: "governance-pre-live-registry-handoff-envelope";
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:32:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:35:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:36:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:37:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:38:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/governance_final_pre_live_registry_archive_record.ts:18:  readonly kind: "governance-final-pre-live-registry-archive-record";
+src/governance/cognition/governance_final_pre_live_registry_archive_record.ts:21:  readonly archiveKey: "governance-final-pre-live-registry-archive-record";
+src/governance/cognition/governance_final_pre_live_registry_archive_record.ts:23:  readonly manifestKey: "governance-pre-live-registry-delivery-manifest";
+src/governance/cognition/governance_final_pre_live_registry_archive_record.ts:24:  readonly envelopeKey: "governance-pre-live-registry-handoff-envelope";
+src/governance/cognition/governance_final_pre_live_registry_archive_record.ts:25:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/governance_final_pre_live_registry_archive_record.ts:28:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/governance_final_pre_live_registry_archive_record.ts:29:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/governance_final_pre_live_registry_archive_record.ts:30:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/governance_final_pre_live_registry_archive_record.ts:31:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:26:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:29:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:30:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:31:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:32:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:28:  readonly manifestKey: "governance-pre-live-registry-delivery-manifest";
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:29:  readonly envelopeKey: "governance-pre-live-registry-handoff-envelope";
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:30:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:33:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:34:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:35:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:36:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/select_governance_final_pre_live_registry_contract_package.ts:10:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/select_governance_final_pre_live_registry_contract_package.ts:13:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/select_governance_final_pre_live_registry_contract_package.ts:14:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/select_governance_final_pre_live_registry_contract_package.ts:15:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/select_governance_final_pre_live_registry_contract_package.ts:16:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/governance_shared_registry_owner_bundle.ts:16:  readonly kind: "governance-shared-registry-owner-bundle";
+src/governance/cognition/governance_shared_registry_owner_bundle.ts:19:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/governance_shared_registry_owner_bundle.ts:20:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/governance_shared_registry_owner_bundle.ts:21:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/governance_shared_registry_owner_bundle.ts:30:  readonly registryExport: GovernanceRuntimeRegistryExport;
+src/governance/cognition/governance_dashboard_consumption_contract.ts:26:  readonly registryStatus: GovernanceCognitionStatus;
+src/governance/cognition/select_governance_runtime_registry_export.ts:10:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/select_governance_runtime_registry_export.ts:11:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/prove_governance_authorization_gate.ts:27:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/prove_governance_authorization_gate.ts:28:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/prove_governance_authorization_gate.ts:29:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/prove_governance_authorization_gate.ts:30:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/prove_governance_live_wiring_decision.ts:25:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/prove_governance_live_wiring_decision.ts:26:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/prove_governance_live_wiring_decision.ts:27:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/prove_governance_live_wiring_decision.ts:28:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/select_governance_final_delivery_receipt.ts:11:  readonly manifestKey: "governance-pre-live-registry-delivery-manifest";
+src/governance/cognition/select_governance_final_delivery_receipt.ts:12:  readonly envelopeKey: "governance-pre-live-registry-handoff-envelope";
+src/governance/cognition/select_governance_final_delivery_receipt.ts:13:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/select_governance_final_delivery_receipt.ts:16:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/select_governance_final_delivery_receipt.ts:17:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/select_governance_final_delivery_receipt.ts:18:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/select_governance_final_delivery_receipt.ts:19:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/build_governance_cognition_snapshot.ts:18:  readonly registryStatus: GovernanceCognitionStatus;
+src/governance/cognition/prove_governance_dashboard_contract_registration.ts:18:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/governance_pre_live_registry_handoff_envelope.ts:18:  readonly kind: "governance-pre-live-registry-handoff-envelope";
+src/governance/cognition/governance_pre_live_registry_handoff_envelope.ts:21:  readonly envelopeKey: "governance-pre-live-registry-handoff-envelope";
+src/governance/cognition/governance_pre_live_registry_handoff_envelope.ts:22:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/governance_pre_live_registry_handoff_envelope.ts:25:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/governance_pre_live_registry_handoff_envelope.ts:26:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/governance_pre_live_registry_handoff_envelope.ts:27:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/governance_pre_live_registry_handoff_envelope.ts:28:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:30:  readonly archiveKey: "governance-final-pre-live-registry-archive-record";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:32:  readonly manifestKey: "governance-pre-live-registry-delivery-manifest";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:33:  readonly envelopeKey: "governance-pre-live-registry-handoff-envelope";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:34:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:37:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:38:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:39:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:40:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/governance_live_registry_wiring_readiness.ts:18:  readonly kind: "governance-live-registry-wiring-readiness";
+src/governance/cognition/governance_live_registry_wiring_readiness.ts:21:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/governance_live_registry_wiring_readiness.ts:22:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/governance_live_registry_wiring_readiness.ts:23:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/governance_live_registry_wiring_readiness.ts:24:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:22:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:23:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:24:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/select_governance_pre_live_registry_handoff_envelope.ts:10:  readonly envelopeKey: "governance-pre-live-registry-handoff-envelope";
+src/governance/cognition/select_governance_pre_live_registry_handoff_envelope.ts:11:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/select_governance_pre_live_registry_handoff_envelope.ts:14:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/select_governance_pre_live_registry_handoff_envelope.ts:15:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/select_governance_pre_live_registry_handoff_envelope.ts:16:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/select_governance_pre_live_registry_handoff_envelope.ts:17:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/select_governance_authorization_gate.ts:12:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/select_governance_authorization_gate.ts:13:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/select_governance_authorization_gate.ts:14:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/select_governance_authorization_gate.ts:15:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/governance_final_delivery_receipt.ts:22:  readonly manifestKey: "governance-pre-live-registry-delivery-manifest";
+src/governance/cognition/governance_final_delivery_receipt.ts:23:  readonly envelopeKey: "governance-pre-live-registry-handoff-envelope";
+src/governance/cognition/governance_final_delivery_receipt.ts:24:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/governance_final_delivery_receipt.ts:27:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/governance_final_delivery_receipt.ts:28:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/governance_final_delivery_receipt.ts:29:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/governance_final_delivery_receipt.ts:30:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:27:  readonly envelopeKey: "governance-pre-live-registry-handoff-envelope";
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:28:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:31:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:32:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:33:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:34:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/select_governance_live_registry_wiring_readiness.ts:10:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/select_governance_live_registry_wiring_readiness.ts:11:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/select_governance_live_registry_wiring_readiness.ts:12:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/select_governance_live_registry_wiring_readiness.ts:13:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/governance_runtime_registry_export.ts:17:  readonly kind: "governance-runtime-registry-export";
+src/governance/cognition/governance_runtime_registry_export.ts:20:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/governance_runtime_registry_export.ts:21:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/select_governance_live_wiring_decision.ts:11:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/select_governance_live_wiring_decision.ts:12:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/select_governance_live_wiring_decision.ts:13:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/select_governance_live_wiring_decision.ts:14:  readonly registryKey: "governance-dashboard-consumption";
+
+consumption registry accessors
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.integrity.ts:3:} from "./dashboardConsumption.registry.types";
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.finalize.ts:3:} from "./dashboardConsumption.registry.types";
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.finalize.ts:7:} from "./dashboardConsumption.registry.build";
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.finalize.ts:11:} from "./dashboardConsumption.registry.guard";
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.guard.ts:3:} from "./dashboardConsumption.registry.types";
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.integration.ts:3:} from "./dashboardConsumption.registry.types";
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.integration.ts:7:} from "./dashboardConsumption.registry.pipeline";
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.sectionGuard.ts:3:} from "./dashboardConsumption.registry.constants";
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.sectionGuard.ts:7:} from "./dashboardConsumption.registry.types";
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.invariants.ts:3:} from "./dashboardConsumption.registry.types";
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.runtime.ts:3:} from "./dashboardConsumption.registry.types";
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.runtime.ts:7:} from "./dashboardConsumption.registry.pipeline";
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.build.ts:3:} from "./dashboardConsumption.registry.types";
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.build.ts:7:} from "./dashboardConsumption.registry.freeze";
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.ts:5:} from "./dashboardConsumption.registry.types";
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.freeze.ts:3:} from "./dashboardConsumption.registry.types";
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.freeze.ts:7:} from "./dashboardConsumption.registry.validate";
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.pipeline.ts:3:} from "./dashboardConsumption.registry.types";
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.pipeline.ts:7:} from "./dashboardConsumption.registry.finalize";
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.pipeline.ts:11:} from "./dashboardConsumption.registry.integrity";
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.validate.ts:3:} from "./dashboardConsumption.registry.types";
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.validate.ts:8:} from "./dashboardConsumption.registry.invariants";
+src/cognition/transport/cognitionTransport.dashboardConsumption.invariants.ts:1:import { DashboardConsumptionContract } from "./cognitionTransport.dashboardConsumption.types";
+src/cognition/transport/index.ts:1:export * from "./cognitionTransport.dashboardConsumption.types";
+src/cognition/transport/index.ts:2:export * from "./cognitionTransport.dashboardConsumption";
+src/cognition/transport/index.ts:3:export * from "./cognitionTransport.dashboardConsumption.invariants";
+src/cognition/transport/cognitionTransport.dashboardConsumption.test.ts:3:} from "./cognitionTransport.dashboardConsumption";
+src/cognition/transport/cognitionTransport.dashboardConsumption.test.ts:7:} from "./cognitionTransport.dashboardConsumption.invariants";
+src/cognition/transport/cognitionTransport.dashboardConsumption.test.ts:11:} from "./cognitionTransport.dashboardConsumption.types";
+src/cognition/transport/cognitionTransport.dashboardConsumption.ts:6:} from "./cognitionTransport.dashboardConsumption.types";
+
+cognition transport consumers
+src/cognition/transport/cognitionTransport.verify.ts:6:import { cognitionTransportRegistry } from "./cognitionTransport.registry";
+src/cognition/transport/cognitionTransport.verify.ts:9:  return channelId in cognitionTransportRegistry.channels;
+src/cognition/transport/cognitionTransport.verify.ts:13:  return linkId in cognitionTransportRegistry.links;
+src/cognition/transport/cognitionTransport.verify.ts:17:  return bridgeId in cognitionTransportRegistry.bridges;
+src/cognition/transport/cognitionTransport.verify.ts:21:  return spanId in cognitionTransportRegistry.spans;
+src/cognition/transport/cognitionTransport.label.ts:9:} from "./cognitionTransport.severity"
+src/cognition/transport/cognitionTransport.validate.ts:6:import { transportRegistryIsConsistent } from "./cognitionTransport.invariants";
+src/cognition/transport/cognitionTransport.validate.ts:11:} from "./cognitionTransport.failure";
+src/cognition/transport/cognitionTransport.validate.ts:17:} from "./cognitionTransport.verify";
+src/cognition/transport/cognitionTransport.summary.ts:6:import { buildCognitionTransportDiagnostics } from "./cognitionTransport.diagnostics"
+src/cognition/transport/cognitionTransport.summary.ts:7:import { getCognitionTransportReplayReport } from "./cognitionTransport.replay"
+src/cognition/transport/cognitionTransport.replay.ts:6:import { getCognitionTransportSnapshot } from "./cognitionTransport.snapshot";
+src/cognition/transport/cognitionTransport.replay.ts:7:import { transportRegistryIsConsistent } from "./cognitionTransport.invariants";
+src/cognition/transport/cognitionTransport.dashboard.ts:6:import { getCognitionTransportPresentation } from "./cognitionTransport.presentation"
+src/cognition/transport/cognitionTransport.snapshot.ts:6:import { cognitionTransportRegistry } from "./cognitionTransport.registry";
+src/cognition/transport/cognitionTransport.snapshot.ts:7:import { CognitionTransportSnapshot } from "./cognitionTransport.types";
+src/cognition/transport/cognitionTransport.snapshot.ts:13:    channelCount: Object.keys(cognitionTransportRegistry.channels).length,
+src/cognition/transport/cognitionTransport.snapshot.ts:15:    linkCount: Object.keys(cognitionTransportRegistry.links).length,
+src/cognition/transport/cognitionTransport.snapshot.ts:17:    bridgeCount: Object.keys(cognitionTransportRegistry.bridges).length,
+src/cognition/transport/cognitionTransport.snapshot.ts:19:    spanCount: Object.keys(cognitionTransportRegistry.spans).length,
+src/cognition/transport/cognitionTransport.operatorView.ts:6:import { getCognitionTransportInterpretation } from "./cognitionTransport.interpretation"
+src/cognition/transport/cognitionTransport.operatorView.ts:7:import { getCognitionTransportGovernanceReadiness } from "./cognitionTransport.governance"
+src/cognition/transport/cognitionTransport.dashboardConsumption.invariants.ts:1:import { DashboardConsumptionContract } from "./cognitionTransport.dashboardConsumption.types";
+src/cognition/transport/cognitionTransport.diagnostics.ts:6:import { getCognitionTransportHealth } from "./cognitionTransport.health";
+src/cognition/transport/cognitionTransport.diagnostics.ts:7:import { getCognitionTransportSnapshot } from "./cognitionTransport.snapshot";
+src/cognition/transport/cognitionTransport.diagnostics.ts:8:import { transportRegistryIsConsistent } from "./cognitionTransport.invariants";
+src/cognition/transport/cognitionTransport.presentation.ts:6:import { getCognitionTransportOperatorView } from "./cognitionTransport.operatorView"
+src/cognition/transport/cognitionTransport.interpretation.ts:6:import { getCognitionTransportLabel } from "./cognitionTransport.label"
+src/cognition/transport/cognitionTransport.interpretation.ts:7:import { getCognitionTransportSeverity } from "./cognitionTransport.severity"
+src/cognition/transport/cognitionTransport.interpretation.ts:8:import { getCognitionTransportSummary } from "./cognitionTransport.summary"
+src/cognition/transport/cognitionTransport.health.ts:6:import { cognitionTransportRegistry } from "./cognitionTransport.registry";
+src/cognition/transport/cognitionTransport.health.ts:7:import { transportRegistryIsConsistent } from "./cognitionTransport.invariants";
+src/cognition/transport/cognitionTransport.health.ts:29:  const channelCount = Object.keys(cognitionTransportRegistry.channels).length;
+src/cognition/transport/cognitionTransport.health.ts:31:  const linkCount = Object.keys(cognitionTransportRegistry.links).length;
+src/cognition/transport/cognitionTransport.health.ts:33:  const bridgeCount = Object.keys(cognitionTransportRegistry.bridges).length;
+src/cognition/transport/cognitionTransport.health.ts:35:  const spanCount = Object.keys(cognitionTransportRegistry.spans).length;
+src/cognition/transport/cognitionTransport.risk.ts:6:import { getCognitionTransportSeverity } from "./cognitionTransport.severity"
+src/cognition/transport/cognitionTransport.severity.ts:6:import { getCognitionTransportSummary } from "./cognitionTransport.summary"
+src/cognition/transport/cognitionTransport.policy.ts:10:} from "./cognitionTransport.failure";
+src/cognition/transport/cognitionTransport.operator.ts:6:import { buildCognitionTransportDiagnostics } from "./cognitionTransport.diagnostics";
+src/cognition/transport/index.ts:1:export * from "./cognitionTransport.dashboardConsumption.types";
+src/cognition/transport/index.ts:2:export * from "./cognitionTransport.dashboardConsumption";
+src/cognition/transport/index.ts:3:export * from "./cognitionTransport.dashboardConsumption.invariants";
+src/cognition/transport/cognitionTransport.dashboardConsumption.test.ts:3:} from "./cognitionTransport.dashboardConsumption";
+src/cognition/transport/cognitionTransport.dashboardConsumption.test.ts:7:} from "./cognitionTransport.dashboardConsumption.invariants";
+src/cognition/transport/cognitionTransport.dashboardConsumption.test.ts:11:} from "./cognitionTransport.dashboardConsumption.types";
+src/cognition/transport/cognitionTransport.dashboardConsumption.ts:6:} from "./cognitionTransport.dashboardConsumption.types";
+src/cognition/transport/cognitionTransport.registry.ts:8:} from "./cognitionTransport.types";
+src/cognition/transport/cognitionTransport.registry.ts:10:export const cognitionTransportRegistry: CognitionTransportRegistry = {
+src/cognition/transport/cognitionTransport.invariants.ts:6:import { cognitionTransportRegistry } from "./cognitionTransport.registry";
+src/cognition/transport/cognitionTransport.invariants.ts:10:  for (const link of Object.values(cognitionTransportRegistry.links)) {
+src/cognition/transport/cognitionTransport.invariants.ts:12:    if (!(link.channelId in cognitionTransportRegistry.channels)) {
+src/cognition/transport/cognitionTransport.invariants.ts:18:  for (const span of Object.values(cognitionTransportRegistry.spans)) {
+src/cognition/transport/cognitionTransport.invariants.ts:20:    if (!(span.bridgeId in cognitionTransportRegistry.bridges)) {
+src/cognition/transport/cognitionTransport.governance.ts:6:import { getCognitionTransportRisk } from "./cognitionTransport.risk"
+src/governance/cognition/governance_dashboard_contract_registration.ts:5: * consumption views within the cognition transport / consumption discipline.
+
+enforcement entrypoints
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:14:export function runConsumptionRegistryEnforcementEntrypoint(): ConsumptionRegistryEnforcementEntrypointResult {
+src/cognition/transport/consumptionRegistry/index.ts:10:export * from "./consumption_registry_enforcement_entrypoint";
+
+runtime guard readers
+src/cognition/transport/consumptionRegistry/index.ts:8:export * from "./consumption_registry_enforcement_runtime_guard";
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_readonly_view.ts:2:  runConsumptionRegistryEnforcementRuntimeGuard,
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_readonly_view.ts:4:} from "./consumption_registry_enforcement_runtime_guard";
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_readonly_view.ts:17:    runConsumptionRegistryEnforcementRuntimeGuard();
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_runtime_guard.ts:12:export function runConsumptionRegistryEnforcementRuntimeGuard(): ConsumptionRegistryEnforcementRuntimeGuardResult {
+
+registry read patterns
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:5:} from "./consumption_registry_enforcement_readonly_view";
+src/cognition/transport/consumptionRegistry/index.ts:9:export * from "./consumption_registry_enforcement_readonly_view";
+src/governance/cognition/prove_governance_runtime_registry_export.ts:20:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/prove_governance_runtime_registry_export.ts:21:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/prove_governance_runtime_registry_export.ts:68:  assert(normalizedExport.readOnly === true, "Runtime registry export must remain read-only.");
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:4: * Deterministic proof surface for final pre-live registry readiness.
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:17:import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:18:import { selectGovernanceLiveRegistryWiringReadiness } from "./select_governance_live_registry_wiring_readiness";
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:23:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:24:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:25:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:26:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:62:    readiness.kind === "governance-live-registry-wiring-readiness",
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:66:    readiness.readinessKey === "governance-live-registry-wiring-readiness",
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:70:    readiness.ownerKey === "shared-runtime-registry-owner",
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:74:    readiness.exportKey === "governance-runtime-registry-export",
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:78:    readiness.registryKey === "governance-dashboard-consumption",
+src/governance/cognition/select_governance_shared_registry_owner_bundle.ts:10:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/select_governance_shared_registry_owner_bundle.ts:11:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/select_governance_shared_registry_owner_bundle.ts:12:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/governance_dashboard_contract_registration.ts:20:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/governance_final_pre_live_registry_contract_package.ts:18:  readonly kind: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/governance_final_pre_live_registry_contract_package.ts:21:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/governance_final_pre_live_registry_contract_package.ts:24:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/governance_final_pre_live_registry_contract_package.ts:25:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/governance_final_pre_live_registry_contract_package.ts:26:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/governance_final_pre_live_registry_contract_package.ts:27:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/governance_authorization_gate.ts:27:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/governance_authorization_gate.ts:28:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/governance_authorization_gate.ts:29:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/governance_authorization_gate.ts:30:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/governance_live_wiring_decision.ts:15:import type { GovernanceLiveRegistryWiringReadiness } from "./governance_live_registry_wiring_readiness";
+src/governance/cognition/governance_live_wiring_decision.ts:26:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/governance_live_wiring_decision.ts:27:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/governance_live_wiring_decision.ts:28:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/governance_live_wiring_decision.ts:29:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/build_governance_live_wiring_decision.ts:4: * Pure deterministic adapter from live registry wiring readiness
+src/governance/cognition/build_governance_live_wiring_decision.ts:8:import type { GovernanceLiveRegistryWiringReadiness } from "./governance_live_registry_wiring_readiness";
+src/governance/cognition/build_governance_live_wiring_decision.ts:44:    registryKey: readiness.registryKey,
+src/governance/cognition/select_governance_final_pre_live_registry_archive_record.ts:10:  readonly archiveKey: "governance-final-pre-live-registry-archive-record";
+src/governance/cognition/select_governance_final_pre_live_registry_archive_record.ts:12:  readonly manifestKey: "governance-pre-live-registry-delivery-manifest";
+src/governance/cognition/select_governance_final_pre_live_registry_archive_record.ts:13:  readonly envelopeKey: "governance-pre-live-registry-handoff-envelope";
+src/governance/cognition/select_governance_final_pre_live_registry_archive_record.ts:14:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/select_governance_final_pre_live_registry_archive_record.ts:17:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/select_governance_final_pre_live_registry_archive_record.ts:18:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/select_governance_final_pre_live_registry_archive_record.ts:19:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/select_governance_final_pre_live_registry_archive_record.ts:20:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/select_governance_final_pre_live_registry_archive_record.ts:49:    signalCount: archiveRecord.receipt.manifest.handoffEnvelope.contractPackage.authorizationGate.decision.readiness.ownerBundle.registryExport.registration.payload.signalCount,
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:17:import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:31:  readonly capsuleKey: "governance-final-pre-live-registry-summary-capsule";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:32:  readonly archiveKey: "governance-final-pre-live-registry-archive-record";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:34:  readonly manifestKey: "governance-pre-live-registry-delivery-manifest";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:35:  readonly envelopeKey: "governance-pre-live-registry-handoff-envelope";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:36:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:39:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:40:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:41:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:42:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:95:  assert(capsule.readinessKey === "governance-live-registry-wiring-readiness", "Readiness key must match.");
+src/governance/cognition/select_governance_pre_live_registry_delivery_manifest.ts:10:  readonly manifestKey: "governance-pre-live-registry-delivery-manifest";
+src/governance/cognition/select_governance_pre_live_registry_delivery_manifest.ts:11:  readonly envelopeKey: "governance-pre-live-registry-handoff-envelope";
+src/governance/cognition/select_governance_pre_live_registry_delivery_manifest.ts:12:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/select_governance_pre_live_registry_delivery_manifest.ts:15:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/select_governance_pre_live_registry_delivery_manifest.ts:16:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/select_governance_pre_live_registry_delivery_manifest.ts:17:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/select_governance_pre_live_registry_delivery_manifest.ts:18:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/select_governance_pre_live_registry_delivery_manifest.ts:45:    signalCount: manifest.handoffEnvelope.contractPackage.authorizationGate.decision.readiness.ownerBundle.registryExport.registration.payload.signalCount,
+src/governance/cognition/select_governance_final_pre_live_registry_summary_capsule.ts:10:  readonly capsuleKey: "governance-final-pre-live-registry-summary-capsule";
+src/governance/cognition/select_governance_final_pre_live_registry_summary_capsule.ts:11:  readonly archiveKey: "governance-final-pre-live-registry-archive-record";
+src/governance/cognition/select_governance_final_pre_live_registry_summary_capsule.ts:13:  readonly manifestKey: "governance-pre-live-registry-delivery-manifest";
+src/governance/cognition/select_governance_final_pre_live_registry_summary_capsule.ts:14:  readonly envelopeKey: "governance-pre-live-registry-handoff-envelope";
+src/governance/cognition/select_governance_final_pre_live_registry_summary_capsule.ts:15:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/select_governance_final_pre_live_registry_summary_capsule.ts:18:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/select_governance_final_pre_live_registry_summary_capsule.ts:19:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/select_governance_final_pre_live_registry_summary_capsule.ts:20:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/select_governance_final_pre_live_registry_summary_capsule.ts:21:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/select_governance_final_pre_live_registry_summary_capsule.ts:51:    signalCount: capsule.archiveRecord.receipt.manifest.handoffEnvelope.contractPackage.authorizationGate.decision.readiness.ownerBundle.registryExport.registration.payload.signalCount,
+src/governance/cognition/governance_cognition_snapshot_contract.ts:29:  readonly registryStatus: GovernanceCognitionStatus;
+src/governance/cognition/governance_pre_live_registry_delivery_manifest.ts:18:  readonly kind: "governance-pre-live-registry-delivery-manifest";
+src/governance/cognition/governance_pre_live_registry_delivery_manifest.ts:21:  readonly manifestKey: "governance-pre-live-registry-delivery-manifest";
+src/governance/cognition/governance_pre_live_registry_delivery_manifest.ts:22:  readonly envelopeKey: "governance-pre-live-registry-handoff-envelope";
+src/governance/cognition/governance_pre_live_registry_delivery_manifest.ts:23:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/governance_pre_live_registry_delivery_manifest.ts:26:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/governance_pre_live_registry_delivery_manifest.ts:27:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/governance_pre_live_registry_delivery_manifest.ts:28:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/governance_pre_live_registry_delivery_manifest.ts:29:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts:18:  readonly kind: "governance-final-pre-live-registry-summary-capsule";
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts:21:  readonly capsuleKey: "governance-final-pre-live-registry-summary-capsule";
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts:22:  readonly archiveKey: "governance-final-pre-live-registry-archive-record";
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts:24:  readonly manifestKey: "governance-pre-live-registry-delivery-manifest";
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts:25:  readonly envelopeKey: "governance-pre-live-registry-handoff-envelope";
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts:26:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts:29:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts:30:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts:31:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts:32:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:17:import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:30:  readonly manifestKey: "governance-pre-live-registry-delivery-manifest";
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:31:  readonly envelopeKey: "governance-pre-live-registry-handoff-envelope";
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:32:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:35:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:36:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:37:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:38:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:87:  assert(receipt.readinessKey === "governance-live-registry-wiring-readiness", "Readiness key must match.");
+src/governance/cognition/governance_final_pre_live_registry_archive_record.ts:18:  readonly kind: "governance-final-pre-live-registry-archive-record";
+src/governance/cognition/governance_final_pre_live_registry_archive_record.ts:21:  readonly archiveKey: "governance-final-pre-live-registry-archive-record";
+src/governance/cognition/governance_final_pre_live_registry_archive_record.ts:23:  readonly manifestKey: "governance-pre-live-registry-delivery-manifest";
+src/governance/cognition/governance_final_pre_live_registry_archive_record.ts:24:  readonly envelopeKey: "governance-pre-live-registry-handoff-envelope";
+src/governance/cognition/governance_final_pre_live_registry_archive_record.ts:25:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/governance_final_pre_live_registry_archive_record.ts:28:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/governance_final_pre_live_registry_archive_record.ts:29:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/governance_final_pre_live_registry_archive_record.ts:30:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/governance_final_pre_live_registry_archive_record.ts:31:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:17:import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:26:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:29:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:30:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:31:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:32:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:88:    contractPackage.readinessKey === "governance-live-registry-wiring-readiness",
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:17:import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:28:  readonly manifestKey: "governance-pre-live-registry-delivery-manifest";
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:29:  readonly envelopeKey: "governance-pre-live-registry-handoff-envelope";
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:30:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:33:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:34:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:35:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:36:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:102:    manifest.readinessKey === "governance-live-registry-wiring-readiness",
+src/governance/cognition/select_governance_final_pre_live_registry_contract_package.ts:10:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/select_governance_final_pre_live_registry_contract_package.ts:13:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/select_governance_final_pre_live_registry_contract_package.ts:14:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/select_governance_final_pre_live_registry_contract_package.ts:15:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/select_governance_final_pre_live_registry_contract_package.ts:16:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/select_governance_final_pre_live_registry_contract_package.ts:41:    signalCount: contractPackage.authorizationGate.decision.readiness.ownerBundle.registryExport.registration.payload.signalCount,
+src/governance/cognition/governance_shared_registry_owner_bundle.ts:16:  readonly kind: "governance-shared-registry-owner-bundle";
+src/governance/cognition/governance_shared_registry_owner_bundle.ts:19:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/governance_shared_registry_owner_bundle.ts:20:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/governance_shared_registry_owner_bundle.ts:21:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/governance_shared_registry_owner_bundle.ts:30:  readonly registryExport: GovernanceRuntimeRegistryExport;
+src/governance/cognition/governance_dashboard_consumption_contract.ts:26:  readonly registryStatus: GovernanceCognitionStatus;
+src/governance/cognition/select_governance_runtime_registry_export.ts:10:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/select_governance_runtime_registry_export.ts:11:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/prove_governance_authorization_gate.ts:17:import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";
+src/governance/cognition/prove_governance_authorization_gate.ts:27:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/prove_governance_authorization_gate.ts:28:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/prove_governance_authorization_gate.ts:29:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/prove_governance_authorization_gate.ts:30:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/prove_governance_authorization_gate.ts:81:    gate.readinessKey === "governance-live-registry-wiring-readiness",
+src/governance/cognition/prove_governance_live_wiring_decision.ts:17:import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";
+src/governance/cognition/prove_governance_live_wiring_decision.ts:25:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/prove_governance_live_wiring_decision.ts:26:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/prove_governance_live_wiring_decision.ts:27:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/prove_governance_live_wiring_decision.ts:28:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/prove_governance_live_wiring_decision.ts:74:    decision.readinessKey === "governance-live-registry-wiring-readiness",
+src/governance/cognition/select_governance_final_delivery_receipt.ts:11:  readonly manifestKey: "governance-pre-live-registry-delivery-manifest";
+src/governance/cognition/select_governance_final_delivery_receipt.ts:12:  readonly envelopeKey: "governance-pre-live-registry-handoff-envelope";
+src/governance/cognition/select_governance_final_delivery_receipt.ts:13:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/select_governance_final_delivery_receipt.ts:16:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/select_governance_final_delivery_receipt.ts:17:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/select_governance_final_delivery_receipt.ts:18:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/select_governance_final_delivery_receipt.ts:19:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/select_governance_final_delivery_receipt.ts:47:    signalCount: receipt.manifest.handoffEnvelope.contractPackage.authorizationGate.decision.readiness.ownerBundle.registryExport.registration.payload.signalCount,
+src/governance/cognition/build_governance_cognition_snapshot.ts:18:  readonly registryStatus: GovernanceCognitionStatus;
+src/governance/cognition/prove_governance_dashboard_contract_registration.ts:18:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/build_governance_live_registry_wiring_readiness.ts:5: * to final pre-live registry readiness surface.
+src/governance/cognition/build_governance_live_registry_wiring_readiness.ts:9:import type { GovernanceLiveRegistryWiringReadiness } from "./governance_live_registry_wiring_readiness";
+src/governance/cognition/build_governance_live_registry_wiring_readiness.ts:37:    kind: "governance-live-registry-wiring-readiness" as const,
+src/governance/cognition/build_governance_live_registry_wiring_readiness.ts:40:    readinessKey: "governance-live-registry-wiring-readiness" as const,
+src/governance/cognition/governance_pre_live_registry_handoff_envelope.ts:18:  readonly kind: "governance-pre-live-registry-handoff-envelope";
+src/governance/cognition/governance_pre_live_registry_handoff_envelope.ts:21:  readonly envelopeKey: "governance-pre-live-registry-handoff-envelope";
+src/governance/cognition/governance_pre_live_registry_handoff_envelope.ts:22:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/governance_pre_live_registry_handoff_envelope.ts:25:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/governance_pre_live_registry_handoff_envelope.ts:26:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/governance_pre_live_registry_handoff_envelope.ts:27:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/governance_pre_live_registry_handoff_envelope.ts:28:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:17:import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:30:  readonly archiveKey: "governance-final-pre-live-registry-archive-record";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:32:  readonly manifestKey: "governance-pre-live-registry-delivery-manifest";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:33:  readonly envelopeKey: "governance-pre-live-registry-handoff-envelope";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:34:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:37:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:38:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:39:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:40:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:91:  assert(archiveRecord.readinessKey === "governance-live-registry-wiring-readiness", "Readiness key must match.");
+src/governance/cognition/governance_live_registry_wiring_readiness.ts:18:  readonly kind: "governance-live-registry-wiring-readiness";
+src/governance/cognition/governance_live_registry_wiring_readiness.ts:21:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/governance_live_registry_wiring_readiness.ts:22:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/governance_live_registry_wiring_readiness.ts:23:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/governance_live_registry_wiring_readiness.ts:24:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:22:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:23:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:24:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/index.ts:26:export type { GovernanceLiveRegistryWiringReadiness } from "./governance_live_registry_wiring_readiness";
+src/governance/cognition/index.ts:27:export { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";
+src/governance/cognition/index.ts:28:export type { GovernanceLiveRegistryWiringReadinessSelection } from "./select_governance_live_registry_wiring_readiness";
+src/governance/cognition/index.ts:29:export { selectGovernanceLiveRegistryWiringReadiness } from "./select_governance_live_registry_wiring_readiness";
+src/governance/cognition/index.ts:30:export { proveGovernanceLiveRegistryWiringReadiness } from "./prove_governance_live_registry_wiring_readiness";
+src/governance/cognition/index.ts:31:export type { GovernanceLiveRegistryWiringReadinessProof } from "./prove_governance_live_registry_wiring_readiness";
+src/governance/cognition/select_governance_pre_live_registry_handoff_envelope.ts:10:  readonly envelopeKey: "governance-pre-live-registry-handoff-envelope";
+src/governance/cognition/select_governance_pre_live_registry_handoff_envelope.ts:11:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/select_governance_pre_live_registry_handoff_envelope.ts:14:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/select_governance_pre_live_registry_handoff_envelope.ts:15:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/select_governance_pre_live_registry_handoff_envelope.ts:16:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/select_governance_pre_live_registry_handoff_envelope.ts:17:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/select_governance_pre_live_registry_handoff_envelope.ts:43:    signalCount: envelope.contractPackage.authorizationGate.decision.readiness.ownerBundle.registryExport.registration.payload.signalCount,
+src/governance/cognition/select_governance_authorization_gate.ts:12:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/select_governance_authorization_gate.ts:13:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/select_governance_authorization_gate.ts:14:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/select_governance_authorization_gate.ts:15:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/select_governance_authorization_gate.ts:39:    signalCount: gate.decision.readiness.ownerBundle.registryExport.registration.payload.signalCount,
+src/governance/cognition/governance_final_delivery_receipt.ts:22:  readonly manifestKey: "governance-pre-live-registry-delivery-manifest";
+src/governance/cognition/governance_final_delivery_receipt.ts:23:  readonly envelopeKey: "governance-pre-live-registry-handoff-envelope";
+src/governance/cognition/governance_final_delivery_receipt.ts:24:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/governance_final_delivery_receipt.ts:27:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/governance_final_delivery_receipt.ts:28:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/governance_final_delivery_receipt.ts:29:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/governance_final_delivery_receipt.ts:30:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:17:import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:27:  readonly envelopeKey: "governance-pre-live-registry-handoff-envelope";
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:28:  readonly packageKey: "governance-final-pre-live-registry-contract-package";
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:31:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:32:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:33:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:34:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:95:    envelope.readinessKey === "governance-live-registry-wiring-readiness",
+src/governance/cognition/select_governance_live_registry_wiring_readiness.ts:7:import type { GovernanceLiveRegistryWiringReadiness } from "./governance_live_registry_wiring_readiness";
+src/governance/cognition/select_governance_live_registry_wiring_readiness.ts:10:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/select_governance_live_registry_wiring_readiness.ts:11:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/select_governance_live_registry_wiring_readiness.ts:12:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/select_governance_live_registry_wiring_readiness.ts:13:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/select_governance_live_registry_wiring_readiness.ts:29:    registryKey: readiness.registryKey,
+src/governance/cognition/select_governance_live_registry_wiring_readiness.ts:33:    signalCount: readiness.ownerBundle.registryExport.registration.payload.signalCount,
+src/governance/cognition/governance_runtime_registry_export.ts:17:  readonly kind: "governance-runtime-registry-export";
+src/governance/cognition/governance_runtime_registry_export.ts:20:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/governance_runtime_registry_export.ts:21:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/select_governance_live_wiring_decision.ts:11:  readonly readinessKey: "governance-live-registry-wiring-readiness";
+src/governance/cognition/select_governance_live_wiring_decision.ts:12:  readonly ownerKey: "shared-runtime-registry-owner";
+src/governance/cognition/select_governance_live_wiring_decision.ts:13:  readonly exportKey: "governance-runtime-registry-export";
+src/governance/cognition/select_governance_live_wiring_decision.ts:14:  readonly registryKey: "governance-dashboard-consumption";
+src/governance/cognition/select_governance_live_wiring_decision.ts:37:    signalCount: decision.readiness.ownerBundle.registryExport.registration.payload.signalCount,
+

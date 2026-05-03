@@ -1,0 +1,53 @@
+PHASE 569 — FINAL STATE LOCK
+
+CHECKPOINT:
+phase569-checkpoint
+
+SYSTEM STATE:
+- Infrastructure: healthy
+- Worker: active
+- Dashboard: serving correctly
+- Postgres: stable
+- SSE: connected + streaming
+
+OPERATOR SURFACE:
+- Recent Tasks → summary
+- Task History → static
+- Execution Inspector → live + selectable + JSON
+
+INTERACTION:
+- Row selection: active
+- JSON expand/collapse: active
+- Copy ID: active
+- Requeue (safe task copy): ACTIVE
+- Cancel: inert (intentionally)
+
+SEMANTIC ALIGNMENT:
+- "Requeue" accurately reflects behavior
+- No misleading operator actions remain
+- Inspector is authoritative debugging surface
+
+BEHAVIORAL GUARANTEES:
+- Requeue creates NEW task (no mutation)
+- Original lineage preserved via meta.retry_of_*
+- No destructive actions exposed
+- System remains safe under repeated operator input
+
+CLASSIFICATION:
+STABLE / COHERENT / ACTIONABLE BASELINE
+
+DISCIPLINE:
+- Single-surface mutations only
+- No speculative coupling
+- Preserve clarity between:
+  - summary
+  - history
+  - inspection
+
+NEXT SAFE TARGETS:
+1. Introduce "Retry Differently" (strategy-aware retry)
+2. Add visual feedback for Requeue
+3. Audit Cancel contract before activation
+
+STATUS:
+LOCKED — PRODUCTION-CAPABLE BASELINE

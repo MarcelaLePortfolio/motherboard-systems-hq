@@ -1,0 +1,1 @@
+Phase 37.2 ✅ Planning-only complete: documented clean alignment options for terminal-kind namespace + latest-rule mismatch between run_view (authority) and acceptance lens. No schema/view/worker changes. Stop here and choose Option A/B/C before any implementation.

@@ -1,0 +1,49 @@
+PHASE 427 — STEP 4
+Admissibility Explanation Requirements Proof
+---------------------------------------------
+
+OBJECTIVE
+
+Define the structural explanation guarantees required for admissibility
+so enforcement remains explainable, auditable, and governance-aligned.
+
+This is still DEFINITION ONLY.
+
+NO:
+
+implementation
+logging behavior
+runtime explanation generation
+UI changes
+reporting mutation
+
+We are defining explanation requirements only.
+
+--------------------------------
+
+QUESTIONS THIS STEP ANSWERS
+
+What must always be explainable about admissibility?
+
+Candidate explanation requirements:
+
+• which governance evaluation produced the decision
+• which eligibility signals contributed
+• which policy surfaces were involved
+• why admissibility reached its final state
+• why indeterminate remained unresolved
+• what evidence supports the decision
+
+--------------------------------
+
+EXPLANATION SAFETY GOALS
+
+Explanation must:
+
+Preserve governance authority transparency  
+Support operator trust surfaces  
+Support deterministic replay explanation  
+Avoid execution coupling  
+Avoid UI dependency  
+Avoid reporting-layer authority  
+

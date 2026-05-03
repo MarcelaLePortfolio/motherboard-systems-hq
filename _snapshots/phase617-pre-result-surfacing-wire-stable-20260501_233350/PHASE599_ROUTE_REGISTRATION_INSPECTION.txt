@@ -1,0 +1,36 @@
+Phase 599 route registration inspection.
+
+Objective:
+Understand how routes are currently loaded and registered before introducing any new endpoints.
+
+Scope:
+- server.mjs
+- server/index.mjs
+- server/routes/*
+- Any dynamic import or route wiring logic
+
+Purpose:
+- Identify the correct pattern for adding new endpoints
+- Avoid breaking dashboard initialization
+- Prepare safe path for next observability addition
+
+Status:
+INSPECTION INITIATED
+
+--- SERVER ENTRYPOINT ---
+
+--- ALT ENTRYPOINT (index.mjs) ---
+
+--- ROUTES DIRECTORY ---
+api-guidance.mjs
+api-health.mjs
+api-tasks-mutations.mjs
+api-tasks-postgres.mjs
+phase36_run_view.mjs
+phase40_6_shadow_audit_task_events.mjs
+phase48_policy_probe.mjs
+retry
+task-events-sse.mjs
+
+server/routes/retry:
+OBSERVABILITY_INTEGRATION_NOTE.md

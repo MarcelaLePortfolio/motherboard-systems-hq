@@ -1,0 +1,90 @@
+Phase 612 clarification.
+
+You are not stuck.
+
+You are at the step where:
+- You STOP writing plans
+- You START reading the actual codebase
+
+What just happened:
+You successfully:
+- Defined communication contract
+- Built compiler
+- Verified it
+- Safely integrated it (passive)
+- Planned UI mapping
+
+Now the system needs REAL DATA, not more documents.
+
+----------------------------------------
+
+WHAT YOU SHOULD DO NEXT (REAL ACTION)
+
+Run these commands in your repo:
+
+grep -R "/api/tasks" -n .
+grep -R "/api/delegate-task" -n .
+grep -R "fetch(" -n .
+
+grep -R "Recent" -n .
+grep -R "Inspector" -n .
+
+grep -R "output" -n server
+grep -R "notes" -n server
+
+----------------------------------------
+
+WHAT YOU ARE LOOKING FOR
+
+You are trying to ANSWER:
+
+1. Where does the UI render task data?
+   (React component / page)
+
+2. Which API endpoint feeds it?
+   (/api/tasks or similar)
+
+3. Where does execution.output actually show up?
+
+----------------------------------------
+
+WHY THIS MATTERS
+
+Right now:
+- Your compiler exists ✅
+- Your UI DOES NOT use it ❌
+
+You must find:
+THE EXACT LINE where output is rendered
+
+That is your future insertion point.
+
+----------------------------------------
+
+IMPORTANT (NO DRIFT)
+
+Do NOT:
+- Write more phase docs
+- Add more plans
+- Modify code
+
+Do:
+- Inspect
+- Copy findings
+- Fill template
+
+----------------------------------------
+
+SUCCESS LOOKS LIKE
+
+You say:
+
+"Recent Tasks uses X component, calling Y endpoint, rendering Z field"
+
+Once you can say that,
+we move to Phase 613 safely.
+
+----------------------------------------
+
+Status:
+STOP WRITING. START INSPECTING.

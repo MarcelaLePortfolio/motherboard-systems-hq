@@ -1,0 +1,302 @@
+PHASE 489 — H1 OPERATOR GUIDANCE EVENT MODE TRACE
+Generated: 2026-04-14T17:41:31Z
+Repo Root: /Users/marcela-dev/Projects/Motherboard_Systems_HQ
+
+=== SERVER ROUTE SNIPPET ===
+    res.write(`: ping ${Date.now()}\n\n`);
+  }, 5000);
+
+  // Poll for changes (lightweight) – periodic snapshots without UI blinking.
+  let lastHash = "";
+  const poll = setInterval(async () => {
+    if (closed) return;
+    try {
+      const r = await pool.query(
+        `select id::text, title, agent, status, notes, source, trace_id, error, meta, created_at, updated_at
+         from tasks
+         order by id::int desc`
+      );
+      const payload = JSON.stringify(r.rows);
+      if (payload !== lastHash) {
+        lastHash = payload;
+        res.write(`data: ${JSON.stringify({ tasks: r.rows, source: "db-tasks", ts: Date.now() })}\n\n`);
+      }
+    } catch (e) {
+      res.write(`event: error\ndata: ${JSON.stringify({ error: String(e), ts: Date.now() })}\n\n`);
+    }
+  }, 2000);
+
+  res.on("close", () => {
+    clearInterval(ping);
+    clearInterval(poll);
+  });
+});
+
+// ---- Operator Guidance SSE ----
+app.get("/events/operator-guidance", (req, res) => {
+  res.writeHead(200, {
+    "Content-Type": "text/event-stream; charset=utf-8",
+    "Cache-Control": "no-cache, no-transform",
+    Connection: "keep-alive",
+    "X-Accel-Buffering": "no",
+  });
+
+  if (typeof res.flushHeaders === "function") {
+    res.flushHeaders();
+  }
+
+  try { req.socket?.setTimeout?.(0); } catch (_) {}
+  try { req.socket?.setNoDelay?.(true); } catch (_) {}
+  try { req.socket?.setKeepAlive?.(true); } catch (_) {}
+
+  const writeFrame = (frame) => {
+    res.write(frame);
+    if (typeof res.flush === "function") {
+      try { res.flush(); } catch (_) {}
+    }
+  };
+
+  writeFrame(`: ready\n\n`);
+
+  let closed = false;
+  req.on("close", () => {
+    closed = true;
+  });
+
+  const sendSnapshot = () => {
+    try {
+      const snapshot = buildSystemHealthSnapshot();
+      const reduction = reduceSystemHealthSnapshotToGuidanceReduction(snapshot);
+      writeFrame(
+        `event: operator_guidance\ndata: ${JSON.stringify({
+          reduction,
+          source: "diagnostics/system-health",
+          ts: Date.now(),
+        })}\n\n`
+      );
+    } catch (e) {
+      writeFrame(
+        `event: error\ndata: ${JSON.stringify({
+          error: String(e),
+          ts: Date.now(),
+        })}\n\n`
+      );
+    }
+  };
+
+  sendSnapshot();
+
+  const ping = setInterval(() => {
+    if (closed) return;
+    writeFrame(`: ping ${Date.now()}\n\n`);
+  }, 5000);
+
+  let lastHash = "";
+  const poll = setInterval(() => {
+    if (closed) return;
+    try {
+      const snapshot = buildSystemHealthSnapshot();
+      const reduction = reduceSystemHealthSnapshotToGuidanceReduction(snapshot);
+      const payload = JSON.stringify(reduction);
+      if (payload !== lastHash) {
+        lastHash = payload;
+        writeFrame(
+          `event: operator_guidance\ndata: ${JSON.stringify({
+            reduction,
+            source: "diagnostics/system-health",
+            ts: Date.now(),
+          })}\n\n`
+        );
+      }
+    } catch (e) {
+      writeFrame(
+        `event: error\ndata: ${JSON.stringify({
+          error: String(e),
+          ts: Date.now(),
+        })}\n\n`
+      );
+    }
+  }, 5000);
+
+  res.on("close", () => {
+    clearInterval(ping);
+    clearInterval(poll);
+  });
+});
+
+// ---- Ops heartbeat (minimal, no SSE dependency) ----
+app.get("/api/ops-heartbeat", (req, res) => {
+  lastOpsHeartbeat = Date.now();
+  res.json({ ok: true, ts: lastOpsHeartbeat });
+});
+
+// ---- Shared heartbeat snapshot (for debugging + potential UI hooks) ----
+app.get("/api/heartbeat", (req, res) => {
+  res.json({
+    ok: true,
+    ts: Date.now(),
+    ops: { ts: lastOpsHeartbeat },
+  });
+});
+
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Server running on http://0.0.0.0:${PORT}`);
+
+  // Phase 15: build artifact on startup (wire Project Visual Output to real build metadata)
+  emitArtifact({
+    type: "build_output",
+    source: "dashboard",
+    payload: {
+      status: "boot",
+      git_sha: process.env.GIT_SHA || null,
+      build_time: process.env.BUILD_TIME || null,
+      node: process.version,
+      port: PORT,
+    },
+  });
+});
+
+
+  // ===== PHASE16_OPS_SIGNAL_INGEST =====
+
+  // ===== PHASE16_OPS_STATE_SNAPSHOT_BROADCAST_HELPER =====
+  function _phase16BroadcastOpsStateSnapshot(reason) {
+    try {
+      const st = _phase16GetOpsState();
+      const msg = { type: "ops.state", ts: Date.now(), reason: reason || null, payload: st };
+      globalThis.__SSE.ops.broadcast(msg, "ops.state");
+      return msg;
+    } catch (_) {
+      return null;
+    }
+  }
+  // ======================================================
+
+  if (!globalThis.__SSE) globalThis.__SSE = {};
+  if (!globalThis.__SSE.ops) globalThis.__SSE.ops = { clients: new Set(), nextId: 1, last: null,
+
+=== CURRENT CLIENT ===
+(() => {
+  if (window.__OPERATOR_GUIDANCE_STREAM_ACTIVE__) return;
+  window.__OPERATOR_GUIDANCE_STREAM_ACTIVE__ = true;
+
+  const RESPONSE_EL = document.getElementById("operator-guidance-response");
+  const META_EL = document.getElementById("operator-guidance-meta");
+
+  let eventSource = null;
+
+  function closeStream() {
+    if (eventSource) {
+      eventSource.close();
+      eventSource = null;
+    }
+  }
+
+  function firstNonEmpty(...values) {
+    for (const value of values) {
+      if (value === null || value === undefined) continue;
+      const text = String(value).trim();
+      if (text) return text;
+    }
+    return "";
+  }
+
+  function buildResponse(data) {
+    return firstNonEmpty(
+      data?.message,
+      data?.guidance,
+      data?.response,
+      data?.headline,
+      data?.summary,
+      data?.uiSummary?.headline,
+      data?.uiSummary?.detail
+    );
+  }
+
+  function buildMeta(data) {
+    const directMeta = firstNonEmpty(data?.meta);
+    if (directMeta) return directMeta;
+
+    const parts = [];
+
+    const confidence = firstNonEmpty(
+      data?.confidence,
+      data?.uiSummary?.confidence,
+      data?.latestConfidence
+    );
+    if (confidence) {
+      parts.push(`Confidence: ${confidence}`);
+    }
+
+    const sources = Array.isArray(data?.sources)
+      ? data.sources.filter(Boolean).join(", ")
+      : firstNonEmpty(data?.sources, data?.source);
+    if (sources) {
+      parts.push(`Sources: ${sources}`);
+    }
+
+    const governance = firstNonEmpty(data?.latestGovernanceDecision, data?.governance);
+    if (governance) {
+      parts.push(`Governance: ${governance}`);
+    }
+
+    const approval = firstNonEmpty(data?.latestApprovalStatus, data?.approval);
+    if (approval) {
+      parts.push(`Approval: ${approval}`);
+    }
+
+    const execution = firstNonEmpty(data?.latestExecutionStatus, data?.execution);
+    if (execution) {
+      parts.push(`Execution: ${execution}`);
+    }
+
+    const failure = firstNonEmpty(data?.latestFailureStage, data?.failureStage);
+    if (failure) {
+      parts.push(`Failure Stage: ${failure}`);
+    }
+
+    return parts.join("\n").trim();
+  }
+
+  function applyPayload(data) {
+    const response = buildResponse(data);
+    const meta = buildMeta(data);
+
+    if (RESPONSE_EL && response) {
+      RESPONSE_EL.textContent = response;
+    }
+
+    if (META_EL && meta) {
+      META_EL.textContent = meta;
+    }
+  }
+
+  function startStream() {
+    if (eventSource) return;
+
+    eventSource = new EventSource("/events/operator-guidance");
+
+    eventSource.onmessage = (event) => {
+      try {
+        const data = JSON.parse(event.data);
+        applyPayload(data);
+      } catch (_) {}
+    };
+
+    eventSource.onerror = () => {
+      closeStream();
+    };
+  }
+
+  startStream();
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "hidden") {
+      closeStream();
+    }
+  });
+
+  window.addEventListener("beforeunload", () => {
+    closeStream();
+  });
+})();

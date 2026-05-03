@@ -1,0 +1,11 @@
+Phase 601 execution contract helper active.
+
+Change:
+- Added executeTaskWithContract(task).
+- Helper owns interpretation, contract validation, and execution-contract logging.
+- Worker claim loop now calls helper before marking success.
+
+Safety:
+- No completion behavior changed.
+- No task mutation introduced.
+- Contract enforcement remains intact.

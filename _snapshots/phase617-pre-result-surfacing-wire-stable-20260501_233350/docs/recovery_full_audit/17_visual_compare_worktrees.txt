@@ -1,0 +1,24 @@
+PHASE 457 - VISUAL COMPARE WORKTREES
+====================================
+
+PURPOSE
+Prepare isolated visual inspection worktrees for the three recovery candidates.
+
+BRANCH=recovery/phase65_layout
+WORKTREE=../mbhq_recovery_visual_compare/phase65_layout
+BOOT_LOG=docs/recovery_full_audit/phase65_layout_visual_boot.txt
+
+BRANCH=recovery/phase65_wiring
+WORKTREE=../mbhq_recovery_visual_compare/phase65_wiring
+BOOT_LOG=docs/recovery_full_audit/phase65_wiring_visual_boot.txt
+
+BRANCH=recovery/operator_guidance
+WORKTREE=../mbhq_recovery_visual_compare/operator_guidance
+BOOT_LOG=docs/recovery_full_audit/operator_guidance_visual_boot.txt
+
+NEXT
+Open each worktree dashboard manually and compare layout/wiring.
+Suggested order:
+1. recovery/phase65_layout
+2. recovery/phase65_wiring
+3. recovery/operator_guidance

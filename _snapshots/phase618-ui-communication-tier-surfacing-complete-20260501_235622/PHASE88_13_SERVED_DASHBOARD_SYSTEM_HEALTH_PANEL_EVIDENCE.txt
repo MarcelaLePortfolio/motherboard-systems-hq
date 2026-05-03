@@ -1,0 +1,247 @@
+PHASE 88.13 SERVED DASHBOARD SYSTEM HEALTH PANEL EVIDENCE
+Generated: 2026-03-19T17:39:46Z
+Branch: phase65b-running-tasks-hydration
+Commit: 01acfcbe4784a3db70b156ed1c3af2eaedddd82f
+────────────────────────────────
+SECTION: panel hits
+440:        <h2 class="text-xl font-semibold">System Health Diagnostics</h2>
+443:      <pre id="system-health-content" class="bg-gray-900 border border-gray-700 rounded-xl p-4 text-sm text-gray-200 overflow-x-auto whitespace-pre-wrap">Loading system health...</pre>
+635:      const SYSTEM_HEALTH_ENDPOINT = "/diagnostics/system-health";
+636:      const SYSTEM_HEALTH_TARGET_ID = "system-health-content";
+657:                "\n\nSITUATION SUMMARY\n" +
+────────────────────────────────
+SECTION: panel slice
+        Probe lifecycle and task activity visible below.
+      </span>
+    </div>
+  </header>
+
+  
+
+  <main class="phase59-shell space-y-6">
+    <section id="system-health-diagnostics-card" class="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700">
+      <div class="flex items-center justify-between mb-4 border-b border-gray-700 pb-3">
+        <h2 class="text-xl font-semibold">System Health Diagnostics</h2>
+        <span class="text-xs uppercase tracking-[0.2em] text-gray-400">Read Only</span>
+      </div>
+      <pre id="system-health-content" class="bg-gray-900 border border-gray-700 rounded-xl p-4 text-sm text-gray-200 overflow-x-auto whitespace-pre-wrap">Loading system health...</pre>
+    </section>
+    <section class="phase62-top-row" data-phase="62">
+      <div class="phase62-top-col phase62-top-col--agents">
+<section
+    id="agent-status-container" class="phase59-shell phase62-agent-pool bg-gray-800 p-4 rounded-2xl shadow-2xl flex flex-wrap gap-4 items-center border border-gray-700"
+    class="phase59-shell bg-gray-800 p-4 rounded-2xl shadow-2xl flex flex-wrap gap-4 items-center border border-gray-700"
+  >
+    <h2 class="text-lg font-semibold text-gray-200 w-full">
+      Agent Pool
+    </h2>
+    <span class="text-gray-500">Loading agents...</span>
+  </section>
+      </div>
+      <div class="phase62-top-col phase62-top-col--metrics">
+<section
+      id="metrics-row"
+      class="phase62-metrics-tiles grid grid-cols-2 gap-3 auto-rows-fr"
+      aria-label="System metrics"
+    >
+      <div class="phase62-metric-card phase62-metric-tile bg-gray-800 p-3 rounded-2xl shadow-lg border border-gray-700 min-h-[76px] flex flex-col justify-between">
+        <p class="phase62-metric-value text-4xl font-bold text-blue-400 leading-none" id="metric-agents" data-phase62b-metric-anchor="true">--</p>
+        <p class="phase62-metric-label text-xs uppercase tracking-wide text-gray-400">Active Agents</p>
+      </div>
+      <div class="phase62-metric-card bg-gray-800 p-3 rounded-2xl shadow-lg border border-gray-700 min-h-[76px] flex flex-col justify-between">
+        <p class="phase62-metric-value text-4xl font-bold text-yellow-400 leading-none" id="metric-tasks" data-phase62b-metric-anchor="true">--</p>
+        <p class="phase62-metric-label text-xs uppercase tracking-wide text-gray-400">Tasks Running</p>
+      </div>
+      <div class="phase62-metric-card bg-gray-800 p-3 rounded-2xl shadow-lg border border-gray-700 min-h-[76px] flex flex-col justify-between">
+        <p class="phase62-metric-value text-4xl font-bold text-green-400 leading-none" id="metric-success" data-phase62b-metric-anchor="true">--</p>
+        <p class="phase62-metric-label text-xs uppercase tracking-wide text-gray-400">Success Rate</p>
+      </div>
+      <div class="phase62-metric-card bg-gray-800 p-3 rounded-2xl shadow-lg border border-gray-700 min-h-[76px] flex flex-col justify-between">
+        <p class="phase62-metric-value text-4xl font-bold text-red-400 leading-none" id="metric-latency" data-phase62b-metric-anchor="true">--</p>
+        <p class="phase62-metric-label text-xs uppercase tracking-wide text-gray-400">Latency (ms)</p>
+      </div>
+    </section>
+      </div>
+    </section>
+
+    
+      <section id="phase61-workspace-shell" class="space-y-4">
+        <div id="phase61-workspace-grid">
+                            <section id="phase61-operator-column" class="space-y-4" aria-label="Operator workspace">
+            <section id="operator-workspace-card" class="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700" data-workspace-root>
+              <div class="flex items-center justify-between mb-4 border-b border-gray-700 pb-3">
+                <h2 class="text-xl font-semibold">Operator Workspace</h2>
+              </div>
+
+              <div id="operator-tabs" role="tablist" aria-label="Operator workspace tabs">
+                <button id="op-tab-chat" class="obs-tab active" type="button" data-workspace-tab data-target="op-panel-chat" role="tab" aria-selected="true" aria-controls="op-panel-chat">
+                  Chat
+                </button>
+                <button id="op-tab-delegation" class="obs-tab" type="button" data-workspace-tab data-target="op-panel-delegation" role="tab" aria-selected="false" aria-controls="op-panel-delegation">
+                  Delegation
+                </button>
+              </div>
+
+              <div id="operator-panels">
+                <div id="op-panel-chat" class="obs-panel active" data-workspace-panel role="tabpanel" aria-labelledby="op-tab-chat">
+                  <section id="matilda-chat-card" class="obs-surface">
+                    <div id="matilda-chat-root" class="space-y-3">
+                      <div id="matilda-chat-transcript" class="bg-gray-900 border border-gray-700 rounded-xl p-3 h-64 overflow-y-auto text-sm">
+                        <p class="text-gray-500 italic">Chat with Matilda about tasks, status, or next steps...</p>
+                      </div>
+                      <div class="flex space-x-3 items-end">
+                        <textarea id="matilda-chat-input" rows="3" class="flex-1 bg-gray-900 border border-gray-700 rounded-xl p-3 text-sm resize-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500" placeholder="Type a message to Matilda and press Enter or click Send..."></textarea>
+                        <button id="matilda-chat-send" class="px-5 py-2 rounded-xl font-semibold text-sm bg-purple-500 hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-400 transition transform hover:-translate-y-0.5 shadow-lg">Send</button>
+                        <button id="matilda-chat-quick-check" class="px-3 py-2 rounded-xl font-semibold text-xs bg-gray-700 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-400 transition shadow-lg">Quick check</button>
+                      </div>
+                      <p id="matilda-helper-text-ops" class="text-xs text-gray-400 mt-1">Matilda is currently using a placeholder /api/chat stub (Phase 11.3 baseline).</p>
+                    </div>
+                  </section>
+                </div>
+
+                <div id="op-panel-delegation" class="obs-panel" data-workspace-panel role="tabpanel" aria-labelledby="op-tab-delegation" hidden>
+                  <section id="delegation-card" class="obs-surface space-y-4">
+                    <h2 class="text-xl font-semibold border-b border-gray-700 pb-2">Task Delegation</h2>
+────────────────────────────────
+SECTION: script slice
+  </div>
+
+  <div id="phase16-sse-indicator" style="position:fixed;right:10px;bottom:10px;z-index:9999;font:12px ui-monospace;opacity:.7;pointer-events:none">
+    <span id="phase16-sse-indicator-text" style="padding:4px 8px;border-radius:9999px;border:1px solid rgba(255,255,255,.18);background:rgba(0,0,0,.25)">SSE: …</span>
+  </div>
+
+  <script>
+    console.log("[diag] dashboard static isolation mode active");
+  </script>
+  
+  <script src="js/phase61_tabs_workspace.js"></script>
+
+    <script src="js/phase61_recent_history_wire.js"></script>
+  <script>
+    (() => {
+      const SYSTEM_HEALTH_ENDPOINT = "/diagnostics/system-health";
+      const SYSTEM_HEALTH_TARGET_ID = "system-health-content";
+
+      async function refreshSystemHealthPanel() {
+        const el = document.getElementById(SYSTEM_HEALTH_TARGET_ID);
+        if (!el) return;
+
+        try {
+          const res = await fetch(SYSTEM_HEALTH_ENDPOINT);
+          const contentType = res.headers.get("content-type") || "";
+
+          if (contentType.includes("application/json")) {
+            const data = await res.json();
+
+            if (
+              data &&
+              typeof data === "object" &&
+              typeof data.situationSummary === "string"
+            ) {
+              const { situationSummary, ...rest } = data;
+              el.textContent =
+                JSON.stringify(rest, null, 2) +
+                "\n\nSITUATION SUMMARY\n" +
+                situationSummary;
+              return;
+            }
+
+            el.textContent = JSON.stringify(data, null, 2);
+            return;
+          }
+
+          el.textContent = await res.text();
+        } catch (error) {
+          el.textContent = "⚠️ Unavailable: " + SYSTEM_HEALTH_ENDPOINT;
+        }
+      }
+
+      window.addEventListener("load", () => {
+        refreshSystemHealthPanel();
+        window.setInterval(refreshSystemHealthPanel, 15000);
+      });
+    })();
+  </script>
+  <script src="bundle.js"></script>
+  <script src="js/phase60_live_clock.js"></script>
+  <script id="phase61-task-events-polish-script">
+    (() => {
+      const SELECTORS = [
+        '[data-tab-panel="task-events"]',
+        '[data-phase61-task-events]',
+        '#task-events-panel',
+        '#task-events',
+        '.task-events-panel',
+        '.task-events'
+      ];
+
+      const EVENT_ACTIVE = /run|start|resume|lease|dispatch|ack|progress|active|heartbeat/i;
+      const EVENT_WAITING = /queue|queued|pending|wait|retry|hold|sleep/i;
+      const EVENT_TERMINAL = /complete|completed|success|failed|error|cancel|cancelled|timeout|terminal/i;
+
+      const findPanel = () => {
+        for (const selector of SELECTORS) {
+          const node = document.querySelector(selector);
+          if (node) return node;
+        }
+        return null;
+      };
+
+      const classify = (text) => {
+        if (EVENT_TERMINAL.test(text)) return 'phase61-event-terminal';
+        if (EVENT_WAITING.test(text)) return 'phase61-event-waiting';
+        if (EVENT_ACTIVE.test(text)) return 'phase61-event-active';
+        return '';
+      };
+
+      const normalizeRow = (row) => {
+        if (row.dataset.phase61Polished === '1') return;
+        row.dataset.phase61Polished = '1';
+        row.classList.add('task-event');
+
+        const raw = (row.innerText || row.textContent || '').replace(/\s+/g, ' ').trim();
+        const parts = raw.split(/\s+[|·•]\s+|\s{2,}/).filter(Boolean);
+
+        const timeMatch = raw.match(/\b\d{1,2}:\d{2}(?::\d{2})?(?:\.\d+)?(?:\s?[AP]M)?\b|\b\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}(?::\d{2})?(?:\.\d+)?Z?\b/i);
+        const timeText = timeMatch ? timeMatch[0] : (parts[0] || '');
+        const remaining = parts.filter((part, index) => !(index === 0 && part === timeText));
+        const kindText = remaining[0] || 'event';
+        const detailText = remaining.slice(1).join(' • ') || raw;
+
+        row.classList.add(classify(`${kindText} ${detailText}`));
+
+        row.innerHTML = `
+          <div class="phase61-task-event-time">${timeText || '—'}</div>
+          <div class="phase61-task-event-kind">${kindText}</div>
+          <div class="phase61-task-event-detail">${detailText}</div>
+        `;
+      };
+
+      const polish = () => {
+        const panel = findPanel();
+        if (!panel) return;
+
+        panel.setAttribute('data-phase61-task-events', 'true');
+
+        const rows = panel.querySelectorAll('li, .task-event, [data-task-event-row]');
+        rows.forEach(normalizeRow);
+
+        if (!rows.length && !panel.querySelector('.phase61-task-event-empty')) {
+          const empty = document.createElement('div');
+          empty.className = 'phase61-task-event-empty';
+          empty.textContent = 'No task events yet.';
+          panel.appendChild(empty);
+        }
+      };
+
+      const boot = () => {
+        polish();
+        const panel = findPanel();
+        if (!panel) return;
+
+        const observer = new MutationObserver(() => polish());
+        observer.observe(panel, { childList: true, subtree: true, characterData: true });
+      };
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', boot, { once: true });

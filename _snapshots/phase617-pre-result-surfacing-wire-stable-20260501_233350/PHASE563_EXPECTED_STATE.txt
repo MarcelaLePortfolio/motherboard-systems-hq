@@ -1,0 +1,92 @@
+PHASE 563 — EXPECTED STATE
+
+YOU SHOULD NOW SEE:
+
+TABS:
+- Recent Tasks
+- Task History
+- Execution Inspector
+
+────────────────────────────────
+
+EXECUTION INSPECTOR (THIS IS THE IMPORTANT ONE):
+
+WHEN SELECTED:
+
+1. TOP STATUS
+- "Connected" (NOT "Reconnecting...")
+→ If still reconnecting, SSE not stable yet
+
+2. SELECTED TASK PANEL (appears when you click a row)
+- Short ID + lifecycle (e.g. [9400b7] • Queued)
+- Title
+- Timestamp
+- Metadata:
+  - task_id
+  - run_id (if present)
+  - actor
+  - source
+  - kind
+
+3. ACTION ROW
+- Inspect (console only)
+- Copy ID (WORKS + shows "Copied ✓")
+- View JSON / Hide JSON (TOGGLE WORKS)
+- Retry (disabled/placeholder)
+- Cancel (disabled/placeholder)
+
+4. JSON PANEL
+- Expands when "View JSON" clicked
+- Collapses when clicked again
+- Shows full selectedItem payload
+
+5. EVENT STREAM (BOTTOM)
+- Rows like:
+  [time] [taskId] ✓ Completed Task event received
+- Updates live if events are flowing
+- Hover highlights rows
+- Click selects row
+
+────────────────────────────────
+
+TASK HISTORY:
+
+- Static list of past runs
+- No selection panel
+- No JSON
+- No interaction beyond display
+
+────────────────────────────────
+
+RECENT TASKS:
+
+- Summary view
+- Human-readable
+- Not event-level
+
+────────────────────────────────
+
+IF SOMETHING IS WRONG:
+
+- If "Reconnecting..." persists → SSE issue
+- If no events appear → system idle (not a bug)
+- If JSON doesn’t toggle → renderer regression
+- If clicking rows does nothing → selection broken
+
+────────────────────────────────
+
+TRUTH:
+
+At this point, you have:
+
+→ A working operator dashboard
+→ A functioning execution inspector
+→ A clear separation between:
+   summary (Recent Tasks)
+   history (Task History)
+   inspection (Execution Inspector)
+
+────────────────────────────────
+
+STATUS:
+YOU ARE NO LONGER BUILDING — YOU ARE OPERATING A SYSTEM

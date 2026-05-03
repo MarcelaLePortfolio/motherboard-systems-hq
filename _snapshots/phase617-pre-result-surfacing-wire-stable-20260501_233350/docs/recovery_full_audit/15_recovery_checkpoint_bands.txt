@@ -1,0 +1,33 @@
+PHASE 457 - RECOVERY CHECKPOINT BANDS
+====================================
+
+SAFE LAYOUT BASELINE:
+ee8ea4f8  Phase 65 restore dashboard layout-bearing files
+
+POST-LAYOUT WIRING (LIKELY YOUR LOST WIRING):
+d4191e72
+7b12807b
+e53c8f31
+10bd4974
+16e223d4
+b453c72d
+032b73ee
+0317383f
+ec4a552f
+3b75eea5
+
+LATER UI WORK:
+42b5ddbc
+5617ea98
+a180b0d0
+4c55719f
+5a8bf422
+5db50050
+e7d65ba7
+60cffe74
+
+FL-3 COGNITION EXISTS:
+ac7ee228
+59655b02
+88a40356
+0cc5fe8f

@@ -1,0 +1,173 @@
+PHASE 478.6 — FORCE TRUE dashboard.css REINTRODUCTION
+====================================================
+
+COMMENTED_DASHBOARD_CSS_ACTIVATED=1
+
+ACTIVE STYLESHEET LINES AFTER MUTATION
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+<!-- phase474.3 temporary neutralization: removed local stylesheet :: <link rel="stylesheet" href="css/broadcast.css" /> -->
+<link rel="stylesheet" href="css/dashboard.css?v=darkmode" />
+<!-- phase474.3 temporary neutralization: removed local stylesheet :: <link rel="stylesheet" href="css/dashboard-reflections.css" /> -->
+<!-- phase474.3 temporary neutralization: removed local stylesheet :: <link rel="stylesheet" href="css/agent-status-row.css" /> -->
+<!-- phase474.3 temporary neutralization: removed local stylesheet :: <link rel="stylesheet" href="css/matilda-chat.css" /> -->
+<!-- phase474.3 temporary neutralization: removed local stylesheet :: <link rel="stylesheet" href="css/demo_layout_trim.css" /> -->
+<!-- phase474.3 temporary neutralization: removed local stylesheet :: <link rel="stylesheet" href="/css/phase13_5_operator_ux.css" /> -->
+<!-- phase474.3 temporary neutralization: removed local stylesheet :: <link rel="stylesheet" href="css/phase59_demo_focus.css" /> -->
+<!-- phase474.3 temporary neutralization: removed local stylesheet :: <link rel="stylesheet" href="css/phase60_live_polish.css" /> -->
+<!-- phase474.3 temporary neutralization: removed local stylesheet :: <link rel="stylesheet" href="css/phase61_workspace_consolidation.css" /> -->
+<!-- phase474.3 temporary neutralization: removed local stylesheet :: <link rel="stylesheet" href="css/phase61_tabs_observational_workspace.css" /> -->
+
+STEP 1 — Backup created
+public/dashboard.html.phase478_6_pre_true_dashboard_css_restore.bak
+
+STEP 2 — Mutation report
+PHASE 478.6 — FORCE TRUE dashboard.css REINTRODUCTION
+====================================================
+
+COMMENTED_DASHBOARD_CSS_ACTIVATED=1
+
+ACTIVE STYLESHEET LINES AFTER MUTATION
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+<!-- phase474.3 temporary neutralization: removed local stylesheet :: <link rel="stylesheet" href="css/broadcast.css" /> -->
+<link rel="stylesheet" href="css/dashboard.css?v=darkmode" />
+<!-- phase474.3 temporary neutralization: removed local stylesheet :: <link rel="stylesheet" href="css/dashboard-reflections.css" /> -->
+<!-- phase474.3 temporary neutralization: removed local stylesheet :: <link rel="stylesheet" href="css/agent-status-row.css" /> -->
+<!-- phase474.3 temporary neutralization: removed local stylesheet :: <link rel="stylesheet" href="css/matilda-chat.css" /> -->
+<!-- phase474.3 temporary neutralization: removed local stylesheet :: <link rel="stylesheet" href="css/demo_layout_trim.css" /> -->
+<!-- phase474.3 temporary neutralization: removed local stylesheet :: <link rel="stylesheet" href="/css/phase13_5_operator_ux.css" /> -->
+<!-- phase474.3 temporary neutralization: removed local stylesheet :: <link rel="stylesheet" href="css/phase59_demo_focus.css" /> -->
+<!-- phase474.3 temporary neutralization: removed local stylesheet :: <link rel="stylesheet" href="css/phase60_live_polish.css" /> -->
+<!-- phase474.3 temporary neutralization: removed local stylesheet :: <link rel="stylesheet" href="css/phase61_workspace_consolidation.css" /> -->
+<!-- phase474.3 temporary neutralization: removed local stylesheet :: <link rel="stylesheet" href="css/phase61_tabs_observational_workspace.css" /> -->
+
+STEP 1 — Backup created
+public/dashboard.html.phase478_6_pre_true_dashboard_css_restore.bak
+
+STEP 2 — Mutation report
+
+STEP 3 — Rebuild dashboard image
+#1 [internal] load local bake definitions
+#1 reading from stdin 692B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.dashboard
+#2 transferring dockerfile: 885B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:20-alpine
+#3 DONE 0.4s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 320B 0.0s done
+#4 DONE 0.0s
+
+#5 [1/7] FROM docker.io/library/node:20-alpine@sha256:f598378b5240225e6beab68fa9f356db1fb8efe55173e6d4d8153113bb8f333c
+#5 resolve docker.io/library/node:20-alpine@sha256:f598378b5240225e6beab68fa9f356db1fb8efe55173e6d4d8153113bb8f333c done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 448.96kB 0.1s done
+#6 DONE 0.1s
+
+#7 [2/7] WORKDIR /app
+#7 CACHED
+
+#8 [3/7] COPY package*.json ./
+#8 CACHED
+
+#9 [4/7] COPY package-lock.json* ./
+#9 CACHED
+
+#10 [5/7] RUN npm config set fetch-retries 5     && npm config set fetch-retry-factor 2     && npm config set fetch-retry-mintimeout 10000     && npm config set fetch-retry-maxtimeout 60000     && (npm config set registry https://registry.npmmirror.com/         && npm ci --no-audit --no-fund       || npm config set registry https://registry.npmjs.org/         && npm ci --no-audit --no-fund)     && apk add --no-cache curl ripgrep
+#10 CACHED
+
+#11 [6/7] COPY . .
+#11 DONE 0.3s
+
+#12 [7/7] COPY public/ ./public/
+#12 DONE 0.0s
+
+#13 exporting to image
+#13 exporting layers
+#13 exporting layers 0.9s done
+#13 exporting manifest sha256:c323a4d87bd54c4d2a6e5dec8ecc8cefc3dde0be90166cb4d390e436a3b691d3 done
+#13 exporting config sha256:0d7a636c15dc195d069abfdff4fe76ba0de052f8aba56c2ba2bd09732453085f done
+#13 exporting attestation manifest sha256:e5fb8c1fd79fb4f546608b4328db2ce84d09d4673b341014d833e427871d5c0f done
+#13 exporting manifest list sha256:20b7ad626f15016036222eff941d74f15fe0d62796f20e518cbe939c190e5f9b done
+#13 naming to docker.io/library/motherboard_systems_hq-dashboard:latest done
+#13 unpacking to docker.io/library/motherboard_systems_hq-dashboard:latest
+#13 unpacking to docker.io/library/motherboard_systems_hq-dashboard:latest 0.3s done
+#13 DONE 1.3s
+
+#14 resolving provenance for metadata file
+#14 DONE 0.0s
+ motherboard_systems_hq-dashboard  Built
+
+STEP 4 — Recreate dashboard container
+ Container motherboard_systems_hq-postgres-1  Running
+ Container motherboard_systems_hq-dashboard-1  Recreate
+ Container motherboard_systems_hq-dashboard-1  Recreated
+ Container motherboard_systems_hq-dashboard-1  Starting
+ Container motherboard_systems_hq-dashboard-1  Started
+
+STEP 5 — Wait for host port 8080 readiness
+READY_ON_8080 attempt=2
+
+STEP 6 — Probe dashboard route
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0 15979    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Sat, 11 Apr 2026 18:21:17 GMT
+ETag: W/"3e6b-19d7dc6d948"
+Content-Type: text/html; charset=utf-8
+Content-Length: 15979
+Date: Sat, 11 Apr 2026 18:21:22 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+
+STEP 7 — Fresh dashboard logs
+dashboard-1  | (node:1) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///app/routes/diagnostics/systemHealth.js is not specified and it doesn't parse as CommonJS.
+dashboard-1  | Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+dashboard-1  | To eliminate this warning, add "type": "module" to /app/package.json.
+dashboard-1  | (Use `node --trace-warnings ...` to show where the warning was created)
+dashboard-1  | [phase25] task_events_emit loaded 2026-04-11T18:21:21.897Z file= file:///app/server/task_events_emit.mjs
+dashboard-1  | [phase25] api-tasks-postgres loaded 2026-04-11T18:21:21.897Z file= file:///app/server/routes/api-tasks-postgres.mjs
+dashboard-1  | [phase19] orchestrator_state_route mounted {
+dashboard-1  |   file: 'file:///app/server/orchestrator_state_route.mjs',
+dashboard-1  |   envSnapshot: {
+dashboard-1  |     PHASE18_ENABLE_ORCHESTRATION: undefined,
+dashboard-1  |     PHASE19_ENABLE_ORCH_STATE: undefined
+dashboard-1  |   }
+dashboard-1  | }
+dashboard-1  | [SSE] /events/ops + /events/reflections registered
+dashboard-1  | [db] effective pool config {
+dashboard-1  |   mode: 'url',
+dashboard-1  |   DB_URL_present: true,
+dashboard-1  |   host: null,
+dashboard-1  |   port: null,
+dashboard-1  |   user: null,
+dashboard-1  |   database: null,
+dashboard-1  |   password_type: 'url-hidden',
+dashboard-1  |   password_len: 'hidden',
+dashboard-1  |   has_password: true
+dashboard-1  | }
+dashboard-1  | Database pool initialized
+dashboard-1  | [phase25] __DB_POOL set { has: true, type: 'BoundPool' }
+dashboard-1  | Server running on http://0.0.0.0:3000
+dashboard-1  | [HTTP] GET /dashboard.html
+dashboard-1  | [HTTP] HEAD /dashboard.html
+
+STEP 8 — Classification
+CLASSIFICATION: TRUE_DASHBOARD_CSS_REINTRODUCED
+
+DECISION TARGET
+- Open http://localhost:8080/dashboard.html
+- Report EXACTLY one of:
+  • TRUE_DASHBOARD_CSS_STABLE
+  • TRUE_DASHBOARD_CSS_BREAKS
+  • WHITE_SCREEN_RETURNED

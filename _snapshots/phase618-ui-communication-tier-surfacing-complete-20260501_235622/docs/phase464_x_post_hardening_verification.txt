@@ -1,0 +1,40 @@
+PHASE 464.X — POST-HARDENING VERIFICATION
+=========================================
+
+1) operatorGuidance.sse.js lifecycle guard anchors
+6: * - Existing EventSource not cleaned or guarded
+11: * 2. Active EventSource tracking
+18:  if (window.__OPERATOR_GUIDANCE_STREAM_ACTIVE__) {
+21:  window.__OPERATOR_GUIDANCE_STREAM_ACTIVE__ = true;
+28:  function closeStream() {
+39:    closeStream();
+44:    eventSource = new EventSource("/api/operator-guidance");
+52:          RESPONSE_EL.textContent = data.message || "";
+56:          META_EL.textContent = data.meta || "";
+61:    eventSource.onerror = () => {
+63:      closeStream();
+71:  document.addEventListener("visibilitychange", () => {
+74:      closeStream();
+75:      window.__OPERATOR_GUIDANCE_STREAM_ACTIVE__ = false;
+80:  window.addEventListener("beforeunload", () => {
+81:    closeStream();
+82:    window.__OPERATOR_GUIDANCE_STREAM_ACTIVE__ = false;
+
+2) proof writer neutralization check
+16:    return !!byId("operator-guidance-response") && !!byId("operator-guidance-meta");
+23:      window.__PHASE457_PROOF_NEUTRALIZED__ = true;
+
+3) Manual retest checklist
+[ ] Hard refresh dashboard
+[ ] Initial guidance stable
+[ ] New tab opened
+[ ] Return to dashboard tab
+[ ] Switch away and back again
+[ ] Repeat once more
+[ ] No restart flood observed
+[ ] No duplicate guidance observed
+[ ] No repeated proof text observed
+
+RESULT:
+[ ] PASS
+[ ] FAIL

@@ -1,0 +1,150 @@
+PHASE 477.4 — RECORD LOADING BEHAVIOR AND NEUTRALIZE INLINE SCRIPTS
+==================================================================
+
+SINCE_TS: 2026-04-11T00:35:14Z
+
+STEP 1 — Recorded prior result
+PHASE 477.4 — BANNER REMOVAL RESULT
+===================================
+
+RESULT:
+BANNER_REMOVAL_BREAKS
+
+OPTIONAL_NOTE:
+This version of the dashboard is still not completely right and is loading continuously.
+
+STEP 2 — Backup
+public/dashboard.html.phase477_4_pre_inline_script_neutralization.bak
+
+STEP 3 — Confirm remaining script tags
+254:  <script src="js/phase61_tabs_workspace.js"></script>
+256:    <script src="js/phase61_recent_history_wire.js"></script>
+258:  <script src="js/phase60_live_clock.js"></script>
+264:<script src="/js/phase457_neutralize_legacy_observational_consumers.js"></script>
+
+STEP 4 — Rebuild dashboard image
+#1 [internal] load local bake definitions
+#1 reading from stdin 692B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.dashboard
+#2 transferring dockerfile: 885B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:20-alpine
+#3 DONE 0.6s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 320B done
+#4 DONE 0.0s
+
+#5 [1/7] FROM docker.io/library/node:20-alpine@sha256:f598378b5240225e6beab68fa9f356db1fb8efe55173e6d4d8153113bb8f333c
+#5 resolve docker.io/library/node:20-alpine@sha256:f598378b5240225e6beab68fa9f356db1fb8efe55173e6d4d8153113bb8f333c 0.0s done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 458.64kB 0.1s done
+#6 DONE 0.1s
+
+#7 [4/7] COPY package-lock.json* ./
+#7 CACHED
+
+#8 [2/7] WORKDIR /app
+#8 CACHED
+
+#9 [3/7] COPY package*.json ./
+#9 CACHED
+
+#10 [5/7] RUN npm config set fetch-retries 5     && npm config set fetch-retry-factor 2     && npm config set fetch-retry-mintimeout 10000     && npm config set fetch-retry-maxtimeout 60000     && (npm config set registry https://registry.npmmirror.com/         && npm ci --no-audit --no-fund       || npm config set registry https://registry.npmjs.org/         && npm ci --no-audit --no-fund)     && apk add --no-cache curl ripgrep
+#10 CACHED
+
+#11 [6/7] COPY . .
+#11 DONE 0.4s
+
+#12 [7/7] COPY public/ ./public/
+#12 DONE 0.0s
+
+#13 exporting to image
+#13 exporting layers
+#13 exporting layers 1.0s done
+#13 exporting manifest sha256:2e40c950845f6af46357dfebdebd2a0839dbce25cf0e7173adc71b42fa0b16ea done
+#13 exporting config sha256:b0f83aa30f2a5fd70581c41fbf9f6b253e8c9f4e6903ebc203932d6c01402238 done
+#13 exporting attestation manifest sha256:4ca4c79c5002a2e8d4e8bb602f9342bf295e80d625d49df29677cfc31707d76d done
+#13 exporting manifest list sha256:d9bbdb77c5135d102e0c8ea81948282528313699fe499f44dfde8710c6239569 done
+#13 naming to docker.io/library/motherboard_systems_hq-dashboard:latest done
+#13 unpacking to docker.io/library/motherboard_systems_hq-dashboard:latest
+#13 unpacking to docker.io/library/motherboard_systems_hq-dashboard:latest 0.4s done
+#13 DONE 1.4s
+
+#14 resolving provenance for metadata file
+#14 DONE 0.0s
+ motherboard_systems_hq-dashboard  Built
+
+STEP 5 — Recreate dashboard container
+ Container motherboard_systems_hq-postgres-1  Running
+ Container motherboard_systems_hq-dashboard-1  Recreate
+ Container motherboard_systems_hq-dashboard-1  Recreated
+ Container motherboard_systems_hq-dashboard-1  Starting
+ Container motherboard_systems_hq-dashboard-1  Started
+
+STEP 6 — Wait for host port 8080 readiness
+READY_ON_8080 attempt=2
+
+STEP 7 — Probe dashboard route
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0 16635    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Sat, 11 Apr 2026 00:35:14 GMT
+ETag: W/"40fb-19d79f6d9d0"
+Content-Type: text/html; charset=utf-8
+Content-Length: 16635
+Date: Sat, 11 Apr 2026 00:35:19 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+
+STEP 8 — Fresh dashboard logs
+dashboard-1  | (node:1) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///app/routes/diagnostics/systemHealth.js is not specified and it doesn't parse as CommonJS.
+dashboard-1  | Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+dashboard-1  | To eliminate this warning, add "type": "module" to /app/package.json.
+dashboard-1  | (Use `node --trace-warnings ...` to show where the warning was created)
+dashboard-1  | [phase25] task_events_emit loaded 2026-04-11T00:35:18.939Z file= file:///app/server/task_events_emit.mjs
+dashboard-1  | [phase25] api-tasks-postgres loaded 2026-04-11T00:35:18.940Z file= file:///app/server/routes/api-tasks-postgres.mjs
+dashboard-1  | [phase19] orchestrator_state_route mounted {
+dashboard-1  |   file: 'file:///app/server/orchestrator_state_route.mjs',
+dashboard-1  |   envSnapshot: {
+dashboard-1  |     PHASE18_ENABLE_ORCHESTRATION: undefined,
+dashboard-1  |     PHASE19_ENABLE_ORCH_STATE: undefined
+dashboard-1  |   }
+dashboard-1  | }
+dashboard-1  | [SSE] /events/ops + /events/reflections registered
+dashboard-1  | [db] effective pool config {
+dashboard-1  |   mode: 'url',
+dashboard-1  |   DB_URL_present: true,
+dashboard-1  |   host: null,
+dashboard-1  |   port: null,
+dashboard-1  |   user: null,
+dashboard-1  |   database: null,
+dashboard-1  |   password_type: 'url-hidden',
+dashboard-1  |   password_len: 'hidden',
+dashboard-1  |   has_password: true
+dashboard-1  | }
+dashboard-1  | Database pool initialized
+dashboard-1  | [phase25] __DB_POOL set { has: true, type: 'BoundPool' }
+dashboard-1  | Server running on http://0.0.0.0:3000
+dashboard-1  | [HTTP] GET /dashboard.html
+dashboard-1  | [HTTP] HEAD /dashboard.html
+
+STEP 9 — Classification
+CLASSIFICATION: INLINE_SCRIPTS_NEUTRALIZED_READY
+
+DECISION TARGET
+- Open http://localhost:8080/dashboard.html
+- Report EXACTLY one of:
+  • INLINE_SCRIPT_FREE_STABLE
+  • INLINE_SCRIPT_FREE_STILL_LOADING
+  • WHITE_SCREEN_RETURNED

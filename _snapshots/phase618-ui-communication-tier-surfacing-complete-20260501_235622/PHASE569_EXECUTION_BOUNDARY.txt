@@ -1,0 +1,25 @@
+PHASE 569 — EXECUTION BOUNDARY
+
+Finding:
+- Worker claim SQL is usable for queued → running.
+- Phase 32 success/failure SQL references completed_at.
+- Current tasks schema does not include completed_at.
+
+Boundary:
+- Do NOT call phase32_mark_success.sql yet.
+- Do NOT call phase32_mark_failure.sql yet.
+- Do NOT mutate schema in this step.
+
+Safe Phase 569 Objective:
+Implement minimal worker claim loop only:
+queued → running
+
+Validation:
+- Worker claims eligible queued task.
+- Task status changes from queued to running.
+- claimed_by is populated.
+- run_id is populated.
+- No completion behavior attempted.
+
+Next possible phase after validation:
+- Add schema-compatible completion path OR add completed_at through a controlled DB migration.

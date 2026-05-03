@@ -1,0 +1,17 @@
+Phase 616 post-proof disabled verification.
+
+Goal:
+Confirm scheduler remains disabled after the proof-complete checkpoint and rebuild.
+
+Expected:
+- Dashboard logs show scheduler disabled or no scheduler dispatch.
+- No [phase615] task dispatched appears after rebuild.
+- No new System Scheduler Task appears after rebuild.
+- Worker remains healthy.
+
+--- DASHBOARD SCHEDULER LOGS AFTER DISABLE ---
+
+--- WORKER POST-DISABLE CHECK ---
+
+--- API TASK SNAPSHOT ---
+{"ok":true,"tasks":[{"id":"43","task_id":"t_1dc6bde9-4b29-431a-8799-d29d24de9555","title":"System Scheduler Task","status":"completed","claimed_by":"worker-afa00142-68fd-42c7-a625-8ba36fdf9de3","updated_at":"2026-05-02T06:10:14.506Z"},{"id":"42","task_id":"t_74896281-0f50-45bb-a485-a69248313d4e","title":"System Scheduler Task","status":"completed","claimed_by":"worker-b2488a5c-fc46-4b03-a22e-bf7c3b304724","updated_at":"2026-05-02T06:09:28.063Z"},{"id":"41","task_id":"t_d659c5ac-21e1-48dd-9cd7-05476ab64533","title":"System Scheduler Task","status":"completed","claimed_by":"worker-b2488a5c-fc46-4b03-a22e-bf7c3b304724","updated_at":"2026-05-02T06:08:28.070Z"},{"id":"40","task_id":"t_7c5a6dad-385c-4cf7-8224-453b19636f3d","title":"System Trigger Test","status":"completed","claimed_by":"worker-fb5783cd-5192-4644-8f04-526fc011779a","updated_at":"2026-05-01T23:14:19.378Z"},{"id":"39","task_id":"t_079e1615-1cca-4dec-b734-a5117dae2df4","title":"System Trigger Test","status":"completed","claimed_by":"worker-fb5783cd-5192-4644-8f04-526fc011779a","updated_at":"2026-05-01T23:13:19.373Z"},{"id":"38","task_id":"t_dc241da7-6815-4f47-87f3-02b417f60a7e","title":"System Trigger Test","status":"completed","claimed_by":"worker-fb5783cd-5192-4644-8f04-526fc011779a","updated_at":"2026-05-01T23:12:07.191Z"}]}

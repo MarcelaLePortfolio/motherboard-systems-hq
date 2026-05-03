@@ -1,0 +1,493 @@
+PHASE 425 — STEP 3
+Governance Gateway Candidate Narrowing
+--------------------------------------
+
+authorization gate occurrences
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:19:import { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:77:  const gate = buildGovernanceAuthorizationGate(decision);
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:19:import { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:73:  const gate = buildGovernanceAuthorizationGate(decision);
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:19:import { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:67:  const gate = buildGovernanceAuthorizationGate(decision);
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:19:import { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:71:  const gate = buildGovernanceAuthorizationGate(decision);
+src/governance/cognition/prove_governance_authorization_gate.ts:19:import { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";
+src/governance/cognition/prove_governance_authorization_gate.ts:65:  const gate = buildGovernanceAuthorizationGate(decision);
+src/governance/cognition/build_governance_authorization_gate.ts:24:export function buildGovernanceAuthorizationGate(
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:19:import { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:75:  const gate = buildGovernanceAuthorizationGate(decision);
+src/governance/cognition/index.ts:44:export { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:19:import { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:69:  const gate = buildGovernanceAuthorizationGate(decision);
+
+policy evaluation occurrences
+src/governance/governance_policy_engine.test.ts:7:import { evaluateGovernancePolicy } from "./governance_policy_engine"
+src/governance/governance_policy_engine.test.ts:15:const safe = evaluateGovernancePolicy({
+src/governance/governance_policy_engine.test.ts:23:const warn = evaluateGovernancePolicy({
+src/governance/governance_policy_engine.test.ts:31:const critical = evaluateGovernancePolicy({
+src/governance/governance_policy_engine.ts:20:export function evaluateGovernancePolicy(
+
+decision builder occurrences
+src/governance/cognition/build_governance_live_wiring_decision.ts:24:export function buildGovernanceLiveWiringDecision(
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:18:import { buildGovernanceLiveWiringDecision } from "./build_governance_live_wiring_decision";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:76:  const decision = buildGovernanceLiveWiringDecision(readiness);
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:18:import { buildGovernanceLiveWiringDecision } from "./build_governance_live_wiring_decision";
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:72:  const decision = buildGovernanceLiveWiringDecision(readiness);
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:18:import { buildGovernanceLiveWiringDecision } from "./build_governance_live_wiring_decision";
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:66:  const decision = buildGovernanceLiveWiringDecision(readiness);
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:18:import { buildGovernanceLiveWiringDecision } from "./build_governance_live_wiring_decision";
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:70:  const decision = buildGovernanceLiveWiringDecision(readiness);
+src/governance/cognition/prove_governance_authorization_gate.ts:18:import { buildGovernanceLiveWiringDecision } from "./build_governance_live_wiring_decision";
+src/governance/cognition/prove_governance_authorization_gate.ts:64:  const decision = buildGovernanceLiveWiringDecision(readiness);
+src/governance/cognition/prove_governance_live_wiring_decision.ts:18:import { buildGovernanceLiveWiringDecision } from "./build_governance_live_wiring_decision";
+src/governance/cognition/prove_governance_live_wiring_decision.ts:62:  const decision = buildGovernanceLiveWiringDecision(readiness);
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:18:import { buildGovernanceLiveWiringDecision } from "./build_governance_live_wiring_decision";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:74:  const decision = buildGovernanceLiveWiringDecision(readiness);
+src/governance/cognition/index.ts:37:export { buildGovernanceLiveWiringDecision } from "./build_governance_live_wiring_decision";
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:18:import { buildGovernanceLiveWiringDecision } from "./build_governance_live_wiring_decision";
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:68:  const decision = buildGovernanceLiveWiringDecision(readiness);
+
+registry decision hubs
+src/governance_operator_registry/governance_operator_registry_formatter.ts:5:export function formatGovernanceOperatorRegistryHeadline(
+src/governance_operator_registry/governance_operator_registry_formatter.ts:12:export function formatGovernanceOperatorRegistryDecision(
+src/governance_operator_registry/governance_operator_registry_formatter.ts:18:export function formatGovernanceOperatorRegistrySections(
+src/governance_operator_registry/governance_operator_registry_formatter.ts:24:export function formatGovernanceOperatorRegistryReadiness(
+src/governance_operator_registry/governance_operator_registry_formatter.ts:30:export function formatGovernanceOperatorRegistryCompleteness(
+src/governance_operator_registry/governance_operator_registry_formatter.ts:36:export function formatGovernanceOperatorRegistryVersion(
+src/governance_operator_registry/governance_operator_registry_builder.ts:2:  GovernanceOperatorRegistryLine,
+src/governance_operator_registry/governance_operator_registry_builder.ts:3:  GovernanceOperatorRegistryRecord,
+src/governance_operator_registry/governance_operator_registry_builder.ts:6:  formatGovernanceOperatorRegistryCompleteness,
+src/governance_operator_registry/governance_operator_registry_builder.ts:7:  formatGovernanceOperatorRegistryDecision,
+src/governance_operator_registry/governance_operator_registry_builder.ts:8:  formatGovernanceOperatorRegistryHeadline,
+src/governance_operator_registry/governance_operator_registry_builder.ts:9:  formatGovernanceOperatorRegistryReadiness,
+src/governance_operator_registry/governance_operator_registry_builder.ts:10:  formatGovernanceOperatorRegistrySections,
+src/governance_operator_registry/governance_operator_registry_builder.ts:11:  formatGovernanceOperatorRegistryVersion,
+src/governance_operator_registry/governance_operator_registry_builder.ts:14:export interface GovernanceOperatorRegistryInput {
+src/governance_operator_registry/governance_operator_registry_builder.ts:21:export function buildGovernanceOperatorRegistry(
+src/governance_operator_registry/governance_operator_registry_builder.ts:22:  input: GovernanceOperatorRegistryInput,
+src/governance_operator_registry/governance_operator_registry_builder.ts:23:): GovernanceOperatorRegistryRecord {
+src/governance_operator_registry/governance_operator_registry_builder.ts:28:  const lines: GovernanceOperatorRegistryLine[] = [
+src/governance_operator_registry/governance_operator_registry_builder.ts:31:      text: formatGovernanceOperatorRegistryDecision(input.decision),
+src/governance_operator_registry/governance_operator_registry_builder.ts:35:      text: formatGovernanceOperatorRegistrySections(input.section_titles ?? []),
+src/governance_operator_registry/governance_operator_registry_builder.ts:39:      text: formatGovernanceOperatorRegistryReadiness(ready),
+src/governance_operator_registry/governance_operator_registry_builder.ts:43:      text: formatGovernanceOperatorRegistryCompleteness(complete),
+src/governance_operator_registry/governance_operator_registry_builder.ts:47:      text: formatGovernanceOperatorRegistryVersion(registryVersion),
+src/governance_operator_registry/governance_operator_registry_builder.ts:52:    headline: formatGovernanceOperatorRegistryHeadline(
+src/governance_operator_registry/governance_operator_registry_model.ts:1:export interface GovernanceOperatorRegistryLine {
+src/governance_operator_registry/governance_operator_registry_model.ts:6:export interface GovernanceOperatorRegistryMetadata {
+src/governance_operator_registry/governance_operator_registry_model.ts:14:export interface GovernanceOperatorRegistryRecord {
+src/governance_operator_registry/governance_operator_registry_model.ts:16:  metadata: GovernanceOperatorRegistryMetadata;
+src/governance_operator_registry/governance_operator_registry_model.ts:17:  lines: GovernanceOperatorRegistryLine[];
+src/governance_operator_registry/governance_operator_registry_contract.ts:12:export function getGovernanceOperatorRegistryLayerGuarantees(): readonly string[] {
+src/governance_operator_registry/index.ts:2:  GovernanceOperatorRegistryLine,
+src/governance_operator_registry/index.ts:3:  GovernanceOperatorRegistryMetadata,
+src/governance_operator_registry/index.ts:4:  GovernanceOperatorRegistryRecord,
+src/governance_operator_registry/index.ts:8:  formatGovernanceOperatorRegistryCompleteness,
+src/governance_operator_registry/index.ts:9:  formatGovernanceOperatorRegistryDecision,
+src/governance_operator_registry/index.ts:10:  formatGovernanceOperatorRegistryHeadline,
+src/governance_operator_registry/index.ts:11:  formatGovernanceOperatorRegistryReadiness,
+src/governance_operator_registry/index.ts:12:  formatGovernanceOperatorRegistrySections,
+src/governance_operator_registry/index.ts:13:  formatGovernanceOperatorRegistryVersion,
+src/governance_operator_registry/index.ts:16:export type { GovernanceOperatorRegistryInput } from "./governance_operator_registry_builder";
+src/governance_operator_registry/index.ts:17:export { buildGovernanceOperatorRegistry } from "./governance_operator_registry_builder";
+src/governance_operator_registry/index.ts:21:  getGovernanceOperatorRegistryLayerGuarantees,
+src/governance/governance_signal_explanation_registry.ts:3:export function buildGovernanceSignalExplanationRegistry(fixture:any){
+src/governance/governance_signal_registry.test.ts:1:import { buildGovernanceSignalExplanationRegistry } from "./governance_signal_explanation_registry"
+src/governance/governance_signal_registry.test.ts:9:      buildGovernanceSignalExplanationRegistry(
+src/governance/cognition/prove_governance_runtime_registry_export.ts:2: * Phase 138 — Governance Runtime Registry Export Proof
+src/governance/cognition/prove_governance_runtime_registry_export.ts:13:import { buildGovernanceRuntimeRegistryExport } from "./build_governance_runtime_registry_export";
+src/governance/cognition/prove_governance_runtime_registry_export.ts:14:import { selectGovernanceRuntimeRegistryExport } from "./select_governance_runtime_registry_export";
+src/governance/cognition/prove_governance_runtime_registry_export.ts:15:import { normalizeGovernanceRuntimeRegistryExport } from "./normalize_governance_runtime_registry_export";
+src/governance/cognition/prove_governance_runtime_registry_export.ts:17:export interface GovernanceRuntimeRegistryExportProof {
+src/governance/cognition/prove_governance_runtime_registry_export.ts:34:export function proveGovernanceRuntimeRegistryExport(): GovernanceRuntimeRegistryExportProof {
+src/governance/cognition/prove_governance_runtime_registry_export.ts:48:  const registryExport = buildGovernanceRuntimeRegistryExport(normalizedRegistration);
+src/governance/cognition/prove_governance_runtime_registry_export.ts:49:  const normalizedExport = normalizeGovernanceRuntimeRegistryExport(registryExport);
+src/governance/cognition/prove_governance_runtime_registry_export.ts:50:  const selected = selectGovernanceRuntimeRegistryExport(normalizedExport);
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:2: * Phase 140 — Governance Live Registry Wiring Readiness Proof
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:13:import { buildGovernanceRuntimeRegistryExport } from "./build_governance_runtime_registry_export";
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:14:import { normalizeGovernanceRuntimeRegistryExport } from "./normalize_governance_runtime_registry_export";
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:15:import { buildGovernanceSharedRegistryOwnerBundle } from "./build_governance_shared_registry_owner_bundle";
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:16:import { normalizeGovernanceSharedRegistryOwnerBundle } from "./normalize_governance_shared_registry_owner_bundle";
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:17:import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:18:import { selectGovernanceLiveRegistryWiringReadiness } from "./select_governance_live_registry_wiring_readiness";
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:20:export interface GovernanceLiveRegistryWiringReadinessProof {
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:40:export function proveGovernanceLiveRegistryWiringReadiness(): GovernanceLiveRegistryWiringReadinessProof {
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:54:  const registryExport = buildGovernanceRuntimeRegistryExport(normalizedRegistration);
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:55:  const normalizedExport = normalizeGovernanceRuntimeRegistryExport(registryExport);
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:56:  const ownerBundle = buildGovernanceSharedRegistryOwnerBundle(normalizedExport);
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:57:  const normalizedOwnerBundle = normalizeGovernanceSharedRegistryOwnerBundle(ownerBundle);
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:58:  const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:59:  const selected = selectGovernanceLiveRegistryWiringReadiness(readiness);
+src/governance/cognition/select_governance_shared_registry_owner_bundle.ts:2: * Phase 139 — Governance Shared Registry Owner Bundle Selector
+src/governance/cognition/select_governance_shared_registry_owner_bundle.ts:7:import type { GovernanceSharedRegistryOwnerBundle } from "./governance_shared_registry_owner_bundle";
+src/governance/cognition/select_governance_shared_registry_owner_bundle.ts:9:export interface GovernanceSharedRegistryOwnerBundleSelection {
+src/governance/cognition/select_governance_shared_registry_owner_bundle.ts:22:export function selectGovernanceSharedRegistryOwnerBundle(
+src/governance/cognition/select_governance_shared_registry_owner_bundle.ts:23:  ownerBundle: GovernanceSharedRegistryOwnerBundle
+src/governance/cognition/select_governance_shared_registry_owner_bundle.ts:24:): GovernanceSharedRegistryOwnerBundleSelection {
+src/governance/cognition/governance_final_pre_live_registry_contract_package.ts:2: * Phase 143 — Governance Final Pre-Live Registry Contract Package
+src/governance/cognition/governance_final_pre_live_registry_contract_package.ts:17:export interface GovernanceFinalPreLiveRegistryContractPackage {
+src/governance/cognition/build_governance_final_pre_live_registry_archive_record.ts:2: * Phase 147 — Governance Final Pre-Live Registry Archive Record Builder
+src/governance/cognition/build_governance_final_pre_live_registry_archive_record.ts:9:import type { GovernanceFinalPreLiveRegistryArchiveRecord } from "./governance_final_pre_live_registry_archive_record";
+src/governance/cognition/build_governance_final_pre_live_registry_archive_record.ts:15:export function buildGovernanceFinalPreLiveRegistryArchiveRecord(
+src/governance/cognition/build_governance_final_pre_live_registry_archive_record.ts:17:): GovernanceFinalPreLiveRegistryArchiveRecord {
+src/governance/cognition/build_governance_final_delivery_receipt.ts:8:import type { GovernancePreLiveRegistryDeliveryManifest } from "./governance_pre_live_registry_delivery_manifest";
+src/governance/cognition/build_governance_final_delivery_receipt.ts:16:  manifest: GovernancePreLiveRegistryDeliveryManifest
+src/governance/cognition/build_governance_pre_live_registry_delivery_manifest.ts:2: * Phase 145 — Governance Pre-Live Registry Delivery Manifest Builder
+src/governance/cognition/build_governance_pre_live_registry_delivery_manifest.ts:8:import type { GovernancePreLiveRegistryHandoffEnvelope } from "./governance_pre_live_registry_handoff_envelope";
+src/governance/cognition/build_governance_pre_live_registry_delivery_manifest.ts:9:import type { GovernancePreLiveRegistryDeliveryManifest } from "./governance_pre_live_registry_delivery_manifest";
+src/governance/cognition/build_governance_pre_live_registry_delivery_manifest.ts:15:export function buildGovernancePreLiveRegistryDeliveryManifest(
+src/governance/cognition/build_governance_pre_live_registry_delivery_manifest.ts:16:  handoffEnvelope: GovernancePreLiveRegistryHandoffEnvelope
+src/governance/cognition/build_governance_pre_live_registry_delivery_manifest.ts:17:): GovernancePreLiveRegistryDeliveryManifest {
+src/governance/cognition/governance_live_wiring_decision.ts:15:import type { GovernanceLiveRegistryWiringReadiness } from "./governance_live_registry_wiring_readiness";
+src/governance/cognition/governance_live_wiring_decision.ts:42:  readonly readiness: GovernanceLiveRegistryWiringReadiness;
+src/governance/cognition/build_governance_live_wiring_decision.ts:8:import type { GovernanceLiveRegistryWiringReadiness } from "./governance_live_registry_wiring_readiness";
+src/governance/cognition/build_governance_live_wiring_decision.ts:19:  readiness: GovernanceLiveRegistryWiringReadiness
+src/governance/cognition/build_governance_live_wiring_decision.ts:25:  readiness: GovernanceLiveRegistryWiringReadiness
+src/governance/cognition/build_governance_pre_live_registry_handoff_envelope.ts:2: * Phase 144 — Governance Pre-Live Registry Handoff Envelope Builder
+src/governance/cognition/build_governance_pre_live_registry_handoff_envelope.ts:8:import type { GovernanceFinalPreLiveRegistryContractPackage } from "./governance_final_pre_live_registry_contract_package";
+src/governance/cognition/build_governance_pre_live_registry_handoff_envelope.ts:9:import type { GovernancePreLiveRegistryHandoffEnvelope } from "./governance_pre_live_registry_handoff_envelope";
+src/governance/cognition/build_governance_pre_live_registry_handoff_envelope.ts:15:export function buildGovernancePreLiveRegistryHandoffEnvelope(
+src/governance/cognition/build_governance_pre_live_registry_handoff_envelope.ts:16:  contractPackage: GovernanceFinalPreLiveRegistryContractPackage
+src/governance/cognition/build_governance_pre_live_registry_handoff_envelope.ts:17:): GovernancePreLiveRegistryHandoffEnvelope {
+src/governance/cognition/select_governance_final_pre_live_registry_archive_record.ts:2: * Phase 147 — Governance Final Pre-Live Registry Archive Record Selector
+src/governance/cognition/select_governance_final_pre_live_registry_archive_record.ts:7:import type { GovernanceFinalPreLiveRegistryArchiveRecord } from "./governance_final_pre_live_registry_archive_record";
+src/governance/cognition/select_governance_final_pre_live_registry_archive_record.ts:9:export interface GovernanceFinalPreLiveRegistryArchiveRecordSelection {
+src/governance/cognition/select_governance_final_pre_live_registry_archive_record.ts:30:export function selectGovernanceFinalPreLiveRegistryArchiveRecord(
+src/governance/cognition/select_governance_final_pre_live_registry_archive_record.ts:31:  archiveRecord: GovernanceFinalPreLiveRegistryArchiveRecord
+src/governance/cognition/select_governance_final_pre_live_registry_archive_record.ts:32:): GovernanceFinalPreLiveRegistryArchiveRecordSelection {
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:2: * Phase 148 — Governance Final Pre-Live Registry Summary Capsule Proof
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:13:import { buildGovernanceRuntimeRegistryExport } from "./build_governance_runtime_registry_export";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:14:import { normalizeGovernanceRuntimeRegistryExport } from "./normalize_governance_runtime_registry_export";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:15:import { buildGovernanceSharedRegistryOwnerBundle } from "./build_governance_shared_registry_owner_bundle";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:16:import { normalizeGovernanceSharedRegistryOwnerBundle } from "./normalize_governance_shared_registry_owner_bundle";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:17:import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:20:import { buildGovernanceFinalPreLiveRegistryContractPackage } from "./build_governance_final_pre_live_registry_contract_package";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:21:import { buildGovernancePreLiveRegistryHandoffEnvelope } from "./build_governance_pre_live_registry_handoff_envelope";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:22:import { buildGovernancePreLiveRegistryDeliveryManifest } from "./build_governance_pre_live_registry_delivery_manifest";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:24:import { buildGovernanceFinalPreLiveRegistryArchiveRecord } from "./build_governance_final_pre_live_registry_archive_record";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:25:import { buildGovernanceFinalPreLiveRegistrySummaryCapsule } from "./build_governance_final_pre_live_registry_summary_capsule";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:26:import { selectGovernanceFinalPreLiveRegistrySummaryCapsule } from "./select_governance_final_pre_live_registry_summary_capsule";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:28:export interface GovernanceFinalPreLiveRegistrySummaryCapsuleProof {
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:57:export function proveGovernanceFinalPreLiveRegistrySummaryCapsule(): GovernanceFinalPreLiveRegistrySummaryCapsuleProof {
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:71:  const registryExport = buildGovernanceRuntimeRegistryExport(normalizedRegistration);
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:72:  const normalizedExport = normalizeGovernanceRuntimeRegistryExport(registryExport);
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:73:  const ownerBundle = buildGovernanceSharedRegistryOwnerBundle(normalizedExport);
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:74:  const normalizedOwnerBundle = normalizeGovernanceSharedRegistryOwnerBundle(ownerBundle);
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:75:  const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:78:  const contractPackage = buildGovernanceFinalPreLiveRegistryContractPackage(gate);
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:79:  const envelope = buildGovernancePreLiveRegistryHandoffEnvelope(contractPackage);
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:80:  const manifest = buildGovernancePreLiveRegistryDeliveryManifest(envelope);
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:82:  const archiveRecord = buildGovernanceFinalPreLiveRegistryArchiveRecord(receipt);
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:83:  const capsule = buildGovernanceFinalPreLiveRegistrySummaryCapsule(archiveRecord);
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:84:  const selected = selectGovernanceFinalPreLiveRegistrySummaryCapsule(capsule);
+src/governance/cognition/select_governance_pre_live_registry_delivery_manifest.ts:2: * Phase 145 — Governance Pre-Live Registry Delivery Manifest Selector
+src/governance/cognition/select_governance_pre_live_registry_delivery_manifest.ts:7:import type { GovernancePreLiveRegistryDeliveryManifest } from "./governance_pre_live_registry_delivery_manifest";
+src/governance/cognition/select_governance_pre_live_registry_delivery_manifest.ts:9:export interface GovernancePreLiveRegistryDeliveryManifestSelection {
+src/governance/cognition/select_governance_pre_live_registry_delivery_manifest.ts:28:export function selectGovernancePreLiveRegistryDeliveryManifest(
+src/governance/cognition/select_governance_pre_live_registry_delivery_manifest.ts:29:  manifest: GovernancePreLiveRegistryDeliveryManifest
+src/governance/cognition/select_governance_pre_live_registry_delivery_manifest.ts:30:): GovernancePreLiveRegistryDeliveryManifestSelection {
+src/governance/cognition/select_governance_final_pre_live_registry_summary_capsule.ts:2: * Phase 148 — Governance Final Pre-Live Registry Summary Capsule Selector
+src/governance/cognition/select_governance_final_pre_live_registry_summary_capsule.ts:7:import type { GovernanceFinalPreLiveRegistrySummaryCapsule } from "./governance_final_pre_live_registry_summary_capsule";
+src/governance/cognition/select_governance_final_pre_live_registry_summary_capsule.ts:9:export interface GovernanceFinalPreLiveRegistrySummaryCapsuleSelection {
+src/governance/cognition/select_governance_final_pre_live_registry_summary_capsule.ts:31:export function selectGovernanceFinalPreLiveRegistrySummaryCapsule(
+src/governance/cognition/select_governance_final_pre_live_registry_summary_capsule.ts:32:  capsule: GovernanceFinalPreLiveRegistrySummaryCapsule
+src/governance/cognition/select_governance_final_pre_live_registry_summary_capsule.ts:33:): GovernanceFinalPreLiveRegistrySummaryCapsuleSelection {
+src/governance/cognition/governance_pre_live_registry_delivery_manifest.ts:2: * Phase 145 — Governance Pre-Live Registry Delivery Manifest
+src/governance/cognition/governance_pre_live_registry_delivery_manifest.ts:15:import type { GovernancePreLiveRegistryHandoffEnvelope } from "./governance_pre_live_registry_handoff_envelope";
+src/governance/cognition/governance_pre_live_registry_delivery_manifest.ts:17:export interface GovernancePreLiveRegistryDeliveryManifest {
+src/governance/cognition/governance_pre_live_registry_delivery_manifest.ts:42:  readonly handoffEnvelope: GovernancePreLiveRegistryHandoffEnvelope;
+src/governance/cognition/build_governance_shared_registry_owner_bundle.ts:2: * Phase 139 — Governance Shared Registry Owner Bundle Builder
+src/governance/cognition/build_governance_shared_registry_owner_bundle.ts:8:import type { GovernanceRuntimeRegistryExport } from "./governance_runtime_registry_export";
+src/governance/cognition/build_governance_shared_registry_owner_bundle.ts:9:import type { GovernanceSharedRegistryOwnerBundle } from "./governance_shared_registry_owner_bundle";
+src/governance/cognition/build_governance_shared_registry_owner_bundle.ts:11:export function buildGovernanceSharedRegistryOwnerBundle(
+src/governance/cognition/build_governance_shared_registry_owner_bundle.ts:12:  registryExport: GovernanceRuntimeRegistryExport
+src/governance/cognition/build_governance_shared_registry_owner_bundle.ts:13:): GovernanceSharedRegistryOwnerBundle {
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts:2: * Phase 148 — Governance Final Pre-Live Registry Summary Capsule
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts:15:import type { GovernanceFinalPreLiveRegistryArchiveRecord } from "./governance_final_pre_live_registry_archive_record";
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts:17:export interface GovernanceFinalPreLiveRegistrySummaryCapsule {
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts:45:  readonly archiveRecord: GovernanceFinalPreLiveRegistryArchiveRecord;
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:13:import { buildGovernanceRuntimeRegistryExport } from "./build_governance_runtime_registry_export";
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:14:import { normalizeGovernanceRuntimeRegistryExport } from "./normalize_governance_runtime_registry_export";
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:15:import { buildGovernanceSharedRegistryOwnerBundle } from "./build_governance_shared_registry_owner_bundle";
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:16:import { normalizeGovernanceSharedRegistryOwnerBundle } from "./normalize_governance_shared_registry_owner_bundle";
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:17:import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:20:import { buildGovernanceFinalPreLiveRegistryContractPackage } from "./build_governance_final_pre_live_registry_contract_package";
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:21:import { buildGovernancePreLiveRegistryHandoffEnvelope } from "./build_governance_pre_live_registry_handoff_envelope";
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:22:import { buildGovernancePreLiveRegistryDeliveryManifest } from "./build_governance_pre_live_registry_delivery_manifest";
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:67:  const registryExport = buildGovernanceRuntimeRegistryExport(normalizedRegistration);
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:68:  const normalizedExport = normalizeGovernanceRuntimeRegistryExport(registryExport);
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:69:  const ownerBundle = buildGovernanceSharedRegistryOwnerBundle(normalizedExport);
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:70:  const normalizedOwnerBundle = normalizeGovernanceSharedRegistryOwnerBundle(ownerBundle);
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:71:  const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:74:  const contractPackage = buildGovernanceFinalPreLiveRegistryContractPackage(gate);
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:75:  const envelope = buildGovernancePreLiveRegistryHandoffEnvelope(contractPackage);
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:76:  const manifest = buildGovernancePreLiveRegistryDeliveryManifest(envelope);
+src/governance/cognition/governance_final_pre_live_registry_archive_record.ts:2: * Phase 147 — Governance Final Pre-Live Registry Archive Record
+src/governance/cognition/governance_final_pre_live_registry_archive_record.ts:17:export interface GovernanceFinalPreLiveRegistryArchiveRecord {
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:2: * Phase 143 — Governance Final Pre-Live Registry Contract Package Proof
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:13:import { buildGovernanceRuntimeRegistryExport } from "./build_governance_runtime_registry_export";
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:14:import { normalizeGovernanceRuntimeRegistryExport } from "./normalize_governance_runtime_registry_export";
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:15:import { buildGovernanceSharedRegistryOwnerBundle } from "./build_governance_shared_registry_owner_bundle";
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:16:import { normalizeGovernanceSharedRegistryOwnerBundle } from "./normalize_governance_shared_registry_owner_bundle";
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:17:import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:20:import { buildGovernanceFinalPreLiveRegistryContractPackage } from "./build_governance_final_pre_live_registry_contract_package";
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:21:import { selectGovernanceFinalPreLiveRegistryContractPackage } from "./select_governance_final_pre_live_registry_contract_package";
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:23:export interface GovernanceFinalPreLiveRegistryContractPackageProof {
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:47:export function proveGovernanceFinalPreLiveRegistryContractPackage(): GovernanceFinalPreLiveRegistryContractPackageProof {
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:61:  const registryExport = buildGovernanceRuntimeRegistryExport(normalizedRegistration);
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:62:  const normalizedExport = normalizeGovernanceRuntimeRegistryExport(registryExport);
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:63:  const ownerBundle = buildGovernanceSharedRegistryOwnerBundle(normalizedExport);
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:64:  const normalizedOwnerBundle = normalizeGovernanceSharedRegistryOwnerBundle(ownerBundle);
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:65:  const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:68:  const contractPackage = buildGovernanceFinalPreLiveRegistryContractPackage(gate);
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:69:  const selected = selectGovernanceFinalPreLiveRegistryContractPackage(contractPackage);
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:2: * Phase 145 — Governance Pre-Live Registry Delivery Manifest Proof
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:13:import { buildGovernanceRuntimeRegistryExport } from "./build_governance_runtime_registry_export";
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:14:import { normalizeGovernanceRuntimeRegistryExport } from "./normalize_governance_runtime_registry_export";
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:15:import { buildGovernanceSharedRegistryOwnerBundle } from "./build_governance_shared_registry_owner_bundle";
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:16:import { normalizeGovernanceSharedRegistryOwnerBundle } from "./normalize_governance_shared_registry_owner_bundle";
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:17:import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:20:import { buildGovernanceFinalPreLiveRegistryContractPackage } from "./build_governance_final_pre_live_registry_contract_package";
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:21:import { buildGovernancePreLiveRegistryHandoffEnvelope } from "./build_governance_pre_live_registry_handoff_envelope";
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:22:import { buildGovernancePreLiveRegistryDeliveryManifest } from "./build_governance_pre_live_registry_delivery_manifest";
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:23:import { selectGovernancePreLiveRegistryDeliveryManifest } from "./select_governance_pre_live_registry_delivery_manifest";
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:25:export interface GovernancePreLiveRegistryDeliveryManifestProof {
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:51:export function proveGovernancePreLiveRegistryDeliveryManifest(): GovernancePreLiveRegistryDeliveryManifestProof {
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:65:  const registryExport = buildGovernanceRuntimeRegistryExport(normalizedRegistration);
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:66:  const normalizedExport = normalizeGovernanceRuntimeRegistryExport(registryExport);
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:67:  const ownerBundle = buildGovernanceSharedRegistryOwnerBundle(normalizedExport);
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:68:  const normalizedOwnerBundle = normalizeGovernanceSharedRegistryOwnerBundle(ownerBundle);
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:69:  const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:72:  const contractPackage = buildGovernanceFinalPreLiveRegistryContractPackage(gate);
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:73:  const envelope = buildGovernancePreLiveRegistryHandoffEnvelope(contractPackage);
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:74:  const manifest = buildGovernancePreLiveRegistryDeliveryManifest(envelope);
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:75:  const selected = selectGovernancePreLiveRegistryDeliveryManifest(manifest);
+src/governance/cognition/select_governance_final_pre_live_registry_contract_package.ts:2: * Phase 143 — Governance Final Pre-Live Registry Contract Package Selector
+src/governance/cognition/select_governance_final_pre_live_registry_contract_package.ts:7:import type { GovernanceFinalPreLiveRegistryContractPackage } from "./governance_final_pre_live_registry_contract_package";
+src/governance/cognition/select_governance_final_pre_live_registry_contract_package.ts:9:export interface GovernanceFinalPreLiveRegistryContractPackageSelection {
+src/governance/cognition/select_governance_final_pre_live_registry_contract_package.ts:26:export function selectGovernanceFinalPreLiveRegistryContractPackage(
+src/governance/cognition/select_governance_final_pre_live_registry_contract_package.ts:27:  contractPackage: GovernanceFinalPreLiveRegistryContractPackage
+src/governance/cognition/select_governance_final_pre_live_registry_contract_package.ts:28:): GovernanceFinalPreLiveRegistryContractPackageSelection {
+src/governance/cognition/governance_shared_registry_owner_bundle.ts:2: * Phase 139 — Governance Shared Registry Owner Bundle
+src/governance/cognition/governance_shared_registry_owner_bundle.ts:13:import type { GovernanceRuntimeRegistryExport } from "./governance_runtime_registry_export";
+src/governance/cognition/governance_shared_registry_owner_bundle.ts:15:export interface GovernanceSharedRegistryOwnerBundle {
+src/governance/cognition/governance_shared_registry_owner_bundle.ts:30:  readonly registryExport: GovernanceRuntimeRegistryExport;
+src/governance/cognition/select_governance_runtime_registry_export.ts:2: * Phase 138 — Governance Runtime Registry Export Selector
+src/governance/cognition/select_governance_runtime_registry_export.ts:7:import type { GovernanceRuntimeRegistryExport } from "./governance_runtime_registry_export";
+src/governance/cognition/select_governance_runtime_registry_export.ts:9:export interface GovernanceRuntimeRegistryExportSelection {
+src/governance/cognition/select_governance_runtime_registry_export.ts:21:export function selectGovernanceRuntimeRegistryExport(
+src/governance/cognition/select_governance_runtime_registry_export.ts:22:  registryExport: GovernanceRuntimeRegistryExport
+src/governance/cognition/select_governance_runtime_registry_export.ts:23:): GovernanceRuntimeRegistryExportSelection {
+src/governance/cognition/prove_governance_authorization_gate.ts:13:import { buildGovernanceRuntimeRegistryExport } from "./build_governance_runtime_registry_export";
+src/governance/cognition/prove_governance_authorization_gate.ts:14:import { normalizeGovernanceRuntimeRegistryExport } from "./normalize_governance_runtime_registry_export";
+src/governance/cognition/prove_governance_authorization_gate.ts:15:import { buildGovernanceSharedRegistryOwnerBundle } from "./build_governance_shared_registry_owner_bundle";
+src/governance/cognition/prove_governance_authorization_gate.ts:16:import { normalizeGovernanceSharedRegistryOwnerBundle } from "./normalize_governance_shared_registry_owner_bundle";
+src/governance/cognition/prove_governance_authorization_gate.ts:17:import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";
+src/governance/cognition/prove_governance_authorization_gate.ts:59:  const registryExport = buildGovernanceRuntimeRegistryExport(normalizedRegistration);
+src/governance/cognition/prove_governance_authorization_gate.ts:60:  const normalizedExport = normalizeGovernanceRuntimeRegistryExport(registryExport);
+src/governance/cognition/prove_governance_authorization_gate.ts:61:  const ownerBundle = buildGovernanceSharedRegistryOwnerBundle(normalizedExport);
+src/governance/cognition/prove_governance_authorization_gate.ts:62:  const normalizedOwnerBundle = normalizeGovernanceSharedRegistryOwnerBundle(ownerBundle);
+src/governance/cognition/prove_governance_authorization_gate.ts:63:  const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);
+src/governance/cognition/prove_governance_live_wiring_decision.ts:13:import { buildGovernanceRuntimeRegistryExport } from "./build_governance_runtime_registry_export";
+src/governance/cognition/prove_governance_live_wiring_decision.ts:14:import { normalizeGovernanceRuntimeRegistryExport } from "./normalize_governance_runtime_registry_export";
+src/governance/cognition/prove_governance_live_wiring_decision.ts:15:import { buildGovernanceSharedRegistryOwnerBundle } from "./build_governance_shared_registry_owner_bundle";
+src/governance/cognition/prove_governance_live_wiring_decision.ts:16:import { normalizeGovernanceSharedRegistryOwnerBundle } from "./normalize_governance_shared_registry_owner_bundle";
+src/governance/cognition/prove_governance_live_wiring_decision.ts:17:import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";
+src/governance/cognition/prove_governance_live_wiring_decision.ts:57:  const registryExport = buildGovernanceRuntimeRegistryExport(normalizedRegistration);
+src/governance/cognition/prove_governance_live_wiring_decision.ts:58:  const normalizedExport = normalizeGovernanceRuntimeRegistryExport(registryExport);
+src/governance/cognition/prove_governance_live_wiring_decision.ts:59:  const ownerBundle = buildGovernanceSharedRegistryOwnerBundle(normalizedExport);
+src/governance/cognition/prove_governance_live_wiring_decision.ts:60:  const normalizedOwnerBundle = normalizeGovernanceSharedRegistryOwnerBundle(ownerBundle);
+src/governance/cognition/prove_governance_live_wiring_decision.ts:61:  const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);
+src/governance/cognition/build_governance_live_registry_wiring_readiness.ts:2: * Phase 140 — Governance Live Registry Wiring Readiness Builder
+src/governance/cognition/build_governance_live_registry_wiring_readiness.ts:8:import type { GovernanceSharedRegistryOwnerBundle } from "./governance_shared_registry_owner_bundle";
+src/governance/cognition/build_governance_live_registry_wiring_readiness.ts:9:import type { GovernanceLiveRegistryWiringReadiness } from "./governance_live_registry_wiring_readiness";
+src/governance/cognition/build_governance_live_registry_wiring_readiness.ts:15:export function buildGovernanceLiveRegistryWiringReadiness(
+src/governance/cognition/build_governance_live_registry_wiring_readiness.ts:16:  ownerBundle: GovernanceSharedRegistryOwnerBundle
+src/governance/cognition/build_governance_live_registry_wiring_readiness.ts:17:): GovernanceLiveRegistryWiringReadiness {
+src/governance/cognition/build_governance_final_pre_live_registry_summary_capsule.ts:2: * Phase 148 — Governance Final Pre-Live Registry Summary Capsule Builder
+src/governance/cognition/build_governance_final_pre_live_registry_summary_capsule.ts:8:import type { GovernanceFinalPreLiveRegistryArchiveRecord } from "./governance_final_pre_live_registry_archive_record";
+src/governance/cognition/build_governance_final_pre_live_registry_summary_capsule.ts:9:import type { GovernanceFinalPreLiveRegistrySummaryCapsule } from "./governance_final_pre_live_registry_summary_capsule";
+src/governance/cognition/build_governance_final_pre_live_registry_summary_capsule.ts:15:export function buildGovernanceFinalPreLiveRegistrySummaryCapsule(
+src/governance/cognition/build_governance_final_pre_live_registry_summary_capsule.ts:16:  archiveRecord: GovernanceFinalPreLiveRegistryArchiveRecord
+src/governance/cognition/build_governance_final_pre_live_registry_summary_capsule.ts:17:): GovernanceFinalPreLiveRegistrySummaryCapsule {
+src/governance/cognition/governance_pre_live_registry_handoff_envelope.ts:2: * Phase 144 — Governance Pre-Live Registry Handoff Envelope
+src/governance/cognition/governance_pre_live_registry_handoff_envelope.ts:15:import type { GovernanceFinalPreLiveRegistryContractPackage } from "./governance_final_pre_live_registry_contract_package";
+src/governance/cognition/governance_pre_live_registry_handoff_envelope.ts:17:export interface GovernancePreLiveRegistryHandoffEnvelope {
+src/governance/cognition/governance_pre_live_registry_handoff_envelope.ts:41:  readonly contractPackage: GovernanceFinalPreLiveRegistryContractPackage;
+src/governance/cognition/normalize_governance_shared_registry_owner_bundle.ts:2: * Phase 139 — Governance Shared Registry Owner Bundle Normalization
+src/governance/cognition/normalize_governance_shared_registry_owner_bundle.ts:7:import type { GovernanceSharedRegistryOwnerBundle } from "./governance_shared_registry_owner_bundle";
+src/governance/cognition/normalize_governance_shared_registry_owner_bundle.ts:13:export function normalizeGovernanceSharedRegistryOwnerBundle(
+src/governance/cognition/normalize_governance_shared_registry_owner_bundle.ts:14:  ownerBundle: GovernanceSharedRegistryOwnerBundle
+src/governance/cognition/normalize_governance_shared_registry_owner_bundle.ts:15:): GovernanceSharedRegistryOwnerBundle {
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:2: * Phase 147 — Governance Final Pre-Live Registry Archive Record Proof
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:13:import { buildGovernanceRuntimeRegistryExport } from "./build_governance_runtime_registry_export";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:14:import { normalizeGovernanceRuntimeRegistryExport } from "./normalize_governance_runtime_registry_export";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:15:import { buildGovernanceSharedRegistryOwnerBundle } from "./build_governance_shared_registry_owner_bundle";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:16:import { normalizeGovernanceSharedRegistryOwnerBundle } from "./normalize_governance_shared_registry_owner_bundle";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:17:import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:20:import { buildGovernanceFinalPreLiveRegistryContractPackage } from "./build_governance_final_pre_live_registry_contract_package";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:21:import { buildGovernancePreLiveRegistryHandoffEnvelope } from "./build_governance_pre_live_registry_handoff_envelope";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:22:import { buildGovernancePreLiveRegistryDeliveryManifest } from "./build_governance_pre_live_registry_delivery_manifest";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:24:import { buildGovernanceFinalPreLiveRegistryArchiveRecord } from "./build_governance_final_pre_live_registry_archive_record";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:25:import { selectGovernanceFinalPreLiveRegistryArchiveRecord } from "./select_governance_final_pre_live_registry_archive_record";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:27:export interface GovernanceFinalPreLiveRegistryArchiveRecordProof {
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:55:export function proveGovernanceFinalPreLiveRegistryArchiveRecord(): GovernanceFinalPreLiveRegistryArchiveRecordProof {
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:69:  const registryExport = buildGovernanceRuntimeRegistryExport(normalizedRegistration);
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:70:  const normalizedExport = normalizeGovernanceRuntimeRegistryExport(registryExport);
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:71:  const ownerBundle = buildGovernanceSharedRegistryOwnerBundle(normalizedExport);
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:72:  const normalizedOwnerBundle = normalizeGovernanceSharedRegistryOwnerBundle(ownerBundle);
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:73:  const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:76:  const contractPackage = buildGovernanceFinalPreLiveRegistryContractPackage(gate);
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:77:  const envelope = buildGovernancePreLiveRegistryHandoffEnvelope(contractPackage);
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:78:  const manifest = buildGovernancePreLiveRegistryDeliveryManifest(envelope);
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:80:  const archiveRecord = buildGovernanceFinalPreLiveRegistryArchiveRecord(receipt);
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:81:  const selected = selectGovernanceFinalPreLiveRegistryArchiveRecord(archiveRecord);
+src/governance/cognition/governance_live_registry_wiring_readiness.ts:2: * Phase 140 — Governance Live Registry Wiring Readiness
+src/governance/cognition/governance_live_registry_wiring_readiness.ts:15:import type { GovernanceSharedRegistryOwnerBundle } from "./governance_shared_registry_owner_bundle";
+src/governance/cognition/governance_live_registry_wiring_readiness.ts:17:export interface GovernanceLiveRegistryWiringReadiness {
+src/governance/cognition/governance_live_registry_wiring_readiness.ts:36:  readonly ownerBundle: GovernanceSharedRegistryOwnerBundle;
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:2: * Phase 139 — Governance Shared Registry Owner Bundle Proof
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:13:import { buildGovernanceRuntimeRegistryExport } from "./build_governance_runtime_registry_export";
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:14:import { normalizeGovernanceRuntimeRegistryExport } from "./normalize_governance_runtime_registry_export";
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:15:import { buildGovernanceSharedRegistryOwnerBundle } from "./build_governance_shared_registry_owner_bundle";
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:16:import { normalizeGovernanceSharedRegistryOwnerBundle } from "./normalize_governance_shared_registry_owner_bundle";
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:17:import { selectGovernanceSharedRegistryOwnerBundle } from "./select_governance_shared_registry_owner_bundle";
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:19:export interface GovernanceSharedRegistryOwnerBundleProof {
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:37:export function proveGovernanceSharedRegistryOwnerBundle(): GovernanceSharedRegistryOwnerBundleProof {
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:51:  const registryExport = buildGovernanceRuntimeRegistryExport(normalizedRegistration);
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:52:  const normalizedExport = normalizeGovernanceRuntimeRegistryExport(registryExport);
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:53:  const ownerBundle = buildGovernanceSharedRegistryOwnerBundle(normalizedExport);
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:54:  const normalizedOwnerBundle = normalizeGovernanceSharedRegistryOwnerBundle(ownerBundle);
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:55:  const selected = selectGovernanceSharedRegistryOwnerBundle(normalizedOwnerBundle);
+src/governance/cognition/normalize_governance_runtime_registry_export.ts:2: * Phase 138 — Governance Runtime Registry Export Normalization
+src/governance/cognition/normalize_governance_runtime_registry_export.ts:7:import type { GovernanceRuntimeRegistryExport } from "./governance_runtime_registry_export";
+src/governance/cognition/normalize_governance_runtime_registry_export.ts:13:export function normalizeGovernanceRuntimeRegistryExport(
+src/governance/cognition/normalize_governance_runtime_registry_export.ts:14:  registryExport: GovernanceRuntimeRegistryExport
+src/governance/cognition/normalize_governance_runtime_registry_export.ts:15:): GovernanceRuntimeRegistryExport {
+src/governance/cognition/index.ts:5:  GovernanceRegistryStatus
+src/governance/cognition/index.ts:18:export type { GovernanceRuntimeRegistryExport } from "./governance_runtime_registry_export";
+src/governance/cognition/index.ts:19:export { buildGovernanceRuntimeRegistryExport } from "./build_governance_runtime_registry_export";
+src/governance/cognition/index.ts:20:export { normalizeGovernanceRuntimeRegistryExport } from "./normalize_governance_runtime_registry_export";
+src/governance/cognition/index.ts:22:export type { GovernanceSharedRegistryOwnerBundle } from "./governance_shared_registry_owner_bundle";
+src/governance/cognition/index.ts:23:export { buildGovernanceSharedRegistryOwnerBundle } from "./build_governance_shared_registry_owner_bundle";
+src/governance/cognition/index.ts:24:export { normalizeGovernanceSharedRegistryOwnerBundle } from "./normalize_governance_shared_registry_owner_bundle";
+src/governance/cognition/index.ts:26:export type { GovernanceLiveRegistryWiringReadiness } from "./governance_live_registry_wiring_readiness";
+src/governance/cognition/index.ts:27:export { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";
+src/governance/cognition/index.ts:28:export type { GovernanceLiveRegistryWiringReadinessSelection } from "./select_governance_live_registry_wiring_readiness";
+src/governance/cognition/index.ts:29:export { selectGovernanceLiveRegistryWiringReadiness } from "./select_governance_live_registry_wiring_readiness";
+src/governance/cognition/index.ts:30:export { proveGovernanceLiveRegistryWiringReadiness } from "./prove_governance_live_registry_wiring_readiness";
+src/governance/cognition/index.ts:31:export type { GovernanceLiveRegistryWiringReadinessProof } from "./prove_governance_live_registry_wiring_readiness";
+src/governance/cognition/index.ts:50:export type { GovernanceFinalPreLiveRegistryContractPackage } from "./governance_final_pre_live_registry_contract_package";
+src/governance/cognition/index.ts:51:export { buildGovernanceFinalPreLiveRegistryContractPackage } from "./build_governance_final_pre_live_registry_contract_package";
+src/governance/cognition/index.ts:52:export type { GovernanceFinalPreLiveRegistryContractPackageSelection } from "./select_governance_final_pre_live_registry_contract_package";
+src/governance/cognition/index.ts:53:export { selectGovernanceFinalPreLiveRegistryContractPackage } from "./select_governance_final_pre_live_registry_contract_package";
+src/governance/cognition/index.ts:54:export { proveGovernanceFinalPreLiveRegistryContractPackage } from "./prove_governance_final_pre_live_registry_contract_package";
+src/governance/cognition/index.ts:55:export type { GovernanceFinalPreLiveRegistryContractPackageProof } from "./prove_governance_final_pre_live_registry_contract_package";
+src/governance/cognition/index.ts:57:export type { GovernancePreLiveRegistryHandoffEnvelope } from "./governance_pre_live_registry_handoff_envelope";
+src/governance/cognition/index.ts:58:export { buildGovernancePreLiveRegistryHandoffEnvelope } from "./build_governance_pre_live_registry_handoff_envelope";
+src/governance/cognition/index.ts:59:export type { GovernancePreLiveRegistryHandoffEnvelopeSelection } from "./select_governance_pre_live_registry_handoff_envelope";
+src/governance/cognition/index.ts:60:export { selectGovernancePreLiveRegistryHandoffEnvelope } from "./select_governance_pre_live_registry_handoff_envelope";
+src/governance/cognition/index.ts:61:export { proveGovernancePreLiveRegistryHandoffEnvelope } from "./prove_governance_pre_live_registry_handoff_envelope";
+src/governance/cognition/index.ts:62:export type { GovernancePreLiveRegistryHandoffEnvelopeProof } from "./prove_governance_pre_live_registry_handoff_envelope";
+src/governance/cognition/index.ts:64:export type { GovernancePreLiveRegistryDeliveryManifest } from "./governance_pre_live_registry_delivery_manifest";
+src/governance/cognition/index.ts:65:export { buildGovernancePreLiveRegistryDeliveryManifest } from "./build_governance_pre_live_registry_delivery_manifest";
+src/governance/cognition/index.ts:66:export type { GovernancePreLiveRegistryDeliveryManifestSelection } from "./select_governance_pre_live_registry_delivery_manifest";
+src/governance/cognition/index.ts:67:export { selectGovernancePreLiveRegistryDeliveryManifest } from "./select_governance_pre_live_registry_delivery_manifest";
+src/governance/cognition/index.ts:68:export { proveGovernancePreLiveRegistryDeliveryManifest } from "./prove_governance_pre_live_registry_delivery_manifest";
+src/governance/cognition/index.ts:69:export type { GovernancePreLiveRegistryDeliveryManifestProof } from "./prove_governance_pre_live_registry_delivery_manifest";
+src/governance/cognition/index.ts:78:export type { GovernanceFinalPreLiveRegistryArchiveRecord } from "./governance_final_pre_live_registry_archive_record";
+src/governance/cognition/index.ts:79:export { buildGovernanceFinalPreLiveRegistryArchiveRecord } from "./build_governance_final_pre_live_registry_archive_record";
+src/governance/cognition/index.ts:80:export type { GovernanceFinalPreLiveRegistryArchiveRecordSelection } from "./select_governance_final_pre_live_registry_archive_record";
+src/governance/cognition/index.ts:81:export { selectGovernanceFinalPreLiveRegistryArchiveRecord } from "./select_governance_final_pre_live_registry_archive_record";
+src/governance/cognition/index.ts:82:export { proveGovernanceFinalPreLiveRegistryArchiveRecord } from "./prove_governance_final_pre_live_registry_archive_record";
+src/governance/cognition/index.ts:83:export type { GovernanceFinalPreLiveRegistryArchiveRecordProof } from "./prove_governance_final_pre_live_registry_archive_record";
+src/governance/cognition/index.ts:85:export type { GovernanceFinalPreLiveRegistrySummaryCapsule } from "./governance_final_pre_live_registry_summary_capsule";
+src/governance/cognition/index.ts:86:export { buildGovernanceFinalPreLiveRegistrySummaryCapsule } from "./build_governance_final_pre_live_registry_summary_capsule";
+src/governance/cognition/index.ts:87:export type { GovernanceFinalPreLiveRegistrySummaryCapsuleSelection } from "./select_governance_final_pre_live_registry_summary_capsule";
+src/governance/cognition/index.ts:88:export { selectGovernanceFinalPreLiveRegistrySummaryCapsule } from "./select_governance_final_pre_live_registry_summary_capsule";
+src/governance/cognition/index.ts:89:export { proveGovernanceFinalPreLiveRegistrySummaryCapsule } from "./prove_governance_final_pre_live_registry_summary_capsule";
+src/governance/cognition/index.ts:90:export type { GovernanceFinalPreLiveRegistrySummaryCapsuleProof } from "./prove_governance_final_pre_live_registry_summary_capsule";
+src/governance/cognition/select_governance_pre_live_registry_handoff_envelope.ts:2: * Phase 144 — Governance Pre-Live Registry Handoff Envelope Selector
+src/governance/cognition/select_governance_pre_live_registry_handoff_envelope.ts:7:import type { GovernancePreLiveRegistryHandoffEnvelope } from "./governance_pre_live_registry_handoff_envelope";
+src/governance/cognition/select_governance_pre_live_registry_handoff_envelope.ts:9:export interface GovernancePreLiveRegistryHandoffEnvelopeSelection {
+src/governance/cognition/select_governance_pre_live_registry_handoff_envelope.ts:27:export function selectGovernancePreLiveRegistryHandoffEnvelope(
+src/governance/cognition/select_governance_pre_live_registry_handoff_envelope.ts:28:  envelope: GovernancePreLiveRegistryHandoffEnvelope
+src/governance/cognition/select_governance_pre_live_registry_handoff_envelope.ts:29:): GovernancePreLiveRegistryHandoffEnvelopeSelection {
+src/governance/cognition/governance_final_delivery_receipt.ts:15:import type { GovernancePreLiveRegistryDeliveryManifest } from "./governance_pre_live_registry_delivery_manifest";
+src/governance/cognition/governance_final_delivery_receipt.ts:43:  readonly manifest: GovernancePreLiveRegistryDeliveryManifest;
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:2: * Phase 144 — Governance Pre-Live Registry Handoff Envelope Proof
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:13:import { buildGovernanceRuntimeRegistryExport } from "./build_governance_runtime_registry_export";
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:14:import { normalizeGovernanceRuntimeRegistryExport } from "./normalize_governance_runtime_registry_export";
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:15:import { buildGovernanceSharedRegistryOwnerBundle } from "./build_governance_shared_registry_owner_bundle";
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:16:import { normalizeGovernanceSharedRegistryOwnerBundle } from "./normalize_governance_shared_registry_owner_bundle";
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:17:import { buildGovernanceLiveRegistryWiringReadiness } from "./build_governance_live_registry_wiring_readiness";
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:20:import { buildGovernanceFinalPreLiveRegistryContractPackage } from "./build_governance_final_pre_live_registry_contract_package";
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:21:import { buildGovernancePreLiveRegistryHandoffEnvelope } from "./build_governance_pre_live_registry_handoff_envelope";
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:22:import { selectGovernancePreLiveRegistryHandoffEnvelope } from "./select_governance_pre_live_registry_handoff_envelope";
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:24:export interface GovernancePreLiveRegistryHandoffEnvelopeProof {
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:49:export function proveGovernancePreLiveRegistryHandoffEnvelope(): GovernancePreLiveRegistryHandoffEnvelopeProof {
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:63:  const registryExport = buildGovernanceRuntimeRegistryExport(normalizedRegistration);
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:64:  const normalizedExport = normalizeGovernanceRuntimeRegistryExport(registryExport);
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:65:  const ownerBundle = buildGovernanceSharedRegistryOwnerBundle(normalizedExport);
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:66:  const normalizedOwnerBundle = normalizeGovernanceSharedRegistryOwnerBundle(ownerBundle);
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:67:  const readiness = buildGovernanceLiveRegistryWiringReadiness(normalizedOwnerBundle);
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:70:  const contractPackage = buildGovernanceFinalPreLiveRegistryContractPackage(gate);
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:71:  const envelope = buildGovernancePreLiveRegistryHandoffEnvelope(contractPackage);
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:72:  const selected = selectGovernancePreLiveRegistryHandoffEnvelope(envelope);
+src/governance/cognition/build_governance_final_pre_live_registry_contract_package.ts:2: * Phase 143 — Governance Final Pre-Live Registry Contract Package Builder
+src/governance/cognition/build_governance_final_pre_live_registry_contract_package.ts:9:import type { GovernanceFinalPreLiveRegistryContractPackage } from "./governance_final_pre_live_registry_contract_package";
+src/governance/cognition/build_governance_final_pre_live_registry_contract_package.ts:15:export function buildGovernanceFinalPreLiveRegistryContractPackage(
+src/governance/cognition/build_governance_final_pre_live_registry_contract_package.ts:17:): GovernanceFinalPreLiveRegistryContractPackage {
+src/governance/cognition/select_governance_live_registry_wiring_readiness.ts:2: * Phase 140 — Governance Live Registry Wiring Readiness Selector
+src/governance/cognition/select_governance_live_registry_wiring_readiness.ts:7:import type { GovernanceLiveRegistryWiringReadiness } from "./governance_live_registry_wiring_readiness";
+src/governance/cognition/select_governance_live_registry_wiring_readiness.ts:9:export interface GovernanceLiveRegistryWiringReadinessSelection {
+src/governance/cognition/select_governance_live_registry_wiring_readiness.ts:22:export function selectGovernanceLiveRegistryWiringReadiness(
+src/governance/cognition/select_governance_live_registry_wiring_readiness.ts:23:  readiness: GovernanceLiveRegistryWiringReadiness
+src/governance/cognition/select_governance_live_registry_wiring_readiness.ts:24:): GovernanceLiveRegistryWiringReadinessSelection {
+src/governance/cognition/governance_runtime_registry_export.ts:2: * Phase 138 — Governance Runtime Registry Export
+src/governance/cognition/governance_runtime_registry_export.ts:16:export interface GovernanceRuntimeRegistryExport {
+src/governance/cognition/build_governance_runtime_registry_export.ts:2: * Phase 138 — Governance Runtime Registry Export Builder
+src/governance/cognition/build_governance_runtime_registry_export.ts:9:import type { GovernanceRuntimeRegistryExport } from "./governance_runtime_registry_export";
+src/governance/cognition/build_governance_runtime_registry_export.ts:11:export function buildGovernanceRuntimeRegistryExport(
+src/governance/cognition/build_governance_runtime_registry_export.ts:13:): GovernanceRuntimeRegistryExport {
+src/governance/governance_policy_registry.ts:2:Phase 324 — Governance Policy Registry
+
+execution adjacency comparison
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:14:export function runConsumptionRegistryEnforcementEntrypoint(): ConsumptionRegistryEnforcementEntrypointResult {
+src/governance/governance_policy_engine.test.ts:7:import { evaluateGovernancePolicy } from "./governance_policy_engine"
+src/governance/governance_policy_engine.test.ts:15:const safe = evaluateGovernancePolicy({
+src/governance/governance_policy_engine.test.ts:23:const warn = evaluateGovernancePolicy({
+src/governance/governance_policy_engine.test.ts:31:const critical = evaluateGovernancePolicy({
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:19:import { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:77:  const gate = buildGovernanceAuthorizationGate(decision);
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:19:import { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:73:  const gate = buildGovernanceAuthorizationGate(decision);
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:19:import { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:67:  const gate = buildGovernanceAuthorizationGate(decision);
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:19:import { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:71:  const gate = buildGovernanceAuthorizationGate(decision);
+src/governance/cognition/prove_governance_authorization_gate.ts:19:import { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";
+src/governance/cognition/prove_governance_authorization_gate.ts:65:  const gate = buildGovernanceAuthorizationGate(decision);
+src/governance/cognition/build_governance_authorization_gate.ts:24:export function buildGovernanceAuthorizationGate(
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:19:import { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:75:  const gate = buildGovernanceAuthorizationGate(decision);
+src/governance/cognition/index.ts:44:export { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:19:import { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:69:  const gate = buildGovernanceAuthorizationGate(decision);
+src/governance/governance_policy_engine.ts:20:export function evaluateGovernancePolicy(
+
+possible gateway chokepoint shortlist
+src/governance/governance_policy_engine.test.ts
+src/governance/cognition/build_governance_live_wiring_decision.ts
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts
+src/governance/cognition/prove_governance_final_delivery_receipt.ts
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts
+src/governance/cognition/prove_governance_authorization_gate.ts
+src/governance/cognition/prove_governance_live_wiring_decision.ts
+src/governance/cognition/build_governance_authorization_gate.ts
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts
+src/governance/cognition/index.ts
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts
+src/governance/governance_policy_engine.ts
+

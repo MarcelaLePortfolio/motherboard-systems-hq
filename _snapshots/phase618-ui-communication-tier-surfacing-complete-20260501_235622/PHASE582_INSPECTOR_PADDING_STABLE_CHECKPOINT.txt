@@ -1,0 +1,11 @@
+Phase 582 inspector padding stable checkpoint.
+
+State:
+- Execution Inspector structured expandable renderer is working.
+- Rows are readable.
+- Expanded panel is centered.
+- Left padding has been added.
+- Current view is acceptable and revert-safe before moving actions/details again.
+
+Next:
+Create tag and filesystem snapshot before further visual refinement.

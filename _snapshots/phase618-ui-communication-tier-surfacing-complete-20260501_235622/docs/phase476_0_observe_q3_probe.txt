@@ -1,0 +1,23 @@
+PHASE 476.0 — OBSERVE Q3 PROBE
+==============================
+
+STATUS
+- Q1 is stable
+- Q2 is stable
+- Q3 and Q4 probe pages are created and serving
+- current fault domain is narrowed into the bottom half, with Q3 first
+
+DO THIS NOW
+1. Open:
+   http://localhost:8080/dashboard_body_q3_probe.html
+
+2. Let it sit for 30–60 seconds.
+
+3. Try:
+   - scroll once
+   - click once anywhere harmless
+
+RETURN TO CHATGPT WITH EXACTLY ONE OF THESE
+- Q3_PROBE_STABLE
+- Q3_PROBE_STILL_UNRESPONSIVE
+- WHITE_SCREEN_RETURNED

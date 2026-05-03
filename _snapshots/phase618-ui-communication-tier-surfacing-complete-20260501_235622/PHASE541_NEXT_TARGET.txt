@@ -1,0 +1,50 @@
+PHASE 541 — NEXT TARGET
+
+CORRIDOR:
+OPERATOR EXPERIENCE + CONTROL SURFACE (ACTIVE RENDERER)
+
+PRIORITY:
+Interaction layer on ACTIVE renderer
+
+CONTEXT:
+- phase457_restore_task_panels.js is confirmed active renderer
+- UX parity achieved (highlight + grouping)
+- Interaction currently only exists on inactive client
+
+OBJECTIVE:
+Enable operator interaction directly on active execution surface
+
+INITIAL SCOPE (SAFE, UI-ONLY):
+- Clickable rows
+- Visual feedback on selection
+- No backend calls
+
+IMPLEMENTATION PLAN:
+
+1. CLICK HANDLER
+- Attach click event to each rendered row
+- Capture:
+  - taskId
+  - kind
+  - title
+  - timestamp
+
+2. VISUAL FEEDBACK
+- Highlight selected row (slightly stronger background)
+- Ensure it overrides active highlight
+
+3. CONSOLE TRACE (DEBUG SAFE)
+- console.log("Selected task:", {...})
+
+CONSTRAINTS:
+- Single file: public/js/phase457_restore_task_panels.js
+- No SSE changes
+- No backend/API calls
+- Additive only
+- Must not break render() flow
+
+GOAL:
+Bridge observability → interaction on the correct UI surface
+
+STATUS:
+READY FOR SURGICAL PATCH

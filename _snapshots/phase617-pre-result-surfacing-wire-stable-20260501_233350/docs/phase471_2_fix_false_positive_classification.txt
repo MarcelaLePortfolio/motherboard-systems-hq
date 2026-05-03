@@ -1,0 +1,22 @@
+PHASE 471.2 — FIX FALSE POSITIVE CLASSIFICATION
+==============================================
+
+STEP 1 — Show why phase471.1 misclassified
+The previous check matched the filename inside the neutralization comment.
+
+757:<!-- phase471.1 temporary neutralization: /js/phase457_restore_task_panels.js removed to isolate task-events surface -->
+
+STEP 2 — Verify actual script tag absence
+ACTUAL_SCRIPT_TAG_ABSENT
+
+STEP 3 — Verify neutralization marker presence
+757:<!-- phase471.1 temporary neutralization: /js/phase457_restore_task_panels.js removed to isolate task-events surface -->
+
+STEP 4 — Corrected classification
+CLASSIFICATION: TASK_EVENTS_SCRIPT_REMOVED_FOR_REAL
+
+DECISION TARGET
+- The phase471.1 result was a false positive.
+- The task-events restore script is removed for real.
+- Next step is browser observation only.
+- Report one of: STABLE_AFTER_REAL_TASK_EVENTS_REMOVAL / STILL_FREEZES / WHITE_SCREEN_RETURNED

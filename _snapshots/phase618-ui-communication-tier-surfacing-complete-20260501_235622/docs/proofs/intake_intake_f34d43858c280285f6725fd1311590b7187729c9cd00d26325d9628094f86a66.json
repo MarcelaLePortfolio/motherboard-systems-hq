@@ -1,0 +1,9 @@
+{
+  "intakeId": "intake_f34d43858c280285f6725fd1311590b7187729c9cd00d26325d9628094f86a66",
+  "operatorRequest": {
+    "requestId": "req_f34d43858c280285f6725fd1311590b7187729c9cd00d26325d9628094f86a66",
+    "timestamp": "2026-01-01T00:00:00Z",
+    "operatorId": "operator_001",
+    "rawInput": "echo system check"
+  }
+}

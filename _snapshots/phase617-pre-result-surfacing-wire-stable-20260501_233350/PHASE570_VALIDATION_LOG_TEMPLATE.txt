@@ -1,0 +1,59 @@
+PHASE 570 — VALIDATION LOG
+
+TEST: Requeue behavior under live system conditions
+
+────────────────────────────────
+
+TEST RUN #1
+
+Selected Task:
+- task_id:
+- status:
+- title:
+
+ACTION:
+- Clicked "Requeue"
+
+OBSERVATIONS:
+
+A. Event Emission:
+- Did new task.created appear? (yes/no)
+- New task_id:
+- Matches expectation? (yes/no)
+
+B. Metadata Integrity:
+- meta.retry_of_task_id present? (yes/no)
+- Correct original task_id? (yes/no)
+
+C. Worker Behavior:
+- picked up by worker? (yes/no)
+- status transitions:
+  queued → running → ?
+- final status:
+
+D. System Integrity:
+- original task mutated? (yes/no)
+- duplicate loop detected? (yes/no)
+- multiple tasks unintentionally created? (yes/no)
+
+E. UI Behavior:
+- visible in Execution Inspector? (yes/no)
+- visible in Task History? (yes/no)
+- console errors? (yes/no)
+
+NOTES:
+
+────────────────────────────────
+
+RESULT:
+PASS / FAIL
+
+IF FAIL:
+- describe exact failure:
+- include console logs:
+- include observed payload:
+
+────────────────────────────────
+
+STATUS:
+(leave blank until complete)

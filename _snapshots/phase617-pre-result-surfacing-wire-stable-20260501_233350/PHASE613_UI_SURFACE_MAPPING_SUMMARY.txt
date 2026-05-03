@@ -1,0 +1,46 @@
+Phase 613 UI Surface Mapping Summary.
+
+RECENT TASKS
+- Source: /api/tasks (DB-backed)
+- Data: task_id, run_id, status, created_at, updated_at
+- Behavior: reflects lifecycle (queued → claimed → complete)
+- Gap: no rendering of execution output or CommunicationResult
+
+EXECUTION INSPECTOR
+- Source: /api/delegate-task + task-specific fetch
+- Data: task metadata, retry controls, execution state
+- Behavior: allows re-run with retry_of_task_id + strategy
+- Gap: no structured display of execution result payload
+
+TASK HISTORY
+- Source: database task records + events
+- Behavior: chronological visibility of task lifecycle
+- Gap: does not surface execution narrative or compiled response
+
+EVENT STREAM (SSE)
+- Source: /events/tasks
+- Behavior: pushes task updates to UI
+- Gap: events do not include CommunicationResult payload
+
+CONFIRMED SYSTEM STATE
+- Worker executes tasks and invokes response compiler
+- Output exists but is not surfaced through UI layers
+- UI is state-aware, not result-aware
+
+INSERTION POINT (FUTURE — DO NOT IMPLEMENT YET)
+- Attach CommunicationResult to:
+  1. task_events payload
+  2. /api/tasks response shape
+  3. SSE event stream
+- UI render target:
+  - Recent Tasks (summary)
+  - Execution Inspector (full detail view)
+
+CONSTRAINT (ACTIVE)
+- No runtime changes
+- No API mutation
+- No UI wiring
+- Documentation only
+
+OUTCOME
+Clear, minimal map of where execution results will enter the system once system-led execution foundation is complete.

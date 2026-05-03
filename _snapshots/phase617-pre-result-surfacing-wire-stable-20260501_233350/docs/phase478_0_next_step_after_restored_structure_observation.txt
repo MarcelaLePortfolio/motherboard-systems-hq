@@ -1,0 +1,23 @@
+PHASE 478.0 — NEXT STEP AFTER RESTORED STRUCTURE OBSERVATION
+============================================================
+
+INTERPRETATION
+- If the dashboard is stable but still structurally wrong, the remaining problem is not the broad page skeleton.
+- The remaining problem is now most likely:
+  • missing CSS-dependent behavior or layout assumptions
+  • missing JS-driven DOM population
+  • or specific script-driven class/state application
+
+NEXT SAFE CORRIDOR
+- Reintroduce scripts one at a time, in controlled order
+- Start with the smallest, least risky script first
+- Observe after each single reintroduction
+- Do NOT restore multiple scripts at once
+- Do NOT restore bundle.js yet
+
+RECOMMENDED FIRST SCRIPT
+- js/phase60_live_clock.js
+
+RATIONALE
+- It is likely lower-risk than workspace/history wiring
+- It should help verify whether small live behavior can return without destabilizing the page

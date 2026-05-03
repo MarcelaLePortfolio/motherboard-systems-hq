@@ -1,0 +1,86 @@
+PHASE 456.6 — STEP 3
+Minimal Wording Drift Classification
+-----------------------------------
+
+CLASSIFICATION
+Drift classification only.
+Evidence interpretation only.
+No mutation.
+
+RAW STEP 2 ANALYSIS
+PHASE 456.6 — STEP 2
+Wording Alignment Analysis
+-------------------------
+
+CLASSIFICATION
+Analysis only.
+Evidence interpretation only.
+No mutation.
+
+RAW STEP 1 INVENTORY
+PHASE 456.6 — STEP 1
+Operator Clarity Inventory
+-------------------------
+
+CLASSIFICATION
+Inventory only.
+Evidence capture only.
+No mutation.
+
+DASHBOARD HEALTH EXPOSURE WORDING
+
+SYSTEM HEALTH BLOCK CONTENT
+
+RUNBOOK WORDING
+
+DEMO READINESS WORDING
+
+PROOF STATE WORDING
+
+OPERATOR ACTION WORDING
+
+INVENTORY_STATUS
+STATUS=OPERATOR_CLARITY_INVENTORY_CAPTURED
+NEXT_STEP=WORDING_ALIGNMENT_ANALYSIS
+
+DETERMINISTIC_STOP
+Stop after operator clarity inventory capture.
+
+ALIGNMENT_CHECKS
+HEALTH_LABEL_PRESENT=YES
+DEMO_CAPABLE_LABEL_PRESENT=YES
+READY_FOR_OPERATOR_REQUEST_PRESENT=YES
+OPERATOR_APPROVAL_WORDING_PRESENT=YES
+GOVERNANCE_APPROVAL_WORDING_PRESENT=YES
+AWAIT_OPERATOR_APPROVAL_PRESENT=YES
+REQUIRE_OPERATOR_INTERPRETATION_PRESENT=YES
+
+ANALYSIS
+Health block wording is expected to be concise and dashboard-facing.
+Runbook and proof artifacts may contain more explanatory wording.
+Potential drift exists if dashboard says DEMO CAPABLE while operator guidance lacks matching readiness phrasing.
+Potential drift exists if approval language varies between Governance approval, Operator approval, and Await operator approval without a clear ordered explanation.
+
+VERDICT
+STATUS=WORDING_ALIGNMENT_ANALYZED
+NEXT_STEP=MINIMAL_WORDING_DRIFT_CLASSIFICATION
+
+DETERMINISTIC_STOP
+Stop after wording alignment analysis.
+
+PARSED_VALUES
+STATUS=WORDING_ALIGNMENT_ANALYZED
+NEXT_STEP=MINIMAL_WORDING_DRIFT_CLASSIFICATION
+READY_FOR_OPERATOR_REQUEST_PRESENT=YES
+OPERATOR_APPROVAL_WORDING_PRESENT=YES
+GOVERNANCE_APPROVAL_WORDING_PRESENT=YES
+AWAIT_OPERATOR_APPROVAL_PRESENT=YES
+
+DRIFT_CLASSIFICATION
+WORDING_DRIFT_LEVEL=MINIMAL
+DRIFT_REASON=Dashboard wording is concise, but supporting operator/demo phrasing is not yet fully normalized.
+CORRECTION_SCOPE=DOC_AND_LABEL_ALIGNMENT_ONLY
+NEXT_STEP=MINIMAL_CORRECTION_CORRIDOR_DECISION
+
+DETERMINISTIC_STOP
+Stop after minimal wording drift classification.

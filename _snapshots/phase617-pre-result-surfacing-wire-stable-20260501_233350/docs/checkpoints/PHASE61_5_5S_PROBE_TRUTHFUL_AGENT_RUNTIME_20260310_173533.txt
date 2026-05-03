@@ -1,0 +1,137 @@
+== Phase 61.5.5s truthful agent runtime probe ==
+timestamp: 2026-03-11T00:35:33Z
+
+== branch / head ==
+phase61-cherry-pick-recovery
+a7dd69d7
+
+== verifier summary ==
+== HEAD ==
+a7dd69d7
+a7dd69d7 Phase 61.5.5s: add truthful agent runtime probe
+fc393d28 Phase 61.5.5r: add truthful agent status patch verifier
+c7d2903e Phase 61.5.5q: read truthful agent status from named ops events
+
+== tracked file status ==
+
+== source contains named ops handlers ==
+229:  source.addEventListener("ops.state", (event) => handleOpsEvent("ops.state", event));
+153:  function applyAgentMap(payload) {
+208:      if (applyAgentMap(payload)) return;
+211:    if (applyAgentMap(data)) return;
+212:    if (applyAgentMap(payload)) return;
+229:  source.addEventListener("ops.state", (event) => handleOpsEvent("ops.state", event));
+
+== bundle contains named ops handlers ==
+553:    source.addEventListener("ops.state", (event) => handleOpsEvent("ops.state", event));
+504:    function applyAgentMap(payload) {
+536:        if (applyAgentMap(payload)) return;
+538:      if (applyAgentMap(data)) return;
+539:      if (applyAgentMap(payload)) return;
+553:    source.addEventListener("ops.state", (event) => handleOpsEvent("ops.state", event));
+
+== exact diff vs HEAD ==
+
+== live /events/ops bounded sample ==
+event: hello
+data: {"kind":"ops","ts":1773189333978,"msg":"SSE ops connected"}
+
+event: ops.state
+data: {"status":"unknown","lastHeartbeatAt":null,"agents":{}}
+
+event: heartbeat
+data: {"ts":1773189336977}
+
+event: heartbeat
+data: {"ts":1773189339977}
+
+
+
+== extracted agent-bearing lines from latest bounded sample ==
+4:event: ops.state
+5:data: {"status":"unknown","lastHeartbeatAt":null,"agents":{}}
+
+== dashboard container logs tail ==
+  path: '/',
+  referer: 'http://127.0.0.1:8080/dashboard',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+  accept: 'application/json'
+}
+[HTTP] GET /api/runs?limit=20
+[HTTP] GET /api/tasks?limit=12
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://127.0.0.1:8080/dashboard',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+  accept: 'application/json'
+}
+[HTTP] GET /api/runs?limit=20
+[HTTP] GET /api/tasks?limit=12
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://127.0.0.1:8080/dashboard',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+  accept: 'application/json'
+}
+[HTTP] GET /api/runs?limit=20
+[HTTP] GET /api/runs?limit=20
+[HTTP] GET /api/tasks?limit=12
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://127.0.0.1:8080/dashboard',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+  accept: 'application/json'
+}
+[HTTP] GET /api/tasks?limit=12
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://127.0.0.1:8080/dashboard',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+  accept: 'application/json'
+}
+[HTTP] GET /api/runs?limit=20
+[HTTP] GET /api/tasks?limit=12
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://127.0.0.1:8080/dashboard',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+  accept: 'application/json'
+}
+[HTTP] GET /api/runs?limit=20
+[HTTP] GET /api/tasks?limit=12
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://127.0.0.1:8080/dashboard',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+  accept: 'application/json'
+}
+[HTTP] GET /api/runs?limit=20
+[HTTP] GET /events/ops
+[HTTP] GET /events/ops
+[HTTP] GET /api/tasks?limit=12
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://127.0.0.1:8080/dashboard',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+  accept: 'application/json'
+}
+[HTTP] GET /api/runs?limit=20
+[HTTP] GET /events/ops
+[HTTP] GET /events/ops
+
+== current source handler anchors ==
+

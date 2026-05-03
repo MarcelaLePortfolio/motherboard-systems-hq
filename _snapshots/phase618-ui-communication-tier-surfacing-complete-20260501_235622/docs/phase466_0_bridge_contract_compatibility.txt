@@ -1,0 +1,186 @@
+PHASE 466.0 — BRIDGE CONTRACT COMPATIBILITY MAP
+===============================================
+
+CONTRACT FILE: src/contracts/governanceExecutionBridgeContract.ts
+INTAKE OWNER: server/taskContract.mjs
+GOVERNANCE OWNER: server/policy/policy_eval.mjs
+EXECUTION/PREPARATION OWNER: server/orchestration/policy-pipeline.ts
+
+STEP 1 — Contract surface
+/**
+ * Phase 466.0 — Governance → Execution Bridge Contract
+ *
+ * Structural contract only.
+ * No runtime wiring.
+ * No execution enablement.
+ * No authority redistribution.
+ */
+
+export interface NormalizedTaskEnvelope {
+  id: string | null;
+  title: string;
+  agent: string;
+  status: string;
+  notes: unknown;
+  source: unknown;
+  trace_id: unknown;
+  error: unknown;
+  meta: unknown;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface NormalizedRunEnvelope {
+  run_id: string | null;
+  task_id: string | null;
+  status?: string | null;
+  meta?: unknown;
+}
+
+export interface GovernanceDecisionReason {
+  code: string;
+  value?: string;
+}
+
+export interface GovernanceDecisionEnvelope {
+  allow: boolean;
+  enforce: boolean;
+  reasons: GovernanceDecisionReason[];
+  confidence: string;
+}
+
+export interface GovernanceSignalsEnvelope {
+  task_id: string | null;
+  run_id: string | null;
+  kind: string | null;
+  action_tier: string | null;
+  attempts: number | null;
+  max_attempts: number | null;
+  claimed_by: string | null;
+  now_ms: number;
+}
+
+export interface GovernanceEvaluationEnvelope {
+  version: string;
+  decision: GovernanceDecisionEnvelope;
+  signals: GovernanceSignalsEnvelope;
+}
+
+export interface PreparationContextUpdates {
+  operatorMode?: string;
+  intent?: string;
+}
+
+export interface PreparationEnvelope {
+  accepted: boolean;
+  ctx_updates: PreparationContextUpdates;
+  emitted_events: unknown[];
+}
+
+export interface GovernanceExecutionBridgeContract {
+  intake: {
+    task: NormalizedTaskEnvelope;
+    run?: NormalizedRunEnvelope;
+  };
+  governance: GovernanceEvaluationEnvelope;
+  preparation: PreparationEnvelope;
+}
+
+/**
+ * Phase 466.0 invariants:
+ * - Intake must already be normalized before governance evaluation.
+ * - Governance evaluation must be side-effect free.
+ * - Governance output must be explicit and serializable.
+ * - Preparation may consume governance output, but may not directly execute work.
+ * - No mutation of source intake object across bridge stages.
+ * - All stages must remain replay-stable.
+ */
+
+STEP 2 — Intake compatibility
+36:export function normalizeTaskForRead(raw = {}) {
+40:    id: raw.id != null ? String(raw.id) : null,
+41:    title: typeof raw.title === "string" ? raw.title.trim() : "",
+42:    agent: typeof raw.agent === "string" ? raw.agent.trim() : "",
+43:    status: normalizeStatus(raw.status),
+45:    notes: raw.notes ?? null,
+46:    source: raw.source ?? null,
+47:    trace_id: raw.trace_id ?? null,
+48:    error: raw.error ?? null,
+49:    meta: raw.meta ?? null,
+51:    created_at: raw.created_at || raw.createdAt || now,
+52:    updated_at: raw.updated_at || raw.updatedAt || now,
+56:export function normalizeTaskForWrite(raw = {}) {
+58:  const base = normalizeTaskForRead(raw);
+62:    created_at: base.created_at || now,
+63:    updated_at: now,
+67:export function validateNewTask(task) {
+70:  if (!TASK_STATUSES.has(task.status)) throw new Error(`Invalid status: ${task.status}`);
+73:export function validateTransition(prevStatusRaw, nextStatusRaw) {
+80:    throw new Error(`Cannot transition from terminal status: ${prevStatus}`);
+
+STEP 3 — Governance compatibility
+6: * - Returns an audit payload (and would-be enforcement decision).
+14:  // Minimal, deterministic, non-hallucinated signals:
+15:  const signals = {
+16:    task_id: task?.task_id ?? task?.taskId ?? task?.id ?? null,
+17:    run_id: run?.run_id ?? run?.runId ?? run?.id ?? null,
+18:    kind: task?.kind ?? task?.type ?? null,
+19:    action_tier: task?.action_tier ?? task?.actionTier ?? null,
+20:    attempts: task?.attempts ?? null,
+21:    max_attempts: task?.max_attempts ?? task?.maxAttempts ?? null,
+22:    claimed_by: task?.claimed_by ?? task?.claimedBy ?? null,
+23:    now_ms: now,
+26:  // Shadow-only decision skeleton (no enforcement unless explicitly enabled elsewhere).
+28:  const decision = {
+29:    allow: true,
+30:    enforce: policyEnforceEnabled(env),
+31:    reasons: [],
+32:    confidence: "unknown",
+36:  if (signals.action_tier && !["A", "B", "C"].includes(String(signals.action_tier))) {
+37:    decision.reasons.push({ code: "unknown_action_tier", value: String(signals.action_tier) });
+41:    version: "policy-shadow-v1",
+42:    decision,
+43:    signals,
+
+STEP 4 — Execution/preparation compatibility
+4:  ctx: PolicyContext;
+6:  emitted: OrchestrationEvent[];
+9:export function applyDecisions(ctx: PolicyContext, decisions: PolicyDecision[]): { ctx: PolicyContext; emitted: OrchestrationEvent[] } {
+11:  const emitted: OrchestrationEvent[] = [];
+18:        emitted.push(...d.events);
+21:        next.operatorMode = d.mode;
+23:      case "set_intent":
+24:        next.intent = d.intent;
+33:  return { ctx: next, emitted };
+36:export function runPolicyPipeline(ctx: PolicyContext, ev: OrchestrationEvent, policies: Policy[]): PipelineResult {
+43:  const applied = applyDecisions(ctx, all);
+46:    ctx: applied.ctx,
+48:    emitted: applied.emitted,
+52:export function runEventLoopOnce(ctx: PolicyContext, events: OrchestrationEvent[], policies: Policy[]): {
+53:  ctx: PolicyContext;
+55:  emitted: OrchestrationEvent[];
+58:  const emitted: OrchestrationEvent[] = [];
+60:  for (const ev of events) {
+62:    const r = runPolicyPipeline(ctx, ev, policies);
+64:    emitted.push(...r.emitted);
+67:  return { ctx, processed, emitted };
+
+STEP 5 — Boundary mapping
+[intake.task]
+- id/title/agent/status/notes/source/trace_id/error/meta/created_at/updated_at are owned by taskContract normalization.
+
+[governance]
+- version/decision/signals are owned by policy_eval shadow evaluation.
+
+[preparation]
+- ctx_updates.operatorMode / ctx_updates.intent map to policy-pipeline set_mode / set_intent decisions.
+- emitted_events maps to policy-pipeline emitted orchestration events.
+- accepted remains a structural bridge field not yet wired to runtime behavior.
+
+STEP 6 — Compatibility classification
+CLASSIFICATION: STRUCTURAL_COMPATIBILITY_CONFIRMED
+
+DECISION TARGET
+- This phase defines the contract file and proves owner compatibility only.
+- No runtime mutation was introduced.
+- Next phase may define a non-runtime adapter map or fixture proving contract assembly.

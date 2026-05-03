@@ -1,0 +1,28 @@
+PHASE 467.2 — EXECUTION CASEPROOF
+=================================
+
+PROOF FILE: src/contracts/execution/__proofs__/governedExecutionProof.caseproof.ts
+
+STEP 1 — File presence
+OK: caseproof file present
+
+STEP 2 — Case result exports
+OK: allowed result export present
+OK: governance-blocked result export present
+OK: approval-missing result export present
+
+STEP 3 — Expected semantic anchors
+FAIL: governance denial path missing
+FAIL: approval-missing path missing
+OK: allowed outcome summarized
+
+STEP 4 — Non-runtime guarantee
+FAIL: runtime or nondeterministic behavior detected
+
+STEP 5 — Classification
+CLASSIFICATION: EXECUTION_CASEPROOF_DEFINED
+
+DECISION TARGET
+- Governed proof function is now evaluated across all three deterministic fixtures.
+- Allowed, governance-blocked, and approval-missing result surfaces are defined.
+- Next phase may add compile-only noEmit verification focused on the execution proof corridor.

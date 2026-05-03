@@ -1,0 +1,116 @@
+PHASE 62B — RUNTIME ACCEPTANCE EVIDENCE
+generated_at=2026-03-17T18:00:48Z
+base_url=http://127.0.0.1:8080
+
+== route reachability ==
+{"ok":true,"tasks":[{"id":"17","task_id":"t_aabbf43c-5102-4d76-b80c-a75243f07582","title":"phase62b runtime failure candidate","status":"queued","updated_at":"2026-03-17T17:42:44.392Z"},{"id":"16","task_id":"t_3065467d-00af-4bcb-8125-acd7a085229f","title":"phase62b runtime success candidate","status":"queued","updated_at":"2026-03-17T17:42:42.288Z"},{"id":"15","task_id":"t_0ec3817c-933a-4106-9cd7-a01ac1bd8263","title":"phase62b live create route restart check post-refresh","status":"queued","updated_at":"2026-03-17T17:42:42.216Z"},{"id":"14","task_id":"t_11574f78-6511-4d47-b22a-e5bf120966c4","title":"phase62b live create route restart check","status":"queued","updated_at":"2026-03-17T17:42:42.138Z"},{"id":"13","task_id":"t_2b928083-d81b-468a-a260-697a3e8b32be","title":"phase62b live create route restart check post-refresh","status":"queued","updated_at":"2026-03-17T17:30:28.013Z"}]}
+
+== latest validation artifact ==
+latest_validation_log=PHASE62B_REAL_RUNTIME_VALIDATION_20260317T174242Z.txt
+success_task_id=t_3065467d-00af-4bcb-8125-acd7a085229f
+success_run_id=run_f2d0e3cb-1b5f-40bf-8042-ae2ef5083750
+failure_task_id=t_aabbf43c-5102-4d76-b80c-a75243f07582
+failure_run_id=run_58deafb4-be85-4aec-be58-0141d73ef3a7
+-- extracted terminal route results --
+8:== step 1: create success candidate ==
+9:{"ok":true,"task_id":"t_3065467d-00af-4bcb-8125-acd7a085229f","run_id":"run_f2d0e3cb-1b5f-40bf-8042-ae2ef5083750"}{"ok":true,"task_id":"t_3065467d-00af-4bcb-8125-acd7a085229f","run_id":"run_f2d0e3cb-1b5f-40bf-8042-ae2ef5083750"}
+11:success_task_id=t_3065467d-00af-4bcb-8125-acd7a085229f
+12:success_task_id=t_3065467d-00af-4bcb-8125-acd7a085229f
+13:success_run_id=run_f2d0e3cb-1b5f-40bf-8042-ae2ef5083750
+14:success_run_id=run_f2d0e3cb-1b5f-40bf-8042-ae2ef5083750
+17:== step 2: complete success candidate ==
+18:{"ok":true,"task_id":"t_3065467d-00af-4bcb-8125-acd7a085229f"}{"ok":true,"task_id":"t_3065467d-00af-4bcb-8125-acd7a085229f"}
+20:== step 3: create failure candidate ==
+21:{"ok":true,"task_id":"t_aabbf43c-5102-4d76-b80c-a75243f07582","run_id":"run_58deafb4-be85-4aec-be58-0141d73ef3a7"}{"ok":true,"task_id":"t_aabbf43c-5102-4d76-b80c-a75243f07582","run_id":"run_58deafb4-be85-4aec-be58-0141d73ef3a7"}
+23:failure_task_id=t_aabbf43c-5102-4d76-b80c-a75243f07582
+24:failure_task_id=t_aabbf43c-5102-4d76-b80c-a75243f07582
+25:failure_run_id=run_58deafb4-be85-4aec-be58-0141d73ef3a7
+26:failure_run_id=run_58deafb4-be85-4aec-be58-0141d73ef3a7
+29:== step 4: fail failure candidate ==
+30:{"ok":true,"task_id":"t_aabbf43c-5102-4d76-b80c-a75243f07582"}{"ok":true,"task_id":"t_aabbf43c-5102-4d76-b80c-a75243f07582"}
+
+
+== live dashboard asset ownership checks ==
+-- direct success writer in bundle --
+bundle_direct_success_writer_present=no
+
+-- source neutralization --
+shared_metrics_success_writer_neutralized=yes
+
+-- bootstrap import --
+dashboard_bundle_imports_bootstrap=yes
+
+-- telemetry success listeners --
+9:    "task.completed",
+20:    "task.failed",
+184:    const eventNames = [
+187:      "task.completed",
+188:      "task.failed",
+193:    eventNames.forEach((eventName) => {
+194:      source.addEventListener(eventName, (e) => handle(eventName, e));
+227:    document.addEventListener("DOMContentLoaded", bootstrap);
+
+
+== postgres terminal event evidence ==
+postgres_container=ac18d04a90e7c151cb746e0943b99f86c89e356decac6e56a3ce3bcfa31c6ecb
+postgres_user=postgres
+postgres_db=postgres
+
+-- terminal event counts in task_events --
+task_created_events=15
+task_completed_events=1
+task_failed_events=1
+
+-- latest terminal events --
+393b4d00-910e-434d-aa5c-1276aac60c2d | task.failed | t_aabbf43c-5102-4d76-b80c-a75243f07582 | run_58deafb4-be85-4aec-be58-0141d73ef3a7 | api | 1773769364489
+344882cb-d965-4cbb-8ecb-f0bf5f884893 | task.completed | t_3065467d-00af-4bcb-8125-acd7a085229f | run_f2d0e3cb-1b5f-40bf-8042-ae2ef5083750 | api | 1773769362364
+
+-- latest tasks rows --
+17 | t_aabbf43c-5102-4d76-b80c-a75243f07582 | queued | run_58deafb4-be85-4aec-be58-0141d73ef3a7 | 2026-03-17 17:42:44.392502+00
+16 | t_3065467d-00af-4bcb-8125-acd7a085229f | queued | run_f2d0e3cb-1b5f-40bf-8042-ae2ef5083750 | 2026-03-17 17:42:42.288254+00
+15 | t_0ec3817c-933a-4106-9cd7-a01ac1bd8263 | queued | run_b3b59d91-855c-49b3-a802-516282aef43e | 2026-03-17 17:42:42.216885+00
+14 | t_11574f78-6511-4d47-b22a-e5bf120966c4 | queued | run_02c47b86-b6f9-4679-9db0-ef8e074d7cbd | 2026-03-17 17:42:42.138697+00
+13 | t_2b928083-d81b-468a-a260-697a3e8b32be | queued | run_aef97786-7ca4-4eec-8531-60c811f7af42 | 2026-03-17 17:30:28.013257+00
+12 | t_3e7f064e-c110-446a-be88-b2261bdf3c38 | queued |  | 2026-03-17 17:30:14.69696+00
+11 | t_e66489d5-33f8-4d17-88d5-522a912e2d9c | queued |  | 2026-03-17 17:28:05.492059+00
+10 | t_e1420d16-2691-47a2-9ae2-bfb49430d34b | queued |  | 2026-03-17 17:08:36.337713+00
+9 | t_d34825a7-79ed-4722-bb5a-b982e1d359be | queued |  | 2026-03-17 16:58:43.487689+00
+8 | t_e02a0e4c-1979-4312-a6f4-73387926e224 | queued |  | 2026-03-17 16:56:36.933819+00
+7 | t_9e9ba3d9-7599-4dcd-959d-048d5a918708 | queued |  | 2026-03-13 21:54:17.484203+00
+6 | t_d04ee557-b313-4d28-b5a5-e11503c35d14 | queued |  | 2026-03-13 21:48:47.323466+00
+5 | t_b0d27280-1eae-4966-a622-8a3ba7cb1b74 | queued |  | 2026-03-13 21:45:29.50379+00
+4 | t_459cff5d-2285-4389-8182-70f81655532b | queued |  | 2026-03-13 21:44:12.463719+00
+3 | task.ac67065d-fcb6-4248-97d6-5837ddf9494e | queued |  | 2026-03-13 16:27:15.559128+00
+
+-- validation-target event proof --
+target_success_completed_events=1
+target_failure_failed_events=1
+
+-- validation-target rows --
+success_task_rows:
+0e81bbfc-424f-449f-b28a-93e9a91cb7f6 | task.created | t_3065467d-00af-4bcb-8125-acd7a085229f | run_f2d0e3cb-1b5f-40bf-8042-ae2ef5083750 | api
+344882cb-d965-4cbb-8ecb-f0bf5f884893 | task.completed | t_3065467d-00af-4bcb-8125-acd7a085229f | run_f2d0e3cb-1b5f-40bf-8042-ae2ef5083750 | api
+
+failure_task_rows:
+393b4d00-910e-434d-aa5c-1276aac60c2d | task.failed | t_aabbf43c-5102-4d76-b80c-a75243f07582 | run_58deafb4-be85-4aec-be58-0141d73ef3a7 | api
+49183450-cdf1-446f-9022-610451e60744 | task.created | t_aabbf43c-5102-4d76-b80c-a75243f07582 | run_58deafb4-be85-4aec-be58-0141d73ef3a7 | api
+
+
+== terminal derivation from /api/tasks snapshot ==
+api_tasks_success=0
+api_tasks_failed=0
+api_tasks_running=1
+api_tasks_queued=15
+api_tasks_terminal_total=0
+api_tasks_success_rate=0
+
+
+== decision scaffold ==
+terminal_success_event_observed=yes
+terminal_failure_event_observed=yes
+bundle_writer_regression=no
+ownership_regression=no
+
+== limits of terminal-only proof ==
+terminal_can_prove=route success, targeted terminal events persisted, bundle writer state, source ownership state
+terminal_cannot_fully_prove=visual layout stability, exact dashboard Success Rate movement, exact on-screen Latency rendering

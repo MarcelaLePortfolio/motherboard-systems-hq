@@ -1,0 +1,183 @@
+STATE HANDOFF — DO NOT LOSE CONTEXT
+
+ASSISTANT OPERATES IN ENGINEERING CONTINUATION MODE
+
+(Post-Phase 299 update)
+
+────────────────────────────────
+
+PROJECT IDENTITY BASELINE (CRITICAL CONTEXT)
+
+Project:
+Motherboard Systems HQ
+
+System type:
+Deterministic orchestration platform for human-directed AI agents.
+
+Primary purpose:
+Coordinate agents, tasks, telemetry, cognition signals, and operator visibility while preserving human authority and preventing unsafe automation expansion.
+
+System is NOT:
+
+Autonomous AI  
+Self-modifying intelligence  
+Self-directing system  
+Independent decision maker  
+
+System IS:
+
+Human-directed cognition engine  
+Operator visibility platform  
+Deterministic task orchestration layer  
+Safety-first execution environment  
+
+Authority model:
+
+Human decides  
+System informs  
+Automation executes bounded work  
+Nothing self-authorizes  
+
+Core doctrine:
+
+Human remains authority  
+System provides cognition support  
+Automation remains constrained  
+Governance doctrine intended for eventual system enforcement  
+
+Governance implementation remains advisory-only.
+
+────────────────────────────────
+
+GOVERNANCE IMPLEMENTATION STATUS
+
+Phase 287 — Governance signal classifier COMPLETE  
+Phase 288 — Governance structure hardening COMPLETE  
+Phase 289 — Governance verification boundary COMPLETE  
+Phase 290 — Governance advisory layer COMPLETE  
+Phase 291 — Governance advisory normalization layer COMPLETE  
+Phase 292 — Governance advisory presentation layer COMPLETE  
+Phase 293 — Governance presentation verification runner COMPLETE  
+Phase 294 — Governance advisory summary builder COMPLETE  
+Phase 295 — Governance summary verification runner COMPLETE  
+Phase 296 — Governance advisory digest builder COMPLETE  
+Phase 297 — Governance digest verification runner COMPLETE  
+Phase 298 — Governance operator advisory view model COMPLETE  
+Phase 299 — Governance operator advisory view verification COMPLETE  
+
+Completed governance artifacts now include:
+
+src/governance/governance_signal_classifier.ts
+src/governance/governance_signal_classifier.test.ts
+src/governance/governance_advisory_contract.ts
+src/governance/governance_advisory_contract.test.ts
+src/governance/governance_advisory_report_builder.ts
+src/governance/governance_advisory_normalizer.ts
+src/governance/governance_advisory_normalizer.test.ts
+src/governance/governance_advisory_presenter.ts
+src/governance/governance_advisory_presenter.test.ts
+src/governance/governance_advisory_summary_builder.ts
+src/governance/governance_advisory_summary_builder.test.ts
+src/governance/governance_advisory_digest.ts
+src/governance/governance_advisory_digest.test.ts
+src/governance/governance_advisory_operator_view.ts
+src/governance/governance_advisory_operator_view.test.ts
+
+Verification runners:
+
+scripts/_local/phase289_verify_governance_classifier.sh
+scripts/_local/phase290_verify_governance_advisory.sh
+scripts/_local/phase291_verify_governance_normalization.sh
+scripts/_local/phase292_verify_governance_presentation.sh
+scripts/_local/phase293_run_governance_presentation_checks.sh
+scripts/_local/phase295_run_governance_summary_checks.sh
+scripts/_local/phase297_run_governance_digest_checks.sh
+scripts/_local/phase299_run_governance_operator_view_checks.sh
+
+────────────────────────────────
+
+CURRENT GOVERNANCE PIPELINE STATE
+
+Governance pipeline now consists of:
+
+Classifier layer  
+Advisory contract layer  
+Normalization layer  
+Presentation layer  
+Summary layer  
+Digest layer  
+Operator advisory view layer  
+Verification layer  
+
+Governance implementation is now capable of:
+
+Signal classification  
+Advisory structuring  
+Deterministic normalization  
+Deterministic severity grouping  
+Summary generation  
+Digest generation  
+Operator-facing advisory state derivation  
+
+Governance remains:
+
+Read-only  
+Deterministic  
+Pure-function based  
+Execution-isolated  
+Routing-isolated  
+Mutation-isolated  
+Runtime-unwired  
+
+No runtime governance integration has occurred.
+
+────────────────────────────────
+
+CURRENT SYSTEM STATE
+
+System stable  
+System deterministic  
+System protected  
+System governance-first  
+System advisory cognition expanded  
+System execution readiness intentionally incomplete  
+System safe to extend within governance corridor  
+
+Branch:
+phase119-dashboard-cognition-contract
+
+Working tree:
+clean
+
+Latest checkpoint:
+Phase 299 committed and pushed
+
+────────────────────────────────
+
+NEXT SAFE CORRIDOR
+
+Phase 300 — Governance Advisory Composition Runner
+
+Will define:
+
+Single deterministic pipeline composition path  
+End-to-end advisory assembly validation  
+Stable operator-view pipeline execution order  
+Cross-layer advisory fixture verification  
+One-command governance cognition verification surface  
+
+DO NOT ENTER:
+
+Runtime governance wiring  
+Dashboard integration  
+Worker influence  
+Task mutation surfaces  
+Agent mutation surfaces  
+Execution authority expansion  
+Autonomous behavior introduction  
+
+Continuation posture:
+
+Complete end-to-end governance advisory composition before any operator surface exposure.
+
+STATE HANDOFF COMPLETE

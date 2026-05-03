@@ -1,0 +1,14 @@
+PHASE 457 VERIFY RESTORE
+
+===== SCRIPT PRESENT =====
+<script src="/js/phase457_restore_task_panels.js"></script>
+
+===== TARGET IDS =====
+7:const recent = byId("tasks-widget");
+8:const history = byId("recentLogs");
+44:window.addEventListener("mb.task.event", e=>{
+
+===== QUICK RESULT =====
+RECENT_PANEL=1
+HISTORY_PANEL=1
+EVENT_BIND=1

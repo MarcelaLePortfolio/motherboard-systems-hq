@@ -1,0 +1,3 @@
+Phase 11.3: removed legacy /js/dashboard-broadcast.js <script> tag from public/dashboard.html
+and rebuilt public/bundle.js via `npm run build:dashboard-bundle` to eliminate the
+"Unexpected token 'export'" error in the browser console and restore clean dashboard JS.

@@ -1,0 +1,86 @@
+STATE HANDOFF — DO NOT LOSE CONTEXT
+
+ASSISTANT OPERATES IN ENGINEERING CONTINUATION MODE
+
+(Post-Phase 529+ snapshot — FL-3 complete, demo validated, backend sealed, UI corridor active, agent runtime stable, Ollama + fallback active, task pipeline verified, identity consistency enforced, Matilda restored)
+
+────────────────────────────────
+
+CORE STATUS
+
+• System stable and runnable
+• Agents (Cade, Matilda, Effie) operational via PM2 + Cloudflare
+• Chat pipeline: Ollama primary + deterministic fallback confirmed
+• Task pipeline: end-to-end functional
+• UI routing + dashboard: working
+• Known latency: first-call Ollama warmup
+
+────────────────────────────────
+
+CRITICAL CONTEXT
+
+• Repo: Motherboard_Systems_HQ
+• Branch: phase119-dashboard-cognition-contract
+• Runtime: Docker + PM2 + Cloudflare tunnels
+• DB: Postgres (tasks + task_events + run_view active)
+• Worker: active (phase26_task_worker)
+
+────────────────────────────────
+
+ACTIVE INFRA
+
+• Start script: start-all-agents.sh
+• PM2 processes persisted
+• Cloudflare tunnels mapped + logging
+• Local + exposed agent runtime unified  [oai_citation:0‡MOTHERBOARD SYSTEMS PROJECT OVERVIEW.rtf](file-service://file-XWTYXM3ytAqdC8N9SSG4xT)
+
+────────────────────────────────
+
+PIPELINE STATE
+
+INPUT → /api/chat  
+→ Ollama (gemma3:4b)  
+→ fallback if needed  
+→ structured response (meta included)
+
+Meta includes:
+• waitingOn
+• executionReadiness
+• responseContext
+
+────────────────────────────────
+
+KNOWN GAPS
+
+• Ollama cold start latency
+• No advanced caching layer yet
+• No multi-agent orchestration layer (future)
+
+────────────────────────────────
+
+NEXT SAFE CORRIDOR
+
+1. Optimize Ollama warmup (preload or ping)
+2. Add response caching (lightweight)
+3. Introduce agent orchestration layer (Cade/Effie roles)
+4. Prepare compliance wrapper for external agent builds
+
+────────────────────────────────
+
+EXECUTION RULES
+
+• One change per commit
+• Verify before push
+• Revert after 3 failed attempts
+• Never stack speculative fixes
+
+────────────────────────────────
+
+DETERMINISTIC RESUME POINT
+
+System is stable.
+Safe to extend from:
+→ task orchestration
+→ performance optimization
+→ external-facing agent packaging
+

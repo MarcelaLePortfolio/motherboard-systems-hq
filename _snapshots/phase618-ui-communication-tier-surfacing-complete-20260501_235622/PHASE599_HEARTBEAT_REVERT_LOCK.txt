@@ -1,0 +1,19 @@
+Phase 599 heartbeat revert lock.
+
+Result:
+- Reverted commit a18cba92.
+- Removed isolated heartbeat route file.
+- Dashboard and worker rebuilt successfully.
+- Working tree is clean.
+
+Finding:
+- Adding an unverified route module under server/routes broke the dashboard.
+- Do not retry this route-loading approach without first inspecting server startup and route registration patterns.
+
+Stable Base:
+- Phase 598 Agent Pool stable state remains preserved.
+- Phase 599 corridor entry remains valid.
+- Current system is recovered and safe.
+
+Next:
+Inspect existing route registration before adding any new endpoint.

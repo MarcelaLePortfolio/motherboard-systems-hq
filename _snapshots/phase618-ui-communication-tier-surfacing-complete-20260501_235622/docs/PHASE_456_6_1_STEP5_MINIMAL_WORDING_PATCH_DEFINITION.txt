@@ -1,0 +1,308 @@
+PHASE 456.6.1 - STEP 5
+Minimal Wording Patch Definition
+--------------------------------
+
+CLASSIFICATION
+Definition only.
+Documentation correction planning only.
+No mutation.
+No wiring.
+No runtime changes.
+
+PURPOSE
+Define the smallest safe wording-only patch for the selected documentation
+targets.
+
+PATCH SCOPE
+- normalize readiness phrasing
+- normalize approval phrasing
+- preserve dashboard health wording
+- avoid architectural meaning changes
+- avoid execution or governance behavior changes
+
+DETERMINISTIC_STOP
+Stop after minimal wording patch definition is recorded.
+
+RAW_TARGET_SELECTION
+PHASE 456.6.1 - STEP 4
+Minimal Correction Target Selection
+-----------------------------------
+
+CLASSIFICATION
+Selection only.
+Evidence interpretation only.
+No mutation.
+No wiring.
+No runtime changes.
+
+PURPOSE
+Select the smallest safe documentation targets for wording-only correction based on the recorded minimal correction plan.
+
+DETERMINISTIC_STOP
+Stop after minimal correction target selection is recorded.
+
+RAW_CORRECTION_PLAN
+PHASE 456.6.1 - STEP 3
+Minimal Doc Label Correction Plan
+---------------------------------
+
+CLASSIFICATION
+Planning only.
+Evidence interpretation only.
+No mutation.
+No wiring.
+No runtime changes.
+
+PURPOSE
+Convert the minimal alignment delta analysis into a constrained correction plan limited to doc and label wording alignment.
+
+DETERMINISTIC_STOP
+Stop after minimal doc label correction plan is recorded.
+
+RAW_ALIGNMENT_ANALYSIS
+PHASE 456.6.1 - STEP 2
+Minimal Alignment Delta Analysis
+--------------------------------
+
+CLASSIFICATION
+Analysis only.
+Evidence interpretation only.
+No mutation.
+No wiring.
+No runtime changes.
+
+PURPOSE
+Analyze the focused wording delta inventory and determine whether minimal doc and label alignment corrections are required.
+
+DETERMINISTIC_STOP
+Stop after minimal alignment delta analysis.
+
+RAW_INVENTORY
+PHASE 456.6.1 - STEP 1
+Focused Wording Delta Inventory
+-------------------------------
+
+CLASSIFICATION
+Inventory only.
+Evidence capture only.
+No mutation.
+No wiring.
+No runtime changes.
+
+PURPOSE
+Capture a focused wording delta inventory for the minimal doc and label alignment corridor.
+
+FOCUS AREAS
+- dashboard health labels
+- demo readiness wording
+- operator approval wording
+- governance approval wording
+- await approval wording
+
+DETERMINISTIC_STOP
+Stop after focused wording delta inventory is captured.
+EP1_FOCUSED_WORDING_DELTA_IWORDING_DELTA_INVENTORY.txt:1341:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:1240:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:1139:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:1038:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:937:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:l language varies between Governance approval, Operator approval, and Await operator approval without a clear ordered explanation.
+docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:846023:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:448483:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:225412:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:119104:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:64740:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:40102:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:28260:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:16946:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:10147:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:9858:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:9586:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:9298:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:2871:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:2770:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:2669:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:2568:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:2467:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:2366:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELG_DELTA_INVENTORY.txt:3546:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:3444:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:3342:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:3240:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:3104:dRDING_DELTA_INVENTORY.txt:1343:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:1242:docs/PHASE_456_6_1_STEP1_FOCUSED_WORTEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:3852:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:3750:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:3648:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:3546:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:3USED_WORDING_DELTA_INVENTORY.txt:5178:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:5076:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:4974:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:4872:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:4770:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:4668:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:4566:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:4464:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:4362:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:4260:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:4158:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:4056:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:3954:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:3852:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:3750:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:3648:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:3546:dG_DELTA_INVENTORY.txt:25011:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:15302:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:9061:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:8841:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:8642:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTtxt:10314:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:10014:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:9731:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:9434:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:9190:OCUSED_WORDING_DELTA_INVENTORY.txt:4703:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:4601:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:4499:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:4397:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:4295:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:4193:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:4091:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:3989:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:3887:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:3785:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:3683:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:3581:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:3479:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_D_INVENTORY.txt:1979:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:1878:docs/P_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:432:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:331:docs/PHASE_456_6_1_STEP1_FOCUSED_WORD1_FOCUSED_WORDING_DELTA_INVENTORY.txt:35656:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:25927:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:15886:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_D.txt:17590:docs/PHASE_456_6_1G_DELTA_INVENTORY.txt:2669:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:2568:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:2467:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:2366:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:2265:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:2164:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:2063:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:1962:docs/PHASE_456_6_1_STE_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:434:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:333:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:232:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:131:docs/PHASE_456_6_STEP3_MINIMAL_WORDING_DRIFT_CLASSIFICATION.txt:62:Potential drift exists if approval language varies between Governance approval, Operator approval, and Await operator approval without a clear ordered explanation.
+docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:784204:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:393728:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:215377:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:114008:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:61837:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:33606:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:24555:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:19064:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:16519:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:9906:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:9632:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:9344:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:9105:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:8883:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:8680:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:8498:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:8281:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:8138:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:8033:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:7928:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:7823:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:7718:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:7613:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:7508:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:7403:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:7298:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:7193:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:7088:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:6983:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:6878:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:6773:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:6668:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:6563:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:6458:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:6353:docs/PHASE_SED_WORDING_DELTA_INVENTORY.txt:1682:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:1581:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:1444:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:1343:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:1242:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:1141:docs/PHASE_456_6_1_STEP1_FOCUSED_WOR219:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_HASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:1777:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:1676:docs/PHASE_456_6_1_STEP1_FOCUSED_WO5:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:11109:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:10745:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:10408:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:10103:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:9817:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:9514:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:9265:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:9030:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:8814:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:8618:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:8442:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txtSTEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:2871:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:2770:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:2669:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:2568:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:2467:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVEN_WORDING_DELTA_INVENTORY.txt:3209:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:3073:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:2972:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:2871:docsFOCUSED_WORDING_DELTA_INVENTORY.txt:108:docs/PHASE_456_6_STEP2_WORDING_ALIGNMENT_ANALYSIS.txt:52:Potential drift exists if approval language varies between Governance approval, Operator approval, and Await operator approval without a clear ordered explanation.
+docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:784205:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:416198:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:225554:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:120981:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:67399:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:37229:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:20358:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:12286:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:11780:docs/PHASE_456_6_1_STEP1_FOCUocs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:3444:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:3342:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:3240:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:3104:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:3003:docs/PHORDING_DELTA_INVENTORY.txt:8460:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:8219:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:8114:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:8009:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:23250:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:14094:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:13512:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:12972:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:12484:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:6408:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:6303:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:6198:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:6093:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:5956:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:5816:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:5711:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:5606:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDI_DELTA_INVENTORY.txt:2654:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:2553:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:2452:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:6407:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:6302:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:6197:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:6092:docs/PHASE_456_D_WORDING_DELTA_INVENTORY.txt:2498:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:2397:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:2296:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:194:docs/PHASE_456_6_1_DOC_AND_LABEL_ALIGNMENT_START.txt:148:Potential drift exists if approval language varies between Governance approval, Operator approval, and Await operator approval without a clear ordered explanation.
+docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:846024:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:424508:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:212975:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:113139:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:63694:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:34776:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:19457:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:11647:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:11214:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:10843:docs/PHASE_456_6_1_STEP1_FOCUSED_TEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:7642:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:7537:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:7432:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:7327:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:7222:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:7117:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:7012:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:6907:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:6802:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:6697:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:6592:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:6487:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:6382:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:6277:docs/PHASE_456_6_1_STEP1_FOCUSED_WORD
+DASHBOARD_HEALTH_LABELS
+SED_WORDING_DELTA_INVENTORY.txt:5814:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:5709:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:5604:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:5499:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:5367:docs/PHASE_456_6_STEP4_MINIMAL_CORRECTION_CORRIDOR_DECISION.txt:93:Potential drift exists if approval language varies between Governance approval, Operator approval, and Await operator approval without a clear ordered explanation.
+docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:784206:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:416199:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:225555:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:120982:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:67400:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:37230:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:20359:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:12287:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_HASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:14914:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:14002:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:13428:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:12897:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:12418:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:11938:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:11481:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:11057:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:10698:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:10365:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:10065:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:9783:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:9483:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:9235:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:9004:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:8791:docs/PHASE_41_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:1149:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:1048:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:947:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:846:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:745:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:644:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:543:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:442:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:341:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:240:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:139:docs/fl3_proof/intake/project_structure.md:200:A structural evaluation project to determine deployment readiness with governance review and approval required before any execution preparation.
+docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:784207:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:416200:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:225556:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:119189:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:66488:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:36635:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:26615:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:16301:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:14915:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:14003:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:13429:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:12898:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:12419:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:11939:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:11482:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:11058:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:10699:docs/PHASE_456_6_1_STEP1_FOCUStxt:6739:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:6634:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:6529:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:6424:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:6319:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:6214:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:6109:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:5972:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:5832:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:5727:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:5622:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:5517:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:5412:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:5272:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:5170:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:5068:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:4966:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:4864:docs/PHASE_456_6_1_STEP1_FOCUSEINVENTORY.txt:11781:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:5815:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:5710:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:5605:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:5500:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:5369:docs/PHASE_456_6_STEP3_MINIMAL_WORDING_DRIFT_CLASSIFICATION.txt:62:Potential drift exists if approval language varies between Governance approval, Operator approval, and Await opDELTA_INVENTORY.txt:1118:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:1017:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:916:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:ING_DELTA_INVENTORY.txt:230:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:129:docs/PHASE_456_6_STEP4_MINIMAL_CORRECTION_CORRIDOR_DECISION.txt:93:Potential drift exists if approval language varies between Governance approval, Operator approval, and Await operator approval without a clear ordered explanation.
+docs/execution_gating_model.md:23:Operator approval granted  
+docs/phase404_execution_eligibility_model.md:138:No operator approvals  
+docs/PHASE_456_STEP4_DASHBOARD_EXPOSURE_CHECKLIST.md:50:[ ] Operator approval labeled REQUIRED
+docs/PHASE_456_STEP4_DASHBOARD_EXPOSURE_CHECKLIST.md:90:[ ] Operator approval step visible
+docs/PHASE_456_STEP4_DASHBOARD_EXPOSURE_CHECKLIST.md:180:Is approval required?
+docs/phase423_2_step1_entrypoint_recording_template.md:31:Operator approval validation location:
+docs/STATE_HANDOFF_PHASE_455_5_AUTHENTIC_RUNTIME_DEMO_COMPLETE.md:108:→ Operator approval
+docs/phase423_2_step1_entrypoint_discovery.md:25:Operator approval check  
+docs/phase423_2_step1_entrypoint_discovery.md:82:Operator approval check:
+docs/phase424_step6_enforcement_topology_determination.txt:1353:src/governance/governance_advisory_contract.test.ts:50:        operator_guidance: "Escalate to operator review immediately.",
+docs/phase424_step6_enforcement_topology_determination.txt:1360:src/governance/governance_audit_trace_emitter.test.ts:19:    expect(result.governance_audit_trace.operator_authority)
+docs/phase424_step6_enforcement_topology_determination.txt:1365:src/governance/governance_enforcement_evaluator.test.ts:18:assert(safe.operator_authority === "preserved", "Authority must remain human")
+docs/phase424_step6_enforcement_topology_determination.txt:1477:src/governance/governance_enforcement_contract.ts:24:  operator_authority: "preserved"
+docs/phase424_step6_enforcement_topology_determination.txt:1478:src/governance/governance_enforcement_contract.ts:36:    operator_authority: "preserved",
+docs/phase424_step6_enforcement_topology_determination.txt:1527:src/governance/governansrc/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:9:  blockedByGovernance: boolean;
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:21:      blockedByGovernance: true,
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:29:    blockedByGovernance: false,
+src/cognition/operator-read/cognition.operator-read.ts:35:  hasGovernance: boolean;
+src/cognition/operator-read/cognition.operator-read.ts:47:    hasGovernance: selectHasGovernanceCognition(envelope),
+src/cognition/selectors/cognition.selectors.ts:64:  hasGovernance: boolean;
+src/cognition/selectors/cognition.selectors.ts:69:    hasGovernance: selectHasGovernanceCognition(envelope)
+src/components/dashboard/SystemHealthBlock.tsx:11:      <h2>SYSTEM STATUS</h2>
+src/components/dashboard/SystemHealthBlock.tsx:12:      <p>DEMO CAPABLE</p>
+src/components/dashboard/SystemHealthBlock.tsx:14:        <li>Governance: {signals?.governance ?? "UNKNOWN"}</li>
+src/components/dashboard/SystemHealthBlock.tsx:15:        <li>Execution: {signals?.execution ?? "UNKNOWN"}</li>
+src/components/dashboard/SystemHealthBlock.tsx:16:        <li>Approval: {signals?.approval ?? "UNKNOWN"}</li>
+src/components/dashboard/SystemHealthBlock.tsx:17:        <li>Execution Mode: {signals?.executionMode ?? "UNKNOWN"}</li>
+
+DEMO_READINESS_WORDING
+ce_enforcement_result.ts:25:  operator_authority: "preserved"
+docs/phase424_step6_enforcement_topology_determination.txt:1528:src/governance/governance_enforcement_result.ts:51:    operator_authority: "preserved",
+docs/phase424_step6_enforcement_topology_determination.txt:1548:src/governance/governance_audit_trace_emitter.ts:25:    operator_authority:
+docs/phase424_step6_enforcement_topology_determination.txt:1555:src/governance/governance_advisory_operator_view.ts:26:      headline: "Critical governance signals require operator review"
+docs/phase424_step6_enforcement_topology_determination.txt:1558:src/governance/governance_audit_log.test.ts:30:  record.operator_authority === "preserved",
+docs/phase424_step6_enforcement_topology_determination.txt:1566:src/governance/governance_audit_log.ts:24:  operator_authority: "preserved"
+docs/phase424_step6_enforcement_topology_determination.txt:1567:src/governance/governance_audit_log.ts:44:    operator_authority: "preserved"
+docs/phase424_step6_enforcement_topology_determination.txt:1579:src/governance/governance_policy_registry.ts:20:  operator_authority: "preserved"
+docs/phase424_step6_enforcement_topology_determination.txt:1580:src/governance/governance_policy_registry.ts:32:    operator_authority: "preserved",
+docs/phase424_step6_enforcement_topology_determination.txt:1581:src/governance/governance_policy_registry.ts:39:    description: "Warns when governance caution or operator review is required.",
+docs/phase424_step6_enforcement_topology_determination.txt:1583:src/governance/governance_policy_registry.ts:42:    operator_authority: "preserved",
+docs/phase424_step6_enforcement_topology_determination.txt:1584:src/governance/governance_policy_registry.ts:52:    operator_authority: "preserved",
+docs/PHASE_456_STEP3_DASHBOARD_EXPOSURE_CONTRACT.md:94:Await operator approval
+docs/PHASE_456_STEP3_DASHBOARD_EXPOSURE_CONTRACT.md:120:Operator approval
+docs/PHASE_456_STEP3_DASHBOARD_EXPOSURE_CONTRACT.md:209:Is approval required?
+docs/phase404_execution_proof_result_classification.md:32:Operator approval present.
+docs/phase404_execution_proof_result_classification.md:45:Missing operator approval
+docs/phase424_step3_enforcement_chokepoint_corridor_trace.txt:184:operator approval local context
+docs/phase424_step3_enforcement_chokepoint_corridor_trace.txt:828:src/governance/governance_audit_log.test.ts-30-  record.operator_authority === "preserved",
+docs/phase423_2_step1_remaining_anchor_resolution_output.txt:199:  operator_authority: "preserved"
+docs/phase423_2_step1_remaining_anchor_resolution_output.txt:211:    operator_authority: "preserved",
+docs/phase423_2_step1_remaining_anchor_resolution_output.txt:241:  operator_authority: "preserved"
+docs/phase423_2_step1_remaining_anchor_resolution_output.txt:267:    operator_authority: "preserved",
+docs/PHASE_432_ENFORCEMENT_EXECUTION_ELIGIBILITY_BOUNDARY_SHAPE.md:33:• Operator approvals
+src/governance/governance_advisory_contract.test.ts:50:        operator_guidance: "Escalate to operator review immediately.",
+src/governance/governance_audit_trace_emitter.test.ts:19:    expect(result.governance_audit_trace.operator_authority)
+src/governance/governance_enforcement_evaluator.test.ts:18:assert(safe.operator_authority === "preserved", "Authority must remain human")
+src/governance/governance_enforcement_contract.ts:24:  operator_authority: "preserved"
+src/governance/governance_enforcement_contract.ts:36:    operator_authority: "preserved",
+src/governance/governance_enforcement_result.ts:25:  operator_authority: "preserved"
+src/governance/governance_enforcement_result.ts:51:    operator_authority: "preserved",
+src/governance/governance_audit_trace_emitter.ts:25:    operator_authority:
+src/governance/governance_advisory_operator_view.ts:26:      headline: "Critical governance signals require operator review"
+src/governance/governance_audit_log.test.ts:30:  record.operator_authority === "preserved",
+src/governance/governance_audit_log.ts:24:  operator_authority: "preserved"
+src/governance/governance_audit_log.ts:44:    operator_authority: "preserved"
+src/governance/governance_policy_registry.ts:20:  operator_authority: "preserved"
+src/governance/governance_policy_registry.ts:32:    operator_authority: "preserved",
+src/governance/governance_policy_registry.ts:39:    description: "Warns when governance caution or operator review is required.",
+src/governance/governance_policy_registry.ts:42:    operator_authority: "preserved",
+src/governance/governance_policy_registry.ts:52:    operator_authority: "preserved",
+
+GOVERNANCE_APPROVAL_WORDING
+ING_DELTA_INVENTORY.txt:6172:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:6067:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:5895:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:5790:docs/PHA1_FOCUSED_WORDING_DELTA_INVENTORY.txt:9435:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:9191:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:8962:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:8754:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTAELTA_INVENTORY.txt:4825:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:4723:docs/PHASE_456_6_1_STEP1_FOCUSSED_WORDING_DELTA_INVENTORY.txt:6482:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:6377:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:6272:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:6167:docs/PHTEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:15104:docs/PHASE_456_6_1ject to determine deployment readiness with governance review and approval required beforORDING_DELTA_INVENTORY.txt:1901:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:1800:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:1699:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:1598:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:1461:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:1360:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:1259:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.tDING_DELTA_NG_DELTA_INVENTORY.txt:5501:docs/PHASE_456_6_1_STEP1_FOCUSED_WORDING_DELTA_INVENTORY.txt:5371:docs/fl3_proof/intake/project_structure.md:200:A structural evaluation project to determine deployment readiness with governance review and approval required before any execution preparation.
+docs/phase150c_registry_authorization_surface.md:46:Governance approval eligibility
+docs/PHASE_456_STEP4_DASHBOARD_EXPOSURE_CHECKLIST.md:89:[ ] Governance review visible
+docs/phase424_step6_enforcement_topology_determination.txt:4532:src/governance/governance_explanation_builder.test.ts:34:  warnExplanation.summary === "Governance review recommended",
+docs/phase424_step6_enforcement_topology_determination.txt:4664:src/governance/governance_explanation_builder.ts:48:    summary = "Governance review recommended"
+docs/PHASE_456_STEP3_DASHBOARD_EXPOSURE_CONTRACT.md:93:Submit for governance review
+docs/PHASE_456_STEP3_DASHBOARD_EXPOSURE_CONTRACT.md:119:Governance approval
+docs/phase150a_registry_wiring_safety_model.md:91:→ Governance review
+docs/PHASE_433_PROJECT_INTAKE_CONTRACT_SHAPE.md:38:Governance approval
+docs/PHASE_433_PROJECT_INTAKE_CONTRACT_SHAPE.md:74:• governance approval
+docs/PHASE_427_ADMISSIBILITY_FAILURE_SEMANTICS_CLASSIFICATION.md:22:Represents unresolved governance admission state.
+docs/PHASE_426_ENFORCEMENT_ATTACHMENT_SHAPE_CLASSIFICATION.md:43:Would weaken governance admission centrality.
+docs/phase455_11_multiple_prompt_validation.md:26:Create a project to evaluate deployment readiness for a new service. Include three tasks: dependency verification, governance review, and execution readiness assessment. Require approval before any execution preparation.
+src/cognition/transport/cognitionTransport.governance.ts:24:      : ["transport requires governance review"]
+src/governance/governance_explanation_builder.test.ts:34:  warnExplanation.summary === "Governance review recommended",
+src/governance/governance_explanation_builder.ts:48:    summary = "Governance review recommended"
+
+AWAIT_APPROVAL_WORDING
+docs/PHASE_456_5_IMPLEMENTATION_STEP10_MOUNT_TARGET_SHORTLIST.txt:401:    "Create a project to evaluate deployment readiness for a new service. Include three tasks: dependency verification, governance review, and execution readiness assessment. Require approval before any execution preparation."
+docs/PHASE_456_6_STEP2_WORDING_ALIGNMENT_ANALYSIS.txt:52:Potential drift exists if approval language varies between Governance approval, Operator approval, and Await operator approval without a clear ordered explanation.
+docs/demo_runtime/minimal_demo_report.json:3:  "requestSummary": "Create a project to evaluate deployment readiness for a new service. Include three tasks: dependency verification, governance review, and execution readiness assessment. Require approval before any execution preparation.",
+docs/demo_runtime/minimal_demo_stdout.txt:3:  "requestSummary": "Create a project to evaluate deployment readiness for a new service. Include three tasks: dependency verification, governance review, and execution readiness assessment. Require approval before any execution preparation.",
+docs/demo_runtime/alternate_demo_stdout.txt:3:  "requestSummary": "Create a project to evaluate launch readiness for a new internal tool. Include three tasks: prerequisite verification, governance confirmation, and launch readiness assessment. Require approval before any execution preparation.",
+docs/demo_runtime/prompt_b_stdout.txt:3:  "requestSummary": "Create a project to evaluate launch readiness for a new internal tool. Include three tasks: prerequisite verification, governance confirmation, and launch readiness assessment. Require approval before any execution preparation.",
+docs/demo_runtime/prompt_b_stdout.txt:6:    "description": "Create a project to evaluate launch readiness for a new internal tool. Include three tasks: prerequisite verification, governance confirmation, and launch readiness assessment. Require approval before any execution preparation.",
+docs/demo_runtime/canonical_demo_report.json:3:  "requestSummary": "Create a project to evaluate deployment readiness for a new service. Include three tasks: dependency verification, governance review, and execution readiness assessment. Require approval before any execution preparation.",
+docs/demo_runtime/canonical_demo_stdout.txt:3:  "requestSummary": "Create a project to evaluate deployment readiness for a new service. Include three tasks: dependency verification, governance review, and execution readiness assessment. Require approval before any execution preparation.",
+docs/demo_runtime/prompt_b_report.json:3:  "requestSummary": "Create a project to evaluate launch readiness for a new internal tool. Include three tasks: prerequisite verification, governance confirmation, and launch readiness assessment. Require approval before any execution preparation.",
+docs/demo_runtime/prompt_b_report.json:6:    "description": "Create a project to evaluate launch readiness for a new internal tool. Include three tasks: prerequisite verification, governance confirmation, and launch readiness assessment. Require approval before any execution preparation.",
+docs/demo_runtime/prompt_a_stdout.txt:3:  "requestSummary": "Create a project to evaluate deployment readiness for a new service. Include three tasks: dependency verification, governance review, and execution readiness assessment. Require approval before any execution preparation.",
+docs/demo_runtime/prompt_a_stdout.txt:6:    "description": "Create a project to evaluate deployment readiness for a new service. Include three tasks: dependency verification, governance review, and execution readiness assessment. Require approval before any execution preparation.",
+docs/demo_runtime/alternate_demo_report.json:3:  "requestSummary": "Create a project to evaluate launch readiness for a new internal tool. Include three tasks: prerequisite verification, governance confirmation, and launch readiness assessment. Require approval before any execution preparation.",
+docs/demo_runtime/prompt_a_report.json:3:  "requestSummary": "Create a project to evaluate depdocs/phase405_execution_eligibility_gate_failure_classes.md:39:Governance approval missing or denied.
+docs/PHASE_426_ENFORCEMENT_CONTRACT_SURFACE_CLASSIFICATION.md:32:• represents governance admission authority
+docs/PHASE_456_5_IMPLEMENTATION_STEP10_MOUNT_TARGET_SHORTLIST.txt:401:    "Create a project to evaluate deployment readiness for a new service. Include three tasks: dependency verification, governance review, and execution readiness assessment. Require approval before any execution preparation."
+docs/PHASE_456_5_IMPLEMENTATION_STEP10_MOUNT_TARGET_SHORTLIST.txt:423:    return "Request denied because one or more governance admission conditions were not satisfied.";
+docs/PHASE_429_ENFORCEMENT_ARCHITECTURE_PLACEMENT_CLASSIFICATION.md:38:A governance admission mediation boundary
+docs/PHASE_442_INTAKE_GOVERNANCE_STRUCTURAL_BRIDGE.md:37:Governance approval
+docs/governance_failure_modes.md:38:Governance approval bypass attempts
+docs/PHASE_456_6_STEP2_WORDING_ALIGNMENT_ANALYSIS.txt:52:Potential drift exists if approval language varies between Governance approval, Operator approval, and Await operator approval without a clear ordered explanation.
+docs/PHASE_427_ADMISSIBILITY_STATE_MODEL_CLASSIFICATION.md:49:This is governance admission, not execution flow.
+docs/PHASE_427_ADMISSIBILITY_STATE_MODEL_CLASSIFICATION.md:105:Admissibility remains governance admission logic.
+docs/demo_runtime/minimal_demo_report.json:3:  "requestSummary": "Create a project to evaluate deployment readiness for a new service. Include three tasks: dependency verification, governance review, and execution readiness assessment. Require approval before any execution preparation.",
+docs/demo_runtime/minimal_demo_stdout.txt:3:  "requestSummary": "Create a project to evaluate deployment readiness for a new service. Include three tasks: dependency verification, governance review, and execution readiness assessment. Require approval before any execution preparation.",
+docs/demo_runtime/canonical_demo_report.json:3:  "requestSummary": "Create a project to evaluate deployment readiness for a new service. Include three tasks: dependency verification, governance review, and execution readiness assessment. Require approval before any execution preparation.",
+docs/demo_runtime/canonical_demo_stdout.txt:3:  "requestSummary": "Create a project to evaluate deployment readiness for a new service. Include three tasks: dependency verification, governance review, and execution readiness assessment. Require approval before any execution preparation.",
+docs/demo_runtime/prompt_a_stdout.txt:3:  "requestSummary": "Create a project to evaluate deployment readiness for a new service. Include three tasks: dependency verification, governance review, and execution readiness assessment. Require approval before any execution preparation.",
+docs/demo_runtime/prompt_a_stdout.txt:6:    "description": "Create a project to evaluate deployment readiness for a new service. Include three tasks: dependency verification, governance review, and execution readiness assessment. Require approval before any execution preparation.",
+docs/demo_runtime/prompt_a_report.json:3:  "requestSummary": "Create a project to evaluate deployment readiness for a new service. Include three tasks: dependency verification, governance review, and execution readiness assessment. Require approval before any execution preparation.",
+docs/demo_runtime/prompt_a_report.json:6:    "description": "Create a project to evaluate deployment readiness for a new service. Include three tasks: dependency verification, governance review, and execution readiness assessment. Require approval before any execution preparation.",
+docs/phase422_first_governed_proof_architecture.md:27:Execution cannot start without governance approval
+docs/PHASE_456_5_IMPLEMENTATION_STEP7_MOUNTPOINT_DISCOVERY.txt:2972:src/governance/governance_explanation_builder.test.ts:34:  warnExplanation.summary === "Governance review recommended",
+docs/PHASE_456_5_IMPLEMENTATION_STEP7_MOUNTPOINT_DISCOVERY.txt:3108:src/governance/governance_explanation_builder.ts:48:    summary = "Governance review recommended"
+docs/PHASE_456_5_IMPLEMENTATION_STEP7_MOUNTPOINT_DISCOVERY.txt:4915:app/demo-runtime/page.tsx:65:    "Create a project to evaluate deployment readiness for a new service. Include three tasks: dependency verification, governance review, and execution readiness assessment. Require approval before any execution preparation."
+docs/PHASE_456_5_IMPLEMENTATION_STEP7_MOUNTPOINT_DISCOVERY.txt:7403:      : ["transport requires governance review"]
+docs/PHASE_456_5_IMPLEMENTATION_STEP7_MOUNTPOINT_DISCOVERY.txt:19194:  warnExplanation.summary === "Governance review recommended",
+docs/PHASE_456_5_IMPLEMENTATION_STEP7_MOUNTPOINT_DISCOVERY.txt:20114:    summary = "Governance review recommended"
+docs/PHASE_456_5_IMPLEMENTATION_STEP7_MOUNTPOINT_DISCOVERY.txt:24653:    "Create a project to evaluate deployment readiness for a new service. Include three tasks: dependency verification, governance review, and execution readiness assessment. Require approval before any execution preparation."
+docs/PHASE_456_5_IMPLEMENTATION_STEP7_MOUNTPOINT_DISCOVERY.txt:24675:    return "Request denied because one or more governance admission conditions were not satisfied.";
+docs/phase406_execution_authorization_requirements.md:45:Reference governance approval
+docs/PHASE_456_6_STEP4_MINIMAL_CORRECTION_CORRIDOR_DECISION.txt:93:Potential drift exists if approval language varies between Governance approval, Operator approval, and Await operator approval without a clear ordered explanation.
+docs/phase405_execution_eligibility_gate_evaluation_order.md:36:4 — Governance approval presence
+docs/PHASE_456_6_STEP3_MINIMAL_WORDING_DRIFT_CLASSIFICATION.txt:62:Potential drift exists if approval language varies between Governance approval, Operator approval, and Await operator approval without a clear ordered explanation.
+docs/phase454_0_fl4_minimal_demo_execution_safety_corridor.md:200:Include three tasks: dependency verification, governance review,
+docs/fl3_proof/FL3_STRUCTURAL_DEMO_PACKET.md:30:Include three tasks: dependency verification, governance review,
+docs/fl3_proof/intake/dependency_structure.md:78:Governance review requires knowledge of dependencies.
+docs/fl3_proof/intake/dependency_structure.md:180:Which task depends on governance review?
+docs/fl3_proof/intake/dependency_structure.md:184:Execution readiness assessment depends on governance review.
+docs/fl3_proof/intake/project_structure.md:38:Include three tasks: dependency verification, governance review,
+docs/fl3_proof/intake/project_structure.md:62:Governance review
+docs/fl3_proof/intake/project_structure.md:200:A structural evaluation project to determine deployment readiness with governance review and approval required before any execution preparation.
+docs/fl3_proof/intake/task_structure.md:49:Governance review
+docs/fl3_proof/intake/task_structure.md:153:before governance review.
+docs/fl3_proof/intake/task_structure.md:155:Governance review must complete  
+docs/fl3_proof/intake/task_structure.md:246:Dependency verification, governance review,
+docs/fl3_proof/intake/request_capture.md:38:Include three tasks: dependency verification, governance review,
+docs/fl3_proof/intake/request_capture.md:70:"governance review"
+docs/fl3_proof/FL3_DETERMINISM_VERIFICATION.md:33:Include three tasks: dependency verification, governance review,
+docs/phase426_step5_enforcement_contract_surface_evidence.txt:11:governance admission indicators
+docs/PHASE_448_5_FL2_STRUCTURAL_FOUNDATION_SEAL.md:121:Governance approval behavior
+docs/phase407_execution_activation_requirements.md:54:Reference current governance approval
+docs/PHASE_426_ENFORCEMENT_SHAPE_STACK_SUMMARY.md:84:Enforcement strengthens governance admission.
+docs/phase406_execution_authorization_revocation.md:30:Governance approval withdrawn
+docs/PHASE_456_5_IMPLEMENTATION_STEP4_SIGNAL_SOURCE_VERIFICATION.txt:571:app/demo-runtime/page.tsx:65:    "Create a project to evaluate deployment readiness for a new service. Include three tasks: dependency verification, governance review, and execution readiness assessment. Require approval before any execution preparation."
+docs/PHASE_427_SEAL.md:43:A fully defined governance admission property.
+docs/phase406_execution_authorization_recording.md:72:Which governance approval applied
+docs/phase405_execution_eligibility_gate_model.md:37:Governance approval reference
+docs/PHASE_426_ENFORCEMENT_BOUNDARY_LOCATION_CLASSIFICATION.md:55:Enforcement must therefore remain part of governance admission itself.
+docs/phase150_complete_pre_live_governance_corridor.md:51:Governance approval flow
+docs/PHASE_440_INTAKE_COMPLETION_MODEL.md:36:Governance approval
+docs/PHASE_427_ADMISSIBILITY_STABILIZATION_SUMMARY.md:7:as a governance admission property.
+docs/PHASE_427_ADMISSIBILITY_STABILIZATION_SUMMARY.md:17:A governance admission determination.
+docs/phase423_first_controlled_execution_implementation.md:67:No execution without governance approval
+docs/phase424_step4_enforcement_spine_convergence_proof.txt:2372:src/governance/governance_explanation_builder.test.ts:34:  warnExplanation.summary === "Governance review recommended",
+docs/phase424_step4_enforcement_spine_convergence_proof.txt:2504:src/governance/governance_explanation_builder.ts:48:    summary = "Governance review recommended"
+docs/PHASE_436_PROJECT_READINESS_CLASSIFICATION_MODEL.md:79:• governance approval
+
+DELTA_SIGNALS
+
+PARSED_SIGNALS
+
+PARSED_VALUES
+
+PARSED_VALUES
+SELECTION_SCOPE=DOC_AND_LABEL_ALIGNMENT_ONLY
+PRIMARY_TARGET=docs/PHASE_456_STEP3_DASHBOARD_EXPOSURE_CONTRACT.md
+SECONDARY_TARGET=docs/PHASE_456_STEP4_DASHBOARD_EXPOSURE_CHECKLIST.md
+CORRECTION_METHOD=WORDING_NORMALIZATION_ONLY
+NEXT_STEP=MINIMAL_WORDING_PATCH_DEFINITION
+
+PATCH_DEFINITION
+PATCH_SCOPE=MINIMAL
+PATCH_TARGET_1=docs/PHASE_456_STEP3_DASHBOARD_EXPOSURE_CONTRACT.md
+PATCH_TARGET_2=docs/PHASE_456_STEP4_DASHBOARD_EXPOSURE_CHECKLIST.md
+PATCH_RULE_1=Preserve the dashboard-facing phrase DEMO CAPABLE as canonical health wording.
+PATCH_RULE_2=Use Operator approval as the canonical human authorization phrase.
+PATCH_RULE_3=Use Governance review or Governance admission before Operator approval to preserve ordering.
+PATCH_RULE_4=Normalize await-approval phrasing so it explicitly refers to Await operator approval.
+PATCH_RULE_5=Do not alter capability meaning, execution behavior, governance logic, or approval semantics.
+PATCH_FORMAT=WORDING_ONLY
+NEXT_STEP=MINIMAL_PATCH_EXECUTION_PLAN
+
+DETERMINISTIC_STOP
+Stop after minimal wording patch definition is recorded.

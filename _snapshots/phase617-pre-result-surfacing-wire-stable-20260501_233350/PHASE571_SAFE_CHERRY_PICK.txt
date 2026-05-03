@@ -1,0 +1,15 @@
+Phase 571 selective recovery.
+
+Goal:
+Restore ONLY safe backend/runtime fixes without reintroducing layout breakage.
+
+Safe commits to restore:
+- docker + server startup alignment
+- express dependency
+- server syntax fix
+- log directory fix
+
+Explicitly EXCLUDE:
+- any dashboard HTML/CSS/layout commits
+- telemetry console restructuring
+- snapshot restores

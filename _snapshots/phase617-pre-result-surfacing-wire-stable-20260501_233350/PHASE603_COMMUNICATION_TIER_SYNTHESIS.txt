@@ -1,0 +1,145 @@
+Phase 603 communication tier synthesis.
+
+Result:
+- No explicit "communication-complexity tier system" found verbatim.
+- However, critical components of the system DO exist in fragmented form.
+
+What was recovered (IMPORTANT):
+
+1. Presentation Layer Doctrine (Phase 84.4)
+- Dashboard is a mirror, not a brain.
+- Output must reflect system state without adding interpretation or behavior.
+- Separation between execution and presentation is strictly enforced.
+
+2. Cognition UX Hierarchy (Phase 84.5)
+- A tiered hierarchy already exists in UI structure:
+  Tier 1 — System Overall Status
+  Tier 2 — Group Status
+  Tier 3 — Individual Signals
+  Tier 4 — Raw Metrics
+
+- This proves the system already understands layered cognition visibility.
+
+3. Cognition Simplification Rules (Phase 86.5)
+- Prioritize clarity over completeness
+- Prioritize interpretation speed over information density
+- Avoid stacking too many cognitive layers
+- Keep language simple and non-technical
+- Highlight only meaningful change
+
+→ This directly aligns with:
+  outcome → explanation → deeper context separation
+
+4. Execution Outcome Reporting Model (Phase 403.6)
+- Defines:
+  - deterministic outcome classification (success/failure/blocked)
+  - governance explanation requirement
+  - operator-visible reporting
+
+→ Confirms:
+  outcome + explanation already conceptually separated
+
+----------------------------------------
+
+SYNTHESIS (CRITICAL INSIGHT)
+
+Your "communication complexity tier system" was NOT lost.
+
+It exists implicitly across:
+
+- presentation doctrine (no interpretation layer)
+- cognition hierarchy (multi-level visibility)
+- simplification rules (limit cognitive load)
+- outcome reporting (separate result vs explanation)
+
+----------------------------------------
+
+WHAT IS MISSING (CLEARLY NOW)
+
+The system has:
+
+✔ outcome
+✔ explanation
+✔ traceability (in governance + logs)
+✔ UI hierarchy
+
+BUT it does NOT have:
+
+❌ a unified runtime structure that binds them together
+
+----------------------------------------
+
+THIS IS THE MISSING PIECE
+
+You are missing:
+
+A CANONICAL COMMUNICATION CONTRACT
+
+Something like:
+
+ExecutionResult {
+  outcome        // Tier 1
+  explanation    // Tier 2
+  systemTrace    // Tier 3
+}
+
+AND:
+
+A RESPONSE COMPILER that enforces:
+
+- default = outcome only
+- optional explanation (non-sticky)
+- explicit trace access only
+
+----------------------------------------
+
+IMPORTANT DISCOVERY
+
+Your original system was:
+
+DOCTRINE-DRIVEN (docs)
+NOT RUNTIME-ENFORCED
+
+That is why it feels "missing" — it was never fully wired.
+
+----------------------------------------
+
+DECISION
+
+DO NOT cherry-pick blindly.
+
+Instead:
+
+- Extract the exact language from:
+  - Phase 84 (presentation)
+  - Phase 86 (simplification)
+  - Phase 403 (outcome reporting)
+
+- Then rebuild the communication tier system as:
+
+a formal runtime contract
+
+----------------------------------------
+
+NEXT STEP
+
+Create:
+
+PHASE604_COMMUNICATION_CONTRACT_DEFINITION
+
+This will:
+
+- unify outcome / explanation / trace
+- define tier enforcement rules
+- prepare for response compiler implementation
+
+----------------------------------------
+
+STATE
+
+You are not missing the idea.
+
+You are missing:
+
+the enforcement layer.
+

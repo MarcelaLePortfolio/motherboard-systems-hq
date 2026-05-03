@@ -1,0 +1,51 @@
+Phase 607 response compiler isolated test.
+
+Goal:
+Execute isolated verification of compileCommunicationResult.
+
+Method:
+Run Node inline test against server/worker/response_compiler.mjs.
+
+=== RESULT SAMPLE ===
+{
+  "outcome": {
+    "tier": "TIER_1",
+    "purpose": "operator-safe outcome",
+    "content": "Policy-aware execution prepared",
+    "visibility": "default"
+  },
+  "explanation": {
+    "tier": "TIER_2",
+    "purpose": "brief causal explanation",
+    "content": "fresh context requested",
+    "visibility": "on_request",
+    "persistence": "non_sticky"
+  },
+  "systemTrace": {
+    "tier": "TIER_3",
+    "purpose": "internal/system execution trace",
+    "content": {
+      "task_id": "test_task_1",
+      "run_id": "test_run_1",
+      "strategy_applied": "prompt_augmentation",
+      "execution_meta": {
+        "test": true
+      },
+      "compiler_options": {}
+    },
+    "visibility": "explicit_access_only",
+    "persistence": "non_default"
+  }
+}
+
+=== DETERMINISM CHECK ===
+PASS
+
+=== TIER CHECK ===
+PASS
+PASS
+PASS
+
+=== FALLBACK CHECK ===
+PASS
+PASS

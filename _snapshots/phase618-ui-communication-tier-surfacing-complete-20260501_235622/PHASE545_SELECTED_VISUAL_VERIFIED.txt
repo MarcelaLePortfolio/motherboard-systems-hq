@@ -1,0 +1,28 @@
+PHASE 545 — SELECTED ROW VISUAL VERIFIED
+
+RESULT:
+PASS
+
+VERIFIED:
+- isSelected condition present in active renderer
+- Selected row background override applied (rgba(59,130,246,0.12))
+- Selected row outline applied (rgba(147,197,253,0.6))
+- Selected style overrides active highlight correctly
+- No regression in grouping (padding-left + divider logic intact)
+- No regression in SSE stream or render loop
+- Docker rebuild successful
+- Served JS reflects expected styling logic
+
+STATUS:
+Selected row now visually persistent and clearly distinguishable
+
+SYSTEM STATE:
+Execution surface now provides:
+- stable selection anchoring during live updates
+- strong visual distinction for operator focus
+- preserved lifecycle + grouping signal
+
+NEXT:
+Optional refinement:
+- subtle hover state for non-selected rows
+- keyboard navigation (future)

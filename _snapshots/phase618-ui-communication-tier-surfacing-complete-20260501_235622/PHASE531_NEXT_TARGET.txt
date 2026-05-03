@@ -1,0 +1,43 @@
+PHASE 531 — NEXT TARGET
+
+CORRIDOR:
+UX + OBSERVABILITY POLISH
+
+PRIORITY 1:
+Fix Execution Trail signal quality
+
+PROBLEM:
+- Current trail = low-value audit noise
+- Not aligned with task lifecycle
+- Not operator-meaningful
+
+OBJECTIVE:
+Transform Execution Trail into:
+- Lifecycle-driven
+- Human-readable
+- High-signal only
+
+TARGET EVENTS:
+- task.created
+- task.running
+- task.completed
+- task.failed (if applicable)
+
+REMOVE / DE-PRIORITIZE:
+- internal debug noise
+- redundant emissions
+- non-actionable logs
+
+CONSTRAINTS:
+- Do not modify worker contract
+- Do not break event emission
+- UI-safe changes only (or filtering layer)
+
+NEXT STEP:
+Locate Execution Trail rendering logic (likely in public/js)
+
+GOAL:
+Improve operator clarity without touching backend execution
+
+STATUS:
+READY FOR NEXT SURGICAL PASS

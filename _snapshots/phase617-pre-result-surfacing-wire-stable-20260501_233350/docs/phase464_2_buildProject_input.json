@@ -1,0 +1,26 @@
+{
+  "requestId": "req-001",
+  "canonicalText": "create a system that monitors api uptime and alerts me when failures occur",
+  "tokens": [
+    "create",
+    "a",
+    "system",
+    "that",
+    "monitors",
+    "api",
+    "uptime",
+    "and",
+    "alerts",
+    "me",
+    "when",
+    "failures",
+    "occur"
+  ],
+  "detectedIntent": "unknown",
+  "ambiguityFlags": [],
+  "normalizationTrace": [
+    "lowercase transformation",
+    "punctuation removal",
+    "whitespace tokenization"
+  ]
+}

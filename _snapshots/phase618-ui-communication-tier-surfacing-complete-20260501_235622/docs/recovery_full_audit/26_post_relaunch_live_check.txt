@@ -1,0 +1,42 @@
+PHASE 457 - POST RELAUNCH LIVE CHECK
+====================================
+
+===== phase65_layout =====
+URL=http://localhost:8081
+
+[port listen]
+
+[http headers]
+
+[title]
+
+[body markers]
+
+===== phase65_wiring =====
+URL=http://localhost:8082
+
+[port listen]
+
+[http headers]
+
+[title]
+
+[body markers]
+
+===== operator_guidance =====
+URL=http://localhost:8083
+
+[port listen]
+
+[http headers]
+
+[title]
+
+[body markers]
+
+DETERMINISTIC INTERPRETATION
+- If 8081/8082/8083 respond, the comparison stack is finally live.
+- If one or more still fail, inspect:
+  docs/recovery_full_audit/phase65_layout_phase457_launch.txt
+  docs/recovery_full_audit/phase65_wiring_phase457_launch.txt
+  docs/recovery_full_audit/operator_guidance_phase457_launch.txt

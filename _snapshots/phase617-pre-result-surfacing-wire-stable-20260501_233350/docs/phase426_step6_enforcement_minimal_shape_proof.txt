@@ -1,0 +1,36 @@
+PHASE 426 — STEP 6
+Enforcement Minimal Shape Proof
+--------------------------------
+
+OBJECTIVE
+
+Determine the minimal structural shape enforcement must take
+to mediate the authorization decision contract without expanding
+execution authority or governance reasoning.
+
+This step identifies the *minimal safe shape*.
+
+PROOF ONLY.
+
+NO:
+
+implementation
+logic introduction
+runtime behavior
+execution expansion
+policy mutation
+
+QUESTIONS THIS STEP ANSWERS
+
+What is the smallest possible structural enforcement form?
+
+Candidate minimal shapes:
+
+• decision validation flag
+• admissibility marker
+• governance enforcement annotation
+• authorization verification state
+• decision integrity check marker
+
+We are proving the smallest structural footprint possible.
+

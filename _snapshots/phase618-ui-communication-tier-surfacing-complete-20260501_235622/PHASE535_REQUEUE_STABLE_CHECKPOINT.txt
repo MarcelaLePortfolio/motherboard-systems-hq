@@ -1,0 +1,12 @@
+PHASE 535 REQUEUE STABLE CHECKPOINT
+
+Outcome:
+- Requeue action is visible in the Execution Inspector selected panel.
+- Requeue click now shows visible success feedback.
+- Operator confirmed Requeued ✓ appears.
+- Retry Differently is not wired yet.
+
+Checkpoint action:
+- Tag current state.
+- Rebuild containers.
+- Capture runtime snapshot.

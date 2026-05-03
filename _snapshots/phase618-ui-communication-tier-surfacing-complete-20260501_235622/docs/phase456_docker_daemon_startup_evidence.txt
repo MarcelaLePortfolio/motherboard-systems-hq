@@ -1,0 +1,1049 @@
+PHASE 456 — DOCKER DAEMON STARTUP EVIDENCE
+Generated: 2026-04-09T17:29:39Z
+
+=== PRECHECK ===
+Filesystem      Size    Used   Avail Capacity iused ifree %iused  Mounted on
+/dev/disk3s5   228Gi   125Gi    68Gi    65%    570k  709M    0%   /System/Volumes/Data
+
+phase119-dashboard-cognition-contract
+473f7beb6353ad6407a1ab4772e71174a6a5ee74
+
+?? docs/phase456_docker_daemon_startup_evidence.txt
+?? scripts/phase456_docker_daemon_startup_evidence.sh
+
+=== DOCKER DESKTOP PROCESS SNAPSHOT ===
+marcela-dev       1115   0.0  0.2 411624624  26304   ??  S    Tue09AM   0:04.14 /Applications/Docker.app/Contents/Resources/bin/cagent api --listen unix:///Users/marcela-dev/Library/Containers/com.docker.docker/Data/docker-cagent.sock --models-gateway https://ai-backend-service.docker.com/proxy?origin=desktop&desktopVersion=4.55.0 --pull-interval 15 docker/gordon
+marcela-dev       1063   0.0  0.2 411605456  33568   ??  S    Tue09AM   0:12.53 /Applications/Docker.app/Contents/MacOS/com.docker.backend
+root               333   0.0  0.0 411901696   1616   ??  Ss   Tue09AM   0:00.08 /Library/PrivilegedHelperTools/com.docker.vmnetd
+marcela-dev      93961   0.0  0.0 410202512   1712 s231  S+   10:29AM   0:00.00 bash ./scripts/phase456_docker_daemon_startup_evidence.sh
+
+=== SOCKET DIRECTORY SNAPSHOT ===
+total 24
+drwxr-xr-x@ 14 marcela-dev  staff   448 Apr  7 09:42 .
+drwxr-x---+ 88 marcela-dev  staff  2816 Apr  7 12:17 ..
+-rw-------@  1 marcela-dev  staff    74 Apr  8 13:45 .token_seed
+-rw-------@  1 marcela-dev  staff     0 Nov 18 17:13 .token_seed.lock
+drwxr-xr-x@  4 marcela-dev  staff   128 Apr  6 17:26 bin
+drwx------@  9 marcela-dev  staff   288 Apr  9 09:31 buildx
+drwx------@ 16 marcela-dev  staff   512 Dec 31 10:00 cli-plugins
+-rw-r--r--   1 marcela-dev  staff    78 Apr  7 09:42 config.json
+drwxr-xr-x@  3 marcela-dev  staff    96 Nov 18 17:08 contexts
+-rw-r--r--   1 marcela-dev  staff   124 Apr  7 09:42 daemon.json
+drwx------@  3 marcela-dev  staff    96 Nov 18 17:08 desktop-build
+drwxr-xr-x@  4 marcela-dev  staff   128 Nov 18 17:08 models
+drwx------@  4 marcela-dev  staff   128 Nov 18 17:08 mutagen
+drwxr-xr-x@  2 marcela-dev  staff    64 Apr  9 09:45 run
+
+total 0
+drwxr-xr-x@  2 marcela-dev  staff   64 Apr  9 09:45 .
+drwxr-xr-x@ 14 marcela-dev  staff  448 Apr  7 09:42 ..
+
+total 8
+drwxr-xr-x@ 16 marcela-dev  staff  512 Apr  9 09:45 .
+drwxr-xr-x@  7 marcela-dev  staff  224 Mar 10 19:04 ..
+drwxr-xr-x@  3 marcela-dev  staff   96 Jan 13 08:25 cagent
+srwxr-xr-x   1 marcela-dev  staff    0 Apr  7 09:43 docker-cagent.sock
+srwxr-xr-x   1 marcela-dev  staff    0 Apr  7 09:42 docker-desktop-build.sock
+srwxr-xr-x   1 marcela-dev  staff    0 Apr  7 09:42 ethernet-vfkit.sock
+drwxr-xr-x@  2 marcela-dev  staff   64 Nov 18 17:08 extensions
+srwxr-xr-x   1 marcela-dev  staff    0 Apr  7 09:42 filesystem-fd.sock
+srwxr-xr-x   1 marcela-dev  staff    0 Apr  7 09:42 filesystem-volume.sock
+srwxr-xr-x   1 marcela-dev  staff    0 Apr  7 09:42 forkexecd.sock
+-rw-r--r--   1 marcela-dev  staff    3 Apr  7 09:42 locked-directories
+drwxr-xr-x@  4 marcela-dev  staff  128 Mar  9 11:39 log
+drwxr-xr-x@  3 marcela-dev  staff   96 Apr  7 09:42 tasks
+srwxr-xr-x   1 marcela-dev  staff    0 Apr  7 10:02 virtualization.sock
+drwxr-xr-x@  3 marcela-dev  staff   96 Nov 18 17:08 vms
+srwxr-xr-x   1 marcela-dev  staff    0 Apr  7 09:42 vpnkit-bridge-fd.sock
+
+=== DOCKER DESKTOP APP SUPPORT SNAPSHOT ===
+total 0
+drwxr-xr-x@  4 marcela-dev  staff   128 Mar  9 11:39 .
+drwxr-xr-x@ 16 marcela-dev  staff   512 Apr  9 09:45 ..
+drwxr-xr-x  67 marcela-dev  staff  2144 Apr  9 09:44 host
+drwxr-xr-x  60 marcela-dev  staff  1920 Apr  8 23:24 vm
+
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.backend.log
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.backend.log.0
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.backend.log.0.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.backend.log.1
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.backend.log.1.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.backend.log.2
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.backend.log.2.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.backend.log.3
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.backend.log.3.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.backend.log.4
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.backend.log.4.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.backend.log.5
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.backend.log.5.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.backend.log.6
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.backend.log.6.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.backend.log.7.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.backend.log.8.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.build.log
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.virtualization.log
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/Docker Desktop.stderr.log
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/Docker Desktop.stdout.log
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/docker-desktop.log
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/Docker.log
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-2026-03-27.log.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-2026-03-28.log.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-2026-03-29.log.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-2026-03-30.log.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-2026-03-31.log.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-2026-04-01.log.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-2026-04-05.log
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-2026-04-06.log
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-2026-04-07.log
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-audit-log.json
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-errd-2026-04-02.log.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-errd-2026-04-06.log
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-errd-2026-04-09.log
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-errd-audit-log.json
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-ui-console-2026-04-05.log
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-ui-console-2026-04-06.log
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-ui-console-2026-04-07.log
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-ui-console-audit-log.json
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/httpproxy.log
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/httpproxy.log.0
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/httpproxy.log.0.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/inference.log
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/monitor.log
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/monitor.log.0
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/monitor.log.0.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/monitor.log.1
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/monitor.log.1.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/monitor.log.2
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/monitor.log.2.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/monitor.log.3
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/monitor.log.3.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/monitor.log.4
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/monitor.log.4.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/monitor.log.5
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/monitor.log.5.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/monitor.log.6
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/monitor.log.6.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/monitor.log.7
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/monitor.log.7.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/monitor.log.8
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/monitor.log.8.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/supervisor.log
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.0
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.0.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.1
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.1.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.10
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.10.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.11
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.11.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.12
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.12.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.13
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.13.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.14
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.14.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.15
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.15.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.16
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.16.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.17
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.17.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.18
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.18.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.2
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.2.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.3
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.3.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.4
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.4.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.6
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.6.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.7
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.7.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.8
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.8.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.9
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.9.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.0
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.0.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.1
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.1.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.2
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.2.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.3
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.3.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.4
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.4.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.5
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.5.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.6
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.6.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.7
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.7.gz
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.8
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.8.gz
+
+=== RECENT DOCKER DESKTOP LOG TAILS ===
+----- TAIL: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.backend.log -----
+[2026-04-09T16:45:49.271964000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags 6a6da1bf-638f-4864-82cc-4dc1b055e86e
+[2026-04-09T16:45:49.272077000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags 423851d6-9321-4f35-8978-5b8a768ca8b1
+[2026-04-09T16:45:49.272340000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags fe5468c2-58b3-4d04-9e57-a4086b2d83da
+[2026-04-09T16:45:49.272449000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags e4006570-ee63-4674-822a-7ea9e95f76e9
+[2026-04-09T16:45:49.272555000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags 7411dc74-e27f-40b8-b2ca-105fbe17342e
+[2026-04-09T16:45:49.272661000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags 3ed1652b-c5a1-4b5d-ba00-f890bd7d8347
+[2026-04-09T16:45:49.272778000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags 6c8d0664-1691-4e29-9632-4cb9164729ff
+[2026-04-09T16:45:49.272881000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags 37567428-d490-4fa3-b804-87ac60d6567e
+[2026-04-09T16:45:49.272993000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags e8f31603-701a-43a7-9fcd-3bf1e5ea0883
+[2026-04-09T16:45:49.273098000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags f7f25312-b169-4b26-904a-84955808bd8b
+[2026-04-09T16:45:49.273206000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags 65d070ab-696d-4611-af44-6f9b3993cab8
+[2026-04-09T16:45:49.271577000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags fe5468c2-58b3-4d04-9e57-a4086b2d83da
+[2026-04-09T16:45:49.273655000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags e4006570-ee63-4674-822a-7ea9e95f76e9
+[2026-04-09T16:45:49.273475000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags 6bc321c3-a998-4d63-beed-c7b915b75e5c
+[2026-04-09T16:45:49.273859000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags 7411dc74-e27f-40b8-b2ca-105fbe17342e
+[2026-04-09T16:45:49.274100000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags 3ed1652b-c5a1-4b5d-ba00-f890bd7d8347
+[2026-04-09T16:45:49.274047000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags 56420b97-976b-4f4d-b4c2-95f7c1848035
+[2026-04-09T16:45:49.274219000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags 6c8d0664-1691-4e29-9632-4cb9164729ff
+[2026-04-09T16:45:49.274384000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags 2515eda9-82f1-4177-b8ba-3f4cd192d9fe
+[2026-04-09T16:45:49.274539000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags 37567428-d490-4fa3-b804-87ac60d6567e
+[2026-04-09T16:45:49.274786000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags e8f31603-701a-43a7-9fcd-3bf1e5ea0883
+[2026-04-09T16:45:49.274864000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags f7f25312-b169-4b26-904a-84955808bd8b
+[2026-04-09T16:45:49.274844000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags c7fd77ad-95b5-4ea8-8345-4367b8a64026
+[2026-04-09T16:45:49.274942000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags 65d070ab-696d-4611-af44-6f9b3993cab8
+[2026-04-09T16:45:49.275190000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags 6bc321c3-a998-4d63-beed-c7b915b75e5c
+[2026-04-09T16:45:49.275138000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags a890a4ae-cb93-4599-aaab-003d0408815e
+[2026-04-09T16:45:49.275369000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags 56420b97-976b-4f4d-b4c2-95f7c1848035
+[2026-04-09T16:45:49.275639000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags 2515eda9-82f1-4177-b8ba-3f4cd192d9fe
+[2026-04-09T16:45:49.275690000Z][com.docker.backend.analytics.marlin] processing batch of 50 records
+[2026-04-09T16:45:49.275767000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags 8de69833-8b13-46ae-ae72-398472405916
+[2026-04-09T16:45:49.276371000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags 87ed598d-6c14-48dd-9c2d-d9b574743486
+[2026-04-09T16:45:49.276444000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags 7098b6c1-9304-490c-b874-479052e590bd
+[2026-04-09T16:45:49.276511000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags 3815f1a4-e158-4233-b36a-ddfeeff6bc07
+[2026-04-09T16:45:49.276575000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags 510c2d23-f86c-4dd6-809e-004bc80319c0
+[2026-04-09T16:45:49.276658000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags d7736dc5-522b-444c-ae28-f93267b31bd0
+[2026-04-09T16:45:49.276724000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags d731dd59-0ca5-4bba-85fc-aa23b1656655
+[2026-04-09T16:45:49.276788000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags ec914887-e25d-4831-bc72-602e46189f9a
+[2026-04-09T16:45:49.276879000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags 212a2e5b-ef05-418a-86e9-648b53793bf1
+[2026-04-09T16:45:49.277114000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags 2e8f9920-1e02-46bf-9a13-07b154d81606
+[2026-04-09T16:45:49.277186000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags ed7a9952-402a-4324-9ad4-ce87a28cbccb
+[2026-04-09T16:45:49.277247000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags 842fc91d-176f-4e7d-92a1-c033bcda3cf5
+[2026-04-09T16:45:49.277308000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags c2d40b49-741c-444a-abbf-19c2f9d16c4c
+[2026-04-09T16:45:49.277372000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags 642238ff-f941-4aa6-a861-9c0053652109
+[2026-04-09T16:45:49.277435000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags 302ce62d-6192-441b-a9fa-aae5d4a81190
+[2026-04-09T16:45:49.277581000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags adcd136e-57df-4b42-8342-7f54bc6b8370
+[2026-04-09T16:45:49.277667000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags 23450db7-f344-435f-9464-13a50a1bf2b7
+[2026-04-09T16:45:49.277732000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags 8f16642a-bd60-407c-b484-472492af04bd
+[2026-04-09T16:45:49.277814000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags 46c03451-9a6e-4db7-9763-7122856c64fc
+[2026-04-09T16:45:49.277877000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags ec2283b3-1aa7-46d9-93b5-4b8b1fbee1d3
+[2026-04-09T16:45:49.277952000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags 52f8171f-3c4c-460b-8652-b97559e6db42
+[2026-04-09T16:45:49.278031000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags 9f837bd8-dad3-47ec-a697-c9f647d9ca95
+[2026-04-09T16:45:49.278113000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags aa556b9a-ffcb-4c1b-9992-0fe968c0d618
+[2026-04-09T16:45:49.278193000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags b561ce5a-f224-4dc7-9775-2c4f20b3e6cf
+[2026-04-09T16:45:49.278272000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags 80af1dba-04bc-4991-bf2a-e9a8b63c3e37
+[2026-04-09T16:45:49.278351000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags 7cff7f9c-8370-4844-83fd-fb90f2c970c6
+[2026-04-09T16:45:49.278428000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags a0a4420d-9938-4ce6-ae94-83937e05165b
+[2026-04-09T16:45:49.278505000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags 6ae6d921-5f5f-4528-b923-83b4618b5b1f
+[2026-04-09T16:45:49.293742000Z][com.docker.backend.electron] shutting down electron processes
+[2026-04-09T16:45:49.305279000Z][com.docker.backend.electron] waiting for electron to quit
+[2026-04-09T16:45:49.309462000Z][com.docker.backend.ipc] (50d92d2b) 14597179-BackendAPI S->C Docker-Desktop/4.55.0 (Mac; arm64; GUI) GET /kubernetes/events (13h28m52.360566791s): OK
+[2026-04-09T16:45:49.309577000Z][com.docker.backend.ipc] (50d92d2b) 14597179-BackendAPI S->C Docker-Desktop/4.55.0 (Mac; arm64; GUI) GET /mutagen/file-shares/stream (13h28m52.360762125s): OK
+[2026-04-09T16:45:49.309550000Z][com.docker.backend.ipc] (50d92d2b) 14597179-BackendAPI S->C Docker-Desktop/4.55.0 (Mac; arm64; GUI) GET /update/events (13h28m52.360721458s): OK
+[2026-04-09T16:45:49.309824000Z][com.docker.backend.ipc] (50d92d2b) 14597179-BackendAPI S->C Docker-Desktop/4.55.0 (Mac; arm64; GUI) GET /notify/messagebox/events (13h28m52.361009s): OK
+[2026-04-09T16:45:49.309825000Z][com.docker.backend.ipc] (50d92d2b) 14597179-BackendAPI S->C Docker-Desktop/4.55.0 (Mac; arm64; GUI) GET /pause/events (13h28m52.360909708s): OK
+[2026-04-09T16:45:49.309842000Z][com.docker.backend.ipc] (50d92d2b) 14597179-BackendAPI S->C Docker-Desktop/4.55.0 (Mac; arm64; GUI) GET /wasm/events (13h28m52.361007959s): OK
+[2026-04-09T16:45:49.309852000Z][com.docker.backend.ipc] (50d92d2b) 14597179-BackendAPI S->C Docker-Desktop/4.55.0 (Mac; arm64; GUI) GET /features/events (13h28m52.361010167s): OK
+[2026-04-09T16:45:49.309859000Z][com.docker.backend.ipc] (50d92d2b) 14597179-BackendAPI S->C Docker-Desktop/4.55.0 (Mac; arm64; GUI) GET /license/events (13h28m52.360950917s): OK
+[2026-04-09T16:45:49.309879000Z][com.docker.backend.ipc] (50d92d2b) 14597179-BackendAPI S->C Docker-Desktop/4.55.0 (Mac; arm64; GUI) GET /registry/state (13h28m52.3610175s): OK
+[2026-04-09T16:45:49.309889000Z][com.docker.backend.ipc] (50d92d2b) 14597179-BackendAPI S->C Docker-Desktop/4.55.0 (Mac; arm64; GUI) GET /versions/events (13h28m52.360969667s): OK
+[2026-04-09T16:45:49.309906000Z][com.docker.backend.ipc] (50d92d2b) 14597179-BackendAPI S->C Docker-Desktop/4.55.0 (Mac; arm64; GUI) GET /engine/events (13h28m52.361002625s): OK
+[2026-04-09T16:45:49.309912000Z][com.docker.backend.ipc] (50d92d2b) 14597179-BackendAPI S->C Docker-Desktop/4.55.0 (Mac; arm64; GUI) GET /install/events (13h28m52.360992666s): OK
+[2026-04-09T16:45:49.309965000Z][com.docker.backend.ipc] (50d92d2b) 14597179-BackendAPI S->C Docker-Desktop/4.55.0 (Mac; arm64; GUI) GET /clicontext/events (13h28m52.361061917s): OK
+[2026-04-09T16:45:49.309972000Z][com.docker.backend.ipc] (50d92d2b) 14597179-BackendAPI S->C Docker-Desktop/4.55.0 (Mac; arm64; GUI) GET /notify/notifications (13h28m52.3611515s): OK
+[2026-04-09T16:45:49.315750000Z][com.docker.backend.electron] electron processes have shut down
+[2026-04-09T16:45:49.315778000Z][com.docker.backend] shutting down analytics client
+[2026-04-09T16:45:49.316015000Z][com.docker.backend.analytics.segment] exit requested – draining messages
+[2026-04-09T16:45:49.316048000Z][com.docker.backend.analytics.segment] exit
+[2026-04-09T16:45:49.363935000Z][com.docker.backend.sysevents] listening for System Config changes stopped
+[2026-04-09T16:45:50.103953000Z][com.docker.backend.analytics.marlin] sent message 200 OK (828 ms)
+[2026-04-09T16:45:50.104075000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags c7fd77ad-95b5-4ea8-8345-4367b8a64026
+[2026-04-09T16:45:50.104224000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags a890a4ae-cb93-4599-aaab-003d0408815e
+[2026-04-09T16:45:50.104393000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags 8de69833-8b13-46ae-ae72-398472405916
+[2026-04-09T16:45:50.104559000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags 87ed598d-6c14-48dd-9c2d-d9b574743486
+[2026-04-09T16:45:50.104687000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags 7098b6c1-9304-490c-b874-479052e590bd
+[2026-04-09T16:45:50.104900000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags 3815f1a4-e158-4233-b36a-ddfeeff6bc07
+[2026-04-09T16:45:50.105026000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags 510c2d23-f86c-4dd6-809e-004bc80319c0
+[2026-04-09T16:45:50.105148000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags d7736dc5-522b-444c-ae28-f93267b31bd0
+[2026-04-09T16:45:50.105272000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags d731dd59-0ca5-4bba-85fc-aa23b1656655
+[2026-04-09T16:45:50.105396000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags ec914887-e25d-4831-bc72-602e46189f9a
+[2026-04-09T16:45:50.105522000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags 212a2e5b-ef05-418a-86e9-648b53793bf1
+[2026-04-09T16:45:50.105640000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags 2e8f9920-1e02-46bf-9a13-07b154d81606
+[2026-04-09T16:45:50.105795000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags ed7a9952-402a-4324-9ad4-ce87a28cbccb
+[2026-04-09T16:45:50.105904000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags 842fc91d-176f-4e7d-92a1-c033bcda3cf5
+[2026-04-09T16:45:50.106019000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags c2d40b49-741c-444a-abbf-19c2f9d16c4c
+[2026-04-09T16:45:50.106129000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags 642238ff-f941-4aa6-a861-9c0053652109
+[2026-04-09T16:45:50.106237000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags 302ce62d-6192-441b-a9fa-aae5d4a81190
+[2026-04-09T16:45:50.106345000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags adcd136e-57df-4b42-8342-7f54bc6b8370
+[2026-04-09T16:45:50.106455000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags 23450db7-f344-435f-9464-13a50a1bf2b7
+[2026-04-09T16:45:50.106567000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags 8f16642a-bd60-407c-b484-472492af04bd
+[2026-04-09T16:45:50.106677000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags 46c03451-9a6e-4db7-9763-7122856c64fc
+[2026-04-09T16:45:50.106785000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags ec2283b3-1aa7-46d9-93b5-4b8b1fbee1d3
+[2026-04-09T16:45:50.106900000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags 52f8171f-3c4c-460b-8652-b97559e6db42
+[2026-04-09T16:45:50.107009000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags 9f837bd8-dad3-47ec-a697-c9f647d9ca95
+[2026-04-09T16:45:50.107275000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags aa556b9a-ffcb-4c1b-9992-0fe968c0d618
+[2026-04-09T16:45:50.107554000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags b561ce5a-f224-4dc7-9775-2c4f20b3e6cf
+[2026-04-09T16:45:50.107833000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags 80af1dba-04bc-4991-bf2a-e9a8b63c3e37
+[2026-04-09T16:45:50.108062000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags 7cff7f9c-8370-4844-83fd-fb90f2c970c6
+[2026-04-09T16:45:50.108274000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags a0a4420d-9938-4ce6-ae94-83937e05165b
+[2026-04-09T16:45:50.108489000Z][com.docker.backend.analytics.tracker] sending event: composeAggCliFlags 6ae6d921-5f5f-4528-b923-83b4618b5b1f
+[2026-04-09T16:45:50.108724000Z][com.docker.backend.analytics.marlin] processing batch of 31 records
+[2026-04-09T16:45:50.616028000Z][com.docker.backend.analytics.marlin] sent message 200 OK (508 ms)
+[2026-04-09T16:45:50.616284000Z][com.docker.backend] shutting down vital services
+[2026-04-09T16:45:50.616487000Z][com.docker.backend.ipc] shutting down 14597179-BackendAPI for component BackendCMD on backend on context done
+[2026-04-09T16:45:50.616522000Z][com.docker.backend.ipc] shutting down 14597179-BackendAPI for component BackendCMD on <HOME>/Library/Containers/com.docker.docker/Data/backend.sock on context done
+[2026-04-09T16:45:50.616603000Z][com.docker.backend.gvisor] unable to accept vfkit connection: invalid magic length: 0/4
+[2026-04-09T16:45:50.617113000Z][com.docker.backend.socketforward] closing virtual listener on backend
+[2026-04-09T16:45:50.617383000Z][com.docker.backend.socketforwarder] root context has been cancelled
+[2026-04-09T16:45:50.617768000Z][com.docker.backend.socketforwarder] stop
+[2026-04-09T16:45:50.617706000Z][com.docker.backend.socketforward] closing virtual listener on backend
+[2026-04-09T16:45:50.618032000Z][com.docker.backend.apiproxy] closing <HOME>/.docker/run/docker.sock
+
+----- TAIL: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/monitor.log -----
+[2026-04-09T16:42:32.461793000Z] {"component":"apiproxy","level":"info","msg":"<< GET /networks/ae0db598724c6104184200877615a8ac3758a84c1f5a38058e72f5a8c5dead3e","time":"2026-04-09T09:42:32.461711000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:42:32.461880000Z] {"component":"apiproxy","level":"info","msg":"<< GET /networks/bf4c3104b9673993c45a34353ee9bcc0f2cf32e8b8a0dc4c96123e157d4d0ede","time":"2026-04-09T09:42:32.461809000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:42:32.462018000Z] {"component":"apiproxy","level":"info","msg":"<< GET /networks/b994bf882781ce9b814ec4b3764f9084beec5ffd62e57a08354918a5a73aacb7","time":"2026-04-09T09:42:32.461919000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:42:32.462302000Z] {"component":"apiproxy","level":"info","msg":"<< GET /networks/b764df850db0f46b9dbfbdbc8bc8f1a798ea76aeccc292126c5d50c35eb71b95","time":"2026-04-09T09:42:32.462208000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:42:32.462308000Z] {"component":"apiproxy","level":"info","msg":"<< GET /networks/2769300a73ddf7b377815808b93d59c65617a36e0889b7101a1c2aa0fcd11522","time":"2026-04-09T09:42:32.462260000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:42:32.462436000Z] {"component":"apiproxy","level":"info","msg":"<< GET /networks/530193eb702da03df82c6e834a27303fd4da1c0fe44f4298dcaa50185657c7be","time":"2026-04-09T09:42:32.462403000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:42:32.462588000Z] {"component":"apiproxy","level":"info","msg":"<< GET /networks/481e2581deab7132282a3a18eccab0c6e2439b30eceda1ae0c79e9d955dce10a","time":"2026-04-09T09:42:32.462486000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:42:32.547464000Z] {"component":"apiproxy","level":"info","msg":"<< GET /images/json","time":"2026-04-09T09:42:32.547391000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:42:32.566629000Z] {"component":"apiproxy","level":"info","msg":"<< GET /containers/json?all=true","time":"2026-04-09T09:42:32.566484000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:42:57.223051000Z] [16:42:57.222622000Z][main.ipc              ] (8a737c4b-1596) 14597179-BackendAPI S<-C da882044-time GET /time
+[2026-04-09T16:42:57.224070000Z] [16:42:57.223077000Z][main.ipc              ] (8a737c4b-1596) 14597179-BackendAPI S->C da882044-time GET /time (444.5µs): 2026-04-09 09:42:57.223013 -0700 PDT m=+48361.642486792
+[2026-04-09T16:43:01.643614000Z] [16:43:01.642822000Z][main.cmdlineconfiguration] checking docker binaries are symlinked to: /usr/local/bin
+[2026-04-09T16:43:01.644072000Z] [16:43:01.643823000Z][main.cmdlineconfiguration] checking default docker socket enablement:  true
+[2026-04-09T16:43:01.644174000Z] [16:43:01.644052000Z][main.cmdline          ] checking launch daemon
+[2026-04-09T16:43:01.644334000Z] [16:43:01.644179000Z][main.cmdline          ] checking socket symlinking setup
+[2026-04-09T16:43:01.645352000Z] [16:43:01.645199000Z][main.cmdline          ] socket symlinking up-to-date
+[2026-04-09T16:43:01.645588000Z] [16:43:01.645329000Z][main.cmdline          ] check if plugins are installed in <HOME>/.docker/cli-plugins
+[2026-04-09T16:43:01.646158000Z] [16:43:01.645838000Z][main.cmdline          ] symlink <HOME>/.docker/cli-plugins/docker-ai points to /Applications/Docker.app/Contents/Resources/cli-plugins/docker-ai
+[2026-04-09T16:43:01.646429000Z] [16:43:01.646169000Z][main.cmdline          ] symlink <HOME>/.docker/cli-plugins/docker-buildx points to /Applications/Docker.app/Contents/Resources/cli-plugins/docker-buildx
+[2026-04-09T16:43:01.646697000Z] [16:43:01.646431000Z][main.cmdline          ] symlink <HOME>/.docker/cli-plugins/docker-compose points to /Applications/Docker.app/Contents/Resources/cli-plugins/docker-compose
+[2026-04-09T16:43:01.646944000Z] [16:43:01.646691000Z][main.cmdline          ] symlink <HOME>/.docker/cli-plugins/docker-debug points to /Applications/Docker.app/Contents/Resources/cli-plugins/docker-debug
+[2026-04-09T16:43:01.647217000Z] [16:43:01.646947000Z][main.cmdline          ] symlink <HOME>/.docker/cli-plugins/docker-desktop points to /Applications/Docker.app/Contents/Resources/cli-plugins/docker-desktop
+[2026-04-09T16:43:01.647479000Z] [16:43:01.647215000Z][main.cmdline          ] symlink <HOME>/.docker/cli-plugins/docker-extension points to /Applications/Docker.app/Contents/Resources/cli-plugins/docker-extension
+[2026-04-09T16:43:01.647731000Z] [16:43:01.647483000Z][main.cmdline          ] symlink <HOME>/.docker/cli-plugins/docker-init points to /Applications/Docker.app/Contents/Resources/cli-plugins/docker-init
+[2026-04-09T16:43:01.647969000Z] [16:43:01.647735000Z][main.cmdline          ] symlink <HOME>/.docker/cli-plugins/docker-mcp points to /Applications/Docker.app/Contents/Resources/cli-plugins/docker-mcp
+[2026-04-09T16:43:01.648192000Z] [16:43:01.647972000Z][main.cmdline          ] symlink <HOME>/.docker/cli-plugins/docker-model points to /Applications/Docker.app/Contents/Resources/cli-plugins/docker-model
+[2026-04-09T16:43:01.648414000Z] [16:43:01.648195000Z][main.cmdline          ] symlink <HOME>/.docker/cli-plugins/docker-offload points to /Applications/Docker.app/Contents/Resources/cli-plugins/docker-offload
+[2026-04-09T16:43:01.648643000Z] [16:43:01.648418000Z][main.cmdline          ] symlink <HOME>/.docker/cli-plugins/docker-sandbox points to /Applications/Docker.app/Contents/Resources/cli-plugins/docker-sandbox
+[2026-04-09T16:43:01.648862000Z] [16:43:01.648646000Z][main.cmdline          ] symlink <HOME>/.docker/cli-plugins/docker-sbom points to /Applications/Docker.app/Contents/Resources/cli-plugins/docker-sbom
+[2026-04-09T16:43:01.649087000Z] [16:43:01.648872000Z][main.cmdline          ] symlink <HOME>/.docker/cli-plugins/docker-scout points to /Applications/Docker.app/Contents/Resources/cli-plugins/docker-scout
+[2026-04-09T16:43:01.649203000Z] [16:43:01.649080000Z][main.cmdline          ] all CLI plugins are installed in <HOME>/.docker/cli-plugins
+[2026-04-09T16:43:27.229901000Z] [16:43:27.228979000Z][main.ipc              ] (8a737c4b-1597) 14597179-BackendAPI S<-C da882044-time GET /time
+[2026-04-09T16:43:27.231438000Z] [16:43:27.229920000Z][main.ipc              ] (8a737c4b-1597) 14597179-BackendAPI S->C da882044-time GET /time (933µs): 2026-04-09 09:43:27.229867 -0700 PDT m=+48391.650417042
+[2026-04-09T16:43:32.436028000Z] {"component":"apiproxy","level":"info","msg":">> GET /images/json","time":"2026-04-09T09:43:32.435921000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:43:32.436107000Z] {"component":"apiproxy","level":"info","msg":">> GET /containers/json?all=true","time":"2026-04-09T09:43:32.436045000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:43:32.436245000Z] {"component":"apiproxy","level":"info","msg":">> GET /networks","time":"2026-04-09T09:43:32.436179000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:43:32.442949000Z] {"component":"apiproxy","level":"info","msg":"<< GET /networks","time":"2026-04-09T09:43:32.442052000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:43:32.467136000Z] {"component":"apiproxy","level":"info","msg":">> GET /networks/413942f33bb6c65d9be2edf1bfb1a50349768329ee676fe082f762e5cb3f2eee","time":"2026-04-09T09:43:32.444817000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:43:32.467158000Z] {"component":"apiproxy","level":"info","msg":">> GET /networks/9641f78826a03e3ac81a2758a98420fff2085886f903fa5f79dd1a2e736b5286","time":"2026-04-09T09:43:32.448843000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:43:32.467165000Z] {"component":"apiproxy","level":"info","msg":">> GET /networks/d6d924cf8fdb1ec09476677bd76c983406510481761ca2ca855a6a2eb6347b28","time":"2026-04-09T09:43:32.449590000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:43:32.467169000Z] {"component":"apiproxy","level":"info","msg":">> GET /networks/f9670208d7db0b8f41b2a3347b5510738be28c2a8125b5e67d79928704192517","time":"2026-04-09T09:43:32.450174000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:43:32.467174000Z] {"component":"apiproxy","level":"info","msg":">> GET /networks/be83978c6f61b5b09606f99e5114074acc5b83ecf31cbea321feec66ebed21ab","time":"2026-04-09T09:43:32.450544000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:43:32.467179000Z] {"component":"apiproxy","level":"info","msg":">> GET /networks/35e2d572d37787786c3ea82537dd7c25420d04e12f9961bf875ddf971e86cd72","time":"2026-04-09T09:43:32.450768000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:43:32.467183000Z] {"component":"apiproxy","level":"info","msg":">> GET /networks/cdfeefdd4ff17b623bf2f4e400257f1cd43bbf2ced7d21acf44663a5bbe34515","time":"2026-04-09T09:43:32.450974000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:43:32.467187000Z] {"component":"apiproxy","level":"info","msg":">> GET /networks/b764df850db0f46b9dbfbdbc8bc8f1a798ea76aeccc292126c5d50c35eb71b95","time":"2026-04-09T09:43:32.451294000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:43:32.467219000Z] {"component":"apiproxy","level":"info","msg":">> GET /networks/ae0db598724c6104184200877615a8ac3758a84c1f5a38058e72f5a8c5dead3e","time":"2026-04-09T09:43:32.451355000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:43:32.467224000Z] {"component":"apiproxy","level":"info","msg":">> GET /networks/481e2581deab7132282a3a18eccab0c6e2439b30eceda1ae0c79e9d955dce10a","time":"2026-04-09T09:43:32.451399000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:43:32.467305000Z] {"component":"apiproxy","level":"info","msg":">> GET /networks/5fd4d7bf86ad43518edbda726074c7d5ac65cfd31c409a41f68adee2abda4533","time":"2026-04-09T09:43:32.451481000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:43:32.467358000Z] {"component":"apiproxy","level":"info","msg":">> GET /networks/bf4c3104b9673993c45a34353ee9bcc0f2cf32e8b8a0dc4c96123e157d4d0ede","time":"2026-04-09T09:43:32.451633000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:43:32.467362000Z] {"component":"apiproxy","level":"info","msg":">> GET /networks/b994bf882781ce9b814ec4b3764f9084beec5ffd62e57a08354918a5a73aacb7","time":"2026-04-09T09:43:32.451673000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:43:32.467367000Z] {"component":"apiproxy","level":"info","msg":">> GET /networks/0bf3ed2b4548b514c0d9b0037c279a59f0e2ae3c7af2cd61ffb031af8433849a","time":"2026-04-09T09:43:32.451556000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:43:32.467377000Z] {"component":"apiproxy","level":"info","msg":">> GET /networks/ba10135efefd857fdeb59a53e8404b7a3acd0776ca0c38edb324ab47fa808601","time":"2026-04-09T09:43:32.451790000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:43:32.467382000Z] {"component":"apiproxy","level":"info","msg":">> GET /networks/a5f5619a8e29fe9b751dd16b6609480158c19985fa47fa25cc6a633ad0e45c23","time":"2026-04-09T09:43:32.451892000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:43:32.467386000Z] {"component":"apiproxy","level":"info","msg":">> GET /networks/0e1ccfbb27366289de2490a09526264bdea2d77e7e3c7558dfd248f04d8b173c","time":"2026-04-09T09:43:32.452280000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:43:32.467392000Z] {"component":"apiproxy","level":"info","msg":">> GET /networks/dcca7f4b7c5d106fa31089680279d4c51731e486a525b1e112fa773f8bdd2c84","time":"2026-04-09T09:43:32.452538000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:43:32.468245000Z] {"component":"apiproxy","level":"info","msg":">> GET /networks/530193eb702da03df82c6e834a27303fd4da1c0fe44f4298dcaa50185657c7be","time":"2026-04-09T09:43:32.452989000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:43:32.468321000Z] {"component":"apiproxy","level":"info","msg":">> GET /networks/2769300a73ddf7b377815808b93d59c65617a36e0889b7101a1c2aa0fcd11522","time":"2026-04-09T09:43:32.453474000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:43:32.468327000Z] {"component":"apiproxy","level":"info","msg":">> GET /networks/d2623e256e5abb3eff7b190cecef7d5be83bcdee9378dfd4df43f29f82bcfd60","time":"2026-04-09T09:43:32.454046000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:43:32.468743000Z] {"component":"apiproxy","level":"info","msg":">> GET /networks/8e723141b9b71783065f1f9e2ca40febe1096a0c0f34c582c9ec28d2893df85d","time":"2026-04-09T09:43:32.454418000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:43:32.468750000Z] {"component":"apiproxy","level":"info","msg":">> GET /networks/f7d801111540cd03cbde870c6c0d36adf7817bb83b7b12fb837e2d0917d3610e","time":"2026-04-09T09:43:32.454854000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:43:32.468767000Z] {"component":"apiproxy","level":"info","msg":">> GET /networks/493e97be96568722d706e986de00eb800ea60e330671934daf5093adac4db575","time":"2026-04-09T09:43:32.455196000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:43:32.468773000Z] {"component":"apiproxy","level":"info","msg":"<< GET /networks/413942f33bb6c65d9be2edf1bfb1a50349768329ee676fe082f762e5cb3f2eee","time":"2026-04-09T09:43:32.464427000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:43:32.468815000Z] {"component":"apiproxy","level":"info","msg":"<< GET /networks/f9670208d7db0b8f41b2a3347b5510738be28c2a8125b5e67d79928704192517","time":"2026-04-09T09:43:32.464572000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:43:32.470329000Z] {"component":"apiproxy","level":"info","msg":"<< GET /networks/9641f78826a03e3ac81a2758a98420fff2085886f903fa5f79dd1a2e736b5286","time":"2026-04-09T09:43:32.470213000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:43:32.473215000Z] {"component":"apiproxy","level":"info","msg":"<< GET /networks/2769300a73ddf7b377815808b93d59c65617a36e0889b7101a1c2aa0fcd11522","time":"2026-04-09T09:43:32.473147000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:43:32.473374000Z] {"component":"apiproxy","level":"info","msg":"<< GET /networks/493e97be96568722d706e986de00eb800ea60e330671934daf5093adac4db575","time":"2026-04-09T09:43:32.473320000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:43:32.473861000Z] {"component":"apiproxy","level":"info","msg":"<< GET /networks/0e1ccfbb27366289de2490a09526264bdea2d77e7e3c7558dfd248f04d8b173c","time":"2026-04-09T09:43:32.473608000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:43:32.474193000Z] {"component":"apiproxy","level":"info","msg":"<< GET /networks/a5f5619a8e29fe9b751dd16b6609480158c19985fa47fa25cc6a633ad0e45c23","time":"2026-04-09T09:43:32.474016000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:43:32.474203000Z] {"component":"apiproxy","level":"info","msg":"<< GET /networks/d6d924cf8fdb1ec09476677bd76c983406510481761ca2ca855a6a2eb6347b28","time":"2026-04-09T09:43:32.474019000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:43:32.474480000Z] {"component":"apiproxy","level":"info","msg":"<< GET /networks/bf4c3104b9673993c45a34353ee9bcc0f2cf32e8b8a0dc4c96123e157d4d0ede","time":"2026-04-09T09:43:32.474170000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:43:32.474486000Z] {"component":"apiproxy","level":"info","msg":"<< GET /networks/cdfeefdd4ff17b623bf2f4e400257f1cd43bbf2ced7d21acf44663a5bbe34515","time":"2026-04-09T09:43:32.474271000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:43:32.474489000Z] {"component":"apiproxy","level":"info","msg":"<< GET /networks/35e2d572d37787786c3ea82537dd7c25420d04e12f9961bf875ddf971e86cd72","time":"2026-04-09T09:43:32.474324000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:43:32.474492000Z] {"component":"apiproxy","level":"info","msg":"<< GET /networks/481e2581deab7132282a3a18eccab0c6e2439b30eceda1ae0c79e9d955dce10a","time":"2026-04-09T09:43:32.474407000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:43:32.474502000Z] {"component":"apiproxy","level":"info","msg":"<< GET /networks/f7d801111540cd03cbde870c6c0d36adf7817bb83b7b12fb837e2d0917d3610e","time":"2026-04-09T09:43:32.474422000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:43:32.474654000Z] {"component":"apiproxy","level":"info","msg":"<< GET /networks/ae0db598724c6104184200877615a8ac3758a84c1f5a38058e72f5a8c5dead3e","time":"2026-04-09T09:43:32.474613000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:43:32.474740000Z] {"component":"apiproxy","level":"info","msg":"<< GET /networks/be83978c6f61b5b09606f99e5114074acc5b83ecf31cbea321feec66ebed21ab","time":"2026-04-09T09:43:32.474585000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:43:32.474896000Z] {"component":"apiproxy","level":"info","msg":"<< GET /networks/5fd4d7bf86ad43518edbda726074c7d5ac65cfd31c409a41f68adee2abda4533","time":"2026-04-09T09:43:32.474877000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:43:32.475108000Z] {"component":"apiproxy","level":"info","msg":"<< GET /networks/d2623e256e5abb3eff7b190cecef7d5be83bcdee9378dfd4df43f29f82bcfd60","time":"2026-04-09T09:43:32.475035000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:43:32.475192000Z] {"component":"apiproxy","level":"info","msg":"<< GET /networks/0bf3ed2b4548b514c0d9b0037c279a59f0e2ae3c7af2cd61ffb031af8433849a","time":"2026-04-09T09:43:32.475173000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:43:32.475996000Z] {"component":"apiproxy","level":"info","msg":"<< GET /networks/b994bf882781ce9b814ec4b3764f9084beec5ffd62e57a08354918a5a73aacb7","time":"2026-04-09T09:43:32.475851000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:43:32.476154000Z] {"component":"apiproxy","level":"info","msg":"<< GET /networks/ba10135efefd857fdeb59a53e8404b7a3acd0776ca0c38edb324ab47fa808601","time":"2026-04-09T09:43:32.476047000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:43:32.476181000Z] {"component":"apiproxy","level":"info","msg":"<< GET /networks/dcca7f4b7c5d106fa31089680279d4c51731e486a525b1e112fa773f8bdd2c84","time":"2026-04-09T09:43:32.476050000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:43:32.476189000Z] {"component":"apiproxy","level":"info","msg":"<< GET /networks/b764df850db0f46b9dbfbdbc8bc8f1a798ea76aeccc292126c5d50c35eb71b95","time":"2026-04-09T09:43:32.476051000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:43:32.476197000Z] {"component":"apiproxy","level":"info","msg":"<< GET /networks/8e723141b9b71783065f1f9e2ca40febe1096a0c0f34c582c9ec28d2893df85d","time":"2026-04-09T09:43:32.476128000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:43:32.476366000Z] {"component":"apiproxy","level":"info","msg":"<< GET /networks/530193eb702da03df82c6e834a27303fd4da1c0fe44f4298dcaa50185657c7be","time":"2026-04-09T09:43:32.476279000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:43:32.573878000Z] {"component":"apiproxy","level":"info","msg":"<< GET /images/json","time":"2026-04-09T09:43:32.573822000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:43:32.592485000Z] {"component":"apiproxy","level":"info","msg":"<< GET /containers/json?all=true","time":"2026-04-09T09:43:32.592449000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:43:57.231966000Z] [16:43:57.231307000Z][main.ipc              ] (8a737c4b-1598) 14597179-BackendAPI S<-C da882044-time GET /time
+[2026-04-09T16:43:57.232976000Z] [16:43:57.231994000Z][main.ipc              ] (8a737c4b-1598) 14597179-BackendAPI S->C da882044-time GET /time (671.709µs): 2026-04-09 09:43:57.231914 -0700 PDT m=+48421.653540501
+[2026-04-09T16:44:01.647786000Z] [16:44:01.647413000Z][main.cmdlineconfiguration] checking docker binaries are symlinked to: /usr/local/bin
+[2026-04-09T16:44:01.648259000Z] [16:44:01.648020000Z][main.cmdlineconfiguration] checking default docker socket enablement:  true
+[2026-04-09T16:44:01.648333000Z] [16:44:01.648232000Z][main.cmdline          ] checking launch daemon
+[2026-04-09T16:44:01.648497000Z] [16:44:01.648340000Z][main.cmdline          ] checking socket symlinking setup
+[2026-04-09T16:44:01.649174000Z] [16:44:01.649089000Z][main.cmdline          ] socket symlinking up-to-date
+[2026-04-09T16:44:01.649321000Z] [16:44:01.649163000Z][main.cmdline          ] check if plugins are installed in <HOME>/.docker/cli-plugins
+[2026-04-09T16:44:01.650297000Z] [16:44:01.649980000Z][main.cmdline          ] symlink <HOME>/.docker/cli-plugins/docker-ai points to /Applications/Docker.app/Contents/Resources/cli-plugins/docker-ai
+[2026-04-09T16:44:01.650600000Z] [16:44:01.650286000Z][main.cmdline          ] symlink <HOME>/.docker/cli-plugins/docker-buildx points to /Applications/Docker.app/Contents/Resources/cli-plugins/docker-buildx
+[2026-04-09T16:44:01.650899000Z] [16:44:01.650613000Z][main.cmdline          ] symlink <HOME>/.docker/cli-plugins/docker-compose points to /Applications/Docker.app/Contents/Resources/cli-plugins/docker-compose
+[2026-04-09T16:44:01.651203000Z] [16:44:01.650899000Z][main.cmdline          ] symlink <HOME>/.docker/cli-plugins/docker-debug points to /Applications/Docker.app/Contents/Resources/cli-plugins/docker-debug
+[2026-04-09T16:44:01.651452000Z] [16:44:01.651206000Z][main.cmdline          ] symlink <HOME>/.docker/cli-plugins/docker-desktop points to /Applications/Docker.app/Contents/Resources/cli-plugins/docker-desktop
+[2026-04-09T16:44:01.651734000Z] [16:44:01.651451000Z][main.cmdline          ] symlink <HOME>/.docker/cli-plugins/docker-extension points to /Applications/Docker.app/Contents/Resources/cli-plugins/docker-extension
+[2026-04-09T16:44:01.651963000Z] [16:44:01.651733000Z][main.cmdline          ] symlink <HOME>/.docker/cli-plugins/docker-init points to /Applications/Docker.app/Contents/Resources/cli-plugins/docker-init
+[2026-04-09T16:44:01.652188000Z] [16:44:01.651960000Z][main.cmdline          ] symlink <HOME>/.docker/cli-plugins/docker-mcp points to /Applications/Docker.app/Contents/Resources/cli-plugins/docker-mcp
+[2026-04-09T16:44:01.652413000Z] [16:44:01.652186000Z][main.cmdline          ] symlink <HOME>/.docker/cli-plugins/docker-model points to /Applications/Docker.app/Contents/Resources/cli-plugins/docker-model
+[2026-04-09T16:44:01.652647000Z] [16:44:01.652410000Z][main.cmdline          ] symlink <HOME>/.docker/cli-plugins/docker-offload points to /Applications/Docker.app/Contents/Resources/cli-plugins/docker-offload
+[2026-04-09T16:44:01.652880000Z] [16:44:01.652645000Z][main.cmdline          ] symlink <HOME>/.docker/cli-plugins/docker-sandbox points to /Applications/Docker.app/Contents/Resources/cli-plugins/docker-sandbox
+[2026-04-09T16:44:01.653097000Z] [16:44:01.652877000Z][main.cmdline          ] symlink <HOME>/.docker/cli-plugins/docker-sbom points to /Applications/Docker.app/Contents/Resources/cli-plugins/docker-sbom
+[2026-04-09T16:44:01.653321000Z] [16:44:01.653099000Z][main.cmdline          ] symlink <HOME>/.docker/cli-plugins/docker-scout points to /Applications/Docker.app/Contents/Resources/cli-plugins/docker-scout
+[2026-04-09T16:44:01.653441000Z] [16:44:01.653313000Z][main.cmdline          ] all CLI plugins are installed in <HOME>/.docker/cli-plugins
+[2026-04-09T16:44:27.239573000Z] [16:44:27.239037000Z][main.ipc              ] (8a737c4b-1599) 14597179-BackendAPI S<-C da882044-time GET /time
+[2026-04-09T16:44:27.240828000Z] [16:44:27.239612000Z][main.ipc              ] (8a737c4b-1599) 14597179-BackendAPI S->C da882044-time GET /time (560.958µs): 2026-04-09 09:44:27.239508 -0700 PDT m=+48451.662210251
+[2026-04-09T16:44:32.439895000Z] {"component":"apiproxy","level":"info","msg":">> GET /images/json","time":"2026-04-09T09:44:32.439656000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:44:32.440559000Z] {"component":"apiproxy","level":"info","msg":">> GET /containers/json?all=true","time":"2026-04-09T09:44:32.439830000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:44:32.440606000Z] {"component":"apiproxy","level":"info","msg":">> GET /networks","time":"2026-04-09T09:44:32.439964000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:44:32.456649000Z] {"component":"apiproxy","level":"info","msg":"<< GET /networks","time":"2026-04-09T09:44:32.449937000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:44:32.456681000Z] {"component":"apiproxy","level":"info","msg":">> GET /networks/b994bf882781ce9b814ec4b3764f9084beec5ffd62e57a08354918a5a73aacb7","time":"2026-04-09T09:44:32.452367000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:44:32.456687000Z] {"component":"apiproxy","level":"info","msg":">> GET /networks/d2623e256e5abb3eff7b190cecef7d5be83bcdee9378dfd4df43f29f82bcfd60","time":"2026-04-09T09:44:32.452888000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:44:32.457534000Z] {"component":"apiproxy","level":"info","msg":">> GET /networks/bf4c3104b9673993c45a34353ee9bcc0f2cf32e8b8a0dc4c96123e157d4d0ede","time":"2026-04-09T09:44:32.452985000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:44:32.457543000Z] {"component":"apiproxy","level":"info","msg":">> GET /networks/481e2581deab7132282a3a18eccab0c6e2439b30eceda1ae0c79e9d955dce10a","time":"2026-04-09T09:44:32.453102000-07:00","user_agent":"DockerDesktopUI"}
+[2026-04-09T16:44:32.457548000Z] {"component":"apiproxy","level":"info","msg":">> GET /networks/35e2d572d37787786c3ea82537dd7c25420d04e12f9961bf875ddf971e86cd72","time":"2026-04-09T09:44:32.453200000-07:00","user_agent":"DockerDesktopUI"}
+
+----- TAIL: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log -----
+{"component":"apiproxy","level":"info","msg":">> GET /images/json","time":"2026-04-09T16:42:32.432822544Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /containers/json?all=true","time":"2026-04-09T16:42:32.432969669Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":"<< GET /networks","time":"2026-04-09T16:42:32.434012627Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks/f7d801111540cd03cbde870c6c0d36adf7817bb83b7b12fb837e2d0917d3610e","time":"2026-04-09T16:42:32.441221502Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks/0e1ccfbb27366289de2490a09526264bdea2d77e7e3c7558dfd248f04d8b173c","time":"2026-04-09T16:42:32.441630752Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks/f9670208d7db0b8f41b2a3347b5510738be28c2a8125b5e67d79928704192517","time":"2026-04-09T16:42:32.441681377Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks/9641f78826a03e3ac81a2758a98420fff2085886f903fa5f79dd1a2e736b5286","time":"2026-04-09T16:42:32.441541752Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks/dcca7f4b7c5d106fa31089680279d4c51731e486a525b1e112fa773f8bdd2c84","time":"2026-04-09T16:42:32.442844460Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks/d2623e256e5abb3eff7b190cecef7d5be83bcdee9378dfd4df43f29f82bcfd60","time":"2026-04-09T16:42:32.444057835Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":"<< GET /networks/f9670208d7db0b8f41b2a3347b5510738be28c2a8125b5e67d79928704192517","time":"2026-04-09T16:42:32.443933502Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks/be83978c6f61b5b09606f99e5114074acc5b83ecf31cbea321feec66ebed21ab","time":"2026-04-09T16:42:32.444082419Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":"<< GET /networks/9641f78826a03e3ac81a2758a98420fff2085886f903fa5f79dd1a2e736b5286","time":"2026-04-09T16:42:32.446332085Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks/8e723141b9b71783065f1f9e2ca40febe1096a0c0f34c582c9ec28d2893df85d","time":"2026-04-09T16:42:32.441902794Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks/0bf3ed2b4548b514c0d9b0037c279a59f0e2ae3c7af2cd61ffb031af8433849a","time":"2026-04-09T16:42:32.441873127Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks/d6d924cf8fdb1ec09476677bd76c983406510481761ca2ca855a6a2eb6347b28","time":"2026-04-09T16:42:32.441776544Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks/bf4c3104b9673993c45a34353ee9bcc0f2cf32e8b8a0dc4c96123e157d4d0ede","time":"2026-04-09T16:42:32.441583877Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks/a5f5619a8e29fe9b751dd16b6609480158c19985fa47fa25cc6a633ad0e45c23","time":"2026-04-09T16:42:32.441943460Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks/b994bf882781ce9b814ec4b3764f9084beec5ffd62e57a08354918a5a73aacb7","time":"2026-04-09T16:42:32.442810544Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks/ae0db598724c6104184200877615a8ac3758a84c1f5a38058e72f5a8c5dead3e","time":"2026-04-09T16:42:32.441922085Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks/cdfeefdd4ff17b623bf2f4e400257f1cd43bbf2ced7d21acf44663a5bbe34515","time":"2026-04-09T16:42:32.441814210Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks/493e97be96568722d706e986de00eb800ea60e330671934daf5093adac4db575","time":"2026-04-09T16:42:32.441476002Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks/b764df850db0f46b9dbfbdbc8bc8f1a798ea76aeccc292126c5d50c35eb71b95","time":"2026-04-09T16:42:32.442754544Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks/ba10135efefd857fdeb59a53e8404b7a3acd0776ca0c38edb324ab47fa808601","time":"2026-04-09T16:42:32.441951960Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":"<< GET /networks/dcca7f4b7c5d106fa31089680279d4c51731e486a525b1e112fa773f8bdd2c84","time":"2026-04-09T16:42:32.444931127Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":"<< GET /networks/be83978c6f61b5b09606f99e5114074acc5b83ecf31cbea321feec66ebed21ab","time":"2026-04-09T16:42:32.448577669Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks/2769300a73ddf7b377815808b93d59c65617a36e0889b7101a1c2aa0fcd11522","time":"2026-04-09T16:42:32.442986210Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks/481e2581deab7132282a3a18eccab0c6e2439b30eceda1ae0c79e9d955dce10a","time":"2026-04-09T16:42:32.443020294Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":"<< GET /networks/0e1ccfbb27366289de2490a09526264bdea2d77e7e3c7558dfd248f04d8b173c","time":"2026-04-09T16:42:32.443937419Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":"<< GET /networks/0bf3ed2b4548b514c0d9b0037c279a59f0e2ae3c7af2cd61ffb031af8433849a","time":"2026-04-09T16:42:32.450983794Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks/35e2d572d37787786c3ea82537dd7c25420d04e12f9961bf875ddf971e86cd72","time":"2026-04-09T16:42:32.444106919Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks/5fd4d7bf86ad43518edbda726074c7d5ac65cfd31c409a41f68adee2abda4533","time":"2026-04-09T16:42:32.444093419Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks/530193eb702da03df82c6e834a27303fd4da1c0fe44f4298dcaa50185657c7be","time":"2026-04-09T16:42:32.442880335Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":"<< GET /networks/f7d801111540cd03cbde870c6c0d36adf7817bb83b7b12fb837e2d0917d3610e","time":"2026-04-09T16:42:32.444000377Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":"<< GET /networks/8e723141b9b71783065f1f9e2ca40febe1096a0c0f34c582c9ec28d2893df85d","time":"2026-04-09T16:42:32.448802835Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":"<< GET /networks/d2623e256e5abb3eff7b190cecef7d5be83bcdee9378dfd4df43f29f82bcfd60","time":"2026-04-09T16:42:32.444975794Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks/413942f33bb6c65d9be2edf1bfb1a50349768329ee676fe082f762e5cb3f2eee","time":"2026-04-09T16:42:32.442935794Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":"<< GET /networks/d6d924cf8fdb1ec09476677bd76c983406510481761ca2ca855a6a2eb6347b28","time":"2026-04-09T16:42:32.452854210Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":"<< GET /networks/493e97be96568722d706e986de00eb800ea60e330671934daf5093adac4db575","time":"2026-04-09T16:42:32.457626794Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":"<< GET /networks/cdfeefdd4ff17b623bf2f4e400257f1cd43bbf2ced7d21acf44663a5bbe34515","time":"2026-04-09T16:42:32.454987210Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":"<< GET /networks/35e2d572d37787786c3ea82537dd7c25420d04e12f9961bf875ddf971e86cd72","time":"2026-04-09T16:42:32.455332919Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":"<< GET /networks/ae0db598724c6104184200877615a8ac3758a84c1f5a38058e72f5a8c5dead3e","time":"2026-04-09T16:42:32.455283294Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":"<< GET /networks/a5f5619a8e29fe9b751dd16b6609480158c19985fa47fa25cc6a633ad0e45c23","time":"2026-04-09T16:42:32.456664294Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":"<< GET /networks/ba10135efefd857fdeb59a53e8404b7a3acd0776ca0c38edb324ab47fa808601","time":"2026-04-09T16:42:32.456733210Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":"<< GET /networks/5fd4d7bf86ad43518edbda726074c7d5ac65cfd31c409a41f68adee2abda4533","time":"2026-04-09T16:42:32.454864794Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":"<< GET /networks/bf4c3104b9673993c45a34353ee9bcc0f2cf32e8b8a0dc4c96123e157d4d0ede","time":"2026-04-09T16:42:32.453250669Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":"<< GET /networks/b994bf882781ce9b814ec4b3764f9084beec5ffd62e57a08354918a5a73aacb7","time":"2026-04-09T16:42:32.456007294Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":"<< GET /networks/2769300a73ddf7b377815808b93d59c65617a36e0889b7101a1c2aa0fcd11522","time":"2026-04-09T16:42:32.455389585Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":"<< GET /networks/b764df850db0f46b9dbfbdbc8bc8f1a798ea76aeccc292126c5d50c35eb71b95","time":"2026-04-09T16:42:32.454882169Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":"<< GET /networks/530193eb702da03df82c6e834a27303fd4da1c0fe44f4298dcaa50185657c7be","time":"2026-04-09T16:42:32.454915002Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":"<< GET /networks/481e2581deab7132282a3a18eccab0c6e2439b30eceda1ae0c79e9d955dce10a","time":"2026-04-09T16:42:32.454835835Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":"<< GET /networks/413942f33bb6c65d9be2edf1bfb1a50349768329ee676fe082f762e5cb3f2eee","time":"2026-04-09T16:42:32.460178627Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":"<< GET /images/json","time":"2026-04-09T16:42:32.545841127Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":"<< GET /containers/json?all=true","time":"2026-04-09T16:42:32.562601002Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /images/json","time":"2026-04-09T16:43:32.437039377Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks","time":"2026-04-09T16:43:32.437630544Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /containers/json?all=true","time":"2026-04-09T16:43:32.437828377Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":"<< GET /networks","time":"2026-04-09T16:43:32.440283710Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks/481e2581deab7132282a3a18eccab0c6e2439b30eceda1ae0c79e9d955dce10a","time":"2026-04-09T16:43:32.455775002Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks/f9670208d7db0b8f41b2a3347b5510738be28c2a8125b5e67d79928704192517","time":"2026-04-09T16:43:32.455779669Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks/413942f33bb6c65d9be2edf1bfb1a50349768329ee676fe082f762e5cb3f2eee","time":"2026-04-09T16:43:32.455905419Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks/493e97be96568722d706e986de00eb800ea60e330671934daf5093adac4db575","time":"2026-04-09T16:43:32.460073419Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":"<< GET /networks/413942f33bb6c65d9be2edf1bfb1a50349768329ee676fe082f762e5cb3f2eee","time":"2026-04-09T16:43:32.462985669Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":"<< GET /networks/f9670208d7db0b8f41b2a3347b5510738be28c2a8125b5e67d79928704192517","time":"2026-04-09T16:43:32.462427169Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks/cdfeefdd4ff17b623bf2f4e400257f1cd43bbf2ced7d21acf44663a5bbe34515","time":"2026-04-09T16:43:32.458380294Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks/35e2d572d37787786c3ea82537dd7c25420d04e12f9961bf875ddf971e86cd72","time":"2026-04-09T16:43:32.456001544Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks/f7d801111540cd03cbde870c6c0d36adf7817bb83b7b12fb837e2d0917d3610e","time":"2026-04-09T16:43:32.458419502Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks/ae0db598724c6104184200877615a8ac3758a84c1f5a38058e72f5a8c5dead3e","time":"2026-04-09T16:43:32.455962835Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks/b764df850db0f46b9dbfbdbc8bc8f1a798ea76aeccc292126c5d50c35eb71b95","time":"2026-04-09T16:43:32.456001752Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks/be83978c6f61b5b09606f99e5114074acc5b83ecf31cbea321feec66ebed21ab","time":"2026-04-09T16:43:32.455977210Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks/5fd4d7bf86ad43518edbda726074c7d5ac65cfd31c409a41f68adee2abda4533","time":"2026-04-09T16:43:32.455998002Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks/d6d924cf8fdb1ec09476677bd76c983406510481761ca2ca855a6a2eb6347b28","time":"2026-04-09T16:43:32.456098835Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks/9641f78826a03e3ac81a2758a98420fff2085886f903fa5f79dd1a2e736b5286","time":"2026-04-09T16:43:32.456208252Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks/dcca7f4b7c5d106fa31089680279d4c51731e486a525b1e112fa773f8bdd2c84","time":"2026-04-09T16:43:32.458318419Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks/d2623e256e5abb3eff7b190cecef7d5be83bcdee9378dfd4df43f29f82bcfd60","time":"2026-04-09T16:43:32.458602502Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks/0e1ccfbb27366289de2490a09526264bdea2d77e7e3c7558dfd248f04d8b173c","time":"2026-04-09T16:43:32.458545044Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks/bf4c3104b9673993c45a34353ee9bcc0f2cf32e8b8a0dc4c96123e157d4d0ede","time":"2026-04-09T16:43:32.458426669Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks/2769300a73ddf7b377815808b93d59c65617a36e0889b7101a1c2aa0fcd11522","time":"2026-04-09T16:43:32.458473502Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks/ba10135efefd857fdeb59a53e8404b7a3acd0776ca0c38edb324ab47fa808601","time":"2026-04-09T16:43:32.458485627Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks/a5f5619a8e29fe9b751dd16b6609480158c19985fa47fa25cc6a633ad0e45c23","time":"2026-04-09T16:43:32.458520252Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks/b994bf882781ce9b814ec4b3764f9084beec5ffd62e57a08354918a5a73aacb7","time":"2026-04-09T16:43:32.458651252Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks/0bf3ed2b4548b514c0d9b0037c279a59f0e2ae3c7af2cd61ffb031af8433849a","time":"2026-04-09T16:43:32.458560752Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks/530193eb702da03df82c6e834a27303fd4da1c0fe44f4298dcaa50185657c7be","time":"2026-04-09T16:43:32.458601377Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks/8e723141b9b71783065f1f9e2ca40febe1096a0c0f34c582c9ec28d2893df85d","time":"2026-04-09T16:43:32.459559752Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":"<< GET /networks/9641f78826a03e3ac81a2758a98420fff2085886f903fa5f79dd1a2e736b5286","time":"2026-04-09T16:43:32.468991252Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":"<< GET /networks/2769300a73ddf7b377815808b93d59c65617a36e0889b7101a1c2aa0fcd11522","time":"2026-04-09T16:43:32.471881252Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":"<< GET /networks/d6d924cf8fdb1ec09476677bd76c983406510481761ca2ca855a6a2eb6347b28","time":"2026-04-09T16:43:32.468323419Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":"<< GET /networks/481e2581deab7132282a3a18eccab0c6e2439b30eceda1ae0c79e9d955dce10a","time":"2026-04-09T16:43:32.462088127Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":"<< GET /networks/493e97be96568722d706e986de00eb800ea60e330671934daf5093adac4db575","time":"2026-04-09T16:43:32.465636085Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":"<< GET /networks/0e1ccfbb27366289de2490a09526264bdea2d77e7e3c7558dfd248f04d8b173c","time":"2026-04-09T16:43:32.472432002Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":"<< GET /networks/a5f5619a8e29fe9b751dd16b6609480158c19985fa47fa25cc6a633ad0e45c23","time":"2026-04-09T16:43:32.471960169Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":"<< GET /networks/bf4c3104b9673993c45a34353ee9bcc0f2cf32e8b8a0dc4c96123e157d4d0ede","time":"2026-04-09T16:43:32.472633294Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":"<< GET /networks/ba10135efefd857fdeb59a53e8404b7a3acd0776ca0c38edb324ab47fa808601","time":"2026-04-09T16:43:32.471973502Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":"<< GET /networks/cdfeefdd4ff17b623bf2f4e400257f1cd43bbf2ced7d21acf44663a5bbe34515","time":"2026-04-09T16:43:32.466236794Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":"<< GET /networks/35e2d572d37787786c3ea82537dd7c25420d04e12f9961bf875ddf971e86cd72","time":"2026-04-09T16:43:32.466254752Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":"<< GET /networks/f7d801111540cd03cbde870c6c0d36adf7817bb83b7b12fb837e2d0917d3610e","time":"2026-04-09T16:43:32.467393752Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":"<< GET /networks/ae0db598724c6104184200877615a8ac3758a84c1f5a38058e72f5a8c5dead3e","time":"2026-04-09T16:43:32.468677294Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":"<< GET /networks/be83978c6f61b5b09606f99e5114074acc5b83ecf31cbea321feec66ebed21ab","time":"2026-04-09T16:43:32.468578002Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":"<< GET /networks/5fd4d7bf86ad43518edbda726074c7d5ac65cfd31c409a41f68adee2abda4533","time":"2026-04-09T16:43:32.468629710Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":"<< GET /networks/d2623e256e5abb3eff7b190cecef7d5be83bcdee9378dfd4df43f29f82bcfd60","time":"2026-04-09T16:43:32.470692377Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":"<< GET /networks/dcca7f4b7c5d106fa31089680279d4c51731e486a525b1e112fa773f8bdd2c84","time":"2026-04-09T16:43:32.470533335Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":"<< GET /networks/b764df850db0f46b9dbfbdbc8bc8f1a798ea76aeccc292126c5d50c35eb71b95","time":"2026-04-09T16:43:32.469063419Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":"<< GET /networks/0bf3ed2b4548b514c0d9b0037c279a59f0e2ae3c7af2cd61ffb031af8433849a","time":"2026-04-09T16:43:32.471911335Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":"<< GET /networks/b994bf882781ce9b814ec4b3764f9084beec5ffd62e57a08354918a5a73aacb7","time":"2026-04-09T16:43:32.471948127Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":"<< GET /networks/8e723141b9b71783065f1f9e2ca40febe1096a0c0f34c582c9ec28d2893df85d","time":"2026-04-09T16:43:32.474960335Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":"<< GET /networks/530193eb702da03df82c6e834a27303fd4da1c0fe44f4298dcaa50185657c7be","time":"2026-04-09T16:43:32.475440960Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":"<< GET /images/json","time":"2026-04-09T16:43:32.572361752Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":"<< GET /containers/json?all=true","time":"2026-04-09T16:43:32.588969919Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /containers/json?all=true","time":"2026-04-09T16:44:32.441582585Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /images/json","time":"2026-04-09T16:44:32.441539502Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks","time":"2026-04-09T16:44:32.441662085Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":"<< GET /networks","time":"2026-04-09T16:44:32.445212294Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks/ae0db598724c6104184200877615a8ac3758a84c1f5a38058e72f5a8c5dead3e","time":"2026-04-09T16:44:32.456959210Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks/b994bf882781ce9b814ec4b3764f9084beec5ffd62e57a08354918a5a73aacb7","time":"2026-04-09T16:44:32.456912460Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks/481e2581deab7132282a3a18eccab0c6e2439b30eceda1ae0c79e9d955dce10a","time":"2026-04-09T16:44:32.457125794Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks/d2623e256e5abb3eff7b190cecef7d5be83bcdee9378dfd4df43f29f82bcfd60","time":"2026-04-09T16:44:32.457143127Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks/f7d801111540cd03cbde870c6c0d36adf7817bb83b7b12fb837e2d0917d3610e","time":"2026-04-09T16:44:32.457166335Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks/cdfeefdd4ff17b623bf2f4e400257f1cd43bbf2ced7d21acf44663a5bbe34515","time":"2026-04-09T16:44:32.458125502Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks/be83978c6f61b5b09606f99e5114074acc5b83ecf31cbea321feec66ebed21ab","time":"2026-04-09T16:44:32.458335835Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks/35e2d572d37787786c3ea82537dd7c25420d04e12f9961bf875ddf971e86cd72","time":"2026-04-09T16:44:32.457187502Z","user_agent":"DockerDesktopUI"}
+{"component":"apiproxy","level":"info","msg":">> GET /networks/dcca7f4b7c5d106fa31089680279d4c51731e486a525b1e112fa773f8bdd2c84","time":"2026-04-09T16:44:32.458355335Z","user_agent":"DockerDesktopUI"}
+
+----- TAIL: /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log -----
+INFO[47927] >> GET /networks/f7d801111540cd03cbde870c6c0d36adf7817bb83b7b12fb837e2d0917d3610e  component=apiproxy user_agent=DockerDesktopUI
+INFO[47927] >> GET /networks/ae0db598724c6104184200877615a8ac3758a84c1f5a38058e72f5a8c5dead3e  component=apiproxy user_agent=DockerDesktopUI
+INFO[47927] >> GET /networks/b764df850db0f46b9dbfbdbc8bc8f1a798ea76aeccc292126c5d50c35eb71b95  component=apiproxy user_agent=DockerDesktopUI
+INFO[47927] >> GET /networks/be83978c6f61b5b09606f99e5114074acc5b83ecf31cbea321feec66ebed21ab  component=apiproxy user_agent=DockerDesktopUI
+INFO[47927] >> GET /networks/5fd4d7bf86ad43518edbda726074c7d5ac65cfd31c409a41f68adee2abda4533  component=apiproxy user_agent=DockerDesktopUI
+INFO[47927] >> GET /networks/d6d924cf8fdb1ec09476677bd76c983406510481761ca2ca855a6a2eb6347b28  component=apiproxy user_agent=DockerDesktopUI
+INFO[47927] >> GET /networks/9641f78826a03e3ac81a2758a98420fff2085886f903fa5f79dd1a2e736b5286  component=apiproxy user_agent=DockerDesktopUI
+INFO[47927] >> GET /networks/dcca7f4b7c5d106fa31089680279d4c51731e486a525b1e112fa773f8bdd2c84  component=apiproxy user_agent=DockerDesktopUI
+INFO[47927] >> GET /networks/d2623e256e5abb3eff7b190cecef7d5be83bcdee9378dfd4df43f29f82bcfd60  component=apiproxy user_agent=DockerDesktopUI
+INFO[47927] << GET /networks/9641f78826a03e3ac81a2758a98420fff2085886f903fa5f79dd1a2e736b5286  component=apiproxy user_agent=DockerDesktopUI
+INFO[47927] >> GET /networks/0e1ccfbb27366289de2490a09526264bdea2d77e7e3c7558dfd248f04d8b173c  component=apiproxy user_agent=DockerDesktopUI
+INFO[47927] >> GET /networks/bf4c3104b9673993c45a34353ee9bcc0f2cf32e8b8a0dc4c96123e157d4d0ede  component=apiproxy user_agent=DockerDesktopUI
+INFO[47927] >> GET /networks/2769300a73ddf7b377815808b93d59c65617a36e0889b7101a1c2aa0fcd11522  component=apiproxy user_agent=DockerDesktopUI
+INFO[47927] >> GET /networks/ba10135efefd857fdeb59a53e8404b7a3acd0776ca0c38edb324ab47fa808601  component=apiproxy user_agent=DockerDesktopUI
+INFO[47927] >> GET /networks/a5f5619a8e29fe9b751dd16b6609480158c19985fa47fa25cc6a633ad0e45c23  component=apiproxy user_agent=DockerDesktopUI
+INFO[47927] >> GET /networks/b994bf882781ce9b814ec4b3764f9084beec5ffd62e57a08354918a5a73aacb7  component=apiproxy user_agent=DockerDesktopUI
+INFO[47927] >> GET /networks/0bf3ed2b4548b514c0d9b0037c279a59f0e2ae3c7af2cd61ffb031af8433849a  component=apiproxy user_agent=DockerDesktopUI
+INFO[47927] >> GET /networks/530193eb702da03df82c6e834a27303fd4da1c0fe44f4298dcaa50185657c7be  component=apiproxy user_agent=DockerDesktopUI
+INFO[47927] >> GET /networks/8e723141b9b71783065f1f9e2ca40febe1096a0c0f34c582c9ec28d2893df85d  component=apiproxy user_agent=DockerDesktopUI
+INFO[47927] << GET /networks/2769300a73ddf7b377815808b93d59c65617a36e0889b7101a1c2aa0fcd11522  component=apiproxy user_agent=DockerDesktopUI
+INFO[47927] << GET /networks/493e97be96568722d706e986de00eb800ea60e330671934daf5093adac4db575  component=apiproxy user_agent=DockerDesktopUI
+INFO[47927] << GET /networks/0e1ccfbb27366289de2490a09526264bdea2d77e7e3c7558dfd248f04d8b173c  component=apiproxy user_agent=DockerDesktopUI
+INFO[47927] << GET /networks/a5f5619a8e29fe9b751dd16b6609480158c19985fa47fa25cc6a633ad0e45c23  component=apiproxy user_agent=DockerDesktopUI
+INFO[47927] << GET /networks/d6d924cf8fdb1ec09476677bd76c983406510481761ca2ca855a6a2eb6347b28  component=apiproxy user_agent=DockerDesktopUI
+INFO[47927] << GET /networks/481e2581deab7132282a3a18eccab0c6e2439b30eceda1ae0c79e9d955dce10a  component=apiproxy user_agent=DockerDesktopUI
+INFO[47927] << GET /networks/bf4c3104b9673993c45a34353ee9bcc0f2cf32e8b8a0dc4c96123e157d4d0ede  component=apiproxy user_agent=DockerDesktopUI
+INFO[47927] << GET /networks/cdfeefdd4ff17b623bf2f4e400257f1cd43bbf2ced7d21acf44663a5bbe34515  component=apiproxy user_agent=DockerDesktopUI
+INFO[47927] << GET /networks/35e2d572d37787786c3ea82537dd7c25420d04e12f9961bf875ddf971e86cd72  component=apiproxy user_agent=DockerDesktopUI
+INFO[47927] << GET /networks/f7d801111540cd03cbde870c6c0d36adf7817bb83b7b12fb837e2d0917d3610e  component=apiproxy user_agent=DockerDesktopUI
+INFO[47927] << GET /networks/ae0db598724c6104184200877615a8ac3758a84c1f5a38058e72f5a8c5dead3e  component=apiproxy user_agent=DockerDesktopUI
+INFO[47927] << GET /networks/be83978c6f61b5b09606f99e5114074acc5b83ecf31cbea321feec66ebed21ab  component=apiproxy user_agent=DockerDesktopUI
+INFO[47927] << GET /networks/5fd4d7bf86ad43518edbda726074c7d5ac65cfd31c409a41f68adee2abda4533  component=apiproxy user_agent=DockerDesktopUI
+INFO[47927] << GET /networks/d2623e256e5abb3eff7b190cecef7d5be83bcdee9378dfd4df43f29f82bcfd60  component=apiproxy user_agent=DockerDesktopUI
+INFO[47927] << GET /networks/0bf3ed2b4548b514c0d9b0037c279a59f0e2ae3c7af2cd61ffb031af8433849a  component=apiproxy user_agent=DockerDesktopUI
+INFO[47927] << GET /networks/b994bf882781ce9b814ec4b3764f9084beec5ffd62e57a08354918a5a73aacb7  component=apiproxy user_agent=DockerDesktopUI
+INFO[47927] << GET /networks/ba10135efefd857fdeb59a53e8404b7a3acd0776ca0c38edb324ab47fa808601  component=apiproxy user_agent=DockerDesktopUI
+INFO[47927] << GET /networks/dcca7f4b7c5d106fa31089680279d4c51731e486a525b1e112fa773f8bdd2c84  component=apiproxy user_agent=DockerDesktopUI
+INFO[47927] << GET /networks/b764df850db0f46b9dbfbdbc8bc8f1a798ea76aeccc292126c5d50c35eb71b95  component=apiproxy user_agent=DockerDesktopUI
+INFO[47927] << GET /networks/8e723141b9b71783065f1f9e2ca40febe1096a0c0f34c582c9ec28d2893df85d  component=apiproxy user_agent=DockerDesktopUI
+INFO[47927] << GET /networks/530193eb702da03df82c6e834a27303fd4da1c0fe44f4298dcaa50185657c7be  component=apiproxy user_agent=DockerDesktopUI
+INFO[47927] << GET /images/json                           component=apiproxy user_agent=DockerDesktopUI
+INFO[47927] << GET /containers/json?all=true              component=apiproxy user_agent=DockerDesktopUI
+INFO[47987] >> GET /containers/json?all=true              component=apiproxy user_agent=DockerDesktopUI
+INFO[47987] >> GET /networks                              component=apiproxy user_agent=DockerDesktopUI
+INFO[47987] >> GET /images/json                           component=apiproxy user_agent=DockerDesktopUI
+INFO[47987] << GET /networks                              component=apiproxy user_agent=DockerDesktopUI
+INFO[47987] >> GET /networks/ae0db598724c6104184200877615a8ac3758a84c1f5a38058e72f5a8c5dead3e  component=apiproxy user_agent=DockerDesktopUI
+INFO[47987] >> GET /networks/b994bf882781ce9b814ec4b3764f9084beec5ffd62e57a08354918a5a73aacb7  component=apiproxy user_agent=DockerDesktopUI
+INFO[47987] >> GET /networks/481e2581deab7132282a3a18eccab0c6e2439b30eceda1ae0c79e9d955dce10a  component=apiproxy user_agent=DockerDesktopUI
+INFO[47987] >> GET /networks/d2623e256e5abb3eff7b190cecef7d5be83bcdee9378dfd4df43f29f82bcfd60  component=apiproxy user_agent=DockerDesktopUI
+INFO[47987] >> GET /networks/f7d801111540cd03cbde870c6c0d36adf7817bb83b7b12fb837e2d0917d3610e  component=apiproxy user_agent=DockerDesktopUI
+INFO[47987] >> GET /networks/cdfeefdd4ff17b623bf2f4e400257f1cd43bbf2ced7d21acf44663a5bbe34515  component=apiproxy user_agent=DockerDesktopUI
+INFO[47987] >> GET /networks/be83978c6f61b5b09606f99e5114074acc5b83ecf31cbea321feec66ebed21ab  component=apiproxy user_agent=DockerDesktopUI
+INFO[47987] >> GET /networks/35e2d572d37787786c3ea82537dd7c25420d04e12f9961bf875ddf971e86cd72  component=apiproxy user_agent=DockerDesktopUI
+INFO[47987] >> GET /networks/493e97be96568722d706e986de00eb800ea60e330671934daf5093adac4db575  component=apiproxy user_agent=DockerDesktopUI
+INFO[47987] << GET /networks/f7d801111540cd03cbde870c6c0d36adf7817bb83b7b12fb837e2d0917d3610e  component=apiproxy user_agent=DockerDesktopUI
+INFO[47987] >> GET /networks/dcca7f4b7c5d106fa31089680279d4c51731e486a525b1e112fa773f8bdd2c84  component=apiproxy user_agent=DockerDesktopUI
+INFO[47987] >> GET /networks/5fd4d7bf86ad43518edbda726074c7d5ac65cfd31c409a41f68adee2abda4533  component=apiproxy user_agent=DockerDesktopUI
+INFO[47987] >> GET /networks/530193eb702da03df82c6e834a27303fd4da1c0fe44f4298dcaa50185657c7be  component=apiproxy user_agent=DockerDesktopUI
+INFO[47987] << GET /networks/d2623e256e5abb3eff7b190cecef7d5be83bcdee9378dfd4df43f29f82bcfd60  component=apiproxy user_agent=DockerDesktopUI
+INFO[47987] >> GET /networks/8e723141b9b71783065f1f9e2ca40febe1096a0c0f34c582c9ec28d2893df85d  component=apiproxy user_agent=DockerDesktopUI
+INFO[47987] >> GET /networks/0e1ccfbb27366289de2490a09526264bdea2d77e7e3c7558dfd248f04d8b173c  component=apiproxy user_agent=DockerDesktopUI
+INFO[47987] << GET /networks/5fd4d7bf86ad43518edbda726074c7d5ac65cfd31c409a41f68adee2abda4533  component=apiproxy user_agent=DockerDesktopUI
+INFO[47987] << GET /networks/dcca7f4b7c5d106fa31089680279d4c51731e486a525b1e112fa773f8bdd2c84  component=apiproxy user_agent=DockerDesktopUI
+INFO[47987] >> GET /networks/2769300a73ddf7b377815808b93d59c65617a36e0889b7101a1c2aa0fcd11522  component=apiproxy user_agent=DockerDesktopUI
+INFO[47987] >> GET /networks/b764df850db0f46b9dbfbdbc8bc8f1a798ea76aeccc292126c5d50c35eb71b95  component=apiproxy user_agent=DockerDesktopUI
+INFO[47987] >> GET /networks/9641f78826a03e3ac81a2758a98420fff2085886f903fa5f79dd1a2e736b5286  component=apiproxy user_agent=DockerDesktopUI
+INFO[47987] >> GET /networks/f9670208d7db0b8f41b2a3347b5510738be28c2a8125b5e67d79928704192517  component=apiproxy user_agent=DockerDesktopUI
+INFO[47987] << GET /networks/9641f78826a03e3ac81a2758a98420fff2085886f903fa5f79dd1a2e736b5286  component=apiproxy user_agent=DockerDesktopUI
+INFO[47987] >> GET /networks/a5f5619a8e29fe9b751dd16b6609480158c19985fa47fa25cc6a633ad0e45c23  component=apiproxy user_agent=DockerDesktopUI
+INFO[47987] >> GET /networks/413942f33bb6c65d9be2edf1bfb1a50349768329ee676fe082f762e5cb3f2eee  component=apiproxy user_agent=DockerDesktopUI
+INFO[47987] >> GET /networks/ba10135efefd857fdeb59a53e8404b7a3acd0776ca0c38edb324ab47fa808601  component=apiproxy user_agent=DockerDesktopUI
+INFO[47987] << GET /networks/481e2581deab7132282a3a18eccab0c6e2439b30eceda1ae0c79e9d955dce10a  component=apiproxy user_agent=DockerDesktopUI
+INFO[47987] << GET /networks/ae0db598724c6104184200877615a8ac3758a84c1f5a38058e72f5a8c5dead3e  component=apiproxy user_agent=DockerDesktopUI
+INFO[47987] << GET /networks/cdfeefdd4ff17b623bf2f4e400257f1cd43bbf2ced7d21acf44663a5bbe34515  component=apiproxy user_agent=DockerDesktopUI
+INFO[47987] << GET /networks/35e2d572d37787786c3ea82537dd7c25420d04e12f9961bf875ddf971e86cd72  component=apiproxy user_agent=DockerDesktopUI
+INFO[47987] << GET /networks/b994bf882781ce9b814ec4b3764f9084beec5ffd62e57a08354918a5a73aacb7  component=apiproxy user_agent=DockerDesktopUI
+INFO[47987] << GET /networks/be83978c6f61b5b09606f99e5114074acc5b83ecf31cbea321feec66ebed21ab  component=apiproxy user_agent=DockerDesktopUI
+INFO[47987] >> GET /networks/0bf3ed2b4548b514c0d9b0037c279a59f0e2ae3c7af2cd61ffb031af8433849a  component=apiproxy user_agent=DockerDesktopUI
+INFO[47987] >> GET /networks/bf4c3104b9673993c45a34353ee9bcc0f2cf32e8b8a0dc4c96123e157d4d0ede  component=apiproxy user_agent=DockerDesktopUI
+INFO[47987] >> GET /networks/d6d924cf8fdb1ec09476677bd76c983406510481761ca2ca855a6a2eb6347b28  component=apiproxy user_agent=DockerDesktopUI
+INFO[47987] << GET /networks/530193eb702da03df82c6e834a27303fd4da1c0fe44f4298dcaa50185657c7be  component=apiproxy user_agent=DockerDesktopUI
+INFO[47987] << GET /networks/493e97be96568722d706e986de00eb800ea60e330671934daf5093adac4db575  component=apiproxy user_agent=DockerDesktopUI
+INFO[47987] << GET /networks/0e1ccfbb27366289de2490a09526264bdea2d77e7e3c7558dfd248f04d8b173c  component=apiproxy user_agent=DockerDesktopUI
+INFO[47987] << GET /networks/a5f5619a8e29fe9b751dd16b6609480158c19985fa47fa25cc6a633ad0e45c23  component=apiproxy user_agent=DockerDesktopUI
+INFO[47987] << GET /networks/b764df850db0f46b9dbfbdbc8bc8f1a798ea76aeccc292126c5d50c35eb71b95  component=apiproxy user_agent=DockerDesktopUI
+INFO[47987] << GET /networks/2769300a73ddf7b377815808b93d59c65617a36e0889b7101a1c2aa0fcd11522  component=apiproxy user_agent=DockerDesktopUI
+INFO[47987] << GET /networks/ba10135efefd857fdeb59a53e8404b7a3acd0776ca0c38edb324ab47fa808601  component=apiproxy user_agent=DockerDesktopUI
+INFO[47987] << GET /networks/bf4c3104b9673993c45a34353ee9bcc0f2cf32e8b8a0dc4c96123e157d4d0ede  component=apiproxy user_agent=DockerDesktopUI
+INFO[47987] << GET /networks/f9670208d7db0b8f41b2a3347b5510738be28c2a8125b5e67d79928704192517  component=apiproxy user_agent=DockerDesktopUI
+INFO[47987] << GET /networks/0bf3ed2b4548b514c0d9b0037c279a59f0e2ae3c7af2cd61ffb031af8433849a  component=apiproxy user_agent=DockerDesktopUI
+INFO[47987] << GET /networks/8e723141b9b71783065f1f9e2ca40febe1096a0c0f34c582c9ec28d2893df85d  component=apiproxy user_agent=DockerDesktopUI
+INFO[47987] << GET /networks/d6d924cf8fdb1ec09476677bd76c983406510481761ca2ca855a6a2eb6347b28  component=apiproxy user_agent=DockerDesktopUI
+INFO[47987] << GET /networks/413942f33bb6c65d9be2edf1bfb1a50349768329ee676fe082f762e5cb3f2eee  component=apiproxy user_agent=DockerDesktopUI
+INFO[47987] Context canceled, closing connection for "/events?since=1775581378&filters=%7B%22type%22%3A%5B%22network%22%5D%7D"  component=apiproxy
+INFO[47987] Context canceled, closing connection for "/events?since=1775581378&filters=%7B%22type%22%3A%5B%22container%22%5D%7D"  component=apiproxy
+INFO[47987] Context canceled, closing connection for "/events?since=1775581378&filters=%7B%22type%22%3A%5B%22image%22%5D%7D"  component=apiproxy
+INFO[47987] Context canceled, closing connection for "/events?since=1775581378&filters=%7B%22type%22%3A%5B%22container%22%5D%7D"  component=apiproxy
+INFO[47987] << GET /events?since=1775581378&filters=%7B%22type%22%3A%5B%22network%22%5D%7D  component=apiproxy user_agent=DockerDesktopUI
+INFO[47987] << GET /events?since=1775581378&filters=%7B%22type%22%3A%5B%22image%22%5D%7D  component=apiproxy user_agent=DockerDesktopUI
+INFO[47987] << GET /events?since=1775581378&filters=%7B%22type%22%3A%5B%22container%22%5D%7D  component=apiproxy user_agent=DockerDesktopUI
+INFO[47987] << GET /events?since=1775581378&filters=%7B%22type%22%3A%5B%22container%22%5D%7D  component=apiproxy user_agent=DockerDesktopUI
+[2026-04-09T16:44:32.549176210Z][initd.ipc] (7da9d7b3-2) a56b9f8a-procd S<-C f2d2ddf8-PauseHDL GET /ping
+[2026-04-09T16:44:32.550032585Z][initd.ipc] (7da9d7b3-2) a56b9f8a-procd S->C f2d2ddf8-PauseHDL GET /ping (663.458µs): {"serverTime":1775753072549507300}
+[2026-04-09T16:44:32.551726252Z][initd.ipc] (7da9d7b3-3) a56b9f8a-procd S<-C f2d2ddf8-PauseHDL POST /unpause
+INFO[47987] unpausing                                     component=procd
+INFO[47987] unpause successful                            component=procd
+[2026-04-09T16:44:32.552943710Z][initd.ipcstream] a56b9f8a-procd /pause/events --> 2026-04-09T16:44:32.552367210Z (cbb2bf54) pause resuming: Docker Desktop is resuming...
+[2026-04-09T16:44:32.553189044Z][initd.ipcstream] a56b9f8a-procd /pause/events --> 2026-04-09T16:44:32.552928627Z (b0b2abce) pause resumed: Docker Desktop is running
+[2026-04-09T16:44:32.552964252Z][initd.ipc] (7da9d7b3-3) a56b9f8a-procd S->C f2d2ddf8-PauseHDL POST /unpause (1.299041ms): OK
+[2026-04-09T16:44:32.556412502Z][initd.ipc] (eead171e-1) 7270246f-control S<-C 262dc62d-engines POST /shutdown
+INFO[47987] gracefully shutting down                      component=control
+INFO[47987] stopping dockerd                              component=init
+INFO[47987] gracefully shutting down PID 307              component=dockerd
+INFO[47987] sending SIGTERM                               component=dockerd
+INFO[47987] {"level":"info","msg":"Processing signal 'terminated'","time":"2026-04-09T16:44:32.558427210Z"}  component=dockerd
+INFO[47987] ... 1157 messages dropped ...                 component=kmsg
+INFO[47987] I/O error, dev vda, sector 239198616 op 0x1:(WRITE) flags 0x9800 phys_seg 1 prio class 2  component=kmsg
+INFO[47987] Aborting journal on device vda1-8.            component=kmsg
+INFO[47987] {"driver":"json-file","error":"error writing log entry: write /var/lib/docker/containers/e22d224ae38c7c6c8f2bb919c419b7336c011deca0b58873f4c8ef14b60e5b15/e22d224ae38c7c6c8f2bb919c419b7336c011deca0b58873f4c8ef14b60e5b15-json.log: input/output error","level":"error","message":"","msg":"Error writing log message","time":"2026-04-09T16:44:32.677488835Z"}  component=dockerd
+
+=== SEARCH FOR SOCKET / DAEMON / ERROR SIGNALS ===
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.18:4900:INFO[8954] time="2026-04-06T18:59:14.802290880Z" level=error msg="unable to parse \"max 0\" as a uint from Cgroup file \"/sys/fs/cgroup/docker/buildx/77a880a25d797393cc8a5a389e07e8288b0f6f5171e076c0c2b382099fd17d51/hugetlb.1GB.events\""  component=containerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.18:4902:INFO[8955] time="2026-04-06T18:59:15.812190256Z" level=error msg="unable to parse \"max 0\" as a uint from Cgroup file \"/sys/fs/cgroup/docker/buildx/77a880a25d797393cc8a5a389e07e8288b0f6f5171e076c0c2b382099fd17d51/hugetlb.2MB.events\""  component=containerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.18:4903:INFO[8955] time="2026-04-06T18:59:15.812271047Z" level=error msg="unable to parse \"max 0\" as a uint from Cgroup file \"/sys/fs/cgroup/docker/buildx/77a880a25d797393cc8a5a389e07e8288b0f6f5171e076c0c2b382099fd17d51/hugetlb.32MB.events\""  component=containerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.18:4904:INFO[8955] time="2026-04-06T18:59:15.812312006Z" level=error msg="unable to parse \"max 0\" as a uint from Cgroup file \"/sys/fs/cgroup/docker/buildx/77a880a25d797393cc8a5a389e07e8288b0f6f5171e076c0c2b382099fd17d51/hugetlb.64KB.events\""  component=containerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.18:4905:INFO[8955] time="2026-04-06T18:59:15.812361006Z" level=error msg="unable to parse \"max 0\" as a uint from Cgroup file \"/sys/fs/cgroup/docker/buildx/77a880a25d797393cc8a5a389e07e8288b0f6f5171e076c0c2b382099fd17d51/hugetlb.1GB.events\""  component=containerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.18:4907:INFO[8955] time="2026-04-06T18:59:15.813960006Z" level=error msg="unable to parse \"max 0\" as a uint from Cgroup file \"/sys/fs/cgroup/docker/dc73e731559697be0f2a468be0b2aa87690dc0f99c71388768f2a3bfcff36d4c/hugetlb.2MB.events\""  component=containerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.18:4908:INFO[8955] time="2026-04-06T18:59:15.814044964Z" level=error msg="unable to parse \"max 0\" as a uint from Cgroup file \"/sys/fs/cgroup/docker/dc73e731559697be0f2a468be0b2aa87690dc0f99c71388768f2a3bfcff36d4c/hugetlb.32MB.events\""  component=containerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.18:4909:INFO[8955] time="2026-04-06T18:59:15.814077839Z" level=error msg="unable to parse \"max 0\" as a uint from Cgroup file \"/sys/fs/cgroup/docker/dc73e731559697be0f2a468be0b2aa87690dc0f99c71388768f2a3bfcff36d4c/hugetlb.64KB.events\""  component=containerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.18:4910:INFO[8955] time="2026-04-06T18:59:15.814106589Z" level=error msg="unable to parse \"max 0\" as a uint from Cgroup file \"/sys/fs/cgroup/docker/dc73e731559697be0f2a468be0b2aa87690dc0f99c71388768f2a3bfcff36d4c/hugetlb.1GB.events\""  component=containerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.18:4911:INFO[8955] time="2026-04-06T18:59:15.816441172Z" level=error msg="unable to parse \"max 0\" as a uint from Cgroup file \"/sys/fs/cgroup/docker/ac18d04a90e7c151cb746e0943b99f86c89e356decac6e56a3ce3bcfa31c6ecb/hugetlb.2MB.events\""  component=containerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.18:4912:INFO[8955] time="2026-04-06T18:59:15.816521172Z" level=error msg="unable to parse \"max 0\" as a uint from Cgroup file \"/sys/fs/cgroup/docker/ac18d04a90e7c151cb746e0943b99f86c89e356decac6e56a3ce3bcfa31c6ecb/hugetlb.32MB.events\""  component=containerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.18:4913:INFO[8955] time="2026-04-06T18:59:15.816563964Z" level=error msg="unable to parse \"max 0\" as a uint from Cgroup file \"/sys/fs/cgroup/docker/ac18d04a90e7c151cb746e0943b99f86c89e356decac6e56a3ce3bcfa31c6ecb/hugetlb.64KB.events\""  component=containerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.18:4914:INFO[8955] time="2026-04-06T18:59:15.816638756Z" level=error msg="unable to parse \"max 0\" as a uint from Cgroup file \"/sys/fs/cgroup/docker/ac18d04a90e7c151cb746e0943b99f86c89e356decac6e56a3ce3bcfa31c6ecb/hugetlb.1GB.events\""  component=containerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.18:4915:INFO[8956] time="2026-04-06T18:59:16.821209506Z" level=error msg="unable to parse \"max 0\" as a uint from Cgroup file \"/sys/fs/cgroup/docker/dc73e731559697be0f2a468be0b2aa87690dc0f99c71388768f2a3bfcff36d4c/hugetlb.2MB.events\""  component=containerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.18:4916:INFO[8956] time="2026-04-06T18:59:16.821276965Z" level=error msg="unable to parse \"max 0\" as a uint from Cgroup file \"/sys/fs/cgroup/docker/dc73e731559697be0f2a468be0b2aa87690dc0f99c71388768f2a3bfcff36d4c/hugetlb.32MB.events\""  component=containerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.18:4917:INFO[8956] time="2026-04-06T18:59:16.821311840Z" level=error msg="unable to parse \"max 0\" as a uint from Cgroup file \"/sys/fs/cgroup/docker/dc73e731559697be0f2a468be0b2aa87690dc0f99c71388768f2a3bfcff36d4c/hugetlb.64KB.events\""  component=containerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.18:4918:INFO[8956] time="2026-04-06T18:59:16.821345256Z" level=error msg="unable to parse \"max 0\" as a uint from Cgroup file \"/sys/fs/cgroup/docker/dc73e731559697be0f2a468be0b2aa87690dc0f99c71388768f2a3bfcff36d4c/hugetlb.1GB.events\""  component=containerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.18:4920:INFO[8956] time="2026-04-06T18:59:16.822752840Z" level=error msg="unable to parse \"max 0\" as a uint from Cgroup file \"/sys/fs/cgroup/docker/ac18d04a90e7c151cb746e0943b99f86c89e356decac6e56a3ce3bcfa31c6ecb/hugetlb.2MB.events\""  component=containerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.18:4921:INFO[8956] time="2026-04-06T18:59:16.822842590Z" level=error msg="unable to parse \"max 0\" as a uint from Cgroup file \"/sys/fs/cgroup/docker/ac18d04a90e7c151cb746e0943b99f86c89e356decac6e56a3ce3bcfa31c6ecb/hugetlb.32MB.events\""  component=containerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.18:4922:INFO[8956] time="2026-04-06T18:59:16.822874631Z" level=error msg="unable to parse \"max 0\" as a uint from Cgroup file \"/sys/fs/cgroup/docker/ac18d04a90e7c151cb746e0943b99f86c89e356decac6e56a3ce3bcfa31c6ecb/hugetlb.64KB.events\""  component=containerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.18:4923:INFO[8956] time="2026-04-06T18:59:16.822906673Z" level=error msg="unable to parse \"max 0\" as a uint from Cgroup file \"/sys/fs/cgroup/docker/ac18d04a90e7c151cb746e0943b99f86c89e356decac6e56a3ce3bcfa31c6ecb/hugetlb.1GB.events\""  component=containerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.7:5:{"component":"dockerd","error":"Bind for 0.0.0.0:5432 failed: port is already allocated","level":"warning","msg":"Failed to allocate port","time":"2026-04-07T19:39:11.200685585Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.7:12:{"component":"dockerd","level":"error","msg":"Handler for POST /v1.51/containers/7550b073936b2dc2d9da59aaaee950c7f2c332f6386903954eee8c569c8a6e76/start returned error: failed to set up container networking: driver failed programming external connectivity on endpoint mbhq_phase65_wiring-postgres-1 (4571c0cc241b1cf5b75a9b7108e61821595601ecf6991724e0f8ea4a238a4e8a): Bind for 0.0.0.0:5432 failed: port is already allocated","spanID":"50e882e6046e4bd9","time":"2026-04-07T19:39:11.267948668Z","traceID":"ef02cc9b9b74031d64e6bde4a78d1f13"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.7:236:{"component":"volume","level":"warning","msg":"hostPathOfVolume mbhq_operator_guidance_pgdata failed, skipping bind","time":"2026-04-07T19:39:23.535133299Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.7:246:{"component":"dockerd","error":"Bind for 0.0.0.0:5432 failed: port is already allocated","level":"warning","msg":"Failed to allocate port","time":"2026-04-07T19:39:23.578179841Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.7:253:{"component":"dockerd","level":"error","msg":"Handler for POST /v1.51/containers/e255821b46d3ca0d551ac072654bf72830a95ff9785e4710274253c91dd9e72d/start returned error: failed to set up container networking: driver failed programming external connectivity on endpoint mbhq_operator_guidance-postgres-1 (5e9265b8ac75ee064f6fd19bc61cde66259b65e90152435c3fb8c9ef74d9a662): Bind for 0.0.0.0:5432 failed: port is already allocated","spanID":"f412780a1adc5cd2","time":"2026-04-07T19:39:23.643393591Z","traceID":"55dbe81502dfbcaf254196f39a210ae9"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.7:502:{"component":"volume","level":"warning","msg":"hostPathOfVolume mbhq_phase65_layout_pgdata failed, skipping bind","time":"2026-04-07T19:41:58.296217010Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.7:512:{"component":"dockerd","error":"Bind for 0.0.0.0:5432 failed: port is already allocated","level":"warning","msg":"Failed to allocate port","time":"2026-04-07T19:41:58.341529010Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.7:517:{"component":"dockerd","level":"error","msg":"Handler for POST /v1.51/containers/f4606280cdd90dd3122c7df8096186b22275adfb5a54bec4b5e92e308ad10b39/start returned error: failed to set up container networking: driver failed programming external connectivity on endpoint mbhq_phase65_layout-postgres-1 (97e3ad3263a8d9620e7719f294b71e4c6143eb4cbc51febb05b9a2a1035413f0): Bind for 0.0.0.0:5432 failed: port is already allocated","spanID":"4c894c5cb28d49e6","time":"2026-04-07T19:41:58.400854593Z","traceID":"eb11a2df5ae44a50ecebef1cd0645bf1"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.7:742:{"component":"volume","level":"warning","msg":"hostPathOfVolume mbhq_phase65_wiring_pgdata failed, skipping bind","time":"2026-04-07T19:42:09.974428501Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.7:752:{"component":"dockerd","error":"Bind for 0.0.0.0:5432 failed: port is already allocated","level":"warning","msg":"Failed to allocate port","time":"2026-04-07T19:42:10.022863376Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.7:759:{"component":"dockerd","level":"error","msg":"Handler for POST /v1.51/containers/9eea4966f57d28ea5c11c62762771a715257cc312a5f76b60d9946884036aba6/start returned error: failed to set up container networking: driver failed programming external connectivity on endpoint mbhq_phase65_wiring-postgres-1 (a8eeab19cec7304b085650bf1049676f581c67c59bf00827ecef1198cc3b0a53): Bind for 0.0.0.0:5432 failed: port is already allocated","spanID":"9b93d4a19a668790","time":"2026-04-07T19:42:10.096647251Z","traceID":"4ee3af013fd781703fa576c28011e155"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.7:1011:{"component":"volume","level":"warning","msg":"hostPathOfVolume mbhq_operator_guidance_pgdata failed, skipping bind","time":"2026-04-07T19:42:21.940956840Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.7:1021:{"component":"dockerd","error":"Bind for 0.0.0.0:5432 failed: port is already allocated","level":"warning","msg":"Failed to allocate port","time":"2026-04-07T19:42:21.998709965Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.7:1029:{"component":"dockerd","level":"error","msg":"Handler for POST /v1.51/containers/9e4817a9d3c47f144ed61292eef95fb70b224f9c6bc71863b8088114d9442147/start returned error: failed to set up container networking: driver failed programming external connectivity on endpoint mbhq_operator_guidance-postgres-1 (ec4e3f8ead6ac315eeb87497b6a84a36f2c8d15515169b404dfd09474ba766fa): Bind for 0.0.0.0:5432 failed: port is already allocated","spanID":"c2e1fc51e43e8f31","time":"2026-04-07T19:42:22.044708173Z","traceID":"def4995427d3229a4598139148e9f6ba"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.7:1315:{"component":"volume","level":"warning","msg":"hostPathOfVolume phase65_layout_pgdata failed, skipping bind","time":"2026-04-07T19:45:27.471537468Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.7:1325:{"component":"dockerd","error":"Bind for 0.0.0.0:5432 failed: port is already allocated","level":"warning","msg":"Failed to allocate port","time":"2026-04-07T19:45:27.521683134Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.7:1331:{"component":"dockerd","level":"error","msg":"Handler for POST /v1.51/containers/3c7127964270482566ad6855410fe167f022fea1409161bc8ab9d9a15163a87c/start returned error: failed to set up container networking: driver failed programming external connectivity on endpoint phase65_layout-postgres-1 (284d0afab097381917e8e3141c90a2759c1f2eb20a2da04f005f8d6bbf39d144): Bind for 0.0.0.0:5432 failed: port is already allocated","spanID":"ddb579c2e8ca0cf7","time":"2026-04-07T19:45:27.597432801Z","traceID":"a3717b1c6984342f8e4c54dd4dce909d"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.7:1544:{"component":"volume","level":"warning","msg":"hostPathOfVolume phase65_wiring_pgdata failed, skipping bind","time":"2026-04-07T19:45:28.712088552Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.7:1554:{"component":"dockerd","error":"Bind for 0.0.0.0:5432 failed: port is already allocated","level":"warning","msg":"Failed to allocate port","time":"2026-04-07T19:45:28.758321260Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.7:1559:{"component":"dockerd","level":"error","msg":"Handler for POST /v1.51/containers/c29fd0367921597bc87e122b94b6d9199189735e69a0343bfb1e2a0ae3f85f24/start returned error: failed to set up container networking: driver failed programming external connectivity on endpoint phase65_wiring-postgres-1 (8c484ee7b227372419cb278d113d5066d8ec7ee7c20159904be09b85ee60917c): Bind for 0.0.0.0:5432 failed: port is already allocated","spanID":"fd9b7ddee5cadea0","time":"2026-04-07T19:45:28.820682885Z","traceID":"4539cf18c3f3bed723327ca54f6c121d"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.7:1773:{"component":"volume","level":"warning","msg":"hostPathOfVolume operator_guidance_pgdata failed, skipping bind","time":"2026-04-07T19:45:29.848532094Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.7:1783:{"component":"dockerd","error":"Bind for 0.0.0.0:5432 failed: port is already allocated","level":"warning","msg":"Failed to allocate port","time":"2026-04-07T19:45:29.891389552Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.7:1788:{"component":"dockerd","level":"error","msg":"Handler for POST /v1.51/containers/b1d145429367606eaa76ccc38c999f8557660797303d6df782b4a2607d1a9b03/start returned error: failed to set up container networking: driver failed programming external connectivity on endpoint operator_guidance-postgres-1 (11804b8738372b8107212c58cee8585256943ece9011ba3fa07d7584b0191404): Bind for 0.0.0.0:5432 failed: port is already allocated","spanID":"7d3e24f876df4781","time":"2026-04-07T19:45:29.950666886Z","traceID":"70e9b85eb0a2187d600ce0945da936c4"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.7:2071:{"component":"volume","level":"warning","msg":"hostPathOfVolume phase65_layout_pgdata failed, skipping bind","time":"2026-04-07T19:48:23.139428424Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.7:2081:{"component":"dockerd","error":"Bind for 0.0.0.0:5432 failed: port is already allocated","level":"warning","msg":"Failed to allocate port","time":"2026-04-07T19:48:23.183624841Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.7:2088:{"component":"dockerd","level":"error","msg":"Handler for POST /v1.51/containers/89e174f0d9e1d87f2b33f45667f31d7bc3c80011b9fb2b759d58d905bcb23f7d/start returned error: failed to set up container networking: driver failed programming external connectivity on endpoint phase65_layout-postgres-1 (88feeb78ac86d5378707362bd06c6a0d19ee86b6b3d78e99afd95a826221f038): Bind for 0.0.0.0:5432 failed: port is already allocated","spanID":"ace6ca9e74cc9bee","time":"2026-04-07T19:48:23.247383632Z","traceID":"c9da2cb9a3a35110486980c54a6f46a7"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.7:2496:{"component":"volume","level":"warning","msg":"hostPathOfVolume mbhq_phase65_layout_pgdata failed, skipping bind","time":"2026-04-07T19:53:59.749866802Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.7:2826:{"component":"volume","level":"warning","msg":"hostPathOfVolume mbhq_phase65_wiring_pgdata failed, skipping bind","time":"2026-04-07T19:54:10.536438585Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.7:2846:{"component":"dockerd","error":"Bind for 0.0.0.0:8080 failed: port is already allocated","level":"warning","msg":"Failed to allocate port","time":"2026-04-07T19:54:10.648153835Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.7:2870:{"component":"dockerd","level":"error","msg":"Handler for POST /v1.51/containers/1140e81517ba56bf67e1f1ab56ff8e3d92124221d25bdc381855c4398d7185e2/start returned error: failed to set up container networking: driver failed programming external connectivity on endpoint mbhq_phase65_wiring-dashboard-1 (146e0812b57792a1df58f7e4664f315bde80dd83208abd3c4c29e10b670dc23d): Bind for 0.0.0.0:8080 failed: port is already allocated","spanID":"e4916486ef4cb201","time":"2026-04-07T19:54:10.737168043Z","traceID":"fc6dd885f2c54776c56c85f5243e107c"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.7:3126:{"component":"volume","level":"warning","msg":"hostPathOfVolume mbhq_operator_guidance_pgdata failed, skipping bind","time":"2026-04-07T19:54:21.861900798Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.7:3163:{"component":"dockerd","error":"Bind for 0.0.0.0:8080 failed: port is already allocated","level":"warning","msg":"Failed to allocate port","time":"2026-04-07T19:54:21.982708840Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.7:3168:{"component":"dockerd","level":"error","msg":"Handler for POST /v1.51/containers/c22360a986d0be7d6a0a623659066ecb92388adcd3043faa86cdb031b87b11b0/start returned error: failed to set up container networking: driver failed programming external connectivity on endpoint mbhq_operator_guidance-dashboard-1 (85164b9166201c7db8a9ac2486c0814bb849cbcd11010b3d826da5107910075e): Bind for 0.0.0.0:8080 failed: port is already allocated","spanID":"4351478f9231c1af","time":"2026-04-07T19:54:22.061305757Z","traceID":"6320d8c1bcefbb8a4a226a94585a986c"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.7:3437:{"component":"volume","level":"warning","msg":"hostPathOfVolume phase65_layout_pgdata failed, skipping bind","time":"2026-04-07T19:59:29.691000260Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.7:3503:{"component":"dockerd","error":"Bind for 0.0.0.0:8080 failed: port is already allocated","level":"warning","msg":"Failed to allocate port","time":"2026-04-07T19:59:36.034805013Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.7:3508:{"component":"dockerd","level":"error","msg":"Handler for POST /v1.51/containers/096e21f5a5eae0bb1d479e5350cbef1fbd0ae75333746b63d97b47e974b900fd/start returned error: failed to set up container networking: driver failed programming external connectivity on endpoint phase65_layout-dashboard-1 (cc7f516fe89a7e9069e677dde62f306b946e2e0c7f5d7ae17cb3399b87a19a9b): Bind for 0.0.0.0:8080 failed: port is already allocated","spanID":"42238b6dc0cebd77","time":"2026-04-07T19:59:36.099688680Z","traceID":"f37cd8077b1e5546d04940477b82c3dd"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.7:3730:{"component":"volume","level":"warning","msg":"hostPathOfVolume phase65_layout_pgdata failed, skipping bind","time":"2026-04-07T20:00:12.162795710Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.7:4018:{"component":"volume","level":"warning","msg":"hostPathOfVolume phase65_layout_pgdata failed, skipping bind","time":"2026-04-07T20:04:06.765267764Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.7:4296:{"component":"volume","level":"warning","msg":"hostPathOfVolume phase65_wiring_pgdata failed, skipping bind","time":"2026-04-07T20:06:06.628652597Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.7:4455:{"component":"dockerd","error":"Bind for 0.0.0.0:8080 failed: port is already allocated","level":"warning","msg":"Failed to allocate port","time":"2026-04-07T20:06:15.275830128Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.7:4460:{"component":"dockerd","level":"error","msg":"Handler for POST /v1.51/containers/2929564d9dc4e13f39f76c2f3710e3206da7abe37165fd64849831cbccf926f9/start returned error: failed to set up container networking: driver failed programming external connectivity on endpoint phase65_wiring-dashboard-1 (1de32d3fa4d8d6b12c6cecd9c271f79b0970ebaf22d11c40b42d3e877bd16019): Bind for 0.0.0.0:8080 failed: port is already allocated","spanID":"4228bd20b11c0092","time":"2026-04-07T20:06:15.341408420Z","traceID":"f0cc30ad9cc6e492fadbdf487fe427a0"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.7:4778:{"component":"volume","level":"warning","msg":"hostPathOfVolume phase65_wiring_pgdata failed, skipping bind","time":"2026-04-07T20:26:20.862352835Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.7:4935:{"component":"dockerd","error":"Bind for 0.0.0.0:8080 failed: port is already allocated","level":"warning","msg":"Failed to allocate port","time":"2026-04-07T20:26:28.419050089Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.7:4940:{"component":"dockerd","level":"error","msg":"Handler for POST /v1.51/containers/9641a4a455211417484d516f68efb2b0b825ef1ec9a16d030383b1325bd4a549/start returned error: failed to set up container networking: driver failed programming external connectivity on endpoint phase65_wiring-dashboard-1 (5eb007cc1118bbd185ce0c4fb5af62174fc5798788f853d031b6fbe60c81d2ab): Bind for 0.0.0.0:8080 failed: port is already allocated","spanID":"3f4ada1434daccac","time":"2026-04-07T20:26:28.487275839Z","traceID":"f933dd977c32fb7abb0ae4d781604202"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.7:5357:{"component":"volume","level":"warning","msg":"hostPathOfVolume phase65_wiring_pgdata failed, skipping bind","time":"2026-04-07T23:07:15.392731336Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.7:5486:{"component":"dockerd","error":"Bind for 0.0.0.0:8080 failed: port is already allocated","level":"warning","msg":"Failed to allocate port","time":"2026-04-07T23:07:22.919830715Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.7:5519:{"component":"dockerd","level":"error","msg":"Handler for POST /v1.51/containers/9eb9b3c1ed691454cafb9567da2cdf063f550d424c4e28b9c137c78be118ea1d/start returned error: failed to set up container networking: driver failed programming external connectivity on endpoint phase65_wiring-dashboard-1 (06f81b54e2e3a098ca682d8b5937a7108edd98cc3fbb859122effecced11e696): Bind for 0.0.0.0:8080 failed: port is already allocated","spanID":"bc82ba3f9f2f88f5","time":"2026-04-07T23:07:22.987040423Z","traceID":"2c83bf35005d82c9cb5b8de3a5ee14b0"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.4:1513:INFO[14244] {"error":"Bind for 0.0.0.0:8080 failed: port is already allocated","level":"warning","msg":"Failed to allocate port","time":"2026-04-08T00:36:56.733422551Z"}  component=dockerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.4:1520:INFO[14244] {"level":"error","msg":"Handler for POST /v1.51/containers/fee62e9f2e88cad5a1600f3ec2391b53c4231ced04e3ac0004dc0f0c2b177682/start returned error: failed to set up container networking: driver failed programming external connectivity on endpoint shell_33f5c0e2-dashboard-1 (a4de6c518245d0b4d0a3cf610f6750a5021efd7ae9c4c8bccc34fbb18346ba31): Bind for 0.0.0.0:8080 failed: port is already allocated","spanID":"ed8d54c93157047a","time":"2026-04-08T00:36:56.801898051Z","traceID":"37cfdf2adc9de275d5baf009997008f7"}  component=dockerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.4:1523:[2026-04-08T00:36:56.804119468Z][initd.ipc] (c2d6fba4-30) 48124399-socketforwarder S<-C 7e147ad5-volume GET /list
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.4:1524:[2026-04-08T00:36:56.804171343Z][initd.ipc] (c2d6fba4-30) 48124399-socketforwarder S->C 7e147ad5-volume GET /list (52.375µs): []
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.4:1777:INFO[14261] {"error":"Bind for 0.0.0.0:8080 failed: port is already allocated","level":"warning","msg":"Failed to allocate port","time":"2026-04-08T00:37:14.004100712Z"}  component=dockerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.4:1783:INFO[14261] {"level":"error","msg":"Handler for POST /v1.51/containers/b640307f1eca5cb6538567bf72451b7bdc7b12657ccaf5b8b14afe05d22c43d2/start returned error: failed to set up container networking: driver failed programming external connectivity on endpoint shell_c63a60e7-dashboard-1 (d9991759fbc1453b4e0f7d857d3dedf06935dd3cae0870b2f88129ecc554f8a7): Bind for 0.0.0.0:8080 failed: port is already allocated","spanID":"26f9f9108d426b6c","time":"2026-04-08T00:37:14.065661628Z","traceID":"e18149aa459737e741a7b993176c9acc"}  component=dockerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.4:1786:[2026-04-08T00:37:14.068588128Z][initd.ipc] (c2d6fba4-31) 48124399-socketforwarder S<-C 7e147ad5-volume GET /list
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.4:1787:[2026-04-08T00:37:14.068719545Z][initd.ipc] (c2d6fba4-31) 48124399-socketforwarder S->C 7e147ad5-volume GET /list (131.875µs): []
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.4:2044:INFO[14278] {"error":"Bind for 0.0.0.0:8080 failed: port is already allocated","level":"warning","msg":"Failed to allocate port","time":"2026-04-08T00:37:31.289618970Z"}  component=dockerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.4:2051:INFO[14279] {"level":"error","msg":"Handler for POST /v1.51/containers/99ecdc82947235f651dc111caed6d5024d89bfa32e8c65bf23d57089ce3f12e9/start returned error: failed to set up container networking: driver failed programming external connectivity on endpoint shell_ecac1fb1-dashboard-1 (bc185abf11b64647daff9ef6589610b8d2aa4837304cc507e43e36067e404598): Bind for 0.0.0.0:8080 failed: port is already allocated","spanID":"00eb464de5e0785a","time":"2026-04-08T00:37:31.347819928Z","traceID":"4e64d5b4c95b32788e3055e2cf1811e8"}  component=dockerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.4:2054:[2026-04-08T00:37:31.349561637Z][initd.ipc] (c2d6fba4-32) 48124399-socketforwarder S<-C 7e147ad5-volume GET /list
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.4:2055:[2026-04-08T00:37:31.349620553Z][initd.ipc] (c2d6fba4-32) 48124399-socketforwarder S->C 7e147ad5-volume GET /list (47.167µs): []
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.4:2318:INFO[14296] {"error":"Bind for 0.0.0.0:8080 failed: port is already allocated","level":"warning","msg":"Failed to allocate port","time":"2026-04-08T00:37:48.480482589Z"}  component=dockerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.4:2324:INFO[14296] {"level":"error","msg":"Handler for POST /v1.51/containers/003f277208a3807bd22987451076421bbe493272d1dd8c7b92c03de6d4ec63b9/start returned error: failed to set up container networking: driver failed programming external connectivity on endpoint shell_27b7ddf3-dashboard-1 (11099cef4e08607f55c3e15e04ce8855c280ba5f4be791d1097dd534e47330cc): Bind for 0.0.0.0:8080 failed: port is already allocated","spanID":"8f5aac173ac47a54","time":"2026-04-08T00:37:48.550194131Z","traceID":"50024ff29b6324ba538b02d6f2e76cc9"}  component=dockerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.4:2327:[2026-04-08T00:37:48.552100964Z][initd.ipc] (c2d6fba4-33) 48124399-socketforwarder S<-C 7e147ad5-volume GET /list
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.4:2328:[2026-04-08T00:37:48.552190506Z][initd.ipc] (c2d6fba4-33) 48124399-socketforwarder S->C 7e147ad5-volume GET /list (89.458µs): []
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.4:2592:INFO[14313] {"error":"Bind for 0.0.0.0:8080 failed: port is already allocated","level":"warning","msg":"Failed to allocate port","time":"2026-04-08T00:38:05.743214764Z"}  component=dockerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.4:2600:INFO[14313] {"level":"error","msg":"Handler for POST /v1.51/containers/4a37c68749f19d6258d1cc71ef093429ec9e3eebc60ba69d734f5fefc5fcd894/start returned error: failed to set up container networking: driver failed programming external connectivity on endpoint shell_244cdde5-dashboard-1 (b8e7f5a3ad5bbefb16da0818f9e88a31d9e1d57c7ced881ddc4a10f3583b2cd2): Bind for 0.0.0.0:8080 failed: port is already allocated","spanID":"37a190017a1dfe9a","time":"2026-04-08T00:38:05.808029597Z","traceID":"4aa70cbdab9e0cd01f8ab58ab6e9f907"}  component=dockerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.4:2603:[2026-04-08T00:38:05.809844014Z][initd.ipc] (c2d6fba4-34) 48124399-socketforwarder S<-C 7e147ad5-volume GET /list
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.4:2604:[2026-04-08T00:38:05.809918347Z][initd.ipc] (c2d6fba4-34) 48124399-socketforwarder S->C 7e147ad5-volume GET /list (72.75µs): []
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.4:2756:[2026-04-08T00:40:40.846448627Z][initd.ipc] (2f2603a2-17) 48124399-socketforwarder S<-C af1a9106-volume GET /list
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.4:2757:[2026-04-08T00:40:40.846573502Z][initd.ipc] (2f2603a2-17) 48124399-socketforwarder S->C af1a9106-volume GET /list (135.125µs): []
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.4:3121:[2026-04-08T00:40:57.265646135Z][initd.ipc] (2f2603a2-18) 48124399-socketforwarder S<-C af1a9106-volume GET /list
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.4:3123:[2026-04-08T00:40:57.265734176Z][initd.ipc] (2f2603a2-18) 48124399-socketforwarder S->C af1a9106-volume GET /list (88.708µs): []
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.4:3487:[2026-04-08T00:41:13.372916878Z][initd.ipc] (2f2603a2-19) 48124399-socketforwarder S<-C af1a9106-volume GET /list
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.4:3488:[2026-04-08T00:41:13.373006503Z][initd.ipc] (2f2603a2-19) 48124399-socketforwarder S->C af1a9106-volume GET /list (89.458µs): []
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.4:3852:[2026-04-08T00:41:29.455278927Z][initd.ipc] (2f2603a2-20) 48124399-socketforwarder S<-C af1a9106-volume GET /list
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.4:3853:[2026-04-08T00:41:29.455414886Z][initd.ipc] (2f2603a2-20) 48124399-socketforwarder S->C af1a9106-volume GET /list (135.958µs): []
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.4:4217:[2026-04-08T00:41:45.746172962Z][initd.ipc] (2f2603a2-21) 48124399-socketforwarder S<-C af1a9106-volume GET /list
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.4:4218:[2026-04-08T00:41:45.746361629Z][initd.ipc] (2f2603a2-21) 48124399-socketforwarder S->C af1a9106-volume GET /list (187.916µs): []
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.3:1295:WARN[20120] hostPathOfVolume tabbed_cba8b3c0_pgdata failed, skipping bind  component=volume
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.3:1613:WARN[20139] hostPathOfVolume tabbed_74a241ca_pgdata failed, skipping bind  component=volume
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.3:1927:WARN[20156] hostPathOfVolume tabbed_df791714_pgdata failed, skipping bind  component=volume
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.3:2247:WARN[20174] hostPathOfVolume tabbed_d2601c1e_pgdata failed, skipping bind  component=volume
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.3:2573:WARN[20191] hostPathOfVolume tabbed_9c68c540_pgdata failed, skipping bind  component=volume
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.3:4080:WARN[21670] hostPathOfVolume entry_3e320f1b3628bb6ada53daf5b76f9acf311d1df5_pgdata failed, skipping bind  component=volume
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.3:4412:WARN[21689] hostPathOfVolume entry_ee8ea4f820b46206a3c5dbe172454e8f8d368ea6_pgdata failed, skipping bind  component=volume
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.3:4740:WARN[21706] hostPathOfVolume entry_e190b90dc788bc889f1fe5f9f9db147139e43498_pgdata failed, skipping bind  component=volume
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.3:5074:WARN[21724] hostPathOfVolume entry_5a8bf4228d45145c920dbf217a80af01319bc4e9_pgdata failed, skipping bind  component=volume
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.8:1701:{"component":"dockerd","container":"747fbf2c66a1a62e436d1411f83aba3c4b24bef8340093a8405d5c76eeafe529","level":"info","msg":"Container failed to exit within 1s of signal 15 - using the force","spanID":"f68d121f677eebe2","time":"2026-04-07T18:42:10.819880507Z","traceID":"9871106f8d86bdbcf897bfcbfffca34d"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.8:1892:{"component":"dockerd","container":"00dc8bb0fe74b4f94bdb12329929266aa7bb0d1aa796f9527b357dd18f9cf5bf","level":"info","msg":"Container failed to exit within 1s of signal 15 - using the force","spanID":"16106406c40059a0","time":"2026-04-07T18:43:47.082206927Z","traceID":"6726ecc6919bdb34ebc4bf92b27eb48a"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.8:2730:{"component":"volume","level":"warning","msg":"hostPathOfVolume phase65_layout_pgdata failed, skipping bind","time":"2026-04-07T19:21:12.114705882Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.8:2737:{"component":"dockerd","error":"Bind for 0.0.0.0:5432 failed: port is already allocated","level":"warning","msg":"Failed to allocate port","time":"2026-04-07T19:21:12.158713716Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.8:2742:{"component":"dockerd","level":"error","msg":"Handler for POST /v1.51/containers/39073f7a8cf0d1da3f0acf2e31d2f4f01dd26ccb01f3810a358558cc28423451/start returned error: failed to set up container networking: driver failed programming external connectivity on endpoint phase65_layout-postgres-1 (6ddce13e4c4d7e3a6dec33c4f9d3f6ba2cac8bd419863699d50cf71d409c81c2): Bind for 0.0.0.0:5432 failed: port is already allocated","spanID":"c228253a98fab175","time":"2026-04-07T19:21:12.227372716Z","traceID":"407e593bf97bd0d46a66b40dca48221e"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.8:2896:{"component":"volume","level":"warning","msg":"hostPathOfVolume phase65_wiring_pgdata failed, skipping bind","time":"2026-04-07T19:21:20.237626178Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.8:2905:{"component":"dockerd","error":"Bind for 0.0.0.0:5432 failed: port is already allocated","level":"warning","msg":"Failed to allocate port","time":"2026-04-07T19:21:20.280687928Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.8:2912:{"component":"dockerd","level":"error","msg":"Handler for POST /v1.51/containers/2d9ed04bc5749eb6f904c6636e9bb89178c39454f935ddd59344777288bda439/start returned error: failed to set up container networking: driver failed programming external connectivity on endpoint phase65_wiring-postgres-1 (d4a7c6c1c7a27f476e0fbed9448d06f73d04cd9653874a305c8371293a3ab04c): Bind for 0.0.0.0:5432 failed: port is already allocated","spanID":"289af4cef57ea182","time":"2026-04-07T19:21:20.342731261Z","traceID":"8a63ff5e2bcad916270a8a004d163902"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.8:3066:{"component":"volume","level":"warning","msg":"hostPathOfVolume operator_guidance_pgdata failed, skipping bind","time":"2026-04-07T19:21:28.836926543Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.8:3076:{"component":"dockerd","error":"Bind for 0.0.0.0:5432 failed: port is already allocated","level":"warning","msg":"Failed to allocate port","time":"2026-04-07T19:21:28.894831376Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.8:3083:{"component":"dockerd","level":"error","msg":"Handler for POST /v1.51/containers/465ec7003c6667b759e936bee6896712d10ebd419277daf17cf87842657de353/start returned error: failed to set up container networking: driver failed programming external connectivity on endpoint operator_guidance-postgres-1 (793a0eaa8d599c8261c0b67eba2fa04546d508107bb37c2224140cf07271bdd9): Bind for 0.0.0.0:5432 failed: port is already allocated","spanID":"0e3deb45bcea8aef","time":"2026-04-07T19:21:28.954012334Z","traceID":"c5eb06638914a7d1a98e9dcf012e85f0"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.8:3260:{"component":"volume","level":"warning","msg":"hostPathOfVolume mbhq_phase65_layout_pgdata failed, skipping bind","time":"2026-04-07T19:22:51.969824679Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.8:3270:{"component":"dockerd","error":"Bind for 0.0.0.0:5432 failed: port is already allocated","level":"warning","msg":"Failed to allocate port","time":"2026-04-07T19:22:52.017978929Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.8:3276:{"component":"dockerd","level":"error","msg":"Handler for POST /v1.51/containers/f90e696f893e8a7869fa892fdaa597c4048a599ddbbfe5eab3af36e025e66cec/start returned error: failed to set up container networking: driver failed programming external connectivity on endpoint mbhq_phase65_layout-postgres-1 (03f776236de5c3d79e17396cb631f7e34be9795ebd22c826b1b25f4e10d26810): Bind for 0.0.0.0:5432 failed: port is already allocated","spanID":"88b11ffb0a245718","time":"2026-04-07T19:22:52.086526262Z","traceID":"5f3bb2a2139f803f3922be8c843b5b89"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.8:3424:{"component":"volume","level":"warning","msg":"hostPathOfVolume mbhq_phase65_wiring_pgdata failed, skipping bind","time":"2026-04-07T19:22:53.921210555Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.8:3433:{"component":"dockerd","error":"Bind for 0.0.0.0:5432 failed: port is already allocated","level":"warning","msg":"Failed to allocate port","time":"2026-04-07T19:22:53.970051596Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.8:3440:{"component":"dockerd","level":"error","msg":"Handler for POST /v1.51/containers/765c836da326c235b6d45b01abb059e9091c885cbb1dbd9582c2d07422f43c79/start returned error: failed to set up container networking: driver failed programming external connectivity on endpoint mbhq_phase65_wiring-postgres-1 (0366ff9893d4ba272ccff5276353de0d7dea507494aa650f6bb709199ca9e261): Bind for 0.0.0.0:5432 failed: port is already allocated","spanID":"3017a238a89c766e","time":"2026-04-07T19:22:54.049210305Z","traceID":"444bf7dfa11eea2c814aaa50d9207774"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.8:3590:{"component":"volume","level":"warning","msg":"hostPathOfVolume mbhq_operator_guidance_pgdata failed, skipping bind","time":"2026-04-07T19:22:56.224648916Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.8:3599:{"component":"dockerd","error":"Bind for 0.0.0.0:5432 failed: port is already allocated","level":"warning","msg":"Failed to allocate port","time":"2026-04-07T19:22:56.271563000Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.8:3606:{"component":"dockerd","level":"error","msg":"Handler for POST /v1.51/containers/4f2d3ce36e5b50d974e62096a6e36f96092a1105e0272d709265dac6a1d7eecb/start returned error: failed to set up container networking: driver failed programming external connectivity on endpoint mbhq_operator_guidance-postgres-1 (7036b3ca72d8838207ec92d79bed9d6bdb1dbbeedcf1451bea27cf271711bccc): Bind for 0.0.0.0:5432 failed: port is already allocated","spanID":"98b51008a88b065c","time":"2026-04-07T19:22:56.331455458Z","traceID":"c2c779df4c4a4aa8225c5ae1dfb1e457"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.8:3987:{"component":"volume","level":"warning","msg":"hostPathOfVolume mbhq_phase65_layout_pgdata failed, skipping bind","time":"2026-04-07T19:30:18.755102344Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.8:3996:{"component":"dockerd","error":"Bind for 0.0.0.0:5432 failed: port is already allocated","level":"warning","msg":"Failed to allocate port","time":"2026-04-07T19:30:18.796925260Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.8:4004:{"component":"dockerd","level":"error","msg":"Handler for POST /v1.51/containers/54c66734220cdfc9504bfc270744ed7e1a55257113b73294292cf13868c9a38e/start returned error: failed to set up container networking: driver failed programming external connectivity on endpoint mbhq_phase65_layout-postgres-1 (c2ce42a5e381df33dd88d9215e7c9240d34019928e72f399a0712668070e635f): Bind for 0.0.0.0:5432 failed: port is already allocated","spanID":"d235cf411cda198d","time":"2026-04-07T19:30:18.867145052Z","traceID":"193ae6bc8fbbf119a376075224c06273"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.8:4217:{"component":"volume","level":"warning","msg":"hostPathOfVolume mbhq_phase65_wiring_pgdata failed, skipping bind","time":"2026-04-07T19:30:29.180354751Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.8:4227:{"component":"dockerd","error":"Bind for 0.0.0.0:5432 failed: port is already allocated","level":"warning","msg":"Failed to allocate port","time":"2026-04-07T19:30:29.220195293Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.8:4234:{"component":"dockerd","level":"error","msg":"Handler for POST /v1.51/containers/b0aa805824ea50c1fe76b2097489784a33af95f0a0ac5ea037cf3618ae6c2492/start returned error: failed to set up container networking: driver failed programming external connectivity on endpoint mbhq_phase65_wiring-postgres-1 (ae6bcd87477afecee7b4e4ac129638f808571d677b003a3f89538d50dbbd02b1): Bind for 0.0.0.0:5432 failed: port is already allocated","spanID":"02e4b7584cb07367","time":"2026-04-07T19:30:29.289306168Z","traceID":"7ba59186cc4a2b7fd94876d01cc0d0e0"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.8:4447:{"component":"volume","level":"warning","msg":"hostPathOfVolume mbhq_operator_guidance_pgdata failed, skipping bind","time":"2026-04-07T19:30:39.936441631Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.8:4457:{"component":"dockerd","error":"Bind for 0.0.0.0:5432 failed: port is already allocated","level":"warning","msg":"Failed to allocate port","time":"2026-04-07T19:30:39.978441006Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.8:4463:{"component":"dockerd","level":"error","msg":"Handler for POST /v1.51/containers/349961f6838f8aa66c73967f79ca870a32256ed9525594371dd603b14926729d/start returned error: failed to set up container networking: driver failed programming external connectivity on endpoint mbhq_operator_guidance-postgres-1 (df1cef2c78dcc0fe1f46286f32b8aa452da42a8113fd2e926b2165cb34461b23): Bind for 0.0.0.0:5432 failed: port is already allocated","spanID":"2b58defdec28c9e0","time":"2026-04-07T19:30:40.037090256Z","traceID":"e9863254f70cb87da6ced72c40e0c523"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.8:4930:{"component":"volume","level":"warning","msg":"hostPathOfVolume mbhq_phase65_layout_pgdata failed, skipping bind","time":"2026-04-07T19:37:45.226614879Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.8:4940:{"component":"dockerd","error":"Bind for 0.0.0.0:5432 failed: port is already allocated","level":"warning","msg":"Failed to allocate port","time":"2026-04-07T19:37:45.282466754Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.8:4947:{"component":"dockerd","level":"error","msg":"Handler for POST /v1.51/containers/6e32cf87e139de13aeea0f5adff181b78121f9785215205be5ac4cf0c380c01c/start returned error: failed to set up container networking: driver failed programming external connectivity on endpoint mbhq_phase65_layout-postgres-1 (38f6237e6d7e23b6de1b0c56f3b23eb9b56e85c763e5e88d35fad465df8df902): Bind for 0.0.0.0:5432 failed: port is already allocated","spanID":"daa20778e498df91","time":"2026-04-07T19:37:45.340111462Z","traceID":"059a23cd6470c12a5db0180179032dba"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.8:5155:{"component":"volume","level":"warning","msg":"hostPathOfVolume mbhq_phase65_wiring_pgdata failed, skipping bind","time":"2026-04-07T19:37:57.503106218Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.8:5164:{"component":"dockerd","error":"Bind for 0.0.0.0:5432 failed: port is already allocated","level":"warning","msg":"Failed to allocate port","time":"2026-04-07T19:37:57.547267343Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.8:5172:{"component":"dockerd","level":"error","msg":"Handler for POST /v1.51/containers/99d1b82fa4c56fd78ccf9eed7f4d40c792fa1c10a9d25ec2528cc0bcd719b387/start returned error: failed to set up container networking: driver failed programming external connectivity on endpoint mbhq_phase65_wiring-postgres-1 (ddae2e89aff3ea98dd83bbdea6f0ed9718ca31fc351417bc47bc34acdc820633): Bind for 0.0.0.0:5432 failed: port is already allocated","spanID":"95487b37b18f23d3","time":"2026-04-07T19:37:57.627868010Z","traceID":"02b7d9cb088f13d469cd0a7a353a1add"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.8:5379:{"component":"volume","level":"warning","msg":"hostPathOfVolume mbhq_operator_guidance_pgdata failed, skipping bind","time":"2026-04-07T19:38:10.168835876Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.8:5389:{"component":"dockerd","error":"Bind for 0.0.0.0:5432 failed: port is already allocated","level":"warning","msg":"Failed to allocate port","time":"2026-04-07T19:38:10.217468376Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.8:5397:{"component":"dockerd","level":"error","msg":"Handler for POST /v1.51/containers/e27a797a92aeaec14336120f14e65d5c8f8ee84bba86fc2637ec99f2872746de/start returned error: failed to set up container networking: driver failed programming external connectivity on endpoint mbhq_operator_guidance-postgres-1 (5e73dc27c31f1cd14b3803c9f77aa2a7431fa189af05a82cb709ebc1f16adde3): Bind for 0.0.0.0:5432 failed: port is already allocated","spanID":"6062a36152a19225","time":"2026-04-07T19:38:10.275481210Z","traceID":"a9e8d4c341f4fe8f2c7bbd471926c969"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.8:5576:{"component":"volume","level":"warning","msg":"hostPathOfVolume mbhq_phase65_layout_pgdata failed, skipping bind","time":"2026-04-07T19:38:58.786904010Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.8:5585:{"component":"dockerd","error":"Bind for 0.0.0.0:5432 failed: port is already allocated","level":"warning","msg":"Failed to allocate port","time":"2026-04-07T19:38:58.832715968Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.8:5592:{"component":"dockerd","level":"error","msg":"Handler for POST /v1.51/containers/c2f3d43d07f277b958f9f9112f01f1117cdff59daba874cd9398a20473dbea2a/start returned error: failed to set up container networking: driver failed programming external connectivity on endpoint mbhq_phase65_layout-postgres-1 (a26501d442cf3ea3ddd8c5ebb3e4fd574da8707938dcbce9f5c49deb5e250ce4): Bind for 0.0.0.0:5432 failed: port is already allocated","spanID":"3794c7a3dc0fbea0","time":"2026-04-07T19:38:58.899900177Z","traceID":"a48ab1729c6bf37c6e76ec20b4169bd5"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.8:5846:{"component":"volume","level":"warning","msg":"hostPathOfVolume mbhq_phase65_wiring_pgdata failed, skipping bind","time":"2026-04-07T19:39:11.153629293Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.6:161:{"component":"volume","level":"warning","msg":"hostPathOfVolume phase65_wiring_pgdata failed, skipping bind","time":"2026-04-07T23:09:59.951522052Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.6:296:{"component":"dockerd","error":"Bind for 0.0.0.0:8080 failed: port is already allocated","level":"warning","msg":"Failed to allocate port","time":"2026-04-07T23:10:07.336189430Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.6:301:{"component":"dockerd","level":"error","msg":"Handler for POST /v1.51/containers/8084ad5d054174bfe537b4d8eca0f1fab19972828adaaa8aee45ae8a5427e8cc/start returned error: failed to set up container networking: driver failed programming external connectivity on endpoint phase65_wiring-dashboard-1 (6a8bca79b03ac113a0bc6fe73132bccfaf127e3c2d81dd22c871c2855dfd03fc): Bind for 0.0.0.0:8080 failed: port is already allocated","spanID":"f4195ae1b31af513","time":"2026-04-07T23:10:07.403867472Z","traceID":"dc53c78982999847b6bedacb867ba506"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.6:421:{"component":"volume","level":"warning","msg":"hostPathOfVolume operator_guidance_pgdata failed, skipping bind","time":"2026-04-07T23:10:15.966776545Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.6:586:{"component":"dockerd","error":"Bind for 0.0.0.0:8080 failed: port is already allocated","level":"warning","msg":"Failed to allocate port","time":"2026-04-07T23:10:24.518240257Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.6:590:{"component":"dockerd","level":"error","msg":"Handler for POST /v1.51/containers/179deaefa56f7d8f0e68dc2164a757467e05d46f4073ccabbdcb4191253bc989/start returned error: failed to set up container networking: driver failed programming external connectivity on endpoint operator_guidance-dashboard-1 (23b9117494be720f71d38ba5d1bb52d5cca8ea8c6e32a0c1706957c9b817e57b): Bind for 0.0.0.0:8080 failed: port is already allocated","spanID":"b97da38def04662c","time":"2026-04-07T23:10:24.578434549Z","traceID":"4eb9db5e87ed01ab54c6f01c37fb389f"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.6:777:{"component":"volume","level":"warning","msg":"hostPathOfVolume phase65_wiring_pgdata failed, skipping bind","time":"2026-04-07T23:12:20.083875672Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.6:1108:{"component":"volume","level":"warning","msg":"hostPathOfVolume operator_guidance_pgdata failed, skipping bind","time":"2026-04-07T23:12:37.675598305Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.6:3090:{"component":"dockerd","error":"Bind for 0.0.0.0:8080 failed: port is already allocated","level":"warning","msg":"Failed to allocate port","time":"2026-04-08T00:36:56.733422551Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.6:3096:{"component":"dockerd","level":"error","msg":"Handler for POST /v1.51/containers/fee62e9f2e88cad5a1600f3ec2391b53c4231ced04e3ac0004dc0f0c2b177682/start returned error: failed to set up container networking: driver failed programming external connectivity on endpoint shell_33f5c0e2-dashboard-1 (a4de6c518245d0b4d0a3cf610f6750a5021efd7ae9c4c8bccc34fbb18346ba31): Bind for 0.0.0.0:8080 failed: port is already allocated","spanID":"ed8d54c93157047a","time":"2026-04-08T00:36:56.801898051Z","traceID":"37cfdf2adc9de275d5baf009997008f7"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.6:3347:{"component":"dockerd","error":"Bind for 0.0.0.0:8080 failed: port is already allocated","level":"warning","msg":"Failed to allocate port","time":"2026-04-08T00:37:14.004100712Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.6:3352:{"component":"dockerd","level":"error","msg":"Handler for POST /v1.51/containers/b640307f1eca5cb6538567bf72451b7bdc7b12657ccaf5b8b14afe05d22c43d2/start returned error: failed to set up container networking: driver failed programming external connectivity on endpoint shell_c63a60e7-dashboard-1 (d9991759fbc1453b4e0f7d857d3dedf06935dd3cae0870b2f88129ecc554f8a7): Bind for 0.0.0.0:8080 failed: port is already allocated","spanID":"26f9f9108d426b6c","time":"2026-04-08T00:37:14.065661628Z","traceID":"e18149aa459737e741a7b993176c9acc"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.6:3607:{"component":"dockerd","error":"Bind for 0.0.0.0:8080 failed: port is already allocated","level":"warning","msg":"Failed to allocate port","time":"2026-04-08T00:37:31.289618970Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.6:3613:{"component":"dockerd","level":"error","msg":"Handler for POST /v1.51/containers/99ecdc82947235f651dc111caed6d5024d89bfa32e8c65bf23d57089ce3f12e9/start returned error: failed to set up container networking: driver failed programming external connectivity on endpoint shell_ecac1fb1-dashboard-1 (bc185abf11b64647daff9ef6589610b8d2aa4837304cc507e43e36067e404598): Bind for 0.0.0.0:8080 failed: port is already allocated","spanID":"00eb464de5e0785a","time":"2026-04-08T00:37:31.347819928Z","traceID":"4e64d5b4c95b32788e3055e2cf1811e8"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.6:3874:{"component":"dockerd","error":"Bind for 0.0.0.0:8080 failed: port is already allocated","level":"warning","msg":"Failed to allocate port","time":"2026-04-08T00:37:48.480482589Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.6:3879:{"component":"dockerd","level":"error","msg":"Handler for POST /v1.51/containers/003f277208a3807bd22987451076421bbe493272d1dd8c7b92c03de6d4ec63b9/start returned error: failed to set up container networking: driver failed programming external connectivity on endpoint shell_27b7ddf3-dashboard-1 (11099cef4e08607f55c3e15e04ce8855c280ba5f4be791d1097dd534e47330cc): Bind for 0.0.0.0:8080 failed: port is already allocated","spanID":"8f5aac173ac47a54","time":"2026-04-08T00:37:48.550194131Z","traceID":"50024ff29b6324ba538b02d6f2e76cc9"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.6:4141:{"component":"dockerd","error":"Bind for 0.0.0.0:8080 failed: port is already allocated","level":"warning","msg":"Failed to allocate port","time":"2026-04-08T00:38:05.743214764Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.6:4148:{"component":"dockerd","level":"error","msg":"Handler for POST /v1.51/containers/4a37c68749f19d6258d1cc71ef093429ec9e3eebc60ba69d734f5fefc5fcd894/start returned error: failed to set up container networking: driver failed programming external connectivity on endpoint shell_244cdde5-dashboard-1 (b8e7f5a3ad5bbefb16da0818f9e88a31d9e1d57c7ced881ddc4a10f3583b2cd2): Bind for 0.0.0.0:8080 failed: port is already allocated","spanID":"37a190017a1dfe9a","time":"2026-04-08T00:38:05.808029597Z","traceID":"4aa70cbdab9e0cd01f8ab58ab6e9f907"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.1:812:{"component":"dockerd","container":"40f710ea1d937e80135d9286a720f869cb94049dad6361d191a4cf9aac345356","level":"info","msg":"Container failed to exit within 1s of signal 15 - using the force","spanID":"1e37e98b2525a599","time":"2026-04-08T20:27:55.411623846Z","traceID":"f388bd56a4149672f2bbef4f825d6052"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.1:1382:{"component":"dockerd","container":"c900790682036eb00a2a9b9b924977a2a168e186d044aa96590a403ec020f671","level":"info","msg":"Container failed to exit within 1s of signal 15 - using the force","spanID":"2bf476214f227b23","time":"2026-04-08T20:36:11.775939722Z","traceID":"90de5dee4bb1463ebae0152a26dd6089"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.1:1735:{"component":"volume","level":"warning","msg":"hostPathOfVolume motherboard_systems_hq_pgdata failed, skipping bind","time":"2026-04-08T20:36:13.880577084Z"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.1:2454:{"component":"dockerd","container":"2b5a8563960d42947a2d7aa54b0955205e4d8ef75e8fc1d2d2930902931ac502","level":"info","msg":"Container failed to exit within 1s of signal 15 - using the force","spanID":"71f9303abb733de3","time":"2026-04-08T20:45:16.245448710Z","traceID":"bbe85b9817de55512a9007940c96ebea"}
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.2:2695:INFO[26869] {"container":"860fdaa2057763dc29562f4c2ef0de1bc65876cfc9d0c728644d9353ad0052c6","level":"info","msg":"Container failed to exit within 1s of signal 15 - using the force","spanID":"188d55e281576952","time":"2026-04-08T17:55:06.721186756Z","traceID":"2f11e66c1425a2babbadf2c0c4979a77"}  component=dockerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.2:2756:[2026-04-08T17:55:06.925185756Z][initd.ipc] (2f2603a2-22) 48124399-socketforwarder S<-C af1a9106-volume GET /list
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.2:2757:[2026-04-08T17:55:06.925499172Z][initd.ipc] (2f2603a2-22) 48124399-socketforwarder S->C af1a9106-volume GET /list (333.833µs): []
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.2:2997:INFO[26961] {"container":"330fe11d57d0903015e8bf421a59d58aea2eccb4b820933f8bff2ce2bab840e2","level":"info","msg":"Container failed to exit within 1s of signal 15 - using the force","spanID":"f6d0a1432301cadd","time":"2026-04-08T17:56:38.378966215Z","traceID":"10c44bed38f292ebcb286a6cb560f479"}  component=dockerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.2:3053:[2026-04-08T17:56:38.577030715Z][initd.ipc] (2f2603a2-23) 48124399-socketforwarder S<-C af1a9106-volume GET /list
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.2:3054:[2026-04-08T17:56:38.577151756Z][initd.ipc] (2f2603a2-23) 48124399-socketforwarder S->C af1a9106-volume GET /list (121.583µs): []
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.2:3819:INFO[27447] {"container":"57ab9be70a7f765790c09eae85f7203abfab57af2dc1cdeab0b5817ec54fb3b2","level":"info","msg":"Container failed to exit within 1s of signal 15 - using the force","spanID":"e8c4e59acaec1f80","time":"2026-04-08T18:04:44.518990259Z","traceID":"940fd971e4c286b82f9f60e4afe75d87"}  component=dockerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.2:3879:[2026-04-08T18:04:44.710748343Z][initd.ipc] (2f2603a2-24) 48124399-socketforwarder S<-C af1a9106-volume GET /list
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.2:3880:[2026-04-08T18:04:44.711053301Z][initd.ipc] (2f2603a2-24) 48124399-socketforwarder S->C af1a9106-volume GET /list (308.541µs): []
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.2:4229:INFO[27651] {"container":"c85c1e45ef82406c1b95e05b2a4159a719584126552de129cce81861330149e9","level":"info","msg":"Container failed to exit within 1s of signal 15 - using the force","spanID":"ee25f2b637dd2c10","time":"2026-04-08T18:08:08.113176256Z","traceID":"d13ead17dc860df3ac0d303d629bf023"}  component=dockerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.2:4289:[2026-04-08T18:08:08.302102423Z][initd.ipc] (2f2603a2-25) 48124399-socketforwarder S<-C af1a9106-volume GET /list
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.2:4290:[2026-04-08T18:08:08.302294006Z][initd.ipc] (2f2603a2-25) 48124399-socketforwarder S->C af1a9106-volume GET /list (198.125µs): []
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.2:5071:INFO[28314] {"container":"f140d9c041577df53992ea44860192bb5a180fd6000a8b16489e2d4bb8f98af0","level":"info","msg":"Container failed to exit within 1s of signal 15 - using the force","spanID":"02ba49e69e86f77d","time":"2026-04-08T18:19:11.847514675Z","traceID":"6600e4129dfb64b65974bf7ac503ce06"}  component=dockerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.2:5132:[2026-04-08T18:19:12.046662925Z][initd.ipc] (2f2603a2-26) 48124399-socketforwarder S<-C af1a9106-volume GET /list
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.2:5133:[2026-04-08T18:19:12.046779550Z][initd.ipc] (2f2603a2-26) 48124399-socketforwarder S->C af1a9106-volume GET /list (116.666µs): []
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.2:5686:INFO[28686] {"container":"2825aa1406897ff42ed6e0e1aa95a8a4f1d478f089aa1134d7763ca5d0152545","level":"info","msg":"Container failed to exit within 1s of signal 15 - using the force","spanID":"39b2fb48e55d73ea","time":"2026-04-08T18:25:23.054856138Z","traceID":"bedf8e8301358de0a3f3cefc80fb5939"}  component=dockerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.2:5747:[2026-04-08T18:25:23.258006763Z][initd.ipc] (2f2603a2-27) 48124399-socketforwarder S<-C af1a9106-volume GET /list
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.2:5748:[2026-04-08T18:25:23.258200430Z][initd.ipc] (2f2603a2-27) 48124399-socketforwarder S->C af1a9106-volume GET /list (195.458µs): []
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.2:6366:INFO[29185] {"container":"6a55097e6d165de71756b7f62f17094f4493fc1fcf51fdbb5009d8ba129e82f6","level":"info","msg":"Container failed to exit within 1s of signal 15 - using the force","spanID":"164fd54451ea4813","time":"2026-04-08T18:33:42.520334966Z","traceID":"09557c528b684baa0a211191a18d0639"}  component=dockerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.2:6428:[2026-04-08T18:33:42.708852342Z][initd.ipc] (2f2603a2-28) 48124399-socketforwarder S<-C af1a9106-volume GET /list
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.2:6429:[2026-04-08T18:33:42.708961217Z][initd.ipc] (2f2603a2-28) 48124399-socketforwarder S->C af1a9106-volume GET /list (114.958µs): []
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:83:WARN[8856] hostPathOfVolume mbhq_phase65_wiring_pgdata failed, skipping bind  component=volume
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:93:INFO[8856] {"error":"Bind for 0.0.0.0:5432 failed: port is already allocated","level":"warning","msg":"Failed to allocate port","time":"2026-04-07T19:39:11.200685585Z"}  component=dockerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:101:INFO[8856] {"level":"error","msg":"Handler for POST /v1.51/containers/7550b073936b2dc2d9da59aaaee950c7f2c332f6386903954eee8c569c8a6e76/start returned error: failed to set up container networking: driver failed programming external connectivity on endpoint mbhq_phase65_wiring-postgres-1 (4571c0cc241b1cf5b75a9b7108e61821595601ecf6991724e0f8ea4a238a4e8a): Bind for 0.0.0.0:5432 failed: port is already allocated","spanID":"50e882e6046e4bd9","time":"2026-04-07T19:39:11.267948668Z","traceID":"ef02cc9b9b74031d64e6bde4a78d1f13"}  component=dockerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:104:[2026-04-07T19:39:11.271093502Z][initd.ipc] (c2d6fba4-13) 48124399-socketforwarder S<-C 7e147ad5-volume GET /list
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:105:[2026-04-07T19:39:11.271166252Z][initd.ipc] (c2d6fba4-13) 48124399-socketforwarder S->C 7e147ad5-volume GET /list (73.458µs): []
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:328:WARN[8869] hostPathOfVolume mbhq_operator_guidance_pgdata failed, skipping bind  component=volume
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:339:INFO[8869] {"error":"Bind for 0.0.0.0:5432 failed: port is already allocated","level":"warning","msg":"Failed to allocate port","time":"2026-04-07T19:39:23.578179841Z"}  component=dockerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:347:INFO[8869] {"level":"error","msg":"Handler for POST /v1.51/containers/e255821b46d3ca0d551ac072654bf72830a95ff9785e4710274253c91dd9e72d/start returned error: failed to set up container networking: driver failed programming external connectivity on endpoint mbhq_operator_guidance-postgres-1 (5e9265b8ac75ee064f6fd19bc61cde66259b65e90152435c3fb8c9ef74d9a662): Bind for 0.0.0.0:5432 failed: port is already allocated","spanID":"f412780a1adc5cd2","time":"2026-04-07T19:39:23.643393591Z","traceID":"55dbe81502dfbcaf254196f39a210ae9"}  component=dockerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:350:[2026-04-07T19:39:23.645720591Z][initd.ipc] (c2d6fba4-14) 48124399-socketforwarder S<-C 7e147ad5-volume GET /list
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:351:[2026-04-07T19:39:23.645781299Z][initd.ipc] (c2d6fba4-14) 48124399-socketforwarder S->C 7e147ad5-volume GET /list (59.667µs): []
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:599:WARN[9023] hostPathOfVolume mbhq_phase65_layout_pgdata failed, skipping bind  component=volume
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:610:INFO[9023] {"error":"Bind for 0.0.0.0:5432 failed: port is already allocated","level":"warning","msg":"Failed to allocate port","time":"2026-04-07T19:41:58.341529010Z"}  component=dockerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:616:INFO[9024] {"level":"error","msg":"Handler for POST /v1.51/containers/f4606280cdd90dd3122c7df8096186b22275adfb5a54bec4b5e92e308ad10b39/start returned error: failed to set up container networking: driver failed programming external connectivity on endpoint mbhq_phase65_layout-postgres-1 (97e3ad3263a8d9620e7719f294b71e4c6143eb4cbc51febb05b9a2a1035413f0): Bind for 0.0.0.0:5432 failed: port is already allocated","spanID":"4c894c5cb28d49e6","time":"2026-04-07T19:41:58.400854593Z","traceID":"eb11a2df5ae44a50ecebef1cd0645bf1"}  component=dockerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:619:[2026-04-07T19:41:58.402855135Z][initd.ipc] (c2d6fba4-15) 48124399-socketforwarder S<-C 7e147ad5-volume GET /list
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:620:[2026-04-07T19:41:58.402907843Z][initd.ipc] (c2d6fba4-15) 48124399-socketforwarder S->C 7e147ad5-volume GET /list (52.875µs): []
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:844:WARN[9035] hostPathOfVolume mbhq_phase65_wiring_pgdata failed, skipping bind  component=volume
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:855:INFO[9035] {"error":"Bind for 0.0.0.0:5432 failed: port is already allocated","level":"warning","msg":"Failed to allocate port","time":"2026-04-07T19:42:10.022863376Z"}  component=dockerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:863:INFO[9035] {"level":"error","msg":"Handler for POST /v1.51/containers/9eea4966f57d28ea5c11c62762771a715257cc312a5f76b60d9946884036aba6/start returned error: failed to set up container networking: driver failed programming external connectivity on endpoint mbhq_phase65_wiring-postgres-1 (a8eeab19cec7304b085650bf1049676f581c67c59bf00827ecef1198cc3b0a53): Bind for 0.0.0.0:5432 failed: port is already allocated","spanID":"9b93d4a19a668790","time":"2026-04-07T19:42:10.096647251Z","traceID":"4ee3af013fd781703fa576c28011e155"}  component=dockerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:866:[2026-04-07T19:42:10.098544084Z][initd.ipc] (c2d6fba4-16) 48124399-socketforwarder S<-C 7e147ad5-volume GET /list
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:867:[2026-04-07T19:42:10.098667293Z][initd.ipc] (c2d6fba4-16) 48124399-socketforwarder S->C 7e147ad5-volume GET /list (124.5µs): []
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:1118:WARN[9047] hostPathOfVolume mbhq_operator_guidance_pgdata failed, skipping bind  component=volume
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:1129:INFO[9047] {"error":"Bind for 0.0.0.0:5432 failed: port is already allocated","level":"warning","msg":"Failed to allocate port","time":"2026-04-07T19:42:21.998709965Z"}  component=dockerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:1138:INFO[9047] {"level":"error","msg":"Handler for POST /v1.51/containers/9e4817a9d3c47f144ed61292eef95fb70b224f9c6bc71863b8088114d9442147/start returned error: failed to set up container networking: driver failed programming external connectivity on endpoint mbhq_operator_guidance-postgres-1 (ec4e3f8ead6ac315eeb87497b6a84a36f2c8d15515169b404dfd09474ba766fa): Bind for 0.0.0.0:5432 failed: port is already allocated","spanID":"c2e1fc51e43e8f31","time":"2026-04-07T19:42:22.044708173Z","traceID":"def4995427d3229a4598139148e9f6ba"}  component=dockerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:1141:[2026-04-07T19:42:22.046565173Z][initd.ipc] (c2d6fba4-17) 48124399-socketforwarder S<-C 7e147ad5-volume GET /list
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:1142:[2026-04-07T19:42:22.046614673Z][initd.ipc] (c2d6fba4-17) 48124399-socketforwarder S->C 7e147ad5-volume GET /list (53.291µs): []
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:1427:WARN[9233] hostPathOfVolume phase65_layout_pgdata failed, skipping bind  component=volume
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:1438:INFO[9233] {"error":"Bind for 0.0.0.0:5432 failed: port is already allocated","level":"warning","msg":"Failed to allocate port","time":"2026-04-07T19:45:27.521683134Z"}  component=dockerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:1445:INFO[9233] {"level":"error","msg":"Handler for POST /v1.51/containers/3c7127964270482566ad6855410fe167f022fea1409161bc8ab9d9a15163a87c/start returned error: failed to set up container networking: driver failed programming external connectivity on endpoint phase65_layout-postgres-1 (284d0afab097381917e8e3141c90a2759c1f2eb20a2da04f005f8d6bbf39d144): Bind for 0.0.0.0:5432 failed: port is already allocated","spanID":"ddb579c2e8ca0cf7","time":"2026-04-07T19:45:27.597432801Z","traceID":"a3717b1c6984342f8e4c54dd4dce909d"}  component=dockerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:1448:[2026-04-07T19:45:27.599438801Z][initd.ipc] (c2d6fba4-18) 48124399-socketforwarder S<-C 7e147ad5-volume GET /list
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:1449:[2026-04-07T19:45:27.599499426Z][initd.ipc] (c2d6fba4-18) 48124399-socketforwarder S->C 7e147ad5-volume GET /list (61.709µs): []
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:1661:WARN[9234] hostPathOfVolume phase65_wiring_pgdata failed, skipping bind  component=volume
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:1672:INFO[9234] {"error":"Bind for 0.0.0.0:5432 failed: port is already allocated","level":"warning","msg":"Failed to allocate port","time":"2026-04-07T19:45:28.758321260Z"}  component=dockerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:1678:INFO[9234] {"level":"error","msg":"Handler for POST /v1.51/containers/c29fd0367921597bc87e122b94b6d9199189735e69a0343bfb1e2a0ae3f85f24/start returned error: failed to set up container networking: driver failed programming external connectivity on endpoint phase65_wiring-postgres-1 (8c484ee7b227372419cb278d113d5066d8ec7ee7c20159904be09b85ee60917c): Bind for 0.0.0.0:5432 failed: port is already allocated","spanID":"fd9b7ddee5cadea0","time":"2026-04-07T19:45:28.820682885Z","traceID":"4539cf18c3f3bed723327ca54f6c121d"}  component=dockerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:1681:[2026-04-07T19:45:28.822668510Z][initd.ipc] (c2d6fba4-19) 48124399-socketforwarder S<-C 7e147ad5-volume GET /list
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:1682:[2026-04-07T19:45:28.822714843Z][initd.ipc] (c2d6fba4-19) 48124399-socketforwarder S->C 7e147ad5-volume GET /list (46.667µs): []
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:1895:WARN[9235] hostPathOfVolume operator_guidance_pgdata failed, skipping bind  component=volume
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:1906:INFO[9235] {"error":"Bind for 0.0.0.0:5432 failed: port is already allocated","level":"warning","msg":"Failed to allocate port","time":"2026-04-07T19:45:29.891389552Z"}  component=dockerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:1912:INFO[9235] {"level":"error","msg":"Handler for POST /v1.51/containers/b1d145429367606eaa76ccc38c999f8557660797303d6df782b4a2607d1a9b03/start returned error: failed to set up container networking: driver failed programming external connectivity on endpoint operator_guidance-postgres-1 (11804b8738372b8107212c58cee8585256943ece9011ba3fa07d7584b0191404): Bind for 0.0.0.0:5432 failed: port is already allocated","spanID":"7d3e24f876df4781","time":"2026-04-07T19:45:29.950666886Z","traceID":"70e9b85eb0a2187d600ce0945da936c4"}  component=dockerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:1915:[2026-04-07T19:45:29.952447552Z][initd.ipc] (c2d6fba4-20) 48124399-socketforwarder S<-C 7e147ad5-volume GET /list
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:1916:[2026-04-07T19:45:29.952497552Z][initd.ipc] (c2d6fba4-20) 48124399-socketforwarder S->C 7e147ad5-volume GET /list (48.834µs): []
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:2198:WARN[9408] hostPathOfVolume phase65_layout_pgdata failed, skipping bind  component=volume
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:2209:INFO[9408] {"error":"Bind for 0.0.0.0:5432 failed: port is already allocated","level":"warning","msg":"Failed to allocate port","time":"2026-04-07T19:48:23.183624841Z"}  component=dockerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:2217:INFO[9408] {"level":"error","msg":"Handler for POST /v1.51/containers/89e174f0d9e1d87f2b33f45667f31d7bc3c80011b9fb2b759d58d905bcb23f7d/start returned error: failed to set up container networking: driver failed programming external connectivity on endpoint phase65_layout-postgres-1 (88feeb78ac86d5378707362bd06c6a0d19ee86b6b3d78e99afd95a826221f038): Bind for 0.0.0.0:5432 failed: port is already allocated","spanID":"ace6ca9e74cc9bee","time":"2026-04-07T19:48:23.247383632Z","traceID":"c9da2cb9a3a35110486980c54a6f46a7"}  component=dockerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:2220:[2026-04-07T19:48:23.250121799Z][initd.ipc] (c2d6fba4-21) 48124399-socketforwarder S<-C 7e147ad5-volume GET /list
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:2221:[2026-04-07T19:48:23.250199091Z][initd.ipc] (c2d6fba4-21) 48124399-socketforwarder S->C 7e147ad5-volume GET /list (76.959µs): []
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:2628:WARN[9745] hostPathOfVolume mbhq_phase65_layout_pgdata failed, skipping bind  component=volume
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:2704:[2026-04-07T19:54:00.619402386Z][initd.ipc] (2f2603a2-8) 48124399-socketforwarder S<-C af1a9106-volume GET /list
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:2705:[2026-04-07T19:54:00.619535761Z][initd.ipc] (2f2603a2-8) 48124399-socketforwarder S->C af1a9106-volume GET /list (151.459µs): []
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:2967:WARN[9756] hostPathOfVolume mbhq_phase65_wiring_pgdata failed, skipping bind  component=volume
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:2990:INFO[9756] {"error":"Bind for 0.0.0.0:8080 failed: port is already allocated","level":"warning","msg":"Failed to allocate port","time":"2026-04-07T19:54:10.648153835Z"}  component=dockerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:3015:INFO[9756] {"level":"error","msg":"Handler for POST /v1.51/containers/1140e81517ba56bf67e1f1ab56ff8e3d92124221d25bdc381855c4398d7185e2/start returned error: failed to set up container networking: driver failed programming external connectivity on endpoint mbhq_phase65_wiring-dashboard-1 (146e0812b57792a1df58f7e4664f315bde80dd83208abd3c4c29e10b670dc23d): Bind for 0.0.0.0:8080 failed: port is already allocated","spanID":"e4916486ef4cb201","time":"2026-04-07T19:54:10.737168043Z","traceID":"fc6dd885f2c54776c56c85f5243e107c"}  component=dockerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:3017:[2026-04-07T19:54:10.739193460Z][initd.ipc] (c2d6fba4-22) 48124399-socketforwarder S<-C 7e147ad5-volume GET /list
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:3018:[2026-04-07T19:54:10.739279251Z][initd.ipc] (c2d6fba4-22) 48124399-socketforwarder S->C 7e147ad5-volume GET /list (85.084µs): []
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:3274:WARN[9767] hostPathOfVolume mbhq_operator_guidance_pgdata failed, skipping bind  component=volume
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:3314:INFO[9767] {"error":"Bind for 0.0.0.0:8080 failed: port is already allocated","level":"warning","msg":"Failed to allocate port","time":"2026-04-07T19:54:21.982708840Z"}  component=dockerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:3320:INFO[9767] {"level":"error","msg":"Handler for POST /v1.51/containers/c22360a986d0be7d6a0a623659066ecb92388adcd3043faa86cdb031b87b11b0/start returned error: failed to set up container networking: driver failed programming external connectivity on endpoint mbhq_operator_guidance-dashboard-1 (85164b9166201c7db8a9ac2486c0814bb849cbcd11010b3d826da5107910075e): Bind for 0.0.0.0:8080 failed: port is already allocated","spanID":"4351478f9231c1af","time":"2026-04-07T19:54:22.061305757Z","traceID":"6320d8c1bcefbb8a4a226a94585a986c"}  component=dockerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:3322:[2026-04-07T19:54:22.063459715Z][initd.ipc] (c2d6fba4-23) 48124399-socketforwarder S<-C 7e147ad5-volume GET /list
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:3323:[2026-04-07T19:54:22.063523840Z][initd.ipc] (c2d6fba4-23) 48124399-socketforwarder S->C 7e147ad5-volume GET /list (63.417µs): []
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:3591:WARN[10075] hostPathOfVolume phase65_layout_pgdata failed, skipping bind  component=volume
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:3661:INFO[10081] {"error":"Bind for 0.0.0.0:8080 failed: port is already allocated","level":"warning","msg":"Failed to allocate port","time":"2026-04-07T19:59:36.034805013Z"}  component=dockerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:3667:INFO[10081] {"level":"error","msg":"Handler for POST /v1.51/containers/096e21f5a5eae0bb1d479e5350cbef1fbd0ae75333746b63d97b47e974b900fd/start returned error: failed to set up container networking: driver failed programming external connectivity on endpoint phase65_layout-dashboard-1 (cc7f516fe89a7e9069e677dde62f306b946e2e0c7f5d7ae17cb3399b87a19a9b): Bind for 0.0.0.0:8080 failed: port is already allocated","spanID":"42238b6dc0cebd77","time":"2026-04-07T19:59:36.099688680Z","traceID":"f37cd8077b1e5546d04940477b82c3dd"}  component=dockerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:3670:[2026-04-07T19:59:36.101580888Z][initd.ipc] (c2d6fba4-24) 48124399-socketforwarder S<-C 7e147ad5-volume GET /list
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:3671:[2026-04-07T19:59:36.101638972Z][initd.ipc] (c2d6fba4-24) 48124399-socketforwarder S->C 7e147ad5-volume GET /list (59.917µs): []
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:3718:[2026-04-07T20:00:07.221424833Z][initd.ipc] (2f2603a2-9) 48124399-socketforwarder S<-C af1a9106-volume GET /list
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:3719:[2026-04-07T20:00:07.221588791Z][initd.ipc] (2f2603a2-9) 48124399-socketforwarder S->C af1a9106-volume GET /list (163.708µs): []
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:3895:WARN[10117] hostPathOfVolume phase65_layout_pgdata failed, skipping bind  component=volume
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:3967:[2026-04-07T20:00:13.022234752Z][initd.ipc] (2f2603a2-10) 48124399-socketforwarder S<-C af1a9106-volume GET /list
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:3968:[2026-04-07T20:00:13.022376669Z][initd.ipc] (2f2603a2-10) 48124399-socketforwarder S->C af1a9106-volume GET /list (142.542µs): []
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:4129:[2026-04-07T20:04:06.398418597Z][initd.ipc] (2f2603a2-11) 48124399-socketforwarder S<-C af1a9106-volume GET /list
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:4130:[2026-04-07T20:04:06.398500055Z][initd.ipc] (2f2603a2-11) 48124399-socketforwarder S->C af1a9106-volume GET /list (78.042µs): []
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:4194:WARN[10352] hostPathOfVolume phase65_layout_pgdata failed, skipping bind  component=volume
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:4478:WARN[10472] hostPathOfVolume phase65_wiring_pgdata failed, skipping bind  component=volume
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:4641:INFO[10480] {"error":"Bind for 0.0.0.0:8080 failed: port is already allocated","level":"warning","msg":"Failed to allocate port","time":"2026-04-07T20:06:15.275830128Z"}  component=dockerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:4647:INFO[10481] {"level":"error","msg":"Handler for POST /v1.51/containers/2929564d9dc4e13f39f76c2f3710e3206da7abe37165fd64849831cbccf926f9/start returned error: failed to set up container networking: driver failed programming external connectivity on endpoint phase65_wiring-dashboard-1 (1de32d3fa4d8d6b12c6cecd9c271f79b0970ebaf22d11c40b42d3e877bd16019): Bind for 0.0.0.0:8080 failed: port is already allocated","spanID":"4228bd20b11c0092","time":"2026-04-07T20:06:15.341408420Z","traceID":"f0cc30ad9cc6e492fadbdf487fe427a0"}  component=dockerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:4650:[2026-04-07T20:06:15.343469170Z][initd.ipc] (c2d6fba4-25) 48124399-socketforwarder S<-C 7e147ad5-volume GET /list
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:4651:[2026-04-07T20:06:15.343546003Z][initd.ipc] (c2d6fba4-25) 48124399-socketforwarder S->C 7e147ad5-volume GET /list (79.667µs): []
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:4903:[2026-04-07T20:26:20.499619210Z][initd.ipc] (2f2603a2-12) 48124399-socketforwarder S<-C af1a9106-volume GET /list
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:4904:[2026-04-07T20:26:20.499730585Z][initd.ipc] (2f2603a2-12) 48124399-socketforwarder S->C af1a9106-volume GET /list (111.583µs): []
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:4970:WARN[10687] hostPathOfVolume phase65_wiring_pgdata failed, skipping bind  component=volume
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:5131:INFO[10695] {"error":"Bind for 0.0.0.0:8080 failed: port is already allocated","level":"warning","msg":"Failed to allocate port","time":"2026-04-07T20:26:28.419050089Z"}  component=dockerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:5137:INFO[10695] {"level":"error","msg":"Handler for POST /v1.51/containers/9641a4a455211417484d516f68efb2b0b825ef1ec9a16d030383b1325bd4a549/start returned error: failed to set up container networking: driver failed programming external connectivity on endpoint phase65_wiring-dashboard-1 (5eb007cc1118bbd185ce0c4fb5af62174fc5798788f853d031b6fbe60c81d2ab): Bind for 0.0.0.0:8080 failed: port is already allocated","spanID":"3f4ada1434daccac","time":"2026-04-07T20:26:28.487275839Z","traceID":"f933dd977c32fb7abb0ae4d781604202"}  component=dockerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:5140:[2026-04-07T20:26:28.489504172Z][initd.ipc] (c2d6fba4-26) 48124399-socketforwarder S<-C 7e147ad5-volume GET /list
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:5141:[2026-04-07T20:26:28.489590172Z][initd.ipc] (c2d6fba4-26) 48124399-socketforwarder S->C 7e147ad5-volume GET /list (86.042µs): []
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:5493:[2026-04-07T23:07:15.026979669Z][initd.ipc] (2f2603a2-13) 48124399-socketforwarder S<-C af1a9106-volume GET /list
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:5494:[2026-04-07T23:07:15.027215919Z][initd.ipc] (2f2603a2-13) 48124399-socketforwarder S->C af1a9106-volume GET /list (263.542µs): []
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:5559:WARN[10900] hostPathOfVolume phase65_wiring_pgdata failed, skipping bind  component=volume
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:5692:INFO[10907] {"error":"Bind for 0.0.0.0:8080 failed: port is already allocated","level":"warning","msg":"Failed to allocate port","time":"2026-04-07T23:07:22.919830715Z"}  component=dockerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:5726:INFO[10907] {"level":"error","msg":"Handler for POST /v1.51/containers/9eb9b3c1ed691454cafb9567da2cdf063f550d424c4e28b9c137c78be118ea1d/start returned error: failed to set up container networking: driver failed programming external connectivity on endpoint phase65_wiring-dashboard-1 (06f81b54e2e3a098ca682d8b5937a7108edd98cc3fbb859122effecced11e696): Bind for 0.0.0.0:8080 failed: port is already allocated","spanID":"bc82ba3f9f2f88f5","time":"2026-04-07T23:07:22.987040423Z","traceID":"2c83bf35005d82c9cb5b8de3a5ee14b0"}  component=dockerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:5729:[2026-04-07T23:07:22.989115798Z][initd.ipc] (c2d6fba4-27) 48124399-socketforwarder S<-C 7e147ad5-volume GET /list
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:5730:[2026-04-07T23:07:22.989187215Z][initd.ipc] (c2d6fba4-27) 48124399-socketforwarder S->C 7e147ad5-volume GET /list (71.334µs): []
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:5877:[2026-04-07T23:09:59.560428343Z][initd.ipc] (2f2603a2-14) 48124399-socketforwarder S<-C af1a9106-volume GET /list
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:5878:[2026-04-07T23:09:59.560559301Z][initd.ipc] (2f2603a2-14) 48124399-socketforwarder S->C af1a9106-volume GET /list (153.666µs): []
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:5944:WARN[11064] hostPathOfVolume phase65_wiring_pgdata failed, skipping bind  component=volume
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:6083:INFO[11072] {"error":"Bind for 0.0.0.0:8080 failed: port is already allocated","level":"warning","msg":"Failed to allocate port","time":"2026-04-07T23:10:07.336189430Z"}  component=dockerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:6089:INFO[11072] {"level":"error","msg":"Handler for POST /v1.51/containers/8084ad5d054174bfe537b4d8eca0f1fab19972828adaaa8aee45ae8a5427e8cc/start returned error: failed to set up container networking: driver failed programming external connectivity on endpoint phase65_wiring-dashboard-1 (6a8bca79b03ac113a0bc6fe73132bccfaf127e3c2d81dd22c871c2855dfd03fc): Bind for 0.0.0.0:8080 failed: port is already allocated","spanID":"f4195ae1b31af513","time":"2026-04-07T23:10:07.403867472Z","traceID":"dc53c78982999847b6bedacb867ba506"}  component=dockerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:6092:[2026-04-07T23:10:07.405670972Z][initd.ipc] (c2d6fba4-28) 48124399-socketforwarder S<-C 7e147ad5-volume GET /list
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:6093:[2026-04-07T23:10:07.405723847Z][initd.ipc] (c2d6fba4-28) 48124399-socketforwarder S->C 7e147ad5-volume GET /list (52.375µs): []
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:6211:WARN[11080] hostPathOfVolume operator_guidance_pgdata failed, skipping bind  component=volume
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:6380:INFO[11089] {"error":"Bind for 0.0.0.0:8080 failed: port is already allocated","level":"warning","msg":"Failed to allocate port","time":"2026-04-07T23:10:24.518240257Z"}  component=dockerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:6385:INFO[11089] {"level":"error","msg":"Handler for POST /v1.51/containers/179deaefa56f7d8f0e68dc2164a757467e05d46f4073ccabbdcb4191253bc989/start returned error: failed to set up container networking: driver failed programming external connectivity on endpoint operator_guidance-dashboard-1 (23b9117494be720f71d38ba5d1bb52d5cca8ea8c6e32a0c1706957c9b817e57b): Bind for 0.0.0.0:8080 failed: port is already allocated","spanID":"b97da38def04662c","time":"2026-04-07T23:10:24.578434549Z","traceID":"4eb9db5e87ed01ab54c6f01c37fb389f"}  component=dockerd
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:6388:[2026-04-07T23:10:24.581498632Z][initd.ipc] (c2d6fba4-29) 48124399-socketforwarder S<-C 7e147ad5-volume GET /list
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:6389:[2026-04-07T23:10:24.581593966Z][initd.ipc] (c2d6fba4-29) 48124399-socketforwarder S->C 7e147ad5-volume GET /list (102.292µs): []
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:6508:[2026-04-07T23:12:19.724566088Z][initd.ipc] (2f2603a2-15) 48124399-socketforwarder S<-C af1a9106-volume GET /list
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:6509:[2026-04-07T23:12:19.724645505Z][initd.ipc] (2f2603a2-15) 48124399-socketforwarder S->C af1a9106-volume GET /list (79.5µs): []
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:6577:WARN[11204] hostPathOfVolume phase65_wiring_pgdata failed, skipping bind  component=volume
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:6849:[2026-04-07T23:12:37.299945430Z][initd.ipc] (2f2603a2-16) 48124399-socketforwarder S<-C af1a9106-volume GET /list
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:6850:[2026-04-07T23:12:37.300141930Z][initd.ipc] (2f2603a2-16) 48124399-socketforwarder S->C af1a9106-volume GET /list (196.042µs): []
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5:6917:WARN[11222] hostPathOfVolume operator_guidance_pgdata failed, skipping bind  component=volume
+
+=== DOCKER CLI CHECKS ===
+Client:
+ Version:    29.1.3
+ Context:    desktop-linux
+ Debug Mode: false
+ Plugins:
+  ai: Docker AI Agent - Ask Gordon (Docker Inc.)
+    Version:  v1.17.1
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-ai
+  buildx: Docker Buildx (Docker Inc.)
+    Version:  v0.30.1-desktop.1
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-buildx
+  compose: Docker Compose (Docker Inc.)
+    Version:  v2.40.3-desktop.1
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-compose
+  debug: Get a shell into any image or container (Docker Inc.)
+    Version:  0.0.45
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-debug
+  desktop: Docker Desktop commands (Docker Inc.)
+    Version:  v0.2.0
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-desktop
+  extension: Manages Docker extensions (Docker Inc.)
+    Version:  v0.2.31
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-extension
+  init: Creates Docker-related starter files for your project (Docker Inc.)
+    Version:  v1.4.0
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-init
+  mcp: Docker MCP Plugin (Docker Inc.)
+    Version:  v0.34.0
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-mcp
+  model: Docker Model Runner (Docker Inc.)
+    Version:  v1.0.2
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-model
+  offload: Docker Offload (Docker Inc.)
+    Version:  v0.5.33
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-offload
+  pass: Docker Pass Secrets Manager Plugin (beta) (Docker Inc.)
+    Version:  v0.0.21
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-pass
+  sandbox: Docker Sandbox (Docker Inc.)
+    Version:  v0.6.0
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-sandbox
+  sbom: View the packaged-based Software Bill Of Materials (SBOM) for an image (Anchore Inc.)
+    Version:  0.6.0
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-sbom
+  scout: Docker Scout (Docker Inc.)
+    Version:  v1.18.3
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-scout
+
+Server:
+failed to connect to the docker API at unix:///Users/marcela-dev/.docker/run/docker.sock; check if the path is correct and if the daemon is running: dial unix /Users/marcela-dev/.docker/run/docker.sock: connect: no such file or directory
+
+NAME              DESCRIPTION                               DOCKER ENDPOINT                                     ERROR
+default           Current DOCKER_HOST based configuration   unix:///var/run/docker.sock                         
+desktop-linux *   Docker Desktop                            unix:///Users/marcela-dev/.docker/run/docker.sock   
+
+Cannot connect to the Docker daemon at unix:///Users/marcela-dev/.docker/run/docker.sock. Is the docker daemon running?
+
+=== HTTP / PORT CHECKS ===
+
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+curl: (7) Failed to connect to localhost port 8080 after 0 ms: Couldn't connect to server
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+curl: (7) Failed to connect to localhost port 3000 after 0 ms: Couldn't connect to server
+

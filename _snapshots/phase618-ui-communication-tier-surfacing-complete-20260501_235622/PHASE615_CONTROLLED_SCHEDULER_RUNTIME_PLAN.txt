@@ -1,0 +1,21 @@
+Phase 615 controlled scheduler runtime plan.
+
+Goal:
+Add a disabled-by-default controlled scheduler runtime block.
+
+Controls:
+- SYSTEM_SCHEDULER_ENABLED=true required to run.
+- SYSTEM_SCHEDULER_INTERVAL_MS controls interval.
+- Default interval: 60000ms.
+- Single in-flight guard prevents overlap.
+
+Safety:
+- Scheduler calls existing /api/delegate-task only.
+- No DB bypass.
+- No worker changes.
+- No API contract changes.
+- Disabled by default.
+
+Verification:
+- First verify disabled state after rebuild.
+- Then enable explicitly in docker compose/env in a separate step.

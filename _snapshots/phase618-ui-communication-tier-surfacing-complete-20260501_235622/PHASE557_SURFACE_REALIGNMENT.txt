@@ -1,0 +1,49 @@
+PHASE 557 — SURFACE REALIGNMENT DECISION
+
+RESULT:
+CRITICAL CLARITY ACHIEVED
+
+FINDING:
+“Execution Activity” (tab) ≠ execution log surface
+
+ACTUAL MAPPING:
+- Execution Activity tab → task-activity-card (graph)
+- Task History / Events tab → task-events-card (live execution log)
+
+IMPACT:
+All operator-surface upgrades (selection, inspect, JSON, etc.)
+are correctly applied to:
+→ Task History / Events
+
+NOT:
+→ Execution Activity
+
+DECISION:
+DO NOT move logic.
+
+Instead:
+Rename tab for clarity.
+
+PLAN (NEXT SAFE PATCH):
+Change:
+"Task History / Events"
+→
+"Execution Activity (Live)"
+
+Change:
+"Execution Activity"
+→
+"Activity Graph"
+
+GOAL:
+Align naming with reality.
+Eliminate operator confusion.
+Preserve working system.
+
+CONSTRAINTS:
+- Single file: public/index.html
+- Text change only
+- No layout / logic changes
+
+STATUS:
+READY FOR SURGICAL PATCH

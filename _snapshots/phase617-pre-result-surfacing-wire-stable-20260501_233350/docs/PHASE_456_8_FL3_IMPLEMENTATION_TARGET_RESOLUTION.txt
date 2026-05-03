@@ -1,0 +1,188 @@
+PHASE 456.8 - FL3 IMPLEMENTATION TARGET RESOLUTION
+--------------------------------------------------
+
+CLASSIFICATION
+Target resolution only.
+No implementation yet.
+No wiring yet.
+No runtime mutation yet.
+
+PURPOSE
+Resolve a single explicit FL3 intake mutation target from the recorded candidate scan before any code mutation occurs.
+
+RESOLUTION_METHOD
+Prefer earliest operator-facing intake boundary.
+Prefer request-shaping file upstream of governance evaluation.
+Reject files touching execution, routing, or reporting.
+
+RAW_TARGET_DECISION_FILE
+PHASE 456.8 - FL3 IMPLEMENTATION TARGET DECISION
+------------------------------------------------
+
+CLASSIFICATION
+Target selection only.
+No implementation yet.
+No wiring yet.
+No runtime mutation yet.
+
+PURPOSE
+Identify the single safest intake-side mutation location for FL-3 request normalization.
+
+TARGET_SELECTION_METHOD
+Prefer earliest operator-facing intake boundary.
+Prefer files already performing request shaping.
+Prefer modules upstream of governance evaluation.
+Prefer modules with zero execution coupling.
+
+SELECTION_PROCESS
+==== candidate intake files ====
+src/cognition/situationSummaryComposer.ts
+src/cognition/situationSummaryInputAdapter.ts
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_validation.ts
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement.ts
+src/demo/minimalDemoRunner.ts
+src/demo/promptToDemoRequest.ts
+src/governance_investigation/governance_playback_types.ts
+src/governance_investigation/verification/replay_fixture_diagnostics.ts
+src/governance/cognition/index.ts
+src/governance/cognition/normalize_governance_dashboard_contract_registration.ts
+src/governance/cognition/normalize_governance_runtime_registry_export.ts
+src/governance/cognition/normalize_governance_shared_registry_owner_bundle.ts
+src/governance/cognition/normalize_governance_snapshot.ts
+src/governance/cognition/package_governance_cognition_snapshot.ts
+src/governance/cognition/prove_governance_authorization_gate.ts
+src/governance/cognition/prove_governance_cognition_snapshot.ts
+src/governance/cognition/prove_governance_dashboard_consumption_view.ts
+src/governance/cognition/prove_governance_dashboard_contract_registration.ts
+src/governance/cognition/prove_governance_final_delivery_receipt.ts
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts
+src/governance/cognition/prove_governance_live_wiring_decision.ts
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts
+src/governance/cognition/prove_governance_runtime_registry_export.ts
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts
+src/governance/governance_advisory_normalizer.test.ts
+src/governance/governance_advisory_normalizer.ts
+
+==== candidate governance entry files ====
+src/cognition/governanceAwarenessGuards.smoke.ts
+src/cognition/governanceCognition.smoke.ts
+src/governance_investigation/governance_playback_assembly_proof.ts
+src/governance_investigation/governance_playback_proof.ts
+src/governance/governance_advisory_consistency_guard.ts
+src/governance/governance_advisory_contract_lock.ts
+src/governance/governance_advisory_pipeline.test.ts
+src/governance/governance_advisory_pipeline.ts
+src/governance/governance_advisory_stability_sentinel.ts
+src/governance/governance_audit_trace_emitter.ts
+src/governance/governance_cognition_determinism_sentinel.ts
+src/governance/governance_cognition_integrity_sentinel.ts
+src/governance/governance_cognition_regression_sentinel.ts
+src/governance/governance_cognition_replay_verifier.ts
+src/governance/governance_contradiction_detector.ts
+src/governance/governance_decision_pipeline.test.ts
+src/governance/governance_decision_pipeline.ts
+src/governance/governance_drift_expectations.ts
+src/governance/governance_drift_guard.test.ts
+src/governance/governance_drift_guard.ts
+src/governance/governance_drift_sentinel.test.ts
+src/governance/governance_drift_sentinel.ts
+src/governance/governance_fixture_corpus.test.ts
+src/governance/governance_operator_confidence_score.ts
+src/governance/governance_operator_explanation_layer.ts
+src/governance/governance_pipeline_invariants.test.ts
+src/governance/governance_pipeline_order_guard.test.ts
+src/governance/governance_pipeline_order_guard.ts
+src/governance/governance_signal_classifier.test.ts
+src/governance/governance_signal_explanation_registry.ts
+src/governance/governance_signal_stability_index.ts
+
+==== decision rule ====
+Select ONE file that sits between operator request entry and governance evaluation.
+Reject any file touching execution, routing, or reporting.
+
+OUTPUT_REQUIREMENT
+Record the chosen file path as FL3_INTAKE_TARGET.
+
+NEXT_STEP
+PHASE_456_8_FL3_MINIMAL_IMPLEMENTATION_MUTATION
+
+DETERMINISTIC_STOP
+Stop after intake mutation target is identified.
+
+CANDIDATE_INTAKE_FILES
+src/cognition/governanceAwarenessGuards.smoke.ts
+src/cognition/governanceCognition.smoke.ts
+src/cognition/situationSummaryComposer.ts
+src/cognition/situationSummaryInputAdapter.ts
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_validation.ts
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement.ts
+src/demo/minimalDemoRunner.ts
+src/demo/promptToDemoRequest.ts
+src/governance_investigation/governance_playback_assembly_proof.ts
+src/governance_investigation/governance_playback_proof.ts
+src/governance_investigation/governance_playback_types.ts
+src/governance_investigation/verification/replay_fixture_diagnostics.ts
+src/governance/cognition/index.ts
+src/governance/cognition/normalize_governance_dashboard_contract_registration.ts
+src/governance/cognition/normalize_governance_runtime_registry_export.ts
+src/governance/cognition/normalize_governance_shared_registry_owner_bundle.ts
+src/governance/cognition/normalize_governance_snapshot.ts
+src/governance/cognition/package_governance_cognition_snapshot.ts
+src/governance/cognition/prove_governance_authorization_gate.ts
+src/governance/cognition/prove_governance_cognition_snapshot.ts
+src/governance/cognition/prove_governance_dashboard_consumption_view.ts
+src/governance/cognition/prove_governance_dashboard_contract_registration.ts
+src/governance/cognition/prove_governance_final_delivery_receipt.ts
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts
+src/governance/cognition/prove_governance_live_wiring_decision.ts
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts
+src/governance/cognition/prove_governance_runtime_registry_export.ts
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts
+src/governance/governance_advisory_consistency_guard.ts
+src/governance/governance_advisory_contract_lock.ts
+src/governance/governance_advisory_normalizer.test.ts
+src/governance/governance_advisory_normalizer.ts
+src/governance/governance_advisory_pipeline.test.ts
+src/governance/governance_advisory_pipeline.ts
+src/governance/governance_advisory_stability_sentinel.ts
+src/governance/governance_audit_trace_emitter.ts
+src/governance/governance_cognition_determinism_sentinel.ts
+src/governance/governance_cognition_integrity_sentinel.ts
+src/governance/governance_cognition_regression_sentinel.ts
+src/governance/governance_cognition_replay_verifier.ts
+src/governance/governance_contradiction_detector.ts
+src/governance/governance_decision_pipeline.test.ts
+src/governance/governance_decision_pipeline.ts
+src/governance/governance_drift_expectations.ts
+src/governance/governance_drift_guard.test.ts
+src/governance/governance_drift_guard.ts
+src/governance/governance_drift_sentinel.test.ts
+src/governance/governance_drift_sentinel.ts
+src/governance/governance_fixture_corpus.test.ts
+src/governance/governance_operator_confidence_score.ts
+src/governance/governance_operator_explanation_layer.ts
+src/governance/governance_pipeline_invariants.test.ts
+src/governance/governance_pipeline_order_guard.test.ts
+src/governance/governance_pipeline_order_guard.ts
+src/governance/governance_signal_classifier.test.ts
+src/governance/governance_signal_explanation_registry.ts
+src/governance/governance_signal_stability_index.ts
+
+RESOLUTION_RULE
+Select the first candidate file that appears intake/request/normalize-oriented and does not appear governance-engine, execution, routing, or reporting oriented.
+
+RESOLUTION_RESULT
+FL3_INTAKE_TARGET=src/demo/promptToDemoRequest.ts
+TARGET_SCORE=5
+NEXT_STEP=PHASE_456_8_FL3_MINIMAL_IMPLEMENTATION_MUTATION
+
+DETERMINISTIC_STOP
+Stop after FL3 intake mutation target is resolved.

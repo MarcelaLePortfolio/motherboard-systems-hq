@@ -1,0 +1,42 @@
+name: ci
+
+on:
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch: {}
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install deps
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -f package-lock.json ]; then
+            npm ci
+          else
+            npm install
+          fi
+
+      - name: Run build-and-test
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -x ./scripts/test.sh ]; then
+            ./scripts/test.sh
+          else
+            echo "ERROR: scripts/test.sh missing or not executable" >&2
+            exit 2
+          fi

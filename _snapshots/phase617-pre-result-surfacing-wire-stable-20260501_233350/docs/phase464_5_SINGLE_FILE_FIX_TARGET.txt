@@ -1,0 +1,13 @@
+PHASE 464.5 — SINGLE FILE FIX TARGET LOCK
+=========================================
+
+SELECTED FIX TARGET:
+scripts/operator-runbook-assert.ts
+
+FIX STRATEGY:
+- Prevent duplicate stream initialization
+- Add idempotent guard OR cleanup
+- One file only
+
+NEXT:
+Phase 464.6 — apply idempotent guard

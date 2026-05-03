@@ -1,0 +1,3440 @@
+PHASE 487 — OPERATOR GUIDANCE ROUTE OWNER TRACE
+Timestamp: Thu Apr 16 09:32:44 PDT 2026
+========================================
+
+[1] ROUTE / ENDPOINT REFERENCES
+server.mjs:22:} from "./routes/diagnostics/operatorGuidanceRuntime.js";
+server.mjs:476:app.get("/events/operator-guidance", (req, res) => {
+server.mjs:511:        `event: operator_guidance\ndata: ${JSON.stringify({
+server.mjs:544:          `event: operator_guidance\ndata: ${JSON.stringify({
+src/cognition/operatorGuidanceReducer.ts:9:  OperatorGuidance,
+src/cognition/operatorGuidanceReducer.ts:10:  OperatorGuidanceEnvelope,
+src/cognition/operatorGuidanceReducer.ts:11:} from "./operatorGuidance";
+src/cognition/operatorGuidanceReducer.ts:13:  mapSignalsToOperatorGuidance,
+src/cognition/operatorGuidanceReducer.ts:16:} from "./operatorGuidanceMapping";
+src/cognition/operatorGuidanceReducer.ts:17:import { assessGuidanceConfidence } from "./operatorGuidanceConfidence";
+src/cognition/operatorGuidanceReducer.ts:24:export type OperatorGuidanceReduction = {
+src/cognition/operatorGuidanceReducer.ts:25:  envelope: OperatorGuidanceEnvelope;
+src/cognition/operatorGuidanceReducer.ts:33:  guidance: OperatorGuidance[],
+src/cognition/operatorGuidanceReducer.ts:34:): OperatorGuidance[] {
+src/cognition/operatorGuidanceReducer.ts:55:): OperatorGuidanceReduction {
+src/cognition/operatorGuidanceReducer.ts:61:    mapSignalsToOperatorGuidance(surface.signals, mappingContext),
+src/cognition/operatorGuidanceReducer.ts:80:export function createEmptyOperatorGuidanceReduction(
+src/cognition/operatorGuidanceReducer.ts:82:): OperatorGuidanceReduction {
+src/cognition/contracts/cognition.contracts.ts:35:export interface OperatorGuidanceContract {
+src/cognition/contracts/cognition.contracts.ts:52:  guidance?: OperatorGuidanceContract[];
+src/cognition/operatorGuidance.smoke.ts:7:import { reduceOperatorHealthSurfaceToGuidance } from "./operatorGuidanceReducer";
+src/cognition/operatorGuidance.smoke.ts:8:import { assertOperatorGuidanceReductionSafe } from "./operatorGuidanceSafety";
+src/cognition/operatorGuidance.smoke.ts:9:import type { GuidanceSignalObservation } from "./operatorGuidanceMapping";
+src/cognition/operatorGuidance.smoke.ts:125:export function runOperatorGuidanceSmokeMatrix(): void {
+src/cognition/operatorGuidance.smoke.ts:132:    assertOperatorGuidanceReductionSafe(reduction);
+src/cognition/operatorGuidance.smoke.ts:179:  runOperatorGuidanceSmokeMatrix();
+src/cognition/operatorGuidance.smoke.ts:180:  process.stdout.write("operatorGuidance smoke matrix passed\n");
+src/cognition/operator-read/cognition.operator-read.ts:20:  OperatorGuidanceContract,
+src/cognition/operator-read/cognition.operator-read.ts:26:  selectHasOperatorGuidance,
+src/cognition/operator-read/cognition.operator-read.ts:28:  selectOperatorGuidance,
+src/cognition/operator-read/cognition.operator-read.ts:37:  guidance: OperatorGuidanceContract[];
+src/cognition/operator-read/cognition.operator-read.ts:46:    hasGuidance: selectHasOperatorGuidance(envelope),
+src/cognition/operator-read/cognition.operator-read.ts:49:    guidance: selectOperatorGuidance(envelope),
+src/cognition/operatorGuidance.live.ts:7:import { reduceOperatorHealthSurfaceToGuidance } from "./operatorGuidanceReducer";
+src/cognition/operatorGuidance.live.ts:8:import { assertOperatorGuidanceReductionSafe } from "./operatorGuidanceSafety";
+src/cognition/operatorGuidance.live.ts:9:import type { GuidanceSignalObservation } from "./operatorGuidanceMapping";
+src/cognition/operatorGuidance.live.ts:48:export type OperatorGuidanceLiveVerificationResult = {
+src/cognition/operatorGuidance.live.ts:57:export function runOperatorGuidanceLiveVerification(): OperatorGuidanceLiveVerificationResult {
+src/cognition/operatorGuidance.live.ts:63:  assertOperatorGuidanceReductionSafe(reduction);
+src/cognition/operatorGuidance.live.ts:76:  const result = runOperatorGuidanceLiveVerification();
+src/cognition/operatorGuidanceMapping.ts:8:  OperatorGuidance,
+src/cognition/operatorGuidanceMapping.ts:9:} from "./operatorGuidance";
+src/cognition/operatorGuidanceMapping.ts:34:  ) => OperatorGuidance;
+src/cognition/operatorGuidanceMapping.ts:65:): OperatorGuidance["type"] {
+src/cognition/operatorGuidanceMapping.ts:91:): OperatorGuidance {
+src/cognition/operatorGuidanceMapping.ts:260:export function mapSignalToOperatorGuidance(
+src/cognition/operatorGuidanceMapping.ts:263:): OperatorGuidance | null {
+src/cognition/operatorGuidanceMapping.ts:275:export function mapSignalsToOperatorGuidance(
+src/cognition/operatorGuidanceMapping.ts:278:): OperatorGuidance[] {
+src/cognition/operatorGuidanceMapping.ts:280:    .map((signal) => mapSignalToOperatorGuidance(signal, context))
+src/cognition/operatorGuidanceMapping.ts:281:    .filter((guidance): guidance is OperatorGuidance => guidance !== null);
+src/cognition/operatorGuidance.ts:33:export type OperatorGuidanceBase = {
+src/cognition/operatorGuidance.ts:55:export type InformationalGuidance = OperatorGuidanceBase & {
+src/cognition/operatorGuidance.ts:59:export type AttentionGuidance = OperatorGuidanceBase & {
+src/cognition/operatorGuidance.ts:63:export type ElevatedGuidance = OperatorGuidanceBase & {
+src/cognition/operatorGuidance.ts:67:export type CriticalGuidance = OperatorGuidanceBase & {
+src/cognition/operatorGuidance.ts:71:export type OperatorGuidance =
+src/cognition/operatorGuidance.ts:82:export type OperatorGuidanceEnvelope = {
+src/cognition/operatorGuidance.ts:83:  guidance: OperatorGuidance[];
+src/cognition/operatorGuidanceSafety.ts:11:  OperatorGuidance,
+src/cognition/operatorGuidanceSafety.ts:12:  OperatorGuidanceEnvelope,
+src/cognition/operatorGuidanceSafety.ts:13:} from "./operatorGuidance";
+src/cognition/operatorGuidanceSafety.ts:14:import type { OperatorGuidanceReduction } from "./operatorGuidanceReducer";
+src/cognition/operatorGuidanceSafety.ts:16:const ALLOWED_GUIDANCE_TYPES = new Set<OperatorGuidance["type"]>([
+src/cognition/operatorGuidanceSafety.ts:65:export type OperatorGuidanceSafetyCheck = {
+src/cognition/operatorGuidanceSafety.ts:89:export function validateOperatorGuidance(
+src/cognition/operatorGuidanceSafety.ts:90:  guidance: OperatorGuidance,
+src/cognition/operatorGuidanceSafety.ts:91:): OperatorGuidanceSafetyCheck {
+src/cognition/operatorGuidanceSafety.ts:139:export function validateOperatorGuidanceEnvelope(
+src/cognition/operatorGuidanceSafety.ts:140:  envelope: OperatorGuidanceEnvelope,
+src/cognition/operatorGuidanceSafety.ts:141:): OperatorGuidanceSafetyCheck {
+src/cognition/operatorGuidanceSafety.ts:160:      const result = validateOperatorGuidance(guidance);
+src/cognition/operatorGuidanceSafety.ts:173:export function validateOperatorGuidanceReduction(
+src/cognition/operatorGuidanceSafety.ts:174:  reduction: OperatorGuidanceReduction,
+src/cognition/operatorGuidanceSafety.ts:175:): OperatorGuidanceSafetyCheck {
+src/cognition/operatorGuidanceSafety.ts:178:  const envelopeCheck = validateOperatorGuidanceEnvelope(reduction.envelope);
+src/cognition/operatorGuidanceSafety.ts:201:export function assertOperatorGuidanceReductionSafe(
+src/cognition/operatorGuidanceSafety.ts:202:  reduction: OperatorGuidanceReduction,
+src/cognition/operatorGuidanceSafety.ts:204:  const result = validateOperatorGuidanceReduction(reduction);
+src/cognition/operatorGuidanceConfidence.ts:3:export interface OperatorGuidanceConfidenceInput {
+src/cognition/operatorGuidanceConfidence.ts:12:import type { GuidanceConfidence } from "./operatorGuidance";
+src/cognition/operatorGuidanceConfidence.ts:13:import type { GuidanceSignalObservation } from "./operatorGuidanceMapping";
+src/cognition/selectors/cognition.selectors.ts:19:  OperatorGuidanceContract,
+src/cognition/selectors/cognition.selectors.ts:29:export function selectOperatorGuidance(
+src/cognition/selectors/cognition.selectors.ts:31:): OperatorGuidanceContract[] {
+src/cognition/selectors/cognition.selectors.ts:47:export function selectHasOperatorGuidance(
+src/cognition/selectors/cognition.selectors.ts:68:    hasGuidance: selectHasOperatorGuidance(envelope),
+src/governance/governance_advisory_contract.test.ts:19:        operator_guidance: "No action required.",
+src/governance/governance_advisory_contract.test.ts:38:        operator_guidance: "Review when convenient.",
+src/governance/governance_advisory_contract.test.ts:50:        operator_guidance: "Escalate to operator review immediately.",
+src/governance/governance_advisory_contract.test.ts:62:        operator_guidance: "Review registry assumptions.",
+src/governance/governance_advisory_presenter.test.ts:19:    operator_guidance: "none",
+src/governance/governance_explanation_builder.ts:20:  operator_guidance: string
+src/governance/governance_explanation_builder.ts:32:  let operator_guidance = ""
+src/governance/governance_explanation_builder.ts:41:    operator_guidance =
+src/governance/governance_explanation_builder.ts:53:    operator_guidance =
+src/governance/governance_explanation_builder.ts:65:    operator_guidance =
+src/governance/governance_explanation_builder.ts:76:    operator_guidance,
+src/governance/governance_decision_pipeline.ts:35:  operator_guidance: string
+src/governance/governance_decision_pipeline.ts:66:    operator_guidance: explanation.operator_guidance,
+src/governance/governance_advisory_normalizer.test.ts:16:    operator_guidance: "none",
+src/governance/governance_advisory_contract.ts:73:  operator_guidance: string;
+public/js/operatorGuidance.sse.js:2:  if (window.__OPERATOR_GUIDANCE_STREAM_ACTIVE__) return;
+public/js/operatorGuidance.sse.js:3:  window.__OPERATOR_GUIDANCE_STREAM_ACTIVE__ = true;
+public/js/operatorGuidance.sse.js:5:  const RESPONSE_EL = document.getElementById("operator-guidance-response");
+public/js/operatorGuidance.sse.js:6:  const META_EL = document.getElementById("operator-guidance-meta");
+public/js/operatorGuidance.sse.js:113:    es.addEventListener("operator_guidance", handleEvent);
+public/js/operatorGuidance.sse.js:114:    es.addEventListener("operator-guidance", handleEvent);
+public/js/operatorGuidance.sse.js:124:    eventSource = new EventSource("/events/operator-guidance");
+public/js/phase457_controlled_proof.js:5:  // Remove phase457 proof as a second operator-guidance writer.
+public/js/phase457_controlled_proof.js:6:  // Guidance panel ownership remains with public/js/operatorGuidance.sse.js only.
+public/js/phase457_controlled_proof.js:15:  function hasOperatorGuidanceSurface() {
+public/js/phase457_controlled_proof.js:16:    return !!byId("operator-guidance-response") && !!byId("operator-guidance-meta");
+public/js/phase457_controlled_proof.js:22:    if (hasOperatorGuidanceSurface()) {
+dashboard/src/cognition/operatorGuidance/operatorGuidanceReducer.ts:2:  OperatorGuidanceReduction,
+dashboard/src/cognition/operatorGuidance/operatorGuidanceReducer.ts:3:  OperatorGuidanceStreamEvent,
+dashboard/src/cognition/operatorGuidance/operatorGuidanceReducer.ts:4:} from "./operatorGuidance";
+dashboard/src/cognition/operatorGuidance/operatorGuidanceReducer.ts:6:  EMPTY_OPERATOR_GUIDANCE_REDUCTION,
+dashboard/src/cognition/operatorGuidance/operatorGuidanceReducer.ts:7:  EMPTY_OPERATOR_GUIDANCE_STREAM_EVENT,
+dashboard/src/cognition/operatorGuidance/operatorGuidanceReducer.ts:8:} from "./operatorGuidance";
+dashboard/src/cognition/operatorGuidance/operatorGuidanceReducer.ts:10:  normalizeOperatorGuidanceReduction,
+dashboard/src/cognition/operatorGuidance/operatorGuidanceReducer.ts:11:  normalizeOperatorGuidanceStreamEvent,
+dashboard/src/cognition/operatorGuidance/operatorGuidanceReducer.ts:12:} from "./operatorGuidanceRenderContract";
+dashboard/src/cognition/operatorGuidance/operatorGuidanceReducer.ts:14:export interface OperatorGuidanceState {
+dashboard/src/cognition/operatorGuidance/operatorGuidanceReducer.ts:15:  reduction: OperatorGuidanceReduction;
+dashboard/src/cognition/operatorGuidance/operatorGuidanceReducer.ts:16:  lastEvent: OperatorGuidanceStreamEvent;
+dashboard/src/cognition/operatorGuidance/operatorGuidanceReducer.ts:19:export type OperatorGuidanceAction =
+dashboard/src/cognition/operatorGuidance/operatorGuidanceReducer.ts:21:      type: "operatorGuidance/replace";
+dashboard/src/cognition/operatorGuidance/operatorGuidanceReducer.ts:22:      payload: OperatorGuidanceReduction;
+dashboard/src/cognition/operatorGuidance/operatorGuidanceReducer.ts:25:      type: "operatorGuidance/streamEvent";
+dashboard/src/cognition/operatorGuidance/operatorGuidanceReducer.ts:26:      payload: OperatorGuidanceStreamEvent;
+dashboard/src/cognition/operatorGuidance/operatorGuidanceReducer.ts:29:      type: "operatorGuidance/reset";
+dashboard/src/cognition/operatorGuidance/operatorGuidanceReducer.ts:32:export const INITIAL_OPERATOR_GUIDANCE_STATE: OperatorGuidanceState = {
+dashboard/src/cognition/operatorGuidance/operatorGuidanceReducer.ts:33:  reduction: EMPTY_OPERATOR_GUIDANCE_REDUCTION,
+dashboard/src/cognition/operatorGuidance/operatorGuidanceReducer.ts:34:  lastEvent: EMPTY_OPERATOR_GUIDANCE_STREAM_EVENT,
+dashboard/src/cognition/operatorGuidance/operatorGuidanceReducer.ts:37:export function operatorGuidanceReducer(
+dashboard/src/cognition/operatorGuidance/operatorGuidanceReducer.ts:38:  state: OperatorGuidanceState = INITIAL_OPERATOR_GUIDANCE_STATE,
+dashboard/src/cognition/operatorGuidance/operatorGuidanceReducer.ts:39:  action: OperatorGuidanceAction,
+dashboard/src/cognition/operatorGuidance/operatorGuidanceReducer.ts:40:): OperatorGuidanceState {
+dashboard/src/cognition/operatorGuidance/operatorGuidanceReducer.ts:42:    case "operatorGuidance/replace": {
+dashboard/src/cognition/operatorGuidance/operatorGuidanceReducer.ts:43:      const reduction = normalizeOperatorGuidanceReduction(action.payload);
+dashboard/src/cognition/operatorGuidance/operatorGuidanceReducer.ts:55:    case "operatorGuidance/streamEvent": {
+dashboard/src/cognition/operatorGuidance/operatorGuidanceReducer.ts:56:      const lastEvent = normalizeOperatorGuidanceStreamEvent(action.payload);
+dashboard/src/cognition/operatorGuidance/operatorGuidanceReducer.ts:63:    case "operatorGuidance/reset":
+dashboard/src/cognition/operatorGuidance/operatorGuidanceReducer.ts:64:      return INITIAL_OPERATOR_GUIDANCE_STATE;
+dashboard/src/cognition/operatorGuidance/operatorGuidanceReducer.ts:71:export function replaceOperatorGuidance(
+dashboard/src/cognition/operatorGuidance/operatorGuidanceReducer.ts:72:  payload: OperatorGuidanceReduction,
+dashboard/src/cognition/operatorGuidance/operatorGuidanceReducer.ts:73:): OperatorGuidanceAction {
+dashboard/src/cognition/operatorGuidance/operatorGuidanceReducer.ts:75:    type: "operatorGuidance/replace",
+dashboard/src/cognition/operatorGuidance/operatorGuidanceReducer.ts:80:export function applyOperatorGuidanceStreamEvent(
+dashboard/src/cognition/operatorGuidance/operatorGuidanceReducer.ts:81:  payload: OperatorGuidanceStreamEvent,
+dashboard/src/cognition/operatorGuidance/operatorGuidanceReducer.ts:82:): OperatorGuidanceAction {
+dashboard/src/cognition/operatorGuidance/operatorGuidanceReducer.ts:84:    type: "operatorGuidance/streamEvent",
+dashboard/src/cognition/operatorGuidance/operatorGuidanceReducer.ts:89:export function resetOperatorGuidance(): OperatorGuidanceAction {
+dashboard/src/cognition/operatorGuidance/operatorGuidanceReducer.ts:91:    type: "operatorGuidance/reset",
+dashboard/src/cognition/operatorGuidance/operatorGuidancePanel.tsx:1:import type { OperatorGuidanceRenderModel } from "./operatorGuidance";
+dashboard/src/cognition/operatorGuidance/operatorGuidancePanel.tsx:3:export interface OperatorGuidancePanelProps {
+dashboard/src/cognition/operatorGuidance/operatorGuidancePanel.tsx:4:  model: OperatorGuidanceRenderModel;
+dashboard/src/cognition/operatorGuidance/operatorGuidancePanel.tsx:7:export function OperatorGuidancePanel({
+dashboard/src/cognition/operatorGuidance/operatorGuidancePanel.tsx:9:}: OperatorGuidancePanelProps) {
+dashboard/src/cognition/operatorGuidance/operatorGuidancePanel.tsx:13:      data-testid="operator-guidance-panel"
+dashboard/src/cognition/operatorGuidance/operatorGuidancePanel.tsx:94:export default OperatorGuidancePanel;
+dashboard/src/cognition/operatorGuidance/useOperatorGuidance.ts:4:  OperatorGuidanceReduction,
+dashboard/src/cognition/operatorGuidance/useOperatorGuidance.ts:5:  OperatorGuidanceRenderModel,
+dashboard/src/cognition/operatorGuidance/useOperatorGuidance.ts:6:  OperatorGuidanceStreamEvent,
+dashboard/src/cognition/operatorGuidance/useOperatorGuidance.ts:7:} from "./operatorGuidance";
+dashboard/src/cognition/operatorGuidance/useOperatorGuidance.ts:9:  INITIAL_OPERATOR_GUIDANCE_STATE,
+dashboard/src/cognition/operatorGuidance/useOperatorGuidance.ts:10:  applyOperatorGuidanceStreamEvent,
+dashboard/src/cognition/operatorGuidance/useOperatorGuidance.ts:11:  operatorGuidanceReducer,
+dashboard/src/cognition/operatorGuidance/useOperatorGuidance.ts:12:  replaceOperatorGuidance,
+dashboard/src/cognition/operatorGuidance/useOperatorGuidance.ts:13:  resetOperatorGuidance,
+dashboard/src/cognition/operatorGuidance/useOperatorGuidance.ts:14:} from "./operatorGuidanceReducer";
+dashboard/src/cognition/operatorGuidance/useOperatorGuidance.ts:15:import { buildOperatorGuidanceRenderModel } from "./operatorGuidanceRenderContract";
+dashboard/src/cognition/operatorGuidance/useOperatorGuidance.ts:17:export interface UseOperatorGuidanceResult {
+dashboard/src/cognition/operatorGuidance/useOperatorGuidance.ts:18:  reduction: OperatorGuidanceReduction;
+dashboard/src/cognition/operatorGuidance/useOperatorGuidance.ts:19:  renderModel: OperatorGuidanceRenderModel;
+dashboard/src/cognition/operatorGuidance/useOperatorGuidance.ts:20:  replaceReduction: (nextReduction: OperatorGuidanceReduction) => void;
+dashboard/src/cognition/operatorGuidance/useOperatorGuidance.ts:21:  applyStreamEvent: (nextEvent: OperatorGuidanceStreamEvent) => void;
+dashboard/src/cognition/operatorGuidance/useOperatorGuidance.ts:25:export function useOperatorGuidance(): UseOperatorGuidanceResult {
+dashboard/src/cognition/operatorGuidance/useOperatorGuidance.ts:27:    operatorGuidanceReducer,
+dashboard/src/cognition/operatorGuidance/useOperatorGuidance.ts:28:    INITIAL_OPERATOR_GUIDANCE_STATE,
+dashboard/src/cognition/operatorGuidance/useOperatorGuidance.ts:34:      renderModel: buildOperatorGuidanceRenderModel(state.lastEvent),
+dashboard/src/cognition/operatorGuidance/useOperatorGuidance.ts:35:      replaceReduction: (nextReduction: OperatorGuidanceReduction) => {
+dashboard/src/cognition/operatorGuidance/useOperatorGuidance.ts:36:        dispatch(replaceOperatorGuidance(nextReduction));
+dashboard/src/cognition/operatorGuidance/useOperatorGuidance.ts:38:      applyStreamEvent: (nextEvent: OperatorGuidanceStreamEvent) => {
+dashboard/src/cognition/operatorGuidance/useOperatorGuidance.ts:39:        dispatch(applyOperatorGuidanceStreamEvent(nextEvent));
+dashboard/src/cognition/operatorGuidance/useOperatorGuidance.ts:42:        dispatch(resetOperatorGuidance());
+dashboard/src/cognition/operatorGuidance/operatorGuidance.ts:1:export type OperatorGuidanceConfidence =
+dashboard/src/cognition/operatorGuidance/operatorGuidance.ts:7:export type OperatorGuidanceSeverity =
+dashboard/src/cognition/operatorGuidance/operatorGuidance.ts:13:export type OperatorGuidanceDomain =
+dashboard/src/cognition/operatorGuidance/operatorGuidance.ts:21:export type OperatorGuidanceType =
+dashboard/src/cognition/operatorGuidance/operatorGuidance.ts:27:export interface OperatorGuidanceItem {
+dashboard/src/cognition/operatorGuidance/operatorGuidance.ts:29:  type: OperatorGuidanceType;
+dashboard/src/cognition/operatorGuidance/operatorGuidance.ts:30:  domain: OperatorGuidanceDomain;
+dashboard/src/cognition/operatorGuidance/operatorGuidance.ts:31:  severity: OperatorGuidanceSeverity;
+dashboard/src/cognition/operatorGuidance/operatorGuidance.ts:32:  confidence: OperatorGuidanceConfidence;
+dashboard/src/cognition/operatorGuidance/operatorGuidance.ts:41:export interface OperatorGuidanceEnvelope {
+dashboard/src/cognition/operatorGuidance/operatorGuidance.ts:42:  guidance: OperatorGuidanceItem[];
+dashboard/src/cognition/operatorGuidance/operatorGuidance.ts:48:export interface OperatorGuidanceReduction {
+dashboard/src/cognition/operatorGuidance/operatorGuidance.ts:49:  envelope: OperatorGuidanceEnvelope;
+dashboard/src/cognition/operatorGuidance/operatorGuidance.ts:50:  surfaceConfidence: OperatorGuidanceConfidence;
+dashboard/src/cognition/operatorGuidance/operatorGuidance.ts:56:export interface OperatorGuidanceStreamEvent {
+dashboard/src/cognition/operatorGuidance/operatorGuidance.ts:57:  reduction: OperatorGuidanceReduction;
+dashboard/src/cognition/operatorGuidance/operatorGuidance.ts:62:export interface OperatorGuidanceRenderItem {
+dashboard/src/cognition/operatorGuidance/operatorGuidance.ts:65:  severity: OperatorGuidanceSeverity;
+dashboard/src/cognition/operatorGuidance/operatorGuidance.ts:66:  confidence: OperatorGuidanceConfidence;
+dashboard/src/cognition/operatorGuidance/operatorGuidance.ts:73:export interface OperatorGuidanceRenderModel {
+dashboard/src/cognition/operatorGuidance/operatorGuidance.ts:76:  surfaceConfidence: OperatorGuidanceConfidence;
+dashboard/src/cognition/operatorGuidance/operatorGuidance.ts:81:  items: OperatorGuidanceRenderItem[];
+dashboard/src/cognition/operatorGuidance/operatorGuidance.ts:84:export const EMPTY_OPERATOR_GUIDANCE_REDUCTION: OperatorGuidanceReduction = {
+dashboard/src/cognition/operatorGuidance/operatorGuidance.ts:97:export const EMPTY_OPERATOR_GUIDANCE_STREAM_EVENT: OperatorGuidanceStreamEvent = {
+dashboard/src/cognition/operatorGuidance/operatorGuidance.ts:98:  reduction: EMPTY_OPERATOR_GUIDANCE_REDUCTION,
+dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts:2:  OperatorGuidanceConfidence,
+dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts:3:  OperatorGuidanceDomain,
+dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts:4:  OperatorGuidanceItem,
+dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts:5:  OperatorGuidanceReduction,
+dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts:6:  OperatorGuidanceRenderItem,
+dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts:7:  OperatorGuidanceRenderModel,
+dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts:8:  OperatorGuidanceStreamEvent,
+dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts:9:} from "./operatorGuidance";
+dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts:11:  EMPTY_OPERATOR_GUIDANCE_REDUCTION,
+dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts:12:  EMPTY_OPERATOR_GUIDANCE_STREAM_EVENT,
+dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts:13:} from "./operatorGuidance";
+dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts:15:const DOMAIN_LABELS: Record<OperatorGuidanceDomain, string> = {
+dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts:32:function isConfidence(value: unknown): value is OperatorGuidanceConfidence {
+dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts:41:function normalizeGuidanceItem(value: unknown): OperatorGuidanceItem | null {
+dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts:66:    type: item.type as OperatorGuidanceItem["type"],
+dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts:67:    domain: item.domain as OperatorGuidanceDomain,
+dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts:68:    severity: item.severity as OperatorGuidanceItem["severity"],
+dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts:81:export function normalizeOperatorGuidanceReduction(
+dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts:83:): OperatorGuidanceReduction {
+dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts:85:    return EMPTY_OPERATOR_GUIDANCE_REDUCTION;
+dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts:97:        .filter((item): item is OperatorGuidanceItem => item !== null)
+dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts:130:export function normalizeOperatorGuidanceStreamEvent(
+dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts:132:): OperatorGuidanceStreamEvent {
+dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts:134:    return EMPTY_OPERATOR_GUIDANCE_STREAM_EVENT;
+dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts:140:    reduction: normalizeOperatorGuidanceReduction(raw.reduction),
+dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts:144:        : EMPTY_OPERATOR_GUIDANCE_STREAM_EVENT.source,
+dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts:149:function toRenderItem(item: OperatorGuidanceItem): OperatorGuidanceRenderItem {
+dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts:162:export function buildOperatorGuidanceRenderModel(
+dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts:163:  event: OperatorGuidanceStreamEvent,
+dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts:164:): OperatorGuidanceRenderModel {
+dashboard/src/cognition/operatorGuidance/operatorGuidanceRenderContract.ts:165:  const reduction = normalizeOperatorGuidanceReduction(event.reduction);
+dashboard/src/cognition/operatorGuidance/index.ts:1:export * from "./operatorGuidance";
+dashboard/src/cognition/operatorGuidance/index.ts:2:export * from "./operatorGuidanceReducer";
+dashboard/src/cognition/operatorGuidance/index.ts:3:export * from "./operatorGuidanceSelectors";
+dashboard/src/cognition/operatorGuidance/index.ts:4:export * from "./operatorGuidanceRenderContract";
+dashboard/src/cognition/operatorGuidance/index.ts:5:export * from "./operatorGuidancePanel";
+dashboard/src/cognition/operatorGuidance/index.ts:6:export * from "./useOperatorGuidance";
+dashboard/src/cognition/operatorGuidance/operatorGuidanceSelectors.ts:2:  OperatorGuidanceConfidence,
+dashboard/src/cognition/operatorGuidance/operatorGuidanceSelectors.ts:3:  OperatorGuidanceReduction,
+dashboard/src/cognition/operatorGuidance/operatorGuidanceSelectors.ts:4:  OperatorGuidanceRenderModel,
+dashboard/src/cognition/operatorGuidance/operatorGuidanceSelectors.ts:5:  OperatorGuidanceStreamEvent,
+dashboard/src/cognition/operatorGuidance/operatorGuidanceSelectors.ts:6:} from "./operatorGuidance";
+dashboard/src/cognition/operatorGuidance/operatorGuidanceSelectors.ts:7:import type { OperatorGuidanceState } from "./operatorGuidanceReducer";
+dashboard/src/cognition/operatorGuidance/operatorGuidanceSelectors.ts:8:import { buildOperatorGuidanceRenderModel } from "./operatorGuidanceRenderContract";
+dashboard/src/cognition/operatorGuidance/operatorGuidanceSelectors.ts:10:export function selectOperatorGuidanceReduction(
+dashboard/src/cognition/operatorGuidance/operatorGuidanceSelectors.ts:11:  state: OperatorGuidanceState,
+dashboard/src/cognition/operatorGuidance/operatorGuidanceSelectors.ts:12:): OperatorGuidanceReduction {
+dashboard/src/cognition/operatorGuidance/operatorGuidanceSelectors.ts:16:export function selectOperatorGuidanceStreamEvent(
+dashboard/src/cognition/operatorGuidance/operatorGuidanceSelectors.ts:17:  state: OperatorGuidanceState,
+dashboard/src/cognition/operatorGuidance/operatorGuidanceSelectors.ts:18:): OperatorGuidanceStreamEvent {
+dashboard/src/cognition/operatorGuidance/operatorGuidanceSelectors.ts:22:export function selectOperatorGuidanceRenderModel(
+dashboard/src/cognition/operatorGuidance/operatorGuidanceSelectors.ts:23:  state: OperatorGuidanceState,
+dashboard/src/cognition/operatorGuidance/operatorGuidanceSelectors.ts:24:): OperatorGuidanceRenderModel {
+dashboard/src/cognition/operatorGuidance/operatorGuidanceSelectors.ts:25:  return buildOperatorGuidanceRenderModel(state.lastEvent);
+dashboard/src/cognition/operatorGuidance/operatorGuidanceSelectors.ts:28:export function selectOperatorGuidanceConfidence(
+dashboard/src/cognition/operatorGuidance/operatorGuidanceSelectors.ts:29:  state: OperatorGuidanceState,
+dashboard/src/cognition/operatorGuidance/operatorGuidanceSelectors.ts:30:): OperatorGuidanceConfidence {
+dashboard/src/cognition/operatorGuidance/operatorGuidanceSelectors.ts:34:export function selectOperatorGuidanceSources(
+dashboard/src/cognition/operatorGuidance/operatorGuidanceSelectors.ts:35:  state: OperatorGuidanceState,
+
+[2] SSE SERVER PRIMITIVES
+server/db_bootstrap_run_view.mjs:49:      null::bigint as last_heartbeat_ts,
+server/db_bootstrap_run_view.mjs:50:      null::bigint as heartbeat_age_ms,
+server/optional-sse.mjs:19:  try { res.setHeader("Content-Type", "text/event-stream; charset=utf-8"); } catch {}
+server/optional-sse.mjs:23:  try { res.flushHeaders && res.flushHeaders(); } catch {}
+server/optional-sse.mjs:28:  res.setHeader("Content-Type", "text/event-stream; charset=utf-8");
+server/optional-sse.mjs:32:  // Express flushHeaders() exists; if not, ignore.
+server/optional-sse.mjs:33:  try { res.flushHeaders(); } catch (_) {}
+server/optional-sse.mjs:37:  res.write(line.endsWith("\n") ? line : line + "\n");
+server/optional-sse.mjs:128:        try { res.write(": once\n\n"); } catch (_) {}
+server/optional-sse.mjs:130:        try { res.flushHeaders && res.flushHeaders(); } catch (_) {}
+server/optional-sse.mjs:136:    const ka = setInterval(() => {
+server/optional-sse.mjs:137:      try { res.write(": keepalive\\n\\n"); } catch (_) {}
+server/optional-sse.mjs:140:    const __hb=setInterval(()=>{try{res.write("event: heartbeat\n");res.write("data: "+JSON.stringify({ts:Date.now()})+"\n\n")}catch{}},3000);
+server/artifacts.mjs:11:    res.write(line);
+server/artifacts.mjs:22:    res.setHeader("Content-Type", "text/event-stream");
+server/artifacts.mjs:26:    res.flushHeaders?.();
+server/artifacts.mjs:48:  setInterval(() => {
+server/worker/phase34_reclaim_stale_pg.sql:1:-- Inputs: $1 = stale_heartbeat_ms (e.g., 30000)
+server/worker/phase34_reclaim_stale_pg.sql:3:  SELECT $1::bigint AS stale_heartbeat_ms,
+server/worker/phase34_reclaim_stale_pg.sql:8:  FROM worker_heartbeats wh, params p
+server/worker/phase34_reclaim_stale_pg.sql:9:  WHERE wh.last_seen_at < (p.now_ms - p.stale_heartbeat_ms)
+server/worker/phase34_reclaim_stale_pg.sql:23:            SELECT 1 FROM worker_heartbeats wh2 WHERE wh2.owner = t.claimed_by
+server/worker/phase34_kill_owner_for_test.sql:2:DELETE FROM worker_heartbeats WHERE owner=:'owner';
+server/worker/phase34_reclaim_stale.sql:1:-- Inputs: :now_ms :stale_heartbeat_ms
+server/worker/phase34_reclaim_stale.sql:6:  FROM worker_heartbeats
+server/worker/phase34_reclaim_stale.sql:7:  WHERE last_seen_at < (:'now_ms'::bigint - :'stale_heartbeat_ms'::bigint)
+server/worker/phase34_reclaim_stale.sql:20:      OR (claimed_by IS NOT NULL AND NOT EXISTS (SELECT 1 FROM worker_heartbeats wh WHERE wh.owner=tasks.claimed_by))
+server/worker/phase34_heartbeat.sql:2:INSERT INTO worker_heartbeats(owner, last_seen_at)
+server/worker/phase34_heartbeat_pg.sql:2:INSERT INTO worker_heartbeats(owner, last_seen_at)
+server/worker/phase26_task_worker.mjs:30:  // Phase 34 (lease/heartbeat/reclaim) — optional, behind env flag
+server/worker/phase26_task_worker.mjs:32:  const PHASE34_HEARTBEAT_SQL = process.env.PHASE34_HEARTBEAT_SQL || "server/worker/phase34_heartbeat.sql";
+server/worker/phase26_task_worker.mjs:35:  const PHASE34_STALE_HEARTBEAT_MS = Number(process.env.PHASE34_STALE_HEARTBEAT_MS || String(PHASE34_LEASE_MS * 2));
+server/worker/phase26_task_worker.mjs:57:const PHASE34_HEARTBEAT_SQL_STR = readSqlFile(process.env.PHASE34_HEARTBEAT_PG_SQL || "server/worker/phase34_heartbeat_pg.sql");
+server/worker/phase26_task_worker.mjs:118:        // phase34 heartbeat + reclaim (optional)
+server/worker/phase26_task_worker.mjs:121:            await c.query(PHASE34_HEARTBEAT_SQL_STR, [owner]);
+server/worker/phase26_task_worker.mjs:123:            console.error("[phase34] heartbeat error", e);
+server/worker/phase26_task_worker.mjs:126:            await c.query(PHASE34_RECLAIM_SQL_STR, [PHASE34_STALE_HEARTBEAT_MS]);
+server/routes/task-events-sse.mjs:24:  if (event) res.write(`event: ${event}\n`);
+server/routes/task-events-sse.mjs:25:  res.write(`data: ${JSON.stringify(data)}\n\n`);
+server/routes/task-events-sse.mjs:60:  res.setHeader("Content-Type", "text/event-stream; charset=utf-8");
+server/routes/task-events-sse.mjs:65:  if (typeof res.flushHeaders === "function") {
+server/routes/task-events-sse.mjs:66:    res.flushHeaders();
+server/routes/task-events-sse.mjs:114:    const heartbeat = setInterval(() => {
+server/routes/task-events-sse.mjs:117:        event: "heartbeat",
+server/routes/task-events-sse.mjs:184:    const interval = setInterval(() => {
+server/routes/task-events-sse.mjs:193:      clearInterval(heartbeat);
+server/routes/phase36_run_view.mjs:108:          last_heartbeat_ts,
+server/routes/phase36_run_view.mjs:109:          heartbeat_age_ms,
+server/orchestrator/phase18_orchestration.mjs:23:  const timer = setInterval(() => {
+server/orchestrator/phase18_tick.mjs:22:    // Placeholder: later phases can reconcile agent heartbeats / run policies here.
+server/sql/phase54_bootstrap.sql:14:-- Lease + heartbeat (required by run_view)
+server/sql/phase54_bootstrap.sql:15:\i /migrations/drizzle_pg/0007_phase34_lease_heartbeat_reclaim.sql
+server/sql/phase47_decision_correctness_invariants.sql:98:  WHERE table_schema='public' AND table_name='tasks' AND column_name IN ('last_heartbeat_ts','heartbeat_ts','last_heartbeat_ms')
+server/sql/phase47_decision_correctness_invariants.sql:100:    WHEN column_name='last_heartbeat_ts' THEN 0
+server/sql/phase47_decision_correctness_invariants.sql:101:    WHEN column_name='heartbeat_ts' THEN 1
+server.mjs:135:          try { res.write(frame); } catch (_) {}
+server.mjs:142:        try { res.write(`: connected ${name}\n\n`); } catch (_) {}
+server.mjs:145:            res.write(`id: ${this.last.id}\nevent: ${this.last.event}\ndata: ${this.last.data}\n\n`);
+server.mjs:158:    globalThis.__OPS_STATE = { status: "unknown", lastHeartbeatAt: null, agents: {} };
+server.mjs:243:      lastHeartbeatAt: body.lastHeartbeatAt != null ? body.lastHeartbeatAt : Date.now(),
+server.mjs:342:let lastOpsHeartbeat = Date.now();
+server.mjs:412:  res.writeHead(200, {
+server.mjs:413:    "Content-Type": "text/event-stream",
+server.mjs:419:  res.write(`: ready\n`);
+server.mjs:420:  res.write(`:\n`);
+server.mjs:434:      res.write(`data: ${JSON.stringify({ tasks: r.rows, source: "db-tasks", ts: Date.now() })}\n\n`);
+server.mjs:436:      res.write(`event: error\ndata: ${JSON.stringify({ error: String(e), ts: Date.now() })}\n\n`);
+server.mjs:444:  const ping = setInterval(() => {
+server.mjs:446:    res.write(`: ping ${Date.now()}\n\n`);
+server.mjs:451:  const poll = setInterval(async () => {
+server.mjs:462:        res.write(`data: ${JSON.stringify({ tasks: r.rows, source: "db-tasks", ts: Date.now() })}\n\n`);
+server.mjs:465:      res.write(`event: error\ndata: ${JSON.stringify({ error: String(e), ts: Date.now() })}\n\n`);
+server.mjs:477:  res.writeHead(200, {
+server.mjs:478:    "Content-Type": "text/event-stream; charset=utf-8",
+server.mjs:484:  if (typeof res.flushHeaders === "function") {
+server.mjs:485:    res.flushHeaders();
+server.mjs:493:    res.write(frame);
+server.mjs:529:  const ping = setInterval(() => {
+server.mjs:535:  const poll = setInterval(() => {
+server.mjs:567:// ---- Ops heartbeat (minimal, no SSE dependency) ----
+server.mjs:568:app.get("/api/ops-heartbeat", (req, res) => {
+server.mjs:569:  lastOpsHeartbeat = Date.now();
+server.mjs:570:  res.json({ ok: true, ts: lastOpsHeartbeat });
+server.mjs:573:// ---- Shared heartbeat snapshot (for debugging + potential UI hooks) ----
+server.mjs:574:app.get("/api/heartbeat", (req, res) => {
+server.mjs:578:    ops: { ts: lastOpsHeartbeat },
+server.mjs:623:      for (const res of this.clients) { try { res.write(frame); } catch (_) {} }
+server.mjs:629:      try { res.write(`: connected ops\n\n`); } catch (_) {}
+server.mjs:630:      if (this.last) { try { res.write(`id: ${this.last.id}\nevent: ${this.last.event}\ndata: ${this.last.data}\n\n`); } catch (_) {} }
+server.mjs:634:  if (!globalThis.__OPS_STATE) globalThis.__OPS_STATE = { status: "unknown", lastHeartbeatAt: null, agents: {} };
+server.mjs:638:    res.setHeader("Content-Type", "text/event-stream; charset=utf-8");
+server.mjs:642:    if (res.flushHeaders) res.flushHeaders();
+server.mjs:653:    try { if (typeof res.flushHeaders === "function") res.flushHeaders(); } catch (_) {}
+server.mjs:654:    try { res.write(": ops-sse-connected\n\n"); } catch (_) {}
+server.mjs:666:  app.post("/api/ops/heartbeat", (req, res) => {
+server.mjs:671:    globalThis.__OPS_STATE.lastHeartbeatAt = ts;
+server.mjs:672:    _phase16BroadcastOps("ops.heartbeat", { source, at: ts, meta: body.meta || body });
+public/js/dashboard-tasks-widget.js:320:          <th>heartbeat_age_ms</th>
+public/js/dashboard-tasks-widget.js:370:          <td><code>${r.heartbeat_age_ms == null ? "" : esc(String(r.heartbeat_age_ms))}</code></td>
+public/js/dashboard-tasks-widget.js:407:    state.runsPanelTimer = setInterval(() => {
+public/js/dashboard-tasks-widget.js:422:    if (!k || k === "heartbeat" || k === "task.heartbeat") return;
+public/js/dashboard-tasks-widget.js:433:  setInterval(() => {
+public/js/sse-tasks-singleton.js:4: * Strict reuse of /events/tasks EventSource to prevent connect/abort churn.
+public/js/sse-tasks-singleton.js:10:  if (!window.EventSource) return;
+public/js/sse-tasks-singleton.js:14:  const NativeEventSource = window.EventSource;
+public/js/sse-tasks-singleton.js:63:    const es = new NativeEventSource(url, init);
+public/js/sse-tasks-singleton.js:88:  function TasksSafeEventSource(url, eventSourceInitDict) {
+public/js/sse-tasks-singleton.js:89:    if (!isTasksUrl(url)) return new NativeEventSource(url, eventSourceInitDict);
+public/js/sse-tasks-singleton.js:111:        return create(u, eventSourceInitDict);
+public/js/sse-tasks-singleton.js:118:    return create(u, eventSourceInitDict);
+public/js/sse-tasks-singleton.js:121:  TasksSafeEventSource.prototype = NativeEventSource.prototype;
+public/js/sse-tasks-singleton.js:122:  window.EventSource = TasksSafeEventSource;
+public/js/sse-tasks-singleton.js:132:  window.__mbhq_tasks_eventsource = () => singleton;
+public/js/heartbeat-stale-indicator.js:2: * Phase 16 – Heartbeat stale-state indicator (non-intrusive)
+public/js/heartbeat-stale-indicator.js:4: * Reads window.__HB (from sse-heartbeat-shim) and updates a tiny badge.
+public/js/heartbeat-stale-indicator.js:6: * - Shows OK when both OPS+Tasks have recent heartbeats.
+public/js/heartbeat-stale-indicator.js:23:  // Consider heartbeats stale after this many ms.
+public/js/heartbeat-stale-indicator.js:87:      setInterval(tick, 1000);
+public/js/heartbeat-stale-indicator.js:91:    setInterval(tick, 1000);
+public/js/phase489_panel_height_sync.js:245:    setInterval(sync, 1200);
+public/js/phase60_live_clock.js:20:  setInterval(() => {
+public/js/ops-pill-state.js:2:// Phase 11: simple dashboard OPS pill driven by lastOpsHeartbeat.
+public/js/ops-pill-state.js:5:// - Shows "OPS: Unknown" / "OPS: Online" based on heartbeat.
+public/js/ops-pill-state.js:46:    var hasHeartbeat = (typeof window.lastOpsHeartbeat === "number");
+public/js/ops-pill-state.js:48:    var label = hasHeartbeat ? "OPS: Online"  : "OPS: Unknown";
+public/js/ops-pill-state.js:49:    var cls   = hasHeartbeat ? "ops-pill-online" : "ops-pill-unknown";
+public/js/ops-pill-state.js:62:  setInterval(applyState, POLL_INTERVAL_MS);
+public/js/dashboard-broadcast.js:26:setInterval(() => {
+public/js/phase457_restore_task_panels.js:68:    if (kind === "hello" || kind === "heartbeat") {
+public/js/phase457_restore_task_panels.js:210:    es = new EventSource(STREAM_URL);
+public/js/operatorGuidance.sse.js:8:  let eventSource = null;
+public/js/operatorGuidance.sse.js:11:    if (eventSource) {
+public/js/operatorGuidance.sse.js:12:      eventSource.close();
+public/js/operatorGuidance.sse.js:13:      eventSource = null;
+public/js/operatorGuidance.sse.js:123:    if (eventSource) return;
+public/js/operatorGuidance.sse.js:124:    eventSource = new EventSource("/events/operator-guidance");
+public/js/operatorGuidance.sse.js:125:    attachHandlers(eventSource);
+public/js/sse-reflections-shim.js:1:// Phase 11 – SSE shim to disable Reflections EventSource until backend is ready
+public/js/sse-reflections-shim.js:5:  if (typeof window.EventSource === "undefined") return;
+public/js/sse-reflections-shim.js:7:  const NativeEventSource = window.EventSource;
+public/js/sse-reflections-shim.js:9:  function ReflectionsSafeEventSource(url, eventSourceInitDict) {
+public/js/sse-reflections-shim.js:12:        "[SSE SHIM] Reflections SSE disabled; backend not available. Returning dummy EventSource."
+public/js/sse-reflections-shim.js:29:    return new NativeEventSource(url, eventSourceInitDict);
+public/js/sse-reflections-shim.js:32:  ReflectionsSafeEventSource.prototype = NativeEventSource.prototype;
+public/js/sse-reflections-shim.js:33:  window.EventSource = ReflectionsSafeEventSource;
+public/js/dashboard-status.js:4: * - Consume /events/ops + /events/reflections via EventSource
+public/js/dashboard-status.js:10: * EventSource.onmessage only receives UNNAMED events, so we must addEventListener()
+public/js/dashboard-status.js:194:    const es = (window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(url));
+public/js/dashboard-status.js:198:    // Phase16: guard null EventSource before handlers
+public/js/dashboard-status.js:292:    setInterval(() => {
+public/js/dashboard-bundle-entry.js:1:import "./sse-heartbeat-shim.js";
+public/js/dashboard-bundle-entry.js:2:import "./heartbeat-stale-indicator.js";
+public/js/ops-globals-bridge.js:6:  if (typeof window === "undefined" || typeof EventSource === "undefined") return;
+public/js/ops-globals-bridge.js:13:  if (typeof window.lastOpsHeartbeat === "undefined") {
+public/js/ops-globals-bridge.js:14:    window.lastOpsHeartbeat = null;
+public/js/ops-globals-bridge.js:34:      window.lastOpsHeartbeat = Math.floor(Date.now() / 1000);
+public/js/ops-globals-bridge.js:49:    const es = (window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(opsUrl));
+public/js/ops-globals-bridge.js:52:    // Phase16: guard null EventSource before handlers
+public/js/ops-globals-bridge.js:61:    // Phase16: guard null EventSource before handlers (onerror)
+public/js/ops-globals-bridge.js:66:      console.warn("[ops-globals-bridge] EventSource error:", err);
+public/js/ops-globals-bridge.js:69:    console.warn("[ops-globals-bridge] Failed to init EventSource:", err);
+public/js/agent-status-row.js:342:    source = (window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(OPS_SSE_URL));
+public/js/agent-status-row.js:586:      es = new EventSource('/events/task-events');
+public/js/agent-status-row.js:606:  window.setInterval(render, 10000);
+public/js/phase16_sse_backoff.js:8: *     isHealthyEvent: (name, ev) => name === "heartbeat" || name === "hello" || name === "ops.state",
+public/js/phase16_sse_backoff.js:14: * - At most ONE underlying EventSource at any moment
+public/js/phase16_sse_backoff.js:51:    // user listeners (EventSource-like)
+public/js/phase16_sse_backoff.js:132:        es = new EventSource(url);
+public/js/phase64_agent_activity_wire.js:326:      ownedTaskEventsStream = new EventSource("/events/task-events");
+public/js/phase64_agent_activity_wire.js:337:    pollTimer = window.setInterval(reconcileFromRuns, POLL_MS);
+public/js/task-events-sse-client.js:156:    if (/open|start|run|resume|lease|dispatch|ack|progress|update|active|heartbeat/.test(text)) return "active";
+public/js/task-events-sse-client.js:313:    es = new EventSource(url);
+public/js/task-events-sse-client.js:338:      "heartbeat",
+public/js/task-events-sse-client.js:353:    setInterval(() => {
+public/js/project-visual-output.js:73:  const es = new EventSource("/events/artifacts");
+public/js/telemetry/success_rate_metric.js:198:  function patchEventSource() {
+public/js/telemetry/success_rate_metric.js:201:    const Native = window.EventSource;
+public/js/telemetry/success_rate_metric.js:217:    window.EventSource = Wrapped;
+public/js/telemetry/success_rate_metric.js:222:    patchEventSource();
+public/js/telemetry/latency_metric.js:200:  function patchEventSource() {
+public/js/telemetry/latency_metric.js:203:    const Native = window.EventSource;
+public/js/telemetry/latency_metric.js:219:    window.EventSource = Wrapped;
+public/js/telemetry/latency_metric.js:224:    patchEventSource();
+public/js/telemetry/running_tasks_metric.js:70:  function patchEventSource() {
+public/js/telemetry/running_tasks_metric.js:73:    const Native = window.EventSource;
+public/js/telemetry/running_tasks_metric.js:89:    window.EventSource = Wrapped;
+public/js/telemetry/running_tasks_metric.js:94:    patchEventSource();
+public/js/dashboard-graph.js:203:    refreshTimer = window.setInterval(refresh, REFRESH_MS);
+public/js/sse-heartbeat-shim.js:2: * Phase 16 – Shared Heartbeat Bus (OPS + Tasks)
+public/js/sse-heartbeat-shim.js:4: * Wrap EventSource so connection + any SSE message updates a normalized heartbeat store.
+public/js/sse-heartbeat-shim.js:33:  const NativeEventSource = w.EventSource;
+public/js/sse-heartbeat-shim.js:34:  if (!NativeEventSource || NativeEventSource.__hbWrapped) return;
+public/js/sse-heartbeat-shim.js:44:  function HeartbeatEventSource(url, eventSourceInitDict) {
+public/js/sse-heartbeat-shim.js:50:    const es = new NativeEventSource(url, eventSourceInitDict);
+public/js/sse-heartbeat-shim.js:56:    // Update heartbeat when the connection opens (most reliable for "alive").
+public/js/sse-heartbeat-shim.js:59:    // Update heartbeat on any message for this stream.
+public/js/sse-heartbeat-shim.js:75:    // Update heartbeat when errors occur too (helps show "something happened" vs silence).
+public/js/sse-heartbeat-shim.js:81:  HeartbeatEventSource.prototype = NativeEventSource.prototype;
+public/js/sse-heartbeat-shim.js:82:  HeartbeatEventSource.__hbWrapped = true;
+public/js/sse-heartbeat-shim.js:84:  w.EventSource = HeartbeatEventSource;
+public/js/reflections-sse-dashboard.js:10:// TODO: Re-enable EventSource wiring once a valid text/event-stream endpoint
+public/js/phase61_recent_history_wire.js:304:    window.setInterval(refreshAll, REFRESH_MS);
+public/js/ops-heartbeat-pinger.js:3:    fetch("/api/ops-heartbeat").catch(() => {});
+public/js/ops-heartbeat-pinger.js:8:      setInterval(ping, 5000);
+public/js/ops-heartbeat-pinger.js:12:    setInterval(ping, 5000);
+public/js/ops-sse-listener.js:6:// Close any existing OPS EventSource to avoid duplicates on hot reloads
+public/js/ops-sse-listener.js:11:console.warn("[OPS SSE] Error closing previous EventSource:", e);
+public/js/ops-sse-listener.js:15:if (typeof EventSource === "undefined") {
+public/js/ops-sse-listener.js:16:console.error("[OPS SSE] EventSource is not supported in this browser.");
+public/js/ops-sse-listener.js:26:    const es = (window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(OPS_SSE_URL));
+public/js/ops-sse-listener.js:34:if (typeof window.lastOpsHeartbeat === "undefined") {
+public/js/ops-sse-listener.js:35:window.lastOpsHeartbeat = null;
+public/js/ops-sse-listener.js:50:es.addEventListener("heartbeat", () => {
+public/js/ops-sse-listener.js:52:window.lastOpsHeartbeat = Date.now();
+
+
+===== FILE: server.mjs =====
+     1	import express from "express";
+     2	import { registerApiHealth } from "./server/routes/api-health.mjs";
+     3	import { waitForPostgresReady } from "./server/db_wait_ready.mjs";
+     4	import { registerOptionalSSE } from "./server/optional-sse.mjs";
+     5	import path from "path";
+     6	import { fileURLToPath } from "url";
+     7	import pg from "pg";
+     8	import { ensureTasksTaskIdColumn } from "./server/db_bootstrap_tasks_task_id.mjs";
+     9	import { ensureTasksRunIdColumn } from "./server/db_bootstrap_tasks_run_id_column.mjs";
+    10	import { ensureTasksActionTierColumn } from "./server/db_bootstrap_tasks_action_tier_column.mjs";
+    11	import { ensureTasksKindColumn } from "./server/db_bootstrap_tasks_kind_column.mjs";
+    12	import { ensureRunView } from "./server/db_bootstrap_run_view.mjs";
+    13	import { ensureTaskEventsTable } from "./server/db_bootstrap_task_events_table.mjs";
+    14	import { registerOrchestratorStateRoute } from "./server/orchestrator_state_route.mjs";
+    15	import { registerPhase19DebugRoutes } from "./server/phase19_debug_routes_dump.mjs";
+    16	import { apiTasksRouter } from "./server/routes/api-tasks-postgres.mjs";
+    17	import systemHealthRouter, {
+    18	  buildSystemHealthSnapshot,
+    19	} from "./routes/diagnostics/systemHealth.js";
+    20	import {
+    21	  reduceSystemHealthSnapshotToGuidanceReduction,
+    22	} from "./routes/diagnostics/operatorGuidanceRuntime.js";
+    23	
+    24	// Phase 44 — server HTTP mutation-route enforcement boundary (off/shadow/enforce)
+    25	import { createMutationEnforcementMiddleware } from "./server/enforcement/phase44_mutation_enforcer.mjs";
+    26	
+    27	import { attachArtifacts } from "./server/artifacts.mjs";
+    28	import { dbDelegateTask, dbCompleteTask } from "./server/tasks-mutations.mjs";
+    29	import taskEventsSSE from "./server/routes/task-events-sse.mjs";
+    30	import apiTasksMutationsRouter from "./server/routes/api-tasks-mutations.mjs";
+    31	import { handleDelegateTaskSpec as phase23HandleDelegateTaskSpec } from "./server/api/tasks-mutations/delegate-taskspec.mjs";
+    32	import { registerPhase36RunView } from "./server/routes/phase36_run_view.mjs";
+    33	import { getRunsList } from "./server/routes/phase36_run_view.mjs";
+    34	
+    35	import { registerPhase40_6ShadowAuditTaskEvents } from "./server/routes/phase40_6_shadow_audit_task_events.mjs";
+    36	import { registerPhase48PolicyProbe } from "./server/routes/phase48_policy_probe.mjs";
+    37	
+    38	const __filename = fileURLToPath(import.meta.url);
+    39	const __dirname = path.dirname(__filename);
+    40	
+    41	
+    42	const app = express();
+    43	
+    44	
+    45	
+    46	registerApiHealth(app);
+    47	// Phase49: enforce gate on real mutation routes (task path)
+    48	function phase49PolicyEnforceEnabled() {
+    49	  const v = String(process.env.POLICY_ENFORCE_MODE ?? process.env.POLICY_MODE ?? "").trim().toLowerCase();
+    50	  // accept common values without binding to any single previous implementation
+    51	  return v in {"1":1, "true":1, "yes":1, "on":1, "enforce":1, "enabled":1};
+    52	}
+    53	
+    54	app.use((req, res, next) => {
+    55	  try {
+    56	    if (!phase49PolicyEnforceEnabled()) return next();
+    57	    if (req.path === "/api/policy/probe") return next();
+    58	
+    59	    const m = String(req.method || "GET").toUpperCase();
+    60	    const isMut = (m === "POST" || m === "PUT" || m === "PATCH" || m === "DELETE");
+    61	    if (!isMut) return next();
+    62	
+    63	    // Start narrow: enforce on the real task mutation surface.
+    64	    if (req.path.startsWith("/api/tasks")) {
+    65	      return res.status(403).json({
+    66	        error: "policy.enforce",
+    67	        detail: "mutation blocked by enforcement gate (Phase49)",
+    68	        path: req.path,
+    69	        method: m,
+    70	      });
+    71	    }
+    72	
+    73	    return next();
+    74	  } catch (e) {
+    75	    return next(e);
+    76	  }
+    77	});
+    78	
+    79	// Phase 44 — enforce only at HTTP mutation route boundary
+    80	app.use(createMutationEnforcementMiddleware());
+    81	// Phase 23: parse JSON early (avoid empty req.body)
+    82	app.use(express.json());
+    83	
+    84	// Phase 20: task-events SSE (event-sourced)
+    85	app.use(taskEventsSSE);
+    86	  
+    87	registerOrchestratorStateRoute(app);
+    88	registerPhase19DebugRoutes(app);
+    89	if (process.env.PHASE19_DEBUG === "1") {
+    90	  console.log("[phase19] env", {
+    91	    PHASE18_ENABLE_ORCHESTRATION: process.env.PHASE18_ENABLE_ORCHESTRATION,
+    92	    PHASE19_ENABLE_ORCH_STATE: process.env.PHASE19_ENABLE_ORCH_STATE,
+    93	  });
+    94	}
+    95	app.use(express.text({ type: "*/*", limit: "64kb" }));
+    96	app.post("/api/phase16-beacon", (req, res) => {
+    97	  try { console.log("[BEACON]", req.body); } catch (e) { console.log("[BEACON] <unreadable>"); }
+    98	  res.status(204).end();
+    99	});
+   100	
+   101	app.use((req,res,next)=>{ console.log("[HTTP] " + req.method + " " + req.url); next(); });
+   102	
+   103	// ===== PHASE16_SSE_HUB (OPS + Reflections) =====
+   104	
+   105	// --- Phase 16.9: framework-agnostic JSON responder (Express or plain Node) ---
+   106	function _phase16SendJson(res, code, obj) {
+   107	  try {
+   108	    if (res && typeof res.status === "function" && typeof res.json === "function") {
+   109	      return res.status(code).json(obj);
+   110	    }
+   111	    // Node http.ServerResponse fallback
+   112	    if (res && typeof res.setHeader === "function" && typeof res.end === "function") {
+   113	      res.statusCode = code;
+   114	      res.setHeader("Content-Type", "application/json; charset=utf-8");
+   115	      res.end(JSON.stringify(obj));
+   116	      return;
+   117	    }
+   118	  } catch (_) {}
+   119	  // Last resort: do nothing
+   120	}
+   121	// --- /Phase 16.9 ---
+   122	  function _phase16CreateSSEHub(name) {
+   123	    const hub = {
+   124	      name,
+   125	      clients: new Set(),
+   126	      last: null,
+   127	      nextId: 1,
+   128	      broadcast(payload, eventName) {
+   129	        const id = String(this.nextId++);
+   130	        const data = typeof payload === "string" ? payload : JSON.stringify(payload);
+   131	        const event = eventName || "message";
+   132	        const frame = `id: ${id}\nevent: ${event}\ndata: ${data}\n\n`;
+   133	        this.last = { id, data, event };
+   134	        for (const res of this.clients) {
+   135	          try { res.write(frame); } catch (_) {}
+   136	        }
+   137	        return id;
+   138	      },
+   139	      attach(res) {
+   140	        this.clients.add(res);
+   141	        res.on("close", () => this.clients.delete(res));
+   142	        try { res.write(`: connected ${name}\n\n`); } catch (_) {}
+   143	        if (this.last) {
+   144	          try {
+   145	            res.write(`id: ${this.last.id}\nevent: ${this.last.event}\ndata: ${this.last.data}\n\n`);
+   146	          } catch (_) {}
+   147	        }
+   148	      },
+   149	    };
+   150	    return hub;
+   151	  }
+   152	
+   153	  if (!globalThis.__SSE) globalThis.__SSE = {};
+   154	  if (!globalThis.__SSE.ops) globalThis.__SSE.ops = _phase16CreateSSEHub("ops");
+   155	  if (!globalThis.__SSE.reflections) globalThis.__SSE.reflections = _phase16CreateSSEHub("reflections");
+   156	
+   157	  if (!globalThis.__OPS_STATE) {
+   158	    globalThis.__OPS_STATE = { status: "unknown", lastHeartbeatAt: null, agents: {} };
+   159	  }
+   160	  // ==============================================
+   161	
+   162	  // Phase 36.2: run_view-backed run observability (must not depend on optional SSE)
+   163	  registerPhase36RunView(app);
+   164	
+   165	  registerPhase48PolicyProbe(app);
+   166	
+   167	// Phase 16: optional dashboard SSE endpoints (OPS + Reflections)
+   168	try {
+   169	  registerOptionalSSE(app);
+   170	  console.log("[SSE] /events/ops + /events/reflections registered");
+   171	} catch (e) {
+   172	  console.warn("[SSE] Failed to register optional SSE:", e && e.message ? e.message : e);
+   173	}
+   174	
+   175	// Serve static assets from ./public (required for /css/* and /js/* on /dashboard)
+   176	app.use(express.static(path.join(__dirname, "public")));
+   177	app.use("/css", express.static(path.join(__dirname, "public", "css")));
+   178	app.use("/js", express.static(path.join(__dirname, "public", "js")));
+   179	app.use("/img", express.static(path.join(__dirname, "public", "img")));
+   180	// Phase 23: TaskSpec adapter -> create task + emit task_events
+   181	app.post("/api/tasks-mutations/delegate-taskspec", async (req, res) => phase23HandleDelegateTaskSpec(req, res, { db: pool, dbDelegateTask }));
+   182	
+   183	// Phase 23: TaskSpec adapter -> create task + emit task_events
+   184	
+   185	
+   186	// Phase 23: TaskSpec adapter -> existing delegate
+   187	
+   188	app.use("/api/tasks", apiTasksRouter);
+   189	app.use("/api/tasks-mutations", apiTasksMutationsRouter);
+   190	
+   191	
+   192	app.use("/diagnostics/system-health", systemHealthRouter);
+   193	app.use("/diagnostics/systemHealth", systemHealthRouter);
+   194	// --- Phase 16.7: dev-only emit endpoints (local debug) ---
+   195	app.post("/api/dev/emit-reflection", (req, res) => {
+   196	  try {
+   197	    const body = req.body || {};
+   198	    const item = {
+   199	      ts: body.ts != null ? body.ts : Date.now(),
+   200	      title: body.title != null ? String(body.title) : "dev",
+   201	      msg: body.msg != null ? String(body.msg) : "dev reflection",
+   202	      kind: body.kind != null ? String(body.kind) : "dev",
+   203	    };
+   204	
+   205	    // keep snapshot cache in sync for /events/reflections snapshot-on-connect
+   206	    if (!globalThis.__REFLECTIONS_STATE || typeof globalThis.__REFLECTIONS_STATE !== "object") {
+   207	      globalThis.__REFLECTIONS_STATE = { items: [], lastAt: null };
+   208	    }
+   209	    if (!Array.isArray(globalThis.__REFLECTIONS_STATE.items)) globalThis.__REFLECTIONS_STATE.items = [];
+   210	    globalThis.__REFLECTIONS_STATE.items = [item, ...globalThis.__REFLECTIONS_STATE.items].slice(0, 50);
+   211	    globalThis.__REFLECTIONS_STATE.lastAt = item.ts;
+   212	
+   213	    // Prefer the optional-sse broadcaster globals if present
+   214	    if (typeof globalThis.__broadcastReflections === "function") {
+   215	      try { globalThis.__broadcastReflections({ item }); } catch (_) {}
+   216	      return _phase16SendJson(res, 200, { ok: true, via: "globalThis.__broadcastReflections", item });
+   217	    }
+   218	
+   219	    // Or use the Phase16 SSE hub if present
+   220	    if (globalThis.__SSE && globalThis.__SSE.reflections && typeof globalThis.__SSE.reflections.broadcast === "function") {
+   221	      globalThis.__SSE.reflections.broadcast("reflections.add", { item });
+   222	      return _phase16SendJson(res, 200, { ok: true, via: "globalThis.__SSE.reflections.broadcast", item });
+   223	    }
+   224	
+   225	    // Legacy/alt broadcaster shape
+   226	    if (globalThis.__SSE_BROADCAST && typeof globalThis.__SSE_BROADCAST.reflections === "function") {
+   227	      globalThis.__SSE_BROADCAST.reflections({ event: "reflections.add", data: { item } });
+   228	      return _phase16SendJson(res, 200, { ok: true, via: "globalThis.__SSE_BROADCAST.reflections", item });
+   229	    }
+   230	
+   231	    return _phase16SendJson(res, 202, { ok: true, via: "none", note: "No reflections broadcaster found; SSE-only build", item });
+   232	  } catch (e) {
+   233	    return _phase16SendJson(res, 500, { ok: false, error: String(e) });
+   234	  }
+   235	});
+   236	
+   237	
+   238	app.post("/api/dev/emit-ops", (req, res) => {
+   239	  try {
+   240	    const body = req.body || {};
+   241	    const state = {
+   242	      status: body.status != null ? String(body.status) : "unknown",
+   243	      lastHeartbeatAt: body.lastHeartbeatAt != null ? body.lastHeartbeatAt : Date.now(),
+   244	      agents: body.agents != null ? body.agents : {},
+   245	    };
+   246	
+   247	    globalThis.__OPS_STATE = state;
+   248	
+   249	    if (typeof globalThis.__broadcastOps === "function") {
+   250	      try { globalThis.__broadcastOps(state); } catch (_) {}
+   251	      return _phase16SendJson(res, 200, { ok: true, via: "globalThis.__broadcastOps", state });
+   252	    }
+   253	
+   254	    if (globalThis.__SSE && globalThis.__SSE.ops && typeof globalThis.__SSE.ops.broadcast === "function") {
+   255	      globalThis.__SSE.ops.broadcast(state, "ops.state");
+   256	      return _phase16SendJson(res, 200, { ok: true, via: "globalThis.__SSE.ops.broadcast", state });
+   257	    }
+   258	
+   259	    if (globalThis.__SSE_BROADCAST && typeof globalThis.__SSE_BROADCAST.ops === "function") {
+   260	      globalThis.__SSE_BROADCAST.ops({ event: "ops.state", data: state });
+
+===== FILE: public/js/operatorGuidance.sse.js =====
+     1	(() => {
+     2	  if (window.__OPERATOR_GUIDANCE_STREAM_ACTIVE__) return;
+     3	  window.__OPERATOR_GUIDANCE_STREAM_ACTIVE__ = true;
+     4	
+     5	  const RESPONSE_EL = document.getElementById("operator-guidance-response");
+     6	  const META_EL = document.getElementById("operator-guidance-meta");
+     7	
+     8	  let eventSource = null;
+     9	
+    10	  function closeStream() {
+    11	    if (eventSource) {
+    12	      eventSource.close();
+    13	      eventSource = null;
+    14	    }
+    15	  }
+    16	
+    17	  function firstNonEmpty(...values) {
+    18	    for (const value of values) {
+    19	      if (value === null || value === undefined) continue;
+    20	      const text = String(value).trim();
+    21	      if (text) return text;
+    22	    }
+    23	    return "";
+    24	  }
+    25	
+    26	  function normalizePayload(raw) {
+    27	    let data = raw;
+    28	    try {
+    29	      if (typeof raw === "string") data = JSON.parse(raw);
+    30	    } catch (_) {}
+    31	
+    32	    const reduction = data?.reduction || {};
+    33	    const envelope = reduction?.envelope || {};
+    34	    const guidanceItems = Array.isArray(envelope?.guidance) ? envelope.guidance : [];
+    35	
+    36	    const guidanceLines = guidanceItems
+    37	      .map((item) =>
+    38	        firstNonEmpty(
+    39	          item?.summary,
+    40	          item?.message,
+    41	          item?.headline,
+    42	          item?.detail,
+    43	          item?.reason
+    44	        )
+    45	      )
+    46	      .filter(Boolean);
+    47	
+    48	    const response = firstNonEmpty(
+    49	      guidanceLines.join("\n\n"),
+    50	      reduction?.confidenceReason,
+    51	      "No guidance available"
+    52	    );
+    53	
+    54	    const metaLines = [];
+    55	
+    56	    const confidence = firstNonEmpty(reduction?.surfaceConfidence);
+    57	    if (confidence) {
+    58	      metaLines.push(`Confidence: ${confidence}`);
+    59	    }
+    60	
+    61	    const confidenceReason = firstNonEmpty(reduction?.confidenceReason);
+    62	    if (confidenceReason) {
+    63	      metaLines.push(`Reason: ${confidenceReason}`);
+    64	    }
+    65	
+    66	    const signalCount =
+    67	      reduction?.signalCount !== undefined && reduction?.signalCount !== null
+    68	        ? String(reduction.signalCount).trim()
+    69	        : "";
+    70	    if (signalCount) {
+    71	      metaLines.push(`Signals: ${signalCount}`);
+    72	    }
+    73	
+    74	    if (reduction?.conflictingSignals === true) {
+    75	      metaLines.push("Conflicts: detected");
+    76	    }
+    77	
+    78	    const sourceSet = new Set();
+    79	    if (data?.source) sourceSet.add(String(data.source).trim());
+    80	    guidanceItems.forEach((item) => {
+    81	      const src = firstNonEmpty(item?.source, item?.domain);
+    82	      if (src) sourceSet.add(src);
+    83	    });
+    84	
+    85	    const sources = Array.from(sourceSet).filter(Boolean).join(", ");
+    86	    if (sources) {
+    87	      metaLines.push(`Sources: ${sources}`);
+    88	    }
+    89	
+    90	    return { response, metaLines };
+    91	  }
+    92	
+    93	  function applyPayload(raw) {
+    94	    const normalized = normalizePayload(raw);
+    95	
+    96	    if (RESPONSE_EL && normalized.response) {
+    97	      RESPONSE_EL.textContent = normalized.response;
+    98	    }
+    99	
+   100	    if (META_EL && normalized.metaLines.length) {
+   101	      META_EL.innerText = normalized.metaLines.join("\n");
+   102	    }
+   103	  }
+   104	
+   105	  function attachHandlers(es) {
+   106	    const handleEvent = (event) => {
+   107	      try {
+   108	        applyPayload(event.data);
+   109	      } catch (_) {}
+   110	    };
+   111	
+   112	    es.onmessage = handleEvent;
+   113	    es.addEventListener("operator_guidance", handleEvent);
+   114	    es.addEventListener("operator-guidance", handleEvent);
+   115	    es.addEventListener("guidance", handleEvent);
+   116	
+   117	    es.onerror = () => {
+   118	      closeStream();
+   119	    };
+   120	  }
+   121	
+   122	  function startStream() {
+   123	    if (eventSource) return;
+   124	    eventSource = new EventSource("/events/operator-guidance");
+   125	    attachHandlers(eventSource);
+   126	  }
+   127	
+   128	  startStream();
+   129	
+   130	  document.addEventListener("visibilitychange", () => {
+   131	    if (document.visibilityState === "hidden") {
+   132	      closeStream();
+   133	    }
+   134	  });
+   135	
+   136	  window.addEventListener("beforeunload", () => {
+   137	    closeStream();
+   138	  });
+   139	})();
+
+===== CANDIDATE FILE: server.mjs =====
+     1	import express from "express";
+     2	import { registerApiHealth } from "./server/routes/api-health.mjs";
+     3	import { waitForPostgresReady } from "./server/db_wait_ready.mjs";
+     4	import { registerOptionalSSE } from "./server/optional-sse.mjs";
+     5	import path from "path";
+     6	import { fileURLToPath } from "url";
+     7	import pg from "pg";
+     8	import { ensureTasksTaskIdColumn } from "./server/db_bootstrap_tasks_task_id.mjs";
+     9	import { ensureTasksRunIdColumn } from "./server/db_bootstrap_tasks_run_id_column.mjs";
+    10	import { ensureTasksActionTierColumn } from "./server/db_bootstrap_tasks_action_tier_column.mjs";
+    11	import { ensureTasksKindColumn } from "./server/db_bootstrap_tasks_kind_column.mjs";
+    12	import { ensureRunView } from "./server/db_bootstrap_run_view.mjs";
+    13	import { ensureTaskEventsTable } from "./server/db_bootstrap_task_events_table.mjs";
+    14	import { registerOrchestratorStateRoute } from "./server/orchestrator_state_route.mjs";
+    15	import { registerPhase19DebugRoutes } from "./server/phase19_debug_routes_dump.mjs";
+    16	import { apiTasksRouter } from "./server/routes/api-tasks-postgres.mjs";
+    17	import systemHealthRouter, {
+    18	  buildSystemHealthSnapshot,
+    19	} from "./routes/diagnostics/systemHealth.js";
+    20	import {
+    21	  reduceSystemHealthSnapshotToGuidanceReduction,
+    22	} from "./routes/diagnostics/operatorGuidanceRuntime.js";
+    23	
+    24	// Phase 44 — server HTTP mutation-route enforcement boundary (off/shadow/enforce)
+    25	import { createMutationEnforcementMiddleware } from "./server/enforcement/phase44_mutation_enforcer.mjs";
+    26	
+    27	import { attachArtifacts } from "./server/artifacts.mjs";
+    28	import { dbDelegateTask, dbCompleteTask } from "./server/tasks-mutations.mjs";
+    29	import taskEventsSSE from "./server/routes/task-events-sse.mjs";
+    30	import apiTasksMutationsRouter from "./server/routes/api-tasks-mutations.mjs";
+    31	import { handleDelegateTaskSpec as phase23HandleDelegateTaskSpec } from "./server/api/tasks-mutations/delegate-taskspec.mjs";
+    32	import { registerPhase36RunView } from "./server/routes/phase36_run_view.mjs";
+    33	import { getRunsList } from "./server/routes/phase36_run_view.mjs";
+    34	
+    35	import { registerPhase40_6ShadowAuditTaskEvents } from "./server/routes/phase40_6_shadow_audit_task_events.mjs";
+    36	import { registerPhase48PolicyProbe } from "./server/routes/phase48_policy_probe.mjs";
+    37	
+    38	const __filename = fileURLToPath(import.meta.url);
+    39	const __dirname = path.dirname(__filename);
+    40	
+    41	
+    42	const app = express();
+    43	
+    44	
+    45	
+    46	registerApiHealth(app);
+    47	// Phase49: enforce gate on real mutation routes (task path)
+    48	function phase49PolicyEnforceEnabled() {
+    49	  const v = String(process.env.POLICY_ENFORCE_MODE ?? process.env.POLICY_MODE ?? "").trim().toLowerCase();
+    50	  // accept common values without binding to any single previous implementation
+    51	  return v in {"1":1, "true":1, "yes":1, "on":1, "enforce":1, "enabled":1};
+    52	}
+    53	
+    54	app.use((req, res, next) => {
+    55	  try {
+    56	    if (!phase49PolicyEnforceEnabled()) return next();
+    57	    if (req.path === "/api/policy/probe") return next();
+    58	
+    59	    const m = String(req.method || "GET").toUpperCase();
+    60	    const isMut = (m === "POST" || m === "PUT" || m === "PATCH" || m === "DELETE");
+    61	    if (!isMut) return next();
+    62	
+    63	    // Start narrow: enforce on the real task mutation surface.
+    64	    if (req.path.startsWith("/api/tasks")) {
+    65	      return res.status(403).json({
+    66	        error: "policy.enforce",
+    67	        detail: "mutation blocked by enforcement gate (Phase49)",
+    68	        path: req.path,
+    69	        method: m,
+    70	      });
+    71	    }
+    72	
+    73	    return next();
+    74	  } catch (e) {
+    75	    return next(e);
+    76	  }
+    77	});
+    78	
+    79	// Phase 44 — enforce only at HTTP mutation route boundary
+    80	app.use(createMutationEnforcementMiddleware());
+    81	// Phase 23: parse JSON early (avoid empty req.body)
+    82	app.use(express.json());
+    83	
+    84	// Phase 20: task-events SSE (event-sourced)
+    85	app.use(taskEventsSSE);
+    86	  
+    87	registerOrchestratorStateRoute(app);
+    88	registerPhase19DebugRoutes(app);
+    89	if (process.env.PHASE19_DEBUG === "1") {
+    90	  console.log("[phase19] env", {
+    91	    PHASE18_ENABLE_ORCHESTRATION: process.env.PHASE18_ENABLE_ORCHESTRATION,
+    92	    PHASE19_ENABLE_ORCH_STATE: process.env.PHASE19_ENABLE_ORCH_STATE,
+    93	  });
+    94	}
+    95	app.use(express.text({ type: "*/*", limit: "64kb" }));
+    96	app.post("/api/phase16-beacon", (req, res) => {
+    97	  try { console.log("[BEACON]", req.body); } catch (e) { console.log("[BEACON] <unreadable>"); }
+    98	  res.status(204).end();
+    99	});
+   100	
+   101	app.use((req,res,next)=>{ console.log("[HTTP] " + req.method + " " + req.url); next(); });
+   102	
+   103	// ===== PHASE16_SSE_HUB (OPS + Reflections) =====
+   104	
+   105	// --- Phase 16.9: framework-agnostic JSON responder (Express or plain Node) ---
+   106	function _phase16SendJson(res, code, obj) {
+   107	  try {
+   108	    if (res && typeof res.status === "function" && typeof res.json === "function") {
+   109	      return res.status(code).json(obj);
+   110	    }
+   111	    // Node http.ServerResponse fallback
+   112	    if (res && typeof res.setHeader === "function" && typeof res.end === "function") {
+   113	      res.statusCode = code;
+   114	      res.setHeader("Content-Type", "application/json; charset=utf-8");
+   115	      res.end(JSON.stringify(obj));
+   116	      return;
+   117	    }
+   118	  } catch (_) {}
+   119	  // Last resort: do nothing
+   120	}
+   121	// --- /Phase 16.9 ---
+   122	  function _phase16CreateSSEHub(name) {
+   123	    const hub = {
+   124	      name,
+   125	      clients: new Set(),
+   126	      last: null,
+   127	      nextId: 1,
+   128	      broadcast(payload, eventName) {
+   129	        const id = String(this.nextId++);
+   130	        const data = typeof payload === "string" ? payload : JSON.stringify(payload);
+   131	        const event = eventName || "message";
+   132	        const frame = `id: ${id}\nevent: ${event}\ndata: ${data}\n\n`;
+   133	        this.last = { id, data, event };
+   134	        for (const res of this.clients) {
+   135	          try { res.write(frame); } catch (_) {}
+   136	        }
+   137	        return id;
+   138	      },
+   139	      attach(res) {
+   140	        this.clients.add(res);
+   141	        res.on("close", () => this.clients.delete(res));
+   142	        try { res.write(`: connected ${name}\n\n`); } catch (_) {}
+   143	        if (this.last) {
+   144	          try {
+   145	            res.write(`id: ${this.last.id}\nevent: ${this.last.event}\ndata: ${this.last.data}\n\n`);
+   146	          } catch (_) {}
+   147	        }
+   148	      },
+   149	    };
+   150	    return hub;
+   151	  }
+   152	
+   153	  if (!globalThis.__SSE) globalThis.__SSE = {};
+   154	  if (!globalThis.__SSE.ops) globalThis.__SSE.ops = _phase16CreateSSEHub("ops");
+   155	  if (!globalThis.__SSE.reflections) globalThis.__SSE.reflections = _phase16CreateSSEHub("reflections");
+   156	
+   157	  if (!globalThis.__OPS_STATE) {
+   158	    globalThis.__OPS_STATE = { status: "unknown", lastHeartbeatAt: null, agents: {} };
+   159	  }
+   160	  // ==============================================
+   161	
+   162	  // Phase 36.2: run_view-backed run observability (must not depend on optional SSE)
+   163	  registerPhase36RunView(app);
+   164	
+   165	  registerPhase48PolicyProbe(app);
+   166	
+   167	// Phase 16: optional dashboard SSE endpoints (OPS + Reflections)
+   168	try {
+   169	  registerOptionalSSE(app);
+   170	  console.log("[SSE] /events/ops + /events/reflections registered");
+   171	} catch (e) {
+   172	  console.warn("[SSE] Failed to register optional SSE:", e && e.message ? e.message : e);
+   173	}
+   174	
+   175	// Serve static assets from ./public (required for /css/* and /js/* on /dashboard)
+   176	app.use(express.static(path.join(__dirname, "public")));
+   177	app.use("/css", express.static(path.join(__dirname, "public", "css")));
+   178	app.use("/js", express.static(path.join(__dirname, "public", "js")));
+   179	app.use("/img", express.static(path.join(__dirname, "public", "img")));
+   180	// Phase 23: TaskSpec adapter -> create task + emit task_events
+   181	app.post("/api/tasks-mutations/delegate-taskspec", async (req, res) => phase23HandleDelegateTaskSpec(req, res, { db: pool, dbDelegateTask }));
+   182	
+   183	// Phase 23: TaskSpec adapter -> create task + emit task_events
+   184	
+   185	
+   186	// Phase 23: TaskSpec adapter -> existing delegate
+   187	
+   188	app.use("/api/tasks", apiTasksRouter);
+   189	app.use("/api/tasks-mutations", apiTasksMutationsRouter);
+   190	
+   191	
+   192	app.use("/diagnostics/system-health", systemHealthRouter);
+   193	app.use("/diagnostics/systemHealth", systemHealthRouter);
+   194	// --- Phase 16.7: dev-only emit endpoints (local debug) ---
+   195	app.post("/api/dev/emit-reflection", (req, res) => {
+   196	  try {
+   197	    const body = req.body || {};
+   198	    const item = {
+   199	      ts: body.ts != null ? body.ts : Date.now(),
+   200	      title: body.title != null ? String(body.title) : "dev",
+   201	      msg: body.msg != null ? String(body.msg) : "dev reflection",
+   202	      kind: body.kind != null ? String(body.kind) : "dev",
+   203	    };
+   204	
+   205	    // keep snapshot cache in sync for /events/reflections snapshot-on-connect
+   206	    if (!globalThis.__REFLECTIONS_STATE || typeof globalThis.__REFLECTIONS_STATE !== "object") {
+   207	      globalThis.__REFLECTIONS_STATE = { items: [], lastAt: null };
+   208	    }
+   209	    if (!Array.isArray(globalThis.__REFLECTIONS_STATE.items)) globalThis.__REFLECTIONS_STATE.items = [];
+   210	    globalThis.__REFLECTIONS_STATE.items = [item, ...globalThis.__REFLECTIONS_STATE.items].slice(0, 50);
+   211	    globalThis.__REFLECTIONS_STATE.lastAt = item.ts;
+   212	
+   213	    // Prefer the optional-sse broadcaster globals if present
+   214	    if (typeof globalThis.__broadcastReflections === "function") {
+   215	      try { globalThis.__broadcastReflections({ item }); } catch (_) {}
+   216	      return _phase16SendJson(res, 200, { ok: true, via: "globalThis.__broadcastReflections", item });
+   217	    }
+   218	
+   219	    // Or use the Phase16 SSE hub if present
+   220	    if (globalThis.__SSE && globalThis.__SSE.reflections && typeof globalThis.__SSE.reflections.broadcast === "function") {
+   221	      globalThis.__SSE.reflections.broadcast("reflections.add", { item });
+   222	      return _phase16SendJson(res, 200, { ok: true, via: "globalThis.__SSE.reflections.broadcast", item });
+   223	    }
+   224	
+   225	    // Legacy/alt broadcaster shape
+   226	    if (globalThis.__SSE_BROADCAST && typeof globalThis.__SSE_BROADCAST.reflections === "function") {
+   227	      globalThis.__SSE_BROADCAST.reflections({ event: "reflections.add", data: { item } });
+   228	      return _phase16SendJson(res, 200, { ok: true, via: "globalThis.__SSE_BROADCAST.reflections", item });
+   229	    }
+   230	
+   231	    return _phase16SendJson(res, 202, { ok: true, via: "none", note: "No reflections broadcaster found; SSE-only build", item });
+   232	  } catch (e) {
+   233	    return _phase16SendJson(res, 500, { ok: false, error: String(e) });
+   234	  }
+   235	});
+   236	
+   237	
+   238	app.post("/api/dev/emit-ops", (req, res) => {
+   239	  try {
+   240	    const body = req.body || {};
+   241	    const state = {
+   242	      status: body.status != null ? String(body.status) : "unknown",
+   243	      lastHeartbeatAt: body.lastHeartbeatAt != null ? body.lastHeartbeatAt : Date.now(),
+   244	      agents: body.agents != null ? body.agents : {},
+   245	    };
+   246	
+   247	    globalThis.__OPS_STATE = state;
+   248	
+   249	    if (typeof globalThis.__broadcastOps === "function") {
+   250	      try { globalThis.__broadcastOps(state); } catch (_) {}
+   251	      return _phase16SendJson(res, 200, { ok: true, via: "globalThis.__broadcastOps", state });
+   252	    }
+   253	
+   254	    if (globalThis.__SSE && globalThis.__SSE.ops && typeof globalThis.__SSE.ops.broadcast === "function") {
+   255	      globalThis.__SSE.ops.broadcast(state, "ops.state");
+   256	      return _phase16SendJson(res, 200, { ok: true, via: "globalThis.__SSE.ops.broadcast", state });
+   257	    }
+   258	
+   259	    if (globalThis.__SSE_BROADCAST && typeof globalThis.__SSE_BROADCAST.ops === "function") {
+   260	      globalThis.__SSE_BROADCAST.ops({ event: "ops.state", data: state });
+
+===== CANDIDATE FILE: server/artifacts.mjs =====
+     1	/**
+     2	 * Artifacts SSE + small in-memory replay.
+     3	 * Artifacts must originate server-side (no client synthesis).
+     4	 */
+     5	const clients = new Set();
+     6	let ring = [];
+     7	const RING_MAX = 100;
+     8	
+     9	function sseWrite(res, line) {
+    10	  try {
+    11	    res.write(line);
+    12	    res.flush?.();
+    13	  } catch {
+    14	    clients.delete(res);
+    15	  }
+    16	}
+    17	
+    18	export function attachArtifacts(app) {
+    19	  app.get("/events/artifacts", (req, res) => {
+    20	  console.log("[ARTIFACTS] SSE client connected");
+    21	    res.status(200);
+    22	    res.setHeader("Content-Type", "text/event-stream");
+    23	    res.setHeader("Cache-Control", "no-cache, no-transform");
+    24	    res.setHeader("Connection", "keep-alive");
+    25	    res.setHeader("X-Accel-Buffering", "no");
+    26	    res.flushHeaders?.();
+    27	
+    28	    clients.add(res);
+    29	
+    30	  console.log("[ARTIFACTS] clients=", clients.size);
+    31	    // immediate output so curl isn't a blank screen
+    32	    sseWrite(res, `: connected ${new Date().toISOString()}\n\n`);
+    33	
+    34	    // replay
+    35	    for (const a of ring) {
+    36	      sseWrite(res, `data: ${JSON.stringify(a)}\n\n`);
+    37	    }
+    38	
+    39	    req.on("close", () => {
+    40	    console.log("[ARTIFACTS] SSE client disconnected");
+    41	    console.log("[ARTIFACTS] clients=", clients.size);
+    42	      clients.delete(res);
+    43	      try { res.end(); } catch {}
+    44	    });
+    45	  });
+    46	
+    47	  // keepalive ping (prevents buffering/timeouts)
+    48	  setInterval(() => {
+    49	    for (const res of clients) {
+    50	      sseWrite(res, `: ping ${new Date().toISOString()}\n\n`);
+    51	    }
+    52	  }, 15000);
+    53	
+    54	  app.post("/api/artifacts", (req, res) => {
+    55	    emitArtifact({
+    56	      ...(req.body || {}),
+    57	      timestamp: new Date().toISOString(),
+    58	    });
+    59	    res.json({ ok: true });
+    60	  });
+    61	
+    62	  return { emitArtifact };
+    63	}
+    64	
+    65	export function emitArtifact(artifact) {
+    66	  const a = {
+    67	    type: artifact?.type || "log",
+    68	    source: artifact?.source || "unknown",
+    69	    taskId: artifact?.taskId,
+    70	    timestamp: artifact?.timestamp || new Date().toISOString(),
+    71	    payload: artifact?.payload ?? {},
+    72	  };
+    73	
+    74	  ring.push(a);
+    75	  if (ring.length > RING_MAX) ring = ring.slice(-RING_MAX);
+    76	
+    77	  for (const res of clients) {
+    78	    sseWrite(res, `data: ${JSON.stringify(a)}\n\n`);
+    79	  }
+    80	}
+
+===== CANDIDATE FILE: server/optional-sse.mjs =====
+     1	/**
+     2	 * Phase 16 — Optional SSE endpoints for dashboard (OPS + Reflections)
+     3	 *
+     4	 * Routes:
+     5	 *   GET /events/ops
+     6	 *   GET /events/reflections
+     7	 *
+     8	 * Guarantees:
+     9	 * - Proper SSE headers
+    10	 * - Immediate "hello" event (so curl never hangs silently)
+    11	 * - Keepalive comment every 10s (prevents idle timeouts)
+    12	 * - Broadcast helper exposed on globalThis.__SSE for future wiring
+    13	 */
+    14	
+    15	
+    16	
+    17	// Phase 16.4: SSE keepalive + proxy-safe headers
+    18	function __phase16_writeSSEHeaders(req, res) {
+    19	  try { res.setHeader("Content-Type", "text/event-stream; charset=utf-8"); } catch {}
+    20	  try { res.setHeader("Cache-Control", "no-cache, no-transform"); } catch {}
+    21	  try { res.setHeader("Connection", "keep-alive"); } catch {}
+    22	  try { res.setHeader("X-Accel-Buffering", "no"); } catch {}
+    23	  try { res.flushHeaders && res.flushHeaders(); } catch {}
+    24	}
+    25	
+    26	function sseHeaders(res) {
+    27	  res.status(200);
+    28	  res.setHeader("Content-Type", "text/event-stream; charset=utf-8");
+    29	  res.setHeader("Cache-Control", "no-cache, no-transform");
+    30	  res.setHeader("Connection", "keep-alive");
+    31	  res.setHeader("X-Accel-Buffering", "no");
+    32	  // Express flushHeaders() exists; if not, ignore.
+    33	  try { res.flushHeaders(); } catch (_) {}
+    34	}
+    35	
+    36	function writeLine(res, line) {
+    37	  res.write(line.endsWith("\n") ? line : line + "\n");
+    38	}
+    39	
+    40	function writeEvent(res, evt = {}) {
+    41	  // PHASE16_WRITE_EVENT_EVT_SIGNATURE
+    42	  let { event, data, id } = (evt || {});
+    43	  // Normalize hub messages like { type, payload }
+    44	  if (evt && typeof evt === "object" && typeof evt.type === "string" && event == null) {
+    45	    event = evt.type;
+    46	    data = (evt.payload !== undefined ? evt.payload : evt);
+    47	  }
+    48	
+    49	  // PHASE16_WRITE_EVENT_FIX_SWAPPED
+    50	  // Some callers accidentally pass { event: <msgObject>, data: <msgTypeString> }.
+    51	  // If so, swap/normalize so SSE "event:" is a string and "data:" is the payload.
+    52	  if (event && typeof event === "object" && typeof data === "string") {
+    53	    const maybe = event;
+    54	    if (typeof maybe.type === "string" && data === maybe.type) {
+    55	      event = maybe.type;
+    56	      data = (maybe.payload !== undefined ? maybe.payload : maybe);
+    57	    } else if (typeof maybe.type === "string" && data.includes(".") && data === maybe.type) {
+    58	      event = maybe.type;
+    59	      data = (maybe.payload !== undefined ? maybe.payload : maybe);
+    60	    } else if (typeof maybe.type === "string" && data.includes(".")) {
+    61	      // If data *looks* like an event name, treat it as the event anyway.
+    62	      event = data;
+    63	      data = (maybe.payload !== undefined ? maybe.payload : maybe);
+    64	    }
+    65	  }
+    66	
+    67	  // PHASE16_WRITE_EVENT_NORMALIZE_SHAPE
+    68	  // Allow hub messages like { type, payload } by mapping them to { event, data }.
+    69	  // This prevents "event: [object Object]" and yields "event: ops.agent_status", etc.
+    70	  if (event == null && data == null) {
+    71	    try {
+    72	      // Best-effort: if someone passed { type, payload } as the *second arg object*,
+    73	      // we can still reconstruct via arguments.callee caller patterns are messy.
+    74	      // Instead, we rely on callers using writeEvent(res, msg) where msg has type/payload.
+    75	    } catch (_) {}
+    76	  }
+    77	
+    78	  if (id !== undefined && id !== null) writeLine(res, `id: ${id}`);
+    79	  if (event) writeLine(res, `event: ${event}`);
+    80	  const payload =
+    81	    typeof data === "string" ? data :
+    82	    data === undefined ? "" :
+    83	    JSON.stringify(data);
+    84	  // SSE supports multi-line data: prefix each line with "data:"
+    85	  String(payload).split("\n").forEach((ln) => writeLine(res, `data: ${ln}`));
+    86	  writeLine(res, "");
+    87	}
+    88	function makeStream(kind) {
+    89	  const clients = new Set();
+    90	
+    91	  function handler(req, res) {
+    92	    __phase16_writeSSEHeaders(req, res);
+    93	      // Phase 16.5: keep SSE sockets alive (avoid idle timeout)
+    94	      try { req.socket.setTimeout(0); } catch (_) {}
+    95	      try { res.socket.setTimeout(0); } catch (_) {}
+    96	      try { res.socket.setKeepAlive(true); } catch (_) {}
+    97	
+    98	    // Register client
+    99	    clients.add(res);
+   100	
+   101	    // Immediate hello so clients receive bytes instantly
+   102	    writeEvent(res, {
+   103	      event: "hello",
+   104	      data: { kind, ts: Date.now(), msg: `SSE ${kind} connected` },
+   105	    });
+   106	
+   107	    // PHASE16_OPTIONAL_SSE_SNAPSHOT_ON_CONNECT
+   108	    // Send an immediate state snapshot so the dashboard can paint instantly.
+   109	    try {
+   110	      if (kind === "ops" && globalThis.__OPS_STATE) {
+   111	        writeEvent(res, { event: "ops.state", data: globalThis.__OPS_STATE });
+   112	      }
+   113	      if (kind === "reflections") {
+   114	        const snap = globalThis.__REFLECTIONS_STATE || { items: [], lastAt: null };
+   115	        writeEvent(res, { event: "reflections.state", data: snap });
+   116	      }
+   117	    } catch (_) {}
+   118	    // PHASE16_OPTIONAL_SSE_ONCE_DEFINED
+   119	    // If ?once=1, end shortly after hello/snapshot for clean curl smoke tests.
+   120	    // IMPORTANT: write+flush before ending; otherwise curl can report (18) on fast close.
+   121	    let once = false;
+   122	    try {
+   123	      const url = new URL(req.originalUrl || req.url || "/", "http://localhost");
+   124	      once = url.searchParams.get("once") === "1";
+   125	    } catch (_) {}
+   126	      if (once) {
+   127	        // Write at least one full SSE frame before ending.
+   128	        try { res.write(": once\n\n"); } catch (_) {}
+   129	        try { res.flush && res.flush(); } catch (_) {}
+   130	        try { res.flushHeaders && res.flushHeaders(); } catch (_) {}
+   131	        setTimeout(() => { try { res.end(); } catch (_) {} }, 250);
+   132	        return;
+   133	      }
+   134	
+   135	// Keepalive comment (":" lines are ignored by SSE clients)
+   136	    const ka = setInterval(() => {
+   137	      try { res.write(": keepalive\\n\\n"); } catch (_) {}
+   138	    }, 10000);
+   139	
+   140	    const __hb=setInterval(()=>{try{res.write("event: heartbeat\n");res.write("data: "+JSON.stringify({ts:Date.now()})+"\n\n")}catch{}},3000);
+   141	
+   142	req.on("close", () => {
+   143	clearInterval(__hb);
+   144	      try { clearInterval(ka); } catch (_) {}
+   145	      clients.delete(res);
+   146	      try { res.end(); } catch (_) {}
+   147	    });
+   148	  }
+   149	
+   150	  function broadcast(event, data) {
+   151	    for (const res of clients) {
+   152	      try {
+   153	        writeEvent(res, { event, data });
+   154	      } catch (_) {
+   155	        try { res.end(); } catch (_) {}
+   156	        clients.delete(res);
+   157	      }
+   158	    }
+   159	  }
+   160	
+   161	  return { kind, handler, broadcast, clients };
+   162	}
+   163	
+   164	export function registerOptionalSSE(app) {
+   165	  if (!app || typeof app.get !== "function") {
+   166	    throw new Error("registerOptionalSSE expected an Express-like app with app.get()");
+   167	  }
+   168	
+   169	  const ops = makeStream("ops");
+   170	  const reflections = makeStream("reflections");
+   171	
+   172	  app.get("/events/ops", ops.handler);
+   173	  app.get("/events/reflections", reflections.handler);
+   174	
+   175	  // Expose for future use (e.g., globalThis.__SSE.ops.broadcast("pm2-status", {...}))
+   176	  if (!globalThis.__SSE || typeof globalThis.__SSE !== "object") globalThis.__SSE = {};
+   177	  globalThis.__SSE.ops = ops;
+   178	  globalThis.__SSE.reflections = reflections;
+   179	// --- Phase 16.9: broadcaster globals for dev emit endpoints ---
+   180	// optional-sse already sets:
+   181	//   globalThis.__SSE.ops = ops;
+   182	//   globalThis.__SSE.reflections = reflections;
+   183	globalThis.__SSE_BROADCAST = globalThis.__SSE_BROADCAST || {};
+   184	
+   185	globalThis.__SSE_BROADCAST.ops = ({ event, data }) => {
+   186	  if (globalThis.__SSE && globalThis.__SSE.ops && typeof globalThis.__SSE.ops.broadcast === "function") {
+   187	    globalThis.__SSE.ops.broadcast(event || "ops.state", data);
+   188	  }
+   189	};
+   190	
+   191	globalThis.__SSE_BROADCAST.reflections = ({ event, data }) => {
+   192	  if (globalThis.__SSE && globalThis.__SSE.reflections && typeof globalThis.__SSE.reflections.broadcast === "function") {
+   193	    globalThis.__SSE.reflections.broadcast(event || "reflections.add", data);
+   194	  }
+   195	};
+   196	
+   197	// Convenience shims expected by server.mjs dev emit endpoints:
+   198	globalThis.__broadcastOps = ({ state } = {}) => {
+   199	  if (globalThis.__SSE && globalThis.__SSE.ops && typeof globalThis.__SSE.ops.broadcast === "function") {
+   200	    globalThis.__SSE.ops.broadcast("ops.state", state);
+   201	  }
+   202	};
+   203	
+   204	globalThis.__broadcastReflections = ({ item } = {}) => {
+   205	  if (globalThis.__SSE && globalThis.__SSE.reflections && typeof globalThis.__SSE.reflections.broadcast === "function") {
+   206	    globalThis.__SSE.reflections.broadcast("reflections.add", { item });
+   207	  }
+   208	};
+   209	// --- /Phase 16.9 ---
+   210	
+   211	
+   212	  return { ops, reflections };
+   213	}
+   214	
+
+===== CANDIDATE FILE: server/routes/task-events-sse.mjs =====
+     1	import express from "express";
+     2	import pg from "pg";
+     3	
+     4	const router = express.Router();
+     5	const { Pool } = pg;
+     6	
+     7	const DB_URL = process.env.POSTGRES_URL || process.env.DATABASE_URL || "";
+     8	
+     9	let pool = null;
+    10	
+    11	function getPool() {
+    12	  if (pool) return pool;
+    13	  if (!DB_URL) return null;
+    14	  pool = new Pool({ connectionString: DB_URL });
+    15	  return pool;
+    16	}
+    17	
+    18	function intOrNull(value) {
+    19	  const n = Number(value);
+    20	  return Number.isFinite(n) ? Math.trunc(n) : null;
+    21	}
+    22	
+    23	function sseWrite(res, { event, data }) {
+    24	  if (event) res.write(`event: ${event}\n`);
+    25	  res.write(`data: ${JSON.stringify(data)}\n\n`);
+    26	}
+    27	
+    28	function normalizeKind(kind) {
+    29	  const v = String(kind || "").trim();
+    30	  return v || "task.event";
+    31	}
+    32	
+    33	function normalizeRow(row) {
+    34	  const payload =
+    35	    row && row.payload && typeof row.payload === "object" && !Array.isArray(row.payload)
+    36	      ? row.payload
+    37	      : {};
+    38	
+    39	  const kind = normalizeKind(row?.kind);
+    40	
+    41	  return {
+    42	    ...payload,
+    43	    id: row?.id ?? null,
+    44	    task_id: row?.task_id ?? payload.task_id ?? payload.taskId ?? null,
+    45	    taskId: row?.task_id ?? payload.taskId ?? payload.task_id ?? null,
+    46	    kind,
+    47	    actor: row?.actor ?? payload.actor ?? null,
+    48	    run_id: row?.run_id ?? payload.run_id ?? payload.runId ?? null,
+    49	    runId: row?.run_id ?? payload.runId ?? payload.run_id ?? null,
+    50	    ts: Number(row?.ts ?? payload.ts ?? Date.now()),
+    51	    created_at: row?.created_at ?? payload.created_at ?? null
+    52	  };
+    53	}
+    54	
+    55	router.get("/api/task-events-sse", (req, res) => {
+    56	  res.redirect(307, "/events/task-events");
+    57	});
+    58	
+    59	router.get("/events/task-events", async (req, res) => {
+    60	  res.setHeader("Content-Type", "text/event-stream; charset=utf-8");
+    61	  res.setHeader("Cache-Control", "no-cache, no-transform");
+    62	  res.setHeader("Connection", "keep-alive");
+    63	  res.setHeader("X-Accel-Buffering", "no");
+    64	
+    65	  if (typeof res.flushHeaders === "function") {
+    66	    res.flushHeaders();
+    67	  }
+    68	
+    69	  const db = getPool();
+    70	
+    71	  if (!db) {
+    72	    sseWrite(res, {
+    73	      event: "error",
+    74	      data: {
+    75	        kind: "task-events",
+    76	        msg: "missing POSTGRES_URL/DATABASE_URL",
+    77	        ts: Date.now()
+    78	      }
+    79	    });
+    80	    res.end();
+    81	    return;
+    82	  }
+    83	
+    84	  let closed = false;
+    85	  let polling = false;
+    86	
+    87	  const requestedCursor =
+    88	    intOrNull(req.query.cursor) ??
+    89	    intOrNull(req.query.since) ??
+    90	    intOrNull(req.query.ts);
+    91	
+    92	  let cursor = requestedCursor;
+    93	
+    94	  try {
+    95	    if (cursor == null) {
+    96	      const seed = await db.query(
+    97	        `
+    98	        select coalesce(max(ts), 0)::bigint as cursor
+    99	        from task_events
+   100	        `
+   101	      );
+   102	      cursor = intOrNull(seed.rows?.[0]?.cursor) ?? 0;
+   103	    }
+   104	
+   105	    sseWrite(res, {
+   106	      event: "hello",
+   107	      data: {
+   108	        kind: "task-events",
+   109	        cursor,
+   110	        ts: Date.now()
+   111	      }
+   112	    });
+   113	
+   114	    const heartbeat = setInterval(() => {
+   115	      if (closed) return;
+   116	      sseWrite(res, {
+   117	        event: "heartbeat",
+   118	        data: {
+   119	          ts: Date.now(),
+   120	          cursor
+   121	        }
+   122	      });
+   123	    }, 1000);
+   124	
+   125	    const poll = async () => {
+   126	      if (closed || polling) return;
+   127	      polling = true;
+   128	
+   129	      try {
+   130	        const result = await db.query(
+   131	          `
+   132	          select
+   133	            id,
+   134	            task_id,
+   135	            kind,
+   136	            actor,
+   137	            payload,
+   138	            run_id,
+   139	            created_at,
+   140	            coalesce(ts, (extract(epoch from created_at) * 1000)::bigint) as ts
+   141	          from task_events
+   142	          where coalesce(ts, (extract(epoch from created_at) * 1000)::bigint) > $1
+   143	          order by coalesce(ts, (extract(epoch from created_at) * 1000)::bigint) asc, id asc
+   144	          limit 200
+   145	          `,
+   146	          [cursor]
+   147	        );
+   148	
+   149	        for (const row of result.rows) {
+   150	          const payload = normalizeRow(row);
+   151	          const eventName = normalizeKind(row.kind);
+   152	
+   153	          sseWrite(res, {
+   154	            event: eventName,
+   155	            data: payload
+   156	          });
+   157	
+   158	          sseWrite(res, {
+   159	            event: "task.event",
+   160	            data: payload
+   161	          });
+   162	
+   163	          const nextCursor = intOrNull(payload.ts);
+   164	          if (nextCursor != null && nextCursor > cursor) {
+   165	            cursor = nextCursor;
+   166	          }
+   167	        }
+   168	      } catch (err) {
+   169	        sseWrite(res, {
+   170	          event: "error",
+   171	          data: {
+   172	            kind: "task-events",
+   173	            msg: "task-events stream error",
+   174	            detail: err?.message || String(err),
+   175	            ts: Date.now(),
+   176	            cursor
+   177	          }
+   178	        });
+   179	      } finally {
+   180	        polling = false;
+   181	      }
+   182	    };
+   183	
+   184	    const interval = setInterval(() => {
+   185	      void poll();
+   186	    }, 800);
+   187	
+   188	    void poll();
+   189	
+   190	    req.on("close", () => {
+   191	      closed = true;
+   192	      clearInterval(interval);
+   193	      clearInterval(heartbeat);
+   194	      res.end();
+   195	    });
+   196	  } catch (err) {
+   197	    sseWrite(res, {
+   198	      event: "error",
+   199	      data: {
+   200	        kind: "task-events",
+   201	        msg: "task-events stream bootstrap error",
+   202	        detail: err?.message || String(err),
+   203	        ts: Date.now(),
+   204	        cursor: cursor ?? 0
+   205	      }
+   206	    });
+   207	    res.end();
+   208	  }
+   209	});
+   210	
+   211	export default router;
+
+===== CANDIDATE FILE: src/cognition/contracts/cognition.contracts.ts =====
+     1	/**
+     2	 * Phase 100.1 — Cognition Contracts
+     3	 *
+     4	 * Purpose:
+     5	 * Establish hard contracts for cognition outputs to prevent drift,
+     6	 * enforce deterministic structure, and prepare invariant validation.
+     7	 *
+     8	 * Rules:
+     9	 * - Cognition layer only
+    10	 * - No reducers
+    11	 * - No wiring
+    12	 * - No runtime behavior changes
+    13	 * - Deterministic typing only
+    14	 */
+    15	
+    16	export type CognitionConfidence = "LOW" | "MEDIUM" | "HIGH";
+    17	
+    18	export type GovernanceStatus =
+    19	  | "PASS"
+    20	  | "WARN"
+    21	  | "FAIL";
+    22	
+    23	export type GuidanceCategory =
+    24	  | "ALERT"
+    25	  | "INFO"
+    26	  | "SUGGESTION";
+    27	
+    28	export interface SituationSummaryContract {
+    29	  summary: string;
+    30	  confidence: CognitionConfidence;
+    31	  signals: string[];
+    32	  generated_at: string;
+    33	}
+    34	
+    35	export interface OperatorGuidanceContract {
+    36	  guidance_id: string;
+    37	  category: GuidanceCategory;
+    38	  confidence: CognitionConfidence;
+    39	  message: string;
+    40	  related_signals: string[];
+    41	}
+    42	
+    43	export interface GovernanceCognitionContract {
+    44	  domain: string;
+    45	  invariant: string;
+    46	  status: GovernanceStatus;
+    47	  evaluated_at: string;
+    48	}
+    49	
+    50	export interface CognitionContractEnvelope {
+    51	  situation?: SituationSummaryContract;
+    52	  guidance?: OperatorGuidanceContract[];
+    53	  governance?: GovernanceCognitionContract[];
+    54	}
+    55	
+    56	export const COGNITION_CONTRACT_VERSION = "100.1";
+
+===== CANDIDATE FILE: src/cognition/operator-read/cognition.operator-read.ts =====
+     1	/**
+     2	 * Phase 101.3 — Operator Read Integration
+     3	 *
+     4	 * Purpose:
+     5	 * Provide a read-only operator-facing cognition projection
+     6	 * without introducing runtime mutation or UI behavior changes.
+     7	 *
+     8	 * Rules:
+     9	 * - Read-only integration
+    10	 * - No reducers
+    11	 * - No wiring
+    12	 * - No runtime mutation
+    13	 * - No behavior change
+    14	 * - Deterministic projection only
+    15	 */
+    16	
+    17	import type {
+    18	  CognitionContractEnvelope,
+    19	  GovernanceCognitionContract,
+    20	  OperatorGuidanceContract,
+    21	  SituationSummaryContract
+    22	} from "../contracts/cognition.contracts";
+    23	import {
+    24	  selectGovernanceCognition,
+    25	  selectHasGovernanceCognition,
+    26	  selectHasOperatorGuidance,
+    27	  selectHasSituationSummary,
+    28	  selectOperatorGuidance,
+    29	  selectSituationSummary
+    30	} from "../selectors/cognition.selectors";
+    31	
+    32	export interface OperatorCognitionReadModel {
+    33	  hasSituation: boolean;
+    34	  hasGuidance: boolean;
+    35	  hasGovernance: boolean;
+    36	  situation: SituationSummaryContract | null;
+    37	  guidance: OperatorGuidanceContract[];
+    38	  governance: GovernanceCognitionContract[];
+    39	}
+    40	
+    41	export function buildOperatorCognitionReadModel(
+    42	  envelope: CognitionContractEnvelope
+    43	): OperatorCognitionReadModel {
+    44	  return {
+    45	    hasSituation: selectHasSituationSummary(envelope),
+    46	    hasGuidance: selectHasOperatorGuidance(envelope),
+    47	    hasGovernance: selectHasGovernanceCognition(envelope),
+    48	    situation: selectSituationSummary(envelope),
+    49	    guidance: selectOperatorGuidance(envelope),
+    50	    governance: selectGovernanceCognition(envelope)
+    51	  };
+    52	}
+
+===== CANDIDATE FILE: src/cognition/operatorGuidance.live.ts =====
+     1	/*
+     2	PHASE 89 — LIVE VERIFICATION
+     3	Deterministic local verification harness for bounded operator guidance.
+     4	Cognition only. No execution authority.
+     5	*/
+     6	
+     7	import { reduceOperatorHealthSurfaceToGuidance } from "./operatorGuidanceReducer";
+     8	import { assertOperatorGuidanceReductionSafe } from "./operatorGuidanceSafety";
+     9	import type { GuidanceSignalObservation } from "./operatorGuidanceMapping";
+    10	
+    11	const NOW = 1_763_600_100_000;
+    12	
+    13	const LIVE_VERIFICATION_SIGNALS: GuidanceSignalObservation[] = [
+    14	  {
+    15	    key: "system-health",
+    16	    domain: "system_health",
+    17	    status: "healthy",
+    18	    summary: "core health signals nominal",
+    19	    observedAt: NOW,
+    20	    source: "health_surface",
+    21	  },
+    22	  {
+    23	    key: "queue-throughput",
+    24	    domain: "throughput",
+    25	    status: "degraded",
+    26	    summary: "throughput below expected range",
+    27	    observedAt: NOW + 1,
+    28	    source: "health_surface",
+    29	  },
+    30	  {
+    31	    key: "queue-latency",
+    32	    domain: "latency",
+    33	    status: "stalled",
+    34	    summary: "latency materially elevated",
+    35	    observedAt: NOW + 2,
+    36	    source: "health_surface",
+    37	  },
+    38	  {
+    39	    key: "signal-quality",
+    40	    domain: "signal_quality",
+    41	    status: "unknown",
+    42	    summary: "signal visibility incomplete",
+    43	    observedAt: NOW + 3,
+    44	    source: "health_surface",
+    45	  },
+    46	];
+    47	
+    48	export type OperatorGuidanceLiveVerificationResult = {
+    49	  ok: true;
+    50	  generatedAt: number;
+    51	  guidanceCount: number;
+    52	  surfaceConfidence: "high" | "medium" | "low" | "limited";
+    53	  conflictingSignals: boolean;
+    54	  guidanceIds: string[];
+    55	};
+    56	
+    57	export function runOperatorGuidanceLiveVerification(): OperatorGuidanceLiveVerificationResult {
+    58	  const reduction = reduceOperatorHealthSurfaceToGuidance({
+    59	    signals: LIVE_VERIFICATION_SIGNALS,
+    60	    generatedAt: NOW + 100,
+    61	  });
+    62	
+    63	  assertOperatorGuidanceReductionSafe(reduction);
+    64	
+    65	  return {
+    66	    ok: true,
+    67	    generatedAt: reduction.envelope.generatedAt,
+    68	    guidanceCount: reduction.envelope.guidance.length,
+    69	    surfaceConfidence: reduction.surfaceConfidence,
+    70	    conflictingSignals: reduction.conflictingSignals,
+    71	    guidanceIds: reduction.envelope.guidance.map((guidance) => guidance.id),
+    72	  };
+    73	}
+    74	
+    75	if (import.meta.url === `file://${process.argv[1]}`) {
+    76	  const result = runOperatorGuidanceLiveVerification();
+    77	  process.stdout.write(`${JSON.stringify(result, null, 2)}\n`);
+    78	}
+
+===== CANDIDATE FILE: src/cognition/operatorGuidance.smoke.ts =====
+     1	/*
+     2	PHASE 89 — SMOKE MATRIX
+     3	Deterministic bounded operator guidance verification.
+     4	Cognition only. No execution authority.
+     5	*/
+     6	
+     7	import { reduceOperatorHealthSurfaceToGuidance } from "./operatorGuidanceReducer";
+     8	import { assertOperatorGuidanceReductionSafe } from "./operatorGuidanceSafety";
+     9	import type { GuidanceSignalObservation } from "./operatorGuidanceMapping";
+    10	
+    11	type SmokeCase = {
+    12	  name: string;
+    13	  signals: GuidanceSignalObservation[];
+    14	  expectedGuidanceCount: number;
+    15	  expectedSurfaceConfidence: "high" | "medium" | "low" | "insufficient";
+    16	  expectedConflictingSignals: boolean;
+    17	};
+    18	
+    19	function assert(condition: unknown, message: string): void {
+    20	  if (!condition) {
+    21	    throw new Error(message);
+    22	  }
+    23	}
+    24	
+    25	const NOW = 1_763_600_000_000;
+    26	
+    27	const SMOKE_MATRIX: SmokeCase[] = [
+    28	  {
+    29	    name: "healthy_system_health",
+    30	    signals: [
+    31	      {
+    32	        key: "system-health",
+    33	        domain: "system_health",
+    34	        status: "healthy",
+    35	        summary: "all monitored health signals nominal",
+    36	        observedAt: NOW,
+    37	        source: "health_surface",
+    38	      },
+    39	    ],
+    40	    expectedGuidanceCount: 1,
+    41	    expectedSurfaceConfidence: "high",
+    42	    expectedConflictingSignals: false,
+    43	  },
+    44	  {
+    45	    name: "degraded_throughput",
+    46	    signals: [
+    47	      {
+    48	        key: "queue-throughput",
+    49	        domain: "throughput",
+    50	        status: "degraded",
+    51	        summary: "throughput below expected range",
+    52	        observedAt: NOW + 1,
+    53	        source: "health_surface",
+    54	      },
+    55	    ],
+    56	    expectedGuidanceCount: 1,
+    57	    expectedSurfaceConfidence: "medium",
+    58	    expectedConflictingSignals: false,
+    59	  },
+    60	  {
+    61	    name: "stalled_latency",
+    62	    signals: [
+    63	      {
+    64	        key: "queue-latency",
+    65	        domain: "latency",
+    66	        status: "stalled",
+    67	        summary: "latency materially elevated",
+    68	        observedAt: NOW + 2,
+    69	        source: "health_surface",
+    70	      },
+    71	    ],
+    72	    expectedGuidanceCount: 1,
+    73	    expectedSurfaceConfidence: "medium",
+    74	    expectedConflictingSignals: false,
+    75	  },
+    76	  {
+    77	    name: "unknown_signal_quality",
+    78	    signals: [
+    79	      {
+    80	        key: "signal-quality",
+    81	        domain: "signal_quality",
+    82	        status: "unknown",
+    83	        summary: "signal visibility incomplete",
+    84	        observedAt: NOW + 3,
+    85	        source: "health_surface",
+    86	      },
+    87	    ],
+    88	    expectedGuidanceCount: 1,
+    89	    expectedSurfaceConfidence: "low",
+    90	    expectedConflictingSignals: false,
+    91	  },
+    92	  {
+    93	    name: "conflicting_healthy_and_degraded",
+    94	    signals: [
+    95	      {
+    96	        key: "system-health",
+    97	        domain: "system_health",
+    98	        status: "healthy",
+    99	        summary: "baseline health appears nominal",
+   100	        observedAt: NOW + 4,
+   101	        source: "health_surface",
+   102	      },
+   103	      {
+   104	        key: "queue-throughput",
+   105	        domain: "throughput",
+   106	        status: "degraded",
+   107	        summary: "throughput reduced",
+   108	        observedAt: NOW + 5,
+   109	        source: "health_surface",
+   110	      },
+   111	    ],
+   112	    expectedGuidanceCount: 2,
+   113	    expectedSurfaceConfidence: "medium",
+   114	    expectedConflictingSignals: true,
+   115	  },
+   116	  {
+   117	    name: "no_signals",
+   118	    signals: [],
+   119	    expectedGuidanceCount: 0,
+   120	    expectedSurfaceConfidence: "insufficient",
+   121	    expectedConflictingSignals: false,
+   122	  },
+   123	];
+   124	
+   125	export function runOperatorGuidanceSmokeMatrix(): void {
+   126	  for (const testCase of SMOKE_MATRIX) {
+   127	    const reduction = reduceOperatorHealthSurfaceToGuidance({
+   128	      signals: testCase.signals,
+   129	      generatedAt: NOW + 100,
+   130	    });
+   131	
+   132	    assertOperatorGuidanceReductionSafe(reduction);
+   133	
+   134	    assert(
+   135	      reduction.envelope.executionAuthority === "none",
+   136	      `${testCase.name}: execution authority drift detected`,
+   137	    );
+   138	
+   139	    assert(
+   140	      reduction.envelope.cognitionVersion === "phase_89",
+   141	      `${testCase.name}: cognition version drift detected`,
+   142	    );
+   143	
+   144	    assert(
+   145	      reduction.envelope.guidance.length === testCase.expectedGuidanceCount,
+   146	      `${testCase.name}: expected ${testCase.expectedGuidanceCount} guidance items, received ${reduction.envelope.guidance.length}`,
+   147	    );
+   148	
+   149	    assert(
+   150	      reduction.surfaceConfidence === testCase.expectedSurfaceConfidence,
+   151	      `${testCase.name}: expected surface confidence ${testCase.expectedSurfaceConfidence}, received ${reduction.surfaceConfidence}`,
+   152	    );
+   153	
+   154	    assert(
+   155	      reduction.conflictingSignals === testCase.expectedConflictingSignals,
+   156	      `${testCase.name}: conflictingSignals mismatch`,
+   157	    );
+   158	
+   159	    for (const guidance of reduction.envelope.guidance) {
+   160	      assert(
+   161	        guidance.bounded === true,
+   162	        `${testCase.name}: bounded flag drift detected`,
+   163	      );
+   164	
+   165	      assert(
+   166	        guidance.executionImpact === "none",
+   167	        `${testCase.name}: execution impact drift detected`,
+   168	      );
+   169	
+   170	      assert(
+   171	        guidance.signalSource.length > 0,
+   172	        `${testCase.name}: signalSource missing`,
+   173	      );
+   174	    }
+   175	  }
+   176	}
+   177	
+   178	if (import.meta.url === `file://${process.argv[1]}`) {
+   179	  runOperatorGuidanceSmokeMatrix();
+   180	  process.stdout.write("operatorGuidance smoke matrix passed\n");
+   181	}
+
+===== CANDIDATE FILE: src/cognition/operatorGuidance.ts =====
+     1	/*
+     2	PHASE 89 — BOUNDED OPERATOR GUIDANCE LAYER
+     3	Guidance Schema (Authoritative Type Contracts)
+     4	
+     5	Rules:
+     6	- Cognition only (no execution authority)
+     7	- Deterministic interpretation only
+     8	- Bounded messaging
+     9	- Confidence must be explicit
+    10	- No repair instructions
+    11	*/
+    12	
+    13	export type GuidanceConfidence =
+    14	  | "high"
+    15	  | "medium"
+    16	  | "low"
+    17	  | "insufficient";
+    18	
+    19	export type GuidanceSeverity =
+    20	  | "info"
+    21	  | "attention"
+    22	  | "elevated"
+    23	  | "critical";
+    24	
+    25	export type GuidanceDomain =
+    26	  | "system_health"
+    27	  | "throughput"
+    28	  | "latency"
+    29	  | "task_lifecycle"
+    30	  | "signal_quality"
+    31	  | "operator_awareness";
+    32	
+    33	export type OperatorGuidanceBase = {
+    34	  id: string;
+    35	
+    36	  domain: GuidanceDomain;
+    37	
+    38	  severity: GuidanceSeverity;
+    39	
+    40	  confidence: GuidanceConfidence;
+    41	
+    42	  message: string;
+    43	
+    44	  rationale: string;
+    45	
+    46	  signalSource: string[];
+    47	
+    48	  bounded: true;
+    49	
+    50	  executionImpact: "none";
+    51	
+    52	  createdAt: number;
+    53	};
+    54	
+    55	export type InformationalGuidance = OperatorGuidanceBase & {
+    56	  type: "informational";
+    57	};
+    58	
+    59	export type AttentionGuidance = OperatorGuidanceBase & {
+    60	  type: "attention";
+    61	};
+    62	
+    63	export type ElevatedGuidance = OperatorGuidanceBase & {
+    64	  type: "elevated";
+    65	};
+    66	
+    67	export type CriticalGuidance = OperatorGuidanceBase & {
+    68	  type: "critical";
+    69	};
+    70	
+    71	export type OperatorGuidance =
+    72	  | InformationalGuidance
+    73	  | AttentionGuidance
+    74	  | ElevatedGuidance
+    75	  | CriticalGuidance;
+    76	
+    77	/*
+    78	Deterministic envelope for reducer output.
+    79	Prevents unsafe structure drift.
+    80	*/
+    81	
+    82	export type OperatorGuidanceEnvelope = {
+    83	  guidance: OperatorGuidance[];
+    84	
+    85	  generatedAt: number;
+    86	
+    87	  cognitionVersion: "phase_89";
+    88	
+    89	  executionAuthority: "none";
+    90	};
+    91	
+    92	/*
+    93	Safety invariants (type-level guarantees):
+    94	
+    95	- No execution authority exposed
+    96	- No automation triggers
+    97	- No repair actions
+    98	- Guidance is observational only
+    99	*/
+   100	
+   101	export const GUIDANCE_EXECUTION_AUTHORITY = "none" as const;
+   102	
+   103	export const GUIDANCE_BOUNDED_FLAG = true as const;
+
+===== CANDIDATE FILE: src/cognition/operatorGuidanceConfidence.ts =====
+     1	import type { OperationalConfidence } from "./confidence";
+     2	
+     3	export interface OperatorGuidanceConfidenceInput {
+     4	  operationalConfidence?: OperationalConfidence;
+     5	}
+     6	/*
+     7	PHASE 89 — CONFIDENCE FRAMING MODEL
+     8	Defines bounded confidence interpretation rules.
+     9	No execution authority. Cognition framing only.
+    10	*/
+    11	
+    12	import type { GuidanceConfidence } from "./operatorGuidance";
+    13	import type { GuidanceSignalObservation } from "./operatorGuidanceMapping";
+    14	
+    15	export type ConfidenceAssessment = {
+    16	  confidence: GuidanceConfidence;
+    17	  reason: string;
+    18	  signalCount: number;
+    19	  conflictingSignals: boolean;
+    20	};
+    21	
+    22	export function assessGuidanceConfidence(
+    23	  signals: GuidanceSignalObservation[]
+    24	): ConfidenceAssessment {
+    25	
+    26	  if (signals.length === 0) {
+    27	    return {
+    28	      confidence: "limited",
+    29	      reason: "No signals available for interpretation.",
+    30	      signalCount: 0,
+    31	      conflictingSignals: false,
+    32	    };
+    33	  }
+    34	
+    35	  const degraded = signals.filter(s => s.status === "degraded").length;
+    36	  const stalled = signals.filter(s => s.status === "stalled").length;
+    37	  const unknown = signals.filter(s => s.status === "unknown").length;
+    38	  const healthy = signals.filter(s => s.status === "healthy").length;
+    39	
+    40	  const conflictingSignals =
+    41	    healthy > 0 && (degraded > 0 || stalled > 0);
+    42	
+    43	  if (stalled > 0) {
+    44	    return {
+    45	      confidence: "medium",
+    46	      reason: "Stalled signals observed but root cause not proven.",
+    47	      signalCount: signals.length,
+    48	      conflictingSignals,
+    49	    };
+    50	  }
+    51	
+    52	  if (degraded > 0) {
+    53	    return {
+    54	      confidence: "medium",
+    55	      reason: "Degraded signals observed without systemic failure.",
+    56	      signalCount: signals.length,
+    57	      conflictingSignals,
+    58	    };
+    59	  }
+    60	
+    61	  if (unknown > 0) {
+    62	    return {
+    63	      confidence: "low",
+    64	      reason: "Signal quality insufficient for strong interpretation.",
+    65	      signalCount: signals.length,
+    66	      conflictingSignals,
+    67	    };
+    68	  }
+    69	
+    70	  return {
+    71	    confidence: "high",
+    72	    reason: "Signals consistently indicate healthy state.",
+    73	    signalCount: signals.length,
+    74	    conflictingSignals,
+    75	  };
+    76	}
+    77	
+    78	export const CONFIDENCE_MODEL_VERSION = "phase_89" as const;
+    79	
+    80	
+    81	
+    82	export function mapOperationalConfidenceToGuidanceModifier(
+    83	  confidence?: OperationalConfidence,
+    84	): number {
+    85	  if (!confidence) return 0;
+    86	
+    87	  if (confidence.level === "HIGH") return 1;
+    88	  if (confidence.level === "MEDIUM") return 0;
+    89	  if (confidence.level === "LOW") return -1;
+    90	
+    91	  return 0;
+    92	}
+    93	
+    94	
+    95	export function confidencePriorityWeight(
+    96	  confidence?: OperationalConfidence,
+    97	): number {
+    98	  if (!confidence) {
+    99	    return 1;
+   100	  }
+   101	
+   102	  switch (confidence.level) {
+   103	    case "HIGH":
+   104	      return 1;
+   105	    case "MEDIUM":
+   106	      return 1.1;
+   107	    case "LOW":
+   108	      return 1.25;
+   109	    default:
+   110	      return 1;
+   111	  }
+   112	}
+
+===== CANDIDATE FILE: src/cognition/operatorGuidanceMapping.ts =====
+     1	(signal.summary
+     2	  ? 
+     3	  : 
+     4	)import type {
+     5	  GuidanceConfidence,
+     6	  GuidanceDomain,
+     7	  GuidanceSeverity,
+     8	  OperatorGuidance,
+     9	} from "./operatorGuidance";
+    10	
+    11	export type GuidanceSignalStatus = "healthy" | "degraded" | "stalled" | "unknown";
+    12	
+    13	export type GuidanceSignalObservation = {
+    14	  key: string;
+    15	  domain: GuidanceDomain;
+    16	  status: GuidanceSignalStatus;
+    17	  value?: number | string | boolean | null;
+    18	  summary: string;
+    19	  observedAt: number;
+    20	  source: string;
+    21	};
+    22	
+    23	export type GuidanceMappingContext = {
+    24	  now: number;
+    25	};
+    26	
+    27	export type GuidanceInterpretationRule = {
+    28	  id: string;
+    29	  domain: GuidanceDomain;
+    30	  matches: (signal: GuidanceSignalObservation) => boolean;
+    31	  create: (
+    32	    signal: GuidanceSignalObservation,
+    33	    context: GuidanceMappingContext,
+    34	  ) => OperatorGuidance;
+    35	};
+    36	
+    37	function mapStatusToSeverity(status: GuidanceSignalStatus): GuidanceSeverity {
+    38	  switch (status) {
+    39	    case "healthy":
+    40	      return "info";
+    41	    case "degraded":
+    42	      return "attention";
+    43	    case "stalled":
+    44	      return "elevated";
+    45	    case "unknown":
+    46	      return "attention";
+    47	  }
+    48	}
+    49	
+    50	function mapStatusToConfidence(status: GuidanceSignalStatus): GuidanceConfidence {
+    51	  switch (status) {
+    52	    case "healthy":
+    53	      return "high";
+    54	    case "degraded":
+    55	      return "medium";
+    56	    case "stalled":
+    57	      return "medium";
+    58	    case "unknown":
+    59	      return "low";
+    60	  }
+    61	}
+    62	
+    63	function mapStatusToType(
+    64	  status: GuidanceSignalStatus,
+    65	): OperatorGuidance["type"] {
+    66	  switch (status) {
+    67	    case "healthy":
+    68	      return "informational";
+    69	    case "degraded":
+    70	      return "attention";
+    71	    case "stalled":
+    72	      return "elevated";
+    73	    case "unknown":
+    74	      return "attention";
+    75	  }
+    76	}
+    77	
+    78	function buildGuidanceId(signal: GuidanceSignalObservation): string {
+    79	  return [
+    80	    "guidance",
+    81	    signal.domain,
+    82	    signal.key,
+    83	    String(signal.observedAt),
+    84	  ].join(":");
+    85	}
+    86	
+    87	function createBoundedGuidance(
+    88	  signal: GuidanceSignalObservation,
+    89	  message: string,
+    90	  rationale: string,
+    91	): OperatorGuidance {
+    92	  const severity = mapStatusToSeverity(signal.status);
+    93	  const confidence = mapStatusToConfidence(signal.status);
+    94	  const type = mapStatusToType(signal.status);
+    95	
+    96	  return {
+    97	    id: buildGuidanceId(signal),
+    98	    type,
+    99	    domain: signal.domain,
+   100	    severity,
+   101	    confidence,
+   102	    message,
+   103	    rationale,
+   104	    signalSource: [signal.source, signal.key],
+   105	    bounded: true,
+   106	    executionImpact: "none",
+   107	    createdAt: signal.observedAt,
+   108	  };
+   109	}
+   110	
+   111	export const GUIDANCE_INTERPRETATION_RULES: GuidanceInterpretationRule[] = [
+   112	  {
+   113	    id: "system-health-healthy",
+   114	    domain: "system_health",
+   115	    matches: (signal) =>
+   116	      signal.domain === "system_health" && signal.status === "healthy",
+   117	    create: (signal) =>
+   118	      createBoundedGuidance(
+   119	        signal,
+   120	        `System health is currently stable: ${signal.summary}`,
+   121	        "Observed system health signals are within acceptable bounds.",
+   122	      ),
+   123	  },
+   124	  {
+   125	    id: "system-health-degraded",
+   126	    domain: "system_health",
+   127	    matches: (signal) =>
+   128	      signal.domain === "system_health" && signal.status === "degraded",
+   129	    create: (signal) =>
+   130	      createBoundedGuidance(
+   131	        signal,
+   132	        `System health needs attention: ${signal.summary}`,
+   133	        "Observed system health signals indicate degradation without proving failure.",
+   134	      ),
+   135	  },
+   136	  {
+   137	    id: "system-health-stalled",
+   138	    domain: "system_health",
+   139	    matches: (signal) =>
+   140	      signal.domain === "system_health" && signal.status === "stalled",
+   141	    create: (signal) =>
+   142	      createBoundedGuidance(
+   143	        signal,
+   144	        `System health appears stalled: ${signal.summary}`,
+   145	        "Observed system health signals indicate a sustained non-healthy condition.",
+   146	      ),
+   147	  },
+   148	  {
+   149	    id: "throughput-healthy",
+   150	    domain: "throughput",
+   151	    matches: (signal) =>
+   152	      signal.domain === "throughput" && signal.status === "healthy",
+   153	    create: (signal) =>
+   154	      createBoundedGuidance(
+   155	        signal,
+   156	        `Throughput is within expected range: ${signal.summary}`,
+   157	        "Observed throughput signals do not indicate current pressure.",
+   158	      ),
+   159	  },
+   160	  {
+   161	    id: "throughput-degraded",
+   162	    domain: "throughput",
+   163	    matches: (signal) =>
+   164	      signal.domain === "throughput" && signal.status === "degraded",
+   165	    create: (signal) =>
+   166	      createBoundedGuidance(
+   167	        signal,
+   168	        `Throughput is below expected range: ${signal.summary}`,
+   169	        "Observed throughput signals indicate reduced flow without inferring root cause.",
+   170	      ),
+   171	  },
+   172	  {
+   173	    id: "throughput-stalled",
+   174	    domain: "throughput",
+   175	    matches: (signal) =>
+   176	      signal.domain === "throughput" && signal.status === "stalled",
+   177	    create: (signal) =>
+   178	      createBoundedGuidance(
+   179	        signal,
+   180	        `Throughput appears stalled: ${signal.summary}`,
+   181	        "Observed throughput signals indicate little or no forward movement.",
+   182	      ),
+   183	  },
+   184	  {
+   185	    id: "latency-degraded",
+   186	    domain: "latency",
+   187	    matches: (signal) =>
+   188	      signal.domain === "latency" && signal.status === "degraded",
+   189	    create: (signal) =>
+   190	      createBoundedGuidance(
+   191	        signal,
+   192	        `Latency is elevated: ${signal.summary}`,
+   193	        "Observed latency signals indicate slower-than-expected system response.",
+   194	      ),
+   195	  },
+   196	  {
+   197	    id: "latency-stalled",
+   198	    domain: "latency",
+   199	    matches: (signal) =>
+   200	      signal.domain === "latency" && signal.status === "stalled",
+   201	    create: (signal) =>
+   202	      createBoundedGuidance(
+   203	        signal,
+   204	        `Latency appears materially elevated: ${signal.summary}`,
+   205	        "Observed latency signals indicate a sustained delay condition.",
+   206	      ),
+   207	  },
+   208	  {
+   209	    id: "task-lifecycle-degraded",
+   210	    domain: "task_lifecycle",
+   211	    matches: (signal) =>
+   212	      signal.domain === "task_lifecycle" && signal.status === "degraded",
+   213	    create: (signal) =>
+   214	      createBoundedGuidance(
+   215	        signal,
+   216	        `Task lifecycle progression needs attention: ${signal.summary}`,
+   217	        "Observed task lifecycle signals indicate slower or uneven progression.",
+   218	      ),
+   219	  },
+   220	  {
+   221	    id: "task-lifecycle-stalled",
+   222	    domain: "task_lifecycle",
+   223	    matches: (signal) =>
+   224	      signal.domain === "task_lifecycle" && signal.status === "stalled",
+   225	    create: (signal) =>
+   226	      createBoundedGuidance(
+   227	        signal,
+   228	        `Task lifecycle progression appears stalled: ${signal.summary}`,
+   229	        "Observed task lifecycle signals indicate a sustained progression gap.",
+   230	      ),
+   231	  },
+   232	  {
+   233	    id: "signal-quality-unknown",
+   234	    domain: "signal_quality",
+   235	    matches: (signal) =>
+   236	      signal.domain === "signal_quality" && signal.status === "unknown",
+   237	    create: (signal) =>
+   238	      createBoundedGuidance(
+   239	        signal,
+   240	        (signal.summary
+   241	          ? `Signal quality is limited; interpret with caution: ${signal.summary}`
+   242	          : `Signal quality currently unavailable; awaiting stronger signal.`),
+   243	        "Observed signal quality does not support high-confidence guidance.",
+   244	      ),
+   245	  },
+   246	  {
+   247	    id: "operator-awareness-unknown",
+   248	    domain: "operator_awareness",
+   249	    matches: (signal) =>
+   250	      signal.domain === "operator_awareness" && signal.status === "unknown",
+   251	    create: (signal) =>
+   252	      createBoundedGuidance(
+   253	        signal,
+   254	        `Operator awareness surface has incomplete visibility: ${signal.summary}`,
+   255	        "Observed awareness signals do not fully support bounded interpretation.",
+   256	      ),
+   257	  },
+   258	];
+   259	
+   260	export function mapSignalToOperatorGuidance(
+
+===== CANDIDATE FILE: src/cognition/operatorGuidanceReducer.ts =====
+     1	/*
+     2	PHASE 89 — GUIDANCE REDUCER SCAFFOLD
+     3	Attaches bounded operator guidance generation to the health surface domain.
+     4	Cognition only. No execution authority.
+     5	*/
+     6	
+     7	import type {
+     8	  GuidanceConfidence,
+     9	  OperatorGuidance,
+    10	  OperatorGuidanceEnvelope,
+    11	} from "./operatorGuidance";
+    12	import {
+    13	  mapSignalsToOperatorGuidance,
+    14	  type GuidanceMappingContext,
+    15	  type GuidanceSignalObservation,
+    16	} from "./operatorGuidanceMapping";
+    17	import { assessGuidanceConfidence } from "./operatorGuidanceConfidence";
+    18	
+    19	export type OperatorHealthSurface = {
+    20	  signals: GuidanceSignalObservation[];
+    21	  generatedAt: number;
+    22	};
+    23	
+    24	export type OperatorGuidanceReduction = {
+    25	  envelope: OperatorGuidanceEnvelope;
+    26	  surfaceConfidence: GuidanceConfidence;
+    27	  confidenceReason: string;
+    28	  signalCount: number;
+    29	  conflictingSignals: boolean;
+    30	};
+    31	
+    32	function sortGuidanceDeterministically(
+    33	  guidance: OperatorGuidance[],
+    34	): OperatorGuidance[] {
+    35	  return [...guidance].sort((a, b) => {
+    36	    if (a.createdAt !== b.createdAt) {
+    37	      return a.createdAt - b.createdAt;
+    38	    }
+    39	
+    40	    if (a.domain !== b.domain) {
+    41	      return a.domain.localeCompare(b.domain);
+    42	    }
+    43	
+    44	    if (a.severity !== b.severity) {
+    45	      return a.severity.localeCompare(b.severity);
+    46	    }
+    47	
+    48	    return a.id.localeCompare(b.id);
+    49	  });
+    50	}
+    51	
+    52	export function reduceOperatorHealthSurfaceToGuidance(
+    53	  surface: OperatorHealthSurface,
+    54	  context?: Partial<GuidanceMappingContext>,
+    55	): OperatorGuidanceReduction {
+    56	  const mappingContext: GuidanceMappingContext = {
+    57	    now: context?.now ?? surface.generatedAt,
+    58	  };
+    59	
+    60	  const guidance = sortGuidanceDeterministically(
+    61	    mapSignalsToOperatorGuidance(surface.signals, mappingContext),
+    62	  );
+    63	
+    64	  const confidence = assessGuidanceConfidence(surface.signals);
+    65	
+    66	  return {
+    67	    envelope: {
+    68	      guidance,
+    69	      generatedAt: mappingContext.now,
+    70	      cognitionVersion: "phase_89",
+    71	      executionAuthority: "none",
+    72	    },
+    73	    surfaceConfidence: confidence.confidence,
+    74	    confidenceReason: confidence.reason,
+    75	    signalCount: confidence.signalCount,
+    76	    conflictingSignals: confidence.conflictingSignals,
+    77	  };
+    78	}
+    79	
+    80	export function createEmptyOperatorGuidanceReduction(
+    81	  generatedAt: number,
+    82	): OperatorGuidanceReduction {
+    83	  return {
+    84	    envelope: {
+    85	      guidance: [],
+    86	      generatedAt,
+    87	      cognitionVersion: "phase_89",
+    88	      executionAuthority: "none",
+    89	    },
+    90	    surfaceConfidence: "insufficient",
+    91	    confidenceReason: "No signals available for interpretation.",
+    92	    signalCount: 0,
+    93	    conflictingSignals: false,
+    94	  };
+    95	}
+
+===== CANDIDATE FILE: src/cognition/operatorGuidanceSafety.ts =====
+     1	/*
+     2	PHASE 89 — SAFETY PROOF
+     3	Bounded operator guidance runtime invariants.
+     4	Cognition only. No execution authority.
+     5	*/
+     6	
+     7	import type {
+     8	  GuidanceConfidence,
+     9	  GuidanceDomain,
+    10	  GuidanceSeverity,
+    11	  OperatorGuidance,
+    12	  OperatorGuidanceEnvelope,
+    13	} from "./operatorGuidance";
+    14	import type { OperatorGuidanceReduction } from "./operatorGuidanceReducer";
+    15	
+    16	const ALLOWED_GUIDANCE_TYPES = new Set<OperatorGuidance["type"]>([
+    17	  "informational",
+    18	  "attention",
+    19	  "elevated",
+    20	  "critical",
+    21	]);
+    22	
+    23	const ALLOWED_GUIDANCE_DOMAINS = new Set<GuidanceDomain>([
+    24	  "system_health",
+    25	  "throughput",
+    26	  "latency",
+    27	  "task_lifecycle",
+    28	  "signal_quality",
+    29	  "operator_awareness",
+    30	]);
+    31	
+    32	const ALLOWED_GUIDANCE_SEVERITIES = new Set<GuidanceSeverity>([
+    33	  "info",
+    34	  "attention",
+    35	  "elevated",
+    36	  "critical",
+    37	]);
+    38	
+    39	const ALLOWED_GUIDANCE_CONFIDENCE = new Set<GuidanceConfidence>([
+    40	  "high",
+    41	  "medium",
+    42	  "low",
+    43	  "insufficient",
+    44	]);
+    45	
+    46	const FORBIDDEN_MESSAGE_PATTERNS = [
+    47	  /\bexecute\b/i,
+    48	  /\brun\b/i,
+    49	  /\bretry\b/i,
+    50	  /\brestart\b/i,
+    51	  /\bdelete\b/i,
+    52	  /\bremove\b/i,
+    53	  /\brepair\b/i,
+    54	  /\bfix\b/i,
+    55	  /\bpatch\b/i,
+    56	  /\bkill\b/i,
+    57	  /\bterminate\b/i,
+    58	  /\bdeploy\b/i,
+    59	  /\brollback\b/i,
+    60	  /\bmigrate\b/i,
+    61	  /\bself-authorize\b/i,
+    62	  /\bauto(?:mation)?\b/i,
+    63	];
+    64	
+    65	export type OperatorGuidanceSafetyCheck = {
+    66	  ok: boolean;
+    67	  violations: string[];
+    68	};
+    69	
+    70	function isFiniteTimestamp(value: number): boolean {
+    71	  return Number.isFinite(value) && value >= 0;
+    72	}
+    73	
+    74	function assertSafeText(label: string, value: string, violations: string[]): void {
+    75	  const trimmed = value.trim();
+    76	
+    77	  if (trimmed.length === 0) {
+    78	    violations.push(`${label} must be non-empty.`);
+    79	    return;
+    80	  }
+    81	
+    82	  for (const pattern of FORBIDDEN_MESSAGE_PATTERNS) {
+    83	    if (pattern.test(trimmed)) {
+    84	      violations.push(`${label} contains forbidden operator-directive language: ${pattern}`);
+    85	    }
+    86	  }
+    87	}
+    88	
+    89	export function validateOperatorGuidance(
+    90	  guidance: OperatorGuidance,
+    91	): OperatorGuidanceSafetyCheck {
+    92	  const violations: string[] = [];
+    93	
+    94	  if (!guidance.id || guidance.id.trim().length === 0) {
+    95	    violations.push("guidance.id must be non-empty.");
+    96	  }
+    97	
+    98	  if (!ALLOWED_GUIDANCE_TYPES.has(guidance.type)) {
+    99	    violations.push(`guidance.type is invalid: ${guidance.type}`);
+   100	  }
+   101	
+   102	  if (!ALLOWED_GUIDANCE_DOMAINS.has(guidance.domain)) {
+   103	    violations.push(`guidance.domain is invalid: ${guidance.domain}`);
+   104	  }
+   105	
+   106	  if (!ALLOWED_GUIDANCE_SEVERITIES.has(guidance.severity)) {
+   107	    violations.push(`guidance.severity is invalid: ${guidance.severity}`);
+   108	  }
+   109	
+   110	  if (!ALLOWED_GUIDANCE_CONFIDENCE.has(guidance.confidence)) {
+   111	    violations.push(`guidance.confidence is invalid: ${guidance.confidence}`);
+   112	  }
+   113	
+   114	  if (guidance.bounded !== true) {
+   115	    violations.push("guidance.bounded must remain true.");
+   116	  }
+   117	
+   118	  if (guidance.executionImpact !== "none") {
+   119	    violations.push("guidance.executionImpact must remain 'none'.");
+   120	  }
+   121	
+   122	  if (!Array.isArray(guidance.signalSource) || guidance.signalSource.length === 0) {
+   123	    violations.push("guidance.signalSource must contain at least one source.");
+   124	  }
+   125	
+   126	  if (!isFiniteTimestamp(guidance.createdAt)) {
+   127	    violations.push("guidance.createdAt must be a finite non-negative timestamp.");
+   128	  }
+   129	
+   130	  assertSafeText("guidance.message", guidance.message, violations);
+   131	  assertSafeText("guidance.rationale", guidance.rationale, violations);
+   132	
+   133	  return {
+   134	    ok: violations.length === 0,
+   135	    violations,
+   136	  };
+   137	}
+   138	
+   139	export function validateOperatorGuidanceEnvelope(
+   140	  envelope: OperatorGuidanceEnvelope,
+   141	): OperatorGuidanceSafetyCheck {
+   142	  const violations: string[] = [];
+   143	
+   144	  if (envelope.executionAuthority !== "none") {
+   145	    violations.push("envelope.executionAuthority must remain 'none'.");
+   146	  }
+   147	
+   148	  if (envelope.cognitionVersion !== "phase_89") {
+   149	    violations.push("envelope.cognitionVersion must remain 'phase_89'.");
+   150	  }
+   151	
+   152	  if (!isFiniteTimestamp(envelope.generatedAt)) {
+   153	    violations.push("envelope.generatedAt must be a finite non-negative timestamp.");
+   154	  }
+   155	
+   156	  if (!Array.isArray(envelope.guidance)) {
+   157	    violations.push("envelope.guidance must be an array.");
+   158	  } else {
+   159	    envelope.guidance.forEach((guidance, index) => {
+   160	      const result = validateOperatorGuidance(guidance);
+   161	      for (const violation of result.violations) {
+   162	        violations.push(`envelope.guidance[${index}]: ${violation}`);
+   163	      }
+   164	    });
+   165	  }
+   166	
+   167	  return {
+   168	    ok: violations.length === 0,
+   169	    violations,
+   170	  };
+   171	}
+   172	
+   173	export function validateOperatorGuidanceReduction(
+   174	  reduction: OperatorGuidanceReduction,
+   175	): OperatorGuidanceSafetyCheck {
+   176	  const violations: string[] = [];
+   177	
+   178	  const envelopeCheck = validateOperatorGuidanceEnvelope(reduction.envelope);
+   179	  violations.push(...envelopeCheck.violations);
+   180	
+   181	  if (!ALLOWED_GUIDANCE_CONFIDENCE.has(reduction.surfaceConfidence)) {
+   182	    violations.push(`reduction.surfaceConfidence is invalid: ${reduction.surfaceConfidence}`);
+   183	  }
+   184	
+   185	  if (!Number.isInteger(reduction.signalCount) || reduction.signalCount < 0) {
+   186	    violations.push("reduction.signalCount must be a non-negative integer.");
+   187	  }
+   188	
+   189	  if (typeof reduction.conflictingSignals !== "boolean") {
+   190	    violations.push("reduction.conflictingSignals must be boolean.");
+   191	  }
+   192	
+   193	  assertSafeText("reduction.confidenceReason", reduction.confidenceReason, violations);
+   194	
+   195	  return {
+   196	    ok: violations.length === 0,
+   197	    violations,
+   198	  };
+   199	}
+   200	
+   201	export function assertOperatorGuidanceReductionSafe(
+   202	  reduction: OperatorGuidanceReduction,
+   203	): void {
+   204	  const result = validateOperatorGuidanceReduction(reduction);
+   205	
+   206	  if (!result.ok) {
+   207	    throw new Error(
+   208	      [
+   209	        "Operator guidance safety proof failed.",
+   210	        ...result.violations.map((violation) => `- ${violation}`),
+   211	      ].join("\n"),
+   212	    );
+   213	  }
+   214	}
+
+===== CANDIDATE FILE: src/cognition/selectors/cognition.selectors.ts =====
+     1	/**
+     2	 * Phase 101.2 — Deterministic Selectors
+     3	 *
+     4	 * Purpose:
+     5	 * Provide pure, read-only selectors over cognition contract envelopes.
+     6	 *
+     7	 * Rules:
+     8	 * - Read-only access
+     9	 * - No reducers
+    10	 * - No wiring
+    11	 * - No runtime mutation
+    12	 * - No behavior change
+    13	 * - Deterministic outputs only
+    14	 */
+    15	
+    16	import type {
+    17	  CognitionContractEnvelope,
+    18	  GovernanceCognitionContract,
+    19	  OperatorGuidanceContract,
+    20	  SituationSummaryContract
+    21	} from "../contracts/cognition.contracts";
+    22	
+    23	export function selectSituationSummary(
+    24	  envelope: CognitionContractEnvelope
+    25	): SituationSummaryContract | null {
+    26	  return envelope.situation ?? null;
+    27	}
+    28	
+    29	export function selectOperatorGuidance(
+    30	  envelope: CognitionContractEnvelope
+    31	): OperatorGuidanceContract[] {
+    32	  return envelope.guidance ?? [];
+    33	}
+    34	
+    35	export function selectGovernanceCognition(
+    36	  envelope: CognitionContractEnvelope
+    37	): GovernanceCognitionContract[] {
+    38	  return envelope.governance ?? [];
+    39	}
+    40	
+    41	export function selectHasSituationSummary(
+    42	  envelope: CognitionContractEnvelope
+    43	): boolean {
+    44	  return envelope.situation != null;
+    45	}
+    46	
+    47	export function selectHasOperatorGuidance(
+    48	  envelope: CognitionContractEnvelope
+    49	): boolean {
+    50	  return Array.isArray(envelope.guidance) && envelope.guidance.length > 0;
+    51	}
+    52	
+    53	export function selectHasGovernanceCognition(
+    54	  envelope: CognitionContractEnvelope
+    55	): boolean {
+    56	  return Array.isArray(envelope.governance) && envelope.governance.length > 0;
+    57	}
+    58	
+    59	export function selectCognitionEnvelopePresence(
+    60	  envelope: CognitionContractEnvelope
+    61	): {
+    62	  hasSituation: boolean;
+    63	  hasGuidance: boolean;
+    64	  hasGovernance: boolean;
+    65	} {
+    66	  return {
+    67	    hasSituation: selectHasSituationSummary(envelope),
+    68	    hasGuidance: selectHasOperatorGuidance(envelope),
+    69	    hasGovernance: selectHasGovernanceCognition(envelope)
+    70	  };
+    71	}
+
+===== CANDIDATE FILE: src/governance/governance_advisory_contract.test.ts =====
+     1	import {
+     2	  deriveHighestSeverity,
+     3	  type GovernanceAdvisorySignal
+     4	} from "./governance_advisory_contract";
+     5	
+     6	describe("deriveHighestSeverity", () => {
+     7	  it("returns none for empty signal lists", () => {
+     8	    expect(deriveHighestSeverity([])).toBe("none");
+     9	  });
+    10	
+    11	  it("returns info when only info signals are present", () => {
+    12	    const signals: GovernanceAdvisorySignal[] = [
+    13	      {
+    14	        id: "sig-1",
+    15	        domain: "authority",
+    16	        severity: "info",
+    17	        summary: "Authority state nominal",
+    18	        detail: "No authority boundary concerns detected.",
+    19	        operator_guidance: "No action required.",
+    20	        reasoning: "Signal classified as informational.",
+    21	        detected_at: "2026-03-27T00:00:00.000Z",
+    22	        source: "test",
+    23	        verified: true
+    24	      }
+    25	    ];
+    26	
+    27	    expect(deriveHighestSeverity(signals)).toBe("info");
+    28	  });
+    29	
+    30	  it("returns the highest severity present across mixed signals", () => {
+    31	    const signals: GovernanceAdvisorySignal[] = [
+    32	      {
+    33	        id: "sig-1",
+    34	        domain: "authority",
+    35	        severity: "notice",
+    36	        summary: "Minor governance note",
+    37	        detail: "Non-blocking governance note detected.",
+    38	        operator_guidance: "Review when convenient.",
+    39	        reasoning: "Notice-level condition present.",
+    40	        detected_at: "2026-03-27T00:00:00.000Z",
+    41	        source: "test",
+    42	        verified: true
+    43	      },
+    44	      {
+    45	        id: "sig-2",
+    46	        domain: "execution_boundary",
+    47	        severity: "critical",
+    48	        summary: "Execution boundary concern",
+    49	        detail: "A critical boundary classification was provided.",
+    50	        operator_guidance: "Escalate to operator review immediately.",
+    51	        reasoning: "Critical severity must dominate report severity.",
+    52	        detected_at: "2026-03-27T00:00:01.000Z",
+    53	        source: "test",
+    54	        verified: true
+    55	      },
+    56	      {
+    57	        id: "sig-3",
+    58	        domain: "registry",
+    59	        severity: "warning",
+    60	        summary: "Registry warning",
+    61	        detail: "Warning-level registry concern detected.",
+    62	        operator_guidance: "Review registry assumptions.",
+    63	        reasoning: "Warning present but not highest.",
+    64	        detected_at: "2026-03-27T00:00:02.000Z",
+    65	        source: "test",
+    66	        verified: true
+    67	      }
+    68	    ];
+    69	
+    70	    expect(deriveHighestSeverity(signals)).toBe("critical");
+    71	  });
+    72	});
+
+===== CANDIDATE FILE: src/governance/governance_advisory_contract.ts =====
+     1	/*
+     2	Phase 290 — Governance Advisory Layer Planning
+     3	Governance Advisory Contract (FOUNDATION)
+     4	
+     5	Purpose:
+     6	Define the advisory output structure that governance modules will use
+     7	to report cognition findings to the operator layer without influencing
+     8	execution, routing, mutation, or runtime behavior.
+     9	
+    10	SAFETY PROPERTIES:
+    11	
+    12	Read-only
+    13	Advisory only
+    14	Deterministic
+    15	No runtime wiring
+    16	No reducers
+    17	No task interaction
+    18	No agent interaction
+    19	No execution authority
+    20	No mutation capability
+    21	
+    22	This file establishes STRUCTURE ONLY.
+    23	No integrations permitted.
+    24	*/
+    25	
+    26	export type GovernanceSeverity =
+    27	  | "info"
+    28	  | "notice"
+    29	  | "warning"
+    30	  | "risk"
+    31	  | "critical";
+    32	
+    33	export type GovernanceDomain =
+    34	  | "authority"
+    35	  | "task_safety"
+    36	  | "agent_behavior"
+    37	  | "registry"
+    38	  | "execution_boundary"
+    39	  | "governance_integrity"
+    40	  | "cognition_reliability";
+    41	
+    42	export interface GovernanceAdvisorySignal {
+    43	
+    44	  /*
+    45	  Unique deterministic id
+    46	  */
+    47	  id: string;
+    48	
+    49	  /*
+    50	  Classification domain
+    51	  */
+    52	  domain: GovernanceDomain;
+    53	
+    54	  /*
+    55	  Severity classification
+    56	  */
+    57	  severity: GovernanceSeverity;
+    58	
+    59	  /*
+    60	  Human readable explanation
+    61	  */
+    62	  summary: string;
+    63	
+    64	  /*
+    65	  Deterministic explanation detail
+    66	  */
+    67	  detail: string;
+    68	
+    69	  /*
+    70	  Recommended operator awareness action
+    71	  (NOT execution action)
+    72	  */
+    73	  operator_guidance: string;
+    74	
+    75	  /*
+    76	  Governance reasoning trace (read-only cognition explanation)
+    77	  */
+    78	  reasoning: string;
+    79	
+    80	  /*
+    81	  Detection timestamp (ISO)
+    82	  */
+    83	  detected_at: string;
+    84	
+    85	  /*
+    86	  Source governance module
+    87	  */
+    88	  source: string;
+    89	
+    90	  /*
+    91	  Verification state
+    92	  */
+    93	  verified: boolean;
+    94	}
+    95	
+    96	/*
+    97	Advisory container (future operator surfaces)
+    98	*/
+    99	
+   100	export interface GovernanceAdvisoryReport {
+   101	
+   102	  generated_at: string;
+   103	
+   104	  signals: GovernanceAdvisorySignal[];
+   105	
+   106	  total_signals: number;
+   107	
+   108	  highest_severity:
+   109	    | "info"
+   110	    | "notice"
+   111	    | "warning"
+   112	    | "risk"
+   113	    | "critical"
+   114	    | "none";
+   115	}
+   116	
+   117	/*
+   118	Pure deterministic helper
+   119	No runtime coupling permitted
+   120	*/
+   121	
+   122	export function deriveHighestSeverity(
+   123	  signals: GovernanceAdvisorySignal[]
+   124	): GovernanceAdvisoryReport["highest_severity"] {
+   125	
+   126	  if (signals.length === 0) {
+   127	    return "none";
+   128	  }
+   129	
+   130	  const order = [
+   131	    "info",
+   132	    "notice",
+   133	    "warning",
+   134	    "risk",
+   135	    "critical"
+   136	  ];
+   137	
+   138	  let highest = 0;
+   139	
+   140	  for (const s of signals) {
+   141	    const index = order.indexOf(s.severity);
+   142	
+   143	    if (index > highest) {
+   144	      highest = index;
+   145	    }
+   146	  }
+   147	
+   148	  return order[highest] as GovernanceAdvisoryReport["highest_severity"];
+   149	}
+   150	
+
+===== CANDIDATE FILE: src/governance/governance_advisory_normalizer.test.ts =====
+     1	import { normalizeGovernanceSignals } from "./governance_advisory_normalizer";
+     2	import type { GovernanceAdvisorySignal } from "./governance_advisory_contract";
+     3	
+     4	function buildSignal(
+     5	  id: string,
+     6	  severity: GovernanceAdvisorySignal["severity"],
+     7	  ts: string
+     8	): GovernanceAdvisorySignal {
+     9	
+    10	  return {
+    11	    id,
+    12	    domain: "governance_integrity",
+    13	    severity,
+    14	    summary: "test",
+    15	    detail: "test detail",
+    16	    operator_guidance: "none",
+    17	    reasoning: "test",
+    18	    detected_at: ts,
+    19	    source: "test",
+    20	    verified: true
+    21	  };
+    22	}
+    23	
+    24	describe("normalizeGovernanceSignals", () => {
+    25	
+    26	  it("deduplicates identical signals", () => {
+    27	
+    28	    const s1 = buildSignal("1","warning","2026-03-27T00:00:00.000Z");
+    29	
+    30	    const result = normalizeGovernanceSignals([s1,s1]);
+    31	
+    32	    expect(result.length).toBe(1);
+    33	
+    34	  });
+    35	
+    36	  it("orders by severity deterministically", () => {
+    37	
+    38	    const signals = [
+    39	
+    40	      buildSignal("1","critical","2026-03-27T00:00:02.000Z"),
+    41	      buildSignal("2","info","2026-03-27T00:00:01.000Z"),
+    42	      buildSignal("3","warning","2026-03-27T00:00:03.000Z")
+    43	
+    44	    ];
+    45	
+    46	    const result = normalizeGovernanceSignals(signals);
+    47	
+    48	    expect(result[0].severity).toBe("info");
+    49	    expect(result[1].severity).toBe("warning");
+    50	    expect(result[2].severity).toBe("critical");
+    51	
+    52	  });
+    53	
+    54	  it("orders same severity by timestamp", () => {
+    55	
+    56	    const signals = [
+    57	
+    58	      buildSignal("1","warning","2026-03-27T00:00:03.000Z"),
+    59	      buildSignal("2","warning","2026-03-27T00:00:01.000Z")
+    60	
+    61	    ];
+    62	
+    63	    const result = normalizeGovernanceSignals(signals);
+    64	
+    65	    expect(result[0].detected_at).toBe("2026-03-27T00:00:01.000Z");
+    66	
+    67	  });
+    68	
+    69	});
+
+===== CANDIDATE FILE: src/governance/governance_advisory_presenter.test.ts =====
+     1	import {
+     2	  groupSignalsBySeverity,
+     3	  buildGovernancePresentation
+     4	} from "./governance_advisory_presenter";
+     5	
+     6	import type { GovernanceAdvisorySignal } from "./governance_advisory_contract";
+     7	
+     8	function buildSignal(
+     9	  id: string,
+    10	  severity: GovernanceAdvisorySignal["severity"]
+    11	): GovernanceAdvisorySignal {
+    12	
+    13	  return {
+    14	    id,
+    15	    domain: "governance_integrity",
+    16	    severity,
+    17	    summary: "test",
+    18	    detail: "detail",
+    19	    operator_guidance: "none",
+    20	    reasoning: "test",
+    21	    detected_at: "2026-03-27T00:00:00.000Z",
+    22	    source: "test",
+    23	    verified: true
+    24	  };
+    25	
+    26	}
+    27	
+    28	describe("governance presentation layer", () => {
+    29	
+    30	  it("groups signals by severity", () => {
+    31	
+    32	    const signals = [
+    33	
+    34	      buildSignal("1","warning"),
+    35	      buildSignal("2","critical"),
+    36	      buildSignal("3","warning")
+    37	
+    38	    ];
+    39	
+    40	    const groups = groupSignalsBySeverity(signals);
+    41	
+    42	    expect(groups.length).toBe(2);
+    43	
+    44	    expect(groups[0].severity).toBe("critical");
+    45	
+    46	    expect(groups[1].severity).toBe("warning");
+    47	
+    48	    expect(groups[1].count).toBe(2);
+    49	
+    50	  });
+    51	
+    52	  it("builds presentation report", () => {
+    53	
+    54	    const signals = [
+    55	
+    56	      buildSignal("1","info"),
+    57	      buildSignal("2","risk")
+    58	
+    59	    ];
+    60	
+    61	    const report = buildGovernancePresentation(signals);
+    62	
+    63	    expect(report.total_signals).toBe(2);
+    64	
+    65	    expect(report.groups.length).toBe(2);
+    66	
+    67	  });
+    68	
+    69	});
+
+===== CANDIDATE FILE: src/governance/governance_decision_pipeline.ts =====
+     1	/*
+     2	Phase 329 — Governance Decision Pipeline
+     3	
+     4	Creates a deterministic pipeline connecting:
+     5	
+     6	decision model →
+     7	policy router →
+     8	result builder →
+     9	explanation →
+    10	audit record
+    11	
+    12	Purpose:
+    13	Create a single governance evaluation path to prevent
+    14	future enforcement fragmentation.
+    15	*/
+    16	
+    17	import { GovernanceEnforcementDecision } from "./governance_decision_model"
+    18	
+    19	import { routeGovernancePolicy } from "./governance_policy_router"
+    20	
+    21	import { buildGovernanceResult } from "./governance_enforcement_result"
+    22	
+    23	import { buildGovernanceExplanation } from "./governance_explanation_builder"
+    24	
+    25	import { buildGovernanceAuditRecord } from "./governance_audit_log"
+    26	
+    27	export interface GovernancePipelineOutput {
+    28	
+    29	  decision: GovernanceEnforcementDecision
+    30	
+    31	  policy_id: string
+    32	
+    33	  explanation_summary: string
+    34	
+    35	  operator_guidance: string
+    36	
+    37	  audit_ts: number
+    38	
+    39	}
+    40	
+    41	export function runGovernancePipeline(
+    42	  decision: GovernanceEnforcementDecision
+    43	): GovernancePipelineOutput {
+    44	
+    45	  const policy = routeGovernancePolicy(decision)
+    46	
+    47	  const result = buildGovernanceResult(
+    48	    decision,
+    49	    policy.reason,
+    50	    policy.id,
+    51	    policy.description
+    52	  )
+    53	
+    54	  const explanation = buildGovernanceExplanation(result)
+    55	
+    56	  const audit = buildGovernanceAuditRecord(result)
+    57	
+    58	  return {
+    59	
+    60	    decision,
+    61	
+    62	    policy_id: policy.id,
+    63	
+    64	    explanation_summary: explanation.summary,
+    65	
+    66	    operator_guidance: explanation.operator_guidance,
+    67	
+    68	    audit_ts: audit.ts
+    69	
+    70	  }
+    71	
+    72	}
+
+===== CANDIDATE FILE: src/governance/governance_explanation_builder.ts =====
+     1	/*
+     2	Phase 326 — Governance Explanation Builder
+     3	
+     4	Builds deterministic human-readable explanations from
+     5	governance enforcement results.
+     6	
+     7	Purpose:
+     8	Ensure governance decisions are transparent, explainable,
+     9	and operator-safe.
+    10	*/
+    11	
+    12	import { GovernanceEnforcementResult } from "./governance_enforcement_result"
+    13	
+    14	export interface GovernanceExplanation {
+    15	
+    16	  summary: string
+    17	
+    18	  detail: string
+    19	
+    20	  operator_guidance: string
+    21	
+    22	  authority_statement: string
+    23	
+    24	}
+    25	
+    26	export function buildGovernanceExplanation(
+    27	  result: GovernanceEnforcementResult
+    28	): GovernanceExplanation {
+    29	
+    30	  let summary = ""
+    31	  let detail = ""
+    32	  let operator_guidance = ""
+    33	
+    34	  if (result.decision === "allow") {
+    35	
+    36	    summary = "Governance check passed"
+    37	
+    38	    detail =
+    39	      "No governance violations were detected. Execution remains under operator authority."
+    40	
+    41	    operator_guidance =
+    42	      "You may proceed if desired. System remains in advisory role."
+    43	
+    44	  }
+    45	
+    46	  if (result.decision === "warn") {
+    47	
+    48	    summary = "Governance review recommended"
+    49	
+    50	    detail =
+    51	      "A governance caution signal was detected. Operator review is recommended before execution."
+    52	
+    53	    operator_guidance =
+    54	      "Review task intent and confirm execution is appropriate."
+    55	
+    56	  }
+    57	
+    58	  if (result.decision === "block") {
+    59	
+    60	    summary = "Governance protection triggered"
+    61	
+    62	    detail =
+    63	      "A critical governance protection condition was detected. Execution should not proceed."
+    64	
+    65	    operator_guidance =
+    66	      "Review governance conditions and adjust the task before retrying."
+    67	
+    68	  }
+    69	
+    70	  return {
+    71	
+    72	    summary,
+    73	
+    74	    detail,
+    75	
+    76	    operator_guidance,
+    77	
+    78	    authority_statement:
+    79	      "Operator authority remains primary. System enforcement remains bounded."
+    80	
+    81	  }
+    82	
+    83	}
+
+TRACE COMPLETE

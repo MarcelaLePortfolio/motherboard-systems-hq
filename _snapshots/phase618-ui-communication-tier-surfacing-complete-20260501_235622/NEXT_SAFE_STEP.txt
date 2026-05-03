@@ -1,0 +1,18 @@
+Confirmed.
+
+Live /api/chat path:
+- Docker container on 8080
+- container runs: node server.mjs
+- active handler is in: server.mjs
+- routes/api-chat.ts is not the live path
+- matilda-chat-stub.ts matches the live response logic
+
+Next safe steps:
+1. Treat server.mjs as the authoritative live file for /api/chat
+2. Inspect how server.mjs is produced
+3. Determine whether server.mjs is:
+   - hand-maintained, or
+   - generated from a source/build step
+4. Only then patch the true source of record
+
+Do not patch routes/api-chat.ts further for this path.

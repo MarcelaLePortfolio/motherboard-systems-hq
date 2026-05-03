@@ -1,0 +1,14 @@
+Phase 597 agent pool inline health.
+
+Issue:
+- Separate health indicator script did not visibly render.
+- Most likely caused by render timing or DOM rewrite conflicts.
+
+Fix:
+- Health dot is now rendered directly by agent-status-row.js.
+- Dot is part of the Agent Pool header itself.
+- Renderer sets __AGENT_POOL_HEALTH and __AGENT_POOL_LAST_CHECK directly.
+- Separate script timing is no longer required for visibility.
+
+Result:
+Agent Pool health is now inline, visible, and owned by the renderer.

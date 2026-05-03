@@ -1,0 +1,37 @@
+PHASE 464.X — ROOT ERROR (HUMAN-READABLE)
+=========================================
+
+---- ERROR BLOCK START ----
+dashboard-1  |     Error.captureStackTrace(err)
+dashboard-1  |           ^
+dashboard-1  | 
+dashboard-1  | error: relation "tasks" does not exist
+dashboard-1  |     at /app/node_modules/pg-pool/index.js:45:11
+dashboard-1  |     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+dashboard-1  |     at async ensureTasksTaskIdColumn (file:///app/server/db_bootstrap_tasks_task_id.mjs:3:3)
+dashboard-1  |     at async file:///app/server.mjs:326:1 {
+dashboard-1  |   length: 103,
+dashboard-1  |   severity: 'ERROR',
+dashboard-1  |   code: '42P01',
+dashboard-1  |   detail: undefined,
+dashboard-1  |   hint: undefined,
+dashboard-1  |   position: undefined,
+dashboard-1  |   internalPosition: undefined,
+dashboard-1  |   internalQuery: undefined,
+dashboard-1  |   where: undefined,
+dashboard-1  |   schema: undefined,
+dashboard-1  |   table: undefined,
+dashboard-1  |   column: undefined,
+dashboard-1  |   dataType: undefined,
+dashboard-1  |   constraint: undefined,
+dashboard-1  |   file: 'namespace.c',
+dashboard-1  |   line: '434',
+dashboard-1  |   routine: 'RangeVarGetRelidExtended'
+dashboard-1  | }
+dashboard-1  | 
+---- ERROR BLOCK END ----
+
+NEXT ACTION REQUIRED:
+- Read the error block above.
+- Identify EXACT missing module / crash point.
+- Fix ONLY that dependency or import.

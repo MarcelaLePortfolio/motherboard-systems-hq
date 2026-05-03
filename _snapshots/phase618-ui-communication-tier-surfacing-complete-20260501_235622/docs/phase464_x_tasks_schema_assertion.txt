@@ -1,0 +1,31 @@
+PHASE 464.X — TASKS TABLE SCHEMA ASSERTION
+==========================================
+
+STEP 1 — Inspect tasks table structure
+                                        Table "public.tasks"
+   Column   |            Type             | Collation | Nullable |              Default              
+------------+-----------------------------+-----------+----------+-----------------------------------
+ id         | integer                     |           | not null | nextval('tasks_id_seq'::regclass)
+ created_at | timestamp without time zone |           |          | now()
+ task_id    | text                        |           |          | 
+Indexes:
+    "tasks_pkey" PRIMARY KEY, btree (id)
+    "tasks_task_id_idx" btree (task_id)
+
+
+STEP 2 — Ensure required columns exist
+NOTICE:  column "task_id" of relation "tasks" already exists, skipping
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+
+STEP 3 — Restart dashboard for schema pickup
+ Container motherboard_systems_hq-dashboard-1  Restarting
+ Container motherboard_systems_hq-dashboard-1  Started
+
+STEP 4 — Wait for boot
+Waited 3 seconds
+
+STEP 5 — Final endpoint verification
+REQUEST_FAILED
+

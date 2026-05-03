@@ -1,0 +1,167 @@
+PHASE 473.7 — REBUILD AFTER BOOTSTRAP FIX AND VERIFY
+====================================================
+
+SINCE_TS: 2026-04-10T23:11:49Z
+
+STEP 1 — Rebuild dashboard image
+#1 [internal] load local bake definitions
+#1 reading from stdin 692B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.dashboard
+#2 transferring dockerfile: 885B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:20-alpine
+#3 DONE 0.7s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 320B done
+#4 DONE 0.0s
+
+#5 [1/7] FROM docker.io/library/node:20-alpine@sha256:f598378b5240225e6beab68fa9f356db1fb8efe55173e6d4d8153113bb8f333c
+#5 resolve docker.io/library/node:20-alpine@sha256:f598378b5240225e6beab68fa9f356db1fb8efe55173e6d4d8153113bb8f333c 0.0s done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 410.18kB 0.1s done
+#6 DONE 0.1s
+
+#7 [3/7] COPY package*.json ./
+#7 CACHED
+
+#8 [4/7] COPY package-lock.json* ./
+#8 CACHED
+
+#9 [2/7] WORKDIR /app
+#9 CACHED
+
+#10 [5/7] RUN npm config set fetch-retries 5     && npm config set fetch-retry-factor 2     && npm config set fetch-retry-mintimeout 10000     && npm config set fetch-retry-maxtimeout 60000     && (npm config set registry https://registry.npmmirror.com/         && npm ci --no-audit --no-fund       || npm config set registry https://registry.npmjs.org/         && npm ci --no-audit --no-fund)     && apk add --no-cache curl ripgrep
+#10 CACHED
+
+#11 [6/7] COPY . .
+#11 DONE 0.5s
+
+#12 [7/7] COPY public/ ./public/
+#12 DONE 0.0s
+
+#13 exporting to image
+#13 exporting layers
+#13 exporting layers 0.9s done
+#13 exporting manifest sha256:698562b298efb3ecc0595b6a669f58d53a957484a055671970f49d24eeee459e
+#13 exporting manifest sha256:698562b298efb3ecc0595b6a669f58d53a957484a055671970f49d24eeee459e done
+#13 exporting config sha256:434196241d0ef9eb92a273c0858309eaa151c07a0e62ce1ad3ef93bc302784f0 done
+#13 exporting attestation manifest sha256:8ad15ba196c46f07c1c266558a3c14402b97ae947f1e691a68186aedf81c00bc done
+#13 exporting manifest list sha256:f2d398bd843fcc8a68ce4892c48c179f47b06636af67d8b8016459ac43b48e05 done
+#13 naming to docker.io/library/motherboard_systems_hq-dashboard:latest done
+#13 unpacking to docker.io/library/motherboard_systems_hq-dashboard:latest
+#13 unpacking to docker.io/library/motherboard_systems_hq-dashboard:latest 0.3s done
+#13 DONE 1.3s
+
+#14 resolving provenance for metadata file
+#14 DONE 0.0s
+ motherboard_systems_hq-dashboard  Built
+
+STEP 2 — Recreate dashboard container
+ Container motherboard_systems_hq-postgres-1  Running
+ Container motherboard_systems_hq-dashboard-1  Recreate
+ Container motherboard_systems_hq-dashboard-1  Recreated
+ Container motherboard_systems_hq-dashboard-1  Starting
+ Container motherboard_systems_hq-dashboard-1  Started
+
+STEP 3 — Wait for host port 8080 readiness
+waiting_for_8080 (attempt 1)
+READY_ON_8080 (attempt 2)
+
+STEP 4 — Verify container public files
+--- CONTAINER minimal_probe ---
+-rw-r--r--    1 root     root           345 Apr 10 22:47 /app/public/minimal_probe.html
+07e2abc113daa707495e69e7730929295fbfca8b  /app/public/minimal_probe.html
+
+--- CONTAINER dashboard ---
+980 /app/public/dashboard.html
+387b3574c73c5bb0593daba28cbf6495cd81ee99  /app/public/dashboard.html
+
+STEP 5 — Probe endpoints
+--- GET /minimal_probe.html ---
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   345  100   345    0     0   109k      0 --:--:-- --:--:-- --:--:--  112k
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Fri, 10 Apr 2026 22:47:50 GMT
+ETag: W/"159-19d799485f0"
+Content-Type: text/html; charset=utf-8
+Content-Length: 345
+Date: Fri, 10 Apr 2026 23:11:54 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minimal Probe Page</title>
+</head>
+<body>
+  <h1>Minimal Probe Page</h1>
+  <p>If this page stays responsive, the browser freeze is specific to dashboard markup or dashboard delivery shape.</p>
+</body>
+</html>
+
+--- GET /dashboard.html ---
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0 37818    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Fri, 10 Apr 2026 22:49:55 GMT
+ETag: W/"93ba-19d79966e38"
+Content-Type: text/html; charset=utf-8
+Content-Length: 37818
+Date: Fri, 10 Apr 2026 23:11:54 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+
+STEP 6 — Logs
+dashboard-1  | (node:1) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///app/routes/diagnostics/operatorGuidanceRuntime.js is not specified and it doesn't parse as CommonJS.
+dashboard-1  | Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+dashboard-1  | To eliminate this warning, add "type": "module" to /app/package.json.
+dashboard-1  | (Use `node --trace-warnings ...` to show where the warning was created)
+dashboard-1  | [phase25] task_events_emit loaded 2026-04-10T23:11:53.031Z file= file:///app/server/task_events_emit.mjs
+dashboard-1  | [phase25] api-tasks-postgres loaded 2026-04-10T23:11:53.031Z file= file:///app/server/routes/api-tasks-postgres.mjs
+dashboard-1  | [phase19] orchestrator_state_route mounted {
+dashboard-1  |   file: 'file:///app/server/orchestrator_state_route.mjs',
+dashboard-1  |   envSnapshot: {
+dashboard-1  |     PHASE18_ENABLE_ORCHESTRATION: undefined,
+dashboard-1  |     PHASE19_ENABLE_ORCH_STATE: undefined
+dashboard-1  |   }
+dashboard-1  | }
+dashboard-1  | [SSE] /events/ops + /events/reflections registered
+dashboard-1  | [db] effective pool config {
+dashboard-1  |   mode: 'url',
+dashboard-1  |   DB_URL_present: true,
+dashboard-1  |   host: null,
+dashboard-1  |   port: null,
+dashboard-1  |   user: null,
+dashboard-1  |   database: null,
+dashboard-1  |   password_type: 'url-hidden',
+dashboard-1  |   password_len: 'hidden',
+dashboard-1  |   has_password: true
+dashboard-1  | }
+dashboard-1  | Database pool initialized
+dashboard-1  | [phase25] __DB_POOL set { has: true, type: 'BoundPool' }
+dashboard-1  | Server running on http://0.0.0.0:3000
+dashboard-1  | [HTTP] GET /
+dashboard-1  | [HTTP] GET /minimal_probe.html
+dashboard-1  | [HTTP] HEAD /dashboard.html
+
+STEP 7 — Classification
+CLASSIFICATION: SERVER_RUNNING_AND_PROBE_OK
+

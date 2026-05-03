@@ -1,0 +1,42 @@
+PHASE 532 — NEXT TARGET
+
+CORRIDOR:
+UX + OBSERVABILITY POLISH
+
+PRIORITY:
+Lifecycle clarity improvement (visual, not structural)
+
+PROBLEM:
+- Execution Trail shows events, but no grouping per task
+- Hard to follow a single task across lifecycle
+- No visual linkage between created → running → completed
+
+OBJECTIVE:
+Introduce lightweight per-task coherence:
+- Same task_id visually grouped
+- Optional indentation or prefixing
+- Maintain append-only feed (no reordering logic)
+
+APPROACH (SAFE):
+- UI-only enhancement
+- No backend changes
+- No SSE contract changes
+
+POSSIBLE IMPLEMENTATION:
+- Prefix rows with short task_id
+- Color or symbol per lifecycle stage
+- Keep feed chronological
+
+CONSTRAINTS:
+- Single file: public/js/task-events-sse-client.js
+- Additive changes only
+- Do not break existing rendering
+
+NEXT STEP:
+Add task_id prefix to rendered rows
+
+GOAL:
+Make lifecycle progression readable at a glance
+
+STATUS:
+READY FOR NEXT UI PASS

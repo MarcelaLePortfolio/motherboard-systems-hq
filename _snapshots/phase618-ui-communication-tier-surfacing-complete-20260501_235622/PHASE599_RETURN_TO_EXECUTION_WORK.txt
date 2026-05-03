@@ -1,0 +1,17 @@
+Phase 599 return to execution work.
+
+State:
+- Heartbeat endpoint attempts were reverted.
+- Dashboard restored.
+- Dashboard and worker rebuilt successfully.
+- Working tree is clean.
+
+Decision:
+- Stop endpoint/route work for now.
+- Return to execution-layer work from the stable Phase 598/599 base.
+- Do not add new routes until server startup and registration are fully understood.
+
+Next Execution Corridor:
+- Continue from Phase 591 strategy-aware execution interpretation.
+- Focus on worker execution behavior, retry policy, and contracted execution output.
+- Avoid UI and endpoint changes unless directly required.

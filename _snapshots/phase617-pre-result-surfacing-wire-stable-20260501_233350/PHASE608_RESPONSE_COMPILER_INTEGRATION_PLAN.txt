@@ -1,0 +1,95 @@
+Phase 608 response compiler integration plan.
+
+Checkpoint:
+- Phase 607 stable tag exists: phase607-response-compiler-stable
+- Response compiler verified in isolation.
+- No regressions introduced.
+- Execution layer remains untouched.
+
+Objective:
+Introduce response compiler into worker execution flow WITHOUT altering behavior.
+
+Core Principle:
+Observe first. Do not replace.
+
+----------------------------------------
+
+INTEGRATION STRATEGY (SAFE)
+
+Step 1 — Passive Invocation
+- Call compileCommunicationResult inside worker AFTER execution-contract is produced.
+- Do NOT modify:
+  - execution output
+  - task completion
+  - DB writes
+  - logs
+
+- Only:
+  - generate CommunicationResult
+  - log it
+
+----------------------------------------
+
+Step 2 — Logging Only
+
+Add log:
+
+[worker][response-compiler] {
+  task_id,
+  outcome_preview,
+  explanation_preview
+}
+
+Rules:
+- Do not log full systemTrace (too verbose)
+- Do not change existing logs
+- This is additive only
+
+----------------------------------------
+
+Step 3 — No Behavior Mutation
+
+STRICT CONSTRAINTS:
+- No change to:
+  - worker loop
+  - retry logic
+  - execution contract behavior
+  - task lifecycle
+- Compiler is READ-ONLY observer
+
+----------------------------------------
+
+Step 4 — Verification
+
+Expected:
+- Existing logs remain identical
+- New log appears after execution-contract
+- Task completes successfully
+- No latency regression
+
+----------------------------------------
+
+Step 5 — Abort Conditions
+
+Immediately revert if:
+- Execution output changes
+- Task completion fails
+- Logs missing or reordered incorrectly
+- Worker crashes or stalls
+
+----------------------------------------
+
+NEXT (NOT THIS PHASE)
+
+Future phases may:
+- Replace UI output with compiler result
+- Introduce Tier-aware rendering
+- Add explanation toggles
+
+NOT NOW.
+
+----------------------------------------
+
+Status:
+READY FOR SAFE PASSIVE INTEGRATION
+

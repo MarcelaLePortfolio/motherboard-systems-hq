@@ -1,0 +1,16 @@
+PHASE 423.3 — STEP 3
+Governance-Side Bypass Hunt
+--------------------------------
+
+governance-side execution entrypoint imports
+
+governance-side execution runtime guard imports
+
+governance-side execution readonly view imports
+
+governance-side execution bundle imports
+
+governance-side cognition transport imports
+
+governance-side execution symbol usage
+

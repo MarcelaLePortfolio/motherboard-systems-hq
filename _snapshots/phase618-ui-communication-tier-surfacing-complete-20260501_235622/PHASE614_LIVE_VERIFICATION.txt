@@ -1,0 +1,26 @@
+PHASE 614 — LIVE VERIFICATION
+
+Run the following in a separate terminal:
+
+docker logs -f motherboard_systems_hq-dashboard-1 | grep phase614
+
+AND
+
+docker logs -f motherboard_systems_hq-worker-1
+
+LOOK FOR:
+- [phase614] system-trigger dispatched
+- task claimed
+- task completed
+
+UI CHECK:
+- Open Recent Tasks
+- Confirm new tasks appear without user action
+
+TIMING:
+- First task within ~60 seconds
+
+IF NOTHING HAPPENS:
+- Wait 90 seconds
+- Then proceed to failure protocol
+

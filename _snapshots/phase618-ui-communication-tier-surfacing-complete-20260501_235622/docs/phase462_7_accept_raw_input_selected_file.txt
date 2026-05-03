@@ -1,0 +1,21 @@
+PHASE 462.7 — ACCEPT RAW INPUT IMPLEMENTATION SITE SELECTION
+============================================================
+
+Source ranking:
+docs/phase462_6_accept_raw_input_ranked_candidates.txt
+
+SELECTED FILE:
+./cognition/operator/operatorAcknowledgement.types.ts
+
+SELECTION REASON:
+- First valid ranked candidate from bounded intake-safe shortlist
+- Narrowest available single-file boundary under existing evidence
+- Preferred over broader shared or mixed-responsibility files
+
+REJECTION RULE FOR BROADER BOUNDARIES:
+- Reject files implying governance/execution/approval/reporting responsibility
+- Reject files requiring multi-file edits
+- Reject broader shared modules when a narrower intake-safe file exists
+
+NEXT MUTATION RULE:
+ONE FILE ONLY

@@ -1,0 +1,111 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cd "$(git rev-parse --show-toplevel)"
+mkdir -p docs logs
+
+REPORT="docs/phase488_resume_worker_lifecycle_proof_after_db_restore.txt"
+LOG="logs/phase488_worker_phase27_explicit.log"
+
+CLAIM_SQL="server/worker/phase27_claim_one.sql"
+SUCCESS_SQL="server/worker/phase27_mark_success.sql"
+FAIL_SQL="server/worker/phase27_mark_failure.sql"
+
+{
+  echo "PHASE 488 — RESUME WORKER LIFECYCLE PROOF AFTER DB RESTORE"
+  echo "Timestamp: $(date)"
+  echo "========================================"
+  echo
+
+  echo "[1] PRECHECK"
+  curl -I --max-time 5 http://localhost:3000 || true
+  echo
+  curl -s --max-time 8 http://localhost:3000/api/runs | head -c 1200 || true
+  echo
+  echo
+
+  echo "[2] REQUIRED SQL FILES"
+  for f in "$CLAIM_SQL" "$SUCCESS_SQL" "$FAIL_SQL"; do
+    if [ -f "$f" ]; then
+      echo "FOUND $f"
+    else
+      echo "MISSING $f"
+    fi
+  done
+  echo
+} > "$REPORT"
+
+for f in "$CLAIM_SQL" "$SUCCESS_SQL" "$FAIL_SQL"; do
+  test -f "$f"
+done
+
+pkill -f phase26_task_worker 2>/dev/null || true
+sleep 1
+
+PHASE27_CLAIM_ONE_SQL="$CLAIM_SQL" \
+PHASE27_MARK_SUCCESS_SQL="$SUCCESS_SQL" \
+PHASE27_MARK_FAILURE_SQL="$FAIL_SQL" \
+POSTGRES_URL="postgresql://postgres:postgres@127.0.0.1:5432/postgres" \
+DATABASE_URL="postgresql://postgres:postgres@127.0.0.1:5432/postgres" \
+nohup node server/worker/phase26_task_worker.mjs > "$LOG" 2>&1 &
+
+sleep 8
+
+POSTGRES_CID="$(docker compose ps -q postgres || true)"
+
+{
+  echo "[3] WORKER PROCESS"
+  ps aux | grep -E 'phase26_task_worker' | grep -v grep || echo "WORKER_NOT_RUNNING"
+  echo
+
+  echo "[4] WORKER LOG TAIL"
+  tail -n 120 "$LOG" || true
+  echo
+
+  echo "[5] TASK EVENT COUNTS"
+  if [ -n "${POSTGRES_CID}" ]; then
+    docker exec -e PGPASSWORD=postgres "$POSTGRES_CID" \
+      psql -U postgres -d postgres -c \
+      "select kind, count(*) from task_events group by kind order by kind;" || true
+  else
+    echo "NO_POSTGRES_CONTAINER"
+  fi
+  echo
+
+  echo "[6] /api/runs SNAPSHOT AFTER WORKER RELAUNCH"
+  curl -s --max-time 8 http://localhost:3000/api/runs | head -c 1600 || true
+  echo
+  echo
+
+  echo "[7] TASK EVENTS STREAM SAMPLE"
+} >> "$REPORT"
+
+python3 - << 'PY' >> "$REPORT" 2>&1 || true
+import urllib.request, time
+url = "http://localhost:3000/events/task-events"
+req = urllib.request.Request(url, headers={"Accept": "text/event-stream"})
+start = time.time()
+count = 0
+try:
+    with urllib.request.urlopen(req, timeout=8) as resp:
+        for raw in resp:
+            line = raw.decode("utf-8", errors="replace").rstrip("\n")
+            print(line)
+            count += 1
+            if time.time() - start > 8 or count >= 80:
+                break
+except Exception as e:
+    print(f"TASK_EVENTS_CAPTURE_ERROR: {e}")
+PY
+
+{
+  echo
+  echo "[8] VERDICT"
+  echo "- If task.started/task.completed appear, lifecycle corridor is unlocked"
+  echo "- If worker stays up but no new kinds appear, inspect claim SQL / task selection next"
+  echo "- If worker crashes, inspect SQL contract mismatch next"
+  echo
+  echo "PROOF COMPLETE"
+} >> "$REPORT"
+
+sed -n '1,320p' "$REPORT"

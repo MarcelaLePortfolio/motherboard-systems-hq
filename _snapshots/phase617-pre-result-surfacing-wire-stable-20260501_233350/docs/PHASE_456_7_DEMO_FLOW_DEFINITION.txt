@@ -1,0 +1,47 @@
+PHASE 456.7 - DEMO FLOW DEFINITION
+----------------------------------
+
+CLASSIFICATION
+Flow definition only.
+Structure containment only.
+No mutation.
+No wiring.
+No runtime changes.
+
+PURPOSE
+Define the exact operator-visible demo flow required for FL-3 proof without expanding execution scope.
+
+DEMO_FLOW
+1. Operator submits previously unseen request.
+2. System converts request into governed intake structure.
+3. Governance evaluation produces bounded admission result.
+4. Operator approval checkpoint is surfaced explicitly.
+5. Execution preparation state is surfaced without autonomy expansion.
+6. Bounded demo execution path runs.
+7. Outcome report is surfaced to operator.
+
+VISIBILITY_REQUIREMENTS
+Operator can see request intake state.
+Operator can see governance state.
+Operator can see approval requirement.
+Operator can see execution preparation state.
+Operator can see bounded outcome state.
+
+BOUNDARY_REQUIREMENTS
+No implicit approval.
+No hidden execution.
+No worker autonomy expansion.
+No policy mutation.
+No multi-path nondeterministic traversal.
+
+SUCCESS_CRITERIA
+Demo flow stages are explicitly defined.
+Operator visibility is preserved at each stage.
+Execution remains bounded and governed.
+Outcome reporting closes the loop.
+
+NEXT_STEP
+PHASE_456_7_DEMO_GAP_CHECK
+
+DETERMINISTIC_STOP
+Stop after demo flow definition is recorded.

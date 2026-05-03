@@ -1,0 +1,16 @@
+Phase 582 summary-view next step.
+
+Goal:
+Replace redundant expanded metadata with a plain-language event summary and keep full event details behind Advanced JSON only.
+
+Expected UI:
+- Collapsed row:
+  - status
+  - time
+  - task title
+  - action links
+- Expanded row:
+  - short human-readable summary
+  - short task/run identifiers only
+  - Advanced toggle for JSON
+- No duplicated event/status/source/completed_at grid in the main expanded view.

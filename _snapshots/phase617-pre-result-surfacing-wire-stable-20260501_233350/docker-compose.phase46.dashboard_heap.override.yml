@@ -1,0 +1,5 @@
+services:
+  dashboard:
+    environment:
+      # Fix for sustained /api/runs polling + long-lived dashboard sessions
+      - NODE_OPTIONS=--max-old-space-size=4096

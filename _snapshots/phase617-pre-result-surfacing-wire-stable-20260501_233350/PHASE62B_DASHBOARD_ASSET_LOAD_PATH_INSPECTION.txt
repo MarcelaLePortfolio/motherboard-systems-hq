@@ -1,0 +1,548 @@
+FULL OUTPUT
+
+== public/dashboard.html ==
+     1	<!DOCTYPE html>
+     2	<html lang="en">
+     3	<head>
+     4	  <style id="matilda-chat-typography-polish">
+     5	    #matilda-chat-transcript p {
+     6	      line-height: 1.45 !important;
+     7	      margin-bottom: 0.55rem !important;
+     8	    }
+     9	    #matilda-chat-transcript .user-message {
+    10	      color: #dbeafe !important;
+    11	    }
+    12	    #matilda-chat-transcript .matilda-message {
+    13	      color: #a7f3d0 !important;
+    14	    }
+    15	  
+    16	  /* Phase 62: Agent Pool + Metrics dual top row */
+    17	  .phase62-top-row {
+    18	    display: grid;
+    19	    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    20	    gap: 16px;
+    21	    align-items: stretch;
+    22	  }
+    23	
+    24	  .phase62-top-col {
+    25	    min-width: 0;
+    26	  }
+    27	
+    28	  .phase62-top-col > section,
+    29	  .phase62-top-col > div {
+    30	    height: 100%;
+    31	    margin-bottom: 0 !important;
+    32	  }
+    33	
+    34	  #agent-status-container.phase62-agent-pool {
+    35	    margin-bottom: 0 !important;
+    36	  }
+    37	
+    38	  @media (max-width: 1100px) {
+    39	    .phase62-top-row {
+    40	      grid-template-columns: 1fr;
+    41	    }
+    42	  }
+    43	
+    44	  /* Phase 62: consolidated metrics telemetry tile styling */
+    45	  #metrics-row.phase62-metrics-tiles {
+    46	    display: grid !important;
+    47	    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    48	    gap: 12px !important;
+    49	    align-items: stretch !important;
+    50	  }
+    51	
+    52	  #metrics-row.phase62-metrics-tiles > .phase62-metric-card,
+    53	  #metrics-row.phase62-metrics-tiles > .phase62-metric-tile,
+    54	  #metrics-row.phase62-metrics-tiles > div.phase62-metric-card {
+    55	    min-height: 72px !important;
+    56	    padding: 12px 12px 10px 12px !important;
+    57	    display: flex !important;
+    58	    flex-direction: column !important;
+    59	    justify-content: flex-start !important;
+    60	    align-items: flex-start !important;
+    61	    gap: 8px !important;
+    62	  }
+    63	
+    64	  #metrics-row.phase62-metrics-tiles .phase62-metric-value {
+    65	    order: 1 !important;
+    66	    font-size: 2.5rem !important;
+    67	    line-height: 1 !important;
+    68	    letter-spacing: -0.04em !important;
+    69	    margin: 0 !important;
+    70	  }
+    71	
+    72	  #metrics-row.phase62-metrics-tiles .phase62-metric-label {
+    73	    order: 2 !important;
+    74	    font-size: 0.68rem !important;
+    75	    line-height: 0.9rem !important;
+    76	    text-transform: uppercase !important;
+    77	    letter-spacing: 0.08em !important;
+    78	    opacity: 0.82 !important;
+    79	    margin: 0 !important;
+    80	  }
+    81	</style>
+    82	  <meta charset="UTF-8" />
+    83	  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    84	  <title>Motherboard Systems Operator Console</title>
+    85	
+    86	  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    87	  <link rel="stylesheet" href="css/broadcast.css" />
+    88	  <link rel="stylesheet" href="css/dashboard.css?v=darkmode" />
+    89	  <link rel="stylesheet" href="css/dashboard-reflections.css" />
+    90	  <link rel="stylesheet" href="css/agent-status-row.css" />
+    91	  <link rel="stylesheet" href="css/matilda-chat.css" />
+    92	  <link rel="stylesheet" href="css/demo_layout_trim.css" />
+    93	  <link rel="stylesheet" href="/css/phase13_5_operator_ux.css" />
+    94	  <link rel="stylesheet" href="css/phase59_demo_focus.css" />
+    95	  <link rel="stylesheet" href="css/phase60_live_polish.css" />
+    96	  <link rel="stylesheet" href="css/phase61_workspace_consolidation.css" />
+    97	  <link rel="stylesheet" href="css/phase61_tabs_observational_workspace.css" />
+    98	
+    99	    <style id="phase61-layout-polish">
+   100	      #phase61-workspace-grid {
+   101	        display: grid;
+   102	        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+   103	        gap: 1.5rem;
+   104	        align-items: stretch;
+   105	      }
+   106	
+   107	      #phase61-operator-column,
+   108	      #phase61-telemetry-column {
+   109	        display: flex;
+   110	        flex-direction: column;
+   111	        min-width: 0;
+   112	      }
+   113	
+   114	      #operator-workspace-card,
+   115	      #observational-workspace-card {
+   116	        display: flex;
+   117	        flex-direction: column;
+   118	        min-height: 36rem;
+   119	        height: 100%;
+   120	      }
+   121	
+   122	      #operator-panels,
+   123	      #observational-panels {
+   124	        flex: 1 1 auto;
+   125	        display: flex;
+   126	        flex-direction: column;
+   127	      }
+   128	
+   129	      #op-panel-chat,
+   130	      #op-panel-delegation,
+   131	      #obs-panel-recent,
+   132	      #obs-panel-activity,
+   133	      #obs-panel-events {
+   134	        height: 100%;
+   135	      }
+   136	
+   137	      #op-panel-chat .obs-surface,
+   138	      #op-panel-delegation .obs-surface,
+   139	      #obs-panel-recent .obs-surface,
+   140	      #obs-panel-activity .obs-surface,
+   141	      #obs-panel-events .obs-surface {
+   142	        min-height: 100%;
+   143	      }
+   144	
+   145	      #matilda-chat-card,
+   146	      #delegation-card,
+   147	      #recent-tasks-card,
+   148	      #task-activity-card,
+   149	      #task-events-card {
+   150	        display: flex;
+   151	        flex-direction: column;
+   152	      }
+   153	
+   154	      #operator-tabs,
+   155	      #observational-tabs {
+   156	        margin-bottom: 1.1rem;
+   157	      }
+   158	
+   159	      #op-panel-chat,
+   160	      #op-panel-delegation,
+   161	      #obs-panel-recent,
+   162	      #obs-panel-activity,
+   163	      #obs-panel-events {
+   164	        padding-top: 0.1rem;
+   165	      }
+   166	
+   167	      #matilda-chat-root {
+   168	        flex: 1 1 auto;
+   169	        display: flex;
+   170	        flex-direction: column;
+   171	        gap: 1rem;
+   172	      }
+   173	
+   174	      #matilda-chat-transcript {
+   175	        min-height: 14rem;
+   176	        height: 14rem;
+   177	      }
+   178	
+   179	      #matilda-chat-root > .flex.space-x-3.items-end {
+   180	        margin-top: auto;
+   181	      }
+   182	
+   183	      #delegation-card {
+   184	        justify-content: flex-start;
+   185	      }
+   186	
+   187	      #delegation-input {
+   188	        min-height: 8rem;
+   189	      }
+   190	
+   191	      #task-activity-card .h-64 {
+   192	        height: 100%;
+   193	        min-height: 18rem;
+   194	      }
+   195	
+   196	      #task-events-card.phase61-events-fill {
+   197	        min-height: 100%;
+   198	        height: 100%;
+   199	      }
+   200	
+   201	      #task-events-card.phase61-events-fill #mb-task-events-panel-anchor {
+   202	        flex: 1 1 auto;
+   203	        min-height: 18rem;
+   204	      }
+   205	
+   206	      #atlas-status-card {
+   207	        width: 100%;
+   208	      }
+   209	
+   210	      @media (max-width: 1023px) {
+   211	        #phase61-workspace-grid {
+   212	          grid-template-columns: 1fr;
+   213	        }
+   214	
+   215	        #operator-workspace-card,
+   216	        #observational-workspace-card {
+   217	          min-height: auto;
+   218	        }
+   219	
+   220	        #matilda-chat-transcript {
+   221	          min-height: 13rem;
+   222	          height: 13rem;
+   223	        }
+   224	      }
+   225	
+   226	      #phase61-atlas-band {
+   227	        width: 100%;
+   228	      }
+   229	
+   230	#atlas-status-card {
+   231	  grid-column: 1 / -1;
+   232	}
+   233	
+   234	
+   235	      #phase61-atlas-band #atlas-status-card {
+   236	        width: 100%;
+   237	      }
+   238	    </style>
+   239	
+   240	    <style id="phase61-task-events-polish">
+   241	    .task-events-panel,
+   242	    [data-phase61-task-events],
+   243	    [data-tab-panel="task-events"],
+   244	    #task-events-panel,
+   245	    #task-events,
+   246	    .task-events {
+   247	      min-height: 360px;
+   248	    }
+   249	
+   250	    .task-events-panel .task-events-list,
+   251	    [data-phase61-task-events] .task-events-list,
+   252	    [data-tab-panel="task-events"] .task-events-list,
+   253	    #task-events-panel .task-events-list,
+   254	    #task-events .task-events-list,
+   255	    .task-events .task-events-list,
+   256	    .task-events-panel ul,
+   257	    [data-phase61-task-events] ul,
+   258	    [data-tab-panel="task-events"] ul,
+   259	    #task-events-panel ul,
+   260	    #task-events ul,
+
+== public/index.html ==
+     1	<!DOCTYPE html>
+     2	<html lang="en">
+     3	<head>
+     4	  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0" />
+     5	  <meta http-equiv="Pragma" content="no-cache" />
+     6	  <meta http-equiv="Expires" content="0" />
+     7	  <style id="matilda-chat-typography-polish">
+     8	    #matilda-chat-transcript p {
+     9	      line-height: 1.45 !important;
+    10	      margin-bottom: 0.55rem !important;
+    11	    }
+    12	    #matilda-chat-transcript .user-message {
+    13	      color: #dbeafe !important;
+    14	    }
+    15	    #matilda-chat-transcript .matilda-message {
+    16	      color: #a7f3d0 !important;
+    17	    }
+    18	  </style>
+    19	  <meta charset="UTF-8" />
+    20	  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    21	  <title>Motherboard Systems Operator Console</title>
+    22	
+    23	  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    24	  <link rel="stylesheet" href="css/broadcast.css" />
+    25	  <link rel="stylesheet" href="css/dashboard.css?v=darkmode" />
+    26	  <link rel="stylesheet" href="css/dashboard-reflections.css" />
+    27	  <link rel="stylesheet" href="css/agent-status-row.css" />
+    28	  <link rel="stylesheet" href="css/matilda-chat.css" />
+    29	  <link rel="stylesheet" href="css/demo_layout_trim.css" />
+    30	  <link rel="stylesheet" href="css/phase59_demo_focus.css" />
+    31	</head>
+    32	
+    33	<body class="bg-gray-900 text-gray-100 min-h-screen p-4">
+    34	  <header class="phase59-shell flex flex-col gap-4 mb-6 lg:flex-row lg:items-center lg:justify-between">
+    35	    <div>
+    36	      <p class="text-xs uppercase tracking-[0.24em] text-teal-300/70 mb-2">Motherboard Systems</p>
+    37	      <h1 class="text-3xl font-bold text-teal-400">
+    38	        Operator Console
+    39	      </h1>
+    40	    </div>
+    41	    <div
+    42	      id="global-status"
+    43	      class="bg-gray-800 border border-gray-700 rounded-2xl shadow-xl px-4 py-3 flex flex-wrap items-center gap-x-5 gap-y-2"
+    44	    >
+    45	      <span class="text-sm font-semibold">
+    46	        Uptime:
+    47	        <span id="uptime-display" class="text-green-400">Calculating...</span>
+    48	      </span>
+    49	      <div class="flex items-center gap-2">
+    50	        <div id="system-health-indicator" class="w-3 h-3 rounded-full bg-red-500 animate-pulse"></div>
+    51	        <span class="text-sm">
+    52	          Health:
+    53	          <span id="health-status">Critical</span>
+    54	        </span>
+    55	      </div>
+    56	      <span class="text-sm text-gray-400">
+    57	        Probe lifecycle and task activity visible below.
+    58	      </span>
+    59	    </div>
+    60	  </header>
+    61	
+    62	  <section
+    63	    id="agent-status-container"
+    64	    class="phase59-shell bg-gray-800 p-4 rounded-2xl shadow-2xl flex flex-wrap gap-4 items-center mb-6 border border-gray-700"
+    65	  >
+    66	    <h2 class="text-lg font-semibold text-gray-200 w-full">
+    67	      Agent Pool
+    68	    </h2>
+    69	    <span class="text-gray-500">Loading agents...</span>
+    70	  </section>
+    71	
+    72	  <main class="phase59-shell space-y-6">
+    73	    <section
+    74	      id="metrics-row"
+    75	      class="grid grid-cols-2 xl:grid-cols-4 gap-4"
+    76	      aria-label="System metrics"
+    77	    >
+    78	      <div class="bg-gray-800 p-4 rounded-2xl shadow-lg border border-gray-700">
+    79	        <p class="text-sm text-gray-400">Active Agents</p>
+    80	        <p id="metric-agents" class="text-2xl font-bold text-blue-400">--</p>
+    81	      </div>
+    82	      <div class="bg-gray-800 p-4 rounded-2xl shadow-lg border border-gray-700">
+    83	        <p class="text-sm text-gray-400">Tasks Running</p>
+    84	        <p id="metric-tasks" class="text-2xl font-bold text-yellow-400">--</p>
+    85	      </div>
+    86	      <div class="bg-gray-800 p-4 rounded-2xl shadow-lg border border-gray-700">
+    87	        <p class="text-sm text-gray-400">Success Rate</p>
+    88	        <p id="metric-success-rate" class="text-2xl font-bold text-green-400">--</p>
+    89	      </div>
+    90	      <div class="bg-gray-800 p-4 rounded-2xl shadow-lg border border-gray-700">
+    91	        <p class="text-sm text-gray-400">Latency (ms)</p>
+    92	        <p id="metric-latency" class="text-2xl font-bold text-red-400">--</p>
+    93	      </div>
+    94	    </section>
+    95	
+    96	    <section aria-labelledby="operator-tools-heading" class="space-y-4">
+    97	      <div class="flex items-center justify-between">
+    98	        <h2 id="operator-tools-heading" class="text-xs uppercase tracking-[0.24em] text-gray-400">
+    99	          Operator Tools
+   100	        </h2>
+   101	      </div>
+   102	
+   103	      <div id="operator-tools-grid" class="grid gap-6 xl:grid-cols-2">
+   104	        <section id="matilda-chat-card" class="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700">
+   105	          <h2 class="text-xl font-semibold mb-4 border-b border-gray-700 pb-2">
+   106	            Matilda Chat Console
+   107	          </h2>
+   108	          <div id="matilda-chat-root" class="space-y-3">
+   109	            <div
+   110	              id="matilda-chat-transcript"
+   111	              class="bg-gray-900 border border-gray-700 rounded-xl p-3 h-52 overflow-y-auto text-sm"
+   112	            >
+   113	              <p class="text-gray-500 italic">
+   114	                Chat with Matilda about tasks, status, or next steps...
+   115	              </p>
+   116	            </div>
+   117	            <div class="flex space-x-3 items-end">
+   118	              <textarea
+   119	                id="matilda-chat-input"
+   120	                rows="2"
+   121	                class="flex-1 bg-gray-900 border border-gray-700 rounded-xl p-3 text-sm resize-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+   122	                placeholder="Type a message to Matilda and press Enter or click Send..."
+   123	              ></textarea>
+   124	              <button
+   125	                id="matilda-chat-send"
+   126	                class="px-5 py-2 rounded-xl font-semibold text-sm bg-purple-500 hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-400 transition transform hover:-translate-y-0.5 shadow-lg"
+   127	              >
+   128	                Send
+   129	              </button>
+   130	              <button
+   131	                id="matilda-chat-quick-check"
+   132	                class="px-3 py-2 rounded-xl font-semibold text-xs bg-gray-700 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-400 transition shadow-lg"
+   133	              >
+   134	                Quick check
+   135	              </button>
+   136	            </div>
+   137	            <p id="matilda-helper-text-ops" class="text-xs text-gray-400 mt-1">
+   138	              Matilda chat is wired to /api/chat (server-side). If you see a stub reply, it means the backend is intentionally in placeholder mode.
+   139	            </p>
+   140	          </div>
+   141	        </section>
+   142	
+   143	        <section
+   144	          id="delegation-card"
+   145	          class="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700 space-y-4"
+   146	        >
+   147	          <h2 class="text-xl font-semibold border-b border-gray-700 pb-2">
+   148	            Task Delegation
+   149	          </h2>
+   150	          <textarea
+   151	            id="delegation-input"
+   152	            rows="3"
+   153	            class="w-full bg-gray-900 border border-gray-700 p-3 rounded-xl focus:ring-teal-500 focus:border-teal-500 resize-none text-white placeholder-gray-500"
+   154	            placeholder="Delegate a new task or modify system parameters..."
+   155	          ></textarea>
+   156	          <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+   157	            <button
+   158	              id="delegation-submit"
+   159	              class="w-full md:w-auto bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded-xl transition duration-200"
+   160	            >
+   161	              Submit Delegation
+   162	            </button>
+   163	            <button
+   164	              id="complete-task-btn"
+   165	              class="w-full md:w-auto bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-xl transition duration-200"
+   166	            >
+   167	              Complete Task (Alpha)
+   168	            </button>
+   169	          </div>
+   170	          <div id="delegation-response" class="mt-2 text-sm text-gray-300 italic"></div>
+   171	        </section>
+   172	      </div>
+   173	    </section>
+   174	
+   175	    <section aria-labelledby="activity-panels-heading" class="space-y-4">
+   176	      <h2 id="activity-panels-heading" class="text-xs uppercase tracking-[0.24em] text-gray-400">
+   177	        Activity Panels
+   178	      </h2>
+   179	
+   180	      <div id="activity-panels-grid" class="grid gap-6 xl:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
+   181	        <section id="recent-tasks-card" class="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700">
+   182	          <div class="flex items-center justify-between mb-4 border-b border-gray-700 pb-2">
+   183	            <h2 class="text-xl font-semibold">Recent Tasks</h2>
+   184	            <span class="text-xs uppercase tracking-wide text-indigo-300/80">Live</span>
+   185	          </div>
+   186	          <div id="tasks-widget"></div>
+   187	        </section>
+   188	
+   189	        <section id="task-activity-card" class="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700">
+   190	          <h2 class="text-xl font-semibold mb-4 border-b border-gray-700 pb-2">
+   191	            Task Activity Over Time
+   192	          </h2>
+   193	          <div class="h-64">
+   194	            <canvas id="task-activity-graph" class="w-full h-full"></canvas>
+   195	          </div>
+   196	        </section>
+   197	      </div>
+   198	    </section>
+   199	
+   200	    <section aria-labelledby="subsystem-status-heading" class="space-y-4">
+   201	      <h2 id="subsystem-status-heading" class="text-xs uppercase tracking-[0.24em] text-gray-400">
+   202	        Subsystem Status
+   203	      </h2>
+   204	
+   205	      <section id="atlas-status-card" class="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700">
+   206	        <h2
+   207	          class="text-xl font-semibold mb-4 border-b border-gray-700 pb-2 flex justify-between items-center"
+   208	        >
+   209	          Atlas Subsystem Status
+   210	          <span
+   211	            id="atlas-health"
+   212	            class="text-xs font-medium px-2 py-1 rounded-full bg-orange-500 text-white"
+   213	          >
+   214	            Degraded
+   215	          </span>
+   216	        </h2>
+   217	        <div id="atlas-status-details" class="space-y-2 text-gray-300">
+   218	          <p>
+   219	            Core Engine:
+   220	            <span class="text-yellow-400">Initializing...</span>
+
+== server.mjs relevant area ==
+   320	  console.log("[phase25] __DB_POOL set", { has: !!globalThis.__DB_POOL, type: (globalThis.__DB_POOL && globalThis.__DB_POOL.constructor && globalThis.__DB_POOL.constructor.name) });
+   321	
+   322	  if (typeof app !== "undefined" && app && app.locals) app.locals.pool = pool;
+   323	let lastOpsHeartbeat = Date.now();
+   324	
+   325	// ---- Static dashboard assets ----
+   326	app.use("/public", express.static(path.join(__dirname, "public")));
+   327	app.get("/bundle.js", (req, res) => res.sendFile(path.join(__dirname, "public", "bundle.js")));
+   328	
+   329	app.get("/api/runs", getRunsList);
+   330	app.get("/bundle.js.map", (req, res) => res.sendFile(path.join(__dirname, "public", "bundle.js.map")));
+   331	app.get("/dashboard", (req, res) => res.sendFile(path.join(__dirname, "public", "dashboard.html")));
+   332	app.get("/", (req, res) => res.redirect("/dashboard"));
+   333	
+   334	// ---- Tasks API ----
+   335	app.get("/api/tasks", async (req, res) => {
+   336	  console.log("[phase57c-live] /api/tasks probe", {
+   337	    originalUrl: req.originalUrl,
+   338	    referer: req.get("referer") || null,
+   339	    userAgent: req.get("user-agent") || null,
+   340	    accept: req.get("accept") || null,
+   341	  });
+   342	  try {
+   343	    const r = await pool.query(
+   344	      `select id::text, title, agent, status, notes, source, trace_id, error, meta, created_at, updated_at
+   345	       from tasks
+   346	       order by id::int desc`
+   347	    );
+   348	    res.json({ tasks: r.rows, source: "db-tasks" });
+   349	  } catch (e) {
+   350	    res.status(500).json({ ok: false, error: String(e) });
+   351	  }
+   352	});
+   353	
+   354	// ---- Phase 15: real task mutation endpoints (DB-backed) ----
+   355	app.post("/api/delegate-task", async (req, res) => {
+   356	  try {
+   357	    const row = await dbDelegateTask(pool, req.body || {});
+   358	    const payload = { ok: true, action: "delegate", task: row };
+   359	
+   360	    emitArtifact({
+   361	      type: "task_result",
+   362	      source: "cade",
+   363	      taskId: row.id,
+   364	      payload,
+   365	    });
+   366	
+   367	    res.json(payload);
+   368	  } catch (e) {
+   369	    res.status(500).json({ ok: false, error: String(e) });
+   370	  }
+   371	});
+   372	
+   373	app.post("/api/complete-task", async (req, res) => {
+   374	  try {
+   375	    const row = await dbCompleteTask(pool, req.body || {});
+   376	    const payload = { ok: true, action: "complete", task: row };
+   377	
+   378	    emitArtifact({
+   379	      type: "task_result",
+   380	      source: "cade",

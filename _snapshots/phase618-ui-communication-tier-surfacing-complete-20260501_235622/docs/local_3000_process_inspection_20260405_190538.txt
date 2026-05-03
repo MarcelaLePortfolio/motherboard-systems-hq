@@ -1,0 +1,216 @@
+LOCAL :3000 PROCESS INSPECTION
+Timestamp: Sun Apr  5 19:05:38 PDT 2026
+
+==== PRIMARY FINDING ====
+Process found listening on :3000
+PID: 33302
+
+==== PORT 3000 LISTENER ====
+COMMAND   PID        USER   FD   TYPE            DEVICE SIZE/OFF NODE NAME
+node    33302 marcela-dev   13u  IPv4 0x2574a63839a45e9      0t0  TCP *:3000 (LISTEN)
+
+==== PROCESS SUMMARY ====
+33302     1 marcela-dev 17-08:04:18 node server.mjs
+
+==== PROCESS OPEN FILES (FIRST 120) ====
+COMMAND   PID        USER   FD     TYPE             DEVICE SIZE/OFF                NODE NAME
+node    33302 marcela-dev  cwd      DIR               1,18    30080            30281606 /Users/marcela-dev/Projects/Motherboard_Systems_HQ
+node    33302 marcela-dev  txt      REG               1,18 89044256              521315 /opt/homebrew/Cellar/node/24.4.0/bin/node
+node    33302 marcela-dev  txt      REG               1,18    88080              503253 /opt/homebrew/Cellar/brotli/1.1.0/lib/libbrotlidec.1.1.0.dylib
+node    33302 marcela-dev  txt      REG               1,18   230704              504055 /opt/homebrew/Cellar/libuv/1.51.0/lib/libuv.1.dylib
+node    33302 marcela-dev  txt      REG               1,18   168128              503252 /opt/homebrew/Cellar/brotli/1.1.0/lib/libbrotlicommon.1.1.0.dylib
+node    33302 marcela-dev  txt      REG               1,18  2289328 1152921500312524539 /usr/lib/dyld
+node    33302 marcela-dev  txt      REG               1,18   244656              503474 /opt/homebrew/Cellar/c-ares/1.34.5/lib/libcares.2.19.4.dylib
+node    33302 marcela-dev  txt      REG               1,18   201856              504009 /opt/homebrew/Cellar/libnghttp2/1.66.0/lib/libnghttp2.14.dylib
+node    33302 marcela-dev  txt      REG               1,18   623552              503254 /opt/homebrew/Cellar/brotli/1.1.0/lib/libbrotlienc.1.1.0.dylib
+node    33302 marcela-dev  txt      REG               1,18   905888            35426445 /opt/homebrew/Cellar/openssl@3/3.6.0/lib/libssl.3.dylib
+node    33302 marcela-dev  txt      REG               1,18  4874704            35426444 /opt/homebrew/Cellar/openssl@3/3.6.0/lib/libcrypto.3.dylib
+node    33302 marcela-dev  txt      REG               1,18  1841072              503966 /opt/homebrew/Cellar/icu4c@77/77.1/lib/libicuuc.77.1.dylib
+node    33302 marcela-dev  txt      REG               1,18  3174032              503962 /opt/homebrew/Cellar/icu4c@77/77.1/lib/libicui18n.77.1.dylib
+node    33302 marcela-dev  txt      REG               1,18 32167248              503961 /opt/homebrew/Cellar/icu4c@77/77.1/lib/libicudata.77.1.dylib
+node    33302 marcela-dev    0r     CHR                3,2      0t0                 336 /dev/null
+node    33302 marcela-dev    1w     REG               1,18     1387            46731339 /Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_SERVER_RESTART.log
+node    33302 marcela-dev    2w     REG               1,18     1387            46731339 /Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_SERVER_RESTART.log
+node    33302 marcela-dev    3u  KQUEUE                                                 count=0, state=0x8
+node    33302 marcela-dev    4     PIPE 0x13f7710b68e71344    16384                     ->0xf8e22725108c88e9
+node    33302 marcela-dev    5     PIPE 0xf8e22725108c88e9    16384                     ->0x13f7710b68e71344
+node    33302 marcela-dev    6r     DIR               1,18      704                   2 /
+node    33302 marcela-dev    7u  KQUEUE                                                 count=0, state=0xa
+node    33302 marcela-dev    8r     DIR               1,18      704                   2 /
+node    33302 marcela-dev    9u  KQUEUE                                                 count=0, state=0xa
+node    33302 marcela-dev   10r     DIR               1,18      704                   2 /
+node    33302 marcela-dev   11r     CHR                3,2      0t0                 336 /dev/null
+node    33302 marcela-dev   13u    IPv4  0x2574a63839a45e9      0t0                 TCP *:hbci (LISTEN)
+
+==== PROCESS CWD / EXECUTABLE ====
+COMMAND   PID        USER   FD   TYPE DEVICE SIZE/OFF     NODE NAME
+node    33302 marcela-dev  cwd    DIR   1,18    30080 30281606 /Users/marcela-dev/Projects/Motherboard_Systems_HQ
+COMMAND   PID        USER   FD   TYPE DEVICE SIZE/OFF                NODE NAME
+node    33302 marcela-dev  txt    REG   1,18 89044256              521315 /opt/homebrew/Cellar/node/24.4.0/bin/node
+node    33302 marcela-dev  txt    REG   1,18    88080              503253 /opt/homebrew/Cellar/brotli/1.1.0/lib/libbrotlidec.1.1.0.dylib
+node    33302 marcela-dev  txt    REG   1,18   230704              504055 /opt/homebrew/Cellar/libuv/1.51.0/lib/libuv.1.dylib
+node    33302 marcela-dev  txt    REG   1,18   168128              503252 /opt/homebrew/Cellar/brotli/1.1.0/lib/libbrotlicommon.1.1.0.dylib
+node    33302 marcela-dev  txt    REG   1,18  2289328 1152921500312524539 /usr/lib/dyld
+node    33302 marcela-dev  txt    REG   1,18   244656              503474 /opt/homebrew/Cellar/c-ares/1.34.5/lib/libcares.2.19.4.dylib
+node    33302 marcela-dev  txt    REG   1,18   201856              504009 /opt/homebrew/Cellar/libnghttp2/1.66.0/lib/libnghttp2.14.dylib
+node    33302 marcela-dev  txt    REG   1,18   623552              503254 /opt/homebrew/Cellar/brotli/1.1.0/lib/libbrotlienc.1.1.0.dylib
+node    33302 marcela-dev  txt    REG   1,18   905888            35426445 /opt/homebrew/Cellar/openssl@3/3.6.0/lib/libssl.3.dylib
+node    33302 marcela-dev  txt    REG   1,18  4874704            35426444 /opt/homebrew/Cellar/openssl@3/3.6.0/lib/libcrypto.3.dylib
+node    33302 marcela-dev  txt    REG   1,18  1841072              503966 /opt/homebrew/Cellar/icu4c@77/77.1/lib/libicuuc.77.1.dylib
+node    33302 marcela-dev  txt    REG   1,18  3174032              503962 /opt/homebrew/Cellar/icu4c@77/77.1/lib/libicui18n.77.1.dylib
+node    33302 marcela-dev  txt    REG   1,18 32167248              503961 /opt/homebrew/Cellar/icu4c@77/77.1/lib/libicudata.77.1.dylib
+
+==== PROCESS ENVIRONMENT HINTS ====
+PNPM_HOME=/Users/marcela-dev/Library/pnpm
+PWD=/Users/marcela-dev/Projects/Motherboard_Systems_HQ
+
+==== HTTP HEADERS :3000 ====
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Fri, 20 Mar 2026 18:02:44 GMT
+ETag: W/"282b-19d0c69f798"
+Content-Type: text/html; charset=utf-8
+Content-Length: 10283
+Date: Mon, 06 Apr 2026 02:05:39 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+
+==== HTTP BODY FIRST 120 LINES :3000 ====
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <style id="matilda-chat-typography-polish">
+    #matilda-chat-transcript p {
+      line-height: 1.45 !important;
+      margin-bottom: 0.55rem !important;
+    }
+    #matilda-chat-transcript .user-message {
+      color: #dbeafe !important;
+    }
+    #matilda-chat-transcript .matilda-message {
+      color: #a7f3d0 !important;
+    }
+  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Motherboard Systems Operator Console</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="css/broadcast.css" />
+  <link rel="stylesheet" href="css/dashboard.css?v=darkmode" />
+  <link rel="stylesheet" href="css/dashboard-reflections.css" />
+  <link rel="stylesheet" href="css/agent-status-row.css" />
+  <link rel="stylesheet" href="css/matilda-chat.css" />
+  <link rel="stylesheet" href="css/demo_layout_trim.css" />
+  <link rel="stylesheet" href="css/phase59_demo_focus.css" />
+</head>
+
+<body class="bg-gray-900 text-gray-100 min-h-screen p-4">
+  <header class="phase59-shell flex flex-col gap-4 mb-6 lg:flex-row lg:items-center lg:justify-between">
+    <div>
+      <p class="text-xs uppercase tracking-[0.24em] text-teal-300/70 mb-2">Motherboard Systems</p>
+      <h1 class="text-3xl font-bold text-teal-400">
+        Operator Console
+      </h1>
+    </div>
+    <div
+      id="global-status"
+      class="bg-gray-800 border border-gray-700 rounded-2xl shadow-xl px-4 py-3 flex flex-wrap items-center gap-x-5 gap-y-2"
+    >
+      <span class="text-sm font-semibold">
+        Uptime:
+        <span id="uptime-display" class="text-green-400">Calculating...</span>
+      </span>
+      <div class="flex items-center gap-2">
+        <div id="system-health-indicator" class="w-3 h-3 rounded-full bg-red-500 animate-pulse"></div>
+        <span class="text-sm">
+          Health:
+          <span id="health-status">Critical</span>
+        </span>
+      </div>
+      <span class="text-sm text-gray-400">
+        Probe lifecycle and task activity visible below.
+      </span>
+    </div>
+  </header>
+
+  <section
+    id="agent-status-container"
+    class="phase59-shell bg-gray-800 p-4 rounded-2xl shadow-2xl flex flex-wrap gap-4 items-center mb-6 border border-gray-700"
+  >
+    <h2 class="text-lg font-semibold text-gray-200 w-full">
+      Agent Pool
+    </h2>
+    <span class="text-gray-500">Loading agents...</span>
+  </section>
+
+  <main class="phase59-shell space-y-6">
+    <section
+      id="metrics-row"
+      class="grid grid-cols-2 xl:grid-cols-4 gap-4"
+      aria-label="System metrics"
+    >
+      <div class="bg-gray-800 p-4 rounded-2xl shadow-lg border border-gray-700">
+        <p class="text-sm text-gray-400">Active Agents</p>
+        <p id="metric-agents" class="text-2xl font-bold text-blue-400">--</p>
+      </div>
+      <div class="bg-gray-800 p-4 rounded-2xl shadow-lg border border-gray-700">
+        <p class="text-sm text-gray-400">Tasks Running</p>
+        <p id="metric-tasks" class="text-2xl font-bold text-yellow-400">--</p>
+      </div>
+      <div class="bg-gray-800 p-4 rounded-2xl shadow-lg border border-gray-700">
+        <p class="text-sm text-gray-400">Success Rate</p>
+        <p id="metric-success-rate" class="text-2xl font-bold text-green-400">--</p>
+      </div>
+      <div class="bg-gray-800 p-4 rounded-2xl shadow-lg border border-gray-700">
+        <p class="text-sm text-gray-400">Latency (ms)</p>
+        <p id="metric-latency" class="text-2xl font-bold text-red-400">--</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="operator-tools-heading" class="space-y-4">
+      <div class="flex items-center justify-between">
+        <h2 id="operator-tools-heading" class="text-xs uppercase tracking-[0.24em] text-gray-400">
+          Operator Tools
+        </h2>
+      </div>
+
+      <div id="operator-tools-grid" class="grid gap-6 xl:grid-cols-2">
+        <section id="matilda-chat-card" class="bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-700">
+          <h2 class="text-xl font-semibold mb-4 border-b border-gray-700 pb-2">
+            Matilda Chat Console
+          </h2>
+          <div id="matilda-chat-root" class="space-y-3">
+            <div
+              id="matilda-chat-transcript"
+              class="bg-gray-900 border border-gray-700 rounded-xl p-3 h-52 overflow-y-auto text-sm"
+            >
+              <p class="text-gray-500 italic">
+                Chat with Matilda about tasks, status, or next steps...
+              </p>
+            </div>
+            <div class="flex space-x-3 items-end">
+              <textarea
+                id="matilda-chat-input"
+                rows="2"
+
+==== HTML TITLE / DASHBOARD STRINGS ====
+  <title>Motherboard Systems Operator Console</title>
+  <link rel="stylesheet" href="css/dashboard.css?v=darkmode" />
+  <link rel="stylesheet" href="css/dashboard-reflections.css" />
+  <div id="reflections" data-panel="reflections">
+    <ul id="reflections-list" data-role="reflections-list"></ul>
+    console.log("[diag] dashboard static isolation mode active");
+
+==== INTERPRETATION BOUNDARY ====
+This inspection identifies what is currently serving :3000.
+It does not change runtime behavior.
+It does not restart Docker.
+It does not modify application code.
+

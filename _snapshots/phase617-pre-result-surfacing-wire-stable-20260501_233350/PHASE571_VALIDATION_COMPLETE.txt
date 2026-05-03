@@ -1,0 +1,46 @@
+PHASE 571 — VALIDATION COMPLETE
+
+RESULT:
+CONFIRM IN UI (NOT VIA GREP)
+
+CHECKLIST:
+
+1. Hard refresh browser:
+   Cmd + Shift + R
+
+2. Navigate to:
+   Execution Inspector
+
+3. Confirm visible controls:
+   - Copy ID
+   - Requeue (active)
+   - Retry Differently (greyed out)
+   - Cancel (inactive)
+
+EXPECTED STATE:
+
+✔ Retry Differently is visible
+✔ Styled as inactive (opacity)
+✔ No click behavior
+✔ No console errors
+✔ No regression to existing controls
+
+INTERPRETATION:
+
+If all above are true:
+→ FEATURE IS SUCCESSFULLY DEPLOYED
+
+If missing:
+→ run:
+   docker compose down
+   docker compose up -d --build
+→ then repeat validation
+
+TRUTH:
+
+You are validating:
+→ UI semantic correctness
+→ not backend behavior
+
+STATUS:
+READY TO PROCEED WHEN CONFIRMED

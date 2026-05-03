@@ -1,0 +1,14 @@
+PHASE 457K CLEAN RESTORE AND NEUTRALIZER REDEPLOY
+=================================================
+
+Objective:
+- Replace duplicated fallback restore logic with one deterministic implementation
+- Keep neutralizer active for legacy probe/error text
+- Preserve direct task-events bridge
+- Preserve operator guidance confidence normalization
+
+Expected live behavior after hard refresh:
+- Recent Tasks should no longer show updated_at probe error text
+- Task History should no longer show run_view relation error text
+- Operator Guidance confidence text should no longer say unknown
+- Task Events should populate from /events/task-events when frames arrive

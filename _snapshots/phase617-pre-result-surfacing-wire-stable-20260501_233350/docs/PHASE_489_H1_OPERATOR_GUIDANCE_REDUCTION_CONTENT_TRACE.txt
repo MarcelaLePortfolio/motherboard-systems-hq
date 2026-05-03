@@ -1,0 +1,1525 @@
+PHASE 489 — H1 OPERATOR GUIDANCE REDUCTION CONTENT TRACE
+Generated: 2026-04-14T17:47:07Z
+Repo Root: /Users/marcela-dev/Projects/Motherboard_Systems_HQ
+
+=== OBSERVATION ===
+Client wiring is now partially working:
+• fallback confidence line disappeared
+• source line remains
+• guidance body still shows placeholder content
+
+This strongly suggests the SSE route is connected, but the emitted reduction
+does not currently contain the message/meta fields the client expects.
+
+=== SERVER ROUTE SNIPPET ===
+    res.write(`: ping ${Date.now()}\n\n`);
+  }, 5000);
+
+  // Poll for changes (lightweight) – periodic snapshots without UI blinking.
+  let lastHash = "";
+  const poll = setInterval(async () => {
+    if (closed) return;
+    try {
+      const r = await pool.query(
+        `select id::text, title, agent, status, notes, source, trace_id, error, meta, created_at, updated_at
+         from tasks
+         order by id::int desc`
+      );
+      const payload = JSON.stringify(r.rows);
+      if (payload !== lastHash) {
+        lastHash = payload;
+        res.write(`data: ${JSON.stringify({ tasks: r.rows, source: "db-tasks", ts: Date.now() })}\n\n`);
+      }
+    } catch (e) {
+      res.write(`event: error\ndata: ${JSON.stringify({ error: String(e), ts: Date.now() })}\n\n`);
+    }
+  }, 2000);
+
+  res.on("close", () => {
+    clearInterval(ping);
+    clearInterval(poll);
+  });
+});
+
+// ---- Operator Guidance SSE ----
+app.get("/events/operator-guidance", (req, res) => {
+  res.writeHead(200, {
+    "Content-Type": "text/event-stream; charset=utf-8",
+    "Cache-Control": "no-cache, no-transform",
+    Connection: "keep-alive",
+    "X-Accel-Buffering": "no",
+  });
+
+  if (typeof res.flushHeaders === "function") {
+    res.flushHeaders();
+  }
+
+  try { req.socket?.setTimeout?.(0); } catch (_) {}
+  try { req.socket?.setNoDelay?.(true); } catch (_) {}
+  try { req.socket?.setKeepAlive?.(true); } catch (_) {}
+
+  const writeFrame = (frame) => {
+    res.write(frame);
+    if (typeof res.flush === "function") {
+      try { res.flush(); } catch (_) {}
+    }
+  };
+
+  writeFrame(`: ready\n\n`);
+
+  let closed = false;
+  req.on("close", () => {
+    closed = true;
+  });
+
+  const sendSnapshot = () => {
+    try {
+      const snapshot = buildSystemHealthSnapshot();
+      const reduction = reduceSystemHealthSnapshotToGuidanceReduction(snapshot);
+      writeFrame(
+        `event: operator_guidance\ndata: ${JSON.stringify({
+          reduction,
+          source: "diagnostics/system-health",
+          ts: Date.now(),
+        })}\n\n`
+      );
+    } catch (e) {
+      writeFrame(
+        `event: error\ndata: ${JSON.stringify({
+          error: String(e),
+          ts: Date.now(),
+        })}\n\n`
+      );
+    }
+  };
+
+  sendSnapshot();
+
+  const ping = setInterval(() => {
+    if (closed) return;
+    writeFrame(`: ping ${Date.now()}\n\n`);
+  }, 5000);
+
+  let lastHash = "";
+  const poll = setInterval(() => {
+    if (closed) return;
+    try {
+      const snapshot = buildSystemHealthSnapshot();
+      const reduction = reduceSystemHealthSnapshotToGuidanceReduction(snapshot);
+      const payload = JSON.stringify(reduction);
+      if (payload !== lastHash) {
+        lastHash = payload;
+        writeFrame(
+          `event: operator_guidance\ndata: ${JSON.stringify({
+            reduction,
+            source: "diagnostics/system-health",
+            ts: Date.now(),
+          })}\n\n`
+        );
+      }
+    } catch (e) {
+      writeFrame(
+        `event: error\ndata: ${JSON.stringify({
+          error: String(e),
+          ts: Date.now(),
+        })}\n\n`
+      );
+    }
+  }, 5000);
+
+  res.on("close", () => {
+    clearInterval(ping);
+    clearInterval(poll);
+  });
+});
+
+// ---- Ops heartbeat (minimal, no SSE dependency) ----
+app.get("/api/ops-heartbeat", (req, res) => {
+  lastOpsHeartbeat = Date.now();
+  res.json({ ok: true, ts: lastOpsHeartbeat });
+});
+
+// ---- Shared heartbeat snapshot (for debugging + potential UI hooks) ----
+app.get("/api/heartbeat", (req, res) => {
+  res.json({
+    ok: true,
+    ts: Date.now(),
+    ops: { ts: lastOpsHeartbeat },
+  });
+});
+
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Server running on http://0.0.0.0:${PORT}`);
+
+  // Phase 15: build artifact on startup (wire Project Visual Output to real build metadata)
+  emitArtifact({
+    type: "build_output",
+    source: "dashboard",
+    payload: {
+      status: "boot",
+      git_sha: process.env.GIT_SHA || null,
+      build_time: process.env.BUILD_TIME || null,
+      node: process.version,
+      port: PORT,
+    },
+  });
+});
+
+
+  // ===== PHASE16_OPS_SIGNAL_INGEST =====
+
+  // ===== PHASE16_OPS_STATE_SNAPSHOT_BROADCAST_HELPER =====
+  function _phase16BroadcastOpsStateSnapshot(reason) {
+    try {
+      const st = _phase16GetOpsState();
+      const msg = { type: "ops.state", ts: Date.now(), reason: reason || null, payload: st };
+      globalThis.__SSE.ops.broadcast(msg, "ops.state");
+      return msg;
+    } catch (_) {
+      return null;
+    }
+  }
+  // ======================================================
+
+  if (!globalThis.__SSE) globalThis.__SSE = {};
+  if (!globalThis.__SSE.ops) globalThis.__SSE.ops = { clients: new Set(), nextId: 1, last: null,
+    broadcast(payload, eventName) {
+      const id = String(this.nextId++);
+      const data = typeof payload === "string" ? payload : JSON.stringify(payload);
+      const event = eventName || "message";
+      const frame = `id: ${id}\nevent: ${event}\ndata: ${data}\n\n`;
+      this.last = { id, data, event };
+      for (const res of this.clients) { try { res.write(frame); } catch (_) {} }
+      return id;
+    },
+    attach(res) {
+      this.clients.add(res);
+      res.on("close", () => this.clients.delete(res));
+      try { res.write(`: connected ops\n\n`); } catch (_) {}
+      if (this.last) { try { res.write(`id: ${this.last.id}\nevent: ${this.last.event}\ndata: ${this.last.data}\n\n`); } catch (_) {} }
+    },
+  };
+
+  if (!globalThis.__OPS_STATE) globalThis.__OPS_STATE = { status: "unknown", lastHeartbeatAt: null, agents: {} };
+
+  function _phase16SSEHeaders(res) {
+    res.status(200);
+    res.setHeader("Content-Type", "text/event-stream; charset=utf-8");
+    res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+    res.setHeader("Connection", "keep-alive");
+    res.setHeader("X-Accel-Buffering", "no");
+    if (res.flushHeaders) res.flushHeaders();
+  }
+
+  // (re)register /events/ops if missing
+  if (typeof app.get === "function") {
+    // best-effort: only add if route not already present via marker above
+  }
+
+  app.get("/events/ops", (req, res) => {
+    // PHASE16_OPS_CONNECT_PRIMER
+    // Ensure the client receives bytes immediately (prevents empty-body reads)
+    try { if (typeof res.flushHeaders === "function") res.flushHeaders(); } catch (_) {}
+    try { res.write(": ops-sse-connected\n\n"); } catch (_) {}
+    _phase16SSEHeaders(res);
+    globalThis.__SSE.ops.attach(res);
+
+=== REDUCTION BUILDER REFERENCES ===
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.mjs:13:  buildSystemHealthSnapshot,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.mjs:16:  reduceSystemHealthSnapshotToGuidanceReduction,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.mjs:498:      const snapshot = buildSystemHealthSnapshot();
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.mjs:499:      const reduction = reduceSystemHealthSnapshotToGuidanceReduction(snapshot);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.mjs:528:      const snapshot = buildSystemHealthSnapshot();
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.mjs:529:      const reduction = reduceSystemHealthSnapshotToGuidanceReduction(snapshot);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/routes/diagnostics/systemHealth.js:25:export function buildSystemHealthSnapshot() {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/routes/diagnostics/systemHealth.js:55:  res.json(buildSystemHealthSnapshot());
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/routes/diagnostics/operatorGuidanceRuntime.js:140:export function reduceSystemHealthSnapshotToGuidanceReduction(snapshot) {
+
+=== REDUCTION BUILDER SOURCE SNIPPETS ===
+--- /Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.mjs:13 ---
+import express from "express";
+import { registerApiHealth } from "./server/routes/api-health.mjs";
+import { waitForPostgresReady } from "./server/db_wait_ready.mjs";
+import { registerOptionalSSE } from "./server/optional-sse.mjs";
+import path from "path";
+import { fileURLToPath } from "url";
+import pg from "pg";
+import { ensureTasksTaskIdColumn } from "./server/db_bootstrap_tasks_task_id.mjs";
+import { registerOrchestratorStateRoute } from "./server/orchestrator_state_route.mjs";
+import { registerPhase19DebugRoutes } from "./server/phase19_debug_routes_dump.mjs";
+import { apiTasksRouter } from "./server/routes/api-tasks-postgres.mjs";
+import systemHealthRouter, {
+  buildSystemHealthSnapshot,
+} from "./routes/diagnostics/systemHealth.js";
+import {
+  reduceSystemHealthSnapshotToGuidanceReduction,
+} from "./routes/diagnostics/operatorGuidanceRuntime.js";
+
+// Phase 44 — server HTTP mutation-route enforcement boundary (off/shadow/enforce)
+import { createMutationEnforcementMiddleware } from "./server/enforcement/phase44_mutation_enforcer.mjs";
+
+import { attachArtifacts } from "./server/artifacts.mjs";
+import { dbDelegateTask, dbCompleteTask } from "./server/tasks-mutations.mjs";
+import taskEventsSSE from "./server/routes/task-events-sse.mjs";
+import apiTasksMutationsRouter from "./server/routes/api-tasks-mutations.mjs";
+import { handleDelegateTaskSpec as phase23HandleDelegateTaskSpec } from "./server/api/tasks-mutations/delegate-taskspec.mjs";
+import { registerPhase36RunView } from "./server/routes/phase36_run_view.mjs";
+import { getRunsList } from "./server/routes/phase36_run_view.mjs";
+
+import { registerPhase40_6ShadowAuditTaskEvents } from "./server/routes/phase40_6_shadow_audit_task_events.mjs";
+import { registerPhase48PolicyProbe } from "./server/routes/phase48_policy_probe.mjs";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+
+const app = express();
+
+
+
+registerApiHealth(app);
+// Phase49: enforce gate on real mutation routes (task path)
+function phase49PolicyEnforceEnabled() {
+  const v = String(process.env.POLICY_ENFORCE_MODE ?? process.env.POLICY_MODE ?? "").trim().toLowerCase();
+  // accept common values without binding to any single previous implementation
+  return v in {"1":1, "true":1, "yes":1, "on":1, "enforce":1, "enabled":1};
+}
+
+app.use((req, res, next) => {
+  try {
+    if (!phase49PolicyEnforceEnabled()) return next();
+    if (req.path === "/api/policy/probe") return next();
+
+    const m = String(req.method || "GET").toUpperCase();
+    const isMut = (m === "POST" || m === "PUT" || m === "PATCH" || m === "DELETE");
+    if (!isMut) return next();
+
+    // Start narrow: enforce on the real task mutation surface.
+    if (req.path.startsWith("/api/tasks")) {
+      return res.status(403).json({
+        error: "policy.enforce",
+        detail: "mutation blocked by enforcement gate (Phase49)",
+        path: req.path,
+        method: m,
+      });
+    }
+
+    return next();
+  } catch (e) {
+    return next(e);
+  }
+});
+
+// Phase 44 — enforce only at HTTP mutation route boundary
+app.use(createMutationEnforcementMiddleware());
+// Phase 23: parse JSON early (avoid empty req.body)
+app.use(express.json());
+
+// Phase 20: task-events SSE (event-sourced)
+app.use(taskEventsSSE);
+  
+registerOrchestratorStateRoute(app);
+registerPhase19DebugRoutes(app);
+if (process.env.PHASE19_DEBUG === "1") {
+  console.log("[phase19] env", {
+    PHASE18_ENABLE_ORCHESTRATION: process.env.PHASE18_ENABLE_ORCHESTRATION,
+    PHASE19_ENABLE_ORCH_STATE: process.env.PHASE19_ENABLE_ORCH_STATE,
+  });
+}
+app.use(express.text({ type: "*/*", limit: "64kb" }));
+app.post("/api/phase16-beacon", (req, res) => {
+  try { console.log("[BEACON]", req.body); } catch (e) { console.log("[BEACON] <unreadable>"); }
+  res.status(204).end();
+});
+
+app.use((req,res,next)=>{ console.log("[HTTP] " + req.method + " " + req.url); next(); });
+
+// ===== PHASE16_SSE_HUB (OPS + Reflections) =====
+
+// --- Phase 16.9: framework-agnostic JSON responder (Express or plain Node) ---
+function _phase16SendJson(res, code, obj) {
+  try {
+    if (res && typeof res.status === "function" && typeof res.json === "function") {
+      return res.status(code).json(obj);
+    }
+    // Node http.ServerResponse fallback
+    if (res && typeof res.setHeader === "function" && typeof res.end === "function") {
+      res.statusCode = code;
+      res.setHeader("Content-Type", "application/json; charset=utf-8");
+      res.end(JSON.stringify(obj));
+      return;
+    }
+  } catch (_) {}
+  // Last resort: do nothing
+}
+// --- /Phase 16.9 ---
+  function _phase16CreateSSEHub(name) {
+    const hub = {
+      name,
+      clients: new Set(),
+      last: null,
+      nextId: 1,
+      broadcast(payload, eventName) {
+        const id = String(this.nextId++);
+        const data = typeof payload === "string" ? payload : JSON.stringify(payload);
+        const event = eventName || "message";
+        const frame = `id: ${id}\nevent: ${event}\ndata: ${data}\n\n`;
+        this.last = { id, data, event };
+        for (const res of this.clients) {
+          try { res.write(frame); } catch (_) {}
+        }
+        return id;
+      },
+      attach(res) {
+        this.clients.add(res);
+        res.on("close", () => this.clients.delete(res));
+        try { res.write(`: connected ${name}\n\n`); } catch (_) {}
+        if (this.last) {
+          try {
+            res.write(`id: ${this.last.id}\nevent: ${this.last.event}\ndata: ${this.last.data}\n\n`);
+          } catch (_) {}
+        }
+      },
+    };
+    return hub;
+  }
+
+  if (!globalThis.__SSE) globalThis.__SSE = {};
+  if (!globalThis.__SSE.ops) globalThis.__SSE.ops = _phase16CreateSSEHub("ops");
+  if (!globalThis.__SSE.reflections) globalThis.__SSE.reflections = _phase16CreateSSEHub("reflections");
+
+  if (!globalThis.__OPS_STATE) {
+    globalThis.__OPS_STATE = { status: "unknown", lastHeartbeatAt: null, agents: {} };
+  }
+  // ==============================================
+
+  // Phase 36.2: run_view-backed run observability (must not depend on optional SSE)
+  registerPhase36RunView(app);
+
+  registerPhase48PolicyProbe(app);
+
+// Phase 16: optional dashboard SSE endpoints (OPS + Reflections)
+try {
+  registerOptionalSSE(app);
+  console.log("[SSE] /events/ops + /events/reflections registered");
+} catch (e) {
+  console.warn("[SSE] Failed to register optional SSE:", e && e.message ? e.message : e);
+}
+
+// Serve static assets from ./public (required for /css/* and /js/* on /dashboard)
+app.use(express.static(path.join(__dirname, "public")));
+app.use("/css", express.static(path.join(__dirname, "public", "css")));
+app.use("/js", express.static(path.join(__dirname, "public", "js")));
+
+--- /Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.mjs:16 ---
+import express from "express";
+import { registerApiHealth } from "./server/routes/api-health.mjs";
+import { waitForPostgresReady } from "./server/db_wait_ready.mjs";
+import { registerOptionalSSE } from "./server/optional-sse.mjs";
+import path from "path";
+import { fileURLToPath } from "url";
+import pg from "pg";
+import { ensureTasksTaskIdColumn } from "./server/db_bootstrap_tasks_task_id.mjs";
+import { registerOrchestratorStateRoute } from "./server/orchestrator_state_route.mjs";
+import { registerPhase19DebugRoutes } from "./server/phase19_debug_routes_dump.mjs";
+import { apiTasksRouter } from "./server/routes/api-tasks-postgres.mjs";
+import systemHealthRouter, {
+  buildSystemHealthSnapshot,
+} from "./routes/diagnostics/systemHealth.js";
+import {
+  reduceSystemHealthSnapshotToGuidanceReduction,
+} from "./routes/diagnostics/operatorGuidanceRuntime.js";
+
+// Phase 44 — server HTTP mutation-route enforcement boundary (off/shadow/enforce)
+import { createMutationEnforcementMiddleware } from "./server/enforcement/phase44_mutation_enforcer.mjs";
+
+import { attachArtifacts } from "./server/artifacts.mjs";
+import { dbDelegateTask, dbCompleteTask } from "./server/tasks-mutations.mjs";
+import taskEventsSSE from "./server/routes/task-events-sse.mjs";
+import apiTasksMutationsRouter from "./server/routes/api-tasks-mutations.mjs";
+import { handleDelegateTaskSpec as phase23HandleDelegateTaskSpec } from "./server/api/tasks-mutations/delegate-taskspec.mjs";
+import { registerPhase36RunView } from "./server/routes/phase36_run_view.mjs";
+import { getRunsList } from "./server/routes/phase36_run_view.mjs";
+
+import { registerPhase40_6ShadowAuditTaskEvents } from "./server/routes/phase40_6_shadow_audit_task_events.mjs";
+import { registerPhase48PolicyProbe } from "./server/routes/phase48_policy_probe.mjs";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+
+const app = express();
+
+
+
+registerApiHealth(app);
+// Phase49: enforce gate on real mutation routes (task path)
+function phase49PolicyEnforceEnabled() {
+  const v = String(process.env.POLICY_ENFORCE_MODE ?? process.env.POLICY_MODE ?? "").trim().toLowerCase();
+  // accept common values without binding to any single previous implementation
+  return v in {"1":1, "true":1, "yes":1, "on":1, "enforce":1, "enabled":1};
+}
+
+app.use((req, res, next) => {
+  try {
+    if (!phase49PolicyEnforceEnabled()) return next();
+    if (req.path === "/api/policy/probe") return next();
+
+    const m = String(req.method || "GET").toUpperCase();
+    const isMut = (m === "POST" || m === "PUT" || m === "PATCH" || m === "DELETE");
+    if (!isMut) return next();
+
+    // Start narrow: enforce on the real task mutation surface.
+    if (req.path.startsWith("/api/tasks")) {
+      return res.status(403).json({
+        error: "policy.enforce",
+        detail: "mutation blocked by enforcement gate (Phase49)",
+        path: req.path,
+        method: m,
+      });
+    }
+
+    return next();
+  } catch (e) {
+    return next(e);
+  }
+});
+
+// Phase 44 — enforce only at HTTP mutation route boundary
+app.use(createMutationEnforcementMiddleware());
+// Phase 23: parse JSON early (avoid empty req.body)
+app.use(express.json());
+
+// Phase 20: task-events SSE (event-sourced)
+app.use(taskEventsSSE);
+  
+registerOrchestratorStateRoute(app);
+registerPhase19DebugRoutes(app);
+if (process.env.PHASE19_DEBUG === "1") {
+  console.log("[phase19] env", {
+    PHASE18_ENABLE_ORCHESTRATION: process.env.PHASE18_ENABLE_ORCHESTRATION,
+    PHASE19_ENABLE_ORCH_STATE: process.env.PHASE19_ENABLE_ORCH_STATE,
+  });
+}
+app.use(express.text({ type: "*/*", limit: "64kb" }));
+app.post("/api/phase16-beacon", (req, res) => {
+  try { console.log("[BEACON]", req.body); } catch (e) { console.log("[BEACON] <unreadable>"); }
+  res.status(204).end();
+});
+
+app.use((req,res,next)=>{ console.log("[HTTP] " + req.method + " " + req.url); next(); });
+
+// ===== PHASE16_SSE_HUB (OPS + Reflections) =====
+
+// --- Phase 16.9: framework-agnostic JSON responder (Express or plain Node) ---
+function _phase16SendJson(res, code, obj) {
+  try {
+    if (res && typeof res.status === "function" && typeof res.json === "function") {
+      return res.status(code).json(obj);
+    }
+    // Node http.ServerResponse fallback
+    if (res && typeof res.setHeader === "function" && typeof res.end === "function") {
+      res.statusCode = code;
+      res.setHeader("Content-Type", "application/json; charset=utf-8");
+      res.end(JSON.stringify(obj));
+      return;
+    }
+  } catch (_) {}
+  // Last resort: do nothing
+}
+// --- /Phase 16.9 ---
+  function _phase16CreateSSEHub(name) {
+    const hub = {
+      name,
+      clients: new Set(),
+      last: null,
+      nextId: 1,
+      broadcast(payload, eventName) {
+        const id = String(this.nextId++);
+        const data = typeof payload === "string" ? payload : JSON.stringify(payload);
+        const event = eventName || "message";
+        const frame = `id: ${id}\nevent: ${event}\ndata: ${data}\n\n`;
+        this.last = { id, data, event };
+        for (const res of this.clients) {
+          try { res.write(frame); } catch (_) {}
+        }
+        return id;
+      },
+      attach(res) {
+        this.clients.add(res);
+        res.on("close", () => this.clients.delete(res));
+        try { res.write(`: connected ${name}\n\n`); } catch (_) {}
+        if (this.last) {
+          try {
+            res.write(`id: ${this.last.id}\nevent: ${this.last.event}\ndata: ${this.last.data}\n\n`);
+          } catch (_) {}
+        }
+      },
+    };
+    return hub;
+  }
+
+  if (!globalThis.__SSE) globalThis.__SSE = {};
+  if (!globalThis.__SSE.ops) globalThis.__SSE.ops = _phase16CreateSSEHub("ops");
+  if (!globalThis.__SSE.reflections) globalThis.__SSE.reflections = _phase16CreateSSEHub("reflections");
+
+  if (!globalThis.__OPS_STATE) {
+    globalThis.__OPS_STATE = { status: "unknown", lastHeartbeatAt: null, agents: {} };
+  }
+  // ==============================================
+
+  // Phase 36.2: run_view-backed run observability (must not depend on optional SSE)
+  registerPhase36RunView(app);
+
+  registerPhase48PolicyProbe(app);
+
+// Phase 16: optional dashboard SSE endpoints (OPS + Reflections)
+try {
+  registerOptionalSSE(app);
+  console.log("[SSE] /events/ops + /events/reflections registered");
+} catch (e) {
+  console.warn("[SSE] Failed to register optional SSE:", e && e.message ? e.message : e);
+}
+
+// Serve static assets from ./public (required for /css/* and /js/* on /dashboard)
+app.use(express.static(path.join(__dirname, "public")));
+app.use("/css", express.static(path.join(__dirname, "public", "css")));
+app.use("/js", express.static(path.join(__dirname, "public", "js")));
+app.use("/img", express.static(path.join(__dirname, "public", "img")));
+// Phase 23: TaskSpec adapter -> create task + emit task_events
+app.post("/api/tasks-mutations/delegate-taskspec", async (req, res) => phase23HandleDelegateTaskSpec(req, res, { db: pool, dbDelegateTask }));
+
+--- /Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.mjs:498 ---
+    "Content-Type": "text/event-stream; charset=utf-8",
+    "Cache-Control": "no-cache, no-transform",
+    Connection: "keep-alive",
+    "X-Accel-Buffering": "no",
+  });
+
+  if (typeof res.flushHeaders === "function") {
+    res.flushHeaders();
+  }
+
+  try { req.socket?.setTimeout?.(0); } catch (_) {}
+  try { req.socket?.setNoDelay?.(true); } catch (_) {}
+  try { req.socket?.setKeepAlive?.(true); } catch (_) {}
+
+  const writeFrame = (frame) => {
+    res.write(frame);
+    if (typeof res.flush === "function") {
+      try { res.flush(); } catch (_) {}
+    }
+  };
+
+  writeFrame(`: ready\n\n`);
+
+  let closed = false;
+  req.on("close", () => {
+    closed = true;
+  });
+
+  const sendSnapshot = () => {
+    try {
+      const snapshot = buildSystemHealthSnapshot();
+      const reduction = reduceSystemHealthSnapshotToGuidanceReduction(snapshot);
+      writeFrame(
+        `event: operator_guidance\ndata: ${JSON.stringify({
+          reduction,
+          source: "diagnostics/system-health",
+          ts: Date.now(),
+        })}\n\n`
+      );
+    } catch (e) {
+      writeFrame(
+        `event: error\ndata: ${JSON.stringify({
+          error: String(e),
+          ts: Date.now(),
+        })}\n\n`
+      );
+    }
+  };
+
+  sendSnapshot();
+
+  const ping = setInterval(() => {
+    if (closed) return;
+    writeFrame(`: ping ${Date.now()}\n\n`);
+  }, 5000);
+
+  let lastHash = "";
+  const poll = setInterval(() => {
+    if (closed) return;
+    try {
+      const snapshot = buildSystemHealthSnapshot();
+      const reduction = reduceSystemHealthSnapshotToGuidanceReduction(snapshot);
+      const payload = JSON.stringify(reduction);
+      if (payload !== lastHash) {
+        lastHash = payload;
+        writeFrame(
+          `event: operator_guidance\ndata: ${JSON.stringify({
+            reduction,
+            source: "diagnostics/system-health",
+            ts: Date.now(),
+          })}\n\n`
+        );
+      }
+    } catch (e) {
+      writeFrame(
+        `event: error\ndata: ${JSON.stringify({
+          error: String(e),
+          ts: Date.now(),
+        })}\n\n`
+      );
+    }
+  }, 5000);
+
+  res.on("close", () => {
+    clearInterval(ping);
+    clearInterval(poll);
+  });
+});
+
+// ---- Ops heartbeat (minimal, no SSE dependency) ----
+app.get("/api/ops-heartbeat", (req, res) => {
+  lastOpsHeartbeat = Date.now();
+  res.json({ ok: true, ts: lastOpsHeartbeat });
+});
+
+// ---- Shared heartbeat snapshot (for debugging + potential UI hooks) ----
+app.get("/api/heartbeat", (req, res) => {
+  res.json({
+    ok: true,
+    ts: Date.now(),
+    ops: { ts: lastOpsHeartbeat },
+  });
+});
+
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Server running on http://0.0.0.0:${PORT}`);
+
+  // Phase 15: build artifact on startup (wire Project Visual Output to real build metadata)
+  emitArtifact({
+    type: "build_output",
+    source: "dashboard",
+    payload: {
+      status: "boot",
+      git_sha: process.env.GIT_SHA || null,
+      build_time: process.env.BUILD_TIME || null,
+      node: process.version,
+      port: PORT,
+    },
+  });
+});
+
+
+  // ===== PHASE16_OPS_SIGNAL_INGEST =====
+
+  // ===== PHASE16_OPS_STATE_SNAPSHOT_BROADCAST_HELPER =====
+  function _phase16BroadcastOpsStateSnapshot(reason) {
+    try {
+      const st = _phase16GetOpsState();
+      const msg = { type: "ops.state", ts: Date.now(), reason: reason || null, payload: st };
+      globalThis.__SSE.ops.broadcast(msg, "ops.state");
+      return msg;
+    } catch (_) {
+      return null;
+    }
+  }
+  // ======================================================
+
+  if (!globalThis.__SSE) globalThis.__SSE = {};
+  if (!globalThis.__SSE.ops) globalThis.__SSE.ops = { clients: new Set(), nextId: 1, last: null,
+    broadcast(payload, eventName) {
+      const id = String(this.nextId++);
+      const data = typeof payload === "string" ? payload : JSON.stringify(payload);
+      const event = eventName || "message";
+      const frame = `id: ${id}\nevent: ${event}\ndata: ${data}\n\n`;
+      this.last = { id, data, event };
+      for (const res of this.clients) { try { res.write(frame); } catch (_) {} }
+      return id;
+    },
+    attach(res) {
+      this.clients.add(res);
+      res.on("close", () => this.clients.delete(res));
+      try { res.write(`: connected ops\n\n`); } catch (_) {}
+      if (this.last) { try { res.write(`id: ${this.last.id}\nevent: ${this.last.event}\ndata: ${this.last.data}\n\n`); } catch (_) {} }
+    },
+  };
+
+  if (!globalThis.__OPS_STATE) globalThis.__OPS_STATE = { status: "unknown", lastHeartbeatAt: null, agents: {} };
+
+  function _phase16SSEHeaders(res) {
+    res.status(200);
+    res.setHeader("Content-Type", "text/event-stream; charset=utf-8");
+    res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+    res.setHeader("Connection", "keep-alive");
+    res.setHeader("X-Accel-Buffering", "no");
+    if (res.flushHeaders) res.flushHeaders();
+  }
+
+  // (re)register /events/ops if missing
+  if (typeof app.get === "function") {
+    // best-effort: only add if route not already present via marker above
+  }
+
+  app.get("/events/ops", (req, res) => {
+    // PHASE16_OPS_CONNECT_PRIMER
+    // Ensure the client receives bytes immediately (prevents empty-body reads)
+    try { if (typeof res.flushHeaders === "function") res.flushHeaders(); } catch (_) {}
+    try { res.write(": ops-sse-connected\n\n"); } catch (_) {}
+    _phase16SSEHeaders(res);
+    globalThis.__SSE.ops.attach(res);
+  });
+
+  function _phase16Now() { return Date.now(); }
+  function _phase16BroadcastOps(type, payload) {
+    const msg = { type, ts: _phase16Now(), payload };
+    globalThis.__SSE.ops.broadcast(msg, type);
+    return msg;
+  }
+
+  app.post("/api/ops/heartbeat", (req, res) => {
+    const body = (req && req.body) || {};
+    const source = String(body.source || body.agent || body.from || "unknown");
+
+--- /Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.mjs:499 ---
+    "Cache-Control": "no-cache, no-transform",
+    Connection: "keep-alive",
+    "X-Accel-Buffering": "no",
+  });
+
+  if (typeof res.flushHeaders === "function") {
+    res.flushHeaders();
+  }
+
+  try { req.socket?.setTimeout?.(0); } catch (_) {}
+  try { req.socket?.setNoDelay?.(true); } catch (_) {}
+  try { req.socket?.setKeepAlive?.(true); } catch (_) {}
+
+  const writeFrame = (frame) => {
+    res.write(frame);
+    if (typeof res.flush === "function") {
+      try { res.flush(); } catch (_) {}
+    }
+  };
+
+  writeFrame(`: ready\n\n`);
+
+  let closed = false;
+  req.on("close", () => {
+    closed = true;
+  });
+
+  const sendSnapshot = () => {
+    try {
+      const snapshot = buildSystemHealthSnapshot();
+      const reduction = reduceSystemHealthSnapshotToGuidanceReduction(snapshot);
+      writeFrame(
+        `event: operator_guidance\ndata: ${JSON.stringify({
+          reduction,
+          source: "diagnostics/system-health",
+          ts: Date.now(),
+        })}\n\n`
+      );
+    } catch (e) {
+      writeFrame(
+        `event: error\ndata: ${JSON.stringify({
+          error: String(e),
+          ts: Date.now(),
+        })}\n\n`
+      );
+    }
+  };
+
+  sendSnapshot();
+
+  const ping = setInterval(() => {
+    if (closed) return;
+    writeFrame(`: ping ${Date.now()}\n\n`);
+  }, 5000);
+
+  let lastHash = "";
+  const poll = setInterval(() => {
+    if (closed) return;
+    try {
+      const snapshot = buildSystemHealthSnapshot();
+      const reduction = reduceSystemHealthSnapshotToGuidanceReduction(snapshot);
+      const payload = JSON.stringify(reduction);
+      if (payload !== lastHash) {
+        lastHash = payload;
+        writeFrame(
+          `event: operator_guidance\ndata: ${JSON.stringify({
+            reduction,
+            source: "diagnostics/system-health",
+            ts: Date.now(),
+          })}\n\n`
+        );
+      }
+    } catch (e) {
+      writeFrame(
+        `event: error\ndata: ${JSON.stringify({
+          error: String(e),
+          ts: Date.now(),
+        })}\n\n`
+      );
+    }
+  }, 5000);
+
+  res.on("close", () => {
+    clearInterval(ping);
+    clearInterval(poll);
+  });
+});
+
+// ---- Ops heartbeat (minimal, no SSE dependency) ----
+app.get("/api/ops-heartbeat", (req, res) => {
+  lastOpsHeartbeat = Date.now();
+  res.json({ ok: true, ts: lastOpsHeartbeat });
+});
+
+// ---- Shared heartbeat snapshot (for debugging + potential UI hooks) ----
+app.get("/api/heartbeat", (req, res) => {
+  res.json({
+    ok: true,
+    ts: Date.now(),
+    ops: { ts: lastOpsHeartbeat },
+  });
+});
+
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Server running on http://0.0.0.0:${PORT}`);
+
+  // Phase 15: build artifact on startup (wire Project Visual Output to real build metadata)
+  emitArtifact({
+    type: "build_output",
+    source: "dashboard",
+    payload: {
+      status: "boot",
+      git_sha: process.env.GIT_SHA || null,
+      build_time: process.env.BUILD_TIME || null,
+      node: process.version,
+      port: PORT,
+    },
+  });
+});
+
+
+  // ===== PHASE16_OPS_SIGNAL_INGEST =====
+
+  // ===== PHASE16_OPS_STATE_SNAPSHOT_BROADCAST_HELPER =====
+  function _phase16BroadcastOpsStateSnapshot(reason) {
+    try {
+      const st = _phase16GetOpsState();
+      const msg = { type: "ops.state", ts: Date.now(), reason: reason || null, payload: st };
+      globalThis.__SSE.ops.broadcast(msg, "ops.state");
+      return msg;
+    } catch (_) {
+      return null;
+    }
+  }
+  // ======================================================
+
+  if (!globalThis.__SSE) globalThis.__SSE = {};
+  if (!globalThis.__SSE.ops) globalThis.__SSE.ops = { clients: new Set(), nextId: 1, last: null,
+    broadcast(payload, eventName) {
+      const id = String(this.nextId++);
+      const data = typeof payload === "string" ? payload : JSON.stringify(payload);
+      const event = eventName || "message";
+      const frame = `id: ${id}\nevent: ${event}\ndata: ${data}\n\n`;
+      this.last = { id, data, event };
+      for (const res of this.clients) { try { res.write(frame); } catch (_) {} }
+      return id;
+    },
+    attach(res) {
+      this.clients.add(res);
+      res.on("close", () => this.clients.delete(res));
+      try { res.write(`: connected ops\n\n`); } catch (_) {}
+      if (this.last) { try { res.write(`id: ${this.last.id}\nevent: ${this.last.event}\ndata: ${this.last.data}\n\n`); } catch (_) {} }
+    },
+  };
+
+  if (!globalThis.__OPS_STATE) globalThis.__OPS_STATE = { status: "unknown", lastHeartbeatAt: null, agents: {} };
+
+  function _phase16SSEHeaders(res) {
+    res.status(200);
+    res.setHeader("Content-Type", "text/event-stream; charset=utf-8");
+    res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+    res.setHeader("Connection", "keep-alive");
+    res.setHeader("X-Accel-Buffering", "no");
+    if (res.flushHeaders) res.flushHeaders();
+  }
+
+  // (re)register /events/ops if missing
+  if (typeof app.get === "function") {
+    // best-effort: only add if route not already present via marker above
+  }
+
+  app.get("/events/ops", (req, res) => {
+    // PHASE16_OPS_CONNECT_PRIMER
+    // Ensure the client receives bytes immediately (prevents empty-body reads)
+    try { if (typeof res.flushHeaders === "function") res.flushHeaders(); } catch (_) {}
+    try { res.write(": ops-sse-connected\n\n"); } catch (_) {}
+    _phase16SSEHeaders(res);
+    globalThis.__SSE.ops.attach(res);
+  });
+
+  function _phase16Now() { return Date.now(); }
+  function _phase16BroadcastOps(type, payload) {
+    const msg = { type, ts: _phase16Now(), payload };
+    globalThis.__SSE.ops.broadcast(msg, type);
+    return msg;
+  }
+
+  app.post("/api/ops/heartbeat", (req, res) => {
+    const body = (req && req.body) || {};
+    const source = String(body.source || body.agent || body.from || "unknown");
+    const ts = _phase16Now();
+
+--- /Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.mjs:528 ---
+      const snapshot = buildSystemHealthSnapshot();
+      const reduction = reduceSystemHealthSnapshotToGuidanceReduction(snapshot);
+      writeFrame(
+        `event: operator_guidance\ndata: ${JSON.stringify({
+          reduction,
+          source: "diagnostics/system-health",
+          ts: Date.now(),
+        })}\n\n`
+      );
+    } catch (e) {
+      writeFrame(
+        `event: error\ndata: ${JSON.stringify({
+          error: String(e),
+          ts: Date.now(),
+        })}\n\n`
+      );
+    }
+  };
+
+  sendSnapshot();
+
+  const ping = setInterval(() => {
+    if (closed) return;
+    writeFrame(`: ping ${Date.now()}\n\n`);
+  }, 5000);
+
+  let lastHash = "";
+  const poll = setInterval(() => {
+    if (closed) return;
+    try {
+      const snapshot = buildSystemHealthSnapshot();
+      const reduction = reduceSystemHealthSnapshotToGuidanceReduction(snapshot);
+      const payload = JSON.stringify(reduction);
+      if (payload !== lastHash) {
+        lastHash = payload;
+        writeFrame(
+          `event: operator_guidance\ndata: ${JSON.stringify({
+            reduction,
+            source: "diagnostics/system-health",
+            ts: Date.now(),
+          })}\n\n`
+        );
+      }
+    } catch (e) {
+      writeFrame(
+        `event: error\ndata: ${JSON.stringify({
+          error: String(e),
+          ts: Date.now(),
+        })}\n\n`
+      );
+    }
+  }, 5000);
+
+  res.on("close", () => {
+    clearInterval(ping);
+    clearInterval(poll);
+  });
+});
+
+// ---- Ops heartbeat (minimal, no SSE dependency) ----
+app.get("/api/ops-heartbeat", (req, res) => {
+  lastOpsHeartbeat = Date.now();
+  res.json({ ok: true, ts: lastOpsHeartbeat });
+});
+
+// ---- Shared heartbeat snapshot (for debugging + potential UI hooks) ----
+app.get("/api/heartbeat", (req, res) => {
+  res.json({
+    ok: true,
+    ts: Date.now(),
+    ops: { ts: lastOpsHeartbeat },
+  });
+});
+
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Server running on http://0.0.0.0:${PORT}`);
+
+  // Phase 15: build artifact on startup (wire Project Visual Output to real build metadata)
+  emitArtifact({
+    type: "build_output",
+    source: "dashboard",
+    payload: {
+      status: "boot",
+      git_sha: process.env.GIT_SHA || null,
+      build_time: process.env.BUILD_TIME || null,
+      node: process.version,
+      port: PORT,
+    },
+  });
+});
+
+
+  // ===== PHASE16_OPS_SIGNAL_INGEST =====
+
+  // ===== PHASE16_OPS_STATE_SNAPSHOT_BROADCAST_HELPER =====
+  function _phase16BroadcastOpsStateSnapshot(reason) {
+    try {
+      const st = _phase16GetOpsState();
+      const msg = { type: "ops.state", ts: Date.now(), reason: reason || null, payload: st };
+      globalThis.__SSE.ops.broadcast(msg, "ops.state");
+      return msg;
+    } catch (_) {
+      return null;
+    }
+  }
+  // ======================================================
+
+  if (!globalThis.__SSE) globalThis.__SSE = {};
+  if (!globalThis.__SSE.ops) globalThis.__SSE.ops = { clients: new Set(), nextId: 1, last: null,
+    broadcast(payload, eventName) {
+      const id = String(this.nextId++);
+      const data = typeof payload === "string" ? payload : JSON.stringify(payload);
+      const event = eventName || "message";
+      const frame = `id: ${id}\nevent: ${event}\ndata: ${data}\n\n`;
+      this.last = { id, data, event };
+      for (const res of this.clients) { try { res.write(frame); } catch (_) {} }
+      return id;
+    },
+    attach(res) {
+      this.clients.add(res);
+      res.on("close", () => this.clients.delete(res));
+      try { res.write(`: connected ops\n\n`); } catch (_) {}
+      if (this.last) { try { res.write(`id: ${this.last.id}\nevent: ${this.last.event}\ndata: ${this.last.data}\n\n`); } catch (_) {} }
+    },
+  };
+
+  if (!globalThis.__OPS_STATE) globalThis.__OPS_STATE = { status: "unknown", lastHeartbeatAt: null, agents: {} };
+
+  function _phase16SSEHeaders(res) {
+    res.status(200);
+    res.setHeader("Content-Type", "text/event-stream; charset=utf-8");
+    res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+    res.setHeader("Connection", "keep-alive");
+    res.setHeader("X-Accel-Buffering", "no");
+    if (res.flushHeaders) res.flushHeaders();
+  }
+
+  // (re)register /events/ops if missing
+  if (typeof app.get === "function") {
+    // best-effort: only add if route not already present via marker above
+  }
+
+  app.get("/events/ops", (req, res) => {
+    // PHASE16_OPS_CONNECT_PRIMER
+    // Ensure the client receives bytes immediately (prevents empty-body reads)
+    try { if (typeof res.flushHeaders === "function") res.flushHeaders(); } catch (_) {}
+    try { res.write(": ops-sse-connected\n\n"); } catch (_) {}
+    _phase16SSEHeaders(res);
+    globalThis.__SSE.ops.attach(res);
+  });
+
+  function _phase16Now() { return Date.now(); }
+  function _phase16BroadcastOps(type, payload) {
+    const msg = { type, ts: _phase16Now(), payload };
+    globalThis.__SSE.ops.broadcast(msg, type);
+    return msg;
+  }
+
+  app.post("/api/ops/heartbeat", (req, res) => {
+    const body = (req && req.body) || {};
+    const source = String(body.source || body.agent || body.from || "unknown");
+    const ts = _phase16Now();
+    globalThis.__OPS_STATE.status = "live";
+    globalThis.__OPS_STATE.lastHeartbeatAt = ts;
+    _phase16BroadcastOps("ops.heartbeat", { source, at: ts, meta: body.meta || body });
+    res.json({ ok: true, status: globalThis.__OPS_STATE.status, at: ts });
+  });
+
+  app.post("/api/ops/agent-status", (req, res) => {
+    const body = (req && req.body) || {};
+    const agent = String(body.agent || body.name || "unknown");
+    const state = String(body.state || body.status || "unknown");
+    const ts = _phase16Now();
+    globalThis.__OPS_STATE.status = "live";
+    globalThis.__OPS_STATE.agents[agent] = { state, at: ts, meta: body.meta || body };
+    _phase16BroadcastOps("ops.agent_status", { agent, state, at: ts, meta: body.meta || body });
+    res.json({ ok: true, agent, state, at: ts });
+  });
+
+  app.get("/api/ops/state", (req, res) => {
+    res.json({ ok: true, state: globalThis.__OPS_STATE });
+  });
+  // ====================================
+
+
+  // ===== PHASE16_REFLECTIONS_SIGNAL_API =====
+  function _phase16BroadcastReflection(type, payload) {
+    const msg = { type, ts: Date.now(), payload };
+    if (globalThis.__SSE && globalThis.__SSE.reflections && globalThis.__SSE.reflections.broadcast) {
+      globalThis.__SSE.reflections.broadcast(msg, type);
+    }
+
+--- /Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.mjs:529 ---
+      const reduction = reduceSystemHealthSnapshotToGuidanceReduction(snapshot);
+      writeFrame(
+        `event: operator_guidance\ndata: ${JSON.stringify({
+          reduction,
+          source: "diagnostics/system-health",
+          ts: Date.now(),
+        })}\n\n`
+      );
+    } catch (e) {
+      writeFrame(
+        `event: error\ndata: ${JSON.stringify({
+          error: String(e),
+          ts: Date.now(),
+        })}\n\n`
+      );
+    }
+  };
+
+  sendSnapshot();
+
+  const ping = setInterval(() => {
+    if (closed) return;
+    writeFrame(`: ping ${Date.now()}\n\n`);
+  }, 5000);
+
+  let lastHash = "";
+  const poll = setInterval(() => {
+    if (closed) return;
+    try {
+      const snapshot = buildSystemHealthSnapshot();
+      const reduction = reduceSystemHealthSnapshotToGuidanceReduction(snapshot);
+      const payload = JSON.stringify(reduction);
+      if (payload !== lastHash) {
+        lastHash = payload;
+        writeFrame(
+          `event: operator_guidance\ndata: ${JSON.stringify({
+            reduction,
+            source: "diagnostics/system-health",
+            ts: Date.now(),
+          })}\n\n`
+        );
+      }
+    } catch (e) {
+      writeFrame(
+        `event: error\ndata: ${JSON.stringify({
+          error: String(e),
+          ts: Date.now(),
+        })}\n\n`
+      );
+    }
+  }, 5000);
+
+  res.on("close", () => {
+    clearInterval(ping);
+    clearInterval(poll);
+  });
+});
+
+// ---- Ops heartbeat (minimal, no SSE dependency) ----
+app.get("/api/ops-heartbeat", (req, res) => {
+  lastOpsHeartbeat = Date.now();
+  res.json({ ok: true, ts: lastOpsHeartbeat });
+});
+
+// ---- Shared heartbeat snapshot (for debugging + potential UI hooks) ----
+app.get("/api/heartbeat", (req, res) => {
+  res.json({
+    ok: true,
+    ts: Date.now(),
+    ops: { ts: lastOpsHeartbeat },
+  });
+});
+
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Server running on http://0.0.0.0:${PORT}`);
+
+  // Phase 15: build artifact on startup (wire Project Visual Output to real build metadata)
+  emitArtifact({
+    type: "build_output",
+    source: "dashboard",
+    payload: {
+      status: "boot",
+      git_sha: process.env.GIT_SHA || null,
+      build_time: process.env.BUILD_TIME || null,
+      node: process.version,
+      port: PORT,
+    },
+  });
+});
+
+
+  // ===== PHASE16_OPS_SIGNAL_INGEST =====
+
+  // ===== PHASE16_OPS_STATE_SNAPSHOT_BROADCAST_HELPER =====
+  function _phase16BroadcastOpsStateSnapshot(reason) {
+    try {
+      const st = _phase16GetOpsState();
+      const msg = { type: "ops.state", ts: Date.now(), reason: reason || null, payload: st };
+      globalThis.__SSE.ops.broadcast(msg, "ops.state");
+      return msg;
+    } catch (_) {
+      return null;
+    }
+  }
+  // ======================================================
+
+  if (!globalThis.__SSE) globalThis.__SSE = {};
+  if (!globalThis.__SSE.ops) globalThis.__SSE.ops = { clients: new Set(), nextId: 1, last: null,
+    broadcast(payload, eventName) {
+      const id = String(this.nextId++);
+      const data = typeof payload === "string" ? payload : JSON.stringify(payload);
+      const event = eventName || "message";
+      const frame = `id: ${id}\nevent: ${event}\ndata: ${data}\n\n`;
+      this.last = { id, data, event };
+      for (const res of this.clients) { try { res.write(frame); } catch (_) {} }
+      return id;
+    },
+    attach(res) {
+      this.clients.add(res);
+      res.on("close", () => this.clients.delete(res));
+      try { res.write(`: connected ops\n\n`); } catch (_) {}
+      if (this.last) { try { res.write(`id: ${this.last.id}\nevent: ${this.last.event}\ndata: ${this.last.data}\n\n`); } catch (_) {} }
+    },
+  };
+
+  if (!globalThis.__OPS_STATE) globalThis.__OPS_STATE = { status: "unknown", lastHeartbeatAt: null, agents: {} };
+
+  function _phase16SSEHeaders(res) {
+    res.status(200);
+    res.setHeader("Content-Type", "text/event-stream; charset=utf-8");
+    res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+    res.setHeader("Connection", "keep-alive");
+    res.setHeader("X-Accel-Buffering", "no");
+    if (res.flushHeaders) res.flushHeaders();
+  }
+
+  // (re)register /events/ops if missing
+  if (typeof app.get === "function") {
+    // best-effort: only add if route not already present via marker above
+  }
+
+  app.get("/events/ops", (req, res) => {
+    // PHASE16_OPS_CONNECT_PRIMER
+    // Ensure the client receives bytes immediately (prevents empty-body reads)
+    try { if (typeof res.flushHeaders === "function") res.flushHeaders(); } catch (_) {}
+    try { res.write(": ops-sse-connected\n\n"); } catch (_) {}
+    _phase16SSEHeaders(res);
+    globalThis.__SSE.ops.attach(res);
+  });
+
+  function _phase16Now() { return Date.now(); }
+  function _phase16BroadcastOps(type, payload) {
+    const msg = { type, ts: _phase16Now(), payload };
+    globalThis.__SSE.ops.broadcast(msg, type);
+    return msg;
+  }
+
+  app.post("/api/ops/heartbeat", (req, res) => {
+    const body = (req && req.body) || {};
+    const source = String(body.source || body.agent || body.from || "unknown");
+    const ts = _phase16Now();
+    globalThis.__OPS_STATE.status = "live";
+    globalThis.__OPS_STATE.lastHeartbeatAt = ts;
+    _phase16BroadcastOps("ops.heartbeat", { source, at: ts, meta: body.meta || body });
+    res.json({ ok: true, status: globalThis.__OPS_STATE.status, at: ts });
+  });
+
+  app.post("/api/ops/agent-status", (req, res) => {
+    const body = (req && req.body) || {};
+    const agent = String(body.agent || body.name || "unknown");
+    const state = String(body.state || body.status || "unknown");
+    const ts = _phase16Now();
+    globalThis.__OPS_STATE.status = "live";
+    globalThis.__OPS_STATE.agents[agent] = { state, at: ts, meta: body.meta || body };
+    _phase16BroadcastOps("ops.agent_status", { agent, state, at: ts, meta: body.meta || body });
+    res.json({ ok: true, agent, state, at: ts });
+  });
+
+  app.get("/api/ops/state", (req, res) => {
+    res.json({ ok: true, state: globalThis.__OPS_STATE });
+  });
+  // ====================================
+
+
+  // ===== PHASE16_REFLECTIONS_SIGNAL_API =====
+  function _phase16BroadcastReflection(type, payload) {
+    const msg = { type, ts: Date.now(), payload };
+    if (globalThis.__SSE && globalThis.__SSE.reflections && globalThis.__SSE.reflections.broadcast) {
+      globalThis.__SSE.reflections.broadcast(msg, type);
+    }
+    return msg;
+
+--- /Users/marcela-dev/Projects/Motherboard_Systems_HQ/routes/diagnostics/systemHealth.js:25 ---
+import express from "express";
+
+const router = express.Router();
+
+function buildSituationSummary(status) {
+  if (status === "OK") {
+    return (
+      "SYSTEM STABLE\n" +
+      "NO EXECUTION RISK DETECTED\n" +
+      "COGNITION SIGNALS CONSISTENT\n" +
+      "SIGNALS COHERENT\n" +
+      "NO OPERATOR ACTION REQUIRED"
+    );
+  }
+
+  return (
+    "SYSTEM NEEDS ATTENTION\n" +
+    "NO EXECUTION AUTHORITY EXPOSED\n" +
+    "COGNITION SIGNALS REQUIRE REVIEW\n" +
+    "SIGNALS PARTIALLY COHERENT\n" +
+    "NO OPERATOR ACTION INFERRED"
+  );
+}
+
+export function buildSystemHealthSnapshot() {
+  const status = "OK";
+  const timestamp = new Date().toISOString();
+
+  return {
+    status,
+    uptime: process.uptime(),
+    memory: process.memoryUsage(),
+    timestamp,
+    situationSummary: buildSituationSummary(status),
+  };
+}
+
+export function buildSystemHealthGuidanceSignals(snapshot) {
+  const observedAt = Date.parse(snapshot.timestamp);
+
+  return [
+    {
+      key: "system-health",
+      domain: "system_health",
+      status: snapshot.status === "OK" ? "healthy" : "degraded",
+      value: snapshot.status,
+      summary: snapshot.situationSummary.split("\n")[0] || "system health snapshot available",
+      observedAt: Number.isFinite(observedAt) ? observedAt : Date.now(),
+      source: "diagnostics/system-health",
+    },
+  ];
+}
+
+router.get("/", (_req, res) => {
+  res.json(buildSystemHealthSnapshot());
+});
+
+export default router;
+
+--- /Users/marcela-dev/Projects/Motherboard_Systems_HQ/routes/diagnostics/systemHealth.js:55 ---
+export function buildSystemHealthSnapshot() {
+  const status = "OK";
+  const timestamp = new Date().toISOString();
+
+  return {
+    status,
+    uptime: process.uptime(),
+    memory: process.memoryUsage(),
+    timestamp,
+    situationSummary: buildSituationSummary(status),
+  };
+}
+
+export function buildSystemHealthGuidanceSignals(snapshot) {
+  const observedAt = Date.parse(snapshot.timestamp);
+
+  return [
+    {
+      key: "system-health",
+      domain: "system_health",
+      status: snapshot.status === "OK" ? "healthy" : "degraded",
+      value: snapshot.status,
+      summary: snapshot.situationSummary.split("\n")[0] || "system health snapshot available",
+      observedAt: Number.isFinite(observedAt) ? observedAt : Date.now(),
+      source: "diagnostics/system-health",
+    },
+  ];
+}
+
+router.get("/", (_req, res) => {
+  res.json(buildSystemHealthSnapshot());
+});
+
+export default router;
+
+--- /Users/marcela-dev/Projects/Motherboard_Systems_HQ/routes/diagnostics/operatorGuidanceRuntime.js:140 ---
+      conflictingSignals: hasHealthy,
+    };
+  }
+
+  if (hasDegraded) {
+    return {
+      confidence: hasUnknown ? "low" : "medium",
+      reason: "Observed signals indicate degradation without proving system failure.",
+      signalCount: signals.length,
+      conflictingSignals: hasHealthy,
+    };
+  }
+
+  if (hasUnknown) {
+    return {
+      confidence: "low",
+      reason: "Observed signal quality is insufficient for stronger interpretation.",
+      signalCount: signals.length,
+      conflictingSignals: false,
+    };
+  }
+
+  return {
+    confidence: "high",
+    reason: "Observed signals are coherent and within acceptable bounds.",
+    signalCount: signals.length,
+    conflictingSignals: false,
+  };
+}
+
+export function reduceSystemHealthSnapshotToGuidanceReduction(snapshot) {
+  const generatedAt = Date.parse(snapshot.timestamp);
+  const now = Number.isFinite(generatedAt) ? generatedAt : Date.now();
+
+  const signals = [
+    {
+      key: "system-health",
+      domain: "system_health",
+      status: snapshot.status === "OK" ? "healthy" : "degraded",
+      value: snapshot.status,
+      summary: String(snapshot.situationSummary || "").split("\n")[0] || "system health snapshot available",
+      observedAt: now,
+      source: "diagnostics/system-health",
+    },
+  ];
+
+  const guidance = sortGuidanceDeterministically(signals.map(createBoundedGuidance));
+  const confidence = assessSurfaceConfidence(signals);
+
+  return {
+    envelope: {
+      guidance,
+      generatedAt: now,
+      cognitionVersion: "phase_89",
+      executionAuthority: "none",
+    },
+    surfaceConfidence: confidence.confidence,
+    confidenceReason: confidence.reason,
+    signalCount: confidence.signalCount,
+    conflictingSignals: confidence.conflictingSignals,
+  };
+}
+
+=== LIVE EVENT SAMPLE (HEADERS + FIRST FRAMES) ===
+---- HEADERS ----

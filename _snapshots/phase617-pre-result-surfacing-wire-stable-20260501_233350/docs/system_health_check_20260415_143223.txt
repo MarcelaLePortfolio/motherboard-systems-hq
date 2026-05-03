@@ -1,0 +1,30 @@
+SYSTEM HEALTH CHECK
+timestamp=20260415_143223
+
+=== SYSTEM UPTIME ===
+14:32  up 2 mins, 1 user, load averages: 8.97 4.32 1.76
+
+=== LAST REBOOT ===
+                 system boot  Apr 15 14:30 
+
+=== CPU + MEMORY ===
+Processes: 532 total, 6 running, 526 sleeping, 2673 threads 
+2026/04/15 14:32:23
+Load Avg: 8.97, 4.32, 1.76 
+CPU usage: 35.9% user, 13.24% sys, 51.65% idle 
+SharedLibs: 466M resident, 74M data, 45M linkedit.
+MemRegions: 250423 total, 2565M resident, 213M private, 1647M shared.
+PhysMem: 9243M used (1989M wired, 1034M compressor), 6519M unused.
+VM: 231T vsize, 5702M framework vsize, 4443(0) swapins, 18720(0) swapouts.
+Networks: packets: 2945687/3631M in, 43676/5616K out.
+Disks: 286096/20G read, 74233/10G written.
+
+PID   COMMAND          %CPU TIME     #TH    #WQ  #PORTS MEM   PURG  CMPRS PGRP PPID STATE    BOOSTS      %CPU_ME %CPU_OTHRS UID FAULTS COW  MSGSENT MSGRECV SYSBSD  SYSMACH CSW     PAGEINS IDLEW POWER INSTRS CYCLES JETPRI USER                   #MREGS RPRVT VPRVT VSIZE KPRVT KSHRD
+1064  head             0.0  00:00.00 1      0    11     752K  0B    0B    1059 1059 sleeping *0[1]       0.00000 0.00000    501 226    53   24      12      125     66      3       2       0     0.0   0      0      180    marcela-dev            N/A    N/A   N/A   N/A   N/A   N/A  
+1063  top              0.0  00:00.16 1/1    0    17     3952K 0B    0B    1059 1059 running  *0[1]       0.00000 0.00000    0   1025   87   531559  265779  2825    270115  24      7       0     0.0   0      0      180    root                   N/A    N/A   N/A   N/A   N/A   N/A  
+1059  bash             0.0  00:00.00 1      0    11     1104K 0B    0B    1059 967  sleeping *0[1]       0.00000 0.00000    501 581    177  48      24      396     152     21      10      0     0.0   0      0      180    marcela-dev            N/A    N/A   N/A   N/A   N/A   N/A  
+1047  mdworker_shared  0.0  00:00.09 4      1    48     3280K 0B    0B    1047 1    sleeping *0[1]       0.00000 0.00000    501 2091   151  406     162     2014    532     191     11      0     0.0   0      0      0      marcela-dev            N/A    N/A   N/A   N/A   N/A   N/A  
+1046  mdworker_shared  0.0  00:00.08 4      1    49     3184K 0B    0B    1046 1    sleeping *0[1]       0.00000 0.00000    501 1976   151  362     148     1417    467     167     10      0     0.0   0      0      0      marcela-dev            N/A    N/A   N/A   N/A   N/A   N/A  
+1045  ReportMemoryExce 0.0  00:00.12 3      1    40     2544K 0B    0B    1045 1    sleeping *0[2]       0.00000 0.00000    269 1082   135  183     80      1114    342     146     222     0     0.0   0      0      0      _reportmemoryexception N/A    N/A   N/A   N/A   N/A   N/A  
+1042  SiriNCService    0.0  00:00.08 7      3    260    6864K 0B    0B    1042 1    sleeping *0[11]      0.00000 0.00000    501 2714   253  1400    247     3117    2814    1366    662     0     0.0   0      0      0      marcela-dev            N/A    N/A   N/A   N/A   N/A   N/A  
+1040  mdworker_shared  0.0  00:00.06 4      1    49     3184K 0B    0B    1040 1    sleeping *0[1]       0.00000 0.00000    501 1959   150  348     144     1325    440     114     6       0     0.0   0      0      0      marcela-dev            N/A    N/A   N/A   N/A   N/A   N/A  

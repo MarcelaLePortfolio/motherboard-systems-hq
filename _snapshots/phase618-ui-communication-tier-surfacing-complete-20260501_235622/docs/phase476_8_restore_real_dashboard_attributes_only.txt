@@ -1,0 +1,27 @@
+PHASE 476.8 — RESTORE REAL DASHBOARD ATTRIBUTES (NO STRUCTURE CHANGE)
+=====================================================================
+
+CRITICAL CONTEXT
+- Current dashboard is STABLE
+- Stability achieved using recomposed structure (sanitized body)
+- This is NOT the true original dashboard yet
+
+OBJECTIVE
+- Reintroduce ONLY non-structural attributes from original dashboard:
+  • body class
+  • wrapper classes
+- DO NOT reintroduce:
+  • scripts
+  • removed sections
+  • structural differences
+
+METHOD
+- Extract body tag attributes from backup
+- Apply them to current stable dashboard
+
+INTENT
+- Identify whether styling/attribute layer contributes to freeze
+- Maintain structural stability while increasing fidelity
+
+NEXT STEP
+- Observe dashboard again after attribute restoration

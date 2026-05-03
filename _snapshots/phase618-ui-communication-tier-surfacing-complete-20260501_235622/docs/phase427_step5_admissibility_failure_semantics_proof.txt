@@ -1,0 +1,76 @@
+PHASE 427 — STEP 5
+Admissibility Failure Semantics Proof
+-------------------------------------
+
+OBJECTIVE
+
+Define how admissibility behaves when governance cannot determine admission.
+
+This prevents future enforcement from inventing unsafe fallback behavior.
+
+This step defines ONLY structural failure meaning.
+
+NO:
+
+fallback logic
+runtime handling
+execution branching
+retry behavior
+operator prompts
+
+--------------------------------
+
+CORE QUESTION
+
+What does inadmissible or indeterminate structurally mean?
+
+Candidate failure semantics:
+
+INADMISSIBLE means:
+
+• governance has determined execution must not proceed
+• execution must never reinterpret this state
+• operator must explicitly change conditions to alter outcome
+
+INDETERMINATE means:
+
+• governance lacks sufficient evidence
+• governance cannot authorize execution
+• absence of admission must not become implicit denial
+• absence of admission must not become implicit approval
+
+--------------------------------
+
+FAILURE SAFETY GOALS
+
+Failure semantics must:
+
+Prevent silent admission
+Prevent execution reinterpretation
+Prevent operator bypass
+Prevent policy gaps becoming execution permission
+Preserve governance as sole admission authority
+Preserve deterministic admission boundary
+
+--------------------------------
+
+EXPECTED FUTURE CONSEQUENCE
+
+Future enforcement must treat:
+
+inadmissible → permanent stop unless governance changes
+
+indeterminate → unresolved admission state requiring governance clarity
+
+Never:
+
+execution resolution
+operator guess resolution
+policy inference resolution
+
+--------------------------------
+
+STATUS
+
+Failure semantics defined.
+

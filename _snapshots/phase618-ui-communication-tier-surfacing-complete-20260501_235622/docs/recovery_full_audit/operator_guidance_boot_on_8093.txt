@@ -1,0 +1,5 @@
+===== operator_guidance =====
+WORKTREE=../mbhq_recovery_visual_compare/operator_guidance
+PORT=8093
+
+MISSING_WORKTREE=../mbhq_recovery_visual_compare/operator_guidance

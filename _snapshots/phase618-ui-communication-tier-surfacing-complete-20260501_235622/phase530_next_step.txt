@@ -1,0 +1,24 @@
+PHASE 530 — NEXT STEP (DO NOT SKIP)
+
+RUN:
+./phase530_capture_sse_handler.sh
+
+THEN:
+
+1. Identify EXACTLY ONE file that:
+   - Defines /events/tasks
+   - Sets response headers OR uses res.write
+   - Manages a persistent connection
+
+2. DO NOT PATCH YET
+
+3. Copy ONLY the SSE handler block (not entire file)
+
+4. Bring it back for diff-based patching
+
+STOP CONDITIONS:
+- If more than one candidate file appears → STOP
+- If handler is unclear → STOP
+- If logic is split across files → STOP
+
+NO EDITS UNTIL CONFIRMED

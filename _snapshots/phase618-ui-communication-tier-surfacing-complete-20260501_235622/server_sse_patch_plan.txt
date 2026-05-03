@@ -1,0 +1,64 @@
+PHASE 530 — SSE PATCH PLAN (NEXT ACTION)
+
+TARGET:
+Locate and safely patch the SSE endpoint implementation.
+
+OBJECTIVE:
+Introduce heartbeat + enforce proper headers with ZERO regression risk.
+
+NEXT STEP (REQUIRED BEFORE PATCH):
+1. Identify exact file handling /events/tasks
+   Run:
+   grep -R "/events/tasks" -n .
+
+2. Open ONLY that file
+   Do NOT edit yet
+
+3. Extract current SSE handler block
+   (the function where res.write / headers are set)
+
+PATCH STRATEGY (ONCE FILE IS IDENTIFIED):
+
+ADD ONLY:
+- Proper headers (if missing)
+- Heartbeat interval
+
+EXPECTED INSERT:
+
+Headers:
+res.writeHead(200, {
+  'Content-Type': 'text/event-stream',
+  'Cache-Control': 'no-cache',
+  'Connection': 'keep-alive'
+});
+
+Heartbeat:
+setInterval(() => {
+  res.write(':\n\n');
+}, 15000);
+
+CONSTRAINTS:
+- ONE FILE ONLY
+- NO refactor
+- NO touching worker / DB / routing
+- NO deleting existing logic
+- ADDITIVE change only
+
+VALIDATION AFTER PATCH:
+node --check <file>
+
+THEN:
+docker compose up -d --build
+
+THEN:
+Re-run:
+./phase530_sse_diagnostic.sh
+
+SUCCESS CRITERIA:
+- SSE connection persists >60s
+- No ERR_NETWORK_IO_SUSPENDED
+- Events still flowing
+
+STOP CONDITION:
+If file is unclear or multiple handlers found → DO NOT PATCH
+

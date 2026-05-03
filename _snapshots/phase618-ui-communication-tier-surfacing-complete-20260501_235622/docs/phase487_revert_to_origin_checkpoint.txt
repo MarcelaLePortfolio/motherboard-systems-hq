@@ -1,0 +1,17 @@
+PHASE 487 — REVERT TO ORIGIN CHECKPOINT
+
+Reason:
+- Local branch accumulated a giant failed push state
+- Remote push repeatedly attempted ~24.20 GiB payloads
+- Recovery requires reverting to last confirmed remote checkpoint
+
+Action taken:
+- Hard reset local branch to origin/phase119-dashboard-cognition-contract
+- Expired reflogs
+- Pruned unreachable objects
+- Repacked git store
+
+Result target:
+- Clean working tree
+- Small .git store
+- Pushable branch restored

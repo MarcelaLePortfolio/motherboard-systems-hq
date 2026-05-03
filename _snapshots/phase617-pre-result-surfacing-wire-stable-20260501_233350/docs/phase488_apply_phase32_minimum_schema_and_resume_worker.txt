@@ -1,0 +1,264 @@
+PHASE 488 — APPLY PHASE32 MINIMUM SCHEMA + RESUME WORKER
+Timestamp: Fri Apr 17 14:39:31 PDT 2026
+========================================================
+
+[1] PRECHECK: LIVE tasks COLUMNS BEFORE
+   column_name   |          data_type          
+-----------------+-----------------------------
+ id              | integer
+ created_at      | timestamp without time zone
+ task_id         | text
+ status          | text
+ payload         | jsonb
+ title           | text
+ agent           | text
+ notes           | text
+ source          | text
+ trace_id        | text
+ error           | text
+ meta            | jsonb
+ updated_at      | timestamp without time zone
+ run_id          | text
+ action_tier     | text
+ kind            | text
+ attempt         | integer
+ max_attempts    | integer
+ available_at    | timestamp with time zone
+ locked_by       | text
+ lock_expires_at | timestamp with time zone
+ last_error      | jsonb
+(22 rows)
+
+
+[2] APPLY MINIMAL PHASE32-COMPATIBLE TASKS SCHEMA
+BEGIN
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+UPDATE 0
+UPDATE 288
+CREATE INDEX
+COMMIT
+
+[3] VERIFY tasks COLUMNS AFTER
+                                                                      Table "public.tasks"
+     Column      |            Type             | Collation | Nullable |              Default              | Storage  | Compression | Stats target | Description 
+-----------------+-----------------------------+-----------+----------+-----------------------------------+----------+-------------+--------------+-------------
+ id              | integer                     |           | not null | nextval('tasks_id_seq'::regclass) | plain    |             |              | 
+ created_at      | timestamp without time zone |           |          | now()                             | plain    |             |              | 
+ task_id         | text                        |           |          |                                   | extended |             |              | 
+ status          | text                        |           |          |                                   | extended |             |              | 
+ payload         | jsonb                       |           |          |                                   | extended |             |              | 
+ title           | text                        |           |          |                                   | extended |             |              | 
+ agent           | text                        |           |          |                                   | extended |             |              | 
+ notes           | text                        |           |          |                                   | extended |             |              | 
+ source          | text                        |           |          |                                   | extended |             |              | 
+ trace_id        | text                        |           |          |                                   | extended |             |              | 
+ error           | text                        |           |          |                                   | extended |             |              | 
+ meta            | jsonb                       |           |          |                                   | extended |             |              | 
+ updated_at      | timestamp without time zone |           |          | now()                             | plain    |             |              | 
+ run_id          | text                        |           |          |                                   | extended |             |              | 
+ action_tier     | text                        |           |          |                                   | extended |             |              | 
+ kind            | text                        |           |          |                                   | extended |             |              | 
+ attempt         | integer                     |           | not null | 0                                 | plain    |             |              | 
+ max_attempts    | integer                     |           | not null | 5                                 | plain    |             |              | 
+ available_at    | timestamp with time zone    |           |          |                                   | plain    |             |              | 
+ locked_by       | text                        |           |          |                                   | extended |             |              | 
+ lock_expires_at | timestamp with time zone    |           |          |                                   | plain    |             |              | 
+ last_error      | jsonb                       |           |          |                                   | extended |             |              | 
+ attempts        | integer                     |           | not null | 0                                 | plain    |             |              | 
+ next_run_at     | timestamp with time zone    |           |          |                                   | plain    |             |              | 
+ claimed_by      | text                        |           |          |                                   | extended |             |              | 
+ completed_at    | timestamp with time zone    |           |          |                                   | plain    |             |              | 
+Indexes:
+    "tasks_pkey" PRIMARY KEY, btree (id)
+    "idx_tasks_action_tier" btree (action_tier)
+    "idx_tasks_kind" btree (kind)
+    "idx_tasks_run_id" btree (run_id)
+    "idx_tasks_status_next_run" btree (status, next_run_at)
+    "tasks_lock_expires_idx" btree (lock_expires_at)
+    "tasks_status_available_idx" btree (status, available_at)
+    "tasks_task_id_idx" btree (task_id)
+Access method: heap
+
+
+[4] RESTART WORKER WITH EXPLICIT PHASE32 SQL
+
+[5] WORKER PROCESS
+marcela-dev      81525   0.0  0.4 412433696  63520 s347  S+    2:39PM   0:00.25 node server/worker/phase26_task_worker.mjs
+
+[6] WORKER LOG TAIL
+}
+[phase25] emitTaskEvent BEFORE CHECK {
+  hasArg: true,
+  hasGlobal: false,
+  globalType: undefined,
+  argType: 'BoundPool'
+}
+[phase25] emitTaskEvent pool {
+  arg: true,
+  argType: 'BoundPool',
+  hasGlobal: false,
+  globalType: undefined
+}
+[phase25] emitTaskEvent ENTER {
+  ts: 1776461973261,
+  kind: 'task.completed',
+  task_id: 'task.3bdc9092-6318-4609-a08d-f366b77d1858',
+  hasGlobal: false,
+  globalType: undefined
+}
+[phase25] emitTaskEvent BEFORE CHECK {
+  hasArg: true,
+  hasGlobal: false,
+  globalType: undefined,
+  argType: 'BoundPool'
+}
+[phase25] emitTaskEvent pool {
+  arg: true,
+  argType: 'BoundPool',
+  hasGlobal: false,
+  globalType: undefined
+}
+[phase26][dbg] tick { ts: '2026-04-17T21:39:33.261Z', owner: 'worker-81525' }
+[phase26][dbg] claim_attempt
+[phase25] emitTaskEvent ENTER {
+  ts: 1776461973262,
+  kind: 'task.running',
+  task_id: 'task.704a2083-855c-4660-bfd8-b69ce118c511',
+  hasGlobal: false,
+  globalType: undefined
+}
+[phase25] emitTaskEvent BEFORE CHECK {
+  hasArg: true,
+  hasGlobal: false,
+  globalType: undefined,
+  argType: 'BoundPool'
+}
+[phase25] emitTaskEvent pool {
+  arg: true,
+  argType: 'BoundPool',
+  hasGlobal: false,
+  globalType: undefined
+}
+[phase25] emitTaskEvent ENTER {
+  ts: 1776461973263,
+  kind: 'task.completed',
+  task_id: 'task.704a2083-855c-4660-bfd8-b69ce118c511',
+  hasGlobal: false,
+  globalType: undefined
+}
+[phase25] emitTaskEvent BEFORE CHECK {
+  hasArg: true,
+  hasGlobal: false,
+  globalType: undefined,
+  argType: 'BoundPool'
+}
+[phase25] emitTaskEvent pool {
+  arg: true,
+  argType: 'BoundPool',
+  hasGlobal: false,
+  globalType: undefined
+}
+[phase26][dbg] tick { ts: '2026-04-17T21:39:33.264Z', owner: 'worker-81525' }
+[phase26][dbg] claim_attempt
+[phase26][dbg] claim_none
+[phase26][dbg] tick { ts: '2026-04-17T21:39:33.766Z', owner: 'worker-81525' }
+[phase26][dbg] claim_attempt
+[phase26][dbg] claim_none
+[phase26][dbg] tick { ts: '2026-04-17T21:39:34.270Z', owner: 'worker-81525' }
+[phase26][dbg] claim_attempt
+[phase26][dbg] claim_none
+[phase26][dbg] tick { ts: '2026-04-17T21:39:34.775Z', owner: 'worker-81525' }
+[phase26][dbg] claim_attempt
+[phase26][dbg] claim_none
+[phase26][dbg] tick { ts: '2026-04-17T21:39:35.279Z', owner: 'worker-81525' }
+[phase26][dbg] claim_attempt
+[phase26][dbg] claim_none
+[phase26][dbg] tick { ts: '2026-04-17T21:39:35.782Z', owner: 'worker-81525' }
+[phase26][dbg] claim_attempt
+[phase26][dbg] claim_none
+[phase26][dbg] tick { ts: '2026-04-17T21:39:36.286Z', owner: 'worker-81525' }
+[phase26][dbg] claim_attempt
+[phase26][dbg] claim_none
+[phase26][dbg] tick { ts: '2026-04-17T21:39:36.791Z', owner: 'worker-81525' }
+[phase26][dbg] claim_attempt
+[phase26][dbg] claim_none
+[phase26][dbg] tick { ts: '2026-04-17T21:39:37.295Z', owner: 'worker-81525' }
+[phase26][dbg] claim_attempt
+[phase26][dbg] claim_none
+[phase26][dbg] tick { ts: '2026-04-17T21:39:37.799Z', owner: 'worker-81525' }
+[phase26][dbg] claim_attempt
+[phase26][dbg] claim_none
+[phase26][dbg] tick { ts: '2026-04-17T21:39:38.303Z', owner: 'worker-81525' }
+[phase26][dbg] claim_attempt
+[phase26][dbg] claim_none
+[phase26][dbg] tick { ts: '2026-04-17T21:39:38.807Z', owner: 'worker-81525' }
+[phase26][dbg] claim_attempt
+[phase26][dbg] claim_none
+[phase26][dbg] tick { ts: '2026-04-17T21:39:39.312Z', owner: 'worker-81525' }
+[phase26][dbg] claim_attempt
+[phase26][dbg] claim_none
+[phase26][dbg] tick { ts: '2026-04-17T21:39:39.816Z', owner: 'worker-81525' }
+[phase26][dbg] claim_attempt
+[phase26][dbg] claim_none
+[phase26][dbg] tick { ts: '2026-04-17T21:39:40.319Z', owner: 'worker-81525' }
+[phase26][dbg] claim_attempt
+[phase26][dbg] claim_none
+[phase26][dbg] tick { ts: '2026-04-17T21:39:40.824Z', owner: 'worker-81525' }
+[phase26][dbg] claim_attempt
+[phase26][dbg] claim_none
+
+[7] TASK EVENT COUNTS
+      kind      | count 
+----------------+-------
+ task.completed |   288
+ task.created   |   289
+ task.running   |   288
+(3 rows)
+
+
+[8] TASK STATUS COUNTS
+  status   | count 
+-----------+-------
+ completed |   288
+(1 row)
+
+
+[9] /api/runs SNAPSHOT
+{"ok":true,"count":50,"rows":[{"run_id":"run-1776461973261-f529107b33c05","task_id":"task.704a2083-855c-4660-bfd8-b69ce118c511","task_status":"completed","is_terminal":true,"last_event_id":"865","last_event_ts":"1776461973263","last_event_kind":"task.completed","actor":"worker-81525","lease_expires_at":null,"lease_fresh":false,"lease_ttl_ms":null,"last_heartbeat_ts":null,"heartbeat_age_ms":null,"terminal_event_kind":"task.completed","terminal_event_ts":"1776461973263","terminal_event_id":"865"},{"run_id":"run-1776461973259-3322fc5f1a6b58","task_id":"task.3bdc9092-6318-4609-a08d-f366b77d1858","task_status":"completed","is_terminal":true,"last_event_id":"863","last_event_ts":"1776461973261","last_event_kind":"task.completed","actor":"worker-81525","lease_expires_at":null,"lease_fresh":false,"lease_ttl_ms":null,"last_heartbeat_ts":null,"heartbeat_age_ms":null,"terminal_event_kind":"task.completed","terminal_event_ts":"1776461973261","terminal_event_id":"863"},{"run_id":"run-1776461973256-fb92685ad3bca","task_id":"task.d76574fc-4571-4fe1-b3e1-0474473d2455","task_status":"completed","is_terminal":true,"last_event_id":"861","last_event_ts":"1776461973258","last_event_kind":"task.completed","actor":"worker-81525","lease_expires_at":null,"lease_fresh":false,"lease_ttl_ms":null,"last_heartbeat_ts":null,"heartbeat_age_ms":null,"terminal_event_kind":"task.completed","terminal_event_ts":"1776461973258","terminal_event_id":"861"},{"run_id":"run-1776461973253-e73dafc0f43478","task_id":"task.7654b853-a507-4414-b07d-6a8aa90b3d27","task_status":"completed","is_terminal":true,"last_event_id"
+
+[10] TASK EVENTS STREAM SAMPLE
+event: hello
+data: {"kind":"task-events","cursor":1776461973263,"ts":1776461981062}
+
+event: heartbeat
+data: {"ts":1776461982063,"cursor":1776461973263}
+
+event: heartbeat
+data: {"ts":1776461983064,"cursor":1776461973263}
+
+event: heartbeat
+data: {"ts":1776461984065,"cursor":1776461973263}
+
+event: heartbeat
+data: {"ts":1776461985066,"cursor":1776461973263}
+
+event: heartbeat
+data: {"ts":1776461986067,"cursor":1776461973263}
+
+event: heartbeat
+data: {"ts":1776461987068,"cursor":1776461973263}
+
+event: heartbeat
+data: {"ts":1776461988070,"cursor":1776461973263}
+
+event: heartbeat
+
+[11] VERDICT
+- If task.completed or task.failed appear, lifecycle corridor is advancing
+- If task.running appears but completion fails, result SQL is the next boundary
+- If tasks remain queued with no new kinds, inspect Phase32 claim/result contract next
+
+RUN COMPLETE

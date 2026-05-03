@@ -1,0 +1,29 @@
+PHASE 566 — NEXT SAFE TARGET
+
+OBJECTIVE:
+Activate Retry action (first real operator mutation)
+
+SCOPE:
+- Single file: public/js/phase457_restore_task_panels.js
+- Add click handler for Retry
+- No backend changes
+- Use existing API: POST /api/delegate-task
+
+BEHAVIOR:
+On Retry click:
+- Use selected.taskId
+- POST to /api/delegate-task with same payload
+- Log success/failure to console
+- Do NOT mutate UI state yet
+
+CONSTRAINTS:
+- Additive only
+- No refactor
+- No multi-surface changes
+- Preserve Execution Inspector stability
+
+GOAL:
+Turn inspector from passive → minimally actionable
+
+STATUS:
+READY FOR SURGICAL PATCH

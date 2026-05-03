@@ -1,0 +1,23 @@
+Phase 588 next runtime hook plan.
+
+Checkpoint:
+- Stable tag exists: phase587-memory-scope-hook-stable.
+- Cache policy runtime hook is active and verified.
+- Memory scope runtime hook is active and verified.
+- Dashboard, worker, and Postgres are running.
+- Working tree is clean.
+
+Next Objective:
+Add the third non-breaking runtime policy hook: execution_mode.
+
+Target Behavior:
+- If requires_context_rebuild = true:
+  -> emit explicit runtime signal
+  -> do not rebuild context yet
+  -> do not alter task outcome
+
+Constraints:
+- Worker-only
+- No DB schema changes
+- No execution branching
+- No pretend context rebuild until a real context layer exists

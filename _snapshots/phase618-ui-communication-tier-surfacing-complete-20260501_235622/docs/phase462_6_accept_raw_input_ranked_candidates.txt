@@ -1,0 +1,41 @@
+PHASE 462.6 — ACCEPT RAW INPUT FINAL CANDIDATE RANKING
+======================================================
+
+Source review:
+docs/phase462_5_accept_raw_input_placement_review.txt
+
+CANDIDATES (ranked by narrowest likely intake-safe boundary):
+30 ./cognition/operator/operatorAcknowledgement.types.ts
+30 ./cognition/operator/operatorAttention.types.ts
+30 ./cognition/operator/operatorHistory.types.ts
+30 ./cognition/operator/operatorInteractionOutput.types.ts
+30 ./cognition/operator/operatorSurface.types.ts
+30 ./cognition/operator/operatorWorkflow.types.ts
+60 scripts/_local/phase77_signal_severity_model_smoke.ts
+60 scripts/_local/phase77_signal_severity_model.ts
+60 src/cognition/confidence/confidence.types.ts
+60 src/cognition/contracts/cognition.contracts.ts
+60 src/cognition/transport/cognitionTransport.dashboardConsumption.types.ts
+60 src/cognition/transport/cognitionTransport.types.ts
+60 src/cognition/transport/CognitionTransportDiagnostics.types.ts
+60 src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.types.ts
+70 ./cognition/operator/composeOperatorInteractionOutput.ts
+70 ./cognition/operator/deriveOperatorAcknowledgement.ts
+70 ./cognition/operator/deriveOperatorAttention.ts
+70 ./cognition/operator/deriveOperatorCognition.ts
+70 ./cognition/operator/deriveOperatorHistory.ts
+70 ./cognition/operator/deriveOperatorSurface.ts
+70 ./cognition/operator/deriveOperatorWorkflow.ts
+70 ./cognition/operator/panel/deriveOperatorPanelModel.ts
+70 ./cognition/operator/store/operatorCognition.reducer.ts
+70 ./cognition/operator/store/operatorCognition.selector.ts
+70 ./cognition/operator/store/operatorCognition.selectors.ts
+
+RECOMMENDED SELECTION RULE:
+Choose the first ranked path that is intake-only and does not imply broader shared responsibility.
+
+REJECT IF PATH CONTAINS:
+governance | execution | approval | reporting | shared multi-layer concerns
+
+NEXT MUTATION RULE:
+ONE FILE ONLY

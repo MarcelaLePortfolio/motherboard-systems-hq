@@ -1,0 +1,30 @@
+PHASE 569 — CHECKPOINT READY
+
+STATE:
+- Infrastructure: healthy
+- Worker: active
+- Dashboard: serving correctly
+- Execution Inspector: live + interactive
+- Requeue (formerly Retry): ACTIVE and correctly labeled
+- JSON inspection: operational
+- Copy ID: operational
+
+OPERATOR CAPABILITY:
+- observe (Execution Inspector)
+- inspect (JSON)
+- act safely (Requeue)
+
+SEMANTIC CORRECTION:
+- "Retry" → "Requeue" eliminates false expectation of strategy change
+- UI now reflects actual system behavior
+
+CLASSIFICATION:
+COHERENT + ACTIONABLE OPERATOR SURFACE
+
+NEXT SAFE TARGETS:
+1. Introduce "Retry Differently" (strategy-aware retry)
+2. Add visual feedback for Requeue
+3. Audit Cancel contract before activation
+
+STATUS:
+READY FOR CHECKPOINT TAG

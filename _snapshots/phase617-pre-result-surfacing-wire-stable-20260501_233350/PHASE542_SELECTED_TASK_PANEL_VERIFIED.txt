@@ -1,0 +1,32 @@
+PHASE 542 — SELECTED TASK PANEL VERIFIED
+
+RESULT:
+PASS
+
+VERIFIED:
+- selectedItem lookup present in active renderer
+- selectedPanel rendering present
+- Fallback state present: "No task selected"
+- Selected Task panel present
+- Selected details include:
+  - short task_id
+  - lifecycle label
+  - title
+  - timestamp
+- Docker rebuild successful
+- Served JS contains expected markers
+- No backend/API/SSE changes introduced
+
+STATUS:
+Selected task context panel is live on active execution renderer
+
+SYSTEM STATE:
+Operator surface now supports:
+- readable lifecycle log
+- active task highlighting
+- per-task continuity
+- click-to-select
+- visible selected-task context
+
+NEXT:
+Manual browser verification: click an execution row and confirm Selected Task panel updates.

@@ -1,0 +1,28 @@
+Phase 611 UI discovery execution.
+
+Actions:
+- Locate UI components for:
+  - Recent Tasks
+  - Execution Inspector
+  - Task History
+- Trace API usage:
+  - /api/tasks
+  - /api/delegate-task
+  - any task detail endpoints
+- Document current data flow from DB → API → UI
+- Confirm where execution output is rendered today
+
+Constraints:
+- READ-ONLY inspection
+- No code changes
+- No wiring
+- No mutations
+
+Output:
+- Component paths
+- API endpoints used
+- Rendering behavior summary
+- Identified safe insertion points (no changes applied)
+
+Status:
+RUNNING UI SURFACE DISCOVERY

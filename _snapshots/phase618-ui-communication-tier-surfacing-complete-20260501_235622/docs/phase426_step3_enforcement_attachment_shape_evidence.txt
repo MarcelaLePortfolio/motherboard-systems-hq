@@ -1,0 +1,241 @@
+authorization decision structures
+
+authorization result structures
+
+authorization outcome structures
+
+governance eligibility structures
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:1:import { getGovernanceExecutionEligibilitySnapshot } from "../../../governance/cognition";
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:15:  const governance = getGovernanceExecutionEligibilitySnapshot();
+src/governance/cognition/get_governance_execution_eligibility_snapshot.ts:2: * Phase 423.3 — Governance Execution Eligibility Snapshot
+src/governance/cognition/get_governance_execution_eligibility_snapshot.ts-8-import { proveGovernanceAuthorizationGate } from "./prove_governance_authorization_gate";
+src/governance/cognition/get_governance_execution_eligibility_snapshot.ts:10:export interface GovernanceExecutionEligibilitySnapshot {
+src/governance/cognition/get_governance_execution_eligibility_snapshot.ts:15:export function getGovernanceExecutionEligibilitySnapshot(): GovernanceExecutionEligibilitySnapshot {
+src/governance/cognition/get_governance_execution_eligibility_snapshot.ts-16-  const proof = proveGovernanceAuthorizationGate();
+src/governance/cognition/index.ts-87-export type { GovernanceFinalPreLiveRegistrySummaryCapsuleSelection } from "./select_governance_final_pre_live_registry_summary_capsule";
+src/governance/cognition/index.ts-88-export { selectGovernanceFinalPreLiveRegistrySummaryCapsule } from "./select_governance_final_pre_live_registry_summary_capsule";
+src/governance/cognition/index.ts-89-export { proveGovernanceFinalPreLiveRegistrySummaryCapsule } from "./prove_governance_final_pre_live_registry_summary_capsule";
+src/governance/cognition/index.ts-90-export type { GovernanceFinalPreLiveRegistrySummaryCapsuleProof } from "./prove_governance_final_pre_live_registry_summary_capsule";
+src/governance/cognition/index.ts:92:export type { GovernanceExecutionEligibilitySnapshot } from "./get_governance_execution_eligibility_snapshot";
+src/governance/cognition/index.ts:93:export { getGovernanceExecutionEligibilitySnapshot } from "./get_governance_execution_eligibility_snapshot";
+
+governance invariant adjacency
+src/governance_visibility/governance_visibility_formatter.ts-7-export function formatDecision(record: GovernanceVisibilityRecord): string {
+src/governance_visibility/governance_visibility_formatter.ts:11:export function formatInvariantSummary(record: GovernanceVisibilityRecord): string {
+src/governance_visibility/governance_visibility_formatter.ts-15-export function formatPolicySummary(record: GovernanceVisibilityRecord): string {
+src/governance_visibility/index.ts-14-export type { GovernanceVisibilitySnapshotInput } from "./governance_visibility_snapshot";
+src/governance_traceability/governance_traceability_formatter.ts-26-  record: GovernanceTraceabilityRecord,
+src/governance_traceability/governance_traceability_formatter.ts-32-  record: GovernanceTraceabilityRecord,
+src/governance/governance_pipeline_invariants.ts:2:Phase 330 — Governance Pipeline Invariants
+src/governance/governance_pipeline_invariants.ts:11:export interface GovernanceInvariant {
+src/governance/governance_pipeline_invariants.ts:21:export const GOVERNANCE_INVARIANTS: GovernanceInvariant[] = [
+src/governance/governance_pipeline_invariants.ts:49:export function validateGovernanceInvariants(): boolean {
+src/governance/governance_pipeline_invariants.test.ts:1:import { validateGovernanceInvariants } from "./governance_pipeline_invariants"
+src/governance/governance_pipeline_invariants.test.ts:9:const valid = validateGovernanceInvariants()
+src/governance/governance_pipeline_invariants.test.ts-13-  "Governance invariants validation failed"
+src/governance_operator_packet/governance_operator_packet_builder.ts-7-  formatGovernanceOperatorPacketArtifacts,
+src/governance_operator_packet/governance_operator_packet_builder.ts-8-  formatGovernanceOperatorPacketCompleteness,
+src/governance_operator_packet/governance_operator_packet_builder.ts-9-  formatGovernanceOperatorPacketDecision,
+src/governance_operator_packet/governance_operator_packet_builder.ts-10-  formatGovernanceOperatorPacketHeadline,
+src/governance_operator_packet/governance_operator_packet_builder.ts:11:  formatGovernanceOperatorPacketInvariants,
+src/governance_operator_packet/governance_operator_packet_builder.ts-12-  formatGovernanceOperatorPacketPolicy,
+src/governance_operator_packet/governance_operator_packet_builder.ts-13-  formatGovernanceOperatorPacketStages,
+src/governance_operator_packet/governance_operator_packet_builder.ts-40-  const evaluationLines: GovernanceOperatorPacketLine[] = [
+src/governance_operator_packet/governance_operator_packet_builder.ts:43:      text: formatGovernanceOperatorPacketInvariants(
+src/governance_operator_packet/governance_operator_packet_formatter.ts:24:export function formatGovernanceOperatorPacketInvariants(
+src/governance_operator_packet/governance_operator_packet_formatter.ts-30-export function formatGovernanceOperatorPacketStages(
+src/governance_operator_packet/index.ts-9-  formatGovernanceOperatorPacketArtifacts,
+src/governance_operator_packet/index.ts-10-  formatGovernanceOperatorPacketCompleteness,
+src/governance_operator_packet/index.ts-11-  formatGovernanceOperatorPacketDecision,
+src/governance_operator_packet/index.ts-12-  formatGovernanceOperatorPacketHeadline,
+src/governance_operator_packet/index.ts:13:  formatGovernanceOperatorPacketInvariants,
+src/governance_operator_packet/index.ts-14-  formatGovernanceOperatorPacketPolicy,
+src/governance_operator_packet/index.ts-15-  formatGovernanceOperatorPacketStages,
+src/governance_reporting/governance_reporting_builder.ts-6-  formatGovernanceReportDecision,
+src/governance_reporting/governance_reporting_builder.ts-7-  formatGovernanceReportHeadline,
+src/governance_reporting/governance_reporting_builder.ts:8:  formatGovernanceReportInvariants,
+src/governance_reporting/governance_reporting_builder.ts-9-  formatGovernanceReportPolicy,
+src/governance_reporting/governance_reporting_builder.ts-10-  formatGovernanceReportProvenance,
+src/governance_reporting/governance_reporting_builder.ts-11-  formatGovernanceReportStages,
+src/governance_reporting/governance_reporting_builder.ts:48:          value: formatGovernanceReportInvariants(
+src/governance_reporting/governance_reporting_formatter.ts-18-export function formatGovernanceReportPolicy(policyRoute: string | null): string {
+src/governance_reporting/governance_reporting_formatter.ts:22:export function formatGovernanceReportInvariants(
+src/governance_reporting/governance_reporting_formatter.ts-28-export function formatGovernanceReportStages(
+src/governance_reporting/index.ts-8-  formatGovernanceReportDecision,
+src/governance_reporting/index.ts-9-  formatGovernanceReportHeadline,
+src/governance_reporting/index.ts:10:  formatGovernanceReportInvariants,
+src/governance_reporting/index.ts-11-  formatGovernanceReportPolicy,
+src/governance_reporting/index.ts-12-  formatGovernanceReportProvenance,
+src/governance_reporting/index.ts-13-  formatGovernanceReportStages,
+src/governance_digest/governance_digest_formatter.ts-18-export function formatGovernanceDigestPolicy(policyRoute: string | null): string {
+src/governance_digest/governance_digest_formatter.ts:22:export function formatGovernanceDigestInvariants(
+src/governance_digest/governance_digest_formatter.ts-28-export function formatGovernanceDigestStages(
+src/governance_digest/index.ts-7-  formatGovernanceDigestArtifacts,
+src/governance_digest/index.ts-8-  formatGovernanceDigestDecision,
+src/governance_digest/index.ts-9-  formatGovernanceDigestHeadline,
+src/governance_digest/index.ts:10:  formatGovernanceDigestInvariants,
+src/governance_digest/index.ts-11-  formatGovernanceDigestPolicy,
+src/governance_digest/index.ts-12-  formatGovernanceDigestProvenance,
+src/governance_digest/index.ts-13-  formatGovernanceDigestStages,
+src/governance_digest/governance_digest_builder.ts-6-  formatGovernanceDigestArtifacts,
+src/governance_digest/governance_digest_builder.ts-7-  formatGovernanceDigestDecision,
+src/governance_digest/governance_digest_builder.ts-8-  formatGovernanceDigestHeadline,
+src/governance_digest/governance_digest_builder.ts:9:  formatGovernanceDigestInvariants,
+src/governance_digest/governance_digest_builder.ts-10-  formatGovernanceDigestPolicy,
+src/governance_digest/governance_digest_builder.ts-11-  formatGovernanceDigestProvenance,
+src/governance_digest/governance_digest_builder.ts-12-  formatGovernanceDigestStages,
+src/governance_digest/governance_digest_builder.ts-40-      text: formatGovernanceDigestPolicy(input.policy_route ?? null),
+src/governance_digest/governance_digest_builder.ts:44:      text: formatGovernanceDigestInvariants(input.invariants_triggered ?? []),
+src/governance_digest/governance_digest_builder.ts-48-      text: formatGovernanceDigestStages(input.completed_stages ?? []),
+
+decision mediation indicators
+
+authorization contract indicators
+src/cognition/contracts/cognition.contracts.ts:43:export interface GovernanceCognitionContract {
+src/cognition/contracts/cognition.contracts.ts:53:  governance?: GovernanceCognitionContract[];
+src/cognition/operator-read/cognition.operator-read.ts:19:  GovernanceCognitionContract,
+src/cognition/operator-read/cognition.operator-read.ts:38:  governance: GovernanceCognitionContract[];
+src/cognition/selectors/cognition.selectors.ts:18:  GovernanceCognitionContract,
+src/cognition/selectors/cognition.selectors.ts:37:): GovernanceCognitionContract[] {
+src/governance_investigation/governance_dashboard_playback_contract.ts:3:export interface GovernanceDashboardPlaybackContract {
+src/governance_investigation/governance_dashboard_playback_contract.ts:19:export function createGovernanceDashboardPlaybackContract(
+src/governance_investigation/governance_dashboard_playback_contract.ts:21:): GovernanceDashboardPlaybackContract {
+src/governance_investigation/governance_playback_assembly.ts:11:  createGovernanceDashboardPlaybackContract,
+src/governance_investigation/governance_playback_assembly.ts:12:  type GovernanceDashboardPlaybackContract,
+src/governance_investigation/governance_playback_assembly.ts:19:  readonly dashboard_contract: GovernanceDashboardPlaybackContract;
+src/governance_investigation/governance_playback_assembly.ts:39:    createGovernanceDashboardPlaybackContract(operatorView);
+src/governance/governance_advisory_contract_lock.ts:4:export function verifyGovernanceAdvisoryContract() {
+src/governance/governanceCognitionSurfaceProof.ts:56:    throw new Error("Governance cognition surface violated safety contract");
+src/governance/cognition/prove_governance_runtime_registry_export.ts:11:import { registerGovernanceDashboardContract } from "./register_governance_dashboard_contract";
+src/governance/cognition/prove_governance_runtime_registry_export.ts:12:import { normalizeGovernanceDashboardContractRegistration } from "./normalize_governance_dashboard_contract_registration";
+src/governance/cognition/prove_governance_runtime_registry_export.ts:46:  const registration = registerGovernanceDashboardContract(view);
+src/governance/cognition/prove_governance_runtime_registry_export.ts:47:  const normalizedRegistration = normalizeGovernanceDashboardContractRegistration(registration);
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:11:import { registerGovernanceDashboardContract } from "./register_governance_dashboard_contract";
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:12:import { normalizeGovernanceDashboardContractRegistration } from "./normalize_governance_dashboard_contract_registration";
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:52:  const registration = registerGovernanceDashboardContract(view);
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts:53:  const normalizedRegistration = normalizeGovernanceDashboardContractRegistration(registration);
+src/governance/cognition/governance_dashboard_contract_registration.ts:2: * Phase 137 — Governance Dashboard Contract Registration
+src/governance/cognition/governance_dashboard_contract_registration.ts:13:import type { GovernanceDashboardConsumptionView } from "./governance_dashboard_consumption_contract";
+src/governance/cognition/governance_dashboard_contract_registration.ts:15:export interface GovernanceDashboardContractRegistration {
+src/governance/cognition/governance_final_pre_live_registry_contract_package.ts:2: * Phase 143 — Governance Final Pre-Live Registry Contract Package
+src/governance/cognition/governance_final_pre_live_registry_contract_package.ts:17:export interface GovernanceFinalPreLiveRegistryContractPackage {
+src/governance/cognition/build_governance_dashboard_consumption_view.ts:9:import type { GovernanceDashboardConsumptionView } from "./governance_dashboard_consumption_contract";
+src/governance/cognition/build_governance_pre_live_registry_handoff_envelope.ts:8:import type { GovernanceFinalPreLiveRegistryContractPackage } from "./governance_final_pre_live_registry_contract_package";
+src/governance/cognition/build_governance_pre_live_registry_handoff_envelope.ts:16:  contractPackage: GovernanceFinalPreLiveRegistryContractPackage
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:11:import { registerGovernanceDashboardContract } from "./register_governance_dashboard_contract";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:12:import { normalizeGovernanceDashboardContractRegistration } from "./normalize_governance_dashboard_contract_registration";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:20:import { buildGovernanceFinalPreLiveRegistryContractPackage } from "./build_governance_final_pre_live_registry_contract_package";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:69:  const registration = registerGovernanceDashboardContract(view);
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:70:  const normalizedRegistration = normalizeGovernanceDashboardContractRegistration(registration);
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:78:  const contractPackage = buildGovernanceFinalPreLiveRegistryContractPackage(gate);
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:79:  const envelope = buildGovernancePreLiveRegistryHandoffEnvelope(contractPackage);
+src/governance/cognition/governance_cognition_snapshot_contract.ts:2: * Phase 135 — Governance Cognition Snapshot Contract
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:11:import { registerGovernanceDashboardContract } from "./register_governance_dashboard_contract";
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:12:import { normalizeGovernanceDashboardContractRegistration } from "./normalize_governance_dashboard_contract_registration";
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:20:import { buildGovernanceFinalPreLiveRegistryContractPackage } from "./build_governance_final_pre_live_registry_contract_package";
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:65:  const registration = registerGovernanceDashboardContract(view);
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:66:  const normalizedRegistration = normalizeGovernanceDashboardContractRegistration(registration);
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:74:  const contractPackage = buildGovernanceFinalPreLiveRegistryContractPackage(gate);
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:75:  const envelope = buildGovernancePreLiveRegistryHandoffEnvelope(contractPackage);
+src/governance/cognition/select_governance_dashboard_consumption_view.ts:7:import type { GovernanceDashboardConsumptionView } from "./governance_dashboard_consumption_contract";
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:2: * Phase 143 — Governance Final Pre-Live Registry Contract Package Proof
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:11:import { registerGovernanceDashboardContract } from "./register_governance_dashboard_contract";
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:12:import { normalizeGovernanceDashboardContractRegistration } from "./normalize_governance_dashboard_contract_registration";
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:20:import { buildGovernanceFinalPreLiveRegistryContractPackage } from "./build_governance_final_pre_live_registry_contract_package";
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:21:import { selectGovernanceFinalPreLiveRegistryContractPackage } from "./select_governance_final_pre_live_registry_contract_package";
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:23:export interface GovernanceFinalPreLiveRegistryContractPackageProof {
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:47:export function proveGovernanceFinalPreLiveRegistryContractPackage(): GovernanceFinalPreLiveRegistryContractPackageProof {
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:59:  const registration = registerGovernanceDashboardContract(view);
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:60:  const normalizedRegistration = normalizeGovernanceDashboardContractRegistration(registration);
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:68:  const contractPackage = buildGovernanceFinalPreLiveRegistryContractPackage(gate);
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:69:  const selected = selectGovernanceFinalPreLiveRegistryContractPackage(contractPackage);
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:11:import { registerGovernanceDashboardContract } from "./register_governance_dashboard_contract";
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:12:import { normalizeGovernanceDashboardContractRegistration } from "./normalize_governance_dashboard_contract_registration";
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:20:import { buildGovernanceFinalPreLiveRegistryContractPackage } from "./build_governance_final_pre_live_registry_contract_package";
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:63:  const registration = registerGovernanceDashboardContract(view);
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:64:  const normalizedRegistration = normalizeGovernanceDashboardContractRegistration(registration);
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:72:  const contractPackage = buildGovernanceFinalPreLiveRegistryContractPackage(gate);
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:73:  const envelope = buildGovernancePreLiveRegistryHandoffEnvelope(contractPackage);
+src/governance/cognition/select_governance_final_pre_live_registry_contract_package.ts:2: * Phase 143 — Governance Final Pre-Live Registry Contract Package Selector
+src/governance/cognition/select_governance_final_pre_live_registry_contract_package.ts:7:import type { GovernanceFinalPreLiveRegistryContractPackage } from "./governance_final_pre_live_registry_contract_package";
+src/governance/cognition/select_governance_final_pre_live_registry_contract_package.ts:9:export interface GovernanceFinalPreLiveRegistryContractPackageSelection {
+src/governance/cognition/select_governance_final_pre_live_registry_contract_package.ts:26:export function selectGovernanceFinalPreLiveRegistryContractPackage(
+src/governance/cognition/select_governance_final_pre_live_registry_contract_package.ts:27:  contractPackage: GovernanceFinalPreLiveRegistryContractPackage
+src/governance/cognition/select_governance_final_pre_live_registry_contract_package.ts:28:): GovernanceFinalPreLiveRegistryContractPackageSelection {
+src/governance/cognition/governance_dashboard_consumption_contract.ts:2: * Phase 136 — Governance Dashboard Consumption Contract
+src/governance/cognition/prove_governance_authorization_gate.ts:11:import { registerGovernanceDashboardContract } from "./register_governance_dashboard_contract";
+src/governance/cognition/prove_governance_authorization_gate.ts:12:import { normalizeGovernanceDashboardContractRegistration } from "./normalize_governance_dashboard_contract_registration";
+src/governance/cognition/prove_governance_authorization_gate.ts:57:  const registration = registerGovernanceDashboardContract(view);
+src/governance/cognition/prove_governance_authorization_gate.ts:58:  const normalizedRegistration = normalizeGovernanceDashboardContractRegistration(registration);
+src/governance/cognition/prove_governance_live_wiring_decision.ts:11:import { registerGovernanceDashboardContract } from "./register_governance_dashboard_contract";
+src/governance/cognition/prove_governance_live_wiring_decision.ts:12:import { normalizeGovernanceDashboardContractRegistration } from "./normalize_governance_dashboard_contract_registration";
+src/governance/cognition/prove_governance_live_wiring_decision.ts:55:  const registration = registerGovernanceDashboardContract(view);
+src/governance/cognition/prove_governance_live_wiring_decision.ts:56:  const normalizedRegistration = normalizeGovernanceDashboardContractRegistration(registration);
+src/governance/cognition/prove_governance_dashboard_contract_registration.ts:2: * Phase 137 — Governance Dashboard Contract Registration Proof
+src/governance/cognition/prove_governance_dashboard_contract_registration.ts:11:import { registerGovernanceDashboardContract } from "./register_governance_dashboard_contract";
+src/governance/cognition/prove_governance_dashboard_contract_registration.ts:12:import { normalizeGovernanceDashboardContractRegistration } from "./normalize_governance_dashboard_contract_registration";
+src/governance/cognition/prove_governance_dashboard_contract_registration.ts:14:export interface GovernanceDashboardContractRegistrationProof {
+src/governance/cognition/prove_governance_dashboard_contract_registration.ts:30:export function proveGovernanceDashboardContractRegistration(): GovernanceDashboardContractRegistrationProof {
+src/governance/cognition/prove_governance_dashboard_contract_registration.ts:42:  const registration = registerGovernanceDashboardContract(view);
+src/governance/cognition/prove_governance_dashboard_contract_registration.ts:43:  const normalizedRegistration = normalizeGovernanceDashboardContractRegistration(registration);
+src/governance/cognition/governance_pre_live_registry_handoff_envelope.ts:15:import type { GovernanceFinalPreLiveRegistryContractPackage } from "./governance_final_pre_live_registry_contract_package";
+src/governance/cognition/governance_pre_live_registry_handoff_envelope.ts:41:  readonly contractPackage: GovernanceFinalPreLiveRegistryContractPackage;
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:11:import { registerGovernanceDashboardContract } from "./register_governance_dashboard_contract";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:12:import { normalizeGovernanceDashboardContractRegistration } from "./normalize_governance_dashboard_contract_registration";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:20:import { buildGovernanceFinalPreLiveRegistryContractPackage } from "./build_governance_final_pre_live_registry_contract_package";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:67:  const registration = registerGovernanceDashboardContract(view);
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:68:  const normalizedRegistration = normalizeGovernanceDashboardContractRegistration(registration);
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:76:  const contractPackage = buildGovernanceFinalPreLiveRegistryContractPackage(gate);
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:77:  const envelope = buildGovernancePreLiveRegistryHandoffEnvelope(contractPackage);
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:11:import { registerGovernanceDashboardContract } from "./register_governance_dashboard_contract";
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:12:import { normalizeGovernanceDashboardContractRegistration } from "./normalize_governance_dashboard_contract_registration";
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:49:  const registration = registerGovernanceDashboardContract(view);
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts:50:  const normalizedRegistration = normalizeGovernanceDashboardContractRegistration(registration);
+src/governance/cognition/package_governance_cognition_snapshot.ts:10:import type { GovernanceCognitionSnapshot } from "./governance_cognition_snapshot_contract";
+src/governance/cognition/index.ts:14:export type { GovernanceDashboardContractRegistration } from "./governance_dashboard_contract_registration";
+src/governance/cognition/index.ts:15:export { registerGovernanceDashboardContract } from "./register_governance_dashboard_contract";
+src/governance/cognition/index.ts:16:export { normalizeGovernanceDashboardContractRegistration } from "./normalize_governance_dashboard_contract_registration";
+src/governance/cognition/index.ts:50:export type { GovernanceFinalPreLiveRegistryContractPackage } from "./governance_final_pre_live_registry_contract_package";
+src/governance/cognition/index.ts:51:export { buildGovernanceFinalPreLiveRegistryContractPackage } from "./build_governance_final_pre_live_registry_contract_package";
+src/governance/cognition/index.ts:52:export type { GovernanceFinalPreLiveRegistryContractPackageSelection } from "./select_governance_final_pre_live_registry_contract_package";
+src/governance/cognition/index.ts:53:export { selectGovernanceFinalPreLiveRegistryContractPackage } from "./select_governance_final_pre_live_registry_contract_package";
+src/governance/cognition/index.ts:54:export { proveGovernanceFinalPreLiveRegistryContractPackage } from "./prove_governance_final_pre_live_registry_contract_package";
+src/governance/cognition/index.ts:55:export type { GovernanceFinalPreLiveRegistryContractPackageProof } from "./prove_governance_final_pre_live_registry_contract_package";
+src/governance/cognition/normalize_governance_snapshot.ts:8:import type { GovernanceCognitionSnapshot } from "./governance_cognition_snapshot_contract";
+src/governance/cognition/normalize_governance_dashboard_contract_registration.ts:2: * Phase 137 — Governance Dashboard Contract Registration Normalization
+src/governance/cognition/normalize_governance_dashboard_contract_registration.ts:7:import type { GovernanceDashboardContractRegistration } from "./governance_dashboard_contract_registration";
+src/governance/cognition/normalize_governance_dashboard_contract_registration.ts:13:export function normalizeGovernanceDashboardContractRegistration(
+src/governance/cognition/normalize_governance_dashboard_contract_registration.ts:14:  registration: GovernanceDashboardContractRegistration
+src/governance/cognition/normalize_governance_dashboard_contract_registration.ts:15:): GovernanceDashboardContractRegistration {
+src/governance/cognition/register_governance_dashboard_contract.ts:2: * Phase 137 — Governance Dashboard Contract Registration Builder
+src/governance/cognition/register_governance_dashboard_contract.ts:7:import type { GovernanceDashboardConsumptionView } from "./governance_dashboard_consumption_contract";
+src/governance/cognition/register_governance_dashboard_contract.ts:8:import type { GovernanceDashboardContractRegistration } from "./governance_dashboard_contract_registration";
+src/governance/cognition/register_governance_dashboard_contract.ts:10:export function registerGovernanceDashboardContract(
+src/governance/cognition/register_governance_dashboard_contract.ts:12:): GovernanceDashboardContractRegistration {
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:11:import { registerGovernanceDashboardContract } from "./register_governance_dashboard_contract";
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:12:import { normalizeGovernanceDashboardContractRegistration } from "./normalize_governance_dashboard_contract_registration";
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:20:import { buildGovernanceFinalPreLiveRegistryContractPackage } from "./build_governance_final_pre_live_registry_contract_package";
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:61:  const registration = registerGovernanceDashboardContract(view);
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:62:  const normalizedRegistration = normalizeGovernanceDashboardContractRegistration(registration);
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:70:  const contractPackage = buildGovernanceFinalPreLiveRegistryContractPackage(gate);
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:71:  const envelope = buildGovernancePreLiveRegistryHandoffEnvelope(contractPackage);
+src/governance/cognition/build_governance_final_pre_live_registry_contract_package.ts:2: * Phase 143 — Governance Final Pre-Live Registry Contract Package Builder
+src/governance/cognition/build_governance_final_pre_live_registry_contract_package.ts:9:import type { GovernanceFinalPreLiveRegistryContractPackage } from "./governance_final_pre_live_registry_contract_package";
+src/governance/cognition/build_governance_final_pre_live_registry_contract_package.ts:15:export function buildGovernanceFinalPreLiveRegistryContractPackage(
+src/governance/cognition/build_governance_final_pre_live_registry_contract_package.ts:17:): GovernanceFinalPreLiveRegistryContractPackage {
+src/governance/cognition/governance_runtime_registry_export.ts:14:import type { GovernanceDashboardContractRegistration } from "./governance_dashboard_contract_registration";
+src/governance/cognition/governance_runtime_registry_export.ts:30:  readonly registration: GovernanceDashboardContractRegistration;
+src/governance/cognition/build_governance_runtime_registry_export.ts:8:import type { GovernanceDashboardContractRegistration } from "./governance_dashboard_contract_registration";
+src/governance/cognition/build_governance_runtime_registry_export.ts:12:  registration: GovernanceDashboardContractRegistration
+src/governance/governance_advisory_presenter.test.ts:6:import type { GovernanceAdvisorySignal } from "./governance_advisory_contract";
+src/governance/governance_advisory_normalizer.test.ts:2:import type { GovernanceAdvisorySignal } from "./governance_advisory_contract";
+src/governance/governance_advisory_contract_lock.test.ts:1:import { verifyGovernanceAdvisoryContract }
+src/governance/governance_advisory_contract_lock.test.ts:4:describe("Governance advisory contract", () => {
+src/governance/governance_advisory_contract_lock.test.ts:9:      verifyGovernanceAdvisoryContract()
+src/governance/governanceOperatorAwarenessProof.ts:53:      throw new Error("Governance operator awareness violated safety contract");
+src/governance/governanceOperatorAwarenessProof.ts:61:    throw new Error("Governance operator awareness summary violated safety contract");
+src/governance/governanceOutcomeSurfaceProof.ts:47:      throw new Error("Governance surface violated safety contract");
+src/governance/governance_advisory_normalizer.ts:19:import { GovernanceAdvisorySignal } from "./governance_advisory_contract";
+src/governance/governance_advisory_contract.ts:3:Governance Advisory Contract (FOUNDATION)
+src/governance/governance_enforcement_result.ts:2:Phase 325 — Governance Enforcement Result Contract
+

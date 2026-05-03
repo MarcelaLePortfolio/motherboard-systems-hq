@@ -1,0 +1,268 @@
+PHASE 88.11 DASHBOARD ENTRYPOINT INSPECTION
+Generated: 2026-03-19T17:37:18Z
+Branch: phase65b-running-tasks-hydration
+Commit: 492461d130fe3da90d13e8535ff413896bbc078d
+Repo: /Users/marcela-dev/Projects/Motherboard_Systems_HQ
+────────────────────────────────
+SECTION: server.mjs dashboard/static references
+164:// Serve static assets from ./public (required for /css/* and /js/* on /dashboard)
+165:app.use(express.static(path.join(__dirname, "public")));
+166:app.use("/css", express.static(path.join(__dirname, "public", "css")));
+167:app.use("/js", express.static(path.join(__dirname, "public", "js")));
+168:app.use("/img", express.static(path.join(__dirname, "public", "img")));
+326:app.use("/public", express.static(path.join(__dirname, "public")));
+327:app.get("/bundle.js", (req, res) => res.sendFile(path.join(__dirname, "public", "bundle.js")));
+330:app.get("/bundle.js.map", (req, res) => res.sendFile(path.join(__dirname, "public", "bundle.js.map")));
+331:app.get("/dashboard", (req, res) => res.sendFile(path.join(__dirname, "public", "dashboard.html")));
+────────────────────────────────
+
+  // Phase 36.2: run_view-backed run observability (must not depend on optional SSE)
+  registerPhase36RunView(app);
+
+  registerPhase48PolicyProbe(app);
+
+// Phase 16: optional dashboard SSE endpoints (OPS + Reflections)
+try {
+  registerOptionalSSE(app);
+  console.log("[SSE] /events/ops + /events/reflections registered");
+} catch (e) {
+  console.warn("[SSE] Failed to register optional SSE:", e && e.message ? e.message : e);
+}
+
+// Serve static assets from ./public (required for /css/* and /js/* on /dashboard)
+app.use(express.static(path.join(__dirname, "public")));
+app.use("/css", express.static(path.join(__dirname, "public", "css")));
+app.use("/js", express.static(path.join(__dirname, "public", "js")));
+app.use("/img", express.static(path.join(__dirname, "public", "img")));
+// Phase 23: TaskSpec adapter -> create task + emit task_events
+app.post("/api/tasks-mutations/delegate-taskspec", async (req, res) => phase23HandleDelegateTaskSpec(req, res, { db: pool, dbDelegateTask }));
+
+// Phase 23: TaskSpec adapter -> create task + emit task_events
+
+
+// Phase 23: TaskSpec adapter -> existing delegate
+
+app.use("/api/tasks", apiTasksRouter);
+app.use("/api/tasks-mutations", apiTasksMutationsRouter);
+
+// --- Phase 16.7: dev-only emit endpoints (local debug) ---
+app.post("/api/dev/emit-reflection", (req, res) => {
+  try {
+    const body = req.body || {};
+    const item = {
+      ts: body.ts != null ? body.ts : Date.now(),
+      title: body.title != null ? String(body.title) : "dev",
+      msg: body.msg != null ? String(body.msg) : "dev reflection",
+      kind: body.kind != null ? String(body.kind) : "dev",
+    };
+
+    // keep snapshot cache in sync for /events/reflections snapshot-on-connect
+    if (!globalThis.__REFLECTIONS_STATE || typeof globalThis.__REFLECTIONS_STATE !== "object") {
+      globalThis.__REFLECTIONS_STATE = { items: [], lastAt: null };
+    }
+    if (!Array.isArray(globalThis.__REFLECTIONS_STATE.items)) globalThis.__REFLECTIONS_STATE.items = [];
+    globalThis.__REFLECTIONS_STATE.items = [item, ...globalThis.__REFLECTIONS_STATE.items].slice(0, 50);
+    globalThis.__REFLECTIONS_STATE.lastAt = item.ts;
+
+    // Prefer the optional-sse broadcaster globals if present
+    if (typeof globalThis.__broadcastReflections === "function") {
+      try { globalThis.__broadcastReflections({ item }); } catch (_) {}
+      return _phase16SendJson(res, 200, { ok: true, via: "globalThis.__broadcastReflections", item });
+    }
+
+    // Or use the Phase16 SSE hub if present
+    if (globalThis.__SSE && globalThis.__SSE.reflections && typeof globalThis.__SSE.reflections.broadcast === "function") {
+      globalThis.__SSE.reflections.broadcast("reflections.add", { item });
+      return _phase16SendJson(res, 200, { ok: true, via: "globalThis.__SSE.reflections.broadcast", item });
+    }
+
+    // Legacy/alt broadcaster shape
+    if (globalThis.__SSE_BROADCAST && typeof globalThis.__SSE_BROADCAST.reflections === "function") {
+      globalThis.__SSE_BROADCAST.reflections({ event: "reflections.add", data: { item } });
+      return _phase16SendJson(res, 200, { ok: true, via: "globalThis.__SSE_BROADCAST.reflections", item });
+    }
+
+    return _phase16SendJson(res, 202, { ok: true, via: "none", note: "No reflections broadcaster found; SSE-only build", item });
+  } catch (e) {
+    return _phase16SendJson(res, 500, { ok: false, error: String(e) });
+  }
+────────────────────────────────
+  }
+});
+
+
+app.post("/api/dev/emit-ops", (req, res) => {
+  try {
+    const body = req.body || {};
+    const state = {
+      status: body.status != null ? String(body.status) : "unknown",
+      lastHeartbeatAt: body.lastHeartbeatAt != null ? body.lastHeartbeatAt : Date.now(),
+      agents: body.agents != null ? body.agents : {},
+    };
+
+    globalThis.__OPS_STATE = state;
+
+    if (typeof globalThis.__broadcastOps === "function") {
+      try { globalThis.__broadcastOps(state); } catch (_) {}
+      return _phase16SendJson(res, 200, { ok: true, via: "globalThis.__broadcastOps", state });
+    }
+
+    if (globalThis.__SSE && globalThis.__SSE.ops && typeof globalThis.__SSE.ops.broadcast === "function") {
+      globalThis.__SSE.ops.broadcast(state, "ops.state");
+      return _phase16SendJson(res, 200, { ok: true, via: "globalThis.__SSE.ops.broadcast", state });
+    }
+
+    if (globalThis.__SSE_BROADCAST && typeof globalThis.__SSE_BROADCAST.ops === "function") {
+      globalThis.__SSE_BROADCAST.ops({ event: "ops.state", data: state });
+      return _phase16SendJson(res, 200, { ok: true, via: "globalThis.__SSE_BROADCAST.ops", state });
+    }
+
+    return _phase16SendJson(res, 202, { ok: true, via: "none", note: "No ops broadcaster found; SSE-only build", state });
+  } catch (e) {
+    return _phase16SendJson(res, 500, { ok: false, error: String(e) });
+  }
+});
+
+// --- /Phase 16.7 ---
+
+
+const { emitArtifact } = attachArtifacts(app);
+
+const PORT = process.env.PORT || 3000;
+
+const { Pool } = pg;
+const DB_URL_RAW = process.env.POSTGRES_URL || process.env.DATABASE_URL || "";
+
+// Normalize DB_URL: pg treats empty password as null -> SCRAM error ("password must be a string").
+// If URL has user but empty password, fill from PGPASSWORD (or default "postgres").
+function _normalizeDbUrl(raw) {
+  try {
+    if (!raw) return "";
+    if (!/^postgres(ql)?:\/\//i.test(raw)) return raw;
+    const u = new URL(raw);
+    const hasUser = (u.username || "") !== "";
+    const hasPw = (u.password || "") !== "";
+    if (hasUser && !hasPw) {
+      u.password = String(process.env.PGPASSWORD || "postgres");
+      console.warn("[db] DB_URL had empty password; filled from PGPASSWORD/default");
+    }
+    return u.toString();
+  } catch (_) {
+    return raw;
+  }
+}
+
+const DB_URL = _normalizeDbUrl(DB_URL_RAW);
+
+const pool = DB_URL
+  ? new Pool({ connectionString: DB_URL })
+  : new Pool({
+      host: process.env.PGHOST || "127.0.0.1",
+      port: Number(process.env.PGPORT || 5432),
+      user: process.env.PGUSER || "postgres",
+      password: process.env.PGPASSWORD || "postgres",
+      database: process.env.PGDATABASE || "postgres",
+    });
+
+
+try {
+  const o = pool?.options || {};
+  const SERVER_DB_URL_HAS_PASSWORD = /\/\/[^:]+:[^@]+@/.test(DB_URL_RAW);
+  const safe = {
+    mode: (DB_URL ? "url" : "params"),
+    DB_URL_present: Boolean(DB_URL),
+    host: o.host ?? null,
+    port: o.port ?? null,
+    user: o.user ?? null,
+    database: o.database ?? null,
+    password_type: (DB_URL ? "url-hidden" : typeof o.password),
+    password_len: (DB_URL ? "hidden" : (o.password == null ? null : String(o.password).length)),
+    has_password: (DB_URL ? SERVER_DB_URL_HAS_PASSWORD : (o.password != null)),
+  };
+  console.log("[db] effective pool config", safe);
+} catch (e) {
+  console.log("[db] effective pool config <unavailable>", e?.message || String(e));
+}
+await waitForPostgresReady(pool, { timeoutMs: 60_000 });
+await ensureTasksTaskIdColumn(pool);
+console.log("Database pool initialized");
+  globalThis.__DB_POOL = pool;
+  console.log("[phase25] __DB_POOL set", { has: !!globalThis.__DB_POOL, type: (globalThis.__DB_POOL && globalThis.__DB_POOL.constructor && globalThis.__DB_POOL.constructor.name) });
+
+  if (typeof app !== "undefined" && app && app.locals) app.locals.pool = pool;
+let lastOpsHeartbeat = Date.now();
+
+// ---- Static dashboard assets ----
+app.use("/public", express.static(path.join(__dirname, "public")));
+app.get("/bundle.js", (req, res) => res.sendFile(path.join(__dirname, "public", "bundle.js")));
+
+app.get("/api/runs", getRunsList);
+app.get("/bundle.js.map", (req, res) => res.sendFile(path.join(__dirname, "public", "bundle.js.map")));
+app.get("/dashboard", (req, res) => res.sendFile(path.join(__dirname, "public", "dashboard.html")));
+app.get("/", (req, res) => res.redirect("/dashboard"));
+
+// ---- Tasks API ----
+app.get("/api/tasks", async (req, res) => {
+  console.log("[phase57c-live] /api/tasks probe", {
+    originalUrl: req.originalUrl,
+    referer: req.get("referer") || null,
+    userAgent: req.get("user-agent") || null,
+    accept: req.get("accept") || null,
+  });
+  try {
+    const r = await pool.query(
+      `select id::text, title, agent, status, notes, source, trace_id, error, meta, created_at, updated_at
+       from tasks
+       order by id::int desc`
+    );
+    res.json({ tasks: r.rows, source: "db-tasks" });
+  } catch (e) {
+    res.status(500).json({ ok: false, error: String(e) });
+  }
+});
+
+// ---- Phase 15: real task mutation endpoints (DB-backed) ----
+app.post("/api/delegate-task", async (req, res) => {
+  try {
+    const row = await dbDelegateTask(pool, req.body || {});
+    const payload = { ok: true, action: "delegate", task: row };
+
+    emitArtifact({
+────────────────────────────────
+SECTION: public dashboard candidate files
+-rw-r--r--  1 marcela-dev  staff   1399 Dec 15 17:49 public/dashboard-logs.js
+-rw-r--r--  1 marcela-dev  staff   1455 Dec 15 17:49 public/dashboard-logs.v3.js
+-rw-r--r--  1 marcela-dev  staff    836 Jan  6 10:28 public/dashboard-status.js
+-rw-r--r--  1 marcela-dev  staff   1336 Dec 15 17:49 public/dashboard-stream.js
+-rw-r--r--  1 marcela-dev  staff   5168 Dec 15 17:49 public/dashboard-tabs.backup.js
+-rw-r--r--  1 marcela-dev  staff   5169 Dec 15 17:49 public/dashboard-tabs.js
+-rw-r--r--  1 marcela-dev  staff   3155 Dec 15 17:49 public/dashboard.backup.js
+-rw-r--r--  1 marcela-dev  staff   9653 Dec 15 17:49 public/dashboard.css
+-rw-r--r--  1 marcela-dev  staff  28234 Mar 14 13:15 public/dashboard.html
+-rw-r--r--  1 marcela-dev  staff  10993 Dec 15 17:49 public/dashboard.html.backup-20251204-152244
+-rw-r--r--  1 marcela-dev  staff  11029 Dec 15 17:49 public/dashboard.html.backup-20251204-154117
+-rw-r--r--  1 marcela-dev  staff  21709 Mar 19 10:36 public/dashboard.html.bad_structure
+-rw-r--r--  1 marcela-dev  staff  21166 Mar 10 09:58 public/dashboard.html.bak
+-rw-r--r--  1 marcela-dev  staff  10993 Dec 15 17:49 public/dashboard.html.bak_1762904490
+-rw-r--r--  1 marcela-dev  staff  10993 Dec 15 17:49 public/dashboard.html.bak_1762905357
+-rw-r--r--  1 marcela-dev  staff   5707 Dec 15 17:49 public/dashboard.html.bak_9.7.0b
+-rw-r--r--  1 marcela-dev  staff   9049 Dec 15 17:49 public/dashboard.html.bak.1762372376
+-rw-r--r--  1 marcela-dev  staff  13703 Dec 15 17:49 public/dashboard.html.bak.1762457360
+-rw-r--r--  1 marcela-dev  staff  10993 Dec 15 17:49 public/dashboard.html.bundling-phase11
+-rw-r--r--  1 marcela-dev  staff  25322 Mar 11 11:36 public/dashboard.html.phase61_agent_emoji_backup
+-rw-r--r--  1 marcela-dev  staff   2544 Jan 28 11:39 public/dashboard.js
+-rw-r--r--  1 marcela-dev  staff   6393 Dec 15 17:49 public/dashboard.js.bak
+-rw-r--r--  1 marcela-dev  staff   5488 Dec 15 17:49 public/dashboard.js.bak2
+-rw-r--r--  1 marcela-dev  staff  11051 Jan 28 11:39 public/dashboard.pre-bundle-tag.html
+────────────────────────────────
+SECTION: bad_structure system health panel evidence
+150:    <pre id="system-health-content">Loading...</pre>
+200:          id === "system-health-content" &&
+203:          typeof data.situationSummary === "string"
+206:            situationSummary,
+212:            "\n\nSITUATION SUMMARY\n" +
+213:            situationSummary;
+225:      await updatePanel("system-health-content", "/diagnostics/system-health");
+────────────────────────────────
+NEXT ACTION
+Identify which dashboard file is actually served before widening UI attachment.

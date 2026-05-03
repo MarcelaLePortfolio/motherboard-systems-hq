@@ -1,0 +1,38 @@
+Phase 583 execution rules next step.
+
+State:
+- enforceRetryContract is now active at the entry point (/api/delegate-task).
+- Retry validation is enforced before tasks enter the pipeline.
+- Invalid retries are rejected early.
+- Valid retries flow unchanged into execution.
+
+Gap:
+Execution rules are only enforced at request-time, not at runtime inside the worker.
+
+Next Objective:
+Propagate execution rule awareness into the worker lifecycle.
+
+Plan:
+1. Inspect worker execution file:
+   - server/worker/phase26_task_worker.mjs
+
+2. Identify where tasks are pulled and executed:
+   - locate task fetch
+   - locate execution entry point
+
+3. Add non-invasive inspection (NO mutation yet):
+   - log retry strategy
+   - log execution_mode
+   - log retry_of_task_id
+
+4. Confirm:
+   - worker receives retry metadata
+   - routing intent survives into execution layer
+
+Constraints:
+- No behavior change
+- No execution mutation
+- Only visibility + verification
+
+Outcome:
+This prepares Phase 584 where execution rules become enforceable at runtime (not just API entry).

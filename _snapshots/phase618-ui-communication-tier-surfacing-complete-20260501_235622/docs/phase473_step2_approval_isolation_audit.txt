@@ -1,0 +1,95 @@
+PHASE 473 STEP 2 — APPROVAL REPLAY + ISOLATION AUDIT
+====================================================
+
+APPROVED_A_HASH=5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65
+REJECTED_A_HASH=923c642b38d62b2878c8b188380956b5272b493bf655b84cf6dfe5749b3248df
+APPROVED_B_HASH=c770eeea2f1cfd7f0d2eb8c0099d3ea62e19d78320778943a3c6a938b25fcd97
+REJECTED_B_HASH=72c4c32a0811b4b2f24a6438dbe9db6c3dd62ead5dba9b331f1249964a3501c2
+
+EXPECTED APPROVED ARTIFACTS
+---------------------------
+docs/proofs/governance_plan_5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65.json
+docs/proofs/approval_plan_5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65.json
+docs/proofs/execution_plan_5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65.json
+
+docs/proofs/governance_plan_c770eeea2f1cfd7f0d2eb8c0099d3ea62e19d78320778943a3c6a938b25fcd97.json
+docs/proofs/approval_plan_c770eeea2f1cfd7f0d2eb8c0099d3ea62e19d78320778943a3c6a938b25fcd97.json
+docs/proofs/execution_plan_c770eeea2f1cfd7f0d2eb8c0099d3ea62e19d78320778943a3c6a938b25fcd97.json
+
+EXPECTED APPROVAL-REJECTED ARTIFACTS
+------------------------------------
+docs/proofs/governance_plan_923c642b38d62b2878c8b188380956b5272b493bf655b84cf6dfe5749b3248df.json
+docs/proofs/approval_plan_923c642b38d62b2878c8b188380956b5272b493bf655b84cf6dfe5749b3248df.json
+docs/proofs/approval_failure_plan_923c642b38d62b2878c8b188380956b5272b493bf655b84cf6dfe5749b3248df.json
+
+docs/proofs/governance_plan_72c4c32a0811b4b2f24a6438dbe9db6c3dd62ead5dba9b331f1249964a3501c2.json
+docs/proofs/approval_plan_72c4c32a0811b4b2f24a6438dbe9db6c3dd62ead5dba9b331f1249964a3501c2.json
+docs/proofs/approval_failure_plan_72c4c32a0811b4b2f24a6438dbe9db6c3dd62ead5dba9b331f1249964a3501c2.json
+
+EXPECTED BLOCKED EXECUTION FILES
+--------------------------------
+docs/proofs/execution_plan_923c642b38d62b2878c8b188380956b5272b493bf655b84cf6dfe5749b3248df.json
+docs/proofs/execution_plan_72c4c32a0811b4b2f24a6438dbe9db6c3dd62ead5dba9b331f1249964a3501c2.json
+
+PRESENT APPROVED ARTIFACTS
+--------------------------
+PRESENT: docs/proofs/governance_plan_5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65.json
+PRESENT: docs/proofs/approval_plan_5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65.json
+PRESENT: docs/proofs/execution_plan_5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65.json
+PRESENT: docs/proofs/governance_plan_c770eeea2f1cfd7f0d2eb8c0099d3ea62e19d78320778943a3c6a938b25fcd97.json
+PRESENT: docs/proofs/approval_plan_c770eeea2f1cfd7f0d2eb8c0099d3ea62e19d78320778943a3c6a938b25fcd97.json
+PRESENT: docs/proofs/execution_plan_c770eeea2f1cfd7f0d2eb8c0099d3ea62e19d78320778943a3c6a938b25fcd97.json
+
+PRESENT APPROVAL-REJECTED ARTIFACTS
+-----------------------------------
+PRESENT: docs/proofs/governance_plan_923c642b38d62b2878c8b188380956b5272b493bf655b84cf6dfe5749b3248df.json
+PRESENT: docs/proofs/approval_plan_923c642b38d62b2878c8b188380956b5272b493bf655b84cf6dfe5749b3248df.json
+PRESENT: docs/proofs/approval_failure_plan_923c642b38d62b2878c8b188380956b5272b493bf655b84cf6dfe5749b3248df.json
+PRESENT: docs/proofs/governance_plan_72c4c32a0811b4b2f24a6438dbe9db6c3dd62ead5dba9b331f1249964a3501c2.json
+PRESENT: docs/proofs/approval_plan_72c4c32a0811b4b2f24a6438dbe9db6c3dd62ead5dba9b331f1249964a3501c2.json
+PRESENT: docs/proofs/approval_failure_plan_72c4c32a0811b4b2f24a6438dbe9db6c3dd62ead5dba9b331f1249964a3501c2.json
+
+BLOCKED EXECUTION FILE CHECK
+----------------------------
+BLOCKED_AS_EXPECTED: docs/proofs/execution_plan_923c642b38d62b2878c8b188380956b5272b493bf655b84cf6dfe5749b3248df.json
+BLOCKED_AS_EXPECTED: docs/proofs/execution_plan_72c4c32a0811b4b2f24a6438dbe9db6c3dd62ead5dba9b331f1249964a3501c2.json
+
+ARTIFACT SNAPSHOT
+-----------------
+{
+  "planId": "plan_5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65",
+  "operatorApproval": true,
+  "approvalId": "approval_5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65"
+}
+
+{
+  "planId": "plan_923c642b38d62b2878c8b188380956b5272b493bf655b84cf6dfe5749b3248df",
+  "operatorApproval": false,
+  "approvalId": "approval_923c642b38d62b2878c8b188380956b5272b493bf655b84cf6dfe5749b3248df"
+}
+
+{
+  "planId": "plan_923c642b38d62b2878c8b188380956b5272b493bf655b84cf6dfe5749b3248df",
+  "stage": "approval",
+  "decision": "REJECTED",
+  "reason": "OPERATOR_REJECTED_PATTERN"
+}
+
+{
+  "planId": "plan_c770eeea2f1cfd7f0d2eb8c0099d3ea62e19d78320778943a3c6a938b25fcd97",
+  "operatorApproval": true,
+  "approvalId": "approval_c770eeea2f1cfd7f0d2eb8c0099d3ea62e19d78320778943a3c6a938b25fcd97"
+}
+
+{
+  "planId": "plan_72c4c32a0811b4b2f24a6438dbe9db6c3dd62ead5dba9b331f1249964a3501c2",
+  "operatorApproval": false,
+  "approvalId": "approval_72c4c32a0811b4b2f24a6438dbe9db6c3dd62ead5dba9b331f1249964a3501c2"
+}
+
+{
+  "planId": "plan_72c4c32a0811b4b2f24a6438dbe9db6c3dd62ead5dba9b331f1249964a3501c2",
+  "stage": "approval",
+  "decision": "REJECTED",
+  "reason": "OPERATOR_REJECTED_PATTERN"
+}

@@ -1,0 +1,904 @@
+=== CURRENT BRANCH ===
+phase119-dashboard-cognition-contract
+
+=== ALL BRANCHES ===
+  backup-pre-revert-1761330596
+  backup-pre-stable-1761330852
+  backup/phase61-push-failure-20260310-171713
+  chore/demo-hardening-golden-demo-doc
+  chore/phase16-post-cleanup
+  dev
+  docs/phase57b-dashboard-polish
+  emergency/dashboard-rollback-v11.7
+  feature/chronicle-ui-fix
+  feature/dashboard-ui
+  feature/diagnostics-repair
+  feature/dynamic-skills
+  feature/dynamic-skills-retry
+  feature/js-bundling
+  feature/matilda-chat-ui
+  feature/natural-language-logs
+  feature/next-1
+  feature/next-2-from-stable
+  feature/phase12-real-routing
+  feature/phase13-operator-polish
+  feature/phase15-ops-polish
+  feature/phase16-4-sse-reliability
+  feature/phase16-5-heartbeat-backoff
+  feature/phase16-ops-reflections-sse
+  feature/phase18-orchestration-tick
+  feature/phase2-ux-polish
+  feature/phase39-action-tier-scaffolding
+  feature/phase39-value-gate
+  feature/phase40-5-shadow-audit-sample
+  feature/phase41-dashboard-alive-smoke-pr
+  feature/phase41-decision-correctness
+  feature/phase41-tierA-claim-canonical
+  feature/phase42-revert-direct-main-doc-bypass
+  feature/phase43-3-ruleset-deep-audit
+  feature/phase44-allowlist-seed-and-inventory-v2
+  feature/phase44-enforcement-promotion-from-v42
+  feature/phase44-route-inventory-fix-from-main
+  feature/phase46-task-events-sse-id-cursor
+  feature/phase58-demo-path-smoke
+  feature/phase58-handoff-complete
+  feature/phase58a-event-stream-containment
+  feature/phase58b-probe-lifecycle-visibility
+  feature/phase59-console-composition-pass
++ feature/phase59-dashboard-composition
+  feature/phase59-remove-demo-extras
+  feature/post-golden-next
+  feature/revert-ce3dde14-direct-push
+  feature/v11-pm2-main-staging
+  fix/ci-dashboard-npm-ci
+  fix/ci-dashboard-npm-ci-retry
+  fix/dashboard-layout-restore-9579482a
+  fix/dashboard-unresponsive-direct-scripts
+  fix/restore-dashboard-v14_8-and-surgical-pvo-20251225-233007
+  fix/task-events-single-owner
+  integrate/phase13-operator-polish-onto-main
+  main
+  main-backup
+  move-chat-top
+  phase-92-operator-situation-interpretation
+  phase114-transport-diagnostics
+  phase115-transport-diagnostics-consumption
+  phase116-transport-governance-alignment
+  phase117-operator-cognition-surfacing
+  phase118-operator-presentation-contracts
+* phase119-dashboard-cognition-contract
+  phase2-diagnostics-sandbox
+  phase3.1-delegation-intelligence
+  phase3.4-verified-stable
+  phase4.0-demo-prep
+  phase4.0-diagnostic-ux
+  phase4.1-restored-with-gemma
+  phase4.4-dashboard-diagnostics
+  phase4.4.1-dashboard-verified-restore
+  phase4.4.1-modular-reflections-restore
+  phase4.4.4-static-reflections-restore
+  phase4.4.5-static-reflections-restore
+  phase4.8-golden-dashboard-sse-restore
+  phase6-ontology
+  phase9.0-matilda-convo-restore
+  pr/phase36-4-main-sync
+  recovery/full-from-m4
+  recovery/v0.3.2-diagnostics-stable
+  restore-dashboard-mvp
+  restore-dashboard-ui
+  restore-working-chat-frontend
+  restore/v0.2.1-matilda-chat-ui
+  rollback/phase4-reflection-revert
+  safe-dev
+  safe/matilda-hybrid
+  safe/wired-dashboard
+  safety/now-20251010_151310
+  stable/v11.12-dec16-dashboard-restore
+  ts-fix-test
+  remotes/origin/HEAD -> origin/main
+  remotes/origin/cade-hardening
+  remotes/origin/chore/phase16-post-cleanup
+  remotes/origin/dev
+  remotes/origin/docs/phase57b-dashboard-polish
+  remotes/origin/emergency/dashboard-rollback-v11.7
+  remotes/origin/feature/chronicle-ui-fix
+  remotes/origin/feature/ci-precreate-external-network
+  remotes/origin/feature/dashboard-ui
+  remotes/origin/feature/diagnostics-repair
+  remotes/origin/feature/dynamic-skills-retry
+  remotes/origin/feature/js-bundling
+  remotes/origin/feature/matilda-chat-ui
+  remotes/origin/feature/natural-language-logs
+  remotes/origin/feature/next-1
+  remotes/origin/feature/next-2-from-stable
+  remotes/origin/feature/patch-run-view-terminal-precedence
+  remotes/origin/feature/phase12-real-routing
+  remotes/origin/feature/phase13-operator-polish
+  remotes/origin/feature/phase14-ops-reliability
+  remotes/origin/feature/phase15-ops-polish
+  remotes/origin/feature/phase16-3-ui-cleanup
+  remotes/origin/feature/phase16-4-sse-keepalive
+  remotes/origin/feature/phase16-4-sse-reliability
+  remotes/origin/feature/phase16-5-heartbeat-backoff
+  remotes/origin/feature/phase16-ops-heartbeat
+  remotes/origin/feature/phase16-ops-reflections-sse
+  remotes/origin/feature/phase17-orchestration
+  remotes/origin/feature/phase18-orchestration-tick
+  remotes/origin/feature/phase19-20-task-events-lifecycle
+  remotes/origin/feature/phase19-drizzle-task-events-from-stash
+  remotes/origin/feature/phase19-orchestrator-state
+  remotes/origin/feature/phase19-tasks-postgres-fix
+  remotes/origin/feature/phase2-ux-polish
+  remotes/origin/feature/phase20-task-events-sse
+  remotes/origin/feature/phase21-dashboard-task-events-sse
+  remotes/origin/feature/phase22-dashboard-task-events-ui
+  remotes/origin/feature/phase23-matilda-delegation-loop
+  remotes/origin/feature/phase24-orchestration-polish
+  remotes/origin/feature/phase25-single-writer
+  remotes/origin/feature/phase26-task-worker-min
+  remotes/origin/feature/phase28-failure-routing-smoke
+  remotes/origin/feature/phase30-canonical-contract
+  remotes/origin/feature/phase31-smoke-payload-compat
+  remotes/origin/feature/phase34-next
+  remotes/origin/feature/phase36-2-run-observability
+  remotes/origin/feature/phase36-4-run-list-observability
+  remotes/origin/feature/phase36-5-run-list-dashboard
+  remotes/origin/feature/phase36-6-run-list-filters
+  remotes/origin/feature/phase37-0-planning
+  remotes/origin/feature/phase37-1-terminal-provenance-planning
+  remotes/origin/feature/phase37-2-terminal-kind-alignment-planning
+  remotes/origin/feature/phase37-4-terminal-integrity-gaps-planning
+  remotes/origin/feature/phase37-6-handoff-oneliner-post-guard
+  remotes/origin/feature/phase37-7-run-list-readonly
+  remotes/origin/feature/phase37-8-fix-run-view-import
+  remotes/origin/feature/phase39-1-policy-authority-planning
+  remotes/origin/feature/phase39-2-policy-evaluator
+  remotes/origin/feature/phase39-action-tier-claim
+  remotes/origin/feature/phase39-action-tier-scaffolding
+  remotes/origin/feature/phase39-value-gate
+  remotes/origin/feature/phase40-5-shadow-audit-sample
+  remotes/origin/feature/phase41-dashboard-alive-smoke-pr
+  remotes/origin/feature/phase41-decision-correctness
+  remotes/origin/feature/phase42-postmortem-pr
+  remotes/origin/feature/phase44-allowlist-seed-and-inventory-v2
+  remotes/origin/feature/phase44-route-inventory-fix-from-main
+  remotes/origin/feature/phase45-policy-grants
+  remotes/origin/feature/phase45-resolvePolicyGrant-deterministic-flip
+  remotes/origin/feature/phase46-crash-snapshot
+  remotes/origin/feature/phase46-dashboard-heap-headroom
+  remotes/origin/feature/phase46-enforcement-safely-enabled
+  remotes/origin/feature/phase46-health-endpoint
+  remotes/origin/feature/phase46-task-events-sse-id-cursor
+  remotes/origin/feature/phase48-baseline-postgres-url-wait-enforce-smoke
+  remotes/origin/feature/phase48-compose-wire-policy-env
+  remotes/origin/feature/phase48-enforce-differential-test
+  remotes/origin/feature/phase48-enforce-endpoint-discovery
+  remotes/origin/feature/phase48-fix-compose-and-enforce-probe
+  remotes/origin/feature/phase48-wire-policy-probe-route-v4
+  remotes/origin/feature/phase56_2-phase54-harness-ci-fix-postgres-url
+  remotes/origin/feature/phase58-demo-path-smoke
+  remotes/origin/feature/phase58-handoff-complete
+  remotes/origin/feature/phase58a-event-stream-containment
+  remotes/origin/feature/phase58b-probe-lifecycle-visibility
+  remotes/origin/feature/phase59-console-composition-pass
+  remotes/origin/feature/phase59-dashboard-composition
+  remotes/origin/feature/phase59-remove-demo-extras
+  remotes/origin/feature/post-golden-next
+  remotes/origin/feature/revert-ce3dde14-direct-push
+  remotes/origin/feature/staging-pm2-setup
+  remotes/origin/feature/v11-dashboard-bundle
+  remotes/origin/fix/ci-dashboard-npm-ci-retry
+  remotes/origin/fix/dashboard-unresponsive-direct-scripts
+  remotes/origin/fix/disable-ops-reflections-sse-until-phase16
+  remotes/origin/fix/phase54-dashboard-db-bootstrap-retry
+  remotes/origin/fix/phase57c-api-tasks-probe
+  remotes/origin/fix/restore-dashboard-v14_8-and-surgical-pvo-20251225-233007
+  remotes/origin/integrate/phase13-operator-polish-onto-main
+  remotes/origin/main
+  remotes/origin/move-chat-top
+  remotes/origin/phase-89-guidance-schema
+  remotes/origin/phase-90-1-operator-guidance-panel-shell
+  remotes/origin/phase-92-operator-situation-interpretation
+  remotes/origin/phase114-transport-diagnostics
+  remotes/origin/phase115-transport-diagnostics-consumption
+  remotes/origin/phase116-transport-governance-alignment
+  remotes/origin/phase117-operator-cognition-surfacing
+  remotes/origin/phase118-operator-presentation-contracts
+  remotes/origin/phase119-dashboard-cognition-contract
+  remotes/origin/phase14-ui-stable
+  remotes/origin/phase19-start-point
+  remotes/origin/phase3.0-restored-baseline
+  remotes/origin/phase3.1-delegation-intelligence
+  remotes/origin/phase3.3-restored-dashboard
+  remotes/origin/phase4.0-demo-prep
+  remotes/origin/phase4.4-dashboard-diagnostics
+  remotes/origin/phase4.4-dashboard-safe-base
+  remotes/origin/phase4.4.1-dashboard-verified-restore
+  remotes/origin/phase4.4.1-modular-reflections-restore
+  remotes/origin/phase4.4.5-static-reflections-restore
+  remotes/origin/phase4.6-golden-reflection-watcher
+  remotes/origin/phase4.8-golden-dashboard-sse-restore
+  remotes/origin/phase4.9-dashboard-ops-integration
+  remotes/origin/phase5.1-dashboard-broadcast-visualization
+  remotes/origin/phase5.2-demo-reset-utility
+  remotes/origin/phase6-ontology
+  remotes/origin/phase6.0-demo-scenario-assembly
+  remotes/origin/phase61-agent-emoji-pass
+  remotes/origin/phase61-agent-emoji-pass-clean
+  remotes/origin/phase61-cherry-pick-recovery
+  remotes/origin/phase62-dashboard-layout
+  remotes/origin/phase63-telemetry-enrichment
+  remotes/origin/phase65b-running-tasks-hydration
+  remotes/origin/phase7.0-interactive-delegation
+  remotes/origin/phase7.7.1-delegation-route
+  remotes/origin/phase9.0-matilda-convo-restore
+  remotes/origin/phase9.1-reflection-anchor-polish
+  remotes/origin/phase9.2-demo-polish
+  remotes/origin/phase9.3-demo-playback
+  remotes/origin/phase9.4-atlas-test-build
+  remotes/origin/phase9.5-rehydration-delegation
+  remotes/origin/phase9.6-dashboard-reflections
+  remotes/origin/pr/phase36-4-main-sync
+  remotes/origin/recovery/full-from-m4
+  remotes/origin/restore-working-chat-frontend
+  remotes/origin/rollback/phase4-reflection-revert
+  remotes/origin/safe/matilda-hybrid
+  remotes/origin/safe/wired-dashboard
+  remotes/origin/stable/v11.12-dec16-dashboard-restore
+  remotes/origin/ts-fix-test
+
+=== WORKTREES ===
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ                             5f561c97 [phase119-dashboard-cognition-contract]
+/Users/marcela-dev/Projects/_dash_v11_7_clean                                  9cec3ed3 (detached HEAD)
+/Users/marcela-dev/Projects/mbhq_recovery_worktrees/phase59_dashboard_inspect  a0668b43 [feature/phase59-dashboard-composition]
+
+=== STASHES ===
+
+=== TAGS ===
+dashboard-stable-static-ui
+dashboard-two-panel-verified
+local-confirmed-dashboard-good
+local-dashboard-GOLDEN
+milestone-4-complete
+milestone-cade-enterprise-audit
+milestone-cade-journaling
+milestone-ollama-integration
+p1-completed
+p3-clean-working
+p3-completed
+p3-final-clean
+p3-fixes
+phase1-stable
+phase321-governance-cognition-stability
+phase321-governance-extended-cognition-stable
+phase322-governance-enforcement-foundation-stable
+phase323-governance-policy-engine-foundation-stable
+phase423_2_complete
+phase423_3_gate_wired
+phase423_complete
+phase61-dashboard-stable
+phase61-source-equals-2b467a03-20260309
+pre-ollama-wiring
+pre-revert-20251009-164112
+snapshot-20251114-114707
+snapshot-20251114-114821
+stash-phase35-scratch-DO_NOT_APPLY
+ts-fix-test-stable
+v0.0.0-dashboard-pre-clean
+v0.1.0-envpin
+v0.10.0-ts-express-fix
+v0.2.0-dashboard-prep
+v0.2.1-dashboard-split
+v0.2.1-matilda-chat-ui
+v0.2.2-chatbot-stable
+v0.2.2-wired-dashboard
+v0.2.3-dashboard-clean
+v0.2.4-matilda-bestie
+v0.2.5-matilda-convo
+v0.2.5-matilda-hybrid
+v0.2.6-dashboard-polling
+v0.2.7-clean-checkpoint
+v0.2.7-polling-live
+v0.2.8-pre-dynamic-skills
+v0.2.9-dashboard-restored
+v0.2.9-dynamic-skills-stable
+v0.2.9b-dashboard-with-mocks
+v0.3.0-phase3-skill-memory
+v0.3.1-dynamic-roundtrip
+v0.3.1-stable-chatbot
+v0.3.1-stable-router
+v0.3.10-dashboard-db-online
+v0.3.10-effie-wired
+v0.3.10-phase8.2-complete
+v0.3.11-dashboard-clean-final
+v0.3.11-dashboard-restored-final
+v0.3.11-dashboard-stable-final
+v0.3.11-dashboard-ui-table
+v0.3.11-live-status-logs
+v0.3.11-ollama-wired
+v0.3.11-phase8.3-complete
+v0.3.12-atlas-live-build
+v0.3.12-phase2-dynamic-diagnostics
+v0.3.12-sse-stable
+v0.3.13-phase2.1-diagnostics-verified
+v0.3.13-sse-verified
+v0.3.14-dashboard-stream-stable
+v0.3.14-dom-safe-dashboard
+v0.3.14-sse-guarded
+v0.3.14-sse-live
+v0.3.15-sse-restored
+v0.3.16-live-sse-restored
+v0.3.17-clean-logs
+v0.3.17-clean-logs-placeholder
+v0.3.17-dashboard-clean
+v0.3.17-dashboard-cleanup
+v0.3.17-dashboard-style-enhanced
+v0.3.17-status-preload-final
+v0.3.18-stable-dashboard
+v0.3.19-dashboard-restored
+v0.3.2-chat-top
+v0.3.2-diagnostics-stable
+v0.3.2-skill-endpoint-online
+v0.3.20-dynamic-dashboard-checkpoint
+v0.3.20-phase2.3-dashboard-stability
+v0.3.21-phase2.4-sse-stable
+v0.3.22-phase3.1-diagnostics-complete
+v0.3.3-dashboard-fully-restored
+v0.3.3-dashboard-routing
+v0.3.3-pre-phase6
+v0.3.3-static-middleware-online
+v0.3.30-phase3.0-delegation-functional
+v0.3.30-phase3.1-matilda-conversational
+v0.3.30-phase3.1-matilda-lite-brain
+v0.3.30-phase3.2-matilda-delegation
+v0.3.33-restored-full-functional
+v0.3.34-full-delegation-logging
+v0.3.35
+v0.3.36-conversational-restored
+v0.3.36-full-stable
+v0.3.37-validation-cleanup
+v0.3.38-dynamic-learning
+v0.3.38-watchdog-stable
+v0.3.39-auto-prune-stable
+v0.3.4-dashboard-restored
+v0.3.4-diagnostics-ready-baseline
+v0.3.4-phase6-ontology-base
+v0.3.4-runtime-verified
+v0.3.40-phase3-golden
+v0.3.5-dashboard-fully-wired
+v0.3.5-diagnostics-live
+v0.3.6-cade-autonomous-repair
+v0.3.6-phase6-ontology-verified
+v0.3.6-stable-sqlite-bindings-restored
+v0.3.7-phase7-functional
+v0.3.7-wire-agent-status-skill
+v0.3.8-live-agent-sse
+v0.3.8-live-agent-status
+v0.3.8-live-agent-status-verified
+v0.3.8-phase8-complete
+v0.3.8-phase8-remote-skill-autonomy
+v0.3.8-stable-dash-restored
+v0.3.9-agent-status-styling
+v0.3.9-live-status-refresh
+v0.3.9-phase8.1-complete
+v0.3.9-stable-server-online
+v0.4.0-baseline-dashboard
+v0.4.0-dashboard-stable
+v0.4.0-live-dashboard-baseline
+v0.4.0-phase4-dynamic-learning
+v0.4.0-phase4-golden
+v0.4.0-phase4-reflection-complete
+v0.4.0-phase4-reflection-revert
+v0.4.0-phase9.1-complete
+v0.4.1-diagnostics-hierarchy
+v0.4.1-diagnostics-layout
+v0.4.1-phase10.1-health-uptime
+v0.4.1-phase4-dashboard-init
+v0.4.2-phase11-introspective-sim
+v0.4.2-phase4-dashboard-complete
+v0.4.3-phase12-autonomic-adaptation
+v0.4.3.2-phase4-gemma-async
+v0.4.3.3-phase4-gemma-stable
+v0.4.3.4-phase4-gemma-chat-verified
+v0.4.4-phase13-self-verify
+v0.4.4.1-phase4-modular-reflections
+v0.4.4.4-phase4-static-reflections-success
+v0.4.4.5-checkpoint-reflection-loader-fixed
+v0.4.4.5-phase4-static-reflections-reapply
+v0.4.5-golden-reflections-dynamic
+v0.4.6-golden-reflection-watcher
+v0.4.7-golden-reflection-sse
+v0.4.8-checkpoint-dashboard-sse
+v0.4.8-golden-dashboard-sse
+v0.4.8-golden-sse-cors
+v0.4.9-sse-daemon-integrated
+v0.5.0-ops-stream-unified
+v0.5.0-phase5-golden
+v0.5.1-phase4.9-ops-dashboard-live
+v0.5.3-phase5.0-ops-sse-synced
+v0.5.4-phase5.0-ops-sse-broadcast-verified
+v0.5.5-phase5.1-broadcast-visualization
+v0.5.6-phase5.3-backup-system-verified
+v0.6.0-phase6-golden
+v0.6.0-phase6.0-demo-sequence-verified
+v0.6.1-phase6.1-live-delegation-simulation
+v0.6.10-phase6.6.1-animation-loop
+v0.6.10.1-phase6.6.2-animation-sync
+v0.6.12-phase6.8-demo-snapshot
+v0.6.12.1-checkpoint-stable
+v0.6.12.2-visual-output-display
+v0.6.12.3-demo-baseline
+v0.6.13-phase6.9.5-darkmode-unified
+v0.6.14-phase6.9.6-chatbot-darkmode
+v0.6.15-phase6.9.7-header-glow
+v0.6.15-phase6.9.9-live-delegation-restored
+v0.6.16-phase6.9.8-header-final
+v0.6.3-phase6.1-ops-sse-verified
+v0.6.4-phase6.2-dashboard-sync
+v0.6.7-phase6.3-db-audit-clean
+v0.6.7.1-phase6.3.1-dashboard-sync-stable
+v0.6.8-phase6.4-reset-roundtrip
+v0.6.9.3-phase6.5.1-graph-verified
+v0.7.0-phase7-dashboard-sync
+v0.7.0-phase7-interactive-delegation
+v0.7.0-phase7-verified
+v0.7.0-reflection-keepalive-stable
+v0.7.1-phase7-dashboard-sync
+v0.7.1.9-chatlog-darkfix
+v0.7.4.3-remote-access-quicktunnel
+v0.7.5.4-schema-verified
+v0.7.6-ops-stream-rebind
+v0.7.6.5-darkchat-verified
+v0.7.7.1-delegation-route-verified
+v0.7.7.2-delegate-button
+v0.7.8-cade-delegation-execution
+v0.7.8-delegation-loop-validation
+v0.7.9-reflection-linked-delegation
+v0.8.0-reflection-keepalive-rebuild-stable
+v0.8.0-reflection-keepalive-stable
+v0.9.0-demo-prep
+v0.9.0-phase9-atlas-live
+v0.9.1-dual-sse-live
+v0.9.1-matilda-delegation
+v0.9.1-reflection-anchor-complete
+v0.9.1-reflection-anchor-polish
+v0.9.12-pre-dashboard-safety
+v0.9.13-pre-cade-skills
+v0.9.15-reflections-1hz
+v0.9.16-atlas-banner-sequence
+v0.9.16-banner-removed
+v0.9.17-agent-status-row
+v0.9.19.5-agent-stability-anchor
+v0.9.2-demo-polish-ready
+v0.9.20-agent-stream-online
+v0.9.3-demo-playback-complete
+v0.9.3-sse-matilda-stable
+v0.9.4-atlas-test-build-ready
+v0.9.4a-matilda-redelegation
+v0.9.5-matilda-agent-restored
+v0.9.5-rehydration-complete
+v0.9.6-dashboard-rebind-stable
+v0.9.6-dashboard-stable
+v0.9.6-final-rebase-stable
+v0.9.6.5-reflections-polished
+v0.9.7-main-merge
+v0.9.7.0-phase9.0-matilda-convo-restored
+v0.9.7.9-matilda-restored-stable
+v0.9.8-atlas-live-reflections
+v0.9.8-matilda-cognition-restored
+v0.9.8.0-atlas-verified-stable
+v0.9.8.0-dashboard-delegation-online
+v0.9.8.0-delegation-stable
+v0.9.9-chat-stable
+v0.9.9-demo-recovery-stable
+v0.9.9.5-phase9-demo-utils
+v1.0.0-backup-complete
+v1.0.0-demo-prep-ready
+v1.0.0-golden
+v1.0.0-system-chronicle
+v1.0.1-cade-manifest
+v1.0.10-chat-stack-fix
+v1.0.10-demo-recovery-verified
+v1.0.12-dashboard-minimal
+v1.0.12-reflections-hotfix
+v1.0.13-debug-cleanup
+v1.0.13-reflections-rebuild
+v1.0.14-partial-dashboard-clean
+v1.0.14-system-sync-stable
+v1.0.14c-dashboard-final-clean
+v1.0.15-agent-rows-restored
+v1.0.15c-agent-glow-final
+v1.0.15d-agent-feed-restore
+v1.0.2.3-reflections-rebind
+v1.0.3-demo-streamchain-stable
+v1.0.4.1-demo-locked
+v1.0.6-demo-recovery-integration
+v1.0.7-demo-autoheal
+v1.0.8-demo-resilience-snapshot
+v1.0.8.1-utility-restore
+v1.0.9.1-recovery-suite-rebuild
+v1.1.0-stabilized
+v1.1.0-stable
+v1.1.1-chronicle-ui
+v1.1.2-chronicle-inline
+v100.0-cognition-hardening-golden
+v101.0-cognition-exposure-boundary
+v102.0-cognition-consumption-boundary
+v103.0-cognition-stability-boundary
+v11.0-stable-dashboard
+v11.1-dashboard-bundle-phase1
+v11.1-stable-dashboard
+v11.1-visual-output-stable
+v11.10-dashboard-bundle-stable
+v11.10-dashboard-delegation-stable
+v11.11-dec16-dashboard-restore-stable
+v11.11-phase59
+v11.12-dec16-dashboard-restore-golden
+v11.13-post-golden-tracker
+v11.14-post-golden-health-meta
+v11.15-stable-v11.12-with-meta-docs
+v11.16-next2-endpoints-stubbed
+v11.17-next2-sse-same-origin-stubbed
+v11.18-next2-sse-stubs-added
+v11.19-next2-sse-default-message
+v11.2-matilda-chat-bundled
+v11.2-ops-sse-online
+v11.2-pre-output-panel
+v11.20-next2-dashboard-sse-panels-alive
+v11.21-next2-mem-tasks-safe
+v11.22-next2-mem-tasks-working
+v11.23-next2-mem-tasks-working
+v11.24-next2-mem-tasks-working
+v11.25-next2-mem-tasks-working
+v11.26-next2-mem-tasks-working
+v11.27-next2-mem-tasks-container-verified
+v11.28-dashboard-stable
+v11.28.2-pre-db-tasks
+v11.29-db-tasks-working
+v11.29.1-complete-task-db
+v11.29.2-delegate-task-db
+v11.3-matilda-chat-ux-and-chat-endpoint
+v11.3-ops-pill-online
+v11.3-ops-pill-stable
+v11.3-ops-pill-styled
+v11.30-tasks-db-complete
+v11.30.1-ui-complete-ok
+v11.4-matilda-micro-ux-complete
+v11.4-ops-pill-bundled-stable
+v11.5-ops-pill-simple-stable
+v11.6-ops-pill-rollback-stable
+v11.7-ops-pill-dashboard-stable
+v11.8-ops-pill-reflections-sse
+v11.9-dashboard-chat-reflections-shim-stable
+v119.0-dashboard-cognition-contract
+v12.0-tasks-sse-stable
+v120-dashboard-consumption-adapter-golden
+v120.1-post-container-verification
+v121.0-consumption-registry-structure
+v122.0-consumption-registry-constants
+v122.1-consumption-section-guard
+v123.0-consumption-integrity-guard
+v124.0-consumption-validation-pipeline
+v124.1-consumption-registry-complete
+v125.0-consumption-registry-integration
+v125.1-consumption-registry-integration-verified
+v126.0-consumption-registry-merged
+v126.1-state-handoff-sealed
+v127.0-consumption-registry-runtime-owner
+v127.1-consumption-registry-runtime-merged
+v127.2-containerized-verified
+v128.0-consumption-registry-enforcement-golden
+v129.0-governance-execution-routing-golden
+v13.1-tasks-widget-ux-stable
+v13.3.1-observability-logs-stable
+v13.3.2-observability-logs-stable
+v13.3.2-task-logs-stable
+v13.3.3-task-logs-singleline-stable
+v13.3.4-task-logs-singleline-stable
+v13.3.5-indent-tidy-stable
+v13.4-proofpack-lite-stable
+v13.5-operator-ux-overlay-wired
+v13.5-tasks-sse-singleton-stable
+v13.5.1-operator-ux-proofpack-final
+v13.5.2-tasks-connect-log-dedup
+v13.5.3-tasks-sse-keepalive
+v13.5.4-ux-no-force-close
+v13.5.5-branch-safe
+v13.5.5-ux-keepalive-clean
+v13.5.6-main-ux-merged
+v13.5.7-compose-warning-gone
+v130.0-governance-outcome-surfaces-golden
+v14.2-contracts-green
+v14.2-task-contract-verified
+v14.3-task-transitions-verified
+v14.3-tasks-ui-stable
+v14.4-project-output-restored
+v14.6-html-no-store-verified
+v14.7b-root-redirect-clean
+v14.7c-root-redirect-no-store
+v14.8-dashboard-ux-restored
+v149.5-execution-capability-audited-governance-prelive-summary-corridor-golden
+v15.0-dashboard-stable-no-sse
+v15.0-project-visual-output-live
+v15.0-tasks-widget-smoke-ok
+v15.1-dashboard-restored-pvo-surgical-guardrails
+v15.1-disable-optional-sse
+v15.1-phase15-confidence-checks-ok
+v15.2-phase15-polish-complete
+v16.0-heartbeat-shim-wired
+v16.0-sse-endpoints-live
+v16.1-heartbeat-verify-timeout-safe
+v16.1-ops-reflections-owner-stable
+v16.1-phase16-ops-reflections-singleton-ok
+v16.2-heartbeat-stale-indicator
+v16.2-ops-reflections-ui-wired
+v16.2-phase16-verified
+v16.3-heartbeat-sse-header-confirmed
+v16.3-merged-ui-cleanup-ok
+v16.3-ui-cleanup-ok
+v16.4-heartbeat-open-recorded
+v16.5-db-url-fix
+v16.5-ops-heartbeat-pinger
+v16.6-heartbeat-badge-hb-ok
+v16.6-phase16-stable
+v16.7-tasks-db-wired-and-pinger-bundled
+v16.8-compose-pg-env-wired
+v17.0-orchestration-pure-scaffolds
+v17.0-project-registry-stub
+v178-governance-intelligence-integrity-complete
+v179-corridor-defined
+v179-execution-gating-model-complete
+v18.0-orchestration-tick-inmem-store
+v18.1-orchestration-phase18-complete
+v19.0-orchestrator-state-endpoint
+v19.1-compose-db-net-ok
+v19.10-phase19-task-created-hook-ok
+v19.11-phase19-task-created-verified-ok
+v19.12-phase19-task-created-verified-ok
+v19.13-phase19-task-complete-events-ok
+v19.14-phase19-task-complete-events-verified-ok
+v19.15-phase19-task-events-created+complete-ok
+v19.16-phase19-task-events-failed-ok
+v19.2-repo-hygiene-ok
+v19.3-drizzle-task-events-stash-applied-ok
+v19.4-phase19-task-events-merged-ok
+v19.5-phase19-postgres-task_events-smoke-ok
+v19.6-phase19-postgres-env-helper-ok
+v19.7-phase19-postgres-next-steps-doc-ok
+v19.8-phase19-postgres-app-smoke-ok
+v19.9-phase19-task-created-event-ok
+v190.5-governance-execution-gate
+v2.0.1-matilda-persona
+v2.0.2-partial-dashboard-restore
+v2.0.3-dashboard-stable
+v2.0.3-stable-dashboard
+v2.0.4-compact-stable
+v2.0.4-ui-header
+v2.0.5-full-diagnostics-stable
+v20.0-task-events-sse-ok
+v21.0-dashboard-task-events-sse-verified
+v21.0-task-events-sse-golden
+v22.0-dashboard-task-events-live-ok
+v23.0-task-events-sse-stable
+v24.1-task-events-cse-ok
+v25.0-task-events-single-writer-ok
+v25.0-task-events-sse-proven
+v25.1-writer-smoke-sse-ok
+v25.11.14-1126-stable
+v250-governance-freeze
+v250.0-governance-architecture-complete
+v251.0-governance-enforcement-architecture-scaffold-golden
+v251.1-governance-enforcement-architecture-protected-golden
+v251.3-governance-enforcement-architecture-current-head-sealed
+v251.4-governance-enforcement-architecture-final-head-sealed
+v251.5-governance-enforcement-architecture-current-head-final
+v27.0-phase27-worker-smoke-ok
+v28.0-phase28-failure-routing-smoke-ok
+v28.1-phase28-smoke-deterministic-ok
+v28.2-phase28-handoff-ok
+v286.1-pre-coding-checkpoint
+v29.0-phase29-db-migrate-smoke-ok
+v29.1-phase29-worker-compat-ok
+v29.2-phase29-handoff-ok
+v30.0-phase30-canonical-ready-smoke-ok
+v30.1-phase30-canonical-ready-smoke-ok
+v30.2-phase30-handoff-ok
+v31.0-phase31-smoke-payload-compat-ok
+v31.1-phase31-handoff-ok
+v31.2-phase31-suite-ok
+v31.3-phase31-merged-into-phase26-ok
+v31.4-phase26-phase28-31-merged-clean-ok
+v31.5-container-smoke-ok
+v31.6-compose-worker-env-ok
+v31.7-container-reclaim-ok
+v31.7-container-reclaim-script-ok
+v31.7-container-reclaim-verified-ok
+v31.7-golden-container-reclaim-verify
+v31.7-pre-containerize
+v31.7-reclaim-smoke-ok
+v31.8-golden-worker-lane
+v31.8-worker-compose-lane
+v31.8-worker-compose-lane-crash-ok
+v31.8-worker-compose-lane-crash-verified-ok
+v31.8-worker-lane-finalized-fix-ok
+v31.8-worker-lane-finalized-ok
+v31.8-worker-lane-guard-fix-ok
+v31.8-worker-lane-guardrail-ok
+v31.8-worker-lane-guardrails-ok
+v31.8-worker-lane-readme-ok
+v31.8-worker-lane-scripts-clean-ok
+v31.9-golden-worker-image-fixed-ok
+v31.9-golden-worker-image-ok
+v32.0-golden-retry-backoff-minimal
+v32.1-golden-retry-backoff-verified-hook
+v32.10-golden-phase32-compose-fixed
+v32.2-golden-retry-backoff-schema-aligned
+v32.3-golden-retry-backoff-schema-correct
+v32.4-golden-retry-backoff-hook-compat
+v32.5-golden-retry-backoff-hook-meta-unwrap
+v32.6-golden-retry-backoff-hook-meta-unwrap-fixed
+v32.7-golden-retry-backoff-clean-success
+v32.8-golden-phase32-verify-script-payload-cast
+v32.9-golden-phase32-docker-e2e
+v33.0-phase33-delegated-claim-docker-golden
+v330-governance-invariants-golden
+v331-governance-visibility-foundation-golden
+v332-governance-traceability-foundation-golden
+v333-governance-reporting-foundation-golden
+v334-governance-digest-foundation-golden
+v335-governance-operator-packet-foundation-golden
+v336-governance-operator-manifest-foundation-golden
+v337-governance-operator-briefing-foundation-golden
+v338-governance-operator-console-foundation-golden
+v339-governance-operator-handoff-foundation-golden
+v34.0-phase34-reclaim-stable
+v340-governance-operator-session-foundation-golden
+v341-governance-operator-snapshot-foundation-golden
+v342-governance-operator-bundle-foundation-golden
+v343-governance-operator-export-foundation-golden
+v344-governance-operator-archive-foundation-golden
+v345-governance-operator-record-foundation-golden
+v346-governance-operator-logbook-foundation-golden
+v347-governance-operator-register-foundation-golden
+v348-governance-operator-catalog-foundation-golden
+v349-governance-operator-index-foundation-golden
+v35.0-phase35-golden
+v35.0-phase35-task-events-runid-actor
+v35.1-phase35-merge-golden
+v35.2-phase35-closure-docs
+v35.3-phase35-handoff-docs
+v350-governance-operator-manifest-index-foundation-golden
+v351-governance-operator-map-foundation-golden
+v352-governance-operator-atlas-foundation-golden
+v353-governance-operator-ledger-foundation-golden
+v354-governance-operator-registry-foundation-golden
+v355-governance-operator-directory-foundation-golden
+v356-governance-operator-guide-foundation-golden
+v357-governance-operator-manual-foundation-golden
+v358-governance-operator-playbook-foundation-golden
+v359-governance-operator-handbook-foundation-golden
+v36.0-worker-steady-after-recovery
+v36.1-phase36-2-run-observability-smoke-green
+v36.1-ui-sse-clean
+v36.2-dashboard-api-tasks-schema-compat-golden
+v36.2-phase36-3-planning-locked
+v36.4-phase36-4-run-list-observability
+v36.4-phase36-run-list-observability
+v36.5-run-list-dashboard
+v360-governance-operator-compendium-foundation-golden
+v361-governance-operator-reference-foundation-golden
+v362-governance-operator-glossary-foundation-golden
+v363-governance-operator-lexicon-foundation-golden
+v364-governance-operator-dictionary-foundation-golden
+v37.0-phase37-planning-last_event_provenance
+v37.1-phase37-planning-terminal_provenance
+v37.1-phase37-planning-terminal_provenance-stop
+v37.2-phase37-decisions-recorded
+v37.2-phase37-decisions-recorded2
+v37.2-phase37-planning-terminal_kind_alignment_options
+v37.2-phase37-planning-terminal_kind_alignment_options-stop
+v37.2-phase37-planning-terminal_kind_alignment_options-stop2
+v37.2-phase37-planning-terminal_kind_alignment_options-stop3
+v37.3-phase37-acceptance-terminal_kinds-aligned
+v37.4-phase37-terminal_event-integrity-gaps-planning
+v37.5-postcheck
+v37.5-run-view-terminal-kind-normalization-golden
+v37.6-planning-stub
+v37.6-run-view-single-owner-guard
+v37.6-start
+v37.6.1-run-view-single-owner-and-harness-fix
+v37.6.2-run-view-single-owner-and-harness-fix
+v372.0-replay-investigation-diagnostics-golden
+v38.0-phase38-runs-list-contract-stable
+v382.0-replay-verification-proof-suite-golden
+v386.0-replay-chain-integrity-golden
+v39-action-tier-policy-semantics-golden
+v39-action-tier-policy-semantics-golden-main
+v39-action-tier-policy-semantics-golden-main-merged
+v39.0-phase39-value-gate-golden
+v39.0-value-alignment-foundation-golden
+v390.0-replay-proof-integrity-complete-golden
+v392.0-replay-proof-integrity-handoff-golden
+v397.0-final-operator-stop-golden
+v398.0-governance-evaluation-behavior-complete
+v40-sql-claim-tierA-gate-golden
+v40.1-shadow-mode-wiring-golden
+v40.2-shadow-audit-shape-golden
+v40.3-shadow-audit-capture-golden
+v40.4-shadow-audit-rotate-golden
+v40.5-shadow-mode-wiring-golden
+v40.6-shadow-audit-task-events-green
+v401-final-deterministic-stop
+v401.0-governance-cognition-exposure-boundary
+v401.10-trust-cognition-corridor-golden
+v401.12-trust-ergonomics-corridor-complete
+v401.21-trust-cognition-corridor-closed-golden
+v401.22-trust-cognition-corridor-verified-stop
+v401.7-trust-reliability-semantics-complete
+v402.0-operator-consumption-boundary-opened
+v402.1-operator-consumption-summary-contract
+v402.2-operator-attention-surface
+v402.3-operator-decision-surface
+v402.4-execution-boundary-consumption
+v402.5-operator-consumption-foundation-complete
+v41-dashboard-alive-smoke-golden
+v41-tierA-claim-gate-golden
+v41.0-decision-correctness-gate-green
+v42.0-readonly-preserve-v41-gate-green
+v420.0-finish-line-1-preparation-complete
+v423.5-execution-contract-alignment-proof-complete
+v423.5-golden-sealed
+v426.0-enforcement-placement-proof-complete
+v43.0-readonly-scope-gates-green
+v45.1-operational-hardening-golden
+v45.1-startup-determinism-golden
+v453.5-fl3-capability-complete
+v454.6-demo-capable-system
+v455.12-demo-ready-seal
+v455.2-runtime-demo-capability-established
+v46-task-events-sse-demo-hardening
+v47.0-decision-correctness-golden
+v47.2-decision-correctness-golden
+v47.3-shadow-to-enforce-local-golden
+v53-enforce-http-403-golden
+v54-regression-harness-golden
+v54.0-bootstrap-schema-align-golden
+v55.0-run-lifecycle-immutability-golden
+v56.0-worker-tdz-shadow-audit-golden
+v56.1-phase54-regression-harness-ci-determinism-golden
+v56.2-phase54-harness-ci-fix-postgres-url-golden
+v57.0-demo-hardening-golden
+v60.0-agent-pool-polish-preview
+v60.1-dashboard-hierarchy-polish-preview
+v60.1-recovered-stable-dashboard-checkpoint-20260309
+v60.1-recovered-stable-dashboard-checkpoint-20260309-r2
+v60.2-operator-console-polish-preview
+v61.0-observational-workspace-checkpoint
+v61.1-atlas-bottom-band-stable
+v61.1-phase61-exact-current-state-20260310
+v61.2-phase61-layout-contract-locked-20260310
+v62.1-phase62-metrics-telemetry-tiles
+v62.2-phase62-layout-contract-protected
+v62.2-phase62b-golden-20260312
+v62.2-phase62b-metrics-and-wiring-stable-20260312
+v63.0-telemetry-integration-golden
+v63.1-phase63-metrics-integrity-golden-20260312
+v63.2-phase63-agent-activity-signals-golden-20260312
+v63.3-phase63-telemetry-semantic-audit-golden-20260312
+v63.4-telemetry-corridor-freeze
+v80.0-safe-iteration-engine-golden
+v88.14.11-live-system-health-attachment-golden
+v90.0-operator-guidance-surface-golden
+v91.0-guidance-intelligence-refinement-golden
+v95.0-operator-cognition-interaction-golden
+v96.0-governance-foundation-golden
+v97.0-governance-integration-golden
+v98.0-governance-awareness-golden
+v99-closeout-head
+v99.0-governance-cognition-start
+v99.2-operational-confidence-synthesis-golden
+v99.3-situation-summary-confidence-contract-golden
+v99.3-situation-summary-confidence-integration-golden
+v99.6-guidance-confidence-stable
+wip-next2-before-mem-tasks-safe
+wip-next2-pre-server-cleanup

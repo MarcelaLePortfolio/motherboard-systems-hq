@@ -1,0 +1,11 @@
+Phase 571 cherry-pick recovery plan.
+
+Current baseline:
+phase570-worker-completion-validated
+
+Preserved post-570 work is available at:
+phase571-bad-restore-attempt-20260430_174200
+
+Next step:
+Review the commit list above and cherry-pick only the safe, useful commits.
+Do not cherry-pick layout-breaking telemetry/UI restore commits blindly.

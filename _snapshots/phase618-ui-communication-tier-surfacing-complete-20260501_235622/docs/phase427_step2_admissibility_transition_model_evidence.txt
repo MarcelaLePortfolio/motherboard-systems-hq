@@ -1,0 +1,108 @@
+authorization decision lifecycle indicators
+src/governance/cognition/prove_governance_live_wiring_decision.ts:94:  assert(decision.decisionStatus === "eligible", "Decision status must evaluate to eligible.");
+
+authorization outcome transitions
+
+governance evaluation completion indicators
+src/governance_operator_guide/governance_operator_guide_builder.ts:43:      text: formatGovernanceOperatorGuideCompleteness(complete),
+src/governance_operator_compendium/governance_operator_compendium_builder.ts:43:      text: formatGovernanceOperatorCompendiumCompleteness(complete),
+src/governance_operator_bundle/governance_operator_bundle_builder.ts:43:      text: formatGovernanceOperatorBundleCompleteness(complete),
+src/governance_operator_dictionary/governance_operator_dictionary_builder.ts:36:      text: formatGovernanceOperatorDictionaryCompleteness(complete),
+src/governance_operator_ledger/governance_operator_ledger_builder.ts:43:      text: formatGovernanceOperatorLedgerCompleteness(complete),
+src/governance_operator_handbook/governance_operator_handbook_builder.ts:43:      text: formatGovernanceOperatorHandbookCompleteness(complete),
+src/governance_operator_map/governance_operator_map_builder.ts:43:      text: formatGovernanceOperatorMapCompleteness(complete),
+src/governance_operator_register/governance_operator_register_builder.ts:43:      text: formatGovernanceOperatorRegisterCompleteness(complete),
+src/governance_operator_lexicon/governance_operator_lexicon_builder.ts:36:      text: formatGovernanceOperatorLexiconCompleteness(complete),
+src/governance_operator_briefing/governance_operator_briefing_builder.ts:43:      text: formatGovernanceOperatorBriefingCompleteness(complete),
+src/governance_operator_manifest_index/governance_operator_manifest_index_builder.ts:43:      text: formatGovernanceOperatorManifestIndexCompleteness(complete),
+src/governance_operator_session/governance_operator_session_builder.ts:43:      text: formatGovernanceOperatorSessionCompleteness(complete),
+src/governance_operator_console/governance_operator_console_builder.ts:43:      text: formatGovernanceOperatorConsoleCompleteness(complete),
+src/governance_operator_directory/governance_operator_directory_builder.ts:43:      text: formatGovernanceOperatorDirectoryCompleteness(complete),
+src/governance_operator_registry/governance_operator_registry_builder.ts:43:      text: formatGovernanceOperatorRegistryCompleteness(complete),
+src/governance_operator_record/governance_operator_record_builder.ts:43:      text: formatGovernanceOperatorRecordCompleteness(complete),
+src/governance_operator_glossary/governance_operator_glossary_builder.ts:37:      text: formatGovernanceOperatorGlossaryCompleteness(complete),
+src/governance_operator_export/governance_operator_export_builder.ts:43:      text: formatGovernanceOperatorExportCompleteness(complete),
+src/governance_operator_manifest/governance_operator_manifest_builder.ts:43:      text: formatGovernanceOperatorManifestCompleteness(complete),
+src/governance_traceability/governance_traceability_model.ts:19:  completed_stages: GovernanceTraceabilityStage[];
+src/governance_traceability/governance_traceability_snapshot.ts:12:  completed_stages?: readonly GovernanceTraceabilityStage[];
+src/governance_operator_archive/governance_operator_archive_builder.ts:43:      text: formatGovernanceOperatorArchiveCompleteness(complete),
+src/governance_operator_logbook/governance_operator_logbook_builder.ts:43:      text: formatGovernanceOperatorLogbookCompleteness(complete),
+src/governance/cognition/build_governance_final_pre_live_registry_archive_record.ts:8:import type { GovernanceFinalDeliveryReceipt } from "./governance_final_delivery_receipt";
+src/governance/cognition/build_governance_final_pre_live_registry_archive_record.ts:9:import type { GovernanceFinalPreLiveRegistryArchiveRecord } from "./governance_final_pre_live_registry_archive_record";
+src/governance/cognition/build_governance_final_delivery_receipt.ts:9:import type { GovernanceFinalDeliveryReceipt } from "./governance_final_delivery_receipt";
+src/governance/cognition/build_governance_pre_live_registry_handoff_envelope.ts:8:import type { GovernanceFinalPreLiveRegistryContractPackage } from "./governance_final_pre_live_registry_contract_package";
+src/governance/cognition/select_governance_final_pre_live_registry_archive_record.ts:7:import type { GovernanceFinalPreLiveRegistryArchiveRecord } from "./governance_final_pre_live_registry_archive_record";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:20:import { buildGovernanceFinalPreLiveRegistryContractPackage } from "./build_governance_final_pre_live_registry_contract_package";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:23:import { buildGovernanceFinalDeliveryReceipt } from "./build_governance_final_delivery_receipt";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:24:import { buildGovernanceFinalPreLiveRegistryArchiveRecord } from "./build_governance_final_pre_live_registry_archive_record";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:25:import { buildGovernanceFinalPreLiveRegistrySummaryCapsule } from "./build_governance_final_pre_live_registry_summary_capsule";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:26:import { selectGovernanceFinalPreLiveRegistrySummaryCapsule } from "./select_governance_final_pre_live_registry_summary_capsule";
+src/governance/cognition/select_governance_final_pre_live_registry_summary_capsule.ts:7:import type { GovernanceFinalPreLiveRegistrySummaryCapsule } from "./governance_final_pre_live_registry_summary_capsule";
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts:15:import type { GovernanceFinalPreLiveRegistryArchiveRecord } from "./governance_final_pre_live_registry_archive_record";
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:20:import { buildGovernanceFinalPreLiveRegistryContractPackage } from "./build_governance_final_pre_live_registry_contract_package";
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:23:import { buildGovernanceFinalDeliveryReceipt } from "./build_governance_final_delivery_receipt";
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:24:import { selectGovernanceFinalDeliveryReceipt } from "./select_governance_final_delivery_receipt";
+src/governance/cognition/governance_final_pre_live_registry_archive_record.ts:15:import type { GovernanceFinalDeliveryReceipt } from "./governance_final_delivery_receipt";
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:20:import { buildGovernanceFinalPreLiveRegistryContractPackage } from "./build_governance_final_pre_live_registry_contract_package";
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:21:import { selectGovernanceFinalPreLiveRegistryContractPackage } from "./select_governance_final_pre_live_registry_contract_package";
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:20:import { buildGovernanceFinalPreLiveRegistryContractPackage } from "./build_governance_final_pre_live_registry_contract_package";
+src/governance/cognition/select_governance_final_pre_live_registry_contract_package.ts:7:import type { GovernanceFinalPreLiveRegistryContractPackage } from "./governance_final_pre_live_registry_contract_package";
+src/governance/cognition/select_governance_final_delivery_receipt.ts:7:import type { GovernanceFinalDeliveryReceipt } from "./governance_final_delivery_receipt";
+src/governance/cognition/build_governance_final_pre_live_registry_summary_capsule.ts:8:import type { GovernanceFinalPreLiveRegistryArchiveRecord } from "./governance_final_pre_live_registry_archive_record";
+src/governance/cognition/build_governance_final_pre_live_registry_summary_capsule.ts:9:import type { GovernanceFinalPreLiveRegistrySummaryCapsule } from "./governance_final_pre_live_registry_summary_capsule";
+src/governance/cognition/governance_pre_live_registry_handoff_envelope.ts:15:import type { GovernanceFinalPreLiveRegistryContractPackage } from "./governance_final_pre_live_registry_contract_package";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:20:import { buildGovernanceFinalPreLiveRegistryContractPackage } from "./build_governance_final_pre_live_registry_contract_package";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:23:import { buildGovernanceFinalDeliveryReceipt } from "./build_governance_final_delivery_receipt";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:24:import { buildGovernanceFinalPreLiveRegistryArchiveRecord } from "./build_governance_final_pre_live_registry_archive_record";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:25:import { selectGovernanceFinalPreLiveRegistryArchiveRecord } from "./select_governance_final_pre_live_registry_archive_record";
+src/governance/cognition/index.ts:50:export type { GovernanceFinalPreLiveRegistryContractPackage } from "./governance_final_pre_live_registry_contract_package";
+src/governance/cognition/index.ts:51:export { buildGovernanceFinalPreLiveRegistryContractPackage } from "./build_governance_final_pre_live_registry_contract_package";
+src/governance/cognition/index.ts:52:export type { GovernanceFinalPreLiveRegistryContractPackageSelection } from "./select_governance_final_pre_live_registry_contract_package";
+src/governance/cognition/index.ts:53:export { selectGovernanceFinalPreLiveRegistryContractPackage } from "./select_governance_final_pre_live_registry_contract_package";
+src/governance/cognition/index.ts:54:export { proveGovernanceFinalPreLiveRegistryContractPackage } from "./prove_governance_final_pre_live_registry_contract_package";
+src/governance/cognition/index.ts:55:export type { GovernanceFinalPreLiveRegistryContractPackageProof } from "./prove_governance_final_pre_live_registry_contract_package";
+src/governance/cognition/index.ts:71:export type { GovernanceFinalDeliveryReceipt } from "./governance_final_delivery_receipt";
+src/governance/cognition/index.ts:72:export { buildGovernanceFinalDeliveryReceipt } from "./build_governance_final_delivery_receipt";
+src/governance/cognition/index.ts:73:export type { GovernanceFinalDeliveryReceiptSelection } from "./select_governance_final_delivery_receipt";
+src/governance/cognition/index.ts:74:export { selectGovernanceFinalDeliveryReceipt } from "./select_governance_final_delivery_receipt";
+src/governance/cognition/index.ts:75:export { proveGovernanceFinalDeliveryReceipt } from "./prove_governance_final_delivery_receipt";
+src/governance/cognition/index.ts:76:export type { GovernanceFinalDeliveryReceiptProof } from "./prove_governance_final_delivery_receipt";
+src/governance/cognition/index.ts:78:export type { GovernanceFinalPreLiveRegistryArchiveRecord } from "./governance_final_pre_live_registry_archive_record";
+src/governance/cognition/index.ts:79:export { buildGovernanceFinalPreLiveRegistryArchiveRecord } from "./build_governance_final_pre_live_registry_archive_record";
+src/governance/cognition/index.ts:80:export type { GovernanceFinalPreLiveRegistryArchiveRecordSelection } from "./select_governance_final_pre_live_registry_archive_record";
+src/governance/cognition/index.ts:81:export { selectGovernanceFinalPreLiveRegistryArchiveRecord } from "./select_governance_final_pre_live_registry_archive_record";
+src/governance/cognition/index.ts:82:export { proveGovernanceFinalPreLiveRegistryArchiveRecord } from "./prove_governance_final_pre_live_registry_archive_record";
+src/governance/cognition/index.ts:83:export type { GovernanceFinalPreLiveRegistryArchiveRecordProof } from "./prove_governance_final_pre_live_registry_archive_record";
+src/governance/cognition/index.ts:85:export type { GovernanceFinalPreLiveRegistrySummaryCapsule } from "./governance_final_pre_live_registry_summary_capsule";
+src/governance/cognition/index.ts:86:export { buildGovernanceFinalPreLiveRegistrySummaryCapsule } from "./build_governance_final_pre_live_registry_summary_capsule";
+src/governance/cognition/index.ts:87:export type { GovernanceFinalPreLiveRegistrySummaryCapsuleSelection } from "./select_governance_final_pre_live_registry_summary_capsule";
+src/governance/cognition/index.ts:88:export { selectGovernanceFinalPreLiveRegistrySummaryCapsule } from "./select_governance_final_pre_live_registry_summary_capsule";
+src/governance/cognition/index.ts:89:export { proveGovernanceFinalPreLiveRegistrySummaryCapsule } from "./prove_governance_final_pre_live_registry_summary_capsule";
+src/governance/cognition/index.ts:90:export type { GovernanceFinalPreLiveRegistrySummaryCapsuleProof } from "./prove_governance_final_pre_live_registry_summary_capsule";
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:20:import { buildGovernanceFinalPreLiveRegistryContractPackage } from "./build_governance_final_pre_live_registry_contract_package";
+src/governance/cognition/build_governance_final_pre_live_registry_contract_package.ts:9:import type { GovernanceFinalPreLiveRegistryContractPackage } from "./governance_final_pre_live_registry_contract_package";
+src/governance_operator_packet/governance_operator_packet_builder.ts:49:      text: formatGovernanceOperatorPacketStages(input.completed_stages ?? []),
+src/governance_operator_packet/governance_operator_packet_builder.ts:63:      text: formatGovernanceOperatorPacketCompleteness(complete),
+src/governance_operator_index/governance_operator_index_builder.ts:43:      text: formatGovernanceOperatorIndexCompleteness(complete),
+src/governance_reporting/governance_reporting_builder.ts:54:          value: formatGovernanceReportStages(input.completed_stages ?? []),
+src/governance_operator_catalog/governance_operator_catalog_builder.ts:43:      text: formatGovernanceOperatorCatalogCompleteness(complete),
+src/governance_operator_manual/governance_operator_manual_builder.ts:43:      text: formatGovernanceOperatorManualCompleteness(complete),
+src/governance_operator_atlas/governance_operator_atlas_builder.ts:43:      text: formatGovernanceOperatorAtlasCompleteness(complete),
+src/governance_operator_snapshot/governance_operator_snapshot_builder.ts:43:      text: formatGovernanceOperatorSnapshotCompleteness(complete),
+src/governance_operator_handoff/governance_operator_handoff_builder.ts:43:      text: formatGovernanceOperatorHandoffCompleteness(complete),
+src/governance_digest/governance_digest_builder.ts:48:      text: formatGovernanceDigestStages(input.completed_stages ?? []),
+src/governance_operator_playbook/governance_operator_playbook_builder.ts:43:      text: formatGovernanceOperatorPlaybookCompleteness(complete),
+src/governance_operator_reference/governance_operator_reference_builder.ts:43:      text: formatGovernanceOperatorReferenceCompleteness(complete),
+
+indeterminate or unresolved indicators
+
+decision stability indicators
+src/governance/governance_policy_router.test.ts:30:console.log("Governance policy router deterministic")
+src/governance/governance_policy_engine.test.ts:39:console.log("Governance policy engine deterministic")
+src/governance/governance_enforcement_evaluator.test.ts:28:console.log("Governance enforcement evaluator deterministic")
+src/governance/governance_explanation_builder.test.ts:52:console.log("Governance explanation builder deterministic")
+src/governance/governance_advisory_report_builder.ts:7:Pure deterministic builder for GovernanceAdvisoryReport.
+src/governance/governance_decision_pipeline.test.ts:35:console.log("Governance decision pipeline deterministic")
+src/governance/governance_audit_log.test.ts:34:console.log("Governance audit log deterministic")
+src/governance/governance_pipeline_invariants.test.ts:16:console.log("Governance invariants deterministic")
+

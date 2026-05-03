@@ -1,0 +1,9 @@
+Phase 577 Execution Inspector event-source confirmation.
+
+State:
+- Recent task list confirms task creation and worker completion.
+- task_events table confirms task.created events are being written.
+- Execution Inspector should now render real task.created rows only, not generic hello/message frames.
+
+Known remaining gap:
+- task.completed lifecycle events are not being written into task_events yet, even though tasks.status reaches completed.

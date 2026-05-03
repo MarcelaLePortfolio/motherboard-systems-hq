@@ -1,0 +1,66 @@
+SPLIT LAYOUT COMMIT DISCOVERY
+Generated: 2026-04-14T03:49:28Z
+Repo Root: /Users/marcela-dev/Projects/Motherboard_Systems_HQ
+Target: /Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard.html
+
+=== CURRENT FILE HISTORY ===
+44d05b5a Phase 479.0 reintroduce phase61_workspace_consolidation.css as next controlled stylesheet restoration
+87b1dcd8 Phase 478.7 reintroduce dashboard-reflections.css as next controlled stylesheet restoration
+aaeed233 Phase 478.6 force true dashboard.css reintroduction by activating the commented stylesheet line
+bd83c2e8 Phase 478.1 reintroduce phase60_live_clock.js as first controlled script restoration
+fd8d84f8 Phase 477.8 restore original structural layout from backup without scripts to recover correct visual structure
+b45280f5 Phase 477.6 record stable inline-script-free result and neutralize remaining src scripts for pure structure isolation
+6bcf56c2 Phase 477.4 record continuous loading result and neutralize inline scripts for structure-only dashboard isolation
+2581b417 Phase 477.2 remove probe banner artifacts from stable dashboard before next delta restoration
+8faf0178 Phase 476.8 restore original body attributes onto stable recomposed dashboard (no structural change)
+cd339c46 Phase 476.6 replace dashboard.html with recomposed stable structure to eliminate composition corruption
+20cfbd42 Phase 474.4 capture tailwind-only failure and neutralize inline style blocks
+71900dfb Phase 474.3 force true tailwind-only stylesheet isolation (remove all local CSS)
+8c94cc43 Phase 473.9 restore stylesheet layer only while keeping bundle boot disabled
+62c63664 Phase 473.2 trace actual served dashboard html source with sentinel verification
+16077fa4 Phase 472.1 neutralize external CSS to isolate bare HTML freeze behavior
+f08c6192 Phase 471.4 neutralize bundle boot to isolate browser freeze to JavaScript boot layer
+e9008a85 Phase 471.1 force-remove task-events surface script and verify true neutralization
+721808ee Phase 470.6 neutralize operator guidance browser probe to isolate dashboard freeze behavior
+017d0978 Phase 464.X install minimal inline sentinel in dashboard to verify probe script execution path
+9b495599 Phase 464.X repair probe visibility with fixed badge and console error output for operator guidance stack capture
+4d209496 Phase 464.X harden dashboard stack probe with explicit console boot logs and setter interception for operator guidance nodes
+579ae415 Phase 464.X repair stack probe insertion in dashboard.html using robust script block replacement
+95281be0 Phase 464.X add in-page DOM mutation probe for operator guidance and Atlas displacement evidence
+a43d81b7 Phase 457H neutralize legacy observational consumers and guidance overwrite
+3ef068fe Phase 457F dedupe fallback restore script tag and verify live dashboard
+22134235 Phase 457E reinstate fallback restore script tag and rebuild dashboard
+8c8d8723 Restore Recent Tasks and Task History panel consumers
+5efe4663 Phase 96: remove legacy system health diagnostics dashboard card
+e7d65ba7 Phase 96: add operator guidance cache bust and boot diagnostics
+5a8bf422 Phase 96: Complete operator guidance design intent — wire SSE stream into Matilda operator workspace panel
+4c55719f fix phase 90.8 operator guidance visibility in matilda workspace
+a180b0d0 phase 90 UX alignment: reposition matilda note above operator guidance
+5617ea98 mount phase 90.8 operator guidance panel in matilda workspace
+e124d480 Phase 88.13 — attach system health situation summary to served dashboard
+ee8ea4f8 Phase 65: restore dashboard layout-bearing files from v63 golden checkpoint
+e190b90d Phase 64.4 restore interactive dashboard baseline and remove broken recovery hook
+1434df1e Phase 64.4 force mount task events recovery script with cache bust
+58a17956 Phase 64.4 restore live task events with independent recovery stream
+0a13d9ff Phase 64.3 restore stable telemetry baseline and apply minimal per-tab scroll fix
+b2f4be55 Phase 64.3 rebuild telemetry css contract for equal height and per-tab scroll
+8ed526dc Phase 64.3 isolate workspace tabs and keep telemetry scroll internal
+8cd23b08 Phase 64.3 force equal fixed workspace height and internal telemetry scroll
+d29dc543 Phase 64.3 restore stable telemetry UI baseline and apply scroll-only height lock
+2b98a518 Phase 64.3 enforce telemetry fixed height with internal scroll via CSS
+da6f41a7 Phase 64.3 lock telemetry workspace to operator height with internal scroll
+f736365b Add Phase 64 browser debug helpers
+ba84c092 Mount Phase 64 bootstrap directly in dashboard html
+8049baef Phase 63 — restore stable dashboard html and lock dark background
+bc7a2f09 Phase 63 — hard lock dashboard dark background
+d41f40df Phase 63 — restore dark dashboard background
+c7d8d103 Phase 63 — cache bust dashboard telemetry workspace scripts
+0c22cb3a Fix Phase 62B metric label disappearance at binding layer
+cf733432 Restore Phase 62B observational workspace wiring
+44580988 Correct Phase 62B metric anchor IDs
+83299fcf Bind Phase 62B metric renderers to dedicated value nodes
+f02a6cfe Isolate Phase 62B dashboard OOM by disabling recent history probe
+c553c743 Phase 62: consolidate metrics CSS into authoritative telemetry tile styling
+d41c383c Phase 62: promote metric values in telemetry tiles
+5bcc1a34 Phase 62: refine System Metrics into telemetry tiles
+0bb2a7be Phase 62: compact System Metrics into 2x2 cards

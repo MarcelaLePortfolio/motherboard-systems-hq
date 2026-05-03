@@ -1,0 +1,1 @@
+Start from tag v18.0-orchestration-tick-inmem-store: Phase 18 adds a PHASE18_ENABLE_ORCHESTRATION=1 gated in-memory orchestrator store + minimal interval tick (server/orchestrator/*) wired via dynamic import in server.mjs; next is Phase 19: expose orchestrator state via a tiny /orchestrator/state JSON endpoint (still gated) and optionally stream it over SSE for the dashboard.

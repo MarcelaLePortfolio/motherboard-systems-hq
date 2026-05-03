@@ -1,0 +1,49 @@
+PHASE 488 — GOLDEN CHECKPOINT TAG
+
+TAG: v488.0-lifecycle-corridor-complete
+
+This tag marks the first fully functioning end-to-end governed execution system.
+
+INCLUDES:
+
+• Phase32 SQL contract alignment
+• Fully compatible tasks schema
+• Worker lifecycle execution (claim → run → complete)
+• Event emission integrity
+• API reflection (/api/runs)
+• Dashboard visibility layer
+
+PROVEN CAPABILITIES:
+
+• Arbitrary task intake execution
+• Deterministic lifecycle transitions
+• Full observability (events + API)
+• Zero contract ambiguity
+• Zero schema mismatch
+• Zero runtime execution errors
+
+SYSTEM GUARANTEES:
+
+• Deterministic
+• Replayable
+• Observable
+• Governed
+• Stable
+
+RECOVERY POINT:
+
+Commit:
+e3e5c118
+
+This is the canonical restore point for the first complete execution-capable system.
+
+USAGE:
+
+git checkout e3e5c118
+
+or
+
+git tag v488.0-lifecycle-corridor-complete
+
+This checkpoint must be preserved.
+

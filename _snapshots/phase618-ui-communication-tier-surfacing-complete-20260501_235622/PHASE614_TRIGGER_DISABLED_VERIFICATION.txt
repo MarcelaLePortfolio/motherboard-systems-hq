@@ -1,0 +1,20 @@
+Phase 614 trigger disabled verification.
+
+Expected:
+- No new [phase614] system-trigger dispatched logs after rebuild.
+- Worker remains healthy.
+- Manual/API task flow remains available.
+
+--- DASHBOARD PHASE614 LOGS AFTER DISABLE ---
+
+--- WORKER HEALTH AFTER DISABLE ---
+[phase25] task_events_emit loaded 2026-05-01T23:14:59.509Z file= file:///app/server/task_events_emit.mjs
+[worker] resolved sql contracts: { phase: '32', count: 3 }
+[worker] contract: phase32_claim_one.sql
+[worker] contract: phase32_mark_failure.sql
+[worker] contract: phase32_mark_success.sql
+[worker] started with POSTGRES_URL: postgresql://postgres:postgres@postgres:5432/postgres
+[worker] running in phase: 32
+[worker] owner: worker-d4e84dc7-0d4b-4cd5-84a0-262d571b7b65
+[worker] heartbeat
+[worker] heartbeat

@@ -1,0 +1,327 @@
+Phase 589 runtime hook repo inspection.
+
+Goal:
+Find whether real cache/context/memory/execution/runner modules already exist and can be safely wired.
+
+This is read-only inspection.
+
+--- SEARCH RUNTIME HOOK CANDIDATES ---
+./governance/workerModel.ts
+./public/js/phase457_execution_guard.js
+./public/js/phase533_execution_inspector_layout_fix.js
+./public/js/phase534_execution_inspector_expand.js
+./public/js/phase535_execution_inspector_requeue.js
+./public/js/phase537_execution_inspector_retry.js
+./public/js/phase538_execution_inspector_action_groups.js
+./public/js/phase538_execution_inspector_retry_strategies.js
+./public/js/phase539_execution_inspector_retry_mode_display.js
+./public/js/phase573_execution_inspector_debug.js
+./public/js/phase574_execution_inspector_success_feedback.js
+./scripts/_ops/phase40_1_patch_execution_path.mjs
+./scripts/_ops/phase40_1_patch_worker_shadow.mjs
+./scripts/phase14_5_patch_dashboard_no_cache.mjs
+./scripts/phase19_complete_task_runner.mjs
+./scripts/phase19_delegate_task_runner.mjs
+./scripts/phase19_fail_task_runner.mjs
+./server/retry_execution_router.js
+./server/worker_retry_enforcer.js
+./server/worker/backoff.mjs
+./server/worker/bootstrap_env_fix.mjs
+./server/worker/execution_contract.mjs
+./server/worker/execution_policy_resolver.mjs
+./server/worker/phase26_task_worker.mjs
+./server/worker/phase27_claim_one.sql
+./server/worker/phase27_mark_failure.sql
+./server/worker/phase27_mark_success.sql
+./server/worker/phase27_markers.mjs
+./server/worker/phase28_claim_one.sql
+./server/worker/phase28_mark_failure.sql
+./server/worker/phase28_mark_success.sql
+./server/worker/phase29_db_migrate_to_phase27.sql
+./server/worker/phase30_contract_check.sql
+./server/worker/phase32_claim_one.sql
+./server/worker/phase32_mark_failure.sql
+./server/worker/phase32_mark_success.sql
+./server/worker/phase34_claim_one_pg.sql
+./server/worker/phase34_claim_one.sql
+./server/worker/phase34_claim_task_id_for_test.sql
+./server/worker/phase34_extend_lease_pg.sql
+./server/worker/phase34_heartbeat_pg.sql
+./server/worker/phase34_heartbeat.sql
+./server/worker/phase34_kill_owner_for_test.sql
+./server/worker/phase34_mark_failure_pg.sql
+./server/worker/phase34_mark_failure.sql
+./server/worker/phase34_mark_success_pg.sql
+./server/worker/phase34_mark_success.sql
+./server/worker/phase34_reclaim_stale_pg.sql
+./server/worker/phase34_reclaim_stale.sql
+./server/worker/phase35_claim_one_pg.sql
+./server/worker/phase35_mark_failure_pg.sql
+./server/worker/phase35_mark_failure.sql
+./server/worker/phase35_mark_success_pg.sql
+./server/worker/phase35_mark_success.sql
+./server/worker/phase35_reclaim_expired.sql
+./server/worker/task_execution_interpreter.mjs
+./snapshots/phase533-execution-inspector-stable/postgres_snapshot.sql
+./snapshots/phase534-execution-inspector-format/postgres_snapshot.sql
+./src/contracts/__fixtures__/governanceExecutionBridgeAssembly.fixture.ts
+./src/contracts/__fixtures__/governanceExecutionBridgeContract.fixture.ts
+./src/contracts/__proofs__/governanceExecutionBridgeContract.typeproof.ts
+./src/contracts/adapters/governanceExecutionBridgeAdapter.ts
+./src/contracts/execution/__fixtures__/governedExecutionProof.fixture.ts
+./src/contracts/execution/__proofs__/governedExecutionProof.caseproof.ts
+./src/contracts/execution/governedExecutionProof.ts
+./src/contracts/governanceExecutionBridgeContract.ts
+./src/contracts/reporting/governedExecutionProofReport.fixture.ts
+./src/contracts/reporting/governedExecutionProofReport.ts
+./src/contracts/reporting/operatorConsumableExecutionProofSurface.fixture.ts
+./src/contracts/reporting/operatorConsumableExecutionProofSurface.ts
+./src/demo/minimalDemoRunner.ts
+./src/governance_investigation/verification/replay_fixture_runner.ts
+./src/governance/cognition/get_governance_execution_eligibility_snapshot.ts
+./src/governance/governanceExecutionRouting.ts
+./src/governance/governanceExecutionRoutingClassifier.ts
+./src/governance/governanceExecutionRoutingProof.ts
+./src/governance/governanceExecutionRoutingTypes.ts
+
+--- GREP RUNTIME TERMS ---
+server/worker_retry_enforcer.js:6:  const mode = task.execution_mode || "standard_retry";
+server/worker_retry_enforcer.js:8:  if (mode === "fresh-context") {
+server/worker_retry_enforcer.js:9:    task.cache_policy = "bypass";
+server/worker_retry_enforcer.js:10:    task.memory_scope = "reset_partial";
+server/worker_retry_enforcer.js:11:    task.execution_mode = "rebuild_context";
+server/worker_retry_enforcer.js:13:    task.cache_policy = "reuse";
+server/worker_retry_enforcer.js:14:    task.memory_scope = "preserve";
+server/worker_retry_enforcer.js:15:    task.execution_mode = "standard_retry";
+server/phase19_debug_routes_dump.mjs:41:      note: "If routes is empty, Express internals differ; still proves handler execution + env visibility.",
+server/optional-sse.mjs:20:  try { res.setHeader("Cache-Control", "no-cache, no-transform"); } catch {}
+server/optional-sse.mjs:29:  res.setHeader("Cache-Control", "no-cache, no-transform");
+server/utils/observability/testStructuredLogger.mjs:3:// SAFE TEST — no execution path impact
+server/utils/observability/USAGE.md:4:Provide a non-invasive, execution-safe way to emit structured observability logs.
+server/utils/observability/USAGE.md:8:- Do NOT place inside execution-critical paths
+server/utils/observability/USAGE.md:11:- Logging failure must NEVER impact execution
+server/utils/observability/aggregator.mjs:7:// - No execution path coupling
+server/utils/observability/structuredLogger.mjs:2:// Safe: wraps console output only, does NOT touch execution paths
+server/utils/observability/structuredLogger.mjs:14:    // fail silently to preserve execution safety
+server/utils/observability/structuredLogger.mjs:19:// Example usage (DO NOT inject into execution paths):
+server/utils/observability/README.md:5:This observability layer is designed to provide structured logging without introducing any coupling to execution paths.
+server/utils/observability/README.md:23:1. Observability must never affect execution
+server/utils/observability/INTEGRATION_GUARD.mjs:4:// Do NOT import this file into execution paths.
+server/utils/observability/INTEGRATION_GUARD.mjs:9:  "OBSERVABILITY GUARD TRIGGERED: Do not integrate observability into execution paths."
+server/artifacts.mjs:2: * Artifacts SSE + small in-memory replay.
+server/artifacts.mjs:23:    res.setHeader("Cache-Control", "no-cache, no-transform");
+server/retry_execution_router.js:4:  if (strategy === "fresh-context") {
+server/retry_execution_router.js:7:      execution_mode: "rebuild_context",
+server/retry_execution_router.js:8:      cache_policy: "bypass",
+server/retry_execution_router.js:9:      memory_scope: "reset_partial"
+server/retry_execution_router.js:15:    execution_mode: "standard_retry",
+server/retry_execution_router.js:16:    cache_policy: "reuse",
+server/retry_execution_router.js:17:    memory_scope: "preserve"
+server/retry_contract.js:9:  const allowedStrategies = new Set(["standard", "fresh-context"]);
+server/retry_contract.js:29:  body.source = body.source || "execution-inspector";
+server/worker/execution_policy_resolver.mjs:7:  const executionMode = payload.execution_mode || "standard";
+server/worker/execution_policy_resolver.mjs:8:  const cachePolicy = payload.cache_policy || "reuse";
+server/worker/execution_policy_resolver.mjs:9:  const memoryScope = payload.memory_scope || "preserve";
+server/worker/execution_policy_resolver.mjs:15:    execution_mode: executionMode,
+server/worker/execution_policy_resolver.mjs:16:    cache_policy: cachePolicy,
+server/worker/execution_policy_resolver.mjs:17:    memory_scope: memoryScope,
+server/worker/execution_policy_resolver.mjs:18:    requires_context_rebuild: executionMode === "rebuild_context",
+server/worker/execution_policy_resolver.mjs:19:    requires_cache_bypass: cachePolicy === "bypass",
+server/worker/execution_policy_resolver.mjs:20:    requires_memory_scope_reset: memoryScope === "reset_partial"
+server/worker/task_execution_interpreter.mjs:27:      output: `Strategy-shift execution prepared for: ${title}`,
+server/worker/task_execution_interpreter.mjs:35:    notes: "standard execution path",
+server/worker/task_execution_interpreter.mjs:36:    output: `Standard execution prepared for: ${title}`,
+server/worker/execution_contract.mjs:45:    execution: {
+server/worker/execution_contract.mjs:55:export function safeExecutionContract(task, executionResult) {
+server/worker/execution_contract.mjs:59:  const e = validateExecutionResult(executionResult);
+server/worker/execution_contract.mjs:65:    execution: e.execution
+server/worker/phase26_task_worker.mjs:9:import { resolveExecutionPolicy } from "./execution_policy_resolver.mjs";
+server/worker/phase26_task_worker.mjs:147:          console.log("[worker][execution-policy]", {
+server/worker/phase26_task_worker.mjs:150:            execution_mode: policy.execution_mode,
+server/worker/phase26_task_worker.mjs:151:            cache_policy: policy.cache_policy,
+server/worker/phase26_task_worker.mjs:152:            memory_scope: policy.memory_scope,
+server/worker/phase26_task_worker.mjs:153:            requires_context_rebuild: policy.requires_context_rebuild,
+server/worker/phase26_task_worker.mjs:154:            requires_cache_bypass: policy.requires_cache_bypass,
+server/worker/phase26_task_worker.mjs:155:            requires_memory_scope_reset: policy.requires_memory_scope_reset
+server/worker/phase26_task_worker.mjs:158:          if (policy.requires_cache_bypass) {
+server/worker/phase26_task_worker.mjs:159:            console.log("[worker][runtime-hook][cache-policy]", {
+server/worker/phase26_task_worker.mjs:161:              cache_policy: policy.cache_policy,
+server/worker/phase26_task_worker.mjs:163:              effect: "no_cache_layer_available_yet"
+server/worker/phase26_task_worker.mjs:167:          if (policy.requires_memory_scope_reset) {
+server/worker/phase26_task_worker.mjs:168:            console.log("[worker][runtime-hook][memory-scope]", {
+server/worker/phase26_task_worker.mjs:170:              memory_scope: policy.memory_scope,
+server/worker/phase26_task_worker.mjs:172:              effect: "no_memory_layer_available_yet"
+server/worker/phase26_task_worker.mjs:176:          if (policy.requires_context_rebuild) {
+server/worker/phase26_task_worker.mjs:177:            console.log("[worker][runtime-hook][execution-mode]", {
+server/worker/phase26_task_worker.mjs:179:              execution_mode: policy.execution_mode,
+server/worker/phase26_task_worker.mjs:180:              action: "rebuild_context_observed",
+server/worker/phase26_task_worker.mjs:181:              effect: "no_context_layer_available_yet"
+server/worker/phase26_task_worker.mjs:185:          console.warn("[worker][execution-policy] failed to resolve policy");
+server/routes/retry/OBSERVABILITY_INTEGRATION_NOTE.md:6:- Inject into execution-critical paths
+server/routes/api-guidance.mjs:26:          "execution_not_started"
+server/routes/task-events-sse.mjs:75:  res.setHeader("Cache-Control", "no-cache, no-transform");
+server/orchestrator/phase18_store.mjs:2: * Phase 18 — In-memory orchestrator store (no persistence).
+server/orchestrator/phase18_orchestration.mjs:2: * Phase 18 — In-memory orchestrator runtime.
+server/orchestrator/README.md:3:Phase 18 introduces a minimal, in-memory orchestration runtime:
+server/orchestrator/README.md:5:- `phase18_store.mjs`: in-memory orchestrator store
+server/policy/grants/resolvePolicyGrant.mjs:5: * - { action_id, context?, meta?, policy?, ... }
+server/policy/grants/resolvePolicyGrant.mjs:16: *       - if scope/scope_id provided, context[scope] === scope_id OR context[scope+"_id"] === scope_id
+server/policy/grants/resolvePolicyGrant.mjs:71:    if (input.context && typeof input.context === "object") return input.context;
+server/policy/grants/resolvePolicyGrant.mjs:73:    if (a0 && typeof a0 === "object" && a0.context && typeof a0.context === "object") return a0.context;
+server/policy/grants/resolvePolicyGrant.mjs:113:  const context = extractContext(input);
+server/policy/grants/resolvePolicyGrant.mjs:131:    if (!scopePasses(g, context)) continue;
+server/policy/__tests__/evaluate.test.mjs:16:  const r = evaluatePolicy({ action_id: 'unknown.action', context: {} }, { policy });
+server/policy/__tests__/evaluate.test.mjs:24:  const r = evaluatePolicy({ action_id: 'run.view', context: {} }, { policy });
+server/policy/__tests__/evaluate.test.mjs:32:  const r = evaluatePolicy({ action_id: 'task.mutate.file', context: {} }, { policy });
+server/policy/__tests__/evaluate.test.mjs:39:  const input = { action_id: 'run.view', context: { foo: 'bar' }, meta: { run_id: 'r1' } };
+server/policy/__tests__/evaluate.test.mjs:47:    () => evaluatePolicy({ action_id: 'run.view', context: { tier: 'A' } }, { policy }),
+server/policy/__tests__/evaluate.test.mjs:48:    /forbidden context key/
+server/policy/__tests__/determinism_regression.test.mjs:11:  context: { z: 2, a: 1, nested: { b: 2, a: 1 } },
+server/policy/__tests__/load_default_policy.test.mjs:12:  const r = evaluatePolicy({ action_id: 'unknown.action', context: {} }, { policy });
+server/policy/evaluate.legacy.mjs:31:export function evaluatePolicy({ action_id, context = {}, meta = {} }, { policy }) {
+server/policy/evaluate.legacy.mjs:35:  if (context && typeof context !== 'object') throw new Error('context must be an object');
+server/policy/evaluate.legacy.mjs:36:  const ctx = context || {};
+server/policy/evaluate.legacy.mjs:41:      throw new Error(`forbidden context key: ${k}`);
+server/policy/evaluate.legacy.mjs:63:      context_keys: stableKeyList(ctx),
+scripts/demo/TASKS_PHASE9_2.md:5:1. Verify PM2 auto-restart context rehydration.
+scripts/phase456_rebuild_dashboard_container.sh:20:  docker compose build --no-cache dashboard
+scripts/phase530_sse_pipeline_probe.sh:31:grep -RIn "Execution Inspector\|executionInspector\|execution-inspector" . \
+scripts/phase487_docker_controlled_prune_plan.sh:18:It does not execute any prune action.
+scripts/phase487_docker_controlled_prune_plan.sh:31:- build cache
+scripts/phase487_docker_controlled_prune_plan.sh:44:### Tier 1 — Build cache only
+scripts/phase487_docker_controlled_prune_plan.sh:48:More aggressive build-cache-only variant:
+scripts/phase467_7_finalize_operator_exposure_corridor.sh:23:    "src/contracts/execution/governedExecutionProof.ts" \
+scripts/phase467_7_finalize_operator_exposure_corridor.sh:24:    "src/contracts/execution/__fixtures__/governedExecutionProof.fixture.ts" \
+scripts/phase467_7_finalize_operator_exposure_corridor.sh:25:    "src/contracts/execution/__proofs__/governedExecutionProof.caseproof.ts" \
+scripts/phase467_7_finalize_operator_exposure_corridor.sh:45:  echo "OK: governed execution proof surface defined"
+scripts/phase467_7_finalize_operator_exposure_corridor.sh:46:  echo "OK: execution allow/blocked fixtures defined"
+scripts/phase467_7_finalize_operator_exposure_corridor.sh:47:  echo "OK: execution caseproof defined"
+scripts/phase467_7_finalize_operator_exposure_corridor.sh:76:    src/contracts/execution/governedExecutionProof.ts \
+scripts/phase467_7_finalize_operator_exposure_corridor.sh:77:    src/contracts/execution/__fixtures__/governedExecutionProof.fixture.ts \
+scripts/phase467_7_finalize_operator_exposure_corridor.sh:78:    src/contracts/execution/__proofs__/governedExecutionProof.caseproof.ts \
+scripts/phase467_7_finalize_operator_exposure_corridor.sh:100:  echo "- stitch intake proof surface -> governance bridge -> governed execution proof -> operator surface"
+scripts/phase467_7_finalize_operator_exposure_corridor.sh:102:  echo "- no worker launch, no scheduler expansion, no autonomous execution"
+scripts/phase487_console_verdict_summary.sh:55:  echo "• No backend, governance, approval, or execution changes"
+scripts/phase423_2_step1_continuation.sh:7:OUTPUT="docs/phase423_2_step1_execution_anchor_link_resolution.md"
+scripts/phase423_2_step1_continuation.sh:19:OUTPUT = ROOT / "docs" / "phase423_2_step1_execution_anchor_link_resolution.md"
+scripts/phase423_2_step1_continuation.sh:85:    if "execution" in lowered or "routing" in lowered:
+scripts/phase423_2_step1_continuation.sh:86:        return "execution routing layer"
+scripts/phase423_2_step1_continuation.sh:190:execution_ladder = build_ladder([EXECUTION_ANCHOR])
+scripts/phase423_2_step1_continuation.sh:193:execution_files = {hit["file"] for hit in anchor_hits[EXECUTION_ANCHOR]}
+scripts/phase423_2_step1_continuation.sh:195:co_located_files = sorted(execution_files & governance_files)
+scripts/phase423_2_step1_continuation.sh:208:exec_nodes, exec_ladder_files = ladder_nodes(execution_ladder)
+scripts/phase423_2_step1_continuation.sh:225:    "execution_anchor": EXECUTION_ANCHOR,
+scripts/phase423_2_step1_continuation.sh:229:    "execution_ladder": execution_ladder,
+scripts/phase423_2_step1_continuation.sh:272:                        rendered = f"top-level context in `{caller['file']}:{caller['call_line']}`"
+scripts/phase423_2_step1_continuation.sh:289:section.append(f"- Execution anchor: `{data['execution_anchor']}`")
+scripts/phase423_2_step1_continuation.sh:292:section.append(format_hits("Execution Anchor Hits", data["anchor_hits"].get(data["execution_anchor"], [])))
+scripts/phase423_2_step1_continuation.sh:305:section.append(format_ladder("Step 1.6 — Execution Ladder", data["execution_ladder"]))
+scripts/phase464_x_install_minimal_probe_sentinel.sh:23:      console.log("[phase464x sentinel] inline script executed");
+scripts/phase464_x_install_minimal_probe_sentinel.sh:24:      console.error("[phase464x sentinel] inline script executed");
+scripts/phase487_tier2_container_prune_with_postcheck.sh:48:log "---- execute docker container prune -f ----"
+scripts/sse/reflections-sse-server.ts:20:    "Cache-Control": "no-cache",
+scripts/sse/reflections-sse-server.ts:49:    "Cache-Control": "no-cache",
+scripts/phase384_replay_proof_gate.sh:9:bash scripts/phase383_replay_proof_execution.sh
+scripts/_protocol/enforce_terminal_codeblock_rule.txt:12:This is now treated as an execution interface requirement, not a preference.
+scripts/_protocol/enforce_terminal_safe_codeblocks.md:44:- One concern per execution
+scripts/phase467_1_prove_execution_fixture_cases.sh:6:OUT="docs/phase467_1_execution_fixture_cases.txt"
+scripts/phase467_1_prove_execution_fixture_cases.sh:7:FIXTURE="src/contracts/execution/__fixtures__/governedExecutionProof.fixture.ts"
+scripts/phase467_1_prove_execution_fixture_cases.sh:23:  rg -q "executionProofAllowedFixture" "$FIXTURE" && echo "OK: allowed case present" || echo "FAIL: allowed case missing"
+scripts/phase467_1_prove_execution_fixture_cases.sh:24:  rg -q "executionProofGovernanceBlockedFixture" "$FIXTURE" && echo "OK: governance blocked case present" || echo "FAIL: governance blocked case missing"
+scripts/phase467_1_prove_execution_fixture_cases.sh:25:  rg -q "executionProofApprovalMissingFixture" "$FIXTURE" && echo "OK: approval missing case present" || echo "FAIL: approval missing case missing"
+scripts/phase467_1_prove_execution_fixture_cases.sh:29:  if rg -q "execute|dispatch|worker|fetch|EventSource|setInterval|setTimeout" "$FIXTURE"; then
+scripts/phase467_1_prove_execution_fixture_cases.sh:43:  echo "- Next phase: execute proof function against these fixtures."
+scripts/phase530_operator_surface_empty_state_probe.sh:44:grep -RIn "Execution Inspector\|execution inspector\|ExecutionInspector\|execution-inspector" . \
+scripts/phase473_4_trace_container_public_sync_root_cause.sh:19:  rg -n "dashboard:|build:|image:|volumes:|public|Dockerfile|context:" \
+scripts/phase388_replay_proof_surface_audit.sh:19:  "scripts/phase383_replay_proof_execution.sh"
+scripts/phase388_replay_proof_surface_audit.sh:35:  "scripts/phase383_replay_proof_execution.sh"
+scripts/phase14_6_no_store_html_headers.mjs:13:      '  res.set("Pragma", "no-cache");',
+scripts/phase457_verify_controlled_proof.sh:24:  echo "Controlled execution path verified."
+scripts/phase457_verify_controlled_proof.sh:25:  echo "Deterministic guidance pipeline executed successfully."
+scripts/phase39_patch_worker_gate.py:73:if "ACTION_TIER_BLOCKED" in w or "Action Tier pre-execution gate" in w:
+scripts/phase39_patch_worker_gate.py:79:    "// Phase 39: Action Tier pre-execution gate (A allowed; B/C blocked)\n"
+scripts/phase39_patch_worker_gate.py:102:        "  // Phase 39: Action Tier pre-execution gate\n"
+scripts/phase39_patch_worker_gate.py:123:        "  // Phase 39: Action Tier pre-execution gate\n"
+scripts/phase87_18_run_print_system_summary_wrapper_smoke.sh:14:{"stability":"stable","executionRisk":"none","cognition":"consistent","signalCoherence":"coherent","operatorAttention":"none"}
+scripts/phase383_replay_proof_execution.sh:16:echo "Replay verification proof suite execution complete"
+scripts/phase467_6_prove_operator_surface.sh:45:  echo "- Governed execution proof is now operator-consumable."
+scripts/phase387_replay_chain_run.sh:7:echo "Phase 387 — Replay chain execution starting"
+scripts/phase387_replay_chain_run.sh:18:echo "Phase 387 — Replay chain execution complete"
+scripts/phase464_x_force_clean_rebuild.sh:21:docker compose build --no-cache >> "$OUT" 2>&1 || echo "build failed" >> "$OUT"
+scripts/phase467_0_prove_controlled_execution_intro.sh:6:OUT="docs/phase467_0_controlled_execution_intro_proof.txt"
+scripts/phase467_0_prove_controlled_execution_intro.sh:7:TARGET="src/contracts/execution/governedExecutionProof.ts"
+scripts/phase467_0_prove_controlled_execution_intro.sh:19:  [ -f "$TARGET" ] && echo "OK: governed execution proof file present" || echo "FAIL: governed execution proof file missing"
+scripts/phase467_0_prove_controlled_execution_intro.sh:23:  rg -n "GovernedExecutionApproval|GovernedExecutionProofInput|GovernedExecutionProofResult|executeGovernedProof|approved: boolean|accepted: boolean|blocked_reason|operator_visible" "$TARGET" || true
+scripts/phase467_0_prove_controlled_execution_intro.sh:45:  echo "- First governed execution proof surface now exists."
+scripts/phase463_entrypoint.sh:62:EXECUTION_FILE="docs/proofs/execution_${PLAN_ID}.json"
+scripts/phase465_0_governance_execution_bridge_probe.sh:4:OUT="docs/phase465_0_governance_execution_bridge_probe.txt"
+scripts/phase465_0_governance_execution_bridge_probe.sh:14:echo "  governance evaluation → execution preparation" >> "$OUT"
+scripts/phase465_0_governance_execution_bridge_probe.sh:22:echo "STEP 2 — Locate execution entrypoints" >> "$OUT"
+scripts/phase465_0_governance_execution_bridge_probe.sh:23:rg -n "execute|run|dispatch|task|job" src server 2>/dev/null >> "$OUT" || echo "no execution references found" >> "$OUT"
+scripts/phase465_0_governance_execution_bridge_probe.sh:27:rg -n "governance.*execute|execute.*governance|policy.*run|run.*policy" src server 2>/dev/null >> "$OUT" || echo "no direct bridge patterns found" >> "$OUT"
+scripts/phase465_0_governance_execution_bridge_probe.sh:34:echo "STEP 5 — Identify execution preparation signals" >> "$OUT"
+scripts/phase19_complete_task_runner.mjs:20:      title: "phase19 complete runner",
+scripts/phase19_complete_task_runner.mjs:22:      notes: "runner smoke",
+scripts/phase19_complete_task_runner.mjs:23:      source: "runner",
+scripts/phase19_complete_task_runner.mjs:25:      meta: { ok: true, step: "complete_task_runner", ts: Date.now() },
+scripts/phase19_complete_task_runner.mjs:31:      source: "runner",
+scripts/phase19_complete_task_runner.mjs:32:      meta: { ok: true, step: "complete_task_runner", ts: Date.now() },
+scripts/phase487_tier3_image_prune_with_postcheck.sh:62:log "---- execute docker image prune -a -f ----"
+scripts/phase467_4_prove_operator_visible_reporting_surface.sh:48:  echo "- First governed execution proof now has an operator-visible reporting contract."
+scripts/phase467_3_noemit_execution_corridor_verification.sh:6:OUT="docs/phase467_3_noemit_execution_corridor_verification.txt"
+scripts/phase467_3_noemit_execution_corridor_verification.sh:7:COMPILE_OUT="docs/phase467_3_noemit_execution_corridor_verification.compile.txt"
+scripts/phase467_3_noemit_execution_corridor_verification.sh:18:    "src/contracts/execution/governedExecutionProof.ts" \
+scripts/phase467_3_noemit_execution_corridor_verification.sh:19:    "src/contracts/execution/__fixtures__/governedExecutionProof.fixture.ts" \
+scripts/phase467_3_noemit_execution_corridor_verification.sh:20:    "src/contracts/execution/__proofs__/governedExecutionProof.caseproof.ts" \
+scripts/phase467_3_noemit_execution_corridor_verification.sh:49:  echo "STEP 4 — execution corridor surface anchors"
+scripts/phase467_3_noemit_execution_corridor_verification.sh:50:  rg -n "executeGovernedProof|governedExecutionAllowedResult|governedExecutionGovernanceBlockedResult|governedExecutionApprovalMissingResult|operator_approval_missing|governance_denied" \
+scripts/phase467_3_noemit_execution_corridor_verification.sh:51:    src/contracts/execution 2>/dev/null || true
+scripts/phase467_3_noemit_execution_corridor_verification.sh:75:  echo "- If confirmed, the first governed execution proof corridor is structurally complete."
+scripts/phase87_13_situation_summary_cli.ts:21:    executionRisk:
+scripts/phase87_13_situation_summary_cli.ts:22:      typeof candidate.executionRisk === "string"
+scripts/phase87_13_situation_summary_cli.ts:23:        ? candidate.executionRisk
+scripts/phase14_5_patch_dashboard_no_cache.mjs:15:    '  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0" />',
+scripts/phase14_5_patch_dashboard_no_cache.mjs:16:    '  <meta http-equiv="Pragma" content="no-cache" />',
+scripts/phase486_step9_inspect_selected_ui_host.sh:48:  grep -nE 'fetch|await |async |props|params|searchParams|demo-runtime|governance|trace|approval|execution|report' "$TARGET" || true
+scripts/phase464_x_trace_system_health_payload.sh:36:  echo "STEP 5 — Top 200 lines for context"
+scripts/phase19_delegate_task_runner.mjs:18:  title: "phase19 delegate runner",
+scripts/phase19_delegate_task_runner.mjs:20:  notes: "runner smoke",
+scripts/phase19_delegate_task_runner.mjs:21:  source: "runner",
+scripts/phase19_delegate_task_runner.mjs:23:  meta: { ok: true, step: "delegate_task_runner", ts: Date.now() },
+scripts/util/verify-storage-clean.sh:9:  "memory/agent_data.sqlite"
+scripts/util/verify-storage-clean.sh:10:  "memory/agent_memory.db"
+scripts/util/verify-storage-clean.sh:11:  "scripts/_local/agent-runtime/memory/agent_brain.db"
+scripts/util/verify-storage-clean.sh:37:TOTAL_KB=$(find db backups memory -type f \( -name "*.db" -o -name "*.sqlite" \) -exec du -k {} + | awk '{s+=$1} END {print s}')
+scripts/reset-roundtrip.ts:33:// ESM-compatible main module execution
+scripts/phase487_patch_active_dashboard_bundle_insufficient.sh:12:  \( -path "./.git" -o -path "./node_modules" -o -path "./coverage" -o -path "./.next/cache" -o -path "./dashboard/.next/cache" \) -prune -o \
+scripts/phase487_patch_active_dashboard_bundle_insufficient.sh:131:    docker exec "${CONTAINER_ID}" sh -lc 'find /app \( -path /app/node_modules -o -path /app/.git -o -path /app/.next/cache \) -prune -o -type f \( -name "*.html" -o -name "*.js" -o -name "*.mjs" -o -name "*.cjs" -o -name "*.ts" -o -name "*.tsx" \) -print 2>/dev/null | xargs grep -n -l "Confidence: insufficient" 2>/dev/null | sort -u' || true
+scripts/phase487_patch_active_dashboard_bundle_insufficient.sh:138:    docker compose build --no-cache 2>&1 || docker-compose build --no-cache 2>&1 || true
+scripts/phase487_print_prune_tiers.sh:12:echo "Tier 1 — Build cache only"
+scripts/phase499_wire_execution_readiness_signal.sh:13:// PHASE 499 — WIRE execution_readiness (SYSTEM-DERIVED, NO COMPUTATION)
+scripts/phase499_wire_execution_readiness_signal.sh:23:    window.__PHASE494_SIGNALS__.execution_readiness = "unknown";
+scripts/phase499_wire_execution_readiness_signal.sh:29:        data.executionReady === true ||
+scripts/phase499_wire_execution_readiness_signal.sh:30:        data.executionStatus === "ready"
+scripts/phase499_wire_execution_readiness_signal.sh:32:        window.__PHASE494_SIGNALS__.execution_readiness = "ready";
+scripts/phase499_wire_execution_readiness_signal.sh:37:        data.executionBlocked === true ||
+scripts/phase499_wire_execution_readiness_signal.sh:38:        data.executionStatus === "blocked"
+scripts/phase499_wire_execution_readiness_signal.sh:40:        window.__PHASE494_SIGNALS__.execution_readiness = "blocked";
+scripts/phase499_wire_execution_readiness_signal.sh:45:        data.executionPending === true ||
+scripts/phase499_wire_execution_readiness_signal.sh:46:        data.executionStatus === "pending"
+scripts/phase499_wire_execution_readiness_signal.sh:48:        window.__PHASE494_SIGNALS__.execution_readiness = "pending";
+scripts/phase499_wire_execution_readiness_signal.sh:53:      if (data.execution || data.tasks || data.queue) {
+scripts/phase499_wire_execution_readiness_signal.sh:54:        window.__PHASE494_SIGNALS__.execution_readiness = "present";
+scripts/phase499_wire_execution_readiness_signal.sh:56:        window.__PHASE494_SIGNALS__.execution_readiness = "absent";
+scripts/phase499_wire_execution_readiness_signal.sh:62:      window.__PHASE494_SIGNALS__.execution_readiness = "unknown";
+scripts/phase499_wire_execution_readiness_signal.sh:70:echo "Phase 499 execution_readiness signal wiring applied to ${TARGET}"
+scripts/phase467_2_prove_execution_caseproof.sh:6:OUT="docs/phase467_2_execution_caseproof.txt"
+scripts/phase467_2_prove_execution_caseproof.sh:7:PROOF="src/contracts/execution/__proofs__/governedExecutionProof.caseproof.ts"
+scripts/phase467_2_prove_execution_caseproof.sh:31:  rg -q 'outcome: governedExecutionAllowedResult.execution.outcome' "$PROOF" && echo "OK: allowed outcome summarized" || echo "FAIL: allowed outcome summary missing"
+scripts/phase467_2_prove_execution_caseproof.sh:49:  echo "- Next phase may add compile-only noEmit verification focused on the execution proof corridor."
+scripts/phase487_apply_task_clarity_fallback.sh:92:      const res = await fetch("/api/tasks", { cache: "no-store" });
+scripts/phase39_2_policy_eval_harness.mjs:17:  { name: 'unknown denies', req: { action_id: 'unknown.action', context: {}, meta: {} }, want: { tier: 'B', decision: 'deny' } },
+scripts/phase39_2_policy_eval_harness.mjs:18:  { name: 'run.view allows', req: { action_id: 'run.view', context: {}, meta: { run_id: 'r1' } }, want: { tier: 'A', decision: 'allow' } },
+scripts/phase39_2_policy_eval_harness.mjs:19:  { name: 'task.mutate prefix denies', req: { action_id: 'task.mutate.file', context: {}, meta: { task_id: 't1' } }, want: { tier: 'B', decision: 'deny' } },
+scripts/install_restore_guards.sh:27:if git diff --cached --name-only | grep -E "^snapshots/phase"; then
+scripts/phase465_2_bridge_contract_extraction.sh:21:rg -n -C 5 "prepare.*execute|execute.*prepare|ready.*run|run.*ready|eligible.*execute" src server 2>/dev/null >> "$OUT" || echo "no direct prep→execution adjacency found" >> "$OUT"
+scripts/phase465_2_bridge_contract_extraction.sh:29:rg -n -C 3 "intake|request|governance|policy|prepare|ready|execute|run" src server 2>/dev/null | head -n 200 >> "$OUT"
+scripts/phase465_2_bridge_contract_extraction.sh:35:HAS_PREP_EXEC=$(rg -q "prepare.*execute|execute.*prepare" src server && echo 1 || echo 0)

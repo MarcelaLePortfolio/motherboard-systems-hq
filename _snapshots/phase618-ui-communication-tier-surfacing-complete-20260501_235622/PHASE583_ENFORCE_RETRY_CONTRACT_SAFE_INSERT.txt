@@ -1,0 +1,11 @@
+Phase 583 enforce retry contract safe insert.
+
+Issue:
+- Automated pattern matching failed due to unexpected route formatting.
+- enforceRetryContract is still not active.
+
+Fix:
+Perform a guaranteed-safe direct insertion by locating the delegate route
+and injecting middleware explicitly.
+
+This avoids regex ambiguity and preserves stability.

@@ -1,0 +1,13 @@
+Phase 583 worker retry visibility active.
+
+State:
+- Worker now logs retry context when executing tasks.
+- retry_mode / execution_mode visible at runtime.
+- retry_of_task_id confirmed at execution layer.
+- No behavioral changes introduced.
+
+Purpose:
+Validate that retry routing intent survives from API → DB → worker.
+
+Next:
+Observe worker logs to confirm correct propagation before enforcing runtime rules.

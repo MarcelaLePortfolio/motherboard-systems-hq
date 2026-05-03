@@ -1,0 +1,24 @@
+PHASE 530 READY FOR UI DEBUG
+
+State:
+- Working tree clean
+- All changes committed and pushed
+- Snapshot + tag preserved
+- Containers running
+- Helper scripts archived
+
+System is now in a controlled, stable baseline.
+
+Next corridor (UI sizing issue):
+- Investigate why Phase530 bridge sizing is not visually applying
+
+Primary hypotheses to test (one at a time):
+1. DOM overwrite after render (another script re-renders panel)
+2. Parent container constraints (grid/flex clipping height)
+3. CSS specificity override (Tailwind or panel styles winning)
+
+Execution discipline:
+- Single hypothesis per change
+- No layered fixes
+- Verify before next move
+

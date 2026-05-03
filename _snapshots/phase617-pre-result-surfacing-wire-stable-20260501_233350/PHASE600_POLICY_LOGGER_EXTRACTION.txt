@@ -1,0 +1,17 @@
+Phase 600 execution policy logger extraction.
+
+Change:
+- Extracted policy logging + runtime hooks into dedicated helper.
+
+Safety:
+- No change to execution flow
+- No change to policy resolution
+- No change to contract enforcement
+
+Result:
+- Cleaner execution loop
+- Isolated observability logic
+- Safer future extension point
+
+Status:
+NON-BEHAVIORAL REFACTOR COMPLETE

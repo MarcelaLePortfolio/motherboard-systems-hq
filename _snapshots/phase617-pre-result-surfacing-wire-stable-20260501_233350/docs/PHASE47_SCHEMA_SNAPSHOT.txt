@@ -1,0 +1,60 @@
+                                                                       Table "public.tasks"
+        Column         |           Type           | Collation | Nullable |              Default              | Storage  | Compression | Stats target | Description 
+-----------------------+--------------------------+-----------+----------+-----------------------------------+----------+-------------+--------------+-------------
+ id                    | bigint                   |           | not null | nextval('tasks_id_seq'::regclass) | plain    |             |              | 
+ task_id               | text                     |           | not null |                                   | extended |             |              | 
+ title                 | text                     |           |          |                                   | extended |             |              | 
+ status                | text                     |           | not null | 'queued'::text                    | extended |             |              | 
+ run_id                | text                     |           |          |                                   | extended |             |              | 
+ claimed_by            | text                     |           |          |                                   | extended |             |              | 
+ attempts              | integer                  |           | not null | 0                                 | plain    |             |              | 
+ max_attempts          | integer                  |           |          |                                   | plain    |             |              | 
+ created_at            | timestamp with time zone |           | not null | now()                             | plain    |             |              | 
+ updated_at            | timestamp with time zone |           | not null | now()                             | plain    |             |              | 
+ failed_at             | timestamp with time zone |           |          |                                   | plain    |             |              | 
+ notes                 | text                     |           |          |                                   | extended |             |              | 
+ claimed_at            | bigint                   |           |          |                                   | plain    |             |              | 
+ lease_expires_at      | bigint                   |           |          |                                   | plain    |             |              | 
+ lease_epoch           | integer                  |           | not null | 0                                 | plain    |             |              | 
+ action_tier           | text                     |           | not null | 'A'::text                         | extended |             |              | 
+ tier_disclosure_title | text                     |           |          |                                   | extended |             |              | 
+ tier_disclosure_body  | text                     |           |          |                                   | extended |             |              | 
+Indexes:
+    "tasks_pkey" PRIMARY KEY, btree (id)
+    "idx_tasks_claim_guard" btree (task_id, claimed_by, lease_epoch)
+    "tasks_lease_expires_at_idx" btree (lease_expires_at)
+    "tasks_task_id_idx" btree (task_id)
+    "tasks_task_id_key" UNIQUE CONSTRAINT, btree (task_id)
+Check constraints:
+    "tasks_action_tier_allowed" CHECK (action_tier = ANY (ARRAY['A'::text, 'B'::text, 'C'::text]))
+    "tasks_failed_at_matches_status" CHECK (status = 'failed'::text AND failed_at IS NOT NULL OR status <> 'failed'::text AND failed_at IS NULL)
+Triggers:
+    trg_tasks_failed_at_guard BEFORE INSERT OR UPDATE ON tasks FOR EACH ROW EXECUTE FUNCTION tasks_failed_at_guard()
+Access method: heap
+
+                                                                        Table "public.task_events"
+   Column   |           Type           | Collation | Nullable |                       Default                       | Storage  | Compression | Stats target | Description 
+------------+--------------------------+-----------+----------+-----------------------------------------------------+----------+-------------+--------------+-------------
+ id         | uuid                     |           | not null | gen_random_uuid()                                   | plain    |             |              | 
+ kind       | text                     |           | not null |                                                     | extended |             |              | 
+ payload    | jsonb                    |           | not null |                                                     | extended |             |              | 
+ created_at | timestamp with time zone |           | not null | now()                                               | plain    |             |              | 
+ task_id    | text                     |           |          |                                                     | extended |             |              | 
+ run_id     | text                     |           |          |                                                     | extended |             |              | 
+ actor      | text                     |           |          |                                                     | extended |             |              | 
+ ts         | bigint                   |           |          | (EXTRACT(epoch FROM now()) * 1000::numeric)::bigint | plain    |             |              | 
+Indexes:
+    "task_events_pkey" PRIMARY KEY, btree (id)
+    "task_events_actor_id_desc_idx" btree (actor, id DESC)
+    "task_events_run_id_id_desc_idx" btree (run_id, id DESC)
+    "task_events_task_id_id_desc_idx" btree (task_id, id DESC)
+Check constraints:
+    "task_events_actor_required" CHECK (actor IS NOT NULL AND actor <> ''::text)
+    "task_events_run_id_required_for_non_created" CHECK (kind = 'task.created'::text OR run_id IS NOT NULL)
+    "task_events_task_id_not_numeric" CHECK (task_id IS NULL OR task_id !~ '^[0-9]+$'::text)
+Triggers:
+    trg_task_events_extract_run_actor BEFORE INSERT ON task_events FOR EACH ROW EXECUTE FUNCTION task_events_extract_run_actor()
+    trg_task_events_normalize_payload_task_id BEFORE INSERT ON task_events FOR EACH ROW EXECUTE FUNCTION task_events_normalize_payload_task_id()
+    trg_task_events_normalize_task_id BEFORE INSERT ON task_events FOR EACH ROW EXECUTE FUNCTION task_events_normalize_task_id()
+Access method: heap
+

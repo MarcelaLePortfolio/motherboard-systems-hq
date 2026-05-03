@@ -1,0 +1,153 @@
+PHASE 487 — POST-REBUILD VERIFICATION
+timestamp=20260415_220033
+branch=phase119-dashboard-cognition-contract
+commit=97a7ed3160faa36a9ff664f2b0e1b296de0ff552
+
+=== SOURCE CHECK ===
+src/cognition/operatorGuidanceMapping.ts-90-  rationale: string,
+src/cognition/operatorGuidanceMapping.ts-91-): OperatorGuidance {
+src/cognition/operatorGuidanceMapping.ts-92-  const severity = mapStatusToSeverity(signal.status);
+src/cognition/operatorGuidanceMapping.ts:93:  const confidence = mapStatusToConfidence(signal.status);
+src/cognition/operatorGuidanceMapping.ts-94-  const type = mapStatusToType(signal.status);
+src/cognition/operatorGuidanceMapping.ts-95-
+src/cognition/operatorGuidanceMapping.ts-96-  return {
+--
+src/cognition/operatorGuidanceMapping.ts-98-    type,
+src/cognition/operatorGuidanceMapping.ts-99-    domain: signal.domain,
+src/cognition/operatorGuidanceMapping.ts-100-    severity,
+src/cognition/operatorGuidanceMapping.ts:101:    confidence,
+src/cognition/operatorGuidanceMapping.ts-102-    message,
+src/cognition/operatorGuidanceMapping.ts-103-    rationale,
+src/cognition/operatorGuidanceMapping.ts-104-    signalSource: [signal.source, signal.key],
+--
+src/cognition/operatorGuidanceMapping.ts-238-      createBoundedGuidance(
+src/cognition/operatorGuidanceMapping.ts-239-        signal,
+src/cognition/operatorGuidanceMapping.ts-240-        (signal.summary
+src/cognition/operatorGuidanceMapping.ts:241:          ? `Signal quality is limited; interpret with caution: ${signal.summary}`
+src/cognition/operatorGuidanceMapping.ts-242-          : `Signal quality currently unavailable; awaiting stronger signal.`),
+src/cognition/operatorGuidanceMapping.ts:243:        "Observed signal quality does not support high-confidence guidance.",
+src/cognition/operatorGuidanceMapping.ts-244-      ),
+src/cognition/operatorGuidanceMapping.ts-245-  },
+src/cognition/operatorGuidanceMapping.ts-246-  {
+--
+src/cognition/operatorGuidanceConfidence.ts:1:import type { OperationalConfidence } from "./confidence";
+src/cognition/operatorGuidanceConfidence.ts-2-
+src/cognition/operatorGuidanceConfidence.ts-3-export interface OperatorGuidanceConfidenceInput {
+src/cognition/operatorGuidanceConfidence.ts-4-  operationalConfidence?: OperationalConfidence;
+src/cognition/operatorGuidanceConfidence.ts-5-}
+src/cognition/operatorGuidanceConfidence.ts-6-/*
+src/cognition/operatorGuidanceConfidence.ts-7-PHASE 89 — CONFIDENCE FRAMING MODEL
+src/cognition/operatorGuidanceConfidence.ts:8:Defines bounded confidence interpretation rules.
+src/cognition/operatorGuidanceConfidence.ts-9-No execution authority. Cognition framing only.
+src/cognition/operatorGuidanceConfidence.ts-10-*/
+src/cognition/operatorGuidanceConfidence.ts-11-
+--
+src/cognition/operatorGuidanceConfidence.ts-13-import type { GuidanceSignalObservation } from "./operatorGuidanceMapping";
+src/cognition/operatorGuidanceConfidence.ts-14-
+src/cognition/operatorGuidanceConfidence.ts-15-export type ConfidenceAssessment = {
+src/cognition/operatorGuidanceConfidence.ts:16:  confidence: GuidanceConfidence;
+src/cognition/operatorGuidanceConfidence.ts-17-  reason: string;
+src/cognition/operatorGuidanceConfidence.ts-18-  signalCount: number;
+src/cognition/operatorGuidanceConfidence.ts-19-  conflictingSignals: boolean;
+--
+src/cognition/operatorGuidanceConfidence.ts-25-
+src/cognition/operatorGuidanceConfidence.ts-26-  if (signals.length === 0) {
+src/cognition/operatorGuidanceConfidence.ts-27-    return {
+src/cognition/operatorGuidanceConfidence.ts:28:      confidence: "limited",
+src/cognition/operatorGuidanceConfidence.ts-29-      reason: "No signals available for interpretation.",
+src/cognition/operatorGuidanceConfidence.ts-30-      signalCount: 0,
+src/cognition/operatorGuidanceConfidence.ts-31-      conflictingSignals: false,
+--
+src/cognition/operatorGuidanceConfidence.ts-42-
+src/cognition/operatorGuidanceConfidence.ts-43-  if (stalled > 0) {
+src/cognition/operatorGuidanceConfidence.ts-44-    return {
+src/cognition/operatorGuidanceConfidence.ts:45:      confidence: "medium",
+src/cognition/operatorGuidanceConfidence.ts-46-      reason: "Stalled signals observed but root cause not proven.",
+src/cognition/operatorGuidanceConfidence.ts-47-      signalCount: signals.length,
+src/cognition/operatorGuidanceConfidence.ts-48-      conflictingSignals,
+--
+src/cognition/operatorGuidanceConfidence.ts-51-
+src/cognition/operatorGuidanceConfidence.ts-52-  if (degraded > 0) {
+src/cognition/operatorGuidanceConfidence.ts-53-    return {
+src/cognition/operatorGuidanceConfidence.ts:54:      confidence: "medium",
+src/cognition/operatorGuidanceConfidence.ts-55-      reason: "Degraded signals observed without systemic failure.",
+src/cognition/operatorGuidanceConfidence.ts-56-      signalCount: signals.length,
+src/cognition/operatorGuidanceConfidence.ts-57-      conflictingSignals,
+--
+src/cognition/operatorGuidanceConfidence.ts-60-
+src/cognition/operatorGuidanceConfidence.ts-61-  if (unknown > 0) {
+src/cognition/operatorGuidanceConfidence.ts-62-    return {
+src/cognition/operatorGuidanceConfidence.ts:63:      confidence: "low",
+src/cognition/operatorGuidanceConfidence.ts:64:      reason: "Signal quality insufficient for strong interpretation.",
+src/cognition/operatorGuidanceConfidence.ts-65-      signalCount: signals.length,
+src/cognition/operatorGuidanceConfidence.ts-66-      conflictingSignals,
+src/cognition/operatorGuidanceConfidence.ts-67-    };
+src/cognition/operatorGuidanceConfidence.ts-68-  }
+src/cognition/operatorGuidanceConfidence.ts-69-
+src/cognition/operatorGuidanceConfidence.ts-70-  return {
+src/cognition/operatorGuidanceConfidence.ts:71:    confidence: "high",
+src/cognition/operatorGuidanceConfidence.ts-72-    reason: "Signals consistently indicate healthy state.",
+src/cognition/operatorGuidanceConfidence.ts-73-    signalCount: signals.length,
+src/cognition/operatorGuidanceConfidence.ts-74-    conflictingSignals,
+--
+src/cognition/operatorGuidanceConfidence.ts-80-
+src/cognition/operatorGuidanceConfidence.ts-81-
+src/cognition/operatorGuidanceConfidence.ts-82-export function mapOperationalConfidenceToGuidanceModifier(
+src/cognition/operatorGuidanceConfidence.ts:83:  confidence?: OperationalConfidence,
+src/cognition/operatorGuidanceConfidence.ts-84-): number {
+src/cognition/operatorGuidanceConfidence.ts:85:  if (!confidence) return 0;
+src/cognition/operatorGuidanceConfidence.ts-86-
+src/cognition/operatorGuidanceConfidence.ts:87:  if (confidence.level === "HIGH") return 1;
+src/cognition/operatorGuidanceConfidence.ts:88:  if (confidence.level === "MEDIUM") return 0;
+src/cognition/operatorGuidanceConfidence.ts:89:  if (confidence.level === "LOW") return -1;
+src/cognition/operatorGuidanceConfidence.ts-90-
+src/cognition/operatorGuidanceConfidence.ts-91-  return 0;
+src/cognition/operatorGuidanceConfidence.ts-92-}
+src/cognition/operatorGuidanceConfidence.ts-93-
+src/cognition/operatorGuidanceConfidence.ts-94-
+src/cognition/operatorGuidanceConfidence.ts:95:export function confidencePriorityWeight(
+src/cognition/operatorGuidanceConfidence.ts:96:  confidence?: OperationalConfidence,
+src/cognition/operatorGuidanceConfidence.ts-97-): number {
+src/cognition/operatorGuidanceConfidence.ts:98:  if (!confidence) {
+src/cognition/operatorGuidanceConfidence.ts-99-    return 1;
+src/cognition/operatorGuidanceConfidence.ts-100-  }
+src/cognition/operatorGuidanceConfidence.ts-101-
+src/cognition/operatorGuidanceConfidence.ts:102:  switch (confidence.level) {
+src/cognition/operatorGuidanceConfidence.ts-103-    case "HIGH":
+src/cognition/operatorGuidanceConfidence.ts-104-      return 1;
+src/cognition/operatorGuidanceConfidence.ts-105-    case "MEDIUM":
+
+=== PM2 STATUS ===
+┌────┬────────────┬─────────────┬─────────┬─────────┬──────────┬────────┬──────┬───────────┬──────────┬──────────┬──────────┬──────────┐
+│ id │ name       │ namespace   │ version │ mode    │ pid      │ uptime │ ↺    │ status    │ cpu      │ mem      │ user     │ watching │
+├────┼────────────┼─────────────┼─────────┼─────────┼──────────┼────────┼──────┼───────────┼──────────┼──────────┼──────────┼──────────┤
+│ [1m[36m0[39m[22m  │ cade       │ default     │ 1.0.0   │ [7m[1mfork[22m[27m    │ 0        │ 0      │ 45   │ [31m[1merrored[22m[39m   │ 0%       │ 0b       │ [1mmar… │ [90mdisabled[39m │
+│ [1m[36m2[39m[22m  │ effie      │ default     │ 1.0.0   │ [7m[1mfork[22m[27m    │ 12670    │ 97s    │ 2    │ [32m[1monline[22m[39m    │ 0%       │ 67.5mb   │ [1mmar… │ [90mdisabled[39m │
+│ [1m[36m1[39m[22m  │ matilda    │ default     │ 1.0.0   │ [7m[1mfork[22m[27m    │ 0        │ 0      │ 45   │ [31m[1merrored[22m[39m   │ 0%       │ 0b       │ [1mmar… │ [90mdisabled[39m │
+└────┴────────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘
+
+=== HTTP CHECK ===
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+curl: (7) Failed to connect to localhost port 3000 after 0 ms: Couldn't connect to server
+localhost:3000 unreachable
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0 24915    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Wed, 15 Apr 2026 19:02:36 GMT
+ETag: W/"6153-19d92861ce0"
+Content-Type: text/html; charset=utf-8
+Content-Length: 24915
+Date: Thu, 16 Apr 2026 05:00:33 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+
+=== FINAL READ ===
+Refresh the dashboard now and verify whether Operator Guidance shows Confidence: limited.
+

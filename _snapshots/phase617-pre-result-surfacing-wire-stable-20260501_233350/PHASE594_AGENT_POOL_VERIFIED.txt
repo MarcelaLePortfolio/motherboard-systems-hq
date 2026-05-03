@@ -1,0 +1,13 @@
+Phase 594 agent pool verification probe added.
+
+State:
+- Renderer locked and stable.
+- Added independent probe to verify /api/agent-status responses.
+- Probe logs agent presence and health every 30s.
+- No impact to rendering or SSE ownership.
+
+Result:
+Agent Pool now has:
+- Runtime verification
+- Health visibility
+- Continuous confirmation of backend connectivity

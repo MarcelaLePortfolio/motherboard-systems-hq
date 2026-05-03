@@ -1,0 +1,8 @@
+PHASE 474.1 — STYLED SHELL RESULT
+=================================
+
+RESULT:
+STYLED_SHELL_STILL_UNRESPONSIVE
+
+OPTIONAL_NOTE:
+UI restored, but page becomes unresponsive again.

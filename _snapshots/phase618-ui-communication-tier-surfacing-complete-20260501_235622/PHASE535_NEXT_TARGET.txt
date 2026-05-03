@@ -1,0 +1,39 @@
+PHASE 535 — NEXT TARGET
+
+CORRIDOR:
+UX + OBSERVABILITY POLISH
+
+PRIORITY:
+Per-task lifecycle continuity (micro-grouping)
+
+PROBLEM:
+- Events are clearer but still visually isolated
+- Same task appears as separate rows with no continuity cue
+
+OBJECTIVE:
+Visually connect consecutive events from the SAME task_id
+
+APPROACH (SAFE, UI-ONLY):
+- If latest event shares same task_id as previous row:
+  → reduce visual separation
+  → optionally indent or dim divider
+- Maintain strict chronological order (no grouping logic rewrite)
+
+IMPLEMENTATION:
+- Track lastRenderedTaskId in module scope
+- In renderEvent():
+  - compare current id to lastRenderedTaskId
+  - adjust styling (e.g., lighter border or indent)
+  - update lastRenderedTaskId
+
+CONSTRAINTS:
+- Single file only
+- No backend changes
+- No SSE changes
+- Additive styling only
+
+GOAL:
+Make task lifecycle feel like a continuous thread
+
+STATUS:
+READY FOR NEXT UI PASS

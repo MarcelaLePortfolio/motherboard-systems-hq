@@ -1,0 +1,258 @@
+PHASE 505 — Worker + Dashboard Timeout Probe
+Timestamp: Fri Apr 24 20:08:26 PDT 2026
+
+Docker compose ps
+NAME                                 IMAGE                              COMMAND                  SERVICE     CREATED          STATUS                          PORTS
+motherboard_systems_hq-dashboard-1   motherboard_systems_hq-dashboard   "docker-entrypoint.s…"   dashboard   30 minutes ago   Up 15 minutes (healthy)         0.0.0.0:8080->3000/tcp, [::]:8080->3000/tcp
+motherboard_systems_hq-postgres-1    postgres:16-alpine                 "docker-entrypoint.s…"   postgres    27 hours ago     Up 22 hours                     0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+motherboard_systems_hq-worker-1      motherboard_systems_hq-dashboard   "docker-entrypoint.s…"   worker      18 minutes ago   Restarting (1) 14 seconds ago   
+
+Dashboard health
+{"ok":true}
+
+Chat direct probe
+{"ok":true,"agent":"matilda","mode":"deterministic-local-response","message":"Quick systems check from dashboard.","reasoning":"Agent selected: matilda | Message length: 35 | Mode: deterministic local response layer | External runtime: Ollama used | Execution class: UI-safe acknowledgement","reply":"Okay, Operator. I’m seeing the systems check queued from the dashboard. The previous run, a3e77f01-bb39-4a4d-95c6-28b2a673aec0, is still waiting for execution and assigned to Cade.","meta":{"timestamp":"deterministic-local","pipeline":"ollama-with-deterministic-fallback","executionReadiness":{"state":"BLOCKED","reason":"task execution"},"responseContext":{"waitingOn":"task execution","agentAssignment":"unassigned","runAgent":"cade","hasRunSummary":true,"isBlocked":true,"isAssigned":true,"hasRunAgent":true}}}
+
+Worker logs
+[phase25] task_events_emit loaded 2026-04-25T02:50:00.838Z file= file:///app/server/task_events_emit.mjs
+file:///app/server/worker/phase26_task_worker.mjs:25
+if (!POSTGRES_URL) throw new Error("POSTGRES_URL required");
+                         ^
+
+Error: POSTGRES_URL required
+    at file:///app/server/worker/phase26_task_worker.mjs:25:26
+    at ModuleJob.run (node:internal/modules/esm/module_job:325:25)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:606:24)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+
+Node.js v20.20.2
+[phase25] task_events_emit loaded 2026-04-25T02:50:01.390Z file= file:///app/server/task_events_emit.mjs
+file:///app/server/worker/phase26_task_worker.mjs:25
+if (!POSTGRES_URL) throw new Error("POSTGRES_URL required");
+                         ^
+
+Error: POSTGRES_URL required
+    at file:///app/server/worker/phase26_task_worker.mjs:25:26
+    at ModuleJob.run (node:internal/modules/esm/module_job:325:25)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:606:24)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+
+Node.js v20.20.2
+[phase25] task_events_emit loaded 2026-04-25T02:50:02.335Z file= file:///app/server/task_events_emit.mjs
+file:///app/server/worker/phase26_task_worker.mjs:25
+if (!POSTGRES_URL) throw new Error("POSTGRES_URL required");
+                         ^
+
+Error: POSTGRES_URL required
+    at file:///app/server/worker/phase26_task_worker.mjs:25:26
+    at ModuleJob.run (node:internal/modules/esm/module_job:325:25)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:606:24)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+
+Node.js v20.20.2
+[phase25] task_events_emit loaded 2026-04-25T02:50:04.088Z file= file:///app/server/task_events_emit.mjs
+file:///app/server/worker/phase26_task_worker.mjs:25
+if (!POSTGRES_URL) throw new Error("POSTGRES_URL required");
+                         ^
+
+Error: POSTGRES_URL required
+    at file:///app/server/worker/phase26_task_worker.mjs:25:26
+    at ModuleJob.run (node:internal/modules/esm/module_job:325:25)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:606:24)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+
+Node.js v20.20.2
+[phase25] task_events_emit loaded 2026-04-25T02:50:07.440Z file= file:///app/server/task_events_emit.mjs
+file:///app/server/worker/phase26_task_worker.mjs:25
+if (!POSTGRES_URL) throw new Error("POSTGRES_URL required");
+                         ^
+
+Error: POSTGRES_URL required
+    at file:///app/server/worker/phase26_task_worker.mjs:25:26
+    at ModuleJob.run (node:internal/modules/esm/module_job:325:25)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:606:24)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+
+Node.js v20.20.2
+[phase25] task_events_emit loaded 2026-04-25T02:50:13.979Z file= file:///app/server/task_events_emit.mjs
+file:///app/server/worker/phase26_task_worker.mjs:25
+if (!POSTGRES_URL) throw new Error("POSTGRES_URL required");
+                         ^
+
+Error: POSTGRES_URL required
+    at file:///app/server/worker/phase26_task_worker.mjs:25:26
+    at ModuleJob.run (node:internal/modules/esm/module_job:325:25)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:606:24)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+
+Node.js v20.20.2
+[phase25] task_events_emit loaded 2026-04-25T02:50:26.980Z file= file:///app/server/task_events_emit.mjs
+file:///app/server/worker/phase26_task_worker.mjs:25
+if (!POSTGRES_URL) throw new Error("POSTGRES_URL required");
+                         ^
+
+Error: POSTGRES_URL required
+    at file:///app/server/worker/phase26_task_worker.mjs:25:26
+    at ModuleJob.run (node:internal/modules/esm/module_job:325:25)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:606:24)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+
+Node.js v20.20.2
+[phase25] task_events_emit loaded 2026-04-25T02:50:52.744Z file= file:///app/server/task_events_emit.mjs
+file:///app/server/worker/phase26_task_worker.mjs:25
+if (!POSTGRES_URL) throw new Error("POSTGRES_URL required");
+                         ^
+
+Error: POSTGRES_URL required
+    at file:///app/server/worker/phase26_task_worker.mjs:25:26
+    at ModuleJob.run (node:internal/modules/esm/module_job:325:25)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:606:24)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+
+Node.js v20.20.2
+[phase25] task_events_emit loaded 2026-04-25T02:51:44.104Z file= file:///app/server/task_events_emit.mjs
+file:///app/server/worker/phase26_task_worker.mjs:25
+if (!POSTGRES_URL) throw new Error("POSTGRES_URL required");
+                         ^
+
+Error: POSTGRES_URL required
+    at file:///app/server/worker/phase26_task_worker.mjs:25:26
+    at ModuleJob.run (node:internal/modules/esm/module_job:325:25)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:606:24)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+
+Node.js v20.20.2
+[phase25] task_events_emit loaded 2026-04-25T02:52:44.256Z file= file:///app/server/task_events_emit.mjs
+file:///app/server/worker/phase26_task_worker.mjs:25
+if (!POSTGRES_URL) throw new Error("POSTGRES_URL required");
+                         ^
+
+Error: POSTGRES_URL required
+    at file:///app/server/worker/phase26_task_worker.mjs:25:26
+    at ModuleJob.run (node:internal/modules/esm/module_job:325:25)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:606:24)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+
+Node.js v20.20.2
+
+Dashboard logs
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36',
+  accept: 'application/json'
+}
+[HTTP] GET /api/runs?limit=20
+[HTTP] GET /api/tasks?limit=50
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] GET /api/runs?limit=50
+[HTTP] GET /api/tasks?limit=50
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] GET /api/tasks?limit=12
+[HTTP] GET /api/runs?limit=20
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36',
+  accept: 'application/json'
+}
+[HTTP] GET /api/tasks?limit=50
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] GET /api/tasks?limit=50
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] GET /events/reflections
+[HTTP] GET /events/ops
+[HTTP] GET /events/reflections
+[HTTP] GET /events/ops
+[HTTP] GET /api/runs?limit=50
+[HTTP] GET /api/tasks?limit=12
+[HTTP] GET /api/runs?limit=20
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36',
+  accept: 'application/json'
+}
+[HTTP] GET /api/tasks?limit=50
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] GET /api/tasks?limit=50
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] GET /api/tasks?limit=12
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=12',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36',
+  accept: 'application/json'
+}
+[HTTP] GET /api/runs?limit=20
+[HTTP] GET /api/tasks?limit=50
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[HTTP] POST /api/chat
+[HTTP] GET /api/runs?limit=50
+[HTTP] GET /api/tasks?limit=50
+[phase57c-router] /api/tasks probe {
+  originalUrl: '/api/tasks?limit=50',
+  baseUrl: '/api/tasks',
+  path: '/',
+  referer: 'http://localhost:8080/',
+  userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36',
+  accept: '*/*'
+}
+[PHASE492_OLLAMA_REPLY] { ok: true, used: true }

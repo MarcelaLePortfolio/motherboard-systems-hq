@@ -1,0 +1,92 @@
+Phase 600 policy logger extraction verification.
+
+Goal:
+Verify the non-behavioral extraction preserved worker behavior.
+
+Expected:
+- Worker claims retry task
+- Execution policy log appears
+- Runtime hook logs appear
+- Execution contract log appears
+- Task completes successfully
+
+--- WORKER LOGS ---
+[phase25] task_events_emit loaded 2026-05-01T18:37:00.565Z file= file:///app/server/task_events_emit.mjs
+[worker] resolved sql contracts: { phase: '32', count: 3 }
+[worker] contract: phase32_claim_one.sql
+[worker] contract: phase32_mark_failure.sql
+[worker] contract: phase32_mark_success.sql
+[worker] started with POSTGRES_URL: postgresql://postgres:postgres@postgres:5432/postgres
+[worker] running in phase: 32
+[worker] owner: worker-b5c7539d-116f-44a8-9beb-a2b4238a3997
+[worker] heartbeat
+[worker] heartbeat
+[worker] claimed task {
+  id: '25',
+  task_id: 't_cafc6615-4b86-48f3-ae60-6cb739bb3ae2',
+  status: 'running',
+  run_id: 'run_ad515bcf-b43d-462e-8ae3-ab2626af4226',
+  claimed_by: 'worker-b5c7539d-116f-44a8-9beb-a2b4238a3997'
+}
+[worker][execution-policy] {
+  task_id: 't_cafc6615-4b86-48f3-ae60-6cb739bb3ae2',
+  is_retry: true,
+  execution_mode: 'rebuild_context',
+  cache_policy: 'bypass',
+  memory_scope: 'reset_partial',
+  requires_context_rebuild: true,
+  requires_cache_bypass: true,
+  requires_memory_scope_reset: true
+}
+[worker][runtime-hook][cache-policy] {
+  task_id: 't_cafc6615-4b86-48f3-ae60-6cb739bb3ae2',
+  cache_policy: 'bypass',
+  action: 'bypass_observed',
+  effect: 'no_cache_layer_available_yet'
+}
+[worker][runtime-hook][memory-scope] {
+  task_id: 't_cafc6615-4b86-48f3-ae60-6cb739bb3ae2',
+  memory_scope: 'reset_partial',
+  action: 'reset_partial_observed',
+  effect: 'no_memory_layer_available_yet'
+}
+[worker][runtime-hook][execution-mode] {
+  task_id: 't_cafc6615-4b86-48f3-ae60-6cb739bb3ae2',
+  execution_mode: 'rebuild_context',
+  action: 'rebuild_context_observed',
+  effect: 'no_context_layer_available_yet'
+}
+[worker][execution-contract] {
+  task_id: 't_cafc6615-4b86-48f3-ae60-6cb739bb3ae2',
+  strategy_applied: 'prompt_augmentation',
+  notes: 'fresh context requested; cache bypass observed; partial memory reset observed',
+  output: 'Policy-aware execution prepared for: policy logger extraction verification'
+}
+[worker] completed task {
+  id: '25',
+  task_id: 't_cafc6615-4b86-48f3-ae60-6cb739bb3ae2',
+  status: 'completed',
+  run_id: 'run_ad515bcf-b43d-462e-8ae3-ab2626af4226',
+  claimed_by: 'worker-b5c7539d-116f-44a8-9beb-a2b4238a3997',
+  completed_at: 2026-05-01T18:38:25.728Z
+}
+[phase25] emitTaskEvent ENTER {
+  ts: 1777660705731,
+  kind: 'task.completed',
+  task_id: 't_cafc6615-4b86-48f3-ae60-6cb739bb3ae2',
+  hasGlobal: false,
+  globalType: undefined
+}
+[phase25] emitTaskEvent BEFORE CHECK {
+  hasArg: true,
+  hasGlobal: false,
+  globalType: undefined,
+  argType: 'BoundPool'
+}
+[phase25] emitTaskEvent pool {
+  arg: true,
+  argType: 'BoundPool',
+  hasGlobal: false,
+  globalType: undefined
+}
+[worker] heartbeat

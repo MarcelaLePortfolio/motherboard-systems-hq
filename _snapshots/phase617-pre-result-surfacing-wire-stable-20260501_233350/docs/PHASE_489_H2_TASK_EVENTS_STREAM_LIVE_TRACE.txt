@@ -1,0 +1,284 @@
+PHASE 489 — H2 TASK EVENTS STREAM LIVE TRACE
+Generated: 2026-04-14T18:38:32Z
+Repo Root: /Users/marcela-dev/Projects/Motherboard_Systems_HQ
+
+=== INTERPRETATION ===
+Task Events client is now mounting and opening, but no events are arriving.
+This means we are past UI wiring failure and now checking stream content.
+
+=== TASK EVENTS SSE HEADERS ===
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: text/event-stream; charset=utf-8
+Cache-Control: no-cache, no-transform
+Connection: keep-alive
+X-Accel-Buffering: no
+Date: Tue, 14 Apr 2026 18:38:32 GMT
+Transfer-Encoding: chunked
+
+event: error
+data: {"kind":"task-events","msg":"task-events stream bootstrap error","detail":"relation \"task_events\" does not exist","ts":1776191912179,"cursor":0}
+
+
+=== TASK EVENTS SSE FRAMES (6s) ===
+event: error
+data: {"kind":"task-events","msg":"task-events stream bootstrap error","detail":"relation \"task_events\" does not exist","ts":1776191912240,"cursor":0}
+
+
+
+=== TASK EVENTS ROUTE SNIPPET ===
+55:router.get("/api/task-events-sse", (req, res) => {
+56:  res.redirect(307, "/events/task-events");
+59:router.get("/events/task-events", async (req, res) => {
+75:        kind: "task-events",
+108:        kind: "task-events",
+172:            kind: "task-events",
+173:            msg: "task-events stream error",
+200:        kind: "task-events",
+201:        msg: "task-events stream bootstrap error",
+import express from "express";
+import pg from "pg";
+
+const router = express.Router();
+const { Pool } = pg;
+
+const DB_URL = process.env.POSTGRES_URL || process.env.DATABASE_URL || "";
+
+let pool = null;
+
+function getPool() {
+  if (pool) return pool;
+  if (!DB_URL) return null;
+  pool = new Pool({ connectionString: DB_URL });
+  return pool;
+}
+
+function intOrNull(value) {
+  const n = Number(value);
+  return Number.isFinite(n) ? Math.trunc(n) : null;
+}
+
+function sseWrite(res, { event, data }) {
+  if (event) res.write(`event: ${event}\n`);
+  res.write(`data: ${JSON.stringify(data)}\n\n`);
+}
+
+function normalizeKind(kind) {
+  const v = String(kind || "").trim();
+  return v || "task.event";
+}
+
+function normalizeRow(row) {
+  const payload =
+    row && row.payload && typeof row.payload === "object" && !Array.isArray(row.payload)
+      ? row.payload
+      : {};
+
+  const kind = normalizeKind(row?.kind);
+
+  return {
+    ...payload,
+    id: row?.id ?? null,
+    task_id: row?.task_id ?? payload.task_id ?? payload.taskId ?? null,
+    taskId: row?.task_id ?? payload.taskId ?? payload.task_id ?? null,
+    kind,
+    actor: row?.actor ?? payload.actor ?? null,
+    run_id: row?.run_id ?? payload.run_id ?? payload.runId ?? null,
+    runId: row?.run_id ?? payload.runId ?? payload.run_id ?? null,
+    ts: Number(row?.ts ?? payload.ts ?? Date.now()),
+    created_at: row?.created_at ?? payload.created_at ?? null
+  };
+}
+
+router.get("/api/task-events-sse", (req, res) => {
+  res.redirect(307, "/events/task-events");
+});
+
+router.get("/events/task-events", async (req, res) => {
+  res.setHeader("Content-Type", "text/event-stream; charset=utf-8");
+  res.setHeader("Cache-Control", "no-cache, no-transform");
+  res.setHeader("Connection", "keep-alive");
+  res.setHeader("X-Accel-Buffering", "no");
+
+  if (typeof res.flushHeaders === "function") {
+    res.flushHeaders();
+  }
+
+  const db = getPool();
+
+  if (!db) {
+    sseWrite(res, {
+      event: "error",
+      data: {
+        kind: "task-events",
+        msg: "missing POSTGRES_URL/DATABASE_URL",
+        ts: Date.now()
+      }
+    });
+    res.end();
+    return;
+  }
+
+  let closed = false;
+  let polling = false;
+
+  const requestedCursor =
+    intOrNull(req.query.cursor) ??
+    intOrNull(req.query.since) ??
+    intOrNull(req.query.ts);
+
+  let cursor = requestedCursor;
+
+  try {
+    if (cursor == null) {
+      const seed = await db.query(
+        `
+        select coalesce(max(ts), 0)::bigint as cursor
+        from task_events
+        `
+      );
+      cursor = intOrNull(seed.rows?.[0]?.cursor) ?? 0;
+    }
+
+    sseWrite(res, {
+      event: "hello",
+      data: {
+        kind: "task-events",
+        cursor,
+        ts: Date.now()
+      }
+    });
+
+    const heartbeat = setInterval(() => {
+      if (closed) return;
+      sseWrite(res, {
+        event: "heartbeat",
+        data: {
+          ts: Date.now(),
+          cursor
+        }
+      });
+    }, 1000);
+
+    const poll = async () => {
+      if (closed || polling) return;
+      polling = true;
+
+      try {
+        const result = await db.query(
+          `
+          select
+            id,
+            task_id,
+            kind,
+            actor,
+            payload,
+            run_id,
+            created_at,
+            coalesce(ts, (extract(epoch from created_at) * 1000)::bigint) as ts
+          from task_events
+          where coalesce(ts, (extract(epoch from created_at) * 1000)::bigint) > $1
+          order by coalesce(ts, (extract(epoch from created_at) * 1000)::bigint) asc, id asc
+          limit 200
+          `,
+          [cursor]
+        );
+
+        for (const row of result.rows) {
+          const payload = normalizeRow(row);
+          const eventName = normalizeKind(row.kind);
+
+          sseWrite(res, {
+            event: eventName,
+            data: payload
+          });
+
+          sseWrite(res, {
+            event: "task.event",
+            data: payload
+          });
+
+          const nextCursor = intOrNull(payload.ts);
+          if (nextCursor != null && nextCursor > cursor) {
+            cursor = nextCursor;
+          }
+        }
+      } catch (err) {
+        sseWrite(res, {
+          event: "error",
+          data: {
+            kind: "task-events",
+            msg: "task-events stream error",
+            detail: err?.message || String(err),
+            ts: Date.now(),
+            cursor
+          }
+        });
+      } finally {
+        polling = false;
+      }
+    };
+
+    const interval = setInterval(() => {
+      void poll();
+    }, 800);
+
+    void poll();
+
+    req.on("close", () => {
+      closed = true;
+      clearInterval(interval);
+      clearInterval(heartbeat);
+      res.end();
+    });
+  } catch (err) {
+    sseWrite(res, {
+      event: "error",
+      data: {
+        kind: "task-events",
+        msg: "task-events stream bootstrap error",
+        detail: err?.message || String(err),
+        ts: Date.now(),
+        cursor: cursor ?? 0
+      }
+    });
+    res.end();
+  }
+});
+
+export default router;
+
+=== TASK MUTATION ROUTES (EVENT PRODUCTION PATH) ===
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/task_events_emit.mjs:1:import { appendTaskEvent } from "./task-events.mjs";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/task_events_emit.mjs:5:export async function emitTaskEvent({ pool, kind, task_id, run_id = null, actor = null, payload = null }) {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/task_events_emit.mjs:6:  console.log("[phase25] emitTaskEvent ENTER", { ts: Date.now(), kind, task_id, hasGlobal: !!globalThis.__DB_POOL, globalType: globalThis.__DB_POOL?.constructor?.name });
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/tasks-mutations.mjs:2:import { emitTaskEvent } from "./task_events_emit.mjs";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/tasks-mutations.mjs:29:export async function dbDelegateTask(pool, body = {}) {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/tasks-mutations.mjs:97:export async function dbCompleteTask(pool, body = {}) {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/api/tasks-mutations/delegate-taskspec.mjs:27: * - Calls dbDelegateTask(...) to create the task (existing system)
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/api/tasks-mutations/delegate-taskspec.mjs:28: * - Inserts into task_events(kind="task.created") so /events/task-events advances
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/api/tasks-mutations/delegate-taskspec.mjs:58:    const dbDelegateTask = deps?.dbDelegateTask;
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/api/tasks-mutations/delegate-taskspec.mjs:61:    if (typeof dbDelegateTask !== "function") {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/api/tasks-mutations/delegate-taskspec.mjs:62:      return res.status(500).json({ ok: false, error: "missing_dbDelegateTask", details: "dbDelegateTask not available" });
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/api/tasks-mutations/delegate-taskspec.mjs:66:    const created = await dbDelegateTask(db, {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/worker/phase26_task_worker.mjs:5:import { emitTaskEvent } from "../task_events_emit.mjs";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/api-tasks-postgres.mjs:5:import { emitTaskEvent } from "../task_events_emit.mjs";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/api-tasks-mutations.mjs:2:import { dbDelegateTask, dbCompleteTask } from "../tasks-mutations.mjs";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/api-tasks-mutations.mjs:20:    const row = await dbDelegateTask(pool, _asJson(req));
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/api-tasks-mutations.mjs:32:      const row = await dbCompleteTask(pool, {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/api-tasks-mutations.mjs:47:      const row = await dbCompleteTask(pool, {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/phase40_6_shadow_audit_task_events.mjs:5:  app.get("/api/shadow/audit/task-events", async (req, res) => {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/phase40_6_shadow_audit_task_events.mjs:39:        scope: "phase40.6.shadow-audit.task-events",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/phase40_6_shadow_audit_task_events.mjs:48:        scope: "phase40.6.shadow-audit.task-events",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/task-events-sse.mjs:55:router.get("/api/task-events-sse", (req, res) => {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/task-events-sse.mjs:56:  res.redirect(307, "/events/task-events");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/task-events-sse.mjs:59:router.get("/events/task-events", async (req, res) => {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/task-events-sse.mjs:75:        kind: "task-events",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/task-events-sse.mjs:108:        kind: "task-events",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/task-events-sse.mjs:172:            kind: "task-events",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/task-events-sse.mjs:173:            msg: "task-events stream error",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/task-events-sse.mjs:200:        kind: "task-events",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/task-events-sse.mjs:201:        msg: "task-events stream bootstrap error",
+
+=== CURRENT TASK ROWS ===
+{"ok":true,"tasks":[]}

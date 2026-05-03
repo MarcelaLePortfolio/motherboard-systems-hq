@@ -1,0 +1,22 @@
+Phase 587 next runtime hook plan.
+
+Checkpoint:
+- Stable tag exists: phase586-cache-policy-hook-stable.
+- Cache policy runtime hook is active and verified.
+- Dashboard, worker, and Postgres are running.
+- Working tree is clean.
+
+Next Objective:
+Add the second non-breaking runtime policy hook: memory_scope.
+
+Target Behavior:
+- If requires_memory_scope_reset = true:
+  -> emit explicit runtime signal
+  -> do not mutate memory yet
+  -> do not alter task outcome
+
+Constraints:
+- Worker-only
+- No DB schema changes
+- No execution branching
+- No pretend memory reset until a real memory layer exists

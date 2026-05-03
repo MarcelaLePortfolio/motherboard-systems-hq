@@ -1,0 +1,92 @@
+PHASE 530 — SSE / HYDRATION INVESTIGATION (SAFE START)
+
+OBJECTIVE
+Restore:
+• Agent Pool visibility
+• Execution Inspector population
+
+This indicates a failure in:
+→ SSE stream (/events/tasks)
+→ or client subscription/hydration layer
+
+────────────────────────────────
+
+STEP 1 — VERIFY SSE ENDPOINT (NO CODE CHANGES)
+
+Run:
+
+curl -N http://localhost:8080/events/tasks
+
+EXPECTED:
+• Continuous stream
+• event: / data: lines
+• task updates flowing
+
+IF NOTHING RETURNS:
+→ SSE is broken server-side
+→ move to worker / emitter layer
+
+IF STREAM WORKS:
+→ issue is client-side hydration
+
+────────────────────────────────
+
+STEP 2 — VERIFY WORKER IS EMITTING
+
+Run:
+
+docker logs motherboard_systems_hq-worker-1 --tail 50
+
+LOOK FOR:
+• task polling
+• task claimed
+• task events emitted
+
+IF SILENT:
+→ worker loop or event emitter broken
+
+────────────────────────────────
+
+STEP 3 — VERIFY SERVER SSE HANDLER
+
+File (likely):
+server.mjs or SSE module
+
+Check:
+• correct route: /events/tasks
+• res.write usage
+• no premature res.end()
+• headers:
+  Content-Type: text/event-stream
+  Cache-Control: no-cache
+  Connection: keep-alive
+
+────────────────────────────────
+
+STEP 4 — VERIFY CLIENT SUBSCRIPTION
+
+Check dashboard code:
+
+• new EventSource("/events/tasks")
+• onmessage handler
+• state update logic
+• no silent JSON parse failure
+
+────────────────────────────────
+
+STOP CONDITIONS (CRITICAL)
+
+• Do NOT patch multiple layers at once
+• Identify exact failure layer first:
+  → SSE not emitting
+  → SSE not received
+  → SSE not rendered
+
+────────────────────────────────
+
+NEXT ACTION
+
+Run STEP 1 only.
+
+Report output before any code change.
+

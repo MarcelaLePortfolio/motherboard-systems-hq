@@ -1,0 +1,771 @@
+PHASE 62B — SUCCESS RATE WRITER CONFLICT INSPECTION
+generated_at=2026-03-17T04:26:13Z
+
+== branch ==
+phase65b-running-tasks-hydration
+
+== agent-status-row.js around success ownership ==
+   340	  let source;
+   341	  try {
+   342	    source = (window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(OPS_SSE_URL));
+   343	  } catch (err) {
+   344	    console.error("agent-status-row.js: Failed to open OPS SSE connection:", err);
+   345	    return;
+   346	  }
+   347	
+   348	  if (!source) return;
+   349	
+   350	  source.onmessage = (event) => handleOpsEvent("message", event);
+   351	  source.addEventListener("hello", (event) => handleOpsEvent("hello", event));
+   352	  source.addEventListener("ops.state", (event) => handleOpsEvent("ops.state", event));
+   353	  source.addEventListener("state", (event) => handleOpsEvent("state", event));
+   354	  source.addEventListener("update", (event) => handleOpsEvent("update", event));
+   355	
+   356	  source.onerror = (err) => {
+   357	    console.warn("agent-status-row.js: OPS SSE error:", err);
+   358	    Object.keys(indicators).forEach((key) => applyVisual(key, "unknown"));
+   359	    // Phase 65B.6: metric-agents error-state ownership transferred to phase64_agent_activity_wire.js
+   360	    // Legacy direct write removed intentionally.
+   361	  };
+   362	})();
+   363	;/* PHASE63_SHARED_TASK_EVENTS_METRICS */
+   364	(() => {
+   365	  if (typeof window === 'undefined') return;
+   366	  if (window.__PHASE63_SHARED_TASK_EVENTS_METRICS__) return;
+   367	  window.__PHASE63_SHARED_TASK_EVENTS_METRICS__ = true;
+   368	
+   369	  const tasksNode = document.getElementById('metric-tasks');
+   370	  const successNode = document.getElementById('metric-success');
+   371	  const latencyNode = document.getElementById('metric-latency');
+   372	
+   373	  const runningTaskIds = new Set();
+   374	  const taskStartTimes = new Map();
+   375	  const seenTerminalEvents = new Set();
+   376	  const recentDurationsMs = [];
+   377	  const maxSamples = 50;
+   378	
+   379	  let completedCount = 0;
+   380	  let failedCount = 0;
+   381	
+   382	  const runningTypes = new Set([
+   383	    'created',
+   384	    'queued',
+   385	    'leased',
+   386	    'started',
+   387	    'running',
+   388	    'in_progress',
+   389	    'delegated',
+   390	    'retrying'
+   391	  ]);
+   392	
+   393	  const terminalSuccessTypes = new Set([
+   394	    'completed',
+   395	    'complete',
+   396	    'done',
+   397	    'success'
+   398	  ]);
+   399	
+   400	  const terminalFailureTypes = new Set([
+   401	    'failed',
+   402	    'error',
+   403	    'cancelled',
+   404	    'canceled',
+   405	    'timed_out',
+   406	    'timeout',
+   407	    'terminated',
+   408	    'aborted'
+   409	  ]);
+   410	
+   411	  const terminalTypes = new Set([
+   412	    ...terminalSuccessTypes,
+   413	    ...terminalFailureTypes
+   414	  ]);
+   415	
+   416	  const normalize = (value) =>
+   417	    String(value || '')
+   418	      .trim()
+   419	      .toLowerCase()
+   420	      .replace(/\s+/g, '_');
+   421	
+   422	  const safeJsonParse = (value) => {
+   423	    try {
+   424	      return JSON.parse(value);
+   425	    } catch {
+   426	      return null;
+   427	    }
+   428	  };
+   429	
+   430	  const getTaskId = (payload) =>
+   431	    payload?.task_id ??
+   432	    payload?.taskId ??
+   433	    payload?.id ??
+   434	    payload?.data?.task_id ??
+   435	    payload?.data?.taskId ??
+   436	    null;
+   437	
+   438	  const getEventType = (eventName, payload) =>
+   439	    normalize(
+   440	      payload?.type ??
+   441	      payload?.event ??
+   442	      payload?.status ??
+   443	      payload?.state ??
+   444	      eventName
+   445	    );
+   446	
+   447	  const toMs = (value) => {
+   448	    if (typeof value === 'number' && Number.isFinite(value)) {
+   449	      return value > 1e12 ? value : value * 1000;
+   450	    }
+   451	
+   452	    if (typeof value === 'string' && value.trim()) {
+   453	      const asNum = Number(value);
+   454	      if (Number.isFinite(asNum)) {
+   455	        return asNum > 1e12 ? asNum : asNum * 1000;
+   456	      }
+   457	
+   458	      const parsed = Date.parse(value);
+   459	      if (Number.isFinite(parsed)) return parsed;
+   460	    }
+   461	
+   462	    return Date.now();
+   463	  };
+   464	
+   465	  const getEventTs = (payload) =>
+   466	    toMs(
+   467	      payload?.ts ??
+   468	      payload?.timestamp ??
+   469	      payload?.at ??
+   470	      payload?.time ??
+   471	      payload?.created_at ??
+   472	      payload?.updated_at ??
+   473	      Date.now()
+   474	    );
+   475	
+   476	  const formatLatency = (ms) => {
+   477	    if (!Number.isFinite(ms) || ms <= 0) return '—';
+   478	    if (ms < 1000) return `${Math.round(ms)}ms`;
+   479	    const seconds = ms / 1000;
+   480	    if (seconds < 60) return `${seconds.toFixed(seconds >= 10 ? 0 : 1)}s`;
+   481	    const minutes = seconds / 60;
+   482	    return `${minutes.toFixed(minutes >= 10 ? 0 : 1)}m`;
+   483	  };
+   484	
+   485	  const render = () => {
+   486	    if (tasksNode) {
+   487	      // Phase 65B.2: metric-tasks ownership transferred to telemetry reducer
+   488	      // Legacy direct write removed intentionally.
+   489	    }
+   490	    if (successNode) {
+   491	      // Phase 65C: metric-success ownership transferred to telemetry reducer
+   492	      // Legacy direct write removed intentionally.
+   493	    }
+   494	    if (latencyNode) {
+   495	      // Phase 65C: metric-latency ownership transferred to telemetry reducer
+   496	      // Legacy direct write removed intentionally.
+   497	    }
+   498	    }
+   499	  };
+   500	
+   501	  const ingestEvent = (eventName, payload) => {
+   502	    const taskId = getTaskId(payload);
+   503	    const eventType = getEventType(eventName, payload);
+   504	    const eventTs = getEventTs(payload);
+   505	
+   506	    if (!taskId) {
+   507	      render();
+   508	      return;
+   509	    }
+   510	
+   511	    if (runningTypes.has(eventType)) {
+   512	      runningTaskIds.add(taskId);
+   513	      if (!taskStartTimes.has(taskId)) {
+   514	        taskStartTimes.set(taskId, eventTs);
+   515	      }
+   516	    }
+   517	
+   518	    if (terminalTypes.has(eventType)) {
+   519	      runningTaskIds.delete(taskId);
+   520	
+   521	      const dedupeKey = `${taskId}|${eventType}|${eventTs}`;
+   522	      if (!seenTerminalEvents.has(dedupeKey)) {
+   523	        seenTerminalEvents.add(dedupeKey);
+   524	
+   525	        if (terminalSuccessTypes.has(eventType)) completedCount += 1;
+   526	        if (terminalFailureTypes.has(eventType)) failedCount += 1;
+   527	
+   528	        const startTs = taskStartTimes.get(taskId);
+   529	        if (Number.isFinite(startTs)) {
+   530	          const duration = Math.max(0, eventTs - startTs);
+   531	          recentDurationsMs.push(duration);
+   532	          if (recentDurationsMs.length > maxSamples) {
+   533	            recentDurationsMs.splice(0, recentDurationsMs.length - maxSamples);
+   534	          }
+   535	        }
+   536	      }
+   537	
+   538	      taskStartTimes.delete(taskId);
+   539	    }
+   540	
+
+== success_rate_metric.js ==
+     1	/*
+     2	PHASE 65C TELEMETRY HYDRATION
+     3	Success Rate Metric
+     4	Telemetry now sole writer.
+     5	*/
+     6	
+     7	(function () {
+     8	  const TERMINAL_SUCCESS_TYPES = new Set([
+     9	    "task.completed",
+    10	    "task.complete",
+    11	    "task.done",
+    12	    "task.success",
+    13	    "completed",
+    14	    "complete",
+    15	    "done",
+    16	    "success",
+    17	  ]);
+    18	
+    19	  const TERMINAL_FAILURE_TYPES = new Set([
+    20	    "task.failed",
+    21	    "task.error",
+    22	    "task.cancelled",
+    23	    "task.canceled",
+    24	    "task.timed_out",
+    25	    "task.timeout",
+    26	    "failed",
+    27	    "error",
+    28	    "cancelled",
+    29	    "canceled",
+    30	    "timed_out",
+    31	    "timeout",
+    32	    "terminated",
+    33	    "aborted",
+    34	  ]);
+    35	
+    36	  const seenTerminalEvents = new Set();
+    37	  let completedCount = 0;
+    38	  let failedCount = 0;
+    39	
+    40	  function getMetricNode() {
+    41	    return document.getElementById("metric-success");
+    42	  }
+    43	
+    44	  function render() {
+    45	    const node = getMetricNode();
+    46	    if (!node) return;
+    47	
+    48	    const total = completedCount + failedCount;
+    49	    const value = total > 0 ? `${Math.round((completedCount / total) * 100)}%` : "—";
+    50	
+    51	    if (window.__phase65bMetricWrite) {
+    52	      window.__phase65bMetricWrite(() => {
+    53	        node.textContent = value;
+    54	      });
+    55	    } else {
+    56	      node.textContent = value;
+    57	    }
+    58	  }
+    59	
+    60	  function getEventType(payload) {
+    61	    return String(payload?.type || payload?.event || payload?.name || payload?.status || payload?.state || "")
+    62	      .trim()
+    63	      .toLowerCase();
+    64	  }
+    65	
+    66	  function getTaskId(payload) {
+    67	    return String(
+    68	      payload?.task_id ??
+    69	      payload?.taskId ??
+    70	      payload?.id ??
+    71	      payload?.data?.task_id ??
+    72	      payload?.data?.taskId ??
+    73	      ""
+    74	    ).trim();
+    75	  }
+    76	
+    77	  function getEventTs(payload) {
+    78	    const raw =
+    79	      payload?.ts ??
+    80	      payload?.timestamp ??
+    81	      payload?.at ??
+    82	      payload?.time ??
+    83	      payload?.created_at ??
+    84	      payload?.updated_at ??
+    85	      Date.now();
+    86	
+    87	    if (typeof raw === "number" && Number.isFinite(raw)) {
+    88	      return raw > 1e12 ? raw : raw * 1000;
+    89	    }
+    90	
+    91	    if (typeof raw === "string" && raw.trim()) {
+    92	      const asNum = Number(raw);
+    93	      if (Number.isFinite(asNum)) return asNum > 1e12 ? asNum : asNum * 1000;
+    94	      const parsed = Date.parse(raw);
+    95	      if (Number.isFinite(parsed)) return parsed;
+    96	    }
+    97	
+    98	    return Date.now();
+    99	  }
+   100	
+   101	  function processPayload(payload) {
+   102	    const type = getEventType(payload);
+   103	    const taskId = getTaskId(payload);
+   104	    const ts = getEventTs(payload);
+   105	
+   106	    if (!type) {
+   107	      render();
+   108	      return;
+   109	    }
+   110	
+   111	    const isSuccess = TERMINAL_SUCCESS_TYPES.has(type);
+   112	    const isFailure = TERMINAL_FAILURE_TYPES.has(type);
+   113	
+   114	    if (!isSuccess && !isFailure) {
+   115	      render();
+   116	      return;
+   117	    }
+   118	
+   119	    const dedupeKey = `${taskId || "no-task"}|${type}|${ts}`;
+   120	    if (seenTerminalEvents.has(dedupeKey)) {
+   121	      render();
+   122	      return;
+   123	    }
+   124	
+   125	    seenTerminalEvents.add(dedupeKey);
+   126	
+   127	    if (isSuccess) completedCount += 1;
+   128	    if (isFailure) failedCount += 1;
+   129	
+   130	    render();
+   131	  }
+   132	
+   133	  function attach(source) {
+   134	    if (!source || source.__phase65cSuccessBound) return;
+   135	
+   136	    source.__phase65cSuccessBound = true;
+   137	
+   138	    source.addEventListener("message", (e) => {
+   139	      try {
+   140	        const parsed = JSON.parse(e.data);
+   141	        if (Array.isArray(parsed)) {
+   142	          parsed.forEach(processPayload);
+   143	        } else {
+   144	          processPayload(parsed);
+   145	        }
+   146	      } catch {
+   147	        console.warn("success_rate_metric parse error");
+   148	      }
+   149	    });
+   150	  }
+   151	
+   152	  function patchEventSource() {
+   153	    if (window.__phase65cSuccessPatched) return;
+   154	
+   155	    const Native = window.EventSource;
+   156	    if (typeof Native !== "function") return;
+   157	
+   158	    function Wrapped(url, config) {
+   159	      const es = new Native(url, config);
+   160	
+   161	      try {
+   162	        if (String(url).includes("/events/task-events")) {
+   163	          attach(es);
+   164	        }
+   165	      } catch {}
+   166	
+   167	      return es;
+   168	    }
+   169	
+   170	    Wrapped.prototype = Native.prototype;
+   171	    window.EventSource = Wrapped;
+   172	    window.__phase65cSuccessPatched = true;
+   173	  }
+   174	
+   175	  function bootstrap() {
+   176	    patchEventSource();
+   177	    render();
+   178	  }
+   179	
+   180	  if (document.readyState === "loading") {
+   181	    document.addEventListener("DOMContentLoaded", bootstrap);
+   182	  } else {
+   183	    bootstrap();
+   184	  }
+   185	})();
+
+== running_tasks_metric.js ==
+     1	/*
+     2	PHASE 65B TELEMETRY HYDRATION
+     3	Running Tasks Metric
+     4	Telemetry now sole writer.
+     5	*/
+     6	
+     7	(function () {
+     8	  const ACTIVE_EVENT_TYPES = new Set([
+     9	    "task.created",
+    10	    "task.started",
+    11	    "task.running",
+    12	  ]);
+    13	
+    14	  const TERMINAL_EVENT_TYPES = new Set([
+    15	    "task.completed",
+    16	    "task.failed",
+    17	    "task.cancelled",
+    18	  ]);
+    19	
+    20	  const activeTasks = new Set();
+    21	
+    22	  function getMetricNode() {
+    23	    return document.getElementById("metric-tasks");
+    24	  }
+    25	
+    26	  function render() {
+    27	    const node = getMetricNode();
+    28	    if (!node) return;
+    29	
+    30	    if (window.__phase65bMetricWrite) {
+    31	      window.__phase65bMetricWrite(() => {
+    32	        node.textContent = String(activeTasks.size);
+    33	      });
+    34	    } else {
+    35	      node.textContent = String(activeTasks.size);
+    36	    }
+    37	  }
+    38	
+    39	  function processPayload(payload) {
+    40	    const type = payload?.type || payload?.event || payload?.name;
+    41	    const id = payload?.task_id || payload?.taskId || payload?.id;
+    42	
+    43	    if (!type || !id) return;
+    44	
+    45	    if (ACTIVE_EVENT_TYPES.has(type)) {
+    46	      activeTasks.add(id);
+    47	    }
+    48	
+    49	    if (TERMINAL_EVENT_TYPES.has(type)) {
+    50	      activeTasks.delete(id);
+    51	    }
+    52	
+    53	    render();
+    54	  }
+    55	
+    56	  function attach(source) {
+    57	    if (!source || source.__phase65bBound) return;
+    58	
+    59	    source.__phase65bBound = true;
+    60	
+    61	    source.addEventListener("message", (e) => {
+    62	      try {
+    63	        processPayload(JSON.parse(e.data));
+    64	      } catch {
+    65	        console.warn("running_tasks_metric parse error");
+    66	      }
+    67	    });
+    68	  }
+    69	
+    70	  function patchEventSource() {
+    71	    if (window.__phase65bPatched) return;
+    72	
+    73	    const Native = window.EventSource;
+    74	    if (typeof Native !== "function") return;
+    75	
+    76	    function Wrapped(url, config) {
+    77	      const es = new Native(url, config);
+    78	
+    79	      try {
+    80	        if (String(url).includes("/events/task-events")) {
+    81	          attach(es);
+    82	        }
+    83	      } catch {}
+    84	
+    85	      return es;
+    86	    }
+    87	
+    88	    Wrapped.prototype = Native.prototype;
+    89	    window.EventSource = Wrapped;
+    90	    window.__phase65bPatched = true;
+    91	  }
+    92	
+    93	  function bootstrap() {
+    94	    patchEventSource();
+    95	    render();
+    96	  }
+    97	
+    98	  if (document.readyState === "loading") {
+    99	    document.addEventListener("DOMContentLoaded", bootstrap);
+   100	  } else {
+   101	    bootstrap();
+   102	  }
+   103	})();
+
+== latency_metric.js ==
+     1	/*
+     2	PHASE 65C TELEMETRY HYDRATION
+     3	Latency Metric
+     4	Telemetry now sole writer.
+     5	*/
+     6	
+     7	(function () {
+     8	  const RUNNING_EVENT_TYPES = new Set([
+     9	    "task.created",
+    10	    "task.queued",
+    11	    "task.leased",
+    12	    "task.started",
+    13	    "task.running",
+    14	    "task.in_progress",
+    15	    "task.delegated",
+    16	    "task.retrying",
+    17	    "created",
+    18	    "queued",
+    19	    "leased",
+    20	    "started",
+    21	    "running",
+    22	    "in_progress",
+    23	    "delegated",
+    24	    "retrying",
+    25	  ]);
+    26	
+    27	  const TERMINAL_EVENT_TYPES = new Set([
+    28	    "task.completed",
+    29	    "task.complete",
+    30	    "task.done",
+    31	    "task.success",
+    32	    "task.failed",
+    33	    "task.error",
+    34	    "task.cancelled",
+    35	    "task.canceled",
+    36	    "task.timed_out",
+    37	    "task.timeout",
+    38	    "task.terminated",
+    39	    "task.aborted",
+    40	    "completed",
+    41	    "complete",
+    42	    "done",
+    43	    "success",
+    44	    "failed",
+    45	    "error",
+    46	    "cancelled",
+    47	    "canceled",
+    48	    "timed_out",
+    49	    "timeout",
+    50	    "terminated",
+    51	    "aborted",
+    52	  ]);
+    53	
+    54	  const taskStartTimes = new Map();
+    55	  const seenTerminalEvents = new Set();
+    56	  const recentDurationsMs = [];
+    57	  const maxSamples = 50;
+    58	
+    59	  function getMetricNode() {
+    60	    return document.getElementById("metric-latency");
+    61	  }
+    62	
+    63	  function formatLatency(ms) {
+    64	    if (!Number.isFinite(ms) || ms <= 0) return "—";
+    65	    if (ms < 1000) return `${Math.round(ms)}ms`;
+    66	    const seconds = ms / 1000;
+    67	    if (seconds < 60) return `${seconds.toFixed(seconds >= 10 ? 0 : 1)}s`;
+    68	    const minutes = seconds / 60;
+    69	    return `${minutes.toFixed(minutes >= 10 ? 0 : 1)}m`;
+    70	  }
+    71	
+    72	  function render() {
+    73	    const node = getMetricNode();
+    74	    if (!node) return;
+    75	
+    76	    const value = !recentDurationsMs.length
+    77	      ? "—"
+    78	      : formatLatency(
+    79	          recentDurationsMs.reduce((sum, value) => sum + value, 0) /
+    80	            recentDurationsMs.length
+    81	        );
+    82	
+    83	    if (window.__phase65bMetricWrite) {
+    84	      window.__phase65bMetricWrite(() => {
+    85	        node.textContent = value;
+    86	      });
+    87	    } else {
+    88	      node.textContent = value;
+    89	    }
+    90	  }
+    91	
+    92	  function getEventType(payload) {
+    93	    return String(
+    94	      payload?.type ||
+    95	        payload?.event ||
+    96	        payload?.name ||
+    97	        payload?.status ||
+    98	        payload?.state ||
+    99	        ""
+   100	    )
+   101	      .trim()
+   102	      .toLowerCase();
+   103	  }
+   104	
+   105	  function getTaskId(payload) {
+   106	    return String(
+   107	      payload?.task_id ??
+   108	        payload?.taskId ??
+   109	        payload?.id ??
+   110	        payload?.data?.task_id ??
+   111	        payload?.data?.taskId ??
+   112	        ""
+   113	    ).trim();
+   114	  }
+   115	
+   116	  function toMs(raw) {
+   117	    if (typeof raw === "number" && Number.isFinite(raw)) {
+   118	      return raw > 1e12 ? raw : raw * 1000;
+   119	    }
+   120	
+   121	    if (typeof raw === "string" && raw.trim()) {
+   122	      const asNum = Number(raw);
+   123	      if (Number.isFinite(asNum)) return asNum > 1e12 ? asNum : asNum * 1000;
+   124	      const parsed = Date.parse(raw);
+   125	      if (Number.isFinite(parsed)) return parsed;
+   126	    }
+   127	
+   128	    return Date.now();
+   129	  }
+   130	
+   131	  function getEventTs(payload) {
+   132	    return toMs(
+   133	      payload?.ts ??
+   134	        payload?.timestamp ??
+   135	        payload?.at ??
+   136	        payload?.time ??
+   137	        payload?.created_at ??
+   138	        payload?.updated_at ??
+   139	        Date.now()
+   140	    );
+   141	  }
+   142	
+   143	  function processPayload(payload) {
+   144	    const type = getEventType(payload);
+   145	    const taskId = getTaskId(payload);
+   146	    const eventTs = getEventTs(payload);
+   147	
+   148	    if (!taskId) {
+   149	      render();
+   150	      return;
+   151	    }
+   152	
+   153	    if (RUNNING_EVENT_TYPES.has(type)) {
+   154	      if (!taskStartTimes.has(taskId)) {
+   155	        taskStartTimes.set(taskId, eventTs);
+   156	      }
+   157	    }
+   158	
+   159	    if (TERMINAL_EVENT_TYPES.has(type)) {
+   160	      const dedupeKey = `${taskId}|${type}|${eventTs}`;
+   161	
+   162	      if (!seenTerminalEvents.has(dedupeKey)) {
+   163	        seenTerminalEvents.add(dedupeKey);
+   164	
+   165	        const startTs = taskStartTimes.get(taskId);
+   166	        if (Number.isFinite(startTs)) {
+   167	          const duration = Math.max(0, eventTs - startTs);
+   168	          recentDurationsMs.push(duration);
+   169	          if (recentDurationsMs.length > maxSamples) {
+   170	            recentDurationsMs.splice(0, recentDurationsMs.length - maxSamples);
+   171	          }
+   172	        }
+   173	      }
+   174	
+   175	      taskStartTimes.delete(taskId);
+   176	    }
+   177	
+   178	    render();
+   179	  }
+   180	
+   181	  function attach(source) {
+   182	    if (!source || source.__phase65cLatencyBound) return;
+   183	
+   184	    source.__phase65cLatencyBound = true;
+   185	
+   186	    source.addEventListener("message", (e) => {
+   187	      try {
+   188	        const parsed = JSON.parse(e.data);
+   189	        if (Array.isArray(parsed)) {
+   190	          parsed.forEach(processPayload);
+   191	        } else {
+   192	          processPayload(parsed);
+   193	        }
+   194	      } catch {
+   195	        console.warn("latency_metric parse error");
+   196	      }
+   197	    });
+   198	  }
+   199	
+   200	  function patchEventSource() {
+   201	    if (window.__phase65cLatencyPatched) return;
+   202	
+   203	    const Native = window.EventSource;
+   204	    if (typeof Native !== "function") return;
+   205	
+   206	    function Wrapped(url, config) {
+   207	      const es = new Native(url, config);
+   208	
+   209	      try {
+   210	        if (String(url).includes("/events/task-events")) {
+   211	          attach(es);
+   212	        }
+   213	      } catch {}
+   214	
+   215	      return es;
+   216	    }
+   217	
+   218	    Wrapped.prototype = Native.prototype;
+   219	    window.EventSource = Wrapped;
+   220	    window.__phase65cLatencyPatched = true;
+   221	  }
+   222	
+   223	  function bootstrap() {
+   224	    patchEventSource();
+   225	    render();
+   226	  }
+   227	
+   228	  if (document.readyState === "loading") {
+   229	    document.addEventListener("DOMContentLoaded", bootstrap);
+   230	  } else {
+   231	    bootstrap();
+   232	  }
+   233	})();
+
+== metric bootstrap ==
+     1	(function () {
+     2	  function load(src) {
+     3	    if (document.querySelector(`script[src="${src}"]`)) return;
+     4	
+     5	    const s = document.createElement("script");
+     6	    s.src = src;
+     7	    s.defer = true;
+     8	    document.body.appendChild(s);
+     9	  }
+    10	
+    11	  function init() {
+    12	    load("/js/telemetry/phase65b_metric_ownership_guard.js");
+    13	    load("/js/telemetry/running_tasks_metric.js");
+    14	    load("/js/telemetry/success_rate_metric.js");
+    15	    load("/js/telemetry/latency_metric.js");
+    16	  }
+    17	
+    18	  if (document.readyState === "loading") {
+    19	    document.addEventListener("DOMContentLoaded", init);
+    20	  } else {
+    21	    init();
+    22	  }
+    23	})();
+
+== all metric-success writers in source ==
+
+== bundle duplicate writer evidence ==
+28:  const successNode = document.getElementById('metric-success');
+148:    if (successNode) {
+150:      successNode.textContent = total > 0
+
+== decision ==
+If success metric already has multiple live writers, do not patch hydration logic yet.
+First reduce to a single source-of-truth writer within existing ownership discipline.

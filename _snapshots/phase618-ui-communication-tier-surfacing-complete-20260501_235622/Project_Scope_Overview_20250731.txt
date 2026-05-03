@@ -1,0 +1,19 @@
+/* eslint-disable import/no-commonjs */
+# 🌐 Motherboard Systems HQ – Full Project Scope Overview (As of 2025-07-31)
+
+This document consolidates the **full project scope** for Motherboard Systems HQ, integrating:
+- Current capabilities of all agents (Cade, Effie, Matilda)
+- Core workflows and scripts
+- UI & Cloudflare dashboard setup
+- Backups and maintenance logic
+- Outstanding tasks & checklist for future dev work
+
+---
+
+## 1️⃣ **Core Agents & Capabilities**
+
+### **Cade – Backend & Automation**
+- ✅ Run diagnostics, list/read/write files
+- ✅ Launch scripts & edit environment variables
+- ✅ Git push/pull, commit signing awareness
+- ✅ Move/delete files, parameterized file paths & message content

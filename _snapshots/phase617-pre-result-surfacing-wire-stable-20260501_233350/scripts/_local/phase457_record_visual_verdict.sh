@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(git rev-parse --show-toplevel)"
+cd "$ROOT"
+
+mkdir -p docs/recovery_full_audit
+
+cat > docs/recovery_full_audit/20_visual_verdict_next_step.txt <<'VERDICT'
+PHASE 457 - VISUAL VERDICT + NEXT STEP
+======================================
+
+VISUAL CHECKPOINT OPTIONS
+- recovery/phase65_layout      -> http://localhost:8081
+- recovery/phase65_wiring      -> http://localhost:8082
+- recovery/operator_guidance   -> http://localhost:8083
+
+FILL THIS IN AFTER COMPARISON
+
+WINNER:
+TBD
+
+WHY THIS ONE:
+TBD
+
+LAYOUT STATUS:
+- exact / close / wrong
+
+WIRING STATUS:
+- exact / partial / missing
+
+IF WINNER IS NOT FULLY COMPLETE:
+- use as recovery base: yes / no
+- additional commits needed after winner: TBD
+
+SAFE NEXT ACTION:
+- inspect winner commit diff to current branch
+- prepare controlled recovery stack from confirmed checkpoint
+- no mutation on main until checkpoint is confirmed
+VERDICT

@@ -1,0 +1,60 @@
+SSE STABILITY PLAN — PHASE 530
+
+OBJECTIVE:
+Stabilize Server-Sent Events (SSE) stream without impacting task execution pipeline or UI delegation.
+
+SCOPE:
+Single surface: SSE endpoint (/events/tasks)
+No changes to worker, DB schema, or delegation flow.
+
+HYPOTHESIS:
+ERR_NETWORK_IO_SUSPENDED likely caused by:
+- Connection timeout / inactivity
+- Missing keep-alive headers
+- Improper stream flushing
+- Proxy / Docker buffering
+
+PLAN:
+
+STEP 1 — VERIFY CURRENT HEADERS
+Check SSE endpoint response headers:
+- Content-Type: text/event-stream
+- Cache-Control: no-cache
+- Connection: keep-alive
+
+STEP 2 — ADD HEARTBEAT (LOW-RISK)
+Send periodic comment frames every 15–30 seconds:
+:
+\n
+
+This prevents connection suspension.
+
+STEP 3 — ENSURE FLUSHING
+After each write:
+- res.flushHeaders() (if not already)
+- res.write() followed by flush (if supported)
+
+STEP 4 — DISABLE BUFFERING
+If behind proxy (Docker/Node):
+- Ensure no compression middleware on SSE route
+- Disable response buffering
+
+STEP 5 — VALIDATION
+- Open browser devtools → Network → SSE stream
+- Confirm:
+  - Stream remains open > 60s
+  - No ERR_NETWORK_IO_SUSPENDED
+  - Events still received correctly
+
+CONSTRAINTS:
+- One file change only
+- No refactors
+- No multi-endpoint edits
+
+ROLLBACK:
+If instability increases:
+- Revert immediately to phase-529 checkpoint
+
+EXPECTED RESULT:
+Stable, persistent SSE connection with no dropped streams.
+

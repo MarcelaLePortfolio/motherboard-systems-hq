@@ -1,0 +1,12 @@
+Phase 591 two-sentence workflow rules.
+
+Ongoing Dev Work Rule:
+Every assistant response during engineering continuation mode should follow Marcela’s 2-sentence workflow format:
+1. First sentence summarizes the output Marcela just shared.
+2. Second sentence explains what the next command does.
+3. Then provide exactly one terminal-ready command block.
+
+Formatting:
+- No extra commentary outside the two sentences and command block.
+- Keep the command block complete and runnable.
+- Continue using full checkpoint discipline: git add, git commit -m, git push.

@@ -1,0 +1,41 @@
+PHASE 456.7 - FL3 PROOF COMPONENT LOCATION SCAN
+-----------------------------------------------
+
+CLASSIFICATION
+Component location discovery only.
+No implementation.
+No wiring.
+No runtime mutation.
+
+PURPOSE
+Identify where FL-3 minimal proof components already exist within current architecture.
+
+LOCATION_TARGETS
+Operator intake normalization structures.
+Governance evaluation entrypoints.
+Operator approval exposure surfaces.
+Execution preparation visibility structures.
+Outcome reporting pipelines.
+
+REUSE_STRATEGY
+Prefer existing intake paths.
+Prefer existing governance entry boundaries.
+Prefer existing operator visibility surfaces.
+Prefer existing reporting closure structures.
+
+DO_NOT_CREATE
+New execution layers.
+New orchestration engines.
+New authority surfaces.
+New policy frameworks.
+
+SUCCESS_CRITERIA
+Each minimal component mapped to an existing structural location.
+No new architecture required.
+Only intake-side bridge remains candidate mutation.
+
+NEXT_STEP
+PHASE_456_7_FL3_PROOF_BRIDGE_DEFINITION
+
+DETERMINISTIC_STOP
+Stop after component locations identified.

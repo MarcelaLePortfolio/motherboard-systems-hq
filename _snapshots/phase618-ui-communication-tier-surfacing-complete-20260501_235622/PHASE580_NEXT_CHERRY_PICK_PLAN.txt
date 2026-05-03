@@ -1,0 +1,33 @@
+Phase 580 next cherry-pick plan.
+
+Checkpoint:
+System stable at phase578-completion-events-stable + phase579 verification.
+
+Goal:
+Resume cherry-pick corridor safely for retry execution pipeline completion.
+
+Next Target:
+Cherry-pick smallest safe unit from:
+- Phase 541 (retry execution routing integration)
+
+Strategy:
+- DO NOT cherry-pick full commit blindly.
+- Inspect commit first:
+    git show 546930e5
+- Extract ONLY:
+    - routing invocation point (where routeRetryExecution is applied)
+    - minimal integration into delegate-task or execution pipeline
+- DO NOT import:
+    - UI changes
+    - enforcement layers
+    - observability mutations
+
+Success Criteria:
+- Retry task uses router output (execution_mode etc.)
+- Worker behavior remains stable
+- No regression in task lifecycle or SSE
+
+Failure Protocol:
+- If conflict unclear → abort immediately
+- Max 3 attempts → revert to phase578 tag
+

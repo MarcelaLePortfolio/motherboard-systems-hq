@@ -1,0 +1,180 @@
+PHASE 486 — STEP 12
+PASSIVE GOVERNANCE PANEL SPEC
+
+────────────────────────────────
+
+OBJECTIVE
+
+Define the exact passive governance panel contents to be rendered inside:
+
+app/demo-runtime/page.tsx
+
+using ONLY existing report fields already present in the UI host.
+
+This is a specification step only.
+No implementation mutation occurs here.
+
+────────────────────────────────
+
+INPUT BASIS
+
+Source:
+docs/phase486_step11_report_field_inventory.txt
+
+Confirmed available governance-adjacent fields:
+
+• report.admissionDecision
+• report.denialReasons
+• report.generatedRequest.approved
+• report.generatedRequest.governanceEvaluated
+• report.generatedRequest.authorityOrderingValid
+
+Confirmed unavailable:
+
+• rules[]
+• ruleId
+• evaluationResult
+• per-rule reasoning entries
+
+Trace-field status:
+
+ABSENT
+
+────────────────────────────────
+
+PANEL TITLE
+
+Governance Trace
+
+────────────────────────────────
+
+PANEL PURPOSE
+
+Expose exactly what governance-adjacent state is available in the current
+report object without fabricating rule-level trace detail.
+
+This panel is a passive visibility surface only.
+
+────────────────────────────────
+
+EXACT PANEL CONTENTS
+
+Section content must include:
+
+1. Admission decision
+   Value:
+   report.admissionDecision
+
+2. Approval present
+   Value:
+   report.generatedRequest.approved ? "YES" : "NO"
+
+3. Governance evaluated
+   Value:
+   report.generatedRequest.governanceEvaluated ? "YES" : "NO"
+
+4. Authority ordering valid
+   Value:
+   report.generatedRequest.authorityOrderingValid ? "YES" : "NO"
+
+5. Rule-level governance trace
+   Value:
+   NO DATA
+
+6. Denial reasons
+   Value:
+   • If report.denialReasons.length > 0:
+     render full list exactly as present
+   • Else:
+     render NONE
+
+────────────────────────────────
+
+EXACT RENDERING RULES
+
+The panel must:
+
+• Use existing report object only
+• Render values directly
+• Preserve denial reason strings exactly
+• Render explicit NO DATA for absent rule-level trace
+
+The panel must NOT:
+
+• invent rules
+• derive simulated evaluations
+• create synthetic governance entries
+• summarize or compress denial reasons
+
+────────────────────────────────
+
+STRUCTURAL POSITION
+
+Inside Runtime Result section:
+
+• After summary badges
+• Before Request section
+• Before Admission section
+• Inside existing {report ? (...) : null} gate
+
+This preserves:
+
+Summary
+→ Governance visibility
+→ Request
+→ Admission
+→ Execution
+→ Outcome
+
+────────────────────────────────
+
+DISPLAY FORMAT
+
+Preferred shape:
+
+Governance Trace
+• Admission decision: ADMITTED / DENIED
+• Approval present: YES / NO
+• Governance evaluated: YES / NO
+• Authority ordering valid: YES / NO
+• Rule-level trace: NO DATA
+• Denial reasons:
+  - reason item(s) OR NONE
+
+Formatting may improve readability only.
+Meaning must remain unchanged.
+
+────────────────────────────────
+
+NO DATA RULE
+
+Because trace fields are absent from the existing report contract:
+
+The UI MUST display:
+
+Rule-level trace: NO DATA
+
+This is required truth-preserving behavior.
+
+────────────────────────────────
+
+COMPLETION CONDITION
+
+This spec is complete when:
+
+• Exact panel title is defined
+• Exact fields are defined
+• Exact absent fields are acknowledged
+• Exact NO DATA behavior is defined
+• Implementation can proceed as one UI-only mutation
+
+────────────────────────────────
+
+CLASSIFICATION
+
+PASSIVE GOVERNANCE PANEL SPEC COMPLETE
+
+Next corridor:
+
+Phase 486 Step 13 — implement passive governance trace panel in app/demo-runtime/page.tsx using existing report fields only
+

@@ -1,0 +1,50 @@
+SYSTEM HEALTH DEEP CHECK
+timestamp=20260415_144151
+
+=== LAST BOOT TIME ===
+{ sec = 1776288636, usec = 230834 } Wed Apr 15 14:30:36 2026
+
+=== PREVIOUS SHUTDOWN CAUSE ===
+Timestamp                       Thread     Type        Activity             PID    TTL  
+
+=== PANIC FILES ===
+No panic files
+
+=== QUICK SYSTEM STATE ===
+14:42  up 12 mins, 1 user, load averages: 2.51 2.36 1.87
+
+=== MEMORY PRESSURE ===
+The system has 17179869184 (1048576 pages with a page size of 16384).
+
+Stats: 
+Pages free: 11825 
+Pages purgeable: 13483 
+Pages purged: 53363 
+
+Swap I/O:
+Swapins: 7328 
+Swapouts: 18720 
+
+Page Q counts:
+Pages active: 419792 
+Pages inactive: 207353 
+Pages speculative: 211876 
+Pages throttled: 0 
+Pages wired down: 101674 
+
+Compressor Stats:
+Pages used by compressor: 56335 
+Pages decompressed: 154894 
+Pages compressed: 986631 
+
+File I/O:
+Pageins: 1489437 
+Pageouts: 1096 
+
+System-wide memory free percentage: 84%
+
+=== INTERPRETATION ===
+If uptime is very short → confirmed restart
+If no panic logs → likely OS restart (not crash)
+If shutdown cause present → investigate code meaning
+

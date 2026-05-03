@@ -1,0 +1,52 @@
+PHASE 546 — NEXT TARGET
+
+CORRIDOR:
+UX POLISH + OPERATOR FEEDBACK
+
+PRIORITY:
+Hover affordance for scanability
+
+PROBLEM:
+- Rows are clickable but not obviously interactive at a glance
+- Only selected row has strong visual treatment
+- Non-selected rows lack hover feedback
+
+OBJECTIVE:
+Add subtle hover state to improve discoverability and scan UX
+
+INITIAL SCOPE (SAFE, UI-ONLY):
+- Add hover styling to non-selected rows
+- Must NOT override:
+  - selected state
+  - active highlight
+
+IMPLEMENTATION PLAN:
+
+1. HOVER STYLE
+- Add:
+  row.onmouseenter → apply:
+    background: rgba(255,255,255,0.03)
+
+- Add:
+  row.onmouseleave → revert:
+    background = original computed style
+
+2. PRIORITY RULES
+- If isSelected → do nothing (preserve selected style)
+- If active → allow slight additive hover, not override
+
+3. IMPLEMENTATION DETAIL
+- Apply after render() when binding events
+- Similar to click binding pattern
+
+CONSTRAINTS:
+- Single file: public/js/phase457_restore_task_panels.js
+- Additive only
+- No backend/API/SSE changes
+- No mutation of existing state logic
+
+GOAL:
+Make interaction affordances discoverable without adding visual noise
+
+STATUS:
+READY FOR SURGICAL PATCH

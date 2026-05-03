@@ -1,0 +1,15 @@
+PHASE 569 — REQUEUE LABEL VERIFIED
+
+RESULT:
+PASS
+
+VERIFIED:
+- Served JS now displays "Requeue"
+- Existing data-action remains "retry" internally
+- Behavior unchanged:
+  - creates a new queued task copy
+  - preserves retry lineage metadata
+  - does not mutate original task
+
+STATUS:
+Operator action label now accurately reflects behavior.

@@ -1,0 +1,829 @@
+PHASE 465.3 — BOUNDARY OWNER EXTRACTION
+=======================================
+
+OBJECTIVE:
+- Since FULL_CHAIN_DISCONNECTED was confirmed, isolate likely owners for:
+  1) intake boundary
+  2) governance boundary
+  3) execution/preparation boundary
+- NO mutation. Evidence only.
+
+STEP 1 — Intake owner candidates
+server/optional-sse.mjs-49-  // PHASE16_WRITE_EVENT_FIX_SWAPPED
+server/optional-sse.mjs-50-  // Some callers accidentally pass { event: <msgObject>, data: <msgTypeString> }.
+server/optional-sse.mjs:51:  // If so, swap/normalize so SSE "event:" is a string and "data:" is the payload.
+server/optional-sse.mjs-52-  if (event && typeof event === "object" && typeof data === "string") {
+server/optional-sse.mjs-53-    const maybe = event;
+--
+server/tasks-mutations.mjs-3-import { assertNotEnforced } from "./policy/enforce.mjs";
+server/tasks-mutations.mjs-4-
+server/tasks-mutations.mjs:5:function normalizeTaskId(body = {}) {
+server/tasks-mutations.mjs-6-  return body?.task_id || body?.taskId || `task.${randomUUID()}`;
+server/tasks-mutations.mjs-7-}
+server/tasks-mutations.mjs-8-
+server/tasks-mutations.mjs:9:function normalizeTitle(body = {}) {
+server/tasks-mutations.mjs-10-  return (
+server/tasks-mutations.mjs-11-    body?.title ||
+--
+server/tasks-mutations.mjs-30-  assertNotEnforced("tasks.mutations");
+server/tasks-mutations.mjs-31-
+server/tasks-mutations.mjs:32:  const task_id = normalizeTaskId(body);
+server/tasks-mutations.mjs:33:  const title = normalizeTitle(body);
+server/tasks-mutations.mjs-34-  const status = "queued";
+server/tasks-mutations.mjs-35-  const notes = body?.notes || "";
+--
+server/policy/grants.mjs-31-export function loadGrants(repoRoot) {
+server/policy/grants.mjs-32-  const fromEnv = loadGrantsFromEnv();
+server/policy/grants.mjs:33:  if (fromEnv) return normalizeGrants(fromEnv);
+server/policy/grants.mjs-34-  const fromFile = loadGrantsFromFile(repoRoot);
+server/policy/grants.mjs:35:  if (fromFile) return normalizeGrants(fromFile);
+server/policy/grants.mjs-36-  return { grants: [] };
+server/policy/grants.mjs-37-}
+server/policy/grants.mjs-38-
+server/policy/grants.mjs:39:function normalizeGrants(doc) {
+server/policy/grants.mjs-40-  const grants = Array.isArray(doc?.grants) ? doc.grants : [];
+server/policy/grants.mjs-41-  return { grants: grants.map(g => ({ ...g })) };
+--
+server/policy/policy_audit.mjs-2-import crypto from "node:crypto";
+server/policy/policy_audit.mjs-3-import path from "node:path";
+server/policy/policy_audit.mjs:4:import { normalizePolicyAudit } from "./policy_audit_shape.mjs";
+server/policy/policy_audit.mjs-5-
+server/policy/policy_audit.mjs-6-/**
+--
+server/policy/policy_audit.mjs-93-export async function policyAuditWrite(audit = {}, env = process.env) {
+server/policy/policy_audit.mjs-94-  try {
+server/policy/policy_audit.mjs:95:    const normalized = normalizePolicyAudit(audit, env);
+server/policy/policy_audit.mjs-96-    const line = JSON.stringify({
+server/policy/policy_audit.mjs:97:      t: normalized.meta.emitted_at_iso,
+server/policy/policy_audit.mjs-98-      channel: "policy_audit",
+server/policy/policy_audit.mjs:99:      audit: normalized,
+server/policy/policy_audit.mjs-100-    });
+server/policy/policy_audit.mjs-101-
+--
+server/policy/policy_audit.mjs-105-    const filePath = env?.POLICY_AUDIT_PATH ? String(env.POLICY_AUDIT_PATH) : "";
+server/policy/policy_audit.mjs-106-    if (filePath) {
+server/policy/policy_audit.mjs:107:      const signals = normalized?.signals || {};
+server/policy/policy_audit.mjs-108-      const shouldCapture = stableSampleDecision({ task_id: signals.task_id, run_id: signals.run_id }, env);
+server/policy/policy_audit.mjs-109-      if (!shouldCapture) return;
+--
+server/policy/evaluate.mjs-31-}
+server/policy/evaluate.mjs-32-
+server/policy/evaluate.mjs:33:function normalizeAllowed(result) {
+server/policy/evaluate.mjs-34-  if (!result || typeof result !== "object") return null;
+server/policy/evaluate.mjs-35-
+--
+server/policy/evaluate.mjs-69-  const out = { ...result };
+server/policy/evaluate.mjs-70-
+server/policy/evaluate.mjs:71:  // Set/normalize decision fields.
+server/policy/evaluate.mjs-72-  if (typeof out.allowed === "boolean" || out.allowed == null) out.allowed = !!flipToAllowed;
+server/policy/evaluate.mjs-73-
+--
+server/policy/evaluate.mjs-144-export default async function evaluatePolicyWithGrant(...args) {
+server/policy/evaluate.mjs-145-  const legacyResult = await legacyFn(...args);
+server/policy/evaluate.mjs:146:  const legacyAllowed = normalizeAllowed(legacyResult);
+server/policy/evaluate.mjs-147-
+server/policy/evaluate.mjs-148-  // Always resolve grants deterministically based on the same stable input.
+--
+server/routes/task-events-sse.mjs-26-}
+server/routes/task-events-sse.mjs-27-
+server/routes/task-events-sse.mjs:28:function normalizeKind(kind) {
+server/routes/task-events-sse.mjs-29-  const v = String(kind || "").trim();
+server/routes/task-events-sse.mjs-30-  return v || "task.event";
+server/routes/task-events-sse.mjs-31-}
+server/routes/task-events-sse.mjs-32-
+server/routes/task-events-sse.mjs:33:function normalizeRow(row) {
+server/routes/task-events-sse.mjs-34-  const payload =
+server/routes/task-events-sse.mjs-35-    row && row.payload && typeof row.payload === "object" && !Array.isArray(row.payload)
+--
+server/routes/task-events-sse.mjs-37-      : {};
+server/routes/task-events-sse.mjs-38-
+server/routes/task-events-sse.mjs:39:  const kind = normalizeKind(row?.kind);
+server/routes/task-events-sse.mjs-40-
+server/routes/task-events-sse.mjs-41-  return {
+--
+server/routes/task-events-sse.mjs-85-  let polling = false;
+server/routes/task-events-sse.mjs-86-
+server/routes/task-events-sse.mjs:87:  const requestedCursor =
+server/routes/task-events-sse.mjs-88-    intOrNull(req.query.cursor) ??
+server/routes/task-events-sse.mjs-89-    intOrNull(req.query.since) ??
+server/routes/task-events-sse.mjs-90-    intOrNull(req.query.ts);
+server/routes/task-events-sse.mjs-91-
+server/routes/task-events-sse.mjs:92:  let cursor = requestedCursor;
+server/routes/task-events-sse.mjs-93-
+server/routes/task-events-sse.mjs-94-  try {
+--
+server/routes/task-events-sse.mjs-148-
+server/routes/task-events-sse.mjs-149-        for (const row of result.rows) {
+server/routes/task-events-sse.mjs:150:          const payload = normalizeRow(row);
+server/routes/task-events-sse.mjs:151:          const eventName = normalizeKind(row.kind);
+server/routes/task-events-sse.mjs-152-
+server/routes/task-events-sse.mjs-153-          sseWrite(res, {
+--
+server/policy/evaluate.legacy.mjs-38-  // Reject obvious self-tier attempts (v1 hard reject)
+server/policy/evaluate.legacy.mjs-39-  for (const k of Object.keys(ctx)) {
+server/policy/evaluate.legacy.mjs:40:    if (k === 'tier' || k === 'requested_tier' || k === 'decision') {
+server/policy/evaluate.legacy.mjs-41-      throw new Error(`forbidden context key: ${k}`);
+server/policy/evaluate.legacy.mjs-42-    }
+--
+server/policy/evaluate.legacy.mjs-59-    reasons: [],
+server/policy/evaluate.legacy.mjs-60-    conditions: [],
+server/policy/evaluate.legacy.mjs:61:    normalized: {
+server/policy/evaluate.legacy.mjs-62-      action_id: canonical_action,
+server/policy/evaluate.legacy.mjs-63-      context_keys: stableKeyList(ctx),
+--
+server/orchestrator_state_route.mjs-4- * Problem observed (Jan 6, 2026):
+server/orchestrator_state_route.mjs-5- * - process.env has correct values at server boot logs
+server/orchestrator_state_route.mjs:6: * - but inside request handlers, process.env.* is undefined (JSON omits keys => env:{})
+server/orchestrator_state_route.mjs-7- *
+server/orchestrator_state_route.mjs-8- * Fix:
+--
+server/orchestrator_state_route.mjs-86-  });
+server/orchestrator_state_route.mjs-87-
+server/orchestrator_state_route.mjs:88:  // Debug: ALWAYS 200 so we can see snapshot vs live env at request time
+server/orchestrator_state_route.mjs-89-  app.get("/orchestrator/state._debug", (req, res) => {
+server/orchestrator_state_route.mjs-90-    res.setHeader("X-Phase19-Orch", "1");
+--
+server/taskContract.mjs-5-  Notes:
+server/taskContract.mjs-6-  - We preserve DB timestamps on read.
+server/taskContract.mjs:7:  - We normalize legacy status strings into the Phase 14 enum.
+server/taskContract.mjs-8-*/
+server/taskContract.mjs-9-
+--
+server/taskContract.mjs-20-export const TERMINAL_STATUSES = new Set(["complete", "canceled", "failed"]);
+server/taskContract.mjs-21-
+server/taskContract.mjs:22:export function normalizeStatus(raw) {
+server/taskContract.mjs-23-  const s = (typeof raw === "string" ? raw : "").trim().toLowerCase();
+server/taskContract.mjs-24-
+--
+server/taskContract.mjs-34-}
+server/taskContract.mjs-35-
+server/taskContract.mjs:36:export function normalizeTaskForRead(raw = {}) {
+server/taskContract.mjs-37-  const now = new Date().toISOString();
+server/taskContract.mjs-38-
+--
+server/taskContract.mjs-41-    title: typeof raw.title === "string" ? raw.title.trim() : "",
+server/taskContract.mjs-42-    agent: typeof raw.agent === "string" ? raw.agent.trim() : "",
+server/taskContract.mjs:43:    status: normalizeStatus(raw.status),
+server/taskContract.mjs-44-
+server/taskContract.mjs-45-    notes: raw.notes ?? null,
+--
+server/taskContract.mjs-54-}
+server/taskContract.mjs-55-
+server/taskContract.mjs:56:export function normalizeTaskForWrite(raw = {}) {
+server/taskContract.mjs-57-  const now = new Date().toISOString();
+server/taskContract.mjs:58:  const base = normalizeTaskForRead(raw);
+server/taskContract.mjs-59-
+server/taskContract.mjs-60-  return {
+--
+server/taskContract.mjs-65-}
+server/taskContract.mjs-66-
+server/taskContract.mjs:67:export function validateNewTask(task) {
+server/taskContract.mjs-68-  if (!task.title) throw new Error("Task title is required");
+server/taskContract.mjs-69-  if (!task.agent) throw new Error("Task agent is required");
+--
+server/taskContract.mjs-71-}
+server/taskContract.mjs-72-
+server/taskContract.mjs:73:export function validateTransition(prevStatusRaw, nextStatusRaw) {
+server/taskContract.mjs:74:  const prevStatus = normalizeStatus(prevStatusRaw);
+server/taskContract.mjs:75:  const nextStatus = normalizeStatus(nextStatusRaw);
+server/taskContract.mjs-76-
+server/taskContract.mjs-77-  if (prevStatus === nextStatus) return;
+--
+server/policy/grants/resolvePolicyGrant.mjs-44-}
+server/policy/grants/resolvePolicyGrant.mjs-45-
+server/policy/grants/resolvePolicyGrant.mjs:46:function normalizeGrants(x) {
+server/policy/grants/resolvePolicyGrant.mjs-47-  if (!x) return [];
+server/policy/grants/resolvePolicyGrant.mjs-48-  if (Array.isArray(x)) return x;
+--
+server/policy/grants/resolvePolicyGrant.mjs-124-  const repoRoot = process.cwd();
+server/policy/grants/resolvePolicyGrant.mjs-125-  const src = loadGrantsFromEnv() ?? loadGrantsFromFile(repoRoot);
+server/policy/grants/resolvePolicyGrant.mjs:126:  const grants = normalizeGrants(src);
+server/policy/grants/resolvePolicyGrant.mjs-127-
+server/policy/grants/resolvePolicyGrant.mjs-128-  for (const g of grants) {
+--
+server/policy/policy_audit_shape.mjs-14-}
+server/policy/policy_audit_shape.mjs-15-
+server/policy/policy_audit_shape.mjs:16:export function normalizePolicyAudit(input = {}, env = process.env) {
+server/policy/policy_audit_shape.mjs-17-  const nowMs = Date.now();
+server/policy/policy_audit_shape.mjs-18-
+--
+server/task-events.mjs-49-
+server/task-events.mjs-50-  // Back-compat: appendTaskEvent(pool, kind, payloadObj, optsObj)
+
+STEP 2 — Governance owner candidates
+src/governance_operator_reference/governance_operator_reference_contract.ts-1-export const GOVERNANCE_OPERATOR_REFERENCE_LAYER_GUARANTEES = Object.freeze([
+src/governance_operator_reference/governance_operator_reference_contract.ts:2:  "cannot mutate decision result",
+src/governance_operator_reference/governance_operator_reference_contract.ts-3-  "cannot affect routing",
+src/governance_operator_reference/governance_operator_reference_contract.ts-4-  "cannot affect invariant evaluation",
+--
+server/sql/phase45_policy_grants.sql:1:-- Phase 45: auditable policy_grants (override authority model)
+server/sql/phase45_policy_grants.sql-2--- Deterministic + auditable override authority surface.
+server/sql/phase45_policy_grants.sql-3-
+--
+server/sql/phase45_policy_grants.sql-6-CREATE EXTENSION IF NOT EXISTS pgcrypto;
+server/sql/phase45_policy_grants.sql-7-
+server/sql/phase45_policy_grants.sql:8:CREATE TABLE IF NOT EXISTS policy_grants (
+server/sql/phase45_policy_grants.sql-9-  grant_id     uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+server/sql/phase45_policy_grants.sql-10-
+--
+server/sql/phase45_policy_grants.sql-15-  scope        text        NOT NULL,
+server/sql/phase45_policy_grants.sql-16-
+server/sql/phase45_policy_grants.sql:17:  decision     text        NOT NULL CHECK (decision IN ('allow','deny')),
+server/sql/phase45_policy_grants.sql-18-  reason       text        NOT NULL,
+server/sql/phase45_policy_grants.sql-19-
+--
+server/sql/phase45_policy_grants.sql-22-);
+server/sql/phase45_policy_grants.sql-23-
+server/sql/phase45_policy_grants.sql:24:CREATE INDEX IF NOT EXISTS policy_grants_subject_scope_idx
+server/sql/phase45_policy_grants.sql:25:  ON policy_grants (subject, scope);
+server/sql/phase45_policy_grants.sql-26-
+server/sql/phase45_policy_grants.sql:27:CREATE INDEX IF NOT EXISTS policy_grants_subject_scope_decision_idx
+server/sql/phase45_policy_grants.sql:28:  ON policy_grants (subject, scope, decision);
+server/sql/phase45_policy_grants.sql-29-
+server/sql/phase45_policy_grants.sql:30:CREATE INDEX IF NOT EXISTS policy_grants_expires_at_idx
+server/sql/phase45_policy_grants.sql:31:  ON policy_grants (expires_at);
+server/sql/phase45_policy_grants.sql-32-
+server/sql/phase45_policy_grants.sql:33:CREATE OR REPLACE VIEW policy_grants_active AS
+server/sql/phase45_policy_grants.sql-34-SELECT *
+server/sql/phase45_policy_grants.sql:35:FROM policy_grants
+server/sql/phase45_policy_grants.sql-36-WHERE expires_at IS NULL OR expires_at > now();
+server/sql/phase45_policy_grants.sql-37-
+--
+src/governance_operator_reference/governance_operator_reference_model.ts-5-
+src/governance_operator_reference/governance_operator_reference_model.ts-6-export interface GovernanceOperatorReferenceMetadata {
+src/governance_operator_reference/governance_operator_reference_model.ts:7:  decision_id: string;
+src/governance_operator_reference/governance_operator_reference_model.ts-8-  reference_version: string;
+src/governance_operator_reference/governance_operator_reference_model.ts-9-  ready: boolean;
+--
+server/sql/phase47_decision_correctness_invariants.sql-146-END $$;
+server/sql/phase47_decision_correctness_invariants.sql-147-
+server/sql/phase47_decision_correctness_invariants.sql:148:SELECT 'OK: Phase 47 decision correctness invariants clean.' AS phase47_status;
+--
+src/governance_operator_reference/index.ts-3-  GovernanceOperatorReferenceMetadata,
+src/governance_operator_reference/index.ts-4-  GovernanceOperatorReferenceRecord,
+src/governance_operator_reference/index.ts:5:} from "./governance_operator_reference_model";
+src/governance_operator_reference/index.ts-6-
+src/governance_operator_reference/index.ts-7-export {
+--
+src/governance_operator_reference/index.ts-12-  formatGovernanceOperatorReferenceSections,
+src/governance_operator_reference/index.ts-13-  formatGovernanceOperatorReferenceVersion,
+src/governance_operator_reference/index.ts:14:} from "./governance_operator_reference_formatter";
+src/governance_operator_reference/index.ts-15-
+src/governance_operator_reference/index.ts:16:export type { GovernanceOperatorReferenceInput } from "./governance_operator_reference_builder";
+src/governance_operator_reference/index.ts:17:export { buildGovernanceOperatorReference } from "./governance_operator_reference_builder";
+src/governance_operator_reference/index.ts-18-
+src/governance_operator_reference/index.ts-19-export {
+src/governance_operator_reference/index.ts-20-  GOVERNANCE_OPERATOR_REFERENCE_LAYER_GUARANTEES,
+src/governance_operator_reference/index.ts-21-  getGovernanceOperatorReferenceLayerGuarantees,
+src/governance_operator_reference/index.ts:22:} from "./governance_operator_reference_contract";
+--
+src/governance_operator_reference/governance_operator_reference_formatter.ts-4-
+src/governance_operator_reference/governance_operator_reference_formatter.ts-5-export function formatGovernanceOperatorReferenceHeadline(
+src/governance_operator_reference/governance_operator_reference_formatter.ts:6:  decisionId: string,
+src/governance_operator_reference/governance_operator_reference_formatter.ts:7:  decision: "ALLOW" | "WARN" | "BLOCK",
+src/governance_operator_reference/governance_operator_reference_formatter.ts-8-): string {
+src/governance_operator_reference/governance_operator_reference_formatter.ts:9:  return `Governance operator reference: ${decisionId} (${decision})`;
+src/governance_operator_reference/governance_operator_reference_formatter.ts-10-}
+src/governance_operator_reference/governance_operator_reference_formatter.ts-11-
+src/governance_operator_reference/governance_operator_reference_formatter.ts-12-export function formatGovernanceOperatorReferenceDecision(
+src/governance_operator_reference/governance_operator_reference_formatter.ts:13:  decision: "ALLOW" | "WARN" | "BLOCK",
+src/governance_operator_reference/governance_operator_reference_formatter.ts-14-): string {
+src/governance_operator_reference/governance_operator_reference_formatter.ts:15:  return `Decision: ${decision}`;
+src/governance_operator_reference/governance_operator_reference_formatter.ts-16-}
+src/governance_operator_reference/governance_operator_reference_formatter.ts-17-
+--
+src/governance_operator_reference/governance_operator_reference_builder.ts-2-  GovernanceOperatorReferenceLine,
+src/governance_operator_reference/governance_operator_reference_builder.ts-3-  GovernanceOperatorReferenceRecord,
+src/governance_operator_reference/governance_operator_reference_builder.ts:4:} from "./governance_operator_reference_model";
+src/governance_operator_reference/governance_operator_reference_builder.ts-5-import {
+src/governance_operator_reference/governance_operator_reference_builder.ts-6-  formatGovernanceOperatorReferenceCompleteness,
+--
+src/governance_operator_reference/governance_operator_reference_builder.ts-10-  formatGovernanceOperatorReferenceSections,
+src/governance_operator_reference/governance_operator_reference_builder.ts-11-  formatGovernanceOperatorReferenceVersion,
+src/governance_operator_reference/governance_operator_reference_builder.ts:12:} from "./governance_operator_reference_formatter";
+src/governance_operator_reference/governance_operator_reference_builder.ts-13-
+src/governance_operator_reference/governance_operator_reference_builder.ts-14-export interface GovernanceOperatorReferenceInput {
+src/governance_operator_reference/governance_operator_reference_builder.ts:15:  decision_id: string;
+src/governance_operator_reference/governance_operator_reference_builder.ts:16:  decision: "ALLOW" | "WARN" | "BLOCK";
+src/governance_operator_reference/governance_operator_reference_builder.ts-17-  section_titles?: readonly string[];
+src/governance_operator_reference/governance_operator_reference_builder.ts-18-  timestamp: number;
+--
+src/governance_operator_reference/governance_operator_reference_builder.ts-28-  const lines: GovernanceOperatorReferenceLine[] = [
+src/governance_operator_reference/governance_operator_reference_builder.ts-29-    {
+src/governance_operator_reference/governance_operator_reference_builder.ts:30:      key: "decision",
+src/governance_operator_reference/governance_operator_reference_builder.ts:31:      text: formatGovernanceOperatorReferenceDecision(input.decision),
+src/governance_operator_reference/governance_operator_reference_builder.ts-32-    },
+src/governance_operator_reference/governance_operator_reference_builder.ts-33-    {
+--
+src/governance_operator_reference/governance_operator_reference_builder.ts-51-  return {
+src/governance_operator_reference/governance_operator_reference_builder.ts-52-    headline: formatGovernanceOperatorReferenceHeadline(
+src/governance_operator_reference/governance_operator_reference_builder.ts:53:      input.decision_id,
+src/governance_operator_reference/governance_operator_reference_builder.ts:54:      input.decision,
+src/governance_operator_reference/governance_operator_reference_builder.ts-55-    ),
+src/governance_operator_reference/governance_operator_reference_builder.ts-56-    metadata: {
+src/governance_operator_reference/governance_operator_reference_builder.ts:57:      decision_id: input.decision_id,
+src/governance_operator_reference/governance_operator_reference_builder.ts-58-      reference_version: referenceVersion,
+src/governance_operator_reference/governance_operator_reference_builder.ts-59-      ready,
+--
+server/policy/policy_flags.mjs:1:export function policyShadowEnabled(env = process.env) {
+server/policy/policy_flags.mjs-2-  return String(env.POLICY_SHADOW_MODE || "0") === "1";
+server/policy/policy_flags.mjs-3-}
+server/policy/policy_flags.mjs-4-
+server/policy/policy_flags.mjs:5:export function policyEnforceEnabled(env = process.env) {
+server/policy/policy_flags.mjs-6-  // Explicitly off-by-default. Shadow-mode wiring should not enforce unless this is enabled.
+server/policy/policy_flags.mjs-7-  return String(env.POLICY_ENFORCE_MODE || "0") === "1";
+--
+server/policy/grants.mjs-19-
+server/policy/grants.mjs-20-function loadGrantsFromFile(repoRoot) {
+server/policy/grants.mjs:21:  const p = path.join(repoRoot, 'policy', 'grants.json');
+server/policy/grants.mjs-22-  if (!fs.existsSync(p)) return null;
+server/policy/grants.mjs-23-  const raw = fs.readFileSync(p, 'utf8');
+--
+server/policy/grants.mjs-26-
+server/policy/grants.mjs-27-/**
+server/policy/grants.mjs:28: * Loads grants from env (preferred) or policy/grants.json (gitignored).
+server/policy/grants.mjs-29- * Returns: { grants: [...] } or { grants: [] }.
+server/policy/grants.mjs-30- */
+--
+src/governance_operator_playbook/governance_operator_playbook_builder.ts-2-  GovernanceOperatorPlaybookLine,
+src/governance_operator_playbook/governance_operator_playbook_builder.ts-3-  GovernanceOperatorPlaybookRecord,
+src/governance_operator_playbook/governance_operator_playbook_builder.ts:4:} from "./governance_operator_playbook_model";
+src/governance_operator_playbook/governance_operator_playbook_builder.ts-5-import {
+src/governance_operator_playbook/governance_operator_playbook_builder.ts-6-  formatGovernanceOperatorPlaybookCompleteness,
+--
+src/governance_operator_playbook/governance_operator_playbook_builder.ts-10-  formatGovernanceOperatorPlaybookSections,
+src/governance_operator_playbook/governance_operator_playbook_builder.ts-11-  formatGovernanceOperatorPlaybookVersion,
+src/governance_operator_playbook/governance_operator_playbook_builder.ts:12:} from "./governance_operator_playbook_formatter";
+src/governance_operator_playbook/governance_operator_playbook_builder.ts-13-
+src/governance_operator_playbook/governance_operator_playbook_builder.ts-14-export interface GovernanceOperatorPlaybookInput {
+src/governance_operator_playbook/governance_operator_playbook_builder.ts:15:  decision_id: string;
+src/governance_operator_playbook/governance_operator_playbook_builder.ts:16:  decision: "ALLOW" | "WARN" | "BLOCK";
+src/governance_operator_playbook/governance_operator_playbook_builder.ts-17-  section_titles?: readonly string[];
+src/governance_operator_playbook/governance_operator_playbook_builder.ts-18-  timestamp: number;
+--
+src/governance_operator_playbook/governance_operator_playbook_builder.ts-28-  const lines: GovernanceOperatorPlaybookLine[] = [
+src/governance_operator_playbook/governance_operator_playbook_builder.ts-29-    {
+src/governance_operator_playbook/governance_operator_playbook_builder.ts:30:      key: "decision",
+src/governance_operator_playbook/governance_operator_playbook_builder.ts:31:      text: formatGovernanceOperatorPlaybookDecision(input.decision),
+src/governance_operator_playbook/governance_operator_playbook_builder.ts-32-    },
+src/governance_operator_playbook/governance_operator_playbook_builder.ts-33-    {
+--
+src/governance_operator_playbook/governance_operator_playbook_builder.ts-51-  return {
+src/governance_operator_playbook/governance_operator_playbook_builder.ts-52-    headline: formatGovernanceOperatorPlaybookHeadline(
+src/governance_operator_playbook/governance_operator_playbook_builder.ts:53:      input.decision_id,
+src/governance_operator_playbook/governance_operator_playbook_builder.ts:54:      input.decision,
+src/governance_operator_playbook/governance_operator_playbook_builder.ts-55-    ),
+src/governance_operator_playbook/governance_operator_playbook_builder.ts-56-    metadata: {
+src/governance_operator_playbook/governance_operator_playbook_builder.ts:57:      decision_id: input.decision_id,
+src/governance_operator_playbook/governance_operator_playbook_builder.ts-58-      playbook_version: playbookVersion,
+src/governance_operator_playbook/governance_operator_playbook_builder.ts-59-      ready,
+--
+server/policy/policy_eval.mjs:1:import { policyEnforceEnabled } from "./policy_flags.mjs";
+server/policy/policy_eval.mjs-2-
+server/policy/policy_eval.mjs-3-/**
+server/policy/policy_eval.mjs:4: * Shadow-mode policy evaluation.
+server/policy/policy_eval.mjs-5- * - Must be side-effect free.
+server/policy/policy_eval.mjs:6: * - Returns an audit payload (and would-be enforcement decision).
+server/policy/policy_eval.mjs-7- */
+server/policy/policy_eval.mjs:8:export async function policyEvalShadow(ctx = {}, env = process.env) {
+server/policy/policy_eval.mjs-9-  const now = Date.now();
+server/policy/policy_eval.mjs-10-
+--
+server/policy/policy_eval.mjs-24-  };
+server/policy/policy_eval.mjs-25-
+server/policy/policy_eval.mjs:26:  // Shadow-only decision skeleton (no enforcement unless explicitly enabled elsewhere).
+server/policy/policy_eval.mjs-27-  // Keep conservative: default allow with unknown confidence.
+server/policy/policy_eval.mjs:28:  const decision = {
+server/policy/policy_eval.mjs-29-    allow: true,
+server/policy/policy_eval.mjs:30:    enforce: policyEnforceEnabled(env),
+server/policy/policy_eval.mjs-31-    reasons: [],
+server/policy/policy_eval.mjs-32-    confidence: "unknown",
+--
+server/policy/policy_eval.mjs-35-  // Example deterministic checks (no blocking in shadow mode):
+server/policy/policy_eval.mjs-36-  if (signals.action_tier && !["A", "B", "C"].includes(String(signals.action_tier))) {
+server/policy/policy_eval.mjs:37:    decision.reasons.push({ code: "unknown_action_tier", value: String(signals.action_tier) });
+server/policy/policy_eval.mjs-38-  }
+server/policy/policy_eval.mjs-39-
+server/policy/policy_eval.mjs-40-  return {
+server/policy/policy_eval.mjs:41:    version: "policy-shadow-v1",
+server/policy/policy_eval.mjs:42:    decision,
+server/policy/policy_eval.mjs-43-    signals,
+server/policy/policy_eval.mjs-44-  };
+--
+src/governance_operator_playbook/index.ts-3-  GovernanceOperatorPlaybookMetadata,
+
+STEP 3 — Execution/preparation owner candidates
+src/governance_operator_reference/governance_operator_reference_model.ts-7-  decision_id: string;
+src/governance_operator_reference/governance_operator_reference_model.ts-8-  reference_version: string;
+src/governance_operator_reference/governance_operator_reference_model.ts:9:  ready: boolean;
+src/governance_operator_reference/governance_operator_reference_model.ts-10-  complete: boolean;
+src/governance_operator_reference/governance_operator_reference_model.ts-11-  timestamp: number;
+--
+server/sql/phase47_decision_correctness_invariants.sql-6-DO $$
+server/sql/phase47_decision_correctness_invariants.sql-7-DECLARE
+server/sql/phase47_decision_correctness_invariants.sql:8:  col_task_id text;
+server/sql/phase47_decision_correctness_invariants.sql-9-
+server/sql/phase47_decision_correctness_invariants.sql-10-  col_ev_id   text;
+--
+server/sql/phase47_decision_correctness_invariants.sql-21-  hit int;
+server/sql/phase47_decision_correctness_invariants.sql-22-BEGIN
+server/sql/phase47_decision_correctness_invariants.sql:23:  IF to_regclass('public.tasks') IS NULL THEN
+server/sql/phase47_decision_correctness_invariants.sql:24:    RAISE EXCEPTION 'Phase47 invariant failure: missing table public.tasks';
+server/sql/phase47_decision_correctness_invariants.sql-25-  END IF;
+server/sql/phase47_decision_correctness_invariants.sql:26:  IF to_regclass('public.task_events') IS NULL THEN
+server/sql/phase47_decision_correctness_invariants.sql:27:    RAISE EXCEPTION 'Phase47 invariant failure: missing table public.task_events';
+server/sql/phase47_decision_correctness_invariants.sql-28-  END IF;
+server/sql/phase47_decision_correctness_invariants.sql-29-
+server/sql/phase47_decision_correctness_invariants.sql:30:  SELECT column_name INTO col_task_id
+server/sql/phase47_decision_correctness_invariants.sql-31-  FROM information_schema.columns
+server/sql/phase47_decision_correctness_invariants.sql:32:  WHERE table_schema='public' AND table_name='tasks' AND column_name='task_id'
+server/sql/phase47_decision_correctness_invariants.sql-33-  LIMIT 1;
+server/sql/phase47_decision_correctness_invariants.sql:34:  IF col_task_id IS NULL THEN
+server/sql/phase47_decision_correctness_invariants.sql:35:    RAISE EXCEPTION 'Phase47 invariant failure: missing required column tasks.task_id';
+server/sql/phase47_decision_correctness_invariants.sql-36-  END IF;
+server/sql/phase47_decision_correctness_invariants.sql-37-
+server/sql/phase47_decision_correctness_invariants.sql-38-  SELECT column_name INTO col_ev_id
+server/sql/phase47_decision_correctness_invariants.sql-39-  FROM information_schema.columns
+server/sql/phase47_decision_correctness_invariants.sql:40:  WHERE table_schema='public' AND table_name='task_events' AND column_name='id'
+server/sql/phase47_decision_correctness_invariants.sql-41-  LIMIT 1;
+server/sql/phase47_decision_correctness_invariants.sql-42-
+server/sql/phase47_decision_correctness_invariants.sql-43-  SELECT column_name INTO col_ev_tid
+server/sql/phase47_decision_correctness_invariants.sql-44-  FROM information_schema.columns
+server/sql/phase47_decision_correctness_invariants.sql:45:  WHERE table_schema='public' AND table_name='task_events' AND column_name='task_id'
+server/sql/phase47_decision_correctness_invariants.sql-46-  LIMIT 1;
+server/sql/phase47_decision_correctness_invariants.sql-47-
+server/sql/phase47_decision_correctness_invariants.sql-48-  SELECT column_name INTO col_ev_ts
+server/sql/phase47_decision_correctness_invariants.sql-49-  FROM information_schema.columns
+server/sql/phase47_decision_correctness_invariants.sql:50:  WHERE table_schema='public' AND table_name='task_events' AND column_name IN ('ts','created_at')
+server/sql/phase47_decision_correctness_invariants.sql-51-  ORDER BY CASE WHEN column_name='ts' THEN 0 ELSE 1 END
+server/sql/phase47_decision_correctness_invariants.sql-52-  LIMIT 1;
+--
+server/sql/phase47_decision_correctness_invariants.sql-54-  SELECT column_name INTO col_ev_kind
+server/sql/phase47_decision_correctness_invariants.sql-55-  FROM information_schema.columns
+server/sql/phase47_decision_correctness_invariants.sql:56:  WHERE table_schema='public' AND table_name='task_events' AND column_name IN ('kind','event_kind')
+server/sql/phase47_decision_correctness_invariants.sql-57-  ORDER BY CASE WHEN column_name='kind' THEN 0 ELSE 1 END
+server/sql/phase47_decision_correctness_invariants.sql-58-  LIMIT 1;
+server/sql/phase47_decision_correctness_invariants.sql-59-
+server/sql/phase47_decision_correctness_invariants.sql-60-  IF col_ev_id IS NULL OR col_ev_tid IS NULL OR col_ev_ts IS NULL OR col_ev_kind IS NULL THEN
+server/sql/phase47_decision_correctness_invariants.sql:61:    RAISE EXCEPTION 'Phase47 invariant failure: task_events missing required columns';
+server/sql/phase47_decision_correctness_invariants.sql-62-  END IF;
+server/sql/phase47_decision_correctness_invariants.sql-63-
+server/sql/phase47_decision_correctness_invariants.sql-64-  SELECT column_name INTO col_status
+server/sql/phase47_decision_correctness_invariants.sql-65-  FROM information_schema.columns
+server/sql/phase47_decision_correctness_invariants.sql:66:  WHERE table_schema='public' AND table_name='tasks' AND column_name IN ('task_status','status')
+server/sql/phase47_decision_correctness_invariants.sql:67:  ORDER BY CASE WHEN column_name='task_status' THEN 0 ELSE 1 END
+server/sql/phase47_decision_correctness_invariants.sql-68-  LIMIT 1;
+server/sql/phase47_decision_correctness_invariants.sql-69-
+server/sql/phase47_decision_correctness_invariants.sql-70-  SELECT column_name INTO col_is_terminal
+server/sql/phase47_decision_correctness_invariants.sql-71-  FROM information_schema.columns
+server/sql/phase47_decision_correctness_invariants.sql:72:  WHERE table_schema='public' AND table_name='tasks' AND column_name IN ('is_terminal','terminal')
+server/sql/phase47_decision_correctness_invariants.sql-73-  ORDER BY CASE WHEN column_name='is_terminal' THEN 0 ELSE 1 END
+server/sql/phase47_decision_correctness_invariants.sql-74-  LIMIT 1;
+--
+server/sql/phase47_decision_correctness_invariants.sql-76-  SELECT column_name INTO col_lease_owner
+server/sql/phase47_decision_correctness_invariants.sql-77-  FROM information_schema.columns
+server/sql/phase47_decision_correctness_invariants.sql:78:  WHERE table_schema='public' AND table_name='tasks' AND column_name IN ('lease_owner','lease_actor','lease_holder')
+server/sql/phase47_decision_correctness_invariants.sql-79-  ORDER BY CASE
+server/sql/phase47_decision_correctness_invariants.sql-80-    WHEN column_name='lease_owner' THEN 0
+--
+server/sql/phase47_decision_correctness_invariants.sql-86-  SELECT column_name INTO col_lease_exp
+server/sql/phase47_decision_correctness_invariants.sql-87-  FROM information_schema.columns
+server/sql/phase47_decision_correctness_invariants.sql:88:  WHERE table_schema='public' AND table_name='tasks' AND column_name IN ('lease_expires_at','lease_until','lease_expires_ts')
+server/sql/phase47_decision_correctness_invariants.sql-89-  ORDER BY CASE
+server/sql/phase47_decision_correctness_invariants.sql-90-    WHEN column_name='lease_expires_at' THEN 0
+--
+server/sql/phase47_decision_correctness_invariants.sql-96-  SELECT column_name INTO col_hb_ts
+server/sql/phase47_decision_correctness_invariants.sql-97-  FROM information_schema.columns
+server/sql/phase47_decision_correctness_invariants.sql:98:  WHERE table_schema='public' AND table_name='tasks' AND column_name IN ('last_heartbeat_ts','heartbeat_ts','last_heartbeat_ms')
+server/sql/phase47_decision_correctness_invariants.sql-99-  ORDER BY CASE
+server/sql/phase47_decision_correctness_invariants.sql-100-    WHEN column_name='last_heartbeat_ts' THEN 0
+--
+server/sql/phase47_decision_correctness_invariants.sql-108-    FROM (
+server/sql/phase47_decision_correctness_invariants.sql-109-      SELECT
+server/sql/phase47_decision_correctness_invariants.sql:110:        %1$I AS task_id,
+server/sql/phase47_decision_correctness_invariants.sql-111-        %2$I AS ts,
+server/sql/phase47_decision_correctness_invariants.sql-112-        %3$I AS id,
+server/sql/phase47_decision_correctness_invariants.sql-113-        lag(%2$I) OVER (PARTITION BY %1$I ORDER BY %2$I ASC, %3$I ASC) AS prev_ts,
+server/sql/phase47_decision_correctness_invariants.sql-114-        lag(%3$I) OVER (PARTITION BY %1$I ORDER BY %2$I ASC, %3$I ASC) AS prev_id
+server/sql/phase47_decision_correctness_invariants.sql:115:      FROM public.task_events
+server/sql/phase47_decision_correctness_invariants.sql-116-    ) w
+server/sql/phase47_decision_correctness_invariants.sql-117-    WHERE prev_ts IS NOT NULL
+--
+server/sql/phase47_decision_correctness_invariants.sql-122-
+server/sql/phase47_decision_correctness_invariants.sql-123-  IF hit IS NOT NULL THEN
+server/sql/phase47_decision_correctness_invariants.sql:124:    RAISE EXCEPTION 'Phase47 invariant failure: task_events ordering violation';
+server/sql/phase47_decision_correctness_invariants.sql-125-  END IF;
+server/sql/phase47_decision_correctness_invariants.sql-126-
+--
+server/sql/phase47_decision_correctness_invariants.sql-128-    EXECUTE format($q$
+server/sql/phase47_decision_correctness_invariants.sql-129-      SELECT 1
+server/sql/phase47_decision_correctness_invariants.sql:130:      FROM public.tasks t
+server/sql/phase47_decision_correctness_invariants.sql:131:      WHERE t.%1$I = 'running'
+server/sql/phase47_decision_correctness_invariants.sql-132-        AND (
+server/sql/phase47_decision_correctness_invariants.sql-133-          t.%2$I IS NULL OR
+--
+server/sql/phase47_decision_correctness_invariants.sql-140-
+server/sql/phase47_decision_correctness_invariants.sql-141-    IF hit IS NOT NULL THEN
+server/sql/phase47_decision_correctness_invariants.sql:142:      RAISE EXCEPTION 'Phase47 invariant failure: running task missing/expired lease';
+server/sql/phase47_decision_correctness_invariants.sql-143-    END IF;
+server/sql/phase47_decision_correctness_invariants.sql-144-  END IF;
+--
+src/governance_operator_reference/governance_operator_reference_formatter.ts-23-
+src/governance_operator_reference/governance_operator_reference_formatter.ts-24-export function formatGovernanceOperatorReferenceReadiness(
+src/governance_operator_reference/governance_operator_reference_formatter.ts:25:  ready: boolean,
+src/governance_operator_reference/governance_operator_reference_formatter.ts-26-): string {
+src/governance_operator_reference/governance_operator_reference_formatter.ts:27:  return `Reference ready: ${ready ? "yes" : "no"}`;
+src/governance_operator_reference/governance_operator_reference_formatter.ts-28-}
+src/governance_operator_reference/governance_operator_reference_formatter.ts-29-
+--
+server/sql/phase40_6_shadow_audit_task_events.sql-6-WITH e AS (
+server/sql/phase40_6_shadow_audit_task_events.sql-7-  SELECT
+server/sql/phase40_6_shadow_audit_task_events.sql:8:    te.task_id,
+server/sql/phase40_6_shadow_audit_task_events.sql:9:    te.run_id,
+server/sql/phase40_6_shadow_audit_task_events.sql-10-    te.id AS event_uuid,
+server/sql/phase40_6_shadow_audit_task_events.sql-11-    te.created_at AS at,
+server/sql/phase40_6_shadow_audit_task_events.sql-12-    te.ts AS ts,
+server/sql/phase40_6_shadow_audit_task_events.sql:13:    regexp_replace(te.kind, '^task\.', '') AS kind
+server/sql/phase40_6_shadow_audit_task_events.sql:14:  FROM task_events te
+server/sql/phase40_6_shadow_audit_task_events.sql-15-),
+server/sql/phase40_6_shadow_audit_task_events.sql-16-k AS (
+server/sql/phase40_6_shadow_audit_task_events.sql-17-  SELECT
+server/sql/phase40_6_shadow_audit_task_events.sql:18:    task_id,
+server/sql/phase40_6_shadow_audit_task_events.sql:19:    run_id,
+server/sql/phase40_6_shadow_audit_task_events.sql-20-    row_number() OVER (
+server/sql/phase40_6_shadow_audit_task_events.sql:21:      PARTITION BY task_id
+server/sql/phase40_6_shadow_audit_task_events.sql-22-      ORDER BY at ASC, ts ASC, event_uuid ASC
+server/sql/phase40_6_shadow_audit_task_events.sql-23-    )::int AS event_id,
+--
+server/sql/phase40_6_shadow_audit_task_events.sql-28-    CASE WHEN kind IN ('completed','failed','canceled','cancelled') THEN 1 ELSE 0 END AS is_terminal,
+server/sql/phase40_6_shadow_audit_task_events.sql-29-    CASE WHEN kind = 'created' THEN 1 ELSE 0 END AS is_created,
+server/sql/phase40_6_shadow_audit_task_events.sql:30:    CASE WHEN kind = 'running' THEN 1 ELSE 0 END AS is_running
+server/sql/phase40_6_shadow_audit_task_events.sql-31-  FROM e
+server/sql/phase40_6_shadow_audit_task_events.sql-32-),
+server/sql/phase40_6_shadow_audit_task_events.sql-33-agg AS (
+server/sql/phase40_6_shadow_audit_task_events.sql-34-  SELECT
+server/sql/phase40_6_shadow_audit_task_events.sql:35:    task_id,
+server/sql/phase40_6_shadow_audit_task_events.sql:36:    min(run_id) AS run_id_any,
+server/sql/phase40_6_shadow_audit_task_events.sql-37-    min(at) AS first_at,
+server/sql/phase40_6_shadow_audit_task_events.sql-38-    max(at) AS last_at,
+server/sql/phase40_6_shadow_audit_task_events.sql-39-    count(*)::int AS event_count,
+server/sql/phase40_6_shadow_audit_task_events.sql-40-    sum(is_created)::int AS created_count,
+server/sql/phase40_6_shadow_audit_task_events.sql:41:    sum(is_running)::int AS running_count,
+server/sql/phase40_6_shadow_audit_task_events.sql-42-    sum(is_terminal)::int AS terminal_count
+server/sql/phase40_6_shadow_audit_task_events.sql-43-  FROM k
+server/sql/phase40_6_shadow_audit_task_events.sql:44:  GROUP BY task_id
+server/sql/phase40_6_shadow_audit_task_events.sql-45-),
+server/sql/phase40_6_shadow_audit_task_events.sql-46-last_event AS (
+server/sql/phase40_6_shadow_audit_task_events.sql:47:  SELECT DISTINCT ON (task_id)
+server/sql/phase40_6_shadow_audit_task_events.sql:48:    task_id,
+server/sql/phase40_6_shadow_audit_task_events.sql-49-    kind AS last_kind,
+server/sql/phase40_6_shadow_audit_task_events.sql-50-    at AS last_kind_at,
+server/sql/phase40_6_shadow_audit_task_events.sql-51-    event_id AS last_event_id
+server/sql/phase40_6_shadow_audit_task_events.sql-52-  FROM k
+server/sql/phase40_6_shadow_audit_task_events.sql:53:  ORDER BY task_id, event_id DESC
+server/sql/phase40_6_shadow_audit_task_events.sql-54-),
+server/sql/phase40_6_shadow_audit_task_events.sql-55-first_created AS (
+server/sql/phase40_6_shadow_audit_task_events.sql:56:  SELECT DISTINCT ON (task_id)
+server/sql/phase40_6_shadow_audit_task_events.sql:57:    task_id,
+server/sql/phase40_6_shadow_audit_task_events.sql-58-    at AS created_at,
+server/sql/phase40_6_shadow_audit_task_events.sql-59-    event_id AS created_event_id
+server/sql/phase40_6_shadow_audit_task_events.sql-60-  FROM k
+server/sql/phase40_6_shadow_audit_task_events.sql-61-  WHERE is_created = 1
+server/sql/phase40_6_shadow_audit_task_events.sql:62:  ORDER BY task_id, event_id ASC
+server/sql/phase40_6_shadow_audit_task_events.sql-63-),
+server/sql/phase40_6_shadow_audit_task_events.sql:64:first_running AS (
+server/sql/phase40_6_shadow_audit_task_events.sql:65:  SELECT DISTINCT ON (task_id)
+server/sql/phase40_6_shadow_audit_task_events.sql:66:    task_id,
+server/sql/phase40_6_shadow_audit_task_events.sql:67:    at AS running_at,
+server/sql/phase40_6_shadow_audit_task_events.sql:68:    event_id AS running_event_id
+server/sql/phase40_6_shadow_audit_task_events.sql-69-  FROM k
+server/sql/phase40_6_shadow_audit_task_events.sql:70:  WHERE is_running = 1
+server/sql/phase40_6_shadow_audit_task_events.sql:71:  ORDER BY task_id, event_id ASC
+server/sql/phase40_6_shadow_audit_task_events.sql-72-),
+server/sql/phase40_6_shadow_audit_task_events.sql-73-first_terminal AS (
+server/sql/phase40_6_shadow_audit_task_events.sql:74:  SELECT DISTINCT ON (task_id)
+server/sql/phase40_6_shadow_audit_task_events.sql:75:    task_id,
+server/sql/phase40_6_shadow_audit_task_events.sql-76-    kind AS terminal_kind,
+server/sql/phase40_6_shadow_audit_task_events.sql-77-    at AS terminal_at,
+--
+server/sql/phase40_6_shadow_audit_task_events.sql-79-  FROM k
+server/sql/phase40_6_shadow_audit_task_events.sql-80-  WHERE is_terminal = 1
+server/sql/phase40_6_shadow_audit_task_events.sql:81:  ORDER BY task_id, event_id ASC
+server/sql/phase40_6_shadow_audit_task_events.sql-82-),
+server/sql/phase40_6_shadow_audit_task_events.sql-83-after_terminal AS (
+server/sql/phase40_6_shadow_audit_task_events.sql-84-  SELECT
+server/sql/phase40_6_shadow_audit_task_events.sql:85:    k.task_id,
+
+STEP 4 — Distinct file shortlist by boundary
+--- INTAKE FILES ---
+server/enforcement/phase44_mutation_enforcer.mjs
+server/optional-sse.mjs
+server/orchestrator_state_route.mjs
+server/policy/evaluate.legacy.mjs
+server/policy/evaluate.mjs
+server/policy/grants.mjs
+server/policy/grants/resolvePolicyGrant.mjs
+server/policy/policy_audit_shape.mjs
+server/policy/policy_audit.mjs
+server/routes/task-events-sse.mjs
+server/task-events.mjs
+server/taskContract.mjs
+server/tasks-mutations.mjs
+src/cognition/operatorGuidanceSafety.ts
+src/cognition/situationSummaryComposer.ts
+src/cognition/situationSummaryInputAdapter.ts
+src/cognition/transport/cognitionTransport.dashboardConsumption.invariants.ts
+src/cognition/transport/cognitionTransport.dashboardConsumption.test.ts
+src/cognition/transport/cognitionTransport.policy.ts
+src/cognition/transport/cognitionTransport.validate.ts
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_bundle.ts
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_fixture.ts
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_validation.ts
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement.ts
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.freeze.ts
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.invariants.ts
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.validate.ts
+src/demo/minimalDemoRunner.ts
+src/demo/promptToDemoRequest.ts
+src/demo/promptToDemoRequest.ts.fl3_pre_mutation.bak
+src/governance_investigation/governance_playback_types.ts
+src/governance_investigation/verification/replay_fixture_diagnostics.ts
+src/governance_investigation/verification/replay_structure_verifier.ts
+src/governance/cognition/index.ts
+src/governance/cognition/normalize_governance_dashboard_contract_registration.ts
+src/governance/cognition/normalize_governance_runtime_registry_export.ts
+src/governance/cognition/normalize_governance_shared_registry_owner_bundle.ts
+src/governance/cognition/normalize_governance_snapshot.ts
+src/governance/cognition/package_governance_cognition_snapshot.ts
+src/governance/cognition/prove_governance_authorization_gate.ts
+
+--- GOVERNANCE FILES ---
+server/enforcement/phase44_mutation_enforcer.mjs
+server/guards/phase44_runtime_integrity_guard.mjs
+server/orchestration/operator-commands.test.ts
+server/orchestration/operator-commands.ts
+server/orchestration/policy-pipeline.ts
+server/orchestration/router.test.ts
+server/orchestration/router.ts
+server/orchestration/scheduler.test.ts
+server/orchestration/scheduler.ts
+server/orchestration/task-state-machine.ts
+server/policy/__tests__/combine.test.mjs
+server/policy/__tests__/determinism_regression.test.mjs
+server/policy/__tests__/evaluate.test.mjs
+server/policy/__tests__/load_default_policy.test.mjs
+server/policy/combine.mjs
+server/policy/enforce.mjs
+server/policy/evaluate.legacy.mjs
+server/policy/evaluate.mjs
+server/policy/grants.mjs
+server/policy/grants/resolvePolicyGrant.mjs
+server/policy/policy_audit_shape.mjs
+server/policy/policy_audit.mjs
+server/policy/policy_eval.mjs
+server/policy/policy_flags.mjs
+server/policy/policy_grants.ts
+server/policy/resolvePolicyGrant.mjs
+server/policy/stable_json.mjs
+server/routes/api-tasks-postgres.mjs
+server/routes/phase48_policy_probe.mjs
+server/sql/phase45_policy_grants.sql
+server/sql/phase47_decision_correctness_invariants.sql
+server/task-events.mjs
+server/tasks-mutations.mjs
+server/worker/phase26_task_worker.mjs
+server/worker/phase34_claim_one.sql
+server/worker/phase34_reclaim_stale.sql
+src/cognition/confidence/confidence.types.ts
+src/cognition/confidence/confidenceFactors.ts
+src/cognition/confidence/confidenceInvariant.ts
+src/cognition/contracts/cognition.contracts.ts
+
+--- EXECUTION/PREP FILES ---
+server/_lib/retry.mjs
+server/api/tasks-mutations/delegate-taskspec.mjs
+server/artifacts.mjs
+server/db_bootstrap_tasks_retry_semantics.mjs
+server/db_bootstrap_tasks_task_id.mjs
+server/db_bootstrap_tasks_task_id.mjs.bak_phase464x
+server/db_wait_ready.mjs
+server/emit-after-response.mjs
+server/enforcement/phase44_mutation_allowlist.mjs
+server/enforcement/phase44_mutation_enforcer.mjs
+server/optional-sse.mjs
+server/orchestration/deps.test.ts
+server/orchestration/deps.ts
+server/orchestration/operator-commands.test.ts
+server/orchestration/operator-commands.ts
+server/orchestration/policy-pipeline.ts
+server/orchestration/policy.ts
+server/orchestration/router.test.ts
+server/orchestration/router.ts
+server/orchestration/scheduler.test.ts
+server/orchestration/scheduler.ts
+server/orchestration/task-state-machine.test.ts
+server/orchestration/task-state-machine.ts
+server/orchestrator/phase18_orchestration.mjs
+server/orchestrator/phase18_tick.mjs
+server/orchestrator/README.md
+server/policy/__tests__/combine.test.mjs
+server/policy/__tests__/determinism_regression.test.mjs
+server/policy/__tests__/evaluate.test.mjs
+server/policy/__tests__/grants.test.mjs
+server/policy/evaluate.mjs
+server/policy/grants.mjs
+server/policy/policy_audit.mjs
+server/policy/policy_eval.mjs
+server/routes/api-tasks-mutations.mjs
+server/routes/api-tasks-postgres.mjs
+server/routes/phase36_run_view.mjs
+server/routes/phase40_6_shadow_audit_task_events.mjs
+server/routes/phase48_policy_probe.mjs
+server/routes/task-events-sse.mjs
+
+STEP 5 — Candidate overlap
+server/_lib/retry.mjs
+server/api/tasks-mutations/delegate-taskspec.mjs
+server/artifacts.mjs
+server/db_bootstrap_tasks_retry_semantics.mjs
+server/db_bootstrap_tasks_task_id.mjs
+server/db_bootstrap_tasks_task_id.mjs.bak_phase464x
+server/db_wait_ready.mjs
+server/emit-after-response.mjs
+server/enforcement/phase44_mutation_allowlist.mjs
+server/enforcement/phase44_mutation_enforcer.mjs
+server/guards/phase44_runtime_integrity_guard.mjs
+server/optional-sse.mjs
+server/orchestration/deps.test.ts
+server/orchestration/deps.ts
+server/orchestration/operator-commands.test.ts
+server/orchestration/operator-commands.ts
+server/orchestration/policy-pipeline.ts
+server/orchestration/policy.ts
+server/orchestration/router.test.ts
+server/orchestration/router.ts
+server/orchestration/scheduler.test.ts
+server/orchestration/scheduler.ts
+server/orchestration/task-state-machine.test.ts
+server/orchestration/task-state-machine.ts
+server/orchestrator_state_route.mjs
+server/orchestrator/phase18_orchestration.mjs
+server/orchestrator/phase18_tick.mjs
+server/orchestrator/README.md
+server/policy/__tests__/combine.test.mjs
+server/policy/__tests__/determinism_regression.test.mjs
+server/policy/__tests__/evaluate.test.mjs
+server/policy/__tests__/grants.test.mjs
+server/policy/__tests__/load_default_policy.test.mjs
+server/policy/combine.mjs
+server/policy/enforce.mjs
+server/policy/evaluate.legacy.mjs
+server/policy/evaluate.mjs
+server/policy/grants.mjs
+server/policy/grants/resolvePolicyGrant.mjs
+server/policy/policy_audit_shape.mjs
+server/policy/policy_audit.mjs
+server/policy/policy_eval.mjs
+server/policy/policy_flags.mjs
+server/policy/policy_grants.ts
+server/policy/resolvePolicyGrant.mjs
+server/policy/stable_json.mjs
+server/routes/api-tasks-mutations.mjs
+server/routes/api-tasks-postgres.mjs
+server/routes/phase36_run_view.mjs
+server/routes/phase40_6_shadow_audit_task_events.mjs
+server/routes/phase48_policy_probe.mjs
+server/routes/task-events-sse.mjs
+server/sql/phase39_claim_one_with_value_gate.sql
+server/sql/phase40_6_shadow_audit_task_events.sql
+server/sql/phase45_policy_grants.sql
+server/sql/phase47_decision_correctness_invariants.sql
+server/sql/phase54_bootstrap.sql
+server/task_events_emit.mjs
+server/task-events.mjs
+server/task-lifecycle.ts
+server/taskContract.mjs
+server/tasks-mutations.mjs
+server/worker/phase26_task_worker.mjs
+server/worker/phase27_claim_one.sql
+server/worker/phase27_mark_failure.sql
+server/worker/phase27_mark_success.sql
+server/worker/phase27_markers.mjs
+server/worker/phase28_claim_one.sql
+server/worker/phase28_mark_failure.sql
+server/worker/phase28_mark_success.sql
+server/worker/phase29_db_doctor.sh
+server/worker/phase29_db_migrate_to_phase27.sql
+server/worker/phase30_contract_check.sql
+server/worker/phase30_db_doctor_pretty.sh
+server/worker/phase32_claim_one.sql
+server/worker/phase32_mark_failure.sql
+server/worker/phase32_mark_success.sql
+server/worker/phase34_claim_one_pg.sql
+server/worker/phase34_claim_one.sql
+server/worker/phase34_claim_task_id_for_test.sql
+
+DECISION TARGET:
+- Choose one likely owner file for each disconnected boundary.
+- Next phase should define an explicit bridge contract between those owners only.
+

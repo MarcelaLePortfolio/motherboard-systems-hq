@@ -1,0 +1,24 @@
+import { cadeCreateWebpage } from "../agents/cade-create-webpage.js";
+
+const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>I like cheese!</title>
+<style>
+  body {
+    background-color: orange;
+    color: white;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin-top: 20%;
+    font-size: 2rem;
+  }
+</style>
+</head>
+<body>
+  I like cheese!
+</body>
+</html>`;
+
+await cadeCreateWebpage("cheese-page.html", html);

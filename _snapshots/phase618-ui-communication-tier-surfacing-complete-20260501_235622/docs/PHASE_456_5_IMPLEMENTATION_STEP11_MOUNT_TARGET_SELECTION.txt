@@ -1,0 +1,22 @@
+PHASE 456.5 — IMPLEMENTATION STEP 11
+Mount Target Selection
+--------------------------------
+
+Selection method:
+Choose the first visible page/layout/dashboard root that:
+1. is a page/layout or top-level dashboard component
+2. contains a top-level render root
+3. is not a producer/infrastructure file
+4. is safe for single import + single top insertion
+
+Selected target candidates (ranked)
+
+Selected mount target
+
+
+Selected file excerpt
+NO_TARGET_FOUND
+
+Decision
+SAFE_MOUNT_TARGET_NOT_IDENTIFIED
+

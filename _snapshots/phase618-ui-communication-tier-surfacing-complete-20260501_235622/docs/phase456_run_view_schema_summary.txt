@@ -1,0 +1,603 @@
+PHASE 456 — RUN_VIEW SCHEMA SUMMARY EXTRACT
+Generated: 2026-04-09T17:59:35Z
+
+=== MATCHES: run_view ===
+11:?? docs/phase456_run_view_schema_evidence.txt
+12:?? scripts/phase456_run_view_schema_evidence.sh
+19:=== SEARCH: run_view / runs / schema bootstrap ===
+25:server/routes/phase36_run_view.mjs:10: * - Backed strictly by SQL view: run_view
+26:server/routes/phase36_run_view.mjs:114:        FROM run_view
+27:server/routes/phase36_run_view.mjs:139:      const q = "SELECT * FROM run_view WHERE run_id = $1 LIMIT 1";
+28:server/routes/phase36_run_view.mjs:161:    FROM run_view
+29:server/sql/phase54_bootstrap.sql:14:-- Lease + heartbeat (required by run_view)
+30:server/sql/phase54_bootstrap.sql:19:\i /migrations/drizzle_pg/0007_phase36_1_run_view.sql
+31:server/sql/phase54_bootstrap.sql:20:\i /migrations/drizzle_pg/0007_phase36_2_run_view_contract.sql
+36:scripts/_ops/phase40_1_patch_execution_path.mjs:47:  if (/task_events|run_view|tasks\b/i.test(c)) score += 10;
+37:scripts/ci_demo_hardening_smoke.sh:53:echo "== Assert run_view exists =="
+38:scripts/ci_demo_hardening_smoke.sh:55:"select 1 from run_view limit 1;" >/dev/null
+39:scripts/ci_demo_hardening_smoke.sh:56:echo "run_view OK"
+41:scripts/ci_demo_hardening_smoke.sh:83:echo "== Demo smoke PASS (fresh boot → run_view present → policy.probe.run visible) =="
+42:scripts/phase456_run_view_schema_evidence.sh:4:OUT="docs/phase456_run_view_schema_evidence.txt"
+43:scripts/phase456_run_view_schema_evidence.sh:7:  echo "PHASE 456 — RUN_VIEW SCHEMA EVIDENCE"
+44:scripts/phase456_run_view_schema_evidence.sh:24:  echo "=== SEARCH: run_view / runs / schema bootstrap ==="
+45:scripts/phase456_run_view_schema_evidence.sh:25:  grep -RniE "run_view|CREATE VIEW run_view|create view run_view|CREATE OR REPLACE VIEW run_view|ensure.*run|bootstrap.*run|schema.*run|migration.*run" \
+46:scripts/phase456_run_view_schema_evidence.sh:30:  grep -RniE "bootstrap|migrate|migration|schema|db_bootstrap|ensure.*tasks|ensure.*run|run_view" \
+47:scripts/phase456_run_view_schema_evidence.sh:35:  grep -RniE "/api/runs|api/runs|run_view|SELECT.*FROM run_view|FROM run_view" \
+48:scripts/phase456_run_view_schema_evidence.sh:39:  echo "=== POSTGRES: DOES run_view EXIST? ==="
+49:scripts/phase456_run_view_schema_evidence.sh:42:  docker compose exec -T postgres psql -U "${PGUSER:-postgres}" -d "${PGDATABASE:-postgres}" -c "SELECT schemaname, viewname FROM pg_views WHERE viewname = 'run_view';" 2>&1 || true
+50:scripts/phase37_0_capture_run_view_docs.zsh:23:# Capture authoritative run_view definition (as Postgres sees it)
+51:scripts/phase37_0_capture_run_view_docs.zsh:26:  > PHASE37_RUN_VIEW_DEFINITION.sql
+52:scripts/phase37_0_capture_run_view_docs.zsh:27:-- Phase 37.0 planning artifact: authoritative run_view SQL as Postgres sees it
+53:scripts/phase37_0_capture_run_view_docs.zsh:28:SELECT pg_get_viewdef('public.run_view'::regclass, true) || ';';
+54:scripts/phase37_0_capture_run_view_docs.zsh:31:# Capture run_view columns (positional) for provenance templating
+55:scripts/phase37_0_capture_run_view_docs.zsh:37:  AND table_name='run_view'
+56:scripts/phase37_0_capture_run_view_docs.zsh:42:  echo "ERROR: information_schema returned 0 run_view columns. Does public.run_view exist?" >&2
+57:scripts/phase37_0_capture_run_view_docs.zsh:48:cat > PHASE37_RUN_VIEW_PROVENANCE_MATRIX.md <<'MD'
+58:scripts/phase37_0_capture_run_view_docs.zsh:49:# Phase 37 — run_view Provenance Matrix (Planning Only)
+59:scripts/phase37_0_capture_run_view_docs.zsh:52:Fill one section per `run_view` column. Keep everything SQL-traceable.
+60:scripts/phase37_0_capture_run_view_docs.zsh:59:- `PHASE37_RUN_VIEW_DEFINITION.sql` (authoritative view definition as captured from Postgres)
+61:scripts/phase37_0_capture_run_view_docs.zsh:71:' "$tmp_cols" >> PHASE37_RUN_VIEW_PROVENANCE_MATRIX.md
+62:scripts/phase37_0_capture_run_view_docs.zsh:76:echo "  - PHASE37_RUN_VIEW_DEFINITION.sql"
+63:scripts/phase37_0_capture_run_view_docs.zsh:77:echo "  - PHASE37_RUN_VIEW_PROVENANCE_MATRIX.md"
+64:scripts/phase37_6_run_view_single_owner_check.sh:4:# Phase 37.6 — run_view single-owner guard
+65:scripts/phase37_6_run_view_single_owner_check.sh:5:# Canonical/only owner allowed to query run_view:
+66:scripts/phase37_6_run_view_single_owner_check.sh:6:ALLOWED="server/routes/phase36_run_view.mjs"
+67:scripts/phase37_6_run_view_single_owner_check.sh:9:# Docs, scripts, dashboards, and build artifacts may reference run_view freely.
+68:scripts/phase37_6_run_view_single_owner_check.sh:14:# - Tests (may reference run_view in fixtures)
+69:scripts/phase37_6_run_view_single_owner_check.sh:24:# Grep for run_view usage in server runtime code only (Bash 3.2 compatible).
+70:scripts/phase37_6_run_view_single_owner_check.sh:25:hits="$(rg -n "run_view" "${SCAN_PATHS[@]}" "${EXCLUDE_GLOBS[@]}" || true)"
+71:scripts/phase37_6_run_view_single_owner_check.sh:28:  echo "ERROR: run_view referenced in server runtime code outside allowed owner: ${ALLOWED}" >&2
+72:scripts/phase37_6_run_view_single_owner_check.sh:37:echo "OK: run_view has a single runtime owner (${ALLOWED})."
+73:scripts/phase41_scenario_matrix_dump.sh:7:docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 < sql/phase41_scenario_matrix_run_view.sql
+76:scripts/phase37_0_provenance_autofill_hints.zsh:50:# Phase 37 — run_view Provenance Hints (Auto-Extracted, Planning Only)
+80:scripts/phase57_snapshot_smoke.sh:91:echo "Ensuring run_view exists (Phase 36.1) ..."
+81:scripts/phase57_snapshot_smoke.sh:92:"${PSQL_RAW[@]}" < drizzle_pg/0007_phase36_1_run_view.sql >/dev/null
+82:scripts/phase57_snapshot_smoke.sh:140:  echo "=== run_view (policy.probe.run) ==="
+83:scripts/phase57_snapshot_smoke.sh:141:  "${PSQL_AT[@]}" -c "SELECT run_id, task_id, last_event_id, last_event_kind, last_event_ts, task_status, actor FROM run_view WHERE run_id='${RUN_ID}' LIMIT 10;" || true
+84:scripts/phase36_4_inject_run_list_route.py:69:// Phase 36.4: Run list observability (read-only; backed strictly by SQL run_view)
+85:scripts/phase36_4_inject_run_list_route.py:114:      FROM run_view
+87:scripts/phase36_3_probe_run_view.sh:9:echo "=== run_view columns ==="
+88:scripts/phase36_3_probe_run_view.sh:12:\d+ run_view
+89:scripts/phase36_3_probe_run_view.sh:16:echo "=== run_view sample (limit 10) ==="
+90:scripts/phase36_3_probe_run_view.sh:36:FROM run_view
+91:scripts/phase36_3_probe_run_view.sh:46:FROM run_view
+92:scripts/phase36_3_probe_run_view.sh:56:FROM run_view
+93:scripts/phase41_invariants_gate.sh:11:docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -q -t -A < sql/phase41_invariants_run_view.sql > "$TMP"
+95:scripts/_local/phase457y_verify_task_history_neutralization.sh:30:  grep -n 'relation "run_view" does not exist' "$TMP_JS" || true
+96:scripts/_local/phase457y_verify_task_history_neutralization.sh:49:  echo "EXPECTED=task history should show 'No task history yet.' instead of run_view error text"
+101:scripts/_local/phase457l_verify_live_post_clean_redeploy.sh:51:  grep -n 'relation "run_view" does not exist' "$TMP_NEUTRALIZER" || true
+102:scripts/_local/phase457l_verify_live_post_clean_redeploy.sh:78:  grep -q 'relation "run_view" does not exist' "$TMP_NEUTRALIZER" && history_probe_patch=1 || true
+103:scripts/_local/phase457j_capture_runtime_recovery_state.sh:40:  grep -n 'relation "run_view" does not exist' "$TMP_JS" || true
+104:scripts/_local/phase457o_capture_post_force_runtime_state.sh:59:  grep -n 'run_view' "$TMP_NEUTRALIZER" || true
+107:sql/phase41_scenario_matrix_run_view.sql:5:  SELECT * FROM run_view
+108:sql/phase41_invariants_run_view.sql:7:  SELECT * FROM run_view
+109:./PHASE37_STATUS.md:11:- run_view column inventory captured
+110:./PHASE37_STATUS.md:12:- run_view SQL definition captured (authoritative)
+111:./PHASE37_STATUS.md:19:Guarantee run_view is:
+113:./PHASE37_STATUS.md:40:- run_view remains read-only projection.
+116:./PHASE37_STATUS_SUMMARY.md:30:  - Acceptance lens uses `task.*` terminal kinds, but `run_view` uses bare terminal kinds.
+117:./PHASE37_STATUS_SUMMARY.md:48:- Option A: Acceptance lens matches current `run_view` (bare kinds)
+118:./PHASE37_STATUS_SUMMARY.md:49:- Option B: `run_view` matches acceptance lens (`task.*` kinds) — requires view edit later
+119:./PHASE37_2_HANDOFF_ONELINER.txt:1:Phase 37.2 ✅ Planning-only complete: documented clean alignment options for terminal-kind namespace + latest-rule mismatch between run_view (authority) and acceptance lens. No schema/view/worker changes. Stop here and choose Option A/B/C before any implementation.
+120:./PHASE37_RUN_VIEW_PROVENANCE_HINTS.md:1:# Phase 37 — run_view Provenance Hints (Auto-Extracted, Planning Only)
+138:./PHASE37_4_PLAN.md:4:Acceptance lens reports **5 runs** where `run_view.is_terminal = true` while `terminal_event_kind/ts/id` are NULL.
+139:./PHASE37_4_PLAN.md:13:- `run_view.last_event_kind` is `task.completed`
+
+=== SEARCH: run_view / runs / schema bootstrap ===
+server/worker/phase30_db_doctor_pretty.sh:12:  (select count(*) from information_schema.columns where table_name='tasks' and column_name='next_run_at')::int as has_tasks_next_run_at,
+server/worker/phase30_db_doctor_pretty.sh:15:  (select count(*) from information_schema.columns where table_name='task_events' and column_name='run_id')::int as has_events_run_id,
+server/worker/phase30_contract_check.sql:11:  if not exists (select 1 from information_schema.columns where table_name='tasks' and column_name='next_run_at') then
+server/worker/phase29_db_doctor.sh:12:  (select count(*) from information_schema.columns where table_name='tasks' and column_name='next_run_at') as has_tasks_next_run_at,
+server/worker/phase29_db_doctor.sh:15:  (select count(*) from information_schema.columns where table_name='task_events' and column_name='run_id') as has_events_run_id,
+server/routes/phase36_run_view.mjs:10: * - Backed strictly by SQL view: run_view
+server/routes/phase36_run_view.mjs:114:        FROM run_view
+server/routes/phase36_run_view.mjs:139:      const q = "SELECT * FROM run_view WHERE run_id = $1 LIMIT 1";
+server/routes/phase36_run_view.mjs:161:    FROM run_view
+server/sql/phase54_bootstrap.sql:14:-- Lease + heartbeat (required by run_view)
+server/sql/phase54_bootstrap.sql:19:\i /migrations/drizzle_pg/0007_phase36_1_run_view.sql
+server/sql/phase54_bootstrap.sql:20:\i /migrations/drizzle_pg/0007_phase36_2_run_view_contract.sql
+server/sql/phase54_bootstrap.sql:38:\i /migrations/drizzle_pg/0008_phase57_run_snapshot.sql
+scripts/phase54_regression_harness.sh:204:DC exec -T postgres psql -U postgres -d postgres -v ON_ERROR_STOP=1 < scripts/sql/migrations/phase55_run_lifecycle_immutability.sql
+scripts/phase39_fixup.py:41:# --- 1) De-dupe migrations created by earlier failed script runs
+scripts/phase30_smoke_canonical_ready.sh:9:echo "=== phase30: ensure canonical-ready (run phase29 migration if needed) ==="
+scripts/_ops/phase40_1_patch_execution_path.mjs:47:  if (/task_events|run_view|tasks\b/i.test(c)) score += 10;
+scripts/ci_demo_hardening_smoke.sh:53:echo "== Assert run_view exists =="
+scripts/ci_demo_hardening_smoke.sh:55:"select 1 from run_view limit 1;" >/dev/null
+scripts/ci_demo_hardening_smoke.sh:56:echo "run_view OK"
+scripts/ci_demo_hardening_smoke.sh:58:echo "== Ensure policy.probe.run exists (fallback to Phase54 harness) =="
+scripts/ci_demo_hardening_smoke.sh:83:echo "== Demo smoke PASS (fresh boot → run_view present → policy.probe.run visible) =="
+scripts/phase456_run_view_schema_evidence.sh:4:OUT="docs/phase456_run_view_schema_evidence.txt"
+scripts/phase456_run_view_schema_evidence.sh:7:  echo "PHASE 456 — RUN_VIEW SCHEMA EVIDENCE"
+scripts/phase456_run_view_schema_evidence.sh:24:  echo "=== SEARCH: run_view / runs / schema bootstrap ==="
+scripts/phase456_run_view_schema_evidence.sh:25:  grep -RniE "run_view|CREATE VIEW run_view|create view run_view|CREATE OR REPLACE VIEW run_view|ensure.*run|bootstrap.*run|schema.*run|migration.*run" \
+scripts/phase456_run_view_schema_evidence.sh:30:  grep -RniE "bootstrap|migrate|migration|schema|db_bootstrap|ensure.*tasks|ensure.*run|run_view" \
+scripts/phase456_run_view_schema_evidence.sh:35:  grep -RniE "/api/runs|api/runs|run_view|SELECT.*FROM run_view|FROM run_view" \
+scripts/phase456_run_view_schema_evidence.sh:39:  echo "=== POSTGRES: DOES run_view EXIST? ==="
+scripts/phase456_run_view_schema_evidence.sh:42:  docker compose exec -T postgres psql -U "${PGUSER:-postgres}" -d "${PGDATABASE:-postgres}" -c "SELECT schemaname, viewname FROM pg_views WHERE viewname = 'run_view';" 2>&1 || true
+scripts/phase37_0_capture_run_view_docs.zsh:23:# Capture authoritative run_view definition (as Postgres sees it)
+scripts/phase37_0_capture_run_view_docs.zsh:26:  > PHASE37_RUN_VIEW_DEFINITION.sql
+scripts/phase37_0_capture_run_view_docs.zsh:27:-- Phase 37.0 planning artifact: authoritative run_view SQL as Postgres sees it
+scripts/phase37_0_capture_run_view_docs.zsh:28:SELECT pg_get_viewdef('public.run_view'::regclass, true) || ';';
+scripts/phase37_0_capture_run_view_docs.zsh:31:# Capture run_view columns (positional) for provenance templating
+scripts/phase37_0_capture_run_view_docs.zsh:37:  AND table_name='run_view'
+scripts/phase37_0_capture_run_view_docs.zsh:42:  echo "ERROR: information_schema returned 0 run_view columns. Does public.run_view exist?" >&2
+scripts/phase37_0_capture_run_view_docs.zsh:48:cat > PHASE37_RUN_VIEW_PROVENANCE_MATRIX.md <<'MD'
+scripts/phase37_0_capture_run_view_docs.zsh:49:# Phase 37 — run_view Provenance Matrix (Planning Only)
+scripts/phase37_0_capture_run_view_docs.zsh:52:Fill one section per `run_view` column. Keep everything SQL-traceable.
+scripts/phase37_0_capture_run_view_docs.zsh:59:- `PHASE37_RUN_VIEW_DEFINITION.sql` (authoritative view definition as captured from Postgres)
+scripts/phase37_0_capture_run_view_docs.zsh:71:' "$tmp_cols" >> PHASE37_RUN_VIEW_PROVENANCE_MATRIX.md
+scripts/phase37_0_capture_run_view_docs.zsh:76:echo "  - PHASE37_RUN_VIEW_DEFINITION.sql"
+scripts/phase37_0_capture_run_view_docs.zsh:77:echo "  - PHASE37_RUN_VIEW_PROVENANCE_MATRIX.md"
+scripts/phase37_6_run_view_single_owner_check.sh:4:# Phase 37.6 — run_view single-owner guard
+scripts/phase37_6_run_view_single_owner_check.sh:5:# Canonical/only owner allowed to query run_view:
+scripts/phase37_6_run_view_single_owner_check.sh:6:ALLOWED="server/routes/phase36_run_view.mjs"
+scripts/phase37_6_run_view_single_owner_check.sh:9:# Docs, scripts, dashboards, and build artifacts may reference run_view freely.
+scripts/phase37_6_run_view_single_owner_check.sh:14:# - Tests (may reference run_view in fixtures)
+scripts/phase37_6_run_view_single_owner_check.sh:24:# Grep for run_view usage in server runtime code only (Bash 3.2 compatible).
+scripts/phase37_6_run_view_single_owner_check.sh:25:hits="$(rg -n "run_view" "${SCAN_PATHS[@]}" "${EXCLUDE_GLOBS[@]}" || true)"
+scripts/phase37_6_run_view_single_owner_check.sh:28:  echo "ERROR: run_view referenced in server runtime code outside allowed owner: ${ALLOWED}" >&2
+scripts/phase37_6_run_view_single_owner_check.sh:37:echo "OK: run_view has a single runtime owner (${ALLOWED})."
+scripts/phase41_scenario_matrix_dump.sh:7:docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 < sql/phase41_scenario_matrix_run_view.sql
+scripts/phase37_0_provenance_autofill_hints.zsh:7:: "${1:=PHASE37_RUN_VIEW_DEFINITION.sql}"
+scripts/phase37_0_provenance_autofill_hints.zsh:48:out="PHASE37_RUN_VIEW_PROVENANCE_HINTS.md"
+scripts/phase37_0_provenance_autofill_hints.zsh:50:# Phase 37 — run_view Provenance Hints (Auto-Extracted, Planning Only)
+scripts/phase37_0_provenance_autofill_hints.zsh:53:- `PHASE37_RUN_VIEW_PROVENANCE_MATRIX.md`
+scripts/phase37_0_provenance_autofill_hints.zsh:56:`PHASE37_RUN_VIEW_DEFINITION.sql`. Treat as hints, not truth.
+scripts/phase37_0_provenance_autofill_hints.zsh:90:    echo "- Candidate expression(s): *(none found via simple parse — inspect PHASE37_RUN_VIEW_DEFINITION.sql manually)*" >> "$out"
+scripts/phase57_snapshot_smoke.sh:91:echo "Ensuring run_view exists (Phase 36.1) ..."
+scripts/phase57_snapshot_smoke.sh:92:"${PSQL_RAW[@]}" < drizzle_pg/0007_phase36_1_run_view.sql >/dev/null
+scripts/phase57_snapshot_smoke.sh:140:  echo "=== run_view (policy.probe.run) ==="
+scripts/phase57_snapshot_smoke.sh:141:  "${PSQL_AT[@]}" -c "SELECT run_id, task_id, last_event_id, last_event_kind, last_event_ts, task_status, actor FROM run_view WHERE run_id='${RUN_ID}' LIMIT 10;" || true
+scripts/phase36_4_inject_run_list_route.py:69:// Phase 36.4: Run list observability (read-only; backed strictly by SQL run_view)
+scripts/phase36_4_inject_run_list_route.py:114:      FROM run_view
+scripts/phase39_value_gate_smoke.sh:26:echo "=== ensure postgres is running (expected motherboard_systems_hq-postgres-1) ==="
+scripts/phase36_3_probe_run_view.sh:9:echo "=== run_view columns ==="
+scripts/phase36_3_probe_run_view.sh:12:\d+ run_view
+scripts/phase36_3_probe_run_view.sh:16:echo "=== run_view sample (limit 10) ==="
+scripts/phase36_3_probe_run_view.sh:36:FROM run_view
+scripts/phase36_3_probe_run_view.sh:46:FROM run_view
+scripts/phase36_3_probe_run_view.sh:56:FROM run_view
+scripts/phase41_invariants_gate.sh:11:docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -q -t -A < sql/phase41_invariants_run_view.sql > "$TMP"
+scripts/phase11_step2_safe_bundling.sh:26:echo " 1) Ensure your dashboard container/dev server is running."
+scripts/_local/phase457y_verify_task_history_neutralization.sh:30:  grep -n 'relation "run_view" does not exist' "$TMP_JS" || true
+scripts/_local/phase457y_verify_task_history_neutralization.sh:49:  echo "EXPECTED=task history should show 'No task history yet.' instead of run_view error text"
+scripts/_local/phase77_adaptation_guardrails.ts:47:    steps = ensureStep(steps,"RUN_DIAGNOSTICS");
+scripts/_local/phase77_adaptation_guardrails.ts:74:    steps = ensureStep(steps,"RUN_DIAGNOSTICS");
+scripts/_local/phase157_runtime_bootstrap_verification.sh:8:BOOTSTRAP="runtime/runtime_bootstrap.ts"
+scripts/_local/phase157_runtime_bootstrap_verification.sh:21:[[ -f "$BOOTSTRAP" ]] || fail "runtime_bootstrap.ts missing"
+scripts/_local/phase457l_verify_live_post_clean_redeploy.sh:51:  grep -n 'relation "run_view" does not exist' "$TMP_NEUTRALIZER" || true
+scripts/_local/phase457l_verify_live_post_clean_redeploy.sh:78:  grep -q 'relation "run_view" does not exist' "$TMP_NEUTRALIZER" && history_probe_patch=1 || true
+scripts/_local/phase457j_capture_runtime_recovery_state.sh:40:  grep -n 'relation "run_view" does not exist' "$TMP_JS" || true
+scripts/_local/phase457o_capture_post_force_runtime_state.sh:59:  grep -n 'run_view' "$TMP_NEUTRALIZER" || true
+scripts/_local/dev/patch-package-json.mjs:16:// Ensure a default UI build exists (only runs when ENABLE_UI_BUILD=1)
+scripts/phase27_wire_worker_backoff.sh:26:  echo "Hint: ensure the worker loop lives under server/ or scripts/ and emits task.running + task.completed/failed."
+sql/phase41_scenario_matrix_run_view.sql:5:  SELECT * FROM run_view
+sql/phase41_invariants_run_view.sql:7:  SELECT * FROM run_view
+./PHASE37_STATUS.md:11:- run_view column inventory captured
+./PHASE37_STATUS.md:12:- run_view SQL definition captured (authoritative)
+./PHASE37_STATUS.md:19:Guarantee run_view is:
+./PHASE37_STATUS.md:25:Fill PHASE37_RUN_VIEW_PROVENANCE_MATRIX.md
+./PHASE37_STATUS.md:40:- run_view remains read-only projection.
+./PHASE32_DRIZZLE_PG_TRACKING_NOTE.md:13:- Result: `drizzle.__drizzle_migrations` now has 3 rows and subsequent PG migrates run clean.
+./PHASE37_STATUS_SUMMARY.md:14:  - `PHASE37_RUN_VIEW_PROVENANCE_MATRIX.md` filled for:
+./PHASE37_STATUS_SUMMARY.md:30:  - Acceptance lens uses `task.*` terminal kinds, but `run_view` uses bare terminal kinds.
+./PHASE37_STATUS_SUMMARY.md:48:- Option A: Acceptance lens matches current `run_view` (bare kinds)
+./PHASE37_STATUS_SUMMARY.md:49:- Option B: `run_view` matches acceptance lens (`task.*` kinds) — requires view edit later
+./PHASE37_2_HANDOFF_ONELINER.txt:1:Phase 37.2 ✅ Planning-only complete: documented clean alignment options for terminal-kind namespace + latest-rule mismatch between run_view (authority) and acceptance lens. No schema/view/worker changes. Stop here and choose Option A/B/C before any implementation.
+./PHASE37_RUN_VIEW_PROVENANCE_HINTS.md:1:# Phase 37 — run_view Provenance Hints (Auto-Extracted, Planning Only)
+./PHASE37_RUN_VIEW_PROVENANCE_HINTS.md:4:- `PHASE37_RUN_VIEW_PROVENANCE_MATRIX.md`
+./PHASE37_RUN_VIEW_PROVENANCE_HINTS.md:7:`PHASE37_RUN_VIEW_DEFINITION.sql`. Treat as hints, not truth.
+./PHASE37_RUN_VIEW_PROVENANCE_HINTS.md:15:- Candidate expression(s): *(none found via simple parse — inspect PHASE37_RUN_VIEW_DEFINITION.sql manually)*
+./PHASE37_RUN_VIEW_PROVENANCE_HINTS.md:21:- Candidate expression(s): *(none found via simple parse — inspect PHASE37_RUN_VIEW_DEFINITION.sql manually)*
+./PHASE37_RUN_VIEW_PROVENANCE_HINTS.md:34:- Candidate expression(s): *(none found via simple parse — inspect PHASE37_RUN_VIEW_DEFINITION.sql manually)*
+./PHASE37_RUN_VIEW_PROVENANCE_HINTS.md:40:- Candidate expression(s): *(none found via simple parse — inspect PHASE37_RUN_VIEW_DEFINITION.sql manually)*
+./PHASE37_RUN_VIEW_PROVENANCE_HINTS.md:46:- Candidate expression(s): *(none found via simple parse — inspect PHASE37_RUN_VIEW_DEFINITION.sql manually)*
+./PHASE37_RUN_VIEW_PROVENANCE_HINTS.md:52:- Candidate expression(s): *(none found via simple parse — inspect PHASE37_RUN_VIEW_DEFINITION.sql manually)*
+./PHASE37_RUN_VIEW_PROVENANCE_HINTS.md:58:- Candidate expression(s): *(none found via simple parse — inspect PHASE37_RUN_VIEW_DEFINITION.sql manually)*
+./PHASE37_RUN_VIEW_PROVENANCE_HINTS.md:64:- Candidate expression(s): *(none found via simple parse — inspect PHASE37_RUN_VIEW_DEFINITION.sql manually)*
+./PHASE37_RUN_VIEW_PROVENANCE_HINTS.md:70:- Candidate expression(s): *(none found via simple parse — inspect PHASE37_RUN_VIEW_DEFINITION.sql manually)*
+./PHASE37_RUN_VIEW_PROVENANCE_HINTS.md:76:- Candidate expression(s): *(none found via simple parse — inspect PHASE37_RUN_VIEW_DEFINITION.sql manually)*
+./PHASE37_RUN_VIEW_PROVENANCE_HINTS.md:82:- Candidate expression(s): *(none found via simple parse — inspect PHASE37_RUN_VIEW_DEFINITION.sql manually)*
+./PHASE37_RUN_VIEW_PROVENANCE_HINTS.md:88:- Candidate expression(s): *(none found via simple parse — inspect PHASE37_RUN_VIEW_DEFINITION.sql manually)*
+./PHASE37_RUN_VIEW_PROVENANCE_HINTS.md:94:- Candidate expression(s): *(none found via simple parse — inspect PHASE37_RUN_VIEW_DEFINITION.sql manually)*
+./PHASE37_RUN_VIEW_PROVENANCE_HINTS.md:100:- Candidate expression(s): *(none found via simple parse — inspect PHASE37_RUN_VIEW_DEFINITION.sql manually)*
+./PHASE37_RUN_VIEW_PROVENANCE_HINTS.md:106:- Candidate expression(s): *(none found via simple parse — inspect PHASE37_RUN_VIEW_DEFINITION.sql manually)*
+./PHASE37_4_PLAN.md:4:Acceptance lens reports **5 runs** where `run_view.is_terminal = true` while `terminal_event_kind/ts/id` are NULL.
+./PHASE37_4_PLAN.md:13:- `run_view.last_event_kind` is `task.completed`
+./PHASE37_4_PLAN.md:15:- Yet `run_view.terminal_event_*` is NULL
+./PHASE37_4_PLAN.md:24:`run_view.terminal_event_*` selection logic filters on kinds that exclude `task.completed` (or uses different naming/casing).
+./PHASE37_4_PLAN.md:35:- Needs targeted inspection against run_view definition.
+./PHASE37_4_PLAN.md:38:1) Inspect `PHASE37_RUN_VIEW_DEFINITION.sql` and identify exactly how `terminal_event_*` is computed.
+./PHASE37_4_PLAN.md:48:- No run_view changes
+./PHASE37_4_PLAN.md:54:- `PHASE37_4_DECISION_RECORD.md` (filled) + pointer to specific lines in run_view definition responsible.
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:49:server/routes/phase36_run_view.mjs:44:  app.get("/api/runs", async (req, res) => {
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:50:server/routes/phase36_run_view.mjs:133:  app.get("/api/runs/:run_id", async (req, res) => {
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:652:scripts/phase27_wire_worker_backoff.sh:26:  echo "Hint: ensure the worker loop lives under server/ or scripts/ and emits task.running + task.completed/failed."
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:1476:scripts/phase27_wire_worker_backoff.sh:26:  echo "Hint: ensure the worker loop lives under server/ or scripts/ and emits task.running + task.completed/failed."
+./artifacts/phase37_3_integrity_gaps_20260211_130102/acceptance.out:5: run_view rowcount | 15
+./PHASE40_NEXT.md:28:     - run_view / task_events consistency remains intact
+./PHASE37_ACCEPTANCE_CHECKS.sql:13:--   public.run_view(...)
+./PHASE37_ACCEPTANCE_CHECKS.sql:24:-- 1) Sanity: run_view exists
+./PHASE37_ACCEPTANCE_CHECKS.sql:26:SELECT 'run_view rowcount' AS check, count(*) AS n
+./PHASE37_ACCEPTANCE_CHECKS.sql:27:FROM public.run_view;
+./PHASE37_ACCEPTANCE_CHECKS.sql:31:--    Ensure that for a given run_id, (ts,id) is a total order and that
+./PHASE37_ACCEPTANCE_CHECKS.sql:35:-- 2a) Identify any run_id where the event with max(ts,id) disagrees with run_view.last_event_{ts,id}
+./PHASE37_ACCEPTANCE_CHECKS.sql:55:FROM public.run_view rv
+./PHASE37_ACCEPTANCE_CHECKS.sql:101:FROM public.run_view
+./PHASE37_ACCEPTANCE_CHECKS.sql:130:FROM public.run_view rv
+./PHASE37_ACCEPTANCE_CHECKS.sql:138:-- 4b) If run_view says is_terminal=true, ensure a terminal event exists.
+./PHASE37_ACCEPTANCE_CHECKS.sql:146:FROM public.run_view rv
+./PHASE37_ACCEPTANCE_CHECKS.sql:171:FROM public.run_view
+./PHASE37_ACCEPTANCE_CHECKS.sql:185:FROM public.run_view
+./PHASE11_OPS_EVENT_STREAM_VERIFICATION.md:90:1. In another terminal, ensure the main server is running:
+./PHASE36_6.md:4:Add deterministic, read-only filtering for the Runs list, backed strictly by run_view.
+./PHASE36_6.md:21:- run_view remains the canonical source of truth
+./PHASE36_3_NEXT.md:22:- SQL view: run_view (current)
+./PHASE36_3_NEXT.md:23:- Note: run_view does NOT expose created_at/updated_at; it exposes event/heartbeat timestamps in epoch-ms.
+./PHASE36_3_NEXT.md:30:Rationale: matches run_view’s own determinism (latest event per run_id), avoids UI-derived state.
+./PHASE36_3_NEXT.md:43:  - exact match against run_view.task_status (values enumerated by probe script)
+./PHASE36_3_NEXT.md:46:  - exact match against run_view.is_terminal
+./PHASE36_3_NEXT.md:50:  - NOTE: run_view uses epoch-ms; avoid RFC3339 conversion in v1 contract.
+./PHASE36_3_NEXT.md:85:Option A (preferred): runs_list_view (projection of run_view)
+./PHASE36_3_NEXT.md:90:Option B: deterministic SELECT from run_view (no new view)
+./PHASE36_3_NEXT.md:101:- scripts/phase36_3_probe_run_view.sh
+./PHASE36_3_NEXT.md:110:- SQL source chosen (run_view projection vs runs_list_view)
+./drizzle_pg/0007_phase36_1_run_view.sql:2:-- Canonical view: run_view keyed by run_id
+
+=== SEARCH: DB BOOTSTRAP / MIGRATION ENTRYPOINTS ===
+server/db_bootstrap_tasks_task_id.mjs:1:export async function ensureTasksTaskIdColumn(pool) {
+server/db_bootstrap_tasks_retry_semantics.mjs:2: * Phase 27 — Tasks table retry + lease semantics (Postgres bootstrap)
+server/db_bootstrap_tasks_retry_semantics.mjs:5:export async function bootstrapTasksRetrySemantics(pool) {
+server/db_bootstrap_tasks_retry_semantics.mjs:6:  if (!pool) throw new Error("bootstrapTasksRetrySemantics: pool required");
+server/task-events.mjs:3: * Legacy task_events schema in your docker DB:
+server/worker/phase29_db_migrate_to_phase27.sql:11:  if exists (select 1 from information_schema.columns where table_name='tasks' and column_name='meta')
+server/worker/phase29_db_migrate_to_phase27.sql:12:     and exists (select 1 from information_schema.columns where table_name='tasks' and column_name='payload') then
+server/worker/phase29_db_migrate_to_phase27.sql:22:  if exists (select 1 from information_schema.columns where table_name='tasks' and column_name='attempt') then
+server/worker/phase29_db_migrate_to_phase27.sql:32:  if exists (select 1 from information_schema.columns where table_name='tasks' and column_name='available_at') then
+server/worker/phase29_db_migrate_to_phase27.sql:47:  if not exists (select 1 from information_schema.columns where table_name='task_events' and column_name='payload_jsonb') then
+server/worker/phase30_db_doctor_pretty.sh:7:  (select count(*) from information_schema.columns where table_name='tasks' and column_name='payload')::int as has_tasks_payload,
+server/worker/phase30_db_doctor_pretty.sh:8:  (select count(*) from information_schema.columns where table_name='tasks' and column_name='meta')::int as has_tasks_meta,
+server/worker/phase30_db_doctor_pretty.sh:9:  (select count(*) from information_schema.columns where table_name='tasks' and column_name='attempt')::int as has_tasks_attempt,
+server/worker/phase30_db_doctor_pretty.sh:10:  (select count(*) from information_schema.columns where table_name='tasks' and column_name='attempts')::int as has_tasks_attempts,
+server/worker/phase30_db_doctor_pretty.sh:11:  (select count(*) from information_schema.columns where table_name='tasks' and column_name='available_at')::int as has_tasks_available_at,
+server/worker/phase30_db_doctor_pretty.sh:12:  (select count(*) from information_schema.columns where table_name='tasks' and column_name='next_run_at')::int as has_tasks_next_run_at,
+server/worker/phase30_db_doctor_pretty.sh:13:  (select data_type from information_schema.columns where table_name='task_events' and column_name='payload')::text as events_payload_type,
+server/worker/phase30_db_doctor_pretty.sh:14:  (select count(*) from information_schema.columns where table_name='task_events' and column_name='payload_jsonb')::int as has_events_payload_jsonb,
+server/worker/phase30_db_doctor_pretty.sh:15:  (select count(*) from information_schema.columns where table_name='task_events' and column_name='run_id')::int as has_events_run_id,
+server/worker/phase30_db_doctor_pretty.sh:16:  (select count(*) from information_schema.columns where table_name='task_events' and column_name='actor')::int as has_events_actor
+server/worker/phase30_db_doctor_pretty.sh:37:  echo "status: LEGACY (text-only events; run phase29 migration)"
+server/worker/phase30_contract_check.sql:5:  if not exists (select 1 from information_schema.columns where table_name='tasks' and column_name='payload') then
+server/worker/phase30_contract_check.sql:8:  if not exists (select 1 from information_schema.columns where table_name='tasks' and column_name='attempts') then
+server/worker/phase30_contract_check.sql:11:  if not exists (select 1 from information_schema.columns where table_name='tasks' and column_name='next_run_at') then
+server/worker/phase30_contract_check.sql:14:  if not exists (select 1 from information_schema.columns where table_name='task_events' and column_name='payload') then
+server/worker/phase29_db_doctor.sh:7:  (select count(*) from information_schema.columns where table_name='tasks' and column_name='payload') as has_tasks_payload,
+server/worker/phase29_db_doctor.sh:8:  (select count(*) from information_schema.columns where table_name='tasks' and column_name='meta') as has_tasks_meta,
+server/worker/phase29_db_doctor.sh:9:  (select count(*) from information_schema.columns where table_name='tasks' and column_name='attempt') as has_tasks_attempt,
+server/worker/phase29_db_doctor.sh:10:  (select count(*) from information_schema.columns where table_name='tasks' and column_name='attempts') as has_tasks_attempts,
+server/worker/phase29_db_doctor.sh:11:  (select count(*) from information_schema.columns where table_name='tasks' and column_name='available_at') as has_tasks_available_at,
+server/worker/phase29_db_doctor.sh:12:  (select count(*) from information_schema.columns where table_name='tasks' and column_name='next_run_at') as has_tasks_next_run_at,
+server/worker/phase29_db_doctor.sh:13:  (select count(*) from information_schema.columns where table_name='task_events' and column_name='payload') as has_events_payload,
+server/worker/phase29_db_doctor.sh:14:  (select data_type from information_schema.columns where table_name='task_events' and column_name='payload') as events_payload_type,
+server/worker/phase29_db_doctor.sh:15:  (select count(*) from information_schema.columns where table_name='task_events' and column_name='run_id') as has_events_run_id,
+server/worker/phase29_db_doctor.sh:16:  (select count(*) from information_schema.columns where table_name='task_events' and column_name='actor') as has_events_actor
+server/routes/api-tasks-postgres.mjs:93:    // Phase52: schema-compat — task_id must never be null (tasks.task_id is NOT NULL)
+server/routes/api-tasks-postgres.mjs:99:    // phase25: ensure tasks row exists even when caller provides task_id
+server/routes/task-events-sse.mjs:201:        msg: "task-events stream bootstrap error",
+server/routes/phase48_policy_probe.mjs:22:    // Match current schema:
+server/routes/phase36_run_view.mjs:10: * - Backed strictly by SQL view: run_view
+server/routes/phase36_run_view.mjs:114:        FROM run_view
+server/routes/phase36_run_view.mjs:139:      const q = "SELECT * FROM run_view WHERE run_id = $1 LIMIT 1";
+server/routes/phase36_run_view.mjs:161:    FROM run_view
+server/guards/phase44_runtime_integrity_guard.mjs:30: * No schema changes. Structural authorization is code-owned & reviewable.
+server/sql/phase54_bootstrap.sql:3:-- Phase 54 bootstrap: ensure fresh Postgres boot has the schema the dashboard expects.
+server/sql/phase54_bootstrap.sql:7:\i /migrations/drizzle_pg/0001_create_task_events.sql
+server/sql/phase54_bootstrap.sql:8:\i /migrations/drizzle_pg/0006_phase32_1_task_events_contract.sql
+server/sql/phase54_bootstrap.sql:10:-- Ensure tasks table exists (some repos create tasks outside drizzle_pg; if yours does too, this will be a no-op if already present elsewhere)
+server/sql/phase54_bootstrap.sql:12:\i /migrations/drizzle_pg/0001_create_tasks.sql
+server/sql/phase54_bootstrap.sql:14:-- Lease + heartbeat (required by run_view)
+server/sql/phase54_bootstrap.sql:15:\i /migrations/drizzle_pg/0007_phase34_lease_heartbeat_reclaim.sql
+server/sql/phase54_bootstrap.sql:16:\i /migrations/drizzle_pg/0007_phase35_lease_epoch.sql
+server/sql/phase54_bootstrap.sql:19:\i /migrations/drizzle_pg/0007_phase36_1_run_view.sql
+server/sql/phase54_bootstrap.sql:20:\i /migrations/drizzle_pg/0007_phase36_2_run_view_contract.sql
+server/sql/phase54_bootstrap.sql:36:-- If the migration file exists in this repo, apply it (psql \i will fail if missing).
+server/sql/phase54_bootstrap.sql:38:\i /migrations/drizzle_pg/0008_phase57_run_snapshot.sql
+server/sql/phase47_decision_correctness_invariants.sql:3:SQL-first: fail-fast via RAISE EXCEPTION, schema-flex.
+server/sql/phase47_decision_correctness_invariants.sql:31:  FROM information_schema.columns
+server/sql/phase47_decision_correctness_invariants.sql:32:  WHERE table_schema='public' AND table_name='tasks' AND column_name='task_id'
+server/sql/phase47_decision_correctness_invariants.sql:39:  FROM information_schema.columns
+server/sql/phase47_decision_correctness_invariants.sql:40:  WHERE table_schema='public' AND table_name='task_events' AND column_name='id'
+server/sql/phase47_decision_correctness_invariants.sql:44:  FROM information_schema.columns
+server/sql/phase47_decision_correctness_invariants.sql:45:  WHERE table_schema='public' AND table_name='task_events' AND column_name='task_id'
+server/sql/phase47_decision_correctness_invariants.sql:49:  FROM information_schema.columns
+server/sql/phase47_decision_correctness_invariants.sql:50:  WHERE table_schema='public' AND table_name='task_events' AND column_name IN ('ts','created_at')
+server/sql/phase47_decision_correctness_invariants.sql:55:  FROM information_schema.columns
+server/sql/phase47_decision_correctness_invariants.sql:56:  WHERE table_schema='public' AND table_name='task_events' AND column_name IN ('kind','event_kind')
+server/sql/phase47_decision_correctness_invariants.sql:65:  FROM information_schema.columns
+server/sql/phase47_decision_correctness_invariants.sql:66:  WHERE table_schema='public' AND table_name='tasks' AND column_name IN ('task_status','status')
+server/sql/phase47_decision_correctness_invariants.sql:71:  FROM information_schema.columns
+server/sql/phase47_decision_correctness_invariants.sql:72:  WHERE table_schema='public' AND table_name='tasks' AND column_name IN ('is_terminal','terminal')
+server/sql/phase47_decision_correctness_invariants.sql:77:  FROM information_schema.columns
+server/sql/phase47_decision_correctness_invariants.sql:78:  WHERE table_schema='public' AND table_name='tasks' AND column_name IN ('lease_owner','lease_actor','lease_holder')
+server/sql/phase47_decision_correctness_invariants.sql:87:  FROM information_schema.columns
+server/sql/phase47_decision_correctness_invariants.sql:88:  WHERE table_schema='public' AND table_name='tasks' AND column_name IN ('lease_expires_at','lease_until','lease_expires_ts')
+server/sql/phase47_decision_correctness_invariants.sql:97:  FROM information_schema.columns
+server/sql/phase47_decision_correctness_invariants.sql:98:  WHERE table_schema='public' AND table_name='tasks' AND column_name IN ('last_heartbeat_ts','heartbeat_ts','last_heartbeat_ms')
+src/cognition/operatorGuidance.ts:3:Guidance Schema (Authoritative Type Contracts)
+src/cognition/operatorGuidanceSafety.ts:60:  /\bmigrate\b/i,
+src/governance/governance_fixture_integrity_sentinel.ts:37:    fixture_schema: "protected",
+src/governance/governance_fixture_integrity_sentinel.test.ts:14:    expect(result.fixture_schema)
+scripts/demo/run-live-delegation.ts:1:// <0001fae4> Phase 6.1 — Live Delegation Simulation (Schema-Aligned)
+scripts/demo/run-demo-sequence.ts:24:      "Check SQLite schema",
+scripts/smoke/phase35_epoch_owner_proof.zsh:174:SELECT c.table_schema||'.'||c.table_name
+scripts/smoke/phase35_epoch_owner_proof.zsh:175:FROM information_schema.columns c
+scripts/smoke/phase35_epoch_owner_proof.zsh:177:  AND c.table_schema NOT IN ('pg_catalog','information_schema')
+scripts/smoke/phase35_epoch_owner_proof.zsh:178:GROUP BY c.table_schema, c.table_name
+scripts/smoke/phase35_epoch_owner_proof.zsh:184:    schema, name = t.split(".", 1)
+scripts/smoke/phase35_epoch_owner_proof.zsh:187:FROM information_schema.columns
+scripts/smoke/phase35_epoch_owner_proof.zsh:188:WHERE table_schema='{schema}' AND table_name='{name}'
+scripts/phase54_regression_harness.sh:8:  -f docker-compose.phase54.postgres_bootstrap.override.yml
+scripts/phase54_regression_harness.sh:10:  -f docker-compose.phase54.postgres_bootstrap.override.yml
+scripts/phase54_regression_harness.sh:203:# Apply Phase 55 migration (idempotent) before invariants
+scripts/phase54_regression_harness.sh:204:DC exec -T postgres psql -U postgres -d postgres -v ON_ERROR_STOP=1 < scripts/sql/migrations/phase55_run_lifecycle_immutability.sql
+scripts/phase57_ci_bootstrap.sh:38:echo "Bootstrapping PG schema (base tables first, then drizzle_pg/000*.sql)..."
+scripts/phase57_ci_bootstrap.sh:92:echo "OK: PG schema bootstrapped (tables + views)."
+scripts/phase19_postgres_apply_task_events.sql:1:-- Phase 19: Postgres task_events schema (fully idempotent)
+scripts/phase19_postgres_apply_task_events.sql:17:    select 1 from information_schema.columns
+scripts/phase19_postgres_apply_task_events.sql:18:    where table_schema='public' and table_name='task_events'
+scripts/phase19_postgres_apply_task_events.sql:25:    select 1 from information_schema.columns
+scripts/phase19_postgres_apply_task_events.sql:26:    where table_schema='public' and table_name='task_events'
+scripts/phase35_pg_fix_tasks_actor_run_id.sql:1:-- Phase35: minimal schema patch for verification (no scope creep beyond required columns)
+scripts/phase39_action_tier_policy_smoke.sh:27:  SELECT table_schema, table_name, column_name
+scripts/phase39_action_tier_policy_smoke.sh:28:  FROM information_schema.columns
+scripts/phase39_action_tier_policy_smoke.sh:29:  WHERE table_schema NOT IN ('pg_catalog','information_schema')
+scripts/phase39_action_tier_policy_smoke.sh:33:  SELECT table_schema, table_name, column_name
+scripts/phase39_action_tier_policy_smoke.sh:40:    table_schema,
+scripts/phase80_2_verify_queue_latency_metric.sh:16:echo "Checking bootstrap registration:"
+scripts/phase80_2_verify_queue_latency_metric.sh:17:grep queue_latency_metric public/js/telemetry/phase65b_metric_bootstrap.js || true
+scripts/phase39_fixup.py:41:# --- 1) De-dupe migrations created by earlier failed script runs
+scripts/phase39_fixup.py:49:    print(f"OK: migration present {mig_files[0].relative_to(ROOT)}")
+scripts/phase39_fixup.py:51:    die("no phase39_action_tier_scaffolding migration found in drizzle_pg/")
+scripts/phase30_smoke_canonical_ready.sh:9:echo "=== phase30: ensure canonical-ready (run phase29 migration if needed) ==="
+scripts/phase30_smoke_canonical_ready.sh:11:has_jsonb="$(psql "$POSTGRES_URL" -qtAc "select count(*)::int from information_schema.columns where table_name='task_events' and column_name='payload_jsonb'")"
+scripts/phase30_smoke_canonical_ready.sh:13:  echo "payload_jsonb missing -> running server/worker/phase29_db_migrate_to_phase27.sql"
+scripts/phase30_smoke_canonical_ready.sh:14:  psql "$POSTGRES_URL" -v ON_ERROR_STOP=1 -f server/worker/phase29_db_migrate_to_phase27.sql
+scripts/phase28_smoke_one.sh:12:HAS_PAYLOAD="$(psql "$POSTGRES_URL" -qtAc "select count(*)::int from information_schema.columns where table_name='tasks' and column_name='payload'")"
+scripts/phase88_14_12_tag_protection_and_phase89_alignment.sh:73:  echo "89.1 Define bounded guidance schema from health/situation states"
+scripts/_ops/phase40_1_patch_execution_path.mjs:47:  if (/task_events|run_view|tasks\b/i.test(c)) score += 10;
+scripts/ci_demo_hardening_smoke.sh:13:if [ -f docker-compose.phase54.postgres_bootstrap.override.yml ]; then
+scripts/ci_demo_hardening_smoke.sh:14:  COMPOSE_FILES+=( -f docker-compose.phase54.postgres_bootstrap.override.yml )
+scripts/ci_demo_hardening_smoke.sh:53:echo "== Assert run_view exists =="
+scripts/ci_demo_hardening_smoke.sh:55:"select 1 from run_view limit 1;" >/dev/null
+scripts/ci_demo_hardening_smoke.sh:56:echo "run_view OK"
+scripts/ci_demo_hardening_smoke.sh:58:echo "== Ensure policy.probe.run exists (fallback to Phase54 harness) =="
+scripts/ci_demo_hardening_smoke.sh:83:echo "== Demo smoke PASS (fresh boot → run_view present → policy.probe.run visible) =="
+scripts/phase29_smoke_migrate_then_smoke.sh:9:echo "=== phase29: migrate DB to phase27-ish contract (non-destructive) ==="
+scripts/phase29_smoke_migrate_then_smoke.sh:10:psql "$POSTGRES_URL" -v ON_ERROR_STOP=1 -f server/worker/phase29_db_migrate_to_phase27.sql
+scripts/utils/ensure-task-events.ts:1:// <0001fad3> Phase 5.0 — Ensure SQLite schema for OPS stream
+scripts/phase456_run_view_schema_evidence.sh:4:OUT="docs/phase456_run_view_schema_evidence.txt"
+scripts/phase456_run_view_schema_evidence.sh:7:  echo "PHASE 456 — RUN_VIEW SCHEMA EVIDENCE"
+scripts/phase456_run_view_schema_evidence.sh:24:  echo "=== SEARCH: run_view / runs / schema bootstrap ==="
+scripts/phase456_run_view_schema_evidence.sh:25:  grep -RniE "run_view|CREATE VIEW run_view|create view run_view|CREATE OR REPLACE VIEW run_view|ensure.*run|bootstrap.*run|schema.*run|migration.*run" \
+scripts/phase456_run_view_schema_evidence.sh:29:  echo "=== SEARCH: DB BOOTSTRAP / MIGRATION ENTRYPOINTS ==="
+scripts/phase456_run_view_schema_evidence.sh:30:  grep -RniE "bootstrap|migrate|migration|schema|db_bootstrap|ensure.*tasks|ensure.*run|run_view" \
+scripts/phase456_run_view_schema_evidence.sh:35:  grep -RniE "/api/runs|api/runs|run_view|SELECT.*FROM run_view|FROM run_view" \
+scripts/phase456_run_view_schema_evidence.sh:39:  echo "=== POSTGRES: DOES run_view EXIST? ==="
+scripts/phase456_run_view_schema_evidence.sh:42:  docker compose exec -T postgres psql -U "${PGUSER:-postgres}" -d "${PGDATABASE:-postgres}" -c "SELECT schemaname, viewname FROM pg_views WHERE viewname = 'run_view';" 2>&1 || true
+scripts/phase37_0_capture_run_view_docs.zsh:23:# Capture authoritative run_view definition (as Postgres sees it)
+scripts/phase37_0_capture_run_view_docs.zsh:26:  > PHASE37_RUN_VIEW_DEFINITION.sql
+scripts/phase37_0_capture_run_view_docs.zsh:27:-- Phase 37.0 planning artifact: authoritative run_view SQL as Postgres sees it
+scripts/phase37_0_capture_run_view_docs.zsh:28:SELECT pg_get_viewdef('public.run_view'::regclass, true) || ';';
+scripts/phase37_0_capture_run_view_docs.zsh:31:# Capture run_view columns (positional) for provenance templating
+scripts/phase37_0_capture_run_view_docs.zsh:35:FROM information_schema.columns
+scripts/phase37_0_capture_run_view_docs.zsh:36:WHERE table_schema='public'
+scripts/phase37_0_capture_run_view_docs.zsh:37:  AND table_name='run_view'
+scripts/phase37_0_capture_run_view_docs.zsh:42:  echo "ERROR: information_schema returned 0 run_view columns. Does public.run_view exist?" >&2
+scripts/phase37_0_capture_run_view_docs.zsh:48:cat > PHASE37_RUN_VIEW_PROVENANCE_MATRIX.md <<'MD'
+scripts/phase37_0_capture_run_view_docs.zsh:49:# Phase 37 — run_view Provenance Matrix (Planning Only)
+scripts/phase37_0_capture_run_view_docs.zsh:52:Fill one section per `run_view` column. Keep everything SQL-traceable.
+scripts/phase37_0_capture_run_view_docs.zsh:59:- `PHASE37_RUN_VIEW_DEFINITION.sql` (authoritative view definition as captured from Postgres)
+scripts/phase37_0_capture_run_view_docs.zsh:71:' "$tmp_cols" >> PHASE37_RUN_VIEW_PROVENANCE_MATRIX.md
+scripts/phase37_0_capture_run_view_docs.zsh:76:echo "  - PHASE37_RUN_VIEW_DEFINITION.sql"
+scripts/phase37_0_capture_run_view_docs.zsh:77:echo "  - PHASE37_RUN_VIEW_PROVENANCE_MATRIX.md"
+scripts/phase37_6_run_view_single_owner_check.sh:4:# Phase 37.6 — run_view single-owner guard
+scripts/phase37_6_run_view_single_owner_check.sh:5:# Canonical/only owner allowed to query run_view:
+scripts/phase37_6_run_view_single_owner_check.sh:6:ALLOWED="server/routes/phase36_run_view.mjs"
+scripts/phase37_6_run_view_single_owner_check.sh:9:# Docs, scripts, dashboards, and build artifacts may reference run_view freely.
+scripts/phase37_6_run_view_single_owner_check.sh:14:# - Tests (may reference run_view in fixtures)
+
+=== SEARCH: /api/runs IMPLEMENTATION ===
+server/routes/phase36_run_view.mjs:6: * GET /api/runs/:run_id
+server/routes/phase36_run_view.mjs:10: * - Backed strictly by SQL view: run_view
+server/routes/phase36_run_view.mjs:43:  // GET /api/runs?limit=200&task_status=created&task_status=running&is_terminal=true&since_ts=1770000000000
+server/routes/phase36_run_view.mjs:44:  app.get("/api/runs", async (req, res) => {
+server/routes/phase36_run_view.mjs:114:        FROM run_view
+server/routes/phase36_run_view.mjs:133:  app.get("/api/runs/:run_id", async (req, res) => {
+server/routes/phase36_run_view.mjs:139:      const q = "SELECT * FROM run_view WHERE run_id = $1 LIMIT 1";
+server/routes/phase36_run_view.mjs:161:    FROM run_view
+server/routes/phase36_run_view.mjs:170:    console.error("GET /api/runs failed", err);
+server/sql/phase54_bootstrap.sql:14:-- Lease + heartbeat (required by run_view)
+server/sql/phase54_bootstrap.sql:19:\i /migrations/drizzle_pg/0007_phase36_1_run_view.sql
+server/sql/phase54_bootstrap.sql:20:\i /migrations/drizzle_pg/0007_phase36_2_run_view_contract.sql
+./PHASE37_STATUS.md:11:- run_view column inventory captured
+./PHASE37_STATUS.md:12:- run_view SQL definition captured (authoritative)
+./PHASE37_STATUS.md:19:Guarantee run_view is:
+./PHASE37_STATUS.md:25:Fill PHASE37_RUN_VIEW_PROVENANCE_MATRIX.md
+./PHASE37_STATUS.md:40:- run_view remains read-only projection.
+./PHASE37_STATUS_SUMMARY.md:14:  - `PHASE37_RUN_VIEW_PROVENANCE_MATRIX.md` filled for:
+./PHASE37_STATUS_SUMMARY.md:30:  - Acceptance lens uses `task.*` terminal kinds, but `run_view` uses bare terminal kinds.
+./PHASE37_STATUS_SUMMARY.md:48:- Option A: Acceptance lens matches current `run_view` (bare kinds)
+./PHASE37_STATUS_SUMMARY.md:49:- Option B: `run_view` matches acceptance lens (`task.*` kinds) — requires view edit later
+./PHASE37_2_HANDOFF_ONELINER.txt:1:Phase 37.2 ✅ Planning-only complete: documented clean alignment options for terminal-kind namespace + latest-rule mismatch between run_view (authority) and acceptance lens. No schema/view/worker changes. Stop here and choose Option A/B/C before any implementation.
+./PHASE37_RUN_VIEW_PROVENANCE_HINTS.md:1:# Phase 37 — run_view Provenance Hints (Auto-Extracted, Planning Only)
+./PHASE37_RUN_VIEW_PROVENANCE_HINTS.md:4:- `PHASE37_RUN_VIEW_PROVENANCE_MATRIX.md`
+./PHASE37_RUN_VIEW_PROVENANCE_HINTS.md:7:`PHASE37_RUN_VIEW_DEFINITION.sql`. Treat as hints, not truth.
+./PHASE37_RUN_VIEW_PROVENANCE_HINTS.md:15:- Candidate expression(s): *(none found via simple parse — inspect PHASE37_RUN_VIEW_DEFINITION.sql manually)*
+./PHASE37_RUN_VIEW_PROVENANCE_HINTS.md:21:- Candidate expression(s): *(none found via simple parse — inspect PHASE37_RUN_VIEW_DEFINITION.sql manually)*
+./PHASE37_RUN_VIEW_PROVENANCE_HINTS.md:34:- Candidate expression(s): *(none found via simple parse — inspect PHASE37_RUN_VIEW_DEFINITION.sql manually)*
+./PHASE37_RUN_VIEW_PROVENANCE_HINTS.md:40:- Candidate expression(s): *(none found via simple parse — inspect PHASE37_RUN_VIEW_DEFINITION.sql manually)*
+./PHASE37_RUN_VIEW_PROVENANCE_HINTS.md:46:- Candidate expression(s): *(none found via simple parse — inspect PHASE37_RUN_VIEW_DEFINITION.sql manually)*
+./PHASE37_RUN_VIEW_PROVENANCE_HINTS.md:52:- Candidate expression(s): *(none found via simple parse — inspect PHASE37_RUN_VIEW_DEFINITION.sql manually)*
+./PHASE37_RUN_VIEW_PROVENANCE_HINTS.md:58:- Candidate expression(s): *(none found via simple parse — inspect PHASE37_RUN_VIEW_DEFINITION.sql manually)*
+./PHASE37_RUN_VIEW_PROVENANCE_HINTS.md:64:- Candidate expression(s): *(none found via simple parse — inspect PHASE37_RUN_VIEW_DEFINITION.sql manually)*
+./PHASE37_RUN_VIEW_PROVENANCE_HINTS.md:70:- Candidate expression(s): *(none found via simple parse — inspect PHASE37_RUN_VIEW_DEFINITION.sql manually)*
+./PHASE37_RUN_VIEW_PROVENANCE_HINTS.md:76:- Candidate expression(s): *(none found via simple parse — inspect PHASE37_RUN_VIEW_DEFINITION.sql manually)*
+./PHASE37_RUN_VIEW_PROVENANCE_HINTS.md:82:- Candidate expression(s): *(none found via simple parse — inspect PHASE37_RUN_VIEW_DEFINITION.sql manually)*
+./PHASE37_RUN_VIEW_PROVENANCE_HINTS.md:88:- Candidate expression(s): *(none found via simple parse — inspect PHASE37_RUN_VIEW_DEFINITION.sql manually)*
+./PHASE37_RUN_VIEW_PROVENANCE_HINTS.md:94:- Candidate expression(s): *(none found via simple parse — inspect PHASE37_RUN_VIEW_DEFINITION.sql manually)*
+./PHASE37_RUN_VIEW_PROVENANCE_HINTS.md:100:- Candidate expression(s): *(none found via simple parse — inspect PHASE37_RUN_VIEW_DEFINITION.sql manually)*
+./PHASE37_RUN_VIEW_PROVENANCE_HINTS.md:106:- Candidate expression(s): *(none found via simple parse — inspect PHASE37_RUN_VIEW_DEFINITION.sql manually)*
+./PHASE_401_VERIFICATION_SEAL.txt:24:GET /api/runs?limit=20
+./PHASE37_4_PLAN.md:4:Acceptance lens reports **5 runs** where `run_view.is_terminal = true` while `terminal_event_kind/ts/id` are NULL.
+./PHASE37_4_PLAN.md:13:- `run_view.last_event_kind` is `task.completed`
+./PHASE37_4_PLAN.md:15:- Yet `run_view.terminal_event_*` is NULL
+./PHASE37_4_PLAN.md:24:`run_view.terminal_event_*` selection logic filters on kinds that exclude `task.completed` (or uses different naming/casing).
+./PHASE37_4_PLAN.md:35:- Needs targeted inspection against run_view definition.
+./PHASE37_4_PLAN.md:38:1) Inspect `PHASE37_RUN_VIEW_DEFINITION.sql` and identify exactly how `terminal_event_*` is computed.
+./PHASE37_4_PLAN.md:48:- No run_view changes
+./PHASE37_4_PLAN.md:54:- `PHASE37_4_DECISION_RECORD.md` (filled) + pointer to specific lines in run_view definition responsible.
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:12:server.mjs:329:app.get("/api/runs", getRunsList);
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:49:server/routes/phase36_run_view.mjs:44:  app.get("/api/runs", async (req, res) => {
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:50:server/routes/phase36_run_view.mjs:133:  app.get("/api/runs/:run_id", async (req, res) => {
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:129:scripts/phase46_probe_endpoints.sh:15:  for p in / /api /api/runs /api/tasks /api/task-events /api/health; do
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:183:scripts/phase36_4_inject_run_list_route.py:37:    print("ERROR: expected exactly 1 route file containing router.get('/api/runs/:run_id', ...).", file=sys.stderr)
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:184:scripts/phase36_4_inject_run_list_route.py:70:router.get("/api/runs", async (req, res) => {{
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:762:scripts/phase46_probe_endpoints.sh:15:  for p in / /api /api/runs /api/tasks /api/task-events /api/health; do
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:1029:scripts/_local/phase61_recent_tasks_and_history_wiring_audit.sh:54:    '/api/tasks|/api/runs|/api/history|recent tasks|task history|fetchTasks|loadTasks|loadHistory|fetchHistory' \
+./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:1183:scripts/_local/phase64_named_agent_path_audit.sh:21:  -E 'task_id|run_id|actor|agent|assignedAgent|assigned_agent|agentName|agent_name|delegate|delegation|/api/tasks|/api/runs|task_events|emit' \
+./artifacts/phase37_3_integrity_gaps_20260211_130102/acceptance.out:5: run_view rowcount | 15
+./PHASE40_NEXT.md:28:     - run_view / task_events consistency remains intact
+./PHASE37_ACCEPTANCE_CHECKS.sql:13:--   public.run_view(...)
+./PHASE37_ACCEPTANCE_CHECKS.sql:24:-- 1) Sanity: run_view exists
+./PHASE37_ACCEPTANCE_CHECKS.sql:26:SELECT 'run_view rowcount' AS check, count(*) AS n
+./PHASE37_ACCEPTANCE_CHECKS.sql:27:FROM public.run_view;
+./PHASE37_ACCEPTANCE_CHECKS.sql:35:-- 2a) Identify any run_id where the event with max(ts,id) disagrees with run_view.last_event_{ts,id}
+./PHASE37_ACCEPTANCE_CHECKS.sql:55:FROM public.run_view rv
+./PHASE37_ACCEPTANCE_CHECKS.sql:101:FROM public.run_view
+./PHASE37_ACCEPTANCE_CHECKS.sql:130:FROM public.run_view rv
+./PHASE37_ACCEPTANCE_CHECKS.sql:138:-- 4b) If run_view says is_terminal=true, ensure a terminal event exists.
+./PHASE37_ACCEPTANCE_CHECKS.sql:146:FROM public.run_view rv
+./PHASE37_ACCEPTANCE_CHECKS.sql:171:FROM public.run_view
+./PHASE37_ACCEPTANCE_CHECKS.sql:185:FROM public.run_view
+./PHASE36_6.md:4:Add deterministic, read-only filtering for the Runs list, backed strictly by run_view.
+./PHASE36_6.md:7:- GET /api/runs: support filters via query params:
+./PHASE36_6.md:21:- run_view remains the canonical source of truth
+./PHASE36_3_NEXT.md:19:- GET /api/runs
+./PHASE36_3_NEXT.md:22:- SQL view: run_view (current)
+./PHASE36_3_NEXT.md:23:- Note: run_view does NOT expose created_at/updated_at; it exposes event/heartbeat timestamps in epoch-ms.
+./PHASE36_3_NEXT.md:30:Rationale: matches run_view’s own determinism (latest event per run_id), avoids UI-derived state.
+./PHASE36_3_NEXT.md:43:  - exact match against run_view.task_status (values enumerated by probe script)
+./PHASE36_3_NEXT.md:46:  - exact match against run_view.is_terminal
+./PHASE36_3_NEXT.md:50:  - NOTE: run_view uses epoch-ms; avoid RFC3339 conversion in v1 contract.
+./PHASE36_3_NEXT.md:85:Option A (preferred): runs_list_view (projection of run_view)
+./PHASE36_3_NEXT.md:90:Option B: deterministic SELECT from run_view (no new view)
+./PHASE36_3_NEXT.md:101:- scripts/phase36_3_probe_run_view.sh
+./PHASE36_3_NEXT.md:110:- SQL source chosen (run_view projection vs runs_list_view)
+./drizzle_pg/0007_phase36_1_run_view.sql:2:-- Canonical view: run_view keyed by run_id
+./drizzle_pg/0007_phase36_1_run_view.sql:9:CREATE OR REPLACE VIEW run_view AS
+./drizzle_pg/0001_create_task_events.sql:11:-- Guard: Phase 36 run_view expects task_events.ts (epoch ms) to exist.
+./drizzle_pg/0008_phase57_run_snapshot.sql:5:--   via canonical run_view. No UI inference, no mutation.
+./drizzle_pg/0008_phase57_run_snapshot.sql:8:--   - run_view exposes task_status (not "status") and already performs tasks join.
+./drizzle_pg/0008_phase57_run_snapshot.sql:55:  FROM run_view rv
+./drizzle_pg/0008_phase57_run_snapshot.sql:64:-- One-time idempotent backfill for existing run_view rows.
+./drizzle_pg/0007_phase36_2_run_view_contract.sql:4:--   1) Capture the existing run_view definition via pg_get_viewdef(...)
+./drizzle_pg/0007_phase36_2_run_view_contract.sql:6:--   3) Wrap it in SELECT DISTINCT ON (run_id) with stable ordering using columns on run_view:
+./drizzle_pg/0007_phase36_2_run_view_contract.sql:11:-- - View-only change; API remains a single SELECT from run_view.
+./drizzle_pg/0007_phase36_2_run_view_contract.sql:20:  WHERE n.nspname='public' AND c.relname='run_view' AND c.relkind='v';
+./drizzle_pg/0007_phase36_2_run_view_contract.sql:22:    RAISE EXCEPTION 'public.run_view does not exist';
+./drizzle_pg/0007_phase36_2_run_view_contract.sql:25:  v_def := pg_get_viewdef('public.run_view'::regclass, true);
+./drizzle_pg/0007_phase36_2_run_view_contract.sql:31:    'CREATE OR REPLACE VIEW public.run_view AS
+./drizzle_pg/0001_create_tasks.sql:3:-- Base tasks table for PG lane (required by run_view and dashboard queries)
+./PHASE37_7.md:7:- GET /api/runs
+./PHASE37_7.md:8:- Backed strictly by run_view
+./PHASE37_7.md:13:- run_view remains single-owner enforced (guard unchanged)
+./docker-compose.phase46.dashboard_heap.override.yml:4:      # Fix for sustained /api/runs polling + long-lived dashboard sessions
+./PHASE36_2.md:4:Provide a read-only, canonical view of a run’s current state by consuming run_view.
+./PHASE36_2.md:7:- Read-only API: GET /api/runs/:run_id
+./PHASE36_2.md:8:- Query backed strictly by run_view
+./PHASE62B_DASHBOARD_ASSET_LOAD_PATH_INSPECTION.txt:497:   329	app.get("/api/runs", getRunsList);
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:331:./docs/notes/pr84-run_view-terminal-precedence.md:23:- Local: compose up; query `run_view` for runs that have `terminal_event_kind` and confirm `is_terminal=TRUE`
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:399:./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:75:./docker-compose.phase46.dashboard_heap.override.yml:4:      # Fix for sustained /api/runs polling + long-lived dashboard sessions
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:621:./docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:852:./docker-compose.phase46.dashboard_heap.override.yml:4:      # Fix for sustained /api/runs polling + long-lived dashboard sessions
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1096:./scripts/phase37_0_capture_run_view_docs.zsh:7:# Robust postgres container detection (works across compose project name changes)
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1097:./scripts/phase37_0_capture_run_view_docs.zsh:9:  docker ps --format '{{.Names}}\t{{.Image}}' \
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1098:./scripts/phase37_0_capture_run_view_docs.zsh:17:  echo "HINT: run: docker ps --format 'table {{.Names}}\t{{.Status}}\t{{.Image}}' | sed -n '1,80p'" >&2
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1099:./scripts/phase37_0_capture_run_view_docs.zsh:24:docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -At <<'SQL' \
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1100:./scripts/phase37_0_capture_run_view_docs.zsh:33:docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -At -F '|' <<'SQL' > "$tmp_cols"
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1120:./scripts/phase41_scenario_matrix_dump.sh:7:docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 < sql/phase41_scenario_matrix_run_view.sql
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1230:./scripts/phase41_invariants_gate.sh:11:docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -q -t -A < sql/phase41_invariants_run_view.sql > "$TMP"
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1235:./scripts/phase36_3_probe_run_view.sh:6:PGC="$(docker ps --format '{{.Names}}' | grep -E "^${P}-postgres-1$" || true)"
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1236:./scripts/phase36_3_probe_run_view.sh:10:docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<'SQL'
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1237:./scripts/phase36_3_probe_run_view.sh:17:docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<'SQL'
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1238:./scripts/phase36_3_probe_run_view.sh:43:docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<'SQL'
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1239:./scripts/phase36_3_probe_run_view.sh:53:docker exec -i "$PGC" psql -U postgres -d postgres -v ON_ERROR_STOP=1 <<'SQL'
+./POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt:1340:./scripts/_local/phase65_3_metrics_runtime_verify.sh:164:    docker exec "$CID" sh -lc "curl -fsS http://127.0.0.1:3000/api/runs?limit=20" || true
+./PHASE37_1_TERMINAL_EVENT_PROVENANCE.md:13:- Authority: `PHASE37_RUN_VIEW_DEFINITION.sql`
+./PHASE37_1_TERMINAL_EVENT_PROVENANCE.md:18:## What `run_view` says (authoritative, as captured)
+./PHASE37_1_TERMINAL_EVENT_PROVENANCE.md:61:But `run_view` terminal predicate (as captured) is:
+./PHASE37_1_TERMINAL_EVENT_PROVENANCE.md:65:As a result, acceptance §4a and §4b can legitimately report mismatches even when `run_view` is internally consistent with its own definition.
+./PHASE37_6_HANDOFF_ONELINER.txt:1:Handoff (Phase 37.6): on main HEAD ce3dde14; after PR #9 added run_view single-owner CI/test gate (scripts/phase37_6_run_view_single_owner_check.sh) wired into run_tests.sh; tags: v37.6-start, v37.6-planning-stub, v37.6-run-view-single-owner-guard; protocols: PR-only to main, one hypothesis per PR, 3 consecutive CI failures => stop + revert to last known good.
+./PHASE36_3_HANDOFF.md:4:- Planning contract updated to align with actual SQL `run_view` (epoch-ms timestamps; deterministic ordering by last_event_ts / last_event_id / run_id).
+./PHASE36_3_HANDOFF.md:5:- Added validation probe script: `scripts/phase36_3_probe_run_view.sh`.
+./PHASE36_3_HANDOFF.md:8:From `scripts/phase36_3_probe_run_view.sh`:
+./PHASE36_3_HANDOFF.md:9:- `run_view` columns confirmed:
+./PHASE36_3_HANDOFF.md:30:  - add `runs_list_view` as a projection of `run_view`, or
+./PHASE36_3_HANDOFF.md:31:  - keep a deterministic SELECT from `run_view`.
+./PHASE36_3_HANDOFF.md:32:- Implement `GET /api/runs` (future phase): read-only, DB truth, no UI-derived state, no writes.
+./PHASE37_RUN_PROJECTION_CONTRACT.md:4:Formalize a deterministic contract for `run_view` under:
+./PHASE37_RUN_PROJECTION_CONTRACT.md:16:## `run_view` Field Inventory (Captured from Postgres)
+./PHASE37_RUN_PROJECTION_CONTRACT.md:40:For each `run_view` column, record:
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:164:./sql/phase41_invariants_run_view.sql:13:    NULLIF(BTRIM(COALESCE(rv.task_status, '')), '') AS task_status_norm,
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:165:./sql/phase41_invariants_run_view.sql:118:    'INV_100_task_status_null_must_not_be_terminal' AS invariant,
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:166:./sql/phase41_invariants_run_view.sql:120:    ('task_status=<null> is_terminal=' || COALESCE(is_terminal::text,'<null>') || ' terminal_event_kind=' || COALESCE(terminal_event_kind::text,'<null>')) AS detail
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:167:./sql/phase41_invariants_run_view.sql:122:  WHERE task_status_norm IS NULL
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:168:./sql/phase41_invariants_run_view.sql:132:    'INV_101_task_status_null_must_not_have_fresh_lease' AS invariant,
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:169:./sql/phase41_invariants_run_view.sql:134:    ('task_status=<null> lease_fresh=' || COALESCE(lease_fresh::text,'<null>') || ' lease_expires_at=' || COALESCE(lease_expires_at::text,'<null>')) AS detail
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:170:./sql/phase41_invariants_run_view.sql:136:  WHERE task_status_norm IS NULL
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:175:./sql/phase41_scenario_matrix_run_view.sql:11:    NULLIF(BTRIM(COALESCE(rv.task_status, '')), '') AS task_status_norm,
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:176:./sql/phase41_scenario_matrix_run_view.sql:25:  task_status,
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:275:./drizzle_pg/0008_phase57_run_snapshot.sql:8:--   - run_view exposes task_status (not "status") and already performs tasks join.
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:286:./PHASE37_RUN_VIEW_DEFINITION.sql:12:    task_status,
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:287:./PHASE37_RUN_VIEW_DEFINITION.sql:64:            t.status AS task_status,
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:288:./PHASE37_RUN_VIEW_DEFINITION.sql:65:            t.status = ANY (ARRAY['completed'::text, 'failed'::text, 'canceled'::text, 'cancelled'::text]) AS is_terminal,
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:311:./PHASE37_RUN_VIEW_PROVENANCE_HINTS.md:81:## task_status
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:383:./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:129:scripts/phase46_probe_endpoints.sh:15:  for p in / /api /api/runs /api/tasks /api/task-events /api/health; do
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:431:./PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt:762:scripts/phase46_probe_endpoints.sh:15:  for p in / /api /api/runs /api/tasks /api/task-events /api/health; do
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:506:./drizzle_pg/0007_phase36_1_run_view.sql:6:-- - tasks has: task_id(text unique), status (e.g. 'running','completed'), claimed_by, actor, lease_expires_at (epoch ms)
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:507:./drizzle_pg/0007_phase36_1_run_view.sql:78:    ELSE t.status
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:508:./drizzle_pg/0007_phase36_1_run_view.sql:79:  END AS task_status,
+
+=== POSTGRES: DOES run_view EXIST? ===
+Did not find any relations.
+
+ schemaname | viewname 
+------------+----------
+(0 rows)
+
+
+
+=== POSTGRES: DOES tasks TABLE EXIST? ===
+                                      List of relations
+ Schema |    Name     | Type  |  Owner   | Persistence | Access method | Size  | Description 
+--------+-------------+-------+----------+-------------+---------------+-------+-------------
+ public | task_events | table | postgres | permanent   | heap          | 16 kB | 
+ public | tasks       | table | postgres | permanent   | heap          | 16 kB | 
+(2 rows)
+
+
+  tablename  
+-------------
+ tasks
+ task_events
+(2 rows)
+
+
+
+=== SECTION: CANONICAL POSTGRES LOGS (FILTERED) ===
+4:postgres-1  | 2026-04-09 17:34:17.349 UTC [53] ERROR:  relation "run_view" does not exist at character 435
+25:postgres-1  | 	        FROM run_view
+33:postgres-1  | 2026-04-09 17:34:17.349 UTC [54] ERROR:  relation "run_view" does not exist at character 435
+54:postgres-1  | 	        FROM run_view
+62:postgres-1  | 2026-04-09 17:34:18.420 UTC [50] ERROR:  relation "run_view" does not exist at character 435
+83:postgres-1  | 	        FROM run_view
+93:postgres-1  | 2026-04-09 17:43:05.774 UTC [64] ERROR:  relation "run_view" does not exist at character 435
+114:postgres-1  | 	        FROM run_view

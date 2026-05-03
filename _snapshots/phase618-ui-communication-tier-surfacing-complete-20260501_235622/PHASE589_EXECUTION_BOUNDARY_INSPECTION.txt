@@ -1,0 +1,145 @@
+Phase 589 execution boundary inspection.
+
+Goal:
+Inspect execution-adjacent worker modules before wiring real execution behavior.
+
+Files:
+- server/worker/task_execution_interpreter.mjs
+- server/worker/execution_contract.mjs
+- server/worker/worker_retry_enforcer.js if present
+
+This is read-only inspection.
+
+--- TASK EXECUTION INTERPRETER ---
+const { enforceWorkerRetryContract } = require('./worker_retry_enforcer');
+function unwrapPayload(value) {
+  if (!value) return {};
+  if (typeof value === "object") return value;
+  try {
+    return JSON.parse(String(value));
+  } catch {
+    return {};
+  }
+}
+
+function extractMeta(task = {}) {
+  const payload = unwrapPayload(task.payload);
+  return payload?.meta || task?.meta || {};
+}
+
+export function interpretTaskExecution(task = {}) {
+  const payload = unwrapPayload(task.payload);
+  const meta = extractMeta(task);
+  const title = task.title || payload.title || "Untitled task";
+
+  if (meta?.retry_mode === "strategy_shift") {
+    return {
+      ok: true,
+      strategy_applied: "prompt_augmentation",
+      notes: meta.instruction || "strategy shift applied",
+      output: `Strategy-shift execution prepared for: ${title}`,
+      meta,
+    };
+  }
+
+  return {
+    ok: true,
+    strategy_applied: "default",
+    notes: "standard execution path",
+    output: `Standard execution prepared for: ${title}`,
+    meta,
+  };
+}
+
+--- EXECUTION CONTRACT ---
+const { enforceWorkerRetryContract } = require('./worker_retry_enforcer');
+function isObject(v) {
+  return v !== null && typeof v === "object" && !Array.isArray(v);
+}
+
+export function validateTask(task = {}) {
+  if (!isObject(task)) {
+    return { ok: false, error: "TASK_NOT_OBJECT" };
+  }
+
+  return {
+    ok: true,
+    task: {
+      id: task.id || null,
+      task_id: task.task_id || null,
+      title: task.title || null,
+      payload: task.payload || null,
+      meta: isObject(task.meta) ? task.meta : {}
+    }
+  };
+}
+
+export function validateExecutionResult(result = {}) {
+  if (!isObject(result)) {
+    return { ok: false, error: "EXECUTION_NOT_OBJECT" };
+  }
+
+  const allowedStrategies = new Set([
+    "default",
+    "prompt_augmentation"
+  ]);
+
+  const strategy = result.strategy_applied || "default";
+
+  if (!allowedStrategies.has(strategy)) {
+    return {
+      ok: false,
+      error: "INVALID_STRATEGY",
+      strategy
+    };
+  }
+
+  return {
+    ok: true,
+    execution: {
+      ok: Boolean(result.ok),
+      strategy_applied: strategy,
+      notes: result.notes || "",
+      output: result.output || "",
+      meta: isObject(result.meta) ? result.meta : {}
+    }
+  };
+}
+
+export function safeExecutionContract(task, executionResult) {
+  const t = validateTask(task);
+  if (!t.ok) return t;
+
+  const e = validateExecutionResult(executionResult);
+  if (!e.ok) return e;
+
+  return {
+    ok: true,
+    task: t.task,
+    execution: e.execution
+  };
+}
+
+--- WORKER RETRY ENFORCER ---
+function enforceWorkerRetryContract(task) {
+  if (!task) return task;
+
+  if (task.kind !== "retry") return task;
+
+  const mode = task.execution_mode || "standard_retry";
+
+  if (mode === "fresh-context") {
+    task.cache_policy = "bypass";
+    task.memory_scope = "reset_partial";
+    task.execution_mode = "rebuild_context";
+  } else {
+    task.cache_policy = "reuse";
+    task.memory_scope = "preserve";
+    task.execution_mode = "standard_retry";
+  }
+
+  task._enforced_at_worker = true;
+  return task;
+}
+
+module.exports = { enforceWorkerRetryContract };

@@ -1,0 +1,21 @@
+Phase 605 response compiler module added.
+
+State:
+- Added server/worker/response_compiler.mjs.
+- Exports compileCommunicationResult(task, contractedExecution, options = {}).
+- Produces canonical CommunicationResult:
+  - Tier 1 outcome
+  - Tier 2 explanation
+  - Tier 3 systemTrace
+- Module is pure and deterministic.
+- Module is not wired into worker runtime yet.
+
+Safety:
+- No DB changes.
+- No UI changes.
+- No route changes.
+- No worker behavior mutation.
+- No task completion behavior changes.
+
+Status:
+PURE RESPONSE COMPILER MODULE ADDED — READY FOR ISOLATED VERIFICATION

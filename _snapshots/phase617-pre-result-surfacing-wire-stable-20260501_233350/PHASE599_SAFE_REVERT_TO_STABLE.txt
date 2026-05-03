@@ -1,0 +1,14 @@
+Phase 599 safe revert to stable baseline.
+
+Action:
+- Revert last commit that modified api-health.mjs
+- Restore system to pre-heartbeat stable state (Phase 598 baseline intact)
+
+Result:
+- Dashboard restored
+- No broken routes
+- Agent Pool remains locked and verified
+- System returns to known-good state
+
+Status:
+REVERT COMPLETE — SAFE BASE RESTORED

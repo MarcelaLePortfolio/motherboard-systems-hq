@@ -1,0 +1,592 @@
+PHASE 489 — H3 TASK EVENT PRODUCTION PATH TRACE
+Generated: 2026-04-14T21:15:04Z
+Repo Root: /Users/marcela-dev/Projects/Motherboard_Systems_HQ
+
+=== GOAL ===
+Determine why the task_events stream is sparse by tracing whether real mutation paths
+actually emit rows into task_events.
+
+=== SERVER EMIT PATH FILES ===
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/task_events_emit.mjs:1:import { appendTaskEvent } from "./task-events.mjs";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/task_events_emit.mjs:2:console.log("[phase25] task_events_emit loaded", new Date().toISOString(), "file=", import.meta.url);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/task_events_emit.mjs:5:export async function emitTaskEvent({ pool, kind, task_id, run_id = null, actor = null, payload = null }) {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/task_events_emit.mjs:6:  console.log("[phase25] emitTaskEvent ENTER", { ts: Date.now(), kind, task_id, hasGlobal: !!globalThis.__DB_POOL, globalType: globalThis.__DB_POOL?.constructor?.name });
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/task_events_emit.mjs:9:  console.log("[phase25] emitTaskEvent BEFORE CHECK", { hasArg: !!pool, hasGlobal: !!globalThis.__DB_POOL, globalType: globalThis.__DB_POOL?.constructor?.name, argType: pool?.constructor?.name });
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/task_events_emit.mjs:10:  console.log("[phase25] emitTaskEvent pool", { arg: !!pool, argType: pool?.constructor?.name, hasGlobal: !!globalThis.__DB_POOL, globalType: globalThis.__DB_POOL?.constructor?.name });
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/task_events_emit.mjs:13:if (!pool) throw new Error("emitTaskEvent: pool required");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/task_events_emit.mjs:14:  if (!kind) throw new Error("emitTaskEvent: kind required");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/task_events_emit.mjs:24:  return appendTaskEvent(pool, kind, obj, undefined, {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/task_events_emit.mjs:39:  return appendTaskEvent(pool, kind, obj);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/tasks-mutations.mjs:2:import { emitTaskEvent } from "./task_events_emit.mjs";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/tasks-mutations.mjs:29:export async function dbDelegateTask(pool, body = {}) {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/tasks-mutations.mjs:79:  await emitTaskEvent({
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/tasks-mutations.mjs:97:export async function dbCompleteTask(pool, body = {}) {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/tasks-mutations.mjs:138:  await emitTaskEvent({
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/task-events.mjs:3: * Legacy task_events schema in your docker DB:
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/task-events.mjs:4: *   task_events(id bigint, kind text, payload text, created_at text)
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/task-events.mjs:30:export async function appendTaskEvent(pool, kind, task_id, payload, opts = undefined) {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/task-events.mjs:31:  // Phase50: DB write-path enforcement (task_events)
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/task-events.mjs:32:  assertNotEnforced("task_events.append");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/task-events.mjs:35:  if (!pool) throw new Error("appendTaskEvent: missing pool");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/task-events.mjs:36:  // Phase25 contract: server is the single authoritative writer of task_events.
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/task-events.mjs:44:  // Back-compat: appendTaskEvent(pool, kind, payloadObj)
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/task-events.mjs:50:  // Back-compat: appendTaskEvent(pool, kind, payloadObj, optsObj)
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/task-events.mjs:74:    throw new Error("phase25: appendTaskEvent missing pool");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/task-events.mjs:99:    throw new Error(`appendTaskEvent: run_id is required for kind=${__k_for_runid}`);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/task-events.mjs:136:    // Ensure payload is JSONB-safe when task_events.payload is jsonb.
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/task-events.mjs:143:        "select 1 as ok from task_events where kind=$1::text and payload=$2::jsonb limit 1",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/task-events.mjs:161:        "select kind from task_events where kind = any($1::text[]) and payload like $2 order by id desc limit 1",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/task-events.mjs:172:      "insert into task_events(kind, task_id, run_id, actor, ts, payload) values ($1::text, $2::text, $3::text, $4::text, $5::bigint, $6::jsonb)",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/api/tasks-mutations/delegate-taskspec.mjs:27: * - Calls dbDelegateTask(...) to create the task (existing system)
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/api/tasks-mutations/delegate-taskspec.mjs:28: * - Inserts into task_events(kind="task.created") so /events/task-events advances
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/api/tasks-mutations/delegate-taskspec.mjs:58:    const dbDelegateTask = deps?.dbDelegateTask;
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/api/tasks-mutations/delegate-taskspec.mjs:61:    if (typeof dbDelegateTask !== "function") {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/api/tasks-mutations/delegate-taskspec.mjs:62:      return res.status(500).json({ ok: false, error: "missing_dbDelegateTask", details: "dbDelegateTask not available" });
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/api/tasks-mutations/delegate-taskspec.mjs:66:    const created = await dbDelegateTask(db, {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/worker/phase26_task_worker.mjs:5:import { emitTaskEvent } from "../task_events_emit.mjs";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/worker/phase26_task_worker.mjs:178:        await emitTaskEvent({
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/worker/phase26_task_worker.mjs:195:            await emitTaskEvent({
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/worker/phase26_task_worker.mjs:218:          await emitTaskEvent({
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/api-tasks-postgres.mjs:5:import { emitTaskEvent } from "../task_events_emit.mjs";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/api-tasks-postgres.mjs:100:    // (workers claim from tasks, not task_events)
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/api-tasks-postgres.mjs:123:    const evt = await emitTaskEvent({
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/api-tasks-postgres.mjs:163:    const evt = await emitTaskEvent({
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/api-tasks-postgres.mjs:201:    const evt = await emitTaskEvent({
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/api-tasks-postgres.mjs:242:    const evt = await emitTaskEvent({
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/api-tasks-mutations.mjs:2:import { dbDelegateTask, dbCompleteTask } from "../tasks-mutations.mjs";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/api-tasks-mutations.mjs:20:    const row = await dbDelegateTask(pool, _asJson(req));
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/api-tasks-mutations.mjs:32:      const row = await dbCompleteTask(pool, {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/api-tasks-mutations.mjs:47:      const row = await dbCompleteTask(pool, {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/phase40_6_shadow_audit_task_events.mjs:5:  app.get("/api/shadow/audit/task-events", async (req, res) => {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/phase40_6_shadow_audit_task_events.mjs:6:    const sqlPath = join(process.cwd(), "server", "sql", "phase40_6_shadow_audit_task_events.sql");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/phase40_6_shadow_audit_task_events.mjs:39:        scope: "phase40.6.shadow-audit.task-events",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/phase40_6_shadow_audit_task_events.mjs:48:        scope: "phase40.6.shadow-audit.task-events",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/task-events-sse.mjs:55:router.get("/api/task-events-sse", (req, res) => {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/task-events-sse.mjs:56:  res.redirect(307, "/events/task-events");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/task-events-sse.mjs:59:router.get("/events/task-events", async (req, res) => {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/task-events-sse.mjs:75:        kind: "task-events",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/task-events-sse.mjs:99:        from task_events
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/task-events-sse.mjs:108:        kind: "task-events",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/task-events-sse.mjs:141:          from task_events
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/task-events-sse.mjs:172:            kind: "task-events",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/task-events-sse.mjs:173:            msg: "task-events stream error",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/task-events-sse.mjs:200:        kind: "task-events",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/task-events-sse.mjs:201:        msg: "task-events stream bootstrap error",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/phase48_policy_probe.mjs:24:    // task_events(kind, payload, created_at, task_id, run_id, actor, ts, ...)
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/phase48_policy_probe.mjs:49:      insert into task_events(kind, task_id, run_id, actor, ts, payload)
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/db_bootstrap_task_events_table.mjs:7:    create table if not exists task_events (
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/db_bootstrap_task_events_table.mjs:20:    create index if not exists idx_task_events_ts
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/db_bootstrap_task_events_table.mjs:21:    on task_events (ts asc, id asc)
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/db_bootstrap_task_events_table.mjs:25:    create index if not exists idx_task_events_task_id
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/db_bootstrap_task_events_table.mjs:26:    on task_events (task_id)
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/db_bootstrap_task_events_table.mjs:30:    create index if not exists idx_task_events_kind
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/db_bootstrap_task_events_table.mjs:31:    on task_events (kind)
+
+=== FILE: /Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/task_events_emit.mjs ===
+import { appendTaskEvent } from "./task-events.mjs";
+console.log("[phase25] task_events_emit loaded", new Date().toISOString(), "file=", import.meta.url);
+function ms() { return Date.now(); }
+
+export async function emitTaskEvent({ pool, kind, task_id, run_id = null, actor = null, payload = null }) {
+  console.log("[phase25] emitTaskEvent ENTER", { ts: Date.now(), kind, task_id, hasGlobal: !!globalThis.__DB_POOL, globalType: globalThis.__DB_POOL?.constructor?.name });
+  // [phase25] tolerate import-order: allow callers to omit pool and use global singleton
+  pool = pool || globalThis.__DB_POOL;
+  console.log("[phase25] emitTaskEvent BEFORE CHECK", { hasArg: !!pool, hasGlobal: !!globalThis.__DB_POOL, globalType: globalThis.__DB_POOL?.constructor?.name, argType: pool?.constructor?.name });
+  console.log("[phase25] emitTaskEvent pool", { arg: !!pool, argType: pool?.constructor?.name, hasGlobal: !!globalThis.__DB_POOL, globalType: globalThis.__DB_POOL?.constructor?.name });
+
+    // [phase25] tolerate import-order: allow callers to omit pool and use global singleton
+if (!pool) throw new Error("emitTaskEvent: pool required");
+  if (!kind) throw new Error("emitTaskEvent: kind required");
+
+  const obj = {
+    task_id: task_id ?? null,
+    run_id: run_id ?? null,
+    actor: actor ?? null,
+    ts: ms(),
+    ...(payload && typeof payload === "object" ? payload : {}),
+  };
+
+  return appendTaskEvent(pool, kind, obj, undefined, {
+
+    run_id: obj.run_id ?? null,
+
+    actor: obj.actor ?? null,
+
+    ts: obj.ts ?? null,
+
+    payload: obj,
+
+  });
+}
+export async function writeTaskEvent(pool, kind, obj) {
+  if (!pool) throw new Error("writeTaskEvent: pool required");
+  if (!kind) throw new Error("writeTaskEvent: kind required");
+  return appendTaskEvent(pool, kind, obj);
+}
+
+=== FILE: /Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/task-events.mjs ===
+import { assertNotEnforced } from "./policy/enforce.mjs";
+/**
+ * Legacy task_events schema in your docker DB:
+ *   task_events(id bigint, kind text, payload text, created_at text)
+ *
+ * So we store payload as JSON string into the text column.
+ *
+ * SINGLE AUTHORITATIVE TASK EVENT WRITER — Phase 25 contract enforced.
+ */
+
+const __PHASE25_LIFECYCLE_KINDS = new Set([
+  "task.created",
+  "task.queued",
+  "task.started",
+  "task.progress",
+  "task.completed",
+  "task.failed",
+  "task.canceled",
+]);
+
+const __PHASE25_TERMINAL_KINDS = new Set([
+  "task.completed",
+  "task.failed",
+  "task.canceled",
+]);
+
+function __phase25_taskIdFromObj(obj) {
+  return obj?.task_id ?? obj?.taskId ?? obj?.task?.id ?? null;
+}
+export async function appendTaskEvent(pool, kind, task_id, payload, opts = undefined) {
+  // Phase50: DB write-path enforcement (task_events)
+  assertNotEnforced("task_events.append");
+
+  pool = pool || globalThis.__DB_POOL;
+  if (!pool) throw new Error("appendTaskEvent: missing pool");
+  // Phase25 contract: server is the single authoritative writer of task_events.
+  // IMPORTANT: callers historically pass (pool, kind, payloadObj). We keep that shape.
+  // - If `task_id` is actually the payload (object/string) we treat it as payload and infer task_id.
+  // - pool may be omitted; we fall back to globalThis.__DB_POOL.
+
+  const o = (opts && typeof opts === "object") ? opts : {};
+  const now = Date.now();
+
+  // Back-compat: appendTaskEvent(pool, kind, payloadObj)
+  let payloadIn = payload;
+  let taskIdIn = task_id;
+
+  
+
+  // Back-compat: appendTaskEvent(pool, kind, payloadObj, optsObj)
+  // If caller passes 3rd arg as payload and 4th arg as opts, detect + normalize.
+  if (
+    opts === undefined &&
+    payloadIn !== undefined &&
+    payloadIn !== null &&
+    typeof payloadIn === "object" &&
+    (("actor" in payloadIn) || ("run_id" in payloadIn) || ("runId" in payloadIn) || ("ts" in payloadIn)) &&
+    taskIdIn !== undefined &&
+    taskIdIn !== null &&
+    typeof taskIdIn === "object"
+  ) {
+    opts = payloadIn;      // 4th arg was actually opts
+    payloadIn = taskIdIn;  // 3rd arg was actually payload
+    taskIdIn = null;
+  }
+if (payload === undefined && task_id !== undefined && task_id !== null) {
+    // called as (pool, kind, payload)
+    payloadIn = task_id;
+    taskIdIn = null;
+  }
+
+  // pool resolution
+  if (!pool || typeof pool.query !== "function") {
+    throw new Error("phase25: appendTaskEvent missing pool");
+  }
+
+  const actor =
+    (o.actor && String(o.actor)) ||
+    process.env.PHASE26_WORKER_ACTOR ||
+    process.env.WORKER_OWNER ||
+    "server";
+
+  const run_id = (o.run_id === undefined) ? null : o.run_id;
+  
+
+  // DB constraint: run_id required for non-created events.
+  // Try to infer from payload if missing.
+  let __run_id = run_id;
+  // Prefer normalized opts (after call-shape shim) if present.
+  if (__run_id == null && opts && typeof opts === "object") {
+    __run_id = opts.run_id ?? opts.runId ?? null;
+  }
+  // Fallback: infer from payload if caller embedded it there.
+  if (__run_id == null && payloadIn && typeof payloadIn === "object") {
+    __run_id = payloadIn.run_id ?? payloadIn.runId ?? null;
+  }
+  const __k_for_runid = String(kind || "");
+  if (__k_for_runid !== "task.created" && __run_id == null) {
+    throw new Error(`appendTaskEvent: run_id is required for kind=${__k_for_runid}`);
+  }
+const ts = Number.isFinite(o.ts) ? Number(o.ts) : now;
+
+  // Normalize kind + task_id
+  const k = String(kind || "");
+
+  function __phase25_taskIdFromObj(obj) {
+    return obj?.task_id ?? obj?.taskId ?? obj?.task?.id ?? null;
+  }
+
+  const inferredTaskId =
+    (taskIdIn == null ? __phase25_taskIdFromObj(payloadIn) : taskIdIn);
+
+  // payload text + jsonb (best-effort parse)
+  let payloadText = "";
+  let payloadJson = null;
+
+  try {
+    if (payloadIn === null || payloadIn === undefined) payloadText = "";
+    else if (typeof payloadIn === "string") payloadText = payloadIn;
+    else payloadText = JSON.stringify(payloadIn);
+  } catch {
+    payloadText = String(payloadIn);
+  }
+
+  if (o.payload_json !== undefined) {
+    payloadJson = o.payload_json;
+  } else if (payloadIn && typeof payloadIn === "object") {
+    payloadJson = payloadIn;
+  } else if (typeof payloadText === "string" && payloadText.length) {
+    try { payloadJson = JSON.parse(payloadText); } catch { payloadJson = null; }
+  }
+  if (payloadJson === undefined) payloadJson = null;
+
+  
+
+    // Ensure payload is JSONB-safe when task_events.payload is jsonb.
+    if (payloadJson === null && typeof payloadText === "string" && payloadText.length) {
+      payloadJson = { text: payloadText };
+    }
+// Phase 25: Exact-dupe idempotency — if exact (kind,payload) already exists, do nothing.
+  try {
+    const dup = await pool.query(
+        "select 1 as ok from task_events where kind=$1::text and payload=$2::jsonb limit 1",
+        [k, payloadJson]
+      );
+    if (dup && (dup.rowCount || dup.rows?.length)) return;
+  } catch (_) {
+    // If dedupe query fails, continue (do not block writes).
+  }
+
+  // Phase 25: Terminal lockout — reject non-terminal lifecycle events after terminal.
+  const __PHASE25_LIFECYCLE_KINDS = new Set([
+    "task.created","task.queued","task.started","task.progress","task.completed","task.failed","task.canceled",
+  ]);
+  const __PHASE25_TERMINAL_KINDS = new Set(["task.completed","task.failed","task.canceled"]);
+
+  if (__PHASE25_LIFECYCLE_KINDS.has(k) && inferredTaskId && !__PHASE25_TERMINAL_KINDS.has(k)) {
+    try {
+      const like = `%\\\"task_id\\\":\\\"${String(inferredTaskId)}\\\"%`;
+      const term = await pool.query(
+        "select kind from task_events where kind = any($1::text[]) and payload like $2 order by id desc limit 1",
+        [Array.from(__PHASE25_TERMINAL_KINDS), like]
+      );
+      const tk = term?.rows?.[0]?.kind;
+      if (tk) throw new Error(`phase25: reject post-terminal event kind=${k} after=${tk}`);
+    } catch (e) {
+      if (String(e?.message || "").startsWith("phase25:")) throw e;
+    }
+  }
+
+  await pool.query(
+      "insert into task_events(kind, task_id, run_id, actor, ts, payload) values ($1::text, $2::text, $3::text, $4::text, $5::bigint, $6::jsonb)",
+      [k, (inferredTaskId == null ? null : String(inferredTaskId)), __run_id, actor, ts, payloadJson]
+    );
+}
+
+
+
+
+=== FILE: /Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/tasks-mutations.mjs ===
+import { randomUUID } from "node:crypto";
+import { emitTaskEvent } from "./task_events_emit.mjs";
+import { assertNotEnforced } from "./policy/enforce.mjs";
+
+function normalizeTaskId(body = {}) {
+  return body?.task_id || body?.taskId || `task.${randomUUID()}`;
+}
+
+function normalizeTitle(body = {}) {
+  return (
+    body?.title ||
+    body?.prompt ||
+    body?.message ||
+    body?.text ||
+    body?.task ||
+    "Delegated task"
+  );
+}
+
+function buildPayload(body = {}) {
+  return {
+    agent: body?.agent || "cade",
+    source: body?.source || "api",
+    trace_id: body?.trace_id || body?.traceId || null,
+    meta: body?.meta || null,
+  };
+}
+
+export async function dbDelegateTask(pool, body = {}) {
+  assertNotEnforced("tasks.mutations");
+
+  const task_id = normalizeTaskId(body);
+  const title = normalizeTitle(body);
+  const status = "queued";
+  const notes = body?.notes || "";
+  const run_id = body?.run_id || body?.runId || null;
+  const action_tier = body?.action_tier || body?.actionTier || "A";
+  const kind = body?.kind || "delegated";
+  const payload = buildPayload(body);
+
+  const r = await pool.query(
+    `insert into tasks (
+      task_id,
+      title,
+      status,
+      notes,
+      run_id,
+      action_tier,
+      kind,
+      payload
+    )
+    values ($1, $2, $3, $4, $5, $6, $7, $8::jsonb)
+    returning
+      id::text,
+      task_id,
+      title,
+      status,
+      notes,
+      run_id,
+      action_tier,
+      kind,
+      payload,
+      created_at,
+      updated_at`,
+    [
+      task_id,
+      title,
+      status,
+      notes,
+      run_id,
+      action_tier,
+      kind,
+      JSON.stringify(payload),
+    ],
+  );
+
+  const row = r.rows?.[0];
+
+  await emitTaskEvent({
+    pool,
+    kind: "task.created",
+    task_id: row?.task_id ?? task_id,
+    actor: body?.actor ?? body?.agent ?? payload.agent ?? payload.source,
+    payload: {
+      source: payload.source,
+      title: row?.title ?? title,
+      target: payload.agent,
+      status: row?.status ?? status,
+      task: row ?? null,
+      meta: payload.meta,
+    },
+  });
+
+  return row;
+}
+
+export async function dbCompleteTask(pool, body = {}) {
+  assertNotEnforced("tasks.mutations");
+
+  const id = body?.task_id ?? body?.taskId ?? body?.id;
+  const int_id = String(id || "").match(/^\d+$/) ? Number(id) : null;
+  if (!id) throw new Error("taskId required");
+
+  const status = body?.status || "done";
+  const notePatch =
+    body?.notes ??
+    body?.error ??
+    body?.message ??
+    null;
+
+  const r = await pool.query(
+    `update tasks
+       set status = $3,
+           notes = coalesce($4, notes),
+           updated_at = now()
+     where (id = $1) or (task_id = $2)
+     returning
+       id::text,
+       task_id,
+       title,
+       status,
+       notes,
+       run_id,
+       action_tier,
+       kind,
+       payload,
+       created_at,
+       updated_at`,
+    [int_id, String(id), status, notePatch],
+  );
+
+  if (!r.rows?.[0]) throw new Error(`task not found: ${id}`);
+
+  const row = r.rows[0];
+  const k = body?.kind ?? body?.event_kind ?? body?.eventKind ?? "task.event";
+  const payload = row?.payload && typeof row.payload === "object" ? row.payload : {};
+
+  await emitTaskEvent({
+    pool,
+    kind: k,
+    task_id: row.task_id ?? row.id,
+    actor: body?.actor ?? body?.agent ?? payload.agent ?? body?.source ?? "api",
+    payload: {
+      status: row.status,
+      error: body?.error ?? null,
+      source: body?.source || payload.source || "api",
+      task: row,
+    },
+  });
+
+  return row;
+}
+
+=== FILE: /Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/api/tasks-mutations/delegate-taskspec.mjs ===
+import { assertActionTierInvariant } from "../../guards/phase44_runtime_integrity_guard.mjs";
+// PHASE39_ACTION_TIER: structural value-alignment scaffolding (A default; B/C require disclosures)
+function __mbNormalizeTier(x) {
+  const v = String(x ?? 'A').trim().toUpperCase();
+  return (v === 'B' || v === 'C') ? v : 'A';
+}
+function __mbRequireDisclosureIfBC(tier, title, body) {
+  if (tier === 'A') return;
+  const t = String(title ?? '').trim();
+  const b = String(body ?? '').trim();
+  if (!t || !b) {
+    const err = new Error('Tier B/C requires tier_disclosure_title and tier_disclosure_body');
+    err.code = 'TIER_DISCLOSURE_REQUIRED';
+    throw err;
+  }
+}
+
+/**
+ * Phase 23: TaskSpec adapter
+ * POST /api/tasks-mutations/delegate-taskspec
+ *
+ * Accepts:
+ * - { task: { target:"cade"|"effie"|"atlas", title?, spec?, task_id? } }
+ * - { task: { agent:"cade"|"effie"|"atlas",  title?, spec?, task_id? } }  (alias)
+ *
+ * Behavior:
+ * - Calls dbDelegateTask(...) to create the task (existing system)
+ * - Inserts into task_events(kind="task.created") so /events/task-events advances
+ */
+export async function handleDelegateTaskSpec(req, res, deps) {
+  try {
+    const body = req.body ?? {};
+    const taskSpec = body.task ?? body;
+
+    
+  // PHASE39_ACTION_TIER
+  const __action_tier = __mbNormalizeTier(taskSpec?.action_tier ?? taskSpec?.actionTier);
+  const __tier_disclosure_title = taskSpec?.tier_disclosure_title ?? taskSpec?.tierDisclosureTitle;
+  const __tier_disclosure_body  = taskSpec?.tier_disclosure_body  ?? taskSpec?.tierDisclosureBody;
+  __mbRequireDisclosureIfBC(__action_tier, __tier_disclosure_title, __tier_disclosure_body);
+const rawTarget = taskSpec?.target ?? taskSpec?.agent ?? "";
+    const target = String(rawTarget).trim().toLowerCase();
+
+    if (!["cade", "effie", "atlas"].includes(target)) {
+      return res.status(400).json({
+        ok: false,
+        error: "invalid_target",
+        details: "target must be cade|effie|atlas",
+        got: String(rawTarget),
+      });
+    }
+
+    const title = String(taskSpec?.title || "(untitled)");
+    const spec = taskSpec?.spec ?? null;
+    const external_task_id = taskSpec?.task_id ?? null;
+
+    const db = deps?.db;
+    const dbDelegateTask = deps?.dbDelegateTask;
+
+    if (!db?.query) return res.status(500).json({ ok: false, error: "missing_db", details: "db pool not available" });
+    if (typeof dbDelegateTask !== "function") {
+      return res.status(500).json({ ok: false, error: "missing_dbDelegateTask", details: "dbDelegateTask not available" });
+    }
+
+    // Create task using existing db mutation
+    const created = await dbDelegateTask(db, {
+      agent: target,
+      title,
+      notes: "",
+        action_tier: __action_tier,
+        tier_disclosure_title: __tier_disclosure_title ?? null,
+        tier_disclosure_body: __tier_disclosure_body ?? null,
+      source: "matilda",
+      meta: { taskspec: spec, external_task_id },
+    });
+
+    const task = created?.task ?? created;
+    // [Phase 44] Runtime integrity guard: enforce action-tier invariants (fail-fast)
+    try {
+      const __tier = (task?.action_tier ?? action_tier ?? actionTier ?? null);
+      const __id = (task?.action_id ?? task?.task_id ?? task_id ?? actionId ?? action_name ?? "<unknown>");
+      assertActionTierInvariant({ actionTier: __tier, actionId: String(__id) });
+    } catch (e) {
+      e.message = `[RUNTIME_INTEGRITY_GUARD] `;
+      throw e;
+    }
+
+    const task_id = task?.id ?? null;
+    return res.status(200).json({ ok: true, task });
+  } catch (err) {
+    return res.status(((err && err.code==='TIER_DISCLOSURE_REQUIRED') ? 400 : 500)).json({ ok: false, error: "delegate_taskspec_failed", details: String(err?.message || err) });
+  }
+}
+
+=== BASELINE TASK_EVENTS COUNT ===
+1
+
+=== EXERCISE REAL TASK CREATION PATH ===
+POST /api/tasks-mutations/delegate
+HTTP/1.1 500 Internal Server Error
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 77
+ETag: W/"4d-80zCK3PldG8qDi24eKOu3leGniM"
+Date: Tue, 14 Apr 2026 21:15:04 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"ok":false,"error":"column \"run_id\" of relation \"tasks\" does not exist"}
+POST /api/tasks-mutations/delegate-taskspec
+HTTP/1.1 500 Internal Server Error
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 114
+ETag: W/"72-ZpR9sy7ALgZ1SWGCokxIMI75PN8"
+Date: Tue, 14 Apr 2026 21:15:04 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"ok":false,"error":"delegate_taskspec_failed","details":"column \"run_id\" of relation \"tasks\" does not exist"}
+=== TASK_EVENTS COUNT AFTER REAL MUTATION ATTEMPTS ===
+1
+
+=== LATEST 20 TASK_EVENTS ===
+2026-04-14T18:45:26Z | task.created | task=phase489-demo-task | actor=operator | run=phase489-demo-run
+
+=== LIVE TASK ROWS ===
+{"ok":true,"tasks":[]}
+=== NEXT ACTION ===
+If task creation succeeds but task_events count does not grow, the emission path is broken.
+If creation itself fails, fix the mutation route first.

@@ -1,0 +1,9 @@
+Phase 595 agent pool health script wire.
+
+Issue:
+- Agent Pool health indicator file exists.
+- Health indicator is not visible in the UI.
+- Likely cause: script file is not loaded by dashboard.html or the active bundle.
+
+Fix:
+Wire public/js/agent-status-health-indicator.js into dashboard.html after agent-status-probe.js / agent-status-row.js.

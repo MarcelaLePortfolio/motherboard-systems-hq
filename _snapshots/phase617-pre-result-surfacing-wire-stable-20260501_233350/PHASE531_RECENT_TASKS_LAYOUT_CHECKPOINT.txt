@@ -1,0 +1,14 @@
+PHASE 531 RECENT TASKS LAYOUT CHECKPOINT
+
+Outcome:
+- Recent Tasks and Recent Logs now split the Telemetry Console container evenly.
+- Both sections fill their individual halves.
+- Styling and typography are visually normalized.
+- UI state confirmed good by operator.
+
+Checkpoint action:
+- Commit current state.
+- Tag current state.
+- Push branch and tag.
+- Rebuild containers.
+- Capture runtime snapshot.

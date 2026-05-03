@@ -1,0 +1,33 @@
+PHASE 457 - RECOVERY VISUAL COMPARE RELAUNCH (NO POSTGRES HOST PORTS)
+=====================================================================
+
+PURPOSE
+Relaunch all recovery comparison candidates with dashboard host ports only.
+Postgres remains internal to each compose project so 5432 host conflicts cannot block startup.
+
+NAME=phase65_layout
+BRANCH=recovery/phase65_layout
+WORKTREE=../mbhq_recovery_visual_compare/phase65_layout
+PROJECT=mbhq_phase65_layout
+URL=http://localhost:8081
+LOG=docs/recovery_full_audit/phase65_layout_relaunch_port_8081.txt
+OVERRIDE=../mbhq_recovery_visual_compare/phase65_layout/docker-compose.phase457.override.yml
+
+NAME=phase65_wiring
+BRANCH=recovery/phase65_wiring
+WORKTREE=../mbhq_recovery_visual_compare/phase65_wiring
+PROJECT=mbhq_phase65_wiring
+URL=http://localhost:8082
+LOG=docs/recovery_full_audit/phase65_wiring_relaunch_port_8082.txt
+OVERRIDE=../mbhq_recovery_visual_compare/phase65_wiring/docker-compose.phase457.override.yml
+
+NAME=operator_guidance
+BRANCH=recovery/operator_guidance
+WORKTREE=../mbhq_recovery_visual_compare/operator_guidance
+PROJECT=mbhq_operator_guidance
+URL=http://localhost:8083
+LOG=docs/recovery_full_audit/operator_guidance_relaunch_port_8083.txt
+OVERRIDE=../mbhq_recovery_visual_compare/operator_guidance/docker-compose.phase457.override.yml
+
+DETERMINISTIC EXPECTATION
+If the original failure was host port 5432 contention, these launches should now start.

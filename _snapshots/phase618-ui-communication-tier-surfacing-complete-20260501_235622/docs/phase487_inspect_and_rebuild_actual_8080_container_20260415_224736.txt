@@ -1,0 +1,1503 @@
+PHASE 487 — INSPECT AND REBUILD ACTUAL 8080 CONTAINER
+timestamp=20260415_224736
+branch=phase119-dashboard-cognition-contract
+commit=69bdb47ae03d26f37354f2d3be319f9dba55a47b
+container_id=36a625908492
+container_name=motherboard_systems_hq-dashboard-1
+
+=== HOST ARTIFACT CHECK ===
+128-                      <div id="operator-guidance-panel" class="mt-4 rounded-xl border border-gray-700 bg-gray-900/70 p-4 min-h-[140px]">
+129-                        <div class="text-xs uppercase tracking-[0.2em] text-gray-500 mb-3">Operator Guidance</div>
+130-                        <div id="operator-guidance-response" class="text-sm text-gray-300 leading-6">
+131:                          Awaiting bounded guidance stream.<br>
+132:                          Live operator guidance will appear here when visibility wiring is active.
+133-                        </div>
+134-                        <div id="operator-guidance-meta" class="mt-3 text-xs text-gray-500 leading-5">
+135:                          Confidence: limited<br>
+136:                          Sources: diagnostics/system-health
+137-                        </div>
+138-                      </div>
+139-                    </div>
+
+=== CONTAINER INSPECT ===
+[
+    {
+        "Id": "36a6259084923a58f2f614b30ecfcb254fbe24bcd3fd8d529bc128015291e124",
+        "Created": "2026-04-16T05:26:58.005036006Z",
+        "Path": "docker-entrypoint.sh",
+        "Args": [
+            "node",
+            "server.mjs"
+        ],
+        "State": {
+            "Status": "running",
+            "Running": true,
+            "Paused": false,
+            "Restarting": false,
+            "OOMKilled": false,
+            "Dead": false,
+            "Pid": 6092,
+            "ExitCode": 0,
+            "Error": "",
+            "StartedAt": "2026-04-16T05:26:59.372330715Z",
+            "FinishedAt": "0001-01-01T00:00:00Z",
+            "Health": {
+                "Status": "healthy",
+                "FailingStreak": 0,
+                "Log": [
+                    {
+                        "Start": "2026-04-16T05:45:23.054883134Z",
+                        "End": "2026-04-16T05:45:23.108195051Z",
+                        "ExitCode": 0,
+                        "Output": ""
+                    },
+                    {
+                        "Start": "2026-04-16T05:45:53.098275843Z",
+                        "End": "2026-04-16T05:45:53.159693593Z",
+                        "ExitCode": 0,
+                        "Output": ""
+                    },
+                    {
+                        "Start": "2026-04-16T05:46:23.179787676Z",
+                        "End": "2026-04-16T05:46:23.225371759Z",
+                        "ExitCode": 0,
+                        "Output": ""
+                    },
+                    {
+                        "Start": "2026-04-16T05:46:53.229502093Z",
+                        "End": "2026-04-16T05:46:53.275131301Z",
+                        "ExitCode": 0,
+                        "Output": ""
+                    },
+                    {
+                        "Start": "2026-04-16T05:47:23.280976259Z",
+                        "End": "2026-04-16T05:47:23.330989634Z",
+                        "ExitCode": 0,
+                        "Output": ""
+                    }
+                ]
+            }
+        },
+        "Image": "sha256:16810e3556b53ff0bcb1a418bc916e1cf7d21cbc680db59180c19db77e1c5f2c",
+        "ResolvConfPath": "/var/lib/docker/containers/36a6259084923a58f2f614b30ecfcb254fbe24bcd3fd8d529bc128015291e124/resolv.conf",
+        "HostnamePath": "/var/lib/docker/containers/36a6259084923a58f2f614b30ecfcb254fbe24bcd3fd8d529bc128015291e124/hostname",
+        "HostsPath": "/var/lib/docker/containers/36a6259084923a58f2f614b30ecfcb254fbe24bcd3fd8d529bc128015291e124/hosts",
+        "LogPath": "/var/lib/docker/containers/36a6259084923a58f2f614b30ecfcb254fbe24bcd3fd8d529bc128015291e124/36a6259084923a58f2f614b30ecfcb254fbe24bcd3fd8d529bc128015291e124-json.log",
+        "Name": "/motherboard_systems_hq-dashboard-1",
+        "RestartCount": 0,
+        "Driver": "overlayfs",
+        "Platform": "linux",
+        "MountLabel": "",
+        "ProcessLabel": "",
+        "AppArmorProfile": "",
+        "ExecIDs": null,
+        "HostConfig": {
+            "Binds": null,
+            "ContainerIDFile": "",
+            "LogConfig": {
+                "Type": "json-file",
+                "Config": {}
+            },
+            "NetworkMode": "motherboard_systems_hq_default",
+            "PortBindings": {
+                "3000/tcp": [
+                    {
+                        "HostIp": "",
+                        "HostPort": "8080"
+                    }
+                ]
+            },
+            "RestartPolicy": {
+                "Name": "no",
+                "MaximumRetryCount": 0
+            },
+            "AutoRemove": false,
+            "VolumeDriver": "",
+            "VolumesFrom": null,
+            "ConsoleSize": [
+                0,
+                0
+            ],
+            "CapAdd": null,
+            "CapDrop": null,
+            "CgroupnsMode": "private",
+            "Dns": null,
+            "DnsOptions": null,
+            "DnsSearch": null,
+            "ExtraHosts": [],
+            "GroupAdd": null,
+            "IpcMode": "private",
+            "Cgroup": "",
+            "Links": null,
+            "OomScoreAdj": 0,
+            "PidMode": "",
+            "Privileged": false,
+            "PublishAllPorts": false,
+            "ReadonlyRootfs": false,
+            "SecurityOpt": null,
+            "UTSMode": "",
+            "UsernsMode": "",
+            "ShmSize": 67108864,
+            "Runtime": "runc",
+            "Isolation": "",
+            "CpuShares": 0,
+            "Memory": 0,
+            "NanoCpus": 0,
+            "CgroupParent": "",
+            "BlkioWeight": 0,
+            "BlkioWeightDevice": null,
+            "BlkioDeviceReadBps": null,
+            "BlkioDeviceWriteBps": null,
+            "BlkioDeviceReadIOps": null,
+            "BlkioDeviceWriteIOps": null,
+            "CpuPeriod": 0,
+            "CpuQuota": 0,
+            "CpuRealtimePeriod": 0,
+            "CpuRealtimeRuntime": 0,
+            "CpusetCpus": "",
+            "CpusetMems": "",
+            "Devices": null,
+            "DeviceCgroupRules": null,
+            "DeviceRequests": null,
+            "MemoryReservation": 0,
+            "MemorySwap": 0,
+            "MemorySwappiness": null,
+            "OomKillDisable": null,
+            "PidsLimit": null,
+            "Ulimits": null,
+            "CpuCount": 0,
+            "CpuPercent": 0,
+            "IOMaximumIOps": 0,
+            "IOMaximumBandwidth": 0,
+            "MaskedPaths": [
+                "/proc/acpi",
+                "/proc/asound",
+                "/proc/interrupts",
+                "/proc/kcore",
+                "/proc/keys",
+                "/proc/latency_stats",
+                "/proc/sched_debug",
+                "/proc/scsi",
+                "/proc/timer_list",
+                "/proc/timer_stats",
+                "/sys/devices/virtual/powercap",
+                "/sys/firmware"
+            ],
+            "ReadonlyPaths": [
+                "/proc/bus",
+                "/proc/fs",
+                "/proc/irq",
+                "/proc/sys",
+                "/proc/sysrq-trigger"
+            ]
+        },
+        "GraphDriver": {
+            "Data": null,
+            "Name": ""
+        },
+        "Mounts": [],
+        "Config": {
+            "Hostname": "36a625908492",
+            "Domainname": "",
+            "User": "",
+            "AttachStdin": false,
+            "AttachStdout": true,
+            "AttachStderr": true,
+            "ExposedPorts": {
+                "3000/tcp": {}
+            },
+            "Tty": false,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": [
+                "POLICY_SHADOW_ENABLED=0",
+                "GIT_SHA=unknown",
+                "POLICY_ENFORCE_ENABLED=0",
+                "POSTGRES_URL=postgres://postgres:postgres@postgres:5432/postgres",
+                "PGUSER=postgres",
+                "PGHOST=postgres",
+                "POLICY_ENFORCE_MODE=",
+                "PGPORT=5432",
+                "PGDATABASE=postgres",
+                "PGPASSWORD=postgres",
+                "BUILD_TIME=unknown",
+                "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                "NODE_VERSION=20.20.2",
+                "YARN_VERSION=1.22.22"
+            ],
+            "Cmd": [
+                "node",
+                "server.mjs"
+            ],
+            "Healthcheck": {
+                "Test": [
+                    "CMD-SHELL",
+                    "curl -fsS http://127.0.0.1:3000/api/health \u003e/dev/null || exit 1"
+                ],
+                "Interval": 30000000000,
+                "Timeout": 5000000000,
+                "StartPeriod": 20000000000,
+                "Retries": 3
+            },
+            "Image": "motherboard_systems_hq-dashboard",
+            "Volumes": null,
+            "WorkingDir": "/app",
+            "Entrypoint": [
+                "docker-entrypoint.sh"
+            ],
+            "OnBuild": null,
+            "Labels": {
+                "com.docker.compose.config-hash": "3f15fd6010f5229864ee20e2569fcdc286a9dc4246dbde6c71a64e16ce871f89",
+                "com.docker.compose.container-number": "1",
+                "com.docker.compose.depends_on": "postgres:service_started:false",
+                "com.docker.compose.image": "sha256:16810e3556b53ff0bcb1a418bc916e1cf7d21cbc680db59180c19db77e1c5f2c",
+                "com.docker.compose.oneoff": "False",
+                "com.docker.compose.project": "motherboard_systems_hq",
+                "com.docker.compose.project.config_files": "/Users/marcela-dev/Projects/Motherboard_Systems_HQ/docker-compose.yml,/Users/marcela-dev/Projects/Motherboard_Systems_HQ/docker-compose.override.yml",
+                "com.docker.compose.project.working_dir": "/Users/marcela-dev/Projects/Motherboard_Systems_HQ",
+                "com.docker.compose.replace": "dashboard-1",
+                "com.docker.compose.service": "dashboard",
+                "com.docker.compose.version": "2.40.3"
+            },
+            "StopTimeout": 1
+        },
+        "NetworkSettings": {
+            "Bridge": "",
+            "SandboxID": "413ac8c41459ec4e2000c7232a9e3fe194cb6256400bc5401318c45915b5d9b2",
+            "SandboxKey": "/var/run/docker/netns/413ac8c41459",
+            "Ports": {
+                "3000/tcp": [
+                    {
+                        "HostIp": "0.0.0.0",
+                        "HostPort": "8080"
+                    },
+                    {
+                        "HostIp": "::",
+                        "HostPort": "8080"
+                    }
+                ]
+            },
+            "HairpinMode": false,
+            "LinkLocalIPv6Address": "",
+            "LinkLocalIPv6PrefixLen": 0,
+            "SecondaryIPAddresses": null,
+            "SecondaryIPv6Addresses": null,
+            "EndpointID": "",
+            "Gateway": "",
+            "GlobalIPv6Address": "",
+            "GlobalIPv6PrefixLen": 0,
+            "IPAddress": "",
+            "IPPrefixLen": 0,
+            "IPv6Gateway": "",
+            "MacAddress": "",
+            "Networks": {
+                "motherboard_systems_hq_default": {
+                    "IPAMConfig": null,
+                    "Links": null,
+                    "Aliases": [
+                        "motherboard_systems_hq-dashboard-1",
+                        "dashboard"
+                    ],
+                    "MacAddress": "3a:1c:b3:96:7c:bb",
+                    "DriverOpts": null,
+                    "GwPriority": 0,
+                    "NetworkID": "8e337033a3d4537558b049748a4f8f651a717d7cbad1d1b5edd0158f39ac33e4",
+                    "EndpointID": "527f41f6b88514aa0f287a3913f99f2a17c585ad583f3c1f2aace038ec6e5e96",
+                    "Gateway": "172.18.0.1",
+                    "IPAddress": "172.18.0.3",
+                    "IPPrefixLen": 16,
+                    "IPv6Gateway": "",
+                    "GlobalIPv6Address": "",
+                    "GlobalIPv6PrefixLen": 0,
+                    "DNSNames": [
+                        "motherboard_systems_hq-dashboard-1",
+                        "dashboard",
+                        "36a625908492"
+                    ]
+                }
+            }
+        },
+        "ImageManifestDescriptor": {
+            "mediaType": "application/vnd.oci.image.manifest.v1+json",
+            "digest": "sha256:eab27cf099c44cb19992efdbaa81d179558f4d1da59078401abaa7475bdfd48c",
+            "size": 2189,
+            "platform": {
+                "architecture": "arm64",
+                "os": "linux"
+            }
+        }
+    }
+]
+
+=== CONTAINER /app/public/dashboard.html CHECK ===
+128-                      <div id="operator-guidance-panel" class="mt-4 rounded-xl border border-gray-700 bg-gray-900/70 p-4 min-h-[140px]">
+129-                        <div class="text-xs uppercase tracking-[0.2em] text-gray-500 mb-3">Operator Guidance</div>
+130-                        <div id="operator-guidance-response" class="text-sm text-gray-300 leading-6">
+131:                          Awaiting bounded guidance stream.<br>
+132:                          Live operator guidance will appear here when visibility wiring is active.
+133-                        </div>
+134-                        <div id="operator-guidance-meta" class="mt-3 text-xs text-gray-500 leading-5">
+135:                          Confidence: limited<br>
+136:                          Sources: diagnostics/system-health
+137-                        </div>
+138-                      </div>
+139-                    </div>
+
+=== CONTAINER CWD + APP FILES ===
+/app
+total 16960
+drwxr-xr-x    1 root     root         61440 Apr 14 21:42 .
+drwxr-xr-x    1 root     root          4096 Apr 16 05:26 ..
+drwxr-xr-x    5 root     root          4096 Nov 19 18:53 .builds
+-rw-r--r--    1 root     root           278 Apr  7 18:43 .dockerignore
+-rw-r--r--    1 root     root           204 Feb 26 21:41 .env
+-rw-r--r--    1 root     root           654 Oct 27 16:57 .eslintrc.cjs
+drwxr-xr-x    2 root     root          4096 Jan  6 19:44 .githooks
+drwxr-xr-x    3 root     root          4096 Nov 19 18:21 .github
+-rw-r--r--    1 root     root             6 Apr 14 21:30 .phase489_h4_generator.pid
+-rw-r--r--    1 root     root             6 Apr  7 18:43 .phase88_14_10_server.pid
+-rw-r--r--    1 root     root             6 Apr  7 18:43 .phase88_14_5_server.pid
+-rw-r--r--    1 root     root             6 Apr  7 18:43 .phase88_14_7_server.pid
+-rw-r--r--    1 root     root             6 Apr  7 18:43 .phase88_14_server.pid
+-rw-r--r--    1 root     root            11 Jan 28 19:39 .rgignore
+-rw-r--r--    1 root     root        303104 Nov 19 18:21 .server.js.swn
+-rw-r--r--    1 root     root        299008 Nov 19 18:21 .server.js.swo
+drwxr-xr-x    3 root     root          4096 Feb 12 17:36 .tmp
+-rw-r--r--    1 root     root            41 Nov 12 05:18 .ts
+-rw-r--r--    1 root     root          2173 Apr  7 18:43 AGENT_SAFETY_DOCTRINE.md
+-rw-r--r--    1 root     root          1692 Apr  7 18:43 ARCHITECTURE_OVERVIEW.md
+-rw-r--r--    1 root     root          2057 Apr  7 18:43 AUTHORITY_FLOW_CONTRACT.md
+-rw-r--r--    1 root     root            53 Feb 16 21:21 BRANCH_PROTECTION_PROOF.txt
+-rw-r--r--    1 root     root         56341 Apr  7 18:43 CONTAINER_AUTHORITY_MAP_AUDIT.txt
+-rw-r--r--    1 root     root          2030 Apr  7 18:43 CONTAINER_AUTHORITY_RECONCILIATION_SNAPSHOT.md
+-rw-r--r--    1 root     root          1346 Apr  7 18:43 CONTAINER_RECONCILIATION_NEXT_STEP.md
+-rw-r--r--    1 root     root           141 Jan  6 19:44 Dockerfile
+-rw-r--r--    1 root     root           777 Nov 21 19:25 Dockerfile.backup-scheduler
+-rw-r--r--    1 root     root           836 Apr  7 18:43 Dockerfile.dashboard
+-rw-r--r--    1 root     root           467 Nov 24 17:44 Dockerfile.ops-stream
+-rw-r--r--    1 root     root           563 Nov 24 17:45 Dockerfile.reflections-stream
+-rw-r--r--    1 root     root           605 Mar  4 19:42 Dockerfile.worker
+-rw-r--r--    1 root     root          2064 Apr  7 18:43 EXECUTION_SAFETY_BOUNDARY.md
+-rw-r--r--    1 root     root          2727 Apr  7 18:43 GOVERNANCE_ACTIVATION_DECISION_MODEL.md
+-rw-r--r--    1 root     root          3147 Apr  7 18:43 GOVERNANCE_ADVISORY_ENGINE_MODEL.md
+-rw-r--r--    1 root     root          3114 Apr  7 18:43 GOVERNANCE_ADVISORY_PRESENTATION_MODEL.md
+-rw-r--r--    1 root     root          2399 Apr  7 18:43 GOVERNANCE_AUTHORITY_PRESERVATION_MODEL.md
+-rw-r--r--    1 root     root          2884 Apr  7 18:43 GOVERNANCE_CLASSIFICATION_INDEX.md
+-rw-r--r--    1 root     root          3065 Apr  7 18:43 GOVERNANCE_COGNITION_ARCHITECTURE_COMPLETION_MODEL.md
+-rw-r--r--    1 root     root          4032 Apr  7 18:43 GOVERNANCE_COGNITION_BOUNDARIES_MODEL.md
+-rw-r--r--    1 root     root          3582 Apr  7 18:43 GOVERNANCE_COGNITION_CONFIDENCE_MODEL.md
+-rw-r--r--    1 root     root          3437 Apr  7 18:43 GOVERNANCE_COGNITION_CONSTRAINT_SCHEMA_MODEL.md
+-rw-r--r--    1 root     root          3030 Apr  7 18:43 GOVERNANCE_COGNITION_EXPLAINABILITY_MODEL.md
+-rw-r--r--    1 root     root          3767 Apr  7 18:43 GOVERNANCE_COGNITION_FAILURE_MODES_MODEL.md
+-rw-r--r--    1 root     root          4610 Apr  7 18:43 GOVERNANCE_COGNITION_PRESENTATION_MODEL.md
+-rw-r--r--    1 root     root          4849 Apr  7 18:43 GOVERNANCE_COGNITION_PRIORITIZATION_MODEL.md
+-rw-r--r--    1 root     root          4364 Apr  7 18:43 GOVERNANCE_COGNITION_STABILITY_MODEL.md
+-rw-r--r--    1 root     root          3926 Apr  7 18:43 GOVERNANCE_COGNITION_TRANSPARENCY_MODEL.md
+-rw-r--r--    1 root     root          2678 Apr  7 18:43 GOVERNANCE_CONSTRAINT_ACTIVATION_MODEL.md
+-rw-r--r--    1 root     root          4414 Apr  7 18:43 GOVERNANCE_CONSTRAINT_CLASSIFICATION_MODEL.md
+-rw-r--r--    1 root     root          2630 Apr  7 18:43 GOVERNANCE_CONSTRAINT_DISCOVERY_SEMANTICS_MODEL.md
+-rw-r--r--    1 root     root          2489 Apr  7 18:43 GOVERNANCE_CONSTRAINT_LIFECYCLE_MANAGEMENT_MODEL.md
+-rw-r--r--    1 root     root          2726 Apr  7 18:43 GOVERNANCE_CONSTRAINT_REGISTRY_MODEL.md
+-rw-r--r--    1 root     root          3925 Apr  7 18:43 GOVERNANCE_CONSTRAINT_REGISTRY_STRUCTURE.md
+-rw-r--r--    1 root     root          2364 Apr  7 18:43 GOVERNANCE_CONSTRAINT_RISK_CLASSIFICATION_MODEL.md
+-rw-r--r--    1 root     root          5103 Apr  7 18:43 GOVERNANCE_CONSTRAINT_SCHEMA_MODEL.md
+-rw-r--r--    1 root     root          4018 Apr  7 18:43 GOVERNANCE_CONSTRAINT_SCHEMA_PLAN.md
+-rw-r--r--    1 root     root          2370 Apr  7 18:43 GOVERNANCE_CONSTRAINT_VERSIONING_MODEL.md
+-rw-r--r--    1 root     root          2554 Apr  7 18:43 GOVERNANCE_CONTINUATION_NOTES_PHASE_190.txt
+-rw-r--r--    1 root     root          4151 Apr  7 18:43 GOVERNANCE_DECISION_ROUTING_MODEL.md
+-rw-r--r--    1 root     root          3329 Apr  7 18:43 GOVERNANCE_DEPLOYMENT_SAFEGUARDS_MODEL.md
+-rw-r--r--    1 root     root          2731 Apr  7 18:43 GOVERNANCE_DOCTRINE_CONFLICT_RESOLUTION_MODEL.md
+-rw-r--r--    1 root     root          2612 Apr  7 18:43 GOVERNANCE_DOCTRINE_VERIFICATION_MODEL.md
+-rw-r--r--    1 root     root          4494 Apr  7 18:43 GOVERNANCE_ENFORCEMENT_ARCHITECTURE_MODEL.md
+-rw-r--r--    1 root     root          2042 Apr  7 18:43 GOVERNANCE_ENFORCEMENT_BOUNDARY.md
+-rw-r--r--    1 root     root          2732 Apr  7 18:43 GOVERNANCE_ENFORCEMENT_BOUNDARY_MODEL.md
+-rw-r--r--    1 root     root          2600 Apr  7 18:43 GOVERNANCE_ENFORCEMENT_GATE_MODEL.md
+-rw-r--r--    1 root     root          2504 Apr  7 18:43 GOVERNANCE_ENFORCEMENT_READINESS_MODEL.md
+-rw-r--r--    1 root     root          4326 Apr  7 18:43 GOVERNANCE_ENFORCEMENT_TRANSLATION_MAP.md
+-rw-r--r--    1 root     root          4651 Apr  7 18:43 GOVERNANCE_ENFORCEMENT_TRANSLATION_PREPARATION.md
+-rw-r--r--    1 root     root          4010 Apr  7 18:43 GOVERNANCE_EVALUATION_LOCATION_SPEC.md
+-rw-r--r--    1 root     root          3769 Apr  7 18:43 GOVERNANCE_EVALUATION_SEMANTICS.md
+-rw-r--r--    1 root     root          3149 Apr  7 18:43 GOVERNANCE_EVALUATION_SEMANTICS_MODEL.md
+-rw-r--r--    1 root     root          4250 Apr  7 18:43 GOVERNANCE_EXPLAINABILITY_MODEL.md
+-rw-r--r--    1 root     root          3025 Apr  7 18:43 GOVERNANCE_FIRST_CODE_IMPLEMENTATION_READINESS_MODEL.md
+-rw-r--r--    1 root     root          3560 Apr  7 18:43 GOVERNANCE_FIRST_MODULE_SPECIFICATION_MODEL.md
+-rw-r--r--    1 root     root          3492 Apr  7 18:43 GOVERNANCE_IMPLEMENTATION_ENTRY_MODEL.md
+-rw-r--r--    1 root     root          3328 Apr  7 18:43 GOVERNANCE_IMPLEMENTATION_READINESS_MODEL.md
+-rw-r--r--    1 root     root          3383 Apr  7 18:43 GOVERNANCE_INITIAL_INTEGRATION_BOUNDARY_MODEL.md
+-rw-r--r--    1 root     root          2647 Apr  7 18:43 GOVERNANCE_MACHINE_READABLE_DOCTRINE_MODEL.md
+-rw-r--r--    1 root     root          3070 Apr  7 18:43 GOVERNANCE_MATURITY_INDICATORS.md
+-rw-r--r--    1 root     root          2904 Apr  7 18:43 GOVERNANCE_MATURITY_MODEL.md
+-rw-r--r--    1 root     root          3391 Apr  7 18:43 GOVERNANCE_MODULE_CERTIFICATION_PROCESS_MODEL.md
+-rw-r--r--    1 root     root          3303 Apr  7 18:43 GOVERNANCE_MODULE_IMPLEMENTATION_PLANNING_MODEL.md
+-rw-r--r--    1 root     root          3324 Apr  7 18:43 GOVERNANCE_MODULE_SAFETY_INTERFACE_MODEL.md
+-rw-r--r--    1 root     root          2516 Apr  7 18:43 GOVERNANCE_OPERATOR_REVIEW_MODEL.md
+-rw-r--r--    1 root     root          3310 Apr  7 18:43 GOVERNANCE_OPERATOR_VERIFICATION_CONTROLS_MODEL.md
+-rw-r--r--    1 root     root          3400 Apr  7 18:43 GOVERNANCE_PASSIVE_SIGNALS_IMPLEMENTATION_MODEL.md
+-rw-r--r--    1 root     root          4423 Apr  7 18:43 GOVERNANCE_PREREQUISITE_VERIFICATION_MODEL.md
+-rw-r--r--    1 root     root          3274 Apr  7 18:43 GOVERNANCE_PRE_IMPLEMENTATION_SAFETY_GATES_MODEL.md
+-rw-r--r--    1 root     root          2962 Apr  7 18:43 GOVERNANCE_READINESS_MODEL.md
+-rw-r--r--    1 root     root          3929 Apr  7 18:43 GOVERNANCE_README.md
+-rw-r--r--    1 root     root          3451 Apr  7 18:43 GOVERNANCE_REGISTRY_INDEXING_MODEL.md
+-rw-r--r--    1 root     root          2835 Apr  7 18:43 GOVERNANCE_SAFETY_DOCTRINE_INTEGRATION_MODEL.md
+-rw-r--r--    1 root     root          4656 Apr  7 18:43 GOVERNANCE_SAFETY_SIGNAL_MODEL.md
+-rw-r--r--    1 root     root          3199 Apr  7 18:43 GOVERNANCE_SAFETY_VERIFICATION_MODEL.md
+-rw-r--r--    1 root     root          4226 Apr  7 18:43 GOVERNANCE_SIGNAL_CORRELATION_MODEL.md
+-rw-r--r--    1 root     root          4614 Apr  7 18:43 GOVERNANCE_SIGNAL_ESCALATION_MODEL.md
+-rw-r--r--    1 root     root          4146 Apr  7 18:43 GOVERNANCE_SIGNAL_EXPLANATION_MODEL.md
+-rw-r--r--    1 root     root          4464 Apr  7 18:43 GOVERNANCE_SIGNAL_LIFECYCLE_MODEL.md
+-rw-r--r--    1 root     root          3265 Apr  7 18:43 GOVERNANCE_SIGNAL_LIFECYCLE_SAFETY_MODEL.md
+-rw-r--r--    1 root     root          4564 Apr  7 18:43 GOVERNANCE_SIGNAL_NORMALIZATION_RULES.md
+-rw-r--r--    1 root     root          4697 Apr  7 18:43 GOVERNANCE_SIGNAL_TAXONOMY_MODEL.md
+-rw-r--r--    1 root     root          2550 Apr  7 18:43 GOVERNANCE_STABILITY_MODEL.md
+-rw-r--r--    1 root     root          2890 Apr  7 18:43 GOVERNANCE_SYSTEM_SAFETY_CLOSURE_MODEL.md
+-rw-r--r--    1 root     root          2373 Apr  7 18:43 GOVERNANCE_VALIDATION_ARCHITECTURE_MODEL.md
+-rw-r--r--    1 root     root          4086 Apr  7 18:43 GOVERNANCE_VISIBILITY_MAPPING.md
+-rw-r--r--    1 root     root           667 Jan  6 19:44 HANDOFF_PHASE15_OPTIONAL_SSE_DISABLED.md
+-rw-r--r--    1 root     root           316 Jan  6 19:44 HANDOFF_PHASE15_STATUS.md
+-rw-r--r--    1 root     root           814 Jan  6 19:44 HANDOFF_PHASE16_THREAD_STARTER.md
+-rw-r--r--    1 root     root          6552 Apr  7 18:43 HANDOFF_PHASE62B_SUCCESS_VALIDATION_READY_20260317.md
+-rw-r--r--    1 root     root           667 Oct 27 16:57 MILESTONE_2_COMPLETE.txt
+-rw-r--r--    1 root     root           770 Oct 27 16:57 MILESTONE_3_PARTIAL_COMPLETE.txt
+-rw-r--r--    1 root     root           988 Oct 27 16:57 MILESTONE_3_PARTIAL_COMPLETE_2.txt
+-rw-r--r--    1 root     root           222 Jan  6 19:44 Makefile
+-rw-r--r--    1 root     root          3776 Oct 27 16:57 Motherboard_Project_Scope.txt
+-rw-r--r--    1 root     root          1887 Apr  7 18:43 NEXT_SESSION_ENTRYPOINT.md
+-rw-r--r--    1 root     root          2236 Apr  7 18:43 OPERATOR_AUTHORITY_PROTECTION.md
+-rw-r--r--    1 root     root          1536 Dec 12 00:26 PHASE11_AFTER_REBUILD_SUCCESS.md
+-rw-r--r--    1 root     root          1391 Dec 12 00:26 PHASE11_AFTER_STUBS_NEXT_STEP.md
+-rw-r--r--    1 root     root          1350 Dec 18 18:29 PHASE11_BRANCHES.md
+-rw-r--r--    1 root     root          3410 Dec 12 00:26 PHASE11_BUNDLING_CURRENT_STATUS.md
+-rw-r--r--    1 root     root          3131 Dec 12 00:26 PHASE11_BUNDLING_HANDOFF.md
+-rw-r--r--    1 root     root          1431 Dec 12 00:26 PHASE11_BUNDLING_STATUS.md
+-rw-r--r--    1 root     root         11325 Dec 12 00:26 PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md
+-rw-r--r--    1 root     root          5063 Dec 12 00:26 PHASE11_BUNDLING_STEP2_STRATEGY.md
+-rw-r--r--    1 root     root          3046 Dec 12 00:26 PHASE11_BUNDLING_STEP3A_STATUS.md
+-rw-r--r--    1 root     root          3763 Dec 12 00:26 PHASE11_BUNDLING_STEP3B_BROADCAST_STATUS.md
+-rw-r--r--    1 root     root          4277 Dec 12 00:26 PHASE11_BUNDLING_STEP3B_IMPLEMENTATION.md
+-rw-r--r--    1 root     root           343 Dec 12 00:26 PHASE11_BUNDLING_STEP3B_INSPECTION_RUN.md
+-rw-r--r--    1 root     root          2344 Dec 12 00:26 PHASE11_BUNDLING_STEP3B_NEXT_ACTIONS.md
+-rw-r--r--    1 root     root          2724 Dec 12 00:26 PHASE11_BUNDLING_STEP3B_TASK_GRAPH_STATUS.md
+-rw-r--r--    1 root     root          6047 Dec 12 00:26 PHASE11_BUNDLING_STEP3_IMPLEMENTATION_PLAN.md
+-rw-r--r--    1 root     root          1226 Dec 12 00:26 PHASE11_CONTAINER_STATUS.md
+-rw-r--r--    1 root     root          2480 Dec 12 00:26 PHASE11_CONTAINER_STATUS_AFTER_REBUILD.md
+-rw-r--r--    1 root     root          1198 Dec 12 00:26 PHASE11_CURRENT_ACTION.md
+-rw-r--r--    1 root     root           266 Dec 12 00:26 PHASE11_DASHBOARD_BROADCAST_REMOVAL_NOTE.txt
+-rw-r--r--    1 root     root          3901 Dec 12 00:26 PHASE11_DASHBOARD_PHASE11_SESSION_SUMMARY.md
+-rw-r--r--    1 root     root          1768 Dec 12 00:26 PHASE11_DASHBOARD_RENDERING_STATUS.md
+-rw-r--r--    1 root     root          3098 Dec 12 00:26 PHASE11_DASHBOARD_RENDERING_VERIFICATION_CHECKLIST.md
+-rw-r--r--    1 root     root           459 Dec 12 00:26 PHASE11_DASHBOARD_RESTORE.md
+-rw-r--r--    1 root     root           997 Dec 12 00:26 PHASE11_DASHBOARD_SERVER_RUN_LOG.md
+-rw-r--r--    1 root     root          2391 Dec 12 00:26 PHASE11_DASHBOARD_VISUAL_CHECK_HANDOFF.md
+-rw-r--r--    1 root     root          2312 Dec 12 00:26 PHASE11_DASHBOARD_VISUAL_CHECK_NOTES.md
+-rw-r--r--    1 root     root          1721 Dec 12 00:26 PHASE11_DASHBOARD_VISUAL_CHECK_RUN_THIS_NEXT.md
+-rw-r--r--    1 root     root          1364 Dec 12 00:26 PHASE11_DASHBOARD_VISUAL_CHECK_STATUS.md
+-rw-r--r--    1 root     root          1209 Dec 12 00:26 PHASE11_DASHBOARD_VISUAL_CHECK_TODO.md
+-rw-r--r--    1 root     root          4777 Dec 12 00:26 PHASE11_DB_ENDPOINTS_STATUS.md
+-rw-r--r--    1 root     root          1670 Dec 12 00:26 PHASE11_DB_TASK_ENDPOINTS_DEBUG.md
+-rw-r--r--    1 root     root           851 Dec 12 00:26 PHASE11_DELEGATE_TASK_EXECUTION_NOTE.md
+-rw-r--r--    1 root     root           711 Dec 12 00:26 PHASE11_DELEGATE_TASK_QUICKSTART.md
+-rw-r--r--    1 root     root          4402 Dec 12 00:26 PHASE11_DELEGATE_TASK_RESULT.md
+-rw-r--r--    1 root     root           676 Dec 12 00:26 PHASE11_FINAL_PRE_EXECUTION_SIGNAL.md
+-rw-r--r--    1 root     root          5913 Dec 12 00:26 PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md
+-rw-r--r--    1 root     root           449 Dec 12 00:26 PHASE11_IMMEDIATE_RUNTIME_COMMAND.md
+-rw-r--r--    1 root     root          4985 Dec 12 00:26 PHASE11_MATILDA_CHAT_COMPLETION_HANDOFF.md
+-rw-r--r--    1 root     root          7379 Dec 12 00:26 PHASE11_MATILDA_CHAT_UX_PLAN.md
+-rw-r--r--    1 root     root          5922 Dec 12 00:26 PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md
+-rw-r--r--    1 root     root          3102 Dec 12 00:26 PHASE11_NEXT_MICRO_STEPS.md
+-rw-r--r--    1 root     root          1516 Dec 12 00:26 PHASE11_NEXT_RUNTIME_AFTER_STUBS.md
+-rw-r--r--    1 root     root          3183 Dec 12 00:26 PHASE11_NEXT_STEPS_RECOMMENDATION.md
+-rw-r--r--    1 root     root          5291 Dec 12 00:26 PHASE11_OPS_DASHBOARD_VERIFICATION_HANDOFF.md
+-rw-r--r--    1 root     root          4490 Dec 12 00:26 PHASE11_OPS_DASHBOARD_VERIFICATION_LOG.md
+-rw-r--r--    1 root     root            86 Dec 12 00:26 PHASE11_OPS_EVENT_STREAM_HANDOFF.md
+-rw-r--r--    1 root     root          5824 Dec 12 00:26 PHASE11_OPS_EVENT_STREAM_VERIFICATION.md
+-rw-r--r--    1 root     root           404 Dec 12 00:26 PHASE11_OPS_GLOBALS_STATUS.md
+-rw-r--r--    1 root     root          1384 Dec 12 00:26 PHASE11_OPS_PILL_BROWSER_CHECK.md
+-rw-r--r--    1 root     root          1107 Dec 12 00:26 PHASE11_OPS_PILL_BUNDLED_STABLE_TAG.md
+-rw-r--r--    1 root     root           706 Dec 12 00:26 PHASE11_OPS_PILL_NO_SIGNAL_DIAG.md
+-rw-r--r--    1 root     root           223 Dec 12 00:26 PHASE11_OPS_PILL_NO_SIGNAL_GREPS.md
+-rw-r--r--    1 root     root            45 Dec 12 00:26 PHASE11_OPS_PILL_REBUILD_MARKER.md
+-rw-r--r--    1 root     root            97 Dec 12 00:26 PHASE11_OPS_PILL_REVERT_TO_V11_3_NOTE.md
+-rw-r--r--    1 root     root           489 Dec 12 00:26 PHASE11_OPS_PILL_STATUS.md
+-rw-r--r--    1 root     root          1731 Dec 12 00:26 PHASE11_OPS_PILL_STEP1_STATUS.md
+-rw-r--r--    1 root     root          3707 Dec 18 18:29 PHASE11_OPS_SSE_DISABLED.md
+-rw-r--r--    1 root     root          1852 Dec 12 00:26 PHASE11_OPS_SSE_RUNTIME_CHECK.md
+-rw-r--r--    1 root     root          3374 Dec 12 00:26 PHASE11_OPS_SSE_RUNTIME_LOG.md
+-rw-r--r--    1 root     root           160 Dec 12 00:26 PHASE11_QUICK_CHECK_BUTTON_COMPLETION.md
+-rw-r--r--    1 root     root          1461 Dec 12 00:26 PHASE11_READY_FOR_CONTAINER_REBUILD.md
+-rw-r--r--    1 root     root           843 Dec 12 00:26 PHASE11_REBUILD_RUN_2_NOTE.md
+-rw-r--r--    1 root     root          4010 Dec 12 00:26 PHASE11_RECOMMENDED_NEXT_STEP.md
+-rw-r--r--    1 root     root          2844 Dec 18 18:29 PHASE11_REFLECTIONS_SSE_BACKEND_TODO.md
+-rw-r--r--    1 root     root          4971 Dec 18 18:29 PHASE11_REFLECTIONS_SSE_SHIM_STATUS.md
+-rw-r--r--    1 root     root          1408 Dec 12 00:26 PHASE11_RUNTIME_ENTRYPOINT.md
+-rw-r--r--    1 root     root           143 Dec 12 00:26 PHASE11_RUNTIME_SINGLE_LINE.md
+-rw-r--r--    1 root     root          1247 Dec 12 00:26 PHASE11_RUNTIME_STATUS.md
+-rw-r--r--    1 root     root          1107 Dec 12 00:26 PHASE11_RUNTIME_TODO.md
+-rw-r--r--    1 root     root          1163 Dec 12 00:26 PHASE11_RUN_THIS_NOW.md
+-rw-r--r--    1 root     root           376 Dec 12 00:26 PHASE11_SERVERMJS_ROUTE_FIX.md
+-rw-r--r--    1 root     root          2396 Dec 12 00:26 PHASE11_SESSION_WRAPUP.md
+-rw-r--r--    1 root     root          2257 Dec 12 00:26 PHASE11_STATUS_SNAPSHOT.md
+-rw-r--r--    1 root     root          4559 Dec 12 00:26 PHASE11_STEP3_DASHBOARD_BEHAVIOR_AUDIT.md
+-rw-r--r--    1 root     root          1824 Dec 12 00:26 PHASE11_STEP3_OPS_PILL_FINAL_VERIFICATION.md
+-rw-r--r--    1 root     root           133 Dec 12 00:26 PHASE11_STEP4_FUNCTIONAL_VERIFICATION_PLAN.md
+-rw-r--r--    1 root     root           663 Dec 12 00:26 PHASE11_STOP_WRITING_AND_EXECUTE.md
+-rw-r--r--    1 root     root          1657 Dec 12 00:26 PHASE11_STUBBED_TASK_ENDPOINTS_STATUS.md
+-rw-r--r--    1 root     root          1988 Dec 12 00:26 PHASE11_TASK_DELEGATION_CURL_TESTS.md
+-rw-r--r--    1 root     root          2822 Dec 12 00:26 PHASE11_TASK_DELEGATION_RUN_SEQUENCE.md
+-rw-r--r--    1 root     root          1653 Dec 12 00:26 PHASE11_THREAD_RESUME_GUIDE.md
+-rw-r--r--    1 root     root          1939 Dec 12 00:26 PHASE11_VERIFICATION_HANDOFF.md
+-rw-r--r--    1 root     root          2835 Dec 12 00:26 PHASE11_VISUAL_OUTPUT_VERIFICATION_AND_NEXT_STEPS.md
+-rw-r--r--    1 root     root          2002 Dec 12 00:26 PHASE11_VISUAL_OUTPUT_VERIFICATION_HANDOFF.md
+-rw-r--r--    1 root     root          3823 Dec 12 00:26 PHASE11_VISUAL_OUTPUT_VERIFICATION_STEPS_TODO.md
+-rw-r--r--    1 root     root           331 Dec 12 00:26 PHASE11_WHATS_NEXT_INLINE.md
+-rw-r--r--    1 root     root           668 Dec 12 00:26 PHASE11_ZERO_MORE_DOCS_EXECUTE_NOW.md
+-rw-r--r--    1 root     root          1108 Dec 18 18:29 PHASE11_v11.10_NEXT_VERIFICATION.md
+-rw-r--r--    1 root     root           823 Dec 18 18:29 PHASE11_v11.10_POST_SSE_REMOVAL_CHECK.txt
+-rw-r--r--    1 root     root          3185 Dec 18 18:29 PHASE11_v11.10_STATUS_AND_NEXT_STEPS.md
+-rw-r--r--    1 root     root            31 Dec 18 18:29 PHASE11_v11.10_TAG.txt
+-rw-r--r--    1 root     root          3607 Dec 18 18:29 PHASE11_v11.9_NEXT_TASKS_DASHBOARD_CHAT_REFLECTIONS.md
+-rw-r--r--    1 root     root          1545 Dec 18 18:29 PHASE11_v11.9_RUNTIME_NOTES.md
+-rw-r--r--    1 root     root           636 Dec 18 19:21 PHASE13_5_v13.5.4_HANDOFF.md
+-rw-r--r--    1 root     root           972 Dec 18 19:21 PHASE13_5_v13.5.5_HANDOFF.md
+-rw-r--r--    1 root     root           886 Jan  6 19:44 PHASE14_1_TASK_CONTRACT.md
+-rw-r--r--    1 root     root          1039 Jan  6 19:44 PHASE14_2_INTEGRATION_TODO.md
+-rw-r--r--    1 root     root           625 Jan  6 19:44 PHASE14_2_VALIDATION.md
+-rw-r--r--    1 root     root           449 Jan  6 19:44 PHASE14_2_VERIFIED.md
+-rw-r--r--    1 root     root          4464 Jan  6 19:44 PHASE14_PLAN.md
+-rw-r--r--    1 root     root          1155 Jan  6 19:44 PHASE15_PROJECT_VISUAL_OUTPUT_WIRING.md
+-rw-r--r--    1 root     root          2278 Jan  6 19:44 PHASE16_v16.1_SINGLETON_OK_HANDOFF.md
+-rw-r--r--    1 root     root           491 Jan 28 19:39 PHASE18_HANDOFF.txt
+-rw-r--r--    1 root     root           379 Jan 28 19:39 PHASE18_HANDOFF_ONE_LINER.txt
+-rw-r--r--    1 root     root          2035 Jan 28 19:39 PHASE19_NEXT_STEPS.md
+-rw-r--r--    1 root     root           680 Jan 28 19:39 PHASE19_POSTGRES_BASELINE_HANDOFF.txt
+-rw-r--r--    1 root     root           477 Jan 28 19:39 PHASE20_HANDOFF.md
+-rw-r--r--    1 root     root           671 Jan 28 19:39 PHASE21_HANDOFF_NEXT.md
+-rw-r--r--    1 root     root           223 Jan 28 19:39 PHASE21_HANDOFF_ONE_LINER.txt
+-rw-r--r--    1 root     root           881 Jan 28 19:39 PHASE24_ORCHESTRATION_NEXT.md
+-rw-r--r--    1 root     root           912 Jan 28 19:39 PHASE24_STEP1_LIFECYCLE_NORMALIZATION.md
+-rw-r--r--    1 root     root          3672 Jan 28 19:39 PHASE25_AUTHORITY_ORCHESTRATION_CONTRACT.md
+-rw-r--r--    1 root     root          2177 Jan 28 19:39 PHASE25_FOLD_FUNCTION_SPEC.md
+-rw-r--r--    1 root     root          1026 Jan 28 19:39 PHASE25_NEXT_STEPS.md
+-rw-r--r--    1 root     root           337 Jan 28 19:39 PHASE25_SINGLE_WRITER_DECLARATION.md
+-rw-r--r--    1 root     root        244503 Jan 28 19:39 PHASE25_UI_INFERENCE_AUDIT.md
+-rw-r--r--    1 root     root        247602 Jan 28 19:39 PHASE25_UI_INFERENCE_AUDIT_SCOPED.md
+-rw-r--r--    1 root     root           659 Jan 28 19:39 PHASE26_CONTAINER_STATUS.txt
+-rw-r--r--    1 root     root           497 Jan 28 19:39 PHASE26_HANDOFF_ONE_LINER.txt
+-rw-r--r--    1 root     root          1642 Jan 28 19:39 PHASE26_SUPERVISOR_SUMMARY.txt
+-rw-r--r--    1 root     root          2596 Jan 28 19:39 PHASE27_FAILURE_RETRY_CONTRACT.md
+-rw-r--r--    1 root     root          1300 Jan 28 19:39 PHASE27_SUPERVISOR_SUMMARY.txt
+-rw-r--r--    1 root     root          1105 Jan 28 19:39 PHASE28_HANDOFF.md
+-rw-r--r--    1 root     root          1608 Jan 28 19:39 PHASE29_HANDOFF.md
+-rw-r--r--    1 root     root           782 Jan 28 19:39 PHASE30_HANDOFF.md
+-rw-r--r--    1 root     root           812 Jan 28 19:39 PHASE31_HANDOFF.md
+-rw-r--r--    1 root     root          1000 Jan 28 19:39 PHASE32_DONE.md
+-rw-r--r--    1 root     root          1571 Jan 28 19:39 PHASE32_DRIZZLE_LANES_HANDOFF.md
+-rw-r--r--    1 root     root          1059 Jan 28 19:39 PHASE32_DRIZZLE_PG_GOTCHAS.md
+-rw-r--r--    1 root     root           998 Jan 28 19:39 PHASE32_DRIZZLE_PG_TRACKING_NOTE.md
+-rw-r--r--    1 root     root          1572 Jan 28 19:39 PHASE32_SUPERVISOR_SUMMARY.txt
+-rw-r--r--    1 root     root           138 Feb  4 21:25 PHASE33_DONE.txt
+-rw-r--r--    1 root     root           721 Jan 28 19:39 PHASE33_HANDOFF_ONE_LINER.txt
+-rw-r--r--    1 root     root          1041 Jan 28 19:39 PHASE33_NEXT.md
+-rw-r--r--    1 root     root          2102 Jan 28 19:39 PHASE33_SUPERVISOR_SUMMARY.md
+-rw-r--r--    1 root     root          2100 Feb  4 21:25 PHASE34_NEXT.md
+-rw-r--r--    1 root     root          3892 Feb  4 22:06 PHASE35_HANDOFF.md
+-rw-r--r--    1 root     root           458 Feb 10 20:28 PHASE36_2.md
+-rw-r--r--    1 root     root          1197 Feb 10 20:28 PHASE36_2_HANDOFF.md
+-rw-r--r--    1 root     root          1605 Feb 10 20:28 PHASE36_3_HANDOFF.md
+-rw-r--r--    1 root     root          3252 Feb 10 20:28 PHASE36_3_NEXT.md
+-rw-r--r--    1 root     root           928 Feb 10 20:28 PHASE36_4.md
+-rw-r--r--    1 root     root          1745 Feb 10 20:32 PHASE36_5_NEXT.md
+-rw-r--r--    1 root     root           670 Feb 11 20:56 PHASE36_6.md
+-rw-r--r--    1 root     root          3946 Feb 11 20:56 PHASE37_0.md
+-rw-r--r--    1 root     root          2057 Feb 11 20:56 PHASE37_0_HANDOFF.md
+-rw-r--r--    1 root     root           274 Feb 11 20:56 PHASE37_0_HANDOFF_ONELINER.txt
+-rw-r--r--    1 root     root           301 Feb 11 20:56 PHASE37_1_HANDOFF_ONELINER.txt
+-rw-r--r--    1 root     root          2901 Feb 11 20:56 PHASE37_1_TERMINAL_EVENT_PROVENANCE.md
+-rw-r--r--    1 root     root          3242 Feb 11 20:56 PHASE37_2_ALIGNMENT_OPTIONS.md
+-rw-r--r--    1 root     root          2111 Feb 11 20:56 PHASE37_2_DECISION_RECORD.md
+-rw-r--r--    1 root     root           267 Feb 11 20:56 PHASE37_2_HANDOFF_ONELINER.txt
+-rw-r--r--    1 root     root           508 Feb 11 20:56 PHASE37_3_HANDOFF.md
+-rw-r--r--    1 root     root          3551 Feb 11 22:39 PHASE37_4_DECISION_RECORD.md
+-rw-r--r--    1 root     root           359 Feb 11 21:43 PHASE37_4_HANDOFF_ONELINER.txt
+-rw-r--r--    1 root     root          2875 Feb 11 22:39 PHASE37_4_PLAN.md
+-rw-r--r--    1 root     root           508 Feb 11 22:54 PHASE37_5_HANDOFF_ONELINER.txt
+-rw-r--r--    1 root     root           534 Feb 11 22:43 PHASE37_5_STATUS.md
+-rw-r--r--    1 root     root           363 Feb 12 06:36 PHASE37_6_HANDOFF_ONELINER.txt
+-rw-r--r--    1 root     root           361 Feb 11 23:06 PHASE37_6_HYPOTHESIS.md
+-rw-r--r--    1 root     root           621 Feb 11 22:56 PHASE37_6_NEXT.md
+-rw-r--r--    1 root     root           704 Feb 12 18:00 PHASE37_7.md
+-rw-r--r--    1 root     root          1143 Feb 12 18:00 PHASE37_7_IMPLEMENTATION_PLAN.md
+-rw-r--r--    1 root     root          5524 Feb 11 22:39 PHASE37_ACCEPTANCE_CHECKS.sql
+-rw-r--r--    1 root     root          1956 Feb 11 20:56 PHASE37_READINESS_GATE.md
+-rw-r--r--    1 root     root          2550 Feb 11 20:56 PHASE37_RUN_PROJECTION_CONTRACT.md
+-rw-r--r--    1 root     root          3519 Feb 11 22:39 PHASE37_RUN_VIEW_DEFINITION.sql
+-rw-r--r--    1 root     root          2906 Feb 11 20:56 PHASE37_RUN_VIEW_PROVENANCE_HINTS.md
+-rw-r--r--    1 root     root          5807 Feb 11 20:56 PHASE37_RUN_VIEW_PROVENANCE_MATRIX.md
+-rw-r--r--    1 root     root          1239 Feb 11 20:56 PHASE37_STATUS.md
+-rw-r--r--    1 root     root          2081 Feb 11 20:56 PHASE37_STATUS_SUMMARY.md
+-rw-r--r--    1 root     root           285 Feb 12 19:31 PHASE38_HANDOFF_ONE_LINER.md
+-rw-r--r--    1 root     root           793 Feb 15 23:36 PHASE39.md
+-rw-r--r--    1 root     root          8700 Feb 17 22:51 PHASE39_1.md
+-rw-r--r--    1 root     root          3453 Feb 17 22:51 PHASE39_2_NEXT.md
+-rw-r--r--    1 root     root          2996 Feb 17 22:51 PHASE39_3_NEXT.md
+-rw-r--r--    1 root     root          2596 Feb 17 22:51 PHASE39_4_NEXT.md
+-rw-r--r--    1 root     root          2733 Feb 15 23:36 PHASE39_ACTION_TIER_POLICY.md
+-rw-r--r--    1 root     root           794 Feb 17 22:51 PHASE39_ARCHIVE_NOTE.md
+-rw-r--r--    1 root     root           591 Feb 17 22:51 PHASE39_COMPLETE.md
+-rw-r--r--    1 root     root          1241 Feb 17 22:51 PHASE39_EXECUTIVE_SUMMARY.md
+-rw-r--r--    1 root     root           923 Feb 17 22:51 PHASE39_FINAL_STATE.md
+-rw-r--r--    1 root     root           957 Feb 17 22:51 PHASE39_GOLDEN_TAG_PLAN.md
+-rw-r--r--    1 root     root           185 Feb 17 22:51 PHASE39_HANDOFF_ONE_LINER.md
+-rw-r--r--    1 root     root           778 Feb 17 22:51 PHASE39_LOCK_CONFIRMATION.md
+-rw-r--r--    1 root     root           702 Feb 17 22:51 PHASE39_NEXT.md
+-rw-r--r--    1 root     root           851 Feb 17 22:51 PHASE39_PHASE40_READY.md
+-rw-r--r--    1 root     root           759 Feb 17 22:51 PHASE39_PROJECT_INDEX_UPDATE.md
+-rw-r--r--    1 root     root           689 Feb 17 22:51 PHASE39_STATE_SEALED.md
+-rw-r--r--    1 root     root           879 Feb 17 22:51 PHASE39_STOPPING_POINT.md
+-rw-r--r--    1 root     root           463 Feb 17 22:51 PHASE39_TERMINAL_STOP.md
+-rw-r--r--    1 root     root           273 Feb 17 22:51 PHASE39_THREAD_HANDOFF.md
+-rw-r--r--    1 root     root           772 Feb 19 19:23 PHASE40_5.md
+-rw-r--r--    1 root     root          1207 Feb 16 01:40 PHASE40_ACCEPTANCE_CHECKS.sql
+-rw-r--r--    1 root     root          1843 Feb 15 23:36 PHASE40_NEXT.md
+-rw-r--r--    1 root     root          1215 Feb 19 19:23 PHASE41.md
+-rw-r--r--    1 root     root           753 Feb 16 03:12 PHASE41_ACCEPTANCE.md
+-rw-r--r--    1 root     root          1410 Feb 19 19:39 PHASE42.md
+-rw-r--r--    1 root     root           671 Feb 16 18:21 PHASE42_0.md
+-rw-r--r--    1 root     root           233 Feb 16 18:36 PHASE42_1.md
+-rw-r--r--    1 root     root           623 Feb 16 19:53 PHASE42_BRANCH_PROTECTION_REVIEW_GATE.md
+-rw-r--r--    1 root     root          1184 Feb 16 20:35 PHASE42_GH_DEVICE_AUTH_NOTES.md
+-rw-r--r--    1 root     root           279 Feb 19 19:45 PHASE42_MERGE_RECORD.md
+-rw-r--r--    1 root     root          1495 Feb 16 20:35 PHASE42_NEXT_STEPS_RULESET_FIX.md
+-rw-r--r--    1 root     root          1904 Feb 16 21:22 PHASE42_POSTMORTEM.md
+-rw-r--r--    1 root     root          1087 Feb 19 19:39 PHASE42_PR.md
+-rw-r--r--    1 root     root           523 Feb 16 19:53 PHASE42_PR_ONLY_REVERT.md
+-rw-r--r--    1 root     root          2116 Feb 16 21:21 PHASE42_RULESET_DUPLICATE_RULESETS_FIX.md
+-rw-r--r--    1 root     root           803 Feb 16 20:35 PHASE42_RULESET_REVIEW_GATE_FIX.md
+-rw-r--r--    1 root     root           949 Feb 16 19:16 PHASE42_SCOPE.md
+-rw-r--r--    1 root     root           584 Feb 16 22:45 PHASE43_COMPLETE.md
+-rw-r--r--    1 root     root          2168 Feb 16 22:37 PHASE43_GOVERNANCE_BASELINE.md
+-rw-r--r--    1 root     root          1070 Feb 20 17:42 PHASE43_PR.md
+-rw-r--r--    1 root     root          1002 Feb 20 17:42 PHASE43_SCOPE.md
+-rw-r--r--    1 root     root          1393 Feb 16 23:12 PHASE44.md
+-rw-r--r--    1 root     root          5375 Feb 20 17:42 PHASE44_ENFORCEMENT_PROMOTION_PLAN.md
+-rw-r--r--    1 root     root          1305 Feb 16 23:15 PHASE44_HANDOFF.md
+-rw-r--r--    1 root     root          1934 Feb 20 17:42 PHASE44_SCOPE.md
+-rw-r--r--    1 root     root           952 Feb 20 19:56 PHASE46.md
+-rw-r--r--    1 root     root          2480 Apr  7 18:43 PHASE61_OPERATOR_WORKSPACE_CONSOLIDATION.md
+-rw-r--r--    1 root     root          1562 Apr  7 18:43 PHASE61_STATUS_NOTE.md
+-rw-r--r--    1 root     root          3944 Apr  7 18:43 PHASE61_WORKSPACE_CONSOLIDATION.md
+-rw-r--r--    1 root     root             0 Apr  7 18:43 PHASE62B_BUNDLE_REBUILD_AFTER_SUCCESS_NEUTRALIZATION.txt
+-rw-r--r--    1 root     root           525 Apr  7 18:43 PHASE62B_BUNDLE_REBUILD_AFTER_SUCCESS_NEUTRALIZATION_SUMMARY.txt
+-rw-r--r--    1 root     root           550 Apr  7 18:43 PHASE62B_BUNDLE_SUCCESS_WRITER_ORIGIN_INSPECTION.txt
+-rw-r--r--    1 root     root         31241 Apr  7 18:43 PHASE62B_BUNDLE_SUCCESS_WRITER_SUMMARY.txt
+-rw-r--r--    1 root     root          1922 Apr  7 18:43 PHASE62B_CONCISE_STATUS_SUMMARY_20260317.md
+-rw-r--r--    1 root     root         22237 Apr  7 18:43 PHASE62B_DASHBOARD_ASSET_LOAD_PATH_INSPECTION.txt
+-rw-r--r--    1 root     root         70540 Apr  7 18:43 PHASE62B_DASHBOARD_ASSET_LOAD_PATH_SUMMARY.txt
+-rw-r--r--    1 root     root          3401 Apr  7 18:43 PHASE62B_LIVE_CREATE_ROUTE_RESTART_CHECK_20260317T173014Z.txt
+-rw-r--r--    1 root     root           935 Apr  7 18:43 PHASE62B_LIVE_CREATE_ROUTE_RESTART_CHECK_20260317T174242Z.txt
+-rw-r--r--    1 root     root             0 Apr  7 18:43 PHASE62B_LIVE_CREATE_ROUTE_RESTART_SUMMARY_20260317T173014Z.md
+-rw-r--r--    1 root     root           653 Apr  7 18:43 PHASE62B_LIVE_CREATE_ROUTE_RESTART_SUMMARY_20260317T174242Z.md
+-rw-r--r--    1 root     root          1684 Apr  7 18:43 PHASE62B_LIVE_VALIDATION_BLOCKER_FINDINGS_20260317.md
+-rw-r--r--    1 root     root        173715 Apr  7 18:43 PHASE62B_LIVE_VALIDATION_BLOCKER_ROUTE_INSPECTION_20260317.txt
+-rw-r--r--    1 root     root           415 Apr  7 18:43 PHASE62B_LIVE_VALIDATION_BLOCKER_SUMMARY_20260317.txt
+-rw-r--r--    1 root     root        151079 Apr  7 18:43 PHASE62B_NEXT_SAFE_METRIC_DISCOVERY.txt
+-rw-r--r--    1 root     root          1823 Apr  7 18:43 PHASE62B_NEXT_SAFE_METRIC_SELECTION_20260317.md
+-rw-r--r--    1 root     root           943 Apr  7 18:43 PHASE62B_POST_REBUILD_SUCCESS_SINGLE_WRITER_SUMMARY.txt
+-rw-r--r--    1 root     root         12505 Apr  7 18:43 PHASE62B_POST_REBUILD_SUCCESS_SINGLE_WRITER_VERIFICATION.txt
+-rw-r--r--    1 root     root          1174 Apr  7 18:43 PHASE62B_REAL_RUNTIME_VALIDATION_20260317T165636Z.txt
+-rw-r--r--    1 root     root           334 Apr  7 18:43 PHASE62B_REAL_RUNTIME_VALIDATION_20260317T172805Z.txt
+-rw-r--r--    1 root     root          6164 Apr  7 18:43 PHASE62B_REAL_RUNTIME_VALIDATION_20260317T174242Z.txt
+-rw-r--r--    1 root     root          4032 Apr  7 18:43 PHASE62B_RUNTIME_ACCEPTANCE_EVIDENCE_20260317T175228Z.txt
+-rw-r--r--    1 root     root          6882 Apr  7 18:43 PHASE62B_RUNTIME_ACCEPTANCE_EVIDENCE_20260317T180048Z.txt
+-rw-r--r--    1 root     root           912 Apr  7 18:43 PHASE62B_RUNTIME_ACCEPTANCE_EVIDENCE_SUMMARY_20260317T175228Z.md
+-rw-r--r--    1 root     root           946 Apr  7 18:43 PHASE62B_RUNTIME_ACCEPTANCE_EVIDENCE_SUMMARY_20260317T180048Z.md
+-rw-r--r--    1 root     root          1867 Apr  7 18:43 PHASE62B_RUNTIME_STATUS_CONCISE_SUMMARY_20260317.md
+-rw-r--r--    1 root     root          1370 Apr  7 18:43 PHASE62B_RUNTIME_TRIGGER_ROUTE_CONCISE_SUMMARY_20260317.md
+-rw-r--r--    1 root     root         14464 Apr  7 18:43 PHASE62B_RUN_ID_CONTRACT_MISMATCH_INSPECTION_20260317T170836Z.txt
+-rw-r--r--    1 root     root           616 Apr  7 18:43 PHASE62B_RUN_ID_CONTRACT_MISMATCH_SUMMARY_20260317T170836Z.md
+-rw-r--r--    1 root     root        113132 Apr  7 18:43 PHASE62B_SERVER_METRICS_SURFACE_INSPECTION.txt
+-rw-r--r--    1 root     root           856 Apr  7 18:43 PHASE62B_SUCCESS_RATE_BOOTSTRAP_AND_ATTACH_SUMMARY.txt
+-rw-r--r--    1 root     root          9540 Apr  7 18:43 PHASE62B_SUCCESS_RATE_BOOTSTRAP_AND_ATTACH_VERIFICATION.txt
+-rw-r--r--    1 root     root          1893 Apr  7 18:43 PHASE62B_SUCCESS_RATE_CORRIDOR_READY_FOR_LIVE_VALIDATION_20260317.md
+-rw-r--r--    1 root     root          1756 Apr  7 18:43 PHASE62B_SUCCESS_RATE_CORRIDOR_SELECTION_DECISION_20260317.md
+-rw-r--r--    1 root     root          1604 Apr  7 18:43 PHASE62B_SUCCESS_RATE_FINAL_ACCEPTANCE_TEMPLATE_20260317.md
+-rw-r--r--    1 root     root         13843 Apr  7 18:43 PHASE62B_SUCCESS_RATE_LIVE_HYDRATION_READINESS.txt
+-rw-r--r--    1 root     root          1395 Apr  7 18:43 PHASE62B_SUCCESS_RATE_LIVE_HYDRATION_READINESS_SUMMARY.txt
+-rw-r--r--    1 root     root          1692 Apr  7 18:43 PHASE62B_SUCCESS_RATE_LIVE_VALIDATION_RESULT_20260317.md
+-rw-r--r--    1 root     root          2570 Apr  7 18:43 PHASE62B_SUCCESS_RATE_LIVE_VALIDATION_RUNBOOK_20260317.md
+-rw-r--r--    1 root     root          2863 Apr  7 18:43 PHASE62B_SUCCESS_RATE_SINGLE_WRITER_BLOCKER_20260317.md
+-rw-r--r--    1 root     root          4515 Apr  7 18:43 PHASE62B_SUCCESS_RATE_SINGLE_WRITER_SELECTION_INSPECTION.txt
+-rw-r--r--    1 root     root         41227 Apr  7 18:43 PHASE62B_SUCCESS_RATE_SURFACE_INSPECTION.txt
+-rw-r--r--    1 root     root          9614 Apr  7 18:43 PHASE62B_SUCCESS_RATE_TERMINAL_LISTENER_VERIFICATION_FIX.txt
+-rw-r--r--    1 root     root           871 Apr  7 18:43 PHASE62B_SUCCESS_RATE_TERMINAL_LISTENER_VERIFICATION_FIX_SUMMARY.txt
+-rw-r--r--    1 root     root         23378 Apr  7 18:43 PHASE62B_SUCCESS_RATE_WRITER_CONFLICT_INSPECTION.txt
+-rw-r--r--    1 root     root         13060 Apr  7 18:43 PHASE62B_SUCCESS_SINGLE_WRITER_VERIFICATION.txt
+-rw-r--r--    1 root     root        108064 Apr  7 18:43 PHASE62B_TASKS_COMPLETE_500_INSPECTION_20260317T165843Z.txt
+-rw-r--r--    1 root     root           663 Apr  7 18:43 PHASE62B_TASKS_COMPLETE_500_SUMMARY_20260317T165843Z.md
+-rw-r--r--    1 root     root          2167 Apr  7 18:43 PHASE62B_TASKS_QUEUED_BLOCKER_FINDINGS_20260317.md
+-rw-r--r--    1 root     root           637 Apr  7 18:43 PHASE62B_TASKS_QUEUED_DISCOVERY_CAPTURE.md
+-rw-r--r--    1 root     root       2589779 Apr  7 18:43 PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt
+-rw-r--r--    1 root     root           937 Apr  7 18:43 PHASE62B_TASKS_QUEUED_DISCOVERY_RUNBOOK.md
+-rw-r--r--    1 root     root          1273 Apr  7 18:43 PHASE62B_TASKS_QUEUED_EXECUTION_PLAN.md
+-rw-r--r--    1 root     root          1076 Apr  7 18:43 PHASE62B_TASKS_QUEUED_PROTOCOL.md
+-rw-r--r--    1 root     root          1490 Apr  7 18:43 PHASE62B_TERMINAL_EVIDENCE_STATUS_20260317.md
+-rw-r--r--    1 root     root          2874 Apr  7 18:43 PHASE62B_TERMINAL_METRICS_EVIDENCE_20260317T174758Z.txt
+-rw-r--r--    1 root     root           767 Apr  7 18:43 PHASE80_2_DASHBOARD_ENTRY_DISCOVERY_20260317T183312Z.md
+-rw-r--r--    1 root     root        585657 Apr  7 18:43 PHASE80_2_DEEP_DASHBOARD_INVENTORY_20260317T183521Z.md
+-rw-r--r--    1 root     root         45106 Apr  7 18:43 PHASE80_2_EXTERNAL_DASHBOARD_CONSUMER_DISCOVERY_20260317T183750Z.md
+-rw-r--r--    1 root     root           695 Apr  7 18:43 PHASE80_2_QUEUE_LATENCY_COMPLETE_2026-03-17.md
+-rw-r--r--    1 root     root          3452 Apr  7 18:43 PHASE80_2_QUEUE_LATENCY_MOUNT_DISCOVERY_20260317T183232Z.md
+-rw-r--r--    1 root     root           362 Apr  7 18:43 PHASE80_2_QUEUE_LATENCY_RUNTIME_CHECK_20260317T183944Z.txt
+-rw-r--r--    1 root     root          1513 Apr  7 18:43 PHASE80_2_QUEUE_LATENCY_STATUS_2026-03-17.md
+-rw-r--r--    1 root     root          1420 Apr  7 18:43 PHASE80_2_QUEUE_LATENCY_WIRING_BLOCKED_2026-03-17.md
+-rw-r--r--    1 root     root         14115 Apr  7 18:43 PHASE81_SIGNAL_INTERPRETATION.md
+-rw-r--r--    1 root     root          3457 Apr  7 18:43 PHASE87_0_OPERATOR_COGNITIVE_INTELLIGENCE.md
+-rw-r--r--    1 root     root           274 Apr  7 18:43 PHASE87_10_UNKNOWN_GETTER_SMOKE_EVIDENCE.txt
+-rw-r--r--    1 root     root           268 Apr  7 18:43 PHASE87_11_SNAPSHOT_SMOKE_EVIDENCE.txt
+-rw-r--r--    1 root     root           275 Apr  7 18:43 PHASE87_12_COGNITION_INDEX_SMOKE_EVIDENCE.txt
+-rw-r--r--    1 root     root           263 Apr  7 18:43 PHASE87_13_CLI_SMOKE_EVIDENCE.txt
+-rw-r--r--    1 root     root          1325 Apr  7 18:43 PHASE87_14_PRINT_WRAPPER_SMOKE_EVIDENCE.txt
+-rw-r--r--    1 root     root           274 Apr  7 18:43 PHASE87_15_SYSTEM_SUMMARY_SMOKE_EVIDENCE.txt
+-rw-r--r--    1 root     root           275 Apr  7 18:43 PHASE87_16_COGNITION_INDEX_SMOKE_EVIDENCE.txt
+-rw-r--r--    1 root     root           278 Apr  7 18:43 PHASE87_17_SYSTEM_SUMMARY_CLI_SMOKE_EVIDENCE.txt
+-rw-r--r--    1 root     root           518 Apr  7 18:43 PHASE87_18_PRINT_SYSTEM_SUMMARY_WRAPPER_SMOKE_EVIDENCE.txt
+-rw-r--r--    1 root     root           959 Apr  7 18:43 PHASE87_19_SYSTEM_SUMMARY_MATRIX_EVIDENCE.txt
+-rw-r--r--    1 root     root          2578 Apr  7 18:43 PHASE87_1_COMPLETE.md
+-rw-r--r--    1 root     root          2309 Apr  7 18:43 PHASE87_1_LOCAL_VERIFICATION.md
+-rw-r--r--    1 root     root          3514 Apr  7 18:43 PHASE87_1_SITUATION_SUMMARY_COMPOSER.md
+-rw-r--r--    1 root     root           285 Apr  7 18:43 PHASE87_1_SMOKE_EVIDENCE.txt
+-rw-r--r--    1 root     root          2891 Apr  7 18:43 PHASE87_20_ALL_SYSTEM_SUMMARY_SMOKES_EVIDENCE.txt
+-rw-r--r--    1 root     root           730 Apr  7 18:43 PHASE87_21_SYSTEM_SUMMARY_STDIN_SMOKE_EVIDENCE.txt
+-rw-r--r--    1 root     root          3655 Apr  7 18:43 PHASE87_2_SITUATION_SUMMARY_INPUT_MAPPING.md
+-rw-r--r--    1 root     root           257 Apr  7 18:43 PHASE87_3_INTEGRATION_SMOKE_EVIDENCE.txt
+-rw-r--r--    1 root     root           267 Apr  7 18:43 PHASE87_5_PIPELINE_SMOKE_EVIDENCE.txt
+-rw-r--r--    1 root     root           265 Apr  7 18:43 PHASE87_6_RENDER_SMOKE_EVIDENCE.txt
+-rw-r--r--    1 root     root           276 Apr  7 18:43 PHASE87_7_RENDERED_PIPELINE_SMOKE_EVIDENCE.txt
+-rw-r--r--    1 root     root           265 Apr  7 18:43 PHASE87_8_GETTER_SMOKE_EVIDENCE.txt
+-rw-r--r--    1 root     root           274 Apr  7 18:43 PHASE87_9_DEGRADED_GETTER_SMOKE_EVIDENCE.txt
+-rw-r--r--    1 root     root       6872471 Apr  7 18:43 PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt
+-rw-r--r--    1 root     root          2086 Apr  7 18:43 PHASE88_10_DASHBOARD_BAD_STRUCTURE_PATCH_EVIDENCE.txt
+-rw-r--r--    1 root     root         12779 Apr  7 18:43 PHASE88_11_DASHBOARD_ENTRYPOINT_INSPECTION.txt
+-rw-r--r--    1 root     root         35675 Apr  7 18:43 PHASE88_12_SERVED_DASHBOARD_DIAGNOSTICS_SURFACE.txt
+-rw-r--r--    1 root     root         12575 Apr  7 18:43 PHASE88_13_SERVED_DASHBOARD_SYSTEM_HEALTH_PANEL_EVIDENCE.txt
+-rw-r--r--    1 root     root         30200 Apr  7 18:43 PHASE88_14_10_DASHBOARD.html
+-rw-r--r--    1 root     root           319 Apr  7 18:43 PHASE88_14_10_DASHBOARD_HEADERS.txt
+-rw-r--r--    1 root     root          1772 Apr  7 18:43 PHASE88_14_10_LIVE_SYSTEM_HEALTH_AND_DASHBOARD_VERIFICATION.txt
+-rw-r--r--    1 root     root           984 Apr  7 18:43 PHASE88_14_10_SUCCESS_SUMMARY.txt
+-rw-r--r--    1 root     root           237 Apr  7 18:43 PHASE88_14_10_SYSTEM_HEALTH_ALIAS_HEADERS.txt
+-rw-r--r--    1 root     root           322 Apr  7 18:43 PHASE88_14_10_SYSTEM_HEALTH_ALIAS_RESPONSE.json
+-rw-r--r--    1 root     root           237 Apr  7 18:43 PHASE88_14_10_SYSTEM_HEALTH_PRIMARY_HEADERS.txt
+-rw-r--r--    1 root     root           322 Apr  7 18:43 PHASE88_14_10_SYSTEM_HEALTH_PRIMARY_RESPONSE.json
+-rw-r--r--    1 root     root          2491 Apr  7 18:43 PHASE88_14_12_TAG_PROTECTION_AND_PHASE89_ALIGNMENT.txt
+-rw-r--r--    1 root     root          5777 Apr  7 18:43 PHASE88_14_13_CONTAINER_RUNTIME_PROTECTION_PASS.txt
+-rw-r--r--    1 root     root         44412 Apr  7 18:43 PHASE88_14_1_LIVE_DASHBOARD_ROUTE_DIAGNOSIS.txt
+-rw-r--r--    1 root     root         30200 Apr  7 18:43 PHASE88_14_1_dashboard_body.txt
+-rw-r--r--    1 root     root           319 Apr  7 18:43 PHASE88_14_1_dashboard_headers.txt
+-rw-r--r--    1 root     root           164 Apr  7 18:43 PHASE88_14_1_health_body.json
+-rw-r--r--    1 root     root           272 Apr  7 18:43 PHASE88_14_1_health_headers.txt
+-rw-r--r--    1 root     root         30200 Apr  7 18:43 PHASE88_14_1_public_dashboard_body.html
+-rw-r--r--    1 root     root           319 Apr  7 18:43 PHASE88_14_1_public_dashboard_headers.txt
+-rw-r--r--    1 root     root         10283 Apr  7 18:43 PHASE88_14_1_root_body.txt
+-rw-r--r--    1 root     root           319 Apr  7 18:43 PHASE88_14_1_root_headers.txt
+-rw-r--r--    1 root     root             0 Apr  7 18:43 PHASE88_14_2_PUBLIC_DASHBOARD_SYSTEM_HEALTH_RESPONSE.json
+-rw-r--r--    1 root     root          5648 Apr  7 18:43 PHASE88_14_3_LIVE_HEALTH_AND_DASHBOARD_CANDIDATES.txt
+-rw-r--r--    1 root     root         24779 Apr  7 18:43 PHASE88_14_4_LIVE_SERVER_DIAGNOSTICS_MOUNTS.txt
+-rw-r--r--    1 root     root             0 Apr  7 18:43 PHASE88_14_5_SYSTEM_HEALTH_RESPONSE.json
+-rw-r--r--    1 root     root          8928 Apr  7 18:43 PHASE88_14_6_MOUNT_FAILURE_STATE.txt
+-rw-r--r--    1 root     root             0 Apr  7 18:43 PHASE88_14_7_SYSTEM_HEALTH_RESPONSE.json
+-rw-r--r--    1 root     root             0 Apr  7 18:43 PHASE88_14_LIVE_SYSTEM_HEALTH_RESPONSE.json
+-rw-r--r--    1 root     root           283 Apr  7 18:43 PHASE88_1_SYSTEM_HEALTH_ATTACHMENT_SMOKE_EVIDENCE.txt
+-rw-r--r--    1 root     root          1272 Apr  7 18:43 PHASE88_2_SYSTEM_HEALTH_ROUTE_INSPECTION.txt
+-rw-r--r--    1 root     root          2710 Apr  7 18:43 PHASE88_3_AUTHORITATIVE_SYSTEM_HEALTH_ROUTE.txt
+-rw-r--r--    1 root     root           278 Apr  7 18:43 PHASE88_4_SYSTEM_HEALTH_ROUTE_SMOKE_EVIDENCE.txt
+-rw-r--r--    1 root     root           375 Apr  7 18:43 PHASE88_5_SYSTEM_HEALTH_ROUTE_PAYLOAD.json
+-rw-r--r--    1 root     root           699 Apr  7 18:43 PHASE88_5_SYSTEM_HEALTH_ROUTE_PAYLOAD_EVIDENCE.txt
+-rw-r--r--    1 root     root        203339 Apr  7 18:43 PHASE88_6_SYSTEM_HEALTH_ROUTE_REGISTRATION.txt
+-rw-r--r--    1 root     root           281 Apr  7 18:43 PHASE88_7_SYSTEM_HEALTH_JS_ROUTE_SMOKE_EVIDENCE.txt
+-rw-r--r--    1 root     root           378 Apr  7 18:43 PHASE88_8_SYSTEM_HEALTH_JS_ROUTE_PAYLOAD.json
+-rw-r--r--    1 root     root           708 Apr  7 18:43 PHASE88_8_SYSTEM_HEALTH_JS_ROUTE_PAYLOAD_EVIDENCE.txt
+-rw-r--r--    1 root     root          5487 Apr  7 18:43 PHASE88_9_DASHBOARD_SYSTEM_HEALTH_CONSUMER_INSPECTION.txt
+-rw-r--r--    1 root     root           669 Apr  7 18:43 PHASE95_GOLDEN_CHECKPOINT.md
+-rw-r--r--    1 root     root           966 Apr  7 18:43 PHASE96_REMOVAL_NOTE.md
+-rw-r--r--    1 root     root          3066 Apr  7 18:43 PHASE96_TRACKER.md
+-rw-r--r--    1 root     root          1262 Apr  7 18:43 PHASE99_2_COMPLETION_CHECK.md
+-rw-r--r--    1 root     root          1291 Apr  7 18:43 PHASE99_2_OPERATIONAL_CONFIDENCE_SYNTHESIS.md
+-rw-r--r--    1 root     root          1222 Apr  7 18:43 PHASE99_3_COMPLETION_CHECK.md
+-rw-r--r--    1 root     root           549 Apr  7 18:43 PHASE99_3_CONTRACT_CHANGE_CHECK.md
+-rw-r--r--    1 root     root           956 Apr  7 18:43 PHASE99_3_INSPECTION_PLAN.md
+-rw-r--r--    1 root     root          1649 Apr  7 18:43 PHASE99_3_INSPECTION_RESULTS.md
+-rwxr-xr-x    1 root     root           524 Apr  7 18:43 PHASE99_3_INSPECT_FAILURE.sh
+-rw-r--r--    1 root     root           399 Apr  7 18:43 PHASE99_3_NEXT_ACTION.md
+-rw-r--r--    1 root     root           874 Apr  7 18:43 PHASE99_3_NEXT_IMPLEMENTATION_TARGET.md
+-rw-r--r--    1 root     root           762 Apr  7 18:43 PHASE99_3_PREP.md
+-rw-r--r--    1 root     root           447 Apr  7 18:43 PHASE99_3_READY_CHECK.md
+-rwxr-xr-x    1 root     root           963 Apr  7 18:43 PHASE99_3_REPO_INSPECTION.sh
+-rwxr-xr-x    1 root     root           210 Apr  7 18:43 PHASE99_3_RUN_INSPECTION.sh
+-rw-r--r--    1 root     root          1172 Apr  7 18:43 PHASE99_3_VERIFICATION_FAILURE.md
+-rw-r--r--    1 root     root          1160 Apr  7 18:43 PHASE99_3_VERIFICATION_RESULT.md
+-rwxr-xr-x    1 root     root           594 Apr  7 18:43 PHASE99_3_VERIFY_NO_DRIFT.sh
+-rw-r--r--    1 root     root           789 Apr  7 18:43 PHASE99_PROGRESS_LOG.md
+-rw-r--r--    1 root     root           812 Apr  7 18:43 PHASE_178_CHECKPOINT_STATUS.md
+-rw-r--r--    1 root     root          1118 Apr  7 18:43 PHASE_179_CHECKPOINT_STATUS.md
+-rw-r--r--    1 root     root          2315 Apr  7 18:43 PHASE_179_EXECUTION_GATING_MODEL.md
+-rw-r--r--    1 root     root           903 Apr  7 18:43 PHASE_179_NEXT_CORRIDOR.md
+-rw-r--r--    1 root     root          1058 Apr  7 18:43 PHASE_179_SELECTION.md
+-rw-r--r--    1 root     root          1314 Apr  7 18:43 PHASE_180_NEXT_CORRIDOR.md
+-rw-r--r--    1 root     root          2004 Apr  7 18:43 PHASE_180_OPERATOR_REQUEST_SCHEMA.md
+-rw-r--r--    1 root     root          2506 Apr  7 18:43 PHASE_181_VALIDATION_RULES_MODEL.md
+-rw-r--r--    1 root     root          1967 Apr  7 18:43 PHASE_182_APPROVAL_MODEL.md
+-rw-r--r--    1 root     root          1807 Apr  7 18:43 PHASE_183_AUDIT_MODEL.md
+-rw-r--r--    1 root     root          2271 Apr  7 18:43 PHASE_184_ROLLBACK_SAFETY_MODEL.md
+-rw-r--r--    1 root     root          2562 Apr  7 18:43 PHASE_185_AUTHORITY_CONFIRMATION_MODEL.md
+-rw-r--r--    1 root     root          2776 Apr  7 18:43 PHASE_186_GOVERNANCE_READINESS_SUMMARY.md
+-rw-r--r--    1 root     root          2719 Apr  7 18:43 PHASE_187_EXECUTION_READINESS_GAP_ANALYSIS.md
+-rw-r--r--    1 root     root          3146 Apr  7 18:43 PHASE_188_GOVERNANCE_THREAT_MODEL.md
+-rw-r--r--    1 root     root          2082 Apr  7 18:43 PHASE_189_DOCTRINE_ENFORCEMENT_INTENT.md
+-rw-r--r--    1 root     root          4274 Apr  7 18:43 PHASE_331_GOVERNANCE_VISIBILITY_PLAN.md
+-rw-r--r--    1 root     root          3919 Apr  7 18:43 PHASE_332_GOVERNANCE_TRACEABILITY_PLAN.md
+-rw-r--r--    1 root     root          4030 Apr  7 18:43 PHASE_333_GOVERNANCE_REPORTING_PLAN.md
+-rw-r--r--    1 root     root          4115 Apr  7 18:43 PHASE_334_GOVERNANCE_DIGEST_PLAN.md
+-rw-r--r--    1 root     root          4341 Apr  7 18:43 PHASE_335_GOVERNANCE_OPERATOR_PACKET_PLAN.md
+-rw-r--r--    1 root     root          4465 Apr  7 18:43 PHASE_336_GOVERNANCE_OPERATOR_MANIFEST_PLAN.md
+-rw-r--r--    1 root     root          4529 Apr  7 18:43 PHASE_337_GOVERNANCE_OPERATOR_BRIEFING_PLAN.md
+-rw-r--r--    1 root     root          4577 Apr  7 18:43 PHASE_338_GOVERNANCE_OPERATOR_CONSOLE_PLAN.md
+-rw-r--r--    1 root     root          4646 Apr  7 18:43 PHASE_339_GOVERNANCE_OPERATOR_HANDOFF_PLAN.md
+-rw-r--r--    1 root     root          4714 Apr  7 18:43 PHASE_340_GOVERNANCE_OPERATOR_SESSION_PLAN.md
+-rw-r--r--    1 root     root          4817 Apr  7 18:43 PHASE_341_GOVERNANCE_OPERATOR_SNAPSHOT_PLAN.md
+-rw-r--r--    1 root     root          4820 Apr  7 18:43 PHASE_342_GOVERNANCE_OPERATOR_BUNDLE_PLAN.md
+-rw-r--r--    1 root     root          4880 Apr  7 18:43 PHASE_343_GOVERNANCE_OPERATOR_EXPORT_PLAN.md
+-rw-r--r--    1 root     root          4981 Apr  7 18:43 PHASE_344_GOVERNANCE_OPERATOR_ARCHIVE_PLAN.md
+-rw-r--r--    1 root     root          5017 Apr  7 18:43 PHASE_345_GOVERNANCE_OPERATOR_RECORD_PLAN.md
+-rw-r--r--    1 root     root          5115 Apr  7 18:43 PHASE_346_GOVERNANCE_OPERATOR_LOGBOOK_PLAN.md
+-rw-r--r--    1 root     root          5221 Apr  7 18:43 PHASE_347_GOVERNANCE_OPERATOR_REGISTER_PLAN.md
+-rw-r--r--    1 root     root          5259 Apr  7 18:43 PHASE_348_GOVERNANCE_OPERATOR_CATALOG_PLAN.md
+-rw-r--r--    1 root     root          5254 Apr  7 18:43 PHASE_349_GOVERNANCE_OPERATOR_INDEX_PLAN.md
+-rw-r--r--    1 root     root          5621 Apr  7 18:43 PHASE_350_GOVERNANCE_OPERATOR_MANIFEST_INDEX_PLAN.md
+-rw-r--r--    1 root     root          5351 Apr  7 18:43 PHASE_351_GOVERNANCE_OPERATOR_MAP_PLAN.md
+-rw-r--r--    1 root     root          5448 Apr  7 18:43 PHASE_352_GOVERNANCE_OPERATOR_ATLAS_PLAN.md
+-rw-r--r--    1 root     root          5692 Apr  7 18:43 PHASE_354_GOVERNANCE_OPERATOR_REGISTRY_PLAN.md
+-rw-r--r--    1 root     root          5803 Apr  7 18:43 PHASE_355_GOVERNANCE_OPERATOR_DIRECTORY_PLAN.md
+-rw-r--r--    1 root     root          5738 Apr  7 18:43 PHASE_356_GOVERNANCE_OPERATOR_GUIDE_PLAN.md
+-rw-r--r--    1 root     root          5825 Apr  7 18:43 PHASE_357_GOVERNANCE_OPERATOR_MANUAL_PLAN.md
+-rw-r--r--    1 root     root          5964 Apr  7 18:43 PHASE_358_GOVERNANCE_OPERATOR_PLAYBOOK_PLAN.md
+-rw-r--r--    1 root     root          6040 Apr  7 18:43 PHASE_359_GOVERNANCE_OPERATOR_HANDBOOK_PLAN.md
+-rw-r--r--    1 root     root          6180 Apr  7 18:43 PHASE_360_GOVERNANCE_OPERATOR_COMPENDIUM_PLAN.md
+-rw-r--r--    1 root     root          6225 Apr  7 18:43 PHASE_361_GOVERNANCE_OPERATOR_REFERENCE_PLAN.md
+-rw-r--r--    1 root     root          2032 Apr  7 18:43 PHASE_362_GOVERNANCE_OPERATOR_GLOSSARY_PLAN.md
+-rw-r--r--    1 root     root          2010 Apr  7 18:43 PHASE_363_GOVERNANCE_OPERATOR_LEXICON_PLAN.md
+-rw-r--r--    1 root     root          2072 Apr  7 18:43 PHASE_364_GOVERNANCE_OPERATOR_DICTIONARY_PLAN.md
+-rw-r--r--    1 root     root          1491 Apr  7 18:43 PHASE_401_GOLDEN_TAG.txt
+-rw-r--r--    1 root     root            38 Apr  7 18:43 PHASE_401_STOP_MARKER.txt
+-rw-r--r--    1 root     root          1298 Apr  7 18:43 PHASE_401_STOP_POINT.txt
+-rw-r--r--    1 root     root          1069 Apr  7 18:43 PHASE_401_VERIFICATION_SEAL.txt
+-rw-r--r--    1 root     root          2327 Apr  7 18:43 PHASE_80_3_COMPLETION.md
+-rw-r--r--    1 root     root          3198 Apr  7 18:43 PHASE_80_3_QUEUE_PRESSURE_METRIC.md
+-rw-r--r--    1 root     root          4017 Apr  7 18:43 PHASE_80_4_METRIC_LOCAL_VALIDATION_WIRING.md
+-rw-r--r--    1 root     root          3233 Apr  7 18:43 PHASE_80_5_DERIVED_METRIC_EXPOSURE_READINESS.md
+-rw-r--r--    1 root     root          3280 Apr  7 18:43 PHASE_80_6_NEUTRAL_TELEMETRY_DISPLAY_CONTRACT.md
+-rw-r--r--    1 root     root          3215 Apr  7 18:43 PHASE_80_7_TELEMETRY_EXPOSURE_SAFETY_GATES.md
+-rw-r--r--    1 root     root          3755 Apr  7 18:43 PHASE_80_8_DERIVED_METRIC_EXPOSURE_STAGING_PLAN.md
+-rw-r--r--    1 root     root          3653 Apr  7 18:43 PHASE_80_9_METRIC_EXPOSURE_APPROVAL_PROTOCOL.md
+-rw-r--r--    1 root     root          3097 Apr  7 18:43 PHASE_81_10_QUEUE_WAIT_TIME_EXPOSURE_SAFETY_REVIEW.md
+-rw-r--r--    1 root     root          3131 Apr  7 18:43 PHASE_81_11_QUEUE_WAIT_TIME_REGISTRY_ENTRY.md
+-rw-r--r--    1 root     root          3800 Apr  7 18:43 PHASE_81_12_QUEUE_WAIT_TIME_VERIFICATION_HARNESS.md
+-rw-r--r--    1 root     root          3607 Apr  7 18:43 PHASE_81_13_QUEUE_WAIT_TIME_DRIFT_SAFEGUARDS.md
+-rw-r--r--    1 root     root          4562 Apr  7 18:43 PHASE_81_14_QUEUE_WAIT_TIME_THEORETICAL_BOUNDS.md
+-rw-r--r--    1 root     root          3157 Apr  7 18:43 PHASE_81_1_QUEUE_THROUGHPUT_METRIC.md
+-rw-r--r--    1 root     root          3455 Apr  7 18:43 PHASE_81_2_QUEUE_THROUGHPUT_IMPLEMENTATION.md
+-rw-r--r--    1 root     root          3704 Apr  7 18:43 PHASE_81_3_THROUGHPUT_EXPOSURE_SAFETY_REVIEW.md
+-rw-r--r--    1 root     root          4012 Apr  7 18:43 PHASE_81_4_DERIVED_METRIC_REGISTRY_ENTRY.md
+-rw-r--r--    1 root     root          1475 Apr  7 18:43 PHASE_81_5_SIGNAL_LAYER_NEXT.md
+-rw-r--r--    1 root     root          3792 Apr  7 18:43 PHASE_81_5_THROUGHPUT_VERIFICATION_HARNESS.md
+-rw-r--r--    1 root     root          1611 Apr  7 18:43 PHASE_81_6_QUEUE_PRESSURE_CLASSIFICATION_TESTS.md
+-rw-r--r--    1 root     root          4459 Apr  7 18:43 PHASE_81_6_THROUGHPUT_DRIFT_SAFEGUARDS.md
+-rw-r--r--    1 root     root          2042 Apr  7 18:43 PHASE_81_7_SIGNAL_REGISTRY_ENTRY.md
+-rw-r--r--    1 root     root          3803 Apr  7 18:43 PHASE_81_8_QUEUE_WAIT_TIME_METRIC_DEFINITION.md
+-rw-r--r--    1 root     root          2472 Apr  7 18:43 PHASE_81_8_SIGNAL_LAYER_CLOSURE.md
+-rw-r--r--    1 root     root          2775 Apr  7 18:43 PHASE_81_9_QUEUE_WAIT_TIME_PURE_FUNCTION.md
+-rw-r--r--    1 root     root          3068 Apr  7 18:43 PHASE_81_TELEMETRY_EXPANSION_CANDIDATE_REVIEW.md
+-rw-r--r--    1 root     root          1692 Apr  7 18:43 PHASE_82_1_COMPOSITION_VERIFICATION.md
+-rw-r--r--    1 root     root          3270 Apr  7 18:43 PHASE_82_1_TASK_EXECUTION_DURATION_DEFINITION.md
+-rw-r--r--    1 root     root          1620 Apr  7 18:43 PHASE_82_2_COMPOSITION_REGISTRY.md
+-rw-r--r--    1 root     root          2932 Apr  7 18:43 PHASE_82_2_TASK_EXECUTION_DURATION_PURE_FUNCTION.md
+-rw-r--r--    1 root     root          1834 Apr  7 18:43 PHASE_82_3_COMPOSITION_CLOSURE.md
+-rw-r--r--    1 root     root          3238 Apr  7 18:43 PHASE_82_3_TASK_EXECUTION_DURATION_EXPOSURE_SAFETY_REVIEW.md
+-rw-r--r--    1 root     root          3235 Apr  7 18:43 PHASE_82_4_TASK_EXECUTION_DURATION_REGISTRY_ENTRY.md
+-rw-r--r--    1 root     root          2593 Apr  7 18:43 PHASE_82_5_TASK_EXECUTION_DURATION_VERIFICATION_HARNESS.md
+-rw-r--r--    1 root     root          3102 Apr  7 18:43 PHASE_82_6_TASK_EXECUTION_DURATION_DASHBOARD_EXPOSURE_PLAN.md
+-rw-r--r--    1 root     root          3290 Apr  7 18:43 PHASE_82_7_TASK_EXECUTION_DURATION_TELEMETRY_DOCUMENTATION_UPDATE.md
+-rw-r--r--    1 root     root          2788 Apr  7 18:43 PHASE_82_8_TASK_EXECUTION_DURATION_PHASE_CLOSEOUT.md
+-rw-r--r--    1 root     root          3500 Apr  7 18:43 PHASE_82_DERIVED_TELEMETRY_CANDIDATE_SELECTION.md
+-rw-r--r--    1 root     root          2428 Apr  7 18:43 PHASE_82_SIGNAL_COMPOSITION_FOUNDATION.md
+-rw-r--r--    1 root     root          4063 Apr  7 18:43 PHASE_83_0_SUMMARY_DOCTRINE.md
+-rw-r--r--    1 root     root          5298 Apr  7 18:43 PHASE_83_1_SUMMARY_MODEL.md
+-rw-r--r--    1 root     root          2461 Apr  7 18:43 PHASE_83_1_TASK_QUEUE_WAIT_DURATION_DEFINITION.md
+-rw-r--r--    1 root     root          6401 Apr  7 18:43 PHASE_83_2_SUMMARY_RULES.md
+-rw-r--r--    1 root     root          2572 Apr  7 18:43 PHASE_83_2_TASK_QUEUE_WAIT_DURATION_PURE_FUNCTION.md
+-rw-r--r--    1 root     root          4942 Apr  7 18:43 PHASE_83_3_SUMMARY_REGISTRY.md
+-rw-r--r--    1 root     root          3299 Apr  7 18:43 PHASE_83_3_TASK_QUEUE_WAIT_DURATION_EXPOSURE_SAFETY_REVIEW.md
+-rw-r--r--    1 root     root          5571 Apr  7 18:43 PHASE_83_4_SUMMARY_SAFETY.md
+-rw-r--r--    1 root     root           827 Apr  7 18:43 PHASE_83_4_TASK_QUEUE_WAIT_DURATION_REGISTRY_ENTRY.md
+-rw-r--r--    1 root     root          5114 Apr  7 18:43 PHASE_83_5_SUMMARY_VERIFICATION.md
+-rw-r--r--    1 root     root          1172 Apr  7 18:43 PHASE_83_5_TASK_QUEUE_WAIT_DURATION_VERIFICATION_HARNESS.md
+-rw-r--r--    1 root     root          3030 Apr  7 18:43 PHASE_83_6_SUMMARY_CLOSURE.md
+-rw-r--r--    1 root     root          1467 Apr  7 18:43 PHASE_83_6_TASK_QUEUE_WAIT_DURATION_DASHBOARD_EXPOSURE_PLAN.md
+-rw-r--r--    1 root     root          1584 Apr  7 18:43 PHASE_83_7_TASK_QUEUE_WAIT_DURATION_TELEMETRY_DOCUMENTATION.md
+-rw-r--r--    1 root     root          1552 Apr  7 18:43 PHASE_83_8_TASK_QUEUE_WAIT_DURATION_PHASE_CLOSEOUT.md
+-rw-r--r--    1 root     root          2794 Apr  7 18:43 PHASE_83_DERIVED_TELEMETRY_EXPANSION_CANDIDATES.md
+-rw-r--r--    1 root     root          1904 Apr  7 18:43 PHASE_84_10_TASK_TOTAL_LIFECYCLE_DURATION_VERIFICATION_RESULTS.md
+-rw-r--r--    1 root     root          1867 Apr  7 18:43 PHASE_84_11_TASK_TOTAL_LIFECYCLE_DURATION_WORKSTREAM_CLOSEOUT.md
+-rw-r--r--    1 root     root          2143 Apr  7 18:43 PHASE_84_12_TASK_TOTAL_LIFECYCLE_DURATION_CORRIDOR_AUDIT.md
+-rw-r--r--    1 root     root          1885 Apr  7 18:43 PHASE_84_13_DERIVED_TELEMETRY_EXPANSION_READINESS.md
+-rw-r--r--    1 root     root          1934 Apr  7 18:43 PHASE_84_14_DERIVED_TELEMETRY_CANDIDATE_IDENTIFICATION.md
+-rw-r--r--    1 root     root          1917 Apr  7 18:43 PHASE_84_15_TASK_EXECUTION_DURATION_DESIGN.md
+-rw-r--r--    1 root     root          1804 Apr  7 18:43 PHASE_84_16_TASK_EXECUTION_DURATION_SAFETY_REVIEW.md
+-rw-r--r--    1 root     root          1471 Apr  7 18:43 PHASE_84_17_TASK_EXECUTION_DURATION_REGISTRY_ENTRY.md
+-rw-r--r--    1 root     root          1785 Apr  7 18:43 PHASE_84_18_TASK_EXECUTION_DURATION_VERIFICATION_HARNESS.md
+-rw-r--r--    1 root     root          1789 Apr  7 18:43 PHASE_84_19_TASK_EXECUTION_DURATION_VERIFICATION_IMPLEMENTATION.md
+-rw-r--r--    1 root     root          1519 Apr  7 18:43 PHASE_84_1_TASK_TOTAL_LIFECYCLE_DURATION_DEFINITION.md
+-rw-r--r--    1 root     root          1680 Apr  7 18:43 PHASE_84_20_TASK_EXECUTION_DURATION_VERIFICATION_EXECUTION.md
+-rw-r--r--    1 root     root          1876 Apr  7 18:43 PHASE_84_21_TASK_EXECUTION_DURATION_VERIFICATION_RESULTS.md
+-rw-r--r--    1 root     root          1929 Apr  7 18:43 PHASE_84_22_TASK_EXECUTION_DURATION_WORKSTREAM_CLOSEOUT.md
+-rw-r--r--    1 root     root          1586 Apr  7 18:43 PHASE_84_2_TASK_TOTAL_LIFECYCLE_DURATION_PURE_FUNCTION.md
+-rw-r--r--    1 root     root          1977 Apr  7 18:43 PHASE_84_3_TASK_TOTAL_LIFECYCLE_DURATION_EXPOSURE_SAFETY.md
+-rw-r--r--    1 root     root          2672 Apr  7 18:43 PHASE_84_4_OPERATOR_PRESENTATION_LAYER.md
+-rw-r--r--    1 root     root          1580 Apr  7 18:43 PHASE_84_4_TASK_TOTAL_LIFECYCLE_DURATION_REGISTRY_ENTRY.md
+-rw-r--r--    1 root     root          3152 Apr  7 18:43 PHASE_84_5_OPERATOR_COGNITION_UX_REFINEMENT.md
+-rw-r--r--    1 root     root          1202 Apr  7 18:43 PHASE_84_5_TASK_TOTAL_LIFECYCLE_DURATION_VERIFICATION_HARNESS.md
+-rw-r--r--    1 root     root          1596 Apr  7 18:43 PHASE_84_6_TASK_TOTAL_LIFECYCLE_DURATION_DASHBOARD_EXPOSURE_PLAN.md
+-rw-r--r--    1 root     root          1609 Apr  7 18:43 PHASE_84_7_TASK_TOTAL_LIFECYCLE_DURATION_LOCAL_VERIFICATION.md
+-rw-r--r--    1 root     root          1842 Apr  7 18:43 PHASE_84_8_TASK_TOTAL_LIFECYCLE_DURATION_VERIFICATION_IMPLEMENTATION.md
+-rw-r--r--    1 root     root          1514 Apr  7 18:43 PHASE_84_9_TASK_TOTAL_LIFECYCLE_DURATION_VERIFICATION_EXECUTION.md
+-rw-r--r--    1 root     root          1253 Apr  7 18:43 PHASE_84_DERIVED_TELEMETRY_NEXT_CANDIDATES.md
+-rw-r--r--    1 root     root          3495 Apr  7 18:43 PHASE_84_PLANNING_LAYER_INIT.md
+-rw-r--r--    1 root     root          2684 Apr  7 18:43 PHASE_85_1_TREND_INDICATORS.md
+-rw-r--r--    1 root     root          3895 Apr  7 18:43 PHASE_85_2_TIME_CONTEXT.md
+-rw-r--r--    1 root     root          3061 Apr  7 18:43 PHASE_85_3_HISTORY_COMPARE.md
+-rw-r--r--    1 root     root          4056 Apr  7 18:43 PHASE_85_4_SIGNAL_STABILITY.md
+-rw-r--r--    1 root     root          3766 Apr  7 18:43 PHASE_85_5_SCAN_OPTIMIZATION.md
+-rw-r--r--    1 root     root          3213 Apr  7 18:43 PHASE_85_6_COGNITION_CLOSURE.md
+-rw-r--r--    1 root     root          3100 Apr  7 18:43 PHASE_86_1_PATTERN_SIGNALS.md
+-rw-r--r--    1 root     root          3890 Apr  7 18:43 PHASE_86_2_CORRELATION_VIEW.md
+-rw-r--r--    1 root     root          3729 Apr  7 18:43 PHASE_86_3_MULTI_SIGNAL_GROUPS.md
+-rw-r--r--    1 root     root          3765 Apr  7 18:43 PHASE_86_4_REASONING_HINTS.md
+-rw-r--r--    1 root     root          3859 Apr  7 18:43 PHASE_86_5_COGNITION_SIMPLIFICATION.md
+-rw-r--r--    1 root     root          3390 Apr  7 18:43 PHASE_86_6_COGNITION_EVOLUTION_CLOSURE.md
+-rw-r--r--    1 root     root          3798 Apr  7 18:43 PHASE_87_1_SITUATION_SUMMARY.md
+-rw-r--r--    1 root     root          1501 Apr  7 18:43 PHASE_91_GUIDANCE_INTELLIGENCE_REFINEMENT.md
+-rw-r--r--    1 root     root           882 Apr  7 18:43 PHASE_NUMBERING_CORRECTION_2026_03_18.md
+-rw-r--r--    1 root     root         43721 Apr  7 18:43 POST_GOLDEN_PROTECTION_AUDIT.txt
+-rw-r--r--    1 root     root          1461 Apr  7 18:43 POST_GOLDEN_PROTECTION_ROUTINE.md
+-rw-r--r--    1 root     root        216147 Apr  7 18:43 POST_PHASE95_CONTAINER_RECONCILIATION_AUDIT.txt
+-rw-r--r--    1 root     root           891 Dec 12 00:26 PROJECT_VISUAL_OUTPUT_CONTAINER_DEPLOYMENT.md
+-rw-r--r--    1 root     root          1372 Feb 15 23:36 PR_PHASE39_1.md
+-rw-r--r--    1 root     root           720 Oct 27 16:57 Project_Scope_Overview_20250731.txt
+-rw-r--r--    1 root     root          2814 Apr  7 18:43 README.md
+-rw-r--r--    1 root     root           670 Apr  7 18:43 RECOVERY_CHECKPOINTS.md
+-rw-r--r--    1 root     root          2060 Apr  7 18:43 REGISTRY_SAFETY_MODEL.md
+-rw-r--r--    1 root     root          2939 Apr  7 18:43 SESSION_STOP_CHECKPOINT_PHASE_248.md
+-rw-r--r--    1 root     root          2412 Apr  7 18:43 STATE_HANDOFF_2026-03-17.md
+-rw-r--r--    1 root     root          7845 Apr  7 18:43 STATE_HANDOFF_2026-03-17_PHASE62B_ACCEPTED.md
+-rw-r--r--    1 root     root          3144 Apr  7 18:43 STATE_HANDOFF_PHASE120_COMPLETE.txt
+-rw-r--r--    1 root     root          5841 Apr  7 18:43 STATE_HANDOFF_PHASE126_COMPLETE.txt
+-rw-r--r--    1 root     root         10341 Apr  7 18:43 STATE_HANDOFF_PHASE135.md
+-rw-r--r--    1 root     root         10331 Apr  7 18:43 STATE_HANDOFF_PHASE136.md
+-rw-r--r--    1 root     root         10901 Apr  7 18:43 STATE_HANDOFF_PHASE137.md
+-rw-r--r--    1 root     root         11914 Apr  7 18:43 STATE_HANDOFF_PHASE138.md
+-rw-r--r--    1 root     root         12227 Apr  7 18:43 STATE_HANDOFF_PHASE139.md
+-rw-r--r--    1 root     root         12800 Apr  7 18:43 STATE_HANDOFF_PHASE140.md
+-rw-r--r--    1 root     root         13343 Apr  7 18:43 STATE_HANDOFF_PHASE141.md
+-rw-r--r--    1 root     root         13821 Apr  7 18:43 STATE_HANDOFF_PHASE142.md
+-rw-r--r--    1 root     root         14187 Apr  7 18:43 STATE_HANDOFF_PHASE143.md
+-rw-r--r--    1 root     root         14870 Apr  7 18:43 STATE_HANDOFF_PHASE144.md
+-rw-r--r--    1 root     root         15343 Apr  7 18:43 STATE_HANDOFF_PHASE145.md
+-rw-r--r--    1 root     root         15896 Apr  7 18:43 STATE_HANDOFF_PHASE146.md
+-rw-r--r--    1 root     root         16178 Apr  7 18:43 STATE_HANDOFF_PHASE147.md
+-rw-r--r--    1 root     root         16858 Apr  7 18:43 STATE_HANDOFF_PHASE148.md
+-rw-r--r--    1 root     root          8780 Apr  7 18:43 STATE_HANDOFF_PHASE149.md
+-rw-r--r--    1 root     root          9562 Apr  7 18:43 STATE_HANDOFF_PHASE178.md
+-rw-r--r--    1 root     root          1879 Apr  7 18:43 STATE_HANDOFF_PHASE99_2_COMPLETE.md
+-rw-r--r--    1 root     root          2821 Apr  7 18:43 STATE_HANDOFF_PHASE_129.txt
+-rw-r--r--    1 root     root          2806 Apr  7 18:43 STATE_HANDOFF_PHASE_130.txt
+-rw-r--r--    1 root     root          7653 Apr  7 18:43 STATE_HANDOFF_PHASE_162_1.md
+-rw-r--r--    1 root     root         12012 Apr  7 18:43 STATE_HANDOFF_PHASE_189.txt
+-rw-r--r--    1 root     root          8360 Apr  7 18:43 STATE_HANDOFF_PHASE_191_1.txt
+-rw-r--r--    1 root     root          2470 Apr  7 18:43 STATE_HANDOFF_PHASE_290.txt
+-rw-r--r--    1 root     root          2858 Apr  7 18:43 STATE_HANDOFF_PHASE_291.txt
+-rw-r--r--    1 root     root          5421 Apr  7 18:43 STATE_HANDOFF_PHASE_299.txt
+-rw-r--r--    1 root     root          2291 Apr  7 18:43 STATE_HANDOFF_PHASE_302.txt
+-rw-r--r--    1 root     root          2503 Apr  7 18:43 STATE_HANDOFF_PHASE_304.txt
+-rw-r--r--    1 root     root          2555 Apr  7 18:43 STATE_HANDOFF_PHASE_305.txt
+-rw-r--r--    1 root     root          1767 Apr  7 18:43 STATE_HANDOFF_PHASE_306.txt
+-rw-r--r--    1 root     root          1866 Apr  7 18:43 STATE_HANDOFF_PHASE_307.txt
+-rw-r--r--    1 root     root          1899 Apr  7 18:43 STATE_HANDOFF_PHASE_308.txt
+-rw-r--r--    1 root     root          1956 Apr  7 18:43 STATE_HANDOFF_PHASE_309.txt
+-rw-r--r--    1 root     root          1985 Apr  7 18:43 STATE_HANDOFF_PHASE_310.txt
+-rw-r--r--    1 root     root          2059 Apr  7 18:43 STATE_HANDOFF_PHASE_312.txt
+-rw-r--r--    1 root     root         12089 Apr  7 18:43 STATE_HANDOFF_PHASE_330.md
+-rw-r--r--    1 root     root         16533 Apr  7 18:43 STATE_HANDOFF_PHASE_352.md
+-rw-r--r--    1 root     root         11156 Apr  7 18:43 STATE_HANDOFF_PHASE_401.md
+-rw-r--r--    1 root     root          3464 Apr  7 18:43 STATE_HANDOFF_PHASE_401_11.txt
+-rw-r--r--    1 root     root          3793 Apr  7 18:43 STATE_HANDOFF_PHASE_401_11_COMPLETE.txt
+-rw-r--r--    1 root     root          4116 Apr  7 18:43 STATE_HANDOFF_PHASE_401_12_COMPLETE.txt
+-rw-r--r--    1 root     root          5147 Apr  7 18:43 STATE_HANDOFF_PHASE_401_COMPLETE.md
+-rw-r--r--    1 root     root          4757 Apr  7 18:43 STATE_HANDOFF_PHASE_401_TRUST_SIGNALING_COMPLETE.md
+-rw-r--r--    1 root     root          8903 Apr  7 18:43 STATE_HANDOFF_PHASE_81_4.md
+-rw-r--r--    1 root     root          5494 Apr  7 18:43 STATE_HANDOFF_PHASE_81_COMPLETE.md
+-rw-r--r--    1 root     root          5836 Apr  7 18:43 STATE_HANDOFF_PHASE_82_COMPLETE.md
+-rw-r--r--    1 root     root          8945 Apr  7 18:43 STATE_HANDOFF_PHASE_83_COMPLETE.md
+-rw-r--r--    1 root     root          5056 Apr  7 18:43 STATE_HANDOFF_PHASE_84_CORRECTED.md
+-rw-r--r--    1 root     root          4334 Apr  7 18:43 STATE_HANDOFF_PHASE_84_PLANNING_COMPLETE.md
+-rw-r--r--    1 root     root         11385 Apr  7 18:43 STATE_HANDOFF_PHASE_86_COMPLETE_FOR_NEW_THREAD.md
+-rw-r--r--    1 root     root          1743 Apr  7 18:43 STATE_HANDOFF_POST_NUMBERING_CORRECTION.md
+-rw-r--r--    1 root     root          9545 Apr  7 18:43 STATE_HANDOFF_POST_PHASE_190_5.txt
+-rw-r--r--    1 root     root          9217 Apr  7 18:43 STATE_HANDOFF_POST_PHASE_246.md
+-rw-r--r--    1 root     root          5392 Apr  7 18:43 STATE_HANDOFF_POST_PHASE_247.md
+-rw-r--r--    1 root     root         11678 Apr  7 18:43 STATE_HANDOFF_POST_PHASE_249_5.md
+-rw-r--r--    1 root     root          1062 Apr  7 18:43 STATUS_CHECKPOINT_PHASE286.md
+-rw-r--r--    1 root     root          1836 Apr  7 18:43 SYSTEM_BOUNDARIES.md
+-rw-r--r--    1 root     root          1698 Apr  7 18:43 SYSTEM_INTERACTION_MODEL.md
+-rw-r--r--    1 root     root          2294 Apr  7 18:43 TASK_SAFETY_DOCTRINE.md
+drwxr-xr-x    3 root     root          4096 Jan 28 19:39 _archive
+-rw-r--r--    1 root     root          1196 Oct 27 16:57 add_sample_tasks.js
+-rw-r--r--    1 root     root           749 Nov 19 18:53 agent-heartbeat.ts
+-rw-r--r--    1 root     root           210 Nov 19 18:53 agent-to-cade.ts
+-rw-r--r--    1 root     root           211 Nov 19 18:53 agent-to-effie.ts
+-rw-r--r--    1 root     root           932 Nov 19 18:53 agent.ts
+-rw-r--r--    1 root     root          1440 Nov 19 18:53 agentWatchdog.ts
+drwxr-xr-x    3 root     root          4096 Nov 19 18:53 agents
+-rw-r--r--    1 root     root           423 Nov 19 18:53 agentsStatus.ts
+-rw-r--r--    1 root     root           572 Nov 19 18:53 ambient-placeholders.d.ts
+drwxr-xr-x    4 root     root          4096 Apr  7 18:43 app
+drwxr-xr-x    4 root     root          4096 Oct 27 16:57 archive
+drwxr-xr-x    3 root     root          4096 Mar 16 21:56 artifacts
+-rw-r--r--    1 root     root            85 Nov 19 18:53 askRouter.runtime.ts
+-rw-r--r--    1 root     root            85 Nov 19 18:53 askRouter.ts
+-rw-r--r--    1 root     root           412 Nov 19 18:53 atlas.ts
+-rw-r--r--    1 root     root            94 Nov 19 18:53 audit.ts
+-rw-r--r--    1 root     root           269 Nov 19 18:53 autonomicAdaptation.ts
+-rw-r--r--    1 root     root            67 Nov 20 17:51 backup.crontab
+-rwxr-xr-x    1 root     root           877 Nov 24 17:31 backup.sh
+-rw-r--r--    1 root     root          1669 Oct 27 16:57 backup_cade_runtime_fixed.cjs
+-rw-r--r--    1 root     root          4582 Oct 27 16:57 broken_eslint_files.txt
+-rw-r--r--    1 root     root           240 Nov 27 17:11 bs-config.json
+-rw-r--r--    1 root     root           574 Nov 19 18:53 buildUI.ts
+-rw-r--r--    1 root     root           354 Nov 19 18:53 cade-create-webpage.ts
+-rw-r--r--    1 root     root          1221 Nov 19 18:53 cade-delegation-watcher.ts
+-rw-r--r--    1 root     root           209 Nov 19 18:53 cade-processor.ts
+-rw-r--r--    1 root     root           676 Nov 19 18:53 cade.ts
+-rw-r--r--    1 root     root           576 Nov 19 18:53 cade_status.ts
+-rw-r--r--    1 root     root          2103 Nov 19 18:53 cade_task_processor.bak.ts
+-rw-r--r--    1 root     root          1550 Nov 19 18:53 cade_task_processor.ts
+-rw-r--r--    1 root     root          1480 Nov 19 18:53 cade_task_processor_clean.ts
+-rw-r--r--    1 root     root           201 Nov 12 05:18 capacitor.config.ts
+-rw-r--r--    1 root     root           254 Nov 19 18:53 chain.ts
+-rw-r--r--    1 root     root           855 Nov 19 18:53 chainState.ts
+-rw-r--r--    1 root     root           430 Nov 19 18:53 client.ts
+drwxr-xr-x    5 root     root          4096 Apr  7 18:43 cognition
+-rw-r--r--    1 root     root           259 Nov 19 18:53 commit.ts
+drwxr-xr-x    2 root     root          4096 Nov 19 18:53 config
+-rw-r--r--    1 root     root            58 Nov 19 18:21 config.js
+-rw-r--r--    1 root     root           460 Nov 19 18:53 create-cheese-page.ts
+-rw-r--r--    1 root     root          5869 Nov 19 18:53 create-entity.ts
+-rw-r--r--    1 root     root           286 Nov 19 18:53 createFile.ts
+-rw-r--r--    1 root     root           228 Nov 19 18:53 custom.d.ts
+drwxr-xr-x    3 root     root          4096 Apr  7 18:43 dashboard
+drwxr-xr-x    3 root     root          4096 Jan 28 19:39 db
+-rw-r--r--    1 root     root          2225 Dec 31 20:01 delegate.ts
+-rw-r--r--    1 root     root           101 Oct 27 16:57 delegate_task_settings_panel.txt
+-rw-r--r--    1 root     root           312 Oct 27 16:57 delegation-test.json
+-rw-r--r--    1 root     root            13 Nov 19 18:21 delegation-test.txt
+-rw-r--r--    1 root     root            51 Nov 19 18:53 delegations-result-stub.ts
+-rw-r--r--    1 root     root           779 Nov 19 18:53 delegations.ts
+-rw-r--r--    1 root     root           900 Nov 19 18:53 demo-cinematic-sequence.ts
+-rw-r--r--    1 root     root          2661 Nov 19 18:53 dev-server.ts
+-rw-r--r--    1 root     root           197 Feb 23 18:50 docker-compose.override.yml
+-rw-r--r--    1 root     root           556 Feb 16 03:12 docker-compose.phase31.7-worker.yml
+-rw-r--r--    1 root     root           317 Feb 25 18:54 docker-compose.phase45_1.startup_determinism.yml
+-rw-r--r--    1 root     root           163 Mar  4 19:42 docker-compose.phase46.dashboard_heap.override.yml
+-rw-r--r--    1 root     root           279 Feb 20 23:35 docker-compose.phase47.enforce.override.yml
+-rw-r--r--    1 root     root           114 Feb 20 23:35 docker-compose.phase47.postgres_url.override.yml
+-rw-r--r--    1 root     root           400 Feb 23 19:48 docker-compose.phase54.enforce.override.yml
+-rw-r--r--    1 root     root           228 Mar  5 22:34 docker-compose.phase54.postgres_bootstrap.override.yml
+-rw-r--r--    1 root     root           363 Feb 23 19:48 docker-compose.phase54.shadow.override.yml
+-rw-r--r--    1 root     root           279 Mar  6 04:12 docker-compose.phase57.shadow.env.override.yml
+-rw-r--r--    1 root     root          1401 Feb 17 22:51 docker-compose.worker.phase32.yml
+-rw-r--r--    1 root     root          2872 Feb 16 03:12 docker-compose.worker.phase34.yml
+-rw-r--r--    1 root     root          2732 Feb 19 19:23 docker-compose.workers.yml
+-rw-r--r--    1 root     root           961 Feb 28 18:49 docker-compose.yml
+drwxr-xr-x    2 root     root          4096 Mar  3 23:03 docker-entrypoint-initdb.d
+drwxr-xr-x   19 root     root         53248 Apr 16 05:13 docs
+drwxr-xr-x    3 root     root          4096 Mar 11 02:06 drizzle
+-rw-r--r--    1 root     root           172 Jan 28 19:39 drizzle.config.json
+-rw-r--r--    1 root     root           191 Jan 28 19:39 drizzle.pg.config.json
+drwxr-xr-x    3 root     root          4096 Mar 11 02:06 drizzle_pg
+-rw-r--r--    1 root     root           299 Nov 14 18:52 ecosystem.config.cjs
+-rw-r--r--    1 root     root           535 Dec 12 00:26 ecosystem.sse-streams.config.cjs
+-rw-r--r--    1 root     root           584 Dec 12 00:26 ecosystem.staging.config.cjs
+-rw-r--r--    1 root     root           431 Nov 19 18:53 effie.ts
+-rw-r--r--    1 root     root          1553 Nov 19 18:53 effie_task_processor.ts
+-rw-r--r--    1 root     root           673 Nov 19 18:53 ensure-task-events-main.ts
+-rw-r--r--    1 root     root           512 Nov 19 18:53 ensure-task-events.ts
+-rw-r--r--    1 root     root           315 Nov 19 18:53 ensurePaths.ts
+-rw-r--r--    1 root     root           994 Oct 27 16:57 eslint.config.js
+-rw-r--r--    1 root     root           943 Nov 19 18:53 events.ts
+-rw-r--r--    1 root     root          1577 Nov 19 18:53 eventsAgents.ts
+drwxr-xr-x    3 root     root          4096 Nov  7 17:52 exports
+-rw-r--r--    1 root     root           528 Nov 19 18:53 express-stubs.d.ts
+drwxr-xr-x    2 root     root          4096 Oct 27 16:57 external
+drwxr-xr-x   11 root     root          4096 Apr  7 18:43 governance
+-rw-r--r--    1 root     root          1451 Nov 19 18:53 handleTask.ts
+-rw-r--r--    1 root     root            59 Nov 19 18:21 index.ts
+-rw-r--r--    1 root     root           577 Nov 24 19:03 init_db.sql
+-rw-r--r--    1 root     root           406 Nov 19 18:53 install.ts
+-rw-r--r--    1 root     root           267 Nov 19 18:53 introspectiveSim.ts
+-rw-r--r--    1 root     root           190 Nov 19 18:53 launch-atlas.ts
+-rw-r--r--    1 root     root          1005 Nov 19 18:53 launch-cade.ts
+-rw-r--r--    1 root     root           356 Nov 19 18:53 launch-effie.ts
+-rwxr-xr-x    1 root     root           197 Nov 19 18:53 launch-matilda.ts
+drwxr-xr-x    2 root     root          4096 Oct 27 16:57 legal
+-rw-r--r--    1 root     root           264 Nov 19 18:53 log.ts
+drwxr-xr-x    3 root     root          4096 Apr  7 18:28 logs
+-rw-r--r--    1 root     root           701 Nov 19 18:53 logs.ts
+-rw-r--r--    1 root     root          1913 Dec 18 18:29 matilda-chat-stub.js
+-rw-r--r--    1 root     root          1693 Dec 18 18:29 matilda-chat-stub.ts
+-rw-r--r--    1 root     root           165 Nov 19 18:53 matilda-delegate.ts
+-rw-r--r--    1 root     root           671 Nov 19 18:53 matilda.ts
+-rw-r--r--    1 root     root           547 Nov 19 18:53 matilda_chat.ts
+-rw-r--r--    1 root     root           305 Nov 19 18:53 matilda_task_processor.ts
+drwxr-xr-x    4 root     root          4096 Nov 19 18:21 memory
+drwxr-xr-x    2 root     root          4096 Nov 12 05:18 mirror
+-rw-r--r--    1 root     root           213 Nov 12 05:18 next-env.d.ts
+-rw-r--r--    1 root     root           140 Oct 27 16:57 next.config.mjs
+drwxr-xr-x   80 root     root          4096 Apr 16 04:58 node_modules
+drwxr-xr-x    2 root     root          4096 Dec 18 18:29 notes
+-rw-r--r--    1 root     root          1203 Nov 19 18:53 ollamaChat.ts
+-rw-r--r--    1 root     root          1294 Nov 19 18:53 ollamaPlan.ts
+-rw-r--r--    1 root     root           682 Nov 19 18:53 ops-sse-bootstrap.ts
+-rw-r--r--    1 root     root          3747 Dec 12 00:26 ops-sse-server.mjs
+-rw-r--r--    1 root     root           914 Nov 19 18:53 ops-sse-server.ts
+drwxr-xr-x    2 root     root          4096 Nov 27 17:11 ops-stream
+-rw-r--r--    1 root     root           988 Nov 19 18:53 ops.ts
+-rw-r--r--    1 root     root         35065 Apr  7 18:43 package-lock.json
+-rw-r--r--    1 root     root           254 Apr  7 18:43 package.json
+-rw-r--r--    1 root     root          1093 Nov 19 18:21 package.json.backup.20251118043553
+drwxr-xr-x    2 root     root          4096 Oct 27 16:57 patent
+-rw-r--r--    1 root     root           263 Nov 19 18:53 persistentInsight.ts
+-rw-r--r--    1 root     root            19 Nov 19 18:21 phase3-final-test.txt
+-rw-r--r--    1 root     root            15 Nov 19 18:21 phase3-new-test.txt
+-rw-r--r--    1 root     root             7 Nov 19 18:21 phase3-run4.txt
+-rw-r--r--    1 root     root            14 Nov 19 18:21 phase3-run5.txt
+-rw-r--r--    1 root     root            15 Nov 19 18:21 phase3-test-file.txt
+-rw-r--r--    1 root     root            16 Nov 19 18:21 phase4-test-file.txt
+-rw-r--r--    1 root     root            19 Nov 19 18:21 phase5-test-file.txt
+-rw-r--r--    1 root     root            19 Nov 19 18:21 phase6-test-file.txt
+-rw-r--r--    1 root     root            19 Nov 19 18:21 phase7-test-file.txt
+-rw-r--r--    1 root     root            19 Nov 19 18:21 phase8-test-file.txt
+-rw-r--r--    1 root     root         20037 Apr  8 17:51 pnpm-lock.yaml
+-rw-r--r--    1 root     root            45 Nov 19 18:53 pnpm-workspace.yaml
+drwxr-xr-x    2 root     root          4096 Feb 17 22:51 policy
+-rw-r--r--    1 root     root           139 Nov 19 18:53 ports.ts
+-rw-r--r--    1 root     root           707 Nov 19 18:53 prewarm-all-agents.ts
+-rw-r--r--    1 root     root           928 Nov 19 18:53 prewarm-demo.ts
+drwxr-xr-x    2 root     root          4096 Oct 27 16:57 privacy
+drwxr-xr-x    3 root     root          4096 Jan  6 19:44 projects
+-rw-r--r--    1 root     root           617 Nov 19 18:53 pruneDatabase.ts
+drwxr-xr-x    9 root     root          4096 Apr 16 05:26 public
+drwxr-xr-x    2 root     root          4096 Nov 19 18:53 public_broken_rollback_1762824556
+-rw-r--r--    1 root     root            41 Oct 27 16:57 pyproject.toml
+-rw-r--r--    1 root     root           286 Nov 19 18:53 readFile.ts
+-rw-r--r--    1 root     root           825 Nov 19 18:53 reflection-loader.ts
+-rw-r--r--    1 root     root           317 Nov 19 18:53 reflection-push.ts
+-rw-r--r--    1 root     root           599 Nov 19 18:53 reflection-sse-lite.ts
+-rwxr-xr-x    1 root     root          1283 Nov 19 18:53 reflection-sse-server.ts
+-rw-r--r--    1 root     root          1362 Nov 19 18:53 reflection-watcher.ts
+-rw-r--r--    1 root     root           341 Nov 19 18:53 reflection_index.ts
+-rw-r--r--    1 root     root          2009 Nov 19 18:53 reflections-sse-server.ts
+drwxr-xr-x    2 root     root          4096 Nov 27 17:11 reflections-stream
+-rw-r--r--    1 root     root          1036 Nov 19 18:53 reflections.ts
+drwxr-xr-x    2 root     root          4096 Apr  7 18:43 requests
+-rw-r--r--    1 root     root          1225 Nov 19 18:53 reset-roundtrip.ts
+-rw-r--r--    1 root     root           504 Nov 19 18:53 reset.ts
+-rwxr-xr-x    1 root     root           709 Nov 19 18:21 restore-golden.sh
+-rw-r--r--    1 root     root           849 Nov 19 18:53 retryCreateAgent.ts
+drwxr-xr-x    5 root     root          4096 Dec 18 18:29 routes
+drwxr-xr-x    3 root     root          4096 Nov 19 18:53 routes_backup
+-rw-r--r--    1 root     root           515 Nov 19 18:53 run-create-atlas.ts
+-rw-r--r--    1 root     root          1745 Nov 19 18:53 run-demo-playback.ts
+-rw-r--r--    1 root     root          1331 Nov 19 18:53 run-demo-sequence.ts
+-rw-r--r--    1 root     root           100 Nov 19 18:53 run-effie-maint.ts
+-rw-r--r--    1 root     root          1370 Nov 19 18:53 run-live-delegation.ts
+-rw-r--r--    1 root     root          1189 Nov 19 18:53 runSkill.ts
+-rwxr-xr-x    1 root     root          1317 Feb 16 19:53 run_tests.sh
+drwxr-xr-x    2 root     root          4096 Apr  7 18:43 runtime
+drwxr-xr-x   39 root     root         40960 Apr 16 05:26 scripts
+drwxr-xr-x   31 root     root          4096 Nov 19 18:53 scripts_backup
+drwxr-xr-x   30 root     root          4096 Nov 19 18:53 scripts_backup_2
+drwxr-xr-x    2 root     root          4096 Nov 24 17:04 secrets
+-rw-r--r--    1 root     root          1196 Nov 24 19:04 seed_agents.js
+-rw-r--r--    1 root     root           530 Nov 27 17:11 serve-health.cjs
+drwxr-xr-x   12 root     root          4096 Apr 14 23:03 server
+-rw-r--r--    1 root     root           596 Nov 19 18:21 server.cjs.backup-20251118-161015
+-rw-r--r--    1 root     root         25963 Apr 14 21:42 server.mjs
+-rw-r--r--    1 root     root          2052 Nov 19 18:21 server.mjs.backup-20251118-161429
+-rw-r--r--    1 root     root          2052 Nov 19 18:21 server.mjs.backup-20251118-161525
+-rw-r--r--    1 root     root          2102 Nov 19 18:21 server.mjs.backup-20251118-161734
+-rw-r--r--    1 root     root          6636 Dec 12 00:26 server.mjs.backup-20251204-154936
+-rw-r--r--    1 root     root          1335 Dec 29 20:23 server.ts
+drwxr-xr-x    3 root     root          4096 Apr  7 18:43 shared
+-rwxr-xr-x    1 root     root           620 Nov 19 18:21 snapshot.sh
+drwxr-xr-x    4 root     root          4096 Nov 20 18:08 snapshots
+drwxr-xr-x    3 root     root          4096 Mar 11 02:06 sql
+drwxr-xr-x   43 root     root          4096 Apr 10 22:56 src
+-rw-r--r--    1 root     root           352 Nov 19 18:53 sse-stubs.d.ts
+-rw-r--r--    1 root     root           283 Nov 19 18:53 start-all-agents.sh
+-rw-r--r--    1 root     root            44 Nov 12 05:18 start.ts
+-rwxr-xr-x    1 root     root           506 Oct 27 16:57 start_all.sh
+-rw-r--r--    1 root     root          3221 Nov 19 18:53 submit-task.ts
+-rw-r--r--    1 root     root           257 Nov 19 18:53 systemChronicle.ts
+-rw-r--r--    1 root     root           242 Nov 19 18:53 systemHealth.ts
+-rw-r--r--    1 root     root           361 Nov 19 18:53 taskRouter.ts
+-rw-r--r--    1 root     root          1349 Nov 19 18:53 tasks.ts
+-rw-r--r--    1 root     root          1470 Nov 19 18:21 temp_delegate_code.js
+drwxr-xr-x    2 root     root          4096 Nov 12 05:18 test
+-rw-r--r--    1 root     root          1348 Nov 19 18:53 test-cade-state.ts
+-rw-r--r--    1 root     root          1097 Nov 19 18:53 test-rehydration.ts
+-rw-r--r--    1 root     root           236 Nov 19 18:53 test_runtime_simulation.ts
+drwxr-xr-x   36 root     root          4096 Apr  7 18:43 tests
+-rwxr-xr-x    1 root     root          1446 Oct 27 16:57 toggle_agents.sh
+drwxr-xr-x    2 root     root          4096 Oct 27 16:57 tools
+drwxr-xr-x    2 root     root          4096 Nov 19 18:53 ts-backup
+-rw-r--r--    1 root     root           512 Nov 19 18:24 tsconfig.json
+-rw-r--r--    1 root     root           356 Nov 19 18:53 tsconfig.json.bak
+drwxr-xr-x    2 root     root          4096 Nov 19 18:53 types
+drwxr-xr-x    3 root     root          4096 Nov 19 18:21 ui
+-rw-r--r--    1 root     root           772 Nov 19 18:53 validateTaskEvent.ts
+-rw-r--r--    1 root     root           872 Nov 19 18:53 verify-dashboard-sync.ts
+-rwxr-xr-x    1 root     root           633 Oct 27 16:57 verify_settings_panel.sh
+drwxr-xr-x    2 root     root          4096 Oct 27 16:57 visual_previews
+total 1892
+drwxr-xr-x    9 root     root          4096 Apr 16 05:26 .
+drwxr-xr-x    1 root     root         61440 Apr 14 21:42 ..
+-rw-r--r--    1 root     root         20480 Dec 16 01:49 .dashboard.html.swk
+-rw-r--r--    1 root     root         20480 Dec 16 01:49 .dashboard.html.swl
+-rw-r--r--    1 root     root         20480 Dec 16 01:49 .dashboard.html.swm
+-rw-r--r--    1 root     root         20480 Dec 16 01:49 .dashboard.html.swn
+drwxr-xr-x    2 root     root          4096 Dec 16 01:49 assets
+-rw-r--r--    1 root     root           891 Apr 10 23:38 body_isolation_probe.html
+-rw-r--r--    1 root     root        485852 Jan 28 19:39 bundle-core.js
+-rw-r--r--    1 root     root         69049 Apr  7 18:43 bundle.js
+-rw-r--r--    1 root     root        119374 Apr  7 18:43 bundle.js.map
+-rw-r--r--    1 root     root           320 Dec 16 01:49 cheese-page.html
+drwxr-xr-x    2 root     root          4096 Apr 15 19:01 css
+-rw-r--r--    1 root     root          1399 Dec 16 01:49 dashboard-logs.js
+-rw-r--r--    1 root     root          1455 Dec 16 01:49 dashboard-logs.v3.js
+-rw-r--r--    1 root     root           836 Jan  6 18:28 dashboard-status.js
+-rw-r--r--    1 root     root          1336 Dec 16 01:49 dashboard-stream.js
+-rw-r--r--    1 root     root          5168 Dec 16 01:49 dashboard-tabs.backup.js
+-rw-r--r--    1 root     root          5169 Dec 16 01:49 dashboard-tabs.js
+-rw-r--r--    1 root     root          3155 Dec 16 01:49 dashboard.backup.js
+-rw-r--r--    1 root     root          9653 Dec 16 01:49 dashboard.css
+-rw-r--r--    1 root     root         15997 Apr 16 05:23 dashboard.html
+-rw-r--r--    1 root     root         10993 Dec 16 01:49 dashboard.html.backup-20251204-152244
+-rw-r--r--    1 root     root         11029 Dec 16 01:49 dashboard.html.backup-20251204-154117
+-rw-r--r--    1 root     root         21709 Apr  7 18:43 dashboard.html.bad_structure
+-rw-r--r--    1 root     root         21166 Mar 10 16:58 dashboard.html.bak
+-rw-r--r--    1 root     root          9049 Dec 16 01:49 dashboard.html.bak.1762372376
+-rw-r--r--    1 root     root         13703 Dec 16 01:49 dashboard.html.bak.1762457360
+-rw-r--r--    1 root     root         10993 Dec 16 01:49 dashboard.html.bak_1762904490
+-rw-r--r--    1 root     root         10993 Dec 16 01:49 dashboard.html.bak_1762905357
+-rw-r--r--    1 root     root          5707 Dec 16 01:49 dashboard.html.bak_9.7.0b
+-rw-r--r--    1 root     root         10993 Dec 16 01:49 dashboard.html.bundling-phase11
+-rw-r--r--    1 root     root         36422 Apr 10 21:22 dashboard.html.phase470_6_operator_guidance_neutralized.bak
+-rw-r--r--    1 root     root         36483 Apr 10 22:15 dashboard.html.phase471_0_task_events_surface_neutralized.bak
+-rw-r--r--    1 root     root         36483 Apr 10 22:17 dashboard.html.phase471_1_force_remove_task_events_script.bak
+-rw-r--r--    1 root     root         36540 Apr 10 22:31 dashboard.html.phase471_4_bundle_boot_neutralized.bak
+-rw-r--r--    1 root     root         36613 Apr 10 22:39 dashboard.html.phase472_1_external_css_neutralized.bak
+-rw-r--r--    1 root     root         37777 Apr 10 22:45 dashboard.html.phase473_0_minimal_shell_backup.bak
+-rw-r--r--    1 root     root         37818 Apr 10 23:18 dashboard.html.phase473_9_pre_styles_restore.bak
+-rw-r--r--    1 root     root         36630 Apr 10 23:24 dashboard.html.phase474_2_pre_tailwind_only_restore.bak
+-rw-r--r--    1 root     root         36630 Apr 10 23:25 dashboard.html.phase474_3_pre_force_tailwind_only.bak
+-rw-r--r--    1 root     root         37444 Apr 10 23:27 dashboard.html.phase474_4_pre_inline_style_neutralization.bak
+-rw-r--r--    1 root     root         26860 Apr 10 23:34 dashboard.html.phase474_9_pre_body_isolation.bak
+-rw-r--r--    1 root     root         26860 Apr 11 00:11 dashboard.html.phase476_6_pre_strip.bak
+-rw-r--r--    1 root     root         27609 Apr 11 00:27 dashboard.html.phase477_2_pre_probe_banner_removal.bak
+-rw-r--r--    1 root     root         26623 Apr 11 00:35 dashboard.html.phase477_4_pre_inline_script_neutralization.bak
+-rw-r--r--    1 root     root         16635 Apr 11 00:39 dashboard.html.phase477_6_pre_src_script_neutralization.bak
+-rw-r--r--    1 root     root         16761 Apr 11 17:30 dashboard.html.phase477_8_pre_restore.bak
+-rw-r--r--    1 root     root         16002 Apr 11 17:35 dashboard.html.phase478_1_pre_script_restore.bak
+-rw-r--r--    1 root     root         16053 Apr 11 18:13 dashboard.html.phase478_4_pre_dashboard_css_restore.bak
+-rw-r--r--    1 root     root         16053 Apr 11 18:15 dashboard.html.phase478_5_pre_repo_stylesheet_restore.bak
+-rw-r--r--    1 root     root         16053 Apr 11 18:21 dashboard.html.phase478_6_pre_true_dashboard_css_restore.bak
+-rw-r--r--    1 root     root         15979 Apr 11 18:27 dashboard.html.phase478_7_pre_dashboard_reflections_restore.bak
+-rw-r--r--    1 root     root         15905 Apr 13 03:05 dashboard.html.phase479_0_pre_phase61_workspace_consolidation_restore.bak
+-rw-r--r--    1 root     root         25322 Apr  7 18:43 dashboard.html.phase61_agent_emoji_backup
+-rw-r--r--    1 root     root          2544 Jan 28 19:39 dashboard.js
+-rw-r--r--    1 root     root          6393 Dec 16 01:49 dashboard.js.bak
+-rw-r--r--    1 root     root          5488 Dec 16 01:49 dashboard.js.bak2
+-rw-r--r--    1 root     root         11051 Jan 28 19:39 dashboard.pre-bundle-tag.html
+-rw-r--r--    1 root     root         11668 Apr 10 23:45 dashboard_body_bottom_half_probe.html
+-rw-r--r--    1 root     root         11512 Apr 10 23:47 dashboard_body_q1_probe.html
+-rw-r--r--    1 root     root          8263 Apr 10 23:47 dashboard_body_q2_probe.html
+-rw-r--r--    1 root     root          7051 Apr 10 23:56 dashboard_body_q3_probe.html
+-rw-r--r--    1 root     root          7012 Apr 10 23:56 dashboard_body_q4_probe.html
+-rw-r--r--    1 root     root         17438 Apr 10 23:45 dashboard_body_top_half_probe.html
+-rw-r--r--    1 root     root         27558 Apr 11 00:06 dashboard_recomposed_from_stable_quarters_probe.html
+-rw-r--r--    1 root     root           354 Dec 16 01:49 delegation-test.html
+-rw-r--r--    1 root     root            63 Dec 16 01:49 delegation_success.html
+-rw-r--r--    1 root     root             0 Feb 10 20:28 favicon.ico
+-rw-r--r--    1 root     root           430 Dec 16 01:49 high-tide.html
+-rw-r--r--    1 root     root         24915 Apr 15 19:02 index.html
+drwxr-xr-x    3 root     root          4096 Apr 15 18:59 js
+-rw-r--r--    1 root     root           384 Dec 16 01:49 mean-girls-quote.html
+-rw-r--r--    1 root     root           362 Dec 16 01:49 mean-girls-quote2.html
+-rw-r--r--    1 root     root           345 Apr 10 22:47 minimal_probe.html
+drwxr-xr-x    2 root     root          4096 Dec 16 01:49 partials
+drwxr-xr-x    2 root     root          4096 Jan  6 19:44 scripts
+drwxr-xr-x    2 root     root          4096 Dec 16 01:49 styles
+-rw-r--r--    1 root     root           424 Dec 16 01:49 test-demo.html
+drwxr-xr-x    2 root     root          4096 Dec 16 01:49 tmp
+
+=== DOCKER COMPOSE SERVICES ===
+postgres
+dashboard
+
+=== DOCKER COMPOSE REBUILD (FORCE) ===
+#1 [internal] load local bake definitions
+#1 reading from stdin 716B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.dashboard
+#2 transferring dockerfile: 885B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:20-alpine
+#3 DONE 0.6s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 320B done
+#4 DONE 0.0s
+
+#5 [1/7] FROM docker.io/library/node:20-alpine@sha256:fb4cd12c85ee03686f6af5362a0b0d56d50c58a04632e6c0fb8363f609372293
+#5 resolve docker.io/library/node:20-alpine@sha256:fb4cd12c85ee03686f6af5362a0b0d56d50c58a04632e6c0fb8363f609372293 0.0s done
+#5 DONE 0.0s
+
+#6 [2/7] WORKDIR /app
+#6 CACHED
+
+#7 [internal] load build context
+#7 transferring context: 471.19kB 0.1s done
+#7 DONE 0.2s
+
+#8 [3/7] COPY package*.json ./
+#8 DONE 0.0s
+
+#9 [4/7] COPY package-lock.json* ./
+#9 DONE 0.0s
+
+#10 [5/7] RUN npm config set fetch-retries 5     && npm config set fetch-retry-factor 2     && npm config set fetch-retry-mintimeout 10000     && npm config set fetch-retry-maxtimeout 60000     && (npm config set registry https://registry.npmmirror.com/         && npm ci --no-audit --no-fund       || npm config set registry https://registry.npmjs.org/         && npm ci --no-audit --no-fund)     && apk add --no-cache curl ripgrep
+#10 3.980 
+#10 3.980 added 81 packages in 3s
+#10 4.273 
+#10 4.273 added 81 packages in 260ms
+#10 4.578 ( 1/12) Installing brotli-libs (1.2.0-r0)
+#10 4.602 ( 2/12) Installing c-ares (1.34.6-r0)
+#10 4.618 ( 3/12) Installing libunistring (1.4.1-r0)
+#10 4.646 ( 4/12) Installing libidn2 (2.3.8-r0)
+#10 4.657 ( 5/12) Installing nghttp2-libs (1.68.0-r0)
+#10 4.672 ( 6/12) Installing nghttp3 (1.13.1-r0)
+#10 4.686 ( 7/12) Installing libpsl (0.21.5-r3)
+#10 4.706 ( 8/12) Installing zstd-libs (1.5.7-r2)
+#10 4.735 ( 9/12) Installing libcurl (8.17.0-r1)
+#10 4.755 (10/12) Installing curl (8.17.0-r1)
+#10 4.776 (11/12) Installing pcre2 (10.47-r0)
+#10 4.797 (12/12) Installing ripgrep (15.1.0-r0)
+#10 4.834 Executing busybox-1.37.0-r30.trigger
+#10 4.838 OK: 20.3 MiB in 30 packages
+#10 DONE 4.9s
+
+#11 [6/7] COPY . .
+#11 DONE 0.3s
+
+#12 [7/7] COPY public/ ./public/
+#12 DONE 0.0s
+
+#13 exporting to image
+#13 exporting layers
+#13 exporting layers 1.0s done
+#13 exporting manifest sha256:2ffc5dd02547fab019daffa405047d5c2b148ecc505f7ce1837d83da08bc77c5
+#13 exporting manifest sha256:2ffc5dd02547fab019daffa405047d5c2b148ecc505f7ce1837d83da08bc77c5 done
+#13 exporting config sha256:b444c424e14e89e7fb84ecc4591465337581af8026e81650a8cf429b911a98a0 done
+#13 exporting attestation manifest sha256:9fb336c0cfa7f83d3a8b42dca59e2907d3a17f6c26422819ae09f806bb0a1866 done
+#13 exporting manifest list sha256:5c5cbb222558c5d90ffb0497a8552b8a68a453a15a593970ef79744014ba52c9 done
+#13 naming to docker.io/library/motherboard_systems_hq-dashboard:latest done
+#13 unpacking to docker.io/library/motherboard_systems_hq-dashboard:latest
+#13 unpacking to docker.io/library/motherboard_systems_hq-dashboard:latest 0.5s done
+#13 DONE 1.5s
+
+#14 resolving provenance for metadata file
+#14 DONE 0.0s
+ motherboard_systems_hq-dashboard  Built
+ Network motherboard_systems_hq_default  Creating
+ Network motherboard_systems_hq_default  Created
+ Container motherboard_systems_hq-postgres-1  Creating
+ Container motherboard_systems_hq-postgres-1  Created
+ Container motherboard_systems_hq-dashboard-1  Creating
+ Container motherboard_systems_hq-dashboard-1  Created
+ Container motherboard_systems_hq-postgres-1  Starting
+ Container motherboard_systems_hq-postgres-1  Started
+ Container motherboard_systems_hq-dashboard-1  Starting
+ Container motherboard_systems_hq-dashboard-1  Started
+
+=== POST-REBUILD 8080 CONTAINER ===
+9f01136feec0 0.0.0.0:8080->3000/tcp, [::]:8080->3000/tcp motherboard_systems_hq-dashboard-1
+d3f7c8ddb521 0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp motherboard_systems_hq-postgres-1
+
+=== POST-REBUILD CONTAINER /app/public/dashboard.html CHECK ===
+128-                      <div id="operator-guidance-panel" class="mt-4 rounded-xl border border-gray-700 bg-gray-900/70 p-4 min-h-[140px]">
+129-                        <div class="text-xs uppercase tracking-[0.2em] text-gray-500 mb-3">Operator Guidance</div>
+130-                        <div id="operator-guidance-response" class="text-sm text-gray-300 leading-6">
+131:                          Awaiting bounded guidance stream.<br>
+132:                          Live operator guidance will appear here when visibility wiring is active.
+133-                        </div>
+134-                        <div id="operator-guidance-meta" class="mt-3 text-xs text-gray-500 leading-5">
+135:                          Confidence: limited<br>
+136:                          Sources: diagnostics/system-health
+137-                        </div>
+138-                      </div>
+139-                    </div>
+
+=== HTTP CHECK ===
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0 24915    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Wed, 15 Apr 2026 19:02:36 GMT
+ETag: W/"6153-19d92861ce0"
+Content-Type: text/html; charset=utf-8
+Content-Length: 24915
+Date: Thu, 16 Apr 2026 05:47:47 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+
+=== SERVED BODY CHECK ===
+316-                    <div id="operator-guidance-panel" class="mt-3 rounded-xl border border-gray-700 bg-gray-900/70 p-4">
+317-                      <div class="text-xs uppercase tracking-[0.2em] text-gray-500 mb-2">Operator Guidance</div>
+318-                      <div id="operator-guidance-response" class="text-sm text-gray-300 leading-6">
+319:                        Awaiting bounded guidance stream.<br />
+320:                        Live operator guidance will appear here when visibility wiring is active.
+321-                      </div>
+322-                      <div id="operator-guidance-meta" class="mt-3 text-xs text-gray-500 leading-5">
+323:                        Confidence: insufficient<br />
+324:                        Sources: diagnostics/system-health
+325-                      </div>
+326-                    </div>
+327-                  </div>
+
+=== FINAL READ ===
+Goal: verify whether the actual 8080-serving container still embeds the stale dashboard artifact.
+If served body still shows Confidence: insufficient after force rebuild, the confidence string is being rendered client-side from bundled JS.
+

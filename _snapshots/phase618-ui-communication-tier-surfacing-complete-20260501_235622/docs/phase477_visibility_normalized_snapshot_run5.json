@@ -1,0 +1,22 @@
+{
+  "intake": {
+    "intakeId": "intake_d0c071b2d24b9b7edd2c7e889b3dca7b223faf8ecfb9730b7711181b581a58dd",
+    "status": "FAILURE"
+  },
+  "governance": {
+    "decision": "APPROVED",
+    "decisionId": "decision_d0c071b2d24b9b7edd2c7e889b3dca7b223faf8ecfb9730b7711181b581a58dd"
+  },
+  "approval": {
+    "status": "APPROVED",
+    "approvalId": "approval_d0c071b2d24b9b7edd2c7e889b3dca7b223faf8ecfb9730b7711181b581a58dd"
+  },
+  "execution": {
+    "status": "SUCCEEDED",
+    "output": "EXECUTION_OK: echo deterministic flow"
+  },
+  "failure": {
+    "stage": "entry_validation",
+    "error": "EMPTY_INPUT"
+  }
+}

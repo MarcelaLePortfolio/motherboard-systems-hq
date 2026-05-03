@@ -1,0 +1,9 @@
+PHASE 478.4 — DISCOVER AND REINTRODUCE FIRST LOCAL STYLESHEET
+============================================================
+
+candidate_source_count=5
+discovered_local_stylesheet_count=0
+
+DISCOVERED LOCAL STYLESHEETS
+
+ERROR: no local stylesheet tags discovered in candidate backups

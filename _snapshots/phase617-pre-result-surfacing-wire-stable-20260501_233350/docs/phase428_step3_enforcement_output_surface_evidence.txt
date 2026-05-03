@@ -1,0 +1,12 @@
+authorization result structures
+
+admission and admissibility indicators
+
+execution trigger indicators (prohibited check)
+
+task mutation indicators (prohibited check)
+
+operator interaction indicators (prohibited check)
+
+policy mutation indicators (prohibited check)
+

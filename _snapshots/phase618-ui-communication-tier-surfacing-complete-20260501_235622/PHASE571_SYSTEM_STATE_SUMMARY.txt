@@ -1,0 +1,52 @@
+PHASE 571 — SYSTEM STATE SUMMARY
+
+YOU NOW HAVE:
+
+OPERATOR ACTIONS:
+- Requeue → ACTIVE (safe, deterministic task copy)
+- Retry Differently → VISIBLE (placeholder, strategy-aware future)
+- Cancel → INERT (intentionally)
+
+SYSTEM CAPABILITY LEVEL:
+- Observation → COMPLETE
+- Inspection → COMPLETE
+- Safe Action → COMPLETE
+- Strategic Action → NOT YET (designed, not implemented)
+
+IMPORTANT TRUTH:
+
+You did NOT remove Retry.
+
+You SPLIT it into:
+1. Requeue (what retry actually was)
+2. Retry Differently (what retry should become)
+
+This is a PRODUCT UPGRADE, not a downgrade.
+
+WHY THIS MATTERS:
+
+Before:
+- "Retry" = misleading (implies different outcome)
+
+Now:
+- Requeue = honest (same attempt again)
+- Retry Differently = future intelligence layer
+
+You eliminated ambiguity.
+
+NEXT REAL DECISION (NOT CODE):
+
+Define:
+HOW a "strategy_shift" actually changes execution
+
+Options include:
+- different agent
+- different prompt structure
+- different reasoning mode
+- escalation tier
+- fallback override
+
+DO NOT IMPLEMENT until this is explicit.
+
+STATUS:
+SYSTEM IS CLEAN, HONEST, AND READY FOR INTELLIGENCE LAYER

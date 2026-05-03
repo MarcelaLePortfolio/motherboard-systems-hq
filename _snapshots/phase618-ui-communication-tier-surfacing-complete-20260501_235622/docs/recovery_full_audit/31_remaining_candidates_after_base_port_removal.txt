@@ -1,0 +1,14 @@
+PHASE 457 - REMAINING CANDIDATES AFTER BASE PORT REMOVAL
+========================================================
+
+phase65_layout      -> http://localhost:8091
+phase65_wiring      -> http://localhost:8092
+operator_guidance   -> http://localhost:8093
+
+Expected:
+- 8092 should now boot without base 8080 collision
+- 8093 should now boot without base 8080 collision
+
+Logs:
+- docs/recovery_full_audit/phase65_wiring_base_port_removed_boot.txt
+- docs/recovery_full_audit/operator_guidance_base_port_removed_boot.txt

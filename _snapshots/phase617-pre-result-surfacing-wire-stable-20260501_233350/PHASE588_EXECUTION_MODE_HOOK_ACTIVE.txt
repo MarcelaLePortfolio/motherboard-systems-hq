@@ -1,0 +1,13 @@
+Phase 588 execution mode hook active.
+
+State:
+- Third runtime execution-policy hook added.
+- execution_mode=rebuild_context now emits an explicit runtime signal.
+- Hook is non-breaking:
+  - no schema change
+  - no task mutation
+  - no execution branch yet
+  - no outcome change
+
+Purpose:
+Make context rebuild observable as a real runtime policy step before wiring future context behavior.

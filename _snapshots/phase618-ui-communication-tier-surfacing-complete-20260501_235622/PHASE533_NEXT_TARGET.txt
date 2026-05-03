@@ -1,0 +1,41 @@
+PHASE 533 — NEXT TARGET
+
+CORRIDOR:
+UX + OBSERVABILITY POLISH
+
+PRIORITY:
+Lifecycle progression clarity (state transitions)
+
+PROBLEM:
+- Execution Trail shows events, but transitions are not visually obvious
+- Operator cannot quickly see progression (Queued → Running → Completed)
+
+OBJECTIVE:
+Make lifecycle transitions visually scannable
+
+APPROACH (SAFE, UI-ONLY):
+- Add symbol or icon per state:
+  Queued    → ●
+  Running   → ▶
+  Completed → ✓
+  Failed    → ✕
+- Keep existing text intact (additive only)
+
+IMPLEMENTATION:
+- Modify renderEvent()
+- Prefix label with symbol
+
+EXAMPLE:
+[abc123] ▶ Running: Process task
+
+CONSTRAINTS:
+- Single file only
+- No backend changes
+- No SSE changes
+- Additive change only
+
+GOAL:
+Instant recognition of task state transitions
+
+STATUS:
+READY FOR NEXT UI PASS

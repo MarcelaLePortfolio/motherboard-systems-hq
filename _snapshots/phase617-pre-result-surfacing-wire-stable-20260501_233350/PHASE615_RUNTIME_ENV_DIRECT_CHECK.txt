@@ -1,0 +1,17 @@
+Phase 615 runtime env direct check.
+
+Goal:
+Verify scheduler disabled conditions directly without relying on noisy dashboard startup logs.
+
+Expected:
+- SYSTEM_SCHEDULER_ENABLED is empty or not true.
+- Runtime block exists.
+- No phase615 task dispatch appears.
+
+--- DASHBOARD ENV CHECK ---
+SYSTEM_SCHEDULER_ENABLED=
+SYSTEM_SCHEDULER_INTERVAL_MS=
+
+--- PHASE615 DISPATCH CHECK ---
+
+--- WORKER NEW SCHEDULER TASK CHECK ---

@@ -1,0 +1,18 @@
+node:internal/modules/esm/resolve:262
+    throw new ERR_UNSUPPORTED_DIR_IMPORT(path, basePath, String(resolved));
+          ^
+
+Error [ERR_UNSUPPORTED_DIR_IMPORT]: Directory import '/Users/marcela-dev/Projects/Motherboard_Systems_HQ/src/cognition' is not supported resolving ES modules imported from /Users/marcela-dev/Projects/Motherboard_Systems_HQ/routes/diagnostics/systemHealthSituationSummary.ts
+    at finalizeResolution (node:internal/modules/esm/resolve:262:11)
+    at moduleResolve (node:internal/modules/esm/resolve:859:10)
+    at defaultResolve (node:internal/modules/esm/resolve:983:11)
+    at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:801:12)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:725:25)
+    at ModuleLoader.resolve (node:internal/modules/esm/loader:708:38)
+    at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:309:38)
+    at #link (node:internal/modules/esm/module_job:208:49) {
+  code: 'ERR_UNSUPPORTED_DIR_IMPORT',
+  url: 'file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/src/cognition'
+}
+
+Node.js v24.4.0

@@ -1,0 +1,24 @@
+PHASE 550 — NEXT TARGET
+
+CORRIDOR:
+MANUAL UI VERIFICATION + CHECKPOINT
+
+PRIORITY:
+Confirm Phase 549 visually in browser before further changes.
+
+VERIFY:
+- Execution Activity container is visually distinct
+- Logs still render correctly
+- Selected task panel still works
+- Inspect / Copy ID actions still work
+- SSE remains live
+- No console errors
+
+IF PASS:
+Create checkpoint tag for post-operator-surface polish.
+
+IF FAIL:
+Stop and inspect CSS specificity / active container styling.
+
+STATUS:
+READY FOR MANUAL BROWSER CHECK

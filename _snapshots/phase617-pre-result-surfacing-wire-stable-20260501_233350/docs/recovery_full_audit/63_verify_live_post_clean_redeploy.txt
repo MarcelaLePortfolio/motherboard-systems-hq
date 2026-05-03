@@ -1,0 +1,55 @@
+PHASE 457L LIVE VERIFICATION AFTER CLEAN REDEPLOY
+=================================================
+
+HTML_URL=http://localhost:8080/dashboard.html
+RESTORE_JS_URL=http://localhost:8080/js/phase457_restore_task_panels.js
+NEUTRALIZER_JS_URL=http://localhost:8080/js/phase457_neutralize_legacy_observational_consumers.js
+
+===== LIVE HTML SCRIPT ORDER =====
+727:    <script src="/js/phase457_restore_task_panels.js"></script>
+728:    <script src="/js/phase457_neutralize_legacy_observational_consumers.js"></script>
+
+===== LIVE RESTORE JS SENTINELS =====
+3:  if (window.__PHASE457_RESTORE_TASK_PANELS_ACTIVE__) return;
+4:  window.__PHASE457_RESTORE_TASK_PANELS_ACTIVE__ = true;
+125:        '<div class="text-sm text-gray-500">Waiting for recent tasks…</div>';
+145:        '<div class="text-sm text-gray-500">Waiting for task history…</div>';
+225:  function connectDirectTaskEvents() {
+290:    connectDirectTaskEvents();
+229:      state.es = new EventSource("/events/task-events");
+229:      state.es = new EventSource("/events/task-events");
+160:    var anchor = byId("mb-task-events-panel-anchor");
+165:    var existingPanel = byId("mb-task-events-panel");
+192:    window.addEventListener("mb.task.event", function (e) {
+
+===== LIVE NEUTRALIZER JS SENTINELS =====
+3:  if (window.__PHASE457_NEUTRALIZER_ACTIVE__) return;
+4:  window.__PHASE457_NEUTRALIZER_ACTIVE__ = true;
+18:      recent.setAttribute("data-phase457-neutralized", "recent");
+24:      history.setAttribute("data-phase457-neutralized", "history");
+30:      eventsAnchor.setAttribute("data-phase457-neutralized", "events");
+42:      response.setAttribute("data-phase457-neutralized", "guidance");
+50:      meta.setAttribute("data-phase457-neutralized", "guidance");
+44:        ["Confidence: unknown", "Confidence: high confidence"],
+52:        ["Confidence: unknown", "Confidence: high confidence"]
+17:    if (recent && /probe:recent:|updated_at|column "updated_at" does not exist/i.test(recent.textContent || "")) {
+23:    if (history && /probe:history:|run_view|relation "run_view" does not exist/i.test(history.textContent || "")) {
+
+===== PANEL IDS IN LIVE HTML =====
+567:                    <div id="tasks-widget"></div>
+619:    <div id="recentLogs"></div>
+201:      #task-events-card.phase61-events-fill #mb-task-events-panel-anchor {
+584:                    <div id="mb-task-events-panel-anchor"></div>
+738:#mb-task-events-panel-anchor {
+510:                        <div id="operator-guidance-response" class="text-sm text-gray-300 leading-6">
+514:                        <div id="operator-guidance-meta" class="mt-3 text-xs text-gray-500 leading-5">
+
+===== QUICK RESULT =====
+HTML_RESTORE_TAG=1
+HTML_NEUTRALIZER_TAG=1
+RESTORE_GUARD=1
+NEUTRALIZER_GUARD=1
+CONFIDENCE_PATCH=1
+RECENT_PROBE_PATCH=1
+HISTORY_PROBE_PATCH=1
+DIRECT_EVENT_BRIDGE=1

@@ -1,0 +1,17 @@
+Phase 585 worker execution path finding.
+
+Finding:
+- The current worker has no real execution hook yet.
+- The worker claim loop immediately completes claimed tasks after visibility logging.
+- No cache/context/memory runtime systems are currently present in phase26_task_worker.mjs.
+- Therefore runtime rule enforcement cannot honestly change real execution behavior yet.
+
+Safe Next Step:
+Create a small execution policy resolver that converts persisted retry payload fields into an explicit runtime policy object.
+
+Purpose:
+- Establish the runtime enforcement boundary.
+- Keep behavior non-invasive.
+- Prepare future real hooks for cache/context/memory once they exist.
+
+Do NOT pretend cache/context/memory reset is happening yet.

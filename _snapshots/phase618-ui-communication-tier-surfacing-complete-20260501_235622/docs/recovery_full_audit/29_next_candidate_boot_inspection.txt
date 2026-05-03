@@ -1,0 +1,144 @@
+PHASE 457 - NEXT CANDIDATE BOOT INSPECTION
+==========================================
+
+===== phase65_wiring =====
+WORKTREE=../mbhq_recovery_visual_compare/phase65_wiring
+URL=http://localhost:8092
+
+[git branch]
+recovery/phase65_wiring
+
+[compose files]
+docker-compose.override.yml
+docker-compose.phase31.7-worker.yml
+docker-compose.phase45_1.startup_determinism.yml
+docker-compose.phase457.override.yml
+docker-compose.phase457.port.override.yml
+docker-compose.phase46.dashboard_heap.override.yml
+docker-compose.phase47.enforce.override.yml
+docker-compose.phase47.postgres_url.override.yml
+docker-compose.phase54.enforce.override.yml
+docker-compose.phase54.postgres_bootstrap.override.yml
+docker-compose.phase54.shadow.override.yml
+docker-compose.phase57.shadow.env.override.yml
+docker-compose.worker.phase32.yml
+docker-compose.worker.phase34.yml
+docker-compose.workers.yml
+docker-compose.yml
+
+[compose ps -a]
+NAME                         IMAGE                      COMMAND                  SERVICE     CREATED              STATUS              PORTS
+phase65_wiring-dashboard-1   phase65_wiring-dashboard   "docker-entrypoint.s…"   dashboard   About a minute ago   Created             
+phase65_wiring-postgres-1    postgres:16-alpine         "docker-entrypoint.s…"   postgres    About a minute ago   Up About a minute   5432/tcp
+
+[dashboard logs]
+
+[postgres logs]
+postgres-1  | The files belonging to this database system will be owned by user "postgres".
+postgres-1  | This user must also own the server process.
+postgres-1  | 
+postgres-1  | The database cluster will be initialized with locale "en_US.utf8".
+postgres-1  | The default database encoding has accordingly been set to "UTF8".
+postgres-1  | The default text search configuration will be set to "english".
+postgres-1  | 
+postgres-1  | Data page checksums are disabled.
+postgres-1  | 
+postgres-1  | fixing permissions on existing directory /var/lib/postgresql/data ... ok
+postgres-1  | creating subdirectories ... ok
+postgres-1  | selecting dynamic shared memory implementation ... posix
+postgres-1  | selecting default max_connections ... 100
+postgres-1  | selecting default shared_buffers ... 128MB
+postgres-1  | selecting default time zone ... UTC
+postgres-1  | creating configuration files ... ok
+postgres-1  | running bootstrap script ... ok
+postgres-1  | sh: locale: not found
+postgres-1  | 2026-04-07 23:07:15.590 UTC [36] WARNING:  no usable system locales were found
+postgres-1  | performing post-bootstrap initialization ... ok
+postgres-1  | syncing data to disk ... ok
+postgres-1  | 
+postgres-1  | 
+postgres-1  | Success. You can now start the database server using:
+postgres-1  | 
+postgres-1  |     pg_ctl -D /var/lib/postgresql/data -l logfile start
+postgres-1  | 
+postgres-1  | initdb: warning: enabling "trust" authentication for local connections
+postgres-1  | initdb: hint: You can change this by editing pg_hba.conf or using the option -A, or --auth-local and --auth-host, the next time you run initdb.
+postgres-1  | waiting for server to start....2026-04-07 23:07:15.756 UTC [42] LOG:  starting PostgreSQL 16.13 on aarch64-unknown-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit
+postgres-1  | 2026-04-07 23:07:15.756 UTC [42] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+postgres-1  | 2026-04-07 23:07:15.758 UTC [45] LOG:  database system was shut down at 2026-04-07 23:07:15 UTC
+postgres-1  | 2026-04-07 23:07:15.759 UTC [42] LOG:  database system is ready to accept connections
+postgres-1  |  done
+postgres-1  | server started
+postgres-1  | 
+postgres-1  | /usr/local/bin/docker-entrypoint.sh: ignoring /docker-entrypoint-initdb.d/*
+postgres-1  | 
+postgres-1  | waiting for server to shut down....2026-04-07 23:07:15.860 UTC [42] LOG:  received fast shutdown request
+postgres-1  | 2026-04-07 23:07:15.860 UTC [42] LOG:  aborting any active transactions
+postgres-1  | 2026-04-07 23:07:15.861 UTC [42] LOG:  background worker "logical replication launcher" (PID 48) exited with exit code 1
+postgres-1  | 2026-04-07 23:07:15.861 UTC [43] LOG:  shutting down
+postgres-1  | 2026-04-07 23:07:15.862 UTC [43] LOG:  checkpoint starting: shutdown immediate
+postgres-1  | 2026-04-07 23:07:15.864 UTC [43] LOG:  checkpoint complete: wrote 3 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.001 s, sync=0.001 s, total=0.003 s; sync files=2, longest=0.001 s, average=0.001 s; distance=0 kB, estimate=0 kB; lsn=0/14F2618, redo lsn=0/14F2618
+postgres-1  | 2026-04-07 23:07:15.866 UTC [42] LOG:  database system is shut down
+postgres-1  |  done
+postgres-1  | server stopped
+postgres-1  | 
+postgres-1  | PostgreSQL init process complete; ready for start up.
+postgres-1  | 
+postgres-1  | 2026-04-07 23:07:15.983 UTC [1] LOG:  starting PostgreSQL 16.13 on aarch64-unknown-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit
+postgres-1  | 2026-04-07 23:07:15.983 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+postgres-1  | 2026-04-07 23:07:15.983 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+postgres-1  | 2026-04-07 23:07:15.984 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+postgres-1  | 2026-04-07 23:07:15.985 UTC [56] LOG:  database system was shut down at 2026-04-07 23:07:15 UTC
+postgres-1  | 2026-04-07 23:07:15.988 UTC [1] LOG:  database system is ready to accept connections
+
+[port listen]
+
+[http headers]
+
+[title]
+
+[body markers]
+
+===== operator_guidance =====
+WORKTREE=../mbhq_recovery_visual_compare/operator_guidance
+URL=http://localhost:8093
+
+[git branch]
+recovery/operator_guidance
+
+[compose files]
+docker-compose.override.yml
+docker-compose.phase31.7-worker.yml
+docker-compose.phase45_1.startup_determinism.yml
+docker-compose.phase457.override.yml
+docker-compose.phase457.port.override.yml
+docker-compose.phase46.dashboard_heap.override.yml
+docker-compose.phase47.enforce.override.yml
+docker-compose.phase47.postgres_url.override.yml
+docker-compose.phase54.enforce.override.yml
+docker-compose.phase54.postgres_bootstrap.override.yml
+docker-compose.phase54.shadow.override.yml
+docker-compose.phase57.shadow.env.override.yml
+docker-compose.worker.phase32.yml
+docker-compose.worker.phase34.yml
+docker-compose.workers.yml
+docker-compose.yml
+
+[compose ps -a]
+NAME      IMAGE     COMMAND   SERVICE   CREATED   STATUS    PORTS
+
+[dashboard logs]
+
+[postgres logs]
+
+[port listen]
+
+[http headers]
+
+[title]
+
+[body markers]
+
+DETERMINISTIC INTERPRETATION
+- If 8092 or 8093 still fail, use the first concrete dashboard log error as the only next mutation target.
+- If one responds, that candidate is ready for visual comparison.

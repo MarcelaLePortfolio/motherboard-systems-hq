@@ -1,0 +1,103 @@
+Phase 575 retry router inspection.
+
+Goal:
+Inspect retry routing logic without cherry-picking conflicting commits.
+
+--- CURRENT RETRY FILES ---
+server/_lib/retry.mjs
+server/db_bootstrap_tasks_retry_semantics.mjs
+server/retry_contract.js
+server/retry_execution_router.js
+server/worker_retry_enforcer.js
+server/worker/execution_contract.mjs
+server/worker/phase30_contract_check.sql
+
+--- CURRENT ROUTER ---
+const { emitEvent } = require('./observability_logger');
+function routeRetryExecution(task) {
+  const strategy = task?.strategy || "standard";
+
+  if (strategy === "fresh-context") {
+    return {
+      ...task,
+      execution_mode: "rebuild_context",
+      cache_policy: "bypass",
+      memory_scope: "reset_partial"
+    };
+  }
+
+  return {
+    ...task,
+    execution_mode: "standard_retry",
+    cache_policy: "reuse",
+    memory_scope: "preserve"
+  };
+}
+
+
+  emitEvent({
+    type: "retry.router.loaded",
+    layer: "execution_router"
+  });
+
+module.exports = { routeRetryExecution };
+
+--- COMMIT 546930e5 ROUTER ---
+function routeRetryExecution(task) {
+  const strategy = task?.strategy || "standard";
+
+  if (strategy === "fresh-context") {
+    return {
+      ...task,
+      execution_mode: "rebuild_context",
+      cache_policy: "bypass",
+      memory_scope: "reset_partial"
+    };
+  }
+
+  return {
+    ...task,
+    execution_mode: "standard_retry",
+    cache_policy: "reuse",
+    memory_scope: "preserve"
+  };
+}
+
+module.exports = { routeRetryExecution };
+
+--- COMMIT 546930e5 CONTRACT ---
+function enforceRetryContract(req, res, next) {
+  const body = req.body || {};
+
+  if (body.kind !== "retry") {
+    return next();
+  }
+
+  // Ensure deterministic retry strategy
+  const allowedStrategies = new Set(["standard", "fresh-context"]);
+
+  if (!body.strategy) {
+    body.strategy = "standard";
+  }
+
+  if (!allowedStrategies.has(body.strategy)) {
+    return res.status(400).json({
+      error: "INVALID_RETRY_STRATEGY",
+      allowed: Array.from(allowedStrategies)
+    });
+  }
+
+  if (!body.meta || !body.meta.retry_of_task_id) {
+    return res.status(400).json({
+      error: "MISSING_RETRY_CONTEXT"
+    });
+  }
+
+  // Freeze intent (prevent UI-only ambiguity)
+  body.source = body.source || "execution-inspector";
+  req.body = body;
+
+  next();
+}
+
+module.exports = { enforceRetryContract };

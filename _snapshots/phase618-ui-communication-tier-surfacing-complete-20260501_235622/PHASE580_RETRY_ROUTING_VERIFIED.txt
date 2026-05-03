@@ -1,0 +1,14 @@
+Phase 580 retry routing verified.
+
+Result:
+- Retry routing is now applied in the real delegate pipeline.
+- fresh-context retry persisted:
+  - execution_mode: rebuild_context
+  - cache_policy: bypass
+  - memory_scope: reset_partial
+- Task completed successfully.
+- Dashboard, worker, and Postgres remain stable.
+- Working tree is clean.
+
+Next:
+Checkpoint/tag/snapshot this stable Phase 580 state before continuing.

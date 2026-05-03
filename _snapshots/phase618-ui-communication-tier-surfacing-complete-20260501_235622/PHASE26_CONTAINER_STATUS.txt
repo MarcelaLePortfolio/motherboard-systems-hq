@@ -1,0 +1,7 @@
+Phase 26 container status (compose):
+- Added docker-compose.worker.yml defining service "worker" that runs: node server/worker/phase26_task_worker.mjs
+- Worker container motherboard_systems_hq-worker-1 is running and shows PID 1 = node server/worker/phase26_task_worker.mjs
+- POSTGRES_URL resolves inside container (postgres://postgres:postgres@postgres:5432/postgres)
+- End-to-end verified: creating task t88 produced task.created (id 267) -> task.running (id 268) -> task.completed (id 269); tasks.id=88 status=completed.
+Notes:
+- `docker compose run` requires explicit -e POSTGRES_URL=... because compose expands ${POSTGRES_URL} on the host at parse-time.

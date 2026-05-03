@@ -1,0 +1,43 @@
+SHA=ee8ea4f820b46206a3c5dbe172454e8f8d368ea6
+LABEL=Phase 65 restore dashboard layout-bearing files
+PORT=8132
+
+--- tracked file hashes ---
+index.html: e74317c88b10c2e2dc7b303deaad99af3c0de9f62519b7a8bd4b2493598541f8  public/index.html
+dashboard.html: 6d7f65881a21ddaa3eda42fd55f1e52357d1afc64fc1ae20ba828798dd708cdc  public/dashboard.html
+
+--- served / hash ---
+e74317c88b10c2e2dc7b303deaad99af3c0de9f62519b7a8bd4b2493598541f8  /var/folders/3n/zscyzgr50b9gk8dg6fv8byz80000gn/T/tmp.ilEorYoZlt
+
+--- served /dashboard.html hash ---
+6d7f65881a21ddaa3eda42fd55f1e52357d1afc64fc1ae20ba828798dd708cdc  /var/folders/3n/zscyzgr50b9gk8dg6fv8byz80000gn/T/tmp.go809o5hLS
+
+--- served / markers ---
+Agent Pool
+Atlas Subsystem Status
+Matilda Chat Console
+Recent Tasks
+Task Activity Over Time
+Task Delegation
+
+--- served /dashboard.html markers ---
+Agent Pool
+Atlas Subsystem Status
+observational-tabs
+operator-tabs
+phase61-workspace-grid
+phase62-top-row
+Recent Tasks
+Task Delegation
+Task Events
+Task History
+
+--- served / title ---
+<title>Motherboard Systems Operator Console</title>
+
+--- served /dashboard.html title ---
+<title>Motherboard Systems Operator Console</title>
+
+--- URLs ---
+ROOT_URL=http://localhost:8132/
+DASH_URL=http://localhost:8132/dashboard.html

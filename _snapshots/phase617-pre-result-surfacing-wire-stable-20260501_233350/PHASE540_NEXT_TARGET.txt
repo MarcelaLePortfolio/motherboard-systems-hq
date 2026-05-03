@@ -1,0 +1,46 @@
+PHASE 540 — NEXT TARGET
+
+CORRIDOR:
+UX + OBSERVABILITY POLISH (ACTIVE RENDERER)
+
+PRIORITY:
+Parity with prior enhancements (active highlighting + continuity)
+
+CONTEXT:
+- phase457_restore_task_panels.js confirmed as ACTIVE renderer
+- Previous UX improvements were applied to inactive client
+- Now applying them to correct surface
+
+OBJECTIVE:
+Upgrade active renderer with:
+1. Active state highlighting
+2. Per-task visual continuity (micro-grouping)
+
+APPROACH (SAFE, UI-ONLY):
+- Modify render() row generation only
+- No changes to SSE handling or data flow
+
+IMPLEMENTATION PLAN:
+
+1. ACTIVE STATE HIGHLIGHT
+- Detect:
+  running / started / claimed
+- Apply:
+  subtle background tint
+
+2. PER-TASK CONTINUITY
+- Track lastTaskId in render scope
+- If same as previous:
+  reduce visual separation (indent or soften divider)
+
+CONSTRAINTS:
+- Single file only: public/js/phase457_restore_task_panels.js
+- Additive styling only
+- No backend / SSE changes
+- Preserve existing rendering structure
+
+GOAL:
+Bring active renderer to same high-signal level as prior prototype
+
+STATUS:
+READY FOR SURGICAL PATCH

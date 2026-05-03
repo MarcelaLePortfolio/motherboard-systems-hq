@@ -1,0 +1,30 @@
+INPUT_A_HASH=5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65
+INPUT_B_HASH=c770eeea2f1cfd7f0d2eb8c0099d3ea62e19d78320778943a3c6a938b25fcd97
+
+=== INPUT A EXECUTION ARTIFACT ===
+{
+  "planId": "plan_5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65",
+  "taskId": "task_5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65",
+  "status": "SUCCEEDED",
+  "output": "EXECUTION_OK: echo hello world"
+}
+
+=== INPUT B EXECUTION ARTIFACT ===
+{
+  "planId": "plan_c770eeea2f1cfd7f0d2eb8c0099d3ea62e19d78320778943a3c6a938b25fcd97",
+  "taskId": "task_c770eeea2f1cfd7f0d2eb8c0099d3ea62e19d78320778943a3c6a938b25fcd97",
+  "status": "SUCCEEDED",
+  "output": "EXECUTION_OK: echo hello mars"
+}
+
+=== FILESETS ===
+docs/proofs/approval_plan_5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65.json
+docs/proofs/execution_plan_5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65.json
+docs/proofs/governance_plan_5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65.json
+docs/proofs/intake_intake_5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65.json
+docs/proofs/planning_plan_5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65.json
+docs/proofs/approval_plan_c770eeea2f1cfd7f0d2eb8c0099d3ea62e19d78320778943a3c6a938b25fcd97.json
+docs/proofs/execution_plan_c770eeea2f1cfd7f0d2eb8c0099d3ea62e19d78320778943a3c6a938b25fcd97.json
+docs/proofs/governance_plan_c770eeea2f1cfd7f0d2eb8c0099d3ea62e19d78320778943a3c6a938b25fcd97.json
+docs/proofs/intake_intake_c770eeea2f1cfd7f0d2eb8c0099d3ea62e19d78320778943a3c6a938b25fcd97.json
+docs/proofs/planning_plan_c770eeea2f1cfd7f0d2eb8c0099d3ea62e19d78320778943a3c6a938b25fcd97.json

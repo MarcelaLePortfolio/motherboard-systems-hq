@@ -1,0 +1,117 @@
+DASHBOARD DOWN FOLLOW-UP INSPECTION
+Timestamp: Sun Apr  5 18:50:07 PDT 2026
+
+==== LIKELY PRIMARY FINDING ====
+Docker daemon appears unavailable because docker.sock could not be reached.
+Dashboard on :8080 appears down.
+Something may still be responding on :3000.
+
+==== LAST INSPECTION FILES ====
+docs/dashboard_down_inspection_20260405_184928.txt
+
+==== LOCAL PORT 3000 / 8080 LISTENERS ====
+COMMAND   PID        USER   FD   TYPE            DEVICE SIZE/OFF NODE NAME
+node    33302 marcela-dev   13u  IPv4 0x2574a63839a45e9      0t0  TCP *:3000 (LISTEN)
+
+==== HTTP HEADERS ====
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Fri, 20 Mar 2026 18:02:44 GMT
+ETag: W/"282b-19d0c69f798"
+Content-Type: text/html; charset=utf-8
+Content-Length: 10283
+Date: Mon, 06 Apr 2026 01:50:07 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+
+
+==== HTTP TITLE / FIRST LINES FROM :3000 ====
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <style id="matilda-chat-typography-polish">
+    #matilda-chat-transcript p {
+      line-height: 1.45 !important;
+      margin-bottom: 0.55rem !important;
+    }
+    #matilda-chat-transcript .user-message {
+      color: #dbeafe !important;
+    }
+    #matilda-chat-transcript .matilda-message {
+      color: #a7f3d0 !important;
+    }
+  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Motherboard Systems Operator Console</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="css/broadcast.css" />
+  <link rel="stylesheet" href="css/dashboard.css?v=darkmode" />
+  <link rel="stylesheet" href="css/dashboard-reflections.css" />
+  <link rel="stylesheet" href="css/agent-status-row.css" />
+  <link rel="stylesheet" href="css/matilda-chat.css" />
+  <link rel="stylesheet" href="css/demo_layout_trim.css" />
+  <link rel="stylesheet" href="css/phase59_demo_focus.css" />
+</head>
+
+<body class="bg-gray-900 text-gray-100 min-h-screen p-4">
+  <header class="phase59-shell flex flex-col gap-4 mb-6 lg:flex-row lg:items-center lg:justify-between">
+    <div>
+      <p class="text-xs uppercase tracking-[0.24em] text-teal-300/70 mb-2">Motherboard Systems</p>
+      <h1 class="text-3xl font-bold text-teal-400">
+        Operator Console
+      </h1>
+    </div>
+
+==== PROCESS MATCHES (node / next / tsx / dashboard) ====
+marcela-dev      20646   8.7  0.7 1867224976 110656   ??  S    Tue02PM 305:11.40 /Applications/Visual Studio Code.app/Contents/Frameworks/Code Helper.app/Contents/MacOS/Code Helper --type=utility --utility-sub-type=node.mojom.NodeService --lang=en-US --service-sandbox-type=none --user-data-dir=/Users/marcela-dev/Library/Application Support/Code --standard-schemes=vscode-webview,vscode-file --enable-sandbox --secure-schemes=vscode-webview,vscode-file --cors-schemes=vscode-webview,vscode-file --fetch-schemes=vscode-webview,vscode-file --service-worker-schemes=vscode-webview --code-cache-schemes=vscode-webview,vscode-file --shared-files --field-trial-handle=1718379636,r,12494297424710801702,3027335317334044913,262144 --enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EarlyEstablishGpuChannel,EstablishGpuChannelAsync,ScreenCaptureKitPickerScreen,ScreenCaptureKitStreamPickerSonoma --disable-features=CalculateNativeWinOcclusion,LocalNetworkAccessChecks,MacWebContentsOcclusion,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TimeoutHangingVideoCaptureStarts,TraceSiteInstanceGetProcessCreation --variations-seed-version --trace-process-track-uuid=3190708992871164437
+marcela-dev      21764   1.6  0.0 410201488   1696 s337  S+    6:50PM   0:00.01 bash scripts/_local/dashboard_down_followup_inspection.sh
+marcela-dev      20647   0.3  0.9 1867054272 155248   ??  S    Tue02PM  10:57.38 /Applications/Visual Studio Code.app/Contents/Frameworks/Code Helper (Plugin).app/Contents/MacOS/Code Helper (Plugin) --type=utility --utility-sub-type=node.mojom.NodeService --lang=en-US --service-sandbox-type=none --dns-result-order=ipv4first --experimental-network-inspection --inspect-port=0 --user-data-dir=/Users/marcela-dev/Library/Application Support/Code --standard-schemes=vscode-webview,vscode-file --enable-sandbox --secure-schemes=vscode-webview,vscode-file --cors-schemes=vscode-webview,vscode-file --fetch-schemes=vscode-webview,vscode-file --service-worker-schemes=vscode-webview --code-cache-schemes=vscode-webview,vscode-file --shared-files --field-trial-handle=1718379636,r,12494297424710801702,3027335317334044913,262144 --enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EarlyEstablishGpuChannel,EstablishGpuChannelAsync,ScreenCaptureKitPickerScreen,ScreenCaptureKitStreamPickerSonoma --disable-features=CalculateNativeWinOcclusion,LocalNetworkAccessChecks,MacWebContentsOcclusion,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TimeoutHangingVideoCaptureStarts,TraceSiteInstanceGetProcessCreation --variations-seed-version --trace-process-track-uuid=3190708993808206286
+marcela-dev      20644   0.1  0.4 1867026448  59408   ??  S    Tue02PM   0:44.07 /Applications/Visual Studio Code.app/Contents/Frameworks/Code Helper.app/Contents/MacOS/Code Helper --type=utility --utility-sub-type=node.mojom.NodeService --lang=en-US --service-sandbox-type=none --user-data-dir=/Users/marcela-dev/Library/Application Support/Code --standard-schemes=vscode-webview,vscode-file --enable-sandbox --secure-schemes=vscode-webview,vscode-file --cors-schemes=vscode-webview,vscode-file --fetch-schemes=vscode-webview,vscode-file --service-worker-schemes=vscode-webview --code-cache-schemes=vscode-webview,vscode-file --shared-files --field-trial-handle=1718379636,r,12494297424710801702,3027335317334044913,262144 --enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EarlyEstablishGpuChannel,EstablishGpuChannelAsync,ScreenCaptureKitPickerScreen,ScreenCaptureKitStreamPickerSonoma --disable-features=CalculateNativeWinOcclusion,LocalNetworkAccessChecks,MacWebContentsOcclusion,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TimeoutHangingVideoCaptureStarts,TraceSiteInstanceGetProcessCreation --variations-seed-version --trace-process-track-uuid=3190708990997080739
+marcela-dev      67459   0.0  0.2 412283072  26896   ??  S    Wed07PM   0:09.30 /Applications/Dropbox.app/Contents/Frameworks/Dropbox Helper (GPU).app/Contents/MacOS/Dropbox Helper (GPU) --type=gpu-process --crashpad-annotations=product_name:desktop_client,buildid:electron_vnext,buildno:Dropbox-mac-246.4.3513,platform:mac,platform_version:15.7.3 --user-data-dir=/Users/marcela-dev/Library/Application Support/Dropbox --gpu-preferences=UAAAAAAAAAAgAAAEAAAAAAAAAAAAAAAAAABgAAMAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAEAAAAAAAAAAIAAAAAAAAAAgAAAAAAAAA --shared-files --field-trial-handle=1718379636,r,2741646339989544688,11390816631479595016,262144 --enable-features=PdfUseShowSaveFilePicker,ScreenCaptureKitPickerScreen,ScreenCaptureKitStreamPickerSonoma --disable-features=MacWebContentsOcclusion,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TimeoutHangingVideoCaptureStarts --variations-seed-version --seatbelt-client=62
+marcela-dev      46546   0.0  0.2 1865219712  28064   ??  S    Wed03PM   0:03.25 /Applications/Visual Studio Code.app/Contents/Frameworks/Code Helper (Plugin).app/Contents/MacOS/Code Helper (Plugin) /Applications/Visual Studio Code.app/Contents/Resources/app/extensions/node_modules/typescript/lib/typingsInstaller.js --globalTypingsCacheLocation /Users/marcela-dev/Library/Caches/typescript/5.9 --enableTelemetry --typesMapLocation /Applications/Visual Studio Code.app/Contents/Resources/app/extensions/node_modules/typescript/lib/typesMap.json --validateDefaultNpmLocation
+marcela-dev      46541   0.0  0.3 1865237120  54144   ??  S    Wed03PM   0:01.84 /Applications/Visual Studio Code.app/Contents/Frameworks/Code Helper (Plugin).app/Contents/MacOS/Code Helper (Plugin) --max-old-space-size=3072 /Applications/Visual Studio Code.app/Contents/Resources/app/extensions/node_modules/typescript/lib/tsserver.js --useInferredProjectPerProjectRoot --enableTelemetry --cancellationPipeName /var/folders/3n/zscyzgr50b9gk8dg6fv8byz80000gn/T/vscode-typescript501/198476cfe5d7d7025625/tscancellation-6b033969953745eaccdd.tmp* --locale en --noGetErrOnBackgroundUpdate --canUseWatchEvents --validateDefaultNpmLocation --useNodeIpc
+marcela-dev      46540   0.0  0.2 1865237376  31136   ??  S    Wed03PM   0:00.94 /Applications/Visual Studio Code.app/Contents/Frameworks/Code Helper (Plugin).app/Contents/MacOS/Code Helper (Plugin) --max-old-space-size=3072 /Applications/Visual Studio Code.app/Contents/Resources/app/extensions/node_modules/typescript/lib/tsserver.js --serverMode partialSemantic --useInferredProjectPerProjectRoot --disableAutomaticTypingAcquisition --cancellationPipeName /var/folders/3n/zscyzgr50b9gk8dg6fv8byz80000gn/T/vscode-typescript501/198476cfe5d7d7025625/tscancellation-5fdf574a4bb9bb31032f.tmp* --locale en --noGetErrOnBackgroundUpdate --canUseWatchEvents --validateDefaultNpmLocation --useNodeIpc
+marcela-dev      21013   0.0  0.2 1882014368  31520   ??  S    Tue02PM   0:17.40 /Applications/Visual Studio Code.app/Contents/Frameworks/Code Helper (Plugin).app/Contents/MacOS/Code Helper (Plugin) /Applications/Visual Studio Code.app/Contents/Resources/app/extensions/json-language-features/server/dist/node/jsonServerMain --node-ipc --clientProcessId=20647
+marcela-dev      20645   0.0  0.3 1867035264  54624   ??  S    Tue02PM   2:05.54 /Applications/Visual Studio Code.app/Contents/Frameworks/Code Helper.app/Contents/MacOS/Code Helper --type=utility --utility-sub-type=node.mojom.NodeService --lang=en-US --service-sandbox-type=none --user-data-dir=/Users/marcela-dev/Library/Application Support/Code --standard-schemes=vscode-webview,vscode-file --enable-sandbox --secure-schemes=vscode-webview,vscode-file --cors-schemes=vscode-webview,vscode-file --fetch-schemes=vscode-webview,vscode-file --service-worker-schemes=vscode-webview --code-cache-schemes=vscode-webview,vscode-file --shared-files --field-trial-handle=1718379636,r,12494297424710801702,3027335317334044913,262144 --enable-features=DocumentPolicyIncludeJSCallStacksInCrashReports,EarlyEstablishGpuChannel,EstablishGpuChannelAsync,ScreenCaptureKitPickerScreen,ScreenCaptureKitStreamPickerSonoma --disable-features=CalculateNativeWinOcclusion,LocalNetworkAccessChecks,MacWebContentsOcclusion,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TimeoutHangingVideoCaptureStarts,TraceSiteInstanceGetProcessCreation --variations-seed-version --trace-process-track-uuid=3190708991934122588
+marcela-dev      33302   0.0  0.1 411606560  17600   ??  S    19Mar26   0:17.99 node server.mjs
+marcela-dev      10476   0.0  0.1 412014096  16448   ??  Ss   12Mar26  28:45.63 node /Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.mjs 
+
+==== DOCKER CLIENT / DAEMON CHECK ====
+/usr/local/bin/docker
+Client:
+ Version:           29.1.3
+ API version:       1.52
+ Go version:        go1.25.5
+ Git commit:        f52814d
+ Built:             Fri Dec 12 14:48:46 2025
+ OS/Arch:           darwin/arm64
+ Context:           desktop-linux
+failed to connect to the docker API at unix:///Users/marcela-dev/.docker/run/docker.sock; check if the path is correct and if the daemon is running: dial unix /Users/marcela-dev/.docker/run/docker.sock: connect: no such file or directory
+
+==== DOCKER DESKTOP PROCESS CHECK ====
+marcela-dev      13665   0.0  0.2 411659392  25632   ??  S    11Mar26   1:15.25 /Applications/Docker.app/Contents/Resources/bin/cagent api --listen unix:///Users/marcela-dev/Library/Containers/com.docker.docker/Data/docker-cagent.sock --models-gateway https://ai-backend-service.docker.com/proxy?origin=desktop&desktopVersion=4.55.0 --pull-interval 15 docker/gordon
+marcela-dev      13602   0.0  0.1 411614944  24192   ??  S    11Mar26   2:30.20 /Applications/Docker.app/Contents/MacOS/com.docker.backend fork
+marcela-dev      13584   0.0  0.2 411630832  25280   ??  S    11Mar26   5:31.35 /Applications/Docker.app/Contents/MacOS/com.docker.backend
+
+==== REPO ROOT FILE PRESENCE ====
+./docker-compose.yml
+./package.json
+
+==== PACKAGE SCRIPTS ====
+{
+  "verify:replay": "tsx scripts/_local/verification/check-replay-verification.ts"
+}
+
+==== QUICK DIAGNOSIS ====
+1) If Docker daemon is down, the containerized dashboard cannot be serving :8080.
+2) If :3000 responds, a local non-Docker process may still be running.
+3) Next step is to identify whether :3000 is the dashboard and whether Docker needs restarting.
+

@@ -1,0 +1,14 @@
+PHASE 531 UI LOCKUP FIX CHECKPOINT
+
+Outcome:
+- Removed aggressive Recent Tasks layout observer/interval behavior.
+- Preserved Recent Tasks / Recent Logs split styling.
+- Restored page responsiveness for buttons and tabs.
+- UI lockup fix confirmed good by operator.
+
+Checkpoint action:
+- Commit current state.
+- Tag current state.
+- Push branch and tag.
+- Rebuild containers.
+- Capture runtime snapshot.

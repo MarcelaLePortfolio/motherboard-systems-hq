@@ -1,0 +1,21 @@
+NEXT COMMAND TO RUN
+
+curl -N --max-time 10 http://localhost:8080/events/tasks
+
+WHAT TO LOOK FOR
+
+If you see:
+event:
+data:
+
+Then the SSE endpoint is alive.
+
+If you see:
+HTML
+404
+Cannot GET
+or nothing at all
+
+Then the backend route is wrong or not mounted.
+
+Do not patch yet.

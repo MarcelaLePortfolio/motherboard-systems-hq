@@ -1,0 +1,39 @@
+PHASE 568 — NEXT CORRIDOR
+
+Focus: REAL DATA FLOW VALIDATION
+
+State entering Phase 568:
+- Telemetry UI fully wired and stable
+- No artificial reassertion
+- Clean, deterministic render behavior
+- System observability surface ready
+
+Critical Gap:
+- /api/tasks currently returns empty dataset
+- SSE stream not visibly emitting events
+
+Next Objective:
+PROVE LIVE EXECUTION → UI PIPELINE
+
+Immediate Steps:
+1. Trigger a real task through the system (UI or API)
+2. Verify task appears in /api/tasks response
+3. Confirm Recent Tasks panel renders the task
+4. Confirm SSE emits event for that task
+5. Verify Recent Logs panel updates in real time
+6. Capture one full lifecycle:
+   queued → running → completed (or equivalent)
+
+Validation Criteria:
+- Task visible in API AND UI
+- Logs reflect same task lifecycle
+- No manual refresh required
+- No UI duplication or loss
+
+Rules:
+- No UI rewrites
+- No backend mutation unless failure is confirmed
+- Diagnose only if pipeline fails to surface data
+
+Checkpoint Target:
+phase568-live-telemetry-validated

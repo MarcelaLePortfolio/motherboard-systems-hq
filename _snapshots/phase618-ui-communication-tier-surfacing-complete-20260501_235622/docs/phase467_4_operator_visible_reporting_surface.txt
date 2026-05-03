@@ -1,0 +1,37 @@
+PHASE 467.4 — OPERATOR-VISIBLE REPORTING SURFACE
+================================================
+
+REPORT FILE: src/contracts/reporting/governedExecutionProofReport.ts
+FIXTURE FILE: src/contracts/reporting/governedExecutionProofReport.fixture.ts
+
+STEP 1 — File presence
+OK: report contract file present
+OK: report fixture file present
+
+STEP 2 — Report surface
+12:export interface GovernedExecutionProofReport {
+14:    accepted: boolean;
+15:    blocked_reason: string | null;
+16:    outcome: "prepared" | "blocked";
+25:    operator_visible: true;
+29:export function buildGovernedExecutionProofReport(
+31:): GovernedExecutionProofReport {
+35:      blocked_reason: result.blocked_reason,
+36:      outcome: result.execution.outcome,
+45:      operator_visible: true,
+
+STEP 3 — Fixture coverage
+OK: allowed report present
+OK: governance-blocked report present
+OK: approval-missing report present
+
+STEP 4 — Non-runtime guarantee
+OK: reporting surface remains structural and deterministic
+
+STEP 5 — Classification
+CLASSIFICATION: OPERATOR_VISIBLE_REPORTING_SURFACE_DEFINED
+
+DECISION TARGET
+- First governed execution proof now has an operator-visible reporting contract.
+- Corridor remains structural, deterministic, and side-effect free.
+- Next phase may consolidate handoff and mark the proof corridor complete.

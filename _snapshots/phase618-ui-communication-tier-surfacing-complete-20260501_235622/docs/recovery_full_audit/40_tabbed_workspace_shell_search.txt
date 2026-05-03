@@ -1,0 +1,933 @@
+PHASE 457 - TABBED WORKSPACE SHELL SEARCH
+=========================================
+
+PURPOSE
+Find commits that match the remembered dashboard shell markers:
+- Matilda Chat + Delegation share one card via tabs
+- Task panels share one card via tabs
+- Agent Pool shares top row with telemetry
+- Output display panel removed
+
+SEARCH 1 - HIGH SIGNAL COMMIT MESSAGES
+5efe4663 Phase 96: remove legacy system health diagnostics dashboard card
+5a8bf422 (recovery/operator_guidance) Phase 96: Complete operator guidance design intent — wire SSE stream into Matilda operator workspace panel
+4c55719f fix phase 90.8 operator guidance visibility in matilda workspace
+5617ea98 mount phase 90.8 operator guidance panel in matilda workspace
+c39aaa8b phase62b: fix shared metrics render syntax and rebuild bundle
+6efa88a8 Phase 62B tasks failed hardening — add deterministic terminal-failure derivation in existing telemetry surface
+d76703b0 Phase 62B tasks completed hardening — add deterministic terminal-success derivation in existing telemetry surface
+0203a142 Phase 62B running tasks hydration — add bounded task-events derivation in existing telemetry surface
+b453c72d Phase 65B.6: remove legacy metric-agents writers from agent status row
+16e223d4 Phase 65B.2: remove legacy metric-tasks writer from agent status row
+e53c8f31 Phase 65B.1: consolidate running tasks metric ownership to telemetry
+6e55564f Phase 65: bootstrap shared metrics from tasks API and fix success metric hook
+e190b90d Phase 64.4 restore interactive dashboard baseline and remove broken recovery hook
+c4ac49f4 Phase 64.4 remount live task events inside telemetry tab container
+1434df1e Phase 64.4 force mount task events recovery script with cache bust
+58a17956 Phase 64.4 restore live task events with independent recovery stream
+0a13d9ff Phase 64.3 restore stable telemetry baseline and apply minimal per-tab scroll fix
+b2f4be55 Phase 64.3 rebuild telemetry css contract for equal height and per-tab scroll
+8ed526dc Phase 64.3 isolate workspace tabs and keep telemetry scroll internal
+8cd23b08 Phase 64.3 force equal fixed workspace height and internal telemetry scroll
+d29dc543 Phase 64.3 restore stable telemetry UI baseline and apply scroll-only height lock
+2b3b3387 Phase 64.3 replace recent history wire with enforced internal scroll
+2b98a518 Phase 64.3 enforce telemetry fixed height with internal scroll via CSS
+da6f41a7 Phase 64.3 lock telemetry workspace to operator height with internal scroll
+7dc4cdbc Phase 64.3 fix named agent signal propagation
+2149cd68 Sync Active Agents metric with Phase 64 agent pool state
+f736365b Add Phase 64 browser debug helpers
+ba84c092 Mount Phase 64 bootstrap directly in dashboard html
+cfdad7a9 Populate Phase 64 agent pool from runtime signals
+510db6d7 Phase 64 wire agent activity loader (no layout impact)
+d176d9fb Phase 64 begin agent activity wiring (behavior only)
+8049baef Phase 63 — restore stable dashboard html and lock dark background
+bc7a2f09 Phase 63 — hard lock dashboard dark background
+d41f40df Phase 63 — restore dark dashboard background
+c7d8d103 Phase 63 — cache bust dashboard telemetry workspace scripts
+d08451cb Phase 63 — add visible recent/history render probes
+ff002a88 Phase 63 — restore instrumented recent history wire
+2d64c350 Phase 63 — fix recent tasks wire for tasks API payload
+494c0b3a Refine Phase 63.2 agent freshness interpretation
+9133fd48 Normalize Phase 63.1 shared task-events metric corridor
+8c5e3afc Remove Phase 62B duplicate metric label injector
+0c22cb3a Fix Phase 62B metric label disappearance at binding layer
+cf733432 Restore Phase 62B observational workspace wiring
+44580988 Correct Phase 62B metric anchor IDs
+83299fcf Bind Phase 62B metric renderers to dedicated value nodes
+945c0762 Isolate Phase 62B hung load by removing safe label rehydration
+f02a6cfe Isolate Phase 62B dashboard OOM by disabling recent history probe
+795f1328 Rehydrate Phase 62 metric labels without replacing tile DOM
+b03d8b99 Restore Phase 62 metric tile labels without structural mutation
+c553c743 (tag: v62.1-phase62-metrics-telemetry-tiles) Phase 62: consolidate metrics CSS into authoritative telemetry tile styling
+d41c383c Phase 62: promote metric values in telemetry tiles
+5bcc1a34 Phase 62: refine System Metrics into telemetry tiles
+0bb2a7be Phase 62: compact System Metrics into 2x2 cards
+3e320f1b Phase 62: move Agent Pool beside System Metrics
+988c54d4 Phase 61: replace status indicator node with dedicated emoji renderer
+2331a10d Phase 61: preserve role emojis through live status updates
+44977f4c Phase 61: replace status dots with role emojis (UI-only safe change)
+bfcd0b3c (origin/phase61-agent-emoji-pass) Phase 61: replace agent dots with role emojis (preserve live status wiring)
+c7d2903e Phase 61.5.5q: read truthful agent status from named ops events
+2501a74a Phase 61.5.5h: restore truthful gray unknown agent fallback
+67dd788c Phase 61.5.5e: restore yellow pending agent status dot default
+36d15b35 Phase 61.5.5d: restore vertical height constraint so agent status dot renders
+cd58152b Phase 61.5.5b: force agent status dot inline styling
+32802117 Phase 61.5.4: restore agent status dot + humanize recent/history loading text
+126287bf Phase 61.5.3: add visible delegation status panel feedback
+ce80eeaf Phase 61.5.2: wire Delegation tab controls into dashboard bundle
+59d297fe Phase 61.5.1: let Recent Tasks and Task History fully own their telemetry cards
+d20238e0 Phase 61.5: wire Recent Tasks and Task History into telemetry workspace
+1fc56719 Phase 61.4: wire Task Events semantic row rendering at ingestion path
+da663892 Phase 61.3: polish Task Events presentation without changing locked layout contract
+9e389ece Restore Atlas subsystem status full-width layout from stable tag
+6a14bd40 (tag: v61.1-atlas-bottom-band-stable) Phase 61: Atlas subsystem status full-width bottom band
+52368fe8 Move Atlas subsystem card to full-width bottom band
+5a1faecd Restore Atlas full-width with CSS-only change
+9c68c540 Restore Phase 61 dashboard to last good visual state
+49c8ebbb Recover dashboard layout from Phase 61 checkpoint
+f85ea82a Rewrite Phase 61 workspace region deterministically
+3e0c222b Apply Phase 61 workspace structural repair
+e9d3b817 Repair Phase 61 workspace structure and atlas width
+2b467a03 Make Atlas subsystem card full width beneath workspace
+a1aefca0 Tighten Phase 61 tab spacing and remove redundant labels
+087e6e60 Phase 61B polish: atlas full-width, rename task history, remove redundant tab titles
+0d007f22 Apply final Phase 61 workspace touchups
+ce37eef3 Finalize Phase 61 workspace layout polish
+927a907f Remove redundant workspace headings and finalize Phase 61 layout
+229c686a Normalize Phase 61 workspace regions
+cba8b3c0 Consolidate operator column into tabbed workspace
+1f86de05 Phase 61 polish: match telemetry workspace to chat console height
+7e13636a Phase 61 polish: match observational workspace height to operator column
+07cb2da3 Phase 61 polish: stabilize observational workspace height
+0d466727 Phase 61: fix observational workspace tab structure
+66ed4f67 Phase 61: add observational panel wrapper for tab workspace
+d2601c1e Phase 61: convert telemetry column into tabbed observational workspace
+df791714 Phase 61: add observational workspace tab system (Recent Tasks / Task Activity / Task Events)
+74a241ca Phase 61: consolidate operator workspace layout
+cb7a2106 Phase 60: operator workspace cohesion pass (Matilda/Delegation + subsystem band)
+c52c94a0 Phase 60: refine dashboard metrics hierarchy and operator panel balance
+70b7ec58 Phase 60: remove agent row borders for softer pool styling
+ee39c5c3 Phase 60: match agent row borders to agent pool border
+31daf9d2 Phase 60: convert agent pool pills to compact console rows (cosmetic only)
+c63a60e7 Phase 60: restore dashboard runtime scripts for agent pool rendering
+b7afe49b Phase 60: remove live clock script that blocks dashboard hydration
+2748aae2 (origin/feature/phase59-remove-demo-extras, feature/phase59-remove-demo-extras) Phase 59: collapse agent row vertical spacing
+f540422b Phase 59: convert agent pool cards to compact operator status rows
+172fa3f2 Phase 59: slim agent pool rows into operator status bars
+9faacadc Phase 59: refine agent pool into compact operator cards
+72dce97d Phase 59: align agent pool width in stable demo layout
+244cdde5 diag: remove phase59 demo-focus stylesheet from static dashboard pages
+497fe035 diag: remove singleton sse bootstrap from static dashboard pages
+94923d5e phase31.7: add GET /api/tasks list; use task_id in Recent Tasks widget
+01b42ad5 phase25: remove status-smuggling from phase23 bridge (fix-forward)
+57c4df68 phase25: remove status-derived task.progress label from phase23 formatter
+0902e372 phase25: remove status-derived lifecycle inference from phase23 bridge
+1277df34 phase22: remove duplicate task-events/phase22 script tags (bundle owns)
+4764690f phase22: remove duplicate dashboard-tasks-widget script tag (bundle owns it)
+b8a35457 fix(phase16): remove stray es guard in agent-status-row; keep source null-guard
+9921cded fix: remove stray backslash in Phase16 owner script src
+b84cf2b8 Dashboard: add #tasks-widget mount card for Recent Tasks widget
+6e601ab6 Dashboard: include Recent Tasks widget script (dashboard-tasks-widget.js)
+931fdbf3 (origin/feature/phase16-ops-heartbeat) Phase 15: fix PVO DOM (remove placeholder + move viewport after header)
+e79d036b Phase 15: fix PVO card DOM order + remove duplicate placeholder viewport
+7ef8c1db Phase 15: remove bogus -visual script tag; ensure PVO script loads
+6bf8cc18 Phase 15: render visual(html) artifacts in Project Visual Output viewport
+61342afd Phase 15: ensure Project Visual Output has dedicated paint target div
+0c0936f6 Phase 15: add visible loaded marker to Project Visual Output subscriber
+7bb3ff89 Phase 15: load Project Visual Output subscriber + fix element target
+5f450979 Phase 15: fix Project Visual Output subscriber file contents
+99976580 Phase 15: add Project Visual Output artifact subscriber module
+693113ba (tag: v14.4-project-output-restored) Phase 15: restore tasks header + project output styling (cache-bust bundle, viewport min-height)
+65535104 (tag: v14.8-dashboard-ux-restored, tag: dashboard-two-panel-verified) Restore verified two-panel dashboard with Project Visual Output
+b4e62fd5 (tag: v11.28.2-pre-db-tasks, tag: v11.28-dashboard-stable) Fix: remove stray markdown fence tokens from dashboard broadcast script
+1f4924aa Next-2: wire Recent Tasks widget into dashboard bundle (ESM import)
+b73ab2f1 Next-2: render Recent Tasks in dashboard via /events/tasks SSE
+5d51b57f Next-2: remove dashboard-status debug console logs (keep auto-init + SSE wiring)
+d17d2c83 Restore dashboard layout HTML/CSS from 7cb174d9 visual-output baseline
+29d6c73b Phase 11 v11.10: fully remove OPS SSE wiring from dashboard bundle
+9a5a29e7 Phase 11 v11.10: simplify dashboard bundle entry and remove missing imports
+925fcf09 Increase Project Visual Output viewport to 640px for full right-rail alignment
+e016be90 Increase Project Visual Output viewport height for full right-rail presence
+bf97b836 Enhance Project Visual Output card with 3D monitor styling
+c368ed05 Reset dashboard to clean 2-column layout with single Matilda card and big Project Visual Output screen
+304bfad7 Merge Project Visual Output into single screen on right column
+56c69e69 Expand Matilda Chat and Project Visual Output to meet right column at center
+54c575f2 Narrow Task Delegation/Atlas column while preserving existing layout
+5230b51c Add Project Visual Output card below Atlas Subsystem Status
+6064d300 Add Project Visual Output card below Atlas Subsystem Status
+224b2934 Phase 11 v11.10: fully remove OPS SSE wiring from dashboard bundle
+6e118e27 Phase 11 v11.10: simplify dashboard bundle entry and remove missing imports
+7cb174d9 Increase Project Visual Output viewport to 640px for full right-rail alignment
+e478a2f7 Increase Project Visual Output viewport height for full right-rail presence
+235c89c2 Enhance Project Visual Output card with 3D monitor styling
+c82452b0 Reset dashboard to clean 2-column layout with single Matilda card and big Project Visual Output screen
+d9d3aef7 Merge Project Visual Output into single screen on right column
+b91a83ea Expand Matilda Chat and Project Visual Output to meet right column at center
+25558890 Narrow Task Delegation/Atlas column while preserving existing layout
+5aaa6474 Add Project Visual Output card below Atlas Subsystem Status
+5cf85388 Add Project Visual Output card below Atlas Subsystem Status
+9fccd63d Feat(dashboard): Adjust layout per user feedback (Move Agent Pool and Delegation to Column 1, move graph to Column 2). Finalize script loading order with 'defer' and 'type=module'.
+07148e29 Feat(dashboard): Adjust layout per user feedback (Move Agent Pool and Delegation to Column 1, move graph to Column 2). Finalize script loading order with 'defer' and 'type=module'.
+b0bb1807 (origin/dev) <0001fbb1> 🧹 Removed legacy Matilda launcher pointing to /Users/mirror
+1ab2cdcc <0001fb90> 🧹 Removed deferred Atlas banner (Phase 9.16 skipped as planned)
+fd0a023b <0001fb60> 🪞 Phase 9.16 — Atlas Banner & Status Sequence Added (Cinematic Dashboard Confirmation)
+502f7901 (tag: v1.0.14c-dashboard-final-clean) <0001fcd0> 🧹 Phase 10.8 — Retained Recent Tasks only; archived Diagnostics and Debug sections
+bc3f7361 (tag: v1.0.13-debug-cleanup) <0001fc90> 🧹 Phase 10.6 — Archived inline chat debug block + removed visual code leak
+6a3c8380 (tag: v1.0.12-dashboard-minimal) <0001fc70> 🧩 Phase 10.5 — Archived diagnostics + recent tasks + visual output placeholder (dashboard decluttered)
+b7edf532 (tag: v0.9.16-banner-removed) <0001fb90> 🧹 Removed deferred Atlas banner (Phase 9.16 skipped as planned)
+c858e784 (tag: v0.9.16-atlas-banner-sequence) <0001fb60> 🪞 Phase 9.16 — Atlas Banner & Status Sequence Added (Cinematic Dashboard Confirmation)
+21a8503e <0001faf7> Phase 9.2 — Added Atlas lifecycle visualization banner to dashboard
+98b8b53c <0001fae9> ✅ Phase 9 — Atlas live constructor & reflection anchoring (dashboard stream + entity registration verified)
+b527275c <0001faf7> Phase 9.2 — Added Atlas lifecycle visualization banner to dashboard
+7c442d01 (tag: v0.9.0-phase9-atlas-live, origin/phase7.7.1-delegation-route) <0001fae9> ✅ Phase 9 — Atlas live constructor & reflection anchoring (dashboard stream + entity registration verified)
+62d8afcf (tag: v0.7.4.3-remote-access-quicktunnel, tag: v0.7.1.9-chatlog-darkfix) <0001fb1F> ✅ Phase 7.1.9 — #chatLog dark-mode fix confirmed (output now fully legible)
+85ff378c (origin/phase7.0-interactive-delegation) <0001fb1E> ⚡ Phase 7.1.8 — Full-screen overlay enforcement for guaranteed dark readable output
+8f52ff96 <0001fb1D> ⚡ Phase 7.1.7 — Overlay takeover for chat output (dark, legible, isolation-safe)
+696fd42d <0001fb1B> ⚡ Phase 7.1.5 — Absolute isolation fix (solid dark output background + white text)
+2481393a <0001fb1A> ⚡ Phase 7.1.4 — Shadow DOM isolation for guaranteed visible chat output
+838b3776 <0001fb18> ⚡ Phase 7.1.2 — Runtime DOM dark-mode enforcement for chat output
+87e08ff1 <0001fb16> ⚡ Phase 7.0.8 — Restore Enter key send + readable dark output bubbles
+3286e023 <0001fb13> ⚡ Phase 7.0.3 — Absolute white font override (input + output enforced)
+e5291d3c <0001fb12> ⚡ Phase 7.0.2 — Force pure white text for input/output readability
+0babb01d <0001fb11> ✨ Phase 7.0.1 — Improve chat legibility (dark input/output, high-contrast bubbles)
+d7140e59 (tag: v0.3.11-dashboard-restored-final) <0001fa83> ✅ Dashboard HTML cleaned — syntax error removed, final stable state
+a9ab5cb4 (tag: v0.3.18-stable-dashboard) <0001fa80> Removed legacy dashboard-logs.v3.js reference (prevent redundant overwrites)
+f06ef2dc <0001fa33> Restore live SSE updates for Recent Tasks and Recent Logs
+facf0969 (tag: v0.3.17-clean-logs-placeholder) <0001fa25> 🧾 Dashboard Cleanup — Isolated Recent Logs placeholder & removed duplicate data rendering
+da9a3c8d (tag: v0.3.17-dashboard-cleanup) <0001fa21> 🧼 Dashboard Cleanup — removed redundant 'Recent Tasks/Logs' headers
+6629c66f (tag: v0.3.11-dashboard-ui-table) <0001f9fd> 🎨 Dashboard UI Polished — Recent Tasks table rendering functional
+c87d1135 <0001fac4> UI Fix — removed duplicate small title and kept styled header only
+c503a1f6 <0001fac2> Cleanup — removed residual Git merge markers from dashboard.html
+7320a560 (tag: v1.1.1-chronicle-ui) <0001fa1c> 💅 Dashboard Cleanup – Consolidated System Chronicle panel & fixed live event feed styling
+81b6c2cb (restore-dashboard-ui) 🧩 Snapshot current full UI (dual chatbot + tabs empty)
+28947a40 (tag: v0.2.6-dashboard-polling) ✅ feat(dashboard): polling for recent tasks/logs now live (mock-backed)
+8fabf202 🐞 Debug: add console logging and visible error output in dashboard chat JS.
+ecff7abd <0003ui> Polished dashboard layout: styled agent row, chat, tabs, and ticker
+
+SEARCH 2 - HTML HISTORY FOR TABBED WORKSPACE IDS / STRINGS
+9c68c540 Restore Phase 61 dashboard to last good visual state
+49c8ebbb Recover dashboard layout from Phase 61 checkpoint
+f85ea82a Rewrite Phase 61 workspace region deterministically
+3e0c222b Apply Phase 61 workspace structural repair
+a1aefca0 Tighten Phase 61 tab spacing and remove redundant labels
+cba8b3c0 Consolidate operator column into tabbed workspace
+
+9c68c540 Restore Phase 61 dashboard to last good visual state
+49c8ebbb Recover dashboard layout from Phase 61 checkpoint
+f85ea82a Rewrite Phase 61 workspace region deterministically
+3e0c222b Apply Phase 61 workspace structural repair
+a1aefca0 Tighten Phase 61 tab spacing and remove redundant labels
+1f86de05 Phase 61 polish: match telemetry workspace to chat console height
+d2601c1e Phase 61: convert telemetry column into tabbed observational workspace
+df791714 Phase 61: add observational workspace tab system (Recent Tasks / Task Activity / Task Events)
+
+ee8ea4f8 Phase 65: restore dashboard layout-bearing files from v63 golden checkpoint
+d29dc543 Phase 64.3 restore stable telemetry UI baseline and apply scroll-only height lock
+2b98a518 Phase 64.3 enforce telemetry fixed height with internal scroll via CSS
+da6f41a7 Phase 64.3 lock telemetry workspace to operator height with internal scroll
+52368fe8 Move Atlas subsystem card to full-width bottom band
+5a1faecd Restore Atlas full-width with CSS-only change
+9c68c540 Restore Phase 61 dashboard to last good visual state
+49c8ebbb Recover dashboard layout from Phase 61 checkpoint
+f85ea82a Rewrite Phase 61 workspace region deterministically
+3e0c222b Apply Phase 61 workspace structural repair
+ce37eef3 Finalize Phase 61 workspace layout polish
+927a907f Remove redundant workspace headings and finalize Phase 61 layout
+7e13636a Phase 61 polish: match observational workspace height to operator column
+74a241ca Phase 61: consolidate operator workspace layout
+
+3e320f1b Phase 62: move Agent Pool beside System Metrics
+
+9c68c540 Restore Phase 61 dashboard to last good visual state
+49c8ebbb Recover dashboard layout from Phase 61 checkpoint
+087e6e60 Phase 61B polish: atlas full-width, rename task history, remove redundant tab titles
+1cf9a739 Revert "Phase 59: compose dashboard layout with CSS-only console pass"
+589a4ef0 Phase 59: compose dashboard layout with CSS-only console pass
+892c05d4 Fix PVO transplant heuristic (robust needle selection + relaxed sanity check)
+e79d036b Phase 15: fix PVO card DOM order + remove duplicate placeholder viewport
+65535104 (tag: v14.8-dashboard-ux-restored, tag: dashboard-two-panel-verified) Restore verified two-panel dashboard with Project Visual Output
+c183f189 (tag: v11.12-dec16-dashboard-restore-golden, origin/emergency/dashboard-rollback-v11.7, emergency/dashboard-rollback-v11.7) Restore dashboard + server to verified Dec 16 working state (port 3000)
+89420abc (fix/dashboard-layout-restore-9579482a) Try dashboard front-end restore from b91877b4 (keep v11.7 backend)
+b8c64d04 Restore full dashboard front-end from v11.7-ops-pill-dashboard-stable
+d17d2c83 Restore dashboard layout HTML/CSS from 7cb174d9 visual-output baseline
+b03b9a7a Restore dashboard HTML layout from pre-bundle baseline and document rendering status
+c368ed05 Reset dashboard to clean 2-column layout with single Matilda card and big Project Visual Output screen
+304bfad7 Merge Project Visual Output into single screen on right column
+63600e77 Apply explicit 2-column dashboard layout with Matilda left and ops stack right
+f128bd3a Apply JS-driven two-column layout for Matilda/Task and Project/System rows
+7866bcbb Restore Matilda Chat styles and apply balanced column widths
+c6af21ea Widen Matilda Chat Console and narrow Task Delegation column
+c5d8810a Revert JS-based column split tweak; restore prior Matilda/Delegation layout behavior
+a40af202 Balance Matilda Chat and Task Delegation column split toward center
+88c9af58 Restore Matilda Chat console DOM injection + guaranteed placement above Task Delegation
+93b6a17e Matilda Chat layout/styling tweaks, Critical Ops size, Task Activity chart
+4f7987ce Restore original dashboard UI before Matilda Chat integration
+3aca7c69 Wire matilda-chat-console.js into served dashboard (public/index.html)
+acdce3d0 Load matilda-chat-console.js in dashboard.html to enable chat console UI
+809945e5 Add baseline Matilda Chat Console script stub
+ab28c9c4 Restore dashboard HTML layout from pre-bundle baseline and document rendering status
+c82452b0 Reset dashboard to clean 2-column layout with single Matilda card and big Project Visual Output screen
+d9d3aef7 Merge Project Visual Output into single screen on right column
+df5fcbf8 Apply explicit 2-column dashboard layout with Matilda left and ops stack right
+17e61322 Apply JS-driven two-column layout for Matilda/Task and Project/System rows
+aba813a0 Restore Matilda Chat styles and apply balanced column widths
+c052aab0 Widen Matilda Chat Console and narrow Task Delegation column
+f0879c8d Revert JS-based column split tweak; restore prior Matilda/Delegation layout behavior
+bdab338f Balance Matilda Chat and Task Delegation column split toward center
+9cbf24e8 Restore Matilda Chat console DOM injection + guaranteed placement above Task Delegation
+41faf44a Matilda Chat layout/styling tweaks, Critical Ops size, Task Activity chart
+6fde667e Restore original dashboard UI before Matilda Chat integration
+cba8ba47 Wire matilda-chat-console.js into served dashboard (public/index.html)
+6c704ae0 Load matilda-chat-console.js in dashboard.html to enable chat console UI
+bdea5dea Add baseline Matilda Chat Console script stub
+
+49c8ebbb Recover dashboard layout from Phase 61 checkpoint
+e9d3b817 Repair Phase 61 workspace structure and atlas width
+29f8cc72 phase22: reflect task-events into Task Delegation/status UI (live bindings)
+892c05d4 Fix PVO transplant heuristic (robust needle selection + relaxed sanity check)
+e79d036b Phase 15: fix PVO card DOM order + remove duplicate placeholder viewport
+3d6ce5ae Tasks widget: wire Complete -> POST /api/complete-task with optimistic UI update
+65535104 (tag: v14.8-dashboard-ux-restored, tag: dashboard-two-panel-verified) Restore verified two-panel dashboard with Project Visual Output
+362a1fdb (origin/integrate/phase13-operator-polish-onto-main, integrate/phase13-operator-polish-onto-main) Integrate Phase 13.5 UX: tasks widget no-force-close + keepalive cleanup
+b73ab2f1 Next-2: render Recent Tasks in dashboard via /events/tasks SSE
+c183f189 (tag: v11.12-dec16-dashboard-restore-golden, origin/emergency/dashboard-rollback-v11.7, emergency/dashboard-rollback-v11.7) Restore dashboard + server to verified Dec 16 working state (port 3000)
+0bfab9ae Phase 11 v11.10: wire dashboard Task Delegation via bundled module using existing input/button IDs
+54b53922 Phase 11 v11.10: wire dashboard Task Delegation via separate script using existing IDs
+b3ee82ec Phase 11 v11.10: revert dashboard bundle entry to v11.7 ops pill stable baseline
+faa9a36b Phase 11 v11.10: fix dashboard bundle syntax and keep chat/delegation wiring
+16fc6b39 Phase 11 v11.10: wire Matilda chat and task delegation via bundled dashboard entry
+c368ed05 Reset dashboard to clean 2-column layout with single Matilda card and big Project Visual Output screen
+63600e77 Apply explicit 2-column dashboard layout with Matilda left and ops stack right
+54c575f2 Narrow Task Delegation/Atlas column while preserving existing layout
+c5d8810a Revert JS-based column split tweak; restore prior Matilda/Delegation layout behavior
+a40af202 Balance Matilda Chat and Task Delegation column split toward center
+6064d300 Add Project Visual Output card below Atlas Subsystem Status
+88c9af58 Restore Matilda Chat console DOM injection + guaranteed placement above Task Delegation
+93b6a17e Matilda Chat layout/styling tweaks, Critical Ops size, Task Activity chart
+f632c44f Improve Matilda Chat Console placement to appear under header
+4f7987ce Restore original dashboard UI before Matilda Chat integration
+3aca7c69 Wire matilda-chat-console.js into served dashboard (public/index.html)
+d7a55b5c Inject debug beacon and simplified card for Matilda Chat Console
+d964a700 Phase 11 v11.10: wire dashboard Task Delegation via bundled module using existing input/button IDs
+aaa5c3e4 Phase 11 v11.10: wire dashboard Task Delegation via separate script using existing IDs
+0f5c7507 Phase 11 v11.10: revert dashboard bundle entry to v11.7 ops pill stable baseline
+c515cf46 Phase 11 v11.10: fix dashboard bundle syntax and keep chat/delegation wiring
+334228e3 Phase 11 v11.10: wire Matilda chat and task delegation via bundled dashboard entry
+c82452b0 Reset dashboard to clean 2-column layout with single Matilda card and big Project Visual Output screen
+df5fcbf8 Apply explicit 2-column dashboard layout with Matilda left and ops stack right
+25558890 Narrow Task Delegation/Atlas column while preserving existing layout
+f0879c8d Revert JS-based column split tweak; restore prior Matilda/Delegation layout behavior
+bdab338f Balance Matilda Chat and Task Delegation column split toward center
+5cf85388 Add Project Visual Output card below Atlas Subsystem Status
+9cbf24e8 Restore Matilda Chat console DOM injection + guaranteed placement above Task Delegation
+41faf44a Matilda Chat layout/styling tweaks, Critical Ops size, Task Activity chart
+590f47f8 Improve Matilda Chat Console placement to appear under header
+6fde667e Restore original dashboard UI before Matilda Chat integration
+cba8ba47 Wire matilda-chat-console.js into served dashboard (public/index.html)
+1da16e23 Inject debug beacon and simplified card for Matilda Chat Console
+efc66473 Fix(dashboard): Resolve server static file serving and client-side HTML structure corruption.
+
+8049baef Phase 63 — restore stable dashboard html and lock dark background
+c7d8d103 Phase 63 — cache bust dashboard telemetry workspace scripts
+d20238e0 Phase 61.5: wire Recent Tasks and Task History into telemetry workspace
+9c68c540 Restore Phase 61 dashboard to last good visual state
+49c8ebbb Recover dashboard layout from Phase 61 checkpoint
+f85ea82a Rewrite Phase 61 workspace region deterministically
+3e0c222b Apply Phase 61 workspace structural repair
+087e6e60 Phase 61B polish: atlas full-width, rename task history, remove redundant tab titles
+d2601c1e Phase 61: convert telemetry column into tabbed observational workspace
+ecac1fb1 Phase 59: compose operator console layout from stable baseline
+ac8c4e47 Phase 59: compose dashboard into operator console layout
+b84cf2b8 Dashboard: add #tasks-widget mount card for Recent Tasks widget
+693113ba (tag: v14.4-project-output-restored) Phase 15: restore tasks header + project output styling (cache-bust bundle, viewport min-height)
+dac373c6 (tag: v14.3-tasks-ui-stable, origin/phase14-ui-stable, origin/feature/phase14-ops-reliability) Phase 14: stabilize Tasks widget (no blinking, per-task completion state)
+3d6ce5ae Tasks widget: wire Complete -> POST /api/complete-task with optimistic UI update
+65535104 (tag: v14.8-dashboard-ux-restored, tag: dashboard-two-panel-verified) Restore verified two-panel dashboard with Project Visual Output
+362a1fdb (origin/integrate/phase13-operator-polish-onto-main, integrate/phase13-operator-polish-onto-main) Integrate Phase 13.5 UX: tasks widget no-force-close + keepalive cleanup
+b73ab2f1 Next-2: render Recent Tasks in dashboard via /events/tasks SSE
+c183f189 (tag: v11.12-dec16-dashboard-restore-golden, origin/emergency/dashboard-rollback-v11.7, emergency/dashboard-rollback-v11.7) Restore dashboard + server to verified Dec 16 working state (port 3000)
+b8c64d04 Restore full dashboard front-end from v11.7-ops-pill-dashboard-stable
+d17d2c83 Restore dashboard layout HTML/CSS from 7cb174d9 visual-output baseline
+b03b9a7a Restore dashboard HTML layout from pre-bundle baseline and document rendering status
+acdce3d0 Load matilda-chat-console.js in dashboard.html to enable chat console UI
+31a38e24 feat: restore dashboard.html and wire to bundled JS
+ab28c9c4 Restore dashboard HTML layout from pre-bundle baseline and document rendering status
+6c704ae0 Load matilda-chat-console.js in dashboard.html to enable chat console UI
+d9c9804c feat: restore dashboard.html and wire to bundled JS
+b91877b4 (tag: v11.0-stable-dashboard, feature/v11-pm2-main-staging) FIX: Resolved all critical external script loading errors and restored core dashboard functionality (Graph, Delegation, Agent Status).
+efc66473 Fix(dashboard): Resolve server static file serving and client-side HTML structure corruption.
+26564dec <0001fb11> ✨ CLEAN RESET — Dashboard v2 (HTML + JS rebuilt)
+502f7901 (tag: v1.0.14c-dashboard-final-clean) <0001fcd0> 🧹 Phase 10.8 — Retained Recent Tasks only; archived Diagnostics and Debug sections
+bc3f7361 (tag: v1.0.13-debug-cleanup) <0001fc90> 🧹 Phase 10.6 — Archived inline chat debug block + removed visual code leak
+4d2ffc2e <0001fb45> ✅ Phase 7.1 — Live Dashboard Sync Verified (OPS + Reflections displayed in real time)
+34f37cb5 (tag: v0.7.1-phase7-dashboard-sync, tag: v0.7.0-phase7-dashboard-sync) <0001fb45> ✅ Phase 7.1 — Live Dashboard Sync Verified (OPS + Reflections displayed in real time)
+5f0ff8d1 (phase4.4.1-dashboard-verified-restore) <0001fac7> Phase 4.5 — Integrated Static Reflections Viewer into Dashboard UI
+6850eabc (phase4.0-diagnostic-ux) <0001fab5> Synced live dashboard.html from http://localhost:3001/dashboard.html (verified full Agent Status + Logs layout)
+40a17780 <0001fab5> Restored working dashboard.html from v0.3.39-auto-prune-stable baseline
+329e6e54 <0001fab5> Synced live dashboard from running server (baseline for Phase 4 edits)
+9579482a <0001fa63> Final unified dashboard restore — latest layout + verified live scripts
+81ba19bd <0001fa30-revert> Restore dashboard.html from v0.3.17-dashboard-clean
+cd105a15 (tag: v0.3.17-dashboard-clean) <0001fa23> 💾 Dashboard Stable — Dynamic Agent Status + Recent Activity Layout confirmed
+da9a3c8d (tag: v0.3.17-dashboard-cleanup) <0001fa21> 🧼 Dashboard Cleanup — removed redundant 'Recent Tasks/Logs' headers
+c4694402 (tag: v0.3.14-dom-safe-dashboard) <0001fa95> 🧩 DOM-safe script execution — eliminated null reference errors for dashboard and logs
+b8e4aee2 <0001fac2> ♻️ Restored dashboard layout and CSS from v0.3.2-diagnostics-stable
+38556ccd 🧯 Mega-restore from tags/milestone-4-complete~2 — bring back full project snapshot
+22c3ca89 (tag: v2.0.3-stable-dashboard) <0001fabe> 🧱 Stability Checkpoint — Clean single-body dashboard + verified chat + diagnostics integrity
+07eeea02 (tag: v2.0.3-dashboard-stable) <0001fab5> Dashboard Restored — unified chat + diagnostics stable layout
+c3192469 🧩 Restored organized dashboard layout v2.0.1 (Agent Status, Tasks, Logs, Chat)
+34a53ea9 🧠 Restored full diagnostic dashboard layout (Agent Status + OPS Stream + Chronicle)
+96a03261 (tag: v0.3.3-pre-phase6, move-chat-top) ✅ Pre-Phase-6 stable baseline — Matilda↔Cade dynamic skills + conversational dashboard functional
+780822a8 (tag: v0.4.0-dashboard-stable) ✅ Stable Dashboard (Matilda chat restored, agents/tasks/logs JSON aligned)
+a0216e25 🎨 Restore dashboard layout + chatbot interactivity (from c4b1123 + c5d4625)
+28947a40 (tag: v0.2.6-dashboard-polling) ✅ feat(dashboard): polling for recent tasks/logs now live (mock-backed)
+c2d927d5 (tag: v0.2.1-dashboard-split, origin/ts-fix-test, origin/feature/dashboard-ui, ts-fix-test, feature/dashboard-ui) ♻️ Split dashboard JS into external file (dashboard.js) + cache-busting version param
+
+9c68c540 Restore Phase 61 dashboard to last good visual state
+49c8ebbb Recover dashboard layout from Phase 61 checkpoint
+087e6e60 Phase 61B polish: atlas full-width, rename task history, remove redundant tab titles
+a0668b43 (origin/feature/phase59-dashboard-composition, feature/phase59-dashboard-composition) Phase 59: disable Phase 58 DOM churn during stability recovery
+1cf9a739 Revert "Phase 59: compose dashboard layout with CSS-only console pass"
+589a4ef0 Phase 59: compose dashboard layout with CSS-only console pass
+b4ae2e23 Revert "Phase 59: soften operator console overlay logic for composed dashboard"
+7a6b400a Phase 59: soften operator console overlay logic for composed dashboard
+11eda5c3 Phase 58D: rebalance dashboard hierarchy toward operator console
+892c05d4 Fix PVO transplant heuristic (robust needle selection + relaxed sanity check)
+e79d036b Phase 15: fix PVO card DOM order + remove duplicate placeholder viewport
+65535104 (tag: v14.8-dashboard-ux-restored, tag: dashboard-two-panel-verified) Restore verified two-panel dashboard with Project Visual Output
+c183f189 (tag: v11.12-dec16-dashboard-restore-golden, origin/emergency/dashboard-rollback-v11.7, emergency/dashboard-rollback-v11.7) Restore dashboard + server to verified Dec 16 working state (port 3000)
+c368ed05 Reset dashboard to clean 2-column layout with single Matilda card and big Project Visual Output screen
+304bfad7 Merge Project Visual Output into single screen on right column
+f128bd3a Apply JS-driven two-column layout for Matilda/Task and Project/System rows
+7866bcbb Restore Matilda Chat styles and apply balanced column widths
+c6af21ea Widen Matilda Chat Console and narrow Task Delegation column
+6064d300 Add Project Visual Output card below Atlas Subsystem Status
+88c9af58 Restore Matilda Chat console DOM injection + guaranteed placement above Task Delegation
+93b6a17e Matilda Chat layout/styling tweaks, Critical Ops size, Task Activity chart
+4f7987ce Restore original dashboard UI before Matilda Chat integration
+3aca7c69 Wire matilda-chat-console.js into served dashboard (public/index.html)
+c82452b0 Reset dashboard to clean 2-column layout with single Matilda card and big Project Visual Output screen
+d9d3aef7 Merge Project Visual Output into single screen on right column
+17e61322 Apply JS-driven two-column layout for Matilda/Task and Project/System rows
+aba813a0 Restore Matilda Chat styles and apply balanced column widths
+c052aab0 Widen Matilda Chat Console and narrow Task Delegation column
+5cf85388 Add Project Visual Output card below Atlas Subsystem Status
+9cbf24e8 Restore Matilda Chat console DOM injection + guaranteed placement above Task Delegation
+41faf44a Matilda Chat layout/styling tweaks, Critical Ops size, Task Activity chart
+6fde667e Restore original dashboard UI before Matilda Chat integration
+cba8ba47 Wire matilda-chat-console.js into served dashboard (public/index.html)
+efc66473 Fix(dashboard): Resolve server static file serving and client-side HTML structure corruption.
+
+SEARCH 3 - NEGATIVE FILTERS FOR OLDER SHELLS
+
+ecac1fb1 Phase 59: compose operator console layout from stable baseline
+a0668b43 (origin/feature/phase59-dashboard-composition, feature/phase59-dashboard-composition) Phase 59: disable Phase 58 DOM churn during stability recovery
+1cf9a739 Revert "Phase 59: compose dashboard layout with CSS-only console pass"
+589a4ef0 Phase 59: compose dashboard layout with CSS-only console pass
+b4ae2e23 Revert "Phase 59: soften operator console overlay logic for composed dashboard"
+7a6b400a Phase 59: soften operator console overlay logic for composed dashboard
+ac8c4e47 Phase 59: compose dashboard into operator console layout
+11eda5c3 Phase 58D: rebalance dashboard hierarchy toward operator console
+892c05d4 Fix PVO transplant heuristic (robust needle selection + relaxed sanity check)
+e79d036b Phase 15: fix PVO card DOM order + remove duplicate placeholder viewport
+65535104 (tag: v14.8-dashboard-ux-restored, tag: dashboard-two-panel-verified) Restore verified two-panel dashboard with Project Visual Output
+c183f189 (tag: v11.12-dec16-dashboard-restore-golden, origin/emergency/dashboard-rollback-v11.7, emergency/dashboard-rollback-v11.7) Restore dashboard + server to verified Dec 16 working state (port 3000)
+c368ed05 Reset dashboard to clean 2-column layout with single Matilda card and big Project Visual Output screen
+63600e77 Apply explicit 2-column dashboard layout with Matilda left and ops stack right
+7866bcbb Restore Matilda Chat styles and apply balanced column widths
+c6af21ea Widen Matilda Chat Console and narrow Task Delegation column
+6064d300 Add Project Visual Output card below Atlas Subsystem Status
+88c9af58 Restore Matilda Chat console DOM injection + guaranteed placement above Task Delegation
+93b6a17e Matilda Chat layout/styling tweaks, Critical Ops size, Task Activity chart
+4f7987ce Restore original dashboard UI before Matilda Chat integration
+3aca7c69 Wire matilda-chat-console.js into served dashboard (public/index.html)
+c82452b0 Reset dashboard to clean 2-column layout with single Matilda card and big Project Visual Output screen
+df5fcbf8 Apply explicit 2-column dashboard layout with Matilda left and ops stack right
+aba813a0 Restore Matilda Chat styles and apply balanced column widths
+c052aab0 Widen Matilda Chat Console and narrow Task Delegation column
+5cf85388 Add Project Visual Output card below Atlas Subsystem Status
+9cbf24e8 Restore Matilda Chat console DOM injection + guaranteed placement above Task Delegation
+41faf44a Matilda Chat layout/styling tweaks, Critical Ops size, Task Activity chart
+6fde667e Restore original dashboard UI before Matilda Chat integration
+cba8ba47 Wire matilda-chat-console.js into served dashboard (public/index.html)
+efc66473 Fix(dashboard): Resolve server static file serving and client-side HTML structure corruption.
+
+ecac1fb1 Phase 59: compose operator console layout from stable baseline
+a0668b43 (origin/feature/phase59-dashboard-composition, feature/phase59-dashboard-composition) Phase 59: disable Phase 58 DOM churn during stability recovery
+b4ae2e23 Revert "Phase 59: soften operator console overlay logic for composed dashboard"
+7a6b400a Phase 59: soften operator console overlay logic for composed dashboard
+11eda5c3 Phase 58D: rebalance dashboard hierarchy toward operator console
+892c05d4 Fix PVO transplant heuristic (robust needle selection + relaxed sanity check)
+e79d036b Phase 15: fix PVO card DOM order + remove duplicate placeholder viewport
+65535104 (tag: v14.8-dashboard-ux-restored, tag: dashboard-two-panel-verified) Restore verified two-panel dashboard with Project Visual Output
+c183f189 (tag: v11.12-dec16-dashboard-restore-golden, origin/emergency/dashboard-rollback-v11.7, emergency/dashboard-rollback-v11.7) Restore dashboard + server to verified Dec 16 working state (port 3000)
+c368ed05 Reset dashboard to clean 2-column layout with single Matilda card and big Project Visual Output screen
+63600e77 Apply explicit 2-column dashboard layout with Matilda left and ops stack right
+f128bd3a Apply JS-driven two-column layout for Matilda/Task and Project/System rows
+4f7987ce Restore original dashboard UI before Matilda Chat integration
+3aca7c69 Wire matilda-chat-console.js into served dashboard (public/index.html)
+c82452b0 Reset dashboard to clean 2-column layout with single Matilda card and big Project Visual Output screen
+df5fcbf8 Apply explicit 2-column dashboard layout with Matilda left and ops stack right
+17e61322 Apply JS-driven two-column layout for Matilda/Task and Project/System rows
+6fde667e Restore original dashboard UI before Matilda Chat integration
+cba8ba47 Wire matilda-chat-console.js into served dashboard (public/index.html)
+efc66473 Fix(dashboard): Resolve server static file serving and client-side HTML structure corruption.
+
+SEARCH 4 - TOP CANDIDATE FILE TOUCHES
+5efe4663 Phase 96: remove legacy system health diagnostics dashboard card
+e7d65ba7 Phase 96: add operator guidance cache bust and boot diagnostics
+5a8bf422 (recovery/operator_guidance) Phase 96: Complete operator guidance design intent — wire SSE stream into Matilda operator workspace panel
+4c55719f fix phase 90.8 operator guidance visibility in matilda workspace
+a180b0d0 phase 90 UX alignment: reposition matilda note above operator guidance
+5617ea98 mount phase 90.8 operator guidance panel in matilda workspace
+e124d480 Phase 88.13 — attach system health situation summary to served dashboard
+a7524767 phase62b: load telemetry bootstrap and hydrate success from terminal task events
+c39aaa8b phase62b: fix shared metrics render syntax and rebuild bundle
+117765e7 phase62b: neutralize legacy success writer in agent-status-row
+0317383f Phase 65C: transfer latency metric ownership to telemetry
+032b73ee Phase 65C: transfer success metric ownership to telemetry
+b453c72d Phase 65B.6: remove legacy metric-agents writers from agent status row
+16e223d4 Phase 65B.2: remove legacy metric-tasks writer from agent status row
+d4191e72 Phase 65B: wire telemetry bootstrap through dashboard bundle entry
+ee8ea4f8 Phase 65: restore dashboard layout-bearing files from v63 golden checkpoint
+6e55564f Phase 65: bootstrap shared metrics from tasks API and fix success metric hook
+e190b90d Phase 64.4 restore interactive dashboard baseline and remove broken recovery hook
+1434df1e Phase 64.4 force mount task events recovery script with cache bust
+58a17956 Phase 64.4 restore live task events with independent recovery stream
+0a13d9ff Phase 64.3 restore stable telemetry baseline and apply minimal per-tab scroll fix
+b2f4be55 Phase 64.3 rebuild telemetry css contract for equal height and per-tab scroll
+8ed526dc Phase 64.3 isolate workspace tabs and keep telemetry scroll internal
+8cd23b08 Phase 64.3 force equal fixed workspace height and internal telemetry scroll
+d29dc543 Phase 64.3 restore stable telemetry UI baseline and apply scroll-only height lock
+2b3b3387 Phase 64.3 replace recent history wire with enforced internal scroll
+2b98a518 Phase 64.3 enforce telemetry fixed height with internal scroll via CSS
+da6f41a7 Phase 64.3 lock telemetry workspace to operator height with internal scroll
+f736365b Add Phase 64 browser debug helpers
+ba84c092 Mount Phase 64 bootstrap directly in dashboard html
+510db6d7 Phase 64 wire agent activity loader (no layout impact)
+8049baef Phase 63 — restore stable dashboard html and lock dark background
+bc7a2f09 Phase 63 — hard lock dashboard dark background
+d41f40df Phase 63 — restore dark dashboard background
+c7d8d103 Phase 63 — cache bust dashboard telemetry workspace scripts
+d08451cb Phase 63 — add visible recent/history render probes
+ff002a88 Phase 63 — restore instrumented recent history wire
+2d64c350 Phase 63 — fix recent tasks wire for tasks API payload
+494c0b3a Refine Phase 63.2 agent freshness interpretation
+9133fd48 Normalize Phase 63.1 shared task-events metric corridor
+8c5e3afc Remove Phase 62B duplicate metric label injector
+0c22cb3a Fix Phase 62B metric label disappearance at binding layer
+cf733432 Restore Phase 62B observational workspace wiring
+44580988 Correct Phase 62B metric anchor IDs
+83299fcf Bind Phase 62B metric renderers to dedicated value nodes
+945c0762 Isolate Phase 62B hung load by removing safe label rehydration
+f02a6cfe Isolate Phase 62B dashboard OOM by disabling recent history probe
+795f1328 Rehydrate Phase 62 metric labels without replacing tile DOM
+b03d8b99 Restore Phase 62 metric tile labels without structural mutation
+bacd4f42 Hydrate Latency metric from task-events stream
+1d49697a Hydrate Success Rate metric from task-events stream
+616da310 Hydrate Tasks Running metric from task-events stream
+f52d98b9 Hydrate Active Agents metric from ops state timestamps
+c553c743 (tag: v62.1-phase62-metrics-telemetry-tiles) Phase 62: consolidate metrics CSS into authoritative telemetry tile styling
+d41c383c Phase 62: promote metric values in telemetry tiles
+5bcc1a34 Phase 62: refine System Metrics into telemetry tiles
+0bb2a7be Phase 62: compact System Metrics into 2x2 cards
+3e320f1b Phase 62: move Agent Pool beside System Metrics
+988c54d4 Phase 61: replace status indicator node with dedicated emoji renderer
+2331a10d Phase 61: preserve role emojis through live status updates
+44977f4c Phase 61: replace status dots with role emojis (UI-only safe change)
+bfcd0b3c (origin/phase61-agent-emoji-pass) Phase 61: replace agent dots with role emojis (preserve live status wiring)
+c7d2903e Phase 61.5.5q: read truthful agent status from named ops events
+2501a74a Phase 61.5.5h: restore truthful gray unknown agent fallback
+67dd788c Phase 61.5.5e: restore yellow pending agent status dot default
+36d15b35 Phase 61.5.5d: restore vertical height constraint so agent status dot renders
+cd58152b Phase 61.5.5b: force agent status dot inline styling
+32802117 Phase 61.5.4: restore agent status dot + humanize recent/history loading text
+126287bf Phase 61.5.3: add visible delegation status panel feedback
+ce80eeaf Phase 61.5.2: wire Delegation tab controls into dashboard bundle
+59d297fe Phase 61.5.1: let Recent Tasks and Task History fully own their telemetry cards
+d20238e0 Phase 61.5: wire Recent Tasks and Task History into telemetry workspace
+1fc56719 Phase 61.4: wire Task Events semantic row rendering at ingestion path
+da663892 Phase 61.3: polish Task Events presentation without changing locked layout contract
+c7c57820 Fix dashboard layout contract verifier execution
+9e389ece Restore Atlas subsystem status full-width layout from stable tag
+6a14bd40 (tag: v61.1-atlas-bottom-band-stable) Phase 61: Atlas subsystem status full-width bottom band
+52368fe8 Move Atlas subsystem card to full-width bottom band
+5a1faecd Restore Atlas full-width with CSS-only change
+9c68c540 Restore Phase 61 dashboard to last good visual state
+49c8ebbb Recover dashboard layout from Phase 61 checkpoint
+f85ea82a Rewrite Phase 61 workspace region deterministically
+3e0c222b Apply Phase 61 workspace structural repair
+e9d3b817 Repair Phase 61 workspace structure and atlas width
+2b467a03 Make Atlas subsystem card full width beneath workspace
+a1aefca0 Tighten Phase 61 tab spacing and remove redundant labels
+087e6e60 Phase 61B polish: atlas full-width, rename task history, remove redundant tab titles
+0d007f22 Apply final Phase 61 workspace touchups
+ce37eef3 Finalize Phase 61 workspace layout polish
+927a907f Remove redundant workspace headings and finalize Phase 61 layout
+229c686a Normalize Phase 61 workspace regions
+1a01b686 Fix malformed telemetry column opening tag
+cba8b3c0 Consolidate operator column into tabbed workspace
+1f86de05 Phase 61 polish: match telemetry workspace to chat console height
+7e13636a Phase 61 polish: match observational workspace height to operator column
+07cb2da3 Phase 61 polish: stabilize observational workspace height
+0d466727 Phase 61: fix observational workspace tab structure
+66ed4f67 Phase 61: add observational panel wrapper for tab workspace
+d2601c1e Phase 61: convert telemetry column into tabbed observational workspace
+df791714 Phase 61: add observational workspace tab system (Recent Tasks / Task Activity / Task Events)
+74a241ca Phase 61: consolidate operator workspace layout
+79ea63eb Phase 60: convert agent badges to simple status dots
+87bdea8b Phase 60: force visible inline agent status badge in live bundle
+adbc91bb Phase 60: add inline status dots beside agent names
+cac98afd Phase 60: match agent row fill to darker console panel surfaces
+91df287d Phase 60: use stable gray agent row borders instead of slate opacity
+f53e9dc9 Phase 60: restore soft agent row borders matching console styling
+70b7ec58 Phase 60: remove agent row borders for softer pool styling
+ee39c5c3 Phase 60: match agent row borders to agent pool border
+4f25e017 Phase 60: soften agent row borders and status visuals
+595d0724 Phase 60: tighten agent row padding and restore visible status dots
+33f5c0e2 Phase 60: restore live uptime polish script
+988070db Phase 60: restore compact console agent row renderer
+31daf9d2 Phase 60: convert agent pool pills to compact console rows (cosmetic only)
+c63a60e7 Phase 60: restore dashboard runtime scripts for agent pool rendering
+b7afe49b Phase 60: remove live clock script that blocks dashboard hydration
+9faacadc Phase 59: refine agent pool into compact operator cards
+a8c20d76 (origin/feature/phase59-console-composition-pass, feature/phase59-console-composition-pass) Phase 59: restore dashboard bundle loading on served console
+22bf64f3 Phase 60: load live polish assets in dashboard
+ddeab357 Phase 60: add live uptime ticker for operator console
+ecac1fb1 Phase 59: compose operator console layout from stable baseline
+27b7ddf3 (tag: dashboard-stable-static-ui) demo: trim dashboard layout to lifecycle/task panels
+244cdde5 diag: remove phase59 demo-focus stylesheet from static dashboard pages
+3cf87e6f Phase 59: focus dashboard on lifecycle-first demo surface
+497fe035 diag: remove singleton sse bootstrap from static dashboard pages
+17b182d4 diag: strip dashboard runtime script tags from static html
+ac8c4e47 Phase 59: compose dashboard into operator console layout
+8a1edc3c Phase 58D: bump dashboard bundle cache key for operator console pass
+11eda5c3 Phase 58D: rebalance dashboard hierarchy toward operator console
+a8392b19 Phase 58C: add intentional idle states for cold-start dashboard UX
+87142a84 Phase 58B: add probe lifecycle status card
+21d63440 (origin/feature/phase58a-event-stream-containment, feature/phase58a-event-stream-containment) Phase 58A: contain and throttle task event stream
+9525179b (tag: v57.0-demo-hardening-golden, origin/fix/phase57c-api-tasks-probe) Phase 57C: isolate /api/tasks loop by disabling dashboard tasks widget import
+52fb7818 dashboard: drop Phase21 task-events listener; heartbeat classify /events/task-events
+ccc45bdc phase31.7: harden task-events SSE client normalization for task_id/run_id/actor
+734d2be4 phase31.7: wire dashboard tasks widget to /api/tasks/* routes; ensure single mb.task.event bridge
+f035f731 phase31.7: make /events/task-events emit taskId/runId/actor via columns; harden mb.task.event normalization
+1f110320 phase25: forbid UI lifecycle inference + forbid ev.id as task_id fallback
+c4cbff30 phase23: TaskSpec delegate endpoint + task-events into Matilda chat stream
+20746220 (tag: v22.0-dashboard-task-events-live-ok, origin/feature/phase22-dashboard-task-events-ui) phase22: lock baseline (finalize)
+1277df34 phase22: remove duplicate task-events/phase22 script tags (bundle owns)
+4764690f phase22: remove duplicate dashboard-tasks-widget script tag (bundle owns it)
+29f8cc72 phase22: reflect task-events into Task Delegation/status UI (live bindings)
+a0aa3a7a phase22: anchor task-events panel in dashboard + harden mount/reconnect
+0567e869 phase22: listen for named SSE events on /events/task-events (hello/heartbeat/task.*)
+82fd49c8 phase22: wire task-events SSE into dashboard UI (live panel + hooks)
+0b0fdf4e (tag: v21.0-dashboard-task-events-sse-verified) phase21: dashboard task-events SSE wired + verified
+c9e86616 phase21: add dashboard task-events SSE listener (parallel to ops/reflections)
+f58387b1 (feature/phase16-5-heartbeat-backoff) chore(phase16): finalize SSE owner wiring + dashboard markup
+7c2febf6 (tag: v16.3-ui-cleanup-ok, origin/feature/phase16-3-ui-cleanup) Phase 16.3: single SSE indicator, gate debug UI, clean dashboard footer
+633277e8 (tag: v16.2-ops-reflections-ui-wired) Phase 16: finalize reflections owner/consumer wiring and static panel render
+4059de9a (tag: v16.2-phase16-verified, tag: v16.1-ops-reflections-owner-stable) Phase 16: ensure ops/reflections SSE owner runs before bundle; stable __refES/__opsES init
+65dafc03 fix(phase16): guard null EventSource + repair ops-globals-bridge mb:ops:update payload
+b8a35457 fix(phase16): remove stray es guard in agent-status-row; keep source null-guard
+44142433 fix(phase16): guard agent-status-row before onmessage when EventSource null
+9921cded fix: remove stray backslash in Phase16 owner script src
+942e72ba fix: load Phase16 ops/reflections SSE owner before bundle.js
+d0f443f0 fix: guard legacy SSE creators when Phase16 owner is active
+4d805bf2 Phase 16: add SSE owner (ops+reflections) + load from dashboard
+ac1f25b7 Phase 16.5: add stable DOM hooks for OPS pill + reflections list
+c0b7ec33 Phase 16: consume ops/reflections state into OPS pill + reflections list
+161c41a4 Phase 16: add /events/ops and /events/reflections SSE endpoints
+815fbfa3 Disable optional OPS/Reflections SSE listeners until Phase 16
+5be2ac1d Dashboard: cache-bust tasks widget script
+39a6213d Dashboard: make tasks widget mount a child div so header persists
+b84cf2b8 Dashboard: add #tasks-widget mount card for Recent Tasks widget
+6e601ab6 Dashboard: include Recent Tasks widget script (dashboard-tasks-widget.js)
+13dc0a3a Fix PVO: enforce single viewport container in dashboard.html
+6ecbd38d (tag: v15.1-dashboard-restored-pvo-surgical-guardrails) Reapply Phase 15 PVO DOM changes via v2 surgical transplant
+892c05d4 Fix PVO transplant heuristic (robust needle selection + relaxed sanity check)
+931fdbf3 (origin/feature/phase16-ops-heartbeat) Phase 15: fix PVO DOM (remove placeholder + move viewport after header)
+e79d036b Phase 15: fix PVO card DOM order + remove duplicate placeholder viewport
+7ef8c1db Phase 15: remove bogus -visual script tag; ensure PVO script loads
+4bfc973f Phase 15: PVO render target fix (dedicated node) + correct script path
+6bf8cc18 Phase 15: render visual(html) artifacts in Project Visual Output viewport
+61342afd Phase 15: ensure Project Visual Output has dedicated paint target div
+7bb3ff89 Phase 15: load Project Visual Output subscriber + fix element target
+693113ba (tag: v14.4-project-output-restored) Phase 15: restore tasks header + project output styling (cache-bust bundle, viewport min-height)
+4cbd1cbf (tag: v16.3-heartbeat-sse-header-confirmed, tag: v16.2-heartbeat-stale-indicator) Phase 16: add non-intrusive heartbeat stale indicator badge
+6d7831e3 Phase 16: add EventSource heartbeat shim (OPS + Tasks shared heartbeat)
+dac373c6 (tag: v14.3-tasks-ui-stable, origin/phase14-ui-stable, origin/feature/phase14-ops-reliability) Phase 14: stabilize Tasks widget (no blinking, per-task completion state)
+65535104 (tag: v14.8-dashboard-ux-restored, tag: dashboard-two-panel-verified) Restore verified two-panel dashboard with Project Visual Output
+76a5209e Phase 14.5: dashboard no-cache + stable anchor (avoid Phase 11.3 banner regression)
+ec30cc78 Phase 14.4: fix dashboard Phase 11.3 banner copy to Phase 14
+a1eda621 Phase 13.5: ensure tasks SSE singleton patch executes before bundle.js
+85af1056 Phase 13.5: load tasks SSE singleton before non-defer bundle.js
+cd85b097 Phase 13.5: ensure tasks SSE singleton loads before dashboard bundle
+7da5731b (tag: v13.5-tasks-sse-singleton-stable) Phase 13.5: prevent tasks SSE connect thrash via EventSource singleton patch
+b0be5c7f (tag: v13.5-operator-ux-overlay-wired) Phase 13.5: include operator UX overlay assets on dashboard
+1f4924aa Next-2: wire Recent Tasks widget into dashboard bundle (ESM import)
+f1f81b91 Next-2: cache-bust bundle.js on dashboard.html
+cefe68b2 (tag: v11.17-next2-sse-same-origin-stubbed) Next-2: make SSE same-origin (/events/*) + add Express SSE stub routes on :3000
+c183f189 (tag: v11.12-dec16-dashboard-restore-golden, origin/emergency/dashboard-rollback-v11.7, emergency/dashboard-rollback-v11.7) Restore dashboard + server to verified Dec 16 working state (port 3000)
+89420abc (fix/dashboard-layout-restore-9579482a) Try dashboard front-end restore from b91877b4 (keep v11.7 backend)
+2fbb5a12 Restore good dashboard layout (public/) from 9579482a on top of v11.7 backend
+b8c64d04 Restore full dashboard front-end from v11.7-ops-pill-dashboard-stable
+d17d2c83 Restore dashboard layout HTML/CSS from 7cb174d9 visual-output baseline
+0bfab9ae Phase 11 v11.10: wire dashboard Task Delegation via bundled module using existing input/button IDs
+b3ee82ec Phase 11 v11.10: revert dashboard bundle entry to v11.7 ops pill stable baseline
+3a22c174 Phase 11 v11.10: replace dashboard bundle with clean chat/delegation/OPS wiring
+faa9a36b Phase 11 v11.10: fix dashboard bundle syntax and keep chat/delegation wiring
+16fc6b39 Phase 11 v11.10: wire Matilda chat and task delegation via bundled dashboard entry
+29d6c73b Phase 11 v11.10: fully remove OPS SSE wiring from dashboard bundle
+737c5042 Phase 11 v11.10: auto-create OPS pill and add dashboard bundle debug logging
+a8ce0616 Phase 11 v11.10: restore OPS SSE pill wiring alongside chat and delegation
+9a5a29e7 Phase 11 v11.10: simplify dashboard bundle entry and remove missing imports
+b828bdbf Phase 11 v11.10: fix dashboard bundle entry to avoid template literals and syntax issues
+5bd29f7b Phase 11 v11.10: reset dashboard bundle entry with clean chat and delegation wiring
+e8730cff Phase 11 v11.10: wire delegation handler and reflections shim in dashboard bundle
+a9c8e297 Phase 11 v11.10: add Matilda chat handler to dashboard bundle
+782b9028 Phase 11: add SSE shim to neutralize Reflections EventSource usage and prevent dashboard MIME errors
+bd1c7523 Phase 11: add Reflections SSE wiring to unified dashboard bundle
+0d762acb Phase 11: rename dashboard OPS pill to ops-dashboard-pill to avoid external NO SIGNAL overlay
+8726abae Phase 11: inject OPS pill node into dashboard body
+19a1d4a9 Phase 11: add OPS pill state updater wired to OPS SSE globals
+cce599ac Add OPS globals bridge to expose lastOpsHeartbeat and lastOpsStatusSnapshot from SSE
+48b28752 Phase 11: wire OPS, status, broadcast, and Matilda modules into dashboard bundle entry
+79c38bfb Phase 11: switch index + dashboard to bundle.js and temporarily disable graph in bundle
+f244ddf7 Phase 11.4: mirror Matilda chat typography polish on demo dashboard
+6a4cc65a Phase 11.4: actually render Quick Systems Check button in Ops Matilda chat
+20710429 Phase 11.4: typography polish for Matilda chat transcript
+ad15059d Phase 11.4: add helper text to Ops dashboard Matilda Chat Console
+69ae1969 Phase 11.4: add helper text under Matilda chat input
+9b54220c Phase 11.3: annotate dashboard debug banner with phase and container port
+bbb06a21 Phase 11: align Matilda chat markup and UX with bundle wiring
+47b8e97e Phase 11: use bundle.js on dashboard and orchestrate status/task/broadcast/chat
+5ad20b91 Phase 11 STEP 3B: add guarded init for broadcast visualization via bundle entrypoint
+86d4d898 Phase 11 STEP 3B: add guarded init for task graph loader via bundle entrypoint
+b03b9a7a Restore dashboard HTML layout from pre-bundle baseline and document rendering status
+bf97b836 Enhance Project Visual Output card with 3D monitor styling
+c368ed05 Reset dashboard to clean 2-column layout with single Matilda card and big Project Visual Output screen
+304bfad7 Merge Project Visual Output into single screen on right column
+63600e77 Apply explicit 2-column dashboard layout with Matilda left and ops stack right
+2599f2de Inject Matilda Chat Console script into dashboard non-destructively
+368fdfbe Restore original dashboard UI before Matilda Chat integration
+e2106000 Inject Matilda Chat Console script into dashboard non-destructively
+4f7987ce Restore original dashboard UI before Matilda Chat integration
+3aca7c69 Wire matilda-chat-console.js into served dashboard (public/index.html)
+acdce3d0 Load matilda-chat-console.js in dashboard.html to enable chat console UI
+ad587b8c feat: begin Phase 2 by removing CDN Chart.js in favor of bundled dependency
+2b11e9eb feat: finalize dashboard bundle.js wiring with closing tags
+31a38e24 feat: restore dashboard.html and wire to bundled JS
+dfadd99a build: fix dashboard bundle entry imports
+2ec92a4f build: use single entry file for dashboard bundle
+d964a700 Phase 11 v11.10: wire dashboard Task Delegation via bundled module using existing input/button IDs
+0f5c7507 Phase 11 v11.10: revert dashboard bundle entry to v11.7 ops pill stable baseline
+afbe7d2d Phase 11 v11.10: replace dashboard bundle with clean chat/delegation/OPS wiring
+c515cf46 Phase 11 v11.10: fix dashboard bundle syntax and keep chat/delegation wiring
+334228e3 Phase 11 v11.10: wire Matilda chat and task delegation via bundled dashboard entry
+224b2934 Phase 11 v11.10: fully remove OPS SSE wiring from dashboard bundle
+e8c5443c Phase 11 v11.10: auto-create OPS pill and add dashboard bundle debug logging
+f4c431c6 Phase 11 v11.10: restore OPS SSE pill wiring alongside chat and delegation
+6e118e27 Phase 11 v11.10: simplify dashboard bundle entry and remove missing imports
+2b2d9123 Phase 11 v11.10: fix dashboard bundle entry to avoid template literals and syntax issues
+f6e65ec4 Phase 11 v11.10: reset dashboard bundle entry with clean chat and delegation wiring
+5061d901 Phase 11 v11.10: wire delegation handler and reflections shim in dashboard bundle
+809d78cf Phase 11 v11.10: add Matilda chat handler to dashboard bundle
+d8fa1e29 Phase 11: add SSE shim to neutralize Reflections EventSource usage and prevent dashboard MIME errors
+b3d54f26 Phase 11: add Reflections SSE wiring to unified dashboard bundle
+32114e7e Phase 11: rename dashboard OPS pill to ops-dashboard-pill to avoid external NO SIGNAL overlay
+9268c5cb Phase 11: inject OPS pill node into dashboard body
+d44becc1 Phase 11: add OPS pill state updater wired to OPS SSE globals
+4f4eb123 Add OPS globals bridge to expose lastOpsHeartbeat and lastOpsStatusSnapshot from SSE
+0ab3c567 Phase 11: wire OPS, status, broadcast, and Matilda modules into dashboard bundle entry
+627f12a4 Phase 11: switch index + dashboard to bundle.js and temporarily disable graph in bundle
+15522935 Phase 11.4: mirror Matilda chat typography polish on demo dashboard
+d4098e00 (tag: v11.4-matilda-micro-ux-complete) Phase 11.4: actually render Quick Systems Check button in Ops Matilda chat
+7398021e Phase 11.4: typography polish for Matilda chat transcript
+c249d477 Phase 11.4: add helper text to Ops dashboard Matilda Chat Console
+bb3d5a78 Phase 11.4: add helper text under Matilda chat input
+2dbc58b4 Phase 11.3: annotate dashboard debug banner with phase and container port
+11ffa1cd Phase 11: align Matilda chat markup and UX with bundle wiring
+c8196540 Phase 11: use bundle.js on dashboard and orchestrate status/task/broadcast/chat
+9541d523 Phase 11 STEP 3B: add guarded init for broadcast visualization via bundle entrypoint
+5a1f6d94 Phase 11 STEP 3B: add guarded init for task graph loader via bundle entrypoint
+ab28c9c4 Restore dashboard HTML layout from pre-bundle baseline and document rendering status
+235c89c2 Enhance Project Visual Output card with 3D monitor styling
+c82452b0 Reset dashboard to clean 2-column layout with single Matilda card and big Project Visual Output screen
+d9d3aef7 Merge Project Visual Output into single screen on right column
+df5fcbf8 Apply explicit 2-column dashboard layout with Matilda left and ops stack right
+eb7c7e7c Inject Matilda Chat Console script into dashboard non-destructively
+faa78635 Restore original dashboard UI before Matilda Chat integration
+e612b382 Inject Matilda Chat Console script into dashboard non-destructively
+6fde667e Restore original dashboard UI before Matilda Chat integration
+cba8ba47 Wire matilda-chat-console.js into served dashboard (public/index.html)
+6c704ae0 Load matilda-chat-console.js in dashboard.html to enable chat console UI
+e2360b39 feat: begin Phase 2 by removing CDN Chart.js in favor of bundled dependency
+f23b5cd0 (tag: v11.1-dashboard-bundle-phase1) feat: finalize dashboard bundle.js wiring with closing tags
+d9c9804c feat: restore dashboard.html and wire to bundled JS
+b0829b73 build: fix dashboard bundle entry imports
+90c42c40 build: use single entry file for dashboard bundle
+e7ad5f8b (tag: v11.1-stable-dashboard, origin/feature/staging-pm2-setup) <checkpoint> v11.0-stable-dashboard (SSE + dashboard stable)
+b9bc6ea7 <0001fb03> Wire dashboard status + agent row to Python OPS/Reflections SSE
+b91877b4 (tag: v11.0-stable-dashboard, feature/v11-pm2-main-staging) FIX: Resolved all critical external script loading errors and restored core dashboard functionality (Graph, Delegation, Agent Status).
+9fccd63d Feat(dashboard): Adjust layout per user feedback (Move Agent Pool and Delegation to Column 1, move graph to Column 2). Finalize script loading order with 'defer' and 'type=module'.
+07148e29 Feat(dashboard): Adjust layout per user feedback (Move Agent Pool and Delegation to Column 1, move graph to Column 2). Finalize script loading order with 'defer' and 'type=module'.
+efc66473 Fix(dashboard): Resolve server static file serving and client-side HTML structure corruption.
+b4849c69 feat(restore): Restored project stability from latest backup snapshot (includes full file restoration and migration to server.cjs on port 4000).
+29ee906c <0001fb90> 🧹 Purged legacy dashboard scripts — Clean v2 dashboard only
+26564dec <0001fb11> ✨ CLEAN RESET — Dashboard v2 (HTML + JS rebuilt)
+323bee48 <0001fb95> ⚙️ Phase 9.17 — Agent Status Row Reintegration (SSE + polling fallback)
+1ab2cdcc <0001fb90> 🧹 Removed deferred Atlas banner (Phase 9.16 skipped as planned)
+fd0a023b <0001fb60> 🪞 Phase 9.16 — Atlas Banner & Status Sequence Added (Cinematic Dashboard Confirmation)
+1df8b599 <0001fb22> ✅ Phase 9.8.0 — Delegation fully functional (dashboard trigger verified, live webpage generation confirmed)
+f5d24e81 <0001fb12> ✅ Phase 9.8.0 — Dashboard Delegation Online (Matilda→Cade chain verified, reflections logging functional)
+750e2e96 (tag: v1.0.15c-agent-glow-final) <0001fd05> ✨ Phase 10.9.4 — Cascade-Resistant Agent Glow (final fix)
+2248c6ff (tag: v1.0.15-agent-rows-restored) <0001fcf0> ♻️ Phase 10.9.1 — Reinserted Stability + Core Agent Rows (centered above and below container)
+502f7901 (tag: v1.0.14c-dashboard-final-clean) <0001fcd0> 🧹 Phase 10.8 — Retained Recent Tasks only; archived Diagnostics and Debug sections
+bc3f7361 (tag: v1.0.13-debug-cleanup) <0001fc90> 🧹 Phase 10.6 — Archived inline chat debug block + removed visual code leak
+6a3c8380 (tag: v1.0.12-dashboard-minimal) <0001fc70> 🧩 Phase 10.5 — Archived diagnostics + recent tasks + visual output placeholder (dashboard decluttered)
+41d533e9 (tag: v0.9.17-agent-status-row) <0001fb95> ⚙️ Phase 9.17 — Agent Status Row Reintegration (SSE + polling fallback)
+b7edf532 (tag: v0.9.16-banner-removed) <0001fb90> 🧹 Removed deferred Atlas banner (Phase 9.16 skipped as planned)
+c858e784 (tag: v0.9.16-atlas-banner-sequence) <0001fb60> 🪞 Phase 9.16 — Atlas Banner & Status Sequence Added (Cinematic Dashboard Confirmation)
+0f10c3d9 (tag: v0.9.8.0-delegation-stable) <0001fb22> ✅ Phase 9.8.0 — Delegation fully functional (dashboard trigger verified, live webpage generation confirmed)
+250831dd (tag: v0.9.8.0-dashboard-delegation-online) <0001fb12> ✅ Phase 9.8.0 — Dashboard Delegation Online (Matilda→Cade chain verified, reflections logging functional)
+14ed5cf2 <0001fae7> 🎬 Phase 9.6.3 — Cinematic reflection styling & pacing added
+56897f43 <0001fafa> Phase 9.2 — Reinstituted Agent Status Row (live heartbeat display)
+14a2c699 <0001faf0> ✅ Phase 9.1 — Anchored dashboard reflections stream (chatLog integration complete)
+98b8b53c <0001fae9> ✅ Phase 9 — Atlas live constructor & reflection anchoring (dashboard stream + entity registration verified)
+561a2397 <0001fb34> 🚀 Phase 7.7.2 — Delegate Button Added to Dashboard (visual confirmed)
+3ec6bef4 <0001fb2d> 🖤 Phase 7.6.5 — Restored verified dark chatLog styling (from Phase 7.1.9 reference)
+7574ac86 <0001fb06> 🌒 Phase 6.9.5 — Full Dark-Mode Dashboard Unified (pre-chatbot styling)
+85c782ab <0001faf7> ✅ Phase 6.5.1 — Task Activity Graph fully functional (Chart.js verified on dashboard)
+b62cc1aa <0001fad2> ⚙️ Phase 4.9 — Dashboard OPS stream integrated with unified reflections/tasks feed
+c8043ff2 <0001fad1> Fix — Appended reflections viewer script tag before closing body to activate Recent Logs integration
+dcdffe43 <0001fab5> ✅ Stable Gemma Chat — Matilda responses rendering perfectly on dashboard
+2ae0316f <0001fab5> Phase 4.1 — Moved Autonomic Adaptation inside Diagnostics Overview (unified panel layout)
+ae876621 <0001fab5> Phase 4.1 — Unified collapsible layout, renamed lower section to 'Deep Diagnostics', improved spacing & consistency
+b4a50141 <0001fab5> Phase 4.0 — Wrapped System Health, Matilda Insights, and Autonomic Adaptation inside collapsible Diagnostics Overview
+4362bb9b <0001fab5> Phase 4.0 — Made diagnostics section collapsible (bronze summary header, no other changes)
+1faabc90 <0001fae7> 🎬 Phase 9.6.3 — Cinematic reflection styling & pacing added
+c13800ad (tag: v0.9.2-demo-polish-ready) <0001fafa> Phase 9.2 — Reinstituted Agent Status Row (live heartbeat display)
+6c99b65a (tag: v0.9.1-reflection-anchor-complete) <0001faf0> ✅ Phase 9.1 — Anchored dashboard reflections stream (chatLog integration complete)
+7c442d01 (tag: v0.9.0-phase9-atlas-live, origin/phase7.7.1-delegation-route) <0001fae9> ✅ Phase 9 — Atlas live constructor & reflection anchoring (dashboard stream + entity registration verified)
+d7a63391 (tag: v0.7.7.2-delegate-button) <0001fb34> 🚀 Phase 7.7.2 — Delegate Button Added to Dashboard (visual confirmed)
+3db5ab7c (tag: v0.7.6.5-darkchat-verified) <0001fb2d> 🖤 Phase 7.6.5 — Restored verified dark chatLog styling (from Phase 7.1.9 reference)
+62d8afcf (tag: v0.7.4.3-remote-access-quicktunnel, tag: v0.7.1.9-chatlog-darkfix) <0001fb1F> ✅ Phase 7.1.9 — #chatLog dark-mode fix confirmed (output now fully legible)
+838b3776 <0001fb18> ⚡ Phase 7.1.2 — Runtime DOM dark-mode enforcement for chat output
+4fb2c302 <0001fb17> ⚡ Phase 7.1.0 — Full dark-mode lock via enforced body + container overrides
+87e08ff1 <0001fb16> ⚡ Phase 7.0.8 — Restore Enter key send + readable dark output bubbles
+4d3d2d39 (tag: v0.6.13-phase6.9.5-darkmode-unified) <0001fb06> 🌒 Phase 6.9.5 — Full Dark-Mode Dashboard Unified (pre-chatbot styling)
+7d31d040 (tag: v0.6.9.3-phase6.5.1-graph-verified) <0001faf7> ✅ Phase 6.5.1 — Task Activity Graph fully functional (Chart.js verified on dashboard)
+65949c6b (tag: v0.5.1-phase4.9-ops-dashboard-live) <0001fad2> ⚙️ Phase 4.9 — Dashboard OPS stream integrated with unified reflections/tasks feed
+ba1db375 (tag: v0.4.5-golden-reflections-dynamic) <0001fad1> Fix — Appended reflections viewer script tag before closing body to activate Recent Logs integration
+5f0ff8d1 (phase4.4.1-dashboard-verified-restore) <0001fac7> Phase 4.5 — Integrated Static Reflections Viewer into Dashboard UI
+56d83a35 (origin/phase4.4-dashboard-diagnostics, phase4.4-dashboard-diagnostics) <0001fab6> 🧩 Phase 4.4 — Added collapsible panels and hover transitions to dashboard diagnostics
+a16961a9 (tag: v0.4.3.4-phase4-gemma-chat-verified) <0001fab5> ✅ Stable Gemma Chat — Matilda responses rendering perfectly on dashboard
+504d1de8 (tag: v0.4.1-diagnostics-hierarchy) <0001fab5> Phase 4.1 — Moved Autonomic Adaptation inside Diagnostics Overview (unified panel layout)
+41285d40 (tag: v0.4.1-diagnostics-layout) <0001fab5> Phase 4.1 — Unified collapsible layout, renamed lower section to 'Deep Diagnostics', improved spacing & consistency
+5f73e8ac <0001fab5> Phase 4.0 — Wrapped System Health, Matilda Insights, and Autonomic Adaptation inside collapsible Diagnostics Overview
+59bed460 <0001fab5> Phase 4.0 — Made diagnostics section collapsible (bronze summary header, no other changes)
+6850eabc (phase4.0-diagnostic-ux) <0001fab5> Synced live dashboard.html from http://localhost:3001/dashboard.html (verified full Agent Status + Logs layout)
+c6762119 (origin/phase4.0-demo-prep, phase4.0-demo-prep) <0001fab5> Restored dashboard.html to v0.3.36-full-stable (verified full dashboard rendering + all routes operational)
+a55ff609 <0001fab5> Restored dashboard.html to v0.3.19 (full Agent Status + Logs verified functional baseline)
+40a17780 <0001fab5> Restored working dashboard.html from v0.3.39-auto-prune-stable baseline
+329e6e54 <0001fab5> Synced live dashboard from running server (baseline for Phase 4 edits)
+1809f3e0 (tag: v0.3.20-phase2.3-dashboard-stability) <0001faa1> ✅ Stability Restored — Dashboard functional, SSE reconnected, Matilda fetch patched
+034ac67b (tag: v0.3.13-phase2.1-diagnostics-verified, phase2-diagnostics-sandbox) <0001fa97> Phase 2.1 Checkpoint — Dynamic Diagnostics Verified (Live Refresh + SSE Stable)
+51f4f9a9 (tag: v0.3.11-dashboard-clean-final) <0001fa84> ✅ Dashboard script balanced — syntax fully validated and SSE stable
+d7140e59 (tag: v0.3.11-dashboard-restored-final) <0001fa83> ✅ Dashboard HTML cleaned — syntax error removed, final stable state
+b2412352 (tag: v0.3.19-dashboard-restored) <0001fa82> ✅ Dashboard Restored — Live Agent Status Stream functional and stable
+a9ab5cb4 (tag: v0.3.18-stable-dashboard) <0001fa80> Removed legacy dashboard-logs.v3.js reference (prevent redundant overwrites)
+211e3884 <0001fa7f> Disabled legacy logs scripts from overwriting Recent Logs container
+59eb232b <0001fa7e> Added console + delayed refresh for Recent Logs to force redraw
+e21f4e38 <0001fa7c> Bumped dashboard-status.js cache version after backend log split
+f4c02f54 <0001fa77> Cache-busted dashboard-status.js to force reload of new Recent Logs logic
+0be71c8f <0001fa74> Repositioned Recent Activity container below chatbot (verified line move)
+9579482a <0001fa63> Final unified dashboard restore — latest layout + verified live scripts
+ce3b8872 <0001fa53> Relocated Recent Activity section directly below chat module (lines 69-70)
+31dd1cdc <0001fa34> Full Revert — Restored working dashboard and live SSE from v0.3.17-dashboard-clean
+f06ef2dc <0001fa33> Restore live SSE updates for Recent Tasks and Recent Logs
+81ba19bd <0001fa30-revert> Restore dashboard.html from v0.3.17-dashboard-clean
+facf0969 (tag: v0.3.17-clean-logs-placeholder) <0001fa25> 🧾 Dashboard Cleanup — Isolated Recent Logs placeholder & removed duplicate data rendering
+21c2239c (tag: v0.3.17-clean-logs) <0001fa30> 🧹 Cleaned duplicate Recent Logs — dynamic section only
+cd105a15 (tag: v0.3.17-dashboard-clean) <0001fa23> 💾 Dashboard Stable — Dynamic Agent Status + Recent Activity Layout confirmed
+da9a3c8d (tag: v0.3.17-dashboard-cleanup) <0001fa21> 🧼 Dashboard Cleanup — removed redundant 'Recent Tasks/Logs' headers
+e5a8f252 (tag: v0.3.17-dashboard-style-enhanced) <0001fa21> 🛰️ Dashboard Styling — Neon agent statuses + Live Agents label patch
+18fff0d7 (tag: v0.3.8-live-agent-sse, tag: v0.3.16-live-sse-restored) <0001fa00> 🛰️ Live Agent SSE — dynamic dashboard status updates functional
+c4694402 (tag: v0.3.14-dom-safe-dashboard) <0001fa95> 🧩 DOM-safe script execution — eliminated null reference errors for dashboard and logs
+2c491589 (tag: v0.3.14-sse-guarded) <0001fa94> ✅ SSE Listener Guard + Heartbeat verified – full real-time stability
+c1d73765 (tag: v0.3.14-dashboard-stream-stable) <0001fa63> ✅ Live SSE dashboard stream verified – end-to-end connection stable
+1f988d75 (tag: v0.3.11-live-status-logs) <0001f9ff> ⚡ Live Agent & Logs Panels — dashboard fully dynamic
+6629c66f (tag: v0.3.11-dashboard-ui-table) <0001f9fd> 🎨 Dashboard UI Polished — Recent Tasks table rendering functional
+8b5046c9 (tag: v0.4.0-live-dashboard-baseline, tag: v0.3.9-agent-status-styling) <0001fabb> 🎨 Dashboard Polish — Styled agent status grid with responsive cards
+892f74f4 (tag: v0.3.8-live-agent-status) <0001faba> 🧩 Live Agent Status Restored — Dynamic refresh loop + verified /agents/status route
+faef6b26 (tag: v0.3.9-live-status-refresh) <0001faba> ✅ Safe Live Agent Refresh — script added to dashboard
+c0f13237 (tag: v0.3.6-cade-autonomous-repair) <0001fae1> 🤖 Cade Autonomous Repair — dashboard restore skill operational, runtime logging verified
+d617b73c (tag: v0.3.5-dashboard-fully-wired) <0001fac8> ✅ v0.3.5 Dashboard Fully Wired — diagnostics, tasks, and logs panels operational
+abad497f (tag: v0.3.5-diagnostics-live) <0001fac8> 🩺 Diagnostics Live — dashboard wired to /diagnostics/* endpoints, full system verified
+b8e4aee2 <0001fac2> ♻️ Restored dashboard layout and CSS from v0.3.2-diagnostics-stable
+38556ccd 🧯 Mega-restore from tags/milestone-4-complete~2 — bring back full project snapshot
+22c3ca89 (tag: v2.0.3-stable-dashboard) <0001fabe> 🧱 Stability Checkpoint — Clean single-body dashboard + verified chat + diagnostics integrity
+c87d1135 <0001fac4> UI Fix — removed duplicate small title and kept styled header only
+a22ede66 (tag: v2.0.4-ui-header) <0001fac3> UI Polish — restored professional header for Motherboard Systems dashboard
+c503a1f6 <0001fac2> Cleanup — removed residual Git merge markers from dashboard.html
+07eeea02 (tag: v2.0.3-dashboard-stable) <0001fab5> Dashboard Restored — unified chat + diagnostics stable layout
+508b8024 <0001fab4> Dashboard Chat Restored — Enter-to-Send fixed, Matilda conversational mode active
+4f72fcb7 <0001faa8> Verified diagnostic auto-refresh — stable JSON retrieval for all panels
+074cbd5d <0001faa4> Dashboard layout restructured — 4 core panels + 2 collapsible diagnostics
+233e6a10 (tag: v2.0.2-partial-dashboard-restore) <0001fa9f> Safe checkpoint — dashboard partially restored, diagnostic endpoints verified
+c3192469 🧩 Restored organized dashboard layout v2.0.1 (Agent Status, Tasks, Logs, Chat)
+34a53ea9 🧠 Restored full diagnostic dashboard layout (Agent Status + OPS Stream + Chronicle)
+7320a560 (tag: v1.1.1-chronicle-ui) <0001fa1c> 💅 Dashboard Cleanup – Consolidated System Chronicle panel & fixed live event feed styling
+614ac267 (tag: v1.0.0-system-chronicle) 📜 Phase 14 – System Chronicle: passive event log archive (final passive upgrade)
+08650c67 (tag: v0.4.4-phase13-self-verify) �� Phase 13 – Dashboard Self-Verification Panel: live audit interval + stability status (Stable/Monitoring/Risk)
+03fb3801 (tag: v0.4.3-phase12-autonomic-adaptation) 🤖 Phase 12 – Autonomic Adaptation Protocol: self-tuning scheduler parameters via introspection feedback
+1f4382b9 (tag: v0.4.2-phase11-introspective-sim) 🧬 Phase 11 – Introspective Simulation Engine: predictive internal scenario modeling
+0439bfab (tag: v0.3.7-phase7-functional) ✅ Phase 7 functional – OPS Stream + Matilda Insights active on dashboard
+96a03261 (tag: v0.3.3-pre-phase6, move-chat-top) ✅ Pre-Phase-6 stable baseline — Matilda↔Cade dynamic skills + conversational dashboard functional
+aedf7054 (tag: v0.3.2-chat-top) 🎨 Move working chatbot to top of dashboard layout (stable UI baseline)
+b5c3d3ae (tag: v0.3.1-stable-chatbot, origin/restore-working-chat-frontend, restore-working-chat-frontend) ✅ Stable dashboard baseline – single working chatbot, conversational replies functional
+5f96609a 💾 Snapshot before adopting stable conversational chatbot wiring
+35760253 🎯 Restore working dashboard chat wiring and UI from c4b1123 + c5d4625
+780822a8 (tag: v0.4.0-dashboard-stable) ✅ Stable Dashboard (Matilda chat restored, agents/tasks/logs JSON aligned)
+81b6c2cb (restore-dashboard-ui) 🧩 Snapshot current full UI (dual chatbot + tabs empty)
+a0216e25 🎨 Restore dashboard layout + chatbot interactivity (from c4b1123 + c5d4625)
+28947a40 (tag: v0.2.6-dashboard-polling) ✅ feat(dashboard): polling for recent tasks/logs now live (mock-backed)
+f846fdaa (tag: v0.2.3-dashboard-clean, origin/safe/wired-dashboard) 🧹 chore(dashboard): restore wired dashboard with cleaned baseline styling
+c5d46252 (tag: v2.0.1-matilda-persona, tag: v0.2.2-wired-dashboard, tag: v0.2.2-chatbot-stable) 💬 feat(dashboard): Matilda chat now replies conversationally with persona filter
+c2d927d5 (tag: v0.2.1-dashboard-split, origin/ts-fix-test, origin/feature/dashboard-ui, ts-fix-test, feature/dashboard-ui) ♻️ Split dashboard JS into external file (dashboard.js) + cache-busting version param
+42465e99 💬 Fix dashboard feed: always append and update assistant replies visibly.
+185b75cb 🚑 Harden /matilda JSON response + simplify dashboard fetch with safe parsing.
+920f5de1 🧹 Fix dashboard: safe JSON.parse with fallback to raw text to stop SyntaxError.
+8fabf202 🐞 Debug: add console logging and visible error output in dashboard chat JS.
+14c07100 ✅ Completed Matilda wiring: server route, dashboard UI, and handler function all finalized.
+c4b11232 ✅ Mobile dashboard MVP: Agent Status, working Chatbot, cleaned layout
+e47271cb 🔁 Restored original dashboard layout from commit 1fa89c5
+4f1adb2b 🎨 <0001fa7a> UI/UX polish to project tracker with live timestamp + status colors
+ad984bd3 (tag: pre-ollama-wiring) <0018chat> Improve Matilda's support detection and guide onboarding flow
+0909aaa6 <0017restore> Restore full UI and updated Matilda system guide wiring
+68383dfc <0016guide> Add Matilda onboarding responses to explain system and offer a tour
+0ae73a62 <0014sass> Improve Matilda fallback tone to match mood-based and casual replies
+695c96e9 <0013restore> Restore complete UI layout and Matilda logic with centered design
+41240cb2 <0014chat> Improve Matilda’s contextual flow and handle casual messages naturally
+91678434 <0014chat> Improve Matilda’s contextual flow and handle casual messages naturally
+3b9157e1 <0013chat> Enhance Matilda's emotional range and context-matching for vibrant replies
+be229f3e <0012chat> Improve Matilda greeting logic and energy matching for natural convo
+9aebaaf3 <0013chat> Fix Matilda greeting response override when asking 'how are you'
+ede2363c <0012chat> Improve Matilda’s greeting detection and energy-matching responses
+889a3538 <0011fix> Restore chat transcript container and updated tab layout
+8181f735 <0013revert> Restore last stable UI build before intent parser broke rendering
+bfa05362 <0012chat> Improve intent detection for greetings and wellness with regex
+7e307ff6 <0011chat> Upgrade Matilda responses with greeting and wellness recognition
+8acb15d1 <0012wiring> Route general messages to Matilda fallback and detect command keywords
+d7dc13c8 <0011fix> Restore full UI layout and preserve Matilda fallback logic
+f211014d <0010chat> Add Matilda fallback for natural chat and default responses
+45af75e0 <0009ops> Restore and center animated Ops Stream ticker
+6fdf332d <0008fix> Restore dashboard title and center command console text
+1690750e <0007fix> Restore and center dashboard layout without breaking render
+17ff57d7 Revert "<0006ui> Center top sections above chat: agent status, ticker, and console"
+f080a42f <0006ui> Center top sections above chat: agent status, ticker, and console
+3e23b049 <0005chat> Inject missing chat container with styled messages and animation
+da34f83a <0004chat> Add visible chat message container with styled bubbles
+ecff7abd <0003ui> Polished dashboard layout: styled agent row, chat, tabs, and ticker
+cefd6ab6 <0002ui> Add full static dashboard layout with dynamic ticker
+
+NEXT
+Use the resulting candidate SHAs to boot only the commits that prove tabbed shared cards and shared top-row layout.

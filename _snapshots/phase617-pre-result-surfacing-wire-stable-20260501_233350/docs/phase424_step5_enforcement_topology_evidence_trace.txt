@@ -1,0 +1,186 @@
+PHASE 424 — STEP 5
+Enforcement Topology Classification Proof
+-----------------------------------------
+
+step1 artifact references
+5:candidate governance enforcement builders
+16:candidate governance gate surfaces
+70:candidate execution entry surfaces
+73:candidate enforcement placement seams
+368:governance-to-execution proximity map
+
+step2 artifact references
+5:execution entrypoint call graph
+8:who calls governance authorization
+26:who performs governance evaluation
+33:execution → governance adjacency scan
+57:operator approval surfaces
+59:invariant guardian surfaces
+
+step3 chokepoint candidates
+1018:candidate chokepoint files
+1169:candidate builder and decision seams
+
+step4 convergence references
+5:files containing execution + governance
+8:files containing governance + operator approval
+10:files containing governance + invariants
+74:files containing execution + operator surfaces
+76:multi-layer convergence candidates
+
+direct convergence candidates from source
+src/governance_operator_guide/governance_operator_guide_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_operator_compendium/governance_operator_compendium_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_operator_bundle/governance_operator_bundle_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_operator_dictionary/governance_operator_dictionary_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_operator_ledger/governance_operator_ledger_contract.ts:4:  "cannot affect invariant evaluation",
+src/cognition/exposure/cognition.exposure.ts:16:export * from "../invariants";
+src/cognition/transport/cognitionTransport.validate.ts:6:import { transportRegistryIsConsistent } from "./cognitionTransport.invariants";
+src/cognition/transport/cognitionTransport.summary.ts:28:      diagnostics.invariantHealthy,
+src/cognition/transport/CognitionTransportDiagnostics.builder.ts:8:  invariantHealthy: boolean
+src/cognition/transport/CognitionTransportDiagnostics.builder.ts:19:    invariantHealthy: input.invariantHealthy,
+src/cognition/transport/cognitionTransport.replay.ts:7:import { transportRegistryIsConsistent } from "./cognitionTransport.invariants";
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:14:export function runConsumptionRegistryEnforcementEntrypoint(): ConsumptionRegistryEnforcementEntrypointResult {
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.invariants.ts:36:      throw new Error("Registry ordering invariant violated");
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.validate.ts:8:} from "./dashboardConsumption.registry.invariants";
+src/cognition/transport/cognitionTransport.dashboardConsumption.invariants.ts:32:      throw new Error("Dashboard consumption payload ordering invariant violated");
+src/cognition/transport/cognitionTransport.diagnostics.ts:8:import { transportRegistryIsConsistent } from "./cognitionTransport.invariants";
+src/cognition/transport/cognitionTransport.diagnostics.ts:15:  const invariantHealthy = transportRegistryIsConsistent();
+src/cognition/transport/cognitionTransport.diagnostics.ts:20:    verificationHealthy: invariantHealthy,
+src/cognition/transport/cognitionTransport.diagnostics.ts:22:    invariantHealthy,
+src/cognition/transport/cognitionTransport.diagnostics.ts:35:Derived from existing transport health, snapshot, and invariant surfaces.
+src/cognition/transport/cognitionTransport.health.ts:7:import { transportRegistryIsConsistent } from "./cognitionTransport.invariants";
+src/cognition/transport/CognitionTransportDiagnostics.types.ts:5:  invariantHealthy: boolean
+src/cognition/transport/cognitionTransport.types.ts:55:Transport invariants:
+src/cognition/transport/index.ts:3:export * from "./cognitionTransport.dashboardConsumption.invariants";
+src/cognition/transport/cognitionTransport.dashboardConsumption.test.ts:7:} from "./cognitionTransport.dashboardConsumption.invariants";
+src/cognition/transport/cognitionTransport.dashboardConsumption.ts:39:      throw new Error("Dashboard consumption key ordering invariant violated");
+src/cognition/transport/cognitionTransport.invariants.ts:3:Deterministic invariant definitions (no runtime mutation)
+src/cognition/confidence/confidenceInvariant.ts:31:      `Operational confidence invariant failed: expected score 85, received ${first.score}.`,
+src/cognition/confidence/confidenceInvariant.ts:37:      `Operational confidence invariant failed: expected level HIGH, received ${first.level}.`,
+src/cognition/confidence/confidenceInvariant.ts:43:      `Operational confidence invariant failed: expected 4 factors, received ${first.reasoning.factors.length}.`,
+src/cognition/entry/cognition.entry.ts:19:export * from "../invariants-read";
+src/cognition/contracts/cognition.contracts.ts:6: * enforce deterministic structure, and prepare invariant validation.
+src/cognition/contracts/cognition.contracts.ts:45:  invariant: string;
+src/cognition/lock/cognition.lock.ts:19:  "invariants",
+src/cognition/invariants/cognition.invariants.ts:5: * Establish invariant guards to ensure cognition contracts
+src/cognition/invariants/cognition.invariants.ts:13: * - Pure invariant checks only
+src/cognition/invariants/cognition.invariants.ts:34:export function invariantConfidence(value: string): boolean {
+src/cognition/invariants/cognition.invariants.ts:38:export function invariantGovernanceStatus(value: string): boolean {
+src/cognition/invariants/cognition.invariants.ts:42:export function invariantSituationSummary(
+src/cognition/invariants/cognition.invariants.ts:54:  if (!invariantConfidence(envelope.situation.confidence)) {
+src/cognition/invariants/cognition.invariants.ts:65:export function invariantGovernance(
+src/cognition/invariants/cognition.invariants.ts:79:    if (!item.invariant) {
+src/cognition/invariants/cognition.invariants.ts:83:    if (!invariantGovernanceStatus(item.status)) {
+src/cognition/invariants/cognition.invariants.ts:91:export function invariantGuidance(
+src/cognition/invariants/cognition.invariants.ts:105:    if (!invariantConfidence(item.confidence)) {
+src/cognition/invariants/cognition.invariants.ts:121:  if (!invariantSituationSummary(envelope)) {
+src/cognition/invariants/cognition.invariants.ts:125:  if (!invariantGovernance(envelope)) {
+src/cognition/invariants/cognition.invariants.ts:129:  if (!invariantGuidance(envelope)) {
+src/cognition/invariants/index.ts:1:export * from "./cognition.invariants";
+src/cognition/drift/cognition.drift.guard.ts:17:import { cognitionInvariantCheck } from "../invariants/cognition.invariants";
+src/cognition/situationSummaryInputAdapter.ts:130:    isFiniteNumber(value.invariantTotal) &&
+src/cognition/situationSummaryInputAdapter.ts:131:    isFiniteNumber(value.invariantFailures)
+src/cognition/situationSummaryInputAdapter.ts:171:    awareness.verification.invariantFailures === 0;
+src/cognition/governanceAwarenessGuards.smoke.ts:42:    invariantTotal: 4,
+src/cognition/governanceAwarenessGuards.smoke.ts:43:    invariantFailures: 0,
+src/cognition/governanceAwarenessGuards.smoke.ts:75:    invariantTotal: 4,
+src/cognition/governanceAwarenessGuards.smoke.ts:76:    invariantFailures: 0,
+src/cognition/operatorGuidance.ts:93:Safety invariants (type-level guarantees):
+src/cognition/invariants-read/cognition.read.invariants.ts:5: * Establish deterministic read invariants for cognition consumption.
+src/cognition/invariants-read/index.ts:1:export * from "./cognition.read.invariants";
+src/cognition/operatorGuidanceSafety.ts:3:Bounded operator guidance runtime invariants.
+src/cognition/replay/cognition.replay.proof.ts:17:import { cognitionInvariantCheck } from "../invariants/cognition.invariants";
+src/cognition/governanceCognition.smoke.ts:36:    invariantTotal: 4,
+src/cognition/governanceCognition.smoke.ts:37:    invariantFailures: 0,
+src/cognition/governanceCognition.smoke.ts:69:    invariantTotal: 4,
+src/cognition/governanceCognition.smoke.ts:70:    invariantFailures: 1,
+src/governance_operator_handbook/governance_operator_handbook_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_operator_map/governance_operator_map_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_operator_register/governance_operator_register_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_operator_lexicon/governance_operator_lexicon_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_operator_briefing/governance_operator_briefing_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_operator_manifest_index/governance_operator_manifest_index_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_operator_session/governance_operator_session_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_operator_console/governance_operator_console_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_operator_directory/governance_operator_directory_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_investigation/governance_playback_proof.ts:12:import { verifyPlaybackState } from "./governance_playback_invariants";
+src/governance_investigation/governance_playback_assembly.ts:14:import { verifyPlaybackState } from "./governance_playback_invariants";
+src/governance_investigation/index.ts:8:export * from "./governance_playback_invariants";
+src/governance_visibility/governance_visibility_snapshot.ts:11:  invariants_triggered?: readonly string[];
+src/governance_visibility/governance_visibility_snapshot.ts:25:    invariants_triggered: [...(input.invariants_triggered ?? [])],
+src/governance_visibility/governance_visibility_formatter.ts:12:  return `Invariants triggered: ${formatList(record.invariants_triggered)}`;
+src/governance_visibility/governance_visibility_model.ts:8:  invariants_triggered: string[];
+src/governance_operator_registry/governance_operator_registry_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_operator_record/governance_operator_record_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_operator_glossary/governance_operator_glossary_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_operator_export/governance_operator_export_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_operator_manifest/governance_operator_manifest_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_traceability/governance_traceability_model.ts:5:  "invariant_evaluation",
+src/governance_traceability/governance_traceability_model.ts:18:  invariants_triggered: string[];
+src/governance_traceability/governance_traceability_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_traceability/governance_traceability_snapshot.ts:11:  invariants_triggered?: readonly string[];
+src/governance_traceability/governance_traceability_snapshot.ts:27:    invariants_triggered: [...(input.invariants_triggered ?? [])],
+src/governance_traceability/governance_traceability_formatter.ts:28:  return `Invariants triggered: ${formatList(record.invariants_triggered)}`;
+src/governance_operator_archive/governance_operator_archive_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_operator_logbook/governance_operator_logbook_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance/governance_policy_engine.test.ts:7:import { evaluateGovernancePolicy } from "./governance_policy_engine"
+src/governance/governance_policy_engine.test.ts:15:const safe = evaluateGovernancePolicy({
+src/governance/governance_policy_engine.test.ts:23:const warn = evaluateGovernancePolicy({
+src/governance/governance_policy_engine.test.ts:31:const critical = evaluateGovernancePolicy({
+src/governance/governanceExecutionRoutingProof.ts:3: * Deterministic proof surface validating routing invariants.
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:19:import { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts:77:  const gate = buildGovernanceAuthorizationGate(decision);
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:19:import { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";
+src/governance/cognition/prove_governance_final_delivery_receipt.ts:73:  const gate = buildGovernanceAuthorizationGate(decision);
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:19:import { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts:67:  const gate = buildGovernanceAuthorizationGate(decision);
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:19:import { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts:71:  const gate = buildGovernanceAuthorizationGate(decision);
+src/governance/cognition/prove_governance_authorization_gate.ts:19:import { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";
+src/governance/cognition/prove_governance_authorization_gate.ts:65:  const gate = buildGovernanceAuthorizationGate(decision);
+src/governance/cognition/prove_governance_cognition_snapshot.ts:4: * Deterministic proof surface for snapshot packaging invariants.
+src/governance/cognition/build_governance_authorization_gate.ts:24:export function buildGovernanceAuthorizationGate(
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:19:import { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts:75:  const gate = buildGovernanceAuthorizationGate(decision);
+src/governance/cognition/index.ts:44:export { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:19:import { buildGovernanceAuthorizationGate } from "./build_governance_authorization_gate";
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts:69:  const gate = buildGovernanceAuthorizationGate(decision);
+src/governance/governance_policy_engine.ts:20:export function evaluateGovernancePolicy(
+src/governance/governance_pipeline_invariants.ts:4:Defines non-negotiable governance safety invariants.
+src/governance/governance_audit_log.test.ts:31:  "Authority invariant violated"
+src/governance/governance_pipeline_invariants.test.ts:1:import { validateGovernanceInvariants } from "./governance_pipeline_invariants"
+src/governance/governance_pipeline_invariants.test.ts:13:  "Governance invariants validation failed"
+src/governance/governance_pipeline_invariants.test.ts:16:console.log("Governance invariants deterministic")
+src/governance_operator_packet/governance_operator_packet_builder.ts:20:  invariants_triggered?: readonly string[];
+src/governance_operator_packet/governance_operator_packet_builder.ts:42:      key: "invariants",
+src/governance_operator_packet/governance_operator_packet_builder.ts:44:        input.invariants_triggered ?? [],
+src/governance_operator_packet/governance_operator_packet_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_operator_packet/governance_operator_packet_formatter.ts:25:  invariants: readonly string[],
+src/governance_operator_packet/governance_operator_packet_formatter.ts:27:  return `Invariants: ${formatList(invariants)}`;
+src/governance_operator_index/governance_operator_index_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_reporting/governance_reporting_builder.ts:18:  invariants_triggered?: readonly string[];
+src/governance_reporting/governance_reporting_builder.ts:47:          label: "invariants",
+src/governance_reporting/governance_reporting_builder.ts:49:            input.invariants_triggered ?? [],
+src/governance_reporting/governance_reporting_formatter.ts:23:  invariants: readonly string[],
+src/governance_reporting/governance_reporting_formatter.ts:25:  return `Invariants triggered: ${formatList(invariants)}`;
+src/governance_reporting/governance_reporting_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_operator_catalog/governance_operator_catalog_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_operator_manual/governance_operator_manual_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_operator_atlas/governance_operator_atlas_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_operator_snapshot/governance_operator_snapshot_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_operator_handoff/governance_operator_handoff_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_digest/governance_digest_formatter.ts:23:  invariants: readonly string[],
+src/governance_digest/governance_digest_formatter.ts:25:  return `Invariants: ${formatList(invariants)}`;
+src/governance_digest/governance_digest_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_digest/governance_digest_builder.ts:19:  invariants_triggered?: readonly string[];
+src/governance_digest/governance_digest_builder.ts:43:      key: "invariants",
+src/governance_digest/governance_digest_builder.ts:44:      text: formatGovernanceDigestInvariants(input.invariants_triggered ?? []),
+src/governance_operator_playbook/governance_operator_playbook_contract.ts:4:  "cannot affect invariant evaluation",
+src/governance_operator_reference/governance_operator_reference_contract.ts:4:  "cannot affect invariant evaluation",
+
+candidate classification markers
+NATURAL_SPINE_ENFORCEMENT
+GATEWAY_ENFORCEMENT
+BRIDGED_ENFORCEMENT
+

@@ -1,0 +1,314 @@
+PHASE 464.X — FORCE CLEAN REBUILD
+=================================
+
+STEP 1 — Tear down all containers + volumes
+ Container motherboard_systems_hq-dashboard-1  Stopping
+ Container motherboard_systems_hq-dashboard-1  Stopped
+ Container motherboard_systems_hq-dashboard-1  Removing
+ Container motherboard_systems_hq-dashboard-1  Removed
+ Container motherboard_systems_hq-postgres-1  Stopping
+ Container motherboard_systems_hq-postgres-1  Stopped
+ Container motherboard_systems_hq-postgres-1  Removing
+ Container motherboard_systems_hq-postgres-1  Removed
+ Volume motherboard_systems_hq_pgdata  Removing
+ Network motherboard_systems_hq_default  Removing
+ Volume motherboard_systems_hq_pgdata  Removed
+ Network motherboard_systems_hq_default  Removed
+
+STEP 2 — Remove orphan containers/images (safe prune)
+Deleted Containers:
+00b46f70fed2159ccf75d9389fd44f1e7b8601776a0db86effd0b9be96437016
+72479aa865ab7206a76976a72481bf279ef3fbf289c7eb4685c959bcc0e01b84
+421ca20ef526f6e14514e8b6982e3249b7b9f30ad37c7b5167f7af05f9524bbd
+4e63a5afe8d6ff2ad4e663255d20878be72755c8b89daa0216cb28a3d37f8fe1
+1a374ed31316bf861f5b9dfc85915dbf5b51cefe4cd306dce55e859d5fdb8548
+2761e6ea4954d7c70eb4ab328d136d4b20af9fe511733e4a4f0ed338bfb2f4ac
+480cf3bb9b8d73893e42edf7b41baf77fa3815cc01e38956a1a08379dd0d5bc5
+9ebd22a54f44749b1b83d77bafedadb75f74e35d1f52de4076982dd6a98aa385
+6c99274d8a36fe1d713f264966de15dcf865c07dd6908e936ea0421130e75584
+72d988a3f085c359c4dab6a93ec908656cc304f947d3ce8757c90c0ef6705193
+3dc8d7ab1b43315dec550ead7dc5ebd2bcd4a3540ac99c374964386a9da9a8db
+da98bb7efe5dc7ccbf2647098a50affaf7331340c2c56637fa23a8eca24663d5
+695ade0760597eac167510b8505d594ee71bd26e85a0cfc2f87c41d33d1df197
+814c1532171297486f126f815b5372ce0531fb1f6a74e598ec4fa39aedfb30e4
+597b2aea245786f6acc07dd55d50a37b10cbcbbfff395551578814fbbecfa043
+1f12a89b804ca1a63cc3565ebe9766a34d513540f8e4f9612ce2024795202892
+e449bff515c32aa6b5c4028a70dae0c407f4c8a014155bb6bad64124f15dfa52
+bbfda141d2e4c7d3cc134dcfe829f13c9fadb089d3b3e801dec7d18ddf42748b
+93ff15759fbc39f0f5b224ae31fa52e71eb073e4ceaf9e6e577c766d23191017
+412b250d0a0e3422b52b188bd65b8c73ef902344fd4e55a8de2cd30f1534090f
+269376102ab6e6bbf6dc4f0034bcb0b9c2416fa5264b74068c2a4b83d91a045d
+10aef9754f4c0af0d589b26934c909fa598a8bc1be6338e12cfd228b2f16a669
+ffd2646f80d614e159f851a384570cd004e6c40d83ed280d7355b4883025493b
+da6af337841482413cf4d5ef8d4fa281252e702d15b237b6db6eb8eea897c9ce
+7a28dcf2b3c96828df7797ea3404269395ca592f967dcdf3495325da92d046bc
+f9e7a603402a54e6f1c3ced102055d07c35afab02c8a8976bf33698c52170f96
+b9292f3401afb8d9a15ca4c24a4f51bf0023c60a2d64f1b3c7b835b716fc13b6
+c2807ec14854ced01ae7ed150d290ca2f3bfb6d84412fdfe19a2d8034eb911bb
+b3422ef7a7ee3decb063ba3e99d7956c17b8c4c11c650371910a43f566c08e0a
+e22d224ae38c7c6c8f2bb919c419b7336c011deca0b58873f4c8ef14b60e5b15
+12a2d34a131bb0093256248e963fd6faf1a2780d54fde99eb0c8e2d54ed10f8d
+560993bbd92c1b05bf92a223c62ec8c5e0d9c09b4bf5054dc9a4d3d9173d41d7
+16de7582f14e6528bf93c67b6218ebce9f9ab810945dab144d216119a4be06f0
+2ceed70896a22cb6dd730148cf86ac8ea85dd4a59e035d3ad93a4c937473a776
+c22360a986d0be7d6a0a623659066ecb92388adcd3043faa86cdb031b87b11b0
+a2d7956e19c4e63f789ed159c9fa096de22ef13fb1b76f41d9ad874063332a32
+1140e81517ba56bf67e1f1ab56ff8e3d92124221d25bdc381855c4398d7185e2
+304b2bd4443668ff50eacdde6d4d84a2691a6eb588c6e544cfb8b36e3f4008bc
+f87700dd4e8e1531ced6d5cc40104f157012cff45ecb7dfdcc4482adf8380706
+51d106cd88716e0a7eddb8eb9224e3530d43b468c4f039a08df0934f2f1139e8
+
+Deleted Networks:
+mbhq_phase65_layout_default
+mbhq_operator_guidance_default
+tabbed_df791714_default
+shell_c63a60e7_default
+shell_33f5c0e2_default
+entry_3e320f1b3628bb6ada53daf5b76f9acf311d1df5_default
+tabbed_d2601c1e_default
+entry_ee8ea4f820b46206a3c5dbe172454e8f8d368ea6_default
+entry_5a8bf4228d45145c920dbf217a80af01319bc4e9_default
+shell_244cdde5_default
+tabbed_74a241ca_default
+phase65_wiring_default
+shell_27b7ddf3_default
+shell_ecac1fb1_default
+mbhq_phase65_wiring_default
+tabbed_cba8b3c0_default
+phase65_layout_default
+entry_e190b90dc788bc889f1fe5f9f9db147139e43498_default
+operator_guidance_default
+tabbed_9c68c540_default
+
+Deleted build cache objects:
+7l3s8xlf3txe6iprkt17ichvh
+iy3u9losiujt44un02ar0uze1
+zhrjj5bg1weaxfxevm73lamvx
+rzh2a0tba7n0paqf3xo4aoatr
+oriuzkgi1y84jb1ngxf9zk1me
+or1cv6mpcex4qrmm54gklznn1
+u8iyih1k7wravjafwp3wf7a4y
+wwmflzlbvhvg8euv3jf1deoqq
+icjl3ov2twz07qrsi6ndz59nh
+zl77cxuds0k2p9wucck5dvdju
+ou0927hexes0a5i2pimz3odpz
+qfxwc21kx8r4uhc95ujogp2j9
+kcj9f2zz92lx3jrpwpvn0rj76
+tf4ilogqw0gjbck98eobrfw6f
+uxv75m5mphhaipvbpstm4pcup
+cmdbfo4nuo0gq9tkj8mpdfnno
+oa52v3r0dk8qr16l15zuunnv6
+pdehbj3czm80fcg6h75bs06os
+8pyo7johpusd01aghxsds85id
+kdixt2six6gug9drfbwffa063
+ag6gfv0y1oevjv96p04atsy22
+ncf10pevxcltmks0nutvb8ptc
+qs2aegyl6wr7rhess01txunoh
+pe5xqchqlds9sc0osfo0lqauk
+r2oothph81humj9yw6yoco2hd
+3ckr90ywyej8dvopajqkqh5fn
+rju418lgr2ckcxqwq1eadg2gv
+q0z19jf8qu349vto44c1lu4at
+pnoeh1vjpymr91bf4f9u0n1q9
+xzy2eei18twaspkhj7aza3fhv
+eiggfujnp5pd00gz6l3ugycyh
+hije1tlzfw0nw2y7g7rp9r8qb
+khudo1tituy8etbq7v7bs39z6
+eudkz9g3rrfhq30ysfuj4lqls
+jvex3j1hb73y7oaixi0ibpuvn
+4j886zwmbyersb2ennkxq9mso
+uwtictecadqmcfoa4ebdlnjaa
+2p2uo7mp72f6lot7svnxxawyk
+gke9jatyma4e2g0z8kaukle4p
+tsnvcmazlkc4lx9hsrci97si3
+8u08utmkux3bf6g7vj0re474f
+3c2m7mo5kbc1pwawfy0vx22d7
+ibhdyden88thkkjao5ryzrkea
+i0n1mzlqdosxf6y8l5zsvdw8t
+cyu8f0ztch5209bga6es6wl9u
+p1gq3rw90dvbtj1wgkj4tbqs8
+15a22qa9t4pg6uh6r322zafrg
+fe0tn88liw2sfco9azy24m8h1
+vs35liyy8gel7kyklt7ypj4l3
+x1llnntyfiy0pdggwi9p4rxax
+ro9mo8lela0d92i4fcpvq7jax
+s9ytjpvygep7upur08azbmd4i
+ri9dg218ov8ikho0sodu0hyto
+zp2ctxheev1p5cfwn80j4nqwi
+gb7dphuf4c9coyftd31sy5k66
+r2ipcx260na9i0pfs9lugxstu
+sp6hazsm6hzbp9wsud7weive1
+sn8jo58ks2xqows0b673g404m
+ni4jfmw9ebjoxlq53lxwjwrmo
+5knistr9pyeup88ammhf5gswh
+5rpagmmbix9iwy3t6ep4i50cn
+nzvynkddsej4c8cwta8ylfdcf
+jsxn52s28hmphevdw2fxeul53
+ptwc9bqlxknkrfb5nfwk2othr
+nvug69dezsg34zh3gcg15cik9
+ontie1pq8h7nk3n1bo009vf91
+cjl2psrtfszinceyy572h75vf
+1bkotz1vsxpnsztwhj0hv5vfd
+f4dwhjeifcq861cxnx2boabeh
+nvwr75opwmpsndley6lq8xv5a
+xhwibls36mwtm0ddfp5nim00s
+ygnzk5nxk93s891m0v11txkdk
+8jvacp0mrp5ggf9irj15zgckj
+w5hqji6msvoo7kvweka393emw
+ru4barzu6n4n584201b6ilf9m
+sluvadugg05akerpwfon0nqfs
+om8kjg9zq4n3rq0ti840t1s6b
+ouh1uf9b8btse7bbv540xveo9
+qztp79ctt1lvxjvdy5uvaghwq
+xc4jd4dl3vslahgon7hblzftj
+q55u9wodnw1inppuegs91n7zx
+n03d4u14geb4lg2p2j4epy3r2
+mbr77haa1h9upw7qve1f1h0co
+h9nl3tu1n1223fr1ylxjvizdt
+qgqyxcqji76nf5jkcxwvt1mkm
+hp2rv7jynp584pmdc9locrws7
+7izgwyjtsc1gbnj991rdd6xoa
+i10xwdv2sai6hi8gtg0xwtwnb
+vh849r5h1aepfis5pvzlew1u8
+38mibafkoqntg5hi2z5r990sy
+nvt6ipmow39j5srtx48jk7w71
+ua6flagk0k7nym2dm6y1dsjxm
+patgrcci2ysdubq0aartm624a
+i90sdkoeyrqtxrs1trlc4aw6i
+9vurtod0zjlgcndn0hhbm30zz
+xg03vj6jejabbh1rqa0ewl2i3
+4a2qghxpdvfqfjk4fwazzhv1a
+n6qewpro675m9vzretxnchzit
+n5f139mn1hog67dg0yqsay7bo
+pdph6zc007kycujn4qi71yajn
+dpxj8dxiuud323lijurf8sd76
+7htldvtucgzt845698quujx2g
+7zjwjjwvhppbojwxv6jmvz7yd
+w7um6wvf2q8r8qlj8jr4ge19h
+ntmfpd4xzf7ex8qnok50grnhv
+rjnml6wde1gxd1ityg7wjdkmz
+t7kefez7jz72p4wa072rmagaq
+to10rtmzev8yzr6r5cxabw53h
+oi1ybspe6lw2dstltig0qeqfu
+rbib0xantojwyjoc462jxvi4b
+sqjwwqsrtul70mw3bzw1f30zb
+y34lhbat7ki72sl64kqdd4jpx
+jmbethx7y4syx6fnpnjtclrc5
+zjfg5ndphnu6ps5kwqjbmuq21
+q2lnrfj9torvchaym9icfo5jm
+rfrq7303lb025w7h8am2fihcj
+t6xahvq0xs15dfu104z9rbdjg
+xlu02qrl6fqdbud8hawjyrm6v
+mkqjqiy4cuhc8gvif46tdsz3y
+s1mogfgvmdxum444iz05tk9yo
+ip8pjsgftkvpt2jdur67uy9e1
+wx6qoj6h7vp4yfph7brrpm6pq
+3beq8kbjfynkb5zjjrfbzf58j
+v13sv1r3ieevfx2dw74hml7wf
+
+Total reclaimed space: 17.36GB
+
+STEP 3 — Rebuild containers from scratch
+#1 [internal] load local bake definitions
+#1 reading from stdin 716B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.dashboard
+#2 transferring dockerfile: 885B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:20-alpine
+#3 DONE 1.7s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 320B 0.0s done
+#4 DONE 0.0s
+
+#5 [1/7] FROM docker.io/library/node:20-alpine@sha256:f598378b5240225e6beab68fa9f356db1fb8efe55173e6d4d8153113bb8f333c
+#5 resolve docker.io/library/node:20-alpine@sha256:f598378b5240225e6beab68fa9f356db1fb8efe55173e6d4d8153113bb8f333c 0.0s done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 ...
+
+#7 [2/7] WORKDIR /app
+#7 DONE 0.1s
+
+#6 [internal] load build context
+#6 transferring context: 137.75MB 1.0s done
+#6 DONE 1.0s
+
+#8 [3/7] COPY package*.json ./
+#8 DONE 0.1s
+
+#9 [4/7] COPY package-lock.json* ./
+#9 DONE 0.0s
+
+#10 [5/7] RUN npm config set fetch-retries 5     && npm config set fetch-retry-factor 2     && npm config set fetch-retry-mintimeout 10000     && npm config set fetch-retry-maxtimeout 60000     && (npm config set registry https://registry.npmmirror.com/         && npm ci --no-audit --no-fund       || npm config set registry https://registry.npmjs.org/         && npm ci --no-audit --no-fund)     && apk add --no-cache curl ripgrep
+#10 4.602 
+#10 4.602 added 81 packages in 4s
+#10 4.896 
+#10 4.896 added 81 packages in 248ms
+#10 6.850 ( 1/12) Installing brotli-libs (1.2.0-r0)
+#10 7.002 ( 2/12) Installing c-ares (1.34.6-r0)
+#10 7.054 ( 3/12) Installing libunistring (1.4.1-r0)
+#10 7.293 ( 4/12) Installing libidn2 (2.3.8-r0)
+#10 7.358 ( 5/12) Installing nghttp2-libs (1.68.0-r0)
+#10 7.415 ( 6/12) Installing nghttp3 (1.13.1-r0)
+#10 7.471 ( 7/12) Installing libpsl (0.21.5-r3)
+#10 7.530 ( 8/12) Installing zstd-libs (1.5.7-r2)
+#10 7.637 ( 9/12) Installing libcurl (8.17.0-r1)
+#10 7.733 (10/12) Installing curl (8.17.0-r1)
+#10 7.806 (11/12) Installing pcre2 (10.47-r0)
+#10 7.921 (12/12) Installing ripgrep (15.1.0-r0)
+#10 8.290 Executing busybox-1.37.0-r30.trigger
+#10 8.298 OK: 20.3 MiB in 30 packages
+#10 DONE 8.4s
+
+#11 [6/7] COPY . .
+#11 DONE 0.2s
+
+#12 [7/7] COPY public/ ./public/
+#12 DONE 0.0s
+
+#13 exporting to image
+#13 exporting layers
+#13 exporting layers 0.9s done
+#13 exporting manifest sha256:8c0ea89b7cee4a0d8d78a9c01c04ef9a8e8b79bb4ffab15a5ec2fb63e6811edd
+#13 exporting manifest sha256:8c0ea89b7cee4a0d8d78a9c01c04ef9a8e8b79bb4ffab15a5ec2fb63e6811edd done
+#13 exporting config sha256:8e0610816d8ce1506dc133cedf32bdb35cae431f2e5f51ad5ca1bb4add19cdea done
+#13 exporting attestation manifest sha256:607690b6133e2e82f45f91e2b27434e689c168fb3cdd00742d9f733bf155fb03 done
+#13 exporting manifest list sha256:8426a3f720a6755a87acb39faedef37c35dcacd7957a44de9e5795bbb8105f3d done
+#13 naming to docker.io/library/motherboard_systems_hq-dashboard:latest done
+#13 unpacking to docker.io/library/motherboard_systems_hq-dashboard:latest
+#13 unpacking to docker.io/library/motherboard_systems_hq-dashboard:latest 0.4s done
+#13 DONE 1.4s
+
+#14 resolving provenance for metadata file
+#14 DONE 0.0s
+ motherboard_systems_hq-dashboard  Built
+
+STEP 4 — Start containers fresh
+ Network motherboard_systems_hq_default  Creating
+ Network motherboard_systems_hq_default  Created
+ Volume motherboard_systems_hq_pgdata  Creating
+ Volume motherboard_systems_hq_pgdata  Created
+ Container motherboard_systems_hq-postgres-1  Creating
+ Container motherboard_systems_hq-postgres-1  Created
+ Container motherboard_systems_hq-dashboard-1  Creating
+ Container motherboard_systems_hq-dashboard-1  Created
+ Container motherboard_systems_hq-postgres-1  Starting
+ Container motherboard_systems_hq-postgres-1  Started
+ Container motherboard_systems_hq-dashboard-1  Starting
+ Container motherboard_systems_hq-dashboard-1  Started
+
+STEP 5 — Wait for boot
+Waited 5 seconds
+
+STEP 6 — Verify container state
+NAME                                IMAGE                COMMAND                  SERVICE    CREATED         STATUS         PORTS
+motherboard_systems_hq-postgres-1   postgres:16-alpine   "docker-entrypoint.s…"   postgres   5 seconds ago   Up 5 seconds   0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+
+STEP 7 — Hit endpoint
+REQUEST_FAILED
+

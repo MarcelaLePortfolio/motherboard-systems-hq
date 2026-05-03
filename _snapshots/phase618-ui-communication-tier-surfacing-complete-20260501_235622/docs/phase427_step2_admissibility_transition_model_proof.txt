@@ -1,0 +1,50 @@
+PHASE 427 — STEP 2
+Admissibility State Transition Model Proof
+------------------------------------------
+
+OBJECTIVE
+
+Define how admissibility states may transition structurally
+without introducing runtime logic or behavioral enforcement.
+
+This remains a DEFINITION PHASE.
+
+NO:
+
+implementation
+state machines
+runtime transitions
+execution behavior
+gateway mutation
+
+We are defining allowed structural transitions only.
+
+--------------------------------
+
+QUESTIONS THIS STEP ANSWERS
+
+Which transitions between admissibility states are structurally valid?
+
+Candidate transitions:
+
+INDETERMINATE → ADMISSIBLE
+INDETERMINATE → INADMISSIBLE
+
+ADMISSIBLE → INADMISSIBLE ?
+INADMISSIBLE → ADMISSIBLE ?
+
+Are terminal states required?
+
+--------------------------------
+
+TRANSITION SAFETY CONSIDERATIONS
+
+The model must:
+
+• Preserve governance authority
+• Prevent execution from affecting admission
+• Preserve determinism
+• Support replay stability
+• Support audit explanation
+• Avoid policy mutation semantics
+

@@ -1,0 +1,43 @@
+PHASE 539 — NEXT TARGET
+
+CORRIDOR:
+OPERATOR EXPERIENCE + CONTROL SURFACE
+
+PRIORITY:
+Selected task context panel
+
+PROBLEM:
+- Execution Trail rows are clickable
+- Selection currently only logs task_id to console
+- Operator needs visible confirmation of selected task
+
+OBJECTIVE:
+Add lightweight selected-task context display
+
+SAFE INITIAL SCOPE:
+- UI-only
+- No backend call
+- No task mutation
+- On row click:
+  - show selected task_id
+  - show lifecycle state
+  - show title
+  - show timestamp
+
+IMPLEMENTATION:
+- Add selected-task panel inside Execution Trail container
+- Update panel content from clicked event row
+- Preserve console.log behavior for debugging
+
+CONSTRAINTS:
+- Single file only: public/js/task-events-sse-client.js
+- No API calls
+- No backend changes
+- No SSE changes
+- Additive only
+
+GOAL:
+Move from passive click logging to visible operator task selection
+
+STATUS:
+READY FOR NEXT SURGICAL UI PASS

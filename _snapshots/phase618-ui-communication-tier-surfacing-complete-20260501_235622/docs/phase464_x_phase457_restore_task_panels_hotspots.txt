@@ -1,0 +1,650 @@
+PHASE 464.X — NEXT TARGET HOTSPOTS
+==================================
+
+Target: public/js/phase457_restore_task_panels.js
+
+1) High-risk patterns
+100:      el.innerHTML = '<div class="text-sm text-gray-500">No recent tasks yet.</div>';
+104:    el.innerHTML = state.recent.map(function (task) {
+119:      el.innerHTML = '<div class="text-sm text-gray-500">No task history yet.</div>';
+123:    el.innerHTML = state.history.map(function (task) {
+143:      anchor.innerHTML = "";
+144:      anchor.appendChild(panel);
+150:      panel.innerHTML = "";
+151:      panel.appendChild(feed);
+155:      feed.innerHTML =
+162:    feed.innerHTML = state.events.map(function (eventRow) {
+232:      state.es = new EventSource("/events/task-events");
+300:    setInterval(renderAll, 4000);
+
+2) Focused excerpts
+----- lines 80-140 -----
+  }
+
+  function pushRecent(input) {
+    upsertTask(state.recent, normalizeTask(input), MAX_RECENT);
+  }
+
+  function pushHistory(input) {
+    upsertTask(state.history, normalizeTask(input), MAX_HISTORY);
+  }
+
+  function pushEvent(input) {
+    state.events.unshift(normalizeEvent(input));
+    if (state.events.length > MAX_EVENTS) state.events.length = MAX_EVENTS;
+  }
+
+  function renderRecent() {
+    var el = byId("tasks-widget");
+    if (!el) return;
+
+    if (!state.recent.length) {
+      el.innerHTML = '<div class="text-sm text-gray-500">No recent tasks yet.</div>';
+      return;
+    }
+
+    el.innerHTML = state.recent.map(function (task) {
+      return (
+        '<div class="mb-2 rounded-lg border border-gray-700 bg-gray-900/60 px-3 py-2">' +
+          '<div class="text-sm text-gray-200">' + escapeHtml(task.title) + '</div>' +
+          '<div class="text-xs text-gray-500 mt-1">status: ' + escapeHtml(task.status) + '</div>' +
+        '</div>'
+      );
+    }).join("");
+  }
+
+  function renderHistory() {
+    var el = byId("recentLogs");
+    if (!el) return;
+
+    if (!state.history.length) {
+      el.innerHTML = '<div class="text-sm text-gray-500">No task history yet.</div>';
+      return;
+    }
+
+    el.innerHTML = state.history.map(function (task) {
+      return (
+        '<div class="mb-2 rounded-lg border border-gray-800 bg-black/20 px-3 py-2 text-sm text-gray-300">' +
+          escapeHtml(task.title) + ' · ' + escapeHtml(task.status) +
+        '</div>'
+      );
+    }).join("");
+  }
+
+  function renderEvents() {
+    var anchor = byId("mb-task-events-panel-anchor");
+    if (!anchor) return;
+
+    var panel = byId("mb-task-events-panel");
+    var feed = byId("mb-task-events-feed");
+
+    if (!panel) {
+      panel = document.createElement("div");
+
+----- lines 84-144 -----
+  }
+
+  function pushHistory(input) {
+    upsertTask(state.history, normalizeTask(input), MAX_HISTORY);
+  }
+
+  function pushEvent(input) {
+    state.events.unshift(normalizeEvent(input));
+    if (state.events.length > MAX_EVENTS) state.events.length = MAX_EVENTS;
+  }
+
+  function renderRecent() {
+    var el = byId("tasks-widget");
+    if (!el) return;
+
+    if (!state.recent.length) {
+      el.innerHTML = '<div class="text-sm text-gray-500">No recent tasks yet.</div>';
+      return;
+    }
+
+    el.innerHTML = state.recent.map(function (task) {
+      return (
+        '<div class="mb-2 rounded-lg border border-gray-700 bg-gray-900/60 px-3 py-2">' +
+          '<div class="text-sm text-gray-200">' + escapeHtml(task.title) + '</div>' +
+          '<div class="text-xs text-gray-500 mt-1">status: ' + escapeHtml(task.status) + '</div>' +
+        '</div>'
+      );
+    }).join("");
+  }
+
+  function renderHistory() {
+    var el = byId("recentLogs");
+    if (!el) return;
+
+    if (!state.history.length) {
+      el.innerHTML = '<div class="text-sm text-gray-500">No task history yet.</div>';
+      return;
+    }
+
+    el.innerHTML = state.history.map(function (task) {
+      return (
+        '<div class="mb-2 rounded-lg border border-gray-800 bg-black/20 px-3 py-2 text-sm text-gray-300">' +
+          escapeHtml(task.title) + ' · ' + escapeHtml(task.status) +
+        '</div>'
+      );
+    }).join("");
+  }
+
+  function renderEvents() {
+    var anchor = byId("mb-task-events-panel-anchor");
+    if (!anchor) return;
+
+    var panel = byId("mb-task-events-panel");
+    var feed = byId("mb-task-events-feed");
+
+    if (!panel) {
+      panel = document.createElement("div");
+      panel.id = "mb-task-events-panel";
+      panel.className = "rounded-lg border border-gray-700 bg-gray-900/60 p-3";
+      anchor.innerHTML = "";
+      anchor.appendChild(panel);
+
+----- lines 99-159 -----
+    if (!state.recent.length) {
+      el.innerHTML = '<div class="text-sm text-gray-500">No recent tasks yet.</div>';
+      return;
+    }
+
+    el.innerHTML = state.recent.map(function (task) {
+      return (
+        '<div class="mb-2 rounded-lg border border-gray-700 bg-gray-900/60 px-3 py-2">' +
+          '<div class="text-sm text-gray-200">' + escapeHtml(task.title) + '</div>' +
+          '<div class="text-xs text-gray-500 mt-1">status: ' + escapeHtml(task.status) + '</div>' +
+        '</div>'
+      );
+    }).join("");
+  }
+
+  function renderHistory() {
+    var el = byId("recentLogs");
+    if (!el) return;
+
+    if (!state.history.length) {
+      el.innerHTML = '<div class="text-sm text-gray-500">No task history yet.</div>';
+      return;
+    }
+
+    el.innerHTML = state.history.map(function (task) {
+      return (
+        '<div class="mb-2 rounded-lg border border-gray-800 bg-black/20 px-3 py-2 text-sm text-gray-300">' +
+          escapeHtml(task.title) + ' · ' + escapeHtml(task.status) +
+        '</div>'
+      );
+    }).join("");
+  }
+
+  function renderEvents() {
+    var anchor = byId("mb-task-events-panel-anchor");
+    if (!anchor) return;
+
+    var panel = byId("mb-task-events-panel");
+    var feed = byId("mb-task-events-feed");
+
+    if (!panel) {
+      panel = document.createElement("div");
+      panel.id = "mb-task-events-panel";
+      panel.className = "rounded-lg border border-gray-700 bg-gray-900/60 p-3";
+      anchor.innerHTML = "";
+      anchor.appendChild(panel);
+    }
+
+    if (!feed) {
+      feed = document.createElement("div");
+      feed.id = "mb-task-events-feed";
+      panel.innerHTML = "";
+      panel.appendChild(feed);
+    }
+
+    if (!state.events.length) {
+      feed.innerHTML =
+        '<div class="text-sm text-gray-500">' +
+        (state.sourceError ? "Task events stream reconnecting…" : "Waiting for task events…") +
+        "</div>";
+      return;
+
+----- lines 103-163 -----
+
+    el.innerHTML = state.recent.map(function (task) {
+      return (
+        '<div class="mb-2 rounded-lg border border-gray-700 bg-gray-900/60 px-3 py-2">' +
+          '<div class="text-sm text-gray-200">' + escapeHtml(task.title) + '</div>' +
+          '<div class="text-xs text-gray-500 mt-1">status: ' + escapeHtml(task.status) + '</div>' +
+        '</div>'
+      );
+    }).join("");
+  }
+
+  function renderHistory() {
+    var el = byId("recentLogs");
+    if (!el) return;
+
+    if (!state.history.length) {
+      el.innerHTML = '<div class="text-sm text-gray-500">No task history yet.</div>';
+      return;
+    }
+
+    el.innerHTML = state.history.map(function (task) {
+      return (
+        '<div class="mb-2 rounded-lg border border-gray-800 bg-black/20 px-3 py-2 text-sm text-gray-300">' +
+          escapeHtml(task.title) + ' · ' + escapeHtml(task.status) +
+        '</div>'
+      );
+    }).join("");
+  }
+
+  function renderEvents() {
+    var anchor = byId("mb-task-events-panel-anchor");
+    if (!anchor) return;
+
+    var panel = byId("mb-task-events-panel");
+    var feed = byId("mb-task-events-feed");
+
+    if (!panel) {
+      panel = document.createElement("div");
+      panel.id = "mb-task-events-panel";
+      panel.className = "rounded-lg border border-gray-700 bg-gray-900/60 p-3";
+      anchor.innerHTML = "";
+      anchor.appendChild(panel);
+    }
+
+    if (!feed) {
+      feed = document.createElement("div");
+      feed.id = "mb-task-events-feed";
+      panel.innerHTML = "";
+      panel.appendChild(feed);
+    }
+
+    if (!state.events.length) {
+      feed.innerHTML =
+        '<div class="text-sm text-gray-500">' +
+        (state.sourceError ? "Task events stream reconnecting…" : "Waiting for task events…") +
+        "</div>";
+      return;
+    }
+
+    feed.innerHTML = state.events.map(function (eventRow) {
+      return (
+
+----- lines 123-183 -----
+    el.innerHTML = state.history.map(function (task) {
+      return (
+        '<div class="mb-2 rounded-lg border border-gray-800 bg-black/20 px-3 py-2 text-sm text-gray-300">' +
+          escapeHtml(task.title) + ' · ' + escapeHtml(task.status) +
+        '</div>'
+      );
+    }).join("");
+  }
+
+  function renderEvents() {
+    var anchor = byId("mb-task-events-panel-anchor");
+    if (!anchor) return;
+
+    var panel = byId("mb-task-events-panel");
+    var feed = byId("mb-task-events-feed");
+
+    if (!panel) {
+      panel = document.createElement("div");
+      panel.id = "mb-task-events-panel";
+      panel.className = "rounded-lg border border-gray-700 bg-gray-900/60 p-3";
+      anchor.innerHTML = "";
+      anchor.appendChild(panel);
+    }
+
+    if (!feed) {
+      feed = document.createElement("div");
+      feed.id = "mb-task-events-feed";
+      panel.innerHTML = "";
+      panel.appendChild(feed);
+    }
+
+    if (!state.events.length) {
+      feed.innerHTML =
+        '<div class="text-sm text-gray-500">' +
+        (state.sourceError ? "Task events stream reconnecting…" : "Waiting for task events…") +
+        "</div>";
+      return;
+    }
+
+    feed.innerHTML = state.events.map(function (eventRow) {
+      return (
+        '<div class="mb-2 rounded-lg border border-gray-800 bg-black/20 px-3 py-2">' +
+          '<div class="text-xs text-gray-500">' + escapeHtml(eventRow.kind) + '</div>' +
+          '<div class="text-sm text-gray-300 mt-1">' + escapeHtml(eventRow.task_id) + (eventRow.status ? " · " + escapeHtml(eventRow.status) : "") + '</div>' +
+        '</div>'
+      );
+    }).join("");
+  }
+
+  function renderAll() {
+    renderRecent();
+    renderHistory();
+    renderEvents();
+  }
+
+  function ingestTaskEvent(raw) {
+    if (!raw || typeof raw !== "object") return;
+
+    var task = normalizeTask(raw);
+    pushRecent(task);
+    pushHistory(task);
+
+----- lines 124-184 -----
+      return (
+        '<div class="mb-2 rounded-lg border border-gray-800 bg-black/20 px-3 py-2 text-sm text-gray-300">' +
+          escapeHtml(task.title) + ' · ' + escapeHtml(task.status) +
+        '</div>'
+      );
+    }).join("");
+  }
+
+  function renderEvents() {
+    var anchor = byId("mb-task-events-panel-anchor");
+    if (!anchor) return;
+
+    var panel = byId("mb-task-events-panel");
+    var feed = byId("mb-task-events-feed");
+
+    if (!panel) {
+      panel = document.createElement("div");
+      panel.id = "mb-task-events-panel";
+      panel.className = "rounded-lg border border-gray-700 bg-gray-900/60 p-3";
+      anchor.innerHTML = "";
+      anchor.appendChild(panel);
+    }
+
+    if (!feed) {
+      feed = document.createElement("div");
+      feed.id = "mb-task-events-feed";
+      panel.innerHTML = "";
+      panel.appendChild(feed);
+    }
+
+    if (!state.events.length) {
+      feed.innerHTML =
+        '<div class="text-sm text-gray-500">' +
+        (state.sourceError ? "Task events stream reconnecting…" : "Waiting for task events…") +
+        "</div>";
+      return;
+    }
+
+    feed.innerHTML = state.events.map(function (eventRow) {
+      return (
+        '<div class="mb-2 rounded-lg border border-gray-800 bg-black/20 px-3 py-2">' +
+          '<div class="text-xs text-gray-500">' + escapeHtml(eventRow.kind) + '</div>' +
+          '<div class="text-sm text-gray-300 mt-1">' + escapeHtml(eventRow.task_id) + (eventRow.status ? " · " + escapeHtml(eventRow.status) : "") + '</div>' +
+        '</div>'
+      );
+    }).join("");
+  }
+
+  function renderAll() {
+    renderRecent();
+    renderHistory();
+    renderEvents();
+  }
+
+  function ingestTaskEvent(raw) {
+    if (!raw || typeof raw !== "object") return;
+
+    var task = normalizeTask(raw);
+    pushRecent(task);
+    pushHistory(task);
+
+
+----- lines 130-190 -----
+  }
+
+  function renderEvents() {
+    var anchor = byId("mb-task-events-panel-anchor");
+    if (!anchor) return;
+
+    var panel = byId("mb-task-events-panel");
+    var feed = byId("mb-task-events-feed");
+
+    if (!panel) {
+      panel = document.createElement("div");
+      panel.id = "mb-task-events-panel";
+      panel.className = "rounded-lg border border-gray-700 bg-gray-900/60 p-3";
+      anchor.innerHTML = "";
+      anchor.appendChild(panel);
+    }
+
+    if (!feed) {
+      feed = document.createElement("div");
+      feed.id = "mb-task-events-feed";
+      panel.innerHTML = "";
+      panel.appendChild(feed);
+    }
+
+    if (!state.events.length) {
+      feed.innerHTML =
+        '<div class="text-sm text-gray-500">' +
+        (state.sourceError ? "Task events stream reconnecting…" : "Waiting for task events…") +
+        "</div>";
+      return;
+    }
+
+    feed.innerHTML = state.events.map(function (eventRow) {
+      return (
+        '<div class="mb-2 rounded-lg border border-gray-800 bg-black/20 px-3 py-2">' +
+          '<div class="text-xs text-gray-500">' + escapeHtml(eventRow.kind) + '</div>' +
+          '<div class="text-sm text-gray-300 mt-1">' + escapeHtml(eventRow.task_id) + (eventRow.status ? " · " + escapeHtml(eventRow.status) : "") + '</div>' +
+        '</div>'
+      );
+    }).join("");
+  }
+
+  function renderAll() {
+    renderRecent();
+    renderHistory();
+    renderEvents();
+  }
+
+  function ingestTaskEvent(raw) {
+    if (!raw || typeof raw !== "object") return;
+
+    var task = normalizeTask(raw);
+    pushRecent(task);
+    pushHistory(task);
+
+    var eventRow = normalizeEvent(raw);
+    if (eventRow.kind === "unknown" && task.status) {
+      eventRow.kind = task.status;
+    }
+    pushEvent(eventRow);
+
+
+----- lines 131-191 -----
+
+  function renderEvents() {
+    var anchor = byId("mb-task-events-panel-anchor");
+    if (!anchor) return;
+
+    var panel = byId("mb-task-events-panel");
+    var feed = byId("mb-task-events-feed");
+
+    if (!panel) {
+      panel = document.createElement("div");
+      panel.id = "mb-task-events-panel";
+      panel.className = "rounded-lg border border-gray-700 bg-gray-900/60 p-3";
+      anchor.innerHTML = "";
+      anchor.appendChild(panel);
+    }
+
+    if (!feed) {
+      feed = document.createElement("div");
+      feed.id = "mb-task-events-feed";
+      panel.innerHTML = "";
+      panel.appendChild(feed);
+    }
+
+    if (!state.events.length) {
+      feed.innerHTML =
+        '<div class="text-sm text-gray-500">' +
+        (state.sourceError ? "Task events stream reconnecting…" : "Waiting for task events…") +
+        "</div>";
+      return;
+    }
+
+    feed.innerHTML = state.events.map(function (eventRow) {
+      return (
+        '<div class="mb-2 rounded-lg border border-gray-800 bg-black/20 px-3 py-2">' +
+          '<div class="text-xs text-gray-500">' + escapeHtml(eventRow.kind) + '</div>' +
+          '<div class="text-sm text-gray-300 mt-1">' + escapeHtml(eventRow.task_id) + (eventRow.status ? " · " + escapeHtml(eventRow.status) : "") + '</div>' +
+        '</div>'
+      );
+    }).join("");
+  }
+
+  function renderAll() {
+    renderRecent();
+    renderHistory();
+    renderEvents();
+  }
+
+  function ingestTaskEvent(raw) {
+    if (!raw || typeof raw !== "object") return;
+
+    var task = normalizeTask(raw);
+    pushRecent(task);
+    pushHistory(task);
+
+    var eventRow = normalizeEvent(raw);
+    if (eventRow.kind === "unknown" && task.status) {
+      eventRow.kind = task.status;
+    }
+    pushEvent(eventRow);
+
+    renderAll();
+
+----- lines 135-195 -----
+
+    var panel = byId("mb-task-events-panel");
+    var feed = byId("mb-task-events-feed");
+
+    if (!panel) {
+      panel = document.createElement("div");
+      panel.id = "mb-task-events-panel";
+      panel.className = "rounded-lg border border-gray-700 bg-gray-900/60 p-3";
+      anchor.innerHTML = "";
+      anchor.appendChild(panel);
+    }
+
+    if (!feed) {
+      feed = document.createElement("div");
+      feed.id = "mb-task-events-feed";
+      panel.innerHTML = "";
+      panel.appendChild(feed);
+    }
+
+    if (!state.events.length) {
+      feed.innerHTML =
+        '<div class="text-sm text-gray-500">' +
+        (state.sourceError ? "Task events stream reconnecting…" : "Waiting for task events…") +
+        "</div>";
+      return;
+    }
+
+    feed.innerHTML = state.events.map(function (eventRow) {
+      return (
+        '<div class="mb-2 rounded-lg border border-gray-800 bg-black/20 px-3 py-2">' +
+          '<div class="text-xs text-gray-500">' + escapeHtml(eventRow.kind) + '</div>' +
+          '<div class="text-sm text-gray-300 mt-1">' + escapeHtml(eventRow.task_id) + (eventRow.status ? " · " + escapeHtml(eventRow.status) : "") + '</div>' +
+        '</div>'
+      );
+    }).join("");
+  }
+
+  function renderAll() {
+    renderRecent();
+    renderHistory();
+    renderEvents();
+  }
+
+  function ingestTaskEvent(raw) {
+    if (!raw || typeof raw !== "object") return;
+
+    var task = normalizeTask(raw);
+    pushRecent(task);
+    pushHistory(task);
+
+    var eventRow = normalizeEvent(raw);
+    if (eventRow.kind === "unknown" && task.status) {
+      eventRow.kind = task.status;
+    }
+    pushEvent(eventRow);
+
+    renderAll();
+  }
+
+  function safeJsonParse(text) {
+    try {
+
+----- lines 142-202 -----
+      panel.className = "rounded-lg border border-gray-700 bg-gray-900/60 p-3";
+      anchor.innerHTML = "";
+      anchor.appendChild(panel);
+    }
+
+    if (!feed) {
+      feed = document.createElement("div");
+      feed.id = "mb-task-events-feed";
+      panel.innerHTML = "";
+      panel.appendChild(feed);
+    }
+
+    if (!state.events.length) {
+      feed.innerHTML =
+        '<div class="text-sm text-gray-500">' +
+        (state.sourceError ? "Task events stream reconnecting…" : "Waiting for task events…") +
+        "</div>";
+      return;
+    }
+
+    feed.innerHTML = state.events.map(function (eventRow) {
+      return (
+        '<div class="mb-2 rounded-lg border border-gray-800 bg-black/20 px-3 py-2">' +
+          '<div class="text-xs text-gray-500">' + escapeHtml(eventRow.kind) + '</div>' +
+          '<div class="text-sm text-gray-300 mt-1">' + escapeHtml(eventRow.task_id) + (eventRow.status ? " · " + escapeHtml(eventRow.status) : "") + '</div>' +
+        '</div>'
+      );
+    }).join("");
+  }
+
+  function renderAll() {
+    renderRecent();
+    renderHistory();
+    renderEvents();
+  }
+
+  function ingestTaskEvent(raw) {
+    if (!raw || typeof raw !== "object") return;
+
+    var task = normalizeTask(raw);
+    pushRecent(task);
+    pushHistory(task);
+
+    var eventRow = normalizeEvent(raw);
+    if (eventRow.kind === "unknown" && task.status) {
+      eventRow.kind = task.status;
+    }
+    pushEvent(eventRow);
+
+    renderAll();
+  }
+
+  function safeJsonParse(text) {
+    try {
+      return JSON.parse(text);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  function ingestFrame(name, rawData) {
+

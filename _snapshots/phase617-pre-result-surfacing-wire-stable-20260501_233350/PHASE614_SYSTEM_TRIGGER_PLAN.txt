@@ -1,0 +1,56 @@
+Phase 614 — System Trigger Plan (Minimal Foundation)
+
+OBJECTIVE
+Introduce the first system-led execution trigger without altering existing pipeline behavior.
+
+APPROACH (STRICT MINIMAL)
+- No UI changes
+- No API schema changes
+- No worker modification
+- Only inject task creation using existing API
+
+IMPLEMENTATION TARGET
+Create a lightweight system trigger that:
+1. Runs on a simple interval (e.g. every 60s)
+2. Calls existing task creation endpoint
+3. Creates a valid task identical to manual submissions
+
+TRIGGER SPEC
+- Location: server runtime (same layer as API)
+- Mechanism: setInterval loop
+- Payload:
+  {
+    kind: "system-check",
+    title: "System Trigger Test",
+    payload: {
+      source: "system",
+      intent: "baseline-trigger"
+    }
+  }
+
+ROUTING
+- Must use existing /api/delegate-task or task creation endpoint
+- Must NOT bypass API → DB → worker pipeline
+
+VERIFICATION
+1. Task appears in Recent Tasks
+2. Worker claims and executes task
+3. Execution Inspector reflects run
+4. No regression in manual task flow
+
+CONSTRAINTS
+- No duplicate flood (add simple guard if needed)
+- No retries or orchestration logic yet
+- No persistence of trigger state required
+
+SUCCESS CONDITION
+System creates and executes tasks autonomously using existing infrastructure.
+
+OUTCOME
+This establishes the first non-user-initiated execution loop, converting the system from reactive to semi-autonomous.
+
+NOTE
+If instability occurs:
+→ remove trigger immediately
+→ revert to last stable checkpoint per protocol
+

@@ -1,0 +1,7 @@
+Phase 610 UI surface discovery command.
+
+Goal:
+Run read-only discovery for UI surfaces and API flow before any CommunicationResult wiring.
+
+Status:
+READY TO INSPECT

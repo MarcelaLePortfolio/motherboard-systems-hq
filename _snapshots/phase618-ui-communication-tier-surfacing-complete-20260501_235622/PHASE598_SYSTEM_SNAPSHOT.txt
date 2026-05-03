@@ -1,0 +1,16 @@
+Phase 598 system snapshot.
+
+State:
+- Agent Pool renderer restored, locked, and verified.
+- Inline health indicator active with live timestamp.
+- Backend connectivity confirmed via /api/agent-status.
+- Worker + dashboard containers running clean.
+- No SSE duplication; Phase16 ownership preserved.
+- UI fully observable and stable.
+
+Snapshot Purpose:
+- Establish clean rollback point post Agent Pool stabilization.
+- Mark completion of frontend hydration + observability fixes.
+
+Status:
+READY FOR NEXT CORRIDOR

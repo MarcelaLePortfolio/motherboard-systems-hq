@@ -1,0 +1,38 @@
+39:  outcome: {
+317:  outcome_preview: 'Policy-aware execution prepared for: response compiler passive verify',
+580:  outcome_preview: 'Standard execution prepared for: System Trigger Test',
+586:  outcome_preview: 'Standard execution prepared for: System Trigger Test',
+592:  outcome_preview: 'Standard execution prepared for: System Trigger Test',
+598:  outcome_preview: 'Standard execution prepared for: System Trigger Test',
+604:  outcome_preview: 'Standard execution prepared for: System Trigger Test',
+613:server/worker/execute_task_with_contract.mjs:24:    outcome_preview: communicationResult.outcome.content,
+615:server/worker/response_compiler.mjs:36:    outcome: {
+618:server/policy/evaluate.mjs:111:  // - { applies: true, outcome: "allow" }
+619:app/demo-runtime/page.tsx:9:  outcome: "SUCCESS" | "FAILED" | "BLOCKED";
+621:src/demo/minimalDemoRunner.ts:34:  outcome: TaskOutcome;
+622:src/contracts/reporting/governedExecutionProofReport.ts:16:    outcome: "prepared" | "blocked";
+623:src/contracts/reporting/governedExecutionProofReport.ts:36:      outcome: result.execution.outcome,
+624:src/contracts/execution/__proofs__/governedExecutionProof.caseproof.ts:30:    outcome: governedExecutionAllowedResult.execution.outcome,
+625:src/contracts/execution/__proofs__/governedExecutionProof.caseproof.ts:37:    outcome: governedExecutionGovernanceBlockedResult.execution.outcome,
+626:src/contracts/execution/__proofs__/governedExecutionProof.caseproof.ts:44:    outcome: governedExecutionApprovalMissingResult.execution.outcome,
+627:src/contracts/execution/governedExecutionProof.ts:31:    outcome: "prepared" | "blocked";
+628:src/contracts/execution/governedExecutionProof.ts:55:        outcome: "blocked",
+629:src/contracts/execution/governedExecutionProof.ts:74:        outcome: "blocked",
+630:src/contracts/execution/governedExecutionProof.ts:92:      outcome: "prepared",
+638:src/governance/governanceExecutionRoutingClassifier.ts:33:    outcome: routing.outcome,
+640:src/governance/governanceExecutionRoutingProof.ts:20:  outcome: GovernanceOutcomeType;
+641:src/governance/governanceOperatorAwarenessTypes.ts:34:  outcome: GovernanceOutcomeType;
+642:src/governance/governanceOutcomeSurfaceTypes.ts:28:  outcome: GovernanceOutcomeType;
+643:src/governance/governanceOutcomeSurfaceTypes.ts:42:  outcome: GovernanceOutcomeType
+644:src/governance/governanceOutcomeSurfaceBuilder.ts:37:    outcome: routing.outcome,
+645:src/governance/governanceOutcomeSurfaceProof.ts:21:  outcome: GovernanceOutcomeType;
+646:src/governance/governanceExecutionRouting.ts:26:  outcome: GovernanceOutcomeType;
+647:src/governance/governanceExecutionRouting.ts:33:  outcome: GovernanceOutcomeType;
+648:src/governance/governanceExecutionRouting.ts:48:        outcome: "ALLOW",
+649:src/governance/governanceExecutionRouting.ts:56:        outcome: "DENY",
+650:src/governance/governanceExecutionRouting.ts:64:        outcome: "REVIEW",
+651:src/governance/governanceExecutionRouting.ts:72:        outcome: "ESCALATE",
+652:src/governance/governanceExecutionRouting.ts:80:        outcome: "INFORM",
+655:src/governance/governanceOperatorAwarenessBuilder.ts:37:    outcome: surface.outcome,
+658:src/governance/governanceExecutionRoutingTypes.ts:17:  outcome: GovernanceOutcomeType;
+659:src/governance/governanceExecutionRoutingTypes.ts:25:  outcome: GovernanceOutcomeType

@@ -1,0 +1,390 @@
+Phase 577 Execution Inspector stream diagnostic.
+
+Issue:
+Recent Tasks is populating, but Execution Inspector only shows a generic connected/message event.
+
+Goal:
+Verify whether /events/task-events is emitting real task lifecycle events or only heartbeat/message frames.
+
+--- TASK EVENTS ROUTER ---
+import express from "express";
+import pg from "pg";
+
+const router = express.Router();
+const { Pool } = pg;
+
+const DB_URL = process.env.POSTGRES_URL || process.env.DATABASE_URL || null;
+
+let pool = null;
+
+function getPool() {
+  if (pool) return pool;
+
+  if (!DB_URL) {
+    pool = new Pool({
+      user: process.env.POSTGRES_USER || "postgres",
+      host: process.env.DB_HOST || "postgres",
+      database: process.env.POSTGRES_DB || "postgres",
+      password: process.env.POSTGRES_PASSWORD || "postgres",
+      port: 5432,
+    });
+    return pool;
+  }
+
+  pool = new Pool({ connectionString: DB_URL });
+  return pool;
+}
+
+function intOrNull(value) {
+  const n = Number(value);
+  return Number.isFinite(n) ? Math.trunc(n) : null;
+}
+
+function sseWrite(res, { event, data }) {
+  if (event) res.write(`event: ${event}\n`);
+  res.write(`data: ${JSON.stringify(data)}\n\n`);
+  if (typeof res.flush === "function") {
+    res.flush();
+  }
+}
+
+function normalizeKind(kind) {
+  const v = String(kind || "").trim();
+  return v || "task.event";
+}
+
+function normalizeRow(row) {
+  const payload =
+    row && row.payload && typeof row.payload === "object" && !Array.isArray(row.payload)
+      ? row.payload
+      : {};
+
+  const kind = normalizeKind(row?.kind);
+
+  return {
+    ...payload,
+    id: row?.id ?? null,
+    task_id: row?.task_id ?? payload.task_id ?? payload.taskId ?? null,
+    taskId: row?.task_id ?? payload.taskId ?? payload.task_id ?? null,
+    kind,
+    actor: row?.actor ?? payload.actor ?? null,
+    run_id: row?.run_id ?? payload.run_id ?? payload.runId ?? null,
+    runId: row?.run_id ?? payload.runId ?? payload.run_id ?? null,
+    ts: Number(row?.ts ?? payload.ts ?? Date.now()),
+    created_at: row?.created_at ?? payload.created_at ?? null
+  };
+}
+
+router.get("/api/task-events-sse", (req, res) => {
+  res.redirect(307, "/events/task-events");
+});
+
+router.get("/events/task-events", async (req, res) => {
+  res.setHeader("Content-Type", "text/event-stream; charset=utf-8");
+  res.setHeader("Cache-Control", "no-cache, no-transform");
+  res.setHeader("Connection", "keep-alive");
+  res.setHeader("X-Accel-Buffering", "no");
+
+  if (typeof res.flushHeaders === "function") {
+    res.flushHeaders();
+  }
+
+  try {
+    req.socket.setTimeout(0);
+    res.socket.setTimeout(0);
+    res.socket.setKeepAlive(true);
+  } catch {}
+
+  const db = getPool();
+
+  if (!db) {
+    sseWrite(res, {
+      event: "error",
+      data: {
+        kind: "task-events",
+        msg: "missing POSTGRES_URL/DATABASE_URL",
+        ts: Date.now()
+      }
+    });
+    res.end();
+    return;
+  }
+
+  let closed = false;
+  let polling = false;
+
+  const requestedCursor =
+    intOrNull(req.query.cursor) ??
+    intOrNull(req.query.since) ??
+    intOrNull(req.query.ts);
+
+  let cursor = requestedCursor;
+
+  try {
+    if (cursor == null) {
+      const seed = await db.query(
+        `
+        select coalesce(max(ts), 0)::bigint as cursor
+        from task_events
+        `
+      );
+      cursor = intOrNull(seed.rows?.[0]?.cursor) ?? 0;
+    }
+
+    res.write(`: connected ${new Date().toISOString()}\n\n`);
+
+    sseWrite(res, {
+      event: "hello",
+      data: {
+        kind: "task-events",
+        cursor,
+        ts: Date.now()
+      }
+    });
+
+    const heartbeat = setInterval(() => {
+      if (closed) return;
+      res.write(`: heartbeat ${new Date().toISOString()}\n\n`);
+      sseWrite(res, {
+        event: "heartbeat",
+        data: {
+          ts: Date.now(),
+          cursor
+        }
+      });
+    }, 15000);
+
+    const poll = async () => {
+      if (closed || polling) return;
+      polling = true;
+
+      try {
+        const result = await db.query(
+          `
+          select
+            id,
+            task_id,
+            kind,
+            actor,
+            payload,
+            run_id,
+            created_at,
+            coalesce(ts, (extract(epoch from created_at) * 1000)::bigint) as ts
+          from task_events
+          where coalesce(ts, (extract(epoch from created_at) * 1000)::bigint) > $1
+          order by coalesce(ts, (extract(epoch from created_at) * 1000)::bigint) asc, id asc
+          limit 200
+          `,
+          [cursor]
+        );
+
+        for (const row of result.rows) {
+          const payload = normalizeRow(row);
+          const eventName = normalizeKind(row.kind);
+
+          sseWrite(res, {
+            event: eventName,
+            data: payload
+          });
+
+          sseWrite(res, {
+            event: "task.event",
+            data: payload
+          });
+
+          const nextCursor = intOrNull(payload.ts);
+          if (nextCursor != null && nextCursor > cursor) {
+            cursor = nextCursor;
+          }
+        }
+      } catch (err) {
+        sseWrite(res, {
+          event: "error",
+          data: {
+            kind: "task-events",
+            msg: "task-events stream error",
+            detail: err?.message || String(err),
+            ts: Date.now(),
+            cursor
+          }
+        });
+      } finally {
+        polling = false;
+      }
+    };
+
+    const interval = setInterval(() => {
+      void poll();
+    }, 800);
+
+    void poll();
+
+    req.on("close", () => {
+      closed = true;
+      clearInterval(interval);
+      clearInterval(heartbeat);
+      res.end();
+    });
+  } catch (err) {
+    sseWrite(res, {
+      event: "error",
+      data: {
+        kind: "task-events",
+        msg: "task-events stream bootstrap error",
+        detail: err?.message || String(err),
+        ts: Date.now(),
+        cursor: cursor ?? 0
+      }
+    });
+    res.end();
+  }
+});
+
+export default router;
+
+--- TASK EVENTS EMITTER ---
+import { appendTaskEvent } from "./task-events.mjs";
+console.log("[phase25] task_events_emit loaded", new Date().toISOString(), "file=", import.meta.url);
+function ms() { return Date.now(); }
+
+export async function emitTaskEvent({ pool, kind, task_id, run_id = null, actor = null, payload = null }) {
+  console.log("[phase25] emitTaskEvent ENTER", { ts: Date.now(), kind, task_id, hasGlobal: !!globalThis.__DB_POOL, globalType: globalThis.__DB_POOL?.constructor?.name });
+  // [phase25] tolerate import-order: allow callers to omit pool and use global singleton
+  pool = pool || globalThis.__DB_POOL;
+  console.log("[phase25] emitTaskEvent BEFORE CHECK", { hasArg: !!pool, hasGlobal: !!globalThis.__DB_POOL, globalType: globalThis.__DB_POOL?.constructor?.name, argType: pool?.constructor?.name });
+  console.log("[phase25] emitTaskEvent pool", { arg: !!pool, argType: pool?.constructor?.name, hasGlobal: !!globalThis.__DB_POOL, globalType: globalThis.__DB_POOL?.constructor?.name });
+
+    // [phase25] tolerate import-order: allow callers to omit pool and use global singleton
+if (!pool) throw new Error("emitTaskEvent: pool required");
+  if (!kind) throw new Error("emitTaskEvent: kind required");
+
+  const obj = {
+    task_id: task_id ?? null,
+    run_id: run_id ?? null,
+    actor: actor ?? null,
+    ts: ms(),
+    ...(payload && typeof payload === "object" ? payload : {}),
+  };
+
+  return appendTaskEvent(pool, kind, obj, undefined, {
+
+    run_id: obj.run_id ?? null,
+
+    actor: obj.actor ?? null,
+
+    ts: obj.ts ?? null,
+
+    payload: obj,
+
+  });
+}
+export async function writeTaskEvent(pool, kind, obj) {
+  if (!pool) throw new Error("writeTaskEvent: pool required");
+  if (!kind) throw new Error("writeTaskEvent: kind required");
+  return appendTaskEvent(pool, kind, obj);
+}
+
+--- CLIENT RENDERER ---
+(function () {
+  const STREAM_URL = "/events/task-events?cursor=0";
+  const ROOT_ID = "mb-task-events-panel-anchor";
+
+  if (window.__TASK_EVENTS_SSE_CLIENT_ACTIVE__) return;
+  window.__TASK_EVENTS_SSE_CLIENT_ACTIVE__ = true;
+
+  const events = [];
+  const maxEvents = 80;
+
+  function root() {
+    return document.getElementById(ROOT_ID);
+  }
+
+  function escapeHtml(value) {
+    return String(value ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  function parse(raw) {
+    try {
+      return JSON.parse(raw);
+    } catch {
+      return { kind: "message", message: String(raw ?? "") };
+    }
+  }
+
+  function render(state) {
+    const el = root();
+    if (!el) return;
+
+    const rows = events.length
+      ? events.map((event) => {
+          const kind = event.kind || event.type || "event";
+          const taskId = event.task_id || event.taskId || "unknown";
+          const actor = event.actor || "system";
+          const message = event.message || event.msg || event.title || event.detail || "";
+          const ts = event.created_at || event.ts || Date.now();
+
+          const eventId = event.id || `${kind}:${taskId}:${ts}:${message}`;
+
+          return `
+            <div data-task-event-id="${escapeHtml(eventId)}" style="border-bottom:1px solid rgba(75,85,99,.55); padding:.45rem 0; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.75rem; line-height:1.4; cursor:pointer;">
+              <div style="color:#93c5fd;">${escapeHtml(kind)} <span style="color:#64748b;">task=${escapeHtml(taskId)}</span></div>
+              <div style="color:#cbd5e1;">${escapeHtml(message || JSON.stringify(event))}</div>
+              <div style="color:#64748b;">actor=${escapeHtml(actor)} • ${escapeHtml(ts)}</div>
+            </div>
+          `;
+        }).join("")
+      : `<div style="color:#94a3b8; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.78rem;">No task events yet — waiting for activity…</div>`;
+
+    el.innerHTML = `
+      <div style="display:flex; justify-content:space-between; gap:.75rem; align-items:center; margin-bottom:.5rem;">
+        <div style="font-size:.75rem; color:#94a3b8;">Execution Inspector: ${escapeHtml(state)}</div>
+        <div style="font-size:.72rem; color:#64748b;">${events.length} event${events.length === 1 ? "" : "s"}</div>
+      </div>
+      <div style="flex:1 1 auto; min-height:0; overflow:auto;">${rows}</div>
+    `;
+  }
+
+  function ingest(raw, eventType) {
+    const event = parse(raw);
+    if (!event || eventType === "heartbeat" || event.kind === "heartbeat") return;
+
+    event.kind = event.kind || eventType || "task.event";
+
+    events.unshift(event);
+    if (events.length > maxEvents) events.length = maxEvents;
+
+    try {
+      window.dispatchEvent(new CustomEvent("mb.task.event", { detail: event }));
+    } catch {}
+
+    render("Connected");
+  }
+
+  function start() {
+    render("Connecting");
+
+    const es = new EventSource(STREAM_URL);
+
+    es.onopen = () => render("Connected");
+    es.onerror = () => render("Connection error");
+
+    es.onmessage = (event) => ingest(event.data, "message");
+
+    ["hello", "task.event", "task.created", "task.updated", "task.completed", "task.failed", "error"].forEach((type) => {
+      es.addEventListener(type, (event) => ingest(event.data, type));
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", start, { once: true });
+  } else {
+    start();
+  }
+})();
+
+--- LIVE SSE SAMPLE ---

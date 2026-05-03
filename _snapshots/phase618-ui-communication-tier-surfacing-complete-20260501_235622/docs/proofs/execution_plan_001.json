@@ -1,0 +1,6 @@
+{
+  "planId": "plan_001",
+  "taskId": "task_001",
+  "status": "SUCCEEDED",
+  "output": "EXECUTION_OK: echo hello world"
+}

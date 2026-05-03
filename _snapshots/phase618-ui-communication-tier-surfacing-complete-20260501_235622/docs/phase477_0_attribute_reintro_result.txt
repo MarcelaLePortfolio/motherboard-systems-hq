@@ -1,0 +1,8 @@
+PHASE 477.0 — ATTRIBUTE REINTRO RESULT
+======================================
+
+RESULT:
+ATTRIBUTES_REINTRO_STABLE
+
+OPTIONAL_NOTE:
+Original body attributes were restored onto the stable recomposed dashboard and the page remained stable.

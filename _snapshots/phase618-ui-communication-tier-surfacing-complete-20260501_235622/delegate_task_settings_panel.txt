@@ -1,0 +1,2 @@
+/* eslint-disable import/no-commonjs */
+delegate to Cade: wire Settings panel for start/stop/restart

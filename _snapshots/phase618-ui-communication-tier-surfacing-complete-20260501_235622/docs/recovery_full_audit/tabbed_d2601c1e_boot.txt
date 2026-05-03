@@ -1,0 +1,73 @@
+SHA=d2601c1e
+LABEL=Phase 61: convert telemetry column into tabbed observational workspace
+WORKTREE=../mbhq_recovery_visual_compare/tabbed_d2601c1e
+PORT=8124
+
+--- compose ps -a ---
+NAME                          IMAGE                       COMMAND                  SERVICE     CREATED          STATUS          PORTS
+tabbed_d2601c1e-dashboard-1   tabbed_d2601c1e-dashboard   "docker-entrypoint.s…"   dashboard   8 seconds ago    Up 8 seconds    0.0.0.0:8124->3000/tcp, [::]:8124->3000/tcp
+tabbed_d2601c1e-postgres-1    postgres:16-alpine          "docker-entrypoint.s…"   postgres    16 seconds ago   Up 16 seconds   5432/tcp
+
+--- dashboard logs ---
+dashboard-1  | [phase25] task_events_emit loaded 2026-04-08T16:03:39.808Z file= file:///app/server/task_events_emit.mjs
+dashboard-1  | [phase25] api-tasks-postgres loaded 2026-04-08T16:03:39.809Z file= file:///app/server/routes/api-tasks-postgres.mjs
+dashboard-1  | [phase19] orchestrator_state_route mounted {
+dashboard-1  |   file: 'file:///app/server/orchestrator_state_route.mjs',
+dashboard-1  |   envSnapshot: {
+dashboard-1  |     PHASE18_ENABLE_ORCHESTRATION: undefined,
+dashboard-1  |     PHASE19_ENABLE_ORCH_STATE: undefined
+dashboard-1  |   }
+dashboard-1  | }
+dashboard-1  | [SSE] /events/ops + /events/reflections registered
+dashboard-1  | [db] effective pool config {
+dashboard-1  |   mode: 'url',
+dashboard-1  |   DB_URL_present: true,
+dashboard-1  |   host: null,
+dashboard-1  |   port: null,
+dashboard-1  |   user: null,
+dashboard-1  |   database: null,
+dashboard-1  |   password_type: 'undefined',
+dashboard-1  |   password_len: null,
+dashboard-1  |   has_password: false
+dashboard-1  | }
+dashboard-1  | Database pool initialized
+dashboard-1  | [phase25] __DB_POOL set { has: true, type: 'BoundPool' }
+dashboard-1  | Server running on http://0.0.0.0:3000
+
+--- port listen ---
+COMMAND    PID        USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+com.docke 1066 marcela-dev  231u  IPv6 0x95b406738da1aff3      0t0  TCP *:8124 (LISTEN)
+
+--- http headers ---
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0 10283    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Wed, 08 Apr 2026 16:03:30 GMT
+ETag: W/"282b-19d6dd5a050"
+Content-Type: text/html; charset=utf-8
+Content-Length: 10283
+Date: Wed, 08 Apr 2026 16:03:47 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+
+--- title ---
+<title>Motherboard Systems Operator Console</title>
+
+--- visual markers ---
+Agent Pool
+Atlas Subsystem Status
+Matilda Chat Console
+Operator Console
+Recent Tasks
+Task Activity Over Time
+Task Delegation
+
+--- tab ids ---
+
+--- url ---
+http://localhost:8124

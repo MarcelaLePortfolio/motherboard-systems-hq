@@ -1,0 +1,659 @@
+PHASE 617 — EXECUTION COMMUNICATION TIER CHERRY-PICK
+
+Scope:
+Cherry-pick only the files directly related to execution communication tiers:
+- Tier 1 → outcome
+- Tier 2 → explanation
+- Tier 3 → systemTrace
+
+Do not use broad governance docs.
+Do not invent CommunicationResult.
+Do not patch UI yet.
+
+────────────────────────────────
+
+
+===== PHASE604_COMMUNICATION_CONTRACT_DEFINITION.txt (1-90) =====
+Phase 604 communication contract definition.
+
+Purpose:
+Define the canonical communication contract that translates execution output into operator-safe, user-facing meaning.
+
+Source Doctrine:
+- Phase 84.4: Dashboard is a mirror, not a brain.
+- Phase 84.5: Cognition hierarchy separates overall status, group status, individual signals, and raw metrics.
+- Phase 86.5: Clarity, scan speed, and cognitive simplicity take priority over density.
+- Phase 403.6: Execution outcomes must be deterministic, auditable, operator-visible, and governance-explainable.
+
+Core Gap:
+Execution exists.
+Presentation exists.
+Cognition doctrine exists.
+
+But no runtime contract currently enforces:
+execution result -> communication tier -> user-facing output
+
+Canonical Communication Contract:
+
+CommunicationResult {
+  outcome: {
+    tier: "TIER_1",
+    purpose: "operator-safe outcome",
+    content: string,
+    visibility: "default"
+  },
+
+  explanation: {
+    tier: "TIER_2",
+    purpose: "brief causal explanation",
+    content: string,
+    visibility: "on_request",
+    persistence: "non_sticky"
+  },
+
+  systemTrace: {
+    tier: "TIER_3",
+    purpose: "internal/system execution trace",
+    content: object,
+    visibility: "explicit_access_only",
+    persistence: "non_default"
+  }
+}
+
+Tier Enforcement Rules:
+
+Tier 1 — Outcome
+- Always safe to show by default.
+- Must be short.
+- Must describe what happened, not internal mechanics.
+- Must not expose raw logs.
+- Must not over-explain.
+
+Tier 2 — Explanation
+- Only shown when requested or contextually necessary.
+- Must explain why in plain language.
+- Must be non-sticky across turns.
+- Must not become the default response mode.
+- Must not expose raw system trace.
+
+Tier 3 — System Trace
+- Only shown through explicit operator access.
+- May include internal execution details.
+- Must be separated from normal response UX.
+- Must never leak into default user-facing output.
+
+Compiler Rule:
+The Response Compiler must accept execution/contract output and produce a CommunicationResult.
+
+Default rendering rule:
+Render Tier 1 only unless Tier 2 or Tier 3 is explicitly requested.
+
+Non-sticky rule:
+Any elevated communication mode resets after the response unless explicitly re-requested.
+
+Safety Rule:
+The communication contract may summarize execution.
+It must not mutate execution, task state, worker state, routing, policy, or DB state.
+
+Status:
+COMMUNICATION CONTRACT DEFINED — READY FOR RESPONSE COMPILER DESIGN
+
+===== PHASE605_RESPONSE_COMPILER_DESIGN_PLAN.txt (1-90) =====
+Phase 605 response compiler design plan.
+
+Checkpoint:
+- Phase 604 communication contract is defined and committed.
+- CommunicationResult structure is documented:
+  - Tier 1 outcome
+  - Tier 2 explanation
+  - Tier 3 systemTrace
+- Tier enforcement rules are documented.
+- No runtime changes have been made yet.
+
+Objective:
+Design the Response Compiler as the bridge from contracted execution output to CommunicationResult.
+
+Compiler Responsibility:
+- Accept worker execution contract output.
+- Produce a canonical CommunicationResult.
+- Enforce default Tier 1 rendering.
+- Preserve Tier 2 as non-sticky.
+- Preserve Tier 3 as explicit-access-only.
+
+Inputs:
+- contractedExecution.execution.strategy_applied
+- contractedExecution.execution.notes
+- contractedExecution.execution.output
+- contractedExecution.execution.meta
+- task identity fields where available
+
+Outputs:
+CommunicationResult {
+  outcome,
+  explanation,
+  systemTrace
+}
+
+Constraints:
+- No DB schema changes yet.
+- No UI changes yet.
+- No route changes.
+- No mutation of execution behavior.
+- Compiler must be deterministic and pure.
+
+Implementation Direction:
+- Create server/worker/response_compiler.mjs
+- Export compileCommunicationResult(task, contractedExecution, options = {})
+- Return Tier 1 / Tier 2 / Tier 3 object
+- Do not wire into worker until separately planned and verified.
+
+Status:
+READY FOR PURE RESPONSE COMPILER MODULE
+
+===== PHASE605_RESPONSE_COMPILER_MODULE_ADDED.txt (1-80) =====
+Phase 605 response compiler module added.
+
+State:
+- Added server/worker/response_compiler.mjs.
+- Exports compileCommunicationResult(task, contractedExecution, options = {}).
+- Produces canonical CommunicationResult:
+  - Tier 1 outcome
+  - Tier 2 explanation
+  - Tier 3 systemTrace
+- Module is pure and deterministic.
+- Module is not wired into worker runtime yet.
+
+Safety:
+- No DB changes.
+- No UI changes.
+- No route changes.
+- No worker behavior mutation.
+- No task completion behavior changes.
+
+Status:
+PURE RESPONSE COMPILER MODULE ADDED — READY FOR ISOLATED VERIFICATION
+
+===== PHASE607_RESPONSE_COMPILER_STABLE.txt (1-80) =====
+Phase 607 response compiler stable checkpoint.
+
+Result:
+- compileCommunicationResult verified in isolation.
+- Tier 1 outcome output is correct.
+- Tier 2 explanation output is correct.
+- Tier 3 systemTrace output is correct.
+- Metadata is preserved in systemTrace.
+- Fallback output works.
+- Determinism check passes.
+- No runtime integration yet.
+- Working tree clean.
+
+Meaning:
+The communication tier contract now has a verified pure compiler module.
+
+Stable Tag:
+phase607-response-compiler-stable
+
+Next:
+Plan worker integration separately and only after preserving current behavior.
+
+===== PHASE607_RESPONSE_COMPILER_ISOLATED_TEST.txt (1-90) =====
+Phase 607 response compiler isolated test.
+
+Goal:
+Execute isolated verification of compileCommunicationResult.
+
+Method:
+Run Node inline test against server/worker/response_compiler.mjs.
+
+=== RESULT SAMPLE ===
+{
+  "outcome": {
+    "tier": "TIER_1",
+    "purpose": "operator-safe outcome",
+    "content": "Policy-aware execution prepared",
+    "visibility": "default"
+  },
+  "explanation": {
+    "tier": "TIER_2",
+    "purpose": "brief causal explanation",
+    "content": "fresh context requested",
+    "visibility": "on_request",
+    "persistence": "non_sticky"
+  },
+  "systemTrace": {
+    "tier": "TIER_3",
+    "purpose": "internal/system execution trace",
+    "content": {
+      "task_id": "test_task_1",
+      "run_id": "test_run_1",
+      "strategy_applied": "prompt_augmentation",
+      "execution_meta": {
+        "test": true
+      },
+      "compiler_options": {}
+    },
+    "visibility": "explicit_access_only",
+    "persistence": "non_default"
+  }
+}
+
+=== DETERMINISM CHECK ===
+PASS
+
+=== TIER CHECK ===
+PASS
+PASS
+PASS
+
+=== FALLBACK CHECK ===
+PASS
+PASS
+
+===== PHASE608_RESPONSE_COMPILER_PASSIVE_VERIFY.txt (1-90) =====
+Phase 608 response compiler passive verification.
+
+Goal:
+Verify passive response compiler integration did not alter execution behavior.
+
+Expected:
+- Worker still claims and completes task
+- Execution-contract log still appears
+- NEW response-compiler log appears AFTER execution-contract
+- Output remains unchanged
+- No errors or crashes
+
+--- WORKER LOGS ---
+[phase25] task_events_emit loaded 2026-05-01T22:14:46.490Z file= file:///app/server/task_events_emit.mjs
+[worker] resolved sql contracts: { phase: '32', count: 3 }
+[worker] contract: phase32_claim_one.sql
+[worker] contract: phase32_mark_failure.sql
+[worker] contract: phase32_mark_success.sql
+[worker] started with POSTGRES_URL: postgresql://postgres:postgres@postgres:5432/postgres
+[worker] running in phase: 32
+[worker] owner: worker-2ba3ddea-797d-48a2-8cd3-26366f93dc95
+[worker] claimed task {
+  id: '27',
+  task_id: 't_4efafa88-8556-4972-9840-10779fe75569',
+  status: 'running',
+  run_id: 'run_529c5428-8d8e-4df0-a37a-cb4e56b68fc8',
+  claimed_by: 'worker-2ba3ddea-797d-48a2-8cd3-26366f93dc95'
+}
+[worker][execution-policy] {
+  task_id: 't_4efafa88-8556-4972-9840-10779fe75569',
+  is_retry: true,
+  execution_mode: 'rebuild_context',
+  cache_policy: 'bypass',
+  memory_scope: 'reset_partial',
+  requires_context_rebuild: true,
+  requires_cache_bypass: true,
+  requires_memory_scope_reset: true
+}
+[worker][runtime-hook][cache-policy] {
+  task_id: 't_4efafa88-8556-4972-9840-10779fe75569',
+  cache_policy: 'bypass',
+  action: 'bypass_observed',
+  effect: 'no_cache_layer_available_yet'
+}
+[worker][runtime-hook][memory-scope] {
+  task_id: 't_4efafa88-8556-4972-9840-10779fe75569',
+  memory_scope: 'reset_partial',
+  action: 'reset_partial_observed',
+  effect: 'no_memory_layer_available_yet'
+}
+[worker][runtime-hook][execution-mode] {
+  task_id: 't_4efafa88-8556-4972-9840-10779fe75569',
+  execution_mode: 'rebuild_context',
+  action: 'rebuild_context_observed',
+  effect: 'no_context_layer_available_yet'
+}
+[worker][execution-contract] {
+  task_id: 't_4efafa88-8556-4972-9840-10779fe75569',
+  strategy_applied: 'prompt_augmentation',
+  notes: 'fresh context requested; cache bypass observed; partial memory reset observed',
+  output: 'Policy-aware execution prepared for: response compiler passive verify'
+}
+[worker][response-compiler] {
+  task_id: 't_4efafa88-8556-4972-9840-10779fe75569',
+  outcome_preview: 'Policy-aware execution prepared for: response compiler passive verify',
+  explanation_preview: 'fresh context requested; cache bypass observed; partial memory reset observed'
+}
+[worker] completed task {
+  id: '27',
+  task_id: 't_4efafa88-8556-4972-9840-10779fe75569',
+  status: 'completed',
+  run_id: 'run_529c5428-8d8e-4df0-a37a-cb4e56b68fc8',
+  claimed_by: 'worker-2ba3ddea-797d-48a2-8cd3-26366f93dc95',
+  completed_at: 2026-05-01T22:15:11.571Z
+}
+[phase25] emitTaskEvent ENTER {
+  ts: 1777673711573,
+  kind: 'task.completed',
+  task_id: 't_4efafa88-8556-4972-9840-10779fe75569',
+  hasGlobal: false,
+  globalType: undefined
+}
+[phase25] emitTaskEvent BEFORE CHECK {
+  hasArg: true,
+  hasGlobal: false,
+  globalType: undefined,
+  argType: 'BoundPool'
+}
+[phase25] emitTaskEvent pool {
+  arg: true,
+
+===== PHASE608_RESPONSE_COMPILER_PASSIVE_ACTIVE.txt (1-80) =====
+Phase 608 response compiler passive integration active.
+
+State:
+- Response compiler is now passively invoked after execution contract validation.
+- CommunicationResult is generated but not persisted.
+- CommunicationResult does not alter worker behavior.
+- Only Tier 1 and Tier 2 previews are logged.
+- Full Tier 3 trace is not logged.
+
+Safety:
+- No DB changes.
+- No UI changes.
+- No route changes.
+- No task lifecycle changes.
+- Existing execution contract behavior remains authoritative.
+
+Expected:
+- Existing execution-contract log remains.
+- New response-compiler log appears after execution-contract.
+- Task still completes successfully.
+
+===== PHASE609_PRESENTATION_AUTHORITY_PLAN.txt (1-90) =====
+Phase 609 presentation authority plan.
+
+Checkpoint:
+- Stable tag exists: phase608-response-compiler-passive-stable.
+- Response compiler is passively integrated and verified.
+- Execution behavior remains authoritative and unchanged.
+
+Objective:
+Plan controlled promotion of CommunicationResult from passive log artifact to presentation authority.
+
+Important:
+Do NOT touch execution behavior in this phase.
+Do NOT change task completion behavior.
+Do NOT change retry behavior.
+Do NOT change DB schema yet.
+
+Target:
+Define how Tier 1 / Tier 2 / Tier 3 should be consumed by UI surfaces.
+
+Presentation Authority Rules:
+
+Tier 1 — Outcome
+- Default UI-facing message.
+- Safe for Recent Tasks, Execution Inspector summary, and user-visible response areas.
+- Must remain short and non-technical.
+
+Tier 2 — Explanation
+- Available on explicit expansion or explanation request.
+- Non-sticky.
+- May appear in Execution Inspector detail view.
+- Must not become default UI output.
+
+Tier 3 — System Trace
+- Explicit operator trace only.
+- Suitable for Execution Inspector technical panel.
+- Not suitable for Recent Tasks default rows.
+- Must remain separated from normal response UX.
+
+UI Mapping Proposal:
+
+Recent Tasks:
+- Show Tier 1 only.
+
+Execution Inspector:
+- Summary: Tier 1
+- Explanation panel: Tier 2
+- Trace/debug panel: Tier 3
+
+Task History:
+- Store/render lifecycle events first.
+- May reference Tier 1 summaries later.
+- Should not duplicate Recent Tasks.
+
+Agent Pool:
+- No direct change.
+- Agent Pool remains health/state surface, not communication output surface.
+
+Next:
+Inspect current UI surfaces before wiring CommunicationResult anywhere.
+
+Status:
+READY FOR UI SURFACE INSPECTION ONLY
+
+===== PHASE610_UI_SURFACE_INSPECTION_PLAN.txt (1-90) =====
+Phase 610 UI surface inspection plan.
+
+Checkpoint:
+- Phase 609 presentation authority rules defined.
+- Response compiler exists and is stable (passive).
+- No UI wiring has been performed.
+
+Objective:
+Inspect current UI surfaces to determine safe integration points for CommunicationResult without altering behavior.
+
+Scope:
+READ-ONLY inspection only.
+No UI mutations.
+No API changes.
+No execution changes.
+
+Targets:
+
+1. Recent Tasks UI
+- Locate component responsible for rendering task rows.
+- Identify:
+  - current displayed fields (title, status, timestamps, etc.)
+  - source API endpoint
+  - rendering logic for task output (if any)
+
+Goal:
+Determine where Tier 1 outcome could replace or augment current display safely.
+
+2. Execution Inspector UI
+- Locate component for detailed task view.
+- Identify:
+  - current summary section
+  - any existing explanation or notes display
+  - any debug or trace panels
+
+Goal:
+Map:
+- Tier 1 → summary
+- Tier 2 → explanation section
+- Tier 3 → trace/debug panel (if exists)
+
+3. Task History / Events UI
+- Identify how lifecycle events are rendered.
+- Confirm separation between:
+  - lifecycle logs
+  - execution output
+
+Goal:
+Ensure CommunicationResult does NOT duplicate lifecycle events.
+
+4. API Surfaces
+- Inspect:
+  - /api/tasks
+  - /api/delegate-task
+  - any inspector/detail endpoints
+
+Goal:
+Confirm:
+- where execution output currently flows
+- where CommunicationResult could be injected later (without breaking contracts)
+
+5. Data Flow Mapping
+Document:
+- Task creation → DB → worker → execution → completion → UI fetch
+
+Goal:
+Identify exact insertion point for CommunicationResult in future phase.
+
+Constraints:
+- No code changes in this phase.
+- No speculative wiring.
+- No assumptions without confirming source.
+
+Success Criteria:
+- Clear mapping of UI components to communication tiers.
+- Identified safe insertion points.
+- No ambiguity about current rendering behavior.
+
+Status:
+READY FOR UI SURFACE DISCOVERY
+
+===== PHASE613_UI_SURFACE_MAPPING_SUMMARY.txt (1-80) =====
+Phase 613 UI Surface Mapping Summary.
+
+RECENT TASKS
+- Source: /api/tasks (DB-backed)
+- Data: task_id, run_id, status, created_at, updated_at
+- Behavior: reflects lifecycle (queued → claimed → complete)
+- Gap: no rendering of execution output or CommunicationResult
+
+EXECUTION INSPECTOR
+- Source: /api/delegate-task + task-specific fetch
+- Data: task metadata, retry controls, execution state
+- Behavior: allows re-run with retry_of_task_id + strategy
+- Gap: no structured display of execution result payload
+
+TASK HISTORY
+- Source: database task records + events
+- Behavior: chronological visibility of task lifecycle
+- Gap: does not surface execution narrative or compiled response
+
+EVENT STREAM (SSE)
+- Source: /events/tasks
+- Behavior: pushes task updates to UI
+- Gap: events do not include CommunicationResult payload
+
+CONFIRMED SYSTEM STATE
+- Worker executes tasks and invokes response compiler
+- Output exists but is not surfaced through UI layers
+- UI is state-aware, not result-aware
+
+INSERTION POINT (FUTURE — DO NOT IMPLEMENT YET)
+- Attach CommunicationResult to:
+  1. task_events payload
+  2. /api/tasks response shape
+  3. SSE event stream
+- UI render target:
+  - Recent Tasks (summary)
+  - Execution Inspector (full detail view)
+
+CONSTRAINT (ACTIVE)
+- No runtime changes
+- No API mutation
+- No UI wiring
+- Documentation only
+
+OUTCOME
+Clear, minimal map of where execution results will enter the system once system-led execution foundation is complete.
+
+===== PHASE614_TRIGGER_URL_FIX_VERIFICATION.txt (1-80) =====
+Phase 614 trigger URL fix verification.
+
+Goal:
+Verify that changing the system trigger delegate URL from localhost:8080 to localhost:3000 allows the dashboard container to create autonomous system tasks.
+
+Expected:
+- Dashboard logs show [phase614] system-trigger dispatched
+- Worker logs show claimed task
+- Worker logs show completed task
+- Worker logs preserve execution-contract and response-compiler logs
+- /api/tasks shows the generated System Trigger Test task
+
+Status:
+RUNNING POST-FIX VERIFICATION
+
+--- DASHBOARD PHASE614 LOGS ---
+[phase614] system-trigger dispatched
+
+--- WORKER EXECUTION LOGS ---
+  outcome_preview: 'Standard execution prepared for: System Trigger Test',
+[worker] completed task {
+[worker] claimed task {
+[worker][execution-contract] {
+  output: 'Standard execution prepared for: System Trigger Test'
+[worker][response-compiler] {
+  outcome_preview: 'Standard execution prepared for: System Trigger Test',
+[worker] completed task {
+[worker] claimed task {
+[worker][execution-contract] {
+  output: 'Standard execution prepared for: System Trigger Test'
+[worker][response-compiler] {
+  outcome_preview: 'Standard execution prepared for: System Trigger Test',
+[worker] completed task {
+[worker] claimed task {
+[worker][execution-contract] {
+  output: 'Standard execution prepared for: System Trigger Test'
+[worker][response-compiler] {
+  outcome_preview: 'Standard execution prepared for: System Trigger Test',
+[worker] completed task {
+[worker] claimed task {
+[worker][execution-contract] {
+  output: 'Standard execution prepared for: System Trigger Test'
+[worker][response-compiler] {
+  outcome_preview: 'Standard execution prepared for: System Trigger Test',
+[worker] completed task {
+
+--- API TASK SNAPSHOT ---
+{"ok":true,"tasks":[{"id":"35","task_id":"t_3bbb112f-67c8-4be6-a4a5-4e684cc19aa1","title":"System Trigger Test","status":"completed","claimed_by":"worker-fb5783cd-5192-4644-8f04-526fc011779a","updated_at":"2026-05-01T23:09:07.167Z"},{"id":"34","task_id":"t_77ba450a-a207-4146-a1aa-c5470dabde8d","title":"System Trigger Test","status":"completed","claimed_by":"worker-fb5783cd-5192-4644-8f04-526fc011779a","updated_at":"2026-05-01T23:08:07.160Z"},{"id":"33","task_id":"t_352daa24-b9b5-4c47-b271-db61ed7f3d62","title":"System Trigger Test","status":"completed","claimed_by":"worker-fb5783cd-5192-4644-8f04-526fc011779a","updated_at":"2026-05-01T23:07:07.143Z"},{"id":"32","task_id":"t_e7e38df5-751a-4956-8a36-66b6b0db83fb","title":"System Trigger Test","status":"completed","claimed_by":"worker-fb5783cd-5192-4644-8f04-526fc011779a","updated_at":"2026-05-01T23:06:07.138Z"},{"id":"31","task_id":"t_6a47b5d1-f757-4be7-9a20-5858df43100c","title":"System Trigger Test","status":"completed","claimed_by":"worker-fb5783cd-5192-4644-8f04-526fc011779a","updated_at":"2026-05-01T23:05:07.131Z"},{"id":"30","task_id":"t_011f13da-52b5-499b-95ac-3b9b89aa678f","title":"System Trigger Test","status":"completed","claimed_by":"worker-fb5783cd-5192-4644-8f04-526fc011779a","updated_at":"2026-05-01T23:04:07.126Z"},{"id":"29","task_id":"t_5ea3d87a-59f5-4796-a4ff-622f2ed7a87f","title":"System Trigger Test","status":"completed","claimed_by":"worker-fb5783cd-5192-4644-8f04-526fc011779a","updated_at":"2026-05-01T23:03:07.117Z"},{"id":"28","task_id":"t_1904be25-5aa6-49e9-ba71-e498565b203c","title":"System Trigger Test","status":"completed","claimed_by":"worker-fb5783cd-5192-4644-8f04-526fc011779a","updated_at":"2026-05-01T23:02:07.138Z"},{"id":"27","task_id":"t_4efafa88-8556-4972-9840-10779fe75569","title":"response compiler passive verify","status":"completed","claimed_by":"worker-2ba3ddea-797d-48a2-8cd3-26366f93dc95","updated_at":"2026-05-01T22:15:08.465Z"},{"id":"26","task_id":"t_3759b1e9-047d-4d49-a964-888179093263","title":"execution contract helper verification","status":"completed","claimed_by":"worker-46d83b07-4528-46d2-9989-fc39af50fce7","updated_at":"2026-05-01T18:42:27.477Z"},{"id":"25","task_id":"t_cafc6615-4b86-48f3-ae60-6cb739bb3ae2","title":"policy logger extraction verification","status":"completed","claimed_by":"worker-b5c7539d-116f-44a8-9beb-a2b4238a3997","updated_at":"2026-05-01T18:38:24.276Z"},{"id":"24","task_id":"t_96fb2247-1a55-4210-95c3-062c1ba65300","title":"strategy aware execution verification","status":"completed","claimed_by":"worker-875db0b0-e141-40c7-82f6-85f06a5a3e21","updated_at":"2026-05-01T17:52:03.947Z"}]}
+────────────────────────────────
+
+FOCUSED IMPLEMENTATION SEARCH
+
+server/worker/execute_task_with_contract.mjs:24:    outcome_preview: communicationResult.outcome.content,
+server/worker/execute_task_with_contract.mjs:25:    explanation_preview: communicationResult.explanation.content
+server/worker/response_compiler.mjs:36:    outcome: {
+server/worker/response_compiler.mjs:43:    explanation: {
+server/worker/response_compiler.mjs:51:    systemTrace: {
+server/policy/evaluate.mjs:111:  // - { applies: true, outcome: "allow" }
+app/demo-runtime/page.tsx:9:  outcome: "SUCCESS" | "FAILED" | "BLOCKED";
+app/demo-runtime/page.tsx:327:              <strong>Governance explanation:</strong> {governanceExplanation}
+src/demo/minimalDemoRunner.ts:34:  outcome: TaskOutcome;
+src/contracts/reporting/governedExecutionProofReport.ts:16:    outcome: "prepared" | "blocked";
+src/contracts/reporting/governedExecutionProofReport.ts:36:      outcome: result.execution.outcome,
+src/contracts/execution/__proofs__/governedExecutionProof.caseproof.ts:30:    outcome: governedExecutionAllowedResult.execution.outcome,
+src/contracts/execution/__proofs__/governedExecutionProof.caseproof.ts:37:    outcome: governedExecutionGovernanceBlockedResult.execution.outcome,
+src/contracts/execution/__proofs__/governedExecutionProof.caseproof.ts:44:    outcome: governedExecutionApprovalMissingResult.execution.outcome,
+src/contracts/execution/governedExecutionProof.ts:31:    outcome: "prepared" | "blocked";
+src/contracts/execution/governedExecutionProof.ts:55:        outcome: "blocked",
+src/contracts/execution/governedExecutionProof.ts:74:        outcome: "blocked",
+src/contracts/execution/governedExecutionProof.ts:92:      outcome: "prepared",
+src/governance_investigation/governance_playback_navigation_assembly.ts:25:      explanation: null,
+src/governance_investigation/governance_decision_trace.ts:35:  readonly explanation: GovernanceExplanationRecord | null;
+src/governance_investigation/governance_decision_trace.ts:49:    explanation: seed.explanation ?? null,
+src/governance_investigation/governance_decision_trace.ts:56:    explanation: seed.explanation ?? null,
+src/governance_investigation/governance_decision_trace.ts:62:      explanation: seed.explanation ?? null,
+src/governance_investigation/governance_operator_investigation_view.ts:14:  readonly explanation: string | null;
+src/governance_investigation/governance_operator_investigation_view.ts:33:    explanation: trace.explanation?.summary ?? null,
+src/governance/governanceExecutionRoutingClassifier.ts:33:    outcome: routing.outcome,
+src/governance/governance_operator_explanation_layer.ts:31:    operator_explanation: explanation,
+src/governance/governanceExecutionRoutingProof.ts:20:  outcome: GovernanceOutcomeType;
+src/governance/governanceOperatorAwarenessTypes.ts:34:  outcome: GovernanceOutcomeType;
+src/governance/governanceOutcomeSurfaceTypes.ts:28:  outcome: GovernanceOutcomeType;
+src/governance/governanceOutcomeSurfaceTypes.ts:42:  outcome: GovernanceOutcomeType
+src/governance/governanceOutcomeSurfaceBuilder.ts:37:    outcome: routing.outcome,
+src/governance/governanceOutcomeSurfaceProof.ts:21:  outcome: GovernanceOutcomeType;
+src/governance/governanceExecutionRouting.ts:26:  outcome: GovernanceOutcomeType;
+src/governance/governanceExecutionRouting.ts:33:  outcome: GovernanceOutcomeType;
+src/governance/governanceExecutionRouting.ts:48:        outcome: "ALLOW",
+src/governance/governanceExecutionRouting.ts:56:        outcome: "DENY",
+src/governance/governanceExecutionRouting.ts:64:        outcome: "REVIEW",
+src/governance/governanceExecutionRouting.ts:72:        outcome: "ESCALATE",
+src/governance/governanceExecutionRouting.ts:80:        outcome: "INFORM",
+src/governance/governance_enforcement_result.ts:23:  explanation: string
+src/governance/governance_enforcement_result.ts:38:  explanation: string
+src/governance/governanceOperatorAwarenessBuilder.ts:37:    outcome: surface.outcome,
+src/governance/governance_audit_log.ts:20:  explanation: string
+src/governance/governance_audit_log.ts:40:    explanation: result.explanation,
+src/governance/governanceExecutionRoutingTypes.ts:17:  outcome: GovernanceOutcomeType;
+src/governance/governanceExecutionRoutingTypes.ts:25:  outcome: GovernanceOutcomeType

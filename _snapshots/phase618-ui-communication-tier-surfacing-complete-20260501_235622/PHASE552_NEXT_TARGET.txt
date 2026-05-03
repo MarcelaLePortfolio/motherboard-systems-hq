@@ -1,0 +1,59 @@
+PHASE 552 — NEXT TARGET
+
+CORRIDOR:
+STRUCTURED PAYLOAD VISIBILITY
+
+PRIORITY:
+Enable deeper inspection without overwhelming default UI
+
+PROBLEM:
+- Panel shows key metadata, but not full event payload
+- Debugging still requires console (Inspect)
+- Operator surface should expose raw data safely
+
+OBJECTIVE:
+Add optional expandable JSON view for selected task
+
+INITIAL SCOPE (SAFE, UI-ONLY):
+- Toggle to show/hide JSON payload
+- Read-only
+- No backend calls
+- No mutation
+- Single file: public/js/phase457_restore_task_panels.js
+
+FEATURE:
+
+1. TOGGLE CONTROL
+- Add:
+  "View JSON" / "Hide JSON" toggle in action row
+
+2. STATE
+- let showJsonForTaskId = ""
+
+3. BEHAVIOR
+- On toggle click:
+  if same task → toggle off
+  else → set showJsonForTaskId = selectedItem.taskId
+
+4. RENDER
+- If showJsonForTaskId === selectedItem.taskId:
+  render:
+    <pre> JSON.stringify(selectedItem, null, 2) </pre>
+
+5. STYLE
+- small monospace
+- scrollable
+- muted background
+- max-height cap
+
+CONSTRAINTS:
+- Additive only
+- Must not affect existing layout stability
+- Must not break render loop
+- No performance-heavy operations (JSON is small)
+
+GOAL:
+Promote panel from metadata → full inspection surface
+
+STATUS:
+READY FOR SURGICAL PATCH

@@ -1,0 +1,321 @@
+PHASE 456 — APPLY TASKS PREREQS AND REPAIR RUN_VIEW
+Generated: 2026-04-09T18:15:40Z
+
+=== PRECHECK ===
+phase119-dashboard-cognition-contract
+6b40471c846a72130583c83bd85e15f9b999aedb
+
+?? docs/phase456_apply_tasks_prereqs_and_repair_run_view.txt
+?? scripts/phase456_apply_tasks_prereqs_and_repair_run_view.sh
+
+Filesystem      Size    Used   Avail Capacity iused ifree %iused  Mounted on
+/dev/disk3s5   228Gi   125Gi    68Gi    65%    570k  708M    0%   /System/Volumes/Data
+
+=== CANONICAL STACK STATE ===
+NAME                                 IMAGE                              COMMAND                  SERVICE     CREATED        STATUS                    PORTS
+motherboard_systems_hq-dashboard-1   motherboard_systems_hq-dashboard   "docker-entrypoint.s…"   dashboard   22 hours ago   Up 42 minutes (healthy)   0.0.0.0:8080->3000/tcp, [::]:8080->3000/tcp
+motherboard_systems_hq-postgres-1    postgres:16-alpine                 "docker-entrypoint.s…"   postgres    22 hours ago   Up 42 minutes             0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+
+=== VERIFY REQUIRED MIGRATION FILES ===
+-rw-r--r--  1 marcela-dev  staff  1358 Feb  4 13:25 drizzle_pg/0007_phase34_lease_heartbeat_reclaim.sql
+-rw-r--r--  1 marcela-dev  staff   181 Feb  4 13:25 drizzle_pg/0007_phase35_lease_epoch.sql
+-rw-r--r--  1 marcela-dev  staff  3064 Mar  4 15:00 drizzle_pg/0007_phase36_1_run_view.sql
+-rw-r--r--  1 marcela-dev  staff  1260 Feb 10 12:28 drizzle_pg/0007_phase36_2_run_view_contract.sql
+
+=== TASKS COLUMNS BEFORE ===
+ column_name | data_type 
+-------------+-----------
+ claimed_by  | text
+(1 row)
+
+
+=== RUN_VIEW BEFORE ===
+0
+
+=== APPLY PREREQ MIGRATION: PHASE34 LEASE / HEARTBEAT RECLAIM ===
+DO
+CREATE TABLE
+DO
+
+=== APPLY PREREQ MIGRATION: PHASE35 LEASE EPOCH ===
+ALTER TABLE
+CREATE INDEX
+
+=== TASKS COLUMNS AFTER PREREQS ===
+   column_name    | data_type 
+------------------+-----------
+ claimed_at       | bigint
+ claimed_by       | text
+ lease_epoch      | integer
+ lease_expires_at | bigint
+(4 rows)
+
+
+=== APPLY RUN_VIEW MIGRATION ===
+CREATE VIEW
+
+=== APPLY RUN_VIEW CONTRACT MIGRATION ===
+DO
+
+=== RUN_VIEW AFTER ===
+ schemaname | viewname 
+------------+----------
+ public     | run_view
+(1 row)
+
+
+=== RUN_VIEW SAMPLE ===
+  run_id  |     task_id     |  actor   | lease_expires_at | lease_fresh | lease_ttl_ms | last_heartbeat_ts | heartbeat_age_ms | last_event_id | last_event_ts | last_event_kind |  task_status   | is_terminal | terminal_event_kind | terminal_event_ts | terminal_event_id 
+----------+-----------------+----------+------------------+-------------+--------------+-------------------+------------------+---------------+---------------+-----------------+----------------+-------------+---------------------+-------------------+-------------------
+ run-457b | phase457-test-2 | phase457 |                  |             |              |                   |                  |             4 | 1775678301361 | task.completed  | task.completed | t           | task.completed      |     1775678301361 |                 4
+ run-457  | phase457-test   | phase457 |                  |             |              |                   |                  |             1 | 1775674294289 | task.created    | queued         | f           |                     |                   |                  
+(2 rows)
+
+
+=== API PROBE: /api/runs ===
+{"ok":true,"count":2,"rows":[{"run_id":"run-457b","task_id":"phase457-test-2","task_status":"task.completed","is_terminal":true,"last_event_id":"4","last_event_ts":"1775678301361","last_event_kind":"task.completed","actor":"phase457","lease_expires_at":null,"lease_fresh":null,"lease_ttl_ms":null,"last_heartbeat_ts":null,"heartbeat_age_ms":null,"terminal_event_kind":"task.completed","terminal_event_ts":"1775678301361","terminal_event_id":"4"},{"run_id":"run-457","task_id":"phase457-test","task_status":"queued","is_terminal":false,"last_event_id":"1","last_event_ts":"1775674294289","last_event_kind":"task.created","actor":"phase457","lease_expires_at":null,"lease_fresh":null,"lease_ttl_ms":null,"last_heartbeat_ts":null,"heartbeat_age_ms":null,"terminal_event_kind":null,"terminal_event_ts":null,"terminal_event_id":null}]}
+
+=== DASHBOARD LOGS AFTER REPAIR (TAIL 120) ===
+dashboard-1  |   baseUrl: '/api/tasks',
+dashboard-1  |   path: '/',
+dashboard-1  |   referer: 'http://localhost:8080/dashboard.html',
+dashboard-1  |   userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+dashboard-1  |   accept: 'application/json'
+dashboard-1  | }
+dashboard-1  | [HTTP] GET /api/tasks?limit=12
+dashboard-1  | [phase57c-router] /api/tasks probe {
+dashboard-1  |   originalUrl: '/api/tasks?limit=12',
+dashboard-1  |   baseUrl: '/api/tasks',
+dashboard-1  |   path: '/',
+dashboard-1  |   referer: 'http://localhost:8080/dashboard.html',
+dashboard-1  |   userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+dashboard-1  |   accept: 'application/json'
+dashboard-1  | }
+dashboard-1  | [HTTP] GET /api/tasks?limit=12
+dashboard-1  | [HTTP] GET /api/runs?limit=20
+dashboard-1  | [HTTP] GET /api/runs?limit=20
+dashboard-1  | [HTTP] GET /api/runs?limit=20
+dashboard-1  | [HTTP] GET /api/tasks?limit=12
+dashboard-1  | [HTTP] GET /api/runs?limit=20
+dashboard-1  | [HTTP] GET /api/runs?limit=20
+dashboard-1  | [HTTP] GET /api/runs?limit=20
+dashboard-1  | [phase57c-router] /api/tasks probe {
+dashboard-1  |   originalUrl: '/api/tasks?limit=12',
+dashboard-1  |   baseUrl: '/api/tasks',
+dashboard-1  |   path: '/',
+dashboard-1  |   referer: 'http://localhost:8080/dashboard.html',
+dashboard-1  |   userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+dashboard-1  |   accept: 'application/json'
+dashboard-1  | }
+dashboard-1  | [HTTP] GET /api/tasks?limit=12
+dashboard-1  | [phase57c-router] /api/tasks probe {
+dashboard-1  |   originalUrl: '/api/tasks?limit=12',
+dashboard-1  |   baseUrl: '/api/tasks',
+dashboard-1  |   path: '/',
+dashboard-1  |   referer: 'http://localhost:8080/dashboard.html',
+dashboard-1  |   userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+dashboard-1  |   accept: 'application/json'
+dashboard-1  | }
+dashboard-1  | [phase57c-router] /api/tasks probe {
+dashboard-1  |   originalUrl: '/api/tasks?limit=12',
+dashboard-1  |   baseUrl: '/api/tasks',
+dashboard-1  |   path: '/',
+dashboard-1  |   referer: 'http://localhost:8080/dashboard.html',
+dashboard-1  |   userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+dashboard-1  |   accept: 'application/json'
+dashboard-1  | }
+dashboard-1  | [phase57c-router] /api/tasks probe {
+dashboard-1  |   originalUrl: '/api/tasks?limit=12',
+dashboard-1  |   baseUrl: '/api/tasks',
+dashboard-1  |   path: '/',
+dashboard-1  |   referer: 'http://localhost:8080/dashboard.html',
+dashboard-1  |   userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+dashboard-1  |   accept: 'application/json'
+dashboard-1  | }
+dashboard-1  | [phase57c-router] /api/tasks probe {
+dashboard-1  |   originalUrl: '/api/tasks?limit=12',
+dashboard-1  |   baseUrl: '/api/tasks',
+dashboard-1  |   path: '/',
+dashboard-1  |   referer: 'http://localhost:8080/dashboard.html',
+dashboard-1  |   userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+dashboard-1  |   accept: 'application/json'
+dashboard-1  | }
+dashboard-1  | [HTTP] GET /dashboard.html
+dashboard-1  | [HTTP] GET /css/broadcast.css
+dashboard-1  | [HTTP] GET /css/dashboard-reflections.css
+dashboard-1  | [HTTP] GET /css/dashboard.css?v=darkmode
+dashboard-1  | [HTTP] GET /css/phase59_demo_focus.css
+dashboard-1  | [HTTP] GET /css/phase13_5_operator_ux.css
+dashboard-1  | [HTTP] GET /css/matilda-chat.css
+dashboard-1  | [HTTP] GET /css/phase60_live_polish.css
+dashboard-1  | [HTTP] GET /css/agent-status-row.css
+dashboard-1  | [HTTP] GET /css/phase61_workspace_consolidation.css
+dashboard-1  | [HTTP] GET /css/phase61_tabs_observational_workspace.css
+dashboard-1  | [HTTP] GET /js/phase60_live_clock.js
+dashboard-1  | [HTTP] GET /css/demo_layout_trim.css
+dashboard-1  | [HTTP] GET /js/phase61_tabs_workspace.js
+dashboard-1  | [HTTP] GET /js/operatorGuidance.sse.js?v=phase96-live-1
+dashboard-1  | [HTTP] GET /js/phase61_recent_history_wire.js
+dashboard-1  | [HTTP] GET /bundle.js
+dashboard-1  | [HTTP] GET /js/phase457_restore_task_panels.js
+dashboard-1  | [HTTP] GET /js/phase457_neutralize_legacy_observational_consumers.js
+dashboard-1  | [HTTP] GET /events/ops
+dashboard-1  | [HTTP] GET /api/tasks?limit=12
+dashboard-1  | [HTTP] GET /api/runs?limit=20
+dashboard-1  | [HTTP] GET /events/ops
+dashboard-1  | [HTTP] GET /api/tasks
+dashboard-1  | [phase57c-router] /api/tasks probe {
+dashboard-1  |   originalUrl: '/api/tasks?limit=12',
+dashboard-1  |   baseUrl: '/api/tasks',
+dashboard-1  |   path: '/',
+dashboard-1  |   referer: 'http://localhost:8080/dashboard.html',
+dashboard-1  |   userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+dashboard-1  |   accept: 'application/json'
+dashboard-1  | }
+dashboard-1  | [phase57c-router] /api/tasks probe {
+dashboard-1  |   originalUrl: '/api/tasks',
+dashboard-1  |   baseUrl: '/api/tasks',
+dashboard-1  |   path: '/',
+dashboard-1  |   referer: 'http://localhost:8080/dashboard.html',
+dashboard-1  |   userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+dashboard-1  |   accept: 'application/json'
+dashboard-1  | }
+dashboard-1  | [HTTP] GET /events/ops
+dashboard-1  | [HTTP] GET /events/reflections
+dashboard-1  | [HTTP] HEAD /
+dashboard-1  | [HTTP] HEAD /dashboard.html
+dashboard-1  | [HTTP] GET /dashboard.html
+dashboard-1  | [HTTP] GET /api/tasks?limit=5
+dashboard-1  | [phase57c-router] /api/tasks probe {
+dashboard-1  |   originalUrl: '/api/tasks?limit=5',
+dashboard-1  |   baseUrl: '/api/tasks',
+dashboard-1  |   path: '/',
+dashboard-1  |   referer: null,
+dashboard-1  |   userAgent: 'curl/8.7.1',
+dashboard-1  |   accept: '*/*'
+dashboard-1  | }
+dashboard-1  | [HTTP] GET /api/runs?limit=5
+dashboard-1  | [HTTP] GET /api/runs?limit=5
+
+=== POSTGRES LOGS AFTER REPAIR (TAIL 120) ===
+postgres-1  | 	        
+postgres-1  | 	        ORDER BY
+postgres-1  | 	          last_event_ts DESC NULLS LAST,
+postgres-1  | 	          last_event_id DESC NULLS LAST,
+postgres-1  | 	          run_id DESC
+postgres-1  | 	        LIMIT $1::int
+postgres-1  | 	      
+postgres-1  | 2026-04-09 17:37:50.276 UTC [27] LOG:  checkpoint starting: time
+postgres-1  | 2026-04-09 17:37:50.286 UTC [27] LOG:  checkpoint complete: wrote 1 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.001 s, sync=0.001 s, total=0.010 s; sync files=1, longest=0.001 s, average=0.001 s; distance=0 kB, estimate=0 kB; lsn=0/156F050, redo lsn=0/156F018
+postgres-1  | 2026-04-09 17:43:05.774 UTC [64] ERROR:  relation "run_view" does not exist at character 435
+postgres-1  | 2026-04-09 17:43:05.774 UTC [64] STATEMENT:  
+postgres-1  | 	        
+postgres-1  | 	    SELECT
+postgres-1  | 	          run_id,
+postgres-1  | 	          task_id,
+postgres-1  | 	          task_status,
+postgres-1  | 	          is_terminal,
+postgres-1  | 	          last_event_id,
+postgres-1  | 	          last_event_ts,
+postgres-1  | 	          last_event_kind,
+postgres-1  | 	          actor,
+postgres-1  | 	          lease_expires_at,
+postgres-1  | 	          lease_fresh,
+postgres-1  | 	          lease_ttl_ms,
+postgres-1  | 	          last_heartbeat_ts,
+postgres-1  | 	          heartbeat_age_ms,
+postgres-1  | 	          terminal_event_kind,
+postgres-1  | 	          terminal_event_ts,
+postgres-1  | 	          terminal_event_id
+postgres-1  | 	  
+postgres-1  | 	        FROM run_view
+postgres-1  | 	        
+postgres-1  | 	        ORDER BY
+postgres-1  | 	          last_event_ts DESC NULLS LAST,
+postgres-1  | 	          last_event_id DESC NULLS LAST,
+postgres-1  | 	          run_id DESC
+postgres-1  | 	        LIMIT $1::int
+postgres-1  | 	      
+postgres-1  | 2026-04-09 18:07:40.754 UTC [137] ERROR:  column t.lease_expires_at does not exist at character 1304
+postgres-1  | 2026-04-09 18:07:40.754 UTC [137] STATEMENT:  CREATE OR REPLACE VIEW run_view AS
+postgres-1  | 	WITH
+postgres-1  | 	last_event AS (
+postgres-1  | 	  SELECT DISTINCT ON (te.task_id, te.run_id)
+postgres-1  | 	    te.task_id,
+postgres-1  | 	    te.run_id,
+postgres-1  | 	    te.id   AS last_event_id,
+postgres-1  | 	    te.ts   AS last_event_ts,
+postgres-1  | 	    te.kind AS last_event_kind,
+postgres-1  | 	    te.actor AS last_event_actor
+postgres-1  | 	  FROM task_events te
+postgres-1  | 	  WHERE te.run_id IS NOT NULL AND te.run_id <> ''
+postgres-1  | 	  ORDER BY te.task_id, te.run_id, te.id DESC
+postgres-1  | 	),
+postgres-1  | 	last_heartbeat AS (
+postgres-1  | 	  SELECT
+postgres-1  | 	    te.task_id,
+postgres-1  | 	    te.run_id,
+postgres-1  | 	    MAX(te.ts) AS last_heartbeat_ts
+postgres-1  | 	  FROM task_events te
+postgres-1  | 	  WHERE te.run_id IS NOT NULL AND te.run_id <> ''
+postgres-1  | 	    AND te.kind IN ('heartbeat','task.heartbeat')
+postgres-1  | 	  GROUP BY te.task_id, te.run_id
+postgres-1  | 	),
+postgres-1  | 	terminal_event AS (
+postgres-1  | 	  SELECT DISTINCT ON (te.task_id, te.run_id)
+postgres-1  | 	    te.task_id,
+postgres-1  | 	    te.run_id,
+postgres-1  | 	    te.kind AS terminal_event_kind,
+postgres-1  | 	    te.ts   AS terminal_event_ts,
+postgres-1  | 	    te.id   AS terminal_event_id
+postgres-1  | 	  FROM task_events te
+postgres-1  | 	  WHERE te.run_id IS NOT NULL AND te.run_id <> ''
+postgres-1  | 	    AND te.kind IN ('task.completed','task.failed','task.canceled','task.cancelled','completed','failed','canceled','cancelled')
+postgres-1  | 	  ORDER BY te.task_id, te.run_id, te.id DESC
+postgres-1  | 	)
+postgres-1  | 	SELECT
+postgres-1  | 	  le.run_id,
+postgres-1  | 	  le.task_id,
+postgres-1  | 	  -- actor/owner: prefer latest event.actor; fall back to tasks.claimed_by / tasks.actor
+postgres-1  | 	  COALESCE(NULLIF(le.last_event_actor,''), NULLIF(t.claimed_by,'')) AS actor,
+postgres-1  | 	  -- lease (epoch ms)
+postgres-1  | 	  t.lease_expires_at,
+postgres-1  | 	  CASE
+postgres-1  | 	    WHEN t.lease_expires_at IS NULL THEN NULL
+postgres-1  | 	    ELSE (t.lease_expires_at > (extract(epoch from now()) * 1000.0))::boolean
+postgres-1  | 	  END AS lease_fresh,
+postgres-1  | 	  CASE
+postgres-1  | 	    WHEN t.lease_expires_at IS NULL THEN NULL
+postgres-1  | 	    ELSE GREATEST(0, (t.lease_expires_at - (extract(epoch from now()) * 1000.0)))::bigint
+postgres-1  | 	  END AS lease_ttl_ms,
+postgres-1  | 	  -- heartbeat freshness (epoch ms)
+postgres-1  | 	  lh.last_heartbeat_ts,
+postgres-1  | 	  CASE
+postgres-1  | 	    WHEN lh.last_heartbeat_ts IS NULL THEN NULL
+postgres-1  | 	    ELSE GREATEST(0, ((extract(epoch from now()) * 1000.0) - lh.last_heartbeat_ts))::bigint
+postgres-1  | 	  END AS heartbeat_age_ms,
+postgres-1  | 	  -- last event
+postgres-1  | 	  le.last_event_id,
+postgres-1  | 	  le.last_event_ts,
+postgres-1  | 	  le.last_event_kind,
+postgres-1  | 	  -- terminal precedence: once a terminal_event exists, it wins over any later task.running noise
+postgres-1  | 	  CASE
+postgres-1  | 	    WHEN te.terminal_event_kind IS NOT NULL THEN te.terminal_event_kind
+postgres-1  | 	    ELSE t.status
+postgres-1  | 	  END AS task_status,
+postgres-1  | 	  CASE
+postgres-1  | 	    WHEN te.terminal_event_kind IS NOT NULL THEN TRUE
+postgres-1  | 	    ELSE (t.status IN ('completed','failed','canceled','cancelled'))
+postgres-1  | 	  END AS is_terminal,
+postgres-1  | 	  te.terminal_event_kind,
+postgres-1  | 	  te.terminal_event_ts,
+postgres-1  | 	  te.terminal_event_id
+postgres-1  | 	FROM last_event le
+postgres-1  | 	LEFT JOIN tasks t
+postgres-1  | 	  ON t.task_id = le.task_id
+postgres-1  | 	LEFT JOIN last_heartbeat lh
+postgres-1  | 	  ON lh.task_id = le.task_id AND lh.run_id = le.run_id
+postgres-1  | 	LEFT JOIN terminal_event te
+postgres-1  | 	  ON te.task_id = le.task_id AND te.run_id = le.run_id
+postgres-1  | 	;
+

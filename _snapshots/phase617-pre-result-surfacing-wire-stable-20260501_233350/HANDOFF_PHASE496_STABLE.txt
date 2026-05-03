@@ -1,0 +1,233 @@
+STATE HANDOFF — DO NOT LOSE CONTEXT  
+
+ASSISTANT OPERATES IN ENGINEERING CONTINUATION MODE  
+
+(Post-Phase 496 snapshot — Matilda context-aware, deterministic parity achieved, system stable)
+
+────────────────────────────────  
+
+SECTIONS INCLUDED  
+
+1. Critical System Context  
+2. Current System Status  
+3. Corridor Classification  
+4. Recovery & Checkpoint Discipline  
+5. Engineering Baseline  
+6. Matilda Capability State  
+7. Context Injection Layer  
+8. Deterministic Fallback State  
+9. Runtime Behavior  
+10. Known Gaps  
+11. Next Safe Corridor  
+12. Deterministic Resume Point  
+13. System State Summary  
+
+────────────────────────────────  
+
+CRITICAL SYSTEM CONTEXT  
+
+FL-3: COMPLETE  
+- Arbitrary request demo validated  
+- Backend sealed (no mutation allowed)  
+- UI consumption-only corridor enforced  
+
+System operating under:
+STRICT READ-ONLY AUGMENTATION MODE  
+
+────────────────────────────────  
+
+CURRENT SYSTEM STATUS  
+
+Backend:
+- Stable
+- DB connected
+- run_view operational
+- tasks table queried successfully
+
+Matilda:
+- Responding via Ollama + deterministic fallback
+- Context-aware (run + task signals)
+- No execution capability (by design)
+
+UI:
+- Dashboard loads
+- Initial chat call may timeout (startup timing issue)
+- Subsequent calls succeed
+
+────────────────────────────────  
+
+CORRIDOR CLASSIFICATION  
+
+ACTIVE CORRIDOR:
+READ-ONLY INTELLIGENCE LAYER ENHANCEMENT  
+
+STRICTLY PROHIBITED:
+- Task mutation
+- Agent routing changes
+- Backend logic alteration
+- Orchestration changes
+
+ALLOWED:
+- Context enrichment
+- Response formatting
+- UI-safe improvements
+
+────────────────────────────────  
+
+RECOVERY & CHECKPOINT DISCIPLINE  
+
+Recent recovery:
+- Accidental file overwrite via heredoc prevented
+- Restored via HEAD~1
+- Verified via node --check
+
+RULE:
+NEVER use:
+cat > file << 'EOF' ... $(...) ...
+
+ONLY:
+- Python patching
+- Direct edits
+- Verified diffs
+
+────────────────────────────────  
+
+ENGINEERING BASELINE  
+
+server.mjs:
+- Clean
+- Syntax valid
+- Diff history intact
+
+Docker:
+- Containers healthy
+- Dashboard running
+- Postgres connected
+
+Git:
+- HEAD: stable (post-revert)
+- No uncommitted changes
+
+────────────────────────────────  
+
+MATILDA CAPABILITY STATE  
+
+Matilda is now:
+
+READ-ONLY  
+CONTEXT-AWARE  
+FAILURE-RESILIENT  
+
+She can:
+- Report system status
+- Reference latest run
+- Identify waiting state
+- Identify assignment state
+- Use Ollama for natural responses
+- Fall back deterministically with full context
+
+She cannot:
+- Execute tasks
+- Modify system state
+- Route or assign agents
+- Approve actions
+
+────────────────────────────────  
+
+CONTEXT INJECTION LAYER  
+
+Available fields:
+
+- runSummary  
+- waitingOn  
+- agentAssignment  
+- runAgent  
+
+Sources:
+- run_view (authoritative run state)
+- tasks table (latest task state)
+
+All safely read-only
+
+────────────────────────────────  
+
+DETERMINISTIC FALLBACK STATE  
+
+PHASE496 COMPLETE:
+
+deterministicReply now includes:
+- runSummary  
+- waitingOn  
+- agentAssignment  
+- runAgent  
+
+Result:
+NO CONTEXT LOSS if Ollama fails  
+
+────────────────────────────────  
+
+RUNTIME BEHAVIOR  
+
+Observed:
+
+- First request after container start may fail (connection reset)
+- Subsequent requests succeed
+- Caused by startup timing (not logic)
+
+System remains stable after warm-up
+
+────────────────────────────────  
+
+KNOWN GAPS  
+
+1. UI retry / readiness handling missing  
+2. Only latest task/run visible (no history awareness)  
+3. No confidence/freshness indicators  
+4. No structured response schema  
+5. No hallucination guard layer  
+
+────────────────────────────────  
+
+NEXT SAFE CORRIDOR  
+
+Option A (recommended next):
+- UI retry logic for /api/chat
+
+Option B:
+- Add heartbeat / freshness signal to context
+
+Option C:
+- Introduce structured response object (non-breaking)
+
+────────────────────────────────  
+
+DETERMINISTIC RESUME POINT  
+
+File:
+server.mjs  
+
+Anchor:
+deterministicReply block  
+
+Status:
+Parity achieved with Ollama context  
+
+Safe to extend from here
+
+────────────────────────────────  
+
+SYSTEM STATE SUMMARY  
+
+Matilda has transitioned from:
+
+"chat stub"
+
+→
+
+"read-only operator assistant with grounded system awareness and fallback resilience"
+
+System is:
+STABLE  
+RECOVERED  
+READY FOR NEXT SAFE PATCH  
+

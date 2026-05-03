@@ -1,0 +1,1279 @@
+PHASE 456.5 — IMPLEMENTATION STEP 9
+Mount Candidate Extraction
+--------------------------------
+
+Primary dashboard candidate files
+5265:--- src/governance_operator_guide/governance_operator_guide_model.ts
+5285:--- src/governance_operator_guide/governance_operator_guide_builder.ts
+5352:--- src/governance_operator_guide/governance_operator_guide_formatter.ts
+5394:--- src/governance_operator_guide/governance_operator_guide_contract.ts
+5410:--- src/governance_operator_guide/index.ts
+5434:--- src/governance_operator_compendium/governance_operator_compendium_contract.ts
+5450:--- src/governance_operator_compendium/governance_operator_compendium_formatter.ts
+5492:--- src/governance_operator_compendium/index.ts
+5516:--- src/governance_operator_compendium/governance_operator_compendium_model.ts
+5536:--- src/governance_operator_compendium/governance_operator_compendium_builder.ts
+5603:--- src/governance_operator_bundle/governance_operator_bundle_formatter.ts
+5645:--- src/governance_operator_bundle/governance_operator_bundle_model.ts
+5665:--- src/governance_operator_bundle/index.ts
+5689:--- src/governance_operator_bundle/governance_operator_bundle_builder.ts
+5756:--- src/governance_operator_bundle/governance_operator_bundle_contract.ts
+5772:--- src/governance_operator_dictionary/governance_operator_dictionary_contract.ts
+5788:--- src/governance_operator_dictionary/governance_operator_dictionary_model.ts
+5807:--- src/governance_operator_dictionary/index.ts
+5830:--- src/governance_operator_dictionary/governance_operator_dictionary_builder.ts
+5886:--- src/governance_operator_dictionary/governance_operator_dictionary_formatter.ts
+5919:--- src/governance_operator_ledger/governance_operator_ledger_model.ts
+5939:--- src/governance_operator_ledger/governance_operator_ledger_contract.ts
+5955:--- src/governance_operator_ledger/governance_operator_ledger_builder.ts
+6022:--- src/governance_operator_ledger/index.ts
+6046:--- src/governance_operator_ledger/governance_operator_ledger_formatter.ts
+6248:--- src/cognition/operatorGuidanceReducer.ts
+6394:--- src/cognition/transport/cognitionTransport.dashboard.ts
+6433:--- src/cognition/transport/cognitionTransport.operatorView.ts
+6478:--- src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.integrity.ts
+6503:--- src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.finalize.ts
+6615:--- src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.guard.ts
+6665:--- src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.integration.ts
+6686:--- src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.sectionGuard.ts
+6707:--- src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.invariants.ts
+6749:--- src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.runtime.ts
+6783:--- src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.build.ts
+6800:--- src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.constants.ts
+6814:--- src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.ts
+6848:--- src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.freeze.ts
+6867:--- src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.pipeline.ts
+6892:--- src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.validate.ts
+6914:--- src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.types.ts
+6930:--- src/cognition/transport/cognitionTransport.dashboardConsumption.invariants.ts
+7120:--- src/cognition/transport/cognitionTransport.dashboardConsumption.types.ts
+7166:--- src/cognition/transport/cognitionTransport.operator.ts
+7269:--- src/cognition/transport/cognitionTransport.dashboardConsumption.test.ts
+7335:--- src/cognition/transport/cognitionTransport.dashboardConsumption.ts
+7379:--- src/cognition/transport/cognitionTransport.governance.ts
+7971:--- src/cognition/operatorGuidance.smoke.ts
+8194:--- src/cognition/operator-read/index.ts
+8197:--- src/cognition/operator-read/cognition.operator-read.ts
+8251:--- src/cognition/surface/cognition.surface.ts
+8486:--- src/cognition/operatorGuidance.live.ts
+8832:--- src/cognition/operatorGuidanceMapping.ts
+9054:--- src/cognition/governanceAwarenessGuards.smoke.ts
+9203:--- src/cognition/operatorGuidance.ts
+9423:--- src/cognition/operatorGuidanceSafety.ts
+9813:--- src/cognition/operatorGuidanceConfidence.ts
+9927:--- src/cognition/governanceCognition.smoke.ts
+10129:--- src/governance_operator_handbook/governance_operator_handbook_formatter.ts
+10171:--- src/governance_operator_handbook/governance_operator_handbook_contract.ts
+10187:--- src/governance_operator_handbook/governance_operator_handbook_model.ts
+10207:--- src/governance_operator_handbook/index.ts
+10231:--- src/governance_operator_handbook/governance_operator_handbook_builder.ts
+10298:--- src/governance_operator_map/governance_operator_map_formatter.ts
+10340:--- src/governance_operator_map/governance_operator_map_model.ts
+10360:--- src/governance_operator_map/index.ts
+10384:--- src/governance_operator_map/governance_operator_map_builder.ts
+10451:--- src/governance_operator_map/governance_operator_map_contract.ts
+10467:--- src/governance_operator_register/governance_operator_register_model.ts
+10487:--- src/governance_operator_register/governance_operator_register_builder.ts
+10554:--- src/governance_operator_register/governance_operator_register_contract.ts
+10570:--- src/governance_operator_register/governance_operator_register_formatter.ts
+10612:--- src/governance_operator_register/index.ts
+10636:--- src/governance_operator_lexicon/governance_operator_lexicon_contract.ts
+10652:--- src/governance_operator_lexicon/governance_operator_lexicon_model.ts
+10671:--- src/governance_operator_lexicon/governance_operator_lexicon_builder.ts
+10727:--- src/governance_operator_lexicon/governance_operator_lexicon_formatter.ts
+10760:--- src/governance_operator_lexicon/index.ts
+10783:--- src/governance_operator_briefing/governance_operator_briefing_contract.ts
+10799:--- src/governance_operator_briefing/governance_operator_briefing_builder.ts
+10866:--- src/governance_operator_briefing/index.ts
+10890:--- src/governance_operator_briefing/governance_operator_briefing_model.ts
+10910:--- src/governance_operator_briefing/governance_operator_briefing_formatter.ts
+10952:--- src/governance_operator_manifest_index/governance_operator_manifest_index_contract.ts
+10968:--- src/governance_operator_manifest_index/governance_operator_manifest_index_builder.ts
+11035:--- src/governance_operator_manifest_index/governance_operator_manifest_index_model.ts
+11055:--- src/governance_operator_manifest_index/index.ts
+11079:--- src/governance_operator_manifest_index/governance_operator_manifest_index_formatter.ts
+11121:--- src/governance_operator_session/governance_operator_session_contract.ts
+11137:--- src/governance_operator_session/governance_operator_session_formatter.ts
+11179:--- src/governance_operator_session/governance_operator_session_builder.ts
+11246:--- src/governance_operator_session/governance_operator_session_model.ts
+11266:--- src/governance_operator_session/index.ts
+11290:--- src/governance_operator_console/governance_operator_console_contract.ts
+11306:--- src/governance_operator_console/governance_operator_console_builder.ts
+11373:--- src/governance_operator_console/governance_operator_console_formatter.ts
+11415:--- src/governance_operator_console/governance_operator_console_model.ts
+11435:--- src/governance_operator_console/index.ts
+11459:--- src/governance_operator_directory/governance_operator_directory_formatter.ts
+11501:--- src/governance_operator_directory/governance_operator_directory_builder.ts
+11568:--- src/governance_operator_directory/governance_operator_directory_contract.ts
+11584:--- src/governance_operator_directory/index.ts
+11608:--- src/governance_operator_directory/governance_operator_directory_model.ts
+11628:--- src/governance_investigation/governance_playback_navigation_assembly.ts
+11743:--- src/governance_investigation/governance_timeline_types.ts
+11831:--- src/governance_investigation/governance_dashboard_playback_contract.ts
+11876:--- src/governance_investigation/governance_playback_reducer.ts
+11916:--- src/governance_investigation/governance_investigation_reducer.ts
+11944:--- src/governance_investigation/governance_playback_proof.ts
+12017:--- src/governance_investigation/verification/run-replay-verification-proof-suite.ts
+12038:--- src/governance_investigation/governance_decision_trace.ts
+12107:--- src/governance_investigation/governance_playback_assembly.ts
+12156:--- src/governance_investigation/governance_playback_types.ts
+12201:--- src/governance_investigation/governance_operator_playback_view.ts
+12260:--- src/governance_investigation/index.ts
+12277:--- src/governance_investigation/governance_playback_invariants.ts
+12322:--- src/governance_investigation/governance_operator_investigation_view.ts
+12363:--- src/governance_investigation/governance_playback_assembly_proof.ts
+12430:--- src/governance_investigation/governance_investigation_types.ts
+12506:--- src/governance_investigation/governance_playback_navigation.ts
+12587:--- src/governance_visibility/governance_visibility_contract.ts
+12600:--- src/governance_visibility/governance_visibility_snapshot.ts
+12632:--- src/governance_visibility/governance_visibility_formatter.ts
+12659:--- src/governance_visibility/index.ts
+12681:--- src/governance_visibility/governance_visibility_model.ts
+12695:--- src/governance_operator_registry/governance_operator_registry_formatter.ts
+12737:--- src/governance_operator_registry/governance_operator_registry_builder.ts
+12804:--- src/governance_operator_registry/governance_operator_registry_model.ts
+12824:--- src/governance_operator_registry/governance_operator_registry_contract.ts
+12840:--- src/governance_operator_registry/index.ts
+12864:--- src/governance_operator_record/governance_operator_record_model.ts
+12884:--- src/governance_operator_record/governance_operator_record_contract.ts
+12900:--- src/governance_operator_record/governance_operator_record_builder.ts
+12967:--- src/governance_operator_record/governance_operator_record_formatter.ts
+13009:--- src/governance_operator_record/index.ts
+13033:--- src/governance_operator_glossary/governance_operator_glossary_contract.ts
+13049:--- src/governance_operator_glossary/governance_operator_glossary_model.ts
+13068:--- src/governance_operator_glossary/index.ts
+13091:--- src/governance_operator_glossary/governance_operator_glossary_builder.ts
+13148:--- src/governance_operator_glossary/governance_operator_glossary_formatter.ts
+13181:--- src/governance_operator_export/governance_operator_export_formatter.ts
+13223:--- src/governance_operator_export/governance_operator_export_contract.ts
+13239:--- src/governance_operator_export/governance_operator_export_builder.ts
+13306:--- src/governance_operator_export/governance_operator_export_model.ts
+13326:--- src/governance_operator_export/index.ts
+13350:--- src/components/dashboard/SystemHealthBlock.tsx
+13373:--- src/governance_operator_manifest/governance_operator_manifest_builder.ts
+13440:--- src/governance_operator_manifest/governance_operator_manifest_formatter.ts
+13482:--- src/governance_operator_manifest/governance_operator_manifest_contract.ts
+13498:--- src/governance_operator_manifest/governance_operator_manifest_model.ts
+13518:--- src/governance_operator_manifest/index.ts
+13542:--- src/governance_traceability/governance_traceability_model.ts
+13568:--- src/governance_traceability/governance_traceability_contract.ts
+13581:--- src/governance_traceability/governance_traceability_snapshot.ts
+13617:--- src/governance_traceability/governance_traceability_formatter.ts
+13654:--- src/governance_traceability/index.ts
+13685:--- src/governance_operator_archive/governance_operator_archive_formatter.ts
+13727:--- src/governance_operator_archive/governance_operator_archive_builder.ts
+13794:--- src/governance_operator_archive/governance_operator_archive_model.ts
+13814:--- src/governance_operator_archive/governance_operator_archive_contract.ts
+13830:--- src/governance_operator_archive/index.ts
+13854:--- src/governance_operator_logbook/governance_operator_logbook_contract.ts
+13870:--- src/governance_operator_logbook/governance_operator_logbook_builder.ts
+13937:--- src/governance_operator_logbook/governance_operator_logbook_formatter.ts
+13979:--- src/governance_operator_logbook/index.ts
+14003:--- src/governance_operator_logbook/governance_operator_logbook_model.ts
+14023:--- src/governance/governance_advisory_summary_builder.test.ts
+14089:--- src/governance/governance_advisory_contract_lock.ts
+14130:--- src/governance/governance_signal_explanation_registry.ts
+14189:--- src/governance/governance_replay_verifier.test.ts
+14215:--- src/governance/governance_policy_router.ts
+14250:--- src/governance/governanceCognitionSelectorsProof.ts
+14336:--- src/governance/governance_policy_router.test.ts
+14368:--- src/governance/governanceExecutionRoutingClassifier.ts
+14410:--- src/governance/governance_policy_engine.test.ts
+14451:--- src/governance/governance_advisory_contract.test.ts
+14525:--- src/governance/governance_operator_explanation_layer.ts
+14566:--- src/governance/governance_audit_trace_emitter.test.ts
+14592:--- src/governance/governanceCognitionSurfaceProof.ts
+14665:--- src/governance/governance_enforcement_evaluator.test.ts
+14695:--- src/governance/governance_drift_guard.test.ts
+14722:--- src/governance/governance_contradiction_detector.test.ts
+14766:--- src/governance/governanceExecutionRoutingProof.ts
+14825:--- src/governance/governance_signal_classifier.ts
+14997:--- src/governance/governance_drift_expectations.ts
+15027:--- src/governance/governance_cognition_regression_sentinel.ts
+15068:--- src/governance/governance_signal_registry.test.ts
+15094:--- src/governance/governanceCognitionIntegrationProof.ts
+15173:--- src/governance/governanceOperatorAwarenessTypes.ts
+15250:--- src/governance/cognition/prove_governance_runtime_registry_export.ts
+15341:--- src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts
+15446:--- src/governance/cognition/select_governance_shared_registry_owner_bundle.ts
+15485:--- src/governance/cognition/governance_dashboard_contract_registration.ts
+15520:--- src/governance/cognition/governance_final_pre_live_registry_contract_package.ts
+15568:--- src/governance/cognition/build_governance_dashboard_consumption_view.ts
+15612:--- src/governance/cognition/build_governance_final_pre_live_registry_archive_record.ts
+15674:--- src/governance/cognition/build_governance_final_delivery_receipt.ts
+15735:--- src/governance/cognition/governance_authorization_gate.ts
+15786:--- src/governance/cognition/build_governance_pre_live_registry_delivery_manifest.ts
+15846:--- src/governance/cognition/governance_live_wiring_decision.ts
+15896:--- src/governance/cognition/build_governance_live_wiring_decision.ts
+15962:--- src/governance/cognition/build_governance_pre_live_registry_handoff_envelope.ts
+16021:--- src/governance/cognition/select_governance_final_pre_live_registry_archive_record.ts
+16076:--- src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts
+16206:--- src/governance/cognition/select_governance_pre_live_registry_delivery_manifest.ts
+16257:--- src/governance/cognition/select_governance_final_pre_live_registry_summary_capsule.ts
+16314:--- src/governance/cognition/governance_cognition_snapshot_contract.ts
+16353:--- src/governance/cognition/governance_pre_live_registry_delivery_manifest.ts
+16403:--- src/governance/cognition/build_governance_shared_registry_owner_bundle.ts
+16441:--- src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts
+16494:--- src/governance/cognition/prove_governance_final_delivery_receipt.ts
+16614:--- src/governance/cognition/get_governance_execution_eligibility_snapshot.ts
+16638:--- src/governance/cognition/select_governance_dashboard_consumption_view.ts
+16667:--- src/governance/cognition/governance_final_pre_live_registry_archive_record.ts
+16719:--- src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts
+16851:--- src/governance/cognition/operationalConfidence.selector.ts
+16864:--- src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts
+17012:--- src/governance/cognition/select_governance_final_pre_live_registry_contract_package.ts
+17059:--- src/governance/cognition/prove_governance_dashboard_consumption_view.ts
+17121:--- src/governance/cognition/governance_shared_registry_owner_bundle.ts
+17159:--- src/governance/cognition/governance_dashboard_consumption_contract.ts
+17196:--- src/governance/cognition/operationalConfidence.test.ts
+17227:--- src/governance/cognition/select_governance_runtime_registry_export.ts
+17264:--- src/governance/cognition/prove_governance_authorization_gate.ts
+17388:--- src/governance/cognition/prove_governance_live_wiring_decision.ts
+17504:--- src/governance/cognition/select_governance_final_delivery_receipt.ts
+17557:--- src/governance/cognition/build_governance_cognition_snapshot.ts
+17643:--- src/governance/cognition/prove_governance_cognition_snapshot.ts
+17701:--- src/governance/cognition/prove_governance_dashboard_contract_registration.ts
+17774:--- src/governance/cognition/build_governance_live_registry_wiring_readiness.ts
+17838:--- src/governance/cognition/build_governance_authorization_gate.ts
+17905:--- src/governance/cognition/build_governance_final_pre_live_registry_summary_capsule.ts
+17968:--- src/governance/cognition/governance_pre_live_registry_handoff_envelope.ts
+18017:--- src/governance/cognition/normalize_governance_shared_registry_owner_bundle.ts
+18069:--- src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts
+18194:--- src/governance/cognition/governance_live_registry_wiring_readiness.ts
+18238:--- src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts
+18339:--- src/governance/cognition/package_governance_cognition_snapshot.ts
+18386:--- src/governance/cognition/normalize_governance_runtime_registry_export.ts
+18429:--- src/governance/cognition/index.ts
+18524:--- src/governance/cognition/select_governance_pre_live_registry_handoff_envelope.ts
+18573:--- src/governance/cognition/select_governance_authorization_gate.ts
+18618:--- src/governance/cognition/normalize_governance_snapshot.ts
+18641:--- src/governance/cognition/normalize_governance_dashboard_contract_registration.ts
+18675:--- src/governance/cognition/governance_final_delivery_receipt.ts
+18726:--- src/governance/cognition/register_governance_dashboard_contract.ts
+18760:--- src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts
+18900:--- src/governance/cognition/build_governance_final_pre_live_registry_contract_package.ts
+18958:--- src/governance/cognition/select_governance_live_registry_wiring_readiness.ts
+18997:--- src/governance/cognition/governance_runtime_registry_export.ts
+19035:--- src/governance/cognition/select_governance_live_wiring_decision.ts
+19078:--- src/governance/cognition/build_governance_runtime_registry_export.ts
+19115:--- src/governance/governance_fixture_integrity_sentinel.ts
+19160:--- src/governance/governance_explanation_builder.test.ts
+19214:--- src/governance/governance_cognition_integrity_sentinel.ts
+19251:--- src/governance/governance_pipeline_order_guard.test.ts
+19275:--- src/governance/governance_cognition_replay_verifier.ts
+19318:--- src/governance/governance_explanation_layer.test.ts
+19366:--- src/governance/governance_cognition_determinism_sentinel.test.ts
+19379:--- src/governance/governance_advisory_digest.ts
+19438:--- src/governance/governanceCognitionSurfaceBuilder.ts
+19516:--- src/governance/governanceOutcomeSurfaceTypes.ts
+19588:--- src/governance/governance_policy_engine.ts
+19632:--- src/governance/governanceOutcomeSurfaceBuilder.ts
+19686:--- src/governance/governance_advisory_consistency_guard.ts
+19733:--- src/governance/governance_drift_guard.ts
+19757:--- src/governance/governance_enforcement_evaluator.ts
+19800:--- src/governance/governance_advisory_presenter.test.ts
+19871:--- src/governance/governance_stability_index.test.ts
+19922:--- src/governance/governance_advisory_operator_view.test.ts
+19997:--- src/governance/governance_contradiction_detector.ts
+20042:--- src/governance/governance_fixture_integrity_sentinel.test.ts
+20066:--- src/governance/governance_explanation_builder.ts
+20151:--- src/governance/governance_decision_pipeline.ts
+20225:--- src/governance/governance_advisory_normalizer.test.ts
+20296:--- src/governance/governance_enforcement_contract.ts
+20338:--- src/governance/governance_advisory_presenter.ts
+20422:--- src/governance/governance_advisory_contract_lock.test.ts
+20449:--- src/governance/governanceOperatorAwarenessProof.ts
+20522:--- src/governance/governance_pipeline_invariants.ts
+20579:--- src/governance/governanceCognitionIntegrationHooks.ts
+20635:--- src/governance/governanceOutcomeSurfaceProof.ts
+20697:--- src/governance/governance_cognition_determinism_sentinel.ts
+20730:--- src/governance/governance_advisory_normalizer.ts
+20803:--- src/governance/governance_advisory_contract.ts
+20955:--- src/governance/governance_drift_sentinel.test.ts
+21027:--- src/governance/governance_signal_stability_index.ts
+21082:--- src/governance/governance_fixture_corpus.ts
+21128:--- src/governance/governanceOperatorAwarenessSummary.ts
+21178:--- src/governance/governance_advisory_stability_sentinel.ts
+21226:--- src/governance/governance_advisory_pipeline.test.ts
+21281:--- src/governance/governance_drift_sentinel.ts
+21333:--- src/governance/governanceExecutionRouting.ts
+21426:--- src/governance/governance_enforcement_result.ts
+21489:--- src/governance/governanceOperatorAwarenessBuilder.ts
+21538:--- src/governance/governance_fixture_corpus.test.ts
+21624:--- src/governance/index.ts
+21656:--- src/governance/governance_advisory_report_builder.ts
+21702:--- src/governance/governance_decision_pipeline.test.ts
+21739:--- src/governance/governance_advisory_stability_sentinel.test.ts
+21763:--- src/governance/governance_cognition_regression_sentinel.test.ts
+21787:--- src/governance/governanceCognitionSelectors.ts
+21853:--- src/governance/governance_audit_trace_emitter.ts
+21901:--- src/governance/governance_advisory_operator_view.ts
+21957:--- src/governance/governance_audit_log.test.ts
+21993:--- src/governance/governance_advisory_pipeline.ts
+22052:--- src/governance/governance_audit_log.ts
+22102:--- src/governance/governance_advisory_summary_builder.ts
+22163:--- src/governance/governance_pipeline_invariants.test.ts
+22181:--- src/governance/governance_pipeline_order_guard.ts
+22208:--- src/governance/governance_advisory_digest.test.ts
+22262:--- src/governance/governanceCognitionSurfaceTypes.ts
+22321:--- src/governance/governance_cognition_integrity_sentinel.test.ts
+22348:--- src/governance/governanceExecutionRoutingTypes.ts
+22401:--- src/governance/governance_operator_confidence_score.ts
+22454:--- src/governance/governance_advisory_consistency_guard.test.ts
+22508:--- src/governance/governance_signal_classifier.test.ts
+22593:--- src/governance/governance_policy_registry.ts
+22659:--- src/governance/governance_confidence_score.test.ts
+22682:--- src/governance_operator_packet/governance_operator_packet_builder.ts
+22770:--- src/governance_operator_packet/governance_operator_packet_contract.ts
+22786:--- src/governance_operator_packet/governance_operator_packet_model.ts
+22810:--- src/governance_operator_packet/governance_operator_packet_formatter.ts
+22859:--- src/governance_operator_packet/index.ts
+22885:--- src/governance_operator_index/governance_operator_index_formatter.ts
+22927:--- src/governance_operator_index/governance_operator_index_builder.ts
+22994:--- src/governance_operator_index/governance_operator_index_contract.ts
+23010:--- src/governance_operator_index/index.ts
+23034:--- src/governance_operator_index/governance_operator_index_model.ts
+23054:--- src/governance_reporting/governance_reporting_builder.ts
+23139:--- src/governance_reporting/governance_reporting_formatter.ts
+23179:--- src/governance_reporting/governance_reporting_contract.ts
+23193:--- src/governance_reporting/governance_reporting_model.ts
+23211:--- src/governance_reporting/index.ts
+23235:--- src/governance_operator_catalog/governance_operator_catalog_model.ts
+23255:--- src/governance_operator_catalog/governance_operator_catalog_builder.ts
+23322:--- src/governance_operator_catalog/governance_operator_catalog_contract.ts
+23338:--- src/governance_operator_catalog/index.ts
+23362:--- src/governance_operator_catalog/governance_operator_catalog_formatter.ts
+23404:--- src/governance_operator_manual/governance_operator_manual_model.ts
+23424:--- src/governance_operator_manual/governance_operator_manual_builder.ts
+23491:--- src/governance_operator_manual/index.ts
+23515:--- src/governance_operator_manual/governance_operator_manual_contract.ts
+23531:--- src/governance_operator_manual/governance_operator_manual_formatter.ts
+23573:--- src/governance_operator_atlas/governance_operator_atlas_builder.ts
+23640:--- src/governance_operator_atlas/governance_operator_atlas_formatter.ts
+23682:--- src/governance_operator_atlas/index.ts
+23706:--- src/governance_operator_atlas/governance_operator_atlas_contract.ts
+23722:--- src/governance_operator_atlas/governance_operator_atlas_model.ts
+23742:--- src/governance_operator_snapshot/governance_operator_snapshot_model.ts
+23762:--- src/governance_operator_snapshot/governance_operator_snapshot_formatter.ts
+23804:--- src/governance_operator_snapshot/governance_operator_snapshot_builder.ts
+23871:--- src/governance_operator_snapshot/governance_operator_snapshot_contract.ts
+23887:--- src/governance_operator_snapshot/index.ts
+23911:--- src/governance_operator_handoff/governance_operator_handoff_formatter.ts
+23953:--- src/governance_operator_handoff/governance_operator_handoff_builder.ts
+24020:--- src/governance_operator_handoff/governance_operator_handoff_contract.ts
+24036:--- src/governance_operator_handoff/index.ts
+24060:--- src/governance_operator_handoff/governance_operator_handoff_model.ts
+24080:--- src/governance_digest/governance_digest_model.ts
+24093:--- src/governance_digest/governance_digest_formatter.ts
+24140:--- src/governance_digest/index.ts
+24164:--- src/governance_digest/governance_digest_contract.ts
+24179:--- src/governance_digest/governance_digest_builder.ts
+24250:--- src/governance_operator_playbook/governance_operator_playbook_contract.ts
+24266:--- src/governance_operator_playbook/governance_operator_playbook_model.ts
+24286:--- src/governance_operator_playbook/governance_operator_playbook_formatter.ts
+24328:--- src/governance_operator_playbook/index.ts
+24352:--- src/governance_operator_playbook/governance_operator_playbook_builder.ts
+24419:--- src/governance_operator_reference/governance_operator_reference_builder.ts
+24486:--- src/governance_operator_reference/governance_operator_reference_formatter.ts
+24528:--- src/governance_operator_reference/index.ts
+24552:--- src/governance_operator_reference/governance_operator_reference_model.ts
+24572:--- src/governance_operator_reference/governance_operator_reference_contract.ts
+24588:--- app/demo-runtime/page.tsx
+
+Candidate excerpts containing top-level render roots
+src/demo/minimalDemoRunner.ts:58:export function loadRequestFromFile(requestFilePath: string): DemoRequest {
+src/demo/minimalDemoRunner.ts:71:    return (
+src/demo/minimalDemoRunner.ts:80:export function runAdmissionCheck(request: DemoRequest): AdmissionResult {
+src/demo/minimalDemoRunner.ts:89:    denialReasons.push("Governance evaluation missing");
+src/demo/minimalDemoRunner.ts:141:export function runDeterministicTraversal(
+src/demo/minimalDemoRunner.ts:172:export function buildDemoReport(
+src/demo/minimalDemoRunner.ts:199:export function runMinimalDemo(request: DemoRequest): DemoReport {
+src/demo/minimalDemoRunner.ts:211:export function runMinimalDemoFromPrompt(input: RunPromptInput): DemoReport {
+src/demo/promptToDemoRequest.ts:73:      "Governance Confirmation",
+src/demo/promptToDemoRequest.ts:81:      "Governance Review Confirmation",
+src/demo/promptToDemoRequest.ts:88:    "Governance Review Confirmation",
+src/demo/promptToDemoRequest.ts:93:export function parsePromptToDemoRequest(
+src/governance_operator_guide/governance_operator_guide_model.ts:1:export interface GovernanceOperatorGuideLine {
+src/governance_operator_guide/governance_operator_guide_model.ts:6:export interface GovernanceOperatorGuideMetadata {
+src/governance_operator_guide/governance_operator_guide_model.ts:14:export interface GovernanceOperatorGuideRecord {
+src/governance_operator_guide/governance_operator_guide_model.ts:16:  metadata: GovernanceOperatorGuideMetadata;
+src/governance_operator_guide/governance_operator_guide_model.ts:17:  lines: GovernanceOperatorGuideLine[];
+src/governance_operator_guide/governance_operator_guide_builder.ts:2:  GovernanceOperatorGuideLine,
+src/governance_operator_guide/governance_operator_guide_builder.ts:3:  GovernanceOperatorGuideRecord,
+src/governance_operator_guide/governance_operator_guide_builder.ts:6:  formatGovernanceOperatorGuideCompleteness,
+src/governance_operator_guide/governance_operator_guide_builder.ts:7:  formatGovernanceOperatorGuideDecision,
+src/governance_operator_guide/governance_operator_guide_builder.ts:8:  formatGovernanceOperatorGuideHeadline,
+src/governance_operator_guide/governance_operator_guide_builder.ts:9:  formatGovernanceOperatorGuideReadiness,
+src/governance_operator_guide/governance_operator_guide_builder.ts:10:  formatGovernanceOperatorGuideSections,
+src/governance_operator_guide/governance_operator_guide_builder.ts:11:  formatGovernanceOperatorGuideVersion,
+src/governance_operator_guide/governance_operator_guide_builder.ts:14:export interface GovernanceOperatorGuideInput {
+src/governance_operator_guide/governance_operator_guide_builder.ts:21:export function buildGovernanceOperatorGuide(
+src/governance_operator_guide/governance_operator_guide_builder.ts:22:  input: GovernanceOperatorGuideInput,
+src/governance_operator_guide/governance_operator_guide_builder.ts:23:): GovernanceOperatorGuideRecord {
+src/governance_operator_guide/governance_operator_guide_builder.ts:28:  const lines: GovernanceOperatorGuideLine[] = [
+src/governance_operator_guide/governance_operator_guide_builder.ts:31:      text: formatGovernanceOperatorGuideDecision(input.decision),
+src/governance_operator_guide/governance_operator_guide_builder.ts:35:      text: formatGovernanceOperatorGuideSections(input.section_titles ?? []),
+src/governance_operator_guide/governance_operator_guide_builder.ts:39:      text: formatGovernanceOperatorGuideReadiness(ready),
+src/governance_operator_guide/governance_operator_guide_builder.ts:43:      text: formatGovernanceOperatorGuideCompleteness(complete),
+src/governance_operator_guide/governance_operator_guide_builder.ts:47:      text: formatGovernanceOperatorGuideVersion(guideVersion),
+src/governance_operator_guide/governance_operator_guide_builder.ts:52:    headline: formatGovernanceOperatorGuideHeadline(
+src/governance_operator_guide/governance_operator_guide_formatter.ts:5:export function formatGovernanceOperatorGuideHeadline(
+src/governance_operator_guide/governance_operator_guide_formatter.ts:9:  return `Governance operator guide: ${decisionId} (${decision})`;
+src/governance_operator_guide/governance_operator_guide_formatter.ts:12:export function formatGovernanceOperatorGuideDecision(
+src/governance_operator_guide/governance_operator_guide_formatter.ts:18:export function formatGovernanceOperatorGuideSections(
+src/governance_operator_guide/governance_operator_guide_formatter.ts:24:export function formatGovernanceOperatorGuideReadiness(
+src/governance_operator_guide/governance_operator_guide_formatter.ts:30:export function formatGovernanceOperatorGuideCompleteness(
+src/governance_operator_guide/governance_operator_guide_formatter.ts:36:export function formatGovernanceOperatorGuideVersion(
+src/governance_operator_guide/governance_operator_guide_contract.ts:12:export function getGovernanceOperatorGuideLayerGuarantees(): readonly string[] {
+src/governance_operator_guide/index.ts:2:  GovernanceOperatorGuideLine,
+src/governance_operator_guide/index.ts:3:  GovernanceOperatorGuideMetadata,
+src/governance_operator_guide/index.ts:4:  GovernanceOperatorGuideRecord,
+src/governance_operator_guide/index.ts:8:  formatGovernanceOperatorGuideCompleteness,
+src/governance_operator_guide/index.ts:9:  formatGovernanceOperatorGuideDecision,
+src/governance_operator_guide/index.ts:10:  formatGovernanceOperatorGuideHeadline,
+src/governance_operator_guide/index.ts:11:  formatGovernanceOperatorGuideReadiness,
+src/governance_operator_guide/index.ts:12:  formatGovernanceOperatorGuideSections,
+src/governance_operator_guide/index.ts:13:  formatGovernanceOperatorGuideVersion,
+src/governance_operator_guide/index.ts:16:export type { GovernanceOperatorGuideInput } from "./governance_operator_guide_builder";
+src/governance_operator_guide/index.ts:17:export { buildGovernanceOperatorGuide } from "./governance_operator_guide_builder";
+src/governance_operator_guide/index.ts:21:  getGovernanceOperatorGuideLayerGuarantees,
+src/governance_operator_compendium/governance_operator_compendium_contract.ts:12:export function getGovernanceOperatorCompendiumLayerGuarantees(): readonly string[] {
+src/governance_operator_compendium/governance_operator_compendium_formatter.ts:5:export function formatGovernanceOperatorCompendiumHeadline(
+src/governance_operator_compendium/governance_operator_compendium_formatter.ts:9:  return `Governance operator compendium: ${decisionId} (${decision})`;
+src/governance_operator_compendium/governance_operator_compendium_formatter.ts:12:export function formatGovernanceOperatorCompendiumDecision(
+src/governance_operator_compendium/governance_operator_compendium_formatter.ts:18:export function formatGovernanceOperatorCompendiumSections(
+src/governance_operator_compendium/governance_operator_compendium_formatter.ts:24:export function formatGovernanceOperatorCompendiumReadiness(
+src/governance_operator_compendium/governance_operator_compendium_formatter.ts:30:export function formatGovernanceOperatorCompendiumCompleteness(
+src/governance_operator_compendium/governance_operator_compendium_formatter.ts:36:export function formatGovernanceOperatorCompendiumVersion(
+src/governance_operator_compendium/index.ts:2:  GovernanceOperatorCompendiumLine,
+src/governance_operator_compendium/index.ts:3:  GovernanceOperatorCompendiumMetadata,
+src/governance_operator_compendium/index.ts:4:  GovernanceOperatorCompendiumRecord,
+src/governance_operator_compendium/index.ts:8:  formatGovernanceOperatorCompendiumCompleteness,
+src/governance_operator_compendium/index.ts:9:  formatGovernanceOperatorCompendiumDecision,
+src/governance_operator_compendium/index.ts:10:  formatGovernanceOperatorCompendiumHeadline,
+src/governance_operator_compendium/index.ts:11:  formatGovernanceOperatorCompendiumReadiness,
+src/governance_operator_compendium/index.ts:12:  formatGovernanceOperatorCompendiumSections,
+src/governance_operator_compendium/index.ts:13:  formatGovernanceOperatorCompendiumVersion,
+src/governance_operator_compendium/index.ts:16:export type { GovernanceOperatorCompendiumInput } from "./governance_operator_compendium_builder";
+src/governance_operator_compendium/index.ts:17:export { buildGovernanceOperatorCompendium } from "./governance_operator_compendium_builder";
+src/governance_operator_compendium/index.ts:21:  getGovernanceOperatorCompendiumLayerGuarantees,
+src/governance_operator_compendium/governance_operator_compendium_model.ts:1:export interface GovernanceOperatorCompendiumLine {
+src/governance_operator_compendium/governance_operator_compendium_model.ts:6:export interface GovernanceOperatorCompendiumMetadata {
+src/governance_operator_compendium/governance_operator_compendium_model.ts:14:export interface GovernanceOperatorCompendiumRecord {
+src/governance_operator_compendium/governance_operator_compendium_model.ts:16:  metadata: GovernanceOperatorCompendiumMetadata;
+src/governance_operator_compendium/governance_operator_compendium_model.ts:17:  lines: GovernanceOperatorCompendiumLine[];
+src/governance_operator_compendium/governance_operator_compendium_builder.ts:2:  GovernanceOperatorCompendiumLine,
+src/governance_operator_compendium/governance_operator_compendium_builder.ts:3:  GovernanceOperatorCompendiumRecord,
+src/governance_operator_compendium/governance_operator_compendium_builder.ts:6:  formatGovernanceOperatorCompendiumCompleteness,
+src/governance_operator_compendium/governance_operator_compendium_builder.ts:7:  formatGovernanceOperatorCompendiumDecision,
+src/governance_operator_compendium/governance_operator_compendium_builder.ts:8:  formatGovernanceOperatorCompendiumHeadline,
+src/governance_operator_compendium/governance_operator_compendium_builder.ts:9:  formatGovernanceOperatorCompendiumReadiness,
+src/governance_operator_compendium/governance_operator_compendium_builder.ts:10:  formatGovernanceOperatorCompendiumSections,
+src/governance_operator_compendium/governance_operator_compendium_builder.ts:11:  formatGovernanceOperatorCompendiumVersion,
+src/governance_operator_compendium/governance_operator_compendium_builder.ts:14:export interface GovernanceOperatorCompendiumInput {
+src/governance_operator_compendium/governance_operator_compendium_builder.ts:21:export function buildGovernanceOperatorCompendium(
+src/governance_operator_compendium/governance_operator_compendium_builder.ts:22:  input: GovernanceOperatorCompendiumInput,
+src/governance_operator_compendium/governance_operator_compendium_builder.ts:23:): GovernanceOperatorCompendiumRecord {
+src/governance_operator_compendium/governance_operator_compendium_builder.ts:28:  const lines: GovernanceOperatorCompendiumLine[] = [
+src/governance_operator_compendium/governance_operator_compendium_builder.ts:31:      text: formatGovernanceOperatorCompendiumDecision(input.decision),
+src/governance_operator_compendium/governance_operator_compendium_builder.ts:35:      text: formatGovernanceOperatorCompendiumSections(input.section_titles ?? []),
+src/governance_operator_compendium/governance_operator_compendium_builder.ts:39:      text: formatGovernanceOperatorCompendiumReadiness(ready),
+src/governance_operator_compendium/governance_operator_compendium_builder.ts:43:      text: formatGovernanceOperatorCompendiumCompleteness(complete),
+src/governance_operator_compendium/governance_operator_compendium_builder.ts:47:      text: formatGovernanceOperatorCompendiumVersion(compendiumVersion),
+src/governance_operator_compendium/governance_operator_compendium_builder.ts:52:    headline: formatGovernanceOperatorCompendiumHeadline(
+src/governance_operator_bundle/governance_operator_bundle_formatter.ts:5:export function formatGovernanceOperatorBundleHeadline(
+src/governance_operator_bundle/governance_operator_bundle_formatter.ts:9:  return `Governance operator bundle: ${decisionId} (${decision})`;
+src/governance_operator_bundle/governance_operator_bundle_formatter.ts:12:export function formatGovernanceOperatorBundleDecision(
+src/governance_operator_bundle/governance_operator_bundle_formatter.ts:18:export function formatGovernanceOperatorBundleSections(
+src/governance_operator_bundle/governance_operator_bundle_formatter.ts:24:export function formatGovernanceOperatorBundleReadiness(
+src/governance_operator_bundle/governance_operator_bundle_formatter.ts:30:export function formatGovernanceOperatorBundleCompleteness(
+src/governance_operator_bundle/governance_operator_bundle_formatter.ts:36:export function formatGovernanceOperatorBundleVersion(
+src/governance_operator_bundle/governance_operator_bundle_model.ts:1:export interface GovernanceOperatorBundleLine {
+src/governance_operator_bundle/governance_operator_bundle_model.ts:6:export interface GovernanceOperatorBundleMetadata {
+src/governance_operator_bundle/governance_operator_bundle_model.ts:14:export interface GovernanceOperatorBundleRecord {
+src/governance_operator_bundle/governance_operator_bundle_model.ts:16:  metadata: GovernanceOperatorBundleMetadata;
+src/governance_operator_bundle/governance_operator_bundle_model.ts:17:  lines: GovernanceOperatorBundleLine[];
+src/governance_operator_bundle/index.ts:2:  GovernanceOperatorBundleLine,
+src/governance_operator_bundle/index.ts:3:  GovernanceOperatorBundleMetadata,
+src/governance_operator_bundle/index.ts:4:  GovernanceOperatorBundleRecord,
+src/governance_operator_bundle/index.ts:8:  formatGovernanceOperatorBundleCompleteness,
+src/governance_operator_bundle/index.ts:9:  formatGovernanceOperatorBundleDecision,
+src/governance_operator_bundle/index.ts:10:  formatGovernanceOperatorBundleHeadline,
+src/governance_operator_bundle/index.ts:11:  formatGovernanceOperatorBundleReadiness,
+src/governance_operator_bundle/index.ts:12:  formatGovernanceOperatorBundleSections,
+src/governance_operator_bundle/index.ts:13:  formatGovernanceOperatorBundleVersion,
+src/governance_operator_bundle/index.ts:16:export type { GovernanceOperatorBundleInput } from "./governance_operator_bundle_builder";
+src/governance_operator_bundle/index.ts:17:export { buildGovernanceOperatorBundle } from "./governance_operator_bundle_builder";
+src/governance_operator_bundle/index.ts:21:  getGovernanceOperatorBundleLayerGuarantees,
+src/governance_operator_bundle/governance_operator_bundle_builder.ts:2:  GovernanceOperatorBundleLine,
+src/governance_operator_bundle/governance_operator_bundle_builder.ts:3:  GovernanceOperatorBundleRecord,
+src/governance_operator_bundle/governance_operator_bundle_builder.ts:6:  formatGovernanceOperatorBundleCompleteness,
+src/governance_operator_bundle/governance_operator_bundle_builder.ts:7:  formatGovernanceOperatorBundleDecision,
+src/governance_operator_bundle/governance_operator_bundle_builder.ts:8:  formatGovernanceOperatorBundleHeadline,
+src/governance_operator_bundle/governance_operator_bundle_builder.ts:9:  formatGovernanceOperatorBundleReadiness,
+src/governance_operator_bundle/governance_operator_bundle_builder.ts:10:  formatGovernanceOperatorBundleSections,
+src/governance_operator_bundle/governance_operator_bundle_builder.ts:11:  formatGovernanceOperatorBundleVersion,
+src/governance_operator_bundle/governance_operator_bundle_builder.ts:14:export interface GovernanceOperatorBundleInput {
+src/governance_operator_bundle/governance_operator_bundle_builder.ts:21:export function buildGovernanceOperatorBundle(
+src/governance_operator_bundle/governance_operator_bundle_builder.ts:22:  input: GovernanceOperatorBundleInput,
+src/governance_operator_bundle/governance_operator_bundle_builder.ts:23:): GovernanceOperatorBundleRecord {
+src/governance_operator_bundle/governance_operator_bundle_builder.ts:28:  const lines: GovernanceOperatorBundleLine[] = [
+src/governance_operator_bundle/governance_operator_bundle_builder.ts:31:      text: formatGovernanceOperatorBundleDecision(input.decision),
+src/governance_operator_bundle/governance_operator_bundle_builder.ts:35:      text: formatGovernanceOperatorBundleSections(input.section_titles ?? []),
+src/governance_operator_bundle/governance_operator_bundle_builder.ts:39:      text: formatGovernanceOperatorBundleReadiness(ready),
+src/governance_operator_bundle/governance_operator_bundle_builder.ts:43:      text: formatGovernanceOperatorBundleCompleteness(complete),
+src/governance_operator_bundle/governance_operator_bundle_builder.ts:47:      text: formatGovernanceOperatorBundleVersion(bundleVersion),
+src/governance_operator_bundle/governance_operator_bundle_builder.ts:52:    headline: formatGovernanceOperatorBundleHeadline(
+src/governance_operator_bundle/governance_operator_bundle_contract.ts:12:export function getGovernanceOperatorBundleLayerGuarantees(): readonly string[] {
+src/governance_operator_dictionary/governance_operator_dictionary_contract.ts:12:export function getGovernanceOperatorDictionaryLayerGuarantees(): readonly string[] {
+src/governance_operator_dictionary/governance_operator_dictionary_model.ts:1:export interface GovernanceOperatorDictionaryLine {
+src/governance_operator_dictionary/governance_operator_dictionary_model.ts:6:export interface GovernanceOperatorDictionaryMetadata {
+src/governance_operator_dictionary/governance_operator_dictionary_model.ts:13:export interface GovernanceOperatorDictionaryRecord {
+src/governance_operator_dictionary/governance_operator_dictionary_model.ts:15:  metadata: GovernanceOperatorDictionaryMetadata;
+src/governance_operator_dictionary/governance_operator_dictionary_model.ts:16:  lines: GovernanceOperatorDictionaryLine[];
+src/governance_operator_dictionary/index.ts:2:  GovernanceOperatorDictionaryLine,
+src/governance_operator_dictionary/index.ts:3:  GovernanceOperatorDictionaryMetadata,
+src/governance_operator_dictionary/index.ts:4:  GovernanceOperatorDictionaryRecord,
+src/governance_operator_dictionary/index.ts:8:  formatGovernanceOperatorDictionaryCompleteness,
+src/governance_operator_dictionary/index.ts:9:  formatGovernanceOperatorDictionaryHeadline,
+src/governance_operator_dictionary/index.ts:10:  formatGovernanceOperatorDictionaryReadiness,
+src/governance_operator_dictionary/index.ts:11:  formatGovernanceOperatorDictionaryTerms,
+src/governance_operator_dictionary/index.ts:12:  formatGovernanceOperatorDictionaryVersion,
+src/governance_operator_dictionary/index.ts:15:export type { GovernanceOperatorDictionaryInput } from "./governance_operator_dictionary_builder";
+src/governance_operator_dictionary/index.ts:16:export { buildGovernanceOperatorDictionary } from "./governance_operator_dictionary_builder";
+src/governance_operator_dictionary/index.ts:20:  getGovernanceOperatorDictionaryLayerGuarantees,
+src/governance_operator_dictionary/governance_operator_dictionary_builder.ts:2:  GovernanceOperatorDictionaryLine,
+src/governance_operator_dictionary/governance_operator_dictionary_builder.ts:3:  GovernanceOperatorDictionaryRecord,
+src/governance_operator_dictionary/governance_operator_dictionary_builder.ts:6:  formatGovernanceOperatorDictionaryCompleteness,
+src/governance_operator_dictionary/governance_operator_dictionary_builder.ts:7:  formatGovernanceOperatorDictionaryHeadline,
+src/governance_operator_dictionary/governance_operator_dictionary_builder.ts:8:  formatGovernanceOperatorDictionaryReadiness,
+src/governance_operator_dictionary/governance_operator_dictionary_builder.ts:9:  formatGovernanceOperatorDictionaryTerms,
+src/governance_operator_dictionary/governance_operator_dictionary_builder.ts:10:  formatGovernanceOperatorDictionaryVersion,
+src/governance_operator_dictionary/governance_operator_dictionary_builder.ts:13:export interface GovernanceOperatorDictionaryInput {
+src/governance_operator_dictionary/governance_operator_dictionary_builder.ts:18:export function buildGovernanceOperatorDictionary(
+src/governance_operator_dictionary/governance_operator_dictionary_builder.ts:19:  input: GovernanceOperatorDictionaryInput,
+src/governance_operator_dictionary/governance_operator_dictionary_builder.ts:20:): GovernanceOperatorDictionaryRecord {
+src/governance_operator_dictionary/governance_operator_dictionary_builder.ts:25:  const lines: GovernanceOperatorDictionaryLine[] = [
+src/governance_operator_dictionary/governance_operator_dictionary_builder.ts:28:      text: formatGovernanceOperatorDictionaryTerms(input.terms ?? []),
+src/governance_operator_dictionary/governance_operator_dictionary_builder.ts:32:      text: formatGovernanceOperatorDictionaryReadiness(ready),
+src/governance_operator_dictionary/governance_operator_dictionary_builder.ts:36:      text: formatGovernanceOperatorDictionaryCompleteness(complete),
+src/governance_operator_dictionary/governance_operator_dictionary_builder.ts:40:      text: formatGovernanceOperatorDictionaryVersion(version),
+src/governance_operator_dictionary/governance_operator_dictionary_builder.ts:45:    headline: formatGovernanceOperatorDictionaryHeadline(),
+src/governance_operator_dictionary/governance_operator_dictionary_formatter.ts:5:export function formatGovernanceOperatorDictionaryHeadline(): string {
+src/governance_operator_dictionary/governance_operator_dictionary_formatter.ts:6:  return "Governance operator dictionary";
+src/governance_operator_dictionary/governance_operator_dictionary_formatter.ts:9:export function formatGovernanceOperatorDictionaryTerms(
+src/governance_operator_dictionary/governance_operator_dictionary_formatter.ts:15:export function formatGovernanceOperatorDictionaryReadiness(
+src/governance_operator_dictionary/governance_operator_dictionary_formatter.ts:21:export function formatGovernanceOperatorDictionaryCompleteness(
+src/governance_operator_dictionary/governance_operator_dictionary_formatter.ts:27:export function formatGovernanceOperatorDictionaryVersion(
+src/governance_operator_ledger/governance_operator_ledger_model.ts:1:export interface GovernanceOperatorLedgerLine {
+src/governance_operator_ledger/governance_operator_ledger_model.ts:6:export interface GovernanceOperatorLedgerMetadata {
+src/governance_operator_ledger/governance_operator_ledger_model.ts:14:export interface GovernanceOperatorLedgerRecord {
+src/governance_operator_ledger/governance_operator_ledger_model.ts:16:  metadata: GovernanceOperatorLedgerMetadata;
+src/governance_operator_ledger/governance_operator_ledger_model.ts:17:  lines: GovernanceOperatorLedgerLine[];
+src/governance_operator_ledger/governance_operator_ledger_contract.ts:12:export function getGovernanceOperatorLedgerLayerGuarantees(): readonly string[] {
+src/governance_operator_ledger/governance_operator_ledger_builder.ts:2:  GovernanceOperatorLedgerLine,
+src/governance_operator_ledger/governance_operator_ledger_builder.ts:3:  GovernanceOperatorLedgerRecord,
+src/governance_operator_ledger/governance_operator_ledger_builder.ts:6:  formatGovernanceOperatorLedgerCompleteness,
+src/governance_operator_ledger/governance_operator_ledger_builder.ts:7:  formatGovernanceOperatorLedgerDecision,
+src/governance_operator_ledger/governance_operator_ledger_builder.ts:8:  formatGovernanceOperatorLedgerHeadline,
+src/governance_operator_ledger/governance_operator_ledger_builder.ts:9:  formatGovernanceOperatorLedgerReadiness,
+src/governance_operator_ledger/governance_operator_ledger_builder.ts:10:  formatGovernanceOperatorLedgerSections,
+src/governance_operator_ledger/governance_operator_ledger_builder.ts:11:  formatGovernanceOperatorLedgerVersion,
+src/governance_operator_ledger/governance_operator_ledger_builder.ts:14:export interface GovernanceOperatorLedgerInput {
+src/governance_operator_ledger/governance_operator_ledger_builder.ts:21:export function buildGovernanceOperatorLedger(
+src/governance_operator_ledger/governance_operator_ledger_builder.ts:22:  input: GovernanceOperatorLedgerInput,
+src/governance_operator_ledger/governance_operator_ledger_builder.ts:23:): GovernanceOperatorLedgerRecord {
+src/governance_operator_ledger/governance_operator_ledger_builder.ts:28:  const lines: GovernanceOperatorLedgerLine[] = [
+src/governance_operator_ledger/governance_operator_ledger_builder.ts:31:      text: formatGovernanceOperatorLedgerDecision(input.decision),
+src/governance_operator_ledger/governance_operator_ledger_builder.ts:35:      text: formatGovernanceOperatorLedgerSections(input.section_titles ?? []),
+src/governance_operator_ledger/governance_operator_ledger_builder.ts:39:      text: formatGovernanceOperatorLedgerReadiness(ready),
+src/governance_operator_ledger/governance_operator_ledger_builder.ts:43:      text: formatGovernanceOperatorLedgerCompleteness(complete),
+src/governance_operator_ledger/governance_operator_ledger_builder.ts:47:      text: formatGovernanceOperatorLedgerVersion(ledgerVersion),
+src/governance_operator_ledger/governance_operator_ledger_builder.ts:52:    headline: formatGovernanceOperatorLedgerHeadline(
+src/governance_operator_ledger/index.ts:2:  GovernanceOperatorLedgerLine,
+src/governance_operator_ledger/index.ts:3:  GovernanceOperatorLedgerMetadata,
+src/governance_operator_ledger/index.ts:4:  GovernanceOperatorLedgerRecord,
+src/governance_operator_ledger/index.ts:8:  formatGovernanceOperatorLedgerCompleteness,
+src/governance_operator_ledger/index.ts:9:  formatGovernanceOperatorLedgerDecision,
+src/governance_operator_ledger/index.ts:10:  formatGovernanceOperatorLedgerHeadline,
+src/governance_operator_ledger/index.ts:11:  formatGovernanceOperatorLedgerReadiness,
+src/governance_operator_ledger/index.ts:12:  formatGovernanceOperatorLedgerSections,
+src/governance_operator_ledger/index.ts:13:  formatGovernanceOperatorLedgerVersion,
+src/governance_operator_ledger/index.ts:16:export type { GovernanceOperatorLedgerInput } from "./governance_operator_ledger_builder";
+src/governance_operator_ledger/index.ts:17:export { buildGovernanceOperatorLedger } from "./governance_operator_ledger_builder";
+src/governance_operator_ledger/index.ts:21:  getGovernanceOperatorLedgerLayerGuarantees,
+src/governance_operator_ledger/governance_operator_ledger_formatter.ts:5:export function formatGovernanceOperatorLedgerHeadline(
+src/governance_operator_ledger/governance_operator_ledger_formatter.ts:9:  return `Governance operator ledger: ${decisionId} (${decision})`;
+src/governance_operator_ledger/governance_operator_ledger_formatter.ts:12:export function formatGovernanceOperatorLedgerDecision(
+src/governance_operator_ledger/governance_operator_ledger_formatter.ts:18:export function formatGovernanceOperatorLedgerSections(
+src/governance_operator_ledger/governance_operator_ledger_formatter.ts:24:export function formatGovernanceOperatorLedgerReadiness(
+src/governance_operator_ledger/governance_operator_ledger_formatter.ts:30:export function formatGovernanceOperatorLedgerCompleteness(
+src/governance_operator_ledger/governance_operator_ledger_formatter.ts:36:export function formatGovernanceOperatorLedgerVersion(
+src/cognition/proof/cognition.proof.ts:19:export function cognitionSurfaceDeterministic(
+src/cognition/renderSituationSummary.ts:3:export function renderSituationSummary(
+src/cognition/operatorGuidanceReducer.ts:9:  OperatorGuidance,
+src/cognition/operatorGuidanceReducer.ts:10:  OperatorGuidanceEnvelope,
+src/cognition/operatorGuidanceReducer.ts:13:  mapSignalsToOperatorGuidance,
+src/cognition/operatorGuidanceReducer.ts:19:export type OperatorHealthSurface = {
+src/cognition/operatorGuidanceReducer.ts:24:export type OperatorGuidanceReduction = {
+src/cognition/operatorGuidanceReducer.ts:25:  envelope: OperatorGuidanceEnvelope;
+src/cognition/operatorGuidanceReducer.ts:33:  guidance: OperatorGuidance[],
+src/cognition/operatorGuidanceReducer.ts:34:): OperatorGuidance[] {
+src/cognition/operatorGuidanceReducer.ts:52:export function reduceOperatorHealthSurfaceToGuidance(
+src/cognition/operatorGuidanceReducer.ts:53:  surface: OperatorHealthSurface,
+src/cognition/operatorGuidanceReducer.ts:55:): OperatorGuidanceReduction {
+src/cognition/operatorGuidanceReducer.ts:61:    mapSignalsToOperatorGuidance(surface.signals, mappingContext),
+src/cognition/operatorGuidanceReducer.ts:80:export function createEmptyOperatorGuidanceReduction(
+src/cognition/operatorGuidanceReducer.ts:82:): OperatorGuidanceReduction {
+src/cognition/transport/cognitionTransport.verify.ts:8:export function verifyChannelExists(channelId: string): boolean {
+src/cognition/transport/cognitionTransport.verify.ts:12:export function verifyLinkExists(linkId: string): boolean {
+src/cognition/transport/cognitionTransport.verify.ts:16:export function verifyBridgeExists(bridgeId: string): boolean {
+src/cognition/transport/cognitionTransport.verify.ts:20:export function verifySpanExists(spanId: string): boolean {
+src/cognition/transport/cognitionTransport.label.ts:30:export function getCognitionTransportLabel(): CognitionTransportLabel {
+src/cognition/transport/transportReplaySafety.assert.ts:1:export function assertTransportReplaySafety(snapshot: unknown): boolean {
+src/cognition/transport/cognitionTransport.validate.ts:26:export function validateCognitionTransport(
+src/cognition/transport/cognitionTransport.summary.ts:18:export function getCognitionTransportSummary(): CognitionTransportSummary {
+src/cognition/transport/cognitionTransport.failure.ts:26:export function transportFailure(reason: TransportFailureReason): TransportFailure {
+src/cognition/transport/cognitionTransport.failure.ts:35:export function transportSuccess(): TransportSuccess {
+src/cognition/transport/CognitionTransportDiagnostics.builder.ts:4:export function buildTransportDiagnostics(input: {
+src/cognition/transport/cognitionTransport.replay.ts:18:export function getCognitionTransportReplayReport(): CognitionTransportReplayReport {
+src/cognition/transport/cognitionTransport.dashboard.ts:8:export interface CognitionTransportDashboardContract {
+src/cognition/transport/cognitionTransport.dashboard.ts:16:export function getCognitionTransportDashboardContract(): CognitionTransportDashboardContract {
+src/cognition/transport/cognitionTransport.dashboard.ts:32:Dashboard cognition contract only
+src/cognition/transport/cognitionTransport.snapshot.ts:9:export function getCognitionTransportSnapshot(): CognitionTransportSnapshot {
+src/cognition/transport/cognitionTransport.operatorView.ts:7:import { getCognitionTransportGovernanceReadiness } from "./cognitionTransport.governance"
+src/cognition/transport/cognitionTransport.operatorView.ts:9:export interface CognitionTransportOperatorView {
+src/cognition/transport/cognitionTransport.operatorView.ts:17:export function getCognitionTransportOperatorView(): CognitionTransportOperatorView {
+src/cognition/transport/cognitionTransport.operatorView.ts:20:  const governance = getCognitionTransportGovernanceReadiness()
+src/cognition/transport/cognitionTransport.operatorView.ts:39:Operator cognition only
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.integrity.ts:2:  DashboardConsumptionRegistryEntry
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.integrity.ts:5:export function assertNoDuplicateContracts(
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.integrity.ts:6:  entries: readonly DashboardConsumptionRegistryEntry[]
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.finalize.ts:2:  DashboardConsumptionRegistryEntry
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.finalize.ts:6:  buildDashboardConsumptionRegistry
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.finalize.ts:13:export function finalizeDashboardConsumptionRegistry(
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.finalize.ts:14:  entries: readonly DashboardConsumptionRegistryEntry[]
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.finalize.ts:15:): readonly DashboardConsumptionRegistryEntry[] {
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.finalize.ts:17:  const registry = buildDashboardConsumptionRegistry(entries);
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_fixture.ts:25:export function createConsumptionRegistryEnforcementFixtureSet(): ConsumptionRegistryEnforcementFixtureSet {
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_fixture.ts:30:      consumerId: "overview-panel",
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_fixture.ts:37:      consumerId: "signals-panel",
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_fixture.ts:54:      consumerId: "signals-panel",
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_fixture.ts:61:      consumerId: "signals-panel",
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_fixture.ts:73:export function createConsumptionRegistryEnforcementFixtureProof(): ConsumptionRegistryEnforcementFixtureProof {
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.guard.ts:2:  DashboardConsumptionRegistryEntry
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.guard.ts:5:export function assertConsumptionRegistryNotEmpty(
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.guard.ts:6:  entries: readonly DashboardConsumptionRegistryEntry[]
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.guard.ts:10:    throw new Error("Dashboard consumption registry cannot be empty");
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:1:import { getGovernanceExecutionEligibilitySnapshot } from "../../../governance/cognition";
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:9:  blockedByGovernance: boolean;
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:14:export function runConsumptionRegistryEnforcementEntrypoint(): ConsumptionRegistryEnforcementEntrypointResult {
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:15:  const governance = getGovernanceExecutionEligibilitySnapshot();
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:21:      blockedByGovernance: true,
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:29:    blockedByGovernance: false,
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement.ts:32:export function buildConsumptionRegistryOwnershipKey(
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement.ts:62:export function enforceConsumptionRegistryOwnership(
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_proof.ts:16:export function runConsumptionRegistryEnforcementProof(): ConsumptionRegistryEnforcementProofResult {
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.integration.ts:2:  DashboardConsumptionRegistryEntry
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.integration.ts:6:  buildValidatedDashboardConsumptionRegistry
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.integration.ts:10:  readonly DashboardConsumptionRegistryEntry[] = Object.freeze([]);
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.integration.ts:12:export function initializeDashboardConsumptionRegistry(
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.integration.ts:13:  entries: readonly DashboardConsumptionRegistryEntry[]
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.integration.ts:17:    buildValidatedDashboardConsumptionRegistry(entries);
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.sectionGuard.ts:6:  DashboardConsumptionRegistryEntry
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.sectionGuard.ts:9:export function assertValidConsumptionSection(
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.sectionGuard.ts:10:  entry: DashboardConsumptionRegistryEntry
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_snapshot.ts:25:export function createConsumptionRegistryEnforcementSnapshot(
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_report.ts:22:export function createConsumptionRegistryEnforcementReport(
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.invariants.ts:2:  DashboardConsumptionRegistryEntry
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.invariants.ts:5:export function validateDashboardConsumptionRegistryEntry(
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.invariants.ts:6:  entry: DashboardConsumptionRegistryEntry
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.invariants.ts:27:export function assertRegistryDeterminism(
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.invariants.ts:28:  entries: readonly DashboardConsumptionRegistryEntry[]
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.runtime.ts:2:  DashboardConsumptionRegistryEntry
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.runtime.ts:6:  buildValidatedDashboardConsumptionRegistry
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.runtime.ts:16:  readonly DashboardConsumptionRegistryEntry[] = Object.freeze([]);
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.runtime.ts:18:export function setDashboardConsumptionRegistry(
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.runtime.ts:19:  entries: readonly DashboardConsumptionRegistryEntry[]
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.runtime.ts:23:    buildValidatedDashboardConsumptionRegistry(entries);
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.runtime.ts:27:export function getDashboardConsumptionRegistry():
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.runtime.ts:28:  readonly DashboardConsumptionRegistryEntry[] {
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.build.ts:2:  DashboardConsumptionRegistryEntry
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.build.ts:6:  freezeDashboardConsumptionRegistry
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.build.ts:9:export function buildDashboardConsumptionRegistry(
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.build.ts:10:  entries: readonly DashboardConsumptionRegistryEntry[]
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.build.ts:11:): readonly DashboardConsumptionRegistryEntry[] {
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.build.ts:13:  return freezeDashboardConsumptionRegistry(entries);
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_bundle.ts:24:export function createConsumptionRegistryEnforcementBundle(): ConsumptionRegistryEnforcementBundle {
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_validation.ts:51:export function validateConsumptionRegistryEnforcement(
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.constants.ts:11:export type DashboardConsumptionSection =
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.ts:2:  DashboardConsumptionRegistry,
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.ts:3:  DashboardConsumptionRegistryEntry,
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.ts:4:  DashboardConsumptionRegistryLookup
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.ts:7:const REGISTRY: DashboardConsumptionRegistry = {
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.ts:11:export function registerDashboardConsumptionEntry(
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.ts:12:  entry: DashboardConsumptionRegistryEntry
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.ts:13:): DashboardConsumptionRegistry {
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.ts:14:  const next: DashboardConsumptionRegistryEntry[] = [
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.ts:24:export const lookupDashboardConsumptionEntry: DashboardConsumptionRegistryLookup =
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.ts:29:export function listDashboardConsumptionEntries():
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.ts:30:  readonly DashboardConsumptionRegistryEntry[] {
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.freeze.ts:2:  DashboardConsumptionRegistryEntry
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.freeze.ts:6:  validateDashboardConsumptionRegistry
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.freeze.ts:9:export function freezeDashboardConsumptionRegistry(
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.freeze.ts:10:  entries: readonly DashboardConsumptionRegistryEntry[]
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.freeze.ts:11:): readonly DashboardConsumptionRegistryEntry[] {
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.freeze.ts:13:  validateDashboardConsumptionRegistry(entries);
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.pipeline.ts:2:  DashboardConsumptionRegistryEntry
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.pipeline.ts:6:  finalizeDashboardConsumptionRegistry
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.pipeline.ts:13:export function buildValidatedDashboardConsumptionRegistry(
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.pipeline.ts:14:  entries: readonly DashboardConsumptionRegistryEntry[]
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.pipeline.ts:15:): readonly DashboardConsumptionRegistryEntry[] {
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.pipeline.ts:17:  const registry = finalizeDashboardConsumptionRegistry(entries);
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_readonly_view.ts:15:export function createConsumptionRegistryEnforcementReadonlyView(): ConsumptionRegistryEnforcementReadonlyView {
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.validate.ts:2:  DashboardConsumptionRegistryEntry
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.validate.ts:6:  validateDashboardConsumptionRegistryEntry,
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.validate.ts:10:export function validateDashboardConsumptionRegistry(
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.validate.ts:11:  entries: readonly DashboardConsumptionRegistryEntry[]
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.validate.ts:15:    validateDashboardConsumptionRegistryEntry(entry);
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.types.ts:1:export interface DashboardConsumptionRegistryEntry {
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.types.ts:8:export interface DashboardConsumptionRegistry {
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.types.ts:9:  readonly entries: readonly DashboardConsumptionRegistryEntry[];
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.types.ts:12:export type DashboardConsumptionRegistryLookup = (
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.types.ts:14:) => DashboardConsumptionRegistryEntry | undefined;
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_runtime_guard.ts:12:export function runConsumptionRegistryEnforcementRuntimeGuard(): ConsumptionRegistryEnforcementRuntimeGuardResult {
+src/cognition/transport/cognitionTransport.dashboardConsumption.invariants.ts:1:import { DashboardConsumptionContract } from "./cognitionTransport.dashboardConsumption.types";
+src/cognition/transport/cognitionTransport.dashboardConsumption.invariants.ts:3:export function validateDashboardConsumptionContract(
+src/cognition/transport/cognitionTransport.dashboardConsumption.invariants.ts:4:  contract: DashboardConsumptionContract
+src/cognition/transport/cognitionTransport.dashboardConsumption.invariants.ts:7:    throw new Error("Dashboard consumption contract missing contractId");
+src/cognition/transport/cognitionTransport.dashboardConsumption.invariants.ts:11:    throw new Error("Dashboard consumption contract missing version");
+src/cognition/transport/cognitionTransport.dashboardConsumption.invariants.ts:15:    throw new Error("Dashboard consumption contract missing generatedAt");
+src/cognition/transport/cognitionTransport.dashboardConsumption.invariants.ts:19:    throw new Error("Dashboard consumption contract missing section");
+src/cognition/transport/cognitionTransport.dashboardConsumption.invariants.ts:23:    throw new Error("Dashboard consumption contract missing payload");
+src/cognition/transport/cognitionTransport.dashboardConsumption.invariants.ts:32:      throw new Error("Dashboard consumption payload ordering invariant violated");
+src/cognition/transport/cognitionTransport.diagnostics.ts:12:export function buildCognitionTransportDiagnostics(): CognitionTransportDiagnostics {
+src/cognition/transport/cognitionTransport.presentation.ts:6:import { getCognitionTransportOperatorView } from "./cognitionTransport.operatorView"
+src/cognition/transport/cognitionTransport.presentation.ts:29:export function getCognitionTransportPresentation(): CognitionTransportPresentation {
+src/cognition/transport/cognitionTransport.presentation.ts:31:  const view = getCognitionTransportOperatorView()
+src/cognition/transport/cognitionTransport.presentation.ts:48:Operator cognition presentation contract only
+src/cognition/transport/cognitionTransport.interpretation.ts:20:export function getCognitionTransportInterpretation(): CognitionTransportInterpretation {
+src/cognition/transport/cognitionTransport.health.ts:25:export function getCognitionTransportHealth(): CognitionTransportHealth {
+src/cognition/transport/cognitionTransport.risk.ts:20:export function getCognitionTransportRisk(): CognitionTransportRisk {
+src/cognition/transport/cognitionTransport.risk.ts:48:Governance-readable only
+src/cognition/transport/cognitionTransport.severity.ts:20:export function getCognitionTransportSeverity(): CognitionTransportSeverity {
+src/cognition/transport/cognitionTransport.policy.ts:19:export function validateCognitionTransportPolicy(
+src/cognition/transport/cognitionTransport.dashboardConsumption.types.ts:1:export type DashboardContractPrimitive =
+src/cognition/transport/cognitionTransport.dashboardConsumption.types.ts:7:export type DashboardContractValue =
+src/cognition/transport/cognitionTransport.dashboardConsumption.types.ts:8:  | DashboardContractPrimitive
+src/cognition/transport/cognitionTransport.dashboardConsumption.types.ts:9:  | readonly DashboardContractValue[]
+src/cognition/transport/cognitionTransport.dashboardConsumption.types.ts:10:  | { readonly [key: string]: DashboardContractValue };
+src/cognition/transport/cognitionTransport.dashboardConsumption.types.ts:12:export interface DashboardConsumptionContract {
+src/cognition/transport/cognitionTransport.dashboardConsumption.types.ts:18:  readonly payload: Readonly<Record<string, DashboardContractValue>>;
+src/cognition/transport/cognitionTransport.dashboardConsumption.types.ts:19:  readonly metadata?: Readonly<Record<string, DashboardContractValue>>;
+src/cognition/transport/cognitionTransport.dashboardConsumption.types.ts:22:export interface DashboardConsumptionEntry {
+src/cognition/transport/cognitionTransport.dashboardConsumption.types.ts:24:  readonly value: DashboardContractValue;
+src/cognition/transport/cognitionTransport.dashboardConsumption.types.ts:27:export interface DashboardConsumptionSection {
+src/cognition/transport/cognitionTransport.dashboardConsumption.types.ts:33:  readonly entries: readonly DashboardConsumptionEntry[];
+src/cognition/transport/cognitionTransport.dashboardConsumption.types.ts:36:export interface DashboardConsumptionAdapter {
+src/cognition/transport/cognitionTransport.dashboardConsumption.types.ts:39:  readonly entries: readonly DashboardConsumptionEntry[];
+src/cognition/transport/cognitionTransport.dashboardConsumption.types.ts:42:export type DashboardConsumptionMapper = (
+src/cognition/transport/cognitionTransport.dashboardConsumption.types.ts:43:  contract: DashboardConsumptionContract
+src/cognition/transport/cognitionTransport.dashboardConsumption.types.ts:44:) => DashboardConsumptionAdapter;
+src/cognition/transport/cognitionTransport.operator.ts:9:export interface CognitionTransportOperatorAwareness {
+src/cognition/transport/cognitionTransport.operator.ts:11:  visibleToOperator: true;
+src/cognition/transport/cognitionTransport.operator.ts:16:export function getCognitionTransportOperatorAwareness(): CognitionTransportOperatorAwareness {
+src/cognition/transport/cognitionTransport.operator.ts:19:    visibleToOperator: true,
+src/cognition/transport/cognitionTransport.operator.ts:26:Operator exposure rules:
+src/cognition/transport/cognitionTransport.operator.ts:29:Operator-visible only.
+src/cognition/transport/cognitionTransport.dashboardConsumption.test.ts:2:  mapDashboardContractToConsumption
+src/cognition/transport/cognitionTransport.dashboardConsumption.test.ts:6:  validateDashboardConsumptionContract
+src/cognition/transport/cognitionTransport.dashboardConsumption.test.ts:10:  DashboardConsumptionContract
+src/cognition/transport/cognitionTransport.dashboardConsumption.test.ts:31:const contract: DashboardConsumptionContract = deepFreeze({
+src/cognition/transport/cognitionTransport.dashboardConsumption.test.ts:44:validateDashboardConsumptionContract(contract);
+src/cognition/transport/cognitionTransport.dashboardConsumption.test.ts:46:const result = mapDashboardContractToConsumption(contract);
+src/cognition/transport/cognitionTransport.dashboardConsumption.ts:2:  DashboardConsumptionAdapter,
+src/cognition/transport/cognitionTransport.dashboardConsumption.ts:3:  DashboardConsumptionContract,
+src/cognition/transport/cognitionTransport.dashboardConsumption.ts:4:  DashboardConsumptionEntry,
+src/cognition/transport/cognitionTransport.dashboardConsumption.ts:5:  DashboardConsumptionMapper
+src/cognition/transport/cognitionTransport.dashboardConsumption.ts:10:): readonly DashboardConsumptionEntry[] {
+src/cognition/transport/cognitionTransport.dashboardConsumption.ts:15:    value: payload[key] as DashboardConsumptionEntry["value"]
+src/cognition/transport/cognitionTransport.dashboardConsumption.ts:19:export const mapDashboardContractToConsumption: DashboardConsumptionMapper = (
+src/cognition/transport/cognitionTransport.dashboardConsumption.ts:20:  contract: DashboardConsumptionContract
+src/cognition/transport/cognitionTransport.dashboardConsumption.ts:21:): DashboardConsumptionAdapter => {
+src/cognition/transport/cognitionTransport.dashboardConsumption.ts:31:export function assertDashboardConsumptionDeterminism(
+src/cognition/transport/cognitionTransport.dashboardConsumption.ts:32:  contract: DashboardConsumptionContract
+src/cognition/transport/cognitionTransport.dashboardConsumption.ts:39:      throw new Error("Dashboard consumption key ordering invariant violated");
+src/cognition/transport/cognitionTransport.invariants.ts:8:export function transportRegistryIsConsistent(): boolean {
+src/cognition/transport/cognitionTransport.governance.ts:8:export interface CognitionTransportGovernanceReadiness {
+src/cognition/transport/cognitionTransport.governance.ts:15:export function getCognitionTransportGovernanceReadiness(): CognitionTransportGovernanceReadiness {
+src/cognition/transport/cognitionTransport.governance.ts:40:Governance cognition only
+src/cognition/span-verify/cognition.span.verify.ts:19:export function cognitionSpanDeterministic(
+src/cognition/confidence/confidenceFactors.ts:31:        `Governance health evaluated at ${score}/100.`,
+src/cognition/confidence/confidenceFactors.ts:52:export function clampOperationalConfidenceScore(score: number): number {
+src/cognition/confidence/confidenceFactors.ts:68:export function buildOperationalConfidenceFactorExplanations(
+src/cognition/confidence/confidenceInvariant.proof.ts:3:export function runOperationalConfidenceProof(): void {
+src/cognition/confidence/confidenceSynthesizer.ts:12:export function deriveOperationalConfidenceLevel(
+src/cognition/confidence/confidenceSynthesizer.ts:26:export function synthesizeOperationalConfidence(
+src/cognition/confidence/confidenceInvariant.ts:12:export function verifyOperationalConfidenceDeterminism(): void {
+src/cognition/channel-verify/cognition.channel.verify.ts:19:export function cognitionChannelDeterministic(
+src/cognition/verify/cognition.verify.ts:17:export function cognitionHookDeterministic(
+src/cognition/link-verify/cognition.link.verify.ts:19:export function cognitionLinkDeterministic(
+src/cognition/situationSummaryComposer.ts:23:export type OperatorAttentionState =
+src/cognition/situationSummaryComposer.ts:29:export type GovernanceCognitionState =
+src/cognition/situationSummaryComposer.ts:39:  operatorAttentionState?: OperatorAttentionState;
+src/cognition/situationSummaryComposer.ts:40:  governanceCognitionState?: GovernanceCognitionState;
+src/cognition/situationSummaryComposer.ts:160:  operatorAttentionState: OperatorAttentionState;
+src/cognition/situationSummaryComposer.ts:161:  governanceCognitionState: GovernanceCognitionState;
+src/cognition/situationSummaryComposer.ts:195:  state?: OperatorAttentionState
+src/cognition/situationSummaryComposer.ts:196:): OperatorAttentionState {
+src/cognition/situationSummaryComposer.ts:200:function normalizeGovernanceCognition(
+src/cognition/situationSummaryComposer.ts:201:  state?: GovernanceCognitionState
+src/cognition/situationSummaryComposer.ts:202:): GovernanceCognitionState {
+src/cognition/situationSummaryComposer.ts:230:function attentionLine(state: OperatorAttentionState): string {
+src/cognition/situationSummaryComposer.ts:237:function governanceCognitionLine(state: GovernanceCognitionState): string {
+src/cognition/situationSummaryComposer.ts:243:export function composeSituationSummary(
+src/cognition/situationSummaryComposer.ts:251:  const governanceCognition = normalizeGovernanceCognition(
+src/cognition/getSituationSummarySnapshot.ts:11:export function getSituationSummarySnapshot(
+src/cognition/contracts/cognition.contracts.ts:18:export type GovernanceStatus =
+src/cognition/contracts/cognition.contracts.ts:35:export interface OperatorGuidanceContract {
+src/cognition/contracts/cognition.contracts.ts:43:export interface GovernanceCognitionContract {
+src/cognition/contracts/cognition.contracts.ts:46:  status: GovernanceStatus;
+src/cognition/contracts/cognition.contracts.ts:52:  guidance?: OperatorGuidanceContract[];
+src/cognition/contracts/cognition.contracts.ts:53:  governance?: GovernanceCognitionContract[];
+src/cognition/operatorGuidance.smoke.ts:7:import { reduceOperatorHealthSurfaceToGuidance } from "./operatorGuidanceReducer";
+src/cognition/operatorGuidance.smoke.ts:8:import { assertOperatorGuidanceReductionSafe } from "./operatorGuidanceSafety";
+src/cognition/operatorGuidance.smoke.ts:125:export function runOperatorGuidanceSmokeMatrix(): void {
+src/cognition/operatorGuidance.smoke.ts:127:    const reduction = reduceOperatorHealthSurfaceToGuidance({
+src/cognition/operatorGuidance.smoke.ts:132:    assertOperatorGuidanceReductionSafe(reduction);
+src/cognition/operatorGuidance.smoke.ts:179:  runOperatorGuidanceSmokeMatrix();
+src/cognition/buildRenderedSituationSummary.ts:5:export function buildRenderedSituationSummary(
+src/cognition/operator-read/cognition.operator-read.ts:2: * Phase 101.3 — Operator Read Integration
+src/cognition/operator-read/cognition.operator-read.ts:19:  GovernanceCognitionContract,
+src/cognition/operator-read/cognition.operator-read.ts:20:  OperatorGuidanceContract,
+src/cognition/operator-read/cognition.operator-read.ts:24:  selectGovernanceCognition,
+src/cognition/operator-read/cognition.operator-read.ts:25:  selectHasGovernanceCognition,
+src/cognition/operator-read/cognition.operator-read.ts:26:  selectHasOperatorGuidance,
+src/cognition/operator-read/cognition.operator-read.ts:28:  selectOperatorGuidance,
+src/cognition/operator-read/cognition.operator-read.ts:32:export interface OperatorCognitionReadModel {
+src/cognition/operator-read/cognition.operator-read.ts:35:  hasGovernance: boolean;
+src/cognition/operator-read/cognition.operator-read.ts:37:  guidance: OperatorGuidanceContract[];
+src/cognition/operator-read/cognition.operator-read.ts:38:  governance: GovernanceCognitionContract[];
+src/cognition/operator-read/cognition.operator-read.ts:41:export function buildOperatorCognitionReadModel(
+src/cognition/operator-read/cognition.operator-read.ts:43:): OperatorCognitionReadModel {
+src/cognition/operator-read/cognition.operator-read.ts:46:    hasGuidance: selectHasOperatorGuidance(envelope),
+src/cognition/operator-read/cognition.operator-read.ts:47:    hasGovernance: selectHasGovernanceCognition(envelope),
+src/cognition/operator-read/cognition.operator-read.ts:49:    guidance: selectOperatorGuidance(envelope),
+src/cognition/operator-read/cognition.operator-read.ts:50:    governance: selectGovernanceCognition(envelope)
+src/cognition/surface/cognition.surface.ts:17:import { buildOperatorCognitionView } from "../entry";
+src/cognition/surface/cognition.surface.ts:20:  operatorView: ReturnType<typeof buildOperatorCognitionView>;
+src/cognition/surface/cognition.surface.ts:23:export function buildCognitionSurface(
+src/cognition/surface/cognition.surface.ts:27:    operatorView: buildOperatorCognitionView(envelope)
+src/cognition/invariants/cognition.invariants.ts:19:  GovernanceStatus
+src/cognition/invariants/cognition.invariants.ts:28:const VALID_GOVERNANCE: GovernanceStatus[] = [
+src/cognition/invariants/cognition.invariants.ts:34:export function invariantConfidence(value: string): boolean {
+src/cognition/invariants/cognition.invariants.ts:38:export function invariantGovernanceStatus(value: string): boolean {
+src/cognition/invariants/cognition.invariants.ts:39:  return VALID_GOVERNANCE.includes(value as GovernanceStatus);
+src/cognition/invariants/cognition.invariants.ts:42:export function invariantSituationSummary(
+src/cognition/invariants/cognition.invariants.ts:65:export function invariantGovernance(
+src/cognition/invariants/cognition.invariants.ts:83:    if (!invariantGovernanceStatus(item.status)) {
+src/cognition/invariants/cognition.invariants.ts:91:export function invariantGuidance(
+src/cognition/invariants/cognition.invariants.ts:117:export function cognitionInvariantCheck(
+src/cognition/invariants/cognition.invariants.ts:125:  if (!invariantGovernance(envelope)) {
+src/cognition/adapter/cognition.adapter.ts:17:import { buildOperatorCognitionReadModel } from "../operator-read";
+src/cognition/adapter/cognition.adapter.ts:19:export function buildOperatorCognitionView(
+
+Direct SystemHealthBlock references
+src/components/dashboard/SystemHealthBlock.tsx:8:export function SystemHealthBlock({ signals }: { signals?: SystemHealthSignals }) {
+
+Likely dashboard roots from repository
+app/demo-runtime/page.tsx
+src/cognition/governanceAwarenessGuards.smoke.ts
+src/cognition/governanceCognition.smoke.ts
+src/cognition/operator-read/cognition.operator-read.ts
+src/cognition/operator-read/index.ts
+src/cognition/operatorGuidance.live.ts
+src/cognition/operatorGuidance.smoke.ts
+src/cognition/operatorGuidance.ts
+src/cognition/operatorGuidanceConfidence.ts
+src/cognition/operatorGuidanceMapping.ts
+src/cognition/operatorGuidanceReducer.ts
+src/cognition/operatorGuidanceSafety.ts
+src/cognition/transport/cognitionTransport.dashboard.ts
+src/cognition/transport/cognitionTransport.dashboardConsumption.invariants.ts
+src/cognition/transport/cognitionTransport.dashboardConsumption.test.ts
+src/cognition/transport/cognitionTransport.dashboardConsumption.ts
+src/cognition/transport/cognitionTransport.dashboardConsumption.types.ts
+src/cognition/transport/cognitionTransport.governance.ts
+src/cognition/transport/cognitionTransport.operator.ts
+src/cognition/transport/cognitionTransport.operatorView.ts
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.build.ts
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.constants.ts
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.finalize.ts
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.freeze.ts
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.guard.ts
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.integration.ts
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.integrity.ts
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.invariants.ts
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.pipeline.ts
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.runtime.ts
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.sectionGuard.ts
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.ts
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.types.ts
+src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.validate.ts
+src/components/dashboard/SystemHealthBlock.tsx
+src/governance_digest/governance_digest_builder.ts
+src/governance_digest/governance_digest_contract.ts
+src/governance_digest/governance_digest_formatter.ts
+src/governance_digest/governance_digest_model.ts
+src/governance_digest/index.ts
+src/governance_investigation/governance_dashboard_playback_contract.ts
+src/governance_investigation/governance_decision_trace.ts
+src/governance_investigation/governance_investigation_reducer.ts
+src/governance_investigation/governance_investigation_types.ts
+src/governance_investigation/governance_operator_investigation_view.ts
+src/governance_investigation/governance_operator_playback_view.ts
+src/governance_investigation/governance_playback_assembly_proof.ts
+src/governance_investigation/governance_playback_assembly.ts
+src/governance_investigation/governance_playback_invariants.ts
+src/governance_investigation/governance_playback_navigation_assembly.ts
+src/governance_investigation/governance_playback_navigation.ts
+src/governance_investigation/governance_playback_proof.ts
+src/governance_investigation/governance_playback_reducer.ts
+src/governance_investigation/governance_playback_types.ts
+src/governance_investigation/governance_timeline_types.ts
+src/governance_investigation/index.ts
+src/governance_investigation/verification/check-pathological-fixture-diagnostic-stability.ts
+src/governance_investigation/verification/check-pathological-fixture-reproducibility.ts
+src/governance_investigation/verification/check-pathological-fixtures.ts
+src/governance_investigation/verification/replay_fixture_diagnostics.ts
+src/governance_investigation/verification/replay_fixture_library.ts
+src/governance_investigation/verification/replay_fixture_runner.ts
+src/governance_investigation/verification/replay_fixture_summary.ts
+src/governance_investigation/verification/replay_pathological_fixtures.ts
+src/governance_investigation/verification/replay_structure_verifier.ts
+src/governance_investigation/verification/replay_violation_codes.ts
+src/governance_investigation/verification/run-pathological-fixture-proof.ts
+src/governance_investigation/verification/run-replay-diagnostic-stability-proof.ts
+src/governance_investigation/verification/run-replay-pathological-proof-suite.ts
+src/governance_investigation/verification/run-replay-verification-proof-suite.ts
+src/governance_operator_archive/governance_operator_archive_builder.ts
+src/governance_operator_archive/governance_operator_archive_contract.ts
+src/governance_operator_archive/governance_operator_archive_formatter.ts
+src/governance_operator_archive/governance_operator_archive_model.ts
+src/governance_operator_archive/index.ts
+src/governance_operator_atlas/governance_operator_atlas_builder.ts
+src/governance_operator_atlas/governance_operator_atlas_contract.ts
+src/governance_operator_atlas/governance_operator_atlas_formatter.ts
+src/governance_operator_atlas/governance_operator_atlas_model.ts
+src/governance_operator_atlas/index.ts
+src/governance_operator_briefing/governance_operator_briefing_builder.ts
+src/governance_operator_briefing/governance_operator_briefing_contract.ts
+src/governance_operator_briefing/governance_operator_briefing_formatter.ts
+src/governance_operator_briefing/governance_operator_briefing_model.ts
+src/governance_operator_briefing/index.ts
+src/governance_operator_bundle/governance_operator_bundle_builder.ts
+src/governance_operator_bundle/governance_operator_bundle_contract.ts
+src/governance_operator_bundle/governance_operator_bundle_formatter.ts
+src/governance_operator_bundle/governance_operator_bundle_model.ts
+src/governance_operator_bundle/index.ts
+src/governance_operator_catalog/governance_operator_catalog_builder.ts
+src/governance_operator_catalog/governance_operator_catalog_contract.ts
+src/governance_operator_catalog/governance_operator_catalog_formatter.ts
+src/governance_operator_catalog/governance_operator_catalog_model.ts
+src/governance_operator_catalog/index.ts
+src/governance_operator_compendium/governance_operator_compendium_builder.ts
+src/governance_operator_compendium/governance_operator_compendium_contract.ts
+src/governance_operator_compendium/governance_operator_compendium_formatter.ts
+src/governance_operator_compendium/governance_operator_compendium_model.ts
+src/governance_operator_compendium/index.ts
+src/governance_operator_console/governance_operator_console_builder.ts
+src/governance_operator_console/governance_operator_console_contract.ts
+src/governance_operator_console/governance_operator_console_formatter.ts
+src/governance_operator_console/governance_operator_console_model.ts
+src/governance_operator_console/index.ts
+src/governance_operator_dictionary/governance_operator_dictionary_builder.ts
+src/governance_operator_dictionary/governance_operator_dictionary_contract.ts
+src/governance_operator_dictionary/governance_operator_dictionary_formatter.ts
+src/governance_operator_dictionary/governance_operator_dictionary_model.ts
+src/governance_operator_dictionary/index.ts
+src/governance_operator_directory/governance_operator_directory_builder.ts
+src/governance_operator_directory/governance_operator_directory_contract.ts
+src/governance_operator_directory/governance_operator_directory_formatter.ts
+src/governance_operator_directory/governance_operator_directory_model.ts
+src/governance_operator_directory/index.ts
+src/governance_operator_export/governance_operator_export_builder.ts
+src/governance_operator_export/governance_operator_export_contract.ts
+src/governance_operator_export/governance_operator_export_formatter.ts
+src/governance_operator_export/governance_operator_export_model.ts
+src/governance_operator_export/index.ts
+src/governance_operator_glossary/governance_operator_glossary_builder.ts
+src/governance_operator_glossary/governance_operator_glossary_contract.ts
+src/governance_operator_glossary/governance_operator_glossary_formatter.ts
+src/governance_operator_glossary/governance_operator_glossary_model.ts
+src/governance_operator_glossary/index.ts
+src/governance_operator_guide/governance_operator_guide_builder.ts
+src/governance_operator_guide/governance_operator_guide_contract.ts
+src/governance_operator_guide/governance_operator_guide_formatter.ts
+src/governance_operator_guide/governance_operator_guide_model.ts
+src/governance_operator_guide/index.ts
+src/governance_operator_handbook/governance_operator_handbook_builder.ts
+src/governance_operator_handbook/governance_operator_handbook_contract.ts
+src/governance_operator_handbook/governance_operator_handbook_formatter.ts
+src/governance_operator_handbook/governance_operator_handbook_model.ts
+src/governance_operator_handbook/index.ts
+src/governance_operator_handoff/governance_operator_handoff_builder.ts
+src/governance_operator_handoff/governance_operator_handoff_contract.ts
+src/governance_operator_handoff/governance_operator_handoff_formatter.ts
+src/governance_operator_handoff/governance_operator_handoff_model.ts
+src/governance_operator_handoff/index.ts
+src/governance_operator_index/governance_operator_index_builder.ts
+src/governance_operator_index/governance_operator_index_contract.ts
+src/governance_operator_index/governance_operator_index_formatter.ts
+src/governance_operator_index/governance_operator_index_model.ts
+src/governance_operator_index/index.ts
+src/governance_operator_ledger/governance_operator_ledger_builder.ts
+src/governance_operator_ledger/governance_operator_ledger_contract.ts
+src/governance_operator_ledger/governance_operator_ledger_formatter.ts
+src/governance_operator_ledger/governance_operator_ledger_model.ts
+src/governance_operator_ledger/index.ts
+src/governance_operator_lexicon/governance_operator_lexicon_builder.ts
+src/governance_operator_lexicon/governance_operator_lexicon_contract.ts
+src/governance_operator_lexicon/governance_operator_lexicon_formatter.ts
+src/governance_operator_lexicon/governance_operator_lexicon_model.ts
+src/governance_operator_lexicon/index.ts
+src/governance_operator_logbook/governance_operator_logbook_builder.ts
+src/governance_operator_logbook/governance_operator_logbook_contract.ts
+src/governance_operator_logbook/governance_operator_logbook_formatter.ts
+src/governance_operator_logbook/governance_operator_logbook_model.ts
+src/governance_operator_logbook/index.ts
+src/governance_operator_manifest_index/governance_operator_manifest_index_builder.ts
+src/governance_operator_manifest_index/governance_operator_manifest_index_contract.ts
+src/governance_operator_manifest_index/governance_operator_manifest_index_formatter.ts
+src/governance_operator_manifest_index/governance_operator_manifest_index_model.ts
+src/governance_operator_manifest_index/index.ts
+src/governance_operator_manifest/governance_operator_manifest_builder.ts
+src/governance_operator_manifest/governance_operator_manifest_contract.ts
+src/governance_operator_manifest/governance_operator_manifest_formatter.ts
+src/governance_operator_manifest/governance_operator_manifest_model.ts
+src/governance_operator_manifest/index.ts
+src/governance_operator_manual/governance_operator_manual_builder.ts
+src/governance_operator_manual/governance_operator_manual_contract.ts
+src/governance_operator_manual/governance_operator_manual_formatter.ts
+src/governance_operator_manual/governance_operator_manual_model.ts
+src/governance_operator_manual/index.ts
+src/governance_operator_map/governance_operator_map_builder.ts
+src/governance_operator_map/governance_operator_map_contract.ts
+src/governance_operator_map/governance_operator_map_formatter.ts
+src/governance_operator_map/governance_operator_map_model.ts
+src/governance_operator_map/index.ts
+src/governance_operator_packet/governance_operator_packet_builder.ts
+src/governance_operator_packet/governance_operator_packet_contract.ts
+src/governance_operator_packet/governance_operator_packet_formatter.ts
+src/governance_operator_packet/governance_operator_packet_model.ts
+src/governance_operator_packet/index.ts
+src/governance_operator_playbook/governance_operator_playbook_builder.ts
+src/governance_operator_playbook/governance_operator_playbook_contract.ts
+src/governance_operator_playbook/governance_operator_playbook_formatter.ts
+src/governance_operator_playbook/governance_operator_playbook_model.ts
+src/governance_operator_playbook/index.ts
+src/governance_operator_record/governance_operator_record_builder.ts
+src/governance_operator_record/governance_operator_record_contract.ts
+src/governance_operator_record/governance_operator_record_formatter.ts
+src/governance_operator_record/governance_operator_record_model.ts
+src/governance_operator_record/index.ts
+src/governance_operator_reference/governance_operator_reference_builder.ts
+src/governance_operator_reference/governance_operator_reference_contract.ts
+src/governance_operator_reference/governance_operator_reference_formatter.ts
+src/governance_operator_reference/governance_operator_reference_model.ts
+src/governance_operator_reference/index.ts
+src/governance_operator_register/governance_operator_register_builder.ts
+src/governance_operator_register/governance_operator_register_contract.ts
+src/governance_operator_register/governance_operator_register_formatter.ts
+src/governance_operator_register/governance_operator_register_model.ts
+src/governance_operator_register/index.ts
+src/governance_operator_registry/governance_operator_registry_builder.ts
+src/governance_operator_registry/governance_operator_registry_contract.ts
+src/governance_operator_registry/governance_operator_registry_formatter.ts
+src/governance_operator_registry/governance_operator_registry_model.ts
+src/governance_operator_registry/index.ts
+src/governance_operator_session/governance_operator_session_builder.ts
+src/governance_operator_session/governance_operator_session_contract.ts
+src/governance_operator_session/governance_operator_session_formatter.ts
+src/governance_operator_session/governance_operator_session_model.ts
+src/governance_operator_session/index.ts
+src/governance_operator_snapshot/governance_operator_snapshot_builder.ts
+src/governance_operator_snapshot/governance_operator_snapshot_contract.ts
+src/governance_operator_snapshot/governance_operator_snapshot_formatter.ts
+src/governance_operator_snapshot/governance_operator_snapshot_model.ts
+src/governance_operator_snapshot/index.ts
+src/governance_reporting/governance_reporting_builder.ts
+src/governance_reporting/governance_reporting_contract.ts
+src/governance_reporting/governance_reporting_formatter.ts
+src/governance_reporting/governance_reporting_model.ts
+src/governance_reporting/index.ts
+src/governance_traceability/governance_traceability_contract.ts
+src/governance_traceability/governance_traceability_formatter.ts
+src/governance_traceability/governance_traceability_model.ts
+src/governance_traceability/governance_traceability_snapshot.ts
+src/governance_traceability/index.ts
+src/governance_visibility/governance_visibility_contract.ts
+src/governance_visibility/governance_visibility_formatter.ts
+src/governance_visibility/governance_visibility_model.ts
+src/governance_visibility/governance_visibility_snapshot.ts
+src/governance_visibility/index.ts
+src/governance/cognition/build_governance_authorization_gate.ts
+src/governance/cognition/build_governance_cognition_snapshot.ts
+src/governance/cognition/build_governance_dashboard_consumption_view.ts
+src/governance/cognition/build_governance_final_delivery_receipt.ts
+src/governance/cognition/build_governance_final_pre_live_registry_archive_record.ts
+src/governance/cognition/build_governance_final_pre_live_registry_contract_package.ts
+src/governance/cognition/build_governance_final_pre_live_registry_summary_capsule.ts
+src/governance/cognition/build_governance_live_registry_wiring_readiness.ts
+src/governance/cognition/build_governance_live_wiring_decision.ts
+src/governance/cognition/build_governance_pre_live_registry_delivery_manifest.ts
+src/governance/cognition/build_governance_pre_live_registry_handoff_envelope.ts
+src/governance/cognition/build_governance_runtime_registry_export.ts
+src/governance/cognition/build_governance_shared_registry_owner_bundle.ts
+src/governance/cognition/get_governance_execution_eligibility_snapshot.ts
+src/governance/cognition/governance_authorization_gate.ts
+src/governance/cognition/governance_cognition_snapshot_contract.ts
+src/governance/cognition/governance_dashboard_consumption_contract.ts
+src/governance/cognition/governance_dashboard_contract_registration.ts
+src/governance/cognition/governance_final_delivery_receipt.ts
+src/governance/cognition/governance_final_pre_live_registry_archive_record.ts
+src/governance/cognition/governance_final_pre_live_registry_contract_package.ts
+src/governance/cognition/governance_final_pre_live_registry_summary_capsule.ts
+src/governance/cognition/governance_live_registry_wiring_readiness.ts
+src/governance/cognition/governance_live_wiring_decision.ts
+src/governance/cognition/governance_pre_live_registry_delivery_manifest.ts
+src/governance/cognition/governance_pre_live_registry_handoff_envelope.ts
+src/governance/cognition/governance_runtime_registry_export.ts
+src/governance/cognition/governance_shared_registry_owner_bundle.ts
+src/governance/cognition/index.ts
+src/governance/cognition/normalize_governance_dashboard_contract_registration.ts
+src/governance/cognition/normalize_governance_runtime_registry_export.ts
+src/governance/cognition/normalize_governance_shared_registry_owner_bundle.ts
+src/governance/cognition/normalize_governance_snapshot.ts
+src/governance/cognition/operationalConfidence.selector.ts
+src/governance/cognition/operationalConfidence.synthesizer.ts
+src/governance/cognition/operationalConfidence.test.ts
+src/governance/cognition/operationalConfidence.types.ts
+src/governance/cognition/package_governance_cognition_snapshot.ts
+src/governance/cognition/prove_governance_authorization_gate.ts
+src/governance/cognition/prove_governance_cognition_snapshot.ts
+src/governance/cognition/prove_governance_dashboard_consumption_view.ts
+src/governance/cognition/prove_governance_dashboard_contract_registration.ts
+src/governance/cognition/prove_governance_final_delivery_receipt.ts
+src/governance/cognition/prove_governance_final_pre_live_registry_archive_record.ts
+src/governance/cognition/prove_governance_final_pre_live_registry_contract_package.ts
+src/governance/cognition/prove_governance_final_pre_live_registry_summary_capsule.ts
+src/governance/cognition/prove_governance_live_registry_wiring_readiness.ts
+src/governance/cognition/prove_governance_live_wiring_decision.ts
+src/governance/cognition/prove_governance_pre_live_registry_delivery_manifest.ts
+src/governance/cognition/prove_governance_pre_live_registry_handoff_envelope.ts
+src/governance/cognition/prove_governance_runtime_registry_export.ts
+src/governance/cognition/prove_governance_shared_registry_owner_bundle.ts
+src/governance/cognition/register_governance_dashboard_contract.ts
+src/governance/cognition/select_governance_authorization_gate.ts
+src/governance/cognition/select_governance_dashboard_consumption_view.ts
+src/governance/cognition/select_governance_final_delivery_receipt.ts
+src/governance/cognition/select_governance_final_pre_live_registry_archive_record.ts
+src/governance/cognition/select_governance_final_pre_live_registry_contract_package.ts
+src/governance/cognition/select_governance_final_pre_live_registry_summary_capsule.ts
+src/governance/cognition/select_governance_live_registry_wiring_readiness.ts
+src/governance/cognition/select_governance_live_wiring_decision.ts
+src/governance/cognition/select_governance_pre_live_registry_delivery_manifest.ts
+src/governance/cognition/select_governance_pre_live_registry_handoff_envelope.ts
+src/governance/cognition/select_governance_runtime_registry_export.ts
+src/governance/cognition/select_governance_shared_registry_owner_bundle.ts
+src/governance/governance_advisory_consistency_guard.test.ts
+src/governance/governance_advisory_consistency_guard.ts
+src/governance/governance_advisory_contract_lock.test.ts
+src/governance/governance_advisory_contract_lock.ts
+src/governance/governance_advisory_contract.test.ts
+src/governance/governance_advisory_contract.ts
+src/governance/governance_advisory_digest.test.ts
+src/governance/governance_advisory_digest.ts
+src/governance/governance_advisory_normalizer.test.ts
+src/governance/governance_advisory_normalizer.ts
+src/governance/governance_advisory_operator_view.test.ts
+src/governance/governance_advisory_operator_view.ts
+src/governance/governance_advisory_pipeline.test.ts
+src/governance/governance_advisory_pipeline.ts
+src/governance/governance_advisory_presenter.test.ts
+src/governance/governance_advisory_presenter.ts
+src/governance/governance_advisory_report_builder.ts
+src/governance/governance_advisory_stability_sentinel.test.ts
+src/governance/governance_advisory_stability_sentinel.ts
+src/governance/governance_advisory_summary_builder.test.ts
+src/governance/governance_advisory_summary_builder.ts
+src/governance/governance_audit_log.test.ts
+src/governance/governance_audit_log.ts
+src/governance/governance_audit_trace_emitter.test.ts
+src/governance/governance_audit_trace_emitter.ts
+src/governance/governance_cognition_determinism_sentinel.test.ts
+src/governance/governance_cognition_determinism_sentinel.ts
+src/governance/governance_cognition_integrity_sentinel.test.ts
+src/governance/governance_cognition_integrity_sentinel.ts
+src/governance/governance_cognition_regression_sentinel.test.ts
+src/governance/governance_cognition_regression_sentinel.ts
+src/governance/governance_cognition_replay_verifier.ts
+src/governance/governance_confidence_score.test.ts
+src/governance/governance_contradiction_detector.test.ts
+src/governance/governance_contradiction_detector.ts
+src/governance/governance_decision_pipeline.test.ts
+src/governance/governance_decision_pipeline.ts
+src/governance/governance_drift_expectations.ts
+src/governance/governance_drift_guard.test.ts
+src/governance/governance_drift_guard.ts
+src/governance/governance_drift_sentinel.test.ts
+src/governance/governance_drift_sentinel.ts
+src/governance/governance_enforcement_contract.ts
+src/governance/governance_enforcement_evaluator.test.ts
+src/governance/governance_enforcement_evaluator.ts
+src/governance/governance_enforcement_result.ts
+src/governance/governance_explanation_builder.test.ts
+src/governance/governance_explanation_builder.ts
+src/governance/governance_explanation_layer.test.ts
+src/governance/governance_fixture_corpus.test.ts
+src/governance/governance_fixture_corpus.ts
+src/governance/governance_fixture_integrity_sentinel.test.ts
+src/governance/governance_fixture_integrity_sentinel.ts
+src/governance/governance_operator_confidence_score.ts
+src/governance/governance_operator_explanation_layer.ts
+src/governance/governance_pipeline_invariants.test.ts
+src/governance/governance_pipeline_invariants.ts
+src/governance/governance_pipeline_order_guard.test.ts
+src/governance/governance_pipeline_order_guard.ts
+src/governance/governance_policy_engine.test.ts
+src/governance/governance_policy_engine.ts
+src/governance/governance_policy_registry.ts
+src/governance/governance_policy_router.test.ts
+src/governance/governance_policy_router.ts
+src/governance/governance_replay_verifier.test.ts
+src/governance/governance_signal_classifier.test.ts
+src/governance/governance_signal_classifier.ts
+src/governance/governance_signal_explanation_registry.ts
+src/governance/governance_signal_registry.test.ts
+src/governance/governance_signal_stability_index.ts
+src/governance/governance_stability_index.test.ts
+src/governance/governanceCognitionIntegrationHooks.ts
+src/governance/governanceCognitionIntegrationProof.ts
+src/governance/governanceCognitionSelectors.ts
+src/governance/governanceCognitionSelectorsProof.ts
+src/governance/governanceCognitionSurfaceBuilder.ts
+src/governance/governanceCognitionSurfaceProof.ts
+src/governance/governanceCognitionSurfaceTypes.ts
+src/governance/governanceExecutionRouting.ts
+src/governance/governanceExecutionRoutingClassifier.ts
+src/governance/governanceExecutionRoutingProof.ts
+src/governance/governanceExecutionRoutingTypes.ts
+src/governance/governanceOperatorAwarenessBuilder.ts
+src/governance/governanceOperatorAwarenessProof.ts
+src/governance/governanceOperatorAwarenessSummary.ts
+src/governance/governanceOperatorAwarenessTypes.ts
+src/governance/governanceOutcomeSurfaceBuilder.ts
+src/governance/governanceOutcomeSurfaceProof.ts
+src/governance/governanceOutcomeSurfaceTypes.ts
+src/governance/index.ts
+

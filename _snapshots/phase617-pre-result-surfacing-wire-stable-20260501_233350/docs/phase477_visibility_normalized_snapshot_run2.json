@@ -1,0 +1,22 @@
+{
+  "intake": {
+    "intakeId": "intake_923c642b38d62b2878c8b188380956b5272b493bf655b84cf6dfe5749b3248df",
+    "status": "FAILURE"
+  },
+  "governance": {
+    "decision": "APPROVED",
+    "decisionId": "decision_923c642b38d62b2878c8b188380956b5272b493bf655b84cf6dfe5749b3248df"
+  },
+  "approval": {
+    "status": "REJECTED",
+    "approvalId": "approval_923c642b38d62b2878c8b188380956b5272b493bf655b84cf6dfe5749b3248df"
+  },
+  "execution": {
+    "status": "SUCCEEDED",
+    "output": "EXECUTION_OK: echo hello world"
+  },
+  "failure": {
+    "stage": "entry_validation",
+    "error": "EMPTY_INPUT"
+  }
+}

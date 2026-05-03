@@ -1,0 +1,75 @@
+PHASE 488 — SYSTEM FREEZE MARKER
+
+STATUS: HARD FROZEN
+
+────────────────────────────────
+
+FREEZE PURPOSE
+
+This marker formally enforces that the system must remain unchanged
+until a new phase is explicitly declared.
+
+────────────────────────────────
+
+FROZEN COMPONENTS
+
+• Worker execution loop
+• SQL contract family (Phase32)
+• Tasks table schema (execution-compatible set)
+• Event emission pipeline
+• API response structure (/api/runs)
+• Dashboard consumption behavior
+
+────────────────────────────────
+
+FREEZE RULES
+
+DO NOT:
+
+• Modify execution logic
+• Swap SQL contract families
+• Add or remove task columns
+• Introduce conditional execution paths
+• Patch behavior without phase declaration
+
+ALLOWED:
+
+• Observation only
+• Verification only
+• Planning next phase
+
+────────────────────────────────
+
+RISK NOTICE
+
+Any mutation at this stage risks:
+
+• Breaking deterministic guarantees
+• Reintroducing schema/contract mismatch
+• Corrupting lifecycle integrity
+• Invalidating golden checkpoint
+
+────────────────────────────────
+
+CONTROL TRANSFER
+
+System is now:
+
+→ Stable
+→ Predictable
+→ Fully controlled
+
+Next move must be intentional.
+
+────────────────────────────────
+
+OPERATOR STATE
+
+You are no longer debugging.
+
+You are now deciding what the system becomes next.
+
+────────────────────────────────
+
+END OF FREEZE MARKER
+

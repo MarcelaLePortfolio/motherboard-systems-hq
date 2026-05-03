@@ -1,0 +1,1 @@
+Workspace setup guide for Atlas.

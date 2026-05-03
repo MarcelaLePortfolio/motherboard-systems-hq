@@ -1,0 +1,41 @@
+/* Phase 491 — TRUE layout-level height parity */
+
+/* Parent workspace row */
+#workspace-row,
+.dashboard-row,
+.main-row {
+  display: flex !important;
+  align-items: stretch !important;
+}
+
+/* Both main cards */
+#operator-workspace-card,
+#observational-workspace-card {
+  flex: 1 1 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  min-height: 0 !important;
+}
+
+/* Inner panel containers */
+#operator-workspace-card > *,
+#observational-workspace-card > * {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+}
+
+/* Force scroll instead of growth */
+#obs-panel-recent,
+#obs-panel-activity,
+#obs-panel-events,
+#recent-tasks-card,
+#task-activity-card,
+#task-events-card {
+  overflow-y: auto !important;
+  max-height: 100% !important;
+}
+
+/* Prevent telemetry from expanding parent */
+#observational-workspace-card * {
+  max-height: 100%;
+}

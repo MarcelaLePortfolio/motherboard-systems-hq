@@ -1,0 +1,39 @@
+You have now safely committed the trigger instructions, so the next step is to actually apply the snippet into the server runtime in a controlled, single-change edit.
+The next command documents the exact verification procedure you will follow immediately after inserting the trigger to confirm system-led execution is working.
+
+POST-INSERT VERIFICATION PROCEDURE
+
+1. Restart containers:
+   docker compose up -d --build
+
+2. Wait ~60 seconds
+
+3. Validate task creation:
+   - Open Recent Tasks UI
+   - Confirm new task appears automatically
+
+4. Validate worker execution:
+   docker logs -f motherboard_systems_hq-worker-1
+   - Look for:
+     [phase614] system-trigger dispatched
+     task claimed
+     task completed
+
+5. Validate UI reflection:
+   - Execution Inspector shows the run
+   - Status transitions correctly (queued → claimed → complete)
+
+6. Regression check:
+   - Manually create a task
+   - Confirm manual flow still works
+
+SUCCESS CONDITION:
+- System generates tasks without user input
+- Full pipeline executes cleanly
+- UI reflects system-generated tasks identically
+
+FAILURE ACTION:
+- Remove trigger block immediately
+- Rebuild containers
+- Revert to phase614-pre-trigger tag if needed
+

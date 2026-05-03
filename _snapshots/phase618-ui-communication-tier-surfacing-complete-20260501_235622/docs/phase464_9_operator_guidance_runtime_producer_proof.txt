@@ -1,0 +1,672 @@
+PHASE 464.9 — OPERATOR GUIDANCE RUNTIME PRODUCER PROOF
+======================================================
+
+1) direct writes to operator guidance DOM ids
+public/dashboard.html:510:                        <div id="operator-guidance-response" class="text-sm text-gray-300 leading-6">
+public/dashboard.html:514:                        <div id="operator-guidance-meta" class="mt-3 text-xs text-gray-500 leading-5">
+public/js/phase457_controlled_proof.js:44:    const response = byId("operator-guidance-response");
+public/js/phase457_controlled_proof.js:45:    const meta = byId("operator-guidance-meta");
+public/js/operatorGuidance.sse.js:12:    const response = byId("operator-guidance-response");
+public/js/operatorGuidance.sse.js:13:    const meta = byId("operator-guidance-meta");
+
+2) SYSTEM_HEALTH anchors
+public/js/phase457_controlled_proof.js:16:    severity: "SYSTEM_HEALTH • INFO • HIGH",
+public/js/operatorGuidance.sse.js:18:      "SYSTEM_HEALTH • INFO • HIGH\n" +
+public/js/operatorGuidance.sse.js:22:      "Source: deterministic-baseline • Confidence: high • Mode: stable";
+
+3) append / overwrite behavior near guidance writes
+
+4) reconnect / interval / lifecycle behavior
+public/js/ops-sse-listener.js:6:// Close any existing OPS EventSource to avoid duplicates on hot reloads
+public/js/ops-sse-listener.js:11:console.warn("[OPS SSE] Error closing previous EventSource:", e);
+public/js/ops-sse-listener.js:15:if (typeof EventSource === "undefined") {
+public/js/ops-sse-listener.js:16:console.error("[OPS SSE] EventSource is not supported in this browser.");
+public/js/ops-sse-listener.js:26:    const es = (window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(OPS_SSE_URL));
+public/js/ops-sse-listener.js:64:console.error("[OPS pm2-status] Failed to parse payload:", err, event.data);
+public/js/ops-heartbeat-pinger.js:5:  if (document.readyState === "loading") {
+public/js/ops-heartbeat-pinger.js:6:    document.addEventListener("DOMContentLoaded", () => {
+public/js/ops-heartbeat-pinger.js:8:      setInterval(ping, 5000);
+public/js/ops-heartbeat-pinger.js:12:    setInterval(ping, 5000);
+public/js/phase22_task_delegation_live_bindings.js:102:      ev?.payload?.status ??
+public/js/phase22_task_delegation_live_bindings.js:130:      ev?.payload?.status ??
+public/js/phase22_task_delegation_live_bindings.js:151:      ev?.payload?.status ??
+public/js/phase22_task_delegation_live_bindings.js:173:      ev?.payload?.status ??
+public/js/phase22_task_delegation_live_bindings.js:182:      error: ev?.error ?? ev?.payload?.error ?? t?.error ?? null,
+public/js/phase22_task_delegation_live_bindings.js:297:  if (document.readyState === "loading") {
+public/js/phase22_task_delegation_live_bindings.js:298:    document.addEventListener("DOMContentLoaded", attach, { once: true });
+public/js/phase61_recent_history_wire.js:133:  function extractRecentRows(payload) {
+public/js/phase61_recent_history_wire.js:134:    if (Array.isArray(payload)) return payload;
+public/js/phase61_recent_history_wire.js:135:    if (Array.isArray(payload?.tasks)) return payload.tasks;
+public/js/phase61_recent_history_wire.js:136:    if (Array.isArray(payload?.rows)) return payload.rows;
+public/js/phase61_recent_history_wire.js:137:    if (Array.isArray(payload?.data)) return payload.data;
+public/js/phase61_recent_history_wire.js:141:  function extractHistoryRows(payload) {
+public/js/phase61_recent_history_wire.js:142:    if (Array.isArray(payload)) return payload;
+public/js/phase61_recent_history_wire.js:143:    if (Array.isArray(payload?.runs)) return payload.runs;
+public/js/phase61_recent_history_wire.js:144:    if (Array.isArray(payload?.rows)) return payload.rows;
+public/js/phase61_recent_history_wire.js:145:    if (Array.isArray(payload?.data)) return payload.data;
+public/js/phase61_recent_history_wire.js:150:    const payload = row?.payload && typeof row.payload === "object" ? row.payload : {};
+public/js/phase61_recent_history_wire.js:153:      title: row?.title || payload?.title || row?.task || row?.name || "(untitled)",
+public/js/phase61_recent_history_wire.js:154:      status: String(row?.status || payload?.status || "unknown"),
+public/js/phase61_recent_history_wire.js:155:      kind: String(row?.kind || payload?.kind || "task"),
+public/js/phase61_recent_history_wire.js:157:      agent: row?.agent || payload?.agent || payload?.target || row?.actor || row?.owner || "unassigned",
+public/js/phase61_recent_history_wire.js:216:    parts.probeEl.textContent = "probe:recent:loading";
+public/js/phase61_recent_history_wire.js:220:      const payload = await fetchJson(RECENT_ENDPOINT);
+public/js/phase61_recent_history_wire.js:221:      const rows = extractRecentRows(payload);
+public/js/phase61_recent_history_wire.js:222:      log("recent payload", payload);
+public/js/phase61_recent_history_wire.js:244:      renderEmpty(parts.listEl, `Error loading Recent Tasks: ${err.message}`);
+public/js/phase61_recent_history_wire.js:257:    parts.probeEl.textContent = "probe:history:loading";
+public/js/phase61_recent_history_wire.js:261:      const payload = await fetchJson(HISTORY_ENDPOINT);
+public/js/phase61_recent_history_wire.js:262:      const rows = extractHistoryRows(payload);
+public/js/phase61_recent_history_wire.js:284:      renderEmpty(parts.listEl, `Error loading Task Activity: ${err.message}`);
+public/js/phase61_recent_history_wire.js:304:    window.setInterval(refreshAll, REFRESH_MS);
+public/js/phase61_recent_history_wire.js:314:  if (document.readyState === "loading") {
+public/js/phase61_recent_history_wire.js:315:    document.addEventListener("DOMContentLoaded", boot, { once: true });
+public/js/phase64_agent_activity_bootstrap.js:3:Ensures agent activity wiring loads without modifying layout.
+public/js/phase64_agent_activity_bootstrap.js:8:function loadPhase64(){
+public/js/phase64_agent_activity_bootstrap.js:23:if(document.readyState==="loading"){
+public/js/phase64_agent_activity_bootstrap.js:24:  document.addEventListener("DOMContentLoaded",loadPhase64);
+public/js/phase64_agent_activity_bootstrap.js:26:  loadPhase64();
+public/js/reflections-sse-dashboard.js:10:// TODO: Re-enable EventSource wiring once a valid text/event-stream endpoint
+public/js/sse-heartbeat-shim.js:4: * Wrap EventSource so connection + any SSE message updates a normalized heartbeat store.
+public/js/sse-heartbeat-shim.js:33:  const NativeEventSource = w.EventSource;
+public/js/sse-heartbeat-shim.js:34:  if (!NativeEventSource || NativeEventSource.__hbWrapped) return;
+public/js/sse-heartbeat-shim.js:44:  function HeartbeatEventSource(url, eventSourceInitDict) {
+public/js/sse-heartbeat-shim.js:50:    const es = new NativeEventSource(url, eventSourceInitDict);
+public/js/sse-heartbeat-shim.js:81:  HeartbeatEventSource.prototype = NativeEventSource.prototype;
+public/js/sse-heartbeat-shim.js:82:  HeartbeatEventSource.__hbWrapped = true;
+public/js/sse-heartbeat-shim.js:84:  w.EventSource = HeartbeatEventSource;
+public/js/dashboard-graph.js:46:setInterval(renderGraph, 3000);
+public/js/telemetry/phase65b_metric_bootstrap.js:7:  function load(src) {
+public/js/telemetry/phase65b_metric_bootstrap.js:19:      console.error("[telemetry-bootstrap] failed to load:", src, err);
+public/js/telemetry/phase65b_metric_bootstrap.js:24:    load("/js/telemetry/phase65b_metric_ownership_guard.js");
+public/js/telemetry/phase65b_metric_bootstrap.js:25:    load("/js/telemetry/running_tasks_metric.js");
+public/js/telemetry/phase65b_metric_bootstrap.js:26:    load("/js/telemetry/success_rate_metric.js");
+public/js/telemetry/phase65b_metric_bootstrap.js:27:    load("/js/telemetry/latency_metric.js");
+public/js/telemetry/phase65b_metric_bootstrap.js:28:    load("/js/telemetry/queue_latency_metric.js");
+public/js/telemetry/phase65b_metric_bootstrap.js:31:  if (document.readyState === "loading") {
+public/js/telemetry/phase65b_metric_bootstrap.js:32:    document.addEventListener("DOMContentLoaded", start, { once: true });
+public/js/telemetry/phase65b_metric_ownership_guard.js:65:  if (document.readyState === "loading") {
+public/js/telemetry/phase65b_metric_ownership_guard.js:66:    document.addEventListener("DOMContentLoaded", bootstrap);
+public/js/telemetry/running_tasks_metric.js:39:  function processPayload(payload) {
+public/js/telemetry/running_tasks_metric.js:40:    const type = payload?.type || payload?.event || payload?.name;
+public/js/telemetry/running_tasks_metric.js:41:    const id = payload?.task_id || payload?.taskId || payload?.id;
+public/js/telemetry/running_tasks_metric.js:63:        processPayload(JSON.parse(e.data));
+public/js/telemetry/running_tasks_metric.js:70:  function patchEventSource() {
+public/js/telemetry/running_tasks_metric.js:73:    const Native = window.EventSource;
+public/js/telemetry/running_tasks_metric.js:89:    window.EventSource = Wrapped;
+public/js/telemetry/running_tasks_metric.js:94:    patchEventSource();
+public/js/telemetry/running_tasks_metric.js:98:  if (document.readyState === "loading") {
+public/js/telemetry/running_tasks_metric.js:99:    document.addEventListener("DOMContentLoaded", bootstrap);
+public/js/telemetry/latency_metric.js:92:  function getEventType(payload) {
+public/js/telemetry/latency_metric.js:94:      payload?.type ||
+public/js/telemetry/latency_metric.js:95:        payload?.event ||
+public/js/telemetry/latency_metric.js:96:        payload?.name ||
+public/js/telemetry/latency_metric.js:97:        payload?.status ||
+public/js/telemetry/latency_metric.js:98:        payload?.state ||
+public/js/telemetry/latency_metric.js:105:  function getTaskId(payload) {
+public/js/telemetry/latency_metric.js:107:      payload?.task_id ??
+public/js/telemetry/latency_metric.js:108:        payload?.taskId ??
+public/js/telemetry/latency_metric.js:109:        payload?.id ??
+public/js/telemetry/latency_metric.js:110:        payload?.data?.task_id ??
+public/js/telemetry/latency_metric.js:111:        payload?.data?.taskId ??
+public/js/telemetry/latency_metric.js:131:  function getEventTs(payload) {
+public/js/telemetry/latency_metric.js:133:      payload?.ts ??
+public/js/telemetry/latency_metric.js:134:        payload?.timestamp ??
+public/js/telemetry/latency_metric.js:135:        payload?.at ??
+public/js/telemetry/latency_metric.js:136:        payload?.time ??
+public/js/telemetry/latency_metric.js:137:        payload?.created_at ??
+public/js/telemetry/latency_metric.js:138:        payload?.updated_at ??
+public/js/telemetry/latency_metric.js:143:  function processPayload(payload) {
+public/js/telemetry/latency_metric.js:144:    const type = getEventType(payload);
+public/js/telemetry/latency_metric.js:145:    const taskId = getTaskId(payload);
+public/js/telemetry/latency_metric.js:146:    const eventTs = getEventTs(payload);
+public/js/telemetry/latency_metric.js:190:          parsed.forEach(processPayload);
+public/js/telemetry/latency_metric.js:192:          processPayload(parsed);
+public/js/telemetry/latency_metric.js:200:  function patchEventSource() {
+public/js/telemetry/latency_metric.js:203:    const Native = window.EventSource;
+public/js/telemetry/latency_metric.js:219:    window.EventSource = Wrapped;
+public/js/telemetry/latency_metric.js:224:    patchEventSource();
+public/js/telemetry/latency_metric.js:228:  if (document.readyState === "loading") {
+public/js/telemetry/latency_metric.js:229:    document.addEventListener("DOMContentLoaded", bootstrap);
+public/js/telemetry/success_rate_metric.js:60:  function getEventType(payload, fallbackEventName) {
+public/js/telemetry/success_rate_metric.js:62:      payload?.type ||
+public/js/telemetry/success_rate_metric.js:63:        payload?.event ||
+public/js/telemetry/success_rate_metric.js:64:        payload?.name ||
+public/js/telemetry/success_rate_metric.js:65:        payload?.kind ||
+public/js/telemetry/success_rate_metric.js:66:        payload?.status ||
+public/js/telemetry/success_rate_metric.js:67:        payload?.state ||
+public/js/telemetry/success_rate_metric.js:75:  function getTaskId(payload) {
+public/js/telemetry/success_rate_metric.js:77:      payload?.task_id ??
+public/js/telemetry/success_rate_metric.js:78:        payload?.taskId ??
+public/js/telemetry/success_rate_metric.js:79:        payload?.id ??
+public/js/telemetry/success_rate_metric.js:80:        payload?.data?.task_id ??
+public/js/telemetry/success_rate_metric.js:81:        payload?.data?.taskId ??
+public/js/telemetry/success_rate_metric.js:82:        payload?.meta?.task_id ??
+public/js/telemetry/success_rate_metric.js:83:        payload?.meta?.taskId ??
+public/js/telemetry/success_rate_metric.js:88:  function getEventTs(payload) {
+public/js/telemetry/success_rate_metric.js:90:      payload?.ts ??
+public/js/telemetry/success_rate_metric.js:91:      payload?.timestamp ??
+public/js/telemetry/success_rate_metric.js:92:      payload?.at ??
+public/js/telemetry/success_rate_metric.js:93:      payload?.time ??
+public/js/telemetry/success_rate_metric.js:94:      payload?.created_at ??
+public/js/telemetry/success_rate_metric.js:95:      payload?.updated_at ??
+public/js/telemetry/success_rate_metric.js:112:  function normalizePayload(payload, fallbackEventName) {
+public/js/telemetry/success_rate_metric.js:113:    const value = payload && typeof payload === "object" ? { ...payload } : {};
+public/js/telemetry/success_rate_metric.js:133:  function processPayload(payload, fallbackEventName) {
+public/js/telemetry/success_rate_metric.js:134:    const normalized = normalizePayload(payload, fallbackEventName);
+public/js/telemetry/success_rate_metric.js:175:          parsed.forEach((item) => processPayload(item, fallbackEventName));
+public/js/telemetry/success_rate_metric.js:177:          processPayload(parsed, fallbackEventName);
+public/js/telemetry/success_rate_metric.js:198:  function patchEventSource() {
+public/js/telemetry/success_rate_metric.js:201:    const Native = window.EventSource;
+public/js/telemetry/success_rate_metric.js:217:    window.EventSource = Wrapped;
+public/js/telemetry/success_rate_metric.js:222:    patchEventSource();
+public/js/telemetry/success_rate_metric.js:226:  if (document.readyState === "loading") {
+public/js/telemetry/success_rate_metric.js:227:    document.addEventListener("DOMContentLoaded", bootstrap);
+public/js/project-visual-output.js:18:    mark.textContent = "PVO subscriber loaded @ " + new Date().toISOString();
+public/js/project-visual-output.js:54:      const p = a.payload || {};
+public/js/project-visual-output.js:60:    const p = a.payload || {};
+public/js/project-visual-output.js:73:  const es = new EventSource("/events/artifacts");
+public/js/agent-status.js:1:document.addEventListener('DOMContentLoaded', () => {
+public/js/matilda-chat-console.js:118:  document.addEventListener("DOMContentLoaded", wireChat);
+public/js/task-events-sse-client.js:313:    es = new EventSource(url);
+public/js/task-events-sse-client.js:353:    setInterval(() => {
+public/js/task-events-sse-client.js:360:  if (document.readyState === "loading") {
+public/js/task-events-sse-client.js:361:    document.addEventListener("DOMContentLoaded", boot, { once: true });
+public/js/phase64_agent_activity_wire.js:200:  function ingestTaskEvent(payload) {
+public/js/phase64_agent_activity_wire.js:201:    const agent = normalizeAgentName(payload?.actor ?? payload?.agent ?? payload?.owner);
+public/js/phase64_agent_activity_wire.js:204:    const eventState = String(payload?.state ?? payload?.status ?? payload?.kind ?? "").toLowerCase();
+public/js/phase64_agent_activity_wire.js:206:    const taskId = payload?.task_id ?? payload?.taskId ?? null;
+public/js/phase64_agent_activity_wire.js:207:    const runId = payload?.run_id ?? payload?.runId ?? null;
+public/js/phase64_agent_activity_wire.js:208:    const ts = Number(payload?.ts ?? payload?.timestamp ?? Date.now()) || Date.now();
+public/js/phase64_agent_activity_wire.js:254:      const payload = await res.json();
+public/js/phase64_agent_activity_wire.js:255:      const rows = Array.isArray(payload?.rows) ? payload.rows : [];
+public/js/phase64_agent_activity_wire.js:311:        const payload = JSON.parse(event.data);
+public/js/phase64_agent_activity_wire.js:312:        ingestTaskEvent(payload);
+public/js/phase64_agent_activity_wire.js:326:      ownedTaskEventsStream = new EventSource("/events/task-events");
+public/js/phase64_agent_activity_wire.js:337:    pollTimer = window.setInterval(reconcileFromRuns, POLL_MS);
+public/js/phase64_agent_activity_wire.js:350:  if (document.readyState === "loading") {
+public/js/phase64_agent_activity_wire.js:351:    document.addEventListener("DOMContentLoaded", bootstrap, { once: true });
+public/js/phase16_sse_backoff.js:14: * - At most ONE underlying EventSource at any moment
+public/js/phase16_sse_backoff.js:51:    // user listeners (EventSource-like)
+public/js/phase16_sse_backoff.js:132:        es = new EventSource(url);
+public/js/phase31_6_seed_task_button.js:50:      payload: {
+public/js/phase31_6_seed_task_button.js:86:      btn.dataset.loading = "1";
+public/js/phase31_6_seed_task_button.js:91:      btn.dataset.loading = "0";
+public/js/agent-status-row.js:245:  function extractPayload(data) {
+public/js/agent-status-row.js:247:    if (data.payload && typeof data.payload === "object") return data.payload;
+public/js/agent-status-row.js:253:  function applyAgentMap(payload) {
+public/js/agent-status-row.js:254:    if (!payload || typeof payload !== "object") return false;
+public/js/agent-status-row.js:255:    const agents = payload.agents;
+public/js/agent-status-row.js:328:    const payload = extractPayload(data);
+public/js/agent-status-row.js:331:      if (applyAgentMap(payload)) return;
+public/js/agent-status-row.js:335:    if (applyAgentMap(payload)) return;
+public/js/agent-status-row.js:336:    applySingleAgent(payload);
+public/js/agent-status-row.js:342:    source = (window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(OPS_SSE_URL));
+public/js/agent-status-row.js:430:  const getTaskId = (payload) =>
+public/js/agent-status-row.js:431:    payload?.task_id ??
+public/js/agent-status-row.js:432:    payload?.taskId ??
+public/js/agent-status-row.js:433:    payload?.id ??
+public/js/agent-status-row.js:434:    payload?.data?.task_id ??
+public/js/agent-status-row.js:435:    payload?.data?.taskId ??
+public/js/agent-status-row.js:438:  const getEventType = (eventName, payload) =>
+public/js/agent-status-row.js:440:      payload?.type ??
+public/js/agent-status-row.js:441:      payload?.event ??
+public/js/agent-status-row.js:442:      payload?.status ??
+public/js/agent-status-row.js:443:      payload?.state ??
+public/js/agent-status-row.js:465:  const getEventTs = (payload) =>
+public/js/agent-status-row.js:467:      payload?.ts ??
+public/js/agent-status-row.js:468:      payload?.timestamp ??
+public/js/agent-status-row.js:469:      payload?.at ??
+public/js/agent-status-row.js:470:      payload?.time ??
+public/js/agent-status-row.js:471:      payload?.created_at ??
+public/js/agent-status-row.js:472:      payload?.updated_at ??
+public/js/agent-status-row.js:500:  const ingestEvent = (eventName, payload) => {
+public/js/agent-status-row.js:501:    const taskId = getTaskId(payload);
+public/js/agent-status-row.js:502:    const eventType = getEventType(eventName, payload);
+public/js/agent-status-row.js:503:    const eventTs = getEventTs(payload);
+public/js/agent-status-row.js:554:      parsed?.payload?.events,
+public/js/agent-status-row.js:568:      parsed?.payload ?? parsed?.data ?? parsed
+public/js/agent-status-row.js:576:        ingestMessage({ event: eventName, payload: parsed }, eventName);
+public/js/agent-status-row.js:578:        ingestMessage({ event: eventName, payload: { type: eventName } }, eventName);
+public/js/agent-status-row.js:586:      es = new EventSource('/events/task-events');
+public/js/agent-status-row.js:601:    window.addEventListener('beforeunload', () => es.close(), { once: true });
+public/js/agent-status-row.js:606:  window.setInterval(render, 10000);
+public/js/task-activity.js:5:document.addEventListener('DOMContentLoaded', () => {
+public/js/task-delegation.js:1:document.addEventListener('DOMContentLoaded', () => {
+public/js/phase457_controlled_proof.js:15:  const payload = Object.freeze({
+public/js/phase457_controlled_proof.js:35:  if (!isValid(payload)) return;
+public/js/phase457_controlled_proof.js:39:    active: payload
+public/js/phase457_controlled_proof.js:66:  if (document.readyState === "loading") {
+public/js/phase457_controlled_proof.js:67:    document.addEventListener("DOMContentLoaded", run, { once: true });
+public/js/dashboard-delegation.js:2:  console.log("[dashboard-delegation] module loaded");
+public/js/dashboard-delegation.js:223:  if (document.readyState === "loading") {
+public/js/dashboard-delegation.js:224:    document.addEventListener("DOMContentLoaded", init, { once: true });
+public/js/ops-globals-bridge.js:6:  if (typeof window === "undefined" || typeof EventSource === "undefined") return;
+public/js/ops-globals-bridge.js:8:  // Avoid multiple initializations if bundle is loaded twice
+public/js/ops-globals-bridge.js:49:    const es = (window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(opsUrl));
+public/js/ops-globals-bridge.js:52:    // Phase16: guard null EventSource before handlers
+public/js/ops-globals-bridge.js:61:    // Phase16: guard null EventSource before handlers (onerror)
+public/js/ops-globals-bridge.js:66:      console.warn("[ops-globals-bridge] EventSource error:", err);
+public/js/ops-globals-bridge.js:69:    console.warn("[ops-globals-bridge] Failed to init EventSource:", err);
+public/js/task-completion.js:1:document.addEventListener('DOMContentLoaded', () => {
+public/js/phase457_execution_guard.js:14:      lastPayloadHash: null
+public/js/phase457_execution_guard.js:18:  function hashPayload(p) {
+public/js/phase457_execution_guard.js:26:  function canExecute(payload) {
+public/js/phase457_execution_guard.js:31:    const hash = hashPayload(payload);
+public/js/phase457_execution_guard.js:34:    lock.lastPayloadHash = hash;
+public/js/phase457_execution_guard.js:40:  function isDuplicate(payload) {
+public/js/phase457_execution_guard.js:42:    const hash = hashPayload(payload);
+public/js/phase457_execution_guard.js:43:    return hash && hash === lock.lastPayloadHash;
+public/js/phase457_execution_guard.js:47:  window.__PHASE457_SAFE_EXECUTE__ = function(payload, renderFn) {
+public/js/phase457_execution_guard.js:48:    if (!payload || typeof renderFn !== "function") return;
+public/js/phase457_execution_guard.js:50:    // Reject duplicate payloads
+public/js/phase457_execution_guard.js:51:    if (isDuplicate(payload)) return;
+public/js/phase457_execution_guard.js:54:    if (!canExecute(payload)) return;
+public/js/phase457_execution_guard.js:57:    renderFn(payload);
+public/js/dashboard-status.js:4: * - Consume /events/ops + /events/reflections via EventSource
+public/js/dashboard-status.js:10: * EventSource.onmessage only receives UNNAMED events, so we must addEventListener()
+public/js/dashboard-status.js:172:  function extractPayload(parsed) {
+public/js/dashboard-status.js:174:    if (parsed.payload !== undefined) return parsed.payload;
+public/js/dashboard-status.js:194:    const es = (window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(url));
+public/js/dashboard-status.js:198:    // Phase16: guard null EventSource before handlers
+public/js/dashboard-status.js:210:      const payload = extractPayload(parsed);
+public/js/dashboard-status.js:214:        g[key].state = (payload && typeof payload === "object") ? payload : { value: payload };
+public/js/dashboard-status.js:217:        if (payload && typeof payload === "object") {
+public/js/dashboard-status.js:218:          if (typeof payload.path === "string" && "value" in payload) {
+public/js/dashboard-status.js:219:            g[key].state = applyDotPathPatch(g[key].state, payload);
+public/js/dashboard-status.js:221:            g[key].state = shallowMerge(g[key].state, payload);
+public/js/dashboard-status.js:223:        } else if (payload !== null && payload !== undefined) {
+public/js/dashboard-status.js:224:          g[key].state = shallowMerge(g[key].state, { lastValue: payload });
+public/js/dashboard-status.js:292:    setInterval(() => {
+public/js/dashboard-status.js:299:  document.readyState === "loading"
+public/js/dashboard-status.js:300:    ? document.addEventListener("DOMContentLoaded", boot, { once: true })
+public/js/ops-pill-state.js:62:  setInterval(applyState, POLL_INTERVAL_MS);
+public/js/operatorGuidance.sse.js:29:  if (document.readyState === "loading") {
+public/js/operatorGuidance.sse.js:30:    document.addEventListener("DOMContentLoaded", boot, { once: true });
+public/js/task-activity-graph.js:8: * Exported so dashboard-graph-loader.js can import it.
+public/js/dashboard-broadcast.js:2:// Wrapped in a guarded init() so we don't create duplicate intervals on reload.
+public/js/dashboard-broadcast.js:26:setInterval(() => {
+public/js/dashboard-broadcast.js:59:if (document.readyState === "loading") {
+public/js/dashboard-broadcast.js:60:window.addEventListener("DOMContentLoaded", run);
+public/js/phase457_neutralize_legacy_observational_consumers.js:22:      /loading/.test(lower) ||
+public/js/phase457_neutralize_legacy_observational_consumers.js:48:  if (document.readyState === "loading") {
+public/js/phase457_neutralize_legacy_observational_consumers.js:49:    document.addEventListener("DOMContentLoaded", boot, { once: true });
+public/js/phase457_restore_task_panels.js:204:    var payload = parsed && typeof parsed === "object"
+public/js/phase457_restore_task_panels.js:205:      ? (parsed.payload || parsed.data || parsed)
+public/js/phase457_restore_task_panels.js:208:    if (Array.isArray(payload)) {
+public/js/phase457_restore_task_panels.js:209:      payload.forEach(function (item) {
+public/js/phase457_restore_task_panels.js:215:    if (payload && Array.isArray(payload.events)) {
+public/js/phase457_restore_task_panels.js:216:      payload.events.forEach(function (item) {
+public/js/phase457_restore_task_panels.js:222:    if (payload && typeof payload === "object") {
+public/js/phase457_restore_task_panels.js:223:      if (!payload.kind && name) payload.kind = name;
+public/js/phase457_restore_task_panels.js:224:      ingestTaskEvent(payload);
+public/js/phase457_restore_task_panels.js:232:      state.es = new EventSource("/events/task-events");
+public/js/phase457_restore_task_panels.js:300:    setInterval(renderAll, 4000);
+public/js/phase457_restore_task_panels.js:304:  if (document.readyState === "loading") {
+public/js/phase457_restore_task_panels.js:305:    document.addEventListener("DOMContentLoaded", boot, { once: true });
+public/js/sse-tasks-singleton.js:4: * Strict reuse of /events/tasks EventSource to prevent connect/abort churn.
+public/js/sse-tasks-singleton.js:10:  if (!window.EventSource) return;
+public/js/sse-tasks-singleton.js:14:  const NativeEventSource = window.EventSource;
+public/js/sse-tasks-singleton.js:63:    const es = new NativeEventSource(url, init);
+public/js/sse-tasks-singleton.js:88:  function TasksSafeEventSource(url, eventSourceInitDict) {
+public/js/sse-tasks-singleton.js:89:    if (!isTasksUrl(url)) return new NativeEventSource(url, eventSourceInitDict);
+public/js/sse-tasks-singleton.js:121:  TasksSafeEventSource.prototype = NativeEventSource.prototype;
+public/js/sse-tasks-singleton.js:122:  window.EventSource = TasksSafeEventSource;
+public/js/sse-tasks-singleton.js:124:  window.addEventListener("beforeunload", () => {
+public/js/delegation-wire.js:7:console.log("[delegation-wire] script loaded");
+public/js/delegation-wire.js:73:if (document.readyState === "loading") {
+public/js/delegation-wire.js:74:document.addEventListener("DOMContentLoaded", initDelegationWiring);
+public/js/dashboard-tasks-widget.js:27:    loading: false,
+public/js/dashboard-tasks-widget.js:107:          ${state.loading && !state.tasks.length ? `<div style="opacity:.7">Loading…</div>` : ""}
+public/js/dashboard-tasks-widget.js:124:              : !state.loading
+public/js/dashboard-tasks-widget.js:150:      state.loading = true;
+public/js/dashboard-tasks-widget.js:163:        state.loading = false;
+public/js/dashboard-tasks-widget.js:406:    if (state.runsPanelTimer) clearInterval(state.runsPanelTimer);
+public/js/dashboard-tasks-widget.js:407:    state.runsPanelTimer = setInterval(() => {
+public/js/dashboard-tasks-widget.js:408:      if (document.hidden) return;
+public/js/dashboard-tasks-widget.js:415:  document.addEventListener("DOMContentLoaded", () => {
+public/js/dashboard-tasks-widget.js:433:  setInterval(() => {
+public/js/dashboard-tasks-widget.js:434:    if (document.hidden) return;
+public/js/sse-reflections-shim.js:1:// Phase 11 – SSE shim to disable Reflections EventSource until backend is ready
+public/js/sse-reflections-shim.js:5:  if (typeof window.EventSource === "undefined") return;
+public/js/sse-reflections-shim.js:7:  const NativeEventSource = window.EventSource;
+public/js/sse-reflections-shim.js:9:  function ReflectionsSafeEventSource(url, eventSourceInitDict) {
+public/js/sse-reflections-shim.js:12:        "[SSE SHIM] Reflections SSE disabled; backend not available. Returning dummy EventSource."
+public/js/sse-reflections-shim.js:29:    return new NativeEventSource(url, eventSourceInitDict);
+public/js/sse-reflections-shim.js:32:  ReflectionsSafeEventSource.prototype = NativeEventSource.prototype;
+public/js/sse-reflections-shim.js:33:  window.EventSource = ReflectionsSafeEventSource;
+public/js/phase61_tabs_workspace.js:1:document.addEventListener("DOMContentLoaded", () => {
+public/js/phase60_live_clock.js:20:  setInterval(() => {
+public/js/dashboard-graph-loader.js:2:// Dynamic loader for the task activity graph, now wrapped in a guarded init()
+public/js/dashboard-graph-loader.js:3:// so it doesn't register multiple listeners when the bundle is reloaded.
+public/js/dashboard-graph-loader.js:31:console.error("Failed to load tasks for graph:", err);
+public/js/dashboard-graph-loader.js:37:* Initialize the dynamic task graph loader in a guarded way so it
+public/js/dashboard-graph-loader.js:50:if (document.readyState === "loading") {
+public/js/dashboard-graph-loader.js:51:window.addEventListener("DOMContentLoaded", fetchTasksAndRender);
+public/js/heartbeat-stale-indicator.js:71:      el.textContent = "HB ? (shim not loaded)";
+public/js/heartbeat-stale-indicator.js:84:  if (document.readyState === "loading") {
+public/js/heartbeat-stale-indicator.js:85:    document.addEventListener("DOMContentLoaded", () => {
+public/js/heartbeat-stale-indicator.js:87:      setInterval(tick, 1000);
+public/js/heartbeat-stale-indicator.js:91:    setInterval(tick, 1000);
+
+5) focused excerpts from operatorGuidance.sse.js
+(() => {
+  "use strict";
+
+  if (window.__PHASE456_MINIMAL_GUIDANCE_EMITTER__) return;
+  window.__PHASE456_MINIMAL_GUIDANCE_EMITTER__ = true;
+
+  function byId(id) {
+    return document.getElementById(id);
+  }
+
+  function renderBaseline() {
+    const response = byId("operator-guidance-response");
+    const meta = byId("operator-guidance-meta");
+
+    if (!response || !meta) return;
+
+    response.textContent =
+      "SYSTEM_HEALTH • INFO • HIGH\n" +
+      "System operational. No active tasks. Awaiting operator input.";
+
+    meta.textContent =
+      "Source: deterministic-baseline • Confidence: high • Mode: stable";
+  }
+
+  function boot() {
+    renderBaseline();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", boot, { once: true });
+  } else {
+    boot();
+  }
+})();
+
+6) focused excerpts from phase457 helper scripts
+FILE: public/js/phase457_restore_task_panels.js
+(function () {
+  if (typeof window === "undefined" || typeof document === "undefined") return;
+  if (window.__PHASE457_RESTORE_TASK_PANELS_ACTIVE__) return;
+  window.__PHASE457_RESTORE_TASK_PANELS_ACTIVE__ = true;
+
+  var MAX_RECENT = 8;
+  var MAX_HISTORY = 16;
+  var MAX_EVENTS = 24;
+  var TASKS_API = "/api/tasks";
+
+  var state = {
+    recent: [],
+    history: [],
+    events: [],
+    sourceOpen: false,
+    sourceError: false,
+    es: null,
+    bootstrapped: false
+  };
+
+  function byId(id) {
+    return document.getElementById(id);
+  }
+
+  function escapeHtml(value) {
+    return String(value == null ? "" : value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  function normalizeStatus(value) {
+    var v = String(value || "").trim().toLowerCase();
+    if (!v) return "unknown";
+    if (v === "complete") return "completed";
+    return v;
+  }
+
+  function normalizeTask(input) {
+    var src = input && typeof input === "object" ? input : {};
+    return {
+      id: String(src.task_id || src.taskId || src.id || src.run_id || src.runId || ("task-" + Date.now())),
+      title: String(src.title || src.name || src.task || src.task_id || src.taskId || "task"),
+      status: normalizeStatus(src.status || src.state || src.kind || src.event || "queued"),
+      updatedAt: src.updated_at || src.updatedAt || src.created_at || src.createdAt || src.ts || Date.now()
+    };
+  }
+
+  function normalizeEvent(input) {
+    var src = input && typeof input === "object" ? input : {};
+    return {
+      ts: src.ts || src.created_at || src.createdAt || Date.now(),
+      kind: String(src.kind || src.event || src.type || src.status || "event"),
+      task_id: String(src.task_id || src.taskId || src.id || "task"),
+      status: String(src.status || src.state || ""),
+      actor: String(src.actor || ""),
+      run_id: String(src.run_id || src.runId || ""),
+      message: String(src.message || src.msg || "")
+    };
+  }
+
+  function upsertTask(list, task, max) {
+    var existingIndex = list.findIndex(function (item) {
+      return item.id === task.id;
+    });
+
+    if (existingIndex >= 0) {
+      list[existingIndex] = Object.assign({}, list[existingIndex], task);
+    } else {
+      list.unshift(task);
+    }
+
+    list.sort(function (a, b) {
+      return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
+    });
+
+    if (list.length > max) list.length = max;
+  }
+
+  function pushRecent(input) {
+    upsertTask(state.recent, normalizeTask(input), MAX_RECENT);
+  }
+
+  function pushHistory(input) {
+    upsertTask(state.history, normalizeTask(input), MAX_HISTORY);
+  }
+
+  function pushEvent(input) {
+    state.events.unshift(normalizeEvent(input));
+    if (state.events.length > MAX_EVENTS) state.events.length = MAX_EVENTS;
+  }
+
+  function renderRecent() {
+    var el = byId("tasks-widget");
+    if (!el) return;
+
+    if (!state.recent.length) {
+      el.innerHTML = '<div class="text-sm text-gray-500">No recent tasks yet.</div>';
+      return;
+    }
+
+    el.innerHTML = state.recent.map(function (task) {
+      return (
+        '<div class="mb-2 rounded-lg border border-gray-700 bg-gray-900/60 px-3 py-2">' +
+          '<div class="text-sm text-gray-200">' + escapeHtml(task.title) + '</div>' +
+          '<div class="text-xs text-gray-500 mt-1">status: ' + escapeHtml(task.status) + '</div>' +
+        '</div>'
+      );
+    }).join("");
+  }
+
+  function renderHistory() {
+    var el = byId("recentLogs");
+    if (!el) return;
+
+    if (!state.history.length) {
+      el.innerHTML = '<div class="text-sm text-gray-500">No task history yet.</div>';
+      return;
+    }
+
+    el.innerHTML = state.history.map(function (task) {
+      return (
+        '<div class="mb-2 rounded-lg border border-gray-800 bg-black/20 px-3 py-2 text-sm text-gray-300">' +
+          escapeHtml(task.title) + ' · ' + escapeHtml(task.status) +
+        '</div>'
+      );
+    }).join("");
+  }
+
+  function renderEvents() {
+    var anchor = byId("mb-task-events-panel-anchor");
+    if (!anchor) return;
+
+    var panel = byId("mb-task-events-panel");
+    var feed = byId("mb-task-events-feed");
+
+    if (!panel) {
+      panel = document.createElement("div");
+      panel.id = "mb-task-events-panel";
+      panel.className = "rounded-lg border border-gray-700 bg-gray-900/60 p-3";
+      anchor.innerHTML = "";
+      anchor.appendChild(panel);
+    }
+
+    if (!feed) {
+      feed = document.createElement("div");
+      feed.id = "mb-task-events-feed";
+      panel.innerHTML = "";
+      panel.appendChild(feed);
+    }
+
+    if (!state.events.length) {
+      feed.innerHTML =
+        '<div class="text-sm text-gray-500">' +
+        (state.sourceError ? "Task events stream reconnecting…" : "Waiting for task events…") +
+        "</div>";
+      return;
+    }
+
+    feed.innerHTML = state.events.map(function (eventRow) {
+      return (
+        '<div class="mb-2 rounded-lg border border-gray-800 bg-black/20 px-3 py-2">' +
+          '<div class="text-xs text-gray-500">' + escapeHtml(eventRow.kind) + '</div>' +
+          '<div class="text-sm text-gray-300 mt-1">' + escapeHtml(eventRow.task_id) + (eventRow.status ? " · " + escapeHtml(eventRow.status) : "") + '</div>' +
+        '</div>'
+      );
+    }).join("");
+  }
+
+  function renderAll() {
+    renderRecent();
+    renderHistory();
+    renderEvents();
+  }
+
+  function ingestTaskEvent(raw) {
+    if (!raw || typeof raw !== "object") return;
+
+    var task = normalizeTask(raw);
+    pushRecent(task);
+    pushHistory(task);
+
+    var eventRow = normalizeEvent(raw);
+    if (eventRow.kind === "unknown" && task.status) {
+      eventRow.kind = task.status;
+    }
+    pushEvent(eventRow);
+
+    renderAll();
+  }
+
+  function safeJsonParse(text) {
+    try {
+      return JSON.parse(text);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  function ingestFrame(name, rawData) {
+    var parsed = typeof rawData === "string" ? safeJsonParse(rawData) : rawData;
+    var payload = parsed && typeof parsed === "object"
+      ? (parsed.payload || parsed.data || parsed)
+      : {};
+
+    if (Array.isArray(payload)) {
+      payload.forEach(function (item) {
+        ingestTaskEvent(item);
+      });
+      return;
+    }
+
+    if (payload && Array.isArray(payload.events)) {
+      payload.events.forEach(function (item) {
+        ingestTaskEvent(item);
+      });
+      return;
+    }
+
+FILE: public/js/phase457_neutralize_legacy_observational_consumers.js
+(() => {
+  "use strict";
+
+  if (window.__PHASE457_NEUTRALIZER_ACTIVE__) return;
+  window.__PHASE457_NEUTRALIZER_ACTIVE__ = true;
+
+  // 🔒 PHASE 457 HOTFIX:
+  // Disable operator guidance normalization ONLY
+  // Preserve all other panel behavior
+
+  function byId(id) {
+    return document.getElementById(id);
+  }
+
+  function isProbeLike(raw) {
+    const text = String(raw || "");
+    const lower = text.toLowerCase();
+
+    return (
+      !text.trim() ||
+      /probe:/.test(lower) ||
+      /loading/.test(lower) ||
+      /updated_at/.test(lower) ||
+      /run_view/.test(lower) ||
+      /does not exist/.test(lower)
+    );
+  }
+
+  function setIfProbeLike(node, fallbackText) {
+    if (!node) return;
+    if (!isProbeLike(node.textContent || "")) return;
+    node.textContent = fallbackText;
+  }
+
+  function normalizeLegacyStatusPanels() {
+    setIfProbeLike(byId("tasks-widget"), "No recent tasks yet.");
+    setIfProbeLike(byId("recentLogs"), "No task history yet.");
+  }
+
+  function boot() {
+    normalizeLegacyStatusPanels();
+
+    // 🚫 CRITICAL: DO NOT TOUCH OPERATOR GUIDANCE
+    // Previously caused infinite render loop via MutationObserver
+    // Guidance is now controlled ONLY by Phase 456 baseline emitter
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", boot, { once: true });
+  } else {
+    boot();
+  }
+})();
+
+
+7) bounded bundle excerpts around guidance anchors
+
+8) provisional decision rule
+- If operatorGuidance.sse.js is overwrite-only and one-shot, it is likely NOT the flood producer.
+- If bundle.js contains repeated writes, append behavior, reconnect logic, or lifecycle restarts touching guidance DOM, bundle.js becomes the true fix surface.
+- Next mutation must remain ONE FILE ONLY.

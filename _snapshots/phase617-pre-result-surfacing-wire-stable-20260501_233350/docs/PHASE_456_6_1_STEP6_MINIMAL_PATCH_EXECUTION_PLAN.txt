@@ -1,0 +1,75 @@
+PHASE 456.6.1 - STEP 6
+Minimal Patch Execution Plan
+----------------------------
+
+CLASSIFICATION
+Execution planning only.
+Documentation correction planning only.
+No mutation to runtime behavior.
+No wiring.
+No governance changes.
+No execution changes.
+
+PURPOSE
+Define the exact smallest-safe execution sequence for the wording-only patch
+authorized by the minimal wording patch definition.
+
+INPUT
+docs/PHASE_456_6_1_STEP5_MINIMAL_WORDING_PATCH_DEFINITION.txt
+
+PLAN PRINCIPLE
+The correction must remain:
+- wording only
+- doc and label alignment only
+- behavior preserving
+- architecture preserving
+
+EXECUTION ORDER
+1. Patch primary target wording only.
+2. Patch secondary target wording only.
+3. Verify canonical phrases are present.
+4. Verify no capability semantics changed.
+5. Record stabilization verdict.
+
+TARGETS
+- docs/PHASE_456_STEP3_DASHBOARD_EXPOSURE_CONTRACT.md
+- docs/PHASE_456_STEP4_DASHBOARD_EXPOSURE_CHECKLIST.md
+
+CANONICAL PHRASES
+- DEMO CAPABLE
+- Operator approval
+- Governance review
+- Await operator approval
+
+PATCH RULES
+- Preserve DEMO CAPABLE as the dashboard-facing readiness phrase.
+- Use Operator approval as the canonical human authorization phrase.
+- Prefer Governance review as the governance-facing review phrase.
+- Normalize await wording to Await operator approval.
+- Do not alter flow ordering, capability meaning, or approval semantics.
+
+ALLOWED MUTATIONS
+- wording edits in target docs only
+- replacement of inconsistent approval/readiness phrasing
+- clarification text additions only if minimal and necessary
+
+NOT ALLOWED
+- changes to src/
+- dashboard logic changes
+- execution changes
+- governance changes
+- routing changes
+- new files outside the phase docs unless explicitly required
+
+SUCCESS CONDITION
+Execution plan complete when:
+- exact targets fixed
+- exact phrases fixed
+- semantic preservation rules restated
+- next step is wording-only patch execution
+
+NEXT_STEP
+MINIMAL_WORDING_PATCH_EXECUTION
+
+DETERMINISTIC_STOP
+Stop after minimal patch execution plan is recorded.

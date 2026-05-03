@@ -1,0 +1,15 @@
+PHASE 457 - NEXT CANDIDATE BOOT URLS
+====================================
+
+phase65_layout      -> http://localhost:8091
+phase65_wiring      -> http://localhost:8092
+operator_guidance   -> http://localhost:8093
+
+Interpretation:
+- 8091 = confirmed old layout baseline
+- 8092 = next checkpoint to inspect for lost telemetry/wiring
+- 8093 = later operator-guidance workspace checkpoint
+
+Logs:
+- docs/recovery_full_audit/phase65_wiring_boot_on_8092.txt
+- docs/recovery_full_audit/operator_guidance_boot_on_8093.txt

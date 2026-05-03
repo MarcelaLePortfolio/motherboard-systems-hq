@@ -1,0 +1,23 @@
+=== run-1770234846688-2e40cffc4ae86 ===
+Pager usage is off.
+             run_id              | task_id |   actor   | lease_expires_at | lease_fresh | lease_ttl_ms | last_heartbeat_ts | heartbeat_age_ms | last_event_id | last_event_ts | last_event_kind | task_status | is_terminal | terminal_event_kind | terminal_event_ts | terminal_event_id 
+---------------------------------+---------+-----------+------------------+-------------+--------------+-------------------+------------------+---------------+---------------+-----------------+-------------+-------------+---------------------+-------------------+-------------------
+ run-1770234846688-2e40cffc4ae86 | t30     | docker-wA |    1770234851704 | f           |            0 |                   |                  |          2091 | 1770234846719 | task.completed  | completed   | t           |                     |                   |                  
+(1 row)
+
+ id | task_id |  status   | claimed_by |  claimed_at   | lease_epoch | lease_expires_at |             run_id              |   actor   | error |          updated_at          
+----+---------+-----------+------------+---------------+-------------+------------------+---------------------------------+-----------+-------+------------------------------
+ 30 | t30     | completed | docker-wA  | 1770234846704 |           6 |    1770234851704 | run-1770234846688-2e40cffc4ae86 | docker-wA |       | 2026-02-04 19:54:06.71875+00
+(1 row)
+
+  id  |      ts       |      kind      | task_id |             run_id              |   actor   
+------+---------------+----------------+---------+---------------------------------+-----------
+ 2090 | 1770234846710 | task.running   | t30     | run-1770234846688-2e40cffc4ae86 | docker-wA
+ 2091 | 1770234846719 | task.completed | t30     | run-1770234846688-2e40cffc4ae86 | docker-wA
+(2 rows)
+
+  id  |      ts       |      kind      | task_id |             run_id              |   actor   
+------+---------------+----------------+---------+---------------------------------+-----------
+ 2091 | 1770234846719 | task.completed | t30     | run-1770234846688-2e40cffc4ae86 | docker-wA
+(1 row)
+

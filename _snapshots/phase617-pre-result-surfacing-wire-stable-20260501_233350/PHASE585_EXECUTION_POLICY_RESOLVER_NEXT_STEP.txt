@@ -1,0 +1,9 @@
+Phase 585 execution policy resolver next step.
+
+Goal:
+Wire execution_policy_resolver into the worker for runtime visibility only.
+
+Expected:
+- Worker logs resolved execution policy for claimed tasks.
+- No behavior mutation yet.
+- Confirms enforcement boundary is active and ready for future hooks.

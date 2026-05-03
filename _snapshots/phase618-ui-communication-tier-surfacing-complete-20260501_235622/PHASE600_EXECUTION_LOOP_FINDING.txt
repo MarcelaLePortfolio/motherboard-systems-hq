@@ -1,0 +1,22 @@
+Phase 600 execution loop finding.
+
+Finding:
+- Worker claims one task per interval.
+- Worker resolves execution policy inline inside the claim loop.
+- Worker emits cache_policy, memory_scope, and execution_mode runtime hook logs.
+- Worker then runs interpretTaskExecution(task).
+- Worker validates output with safeExecutionContract(task, executionResult).
+- Worker only marks success after contract validation passes.
+
+Current Risk:
+- The claim loop is becoming dense.
+- Policy observability, interpretation, contract validation, and completion are all mixed in one block.
+
+Safe Next Step:
+- Extract policy logging/runtime-hook logging into a dedicated helper.
+- Preserve exact behavior.
+- Do not alter execution outcome.
+- Do not touch UI, routes, or endpoint logic.
+
+Status:
+READY FOR NON-BEHAVIORAL EXECUTION LOOP REFACTOR

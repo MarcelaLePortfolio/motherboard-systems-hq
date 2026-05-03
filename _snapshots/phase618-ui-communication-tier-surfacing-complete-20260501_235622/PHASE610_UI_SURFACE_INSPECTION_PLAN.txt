@@ -1,0 +1,80 @@
+Phase 610 UI surface inspection plan.
+
+Checkpoint:
+- Phase 609 presentation authority rules defined.
+- Response compiler exists and is stable (passive).
+- No UI wiring has been performed.
+
+Objective:
+Inspect current UI surfaces to determine safe integration points for CommunicationResult without altering behavior.
+
+Scope:
+READ-ONLY inspection only.
+No UI mutations.
+No API changes.
+No execution changes.
+
+Targets:
+
+1. Recent Tasks UI
+- Locate component responsible for rendering task rows.
+- Identify:
+  - current displayed fields (title, status, timestamps, etc.)
+  - source API endpoint
+  - rendering logic for task output (if any)
+
+Goal:
+Determine where Tier 1 outcome could replace or augment current display safely.
+
+2. Execution Inspector UI
+- Locate component for detailed task view.
+- Identify:
+  - current summary section
+  - any existing explanation or notes display
+  - any debug or trace panels
+
+Goal:
+Map:
+- Tier 1 → summary
+- Tier 2 → explanation section
+- Tier 3 → trace/debug panel (if exists)
+
+3. Task History / Events UI
+- Identify how lifecycle events are rendered.
+- Confirm separation between:
+  - lifecycle logs
+  - execution output
+
+Goal:
+Ensure CommunicationResult does NOT duplicate lifecycle events.
+
+4. API Surfaces
+- Inspect:
+  - /api/tasks
+  - /api/delegate-task
+  - any inspector/detail endpoints
+
+Goal:
+Confirm:
+- where execution output currently flows
+- where CommunicationResult could be injected later (without breaking contracts)
+
+5. Data Flow Mapping
+Document:
+- Task creation → DB → worker → execution → completion → UI fetch
+
+Goal:
+Identify exact insertion point for CommunicationResult in future phase.
+
+Constraints:
+- No code changes in this phase.
+- No speculative wiring.
+- No assumptions without confirming source.
+
+Success Criteria:
+- Clear mapping of UI components to communication tiers.
+- Identified safe insertion points.
+- No ambiguity about current rendering behavior.
+
+Status:
+READY FOR UI SURFACE DISCOVERY

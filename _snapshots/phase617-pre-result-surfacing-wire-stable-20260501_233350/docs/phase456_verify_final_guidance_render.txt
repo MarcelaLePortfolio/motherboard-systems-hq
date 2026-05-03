@@ -1,0 +1,13 @@
+PHASE 456 — FINAL GUIDANCE RENDER CHECK
+Generated: 2026-04-09T18:46:24Z
+
+=== VERIFY LIVE JS (SHOULD BE BASELINE EMITTER) ===
+  if (window.__PHASE456_MINIMAL_GUIDANCE_EMITTER__) return;
+  window.__PHASE456_MINIMAL_GUIDANCE_EMITTER__ = true;
+
+=== QUICK UI CHECK INSTRUCTION ===
+1. Open: http://localhost:8080/dashboard.html
+2. Confirm Operator Guidance shows:
+   SYSTEM_HEALTH • INFO • HIGH
+   System operational. No active tasks. Awaiting operator input.
+

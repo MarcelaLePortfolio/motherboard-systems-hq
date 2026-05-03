@@ -1,0 +1,147 @@
+PHASE 464.X — BUNDLE CANDIDATE HIT SUMMARY
+==========================================
+
+Timestamp (UTC): 2026-04-10T17:50:58Z
+Repo root: /Users/marcela-dev/Projects/Motherboard_Systems_HQ
+Source: docs/phase464_x_bundle_source_candidates.txt
+
+1) File sections present in source artifact
+FILE: public/js/dashboard-status.js
+FILE: public/js/operatorGuidance.sse.js
+FILE: public/js/phase457_restore_task_panels.js
+FILE: public/js/phase457_neutralize_legacy_observational_consumers.js
+
+2) Per-file non-empty rg hit lines
+17 | FILE: public/js/dashboard-status.js
+12 | FILE: public/js/phase457_restore_task_panels.js
+5 | FILE: public/js/operatorGuidance.sse.js
+4 | FILE: public/js/phase457_neutralize_legacy_observational_consumers.js
+
+3) Files with ZERO direct hit lines
+
+4) Top 120 lines of source artifact for manual review
+PHASE 464.X — BUNDLE SOURCE CANDIDATES
+======================================
+
+Timestamp (UTC): 2026-04-10T17:49:39Z
+Repo root: /Users/marcela-dev/Projects/Motherboard_Systems_HQ
+
+ELIMINATION
+- agent.ts is a heartbeat stub, not guidance producer
+- dev-server.ts is static file server + /agent-status.json only
+- next surface = browser bundle-adjacent source files
+
+FILE: public/js/dashboard-status.js
+----------------------------------------
+4: * - Consume /events/ops + /events/reflections via EventSource
+10: * EventSource.onmessage only receives UNNAMED events, so we must addEventListener()
+42:    if (text) n.textContent = text;
+49:    s.textContent = `
+69:    document.head.appendChild(s);
+91:        document.body.appendChild(tray);
+100:    node.append(
+109:        wrap.appendChild(node);
+110:        anchor.appendChild(wrap);
+113:        wrap.appendChild(node);
+114:        anchor.appendChild(wrap);
+117:      anchor.appendChild(node);
+128:    meta.textContent = `${label}: ${connected ? "connected" : "disconnected"} · last: ${lastAt ? formatAge(NOW() - lastAt) : "—"}`;
+194:    const es = (window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(url));
+198:    // Phase16: guard null EventSource before handlers
+279:        return heads.find(h => (h.textContent || "").toLowerCase().includes("reflections")) || null;
+292:    setInterval(() => {
+
+----- public/js/dashboard-status.js lines 1-44 -----
+/**
+ * Phase 16: Dashboard wiring for OPS + Reflections SSE streams.
+ *
+ * - Consume /events/ops + /events/reflections via EventSource
+ * - Treat *.state as "initial paint" (replace baseline state)
+ * - Treat subsequent events as incremental updates (merge / patch)
+ * - Add tiny “connected / last event” UI indicator for each stream
+ *
+ * NOTE: Your SSE server emits NAMED events (e.g. "ops.state", "reflections.state").
+ * EventSource.onmessage only receives UNNAMED events, so we must addEventListener()
+ * for the named event types we care about.
+ */
+
+(() => {
+  "use strict";
+
+  const OPS_SSE_URL = "/events/ops";
+  const REFLECTIONS_SSE_URL = "/events/reflections";
+
+  const NOW = () => Date.now();
+
+  function safeJsonParse(s) {
+    try { return JSON.parse(s); } catch { return null; }
+  }
+
+  function formatAge(ms) {
+    if (!Number.isFinite(ms)) return "—";
+    const s = Math.floor(ms / 1000);
+    if (s < 60) return `${s}s`;
+    const m = Math.floor(s / 60);
+    if (m < 60) return `${m}m`;
+    return `${Math.floor(m / 60)}h`;
+  }
+
+  function el(tag, attrs = {}, text = "") {
+    const n = document.createElement(tag);
+    for (const [k, v] of Object.entries(attrs)) {
+      if (k === "class") n.className = v;
+      else if (k === "style") n.setAttribute("style", v);
+      else n.setAttribute(k, v);
+    }
+    if (text) n.textContent = text;
+    return n;
+  }
+
+----- public/js/dashboard-status.js lines 1-50 -----
+/**
+ * Phase 16: Dashboard wiring for OPS + Reflections SSE streams.
+ *
+ * - Consume /events/ops + /events/reflections via EventSource
+ * - Treat *.state as "initial paint" (replace baseline state)
+ * - Treat subsequent events as incremental updates (merge / patch)
+ * - Add tiny “connected / last event” UI indicator for each stream
+ *
+ * NOTE: Your SSE server emits NAMED events (e.g. "ops.state", "reflections.state").
+ * EventSource.onmessage only receives UNNAMED events, so we must addEventListener()
+ * for the named event types we care about.
+ */
+
+(() => {
+  "use strict";
+
+  const OPS_SSE_URL = "/events/ops";
+  const REFLECTIONS_SSE_URL = "/events/reflections";
+
+  const NOW = () => Date.now();
+
+  function safeJsonParse(s) {
+    try { return JSON.parse(s); } catch { return null; }
+  }
+
+  function formatAge(ms) {
+    if (!Number.isFinite(ms)) return "—";
+    const s = Math.floor(ms / 1000);
+    if (s < 60) return `${s}s`;
+    const m = Math.floor(s / 60);
+    if (m < 60) return `${m}m`;
+    return `${Math.floor(m / 60)}h`;
+  }
+
+  function el(tag, attrs = {}, text = "") {
+    const n = document.createElement(tag);
+    for (const [k, v] of Object.entries(attrs)) {
+      if (k === "class") n.className = v;
+      else if (k === "style") n.setAttribute("style", v);
+      else n.setAttribute(k, v);
+    }
+    if (text) n.textContent = text;
+
+5) Decision gate
+- If only dashboard-status.js shows dense hits, that is the next single-file mutation target.
+- If operatorGuidance.sse.js shows only minimal overwrite logic, it is not the remaining producer.
+- If all files show zero direct hits, expand candidate set from actual loaded bundle source map names.

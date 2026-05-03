@@ -1,0 +1,34 @@
+Phase 586 runtime hook (cache policy) plan.
+
+Checkpoint:
+- phase585-runtime-policy-resolver-verified is stable and tagged.
+- Worker resolves execution policy at runtime.
+- No behavior mutation has been introduced yet.
+
+Objective:
+Introduce the FIRST real runtime hook using cache_policy.
+
+Target Behavior (NON-BREAKING):
+- If requires_cache_bypass = true:
+  -> emit explicit runtime signal (log + event annotation only)
+  -> DO NOT alter execution outcome yet
+- If cache_policy = reuse:
+  -> no change
+
+Scope:
+- Worker only
+- Inside claimed task block
+- Before completeSuccess
+
+Constraints:
+- No DB schema changes
+- No task mutation
+- No branching execution paths yet
+- Fully reversible
+
+Expected Result:
+- Runtime system begins honoring execution policy (observably)
+- Still zero risk to pipeline stability
+
+Next:
+Implement minimal cache_policy hook as a structured runtime signal.

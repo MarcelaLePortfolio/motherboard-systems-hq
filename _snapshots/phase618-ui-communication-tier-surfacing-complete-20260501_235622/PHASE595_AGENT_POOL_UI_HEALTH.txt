@@ -1,0 +1,12 @@
+Phase 595 agent pool UI health indicator added.
+
+State:
+- Agent Pool fully wired and verified.
+- Added visual health indicator (● / ○) in UI header.
+- Reflects real-time backend connectivity via probe.
+
+Result:
+Agent Pool now has:
+- Visual health signal
+- No need for console inspection
+- Fully observable UI layer

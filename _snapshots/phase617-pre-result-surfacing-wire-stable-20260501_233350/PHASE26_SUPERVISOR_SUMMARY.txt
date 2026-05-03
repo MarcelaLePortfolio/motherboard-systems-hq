@@ -1,0 +1,25 @@
+Phase 26 — Supervisor Summary (current state)
+
+What we shipped:
+- Implemented a minimal executor/worker loop that claims queued tasks, marks them running, then completes/fails them.
+- The worker emits lifecycle events by inserting rows into task_events (single-writer continues to be Postgres) using kinds:
+  - task.running
+  - task.completed / task.failed
+- Existing Phase 25 SSE endpoint (/events/task-events) streams those task_events to clients without changes.
+
+What we verified:
+- End-to-end: API create -> task.created event -> worker claims -> task.running -> task.completed.
+- Verified via SSE log (task.event frames) and Postgres queries:
+  - Example: t88 produced events 267-269 and tasks.id=88 status=completed.
+- Containerized worker:
+  - Added docker-compose.worker.yml with a dedicated "worker" service running the worker entrypoint.
+  - Brought up with: docker compose -f docker-compose.yml -f docker-compose.worker.yml up -d --build worker
+  - Confirmed worker is PID 1 inside the container and connected to Postgres via POSTGRES_URL=postgres://postgres:postgres@postgres:5432/postgres.
+
+Operational notes:
+- Compose expands ${POSTGRES_URL} on the host at parse-time; ensure POSTGRES_URL is set in the host env (or in a project .env) to avoid warnings and to make `docker compose run` behave.
+- BusyBox ps inside alpine does not support -ax; use `ps -o pid=,ppid=,args=`.
+
+Net result:
+- Phase 25 single-writer contract remains intact.
+- Phase 26 adds the smallest viable “executor” that advances tasks through running -> completed/failed and makes those transitions observable in real time via the existing SSE stream.

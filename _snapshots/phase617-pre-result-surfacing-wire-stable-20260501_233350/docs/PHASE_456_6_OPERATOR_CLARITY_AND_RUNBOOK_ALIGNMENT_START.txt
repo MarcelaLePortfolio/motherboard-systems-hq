@@ -1,0 +1,82 @@
+PHASE 456.6 — OPERATOR CLARITY AND RUNBOOK ALIGNMENT START
+-----------------------------------------------------------
+
+CLASSIFICATION
+Controlled dashboard completion corridor.
+Documentation and verification only.
+No runtime expansion.
+No execution redesign.
+No governance mutation.
+
+PURPOSE
+Begin the next safe corridor after Phase 456.5 stabilization.
+
+This corridor focuses on:
+
+• Operator clarity
+• Runbook alignment
+• Dashboard/readout consistency
+• Demo-facing wording discipline
+• Exposure coherence across proof artifacts
+
+This is not a new capability corridor.
+
+It is a stabilization and operator-facing clarity corridor.
+
+ENTRY BASIS
+
+Previous stabilization result required:
+
+STATUS=PHASE_456_5_STABILIZED
+NEXT_CORRIDOR=PHASE_456_6_OPERATOR_CLARITY_AND_RUNBOOK_ALIGNMENT
+
+Therefore this corridor is authorized.
+
+CORRIDOR GOALS
+
+1. Verify operator-facing files and dashboard exposure language do not conflict.
+2. Verify the runbook reflects the now-mounted SystemHealthBlock proof state.
+3. Verify demo guidance matches actual dashboard exposure.
+4. Identify any wording drift between:
+   • health exposure labels
+   • demo readiness language
+   • runbook steps
+   • proof artifacts
+5. Prepare a minimal correction corridor if wording inconsistencies exist.
+
+ALLOWED WORK
+
+• Evidence collection
+• Wording inventory
+• Operator clarity inspection
+• Runbook alignment analysis
+• Visibility consistency verification
+• Deterministic stop recording
+
+NOT ALLOWED
+
+• No new component creation
+• No additional dashboard mutation
+• No execution path changes
+• No governance changes
+• No enforcement changes
+• No routing changes
+• No layout refactors
+
+FIRST SAFE STEP
+
+Create an operator clarity inventory covering:
+
+• dashboard health exposure wording
+• runbook wording
+• demo readiness wording
+• proof-state wording
+• operator action wording
+
+DETERMINISTIC STOP
+
+Stop after the operator clarity inventory is captured.
+
+Next step:
+Phase 456.6 Step 1 — Operator Clarity Inventory
+

@@ -1,0 +1,48 @@
+Phase 614 trigger URL fix verification.
+
+Goal:
+Verify that changing the system trigger delegate URL from localhost:8080 to localhost:3000 allows the dashboard container to create autonomous system tasks.
+
+Expected:
+- Dashboard logs show [phase614] system-trigger dispatched
+- Worker logs show claimed task
+- Worker logs show completed task
+- Worker logs preserve execution-contract and response-compiler logs
+- /api/tasks shows the generated System Trigger Test task
+
+Status:
+RUNNING POST-FIX VERIFICATION
+
+--- DASHBOARD PHASE614 LOGS ---
+[phase614] system-trigger dispatched
+
+--- WORKER EXECUTION LOGS ---
+  outcome_preview: 'Standard execution prepared for: System Trigger Test',
+[worker] completed task {
+[worker] claimed task {
+[worker][execution-contract] {
+  output: 'Standard execution prepared for: System Trigger Test'
+[worker][response-compiler] {
+  outcome_preview: 'Standard execution prepared for: System Trigger Test',
+[worker] completed task {
+[worker] claimed task {
+[worker][execution-contract] {
+  output: 'Standard execution prepared for: System Trigger Test'
+[worker][response-compiler] {
+  outcome_preview: 'Standard execution prepared for: System Trigger Test',
+[worker] completed task {
+[worker] claimed task {
+[worker][execution-contract] {
+  output: 'Standard execution prepared for: System Trigger Test'
+[worker][response-compiler] {
+  outcome_preview: 'Standard execution prepared for: System Trigger Test',
+[worker] completed task {
+[worker] claimed task {
+[worker][execution-contract] {
+  output: 'Standard execution prepared for: System Trigger Test'
+[worker][response-compiler] {
+  outcome_preview: 'Standard execution prepared for: System Trigger Test',
+[worker] completed task {
+
+--- API TASK SNAPSHOT ---
+{"ok":true,"tasks":[{"id":"35","task_id":"t_3bbb112f-67c8-4be6-a4a5-4e684cc19aa1","title":"System Trigger Test","status":"completed","claimed_by":"worker-fb5783cd-5192-4644-8f04-526fc011779a","updated_at":"2026-05-01T23:09:07.167Z"},{"id":"34","task_id":"t_77ba450a-a207-4146-a1aa-c5470dabde8d","title":"System Trigger Test","status":"completed","claimed_by":"worker-fb5783cd-5192-4644-8f04-526fc011779a","updated_at":"2026-05-01T23:08:07.160Z"},{"id":"33","task_id":"t_352daa24-b9b5-4c47-b271-db61ed7f3d62","title":"System Trigger Test","status":"completed","claimed_by":"worker-fb5783cd-5192-4644-8f04-526fc011779a","updated_at":"2026-05-01T23:07:07.143Z"},{"id":"32","task_id":"t_e7e38df5-751a-4956-8a36-66b6b0db83fb","title":"System Trigger Test","status":"completed","claimed_by":"worker-fb5783cd-5192-4644-8f04-526fc011779a","updated_at":"2026-05-01T23:06:07.138Z"},{"id":"31","task_id":"t_6a47b5d1-f757-4be7-9a20-5858df43100c","title":"System Trigger Test","status":"completed","claimed_by":"worker-fb5783cd-5192-4644-8f04-526fc011779a","updated_at":"2026-05-01T23:05:07.131Z"},{"id":"30","task_id":"t_011f13da-52b5-499b-95ac-3b9b89aa678f","title":"System Trigger Test","status":"completed","claimed_by":"worker-fb5783cd-5192-4644-8f04-526fc011779a","updated_at":"2026-05-01T23:04:07.126Z"},{"id":"29","task_id":"t_5ea3d87a-59f5-4796-a4ff-622f2ed7a87f","title":"System Trigger Test","status":"completed","claimed_by":"worker-fb5783cd-5192-4644-8f04-526fc011779a","updated_at":"2026-05-01T23:03:07.117Z"},{"id":"28","task_id":"t_1904be25-5aa6-49e9-ba71-e498565b203c","title":"System Trigger Test","status":"completed","claimed_by":"worker-fb5783cd-5192-4644-8f04-526fc011779a","updated_at":"2026-05-01T23:02:07.138Z"},{"id":"27","task_id":"t_4efafa88-8556-4972-9840-10779fe75569","title":"response compiler passive verify","status":"completed","claimed_by":"worker-2ba3ddea-797d-48a2-8cd3-26366f93dc95","updated_at":"2026-05-01T22:15:08.465Z"},{"id":"26","task_id":"t_3759b1e9-047d-4d49-a964-888179093263","title":"execution contract helper verification","status":"completed","claimed_by":"worker-46d83b07-4528-46d2-9989-fc39af50fce7","updated_at":"2026-05-01T18:42:27.477Z"},{"id":"25","task_id":"t_cafc6615-4b86-48f3-ae60-6cb739bb3ae2","title":"policy logger extraction verification","status":"completed","claimed_by":"worker-b5c7539d-116f-44a8-9beb-a2b4238a3997","updated_at":"2026-05-01T18:38:24.276Z"},{"id":"24","task_id":"t_96fb2247-1a55-4210-95c3-062c1ba65300","title":"strategy aware execution verification","status":"completed","claimed_by":"worker-875db0b0-e141-40c7-82f6-85f06a5a3e21","updated_at":"2026-05-01T17:52:03.947Z"}]}

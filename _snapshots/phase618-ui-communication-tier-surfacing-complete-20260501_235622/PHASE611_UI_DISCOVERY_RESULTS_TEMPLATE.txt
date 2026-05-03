@@ -1,0 +1,48 @@
+Phase 611 UI discovery results.
+
+Section 1 — Recent Tasks
+Component Path:
+API Endpoint:
+Fields Rendered:
+Execution Output Present: YES/NO
+Notes:
+
+Section 2 — Execution Inspector
+Component Path:
+API Endpoint:
+Summary Section:
+Explanation Section:
+Trace Panel:
+Notes:
+
+Section 3 — Task History / Events
+Component Path:
+API Endpoint:
+Lifecycle Rendering:
+Execution Output Mixed: YES/NO
+Notes:
+
+Section 4 — API Flow
+Task Fetch Endpoint(s):
+Execution Output Field Location:
+Delegate Task Flow:
+Notes:
+
+Section 5 — Data Flow Mapping
+Flow:
+task create → DB → worker → execution → completion → API → UI
+
+Observed Output Injection Point:
+Notes:
+
+Section 6 — Safe Insertion Points
+Tier 1 (Outcome):
+Tier 2 (Explanation):
+Tier 3 (Trace):
+
+Constraints Verified:
+- No coupling between UI and execution logic
+- Output rendering isolated from lifecycle events
+
+Status:
+UI SURFACE DISCOVERY COMPLETE — READY FOR CONTROLLED UI INTEGRATION PLAN

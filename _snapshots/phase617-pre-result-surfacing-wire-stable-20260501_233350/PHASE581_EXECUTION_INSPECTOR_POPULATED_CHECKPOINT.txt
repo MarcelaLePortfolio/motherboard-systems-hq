@@ -1,0 +1,11 @@
+Phase 581 Execution Inspector populated checkpoint.
+
+State:
+- /events/task-events is mounted in dashboard runtime.
+- Execution Inspector is now populated.
+- task.created and task.completed lifecycle rows are visible.
+- Backend, SSE, and UI render path are connected.
+- Dashboard, worker, and Postgres remain stable.
+
+Known next UI task:
+Clean up Execution Inspector row rendering so payloads are summarized instead of dumping raw JSON.

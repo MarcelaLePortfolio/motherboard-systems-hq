@@ -1,0 +1,39 @@
+PHASE 456.8 - FL3 IMPLEMENTATION APPROACH
+-----------------------------------------
+
+CLASSIFICATION
+Implementation approach definition only.
+No implementation.
+No wiring.
+No runtime mutation.
+
+PURPOSE
+Define the safest minimal method for introducing the FL-3 intake normalization bridge.
+
+IMPLEMENTATION_APPROACH
+Add a thin translation layer at the intake boundary.
+Translate arbitrary operator request into existing governed intake shape.
+Pass translated structure into existing intake flow unchanged.
+
+APPROACH_RULES
+Prefer adapter pattern over modification.
+Prefer additive structure over mutation.
+Prefer wrapper over rewrite.
+No deep coupling.
+
+SAFETY_RULES
+Bridge must fail closed.
+Bridge must not bypass governance.
+Bridge must not create execution paths.
+Bridge must remain observable.
+
+SUCCESS_CRITERIA
+Implementation method clearly bounded.
+No architecture redesign required.
+Mutation limited to intake adapter.
+
+NEXT_STEP
+PHASE_456_8_FL3_IMPLEMENTATION_RISK_CHECK
+
+DETERMINISTIC_STOP
+Stop after implementation approach recorded.

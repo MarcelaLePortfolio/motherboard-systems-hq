@@ -1,0 +1,193 @@
+PHASE 456 — LOCATE RUN_VIEW MIGRATION PATHS
+Generated: 2026-04-09T18:03:18Z
+
+=== PRECHECK ===
+phase119-dashboard-cognition-contract
+4de0159ee57d7b0fb5507e96c5580d3bca7ee7dc
+
+?? docs/phase456_locate_run_view_migration_paths.txt
+?? scripts/phase456_locate_run_view_migration_paths.sh
+
+=== REPO SEARCH: run_view migration files ===
+./drizzle_pg/0007_phase36_1_run_view.sql
+./drizzle_pg/0007_phase36_2_run_view_contract.sql
+./scripts/phase36_3_probe_run_view.sh
+./server/routes/phase36_run_view.mjs
+
+=== REPO SEARCH: drizzle/sql migration directories ===
+./drizzle
+./drizzle_pg
+./drizzle_pg/meta
+./drizzle/meta
+./node_modules/@drizzle-team
+./scripts/sql
+./scripts/sql/invariants
+./scripts/sql/migrations
+./server/sql
+./sql
+./sql/policy
+
+=== CONTENT SEARCH: run_view DDL references ===
+./drizzle_pg/0007_phase36_1_run_view.sql:9:CREATE OR REPLACE VIEW run_view AS
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:506:./drizzle_pg/0007_phase36_1_run_view.sql:6:-- - tasks has: task_id(text unique), status (e.g. 'running','completed'), claimed_by, actor, lease_expires_at (epoch ms)
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:507:./drizzle_pg/0007_phase36_1_run_view.sql:78:    ELSE t.status
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:508:./drizzle_pg/0007_phase36_1_run_view.sql:79:  END AS task_status,
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:509:./drizzle_pg/0007_phase36_1_run_view.sql:82:    ELSE (t.status IN ('completed','failed','canceled','cancelled'))
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1481:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:506:./drizzle_pg/0007_phase36_1_run_view.sql:6:-- - tasks has: task_id(text unique), status (e.g. 'running','completed'), claimed_by, actor, lease_expires_at (epoch ms)
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1482:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:507:./drizzle_pg/0007_phase36_1_run_view.sql:78:    ELSE t.status
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1483:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:508:./drizzle_pg/0007_phase36_1_run_view.sql:79:  END AS task_status,
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1484:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:509:./drizzle_pg/0007_phase36_1_run_view.sql:82:    ELSE (t.status IN ('completed','failed','canceled','cancelled'))
+./server/sql/phase54_bootstrap.sql:19:\i /migrations/drizzle_pg/0007_phase36_1_run_view.sql
+./server/sql/phase54_bootstrap.sql:20:\i /migrations/drizzle_pg/0007_phase36_2_run_view_contract.sql
+./docs/PHASE_456_RUN_VIEW_REPAIR_PLAN.md:27:   • 0007_phase36_1_run_view.sql
+./docs/PHASE_456_RUN_VIEW_REPAIR_PLAN.md:28:   • 0007_phase36_2_run_view_contract.sql
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:585:./drizzle_pg/0007_phase36_1_run_view.sql:5:-- - task_events has: id, kind (e.g. 'task.running','task.completed','heartbeat'), task_id(text), run_id(text), actor(text), ts(bigint)
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:586:./drizzle_pg/0007_phase36_1_run_view.sql:42:    AND te.kind IN ('task.completed','task.failed','task.canceled','task.cancelled','completed','failed','canceled','cancelled')
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:587:./drizzle_pg/0007_phase36_1_run_view.sql:75:  -- terminal precedence: once a terminal_event exists, it wins over any later task.running noise
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:2038:./drizzle_pg/0007_phase36_1_run_view.sql:42:    AND te.kind IN ('task.completed','task.failed','task.canceled','task.cancelled','completed','failed','canceled','cancelled')
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:2039:./drizzle_pg/0007_phase36_1_run_view.sql:5:-- - task_events has: id, kind (e.g. 'task.running','task.completed','heartbeat'), task_id(text), run_id(text), actor(text), ts(bigint)
+./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:2040:./drizzle_pg/0007_phase36_1_run_view.sql:75:  -- terminal precedence: once a terminal_event exists, it wins over any later task.running noise
+./docs/phase456_run_view_schema_evidence.txt:30:server/sql/phase54_bootstrap.sql:19:\i /migrations/drizzle_pg/0007_phase36_1_run_view.sql
+./docs/phase456_run_view_schema_evidence.txt:31:server/sql/phase54_bootstrap.sql:20:\i /migrations/drizzle_pg/0007_phase36_2_run_view_contract.sql
+./docs/phase456_run_view_schema_evidence.txt:45:scripts/phase456_run_view_schema_evidence.sh:25:  grep -RniE "run_view|CREATE VIEW run_view|create view run_view|CREATE OR REPLACE VIEW run_view|ensure.*run|bootstrap.*run|schema.*run|migration.*run" \
+./docs/phase456_run_view_schema_evidence.txt:81:scripts/phase57_snapshot_smoke.sh:92:"${PSQL_RAW[@]}" < drizzle_pg/0007_phase36_1_run_view.sql >/dev/null
+./docs/phase456_run_view_schema_evidence.txt:178:./drizzle_pg/0007_phase36_1_run_view.sql:2:-- Canonical view: run_view keyed by run_id
+./docs/phase456_run_view_schema_evidence.txt:179:./drizzle_pg/0007_phase36_1_run_view.sql:9:CREATE OR REPLACE VIEW run_view AS
+./docs/phase456_run_view_schema_evidence.txt:185:./drizzle_pg/0007_phase36_2_run_view_contract.sql:4:--   1) Capture the existing run_view definition via pg_get_viewdef(...)
+./docs/phase456_run_view_schema_evidence.txt:186:./drizzle_pg/0007_phase36_2_run_view_contract.sql:6:--   3) Wrap it in SELECT DISTINCT ON (run_id) with stable ordering using columns on run_view:
+./docs/phase456_run_view_schema_evidence.txt:187:./drizzle_pg/0007_phase36_2_run_view_contract.sql:11:-- - View-only change; API remains a single SELECT from run_view.
+./docs/phase456_run_view_schema_evidence.txt:188:./drizzle_pg/0007_phase36_2_run_view_contract.sql:20:  WHERE n.nspname='public' AND c.relname='run_view' AND c.relkind='v';
+./docs/phase456_run_view_schema_evidence.txt:189:./drizzle_pg/0007_phase36_2_run_view_contract.sql:22:    RAISE EXCEPTION 'public.run_view does not exist';
+./docs/phase456_run_view_schema_evidence.txt:190:./drizzle_pg/0007_phase36_2_run_view_contract.sql:25:  v_def := pg_get_viewdef('public.run_view'::regclass, true);
+./docs/phase456_run_view_schema_evidence.txt:191:./drizzle_pg/0007_phase36_2_run_view_contract.sql:31:    'CREATE OR REPLACE VIEW public.run_view AS
+./docs/phase456_run_view_schema_evidence.txt:251:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:506:./drizzle_pg/0007_phase36_1_run_view.sql:6:-- - tasks has: task_id(text unique), status (e.g. 'running','completed'), claimed_by, actor, lease_expires_at (epoch ms)
+./docs/phase456_run_view_schema_evidence.txt:252:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:507:./drizzle_pg/0007_phase36_1_run_view.sql:78:    ELSE t.status
+./docs/phase456_run_view_schema_evidence.txt:253:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:508:./drizzle_pg/0007_phase36_1_run_view.sql:79:  END AS task_status,
+./docs/phase456_run_view_schema_evidence.txt:254:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:509:./drizzle_pg/0007_phase36_1_run_view.sql:82:    ELSE (t.status IN ('completed','failed','canceled','cancelled'))
+./docs/phase456_run_view_schema_evidence.txt:278:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1481:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:506:./drizzle_pg/0007_phase36_1_run_view.sql:6:-- - tasks has: task_id(text unique), status (e.g. 'running','completed'), claimed_by, actor, lease_expires_at (epoch ms)
+./docs/phase456_run_view_schema_evidence.txt:279:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1482:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:507:./drizzle_pg/0007_phase36_1_run_view.sql:78:    ELSE t.status
+./docs/phase456_run_view_schema_evidence.txt:280:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1483:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:508:./drizzle_pg/0007_phase36_1_run_view.sql:79:  END AS task_status,
+./docs/phase456_run_view_schema_evidence.txt:281:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1484:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:509:./drizzle_pg/0007_phase36_1_run_view.sql:82:    ELSE (t.status IN ('completed','failed','canceled','cancelled'))
+./docs/phase456_run_view_schema_evidence.txt:412:./server/sql/phase54_bootstrap.sql:19:\i /migrations/drizzle_pg/0007_phase36_1_run_view.sql
+./docs/phase456_run_view_schema_evidence.txt:413:./server/sql/phase54_bootstrap.sql:20:\i /migrations/drizzle_pg/0007_phase36_2_run_view_contract.sql
+./docs/phase456_run_view_schema_evidence.txt:574:server/sql/phase54_bootstrap.sql:19:\i /migrations/drizzle_pg/0007_phase36_1_run_view.sql
+./docs/phase456_run_view_schema_evidence.txt:575:server/sql/phase54_bootstrap.sql:20:\i /migrations/drizzle_pg/0007_phase36_2_run_view_contract.sql
+./docs/phase456_run_view_schema_evidence.txt:654:scripts/phase456_run_view_schema_evidence.sh:25:  grep -RniE "run_view|CREATE VIEW run_view|create view run_view|CREATE OR REPLACE VIEW run_view|ensure.*run|bootstrap.*run|schema.*run|migration.*run" \
+./docs/phase456_run_view_schema_evidence.txt:696:scripts/phase57_snapshot_smoke.sh:92:"${PSQL_RAW[@]}" < drizzle_pg/0007_phase36_1_run_view.sql >/dev/null
+./docs/phase456_run_view_schema_evidence.txt:1034:server/sql/phase54_bootstrap.sql:19:\i /migrations/drizzle_pg/0007_phase36_1_run_view.sql
+./docs/phase456_run_view_schema_evidence.txt:1035:server/sql/phase54_bootstrap.sql:20:\i /migrations/drizzle_pg/0007_phase36_2_run_view_contract.sql
+./docs/phase456_run_view_schema_evidence.txt:1110:./drizzle_pg/0007_phase36_1_run_view.sql:2:-- Canonical view: run_view keyed by run_id
+./docs/phase456_run_view_schema_evidence.txt:1111:./drizzle_pg/0007_phase36_1_run_view.sql:9:CREATE OR REPLACE VIEW run_view AS
+./docs/phase456_run_view_schema_evidence.txt:1117:./drizzle_pg/0007_phase36_2_run_view_contract.sql:4:--   1) Capture the existing run_view definition via pg_get_viewdef(...)
+./docs/phase456_run_view_schema_evidence.txt:1118:./drizzle_pg/0007_phase36_2_run_view_contract.sql:6:--   3) Wrap it in SELECT DISTINCT ON (run_id) with stable ordering using columns on run_view:
+./docs/phase456_run_view_schema_evidence.txt:1119:./drizzle_pg/0007_phase36_2_run_view_contract.sql:11:-- - View-only change; API remains a single SELECT from run_view.
+./docs/phase456_run_view_schema_evidence.txt:1120:./drizzle_pg/0007_phase36_2_run_view_contract.sql:20:  WHERE n.nspname='public' AND c.relname='run_view' AND c.relkind='v';
+./docs/phase456_run_view_schema_evidence.txt:1121:./drizzle_pg/0007_phase36_2_run_view_contract.sql:22:    RAISE EXCEPTION 'public.run_view does not exist';
+./docs/phase456_run_view_schema_evidence.txt:1122:./drizzle_pg/0007_phase36_2_run_view_contract.sql:25:  v_def := pg_get_viewdef('public.run_view'::regclass, true);
+./docs/phase456_run_view_schema_evidence.txt:1123:./drizzle_pg/0007_phase36_2_run_view_contract.sql:31:    'CREATE OR REPLACE VIEW public.run_view AS
+./docs/phase456_run_view_schema_evidence.txt:1180:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:506:./drizzle_pg/0007_phase36_1_run_view.sql:6:-- - tasks has: task_id(text unique), status (e.g. 'running','completed'), claimed_by, actor, lease_expires_at (epoch ms)
+./docs/phase456_run_view_schema_evidence.txt:1181:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:507:./drizzle_pg/0007_phase36_1_run_view.sql:78:    ELSE t.status
+./docs/phase456_run_view_schema_evidence.txt:1182:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:508:./drizzle_pg/0007_phase36_1_run_view.sql:79:  END AS task_status,
+./docs/phase456_run_view_schema_evidence.txt:1183:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:509:./drizzle_pg/0007_phase36_1_run_view.sql:82:    ELSE (t.status IN ('completed','failed','canceled','cancelled'))
+./docs/phase456_run_view_schema_evidence.txt:1201:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1481:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:506:./drizzle_pg/0007_phase36_1_run_view.sql:6:-- - tasks has: task_id(text unique), status (e.g. 'running','completed'), claimed_by, actor, lease_expires_at (epoch ms)
+./docs/phase456_run_view_schema_evidence.txt:1202:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1482:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:507:./drizzle_pg/0007_phase36_1_run_view.sql:78:    ELSE t.status
+./docs/phase456_run_view_schema_evidence.txt:1203:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1483:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:508:./drizzle_pg/0007_phase36_1_run_view.sql:79:  END AS task_status,
+./docs/phase456_run_view_schema_evidence.txt:1204:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1484:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:509:./drizzle_pg/0007_phase36_1_run_view.sql:82:    ELSE (t.status IN ('completed','failed','canceled','cancelled'))
+./docs/phase456_run_view_schema_evidence.txt:1254:./server/sql/phase54_bootstrap.sql:19:\i /migrations/drizzle_pg/0007_phase36_1_run_view.sql
+./docs/phase456_run_view_schema_evidence.txt:1255:./server/sql/phase54_bootstrap.sql:20:\i /migrations/drizzle_pg/0007_phase36_2_run_view_contract.sql
+./docs/phase456_run_view_schema_evidence.txt:1309:./docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:585:./drizzle_pg/0007_phase36_1_run_view.sql:5:-- - task_events has: id, kind (e.g. 'task.running','task.completed','heartbeat'), task_id(text), run_id(text), actor(text), ts(bigint)
+./docs/phase456_run_view_schema_evidence.txt:1310:./docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:586:./drizzle_pg/0007_phase36_1_run_view.sql:42:    AND te.kind IN ('task.completed','task.failed','task.canceled','task.cancelled','completed','failed','canceled','cancelled')
+./docs/phase456_run_view_schema_evidence.txt:1311:./docs/checkpoints/PHASE62B_RUNNING_TASKS_CODE_DISCOVERY_20260316.md:587:./drizzle_pg/0007_phase36_1_run_view.sql:75:  -- terminal precedence: once a terminal_event exists, it wins over any later task.running noise
+./docs/phase456_run_view_schema_evidence.txt:1329:./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:2038:./drizzle_pg/0007_phase36_1_run_view.sql:42:    AND te.kind IN ('task.completed','task.failed','task.canceled','task.cancelled','completed','failed','canceled','cancelled')
+./docs/phase456_run_view_schema_evidence.txt:1330:./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:2039:./drizzle_pg/0007_phase36_1_run_view.sql:5:-- - task_events has: id, kind (e.g. 'task.running','task.completed','heartbeat'), task_id(text), run_id(text), actor(text), ts(bigint)
+./docs/phase456_run_view_schema_evidence.txt:1331:./docs/checkpoints/PHASE62B_RUNNING_TASKS_CANDIDATE_SURFACES_20260316.md:2040:./drizzle_pg/0007_phase36_1_run_view.sql:75:  -- terminal precedence: once a terminal_event exists, it wins over any later task.running noise
+./docs/phase456_run_view_schema_evidence.txt:1438:./docs/phase456_run_view_schema_evidence.txt:30:server/sql/phase54_bootstrap.sql:19:\i /migrations/drizzle_pg/0007_phase36_1_run_view.sql
+./docs/phase456_run_view_schema_evidence.txt:1439:./docs/phase456_run_view_schema_evidence.txt:31:server/sql/phase54_bootstrap.sql:20:\i /migrations/drizzle_pg/0007_phase36_2_run_view_contract.sql
+./docs/phase456_run_view_schema_evidence.txt:1448:./docs/phase456_run_view_schema_evidence.txt:45:scripts/phase456_run_view_schema_evidence.sh:25:  grep -RniE "run_view|CREATE VIEW run_view|create view run_view|CREATE OR REPLACE VIEW run_view|ensure.*run|bootstrap.*run|schema.*run|migration.*run" \
+./docs/phase456_run_view_schema_evidence.txt:1484:./docs/phase456_run_view_schema_evidence.txt:81:scripts/phase57_snapshot_smoke.sh:92:"${PSQL_RAW[@]}" < drizzle_pg/0007_phase36_1_run_view.sql >/dev/null
+./docs/notes/pr84-run_view-terminal-precedence.md:19:- `drizzle_pg/0007_phase36_1_run_view.sql`
+./docs/phase456_run_view_schema_summary.txt:13:30:server/sql/phase54_bootstrap.sql:19:\i /migrations/drizzle_pg/0007_phase36_1_run_view.sql
+./docs/phase456_run_view_schema_summary.txt:14:31:server/sql/phase54_bootstrap.sql:20:\i /migrations/drizzle_pg/0007_phase36_2_run_view_contract.sql
+./docs/phase456_run_view_schema_summary.txt:23:45:scripts/phase456_run_view_schema_evidence.sh:25:  grep -RniE "run_view|CREATE VIEW run_view|create view run_view|CREATE OR REPLACE VIEW run_view|ensure.*run|bootstrap.*run|schema.*run|migration.*run" \
+./docs/phase456_run_view_schema_summary.txt:54:81:scripts/phase57_snapshot_smoke.sh:92:"${PSQL_RAW[@]}" < drizzle_pg/0007_phase36_1_run_view.sql >/dev/null
+./docs/phase456_run_view_schema_summary.txt:97:server/sql/phase54_bootstrap.sql:19:\i /migrations/drizzle_pg/0007_phase36_1_run_view.sql
+./docs/phase456_run_view_schema_summary.txt:98:server/sql/phase54_bootstrap.sql:20:\i /migrations/drizzle_pg/0007_phase36_2_run_view_contract.sql
+./docs/phase456_run_view_schema_summary.txt:112:scripts/phase456_run_view_schema_evidence.sh:25:  grep -RniE "run_view|CREATE VIEW run_view|create view run_view|CREATE OR REPLACE VIEW run_view|ensure.*run|bootstrap.*run|schema.*run|migration.*run" \
+./docs/phase456_run_view_schema_summary.txt:148:scripts/phase57_snapshot_smoke.sh:92:"${PSQL_RAW[@]}" < drizzle_pg/0007_phase36_1_run_view.sql >/dev/null
+./docs/phase456_run_view_schema_summary.txt:245:./drizzle_pg/0007_phase36_1_run_view.sql:2:-- Canonical view: run_view keyed by run_id
+./docs/phase456_run_view_schema_summary.txt:300:server/sql/phase54_bootstrap.sql:19:\i /migrations/drizzle_pg/0007_phase36_1_run_view.sql
+./docs/phase456_run_view_schema_summary.txt:301:server/sql/phase54_bootstrap.sql:20:\i /migrations/drizzle_pg/0007_phase36_2_run_view_contract.sql
+./docs/phase456_run_view_schema_summary.txt:380:scripts/phase456_run_view_schema_evidence.sh:25:  grep -RniE "run_view|CREATE VIEW run_view|create view run_view|CREATE OR REPLACE VIEW run_view|ensure.*run|bootstrap.*run|schema.*run|migration.*run" \
+./docs/phase456_run_view_schema_summary.txt:419:server/sql/phase54_bootstrap.sql:19:\i /migrations/drizzle_pg/0007_phase36_1_run_view.sql
+./docs/phase456_run_view_schema_summary.txt:420:server/sql/phase54_bootstrap.sql:20:\i /migrations/drizzle_pg/0007_phase36_2_run_view_contract.sql
+./docs/phase456_run_view_schema_summary.txt:495:./drizzle_pg/0007_phase36_1_run_view.sql:2:-- Canonical view: run_view keyed by run_id
+./docs/phase456_run_view_schema_summary.txt:496:./drizzle_pg/0007_phase36_1_run_view.sql:9:CREATE OR REPLACE VIEW run_view AS
+./docs/phase456_run_view_schema_summary.txt:502:./drizzle_pg/0007_phase36_2_run_view_contract.sql:4:--   1) Capture the existing run_view definition via pg_get_viewdef(...)
+./docs/phase456_run_view_schema_summary.txt:503:./drizzle_pg/0007_phase36_2_run_view_contract.sql:6:--   3) Wrap it in SELECT DISTINCT ON (run_id) with stable ordering using columns on run_view:
+./docs/phase456_run_view_schema_summary.txt:504:./drizzle_pg/0007_phase36_2_run_view_contract.sql:11:-- - View-only change; API remains a single SELECT from run_view.
+./docs/phase456_run_view_schema_summary.txt:505:./drizzle_pg/0007_phase36_2_run_view_contract.sql:20:  WHERE n.nspname='public' AND c.relname='run_view' AND c.relkind='v';
+./docs/phase456_run_view_schema_summary.txt:506:./drizzle_pg/0007_phase36_2_run_view_contract.sql:22:    RAISE EXCEPTION 'public.run_view does not exist';
+./docs/phase456_run_view_schema_summary.txt:507:./drizzle_pg/0007_phase36_2_run_view_contract.sql:25:  v_def := pg_get_viewdef('public.run_view'::regclass, true);
+./docs/phase456_run_view_schema_summary.txt:508:./drizzle_pg/0007_phase36_2_run_view_contract.sql:31:    'CREATE OR REPLACE VIEW public.run_view AS
+./docs/phase456_run_view_schema_summary.txt:565:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:506:./drizzle_pg/0007_phase36_1_run_view.sql:6:-- - tasks has: task_id(text unique), status (e.g. 'running','completed'), claimed_by, actor, lease_expires_at (epoch ms)
+./docs/phase456_run_view_schema_summary.txt:566:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:507:./drizzle_pg/0007_phase36_1_run_view.sql:78:    ELSE t.status
+./docs/phase456_run_view_schema_summary.txt:567:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:508:./drizzle_pg/0007_phase36_1_run_view.sql:79:  END AS task_status,
+./docs/phase456_locate_run_view_migration_paths.txt:12:./drizzle_pg/0007_phase36_1_run_view.sql
+./docs/phase456_locate_run_view_migration_paths.txt:13:./drizzle_pg/0007_phase36_2_run_view_contract.sql
+./docs/recovery_full_audit/67_inspect_task_events_route_and_query_path.txt:904:server/sql/phase54_bootstrap.sql:19:\i /migrations/drizzle_pg/0007_phase36_1_run_view.sql
+./docs/recovery_full_audit/67_inspect_task_events_route_and_query_path.txt:905:server/sql/phase54_bootstrap.sql:20:\i /migrations/drizzle_pg/0007_phase36_2_run_view_contract.sql
+./scripts/phase456_locate_run_view_migration_paths.sh:19:  find . -type f | grep -Ei '0007.*run_view|run_view_contract|phase36.*run_view' | sort || true
+./scripts/phase456_locate_run_view_migration_paths.sh:27:  grep -RniE 'CREATE( OR REPLACE)? VIEW run_view|run_view_contract|0007_phase36_1_run_view|0007_phase36_2_run_view_contract' . 2>/dev/null | head -300 || true
+./scripts/phase456_locate_run_view_migration_paths.sh:31:  docker compose exec -T dashboard sh -lc 'find /app -type f | grep -Ei "0007.*run_view|run_view_contract|phase36.*run_view" | sort' || true
+./scripts/phase456_run_view_repair_on_canonical_stack.sh:25:  ls -l migrations/drizzle_pg/0007_phase36_1_run_view.sql
+./scripts/phase456_run_view_repair_on_canonical_stack.sh:26:  ls -l migrations/drizzle_pg/0007_phase36_2_run_view_contract.sql
+./scripts/phase456_run_view_repair_on_canonical_stack.sh:30:  docker compose exec -T dashboard sh -lc 'ls -l /app/migrations/drizzle_pg/0007_phase36_1_run_view.sql /app/migrations/drizzle_pg/0007_phase36_2_run_view_contract.sql'
+./scripts/phase456_run_view_repair_on_canonical_stack.sh:43:    docker compose exec -T postgres psql -U "${PGUSER:-postgres}" -d "${PGDATABASE:-postgres}" -v ON_ERROR_STOP=1 < migrations/drizzle_pg/0007_phase36_1_run_view.sql
+./scripts/phase456_run_view_repair_on_canonical_stack.sh:44:    docker compose exec -T postgres psql -U "${PGUSER:-postgres}" -d "${PGDATABASE:-postgres}" -v ON_ERROR_STOP=1 < migrations/drizzle_pg/0007_phase36_2_run_view_contract.sql
+./scripts/phase456_run_view_schema_evidence.sh:25:  grep -RniE "run_view|CREATE VIEW run_view|create view run_view|CREATE OR REPLACE VIEW run_view|ensure.*run|bootstrap.*run|schema.*run|migration.*run" \
+./scripts/phase57_snapshot_smoke.sh:92:"${PSQL_RAW[@]}" < drizzle_pg/0007_phase36_1_run_view.sql >/dev/null
+Binary file ./.git/objects/c9/b6e8800794552c1170ff9b5bea2f8415b7fa8e matches
+Binary file ./.git/objects/pack/pack-0105a9256158f8e95f2cbc63899cc18ae0fbc6bd.pack matches
+Binary file ./.git/objects/42/792c923758dd7772d4c43a1f3d564d7fbb0524 matches
+Binary file ./.git/objects/7b/96647a5be5625ce73feba53940efb01a6e80b5 matches
+Binary file ./.git/objects/55/89084386acd3ec8919e0ab2d7c0e0c6f6e5d45 matches
+Binary file ./.git/objects/d4/c48b1781cf938869ef48973ad952eaa11f6bc9 matches
+Binary file ./.git/objects/f9/265178fa23fcc962807000f34c2f0a3a24c5d8 matches
+Binary file ./.git/worktrees/phase59_dashboard_inspect/index matches
+Binary file ./.git/worktrees/shell_27b7ddf3/index matches
+Binary file ./.git/worktrees/phase65_wiring/index matches
+Binary file ./.git/worktrees/shell_ecac1fb1/index matches
+Binary file ./.git/worktrees/shell_c63a60e7/index matches
+Binary file ./.git/worktrees/entry_ee8ea4f820b46206a3c5dbe172454e8f8d368ea6/index matches
+Binary file ./.git/worktrees/tabbed_74a241ca/index matches
+Binary file ./.git/worktrees/shell_244cdde5/index matches
+Binary file ./.git/worktrees/operator_guidance/index matches
+Binary file ./.git/worktrees/entry_e190b90dc788bc889f1fe5f9f9db147139e43498/index matches
+Binary file ./.git/worktrees/entry_5a8bf4228d45145c920dbf217a80af01319bc4e9/index matches
+Binary file ./.git/worktrees/tabbed_df791714/index matches
+Binary file ./.git/worktrees/entry_3e320f1b3628bb6ada53daf5b76f9acf311d1df5/index matches
+Binary file ./.git/worktrees/tabbed_cba8b3c0/index matches
+Binary file ./.git/worktrees/phase65_layout/index matches
+Binary file ./.git/worktrees/tabbed_d2601c1e/index matches
+Binary file ./.git/worktrees/tabbed_9c68c540/index matches
+Binary file ./.git/worktrees/shell_33f5c0e2/index matches
+Binary file ./.git/index matches
+
+=== CONTAINER SEARCH: dashboard filesystem candidates ===
+/app/drizzle_pg/0007_phase36_1_run_view.sql
+/app/drizzle_pg/0007_phase36_2_run_view_contract.sql
+/app/scripts/phase36_3_probe_run_view.sh
+/app/server/routes/phase36_run_view.mjs
+
+=== CONTAINER SEARCH: dashboard migration/sql directories ===
+/app/drizzle
+/app/drizzle/meta
+/app/drizzle_pg
+/app/drizzle_pg/meta
+/app/scripts/sql
+/app/scripts/sql/invariants
+/app/scripts/sql/migrations
+/app/server/sql
+/app/sql
+/app/sql/policy
+

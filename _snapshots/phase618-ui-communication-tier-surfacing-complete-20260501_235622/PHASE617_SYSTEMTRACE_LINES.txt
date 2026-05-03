@@ -1,0 +1,9 @@
+7:- Tier 3 → systemTrace
+54:  systemTrace: {
+109:  - Tier 3 systemTrace
+134:  systemTrace
+162:  - Tier 3 systemTrace
+183:- Tier 3 systemTrace output is correct.
+184:- Metadata is preserved in systemTrace.
+223:  "systemTrace": {
+617:server/worker/response_compiler.mjs:51:    systemTrace: {

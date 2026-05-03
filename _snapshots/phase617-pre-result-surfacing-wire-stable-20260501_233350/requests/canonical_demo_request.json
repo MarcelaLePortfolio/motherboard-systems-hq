@@ -1,0 +1,21 @@
+{
+  "requestId": "fl4-demo-request-001",
+  "description": "Create a project to evaluate deployment readiness for a new service. Include three tasks: dependency verification, governance review, and execution readiness assessment. Require approval before any execution preparation.",
+  "approved": true,
+  "governanceEvaluated": true,
+  "authorityOrderingValid": true,
+  "tasks": [
+    {
+      "id": "task-1",
+      "name": "Dependency Verification"
+    },
+    {
+      "id": "task-2",
+      "name": "Governance Review Confirmation"
+    },
+    {
+      "id": "task-3",
+      "name": "Execution Readiness Assessment"
+    }
+  ]
+}

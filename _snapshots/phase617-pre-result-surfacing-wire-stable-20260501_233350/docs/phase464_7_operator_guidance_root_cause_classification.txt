@@ -1,0 +1,22 @@
+PHASE 464.7 — OPERATOR GUIDANCE ROOT-CAUSE CLASSIFICATION
+=========================================================
+
+Selected target source:
+docs/phase464_5_SINGLE_FILE_FIX_TARGET.txt
+
+SELECTED TARGET:
+scripts/operator-runbook-assert.ts
+
+ANCHOR LINES:
+
+FOCUSED EXCERPTS AROUND HOOKS / STREAMS / LIFECYCLE:
+
+ROOT-CAUSE CLASSIFICATION CHECKLIST:
+- duplicate initialization evidence present if same stream start path is reachable from multiple effect/lifecycle anchors without guard
+- missing cleanup evidence present if setup exists without teardown/abort/unsubscribe/clearInterval
+- lifecycle-triggered re-entry evidence present if focus/visibility/pageshow listeners invoke restart path
+- reconnect without dedupe evidence present if reconnect path lacks active-instance guard
+- interval restart without teardown evidence present if setInterval exists without clearInterval in same responsibility block
+
+NEXT MUTATION RULE:
+ONE FILE ONLY

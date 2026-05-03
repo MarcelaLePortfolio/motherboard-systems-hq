@@ -1,0 +1,69 @@
+Phase 606 response compiler verification plan.
+
+Checkpoint:
+- Phase 605 added pure response compiler module.
+- No runtime wiring exists yet.
+- Compiler is deterministic and isolated.
+
+Objective:
+Verify compiler correctness in isolation before any integration.
+
+Verification Method:
+- Simulate contractedExecution input.
+- Pass into compileCommunicationResult.
+- Inspect output shape and tier enforcement.
+
+Test Cases:
+
+1. Basic Execution Output
+Input:
+- execution.output present
+- execution.notes present
+
+Expected:
+- Tier 1 contains output
+- Tier 2 contains notes
+- Tier 3 contains structured trace
+
+2. Missing Notes
+Input:
+- execution.output present
+- execution.notes missing
+
+Expected:
+- Tier 2 falls back to default explanation
+
+3. Missing Output
+Input:
+- execution.output missing
+
+Expected:
+- Tier 1 falls back to "Execution completed."
+
+4. Meta Integrity
+Input:
+- execution.meta object
+
+Expected:
+- Tier 3 preserves meta structure
+
+5. Determinism
+Input:
+- same input twice
+
+Expected:
+- identical CommunicationResult output
+
+Constraints:
+- No worker wiring
+- No API changes
+- No DB changes
+
+Success Criteria:
+- Output shape stable
+- Tier enforcement correct
+- No mutation of input
+- Deterministic across runs
+
+Status:
+READY FOR ISOLATED COMPILER VERIFICATION

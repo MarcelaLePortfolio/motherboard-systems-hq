@@ -1,0 +1,40 @@
+PHASE 534 — NEXT TARGET
+
+CORRIDOR:
+UX + OBSERVABILITY POLISH
+
+PRIORITY:
+Reduce duplicate / noisy events in Execution Trail
+
+PROBLEM:
+- task.event duplicates more specific lifecycle events
+- Creates visual clutter
+- Reduces signal clarity
+
+OBJECTIVE:
+Ensure only high-signal lifecycle events render:
+- task.created
+- task.running / started / claimed
+- task.completed / succeeded
+- task.failed / error
+
+APPROACH (SAFE, UI-ONLY):
+- Filter out generic "task.event"
+- Keep specific lifecycle events only
+
+IMPLEMENTATION:
+- Update handleFrame() or shouldRender()
+- Ignore:
+  kind === "task.event"
+
+CONSTRAINTS:
+- Single file only
+- No backend changes
+- No SSE contract changes
+- Additive + filtering only
+
+GOAL:
+Cleaner, higher-signal Execution Trail
+
+STATUS:
+READY FOR NEXT UI PASS

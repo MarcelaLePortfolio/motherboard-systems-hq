@@ -1,0 +1,1176 @@
+PHASE 487 — STEP 1 PRIORITY RENDER CANDIDATE INSPECTION
+
+Generated: 2026-04-14T03:21:16Z
+Repo Root: /Users/marcela-dev/Projects/Motherboard_Systems_HQ
+Candidate Source: /Users/marcela-dev/Projects/Motherboard_Systems_HQ/docs/PHASE_487_STEP1_RENDER_BOUNDARY_CANDIDATES.txt
+
+────────────────────────────────
+INSPECTED FILE COUNT
+────────────────────────────────
+      12
+
+════════════════════════════════
+FILE: /Users/marcela-dev/Projects/Motherboard_Systems_HQ/app/demo-runtime/page.tsx
+════════════════════════════════
+
+---- EXPORT / COMPONENT LINES ----
+41:function SummaryBadge({ label, value }: SummaryBadgeProps) {
+68:function GovernanceTraceRow({ label, value }: GovernanceTraceRowProps) {
+76:export default function DemoRuntimePage() {
+103:  async function runDemo() {
+122:      const data = (await response.json()) as DemoReport | { error: string };
+
+---- HOOK / LOGIC LINES ----
+3:import { useMemo, useState } from "react";
+77:  const [prompt, setPrompt] = useState(
+80:  const [approved, setApproved] = useState(true);
+81:  const [governanceEvaluated, setGovernanceEvaluated] = useState(true);
+82:  const [authorityOrderingValid, setAuthorityOrderingValid] = useState(true);
+83:  const [loading, setLoading] = useState(false);
+84:  const [report, setReport] = useState<DemoReport | null>(null);
+85:  const [error, setError] = useState<string>("");
+87:  const governanceExplanation = useMemo(() => {
+109:      const response = await fetch("/api/demo-runtime", {
+
+---- LABEL / UI TEXT LINES ----
+5:type TaskExecutionRecord = {
+27:  taskOutcomes: TaskExecutionRecord[];
+36:type GovernanceTraceRowProps = {
+68:function GovernanceTraceRow({ label, value }: GovernanceTraceRowProps) {
+81:  const [governanceEvaluated, setGovernanceEvaluated] = useState(true);
+186:              onChange={(event) => setGovernanceEvaluated(event.target.checked)}
+189:            Governance evaluated
+261:            <h3 style={{ marginTop: 0, marginBottom: "0.65rem" }}>Governance Trace</h3>
+262:            <GovernanceTraceRow label="Admission decision" value={report.admissionDecision} />
+263:            <GovernanceTraceRow label="Approval present" value={report.generatedRequest.approved ? "YES" : "NO"} />
+264:            <GovernanceTraceRow label="Governance evaluated" value={report.generatedRequest.governanceEvaluated ? "YES" : "NO"} />
+265:            <GovernanceTraceRow label="Authority ordering valid" value={report.generatedRequest.authorityOrderingValid ? "YES" : "NO"} />
+266:            <GovernanceTraceRow label="Rule-level trace" value="NO DATA" />
+322:            <GovernanceTraceRow label="Decision" value={report.admissionDecision} />
+323:            <GovernanceTraceRow label="Approval present" value={report.generatedRequest.approved ? "YES" : "NO"} />
+324:            <GovernanceTraceRow label="Governance evaluated" value={report.generatedRequest.governanceEvaluated ? "YES" : "NO"} />
+325:            <GovernanceTraceRow label="Authority ordering valid" value={report.generatedRequest.authorityOrderingValid ? "YES" : "NO"} />
+327:              <strong>Governance explanation:</strong> {governanceExplanation}
+350:            <h3 style={{ marginTop: 0, marginBottom: "0.65rem" }}>Execution</h3>
+
+---- FIRST 220 LINES ----
+"use client";
+
+import { useMemo, useState } from "react";
+
+type TaskExecutionRecord = {
+  taskId: string;
+  taskName: string;
+  traversalPosition: number;
+  outcome: "SUCCESS" | "FAILED" | "BLOCKED";
+  verificationConfirmed: boolean;
+  logicalTimestamp: string;
+};
+
+type DemoReport = {
+  requestId: string;
+  requestSummary: string;
+  generatedRequest: {
+    approved: boolean;
+    governanceEvaluated: boolean;
+    authorityOrderingValid: boolean;
+    tasks: { id: string; name: string }[];
+  };
+  admissionDecision: "ADMITTED" | "DENIED";
+  denialReasons: string[];
+  traversalOrder: string[];
+  traversalState: "NOT_STARTED" | "IN_PROGRESS" | "COMPLETED" | "BLOCKED";
+  taskOutcomes: TaskExecutionRecord[];
+  finalDemoResult: "DEMO_SUCCESS" | "DEMO_FAILED";
+};
+
+type SummaryBadgeProps = {
+  label: string;
+  value: string;
+};
+
+type GovernanceTraceRowProps = {
+  label: string;
+  value: string;
+};
+
+function SummaryBadge({ label, value }: SummaryBadgeProps) {
+  return (
+    <div
+      style={{
+        border: "1px solid #d9d9d9",
+        borderRadius: "0.75rem",
+        padding: "0.85rem 1rem",
+        background: "#fff",
+        minWidth: "180px",
+      }}
+    >
+      <div
+        style={{
+          fontSize: "0.78rem",
+          textTransform: "uppercase",
+          letterSpacing: "0.06em",
+          color: "#666",
+          marginBottom: "0.35rem",
+        }}
+      >
+        {label}
+      </div>
+      <div style={{ fontWeight: 700, fontSize: "1rem", color: "#111" }}>{value}</div>
+    </div>
+  );
+}
+
+function GovernanceTraceRow({ label, value }: GovernanceTraceRowProps) {
+  return (
+    <p style={{ marginTop: 0, marginBottom: "0.65rem", lineHeight: 1.6 }}>
+      <strong>{label}:</strong> {value}
+    </p>
+  );
+}
+
+export default function DemoRuntimePage() {
+  const [prompt, setPrompt] = useState(
+    "Create a project to evaluate deployment readiness for a new service. Include three tasks: dependency verification, governance review, and execution readiness assessment. Require approval before any execution preparation."
+  );
+  const [approved, setApproved] = useState(true);
+  const [governanceEvaluated, setGovernanceEvaluated] = useState(true);
+  const [authorityOrderingValid, setAuthorityOrderingValid] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [report, setReport] = useState<DemoReport | null>(null);
+  const [error, setError] = useState<string>("");
+
+  const governanceExplanation = useMemo(() => {
+    if (!report) {
+      return "";
+    }
+
+    if (report.admissionDecision === "ADMITTED") {
+      return "Request admitted because approval is present, governance evaluation is present, authority ordering is valid, and task structure passed integrity checks.";
+    }
+
+    if (report.denialReasons.length > 0) {
+      return `Request denied because: ${report.denialReasons.join(", ")}.`;
+    }
+
+    return "Request denied because one or more governance admission conditions were not satisfied.";
+  }, [report]);
+
+  async function runDemo() {
+    setLoading(true);
+    setError("");
+    setReport(null);
+
+    try {
+      const response = await fetch("/api/demo-runtime", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          prompt,
+          approved,
+          governanceEvaluated,
+          authorityOrderingValid,
+        }),
+      });
+
+      const data = (await response.json()) as DemoReport | { error: string };
+
+      if (!response.ok) {
+        throw new Error("error" in data ? data.error : "Demo runtime failed.");
+      }
+
+      setReport(data as DemoReport);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Unknown dashboard error.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <main style={{ padding: "2rem", maxWidth: "1120px", margin: "0 auto" }}>
+      <h1 style={{ marginBottom: "0.5rem", fontSize: "2rem" }}>Governed Runtime Demo</h1>
+      <p style={{ marginBottom: "1.5rem", color: "#444", lineHeight: 1.5 }}>
+        Enter a natural-language operator request and run it through the governed runtime
+        pipeline. The result surface is organized around request, admission, execution,
+        and outcome so the system can be understood quickly without code inspection.
+      </p>
+
+      <section
+        style={{
+          border: "1px solid #ddd",
+          borderRadius: "0.9rem",
+          padding: "1rem",
+          background: "#fafafa",
+          marginBottom: "1.5rem",
+        }}
+      >
+        <label style={{ display: "block", fontWeight: 700, marginBottom: "0.5rem" }}>
+          Operator Request
+        </label>
+        <textarea
+          value={prompt}
+          onChange={(event) => setPrompt(event.target.value)}
+          rows={7}
+          style={{
+            width: "100%",
+            padding: "0.85rem",
+            borderRadius: "0.65rem",
+            border: "1px solid #ccc",
+            marginBottom: "1rem",
+            fontFamily: "inherit",
+            fontSize: "0.98rem",
+          }}
+        />
+
+        <div style={{ display: "flex", gap: "1.25rem", marginBottom: "1rem", flexWrap: "wrap" }}>
+          <label>
+            <input
+              type="checkbox"
+              checked={approved}
+              onChange={(event) => setApproved(event.target.checked)}
+              style={{ marginRight: "0.5rem" }}
+            />
+            Approved
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              checked={governanceEvaluated}
+              onChange={(event) => setGovernanceEvaluated(event.target.checked)}
+              style={{ marginRight: "0.5rem" }}
+            />
+            Governance evaluated
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              checked={authorityOrderingValid}
+              onChange={(event) => setAuthorityOrderingValid(event.target.checked)}
+              style={{ marginRight: "0.5rem" }}
+            />
+            Authority ordering valid
+          </label>
+        </div>
+
+        <button
+          onClick={runDemo}
+          disabled={loading}
+          style={{
+            padding: "0.8rem 1rem",
+            borderRadius: "0.6rem",
+            border: "1px solid #111",
+            background: "#111",
+            color: "#fff",
+            cursor: loading ? "not-allowed" : "pointer",
+            fontWeight: 700,
+          }}
+        >
+          {loading ? "Running…" : "Run governed demo"}
+        </button>
+      </section>
+
+      {error ? (
+        <div
+
+════════════════════════════════
+FILE: /Users/marcela-dev/Projects/Motherboard_Systems_HQ/exports/dashboard_phase6.8/js/dashboard-ops.js
+════════════════════════════════
+
+---- EXPORT / COMPONENT LINES ----
+16:function updateRecentPanels(data) {
+30:function friendlyTime(ts) {
+31:  const diff = (Date.now() - new Date(ts)) / 1000;
+
+---- HOOK / LOGIC LINES ----
+2:const opsStream = new EventSource("http://localhost:3201/events/ops");
+
+---- LABEL / UI TEXT LINES ----
+
+---- FIRST 220 LINES ----
+// <0001fad2> Phase 4.9 — Dashboard OPS Stream Integration
+const opsStream = new EventSource("http://localhost:3201/events/ops");
+
+opsStream.onopen = () => console.log("🟢 OPS Stream connected");
+opsStream.onerror = (e) => console.error("❌ OPS Stream error", e);
+
+opsStream.onmessage = (e) => {
+  try {
+    const data = JSON.parse(e.data);
+    updateRecentPanels(data);
+  } catch (err) {
+    console.error("⚠️ Invalid OPS payload:", e.data);
+  }
+};
+
+function updateRecentPanels(data) {
+  const logsContainer = document.getElementById("recent-logs");
+  const tasksContainer = document.getElementById("recent-tasks");
+  if (!logsContainer || !tasksContainer) return;
+
+  const { reflections = [], tasks = [] } = data;
+  logsContainer.innerHTML = reflections
+    .map(r => `<li>${r.content} <span class="timestamp">${friendlyTime(r.created_at)}</span></li>`)
+    .join("");
+  tasksContainer.innerHTML = tasks
+    .map(t => `<li>${t.description} <span class="timestamp">${friendlyTime(t.created_at)}</span></li>`)
+    .join("");
+}
+
+function friendlyTime(ts) {
+  const diff = (Date.now() - new Date(ts)) / 1000;
+  if (diff < 60) return `${Math.floor(diff)}s ago`;
+  if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
+  if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
+  return `${Math.floor(diff / 86400)}d ago`;
+}
+
+════════════════════════════════
+FILE: /Users/marcela-dev/Projects/Motherboard_Systems_HQ/exports/dashboard_phase6.8/js/dashboard-stream.js
+════════════════════════════════
+
+---- EXPORT / COMPONENT LINES ----
+4:export async function handleTaskStream(tasks) {
+
+---- HOOK / LOGIC LINES ----
+
+---- LABEL / UI TEXT LINES ----
+
+---- FIRST 220 LINES ----
+// <0001faf6> Phase 6.5 — Dashboard Stream Loader (with Task Graph)
+import { renderTaskActivityGraph } from "./task-activity-graph.js";
+
+export async function handleTaskStream(tasks) {
+  try {
+    const ctx = document.getElementById("taskActivityCanvas")?.getContext("2d");
+    if (ctx && tasks?.length) {
+      renderTaskActivityGraph(ctx, tasks);
+      console.log("📈 Task activity graph rendered successfully.");
+    } else {
+      console.log("⚠️ No tasks available or missing canvas context.");
+    }
+  } catch (err) {
+    console.error("❌ Error rendering task graph:", err);
+  }
+}
+
+════════════════════════════════
+FILE: /Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard.backup.js
+════════════════════════════════
+
+---- EXPORT / COMPONENT LINES ----
+4:async function fetchAgentStatus() {
+29:async function fetchOpsStream() {
+42:window.sendMessage = async function () {
+
+---- HOOK / LOGIC LINES ----
+5:  const res = await fetch("/api/agent-status");
+30:  const res = await fetch("/api/ops-stream");
+59:    const res = await fetch("/api/chat", {
+104:setInterval(fetchAgentStatus, 5000);
+105:setInterval(fetchOpsStream, 3000);
+
+---- LABEL / UI TEXT LINES ----
+
+---- FIRST 220 LINES ----
+// --- Phase 1 Dashboard Chat Fix with Logging ---
+let lastLog = "";
+
+async function fetchAgentStatus() {
+  const res = await fetch("/api/agent-status");
+  const data = await res.json();
+  const container = document.getElementById("agent-status");
+  if (!container) return;
+
+  container.innerHTML = "";
+  ["Matilda", "Cade", "Effie"].forEach(agent => {
+    const info = data[agent];
+    if (!info) return;
+    const div = document.createElement("div");
+    div.className = "agent";
+
+    const dot = document.createElement("span");
+    dot.className = `status-dot ${info.status || "offline"}`;
+
+    const name = document.createElement("strong");
+    name.textContent = agent;
+
+    div.appendChild(dot);
+    div.appendChild(name);
+    container.appendChild(div);
+  });
+}
+
+async function fetchOpsStream() {
+  const res = await fetch("/api/ops-stream");
+  const data = await res.json();
+  const container = document.getElementById("ops-stream");
+  if (!container) return;
+  const latest = data[data.length - 1]?.message || "";
+  if (latest && latest !== lastLog) {
+    lastLog = latest;
+    container.innerHTML = `<div class="ops-log">${latest}</div>`;
+  }
+}
+
+// --- Chat Function with Console Logs ---
+window.sendMessage = async function () {
+  const input = document.getElementById("input");
+  const messages = document.getElementById("messages");
+  const userText = input.value.trim();
+  if (!userText) return;
+
+  console.log("📡 sendMessage fired:", userText);
+
+  // Display user message
+  const userMsg = document.createElement("div");
+  userMsg.className = "message user-message";
+  userMsg.textContent = userText;
+  messages.appendChild(userMsg);
+  input.value = "";
+  messages.scrollTop = messages.scrollHeight;
+
+  try {
+    const res = await fetch("/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: userText })
+    });
+
+    console.log("📡 POST /api/chat sent, awaiting response...");
+
+    const data = await res.json();
+    console.log("🤖 Matilda replied:", data);
+
+    const botMsg = document.createElement("div");
+    botMsg.className = "message bot-message";
+    botMsg.textContent = data.reply || "(no response)";
+    messages.appendChild(botMsg);
+    messages.scrollTop = messages.scrollHeight;
+  } catch (err) {
+    console.error("❌ Chat fetch failed:", err);
+    const botMsg = document.createElement("div");
+    botMsg.className = "message bot-message";
+    botMsg.textContent = "(Error sending message)";
+    messages.appendChild(botMsg);
+  }
+};
+
+// --- Bind Send Button and Enter Key ---
+document.addEventListener("DOMContentLoaded", () => {
+  const sendButton = document.querySelector("button[onclick='sendMessage()']");
+  if (sendButton) {
+    sendButton.addEventListener("click", () => sendMessage());
+  }
+
+  const input = document.getElementById("input");
+  if (input) {
+    input.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") {
+        sendMessage();
+        e.preventDefault();
+      }
+    });
+  }
+
+  console.log("✅ Chat bindings initialized");
+});
+
+setInterval(fetchAgentStatus, 5000);
+setInterval(fetchOpsStream, 3000);
+
+════════════════════════════════
+FILE: /Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/dashboard-status.js
+════════════════════════════════
+
+---- EXPORT / COMPONENT LINES ----
+20:  const NOW = () => Date.now();
+22:  function safeJsonParse(s) {
+26:  function formatAge(ms) {
+35:  function el(tag, attrs = {}, text = "") {
+46:  function ensureStyles() {
+72:  function mount(anchor, id, label) {
+123:  function set(ind, label, connected, lastAt) {
+131:  function ensureGlobal() {
+139:  function shallowMerge(target, patch) {
+146:  function applyDotPathPatch(state, patch) {
+162:  function isStateEvent(evtType, parsed) {
+172:  function extractPayload(parsed) {
+182:  function connect(key, label, url, ind) {
+194:    const es = (window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(url));
+201:    const tick = () => set(ind, label, g[key].connected, g[key].lastAt);
+206:    const handle = (evtType, e) => {
+261:  function findOpsAnchor() {
+271:  function findReflectionsAnchor() {
+284:  function boot() {
+
+---- HOOK / LOGIC LINES ----
+4: * - Consume /events/ops + /events/reflections via EventSource
+10: * EventSource.onmessage only receives UNNAMED events, so we must addEventListener()
+194:    const es = (window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(url));
+198:    // Phase16: guard null EventSource before handlers
+292:    setInterval(() => {
+
+---- LABEL / UI TEXT LINES ----
+
+---- FIRST 220 LINES ----
+/**
+ * Phase 16: Dashboard wiring for OPS + Reflections SSE streams.
+ *
+ * - Consume /events/ops + /events/reflections via EventSource
+ * - Treat *.state as "initial paint" (replace baseline state)
+ * - Treat subsequent events as incremental updates (merge / patch)
+ * - Add tiny “connected / last event” UI indicator for each stream
+ *
+ * NOTE: Your SSE server emits NAMED events (e.g. "ops.state", "reflections.state").
+ * EventSource.onmessage only receives UNNAMED events, so we must addEventListener()
+ * for the named event types we care about.
+ */
+
+(() => {
+  "use strict";
+
+  const OPS_SSE_URL = "/events/ops";
+  const REFLECTIONS_SSE_URL = "/events/reflections";
+
+  const NOW = () => Date.now();
+
+  function safeJsonParse(s) {
+    try { return JSON.parse(s); } catch { return null; }
+  }
+
+  function formatAge(ms) {
+    if (!Number.isFinite(ms)) return "—";
+    const s = Math.floor(ms / 1000);
+    if (s < 60) return `${s}s`;
+    const m = Math.floor(s / 60);
+    if (m < 60) return `${m}m`;
+    return `${Math.floor(m / 60)}h`;
+  }
+
+  function el(tag, attrs = {}, text = "") {
+    const n = document.createElement(tag);
+    for (const [k, v] of Object.entries(attrs)) {
+      if (k === "class") n.className = v;
+      else if (k === "style") n.setAttribute("style", v);
+      else n.setAttribute(k, v);
+    }
+    if (text) n.textContent = text;
+    return n;
+  }
+
+  function ensureStyles() {
+    if (document.getElementById("phase16-sse-style")) return;
+    const s = el("style", { id: "phase16-sse-style" });
+    s.textContent = `
+      .sse-indicator {
+        display:inline-flex;
+        align-items:center;
+        gap:6px;
+        font-size:11px;
+        line-height:1;
+        opacity:.85;
+        user-select:none;
+        white-space:nowrap;
+      }
+      .sse-indicator .dot {
+        width:7px; height:7px; border-radius:999px;
+        background:#555;
+        box-shadow:0 0 0 1px rgba(255,255,255,.08) inset;
+      }
+      .sse-indicator[data-connected="true"] .dot { background:#2dd4bf; }
+      .sse-indicator[data-connected="false"] .dot { background:#f97316; }
+      .sse-indicator .meta { font-variant-numeric: tabular-nums; }
+    `;
+    document.head.appendChild(s);
+  }
+
+  function mount(anchor, id, label) {
+    ensureStyles();
+
+    if (!anchor) {
+      let tray = document.getElementById("phase16-sse-tray");
+      if (!tray) {
+        tray = el("div", {
+          id: "phase16-sse-tray",
+          style: [
+            "position:fixed",
+            "left:10px",
+            "bottom:10px",
+            "display:flex",
+            "flex-direction:column",
+            "gap:6px",
+            "z-index:9999",
+            "pointer-events:none",
+          ].join(";")
+        });
+        document.body.appendChild(tray);
+      }
+      anchor = tray;
+    }
+
+    let node = document.getElementById(id);
+    if (node) return node;
+
+    node = el("span", { id, class: "sse-indicator", "data-connected": "false" });
+    node.append(
+      el("span", { class: "dot", "aria-hidden": "true" }),
+      el("span", { class: "meta" }, `${label}: disconnected · last: —`)
+    );
+
+    // try to place nicely; otherwise append
+    try {
+      if (anchor.matches && anchor.matches("header,h1,h2,h3,h4,strong")) {
+        const wrap = el("span", { style: "margin-left:8px" });
+        wrap.appendChild(node);
+        anchor.appendChild(wrap);
+      } else {
+        const wrap = el("div", { style: "margin-top:4px" });
+        wrap.appendChild(node);
+        anchor.appendChild(wrap);
+      }
+    } catch {
+      anchor.appendChild(node);
+    }
+
+    return node;
+  }
+
+  function set(ind, label, connected, lastAt) {
+    if (!ind) return;
+    ind.dataset.connected = connected ? "true" : "false";
+    const meta = ind.querySelector(".meta");
+    if (!meta) return;
+    meta.textContent = `${label}: ${connected ? "connected" : "disconnected"} · last: ${lastAt ? formatAge(NOW() - lastAt) : "—"}`;
+  }
+
+  function ensureGlobal() {
+    window.__MB_STREAMS ||= {
+      ops: { connected: false, lastAt: 0, state: {}, es: null },
+      reflections: { connected: false, lastAt: 0, state: {}, es: null },
+    };
+    return window.__MB_STREAMS;
+  }
+
+  function shallowMerge(target, patch) {
+    if (!target || typeof target !== "object") target = {};
+    if (!patch || typeof patch !== "object") return target;
+    return Object.assign(target, patch);
+  }
+
+  // Minimal dot-path patch support: { path:"a.b.c", value:any }
+  function applyDotPathPatch(state, patch) {
+    if (!state || typeof state !== "object") state = {};
+    const path = patch && typeof patch.path === "string" ? patch.path : "";
+    if (!path) return state;
+    const parts = path.split(".").filter(Boolean);
+    if (!parts.length) return state;
+    let cur = state;
+    for (let i = 0; i < parts.length - 1; i++) {
+      const k = parts[i];
+      if (!cur[k] || typeof cur[k] !== "object") cur[k] = {};
+      cur = cur[k];
+    }
+    cur[parts[parts.length - 1]] = patch.value;
+    return state;
+  }
+
+  function isStateEvent(evtType, parsed) {
+    if (typeof evtType === "string" && evtType.endsWith(".state")) return true;
+    if (parsed && typeof parsed === "object") {
+      if (parsed.state && typeof parsed.state === "object") return true;
+      if (typeof parsed.type === "string" && parsed.type.includes("state")) return true;
+      if (typeof parsed.event === "string" && parsed.event.includes("state")) return true;
+    }
+    return false;
+  }
+
+  function extractPayload(parsed) {
+    if (!parsed || typeof parsed !== "object") return parsed;
+    if (parsed.payload !== undefined) return parsed.payload;
+    if (parsed.data !== undefined) return parsed.data;
+    if (parsed.delta !== undefined) return parsed.delta;
+    if (parsed.patch !== undefined) return parsed.patch;
+    if (parsed.state !== undefined) return parsed.state;
+    return parsed;
+  }
+
+  function connect(key, label, url, ind) {
+  // Phase16: bail if SSE owner already started
+  if (typeof window !== "undefined" && window.__PHASE16_SSE_OWNER_STARTED) {
+    return null;
+  }
+
+    const g = ensureGlobal();
+
+    // close any existing connection
+    try { g[key].es && g[key].es.close(); } catch {}
+    g[key].es = null;
+
+    const es = (window.__PHASE16_SSE_OWNER_STARTED ? null : new EventSource(url));
+    g[key].es = es;
+
+
+    // Phase16: guard null EventSource before handlers
+    if (!es) return null;
+
+    const tick = () => set(ind, label, g[key].connected, g[key].lastAt);
+
+    es.onopen = () => { g[key].connected = true; tick(); };
+    es.onerror = () => { g[key].connected = false; tick(); };
+
+    const handle = (evtType, e) => {
+      g[key].lastAt = NOW();
+
+      const parsed = safeJsonParse(e && e.data ? e.data : "");
+      const payload = extractPayload(parsed);
+
+      if (isStateEvent(evtType, parsed)) {
+        // initial paint: replace
+        g[key].state = (payload && typeof payload === "object") ? payload : { value: payload };
+      } else {
+        // incremental: patch or merge
+        if (payload && typeof payload === "object") {
+          if (typeof payload.path === "string" && "value" in payload) {
+            g[key].state = applyDotPathPatch(g[key].state, payload);
+          } else {
+
+════════════════════════════════
+FILE: /Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup_2/demo/verify-dashboard-sync.ts
+════════════════════════════════
+
+---- EXPORT / COMPONENT LINES ----
+4:async function checkSSE(endpoint: string) {
+18:async function main() {
+
+---- HOOK / LOGIC LINES ----
+7:    const response = await fetch(endpoint, { headers: { Accept: "text/event-stream" } });
+
+---- LABEL / UI TEXT LINES ----
+
+---- FIRST 220 LINES ----
+// <0001fae7> Phase 6.2 — Dashboard Sync Verification
+import fetch from "node-fetch";
+
+async function checkSSE(endpoint: string) {
+  console.log(`🔍 Checking SSE endpoint: ${endpoint}`);
+  try {
+    const response = await fetch(endpoint, { headers: { Accept: "text/event-stream" } });
+    if (response.ok) {
+      console.log(`✅ ${endpoint} reachable and streaming`);
+    } else {
+      console.log(`⚠️ ${endpoint} responded with status: ${response.status}`);
+    }
+  } catch (err) {
+    console.error(`❌ ${endpoint} failed:`, err);
+  }
+}
+
+async function main() {
+  console.log("🧠 Verifying live dashboard sync endpoints...");
+  await checkSSE("http://localhost:3201/events/ops");
+  await checkSSE("http://localhost:3101/events/reflections");
+  console.log("✅ Verification sequence complete. Check dashboard for Recent Tasks & Logs updates.");
+}
+
+main();
+
+════════════════════════════════
+FILE: /Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/demo/verify-dashboard-sync.ts
+════════════════════════════════
+
+---- EXPORT / COMPONENT LINES ----
+4:async function checkSSE(endpoint: string) {
+18:async function main() {
+
+---- HOOK / LOGIC LINES ----
+7:    const response = await fetch(endpoint, { headers: { Accept: "text/event-stream" } });
+
+---- LABEL / UI TEXT LINES ----
+
+---- FIRST 220 LINES ----
+// <0001fae7> Phase 6.2 — Dashboard Sync Verification
+import fetch from "node-fetch";
+
+async function checkSSE(endpoint: string) {
+  console.log(`🔍 Checking SSE endpoint: ${endpoint}`);
+  try {
+    const response = await fetch(endpoint, { headers: { Accept: "text/event-stream" } });
+    if (response.ok) {
+      console.log(`✅ ${endpoint} reachable and streaming`);
+    } else {
+      console.log(`⚠️ ${endpoint} responded with status: ${response.status}`);
+    }
+  } catch (err) {
+    console.error(`❌ ${endpoint} failed:`, err);
+  }
+}
+
+async function main() {
+  console.log("🧠 Verifying live dashboard sync endpoints...");
+  await checkSSE("http://localhost:3201/events/ops");
+  await checkSSE("http://localhost:3101/events/reflections");
+  console.log("✅ Verification sequence complete. Check dashboard for Recent Tasks & Logs updates.");
+}
+
+main();
+
+════════════════════════════════
+FILE: /Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts_backup/scripts/demo/verify-dashboard-sync.ts
+════════════════════════════════
+
+---- EXPORT / COMPONENT LINES ----
+4:async function checkSSE(endpoint: string) {
+18:async function main() {
+
+---- HOOK / LOGIC LINES ----
+7:    const response = await fetch(endpoint, { headers: { Accept: "text/event-stream" } });
+
+---- LABEL / UI TEXT LINES ----
+
+---- FIRST 220 LINES ----
+// <0001fae7> Phase 6.2 — Dashboard Sync Verification
+import fetch from "node-fetch";
+
+async function checkSSE(endpoint: string) {
+  console.log(`🔍 Checking SSE endpoint: ${endpoint}`);
+  try {
+    const response = await fetch(endpoint, { headers: { Accept: "text/event-stream" } });
+    if (response.ok) {
+      console.log(`✅ ${endpoint} reachable and streaming`);
+    } else {
+      console.log(`⚠️ ${endpoint} responded with status: ${response.status}`);
+    }
+  } catch (err) {
+    console.error(`❌ ${endpoint} failed:`, err);
+  }
+}
+
+async function main() {
+  console.log("🧠 Verifying live dashboard sync endpoints...");
+  await checkSSE("http://localhost:3201/events/ops");
+  await checkSSE("http://localhost:3101/events/reflections");
+  console.log("✅ Verification sequence complete. Check dashboard for Recent Tasks & Logs updates.");
+}
+
+main();
+
+════════════════════════════════
+FILE: /Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/_local/phase136_governance_dashboard_consumption_report.ts
+════════════════════════════════
+
+---- EXPORT / COMPONENT LINES ----
+
+---- HOOK / LOGIC LINES ----
+
+---- LABEL / UI TEXT LINES ----
+2:  buildGovernanceCognitionSnapshot,
+3:  normalizeGovernanceSnapshot,
+4:  packageGovernanceCognitionSnapshot,
+5:  buildGovernanceDashboardConsumptionView,
+6:  selectGovernanceDashboardConsumptionView,
+7:  proveGovernanceDashboardConsumptionView
+10:const snapshot = buildGovernanceCognitionSnapshot({
+18:const normalized = normalizeGovernanceSnapshot(snapshot);
+19:const packaged = packageGovernanceCognitionSnapshot(normalized);
+20:const view = buildGovernanceDashboardConsumptionView(packaged);
+21:const selection = selectGovernanceDashboardConsumptionView(view);
+22:const proof = proveGovernanceDashboardConsumptionView();
+
+---- FIRST 220 LINES ----
+import {
+  buildGovernanceCognitionSnapshot,
+  normalizeGovernanceSnapshot,
+  packageGovernanceCognitionSnapshot,
+  buildGovernanceDashboardConsumptionView,
+  selectGovernanceDashboardConsumptionView,
+  proveGovernanceDashboardConsumptionView
+} from "../../src/governance/cognition";
+
+const snapshot = buildGovernanceCognitionSnapshot({
+  routingStatus: "stable",
+  authorityStatus: "review",
+  registryStatus: "attention",
+  signals: ["registry", "authority", "routing", "authority"],
+  ts: 136002
+});
+
+const normalized = normalizeGovernanceSnapshot(snapshot);
+const packaged = packageGovernanceCognitionSnapshot(normalized);
+const view = buildGovernanceDashboardConsumptionView(packaged);
+const selection = selectGovernanceDashboardConsumptionView(view);
+const proof = proveGovernanceDashboardConsumptionView();
+
+const report = Object.freeze({
+  phase: 136,
+  component: "governance-dashboard-consumption-preparation",
+  pass: true,
+  deterministic:
+    snapshot.deterministic === true &&
+    normalized.deterministic === true &&
+    packaged.deterministic === true &&
+    view.deterministic === true &&
+    selection.deterministic === true &&
+    proof.deterministic === true,
+  snapshot: {
+    overallStatus: snapshot.overallStatus,
+    severity: snapshot.severity,
+    signalCount: snapshot.signals.length
+  },
+  packaged: {
+    operatorSafe: packaged.operatorSafe,
+    dashboardReady: packaged.dashboardReady,
+    signalCount: packaged.snapshot.signals.length
+  },
+  view: {
+    kind: view.kind,
+    version: view.version,
+    overallStatus: view.overallStatus,
+    severity: view.severity,
+    signalCount: view.signalCount,
+    signals: view.signals,
+    readOnly: view.readOnly,
+    dashboardSafe: view.dashboardSafe
+  },
+  selection,
+  proof
+});
+
+console.log(JSON.stringify(report, null, 2));
+
+════════════════════════════════
+FILE: /Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/_local/phase136_governance_dashboard_consumption_smoke.ts
+════════════════════════════════
+
+---- EXPORT / COMPONENT LINES ----
+10:function assert(condition: unknown, message: string): asserts condition {
+
+---- HOOK / LOGIC LINES ----
+
+---- LABEL / UI TEXT LINES ----
+2:  buildGovernanceCognitionSnapshot,
+3:  normalizeGovernanceSnapshot,
+4:  packageGovernanceCognitionSnapshot,
+5:  buildGovernanceDashboardConsumptionView,
+6:  selectGovernanceDashboardConsumptionView,
+7:  proveGovernanceDashboardConsumptionView
+16:const snapshot = buildGovernanceCognitionSnapshot({
+24:const normalized = normalizeGovernanceSnapshot(snapshot);
+25:const packaged = packageGovernanceCognitionSnapshot(normalized);
+26:const view = buildGovernanceDashboardConsumptionView(packaged);
+27:const selection = selectGovernanceDashboardConsumptionView(view);
+28:const proof = proveGovernanceDashboardConsumptionView();
+
+---- FIRST 220 LINES ----
+import {
+  buildGovernanceCognitionSnapshot,
+  normalizeGovernanceSnapshot,
+  packageGovernanceCognitionSnapshot,
+  buildGovernanceDashboardConsumptionView,
+  selectGovernanceDashboardConsumptionView,
+  proveGovernanceDashboardConsumptionView
+} from "../../src/governance/cognition";
+
+function assert(condition: unknown, message: string): asserts condition {
+  if (!condition) {
+    throw new Error(message);
+  }
+}
+
+const snapshot = buildGovernanceCognitionSnapshot({
+  routingStatus: "attention",
+  authorityStatus: "stable",
+  registryStatus: "stable",
+  signals: ["routing", "authority", "routing"],
+  ts: 136001
+});
+
+const normalized = normalizeGovernanceSnapshot(snapshot);
+const packaged = packageGovernanceCognitionSnapshot(normalized);
+const view = buildGovernanceDashboardConsumptionView(packaged);
+const selection = selectGovernanceDashboardConsumptionView(view);
+const proof = proveGovernanceDashboardConsumptionView();
+
+assert(view.readOnly === true, "Consumption view must remain read-only.");
+assert(view.dashboardSafe === true, "Consumption view must remain dashboard-safe.");
+assert(view.signalCount === 2, "Consumption view signal count must be deduplicated.");
+assert(view.signals.join("|") === "authority|routing", "Consumption view signals must be sorted.");
+assert(selection.headlineStatus === "attention", "Selection must expose overall status.");
+assert(selection.headlineSeverity === "warning", "Selection must expose severity.");
+assert(proof.pass === true, "Dashboard consumption proof must pass.");
+
+console.log("phase136 governance dashboard consumption smoke PASS");
+
+════════════════════════════════
+FILE: /Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/_local/phase137_governance_dashboard_contract_registration_report.ts
+════════════════════════════════
+
+---- EXPORT / COMPONENT LINES ----
+
+---- HOOK / LOGIC LINES ----
+
+---- LABEL / UI TEXT LINES ----
+2:  buildGovernanceCognitionSnapshot,
+3:  normalizeGovernanceSnapshot,
+4:  packageGovernanceCognitionSnapshot,
+5:  buildGovernanceDashboardConsumptionView,
+6:  registerGovernanceDashboardContract,
+7:  normalizeGovernanceDashboardContractRegistration,
+8:  proveGovernanceDashboardContractRegistration
+11:const snapshot = buildGovernanceCognitionSnapshot({
+19:const normalizedSnapshot = normalizeGovernanceSnapshot(snapshot);
+20:const packaged = packageGovernanceCognitionSnapshot(normalizedSnapshot);
+21:const view = buildGovernanceDashboardConsumptionView(packaged);
+22:const registration = registerGovernanceDashboardContract(view);
+23:const normalizedRegistration = normalizeGovernanceDashboardContractRegistration(registration);
+24:const proof = proveGovernanceDashboardContractRegistration();
+
+---- FIRST 220 LINES ----
+import {
+  buildGovernanceCognitionSnapshot,
+  normalizeGovernanceSnapshot,
+  packageGovernanceCognitionSnapshot,
+  buildGovernanceDashboardConsumptionView,
+  registerGovernanceDashboardContract,
+  normalizeGovernanceDashboardContractRegistration,
+  proveGovernanceDashboardContractRegistration
+} from "../../src/governance/cognition";
+
+const snapshot = buildGovernanceCognitionSnapshot({
+  routingStatus: "stable",
+  authorityStatus: "review",
+  registryStatus: "attention",
+  signals: ["registry", "authority", "routing", "authority"],
+  ts: 137002
+});
+
+const normalizedSnapshot = normalizeGovernanceSnapshot(snapshot);
+const packaged = packageGovernanceCognitionSnapshot(normalizedSnapshot);
+const view = buildGovernanceDashboardConsumptionView(packaged);
+const registration = registerGovernanceDashboardContract(view);
+const normalizedRegistration = normalizeGovernanceDashboardContractRegistration(registration);
+const proof = proveGovernanceDashboardContractRegistration();
+
+const report = Object.freeze({
+  phase: 137,
+  component: "governance-dashboard-contract-registration",
+  pass: true,
+  deterministic:
+    snapshot.deterministic === true &&
+    normalizedSnapshot.deterministic === true &&
+    packaged.deterministic === true &&
+    view.deterministic === true &&
+    normalizedRegistration.deterministic === true &&
+    proof.deterministic === true,
+  snapshot: {
+    overallStatus: snapshot.overallStatus,
+    severity: snapshot.severity,
+    signalCount: snapshot.signals.length
+  },
+  view: {
+    kind: view.kind,
+    version: view.version,
+    overallStatus: view.overallStatus,
+    severity: view.severity,
+    signalCount: view.signalCount,
+    signals: view.signals,
+    readOnly: view.readOnly,
+    dashboardSafe: view.dashboardSafe
+  },
+  registration: {
+    kind: normalizedRegistration.kind,
+    version: normalizedRegistration.version,
+    contractId: normalizedRegistration.contractId,
+    registryKey: normalizedRegistration.registryKey,
+    channel: normalizedRegistration.channel,
+    surface: normalizedRegistration.surface,
+    mode: normalizedRegistration.mode,
+    readOnly: normalizedRegistration.readOnly,
+    dashboardSafe: normalizedRegistration.dashboardSafe,
+    operatorSafe: normalizedRegistration.operatorSafe,
+    signalCount: normalizedRegistration.payload.signalCount,
+    signals: normalizedRegistration.payload.signals
+  },
+  proof
+});
+
+console.log(JSON.stringify(report, null, 2));
+
+════════════════════════════════
+FILE: /Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/_local/phase137_governance_dashboard_contract_registration_smoke.ts
+════════════════════════════════
+
+---- EXPORT / COMPONENT LINES ----
+11:function assert(condition: unknown, message: string): asserts condition {
+
+---- HOOK / LOGIC LINES ----
+
+---- LABEL / UI TEXT LINES ----
+2:  buildGovernanceCognitionSnapshot,
+3:  normalizeGovernanceSnapshot,
+4:  packageGovernanceCognitionSnapshot,
+5:  buildGovernanceDashboardConsumptionView,
+6:  registerGovernanceDashboardContract,
+7:  normalizeGovernanceDashboardContractRegistration,
+8:  proveGovernanceDashboardContractRegistration
+17:const snapshot = buildGovernanceCognitionSnapshot({
+25:const normalizedSnapshot = normalizeGovernanceSnapshot(snapshot);
+26:const packaged = packageGovernanceCognitionSnapshot(normalizedSnapshot);
+27:const view = buildGovernanceDashboardConsumptionView(packaged);
+28:const registration = registerGovernanceDashboardContract(view);
+29:const normalizedRegistration = normalizeGovernanceDashboardContractRegistration(registration);
+30:const proof = proveGovernanceDashboardContractRegistration();
+38:assert(proof.pass === true, "Governance dashboard contract registration proof must pass.");
+
+---- FIRST 220 LINES ----
+import {
+  buildGovernanceCognitionSnapshot,
+  normalizeGovernanceSnapshot,
+  packageGovernanceCognitionSnapshot,
+  buildGovernanceDashboardConsumptionView,
+  registerGovernanceDashboardContract,
+  normalizeGovernanceDashboardContractRegistration,
+  proveGovernanceDashboardContractRegistration
+} from "../../src/governance/cognition";
+
+function assert(condition: unknown, message: string): asserts condition {
+  if (!condition) {
+    throw new Error(message);
+  }
+}
+
+const snapshot = buildGovernanceCognitionSnapshot({
+  routingStatus: "attention",
+  authorityStatus: "stable",
+  registryStatus: "stable",
+  signals: ["routing", "authority", "routing"],
+  ts: 137001
+});
+
+const normalizedSnapshot = normalizeGovernanceSnapshot(snapshot);
+const packaged = packageGovernanceCognitionSnapshot(normalizedSnapshot);
+const view = buildGovernanceDashboardConsumptionView(packaged);
+const registration = registerGovernanceDashboardContract(view);
+const normalizedRegistration = normalizeGovernanceDashboardContractRegistration(registration);
+const proof = proveGovernanceDashboardContractRegistration();
+
+assert(normalizedRegistration.readOnly === true, "Registration must remain read-only.");
+assert(normalizedRegistration.dashboardSafe === true, "Registration must remain dashboard-safe.");
+assert(normalizedRegistration.contractId === "governance.dashboard.consumption", "Contract id must match.");
+assert(normalizedRegistration.registryKey === "governance-dashboard-consumption", "Registry key must match.");
+assert(normalizedRegistration.payload.signalCount === 2, "Normalized registration signal count must be deduplicated.");
+assert(normalizedRegistration.payload.signals.join("|") === "authority|routing", "Normalized registration signals must be sorted.");
+assert(proof.pass === true, "Governance dashboard contract registration proof must pass.");
+
+console.log("phase137 governance dashboard contract registration smoke PASS");
+
+────────────────────────────────
+NEXT ACTION
+────────────────────────────────
+Choose the smallest file that:
+1. renders the current dashboard/operator console,
+2. already contains the visible section layout,
+3. can be regrouped by wrappers only,
+4. does not require hook/data/logic changes.

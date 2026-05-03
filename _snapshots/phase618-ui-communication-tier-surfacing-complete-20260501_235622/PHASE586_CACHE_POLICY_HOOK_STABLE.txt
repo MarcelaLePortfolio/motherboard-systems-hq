@@ -1,0 +1,14 @@
+Phase 586 cache policy hook stable checkpoint.
+
+Result:
+- execution_policy log appears at worker runtime.
+- cache_policy=bypass emits runtime-hook cache-policy signal.
+- Task completes successfully.
+- DB confirms retry payload persisted with cache_policy, memory_scope, execution_mode, and retry_of_task_id.
+- No behavior mutation or schema change introduced.
+
+Meaning:
+The first non-breaking runtime policy hook is active and verified.
+
+Next:
+Checkpoint, tag, and snapshot before adding the next runtime hook.

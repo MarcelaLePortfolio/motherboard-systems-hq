@@ -1,0 +1,115 @@
+PHASE 487 — CONSOLE RENDER EXPRESSION VERDICT
+source_file=docs/phase487_visible_confidence_render_expression_20260415_220927.txt
+branch=phase119-dashboard-cognition-contract
+commit=faba4b42abc7f3b19170d1e10240d7b260f0dfa2
+
+=== TARGET FILE ===
+src/cognition/operatorGuidance.live.ts
+
+=== HIGH-SIGNAL LINES ===
+27:52:  surfaceConfidence: "high" | "medium" | "low" | "insufficient";
+44:69:    surfaceConfidence: reduction.surfaceConfidence,
+107:  surfaceConfidence: "high" | "medium" | "low" | "insufficient";
+124:    surfaceConfidence: reduction.surfaceConfidence,
+187:  surfaceConfidence: "high" | "medium" | "low" | "insufficient";
+204:    surfaceConfidence: reduction.surfaceConfidence,
+222:./PHASE88_14_1_health_body.json:8:<pre>Cannot GET /diagnostics/system-health</pre>
+232:./dashboard/src/cognition/operatorGuidance/operatorGuidance.ts:99:  source: "diagnostics/system-health",
+242:./routes/diagnostics/operatorGuidanceRuntime.js:152:      source: "diagnostics/system-health",
+247:./routes/diagnostics/operatorGuidanceRuntime.js-157-  const confidence = assessSurfaceConfidence(signals);
+256:./routes/diagnostics/systemHealth.js:49:      source: "diagnostics/system-health",
+265:Use this artifact to identify the exact render expression producing the visible confidence value.
+
+=== LIKELY RENDER WINDOWS ===
+40-    domain: "signal_quality",
+41-    status: "unknown",
+42-    summary: "signal visibility incomplete",
+43-    observedAt: NOW + 3,
+44-    source: "health_surface",
+45-  },
+46-];
+47-
+48-export type OperatorGuidanceLiveVerificationResult = {
+49-  ok: true;
+50-  generatedAt: number;
+51-  guidanceCount: number;
+52:  surfaceConfidence: "high" | "medium" | "low" | "insufficient";
+53-  conflictingSignals: boolean;
+54-  guidanceIds: string[];
+55-};
+56-
+57-export function runOperatorGuidanceLiveVerification(): OperatorGuidanceLiveVerificationResult {
+58-  const reduction = reduceOperatorHealthSurfaceToGuidance({
+59-    signals: LIVE_VERIFICATION_SIGNALS,
+60-    generatedAt: NOW + 100,
+61-  });
+62-
+63-  assertOperatorGuidanceReductionSafe(reduction);
+64-
+65-  return {
+66-    ok: true,
+67-    generatedAt: reduction.envelope.generatedAt,
+68-    guidanceCount: reduction.envelope.guidance.length,
+69:    surfaceConfidence: reduction.surfaceConfidence,
+70-    conflictingSignals: reduction.conflictingSignals,
+71-    guidanceIds: reduction.envelope.guidance.map((guidance) => guidance.id),
+72-  };
+73-}
+74-
+75-if (import.meta.url === `file://${process.argv[1]}`) {
+76-  const result = runOperatorGuidanceLiveVerification();
+77-  process.stdout.write(`${JSON.stringify(result, null, 2)}\n`);
+78-}
+
+=== GLOBAL STRING TRACE WINDOWS ===
+./PHASE88_14_1_health_body.json-2-<html lang="en">
+./PHASE88_14_1_health_body.json-3-<head>
+./PHASE88_14_1_health_body.json-4-<meta charset="utf-8">
+./PHASE88_14_1_health_body.json-5-<title>Error</title>
+./PHASE88_14_1_health_body.json-6-</head>
+./PHASE88_14_1_health_body.json-7-<body>
+./PHASE88_14_1_health_body.json:8:<pre>Cannot GET /diagnostics/system-health</pre>
+./PHASE88_14_1_health_body.json-9-</body>
+./PHASE88_14_1_health_body.json-10-</html>
+--
+./dashboard/src/cognition/operatorGuidance/operatorGuidance.ts-93-  signalCount: 0,
+./dashboard/src/cognition/operatorGuidance/operatorGuidance.ts-94-  conflictingSignals: false,
+./dashboard/src/cognition/operatorGuidance/operatorGuidance.ts-95-};
+./dashboard/src/cognition/operatorGuidance/operatorGuidance.ts-96-
+./dashboard/src/cognition/operatorGuidance/operatorGuidance.ts-97-export const EMPTY_OPERATOR_GUIDANCE_STREAM_EVENT: OperatorGuidanceStreamEvent = {
+./dashboard/src/cognition/operatorGuidance/operatorGuidance.ts-98-  reduction: EMPTY_OPERATOR_GUIDANCE_REDUCTION,
+./dashboard/src/cognition/operatorGuidance/operatorGuidance.ts:99:  source: "diagnostics/system-health",
+./dashboard/src/cognition/operatorGuidance/operatorGuidance.ts-100-  ts: 0,
+./dashboard/src/cognition/operatorGuidance/operatorGuidance.ts-101-};
+--
+./routes/diagnostics/operatorGuidanceRuntime.js-146-      key: "system-health",
+./routes/diagnostics/operatorGuidanceRuntime.js-147-      domain: "system_health",
+./routes/diagnostics/operatorGuidanceRuntime.js-148-      status: snapshot.status === "OK" ? "healthy" : "degraded",
+./routes/diagnostics/operatorGuidanceRuntime.js-149-      value: snapshot.status,
+./routes/diagnostics/operatorGuidanceRuntime.js-150-      summary: String(snapshot.situationSummary || "").split("\n")[0] || "system health snapshot available",
+./routes/diagnostics/operatorGuidanceRuntime.js-151-      observedAt: now,
+./routes/diagnostics/operatorGuidanceRuntime.js:152:      source: "diagnostics/system-health",
+./routes/diagnostics/operatorGuidanceRuntime.js-153-    },
+./routes/diagnostics/operatorGuidanceRuntime.js-154-  ];
+./routes/diagnostics/operatorGuidanceRuntime.js-155-
+./routes/diagnostics/operatorGuidanceRuntime.js-156-  const guidance = sortGuidanceDeterministically(signals.map(createBoundedGuidance));
+./routes/diagnostics/operatorGuidanceRuntime.js-157-  const confidence = assessSurfaceConfidence(signals);
+./routes/diagnostics/operatorGuidanceRuntime.js-158-
+--
+./routes/diagnostics/systemHealth.js-43-      key: "system-health",
+./routes/diagnostics/systemHealth.js-44-      domain: "system_health",
+./routes/diagnostics/systemHealth.js-45-      status: snapshot.status === "OK" ? "healthy" : "degraded",
+./routes/diagnostics/systemHealth.js-46-      value: snapshot.status,
+./routes/diagnostics/systemHealth.js-47-      summary: snapshot.situationSummary.split("\n")[0] || "system health snapshot available",
+./routes/diagnostics/systemHealth.js-48-      observedAt: Number.isFinite(observedAt) ? observedAt : Date.now(),
+./routes/diagnostics/systemHealth.js:49:      source: "diagnostics/system-health",
+./routes/diagnostics/systemHealth.js-50-    },
+./routes/diagnostics/systemHealth.js-51-  ];
+./routes/diagnostics/systemHealth.js-52-}
+./routes/diagnostics/systemHealth.js-53-
+./routes/diagnostics/systemHealth.js-54-router.get("/", (_req, res) => {
+./routes/diagnostics/systemHealth.js-55-  res.json(buildSystemHealthSnapshot());
+
+=== NEXT PATCH TARGET ===
+Patch only the exact render expression or formatter shown above that still emits confidence=insufficient.
+

@@ -1,0 +1,61 @@
+PHASE 488 — RECOVER DOCKER + DASHBOARD
+Timestamp: Fri Apr 17 13:58:03 PDT 2026
+========================================
+
+[1] PRECHECK
+$ docker info
+TIMEOUT
+
+$ lsof -nP -iTCP:5432 -sTCP:LISTEN
+exit= 1
+
+$ curl -I --max-time 5 http://localhost:3000
+exit= 7
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+curl: (7) Failed to connect to localhost port 3000 after 0 ms: Couldn't connect to server
+
+
+
+[2] RELAUNCH DOCKER DESKTOP
+Docker app relaunch requested
+
+[3] WAIT FOR DOCKER DAEMON (up to 90s)
+attempt=1 exit=1
+Cannot connect to the Docker daemon at unix:///Users/marcela-dev/.docker/run/docker.sock. Is the docker daemon running?
+attempt=2 exit=1
+Cannot connect to the Docker daemon at unix:///Users/marcela-dev/.docker/run/docker.sock. Is the docker daemon running?
+attempt=3 exit=1
+Cannot connect to the Docker daemon at unix:///Users/marcela-dev/.docker/run/docker.sock. Is the docker daemon running?
+attempt=4 exit=1
+Cannot connect to the Docker daemon at unix:///Users/marcela-dev/.docker/run/docker.sock. Is the docker daemon running?
+attempt=5 exit=1
+Cannot connect to the Docker daemon at unix:///Users/marcela-dev/.docker/run/docker.sock. Is the docker daemon running?
+attempt=6 exit=1
+Cannot connect to the Docker daemon at unix:///Users/marcela-dev/.docker/run/docker.sock. Is the docker daemon running?
+attempt=7 exit=1
+Cannot connect to the Docker daemon at unix:///Users/marcela-dev/.docker/run/docker.sock. Is the docker daemon running?
+attempt=8 exit=1
+Cannot connect to the Docker daemon at unix:///Users/marcela-dev/.docker/run/docker.sock. Is the docker daemon running?
+attempt=9 exit=1
+Cannot connect to the Docker daemon at unix:///Users/marcela-dev/.docker/run/docker.sock. Is the docker daemon running?
+attempt=10 exit=1
+Cannot connect to the Docker daemon at unix:///Users/marcela-dev/.docker/run/docker.sock. Is the docker daemon running?
+attempt=11 exit=1
+Cannot connect to the Docker daemon at unix:///Users/marcela-dev/.docker/run/docker.sock. Is the docker daemon running?
+attempt=12 exit=1
+Cannot connect to the Docker daemon at unix:///Users/marcela-dev/.docker/run/docker.sock. Is the docker daemon running?
+attempt=13 exit=1
+Cannot connect to the Docker daemon at unix:///Users/marcela-dev/.docker/run/docker.sock. Is the docker daemon running?
+attempt=14 exit=1
+Cannot connect to the Docker daemon at unix:///Users/marcela-dev/.docker/run/docker.sock. Is the docker daemon running?
+attempt=15 exit=1
+Cannot connect to the Docker daemon at unix:///Users/marcela-dev/.docker/run/docker.sock. Is the docker daemon running?
+attempt=16 exit=1
+Cannot connect to the Docker daemon at unix:///Users/marcela-dev/.docker/run/docker.sock. Is the docker daemon running?
+attempt=17 exit=1
+Cannot connect to the Docker daemon at unix:///Users/marcela-dev/.docker/run/docker.sock. Is the docker daemon running?
+DOCKER_NOT_READY

@@ -1,0 +1,171 @@
+PHASE 457 - WHY PHASE 61 CANDIDATES ARE WRONG
+=============================================
+
+PURPOSE
+Prove whether the tested Phase 61 candidates actually changed the served HTML shell,
+or only changed adjacent CSS/JS/runtime files.
+
+===== cba8b3c0 =====
+LABEL=Consolidate operator column into tabbed workspace
+
+--- public/index.html hash ---
+e74317c88b10c2e2dc7b303deaad99af3c0de9f62519b7a8bd4b2493598541f8  -
+
+--- public/dashboard.html hash ---
+58c3324abe3a5af2b270c0e46511c378daf44b0c05be9f68e20b88d920df6a7b  -
+
+--- public/index.html markers ---
+
+--- public/dashboard.html markers ---
+observational-tabs
+observational-workspace-card
+operator-tabs
+operator-workspace-card
+phase61-workspace-grid
+
+--- index title + size ---
+   10283 /var/folders/3n/zscyzgr50b9gk8dg6fv8byz80000gn/T/tmp.YWDbuW3eBb
+<title>Motherboard Systems Operator Console</title>
+
+--- dashboard title + size ---
+   14492 /var/folders/3n/zscyzgr50b9gk8dg6fv8byz80000gn/T/tmp.qbyZqbXQEh
+<title>Motherboard Systems Operator Console</title>
+
+--- files touched in commit ---
+cba8b3c0 Consolidate operator column into tabbed workspace
+public/dashboard.html
+public/js/phase61_tabs_workspace.js
+scripts/_local/apply_phase61_operator_workspace_resilient.py
+
+===== 74a241ca =====
+LABEL=Phase 61: consolidate operator workspace layout
+
+--- public/index.html hash ---
+e74317c88b10c2e2dc7b303deaad99af3c0de9f62519b7a8bd4b2493598541f8  -
+
+--- public/dashboard.html hash ---
+9aba5a8af3c1cb23cee2e3a25cd9b61d4777f556eb4fcf44005b72240071b594  -
+
+--- public/index.html markers ---
+
+--- public/dashboard.html markers ---
+phase61-workspace-grid
+
+--- index title + size ---
+   10283 /var/folders/3n/zscyzgr50b9gk8dg6fv8byz80000gn/T/tmp.OmX6iUAbQm
+<title>Motherboard Systems Operator Console</title>
+
+--- dashboard title + size ---
+   11788 /var/folders/3n/zscyzgr50b9gk8dg6fv8byz80000gn/T/tmp.jUOYpMS3fu
+<title>Motherboard Systems Operator Console</title>
+
+--- files touched in commit ---
+74a241ca Phase 61: consolidate operator workspace layout
+public/css/phase61_workspace_consolidation.css
+public/dashboard.html
+
+===== df791714 =====
+LABEL=Phase 61: add observational workspace tab system
+
+--- public/index.html hash ---
+e74317c88b10c2e2dc7b303deaad99af3c0de9f62519b7a8bd4b2493598541f8  -
+
+--- public/dashboard.html hash ---
+9aba5a8af3c1cb23cee2e3a25cd9b61d4777f556eb4fcf44005b72240071b594  -
+
+--- public/index.html markers ---
+
+--- public/dashboard.html markers ---
+phase61-workspace-grid
+
+--- index title + size ---
+   10283 /var/folders/3n/zscyzgr50b9gk8dg6fv8byz80000gn/T/tmp.81j7Ki2uFf
+<title>Motherboard Systems Operator Console</title>
+
+--- dashboard title + size ---
+   11788 /var/folders/3n/zscyzgr50b9gk8dg6fv8byz80000gn/T/tmp.c9P2RqQkMj
+<title>Motherboard Systems Operator Console</title>
+
+--- files touched in commit ---
+df791714 Phase 61: add observational workspace tab system (Recent Tasks / Task Activity / Task Events)
+public/css/phase61_tabs_observational_workspace.css
+public/js/phase61_tabs_workspace.js
+
+===== d2601c1e =====
+LABEL=Phase 61: convert telemetry column into tabbed observational workspace
+
+--- public/index.html hash ---
+e74317c88b10c2e2dc7b303deaad99af3c0de9f62519b7a8bd4b2493598541f8  -
+
+--- public/dashboard.html hash ---
+7c2052946f1026a654749e42a18efa038850f2649a9229bfa5646cdb7fdf7823  -
+
+--- public/index.html markers ---
+
+--- public/dashboard.html markers ---
+observational-tabs
+phase61-workspace-grid
+
+--- index title + size ---
+   10283 /var/folders/3n/zscyzgr50b9gk8dg6fv8byz80000gn/T/tmp.4Yv8iQ50WN
+<title>Motherboard Systems Operator Console</title>
+
+--- dashboard title + size ---
+   12315 /var/folders/3n/zscyzgr50b9gk8dg6fv8byz80000gn/T/tmp.OkqS8syTLE
+<title>Motherboard Systems Operator Console</title>
+
+--- files touched in commit ---
+d2601c1e Phase 61: convert telemetry column into tabbed observational workspace
+public/dashboard.html
+
+===== 9c68c540 =====
+LABEL=Restore Phase 61 dashboard to last good visual state
+
+--- public/index.html hash ---
+e74317c88b10c2e2dc7b303deaad99af3c0de9f62519b7a8bd4b2493598541f8  -
+
+--- public/dashboard.html hash ---
+8fa541b61b7b3912a43875f026abaa9b3eb9e3cc6a174bf4a3df6a1a588c23af  -
+
+--- public/index.html markers ---
+
+--- public/dashboard.html markers ---
+observational-tabs
+observational-workspace-card
+operator-tabs
+operator-workspace-card
+phase61-workspace-grid
+
+--- index title + size ---
+   10283 /var/folders/3n/zscyzgr50b9gk8dg6fv8byz80000gn/T/tmp.cVCnvbSY3o
+<title>Motherboard Systems Operator Console</title>
+
+--- dashboard title + size ---
+   15747 /var/folders/3n/zscyzgr50b9gk8dg6fv8byz80000gn/T/tmp.Wki2P92qsS
+<title>Motherboard Systems Operator Console</title>
+
+--- files touched in commit ---
+9c68c540 Restore Phase 61 dashboard to last good visual state
+public/dashboard.html
+public/js/phase61_tabs_workspace.js
+
+===== CROSS-CANDIDATE HTML HASH COMPARISON =====
+--- public/index.html ---
+cba8b3c0  public/index.html  e74317c88b10c2e2dc7b303deaad99af3c0de9f62519b7a8bd4b2493598541f8  -
+74a241ca  public/index.html  e74317c88b10c2e2dc7b303deaad99af3c0de9f62519b7a8bd4b2493598541f8  -
+df791714  public/index.html  e74317c88b10c2e2dc7b303deaad99af3c0de9f62519b7a8bd4b2493598541f8  -
+d2601c1e  public/index.html  e74317c88b10c2e2dc7b303deaad99af3c0de9f62519b7a8bd4b2493598541f8  -
+9c68c540  public/index.html  e74317c88b10c2e2dc7b303deaad99af3c0de9f62519b7a8bd4b2493598541f8  -
+
+--- public/dashboard.html ---
+cba8b3c0  public/dashboard.html  58c3324abe3a5af2b270c0e46511c378daf44b0c05be9f68e20b88d920df6a7b  -
+74a241ca  public/dashboard.html  9aba5a8af3c1cb23cee2e3a25cd9b61d4777f556eb4fcf44005b72240071b594  -
+df791714  public/dashboard.html  9aba5a8af3c1cb23cee2e3a25cd9b61d4777f556eb4fcf44005b72240071b594  -
+d2601c1e  public/dashboard.html  7c2052946f1026a654749e42a18efa038850f2649a9229bfa5646cdb7fdf7823  -
+9c68c540  public/dashboard.html  8fa541b61b7b3912a43875f026abaa9b3eb9e3cc6a174bf4a3df6a1a588c23af  -
+
+
+INTERPRETATION
+If the tested commits keep the same served HTML hash or lack the tab markers,
+then those commit messages were about surrounding workspace work, not the actual served shell.
+That means the next search must be blob-content driven on public/index.html / public/dashboard.html only.

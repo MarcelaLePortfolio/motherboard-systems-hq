@@ -1,0 +1,5 @@
+{
+  "intakeId": "intake_invalid_whitespace",
+  "stage": "entry_validation",
+  "error": "EMPTY_INPUT_NORMALIZED"
+}

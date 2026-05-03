@@ -1,0 +1,10 @@
+PHASE 62B — REAL SUCCESS RATE RUNTIME VALIDATION
+generated_at=2026-03-17T17:28:05Z
+base_url=http://127.0.0.1:8080
+
+== precheck routes ==
+ok: GET /api/tasks reachable
+
+== step 1: create success candidate ==
+{"ok":true,"task_id":"t_e66489d5-33f8-4d17-88d5-522a912e2d9c"}{"ok":true,"task_id":"t_e66489d5-33f8-4d17-88d5-522a912e2d9c"}
+

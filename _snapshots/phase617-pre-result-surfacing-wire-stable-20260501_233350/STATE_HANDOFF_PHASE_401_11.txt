@@ -1,0 +1,143 @@
+STATE HANDOFF — DO NOT LOSE CONTEXT
+
+ASSISTANT OPERATES IN ENGINEERING CONTINUATION MODE
+
+(Phase 401.11 initiation — operator trust signaling definition corridor opened)
+
+────────────────────────────────
+
+CURRENT PHASE POSITION
+
+Major phase:
+Phase 401 — Governance operator cognition exposure discipline complete
+
+Golden checkpoint:
+v401.10-trust-cognition-corridor-golden
+
+Micro continuation now entering:
+
+Phase 401.11 — Operator trust signaling definition start
+
+Purpose:
+
+Define how trust cognition transitions from:
+visibility guarantees → signaling semantics
+
+Without introducing execution meaning.
+
+────────────────────────────────
+
+MICRO CORRIDOR OBJECTIVE
+
+Define operator-visible trust signaling model:
+
+• Trust state meaning boundaries  
+• Trust signal vocabulary  
+• Trust signal normalization rules  
+• Trust signal stability expectations  
+• Trust signal downgrade conditions  
+• Trust signal upgrade conditions  
+• Operator interpretation guarantees  
+
+Explicit constraint:
+
+Trust signals remain:
+
+Informational  
+Non-executing  
+Non-routing  
+Non-authoritative  
+
+────────────────────────────────
+
+TARGET OUTPUTS (THIS MICRO CORRIDOR)
+
+Planned artifacts:
+
+docs/governance_trust_signal_model.md  
+docs/governance_trust_signal_taxonomy.md  
+docs/governance_trust_signal_stability_rules.md  
+docs/governance_trust_signal_interpretation_contract.md  
+
+All documentation only.
+
+NO runtime changes.
+
+────────────────────────────────
+
+HARD SAFETY CONSTRAINTS
+
+No reducers  
+No wiring  
+No dashboard coupling  
+No execution integration  
+No agent behavior change  
+No registry mutation  
+
+Governance remains cognition-only.
+
+────────────────────────────────
+
+SUCCESS CONDITION
+
+Trust signaling defined such that operator can answer:
+
+Is cognition reliable?
+Is cognition complete?
+Is cognition explainable?
+Is cognition stable?
+Is cognition degraded?
+
+Without implying execution authority.
+
+────────────────────────────────
+
+FAILURE CONDITIONS
+
+Any introduction of:
+
+Execution meaning  
+Routing implication  
+Automation triggers  
+Policy coupling  
+Runtime integration  
+
+Triggers immediate revert.
+
+────────────────────────────────
+
+ENGINEERING CONTINUATION RULES
+
+Single hypothesis work.
+Smallest safe change.
+Documentation only.
+Compile unaffected.
+Containers unchanged.
+
+────────────────────────────────
+
+NEXT DETERMINISTIC STOP TARGET
+
+Phase 401.11 completes when:
+
+Trust signal meaning defined.
+Trust signal vocabulary stabilized.
+Interpretation contract written.
+
+Golden micro tag planned:
+
+v401.11-trust-signaling-definition
+
+────────────────────────────────
+
+RESUME MARKER
+
+Next continuation entry:
+
+Motherboard Systems HQ continuation  
+Phase 401.11 trust signaling definitions in progress  
+Last golden checkpoint v401.10  
+
+────────────────────────────────
+
+STATE HANDOFF COMPLETE

@@ -1,0 +1,15 @@
+Phase 590 ESM import fix.
+
+Issue:
+- Worker crashed after wiring task_execution_interpreter.mjs.
+- Root cause is specific and confirmed:
+  task_execution_interpreter.mjs is an ES module file but uses CommonJS require at top level.
+- This prevents the worker from starting.
+
+Fix:
+Remove the unused CommonJS require line from task_execution_interpreter.mjs.
+
+Why safe:
+- enforceWorkerRetryContract is imported but not used in the interpreter.
+- No behavior change intended.
+- Directly addresses the known crash.

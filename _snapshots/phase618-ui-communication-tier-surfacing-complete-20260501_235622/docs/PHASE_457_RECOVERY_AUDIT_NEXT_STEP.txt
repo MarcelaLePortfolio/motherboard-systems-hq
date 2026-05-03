@@ -1,0 +1,16 @@
+PHASE 457 - RECOVERY AUDIT NEXT STEP
+------------------------------------
+
+CLASSIFICATION
+Recovery audit only.
+No implementation.
+No wiring.
+No execution expansion.
+
+PURPOSE
+Locate the true latest dashboard layout and all post-layout wiring.
+
+RECOVERY_RULES
+- No fix-forward mutations.
+- No rebuilding on wrong layout.
+- Recovery target is exact latest known good state.

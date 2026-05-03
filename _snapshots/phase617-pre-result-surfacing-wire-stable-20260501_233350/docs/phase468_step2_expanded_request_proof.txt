@@ -1,0 +1,65 @@
+PHASE 468 STEP 2 — EXPANDED REQUEST PROOF
+=========================================
+
+INPUT_V3_HASH=f34d43858c280285f6725fd1311590b7187729c9cd00d26325d9628094f86a66
+INPUT_V4_HASH=d0c071b2d24b9b7edd2c7e889b3dca7b223faf8ecfb9730b7711181b581a58dd
+INPUT_F5_HASH=3969bbf16eb8cabd4234a56193d3359f2f270a2bb5584634d1f8d544bab14973
+
+EXPECTED SUCCESS ARTIFACTS — V3
+-------------------------------
+docs/proofs/intake_intake_f34d43858c280285f6725fd1311590b7187729c9cd00d26325d9628094f86a66.json
+docs/proofs/planning_plan_f34d43858c280285f6725fd1311590b7187729c9cd00d26325d9628094f86a66.json
+docs/proofs/governance_plan_f34d43858c280285f6725fd1311590b7187729c9cd00d26325d9628094f86a66.json
+docs/proofs/approval_plan_f34d43858c280285f6725fd1311590b7187729c9cd00d26325d9628094f86a66.json
+docs/proofs/execution_plan_f34d43858c280285f6725fd1311590b7187729c9cd00d26325d9628094f86a66.json
+
+EXPECTED SUCCESS ARTIFACTS — V4
+-------------------------------
+docs/proofs/intake_intake_d0c071b2d24b9b7edd2c7e889b3dca7b223faf8ecfb9730b7711181b581a58dd.json
+docs/proofs/planning_plan_d0c071b2d24b9b7edd2c7e889b3dca7b223faf8ecfb9730b7711181b581a58dd.json
+docs/proofs/governance_plan_d0c071b2d24b9b7edd2c7e889b3dca7b223faf8ecfb9730b7711181b581a58dd.json
+docs/proofs/approval_plan_d0c071b2d24b9b7edd2c7e889b3dca7b223faf8ecfb9730b7711181b581a58dd.json
+docs/proofs/execution_plan_d0c071b2d24b9b7edd2c7e889b3dca7b223faf8ecfb9730b7711181b581a58dd.json
+
+EXPECTED FAILURE ARTIFACT — F5
+------------------------------
+docs/proofs/failure_intake_3969bbf16eb8cabd4234a56193d3359f2f270a2bb5584634d1f8d544bab14973.json
+
+PRESENT SUCCESS ARTIFACTS
+-------------------------
+PRESENT: docs/proofs/intake_intake_f34d43858c280285f6725fd1311590b7187729c9cd00d26325d9628094f86a66.json
+PRESENT: docs/proofs/planning_plan_f34d43858c280285f6725fd1311590b7187729c9cd00d26325d9628094f86a66.json
+PRESENT: docs/proofs/governance_plan_f34d43858c280285f6725fd1311590b7187729c9cd00d26325d9628094f86a66.json
+PRESENT: docs/proofs/approval_plan_f34d43858c280285f6725fd1311590b7187729c9cd00d26325d9628094f86a66.json
+PRESENT: docs/proofs/execution_plan_f34d43858c280285f6725fd1311590b7187729c9cd00d26325d9628094f86a66.json
+PRESENT: docs/proofs/intake_intake_d0c071b2d24b9b7edd2c7e889b3dca7b223faf8ecfb9730b7711181b581a58dd.json
+PRESENT: docs/proofs/planning_plan_d0c071b2d24b9b7edd2c7e889b3dca7b223faf8ecfb9730b7711181b581a58dd.json
+PRESENT: docs/proofs/governance_plan_d0c071b2d24b9b7edd2c7e889b3dca7b223faf8ecfb9730b7711181b581a58dd.json
+PRESENT: docs/proofs/approval_plan_d0c071b2d24b9b7edd2c7e889b3dca7b223faf8ecfb9730b7711181b581a58dd.json
+PRESENT: docs/proofs/execution_plan_d0c071b2d24b9b7edd2c7e889b3dca7b223faf8ecfb9730b7711181b581a58dd.json
+
+FAILURE ARTIFACT PRESENCE — F5
+------------------------------
+PRESENT: docs/proofs/failure_intake_3969bbf16eb8cabd4234a56193d3359f2f270a2bb5584634d1f8d544bab14973.json
+
+EXECUTION OUTPUT SNAPSHOT
+-------------------------
+{
+  "planId": "plan_f34d43858c280285f6725fd1311590b7187729c9cd00d26325d9628094f86a66",
+  "taskId": "task_f34d43858c280285f6725fd1311590b7187729c9cd00d26325d9628094f86a66",
+  "status": "SUCCEEDED",
+  "output": "EXECUTION_OK: echo system check"
+}
+
+{
+  "planId": "plan_d0c071b2d24b9b7edd2c7e889b3dca7b223faf8ecfb9730b7711181b581a58dd",
+  "taskId": "task_d0c071b2d24b9b7edd2c7e889b3dca7b223faf8ecfb9730b7711181b581a58dd",
+  "status": "SUCCEEDED",
+  "output": "EXECUTION_OK: echo deterministic flow"
+}
+
+{
+  "intakeId": "intake_3969bbf16eb8cabd4234a56193d3359f2f270a2bb5584634d1f8d544bab14973",
+  "stage": "entry_validation",
+  "error": "INVALID_CHARACTERS"
+}

@@ -1,0 +1,36 @@
+PHASE 549 — NEXT TARGET
+
+CORRIDOR:
+EXECUTION ACTIVITY CONTAINER VISUAL ALIGNMENT
+
+PRIORITY:
+Make the active Execution Activity container visually reflect the upgraded renderer.
+
+FINDING:
+The logs changed in active renderer, but the outer container still uses generic gray dashboard styling:
+- task-events-card
+- mb-task-events-panel-anchor
+- obs-surface defaults
+
+OBJECTIVE:
+Upgrade the visual container around Execution Activity without changing behavior.
+
+SAFE SCOPE:
+- CSS / class styling only
+- No JavaScript changes
+- No SSE changes
+- No backend/API changes
+
+TARGET:
+public/index.html
+
+IMPLEMENTATION:
+- Add focused CSS for:
+  #task-events-card
+  #mb-task-events-panel-anchor
+
+GOAL:
+Make Execution Activity feel like a dedicated execution surface, not a generic log box.
+
+STATUS:
+READY FOR SURGICAL CSS PATCH

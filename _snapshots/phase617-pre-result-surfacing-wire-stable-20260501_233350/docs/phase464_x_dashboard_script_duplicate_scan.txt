@@ -1,0 +1,275 @@
+PHASE 464.X — DASHBOARD SCRIPT DUPLICATE SCAN
+=============================================
+
+Timestamp (UTC): 2026-04-09T21:14:46Z
+Repo root: /Users/marcela-dev/Projects/Motherboard_Systems_HQ
+
+1) All script src references in public/dashboard.html
+js/phase61_tabs_workspace.js
+js/phase61_recent_history_wire.js
+bundle.js
+js/phase60_live_clock.js
+/js/operatorGuidance.sse.js?v=phase96-live-1
+/js/phase457_restore_task_panels.js
+/js/phase457_neutralize_legacy_observational_consumers.js
+
+2) Duplicate script src references with counts
+   1 js/phase61_tabs_workspace.js
+   1 js/phase61_recent_history_wire.js
+   1 js/phase60_live_clock.js
+   1 bundle.js
+   1 /js/phase457_restore_task_panels.js
+   1 /js/phase457_neutralize_legacy_observational_consumers.js
+   1 /js/operatorGuidance.sse.js?v=phase96-live-1
+
+3) Inline script blocks with line numbers
+631:  <script>
+632:    console.log("[diag] dashboard static isolation mode active");
+633:  </script>
+
+635:  <script src="js/phase61_tabs_workspace.js"></script>
+
+637:    <script src="js/phase61_recent_history_wire.js"></script>
+
+638:<script src="bundle.js"></script>
+
+639:  <script src="js/phase60_live_clock.js"></script>
+
+640:  <script id="phase61-task-events-polish-script">
+641:    (() => {
+642:      const SELECTORS = [
+643:        '[data-tab-panel="task-events"]',
+644:        '[data-phase61-task-events]',
+645:        '#task-events-panel',
+646:        '#task-events',
+647:        '.task-events-panel',
+648:        '.task-events'
+649:      ];
+650:
+651:      const EVENT_ACTIVE = /run|start|resume|lease|dispatch|ack|progress|active|heartbeat/i;
+652:      const EVENT_WAITING = /queue|queued|pending|wait|retry|hold|sleep/i;
+653:      const EVENT_TERMINAL = /complete|completed|success|failed|error|cancel|cancelled|timeout|terminal/i;
+654:
+655:      const findPanel = () => {
+656:        for (const selector of SELECTORS) {
+657:          const node = document.querySelector(selector);
+658:          if (node) return node;
+659:        }
+660:        return null;
+661:      };
+662:
+663:      const classify = (text) => {
+664:        if (EVENT_TERMINAL.test(text)) return 'phase61-event-terminal';
+665:        if (EVENT_WAITING.test(text)) return 'phase61-event-waiting';
+666:        if (EVENT_ACTIVE.test(text)) return 'phase61-event-active';
+667:        return '';
+668:      };
+669:
+670:      const normalizeRow = (row) => {
+671:        if (row.dataset.phase61Polished === '1') return;
+672:        row.dataset.phase61Polished = '1';
+673:        row.classList.add('task-event');
+674:
+675:        const raw = (row.innerText || row.textContent || '').replace(/\s+/g, ' ').trim();
+676:        const parts = raw.split(/\s+[|·•]\s+|\s{2,}/).filter(Boolean);
+677:
+678:        const timeMatch = raw.match(/\b\d{1,2}:\d{2}(?::\d{2})?(?:\.\d+)?(?:\s?[AP]M)?\b|\b\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}(?::\d{2})?(?:\.\d+)?Z?\b/i);
+679:        const timeText = timeMatch ? timeMatch[0] : (parts[0] || '');
+680:        const remaining = parts.filter((part, index) => !(index === 0 && part === timeText));
+681:        const kindText = remaining[0] || 'event';
+682:        const detailText = remaining.slice(1).join(' • ') || raw;
+683:
+684:        row.classList.add(classify(`${kindText} ${detailText}`));
+685:
+686:        row.innerHTML = `
+687:          <div class="phase61-task-event-time">${timeText || '—'}</div>
+688:          <div class="phase61-task-event-kind">${kindText}</div>
+689:          <div class="phase61-task-event-detail">${detailText}</div>
+690:        `;
+691:      };
+692:
+693:      const polish = () => {
+694:        const panel = findPanel();
+695:        if (!panel) return;
+696:
+697:        panel.setAttribute('data-phase61-task-events', 'true');
+698:
+699:        const rows = panel.querySelectorAll('li, .task-event, [data-task-event-row]');
+700:        rows.forEach(normalizeRow);
+701:
+702:        if (!rows.length && !panel.querySelector('.phase61-task-event-empty')) {
+703:          const empty = document.createElement('div');
+704:          empty.className = 'phase61-task-event-empty';
+705:          empty.textContent = 'No task events yet.';
+706:          panel.appendChild(empty);
+707:        }
+708:      };
+709:
+710:      const boot = () => {
+711:        polish();
+712:        const panel = findPanel();
+713:        if (!panel) return;
+714:
+715:        const observer = new MutationObserver(() => polish());
+716:        observer.observe(panel, { childList: true, subtree: true, characterData: true });
+717:      };
+718:
+719:      if (document.readyState === 'loading') {
+720:        document.addEventListener('DOMContentLoaded', boot, { once: true });
+721:      } else {
+722:        boot();
+723:      }
+724:    })();
+725:  </script>
+
+726:    <script src="/js/operatorGuidance.sse.js?v=phase96-live-1"></script>
+
+727:    <script src="/js/phase457_restore_task_panels.js"></script>
+
+728:    <script src="/js/phase457_neutralize_legacy_observational_consumers.js"></script>
+
+
+4) Focused script-tag excerpt around operator workspace and Atlas section
+    <ul id="ops-alerts-list"></ul>
+  </div>
+
+  <div id="reflections" data-panel="reflections">
+    <ul id="reflections-list" data-role="reflections-list"></ul>
+  </div>
+
+  <div id="phase16-sse-indicator" style="position:fixed;right:10px;bottom:10px;z-index:9999;font:12px ui-monospace;opacity:.7;pointer-events:none">
+    <span id="phase16-sse-indicator-text" style="padding:4px 8px;border-radius:9999px;border:1px solid rgba(255,255,255,.18);background:rgba(0,0,0,.25)">SSE: …</span>
+  </div>
+
+  <script>
+    console.log("[diag] dashboard static isolation mode active");
+  </script>
+  
+  <script src="js/phase61_tabs_workspace.js"></script>
+
+    <script src="js/phase61_recent_history_wire.js"></script>
+<script src="bundle.js"></script>
+  <script src="js/phase60_live_clock.js"></script>
+  <script id="phase61-task-events-polish-script">
+    (() => {
+      const SELECTORS = [
+        '[data-tab-panel="task-events"]',
+        '[data-phase61-task-events]',
+        '#task-events-panel',
+        '#task-events',
+        '.task-events-panel',
+        '.task-events'
+      ];
+
+      const EVENT_ACTIVE = /run|start|resume|lease|dispatch|ack|progress|active|heartbeat/i;
+      const EVENT_WAITING = /queue|queued|pending|wait|retry|hold|sleep/i;
+      const EVENT_TERMINAL = /complete|completed|success|failed|error|cancel|cancelled|timeout|terminal/i;
+
+      const findPanel = () => {
+        for (const selector of SELECTORS) {
+          const node = document.querySelector(selector);
+          if (node) return node;
+        }
+        return null;
+      };
+
+      const classify = (text) => {
+        if (EVENT_TERMINAL.test(text)) return 'phase61-event-terminal';
+        if (EVENT_WAITING.test(text)) return 'phase61-event-waiting';
+        if (EVENT_ACTIVE.test(text)) return 'phase61-event-active';
+        return '';
+      };
+
+      const normalizeRow = (row) => {
+        if (row.dataset.phase61Polished === '1') return;
+        row.dataset.phase61Polished = '1';
+        row.classList.add('task-event');
+
+        const raw = (row.innerText || row.textContent || '').replace(/\s+/g, ' ').trim();
+        const parts = raw.split(/\s+[|·•]\s+|\s{2,}/).filter(Boolean);
+
+        const timeMatch = raw.match(/\b\d{1,2}:\d{2}(?::\d{2})?(?:\.\d+)?(?:\s?[AP]M)?\b|\b\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}(?::\d{2})?(?:\.\d+)?Z?\b/i);
+        const timeText = timeMatch ? timeMatch[0] : (parts[0] || '');
+        const remaining = parts.filter((part, index) => !(index === 0 && part === timeText));
+        const kindText = remaining[0] || 'event';
+        const detailText = remaining.slice(1).join(' • ') || raw;
+
+        row.classList.add(classify(`${kindText} ${detailText}`));
+
+        row.innerHTML = `
+          <div class="phase61-task-event-time">${timeText || '—'}</div>
+          <div class="phase61-task-event-kind">${kindText}</div>
+          <div class="phase61-task-event-detail">${detailText}</div>
+        `;
+      };
+
+      const polish = () => {
+        const panel = findPanel();
+        if (!panel) return;
+
+        panel.setAttribute('data-phase61-task-events', 'true');
+
+        const rows = panel.querySelectorAll('li, .task-event, [data-task-event-row]');
+        rows.forEach(normalizeRow);
+
+        if (!rows.length && !panel.querySelector('.phase61-task-event-empty')) {
+          const empty = document.createElement('div');
+          empty.className = 'phase61-task-event-empty';
+          empty.textContent = 'No task events yet.';
+          panel.appendChild(empty);
+        }
+      };
+
+      const boot = () => {
+        polish();
+        const panel = findPanel();
+        if (!panel) return;
+
+        const observer = new MutationObserver(() => polish());
+        observer.observe(panel, { childList: true, subtree: true, characterData: true });
+      };
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', boot, { once: true });
+      } else {
+        boot();
+      }
+    })();
+  </script>
+    <script src="/js/operatorGuidance.sse.js?v=phase96-live-1"></script>
+    <script src="/js/phase457_restore_task_panels.js"></script>
+    <script src="/js/phase457_neutralize_legacy_observational_consumers.js"></script>
+</body>
+</html>
+<style>
+#task-events-card {
+  height:100%;
+  display:flex;
+  flex-direction:column;
+}
+
+#mb-task-events-panel-anchor {
+  flex:1;
+}
+</style>
+<style>
+#matilda-chat-root{
+  display:flex;
+  flex-direction:column;
+  height:100%;
+}
+
+#matilda-chat-transcript{
+  flex:1;
+}
+
+#matilda-helper-text-ops{
+  margin-top:0;
+  opacity:.7;
+}
+</style>
+
+
+5) Decision gate
+- If duplicate browser scripts are loaded, fix target becomes public/dashboard.html only.
+- If no duplicates exist, return to client producer isolation with exact loaded script order.

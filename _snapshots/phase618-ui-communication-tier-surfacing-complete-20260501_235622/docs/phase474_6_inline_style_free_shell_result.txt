@@ -1,0 +1,8 @@
+PHASE 474.6 — INLINE-STYLE-FREE SHELL RESULT
+============================================
+
+RESULT:
+INLINE_STYLE_FREE_SHELL_STILL_UNRESPONSIVE
+
+OPTIONAL_NOTE:
+Page still becomes unresponsive after inline styles were removed.

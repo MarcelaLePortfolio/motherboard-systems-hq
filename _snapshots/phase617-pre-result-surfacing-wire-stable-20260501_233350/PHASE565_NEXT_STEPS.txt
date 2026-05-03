@@ -1,0 +1,27 @@
+PHASE 565 — TELEMETRY UI WIRED (STABLE)
+
+Status:
+- Recent Tasks: LIVE (read-only, UI-owned)
+- Recent Logs: LIVE (SSE-backed, UI-owned)
+- Execution pipeline: unchanged + protected
+- Runtime: stable
+- Observability: now surfaced in UI
+
+Next Safe Corridor: TELEMETRY ENHANCEMENT (READ-ONLY)
+
+Immediate Next Steps:
+1. Replace temporary Phase 565 marker text with clean production UI states
+2. Normalize task card formatting (title, status, timestamps alignment)
+3. Add lightweight status coloring (queued / running / complete)
+4. Improve log readability (truncate payloads, highlight event types)
+5. Verify no duplicate renders or flicker after reassertion loop
+6. Remove reassertion loop once ownership stability is confirmed
+
+Rules:
+- NO backend changes
+- NO worker changes
+- NO API contract changes
+- UI-only, read-only enhancements only
+
+Checkpoint:
+phase565-telemetry-ui-wired

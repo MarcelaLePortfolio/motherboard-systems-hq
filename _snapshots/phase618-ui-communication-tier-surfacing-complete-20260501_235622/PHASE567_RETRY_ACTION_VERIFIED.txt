@@ -1,0 +1,23 @@
+PHASE 567 — RETRY ACTION VERIFIED
+
+RESULT:
+PASS
+
+VERIFIED:
+- Retry action is now clickable
+- Retry uses safe new-task-copy semantics
+- Retry posts to /api/delegate-task
+- Retry does not reuse original task_id
+- Retry preserves original reference in meta:
+  - retry_of_task_id
+  - retry_of_event_id
+  - retry_of_kind
+- Served JS contains expected markers
+- Docker rebuild successful
+- No backend changes introduced
+
+STATUS:
+Retry is now active as a safe operator action.
+
+NEXT:
+Manual browser verification: select a task, click Retry, confirm a new queued task appears in Execution Inspector.

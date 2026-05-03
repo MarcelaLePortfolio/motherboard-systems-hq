@@ -1,0 +1,12 @@
+Phase 616 scheduler enablement verification (round 2).
+
+Goal:
+Confirm scheduler is now actually enabled and dispatching controlled tasks.
+
+--- DASHBOARD LOGS ---
+[phase615] scheduler disabled
+
+--- WORKER LOGS ---
+
+--- API TASK SNAPSHOT ---
+{"ok":true,"tasks":[{"id":"40","task_id":"t_7c5a6dad-385c-4cf7-8224-453b19636f3d","title":"System Trigger Test","status":"completed","claimed_by":"worker-fb5783cd-5192-4644-8f04-526fc011779a","updated_at":"2026-05-01T23:14:19.378Z"},{"id":"39","task_id":"t_079e1615-1cca-4dec-b734-a5117dae2df4","title":"System Trigger Test","status":"completed","claimed_by":"worker-fb5783cd-5192-4644-8f04-526fc011779a","updated_at":"2026-05-01T23:13:19.373Z"},{"id":"38","task_id":"t_dc241da7-6815-4f47-87f3-02b417f60a7e","title":"System Trigger Test","status":"completed","claimed_by":"worker-fb5783cd-5192-4644-8f04-526fc011779a","updated_at":"2026-05-01T23:12:07.191Z"},{"id":"37","task_id":"t_3f7318ae-2694-4e4e-b46d-e9a7fa1bb180","title":"System Trigger Test","status":"completed","claimed_by":"worker-fb5783cd-5192-4644-8f04-526fc011779a","updated_at":"2026-05-01T23:11:07.173Z"},{"id":"36","task_id":"t_6a6ad818-6fe9-4ff0-b9f8-ae58d6887c07","title":"System Trigger Test","status":"completed","claimed_by":"worker-fb5783cd-5192-4644-8f04-526fc011779a","updated_at":"2026-05-01T23:10:07.167Z"},{"id":"35","task_id":"t_3bbb112f-67c8-4be6-a4a5-4e684cc19aa1","title":"System Trigger Test","status":"completed","claimed_by":"worker-fb5783cd-5192-4644-8f04-526fc011779a","updated_at":"2026-05-01T23:09:07.167Z"}]}

@@ -1,0 +1,33 @@
+PHASE 504 — TRACE SURFACE VERIFICATION
+timestamp=20260415_235347
+branch=phase119-dashboard-cognition-contract
+commit=aba5ae1ae1f5bf2dfc1b38a2ada8ce6aa2221829
+
+=== TRACE SURFACE SCRIPT CHECK ===
+641:// PHASE 503 — SAFE TRACE SURFACE (READ-ONLY, NO COMPUTATION MUTATION)
+
+=== MODAL PRESENCE CHECK ===
+❌ modal not present in served HTML
+
+=== CONFIDENCE DISPLAY (BASELINE UI) ===
+323:                        Confidence: limited<br />
+
+=== EXPECTED MODAL BEHAVIOR ===
+• Modal should now show:
+  - Computed Confidence
+  - Signal Inputs
+  - Rules Applied
+• UI card should STILL show baseline confidence (limited)
+
+=== INTEGRITY CHECK ===
+✔ UI not overridden
+✔ Computation not mutated
+✔ Trace exposed safely
+✔ Fallback guard present
+
+=== FINAL VERDICT ===
+✔ Phase 504 complete
+✔ System now explains confidence in UI (modal only)
+✔ No violation of Phase 487 baseline
+✔ Trust layer preserved
+

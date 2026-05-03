@@ -1,0 +1,13 @@
+Phase 579 terminal recovery.
+
+Issue:
+Prompt text was accidentally pasted into terminal, causing zsh errors and unintended commit diff.
+
+State:
+- Repo is still clean and stable at phase579.
+- No functional system impact.
+- Only command hygiene issue.
+
+Next:
+Proceed with clean command execution only (no prompt prefix).
+Then perform Execution Inspector visual verification in browser.

@@ -1,0 +1,5 @@
+1. Inspect /api/tasks response structure and confirm exact field mapping to UI.
+2. Wire Recent Tasks UI container to authoritative API data (read-only).
+3. Identify correct source for Recent Logs (SSE events or diagnostics endpoint).
+4. Render Recent Logs safely in UI without altering execution path.
+5. Validate UI reflects live execution pipeline state end-to-end.

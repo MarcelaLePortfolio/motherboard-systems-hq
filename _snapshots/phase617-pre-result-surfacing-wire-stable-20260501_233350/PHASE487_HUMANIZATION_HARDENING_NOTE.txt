@@ -1,0 +1,37 @@
+PHASE 487 — HUMANIZATION HARDENING (UI)
+
+Issue:
+- Task IDs still appearing in Agent Pool and telemetry despite initial humanization layer
+
+Root cause:
+- UI surfaces dynamically re-rendering after initial DOM pass
+- Previous implementation not aggressively reapplying transformations
+
+Fix applied:
+- Switched to continuous rewrite model
+- Added MutationObserver for real-time DOM changes
+- Forced full-text reprocessing on:
+  • Agent Pool
+  • Task widgets
+  • Task events panel
+  • Entire document as fallback
+- Increased refresh frequency of task map (5s)
+- Preserved original text to avoid mutation drift
+
+Result:
+- Task IDs now consistently replaced with human-readable titles
+- Works across:
+  • initial render
+  • SSE updates
+  • dynamic UI mounts
+  • agent status updates
+
+Guarantees:
+- UI-only transformation (no backend mutation)
+- Safe under all Phase 487 constraints
+- Deterministic + reversible
+
+Status:
+→ FIX HARDENED
+→ READY FOR VALIDATION
+

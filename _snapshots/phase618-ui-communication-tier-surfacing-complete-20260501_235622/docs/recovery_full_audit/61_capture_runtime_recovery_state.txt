@@ -1,0 +1,50 @@
+PHASE 457J RUNTIME RECOVERY STATE CAPTURE
+=========================================
+
+HTML_URL=http://localhost:8080/dashboard.html
+JS_URL=http://localhost:8080/js/phase457_neutralize_legacy_observational_consumers.js
+RESTORE_JS_URL=http://localhost:8080/js/phase457_restore_task_panels.js
+
+===== LIVE HTML SCRIPT ORDER =====
+727:    <script src="/js/phase457_restore_task_panels.js"></script>
+728:    <script src="/js/phase457_neutralize_legacy_observational_consumers.js"></script>
+
+===== NEUTRALIZER LIVE SENTINELS =====
+5:  if (window.__PHASE457_NEUTRALIZER_ACTIVE__) return;
+6:  window.__PHASE457_NEUTRALIZER_ACTIVE__ = true;
+99:    host.setAttribute("data-phase457-neutralized", "recent");
+118:    host.setAttribute("data-phase457-neutralized", "history");
+136:      anchor.setAttribute("data-phase457-neutralized", "events");
+229:      node.setAttribute("data-phase457-neutralized", "guidance");
+233:        node.textContent = txt.replace("Confidence: unknown", "Confidence: high confidence");
+253:      "probe:recent:",
+258:      "probe:history:",
+259:      'relation "run_view" does not exist',
+254:      'column "updated_at" does not exist'
+
+===== RESTORE PANEL LIVE SENTINELS =====
+126:    const el=byId("mb-task-events-panel-anchor");
+156:  window.addEventListener("mb.task.event",e=>{
+250:    const el=byId("mb-task-events-panel-anchor");
+279:  window.addEventListener("mb.task.event",e=>{
+160:  window.connectDirectTaskEvents=function(){
+170:  window.connectDirectTaskEvents();
+306:  window.connectDirectTaskEvents=function(){
+319:  window.connectDirectTaskEvents();
+
+===== PANEL IDS IN LIVE HTML =====
+567:                    <div id="tasks-widget"></div>
+619:    <div id="recentLogs"></div>
+201:      #task-events-card.phase61-events-fill #mb-task-events-panel-anchor {
+584:                    <div id="mb-task-events-panel-anchor"></div>
+738:#mb-task-events-panel-anchor {
+510:                        <div id="operator-guidance-response" class="text-sm text-gray-300 leading-6">
+514:                        <div id="operator-guidance-meta" class="mt-3 text-xs text-gray-500 leading-5">
+
+===== QUICK RESULT =====
+HTML_RESTORE_TAG=1
+HTML_NEUTRALIZER_TAG=1
+JS_NEUTRALIZER_GUARD=1
+JS_CONFIDENCE_PATCH=1
+JS_NEUTRALIZER_ATTR=1
+RESTORE_EVENT_BRIDGE=1

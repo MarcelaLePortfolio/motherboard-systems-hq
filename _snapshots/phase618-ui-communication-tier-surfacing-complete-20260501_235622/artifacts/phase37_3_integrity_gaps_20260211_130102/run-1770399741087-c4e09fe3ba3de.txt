@@ -1,0 +1,23 @@
+=== run-1770399741087-c4e09fe3ba3de ===
+Pager usage is off.
+             run_id              |         task_id         |   actor   | lease_expires_at | lease_fresh | lease_ttl_ms | last_heartbeat_ts | heartbeat_age_ms | last_event_id | last_event_ts | last_event_kind | task_status | is_terminal | terminal_event_kind | terminal_event_ts | terminal_event_id 
+---------------------------------+-------------------------+-----------+------------------+-------------+--------------+-------------------+------------------+---------------+---------------+-----------------+-------------+-------------+---------------------+-------------------+-------------------
+ run-1770399741087-c4e09fe3ba3de | phase36.real.1770399743 | docker-wB |    1770399746101 | f           |            0 |                   |                  |          2113 | 1770432965151 | task.completed  | completed   | t           |                     |                   |                  
+(1 row)
+
+ id |         task_id         |  status   | claimed_by |  claimed_at   | lease_epoch | lease_expires_at |             run_id              |   actor   | error |          updated_at           
+----+-------------------------+-----------+------------+---------------+-------------+------------------+---------------------------------+-----------+-------+-------------------------------
+ 38 | phase36.real.1770399743 | completed | docker-wB  | 1770399741101 |           3 |    1770399746101 | run-1770399741087-c4e09fe3ba3de | docker-wB |       | 2026-02-07 02:56:05.151401+00
+(1 row)
+
+  id  |      ts       |      kind      |         task_id         |             run_id              |   actor   
+------+---------------+----------------+-------------------------+---------------------------------+-----------
+ 2110 | 1770432965132 | task.running   | phase36.real.1770399743 | run-1770399741087-c4e09fe3ba3de | docker-wB
+ 2113 | 1770432965151 | task.completed | phase36.real.1770399743 | run-1770399741087-c4e09fe3ba3de | docker-wB
+(2 rows)
+
+  id  |      ts       |      kind      |         task_id         |             run_id              |   actor   
+------+---------------+----------------+-------------------------+---------------------------------+-----------
+ 2113 | 1770432965151 | task.completed | phase36.real.1770399743 | run-1770399741087-c4e09fe3ba3de | docker-wB
+(1 row)
+

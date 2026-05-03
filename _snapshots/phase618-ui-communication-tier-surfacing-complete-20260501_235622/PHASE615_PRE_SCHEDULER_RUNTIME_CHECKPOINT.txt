@@ -1,0 +1,18 @@
+Phase 615 pre-scheduler runtime checkpoint.
+
+State:
+- Phase 614 system-led execution proof complete.
+- Proof trigger disabled after success.
+- Phase 615 controlled scheduler design committed.
+- Minimal scheduler contract committed.
+- No active autonomous loop currently running.
+- Working tree clean.
+
+Purpose:
+Create a clean rollback point before implementing the controlled scheduler runtime block.
+
+Next:
+Implement scheduler with enable flag, interval setting, and single-task guard.
+
+Stable Tag:
+phase615-pre-scheduler-runtime

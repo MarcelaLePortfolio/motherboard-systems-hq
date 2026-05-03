@@ -1,0 +1,23 @@
+Phase 599 corridor entry.
+
+Entry From:
+- Phase 598 stable snapshot (phase598-agent-pool-stable)
+
+Confirmed Base:
+- Agent Pool renderer locked and verified
+- Health indicator live and timestamped
+- Backend connectivity confirmed
+- Containers stable (dashboard + worker)
+- Observability layer active
+
+Constraints:
+- No modification to Agent Pool rendering layer
+- No speculative multi-layer changes
+- One change per corridor step
+- Revert immediately if instability occurs
+
+Objective:
+Begin next system advancement from a known-good state.
+
+Status:
+CORRIDOR ENTRY AUTHORIZED

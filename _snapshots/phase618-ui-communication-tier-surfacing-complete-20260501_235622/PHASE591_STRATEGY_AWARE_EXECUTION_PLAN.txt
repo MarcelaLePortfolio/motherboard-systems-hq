@@ -1,0 +1,34 @@
+Phase 591 strategy-aware execution plan.
+
+Checkpoint:
+- Stable tag exists: phase590-worker-execution-boundary-stable.
+- Worker now has a real execution boundary:
+  - interpretTaskExecution(task)
+  - safeExecutionContract(task, executionResult)
+- Execution is deterministic and validated before completion.
+
+Objective:
+Make execution interpretation aware of runtime policy signals (without introducing new behavior layers).
+
+Target Behavior:
+- If execution_mode = rebuild_context:
+  -> interpreter should reflect "strategy_shift" style output
+- If cache_policy = bypass:
+  -> annotate execution notes (observational only)
+- If memory_scope = reset_partial:
+  -> annotate execution notes (observational only)
+
+Constraints:
+- DO NOT implement real cache/context/memory yet
+- ONLY adjust interpreter output (safe layer)
+- Preserve execution contract shape
+- Fully reversible
+
+Implementation Direction:
+- Modify task_execution_interpreter.mjs:
+  - Read policy signals from payload
+  - Adjust strategy_applied and notes accordingly
+
+Expected Result:
+- Execution logs reflect runtime policy intent
+- System transitions from "observable hooks" → "policy-aware execution surface"

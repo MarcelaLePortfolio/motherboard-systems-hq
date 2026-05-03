@@ -1,0 +1,11 @@
+Phase 575 cherry-pick aborted.
+
+Reason:
+Commit 546930e5 conflicts with server.mjs and retry_execution_router.js.
+Per recovery protocol, do not resolve by layering speculative fixes.
+
+Current stable base remains:
+phase574-execution-inspector-wired-stable plus phase575 planning note.
+
+Next:
+Inspect retry routing files directly and copy only minimal router/contract logic if needed.

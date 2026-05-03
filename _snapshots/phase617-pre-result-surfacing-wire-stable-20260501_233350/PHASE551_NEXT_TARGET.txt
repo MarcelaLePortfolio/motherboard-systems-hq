@@ -1,0 +1,68 @@
+PHASE 551 — NEXT TARGET
+
+CORRIDOR:
+READ-ONLY DEEP INSPECT (SELECTED TASK PANEL)
+
+PRIORITY:
+Increase operator visibility into task internals without introducing risk.
+
+CONTEXT:
+- Selection + panel already exists
+- Currently shows:
+  - task_id (short)
+  - lifecycle
+  - title
+  - timestamp
+- Data available in memory (items[]) is richer than what is shown
+
+OBJECTIVE:
+Expand selected task panel with deeper read-only context
+
+INITIAL SCOPE (SAFE, UI-ONLY):
+- No backend calls
+- No mutation
+- No SSE changes
+- Single file: public/js/phase457_restore_task_panels.js
+
+DISPLAY ADDITIONS:
+
+1. FULL TASK ID
+- Show full taskId below short ID (smaller, muted)
+
+2. RUN ID (if present)
+- Show run_id
+
+3. ACTOR (if present)
+- Show actor
+
+4. SOURCE (if present)
+- Show source
+
+5. RAW KIND
+- Show original event kind (for debugging clarity)
+
+IMPLEMENTATION PLAN:
+
+- Extend selectedPanel template only
+- Use existing selectedItem fields:
+  - selectedItem.taskId
+  - selectedItem.runId
+  - selectedItem.actor
+  - selectedItem.source
+  - selectedItem.kind
+
+STYLE:
+- Keep monospace consistency
+- Use muted gray for metadata rows
+- Preserve current hierarchy
+
+GOAL:
+Transform selected panel from “summary” → “inspection surface”
+
+CONSTRAINTS:
+- Additive only
+- No layout restructuring
+- Must not affect render loop stability
+
+STATUS:
+READY FOR SURGICAL PATCH

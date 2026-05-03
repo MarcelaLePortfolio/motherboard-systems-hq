@@ -1,0 +1,11 @@
+Phase 589 execution boundary finding.
+
+Finding:
+- task_execution_interpreter.mjs already provides a real execution interpretation boundary.
+- execution_contract.mjs already validates execution result shape.
+- Current worker does not yet call either module.
+- worker_retry_enforcer.js exists but reads retry fields from top-level task properties, while current routed retry fields live in task.payload.
+- Therefore the safest next step is to wire interpreter + contract into worker as the first real execution boundary.
+
+Next:
+Call interpretTaskExecution(task), wrap it with safeExecutionContract(task, result), log the contracted execution, and only then mark success.

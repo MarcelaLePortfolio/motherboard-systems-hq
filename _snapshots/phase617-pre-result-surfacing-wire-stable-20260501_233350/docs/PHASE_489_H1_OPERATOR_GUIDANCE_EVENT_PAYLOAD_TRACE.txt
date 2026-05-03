@@ -1,0 +1,413 @@
+PHASE 489 — H1 OPERATOR GUIDANCE EVENT PAYLOAD TRACE
+Generated: 2026-04-14T17:34:29Z
+Repo Root: /Users/marcela-dev/Projects/Motherboard_Systems_HQ
+
+=== LIVE OBSERVATION ===
+Operator Guidance still shows fallback meta ('Confidence: insufficient').
+Telemetry Console changed, which indicates the served dashboard is updating.
+
+=== SERVED SSE ROUTE HEADERS ===
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: text/event-stream; charset=utf-8
+Cache-Control: no-cache, no-transform
+Connection: keep-alive
+X-Accel-Buffering: no
+Date: Tue, 14 Apr 2026 17:34:29 GMT
+Transfer-Encoding: chunked
+
+: ready
+
+event: operator_guidance
+data: {"reduction":{"envelope":{"guidance":[{"id":"guidance:system_health:system-health:1776188069573","type":"informational","domain":"system_health","severity":"info","confidence":"high","message":"System health is currently stable: SYSTEM STABLE","rationale":"Observed system health signals are within acceptable bounds.","signalSource":["diagnostics/system-health","system-health"],"bounded":true,"executionImpact":"none","createdAt":1776188069573}],"generatedAt":1776188069573,"cognitionVersion":"phase_89","executionAuthority":"none"},"surfaceConfidence":"high","confidenceReason":"Observed signals are coherent and within acceptable bounds.","signalCount":1,"conflictingSignals":false},"source":"diagnostics/system-health","ts":1776188069573}
+
+: ping 1776188074580
+
+event: operator_guidance
+data: {"reduction":{"envelope":{"guidance":[{"id":"guidance:system_health:system-health:1776188074580","type":"informational","domain":"system_health","severity":"info","confidence":"high","message":"System health is currently stable: SYSTEM STABLE","rationale":"Observed system health signals are within acceptable bounds.","signalSource":["diagnostics/system-health","system-health"],"bounded":true,"executionImpact":"none","createdAt":1776188074580}],"generatedAt":1776188074580,"cognitionVersion":"phase_89","executionAuthority":"none"},"surfaceConfidence":"high","confidenceReason":"Observed signals are coherent and within acceptable bounds.","signalCount":1,"conflictingSignals":false},"source":"diagnostics/system-health","ts":1776188074581}
+
+: ping 1776188079583
+
+event: operator_guidance
+data: {"reduction":{"envelope":{"guidance":[{"id":"guidance:system_health:system-health:1776188079583","type":"informational","domain":"system_health","severity":"info","confidence":"high","message":"System health is currently stable: SYSTEM STABLE","rationale":"Observed system health signals are within acceptable bounds.","signalSource":["diagnostics/system-health","system-health"],"bounded":true,"executionImpact":"none","createdAt":1776188079583}],"generatedAt":1776188079583,"cognitionVersion":"phase_89","executionAuthority":"none"},"surfaceConfidence":"high","confidenceReason":"Observed signals are coherent and within acceptable bounds.","signalCount":1,"conflictingSignals":false},"source":"diagnostics/system-health","ts":1776188079584}
+
+: ping 1776188084588
+
+event: operator_guidance
+data: {"reduction":{"envelope":{"guidance":[{"id":"guidance:system_health:system-health:1776188084589","type":"informational","domain":"system_health","severity":"info","confidence":"high","message":"System health is currently stable: SYSTEM STABLE","rationale":"Observed system health signals are within acceptable bounds.","signalSource":["diagnostics/system-health","system-health"],"bounded":true,"executionImpact":"none","createdAt":1776188084589}],"generatedAt":1776188084589,"cognitionVersion":"phase_89","executionAuthority":"none"},"surfaceConfidence":"high","confidenceReason":"Observed signals are coherent and within acceptable bounds.","signalCount":1,"conflictingSignals":false},"source":"diagnostics/system-health","ts":1776188084589}
+
+: ping 1776188089596
+
+event: operator_guidance
+data: {"reduction":{"envelope":{"guidance":[{"id":"guidance:system_health:system-health:1776188089596","type":"informational","domain":"system_health","severity":"info","confidence":"high","message":"System health is currently stable: SYSTEM STABLE","rationale":"Observed system health signals are within acceptable bounds.","signalSource":["diagnostics/system-health","system-health"],"bounded":true,"executionImpact":"none","createdAt":1776188089596}],"generatedAt":1776188089596,"cognitionVersion":"phase_89","executionAuthority":"none"},"surfaceConfidence":"high","confidenceReason":"Observed signals are coherent and within acceptable bounds.","signalCount":1,"conflictingSignals":false},"source":"diagnostics/system-health","ts":1776188089597}
+
+: ping 1776188094601
+
+event: operator_guidance
+data: {"reduction":{"envelope":{"guidance":[{"id":"guidance:system_health:system-health:1776188094602","type":"informational","domain":"system_health","severity":"info","confidence":"high","message":"System health is currently stable: SYSTEM STABLE","rationale":"Observed system health signals are within acceptable bounds.","signalSource":["diagnostics/system-health","system-health"],"bounded":true,"executionImpact":"none","createdAt":1776188094602}],"generatedAt":1776188094602,"cognitionVersion":"phase_89","executionAuthority":"none"},"surfaceConfidence":"high","confidenceReason":"Observed signals are coherent and within acceptable bounds.","signalCount":1,"conflictingSignals":false},"source":"diagnostics/system-health","ts":1776188094602}
+
+: ping 1776188099609
+
+event: operator_guidance
+data: {"reduction":{"envelope":{"guidance":[{"id":"guidance:system_health:system-health:1776188099609","type":"informational","domain":"system_health","severity":"info","confidence":"high","message":"System health is currently stable: SYSTEM STABLE","rationale":"Observed system health signals are within acceptable bounds.","signalSource":["diagnostics/system-health","system-health"],"bounded":true,"executionImpact":"none","createdAt":1776188099609}],"generatedAt":1776188099609,"cognitionVersion":"phase_89","executionAuthority":"none"},"surfaceConfidence":"high","confidenceReason":"Observed signals are coherent and within acceptable bounds.","signalCount":1,"conflictingSignals":false},"source":"diagnostics/system-health","ts":1776188099609}
+
+: ping 1776188104615
+
+event: operator_guidance
+data: {"reduction":{"envelope":{"guidance":[{"id":"guidance:system_health:system-health:1776188104616","type":"informational","domain":"system_health","severity":"info","confidence":"high","message":"System health is currently stable: SYSTEM STABLE","rationale":"Observed system health signals are within acceptable bounds.","signalSource":["diagnostics/system-health","system-health"],"bounded":true,"executionImpact":"none","createdAt":1776188104616}],"generatedAt":1776188104616,"cognitionVersion":"phase_89","executionAuthority":"none"},"surfaceConfidence":"high","confidenceReason":"Observed signals are coherent and within acceptable bounds.","signalCount":1,"conflictingSignals":false},"source":"diagnostics/system-health","ts":1776188104616}
+
+: ping 1776188109621
+
+event: operator_guidance
+data: {"reduction":{"envelope":{"guidance":[{"id":"guidance:system_health:system-health:1776188109622","type":"informational","domain":"system_health","severity":"info","confidence":"high","message":"System health is currently stable: SYSTEM STABLE","rationale":"Observed system health signals are within acceptable bounds.","signalSource":["diagnostics/system-health","system-health"],"bounded":true,"executionImpact":"none","createdAt":1776188109622}],"generatedAt":1776188109622,"cognitionVersion":"phase_89","executionAuthority":"none"},"surfaceConfidence":"high","confidenceReason":"Observed signals are coherent and within acceptable bounds.","signalCount":1,"conflictingSignals":false},"source":"diagnostics/system-health","ts":1776188109622}
+
+: ping 1776188114632
+
+event: operator_guidance
+data: {"reduction":{"envelope":{"guidance":[{"id":"guidance:system_health:system-health:1776188114633","type":"informational","domain":"system_health","severity":"info","confidence":"high","message":"System health is currently stable: SYSTEM STABLE","rationale":"Observed system health signals are within acceptable bounds.","signalSource":["diagnostics/system-health","system-health"],"bounded":true,"executionImpact":"none","createdAt":1776188114633}],"generatedAt":1776188114633,"cognitionVersion":"phase_89","executionAuthority":"none"},"surfaceConfidence":"high","confidenceReason":"Observed signals are coherent and within acceptable bounds.","signalCount":1,"conflictingSignals":false},"source":"diagnostics/system-health","ts":1776188114633}
+
+: ping 1776188119636
+
+=== LIVE SSE PAYLOAD SAMPLE (6s) ===
+
+
+=== CURRENT CLIENT SCRIPT ===
+(() => {
+  if (window.__OPERATOR_GUIDANCE_STREAM_ACTIVE__) return;
+  window.__OPERATOR_GUIDANCE_STREAM_ACTIVE__ = true;
+
+  const RESPONSE_EL = document.getElementById("operator-guidance-response");
+  const META_EL = document.getElementById("operator-guidance-meta");
+
+  let eventSource = null;
+
+  function closeStream() {
+    if (eventSource) {
+      eventSource.close();
+      eventSource = null;
+    }
+  }
+
+  function firstNonEmpty(...values) {
+    for (const value of values) {
+      if (value === null || value === undefined) continue;
+      const text = String(value).trim();
+      if (text) return text;
+    }
+    return "";
+  }
+
+  function buildResponse(data) {
+    return firstNonEmpty(
+      data?.message,
+      data?.guidance,
+      data?.response,
+      data?.headline,
+      data?.summary,
+      data?.uiSummary?.headline,
+      data?.uiSummary?.detail
+    );
+  }
+
+  function buildMeta(data) {
+    const directMeta = firstNonEmpty(data?.meta);
+    if (directMeta) return directMeta;
+
+    const parts = [];
+
+    const confidence = firstNonEmpty(
+      data?.confidence,
+      data?.uiSummary?.confidence,
+      data?.latestConfidence
+    );
+    if (confidence) {
+      parts.push(`Confidence: ${confidence}`);
+    }
+
+    const sources = Array.isArray(data?.sources)
+      ? data.sources.filter(Boolean).join(", ")
+      : firstNonEmpty(data?.sources, data?.source);
+    if (sources) {
+      parts.push(`Sources: ${sources}`);
+    }
+
+    const governance = firstNonEmpty(data?.latestGovernanceDecision, data?.governance);
+    if (governance) {
+      parts.push(`Governance: ${governance}`);
+    }
+
+    const approval = firstNonEmpty(data?.latestApprovalStatus, data?.approval);
+    if (approval) {
+      parts.push(`Approval: ${approval}`);
+    }
+
+    const execution = firstNonEmpty(data?.latestExecutionStatus, data?.execution);
+    if (execution) {
+      parts.push(`Execution: ${execution}`);
+    }
+
+    const failure = firstNonEmpty(data?.latestFailureStage, data?.failureStage);
+    if (failure) {
+      parts.push(`Failure Stage: ${failure}`);
+    }
+
+    return parts.join("\n").trim();
+  }
+
+  function applyPayload(data) {
+    const response = buildResponse(data);
+    const meta = buildMeta(data);
+
+    if (RESPONSE_EL && response) {
+      RESPONSE_EL.textContent = response;
+    }
+
+    if (META_EL && meta) {
+      META_EL.textContent = meta;
+    }
+  }
+
+  function startStream() {
+    if (eventSource) return;
+
+    eventSource = new EventSource("/events/operator-guidance");
+
+    eventSource.onmessage = (event) => {
+      try {
+        const data = JSON.parse(event.data);
+        applyPayload(data);
+      } catch (_) {}
+    };
+
+    eventSource.onerror = () => {
+      closeStream();
+    };
+  }
+
+  startStream();
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "hidden") {
+      closeStream();
+    }
+  });
+
+  window.addEventListener("beforeunload", () => {
+    closeStream();
+  });
+})();
+
+=== SERVER ROUTE SNIPPET (server.mjs) ===
+466:app.get("/events/operator-guidance", (req, res) => {
+      res.write(`event: error\ndata: ${JSON.stringify({ error: String(e), ts: Date.now() })}\n\n`);
+    }
+  };
+
+  // Send once immediately.
+  await sendSnapshot();
+
+  // Keepalive ping so clients always get periodic activity.
+  const ping = setInterval(() => {
+    if (closed) return;
+    res.write(`: ping ${Date.now()}\n\n`);
+  }, 5000);
+
+  // Poll for changes (lightweight) – periodic snapshots without UI blinking.
+  let lastHash = "";
+  const poll = setInterval(async () => {
+    if (closed) return;
+    try {
+      const r = await pool.query(
+        `select id::text, title, agent, status, notes, source, trace_id, error, meta, created_at, updated_at
+         from tasks
+         order by id::int desc`
+      );
+      const payload = JSON.stringify(r.rows);
+      if (payload !== lastHash) {
+        lastHash = payload;
+        res.write(`data: ${JSON.stringify({ tasks: r.rows, source: "db-tasks", ts: Date.now() })}\n\n`);
+      }
+    } catch (e) {
+      res.write(`event: error\ndata: ${JSON.stringify({ error: String(e), ts: Date.now() })}\n\n`);
+    }
+  }, 2000);
+
+  res.on("close", () => {
+    clearInterval(ping);
+    clearInterval(poll);
+  });
+});
+
+// ---- Operator Guidance SSE ----
+app.get("/events/operator-guidance", (req, res) => {
+  res.writeHead(200, {
+    "Content-Type": "text/event-stream; charset=utf-8",
+    "Cache-Control": "no-cache, no-transform",
+    Connection: "keep-alive",
+    "X-Accel-Buffering": "no",
+  });
+
+  if (typeof res.flushHeaders === "function") {
+    res.flushHeaders();
+  }
+
+  try { req.socket?.setTimeout?.(0); } catch (_) {}
+  try { req.socket?.setNoDelay?.(true); } catch (_) {}
+  try { req.socket?.setKeepAlive?.(true); } catch (_) {}
+
+  const writeFrame = (frame) => {
+    res.write(frame);
+    if (typeof res.flush === "function") {
+      try { res.flush(); } catch (_) {}
+    }
+  };
+
+  writeFrame(`: ready\n\n`);
+
+  let closed = false;
+  req.on("close", () => {
+    closed = true;
+  });
+
+  const sendSnapshot = () => {
+    try {
+      const snapshot = buildSystemHealthSnapshot();
+      const reduction = reduceSystemHealthSnapshotToGuidanceReduction(snapshot);
+      writeFrame(
+        `event: operator_guidance\ndata: ${JSON.stringify({
+          reduction,
+          source: "diagnostics/system-health",
+          ts: Date.now(),
+        })}\n\n`
+      );
+    } catch (e) {
+      writeFrame(
+        `event: error\ndata: ${JSON.stringify({
+          error: String(e),
+          ts: Date.now(),
+        })}\n\n`
+      );
+    }
+  };
+
+  sendSnapshot();
+
+  const ping = setInterval(() => {
+    if (closed) return;
+    writeFrame(`: ping ${Date.now()}\n\n`);
+  }, 5000);
+
+  let lastHash = "";
+  const poll = setInterval(() => {
+    if (closed) return;
+    try {
+      const snapshot = buildSystemHealthSnapshot();
+      const reduction = reduceSystemHealthSnapshotToGuidanceReduction(snapshot);
+      const payload = JSON.stringify(reduction);
+      if (payload !== lastHash) {
+        lastHash = payload;
+        writeFrame(
+          `event: operator_guidance\ndata: ${JSON.stringify({
+            reduction,
+            source: "diagnostics/system-health",
+            ts: Date.now(),
+          })}\n\n`
+        );
+      }
+    } catch (e) {
+      writeFrame(
+        `event: error\ndata: ${JSON.stringify({
+          error: String(e),
+          ts: Date.now(),
+        })}\n\n`
+      );
+    }
+  }, 5000);
+
+  res.on("close", () => {
+    clearInterval(ping);
+    clearInterval(poll);
+  });
+});
+
+// ---- Ops heartbeat (minimal, no SSE dependency) ----
+app.get("/api/ops-heartbeat", (req, res) => {
+  lastOpsHeartbeat = Date.now();
+  res.json({ ok: true, ts: lastOpsHeartbeat });
+});
+
+// ---- Shared heartbeat snapshot (for debugging + potential UI hooks) ----
+app.get("/api/heartbeat", (req, res) => {
+  res.json({
+    ok: true,
+    ts: Date.now(),
+    ops: { ts: lastOpsHeartbeat },
+  });
+});
+
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Server running on http://0.0.0.0:${PORT}`);
+
+  // Phase 15: build artifact on startup (wire Project Visual Output to real build metadata)
+  emitArtifact({
+    type: "build_output",
+    source: "dashboard",
+    payload: {
+      status: "boot",
+      git_sha: process.env.GIT_SHA || null,
+      build_time: process.env.BUILD_TIME || null,
+      node: process.version,
+      port: PORT,
+    },
+  });
+});
+
+
+  // ===== PHASE16_OPS_SIGNAL_INGEST =====
+
+  // ===== PHASE16_OPS_STATE_SNAPSHOT_BROADCAST_HELPER =====
+  function _phase16BroadcastOpsStateSnapshot(reason) {
+    try {
+      const st = _phase16GetOpsState();
+      const msg = { type: "ops.state", ts: Date.now(), reason: reason || null, payload: st };
+      globalThis.__SSE.ops.broadcast(msg, "ops.state");
+      return msg;
+    } catch (_) {
+      return null;
+    }
+  }
+  // ======================================================
+
+  if (!globalThis.__SSE) globalThis.__SSE = {};
+  if (!globalThis.__SSE.ops) globalThis.__SSE.ops = { clients: new Set(), nextId: 1, last: null,
+
+=== DOM ANCHORS IN SERVED INDEX ===
+311-                    <p id="matilda-helper-text-ops" class="text-xs text-gray-400 mt-1">
+312-                      Matilda is currently using a placeholder /api/chat stub (Phase 11.3 baseline).
+313-                    </p>
+314-
+315-                    <div id="operator-guidance-panel" class="mt-3 rounded-xl border border-gray-700 bg-gray-900/70 p-4">
+316-                      <div class="text-xs uppercase tracking-[0.2em] text-gray-500 mb-2">Operator Guidance</div>
+317:                      <div id="operator-guidance-response" class="text-sm text-gray-300 leading-6">
+318-                        Awaiting bounded guidance stream.<br />
+319-                        Live operator guidance will appear here when visibility wiring is active.
+320-                      </div>
+321:                      <div id="operator-guidance-meta" class="mt-3 text-xs text-gray-500 leading-5">
+322-                        Confidence: insufficient<br />
+323-                        Sources: diagnostics/system-health
+324-                      </div>
+325-                    </div>
+326-                  </div>
+327-                </section>
+328-              </div>
+329-
+330-              <div id="op-panel-delegation" class="obs-panel" data-workspace-panel role="tabpanel" aria-labelledby="op-tab-delegation" hidden>
+331-                <section id="delegation-card" class="obs-surface space-y-3">
+332-                  <h2 class="text-xl font-semibold border-b border-gray-700 pb-2">Task Delegation</h2>
+333-                  <textarea
+
+=== QUICK DIAGNOSIS ===
+If SSE payload keys do not match data.message / data.meta,
+the client is mounted but reading the wrong fields.
+If SSE payload is empty or never arrives, the route is the issue.
+If payload is correct but UI still unchanged, another writer may be overwriting the panel.

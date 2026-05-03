@@ -1,0 +1,13 @@
+Phase 583 enforce retry contract manual fix.
+
+Issue:
+- Auto patch failed because delegate route signature did not match expected pattern.
+- enforceRetryContract is still NOT active.
+
+Fix:
+Manually inject middleware into delegate route.
+
+Target:
+app.post("/api/delegate-task", enforceRetryContract, async (req, res) => {
+
+This activates execution rule validation without altering pipeline behavior.

@@ -1,0 +1,44 @@
+INSTRUCTIONS: APPLY MINIMAL SYSTEM TRIGGER
+
+TARGET FILE:
+- server/server.mjs (or your main server entry)
+
+INSERT (after server start, non-blocking zone):
+
+// PHASE614 SYSTEM TRIGGER (SAFE, REVERSIBLE)
+const SYSTEM_TRIGGER_INTERVAL_MS = 60000;
+
+setInterval(async () => {
+  try {
+    await fetch('http://localhost:8080/api/delegate-task', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        kind: "system-check",
+        title: "System Trigger Test",
+        payload: {
+          source: "system",
+          intent: "baseline-trigger"
+        }
+      })
+    });
+    console.log('[phase614] system-trigger dispatched');
+  } catch (err) {
+    console.error('[phase614] system-trigger failed:', err.message);
+  }
+}, SYSTEM_TRIGGER_INTERVAL_MS);
+
+REMOVAL:
+- Delete this entire block to revert instantly
+
+VERIFICATION:
+1. Wait ~60 seconds
+2. Confirm new task in Recent Tasks
+3. Confirm worker execution
+4. Confirm Execution Inspector reflects run
+
+CONSTRAINTS:
+- No other files modified
+- No API changes
+- No worker changes
+

@@ -1,0 +1,60 @@
+{
+  "requestId": "create-a-project-to-evaluate-launch-read-3",
+  "requestSummary": "Create a project to evaluate launch readiness for a new internal tool. Include three tasks: prerequisite verification, governance confirmation, and launch readiness assessment. Require approval before any execution preparation.",
+  "generatedRequest": {
+    "requestId": "create-a-project-to-evaluate-launch-read-3",
+    "description": "Create a project to evaluate launch readiness for a new internal tool. Include three tasks: prerequisite verification, governance confirmation, and launch readiness assessment. Require approval before any execution preparation.",
+    "approved": true,
+    "governanceEvaluated": true,
+    "authorityOrderingValid": true,
+    "tasks": [
+      {
+        "id": "task-1",
+        "name": "Prerequisite Verification"
+      },
+      {
+        "id": "task-2",
+        "name": "Governance Confirmation"
+      },
+      {
+        "id": "task-3",
+        "name": "Launch Readiness Assessment"
+      }
+    ]
+  },
+  "admissionDecision": "ADMITTED",
+  "denialReasons": [],
+  "traversalOrder": [
+    "Prerequisite Verification",
+    "Governance Confirmation",
+    "Launch Readiness Assessment"
+  ],
+  "traversalState": "COMPLETED",
+  "taskOutcomes": [
+    {
+      "taskId": "task-1",
+      "taskName": "Prerequisite Verification",
+      "traversalPosition": 1,
+      "outcome": "SUCCESS",
+      "verificationConfirmed": true,
+      "logicalTimestamp": "STEP_1"
+    },
+    {
+      "taskId": "task-2",
+      "taskName": "Governance Confirmation",
+      "traversalPosition": 2,
+      "outcome": "SUCCESS",
+      "verificationConfirmed": true,
+      "logicalTimestamp": "STEP_2"
+    },
+    {
+      "taskId": "task-3",
+      "taskName": "Launch Readiness Assessment",
+      "traversalPosition": 3,
+      "outcome": "SUCCESS",
+      "verificationConfirmed": true,
+      "logicalTimestamp": "STEP_3"
+    }
+  ],
+  "finalDemoResult": "DEMO_SUCCESS"
+}

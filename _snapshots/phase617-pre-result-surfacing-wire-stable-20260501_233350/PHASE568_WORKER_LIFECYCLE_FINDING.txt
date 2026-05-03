@@ -1,0 +1,43 @@
+PHASE 568 — WORKER LIFECYCLE FINDING
+
+Observation:
+- Worker starts successfully.
+- Worker resolves SQL contracts successfully.
+- Worker heartbeats successfully.
+- Worker does NOT currently run a claim/execute/complete loop.
+
+Evidence:
+- server/worker/phase26_task_worker.mjs only:
+  - resolves SQL contract files
+  - logs startup state
+  - emits heartbeat every 30 seconds
+
+Impact:
+- Tasks can be created through POST /api/tasks/create.
+- Tasks appear in /api/tasks.
+- Tasks appear in Recent Tasks UI.
+- Task creation appears in Recent Logs via SSE.
+- Tasks remain queued because no worker claim loop is active.
+
+Classification:
+- Not a telemetry issue.
+- Not a database issue.
+- Not an API issue.
+- Not a UI issue.
+- Worker execution lifecycle is incomplete.
+
+Next Safe Corridor:
+PHASE 569 — WORKER CLAIM LOOP IMPLEMENTATION
+
+Rules:
+- One worker file only.
+- Use existing SQL contracts.
+- Do not change API.
+- Do not change UI.
+- Do not change DB schema.
+- Add minimal claim loop first.
+- Validate queued → running before adding completion behavior.
+
+Recommended next objective:
+Implement minimal worker claim loop using phase32_claim_one.sql and verify task moves:
+queued → running

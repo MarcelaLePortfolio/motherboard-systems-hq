@@ -1,0 +1,331 @@
+=== PHASE 487 NARROWED RUNTIME VERIFICATION ===
+
+=== 1) Existence check ===
+OK   server.ts
+OK   scripts/server.cjs
+OK   routes/api/delegate.ts
+OK   routes/api/tasks.ts
+OK   routes/api/logs.ts
+OK   routes/diagnostics/systemHealth.ts
+OK   scripts/agents/cade.ts
+OK   scripts/agents/effie.ts
+OK   agents/matilda.ts/matilda.mjs
+
+=== 2) Import / require lines ===
+--- server.ts ---
+2:import express from "express";
+3:import path from "path";
+4:import cors from "cors";
+5:import { createRequire } from "module";
+11:import delegateRoutes from "./routes/api/delegate"; 
+12:import tasksRoutes from "./routes/api/tasks"; 
+13:import logsRoutes from "./routes/api/logs";
+
+--- scripts/server.cjs ---
+2:const http = require("http");
+3:const fs = require("fs");
+4:const path = require("path");
+
+--- routes/api/delegate.ts ---
+1:import express from "express";
+2:import { sqlite } from "../../db/client";
+
+--- routes/api/tasks.ts ---
+1:import express from "express";
+2:import { sqlite } from "../../db/client";
+
+--- routes/api/logs.ts ---
+1:import express from "express";
+2:import { sqlite } from "../../db/client";
+
+--- routes/diagnostics/systemHealth.ts ---
+1:import express from "express";
+2:import { buildSystemHealthSituationSummaryPayload } from "./systemHealthSituationSummary";
+
+--- scripts/agents/cade.ts ---
+(no import/require lines found)
+
+--- scripts/agents/effie.ts ---
+2:import { log } from '../utils/log.js';
+3:import { promises as fs } from 'fs';
+
+--- agents/matilda.ts/matilda.mjs ---
+2:import { ollamaPlan } from "../../scripts/utils/ollamaPlan.ts";
+3:import { chatWithOllama } from "./utils/matilda_chat.ts";
+
+
+=== 3) Bounded header inspection ===
+--- server.ts (first 40 lines) ---
+// <0001fb09> Phase 9.9j — Hot-Reloading Matilda Route (Chat vs Delegation)
+import express from "express";
+import path from "path";
+import cors from "cors";
+import { createRequire } from "module";
+
+const require = createRequire(import.meta.url);
+const app = express();
+app.use(cors());
+app.use(express.json());
+import delegateRoutes from "./routes/api/delegate"; 
+import tasksRoutes from "./routes/api/tasks"; 
+import logsRoutes from "./routes/api/logs";
+
+const publicPath = path.join(process.cwd(), "public");
+app.use(express.static(publicPath));
+app.use(delegateRoutes); 
+app.use(tasksRoutes); 
+app.use(logsRoutes);
+
+app.get("/", (_req, res) => {
+  res.sendFile(path.join(publicPath, "dashboard.html"));
+});
+
+// 🔥 Always fresh import of Matilda
+app.post("/matilda", async (req, res) => {
+  try {
+    delete require.cache[require.resolve("./agents/matilda/matilda.mjs")];
+    const { matilda } = await import("./agents/matilda/matilda.mjs?" + Date.now());
+    const reply = await matilda.handler(req.body.message);
+    res.json({ reply });
+  } catch (err) {
+    console.error("❌ Matilda route error:", err);
+    res.status(500).json({ error: "Matilda is unreachable" });
+  }
+});
+
+const PORT = 3001;
+app.listen(PORT, () => {
+  console.log(`🖥️ Dashboard + Matilda API (Hot Reload) running at http://localhost:${PORT}`);
+
+--- scripts/server.cjs (first 40 lines) ---
+ 
+const http = require("http");
+const fs = require("fs");
+const path = require("path");
+
+const PORT = 3000;
+const PUBLIC_DIR = path.join(__dirname, "../public");
+const LOG_PATH = path.join(__dirname, "../ops-stream.log");
+
+http
+  .createServer((req, res) => {
+    const { method, url } = req;
+
+    if (method === "POST" && url === "/api/command") {
+      let body = "";
+      req.on("data", chunk => (body += chunk));
+      req.on("end", () => {
+        try {
+          const { command } = JSON.parse(body);
+          const entry = `[${new Date().toISOString()}] ${command}
+`;
+          fs.appendFileSync(LOG_PATH, entry);
+          res.writeHead(200);
+          res.end("Command received");
+        } catch {
+          res.writeHead(400);
+          res.end("Bad request");
+        }
+      });
+      return;
+    }
+
+    const filePath = path.join(PUBLIC_DIR, url === "/" ? "dashboard.html" : url);
+    fs.readFile(filePath, (err, data) => {
+      if (err) {
+        res.writeHead(404);
+        res.end("Not found");
+      } else {
+        res.writeHead(200);
+        res.end(data);
+
+--- routes/api/delegate.ts (first 40 lines) ---
+import express from "express";
+import { sqlite } from "../../db/client";
+
+const router = express.Router();
+
+// POST /delegate
+router.post("/delegate", (req, res) => {
+  try {
+    const payload = JSON.stringify(req.body || {});
+    const type = "task";
+    const agent = "Matilda";
+
+    const stmt = sqlite.prepare(
+      "INSERT INTO task_events (type, agent, status, payload) VALUES (?, ?, ?, ?)"
+    );
+
+    const info = stmt.run(type, agent, "received", payload);
+    try { 
+      const submitTask = require("../../scripts/_local/agent-runtime/submit-task"); 
+      submitTask(payload); 
+    } catch (err) { 
+      console.error("❌ Failed to submit task to Cade:", err); 
+    }
+
+    res.json({
+      ok: true,
+      message: "Task received",
+      task_id: info.lastInsertRowid
+    });
+  } catch (err) {
+    console.error("❌ /delegate error:", err);
+    res.status(500).json({ ok: false, error: "delegate_error" });
+  }
+});
+
+export default router;
+
+--- routes/api/tasks.ts (first 40 lines) ---
+import express from "express";
+import { sqlite } from "../../db/client";
+
+const router = express.Router();
+
+// GET /tasks/recent
+router.get("/tasks/recent", (req, res) => {
+  try {
+    const rows = sqlite.prepare(
+      "SELECT id, type, agent, status, payload, result, created_at FROM task_events ORDER BY created_at DESC LIMIT 20"
+    ).all();
+
+    res.json({ ok: true, tasks: rows });
+  } catch (err) {
+    console.error("❌ /tasks/recent error:", err);
+    res.status(500).json({ ok: false, error: "task_fetch_error" });
+  }
+});
+
+export default router;
+
+--- routes/api/logs.ts (first 40 lines) ---
+import express from "express";
+import { sqlite } from "../../db/client";
+
+const router = express.Router();
+
+// GET /logs/recent
+router.get("/logs/recent", (req, res) => {
+  try {
+    const rows = sqlite.prepare(
+      "SELECT id, content, created_at FROM reflection_index ORDER BY created_at DESC LIMIT 20"
+    ).all();
+
+    res.json({ ok: true, logs: rows });
+  } catch (err) {
+    console.error("❌ /logs/recent error:", err);
+    res.status(500).json({ ok: false, error: "log_fetch_error" });
+  }
+});
+
+export default router;
+
+--- routes/diagnostics/systemHealth.ts (first 40 lines) ---
+import express from "express";
+import { buildSystemHealthSituationSummaryPayload } from "./systemHealthSituationSummary";
+
+const router = express.Router();
+
+router.get("/", (_req, res) => {
+  const situationSummaryPayload = buildSystemHealthSituationSummaryPayload({
+    stability: "stable",
+    executionRisk: "none",
+    cognition: "consistent",
+    signalCoherence: "coherent",
+    operatorAttention: "none",
+  });
+
+  res.json({
+    status: "OK",
+    uptime: process.uptime(),
+    memory: process.memoryUsage(),
+    timestamp: new Date().toISOString(),
+    ...situationSummaryPayload,
+  });
+});
+
+export default router;
+
+--- scripts/agents/cade.ts (first 40 lines) ---
+export const cade = {
+  executeTask: (task: any) => {
+    console.log("Cade executing task:", task);
+    return { success: true };
+  }
+};
+
+--- scripts/agents/effie.ts (first 40 lines) ---
+ 
+import { log } from '../utils/log.js';
+import { promises as fs } from 'fs';
+//////import path from 'path';
+
+export async function effieCommandRouter(command: string, args?: Record<string, any>) {
+  try {
+    switch (command) {
+      case 'read file':
+        if (!args?.path) throw new Error('Missing path');
+        return { status: 'success', result: await fs.readFile(args.path, 'utf-8') };
+
+      case 'write file':
+        if (!args?.path || typeof args?.content !== 'string') throw new Error('Missing path or content');
+        await fs.writeFile(args.path, args.content);
+        return { status: 'success', result: `Wrote to ${args.path}` };
+
+      case 'delete file':
+        if (!args?.path) throw new Error('Missing path');
+        await fs.unlink(args.path);
+        return { status: 'success', result: `Deleted ${args.path}` };
+
+      case 'move file':
+        if (!args?.from || !args?.to) throw new Error('Missing from/to');
+        await fs.rename(args.from, args.to);
+        return { status: 'success', result: `Moved ${args.from} to ${args.to}` };
+
+      case 'list files':
+        if (!args?.dir) throw new Error('Missing dir');
+const files = await fs.readdir(args.dir);
+        return { status: 'success', result: files };
+
+      default:
+        return { status: 'error', message: `Unknown command: ${command}` };
+    }
+  } catch (err: any) {
+    await log(`Effie error: ${err.message}`);
+    return { status: 'error', message: err.message };
+  }
+}
+
+--- agents/matilda.ts/matilda.mjs (first 40 lines) ---
+// <0001fb08> Phase 9.9i — Matilda Fully Decoupled Chat & Delegation
+import { ollamaPlan } from "../../scripts/utils/ollamaPlan.ts";
+import { chatWithOllama } from "./utils/matilda_chat.ts";
+
+export const matilda = {
+  name: "Matilda",
+  async handler(message) {
+    console.log(`<0001fb08> Matilda interpreting message: ${message}`);
+    const lower = message.toLowerCase().trim();
+
+    // 🪞 greet or short = direct chat only
+    if (lower.length < 6 || ["hi", "hey", "yo", "hello", "sup"].includes(lower)) {
+      return chatWithOllama(message);
+    }
+
+    // 🧭 Delegation intent check
+    const delegationKeywords = /\b(delegate|cade|effie|task|run|create|generate|execute|validate)\b/;
+    const isDelegation = delegationKeywords.test(lower);
+
+    if (!isDelegation) {
+      return chatWithOllama(message);
+    }
+
+    // 🤖 Delegation logic (separate brain)
+    const plan = `Analyze and delegate this task appropriately: ${message}`;
+    const response = await ollamaPlan(plan);
+    return `🤖 Matilda delegated to Cade and reports: ${response}`;
+  },
+};
+
+=== END PHASE 487 NARROWED RUNTIME VERIFICATION ===

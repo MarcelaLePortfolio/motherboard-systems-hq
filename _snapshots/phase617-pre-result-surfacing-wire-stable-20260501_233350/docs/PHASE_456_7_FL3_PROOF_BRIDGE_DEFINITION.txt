@@ -1,0 +1,39 @@
+PHASE 456.7 - FL3 PROOF BRIDGE DEFINITION
+-----------------------------------------
+
+CLASSIFICATION
+Bridge definition only.
+No implementation.
+No wiring.
+No runtime mutation.
+
+PURPOSE
+Define the exact minimal intake-side bridge required for FL-3 proof using already-existing structural locations.
+
+BRIDGE_DEFINITION
+The FL-3 bridge is an intake-side normalization bridge that accepts a previously unseen operator request and converts it into an existing governed intake candidate without changing governance or execution internals.
+
+BRIDGE_PROPERTIES
+Occurs before governance evaluation.
+Reuses existing intake and evaluation structures.
+Preserves explicit operator approval visibility.
+Preserves execution preparation visibility only.
+Preserves existing outcome reporting closure.
+
+BRIDGE_EXCLUSIONS
+No governance engine mutation.
+No execution traversal mutation.
+No worker routing redesign.
+No authority expansion.
+No policy automation introduction.
+
+SUCCESS_CRITERIA
+Single minimal bridge clearly defined.
+Bridge remains intake-side only.
+All downstream structures remain reused.
+
+NEXT_STEP
+PHASE_456_7_FL3_PROOF_MUTATION_BOUNDARY
+
+DETERMINISTIC_STOP
+Stop after bridge definition is recorded.

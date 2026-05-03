@@ -1,0 +1,27 @@
+PHASE 464.X — PHASE457 RESTORE FALSE POSITIVE DECISION
+======================================================
+
+Timestamp (UTC): 2026-04-10T17:55:57Z
+Repo root: /Users/marcela-dev/Projects/Motherboard_Systems_HQ
+
+1) Direct operator-guidance / Atlas / SYSTEM_HEALTH matches
+
+2) Task-event ownership markers
+96:    var el = byId("tasks-widget");
+115:    var el = byId("recentLogs");
+133:    var anchor = byId("mb-task-events-panel-anchor");
+136:    var panel = byId("mb-task-events-panel");
+137:    var feed = byId("mb-task-events-feed");
+141:      panel.id = "mb-task-events-panel";
+149:      feed.id = "mb-task-events-feed";
+157:        (state.sourceError ? "Task events stream reconnecting…" : "Waiting for task events…") +
+232:      state.es = new EventSource("/events/task-events");
+300:    setInterval(renderAll, 4000);
+
+3) Decision
+phase457_restore_task_panels.js is a FALSE POSITIVE
+Reason:
+- owns task-events / recent / history panels
+- no direct operator guidance or Atlas content strings
+
+NEXT TARGET: public/js/phase457_neutralize_legacy_observational_consumers.js

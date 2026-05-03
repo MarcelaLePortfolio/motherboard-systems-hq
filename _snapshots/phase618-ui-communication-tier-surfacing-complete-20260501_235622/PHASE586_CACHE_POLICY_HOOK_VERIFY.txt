@@ -1,0 +1,83 @@
+Phase 586 cache policy hook verification.
+
+Goal:
+Verify the observable cache_policy runtime hook appears in worker logs after a fresh-context retry task is claimed.
+
+Expected:
+- execution_policy log appears
+- runtime-hook cache-policy log appears
+- task completes successfully
+
+--- WORKER LOGS AFTER CACHE POLICY CLAIM WINDOW ---
+[phase25] task_events_emit loaded 2026-05-01T17:08:52.276Z file= file:///app/server/task_events_emit.mjs
+[worker] resolved sql contracts: { phase: '32', count: 3 }
+[worker] contract: phase32_claim_one.sql
+[worker] contract: phase32_mark_failure.sql
+[worker] contract: phase32_mark_success.sql
+[worker] started with POSTGRES_URL: postgresql://postgres:postgres@postgres:5432/postgres
+[worker] running in phase: 32
+[worker] owner: worker-48748413-1fdc-45b8-a907-bcc8c790f11f
+[worker] claimed task {
+  id: '18',
+  task_id: 't_80832e45-56a7-4994-86cc-f0d4d0c755da',
+  status: 'running',
+  run_id: 'run_d667bcbd-bed3-4281-a033-22848cd938f2',
+  claimed_by: 'worker-48748413-1fdc-45b8-a907-bcc8c790f11f'
+}
+[worker][execution-policy] {
+  task_id: 't_80832e45-56a7-4994-86cc-f0d4d0c755da',
+  is_retry: true,
+  execution_mode: 'rebuild_context',
+  cache_policy: 'bypass',
+  memory_scope: 'reset_partial',
+  requires_context_rebuild: true,
+  requires_cache_bypass: true,
+  requires_memory_scope_reset: true
+}
+[worker][runtime-hook][cache-policy] {
+  task_id: 't_80832e45-56a7-4994-86cc-f0d4d0c755da',
+  cache_policy: 'bypass',
+  action: 'bypass_observed',
+  effect: 'no_cache_layer_available_yet'
+}
+[worker] completed task {
+  id: '18',
+  task_id: 't_80832e45-56a7-4994-86cc-f0d4d0c755da',
+  status: 'completed',
+  run_id: 'run_d667bcbd-bed3-4281-a033-22848cd938f2',
+  claimed_by: 'worker-48748413-1fdc-45b8-a907-bcc8c790f11f',
+  completed_at: 2026-05-01T17:08:57.346Z
+}
+[phase25] emitTaskEvent ENTER {
+  ts: 1777655337350,
+  kind: 'task.completed',
+  task_id: 't_80832e45-56a7-4994-86cc-f0d4d0c755da',
+  hasGlobal: false,
+  globalType: undefined
+}
+[phase25] emitTaskEvent BEFORE CHECK {
+  hasArg: true,
+  hasGlobal: false,
+  globalType: undefined,
+  argType: 'BoundPool'
+}
+[phase25] emitTaskEvent pool {
+  arg: true,
+  argType: 'BoundPool',
+  hasGlobal: false,
+  globalType: undefined
+}
+[worker] heartbeat
+[worker] heartbeat
+[worker] heartbeat
+
+--- RECENT TASKS ---
+                task_id                 |  status   | kind  |                                                                    payload                                                                    |                 claimed_by                  
+----------------------------------------+-----------+-------+-----------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------
+ t_80832e45-56a7-4994-86cc-f0d4d0c755da | completed | retry | {"cache_policy": "bypass", "memory_scope": "reset_partial", "execution_mode": "rebuild_context", "retry_of_task_id": "phase586-cache-policy"} | worker-48748413-1fdc-45b8-a907-bcc8c790f11f
+ t_b0741217-e118-4bcd-93c1-b0c080c44307 | completed | retry | {"cache_policy": "bypass", "memory_scope": "reset_partial", "execution_mode": "rebuild_context", "retry_of_task_id": "phase585-policy"}       | worker-5adb4e8e-ab2c-4d74-969f-cd9a66a55004
+ t_26a2915c-3177-4d07-a457-d2aad0a9e9b9 | completed | retry | {"cache_policy": "bypass", "memory_scope": "reset_partial", "execution_mode": "rebuild_context", "retry_of_task_id": "phase584-visibility"}   | worker-1320d40d-5b7e-4835-9eac-d99a24c30032
+ t_5ddbda08-19c0-46f3-a252-63e26bfee3ae | completed | retry | {"cache_policy": "bypass", "memory_scope": "reset_partial", "execution_mode": "rebuild_context", "retry_of_task_id": "phase583-visibility"}   | worker-a5b1c3f7-c0a2-4ed7-882e-7f8a046a4e20
+ t_4578a390-eca1-4134-8a2a-31c356b9b648 | completed | retry | {"cache_policy": "bypass", "memory_scope": "reset_partial", "execution_mode": "rebuild_context", "retry_of_task_id": "phase583-test"}         | worker-e03faf02-8451-4056-a3f6-bb3e0c30a23f
+(5 rows)
+

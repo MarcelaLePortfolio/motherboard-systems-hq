@@ -1,0 +1,23 @@
+[
+  {
+    "event_type": "task.created",
+    "task_id": "task-002",
+    "run_id": "run-002",
+    "ts": 1742169700000
+  },
+  {
+    "event_type": "task.completed",
+    "task_id": "task-003",
+    "run_id": "run-003",
+    "ts": "1742169701000",
+    "state": "running",
+    "unexpected_flag": true
+  },
+  {
+    "event_type": "task.unknown",
+    "task_id": "task-004",
+    "run_id": "run-004",
+    "ts": 1742169702000,
+    "state": "mystery"
+  }
+]

@@ -1,0 +1,45 @@
+PHASE 567 — FINAL STATE LOCK
+
+CHECKPOINT:
+phase567-checkpoint
+
+SYSTEM STATE:
+- Infrastructure: healthy
+- Worker: active, processing-capable
+- Dashboard: serving correct UI
+- Postgres: stable
+- SSE: connected + streaming
+
+OPERATOR SURFACE:
+- Recent Tasks → summary
+- Task History → static list
+- Execution Inspector → live event stream + selection + JSON
+
+INTERACTION:
+- Row selection: active
+- JSON expand/collapse: active
+- Copy ID: active
+- Retry: ACTIVE (safe new-task-copy semantics)
+- Cancel: inert (intentionally)
+
+BEHAVIORAL GUARANTEES:
+- Retry creates NEW task (no mutation of original)
+- Original task lineage preserved via meta.retry_of_*
+- No destructive operations exposed
+- No UI dead controls remain
+
+CLASSIFICATION:
+STABLE / ACTIONABLE / PRODUCTION-CAPABLE BASELINE
+
+DISCIPLINE:
+- Single-surface changes only
+- No multi-surface coupling
+- Preserve inspector as primary debug interface
+
+NEXT SAFE TARGETS:
+1. Cancel (state mutation, requires contract audit)
+2. Retry UI feedback (visual confirmation)
+3. Optional: inline task creation
+
+STATUS:
+LOCKED — DO NOT MODIFY WITHOUT NEW PHASE DECLARATION

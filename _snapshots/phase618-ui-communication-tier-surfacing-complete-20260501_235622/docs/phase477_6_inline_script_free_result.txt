@@ -1,0 +1,8 @@
+PHASE 477.6 — INLINE-SCRIPT-FREE RESULT
+=======================================
+
+RESULT:
+INLINE_SCRIPT_FREE_STABLE
+
+OPTIONAL_NOTE:
+The dashboard is stable, but still not quite right structurally.

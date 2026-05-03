@@ -1,0 +1,61 @@
+PHASE 456 — FORCE DASHBOARD ASSET REFRESH
+Generated: 2026-04-09T18:43:31Z
+
+=== HARD RESTART DASHBOARD CONTAINER ===
+
+=== WAIT FOR HEALTH ===
+NAME                                 IMAGE                              COMMAND                  SERVICE     CREATED        STATUS                   PORTS
+motherboard_systems_hq-dashboard-1   motherboard_systems_hq-dashboard   "docker-entrypoint.s…"   dashboard   22 hours ago   Up 5 seconds (healthy)   0.0.0.0:8080->3000/tcp, [::]:8080->3000/tcp
+motherboard_systems_hq-postgres-1    postgres:16-alpine                 "docker-entrypoint.s…"   postgres    22 hours ago   Up About an hour         0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+
+=== VERIFY JS SERVED (FIRST 40 LINES) ===
+(() => {
+  "use strict";
+
+  if (window.__OPERATOR_GUIDANCE_SSE_NEUTRALIZED__) return;
+  window.__OPERATOR_GUIDANCE_SSE_NEUTRALIZED__ = true;
+
+  function log() {
+    try {
+      console.log("[operatorGuidance.sse] DOM writer neutralized; phase457 renderer owns operator guidance");
+    } catch {}
+  }
+
+  function boot() {
+    log();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", boot, { once: true });
+  } else {
+    boot();
+  }
+})();
+
+=== CACHE BYPASS CHECK ===
+(() => {
+  "use strict";
+
+  if (window.__OPERATOR_GUIDANCE_SSE_NEUTRALIZED__) return;
+  window.__OPERATOR_GUIDANCE_SSE_NEUTRALIZED__ = true;
+
+  function log() {
+    try {
+      console.log("[operatorGuidance.sse] DOM writer neutralized; phase457 renderer owns operator guidance");
+    } catch {}
+  }
+
+  function boot() {
+    log();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", boot, { once: true });
+  } else {
+    boot();
+  }
+})();
+
+=== INSTRUCTION ===
+Hard refresh browser: Cmd+Shift+R
+

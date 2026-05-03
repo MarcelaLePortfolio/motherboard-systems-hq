@@ -1,0 +1,19 @@
+PHASE 470.9 — PROBE REGEX FIX SUMMARY
+====================================
+
+SOURCE: docs/phase470_8_remaining_live_dashboard_surfaces.txt
+
+STEP 1 — Count lines
+44:EventSource count: 5
+45:setInterval count: 7
+46:setTimeout count: 2
+47:fetch count: 1
+
+STEP 2 — Heavy request lines
+154:GET /events/ops count: 0
+155:GET /events/task-events count: 0
+156:GET /api/tasks count: 0
+157:GET /api/runs count: 0
+
+STEP 3 — Next action
+- Use the classification from phase470.8 as the next isolation target.

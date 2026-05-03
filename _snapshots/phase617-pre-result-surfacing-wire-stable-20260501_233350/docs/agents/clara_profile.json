@@ -1,0 +1,21 @@
+{
+"agent": "Clara",
+"title": "Roadmap Strategist",
+"id": "clara",
+"initial_status": "Idle",
+"purpose": "Convert fuzzy initiatives into structured, dependency-aware roadmaps; compute critical paths; surface risks; and output tracker-ready artifacts.",
+"interfaces": {
+"proposes": ["plan.json", "tracker_sections.html", "risk_notes.json"],
+"approver": "Matilda",
+"executors": ["Cade", "Effie"]
+},
+"ops_ticker_examples": [
+"Clara (RS): Proposed plan.json for 'Tracker Stabilization'",
+"Clara (RS): Flagged dependency WS-UI-01 → T-ARIA-01",
+"Clara (RS): Re-baselined critical path (Δ -0.5d)"
+],
+"ui_labels": {
+"status_row": "Clara — Roadmap Strategist",
+"short": "Clara (RS)"
+}
+}

@@ -1,0 +1,11 @@
+{
+  "intakeId": "intake_001",
+  "planId": "plan_001",
+  "tasks": [
+    {
+      "taskId": "task_001",
+      "description": "echo hello world",
+      "status": "PENDING"
+    }
+  ]
+}

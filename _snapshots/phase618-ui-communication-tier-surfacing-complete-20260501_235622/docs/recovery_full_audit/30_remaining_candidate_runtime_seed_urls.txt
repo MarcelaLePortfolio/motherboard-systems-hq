@@ -1,0 +1,15 @@
+PHASE 457 - REMAINING CANDIDATE RUNTIME SEED URLS
+=================================================
+
+phase65_layout      -> http://localhost:8091
+phase65_wiring      -> http://localhost:8092
+operator_guidance   -> http://localhost:8093
+
+Interpretation:
+- 8091 = confirmed old layout baseline
+- 8092 = next checkpoint to inspect for lost telemetry/wiring
+- 8093 = later operator-guidance workspace checkpoint
+
+Logs:
+- docs/recovery_full_audit/phase65_wiring_runtime_seed_boot.txt
+- docs/recovery_full_audit/operator_guidance_runtime_seed_boot.txt

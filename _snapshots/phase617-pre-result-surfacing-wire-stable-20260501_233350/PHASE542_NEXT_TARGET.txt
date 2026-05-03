@@ -1,0 +1,57 @@
+PHASE 542 — NEXT TARGET
+
+CORRIDOR:
+OPERATOR EXPERIENCE + CONTROL SURFACE
+
+PRIORITY:
+Selected task context panel (visible UI)
+
+CONTEXT:
+- Rows are now clickable
+- Selection state exists (selectedEventId)
+- Feedback is currently only:
+  - outline highlight
+  - console log
+
+OBJECTIVE:
+Surface selected task details directly in UI
+
+INITIAL SCOPE (SAFE, UI-ONLY):
+- Add lightweight selected-task panel ABOVE log feed
+- Populate on row click
+
+DISPLAY FIELDS:
+- task_id (short + full if available)
+- lifecycle state (label)
+- title
+- timestamp
+
+IMPLEMENTATION PLAN:
+
+1. PANEL CREATION
+- Insert container inside root.innerHTML above rows
+- Minimal styling (match existing UI tone)
+
+2. STATE BINDING
+- On selection:
+  selectedEventId already set
+- In render():
+  find selected item
+  inject into panel
+
+3. FALLBACK
+- If no selection:
+  show "No task selected"
+
+CONSTRAINTS:
+- Single file only: public/js/phase457_restore_task_panels.js
+- No backend calls
+- No SSE changes
+- No mutation logic
+- Additive only
+
+GOAL:
+Visible confirmation of selection + foundation for future actions
+
+STATUS:
+READY FOR SURGICAL PATCH

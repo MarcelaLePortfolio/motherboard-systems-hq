@@ -1,0 +1,43 @@
+PHASE 456.7 - GOAL DEFINITION
+-----------------------------
+
+CLASSIFICATION
+Goal definition only.
+Scope containment only.
+No mutation.
+No wiring.
+No runtime changes.
+
+PURPOSE
+Define the exact capability target of Phase 456.7 to prevent scope drift.
+
+FL3_TARGET
+Demonstrate governed intake of a previously unseen operator request without introducing unrestricted execution behavior.
+
+PHASE_456_7_OBJECTIVE
+Define the minimal safe structure required for demo execution flow proof.
+
+ALLOWED
+Definition of demo flow structure
+Operator visibility definition
+Execution preparation boundaries
+Outcome reporting linkage
+
+NOT_ALLOWED
+Worker redesign
+Runtime expansion
+Agent autonomy changes
+Policy engine introduction
+Execution scaling work
+
+SUCCESS_CRITERIA
+Clear demo flow definition exists.
+No authority violations introduced.
+No deterministic guarantees weakened.
+Execution remains bounded.
+
+NEXT_STEP
+PHASE_456_7_DEMO_FLOW_DEFINITION
+
+DETERMINISTIC_STOP
+Stop after goal definition is recorded.

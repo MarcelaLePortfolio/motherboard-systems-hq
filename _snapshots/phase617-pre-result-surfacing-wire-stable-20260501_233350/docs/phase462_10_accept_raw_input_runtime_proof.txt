@@ -1,0 +1,43 @@
+PHASE 462.10 — ACCEPT RAW INPUT RUNTIME PROOF
+=============================================
+
+Selected file:
+./cognition/operator/operatorAcknowledgement.types.ts
+
+Expected output:
+{
+  "requestId": "req-001",
+  "timestamp": 1700000000000,
+  "rawInput": "test input",
+  "inputType": "text",
+  "source": "operator",
+  "metadata": {}
+}
+
+Actual runtime output:
+{
+  "first": {
+    "requestId": "req-001",
+    "timestamp": 1700000000000,
+    "rawInput": "test input",
+    "inputType": "text",
+    "source": "operator",
+    "metadata": {}
+  },
+  "second": {
+    "requestId": "req-001",
+    "timestamp": 1700000000000,
+    "rawInput": "test input",
+    "inputType": "text",
+    "source": "operator",
+    "metadata": {}
+  }
+}
+
+Comparison results:
+- exact first output match: FAIL
+- exact second output match: FAIL
+- replay stability: PASS
+- no runtime error: PASS
+
+FINAL RESULT: FAIL

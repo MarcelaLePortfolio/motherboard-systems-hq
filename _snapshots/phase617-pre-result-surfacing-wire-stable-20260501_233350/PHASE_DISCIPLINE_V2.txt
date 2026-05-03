@@ -1,0 +1,117 @@
+PHASE DISCIPLINE v2 — SIGNAL-OPTIMIZED EXECUTION
+
+PURPOSE:
+Maintain safety, clarity, and rollback capability while eliminating low-value documentation overhead.
+
+────────────────────────────────
+
+CORE RULE:
+Only create a phase file if it adds meaningful system-level signal.
+
+────────────────────────────────
+
+CREATE A PHASE FILE ONLY IF:
+
+1. NEW CAPABILITY
+- Adds a new feature or operator-facing behavior
+(e.g., JSON inspection, copy feedback, selection persistence)
+
+2. BUG / MISALIGNMENT
+- Fixes something incorrect, misleading, or broken
+(e.g., wrong tab target, CSS not applying, state mismatch)
+
+3. CHECKPOINT
+- Marks a stable, meaningful build boundary
+(e.g., demo-ready, rollback anchor)
+
+4. ARCHITECTURAL CHANGE
+- Affects data flow, rendering model, state, or system structure
+
+5. CROSS-SURFACE VALIDATION
+- Confirms that served UI matches local + expected behavior
+(e.g., Phase 554 audit)
+
+────────────────────────────────
+
+DO NOT CREATE A PHASE FILE FOR:
+
+- Pure UI micro tweaks
+  (hover, cursor, color, spacing)
+
+- Redundant confirmations
+  (already proven via curl/grep)
+
+- Low-risk, single-line changes
+
+- Visual-only checks requiring browser anyway
+
+────────────────────────────────
+
+EXECUTION FORMAT (NEW STANDARD):
+
+OLD:
+- Define
+- Apply
+- Verify
+
+NEW:
+- Apply + Verify (single phase)
+
+Only split if:
+- Multi-step dependency exists
+- Risk requires isolation
+
+────────────────────────────────
+
+PATCH DISCIPLINE (UNCHANGED):
+
+- One file per change
+- One logical mutation per commit
+- Always run:
+  node --check <file>
+- If failure → STOP immediately
+- Prefer exact string anchors
+- Avoid multi-edit patches
+
+────────────────────────────────
+
+CHECKPOINT DISCIPLINE:
+
+Create checkpoints ONLY when:
+- System reaches stable milestone
+- Operator surface meaningfully improves
+- Before entering new corridor
+
+Tag:
+phaseXXX-checkpoint
+
+────────────────────────────────
+
+CORRIDOR DISCIPLINE:
+
+Before continuing, ensure:
+- You are modifying the correct surface
+- Naming aligns with actual UI behavior
+- No duplicate surfaces exist (e.g., events vs activity)
+
+If confusion exists:
+→ STOP and align before patching
+
+────────────────────────────────
+
+MENTAL MODEL:
+
+You are no longer “building features.”
+You are shaping a **controlled operator surface.**
+
+Signal > volume  
+Clarity > completeness  
+Checkpoints > logs  
+
+────────────────────────────────
+
+STATUS:
+ACTIVE
+
+APPLIES TO:
+All future phases beyond Phase 556

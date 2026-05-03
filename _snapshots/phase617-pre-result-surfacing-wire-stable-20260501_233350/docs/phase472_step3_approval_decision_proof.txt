@@ -1,0 +1,95 @@
+PHASE 472 STEP 3 — APPROVAL DECISION PROOF
+==========================================
+
+APPROVED_HASH=5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65
+APPROVAL_REJECTED_HASH=923c642b38d62b2878c8b188380956b5272b493bf655b84cf6dfe5749b3248df
+GOVERNANCE_REJECTED_HASH=d772ad2fb42803e983854e3a1d047adbcf6c011836fa9edc1c67e34accbb81d4
+
+APPROVED EXPECTED FILES
+-----------------------
+docs/proofs/governance_plan_5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65.json
+docs/proofs/approval_plan_5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65.json
+docs/proofs/execution_plan_5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65.json
+
+APPROVAL-REJECTED EXPECTED FILES
+--------------------------------
+docs/proofs/governance_plan_923c642b38d62b2878c8b188380956b5272b493bf655b84cf6dfe5749b3248df.json
+docs/proofs/approval_plan_923c642b38d62b2878c8b188380956b5272b493bf655b84cf6dfe5749b3248df.json
+docs/proofs/approval_failure_plan_923c642b38d62b2878c8b188380956b5272b493bf655b84cf6dfe5749b3248df.json
+
+APPROVAL-REJECTED BLOCKED FILE
+------------------------------
+docs/proofs/execution_plan_923c642b38d62b2878c8b188380956b5272b493bf655b84cf6dfe5749b3248df.json
+
+GOVERNANCE-REJECTED EXPECTED FILES
+----------------------------------
+docs/proofs/governance_plan_d772ad2fb42803e983854e3a1d047adbcf6c011836fa9edc1c67e34accbb81d4.json
+docs/proofs/governance_failure_plan_d772ad2fb42803e983854e3a1d047adbcf6c011836fa9edc1c67e34accbb81d4.json
+
+GOVERNANCE-REJECTED BLOCKED FILES
+---------------------------------
+docs/proofs/approval_plan_d772ad2fb42803e983854e3a1d047adbcf6c011836fa9edc1c67e34accbb81d4.json
+docs/proofs/execution_plan_d772ad2fb42803e983854e3a1d047adbcf6c011836fa9edc1c67e34accbb81d4.json
+
+APPROVED ARTIFACT SNAPSHOT
+--------------------------
+{
+  "planId": "plan_5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65",
+  "decision": "APPROVED",
+  "decisionId": "decision_5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65"
+}
+
+{
+  "planId": "plan_5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65",
+  "operatorApproval": true,
+  "approvalId": "approval_5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65"
+}
+
+{
+  "planId": "plan_5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65",
+  "taskId": "task_5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65",
+  "status": "SUCCEEDED",
+  "output": "EXECUTION_OK: echo hello world"
+}
+
+APPROVAL-REJECTED ARTIFACT SNAPSHOT
+-----------------------------------
+{
+  "planId": "plan_923c642b38d62b2878c8b188380956b5272b493bf655b84cf6dfe5749b3248df",
+  "decision": "APPROVED",
+  "decisionId": "decision_923c642b38d62b2878c8b188380956b5272b493bf655b84cf6dfe5749b3248df"
+}
+
+{
+  "planId": "plan_923c642b38d62b2878c8b188380956b5272b493bf655b84cf6dfe5749b3248df",
+  "operatorApproval": false,
+  "approvalId": "approval_923c642b38d62b2878c8b188380956b5272b493bf655b84cf6dfe5749b3248df"
+}
+
+{
+  "planId": "plan_923c642b38d62b2878c8b188380956b5272b493bf655b84cf6dfe5749b3248df",
+  "stage": "approval",
+  "decision": "REJECTED",
+  "reason": "OPERATOR_REJECTED_PATTERN"
+}
+
+GOVERNANCE-REJECTED ARTIFACT SNAPSHOT
+-------------------------------------
+{
+  "planId": "plan_d772ad2fb42803e983854e3a1d047adbcf6c011836fa9edc1c67e34accbb81d4",
+  "decision": "REJECTED",
+  "decisionId": "decision_d772ad2fb42803e983854e3a1d047adbcf6c011836fa9edc1c67e34accbb81d4"
+}
+
+{
+  "planId": "plan_d772ad2fb42803e983854e3a1d047adbcf6c011836fa9edc1c67e34accbb81d4",
+  "stage": "governance",
+  "decision": "REJECTED",
+  "reason": "UNSUPPORTED_REQUEST_CLASS"
+}
+
+BLOCKED FILE CHECK
+------------------
+BLOCKED_AS_EXPECTED: docs/proofs/execution_plan_923c642b38d62b2878c8b188380956b5272b493bf655b84cf6dfe5749b3248df.json
+BLOCKED_AS_EXPECTED: docs/proofs/approval_plan_d772ad2fb42803e983854e3a1d047adbcf6c011836fa9edc1c67e34accbb81d4.json
+BLOCKED_AS_EXPECTED: docs/proofs/execution_plan_d772ad2fb42803e983854e3a1d047adbcf6c011836fa9edc1c67e34accbb81d4.json

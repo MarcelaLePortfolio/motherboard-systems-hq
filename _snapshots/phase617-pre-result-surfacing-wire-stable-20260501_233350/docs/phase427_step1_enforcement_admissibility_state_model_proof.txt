@@ -1,0 +1,34 @@
+PHASE 427 — STEP 1
+Enforcement Admissibility State Model Proof
+-------------------------------------------
+
+OBJECTIVE
+
+Define the structural state model for authorization admissibility
+without introducing runtime behavior, gateway mutation, or contract wiring.
+
+This remains DEFINITION / PROOF ONLY.
+
+NO:
+
+implementation
+runtime checks
+execution wiring
+gateway mutation
+policy mutation
+operator override behavior
+
+QUESTIONS THIS STEP ANSWERS
+
+Which minimal state model should govern authorization admissibility?
+
+Candidate state families under review:
+
+• admissible / non_admissible
+• admissible / blocked / indeterminate
+• admissible / rejected / unresolved
+• admissible / denied / invalid
+• admissible / inadmissible / indeterminate
+
+We are defining the safest structural state vocabulary only.
+

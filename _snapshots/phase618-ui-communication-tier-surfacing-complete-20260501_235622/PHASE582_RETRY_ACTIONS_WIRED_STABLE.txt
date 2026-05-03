@@ -1,0 +1,10 @@
+Phase 582 retry actions wired stable checkpoint.
+
+State:
+- Execution Inspector summary-based renderer is active.
+- Requeue and Retry actions have been rewired.
+- Dashboard, worker, and Postgres rebuilt and running.
+- Working tree is clean.
+
+Next:
+Create tag and filesystem snapshot before continuing visual or behavior refinements.

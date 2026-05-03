@@ -1,0 +1,20 @@
+Phase 608 response compiler passive integration active.
+
+State:
+- Response compiler is now passively invoked after execution contract validation.
+- CommunicationResult is generated but not persisted.
+- CommunicationResult does not alter worker behavior.
+- Only Tier 1 and Tier 2 previews are logged.
+- Full Tier 3 trace is not logged.
+
+Safety:
+- No DB changes.
+- No UI changes.
+- No route changes.
+- No task lifecycle changes.
+- Existing execution contract behavior remains authoritative.
+
+Expected:
+- Existing execution-contract log remains.
+- New response-compiler log appears after execution-contract.
+- Task still completes successfully.

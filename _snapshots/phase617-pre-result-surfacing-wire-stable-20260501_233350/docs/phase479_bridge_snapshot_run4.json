@@ -1,0 +1,13 @@
+{
+  "runState": "FAILURE",
+  "latestIntakeId": "intake_d772ad2fb42803e983854e3a1d047adbcf6c011836fa9edc1c67e34accbb81d4",
+  "latestGovernanceDecision": "REJECTED",
+  "latestApprovalStatus": "SUCCEEDED",
+  "latestExecutionStatus": "",
+  "latestFailureStage": "entry_validation",
+  "latestFailureError": "EMPTY_INPUT",
+  "uiSummary": {
+    "headline": "Latest run failed validation",
+    "detail": "EMPTY_INPUT"
+  }
+}

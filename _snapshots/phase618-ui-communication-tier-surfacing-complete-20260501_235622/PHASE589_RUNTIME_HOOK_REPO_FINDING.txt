@@ -1,0 +1,14 @@
+Phase 589 runtime hook repo finding.
+
+Finding:
+- No real cache/context/memory runtime layer is safely wireable yet.
+- Existing worker runtime still completes tasks directly after policy resolution.
+- Real execution-adjacent candidates exist:
+  - server/worker/task_execution_interpreter.mjs
+  - server/worker/execution_contract.mjs
+  - server/worker/worker_retry_enforcer.js
+- The safest next move is NOT to pretend cache/context/memory behavior exists.
+- The safest next move is to inspect task_execution_interpreter.mjs as a possible real execution boundary.
+
+Next:
+Inspect task_execution_interpreter and execution_contract before wiring anything.

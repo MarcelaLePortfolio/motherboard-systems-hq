@@ -1,0 +1,45 @@
+PHASE 456.8 - FL3 MINIMAL IMPLEMENTATION PLAN
+---------------------------------------------
+
+CLASSIFICATION
+Implementation planning only.
+Single-boundary mutation planning.
+No implementation yet.
+No wiring yet.
+No runtime mutation yet.
+
+PURPOSE
+Define the minimal implementation plan for introducing the FL-3 intake-side proof bridge now that structural preparation is complete.
+
+IMPLEMENTATION_OBJECTIVE
+Introduce one intake-side normalization bridge that accepts a previously unseen operator request and converts it into an existing governed intake candidate.
+
+IMPLEMENTATION_BOUNDARY
+Allowed mutation zone: intake-side normalization boundary only.
+Frozen zones: governance engine, execution preparation, execution traversal, worker routing, outcome reporting, authority ordering.
+
+IMPLEMENTATION_STEPS
+1. Locate current intake-side normalization entry surface.
+2. Add minimal request-to-governed-intake translation shape.
+3. Reuse existing governance entry boundary unchanged.
+4. Reuse existing approval visibility unchanged.
+5. Reuse existing execution preparation visibility unchanged.
+6. Reuse existing outcome reporting unchanged.
+
+MUTATION_RULES
+Single boundary mutation only.
+No authority expansion.
+No governance engine edits.
+No execution path redesign.
+No hidden behavior introduction.
+
+SUCCESS_CRITERIA
+Implementation plan constrained to one intake-side bridge.
+All downstream structures explicitly reused.
+FL-3 proof remains a bounded translation proof.
+
+NEXT_STEP
+PHASE_456_8_FL3_IMPLEMENTATION_TARGET_SCAN
+
+DETERMINISTIC_STOP
+Stop after minimal implementation plan is recorded.

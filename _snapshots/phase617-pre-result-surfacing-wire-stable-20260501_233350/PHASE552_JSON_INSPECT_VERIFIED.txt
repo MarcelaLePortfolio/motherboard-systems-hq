@@ -1,0 +1,27 @@
+PHASE 552 — JSON INSPECT VERIFIED
+
+RESULT:
+PASS
+
+VERIFIED:
+- showJsonForEventId state present
+- View JSON / Hide JSON toggle present
+- JSON panel renders selectedItem via JSON.stringify
+- JSON output is escaped before rendering
+- Toggle handler updates state and re-renders
+- Docker rebuild successful
+- Served JS contains expected JSON inspection markers
+- No backend/API/SSE changes introduced
+
+STATUS:
+Expandable JSON inspection is live on selected task panel
+
+SYSTEM STATE:
+Selected task panel now supports:
+- summary details
+- metadata inspection
+- inline actions
+- full read-only JSON inspection
+
+NEXT:
+Manual browser verification: select a task, click View JSON, confirm payload expands and collapses cleanly.

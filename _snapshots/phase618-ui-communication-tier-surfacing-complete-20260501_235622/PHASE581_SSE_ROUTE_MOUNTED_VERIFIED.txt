@@ -1,0 +1,9 @@
+Phase 581 SSE route mounted verified.
+
+Result:
+- /events/task-events is now mounted in dashboard runtime.
+- SSE route returns connected + task lifecycle events.
+- Browser Execution Inspector should now have a live event source.
+
+Next:
+Hard refresh dashboard and verify Execution Inspector populates.

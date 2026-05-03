@@ -1,0 +1,213 @@
+PHASE 488 — APPLY PHASE27 TASKS RETRY SCHEMA + RESUME WORKER
+Timestamp: Fri Apr 17 14:32:26 PDT 2026
+===========================================================
+
+[1] PRECHECK: LIVE tasks COLUMNS BEFORE
+ column_name |          data_type          
+-------------+-----------------------------
+ id          | integer
+ created_at  | timestamp without time zone
+ task_id     | text
+ status      | text
+ payload     | jsonb
+ title       | text
+ agent       | text
+ notes       | text
+ source      | text
+ trace_id    | text
+ error       | text
+ meta        | jsonb
+ updated_at  | timestamp without time zone
+ run_id      | text
+ action_tier | text
+ kind        | text
+(16 rows)
+
+
+[2] APPLY MINIMAL PHASE27-COMPATIBLE TASKS SCHEMA
+BEGIN
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+CREATE INDEX
+CREATE INDEX
+UPDATE 0
+UPDATE 0
+COMMIT
+
+[3] VERIFY tasks COLUMNS AFTER
+                                                                      Table "public.tasks"
+     Column      |            Type             | Collation | Nullable |              Default              | Storage  | Compression | Stats target | Description 
+-----------------+-----------------------------+-----------+----------+-----------------------------------+----------+-------------+--------------+-------------
+ id              | integer                     |           | not null | nextval('tasks_id_seq'::regclass) | plain    |             |              | 
+ created_at      | timestamp without time zone |           |          | now()                             | plain    |             |              | 
+ task_id         | text                        |           |          |                                   | extended |             |              | 
+ status          | text                        |           |          |                                   | extended |             |              | 
+ payload         | jsonb                       |           |          |                                   | extended |             |              | 
+ title           | text                        |           |          |                                   | extended |             |              | 
+ agent           | text                        |           |          |                                   | extended |             |              | 
+ notes           | text                        |           |          |                                   | extended |             |              | 
+ source          | text                        |           |          |                                   | extended |             |              | 
+ trace_id        | text                        |           |          |                                   | extended |             |              | 
+ error           | text                        |           |          |                                   | extended |             |              | 
+ meta            | jsonb                       |           |          |                                   | extended |             |              | 
+ updated_at      | timestamp without time zone |           |          | now()                             | plain    |             |              | 
+ run_id          | text                        |           |          |                                   | extended |             |              | 
+ action_tier     | text                        |           |          |                                   | extended |             |              | 
+ kind            | text                        |           |          |                                   | extended |             |              | 
+ attempt         | integer                     |           | not null | 0                                 | plain    |             |              | 
+ max_attempts    | integer                     |           | not null | 5                                 | plain    |             |              | 
+ available_at    | timestamp with time zone    |           |          |                                   | plain    |             |              | 
+ locked_by       | text                        |           |          |                                   | extended |             |              | 
+ lock_expires_at | timestamp with time zone    |           |          |                                   | plain    |             |              | 
+ last_error      | jsonb                       |           |          |                                   | extended |             |              | 
+Indexes:
+    "tasks_pkey" PRIMARY KEY, btree (id)
+    "idx_tasks_action_tier" btree (action_tier)
+    "idx_tasks_kind" btree (kind)
+    "idx_tasks_run_id" btree (run_id)
+    "tasks_lock_expires_idx" btree (lock_expires_at)
+    "tasks_status_available_idx" btree (status, available_at)
+    "tasks_task_id_idx" btree (task_id)
+Access method: heap
+
+
+[4] RESTART WORKER WITH EXPLICIT PHASE27 SQL
+
+[5] WORKER PROCESS
+marcela-dev      80765   0.0  0.3 411614496  57072 s344  S+    2:32PM   0:00.06 node server/worker/phase26_task_worker.mjs
+
+[6] WORKER LOG TAIL
+[phase25] task_events_emit loaded 2026-04-17T21:32:27.627Z file= file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/task_events_emit.mjs
+[phase26][dbg] tick { ts: '2026-04-17T21:32:27.631Z', owner: 'worker-80765' }
+[phase26][dbg] claim_attempt
+[worker] loop error error: bind message supplies 2 parameters, but prepared statement "" requires 1
+    at /Users/marcela-dev/Projects/Motherboard_Systems_HQ/node_modules/.pnpm/pg@8.20.0/node_modules/pg/lib/client.js:631:17
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async claimOne (file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/worker/phase26_task_worker.mjs:62:13)
+    at async loop (file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/worker/phase26_task_worker.mjs:133:24) {
+  length: 137,
+  severity: 'ERROR',
+  code: '08P01',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'postgres.c',
+  line: '1733',
+  routine: 'exec_bind_message'
+}
+[phase26][dbg] sleep_backoff { backoff: 2000 }
+[phase26][dbg] tick { ts: '2026-04-17T21:32:29.651Z', owner: 'worker-80765' }
+[phase26][dbg] claim_attempt
+[worker] loop error error: bind message supplies 2 parameters, but prepared statement "" requires 1
+    at /Users/marcela-dev/Projects/Motherboard_Systems_HQ/node_modules/.pnpm/pg@8.20.0/node_modules/pg/lib/client.js:631:17
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async claimOne (file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/worker/phase26_task_worker.mjs:62:13)
+    at async loop (file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/worker/phase26_task_worker.mjs:133:24) {
+  length: 137,
+  severity: 'ERROR',
+  code: '08P01',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'postgres.c',
+  line: '1733',
+  routine: 'exec_bind_message'
+}
+[phase26][dbg] sleep_backoff { backoff: 4000 }
+[phase26][dbg] tick { ts: '2026-04-17T21:32:33.663Z', owner: 'worker-80765' }
+[phase26][dbg] claim_attempt
+[worker] loop error error: bind message supplies 2 parameters, but prepared statement "" requires 1
+    at /Users/marcela-dev/Projects/Motherboard_Systems_HQ/node_modules/.pnpm/pg@8.20.0/node_modules/pg/lib/client.js:631:17
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async claimOne (file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/worker/phase26_task_worker.mjs:62:13)
+    at async loop (file:///Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/worker/phase26_task_worker.mjs:133:24) {
+  length: 137,
+  severity: 'ERROR',
+  code: '08P01',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'postgres.c',
+  line: '1733',
+  routine: 'exec_bind_message'
+}
+[phase26][dbg] sleep_backoff { backoff: 8000 }
+
+[7] TASK EVENT COUNTS
+     kind     | count 
+--------------+-------
+ task.created |   289
+(1 row)
+
+
+[8] TASK STATUS COUNTS
+ status | count 
+--------+-------
+ queued |   288
+(1 row)
+
+
+[9] /api/runs SNAPSHOT
+{"ok":true,"count":50,"rows":[{"run_id":"task.704a2083-855c-4660-bfd8-b69ce118c511","task_id":"task.704a2083-855c-4660-bfd8-b69ce118c511","task_status":"queued","is_terminal":false,"last_event_id":"289","last_event_ts":"1776202835745","last_event_kind":"task.created","actor":"Cade","lease_expires_at":null,"lease_fresh":false,"lease_ttl_ms":null,"last_heartbeat_ts":null,"heartbeat_age_ms":null,"terminal_event_kind":null,"terminal_event_ts":null,"terminal_event_id":null},{"run_id":"task.3bdc9092-6318-4609-a08d-f366b77d1858","task_id":"task.3bdc9092-6318-4609-a08d-f366b77d1858","task_status":"queued","is_terminal":false,"last_event_id":"288","last_event_ts":"1776202833706","last_event_kind":"task.created","actor":"Cade","lease_expires_at":null,"lease_fresh":false,"lease_ttl_ms":null,"last_heartbeat_ts":null,"heartbeat_age_ms":null,"terminal_event_kind":null,"terminal_event_ts":null,"terminal_event_id":null},{"run_id":"task.d76574fc-4571-4fe1-b3e1-0474473d2455","task_id":"task.d76574fc-4571-4fe1-b3e1-0474473d2455","task_status":"queued","is_terminal":false,"last_event_id":"287","last_event_ts":"1776202831676","last_event_kind":"task.created","actor":"Cade","lease_expires_at":null,"lease_fresh":false,"lease_ttl_ms":null,"last_heartbeat_ts":null,"heartbeat_age_ms":null,"terminal_event_kind":null,"terminal_event_ts":null,"terminal_event_id":null},{"run_id":"task.7654b853-a507-4414-b07d-6a8aa90b3d27","task_id":"task.7654b853-a507-4414-b07d-6a8aa90b3d27","task_status":"queued","is_terminal":false,"last_event_id":"286","last_event_ts":"1776202829630","last_event_kind":"task.created",
+
+[10] TASK EVENTS STREAM SAMPLE
+event: hello
+data: {"kind":"task-events","cursor":1776202835745,"ts":1776461556167}
+
+event: heartbeat
+data: {"ts":1776461557168,"cursor":1776202835745}
+
+event: heartbeat
+data: {"ts":1776461558168,"cursor":1776202835745}
+
+event: heartbeat
+data: {"ts":1776461559169,"cursor":1776202835745}
+
+event: heartbeat
+data: {"ts":1776461560170,"cursor":1776202835745}
+
+event: heartbeat
+data: {"ts":1776461561171,"cursor":1776202835745}
+
+event: heartbeat
+data: {"ts":1776461562172,"cursor":1776202835745}
+
+event: heartbeat
+data: {"ts":1776461563173,"cursor":1776202835745}
+
+event: heartbeat
+
+[11] VERDICT
+- If task.started/task.completed appear, Phase 488 lifecycle corridor is unlocked
+- If worker advances to a new schema error, the contract mismatch has narrowed further
+- If worker stays up but tasks remain queued, inspect claim/result SQL contract next
+
+RUN COMPLETE

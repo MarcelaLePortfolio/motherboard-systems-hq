@@ -1,0 +1,29 @@
+PHASE 476.2 — MARKUP ISOLATION VERDICT
+======================================
+
+CRITICAL UPDATE
+- Q1 is stable
+- Q2 is stable
+- Q3 is stable
+- Q4 is stable
+
+CONCLUSION
+- The freeze does NOT reproduce in the isolated quarter probes.
+- The fault is therefore NOT caused by a simple single quarter of raw dashboard body markup alone.
+- The highest-confidence remaining fault domain is interaction between markup blocks, document shape outside the isolated probes, or structural corruption introduced by recombining sections into the full dashboard page.
+
+CURRENT HIGHEST-CONFIDENCE VERDICT
+- Server delivery is working.
+- Container/public sync is working.
+- Minimal probe is stable.
+- Separate body probe is stable.
+- Top-half probes are stable when isolated by quarters.
+- Bottom-half probes are stable when isolated by quarters.
+- The freeze likely depends on recomposed full-page structure, cross-section interaction, or broken document composition in the restored dashboard route.
+
+NEXT SAFE CORRIDOR
+- Compare full restored dashboard.html against the stable probe construction path.
+- Isolate recomposition boundaries instead of continuing simple quarter splits.
+- Do NOT re-enable bundle.js yet.
+- Do NOT reintroduce local CSS yet.
+- Next mutation should build a recomposed half+half probe or route-accurate shell from known-stable fragments.

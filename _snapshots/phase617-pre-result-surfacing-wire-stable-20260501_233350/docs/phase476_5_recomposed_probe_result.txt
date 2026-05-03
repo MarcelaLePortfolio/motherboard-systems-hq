@@ -1,0 +1,8 @@
+PHASE 476.5 — RECOMPOSED PROBE RESULT
+=====================================
+
+RESULT:
+RECOMPOSED_PROBE_STABLE
+
+OPTIONAL_NOTE:
+The recomposed full-body probe appears stable.

@@ -1,0 +1,6 @@
+PHASE 489 — H2 TASK EVENTS CLIENT RESTORE
+Generated: 2026-04-14T18:29:43Z
+Repo Root: /Users/marcela-dev/Projects/Motherboard_Systems_HQ
+Candidate Client: /Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/phase457_restore_task_panels.js
+
+Mounted task-events client: js/phase457_restore_task_panels.js

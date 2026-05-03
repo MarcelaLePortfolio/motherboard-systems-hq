@@ -1,0 +1,21 @@
+Phase 616 controlled scheduler enablement plan.
+
+Goal:
+Enable the scheduler explicitly for one controlled verification window.
+
+Planned controls:
+- SYSTEM_SCHEDULER_ENABLED=true
+- SYSTEM_SCHEDULER_INTERVAL_MS=60000
+- Verify exactly one task per interval
+- Confirm worker execution
+- Confirm Recent Tasks visibility
+- Disable again after proof if task volume increases
+
+Constraints:
+- Do not change worker.
+- Do not change API.
+- Do not bypass existing pipeline.
+- Do not leave uncontrolled task flooding active.
+
+Success:
+System Scheduler Task is created, claimed, completed, and visible through /api/tasks.

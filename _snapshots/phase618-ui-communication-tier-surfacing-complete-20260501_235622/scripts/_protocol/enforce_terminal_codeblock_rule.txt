@@ -1,0 +1,12 @@
+Marcela Protocol Update:
+
+All future engineering responses must present commands inside a single terminal-safe codeblock.
+
+Rules:
+• Always use ```bash blocks
+• Never split commands across multiple blocks
+• Never output raw commands outside a block
+• No narrative outside the block unless explicitly requested
+• Maintain cat > file << 'EOF' pattern + git add/commit/push flow
+
+This is now treated as an execution interface requirement, not a preference.

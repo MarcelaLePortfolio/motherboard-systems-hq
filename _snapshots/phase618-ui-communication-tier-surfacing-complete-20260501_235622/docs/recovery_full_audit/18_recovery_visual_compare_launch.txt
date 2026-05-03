@@ -1,0 +1,26 @@
+PHASE 457 - RECOVERY VISUAL COMPARE LAUNCH
+==========================================
+
+PURPOSE
+Launch each recovery candidate on a dedicated local port for side-by-side manual comparison.
+
+NAME=phase65_layout
+WORKTREE=../mbhq_recovery_visual_compare/phase65_layout
+PROJECT=mbhq_phase65_layout
+URL=http://localhost:8081
+LOG=docs/recovery_full_audit/phase65_layout_launch_port_8081.txt
+
+NAME=phase65_wiring
+WORKTREE=../mbhq_recovery_visual_compare/phase65_wiring
+PROJECT=mbhq_phase65_wiring
+URL=http://localhost:8082
+LOG=docs/recovery_full_audit/phase65_wiring_launch_port_8082.txt
+
+NAME=operator_guidance
+WORKTREE=../mbhq_recovery_visual_compare/operator_guidance
+PROJECT=mbhq_operator_guidance
+URL=http://localhost:8083
+LOG=docs/recovery_full_audit/operator_guidance_launch_port_8083.txt
+
+STOP CONDITION
+Do not mutate the main branch until one candidate is visually confirmed as the desired checkpoint.

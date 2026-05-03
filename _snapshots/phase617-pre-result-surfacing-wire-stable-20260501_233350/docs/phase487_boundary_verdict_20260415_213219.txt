@@ -1,0 +1,28 @@
+PHASE 487 — BOUNDARY VERDICT
+timestamp=20260415_213219
+source_file=docs/phase487_top_boundary_candidate_20260415_212302.txt
+branch=phase119-dashboard-cognition-contract
+commit=0e1bd8a68ebed606f4cd83c30080a4abbc75ee6f
+
+=== SELECTED TOP FILE ===
+src/cognition/operatorGuidanceMapping.ts
+
+=== SIGNAL CHECK ===
+guidance_render=YES
+status_reason_read=YES
+fallback_default_path=NO
+
+=== VERDICT ===
+Exact boundary not yet fully confirmed.
+
+Current best candidate:
+src/cognition/operatorGuidanceMapping.ts
+
+Missing signal(s) indicate one more direct source inspection step may be required.
+
+=== NEXT ENGINEERING ACTION ===
+Prepare a surgical UI-only patch at the confirmed boundary:
+1. preserve existing contracts
+2. remove incorrect insufficient fallback behavior
+3. do not mutate backend/governance/execution
+

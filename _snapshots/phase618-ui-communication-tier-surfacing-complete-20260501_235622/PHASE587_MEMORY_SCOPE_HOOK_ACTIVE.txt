@@ -1,0 +1,13 @@
+Phase 587 memory scope hook active.
+
+State:
+- Second runtime execution-policy hook added.
+- memory_scope=reset_partial now emits an explicit runtime signal.
+- Hook is non-breaking:
+  - no schema change
+  - no task mutation
+  - no execution branch yet
+  - no outcome change
+
+Purpose:
+Make memory scope reset observable as a real runtime policy step before wiring future memory behavior.

@@ -1,0 +1,13 @@
+dashboard-1  | [phase25] task_events_emit loaded 2026-04-30T00:49:01.025Z file= file:///app/server/task_events_emit.mjs
+dashboard-1  | [phase25] api-tasks-postgres loaded 2026-04-30T00:49:01.027Z file= file:///app/server/routes/api-tasks-postgres.mjs
+dashboard-1  | file:///app/server.mjs:1
+dashboard-1  | const { routeRetryExecution } = require('./retry_execution_router');
+dashboard-1  |                                 ^
+dashboard-1  | 
+dashboard-1  | ReferenceError: require is not defined in ES module scope, you can use import instead
+dashboard-1  |     at file:///app/server.mjs:1:33
+dashboard-1  |     at ModuleJob.run (node:internal/modules/esm/module_job:325:25)
+dashboard-1  |     at async ModuleLoader.import (node:internal/modules/esm/loader:606:24)
+dashboard-1  |     at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+dashboard-1  | 
+dashboard-1  | Node.js v20.20.2

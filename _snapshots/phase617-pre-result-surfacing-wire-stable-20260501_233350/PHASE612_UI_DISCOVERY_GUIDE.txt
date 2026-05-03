@@ -1,0 +1,65 @@
+Phase 612 UI discovery guide.
+
+Goal:
+Complete PHASE611 template by locating actual UI + API wiring in the repo.
+
+Steps:
+
+1. Find UI Components
+Run:
+grep -R "Recent Tasks" -n .
+grep -R "Execution Inspector" -n .
+grep -R "task" -n client server | head -n 50
+
+Look for:
+- dashboard components
+- task list rendering
+- inspector/detail views
+
+2. Find API Usage
+Run:
+grep -R "/api/tasks" -n .
+grep -R "/api/delegate-task" -n .
+grep -R "fetch(" -n client
+
+Goal:
+Identify which components call which endpoints.
+
+3. Trace Execution Output
+Run:
+grep -R "output" -n server
+grep -R "notes" -n server
+grep -R "task_id" -n client
+
+Goal:
+Find where execution.output or notes enter API responses.
+
+4. Map Data Flow
+Confirm:
+worker → DB (tasks table) → API → UI
+
+Check:
+server routes returning task data.
+
+5. Fill Template
+Open:
+PHASE611_UI_DISCOVERY_RESULTS_TEMPLATE.txt
+
+Fill each section with:
+- real component paths
+- real endpoints
+- real behavior
+
+Rules:
+- DO NOT change any code
+- DO NOT wire anything
+- ONLY observe and document
+
+Success:
+You can point to EXACT files + endpoints where:
+- task output is rendered
+- inspector reads data
+- future CommunicationResult can be inserted
+
+Status:
+READY FOR MANUAL DISCOVERY EXECUTION

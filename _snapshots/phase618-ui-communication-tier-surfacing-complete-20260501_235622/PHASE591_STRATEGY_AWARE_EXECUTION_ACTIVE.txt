@@ -1,0 +1,11 @@
+Phase 591 strategy-aware execution active.
+
+State:
+- task_execution_interpreter now reads execution_mode, cache_policy, and memory_scope from task payload.
+- Policy-aware retries now produce prompt_augmentation strategy output.
+- Notes summarize observed policy signals.
+- No real cache/context/memory mutation is introduced.
+
+Expected:
+- Fresh-context retry should contract as prompt_augmentation.
+- Output should read: Policy-aware execution prepared for: <title>.

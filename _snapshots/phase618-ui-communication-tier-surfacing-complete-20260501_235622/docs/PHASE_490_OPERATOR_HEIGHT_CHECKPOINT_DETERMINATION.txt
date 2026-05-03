@@ -1,0 +1,70 @@
+PHASE 490 — OPERATOR HEIGHT CHECKPOINT DETERMINATION
+Generated: 2026-04-15T17:18:50Z
+Repo Root: /Users/marcela-dev/Projects/Motherboard_Systems_HQ
+
+=== CANDIDATE COMMITS ===
+2261f073 (HEAD -> phase119-dashboard-cognition-contract, origin/phase119-dashboard-cognition-contract) Run lighter search for operator height parity checkpoint
+cccc0142 Restore exact Phase 489 UI baseline with telemetry scrolling and pre-Phase-490 layout behavior
+eba268d9 Restore layout to last known stable checkpoint where Matilda and Delegation heights matched
+0dfe60ee Phase 490: enforce true parent-level height contract across operator and telemetry columns
+545d9423 Restore pre-Phase-490 layout baseline from last known stable stop point
+002142ab Restore last known operator-side stability by disabling Phase 490 runtime height sync experiments
+38cb0f82 Sync telemetry workspace card height to operator workspace card without mutating operator layout
+766d15c0 Revert "FIX: enforce height at telemetry container level (not inner cards) to eliminate final mismatch"
+d82d53bc FIX: enforce height at telemetry container level (not inner cards) to eliminate final mismatch
+446bc957 Force telemetry cards to measured chat height via CSS variable and important overrides
+cbfd3b7c Revert "Tune telemetry card height to matched delegation card with small border correction"
+46b43aac Record Phase 490 decision to revert last no-effect telemetry height tuning attempt
+57ec84a6 Tune telemetry card height to matched delegation card with small border correction
+8fdd522f Revert last telemetry height sync attempts and restore last known stable delegation-height state
+efa2dfaa Revert "Phase 490: sync telemetry cards to Matilda chat card outer height for exact parity"
+6569d5af Revert "Record Phase 490 telemetry height revert decision before restoring last known stable state"
+dc918e08 Record Phase 490 telemetry height revert decision before restoring last known stable state
+a07f2e62 Phase 490: sync telemetry cards to Matilda chat card outer height for exact parity
+c0dc38df Phase 490: sync all telemetry cards to Matilda chat height without altering operator layout
+9405c842 Revert Phase 490 telemetry height sync change that stacked Matilda and delegation panels
+
+=== CANDIDATE 1: b89d5538 ===
+commit b89d55381b9e389ebbc650202267c0e4544b2724
+Author: Marcela Gama Le <marcelagamale@gmail.com>
+Date:   Tue Apr 14 16:12:35 2026 -0700
+
+    Synchronize delegation and telemetry panel heights to Matilda chat pane with runtime measurement
+
+public/index.html
+public/js/phase489_panel_height_sync.js
+scripts/_local/phase489_h5_mount_panel_height_sync.py
+
+--- COMMIT MESSAGE ---
+Synchronize delegation and telemetry panel heights to Matilda chat pane with runtime measurement
+
+
+=== CANDIDATE 2: 3ebbb226 ===
+commit 3ebbb226d541247ece7a4ac1a14f3d06df15b5f0
+Author: Marcela Gama Le <marcelagamale@gmail.com>
+Date:   Tue Apr 14 18:01:08 2026 -0700
+
+    Record Phase 489 stop point and exact unresolved panel height mismatch state
+
+docs/PHASE_489_STOP_POINT_PANEL_HEIGHT_MISMATCH.md
+
+--- COMMIT MESSAGE ---
+Record Phase 489 stop point and exact unresolved panel height mismatch state
+
+
+=== DIFF: 3ebbb226..b89d5538 (UI FILES) ===
+
+=== FULL DIFF: 3ebbb226..b89d5538 (UI FILES) ===
+
+=== DETERMINATION ===
+If b89d5538 is the only commit explicitly claiming matched heights, it is the strongest source checkpoint.
+If restoring b89d5538 does NOT reproduce matched heights, then the parity was not preserved purely in source state.
+That means the earlier visual parity was likely transient, environment-dependent, or caused by later content/state conditions.
+
+WORKING CONCLUSION:
+There is no confirmed durable source checkpoint that both:
+1. preserves telemetry scrolling, and
+2. reproduces exact operator height parity today.
+
+NEXT SAFE MOVE:
+Stop searching for a magic checkpoint and capture live DOM/CSS evidence from the restored Phase 489 baseline.

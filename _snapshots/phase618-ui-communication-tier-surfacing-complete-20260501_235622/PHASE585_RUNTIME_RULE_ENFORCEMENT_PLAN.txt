@@ -1,0 +1,22 @@
+Phase 585 runtime rule enforcement plan.
+
+Checkpoint:
+- Stable tag exists: phase584-worker-retry-visibility-confirmed.
+- Worker can now see execution_mode, cache_policy, memory_scope, and retry_of_task_id.
+- Current state is clean and stable.
+
+Important:
+The system currently observes retry execution rules at runtime, but does not yet change execution behavior based on them.
+
+Next Objective:
+Add the smallest possible runtime rule enforcement layer.
+
+Phase 585 Target:
+When worker claims a retry task:
+- execution_mode=rebuild_context should be recognized as fresh-context execution
+- cache_policy=bypass should be treated as a no-cache execution signal
+- memory_scope=reset_partial should be treated as a scoped memory reset signal
+
+First Step:
+Inspect worker execution path and available cache/context/memory hooks before modifying behavior.
+Do not mutate runtime behavior until the available hooks are confirmed.

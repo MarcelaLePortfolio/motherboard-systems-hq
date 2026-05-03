@@ -1,0 +1,385 @@
+DOCKER DESKTOP STATE PROBE
+Timestamp: Sun Apr  5 19:07:28 PDT 2026
+
+==== PURPOSE ====
+Probe Docker Desktop state without mutating application code.
+This is an environment/runtime investigation only.
+
+==== DOCKER BINARY / CONTEXT ====
+/usr/local/bin/docker
+NAME              DESCRIPTION                               DOCKER ENDPOINT                                     ERROR
+default           Current DOCKER_HOST based configuration   unix:///var/run/docker.sock                         
+desktop-linux *   Docker Desktop                            unix:///Users/marcela-dev/.docker/run/docker.sock   
+[
+    {
+        "Name": "desktop-linux",
+        "Metadata": {
+            "Description": "Docker Desktop",
+            "GODEBUG": "x509negativeserial=1",
+            "otel": {
+                "OTEL_EXPORTER_OTLP_ENDPOINT": "unix:///Users/marcela-dev/.docker/run/user-analytics.otlp.grpc.sock"
+            }
+        },
+        "Endpoints": {
+            "docker": {
+                "Host": "unix:///Users/marcela-dev/.docker/run/docker.sock",
+                "SkipTLSVerify": false
+            }
+        },
+        "TLSMaterial": {},
+        "Storage": {
+            "MetadataPath": "/Users/marcela-dev/.docker/contexts/meta/fe9c6bd7a66301f49ca9b6a70b217107cd1284598bfc254700c989b916da791e",
+            "TLSPath": "/Users/marcela-dev/.docker/contexts/tls/fe9c6bd7a66301f49ca9b6a70b217107cd1284598bfc254700c989b916da791e"
+        }
+    }
+]
+
+==== DOCKER ENVIRONMENT VARIABLES ====
+
+==== SOCKET / RUN PATH CHECKS ====
+total 24
+drwxr-xr-x@ 14 marcela-dev  staff   448 Mar 11 11:32 .
+drwxr-x---+ 89 marcela-dev  staff  2848 Apr  2 13:55 ..
+-rw-------@  1 marcela-dev  staff    74 Mar 30 15:39 .token_seed
+-rw-------@  1 marcela-dev  staff     0 Nov 18 17:13 .token_seed.lock
+drwxr-xr-x@  4 marcela-dev  staff   128 Mar  9 11:39 bin
+drwx------@  9 marcela-dev  staff   288 Apr  2 11:41 buildx
+drwx------@ 16 marcela-dev  staff   512 Dec 31 10:00 cli-plugins
+-rw-r--r--   1 marcela-dev  staff    78 Mar 11 11:32 config.json
+drwxr-xr-x@  3 marcela-dev  staff    96 Nov 18 17:08 contexts
+-rw-r--r--   1 marcela-dev  staff   124 Mar 11 11:32 daemon.json
+drwx------@  3 marcela-dev  staff    96 Nov 18 17:08 desktop-build
+drwxr-xr-x@  4 marcela-dev  staff   128 Nov 18 17:08 models
+drwx------@  4 marcela-dev  staff   128 Nov 18 17:08 mutagen
+drwxr-xr-x@  2 marcela-dev  staff    64 Apr  2 11:44 run
+
+total 0
+drwxr-xr-x@  2 marcela-dev  staff   64 Apr  2 11:44 .
+drwxr-xr-x@ 14 marcela-dev  staff  448 Mar 11 11:32 ..
+
+
+total 8
+drwxr-xr-x@ 15 marcela-dev  staff  480 Apr  5 18:58 .
+drwxr-xr-x@  7 marcela-dev  staff  224 Mar 10 19:04 ..
+drwxr-xr-x@  3 marcela-dev  staff   96 Jan 13 08:25 cagent
+srwxr-xr-x   1 marcela-dev  staff    0 Mar 11 11:32 docker-desktop-build.sock
+srwxr-xr-x   1 marcela-dev  staff    0 Mar 11 11:32 ethernet-vfkit.sock
+drwxr-xr-x@  2 marcela-dev  staff   64 Nov 18 17:08 extensions
+srwxr-xr-x   1 marcela-dev  staff    0 Mar 11 11:32 filesystem-fd.sock
+srwxr-xr-x   1 marcela-dev  staff    0 Mar 11 11:32 filesystem-volume.sock
+srwxr-xr-x   1 marcela-dev  staff    0 Mar 11 11:32 forkexecd.sock
+-rw-r--r--   1 marcela-dev  staff    3 Mar 11 11:32 locked-directories
+drwxr-xr-x@  4 marcela-dev  staff  128 Mar  9 11:39 log
+drwxr-xr-x@  3 marcela-dev  staff   96 Mar 11 11:32 tasks
+srwxr-xr-x   1 marcela-dev  staff    0 Mar 11 11:32 virtualization.sock
+drwxr-xr-x@  3 marcela-dev  staff   96 Nov 18 17:08 vms
+srwxr-xr-x   1 marcela-dev  staff    0 Mar 11 11:32 vpnkit-bridge-fd.sock
+
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/docker-desktop-build.sock
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/ethernet-vfkit.sock
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/filesystem-fd.sock
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/filesystem-volume.sock
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/forkexecd.sock
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/virtualization.sock
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/vpnkit-bridge-fd.sock
+
+==== DOCKER PROCESSES ====
+marcela-dev      13584   0.0  0.2 411630832  26496   ??  S    11Mar26   5:31.53 /Applications/Docker.app/Contents/MacOS/com.docker.backend
+marcela-dev      13584   0.0  0.2 411630832  26496   ??  S    11Mar26   5:31.53 /Applications/Docker.app/Contents/MacOS/com.docker.backend
+
+==== DOCKER CLIENT / SERVER ====
+Client:
+ Version:           29.1.3
+ API version:       1.52
+ Go version:        go1.25.5
+ Git commit:        f52814d
+ Built:             Fri Dec 12 14:48:46 2025
+ OS/Arch:           darwin/arm64
+ Context:           desktop-linux
+failed to connect to the docker API at unix:///Users/marcela-dev/.docker/run/docker.sock; check if the path is correct and if the daemon is running: dial unix /Users/marcela-dev/.docker/run/docker.sock: connect: no such file or directory
+
+Client:
+ Version:    29.1.3
+ Context:    desktop-linux
+ Debug Mode: false
+ Plugins:
+  ai: Docker AI Agent - Ask Gordon (Docker Inc.)
+    Version:  v1.17.1
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-ai
+  buildx: Docker Buildx (Docker Inc.)
+    Version:  v0.30.1-desktop.1
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-buildx
+  compose: Docker Compose (Docker Inc.)
+    Version:  v2.40.3-desktop.1
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-compose
+  debug: Get a shell into any image or container (Docker Inc.)
+    Version:  0.0.45
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-debug
+  desktop: Docker Desktop commands (Docker Inc.)
+    Version:  v0.2.0
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-desktop
+  extension: Manages Docker extensions (Docker Inc.)
+    Version:  v0.2.31
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-extension
+  init: Creates Docker-related starter files for your project (Docker Inc.)
+    Version:  v1.4.0
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-init
+  mcp: Docker MCP Plugin (Docker Inc.)
+    Version:  v0.34.0
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-mcp
+  model: Docker Model Runner (Docker Inc.)
+    Version:  v1.0.2
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-model
+  offload: Docker Offload (Docker Inc.)
+    Version:  v0.5.33
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-offload
+  pass: Docker Pass Secrets Manager Plugin (beta) (Docker Inc.)
+    Version:  v0.0.21
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-pass
+  sandbox: Docker Sandbox (Docker Inc.)
+    Version:  v0.6.0
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-sandbox
+  sbom: View the packaged-based Software Bill Of Materials (SBOM) for an image (Anchore Inc.)
+    Version:  0.6.0
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-sbom
+  scout: Docker Scout (Docker Inc.)
+    Version:  v1.18.3
+    Path:     /Users/marcela-dev/.docker/cli-plugins/docker-scout
+
+Server:
+failed to connect to the docker API at unix:///Users/marcela-dev/.docker/run/docker.sock; check if the path is correct and if the daemon is running: dial unix /Users/marcela-dev/.docker/run/docker.sock: connect: no such file or directory
+
+==== DESKTOP LOG LOCATIONS ====
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.backend.log
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.backend.log.0
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.backend.log.1
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.backend.log.2
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.backend.log.3
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.backend.log.4
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.backend.log.5
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.backend.log.6
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.backend.log.7
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.backend.log.8
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.build.log
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.virtualization.log
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/Docker Desktop.stderr.log
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/Docker Desktop.stdout.log
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/docker-desktop.log
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/Docker.log
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-2026-03-25.log
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-2026-03-26.log
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-2026-03-27.log
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-2026-03-28.log
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-2026-03-29.log
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-2026-03-30.log
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-2026-03-31.log
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-2026-04-01.log
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-audit-log.json
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-errd-2026-04-02.log
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-errd-audit-log.json
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-ui-console-2026-03-09.log
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-ui-console-2026-03-10.log
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-ui-console-2026-03-11.log
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-ui-console-audit-log.json
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/httpproxy.log
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/httpproxy.log.0
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/inference.log
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/monitor.log
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/monitor.log.0
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/monitor.log.1
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/monitor.log.2
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/monitor.log.3
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/monitor.log.4
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/monitor.log.5
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/monitor.log.6
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/monitor.log.7
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/monitor.log.8
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/supervisor.log
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.0
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.1
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.10
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.11
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.12
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.13
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.14
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.15
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.16
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.17
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.18
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.2
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.3
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.4
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.5
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.6
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.7
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.8
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/console.log.9
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.0
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.1
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.2
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.3
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.4
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.5
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.6
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.7
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/vm/init.log.8
+
+==== RECENT DESKTOP LOG TAILS ====
+---- /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/com.docker.backend.log ----
+[2026-04-02T18:44:51.323583000Z][com.docker.backend.heartbeat] volume-contents data added: Modules
+[2026-04-02T18:44:52.904684000Z][com.docker.backend.heartbeat] modules data added: Modules
+[2026-04-02T18:44:52.909352000Z][com.docker.backend.analytics.tracker] sending event: dailyHeartbeat 862dc9c1-67eb-44fb-a8e9-5d93471f111f
+[2026-04-02T18:44:52.909419000Z][com.docker.backend.analytics.tracker] sending event: dailyHeartbeat 862dc9c1-67eb-44fb-a8e9-5d93471f111f
+[2026-04-02T18:44:53.910306000Z][com.docker.backend.engines] shutting down engines
+[2026-04-02T18:44:53.910533000Z][com.docker.backend.engines] stopping local engine linux/hyperv
+[2026-04-02T18:44:53.910626000Z][com.docker.backend.engines] stopping local engine windows
+[2026-04-02T18:44:53.910683000Z][com.docker.backend.engines] stopping local engine linux/qemu
+[2026-04-02T18:44:53.910750000Z][com.docker.backend.engines] stopping local engine none
+[2026-04-02T18:44:53.910807000Z][com.docker.backend.engines] stopping local engine linux/hyperkit
+[2026-04-02T18:44:53.910890000Z][com.docker.backend.engines] stopping local engine linux/libkrun
+[2026-04-02T18:44:53.910964000Z][com.docker.backend.engines] stopping local engine linux/virtualization-framework
+[2026-04-02T18:44:53.911083000Z][com.docker.backend.engines] setting engine linux/virtualization-framework state stopped -> stopping
+[2026-04-02T18:44:53.911230000Z][com.docker.backend.events] adding server timestamp to event (engines): 1775155493911223000 docker: stopping
+[2026-04-02T18:44:53.911941000Z][com.docker.backend.state] backend state changed to stopping
+[2026-04-02T18:44:53.912080000Z][com.docker.backend.statehandler] sending to Dashboard: stopping
+[2026-04-02T18:44:53.912121000Z][com.docker.backend.ipcstream] 70893dd9-BackendAPI /engine/state --> 2026-04-02T11:44:53.911223000-07:00 (eb25fe3e) engine stopping:
+[2026-04-02T18:44:53.929916000Z][com.docker.backend.analytics.tracker] sending event: eventEngineState 25f66239-53af-4707-91ce-9b82bed67dd0
+[2026-04-02T18:44:53.930058000Z][com.docker.backend.analytics.tracker] sending event: eventEngineState 25f66239-53af-4707-91ce-9b82bed67dd0
+[2026-04-02T18:44:53.970146000Z][com.docker.backend.idlemetrics] Compute time increased by 0s to 38h29m48.28s on 528h11m35s
+[2026-04-02T18:44:53.970235000Z][com.docker.backend.engines] stopping local engine linux/wsl
+[2026-04-02T18:44:53.970258000Z][com.docker.backend.engines] stopping local engine linux/hcs
+[2026-04-02T18:44:53.970276000Z][com.docker.backend.engines] all local engines stopped
+[2026-04-02T18:44:53.970294000Z][com.docker.backend.engines] waiting for engines watcher routine to exit
+[2026-04-02T18:44:53.970324000Z][com.docker.backend.engines] engines shutdown complete
+[2026-04-02T18:44:53.970443000Z][com.docker.backend.ipc] shutting down 99984b8e-ProviderResolverAPI for component BackendCMD on provider-resolver on context done
+[2026-04-02T18:44:53.970554000Z][com.docker.backend.socketforward] closing virtual listener on provider-resolver
+[2026-04-02T18:44:53.970722000Z][com.docker.backend.ipc] shutting down aba8e8cb-CLIAPI for component BackendCMD on <HOME>/Library/Containers/com.docker.docker/Data/docker-cli.sock on context done
+[2026-04-02T18:44:53.973058000Z][com.docker.backend.extensions] exiting goroutine updating extensions in marketplace
+[2026-04-02T18:44:53.973094000Z][com.docker.backend.ipc] shutting down 11740882-ToolsAPI for component BackendCMD on <HOME>/Library/Containers/com.docker.docker/Data/tools.sock on context done
+[2026-04-02T18:44:53.973225000Z][com.docker.backend.socketforward] closing virtual listener on secrets-engine
+[2026-04-02T18:44:53.970838000Z][com.docker.backend.secrets-engine] secrets engine shutting down...
+[2026-04-02T18:44:53.973342000Z][com.docker.backend.socketforward] closing virtual listener on dns.internal.grpc
+[2026-04-02T18:44:53.973457000Z][com.docker.backend.socketforward] closing virtual listener on secrets-engine
+[2026-04-02T18:44:53.973545000Z][com.docker.backend.services] backend service "Secrets Engine to VM Proxy" stopped with error: Secrets Engine to VM Proxy: running: file already closed
+[2026-04-02T18:44:53.973720000Z][com.docker.backend.socketforward] closing virtual listener on gvisor
+[2026-04-02T18:44:53.973866000Z][com.docker.backend.mutagen] daemon terminating due to cancellation
+[2026-04-02T18:44:53.974309000Z][com.docker.backend.ipc] (81183439-155019) 2c03f6ea-stats C->S stats GET /ping
+[2026-04-02T18:44:53.974395000Z][com.docker.backend.ipc] (a1888209) 89e501ed-desktop_extensions S->C Docker-Desktop/4.55.0 (Mac; arm64; GUI) GET /events (184h33m12.752793209s): OK
+[2026-04-02T18:44:53.974512000Z][com.docker.backend.ipc] (81183439-155019) 2c03f6ea-stats C<-S ConnectionClosed GET /ping (213.667µs): {"serverTime":0}
+[2026-04-02T18:44:53.974572000Z][com.docker.backend.socketforward] closing virtual listener on dns.internal.grpc
+[2026-04-02T18:44:53.974653000Z][com.docker.backend.ipc] (81183439-155020) 2c03f6ea-stats C->S stats GET /ping
+[2026-04-02T18:44:53.974975000Z][com.docker.backend.socketforward] closing virtual listener on dns.system.grpc
+[2026-04-02T18:44:53.975172000Z][com.docker.backend.socketforward] closing virtual listener on dns.system.grpc
+[2026-04-02T18:44:53.970459000Z][com.docker.backend.ipc] shutting down 1b417f6a-modules for component modules on <HOME>/Library/Containers/com.docker.docker/Data/modules-manager.sock on context done
+[2026-04-02T18:44:53.975359000Z][com.docker.backend.ipc] (81183439-155020) 2c03f6ea-stats C<-S ConnectionClosed GET /ping (680.625µs): {"serverTime":0}
+[2026-04-02T18:44:53.973788000Z][com.docker.backend.ipc] shutting down 89e501ed-desktop_extensions for component desktop_extensions on <HOME>/Library/Containers/com.docker.docker/Data/extension-manager.sock on context done
+[2026-04-02T18:44:53.973901000Z][com.docker.backend.socketforward] closing virtual listener on 5555
+[2026-04-02T18:44:53.974526000Z][com.docker.backend.services] closing connection to /run/guest-services/stats.sock: context canceled
+[2026-04-02T18:44:53.974317000Z][com.docker.backend.socketforward] closing virtual listener on hubproxy
+[2026-04-02T18:44:53.974670000Z][com.docker.backend.state] overwriting desktop state error: write <HOME>/Library/Containers/com.docker.docker/Data/log/vm/init.log: no space left on device
+[2026-04-02T18:44:53.975441000Z][com.docker.backend.services] backend service "VM stats server" stopped with error: VM stats server: accepting vm proxy service connection: accept unix <HOME>/Library/Containers/com.docker.docker/Data/stats.sock: use of closed network connection
+[2026-04-02T18:44:53.970800000Z][com.docker.backend.socketforward] closing virtual listener on vpnkit-data
+[2026-04-02T18:44:53.975232000Z][com.docker.backend.ipc] (a1888209) 89e501ed-desktop_extensions S->C Docker-Desktop/4.55.0 (Mac; arm64; GUI) GET /events (184h33m12.752766208s): OK
+[2026-04-02T18:44:53.975494000Z][com.docker.backend.stats][W] fetching disk stats: Get "http://ipc/vm/disk-usage": running engines: recovering from engine crash: context canceled (settings: map[AcceptCanaryUpdates:false ActiveOrganizationName: AllowBetaFeatures:true AnalyticsEnabled:true AutoDownloadUpdates:false AutoPauseTimedActivitySeconds:30 AutoPauseTimeoutSeconds:300 AutoStart:false BackupData:false BlockDockerLoad:false CloudIdleTimeoutSeconds:300 ContainerTerminal:integrated <API_KEY>: ContainersOverrideProxyExclude: ContainersOverrideProxyHTTP: ContainersOverrideProxyHTTPS: ContainersOverrideProxyPAC: ContainersOverrideProxyTCP: <API_KEY>:... ContainersProxyHTTPMode: Cpus:10 CredentialHelper:docker-credential-osxkeychain CustomWslDistroDir: DNSInhibition:auto DataFolder:<HOME>/Library/Containers/com.docker.docker/Data/vms/0/data DefaultNetworkingMode:ipv4only DefaultSnapshotter:overlayfs DeprecatedCgroupv1:false DesktopTerminalEnabled:false DisableHardwareAcceleration:false DisableUpdate:false DiskFlush:os DiskSizeMiB:233752 DiskStats: DiskTRIM:true DisplayRestartDialog:true DisplayedElectronPopup:[] DisplayedOnboarding:true DockerAppLaunchPath:/Applications/Docker.app DockerBinInstallPath:system DockerDebugDefaultEnabled:false DockerDesktopServerURL: DogfoodFeatureFlagsEnabled:false <API_KEY>:true ECIDockerSocketCmdList:[]string ECIDockerSocketCmdListType:... ECIDockerSocketImgList:[]string EnableCLIHints:true EnableCloud:false EnableCloudGPUSupport:false EnableComposeV1Alias:true EnableDefaultDockerSocket:true EnableDockerAI:true EnableDockerMCPToolkit:true EnableInference:true EnableInferenceCORS: EnableInferenceGPUVariant:false EnableInferenceTCP:false EnableInferenceTCPPort:12434 EnableIntegrityCheck:true EnableSegmentDebug:false EnableWasmShims:false EnhancedContainerIsolation:false ExposeDockerAPIOnTCP2375:false ExtensionsEnabled:true ExtensionsPrivateMarketplace:false <API_KEY>: FilesharingDirectories:[/Users /Volumes /private /tmp /var/folders] HiddenSideNavTabs:[]string HostNetworkingEnabled:false KernelForUDP:false KubernetesEnabled:false KubernetesImagesRepository: KubernetesMode:kubeadm KubernetesNodesCount:1 KubernetesNodesVersion:1.31.1 LastContainerdSnapshotterEnable:1763514538 LastLoginDate:0 LatestBannerKey: LicenseTermsVersion:2 LifecycleTimeoutSeconds:600 MemoryMiB:8092 NetworkType:gvisor OnlyMarketplaceExtensions:true OpenUIOnStartupDisabled:false OverrideProxyEmbeddedPAC: OverrideProxyExclude: OverrideProxyHTTP: OverrideProxyHTTPS: OverrideProxyPAC: OverrideProxyTCP: OverrideWindowsDockerdPort:-1 PortBindingBehavior:default-port-binding ProxyEnableKerberosNTLM:false ProxyHTTPMode:... ProxyLocalhostPort:0 RequireVmnetd:true SbomIndexing:true ScoutNotificationPopupsEnabled:true ScoutOsNotificationsEnabled:false SettingsVersion:43 ShowAnnouncementNotifications:true ShowExtensionsSystemContainers:false ShowGeneralNotifications:true ShowInstallScreen:false ShowKubernetesSystemContainers:false ShowPromotionalNotifications:true ShowSurveyNotifications:true SilentModulesUpdate:true SocksProxyPort:0 SwapMiB:1024 SynchronizedDirectories:[] TerminalFontFamily: TerminalFontSize:0 ThemeSource:system UpdateAvailableTime:0 UpdateHostsFile:false UpdateInstallTime:0 UpdateInstallerPid:0 UseBackgroundIndexing:false UseContainerdSnapshotter:true UseCredentialHelper:true UseGrpcfuse:true UseLibkrun:false UseNightlyBuildUpdates:false UseResourceSaver:true UseVirtualizationFramework:true <API_KEY>:true <API_KEY>:true UseVpnkit:true VpnKitAllowedBindAddresses:0.0.0.0 VpnKitMTU:1500 VpnKitMaxConnections:2000 VpnKitMaxPortIdleTime:300 VpnKitTransparentProxy:true VpnkitCIDR:... accessToken: adminOptionKeys:[] alwaysRunService:false hasAdminOptions:false installType:dmg kubernetesRunning:false linuxDockerdConfiguration:map[builder:map[gc:map[defaultKeepStorage:20GB enabled:true]] experimental:false] loggedBusinessUser:false organisations:[] planName:personal stage:false userEmail:])
+[2026-04-02T18:44:53.970965000Z][com.docker.backend.extensions] exiting goroutine updating extensions in marketplace
+[2026-04-02T18:44:53.970973000Z][com.docker.backend.socketforward] closing virtual listener on http-proxy-restricted
+[2026-04-02T18:44:53.970990000Z][com.docker.backend.socketforward] closing virtual listener on http-proxy
+[2026-04-02T18:44:53.970954000Z][com.docker.backend.apiproxy] closing
+[2026-04-02T18:44:53.974529000Z][com.docker.backend.services] closing connection to /run/guest-services/stats.sock: context canceled
+[2026-04-02T18:44:53.975575000Z][com.docker.backend.otelmgr] shut down started
+[2026-04-02T18:44:53.974532000Z][com.docker.backend.services] closing connection to /run/guest-services/stats.sock: context canceled
+[2026-04-02T18:44:53.970925000Z][com.docker.backend.socketforward] closing virtual listener on 3128
+[2026-04-02T18:44:53.975051000Z][com.docker.backend.ipc] (a1888209) 89e501ed-desktop_extensions S->C Docker-Desktop/4.55.0 (Mac; arm64; GUI) GET /events (184h33m12.759057542s): OK
+[2026-04-02T18:44:53.970937000Z][com.docker.backend.extensions] exiting goroutine updating extensions in marketplace
+[2026-04-02T18:44:53.975353000Z][com.docker.backend.mutagen] [sync] Shutting down
+[2026-04-02T18:44:53.976055000Z][com.docker.backend.socketforward] closing virtual listener on provider-resolver
+[2026-04-02T18:44:53.976063000Z][com.docker.backend.gvisor] gvisor: context context canceled so closing ethernet connection
+[2026-04-02T18:44:53.970935000Z][com.docker.backend.extensions] exiting goroutine updating extensions in marketplace
+[2026-04-02T18:44:53.976379000Z][com.docker.backend.state] sending desktop state:ExitBadState
+[2026-04-02T18:44:53.980179000Z][com.docker.backend.socketforward] closing virtual listener on http-proxy
+[2026-04-02T18:44:53.980370000Z][com.docker.backend.socketforward] closing virtual listener on 3128
+[2026-04-02T18:44:53.980148000Z][com.docker.backend.socketforward] closing virtual listener on http-proxy-restricted
+[2026-04-02T18:44:53.980811000Z][com.docker.backend.events] adding server timestamp to event (): 1775155493980808000 dockerAPI: stopping (closing API proxies) 
+[2026-04-02T18:44:53.980894000Z][com.docker.backend.statehandler] sending to Dashboard: stopping
+[2026-04-02T18:44:53.981134000Z][com.docker.backend.apiproxy] closing <HOME>/.docker/run/docker.sock
+[2026-04-02T18:44:53.981238000Z][com.docker.backend.analytics.tracker] sending event: desktopState d616cb63-5334-4968-b2b2-17290b3d1f17
+[2026-04-02T18:44:53.981299000Z][com.docker.backend.idle] event handler 9c8495d9-f20e-43c0-9484-db777acfb743: request cancelled by client
+[2026-04-02T18:44:53.981349000Z][com.docker.backend.idle] event handler ebaf5a3b-b172-45d8-8e48-a88aa88c3045: request cancelled by client
+[2026-04-02T18:44:53.981379000Z][com.docker.backend.analytics.tracker] sending event: desktopState d616cb63-5334-4968-b2b2-17290b3d1f17
+[2026-04-02T18:44:53.981415000Z][com.docker.backend.events] adding server timestamp to event (): 1775155493981410000 dockerAPI: stopped (API proxies closed) 
+[2026-04-02T18:44:53.981913000Z][com.docker.backend.statehandler] sending to Dashboard: stopped
+[2026-04-02T18:44:53.984115000Z][com.docker.backend.extensions] extension manager server stopped
+[2026-04-02T18:44:53.988452000Z][com.docker.backend.analytics.tracker] sending event: eventEngineState df5e6b92-4c1d-4f7a-aa75-c3d3930857ad
+[2026-04-02T18:44:53.988529000Z][com.docker.backend.analytics.tracker] sending event: eventEngineState df5e6b92-4c1d-4f7a-aa75-c3d3930857ad
+[2026-04-02T18:44:53.992822000Z][com.docker.backend.electron] shutting down electron processes
+[2026-04-02T18:44:54.004391000Z][com.docker.backend.electron] waiting for electron to quit
+[2026-04-02T18:44:54.014976000Z][com.docker.backend.ipc] (a1888209) 70893dd9-BackendAPI S->C Docker-Desktop/4.55.0 (Mac; arm64; GUI) GET /stats (184h33m14.939503709s): OK
+[2026-04-02T18:44:54.015363000Z][com.docker.backend.ipc] (a1888209) 70893dd9-BackendAPI S->C Docker-Desktop/4.55.0 (Mac; arm64; GUI) GET /license/events (184h33m15.345199583s): OK
+[2026-04-02T18:44:54.015378000Z][com.docker.backend.ipc] (a1888209) 70893dd9-BackendAPI S->C Docker-Desktop/4.55.0 (Mac; arm64; GUI) GET /pause/events (184h33m15.344843125s): OK
+[2026-04-02T18:44:54.015195000Z][com.docker.backend.ipc] (a1888209) 70893dd9-BackendAPI S->C Docker-Desktop/4.55.0 (Mac; arm64; GUI) GET /volume/backup (184h33m14.869730416s): OK
+[2026-04-02T18:44:54.015251000Z][com.docker.backend.ipc] (a1888209) 70893dd9-BackendAPI S->C Docker-Desktop/4.55.0 (Mac; arm64; GUI) GET /notify/messagebox/events (184h33m15.344820833s): OK
+[2026-04-02T18:44:54.015272000Z][com.docker.backend.ipc] (a1888209) 70893dd9-BackendAPI S->C Docker-Desktop/4.55.0 (Mac; arm64; GUI) GET /wasm/events (184h33m15.344906s): OK
+[2026-04-02T18:44:54.015288000Z][com.docker.backend.ipc] (a1888209) 70893dd9-BackendAPI S->C Docker-Desktop/4.55.0 (Mac; arm64; GUI) GET /update/events (184h33m15.345098416s): OK
+[2026-04-02T18:44:54.015295000Z][com.docker.backend.ipc] (a1888209) 70893dd9-BackendAPI S->C Docker-Desktop/4.55.0 (Mac; arm64; GUI) GET /features/events (184h33m15.345056209s): OK
+[2026-04-02T18:44:54.015343000Z][com.docker.backend.ipc] (a1888209) 70893dd9-BackendAPI S->C Docker-Desktop/4.55.0 (Mac; arm64; GUI) GET /install/events (184h33m15.3447915s): OK
+[2026-04-02T18:44:54.015420000Z][com.docker.backend.ipc] (a1888209) 70893dd9-BackendAPI S->C Docker-Desktop/4.55.0 (Mac; arm64; GUI) GET /mutagen/file-shares/stream (184h33m15.345209667s): OK
+[2026-04-02T18:44:54.015425000Z][com.docker.backend.ipc] (a1888209) 70893dd9-BackendAPI S->C Docker-Desktop/4.55.0 (Mac; arm64; GUI) GET /versions/events (184h33m15.344802958s): OK
+[2026-04-02T18:44:54.015435000Z][com.docker.backend.ipc] (a1888209) 70893dd9-BackendAPI S->C Docker-Desktop/4.55.0 (Mac; arm64; GUI) GET /clicontext/events (184h33m15.344873458s): OK
+[2026-04-02T18:44:54.015449000Z][com.docker.backend.ipc] (a1888209) 70893dd9-BackendAPI S->C Docker-Desktop/4.55.0 (Mac; arm64; GUI) GET /engine/events (184h33m15.344924417s): OK
+[2026-04-02T18:44:54.015456000Z][com.docker.backend.ipc] (a1888209) 70893dd9-BackendAPI S->C Docker-Desktop/4.55.0 (Mac; arm64; GUI) GET /kubernetes/events (184h33m15.344850459s): OK
+[2026-04-02T18:44:54.015487000Z][com.docker.backend.ipc] (a1888209) 70893dd9-BackendAPI S->C Docker-Desktop/4.55.0 (Mac; arm64; GUI) GET /registry/state (184h33m15.34482425s): OK
+[2026-04-02T18:44:54.015672000Z][com.docker.backend.ipc] (a1888209) 70893dd9-BackendAPI S->C Docker-Desktop/4.55.0 (Mac; arm64; GUI) GET /notify/notifications (184h33m15.345268084s): OK
+[2026-04-02T18:44:54.075999000Z][com.docker.backend.sysevents] listening for System Config changes stopped
+[2026-04-02T18:44:54.119233000Z][com.docker.backend.electron] waiting for electron to quit
+[2026-04-02T18:44:54.129790000Z][com.docker.backend.electron] electron processes have shut down
+[2026-04-02T18:44:54.129834000Z][com.docker.backend] shutting down analytics client
+[2026-04-02T18:44:54.129865000Z][com.docker.backend.analytics.segment] exit requested – draining messages
+[2026-04-02T18:44:54.129900000Z][com.docker.backend.analytics.segment] exit
+[2026-04-02T18:44:54.130133000Z][com.docker.backend.analytics.marlin] processing batch of 14 records
+[2026-04-02T18:44:55.017242000Z][com.docker.backend.analytics.marlin] sent message 200 OK (887 ms)
+[2026-04-02T18:44:55.017468000Z][com.docker.backend] shutting down vital services
+[2026-04-02T18:44:55.017655000Z][com.docker.backend.ipc] shutting down 70893dd9-BackendAPI for component BackendCMD on <HOME>/Library/Containers/com.docker.docker/Data/backend.sock on context done
+[2026-04-02T18:44:55.017851000Z][com.docker.backend.gvisor] unable to accept vfkit connection: invalid magic length: 0/4
+[2026-04-02T18:44:55.017874000Z][com.docker.backend.ipc] shutting down 70893dd9-BackendAPI for component BackendCMD on backend on context done
+[2026-04-02T18:44:55.018142000Z][com.docker.backend.socketforwarder] root context has been cancelled
+[2026-04-02T18:44:55.019202000Z][com.docker.backend.socketforwarder] stop
+[2026-04-02T18:44:55.019134000Z][com.docker.backend.socketforward] closing virtual listener on backend
+[2026-04-02T18:44:55.019485000Z][com.docker.backend.socketforward] closing virtual listener on backend
+[2026-04-02T18:44:55.019610000Z][com.docker.backend.apiproxy] closing <HOME>/.docker/run/docker.sock
+
+---- /Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/docker.log ----
+time="2026-03-11T01:58:29Z" level="info" msg="AppDelegate: launching..."
+time="2026-03-11T01:58:29Z" level="info" msg="AppDelegate: bundle path: /Applications/Docker.app/Contents/Library/LoginItems/DockerHelper.app"
+time="2026-03-11T01:58:29Z" level="info" msg="AppDelegate: auto start: false"
+time="2026-03-11T01:58:29Z" level="info" msg="AppDelegate: launch path: /Applications/Docker.app"
+time="2026-03-11T01:58:29Z" level="info" msg="AppDelegate: terminating..."
+time="2026-03-11T16:34:56Z" level="info" msg="AppDelegate: launching..."
+time="2026-03-11T16:34:56Z" level="info" msg="AppDelegate: bundle path: /Applications/Docker.app/Contents/Library/LoginItems/DockerHelper.app"
+time="2026-03-11T16:34:56Z" level="info" msg="AppDelegate: auto start: false"
+time="2026-03-11T16:34:56Z" level="info" msg="AppDelegate: launch path: /Applications/Docker.app"
+time="2026-03-11T16:34:56Z" level="info" msg="AppDelegate: terminating..."
+
+==== LOCAL DASHBOARD STATUS CHECK ====
+COMMAND   PID        USER   FD   TYPE            DEVICE SIZE/OFF NODE NAME
+node    33302 marcela-dev   13u  IPv4 0x2574a63839a45e9      0t0  TCP *:3000 (LISTEN)
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Fri, 20 Mar 2026 18:02:44 GMT
+ETag: W/"282b-19d0c69f798"
+Content-Type: text/html; charset=utf-8
+Content-Length: 10283
+Date: Mon, 06 Apr 2026 02:07:30 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+
+==== DOCKERIZED DASHBOARD STATUS CHECK ====
+
+==== BOUNDARY-SAFE SUMMARY ====
+If desktop-linux context exists but docker.sock is missing/unreachable,
+the next step remains Docker Desktop remediation rather than repo mutation.
+

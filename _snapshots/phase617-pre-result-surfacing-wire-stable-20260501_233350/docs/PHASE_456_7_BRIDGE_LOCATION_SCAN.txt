@@ -1,0 +1,46 @@
+PHASE 456.7 - BRIDGE LOCATION SCAN
+----------------------------------
+
+CLASSIFICATION
+Location discovery only.
+No implementation.
+No wiring.
+No runtime mutation.
+
+PURPOSE
+Identify safest structural insertion point for minimal FL-3 demo bridge.
+
+LOCATION_SCAN_TARGETS
+Operator intake structures.
+Governance evaluation entrypoints.
+Project ingestion normalization layers.
+Operator request routing surfaces.
+
+CANDIDATE_INSERTION_LOCATIONS
+Pre-governance intake normalization layer.
+Governance intake adapter boundary.
+Operator request packaging boundary.
+Execution preparation exposure boundary.
+
+PLACEMENT_RULES
+Must occur BEFORE governance evaluation.
+Must NOT modify governance engine.
+Must NOT modify execution structures.
+Must reuse existing intake patterns.
+
+EXCLUSION_ZONES
+Execution traversal layers.
+Worker routing logic.
+Outcome reporting pipeline.
+Enforcement authority structures.
+
+SUCCESS_CRITERIA
+Single safest structural insertion zone identified.
+No governance mutation required.
+No execution mutation required.
+
+NEXT_STEP
+PHASE_456_7_FL3_PROOF_ATTEMPT_STRUCTURE
+
+DETERMINISTIC_STOP
+Stop after location identification.

@@ -1,0 +1,25 @@
+PHASE 501 — Chat Timeout Probe
+Timestamp: Fri Apr 24 19:35:18 PDT 2026
+
+Git status
+?? docs/phase501_chat_timeout_probe.txt
+?? fix_phase497.py
+?? phase498_behavior_guard.py
+?? phase499_response_structure.py
+?? phase500_readiness_flags.py
+?? phase501_chat_timeout_probe.sh
+?? server.mjs.bak
+
+Docker containers
+NAMES                                STATUS                 PORTS
+motherboard_systems_hq-dashboard-1   Up 7 hours (healthy)   0.0.0.0:8080->3000/tcp, [::]:8080->3000/tcp
+motherboard_systems_hq-postgres-1    Up 21 hours            0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+
+API health
+{"ok":true}
+
+Chat endpoint direct probe
+{"ok":true,"agent":"matilda","mode":"deterministic-local-response","message":"Quick systems check from dashboard.","reasoning":"Agent selected: matilda | Message length: 35 | Mode: deterministic local response layer | External runtime: Ollama used | Execution class: UI-safe acknowledgement","reply":"Okay, Operator. Systems check initiated. The queued task (a3e77f01-bb39-4a4d-95c6-28b2a673aec0) is still waiting for execution. Agent cade is assigned.","meta":{"timestamp":"deterministic-local","pipeline":"ollama-with-deterministic-fallback"}}
+
+Recent server logs
+Error response from daemon: No such container: motherboard-systems-hq-app-1

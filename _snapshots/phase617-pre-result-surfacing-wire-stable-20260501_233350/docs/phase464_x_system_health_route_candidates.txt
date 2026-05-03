@@ -1,0 +1,202 @@
+PHASE 464.X — SYSTEM HEALTH ROUTE CANDIDATES
+============================================
+
+Timestamp (UTC): 2026-04-10T18:00:11Z
+Repo root: /Users/marcela-dev/Projects/Motherboard_Systems_HQ
+
+CONTEXT
+- Browser-side false positives eliminated:
+  * public/js/dashboard-status.js
+  * public/js/phase457_restore_task_panels.js
+  * public/js/phase457_neutralize_legacy_observational_consumers.js
+- Phase456 shortlist points back to authoritative system health route files.
+
+FILE: routes/diagnostics/systemHealth.ts
+----------------------------------------
+2:import { buildSystemHealthSituationSummaryPayload } from "./systemHealthSituationSummary";
+4:const router = express.Router();
+6:router.get("/", (_req, res) => {
+7:  const situationSummaryPayload = buildSystemHealthSituationSummaryPayload({
+12:    operatorAttention: "none",
+15:  res.json({
+16:    status: "OK",
+20:    ...situationSummaryPayload,
+
+import express from "express";
+import { buildSystemHealthSituationSummaryPayload } from "./systemHealthSituationSummary";
+
+const router = express.Router();
+
+router.get("/", (_req, res) => {
+  const situationSummaryPayload = buildSystemHealthSituationSummaryPayload({
+    stability: "stable",
+    executionRisk: "none",
+    cognition: "consistent",
+    signalCoherence: "coherent",
+    operatorAttention: "none",
+  });
+
+  res.json({
+    status: "OK",
+    uptime: process.uptime(),
+    memory: process.memoryUsage(),
+    timestamp: new Date().toISOString(),
+    ...situationSummaryPayload,
+  });
+});
+
+export default router;
+
+FILE: routes/diagnostics/systemHealth.js
+----------------------------------------
+3:const router = express.Router();
+34:    situationSummary: buildSituationSummary(status),
+47:      summary: snapshot.situationSummary.split("\n")[0] || "system health snapshot available",
+54:router.get("/", (_req, res) => {
+55:  res.json(buildSystemHealthSnapshot());
+
+import express from "express";
+
+const router = express.Router();
+
+function buildSituationSummary(status) {
+  if (status === "OK") {
+    return (
+      "SYSTEM STABLE\n" +
+      "NO EXECUTION RISK DETECTED\n" +
+      "COGNITION SIGNALS CONSISTENT\n" +
+      "SIGNALS COHERENT\n" +
+      "NO OPERATOR ACTION REQUIRED"
+    );
+  }
+
+  return (
+    "SYSTEM NEEDS ATTENTION\n" +
+    "NO EXECUTION AUTHORITY EXPOSED\n" +
+    "COGNITION SIGNALS REQUIRE REVIEW\n" +
+    "SIGNALS PARTIALLY COHERENT\n" +
+    "NO OPERATOR ACTION INFERRED"
+  );
+}
+
+export function buildSystemHealthSnapshot() {
+  const status = "OK";
+  const timestamp = new Date().toISOString();
+
+  return {
+    status,
+    uptime: process.uptime(),
+    memory: process.memoryUsage(),
+    timestamp,
+    situationSummary: buildSituationSummary(status),
+  };
+}
+
+export function buildSystemHealthGuidanceSignals(snapshot) {
+  const observedAt = Date.parse(snapshot.timestamp);
+
+  return [
+    {
+      key: "system-health",
+      domain: "system_health",
+      status: snapshot.status === "OK" ? "healthy" : "degraded",
+      value: snapshot.status,
+      summary: snapshot.situationSummary.split("\n")[0] || "system health snapshot available",
+      observedAt: Number.isFinite(observedAt) ? observedAt : Date.now(),
+      source: "diagnostics/system-health",
+    },
+  ];
+}
+
+router.get("/", (_req, res) => {
+  res.json(buildSystemHealthSnapshot());
+});
+
+export default router;
+
+FILE: routes/routes/diagnostics/systemHealth.ts
+----------------------------------------
+2:export const systemHealth = express.Router();
+4:systemHealth.get("/", (_req, res) => {
+5:  res.json({
+
+import express from "express";
+export const systemHealth = express.Router();
+
+systemHealth.get("/", (_req, res) => {
+  res.json({
+    ok: true,
+    timestamp: new Date().toISOString(),
+    message: "🩺 System Health route active"
+  });
+});
+
+FILE: routes/routes/diagnostics/systemHealth.js
+----------------------------------------
+2:const router = express.Router();
+4:router.get("/", (req, res) => {
+5:  res.json({
+6:    status: "OK",
+
+import express from "express";
+const router = express.Router();
+
+router.get("/", (req, res) => {
+  res.json({
+    status: "OK",
+    uptime: process.uptime(),
+    memory: process.memoryUsage(),
+    timestamp: new Date().toISOString()
+  });
+});
+
+export default router;
+
+FILE: routes_backup/diagnostics/systemHealth.ts
+----------------------------------------
+2:const router = express.Router();
+11:systemHealth.get("/", (_req, res) => {
+12:  res.json({
+
+import express, { Request, Response } from "express";
+const router = express.Router();
+
+
+
+
+
+
+
+
+systemHealth.get("/", (_req, res) => {
+  res.json({
+    ok: true,
+    timestamp: new Date().toISOString(),
+    message: "🩺 System Health route active"
+  });
+});
+
+FILE: routes_backup/diagnostics/systemHealth.js
+----------------------------------------
+2:const router = express.Router();
+4:router.get("/", (req, res) => {
+5:  res.json({
+6:    status: "OK",
+
+import express from "express";
+const router = express.Router();
+
+router.get("/", (req, res) => {
+  res.json({
+    status: "OK",
+    uptime: process.uptime(),
+    memory: process.memoryUsage(),
+    timestamp: new Date().toISOString()
+  });
+});
+
+export default router;
+
+DECISION GATE
+- Choose the first existing route file that actually assembles health/guidance payload text.
+- Next step after this artifact: mutate ONE authoritative systemHealth route file only.

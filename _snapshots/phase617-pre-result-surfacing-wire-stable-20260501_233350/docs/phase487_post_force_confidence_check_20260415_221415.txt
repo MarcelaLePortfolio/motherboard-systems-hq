@@ -1,0 +1,131 @@
+PHASE 487 — POST FORCE CONFIDENCE CHECK
+timestamp=20260415_221415
+branch=phase119-dashboard-cognition-contract
+commit=8a70340a74299c8917469e6e9a8886cf0f8ad483
+
+=== ROUTE SOURCE CHECK ===
+23-      return "medium";
+24-    case "unknown":
+25-      return "low";
+26-    default:
+27:      return "limited";
+28-  }
+29-}
+30-
+31-function mapStatusToType(status) {
+--
+66-    id: buildGuidanceId(signal),
+67-    type: mapStatusToType(signal.status),
+68-    domain: signal.domain,
+69-    severity: mapStatusToSeverity(signal.status),
+70:    confidence: mapStatusToConfidence(signal.status),
+71-    message,
+72-    rationale,
+73-    signalSource: [signal.source, signal.key],
+74-    bounded: true,
+--
+88-
+89-function assessSurfaceConfidence(signals) {
+90-  if (!Array.isArray(signals) || signals.length === 0) {
+91-    return {
+92:      confidence: "limited",
+93-      reason: "No signals available for interpretation.",
+94-      signalCount: 0,
+95-      conflictingSignals: false,
+96-    };
+--
+103-  const hasUnknown = statuses.has("unknown");
+104-
+105-  if (hasStalled) {
+106-    return {
+107:      confidence: hasUnknown ? "low" : "medium",
+108-      reason: "At least one observed signal indicates a sustained non-healthy condition.",
+109-      signalCount: signals.length,
+110-      conflictingSignals: hasHealthy,
+111-    };
+112-  }
+113-
+114-  if (hasDegraded) {
+115-    return {
+116:      confidence: hasUnknown ? "low" : "medium",
+117-      reason: "Observed signals indicate degradation without proving system failure.",
+118-      signalCount: signals.length,
+119-      conflictingSignals: hasHealthy,
+120-    };
+121-  }
+122-
+123-  if (hasUnknown) {
+124-    return {
+125:      confidence: "low",
+126:      reason: "Observed signal quality is insufficient for stronger interpretation.",
+127-      signalCount: signals.length,
+128-      conflictingSignals: false,
+129-    };
+130-  }
+131-
+132-  return {
+133:    confidence: "high",
+134-    reason: "Observed signals are coherent and within acceptable bounds.",
+135-    signalCount: signals.length,
+136-    conflictingSignals: false,
+137-  };
+--
+148-      status: snapshot.status === "OK" ? "healthy" : "degraded",
+149-      value: snapshot.status,
+150-      summary: String(snapshot.situationSummary || "").split("\n")[0] || "system health snapshot available",
+151-      observedAt: now,
+152:      source: "diagnostics/system-health",
+153-    },
+154-  ];
+155-
+156-  const guidance = sortGuidanceDeterministically(signals.map(createBoundedGuidance));
+157:  const confidence = assessSurfaceConfidence(signals);
+158-
+159-  return {
+160-    envelope: {
+161-      guidance,
+162-      generatedAt: now,
+163-      cognitionVersion: "phase_89",
+164-      executionAuthority: "none",
+165-    },
+166:    surfaceConfidence: confidence.confidence,
+167:    confidenceReason: confidence.reason,
+168:    signalCount: confidence.signalCount,
+169:    conflictingSignals: confidence.conflictingSignals,
+170-  };
+171-}
+
+=== PM2 STATUS ===
+┌────┬────────────┬─────────────┬─────────┬─────────┬──────────┬────────┬──────┬───────────┬──────────┬──────────┬──────────┬──────────┐
+│ id │ name       │ namespace   │ version │ mode    │ pid      │ uptime │ ↺    │ status    │ cpu      │ mem      │ user     │ watching │
+├────┼────────────┼─────────────┼─────────┼─────────┼──────────┼────────┼──────┼───────────┼──────────┼──────────┼──────────┼──────────┤
+│ [1m[36m0[39m[22m  │ cade       │ default     │ 1.0.0   │ [7m[1mfork[22m[27m    │ 0        │ 0      │ 75   │ [31m[1merrored[22m[39m   │ 0%       │ 0b       │ [1mmar… │ [90mdisabled[39m │
+│ [1m[36m2[39m[22m  │ effie      │ default     │ 1.0.0   │ [7m[1mfork[22m[27m    │ 15173    │ 41s    │ 4    │ [32m[1monline[22m[39m    │ 0%       │ 69.7mb   │ [1mmar… │ [90mdisabled[39m │
+│ [1m[36m1[39m[22m  │ matilda    │ default     │ 1.0.0   │ [7m[1mfork[22m[27m    │ 0        │ 0      │ 75   │ [31m[1merrored[22m[39m   │ 0%       │ 0b       │ [1mmar… │ [90mdisabled[39m │
+└────┴────────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘
+
+=== HTTP CHECK ===
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+curl: (7) Failed to connect to localhost port 3000 after 0 ms: Couldn't connect to server
+localhost:3000 unreachable
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0 24915    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Wed, 15 Apr 2026 19:02:36 GMT
+ETag: W/"6153-19d92861ce0"
+Content-Type: text/html; charset=utf-8
+Content-Length: 24915
+Date: Thu, 16 Apr 2026 05:14:15 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+
+=== FINAL READ ===
+Refresh the dashboard now and verify whether Operator Guidance shows Confidence: limited.
+

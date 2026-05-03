@@ -1,0 +1,1 @@
+Phase 38 complete: PR #15 merged to main with admin merge (sole-collaborator review gate), local gate + CI green, golden tag v38.0-phase38-runs-list-contract-stable points to main HEAD ca322ada; next: close PR #10 revert or merge it if still needed, then proceed to Phase 39 planning.

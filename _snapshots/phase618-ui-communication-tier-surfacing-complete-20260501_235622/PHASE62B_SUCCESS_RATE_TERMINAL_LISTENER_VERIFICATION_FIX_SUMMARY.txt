@@ -1,0 +1,29 @@
+PHASE 62B — SUCCESS RATE TERMINAL LISTENER VERIFICATION FIX
+generated_at=2026-03-17T16:39:05Z
+
+== branch ==
+phase65b-running-tasks-hydration
+
+== named terminal listener evidence in source ==
+9:    "task.completed",
+20:    "task.failed",
+116:    if (value.kind === "task.event" && value.type) {
+186:      "task.event",
+187:      "task.completed",
+188:      "task.failed",
+189:      "task.updated",
+190:      "task.status",
+
+== direct addEventListener evidence in source ==
+194:      source.addEventListener(eventName, (e) => handle(eventName, e));
+
+== bundle bootstrap presence check ==
+bundle_bootstrap_present=yes
+
+== bundle direct success writer check ==
+bundle_direct_success_writer_present=no
+
+== corrected key decision summary ==
+dashboard_bundle_imports_bootstrap=yes
+success_metric_listens_named_terminal_events=yes
+shared_metrics_success_writer_neutralized=yes

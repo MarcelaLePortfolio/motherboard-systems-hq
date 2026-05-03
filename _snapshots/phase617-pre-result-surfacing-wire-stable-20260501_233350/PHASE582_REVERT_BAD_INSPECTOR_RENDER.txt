@@ -1,0 +1,5 @@
+Phase 582 revert bad inspector render.
+
+Reason:
+Latest Execution Inspector cleanup is not wired correctly.
+Reverting client renderer back to populated stable checkpoint before trying a cleaner implementation.

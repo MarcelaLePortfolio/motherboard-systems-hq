@@ -1,0 +1,50 @@
+Phase 616 compose structure inspection result.
+
+Goal:
+Inspect docker-compose.yml structure before attempting another scheduler enablement patch.
+
+--- MATCHED COMPOSE REFERENCES ---
+3:     image: postgres:16-alpine
+4:     environment:
+11:   dashboard:
+12:     build:
+14:       dockerfile: Dockerfile.dashboard
+15:     command: ["node", "server.js"]
+18:     ports:
+22:     build:
+25:     command: ["node", "server/worker/phase26_task_worker.mjs"]
+
+--- FULL DOCKER COMPOSE FILE ---
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile.dashboard
+    command: ["node", "server.js"]
+    depends_on:
+      - postgres
+    ports:
+      - "3000:3000"
+
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: ["node", "server/worker/phase26_task_worker.mjs"]
+    depends_on:
+      - postgres
+
+volumes:
+  pgdata:
+
+
+--- RUNNING DASHBOARD ENV ---

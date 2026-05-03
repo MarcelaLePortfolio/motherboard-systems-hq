@@ -1,0 +1,17 @@
+46:  explanation: {
+318:  explanation_preview: 'fresh context requested; cache bypass observed; partial memory reset observed'
+614:server/worker/execute_task_with_contract.mjs:25:    explanation_preview: communicationResult.explanation.content
+616:server/worker/response_compiler.mjs:43:    explanation: {
+620:app/demo-runtime/page.tsx:327:              <strong>Governance explanation:</strong> {governanceExplanation}
+631:src/governance_investigation/governance_playback_navigation_assembly.ts:25:      explanation: null,
+632:src/governance_investigation/governance_decision_trace.ts:35:  readonly explanation: GovernanceExplanationRecord | null;
+633:src/governance_investigation/governance_decision_trace.ts:49:    explanation: seed.explanation ?? null,
+634:src/governance_investigation/governance_decision_trace.ts:56:    explanation: seed.explanation ?? null,
+635:src/governance_investigation/governance_decision_trace.ts:62:      explanation: seed.explanation ?? null,
+636:src/governance_investigation/governance_operator_investigation_view.ts:14:  readonly explanation: string | null;
+637:src/governance_investigation/governance_operator_investigation_view.ts:33:    explanation: trace.explanation?.summary ?? null,
+639:src/governance/governance_operator_explanation_layer.ts:31:    operator_explanation: explanation,
+653:src/governance/governance_enforcement_result.ts:23:  explanation: string
+654:src/governance/governance_enforcement_result.ts:38:  explanation: string
+656:src/governance/governance_audit_log.ts:20:  explanation: string
+657:src/governance/governance_audit_log.ts:40:    explanation: result.explanation,

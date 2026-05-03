@@ -1,0 +1,1352 @@
+PHASE 456 — TASKS SCHEMA PREREQUISITE EVIDENCE
+Generated: 2026-04-09T18:09:19Z
+
+=== PRECHECK ===
+Filesystem      Size    Used   Avail Capacity iused ifree %iused  Mounted on
+/dev/disk3s5   228Gi   125Gi    68Gi    65%    570k  708M    0%   /System/Volumes/Data
+
+phase119-dashboard-cognition-contract
+c2493f57ea2cd4ab33b055e8be686942c5674b7b
+
+?? docs/phase456_tasks_schema_prereq_evidence.txt
+?? scripts/phase456_tasks_schema_prereq_evidence.sh
+
+=== CANONICAL STACK STATE ===
+NAME                                 IMAGE                              COMMAND                  SERVICE     CREATED        STATUS                    PORTS
+motherboard_systems_hq-dashboard-1   motherboard_systems_hq-dashboard   "docker-entrypoint.s…"   dashboard   21 hours ago   Up 36 minutes (healthy)   0.0.0.0:8080->3000/tcp, [::]:8080->3000/tcp
+motherboard_systems_hq-postgres-1    postgres:16-alpine                 "docker-entrypoint.s…"   postgres    22 hours ago   Up 36 minutes             0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+
+=== POSTGRES: TASKS TABLE COLUMNS ===
+                                                                   Table "public.tasks"
+    Column    |           Type           | Collation | Nullable |              Default              | Storage  | Compression | Stats target | Description 
+--------------+--------------------------+-----------+----------+-----------------------------------+----------+-------------+--------------+-------------
+ id           | bigint                   |           | not null | nextval('tasks_id_seq'::regclass) | plain    |             |              | 
+ task_id      | text                     |           |          |                                   | extended |             |              | 
+ status       | text                     |           |          |                                   | extended |             |              | 
+ kind         | text                     |           |          |                                   | extended |             |              | 
+ payload      | jsonb                    |           |          |                                   | extended |             |              | 
+ created_at   | timestamp with time zone |           |          | now()                             | plain    |             |              | 
+ updated_at   | timestamp with time zone |           |          | now()                             | plain    |             |              | 
+ title        | text                     |           |          |                                   | extended |             |              | 
+ action_tier  | text                     |           |          |                                   | extended |             |              | 
+ run_id       | text                     |           |          |                                   | extended |             |              | 
+ claimed_by   | text                     |           |          |                                   | extended |             |              | 
+ notes        | text                     |           |          |                                   | extended |             |              | 
+ attempts     | integer                  |           | not null | 0                                 | plain    |             |              | 
+ max_attempts | integer                  |           |          |                                   | plain    |             |              | 
+Indexes:
+    "tasks_pkey" PRIMARY KEY, btree (id)
+    "tasks_task_id_idx" btree (task_id)
+    "tasks_task_id_key" UNIQUE CONSTRAINT, btree (task_id)
+Access method: heap
+
+
+=== POSTGRES: TASK_EVENTS TABLE COLUMNS ===
+                                                                        Table "public.task_events"
+   Column   |           Type           | Collation | Nullable |                       Default                       | Storage  | Compression | Stats target | Description 
+------------+--------------------------+-----------+----------+-----------------------------------------------------+----------+-------------+--------------+-------------
+ id         | bigint                   |           | not null | nextval('task_events_id_seq'::regclass)             | plain    |             |              | 
+ task_id    | text                     |           |          |                                                     | extended |             |              | 
+ kind       | text                     |           |          |                                                     | extended |             |              | 
+ actor      | text                     |           |          |                                                     | extended |             |              | 
+ payload    | jsonb                    |           |          |                                                     | extended |             |              | 
+ created_at | timestamp with time zone |           |          | now()                                               | plain    |             |              | 
+ run_id     | text                     |           |          |                                                     | extended |             |              | 
+ ts         | bigint                   |           | not null | (EXTRACT(epoch FROM now()) * 1000::numeric)::bigint | plain    |             |              | 
+Indexes:
+    "task_events_pkey" PRIMARY KEY, btree (id)
+    "task_events_created_at_idx" btree (created_at)
+    "task_events_task_id_idx" btree (task_id)
+Access method: heap
+
+
+=== POSTGRES: INFORMATION_SCHEMA CHECK ===
+ table_name  | column_name  
+-------------+--------------
+ task_events | id
+ task_events | task_id
+ task_events | kind
+ task_events | actor
+ task_events | payload
+ task_events | created_at
+ task_events | run_id
+ task_events | ts
+ tasks       | id
+ tasks       | task_id
+ tasks       | status
+ tasks       | kind
+ tasks       | payload
+ tasks       | created_at
+ tasks       | updated_at
+ tasks       | title
+ tasks       | action_tier
+ tasks       | run_id
+ tasks       | claimed_by
+ tasks       | notes
+ tasks       | attempts
+ tasks       | max_attempts
+(22 rows)
+
+
+=== REPO SEARCH: lease_expires_at / heartbeat / run prereqs ===
+drizzle_pg/0007_phase36_1_run_view.sql:6:-- - tasks has: task_id(text unique), status (e.g. 'running','completed'), claimed_by, actor, lease_expires_at (epoch ms)
+drizzle_pg/0007_phase36_1_run_view.sql:27:    MAX(te.ts) AS last_heartbeat_ts
+drizzle_pg/0007_phase36_1_run_view.sql:49:  -- actor/owner: prefer latest event.actor; fall back to tasks.claimed_by / tasks.actor
+drizzle_pg/0007_phase36_1_run_view.sql:50:  COALESCE(NULLIF(le.last_event_actor,''), NULLIF(t.claimed_by,'')) AS actor,
+drizzle_pg/0007_phase36_1_run_view.sql:53:  t.lease_expires_at,
+drizzle_pg/0007_phase36_1_run_view.sql:55:    WHEN t.lease_expires_at IS NULL THEN NULL
+drizzle_pg/0007_phase36_1_run_view.sql:56:    ELSE (t.lease_expires_at > (extract(epoch from now()) * 1000.0))::boolean
+drizzle_pg/0007_phase36_1_run_view.sql:57:  END AS lease_fresh,
+drizzle_pg/0007_phase36_1_run_view.sql:59:    WHEN t.lease_expires_at IS NULL THEN NULL
+drizzle_pg/0007_phase36_1_run_view.sql:60:    ELSE GREATEST(0, (t.lease_expires_at - (extract(epoch from now()) * 1000.0)))::bigint
+drizzle_pg/0007_phase36_1_run_view.sql:61:  END AS lease_ttl_ms,
+drizzle_pg/0007_phase36_1_run_view.sql:64:  lh.last_heartbeat_ts,
+drizzle_pg/0007_phase36_1_run_view.sql:66:    WHEN lh.last_heartbeat_ts IS NULL THEN NULL
+drizzle_pg/0007_phase36_1_run_view.sql:67:    ELSE GREATEST(0, ((extract(epoch from now()) * 1000.0) - lh.last_heartbeat_ts))::bigint
+drizzle_pg/0007_phase36_1_run_view.sql:68:  END AS heartbeat_age_ms,
+drizzle_pg/0001_phase31_7_failed_at_guard.sql:19:alter table tasks
+drizzle_pg/0001_phase31_7_failed_at_guard.sql:21:alter table tasks
+drizzle_pg/0008_phase39_action_tier_scaffolding.sql:5:ALTER TABLE tasks
+drizzle_pg/0008_phase39_action_tier_scaffolding.sql:15:    ALTER TABLE tasks
+drizzle_pg/0008_phase39_action_tier_scaffolding.sql:21:ALTER TABLE tasks
+drizzle_pg/0009_phase57_1_tasks_title.sql:5:ALTER TABLE tasks
+drizzle_pg/0007_phase35_lease_epoch.sql:1:ALTER TABLE tasks
+drizzle_pg/0007_phase35_lease_epoch.sql:5:  ON tasks (task_id, claimed_by, lease_epoch);
+drizzle_pg/0007_phase34_lease_heartbeat_reclaim.sql:5:  IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='tasks' AND column_name='claimed_by') THEN
+drizzle_pg/0007_phase34_lease_heartbeat_reclaim.sql:6:    ALTER TABLE tasks ADD COLUMN claimed_by TEXT NULL;
+drizzle_pg/0007_phase34_lease_heartbeat_reclaim.sql:10:    ALTER TABLE tasks ADD COLUMN claimed_at BIGINT NULL;
+drizzle_pg/0007_phase34_lease_heartbeat_reclaim.sql:13:  IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='tasks' AND column_name='lease_expires_at') THEN
+drizzle_pg/0007_phase34_lease_heartbeat_reclaim.sql:14:    ALTER TABLE tasks ADD COLUMN lease_expires_at BIGINT NULL;
+drizzle_pg/0007_phase34_lease_heartbeat_reclaim.sql:18:    ALTER TABLE tasks ADD COLUMN lease_epoch INT NOT NULL DEFAULT 0;
+drizzle_pg/0007_phase34_lease_heartbeat_reclaim.sql:33:    WHERE schemaname='public' AND tablename='tasks' AND indexname='tasks_lease_expires_at_idx'
+drizzle_pg/0007_phase34_lease_heartbeat_reclaim.sql:35:    CREATE INDEX tasks_lease_expires_at_idx ON tasks(lease_expires_at);
+drizzle_pg/0001_create_tasks.sql:20:  claimed_by           TEXT,
+drizzle_pg/0001_create_tasks.sql:29:  lease_expires_at     BIGINT,
+server/db_bootstrap_tasks_task_id.mjs:3:  await pool.query(`alter table tasks add column if not exists task_id text;`);
+server/db_bootstrap_tasks_retry_semantics.mjs:9:  await pool.query(`alter table tasks add column if not exists attempt int not null default 0;`);
+server/db_bootstrap_tasks_retry_semantics.mjs:10:  await pool.query(`alter table tasks add column if not exists max_attempts int not null default 5;`);
+server/db_bootstrap_tasks_retry_semantics.mjs:13:  await pool.query(`alter table tasks add column if not exists available_at timestamptz null;`);
+server/db_bootstrap_tasks_retry_semantics.mjs:14:  await pool.query(`alter table tasks add column if not exists locked_by text null;`);
+server/db_bootstrap_tasks_retry_semantics.mjs:15:  await pool.query(`alter table tasks add column if not exists lock_expires_at timestamptz null;`);
+server/db_bootstrap_tasks_retry_semantics.mjs:18:  await pool.query(`alter table tasks add column if not exists last_error jsonb null;`);
+server/worker/phase34_reclaim_stale_pg.sql:14:      claimed_by=NULL,
+server/worker/phase34_reclaim_stale_pg.sql:16:      lease_expires_at=NULL,
+server/worker/phase34_reclaim_stale_pg.sql:20:      (t.lease_expires_at IS NOT NULL AND t.lease_expires_at <= (extract(epoch from now())*1000)::bigint)
+server/worker/phase34_reclaim_stale_pg.sql:21:      OR (t.claimed_by IS NOT NULL AND t.claimed_by IN (SELECT owner FROM dead))
+server/worker/phase34_reclaim_stale_pg.sql:22:      OR (t.claimed_by IS NOT NULL AND NOT EXISTS (
+server/worker/phase34_reclaim_stale_pg.sql:23:            SELECT 1 FROM worker_heartbeats wh2 WHERE wh2.owner = t.claimed_by
+server/worker/phase34_claim_one_pg.sql:14:    claimed_by=$2,
+server/worker/phase34_claim_one_pg.sql:16:    lease_expires_at=((extract(epoch from now())*1000)::bigint + $3::bigint),
+server/worker/phase34_claim_one_pg.sql:20:RETURNING t.id, t.task_id, t.claimed_by, t.lease_expires_at, c.run_id;
+server/worker/phase35_mark_success.sql:7:     AND claimed_by = $2
+server/worker/phase34_mark_failure.sql:4:    lease_expires_at=NULL
+server/worker/phase29_db_migrate_to_phase27.sql:4:alter table tasks add column if not exists payload jsonb null;
+server/worker/phase29_db_migrate_to_phase27.sql:5:alter table tasks add column if not exists attempts integer not null default 0;
+server/worker/phase29_db_migrate_to_phase27.sql:6:alter table tasks add column if not exists next_run_at timestamptz null;
+server/worker/phase29_db_migrate_to_phase27.sql:29:-- 4) tasks: best-effort backfill next_run_at from available_at if present
+server/worker/phase29_db_migrate_to_phase27.sql:34:      set next_run_at = coalesce(next_run_at, available_at)
+server/worker/phase29_db_migrate_to_phase27.sql:35:    where next_run_at is null and available_at is not null;
+server/worker/phase29_db_migrate_to_phase27.sql:68:create index if not exists idx_tasks_status_next_run on tasks(status, next_run_at);
+server/worker/phase34_reclaim_stale.sql:12:      claimed_by=NULL,
+server/worker/phase34_reclaim_stale.sql:14:      lease_expires_at=NULL,
+server/worker/phase34_reclaim_stale.sql:18:      (lease_expires_at IS NOT NULL AND lease_expires_at <= :'now_ms'::bigint)
+server/worker/phase34_reclaim_stale.sql:19:      OR (claimed_by IS NOT NULL AND claimed_by IN (SELECT owner FROM dead))
+server/worker/phase34_reclaim_stale.sql:20:      OR (claimed_by IS NOT NULL AND NOT EXISTS (SELECT 1 FROM worker_heartbeats wh WHERE wh.owner=tasks.claimed_by))
+server/worker/phase35_mark_success_pg.sql:9:    lease_expires_at = NULL
+server/worker/phase35_mark_success_pg.sql:12:  AND claimed_by = $2
+server/worker/phase34_claim_one.sql:14:    claimed_by=:'owner',
+server/worker/phase34_claim_one.sql:16:    lease_expires_at=(:'now_ms'::bigint + :'lease_ms'::bigint),
+server/worker/phase34_claim_one.sql:20:RETURNING t.claimed_by;
+server/worker/phase35_claim_one_pg.sql:16:    claimed_by = $2,
+server/worker/phase35_claim_one_pg.sql:18:    lease_expires_at = ((extract(epoch from now())*1000)::bigint + $3::bigint),
+server/worker/phase35_claim_one_pg.sql:22:RETURNING t.id, t.claimed_by, t.lease_epoch;
+server/worker/phase34_mark_success.sql:4:    lease_expires_at=NULL
+server/worker/phase35_mark_failure.sql:7:     AND claimed_by = $2
+server/worker/phase30_db_doctor_pretty.sh:12:  (select count(*) from information_schema.columns where table_name='tasks' and column_name='next_run_at')::int as has_tasks_next_run_at,
+server/worker/phase30_db_doctor_pretty.sh:27:echo "tasks.next_run_at:  ${t_next}"
+server/worker/phase34_extend_lease_pg.sql:7:SET lease_expires_at = ((extract(epoch from now())*1000)::bigint + $4::bigint)
+server/worker/phase34_extend_lease_pg.sql:10:  AND claimed_by = $2::text
+server/worker/phase34_extend_lease_pg.sql:12:RETURNING id, lease_expires_at;
+server/worker/phase34_claim_task_id_for_test.sql:5:    claimed_by=:'owner',
+server/worker/phase34_claim_task_id_for_test.sql:7:    lease_expires_at=(:'now_ms'::bigint + :'lease_ms'::bigint),
+server/worker/phase34_claim_task_id_for_test.sql:11:RETURNING claimed_by;
+server/worker/phase30_contract_check.sql:11:  if not exists (select 1 from information_schema.columns where table_name='tasks' and column_name='next_run_at') then
+server/worker/phase30_contract_check.sql:12:    raise exception 'missing tasks.next_run_at';
+server/worker/phase32_mark_failure.sql:13:  claimed_by   = COALESCE(NULLIF(claimed_by,''), $3)
+server/worker/phase32_claim_one.sql:12:    AND (next_run_at IS NULL OR next_run_at <= now())
+server/worker/phase32_claim_one.sql:21:  claimed_by = $2,
+server/worker/phase26_task_worker.mjs:205:                next_run_at: failedRow.next_run_at,
+server/worker/phase35_reclaim_expired.sql:3:       claimed_by = NULL,
+server/worker/phase35_reclaim_expired.sql:5:       lease_expires_at = NULL,
+server/worker/phase35_reclaim_expired.sql:8:   AND lease_expires_at IS NOT NULL
+server/worker/phase35_reclaim_expired.sql:9:   AND lease_expires_at <= NOW()
+server/worker/phase29_db_doctor.sh:12:  (select count(*) from information_schema.columns where table_name='tasks' and column_name='next_run_at') as has_tasks_next_run_at,
+server/worker/phase28_mark_failure.sql:14:    next_run_at = $4,
+server/worker/phase35_mark_failure_pg.sql:10:    lease_expires_at = NULL
+server/worker/phase35_mark_failure_pg.sql:13:  AND claimed_by = $2
+server/worker/phase32_mark_success.sql:13:  claimed_by   = COALESCE(NULLIF(claimed_by,''), $3)
+server/routes/phase36_run_view.mjs:105:          lease_expires_at,
+server/routes/phase36_run_view.mjs:106:          lease_fresh,
+server/routes/phase36_run_view.mjs:107:          lease_ttl_ms,
+server/routes/phase36_run_view.mjs:108:          last_heartbeat_ts,
+server/routes/phase36_run_view.mjs:109:          heartbeat_age_ms,
+server/policy/policy_eval.mjs:22:    claimed_by: task?.claimed_by ?? task?.claimedBy ?? null,
+server/sql/phase39_claim_one_with_value_gate.sql:9:--  $2 = claimed_by / owner (text)
+server/sql/phase39_claim_one_with_value_gate.sql:16:    $2::text   AS claimed_by,
+server/sql/phase39_claim_one_with_value_gate.sql:42:      claimed_by = (SELECT claimed_by FROM params),
+server/sql/phase47_decision_correctness_invariants.sql:88:  WHERE table_schema='public' AND table_name='tasks' AND column_name IN ('lease_expires_at','lease_until','lease_expires_ts')
+server/sql/phase47_decision_correctness_invariants.sql:90:    WHEN column_name='lease_expires_at' THEN 0
+server/sql/phase47_decision_correctness_invariants.sql:98:  WHERE table_schema='public' AND table_name='tasks' AND column_name IN ('last_heartbeat_ts','heartbeat_ts','last_heartbeat_ms')
+server/sql/phase47_decision_correctness_invariants.sql:100:    WHEN column_name='last_heartbeat_ts' THEN 0
+sql/phase41_scenario_matrix_run_view.sql:14:      WHEN rv.lease_fresh IS TRUE AND NULLIF(BTRIM(COALESCE(rv.actor, '')), '') IS NOT NULL THEN 'S_LEASE_FRESH_WITH_ACTOR'
+sql/phase41_scenario_matrix_run_view.sql:15:      WHEN rv.lease_fresh IS TRUE AND NULLIF(BTRIM(COALESCE(rv.actor, '')), '') IS NULL THEN 'S_LEASE_FRESH_NO_ACTOR'
+sql/phase41_scenario_matrix_run_view.sql:16:      WHEN (rv.lease_fresh IS FALSE OR rv.lease_fresh IS NULL) AND NULLIF(BTRIM(COALESCE(rv.actor, '')), '') IS NOT NULL THEN 'S_LEASE_STALE_WITH_ACTOR'
+sql/phase41_scenario_matrix_run_view.sql:17:      WHEN (rv.lease_fresh IS FALSE OR rv.lease_fresh IS NULL) AND NULLIF(BTRIM(COALESCE(rv.actor, '')), '') IS NULL THEN 'S_NO_LEASE_NO_ACTOR'
+sql/phase41_scenario_matrix_run_view.sql:28:  lease_fresh,
+sql/phase41_scenario_matrix_run_view.sql:29:  lease_expires_at,
+sql/phase41_scenario_matrix_run_view.sql:30:  lease_ttl_ms,
+sql/phase41_scenario_matrix_run_view.sql:31:  last_heartbeat_ts,
+sql/phase41_scenario_matrix_run_view.sql:32:  heartbeat_age_ms,
+sql/phase40_claim_one_tierA.sql:10:--   :claimed_by
+sql/phase40_claim_one_tierA.sql:28:    claimed_by = $2,
+sql/phase40_claim_one_tierA.sql:40:  t.claimed_by,
+sql/phase41_invariants_run_view.sql:78:    'INV_030_lease_fresh_requires_lease_expires_at' AS invariant,
+sql/phase41_invariants_run_view.sql:80:    ('lease_fresh=' || COALESCE(lease_fresh::text,'<null>') || ' lease_expires_at=' || COALESCE(lease_expires_at::text,'<null>')) AS detail
+sql/phase41_invariants_run_view.sql:82:  WHERE lease_fresh IS TRUE AND lease_expires_at IS NULL
+sql/phase41_invariants_run_view.sql:86:    'INV_031_lease_ttl_ms_nonnegative_when_present' AS invariant,
+sql/phase41_invariants_run_view.sql:88:    ('lease_ttl_ms=' || COALESCE(lease_ttl_ms::text,'<null>')) AS detail
+sql/phase41_invariants_run_view.sql:90:  WHERE lease_ttl_ms IS NOT NULL AND lease_ttl_ms < 0
+sql/phase41_invariants_run_view.sql:94:    'INV_032_heartbeat_age_ms_nonnegative_when_present' AS invariant,
+sql/phase41_invariants_run_view.sql:96:    ('heartbeat_age_ms=' || COALESCE(heartbeat_age_ms::text,'<null>')) AS detail
+sql/phase41_invariants_run_view.sql:98:  WHERE heartbeat_age_ms IS NOT NULL AND heartbeat_age_ms < 0
+sql/phase41_invariants_run_view.sql:134:    ('task_status=<null> lease_fresh=' || COALESCE(lease_fresh::text,'<null>') || ' lease_expires_at=' || COALESCE(lease_expires_at::text,'<null>')) AS detail
+sql/phase41_invariants_run_view.sql:138:      lease_fresh IS TRUE
+sql/phase41_invariants_run_view.sql:139:      OR lease_expires_at IS NOT NULL
+sql/phase41_invariants_run_view.sql:140:      OR lease_ttl_ms IS NOT NULL
+scripts/smoke/phase34_reclaim_proof.zsh:16:  claimed_by,claimed_at,lease_expires_at,lease_epoch
+scripts/smoke/phase34_reclaim_proof.zsh:38:"select id,status,claimed_by,lease_expires_at,lease_epoch from tasks where id=$TASK_ID;"
+scripts/smoke/phase34_reclaim_proof.zsh:53:      claimed_by=NULL,
+scripts/smoke/phase34_reclaim_proof.zsh:55:      lease_expires_at=NULL,
+scripts/smoke/phase34_reclaim_proof.zsh:59:      (t.lease_expires_at IS NOT NULL AND t.lease_expires_at <= (extract(epoch from now())*1000)::bigint)
+scripts/smoke/phase34_reclaim_proof.zsh:60:      OR (t.claimed_by IS NOT NULL AND t.claimed_by IN (SELECT owner FROM dead))
+scripts/smoke/phase34_reclaim_proof.zsh:61:      OR (t.claimed_by IS NOT NULL AND NOT EXISTS (
+scripts/smoke/phase34_reclaim_proof.zsh:62:            SELECT 1 FROM worker_heartbeats wh2 WHERE wh2.owner = t.claimed_by
+scripts/smoke/phase34_reclaim_proof.zsh:71:"select id,status,claimed_by,lease_expires_at,lease_epoch from tasks where id=$TASK_ID;"
+scripts/smoke/phase35_epoch_owner_proof.zsh:60:  INSERT INTO tasks(title, agent, status, source, trace_id, meta, claimed_by, claimed_at, lease_expires_at, lease_epoch)
+scripts/smoke/phase35_epoch_owner_proof.zsh:81:"${PSQL_BASE[@]}" -q -X -c "SELECT id,status,claimed_by,lease_epoch,lease_expires_at FROM tasks WHERE id=$TASK_ID;"
+scripts/smoke/phase35_epoch_owner_proof.zsh:98:      claimed_by=NULL,
+scripts/smoke/phase35_epoch_owner_proof.zsh:100:      lease_expires_at=NULL,
+scripts/smoke/phase35_epoch_owner_proof.zsh:105:      (t.lease_expires_at IS NOT NULL AND t.lease_expires_at <= (extract(epoch from now())*1000)::bigint)
+scripts/smoke/phase35_epoch_owner_proof.zsh:106:      OR (t.claimed_by IS NOT NULL AND t.claimed_by IN (SELECT owner FROM dead))
+scripts/smoke/phase35_epoch_owner_proof.zsh:107:      OR (t.claimed_by IS NOT NULL AND NOT EXISTS (
+scripts/smoke/phase35_epoch_owner_proof.zsh:108:            SELECT 1 FROM worker_heartbeats wh2 WHERE wh2.owner = t.claimed_by
+scripts/smoke/phase35_epoch_owner_proof.zsh:120:POST_ROW="$("${PSQL_BASE[@]}" -t -A -c "SELECT status||'|'||COALESCE(claimed_by,'')||'|'||lease_epoch::text FROM tasks WHERE id=$TASK_ID;")"
+scripts/smoke/phase35_epoch_owner_proof.zsh:130:      lease_expires_at=NULL
+scripts/smoke/phase35_epoch_owner_proof.zsh:133:    AND claimed_by='$STALE_OWNER'
+scripts/smoke/phase35_epoch_owner_proof.zsh:144:POST2="$("${PSQL_BASE[@]}" -t -A -c "SELECT status||'|'||COALESCE(claimed_by,'')||'|'||lease_epoch::text FROM tasks WHERE id=$TASK_ID;")"
+scripts/phase40_tierA_claim_gate_smoke.sh:50:  -v claimed_by="phase40-smoke" -v run_id="$RID" \
+scripts/phase57_ci_bootstrap.sh:73:  claimed_by TEXT NULL,
+scripts/phase57_ci_bootstrap.sh:75:  lease_expires_at BIGINT NULL,
+scripts/phase39_patch_worker_gate.py:43:    "lease_expires_at",
+scripts/phase35_pg_fix_tasks_actor_run_id.sql:3:ALTER TABLE tasks
+scripts/phase35_pg_fix_tasks_actor_run_id.sql:6:ALTER TABLE tasks
+scripts/phase39_action_tier_smoke.sh:149:SELECT id, task_id, status, attempts, action_tier, claimed_by, run_id, created_at, updated_at
+scripts/phase39_action_tier_smoke.sh:214:      claimed_by='${SMOKE_OWNER}',
+scripts/phase39_action_tier_smoke.sh:263:      claimed_by='${SMOKE_OWNER}',
+scripts/phase36_4_inject_run_list_route.py:106:        last_heartbeat_ts,
+scripts/phase36_4_inject_run_list_route.py:107:        heartbeat_age_ms,
+scripts/phase36_4_inject_run_list_route.py:108:        lease_expires_at,
+scripts/phase36_4_inject_run_list_route.py:109:        lease_fresh,
+scripts/phase36_4_inject_run_list_route.py:110:        lease_ttl_ms,
+scripts/phase34_reclaim_kill_verify.sh:49:CB="$("${PSQL_BASE[@]}" -Atc "select claimed_by from tasks where id=$TASK_ID;")"
+scripts/phase34_reclaim_kill_verify.sh:55:"${PSQL_BASE[@]}" -c "update tasks set lease_expires_at=0 where id=$TASK_ID;" >/dev/null
+scripts/phase34_reclaim_kill_verify.sh:60:CB2="$("${PSQL_BASE[@]}" -Atc "select coalesce(claimed_by,'') from tasks where id=$TASK_ID;")"
+scripts/phase34_reclaim_kill_verify.sh:64:[[ -z "$CB2" && "$ST2" == "created" ]] || { echo "FAIL reclaim (status=<$ST2> claimed_by=<$CB2>)"; exit 1; }
+scripts/phase34_reclaim_kill_verify.sh:71:CB3="$("${PSQL_BASE[@]}" -Atc "select claimed_by from tasks where id=$TASK_ID;")"
+scripts/phase39_value_gate_smoke.sh:81:SELECT id, task_id, status, claimed_by, attempts, action_tier
+scripts/phase39_value_gate_smoke.sh:95:SELECT id, task_id, status, claimed_by, attempts, action_tier
+scripts/phase36_3_probe_run_view.sh:28:  last_heartbeat_ts,
+scripts/phase36_3_probe_run_view.sh:29:  heartbeat_age_ms,
+scripts/phase36_3_probe_run_view.sh:30:  lease_expires_at,
+scripts/phase36_3_probe_run_view.sh:31:  lease_fresh,
+scripts/phase36_3_probe_run_view.sh:32:  lease_ttl_ms,
+scripts/phase35_pg_add_lock_compat.sql:2:ALTER TABLE tasks
+scripts/phase32_verify.sh:31:select id,status,attempts,max_attempts,next_run_at,failed_at,completed_at,run_id,actor,meta,last_error
+scripts/phase456_tasks_schema_prereq_evidence.sh:42:  echo "=== REPO SEARCH: lease_expires_at / heartbeat / run prereqs ==="
+scripts/phase456_tasks_schema_prereq_evidence.sh:43:  grep -RniE "lease_expires_at|last_heartbeat_ts|heartbeat_age_ms|lease_fresh|lease_ttl_ms|next_run_at|claimed_by|ALTER TABLE tasks|ADD COLUMN.*lease_expires_at|ADD COLUMN.*last_heartbeat_ts" \
+scripts/phase456_tasks_schema_prereq_evidence.sh:48:  grep -RniE "CREATE TABLE tasks|ALTER TABLE tasks|db_bootstrap|bootstrap|phase29|phase30|phase54_bootstrap|task_events" \
+scripts/phase41_tierA_claim_gate_smoke.sh:44:CLAIMED_BY="phase41-smoke"
+scripts/phase41_tierA_claim_gate_smoke.sh:56:      -v claimed_by="${CLAIMED_BY}" \
+scripts/phase41_tierA_claim_gate_smoke.sh:73:  # id, task_id, title, status, action_tier, attempts, max_attempts, claimed_by, run_id
+scripts/phase41_tierA_claim_gate_smoke.sh:108:SELECT task_id, status, action_tier, claimed_by, run_id
+scripts/debug/phase35_worker_no_complete_probe.zsh:131:SELECT task_id, title, status, claimed_by, claimed_at, lease_expires_at, lease_epoch, created_at
+scripts/phase27_wire_worker_backoff.sh:140:      and (coalesce(next_run_at, to_timestamp(0)) <= now())
+scripts/phase27_wire_worker_backoff.sh:150:    lease_expires_at = $2,
+scripts/phase27_wire_worker_backoff.sh:168:        and (coalesce(next_run_at, to_timestamp(0)) <= now())
+scripts/phase27_wire_worker_backoff.sh:178:      lease_expires_at = $2,
+scripts/phase27_wire_worker_backoff.sh:272:      payload: { ts: ms(), lease_expires_at: task.lease_expires_at ?? null }
+./PHASE37_RUN_VIEW_DEFINITION.sql:4:    lease_expires_at,
+./PHASE37_RUN_VIEW_DEFINITION.sql:5:    lease_fresh,
+./PHASE37_RUN_VIEW_DEFINITION.sql:6:    lease_ttl_ms,
+./PHASE37_RUN_VIEW_DEFINITION.sql:7:    last_heartbeat_ts,
+./PHASE37_RUN_VIEW_DEFINITION.sql:8:    heartbeat_age_ms,
+./PHASE37_RUN_VIEW_DEFINITION.sql:30:                    max(te_1.ts) AS last_heartbeat_ts
+./PHASE37_RUN_VIEW_DEFINITION.sql:46:            COALESCE(NULLIF(le.last_event_actor, ''::text), NULLIF(t.claimed_by, ''::text), NULLIF(t.actor, ''::text)) AS actor,
+./PHASE37_RUN_VIEW_DEFINITION.sql:47:            t.lease_expires_at,
+./PHASE37_RUN_VIEW_DEFINITION.sql:49:                    WHEN t.lease_expires_at IS NULL THEN NULL::boolean
+./PHASE37_RUN_VIEW_DEFINITION.sql:50:                    ELSE t.lease_expires_at::numeric > (EXTRACT(epoch FROM now()) * 1000.0)
+./PHASE37_RUN_VIEW_DEFINITION.sql:51:                END AS lease_fresh,
+./PHASE37_RUN_VIEW_DEFINITION.sql:53:                    WHEN t.lease_expires_at IS NULL THEN NULL::bigint
+./PHASE37_RUN_VIEW_DEFINITION.sql:54:                    ELSE GREATEST(0::numeric, t.lease_expires_at::numeric - EXTRACT(epoch FROM now()) * 1000.0)::bigint
+./PHASE37_RUN_VIEW_DEFINITION.sql:55:                END AS lease_ttl_ms,
+./PHASE37_RUN_VIEW_DEFINITION.sql:56:            lh.last_heartbeat_ts,
+./PHASE37_RUN_VIEW_DEFINITION.sql:58:                    WHEN lh.last_heartbeat_ts IS NULL THEN NULL::bigint
+./PHASE37_RUN_VIEW_DEFINITION.sql:59:                    ELSE GREATEST(0::numeric, EXTRACT(epoch FROM now()) * 1000.0 - lh.last_heartbeat_ts::numeric)::bigint
+./PHASE37_RUN_VIEW_DEFINITION.sql:60:                END AS heartbeat_age_ms,
+./PHASE37_RUN_VIEW_PROVENANCE_HINTS.md:33:## lease_expires_at
+./PHASE37_RUN_VIEW_PROVENANCE_HINTS.md:39:## lease_fresh
+./PHASE37_RUN_VIEW_PROVENANCE_HINTS.md:45:## lease_ttl_ms
+./PHASE37_RUN_VIEW_PROVENANCE_HINTS.md:51:## last_heartbeat_ts
+./PHASE37_RUN_VIEW_PROVENANCE_HINTS.md:57:## heartbeat_age_ms
+./artifacts/phase37_3_integrity_gaps_20260211_130102/run-1770230918944-5cba86c718dda.txt:3:             run_id              | task_id |   actor   | lease_expires_at | lease_fresh | lease_ttl_ms | last_heartbeat_ts | heartbeat_age_ms | last_event_id | last_event_ts | last_event_kind | task_status | is_terminal | terminal_event_kind | terminal_event_ts | terminal_event_id 
+./artifacts/phase37_3_integrity_gaps_20260211_130102/run-1770230918944-5cba86c718dda.txt:8: id | task_id | status | claimed_by | claimed_at | lease_epoch | lease_expires_at | run_id | actor | error | updated_at 
+./artifacts/phase37_3_integrity_gaps_20260211_130102/run-1770399741086-b9a6bed9fe2c9.txt:3:             run_id              |         task_id          |   actor   | lease_expires_at | lease_fresh | lease_ttl_ms | last_heartbeat_ts | heartbeat_age_ms | last_event_id | last_event_ts | last_event_kind | task_status | is_terminal | terminal_event_kind | terminal_event_ts | terminal_event_id 
+./artifacts/phase37_3_integrity_gaps_20260211_130102/run-1770399741086-b9a6bed9fe2c9.txt:8: id |         task_id          |  status   | claimed_by |  claimed_at   | lease_epoch | lease_expires_at |             run_id              |   actor   | error |          updated_at           
+./artifacts/phase37_3_integrity_gaps_20260211_130102/run-1770234846688-2e40cffc4ae86.txt:3:             run_id              | task_id |   actor   | lease_expires_at | lease_fresh | lease_ttl_ms | last_heartbeat_ts | heartbeat_age_ms | last_event_id | last_event_ts | last_event_kind | task_status | is_terminal | terminal_event_kind | terminal_event_ts | terminal_event_id 
+./artifacts/phase37_3_integrity_gaps_20260211_130102/run-1770234846688-2e40cffc4ae86.txt:8: id | task_id |  status   | claimed_by |  claimed_at   | lease_epoch | lease_expires_at |             run_id              |   actor   | error |          updated_at          
+./artifacts/phase37_3_integrity_gaps_20260211_130102/acceptance.out:24: section | run_id | task_id | actor | lease_expires_at | lease_fresh | lease_ttl_ms | last_heartbeat_ts | heartbeat_age_ms | last_event_id | last_event_ts | last_event_kind | task_status | is_terminal | terminal_event_kind | terminal_event_ts | terminal_event_id 
+./artifacts/phase37_3_integrity_gaps_20260211_130102/acceptance.out:44: check | run_id | lease_expires_at | lease_fresh | lease_ttl_ms 
+./artifacts/phase37_3_integrity_gaps_20260211_130102/acceptance.out:49: check | run_id | last_heartbeat_ts | heartbeat_age_ms 
+./artifacts/phase37_3_integrity_gaps_20260211_130102/run-1770399741087-c4e09fe3ba3de.txt:3:             run_id              |         task_id         |   actor   | lease_expires_at | lease_fresh | lease_ttl_ms | last_heartbeat_ts | heartbeat_age_ms | last_event_id | last_event_ts | last_event_kind | task_status | is_terminal | terminal_event_kind | terminal_event_ts | terminal_event_id 
+./artifacts/phase37_3_integrity_gaps_20260211_130102/run-1770399741087-c4e09fe3ba3de.txt:8: id |         task_id         |  status   | claimed_by |  claimed_at   | lease_epoch | lease_expires_at |             run_id              |   actor   | error |          updated_at           
+./artifacts/phase37_3_integrity_gaps_20260211_130102/run-1770231068596-ee66e3b5d20df.txt:3:             run_id              | task_id |   actor   | lease_expires_at | lease_fresh | lease_ttl_ms | last_heartbeat_ts | heartbeat_age_ms | last_event_id | last_event_ts | last_event_kind | task_status | is_terminal | terminal_event_kind | terminal_event_ts | terminal_event_id 
+./artifacts/phase37_3_integrity_gaps_20260211_130102/run-1770231068596-ee66e3b5d20df.txt:8: id | task_id | status | claimed_by | claimed_at | lease_epoch | lease_expires_at | run_id | actor | error | updated_at 
+./PHASE37_ACCEPTANCE_CHECKS.sql:164:-- 5a) Quick look at runs where lease_fresh=false but ttl still positive (if that should be impossible)
+./PHASE37_ACCEPTANCE_CHECKS.sql:166:  'lease_fresh_vs_ttl' AS check,
+./PHASE37_ACCEPTANCE_CHECKS.sql:168:  lease_expires_at,
+./PHASE37_ACCEPTANCE_CHECKS.sql:169:  lease_fresh,
+./PHASE37_ACCEPTANCE_CHECKS.sql:170:  lease_ttl_ms
+./PHASE37_ACCEPTANCE_CHECKS.sql:172:WHERE lease_expires_at IS NOT NULL
+./PHASE37_ACCEPTANCE_CHECKS.sql:173:  AND lease_ttl_ms IS NOT NULL
+./PHASE37_ACCEPTANCE_CHECKS.sql:174:  AND lease_fresh = false
+./PHASE37_ACCEPTANCE_CHECKS.sql:175:  AND lease_ttl_ms > 0
+./PHASE37_ACCEPTANCE_CHECKS.sql:176:ORDER BY lease_ttl_ms DESC
+./PHASE37_ACCEPTANCE_CHECKS.sql:179:-- 5b) Quick look at negative heartbeat_age_ms (should not happen if derived from now-ts correctly)
+./PHASE37_ACCEPTANCE_CHECKS.sql:183:  last_heartbeat_ts,
+./PHASE37_ACCEPTANCE_CHECKS.sql:184:  heartbeat_age_ms
+./PHASE37_ACCEPTANCE_CHECKS.sql:186:WHERE heartbeat_age_ms IS NOT NULL
+./PHASE37_ACCEPTANCE_CHECKS.sql:187:  AND heartbeat_age_ms < 0
+./PHASE37_ACCEPTANCE_CHECKS.sql:188:ORDER BY heartbeat_age_ms
+./PHASE36_3_NEXT.md:66:        "last_heartbeat_ts": 1770000000000,
+./PHASE36_3_NEXT.md:67:        "heartbeat_age_ms": 0,
+./PHASE36_3_NEXT.md:68:        "lease_expires_at": 1770000010000,
+./PHASE36_3_NEXT.md:69:        "lease_fresh": true,
+./PHASE36_3_NEXT.md:70:        "lease_ttl_ms": 10000,
+./drizzle_pg/0007_phase36_1_run_view.sql:6:-- - tasks has: task_id(text unique), status (e.g. 'running','completed'), claimed_by, actor, lease_expires_at (epoch ms)
+./drizzle_pg/0007_phase36_1_run_view.sql:27:    MAX(te.ts) AS last_heartbeat_ts
+./drizzle_pg/0007_phase36_1_run_view.sql:49:  -- actor/owner: prefer latest event.actor; fall back to tasks.claimed_by / tasks.actor
+./drizzle_pg/0007_phase36_1_run_view.sql:50:  COALESCE(NULLIF(le.last_event_actor,''), NULLIF(t.claimed_by,'')) AS actor,
+./drizzle_pg/0007_phase36_1_run_view.sql:53:  t.lease_expires_at,
+./drizzle_pg/0007_phase36_1_run_view.sql:55:    WHEN t.lease_expires_at IS NULL THEN NULL
+./drizzle_pg/0007_phase36_1_run_view.sql:56:    ELSE (t.lease_expires_at > (extract(epoch from now()) * 1000.0))::boolean
+./drizzle_pg/0007_phase36_1_run_view.sql:57:  END AS lease_fresh,
+./drizzle_pg/0007_phase36_1_run_view.sql:59:    WHEN t.lease_expires_at IS NULL THEN NULL
+./drizzle_pg/0007_phase36_1_run_view.sql:60:    ELSE GREATEST(0, (t.lease_expires_at - (extract(epoch from now()) * 1000.0)))::bigint
+./drizzle_pg/0007_phase36_1_run_view.sql:61:  END AS lease_ttl_ms,
+./drizzle_pg/0007_phase36_1_run_view.sql:64:  lh.last_heartbeat_ts,
+./drizzle_pg/0007_phase36_1_run_view.sql:66:    WHEN lh.last_heartbeat_ts IS NULL THEN NULL
+./drizzle_pg/0007_phase36_1_run_view.sql:67:    ELSE GREATEST(0, ((extract(epoch from now()) * 1000.0) - lh.last_heartbeat_ts))::bigint
+./drizzle_pg/0007_phase36_1_run_view.sql:68:  END AS heartbeat_age_ms,
+./drizzle_pg/0001_phase31_7_failed_at_guard.sql:19:alter table tasks
+./drizzle_pg/0001_phase31_7_failed_at_guard.sql:21:alter table tasks
+./drizzle_pg/0008_phase39_action_tier_scaffolding.sql:5:ALTER TABLE tasks
+./drizzle_pg/0008_phase39_action_tier_scaffolding.sql:15:    ALTER TABLE tasks
+./drizzle_pg/0008_phase39_action_tier_scaffolding.sql:21:ALTER TABLE tasks
+./drizzle_pg/0009_phase57_1_tasks_title.sql:5:ALTER TABLE tasks
+./drizzle_pg/0007_phase35_lease_epoch.sql:1:ALTER TABLE tasks
+./drizzle_pg/0007_phase35_lease_epoch.sql:5:  ON tasks (task_id, claimed_by, lease_epoch);
+./drizzle_pg/0007_phase34_lease_heartbeat_reclaim.sql:5:  IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='tasks' AND column_name='claimed_by') THEN
+./drizzle_pg/0007_phase34_lease_heartbeat_reclaim.sql:6:    ALTER TABLE tasks ADD COLUMN claimed_by TEXT NULL;
+./drizzle_pg/0007_phase34_lease_heartbeat_reclaim.sql:10:    ALTER TABLE tasks ADD COLUMN claimed_at BIGINT NULL;
+./drizzle_pg/0007_phase34_lease_heartbeat_reclaim.sql:13:  IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='tasks' AND column_name='lease_expires_at') THEN
+./drizzle_pg/0007_phase34_lease_heartbeat_reclaim.sql:14:    ALTER TABLE tasks ADD COLUMN lease_expires_at BIGINT NULL;
+./drizzle_pg/0007_phase34_lease_heartbeat_reclaim.sql:18:    ALTER TABLE tasks ADD COLUMN lease_epoch INT NOT NULL DEFAULT 0;
+./drizzle_pg/0007_phase34_lease_heartbeat_reclaim.sql:33:    WHERE schemaname='public' AND tablename='tasks' AND indexname='tasks_lease_expires_at_idx'
+./drizzle_pg/0007_phase34_lease_heartbeat_reclaim.sql:35:    CREATE INDEX tasks_lease_expires_at_idx ON tasks(lease_expires_at);
+./drizzle_pg/0001_create_tasks.sql:20:  claimed_by           TEXT,
+./drizzle_pg/0001_create_tasks.sql:29:  lease_expires_at     BIGINT,
+./PHASE33_NEXT.md:10:- Validate retry/backoff behavior and observability (attempts/next_run_at/last_error).
+./PHASE29_HANDOFF.md:13:    - tasks: payload/meta/attempt/attempts/available_at/next_run_at
+./PHASE29_HANDOFF.md:17:    - tasks: add payload jsonb + attempts int + next_run_at timestamptz (if missing)
+./PHASE29_HANDOFF.md:20:    - backfill next_run_at from available_at (best-effort)
+./PHASE36_3_HANDOFF.md:11:  - lease_expires_at, lease_fresh, lease_ttl_ms
+./PHASE36_3_HANDOFF.md:12:  - last_heartbeat_ts, heartbeat_age_ms
+./PHASE37_RUN_PROJECTION_CONTRACT.md:23:| 4 | `lease_expires_at` | bigint |  | 64 | 0 | YES |
+./PHASE37_RUN_PROJECTION_CONTRACT.md:24:| 5 | `lease_fresh` | boolean |  |  |  | YES |
+./PHASE37_RUN_PROJECTION_CONTRACT.md:25:| 6 | `lease_ttl_ms` | bigint |  | 64 | 0 | YES |
+./PHASE37_RUN_PROJECTION_CONTRACT.md:26:| 7 | `last_heartbeat_ts` | bigint |  | 64 | 0 | YES |
+./PHASE37_RUN_PROJECTION_CONTRACT.md:27:| 8 | `heartbeat_age_ms` | bigint |  | 64 | 0 | YES |
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:169:./sql/phase41_invariants_run_view.sql:134:    ('task_status=<null> lease_fresh=' || COALESCE(lease_fresh::text,'<null>') || ' lease_expires_at=' || COALESCE(lease_expires_at::text,'<null>')) AS detail
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:216:./artifacts/phase37_3_integrity_gaps_20260211_130102/run-1770231068596-ee66e3b5d20df.txt:3:             run_id              | task_id |   actor   | lease_expires_at | lease_fresh | lease_ttl_ms | last_heartbeat_ts | heartbeat_age_ms | last_event_id | last_event_ts | last_event_kind | task_status | is_terminal | terminal_event_kind | terminal_event_ts | terminal_event_id 
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:217:./artifacts/phase37_3_integrity_gaps_20260211_130102/run-1770231068596-ee66e3b5d20df.txt:8: id | task_id | status | claimed_by | claimed_at | lease_epoch | lease_expires_at | run_id | actor | error | updated_at 
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:243:./artifacts/phase37_3_integrity_gaps_20260211_130102/run-1770399741087-c4e09fe3ba3de.txt:3:             run_id              |         task_id         |   actor   | lease_expires_at | lease_fresh | lease_ttl_ms | last_heartbeat_ts | heartbeat_age_ms | last_event_id | last_event_ts | last_event_kind | task_status | is_terminal | terminal_event_kind | terminal_event_ts | terminal_event_id 
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:244:./artifacts/phase37_3_integrity_gaps_20260211_130102/run-1770399741087-c4e09fe3ba3de.txt:8: id |         task_id         |  status   | claimed_by |  claimed_at   | lease_epoch | lease_expires_at |             run_id              |   actor   | error |          updated_at           
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:255:./artifacts/phase37_3_integrity_gaps_20260211_130102/acceptance.out:24: section | run_id | task_id | actor | lease_expires_at | lease_fresh | lease_ttl_ms | last_heartbeat_ts | heartbeat_age_ms | last_event_id | last_event_ts | last_event_kind | task_status | is_terminal | terminal_event_kind | terminal_event_ts | terminal_event_id 
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:257:./artifacts/phase37_3_integrity_gaps_20260211_130102/run-1770234846688-2e40cffc4ae86.txt:3:             run_id              | task_id |   actor   | lease_expires_at | lease_fresh | lease_ttl_ms | last_heartbeat_ts | heartbeat_age_ms | last_event_id | last_event_ts | last_event_kind | task_status | is_terminal | terminal_event_kind | terminal_event_ts | terminal_event_id 
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:258:./artifacts/phase37_3_integrity_gaps_20260211_130102/run-1770234846688-2e40cffc4ae86.txt:8: id | task_id |  status   | claimed_by |  claimed_at   | lease_epoch | lease_expires_at |             run_id              |   actor   | error |          updated_at          
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:267:./artifacts/phase37_3_integrity_gaps_20260211_130102/run-1770399741086-b9a6bed9fe2c9.txt:3:             run_id              |         task_id          |   actor   | lease_expires_at | lease_fresh | lease_ttl_ms | last_heartbeat_ts | heartbeat_age_ms | last_event_id | last_event_ts | last_event_kind | task_status | is_terminal | terminal_event_kind | terminal_event_ts | terminal_event_id 
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:268:./artifacts/phase37_3_integrity_gaps_20260211_130102/run-1770399741086-b9a6bed9fe2c9.txt:8: id |         task_id          |  status   | claimed_by |  claimed_at   | lease_epoch | lease_expires_at |             run_id              |   actor   | error |          updated_at           
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:270:./artifacts/phase37_3_integrity_gaps_20260211_130102/run-1770230918944-5cba86c718dda.txt:3:             run_id              | task_id |   actor   | lease_expires_at | lease_fresh | lease_ttl_ms | last_heartbeat_ts | heartbeat_age_ms | last_event_id | last_event_ts | last_event_kind | task_status | is_terminal | terminal_event_kind | terminal_event_ts | terminal_event_id 
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:271:./artifacts/phase37_3_integrity_gaps_20260211_130102/run-1770230918944-5cba86c718dda.txt:8: id | task_id | status | claimed_by | claimed_at | lease_epoch | lease_expires_at | run_id | actor | error | updated_at 
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:272:./drizzle/0002_phase32_retry_backoff_minimal.sql:10:  ON tasks (status, next_run_at, id);
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:506:./drizzle_pg/0007_phase36_1_run_view.sql:6:-- - tasks has: task_id(text unique), status (e.g. 'running','completed'), claimed_by, actor, lease_expires_at (epoch ms)
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1144:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:169:./sql/phase41_invariants_run_view.sql:134:    ('task_status=<null> lease_fresh=' || COALESCE(lease_fresh::text,'<null>') || ' lease_expires_at=' || COALESCE(lease_expires_at::text,'<null>')) AS detail
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1191:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:216:./artifacts/phase37_3_integrity_gaps_20260211_130102/run-1770231068596-ee66e3b5d20df.txt:3:             run_id              | task_id |   actor   | lease_expires_at | lease_fresh | lease_ttl_ms | last_heartbeat_ts | heartbeat_age_ms | last_event_id | last_event_ts | last_event_kind | task_status | is_terminal | terminal_event_kind | terminal_event_ts | terminal_event_id 
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1192:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:217:./artifacts/phase37_3_integrity_gaps_20260211_130102/run-1770231068596-ee66e3b5d20df.txt:8: id | task_id | status | claimed_by | claimed_at | lease_epoch | lease_expires_at | run_id | actor | error | updated_at 
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1218:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:243:./artifacts/phase37_3_integrity_gaps_20260211_130102/run-1770399741087-c4e09fe3ba3de.txt:3:             run_id              |         task_id         |   actor   | lease_expires_at | lease_fresh | lease_ttl_ms | last_heartbeat_ts | heartbeat_age_ms | last_event_id | last_event_ts | last_event_kind | task_status | is_terminal | terminal_event_kind | terminal_event_ts | terminal_event_id 
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1219:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:244:./artifacts/phase37_3_integrity_gaps_20260211_130102/run-1770399741087-c4e09fe3ba3de.txt:8: id |         task_id         |  status   | claimed_by |  claimed_at   | lease_epoch | lease_expires_at |             run_id              |   actor   | error |          updated_at           
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1230:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:255:./artifacts/phase37_3_integrity_gaps_20260211_130102/acceptance.out:24: section | run_id | task_id | actor | lease_expires_at | lease_fresh | lease_ttl_ms | last_heartbeat_ts | heartbeat_age_ms | last_event_id | last_event_ts | last_event_kind | task_status | is_terminal | terminal_event_kind | terminal_event_ts | terminal_event_id 
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1232:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:257:./artifacts/phase37_3_integrity_gaps_20260211_130102/run-1770234846688-2e40cffc4ae86.txt:3:             run_id              | task_id |   actor   | lease_expires_at | lease_fresh | lease_ttl_ms | last_heartbeat_ts | heartbeat_age_ms | last_event_id | last_event_ts | last_event_kind | task_status | is_terminal | terminal_event_kind | terminal_event_ts | terminal_event_id 
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1233:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:258:./artifacts/phase37_3_integrity_gaps_20260211_130102/run-1770234846688-2e40cffc4ae86.txt:8: id | task_id |  status   | claimed_by |  claimed_at   | lease_epoch | lease_expires_at |             run_id              |   actor   | error |          updated_at          
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1242:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:267:./artifacts/phase37_3_integrity_gaps_20260211_130102/run-1770399741086-b9a6bed9fe2c9.txt:3:             run_id              |         task_id          |   actor   | lease_expires_at | lease_fresh | lease_ttl_ms | last_heartbeat_ts | heartbeat_age_ms | last_event_id | last_event_ts | last_event_kind | task_status | is_terminal | terminal_event_kind | terminal_event_ts | terminal_event_id 
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1243:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:268:./artifacts/phase37_3_integrity_gaps_20260211_130102/run-1770399741086-b9a6bed9fe2c9.txt:8: id |         task_id          |  status   | claimed_by |  claimed_at   | lease_epoch | lease_expires_at |             run_id              |   actor   | error |          updated_at           
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1245:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:270:./artifacts/phase37_3_integrity_gaps_20260211_130102/run-1770230918944-5cba86c718dda.txt:3:             run_id              | task_id |   actor   | lease_expires_at | lease_fresh | lease_ttl_ms | last_heartbeat_ts | heartbeat_age_ms | last_event_id | last_event_ts | last_event_kind | task_status | is_terminal | terminal_event_kind | terminal_event_ts | terminal_event_id 
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1246:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:271:./artifacts/phase37_3_integrity_gaps_20260211_130102/run-1770230918944-5cba86c718dda.txt:8: id | task_id | status | claimed_by | claimed_at | lease_epoch | lease_expires_at | run_id | actor | error | updated_at 
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1247:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:272:./drizzle/0002_phase32_retry_backoff_minimal.sql:10:  ON tasks (status, next_run_at, id);
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:1481:./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:506:./drizzle_pg/0007_phase36_1_run_view.sql:6:-- - tasks has: task_id(text unique), status (e.g. 'running','completed'), claimed_by, actor, lease_expires_at (epoch ms)
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2117:./PHASE32_SUPERVISOR_SUMMARY.txt:17:- index (status, next_run_at, id)
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:2936:./server/worker/phase29_db_migrate_to_phase27.sql:68:create index if not exists idx_tasks_status_next_run on tasks(status, next_run_at);
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:3423:./docs/PHASE39_VALUE_ALIGNMENT.md:47:2) The task row remains unchanged (status/claimed_by/attempts).
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:4325:./scripts/debug/phase35_worker_no_complete_probe.zsh:131:SELECT task_id, title, status, claimed_by, claimed_at, lease_expires_at, lease_epoch, created_at
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:5278:./scripts/phase41_tierA_claim_gate_smoke.sh:73:  # id, task_id, title, status, action_tier, attempts, max_attempts, claimed_by, run_id
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:5279:./scripts/phase41_tierA_claim_gate_smoke.sh:108:SELECT task_id, status, action_tier, claimed_by, run_id
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:6947:./scripts/smoke/phase35_epoch_owner_proof.zsh:60:  INSERT INTO tasks(title, agent, status, source, trace_id, meta, claimed_by, claimed_at, lease_expires_at, lease_epoch)
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:6948:./scripts/smoke/phase35_epoch_owner_proof.zsh:81:"${PSQL_BASE[@]}" -q -X -c "SELECT id,status,claimed_by,lease_epoch,lease_expires_at FROM tasks WHERE id=$TASK_ID;"
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:6951:./scripts/smoke/phase35_epoch_owner_proof.zsh:120:POST_ROW="$("${PSQL_BASE[@]}" -t -A -c "SELECT status||'|'||COALESCE(claimed_by,'')||'|'||lease_epoch::text FROM tasks WHERE id=$TASK_ID;")"
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:6954:./scripts/smoke/phase35_epoch_owner_proof.zsh:144:POST2="$("${PSQL_BASE[@]}" -t -A -c "SELECT status||'|'||COALESCE(claimed_by,'')||'|'||lease_epoch::text FROM tasks WHERE id=$TASK_ID;")"
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:6958:./scripts/smoke/phase34_reclaim_proof.zsh:38:"select id,status,claimed_by,lease_expires_at,lease_epoch from tasks where id=$TASK_ID;"
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:6961:./scripts/smoke/phase34_reclaim_proof.zsh:71:"select id,status,claimed_by,lease_expires_at,lease_epoch from tasks where id=$TASK_ID;"
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:7310:./scripts/phase39_action_tier_smoke.sh:149:SELECT id, task_id, status, attempts, action_tier, claimed_by, run_id, created_at, updated_at
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:7357:./scripts/phase32_verify.sh:31:select id,status,attempts,max_attempts,next_run_at,failed_at,completed_at,run_id,actor,meta,last_error
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:7415:./scripts/phase39_value_gate_smoke.sh:81:SELECT id, task_id, status, claimed_by, attempts, action_tier
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:7416:./scripts/phase39_value_gate_smoke.sh:95:SELECT id, task_id, status, claimed_by, attempts, action_tier
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:7435:./scripts/phase34_reclaim_kill_verify.sh:64:[[ -z "$CB2" && "$ST2" == "created" ]] || { echo "FAIL reclaim (status=<$ST2> claimed_by=<$CB2>)"; exit 1; }
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8557:./PHASE40_ACCEPTANCE_CHECKS.sql:7:  SELECT id, task_id, status, action_tier, claimed_by, run_id
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8926:./PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1650:./scripts/smoke/phase34_reclaim_proof.zsh:38:"select id,status,claimed_by,lease_expires_at,lease_epoch from tasks where id=$TASK_ID;"
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:8927:./PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1652:./scripts/smoke/phase34_reclaim_proof.zsh:71:"select id,status,claimed_by,lease_expires_at,lease_epoch from tasks where id=$TASK_ID;"
+./PHASE88_0_OPERATOR_SURFACE_CANDIDATES.txt:9012:./PHASE62B_TASKS_QUEUED_DISCOVERY_OUTPUT.txt:1915:68:create index if not exists idx_tasks_status_next_run on tasks(status, next_run_at);
+./server/db_bootstrap_tasks_task_id.mjs:3:  await pool.query(`alter table tasks add column if not exists task_id text;`);
+./server/db_bootstrap_tasks_retry_semantics.mjs:9:  await pool.query(`alter table tasks add column if not exists attempt int not null default 0;`);
+./server/db_bootstrap_tasks_retry_semantics.mjs:10:  await pool.query(`alter table tasks add column if not exists max_attempts int not null default 5;`);
+./server/db_bootstrap_tasks_retry_semantics.mjs:13:  await pool.query(`alter table tasks add column if not exists available_at timestamptz null;`);
+./server/db_bootstrap_tasks_retry_semantics.mjs:14:  await pool.query(`alter table tasks add column if not exists locked_by text null;`);
+./server/db_bootstrap_tasks_retry_semantics.mjs:15:  await pool.query(`alter table tasks add column if not exists lock_expires_at timestamptz null;`);
+./server/db_bootstrap_tasks_retry_semantics.mjs:18:  await pool.query(`alter table tasks add column if not exists last_error jsonb null;`);
+./server/worker/phase34_reclaim_stale_pg.sql:14:      claimed_by=NULL,
+./server/worker/phase34_reclaim_stale_pg.sql:16:      lease_expires_at=NULL,
+./server/worker/phase34_reclaim_stale_pg.sql:20:      (t.lease_expires_at IS NOT NULL AND t.lease_expires_at <= (extract(epoch from now())*1000)::bigint)
+./server/worker/phase34_reclaim_stale_pg.sql:21:      OR (t.claimed_by IS NOT NULL AND t.claimed_by IN (SELECT owner FROM dead))
+./server/worker/phase34_reclaim_stale_pg.sql:22:      OR (t.claimed_by IS NOT NULL AND NOT EXISTS (
+./server/worker/phase34_reclaim_stale_pg.sql:23:            SELECT 1 FROM worker_heartbeats wh2 WHERE wh2.owner = t.claimed_by
+./server/worker/phase34_claim_one_pg.sql:14:    claimed_by=$2,
+./server/worker/phase34_claim_one_pg.sql:16:    lease_expires_at=((extract(epoch from now())*1000)::bigint + $3::bigint),
+./server/worker/phase34_claim_one_pg.sql:20:RETURNING t.id, t.task_id, t.claimed_by, t.lease_expires_at, c.run_id;
+./server/worker/phase35_mark_success.sql:7:     AND claimed_by = $2
+./server/worker/phase34_mark_failure.sql:4:    lease_expires_at=NULL
+./server/worker/phase29_db_migrate_to_phase27.sql:4:alter table tasks add column if not exists payload jsonb null;
+./server/worker/phase29_db_migrate_to_phase27.sql:5:alter table tasks add column if not exists attempts integer not null default 0;
+./server/worker/phase29_db_migrate_to_phase27.sql:6:alter table tasks add column if not exists next_run_at timestamptz null;
+./server/worker/phase29_db_migrate_to_phase27.sql:29:-- 4) tasks: best-effort backfill next_run_at from available_at if present
+./server/worker/phase29_db_migrate_to_phase27.sql:34:      set next_run_at = coalesce(next_run_at, available_at)
+./server/worker/phase29_db_migrate_to_phase27.sql:35:    where next_run_at is null and available_at is not null;
+./server/worker/phase29_db_migrate_to_phase27.sql:68:create index if not exists idx_tasks_status_next_run on tasks(status, next_run_at);
+./server/worker/phase34_reclaim_stale.sql:12:      claimed_by=NULL,
+./server/worker/phase34_reclaim_stale.sql:14:      lease_expires_at=NULL,
+./server/worker/phase34_reclaim_stale.sql:18:      (lease_expires_at IS NOT NULL AND lease_expires_at <= :'now_ms'::bigint)
+./server/worker/phase34_reclaim_stale.sql:19:      OR (claimed_by IS NOT NULL AND claimed_by IN (SELECT owner FROM dead))
+./server/worker/phase34_reclaim_stale.sql:20:      OR (claimed_by IS NOT NULL AND NOT EXISTS (SELECT 1 FROM worker_heartbeats wh WHERE wh.owner=tasks.claimed_by))
+./server/worker/phase35_mark_success_pg.sql:9:    lease_expires_at = NULL
+./server/worker/phase35_mark_success_pg.sql:12:  AND claimed_by = $2
+./server/worker/phase34_claim_one.sql:14:    claimed_by=:'owner',
+./server/worker/phase34_claim_one.sql:16:    lease_expires_at=(:'now_ms'::bigint + :'lease_ms'::bigint),
+./server/worker/phase34_claim_one.sql:20:RETURNING t.claimed_by;
+./server/worker/phase35_claim_one_pg.sql:16:    claimed_by = $2,
+./server/worker/phase35_claim_one_pg.sql:18:    lease_expires_at = ((extract(epoch from now())*1000)::bigint + $3::bigint),
+./server/worker/phase35_claim_one_pg.sql:22:RETURNING t.id, t.claimed_by, t.lease_epoch;
+./server/worker/phase34_mark_success.sql:4:    lease_expires_at=NULL
+./server/worker/phase35_mark_failure.sql:7:     AND claimed_by = $2
+./server/worker/phase30_db_doctor_pretty.sh:12:  (select count(*) from information_schema.columns where table_name='tasks' and column_name='next_run_at')::int as has_tasks_next_run_at,
+./server/worker/phase30_db_doctor_pretty.sh:27:echo "tasks.next_run_at:  ${t_next}"
+./server/worker/phase34_extend_lease_pg.sql:7:SET lease_expires_at = ((extract(epoch from now())*1000)::bigint + $4::bigint)
+./server/worker/phase34_extend_lease_pg.sql:10:  AND claimed_by = $2::text
+./server/worker/phase34_extend_lease_pg.sql:12:RETURNING id, lease_expires_at;
+./server/worker/phase34_claim_task_id_for_test.sql:5:    claimed_by=:'owner',
+./server/worker/phase34_claim_task_id_for_test.sql:7:    lease_expires_at=(:'now_ms'::bigint + :'lease_ms'::bigint),
+./server/worker/phase34_claim_task_id_for_test.sql:11:RETURNING claimed_by;
+./server/worker/phase30_contract_check.sql:11:  if not exists (select 1 from information_schema.columns where table_name='tasks' and column_name='next_run_at') then
+./server/worker/phase30_contract_check.sql:12:    raise exception 'missing tasks.next_run_at';
+./server/worker/phase32_mark_failure.sql:13:  claimed_by   = COALESCE(NULLIF(claimed_by,''), $3)
+./server/worker/phase32_claim_one.sql:12:    AND (next_run_at IS NULL OR next_run_at <= now())
+./server/worker/phase32_claim_one.sql:21:  claimed_by = $2,
+./server/worker/phase26_task_worker.mjs:205:                next_run_at: failedRow.next_run_at,
+./server/worker/phase35_reclaim_expired.sql:3:       claimed_by = NULL,
+./server/worker/phase35_reclaim_expired.sql:5:       lease_expires_at = NULL,
+./server/worker/phase35_reclaim_expired.sql:8:   AND lease_expires_at IS NOT NULL
+./server/worker/phase35_reclaim_expired.sql:9:   AND lease_expires_at <= NOW()
+./server/worker/phase29_db_doctor.sh:12:  (select count(*) from information_schema.columns where table_name='tasks' and column_name='next_run_at') as has_tasks_next_run_at,
+./server/worker/phase28_mark_failure.sql:14:    next_run_at = $4,
+./server/worker/phase35_mark_failure_pg.sql:10:    lease_expires_at = NULL
+./server/worker/phase35_mark_failure_pg.sql:13:  AND claimed_by = $2
+./server/worker/phase32_mark_success.sql:13:  claimed_by   = COALESCE(NULLIF(claimed_by,''), $3)
+./server/routes/phase36_run_view.mjs:105:          lease_expires_at,
+./server/routes/phase36_run_view.mjs:106:          lease_fresh,
+./server/routes/phase36_run_view.mjs:107:          lease_ttl_ms,
+./server/routes/phase36_run_view.mjs:108:          last_heartbeat_ts,
+./server/routes/phase36_run_view.mjs:109:          heartbeat_age_ms,
+./server/policy/policy_eval.mjs:22:    claimed_by: task?.claimed_by ?? task?.claimedBy ?? null,
+./server/sql/phase39_claim_one_with_value_gate.sql:9:--  $2 = claimed_by / owner (text)
+./server/sql/phase39_claim_one_with_value_gate.sql:16:    $2::text   AS claimed_by,
+./server/sql/phase39_claim_one_with_value_gate.sql:42:      claimed_by = (SELECT claimed_by FROM params),
+./server/sql/phase47_decision_correctness_invariants.sql:88:  WHERE table_schema='public' AND table_name='tasks' AND column_name IN ('lease_expires_at','lease_until','lease_expires_ts')
+./server/sql/phase47_decision_correctness_invariants.sql:90:    WHEN column_name='lease_expires_at' THEN 0
+./server/sql/phase47_decision_correctness_invariants.sql:98:  WHERE table_schema='public' AND table_name='tasks' AND column_name IN ('last_heartbeat_ts','heartbeat_ts','last_heartbeat_ms')
+./server/sql/phase47_decision_correctness_invariants.sql:100:    WHEN column_name='last_heartbeat_ts' THEN 0
+./docs/phase456_hard_restart_docker_backend.txt:176:	          lease_expires_at,
+./docs/phase456_hard_restart_docker_backend.txt:177:	          lease_fresh,
+./docs/phase456_hard_restart_docker_backend.txt:178:	          lease_ttl_ms,
+./docs/phase456_hard_restart_docker_backend.txt:179:	          last_heartbeat_ts,
+./docs/phase456_hard_restart_docker_backend.txt:180:	          heartbeat_age_ms,
+./docs/phase456_hard_restart_docker_backend.txt:205:	          lease_expires_at,
+./docs/phase456_hard_restart_docker_backend.txt:206:	          lease_fresh,
+./docs/phase456_hard_restart_docker_backend.txt:207:	          lease_ttl_ms,
+./docs/phase456_hard_restart_docker_backend.txt:208:	          last_heartbeat_ts,
+./docs/phase456_hard_restart_docker_backend.txt:209:	          heartbeat_age_ms,
+./docs/phase456_hard_restart_docker_backend.txt:234:	          lease_expires_at,
+./docs/phase456_hard_restart_docker_backend.txt:235:	          lease_fresh,
+./docs/phase456_hard_restart_docker_backend.txt:236:	          lease_ttl_ms,
+./docs/phase456_hard_restart_docker_backend.txt:237:	          last_heartbeat_ts,
+./docs/phase456_hard_restart_docker_backend.txt:238:	          heartbeat_age_ms,
+./docs/phase456_hard_restart_docker_backend.txt:263:	          lease_expires_at,
+./docs/phase456_hard_restart_docker_backend.txt:264:	          lease_fresh,
+./docs/phase456_hard_restart_docker_backend.txt:265:	          lease_ttl_ms,
+./docs/phase456_hard_restart_docker_backend.txt:266:	          last_heartbeat_ts,
+./docs/phase456_hard_restart_docker_backend.txt:267:	          heartbeat_age_ms,
+./docs/PHASE47_SCHEMA_SNAPSHOT.txt:9: claimed_by            | text                     |           |          |                                   | extended |             |              | 
+./docs/PHASE47_SCHEMA_SNAPSHOT.txt:17: lease_expires_at      | bigint                   |           |          |                                   | plain    |             |              | 
+./docs/PHASE47_SCHEMA_SNAPSHOT.txt:24:    "idx_tasks_claim_guard" btree (task_id, claimed_by, lease_epoch)
+./docs/PHASE47_SCHEMA_SNAPSHOT.txt:25:    "tasks_lease_expires_at_idx" btree (lease_expires_at)
+./docs/PHASE39_VALUE_ALIGNMENT.md:47:2) The task row remains unchanged (status/claimed_by/attempts).
+./docs/phase456_tasks_schema_prereq_evidence.txt:33: claimed_by   | text                     |           |          |                                   | extended |             |              | 
+./docs/phase456_tasks_schema_prereq_evidence.txt:84: tasks       | claimed_by
+./docs/phase456_tasks_schema_prereq_evidence.txt:91:=== REPO SEARCH: lease_expires_at / heartbeat / run prereqs ===
+./docs/phase456_tasks_schema_prereq_evidence.txt:92:drizzle_pg/0007_phase36_1_run_view.sql:6:-- - tasks has: task_id(text unique), status (e.g. 'running','completed'), claimed_by, actor, lease_expires_at (epoch ms)
+./docs/phase456_tasks_schema_prereq_evidence.txt:93:drizzle_pg/0007_phase36_1_run_view.sql:27:    MAX(te.ts) AS last_heartbeat_ts
+./docs/phase456_tasks_schema_prereq_evidence.txt:94:drizzle_pg/0007_phase36_1_run_view.sql:49:  -- actor/owner: prefer latest event.actor; fall back to tasks.claimed_by / tasks.actor
+./docs/phase456_tasks_schema_prereq_evidence.txt:95:drizzle_pg/0007_phase36_1_run_view.sql:50:  COALESCE(NULLIF(le.last_event_actor,''), NULLIF(t.claimed_by,'')) AS actor,
+./docs/phase456_tasks_schema_prereq_evidence.txt:96:drizzle_pg/0007_phase36_1_run_view.sql:53:  t.lease_expires_at,
+./docs/phase456_tasks_schema_prereq_evidence.txt:97:drizzle_pg/0007_phase36_1_run_view.sql:55:    WHEN t.lease_expires_at IS NULL THEN NULL
+./docs/phase456_tasks_schema_prereq_evidence.txt:98:drizzle_pg/0007_phase36_1_run_view.sql:56:    ELSE (t.lease_expires_at > (extract(epoch from now()) * 1000.0))::boolean
+./docs/phase456_tasks_schema_prereq_evidence.txt:99:drizzle_pg/0007_phase36_1_run_view.sql:57:  END AS lease_fresh,
+./docs/phase456_tasks_schema_prereq_evidence.txt:100:drizzle_pg/0007_phase36_1_run_view.sql:59:    WHEN t.lease_expires_at IS NULL THEN NULL
+./docs/phase456_tasks_schema_prereq_evidence.txt:101:drizzle_pg/0007_phase36_1_run_view.sql:60:    ELSE GREATEST(0, (t.lease_expires_at - (extract(epoch from now()) * 1000.0)))::bigint
+./docs/phase456_tasks_schema_prereq_evidence.txt:102:drizzle_pg/0007_phase36_1_run_view.sql:61:  END AS lease_ttl_ms,
+./docs/phase456_tasks_schema_prereq_evidence.txt:103:drizzle_pg/0007_phase36_1_run_view.sql:64:  lh.last_heartbeat_ts,
+./docs/phase456_tasks_schema_prereq_evidence.txt:104:drizzle_pg/0007_phase36_1_run_view.sql:66:    WHEN lh.last_heartbeat_ts IS NULL THEN NULL
+./docs/phase456_tasks_schema_prereq_evidence.txt:105:drizzle_pg/0007_phase36_1_run_view.sql:67:    ELSE GREATEST(0, ((extract(epoch from now()) * 1000.0) - lh.last_heartbeat_ts))::bigint
+./docs/phase456_tasks_schema_prereq_evidence.txt:106:drizzle_pg/0007_phase36_1_run_view.sql:68:  END AS heartbeat_age_ms,
+./docs/phase456_tasks_schema_prereq_evidence.txt:107:drizzle_pg/0001_phase31_7_failed_at_guard.sql:19:alter table tasks
+./docs/phase456_tasks_schema_prereq_evidence.txt:108:drizzle_pg/0001_phase31_7_failed_at_guard.sql:21:alter table tasks
+./docs/phase456_tasks_schema_prereq_evidence.txt:109:drizzle_pg/0008_phase39_action_tier_scaffolding.sql:5:ALTER TABLE tasks
+./docs/phase456_tasks_schema_prereq_evidence.txt:110:drizzle_pg/0008_phase39_action_tier_scaffolding.sql:15:    ALTER TABLE tasks
+./docs/phase456_tasks_schema_prereq_evidence.txt:111:drizzle_pg/0008_phase39_action_tier_scaffolding.sql:21:ALTER TABLE tasks
+./docs/phase456_tasks_schema_prereq_evidence.txt:112:drizzle_pg/0009_phase57_1_tasks_title.sql:5:ALTER TABLE tasks
+./docs/phase456_tasks_schema_prereq_evidence.txt:113:drizzle_pg/0007_phase35_lease_epoch.sql:1:ALTER TABLE tasks
+./docs/phase456_tasks_schema_prereq_evidence.txt:114:drizzle_pg/0007_phase35_lease_epoch.sql:5:  ON tasks (task_id, claimed_by, lease_epoch);
+./docs/phase456_tasks_schema_prereq_evidence.txt:115:drizzle_pg/0007_phase34_lease_heartbeat_reclaim.sql:5:  IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='tasks' AND column_name='claimed_by') THEN
+./docs/phase456_tasks_schema_prereq_evidence.txt:116:drizzle_pg/0007_phase34_lease_heartbeat_reclaim.sql:6:    ALTER TABLE tasks ADD COLUMN claimed_by TEXT NULL;
+./docs/phase456_tasks_schema_prereq_evidence.txt:117:drizzle_pg/0007_phase34_lease_heartbeat_reclaim.sql:10:    ALTER TABLE tasks ADD COLUMN claimed_at BIGINT NULL;
+./docs/phase456_tasks_schema_prereq_evidence.txt:118:drizzle_pg/0007_phase34_lease_heartbeat_reclaim.sql:13:  IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='tasks' AND column_name='lease_expires_at') THEN
+./docs/phase456_tasks_schema_prereq_evidence.txt:119:drizzle_pg/0007_phase34_lease_heartbeat_reclaim.sql:14:    ALTER TABLE tasks ADD COLUMN lease_expires_at BIGINT NULL;
+./docs/phase456_tasks_schema_prereq_evidence.txt:120:drizzle_pg/0007_phase34_lease_heartbeat_reclaim.sql:18:    ALTER TABLE tasks ADD COLUMN lease_epoch INT NOT NULL DEFAULT 0;
+./docs/phase456_tasks_schema_prereq_evidence.txt:121:drizzle_pg/0007_phase34_lease_heartbeat_reclaim.sql:33:    WHERE schemaname='public' AND tablename='tasks' AND indexname='tasks_lease_expires_at_idx'
+./docs/phase456_tasks_schema_prereq_evidence.txt:122:drizzle_pg/0007_phase34_lease_heartbeat_reclaim.sql:35:    CREATE INDEX tasks_lease_expires_at_idx ON tasks(lease_expires_at);
+./docs/phase456_tasks_schema_prereq_evidence.txt:123:drizzle_pg/0001_create_tasks.sql:20:  claimed_by           TEXT,
+./docs/phase456_tasks_schema_prereq_evidence.txt:124:drizzle_pg/0001_create_tasks.sql:29:  lease_expires_at     BIGINT,
+./docs/phase456_tasks_schema_prereq_evidence.txt:125:server/db_bootstrap_tasks_task_id.mjs:3:  await pool.query(`alter table tasks add column if not exists task_id text;`);
+./docs/phase456_tasks_schema_prereq_evidence.txt:126:server/db_bootstrap_tasks_retry_semantics.mjs:9:  await pool.query(`alter table tasks add column if not exists attempt int not null default 0;`);
+./docs/phase456_tasks_schema_prereq_evidence.txt:127:server/db_bootstrap_tasks_retry_semantics.mjs:10:  await pool.query(`alter table tasks add column if not exists max_attempts int not null default 5;`);
+./docs/phase456_tasks_schema_prereq_evidence.txt:128:server/db_bootstrap_tasks_retry_semantics.mjs:13:  await pool.query(`alter table tasks add column if not exists available_at timestamptz null;`);
+./docs/phase456_tasks_schema_prereq_evidence.txt:129:server/db_bootstrap_tasks_retry_semantics.mjs:14:  await pool.query(`alter table tasks add column if not exists locked_by text null;`);
+./docs/phase456_tasks_schema_prereq_evidence.txt:130:server/db_bootstrap_tasks_retry_semantics.mjs:15:  await pool.query(`alter table tasks add column if not exists lock_expires_at timestamptz null;`);
+./docs/phase456_tasks_schema_prereq_evidence.txt:131:server/db_bootstrap_tasks_retry_semantics.mjs:18:  await pool.query(`alter table tasks add column if not exists last_error jsonb null;`);
+./docs/phase456_tasks_schema_prereq_evidence.txt:132:server/worker/phase34_reclaim_stale_pg.sql:14:      claimed_by=NULL,
+./docs/phase456_tasks_schema_prereq_evidence.txt:133:server/worker/phase34_reclaim_stale_pg.sql:16:      lease_expires_at=NULL,
+./docs/phase456_tasks_schema_prereq_evidence.txt:134:server/worker/phase34_reclaim_stale_pg.sql:20:      (t.lease_expires_at IS NOT NULL AND t.lease_expires_at <= (extract(epoch from now())*1000)::bigint)
+./docs/phase456_tasks_schema_prereq_evidence.txt:135:server/worker/phase34_reclaim_stale_pg.sql:21:      OR (t.claimed_by IS NOT NULL AND t.claimed_by IN (SELECT owner FROM dead))
+./docs/phase456_tasks_schema_prereq_evidence.txt:136:server/worker/phase34_reclaim_stale_pg.sql:22:      OR (t.claimed_by IS NOT NULL AND NOT EXISTS (
+./docs/phase456_tasks_schema_prereq_evidence.txt:137:server/worker/phase34_reclaim_stale_pg.sql:23:            SELECT 1 FROM worker_heartbeats wh2 WHERE wh2.owner = t.claimed_by
+./docs/phase456_tasks_schema_prereq_evidence.txt:138:server/worker/phase34_claim_one_pg.sql:14:    claimed_by=$2,
+./docs/phase456_tasks_schema_prereq_evidence.txt:139:server/worker/phase34_claim_one_pg.sql:16:    lease_expires_at=((extract(epoch from now())*1000)::bigint + $3::bigint),
+./docs/phase456_tasks_schema_prereq_evidence.txt:140:server/worker/phase34_claim_one_pg.sql:20:RETURNING t.id, t.task_id, t.claimed_by, t.lease_expires_at, c.run_id;
+./docs/phase456_tasks_schema_prereq_evidence.txt:141:server/worker/phase35_mark_success.sql:7:     AND claimed_by = $2
+
+=== REPO SEARCH: tasks bootstrap / prerequisite migrations ===
+drizzle_pg/0007_phase36_1_run_view.sql:5:-- - task_events has: id, kind (e.g. 'task.running','task.completed','heartbeat'), task_id(text), run_id(text), actor(text), ts(bigint)
+drizzle_pg/0007_phase36_1_run_view.sql:7:-- - ordering uses task_events.id
+drizzle_pg/0007_phase36_1_run_view.sql:19:  FROM task_events te
+drizzle_pg/0007_phase36_1_run_view.sql:28:  FROM task_events te
+drizzle_pg/0007_phase36_1_run_view.sql:40:  FROM task_events te
+drizzle_pg/meta/_journal.json:8:      "tag": "0001_create_task_events",
+drizzle_pg/meta/_journal.json:22:      "tag": "0006_phase32_1_task_events_contract",
+drizzle_pg/0009_phase39_db_repair_notes_failedat_taskid.sql:4:-- - repair task_events.task_id numeric rows so task_events_task_id_not_numeric can be applied
+drizzle_pg/0009_phase39_db_repair_notes_failedat_taskid.sql:30:UPDATE public.task_events
+drizzle_pg/0009_phase39_db_repair_notes_failedat_taskid.sql:36:  -- task_events_task_id_not_numeric
+drizzle_pg/0009_phase39_db_repair_notes_failedat_taskid.sql:39:    WHERE conname='task_events_task_id_not_numeric'
+drizzle_pg/0009_phase39_db_repair_notes_failedat_taskid.sql:41:    ALTER TABLE public.task_events
+drizzle_pg/0009_phase39_db_repair_notes_failedat_taskid.sql:42:    ADD CONSTRAINT task_events_task_id_not_numeric
+drizzle_pg/0001_phase31_7_failed_at_guard.sql:19:alter table tasks
+drizzle_pg/0001_phase31_7_failed_at_guard.sql:21:alter table tasks
+drizzle_pg/0008_phase39_action_tier_scaffolding.sql:5:ALTER TABLE tasks
+drizzle_pg/0008_phase39_action_tier_scaffolding.sql:15:    ALTER TABLE tasks
+drizzle_pg/0008_phase39_action_tier_scaffolding.sql:21:ALTER TABLE tasks
+drizzle_pg/0001_create_task_events.sql:1:-- Phase 19: ensure task_events exists (idempotent)
+drizzle_pg/0001_create_task_events.sql:4:create table if not exists "task_events" (
+drizzle_pg/0001_create_task_events.sql:11:-- Guard: Phase 36 run_view expects task_events.ts (epoch ms) to exist.
+drizzle_pg/0001_create_task_events.sql:13:ALTER TABLE public.task_events
+drizzle_pg/0009_phase57_1_tasks_title.sql:5:ALTER TABLE tasks
+drizzle_pg/0006_phase32_1_task_events_contract.sql:2:ALTER TABLE public.task_events
+drizzle_pg/0006_phase32_1_task_events_contract.sql:4:ALTER TABLE public.task_events
+drizzle_pg/0006_phase32_1_task_events_contract.sql:6:ALTER TABLE public.task_events
+drizzle_pg/0006_phase32_1_task_events_contract.sql:11:-- 1) Normalize task_events.task_id: if numeric tasks.id, rewrite to tasks.task_id ("tN")
+drizzle_pg/0006_phase32_1_task_events_contract.sql:12:CREATE OR REPLACE FUNCTION task_events_normalize_task_id()
+drizzle_pg/0006_phase32_1_task_events_contract.sql:31:DROP TRIGGER IF EXISTS trg_task_events_normalize_task_id ON task_events;
+drizzle_pg/0006_phase32_1_task_events_contract.sql:32:CREATE TRIGGER trg_task_events_normalize_task_id
+drizzle_pg/0006_phase32_1_task_events_contract.sql:33:BEFORE INSERT ON task_events
+drizzle_pg/0006_phase32_1_task_events_contract.sql:35:EXECUTE FUNCTION task_events_normalize_task_id();
+drizzle_pg/0006_phase32_1_task_events_contract.sql:37:CREATE OR REPLACE FUNCTION task_events_normalize_payload_task_id()
+drizzle_pg/0006_phase32_1_task_events_contract.sql:65:DROP TRIGGER IF EXISTS trg_task_events_normalize_payload_task_id ON task_events;
+drizzle_pg/0006_phase32_1_task_events_contract.sql:66:CREATE TRIGGER trg_task_events_normalize_payload_task_id
+drizzle_pg/0006_phase32_1_task_events_contract.sql:67:BEFORE INSERT ON task_events
+drizzle_pg/0006_phase32_1_task_events_contract.sql:69:EXECUTE FUNCTION task_events_normalize_payload_task_id();
+drizzle_pg/0006_phase32_1_task_events_contract.sql:71:CREATE OR REPLACE FUNCTION task_events_extract_run_actor()
+drizzle_pg/0006_phase32_1_task_events_contract.sql:92:DROP TRIGGER IF EXISTS trg_task_events_extract_run_actor ON task_events;
+drizzle_pg/0006_phase32_1_task_events_contract.sql:93:CREATE TRIGGER trg_task_events_extract_run_actor
+drizzle_pg/0006_phase32_1_task_events_contract.sql:94:BEFORE INSERT ON task_events
+drizzle_pg/0006_phase32_1_task_events_contract.sql:96:EXECUTE FUNCTION task_events_extract_run_actor();
+drizzle_pg/0006_phase32_1_task_events_contract.sql:98:CREATE INDEX IF NOT EXISTS task_events_task_id_id_desc_idx
+drizzle_pg/0006_phase32_1_task_events_contract.sql:99:  ON task_events (task_id, id DESC);
+drizzle_pg/0006_phase32_1_task_events_contract.sql:100:CREATE INDEX IF NOT EXISTS task_events_run_id_id_desc_idx
+drizzle_pg/0006_phase32_1_task_events_contract.sql:101:  ON task_events (run_id, id DESC);
+drizzle_pg/0006_phase32_1_task_events_contract.sql:102:CREATE INDEX IF NOT EXISTS task_events_actor_id_desc_idx
+drizzle_pg/0006_phase32_1_task_events_contract.sql:103:  ON task_events (actor, id DESC);
+drizzle_pg/0006_phase32_1_task_events_contract.sql:105:ALTER TABLE task_events
+drizzle_pg/0006_phase32_1_task_events_contract.sql:106:  DROP CONSTRAINT IF EXISTS task_events_task_id_not_numeric;
+drizzle_pg/0006_phase32_1_task_events_contract.sql:107:ALTER TABLE task_events
+drizzle_pg/0006_phase32_1_task_events_contract.sql:108:  ADD CONSTRAINT task_events_task_id_not_numeric
+drizzle_pg/0006_phase32_1_task_events_contract.sql:110:ALTER TABLE task_events
+drizzle_pg/0006_phase32_1_task_events_contract.sql:111:  DROP CONSTRAINT IF EXISTS task_events_run_id_required_for_non_created;
+drizzle_pg/0006_phase32_1_task_events_contract.sql:112:ALTER TABLE task_events
+drizzle_pg/0006_phase32_1_task_events_contract.sql:113:  ADD CONSTRAINT task_events_run_id_required_for_non_created
+drizzle_pg/0006_phase32_1_task_events_contract.sql:115:ALTER TABLE task_events
+drizzle_pg/0006_phase32_1_task_events_contract.sql:116:  DROP CONSTRAINT IF EXISTS task_events_actor_required;
+drizzle_pg/0006_phase32_1_task_events_contract.sql:117:ALTER TABLE task_events
+drizzle_pg/0006_phase32_1_task_events_contract.sql:118:  ADD CONSTRAINT task_events_actor_required
+drizzle_pg/0007_phase35_lease_epoch.sql:1:ALTER TABLE tasks
+drizzle_pg/0007_phase34_lease_heartbeat_reclaim.sql:6:    ALTER TABLE tasks ADD COLUMN claimed_by TEXT NULL;
+drizzle_pg/0007_phase34_lease_heartbeat_reclaim.sql:10:    ALTER TABLE tasks ADD COLUMN claimed_at BIGINT NULL;
+drizzle_pg/0007_phase34_lease_heartbeat_reclaim.sql:14:    ALTER TABLE tasks ADD COLUMN lease_expires_at BIGINT NULL;
+drizzle_pg/0007_phase34_lease_heartbeat_reclaim.sql:18:    ALTER TABLE tasks ADD COLUMN lease_epoch INT NOT NULL DEFAULT 0;
+drizzle_pg/0008_phase57_run_snapshot.sql:4:--   Deterministic, append-only snapshot rows derived strictly from task_events
+server/db_bootstrap_tasks_task_id.mjs:3:  await pool.query(`alter table tasks add column if not exists task_id text;`);
+server/task_events_emit.mjs:2:console.log("[phase25] task_events_emit loaded", new Date().toISOString(), "file=", import.meta.url);
+server/db_bootstrap_tasks_retry_semantics.mjs:2: * Phase 27 — Tasks table retry + lease semantics (Postgres bootstrap)
+server/db_bootstrap_tasks_retry_semantics.mjs:5:export async function bootstrapTasksRetrySemantics(pool) {
+server/db_bootstrap_tasks_retry_semantics.mjs:6:  if (!pool) throw new Error("bootstrapTasksRetrySemantics: pool required");
+server/db_bootstrap_tasks_retry_semantics.mjs:9:  await pool.query(`alter table tasks add column if not exists attempt int not null default 0;`);
+server/db_bootstrap_tasks_retry_semantics.mjs:10:  await pool.query(`alter table tasks add column if not exists max_attempts int not null default 5;`);
+server/db_bootstrap_tasks_retry_semantics.mjs:13:  await pool.query(`alter table tasks add column if not exists available_at timestamptz null;`);
+server/db_bootstrap_tasks_retry_semantics.mjs:14:  await pool.query(`alter table tasks add column if not exists locked_by text null;`);
+server/db_bootstrap_tasks_retry_semantics.mjs:15:  await pool.query(`alter table tasks add column if not exists lock_expires_at timestamptz null;`);
+server/db_bootstrap_tasks_retry_semantics.mjs:18:  await pool.query(`alter table tasks add column if not exists last_error jsonb null;`);
+server/tasks-mutations.mjs:2:import { emitTaskEvent } from "./task_events_emit.mjs";
+server/task-events.mjs:3: * Legacy task_events schema in your docker DB:
+server/task-events.mjs:4: *   task_events(id bigint, kind text, payload text, created_at text)
+server/task-events.mjs:31:  // Phase50: DB write-path enforcement (task_events)
+server/task-events.mjs:32:  assertNotEnforced("task_events.append");
+server/task-events.mjs:36:  // Phase25 contract: server is the single authoritative writer of task_events.
+server/task-events.mjs:136:    // Ensure payload is JSONB-safe when task_events.payload is jsonb.
+server/task-events.mjs:143:        "select 1 as ok from task_events where kind=$1::text and payload=$2::jsonb limit 1",
+server/task-events.mjs:161:        "select kind from task_events where kind = any($1::text[]) and payload like $2 order by id desc limit 1",
+server/task-events.mjs:172:      "insert into task_events(kind, task_id, run_id, actor, ts, payload) values ($1::text, $2::text, $3::text, $4::text, $5::bigint, $6::jsonb)",
+server/api/tasks-mutations/delegate-taskspec.mjs:28: * - Inserts into task_events(kind="task.created") so /events/task-events advances
+server/worker/phase29_db_migrate_to_phase27.sql:4:alter table tasks add column if not exists payload jsonb null;
+server/worker/phase29_db_migrate_to_phase27.sql:5:alter table tasks add column if not exists attempts integer not null default 0;
+server/worker/phase29_db_migrate_to_phase27.sql:6:alter table tasks add column if not exists next_run_at timestamptz null;
+server/worker/phase29_db_migrate_to_phase27.sql:39:-- 5) task_events: ensure columns exist
+server/worker/phase29_db_migrate_to_phase27.sql:40:alter table task_events add column if not exists run_id text null;
+server/worker/phase29_db_migrate_to_phase27.sql:41:alter table task_events add column if not exists actor text null;
+server/worker/phase29_db_migrate_to_phase27.sql:43:-- 6) task_events.payload: if it's TEXT, add payload_jsonb and keep payload text (no destructive alter here)
+server/worker/phase29_db_migrate_to_phase27.sql:47:  if not exists (select 1 from information_schema.columns where table_name='task_events' and column_name='payload_jsonb') then
+server/worker/phase29_db_migrate_to_phase27.sql:48:    alter table task_events add column payload_jsonb jsonb null;
+server/worker/phase29_db_migrate_to_phase27.sql:53:update task_events
+server/worker/phase29_db_migrate_to_phase27.sql:66:create index if not exists idx_task_events_task_id on task_events(task_id);
+server/worker/phase29_db_migrate_to_phase27.sql:67:create index if not exists idx_task_events_kind on task_events(kind);
+server/worker/phase30_db_doctor_pretty.sh:13:  (select data_type from information_schema.columns where table_name='task_events' and column_name='payload')::text as events_payload_type,
+server/worker/phase30_db_doctor_pretty.sh:14:  (select count(*) from information_schema.columns where table_name='task_events' and column_name='payload_jsonb')::int as has_events_payload_jsonb,
+server/worker/phase30_db_doctor_pretty.sh:15:  (select count(*) from information_schema.columns where table_name='task_events' and column_name='run_id')::int as has_events_run_id,
+server/worker/phase30_db_doctor_pretty.sh:16:  (select count(*) from information_schema.columns where table_name='task_events' and column_name='actor')::int as has_events_actor
+server/worker/phase30_db_doctor_pretty.sh:21:echo "=== Phase30 DB Doctor (pretty) ==="
+server/worker/phase30_db_doctor_pretty.sh:29:echo "task_events.payload type:   ${ev_payload_type:-<missing>}"
+server/worker/phase30_db_doctor_pretty.sh:30:echo "task_events.payload_jsonb:  ${ev_payload_jsonb}"
+server/worker/phase30_db_doctor_pretty.sh:31:echo "task_events.run_id:         ${ev_run}"
+server/worker/phase30_db_doctor_pretty.sh:32:echo "task_events.actor:          ${ev_actor}"
+server/worker/phase30_db_doctor_pretty.sh:37:  echo "status: LEGACY (text-only events; run phase29 migration)"
+server/worker/phase30_contract_check.sql:1:-- Phase30 canonical contract check (read-only)
+server/worker/phase30_contract_check.sql:14:  if not exists (select 1 from information_schema.columns where table_name='task_events' and column_name='payload') then
+server/worker/phase30_contract_check.sql:15:    raise exception 'missing task_events.payload';
+server/worker/phase26_task_worker.mjs:5:import { emitTaskEvent } from "../task_events_emit.mjs";
+server/worker/phase29_db_doctor.sh:13:  (select count(*) from information_schema.columns where table_name='task_events' and column_name='payload') as has_events_payload,
+server/worker/phase29_db_doctor.sh:14:  (select data_type from information_schema.columns where table_name='task_events' and column_name='payload') as events_payload_type,
+server/worker/phase29_db_doctor.sh:15:  (select count(*) from information_schema.columns where table_name='task_events' and column_name='run_id') as has_events_run_id,
+server/worker/phase29_db_doctor.sh:16:  (select count(*) from information_schema.columns where table_name='task_events' and column_name='actor') as has_events_actor
+server/routes/api-tasks-postgres.mjs:5:import { emitTaskEvent } from "../task_events_emit.mjs";
+server/routes/api-tasks-postgres.mjs:100:    // (workers claim from tasks, not task_events)
+server/routes/phase40_6_shadow_audit_task_events.mjs:6:    const sqlPath = join(process.cwd(), "server", "sql", "phase40_6_shadow_audit_task_events.sql");
+server/routes/task-events-sse.mjs:99:        from task_events
+server/routes/task-events-sse.mjs:141:          from task_events
+server/routes/task-events-sse.mjs:201:        msg: "task-events stream bootstrap error",
+server/routes/phase48_policy_probe.mjs:24:    // task_events(kind, payload, created_at, task_id, run_id, actor, ts, ...)
+server/routes/phase48_policy_probe.mjs:49:      insert into task_events(kind, task_id, run_id, actor, ts, payload)
+server/sql/phase54_bootstrap.sql:3:-- Phase 54 bootstrap: ensure fresh Postgres boot has the schema the dashboard expects.
+server/sql/phase54_bootstrap.sql:7:\i /migrations/drizzle_pg/0001_create_task_events.sql
+server/sql/phase54_bootstrap.sql:8:\i /migrations/drizzle_pg/0006_phase32_1_task_events_contract.sql
+server/sql/phase40_6_shadow_audit_task_events.sql:14:  FROM task_events te
+server/sql/phase47_decision_correctness_invariants.sql:26:  IF to_regclass('public.task_events') IS NULL THEN
+server/sql/phase47_decision_correctness_invariants.sql:27:    RAISE EXCEPTION 'Phase47 invariant failure: missing table public.task_events';
+server/sql/phase47_decision_correctness_invariants.sql:40:  WHERE table_schema='public' AND table_name='task_events' AND column_name='id'
+server/sql/phase47_decision_correctness_invariants.sql:45:  WHERE table_schema='public' AND table_name='task_events' AND column_name='task_id'
+server/sql/phase47_decision_correctness_invariants.sql:50:  WHERE table_schema='public' AND table_name='task_events' AND column_name IN ('ts','created_at')
+server/sql/phase47_decision_correctness_invariants.sql:56:  WHERE table_schema='public' AND table_name='task_events' AND column_name IN ('kind','event_kind')
+server/sql/phase47_decision_correctness_invariants.sql:61:    RAISE EXCEPTION 'Phase47 invariant failure: task_events missing required columns';
+server/sql/phase47_decision_correctness_invariants.sql:115:      FROM public.task_events
+server/sql/phase47_decision_correctness_invariants.sql:124:    RAISE EXCEPTION 'Phase47 invariant failure: task_events ordering violation';
+sql/policy/action_tier_validate.sql:21:  WHERE (table_name ILIKE '%task%event%' OR table_name ILIKE '%task_events%')
+sql/policy/action_tier_validate.sql:23:    (table_name ILIKE '%task_events%') DESC,
+sql/policy/action_tier_validate.sql:81:  WHERE (table_name ILIKE '%task%event%' OR table_name ILIKE '%task_events%')
+sql/policy/action_tier_validate.sql:83:    (table_name ILIKE '%task_events%') DESC,
+scripts/phase35_fix_appendTaskEvent_pool_signature.sh:36:  // Phase25 contract: server is the single authoritative writer of task_events.
+scripts/phase35_fix_appendTaskEvent_pool_signature.sh:103:      "select 1 as ok from task_events where kind=$1::text and payload=$2::text limit 1",
+scripts/phase35_fix_appendTaskEvent_pool_signature.sh:121:        "select kind from task_events where kind = any($1::text[]) and payload like $2 order by id desc limit 1",
+scripts/phase35_fix_appendTaskEvent_pool_signature.sh:132:    "insert into task_events(kind, task_id, run_id, actor, ts, payload, payload_jsonb) values ($1::text, $2::text, $3::text, $4::text, $5::bigint, $6::text, $7::jsonb)",
+scripts/phase35_fix_appendTaskEvent_pool_signature.sh:141:if 'insert into task_events(kind, task_id, payload) values' in patched:
+scripts/demo/run-live-delegation.ts:9:    .prepare("INSERT INTO task_events (description, event_type, created_at) VALUES (?, ?, datetime('now'))")
+scripts/demo/run-create-atlas.ts:17:      "INSERT INTO task_events (id, type, status, agent, payload, created_at) VALUES (?, ?, ?, ?, ?, datetime('now'))"
+scripts/demo/restore-demo-baseline.sh:12:sqlite3 db/main.db "DELETE FROM task_events;"
+scripts/demo/run-demo-sequence.ts:9:    sqlite.prepare("DELETE FROM task_events").run();
+scripts/demo/run-demo-sequence.ts:29:      sqlite.prepare("INSERT INTO task_events (description, status) VALUES (?, 'completed')").run(t)
+scripts/smoke/phase34_reclaim_proof.zsh:78: from task_events
+scripts/smoke/phase34_reclaim_proof.zsh:84: from task_events
+scripts/phase25_writer_smoke.mjs:6:import { emitTaskEvent } from "../server/task_events_emit.mjs";
+scripts/phase456_run_view_schema_summary_extract.sh:43:    if re.search(r"run_view|relation|ERROR|create|view|tasks|task_events", line, re.I)
+scripts/phase456_run_view_schema_summary_extract.sh:56:    ("SEARCH: run_view / runs / schema bootstrap", 160),
+scripts/phase456_run_view_schema_summary_extract.sh:57:    ("SEARCH: DB BOOTSTRAP / MIGRATION ENTRYPOINTS", 160),
+scripts/phase54_regression_harness.sh:8:  -f docker-compose.phase54.postgres_bootstrap.override.yml
+scripts/phase54_regression_harness.sh:10:  -f docker-compose.phase54.postgres_bootstrap.override.yml
+scripts/phase54_regression_harness.sh:163:  before_events="$(pg_count_table "task_events")"
+scripts/phase54_regression_harness.sh:175:  after_events="$(pg_count_table "task_events")"
+scripts/phase54_regression_harness.sh:178:  echo "task_events_before=${before_events} task_events_after=${after_events}"
+scripts/phase54_regression_harness.sh:182:      echo "ERROR: expected writes in shadow mode (no increase in tasks or task_events)" >&2
+scripts/phase54_regression_harness.sh:188:    assert_num_eq "${after_events}" "${before_events}" "task_events_count_no_change (${mode})"
+scripts/phase31_7_verify_container_reclaim.sh:8:BASE_EVENT_ID="$(docker exec -i "$PG" sh -lc 'psql -U postgres -d postgres -Atc "select coalesce(max(id),0) from task_events;"')"
+scripts/phase31_7_verify_container_reclaim.sh:32:  from task_events
+scripts/phase31_7_verify_container_reclaim.sh:40:  from task_events
+scripts/phase57_ci_bootstrap.sh:38:echo "Bootstrapping PG schema (base tables first, then drizzle_pg/000*.sql)..."
+scripts/phase57_ci_bootstrap.sh:47:# 1) task_events (base table; contracts/triggers assume task_id exists)
+scripts/phase57_ci_bootstrap.sh:48:echo "  applying(base): inline public.task_events"
+scripts/phase57_ci_bootstrap.sh:52:CREATE TABLE IF NOT EXISTS public.task_events (
+scripts/phase57_ci_bootstrap.sh:92:echo "OK: PG schema bootstrapped (tables + views)."
+scripts/phase19_postgres_apply_task_events.sql:1:-- Phase 19: Postgres task_events schema (fully idempotent)
+scripts/phase19_postgres_apply_task_events.sql:2:create table if not exists public.task_events (
+scripts/phase19_postgres_apply_task_events.sql:10:update public.task_events set kind = 'unknown' where kind is null;
+scripts/phase19_postgres_apply_task_events.sql:11:update public.task_events set payload = '{}' where payload is null;
+scripts/phase19_postgres_apply_task_events.sql:18:    where table_schema='public' and table_name='task_events'
+scripts/phase19_postgres_apply_task_events.sql:21:    alter table public.task_events alter column kind set not null;
+scripts/phase19_postgres_apply_task_events.sql:26:    where table_schema='public' and table_name='task_events'
+scripts/phase19_postgres_apply_task_events.sql:29:    alter table public.task_events alter column payload set not null;
+scripts/phase19_task_events_app_smoke.cjs:2: * Phase 19: app-level Postgres write -> read smoke test for public.task_events
+scripts/phase19_task_events_app_smoke.cjs:6: *   node scripts/phase19_task_events_app_smoke.cjs
+scripts/phase19_task_events_app_smoke.cjs:26:    const reg = await client.query("select to_regclass('public.task_events') as reg;");
+scripts/phase19_task_events_app_smoke.cjs:28:      console.error("Table public.task_events not found.");
+scripts/phase19_task_events_app_smoke.cjs:40:      "insert into public.task_events (kind, payload) values ($1, $2) returning *;",
+scripts/phase19_task_events_app_smoke.cjs:47:      "select id, kind, payload, created_at from public.task_events order by id desc limit 5;"
+scripts/reset-roundtrip.ts:11:      DELETE FROM task_events;
+scripts/reset-roundtrip.ts:16:    console.log("✅ Database cleared (task_events + reflection_index).");
+scripts/reset-roundtrip.ts:18:    const checkTasks = sqlite.prepare("SELECT COUNT(*) as c FROM task_events").get();
+scripts/phase35_pg_fix_tasks_actor_run_id.sql:3:ALTER TABLE tasks
+scripts/phase35_pg_fix_tasks_actor_run_id.sql:6:ALTER TABLE tasks
+scripts/phase35_pg_fix_tasks_actor_run_id.sql:9:-- Optional: some code may look for these on task_events too; make this idempotent.
+scripts/phase35_pg_fix_tasks_actor_run_id.sql:10:ALTER TABLE task_events
+scripts/phase35_pg_fix_tasks_actor_run_id.sql:13:ALTER TABLE task_events
+scripts/phase35_pg_fix_tasks_actor_run_id.sql:16:ALTER TABLE task_events
+scripts/phase35_pg_fix_tasks_actor_run_id.sql:19:ALTER TABLE task_events
+scripts/phase45_fix_task_events_uuid_cursor.sh:7:  'select\s+max\(id\)\s+as\s+max_id\s+from\s+task_events|from\s+task_events[\s\S]*where\s+id\s*>\s*\$1|where\s+id\s*>\s*\$1[\s\S]*order\s+by\s+id\s+asc' \
+scripts/phase45_fix_task_events_uuid_cursor.sh:20:    s/\bselect\s+max\(id\)\s+as\s+max_id\s+from\s+task_events\b/select max(created_at) as max_created_at from task_events/gi;
+scripts/phase45_fix_task_events_uuid_cursor.sh:26:rg -n --no-heading 'max\(id\)\s+as\s+max_id\s+from\s+task_events' server server.mjs || true
+scripts/phase39_action_tier_policy_smoke.sh:35:  WHERE (table_name ILIKE '%task%event%' OR table_name ILIKE '%task_events%')
+scripts/phase39_action_tier_policy_smoke.sh:37:    (table_name ILIKE '%task_events%') DESC,
+scripts/phase35_patch_direct_task_events_inserts_to_append.sh:15:legacy_sql_pat = re.compile(r'insert\s+into\s+task_events\s*\(\s*kind\s*,\s*task_id\s*,\s*payload\s*\)\s*values', re.I)
+scripts/phase35_patch_direct_task_events_inserts_to_append.sh:20:    if "task_events" not in s:
+scripts/phase35_patch_direct_task_events_inserts_to_append.sh:26:    # await pool.query("insert into task_events(kind, task_id, payload) values ...", [K, TASKID, PAYLOADTEXT]);
+scripts/phase35_patch_direct_task_events_inserts_to_append.sh:39:        r'await\s+pool\.query\(\s*\n?\s*([\'"])(?P<sql>[^\'"]*insert\s+into\s+task_events\s*\(\s*kind\s*,\s*task_id\s*,\s*payload\s*\)[^\'"]*)\1\s*,\s*\[(?P<args>[^\]]+)\]\s*\)\s*;\s*',
+scripts/phase45_autopatch_policy_grants_integration.mjs:43:  if (/task_events/i.test(txt)) s += 1;
+scripts/phase80_2_verify_queue_latency_metric.sh:16:echo "Checking bootstrap registration:"
+scripts/phase80_2_verify_queue_latency_metric.sh:17:grep queue_latency_metric public/js/telemetry/phase65b_metric_bootstrap.js || true
+scripts/phase30_smoke_canonical_ready.sh:6:echo "=== phase30: doctor (pretty) ==="
+scripts/phase30_smoke_canonical_ready.sh:7:server/worker/phase30_db_doctor_pretty.sh
+scripts/phase30_smoke_canonical_ready.sh:9:echo "=== phase30: ensure canonical-ready (run phase29 migration if needed) ==="
+scripts/phase30_smoke_canonical_ready.sh:10:# If payload_jsonb missing, run the non-destructive phase29 migrator.
+scripts/phase30_smoke_canonical_ready.sh:11:has_jsonb="$(psql "$POSTGRES_URL" -qtAc "select count(*)::int from information_schema.columns where table_name='task_events' and column_name='payload_jsonb'")"
+scripts/phase30_smoke_canonical_ready.sh:13:  echo "payload_jsonb missing -> running server/worker/phase29_db_migrate_to_phase27.sql"
+scripts/phase30_smoke_canonical_ready.sh:14:  psql "$POSTGRES_URL" -v ON_ERROR_STOP=1 -f server/worker/phase29_db_migrate_to_phase27.sql
+scripts/phase30_smoke_canonical_ready.sh:17:echo "=== phase30: strict contract check ==="
+scripts/phase30_smoke_canonical_ready.sh:18:psql "$POSTGRES_URL" -v ON_ERROR_STOP=1 -f server/worker/phase30_contract_check.sql
+scripts/phase30_smoke_canonical_ready.sh:20:echo "=== phase30: run deterministic worker smoke ==="
+scripts/phase28_smoke_one.sh:109:from task_events
+scripts/phase50_smoke_db_writepath_enforce.sh:33:e0="$(sql "select count(*) from task_events")"
+scripts/phase50_smoke_db_writepath_enforce.sh:34:echo "tasks=$t0 task_events=$e0"
+scripts/phase50_smoke_db_writepath_enforce.sh:43:e1="$(sql "select count(*) from task_events")"
+scripts/phase50_smoke_db_writepath_enforce.sh:44:echo "tasks=$t1 task_events=$e1"
+scripts/phase50_smoke_db_writepath_enforce.sh:49:[[ "$e1" == "$e0" ]] || { echo "FAIL: task_events changed ($e0 -> $e1)"; exit 5; }
+scripts/_ops/phase40_1_patch_execution_path.mjs:47:  if (/task_events|run_view|tasks\b/i.test(c)) score += 10;
+scripts/ci_demo_hardening_smoke.sh:13:if [ -f docker-compose.phase54.postgres_bootstrap.override.yml ]; then
+scripts/ci_demo_hardening_smoke.sh:14:  COMPOSE_FILES+=( -f docker-compose.phase54.postgres_bootstrap.override.yml )
+scripts/agents/cade-delegation-watcher.ts:21:    "UPDATE task_events SET status = 'completed' WHERE id = ?"
+scripts/agents/cade-delegation-watcher.ts:33:    "SELECT id, description FROM task_events WHERE event_type = 'delegation' AND status = 'pending'"
+scripts/phase50_patch_db_writepath_enforce.sh:66:def patch_task_events():
+scripts/phase50_patch_db_writepath_enforce.sh:72:  if "Phase50: DB write-path enforcement (task_events)" in s:
+scripts/phase50_patch_db_writepath_enforce.sh:87:    s = s[:ins] + '\n  // Phase50: DB write-path enforcement (task_events)\n  assertNotEnforced("task_events.append");\n' + s[ins:]
+scripts/phase50_patch_db_writepath_enforce.sh:96:      s = s[:ins2] + '\n  // Phase50: DB write-path enforcement (task_events)\n  assertNotEnforced("task_events.write");\n' + s[ins2:]
+scripts/phase50_patch_db_writepath_enforce.sh:102:patch_task_events()
+scripts/phase29_smoke_migrate_then_smoke.sh:6:echo "=== phase29: doctor BEFORE ==="
+scripts/phase29_smoke_migrate_then_smoke.sh:7:server/worker/phase29_db_doctor.sh
+scripts/phase29_smoke_migrate_then_smoke.sh:9:echo "=== phase29: migrate DB to phase27-ish contract (non-destructive) ==="
+scripts/phase29_smoke_migrate_then_smoke.sh:10:psql "$POSTGRES_URL" -v ON_ERROR_STOP=1 -f server/worker/phase29_db_migrate_to_phase27.sql
+scripts/phase29_smoke_migrate_then_smoke.sh:12:echo "=== phase29: doctor AFTER ==="
+scripts/phase29_smoke_migrate_then_smoke.sh:13:server/worker/phase29_db_doctor.sh
+scripts/phase29_smoke_migrate_then_smoke.sh:15:echo "=== phase29: run deterministic smoke (should still pass) ==="
+scripts/utils/ensure-task-events-main.ts:1:// <0001fad4> Phase 5.0 — Force-create task_events in db/main.db
+scripts/utils/ensure-task-events-main.ts:10:  db.prepare(`CREATE TABLE IF NOT EXISTS task_events (
+scripts/utils/ensure-task-events-main.ts:16:  console.log("✅ task_events table verified inside main.db");
+scripts/utils/ensure-task-events-main.ts:18:  console.error("❌ Failed to verify or create task_events:", err);
+scripts/utils/validateTaskEvent.ts:14:    const stmt = db.prepare("UPDATE task_events SET status=@status WHERE id=@id");
+scripts/utils/pruneDatabase.ts:10:    INSERT INTO task_events (id, type, status, agent, payload, result, created_at)
+scripts/utils/ensure-task-events.ts:6:    .prepare(`CREATE TABLE IF NOT EXISTS task_events (
+scripts/utils/ensure-task-events.ts:13:  console.log("✅ task_events table verified/created successfully.");
+scripts/utils/ensure-task-events.ts:15:  console.error("❌ Failed to verify or create task_events:", err);
+scripts/phase36_2_run_observability_smoke.sh:28:INSERT INTO task_events (kind, payload, task_id, ts, run_id, actor)
+scripts/phase36_2_run_observability_smoke.sh:34:INSERT INTO task_events (kind, payload, task_id, ts, run_id, actor)
+scripts/phase36_2_run_observability_smoke.sh:41:INSERT INTO task_events (kind, payload, task_id, ts, run_id, actor)
+scripts/phase456_run_view_schema_evidence.sh:24:  echo "=== SEARCH: run_view / runs / schema bootstrap ==="
+scripts/phase456_run_view_schema_evidence.sh:25:  grep -RniE "run_view|CREATE VIEW run_view|create view run_view|CREATE OR REPLACE VIEW run_view|ensure.*run|bootstrap.*run|schema.*run|migration.*run" \
+scripts/phase456_run_view_schema_evidence.sh:29:  echo "=== SEARCH: DB BOOTSTRAP / MIGRATION ENTRYPOINTS ==="
+scripts/phase456_run_view_schema_evidence.sh:30:  grep -RniE "bootstrap|migrate|migration|schema|db_bootstrap|ensure.*tasks|ensure.*run|run_view" \
+scripts/phase456_run_view_schema_evidence.sh:48:  docker compose exec -T postgres psql -U "${PGUSER:-postgres}" -d "${PGDATABASE:-postgres}" -c "SELECT tablename FROM pg_tables WHERE tablename IN ('tasks','task_events');" 2>&1 || true
+scripts/phase37_0_capture_run_view_docs.zsh:55:- `task_events.ts` ASC
+scripts/phase37_0_capture_run_view_docs.zsh:56:- tie-breaker: `task_events.id` ASC
+scripts/phase37_0_provenance_autofill_hints.zsh:59:- `task_events.ts` ASC, tie-breaker `task_events.id` ASC
+scripts/phase51_smoke_http_enforce_403.sh:21:e0="$(sql "select count(*) from task_events")"
+scripts/phase51_smoke_http_enforce_403.sh:22:echo "tasks=$t0 task_events=$e0"
+scripts/phase51_smoke_http_enforce_403.sh:35:e1="$(sql "select count(*) from task_events")"
+scripts/phase51_smoke_http_enforce_403.sh:36:echo "tasks=$t1 task_events=$e1"
+scripts/phase51_smoke_http_enforce_403.sh:41:[[ "$e1" == "$e0" ]] || { echo "FAIL: task_events changed ($e0 -> $e1)"; exit 5; }
+scripts/phase22_wire_task_events_ui.sh:108:    window.__MB_TASK_EVENTS_PANEL = { dot, feed, counts };
+scripts/phase22_wire_task_events_ui.sh:113:    const dot = window.__MB_TASK_EVENTS_PANEL?.dot;
+scripts/phase22_wire_task_events_ui.sh:260:  window.__MB_TASK_EVENTS = {
+scripts/phase46_task_events_sse_smoke.sh:7:echo "=== Phase 46 smoke: task_events SSE ==="
+scripts/phase46_task_events_sse_smoke.sh:39:echo "OK: phase46_task_events_sse_smoke passed"
+scripts/phase52_smoke_api_tasks_create_201.sh:21:e0="$(sql "select count(*) from task_events")"
+scripts/phase52_smoke_api_tasks_create_201.sh:22:echo "tasks=$t0 task_events=$e0"
+scripts/phase52_smoke_api_tasks_create_201.sh:35:e1="$(sql "select count(*) from task_events")"
+scripts/phase52_smoke_api_tasks_create_201.sh:36:echo "tasks=$t1 task_events=$e1"
+scripts/phase46_recovery_primitives.sh:13:curl -fsS "http://127.0.0.1:8080/api/task-events" > "${bundle_dir}/api_task_events.json" || true
+scripts/phase57_snapshot_smoke.sh:11:  -f docker-compose.phase54.postgres_bootstrap.override.yml
+scripts/phase57_snapshot_smoke.sh:142:  echo "=== task_events (policy.probe.run) ==="
+scripts/phase57_snapshot_smoke.sh:143:  "${PSQL_AT[@]}" -c "SELECT id, kind, task_id, run_id, ts, actor FROM task_events WHERE run_id='${RUN_ID}' ORDER BY id DESC LIMIT 50;" || true
+scripts/ops/create-entity.ts:141:    `Bootstrapping ${kind} ${name}`,
+scripts/phase33_smoke.sh:54:  PSQLRC=/dev/null psql -X -q "$POSTGRES_URL" -v ON_ERROR_STOP=1 -c "select kind, count(*) from task_events group by kind order by count(*) desc;" || true
+scripts/phase19_task_events_smoke.cjs:19:    const reg = await client.query("select to_regclass('public.task_events') as reg;");
+scripts/phase19_task_events_smoke.cjs:21:      console.error("Table public.task_events not found.");
+scripts/phase19_task_events_smoke.cjs:26:      "insert into public.task_events (kind, payload) values ($1, $2) returning *;",
+scripts/phase19_task_events_smoke.cjs:31:    const sel = await client.query("select count(*)::bigint as count from public.task_events;");
+scripts/phase39_value_gate_smoke.sh:84:SELECT count(*) AS task_events_for_task
+scripts/phase39_value_gate_smoke.sh:85:FROM task_events
+scripts/phase39_value_gate_smoke.sh:92:echo "=== snapshot (post-worker) — must be identical + no task_events added ==="
+scripts/phase39_value_gate_smoke.sh:98:SELECT count(*) AS task_events_for_task
+scripts/phase39_value_gate_smoke.sh:99:FROM task_events
+scripts/phase35_pg_add_lock_compat.sql:2:ALTER TABLE tasks
+scripts/phase456_compose_service_and_db_failure_focus.sh:50:  echo "=== SEARCH: TASK TABLE BOOTSTRAP / MIGRATION / DB URL ==="
+scripts/phase456_compose_service_and_db_failure_focus.sh:51:  grep -RniE "ensureTasksTaskIdColumn|CREATE TABLE tasks|create table tasks|tasks_task_id|DB_URL|DATABASE_URL|postgres" server src scripts app . 2>/dev/null | head -500 || true
+scripts/phase31_7_fix_task_events_contract.sh:5:rg -n --hidden --no-ignore-vcs -S "(/events/task-events|task-events|task_events|task\.event)" server || true
+scripts/phase31_7_fix_task_events_contract.sh:31:mapper = pick(r"/events/task-events|task-events|task_events|task\.event", [server])[0]
+scripts/phase32_verify.sh:9:CURSOR="$(psql -X -qAt "$PGURL" -c "select coalesce(max(id),0) from task_events")"
+scripts/phase32_verify.sh:35:echo "=== task_events rows ==="
+scripts/phase32_verify.sh:45:from task_events
+scripts/_local/phase64_6_workspace_interactivity_contract_guard.sh:20:bash scripts/_local/phase64_5_task_events_contract_guard.sh
+scripts/_local/phase65b_running_tasks_smoke.sh:9:test -f public/js/telemetry/phase65b_metric_bootstrap.js
+scripts/_local/phase65b_running_tasks_smoke.sh:13:echo "2 Checking bundle bootstrap wiring exists..."
+scripts/_local/phase65b_running_tasks_smoke.sh:14:grep -F 'PHASE65B_TELEMETRY_BOOTSTRAP' public/js/dashboard-bundle-entry.js >/dev/null
+scripts/_local/phase65b_running_tasks_smoke.sh:15:grep -F '/js/telemetry/phase65b_metric_bootstrap.js' public/js/dashboard-bundle-entry.js >/dev/null
+scripts/_local/phase65b_running_tasks_smoke.sh:59:echo "9 Checking served bundle contains telemetry bootstrap..."
+scripts/_local/phase65b_running_tasks_smoke.sh:60:curl -fsSL http://localhost:8080/js/dashboard-bundle-entry.js | grep -F '/js/telemetry/phase65b_metric_bootstrap.js' >/dev/null
+scripts/_local/phase64_agent_activity_probe.sh:37:curl -fsS "$BASE_URL/js/phase64_agent_activity_bootstrap.js" >/tmp/phase64_agent_activity_bootstrap.js
+scripts/_local/phase64_agent_activity_probe.sh:45:grep -q 'phase64_agent_activity_bootstrap.js' /tmp/phase61_recent_history_wire.js || {
+scripts/_local/phase64_agent_activity_probe.sh:46:  echo "ERROR: phase61_recent_history_wire.js is not chaining phase64_agent_activity_bootstrap.js"
+scripts/_local/phase64_agent_activity_probe.sh:50:grep -q 'window.__PHASE64_AGENT_WIRE_LOADED__' /tmp/phase64_agent_activity_bootstrap.js || {
+scripts/_local/phase64_agent_activity_probe.sh:51:  echo "ERROR: bootstrap asset contents unexpected"
+scripts/_local/phase457_repair_shell_candidate_boot_yaml_and_relaunch.sh:135:create table if not exists task_events (
+scripts/_local/phase61_4_task_events_render_path_patch.sh:145:    window.__MB_TASK_EVENTS_PANEL = { dot, feed, counts };
+scripts/_local/phase61_4_task_events_render_path_patch.sh:151:    const dot = window.__MB_TASK_EVENTS_PANEL?.dot;
+scripts/_local/phase61_4_task_events_render_path_patch.sh:395:  window.__MB_TASK_EVENTS = { url: SSE_URL, reconnect: () => connect() };
+scripts/_local/phase65b_wire_metric_bootstrap.sh:5:MARKER='/* PHASE65B_TELEMETRY_BOOTSTRAP */'
+scripts/_local/phase65b_wire_metric_bootstrap.sh:8:  echo "Phase 65B bootstrap already wired"
+scripts/_local/phase65b_wire_metric_bootstrap.sh:18:/* PHASE65B_TELEMETRY_BOOTSTRAP */
+scripts/_local/phase65b_wire_metric_bootstrap.sh:21:  if (document.querySelector('script[src="/js/telemetry/phase65b_metric_bootstrap.js"]')) return;
+scripts/_local/phase65b_wire_metric_bootstrap.sh:24:  script.src = "/js/telemetry/phase65b_metric_bootstrap.js";
+scripts/_local/phase65b_wire_metric_bootstrap.sh:31:echo "Phase 65B bootstrap wired into $TARGET"
+scripts/_local/phase62b_verify_bundle_single_writer_success_corridor.sh:23:  grep -n 'load("/js/telemetry/success_rate_metric.js")' public/js/telemetry/phase65b_metric_bootstrap.js || echo "NOT FOUND"
+scripts/_local/phase62b_verify_bundle_single_writer_success_corridor.sh:55:  if grep -q 'load("/js/telemetry/success_rate_metric.js")' public/js/telemetry/phase65b_metric_bootstrap.js 2>/dev/null; then
+scripts/_local/phase62b_verify_bundle_single_writer_success_corridor.sh:74:  echo "== public/js/telemetry/phase65b_metric_bootstrap.js =="
+scripts/_local/phase62b_verify_bundle_single_writer_success_corridor.sh:75:  nl -ba public/js/telemetry/phase65b_metric_bootstrap.js | sed -n '1,120p'
+scripts/_local/phase62b_bundle_success_writer_origin_inspect.sh:23:grep -n "success_rate_metric.js" public/js/telemetry/phase65b_metric_bootstrap.js || echo "NOT FOUND"
+scripts/_local/phase62b_success_rate_writer_conflict_inspect.sh:32:  echo "== metric bootstrap =="
+scripts/_local/phase62b_success_rate_writer_conflict_inspect.sh:33:  nl -ba public/js/telemetry/phase65b_metric_bootstrap.js | sed -n '1,220p' || true
+scripts/_local/phase64_4_probe_task_events_endpoint_and_mount.sh:7:TASK_EVENTS_SAMPLE="${TMP_DIR}/task-events.sample"
+scripts/_local/phase64_4_probe_task_events_endpoint_and_mount.sh:60:python3 - <<'PY' "${BASE_URL}/events/task-events" "${TASK_EVENTS_SAMPLE}"
+scripts/_local/phase64_4_probe_task_events_endpoint_and_mount.sh:87:sed -n '1,120p' "${TASK_EVENTS_SAMPLE}"
+scripts/_local/phase64_4_probe_task_events_endpoint_and_mount.sh:91:grep '^event:' "${TASK_EVENTS_SAMPLE}" | sort | uniq -c || true
+scripts/_local/phase61_debug_and_repair.sh:27:    "task_events": "Task Events" in html,
+scripts/_local/phase64_4_audit_task_events_replay_source.sh:7:TASK_EVENTS_SAMPLE="${TMP_DIR}/task-events.sample"
+scripts/_local/phase64_4_audit_task_events_replay_source.sh:27:grep -nE 'router\.get\("/events/task-events"|_sseWrite|cursor|Last-Event-ID|setInterval|while |for \(|SELECT|task_events|ORDER BY|LIMIT' server/routes/task-events-sse.mjs || true
+scripts/_local/phase64_4_audit_task_events_replay_source.sh:39:python3 - <<'PY' "${BASE_URL}/events/task-events" "${TASK_EVENTS_SAMPLE}"
+scripts/_local/phase64_4_audit_task_events_replay_source.sh:66:sed -n '1,80p' "${TASK_EVENTS_SAMPLE}"
+scripts/_local/phase64_4_audit_task_events_replay_source.sh:70:grep '^event:' "${TASK_EVENTS_SAMPLE}" | sort | uniq -c || true
+scripts/_local/phase64_4_audit_task_events_replay_source.sh:74:grep '^id:' "${TASK_EVENTS_SAMPLE}" | wc -l | tr -d ' '
+scripts/_local/phase64_4_audit_task_events_replay_source.sh:78:grep '^id:' "${TASK_EVENTS_SAMPLE}" | sort | uniq | wc -l | tr -d ' '
+scripts/_local/phase64_4_audit_task_events_replay_source.sh:82:grep '^id:' "${TASK_EVENTS_SAMPLE}" | sort | uniq -c | sort -nr | head -10 || true
+scripts/_local/fix_task_events_db_logging_signal.sh:18:replacement = """\\1const TASK_EVENTS_DB_URL_RAW = process.env.POSTGRES_URL || process.env.DATABASE_URL || "";
+scripts/_local/fix_task_events_db_logging_signal.sh:19:\\1const TASK_EVENTS_DB_URL_HAS_PASSWORD = /\\/\\/[^:]+:[^@]+@/.test(TASK_EVENTS_DB_URL_RAW);
+scripts/_local/fix_task_events_db_logging_signal.sh:21:\\1  mode: (TASK_EVENTS_DB_URL_RAW ? "url" : "params"),
+scripts/_local/fix_task_events_db_logging_signal.sh:22:\\1  DB_URL_present: Boolean(TASK_EVENTS_DB_URL_RAW),
+scripts/_local/fix_task_events_db_logging_signal.sh:27:\\1  password_type: (TASK_EVENTS_DB_URL_RAW ? "url-hidden" : typeof o.password),
+scripts/_local/fix_task_events_db_logging_signal.sh:28:\\1  password_len: (TASK_EVENTS_DB_URL_RAW ? "hidden" : (o.password == null ? null : String(o.password).length)),
+scripts/_local/fix_task_events_db_logging_signal.sh:29:\\1  has_password: (TASK_EVENTS_DB_URL_RAW ? TASK_EVENTS_DB_URL_HAS_PASSWORD : (o.password != null)),
+scripts/_local/phase457_verify_root_vs_dashboard_entrypoint.sh:89:create table if not exists task_events (
+scripts/_local/hydrate_phase62b_success_rate_metric.sh:188:      parsed?.task_events,
+scripts/_local/phase65c_inspect_success_transfer_target.sh:27:echo "== telemetry bootstrap files =="
+scripts/_local/hydrate_phase62b_tasks_running_metric.sh:176:      parsed?.task_events,
+scripts/_local/phase62b_success_rate_live_validation_runbook.sh:37:2. Telemetry bootstrap imported through dashboard bundle entry.
+scripts/_local/phase64_4_rebuild_and_verify_task_events_writer_hotfix.sh:6:TASK_EVENTS_SAMPLE="${TMP_DIR}/task-events.sample"
+scripts/_local/phase64_4_rebuild_and_verify_task_events_writer_hotfix.sh:22:python3 - <<'PY' "${BASE_URL}/events/task-events" "${TASK_EVENTS_SAMPLE}"
+scripts/_local/phase64_4_rebuild_and_verify_task_events_writer_hotfix.sh:49:sed -n '1,80p' "${TASK_EVENTS_SAMPLE}"
+scripts/_local/phase64_4_rebuild_and_verify_task_events_writer_hotfix.sh:53:grep '^event:' "${TASK_EVENTS_SAMPLE}" | sort | uniq -c || true
+scripts/_local/phase64_4_rebuild_and_verify_task_events_writer_hotfix.sh:57:grep '^id:' "${TASK_EVENTS_SAMPLE}" | wc -l | tr -d ' '
+scripts/_local/phase64_4_rebuild_and_verify_task_events_writer_hotfix.sh:61:grep '^id:' "${TASK_EVENTS_SAMPLE}" | sort | uniq | wc -l | tr -d ' '
+scripts/_local/phase64_4_rebuild_and_verify_task_events_writer_hotfix.sh:65:grep '^id:' "${TASK_EVENTS_SAMPLE}" | sort | uniq -c | sort -nr | head -10 || true
+scripts/_local/phase62b_fix_success_rate_terminal_listener_verification.sh:26:  echo "== bundle bootstrap presence check =="
+scripts/_local/phase62b_fix_success_rate_terminal_listener_verification.sh:27:  if grep -q 'phase65b_metric_bootstrap' public/bundle.js 2>/dev/null; then
+scripts/_local/phase62b_fix_success_rate_terminal_listener_verification.sh:28:    echo "bundle_bootstrap_present=yes"
+scripts/_local/phase62b_fix_success_rate_terminal_listener_verification.sh:30:    echo "bundle_bootstrap_present=no"
+scripts/_local/phase62b_fix_success_rate_terminal_listener_verification.sh:43:  if grep -q 'telemetry/phase65b_metric_bootstrap.js' public/js/dashboard-bundle-entry.js 2>/dev/null; then
+scripts/_local/phase62b_fix_success_rate_terminal_listener_verification.sh:44:    echo "dashboard_bundle_imports_bootstrap=yes"
+scripts/_local/phase62b_fix_success_rate_terminal_listener_verification.sh:46:    echo "dashboard_bundle_imports_bootstrap=no"
+scripts/_local/phase62b_fix_success_rate_terminal_listener_verification.sh:74:  grep -n 'phase65b_metric_bootstrap\|successNode\|task.completed\|task.failed\|eventNames' public/bundle.js | head -200 || true
+scripts/_local/phase65c_inspect_queue_depth_target.sh:38:echo "== phase65b_metric_bootstrap.js =="
+scripts/_local/phase65c_inspect_queue_depth_target.sh:39:sed -n '1,260p' public/js/telemetry/phase65b_metric_bootstrap.js
+scripts/_local/phase68_telemetry_contract_check.sh:10:SAMPLE_FILE="scripts/_local/fixtures/telemetry/task_events_contract_sample.json"
+scripts/_local/phase156_2_bootstrap_export_boundary_validation.sh:8:FILE="runtime/runtime_bootstrap.ts"
+scripts/_local/phase156_2_bootstrap_export_boundary_validation.sh:10:echo "Phase 156.2 — Bootstrap Export Boundary Validation"
+scripts/_local/phase156_2_bootstrap_export_boundary_validation.sh:15:  echo "FAIL: runtime bootstrap file missing"
+scripts/_local/phase156_2_bootstrap_export_boundary_validation.sh:22:echo "[2/9] RuntimeBootstrap class exported"
+scripts/_local/phase156_2_bootstrap_export_boundary_validation.sh:23:grep -q 'export class RuntimeBootstrap' "$FILE"
+scripts/_local/phase156_2_bootstrap_export_boundary_validation.sh:25:echo "[3/9] createRuntimeBootstrap factory exported"
+scripts/_local/phase156_2_bootstrap_export_boundary_validation.sh:26:grep -q 'export function createRuntimeBootstrap' "$FILE"
+scripts/_local/phase156_2_bootstrap_export_boundary_validation.sh:36:  echo "FAIL: RegistryStateStore referenced in runtime bootstrap"
+scripts/_local/phase156_2_bootstrap_export_boundary_validation.sh:42:  echo "FAIL: RegistryMutationCoordinator referenced in runtime bootstrap"
+scripts/_local/phase156_2_bootstrap_export_boundary_validation.sh:48:  echo "FAIL: RegistryOwnerSurface referenced in runtime bootstrap"
+scripts/_local/phase156_2_bootstrap_export_boundary_validation.sh:59:echo "PASS: runtime bootstrap export boundary validated"
+scripts/_local/phase64_8_pre_push_contract_guard.sh:24:bash scripts/_local/phase64_4_task_events_regression_guard.sh
+scripts/_local/phase64_8_pre_push_contract_guard.sh:28:bash scripts/_local/phase64_5_task_events_contract_guard.sh
+scripts/_local/phase64_6_run_safe_contract_corridor.sh:28:bash scripts/_local/phase64_4_task_events_regression_guard.sh
+scripts/_local/phase64_6_run_safe_contract_corridor.sh:32:bash scripts/_local/phase64_5_task_events_contract_guard.sh
+scripts/_local/phase457_verify_observational_task_card_wiring.sh:159:    echo "TASK_EVENTS=present_in_shell_and_bundle (likely wired)"
+scripts/_local/phase457_verify_observational_task_card_wiring.sh:161:    echo "TASK_EVENTS=shell_only (likely unwired)"
+scripts/_local/phase457_verify_observational_task_card_wiring.sh:163:    echo "TASK_EVENTS=missing_from_shell"
+scripts/_local/phase457_verify_observational_task_card_wiring.sh:168:  echo "- If TASK_EVENTS is wired while RECENT_TASKS / TASK_ACTIVITY / TASK_HISTORY are weaker,"
+scripts/_local/phase61_task_events_wiring_audit_and_capture.sh:8:OUT_FILE="$OUT_DIR/PHASE61_4_TASK_EVENTS_WIRING_AUDIT_20260310.txt"
+scripts/_local/phase61_task_events_wiring_audit_and_capture.sh:32:  grep -RniE 'function .*event|const .*event|render.*event|update.*event|append.*event|hydrate.*event|telemetry.*event|taskEvents|task_events' public src server . 2>/dev/null || true
+scripts/_local/phase62b_verify_success_single_writer_corridor.sh:24:  echo "== bootstrap load path =="
+scripts/_local/phase62b_verify_success_single_writer_corridor.sh:25:  nl -ba public/js/telemetry/phase65b_metric_bootstrap.js | sed -n '1,120p'
+scripts/_local/phase64_4_restore_after_safe_dedupe_regression.sh:9:rm -f scripts/_local/phase64_4_patch_task_events_sse_writer_dedupe_safe.sh
+scripts/_local/phase64_4_restore_after_safe_dedupe_regression.sh:10:rm -f scripts/_local/phase64_4_rebuild_and_verify_safe_task_events_dedupe.sh
+scripts/_local/phase68_validator_smoke.sh:5:VALID_SAMPLE="scripts/_local/fixtures/telemetry/task_events_contract_sample.json"
+scripts/_local/phase68_validator_smoke.sh:6:INVALID_SAMPLE="scripts/_local/fixtures/telemetry/task_events_contract_invalid_sample.json"
+scripts/_local/phase64_5_task_events_contract_guard.sh:20:bash scripts/_local/phase64_4_task_events_regression_guard.sh
+scripts/_local/phase64_5_task_events_contract_guard.sh:24:curl -fsS "${BASE_URL}/dashboard" | grep -n 'phase61_recent_history_wire\|phase64_4_task_events_live_recovery\|bundle.js\|phase60_live_clock' || true
+scripts/_local/route-loader/ops-sse-bootstrap.ts:1:// <0001fad5> Phase 5.0 — OPS SSE bootstrap schema enforcement
+scripts/_local/route-loader/ops-sse-bootstrap.ts:7:console.log("🧩 OPS Bootstrap — Verifying schema at:", dbPath);
+scripts/_local/route-loader/ops-sse-bootstrap.ts:10:  db.prepare(`CREATE TABLE IF NOT EXISTS task_events (
+scripts/_local/route-loader/ops-sse-bootstrap.ts:16:  console.log("✅ task_events table confirmed for OPS SSE runtime");
+scripts/_local/route-loader/ops-sse-bootstrap.ts:18:  console.error("❌ OPS SSE bootstrap failed:", err);
+scripts/_local/route-loader/ops-sse-server.ts:31:    .prepare("SELECT id, description, status, created_at FROM task_events WHERE id > ? ORDER BY id ASC")
+scripts/_local/phase61_5_5n_locate_ops_state_emitter.sh:44:    server/task_events_emit.mjs \
+scripts/_local/phase62b_extract_runtime_acceptance_evidence.sh:101:  echo "-- bootstrap import --"
+scripts/_local/phase62b_extract_runtime_acceptance_evidence.sh:102:  if grep -q 'telemetry/phase65b_metric_bootstrap.js' public/js/dashboard-bundle-entry.js 2>/dev/null; then
+scripts/_local/phase62b_extract_runtime_acceptance_evidence.sh:103:    echo "dashboard_bundle_imports_bootstrap=yes"
+scripts/_local/phase62b_extract_runtime_acceptance_evidence.sh:105:    echo "dashboard_bundle_imports_bootstrap=no"
+scripts/_local/phase62b_extract_runtime_acceptance_evidence.sh:130:    if TASK_CREATED_EVENTS_RAW="$(run_psql "$PG_CID" "select count(*) from task_events where kind='task.created';" 2>/dev/null)"; then
+scripts/_local/phase62b_extract_runtime_acceptance_evidence.sh:133:    if TASK_COMPLETED_EVENTS_RAW="$(run_psql "$PG_CID" "select count(*) from task_events where kind='task.completed';" 2>/dev/null)"; then
+scripts/_local/phase62b_extract_runtime_acceptance_evidence.sh:136:    if TASK_FAILED_EVENTS_RAW="$(run_psql "$PG_CID" "select count(*) from task_events where kind='task.failed';" 2>/dev/null)"; then
+scripts/_local/phase62b_extract_runtime_acceptance_evidence.sh:140:    echo "-- terminal event counts in task_events --"
+scripts/_local/phase62b_extract_runtime_acceptance_evidence.sh:147:    run_psql "$PG_CID" "select id || ' | ' || kind || ' | ' || coalesce(task_id,'') || ' | ' || coalesce(run_id,'') || ' | ' || coalesce(actor,'') || ' | ' || coalesce(ts::text,'') from task_events where kind in ('task.completed','task.failed') order by id desc limit 10;" 2>/dev/null || true
+scripts/_local/phase62b_extract_runtime_acceptance_evidence.sh:155:      if TARGET_SUCCESS_COMPLETED_RAW="$(run_psql "$PG_CID" "select count(*) from task_events where kind='task.completed' and task_id='${SUCCESS_TASK_ID}' and run_id='${SUCCESS_RUN_ID}';" 2>/dev/null)"; then
+scripts/_local/phase62b_extract_runtime_acceptance_evidence.sh:161:      if TARGET_FAILURE_FAILED_RAW="$(run_psql "$PG_CID" "select count(*) from task_events where kind='task.failed' and task_id='${FAILURE_TASK_ID}' and run_id='${FAILURE_RUN_ID}';" 2>/dev/null)"; then
+scripts/_local/phase62b_extract_runtime_acceptance_evidence.sh:174:      run_psql "$PG_CID" "select id || ' | ' || kind || ' | ' || coalesce(task_id,'') || ' | ' || coalesce(run_id,'') || ' | ' || coalesce(actor,'') from task_events where task_id='${SUCCESS_TASK_ID}' order by id asc;" 2>/dev/null || true
+scripts/_local/phase62b_extract_runtime_acceptance_evidence.sh:179:      run_psql "$PG_CID" "select id || ' | ' || kind || ' | ' || coalesce(task_id,'') || ' | ' || coalesce(run_id,'') || ' | ' || coalesce(actor,'') from task_events where task_id='${FAILURE_TASK_ID}' order by id asc;" 2>/dev/null || true
+scripts/_local/phase62b_extract_runtime_acceptance_evidence.sh:259:- Telemetry bootstrap import remains present.
+scripts/_local/phase62b_extract_runtime_acceptance_evidence.sh:260:- Persisted validation-target terminal event counts in task_events:
+scripts/_local/phase65_3_metrics_runtime_verify.sh:53:sample_task_events_host() {
+scripts/_local/phase65_3_metrics_runtime_verify.sh:69:sample_task_events_container() {
+scripts/_local/phase65_3_metrics_runtime_verify.sh:139:  sample_task_events_host "$BASE_URL_RESOLVED/events/task-events" 12
+scripts/_local/phase65_3_metrics_runtime_verify.sh:144:    sample_task_events_container "$CID" 12
+scripts/_local/phase457_remove_base_dashboard_port_and_boot_remaining.sh:93:create table if not exists task_events (
+scripts/_local/phase64_4_rebuild_and_verify_task_events_sse_writer_dedupe_minimal.sh:6:TASK_EVENTS_SAMPLE="${TMP_DIR}/task-events.sample"
+scripts/_local/phase64_4_rebuild_and_verify_task_events_sse_writer_dedupe_minimal.sh:21:python3 - <<'PY' "${BASE_URL}/events/task-events" "${TASK_EVENTS_SAMPLE}"
+scripts/_local/phase64_4_rebuild_and_verify_task_events_sse_writer_dedupe_minimal.sh:48:sed -n '1,80p' "${TASK_EVENTS_SAMPLE}"
+scripts/_local/phase64_4_rebuild_and_verify_task_events_sse_writer_dedupe_minimal.sh:52:grep '^event:' "${TASK_EVENTS_SAMPLE}" | sort | uniq -c || true
+scripts/_local/phase64_4_rebuild_and_verify_task_events_sse_writer_dedupe_minimal.sh:56:grep '^id:' "${TASK_EVENTS_SAMPLE}" | wc -l | tr -d ' '
+scripts/_local/phase64_4_rebuild_and_verify_task_events_sse_writer_dedupe_minimal.sh:60:grep '^id:' "${TASK_EVENTS_SAMPLE}" | sort | uniq | wc -l | tr -d ' '
+scripts/_local/phase64_4_rebuild_and_verify_task_events_sse_writer_dedupe_minimal.sh:64:grep '^id:' "${TASK_EVENTS_SAMPLE}" | sort | uniq -c | sort -nr | head -10 || true
+scripts/_local/phase64_4_rebuild_and_verify_task_events_sse_writer_dedupe_signature_agnostic.sh:6:TASK_EVENTS_SAMPLE="${TMP_DIR}/task-events.sample"
+scripts/_local/phase64_4_rebuild_and_verify_task_events_sse_writer_dedupe_signature_agnostic.sh:21:python3 - <<'PY' "${BASE_URL}/events/task-events" "${TASK_EVENTS_SAMPLE}"
+scripts/_local/phase64_4_rebuild_and_verify_task_events_sse_writer_dedupe_signature_agnostic.sh:48:sed -n '1,80p' "${TASK_EVENTS_SAMPLE}"
+scripts/_local/phase64_4_rebuild_and_verify_task_events_sse_writer_dedupe_signature_agnostic.sh:52:grep '^event:' "${TASK_EVENTS_SAMPLE}" | sort | uniq -c || true
+scripts/_local/phase64_4_rebuild_and_verify_task_events_sse_writer_dedupe_signature_agnostic.sh:56:grep '^id:' "${TASK_EVENTS_SAMPLE}" | wc -l | tr -d ' '
+scripts/_local/phase64_4_rebuild_and_verify_task_events_sse_writer_dedupe_signature_agnostic.sh:60:grep '^id:' "${TASK_EVENTS_SAMPLE}" | sort | uniq | wc -l | tr -d ' '
+scripts/_local/phase64_4_rebuild_and_verify_task_events_sse_writer_dedupe_signature_agnostic.sh:64:grep '^id:' "${TASK_EVENTS_SAMPLE}" | sort | uniq -c | sort -nr | head -10 || true
+scripts/_local/phase157_runtime_bootstrap_verification.sh:8:BOOTSTRAP="runtime/runtime_bootstrap.ts"
+scripts/_local/phase157_runtime_bootstrap_verification.sh:11:echo "Phase 157 — Runtime Bootstrap Verification Pass"
+scripts/_local/phase157_runtime_bootstrap_verification.sh:20:echo "[1/10] bootstrap file exists"
+scripts/_local/phase157_runtime_bootstrap_verification.sh:21:[[ -f "$BOOTSTRAP" ]] || fail "runtime_bootstrap.ts missing"
+scripts/_local/phase157_runtime_bootstrap_verification.sh:26:echo "[3/10] bootstrap imports container"
+scripts/_local/phase157_runtime_bootstrap_verification.sh:27:grep -q 'RegistryRuntimeContainer' "$BOOTSTRAP" || fail "container not imported"
+scripts/_local/phase157_runtime_bootstrap_verification.sh:30:COUNT=$(grep -c 'new RegistryRuntimeContainer' "$BOOTSTRAP")
+scripts/_local/phase157_runtime_bootstrap_verification.sh:34:grep -q 'registry: registryContainer' "$BOOTSTRAP" || fail "registry not attached correctly"
+scripts/_local/phase157_runtime_bootstrap_verification.sh:37:if grep -q 'RegistryStateStore' "$BOOTSTRAP"; then fail "store leaked"; fi
+scripts/_local/phase157_runtime_bootstrap_verification.sh:38:if grep -q 'RegistryMutationCoordinator' "$BOOTSTRAP"; then fail "coordinator leaked"; fi
+scripts/_local/phase157_runtime_bootstrap_verification.sh:39:if grep -q 'RegistryOwnerSurface' "$BOOTSTRAP"; then fail "owner surface leaked"; fi
+scripts/_local/phase157_runtime_bootstrap_verification.sh:42:grep -q 'getServices()' "$BOOTSTRAP" || fail "services getter missing"
+scripts/_local/phase157_runtime_bootstrap_verification.sh:59:echo "PASS: runtime bootstrap verification successful"
+scripts/_local/strip_dashboard_runtime.py:17:    r'<script[^>]+src="/js/phase23_matilda_task_events_bridge\.js[^"]*"[^>]*></script>\s*',
+scripts/_local/phase457_boot_remaining_candidates_with_runtime_seed.sh:102:create table if not exists task_events (
+scripts/_local/phase62b_success_rate_live_hydration_readiness_check.sh:20:  grep -n 'load("/js/telemetry/success_rate_metric.js")' public/js/telemetry/phase65b_metric_bootstrap.js || echo "TELEMETRY AUTHORITY NOT FOUND"
+scripts/_local/phase62b_success_rate_live_hydration_readiness_check.sh:37:  echo "== success metric bootstrap path =="
+scripts/_local/phase62b_success_rate_live_hydration_readiness_check.sh:38:  grep -n "success_rate_metric.js" public/js/telemetry/phase65b_metric_bootstrap.js || true
+scripts/_local/phase457_find_tabbed_workspace_shell.sh:64:    public/js/phase64_agent_activity_bootstrap.js \
+scripts/_local/phase457_remove_base_dashboard_port_from_shell_candidates.sh:137:create table if not exists task_events (
+scripts/_local/phase62b_dashboard_asset_load_path_inspect.sh:20:  grep -nE 'bundle\.js|bundle-core\.js|phase65b_metric_bootstrap\.js|telemetry/' public/dashboard.html public/index.html 2>/dev/null || true
+scripts/_local/phase62b_dashboard_asset_load_path_inspect.sh:28:  grep -nE 'agent-status-row\.js|success_rate_metric\.js|running_tasks_metric\.js|latency_metric\.js|phase65b_metric_bootstrap\.js' public/bundle.js.map 2>/dev/null | head -40 || true
+scripts/_local/phase62b_dashboard_asset_load_path_inspect.sh:54:  if grep -q 'phase65b_metric_bootstrap.js' public/dashboard.html 2>/dev/null; then
+scripts/_local/phase62b_dashboard_asset_load_path_inspect.sh:55:    echo "dashboard_loads_bootstrap_directly=yes"
+scripts/_local/phase62b_dashboard_asset_load_path_inspect.sh:57:    echo "dashboard_loads_bootstrap_directly=no"
+scripts/_local/phase65b_metric_agents_ownership_smoke.sh:45:echo "6 Checking served bundle still includes telemetry bootstrap..."
+scripts/_local/phase65b_metric_agents_ownership_smoke.sh:46:curl -fsSL http://localhost:8080/js/dashboard-bundle-entry.js | grep -F '/js/telemetry/phase65b_metric_bootstrap.js' >/dev/null
+scripts/_local/phase69_replay_capture.sh:9:OUTFILE="$OUTPUT_DIR/task_events_replay_$TIMESTAMP.json"
+scripts/_local/phase69_replay_capture.sh:15:cat scripts/_local/fixtures/telemetry/task_events_contract_sample.json > "$OUTFILE"
+scripts/_local/phase61_5_6b_audit_real_agent_status_producers_only.sh:37:    server/task_events_emit.mjs
+scripts/_local/phase64_4_restore_interactive_dashboard.sh:8:rm -f public/js/phase64_4_task_events_live_recovery.js
+scripts/_local/phase64_4_restore_interactive_dashboard.sh:9:rm -f scripts/_local/phase64_4_apply_task_events_live_recovery.sh
+scripts/_local/phase64_4_restore_interactive_dashboard.sh:10:rm -f scripts/_local/phase64_4_force_mount_task_events_recovery.sh
+scripts/_local/phase64_4_restore_interactive_dashboard.sh:11:rm -f scripts/_local/phase64_4_verify_task_events_live_recovery_runtime.sh
+scripts/_local/phase64_4_restore_interactive_dashboard.sh:12:rm -f scripts/_local/phase64_4_verify_task_events_recovery_mount.sh
+scripts/_local/phase64_4_restore_interactive_dashboard.sh:21:while '\n  <script src="js/phase64_4_task_events_live_recovery.js?v=phase64_4_live_recovery_20260314b"></script>' in text:
+scripts/_local/phase64_4_restore_interactive_dashboard.sh:22:    text = text.replace('\n  <script src="js/phase64_4_task_events_live_recovery.js?v=phase64_4_live_recovery_20260314b"></script>', '')
+scripts/_local/phase64_4_restore_interactive_dashboard.sh:24:while '\n  <script src="js/phase64_4_task_events_live_recovery.js"></script>' in text:
+scripts/_local/phase64_4_restore_interactive_dashboard.sh:25:    text = text.replace('\n  <script src="js/phase64_4_task_events_live_recovery.js"></script>', '')
+scripts/_local/phase31_6_recent_tasks_debug.sh:45:echo "curl_task_events_rc=$curl_rc sse_log=$SSE" | tee -a "$LOG" >/dev/null
+scripts/_local/phase31_6_recent_tasks_debug.sh:64:'(/events/task-events|task-events|task.event|task_events|taskEvents|TaskEvents|cursor|heartbeat|EventSource(|addEventListener(|message|event:\s*)'
+scripts/_local/phase457o_capture_post_force_runtime_state.sh:9:TASK_EVENTS_URL="http://localhost:8080/events/task-events"
+scripts/_local/phase457o_capture_post_force_runtime_state.sh:26:curl -fsSL --max-time 3 "$TASK_EVENTS_URL" -o "$TMP_EVENTS" || true
+scripts/_local/phase457o_capture_post_force_runtime_state.sh:36:  echo "TASK_EVENTS_URL=$TASK_EVENTS_URL"
+scripts/_local/phase457o_capture_post_force_runtime_state.sh:76:  docker exec motherboard_systems_hq-postgres-1 psql -U postgres -d postgres -c "select count(*) as task_event_count from task_events;" 2>&1 || true
+scripts/_local/phase69_replay_runner.sh:20:FILES=$(ls "$REPLAY_DIR"/task_events_replay_*.json 2>/dev/null || true)
+scripts/_local/phase64_4_fix_task_events_cursor_precision.sh:12:          from task_events
+scripts/_local/phase64_4_fix_task_events_cursor_precision.sh:19:          from task_events
+scripts/_local/phase64_4_fix_task_events_cursor_precision.sh:26:          from task_events
+scripts/_local/phase64_4_fix_task_events_cursor_precision.sh:33:          from task_events
+scripts/_local/normalize_phase63_shared_task_events_metric_corridor.sh:22:;/* PHASE63_SHARED_TASK_EVENTS_METRICS */
+scripts/_local/normalize_phase63_shared_task_events_metric_corridor.sh:25:  if (window.__PHASE63_SHARED_TASK_EVENTS_METRICS__) return;
+scripts/_local/normalize_phase63_shared_task_events_metric_corridor.sh:26:  window.__PHASE63_SHARED_TASK_EVENTS_METRICS__ = true;
+scripts/_local/normalize_phase63_shared_task_events_metric_corridor.sh:223:      parsed?.task_events,
+scripts/_local/normalize_phase63_shared_task_events_metric_corridor.sh:290:    updated = remove_marker_block(updated, "PHASE63_SHARED_TASK_EVENTS_METRICS")
+scripts/_local/phase457_live_panel_behavior_audit.sh:142:      echo "TASK_EVENTS=likely wired"
+scripts/_local/phase457_live_panel_behavior_audit.sh:144:      echo "TASK_EVENTS=unclear or missing"
+scripts/_local/hydrate_phase62b_latency_metric.sh:247:      parsed?.task_events,
+
+=== SHOW CANDIDATE MIGRATION FILES ===
+drizzle_pg/0001_create_task_events.sql
+drizzle_pg/0001_create_tasks.sql
+drizzle_pg/0001_phase31_7_failed_at_guard.sql
+drizzle_pg/0006_phase32_1_task_events_contract.sql
+drizzle_pg/0007_phase34_lease_heartbeat_reclaim.sql
+drizzle_pg/0007_phase35_lease_epoch.sql
+drizzle_pg/0007_phase36_1_run_view.sql
+drizzle_pg/0007_phase36_2_run_view_contract.sql
+drizzle_pg/0008_phase39_action_tier_scaffolding.sql
+drizzle_pg/0008_phase57_run_snapshot.sql
+drizzle_pg/0009_phase39_db_repair_notes_failedat_taskid.sql
+drizzle_pg/0009_phase57_1_tasks_title.sql
+
+=== CANONICAL POSTGRES LOGS (TAIL 120) ===
+postgres-1  | 	        
+postgres-1  | 	        ORDER BY
+postgres-1  | 	          last_event_ts DESC NULLS LAST,
+postgres-1  | 	          last_event_id DESC NULLS LAST,
+postgres-1  | 	          run_id DESC
+postgres-1  | 	        LIMIT $1::int
+postgres-1  | 	      
+postgres-1  | 2026-04-09 17:37:50.276 UTC [27] LOG:  checkpoint starting: time
+postgres-1  | 2026-04-09 17:37:50.286 UTC [27] LOG:  checkpoint complete: wrote 1 buffers (0.0%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.001 s, sync=0.001 s, total=0.010 s; sync files=1, longest=0.001 s, average=0.001 s; distance=0 kB, estimate=0 kB; lsn=0/156F050, redo lsn=0/156F018
+postgres-1  | 2026-04-09 17:43:05.774 UTC [64] ERROR:  relation "run_view" does not exist at character 435
+postgres-1  | 2026-04-09 17:43:05.774 UTC [64] STATEMENT:  
+postgres-1  | 	        
+postgres-1  | 	    SELECT
+postgres-1  | 	          run_id,
+postgres-1  | 	          task_id,
+postgres-1  | 	          task_status,
+postgres-1  | 	          is_terminal,
+postgres-1  | 	          last_event_id,
+postgres-1  | 	          last_event_ts,
+postgres-1  | 	          last_event_kind,
+postgres-1  | 	          actor,
+postgres-1  | 	          lease_expires_at,
+postgres-1  | 	          lease_fresh,
+postgres-1  | 	          lease_ttl_ms,
+postgres-1  | 	          last_heartbeat_ts,
+postgres-1  | 	          heartbeat_age_ms,
+postgres-1  | 	          terminal_event_kind,
+postgres-1  | 	          terminal_event_ts,
+postgres-1  | 	          terminal_event_id
+postgres-1  | 	  
+postgres-1  | 	        FROM run_view
+postgres-1  | 	        
+postgres-1  | 	        ORDER BY
+postgres-1  | 	          last_event_ts DESC NULLS LAST,
+postgres-1  | 	          last_event_id DESC NULLS LAST,
+postgres-1  | 	          run_id DESC
+postgres-1  | 	        LIMIT $1::int
+postgres-1  | 	      
+postgres-1  | 2026-04-09 18:07:40.754 UTC [137] ERROR:  column t.lease_expires_at does not exist at character 1304
+postgres-1  | 2026-04-09 18:07:40.754 UTC [137] STATEMENT:  CREATE OR REPLACE VIEW run_view AS
+postgres-1  | 	WITH
+postgres-1  | 	last_event AS (
+postgres-1  | 	  SELECT DISTINCT ON (te.task_id, te.run_id)
+postgres-1  | 	    te.task_id,
+postgres-1  | 	    te.run_id,
+postgres-1  | 	    te.id   AS last_event_id,
+postgres-1  | 	    te.ts   AS last_event_ts,
+postgres-1  | 	    te.kind AS last_event_kind,
+postgres-1  | 	    te.actor AS last_event_actor
+postgres-1  | 	  FROM task_events te
+postgres-1  | 	  WHERE te.run_id IS NOT NULL AND te.run_id <> ''
+postgres-1  | 	  ORDER BY te.task_id, te.run_id, te.id DESC
+postgres-1  | 	),
+postgres-1  | 	last_heartbeat AS (
+postgres-1  | 	  SELECT
+postgres-1  | 	    te.task_id,
+postgres-1  | 	    te.run_id,
+postgres-1  | 	    MAX(te.ts) AS last_heartbeat_ts
+postgres-1  | 	  FROM task_events te
+postgres-1  | 	  WHERE te.run_id IS NOT NULL AND te.run_id <> ''
+postgres-1  | 	    AND te.kind IN ('heartbeat','task.heartbeat')
+postgres-1  | 	  GROUP BY te.task_id, te.run_id
+postgres-1  | 	),
+postgres-1  | 	terminal_event AS (
+postgres-1  | 	  SELECT DISTINCT ON (te.task_id, te.run_id)
+postgres-1  | 	    te.task_id,
+postgres-1  | 	    te.run_id,
+postgres-1  | 	    te.kind AS terminal_event_kind,
+postgres-1  | 	    te.ts   AS terminal_event_ts,
+postgres-1  | 	    te.id   AS terminal_event_id
+postgres-1  | 	  FROM task_events te
+postgres-1  | 	  WHERE te.run_id IS NOT NULL AND te.run_id <> ''
+postgres-1  | 	    AND te.kind IN ('task.completed','task.failed','task.canceled','task.cancelled','completed','failed','canceled','cancelled')
+postgres-1  | 	  ORDER BY te.task_id, te.run_id, te.id DESC
+postgres-1  | 	)
+postgres-1  | 	SELECT
+postgres-1  | 	  le.run_id,
+postgres-1  | 	  le.task_id,
+postgres-1  | 	  -- actor/owner: prefer latest event.actor; fall back to tasks.claimed_by / tasks.actor
+postgres-1  | 	  COALESCE(NULLIF(le.last_event_actor,''), NULLIF(t.claimed_by,'')) AS actor,
+postgres-1  | 	  -- lease (epoch ms)
+postgres-1  | 	  t.lease_expires_at,
+postgres-1  | 	  CASE
+postgres-1  | 	    WHEN t.lease_expires_at IS NULL THEN NULL
+postgres-1  | 	    ELSE (t.lease_expires_at > (extract(epoch from now()) * 1000.0))::boolean
+postgres-1  | 	  END AS lease_fresh,
+postgres-1  | 	  CASE
+postgres-1  | 	    WHEN t.lease_expires_at IS NULL THEN NULL
+postgres-1  | 	    ELSE GREATEST(0, (t.lease_expires_at - (extract(epoch from now()) * 1000.0)))::bigint
+postgres-1  | 	  END AS lease_ttl_ms,
+postgres-1  | 	  -- heartbeat freshness (epoch ms)
+postgres-1  | 	  lh.last_heartbeat_ts,
+postgres-1  | 	  CASE
+postgres-1  | 	    WHEN lh.last_heartbeat_ts IS NULL THEN NULL
+postgres-1  | 	    ELSE GREATEST(0, ((extract(epoch from now()) * 1000.0) - lh.last_heartbeat_ts))::bigint
+postgres-1  | 	  END AS heartbeat_age_ms,
+postgres-1  | 	  -- last event
+postgres-1  | 	  le.last_event_id,
+postgres-1  | 	  le.last_event_ts,
+postgres-1  | 	  le.last_event_kind,
+postgres-1  | 	  -- terminal precedence: once a terminal_event exists, it wins over any later task.running noise
+postgres-1  | 	  CASE
+postgres-1  | 	    WHEN te.terminal_event_kind IS NOT NULL THEN te.terminal_event_kind
+postgres-1  | 	    ELSE t.status
+postgres-1  | 	  END AS task_status,
+postgres-1  | 	  CASE
+postgres-1  | 	    WHEN te.terminal_event_kind IS NOT NULL THEN TRUE
+postgres-1  | 	    ELSE (t.status IN ('completed','failed','canceled','cancelled'))
+postgres-1  | 	  END AS is_terminal,
+postgres-1  | 	  te.terminal_event_kind,
+postgres-1  | 	  te.terminal_event_ts,
+postgres-1  | 	  te.terminal_event_id
+postgres-1  | 	FROM last_event le
+postgres-1  | 	LEFT JOIN tasks t
+postgres-1  | 	  ON t.task_id = le.task_id
+postgres-1  | 	LEFT JOIN last_heartbeat lh
+postgres-1  | 	  ON lh.task_id = le.task_id AND lh.run_id = le.run_id
+postgres-1  | 	LEFT JOIN terminal_event te
+postgres-1  | 	  ON te.task_id = le.task_id AND te.run_id = le.run_id
+postgres-1  | 	;
+
+=== CANONICAL DASHBOARD LOGS (TAIL 120) ===
+dashboard-1  |   originalUrl: '/api/tasks?limit=12',
+dashboard-1  |   baseUrl: '/api/tasks',
+dashboard-1  |   path: '/',
+dashboard-1  |   referer: 'http://localhost:8080/dashboard.html',
+dashboard-1  |   userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+dashboard-1  |   accept: 'application/json'
+dashboard-1  | }
+dashboard-1  | [HTTP] GET /api/tasks?limit=12
+dashboard-1  | [phase57c-router] /api/tasks probe {
+dashboard-1  |   originalUrl: '/api/tasks?limit=12',
+dashboard-1  |   baseUrl: '/api/tasks',
+dashboard-1  |   path: '/',
+dashboard-1  |   referer: 'http://localhost:8080/dashboard.html',
+dashboard-1  |   userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+dashboard-1  |   accept: 'application/json'
+dashboard-1  | }
+dashboard-1  | [HTTP] GET /api/tasks?limit=12
+dashboard-1  | [HTTP] GET /api/runs?limit=20
+dashboard-1  | [HTTP] GET /api/runs?limit=20
+dashboard-1  | [HTTP] GET /api/runs?limit=20
+dashboard-1  | [HTTP] GET /api/tasks?limit=12
+dashboard-1  | [HTTP] GET /api/runs?limit=20
+dashboard-1  | [HTTP] GET /api/runs?limit=20
+dashboard-1  | [HTTP] GET /api/runs?limit=20
+dashboard-1  | [phase57c-router] /api/tasks probe {
+dashboard-1  |   originalUrl: '/api/tasks?limit=12',
+dashboard-1  |   baseUrl: '/api/tasks',
+dashboard-1  |   path: '/',
+dashboard-1  |   referer: 'http://localhost:8080/dashboard.html',
+dashboard-1  |   userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+dashboard-1  |   accept: 'application/json'
+dashboard-1  | }
+dashboard-1  | [HTTP] GET /api/tasks?limit=12
+dashboard-1  | [phase57c-router] /api/tasks probe {
+dashboard-1  |   originalUrl: '/api/tasks?limit=12',
+dashboard-1  |   baseUrl: '/api/tasks',
+dashboard-1  |   path: '/',
+dashboard-1  |   referer: 'http://localhost:8080/dashboard.html',
+dashboard-1  |   userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+dashboard-1  |   accept: 'application/json'
+dashboard-1  | }
+dashboard-1  | [phase57c-router] /api/tasks probe {
+dashboard-1  |   originalUrl: '/api/tasks?limit=12',
+dashboard-1  |   baseUrl: '/api/tasks',
+dashboard-1  |   path: '/',
+dashboard-1  |   referer: 'http://localhost:8080/dashboard.html',
+dashboard-1  |   userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+dashboard-1  |   accept: 'application/json'
+dashboard-1  | }
+dashboard-1  | [phase57c-router] /api/tasks probe {
+dashboard-1  |   originalUrl: '/api/tasks?limit=12',
+dashboard-1  |   baseUrl: '/api/tasks',
+dashboard-1  |   path: '/',
+dashboard-1  |   referer: 'http://localhost:8080/dashboard.html',
+dashboard-1  |   userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+dashboard-1  |   accept: 'application/json'
+dashboard-1  | }
+dashboard-1  | [phase57c-router] /api/tasks probe {
+dashboard-1  |   originalUrl: '/api/tasks?limit=12',
+dashboard-1  |   baseUrl: '/api/tasks',
+dashboard-1  |   path: '/',
+dashboard-1  |   referer: 'http://localhost:8080/dashboard.html',
+dashboard-1  |   userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+dashboard-1  |   accept: 'application/json'
+dashboard-1  | }
+dashboard-1  | [HTTP] GET /dashboard.html
+dashboard-1  | [HTTP] GET /css/broadcast.css
+dashboard-1  | [HTTP] GET /css/dashboard-reflections.css
+dashboard-1  | [HTTP] GET /css/dashboard.css?v=darkmode
+dashboard-1  | [HTTP] GET /css/phase59_demo_focus.css
+dashboard-1  | [HTTP] GET /css/phase13_5_operator_ux.css
+dashboard-1  | [HTTP] GET /css/matilda-chat.css
+dashboard-1  | [HTTP] GET /css/phase60_live_polish.css
+dashboard-1  | [HTTP] GET /css/agent-status-row.css
+dashboard-1  | [HTTP] GET /css/phase61_workspace_consolidation.css
+dashboard-1  | [HTTP] GET /css/phase61_tabs_observational_workspace.css
+dashboard-1  | [HTTP] GET /js/phase60_live_clock.js
+dashboard-1  | [HTTP] GET /css/demo_layout_trim.css
+dashboard-1  | [HTTP] GET /js/phase61_tabs_workspace.js
+dashboard-1  | [HTTP] GET /js/operatorGuidance.sse.js?v=phase96-live-1
+dashboard-1  | [HTTP] GET /js/phase61_recent_history_wire.js
+dashboard-1  | [HTTP] GET /bundle.js
+dashboard-1  | [HTTP] GET /js/phase457_restore_task_panels.js
+dashboard-1  | [HTTP] GET /js/phase457_neutralize_legacy_observational_consumers.js
+dashboard-1  | [HTTP] GET /events/ops
+dashboard-1  | [HTTP] GET /api/tasks?limit=12
+dashboard-1  | [HTTP] GET /api/runs?limit=20
+dashboard-1  | [HTTP] GET /events/ops
+dashboard-1  | [HTTP] GET /api/tasks
+dashboard-1  | [phase57c-router] /api/tasks probe {
+dashboard-1  |   originalUrl: '/api/tasks?limit=12',
+dashboard-1  |   baseUrl: '/api/tasks',
+dashboard-1  |   path: '/',
+dashboard-1  |   referer: 'http://localhost:8080/dashboard.html',
+dashboard-1  |   userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+dashboard-1  |   accept: 'application/json'
+dashboard-1  | }
+dashboard-1  | [phase57c-router] /api/tasks probe {
+dashboard-1  |   originalUrl: '/api/tasks',
+dashboard-1  |   baseUrl: '/api/tasks',
+dashboard-1  |   path: '/',
+dashboard-1  |   referer: 'http://localhost:8080/dashboard.html',
+dashboard-1  |   userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
+dashboard-1  |   accept: 'application/json'
+dashboard-1  | }
+dashboard-1  | [HTTP] GET /events/ops
+dashboard-1  | [HTTP] GET /events/reflections
+dashboard-1  | [HTTP] HEAD /
+dashboard-1  | [HTTP] HEAD /dashboard.html
+dashboard-1  | [HTTP] GET /dashboard.html
+dashboard-1  | [HTTP] GET /api/tasks?limit=5
+dashboard-1  | [phase57c-router] /api/tasks probe {
+dashboard-1  |   originalUrl: '/api/tasks?limit=5',
+dashboard-1  |   baseUrl: '/api/tasks',
+dashboard-1  |   path: '/',
+dashboard-1  |   referer: null,
+dashboard-1  |   userAgent: 'curl/8.7.1',
+dashboard-1  |   accept: '*/*'
+dashboard-1  | }
+dashboard-1  | [HTTP] GET /api/runs?limit=5
+

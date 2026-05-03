@@ -1,0 +1,12 @@
+Phase 575 retry router stable checkpoint.
+
+State:
+- Dashboard up.
+- Worker up.
+- Postgres up.
+- Retry/Requeue creates real tasks.
+- Retry execution router cleaned without observability side effects.
+- No UI/layout changes introduced in this step.
+
+Next:
+Verify retry payload fields are actually persisted into created tasks before adding contract enforcement.

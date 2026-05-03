@@ -1,0 +1,14 @@
+Phase 590 ESM import fix 2.
+
+Issue:
+- First ESM fix resolved task_execution_interpreter.mjs.
+- Worker now crashes on execution_contract.mjs for the same confirmed reason:
+  execution_contract.mjs is an ES module file but uses CommonJS require at top level.
+
+Fix:
+Remove the unused CommonJS require line from execution_contract.mjs.
+
+Why safe:
+- enforceWorkerRetryContract is imported but not used in execution_contract.mjs.
+- No behavior change intended.
+- Directly addresses the current worker startup crash.

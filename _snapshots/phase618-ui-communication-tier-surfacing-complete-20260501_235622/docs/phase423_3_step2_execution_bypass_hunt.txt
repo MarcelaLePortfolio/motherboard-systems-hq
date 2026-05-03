@@ -1,0 +1,189 @@
+PHASE 423.3 — STEP 2
+Execution-Side Bypass Hunt
+--------------------------------
+
+execution-side governance imports
+src/cognition/transport/cognitionTransport.operatorView.ts:7:import { getCognitionTransportGovernanceReadiness } from "./cognitionTransport.governance"
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:1:import { getGovernanceExecutionEligibilitySnapshot } from "../../../governance/cognition";
+src/cognition/situationSummaryInputAdapter.ts:1:import type { GovernanceAwarenessSurface } from "../../shared/types/governance";
+src/cognition/index.ts:22:} from "../../shared/types/governance";
+src/cognition/index.ts:31:} from "../../shared/types/governance";
+src/cognition/transport/cognitionTransport.operatorView.ts:7:import { getCognitionTransportGovernanceReadiness } from "./cognitionTransport.governance"
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:1:import { getGovernanceExecutionEligibilitySnapshot } from "../../../governance/cognition";
+
+execution-side governance symbol usage
+src/cognition/transport/cognitionTransport.operatorView.ts:7:import { getCognitionTransportGovernanceReadiness } from "./cognitionTransport.governance"
+src/cognition/transport/cognitionTransport.operatorView.ts:20:  const governance = getCognitionTransportGovernanceReadiness()
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:1:import { getGovernanceExecutionEligibilitySnapshot } from "../../../governance/cognition";
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:9:  blockedByGovernance: boolean;
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:15:  const governance = getGovernanceExecutionEligibilitySnapshot();
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:21:      blockedByGovernance: true,
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:29:    blockedByGovernance: false,
+src/cognition/transport/cognitionTransport.risk.ts:48:Governance-readable only
+src/cognition/transport/cognitionTransport.governance.ts:8:export interface CognitionTransportGovernanceReadiness {
+src/cognition/transport/cognitionTransport.governance.ts:15:export function getCognitionTransportGovernanceReadiness(): CognitionTransportGovernanceReadiness {
+src/cognition/transport/cognitionTransport.governance.ts:40:Governance cognition only
+src/cognition/confidence/confidenceFactors.ts:31:        `Governance health evaluated at ${score}/100.`,
+src/cognition/situationSummaryComposer.ts:29:export type GovernanceCognitionState =
+src/cognition/situationSummaryComposer.ts:40:  governanceCognitionState?: GovernanceCognitionState;
+src/cognition/situationSummaryComposer.ts:161:  governanceCognitionState: GovernanceCognitionState;
+src/cognition/situationSummaryComposer.ts:200:function normalizeGovernanceCognition(
+src/cognition/situationSummaryComposer.ts:201:  state?: GovernanceCognitionState
+src/cognition/situationSummaryComposer.ts:202:): GovernanceCognitionState {
+src/cognition/situationSummaryComposer.ts:237:function governanceCognitionLine(state: GovernanceCognitionState): string {
+src/cognition/situationSummaryComposer.ts:251:  const governanceCognition = normalizeGovernanceCognition(
+src/cognition/contracts/cognition.contracts.ts:18:export type GovernanceStatus =
+src/cognition/contracts/cognition.contracts.ts:43:export interface GovernanceCognitionContract {
+src/cognition/contracts/cognition.contracts.ts:46:  status: GovernanceStatus;
+src/cognition/contracts/cognition.contracts.ts:53:  governance?: GovernanceCognitionContract[];
+src/cognition/operator-read/cognition.operator-read.ts:19:  GovernanceCognitionContract,
+src/cognition/operator-read/cognition.operator-read.ts:24:  selectGovernanceCognition,
+src/cognition/operator-read/cognition.operator-read.ts:25:  selectHasGovernanceCognition,
+src/cognition/operator-read/cognition.operator-read.ts:35:  hasGovernance: boolean;
+src/cognition/operator-read/cognition.operator-read.ts:38:  governance: GovernanceCognitionContract[];
+src/cognition/operator-read/cognition.operator-read.ts:47:    hasGovernance: selectHasGovernanceCognition(envelope),
+src/cognition/operator-read/cognition.operator-read.ts:50:    governance: selectGovernanceCognition(envelope)
+src/cognition/invariants/cognition.invariants.ts:19:  GovernanceStatus
+src/cognition/invariants/cognition.invariants.ts:28:const VALID_GOVERNANCE: GovernanceStatus[] = [
+src/cognition/invariants/cognition.invariants.ts:38:export function invariantGovernanceStatus(value: string): boolean {
+src/cognition/invariants/cognition.invariants.ts:39:  return VALID_GOVERNANCE.includes(value as GovernanceStatus);
+src/cognition/invariants/cognition.invariants.ts:65:export function invariantGovernance(
+src/cognition/invariants/cognition.invariants.ts:83:    if (!invariantGovernanceStatus(item.status)) {
+src/cognition/invariants/cognition.invariants.ts:125:  if (!invariantGovernance(envelope)) {
+src/cognition/situationSummaryInputAdapter.ts:1:import type { GovernanceAwarenessSurface } from "../../shared/types/governance";
+src/cognition/situationSummaryInputAdapter.ts:10:  governanceAwareness?: GovernanceAwarenessSurface;
+src/cognition/situationSummaryInputAdapter.ts:70:function hasGovernanceAwarenessStructure(
+src/cognition/situationSummaryInputAdapter.ts:72:): value is GovernanceAwarenessSurface["structure"] {
+src/cognition/situationSummaryInputAdapter.ts:82:function hasGovernanceAwarenessSignal(
+src/cognition/situationSummaryInputAdapter.ts:84:): value is GovernanceAwarenessSurface["signals"]["governanceAwarenessSignals"][number] {
+src/cognition/situationSummaryInputAdapter.ts:94:function hasGovernanceAwarenessSignals(
+src/cognition/situationSummaryInputAdapter.ts:96:): value is GovernanceAwarenessSurface["signals"] {
+src/cognition/situationSummaryInputAdapter.ts:100:  return value.governanceAwarenessSignals.every(hasGovernanceAwarenessSignal);
+src/cognition/situationSummaryInputAdapter.ts:111:function hasGovernanceAuthorityBoundaryAwareness(
+src/cognition/situationSummaryInputAdapter.ts:113:): value is GovernanceAwarenessSurface["authorityBoundaries"] {
+src/cognition/situationSummaryInputAdapter.ts:122:function hasGovernanceVerificationSummary(
+src/cognition/situationSummaryInputAdapter.ts:124:): value is GovernanceAwarenessSurface["verification"] {
+src/cognition/situationSummaryInputAdapter.ts:135:export function isGovernanceAwarenessSurface(
+src/cognition/situationSummaryInputAdapter.ts:137:): value is GovernanceAwarenessSurface {
+src/cognition/situationSummaryInputAdapter.ts:141:    hasGovernanceAwarenessStructure(value.structure) &&
+src/cognition/situationSummaryInputAdapter.ts:142:    hasGovernanceAwarenessSignals(value.signals) &&
+src/cognition/situationSummaryInputAdapter.ts:143:    hasGovernanceAuthorityBoundaryAwareness(value.authorityBoundaries) &&
+src/cognition/situationSummaryInputAdapter.ts:144:    hasGovernanceVerificationSummary(value.verification)
+src/cognition/situationSummaryInputAdapter.ts:148:export function sanitizeGovernanceAwarenessSurface(
+src/cognition/situationSummaryInputAdapter.ts:149:  value?: GovernanceAwarenessSurface
+src/cognition/situationSummaryInputAdapter.ts:150:): GovernanceAwarenessSurface | undefined {
+src/cognition/situationSummaryInputAdapter.ts:152:  return isGovernanceAwarenessSurface(value) ? value : undefined;
+src/cognition/situationSummaryInputAdapter.ts:155:function normalizeGovernanceCognition(
+src/cognition/situationSummaryInputAdapter.ts:156:  awareness?: GovernanceAwarenessSurface
+src/cognition/situationSummaryInputAdapter.ts:183:  const governanceAwareness = sanitizeGovernanceAwarenessSurface(
+src/cognition/situationSummaryInputAdapter.ts:193:    governanceCognitionState: normalizeGovernanceCognition(governanceAwareness),
+src/cognition/governanceAwarenessGuards.smoke.ts:3:  buildGovernanceAwarenessSignals,
+src/cognition/governanceAwarenessGuards.smoke.ts:4:  isGovernanceAwarenessSurface,
+src/cognition/governanceAwarenessGuards.smoke.ts:5:  sanitizeGovernanceAwarenessSurface,
+src/cognition/governanceAwarenessGuards.smoke.ts:6:  type GovernanceAwarenessSurface,
+src/cognition/governanceAwarenessGuards.smoke.ts:9:const VALID_GOVERNANCE_AWARENESS_SURFACE: GovernanceAwarenessSurface = {
+src/cognition/governanceAwarenessGuards.smoke.ts:80:export type GovernanceAwarenessGuardsSmokeResult = {
+src/cognition/governanceAwarenessGuards.smoke.ts:88:export function runGovernanceAwarenessGuardsSmoke(): GovernanceAwarenessGuardsSmokeResult {
+src/cognition/governanceAwarenessGuards.smoke.ts:90:    isGovernanceAwarenessSurface(VALID_GOVERNANCE_AWARENESS_SURFACE),
+src/cognition/governanceAwarenessGuards.smoke.ts:95:    isGovernanceAwarenessSurface(INVALID_GOVERNANCE_AWARENESS_SURFACE),
+src/cognition/governanceAwarenessGuards.smoke.ts:100:    sanitizeGovernanceAwarenessSurface(VALID_GOVERNANCE_AWARENESS_SURFACE),
+src/cognition/governanceAwarenessGuards.smoke.ts:105:    sanitizeGovernanceAwarenessSurface(
+src/cognition/governanceAwarenessGuards.smoke.ts:106:      INVALID_GOVERNANCE_AWARENESS_SURFACE as GovernanceAwarenessSurface
+src/cognition/governanceAwarenessGuards.smoke.ts:111:  const derivedSignals = buildGovernanceAwarenessSignals(
+src/cognition/governanceAwarenessGuards.smoke.ts:145:  const result = runGovernanceAwarenessGuardsSmoke();
+src/cognition/index.ts:10:  type GovernanceCognitionState,
+src/cognition/index.ts:15:  isGovernanceAwarenessSurface,
+src/cognition/index.ts:16:  sanitizeGovernanceAwarenessSurface,
+src/cognition/index.ts:21:  buildGovernanceAwarenessSignals,
+src/cognition/index.ts:25:  GovernanceAwarenessSurface,
+src/cognition/index.ts:26:  GovernanceAwarenessStructure,
+src/cognition/index.ts:27:  GovernanceAwarenessSignal,
+src/cognition/index.ts:28:  GovernanceAwarenessSignals,
+src/cognition/index.ts:29:  GovernanceAuthorityBoundaryAwareness,
+src/cognition/index.ts:30:  GovernanceVerificationSummary,
+src/cognition/governanceCognition.smoke.ts:5:  type GovernanceAwarenessSurface,
+src/cognition/governanceCognition.smoke.ts:8:const VERIFIED_GOVERNANCE: GovernanceAwarenessSurface = {
+src/cognition/governanceCognition.smoke.ts:41:const ATTENTION_GOVERNANCE: GovernanceAwarenessSurface = {
+src/cognition/governanceCognition.smoke.ts:74:export type GovernanceCognitionSmokeResult = {
+src/cognition/governanceCognition.smoke.ts:78:  renderedGovernanceLine: string;
+src/cognition/governanceCognition.smoke.ts:81:export function runGovernanceCognitionSmoke(): GovernanceCognitionSmokeResult {
+src/cognition/governanceCognition.smoke.ts:114:    renderedGovernanceLine: "GOVERNANCE CONDITION VERIFIED",
+src/cognition/governanceCognition.smoke.ts:125:  const result = runGovernanceCognitionSmoke();
+src/cognition/selectors/cognition.selectors.ts:18:  GovernanceCognitionContract,
+src/cognition/selectors/cognition.selectors.ts:35:export function selectGovernanceCognition(
+src/cognition/selectors/cognition.selectors.ts:37:): GovernanceCognitionContract[] {
+src/cognition/selectors/cognition.selectors.ts:53:export function selectHasGovernanceCognition(
+src/cognition/selectors/cognition.selectors.ts:64:  hasGovernance: boolean;
+src/cognition/selectors/cognition.selectors.ts:69:    hasGovernance: selectHasGovernanceCognition(envelope)
+src/cognition/transport/cognitionTransport.operatorView.ts:7:import { getCognitionTransportGovernanceReadiness } from "./cognitionTransport.governance"
+src/cognition/transport/cognitionTransport.operatorView.ts:20:  const governance = getCognitionTransportGovernanceReadiness()
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:1:import { getGovernanceExecutionEligibilitySnapshot } from "../../../governance/cognition";
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:9:  blockedByGovernance: boolean;
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:15:  const governance = getGovernanceExecutionEligibilitySnapshot();
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:21:      blockedByGovernance: true,
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:29:    blockedByGovernance: false,
+src/cognition/transport/cognitionTransport.risk.ts:48:Governance-readable only
+src/cognition/transport/cognitionTransport.governance.ts:8:export interface CognitionTransportGovernanceReadiness {
+src/cognition/transport/cognitionTransport.governance.ts:15:export function getCognitionTransportGovernanceReadiness(): CognitionTransportGovernanceReadiness {
+src/cognition/transport/cognitionTransport.governance.ts:40:Governance cognition only
+
+execution-side dashboard contract registration references
+
+execution-side governance registry identity references
+
+execution-side runtime guard chain
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_fixture.ts:3:} from "./consumption_registry_enforcement";
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_fixture.ts:7:} from "./consumption_registry_enforcement_validation";
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_fixture.ts:11:} from "./consumption_registry_enforcement_report";
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:5:} from "./consumption_registry_enforcement_readonly_view";
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_proof.ts:4:} from "./consumption_registry_enforcement_fixture";
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_snapshot.ts:4:} from "./consumption_registry_enforcement_proof";
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_report.ts:3:} from "./consumption_registry_enforcement_validation";
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_bundle.ts:4:} from "./consumption_registry_enforcement_snapshot";
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_bundle.ts:8:} from "./consumption_registry_enforcement_report";
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_bundle.ts:12:} from "./consumption_registry_enforcement_validation";
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_bundle.ts:15:} from "./consumption_registry_enforcement_fixture";
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_validation.ts:7:} from "./consumption_registry_enforcement";
+src/cognition/transport/consumptionRegistry/index.ts:1:export * from "./consumption_registry_enforcement";
+src/cognition/transport/consumptionRegistry/index.ts:2:export * from "./consumption_registry_enforcement_validation";
+src/cognition/transport/consumptionRegistry/index.ts:3:export * from "./consumption_registry_enforcement_report";
+src/cognition/transport/consumptionRegistry/index.ts:4:export * from "./consumption_registry_enforcement_fixture";
+src/cognition/transport/consumptionRegistry/index.ts:5:export * from "./consumption_registry_enforcement_proof";
+src/cognition/transport/consumptionRegistry/index.ts:6:export * from "./consumption_registry_enforcement_snapshot";
+src/cognition/transport/consumptionRegistry/index.ts:7:export * from "./consumption_registry_enforcement_bundle";
+src/cognition/transport/consumptionRegistry/index.ts:8:export * from "./consumption_registry_enforcement_runtime_guard";
+src/cognition/transport/consumptionRegistry/index.ts:9:export * from "./consumption_registry_enforcement_readonly_view";
+src/cognition/transport/consumptionRegistry/index.ts:10:export * from "./consumption_registry_enforcement_entrypoint";
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_readonly_view.ts:4:} from "./consumption_registry_enforcement_runtime_guard";
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_runtime_guard.ts:4:} from "./consumption_registry_enforcement_bundle";
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_runtime_guard.ts:20:      ? "consumption registry enforcement runtime guard passed"
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_runtime_guard.ts:21:      : "consumption registry enforcement runtime guard failed",
+src/cognition/guard/cognition.guard.ts:9: * - Documentation-level enforcement only
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_fixture.ts:3:} from "./consumption_registry_enforcement";
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_fixture.ts:7:} from "./consumption_registry_enforcement_validation";
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_fixture.ts:11:} from "./consumption_registry_enforcement_report";
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_entrypoint.ts:5:} from "./consumption_registry_enforcement_readonly_view";
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_proof.ts:4:} from "./consumption_registry_enforcement_fixture";
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_snapshot.ts:4:} from "./consumption_registry_enforcement_proof";
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_report.ts:3:} from "./consumption_registry_enforcement_validation";
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_bundle.ts:4:} from "./consumption_registry_enforcement_snapshot";
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_bundle.ts:8:} from "./consumption_registry_enforcement_report";
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_bundle.ts:12:} from "./consumption_registry_enforcement_validation";
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_bundle.ts:15:} from "./consumption_registry_enforcement_fixture";
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_validation.ts:7:} from "./consumption_registry_enforcement";
+src/cognition/transport/consumptionRegistry/index.ts:1:export * from "./consumption_registry_enforcement";
+src/cognition/transport/consumptionRegistry/index.ts:2:export * from "./consumption_registry_enforcement_validation";
+src/cognition/transport/consumptionRegistry/index.ts:3:export * from "./consumption_registry_enforcement_report";
+src/cognition/transport/consumptionRegistry/index.ts:4:export * from "./consumption_registry_enforcement_fixture";
+src/cognition/transport/consumptionRegistry/index.ts:5:export * from "./consumption_registry_enforcement_proof";
+src/cognition/transport/consumptionRegistry/index.ts:6:export * from "./consumption_registry_enforcement_snapshot";
+src/cognition/transport/consumptionRegistry/index.ts:7:export * from "./consumption_registry_enforcement_bundle";
+src/cognition/transport/consumptionRegistry/index.ts:8:export * from "./consumption_registry_enforcement_runtime_guard";
+src/cognition/transport/consumptionRegistry/index.ts:9:export * from "./consumption_registry_enforcement_readonly_view";
+src/cognition/transport/consumptionRegistry/index.ts:10:export * from "./consumption_registry_enforcement_entrypoint";
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_readonly_view.ts:4:} from "./consumption_registry_enforcement_runtime_guard";
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_runtime_guard.ts:4:} from "./consumption_registry_enforcement_bundle";
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_runtime_guard.ts:20:      ? "consumption registry enforcement runtime guard passed"
+src/cognition/transport/consumptionRegistry/consumption_registry_enforcement_runtime_guard.ts:21:      : "consumption registry enforcement runtime guard failed",
+src/cognition/guard/cognition.guard.ts:9: * - Documentation-level enforcement only
+

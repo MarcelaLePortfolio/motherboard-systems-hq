@@ -1,0 +1,25 @@
+PHASE 488 — FORCE DOCKER RECOVERY
+Timestamp: Fri Apr 17 14:04:55 PDT 2026
+========================================
+
+[1] HARD STOP DOCKER PROCESSES
+Docker processes killed
+
+[2] CLEAN DOCKER SOCKET (IF STALE)
+Socket cleanup attempted
+
+[3] RELAUNCH DOCKER DESKTOP
+
+[4] WAIT FOR DAEMON (MAX 120s)
+attempt=1 exit=1
+failed to connect to the docker API at unix:///Users/marcela-dev/.docker/run/docker.sock; check if the path is correct and if the daemon is running: dial unix /Users/marcela-dev/.docker/run/docker.sock: connect: no such file or directory
+
+attempt=2 exit=0
+DOCKER_READY
+
+[5] VERIFY PORT 5432
+PORT_NOT_LISTENING
+
+[6] FINAL VERDICT
+- DOCKER_READY → proceed to restart postgres + dashboard
+- DOCKER_NOT_READY → requires manual Docker Desktop restart or system reboot

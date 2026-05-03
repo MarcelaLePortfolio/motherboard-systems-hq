@@ -1,0 +1,15 @@
+Phase 616 pre-enablement checkpoint.
+
+State:
+- Phase 615 controlled scheduler is installed.
+- Scheduler is disabled by default.
+- Disabled runtime state is verified and tagged.
+- Phase 616 enablement plan is committed.
+- No active scheduler loop is running.
+- Working tree clean.
+
+Purpose:
+Create a rollback point before explicitly enabling the controlled scheduler.
+
+Stable Tag:
+phase616-pre-enable-controlled-scheduler

@@ -1,0 +1,26 @@
+Phase 601 execution interpreter isolation.
+
+Objective:
+- Continue execution-layer refinement safely.
+- Isolate interpretTaskExecution usage from claim loop.
+
+Finding:
+- interpretTaskExecution(task) is currently called inline.
+- safeExecutionContract wraps its output immediately after.
+
+Risk:
+- Execution interpretation + contract validation are tightly coupled in loop.
+- Future enhancements (multi-strategy, fallback, retries) will be harder to layer.
+
+Safe Next Step:
+- Extract execution + contract into a single helper:
+  executeTaskWithContract(task)
+
+Constraints:
+- No behavioral change
+- Same logs must appear
+- Same contract enforcement must occur
+- Same completion path must be preserved
+
+Status:
+READY FOR EXECUTION ISOLATION (NON-BEHAVIORAL)

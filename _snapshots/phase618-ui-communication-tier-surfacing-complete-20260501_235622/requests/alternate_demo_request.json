@@ -1,0 +1,21 @@
+{
+  "requestId": "fl4-demo-request-002",
+  "description": "Create a project to evaluate launch readiness for a new internal tool. Include three tasks: prerequisite verification, governance confirmation, and launch readiness assessment. Require approval before any execution preparation.",
+  "approved": true,
+  "governanceEvaluated": true,
+  "authorityOrderingValid": true,
+  "tasks": [
+    {
+      "id": "task-1",
+      "name": "Prerequisite Verification"
+    },
+    {
+      "id": "task-2",
+      "name": "Governance Confirmation"
+    },
+    {
+      "id": "task-3",
+      "name": "Launch Readiness Assessment"
+    }
+  ]
+}

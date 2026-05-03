@@ -1,0 +1,229 @@
+DOCKER SETTINGS DISK INSPECTION
+Timestamp: Sun Apr  5 19:24:48 PDT 2026
+
+SAFETY POSTURE
+- Read-only inspection only.
+- No deletion.
+- No Docker data mutation.
+- No application code mutation.
+
+==== CANDIDATE SETTINGS FILES ====
+/Users/marcela-dev/.docker/config.json
+/Users/marcela-dev/.docker/contexts/meta/fe9c6bd7a66301f49ca9b6a70b217107cd1284598bfc254700c989b916da791e/meta.json
+/Users/marcela-dev/.docker/daemon.json
+/Users/marcela-dev/.docker/models/layout.json
+/Users/marcela-dev/.docker/models/models.json
+/Users/marcela-dev/Library/Containers/com.docker.docker/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-audit-log.json
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-errd-audit-log.json
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/log/host/electron-ui-console-audit-log.json
+/Users/marcela-dev/Library/Containers/com.docker.docker/Data/tasks/13630.json
+/Users/marcela-dev/Library/Containers/com.docker.docker/hypervisor.error.json
+/Users/marcela-dev/Library/Containers/com.docker.docker/volume-backup-schedule.json
+/Users/marcela-dev/Library/Group Containers/.SiriTodayViewExtension/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/243LU875E5.groups.com.apple.podcasts/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/74J34U3R6X.com.apple.iWork/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/74J34U3R6X.com.apple.iWork/Library/Preferences/74J34U3R6X.com.apple.iWork.plist
+/Users/marcela-dev/Library/Group Containers/BJ4HAAB9B3.ZoomClient3rd/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/com.apple.bird/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/com.apple.Home.group/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/com.apple.MailPersonaStorage/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/com.apple.MessagesLegacyTransferArchive/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/com.apple.poirot.poirot_tool/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/com.apple.PreviewLegacySignaturesConversion/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/com.apple.PreviewLegacySignaturesConversion/Library/Preferences/com.apple.PreviewLegacySignaturesConversion.plist
+/Users/marcela-dev/Library/Group Containers/com.apple.siri.ODDIPoirotMetricsExtension/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/com.apple.stickersd.group/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/com.apple.systempreferences.cache/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/com.dropbox.client.crashpad/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/G7HH3F8CAK.com.getdropbox.dropbox.sync/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.accessibility.voicebanking/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.accessibility.voicebanking/Library/Preferences/group.com.apple.accessibility.voicebanking.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.amsondevicestoraged/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.AppleSpell/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.appstoreagent/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.ArchiveUtility.PKSignedContainer/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.calendar/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.chronod/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.coreservices.useractivityd/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.CoreSpeech/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.DeviceActivity/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.FamilyControls/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.feedback/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.feedbacklogger/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.FileProvider.DomainCaching/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.FileProvider.DomainCaching/.domainscache.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.freeform/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.freeform/Snapshot.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.fskit.settings/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.gamecenter/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.helpviewer.content/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.iCloudDrive/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.ip.redirects/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.mail/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.mail/Library/Preferences/group.com.apple.mail.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.ManagedSettings/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.mlhost/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.news/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.newsd/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.notes.import/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.notes/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.notes/Library/Preferences/group.com.apple.notes.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.notes/Thumbnails/Default/PaperPreview-Dark-RegularText-RegularColors.json
+/Users/marcela-dev/Library/Group Containers/group.com.apple.notes/Thumbnails/Default/PaperPreview-Light-RegularText-RegularColors.json
+/Users/marcela-dev/Library/Group Containers/group.com.apple.PegasusConfiguration/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.PegasusConfiguration/config.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.people/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.photolibraryd.private/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.Photos.PhotosFileProvider/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.poirot.MessagesAnalyticsWorker/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.portrait.BackgroundReplacement/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.printtool/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.private.translation/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.reminders/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.reminders/Library/Preferences/group.com.apple.reminders.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.replicatord/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.Safari.SandboxBroker/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.scopedbookmarkagent/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.ScreenTime/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.secure-control-center-preferences/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.secure-control-center-preferences/Library/Preferences/group.com.apple.secure-control-center-preferences.av.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.sharingd/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.sharingd/Library/Application Support/AppleIDAccountInfo.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.shortcuts/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.siri.GMSSELFIngestor/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.siri.GMSSELFIngestor/Library/Preferences/group.com.apple.siri.GMSSELFIngestor.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.siri.inference/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.siri.referenceResolution/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.siri.remembers/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.siri.sirisuggestions/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.siri.userfeedbacklearning/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.siri.userfeedbacklearning/Segment/SegmentStore.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.SiriTTS/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.spotlight/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.stocks-news/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.stocks/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.stocks/Library/Preferences/group.com.apple.stocks.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.storekit/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.studentd/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.studentd/Library/studentd/AdHocConfiguration.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.swtransparency/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.swtransparency/KTConfig.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.swtransparency/SWTPublicKeyBag.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.tips/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.tips/Library/Preferences/group.com.apple.tips.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.tipsnext/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.tipsnext/tips-device-profile.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.transparency/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.transparency/KTConfig.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.transparency/KTPublicKeyStore.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.usernoted/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.usernoted/GroupService/NotificationGroupState.json
+/Users/marcela-dev/Library/Group Containers/group.com.apple.UserNotifications/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.VoiceMemos.shared/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.weather/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.apple.weather/Library/Preferences/group.com.apple.weather.plist
+/Users/marcela-dev/Library/Group Containers/group.com.docker/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.com.docker/features-overrides.json
+/Users/marcela-dev/Library/Group Containers/group.com.docker/settings-store.json
+/Users/marcela-dev/Library/Group Containers/group.com.docker/unleash-v2-docker-desktop.json
+/Users/marcela-dev/Library/Group Containers/group.is.workflow.my.app/.com.apple.containermanagerd.metadata.plist
+/Users/marcela-dev/Library/Group Containers/group.is.workflow.my.app/Library/Preferences/group.is.workflow.my.app.plist
+/Users/marcela-dev/Library/Group Containers/group.is.workflow.shortcuts/.com.apple.containermanagerd.metadata.plist
+
+==== GREP FOR DISK / VM / RESOURCE KEYS ====
+/Users/marcela-dev/Library/Group Containers/group.com.apple.swtransparency/KTConfig.plist:23:	c3RyaW5nPmh0dHBzOi8vc3VwcG9ydC5hcHBsZS5jb20vMTIxNDc1PC9zdHJpbmc+CiAg
+/Users/marcela-dev/Library/Group Containers/group.com.apple.swtransparency/KTConfig.plist:57:		A1UEBhMCVVMwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDClcUt
+/Users/marcela-dev/Library/Group Containers/group.com.apple.swtransparency/KTConfig.plist:63:		TI2MvmDiNw4ehjR/yjP9Nf5Kctg6Wn/tQggvAgMBAAGjggI3MIICMzAMBgNV
+/Users/marcela-dev/Library/Group Containers/group.com.apple.swtransparency/KTConfig.plist:86:		A1UEBhMCVVMxEzARBgNVBAoTCkFwcGxlIEluYy4xJjAkBgNVBAsTHUFwcGxl
+/Users/marcela-dev/Library/Group Containers/group.com.apple.swtransparency/KTConfig.plist:91:		MAkGA1UEBhMCVVMwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC5
+/Users/marcela-dev/Library/Group Containers/group.com.apple.swtransparency/SWTPublicKeyBag.plist:28:			qg2mZG3huZPo0VVM7QIwZzsstOHoNwd3y9XsdqgaOlU7PzVqyMXm
+/Users/marcela-dev/Library/Group Containers/group.com.apple.swtransparency/SWTPublicKeyBag.plist:41:			bmdBVDETMBEGA1UECgwKQXBwbGUgSW5jLjELMAkGA1UEBhMCVVMw
+/Users/marcela-dev/Library/Group Containers/group.com.apple.swtransparency/SWTPublicKeyBag.plist:67:			bmdBVDETMBEGA1UECgwKQXBwbGUgSW5jLjELMAkGA1UEBhMCVVMw
+/Users/marcela-dev/Library/Group Containers/group.com.apple.swtransparency/SWTPublicKeyBag.plist:89:		CpsGCAIStQEKRQjr6o3ZojIQt5MBGiA8RxiRb7jvfETcqjSC6Q8VMfh6fKvr
+/Users/marcela-dev/Library/Group Containers/group.com.apple.swtransparency/SWTPublicKeyBag.plist:121:		ojIQt5MBGiA8RxiRb7jvfETcqjSC6Q8VMfh6fKvrUB6pz68m0Y+2qiC1kwEo
+/Users/marcela-dev/Library/Group Containers/group.com.apple.swtransparency/SWTPublicKeyBag.plist:139:		oOCcR8RWkgTi5UxFGlHcDCQ/GiBfCRKXR2T8gDFOUPi/W7Hg2KBjpA39ILfg
+/Users/marcela-dev/Library/Group Containers/group.com.apple.swtransparency/SWTPublicKeyBag.plist:140:		JYrF1+FhOhogtet7K4FvcoGNqj37Jxh/5nAOp3NKlcmIB+sxFi8KfEgaIEhA
+/Users/marcela-dev/Library/Group Containers/group.com.apple.swtransparency/SWTPublicKeyBag.plist:146:		sad35znDOigKGiBSVPiDXxeY/VwjD+KcZCjuQ6i5w+0RCXLJ/6ovWemZ2hog
+/Users/marcela-dev/Library/Group Containers/group.com.docker/unleash-v2-docker-desktop.json:10:  "AccessControlLoadRepoResources": {
+/Users/marcela-dev/Library/Group Containers/group.com.docker/unleash-v2-docker-desktop.json:11:    "name": "AccessControlLoadRepoResources",
+/Users/marcela-dev/Library/Group Containers/group.com.docker/unleash-v2-docker-desktop.json:1048:  "OrgAccessTokensResources": {
+/Users/marcela-dev/Library/Group Containers/group.com.docker/unleash-v2-docker-desktop.json:1049:    "name": "OrgAccessTokensResources",
+Binary file /Users/marcela-dev/Library/Group Containers/group.com.apple.tips/Library/Preferences/group.com.apple.tips.plist matches
+Binary file /Users/marcela-dev/Library/Group Containers/group.com.apple.notes/Library/Preferences/group.com.apple.notes.plist matches
+Binary file /Users/marcela-dev/Library/Group Containers/group.com.apple.tipsnext/tips-device-profile.plist matches
+/Users/marcela-dev/Library/Group Containers/group.com.apple.transparency/KTPublicKeyStore.plist:28:			qg2mZG3huZPo0VVM7QIwZzsstOHoNwd3y9XsdqgaOlU7PzVqyMXm
+/Users/marcela-dev/Library/Group Containers/group.com.apple.transparency/KTPublicKeyStore.plist:41:			bmdGVDETMBEGA1UECgwKQXBwbGUgSW5jLjELMAkGA1UEBhMCVVMw
+/Users/marcela-dev/Library/Group Containers/group.com.apple.transparency/KTPublicKeyStore.plist:67:			bmluZzETMBEGA1UECgwKQXBwbGUgSW5jLjELMAkGA1UEBhMCVVMw
+/Users/marcela-dev/Library/Group Containers/group.com.apple.transparency/KTPublicKeyStore.plist:68:			WTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAATLqM0655mIw5J5vM/C
+/Users/marcela-dev/Library/Group Containers/group.com.apple.transparency/KTPublicKeyStore.plist:93:			bmluZzETMBEGA1UECgwKQXBwbGUgSW5jLjELMAkGA1UEBhMCVVMw
+/Users/marcela-dev/Library/Group Containers/group.com.apple.transparency/KTPublicKeyStore.plist:127:		5ABHVNxXF1BcvMcjp1uJvrz0ZFNOnkmi3xogm14vRKxe7SUAqZYR9wJj31qv
+/Users/marcela-dev/Library/Group Containers/group.com.apple.transparency/KTPublicKeyStore.plist:130:		sYpeZozmyDc/6I7eGbI/o5lvmRquK8S52bcaIMXmOqn15m+BBxw7+ZUvu72/
+/Users/marcela-dev/Library/Group Containers/group.com.apple.transparency/KTPublicKeyStore.plist:131:		jvm0PcrKXYdjHtIeAybeGiCRXNptUdUAofo3iMxnGFanfAnbSlqHj+4Z7825
+/Users/marcela-dev/Library/Group Containers/group.com.apple.transparency/KTPublicKeyStore.plist:158:		CAMStAEKQgjXlPGUtjEQkKYzGiBWMaZMbdhwKRbRdd+Jb1a2dP+2fUazbsxx
+/Users/marcela-dev/Library/Group Containers/group.com.apple.transparency/KTPublicKeyStore.plist:167:		oOCcR8RWkgTi5UxFGlHcDCQ/GiBfCRKXR2T8gDFOUPi/W7Hg2KBjpA39ILfg
+/Users/marcela-dev/Library/Group Containers/group.com.apple.transparency/KTPublicKeyStore.plist:168:		JYrF1+FhOhogtet7K4FvcoGNqj37Jxh/5nAOp3NKlcmIB+sxFi8KfEgaIEhA
+/Users/marcela-dev/Library/Group Containers/group.com.apple.transparency/KTPublicKeyStore.plist:174:		sad35znDOigKGiBSVPiDXxeY/VwjD+KcZCjuQ6i5w+0RCXLJ/6ovWemZ2hog
+/Users/marcela-dev/Library/Group Containers/group.com.apple.transparency/KTPublicKeyStore.plist:236:			qg2mZG3huZPo0VVM7QIwZzsstOHoNwd3y9XsdqgaOlU7PzVqyMXm
+/Users/marcela-dev/Library/Group Containers/group.com.apple.transparency/KTPublicKeyStore.plist:328:		GiBWhgPQjL0nRge3SYjj68WuE+sqDj5wmAh/POQSvTcvPBogUnis6xqojurD
+/Users/marcela-dev/Library/Group Containers/group.com.apple.transparency/KTPublicKeyStore.plist:330:		nvsyfxyK96FoLh9OGiB1ZZNfr8W5UFlJGlJ7sue50Q06RXRHO80Dq3K+/L8R
+/Users/marcela-dev/Library/Group Containers/group.com.apple.transparency/KTPublicKeyStore.plist:338:		SHhEyLPNEchouokW9mQ5shWCzP7szvmMj5gaIKnzmRW/ftD8+y3xEza3foov
+/Users/marcela-dev/Library/Group Containers/group.com.apple.transparency/KTPublicKeyStore.plist:339:		KXQhUk5lExyHfh3sERFFGiB4zBrRvcQiiUYrC/NJ0y6iqgz9Cit3MECFWOF0
+/Users/marcela-dev/Library/Group Containers/group.com.apple.transparency/KTPublicKeyStore.plist:340:		v+oiNhogFOptaaxhnk2riIJyfgXiJ7UYakv6vuN7BZvMsq7zcBkihQEKJAog
+/Users/marcela-dev/Library/Group Containers/group.com.apple.transparency/KTPublicKeyStore.plist:351:		fbJG5SIaIHGVKnYV5iS/LmtquCgR6HGmBlOUK6KLLn5V6TGXs9+QGiBuhiOP
+/Users/marcela-dev/Library/Group Containers/group.com.apple.transparency/KTPublicKeyStore.plist:376:		oOCcR8RWkgTi5UxFGlHcDCQ/GiBfCRKXR2T8gDFOUPi/W7Hg2KBjpA39ILfg
+/Users/marcela-dev/Library/Group Containers/group.com.apple.transparency/KTPublicKeyStore.plist:377:		JYrF1+FhOhogtet7K4FvcoGNqj37Jxh/5nAOp3NKlcmIB+sxFi8KfEgaIEhA
+/Users/marcela-dev/Library/Group Containers/group.com.apple.transparency/KTPublicKeyStore.plist:383:		sad35znDOigKGiBSVPiDXxeY/VwjD+KcZCjuQ6i5w+0RCXLJ/6ovWemZ2hog
+/Users/marcela-dev/Library/Group Containers/group.com.apple.transparency/KTPublicKeyStore.plist:445:			qg2mZG3huZPo0VVM7QIwZzsstOHoNwd3y9XsdqgaOlU7PzVqyMXm
+/Users/marcela-dev/Library/Group Containers/group.com.apple.transparency/KTPublicKeyStore.plist:458:			bmdNUDETMBEGA1UECgwKQXBwbGUgSW5jLjELMAkGA1UEBhMCVVMw
+/Users/marcela-dev/Library/Group Containers/group.com.apple.transparency/KTPublicKeyStore.plist:532:		CqkHCAIStgEKRQjc/aDanTEQkMYLGiBQyvZgehAw47ndAP88LAXV0XOg/nJh
+/Users/marcela-dev/Library/Group Containers/group.com.apple.transparency/KTPublicKeyStore.plist:534:		oo8M+M6uCTBY6ftm/i6mTNdRuRzjXjfwL9SR7K+fAiAcSVmeRYH7Vjrp0wiP
+/Users/marcela-dev/Library/Group Containers/group.com.apple.transparency/KTPublicKeyStore.plist:540:		GiByX5+G31iepS6E1Imm5d46LfOlCDvgtGobzZtQJTawjBogP8opC2bD5FkG
+/Users/marcela-dev/Library/Group Containers/group.com.apple.transparency/KTPublicKeyStore.plist:549:		ryO/GiBuVWJIAd9fRg32gsGJKU9Kw51nxFfCo1Vjnpr4yGpj3iKFAQokCiBk
+/Users/marcela-dev/Library/Group Containers/group.com.apple.transparency/KTPublicKeyStore.plist:558:		KLM9TX9FyNNWe91Yqz8bPaKoFtX8RQv0GiBXcutHxswZy5ARVbPNwwyi09gA
+/Users/marcela-dev/Library/Group Containers/group.com.apple.transparency/KTPublicKeyStore.plist:575:		CAMSsgEKQgjXlPGUtjEQjqYzGiBiyG8GaS1Xll+4TJh7ogl2Aqm2EVjeWRKf
+/Users/marcela-dev/Library/Group Containers/group.com.apple.transparency/KTPublicKeyStore.plist:584:		nEfEVpIE4uVMRRpR3AwkPxogXwkSl0dk/IAxTlD4v1ux4NigY6QN/SC34CWK
+/Users/marcela-dev/Library/Group Containers/group.com.apple.transparency/KTPublicKeyStore.plist:585:		xdfhYToaILXreyuBb3KBjao9+ycYf+ZwDqdzSpXJiAfrMRYvCnxIGiBIQJ2v
+/Users/marcela-dev/Library/Group Containers/group.com.apple.transparency/KTConfig.plist:23:	c3RyaW5nPmh0dHBzOi8vc3VwcG9ydC5hcHBsZS5jb20vMTIxNDc1PC9zdHJpbmc+CiAg
+/Users/marcela-dev/Library/Group Containers/group.com.apple.transparency/KTConfig.plist:57:		A1UEBhMCVVMwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDClcUt
+/Users/marcela-dev/Library/Group Containers/group.com.apple.transparency/KTConfig.plist:63:		TI2MvmDiNw4ehjR/yjP9Nf5Kctg6Wn/tQggvAgMBAAGjggI3MIICMzAMBgNV
+/Users/marcela-dev/Library/Group Containers/group.com.apple.transparency/KTConfig.plist:86:		A1UEBhMCVVMxEzARBgNVBAoTCkFwcGxlIEluYy4xJjAkBgNVBAsTHUFwcGxl
+/Users/marcela-dev/Library/Group Containers/group.com.apple.transparency/KTConfig.plist:91:		MAkGA1UEBhMCVVMwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC5
+Binary file /Users/marcela-dev/Library/Group Containers/group.com.apple.PegasusConfiguration/config.plist matches
+/Users/marcela-dev/Library/Containers/com.docker.docker/hypervisor.error.json:1:{"type":"*errordef.dockerDesktopError","component":"com.docker.virtualization","originalError":{"type":"poll.errNetClosing","description":"use of closed network connection"},"creationTime":1772058037560006000,"creationFile":"mac/backend/cmd/com.docker.virtualization/main.go","creationLine":112}
+
+==== COMMON DOCKER SETTINGS FILE CONTENTS ====
+---- /Users/marcela-dev/Library/Group Containers/group.com.docker/settings-store.json ----
+{
+  "AutoStart": false,
+  "DisplayedOnboarding": true,
+  "DockerAppLaunchPath": "/Applications/Docker.app",
+  "EnableDockerAI": true,
+  "LastContainerdSnapshotterEnable": 1763514538,
+  "LicenseTermsVersion": 2,
+  "SettingsVersion": 43,
+  "ShowInstallScreen": false,
+  "UpdateInstallTime": 0,
+  "UpdateInstallerPid": 0,
+  "UseContainerdSnapshotter": true
+}
+
+---- /Users/marcela-dev/.docker/daemon.json ----
+{
+  "builder": {
+    "gc": {
+      "defaultKeepStorage": "20GB",
+      "enabled": true
+    }
+  },
+  "experimental": false
+}
+
+==== DOCKER RAW FILE ====
+-rw-r--r--@ 1 marcela-dev  staff   228G Apr  2 11:43 /Users/marcela-dev/Library/Containers/com.docker.docker/Data/vms/0/data/Docker.raw
+ 48G	/Users/marcela-dev/Library/Containers/com.docker.docker/Data/vms/0/data/Docker.raw
+
+==== INTERPRETATION BOUNDARY ====
+This inspection is for determining whether Docker Desktop disk allocation
+is the blocker. It does not change Docker settings.
+

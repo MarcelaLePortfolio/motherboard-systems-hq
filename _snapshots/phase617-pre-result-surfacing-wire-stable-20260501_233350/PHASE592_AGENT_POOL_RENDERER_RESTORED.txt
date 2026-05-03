@@ -1,0 +1,8 @@
+Phase 592 agent pool renderer restored.
+
+State:
+- Backend /api/agent-status already returns agent data.
+- Both active frontend agent renderers were disabled.
+- Restored agent-status-row.js as the single non-SSE renderer.
+- Renderer fetches /api/agent-status and renders Matilda, Atlas, Cade, and Effie.
+- Phase16 single-SSE ownership remains preserved because this renderer uses fetch, not EventSource.

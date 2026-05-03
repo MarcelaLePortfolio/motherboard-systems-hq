@@ -1,0 +1,17 @@
+{
+  "name": "motherboard-systems-hq",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "verify:replay": "tsx scripts/_local/verification/check-replay-verification.ts"
+  },
+  "dependencies": {
+    "better-sqlite3": "^12.9.0",
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "pg": "^8.20.0"
+  },
+  "devDependencies": {
+    "typescript": "^6.0.3"
+  }
+}

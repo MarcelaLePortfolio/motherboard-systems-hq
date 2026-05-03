@@ -1,0 +1,42 @@
+PHASE 487 — READABLE TASK SURFACE STABLE
+
+This release finalizes the observability bridge and introduces a human-readable task event surface.
+
+KEY ACHIEVEMENTS:
+- Dashboard (3001) successfully proxies API + SSE to runtime (8080)
+- All 404 errors resolved across:
+  • /api/tasks
+  • /diagnostics/system-health
+  • /events/*
+- Task events stream stable and connected
+- Operator Guidance fallback functioning
+- Task logs transformed from raw event noise → human-readable summaries
+
+UI IMPROVEMENT:
+Before:
+- Repeated "error / task event received"
+- No operator clarity
+
+After:
+- Timestamped, labeled, readable entries
+- Focus on:
+  • task.created
+  • task.completed
+  • task.failed
+- Noise suppressed (heartbeat / reconnect spam removed)
+
+SYSTEM STATE:
+- FL-3: COMPLETE (validated)
+- Phase 487:
+  • Observability bridge: COMPLETE
+  • Task clarity layer: COMPLETE
+  • Logs readability: COMPLETE
+
+SYSTEM IS NOW:
+→ Stable
+→ Observable
+→ Understandable
+→ Operator-safe
+
+This marks a clean checkpoint for continued operator experience improvements.
+

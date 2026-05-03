@@ -1,0 +1,71 @@
+PHASE 471.0 — NEUTRALIZE TASK-EVENTS SURFACE AND VERIFY
+======================================================
+
+SINCE_TS: 2026-04-10T22:15:34Z
+
+STEP 1 — Confirm task-events surface script neutralized
+757:    <script src="/js/phase457_restore_task_panels.js"></script>
+
+STEP 2 — Restart dashboard
+ Container motherboard_systems_hq-dashboard-1  Restarting
+ Container motherboard_systems_hq-dashboard-1  Started
+
+STEP 3 — Wait for host port 8080 readiness
+READY_ON_8080 attempt=2
+
+STEP 4 — Fresh probes
+--- GET /dashboard.html ---
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0 36422    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Fri, 10 Apr 2026 17:36:53 GMT
+ETag: W/"8e46-19d7877d708"
+Content-Type: text/html; charset=utf-8
+Content-Length: 36422
+Date: Fri, 10 Apr 2026 22:00:17 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+
+--- GET /bundle.js ---
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0 69049    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Tue, 07 Apr 2026 18:43:42 GMT
+ETag: W/"10db9-19d6941ef30"
+Content-Type: text/javascript; charset=utf-8
+Content-Length: 69049
+Date: Fri, 10 Apr 2026 22:00:17 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+
+--- GET /events/task-events ---
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: text/event-stream; charset=utf-8
+Cache-Control: no-cache, no-transform
+Connection: keep-alive
+X-Accel-Buffering: no
+Date: Fri, 10 Apr 2026 22:00:17 GMT
+
+
+STEP 5 — Fresh dashboard logs
+
+STEP 6 — Classification
+CLASSIFICATION: TASK_EVENTS_SURFACE_NEUTRALIZED_FOR_FREEZE_ISOLATION
+
+DECISION TARGET
+- Open http://localhost:8080/dashboard.html and observe for 60–90 seconds.
+- Report exactly one of: STABLE_AFTER_TASK_EVENTS_NEUTRALIZATION / STILL_FREEZES / WHITE_SCREEN_RETURNED

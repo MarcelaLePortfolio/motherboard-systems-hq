@@ -1,0 +1,12 @@
+Phase 583 retry contract active verified.
+
+State:
+- enforceRetryContract is imported in server.js.
+- /api/delegate-task route now uses enforceRetryContract middleware.
+- Invalid retry without retry_of_task_id is rejected with MISSING_RETRY_CONTEXT.
+- Valid retry still creates a task successfully.
+- Dashboard, worker, and Postgres rebuilt and running.
+- Working tree is clean.
+
+Next:
+Checkpoint, tag, and snapshot this stable execution-rules state before continuing.

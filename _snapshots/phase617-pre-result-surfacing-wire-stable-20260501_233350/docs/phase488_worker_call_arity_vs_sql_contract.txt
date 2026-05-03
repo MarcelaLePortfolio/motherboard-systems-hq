@@ -1,0 +1,438 @@
+PHASE 488 — TRACE WORKER CALL ARITY VS SQL CONTRACT
+Timestamp: Fri Apr 17 14:34:33 PDT 2026
+===============================================
+
+[1] WORKER CALL SITES / PARAM SHAPES
+     1	import fs from "node:fs";
+     2	import path from "node:path";
+     3	import process from "node:process";
+     4	import { Pool } from "pg";
+     5	import { emitTaskEvent } from "../task_events_emit.mjs";
+     6	import { policyShadowEnabled } from "../policy/policy_flags.mjs";
+     7	import { policyEvalShadow } from "../policy/policy_eval.mjs";
+     8	import { policyAuditWrite } from "../policy/policy_audit.mjs";
+     9	
+    10	// Phase 39: Action Tier pre-execution gate (A allowed; B/C blocked)
+    11	function __mbIsTierA(t){
+    12	  const v = String(t ?? 'A');
+    13	  return v === 'A';
+    14	}
+    15	
+    16	const PHASE26_DEBUG = String(process.env.PHASE26_DEBUG || "1") === "1";
+    17	function dbg(...args) { if (PHASE26_DEBUG) console.log("[phase26][dbg]", ...args); }
+    18	
+    19	function sleep(ms) { return new Promise((r) => setTimeout(r, ms)); }
+    20	function readSqlFile(p) {
+    21	  const abs = path.isAbsolute(p) ? p : path.join(process.cwd(), p);
+    22	  return fs.readFileSync(abs, "utf-8");
+    23	}
+    24	const POSTGRES_URL = process.env.POSTGRES_URL;
+    25	if (!POSTGRES_URL) throw new Error("POSTGRES_URL required");
+    26	const TICK_MS = Number(process.env.PHASE26_TICK_MS || 500);
+    27	const BACKOFF_BASE_MS = Number(process.env.WORKER_BACKOFF_BASE_MS || 2000);
+    28	const owner = process.env.WORKER_OWNER || `worker-${process.pid}`;
+    29	
+    30	  // Phase 34 (lease/heartbeat/reclaim) — optional, behind env flag
+    31	  const PHASE34_ENABLE_LEASE = String(process.env.PHASE34_ENABLE_LEASE || "") === "1";
+    32	  const PHASE34_HEARTBEAT_SQL = process.env.PHASE34_HEARTBEAT_SQL || "server/worker/phase34_heartbeat.sql";
+    33	  const PHASE34_RECLAIM_SQL = process.env.PHASE34_RECLAIM_SQL || "server/worker/phase34_reclaim_stale.sql";
+    34	  const PHASE34_LEASE_MS = Number(process.env.PHASE34_LEASE_MS || "60000");
+    35	  const PHASE34_STALE_HEARTBEAT_MS = Number(process.env.PHASE34_STALE_HEARTBEAT_MS || String(PHASE34_LEASE_MS * 2));
+    36	
+    37	  // If enabled, default the worker SQL env vars to Phase 34 variants (same contract: created->running->completed/failed)
+    38	  if (PHASE34_ENABLE_LEASE) {
+    39	    process.env.PHASE27_CLAIM_ONE_SQL = process.env.PHASE27_CLAIM_ONE_SQL || "server/worker/phase35_claim_one_pg.sql";
+    40	    process.env.PHASE27_MARK_SUCCESS_SQL = process.env.PHASE27_MARK_SUCCESS_SQL || "server/worker/phase35_mark_success_pg.sql";
+    41	    process.env.PHASE27_MARK_FAILURE_SQL = process.env.PHASE27_MARK_FAILURE_SQL || "server/worker/phase35_mark_failure_pg.sql";
+    42	  }
+    43	
+    44	// Prefer Phase 32 SQL, fall back to Phase 27 (back-compat).
+    45	const CLAIM_ONE_PATH = process.env.PHASE32_CLAIM_ONE_SQL || process.env.PHASE27_CLAIM_ONE_SQL;
+    46	const MARK_SUCCESS_PATH = process.env.PHASE32_MARK_SUCCESS_SQL || process.env.PHASE27_MARK_SUCCESS_SQL;
+    47	const MARK_FAILURE_PATH = process.env.PHASE32_MARK_FAILURE_SQL || process.env.PHASE27_MARK_FAILURE_SQL;
+    48	
+    49	if (!CLAIM_ONE_PATH || !MARK_SUCCESS_PATH || !MARK_FAILURE_PATH) {
+    50	  throw new Error("SQL paths required: PHASE32_* (preferred) or PHASE27_* (fallback)");
+    51	}
+    52	const CLAIM_ONE_SQL = readSqlFile(CLAIM_ONE_PATH);
+    53	const MARK_SUCCESS_SQL = readSqlFile(MARK_SUCCESS_PATH);
+    54	const MARK_FAILURE_SQL = readSqlFile(MARK_FAILURE_PATH);
+    55	
+    56	// Phase 34 SQL (pg-param) — only used when PHASE34_ENABLE_LEASE=1
+    57	const PHASE34_HEARTBEAT_SQL_STR = readSqlFile(process.env.PHASE34_HEARTBEAT_PG_SQL || "server/worker/phase34_heartbeat_pg.sql");
+    58	const PHASE34_RECLAIM_SQL_STR = readSqlFile(process.env.PHASE34_RECLAIM_PG_SQL || "server/worker/phase34_reclaim_stale_pg.sql");
+    59	
+    60	const pool = new Pool({ connectionString: POSTGRES_URL });
+    61	async function claimOne(c, run_id) {
+    62	  const r = await c.query(CLAIM_ONE_SQL, PHASE34_ENABLE_LEASE ? [run_id, owner, PHASE34_LEASE_MS] : [run_id, owner]);
+    63	  return r.rows?.[0] || null;
+    64	}
+    65	async function markSuccess(c, task_id, run_id, actor) {
+    66	  const r = await c.query(MARK_SUCCESS_SQL, [String(task_id), run_id ?? null, actor ?? null]);
+    67	  return r.rows?.[0] ?? null;
+    68	}
+    69	async function markFailure(c, task_id, run_id, actor) {
+    70	  const r = await c.query(MARK_FAILURE_SQL, [String(task_id), run_id ?? null, actor ?? null]);
+    71	  return r.rows?.[0] ?? null;
+    72	}
+    73	function parseMeta(task) {
+    74	  const m = task?.meta;
+    75	  if (!m) return null;
+    76	  const unwrap = (obj) => {
+    77	    if (!obj || typeof obj !== "object") return null;
+    78	    // common shapes in this repo:
+    79	    // 1) { raw: { meta: {...}, ... } }
+    80	    // 2) { meta: {...} }
+    81	    // 3) already the meta payload
+    82	    return obj.raw?.meta ?? obj.meta ?? obj;
+    83	  };
+    84	  if (typeof m === "object") return unwrap(m);
+    85	  try { return unwrap(JSON.parse(String(m))); } catch { return null; }
+    86	}
+    87	function shouldFailDeterministically(task) {
+    88	  // Minimal deterministic failure hook (Phase 32 verification aid):
+    89	  // - meta.force_fail: always fail
+    90	  // - meta.fail_n_times: fail while attempts < fail_n_times
+    91	  const meta = parseMeta(task) || {};
+    92	  const attempts = Number((task?.attempts ?? task?.attempt ?? 0));
+    93	  if (meta.force_fail === true) return { fail: true, reason: "meta.force_fail=true" };
+    94	
+    95	  const n = Number(meta.fail_n_times);
+    96	  if (Number.isFinite(n) && n > 0 && attempts < n) {
+    97	    return { fail: true, reason: `meta.fail_n_times=${n} attempts=${attempts}` };
+    98	  }
+    99	  return { fail: false, reason: null };
+   100	}
+   101	async function loop() {
+   102	  let backoff = BACKOFF_BASE_MS;
+   103	  // eslint-disable-next-line no-constant-condition
+   104	  while (true) {
+   105	    dbg('tick', { ts: new Date().toISOString(), owner });
+   106	    const run_id = `run-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+   107	    try {
+   108	      const c = await pool.connect();
+   109	      try {
+   110	    if (policyShadowEnabled(process.env)) {
+   111	      const __task = ((typeof payload !== "undefined" ? payload?.task : undefined)) ?? null;
+   112	      const __run  = ((typeof payload !== "undefined" ? payload?.run  : undefined)) ?? null;
+   113	      const __policyAudit = await policyEvalShadow({ task: __task, run: __run }, process.env);
+   114	      await policyAuditWrite(__policyAudit);
+   115	    }
+   116	
+   117	        await c.query("BEGIN");
+   118	        // phase34 heartbeat + reclaim (optional)
+   119	        if (PHASE34_ENABLE_LEASE) {
+   120	          try {
+   121	            await c.query(PHASE34_HEARTBEAT_SQL_STR, [owner]);
+   122	          } catch (e) {
+   123	            console.error("[phase34] heartbeat error", e);
+   124	          }
+   125	          try {
+   126	            await c.query(PHASE34_RECLAIM_SQL_STR, [PHASE34_STALE_HEARTBEAT_MS]);
+   127	          } catch (e) {
+   128	            console.error("[phase34] reclaim error", e);
+   129	          }
+   130	        }
+   131	
+   132	        dbg('claim_attempt');
+   133	          const task = await claimOne(c, run_id);
+   134	
+   135	          // Phase 39: SQL-level value gate returns gate_action
+   136	          // - REFUSE: worker must not treat as claimed work; log + continue cleanly
+   137	          // - CLAIM (or missing): proceed with normal flow
+   138	          const gateAction = String(task?.gate_action ?? task?.gateAction ?? "");
+   139	          if (gateAction === "REFUSE") {
+   140	            const tier = String(task?.action_tier ?? task?.actionTier ?? "UNKNOWN");
+   141	            console.log("VALUE_GATE_REFUSE");
+   142	            console.log("[phase39] VALUE_GATE_REFUSE", { owner, tier, task_id: task?.task_id ?? task?.taskId ?? null, id: task?.id ?? null });
+   143	            await c.query("COMMIT");
+   144	            c.release();
+   145	            await sleep(TICK_MS);
+   146	            backoff = BACKOFF_BASE_MS;
+   147	            continue;
+   148	          }
+   149	
+   150	  // Phase 39: Action Tier pre-execution gate
+   151	  if (!__mbIsTierA(task?.action_tier ?? task?.actionTier)) {
+   152	    const __tier = String((task?.action_tier ?? task?.actionTier) ?? '');
+   153	    const tier = (__tier && __tier.trim()) ? __tier.trim() : 'UNKNOWN';
+   154	    const e = new Error(`Blocked by action_tier gate: ${tier}`);
+   155	    e.code = 'ACTION_TIER_BLOCKED';
+   156	    throw e;
+   157	  }
+   158	        if (!task) {
+   159	            dbg('claim_none');
+   160	            await c.query("COMMIT");
+   161	            c.release();
+   162	            await sleep(TICK_MS);
+   163	            backoff = BACKOFF_BASE_MS;
+   164	            continue;
+   165	          }
+   166	
+   167	        // Phase35: workers must use stable string task_id (tN), not numeric id.
+   168	        const stableTaskId = String(task.task_id ?? (`t${task.id}`));
+   169	        const workerActor = process.env.PHASE26_WORKER_ACTOR || process.env.WORKER_OWNER || "worker";
+   170	
+   171	        await c.query("COMMIT");
+   172	        if (!task) {
+   173	          c.release();
+   174	          await sleep(TICK_MS);
+   175	          backoff = BACKOFF_BASE_MS;
+   176	          continue;
+   177	        }
+   178	        await emitTaskEvent({
+   179	          pool,
+   180	          kind: "task.running",
+   181	          task_id: (task.task_id || String(task.id)),
+   182	          run_id: task.run_id || run_id,
+   183	          actor: owner,
+   184	          payload: {
+   185	            ts: Date.now(),
+   186	            attempts: task.attempts,
+   187	            max_attempts: task.max_attempts,
+   188	          },
+   189	        });
+   190	        const verdict = shouldFailDeterministically(task);
+   191	        if (verdict.fail) {
+   192	          const failedRow = await markFailure(c, stableTaskId, task.lease_epoch, `phase32_deterministic_failure: ${verdict.reason}`);
+   193	
+   194	          if (failedRow) {
+   195	            await emitTaskEvent({
+   196	              pool,
+   197	              kind: failedRow.status === "failed" ? "task.failed" : "task.retry_scheduled",
+   198	              task_id: (failedRow.task_id || String(failedRow.id)),
+   199	              run_id: failedRow.run_id || run_id,
+   200	              actor: owner,
+   201	              payload: {
+   202	                ts: Date.now(),
+   203	                attempts: failedRow.attempts,
+   204	                max_attempts: failedRow.max_attempts,
+   205	                next_run_at: failedRow.next_run_at,
+   206	                status: failedRow.status,
+   207	                last_error: failedRow.last_error,
+   208	              },
+   209	            });
+   210	          }
+   211	
+   212	          c.release();
+   213	          backoff = BACKOFF_BASE_MS;
+   214	          continue;
+   215	        }
+   216	        const done = await markSuccess(c, stableTaskId, run_id, workerActor);
+   217	        if (done) {
+   218	          await emitTaskEvent({
+   219	            pool,
+   220	            kind: "task.completed",
+   221	            task_id: (done.task_id || String(done.id)),
+   222	            run_id: done.run_id || run_id,
+   223	            actor: owner,
+   224	            payload: {
+   225	              ts: Date.now(),
+   226	              attempts: done.attempts,
+   227	              max_attempts: done.max_attempts,
+   228	            },
+   229	          });
+   230	        }
+   231	        c.release();
+   232	        backoff = BACKOFF_BASE_MS;
+   233	      } catch (e) {
+   234	        try { await pool.query("ROLLBACK"); } catch {}
+   235	        throw e;
+   236	      }
+   237	    } catch (e) {
+   238	      console.error("[worker] loop error", e);
+   239	      dbg('sleep_backoff', { backoff });
+   240	        await sleep(backoff);
+   241	      backoff = Math.min(backoff * 2, 30000);
+   242	    }
+   243	  }
+   244	}
+   245	loop().catch((e) => {
+   246	  console.error("[worker] fatal", e);
+   247	  process.exit(1);
+   248	});
+
+[2] PHASE27 SQL CONTRACTS
+===== server/worker/phase27_claim_one.sql =====
+-- phase27: claim one queued task
+-- Inputs:
+--   $1 = worker_id/owner (text)
+with candidate as (
+  select id
+  from tasks
+  where status = 'queued'
+    and (available_at is null or available_at <= now())
+    and (
+      locked_by is null
+      or lock_expires_at is null
+      or lock_expires_at <= now()
+    )
+  order by
+    coalesce(available_at, created_at) asc,
+    id asc
+  for update skip locked
+  limit 1
+),
+updated as (
+  update tasks t
+  set
+    status = 'running',
+    locked_by = $1::text,
+    lock_expires_at = now() + interval '10 minutes',
+    updated_at = now(),
+    attempt = attempt + 1
+  from candidate c
+  where t.id = c.id
+  returning t.*
+)
+select * from updated;
+
+===== server/worker/phase27_mark_success.sql =====
+-- Inputs:
+--   $1 = task_id (text) OR id::text
+--   $2 = worker_id (text)
+update tasks
+set
+  status = 'completed',
+  locked_by = null,
+  lock_expires_at = null,
+  updated_at = now()
+where
+  ((task_id = $1::text) or (id::text = $1::text))
+  and (locked_by is null or locked_by = $2::text)
+returning id, task_id, status, attempt, max_attempts;
+
+===== server/worker/phase27_mark_failure.sql =====
+-- Inputs:
+--   $1 = task_id (text) OR id::text
+--   $2 = worker_id (text)
+--   $3 = backoff_ms (int)
+--   $4 = last_error (jsonb)
+with row as (
+  select id, task_id, attempt, max_attempts
+  from tasks
+  where ((task_id = $1::text) or (id::text = $1::text))
+    and (locked_by is null or locked_by = $2::text)
+  for update
+),
+upd as (
+  update tasks t
+  set
+    status = case when row.attempt < row.max_attempts then 'queued' else 'failed' end,
+    available_at = case
+      when row.attempt < row.max_attempts then now() + (($3::int) * interval '1 millisecond')
+      else t.available_at
+    end,
+    last_error = $4::jsonb,
+    locked_by = null,
+    lock_expires_at = null,
+    updated_at = now()
+  from row
+  where t.id = row.id
+  returning t.id, t.task_id, t.status, t.attempt, t.max_attempts, t.available_at
+)
+select * from upd;
+
+[3] PHASE28 CLAIM SQL (2-param candidate)
+===== server/worker/phase28_claim_one.sql =====
+-- params:
+-- $1 run_id (text)
+-- $2 owner/locked_by (text)
+
+with picked as (
+  select id
+  from tasks
+  where status = 'queued'
+    
+  AND COALESCE(action_tier, 'A') = 'A'
+and (available_at is null or available_at <= now())
+    and (lock_expires_at is null or lock_expires_at <= now())
+  order by id asc
+  for update skip locked
+  limit 1
+)
+update tasks t
+set status = 'running',
+    run_id = $1,
+    locked_by = $2,
+    lock_expires_at = now() + interval '5 minutes',
+    updated_at = now()
+from picked
+where t.id = picked.id
+returning t.*;
+
+[4] PHASE32 SQL CONTRACTS
+===== server/worker/phase32_claim_one.sql =====
+/*
+Phase 32 — claim one task (no-lease variant)
+Params:
+  $1 = run_id (text)
+  $2 = owner  (text)
+*/
+WITH candidate AS (
+  SELECT id
+  FROM tasks
+  WHERE status IN ('queued','delegated')
+    AND attempts < COALESCE(max_attempts, 3)
+    AND (next_run_at IS NULL OR next_run_at <= now())
+  ORDER BY id ASC
+  FOR UPDATE SKIP LOCKED
+  LIMIT 1
+)
+UPDATE tasks t
+SET
+  status     = 'running',
+  run_id     = $1,
+  claimed_by = $2,
+  task_id    = COALESCE(t.task_id, t.id::text)
+FROM candidate c
+WHERE t.id = c.id
+RETURNING t.*;
+
+===== server/worker/phase32_mark_success.sql =====
+/*
+Phase 32 — mark success
+Params:
+  $1 = task_id (text)
+  $2 = run_id  (text|null)
+  $3 = actor   (text|null)
+*/
+UPDATE tasks
+SET
+  status       = 'completed',
+  completed_at = NOW(),
+  run_id       = COALESCE($2, run_id),
+  claimed_by   = COALESCE(NULLIF(claimed_by,''), $3)
+WHERE task_id = $1
+RETURNING *;
+
+===== server/worker/phase32_mark_failure.sql =====
+/*
+Phase 32 — mark failure (no retry scheduling here; keep minimal + deterministic)
+Params:
+  $1 = task_id (text)
+  $2 = run_id  (text|null)
+  $3 = actor   (text|null)
+*/
+UPDATE tasks
+SET
+  status       = 'failed',
+  completed_at = NOW(),
+  run_id       = COALESCE($2, run_id),
+  claimed_by   = COALESCE(NULLIF(claimed_by,''), $3)
+WHERE task_id = $1
+RETURNING *;
+
+[5] LIVE tasks STATUS COUNTS
+ status | count 
+--------+-------
+ queued |   288
+(1 row)
+
+
+[6] VERDICT TARGET
+- Confirm exact arity expected by claimOne / markSuccess / markFailure calls
+- Confirm whether phase27 family is fundamentally incompatible with worker call shape
+- Decide smallest next move: swap only claim SQL to phase28 vs move whole family to phase32-compatible path
+
+TRACE COMPLETE

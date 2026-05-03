@@ -1,0 +1,84 @@
+PHASE 570 — NEXT ACTION (HIGH-SIGNAL)
+
+YOU SHOULD NOT BUILD MORE RIGHT NOW.
+
+You just crossed an important boundary:
+→ You now have a stable, truthful, actionable operator surface.
+
+The highest-leverage move is NOT another feature.
+It is VALIDATION.
+
+────────────────────────────────
+
+PHASE 570 OBJECTIVE:
+Validate that Requeue actually produces correct system behavior under real use.
+
+────────────────────────────────
+
+RUN THIS (MANUAL):
+
+1. Open Execution Inspector
+2. Pick a completed or failed task
+3. Click Requeue
+
+Observe:
+
+A. Does a NEW task.created event appear?
+B. Does it have:
+   - a new task_id
+   - correct title
+   - kind: retry
+   - meta.retry_of_task_id populated?
+
+C. Does the worker pick it up?
+   (status transitions: queued → running → done/failed)
+
+D. Does the original task remain unchanged?
+
+────────────────────────────────
+
+WHAT YOU ARE TESTING:
+
+NOT UI.
+
+You are testing:
+→ SYSTEM INTEGRITY UNDER OPERATOR INPUT
+
+────────────────────────────────
+
+SUCCESS CRITERIA:
+
+✔ New task appears immediately in Execution Inspector
+✔ Worker processes it normally
+✔ No duplication bugs
+✔ No infinite loops
+✔ No mutation of original task
+✔ No console errors
+
+────────────────────────────────
+
+IF FAILURE OCCURS:
+
+STOP.
+Do NOT patch blindly.
+
+Capture:
+- console logs
+- SSE events
+- task payload
+
+Then isolate root cause.
+
+────────────────────────────────
+
+TRUTH:
+
+You are no longer building features.
+
+You are validating a system that is about to become:
+→ something you could actually hand to someone else
+
+────────────────────────────────
+
+STATUS:
+HOLD — VALIDATE BEFORE NEXT PHASE

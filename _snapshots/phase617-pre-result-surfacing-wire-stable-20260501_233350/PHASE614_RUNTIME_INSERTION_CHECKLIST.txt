@@ -1,0 +1,45 @@
+PHASE 614 — RUNTIME INSERTION CHECKLIST (STRICT)
+
+OBJECTIVE:
+Insert system trigger safely as a SINGLE isolated change.
+
+STEP 1 — OPEN TARGET FILE
+- server/server.mjs (or main server entry)
+
+STEP 2 — FIND SAFE INSERTION POINT
+- After server initialization
+- Outside any route handler
+- Non-blocking zone
+
+STEP 3 — INSERT EXACT BLOCK
+- Copy ONLY the trigger snippet
+- Do NOT modify existing code
+- Do NOT refactor anything
+
+STEP 4 — SAVE FILE
+
+STEP 5 — DO NOT COMMIT YET
+
+STEP 6 — RUN VERIFICATION
+- docker compose up -d --build
+- Wait ~60 seconds
+- Check Recent Tasks
+- Check worker logs
+- Check Execution Inspector
+
+STEP 7 — DECISION
+
+IF SUCCESS:
+- Commit change
+- Tag: phase614-system-trigger-live
+
+IF FAILURE:
+- Remove block immediately
+- Rebuild containers
+- Return to pre-trigger checkpoint
+
+CRITICAL RULES:
+- One change only
+- No stacking fixes
+- No "while we're here" edits
+

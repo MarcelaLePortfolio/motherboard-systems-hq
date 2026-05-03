@@ -1,0 +1,16 @@
+Phase 601 execution contract helper stable checkpoint.
+
+Result:
+- executeTaskWithContract helper active.
+- Worker behavior verified unchanged.
+- Policy runtime logs still appear.
+- Execution contract log still appears.
+- Contract output remains policy-aware.
+- Task completes successfully.
+- Working tree clean.
+
+Stable Tag:
+phase601-execution-contract-helper-stable
+
+Next:
+Proceed only from this stable execution-layer base.

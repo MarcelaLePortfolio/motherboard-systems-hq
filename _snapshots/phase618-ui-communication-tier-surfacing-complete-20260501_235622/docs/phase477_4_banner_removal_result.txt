@@ -1,0 +1,8 @@
+PHASE 477.4 — BANNER REMOVAL RESULT
+===================================
+
+RESULT:
+BANNER_REMOVAL_BREAKS
+
+OPTIONAL_NOTE:
+This version of the dashboard is still not completely right and is loading continuously.

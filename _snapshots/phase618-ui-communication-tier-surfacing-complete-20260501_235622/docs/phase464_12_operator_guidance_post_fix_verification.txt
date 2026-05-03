@@ -1,0 +1,33 @@
+PHASE 464.12 — OPERATOR GUIDANCE POST-FIX VERIFICATION
+======================================================
+
+1) Remaining direct writers to guidance DOM ids
+public/dashboard.html:510:                        <div id="operator-guidance-response" class="text-sm text-gray-300 leading-6">
+public/dashboard.html:514:                        <div id="operator-guidance-meta" class="mt-3 text-xs text-gray-500 leading-5">
+public/js/operatorGuidance.sse.js:12:    const response = byId("operator-guidance-response");
+public/js/operatorGuidance.sse.js:13:    const meta = byId("operator-guidance-meta");
+public/js/phase457_controlled_proof.js:16:    return !!byId("operator-guidance-response") && !!byId("operator-guidance-meta");
+
+2) phase457_controlled_proof direct writes (should be none)
+16:    return !!byId("operator-guidance-response") && !!byId("operator-guidance-meta");
+
+3) operatorGuidance.sse.js direct writes (expected single writer)
+12:    const response = byId("operator-guidance-response");
+13:    const meta = byId("operator-guidance-meta");
+17:    response.textContent =
+18:      "SYSTEM_HEALTH • INFO • HIGH\n" +
+21:    meta.textContent =
+22:      "Source: deterministic-baseline • Confidence: high • Mode: stable";
+
+4) Manual retest checklist
+[ ] Hard refresh dashboard
+[ ] Initial guidance stable
+[ ] New tab opened
+[ ] Return to dashboard tab
+[ ] Switch away and back again
+[ ] No restart flood observed
+[ ] No duplicate guidance observed
+
+RESULT:
+[ ] PASS
+[ ] FAIL

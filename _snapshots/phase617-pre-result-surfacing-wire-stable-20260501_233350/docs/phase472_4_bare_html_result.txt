@@ -1,0 +1,8 @@
+PHASE 472.4 — BARE HTML RESULT
+==============================
+
+RESULT:
+BARE_HTML_STILL_UNRESPONSIVE
+
+OPTIONAL_NOTE:
+

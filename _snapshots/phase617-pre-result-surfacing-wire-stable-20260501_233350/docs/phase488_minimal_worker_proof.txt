@@ -1,0 +1,31 @@
+PHASE 488 — MINIMAL WORKER PROOF
+Timestamp: Fri Apr 17 11:25:01 PDT 2026
+========================================
+
+[1] WORKER PROCESS PRESENT?
+NO_WORKER_PROCESS
+
+[2] WORKER BOOT PATH EXISTS?
+scripts/phase26_run_worker.sh:5:node server/worker/phase26_task_worker.mjs
+scripts/phase28_smoke_one.sh:84:node server/worker/phase26_task_worker.mjs >/dev/null
+scripts/_ops/phase40_1_patch_worker_shadow.mjs:2:const TARGET = process.env.PHASE40_TARGET_FILE || "server/worker/phase26_task_worker.mjs";
+scripts/_local/phase61_5_6c_trace_phase34_worker_heartbeat_path.sh:29:  sed -n '1,240p' server/worker/phase26_task_worker.mjs
+scripts/_local/phase61_5_6c_trace_phase34_worker_heartbeat_path.sh:31:  sed -n '240,420p' server/worker/phase26_task_worker.mjs
+
+[3] WORKER TABLE EXISTS?
+0
+
+
+[4] TASK EVENT KINDS SNAPSHOT
+     kind     | count 
+--------------+-------
+ task.created |   289
+(1 row)
+
+
+[5] INTERPRETATION
+- NO_WORKER_PROCESS → executor not running
+- worker table = 0 → schema not initialized
+- only task.created → lifecycle never begins
+
+END

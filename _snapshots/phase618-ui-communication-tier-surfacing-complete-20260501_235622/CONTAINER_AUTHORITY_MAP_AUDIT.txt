@@ -1,0 +1,596 @@
+CONTAINER AUTHORITY MAP AUDIT
+Date: 2026-03-20 15:27:43
+
+== Compose files in repo root ==
+./docker-compose.override.yml
+./docker-compose.phase31.7-worker.yml
+./docker-compose.phase45_1.startup_determinism.yml
+./docker-compose.phase46.dashboard_heap.override.yml
+./docker-compose.phase47.enforce.override.yml
+./docker-compose.phase47.postgres_url.override.yml
+./docker-compose.phase54.enforce.override.yml
+./docker-compose.phase54.postgres_bootstrap.override.yml
+./docker-compose.phase54.shadow.override.yml
+./docker-compose.phase57.shadow.env.override.yml
+./docker-compose.worker.phase32.yml
+./docker-compose.worker.phase34.yml
+./docker-compose.workers.yml
+./docker-compose.yml
+
+== Dockerfiles in repo root ==
+./Dockerfile
+./Dockerfile.backup-scheduler
+./Dockerfile.dashboard
+./Dockerfile.ops-stream
+./Dockerfile.reflections-stream
+./Dockerfile.worker
+
+== dashboard service declarations ==
+docker-compose.phase31.7-worker.yml:3:    image: node:20-bookworm-slim
+docker-compose.phase54.shadow.override.yml:2:  dashboard:
+docker-compose.phase47.postgres_url.override.yml:2:  dashboard:
+docker-compose.phase46.dashboard_heap.override.yml:2:  dashboard:
+docker-compose.phase57.shadow.env.override.yml:2:  dashboard:
+docker-compose.phase54.enforce.override.yml:2:  dashboard:
+docker-compose.override.yml:2:  dashboard:
+docker-compose.phase45_1.startup_determinism.yml:10:  dashboard:
+docker-compose.phase47.enforce.override.yml:10:  dashboard:
+docker-compose.workers.yml:3:    build:
+docker-compose.workers.yml:5:      dockerfile: Dockerfile.worker
+docker-compose.workers.yml:6:    image: motherboard_systems_hq-worker:node20
+docker-compose.workers.yml:38:    build:
+docker-compose.workers.yml:40:      dockerfile: Dockerfile.worker
+docker-compose.workers.yml:41:    image: motherboard_systems_hq-worker:node20
+docker-compose.worker.phase34.yml:3:    build:
+docker-compose.worker.phase34.yml:5:      dockerfile: Dockerfile.worker
+docker-compose.worker.phase34.yml:6:    image: motherboard_systems_hq-worker:node20
+docker-compose.worker.phase34.yml:39:    build:
+docker-compose.worker.phase34.yml:41:      dockerfile: Dockerfile.worker
+docker-compose.worker.phase34.yml:42:    image: motherboard_systems_hq-worker:node20
+docker-compose.yml:3:    image: postgres:16-alpine
+docker-compose.yml:13:  dashboard:
+docker-compose.yml:16:    build:
+docker-compose.yml:18:      dockerfile: Dockerfile.dashboard
+docker-compose.worker.phase32.yml:5:    image: mbhq-worker:phase32
+docker-compose.worker.phase32.yml:23:    image: mbhq-worker:phase32
+
+== worker service declarations ==
+docker-compose.yml:3:    image: postgres:16-alpine
+docker-compose.yml:16:    build:
+docker-compose.yml:18:      dockerfile: Dockerfile.dashboard
+docker-compose.phase31.7-worker.yml:2:  worker:
+docker-compose.phase31.7-worker.yml:3:    image: node:20-bookworm-slim
+docker-compose.workers.yml:2:  workerA:
+docker-compose.workers.yml:3:    build:
+docker-compose.workers.yml:5:      dockerfile: Dockerfile.worker
+docker-compose.workers.yml:6:    image: motherboard_systems_hq-worker:node20
+docker-compose.workers.yml:8:      - ./server/worker:/app/server/worker:ro
+docker-compose.workers.yml:37:  workerB:
+docker-compose.workers.yml:38:    build:
+docker-compose.workers.yml:40:      dockerfile: Dockerfile.worker
+docker-compose.workers.yml:41:    image: motherboard_systems_hq-worker:node20
+docker-compose.workers.yml:43:      - ./server/worker:/app/server/worker:ro
+docker-compose.worker.phase34.yml:2:  workerA:
+docker-compose.worker.phase34.yml:3:    build:
+docker-compose.worker.phase34.yml:5:      dockerfile: Dockerfile.worker
+docker-compose.worker.phase34.yml:6:    image: motherboard_systems_hq-worker:node20
+docker-compose.worker.phase34.yml:8:      - ./server/worker:/app/server/worker:ro
+docker-compose.worker.phase34.yml:38:  workerB:
+docker-compose.worker.phase34.yml:39:    build:
+docker-compose.worker.phase34.yml:41:      dockerfile: Dockerfile.worker
+docker-compose.worker.phase34.yml:42:    image: motherboard_systems_hq-worker:node20
+docker-compose.worker.phase34.yml:44:      - ./server/worker:/app/server/worker:ro
+docker-compose.worker.phase32.yml:2:  workerA:
+docker-compose.worker.phase32.yml:5:    image: mbhq-worker:phase32
+docker-compose.worker.phase32.yml:7:      - ./server/worker:/app/server/worker:ro
+docker-compose.worker.phase32.yml:20:  workerB:
+docker-compose.worker.phase32.yml:23:    image: mbhq-worker:phase32
+docker-compose.worker.phase32.yml:25:      - ./server/worker:/app/server/worker:ro
+docker-compose.phase54.enforce.override.yml:8:  workerA:
+docker-compose.phase54.enforce.override.yml:13:  workerB:
+docker-compose.phase54.shadow.override.yml:7:  workerA:
+docker-compose.phase54.shadow.override.yml:12:  workerB:
+docker-compose.phase57.shadow.env.override.yml:6:  workerA:
+docker-compose.phase57.shadow.env.override.yml:10:  workerB:
+docker-compose.phase47.enforce.override.yml:2:  workerA:
+docker-compose.phase47.enforce.override.yml:6:  workerB:
+
+== Active dockerfile references ==
+docker-compose.yml:18:      dockerfile: Dockerfile.dashboard
+docker-compose.worker.phase34.yml:5:      dockerfile: Dockerfile.worker
+docker-compose.worker.phase34.yml:41:      dockerfile: Dockerfile.worker
+docker-compose.workers.yml:5:      dockerfile: Dockerfile.worker
+docker-compose.workers.yml:40:      dockerfile: Dockerfile.worker
+
+== Dashboard helper scripts that rebuild or restore containers ==
+scripts/_local/phase65b_metric_ownership_smoke.sh:25:docker compose build dashboard
+scripts/_local/phase65b_metric_ownership_smoke.sh:26:docker compose up -d dashboard
+scripts/_local/phase63_live_http_probe.sh:7:docker compose build --no-cache dashboard
+scripts/_local/phase63_live_http_probe.sh:8:docker compose up -d --force-recreate dashboard
+scripts/_local/phase63_live_http_probe.sh:29:docker compose logs dashboard --tail=120
+scripts/_local/phase80_operational_closeout.sh:40:docker compose build dashboard
+scripts/_local/phase80_operational_closeout.sh:44:docker compose up -d dashboard
+scripts/_local/verify_phase61_layout_contract_locked_checkpoint.sh:19:docker compose ps dashboard
+scripts/_local/phase61_5_5q_truthful_agent_status_from_named_ops_events.sh:155:docker compose build dashboard --no-cache
+scripts/_local/phase62_consolidate_metrics_css.sh:115:docker compose build --no-cache dashboard
+scripts/_local/phase62_consolidate_metrics_css.sh:116:docker compose up -d --force-recreate dashboard
+scripts/_local/verify_phase61_exact_current_state_checkpoint.sh:18:docker compose ps dashboard
+scripts/_local/phase62_refine_metrics_tiles.sh:123:docker compose build dashboard
+scripts/_local/phase62_refine_metrics_tiles.sh:124:docker compose up -d dashboard
+scripts/_local/container_authority_map_audit.sh:17:  echo "== Dockerfiles in repo root =="
+scripts/_local/container_authority_map_audit.sh:19:    \( -name 'Dockerfile*' -o -name 'Containerfile*' \) \
+scripts/_local/container_authority_map_audit.sh:36:  rg -n 'docker compose .*dashboard|docker-compose .*dashboard|docker load|docker save|Dockerfile.dashboard|Dockerfile' \
+scripts/_local/container_authority_map_audit.sh:41:  rg -n 'docker compose|docker-compose|Dockerfile|dockerfile:' .github/workflows scripts 2>/dev/null || true
+scripts/_local/container_authority_map_audit.sh:45:  echo "Do not modify Dockerfile or compose topology until the authority file is confirmed."
+scripts/_local/phase64_agent_activity_probe.sh:22:    docker compose port dashboard 3000 || true
+scripts/_local/phase64_agent_activity_probe.sh:25:    docker compose logs --tail=120 dashboard || true
+scripts/_local/post_phase95_container_reconciliation_audit.sh:20:  ls -1 Dockerfile docker-compose.yml .dockerignore 2>/dev/null || true
+scripts/_local/post_phase95_container_reconciliation_audit.sh:23:  echo "== Dockerfile =="
+scripts/_local/post_phase95_container_reconciliation_audit.sh:24:  sed -n '1,240p' Dockerfile 2>/dev/null || true
+scripts/_local/post_phase95_container_reconciliation_audit.sh:41:    'docker|Dockerfile|docker-compose|compose' . || true
+scripts/_local/phase64_4_rebuild_and_verify_task_events_writer_hotfix.sh:13:docker compose build dashboard
+scripts/_local/phase64_4_rebuild_and_verify_task_events_writer_hotfix.sh:14:docker compose up -d dashboard
+scripts/_local/phase65b_running_tasks_smoke.sh:40:docker compose build dashboard
+scripts/_local/phase65b_running_tasks_smoke.sh:41:docker compose up -d dashboard
+scripts/_local/phase65b_running_tasks_smoke.sh:45:docker compose ps dashboard
+scripts/_local/phase65b_metric_agents_ownership_smoke.sh:30:docker compose build dashboard
+scripts/_local/phase65b_metric_agents_ownership_smoke.sh:31:docker compose up -d dashboard
+scripts/_local/patch_dockerfile_copy_public.py:4:CANDIDATES = ["Dockerfile.dashboard", "Dockerfile"]
+scripts/_local/patch_dockerfile_copy_public.py:47:    print("ERROR: No Dockerfile.dashboard or Dockerfile found.", file=sys.stderr)
+scripts/smoke/phase35_epoch_owner_proof.zsh:50:if docker compose ps -q dashboard >/dev/null 2>&1 && [[ -n "$(docker compose ps -q dashboard)" ]]; then
+scripts/smoke/phase35_epoch_owner_proof.zsh:53:  docker compose up -d --no-deps dashboard >/dev/null
+scripts/_local/phase65_5_post_patch_verify.sh:24:  docker compose ps dashboard || true
+scripts/_local/phase64_4_rebuild_and_verify_task_events_sse_writer_dedupe_signature_agnostic.sh:8:docker compose build dashboard
+scripts/_local/phase64_4_rebuild_and_verify_task_events_sse_writer_dedupe_signature_agnostic.sh:9:docker compose up -d dashboard
+scripts/_local/phase64_4_rebuild_and_verify_task_events_sse_writer_dedupe_signature_agnostic.sh:17:docker compose logs --tail=120 dashboard
+scripts/_local/phase64_4_rebuild_and_verify_task_events_hotfix.sh:13:docker compose build dashboard
+scripts/_local/phase64_4_rebuild_and_verify_task_events_hotfix.sh:14:docker compose up -d dashboard
+scripts/_local/phase62_promote_metric_values.sh:142:docker compose build dashboard
+scripts/_local/phase62_promote_metric_values.sh:143:docker compose up -d dashboard
+scripts/_local/phase64_4_rebuild_and_verify_task_events_sse_writer_dedupe_minimal.sh:8:docker compose build dashboard
+scripts/_local/phase64_4_rebuild_and_verify_task_events_sse_writer_dedupe_minimal.sh:9:docker compose up -d dashboard
+scripts/_local/phase64_4_rebuild_and_verify_task_events_sse_writer_dedupe_minimal.sh:17:docker compose logs --tail=120 dashboard
+scripts/_local/phase64_4_restore_after_safe_dedupe_regression.sh:12:docker compose build dashboard
+scripts/_local/phase64_4_restore_after_safe_dedupe_regression.sh:13:docker compose up -d dashboard
+scripts/_local/phase64_4_restore_after_safe_dedupe_regression.sh:21:docker compose logs --tail=120 dashboard
+scripts/_local/restore_phase61_layout_contract_locked_checkpoint.sh:12:docker load -i "$ARCHIVE_PATH"
+scripts/_local/restore_phase61_layout_contract_locked_checkpoint.sh:15:docker compose rm -sf dashboard || true
+scripts/_local/restore_phase61_layout_contract_locked_checkpoint.sh:16:docker compose up -d --no-build dashboard
+scripts/_local/restore_phase61_layout_contract_locked_checkpoint.sh:17:docker compose ps dashboard
+scripts/_local/operator_guidance.sh:18:  docker compose ps dashboard 2>/dev/null | grep -q "Up"
+scripts/_local/phase61_restore_stable_dashboard_image.sh:12:docker load -i "$ARCHIVE"
+scripts/_local/phase61_restore_stable_dashboard_image.sh:16:docker compose rm -sf dashboard || true
+scripts/_local/phase61_restore_stable_dashboard_image.sh:17:docker compose up -d --no-build dashboard
+scripts/_local/phase61_restore_stable_dashboard_image.sh:20:docker compose ps dashboard
+scripts/_local/phase65_3_metrics_runtime_verify.sh:8:  docker compose ps -q dashboard 2>/dev/null || true
+scripts/_local/phase65_3_metrics_runtime_verify.sh:13:  mapped="$(docker compose port dashboard 3000 2>/dev/null | tail -n 1 || true)"
+scripts/_local/phase65_3_metrics_runtime_verify.sh:100:  docker compose build dashboard
+scripts/_local/phase65_3_metrics_runtime_verify.sh:101:  docker compose up -d dashboard
+scripts/_local/phase65_3_metrics_runtime_verify.sh:105:  docker compose ps dashboard || true
+scripts/_local/phase61_rebuild_dashboard_from_current_source.sh:6:docker compose build dashboard
+scripts/_local/phase61_rebuild_dashboard_from_current_source.sh:7:docker compose up -d dashboard
+scripts/_local/phase61_rebuild_dashboard_from_current_source.sh:8:docker compose ps dashboard
+scripts/_local/phase61_checkpoint_exact_current_state.sh:17:docker save -o "$ARCHIVE_PATH" "$IMAGE_FROZEN"
+scripts/_local/phase64_4_restore_task_events_sse_after_bad_hotfix.sh:9:docker compose build dashboard
+scripts/_local/phase64_4_restore_task_events_sse_after_bad_hotfix.sh:10:docker compose up -d dashboard
+scripts/_local/phase64_4_restore_task_events_sse_after_bad_hotfix.sh:18:docker compose logs --tail=120 dashboard
+scripts/_local/post_golden_protection_audit.sh:29:    \( -name 'Dockerfile' -o -name 'docker-compose.yml' -o -name 'docker-compose.yaml' -o -name 'compose.yml' -o -name 'compose.yaml' -o -name '.dockerignore' \) \
+scripts/_local/restore_phase61_exact_current_state.sh:12:docker load -i "$ARCHIVE_PATH"
+scripts/_local/restore_phase61_exact_current_state.sh:15:docker compose rm -sf dashboard || true
+scripts/_local/restore_phase61_exact_current_state.sh:16:docker compose up -d --no-build dashboard
+scripts/_local/restore_phase61_exact_current_state.sh:17:docker compose ps dashboard
+scripts/_local/phase61_safe_dashboard_cycle.sh:27:docker compose build dashboard
+scripts/_local/phase61_safe_dashboard_cycle.sh:30:docker compose up -d dashboard
+scripts/_local/restore_recovered_stable_dashboard_checkpoint.sh:11:docker load -i "$ARCHIVE_PATH"
+scripts/_local/restore_recovered_stable_dashboard_checkpoint.sh:14:docker compose rm -sf dashboard || true
+scripts/_local/restore_recovered_stable_dashboard_checkpoint.sh:15:docker compose up -d --no-build dashboard
+scripts/_local/restore_recovered_stable_dashboard_checkpoint.sh:16:docker compose ps dashboard
+scripts/_local/phase65c_success_metric_smoke.sh:30:docker compose build dashboard
+scripts/_local/phase65c_success_metric_smoke.sh:31:docker compose up -d dashboard
+scripts/_local/phase65c_success_metric_smoke.sh:34:docker compose ps dashboard
+scripts/_local/phase65_6_restore_layout_from_v63.sh:24:docker compose build dashboard
+scripts/_local/phase65_6_restore_layout_from_v63.sh:25:docker compose up -d dashboard
+scripts/_local/phase65_6_restore_layout_from_v63.sh:29:docker compose ps dashboard || true
+scripts/_local/phase65_4_patch_shared_metrics_bootstrap.sh:124:docker compose build dashboard
+scripts/_local/phase65_4_patch_shared_metrics_bootstrap.sh:125:docker compose up -d dashboard
+scripts/_local/phase65b_metric_ownership_smoke.sh:25:docker compose build dashboard
+scripts/_local/phase65b_metric_ownership_smoke.sh:26:docker compose up -d dashboard
+scripts/_local/post_phase95_container_reconciliation_audit.sh:20:  ls -1 Dockerfile docker-compose.yml .dockerignore 2>/dev/null || true
+scripts/_local/post_phase95_container_reconciliation_audit.sh:23:  echo "== Dockerfile =="
+scripts/_local/post_phase95_container_reconciliation_audit.sh:24:  sed -n '1,240p' Dockerfile 2>/dev/null || true
+scripts/_local/post_phase95_container_reconciliation_audit.sh:41:    'docker|Dockerfile|docker-compose|compose' . || true
+scripts/phase88_14_13_container_runtime_protection_pass.sh:19:DOCKERFILE_PATH="$(find_first './Dockerfile' './docker/Dockerfile' './server/Dockerfile' || true)"
+scripts/phase88_14_13_container_runtime_protection_pass.sh:28:  echo "Dockerfile: ${DOCKERFILE_PATH:-NOT_FOUND}"
+scripts/phase88_14_13_container_runtime_protection_pass.sh:51:    echo "SKIPPED: No Dockerfile found"
+scripts/_local/phase65_5_post_patch_verify.sh:24:  docker compose ps dashboard || true
+scripts/_local/phase61_restore_stable_dashboard_image.sh:12:docker load -i "$ARCHIVE"
+scripts/_local/phase61_restore_stable_dashboard_image.sh:16:docker compose rm -sf dashboard || true
+scripts/_local/phase61_restore_stable_dashboard_image.sh:17:docker compose up -d --no-build dashboard
+scripts/_local/phase61_restore_stable_dashboard_image.sh:20:docker compose ps dashboard
+scripts/_local/phase61_checkpoint_exact_current_state.sh:17:docker save -o "$ARCHIVE_PATH" "$IMAGE_FROZEN"
+scripts/ci_demo_hardening_smoke.sh:38:    docker compose "${COMPOSE_FILES[@]}" logs --no-color --tail=200 dashboard || true
+scripts/phase88_14_12_tag_protection_and_phase89_alignment.sh:13:if find . -maxdepth 3 \( -iname 'Dockerfile' -o -iname 'docker-compose*.yml' -o -iname 'docker-compose*.yaml' -o -iname 'Containerfile' \) | grep -q .; then
+scripts/phase88_14_12_tag_protection_and_phase89_alignment.sh:17:if find . -maxdepth 3 -iname 'Dockerfile' | grep -q .; then
+scripts/phase88_14_12_tag_protection_and_phase89_alignment.sh:43:  echo "Dockerfiles present: $HAS_DOCKER"
+scripts/_local/phase65c_latency_metric_smoke.sh:31:docker compose build dashboard
+scripts/_local/phase65c_latency_metric_smoke.sh:32:docker compose up -d dashboard
+scripts/_local/phase65c_latency_metric_smoke.sh:35:docker compose ps dashboard
+scripts/phase57_snapshot_smoke.sh:109:  code="$(docker compose exec -T dashboard sh -lc 'curl -sS -o /dev/null -w "%{http_code}" http://127.0.0.1:3000/api/health || true')"
+scripts/phase57_snapshot_smoke.sh:125:  docker compose "${COMPOSE_FILES[@]}" logs --tail=200 dashboard workerA workerB postgres || true
+scripts/phase16_proofpack_connect_guard.sh:22:docker compose logs --tail=200 dashboard | rg -n "Cannot set properties of null|TypeError|dashboard-status|onopen" && exit 1 || echo "✅ clean"
+scripts/db/inspect-dashboard-db-env.sh:7:docker-compose exec dashboard sh -c '
+scripts/_local/phase62_compact_metrics_grid.sh:89:docker compose build dashboard
+scripts/_local/phase62_compact_metrics_grid.sh:90:docker compose up -d dashboard
+scripts/_local/phase62_compact_metrics_grid.sh:89:docker compose build dashboard
+scripts/_local/phase62_compact_metrics_grid.sh:90:docker compose up -d dashboard
+scripts/_local/phase65c_success_metric_smoke.sh:30:docker compose build dashboard
+scripts/_local/phase65c_success_metric_smoke.sh:31:docker compose up -d dashboard
+scripts/_local/phase65c_success_metric_smoke.sh:34:docker compose ps dashboard
+scripts/_local/phase61_safe_dashboard_cycle.sh:27:docker compose build dashboard
+scripts/_local/phase61_safe_dashboard_cycle.sh:30:docker compose up -d dashboard
+scripts/_local/phase64_agent_activity_probe.sh:22:    docker compose port dashboard 3000 || true
+scripts/_local/phase64_agent_activity_probe.sh:25:    docker compose logs --tail=120 dashboard || true
+scripts/_local/patch_dockerfile_copy_public.py:4:CANDIDATES = ["Dockerfile.dashboard", "Dockerfile"]
+scripts/_local/patch_dockerfile_copy_public.py:47:    print("ERROR: No Dockerfile.dashboard or Dockerfile found.", file=sys.stderr)
+scripts/_local/restore_phase61_exact_current_state.sh:12:docker load -i "$ARCHIVE_PATH"
+scripts/_local/restore_phase61_exact_current_state.sh:15:docker compose rm -sf dashboard || true
+scripts/_local/restore_phase61_exact_current_state.sh:16:docker compose up -d --no-build dashboard
+scripts/_local/restore_phase61_exact_current_state.sh:17:docker compose ps dashboard
+scripts/_local/phase65b_running_tasks_smoke.sh:40:docker compose build dashboard
+scripts/_local/phase65b_running_tasks_smoke.sh:41:docker compose up -d dashboard
+scripts/_local/phase65b_running_tasks_smoke.sh:45:docker compose ps dashboard
+scripts/_local/phase62_consolidate_metrics_css.sh:115:docker compose build --no-cache dashboard
+scripts/_local/phase62_consolidate_metrics_css.sh:116:docker compose up -d --force-recreate dashboard
+scripts/_local/phase61_5_5q_truthful_agent_status_from_named_ops_events.sh:155:docker compose build dashboard --no-cache
+scripts/_local/container_authority_map_audit.sh:17:  echo "== Dockerfiles in repo root =="
+scripts/_local/container_authority_map_audit.sh:19:    \( -name 'Dockerfile*' -o -name 'Containerfile*' \) \
+scripts/_local/container_authority_map_audit.sh:36:  rg -n 'docker compose .*dashboard|docker-compose .*dashboard|docker load|docker save|Dockerfile.dashboard|Dockerfile' \
+scripts/_local/container_authority_map_audit.sh:41:  rg -n 'docker compose|docker-compose|Dockerfile|dockerfile:' .github/workflows scripts 2>/dev/null || true
+scripts/_local/container_authority_map_audit.sh:45:  echo "Do not modify Dockerfile or compose topology until the authority file is confirmed."
+scripts/_local/phase64_4_rebuild_and_verify_task_events_writer_hotfix.sh:13:docker compose build dashboard
+scripts/_local/phase64_4_rebuild_and_verify_task_events_writer_hotfix.sh:14:docker compose up -d dashboard
+scripts/_local/verify_phase61_exact_current_state_checkpoint.sh:18:docker compose ps dashboard
+scripts/_local/phase65_4_patch_shared_metrics_bootstrap.sh:124:docker compose build dashboard
+scripts/_local/phase65_4_patch_shared_metrics_bootstrap.sh:125:docker compose up -d dashboard
+scripts/_local/phase64_4_rebuild_and_verify_task_events_hotfix.sh:13:docker compose build dashboard
+scripts/_local/phase64_4_rebuild_and_verify_task_events_hotfix.sh:14:docker compose up -d dashboard
+scripts/_local/phase63_live_http_probe.sh:7:docker compose build --no-cache dashboard
+scripts/_local/phase63_live_http_probe.sh:8:docker compose up -d --force-recreate dashboard
+scripts/_local/phase63_live_http_probe.sh:29:docker compose logs dashboard --tail=120
+scripts/_local/verify_phase61_layout_contract_locked_checkpoint.sh:19:docker compose ps dashboard
+scripts/_local/phase80_operational_closeout.sh:40:docker compose build dashboard
+scripts/_local/phase80_operational_closeout.sh:44:docker compose up -d dashboard
+scripts/_local/phase64_4_restore_after_safe_dedupe_regression.sh:12:docker compose build dashboard
+scripts/_local/phase64_4_restore_after_safe_dedupe_regression.sh:13:docker compose up -d dashboard
+scripts/_local/phase64_4_restore_after_safe_dedupe_regression.sh:21:docker compose logs --tail=120 dashboard
+scripts/_local/phase62_promote_metric_values.sh:142:docker compose build dashboard
+scripts/_local/phase62_promote_metric_values.sh:143:docker compose up -d dashboard
+scripts/_local/phase64_4_rebuild_and_verify_task_events_sse_writer_dedupe_signature_agnostic.sh:8:docker compose build dashboard
+scripts/_local/phase64_4_rebuild_and_verify_task_events_sse_writer_dedupe_signature_agnostic.sh:9:docker compose up -d dashboard
+scripts/_local/phase64_4_rebuild_and_verify_task_events_sse_writer_dedupe_signature_agnostic.sh:17:docker compose logs --tail=120 dashboard
+scripts/_local/phase61_rebuild_dashboard_from_current_source.sh:6:docker compose build dashboard
+scripts/_local/phase61_rebuild_dashboard_from_current_source.sh:7:docker compose up -d dashboard
+scripts/_local/phase61_rebuild_dashboard_from_current_source.sh:8:docker compose ps dashboard
+scripts/_local/phase65_3_metrics_runtime_verify.sh:8:  docker compose ps -q dashboard 2>/dev/null || true
+scripts/_local/phase65_3_metrics_runtime_verify.sh:13:  mapped="$(docker compose port dashboard 3000 2>/dev/null | tail -n 1 || true)"
+scripts/_local/phase65_3_metrics_runtime_verify.sh:100:  docker compose build dashboard
+scripts/_local/phase65_3_metrics_runtime_verify.sh:101:  docker compose up -d dashboard
+scripts/_local/phase65_3_metrics_runtime_verify.sh:105:  docker compose ps dashboard || true
+scripts/_local/restore_phase61_layout_contract_locked_checkpoint.sh:12:docker load -i "$ARCHIVE_PATH"
+scripts/_local/restore_phase61_layout_contract_locked_checkpoint.sh:15:docker compose rm -sf dashboard || true
+scripts/_local/restore_phase61_layout_contract_locked_checkpoint.sh:16:docker compose up -d --no-build dashboard
+scripts/_local/restore_phase61_layout_contract_locked_checkpoint.sh:17:docker compose ps dashboard
+scripts/_local/phase64_4_rebuild_and_verify_task_events_sse_writer_dedupe_minimal.sh:8:docker compose build dashboard
+scripts/_local/phase64_4_rebuild_and_verify_task_events_sse_writer_dedupe_minimal.sh:9:docker compose up -d dashboard
+scripts/_local/phase64_4_rebuild_and_verify_task_events_sse_writer_dedupe_minimal.sh:17:docker compose logs --tail=120 dashboard
+scripts/_local/restore_recovered_stable_dashboard_checkpoint.sh:11:docker load -i "$ARCHIVE_PATH"
+scripts/_local/restore_recovered_stable_dashboard_checkpoint.sh:14:docker compose rm -sf dashboard || true
+scripts/_local/restore_recovered_stable_dashboard_checkpoint.sh:15:docker compose up -d --no-build dashboard
+scripts/_local/restore_recovered_stable_dashboard_checkpoint.sh:16:docker compose ps dashboard
+scripts/_local/phase65b_metric_agents_ownership_smoke.sh:30:docker compose build dashboard
+scripts/_local/phase65b_metric_agents_ownership_smoke.sh:31:docker compose up -d dashboard
+scripts/_local/operator_guidance.sh:18:  docker compose ps dashboard 2>/dev/null | grep -q "Up"
+scripts/_local/phase65c_latency_metric_smoke.sh:31:docker compose build dashboard
+scripts/_local/phase65c_latency_metric_smoke.sh:32:docker compose up -d dashboard
+scripts/_local/phase65c_latency_metric_smoke.sh:35:docker compose ps dashboard
+scripts/_local/post_golden_protection_audit.sh:29:    \( -name 'Dockerfile' -o -name 'docker-compose.yml' -o -name 'docker-compose.yaml' -o -name 'compose.yml' -o -name 'compose.yaml' -o -name '.dockerignore' \) \
+scripts/_local/phase62_refine_metrics_tiles.sh:123:docker compose build dashboard
+scripts/_local/phase62_refine_metrics_tiles.sh:124:docker compose up -d dashboard
+scripts/_local/phase64_4_restore_task_events_sse_after_bad_hotfix.sh:9:docker compose build dashboard
+scripts/_local/phase64_4_restore_task_events_sse_after_bad_hotfix.sh:10:docker compose up -d dashboard
+scripts/_local/phase64_4_restore_task_events_sse_after_bad_hotfix.sh:18:docker compose logs --tail=120 dashboard
+scripts/_local/phase65_6_restore_layout_from_v63.sh:24:docker compose build dashboard
+scripts/_local/phase65_6_restore_layout_from_v63.sh:25:docker compose up -d dashboard
+scripts/_local/phase65_6_restore_layout_from_v63.sh:29:docker compose ps dashboard || true
+
+== CI files referencing compose ==
+.github/workflows/ci-phase57-snapshot.yml:22:        run: docker compose version
+.github/workflows/ci-phase57-snapshot.yml:27:          docker compose down --remove-orphans -v || true
+.github/workflows/ci-phase57-snapshot.yml:38:          docker compose up -d --build
+.github/workflows/ci-phase57-snapshot.yml:63:          docker compose ps || true
+.github/workflows/ci-phase57-snapshot.yml:64:          docker compose logs --no-color --timestamps | tail -n 400 || true
+.github/workflows/ci.yml:23:        run: docker compose up --build -d
+scripts/phase19_tasks_postgres_doctor.sh:20:PG_CID="$(docker compose ps -q postgres 2>/dev/null | head -n 1 || true)"
+scripts/phase19_tasks_postgres_doctor.sh:26:  echo "No running Postgres container found. Start it first (docker compose up -d)."
+scripts/phase19_tasks_postgres_doctor.sh:40:  echo "Selected Postgres container is not running. Start it first (docker compose up -d)."
+.github/workflows/phase54_regression.yml:20:        run: docker compose version
+scripts/debug/phase35_triage.zsh:9:COMPOSE_FILE="${COMPOSE_FILE:-docker-compose.worker.phase34.yml}"
+scripts/debug/phase35_triage.zsh:24:docker compose -p "$P_WORKERS" -f "$COMPOSE_FILE" config >/dev/null
+scripts/debug/phase35_triage.zsh:25:docker compose -p "$P_WORKERS" -f "$COMPOSE_FILE" config --services
+scripts/debug/phase35_triage.zsh:27:docker compose -p "$P_WORKERS" -f "$COMPOSE_FILE" config | rg -n '(image:|build:|POSTGRES_URL|WORKER_OWNER|PHASE(26|27|32|34|35)_(CLAIM_ONE_SQL|MARK_SUCCESS_SQL|MARK_FAILURE_SQL|HEARTBEAT|RECLAIM)|LEASE|EPOCH|OWNER)' || true
+scripts/debug/phase35_triage.zsh:30:docker compose -p "$P_WORKERS" -f "$COMPOSE_FILE" down -v --remove-orphans || true
+scripts/debug/phase35_triage.zsh:31:docker compose -p "$P_WORKERS" -f "$COMPOSE_FILE" up -d --remove-orphans
+scripts/debug/phase35_triage.zsh:34:for svc in $(docker compose -p "$P_WORKERS" -f "$COMPOSE_FILE" config --services); do
+scripts/debug/phase35_triage.zsh:37:  docker compose -p "$P_WORKERS" -f "$COMPOSE_FILE" logs --no-color --tail=260 "$svc" || true
+scripts/debug/phase35_triage.zsh:73:for svc in $(docker compose -p "$P_WORKERS" -f "$COMPOSE_FILE" config --services); do
+scripts/debug/phase35_triage.zsh:76:  docker compose -p "$P_WORKERS" -f "$COMPOSE_FILE" logs --no-color "$svc" \
+scripts/debug/phase35_worker_no_complete_probe.zsh:16:      -name 'docker-compose*.yml' -o -name 'docker-compose*.yaml' -o \
+scripts/debug/phase35_worker_no_complete_probe.zsh:81:docker compose -p "$P_WORKERS" -f "$COMPOSE_FILE" config --services
+scripts/debug/phase35_worker_no_complete_probe.zsh:83:docker compose -p "$P_WORKERS" -f "$COMPOSE_FILE" config | rg -n '(POSTGRES_URL|PHASE(26|27|28|34|35)_(CLAIM_ONE_SQL|MARK_SUCCESS_SQL|MARK_FAILURE_SQL)|LEASE|EPOCH|OWNER|WORKER_)' || true
+scripts/debug/phase35_worker_no_complete_probe.zsh:86:docker compose -p "$P_WORKERS" -f "$COMPOSE_FILE" down -v --remove-orphans || true
+scripts/debug/phase35_worker_no_complete_probe.zsh:87:docker compose -p "$P_WORKERS" -f "$COMPOSE_FILE" up -d --remove-orphans
+scripts/debug/phase35_worker_no_complete_probe.zsh:91:while IFS= read -r s; do services+=("$s"); done < <(docker compose -p "$P_WORKERS" -f "$COMPOSE_FILE" config --services)
+scripts/debug/phase35_worker_no_complete_probe.zsh:95:  docker compose -p "$P_WORKERS" -f "$COMPOSE_FILE" exec -T "$svc" sh -lc '
+scripts/debug/phase35_worker_no_complete_probe.zsh:105:  docker compose -p "$P_WORKERS" -f "$COMPOSE_FILE" logs --no-color --tail=320 "$svc" || true
+scripts/debug/phase35_worker_no_complete_probe.zsh:151:    docker compose -p "$P_WORKERS" -f "$COMPOSE_FILE" logs --no-color "$svc" \
+scripts/phase11_v11.10_rebuild_dashboard.sh:6:docker-compose down
+scripts/phase11_v11.10_rebuild_dashboard.sh:8:docker-compose up --build -d
+scripts/phase11_v11.10_rebuild_dashboard.sh:9:docker-compose ps
+scripts/worker_logs.sh:8:COMPOSE="docker-compose.workers.yml"
+scripts/worker_logs.sh:15:docker compose -p "$P" -f "$COMPOSE" logs -f --tail=200
+scripts/phase11_v11.10_resume.sh:10:docker-compose down
+scripts/phase11_v11.10_resume.sh:11:docker-compose up --build -d
+.github/workflows/ci-demo-hardening-smoke.yml:20:          docker compose version
+scripts/README-workers.md:3:This repo supports running task workers as a separate docker-compose project ("worker lane") that connects to the main stack's external network.
+scripts/README-workers.md:7:- docker compose -p motherboard_systems_hq up -d
+scripts/phase11_delegate_task_curl.sh:22:echo "🔹 Showing recent docker-compose logs (last 50 lines)..."
+scripts/phase11_delegate_task_curl.sh:25:docker-compose logs --tail=50
+scripts/phase41_tierA_claim_gate_smoke.sh:9:DC_FILE="${DC_FILE:-docker-compose.worker.phase32.yml}"
+scripts/phase41_tierA_claim_gate_smoke.sh:12:docker compose -f "$DC_FILE" up -d
+scripts/build_dashboard_bundle.sh:12:docker compose build
+scripts/build_dashboard_bundle.sh:15:docker compose up -d
+scripts/phase46_crash_snapshot.sh:7:COMPOSE="docker compose -f docker-compose.yml -f docker-compose.workers.yml"
+scripts/phase54_regression_harness.sh:6:  -f docker-compose.yml
+scripts/phase54_regression_harness.sh:7:  -f docker-compose.workers.yml
+scripts/phase54_regression_harness.sh:8:  -f docker-compose.phase54.postgres_bootstrap.override.yml
+scripts/phase54_regression_harness.sh:9:  -f docker-compose.phase47.postgres_url.override.yml
+scripts/phase54_regression_harness.sh:10:  -f docker-compose.phase54.postgres_bootstrap.override.yml
+scripts/phase54_regression_harness.sh:12:DC() { docker compose "${COMPOSE_FILES[@]}" "$@"; }
+scripts/phase54_regression_harness.sh:23:  DC -f docker-compose.yml -f docker-compose.workers.yml down --remove-orphans >/dev/null 2>&1 || true
+scripts/phase54_regression_harness.sh:57:    DC -f docker-compose.yml -f docker-compose.workers.yml -f docker-compose.phase54.shadow.override.yml -f docker-compose.phase47.postgres_url.override.yml up -d --build
+scripts/phase54_regression_harness.sh:59:    DC -f docker-compose.yml -f docker-compose.workers.yml -f docker-compose.phase54.enforce.override.yml -f docker-compose.phase47.postgres_url.override.yml up -d --build
+scripts/phase54_regression_harness.sh:92:  id="$(docker compose ps -q postgres 2>/dev/null || true)"
+scripts/phase54_regression_harness.sh:218:  echo "=== Phase 54 debug: docker compose ps ==="
+scripts/phase45_1_up.sh:7:COMPOSE_ARGS=(-f docker-compose.yml)
+scripts/phase45_1_up.sh:10:if [[ -f docker-compose.workers.yml ]]; then
+scripts/phase45_1_up.sh:11:  COMPOSE_ARGS+=(-f docker-compose.workers.yml)
+scripts/phase45_1_up.sh:15:COMPOSE_ARGS+=(-f docker-compose.phase45_1.startup_determinism.yml)
+scripts/phase45_1_up.sh:21:docker compose "${COMPOSE_ARGS[@]}" up -d --build
+scripts/phase14_2_verify_task_contract.sh:27:docker compose down || true
+scripts/phase14_2_verify_task_contract.sh:28:docker compose up -d --build
+scripts/phase88_14_13_container_runtime_protection_pass.sh:19:DOCKERFILE_PATH="$(find_first './Dockerfile' './docker/Dockerfile' './server/Dockerfile' || true)"
+scripts/phase88_14_13_container_runtime_protection_pass.sh:20:COMPOSE_PATH="$(find_first './docker-compose.yml' './docker-compose.yaml' './docker-compose*.yml' './docker-compose*.yaml' || true)"
+scripts/phase88_14_13_container_runtime_protection_pass.sh:28:  echo "Dockerfile: ${DOCKERFILE_PATH:-NOT_FOUND}"
+scripts/phase88_14_13_container_runtime_protection_pass.sh:51:    echo "SKIPPED: No Dockerfile found"
+scripts/phase88_14_13_container_runtime_protection_pass.sh:57:    docker compose -f "$COMPOSE_PATH" config >/dev/null
+scripts/phase88_14_13_container_runtime_protection_pass.sh:62:    docker compose -f "$COMPOSE_PATH" build 2>&1 | tee -a "$BOOT_LOG"
+scripts/db/create-postgres-role.sh:6:docker-compose exec postgres sh -c "
+scripts/db/inspect-postgres.sh:4:echo "🔎 Inspecting Postgres env + roles inside docker-compose 'postgres' service..."
+scripts/db/inspect-postgres.sh:7:docker-compose exec postgres bash -lc '
+scripts/phase57_ci_bootstrap.sh:6:docker compose up -d postgres
+scripts/smoke/phase35_epoch_owner_proof.zsh:7:PSQL_BASE=(docker compose exec -T postgres psql -U postgres -d postgres -v ON_ERROR_STOP=1 -q -X -P pager=off)
+scripts/smoke/phase35_epoch_owner_proof.zsh:13:: "${WORKER_COMPOSE_BASE:=docker-compose.worker.phase32.yml}"
+scripts/smoke/phase35_epoch_owner_proof.zsh:14:: "${WORKER_COMPOSE_OVERRIDE:=docker-compose.worker.phase34.yml}"
+scripts/smoke/phase35_epoch_owner_proof.zsh:34:docker compose up -d postgres >/dev/null
+scripts/smoke/phase35_epoch_owner_proof.zsh:36:  if docker compose exec -T postgres pg_isready -U postgres >/dev/null 2>&1; then
+scripts/smoke/phase35_epoch_owner_proof.zsh:42:docker compose exec -T postgres pg_isready -U postgres >/dev/null 2>&1 || {
+scripts/smoke/phase35_epoch_owner_proof.zsh:44:  docker compose ps -a || true
+scripts/smoke/phase35_epoch_owner_proof.zsh:45:  docker compose logs --no-color --tail=120 postgres || true
+scripts/smoke/phase35_epoch_owner_proof.zsh:48:docker compose -p "$WORKER_PROJECT" -f "$WORKER_COMPOSE_BASE" -f "$WORKER_COMPOSE_OVERRIDE" down --remove-orphans >/dev/null 2>&1 || true
+scripts/smoke/phase35_epoch_owner_proof.zsh:50:if docker compose ps -q dashboard >/dev/null 2>&1 && [[ -n "$(docker compose ps -q dashboard)" ]]; then
+scripts/smoke/phase35_epoch_owner_proof.zsh:53:  docker compose up -d --no-deps dashboard >/dev/null
+scripts/smoke/phase35_epoch_owner_proof.zsh:150:docker compose -p "$WORKER_PROJECT" -f "$WORKER_COMPOSE_BASE" -f "$WORKER_COMPOSE_OVERRIDE" config >/dev/null
+scripts/smoke/phase35_epoch_owner_proof.zsh:151:docker compose -p "$WORKER_PROJECT" -f "$WORKER_COMPOSE_BASE" -f "$WORKER_COMPOSE_OVERRIDE" up -d >/dev/null
+scripts/phase46_task_events_sse_smoke.sh:12:docker compose up -d --build >/dev/null
+scripts/_local/phase65b_metric_ownership_smoke.sh:25:docker compose build dashboard
+scripts/_local/phase65b_metric_ownership_smoke.sh:26:docker compose up -d dashboard
+scripts/db/create-dashboard-db.sh:6:docker-compose exec postgres sh -c '
+scripts/smoke/phase34_reclaim_proof.zsh:5:docker compose -f docker-compose.worker.phase32.yml -f docker-compose.worker.phase34.yml stop workerA workerB
+scripts/smoke/phase34_reclaim_proof.zsh:73:docker compose -f docker-compose.worker.phase32.yml -f docker-compose.worker.phase34.yml start workerA workerB
+scripts/phase50_smoke_db_writepath_enforce.sh:21:  POSTGRES_URL="$(docker compose config 2>/dev/null | awk '/POSTGRES_URL:/{print $2; exit}' || true)"
+scripts/db/inspect-dashboard-db-env.sh:7:docker-compose exec dashboard sh -c '
+scripts/phase46_shutdown.sh:5:docker compose ps --format json > _diag/phase46/compose_ps_before_shutdown.json 2>/dev/null || true
+scripts/phase46_shutdown.sh:6:docker compose down --remove-orphans
+scripts/phase46_bringup.sh:9:docker compose -f docker-compose.yml -f docker-compose.workers.yml down --remove-orphans >/dev/null 2>&1 || true
+scripts/phase46_bringup.sh:10:docker compose -f docker-compose.yml -f docker-compose.workers.yml up -d --build
+scripts/phase46_bringup.sh:17:  docker compose -f docker-compose.yml -f docker-compose.workers.yml ps || true
+scripts/phase46_recovery_primitives.sh:9:docker compose ps > "${bundle_dir}/compose_ps.txt" || true
+scripts/phase19_apply_postgres_sql_via_container.sh:19:  SVC="$(docker compose config --services 2>/dev/null | rg -n 'postgres' | head -n 1 | sed -E 's/^[0-9]+://')"
+scripts/phase19_apply_postgres_sql_via_container.sh:26:PG_CID="$(docker compose ps -q "$SVC" 2>/dev/null | head -n 1 || true)"
+scripts/phase19_apply_postgres_sql_via_container.sh:29:  echo "hint: docker compose config --services"
+scripts/worker_down.sh:8:COMPOSE="docker-compose.workers.yml"
+scripts/worker_down.sh:15:docker compose -p "$P" -f "$COMPOSE" down
+scripts/worker_up.sh:8:COMPOSE="docker-compose.workers.yml"
+scripts/worker_up.sh:11:  echo "main network missing; bring up main stack first: docker compose -p motherboard_systems_hq up -d" >&2
+scripts/worker_up.sh:20:docker compose -p "$P" -f "$COMPOSE" up -d --scale worker="$N"
+scripts/_local/post_phase95_container_reconciliation_audit.sh:20:  ls -1 Dockerfile docker-compose.yml .dockerignore 2>/dev/null || true
+scripts/_local/post_phase95_container_reconciliation_audit.sh:23:  echo "== Dockerfile =="
+scripts/_local/post_phase95_container_reconciliation_audit.sh:24:  sed -n '1,240p' Dockerfile 2>/dev/null || true
+scripts/_local/post_phase95_container_reconciliation_audit.sh:27:  echo "== docker-compose.yml =="
+scripts/_local/post_phase95_container_reconciliation_audit.sh:28:  sed -n '1,260p' docker-compose.yml 2>/dev/null || true
+scripts/_local/post_phase95_container_reconciliation_audit.sh:41:    'docker|Dockerfile|docker-compose|compose' . || true
+scripts/phase16_proofpack_connect_guard.sh:22:docker compose logs --tail=200 dashboard | rg -n "Cannot set properties of null|TypeError|dashboard-status|onopen" && exit 1 || echo "✅ clean"
+scripts/_local/phase62_consolidate_metrics_css.sh:115:docker compose build --no-cache dashboard
+scripts/_local/phase62_consolidate_metrics_css.sh:116:docker compose up -d --force-recreate dashboard
+scripts/docker-dashboard-up.sh:13:echo "📦 Building dashboard containers via docker-compose..."
+scripts/docker-dashboard-up.sh:14:docker-compose build
+scripts/docker-dashboard-up.sh:17:docker-compose up -d
+scripts/phase33_smoke.sh:31:if [[ -f docker-compose.yml ]]; then
+scripts/phase33_smoke.sh:32:  echo "== docker compose up (best-effort) =="
+scripts/phase33_smoke.sh:34:  docker compose up -d --remove-orphans
+scripts/rebuild-dashboard-matilda.sh:9:docker-compose down
+scripts/rebuild-dashboard-matilda.sh:10:docker-compose up --build -d
+scripts/_local/phase65_5_post_patch_verify.sh:24:  docker compose ps dashboard || true
+scripts/phase47_smoke.sh:19:: "${PGC:?ERROR: postgres container not found (is docker compose up?)}"
+scripts/_local/phase64_agent_activity_probe.sh:22:    docker compose port dashboard 3000 || true
+scripts/_local/phase64_agent_activity_probe.sh:25:    docker compose logs --tail=120 dashboard || true
+scripts/phase14_resume_from_v13_5_7.sh:16:docker compose down || true
+scripts/phase14_resume_from_v13_5_7.sh:17:docker compose up -d --build
+scripts/phase11_complete_task_curl.sh:32:echo "🔹 Showing recent docker-compose logs (last 50 lines)..."
+scripts/phase11_complete_task_curl.sh:35:docker-compose logs --tail=50
+scripts/_local/phase65b_running_tasks_smoke.sh:40:docker compose build dashboard
+scripts/_local/phase65b_running_tasks_smoke.sh:41:docker compose up -d dashboard
+scripts/_local/phase65b_running_tasks_smoke.sh:45:docker compose ps dashboard
+scripts/_local/patch_dockerfile_copy_public.py:4:CANDIDATES = ["Dockerfile.dashboard", "Dockerfile"]
+scripts/_local/patch_dockerfile_copy_public.py:47:    print("ERROR: No Dockerfile.dashboard or Dockerfile found.", file=sys.stderr)
+scripts/phase57_snapshot_smoke.sh:8:  -f docker-compose.yml
+scripts/phase57_snapshot_smoke.sh:9:  -f docker-compose.workers.yml
+scripts/phase57_snapshot_smoke.sh:10:  -f docker-compose.phase47.postgres_url.override.yml
+scripts/phase57_snapshot_smoke.sh:11:  -f docker-compose.phase54.postgres_bootstrap.override.yml
+scripts/phase57_snapshot_smoke.sh:12:  -f docker-compose.phase57.shadow.env.override.yml
+scripts/phase57_snapshot_smoke.sh:13:  -f docker-compose.phase57.shadow.env.override.yml
+scripts/phase57_snapshot_smoke.sh:18:  # If the network does not exist, docker compose will fail hard.
+scripts/phase57_snapshot_smoke.sh:35:PSQL_AT=(docker compose "${COMPOSE_FILES[@]}" exec -T postgres psql -U postgres -d postgres -v ON_ERROR_STOP=1 -At)
+scripts/phase57_snapshot_smoke.sh:36:PSQL_RAW=(docker compose "${COMPOSE_FILES[@]}" exec -T postgres psql -U postgres -d postgres -v ON_ERROR_STOP=1)
+scripts/phase57_snapshot_smoke.sh:42:  docker compose "${COMPOSE_FILES[@]}" ps "$svc" --format json | grep -q '"State":"running"'
+scripts/phase57_snapshot_smoke.sh:51:  docker compose "${COMPOSE_FILES[@]}" up -d --build
+scripts/phase57_snapshot_smoke.sh:71:    docker compose "${COMPOSE_FILES[@]}" down --remove-orphans >/dev/null 2>&1 || true
+scripts/phase57_snapshot_smoke.sh:84:  docker compose "${COMPOSE_FILES[@]}" ps || true
+scripts/phase57_snapshot_smoke.sh:85:  docker compose "${COMPOSE_FILES[@]}" logs --tail=200 || true
+scripts/phase57_snapshot_smoke.sh:109:  code="$(docker compose exec -T dashboard sh -lc 'curl -sS -o /dev/null -w "%{http_code}" http://127.0.0.1:3000/api/health || true')"
+scripts/phase57_snapshot_smoke.sh:125:  docker compose "${COMPOSE_FILES[@]}" logs --tail=200 dashboard workerA workerB postgres || true
+scripts/_local/phase61_restore_stable_dashboard_image.sh:16:docker compose rm -sf dashboard || true
+scripts/_local/phase61_restore_stable_dashboard_image.sh:17:docker compose up -d --no-build dashboard
+scripts/_local/phase61_restore_stable_dashboard_image.sh:20:docker compose ps dashboard
+scripts/_lib/phase48_fix_compose_dashboard_env.py:4:p = Path("docker-compose.yml")
+scripts/phase48_smoke.sh:13:docker compose up -d
+scripts/phase48_enforce_test.sh:16:    env "$k=$v" docker compose up -d --force-recreate
+scripts/phase48_enforce_test.sh:18:    env "$k=" docker compose up -d --force-recreate
+scripts/phase48_enforce_test.sh:46:docker compose up -d
+scripts/phase11_rebuild_dashboard_container.sh:10:docker-compose build --no-cache
+scripts/phase11_rebuild_dashboard_container.sh:14:docker-compose down
+scripts/phase11_rebuild_dashboard_container.sh:15:docker-compose up -d
+scripts/phase11_rebuild_dashboard_container.sh:19:docker-compose logs --tail=50
+scripts/_lib/phase48_patch_compose_policy_env.py:5:p = Path("docker-compose.yml")
+scripts/_lib/phase48_patch_compose_policy_env.py:9:    raise SystemExit("ERROR: docker-compose.yml has no dashboard: service")
+scripts/_lib/phase48_patch_compose_policy_env.py:56:print("OK: patched docker-compose.yml dashboard env to include POLICY_* vars")
+scripts/_local/phase75_operator_preflight.sh:27:docker compose ps || true
+scripts/phase19_export_postgres_env.sh:4:PG_CID="$(docker compose ps -q postgres | head -n 1)"
+scripts/phase19_export_postgres_env.sh:6:  echo "echo 'postgres container not found (docker compose ps -q postgres)'; return 2"
+scripts/_local/phase78_operator_risk_surface.sh:32:if docker compose ps 2>/dev/null | grep -q Exit; then
+scripts/ci_demo_hardening_smoke.sh:7:  -f docker-compose.yml
+scripts/ci_demo_hardening_smoke.sh:8:  -f docker-compose.workers.yml
+scripts/ci_demo_hardening_smoke.sh:10:if [ -f docker-compose.phase47.postgres_url.override.yml ]; then
+scripts/ci_demo_hardening_smoke.sh:11:  COMPOSE_FILES+=( -f docker-compose.phase47.postgres_url.override.yml )
+scripts/ci_demo_hardening_smoke.sh:13:if [ -f docker-compose.phase54.postgres_bootstrap.override.yml ]; then
+scripts/ci_demo_hardening_smoke.sh:14:  COMPOSE_FILES+=( -f docker-compose.phase54.postgres_bootstrap.override.yml )
+scripts/ci_demo_hardening_smoke.sh:20:  echo "== Cleanup (docker compose down) =="
+scripts/ci_demo_hardening_smoke.sh:21:  docker compose "${COMPOSE_FILES[@]}" down --remove-orphans || true
+scripts/ci_demo_hardening_smoke.sh:26:docker compose "${COMPOSE_FILES[@]}" down --remove-orphans || true
+scripts/ci_demo_hardening_smoke.sh:27:docker compose "${COMPOSE_FILES[@]}" up -d --build
+scripts/ci_demo_hardening_smoke.sh:37:    docker compose "${COMPOSE_FILES[@]}" ps || true
+scripts/ci_demo_hardening_smoke.sh:38:    docker compose "${COMPOSE_FILES[@]}" logs --no-color --tail=200 dashboard || true
+scripts/ci_demo_hardening_smoke.sh:45:PG_SERVICE="$(docker compose ps --services | grep -E 'postgres|db' | head -n1 || true)"
+scripts/ci_demo_hardening_smoke.sh:48:  docker compose "${COMPOSE_FILES[@]}" ps || true
+scripts/ci_demo_hardening_smoke.sh:54:docker compose exec -T "$PG_SERVICE" psql -U postgres -d postgres -v ON_ERROR_STOP=1 -c \
+scripts/_local/container_authority_map_audit.sh:13:    \( -name 'docker-compose*.yml' -o -name 'docker-compose*.yaml' -o -name 'compose*.yml' -o -name 'compose*.yaml' \) \
+scripts/_local/container_authority_map_audit.sh:17:  echo "== Dockerfiles in repo root =="
+scripts/_local/container_authority_map_audit.sh:19:    \( -name 'Dockerfile*' -o -name 'Containerfile*' \) \
+scripts/_local/container_authority_map_audit.sh:24:  rg -n '^[[:space:]]{2}dashboard:|dockerfile:|image:|build:' docker-compose*.yml docker-compose*.yaml 2>/dev/null || true
+scripts/_local/container_authority_map_audit.sh:28:  rg -n 'workerA:|workerB:|worker:|dockerfile:|image:|build:' docker-compose*.yml docker-compose*.yaml 2>/dev/null || true
+scripts/_local/container_authority_map_audit.sh:32:  rg -n 'dockerfile:[[:space:]]*' docker-compose*.yml docker-compose*.yaml 2>/dev/null || true
+scripts/_local/container_authority_map_audit.sh:36:  rg -n 'docker compose .*dashboard|docker-compose .*dashboard|docker load|docker save|Dockerfile.dashboard|Dockerfile' \
+scripts/_local/container_authority_map_audit.sh:41:  rg -n 'docker compose|docker-compose|Dockerfile|dockerfile:' .github/workflows scripts 2>/dev/null || true
+scripts/_local/container_authority_map_audit.sh:45:  echo "Do not modify Dockerfile or compose topology until the authority file is confirmed."
+scripts/_local/container_authority_map_audit.sh:46:  echo "Prefer the file referenced by docker-compose.yml dashboard.build.dockerfile."
+scripts/_local/phase61_5_5q_truthful_agent_status_from_named_ops_events.sh:155:docker compose build dashboard --no-cache
+scripts/_local/phase61_5_5q_truthful_agent_status_from_named_ops_events.sh:156:docker compose up -d
+scripts/_local/phase61_5_5q_truthful_agent_status_from_named_ops_events.sh:157:docker compose ps
+scripts/_local/verify_phase61_exact_current_state_checkpoint.sh:18:docker compose ps dashboard
+scripts/_local/phase31_6_worker_profile_probe.sh:5:compose() { docker compose -f docker-compose.yml -f docker-compose.override.yml -f docker-compose.worker.yml "$@"; }
+scripts/_local/phase64_4_rebuild_and_verify_task_events_writer_hotfix.sh:13:docker compose build dashboard
+scripts/_local/phase64_4_rebuild_and_verify_task_events_writer_hotfix.sh:14:docker compose up -d dashboard
+scripts/_local/phase62b_extract_runtime_acceptance_evidence.sh:12:  docker compose ps -q postgres 2>/dev/null | head -n 1
+scripts/phase88_14_12_tag_protection_and_phase89_alignment.sh:13:if find . -maxdepth 3 \( -iname 'Dockerfile' -o -iname 'docker-compose*.yml' -o -iname 'docker-compose*.yaml' -o -iname 'Containerfile' \) | grep -q .; then
+scripts/phase88_14_12_tag_protection_and_phase89_alignment.sh:17:if find . -maxdepth 3 -iname 'Dockerfile' | grep -q .; then
+scripts/phase88_14_12_tag_protection_and_phase89_alignment.sh:21:if find . -maxdepth 3 \( -iname 'docker-compose*.yml' -o -iname 'docker-compose*.yaml' \) | grep -q .; then
+scripts/phase88_14_12_tag_protection_and_phase89_alignment.sh:43:  echo "Dockerfiles present: $HAS_DOCKER"
+scripts/_local/phase64_4_rebuild_and_verify_task_events_sse_writer_dedupe_signature_agnostic.sh:8:docker compose build dashboard
+scripts/_local/phase64_4_rebuild_and_verify_task_events_sse_writer_dedupe_signature_agnostic.sh:9:docker compose up -d dashboard
+scripts/_local/phase64_4_rebuild_and_verify_task_events_sse_writer_dedupe_signature_agnostic.sh:17:docker compose logs --tail=120 dashboard
+scripts/_local/phase64_4_rebuild_and_verify_task_events_sse_writer_dedupe_minimal.sh:8:docker compose build dashboard
+scripts/_local/phase64_4_rebuild_and_verify_task_events_sse_writer_dedupe_minimal.sh:9:docker compose up -d dashboard
+scripts/_local/phase64_4_rebuild_and_verify_task_events_sse_writer_dedupe_minimal.sh:17:docker compose logs --tail=120 dashboard
+scripts/phase39_value_gate_smoke.sh:5:COMPOSE="${COMPOSE:-docker-compose.worker.phase32.yml}"
+scripts/phase39_value_gate_smoke.sh:29:  if [[ -f docker-compose.yml ]]; then
+scripts/phase39_value_gate_smoke.sh:30:    docker compose -f docker-compose.yml up -d postgres
+scripts/phase39_value_gate_smoke.sh:51:docker compose -f "$COMPOSE" up -d --build
+scripts/phase39_value_gate_smoke.sh:53:PS_OUT="$(docker compose -f "$COMPOSE" ps)"
+scripts/_local/phase80_operational_closeout.sh:40:docker compose build dashboard
+scripts/_local/phase80_operational_closeout.sh:44:docker compose up -d dashboard
+scripts/_local/phase80_operational_closeout.sh:48:docker compose ps
+scripts/_local/verify_phase61_layout_contract_locked_checkpoint.sh:19:docker compose ps dashboard
+scripts/_local/phase62_promote_metric_values.sh:142:docker compose build dashboard
+scripts/_local/phase62_promote_metric_values.sh:143:docker compose up -d dashboard
+scripts/_local/phase63_live_http_probe.sh:7:docker compose build --no-cache dashboard
+scripts/_local/phase63_live_http_probe.sh:8:docker compose up -d --force-recreate dashboard
+scripts/_local/phase63_live_http_probe.sh:29:docker compose logs dashboard --tail=120
+scripts/_local/restore_phase61_layout_contract_locked_checkpoint.sh:15:docker compose rm -sf dashboard || true
+scripts/_local/restore_phase61_layout_contract_locked_checkpoint.sh:16:docker compose up -d --no-build dashboard
+scripts/_local/restore_phase61_layout_contract_locked_checkpoint.sh:17:docker compose ps dashboard
+scripts/_local/operator_guidance.sh:18:  docker compose ps dashboard 2>/dev/null | grep -q "Up"
+scripts/_local/phase61_run_local_verify.sh:19:  docker compose ps || true
+scripts/_local/phase64_4_restore_after_safe_dedupe_regression.sh:12:docker compose build dashboard
+scripts/_local/phase64_4_restore_after_safe_dedupe_regression.sh:13:docker compose up -d dashboard
+scripts/_local/phase64_4_restore_after_safe_dedupe_regression.sh:21:docker compose logs --tail=120 dashboard
+scripts/_local/phase64_4_rebuild_and_verify_task_events_hotfix.sh:13:docker compose build dashboard
+scripts/_local/phase64_4_rebuild_and_verify_task_events_hotfix.sh:14:docker compose up -d dashboard
+scripts/_local/phase64_4_restore_task_events_sse_after_bad_hotfix.sh:9:docker compose build dashboard
+scripts/_local/phase64_4_restore_task_events_sse_after_bad_hotfix.sh:10:docker compose up -d dashboard
+scripts/_local/phase64_4_restore_task_events_sse_after_bad_hotfix.sh:18:docker compose logs --tail=120 dashboard
+scripts/_local/phase61_rebuild_dashboard_from_current_source.sh:6:docker compose build dashboard
+scripts/_local/phase61_rebuild_dashboard_from_current_source.sh:7:docker compose up -d dashboard
+scripts/_local/phase61_rebuild_dashboard_from_current_source.sh:8:docker compose ps dashboard
+scripts/_local/phase65_3_metrics_runtime_verify.sh:8:  docker compose ps -q dashboard 2>/dev/null || true
+scripts/_local/phase65_3_metrics_runtime_verify.sh:13:  mapped="$(docker compose port dashboard 3000 2>/dev/null | tail -n 1 || true)"
+scripts/_local/phase65_3_metrics_runtime_verify.sh:100:  docker compose build dashboard
+scripts/_local/phase65_3_metrics_runtime_verify.sh:101:  docker compose up -d dashboard
+scripts/_local/phase65_3_metrics_runtime_verify.sh:105:  docker compose ps dashboard || true
+scripts/_local/phase62_refine_metrics_tiles.sh:123:docker compose build dashboard
+scripts/_local/phase62_refine_metrics_tiles.sh:124:docker compose up -d dashboard
+scripts/_local/post_golden_protection_audit.sh:29:    \( -name 'Dockerfile' -o -name 'docker-compose.yml' -o -name 'docker-compose.yaml' -o -name 'compose.yml' -o -name 'compose.yaml' -o -name '.dockerignore' \) \
+scripts/_local/restore_recovered_stable_dashboard_checkpoint.sh:14:docker compose rm -sf dashboard || true
+scripts/_local/restore_recovered_stable_dashboard_checkpoint.sh:15:docker compose up -d --no-build dashboard
+scripts/_local/restore_recovered_stable_dashboard_checkpoint.sh:16:docker compose ps dashboard
+scripts/_local/phase65_4_patch_shared_metrics_bootstrap.sh:124:docker compose build dashboard
+scripts/_local/phase65_4_patch_shared_metrics_bootstrap.sh:125:docker compose up -d dashboard
+scripts/_local/phase31_6_recent_tasks_debug.sh:13:compose() { docker compose -f docker-compose.yml -f docker-compose.override.yml -f docker-compose.worker.yml "$@"; }
+scripts/_local/phase70a_health_snapshot.sh:20:docker compose ps
+scripts/_local/phase65c_success_metric_smoke.sh:30:docker compose build dashboard
+scripts/_local/phase65c_success_metric_smoke.sh:31:docker compose up -d dashboard
+scripts/_local/phase65c_success_metric_smoke.sh:34:docker compose ps dashboard
+scripts/_local/phase65c_latency_metric_smoke.sh:31:docker compose build dashboard
+scripts/_local/phase65c_latency_metric_smoke.sh:32:docker compose up -d dashboard
+scripts/_local/phase65c_latency_metric_smoke.sh:35:docker compose ps dashboard
+scripts/_local/phase65_6_restore_layout_from_v63.sh:24:docker compose build dashboard
+scripts/_local/phase65_6_restore_layout_from_v63.sh:25:docker compose up -d dashboard
+scripts/_local/phase65_6_restore_layout_from_v63.sh:29:docker compose ps dashboard || true
+scripts/_local/restore_phase61_exact_current_state.sh:15:docker compose rm -sf dashboard || true
+scripts/_local/restore_phase61_exact_current_state.sh:16:docker compose up -d --no-build dashboard
+scripts/_local/restore_phase61_exact_current_state.sh:17:docker compose ps dashboard
+scripts/_local/phase62b_verify_live_create_route_and_restart_runtime.sh:69:  echo "== runtime appears stale: attempting docker compose refresh =="
+scripts/_local/phase62b_verify_live_create_route_and_restart_runtime.sh:70:  if docker compose version >/dev/null 2>&1; then
+scripts/_local/phase62b_verify_live_create_route_and_restart_runtime.sh:71:    docker compose ps || true
+scripts/_local/phase62b_verify_live_create_route_and_restart_runtime.sh:72:    docker compose up -d --build
+scripts/_local/phase62b_verify_live_create_route_and_restart_runtime.sh:77:    echo "docker compose unavailable"
+scripts/_local/phase70a_run_health_snapshot.sh:61:  if docker compose ps >/tmp/phase70a_docker_ps.txt 2>/tmp/phase70a_docker_ps.err; then
+scripts/_local/phase61_safe_dashboard_cycle.sh:27:docker compose build dashboard
+scripts/_local/phase61_safe_dashboard_cycle.sh:30:docker compose up -d dashboard
+scripts/_local/phase62_compact_metrics_grid.sh:89:docker compose build dashboard
+scripts/_local/phase62_compact_metrics_grid.sh:90:docker compose up -d dashboard
+scripts/_local/phase65b_metric_agents_ownership_smoke.sh:30:docker compose build dashboard
+scripts/_local/phase65b_metric_agents_ownership_smoke.sh:31:docker compose up -d dashboard
+
+== Safe conclusion ==
+Do not modify Dockerfile or compose topology until the authority file is confirmed.
+Prefer the file referenced by docker-compose.yml dashboard.build.dockerfile.

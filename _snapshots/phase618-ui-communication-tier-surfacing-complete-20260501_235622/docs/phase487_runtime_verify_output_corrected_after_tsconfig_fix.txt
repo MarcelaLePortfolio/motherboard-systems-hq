@@ -1,0 +1,706 @@
+=== PHASE 487 RUNTIME VERIFICATION (SAFE MODE) ===
+
+Step 1: Installing dependencies (no mutation if already installed)
+Lockfile is up to date, resolution step is skipped
+Already up to date
+
+Done in 200ms using pnpm v10.29.3
+
+Step 2: Typecheck (no emit)
+../../agents/matilda.ts(1,36): error TS2307: Cannot find module '../../mirror/agent' or its corresponding type declarations.
+../../agents/matilda.ts(2,26): error TS2307: Cannot find module 'ollama' or its corresponding type declarations.
+db/reflection_index.ts(1,44): error TS2307: Cannot find module 'drizzle-orm/sqlite-core' or its corresponding type declarations.
+db/task_events.schema.ts(1,44): error TS2307: Cannot find module 'drizzle-orm/sqlite-core' or its corresponding type declarations.
+governance/registry/registry_verifier.ts(44,21): error TS2339: Property 'execution_boundaries' does not exist on type 'CapabilityMetadata'.
+governance/registry/registry_verifier.ts(52,21): error TS2339: Property 'authority_scope' does not exist on type 'CapabilityMetadata'.
+mirror/agent.ts(5,18): error TS2591: Cannot find name 'http'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+routes/api-chat.ts(4,24): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+routes/api-chat.ts(16,35): error TS2339: Property 'body' does not exist on type 'Request'.
+routes/api-chat.ts(22,14): error TS2339: Property 'status' does not exist on type 'Response'.
+routes/api-chat.ts(33,14): error TS2339: Property 'json' does not exist on type 'Response'.
+routes/api-chat.ts(36,14): error TS2339: Property 'status' does not exist on type 'Response'.
+routes/api/delegate.ts(4,24): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+routes/api/delegate.ts(19,26): error TS2591: Cannot find name 'require'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+routes/api/logs.ts(4,24): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+routes/api/tasks.ts(4,24): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+routes/cade.ts(4,22): error TS2307: Cannot find module 'drizzle-orm' or its corresponding type declarations.
+routes/cade.ts(6,35): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+routes/delegate.ts(5,31): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+routes/delegations.ts(5,24): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+routes/diagnostics/systemHealth.ts(4,24): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+routes/diagnostics/systemHealth.ts(17,13): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+routes/diagnostics/systemHealth.ts(18,13): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+routes/matilda.ts(4,31): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+routes/reflections.ts(3,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+routes/reflections.ts(6,24): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+routes/reflections.ts(19,28): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+routes/reset.ts(5,24): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+routes/routes/agentsStatus.ts(2,43): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+routes/routes/cade.ts(2,20): error TS2307: Cannot find module '../db/client' or its corresponding type declarations.
+routes/routes/cade.ts(3,29): error TS2307: Cannot find module '../db/audit' or its corresponding type declarations.
+routes/routes/cade.ts(4,22): error TS2307: Cannot find module 'drizzle-orm' or its corresponding type declarations.
+routes/routes/cade.ts(6,35): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+routes/routes/delegate.ts(2,24): error TS2307: Cannot find module '../db/client' or its corresponding type declarations.
+routes/routes/delegate.ts(3,35): error TS2307: Cannot find module '../scripts/agents/cade-create-webpage.js' or its corresponding type declarations.
+routes/routes/delegate.ts(5,31): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+routes/routes/delegations.ts(3,24): error TS2307: Cannot find module '../db/client' or its corresponding type declarations.
+routes/routes/delegations.ts(5,24): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+routes/routes/diagnostics/autonomicAdaptation.ts(2,44): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+routes/routes/diagnostics/introspectiveSim.ts(2,41): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+routes/routes/diagnostics/persistentInsight.ts(2,42): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+routes/routes/diagnostics/systemChronicle.ts(2,40): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+routes/routes/diagnostics/systemHealth.ts(2,37): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+routes/routes/events.ts(1,10): error TS2305: Module '"express"' has no exported member 'Router'.
+routes/routes/events.ts(2,36): error TS2307: Cannot find module '../scripts/utils/agentStatus.js' or its corresponding type declarations.
+routes/routes/eventsAgents.ts(1,10): error TS2305: Module '"express"' has no exported member 'Router'.
+routes/routes/eventsAgents.ts(25,19): error TS2304: Cannot find name 'global'.
+routes/routes/logs.ts(1,10): error TS2305: Module '"express"' has no exported member 'Router'.
+routes/routes/logs.ts(2,27): error TS2307: Cannot find module 'drizzle-orm' or its corresponding type declarations.
+routes/routes/logs.ts(3,20): error TS2307: Cannot find module '../db/client' or its corresponding type declarations.
+routes/routes/logs.ts(4,29): error TS2307: Cannot find module '../db/audit' or its corresponding type declarations.
+routes/routes/matilda.ts(2,28): error TS2307: Cannot find module '../scripts/utils/ollamaChat' or its corresponding type declarations.
+routes/routes/matilda.ts(4,31): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+routes/routes/reflections.ts(3,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+routes/routes/reflections.ts(6,24): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+routes/routes/reflections.ts(19,28): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+routes/routes/reset.ts(3,32): error TS2307: Cannot find module '../scripts/reset-roundtrip' or its corresponding type declarations.
+routes/routes/reset.ts(5,24): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+routes/routes/tasks.ts(7,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+routes/routes/tasks.ts(8,16): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+routes/routes/tasks.ts(9,20): error TS2307: Cannot find module '../db/client' or its corresponding type declarations.
+routes/routes/tasks.ts(10,29): error TS2307: Cannot find module '../db/audit' or its corresponding type declarations.
+routes/routes/tasks.ts(11,22): error TS2307: Cannot find module 'drizzle-orm' or its corresponding type declarations.
+routes/routes/tasks.ts(13,36): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+routes/routes/tasks.ts(18,31): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+routes/routes/tasks.ts(37,19): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+routes/tasks.ts(7,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+routes/tasks.ts(8,16): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+routes/tasks.ts(11,22): error TS2307: Cannot find module 'drizzle-orm' or its corresponding type declarations.
+routes/tasks.ts(13,36): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+routes/tasks.ts(18,31): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+routes/tasks.ts(37,19): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/atlas-awakening-sequence.ts(2,16): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/atlas-awakening-sequence.ts(3,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/atlas-awakening-sequence.ts(5,27): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/cade_runtime.mts(2,16): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/cade_runtime.mts(3,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/cade_runtime.mts(4,31): error TS2591: Cannot find name 'url'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/handlers/handleTask.ts(1,16): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/handlers/handleTask.ts(2,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/handlers/handleTask.ts(3,26): error TS2591: Cannot find name 'child_process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/handlers/handleTask.ts(24,19): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/handlers/handleTask.ts(25,19): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/handlers/handleTask.ts(48,5): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/launch-matilda.ts(3,25): error TS2307: Cannot find module '../../../agents/matilda' or its corresponding type declarations.
+scripts/_local/agent-runtime/matilda-stub.mts(1,21): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/matilda-stub.mts(2,23): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/matilda-stub.mts(3,31): error TS2591: Cannot find name 'url'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/matilda_runtime.mts(12,14): error TS2591: Cannot find name 'require'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/matilda_runtime.mts(13,16): error TS2591: Cannot find name 'require'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/matilda_runtime.mts(14,26): error TS2591: Cannot find name 'require'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/matilda_runtime.mts(36,14): error TS2591: Cannot find name 'require'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/matilda_runtime.mts(37,16): error TS2591: Cannot find name 'require'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/matilda_runtime.mts(49,28): error TS2591: Cannot find name 'require'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/submit-task.ts(13,22): error TS2591: Cannot find name 'fs/promises'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/submit-task.ts(14,23): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/submit-task.ts(17,22): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/submit-task.ts(49,26): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/submit-task.ts(53,5): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/submit-task.ts(64,7): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/submit-task.ts(72,7): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/submit-task.ts(77,7): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/submit-task.ts(82,5): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/submit-task.ts(99,3): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/utils/cade_task_processor.ts(2,45): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/utils/cade_task_processor.ts(3,22): error TS2591: Cannot find name 'child_process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/utils/cade_task_processor_clean.ts(2,45): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/utils/cade_task_processor_clean.ts(3,22): error TS2591: Cannot find name 'child_process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/utils/effie_task_processor.ts(2,45): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/utils/effie_task_processor.ts(3,22): error TS2591: Cannot find name 'child_process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/utils/matilda_task_processor.ts(1,16): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/utils/matilda_task_processor.ts(2,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/dev-server.ts(7,30): error TS2591: Cannot find name 'http'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/dev-server.ts(8,26): error TS2591: Cannot find name 'child_process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/dev-server.ts(9,22): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/dev-server.ts(10,42): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/dev-server.ts(11,18): error TS2591: Cannot find name 'http'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/dev-server.ts(14,21): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/handlers/buildUI.ts(2,22): error TS2591: Cannot find name 'child_process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/handlers/buildUI.ts(8,22): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/handlers/commit.ts(1,26): error TS2591: Cannot find name 'child_process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/handlers/commit.ts(3,17): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/handlers/install.ts(2,22): error TS2591: Cannot find name 'child_process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/phase135_governance_cognition_snapshot_report.ts(5,3): error TS2724: '"../../src/governance/cognition"' has no exported member named 'proveGovernanceCognitionSnapshot'. Did you mean 'GovernanceCognitionSnapshot'?
+scripts/_local/phase135_governance_cognition_snapshot_smoke.ts(5,3): error TS2724: '"../../src/governance/cognition"' has no exported member named 'proveGovernanceCognitionSnapshot'. Did you mean 'GovernanceCognitionSnapshot'?
+scripts/_local/phase136_governance_dashboard_consumption_report.ts(6,3): error TS2724: '"../../src/governance/cognition"' has no exported member named 'selectGovernanceDashboardConsumptionView'. Did you mean 'GovernanceDashboardConsumptionView'?
+scripts/_local/phase136_governance_dashboard_consumption_report.ts(7,3): error TS2724: '"../../src/governance/cognition"' has no exported member named 'proveGovernanceDashboardConsumptionView'. Did you mean 'GovernanceDashboardConsumptionView'?
+scripts/_local/phase136_governance_dashboard_consumption_smoke.ts(6,3): error TS2724: '"../../src/governance/cognition"' has no exported member named 'selectGovernanceDashboardConsumptionView'. Did you mean 'GovernanceDashboardConsumptionView'?
+scripts/_local/phase136_governance_dashboard_consumption_smoke.ts(7,3): error TS2724: '"../../src/governance/cognition"' has no exported member named 'proveGovernanceDashboardConsumptionView'. Did you mean 'GovernanceDashboardConsumptionView'?
+scripts/_local/phase137_governance_dashboard_contract_registration_report.ts(8,3): error TS2724: '"../../src/governance/cognition"' has no exported member named 'proveGovernanceDashboardContractRegistration'. Did you mean 'GovernanceDashboardContractRegistration'?
+scripts/_local/phase137_governance_dashboard_contract_registration_smoke.ts(8,3): error TS2724: '"../../src/governance/cognition"' has no exported member named 'proveGovernanceDashboardContractRegistration'. Did you mean 'GovernanceDashboardContractRegistration'?
+scripts/_local/phase138_governance_runtime_registry_export_report.ts(10,3): error TS2724: '"../../src/governance/cognition"' has no exported member named 'selectGovernanceRuntimeRegistryExport'. Did you mean 'GovernanceRuntimeRegistryExport'?
+scripts/_local/phase138_governance_runtime_registry_export_report.ts(11,3): error TS2724: '"../../src/governance/cognition"' has no exported member named 'proveGovernanceRuntimeRegistryExport'. Did you mean 'GovernanceRuntimeRegistryExport'?
+scripts/_local/phase138_governance_runtime_registry_export_smoke.ts(10,3): error TS2724: '"../../src/governance/cognition"' has no exported member named 'selectGovernanceRuntimeRegistryExport'. Did you mean 'GovernanceRuntimeRegistryExport'?
+scripts/_local/phase138_governance_runtime_registry_export_smoke.ts(11,3): error TS2724: '"../../src/governance/cognition"' has no exported member named 'proveGovernanceRuntimeRegistryExport'. Did you mean 'GovernanceRuntimeRegistryExport'?
+scripts/_local/phase139_governance_shared_registry_owner_bundle_report.ts(12,3): error TS2724: '"../../src/governance/cognition"' has no exported member named 'selectGovernanceSharedRegistryOwnerBundle'. Did you mean 'GovernanceSharedRegistryOwnerBundle'?
+scripts/_local/phase139_governance_shared_registry_owner_bundle_report.ts(13,3): error TS2724: '"../../src/governance/cognition"' has no exported member named 'proveGovernanceSharedRegistryOwnerBundle'. Did you mean 'GovernanceSharedRegistryOwnerBundle'?
+scripts/_local/phase139_governance_shared_registry_owner_bundle_smoke.ts(12,3): error TS2724: '"../../src/governance/cognition"' has no exported member named 'selectGovernanceSharedRegistryOwnerBundle'. Did you mean 'GovernanceSharedRegistryOwnerBundle'?
+scripts/_local/phase139_governance_shared_registry_owner_bundle_smoke.ts(13,3): error TS2724: '"../../src/governance/cognition"' has no exported member named 'proveGovernanceSharedRegistryOwnerBundle'. Did you mean 'GovernanceSharedRegistryOwnerBundle'?
+scripts/_local/phase68_event_schema_validator.ts(45,17): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/phase68_event_schema_validator.ts(242,5): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/phase68_event_schema_validator.ts(246,5): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/phase72_operator_guidance_command.ts(12,31): error TS2591: Cannot find name 'node:url'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/phase72_operator_guidance_command.ts(47,10): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/phase72_operator_guidance_command.ts(48,17): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/phase72_operator_guidance_command.ts(49,10): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/phase72_operator_guidance_command.ts(50,37): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/phase72_operator_guidance_command.ts(53,15): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/phase72_operator_guidance_command.ts(57,3): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/phase72_operator_guidance_smoke.ts(11,5): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/phase73_operator_safety_gates_smoke.ts(11,5): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/phase74_operator_workflow_helpers_smoke.ts(11,5): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/phase75_operator_helper_priority_smoke.ts(10,5): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/phase75_ranked_helpers_smoke.ts(10,5): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/phase76_operator_playbooks.ts(47,15): error TS2339: Property 'healthAnomaly' does not exist on type 'OperatorSignals'.
+scripts/_local/phase76_playbook_selection_smoke.ts(11,5): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/phase76_playbook_selection_smoke.ts(38,5): error TS2353: Object literal may only specify known properties, and 'healthAnomaly' does not exist in type 'OperatorSignals'.
+scripts/_local/phase76_playbook_smoke.ts(37,5): error TS2353: Object literal may only specify known properties, and 'healthAnomaly' does not exist in type 'OperatorSignals'.
+scripts/_local/phase77_adaptation_guardrails_smoke.ts(11,5): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/phase77_adaptive_playbook_ordering_smoke.ts(11,5): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/phase77_signal_severity_model_smoke.ts(11,5): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/phase99_3_situation_summary_confidence_smoke.ts(1,30): error TS2591: Cannot find name 'node:fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/phase99_4_guidance_confidence_smoke.ts(1,30): error TS2591: Cannot find name 'node:fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/route-loader/ops-sse-bootstrap.ts(3,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/route-loader/ops-sse-bootstrap.ts(5,26): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/route-loader/ops-sse-server.ts(3,18): error TS2307: Cannot find module 'cors' or its corresponding type declarations.
+scripts/_local/route-loader/ops-sse-server.ts(6,13): error TS2349: This expression is not callable.
+  Type 'typeof import("express")' has no call signatures.
+scripts/_local/route-loader/reflection-sse-server.ts(3,18): error TS2307: Cannot find module 'cors' or its corresponding type declarations.
+scripts/_local/route-loader/reflection-sse-server.ts(6,13): error TS2349: This expression is not callable.
+  Type 'typeof import("express")' has no call signatures.
+scripts/_local/submit-task.ts(1,16): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/submit-task.ts(2,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/submit-task.ts(3,30): error TS2307: Cannot find module 'uuid' or its corresponding type declarations.
+scripts/_local/submit-task.ts(5,75): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/test-cade-state.ts(2,16): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/test-cade-state.ts(3,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/test-cade-state.ts(4,31): error TS2591: Cannot find name 'url'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/test-cade-state.ts(5,22): error TS2307: Cannot find module 'proper-lockfile' or its corresponding type declarations.
+scripts/_local/test-cade-state.ts(7,32): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/test_runtime_simulation.ts(2,16): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/test_runtime_simulation.ts(3,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/utils/chain.ts(1,16): error TS2591: Cannot find name 'fs/promises'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/utils/chain.ts(2,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/utils/chainState.ts(2,16): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/utils/chainState.ts(3,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/utils/chainState.ts(4,22): error TS2307: Cannot find module 'proper-lockfile' or its corresponding type declarations.
+scripts/_local/utils/chainState.ts(6,32): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/utils/log.ts(1,16): error TS2591: Cannot find name 'fs/promises'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/verification/check-replay-diagnostic-codes.ts(12,38): error TS2322: Type '"EVENT_ORDERING"' is not assignable to type '"REPLAY_DUPLICATE_TERMINAL_EVENT" | "REPLAY_EVENT_ORDER_VIOLATION" | "REPLAY_ROOT_EVENT_MISSING" | "REPLAY_UNKNOWN_EVENT"'.
+scripts/_local/verification/check-replay-diagnostic-codes.ts(13,44): error TS2322: Type '"DUPLICATE_SEQUENCE"' is not assignable to type '"REPLAY_DUPLICATE_TERMINAL_EVENT" | "REPLAY_EVENT_ORDER_VIOLATION" | "REPLAY_ROOT_EVENT_MISSING" | "REPLAY_UNKNOWN_EVENT"'.
+scripts/_local/verification/check-replay-diagnostic-codes.ts(13,66): error TS2322: Type '"EVENT_ORDERING"' is not assignable to type '"REPLAY_DUPLICATE_TERMINAL_EVENT" | "REPLAY_EVENT_ORDER_VIOLATION" | "REPLAY_ROOT_EVENT_MISSING" | "REPLAY_UNKNOWN_EVENT"'.
+scripts/_local/verification/check-replay-diagnostic-codes.ts(14,38): error TS2322: Type '"REPLAY_EMPTY"' is not assignable to type '"REPLAY_DUPLICATE_TERMINAL_EVENT" | "REPLAY_EVENT_ORDER_VIOLATION" | "REPLAY_ROOT_EVENT_MISSING" | "REPLAY_UNKNOWN_EVENT"'.
+scripts/_local/verification/check-replay-diagnostic-codes.ts(15,45): error TS2322: Type '"INVALID_TIMESTAMP"' is not assignable to type '"REPLAY_DUPLICATE_TERMINAL_EVENT" | "REPLAY_EVENT_ORDER_VIOLATION" | "REPLAY_ROOT_EVENT_MISSING" | "REPLAY_UNKNOWN_EVENT"'.
+scripts/_local/verification/check-replay-diagnostic-codes.ts(16,39): error TS2322: Type '"MISSING_ID"' is not assignable to type '"REPLAY_DUPLICATE_TERMINAL_EVENT" | "REPLAY_EVENT_ORDER_VIOLATION" | "REPLAY_ROOT_EVENT_MISSING" | "REPLAY_UNKNOWN_EVENT"'.
+scripts/_local/verification/check-replay-diagnostic-codes.ts(17,42): error TS2322: Type '"MISSING_SEQUENCE"' is not assignable to type '"REPLAY_DUPLICATE_TERMINAL_EVENT" | "REPLAY_EVENT_ORDER_VIOLATION" | "REPLAY_ROOT_EVENT_MISSING" | "REPLAY_UNKNOWN_EVENT"'.
+scripts/_local/verification/check-replay-diagnostic-codes.ts(18,43): error TS2322: Type '"MISSING_TIMESTAMP"' is not assignable to type '"REPLAY_DUPLICATE_TERMINAL_EVENT" | "REPLAY_EVENT_ORDER_VIOLATION" | "REPLAY_ROOT_EVENT_MISSING" | "REPLAY_UNKNOWN_EVENT"'.
+scripts/_local/verification/check-replay-diagnostic-codes.ts(19,38): error TS2322: Type '"MISSING_TYPE"' is not assignable to type '"REPLAY_DUPLICATE_TERMINAL_EVENT" | "REPLAY_EVENT_ORDER_VIOLATION" | "REPLAY_ROOT_EVENT_MISSING" | "REPLAY_UNKNOWN_EVENT"'.
+scripts/_local/verification/check-replay-diagnostic-codes.ts(20,43): error TS2322: Type '"REPLAY_ID_MISSING"' is not assignable to type '"REPLAY_DUPLICATE_TERMINAL_EVENT" | "REPLAY_EVENT_ORDER_VIOLATION" | "REPLAY_ROOT_EVENT_MISSING" | "REPLAY_UNKNOWN_EVENT"'.
+scripts/_local/verification/check-replay-diagnostic-codes.ts(21,46): error TS2322: Type '"REPLAY_EVENTS_ARRAY_MISSING"' is not assignable to type '"REPLAY_DUPLICATE_TERMINAL_EVENT" | "REPLAY_EVENT_ORDER_VIOLATION" | "REPLAY_ROOT_EVENT_MISSING" | "REPLAY_UNKNOWN_EVENT"'.
+scripts/_local/verification/check-replay-diagnostic-codes.ts(28,38): error TS2345: Argument of type '(this: undefined, result: ReplayFixtureValidationDiagnosticResult) => { fixture: string; problem: string; }[] | { fixture: string; expectedCodes: ("REPLAY_DUPLICATE_TERMINAL_EVENT" | ... 2 more ... | "REPLAY_UNKNOWN_EVENT")[]; actualCodes: any[]; }[]' is not assignable to parameter of type '(this: undefined, value: ReplayFixtureValidationDiagnosticResult, index: number, array: ReplayFixtureValidationDiagnosticResult[]) => { ...; } | readonly { ...; }[]'.
+  Type '{ fixture: string; problem: string; }[] | { fixture: string; expectedCodes: ("REPLAY_DUPLICATE_TERMINAL_EVENT" | "REPLAY_EVENT_ORDER_VIOLATION" | "REPLAY_ROOT_EVENT_MISSING" | "REPLAY_UNKNOWN_EVENT")[]; actualCodes: any[]; }[]' is not assignable to type '{ fixture: string; problem: string; } | readonly { fixture: string; problem: string; }[]'.
+    Type '{ fixture: string; expectedCodes: ("REPLAY_DUPLICATE_TERMINAL_EVENT" | "REPLAY_EVENT_ORDER_VIOLATION" | "REPLAY_ROOT_EVENT_MISSING" | "REPLAY_UNKNOWN_EVENT")[]; actualCodes: any[]; }[]' is not assignable to type '{ fixture: string; problem: string; } | readonly { fixture: string; problem: string; }[]'.
+      Type '{ fixture: string; expectedCodes: ("REPLAY_DUPLICATE_TERMINAL_EVENT" | "REPLAY_EVENT_ORDER_VIOLATION" | "REPLAY_ROOT_EVENT_MISSING" | "REPLAY_UNKNOWN_EVENT")[]; actualCodes: any[]; }[]' is not assignable to type 'readonly { fixture: string; problem: string; }[]'.
+        Property 'problem' is missing in type '{ fixture: string; expectedCodes: ("REPLAY_DUPLICATE_TERMINAL_EVENT" | "REPLAY_EVENT_ORDER_VIOLATION" | "REPLAY_ROOT_EVENT_MISSING" | "REPLAY_UNKNOWN_EVENT")[]; actualCodes: any[]; }' but required in type '{ fixture: string; problem: string; }'.
+scripts/_local/verification/check-replay-diagnostic-codes.ts(73,5): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/verification/check-replay-verification.ts(17,5): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/verification/run-replay-fixture-validation.ts(14,3): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/agents/agent-heartbeat.ts(2,16): error TS2591: Cannot find name 'os'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/agents/agent-heartbeat.ts(3,16): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/agents/agent-heartbeat.ts(4,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/agents/agent-heartbeat.ts(5,29): error TS2591: Cannot find name 'timers'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/agents/agent-heartbeat.ts(8,33): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/agents/cade-create-webpage.ts(1,16): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/agents/cade-create-webpage.ts(2,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/agents/cade-create-webpage.ts(5,30): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/agents/cade-delegation-watcher.ts(1,16): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/agents/cade-delegation-watcher.ts(3,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/agents/cade-delegation-watcher.ts(10,28): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/agents/effie.ts(3,32): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/agents/ops.ts(2,29): error TS2591: Cannot find name 'timers'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/agents/ops.ts(3,16): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/agents/ops.ts(4,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/agents/ops.ts(7,27): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/agents/ops.ts(22,29): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/agents/reflections.ts(3,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/agents/reflections.ts(6,24): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+scripts/agents/reflections.ts(18,28): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/agents/utils/ensurePaths.ts(1,16): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/agents/utils/ensurePaths.ts(2,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/agents/utils/ensurePaths.ts(6,26): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/agents/utils/retryCreateAgent.ts(1,23): error TS2591: Cannot find name 'child_process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/agents_full/cade.ts(2,38): error TS2591: Cannot find name 'child_process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/agents_full/cade.ts(3,32): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/agents_full/cade.ts(4,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/agents_full/cade.ts(5,16): error TS2591: Cannot find name 'os'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/agents_full/cade.ts(6,18): error TS2591: Cannot find name 'util'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/agents_full/effie.ts(3,32): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/cli/matilda.ts(4,15): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/cli/matilda.ts(7,3): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/demo/run-create-atlas.ts(5,28): error TS2591: Cannot find name 'crypto'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/demo/run-demo-playback.ts(4,26): error TS2591: Cannot find name 'child_process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/demo/run-demo-playback.ts(5,16): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/demo/run-demo-playback.ts(6,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/demo/run-demo-playback.ts(9,35): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/demo/run-demo-sequence.ts(39,5): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/demo/verify-dashboard-sync.ts(2,19): error TS2307: Cannot find module 'node-fetch' or its corresponding type declarations.
+scripts/diagnostics/test-rehydration.ts(2,26): error TS2591: Cannot find name 'child_process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/diagnostics/test-rehydration.ts(30,3): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/launch-matilda.ts(2,36): error TS2307: Cannot find module '../../../mirror/agent' or its corresponding type declarations.
+scripts/launch-matilda.ts(3,25): error TS6059: File '/Users/marcela-dev/agents/matilda.ts' is not under 'rootDir' '/Users/marcela-dev/Projects/Motherboard_Systems_HQ'. 'rootDir' is expected to contain all source files.
+scripts/loaders/reflection-loader.ts(2,16): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/loaders/reflection-loader.ts(3,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/loaders/reflection-loader.ts(6,26): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/loaders/reflection-loader.ts(7,30): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/ops/create-entity.ts(3,16): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/ops/create-entity.ts(4,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/ops/create-entity.ts(97,39): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/ops/run-create-atlas.ts(4,14): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/phase87_13_situation_summary_cli.ts(1,30): error TS2591: Cannot find name 'node:fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/phase87_13_situation_summary_cli.ts(51,10): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/phase87_13_situation_summary_cli.ts(55,42): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/phase87_13_situation_summary_cli.ts(59,3): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/phase87_17_system_situation_summary_cli.ts(1,30): error TS2591: Cannot find name 'node:fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/phase87_17_system_situation_summary_cli.ts(57,10): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/phase87_17_system_situation_summary_cli.ts(61,42): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/phase87_17_system_situation_summary_cli.ts(65,3): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/phase87_1_situation_summary_smoke.ts(68,9): error TS2741: Property 'governanceCognitionState' is missing in type '{ stabilityState: "stable"; executionRiskState: "none"; cognitionState: "consistent"; signalCoherenceState: "coherent"; operatorAttentionState: "none"; summaryLines: string[]; }' but required in type 'SituationSummary'.
+scripts/phase87_1_situation_summary_smoke.ts(89,9): error TS2741: Property 'governanceCognitionState' is missing in type '{ stabilityState: "unknown"; executionRiskState: "unknown"; cognitionState: "unknown"; signalCoherenceState: "unknown"; operatorAttentionState: "unknown"; summaryLines: string[]; }' but required in type 'SituationSummary'.
+scripts/phase88_5_capture_system_health_route_payload.ts(55,3): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/phase88_5_capture_system_health_route_payload.ts(60,3): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/phase88_8_capture_system_health_js_route_payload.ts(55,3): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/phase88_8_capture_system_health_js_route_payload.ts(60,3): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/reset-roundtrip.ts(2,31): error TS2591: Cannot find name 'url'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/reset-roundtrip.ts(3,25): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/reset-roundtrip.ts(36,5): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/run-create-atlas.ts(2,16): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/run-create-atlas.ts(3,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/run-create-atlas.ts(4,26): error TS2591: Cannot find name 'child_process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/run-create-atlas.ts(7,29): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/run-create-atlas.ts(9,34): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/run-create-atlas.ts(50,5): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/run-create-atlas.ts(60,3): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/sequences/atlas-build-sequence.ts(1,20): error TS5097: An import path can only end with a '.ts' extension when 'allowImportingTsExtensions' is enabled.
+scripts/sequences/atlas-build-sequence.ts(2,34): error TS5097: An import path can only end with a '.ts' extension when 'allowImportingTsExtensions' is enabled.
+scripts/sequences/atlas-build-sequence.ts(46,17): error TS2339: Property 'main' does not exist on type 'ImportMeta'.
+scripts/sequences/atlas-build-sequence.ts(49,5): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/sequences/demo-cinematic-sequence.ts(2,16): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/sequences/demo-cinematic-sequence.ts(3,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/sequences/demo-cinematic-sequence.ts(5,27): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/sequences/prewarm-all-agents.ts(2,26): error TS2591: Cannot find name 'child_process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/sequences/prewarm-demo.ts(2,26): error TS2591: Cannot find name 'child_process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/servers/ops-sse-server.ts(3,18): error TS2307: Cannot find module 'cors' or its corresponding type declarations.
+scripts/servers/ops-sse-server.ts(6,13): error TS2349: This expression is not callable.
+  Type 'typeof import("express")' has no call signatures.
+scripts/servers/reflection-sse-server.ts(3,18): error TS2307: Cannot find module 'cors' or its corresponding type declarations.
+scripts/servers/reflection-sse-server.ts(5,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/servers/reflection-sse-server.ts(7,13): error TS2349: This expression is not callable.
+  Type 'typeof import("express")' has no call signatures.
+scripts/servers/reflection-sse-server.ts(20,28): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/skills/createFile.ts(1,16): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/skills/createFile.ts(2,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/skills/createFile.ts(5,30): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/skills/readFile.ts(1,16): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/skills/readFile.ts(2,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/skills/readFile.ts(5,30): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/sse/reflections-sse-server.ts(3,18): error TS2307: Cannot find module 'cors' or its corresponding type declarations.
+scripts/sse/reflections-sse-server.ts(5,13): error TS2349: This expression is not callable.
+  Type 'typeof import("express")' has no call signatures.
+scripts/streams/reflection-sse-lite.ts(1,18): error TS2591: Cannot find name 'http'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/utils/agentWatchdog.ts(1,26): error TS2591: Cannot find name 'child_process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/utils/agentWatchdog.ts(2,16): error TS2591: Cannot find name 'os'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/utils/ensure-task-events-main.ts(3,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/utils/ensure-task-events-main.ts(5,26): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/utils/ollamaPlan.ts(2,16): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/utils/ollamaPlan.ts(3,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/utils/ollamaPlan.ts(5,26): error TS2591: Cannot find name 'child_process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/utils/runSkill.ts(1,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/utils/runSkill.ts(5,33): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/utils/validateTaskEvent.ts(1,16): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/watchers/reflection-watcher.ts(2,16): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/watchers/reflection-watcher.ts(3,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/watchers/reflection-watcher.ts(5,22): error TS2307: Cannot find module 'chokidar' or its corresponding type declarations.
+scripts/watchers/reflection-watcher.ts(7,25): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/watchers/reflection-watcher.ts(11,30): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+src/cognition/situationSummaryComposer.ts(162,3): error TS2300: Duplicate identifier 'operationalConfidence'.
+src/cognition/situationSummaryComposer.ts(163,3): error TS2300: Duplicate identifier 'operationalConfidence'.
+src/cognition/situationSummaryComposer.ts(163,3): error TS2717: Subsequent property declarations must have the same type.  Property 'operationalConfidence' must be of type 'OperationalConfidence', but here has type '{ level: "LOW" | "MEDIUM" | "HIGH" | "UNKNOWN"; source?: "governance" | "cognition" | "signals"; }'.
+src/cognition/situationSummaryComposer.ts(272,9): error TS1117: An object literal cannot have multiple properties with the same name.
+src/cognition/situationSummaryComposer.ts(273,7): error TS18004: No value exists in scope for the shorthand property 'stabilityState'. Either declare one or provide an initializer.
+src/cognition/situationSummaryComposer.ts(274,7): error TS18004: No value exists in scope for the shorthand property 'executionRiskState'. Either declare one or provide an initializer.
+src/cognition/situationSummaryComposer.ts(275,7): error TS18004: No value exists in scope for the shorthand property 'cognitionState'. Either declare one or provide an initializer.
+src/cognition/situationSummaryComposer.ts(276,7): error TS18004: No value exists in scope for the shorthand property 'signalCoherenceState'. Either declare one or provide an initializer.
+src/cognition/situationSummaryComposer.ts(277,7): error TS18004: No value exists in scope for the shorthand property 'governanceCognitionState'. Either declare one or provide an initializer.
+src/governance/cognition/index.ts(6,8): error TS2307: Cannot find module './governance_cognition_snapshot' or its corresponding type declarations.
+src/governance/cognition/index.ts(11,57): error TS2307: Cannot find module './governance_dashboard_consumption_view' or its corresponding type declarations.
+src/governance_investigation/verification/replay_fixture_diagnostics.ts(16,3): error TS2614: Module '"./replay_violation_codes"' has no exported member 'normalizeViolations'. Did you mean to use 'import normalizeViolations from "./replay_violation_codes"' instead?
+src/governance_investigation/verification/replay_fixture_diagnostics.ts(17,8): error TS2724: '"./replay_violation_codes"' has no exported member named 'ReplayViolation'. Did you mean 'ReplayViolationCode'?
+../../agents/matilda.ts(1,36): error TS2307: Cannot find module '../../mirror/agent' or its corresponding type declarations.
+../../agents/matilda.ts(2,26): error TS2307: Cannot find module 'ollama' or its corresponding type declarations.
+db/reflection_index.ts(1,44): error TS2307: Cannot find module 'drizzle-orm/sqlite-core' or its corresponding type declarations.
+db/task_events.schema.ts(1,44): error TS2307: Cannot find module 'drizzle-orm/sqlite-core' or its corresponding type declarations.
+governance/registry/registry_verifier.ts(44,21): error TS2339: Property 'execution_boundaries' does not exist on type 'CapabilityMetadata'.
+governance/registry/registry_verifier.ts(52,21): error TS2339: Property 'authority_scope' does not exist on type 'CapabilityMetadata'.
+mirror/agent.ts(5,18): error TS2591: Cannot find name 'http'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+routes/api-chat.ts(4,24): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+routes/api-chat.ts(16,35): error TS2339: Property 'body' does not exist on type 'Request'.
+routes/api-chat.ts(22,14): error TS2339: Property 'status' does not exist on type 'Response'.
+routes/api-chat.ts(33,14): error TS2339: Property 'json' does not exist on type 'Response'.
+routes/api-chat.ts(36,14): error TS2339: Property 'status' does not exist on type 'Response'.
+routes/api/delegate.ts(4,24): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+routes/api/delegate.ts(19,26): error TS2591: Cannot find name 'require'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+routes/api/logs.ts(4,24): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+routes/api/tasks.ts(4,24): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+routes/cade.ts(4,22): error TS2307: Cannot find module 'drizzle-orm' or its corresponding type declarations.
+routes/cade.ts(6,35): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+routes/delegate.ts(5,31): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+routes/delegations.ts(5,24): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+routes/diagnostics/systemHealth.ts(4,24): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+routes/diagnostics/systemHealth.ts(17,13): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+routes/diagnostics/systemHealth.ts(18,13): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+routes/matilda.ts(4,31): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+routes/reflections.ts(3,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+routes/reflections.ts(6,24): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+routes/reflections.ts(19,28): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+routes/reset.ts(5,24): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+routes/routes/agentsStatus.ts(2,43): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+routes/routes/cade.ts(2,20): error TS2307: Cannot find module '../db/client' or its corresponding type declarations.
+routes/routes/cade.ts(3,29): error TS2307: Cannot find module '../db/audit' or its corresponding type declarations.
+routes/routes/cade.ts(4,22): error TS2307: Cannot find module 'drizzle-orm' or its corresponding type declarations.
+routes/routes/cade.ts(6,35): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+routes/routes/delegate.ts(2,24): error TS2307: Cannot find module '../db/client' or its corresponding type declarations.
+routes/routes/delegate.ts(3,35): error TS2307: Cannot find module '../scripts/agents/cade-create-webpage.js' or its corresponding type declarations.
+routes/routes/delegate.ts(5,31): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+routes/routes/delegations.ts(3,24): error TS2307: Cannot find module '../db/client' or its corresponding type declarations.
+routes/routes/delegations.ts(5,24): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+routes/routes/diagnostics/autonomicAdaptation.ts(2,44): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+routes/routes/diagnostics/introspectiveSim.ts(2,41): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+routes/routes/diagnostics/persistentInsight.ts(2,42): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+routes/routes/diagnostics/systemChronicle.ts(2,40): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+routes/routes/diagnostics/systemHealth.ts(2,37): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+routes/routes/events.ts(1,10): error TS2305: Module '"express"' has no exported member 'Router'.
+routes/routes/events.ts(2,36): error TS2307: Cannot find module '../scripts/utils/agentStatus.js' or its corresponding type declarations.
+routes/routes/eventsAgents.ts(1,10): error TS2305: Module '"express"' has no exported member 'Router'.
+routes/routes/eventsAgents.ts(25,19): error TS2304: Cannot find name 'global'.
+routes/routes/logs.ts(1,10): error TS2305: Module '"express"' has no exported member 'Router'.
+routes/routes/logs.ts(2,27): error TS2307: Cannot find module 'drizzle-orm' or its corresponding type declarations.
+routes/routes/logs.ts(3,20): error TS2307: Cannot find module '../db/client' or its corresponding type declarations.
+routes/routes/logs.ts(4,29): error TS2307: Cannot find module '../db/audit' or its corresponding type declarations.
+routes/routes/matilda.ts(2,28): error TS2307: Cannot find module '../scripts/utils/ollamaChat' or its corresponding type declarations.
+routes/routes/matilda.ts(4,31): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+routes/routes/reflections.ts(3,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+routes/routes/reflections.ts(6,24): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+routes/routes/reflections.ts(19,28): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+routes/routes/reset.ts(3,32): error TS2307: Cannot find module '../scripts/reset-roundtrip' or its corresponding type declarations.
+routes/routes/reset.ts(5,24): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+routes/routes/tasks.ts(7,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+routes/routes/tasks.ts(8,16): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+routes/routes/tasks.ts(9,20): error TS2307: Cannot find module '../db/client' or its corresponding type declarations.
+routes/routes/tasks.ts(10,29): error TS2307: Cannot find module '../db/audit' or its corresponding type declarations.
+routes/routes/tasks.ts(11,22): error TS2307: Cannot find module 'drizzle-orm' or its corresponding type declarations.
+routes/routes/tasks.ts(13,36): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+routes/routes/tasks.ts(18,31): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+routes/routes/tasks.ts(37,19): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+routes/tasks.ts(7,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+routes/tasks.ts(8,16): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+routes/tasks.ts(11,22): error TS2307: Cannot find module 'drizzle-orm' or its corresponding type declarations.
+routes/tasks.ts(13,36): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+routes/tasks.ts(18,31): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+routes/tasks.ts(37,19): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/atlas-awakening-sequence.ts(2,16): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/atlas-awakening-sequence.ts(3,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/atlas-awakening-sequence.ts(5,27): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/cade_runtime.mts(2,16): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/cade_runtime.mts(3,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/cade_runtime.mts(4,31): error TS2591: Cannot find name 'url'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/handlers/handleTask.ts(1,16): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/handlers/handleTask.ts(2,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/handlers/handleTask.ts(3,26): error TS2591: Cannot find name 'child_process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/handlers/handleTask.ts(24,19): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/handlers/handleTask.ts(25,19): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/handlers/handleTask.ts(48,5): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/launch-matilda.ts(3,25): error TS2307: Cannot find module '../../../agents/matilda' or its corresponding type declarations.
+scripts/_local/agent-runtime/matilda-stub.mts(1,21): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/matilda-stub.mts(2,23): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/matilda-stub.mts(3,31): error TS2591: Cannot find name 'url'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/matilda_runtime.mts(12,14): error TS2591: Cannot find name 'require'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/matilda_runtime.mts(13,16): error TS2591: Cannot find name 'require'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/matilda_runtime.mts(14,26): error TS2591: Cannot find name 'require'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/matilda_runtime.mts(36,14): error TS2591: Cannot find name 'require'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/matilda_runtime.mts(37,16): error TS2591: Cannot find name 'require'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/matilda_runtime.mts(49,28): error TS2591: Cannot find name 'require'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/submit-task.ts(13,22): error TS2591: Cannot find name 'fs/promises'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/submit-task.ts(14,23): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/submit-task.ts(17,22): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/submit-task.ts(49,26): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/submit-task.ts(53,5): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/submit-task.ts(64,7): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/submit-task.ts(72,7): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/submit-task.ts(77,7): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/submit-task.ts(82,5): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/submit-task.ts(99,3): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/utils/cade_task_processor.ts(2,45): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/utils/cade_task_processor.ts(3,22): error TS2591: Cannot find name 'child_process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/utils/cade_task_processor_clean.ts(2,45): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/utils/cade_task_processor_clean.ts(3,22): error TS2591: Cannot find name 'child_process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/utils/effie_task_processor.ts(2,45): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/utils/effie_task_processor.ts(3,22): error TS2591: Cannot find name 'child_process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/utils/matilda_task_processor.ts(1,16): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/agent-runtime/utils/matilda_task_processor.ts(2,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/dev-server.ts(7,30): error TS2591: Cannot find name 'http'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/dev-server.ts(8,26): error TS2591: Cannot find name 'child_process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/dev-server.ts(9,22): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/dev-server.ts(10,42): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/dev-server.ts(11,18): error TS2591: Cannot find name 'http'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/dev-server.ts(14,21): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/handlers/buildUI.ts(2,22): error TS2591: Cannot find name 'child_process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/handlers/buildUI.ts(8,22): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/handlers/commit.ts(1,26): error TS2591: Cannot find name 'child_process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/handlers/commit.ts(3,17): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/handlers/install.ts(2,22): error TS2591: Cannot find name 'child_process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/phase135_governance_cognition_snapshot_report.ts(5,3): error TS2724: '"../../src/governance/cognition"' has no exported member named 'proveGovernanceCognitionSnapshot'. Did you mean 'GovernanceCognitionSnapshot'?
+scripts/_local/phase135_governance_cognition_snapshot_smoke.ts(5,3): error TS2724: '"../../src/governance/cognition"' has no exported member named 'proveGovernanceCognitionSnapshot'. Did you mean 'GovernanceCognitionSnapshot'?
+scripts/_local/phase136_governance_dashboard_consumption_report.ts(6,3): error TS2724: '"../../src/governance/cognition"' has no exported member named 'selectGovernanceDashboardConsumptionView'. Did you mean 'GovernanceDashboardConsumptionView'?
+scripts/_local/phase136_governance_dashboard_consumption_report.ts(7,3): error TS2724: '"../../src/governance/cognition"' has no exported member named 'proveGovernanceDashboardConsumptionView'. Did you mean 'GovernanceDashboardConsumptionView'?
+scripts/_local/phase136_governance_dashboard_consumption_smoke.ts(6,3): error TS2724: '"../../src/governance/cognition"' has no exported member named 'selectGovernanceDashboardConsumptionView'. Did you mean 'GovernanceDashboardConsumptionView'?
+scripts/_local/phase136_governance_dashboard_consumption_smoke.ts(7,3): error TS2724: '"../../src/governance/cognition"' has no exported member named 'proveGovernanceDashboardConsumptionView'. Did you mean 'GovernanceDashboardConsumptionView'?
+scripts/_local/phase137_governance_dashboard_contract_registration_report.ts(8,3): error TS2724: '"../../src/governance/cognition"' has no exported member named 'proveGovernanceDashboardContractRegistration'. Did you mean 'GovernanceDashboardContractRegistration'?
+scripts/_local/phase137_governance_dashboard_contract_registration_smoke.ts(8,3): error TS2724: '"../../src/governance/cognition"' has no exported member named 'proveGovernanceDashboardContractRegistration'. Did you mean 'GovernanceDashboardContractRegistration'?
+scripts/_local/phase138_governance_runtime_registry_export_report.ts(10,3): error TS2724: '"../../src/governance/cognition"' has no exported member named 'selectGovernanceRuntimeRegistryExport'. Did you mean 'GovernanceRuntimeRegistryExport'?
+scripts/_local/phase138_governance_runtime_registry_export_report.ts(11,3): error TS2724: '"../../src/governance/cognition"' has no exported member named 'proveGovernanceRuntimeRegistryExport'. Did you mean 'GovernanceRuntimeRegistryExport'?
+scripts/_local/phase138_governance_runtime_registry_export_smoke.ts(10,3): error TS2724: '"../../src/governance/cognition"' has no exported member named 'selectGovernanceRuntimeRegistryExport'. Did you mean 'GovernanceRuntimeRegistryExport'?
+scripts/_local/phase138_governance_runtime_registry_export_smoke.ts(11,3): error TS2724: '"../../src/governance/cognition"' has no exported member named 'proveGovernanceRuntimeRegistryExport'. Did you mean 'GovernanceRuntimeRegistryExport'?
+scripts/_local/phase139_governance_shared_registry_owner_bundle_report.ts(12,3): error TS2724: '"../../src/governance/cognition"' has no exported member named 'selectGovernanceSharedRegistryOwnerBundle'. Did you mean 'GovernanceSharedRegistryOwnerBundle'?
+scripts/_local/phase139_governance_shared_registry_owner_bundle_report.ts(13,3): error TS2724: '"../../src/governance/cognition"' has no exported member named 'proveGovernanceSharedRegistryOwnerBundle'. Did you mean 'GovernanceSharedRegistryOwnerBundle'?
+scripts/_local/phase139_governance_shared_registry_owner_bundle_smoke.ts(12,3): error TS2724: '"../../src/governance/cognition"' has no exported member named 'selectGovernanceSharedRegistryOwnerBundle'. Did you mean 'GovernanceSharedRegistryOwnerBundle'?
+scripts/_local/phase139_governance_shared_registry_owner_bundle_smoke.ts(13,3): error TS2724: '"../../src/governance/cognition"' has no exported member named 'proveGovernanceSharedRegistryOwnerBundle'. Did you mean 'GovernanceSharedRegistryOwnerBundle'?
+scripts/_local/phase68_event_schema_validator.ts(45,17): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/phase68_event_schema_validator.ts(242,5): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/phase68_event_schema_validator.ts(246,5): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/phase72_operator_guidance_command.ts(12,31): error TS2591: Cannot find name 'node:url'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/phase72_operator_guidance_command.ts(47,10): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/phase72_operator_guidance_command.ts(48,17): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/phase72_operator_guidance_command.ts(49,10): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/phase72_operator_guidance_command.ts(50,37): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/phase72_operator_guidance_command.ts(53,15): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/phase72_operator_guidance_command.ts(57,3): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/phase72_operator_guidance_smoke.ts(11,5): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/phase73_operator_safety_gates_smoke.ts(11,5): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/phase74_operator_workflow_helpers_smoke.ts(11,5): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/phase75_operator_helper_priority_smoke.ts(10,5): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/phase75_ranked_helpers_smoke.ts(10,5): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/phase76_operator_playbooks.ts(47,15): error TS2339: Property 'healthAnomaly' does not exist on type 'OperatorSignals'.
+scripts/_local/phase76_playbook_selection_smoke.ts(11,5): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/phase76_playbook_selection_smoke.ts(38,5): error TS2353: Object literal may only specify known properties, and 'healthAnomaly' does not exist in type 'OperatorSignals'.
+scripts/_local/phase76_playbook_smoke.ts(37,5): error TS2353: Object literal may only specify known properties, and 'healthAnomaly' does not exist in type 'OperatorSignals'.
+scripts/_local/phase77_adaptation_guardrails_smoke.ts(11,5): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/phase77_adaptive_playbook_ordering_smoke.ts(11,5): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/phase77_signal_severity_model_smoke.ts(11,5): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/phase99_3_situation_summary_confidence_smoke.ts(1,30): error TS2591: Cannot find name 'node:fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/phase99_4_guidance_confidence_smoke.ts(1,30): error TS2591: Cannot find name 'node:fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/route-loader/ops-sse-bootstrap.ts(3,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/route-loader/ops-sse-bootstrap.ts(5,26): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/route-loader/ops-sse-server.ts(3,18): error TS2307: Cannot find module 'cors' or its corresponding type declarations.
+scripts/_local/route-loader/ops-sse-server.ts(6,13): error TS2349: This expression is not callable.
+  Type 'typeof import("express")' has no call signatures.
+scripts/_local/route-loader/reflection-sse-server.ts(3,18): error TS2307: Cannot find module 'cors' or its corresponding type declarations.
+scripts/_local/route-loader/reflection-sse-server.ts(6,13): error TS2349: This expression is not callable.
+  Type 'typeof import("express")' has no call signatures.
+scripts/_local/submit-task.ts(1,16): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/submit-task.ts(2,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/submit-task.ts(3,30): error TS2307: Cannot find module 'uuid' or its corresponding type declarations.
+scripts/_local/submit-task.ts(5,75): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/test-cade-state.ts(2,16): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/test-cade-state.ts(3,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/test-cade-state.ts(4,31): error TS2591: Cannot find name 'url'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/test-cade-state.ts(5,22): error TS2307: Cannot find module 'proper-lockfile' or its corresponding type declarations.
+scripts/_local/test-cade-state.ts(7,32): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/test_runtime_simulation.ts(2,16): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/test_runtime_simulation.ts(3,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/utils/chain.ts(1,16): error TS2591: Cannot find name 'fs/promises'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/utils/chain.ts(2,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/utils/chainState.ts(2,16): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/utils/chainState.ts(3,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/utils/chainState.ts(4,22): error TS2307: Cannot find module 'proper-lockfile' or its corresponding type declarations.
+scripts/_local/utils/chainState.ts(6,32): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/utils/log.ts(1,16): error TS2591: Cannot find name 'fs/promises'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/verification/check-replay-diagnostic-codes.ts(12,38): error TS2322: Type '"EVENT_ORDERING"' is not assignable to type '"REPLAY_DUPLICATE_TERMINAL_EVENT" | "REPLAY_EVENT_ORDER_VIOLATION" | "REPLAY_ROOT_EVENT_MISSING" | "REPLAY_UNKNOWN_EVENT"'.
+scripts/_local/verification/check-replay-diagnostic-codes.ts(13,44): error TS2322: Type '"DUPLICATE_SEQUENCE"' is not assignable to type '"REPLAY_DUPLICATE_TERMINAL_EVENT" | "REPLAY_EVENT_ORDER_VIOLATION" | "REPLAY_ROOT_EVENT_MISSING" | "REPLAY_UNKNOWN_EVENT"'.
+scripts/_local/verification/check-replay-diagnostic-codes.ts(13,66): error TS2322: Type '"EVENT_ORDERING"' is not assignable to type '"REPLAY_DUPLICATE_TERMINAL_EVENT" | "REPLAY_EVENT_ORDER_VIOLATION" | "REPLAY_ROOT_EVENT_MISSING" | "REPLAY_UNKNOWN_EVENT"'.
+scripts/_local/verification/check-replay-diagnostic-codes.ts(14,38): error TS2322: Type '"REPLAY_EMPTY"' is not assignable to type '"REPLAY_DUPLICATE_TERMINAL_EVENT" | "REPLAY_EVENT_ORDER_VIOLATION" | "REPLAY_ROOT_EVENT_MISSING" | "REPLAY_UNKNOWN_EVENT"'.
+scripts/_local/verification/check-replay-diagnostic-codes.ts(15,45): error TS2322: Type '"INVALID_TIMESTAMP"' is not assignable to type '"REPLAY_DUPLICATE_TERMINAL_EVENT" | "REPLAY_EVENT_ORDER_VIOLATION" | "REPLAY_ROOT_EVENT_MISSING" | "REPLAY_UNKNOWN_EVENT"'.
+scripts/_local/verification/check-replay-diagnostic-codes.ts(16,39): error TS2322: Type '"MISSING_ID"' is not assignable to type '"REPLAY_DUPLICATE_TERMINAL_EVENT" | "REPLAY_EVENT_ORDER_VIOLATION" | "REPLAY_ROOT_EVENT_MISSING" | "REPLAY_UNKNOWN_EVENT"'.
+scripts/_local/verification/check-replay-diagnostic-codes.ts(17,42): error TS2322: Type '"MISSING_SEQUENCE"' is not assignable to type '"REPLAY_DUPLICATE_TERMINAL_EVENT" | "REPLAY_EVENT_ORDER_VIOLATION" | "REPLAY_ROOT_EVENT_MISSING" | "REPLAY_UNKNOWN_EVENT"'.
+scripts/_local/verification/check-replay-diagnostic-codes.ts(18,43): error TS2322: Type '"MISSING_TIMESTAMP"' is not assignable to type '"REPLAY_DUPLICATE_TERMINAL_EVENT" | "REPLAY_EVENT_ORDER_VIOLATION" | "REPLAY_ROOT_EVENT_MISSING" | "REPLAY_UNKNOWN_EVENT"'.
+scripts/_local/verification/check-replay-diagnostic-codes.ts(19,38): error TS2322: Type '"MISSING_TYPE"' is not assignable to type '"REPLAY_DUPLICATE_TERMINAL_EVENT" | "REPLAY_EVENT_ORDER_VIOLATION" | "REPLAY_ROOT_EVENT_MISSING" | "REPLAY_UNKNOWN_EVENT"'.
+scripts/_local/verification/check-replay-diagnostic-codes.ts(20,43): error TS2322: Type '"REPLAY_ID_MISSING"' is not assignable to type '"REPLAY_DUPLICATE_TERMINAL_EVENT" | "REPLAY_EVENT_ORDER_VIOLATION" | "REPLAY_ROOT_EVENT_MISSING" | "REPLAY_UNKNOWN_EVENT"'.
+scripts/_local/verification/check-replay-diagnostic-codes.ts(21,46): error TS2322: Type '"REPLAY_EVENTS_ARRAY_MISSING"' is not assignable to type '"REPLAY_DUPLICATE_TERMINAL_EVENT" | "REPLAY_EVENT_ORDER_VIOLATION" | "REPLAY_ROOT_EVENT_MISSING" | "REPLAY_UNKNOWN_EVENT"'.
+scripts/_local/verification/check-replay-diagnostic-codes.ts(28,38): error TS2345: Argument of type '(this: undefined, result: ReplayFixtureValidationDiagnosticResult) => { fixture: string; problem: string; }[] | { fixture: string; expectedCodes: ("REPLAY_DUPLICATE_TERMINAL_EVENT" | ... 2 more ... | "REPLAY_UNKNOWN_EVENT")[]; actualCodes: any[]; }[]' is not assignable to parameter of type '(this: undefined, value: ReplayFixtureValidationDiagnosticResult, index: number, array: ReplayFixtureValidationDiagnosticResult[]) => { ...; } | readonly { ...; }[]'.
+  Type '{ fixture: string; problem: string; }[] | { fixture: string; expectedCodes: ("REPLAY_DUPLICATE_TERMINAL_EVENT" | "REPLAY_EVENT_ORDER_VIOLATION" | "REPLAY_ROOT_EVENT_MISSING" | "REPLAY_UNKNOWN_EVENT")[]; actualCodes: any[]; }[]' is not assignable to type '{ fixture: string; problem: string; } | readonly { fixture: string; problem: string; }[]'.
+    Type '{ fixture: string; expectedCodes: ("REPLAY_DUPLICATE_TERMINAL_EVENT" | "REPLAY_EVENT_ORDER_VIOLATION" | "REPLAY_ROOT_EVENT_MISSING" | "REPLAY_UNKNOWN_EVENT")[]; actualCodes: any[]; }[]' is not assignable to type '{ fixture: string; problem: string; } | readonly { fixture: string; problem: string; }[]'.
+      Type '{ fixture: string; expectedCodes: ("REPLAY_DUPLICATE_TERMINAL_EVENT" | "REPLAY_EVENT_ORDER_VIOLATION" | "REPLAY_ROOT_EVENT_MISSING" | "REPLAY_UNKNOWN_EVENT")[]; actualCodes: any[]; }[]' is not assignable to type 'readonly { fixture: string; problem: string; }[]'.
+        Property 'problem' is missing in type '{ fixture: string; expectedCodes: ("REPLAY_DUPLICATE_TERMINAL_EVENT" | "REPLAY_EVENT_ORDER_VIOLATION" | "REPLAY_ROOT_EVENT_MISSING" | "REPLAY_UNKNOWN_EVENT")[]; actualCodes: any[]; }' but required in type '{ fixture: string; problem: string; }'.
+scripts/_local/verification/check-replay-diagnostic-codes.ts(73,5): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/verification/check-replay-verification.ts(17,5): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/_local/verification/run-replay-fixture-validation.ts(14,3): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/agents/agent-heartbeat.ts(2,16): error TS2591: Cannot find name 'os'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/agents/agent-heartbeat.ts(3,16): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/agents/agent-heartbeat.ts(4,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/agents/agent-heartbeat.ts(5,29): error TS2591: Cannot find name 'timers'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/agents/agent-heartbeat.ts(8,33): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/agents/cade-create-webpage.ts(1,16): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/agents/cade-create-webpage.ts(2,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/agents/cade-create-webpage.ts(5,30): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/agents/cade-delegation-watcher.ts(1,16): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/agents/cade-delegation-watcher.ts(3,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/agents/cade-delegation-watcher.ts(10,28): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/agents/effie.ts(3,32): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/agents/ops.ts(2,29): error TS2591: Cannot find name 'timers'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/agents/ops.ts(3,16): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/agents/ops.ts(4,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/agents/ops.ts(7,27): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/agents/ops.ts(22,29): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/agents/reflections.ts(3,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/agents/reflections.ts(6,24): error TS2339: Property 'Router' does not exist on type 'typeof import("express")'.
+scripts/agents/reflections.ts(18,28): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/agents/utils/ensurePaths.ts(1,16): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/agents/utils/ensurePaths.ts(2,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/agents/utils/ensurePaths.ts(6,26): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/agents/utils/retryCreateAgent.ts(1,23): error TS2591: Cannot find name 'child_process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/agents_full/cade.ts(2,38): error TS2591: Cannot find name 'child_process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/agents_full/cade.ts(3,32): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/agents_full/cade.ts(4,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/agents_full/cade.ts(5,16): error TS2591: Cannot find name 'os'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/agents_full/cade.ts(6,18): error TS2591: Cannot find name 'util'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/agents_full/effie.ts(3,32): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/cli/matilda.ts(4,15): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/cli/matilda.ts(7,3): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/demo/run-create-atlas.ts(5,28): error TS2591: Cannot find name 'crypto'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/demo/run-demo-playback.ts(4,26): error TS2591: Cannot find name 'child_process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/demo/run-demo-playback.ts(5,16): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/demo/run-demo-playback.ts(6,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/demo/run-demo-playback.ts(9,35): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/demo/run-demo-sequence.ts(39,5): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/demo/verify-dashboard-sync.ts(2,19): error TS2307: Cannot find module 'node-fetch' or its corresponding type declarations.
+scripts/diagnostics/test-rehydration.ts(2,26): error TS2591: Cannot find name 'child_process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/diagnostics/test-rehydration.ts(30,3): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/launch-matilda.ts(2,36): error TS2307: Cannot find module '../../../mirror/agent' or its corresponding type declarations.
+scripts/launch-matilda.ts(3,25): error TS6059: File '/Users/marcela-dev/agents/matilda.ts' is not under 'rootDir' '/Users/marcela-dev/Projects/Motherboard_Systems_HQ'. 'rootDir' is expected to contain all source files.
+scripts/loaders/reflection-loader.ts(2,16): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/loaders/reflection-loader.ts(3,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/loaders/reflection-loader.ts(6,26): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/loaders/reflection-loader.ts(7,30): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/ops/create-entity.ts(3,16): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/ops/create-entity.ts(4,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/ops/create-entity.ts(97,39): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/ops/run-create-atlas.ts(4,14): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/phase87_13_situation_summary_cli.ts(1,30): error TS2591: Cannot find name 'node:fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/phase87_13_situation_summary_cli.ts(51,10): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/phase87_13_situation_summary_cli.ts(55,42): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/phase87_13_situation_summary_cli.ts(59,3): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/phase87_17_system_situation_summary_cli.ts(1,30): error TS2591: Cannot find name 'node:fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/phase87_17_system_situation_summary_cli.ts(57,10): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/phase87_17_system_situation_summary_cli.ts(61,42): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/phase87_17_system_situation_summary_cli.ts(65,3): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/phase87_1_situation_summary_smoke.ts(68,9): error TS2741: Property 'governanceCognitionState' is missing in type '{ stabilityState: "stable"; executionRiskState: "none"; cognitionState: "consistent"; signalCoherenceState: "coherent"; operatorAttentionState: "none"; summaryLines: string[]; }' but required in type 'SituationSummary'.
+scripts/phase87_1_situation_summary_smoke.ts(89,9): error TS2741: Property 'governanceCognitionState' is missing in type '{ stabilityState: "unknown"; executionRiskState: "unknown"; cognitionState: "unknown"; signalCoherenceState: "unknown"; operatorAttentionState: "unknown"; summaryLines: string[]; }' but required in type 'SituationSummary'.
+scripts/phase88_5_capture_system_health_route_payload.ts(55,3): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/phase88_5_capture_system_health_route_payload.ts(60,3): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/phase88_8_capture_system_health_js_route_payload.ts(55,3): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/phase88_8_capture_system_health_js_route_payload.ts(60,3): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/reset-roundtrip.ts(2,31): error TS2591: Cannot find name 'url'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/reset-roundtrip.ts(3,25): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/reset-roundtrip.ts(36,5): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/run-create-atlas.ts(2,16): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/run-create-atlas.ts(3,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/run-create-atlas.ts(4,26): error TS2591: Cannot find name 'child_process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/run-create-atlas.ts(7,29): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/run-create-atlas.ts(9,34): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/run-create-atlas.ts(50,5): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/run-create-atlas.ts(60,3): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/sequences/atlas-build-sequence.ts(1,20): error TS5097: An import path can only end with a '.ts' extension when 'allowImportingTsExtensions' is enabled.
+scripts/sequences/atlas-build-sequence.ts(2,34): error TS5097: An import path can only end with a '.ts' extension when 'allowImportingTsExtensions' is enabled.
+scripts/sequences/atlas-build-sequence.ts(46,17): error TS2339: Property 'main' does not exist on type 'ImportMeta'.
+scripts/sequences/atlas-build-sequence.ts(49,5): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/sequences/demo-cinematic-sequence.ts(2,16): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/sequences/demo-cinematic-sequence.ts(3,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/sequences/demo-cinematic-sequence.ts(5,27): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/sequences/prewarm-all-agents.ts(2,26): error TS2591: Cannot find name 'child_process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/sequences/prewarm-demo.ts(2,26): error TS2591: Cannot find name 'child_process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/servers/ops-sse-server.ts(3,18): error TS2307: Cannot find module 'cors' or its corresponding type declarations.
+scripts/servers/ops-sse-server.ts(6,13): error TS2349: This expression is not callable.
+  Type 'typeof import("express")' has no call signatures.
+scripts/servers/reflection-sse-server.ts(3,18): error TS2307: Cannot find module 'cors' or its corresponding type declarations.
+scripts/servers/reflection-sse-server.ts(5,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/servers/reflection-sse-server.ts(7,13): error TS2349: This expression is not callable.
+  Type 'typeof import("express")' has no call signatures.
+scripts/servers/reflection-sse-server.ts(20,28): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/skills/createFile.ts(1,16): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/skills/createFile.ts(2,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/skills/createFile.ts(5,30): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/skills/readFile.ts(1,16): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/skills/readFile.ts(2,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/skills/readFile.ts(5,30): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/sse/reflections-sse-server.ts(3,18): error TS2307: Cannot find module 'cors' or its corresponding type declarations.
+scripts/sse/reflections-sse-server.ts(5,13): error TS2349: This expression is not callable.
+  Type 'typeof import("express")' has no call signatures.
+scripts/streams/reflection-sse-lite.ts(1,18): error TS2591: Cannot find name 'http'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/utils/agentWatchdog.ts(1,26): error TS2591: Cannot find name 'child_process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/utils/agentWatchdog.ts(2,16): error TS2591: Cannot find name 'os'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/utils/ensure-task-events-main.ts(3,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/utils/ensure-task-events-main.ts(5,26): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/utils/ollamaPlan.ts(2,16): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/utils/ollamaPlan.ts(3,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/utils/ollamaPlan.ts(5,26): error TS2591: Cannot find name 'child_process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/utils/runSkill.ts(1,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/utils/runSkill.ts(5,33): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/utils/validateTaskEvent.ts(1,16): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/watchers/reflection-watcher.ts(2,16): error TS2591: Cannot find name 'fs'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/watchers/reflection-watcher.ts(3,18): error TS2591: Cannot find name 'path'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/watchers/reflection-watcher.ts(5,22): error TS2307: Cannot find module 'chokidar' or its corresponding type declarations.
+scripts/watchers/reflection-watcher.ts(7,25): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+scripts/watchers/reflection-watcher.ts(11,30): error TS2591: Cannot find name 'process'. Do you need to install type definitions for node? Try `npm i --save-dev @types/node` and then add 'node' to the types field in your tsconfig.
+src/cognition/situationSummaryComposer.ts(162,3): error TS2300: Duplicate identifier 'operationalConfidence'.
+src/cognition/situationSummaryComposer.ts(163,3): error TS2300: Duplicate identifier 'operationalConfidence'.
+src/cognition/situationSummaryComposer.ts(163,3): error TS2717: Subsequent property declarations must have the same type.  Property 'operationalConfidence' must be of type 'OperationalConfidence', but here has type '{ level: "LOW" | "MEDIUM" | "HIGH" | "UNKNOWN"; source?: "governance" | "cognition" | "signals"; }'.
+src/cognition/situationSummaryComposer.ts(272,9): error TS1117: An object literal cannot have multiple properties with the same name.
+src/cognition/situationSummaryComposer.ts(273,7): error TS18004: No value exists in scope for the shorthand property 'stabilityState'. Either declare one or provide an initializer.
+src/cognition/situationSummaryComposer.ts(274,7): error TS18004: No value exists in scope for the shorthand property 'executionRiskState'. Either declare one or provide an initializer.
+src/cognition/situationSummaryComposer.ts(275,7): error TS18004: No value exists in scope for the shorthand property 'cognitionState'. Either declare one or provide an initializer.
+src/cognition/situationSummaryComposer.ts(276,7): error TS18004: No value exists in scope for the shorthand property 'signalCoherenceState'. Either declare one or provide an initializer.
+src/cognition/situationSummaryComposer.ts(277,7): error TS18004: No value exists in scope for the shorthand property 'governanceCognitionState'. Either declare one or provide an initializer.
+src/governance/cognition/index.ts(6,8): error TS2307: Cannot find module './governance_cognition_snapshot' or its corresponding type declarations.
+src/governance/cognition/index.ts(11,57): error TS2307: Cannot find module './governance_dashboard_consumption_view' or its corresponding type declarations.
+src/governance_investigation/verification/replay_fixture_diagnostics.ts(16,3): error TS2614: Module '"./replay_violation_codes"' has no exported member 'normalizeViolations'. Did you mean to use 'import normalizeViolations from "./replay_violation_codes"' instead?
+src/governance_investigation/verification/replay_fixture_diagnostics.ts(17,8): error TS2724: '"./replay_violation_codes"' has no exported member named 'ReplayViolation'. Did you mean 'ReplayViolationCode'?
+
+Step 3: Checking real server target candidates
+OK   server.ts
+OK   scripts/server.cjs
+
+Step 4: Checking real agent target candidates
+OK   scripts/agents/cade.ts
+OK   scripts/agents/effie.ts
+OK   agents/matilda.ts/matilda.mjs
+
+Step 5: Checking agent launcher files
+OK   scripts/_local/agent-runtime/launch-cade.ts
+OK   scripts/_local/agent-runtime/launch-matilda.ts
+OK   scripts/_local/agent-runtime/launch-effie.ts
+
+Step 6: Dry-run require check (no execution)
+OK   package.json loadable
+
+=== NOTE ===
+This script does NOT start the server or agents.
+It only verifies readiness to avoid unintended runtime side effects.

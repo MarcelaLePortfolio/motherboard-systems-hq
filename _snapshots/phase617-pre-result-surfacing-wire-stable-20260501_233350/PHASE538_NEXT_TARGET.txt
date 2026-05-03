@@ -1,0 +1,43 @@
+PHASE 538 — NEXT TARGET
+
+CORRIDOR:
+OPERATOR EXPERIENCE + CONTROL SURFACE
+
+PRIORITY:
+Actionability layer (from observation → action)
+
+PROBLEM:
+- Execution Trail is now clear, but passive
+- Operator can see tasks but cannot act on them
+- No quick control over failed or stuck tasks
+
+OBJECTIVE:
+Introduce lightweight operator actions directly from UI
+
+INITIAL SCOPE (SAFE):
+- Add clickable rows or action affordance
+- On click:
+  → surface task_id
+  → log to console (no backend call yet)
+
+FUTURE (NOT NOW):
+- Retry task
+- Cancel task
+- Inspect task payload
+
+IMPLEMENTATION (SAFE, UI-ONLY):
+- Add click handler in renderEvent()
+- Example:
+  row.onclick = () => console.log("Task selected:", currentId);
+
+CONSTRAINTS:
+- Single file: public/js/task-events-sse-client.js
+- No backend changes
+- No API calls yet
+- Additive only
+
+GOAL:
+Bridge observability → interaction without breaking system
+
+STATUS:
+READY FOR NEXT SURGICAL UI PASS

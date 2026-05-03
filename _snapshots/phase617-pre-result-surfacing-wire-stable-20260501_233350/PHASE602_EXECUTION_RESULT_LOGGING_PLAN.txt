@@ -1,0 +1,24 @@
+Phase 602 execution result logging plan.
+
+Checkpoint:
+- Stable tag exists: phase601-execution-contract-helper-stable.
+- executeTaskWithContract helper is active and verified.
+- Worker claim loop is cleaner and behavior is preserved.
+
+Next Objective:
+Separate execution-contract logging from executeTaskWithContract internals.
+
+Reason:
+- executeTaskWithContract currently interprets, validates, logs, and returns.
+- Logging should become its own helper before future behavior changes.
+
+Target:
+- Create logContractedExecution(task, contractedExecution).
+- Keep output identical.
+- Keep completion behavior unchanged.
+
+Constraints:
+- No UI changes
+- No route changes
+- No schema changes
+- No behavior mutation

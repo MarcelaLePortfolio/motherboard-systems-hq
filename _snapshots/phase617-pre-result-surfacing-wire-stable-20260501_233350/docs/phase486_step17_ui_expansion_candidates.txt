@@ -1,0 +1,57 @@
+PHASE 486 — STEP 17
+UI CONSUMPTION EXPANSION CANDIDATES
+
+OBJECTIVE
+
+Identify next safe UI-only consumption surfaces for expansion
+without violating backend freeze or introducing logic.
+
+CURRENT VERIFIED SURFACE
+
+• Governance Trace panel (PASS)
+
+AVAILABLE PANELS (FROM EXISTING UI STRUCTURE)
+
+1. Admission Panel
+   • report.admissionDecision
+   • report.denialReasons
+   • governanceExplanation
+
+2. Execution Panel
+   • report.generatedRequest.tasks
+   • report.traversalOrder (unused in UI)
+
+3. Outcome Panel
+   • report.taskOutcomes
+   • report.finalDemoResult
+
+4. Request Panel
+   • report.requestId
+   • report.requestSummary
+
+EXPANSION RULES (RE-ASSERTED)
+
+Allowed:
+• Re-surface unused existing fields
+• Improve structural clarity
+• Add passive display blocks
+
+Forbidden:
+• Deriving new meaning
+• Recomputing values
+• Adding logic branches
+• Introducing async behavior
+
+LOWEST-RISK NEXT TARGET
+
+Execution Panel Expansion
+
+Reason:
+• traversalOrder exists but is not rendered
+• purely additive visibility
+• zero governance or approval risk
+• no interpretation required
+
+NEXT STEP
+
+Phase 486 Step 18 — define passive render spec for traversalOrder in Execution panel

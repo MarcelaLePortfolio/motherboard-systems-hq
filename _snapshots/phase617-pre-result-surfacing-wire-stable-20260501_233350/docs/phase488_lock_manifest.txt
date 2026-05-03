@@ -1,0 +1,61 @@
+PHASE 488 — LOCK MANIFEST
+
+STATUS: IMMUTABLE
+
+This manifest formally locks Phase 488 as a GOLDEN CHECKPOINT.
+
+LOCK SCOPE:
+
+• Worker lifecycle execution path
+• Phase32 SQL contract alignment
+• Tasks schema (minimum viable execution set)
+• Event emission pipeline (task.created → task.running → task.completed)
+• API reflection layer (/api/runs)
+• Dashboard consumption layer
+
+VERIFIED INVARIANTS:
+
+• Deterministic execution ordering preserved
+• No silent failures present
+• No contract ambiguity between worker and SQL
+• No schema-dependent runtime failures
+• All tasks reach terminal state
+• Event stream reflects full lifecycle
+
+PROHIBITED MUTATIONS:
+
+• Changing CLAIM / MARK SQL paths
+• Introducing mixed SQL contract families
+• Altering tasks schema without isolation phase
+• Modifying worker parameter arity
+• Introducing execution-side branching logic
+
+ALLOWED FUTURE WORK (REQUIRES NEW PHASE):
+
+• Operator-facing enhancements (Phase 487 continuation)
+• Governance visibility expansion (Matilda layer)
+• Audit / introspection surfaces
+• Non-invasive observability additions
+
+RECOVERY GUARANTEE:
+
+If system destabilizes:
+→ Revert to commit: 7a871692
+→ Restore this exact contract + schema state
+
+AUTHORITY MODEL:
+
+• Human retains full authority
+• System executes deterministically
+• No autonomous mutation permitted
+
+FINAL ASSERTION:
+
+Phase 488 represents the FIRST:
+✔ Fully deterministic
+✔ Fully observable
+✔ Fully governed
+✔ End-to-end execution-capable system state
+
+This checkpoint is now the canonical baseline for all future phases.
+

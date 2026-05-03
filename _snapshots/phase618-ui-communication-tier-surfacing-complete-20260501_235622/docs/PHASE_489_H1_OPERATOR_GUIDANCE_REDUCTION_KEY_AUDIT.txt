@@ -1,0 +1,96 @@
+PHASE 489 — H1 OPERATOR GUIDANCE REDUCTION KEY AUDIT
+Generated: 2026-04-14T18:11:11Z
+Repo Root: /Users/marcela-dev/Projects/Motherboard_Systems_HQ
+
+LIVE RESULT
+Operator Guidance body now renders: No guidance available
+Operator Guidance meta now renders: Sources: diagnostics/system-health
+
+INTERPRETATION
+Client wiring is now working.
+The remaining issue is server-side reduction content shape.
+We need the exact reduction keys/values to map a real message and confidence.
+
+=== REDUCTION BUILDER FILE SNIPPET ===
+  const hasHealthy = statuses.has("healthy");
+  const hasDegraded = statuses.has("degraded");
+  const hasStalled = statuses.has("stalled");
+  const hasUnknown = statuses.has("unknown");
+
+  if (hasStalled) {
+    return {
+      confidence: hasUnknown ? "low" : "medium",
+      reason: "At least one observed signal indicates a sustained non-healthy condition.",
+      signalCount: signals.length,
+      conflictingSignals: hasHealthy,
+    };
+  }
+
+  if (hasDegraded) {
+    return {
+      confidence: hasUnknown ? "low" : "medium",
+      reason: "Observed signals indicate degradation without proving system failure.",
+      signalCount: signals.length,
+      conflictingSignals: hasHealthy,
+    };
+  }
+
+  if (hasUnknown) {
+    return {
+      confidence: "low",
+      reason: "Observed signal quality is insufficient for stronger interpretation.",
+      signalCount: signals.length,
+      conflictingSignals: false,
+    };
+  }
+
+  return {
+    confidence: "high",
+    reason: "Observed signals are coherent and within acceptable bounds.",
+    signalCount: signals.length,
+    conflictingSignals: false,
+  };
+}
+
+export function reduceSystemHealthSnapshotToGuidanceReduction(snapshot) {
+  const generatedAt = Date.parse(snapshot.timestamp);
+  const now = Number.isFinite(generatedAt) ? generatedAt : Date.now();
+
+  const signals = [
+    {
+      key: "system-health",
+      domain: "system_health",
+      status: snapshot.status === "OK" ? "healthy" : "degraded",
+      value: snapshot.status,
+      summary: String(snapshot.situationSummary || "").split("\n")[0] || "system health snapshot available",
+      observedAt: now,
+      source: "diagnostics/system-health",
+    },
+  ];
+
+  const guidance = sortGuidanceDeterministically(signals.map(createBoundedGuidance));
+  const confidence = assessSurfaceConfidence(signals);
+
+  return {
+    envelope: {
+      guidance,
+      generatedAt: now,
+      cognitionVersion: "phase_89",
+      executionAuthority: "none",
+    },
+    surfaceConfidence: confidence.confidence,
+    confidenceReason: confidence.reason,
+    signalCount: confidence.signalCount,
+    conflictingSignals: confidence.conflictingSignals,
+  };
+}
+
+=== REDUCTION KEYS FROM PRIOR TRACE FILE ===
+1683:REDUCTION KEYS: ['confidenceReason', 'conflictingSignals', 'envelope', 'signalCount', 'surfaceConfidence']
+1684:REDUCTION JSON: {
+1716:REDUCTION KEYS: ['confidenceReason', 'conflictingSignals', 'envelope', 'signalCount', 'surfaceConfidence']
+1717:REDUCTION JSON: {
+
+
+=== NEXT ACTION ===
+Use the observed reduction keys to replace the client fallback with real reduction fields.

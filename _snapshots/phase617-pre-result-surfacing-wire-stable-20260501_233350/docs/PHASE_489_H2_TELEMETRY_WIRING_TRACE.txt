@@ -1,0 +1,1457 @@
+PHASE 489 — H2 TELEMETRY WIRING TRACE
+Generated: 2026-04-14T18:26:50Z
+Repo Root: /Users/marcela-dev/Projects/Motherboard_Systems_HQ
+
+=== SERVED TELEMETRY SCRIPT TAGS ===
+152:    #mb-task-events-panel-anchor {
+156:    #task-activity-graph {
+242:            <p id="metric-agents" class="text-2xl font-bold text-blue-400">--</p>
+246:            <p id="metric-tasks" class="text-2xl font-bold text-yellow-400">--</p>
+250:            <p id="metric-success-rate" class="text-2xl font-bold text-green-400">--</p>
+254:            <p id="metric-latency" class="text-2xl font-bold text-red-400">--</p>
+360:        <section id="phase61-telemetry-column" class="space-y-4" aria-label="Observational workspace">
+393:                <section id="task-activity-card" class="obs-surface">
+395:                    <canvas id="task-activity-graph" class="w-full h-full"></canvas>
+401:                <section id="task-events-card" class="obs-surface">
+402:                  <div id="mb-task-events-panel-anchor" class="bg-gray-900 border border-gray-700 rounded-xl p-3 text-sm text-gray-300"></div>
+442:  <script defer src="js/phase61_recent_history_wire.js"></script>
+443:  <script defer src="js/dashboard-graph.js"></script>
+569:  #mb-task-events-panel-anchor,
+
+=== TELEMETRY DOM ANCHORS IN SERVED INDEX ===
+
+=== CURRENT TELEMETRY CLIENT FILES ===
+--- FILE: /Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/phase61_recent_history_wire.js ---
+(function () {
+  const RECENT_ENDPOINT = "/api/tasks?limit=12";
+  const HISTORY_ENDPOINT = "/api/runs?limit=20";
+  const REFRESH_MS = 10000;
+
+  function log() {
+    try {
+      console.log("[phase61_recent_history_wire]", ...arguments);
+    } catch (_) {}
+  }
+
+  function escapeHtml(value) {
+    return String(value == null ? "" : value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  function formatTime(value) {
+    if (value == null || value === "") return "—";
+    const d = new Date(value);
+    if (!Number.isNaN(d.getTime())) return d.toLocaleString();
+    if (typeof value === "number") {
+      const n = new Date(value);
+      if (!Number.isNaN(n.getTime())) return n.toLocaleString();
+    }
+    return String(value);
+  }
+
+  function statusTone(status) {
+    const s = String(status || "").toLowerCase();
+    if (/fail|error|cancel|timeout/.test(s)) return "rgba(240,90,90,0.95)";
+    if (/complete|done|success|ok/.test(s)) return "rgba(80,200,120,0.95)";
+    if (/queue|pending|wait|retry|hold/.test(s)) return "rgba(250,204,21,0.95)";
+    if (/run|start|active|lease|progress|created/.test(s)) return "rgba(96,165,250,0.95)";
+    return "rgba(255,255,255,0.18)";
+  }
+
+  async function fetchJson(url) {
+    const res = await fetch(url, {
+      headers: { Accept: "application/json" },
+      cache: "no-store",
+    });
+
+    const text = await res.text();
+    let data = {};
+    try {
+      data = text ? JSON.parse(text) : {};
+    } catch (err) {
+      throw new Error(`Invalid JSON from ${url}: ${err.message}`);
+    }
+
+    if (!res.ok) {
+      throw new Error(data?.error || data?.message || `HTTP ${res.status} ${res.statusText}`);
+    }
+
+    return data;
+  }
+
+  function findRecentCard() {
+    return (
+      document.getElementById("recent-tasks-card") ||
+      document.querySelector("#obs-panel-recent .obs-surface") ||
+      document.querySelector("[data-phase61-panel='recent']") ||
+      null
+    );
+  }
+
+  function findHistoryCard() {
+    return (
+      document.getElementById("task-activity-card") ||
+      document.querySelector("#obs-panel-activity .obs-surface") ||
+      document.querySelector("[data-phase61-panel='history']") ||
+      null
+    );
+  }
+
+  function buildOwnedShell(key) {
+    const shell = document.createElement("div");
+    shell.setAttribute("data-phase61-shell", key);
+    shell.style.display = "flex";
+    shell.style.flexDirection = "column";
+    shell.style.gap = "10px";
+    shell.style.minHeight = "320px";
+
+    const probeEl = document.createElement("div");
+    probeEl.setAttribute("data-phase61-probe", key);
+    probeEl.style.fontSize = "11px";
+    probeEl.style.opacity = ".55";
+    probeEl.style.padding = "2px 0";
+    probeEl.textContent = `probe:${key}:boot`;
+
+    const statusEl = document.createElement("div");
+    statusEl.setAttribute("data-phase61-status", key);
+    statusEl.style.fontSize = "12px";
+    statusEl.style.opacity = ".72";
+
+    const listEl = document.createElement("div");
+    listEl.setAttribute("data-phase61-list", key);
+    listEl.style.display = "flex";
+    listEl.style.flexDirection = "column";
+    listEl.style.gap = "8px";
+
+    shell.appendChild(probeEl);
+    shell.appendChild(statusEl);
+    shell.appendChild(listEl);
+
+    return { shell, probeEl, statusEl, listEl };
+  }
+
+  function ensureOwnedCard(card, key) {
+    let shell = card.querySelector(`:scope > [data-phase61-shell="${key}"]`);
+    if (!shell) {
+      card.innerHTML = "";
+      const owned = buildOwnedShell(key);
+      card.appendChild(owned.shell);
+      shell = owned.shell;
+    }
+
+    const probeEl = shell.querySelector(`[data-phase61-probe="${key}"]`);
+    const statusEl = shell.querySelector(`[data-phase61-status="${key}"]`);
+    const listEl = shell.querySelector(`[data-phase61-list="${key}"]`);
+    return { shell, probeEl, statusEl, listEl };
+  }
+
+  function renderEmpty(listEl, message) {
+    listEl.innerHTML =
+      `<div class="rounded-xl border border-slate-800 bg-slate-950/60 px-3 py-3 text-sm text-slate-400">${escapeHtml(message)}</div>`;
+  }
+
+  function extractRecentRows(payload) {
+    if (Array.isArray(payload)) return payload;
+    if (Array.isArray(payload?.tasks)) return payload.tasks;
+    if (Array.isArray(payload?.rows)) return payload.rows;
+    if (Array.isArray(payload?.data)) return payload.data;
+    return [];
+  }
+
+  function extractHistoryRows(payload) {
+    if (Array.isArray(payload)) return payload;
+    if (Array.isArray(payload?.runs)) return payload.runs;
+    if (Array.isArray(payload?.rows)) return payload.rows;
+    if (Array.isArray(payload?.data)) return payload.data;
+    return [];
+  }
+
+  function normalizeRecentTask(row) {
+    const payload = row?.payload && typeof row.payload === "object" ? row.payload : {};
+    return {
+      id: String(row?.task_id ?? row?.id ?? "unknown"),
+      title: row?.title || payload?.title || row?.task || row?.name || "(untitled)",
+      status: String(row?.status || payload?.status || "unknown"),
+      kind: String(row?.kind || payload?.kind || "task"),
+      updatedAt: row?.updated_at || row?.updatedAt || row?.created_at || row?.createdAt || row?.ts || null,
+      agent: row?.agent || payload?.agent || payload?.target || row?.actor || row?.owner || "unassigned",
+    };
+  }
+
+  function normalizeRun(row) {
+    return {
+      id: String(row?.run_id ?? row?.runId ?? row?.id ?? "unknown"),
+      taskId: String(row?.task_id ?? row?.taskId ?? row?.title ?? "—"),
+      status: String(row?.task_status ?? row?.status ?? row?.state ?? "unknown"),
+      updatedAt: row?.updated_at || row?.updatedAt || row?.finished_at || row?.created_at || row?.createdAt || row?.ts || null,
+      agent: row?.agent || row?.actor || row?.owner || row?.last_actor || "unassigned",
+    };
+  }
+
+  function recentRowHtml(item) {
+    return `
+      <div class="rounded-xl border border-slate-800 bg-slate-950/60 px-3 py-3" data-phase61-recent-row="${escapeHtml(item.id)}">
+        <div class="flex items-start justify-between gap-3">
+          <div class="min-w-0">
+            <div class="text-sm font-medium text-slate-100 truncate">${escapeHtml(item.title)}</div>
+            <div class="mt-1 text-xs text-slate-400 break-all">${escapeHtml(item.id)}</div>
+          </div>
+          <div class="shrink-0 text-xs uppercase tracking-wide" style="color:${statusTone(item.status)}">${escapeHtml(item.status)}</div>
+        </div>
+        <div class="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-xs text-slate-400">
+          <span>kind: ${escapeHtml(item.kind)}</span>
+          <span>agent: ${escapeHtml(item.agent)}</span>
+          <span>updated: ${escapeHtml(formatTime(item.updatedAt))}</span>
+        </div>
+      </div>
+    `;
+  }
+
+  function historyRowHtml(item) {
+    return `
+      <div class="rounded-xl border border-slate-800 bg-slate-950/60 px-3 py-3" data-phase61-history-row="${escapeHtml(item.id)}">
+        <div class="flex items-start justify-between gap-3">
+          <div class="min-w-0">
+            <div class="text-sm font-medium text-slate-100 break-all">${escapeHtml(item.id)}</div>
+            <div class="mt-1 text-xs text-slate-400 break-all">task=${escapeHtml(item.taskId)}</div>
+          </div>
+          <div class="shrink-0 text-xs uppercase tracking-wide" style="color:${statusTone(item.status)}">${escapeHtml(item.status)}</div>
+        </div>
+        <div class="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-xs text-slate-400">
+          <span>agent: ${escapeHtml(item.agent)}</span>
+          <span>updated: ${escapeHtml(formatTime(item.updatedAt))}</span>
+        </div>
+      </div>
+    `;
+  }
+
+  async function refreshRecent() {
+    const card = findRecentCard();
+    if (!card) {
+      log("recent card not found");
+      return;
+    }
+
+    const parts = ensureOwnedCard(card, "recent");
+    parts.probeEl.textContent = "probe:recent:loading";
+    parts.statusEl.textContent = "Loading recent tasks…";
+
+    try {
+      const payload = await fetchJson(RECENT_ENDPOINT);
+      const rows = extractRecentRows(payload);
+      log("recent payload", payload);
+      log("recent rows", rows.length);
+
+      if (!rows.length) {
+        parts.probeEl.textContent = "probe:recent:empty";
+        parts.statusEl.textContent = "No recent tasks returned.";
+        renderEmpty(parts.listEl, "No recent tasks yet.");
+        return;
+      }
+
+      parts.listEl.innerHTML = rows
+        .slice(0, 12)
+        .map(normalizeRecentTask)
+        .map(recentRowHtml)
+        .join("");
+
+      parts.probeEl.textContent = `probe:recent:rows:${rows.length}`;
+      parts.statusEl.textContent = `Loaded ${rows.length} recent task${rows.length === 1 ? "" : "s"}`;
+      card.setAttribute("data-phase61-rendered", String(rows.length));
+    } catch (err) {
+      parts.probeEl.textContent = `probe:recent:error:${err.message}`;
+      parts.statusEl.textContent = "Recent Tasks unavailable";
+      renderEmpty(parts.listEl, `Error loading Recent Tasks: ${err.message}`);
+      console.error("[phase61_recent_history_wire] refreshRecent failed", err);
+    }
+  }
+
+  async function refreshHistory() {
+    const card = findHistoryCard();
+    if (!card) {
+      log("history card not found");
+      return;
+    }
+
+    const parts = ensureOwnedCard(card, "history");
+    parts.probeEl.textContent = "probe:history:loading";
+    parts.statusEl.textContent = "Loading task history…";
+
+    try {
+
+--- FILE: /Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/dashboard-graph.js ---
+// <0001fae8> Phase 6.3 — Task Activity Graph (Phase One)
+import { Chart, registerables } from "chart.js";
+Chart.register(...registerables);
+
+const ctx = document.getElementById("taskActivityGraph").getContext("2d");
+let chart;
+
+async function fetchOPSData() {
+  const res = await fetch("/tmp/ops.json").catch(() => null);
+  if (!res || !res.ok) return [];
+  return await res.json();
+}
+
+async function renderGraph() {
+  const data = await fetchOPSData();
+  const labels = data.map((d) => new Date(d.created_at).toLocaleTimeString());
+  const counts = data.map((_, i) => i + 1);
+
+  if (chart) chart.destroy();
+  chart = new Chart(ctx, {
+    type: "line",
+    data: {
+      labels,
+      datasets: [
+        {
+          label: "Task Activity",
+          data: counts,
+          borderWidth: 2,
+          fill: false,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: true },
+      },
+      scales: {
+        x: { title: { display: true, text: "Time" } },
+        y: { title: { display: true, text: "Task Count" }, beginAtZero: true },
+      },
+    },
+  });
+}
+
+setInterval(renderGraph, 3000);
+renderGraph();
+
+--- FILE: /Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/task-activity.js ---
+// This script initializes the Task Activity Chart using Chart.js.
+
+// Note: We use the global Chart object provided by the Chart.js CDN (chart.umd.js).
+
+document.addEventListener('DOMContentLoaded', () => {
+    const ctx = document.getElementById('task-activity-graph').getContext('2d');
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00'],
+            datasets: [{
+                label: 'Tasks Completed',
+                data: [12, 19, 3, 5, 2, 3, 7],
+                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderWidth: 1
+            },
+            {
+                label: 'Tasks Delegated',
+                data: [8, 11, 2, 4, 1, 2, 5],
+                borderColor: 'rgba(255, 159, 64, 1)',
+                backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+});
+
+--- FILE: /Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/task-activity-graph.js ---
+// <0001fc22> Phase 2.2 — Exported Task Activity Graph Renderer
+
+import { Chart } from "chart.js";
+
+let activityChart;
+
+/**
+ * Exported so dashboard-graph-loader.js can import it.
+ */
+export function renderTaskActivityGraph(ctx, tasks) {
+    // Extract labels and datasets
+    const labels = tasks.map(t => new Date(t.timestamp * 1000).toLocaleTimeString());
+    const completedData = tasks.map(t => t.status === "completed" ? 1 : 0);
+    const failedData = tasks.map(t => t.status === "failed" ? 1 : 0);
+
+    // If chart exists, update it
+    if (activityChart) {
+        activityChart.data.labels = labels;
+        activityChart.data.datasets[0].data = completedData;
+        activityChart.data.datasets[1].data = failedData;
+        activityChart.update();
+        return;
+    }
+
+    // Otherwise create new chart
+    activityChart = new Chart(ctx, {
+        type: "line",
+        data: {
+            labels,
+            datasets: [
+                {
+                    label: "Completed",
+                    data: completedData,
+                    borderColor: "#10b981",
+                    backgroundColor: "rgba(16, 185, 129, 0.2)",
+                    borderWidth: 2,
+                    fill: true
+                },
+                {
+                    label: "Failed",
+                    data: failedData,
+                    borderColor: "#ef4444",
+                    backgroundColor: "rgba(239, 68, 68, 0.2)",
+                    borderWidth: 2,
+                    fill: true
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: { beginAtZero: true }
+            }
+        }
+    });
+}
+
+--- FILE: /Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/telemetry/latency_metric.js ---
+/*
+PHASE 65C TELEMETRY HYDRATION
+Latency Metric
+Telemetry now sole writer.
+*/
+
+(function () {
+  const RUNNING_EVENT_TYPES = new Set([
+    "task.created",
+    "task.queued",
+    "task.leased",
+    "task.started",
+    "task.running",
+    "task.in_progress",
+    "task.delegated",
+    "task.retrying",
+    "created",
+    "queued",
+    "leased",
+    "started",
+    "running",
+    "in_progress",
+    "delegated",
+    "retrying",
+  ]);
+
+  const TERMINAL_EVENT_TYPES = new Set([
+    "task.completed",
+    "task.complete",
+    "task.done",
+    "task.success",
+    "task.failed",
+    "task.error",
+    "task.cancelled",
+    "task.canceled",
+    "task.timed_out",
+    "task.timeout",
+    "task.terminated",
+    "task.aborted",
+    "completed",
+    "complete",
+    "done",
+    "success",
+    "failed",
+    "error",
+    "cancelled",
+    "canceled",
+    "timed_out",
+    "timeout",
+    "terminated",
+    "aborted",
+  ]);
+
+  const taskStartTimes = new Map();
+  const seenTerminalEvents = new Set();
+  const recentDurationsMs = [];
+  const maxSamples = 50;
+
+  function getMetricNode() {
+    return document.getElementById("metric-latency");
+  }
+
+  function formatLatency(ms) {
+    if (!Number.isFinite(ms) || ms <= 0) return "—";
+    if (ms < 1000) return `${Math.round(ms)}ms`;
+    const seconds = ms / 1000;
+    if (seconds < 60) return `${seconds.toFixed(seconds >= 10 ? 0 : 1)}s`;
+    const minutes = seconds / 60;
+    return `${minutes.toFixed(minutes >= 10 ? 0 : 1)}m`;
+  }
+
+  function render() {
+    const node = getMetricNode();
+    if (!node) return;
+
+    const value = !recentDurationsMs.length
+      ? "—"
+      : formatLatency(
+          recentDurationsMs.reduce((sum, value) => sum + value, 0) /
+            recentDurationsMs.length
+        );
+
+    if (window.__phase65bMetricWrite) {
+      window.__phase65bMetricWrite(() => {
+        node.textContent = value;
+      });
+    } else {
+      node.textContent = value;
+    }
+  }
+
+  function getEventType(payload) {
+    return String(
+      payload?.type ||
+        payload?.event ||
+        payload?.name ||
+        payload?.status ||
+        payload?.state ||
+        ""
+    )
+      .trim()
+      .toLowerCase();
+  }
+
+  function getTaskId(payload) {
+    return String(
+      payload?.task_id ??
+        payload?.taskId ??
+        payload?.id ??
+        payload?.data?.task_id ??
+        payload?.data?.taskId ??
+        ""
+    ).trim();
+  }
+
+  function toMs(raw) {
+    if (typeof raw === "number" && Number.isFinite(raw)) {
+      return raw > 1e12 ? raw : raw * 1000;
+    }
+
+    if (typeof raw === "string" && raw.trim()) {
+      const asNum = Number(raw);
+      if (Number.isFinite(asNum)) return asNum > 1e12 ? asNum : asNum * 1000;
+      const parsed = Date.parse(raw);
+      if (Number.isFinite(parsed)) return parsed;
+    }
+
+    return Date.now();
+  }
+
+  function getEventTs(payload) {
+    return toMs(
+      payload?.ts ??
+        payload?.timestamp ??
+        payload?.at ??
+        payload?.time ??
+        payload?.created_at ??
+        payload?.updated_at ??
+        Date.now()
+    );
+  }
+
+  function processPayload(payload) {
+    const type = getEventType(payload);
+    const taskId = getTaskId(payload);
+    const eventTs = getEventTs(payload);
+
+    if (!taskId) {
+      render();
+      return;
+    }
+
+    if (RUNNING_EVENT_TYPES.has(type)) {
+      if (!taskStartTimes.has(taskId)) {
+        taskStartTimes.set(taskId, eventTs);
+      }
+    }
+
+    if (TERMINAL_EVENT_TYPES.has(type)) {
+      const dedupeKey = `${taskId}|${type}|${eventTs}`;
+
+      if (!seenTerminalEvents.has(dedupeKey)) {
+        seenTerminalEvents.add(dedupeKey);
+
+        const startTs = taskStartTimes.get(taskId);
+        if (Number.isFinite(startTs)) {
+          const duration = Math.max(0, eventTs - startTs);
+          recentDurationsMs.push(duration);
+          if (recentDurationsMs.length > maxSamples) {
+            recentDurationsMs.splice(0, recentDurationsMs.length - maxSamples);
+          }
+        }
+      }
+
+      taskStartTimes.delete(taskId);
+    }
+
+    render();
+  }
+
+  function attach(source) {
+    if (!source || source.__phase65cLatencyBound) return;
+
+    source.__phase65cLatencyBound = true;
+
+    source.addEventListener("message", (e) => {
+      try {
+        const parsed = JSON.parse(e.data);
+        if (Array.isArray(parsed)) {
+          parsed.forEach(processPayload);
+        } else {
+          processPayload(parsed);
+        }
+      } catch {
+        console.warn("latency_metric parse error");
+      }
+    });
+  }
+
+  function patchEventSource() {
+    if (window.__phase65cLatencyPatched) return;
+
+    const Native = window.EventSource;
+    if (typeof Native !== "function") return;
+
+    function Wrapped(url, config) {
+      const es = new Native(url, config);
+
+      try {
+        if (String(url).includes("/events/task-events")) {
+          attach(es);
+        }
+      } catch {}
+
+      return es;
+    }
+
+    Wrapped.prototype = Native.prototype;
+    window.EventSource = Wrapped;
+    window.__phase65cLatencyPatched = true;
+  }
+
+  function bootstrap() {
+    patchEventSource();
+    render();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", bootstrap);
+  } else {
+    bootstrap();
+  }
+})();
+
+--- FILE: /Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/telemetry/success_rate_metric.js ---
+/*
+PHASE 65C TELEMETRY HYDRATION
+Success Rate Metric
+Telemetry now sole writer.
+*/
+
+(function () {
+  const TERMINAL_SUCCESS_TYPES = new Set([
+    "task.completed",
+    "task.complete",
+    "task.done",
+    "task.success",
+    "completed",
+    "complete",
+    "done",
+    "success",
+  ]);
+
+  const TERMINAL_FAILURE_TYPES = new Set([
+    "task.failed",
+    "task.error",
+    "task.cancelled",
+    "task.canceled",
+    "task.timed_out",
+    "task.timeout",
+    "failed",
+    "error",
+    "cancelled",
+    "canceled",
+    "timed_out",
+    "timeout",
+    "terminated",
+    "aborted",
+  ]);
+
+  const seenTerminalEvents = new Set();
+  let completedCount = 0;
+  let failedCount = 0;
+
+  function getMetricNode() {
+    return document.getElementById("metric-success");
+  }
+
+  function render() {
+    const node = getMetricNode();
+    if (!node) return;
+
+    const total = completedCount + failedCount;
+    const value = total > 0 ? `${Math.round((completedCount / total) * 100)}%` : "—";
+
+    if (window.__phase65bMetricWrite) {
+      window.__phase65bMetricWrite(() => {
+        node.textContent = value;
+      });
+    } else {
+      node.textContent = value;
+    }
+  }
+
+  function getEventType(payload, fallbackEventName) {
+    return String(
+      payload?.type ||
+        payload?.event ||
+        payload?.name ||
+        payload?.kind ||
+        payload?.status ||
+        payload?.state ||
+        fallbackEventName ||
+        ""
+    )
+      .trim()
+      .toLowerCase();
+  }
+
+  function getTaskId(payload) {
+    return String(
+      payload?.task_id ??
+        payload?.taskId ??
+        payload?.id ??
+        payload?.data?.task_id ??
+        payload?.data?.taskId ??
+        payload?.meta?.task_id ??
+        payload?.meta?.taskId ??
+        ""
+    ).trim();
+  }
+
+  function getEventTs(payload) {
+    const raw =
+      payload?.ts ??
+      payload?.timestamp ??
+      payload?.at ??
+      payload?.time ??
+      payload?.created_at ??
+      payload?.updated_at ??
+      Date.now();
+
+    if (typeof raw === "number" && Number.isFinite(raw)) {
+      return raw > 1e12 ? raw : raw * 1000;
+    }
+
+    if (typeof raw === "string" && raw.trim()) {
+      const asNum = Number(raw);
+      if (Number.isFinite(asNum)) return asNum > 1e12 ? asNum : asNum * 1000;
+      const parsed = Date.parse(raw);
+      if (Number.isFinite(parsed)) return parsed;
+    }
+
+    return Date.now();
+  }
+
+  function normalizePayload(payload, fallbackEventName) {
+    const value = payload && typeof payload === "object" ? { ...payload } : {};
+    const meta = value.meta && typeof value.meta === "object" ? value.meta : null;
+
+    if (value.kind === "task.event" && value.type) {
+      value.kind = value.type;
+    }
+
+    if (meta) {
+      if (value.task_id == null && meta.task_id != null) value.task_id = meta.task_id;
+      if (value.taskId == null && meta.taskId != null) value.taskId = meta.taskId;
+      if (value.status == null && meta.status != null) value.status = meta.status;
+      if (value.state == null && meta.state != null) value.state = meta.state;
+      if (value.event == null && meta.event != null) value.event = meta.event;
+      if (value.type == null && meta.type != null) value.type = meta.type;
+    }
+
+    value.__phase62bFallbackEventName = fallbackEventName || "";
+    return value;
+  }
+
+  function processPayload(payload, fallbackEventName) {
+    const normalized = normalizePayload(payload, fallbackEventName);
+    const type = getEventType(normalized, fallbackEventName);
+    const taskId = getTaskId(normalized);
+    const ts = getEventTs(normalized);
+
+    if (!type) {
+      render();
+      return;
+    }
+
+    const isSuccess = TERMINAL_SUCCESS_TYPES.has(type);
+    const isFailure = TERMINAL_FAILURE_TYPES.has(type);
+
+    if (!isSuccess && !isFailure) {
+      render();
+      return;
+    }
+
+    const dedupeKey = `${taskId || "no-task"}|${type}|${ts}`;
+    if (seenTerminalEvents.has(dedupeKey)) {
+      render();
+      return;
+    }
+
+    seenTerminalEvents.add(dedupeKey);
+
+    if (isSuccess) completedCount += 1;
+    if (isFailure) failedCount += 1;
+
+    render();
+  }
+
+  function attach(source) {
+    if (!source || source.__phase65cSuccessBound) return;
+
+    source.__phase65cSuccessBound = true;
+
+    const handle = (fallbackEventName, e) => {
+      try {
+        const parsed = JSON.parse(e.data);
+        if (Array.isArray(parsed)) {
+          parsed.forEach((item) => processPayload(item, fallbackEventName));
+        } else {
+          processPayload(parsed, fallbackEventName);
+        }
+      } catch {
+        console.warn("success_rate_metric parse error");
+      }
+    };
+
+    const eventNames = [
+      "message",
+      "task.event",
+      "task.completed",
+      "task.failed",
+      "task.updated",
+      "task.status",
+    ];
+
+    eventNames.forEach((eventName) => {
+      source.addEventListener(eventName, (e) => handle(eventName, e));
+    });
+  }
+
+  function patchEventSource() {
+    if (window.__phase65cSuccessPatched) return;
+
+    const Native = window.EventSource;
+    if (typeof Native !== "function") return;
+
+    function Wrapped(url, config) {
+      const es = new Native(url, config);
+
+      try {
+        if (String(url).includes("/events/task-events")) {
+          attach(es);
+        }
+      } catch {}
+
+      return es;
+    }
+
+    Wrapped.prototype = Native.prototype;
+    window.EventSource = Wrapped;
+    window.__phase65cSuccessPatched = true;
+  }
+
+  function bootstrap() {
+    patchEventSource();
+    render();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", bootstrap);
+  } else {
+    bootstrap();
+  }
+})();
+
+--- FILE: /Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/telemetry/queue_latency_metric.js ---
+/*
+Phase 80.2 — Queue Latency Metric
+
+Derived telemetry only.
+No ownership conflicts.
+Follows Phase 65 metric ownership rules.
+*/
+
+(function(){
+
+let queueTimes = []
+
+function recordLatency(task){
+  if(!task) return
+
+  if(task.created_ts && task.started_ts){
+    const latency = task.started_ts - task.created_ts
+    if(latency >= 0){
+      queueTimes.push(latency)
+      if(queueTimes.length > 200){
+        queueTimes.shift()
+      }
+    }
+  }
+}
+
+function avgLatency(){
+  if(queueTimes.length === 0) return 0
+  return Math.round(
+    queueTimes.reduce((a,b)=>a+b,0) / queueTimes.length
+  )
+}
+
+function processEvent(evt){
+  if(!evt) return
+
+  if(evt.type === "task.started"){
+    recordLatency(evt.task || evt)
+  }
+}
+
+if(window.telemetryBus && window.telemetryBus.subscribe){
+  window.telemetryBus.subscribe("task-events", processEvent)
+}
+
+window.queueLatencyMetric = {
+  getAverage: avgLatency
+}
+
+})()
+
+=== LIVE ENDPOINT CHECKS ===
+--- http://localhost:8080/events/task-events ---
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: text/event-stream; charset=utf-8
+Cache-Control: no-cache, no-transform
+Connection: keep-alive
+X-Accel-Buffering: no
+Date: Tue, 14 Apr 2026 18:26:50 GMT
+Transfer-Encoding: chunked
+
+event: error
+data: {"kind":"task-events","msg":"task-events stream bootstrap error","detail":"relation \"task_events\" does not exist","ts":1776191210414,"cursor":0}
+
+
+--- http://localhost:8080/api/runs?limit=10 ---
+HTTP/1.1 500 Internal Server Error
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 59
+ETag: W/"3b-HWni3vqXg1dGsDK7wdfBxf9eE/w"
+Date: Tue, 14 Apr 2026 18:26:50 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"ok":false,"error":"relation \"run_view\" does not exist"}
+--- http://localhost:8080/api/tasks ---
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 22
+ETag: W/"16-95oD+khTG4YC/pLiYfJG2TT/GRQ"
+Date: Tue, 14 Apr 2026 18:26:50 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"ok":true,"tasks":[]}
+--- http://localhost:8080/api/heartbeat ---
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 57
+ETag: W/"39-XjsU/aYjz6hTVgmd+YSUTE+mOa8"
+Date: Tue, 14 Apr 2026 18:26:50 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"ok":true,"ts":1776191210454,"ops":{"ts":1776191052535}}
+=== SERVER ROUTES / REFERENCES ===
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/temp_delegate_code.js:3:// to task-events.log for the new stream.
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/temp_delegate_code.js:26:            console.error('Error writing initial task-events.log entry:', err);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114821/public/js/dashboard-graph-loader.js:2:import { renderTaskActivityGraph } from "./task-activity-graph.js";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114821/public/js/dashboard-stream.js:2:import { renderTaskActivityGraph } from "./task-activity-graph.js";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114821/server.ts:12:import tasksRoutes from "./routes/api/tasks"; 
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114707/public/js/dashboard-graph-loader.js:2:import { renderTaskActivityGraph } from "./task-activity-graph.js";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/snapshots/20251114-114707/public/js/dashboard-stream.js:2:import { renderTaskActivityGraph } from "./task-activity-graph.js";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/task_events_emit.mjs:1:import { appendTaskEvent } from "./task-events.mjs";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/api/tasks-mutations/delegate-taskspec.mjs:20: * POST /api/tasks-mutations/delegate-taskspec
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/api/tasks-mutations/delegate-taskspec.mjs:28: * - Inserts into task_events(kind="task.created") so /events/task-events advances
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/enforcement/phase44_mutation_allowlist.mjs:6: *   { method: "POST", path: "/api/tasks" }
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/enforcement/phase44_mutation_allowlist.mjs:7: *   { method: "POST", path: "/api/tasks/:task_id/cancel" }
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/enforcement/phase44_mutation_allowlist.mjs:14:  // { method: "POST", path: "/api/tasks" },
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/enforcement/phase44_mutation_enforcer.mjs:26: * - "/api/tasks/:id/cancel" => /^\/api\/tasks\/[^/]+\/cancel$/
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/enforcement/phase44_mutation_enforcer.mjs:27: * - "/api/tasks" => /^\/api\/tasks$/
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/api-tasks-postgres.mjs:38:// GET /api/tasks?limit=25  -> recent tasks for dashboard widget
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/api-tasks-postgres.mjs:40:  console.log("[phase57c-router] /api/tasks probe", {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/api-tasks-postgres.mjs:66:    console.error("[phase25] /api/tasks list error", e);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/api-tasks-postgres.mjs:71:// POST /api/tasks/create  { task_id?, title?, agent?, run_id?, ... }
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/api-tasks-postgres.mjs:77:    console.log("[phase25] /api/tasks/create pool snapshot", {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/api-tasks-postgres.mjs:140:    console.error("[phase25] /api/tasks error", e);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/api-tasks-postgres.mjs:150:// POST /api/tasks/complete  { task_id, status?, run_id?, ... }
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/api-tasks-postgres.mjs:154:    assertNotEnforced("http:/api/tasks/create");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/api-tasks-postgres.mjs:178:    console.error("[phase25] /api/tasks error", e);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/api-tasks-postgres.mjs:188:// POST /api/tasks/fail  { task_id, error?, status?, run_id?, ... }
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/api-tasks-postgres.mjs:192:    assertNotEnforced("http:/api/tasks/complete");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/api-tasks-postgres.mjs:216:    console.error("[phase25] /api/tasks error", e);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/api-tasks-postgres.mjs:226:// POST /api/tasks/cancel  { task_id, run_id?, ... }
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/api-tasks-postgres.mjs:230:    assertNotEnforced("http:/api/tasks/cancel");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/api-tasks-postgres.mjs:233:    assertNotEnforced("http:/api/tasks/fail");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/api-tasks-postgres.mjs:256:    console.error("[phase25] /api/tasks error", e);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/phase40_6_shadow_audit_task_events.mjs:5:  app.get("/api/shadow/audit/task-events", async (req, res) => {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/phase40_6_shadow_audit_task_events.mjs:39:        scope: "phase40.6.shadow-audit.task-events",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/phase40_6_shadow_audit_task_events.mjs:48:        scope: "phase40.6.shadow-audit.task-events",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/task-events-sse.mjs:55:router.get("/api/task-events-sse", (req, res) => {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/task-events-sse.mjs:56:  res.redirect(307, "/events/task-events");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/task-events-sse.mjs:59:router.get("/events/task-events", async (req, res) => {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/task-events-sse.mjs:75:        kind: "task-events",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/task-events-sse.mjs:108:        kind: "task-events",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/task-events-sse.mjs:172:            kind: "task-events",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/task-events-sse.mjs:173:            msg: "task-events stream error",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/task-events-sse.mjs:200:        kind: "task-events",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/task-events-sse.mjs:201:        msg: "task-events stream bootstrap error",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/phase36_run_view.mjs:6: * GET /api/runs/:run_id
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/phase36_run_view.mjs:43:  // GET /api/runs?limit=200&task_status=created&task_status=running&is_terminal=true&since_ts=1770000000000
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/phase36_run_view.mjs:44:  app.get("/api/runs", async (req, res) => {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/phase36_run_view.mjs:133:  app.get("/api/runs/:run_id", async (req, res) => {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server/routes/phase36_run_view.mjs:170:    console.error("GET /api/runs failed", err);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/exports/dashboard_phase6.8/js/dashboard-graph-loader.js:2:import { renderTaskActivityGraph } from "./task-activity-graph.js";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/exports/dashboard_phase6.8/js/dashboard-stream.js:2:import { renderTaskActivityGraph } from "./task-activity-graph.js";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:149:      #task-events-card {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:196:      #task-events-card.phase61-events-fill {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:201:      #task-events-card.phase61-events-fill #mb-task-events-panel-anchor {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:240:    <style id="phase61-task-events-polish">
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:241:    .task-events-panel,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:242:    [data-phase61-task-events],
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:243:    [data-tab-panel="task-events"],
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:244:    #task-events-panel,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:245:    #task-events,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:246:    .task-events {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:250:    .task-events-panel .task-events-list,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:251:    [data-phase61-task-events] .task-events-list,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:252:    [data-tab-panel="task-events"] .task-events-list,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:253:    #task-events-panel .task-events-list,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:254:    #task-events .task-events-list,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:255:    .task-events .task-events-list,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:256:    .task-events-panel ul,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:257:    [data-phase61-task-events] ul,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:258:    [data-tab-panel="task-events"] ul,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:259:    #task-events-panel ul,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:260:    #task-events ul,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:261:    .task-events ul {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:269:    .task-events-panel .task-event,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:270:    [data-phase61-task-events] .task-event,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:271:    [data-tab-panel="task-events"] .task-event,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:272:    #task-events-panel .task-event,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:273:    #task-events .task-event,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:274:    .task-events .task-event,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:275:    .task-events-panel li,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:276:    [data-phase61-task-events] li,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:277:    [data-tab-panel="task-events"] li,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:278:    #task-events-panel li,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:279:    #task-events li,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:280:    .task-events li {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:295:    .task-events-panel .task-event::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:296:    [data-phase61-task-events] .task-event::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:297:    [data-tab-panel="task-events"] .task-event::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:298:    #task-events-panel .task-event::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:299:    #task-events .task-event::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:300:    .task-events .task-event::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:301:    .task-events-panel li::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:302:    [data-phase61-task-events] li::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:303:    [data-tab-panel="task-events"] li::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:304:    #task-events-panel li::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:305:    #task-events li::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:306:    .task-events li::before {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:317:    .task-events-panel .task-event.phase61-event-terminal::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:318:    [data-phase61-task-events] .task-event.phase61-event-terminal::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:319:    [data-tab-panel="task-events"] .task-event.phase61-event-terminal::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:320:    #task-events-panel .task-event.phase61-event-terminal::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:321:    #task-events .task-event.phase61-event-terminal::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:322:    .task-events .task-event.phase61-event-terminal::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:323:    .task-events-panel li.phase61-event-terminal::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:324:    [data-phase61-task-events] li.phase61-event-terminal::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:325:    [data-tab-panel="task-events"] li.phase61-event-terminal::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:326:    #task-events-panel li.phase61-event-terminal::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:327:    #task-events li.phase61-event-terminal::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:328:    .task-events li.phase61-event-terminal::before {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:332:    .task-events-panel .task-event.phase61-event-active::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:333:    [data-phase61-task-events] .task-event.phase61-event-active::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:334:    [data-tab-panel="task-events"] .task-event.phase61-event-active::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:335:    #task-events-panel .task-event.phase61-event-active::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:336:    #task-events .task-event.phase61-event-active::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:337:    .task-events .task-event.phase61-event-active::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:338:    .task-events-panel li.phase61-event-active::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:339:    [data-phase61-task-events] li.phase61-event-active::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:340:    [data-tab-panel="task-events"] li.phase61-event-active::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:341:    #task-events-panel li.phase61-event-active::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:342:    #task-events li.phase61-event-active::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:343:    .task-events li.phase61-event-active::before {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:347:    .task-events-panel .task-event.phase61-event-waiting::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:348:    [data-phase61-task-events] .task-event.phase61-event-waiting::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:349:    [data-tab-panel="task-events"] .task-event.phase61-event-waiting::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:350:    #task-events-panel .task-event.phase61-event-waiting::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:351:    #task-events .task-event.phase61-event-waiting::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:352:    .task-events .task-event.phase61-event-waiting::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:353:    .task-events-panel li.phase61-event-waiting::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:354:    [data-phase61-task-events] li.phase61-event-waiting::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:355:    [data-tab-panel="task-events"] li.phase61-event-waiting::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:356:    #task-events-panel li.phase61-event-waiting::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:357:    #task-events li.phase61-event-waiting::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:358:    .task-events li.phase61-event-waiting::before {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:387:      .task-events-panel .task-event,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:388:      [data-phase61-task-events] .task-event,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:389:      [data-tab-panel="task-events"] .task-event,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:390:      #task-events-panel .task-event,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:391:      #task-events .task-event,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:392:      .task-events .task-event,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:393:      .task-events-panel li,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:394:      [data-phase61-task-events] li,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:395:      [data-tab-panel="task-events"] li,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:396:      #task-events-panel li,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:397:      #task-events li,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:398:      .task-events li {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:464:        <p class="phase62-metric-value text-4xl font-bold text-blue-400 leading-none" id="metric-agents" data-phase62b-metric-anchor="true">--</p>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:468:        <p class="phase62-metric-value text-4xl font-bold text-yellow-400 leading-none" id="metric-tasks" data-phase62b-metric-anchor="true">--</p>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:472:        <p class="phase62-metric-value text-4xl font-bold text-green-400 leading-none" id="metric-success" data-phase62b-metric-anchor="true">--</p>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:476:        <p class="phase62-metric-value text-4xl font-bold text-red-400 leading-none" id="metric-latency" data-phase62b-metric-anchor="true">--</p>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:562:                    <div id="tasks-widget"></div>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:570:                      <canvas id="task-activity-graph" class="w-full h-full"></canvas>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:576:                  <section id="task-events-card" class="obs-surface phase61-events-fill">
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:579:                    <div id="mb-task-events-panel-anchor"></div>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:680:  <script id="phase61-task-events-polish-script">
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:683:        '[data-tab-panel="task-events"]',
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:684:        '[data-phase61-task-events]',
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:685:        '#task-events-panel',
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:686:        '#task-events',
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:687:        '.task-events-panel',
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:688:        '.task-events'
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:737:        panel.setAttribute('data-phase61-task-events', 'true');
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:769:#task-events-card {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_1_public_dashboard_body.html:775:#mb-task-events-panel-anchor {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/index.html:152:    #mb-task-events-panel-anchor {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/index.html:156:    #task-activity-graph {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/index.html:242:            <p id="metric-agents" class="text-2xl font-bold text-blue-400">--</p>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/index.html:246:            <p id="metric-tasks" class="text-2xl font-bold text-yellow-400">--</p>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/index.html:250:            <p id="metric-success-rate" class="text-2xl font-bold text-green-400">--</p>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/index.html:254:            <p id="metric-latency" class="text-2xl font-bold text-red-400">--</p>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/index.html:395:                    <canvas id="task-activity-graph" class="w-full h-full"></canvas>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/index.html:401:                <section id="task-events-card" class="obs-surface">
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/index.html:402:                  <div id="mb-task-events-panel-anchor" class="bg-gray-900 border border-gray-700 rounded-xl p-3 text-sm text-gray-300"></div>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/index.html:569:  #mb-task-events-panel-anchor,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_bottom_half_probe.html:31:'.task-events'
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_bottom_half_probe.html:80:        panel.setAttribute('data-phase61-task-events', 'true');
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_bottom_half_probe.html:110:<!-- phase471.1 temporary neutralization: /js/phase457_restore_task_panels.js removed to isolate task-events surface -->
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/dashboard-tasks-widget.js:10:    list: "/api/tasks",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/dashboard-tasks-widget.js:11:    complete: "/api/tasks/complete",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/dashboard-tasks-widget.js:15:    "#tasks-widget",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/dashboard-tasks-widget.js:17:    "[data-tasks-widget]",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/dashboard-tasks-widget.js:210:    const url = "/api/runs" + (q ? "?" + q : "");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/dashboard-tasks-widget.js:241:        <div class="card-subtitle">Read-only from <code>run_view</code> via <code>/api/runs</code> (server ordering is canonical)</div>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/dashboard-tasks-widget.js:382:      statusLine.textContent = "GET /api/runs" + (q ? "?" + q : "");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/phase457_neutralize_legacy_observational_consumers.js:36:    setIfProbeLike(byId("tasks-widget"), "No recent tasks yet.");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/phase457_restore_task_panels.js:9:  var TASKS_API = "/api/tasks";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/phase457_restore_task_panels.js:96:    var el = byId("tasks-widget");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/phase457_restore_task_panels.js:133:    var anchor = byId("mb-task-events-panel-anchor");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/phase457_restore_task_panels.js:136:    var panel = byId("mb-task-events-panel");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/phase457_restore_task_panels.js:137:    var feed = byId("mb-task-events-feed");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/phase457_restore_task_panels.js:141:      panel.id = "mb-task-events-panel";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/phase457_restore_task_panels.js:149:      feed.id = "mb-task-events-feed";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/phase457_restore_task_panels.js:232:      state.es = new EventSource("/events/task-events");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/telemetry_queue_depth_reducer.js:54:    window.telemetryBus.subscribe("task-events", processEvent);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/dashboard-graph-loader.js:5:import { renderTaskActivityGraph } from "./task-activity-graph.js";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/dashboard-bundle-entry.js:20:// TEMP phase57c isolate /api/tasks loop
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/dashboard-bundle-entry.js:21:// import "./dashboard-tasks-widget.js";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/dashboard-bundle-entry.js:30:// Phase 22: task-events live UI
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/dashboard-bundle-entry.js:31:import "./task-events-sse-client.js";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/task-activity.js:6:    const ctx = document.getElementById('task-activity-graph').getContext('2d');
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/telemetry_failed_tasks_reducer.js:48:    window.telemetryBus.subscribe("task-events", processEvent);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/agent-status-row.js:30:  const activeAgentsMetricEl = document.getElementById("metric-agents");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/agent-status-row.js:69:    // Phase 65B.6: metric-agents ownership transferred to phase64_agent_activity_wire.js
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/agent-status-row.js:119:  // Phase 65B.6: metric-agents reset ownership transferred to phase64_agent_activity_wire.js
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/agent-status-row.js:359:    // Phase 65B.6: metric-agents error-state ownership transferred to phase64_agent_activity_wire.js
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/agent-status-row.js:369:  const tasksNode = document.getElementById('metric-tasks');
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/agent-status-row.js:371:  const latencyNode = document.getElementById('metric-latency');
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/agent-status-row.js:487:      // Phase 65B.2: metric-tasks ownership transferred to telemetry reducer
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/agent-status-row.js:491:      // Phase 65C: metric-success ownership transferred to telemetry reducer
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/agent-status-row.js:495:      // Phase 65C: metric-latency ownership transferred to telemetry reducer
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/agent-status-row.js:586:      es = new EventSource('/events/task-events');
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/phase31_6_seed_task_button.js:14:    "/api/tasks",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/phase31_6_seed_task_button.js:15:    "/api/tasks-postgres",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/phase31_6_seed_task_button.js:16:    "/api/tasks/create",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/phase64_agent_activity_wire.js:116:    const el = document.getElementById("metric-agents");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/phase64_agent_activity_wire.js:221:        source: "task-events",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/phase64_agent_activity_wire.js:239:        source: "task-events",
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/phase64_agent_activity_wire.js:247:      const res = await fetch("/api/runs?limit=50", {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/phase64_agent_activity_wire.js:326:      ownedTaskEventsStream = new EventSource("/events/task-events");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/task-events-sse-client.js:2:  const SSE_URL = "/events/task-events";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/task-events-sse-client.js:4:  const PANEL_ID = "mb-task-events-panel";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/task-events-sse-client.js:5:  const FEED_ID = "mb-task-events-feed";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/task-events-sse-client.js:6:  const COUNTS_ID = "mb-task-events-counts";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/task-events-sse-client.js:7:  const ANCHOR_ID = "mb-task-events-panel-anchor";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/task-events-sse-client.js:74:    dot.setAttribute("aria-label", "task-events connection");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/task-events-sse-client.js:75:    dot.title = "task-events connection";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/task-events-sse-client.js:117:    console.log("[phase22] task-events panel mounted (anchored=%s)", anchored);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/task-events-sse-client.js:297:    if (window.__UI_DEBUG) try { console.log("[task-events] mb.task.event", ev); } catch {}
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/task-events-sse-client.js:319:      console.log("[phase22] task-events SSE open", url);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/task-events-sse-client.js:330:      console.log("[phase22] task-events SSE error; reconnect in", delay);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/matilda-chat-console.js:38:      // Phase23: expose append API for other modules (task-events bridge, ops, etc.)
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/telemetry/success_rate_metric.js:41:    return document.getElementById("metric-success");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/telemetry/success_rate_metric.js:208:        if (String(url).includes("/events/task-events")) {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/telemetry/latency_metric.js:60:    return document.getElementById("metric-latency");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/telemetry/latency_metric.js:210:        if (String(url).includes("/events/task-events")) {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/telemetry/queue_latency_metric.js:43:  window.telemetryBus.subscribe("task-events", processEvent)
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/telemetry/running_tasks_metric.js:23:    return document.getElementById("metric-tasks");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/telemetry/running_tasks_metric.js:80:        if (String(url).includes("/events/task-events")) {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/telemetry/phase65b_metric_ownership_guard.js:5:Ensure metric-tasks is owned only by telemetry reducer.
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/telemetry/phase65b_metric_ownership_guard.js:16:    const node = document.getElementById("metric-tasks");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/telemetry/phase65b_metric_ownership_guard.js:48:    const node = document.getElementById("metric-tasks");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/sse-heartbeat-shim.js:39:    if (u.includes("/events/task-events") || u.includes("/events/tasks")) return "tasks";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/phase61_recent_history_wire.js:2:  const RECENT_ENDPOINT = "/api/tasks?limit=12";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/phase61_recent_history_wire.js:3:  const HISTORY_ENDPOINT = "/api/runs?limit=20";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/js/phase22_task_delegation_live_bindings.js:2:  // Phase 22: bind task-events SSE -> Task Delegation + status UI (best-effort)
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_q2_probe.html:56:                    <div id="tasks-widget"></div>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_q2_probe.html:64:                      <canvas id="task-activity-graph" class="w-full h-full"></canvas>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_q2_probe.html:70:                  <section id="task-events-card" class="obs-surface phase61-events-fill">
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_q2_probe.html:73:                    <div id="mb-task-events-panel-anchor"></div>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_q2_probe.html:159:  <script id="phase61-task-events-polish-script">
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_q2_probe.html:162:        '[data-tab-panel="task-events"]',
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_q2_probe.html:163:        '[data-phase61-task-events]',
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_q2_probe.html:164:        '#task-events-panel',
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_q2_probe.html:165:        '#task-events',
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_q2_probe.html:166:        '.task-events-panel',
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/bundle.js:28:      if (u.includes("/events/task-events") || u.includes("/events/tasks")) return "tasks";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/bundle.js:407:    const activeAgentsMetricEl = document.getElementById("metric-agents");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/bundle.js:648:    const tasksNode = document.getElementById("metric-tasks");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/bundle.js:650:    const latencyNode = document.getElementById("metric-latency");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/bundle.js:804:        es = new EventSource("/events/task-events");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/bundle.js:1250:  // public/js/task-events-sse-client.js
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/bundle.js:1252:    const SSE_URL = "/events/task-events";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/bundle.js:1253:    const PANEL_ID = "mb-task-events-panel";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/bundle.js:1254:    const FEED_ID = "mb-task-events-feed";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/bundle.js:1255:    const COUNTS_ID = "mb-task-events-counts";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/bundle.js:1256:    const ANCHOR_ID = "mb-task-events-panel-anchor";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/bundle.js:1310:      dot.setAttribute("aria-label", "task-events connection");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/bundle.js:1311:      dot.title = "task-events connection";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/bundle.js:1346:      console.log("[phase22] task-events panel mounted (anchored=%s)", anchored);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/bundle.js:1503:        console.log("[task-events] mb.task.event", ev);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/bundle.js:1525:        console.log("[phase22] task-events SSE open", url);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/bundle.js:1537:        console.log("[phase22] task-events SSE error; reconnect in", delay);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard.html:77:        <p class="phase62-metric-value text-4xl font-bold text-blue-400 leading-none" id="metric-agents" data-phase62b-metric-anchor="true">--</p>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard.html:81:        <p class="phase62-metric-value text-4xl font-bold text-yellow-400 leading-none" id="metric-tasks" data-phase62b-metric-anchor="true">--</p>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard.html:85:        <p class="phase62-metric-value text-4xl font-bold text-green-400 leading-none" id="metric-success" data-phase62b-metric-anchor="true">--</p>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard.html:89:        <p class="phase62-metric-value text-4xl font-bold text-red-400 leading-none" id="metric-latency" data-phase62b-metric-anchor="true">--</p>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard.html:187:                    <div id="tasks-widget"></div>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard.html:195:                      <canvas id="task-activity-graph" class="w-full h-full"></canvas>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard.html:201:                  <section id="task-events-card" class="obs-surface phase61-events-fill">
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard.html:204:                    <div id="mb-task-events-panel-anchor"></div>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard.html:261:<!-- phase471.1 temporary neutralization: /js/phase457_restore_task_panels.js removed to isolate task-events surface -->
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_top_half_probe.html:81:        <p class="phase62-metric-value text-4xl font-bold text-blue-400 leading-none" id="metric-agents" data-phase62b-metric-anchor="true">--</p>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_top_half_probe.html:85:        <p class="phase62-metric-value text-4xl font-bold text-yellow-400 leading-none" id="metric-tasks" data-phase62b-metric-anchor="true">--</p>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_top_half_probe.html:89:        <p class="phase62-metric-value text-4xl font-bold text-green-400 leading-none" id="metric-success" data-phase62b-metric-anchor="true">--</p>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_top_half_probe.html:93:        <p class="phase62-metric-value text-4xl font-bold text-red-400 leading-none" id="metric-latency" data-phase62b-metric-anchor="true">--</p>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_top_half_probe.html:191:                    <div id="tasks-widget"></div>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_top_half_probe.html:199:                      <canvas id="task-activity-graph" class="w-full h-full"></canvas>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_top_half_probe.html:205:                  <section id="task-events-card" class="obs-surface phase61-events-fill">
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_top_half_probe.html:208:                    <div id="mb-task-events-panel-anchor"></div>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_top_half_probe.html:294:  <script id="phase61-task-events-polish-script">
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_top_half_probe.html:297:        '[data-tab-panel="task-events"]',
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_top_half_probe.html:298:        '[data-phase61-task-events]',
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_top_half_probe.html:299:        '#task-events-panel',
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_top_half_probe.html:300:        '#task-events',
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_top_half_probe.html:301:        '.task-events-panel',
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_q1_probe.html:83:        <p class="phase62-metric-value text-4xl font-bold text-blue-400 leading-none" id="metric-agents" data-phase62b-metric-anchor="true">--</p>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_q1_probe.html:87:        <p class="phase62-metric-value text-4xl font-bold text-yellow-400 leading-none" id="metric-tasks" data-phase62b-metric-anchor="true">--</p>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_q1_probe.html:91:        <p class="phase62-metric-value text-4xl font-bold text-green-400 leading-none" id="metric-success" data-phase62b-metric-anchor="true">--</p>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_q1_probe.html:95:        <p class="phase62-metric-value text-4xl font-bold text-red-400 leading-none" id="metric-latency" data-phase62b-metric-anchor="true">--</p>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard.js:6:The dashboard "Recent Tasks" panel is driven by task-events (SSE) + mb.task.event bridge.
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard.js:8:When the worker is intentionally scaled to 0, /events/task-events will usually stream only
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard.js:44:'You are connected to <code class="px-1 py-0.5 rounded bg-black/30 border border-white/10">/events/task-events</code>, but only <span class="opacity-90">heartbeats</span> are arriving. ' +
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard.js:80:const snap = window.__taskEventsSnap || null; // set by task-events SSE client (if present)
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_recomposed_from_stable_quarters_probe.html:86:        <p class="phase62-metric-value text-4xl font-bold text-blue-400 leading-none" id="metric-agents" data-phase62b-metric-anchor="true">--</p>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_recomposed_from_stable_quarters_probe.html:90:        <p class="phase62-metric-value text-4xl font-bold text-yellow-400 leading-none" id="metric-tasks" data-phase62b-metric-anchor="true">--</p>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_recomposed_from_stable_quarters_probe.html:94:        <p class="phase62-metric-value text-4xl font-bold text-green-400 leading-none" id="metric-success" data-phase62b-metric-anchor="true">--</p>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_recomposed_from_stable_quarters_probe.html:98:        <p class="phase62-metric-value text-4xl font-bold text-red-400 leading-none" id="metric-latency" data-phase62b-metric-anchor="true">--</p>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_recomposed_from_stable_quarters_probe.html:201:                    <div id="tasks-widget"></div>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_recomposed_from_stable_quarters_probe.html:209:                      <canvas id="task-activity-graph" class="w-full h-full"></canvas>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_recomposed_from_stable_quarters_probe.html:215:                  <section id="task-events-card" class="obs-surface phase61-events-fill">
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_recomposed_from_stable_quarters_probe.html:218:                    <div id="mb-task-events-panel-anchor"></div>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_recomposed_from_stable_quarters_probe.html:304:  <script id="phase61-task-events-polish-script">
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_recomposed_from_stable_quarters_probe.html:307:        '[data-tab-panel="task-events"]',
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_recomposed_from_stable_quarters_probe.html:308:        '[data-phase61-task-events]',
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_recomposed_from_stable_quarters_probe.html:309:        '#task-events-panel',
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_recomposed_from_stable_quarters_probe.html:310:        '#task-events',
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_recomposed_from_stable_quarters_probe.html:311:        '.task-events-panel',
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_recomposed_from_stable_quarters_probe.html:320:'.task-events'
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_recomposed_from_stable_quarters_probe.html:369:        panel.setAttribute('data-phase61-task-events', 'true');
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_recomposed_from_stable_quarters_probe.html:399:<!-- phase471.1 temporary neutralization: /js/phase457_restore_task_panels.js removed to isolate task-events surface -->
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_q3_probe.html:33:'.task-events'
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_q3_probe.html:82:        panel.setAttribute('data-phase61-task-events', 'true');
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/dashboard_body_q3_probe.html:112:<!-- phase471.1 temporary neutralization: /js/phase457_restore_task_panels.js removed to isolate task-events surface -->
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/bundle-core.js:24:    const metricAgents = document.getElementById("metric-agents");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/bundle-core.js:25:    const metricTasks = document.getElementById("metric-tasks");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/bundle-core.js:26:    const metricSuccessRate = document.getElementById("metric-success-rate");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/bundle-core.js:27:    const metricLatency = document.getElementById("metric-latency");
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/public/bundle-core.js:14672:  // public/js/task-activity-graph.js
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:149:      #task-events-card {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:196:      #task-events-card.phase61-events-fill {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:201:      #task-events-card.phase61-events-fill #mb-task-events-panel-anchor {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:240:    <style id="phase61-task-events-polish">
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:241:    .task-events-panel,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:242:    [data-phase61-task-events],
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:243:    [data-tab-panel="task-events"],
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:244:    #task-events-panel,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:245:    #task-events,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:246:    .task-events {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:250:    .task-events-panel .task-events-list,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:251:    [data-phase61-task-events] .task-events-list,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:252:    [data-tab-panel="task-events"] .task-events-list,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:253:    #task-events-panel .task-events-list,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:254:    #task-events .task-events-list,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:255:    .task-events .task-events-list,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:256:    .task-events-panel ul,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:257:    [data-phase61-task-events] ul,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:258:    [data-tab-panel="task-events"] ul,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:259:    #task-events-panel ul,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:260:    #task-events ul,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:261:    .task-events ul {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:269:    .task-events-panel .task-event,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:270:    [data-phase61-task-events] .task-event,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:271:    [data-tab-panel="task-events"] .task-event,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:272:    #task-events-panel .task-event,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:273:    #task-events .task-event,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:274:    .task-events .task-event,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:275:    .task-events-panel li,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:276:    [data-phase61-task-events] li,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:277:    [data-tab-panel="task-events"] li,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:278:    #task-events-panel li,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:279:    #task-events li,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:280:    .task-events li {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:295:    .task-events-panel .task-event::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:296:    [data-phase61-task-events] .task-event::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:297:    [data-tab-panel="task-events"] .task-event::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:298:    #task-events-panel .task-event::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:299:    #task-events .task-event::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:300:    .task-events .task-event::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:301:    .task-events-panel li::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:302:    [data-phase61-task-events] li::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:303:    [data-tab-panel="task-events"] li::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:304:    #task-events-panel li::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:305:    #task-events li::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:306:    .task-events li::before {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:317:    .task-events-panel .task-event.phase61-event-terminal::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:318:    [data-phase61-task-events] .task-event.phase61-event-terminal::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:319:    [data-tab-panel="task-events"] .task-event.phase61-event-terminal::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:320:    #task-events-panel .task-event.phase61-event-terminal::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:321:    #task-events .task-event.phase61-event-terminal::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:322:    .task-events .task-event.phase61-event-terminal::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:323:    .task-events-panel li.phase61-event-terminal::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:324:    [data-phase61-task-events] li.phase61-event-terminal::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:325:    [data-tab-panel="task-events"] li.phase61-event-terminal::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:326:    #task-events-panel li.phase61-event-terminal::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:327:    #task-events li.phase61-event-terminal::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:328:    .task-events li.phase61-event-terminal::before {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:332:    .task-events-panel .task-event.phase61-event-active::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:333:    [data-phase61-task-events] .task-event.phase61-event-active::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:334:    [data-tab-panel="task-events"] .task-event.phase61-event-active::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:335:    #task-events-panel .task-event.phase61-event-active::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:336:    #task-events .task-event.phase61-event-active::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:337:    .task-events .task-event.phase61-event-active::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:338:    .task-events-panel li.phase61-event-active::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:339:    [data-phase61-task-events] li.phase61-event-active::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:340:    [data-tab-panel="task-events"] li.phase61-event-active::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:341:    #task-events-panel li.phase61-event-active::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:342:    #task-events li.phase61-event-active::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:343:    .task-events li.phase61-event-active::before {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:347:    .task-events-panel .task-event.phase61-event-waiting::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:348:    [data-phase61-task-events] .task-event.phase61-event-waiting::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:349:    [data-tab-panel="task-events"] .task-event.phase61-event-waiting::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:350:    #task-events-panel .task-event.phase61-event-waiting::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:351:    #task-events .task-event.phase61-event-waiting::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:352:    .task-events .task-event.phase61-event-waiting::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:353:    .task-events-panel li.phase61-event-waiting::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:354:    [data-phase61-task-events] li.phase61-event-waiting::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:355:    [data-tab-panel="task-events"] li.phase61-event-waiting::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:356:    #task-events-panel li.phase61-event-waiting::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:357:    #task-events li.phase61-event-waiting::before,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:358:    .task-events li.phase61-event-waiting::before {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:387:      .task-events-panel .task-event,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:388:      [data-phase61-task-events] .task-event,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:389:      [data-tab-panel="task-events"] .task-event,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:390:      #task-events-panel .task-event,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:391:      #task-events .task-event,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:392:      .task-events .task-event,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:393:      .task-events-panel li,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:394:      [data-phase61-task-events] li,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:395:      [data-tab-panel="task-events"] li,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:396:      #task-events-panel li,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:397:      #task-events li,
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:398:      .task-events li {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:464:        <p class="phase62-metric-value text-4xl font-bold text-blue-400 leading-none" id="metric-agents" data-phase62b-metric-anchor="true">--</p>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:468:        <p class="phase62-metric-value text-4xl font-bold text-yellow-400 leading-none" id="metric-tasks" data-phase62b-metric-anchor="true">--</p>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:472:        <p class="phase62-metric-value text-4xl font-bold text-green-400 leading-none" id="metric-success" data-phase62b-metric-anchor="true">--</p>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:476:        <p class="phase62-metric-value text-4xl font-bold text-red-400 leading-none" id="metric-latency" data-phase62b-metric-anchor="true">--</p>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:562:                    <div id="tasks-widget"></div>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:570:                      <canvas id="task-activity-graph" class="w-full h-full"></canvas>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:576:                  <section id="task-events-card" class="obs-surface phase61-events-fill">
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:579:                    <div id="mb-task-events-panel-anchor"></div>
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:680:  <script id="phase61-task-events-polish-script">
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:683:        '[data-tab-panel="task-events"]',
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:684:        '[data-phase61-task-events]',
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:685:        '#task-events-panel',
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:686:        '#task-events',
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:687:        '.task-events-panel',
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:688:        '.task-events'
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:737:        panel.setAttribute('data-phase61-task-events', 'true');
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:769:#task-events-card {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/PHASE88_14_10_DASHBOARD.html:775:#mb-task-events-panel-anchor {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/phase19_patch_mount_tasks_mutations.mjs:27:  // Prefer mounting after existing /api/tasks router if present; else after last app.use(...)
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/phase21_wire_task_events_sse.mjs:4:const INJECT = 'import "./task-events-sse-listener.js";\n';
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/phase21_wire_task_events_sse.mjs:24:  if (s.includes("task-events-sse-listener.js")) return { fp, changed: false, why: "already" };
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/phase21_wire_task_events_sse.mjs:43:  const shim = `\n;(()=>{try{import("./task-events-sse-listener.js")}catch(e){}})();\n`;
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/scripts/phase88_14_5_patch_server_mount_system_health.mjs:31:    throw new Error('Mount anchor app.use("/api/tasks-mutations", apiTasksMutationsRouter); not found in server.mjs');
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.mjs:24:import taskEventsSSE from "./server/routes/task-events-sse.mjs";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.mjs:26:import { handleDelegateTaskSpec as phase23HandleDelegateTaskSpec } from "./server/api/tasks-mutations/delegate-taskspec.mjs";
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.mjs:59:    if (req.path.startsWith("/api/tasks")) {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.mjs:79:// Phase 20: task-events SSE (event-sourced)
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.mjs:176:app.post("/api/tasks-mutations/delegate-taskspec", async (req, res) => phase23HandleDelegateTaskSpec(req, res, { db: pool, dbDelegateTask }));
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.mjs:183:app.use("/api/tasks", apiTasksRouter);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.mjs:184:app.use("/api/tasks-mutations", apiTasksMutationsRouter);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.mjs:338:app.get("/api/runs", getRunsList);
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.mjs:344:app.get("/api/tasks", async (req, res) => {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.mjs:345:  console.log("[phase57c-live] /api/tasks probe", {
+/Users/marcela-dev/Projects/Motherboard_Systems_HQ/server.ts:12:import tasksRoutes from "./routes/api/tasks"; 
+
+=== NEXT ACTION ===
+Use this trace to identify the first missing telemetry binding and restore it without backend mutation.

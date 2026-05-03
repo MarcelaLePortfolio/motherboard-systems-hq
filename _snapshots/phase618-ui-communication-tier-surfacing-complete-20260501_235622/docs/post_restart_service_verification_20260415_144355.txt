@@ -1,0 +1,48 @@
+POST-RESTART SERVICE VERIFICATION
+timestamp=20260415_144355
+branch=phase119-dashboard-cognition-contract
+commit=361ee53fad3a542008c6830cfbfac88deea65ddb
+
+=== DOCKER STATUS ===
+Cannot connect to the Docker daemon at unix:///Users/marcela-dev/.docker/run/docker.sock. Is the docker daemon running?
+Docker not running
+
+=== PM2 STATUS ===
+[32m[PM2] [39mSpawning PM2 daemon with pm2_home=/Users/marcela-dev/.pm2
+[32m[PM2] [39mPM2 Successfully daemonized
+┌────┬───────────┬─────────────┬─────────┬─────────┬──────────┬────────┬──────┬───────────┬──────────┬──────────┬──────────┬──────────┐
+│ id │ name      │ namespace   │ version │ mode    │ pid      │ uptime │ ↺    │ status    │ cpu      │ mem      │ user     │ watching │
+└────┴───────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘
+
+=== CLOUDFARED PROCESSES ===
+No cloudflared processes found
+
+=== PORT CHECKS ===
+Port 3000 not listening
+Port 8080 not listening
+Port 5432 not listening
+
+=== HTTP CHECKS ===
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+curl: (7) Failed to connect to localhost port 3000 after 0 ms: Couldn't connect to server
+localhost:3000 unreachable
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+curl: (7) Failed to connect to localhost port 8080 after 0 ms: Couldn't connect to server
+localhost:8080 unreachable
+
+=== AGENT LOG TAILS ===
+--- matilda.log ---
+tunnel credentials file not found
+--- cade.log ---
+tunnel credentials file not found
+--- effie.log ---
+tunnel credentials file not found
+
+=== FINAL READ ===
+If Docker + PM2 + cloudflared + expected ports are present, service posture recovered.
+If any are missing, restart only the missing layer.
+

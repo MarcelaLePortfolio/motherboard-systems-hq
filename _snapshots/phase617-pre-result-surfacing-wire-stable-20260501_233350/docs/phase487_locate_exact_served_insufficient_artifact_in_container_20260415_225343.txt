@@ -1,0 +1,725 @@
+PHASE 487 — LOCATE EXACT SERVED INSUFFICIENT ARTIFACT IN CONTAINER
+timestamp=20260415_225343
+branch=phase119-dashboard-cognition-contract
+commit=4d194890c7b93b87ef5db459fe29f890fba10447
+container_id=f4c82d05e055
+container_name=motherboard_systems_hq-dashboard-1
+
+=== SERVED HTML SNAPSHOT CHECK ===
+316-                    <div id="operator-guidance-panel" class="mt-3 rounded-xl border border-gray-700 bg-gray-900/70 p-4">
+317-                      <div class="text-xs uppercase tracking-[0.2em] text-gray-500 mb-2">Operator Guidance</div>
+318-                      <div id="operator-guidance-response" class="text-sm text-gray-300 leading-6">
+319:                        Awaiting bounded guidance stream.<br />
+320:                        Live operator guidance will appear here when visibility wiring is active.
+321-                      </div>
+322-                      <div id="operator-guidance-meta" class="mt-3 text-xs text-gray-500 leading-5">
+323:                        Confidence: insufficient<br />
+324:                        Sources: diagnostics/system-health
+325-                      </div>
+326-                    </div>
+327-                  </div>
+
+=== CONTAINER: EXACT STRING SEARCH UNDER /app ===
+132-                      <div id="operator-guidance-panel" class="mt-4 rounded-xl border border-gray-700 bg-gray-900/70 p-4 min-h-[140px]">
+133-                        <div class="text-xs uppercase tracking-[0.2em] text-gray-500 mb-3">Operator Guidance</div>
+134-                        <div id="operator-guidance-response" class="text-sm text-gray-300 leading-6">
+135:                          Awaiting bounded guidance stream.<br>
+136:                          Live operator guidance will appear here when visibility wiring is active.
+137-                        </div>
+138-                        <div id="operator-guidance-meta" class="mt-3 text-xs text-gray-500 leading-5">
+139:                          Confidence: insufficient<br>
+140:                          Sources: diagnostics/system-health
+141-                        </div>
+142-                      </div>
+143-                    </div>
+FILE_HIT:/app/public/dashboard_body_top_half_probe.html
+128-                      <div id="operator-guidance-panel" class="mt-4 rounded-xl border border-gray-700 bg-gray-900/70 p-4 min-h-[140px]">
+129-                        <div class="text-xs uppercase tracking-[0.2em] text-gray-500 mb-3">Operator Guidance</div>
+130-                        <div id="operator-guidance-response" class="text-sm text-gray-300 leading-6">
+131:                          Awaiting bounded guidance stream.<br>
+132:                          Live operator guidance will appear here when visibility wiring is active.
+133-                        </div>
+134-                        <div id="operator-guidance-meta" class="mt-3 text-xs text-gray-500 leading-5">
+135:                          Confidence: limited<br>
+136:                          Sources: diagnostics/system-health
+137-                        </div>
+138-                      </div>
+139-                    </div>
+--
+269-  function patchConfidence() {
+270-    var el = document.getElementById("operator-guidance-meta");
+271-    if (!el) return;
+272:    if (el.innerHTML.includes("Confidence: insufficient")) {
+273:      el.innerHTML = el.innerHTML.replace("Confidence: insufficient", "Confidence: limited");
+274-    }
+275-  }
+276-
+FILE_HIT:/app/public/dashboard.html
+134-                      <div id="operator-guidance-panel" class="mt-4 rounded-xl border border-gray-700 bg-gray-900/70 p-4 min-h-[140px]">
+135-                        <div class="text-xs uppercase tracking-[0.2em] text-gray-500 mb-3">Operator Guidance</div>
+136-                        <div id="operator-guidance-response" class="text-sm text-gray-300 leading-6">
+137:                          Awaiting bounded guidance stream.<br>
+138:                          Live operator guidance will appear here when visibility wiring is active.
+139-                        </div>
+140-                        <div id="operator-guidance-meta" class="mt-3 text-xs text-gray-500 leading-5">
+141:                          Confidence: insufficient<br>
+142:                          Sources: diagnostics/system-health
+143-                        </div>
+144-                      </div>
+145-                    </div>
+FILE_HIT:/app/public/dashboard_body_q1_probe.html
+137-                      <div id="operator-guidance-panel" class="mt-4 rounded-xl border border-gray-700 bg-gray-900/70 p-4 min-h-[140px]">
+138-                        <div class="text-xs uppercase tracking-[0.2em] text-gray-500 mb-3">Operator Guidance</div>
+139-                        <div id="operator-guidance-response" class="text-sm text-gray-300 leading-6">
+140:                          Awaiting bounded guidance stream.<br>
+141:                          Live operator guidance will appear here when visibility wiring is active.
+142-                        </div>
+143-                        <div id="operator-guidance-meta" class="mt-3 text-xs text-gray-500 leading-5">
+144:                          Confidence: insufficient<br>
+145:                          Sources: diagnostics/system-health
+146-                        </div>
+147-                      </div>
+148-                    </div>
+FILE_HIT:/app/public/dashboard_recomposed_from_stable_quarters_probe.html
+316-                    <div id="operator-guidance-panel" class="mt-3 rounded-xl border border-gray-700 bg-gray-900/70 p-4">
+317-                      <div class="text-xs uppercase tracking-[0.2em] text-gray-500 mb-2">Operator Guidance</div>
+318-                      <div id="operator-guidance-response" class="text-sm text-gray-300 leading-6">
+319:                        Awaiting bounded guidance stream.<br />
+320:                        Live operator guidance will appear here when visibility wiring is active.
+321-                      </div>
+322-                      <div id="operator-guidance-meta" class="mt-3 text-xs text-gray-500 leading-5">
+323:                        Confidence: insufficient<br />
+324:                        Sources: diagnostics/system-health
+325-                      </div>
+326-                    </div>
+327-                  </div>
+FILE_HIT:/app/public/index.html
+316-                    <div id="operator-guidance-panel" class="mt-3 rounded-xl border border-gray-700 bg-gray-900/70 p-4">
+317-                      <div class="text-xs uppercase tracking-[0.2em] text-gray-500 mb-2">Operator Guidance</div>
+318-                      <div id="operator-guidance-response" class="text-sm text-gray-300 leading-6">
+319:                        Awaiting bounded guidance stream.<br />
+320:                        Live operator guidance will appear here when visibility wiring is active.
+321-                      </div>
+322-                      <div id="operator-guidance-meta" class="mt-3 text-xs text-gray-500 leading-5">
+323:                        Confidence: insufficient<br />
+324:                        Sources: diagnostics/system-health
+325-                      </div>
+326-                    </div>
+327-                  </div>
+FILE_HIT:/app/docs/phase487_served_dashboard_snapshot_20260415_223300.html
+
+=== CONTAINER: FILES CONTAINING Confidence: insufficient ===
+/app/docs/phase487_served_dashboard_snapshot_20260415_223300.html
+/app/public/dashboard.html
+/app/public/dashboard_body_q1_probe.html
+/app/public/dashboard_body_top_half_probe.html
+/app/public/dashboard_recomposed_from_stable_quarters_probe.html
+/app/public/index.html
+
+=== CONTAINER: POSSIBLE DASHBOARD ENTRY FILES ===
+/app/eslint.config.js:20:      'ui/dashboard/public/**',
+/app/eslint.config.js:21:      'ui/dashboard/serve-root/**'
+/app/server.mjs.backup-20251204-154936:9:const PORT = process.env.PORT || 3000;
+/app/server.mjs.backup-20251204-154936:52:app.use(express.static(path.join(__dirname, 'public')));
+/app/server.mjs.backup-20251204-154936:208:  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+/app/tools/log-to-ticker.js:5:const tickerLogPath = path.join(process.cwd(), 'ui/dashboard/ticker-events.log');
+/app/ts-backup/run-demo-sequence.ts:33:    console.log("💡 Open http://localhost:3001/dashboard.html to view live broadcast.");
+/app/ts-backup/server.ts:6:const PORT = process.env.PORT || 3000;
+/app/ts-backup/server.ts:10:  res.redirect("/dashboard.html");
+/app/ts-backup/server.ts:14:app.use(express.static(path.join(process.cwd(), "public")));
+/app/snapshots/20251114-114707/server.ts:13:app.use(express.static(publicPath));
+/app/snapshots/20251114-114707/server.ts:16:  res.sendFile(path.join(publicPath, "dashboard.html"));
+/app/snapshots/20251114-114707/scripts/demo/run-demo-sequence.ts:33:    console.log("💡 Open http://localhost:3001/dashboard.html to view live broadcast.");
+/app/snapshots/20251114-114707/scripts/write-agent-status.cjs:17:  const targetPath = path.join(__dirname, "../ui/dashboard/public/agent-status.json");
+/app/snapshots/20251114-114707/scripts/_local/agent-runtime/matilda-auto-deploy-patch.js:17:    "ui/dashboard/ticker-events.log",
+/app/snapshots/20251114-114707/scripts/_local/agent-runtime/utils/clean_rogue_buttons.js:2:const filePath = 'ui/dashboard/index.html';
+/app/snapshots/20251114-114707/scripts/_archive/matilda_delegate.js:17:  const tickerLog = path.join(process.cwd(), 'ui/dashboard/ticker-events.log');
+/app/snapshots/20251114-114707/scripts/server.cjs:33:    const filePath = path.join(PUBLIC_DIR, url === "/" ? "dashboard.html" : url);
+/app/snapshots/20251114-114821/server.ts:16:app.use(express.static(publicPath));
+/app/snapshots/20251114-114821/server.ts:22:  res.sendFile(path.join(publicPath, "dashboard.html"));
+/app/snapshots/20251114-114821/scripts/demo/run-demo-sequence.ts:33:    console.log("💡 Open http://localhost:3001/dashboard.html to view live broadcast.");
+/app/snapshots/20251114-114821/scripts/write-agent-status.cjs:17:  const targetPath = path.join(__dirname, "../ui/dashboard/public/agent-status.json");
+/app/snapshots/20251114-114821/scripts/_local/agent-runtime/matilda-auto-deploy-patch.js:17:    "ui/dashboard/ticker-events.log",
+/app/snapshots/20251114-114821/scripts/_local/agent-runtime/utils/clean_rogue_buttons.js:2:const filePath = 'ui/dashboard/index.html';
+/app/snapshots/20251114-114821/scripts/_archive/matilda_delegate.js:17:  const tickerLog = path.join(process.cwd(), 'ui/dashboard/ticker-events.log');
+/app/snapshots/20251114-114821/scripts/server.cjs:33:    const filePath = path.join(PUBLIC_DIR, url === "/" ? "dashboard.html" : url);
+/app/public/bundle-core.js:17:  // public/js/dashboard-status.js
+/app/public/bundle-core.js:14717:  // public/js/dashboard-graph-loader.js
+/app/public/bundle-core.js:14736:  // public/js/dashboard-graph.js
+/app/public/bundle-core.js:14778:  // public/js/dashboard-broadcast.js
+/app/public/bundle-core.js:14795:  // public/scripts/dashboard-reflections.js
+/app/public/bundle-core.js:14812:  // public/scripts/dashboard-ops.js
+/app/public/bundle-core.js:14828:  // public/scripts/dashboard-chat.js
+/app/public/js/dashboard-bundle-entry.js:6:import "./dashboard-status.js";
+/app/public/js/dashboard-bundle-entry.js:16:import "./dashboard-broadcast.js";
+/app/public/js/dashboard-bundle-entry.js:21:// import "./dashboard-tasks-widget.js";
+/app/public/js/dashboard-bundle-entry.js:25:import "./dashboard-delegation.js";
+/app/public/js/dashboard-bundle-entry.js:28:// import "./dashboard-graph.js";
+/app/public/js/ops-pill-state.js:3:// - Creates #ops-dashboard-pill on /dashboard if missing.
+/app/public/js/ops-pill-state.js:9:  if (window.location.pathname !== "/dashboard") return;
+/app/public/bundle.js:144:  // public/js/dashboard-status.js
+/app/public/bundle.js:823:  // public/js/dashboard-broadcast.js
+/app/public/bundle.js:933:    if (window.location.pathname !== "/dashboard") return;
+/app/public/bundle.js:1073:  // public/js/dashboard-delegation.js
+/app/public/bundle.js:1797:  // public/js/dashboard-bundle-entry.js
+/app/server.mjs.backup-20251118-161429:26:      path.join(__dirname, "ui/dashboard/ticker-events.log"),
+/app/server.mjs.backup-20251118-161429:61:const PORT = process.env.PORT || 4000;
+/app/run-demo-sequence.ts:33:    console.log("💡 Open http://localhost:3001/dashboard.html to view live broadcast.");
+/app/scripts_backup/demo/run-demo-sequence.ts:33:    console.log("💡 Open http://localhost:3001/dashboard.html to view live broadcast.");
+/app/scripts_backup/write-agent-status.cjs:17:  const targetPath = path.join(__dirname, "../ui/dashboard/public/agent-status.json");
+/app/scripts_backup/_local/agent-runtime/matilda-auto-deploy-patch.js:17:    "ui/dashboard/ticker-events.log",
+/app/scripts_backup/_local/agent-runtime/utils/clean_rogue_buttons.js:2:const filePath = 'ui/dashboard/index.html';
+/app/scripts_backup/_archive/matilda_delegate.js:17:  const tickerLog = path.join(process.cwd(), 'ui/dashboard/ticker-events.log');
+/app/scripts_backup/scripts/demo/run-demo-sequence.ts:33:    console.log("💡 Open http://localhost:3001/dashboard.html to view live broadcast.");
+/app/scripts_backup/scripts/write-agent-status.cjs:17:  const targetPath = path.join(__dirname, "../ui/dashboard/public/agent-status.json");
+/app/scripts_backup/scripts/_local/agent-runtime/matilda-auto-deploy-patch.js:17:    "ui/dashboard/ticker-events.log",
+/app/scripts_backup/scripts/_local/agent-runtime/utils/clean_rogue_buttons.js:2:const filePath = 'ui/dashboard/index.html';
+/app/scripts_backup/scripts/_archive/matilda_delegate.js:17:  const tickerLog = path.join(process.cwd(), 'ui/dashboard/ticker-events.log');
+/app/scripts_backup/scripts/server.cjs:33:    const filePath = path.join(PUBLIC_DIR, url === "/" ? "dashboard.html" : url);
+/app/scripts_backup/server.cjs:33:    const filePath = path.join(PUBLIC_DIR, url === "/" ? "dashboard.html" : url);
+/app/scripts_backup_2/demo/run-demo-sequence.ts:33:    console.log("💡 Open http://localhost:3001/dashboard.html to view live broadcast.");
+/app/scripts_backup_2/write-agent-status.cjs:17:  const targetPath = path.join(__dirname, "../ui/dashboard/public/agent-status.json");
+/app/scripts_backup_2/_local/agent-runtime/matilda-auto-deploy-patch.js:17:    "ui/dashboard/ticker-events.log",
+/app/scripts_backup_2/_local/agent-runtime/utils/clean_rogue_buttons.js:2:const filePath = 'ui/dashboard/index.html';
+/app/scripts_backup_2/_archive/matilda_delegate.js:17:  const tickerLog = path.join(process.cwd(), 'ui/dashboard/ticker-events.log');
+/app/scripts_backup_2/server.cjs:33:    const filePath = path.join(PUBLIC_DIR, url === "/" ? "dashboard.html" : url);
+/app/server.mjs:175:// Serve static assets from ./public (required for /css/* and /js/* on /dashboard)
+/app/server.mjs:176:app.use(express.static(path.join(__dirname, "public")));
+/app/server.mjs:177:app.use("/css", express.static(path.join(__dirname, "public", "css")));
+/app/server.mjs:178:app.use("/js", express.static(path.join(__dirname, "public", "js")));
+/app/server.mjs:179:app.use("/img", express.static(path.join(__dirname, "public", "img")));
+/app/server.mjs:275:const PORT = process.env.PORT || 3000;
+/app/server.mjs:345:app.use("/public", express.static(path.join(__dirname, "public")));
+/app/server.mjs:346:app.get("/bundle.js", (req, res) => res.sendFile(path.join(__dirname, "public", "bundle.js")));
+/app/server.mjs:349:app.get("/bundle.js.map", (req, res) => res.sendFile(path.join(__dirname, "public", "bundle.js.map")));
+/app/server.mjs:350:app.get("/dashboard", (req, res) => res.sendFile(path.join(__dirname, "public", "dashboard.html")));
+/app/server.mjs:351:app.get("/", (req, res) => res.redirect("/dashboard"));
+/app/server.mjs.backup-20251118-161734:28:      path.join(__dirname, "ui/dashboard/ticker-events.log"),
+/app/server.mjs.backup-20251118-161734:63:const PORT = process.env.PORT || 4000;
+/app/src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.guard.ts:3:} from "./dashboardConsumption.registry.types";
+/app/src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.integrity.ts:3:} from "./dashboardConsumption.registry.types";
+/app/src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.pipeline.ts:3:} from "./dashboardConsumption.registry.types";
+/app/src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.pipeline.ts:7:} from "./dashboardConsumption.registry.finalize";
+/app/src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.pipeline.ts:11:} from "./dashboardConsumption.registry.integrity";
+/app/src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.ts:5:} from "./dashboardConsumption.registry.types";
+/app/src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.sectionGuard.ts:3:} from "./dashboardConsumption.registry.constants";
+/app/src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.sectionGuard.ts:7:} from "./dashboardConsumption.registry.types";
+/app/src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.freeze.ts:3:} from "./dashboardConsumption.registry.types";
+/app/src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.freeze.ts:7:} from "./dashboardConsumption.registry.validate";
+/app/src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.build.ts:3:} from "./dashboardConsumption.registry.types";
+/app/src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.build.ts:7:} from "./dashboardConsumption.registry.freeze";
+/app/src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.integration.ts:3:} from "./dashboardConsumption.registry.types";
+/app/src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.integration.ts:7:} from "./dashboardConsumption.registry.pipeline";
+/app/src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.invariants.ts:3:} from "./dashboardConsumption.registry.types";
+/app/src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.runtime.ts:3:} from "./dashboardConsumption.registry.types";
+/app/src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.runtime.ts:7:} from "./dashboardConsumption.registry.pipeline";
+/app/src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.finalize.ts:3:} from "./dashboardConsumption.registry.types";
+/app/src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.finalize.ts:7:} from "./dashboardConsumption.registry.build";
+/app/src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.finalize.ts:11:} from "./dashboardConsumption.registry.guard";
+/app/src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.validate.ts:3:} from "./dashboardConsumption.registry.types";
+/app/src/cognition/transport/consumptionRegistry/dashboardConsumption.registry.validate.ts:8:} from "./dashboardConsumption.registry.invariants";
+/app/_archive/server_backups/server.js.delegate-fixed-terminal:28:const PORT = process.env.PORT || 3000;
+/app/_archive/server_backups/server.js.delegate-fixed-terminal:31:app.use(express.static(path.join(__dirname, "ui/dashboard")));
+/app/_archive/server_backups/server.js.delegate-fixed-terminal:32:app.use(express.static(path.join(__dirname, "public")));
+/app/_archive/server_backups/server.js.delegate-fixed-terminal:90:  const logFile = path.join(__dirname, "ui/dashboard/ticker-events.log");
+/app/_archive/server_backups/server.js.delegate-fixed-terminal:155:      path.join(__dirname, "ui/dashboard/ticker-events.log"),
+/app/_archive/server_backups/server.js.safe-cleanup-backup:26:const PORT = process.env.PORT || 3000;
+/app/_archive/server_backups/server.js.safe-cleanup-backup:29:app.use(express.static(path.join(__dirname, "ui/dashboard")));
+/app/_archive/server_backups/server.js.safe-cleanup-backup:30:app.use(express.static(path.join(__dirname, "public")));
+/app/_archive/server_backups/server.js.safe-cleanup-backup:85:  const logFile = path.join(__dirname, "ui/dashboard/ticker-events.log");
+/app/_archive/server_backups/server.js.clean-fix-backup:3:fs.appendFileSync(path.join(__dirname, "ui/dashboard/ticker-events.log"), JSON.stringify({ timestamp: Math.floor(Date.now()/1000), agent: "matilda", event: `chat: ${userMessage} -> ${reply}` }));
+/app/_archive/server_backups/server.js.clean-fix-backup:6:fs.appendFileSync(path.join(__dirname, "ui/dashboard/ticker-events.log"), JSON.stringify({ timestamp: Math.floor(Date.now()/1000), agent: "matilda", event: `chat: ${userMessage} -> ${reply}` }));
+/app/_archive/server_backups/server.js.clean-fix-backup:9:fs.appendFileSync(path.join(__dirname, "ui/dashboard/ticker-events.log"), JSON.stringify({ timestamp: Math.floor(Date.now()/1000), agent: "matilda", event: `chat: ${userMessage} -> ${reply}` }));
+/app/_archive/server_backups/server.js.clean-fix-backup:10:app.use(express.static(path.join(__dirname, "public")));
+/app/_archive/server_backups/server.js.clean-fix-backup:62:  const logFile = path.join(__dirname, "ui/dashboard/ticker-events.log");
+/app/_archive/server_backups/server.js.backup-20251117-154206:1:fs.appendFileSync(path.join(__dirname, "ui/dashboard/ticker-events.log"), JSON.stringify({ timestamp: Math.floor(Date.now()/1000), agent: "matilda", event: `chat: ${userMessage} -> ${reply}` }));
+/app/_archive/server_backups/server.js.backup-20251117-154206:3:fs.appendFileSync(path.join(__dirname, "ui/dashboard/ticker-events.log"), JSON.stringify({ timestamp: Math.floor(Date.now()/1000), agent: "matilda", event: `chat: ${userMessage} -> ${reply}` }));
+/app/_archive/server_backups/server.js.backup-20251117-154206:6:  path.join(__dirname, "ui/dashboard/ticker-events.log"),
+/app/_archive/server_backups/server.js.backup-20251117-154206:22:  path.join(__dirname, "ui/dashboard/ticker-events.log"),
+/app/_archive/server_backups/server.js.backup-20251117-154206:34:  path.join(__dirname, "ui/dashboard/ticker-events.log"),
+/app/_archive/server_backups/server.js.backup-20251117-154206:76:const PORT = process.env.PORT || 3000;
+/app/_archive/server_backups/server.js.backup-20251117-154206:79:app.use(express.static(path.join(__dirname, "ui/dashboard")));
+/app/_archive/server_backups/server.js.backup-20251117-154206:80:app.use(express.static(path.join(__dirname, "public")));
+/app/_archive/server_backups/server.js.backup-20251117-154206:138:  const logFile = path.join(__dirname, "ui/dashboard/ticker-events.log");
+/app/_archive/server_backups/server.js.final-backup:4:fs.appendFileSync(path.join(__dirname, "ui/dashboard/ticker-events.log"), JSON.stringify({ timestamp: Math.floor(Date.now()/1000), agent: "matilda", event: `chat: ${userMessage} -> ${reply}` }));
+/app/_archive/server_backups/server.js.final-backup:5:app.use(express.static(path.join(__dirname, "public")));
+/app/_archive/server_backups/server.js.final-backup:62:  const logFile = path.join(__dirname, "ui/dashboard/ticker-events.log");
+/app/_archive/server_backups/server.js.finalfix:13:const PORT = process.env.PORT || 3000;
+/app/_archive/server_backups/server.js.finalfix:16:app.use(express.static(path.join(__dirname, "ui/dashboard")));
+/app/_archive/server_backups/server.js.finalfix:17:app.use(express.static(path.join(__dirname, "public")));
+/app/_archive/server_backups/server.js.finalfix:75:  const logFile = path.join(__dirname, "ui/dashboard/ticker-events.log");
+/app/_archive/server_backups/server.js.finalfix:124:      path.join(__dirname, "ui/dashboard/ticker-events.log"),
+/app/_archive/server_backups/server.js.delegate-clean-fix-terminal:23:const PORT = process.env.PORT || 3000;
+/app/_archive/server_backups/server.js.delegate-clean-fix-terminal:26:app.use(express.static(path.join(__dirname, "ui/dashboard")));
+/app/_archive/server_backups/server.js.delegate-clean-fix-terminal:27:app.use(express.static(path.join(__dirname, "public")));
+/app/_archive/server_backups/server.js.delegate-clean-fix-terminal:85:  const logFile = path.join(__dirname, "ui/dashboard/ticker-events.log");
+/app/_archive/server_backups/server.js.delegate-clean-fix-terminal:142:      path.join(__dirname, "ui/dashboard/ticker-events.log"),
+/app/_archive/server_backups/server.js.delegate-clean-fix2:21:const PORT = process.env.PORT || 3000;
+/app/_archive/server_backups/server.js.delegate-clean-fix2:24:app.use(express.static(path.join(__dirname, "ui/dashboard")));
+/app/_archive/server_backups/server.js.delegate-clean-fix2:25:app.use(express.static(path.join(__dirname, "public")));
+/app/_archive/server_backups/server.js.delegate-clean-fix2:83:  const logFile = path.join(__dirname, "ui/dashboard/ticker-events.log");
+/app/_archive/server_backups/server.js.delegate-clean-fix2:135:      path.join(__dirname, "ui/dashboard/ticker-events.log"),
+/app/_archive/server_backups/server.js.backup:14:const PORT = process.env.PORT || 3000;
+/app/_archive/server_backups/server.js.backup:17:app.use(express.static(path.join(__dirname, "ui/dashboard")));
+/app/_archive/server_backups/server.js.backup:18:app.use(express.static(path.join(__dirname, "public")));
+/app/_archive/server_backups/server.js.backup:76:  const logFile = path.join(__dirname, "ui/dashboard/ticker-events.log");
+/app/_archive/server_backups/server.js.backup:125:      path.join(__dirname, "ui/dashboard/ticker-events.log"),
+/app/_archive/server_backups/server.js.backup-fix:38:const PORT = process.env.PORT || 3000;
+/app/_archive/server_backups/server.js.backup-fix:41:app.use(express.static(path.join(__dirname, "ui/dashboard")));
+/app/_archive/server_backups/server.js.backup-fix:42:app.use(express.static(path.join(__dirname, "public")));
+/app/_archive/server_backups/server.js.backup-fix:100:  const logFile = path.join(__dirname, "ui/dashboard/ticker-events.log");
+/app/_archive/server_backups/server.js.backup-fix:168:      path.join(__dirname, "ui/dashboard/ticker-events.log"),
+/app/_archive/server_backups/server.js.backup-cleanup:2:fs.appendFileSync(path.join(__dirname, "ui/dashboard/ticker-events.log"), JSON.stringify({ timestamp: Math.floor(Date.now()/1000), agent: "matilda", event: `chat: ${userMessage} -> ${reply}` }));
+/app/_archive/server_backups/server.js.backup-cleanup:27:const PORT = process.env.PORT || 3000;
+/app/_archive/server_backups/server.js.backup-cleanup:30:app.use(express.static(path.join(__dirname, "ui/dashboard")));
+/app/_archive/server_backups/server.js.backup-cleanup:31:app.use(express.static(path.join(__dirname, "public")));
+/app/_archive/server_backups/server.js.backup-cleanup:88:  const logFile = path.join(__dirname, "ui/dashboard/ticker-events.log");
+/app/_archive/server_backups/server.js.clean:13:const PORT = process.env.PORT || 3000;
+/app/_archive/server_backups/server.js.clean:16:app.use(express.static(path.join(__dirname, "ui/dashboard")));
+/app/_archive/server_backups/server.js.clean:17:app.use(express.static(path.join(__dirname, "public")));
+/app/_archive/server_backups/server.js.clean:75:  const logFile = path.join(__dirname, "ui/dashboard/ticker-events.log");
+/app/_archive/server_backups/server.js.clean:124:      path.join(__dirname, "ui/dashboard/ticker-events.log"),
+/app/_archive/server_backups/server.js.backup.20251118043305:44956:const PORT = process.env.PORT || 3000;
+/app/_archive/server_backups/server.js.backup.20251118043305:62246:app.use(express.static(path.join(__dirname, "ui/dashboard")));
+/app/_archive/server_backups/server.js.backup.20251118043305:65704:app.use(express.static(path.join(__dirname, "public")));
+/app/_archive/server_backups/server.js.backup.20251118043305:72620:const LOG_FILE_PATH = path.join(__dirname, "ui/dashboard/ticker-events.log");
+/app/_archive/server_backups/server.js.backup.20251118043305:394214:    const logFile = path.join(__dirname, "ui/dashboard/ticker-events.log");
+/app/_archive/server_backups/server.js.backup.20251118043305:670854:    const logFile = path.join(__dirname, "ui/dashboard/ticker-events.log");
+/app/_archive/server_backups/server.js.backup-before-cleanup:1:fs.appendFileSync(path.join(__dirname, "ui/dashboard/ticker-events.log"), JSON.stringify({ timestamp: Math.floor(Date.now()/1000), agent: "matilda", event: `chat: ${userMessage} -> ${reply}` }));
+/app/_archive/server_backups/server.js.backup-before-cleanup:3:fs.appendFileSync(path.join(__dirname, "ui/dashboard/ticker-events.log"), JSON.stringify({ timestamp: Math.floor(Date.now()/1000), agent: "matilda", event: `chat: ${userMessage} -> ${reply}` }));
+/app/_archive/server_backups/server.js.backup-before-cleanup:6:  path.join(__dirname, "ui/dashboard/ticker-events.log"),
+/app/_archive/server_backups/server.js.backup-before-cleanup:22:  path.join(__dirname, "ui/dashboard/ticker-events.log"),
+/app/_archive/server_backups/server.js.backup-before-cleanup:34:  path.join(__dirname, "ui/dashboard/ticker-events.log"),
+/app/_archive/server_backups/server.js.backup-before-cleanup:76:const PORT = process.env.PORT || 3000;
+/app/_archive/server_backups/server.js.backup-before-cleanup:79:app.use(express.static(path.join(__dirname, "ui/dashboard")));
+/app/_archive/server_backups/server.js.backup-before-cleanup:80:app.use(express.static(path.join(__dirname, "public")));
+/app/_archive/server_backups/server.js.backup-before-cleanup:138:  const logFile = path.join(__dirname, "ui/dashboard/ticker-events.log");
+/app/_archive/server_backups/server.js.delegate-fix-backup:19:const PORT = process.env.PORT || 3000;
+/app/_archive/server_backups/server.js.delegate-fix-backup:22:app.use(express.static(path.join(__dirname, "ui/dashboard")));
+/app/_archive/server_backups/server.js.delegate-fix-backup:23:app.use(express.static(path.join(__dirname, "public")));
+/app/_archive/server_backups/server.js.delegate-fix-backup:81:  const logFile = path.join(__dirname, "ui/dashboard/ticker-events.log");
+/app/_archive/server_backups/server.js.delegate-fix-backup:130:      path.join(__dirname, "ui/dashboard/ticker-events.log"),
+/app/_archive/server_backups/server.js.backup.20251118043247:44956:const PORT = process.env.PORT || 3000;
+/app/_archive/server_backups/server.js.backup.20251118043247:62246:app.use(express.static(path.join(__dirname, "ui/dashboard")));
+/app/_archive/server_backups/server.js.backup.20251118043247:65704:app.use(express.static(path.join(__dirname, "public")));
+/app/_archive/server_backups/server.js.backup.20251118043247:72620:const LOG_FILE_PATH = path.join(__dirname, "ui/dashboard/ticker-events.log");
+/app/_archive/server_backups/server.js.backup.20251118043247:394214:    const logFile = path.join(__dirname, "ui/dashboard/ticker-events.log");
+/app/_archive/server_backups/server.js.backup.20251118043247:670854:    const logFile = path.join(__dirname, "ui/dashboard/ticker-events.log");
+/app/_archive/server_backups/server.js.cleaned-backup3:37:const PORT = process.env.PORT || 3000;
+/app/_archive/server_backups/server.js.cleaned-backup3:40:app.use(express.static(path.join(__dirname, "ui/dashboard")));
+/app/_archive/server_backups/server.js.cleaned-backup3:41:app.use(express.static(path.join(__dirname, "public")));
+/app/_archive/server_backups/server.js.cleaned-backup3:99:  const logFile = path.join(__dirname, "ui/dashboard/ticker-events.log");
+/app/_archive/server_backups/server.js.cleaned-backup3:167:      path.join(__dirname, "ui/dashboard/ticker-events.log"),
+/app/_archive/server_backups/server.js.final-try-fix:2:fs.appendFileSync(path.join(__dirname, "ui/dashboard/ticker-events.log"), JSON.stringify({ timestamp: Math.floor(Date.now()/1000), agent: "matilda", event: `chat: ${userMessage} -> ${reply}` }));
+/app/_archive/server_backups/server.js.final-try-fix:4:const PORT = process.env.PORT || 3000;
+/app/_archive/server_backups/server.js.final-try-fix:8:app.use(express.static(path.join(__dirname, "ui/dashboard")));
+/app/_archive/server_backups/server.js.final-try-fix:9:app.use(express.static(path.join(__dirname, "public")));
+/app/_archive/server_backups/server.js.final-try-fix:64:  const logFile = path.join(__dirname, "ui/dashboard/ticker-events.log");
+/app/_archive/server_backups/server.js.finalfix2:13:const PORT = process.env.PORT || 3000;
+/app/_archive/server_backups/server.js.finalfix2:73:  const logFile = path.join(__dirname, "ui/dashboard/ticker-events.log");
+/app/_archive/server_backups/server.js.finalfix2:122:      path.join(__dirname, "ui/dashboard/ticker-events.log"),
+/app/_archive/server_backups/server.js.finalfix2:136:app.use(express.static(path.join(__dirname, 'public')));
+/app/_archive/server_backups/server.js.safe:14:const PORT = process.env.PORT || 3000;
+/app/_archive/server_backups/server.js.safe:17:app.use(express.static(path.join(__dirname, "ui/dashboard")));
+/app/_archive/server_backups/server.js.safe:18:app.use(express.static(path.join(__dirname, "public")));
+/app/_archive/server_backups/server.js.safe:76:  const logFile = path.join(__dirname, "ui/dashboard/ticker-events.log");
+/app/_archive/server_backups/server.js.safe:125:      path.join(__dirname, "ui/dashboard/ticker-events.log"),
+/app/_archive/server_backups/server.js.delegate-final-clean:30:const PORT = process.env.PORT || 3000;
+/app/_archive/server_backups/server.js.delegate-final-clean:33:app.use(express.static(path.join(__dirname, "ui/dashboard")));
+/app/_archive/server_backups/server.js.delegate-final-clean:34:app.use(express.static(path.join(__dirname, "public")));
+/app/_archive/server_backups/server.js.delegate-final-clean:92:  const logFile = path.join(__dirname, "ui/dashboard/ticker-events.log");
+/app/_archive/server_backups/server.js.delegate-final-clean:157:      path.join(__dirname, "ui/dashboard/ticker-events.log"),
+/app/_archive/server_backups/server.js.clean-final-backup2:37:const PORT = process.env.PORT || 3000;
+/app/_archive/server_backups/server.js.clean-final-backup2:40:app.use(express.static(path.join(__dirname, "ui/dashboard")));
+/app/_archive/server_backups/server.js.clean-final-backup2:41:app.use(express.static(path.join(__dirname, "public")));
+/app/_archive/server_backups/server.js.clean-final-backup2:99:  const logFile = path.join(__dirname, "ui/dashboard/ticker-events.log");
+/app/_archive/server_backups/server.js.clean-final-backup2:167:      path.join(__dirname, "ui/dashboard/ticker-events.log"),
+/app/_archive/server_backups/server.js.delegate-fix-all:25:const PORT = process.env.PORT || 3000;
+/app/_archive/server_backups/server.js.delegate-fix-all:28:app.use(express.static(path.join(__dirname, "ui/dashboard")));
+/app/_archive/server_backups/server.js.delegate-fix-all:29:app.use(express.static(path.join(__dirname, "public")));
+/app/_archive/server_backups/server.js.delegate-fix-all:87:  const logFile = path.join(__dirname, "ui/dashboard/ticker-events.log");
+/app/_archive/server_backups/server.js.delegate-fix-all:147:      path.join(__dirname, "ui/dashboard/ticker-events.log"),
+/app/_archive/server_backups/server.js.bak4:13:const PORT = process.env.PORT || 3000;
+/app/_archive/server_backups/server.js.bak4:16:app.use(express.static(path.join(__dirname, "ui/dashboard")));
+/app/_archive/server_backups/server.js.bak4:17:app.use(express.static(path.join(__dirname, "public")));
+/app/_archive/server_backups/server.js.bak4:75:  const logFile = path.join(__dirname, "ui/dashboard/ticker-events.log");
+/app/_archive/server_backups/server.js.bak4:124:      path.join(__dirname, "ui/dashboard/ticker-events.log"),
+/app/_archive/server_backups/server.js.bak7:13:const PORT = process.env.PORT || 3000;
+/app/_archive/server_backups/server.js.bak7:16:app.use(express.static(path.join(__dirname, "ui/dashboard")));
+/app/_archive/server_backups/server.js.bak7:17:app.use(express.static(path.join(__dirname, "public")));
+/app/_archive/server_backups/server.js.bak7:75:  const logFile = path.join(__dirname, "ui/dashboard/ticker-events.log");
+/app/_archive/server_backups/server.js.bak7:124:      path.join(__dirname, "ui/dashboard/ticker-events.log"),
+/app/_archive/server_backups/server.js.pre-delegate-fix:22:const PORT = process.env.PORT || 3000;
+/app/_archive/server_backups/server.js.pre-delegate-fix:25:app.use(express.static(path.join(__dirname, "ui/dashboard")));
+/app/_archive/server_backups/server.js.pre-delegate-fix:26:app.use(express.static(path.join(__dirname, "public")));
+/app/_archive/server_backups/server.js.pre-delegate-fix:84:  const logFile = path.join(__dirname, "ui/dashboard/ticker-events.log");
+/app/_archive/server_backups/server.js.pre-delegate-fix:136:      path.join(__dirname, "ui/dashboard/ticker-events.log"),
+/app/_archive/server_backups/server.js.messy-backup:1:fs.appendFileSync(path.join(__dirname, "ui/dashboard/ticker-events.log"), JSON.stringify({ timestamp: Math.floor(Date.now()/1000), agent: "matilda", event: `chat: ${userMessage} -> ${reply}` }));
+/app/_archive/server_backups/server.js.messy-backup:3:fs.appendFileSync(path.join(__dirname, "ui/dashboard/ticker-events.log"), JSON.stringify({ timestamp: Math.floor(Date.now()/1000), agent: "matilda", event: `chat: ${userMessage} -> ${reply}` }));
+/app/_archive/server_backups/server.js.messy-backup:30:const PORT = process.env.PORT || 3000;
+/app/_archive/server_backups/server.js.messy-backup:33:app.use(express.static(path.join(__dirname, "ui/dashboard")));
+/app/_archive/server_backups/server.js.messy-backup:34:app.use(express.static(path.join(__dirname, "public")));
+/app/_archive/server_backups/server.js.messy-backup:92:  const logFile = path.join(__dirname, "ui/dashboard/ticker-events.log");
+/app/_archive/server_backups/server.js.backup-20251117-151852:38:      path.join(__dirname, "ui/dashboard/ticker-events.log"),
+/app/_archive/server_backups/server.js.backup-20251117-151852:79:const PORT = process.env.PORT || 3000;
+/app/_archive/server_backups/server.js.bak6:13:const PORT = process.env.PORT || 3000;
+/app/_archive/server_backups/server.js.bak6:16:app.use(express.static(path.join(__dirname, "ui/dashboard")));
+/app/_archive/server_backups/server.js.bak6:17:app.use(express.static(path.join(__dirname, "public")));
+/app/_archive/server_backups/server.js.bak6:75:  const logFile = path.join(__dirname, "ui/dashboard/ticker-events.log");
+/app/_archive/server_backups/server.js.bak6:124:      path.join(__dirname, "ui/dashboard/ticker-events.log"),
+/app/_archive/server_backups/server.js.final-cleanup-backup:7:  path.join(__dirname, "ui/dashboard/ticker-events.log"), 
+/app/_archive/server_backups/server.js.final-cleanup-backup:32:  const logFile = path.join(__dirname, "ui/dashboard/ticker-events.log");
+/app/_archive/server_backups/server.js.bak:13:const PORT = process.env.PORT || 3000;
+/app/_archive/server_backups/server.js.bak:16:app.use(express.static(path.join(__dirname, "ui/dashboard")));
+/app/_archive/server_backups/server.js.bak:17:app.use(express.static(path.join(__dirname, "public")));
+/app/_archive/server_backups/server.js.bak:75:  const logFile = path.join(__dirname, "ui/dashboard/ticker-events.log");
+/app/_archive/server_backups/server.js.bak:124:      path.join(__dirname, "ui/dashboard/ticker-events.log"),
+/app/_archive/server_backups/server.js.terminal-cleanup-backup2:36:const PORT = process.env.PORT || 3000;
+/app/_archive/server_backups/server.js.terminal-cleanup-backup2:39:app.use(express.static(path.join(__dirname, "ui/dashboard")));
+/app/_archive/server_backups/server.js.terminal-cleanup-backup2:40:app.use(express.static(path.join(__dirname, "public")));
+/app/_archive/server_backups/server.js.terminal-cleanup-backup2:98:  const logFile = path.join(__dirname, "ui/dashboard/ticker-events.log");
+/app/_archive/server_backups/server.js.terminal-cleanup-backup2:143:      path.join(__dirname, "ui/dashboard/ticker-events.log"),
+/app/_archive/server_backups/server.js.pre-cleanup:38:  const logFile = path.join(__dirname, "ui/dashboard/ticker-events.log");
+/app/_archive/server_backups/server.js.fix:16:const PORT = process.env.PORT || 3000;
+/app/_archive/server_backups/server.js.fix:19:app.use(express.static(path.join(__dirname, "ui/dashboard")));
+/app/_archive/server_backups/server.js.fix:20:app.use(express.static(path.join(__dirname, "public")));
+/app/_archive/server_backups/server.js.fix:78:  const logFile = path.join(__dirname, "ui/dashboard/ticker-events.log");
+/app/_archive/server_backups/server.js.fix:127:      path.join(__dirname, "ui/dashboard/ticker-events.log"),
+/app/_archive/server_backups/server.js.pre-fix-multi2:12:  path.join(__dirname, "ui/dashboard/ticker-events.log"),
+/app/_archive/server_backups/server.js.pre-fix-multi2:60:const PORT = process.env.PORT || 3000;
+/app/_archive/server_backups/server.js.pre-fix-multi2:63:app.use(express.static(path.join(__dirname, "ui/dashboard")));
+/app/_archive/server_backups/server.js.pre-fix-multi2:64:app.use(express.static(path.join(__dirname, "public")));
+/app/_archive/server_backups/server.js.pre-fix-multi2:122:  const logFile = path.join(__dirname, "ui/dashboard/ticker-events.log");
+/app/_archive/server_backups/server.js.clean-backup:36:const PORT = process.env.PORT || 3000;
+/app/_archive/server_backups/server.js.clean-backup:39:app.use(express.static(path.join(__dirname, "ui/dashboard")));
+/app/_archive/server_backups/server.js.clean-backup:40:app.use(express.static(path.join(__dirname, "public")));
+/app/_archive/server_backups/server.js.clean-backup:98:  const logFile = path.join(__dirname, "ui/dashboard/ticker-events.log");
+/app/_archive/server_backups/server.js.clean-backup:167:      path.join(__dirname, "ui/dashboard/ticker-events.log"),
+/app/_archive/server_backups/server.js.bak_20250805_104906:12:const PORT = process.env.PORT || 3000;
+/app/_archive/server_backups/server.js.bak_20250805_104906:19:app.use(express.static(path.join(__dirname, "ui/dashboard")));
+/app/_archive/server_backups/server.js.bak_20250805_104906:20:app.use(express.static(path.join(__dirname, "public")));
+/app/_archive/server_backups/server.js.bak_20250805_104906:59:  const logPath = path.join(__dirname, "ui/dashboard/ticker-events.log");
+/app/_archive/server_backups/server.js.bak_20250805_104906:72:  const trackerPath = path.join(__dirname, "ui/dashboard/public/projects.json");
+/app/_archive/server_backups/server.js.final-fix-backup:22:const PORT = process.env.PORT || 3000;
+/app/_archive/server_backups/server.js.final-fix-backup:25:app.use(express.static(path.join(__dirname, "ui/dashboard")));
+/app/_archive/server_backups/server.js.final-fix-backup:26:app.use(express.static(path.join(__dirname, "public")));
+/app/_archive/server_backups/server.js.final-fix-backup:84:  const logFile = path.join(__dirname, "ui/dashboard/ticker-events.log");
+/app/_archive/server_backups/server.js.final-fix-backup:139:      path.join(__dirname, "ui/dashboard/ticker-events.log"),
+/app/_archive/server_backups/server.js.fixed-backup:22:const PORT = process.env.PORT || 3000;
+/app/_archive/server_backups/server.js.fixed-backup:25:app.use(express.static(path.join(__dirname, "ui/dashboard")));
+/app/_archive/server_backups/server.js.fixed-backup:26:app.use(express.static(path.join(__dirname, "public")));
+/app/_archive/server_backups/server.js.fixed-backup:84:  const logFile = path.join(__dirname, "ui/dashboard/ticker-events.log");
+/app/_archive/server_backups/server.js.fixed-backup:137:      path.join(__dirname, "ui/dashboard/ticker-events.log"),
+/app/_archive/server_backups/server.js.backup-20251117-152043:51:const PORT = process.env.PORT || 3000;
+/app/_archive/server_backups/server.js.backup-20251117-152043:59:      path.join(__dirname, "ui/dashboard/ticker-events.log"),
+/app/_archive/server_backups/server.js.backup-20251117-152118:51:const PORT = process.env.PORT || 3000;
+/app/_archive/server_backups/server.js.backup-20251117-152118:59:      path.join(__dirname, "ui/dashboard/ticker-events.log"),
+/app/_archive/server_backups/server.js.cleaned-backup4:37:const PORT = process.env.PORT || 3000;
+/app/_archive/server_backups/server.js.cleaned-backup4:40:app.use(express.static(path.join(__dirname, "ui/dashboard")));
+/app/_archive/server_backups/server.js.cleaned-backup4:41:app.use(express.static(path.join(__dirname, "public")));
+
+=== CONTAINER: TOP-LEVEL /app LAYOUT ===
+/app/.dockerignore
+/app/.env
+/app/.eslintrc.cjs
+/app/.githooks/pre-commit
+/app/.phase489_h4_generator.pid
+/app/.phase88_14_10_server.pid
+/app/.phase88_14_5_server.pid
+/app/.phase88_14_7_server.pid
+/app/.phase88_14_server.pid
+/app/.rgignore
+/app/.server.js.swn
+/app/.server.js.swo
+/app/.ts
+/app/AGENT_SAFETY_DOCTRINE.md
+/app/ARCHITECTURE_OVERVIEW.md
+/app/AUTHORITY_FLOW_CONTRACT.md
+/app/BRANCH_PROTECTION_PROOF.txt
+/app/CONTAINER_AUTHORITY_MAP_AUDIT.txt
+/app/CONTAINER_AUTHORITY_RECONCILIATION_SNAPSHOT.md
+/app/CONTAINER_RECONCILIATION_NEXT_STEP.md
+/app/Dockerfile
+/app/Dockerfile.backup-scheduler
+/app/Dockerfile.dashboard
+/app/Dockerfile.ops-stream
+/app/Dockerfile.reflections-stream
+/app/Dockerfile.worker
+/app/EXECUTION_SAFETY_BOUNDARY.md
+/app/GOVERNANCE_ACTIVATION_DECISION_MODEL.md
+/app/GOVERNANCE_ADVISORY_ENGINE_MODEL.md
+/app/GOVERNANCE_ADVISORY_PRESENTATION_MODEL.md
+/app/GOVERNANCE_AUTHORITY_PRESERVATION_MODEL.md
+/app/GOVERNANCE_CLASSIFICATION_INDEX.md
+/app/GOVERNANCE_COGNITION_ARCHITECTURE_COMPLETION_MODEL.md
+/app/GOVERNANCE_COGNITION_BOUNDARIES_MODEL.md
+/app/GOVERNANCE_COGNITION_CONFIDENCE_MODEL.md
+/app/GOVERNANCE_COGNITION_CONSTRAINT_SCHEMA_MODEL.md
+/app/GOVERNANCE_COGNITION_EXPLAINABILITY_MODEL.md
+/app/GOVERNANCE_COGNITION_FAILURE_MODES_MODEL.md
+/app/GOVERNANCE_COGNITION_PRESENTATION_MODEL.md
+/app/GOVERNANCE_COGNITION_PRIORITIZATION_MODEL.md
+/app/GOVERNANCE_COGNITION_STABILITY_MODEL.md
+/app/GOVERNANCE_COGNITION_TRANSPARENCY_MODEL.md
+/app/GOVERNANCE_CONSTRAINT_ACTIVATION_MODEL.md
+/app/GOVERNANCE_CONSTRAINT_CLASSIFICATION_MODEL.md
+/app/GOVERNANCE_CONSTRAINT_DISCOVERY_SEMANTICS_MODEL.md
+/app/GOVERNANCE_CONSTRAINT_LIFECYCLE_MANAGEMENT_MODEL.md
+/app/GOVERNANCE_CONSTRAINT_REGISTRY_MODEL.md
+/app/GOVERNANCE_CONSTRAINT_REGISTRY_STRUCTURE.md
+/app/GOVERNANCE_CONSTRAINT_RISK_CLASSIFICATION_MODEL.md
+/app/GOVERNANCE_CONSTRAINT_SCHEMA_MODEL.md
+/app/GOVERNANCE_CONSTRAINT_SCHEMA_PLAN.md
+/app/GOVERNANCE_CONSTRAINT_VERSIONING_MODEL.md
+/app/GOVERNANCE_CONTINUATION_NOTES_PHASE_190.txt
+/app/GOVERNANCE_DECISION_ROUTING_MODEL.md
+/app/GOVERNANCE_DEPLOYMENT_SAFEGUARDS_MODEL.md
+/app/GOVERNANCE_DOCTRINE_CONFLICT_RESOLUTION_MODEL.md
+/app/GOVERNANCE_DOCTRINE_VERIFICATION_MODEL.md
+/app/GOVERNANCE_ENFORCEMENT_ARCHITECTURE_MODEL.md
+/app/GOVERNANCE_ENFORCEMENT_BOUNDARY.md
+/app/GOVERNANCE_ENFORCEMENT_BOUNDARY_MODEL.md
+/app/GOVERNANCE_ENFORCEMENT_GATE_MODEL.md
+/app/GOVERNANCE_ENFORCEMENT_READINESS_MODEL.md
+/app/GOVERNANCE_ENFORCEMENT_TRANSLATION_MAP.md
+/app/GOVERNANCE_ENFORCEMENT_TRANSLATION_PREPARATION.md
+/app/GOVERNANCE_EVALUATION_LOCATION_SPEC.md
+/app/GOVERNANCE_EVALUATION_SEMANTICS.md
+/app/GOVERNANCE_EVALUATION_SEMANTICS_MODEL.md
+/app/GOVERNANCE_EXPLAINABILITY_MODEL.md
+/app/GOVERNANCE_FIRST_CODE_IMPLEMENTATION_READINESS_MODEL.md
+/app/GOVERNANCE_FIRST_MODULE_SPECIFICATION_MODEL.md
+/app/GOVERNANCE_IMPLEMENTATION_ENTRY_MODEL.md
+/app/GOVERNANCE_IMPLEMENTATION_READINESS_MODEL.md
+/app/GOVERNANCE_INITIAL_INTEGRATION_BOUNDARY_MODEL.md
+/app/GOVERNANCE_MACHINE_READABLE_DOCTRINE_MODEL.md
+/app/GOVERNANCE_MATURITY_INDICATORS.md
+/app/GOVERNANCE_MATURITY_MODEL.md
+/app/GOVERNANCE_MODULE_CERTIFICATION_PROCESS_MODEL.md
+/app/GOVERNANCE_MODULE_IMPLEMENTATION_PLANNING_MODEL.md
+/app/GOVERNANCE_MODULE_SAFETY_INTERFACE_MODEL.md
+/app/GOVERNANCE_OPERATOR_REVIEW_MODEL.md
+/app/GOVERNANCE_OPERATOR_VERIFICATION_CONTROLS_MODEL.md
+/app/GOVERNANCE_PASSIVE_SIGNALS_IMPLEMENTATION_MODEL.md
+/app/GOVERNANCE_PREREQUISITE_VERIFICATION_MODEL.md
+/app/GOVERNANCE_PRE_IMPLEMENTATION_SAFETY_GATES_MODEL.md
+/app/GOVERNANCE_READINESS_MODEL.md
+/app/GOVERNANCE_README.md
+/app/GOVERNANCE_REGISTRY_INDEXING_MODEL.md
+/app/GOVERNANCE_SAFETY_DOCTRINE_INTEGRATION_MODEL.md
+/app/GOVERNANCE_SAFETY_SIGNAL_MODEL.md
+/app/GOVERNANCE_SAFETY_VERIFICATION_MODEL.md
+/app/GOVERNANCE_SIGNAL_CORRELATION_MODEL.md
+/app/GOVERNANCE_SIGNAL_ESCALATION_MODEL.md
+/app/GOVERNANCE_SIGNAL_EXPLANATION_MODEL.md
+/app/GOVERNANCE_SIGNAL_LIFECYCLE_MODEL.md
+/app/GOVERNANCE_SIGNAL_LIFECYCLE_SAFETY_MODEL.md
+/app/GOVERNANCE_SIGNAL_NORMALIZATION_RULES.md
+/app/GOVERNANCE_SIGNAL_TAXONOMY_MODEL.md
+/app/GOVERNANCE_STABILITY_MODEL.md
+/app/GOVERNANCE_SYSTEM_SAFETY_CLOSURE_MODEL.md
+/app/GOVERNANCE_VALIDATION_ARCHITECTURE_MODEL.md
+/app/GOVERNANCE_VISIBILITY_MAPPING.md
+/app/HANDOFF_PHASE15_OPTIONAL_SSE_DISABLED.md
+/app/HANDOFF_PHASE15_STATUS.md
+/app/HANDOFF_PHASE16_THREAD_STARTER.md
+/app/HANDOFF_PHASE62B_SUCCESS_VALIDATION_READY_20260317.md
+/app/MILESTONE_2_COMPLETE.txt
+/app/MILESTONE_3_PARTIAL_COMPLETE.txt
+/app/MILESTONE_3_PARTIAL_COMPLETE_2.txt
+/app/Makefile
+/app/Motherboard_Project_Scope.txt
+/app/NEXT_SESSION_ENTRYPOINT.md
+/app/OPERATOR_AUTHORITY_PROTECTION.md
+/app/PHASE11_AFTER_REBUILD_SUCCESS.md
+/app/PHASE11_AFTER_STUBS_NEXT_STEP.md
+/app/PHASE11_BRANCHES.md
+/app/PHASE11_BUNDLING_CURRENT_STATUS.md
+/app/PHASE11_BUNDLING_HANDOFF.md
+/app/PHASE11_BUNDLING_STATUS.md
+/app/PHASE11_BUNDLING_STEP1_ENTRYPOINTS.md
+/app/PHASE11_BUNDLING_STEP2_STRATEGY.md
+/app/PHASE11_BUNDLING_STEP3A_STATUS.md
+/app/PHASE11_BUNDLING_STEP3B_BROADCAST_STATUS.md
+/app/PHASE11_BUNDLING_STEP3B_IMPLEMENTATION.md
+/app/PHASE11_BUNDLING_STEP3B_INSPECTION_RUN.md
+/app/PHASE11_BUNDLING_STEP3B_NEXT_ACTIONS.md
+/app/PHASE11_BUNDLING_STEP3B_TASK_GRAPH_STATUS.md
+/app/PHASE11_BUNDLING_STEP3_IMPLEMENTATION_PLAN.md
+/app/PHASE11_CONTAINER_STATUS.md
+/app/PHASE11_CONTAINER_STATUS_AFTER_REBUILD.md
+/app/PHASE11_CURRENT_ACTION.md
+/app/PHASE11_DASHBOARD_BROADCAST_REMOVAL_NOTE.txt
+/app/PHASE11_DASHBOARD_PHASE11_SESSION_SUMMARY.md
+/app/PHASE11_DASHBOARD_RENDERING_STATUS.md
+/app/PHASE11_DASHBOARD_RENDERING_VERIFICATION_CHECKLIST.md
+/app/PHASE11_DASHBOARD_RESTORE.md
+/app/PHASE11_DASHBOARD_SERVER_RUN_LOG.md
+/app/PHASE11_DASHBOARD_VISUAL_CHECK_HANDOFF.md
+/app/PHASE11_DASHBOARD_VISUAL_CHECK_NOTES.md
+/app/PHASE11_DASHBOARD_VISUAL_CHECK_RUN_THIS_NEXT.md
+/app/PHASE11_DASHBOARD_VISUAL_CHECK_STATUS.md
+/app/PHASE11_DASHBOARD_VISUAL_CHECK_TODO.md
+/app/PHASE11_DB_ENDPOINTS_STATUS.md
+/app/PHASE11_DB_TASK_ENDPOINTS_DEBUG.md
+/app/PHASE11_DELEGATE_TASK_EXECUTION_NOTE.md
+/app/PHASE11_DELEGATE_TASK_QUICKSTART.md
+/app/PHASE11_DELEGATE_TASK_RESULT.md
+/app/PHASE11_FINAL_PRE_EXECUTION_SIGNAL.md
+/app/PHASE11_FUNCTIONAL_BEHAVIOR_HANDOFF.md
+/app/PHASE11_IMMEDIATE_RUNTIME_COMMAND.md
+/app/PHASE11_MATILDA_CHAT_COMPLETION_HANDOFF.md
+/app/PHASE11_MATILDA_CHAT_UX_PLAN.md
+/app/PHASE11_NEXT_ACTIONS_AFTER_FUNCTIONAL_BEHAVIOR.md
+/app/PHASE11_NEXT_MICRO_STEPS.md
+/app/PHASE11_NEXT_RUNTIME_AFTER_STUBS.md
+/app/PHASE11_NEXT_STEPS_RECOMMENDATION.md
+/app/PHASE11_OPS_DASHBOARD_VERIFICATION_HANDOFF.md
+/app/PHASE11_OPS_DASHBOARD_VERIFICATION_LOG.md
+/app/PHASE11_OPS_EVENT_STREAM_HANDOFF.md
+/app/PHASE11_OPS_EVENT_STREAM_VERIFICATION.md
+/app/PHASE11_OPS_GLOBALS_STATUS.md
+/app/PHASE11_OPS_PILL_BROWSER_CHECK.md
+/app/PHASE11_OPS_PILL_BUNDLED_STABLE_TAG.md
+/app/PHASE11_OPS_PILL_NO_SIGNAL_DIAG.md
+/app/PHASE11_OPS_PILL_NO_SIGNAL_GREPS.md
+/app/PHASE11_OPS_PILL_REBUILD_MARKER.md
+/app/PHASE11_OPS_PILL_REVERT_TO_V11_3_NOTE.md
+/app/PHASE11_OPS_PILL_STATUS.md
+/app/PHASE11_OPS_PILL_STEP1_STATUS.md
+/app/PHASE11_OPS_SSE_DISABLED.md
+/app/PHASE11_OPS_SSE_RUNTIME_CHECK.md
+/app/PHASE11_OPS_SSE_RUNTIME_LOG.md
+/app/PHASE11_QUICK_CHECK_BUTTON_COMPLETION.md
+/app/PHASE11_READY_FOR_CONTAINER_REBUILD.md
+/app/PHASE11_REBUILD_RUN_2_NOTE.md
+/app/PHASE11_RECOMMENDED_NEXT_STEP.md
+/app/PHASE11_REFLECTIONS_SSE_BACKEND_TODO.md
+/app/PHASE11_REFLECTIONS_SSE_SHIM_STATUS.md
+/app/PHASE11_RUNTIME_ENTRYPOINT.md
+/app/PHASE11_RUNTIME_SINGLE_LINE.md
+/app/PHASE11_RUNTIME_STATUS.md
+/app/PHASE11_RUNTIME_TODO.md
+/app/PHASE11_RUN_THIS_NOW.md
+/app/PHASE11_SERVERMJS_ROUTE_FIX.md
+/app/PHASE11_SESSION_WRAPUP.md
+/app/PHASE11_STATUS_SNAPSHOT.md
+/app/PHASE11_STEP3_DASHBOARD_BEHAVIOR_AUDIT.md
+/app/PHASE11_STEP3_OPS_PILL_FINAL_VERIFICATION.md
+/app/PHASE11_STEP4_FUNCTIONAL_VERIFICATION_PLAN.md
+/app/PHASE11_STOP_WRITING_AND_EXECUTE.md
+/app/PHASE11_STUBBED_TASK_ENDPOINTS_STATUS.md
+/app/PHASE11_TASK_DELEGATION_CURL_TESTS.md
+/app/PHASE11_TASK_DELEGATION_RUN_SEQUENCE.md
+/app/PHASE11_THREAD_RESUME_GUIDE.md
+/app/PHASE11_VERIFICATION_HANDOFF.md
+/app/PHASE11_VISUAL_OUTPUT_VERIFICATION_AND_NEXT_STEPS.md
+/app/PHASE11_VISUAL_OUTPUT_VERIFICATION_HANDOFF.md
+/app/PHASE11_VISUAL_OUTPUT_VERIFICATION_STEPS_TODO.md
+/app/PHASE11_WHATS_NEXT_INLINE.md
+/app/PHASE11_ZERO_MORE_DOCS_EXECUTE_NOW.md
+/app/PHASE11_v11.10_NEXT_VERIFICATION.md
+/app/PHASE11_v11.10_POST_SSE_REMOVAL_CHECK.txt
+/app/PHASE11_v11.10_STATUS_AND_NEXT_STEPS.md
+/app/PHASE11_v11.10_TAG.txt
+/app/PHASE11_v11.9_NEXT_TASKS_DASHBOARD_CHAT_REFLECTIONS.md
+/app/PHASE11_v11.9_RUNTIME_NOTES.md
+/app/PHASE13_5_v13.5.4_HANDOFF.md
+/app/PHASE13_5_v13.5.5_HANDOFF.md
+/app/PHASE14_1_TASK_CONTRACT.md
+/app/PHASE14_2_INTEGRATION_TODO.md
+/app/PHASE14_2_VALIDATION.md
+/app/PHASE14_2_VERIFIED.md
+/app/PHASE14_PLAN.md
+/app/PHASE15_PROJECT_VISUAL_OUTPUT_WIRING.md
+/app/PHASE16_v16.1_SINGLETON_OK_HANDOFF.md
+/app/PHASE18_HANDOFF.txt
+/app/PHASE18_HANDOFF_ONE_LINER.txt
+/app/PHASE19_NEXT_STEPS.md
+/app/PHASE19_POSTGRES_BASELINE_HANDOFF.txt
+/app/PHASE20_HANDOFF.md
+/app/PHASE21_HANDOFF_NEXT.md
+/app/PHASE21_HANDOFF_ONE_LINER.txt
+/app/PHASE24_ORCHESTRATION_NEXT.md
+/app/PHASE24_STEP1_LIFECYCLE_NORMALIZATION.md
+/app/PHASE25_AUTHORITY_ORCHESTRATION_CONTRACT.md
+/app/PHASE25_FOLD_FUNCTION_SPEC.md
+/app/PHASE25_NEXT_STEPS.md
+/app/PHASE25_SINGLE_WRITER_DECLARATION.md
+/app/PHASE25_UI_INFERENCE_AUDIT.md
+/app/PHASE25_UI_INFERENCE_AUDIT_SCOPED.md
+/app/PHASE26_CONTAINER_STATUS.txt
+/app/PHASE26_HANDOFF_ONE_LINER.txt
+/app/PHASE26_SUPERVISOR_SUMMARY.txt
+/app/PHASE27_FAILURE_RETRY_CONTRACT.md
+/app/PHASE27_SUPERVISOR_SUMMARY.txt
+/app/PHASE28_HANDOFF.md
+/app/PHASE29_HANDOFF.md
+/app/PHASE30_HANDOFF.md
+/app/PHASE31_HANDOFF.md
+/app/PHASE32_DONE.md
+/app/PHASE32_DRIZZLE_LANES_HANDOFF.md
+/app/PHASE32_DRIZZLE_PG_GOTCHAS.md
+/app/PHASE32_DRIZZLE_PG_TRACKING_NOTE.md
+/app/PHASE32_SUPERVISOR_SUMMARY.txt
+/app/PHASE33_DONE.txt
+/app/PHASE33_HANDOFF_ONE_LINER.txt
+/app/PHASE33_NEXT.md
+/app/PHASE33_SUPERVISOR_SUMMARY.md
+/app/PHASE34_NEXT.md
+/app/PHASE35_HANDOFF.md
+/app/PHASE36_2.md
+/app/PHASE36_2_HANDOFF.md
+/app/PHASE36_3_HANDOFF.md
+/app/PHASE36_3_NEXT.md
+/app/PHASE36_4.md
+/app/PHASE36_5_NEXT.md
+/app/PHASE36_6.md
+/app/PHASE37_0.md
+/app/PHASE37_0_HANDOFF.md
+/app/PHASE37_0_HANDOFF_ONELINER.txt
+/app/PHASE37_1_HANDOFF_ONELINER.txt
+/app/PHASE37_1_TERMINAL_EVENT_PROVENANCE.md
+/app/PHASE37_2_ALIGNMENT_OPTIONS.md
+/app/PHASE37_2_DECISION_RECORD.md
+/app/PHASE37_2_HANDOFF_ONELINER.txt
+/app/PHASE37_3_HANDOFF.md
+/app/PHASE37_4_DECISION_RECORD.md
+/app/PHASE37_4_HANDOFF_ONELINER.txt
+/app/PHASE37_4_PLAN.md
+/app/PHASE37_5_HANDOFF_ONELINER.txt
+/app/PHASE37_5_STATUS.md
+/app/PHASE37_6_HANDOFF_ONELINER.txt
+/app/PHASE37_6_HYPOTHESIS.md
+/app/PHASE37_6_NEXT.md
+/app/PHASE37_7.md
+/app/PHASE37_7_IMPLEMENTATION_PLAN.md
+/app/PHASE37_ACCEPTANCE_CHECKS.sql
+/app/PHASE37_READINESS_GATE.md
+/app/PHASE37_RUN_PROJECTION_CONTRACT.md
+/app/PHASE37_RUN_VIEW_DEFINITION.sql
+/app/PHASE37_RUN_VIEW_PROVENANCE_HINTS.md
+/app/PHASE37_RUN_VIEW_PROVENANCE_MATRIX.md
+/app/PHASE37_STATUS.md
+/app/PHASE37_STATUS_SUMMARY.md
+/app/PHASE38_HANDOFF_ONE_LINER.md
+/app/PHASE39.md
+/app/PHASE39_1.md
+/app/PHASE39_2_NEXT.md
+/app/PHASE39_3_NEXT.md
+/app/PHASE39_4_NEXT.md
+/app/PHASE39_ACTION_TIER_POLICY.md
+/app/PHASE39_ARCHIVE_NOTE.md
+/app/PHASE39_COMPLETE.md
+/app/PHASE39_EXECUTIVE_SUMMARY.md
+/app/PHASE39_FINAL_STATE.md
+/app/PHASE39_GOLDEN_TAG_PLAN.md
+/app/PHASE39_HANDOFF_ONE_LINER.md
+/app/PHASE39_LOCK_CONFIRMATION.md
+/app/PHASE39_NEXT.md
+/app/PHASE39_PHASE40_READY.md
+/app/PHASE39_PROJECT_INDEX_UPDATE.md
+
+=== NEXT ACTION ===
+Patch the exact container-served artifact file that still contains Confidence: insufficient.
+

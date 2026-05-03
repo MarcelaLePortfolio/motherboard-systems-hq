@@ -1,0 +1,49 @@
+PHASE 464.X — OPERATOR GUIDANCE SSE PAYLOAD CAPTURE
+====================================================
+
+Timestamp (UTC): 2026-04-09T21:18:27Z
+Repo root: /Users/marcela-dev/Projects/Motherboard_Systems_HQ
+
+===== TARGET: http://localhost:8080/api/operator-guidance =====
+
+HEADERS:
+HTTP/1.1 404 Not Found
+X-Powered-By: Express
+Content-Security-Policy: default-src 'none'
+X-Content-Type-Options: nosniff
+Content-Type: text/html; charset=utf-8
+Content-Length: 160
+Date: Thu, 09 Apr 2026 21:18:27 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+
+FIRST 120 LINES OF BODY:
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot GET /api/operator-guidance</pre>
+</body>
+</html>
+
+FRAME COUNT SNAPSHOT:
+data lines: 0
+event lines: 0
+id lines: 0
+
+UNIQUE SYSTEM_HEALTH OCCURRENCES:
+
+JSON PAYLOAD LINES:
+
+===== TARGET: http://localhost:3000/api/operator-guidance =====
+
+RESULT: REQUEST FAILED
+
+DECISION GATE:
+- If the captured SSE body already contains repeated SYSTEM_HEALTH payloads, the producer is server-side.
+- If the captured SSE body is stable/single-shot, repetition is happening in the browser consumer/render layer.
+- Next mutation must target the side proven by this capture.

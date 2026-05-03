@@ -1,0 +1,64 @@
+Phase 583 execution rules inspection.
+
+Goal:
+Identify where enforceRetryContract is used and how execution rules are applied.
+
+Focus:
+- server/retry_contract
+- any invocation inside task execution pipeline or worker
+
+Do not modify anything yet.
+
+--- SEARCH enforceRetryContract ---
+./server/retry_contract.js:1:function enforceRetryContract(req, res, next) {
+./server/retry_contract.js:35:module.exports = { enforceRetryContract };
+./PHASE580_RETRY_ROUTING_INTEGRATION_INSPECTION.txt:26: const { enforceRetryContract } = require('./server/retry_contract');
+./scripts/_local/phase540_wire_retry_contract.sh:6:if ! grep -q "enforceRetryContract" "$FILE"; then
+./scripts/_local/phase540_wire_retry_contract.sh:7:  sed -i '' "1s|^|const { enforceRetryContract } = require('./server/retry_contract');\n|" "$FILE"
+./scripts/_local/phase540_wire_retry_contract.sh:10:if ! grep -q "enforceRetryContract" "$FILE"; then
+./PHASE583_EXECUTION_RULES_INSPECTION.txt:4:Identify where enforceRetryContract is used and how execution rules are applied.
+./PHASE583_EXECUTION_RULES_INSPECTION.txt:12:--- SEARCH enforceRetryContract ---
+./server.mjs:4:const { enforceRetryContract } = require("./server/retry_contract.js");
+Binary file ./.git/objects/pack/pack-fa8f7234de07242e80542d7516ee2bdc7311b72c.pack matches
+Binary file ./.git/objects/42/7d11fbb8b8e2ac83f97b400c6e8120780d978e matches
+Binary file ./.git/objects/2c/b6888a4ae9496a86dd0502a56f62edded9320f matches
+Binary file ./.git/objects/4a/7fb83a092264e2a9818a77baee90de3ccb436e matches
+./PHASE575_RETRY_ROUTER_INSPECTION.txt:69:function enforceRetryContract(req, res, next) {
+./PHASE575_RETRY_ROUTER_INSPECTION.txt:103:module.exports = { enforceRetryContract };
+
+--- SHOW retry_contract FILE ---
+function enforceRetryContract(req, res, next) {
+  const body = req.body || {};
+
+  if (body.kind !== "retry") {
+    return next();
+  }
+
+  // Ensure deterministic retry strategy
+  const allowedStrategies = new Set(["standard", "fresh-context"]);
+
+  if (!body.strategy) {
+    body.strategy = "standard";
+  }
+
+  if (!allowedStrategies.has(body.strategy)) {
+    return res.status(400).json({
+      error: "INVALID_RETRY_STRATEGY",
+      allowed: Array.from(allowedStrategies)
+    });
+  }
+
+  if (!body.meta || !body.meta.retry_of_task_id) {
+    return res.status(400).json({
+      error: "MISSING_RETRY_CONTEXT"
+    });
+  }
+
+  // Freeze intent (prevent UI-only ambiguity)
+  body.source = body.source || "execution-inspector";
+  req.body = body;
+
+  next();
+}
+
+module.exports = { enforceRetryContract };

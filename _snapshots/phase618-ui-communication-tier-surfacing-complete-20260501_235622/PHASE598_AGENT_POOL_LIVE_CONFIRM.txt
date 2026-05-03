@@ -1,0 +1,12 @@
+Phase 598 agent pool live confirmation.
+
+Enhancement:
+- Health indicator now includes live timestamp.
+- Tooltip shows last check time.
+
+Purpose:
+- Confirms indicator is dynamic, not static.
+- Allows operator to verify real-time updates visually.
+
+Result:
+Agent Pool health indicator is confirmed live.

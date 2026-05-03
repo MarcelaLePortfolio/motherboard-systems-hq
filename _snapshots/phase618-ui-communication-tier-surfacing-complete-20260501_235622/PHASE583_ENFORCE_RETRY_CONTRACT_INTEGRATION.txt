@@ -1,0 +1,18 @@
+Phase 583 enforce retry contract integration.
+
+Observation:
+- enforceRetryContract exists but is NOT applied to any route.
+- Therefore retry validation rules are currently inactive.
+
+Goal:
+Wire enforceRetryContract into /api/delegate-task safely.
+
+Scope:
+- Minimal change
+- No pipeline restructuring
+- No worker changes
+
+Expected Result:
+- Invalid retry requests are rejected early
+- Valid retries pass through unchanged
+- No regression in current working retry flow

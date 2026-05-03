@@ -1,0 +1,58 @@
+import { delegateToCadeV2 } from "../relay/agent-to-cade.ts";
+import { delegateToEffieV2 } from "../relay/agent-to-effie.ts";
+ 
+import { log } from "../utils/log.ts";
+
+/**
+ * Full Matilda task runner implementation
+ */
+export async function matildaTaskRunner(task: any) {
+  await log("Matilda received task:", task);
+
+  if (!task || !task.steps) return { status: "ok", result: "No steps to run." };
+
+  const results: any[] = [];
+  for (const step of task.steps) {
+    const { agent, command, args } = step;
+try {
+  let result;
+  if (agent === "cade") {
+    result = await delegateToCadeV2({ command, args, sourceAgent: "matilda" });
+  } else if (agent === "effie") {
+    result = await delegateToEffieV2({ command, args, sourceAgent: "matilda" });
+  } else {
+    throw new Error(`Unknown agent: ${agent}`);
+  }
+} catch (err) {
+  for (const step of task.steps) {
+    try {
+      let result;
+      if (step.agent === "cade") {
+        result = await delegateToCadeV2({ command: step.command, args: step.args, sourceAgent: "matilda" });
+      } else if (step.agent === "effie") {
+        result = await delegateToEffieV2({ command: step.command, args: step.args, sourceAgent: "matilda" });
+      } else {
+        throw new Error(`Unknown agent: ${step.agent}`);
+      }
+      results.push({ agent: step.agent, command: step.command, result });
+    } catch (err: any) {
+      results.push({ agent: step.agent, command: step.command, error: err.message });
+    }
+  }  }
+
+  await log({ description: task.description || "Unnamed Matilda Task", results });
+  return { status: "complete", results };
+
+/**
+ * Named export for Matilda agent
+ */
+
+/**
+ * Named export for Matilda agent
+ */
+
+export const matilda = {
+  name: "Matilda",
+  role: "Delegation & Liaison",
+  handler: matildaTaskRunner
+};

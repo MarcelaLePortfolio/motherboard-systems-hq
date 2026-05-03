@@ -1,0 +1,10 @@
+Phase 582 pre-structure-change checkpoint.
+
+State:
+- Execution Inspector is populated.
+- Current renderer is imperfect but functional.
+- Backend, SSE, worker completion events, retry routing, and task lifecycle are stable.
+- This checkpoint preserves the current revert-safe state before implementing the structured expandable inspector.
+
+Next:
+Create tag and filesystem snapshot before applying any new renderer changes.

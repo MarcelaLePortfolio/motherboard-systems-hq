@@ -1,0 +1,21 @@
+Phase 585 execution policy runtime verified.
+
+Result:
+- Worker imports and uses execution_policy_resolver.
+- Claimed retry tasks now resolve explicit runtime policy flags.
+- Verified runtime policy output:
+  - is_retry: true
+  - execution_mode: rebuild_context
+  - cache_policy: bypass
+  - memory_scope: reset_partial
+  - requires_context_rebuild: true
+  - requires_cache_bypass: true
+  - requires_memory_scope_reset: true
+- Task completed successfully after policy resolution.
+- No behavior mutation introduced yet.
+
+Meaning:
+Runtime enforcement boundary is now active and observable.
+
+Next:
+Checkpoint, tag, and snapshot before Phase 586 introduces the first real non-breaking runtime hook.

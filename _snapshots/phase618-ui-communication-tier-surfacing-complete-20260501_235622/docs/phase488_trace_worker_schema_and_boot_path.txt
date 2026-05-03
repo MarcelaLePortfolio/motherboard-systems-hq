@@ -1,0 +1,8 @@
+postgres container missing
+
+[9] SUMMARY
+- If no worker boot path is active, queue stops at task.created by design
+- If worker schema exists in code but not DB, bootstrap/migration boundary is missing
+- Do not fix yet; prove whether this is boot omission, schema omission, or both
+
+TRACE COMPLETE

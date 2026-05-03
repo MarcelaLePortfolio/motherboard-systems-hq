@@ -1,0 +1,5 @@
+Git sync note – 2025-12-11
+
+Main branch was behind origin/main. Resolved non-fast-forward push error by
+pulling with rebase and autostash to integrate remote commits, then syncing
+local changes on top of the updated main branch.

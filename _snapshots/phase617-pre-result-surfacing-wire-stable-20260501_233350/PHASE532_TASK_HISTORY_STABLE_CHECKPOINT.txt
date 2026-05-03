@@ -1,0 +1,14 @@
+PHASE 532 TASK HISTORY STABLE CHECKPOINT
+
+Outcome:
+- Task History chart resize behavior is fixed.
+- Safer tab-activation resize approach confirmed good by operator.
+- Previous cross-panel contamination patch was reverted.
+- No broad layout mutation required.
+
+Checkpoint action:
+- Commit current state.
+- Tag current state.
+- Push branch and tag.
+- Rebuild containers.
+- Capture runtime snapshot.

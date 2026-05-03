@@ -1,0 +1,36 @@
+PHASE 543 — INLINE ACTIONS VERIFIED
+
+RESULT:
+PASS
+
+VERIFIED:
+- data-action attributes present (inspect, copy)
+- Action elements rendered inside Selected Task panel
+- Click handlers bound via querySelectorAll("[data-action]")
+- Inspect action logs structured task payload to console
+- Copy action writes taskId to clipboard
+- Console confirms copy operation
+- stopPropagation prevents row re-trigger during action click
+- No regression in:
+  - rendering
+  - selection state
+  - SSE stream
+- Docker rebuild successful
+- Served JS contains expected action markers
+
+STATUS:
+Inline action affordances are live and functional
+
+SYSTEM STATE:
+Execution surface now supports:
+- lifecycle visibility
+- grouping + continuity
+- active highlighting
+- task selection
+- contextual panel
+- inline operator actions (non-destructive)
+
+NEXT:
+Optional:
+- Add visual feedback on copy (e.g., "Copied ✓")
+- Prepare safe scaffolding for real actions (retry/cancel gated)

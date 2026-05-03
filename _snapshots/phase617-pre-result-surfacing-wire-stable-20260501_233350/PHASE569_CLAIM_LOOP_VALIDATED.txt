@@ -1,0 +1,22 @@
+PHASE 569 — WORKER CLAIM LOOP VALIDATED
+
+Validated:
+- Worker starts successfully.
+- Worker resolves Phase 32 SQL contracts.
+- Worker connects to Postgres.
+- Worker claim loop runs.
+- Existing queued task moved to running.
+- run_id populated by worker.
+- claimed_by populated by worker.
+
+Observed task lifecycle:
+queued → running
+
+Known boundary:
+- Completion is not implemented yet.
+- Phase 32 success/failure SQL references completed_at.
+- completed_at is not currently part of tasks schema.
+- Do not attempt completion behavior until schema compatibility is addressed.
+
+Checkpoint Target:
+phase569-worker-claim-loop-validated

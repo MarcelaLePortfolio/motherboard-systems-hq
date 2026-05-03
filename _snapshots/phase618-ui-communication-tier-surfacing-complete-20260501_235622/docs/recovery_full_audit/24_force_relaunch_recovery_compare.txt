@@ -1,0 +1,20 @@
+PHASE 457 - FORCE RELAUNCH RECOVERY COMPARE
+===========================================
+
+PURPOSE
+Force-stop and relaunch each recovery candidate with dashboard host ports only.
+
+NAME=phase65_layout
+URL=http://localhost:8081
+LOG=docs/recovery_full_audit/phase65_layout_force_relaunch_port_8081.txt
+
+NAME=phase65_wiring
+URL=http://localhost:8082
+LOG=docs/recovery_full_audit/phase65_wiring_force_relaunch_port_8082.txt
+
+NAME=operator_guidance
+URL=http://localhost:8083
+LOG=docs/recovery_full_audit/operator_guidance_force_relaunch_port_8083.txt
+
+NEXT
+Open 8081 / 8082 / 8083 after confirming listeners exist in the logs above.

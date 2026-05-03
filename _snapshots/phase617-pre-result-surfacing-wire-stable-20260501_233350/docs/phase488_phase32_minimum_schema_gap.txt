@@ -1,0 +1,339 @@
+PHASE 488 — TRACE PHASE32 MINIMUM SCHEMA GAP
+Timestamp: Fri Apr 17 14:37:30 PDT 2026
+========================================
+
+[1] WORKER CALL SHAPE (PHASE32-COMPATIBLE TARGET)
+claimOne(c, run_id)        -> 2 params
+markSuccess(task_id, run_id, actor) -> 3 params
+markFailure(task_id, run_id, actor) -> 3 params
+
+[2] PHASE32 SQL CONTRACTS
+===== server/worker/phase32_claim_one.sql =====
+/*
+Phase 32 — claim one task (no-lease variant)
+Params:
+  $1 = run_id (text)
+  $2 = owner  (text)
+*/
+WITH candidate AS (
+  SELECT id
+  FROM tasks
+  WHERE status IN ('queued','delegated')
+    AND attempts < COALESCE(max_attempts, 3)
+    AND (next_run_at IS NULL OR next_run_at <= now())
+  ORDER BY id ASC
+  FOR UPDATE SKIP LOCKED
+  LIMIT 1
+)
+UPDATE tasks t
+SET
+  status     = 'running',
+  run_id     = $1,
+  claimed_by = $2,
+  task_id    = COALESCE(t.task_id, t.id::text)
+FROM candidate c
+WHERE t.id = c.id
+RETURNING t.*;
+
+===== server/worker/phase32_mark_success.sql =====
+/*
+Phase 32 — mark success
+Params:
+  $1 = task_id (text)
+  $2 = run_id  (text|null)
+  $3 = actor   (text|null)
+*/
+UPDATE tasks
+SET
+  status       = 'completed',
+  completed_at = NOW(),
+  run_id       = COALESCE($2, run_id),
+  claimed_by   = COALESCE(NULLIF(claimed_by,''), $3)
+WHERE task_id = $1
+RETURNING *;
+
+===== server/worker/phase32_mark_failure.sql =====
+/*
+Phase 32 — mark failure (no retry scheduling here; keep minimal + deterministic)
+Params:
+  $1 = task_id (text)
+  $2 = run_id  (text|null)
+  $3 = actor   (text|null)
+*/
+UPDATE tasks
+SET
+  status       = 'failed',
+  completed_at = NOW(),
+  run_id       = COALESCE($2, run_id),
+  claimed_by   = COALESCE(NULLIF(claimed_by,''), $3)
+WHERE task_id = $1
+RETURNING *;
+
+[3] LIVE tasks COLUMNS
+   column_name   |          data_type          
+-----------------+-----------------------------
+ id              | integer
+ created_at      | timestamp without time zone
+ task_id         | text
+ status          | text
+ payload         | jsonb
+ title           | text
+ agent           | text
+ notes           | text
+ source          | text
+ trace_id        | text
+ error           | text
+ meta            | jsonb
+ updated_at      | timestamp without time zone
+ run_id          | text
+ action_tier     | text
+ kind            | text
+ attempt         | integer
+ max_attempts    | integer
+ available_at    | timestamp with time zone
+ locked_by       | text
+ lock_expires_at | timestamp with time zone
+ last_error      | jsonb
+(22 rows)
+
+
+[4] REQUIRED PHASE32 TASK COLUMNS CHECK
+ column_name  | status  | data_type 
+--------------+---------+-----------
+ attempts     | MISSING | 
+ claimed_by   | MISSING | 
+ completed_at | MISSING | 
+ max_attempts | PRESENT | integer
+ next_run_at  | MISSING | 
+ run_id       | PRESENT | text
+ status       | PRESENT | text
+ task_id      | PRESENT | text
+(8 rows)
+
+
+[5] TASK STATUS DISTRIBUTION
+ status | count 
+--------+-------
+ queued |   288
+(1 row)
+
+
+[6] MIGRATION / BOOTSTRAP CANDIDATES FOR MISSING PHASE32 FIELDS
+server/db_bootstrap_tasks_task_id.mjs:3:    console.warn("[db_bootstrap_tasks_task_id] skipped: no query-capable db handle available");
+server/db_bootstrap_tasks_retry_semantics.mjs:8:  // attempt / max_attempts
+server/db_bootstrap_tasks_retry_semantics.mjs:10:  await pool.query(`alter table tasks add column if not exists max_attempts int not null default 5;`);
+server/orchestration/task-state-machine.ts:19:  attempts: number;
+server/orchestration/task-state-machine.ts:20:  maxAttempts: number;
+server/orchestration/task-state-machine.ts:76:      const nextAttempts = t.attempts + 1;
+server/orchestration/task-state-machine.ts:77:      if (nextAttempts > t.maxAttempts) {
+server/orchestration/task-state-machine.ts:78:        return { ok: false, error: "maxAttempts exceeded", task: t };
+server/orchestration/task-state-machine.ts:80:      return { ok: true, task: { ...t, attempts: nextAttempts, state: "RETRY_WAIT", lastError: ev.reason } };
+server/orchestration/task-state-machine.ts:85:      const nextAttempts = t.attempts + 1;
+server/orchestration/task-state-machine.ts:86:      if (nextAttempts >= t.maxAttempts) {
+server/orchestration/task-state-machine.ts:87:        return { ok: true, task: { ...t, attempts: nextAttempts, state: "FAILED", lastError: ev.error } };
+server/orchestration/task-state-machine.ts:89:      return { ok: false, error: "non-terminal fail requires policy (Phase 17.2)", task: { ...t, attempts: nextAttempts, lastError: ev.error } };
+server/orchestration/task-state-machine.test.ts:14:    attempts: 0,
+server/orchestration/task-state-machine.test.ts:15:    maxAttempts: 3,
+server/worker/phase34_reclaim_stale_pg.sql:14:      claimed_by=NULL,
+server/worker/phase34_reclaim_stale_pg.sql:21:      OR (t.claimed_by IS NOT NULL AND t.claimed_by IN (SELECT owner FROM dead))
+server/worker/phase34_reclaim_stale_pg.sql:22:      OR (t.claimed_by IS NOT NULL AND NOT EXISTS (
+server/worker/phase34_reclaim_stale_pg.sql:23:            SELECT 1 FROM worker_heartbeats wh2 WHERE wh2.owner = t.claimed_by
+server/worker/phase34_claim_one_pg.sql:14:    claimed_by=$2,
+server/worker/phase34_claim_one_pg.sql:20:RETURNING t.id, t.task_id, t.claimed_by, t.lease_expires_at, c.run_id;
+server/worker/phase35_mark_success.sql:4:         completed_at = NOW()
+server/worker/phase35_mark_success.sql:7:     AND claimed_by = $2
+server/worker/phase29_db_migrate_to_phase27.sql:5:alter table tasks add column if not exists attempts integer not null default 0;
+server/worker/phase29_db_migrate_to_phase27.sql:6:alter table tasks add column if not exists next_run_at timestamptz null;
+server/worker/phase29_db_migrate_to_phase27.sql:19:-- 3) tasks: best-effort backfill attempts from attempt if present
+server/worker/phase29_db_migrate_to_phase27.sql:24:      set attempts = greatest(attempts, attempt)
+server/worker/phase29_db_migrate_to_phase27.sql:29:-- 4) tasks: best-effort backfill next_run_at from available_at if present
+server/worker/phase29_db_migrate_to_phase27.sql:34:      set next_run_at = coalesce(next_run_at, available_at)
+server/worker/phase29_db_migrate_to_phase27.sql:35:    where next_run_at is null and available_at is not null;
+server/worker/phase29_db_migrate_to_phase27.sql:68:create index if not exists idx_tasks_status_next_run on tasks(status, next_run_at);
+server/worker/phase34_reclaim_stale.sql:12:      claimed_by=NULL,
+server/worker/phase34_reclaim_stale.sql:19:      OR (claimed_by IS NOT NULL AND claimed_by IN (SELECT owner FROM dead))
+server/worker/phase34_reclaim_stale.sql:20:      OR (claimed_by IS NOT NULL AND NOT EXISTS (SELECT 1 FROM worker_heartbeats wh WHERE wh.owner=tasks.claimed_by))
+server/worker/phase35_mark_success_pg.sql:12:  AND claimed_by = $2
+server/worker/phase34_claim_one.sql:14:    claimed_by=:'owner',
+server/worker/phase34_claim_one.sql:20:RETURNING t.claimed_by;
+server/worker/phase35_claim_one_pg.sql:16:    claimed_by = $2,
+server/worker/phase35_claim_one_pg.sql:22:RETURNING t.id, t.claimed_by, t.lease_epoch;
+server/worker/phase35_mark_failure.sql:7:     AND claimed_by = $2
+server/worker/phase30_db_doctor_pretty.sh:10:  (select count(*) from information_schema.columns where table_name='tasks' and column_name='attempts')::int as has_tasks_attempts,
+server/worker/phase30_db_doctor_pretty.sh:12:  (select count(*) from information_schema.columns where table_name='tasks' and column_name='next_run_at')::int as has_tasks_next_run_at,
+server/worker/phase30_db_doctor_pretty.sh:19:IFS='|' read -r t_payload t_meta t_attempt t_attempts t_avail t_next ev_payload_type ev_payload_jsonb ev_run ev_actor <<<"$row"
+server/worker/phase30_db_doctor_pretty.sh:25:echo "tasks.attempts:     ${t_attempts}"
+server/worker/phase30_db_doctor_pretty.sh:27:echo "tasks.next_run_at:  ${t_next}"
+server/worker/phase34_extend_lease_pg.sql:10:  AND claimed_by = $2::text
+server/worker/phase34_claim_task_id_for_test.sql:5:    claimed_by=:'owner',
+server/worker/phase34_claim_task_id_for_test.sql:11:RETURNING claimed_by;
+server/worker/phase28_mark_success.sql:7:    completed_at = now(),
+server/worker/phase30_contract_check.sql:8:  if not exists (select 1 from information_schema.columns where table_name='tasks' and column_name='attempts') then
+server/worker/phase30_contract_check.sql:9:    raise exception 'missing tasks.attempts';
+server/worker/phase30_contract_check.sql:11:  if not exists (select 1 from information_schema.columns where table_name='tasks' and column_name='next_run_at') then
+server/worker/phase30_contract_check.sql:12:    raise exception 'missing tasks.next_run_at';
+server/worker/phase32_mark_failure.sql:11:  completed_at = NOW(),
+server/worker/phase32_mark_failure.sql:13:  claimed_by   = COALESCE(NULLIF(claimed_by,''), $3)
+server/worker/phase32_claim_one.sql:11:    AND attempts < COALESCE(max_attempts, 3)
+server/worker/phase32_claim_one.sql:12:    AND (next_run_at IS NULL OR next_run_at <= now())
+server/worker/phase32_claim_one.sql:21:  claimed_by = $2,
+server/worker/phase27_mark_success.sql:13:returning id, task_id, status, attempt, max_attempts;
+server/worker/phase26_task_worker.mjs:90:  // - meta.fail_n_times: fail while attempts < fail_n_times
+server/worker/phase26_task_worker.mjs:92:  const attempts = Number((task?.attempts ?? task?.attempt ?? 0));
+server/worker/phase26_task_worker.mjs:96:  if (Number.isFinite(n) && n > 0 && attempts < n) {
+server/worker/phase26_task_worker.mjs:97:    return { fail: true, reason: `meta.fail_n_times=${n} attempts=${attempts}` };
+server/worker/phase26_task_worker.mjs:186:            attempts: task.attempts,
+server/worker/phase26_task_worker.mjs:187:            max_attempts: task.max_attempts,
+server/worker/phase26_task_worker.mjs:203:                attempts: failedRow.attempts,
+server/worker/phase26_task_worker.mjs:204:                max_attempts: failedRow.max_attempts,
+server/worker/phase26_task_worker.mjs:205:                next_run_at: failedRow.next_run_at,
+server/worker/phase26_task_worker.mjs:226:              attempts: done.attempts,
+server/worker/phase26_task_worker.mjs:227:              max_attempts: done.max_attempts,
+server/worker/phase35_reclaim_expired.sql:3:       claimed_by = NULL,
+server/worker/phase27_mark_failure.sql:7:  select id, task_id, attempt, max_attempts
+server/worker/phase27_mark_failure.sql:16:    status = case when row.attempt < row.max_attempts then 'queued' else 'failed' end,
+server/worker/phase27_mark_failure.sql:18:      when row.attempt < row.max_attempts then now() + (($3::int) * interval '1 millisecond')
+server/worker/phase27_mark_failure.sql:27:  returning t.id, t.task_id, t.status, t.attempt, t.max_attempts, t.available_at
+server/worker/phase29_db_doctor.sh:10:  (select count(*) from information_schema.columns where table_name='tasks' and column_name='attempts') as has_tasks_attempts,
+server/worker/phase29_db_doctor.sh:12:  (select count(*) from information_schema.columns where table_name='tasks' and column_name='next_run_at') as has_tasks_next_run_at,
+server/worker/phase28_mark_failure.sql:12:    attempts = $3,
+server/worker/phase28_mark_failure.sql:14:    next_run_at = $4,
+server/worker/phase35_mark_failure_pg.sql:13:  AND claimed_by = $2
+server/worker/phase32_mark_success.sql:11:  completed_at = NOW(),
+server/worker/phase32_mark_success.sql:13:  claimed_by   = COALESCE(NULLIF(claimed_by,''), $3)
+server/policy/evaluate.legacy.mjs:38:  // Reject obvious self-tier attempts (v1 hard reject)
+server/policy/policy_eval.mjs:20:    attempts: task?.attempts ?? null,
+server/policy/policy_eval.mjs:21:    max_attempts: task?.max_attempts ?? task?.maxAttempts ?? null,
+server/policy/policy_eval.mjs:22:    claimed_by: task?.claimed_by ?? task?.claimedBy ?? null,
+server/sql/phase39_claim_one_with_value_gate.sql:9:--  $2 = claimed_by / owner (text)
+server/sql/phase39_claim_one_with_value_gate.sql:16:    $2::text   AS claimed_by,
+server/sql/phase39_claim_one_with_value_gate.sql:42:      claimed_by = (SELECT claimed_by FROM params),
+scripts/smoke/phase34_reclaim_proof.zsh:16:  claimed_by,claimed_at,lease_expires_at,lease_epoch
+scripts/smoke/phase34_reclaim_proof.zsh:38:"select id,status,claimed_by,lease_expires_at,lease_epoch from tasks where id=$TASK_ID;"
+scripts/smoke/phase34_reclaim_proof.zsh:53:      claimed_by=NULL,
+scripts/smoke/phase34_reclaim_proof.zsh:60:      OR (t.claimed_by IS NOT NULL AND t.claimed_by IN (SELECT owner FROM dead))
+scripts/smoke/phase34_reclaim_proof.zsh:61:      OR (t.claimed_by IS NOT NULL AND NOT EXISTS (
+scripts/smoke/phase34_reclaim_proof.zsh:62:            SELECT 1 FROM worker_heartbeats wh2 WHERE wh2.owner = t.claimed_by
+scripts/smoke/phase34_reclaim_proof.zsh:71:"select id,status,claimed_by,lease_expires_at,lease_epoch from tasks where id=$TASK_ID;"
+scripts/smoke/phase35_epoch_owner_proof.zsh:60:  INSERT INTO tasks(title, agent, status, source, trace_id, meta, claimed_by, claimed_at, lease_expires_at, lease_epoch)
+scripts/smoke/phase35_epoch_owner_proof.zsh:81:"${PSQL_BASE[@]}" -q -X -c "SELECT id,status,claimed_by,lease_epoch,lease_expires_at FROM tasks WHERE id=$TASK_ID;"
+scripts/smoke/phase35_epoch_owner_proof.zsh:98:      claimed_by=NULL,
+scripts/smoke/phase35_epoch_owner_proof.zsh:106:      OR (t.claimed_by IS NOT NULL AND t.claimed_by IN (SELECT owner FROM dead))
+scripts/smoke/phase35_epoch_owner_proof.zsh:107:      OR (t.claimed_by IS NOT NULL AND NOT EXISTS (
+scripts/smoke/phase35_epoch_owner_proof.zsh:108:            SELECT 1 FROM worker_heartbeats wh2 WHERE wh2.owner = t.claimed_by
+scripts/smoke/phase35_epoch_owner_proof.zsh:120:POST_ROW="$("${PSQL_BASE[@]}" -t -A -c "SELECT status||'|'||COALESCE(claimed_by,'')||'|'||lease_epoch::text FROM tasks WHERE id=$TASK_ID;")"
+scripts/smoke/phase35_epoch_owner_proof.zsh:133:    AND claimed_by='$STALE_OWNER'
+scripts/smoke/phase35_epoch_owner_proof.zsh:144:POST2="$("${PSQL_BASE[@]}" -t -A -c "SELECT status||'|'||COALESCE(claimed_by,'')||'|'||lease_epoch::text FROM tasks WHERE id=$TASK_ID;")"
+scripts/phase40_tierA_claim_gate_smoke.sh:36:INSERT INTO tasks (task_id, title, status, attempts, max_attempts, action_tier)
+scripts/phase40_tierA_claim_gate_smoke.sh:41:SELECT id, task_id, status, action_tier, attempts, max_attempts
+scripts/phase40_tierA_claim_gate_smoke.sh:50:  -v claimed_by="phase40-smoke" -v run_id="$RID" \
+scripts/phase57_ci_bootstrap.sh:73:  claimed_by TEXT NULL,
+scripts/phase456_hard_restart_docker_backend.sh:50:  ATTEMPTS=0
+scripts/phase456_hard_restart_docker_backend.sh:51:  MAX_ATTEMPTS=72
+scripts/phase456_hard_restart_docker_backend.sh:53:    ATTEMPTS=$((ATTEMPTS + 1))
+scripts/phase456_hard_restart_docker_backend.sh:54:    echo "Docker daemon not ready yet (attempt ${ATTEMPTS}/${MAX_ATTEMPTS})..."
+scripts/phase456_hard_restart_docker_backend.sh:55:    if [ "$ATTEMPTS" -ge "$MAX_ATTEMPTS" ]; then
+scripts/phase88_14_8_force_restart_and_verify_system_health_routes.sh:34:  local attempts="${2:-30}"
+scripts/phase88_14_8_force_restart_and_verify_system_health_routes.sh:37:  for _ in $(seq 1 "$attempts"); do
+scripts/phase39_action_tier_claim_smoke.sh:47:echo "=== insert Tier A + Tier B queued tasks (available_at NOW, max_attempts NULL) ==="
+scripts/phase39_action_tier_claim_smoke.sh:57:INSERT INTO tasks (task_id, status, attempts, max_attempts, action_tier, title, available_at)
+scripts/phase39_action_tier_claim_smoke.sh:97:SELECT task_id, status, attempts, action_tier, locked_by, run_id
+scripts/phase88_14_verify_live_dashboard_system_health_attachment.sh:16:  local attempts="${2:-30}"
+scripts/phase88_14_verify_live_dashboard_system_health_attachment.sh:19:  for _ in $(seq 1 "$attempts"); do
+scripts/phase456_restore_docker_daemon_and_dashboard.sh:33:ATTEMPTS=0
+scripts/phase456_restore_docker_daemon_and_dashboard.sh:34:MAX_ATTEMPTS=72
+scripts/phase456_restore_docker_daemon_and_dashboard.sh:36:  ATTEMPTS=$((ATTEMPTS + 1))
+scripts/phase456_restore_docker_daemon_and_dashboard.sh:37:  echo "Docker daemon not ready yet (attempt ${ATTEMPTS}/${MAX_ATTEMPTS})..."
+scripts/phase456_restore_docker_daemon_and_dashboard.sh:38:  if [ "$ATTEMPTS" -ge "$MAX_ATTEMPTS" ]; then
+scripts/phase465_9_define_bridge_contract_skeleton.sh:144:- signals.attempts
+scripts/phase465_9_define_bridge_contract_skeleton.sh:145:- signals.max_attempts
+scripts/phase465_9_define_bridge_contract_skeleton.sh:146:- signals.claimed_by
+scripts/phase465_9_define_bridge_contract_skeleton.sh:201:      attempts: number | null,
+scripts/phase465_9_define_bridge_contract_skeleton.sh:202:      max_attempts: number | null,
+scripts/phase465_9_define_bridge_contract_skeleton.sh:203:      claimed_by: string | null,
+scripts/phase30_smoke_canonical_ready.sh:13:  echo "payload_jsonb missing -> running server/worker/phase29_db_migrate_to_phase27.sql"
+scripts/phase30_smoke_canonical_ready.sh:14:  psql "$POSTGRES_URL" -v ON_ERROR_STOP=1 -f server/worker/phase29_db_migrate_to_phase27.sql
+scripts/phase466_0_map_bridge_contract_compatibility.sh:34:  rg -n 'version:|decision|allow:|enforce:|reasons:|confidence:|signals|task_id:|run_id:|kind:|action_tier:|attempts:|max_attempts:|claimed_by:|now_ms:' "$GOVERNANCE_FILE" || true
+scripts/phase28_smoke_one.sh:19:    insert into tasks(title, status, payload, created_at, updated_at, attempt, max_attempts, available_at)
+scripts/phase28_smoke_one.sh:33:    insert into tasks(title, status, meta, created_at, updated_at, attempt, max_attempts, available_at)
+scripts/phase28_smoke_one.sh:78:WORKER_MAX_ATTEMPTS=3 \
+scripts/phase456_apply_tasks_prereqs_and_repair_run_view.sh:40:      AND column_name IN ('claimed_by','claimed_at','lease_expires_at','lease_epoch')
+scripts/phase456_apply_tasks_prereqs_and_repair_run_view.sh:67:      AND column_name IN ('claimed_by','claimed_at','lease_expires_at','lease_epoch')
+scripts/_ops/phase40_1_patch_execution_path.mjs:171:  const attempts = [];
+scripts/_ops/phase40_1_patch_execution_path.mjs:180:      attempts.push({ target: t, reason: r.reason });
+scripts/_ops/phase40_1_patch_execution_path.mjs:182:      attempts.push({ target: t, reason: String(e?.message || e) });
+scripts/_ops/phase40_1_patch_execution_path.mjs:188:  console.error(JSON.stringify({ error: "patch_failed", attempts: attempts.slice(0, 20) }, null, 2));
+scripts/agents/utils/retryCreateAgent.ts:20:  console.error(`<0001fad8> ❌ Failed to create agent ${agentName} after ${maxRetries} attempts`);
+scripts/phase29_smoke_migrate_then_smoke.sh:10:psql "$POSTGRES_URL" -v ON_ERROR_STOP=1 -f server/worker/phase29_db_migrate_to_phase27.sql
+scripts/phase456_run_view_schema_evidence.sh:30:  grep -RniE "bootstrap|migrate|migration|schema|db_bootstrap|ensure.*tasks|ensure.*run|run_view" \
+scripts/phase39_run_local_checks.sh:9:./scripts/phase32_null_max_attempts_claim_smoke.sh
+scripts/phase32_null_max_attempts_claim_smoke.sh:37:echo "=== insert queued task with max_attempts NULL (Tier A, available now) ==="
+scripts/phase32_null_max_attempts_claim_smoke.sh:40:INSERT INTO tasks (task_id, status, attempts, max_attempts, action_tier, title, available_at)
+scripts/phase32_null_max_attempts_claim_smoke.sh:41:VALUES ('$TASK_ID', 'queued', 0, NULL, 'A', 'smoke phase32 NULL max_attempts', now());
+scripts/phase32_null_max_attempts_claim_smoke.sh:43:SELECT id, task_id, status, attempts, max_attempts, action_tier
+scripts/phase32_null_max_attempts_claim_smoke.sh:74:    THEN 'OK: claimed NULL max_attempts task'
+scripts/phase32_null_max_attempts_claim_smoke.sh:77:  id, task_id, status, locked_by, run_id, attempts, max_attempts, action_tier
+scripts/phase32_null_max_attempts_claim_smoke.sh:82:echo "OK: Phase32 NULL max_attempts claim smoke passed."
+scripts/phase39_action_tier_smoke.sh:149:SELECT id, task_id, status, attempts, action_tier, claimed_by, run_id, created_at, updated_at
+scripts/phase39_action_tier_smoke.sh:190:SELECT task_id, status, attempts, action_tier
+scripts/phase39_action_tier_smoke.sh:214:      claimed_by='${SMOKE_OWNER}',
+scripts/phase39_action_tier_smoke.sh:239:SELECT task_id, status, attempts, action_tier
+scripts/phase39_action_tier_smoke.sh:263:      claimed_by='${SMOKE_OWNER}',
+scripts/phase34_reclaim_kill_verify.sh:49:CB="$("${PSQL_BASE[@]}" -Atc "select claimed_by from tasks where id=$TASK_ID;")"
+scripts/phase34_reclaim_kill_verify.sh:60:CB2="$("${PSQL_BASE[@]}" -Atc "select coalesce(claimed_by,'') from tasks where id=$TASK_ID;")"
+scripts/phase34_reclaim_kill_verify.sh:64:[[ -z "$CB2" && "$ST2" == "created" ]] || { echo "FAIL reclaim (status=<$ST2> claimed_by=<$CB2>)"; exit 1; }
+scripts/phase34_reclaim_kill_verify.sh:71:CB3="$("${PSQL_BASE[@]}" -Atc "select claimed_by from tasks where id=$TASK_ID;")"
+scripts/phase39_value_gate_smoke.sh:74:INSERT INTO tasks (task_id, title, status, attempts, action_tier)
+scripts/phase39_value_gate_smoke.sh:81:SELECT id, task_id, status, claimed_by, attempts, action_tier
+scripts/phase39_value_gate_smoke.sh:95:SELECT id, task_id, status, claimed_by, attempts, action_tier
+scripts/phase464_x_governance_safe_db_bootstrap_patch.sh:4:OUT="docs/phase464_x_governance_safe_db_bootstrap_patch.txt"
+scripts/phase464_x_governance_safe_db_bootstrap_patch.sh:18:TARGET="server/db_bootstrap_tasks_task_id.mjs"
+scripts/phase32_verify.sh:31:select id,status,attempts,max_attempts,next_run_at,failed_at,completed_at,run_id,actor,meta,last_error
+scripts/_local/phase488_apply_phase27_tasks_retry_schema_and_resume_worker.sh:36:ALTER TABLE public.tasks ADD COLUMN IF NOT EXISTS max_attempts integer NOT NULL DEFAULT 5;
+scripts/_local/phase488_apply_phase27_tasks_retry_schema_and_resume_worker.sh:50:SET max_attempts = 5
+scripts/_local/phase488_apply_phase27_tasks_retry_schema_and_resume_worker.sh:51:WHERE max_attempts IS NULL;
+scripts/_local/phase489_h3_trace_task_event_production_path.sh:58:  echo "=== TASK_EVENTS COUNT AFTER REAL MUTATION ATTEMPTS ==="
+scripts/_local/phase489_h2_patch_task_events_bootstrap.py:6:import_line = 'import { ensureTaskEventsTable } from "./server/db_bootstrap_task_events_table.mjs";\n'
+scripts/_local/phase489_h2_patch_task_events_bootstrap.py:8:    anchor = 'import { ensureTasksTaskIdColumn } from "./server/db_bootstrap_tasks_task_id.mjs";\n'
+scripts/_local/phase80_operational_closeout.sh:18:  local attempts=45
+scripts/_local/phase80_operational_closeout.sh:20:  while [[ "$i" -le "$attempts" ]]; do
+scripts/_local/phase65_3_metrics_runtime_verify.sh:23:  local attempts="${2:-90}"
+scripts/_local/phase65_3_metrics_runtime_verify.sh:26:  for i in $(seq 1 "$attempts"); do
+scripts/_local/phase65_3_metrics_runtime_verify.sh:39:  local attempts="${2:-90}"
+scripts/_local/phase65_3_metrics_runtime_verify.sh:42:  for i in $(seq 1 "$attempts"); do
+scripts/_local/phase488_trace_tasks_schema_migration_path.sh:31:  grep -RniE 'create table.*tasks|alter table.*tasks|available_at|locked_by|lock_expires_at|attempts|max_attempts|next_run_at|claimed_by|claimed_at|lease_expires_at|lease_epoch|completed_at|failed_at|last_error|actor' \
+scripts/_local/phase488_trace_tasks_schema_migration_path.sh:61:  grep -RniE 'db_bootstrap|migrate|bootstrap.*tasks|schema.*tasks|task_events|run_view|phase29_db_migrate_to_phase27|phase3[245]|phase2[789]' \
+scripts/_local/review_phase489_h3_trace_results.sh:12:grep -nE '=== EXERCISE REAL TASK CREATION PATH ===|POST /api/tasks-mutations/delegate|POST /api/tasks-mutations/delegate-taskspec|=== TASK_EVENTS COUNT AFTER REAL MUTATION ATTEMPTS ===|=== LATEST 20 TASK_EVENTS ===|=== LIVE TASK ROWS ===' "$TRACE" || true
+scripts/_local/phase488_trace_phase32_minimum_schema_gap.sh:60:          ('attempts'),
+scripts/_local/phase488_trace_phase32_minimum_schema_gap.sh:61:          ('max_attempts'),
+scripts/_local/phase488_trace_phase32_minimum_schema_gap.sh:62:          ('next_run_at'),
+scripts/_local/phase488_trace_phase32_minimum_schema_gap.sh:64:          ('claimed_by'),
+scripts/_local/phase488_trace_phase32_minimum_schema_gap.sh:65:          ('completed_at')
+scripts/_local/phase488_trace_phase32_minimum_schema_gap.sh:94:  grep -RniE 'attempts|next_run_at|claimed_by|completed_at|phase29_db_migrate_to_phase27|db_bootstrap' \
+scripts/_local/phase489_h3_patch_tasks_action_tier_bootstrap.py:6:import_line = 'import { ensureTasksActionTierColumn } from "./server/db_bootstrap_tasks_action_tier_column.mjs";\n'
+scripts/_local/phase489_h3_patch_tasks_action_tier_bootstrap.py:8:    anchor = 'import { ensureTasksRunIdColumn } from "./server/db_bootstrap_tasks_run_id_column.mjs";\n'
+scripts/_local/phase489_h5_patch_run_view_bootstrap.py:6:import_line = 'import { ensureRunView } from "./server/db_bootstrap_run_view.mjs";\n'
+scripts/_local/phase489_h5_patch_run_view_bootstrap.py:8:    anchor = 'import { ensureTasksKindColumn } from "./server/db_bootstrap_tasks_kind_column.mjs";\n'
+scripts/_local/phase489_h3_patch_tasks_kind_bootstrap.py:6:import_line = 'import { ensureTasksKindColumn } from "./server/db_bootstrap_tasks_kind_column.mjs";\n'
+scripts/_local/phase489_h3_patch_tasks_kind_bootstrap.py:8:    anchor = 'import { ensureTasksActionTierColumn } from "./server/db_bootstrap_tasks_action_tier_column.mjs";\n'
+scripts/_local/phase489_h3_patch_tasks_run_id_bootstrap.py:6:import_line = 'import { ensureTasksRunIdColumn } from "./server/db_bootstrap_tasks_run_id_column.mjs";\n'
+scripts/_local/phase489_h3_patch_tasks_run_id_bootstrap.py:8:    anchor = 'import { ensureTasksTaskIdColumn } from "./server/db_bootstrap_tasks_task_id.mjs";\n'
+scripts/phase456_tasks_schema_prereq_evidence.sh:43:  grep -RniE "lease_expires_at|last_heartbeat_ts|heartbeat_age_ms|lease_fresh|lease_ttl_ms|next_run_at|claimed_by|ALTER TABLE tasks|ADD COLUMN.*lease_expires_at|ADD COLUMN.*last_heartbeat_ts" \
+scripts/phase456_tasks_schema_prereq_evidence.sh:48:  grep -RniE "CREATE TABLE tasks|ALTER TABLE tasks|db_bootstrap|bootstrap|phase29|phase30|phase54_bootstrap|task_events" \
+scripts/phase41_tierA_claim_gate_smoke.sh:32:INSERT INTO tasks (task_id, title, status, attempts, max_attempts, action_tier)
+scripts/phase41_tierA_claim_gate_smoke.sh:37:SELECT id, task_id, status, attempts, max_attempts, action_tier
+scripts/phase41_tierA_claim_gate_smoke.sh:44:CLAIMED_BY="phase41-smoke"
+scripts/phase41_tierA_claim_gate_smoke.sh:56:      -v claimed_by="${CLAIMED_BY}" \
+scripts/phase41_tierA_claim_gate_smoke.sh:73:  # id, task_id, title, status, action_tier, attempts, max_attempts, claimed_by, run_id
+scripts/phase41_tierA_claim_gate_smoke.sh:108:SELECT task_id, status, action_tier, claimed_by, run_id
+scripts/debug/phase35_worker_no_complete_probe.zsh:131:SELECT task_id, title, status, claimed_by, claimed_at, lease_expires_at, lease_epoch, created_at
+scripts/phase27_apply_retry_bootstrap.mjs:2:import { bootstrapTasksRetrySemantics } from "../server/db_bootstrap_tasks_retry_semantics.mjs";
+scripts/phase27_wire_worker_backoff.sh:140:      and (coalesce(next_run_at, to_timestamp(0)) <= now())
+scripts/phase27_wire_worker_backoff.sh:168:        and (coalesce(next_run_at, to_timestamp(0)) <= now())
+
+[7] VERDICT
+- Phase27 family is arity-incompatible with current worker calls
+- Phase32 family is the first SQL family whose parameter counts align with worker call shape
+- This trace isolates the remaining schema gap before any bounded mutation
+
+TRACE COMPLETE

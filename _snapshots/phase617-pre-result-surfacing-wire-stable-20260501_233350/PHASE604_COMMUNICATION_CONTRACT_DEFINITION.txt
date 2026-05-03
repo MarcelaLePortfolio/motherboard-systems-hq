@@ -1,0 +1,83 @@
+Phase 604 communication contract definition.
+
+Purpose:
+Define the canonical communication contract that translates execution output into operator-safe, user-facing meaning.
+
+Source Doctrine:
+- Phase 84.4: Dashboard is a mirror, not a brain.
+- Phase 84.5: Cognition hierarchy separates overall status, group status, individual signals, and raw metrics.
+- Phase 86.5: Clarity, scan speed, and cognitive simplicity take priority over density.
+- Phase 403.6: Execution outcomes must be deterministic, auditable, operator-visible, and governance-explainable.
+
+Core Gap:
+Execution exists.
+Presentation exists.
+Cognition doctrine exists.
+
+But no runtime contract currently enforces:
+execution result -> communication tier -> user-facing output
+
+Canonical Communication Contract:
+
+CommunicationResult {
+  outcome: {
+    tier: "TIER_1",
+    purpose: "operator-safe outcome",
+    content: string,
+    visibility: "default"
+  },
+
+  explanation: {
+    tier: "TIER_2",
+    purpose: "brief causal explanation",
+    content: string,
+    visibility: "on_request",
+    persistence: "non_sticky"
+  },
+
+  systemTrace: {
+    tier: "TIER_3",
+    purpose: "internal/system execution trace",
+    content: object,
+    visibility: "explicit_access_only",
+    persistence: "non_default"
+  }
+}
+
+Tier Enforcement Rules:
+
+Tier 1 — Outcome
+- Always safe to show by default.
+- Must be short.
+- Must describe what happened, not internal mechanics.
+- Must not expose raw logs.
+- Must not over-explain.
+
+Tier 2 — Explanation
+- Only shown when requested or contextually necessary.
+- Must explain why in plain language.
+- Must be non-sticky across turns.
+- Must not become the default response mode.
+- Must not expose raw system trace.
+
+Tier 3 — System Trace
+- Only shown through explicit operator access.
+- May include internal execution details.
+- Must be separated from normal response UX.
+- Must never leak into default user-facing output.
+
+Compiler Rule:
+The Response Compiler must accept execution/contract output and produce a CommunicationResult.
+
+Default rendering rule:
+Render Tier 1 only unless Tier 2 or Tier 3 is explicitly requested.
+
+Non-sticky rule:
+Any elevated communication mode resets after the response unless explicitly re-requested.
+
+Safety Rule:
+The communication contract may summarize execution.
+It must not mutate execution, task state, worker state, routing, policy, or DB state.
+
+Status:
+COMMUNICATION CONTRACT DEFINED — READY FOR RESPONSE COMPILER DESIGN

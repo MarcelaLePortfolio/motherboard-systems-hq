@@ -1,0 +1,15 @@
+Phase 588 execution mode hook stable checkpoint.
+
+Result:
+- execution_policy log appears at worker runtime.
+- cache_policy=bypass emits runtime-hook cache-policy signal.
+- memory_scope=reset_partial emits runtime-hook memory-scope signal.
+- execution_mode=rebuild_context emits runtime-hook execution-mode signal.
+- Task completes successfully.
+- No behavior mutation or schema change introduced.
+
+Meaning:
+All three non-breaking runtime policy hooks are active and verified.
+
+Next:
+Checkpoint, tag, and snapshot before moving from observable hooks into actual runtime behavior.

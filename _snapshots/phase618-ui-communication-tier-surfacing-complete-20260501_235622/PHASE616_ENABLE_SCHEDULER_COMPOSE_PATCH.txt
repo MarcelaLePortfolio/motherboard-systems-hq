@@ -1,0 +1,9 @@
+Phase 616 enable scheduler compose patch.
+
+Goal:
+Enable controlled scheduler through environment configuration only.
+
+Expected:
+- SYSTEM_SCHEDULER_ENABLED=true
+- SYSTEM_SCHEDULER_INTERVAL_MS=60000
+- Scheduler dispatches controlled System Scheduler Task

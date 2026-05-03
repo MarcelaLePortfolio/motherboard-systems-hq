@@ -1,0 +1,22 @@
+PHASE 472.3 — BARE HTML OBSERVATION STEP
+========================================
+
+STATUS
+- bundle.js boot is removed
+- external stylesheet links are removed
+- current page should be bare HTML only
+
+DO THIS NOW
+1. Open:
+   http://localhost:8080/dashboard.html
+
+2. Let it sit for 30–60 seconds.
+
+3. Try:
+   - scroll once
+   - click once anywhere harmless
+
+RETURN TO CHATGPT WITH EXACTLY ONE OF THESE
+- BARE_HTML_STABLE
+- BARE_HTML_STILL_UNRESPONSIVE
+- WHITE_SCREEN_RETURNED

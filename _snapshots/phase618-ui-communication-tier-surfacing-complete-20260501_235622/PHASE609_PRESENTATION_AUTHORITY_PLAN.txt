@@ -1,0 +1,62 @@
+Phase 609 presentation authority plan.
+
+Checkpoint:
+- Stable tag exists: phase608-response-compiler-passive-stable.
+- Response compiler is passively integrated and verified.
+- Execution behavior remains authoritative and unchanged.
+
+Objective:
+Plan controlled promotion of CommunicationResult from passive log artifact to presentation authority.
+
+Important:
+Do NOT touch execution behavior in this phase.
+Do NOT change task completion behavior.
+Do NOT change retry behavior.
+Do NOT change DB schema yet.
+
+Target:
+Define how Tier 1 / Tier 2 / Tier 3 should be consumed by UI surfaces.
+
+Presentation Authority Rules:
+
+Tier 1 — Outcome
+- Default UI-facing message.
+- Safe for Recent Tasks, Execution Inspector summary, and user-visible response areas.
+- Must remain short and non-technical.
+
+Tier 2 — Explanation
+- Available on explicit expansion or explanation request.
+- Non-sticky.
+- May appear in Execution Inspector detail view.
+- Must not become default UI output.
+
+Tier 3 — System Trace
+- Explicit operator trace only.
+- Suitable for Execution Inspector technical panel.
+- Not suitable for Recent Tasks default rows.
+- Must remain separated from normal response UX.
+
+UI Mapping Proposal:
+
+Recent Tasks:
+- Show Tier 1 only.
+
+Execution Inspector:
+- Summary: Tier 1
+- Explanation panel: Tier 2
+- Trace/debug panel: Tier 3
+
+Task History:
+- Store/render lifecycle events first.
+- May reference Tier 1 summaries later.
+- Should not duplicate Recent Tasks.
+
+Agent Pool:
+- No direct change.
+- Agent Pool remains health/state surface, not communication output surface.
+
+Next:
+Inspect current UI surfaces before wiring CommunicationResult anywhere.
+
+Status:
+READY FOR UI SURFACE INSPECTION ONLY

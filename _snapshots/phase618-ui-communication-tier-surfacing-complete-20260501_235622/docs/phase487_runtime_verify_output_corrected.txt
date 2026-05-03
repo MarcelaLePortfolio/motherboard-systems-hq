@@ -1,0 +1,34 @@
+=== PHASE 487 RUNTIME VERIFICATION (SAFE MODE) ===
+
+Step 1: Installing dependencies (no mutation if already installed)
+Lockfile is up to date, resolution step is skipped
+Already up to date
+
+Done in 190ms using pnpm v10.29.3
+
+Step 2: Typecheck (no emit)
+tsconfig.json(5,25): error TS5107: Option 'moduleResolution=node10' is deprecated and will stop functioning in TypeScript 7.0. Specify compilerOption '"ignoreDeprecations": "6.0"' to silence this error.
+  Visit https://aka.ms/ts6 for migration information.
+tsconfig.json(5,25): error TS5107: Option 'moduleResolution=node10' is deprecated and will stop functioning in TypeScript 7.0. Specify compilerOption '"ignoreDeprecations": "6.0"' to silence this error.
+  Visit https://aka.ms/ts6 for migration information.
+
+Step 3: Checking real server target candidates
+OK   server.ts
+OK   scripts/server.cjs
+
+Step 4: Checking real agent target candidates
+OK   scripts/agents/cade.ts
+OK   scripts/agents/effie.ts
+OK   agents/matilda.ts/matilda.mjs
+
+Step 5: Checking agent launcher files
+OK   scripts/_local/agent-runtime/launch-cade.ts
+OK   scripts/_local/agent-runtime/launch-matilda.ts
+OK   scripts/_local/agent-runtime/launch-effie.ts
+
+Step 6: Dry-run require check (no execution)
+OK   package.json loadable
+
+=== NOTE ===
+This script does NOT start the server or agents.
+It only verifies readiness to avoid unintended runtime side effects.

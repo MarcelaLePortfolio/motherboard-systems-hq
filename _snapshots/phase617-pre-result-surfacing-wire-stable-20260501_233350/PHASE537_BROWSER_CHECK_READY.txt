@@ -1,0 +1,26 @@
+PHASE 537 — BROWSER CHECK READY
+
+INSTRUCTION:
+Open http://localhost:8080 in your browser.
+
+WHAT TO LOOK FOR:
+1. Execution Trail panel is visible
+2. Events stream in live (no refresh needed)
+3. Each row shows:
+   - [task_id]
+   - symbol (● ▶ ✓ ✕)
+   - label (Queued / Running / Completed / Failed)
+   - task title
+4. Running tasks have subtle highlight
+5. Same-task events indent (visual grouping)
+6. No duplicate "task.event" noise
+7. Feed updates smoothly without flicker or errors
+
+IF ALL PASS:
+System is visually verified and stable.
+
+IF ANY FAIL:
+STOP and capture screenshot + console logs.
+
+STATUS:
+AWAITING HUMAN VERIFICATION

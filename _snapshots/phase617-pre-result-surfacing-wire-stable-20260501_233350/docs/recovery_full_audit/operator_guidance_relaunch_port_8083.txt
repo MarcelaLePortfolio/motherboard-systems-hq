@@ -1,0 +1,91 @@
+ Container mbhq_operator_guidance-dashboard-1  Stopping
+ Container mbhq_operator_guidance-dashboard-1  Stopped
+ Container mbhq_operator_guidance-dashboard-1  Removing
+ Container mbhq_operator_guidance-dashboard-1  Removed
+ Container mbhq_operator_guidance-postgres-1  Stopping
+ Container mbhq_operator_guidance-postgres-1  Stopped
+ Container mbhq_operator_guidance-postgres-1  Removing
+ Container mbhq_operator_guidance-postgres-1  Removed
+ Network mbhq_operator_guidance_default  Removing
+ Network mbhq_operator_guidance_default  Removed
+#1 [internal] load local bake definitions
+#1 reading from stdin 740B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.dashboard
+#2 transferring dockerfile: 885B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:20-alpine
+#3 DONE 0.2s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 129B 0.0s done
+#4 DONE 0.0s
+
+#5 [1/7] FROM docker.io/library/node:20-alpine@sha256:f598378b5240225e6beab68fa9f356db1fb8efe55173e6d4d8153113bb8f333c
+#5 resolve docker.io/library/node:20-alpine@sha256:f598378b5240225e6beab68fa9f356db1fb8efe55173e6d4d8153113bb8f333c 0.0s done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 251.17kB 0.1s done
+#6 DONE 0.1s
+
+#7 [2/7] WORKDIR /app
+#7 CACHED
+
+#8 [3/7] COPY package*.json ./
+#8 CACHED
+
+#9 [4/7] COPY package-lock.json* ./
+#9 CACHED
+
+#10 [5/7] RUN npm config set fetch-retries 5     && npm config set fetch-retry-factor 2     && npm config set fetch-retry-mintimeout 10000     && npm config set fetch-retry-maxtimeout 60000     && (npm config set registry https://registry.npmmirror.com/         && npm ci --no-audit --no-fund       || npm config set registry https://registry.npmjs.org/         && npm ci --no-audit --no-fund)     && apk add --no-cache curl ripgrep
+#10 CACHED
+
+#11 [6/7] COPY . .
+#11 DONE 0.2s
+
+#12 [7/7] COPY public/ ./public/
+#12 DONE 0.0s
+
+#13 exporting to image
+#13 exporting layers
+#13 exporting layers 0.8s done
+#13 exporting manifest sha256:6d19f50c6207e2e81774c93eff54d353974efb12e84cd3dd51d47e6be20cd6fb done
+#13 exporting config sha256:7a817461677a9464aadd9c5537f8b041473a1805a45c2936c52402725b394879 done
+#13 exporting attestation manifest sha256:f1722d7624a4b4f0eae11d0a33c6b9ed626bc47e380b204ec83da4eb8ce01b47 done
+#13 exporting manifest list sha256:2ded3c4553f99f1c4f4fbebce7714a6b2be45d9590ad063b2cdd1691eabacf3e done
+#13 naming to docker.io/library/mbhq_operator_guidance-dashboard:latest done
+#13 unpacking to docker.io/library/mbhq_operator_guidance-dashboard:latest
+#13 unpacking to docker.io/library/mbhq_operator_guidance-dashboard:latest 0.3s done
+#13 DONE 1.1s
+
+#14 resolving provenance for metadata file
+#14 DONE 0.0s
+ mbhq_operator_guidance-dashboard  Built
+ Network mbhq_operator_guidance_default  Creating
+ Network mbhq_operator_guidance_default  Created
+ Container mbhq_operator_guidance-postgres-1  Creating
+ Container mbhq_operator_guidance-postgres-1  Created
+ Container mbhq_operator_guidance-dashboard-1  Creating
+ Container mbhq_operator_guidance-dashboard-1  Created
+ Container mbhq_operator_guidance-postgres-1  Starting
+Error response from daemon: failed to set up container networking: driver failed programming external connectivity on endpoint mbhq_operator_guidance-postgres-1 (df1cef2c78dcc0fe1f46286f32b8aa452da42a8113fd2e926b2165cb34461b23): Bind for 0.0.0.0:5432 failed: port is already allocated
+=== operator_guidance ===
+WORKTREE=../mbhq_recovery_visual_compare/operator_guidance
+PROJECT=mbhq_operator_guidance
+PORT=8083
+
+--- docker compose ps ---
+NAME      IMAGE     COMMAND   SERVICE   CREATED   STATUS    PORTS
+
+--- dashboard logs ---
+
+--- postgres logs ---
+
+--- http head ---
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+curl: (7) Failed to connect to localhost port 8083 after 0 ms: Couldn't connect to server

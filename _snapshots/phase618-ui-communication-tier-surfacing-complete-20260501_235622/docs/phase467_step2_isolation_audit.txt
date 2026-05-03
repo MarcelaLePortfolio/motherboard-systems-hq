@@ -1,0 +1,70 @@
+PHASE 467 STEP 2 — ISOLATION AUDIT
+=================================
+
+INPUT_A_HASH=5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65
+INPUT_B_HASH=c770eeea2f1cfd7f0d2eb8c0099d3ea62e19d78320778943a3c6a938b25fcd97
+
+EXPECTED SUCCESS ARTIFACTS
+--------------------------
+docs/proofs/intake_intake_5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65.json
+docs/proofs/planning_plan_5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65.json
+docs/proofs/governance_plan_5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65.json
+docs/proofs/approval_plan_5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65.json
+docs/proofs/execution_plan_5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65.json
+
+docs/proofs/intake_intake_c770eeea2f1cfd7f0d2eb8c0099d3ea62e19d78320778943a3c6a938b25fcd97.json
+docs/proofs/planning_plan_c770eeea2f1cfd7f0d2eb8c0099d3ea62e19d78320778943a3c6a938b25fcd97.json
+docs/proofs/governance_plan_c770eeea2f1cfd7f0d2eb8c0099d3ea62e19d78320778943a3c6a938b25fcd97.json
+docs/proofs/approval_plan_c770eeea2f1cfd7f0d2eb8c0099d3ea62e19d78320778943a3c6a938b25fcd97.json
+docs/proofs/execution_plan_c770eeea2f1cfd7f0d2eb8c0099d3ea62e19d78320778943a3c6a938b25fcd97.json
+
+EXPECTED FAILURE ARTIFACTS
+--------------------------
+docs/proofs/failure_intake_invalid_empty.json
+docs/proofs/failure_intake_invalid_whitespace.json
+
+PRESENT SUCCESS ARTIFACTS
+-------------------------
+PRESENT: docs/proofs/intake_intake_5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65.json
+PRESENT: docs/proofs/planning_plan_5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65.json
+PRESENT: docs/proofs/governance_plan_5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65.json
+PRESENT: docs/proofs/approval_plan_5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65.json
+PRESENT: docs/proofs/execution_plan_5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65.json
+PRESENT: docs/proofs/intake_intake_c770eeea2f1cfd7f0d2eb8c0099d3ea62e19d78320778943a3c6a938b25fcd97.json
+PRESENT: docs/proofs/planning_plan_c770eeea2f1cfd7f0d2eb8c0099d3ea62e19d78320778943a3c6a938b25fcd97.json
+PRESENT: docs/proofs/governance_plan_c770eeea2f1cfd7f0d2eb8c0099d3ea62e19d78320778943a3c6a938b25fcd97.json
+PRESENT: docs/proofs/approval_plan_c770eeea2f1cfd7f0d2eb8c0099d3ea62e19d78320778943a3c6a938b25fcd97.json
+PRESENT: docs/proofs/execution_plan_c770eeea2f1cfd7f0d2eb8c0099d3ea62e19d78320778943a3c6a938b25fcd97.json
+
+PRESENT FAILURE ARTIFACTS
+-------------------------
+PRESENT: docs/proofs/failure_intake_invalid_empty.json
+PRESENT: docs/proofs/failure_intake_invalid_whitespace.json
+
+EXECUTION OUTPUT SNAPSHOT
+-------------------------
+{
+  "planId": "plan_5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65",
+  "taskId": "task_5e9f1ed0cbd05609e29817be875d2c9241b88f78401d2e9f641f788aa2f65c65",
+  "status": "SUCCEEDED",
+  "output": "EXECUTION_OK: echo hello world"
+}
+
+{
+  "planId": "plan_c770eeea2f1cfd7f0d2eb8c0099d3ea62e19d78320778943a3c6a938b25fcd97",
+  "taskId": "task_c770eeea2f1cfd7f0d2eb8c0099d3ea62e19d78320778943a3c6a938b25fcd97",
+  "status": "SUCCEEDED",
+  "output": "EXECUTION_OK: echo hello mars"
+}
+
+{
+  "intakeId": "intake_invalid_empty",
+  "stage": "entry_validation",
+  "error": "EMPTY_INPUT"
+}
+
+{
+  "intakeId": "intake_invalid_whitespace",
+  "stage": "entry_validation",
+  "error": "EMPTY_INPUT_NORMALIZED"
+}

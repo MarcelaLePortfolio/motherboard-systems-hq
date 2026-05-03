@@ -1,0 +1,94 @@
+Phase 608 response compiler passive verification.
+
+Goal:
+Verify passive response compiler integration did not alter execution behavior.
+
+Expected:
+- Worker still claims and completes task
+- Execution-contract log still appears
+- NEW response-compiler log appears AFTER execution-contract
+- Output remains unchanged
+- No errors or crashes
+
+--- WORKER LOGS ---
+[phase25] task_events_emit loaded 2026-05-01T22:14:46.490Z file= file:///app/server/task_events_emit.mjs
+[worker] resolved sql contracts: { phase: '32', count: 3 }
+[worker] contract: phase32_claim_one.sql
+[worker] contract: phase32_mark_failure.sql
+[worker] contract: phase32_mark_success.sql
+[worker] started with POSTGRES_URL: postgresql://postgres:postgres@postgres:5432/postgres
+[worker] running in phase: 32
+[worker] owner: worker-2ba3ddea-797d-48a2-8cd3-26366f93dc95
+[worker] claimed task {
+  id: '27',
+  task_id: 't_4efafa88-8556-4972-9840-10779fe75569',
+  status: 'running',
+  run_id: 'run_529c5428-8d8e-4df0-a37a-cb4e56b68fc8',
+  claimed_by: 'worker-2ba3ddea-797d-48a2-8cd3-26366f93dc95'
+}
+[worker][execution-policy] {
+  task_id: 't_4efafa88-8556-4972-9840-10779fe75569',
+  is_retry: true,
+  execution_mode: 'rebuild_context',
+  cache_policy: 'bypass',
+  memory_scope: 'reset_partial',
+  requires_context_rebuild: true,
+  requires_cache_bypass: true,
+  requires_memory_scope_reset: true
+}
+[worker][runtime-hook][cache-policy] {
+  task_id: 't_4efafa88-8556-4972-9840-10779fe75569',
+  cache_policy: 'bypass',
+  action: 'bypass_observed',
+  effect: 'no_cache_layer_available_yet'
+}
+[worker][runtime-hook][memory-scope] {
+  task_id: 't_4efafa88-8556-4972-9840-10779fe75569',
+  memory_scope: 'reset_partial',
+  action: 'reset_partial_observed',
+  effect: 'no_memory_layer_available_yet'
+}
+[worker][runtime-hook][execution-mode] {
+  task_id: 't_4efafa88-8556-4972-9840-10779fe75569',
+  execution_mode: 'rebuild_context',
+  action: 'rebuild_context_observed',
+  effect: 'no_context_layer_available_yet'
+}
+[worker][execution-contract] {
+  task_id: 't_4efafa88-8556-4972-9840-10779fe75569',
+  strategy_applied: 'prompt_augmentation',
+  notes: 'fresh context requested; cache bypass observed; partial memory reset observed',
+  output: 'Policy-aware execution prepared for: response compiler passive verify'
+}
+[worker][response-compiler] {
+  task_id: 't_4efafa88-8556-4972-9840-10779fe75569',
+  outcome_preview: 'Policy-aware execution prepared for: response compiler passive verify',
+  explanation_preview: 'fresh context requested; cache bypass observed; partial memory reset observed'
+}
+[worker] completed task {
+  id: '27',
+  task_id: 't_4efafa88-8556-4972-9840-10779fe75569',
+  status: 'completed',
+  run_id: 'run_529c5428-8d8e-4df0-a37a-cb4e56b68fc8',
+  claimed_by: 'worker-2ba3ddea-797d-48a2-8cd3-26366f93dc95',
+  completed_at: 2026-05-01T22:15:11.571Z
+}
+[phase25] emitTaskEvent ENTER {
+  ts: 1777673711573,
+  kind: 'task.completed',
+  task_id: 't_4efafa88-8556-4972-9840-10779fe75569',
+  hasGlobal: false,
+  globalType: undefined
+}
+[phase25] emitTaskEvent BEFORE CHECK {
+  hasArg: true,
+  hasGlobal: false,
+  globalType: undefined,
+  argType: 'BoundPool'
+}
+[phase25] emitTaskEvent pool {
+  arg: true,
+  argType: 'BoundPool',
+  hasGlobal: false,
+  globalType: undefined
+}
