@@ -1,16 +1,17 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+API_URL="http://localhost:3000/api/tasks"
+
 echo "Container status:"
 docker compose ps
 
 echo
-echo "Checking /api/tasks guidance exposure..."
-RAW="$(curl -fsS http://localhost:8080/api/tasks || true)"
+echo "Checking guidance exposure at $API_URL..."
+RAW="$(curl -fsS "$API_URL" || true)"
 
 if [ -z "$RAW" ]; then
-  echo "ERROR: Empty response from http://localhost:8080/api/tasks"
-  echo "Start or restart the stack with: docker compose up -d"
+  echo "ERROR: Empty response from $API_URL"
   exit 1
 fi
 
