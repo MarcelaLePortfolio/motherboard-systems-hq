@@ -1,6 +1,6 @@
 import express from "express";
 import pg from "pg";
-import { attachExecutionGuidance } from "../integrations/execution_guidance_attach_point.mjs";
+import { interpretCompletedTaskEvent } from "../execution_guidance_router.mjs";
 
 const router = express.Router();
 const { Pool } = pg;
@@ -170,36 +170,33 @@ router.get("/events/task-events", async (req, res) => {
           [cursor]
         );
 
-        const guidanceEvents = [];
-
         for (const row of result.rows) {
           const payload = normalizeRow(row);
           const eventName = normalizeKind(row.kind);
 
-          if (eventName === "task.completed") {
-            guidanceEvents.push({
-              type: "task.completed",
-              payload
-            });
-          }
+          let enrichedPayload = payload;
+          try {
+            const guidance = interpretCompletedTaskEvent({ ...row, payload });
+            if (guidance) {
+              enrichedPayload = { ...payload, guidance };
+            }
+          } catch {}
 
           sseWrite(res, {
             event: eventName,
-            data: payload
+            data: enrichedPayload
           });
 
           sseWrite(res, {
             event: "task.event",
-            data: payload
+            data: enrichedPayload
           });
 
-          const nextCursor = intOrNull(payload.ts);
+          const nextCursor = intOrNull(enrichedPayload.ts);
           if (nextCursor != null && nextCursor > cursor) {
             cursor = nextCursor;
           }
         }
-
-        attachExecutionGuidance(guidanceEvents);
       } catch (err) {
         sseWrite(res, {
           event: "error",
