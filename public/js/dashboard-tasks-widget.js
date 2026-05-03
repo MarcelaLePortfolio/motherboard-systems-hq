@@ -81,7 +81,7 @@
   }
 
   function renderGuidance(t) {
-    const g = t?.guidance;
+    const g = t?.guidance || (t?.outcome_preview || t?.explanation_preview ? { classification: 'info', outcome: t?.outcome_preview, explanation: t?.explanation_preview } : null);
     if (!g) return "";
     return `<div style="margin-top:4px;font-size:12px;opacity:.75"><strong>${esc(g.classification || "guidance")}</strong>${g.outcome ? `: ${esc(g.outcome)}` : ""}${g.explanation ? `<details><summary>details</summary><div>${esc(g.explanation)}</div></details>` : ""}</div>`;
   }
