@@ -80,6 +80,12 @@
     };
   }
 
+  function renderGuidance(t) {
+    const g = t?.guidance;
+    if (!g) return "";
+    return `<div style="margin-top:4px;font-size:12px;opacity:.75"><strong>${esc(g.classification || "guidance")}</strong>${g.outcome ? `: ${esc(g.outcome)}` : ""}${g.explanation ? `<details><summary>details</summary><div>${esc(g.explanation)}</div></details>` : ""}</div>`;
+  }
+
   async function apiJson(url, opts = {}) {
     const res = await fetch(url, {
       method: opts.method || "GET",
@@ -118,6 +124,7 @@
                     : `<button data-id="${esc(t.id)}">Complete</button>`
                 }
               </div>
+              ${renderGuidance(t)}
             `
                   )
                   .join("")
