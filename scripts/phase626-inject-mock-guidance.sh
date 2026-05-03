@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-echo "Injecting mock guidance into latest task for visual verification..."
+echo "Injecting mock guidance into latest task via Docker Postgres..."
 
-psql postgres <<SQL
+docker compose exec -T postgres psql -U postgres -d postgres <<SQL
 UPDATE tasks
 SET payload = jsonb_set(
   COALESCE(payload, '{}'::jsonb),
@@ -18,6 +18,11 @@ SET payload = jsonb_set(
 WHERE id = (
   SELECT id FROM tasks ORDER BY id DESC LIMIT 1
 );
+
+SELECT id, payload->'guidance' AS guidance
+FROM tasks
+ORDER BY id DESC
+LIMIT 1;
 SQL
 
 echo "Done. Refresh dashboard to verify guidance UI."
