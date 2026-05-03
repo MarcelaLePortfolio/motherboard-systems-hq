@@ -50,7 +50,7 @@ export default function ExecutionInspector({ task }: { task: Task }) {
           <div className="text-sm text-gray-500">Task ID</div>
           <div className="font-mono text-sm">{task.id}</div>
         </div>
-        <div className={`text-sm font-medium ${getStatusColor(task.status)}`}>
+        <div className={`text-sm font-medium capitalize ${getStatusColor(task.status)}`}>
           {task.status}
         </div>
       </div>
