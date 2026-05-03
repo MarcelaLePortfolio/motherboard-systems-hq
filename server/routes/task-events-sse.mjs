@@ -67,177 +67,52 @@ function normalizeRow(row) {
   };
 }
 
-router.get("/api/task-events-sse", (req, res) => {
-  res.redirect(307, "/events/task-events");
-});
-
 router.get("/events/task-events", async (req, res) => {
   res.setHeader("Content-Type", "text/event-stream; charset=utf-8");
   res.setHeader("Cache-Control", "no-cache, no-transform");
   res.setHeader("Connection", "keep-alive");
-  res.setHeader("X-Accel-Buffering", "no");
-
-  if (typeof res.flushHeaders === "function") {
-    res.flushHeaders();
-  }
-
-  try {
-    req.socket.setTimeout(0);
-    res.socket.setTimeout(0);
-    res.socket.setKeepAlive(true);
-  } catch {}
 
   const db = getPool();
 
-  if (!db) {
-    sseWrite(res, {
-      event: "error",
-      data: {
-        kind: "task-events",
-        msg: "missing POSTGRES_URL/DATABASE_URL",
-        ts: Date.now()
-      }
-    });
-    res.end();
-    return;
-  }
+  let cursor = intOrNull(req.query.cursor) ?? 0;
 
-  let closed = false;
-  let polling = false;
+  const poll = async () => {
+    const result = await db.query(
+      `
+      select *
+      from task_events
+      where coalesce(ts, (extract(epoch from created_at) * 1000)::bigint) > $1
+      order by ts asc, id asc
+      limit 200
+      `,
+      [cursor]
+    );
 
-  const requestedCursor =
-    intOrNull(req.query.cursor) ??
-    intOrNull(req.query.since) ??
-    intOrNull(req.query.ts);
+    for (const row of result.rows) {
+      const payload = normalizeRow(row);
 
-  let cursor = requestedCursor;
-
-  try {
-    if (cursor == null) {
-      const seed = await db.query(
-        `
-        select coalesce(max(ts), 0)::bigint as cursor
-        from task_events
-        `
-      );
-      cursor = intOrNull(seed.rows?.[0]?.cursor) ?? 0;
-    }
-
-    res.write(`: connected ${new Date().toISOString()}\n\n`);
-
-    sseWrite(res, {
-      event: "hello",
-      data: {
-        kind: "task-events",
-        cursor,
-        ts: Date.now()
-      }
-    });
-
-    const heartbeat = setInterval(() => {
-      if (closed) return;
-      res.write(`: heartbeat ${new Date().toISOString()}\n\n`);
-      sseWrite(res, {
-        event: "heartbeat",
-        data: {
-          ts: Date.now(),
-          cursor
-        }
-      });
-    }, 15000);
-
-    const poll = async () => {
-      if (closed || polling) return;
-      polling = true;
+      let enrichedPayload = payload;
 
       try {
-        const result = await db.query(
-          `
-          select
-            id,
-            task_id,
-            kind,
-            actor,
-            payload,
-            run_id,
-            created_at,
-            coalesce(ts, (extract(epoch from created_at) * 1000)::bigint) as ts
-          from task_events
-          where coalesce(ts, (extract(epoch from created_at) * 1000)::bigint) > $1
-          order by coalesce(ts, (extract(epoch from created_at) * 1000)::bigint) asc, id asc
-          limit 200
-          `,
-          [cursor]
-        );
-
-        for (const row of result.rows) {
-          const payload = normalizeRow(row);
-          const eventName = normalizeKind(row.kind);
-
-          let enrichedPayload = payload;
-          try {
-            const guidance = interpretCompletedTaskEvent({ ...row, payload });
-            if (guidance) {
-              enrichedPayload = { ...payload, guidance };
-            }
-          } catch {}
-
-          sseWrite(res, {
-            event: eventName,
-            data: enrichedPayload
-          });
-
-          sseWrite(res, {
-            event: "task.event",
-            data: enrichedPayload
-          });
-
-          const nextCursor = intOrNull(enrichedPayload.ts);
-          if (nextCursor != null && nextCursor > cursor) {
-            cursor = nextCursor;
+        if (row.kind === "task.completed") {
+          const guidance = interpretCompletedTaskEvent({ ...row, payload });
+          if (guidance) {
+            enrichedPayload = { ...payload, guidance };
           }
         }
-      } catch (err) {
-        sseWrite(res, {
-          event: "error",
-          data: {
-            kind: "task-events",
-            msg: "task-events stream error",
-            detail: err?.message || String(err),
-            ts: Date.now(),
-            cursor
-          }
-        });
-      } finally {
-        polling = false;
-      }
-    };
+      } catch {}
 
-    const interval = setInterval(() => {
-      void poll();
-    }, 800);
+      sseWrite(res, {
+        event: normalizeKind(row.kind),
+        data: enrichedPayload
+      });
 
-    void poll();
+      const nextCursor = intOrNull(payload.ts);
+      if (nextCursor && nextCursor > cursor) cursor = nextCursor;
+    }
+  };
 
-    req.on("close", () => {
-      closed = true;
-      clearInterval(interval);
-      clearInterval(heartbeat);
-      res.end();
-    });
-  } catch (err) {
-    sseWrite(res, {
-      event: "error",
-      data: {
-        kind: "task-events",
-        msg: "task-events stream bootstrap error",
-        detail: err?.message || String(err),
-        ts: Date.now(),
-        cursor: cursor ?? 0
-      }
-    });
-    res.end();
-  }
+  setInterval(() => void poll(), 800);
 });
 
 export default router;
