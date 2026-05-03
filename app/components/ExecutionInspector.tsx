@@ -27,20 +27,35 @@ function getBadgeColor(classification?: string) {
   }
 }
 
+function getStatusColor(status?: string) {
+  switch (status) {
+    case 'completed':
+      return 'text-green-600';
+    case 'failed':
+      return 'text-red-600';
+    case 'running':
+      return 'text-blue-600';
+    default:
+      return 'text-gray-500';
+  }
+}
+
 export default function ExecutionInspector({ task }: { task: Task }) {
   const guidance = task?.guidance;
 
   return (
-    <div className="p-4 border rounded-xl space-y-4">
+    <div className="p-4 border rounded-xl space-y-4 shadow-sm">
       <div className="flex items-center justify-between">
         <div>
           <div className="text-sm text-gray-500">Task ID</div>
           <div className="font-mono text-sm">{task.id}</div>
         </div>
-        <div className="text-sm text-gray-500">{task.status}</div>
+        <div className={`text-sm font-medium ${getStatusColor(task.status)}`}>
+          {task.status}
+        </div>
       </div>
 
-      {guidance && (
+      {guidance ? (
         <div className="border rounded-lg p-3 bg-gray-50 space-y-2">
           <div className="flex items-center gap-2">
             <span className={`px-2 py-1 text-xs rounded ${getBadgeColor(guidance.classification)}`}>
@@ -50,19 +65,25 @@ export default function ExecutionInspector({ task }: { task: Task }) {
           </div>
 
           {guidance.outcome && (
-            <div className="text-sm text-gray-800">
+            <div className="text-sm text-gray-800 font-medium">
               {guidance.outcome}
             </div>
           )}
 
           {guidance.explanation && (
             <details className="text-sm text-gray-600">
-              <summary className="cursor-pointer">View explanation</summary>
+              <summary className="cursor-pointer hover:underline">
+                View explanation
+              </summary>
               <div className="mt-2 whitespace-pre-wrap">
                 {guidance.explanation}
               </div>
             </details>
           )}
+        </div>
+      ) : (
+        <div className="text-xs text-gray-400 italic">
+          No guidance available for this task.
         </div>
       )}
     </div>
