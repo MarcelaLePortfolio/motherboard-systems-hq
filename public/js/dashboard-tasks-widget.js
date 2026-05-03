@@ -116,7 +116,7 @@
               ? state.tasks
                   .map(
                     (t) => `
-              <div style="display:flex;justify-content:space-between;gap:8px">
+              <div data-task-row="true" data-task-id="${esc(t.id)}" style="display:flex;justify-content:space-between;gap:8px;cursor:pointer">
                 <span>${esc(t.title)}</span>
                 ${
                   ["complete", "completed", "done"].includes(String(t.status || "").toLowerCase())
@@ -134,6 +134,13 @@
           }
         </div>
       `;
+
+      ui.listEl.querySelectorAll("[data-task-row][data-task-id]").forEach((row) => {
+        row.onclick = () => {
+          window.selectedTaskId = row.getAttribute("data-task-id");
+          window.dispatchEvent(new CustomEvent("execution-inspector:selected-task", { detail: { taskId: window.selectedTaskId } }));
+        };
+      });
 
       ui.listEl.querySelectorAll("button[data-id]").forEach((btn) => {
         btn.onclick = () => completeTask(btn.dataset.id);

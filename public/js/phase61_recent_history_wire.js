@@ -85,7 +85,9 @@ if (window.__RECENT_HISTORY_WIRE_BOUND) return; window.__RECENT_HISTORY_WIRE_BOU
       const res = await fetch(INSPECTOR_ENDPOINT, { cache: "no-store" });
       const data = await res.json();
 
-      render(normalize(data));
+      const selectedTaskId = window.selectedTaskId || null;
+      const rows = normalize(data);
+      render(selectedTaskId ? rows.filter((r) => String(r.task_id || r.id || "") === String(selectedTaskId)) : rows);
 
       console.log("[execution-inspector] rendered rows:", normalize(data).length);
     } catch (e) {
@@ -99,6 +101,7 @@ if (window.__RECENT_HISTORY_WIRE_BOUND) return; window.__RECENT_HISTORY_WIRE_BOU
   });
 
   mountInspector();
+  window.addEventListener("execution-inspector:selected-task", () => tick());
   setInterval(tick, REFRESH_MS);
   tick();
 
