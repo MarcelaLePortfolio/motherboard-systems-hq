@@ -1,32 +1,61 @@
+function textFrom(value) {
+  if (value == null) return "";
+
+  if (typeof value === "string") return value;
+
+  if (typeof value === "number" || typeof value === "boolean") {
+    return String(value);
+  }
+
+  if (typeof value === "object") {
+    return [
+      value.tier,
+      value.content,
+      value.purpose,
+      value.visibility,
+      value.persistence
+    ]
+      .filter(Boolean)
+      .map(String)
+      .join(" ");
+  }
+
+  return "";
+}
+
 export function classifyExecutionOutcome(communicationResult = {}) {
-  const outcome = String(communicationResult.outcome || '').toLowerCase();
-  const explanation = String(communicationResult.explanation || '').toLowerCase();
+  const outcome = textFrom(communicationResult.outcome).toLowerCase();
+  const explanation = textFrom(communicationResult.explanation).toLowerCase();
+  const combined = `${outcome} ${explanation}`.trim();
+
+  if (!combined) {
+    return 'unknown';
+  }
 
   if (
-    outcome.includes('blocked') ||
-    explanation.includes('blocked') ||
-    explanation.includes('missing') ||
-    explanation.includes('requires') ||
-    explanation.includes('cannot proceed')
+    combined.includes('blocked') ||
+    combined.includes('missing') ||
+    combined.includes('requires') ||
+    combined.includes('cannot proceed')
   ) {
     return 'blocked';
   }
 
   if (
-    outcome.includes('retry') ||
-    explanation.includes('retry') ||
-    explanation.includes('temporary') ||
-    explanation.includes('failed') ||
-    explanation.includes('timeout')
+    combined.includes('retry') ||
+    combined.includes('temporary') ||
+    combined.includes('failed') ||
+    combined.includes('timeout')
   ) {
     return 'retryable';
   }
 
   if (
-    outcome.includes('success') ||
-    outcome.includes('complete') ||
-    explanation.includes('completed') ||
-    explanation.includes('success')
+    combined.includes('success') ||
+    combined.includes('complete') ||
+    combined.includes('completed') ||
+    combined.includes('prepared') ||
+    combined.includes('standard execution')
   ) {
     return 'success';
   }
