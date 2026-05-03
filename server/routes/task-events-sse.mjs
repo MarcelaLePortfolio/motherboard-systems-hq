@@ -1,5 +1,6 @@
 import express from "express";
 import pg from "pg";
+import { attachExecutionGuidance } from "../integrations/execution_guidance_attach_point.mjs";
 
 const router = express.Router();
 const { Pool } = pg;
@@ -169,9 +170,18 @@ router.get("/events/task-events", async (req, res) => {
           [cursor]
         );
 
+        const guidanceEvents = [];
+
         for (const row of result.rows) {
           const payload = normalizeRow(row);
           const eventName = normalizeKind(row.kind);
+
+          if (eventName === "task.completed") {
+            guidanceEvents.push({
+              type: "task.completed",
+              payload
+            });
+          }
 
           sseWrite(res, {
             event: eventName,
@@ -188,6 +198,8 @@ router.get("/events/task-events", async (req, res) => {
             cursor = nextCursor;
           }
         }
+
+        attachExecutionGuidance(guidanceEvents);
       } catch (err) {
         sseWrite(res, {
           event: "error",
