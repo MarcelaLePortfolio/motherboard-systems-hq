@@ -37,7 +37,16 @@ if (window.__RECENT_HISTORY_WIRE_BOUND) return; window.__RECENT_HISTORY_WIRE_BOU
     return data?.tasks || data?.rows || data?.data || [];
   }
 
-  function renderGuidance(r) {\n    const g = r && r.guidance;\n    if (!g) return "";\n    const classification = g.classification || "guidance";\n    const outcome = g.outcome || "";\n    const explanation = g.explanation || "";\n    return `<div style="margin-top:6px;font-size:11px;color:#fde68a"><strong>Guidance:</strong> ${classification}${outcome ? " — " + outcome : ""}${explanation ? `<details style="margin-top:3px;"><summary style="cursor:pointer;">Guidance details</summary><div style="color:#bfdbfe">${explanation}</div></details>` : ""}</div>`;\n  }\n\n  function render(rows) {
+  function renderGuidance(r) {
+    const g = r && r.guidance;
+    if (!g) return "";
+    const classification = g.classification || "guidance";
+    const outcome = g.outcome || "";
+    const explanation = g.explanation || "";
+    return `<div style="margin-top:6px;font-size:11px;color:#fde68a"><strong>Guidance:</strong> ${classification}${outcome ? " — " + outcome : ""}${explanation ? `<details style="margin-top:3px;"><summary style="cursor:pointer;">Guidance details</summary><div style="color:#bfdbfe">${explanation}</div></details>` : ""}</div>`;
+  }
+
+  function render(rows) {
     const el = mountInspector();
     if (!el) return;
 
@@ -64,7 +73,8 @@ if (window.__RECENT_HISTORY_WIRE_BOUND) return; window.__RECENT_HISTORY_WIRE_BOU
             status: ${status} | id: ${id}
           </div>
           ${outcome ? `<div style="margin-top:6px;font-size:11px;color:#d1fae5"><strong>Outcome:</strong> ${outcome}</div>` : ""}
-          ${explanation ? `<div style="margin-top:3px;font-size:11px;color:#bfdbfe"><strong>Explanation:</strong> ${explanation}</div>` : ""}\n          ${renderGuidance(r)}
+          ${explanation ? `<div style="margin-top:3px;font-size:11px;color:#bfdbfe"><strong>Explanation:</strong> ${explanation}</div>` : ""}
+          ${renderGuidance(r)}
         </div>
       `;
     }).join("");
