@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import StatusRow from './ui/StatusRow';
 import {
   basePanelStyle,
   liveBorderStyle,
@@ -17,9 +18,8 @@ type Subsystem = {
 };
 
 type GuidanceResponse = {
-  ok: boolean;
-  guidance_available: boolean;
   guidance: any[];
+  guidance_available: boolean;
   subsystems?: Subsystem[];
   timestamp?: string;
 };
@@ -93,10 +93,12 @@ export default function GuidancePanel() {
       <div style={sectionStyle}>
         <strong>Subsystem Context</strong>
         {data.subsystems?.map((s) => (
-          <div key={s.name} style={{ marginTop: '6px' }}>
-            {s.name}: {s.status}{' '}
-            <span style={{ opacity: 0.7 }}>{s.connected ? '[ONLINE]' : '[OFFLINE]'}</span>
-          </div>
+          <StatusRow
+            key={s.name}
+            label={s.name}
+            status={s.status}
+            connected={s.connected}
+          />
         ))}
       </div>
 
