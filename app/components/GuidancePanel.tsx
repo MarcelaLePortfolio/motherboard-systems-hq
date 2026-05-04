@@ -73,10 +73,20 @@ export default function GuidancePanel() {
 
   const ageMs = data.timestamp ? Date.now() - new Date(data.timestamp).getTime() : null;
   const isStale = ageMs !== null && ageMs > 10000;
+  const severity = isStale ? 'WARNING' : 'NORMAL';
 
   return (
-    <div style={{ padding: '12px', border: '1px solid #444', borderRadius: '8px' }}>
-      <h3>Operator Guidance {isStale ? '(STALE)' : '(LIVE)'}</h3>
+    <div
+      style={{
+        padding: '12px',
+        border: isStale ? '2px solid #ff5555' : '1px solid #444',
+        borderRadius: '8px',
+        background: isStale ? '#2a0000' : 'transparent'
+      }}
+    >
+      <h3>
+        Operator Guidance {isStale ? '(STALE)' : '(LIVE)'} — {severity}
+      </h3>
 
       <div style={{ marginBottom: '12px' }}>
         <strong>Subsystem Context:</strong>
