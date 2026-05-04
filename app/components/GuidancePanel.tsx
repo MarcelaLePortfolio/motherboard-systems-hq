@@ -84,10 +84,31 @@ export default function GuidancePanel() {
     info: guidance.filter((g) => g.type === 'info')
   });
 
-  const getColor = (type: string) => {
-    if (type === 'critical') return '#ff5555';
-    if (type === 'warning') return '#ffaa00';
-    return '#66ccff';
+  const getSeverityStyle = (type: string) => {
+    if (type === 'critical') {
+      return {
+        color: '#ff5555',
+        background: 'rgba(255, 85, 85, 0.12)',
+        border: 'rgba(255, 85, 85, 0.65)',
+        badge: 'CRITICAL'
+      };
+    }
+
+    if (type === 'warning') {
+      return {
+        color: '#ffaa00',
+        background: 'rgba(255, 170, 0, 0.10)',
+        border: 'rgba(255, 170, 0, 0.55)',
+        badge: 'WARNING'
+      };
+    }
+
+    return {
+      color: '#66ccff',
+      background: 'rgba(102, 204, 255, 0.08)',
+      border: 'rgba(102, 204, 255, 0.45)',
+      badge: 'INFO'
+    };
   };
 
   const grouped = groupBySeverity(data.guidance || []);
@@ -97,36 +118,70 @@ export default function GuidancePanel() {
     if (items.length === 0) return null;
 
     return (
-      <div style={{ marginTop: `${8 + emphasis * 4}px` }}>
+      <div style={{ marginTop: `${10 + emphasis * 4}px` }}>
         <div
           style={{
-            fontWeight: 600 + emphasis * 100,
-            fontSize: '13px',
-            opacity: 0.75 + emphasis * 0.1
+            fontWeight: 700,
+            fontSize: emphasis > 1 ? '14px' : '13px',
+            opacity: 0.85 + emphasis * 0.05,
+            letterSpacing: '0.04em'
           }}
         >
           {label} ({items.length})
         </div>
 
-        {items.map((g, i) => (
-          <div
-            key={i}
-            style={{
-              marginTop: '4px',
-              padding: '4px 6px',
-              borderLeft: `3px solid ${getColor(g.type)}`,
-              fontSize: '13px'
-            }}
-          >
-            <div style={{ fontWeight: 600 }}>{g.subsystem}</div>
-            <div style={{ opacity: 0.85 }}>{g.message}</div>
-            {g.suggested_action && (
-              <div style={{ marginTop: '4px', opacity: 0.65 }}>
-                Hint: {g.suggested_action}
+        {items.map((g, i) => {
+          const severity = getSeverityStyle(g.type);
+
+          return (
+            <div
+              key={i}
+              style={{
+                marginTop: '8px',
+                padding: emphasis > 1 ? '10px 12px' : '8px 10px',
+                borderLeft: `4px solid ${severity.color}`,
+                border: `1px solid ${severity.border}`,
+                borderRadius: '10px',
+                background: severity.background,
+                fontSize: '13px'
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+                <span
+                  style={{
+                    color: severity.color,
+                    border: `1px solid ${severity.border}`,
+                    borderRadius: '999px',
+                    padding: '2px 7px',
+                    fontSize: '10px',
+                    fontWeight: 800,
+                    letterSpacing: '0.05em'
+                  }}
+                >
+                  {severity.badge}
+                </span>
+                <span style={{ fontWeight: 700 }}>{g.subsystem}</span>
               </div>
-            )}
-          </div>
-        ))}
+
+              <div style={{ opacity: 0.9, lineHeight: 1.35 }}>{g.message}</div>
+
+              {g.suggested_action && (
+                <div
+                  style={{
+                    marginTop: '8px',
+                    padding: '6px 8px',
+                    borderRadius: '8px',
+                    background: 'rgba(255, 255, 255, 0.06)',
+                    fontWeight: 650,
+                    opacity: 0.9
+                  }}
+                >
+                  Action: {g.suggested_action}
+                </div>
+              )}
+            </div>
+          );
+        })}
       </div>
     );
   };
@@ -161,8 +216,8 @@ export default function GuidancePanel() {
             {renderGroup('INFO', grouped.info, 0)}
           </>
         ) : (
-          <div style={{ marginTop: '6px', opacity: 0.7 }}>
-            No active guidance
+          <div style={{ marginTop: '8px', opacity: 0.8, fontWeight: 600 }}>
+            All systems operating normally.
           </div>
         )}
       </div>
