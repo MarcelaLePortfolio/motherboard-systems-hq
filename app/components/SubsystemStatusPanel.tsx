@@ -1,6 +1,14 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import {
+  basePanelStyle,
+  liveBorderStyle,
+  staleBorderStyle,
+  headerStyle,
+  timestampStyle,
+  sectionStyle
+} from './ui/panelStyles';
 
 type Subsystem = {
   name: string;
@@ -31,7 +39,6 @@ export default function SubsystemStatusPanel() {
         };
 
         es.onerror = () => {
-          console.warn('Subsystem SSE failed, falling back to polling');
           es?.close();
           fallbackPolling();
         };
@@ -46,8 +53,6 @@ export default function SubsystemStatusPanel() {
           const res = await fetch('/api/subsystem-status');
           const json = await res.json();
           setData(json);
-        } catch (err) {
-          console.error('Polling failed');
         } finally {
           setLoading(false);
         }
@@ -70,23 +75,19 @@ export default function SubsystemStatusPanel() {
 
   const ageMs = data.timestamp ? Date.now() - new Date(data.timestamp).getTime() : null;
   const isStale = ageMs !== null && ageMs > 10000;
-  const severity = isStale ? 'WARNING' : 'NORMAL';
+
+  const panelStyle = {
+    ...basePanelStyle,
+    ...(isStale ? staleBorderStyle : liveBorderStyle)
+  };
 
   return (
-    <div
-      style={{
-        padding: '16px',
-        border: isStale ? '2px solid #ff5555' : '1px solid #333',
-        borderRadius: '10px',
-        background: isStale ? '#2a0000' : '#111',
-        color: '#eee'
-      }}
-    >
-      <h3 style={{ marginBottom: '10px', fontSize: '16px' }}>
-        Subsystem Status <span style={{ opacity: 0.7 }}>({isStale ? 'STALE' : 'LIVE'} • {severity})</span>
+    <div style={panelStyle}>
+      <h3 style={headerStyle}>
+        Subsystem Status <span style={{ opacity: 0.7 }}>({isStale ? 'STALE' : 'LIVE'})</span>
       </h3>
 
-      <div style={{ marginBottom: '10px' }}>
+      <div style={sectionStyle}>
         {data.subsystems.map((s) => (
           <div key={s.name} style={{ marginBottom: '6px' }}>
             <strong>{s.name}</strong>: {s.status}{' '}
@@ -96,7 +97,7 @@ export default function SubsystemStatusPanel() {
       </div>
 
       {data.timestamp && (
-        <div style={{ fontSize: '12px', opacity: 0.5 }}>
+        <div style={timestampStyle}>
           Updated: {data.timestamp}
         </div>
       )}
