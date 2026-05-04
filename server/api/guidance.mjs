@@ -1,9 +1,26 @@
-// Phase 663 — Guidance API (WITH HISTORY CAPTURE APPLIED)
+// Phase 663 — Guidance API Safety Restore
+// Standalone read-only guidance endpoint.
+// Execution pipeline remains untouched.
 
-import originalHandler from "./guidance.original.mjs";
-import { withGuidanceHistoryCapture } from "./_patch-guidance-with-history.mjs";
+const guidance = [
+  {
+    id: "execution-subsystem-stable",
+    severity: "info",
+    message: "Execution subsystem is stable.",
+    suggested_action: "Continue read-only validation.",
+  },
+  {
+    id: "atlas-optional-offline",
+    severity: "info",
+    message: "Atlas is optional and may be offline without blocking execution.",
+    suggested_action: "No action required unless Atlas is needed.",
+  },
+];
 
-// Apply wrapper (non-mutating)
-const handler = withGuidanceHistoryCapture(originalHandler);
-
-export default handler;
+export default async function handler(req, res) {
+  return res.status(200).json({
+    ok: true,
+    guidance_available: guidance.length > 0,
+    guidance,
+  });
+}
