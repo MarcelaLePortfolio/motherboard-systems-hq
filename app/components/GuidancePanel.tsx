@@ -7,47 +7,34 @@ import {
   liveBorderStyle,
   staleBorderStyle,
   headerStyle,
-  timestampStyle,
-  sectionStyle
+  sectionStyle,
+  timestampStyle
 } from './ui/panelStyles';
 
-type Subsystem = {
-  name: string;
-  status: string;
-  connected: boolean;
-};
-
-type GuidanceResponse = {
-  guidance: any[];
-  guidance_available: boolean;
-  subsystems?: Subsystem[];
-  timestamp?: string;
-};
-
 export default function GuidancePanel() {
-  const [data, setData] = useState<GuidanceResponse | null>(null);
+  const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let es: EventSource | null = null;
 
     const connectSSE = () => {
-      try {
-        es = new EventSource('/events/guidance');
+      es = new EventSource('/events/guidance');
 
-        es.onmessage = (event) => {
-          const parsed = JSON.parse(event.data);
-          setData(parsed);
+      es.onmessage = (event) => {
+        try {
+          const json = JSON.parse(event.data);
+          setData(json);
           setLoading(false);
-        };
+        } catch {
+          console.error('SSE parse failed');
+        }
+      };
 
-        es.onerror = () => {
-          es?.close();
-          fallbackPolling();
-        };
-      } catch {
+      es.onerror = () => {
+        es?.close();
         fallbackPolling();
-      }
+      };
     };
 
     const fallbackPolling = () => {
@@ -56,6 +43,8 @@ export default function GuidancePanel() {
           const res = await fetch('/api/guidance');
           const json = await res.json();
           setData(json);
+        } catch {
+          console.error('Polling failed');
         } finally {
           setLoading(false);
         }
@@ -84,6 +73,12 @@ export default function GuidancePanel() {
     ...(isStale ? staleBorderStyle : liveBorderStyle)
   };
 
+  const getColor = (type: string) => {
+    if (type === 'critical') return '#ff5555';
+    if (type === 'warning') return '#ffaa00';
+    return '#66ccff';
+  };
+
   return (
     <div style={panelStyle}>
       <h3 style={headerStyle}>
@@ -92,7 +87,7 @@ export default function GuidancePanel() {
 
       <div style={sectionStyle}>
         <strong>Subsystem Context</strong>
-        {data.subsystems?.map((s) => (
+        {data.subsystems?.map((s: any) => (
           <StatusRow
             key={s.name}
             label={s.name}
@@ -105,9 +100,19 @@ export default function GuidancePanel() {
       <div style={sectionStyle}>
         <strong>Guidance</strong>
         {data.guidance_available ? (
-          data.guidance.map((g, i) => (
-            <div key={i} style={{ marginTop: '6px' }}>
-              {JSON.stringify(g)}
+          data.guidance.map((g: any, i: number) => (
+            <div
+              key={i}
+              style={{
+                marginTop: '6px',
+                padding: '6px',
+                borderLeft: `4px solid ${getColor(g.type)}`
+              }}
+            >
+              <div style={{ fontWeight: 600 }}>
+                {g.type.toUpperCase()} (severity {g.severity})
+              </div>
+              <div style={{ opacity: 0.9 }}>{g.message}</div>
             </div>
           ))
         ) : (
