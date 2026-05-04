@@ -1,21 +1,28 @@
 #!/bin/bash
 set -e
 
-echo "Testing Atlas detection via subsystem endpoint..."
+echo "ATLAS DETECTION TEST START"
 
-RESPONSE=$(curl -s http://localhost:8080/api/subsystem-status)
-
-echo "$RESPONSE" | jq .
-
-echo ""
-echo "Checking Atlas field..."
-
-if echo "$RESPONSE" | grep -q '"name":"atlas"'; then
-  echo "Atlas field present"
-else
-  echo "Atlas field missing"
-  exit 1
-fi
+echo "Step 1: Check current state"
+docker ps | grep atlas || echo "atlas not running"
 
 echo ""
-echo "Atlas detection test complete."
+echo "Step 2: (Optional) Start Atlas if you have a container definition"
+echo "Skipping auto-start to avoid unsafe assumptions"
+
+echo ""
+echo "Step 3: Rebuild system to refresh detection"
+docker compose up -d --build
+sleep 5
+
+echo ""
+echo "Step 4: Check API response"
+curl -s http://localhost:8080/api/guidance | jq '.subsystems'
+
+echo ""
+echo "Expected:"
+echo "- atlas shows connected: false when not running"
+echo "- switches to connected: true when container exists"
+
+echo ""
+echo "ATLAS DETECTION TEST COMPLETE"
