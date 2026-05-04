@@ -79,6 +79,12 @@ export default function GuidancePanel() {
     info: guidance.filter((g) => g.type === 'info')
   });
 
+  const getColor = (type: string) => {
+    if (type === 'critical') return '#ff5555';
+    if (type === 'warning') return '#ffaa00';
+    return '#66ccff';
+  };
+
   const grouped = groupBySeverity(data.guidance || []);
   const total = data.guidance?.length || 0;
 
@@ -96,7 +102,7 @@ export default function GuidancePanel() {
             style={{
               marginTop: '4px',
               padding: '4px 6px',
-              borderLeft: '3px solid #888',
+              borderLeft: `3px solid ${getColor(g.type)}`,
               fontSize: '13px'
             }}
           >
