@@ -16,7 +16,6 @@ type Snapshot = {
 export default function SubsystemStatusPanel() {
   const [data, setData] = useState<Snapshot | null>(null);
   const [loading, setLoading] = useState(true);
-  const [wasLive, setWasLive] = useState(true);
 
   useEffect(() => {
     let es: EventSource | null = null;
@@ -71,10 +70,6 @@ export default function SubsystemStatusPanel() {
 
   const ageMs = data.timestamp ? Date.now() - new Date(data.timestamp).getTime() : null;
   const isStale = ageMs !== null && ageMs > 10000;
-
-  if (!isStale && !wasLive) setWasLive(true);
-  if (isStale && wasLive) setWasLive(false);
-
   const severity = isStale ? 'WARNING' : 'NORMAL';
 
   return (
