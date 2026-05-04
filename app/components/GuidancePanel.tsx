@@ -38,7 +38,7 @@ export default function GuidancePanel() {
 
     const connectSSE = () => {
       try {
-        es = new EventSource('/events/guidance');
+        es = new EventSource('/events/operator-guidance');
 
         es.onmessage = (event) => {
           try {
