@@ -1,5 +1,5 @@
 /**
- * PHASE 651 — GUIDANCE SIGNAL REFINEMENT (READ-ONLY)
+ * PHASE 656 — ATLAS STATUS CLARITY (WORDING ONLY)
  */
 
 function createGuidance({ type, severity, message, subsystem }) {
@@ -21,9 +21,9 @@ export function generateGuidance(subsystems) {
   if (atlas && !atlas.connected) {
     guidance.push(
       createGuidance({
-        type: 'warning',
-        severity: 2,
-        message: 'Atlas subsystem is not detected. Verify container status before relying on Atlas-specific observability.',
+        type: 'info',
+        severity: 1,
+        message: 'Atlas is not running (optional subsystem). Start it only if Atlas features are needed.',
         subsystem: 'atlas'
       })
     );
