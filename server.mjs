@@ -8,6 +8,7 @@ import path from 'path';
 import pg from 'pg';
 import taskEventsSseRouter from "./server/routes/task-events-sse.mjs";
 import { apiTasksRouter } from "./server/routes/api-tasks-postgres.mjs";
+import operatorGuidanceRouter from "./server/routes/operator-guidance.mjs";
 
 const { Pool } = pg;
 
@@ -61,6 +62,7 @@ globalThis.__DB_POOL = pool;
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(taskEventsSseRouter);
 app.use('/api/tasks', apiTasksRouter);
+app.use(operatorGuidanceRouter({ pool }));
 
 // 1. API Endpoint: System Metrics
 app.get('/api/metrics', async (req, res) => {
