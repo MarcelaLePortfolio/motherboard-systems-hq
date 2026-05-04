@@ -88,12 +88,7 @@ export default function GuidancePanel() {
       <div style={sectionStyle}>
         <strong>Subsystem Context</strong>
         {data.subsystems?.map((s: any) => (
-          <StatusRow
-            key={s.name}
-            label={s.name}
-            status={s.status}
-            connected={s.connected}
-          />
+          <StatusRow key={s.name} label={s.name} status={s.status} connected={s.connected} />
         ))}
       </div>
 
@@ -104,15 +99,16 @@ export default function GuidancePanel() {
             <div
               key={i}
               style={{
-                marginTop: '6px',
-                padding: '6px',
-                borderLeft: `4px solid ${getColor(g.type)}`
+                marginTop: '4px',
+                padding: '4px 6px',
+                borderLeft: `3px solid ${getColor(g.type)}`,
+                fontSize: '13px'
               }}
             >
               <div style={{ fontWeight: 600 }}>
-                {g.type.toUpperCase()} (severity {g.severity})
+                {g.type.toUpperCase()} • {g.subsystem}
               </div>
-              <div style={{ opacity: 0.9 }}>{g.message}</div>
+              <div style={{ opacity: 0.85 }}>{g.message}</div>
             </div>
           ))
         ) : (
