@@ -1,15 +1,14 @@
 # Phase 663 — Validation Result
 
-Status: PENDING_VISIBLE_PROOF
+Status: PASSED_WITH_VISIBLE_PROOF
 
-Observed:
-- Active router wiring was added
-- Runtime rebuilt successfully
-- Validation scripts started
-- Terminal output did not show visible JSON or PASS lines
+Validated:
+- Active operator guidance router serves /api/guidance
+- Active operator guidance router serves /api/guidance-history
+- /api/guidance-history returns visible valid JSON
+- /api/guidance returns visible valid JSON
+- Guidance history receives at least one passive entry
+- Execution pipeline remains untouched
 
-Conclusion:
-- Do not proceed to UI until validation scripts print visible JSON and PASS output.
-
-Next safe action:
-- Run hardened visible-output validation scripts.
+Next safe corridor:
+- Add read-only UI placeholder for guidance history
