@@ -1,5 +1,5 @@
 /**
- * PHASE 659 — GUIDANCE PRIORITIZATION (READ-ONLY)
+ * PHASE 669 — TASK-DERIVED GUIDANCE SIGNALS (READ-ONLY)
  */
 
 function createGuidance({ type, severity, message, subsystem, suggested_action }) {
@@ -22,6 +22,8 @@ export function generateGuidance(subsystems) {
 
   const atlas = subsystems.find((s) => s.name === 'atlas');
   const execution = subsystems.find((s) => s.name === 'execution');
+  const queue = subsystems.find((s) => s.name === 'task-queue');
+  const retries = subsystems.find((s) => s.name === 'task-retries');
 
   if (atlas && !atlas.connected) {
     guidance.push(
@@ -43,6 +45,30 @@ export function generateGuidance(subsystems) {
         message: 'Execution subsystem is not verified.',
         subsystem: 'execution',
         suggested_action: 'Pause execution-facing changes until runtime integrity is confirmed.'
+      })
+    );
+  }
+
+  if (queue && queue.status === 'queued') {
+    guidance.push(
+      createGuidance({
+        type: 'warning',
+        severity: 2,
+        message: 'Queued tasks are waiting for worker pickup.',
+        subsystem: 'task-queue',
+        suggested_action: 'Confirm worker heartbeat if the queue does not drain.'
+      })
+    );
+  }
+
+  if (retries && retries.status === 'active') {
+    guidance.push(
+      createGuidance({
+        type: 'warning',
+        severity: 2,
+        message: 'Retried tasks are present in recent task history.',
+        subsystem: 'task-retries',
+        suggested_action: 'Review retry causes before adding new retry behavior.'
       })
     );
   }
