@@ -108,6 +108,11 @@ export default function GuidancePanel() {
           >
             <div style={{ fontWeight: 600 }}>{g.subsystem}</div>
             <div style={{ opacity: 0.85 }}>{g.message}</div>
+            {g.suggested_action && (
+              <div style={{ marginTop: '4px', opacity: 0.65 }}>
+                Hint: {g.suggested_action}
+              </div>
+            )}
           </div>
         ))}
       </div>
