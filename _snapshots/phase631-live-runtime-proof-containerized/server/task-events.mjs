@@ -1,0 +1,178 @@
+import { assertNotEnforced } from "./policy/enforce.mjs";
+/**
+ * Legacy task_events schema in your docker DB:
+ *   task_events(id bigint, kind text, payload text, created_at text)
+ *
+ * So we store payload as JSON string into the text column.
+ *
+ * SINGLE AUTHORITATIVE TASK EVENT WRITER — Phase 25 contract enforced.
+ */
+
+const __PHASE25_LIFECYCLE_KINDS = new Set([
+  "task.created",
+  "task.queued",
+  "task.started",
+  "task.progress",
+  "task.completed",
+  "task.failed",
+  "task.canceled",
+]);
+
+const __PHASE25_TERMINAL_KINDS = new Set([
+  "task.completed",
+  "task.failed",
+  "task.canceled",
+]);
+
+function __phase25_taskIdFromObj(obj) {
+  return obj?.task_id ?? obj?.taskId ?? obj?.task?.id ?? null;
+}
+export async function appendTaskEvent(pool, kind, task_id, payload, opts = undefined) {
+  // Phase50: DB write-path enforcement (task_events)
+  assertNotEnforced("task_events.append");
+
+  pool = pool || globalThis.__DB_POOL;
+  if (!pool) throw new Error("appendTaskEvent: missing pool");
+  // Phase25 contract: server is the single authoritative writer of task_events.
+  // IMPORTANT: callers historically pass (pool, kind, payloadObj). We keep that shape.
+  // - If `task_id` is actually the payload (object/string) we treat it as payload and infer task_id.
+  // - pool may be omitted; we fall back to globalThis.__DB_POOL.
+
+  const o = (opts && typeof opts === "object") ? opts : {};
+  const now = Date.now();
+
+  // Back-compat: appendTaskEvent(pool, kind, payloadObj)
+  let payloadIn = payload;
+  let taskIdIn = task_id;
+
+  
+
+  // Back-compat: appendTaskEvent(pool, kind, payloadObj, optsObj)
+  // If caller passes 3rd arg as payload and 4th arg as opts, detect + normalize.
+  if (
+    opts === undefined &&
+    payloadIn !== undefined &&
+    payloadIn !== null &&
+    typeof payloadIn === "object" &&
+    (("actor" in payloadIn) || ("run_id" in payloadIn) || ("runId" in payloadIn) || ("ts" in payloadIn)) &&
+    taskIdIn !== undefined &&
+    taskIdIn !== null &&
+    typeof taskIdIn === "object"
+  ) {
+    opts = payloadIn;      // 4th arg was actually opts
+    payloadIn = taskIdIn;  // 3rd arg was actually payload
+    taskIdIn = null;
+  }
+if (payload === undefined && task_id !== undefined && task_id !== null) {
+    // called as (pool, kind, payload)
+    payloadIn = task_id;
+    taskIdIn = null;
+  }
+
+  // pool resolution
+  if (!pool || typeof pool.query !== "function") {
+    throw new Error("phase25: appendTaskEvent missing pool");
+  }
+
+  const actor =
+    (o.actor && String(o.actor)) ||
+    process.env.PHASE26_WORKER_ACTOR ||
+    process.env.WORKER_OWNER ||
+    "server";
+
+  const run_id = (o.run_id === undefined) ? null : o.run_id;
+  
+
+  // DB constraint: run_id required for non-created events.
+  // Try to infer from payload if missing.
+  let __run_id = run_id;
+  // Prefer normalized opts (after call-shape shim) if present.
+  if (__run_id == null && opts && typeof opts === "object") {
+    __run_id = opts.run_id ?? opts.runId ?? null;
+  }
+  // Fallback: infer from payload if caller embedded it there.
+  if (__run_id == null && payloadIn && typeof payloadIn === "object") {
+    __run_id = payloadIn.run_id ?? payloadIn.runId ?? null;
+  }
+  const __k_for_runid = String(kind || "");
+  if (__k_for_runid !== "task.created" && __run_id == null) {
+    throw new Error(`appendTaskEvent: run_id is required for kind=${__k_for_runid}`);
+  }
+const ts = Number.isFinite(o.ts) ? Number(o.ts) : now;
+
+  // Normalize kind + task_id
+  const k = String(kind || "");
+
+  function __phase25_taskIdFromObj(obj) {
+    return obj?.task_id ?? obj?.taskId ?? obj?.task?.id ?? null;
+  }
+
+  const inferredTaskId =
+    (taskIdIn == null ? __phase25_taskIdFromObj(payloadIn) : taskIdIn);
+
+  // payload text + jsonb (best-effort parse)
+  let payloadText = "";
+  let payloadJson = null;
+
+  try {
+    if (payloadIn === null || payloadIn === undefined) payloadText = "";
+    else if (typeof payloadIn === "string") payloadText = payloadIn;
+    else payloadText = JSON.stringify(payloadIn);
+  } catch {
+    payloadText = String(payloadIn);
+  }
+
+  if (o.payload_json !== undefined) {
+    payloadJson = o.payload_json;
+  } else if (payloadIn && typeof payloadIn === "object") {
+    payloadJson = payloadIn;
+  } else if (typeof payloadText === "string" && payloadText.length) {
+    try { payloadJson = JSON.parse(payloadText); } catch { payloadJson = null; }
+  }
+  if (payloadJson === undefined) payloadJson = null;
+
+  
+
+    // Ensure payload is JSONB-safe when task_events.payload is jsonb.
+    if (payloadJson === null && typeof payloadText === "string" && payloadText.length) {
+      payloadJson = { text: payloadText };
+    }
+// Phase 25: Exact-dupe idempotency — if exact (kind,payload) already exists, do nothing.
+  try {
+    const dup = await pool.query(
+        "select 1 as ok from task_events where kind=$1::text and payload=$2::jsonb limit 1",
+        [k, payloadJson]
+      );
+    if (dup && (dup.rowCount || dup.rows?.length)) return;
+  } catch (_) {
+    // If dedupe query fails, continue (do not block writes).
+  }
+
+  // Phase 25: Terminal lockout — reject non-terminal lifecycle events after terminal.
+  const __PHASE25_LIFECYCLE_KINDS = new Set([
+    "task.created","task.queued","task.started","task.progress","task.completed","task.failed","task.canceled",
+  ]);
+  const __PHASE25_TERMINAL_KINDS = new Set(["task.completed","task.failed","task.canceled"]);
+
+  if (__PHASE25_LIFECYCLE_KINDS.has(k) && inferredTaskId && !__PHASE25_TERMINAL_KINDS.has(k)) {
+    try {
+      const like = `%\\\"task_id\\\":\\\"${String(inferredTaskId)}\\\"%`;
+      const term = await pool.query(
+        "select kind from task_events where kind = any($1::text[]) and payload like $2 order by id desc limit 1",
+        [Array.from(__PHASE25_TERMINAL_KINDS), like]
+      );
+      const tk = term?.rows?.[0]?.kind;
+      if (tk) throw new Error(`phase25: reject post-terminal event kind=${k} after=${tk}`);
+    } catch (e) {
+      if (String(e?.message || "").startsWith("phase25:")) throw e;
+    }
+  }
+
+  await pool.query(
+      "insert into task_events(kind, task_id, run_id, actor, ts, payload) values ($1::text, $2::text, $3::text, $4::text, $5::bigint, $6::jsonb)",
+      [k, (inferredTaskId == null ? null : String(inferredTaskId)), __run_id, actor, ts, payloadJson]
+    );
+}
+
+
+

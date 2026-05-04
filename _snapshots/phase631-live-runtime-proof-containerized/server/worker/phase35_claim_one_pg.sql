@@ -1,0 +1,32 @@
+-- Phase 35 claim-one (pg positional)
+-- Inputs:
+--   $1 run_id (text)        -- unused by SQL, preserved for contract parity/logging
+--   $2 owner (text)
+--   $3 lease_ms (bigint)
+WITH params AS (
+  SELECT $1::text AS run_id
+),
+c AS (
+  SELECT id
+  FROM tasks
+  WHERE status IN ('created','queued')
+  ORDER BY id
+  FOR UPDATE SKIP LOCKED
+  LIMIT 1
+)
+UPDATE tasks t
+SET status = 'running',
+    claimed_by = $2,
+    claimed_at = (extract(epoch from now())*1000)::bigint,
+    lease_expires_at = ((extract(epoch from now())*1000)::bigint + $3::bigint),
+    lease_epoch = COALESCE(t.lease_epoch, 0) + 1
+FROM c
+WHERE t.id = c.id
+RETURNING
+  t.id,
+  t.task_id,
+  t.run_id,
+  t.claimed_by,
+  t.lease_epoch,
+  t.attempts,
+  t.max_attempts;
