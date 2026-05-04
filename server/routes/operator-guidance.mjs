@@ -37,17 +37,30 @@ async function buildGuidance(pool) {
   const failures = tasks.filter((task) => task.status === "failed" || task.status === "error");
   const retries = tasks.filter((task) => Number(task.attempts || 0) > 0);
 
-  const engineResult = generateGuidance({
-    tasks,
-    failures,
-    retries,
-  });
+  const subsystems = tasks.map((task) => ({
+    id: task.task_id,
+    name: task.title || task.kind || task.task_id,
+    status: task.status,
+    severity:
+      task.status === "failed" || task.status === "error"
+        ? "critical"
+        : task.status === "queued"
+          ? "warning"
+          : "info",
+    updated_at: task.updated_at,
+    attempts: task.attempts,
+    max_attempts: task.max_attempts,
+  }));
+
+  const engineResult = generateGuidance(subsystems);
 
   const guidance = Array.isArray(engineResult?.guidance)
     ? engineResult.guidance
     : Array.isArray(engineResult?.items)
       ? engineResult.items
-      : [];
+      : Array.isArray(engineResult)
+        ? engineResult
+        : [];
 
   return {
     ok: true,
@@ -59,6 +72,7 @@ async function buildGuidance(pool) {
       task_count: tasks.length,
       failure_count: failures.length,
       retry_count: retries.length,
+      subsystem_count: subsystems.length,
       ...(engineResult?.meta || {}),
     },
   };
