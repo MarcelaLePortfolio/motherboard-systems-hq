@@ -13,6 +13,7 @@ type GuidanceResponse = {
   guidance_available: boolean;
   guidance: any[];
   subsystems?: Subsystem[];
+  timestamp?: string;
 };
 
 export default function GuidancePanel() {
@@ -70,9 +71,12 @@ export default function GuidancePanel() {
   if (loading) return <div>Loading guidance...</div>;
   if (!data) return <div>No guidance data</div>;
 
+  const ageMs = data.timestamp ? Date.now() - new Date(data.timestamp).getTime() : null;
+  const isStale = ageMs !== null && ageMs > 10000;
+
   return (
     <div style={{ padding: '12px', border: '1px solid #444', borderRadius: '8px' }}>
-      <h3>Operator Guidance</h3>
+      <h3>Operator Guidance {isStale ? '(STALE)' : '(LIVE)'}</h3>
 
       <div style={{ marginBottom: '12px' }}>
         <strong>Subsystem Context:</strong>
@@ -91,6 +95,12 @@ export default function GuidancePanel() {
           <div>No active guidance</div>
         )}
       </div>
+
+      {data.timestamp && (
+        <div style={{ marginTop: '8px', fontSize: '12px', opacity: 0.7 }}>
+          Updated: {data.timestamp}
+        </div>
+      )}
     </div>
   );
 }
