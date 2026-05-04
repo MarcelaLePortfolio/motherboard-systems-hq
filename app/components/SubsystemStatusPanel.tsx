@@ -13,22 +13,51 @@ export default function SubsystemStatusPanel() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchStatus = async () => {
+    let es: EventSource | null = null;
+
+    const connectSSE = () => {
       try {
-        const res = await fetch('/api/subsystem-status');
-        const data = await res.json();
-        setSubsystems(data.subsystems || []);
-      } catch (err) {
-        console.error('Failed to fetch subsystem status');
-      } finally {
-        setLoading(false);
+        es = new EventSource('/events/subsystem-status');
+
+        es.onmessage = (event) => {
+          const data = JSON.parse(event.data);
+          setSubsystems(data.subsystems || []);
+          setLoading(false);
+        };
+
+        es.onerror = () => {
+          console.warn('SSE failed, falling back to polling...');
+          es?.close();
+          fallbackPolling();
+        };
+      } catch {
+        fallbackPolling();
       }
     };
 
-    fetchStatus();
-    const interval = setInterval(fetchStatus, 5000);
+    const fallbackPolling = () => {
+      const fetchStatus = async () => {
+        try {
+          const res = await fetch('/api/subsystem-status');
+          const data = await res.json();
+          setSubsystems(data.subsystems || []);
+        } catch (err) {
+          console.error('Polling failed');
+        } finally {
+          setLoading(false);
+        }
+      };
 
-    return () => clearInterval(interval);
+      fetchStatus();
+      const interval = setInterval(fetchStatus, 5000);
+      return () => clearInterval(interval);
+    };
+
+    connectSSE();
+
+    return () => {
+      es?.close();
+    };
   }, []);
 
   if (loading) {
