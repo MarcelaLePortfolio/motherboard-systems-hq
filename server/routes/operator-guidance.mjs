@@ -72,12 +72,16 @@ export default function operatorGuidanceRouter({ pool }) {
       recordGuidanceHistory(payload);
       res.json(payload);
     } catch (error) {
+      console.error("[phase663-guidance-error]", error?.message || error);
+
       const payload = {
         ok: false,
         guidance_available: false,
         guidance: [],
         error: "guidance_unavailable",
+        detail: error?.message || "unknown_error",
       };
+
       recordGuidanceHistory(payload);
       res.status(500).json(payload);
     }
@@ -115,12 +119,16 @@ export default function operatorGuidanceRouter({ pool }) {
         recordGuidanceHistory(payload);
         send("operator-guidance", payload);
       } catch (error) {
+        console.error("[phase663-guidance-sse-error]", error?.message || error);
+
         const payload = {
           ok: false,
           guidance_available: false,
           guidance: [],
           error: "guidance_unavailable",
+          detail: error?.message || "unknown_error",
         };
+
         recordGuidanceHistory(payload);
         send("operator-guidance", payload);
       }
