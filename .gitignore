@@ -27,3 +27,4 @@ db/*.sqlite-shm
 
 backups/*.sql
 data/
+snapshot_*.tar.gz
