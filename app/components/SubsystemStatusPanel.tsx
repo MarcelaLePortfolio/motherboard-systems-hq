@@ -16,6 +16,7 @@ type Snapshot = {
 export default function SubsystemStatusPanel() {
   const [data, setData] = useState<Snapshot | null>(null);
   const [loading, setLoading] = useState(true);
+  const [wasLive, setWasLive] = useState(true);
 
   useEffect(() => {
     let es: EventSource | null = null;
@@ -71,9 +72,23 @@ export default function SubsystemStatusPanel() {
   const ageMs = data.timestamp ? Date.now() - new Date(data.timestamp).getTime() : null;
   const isStale = ageMs !== null && ageMs > 10000;
 
+  if (!isStale && !wasLive) setWasLive(true);
+  if (isStale && wasLive) setWasLive(false);
+
+  const severity = isStale ? 'WARNING' : 'NORMAL';
+
   return (
-    <div style={{ padding: '12px', border: '1px solid #333', borderRadius: '8px' }}>
-      <h3>Subsystem Status {isStale ? '(STALE)' : '(LIVE)'}</h3>
+    <div
+      style={{
+        padding: '12px',
+        border: isStale ? '2px solid #ff5555' : '1px solid #333',
+        borderRadius: '8px',
+        background: isStale ? '#2a0000' : 'transparent'
+      }}
+    >
+      <h3>
+        Subsystem Status {isStale ? '(STALE)' : '(LIVE)'} — {severity}
+      </h3>
 
       {data.subsystems.map((s) => (
         <div key={s.name} style={{ marginBottom: '8px' }}>
