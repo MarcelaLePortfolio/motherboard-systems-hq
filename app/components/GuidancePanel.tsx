@@ -15,23 +15,63 @@ export default function GuidancePanel() {
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
+  const fetchGuidance = async () => {
+    try {
+      const res = await fetch('/api/guidance');
+      const json = await res.json();
+      setData(json);
+    } catch {
+      console.error('Guidance fetch failed');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const retryTask = async (taskId: string) => {
+    const confirmed = window.confirm(`Retry task ${taskId}?`);
+    if (!confirmed) return;
+
+    const retryId = `retry_${taskId}_${Date.now()}`;
+
+    try {
+      await fetch('/api/tasks/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          task_id: retryId,
+          title: `Retry ${taskId}`,
+          status: 'queued',
+          kind: 'retry',
+          payload: {
+            retry_of_task_id: taskId,
+            execution_mode: 'rebuild_context',
+            cache_policy: 'bypass',
+            memory_scope: 'reset_partial',
+            strategy: 'fresh-context'
+          },
+          source: 'operator-guidance-ui'
+        })
+      });
+
+      await fetchGuidance();
+    } catch {
+      console.error('Retry task creation failed');
+    }
+  };
+
+  const copyAction = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch {
+      console.error('Copy action failed');
+    }
+  };
+
   useEffect(() => {
     let es: EventSource | null = null;
     let pollingInterval: ReturnType<typeof setInterval> | null = null;
 
     const fallbackPolling = () => {
-      const fetchGuidance = async () => {
-        try {
-          const res = await fetch('/api/guidance');
-          const json = await res.json();
-          setData(json);
-        } catch {
-          console.error('Polling failed');
-        } finally {
-          setLoading(false);
-        }
-      };
-
       fetchGuidance();
       pollingInterval = setInterval(fetchGuidance, 5000);
     };
@@ -111,6 +151,14 @@ export default function GuidancePanel() {
     };
   };
 
+  const buttonStyle = {
+    fontSize: '11px',
+    padding: '4px 8px',
+    borderRadius: '6px',
+    border: '1px solid rgba(255,255,255,0.2)',
+    cursor: 'pointer'
+  };
+
   const grouped = groupBySeverity(data.guidance || []);
   const total = data.guidance?.length || 0;
 
@@ -179,6 +227,30 @@ export default function GuidancePanel() {
                   Action: {g.suggested_action}
                 </div>
               )}
+
+              <div style={{ marginTop: '8px', display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+                <button onClick={fetchGuidance} style={buttonStyle}>
+                  Refresh
+                </button>
+
+                {g.suggested_action && (
+                  <button onClick={() => copyAction(g.suggested_action)} style={buttonStyle}>
+                    Copy Action
+                  </button>
+                )}
+
+                {g.task_id && (
+                  <button
+                    onClick={() => retryTask(g.task_id)}
+                    style={{
+                      ...buttonStyle,
+                      border: '1px solid rgba(255, 85, 85, 0.45)'
+                    }}
+                  >
+                    Retry Task
+                  </button>
+                )}
+              </div>
             </div>
           );
         })}
