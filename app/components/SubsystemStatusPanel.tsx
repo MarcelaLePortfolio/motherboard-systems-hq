@@ -65,8 +65,8 @@ export default function SubsystemStatusPanel() {
     };
   }, []);
 
-  if (loading) return <div>Loading subsystem status...</div>;
-  if (!data) return <div>No subsystem data</div>;
+  if (loading) return <div style={{ padding: '12px' }}>Loading subsystem status...</div>;
+  if (!data) return <div style={{ padding: '12px' }}>No subsystem data</div>;
 
   const ageMs = data.timestamp ? Date.now() - new Date(data.timestamp).getTime() : null;
   const isStale = ageMs !== null && ageMs > 10000;
@@ -75,24 +75,28 @@ export default function SubsystemStatusPanel() {
   return (
     <div
       style={{
-        padding: '12px',
+        padding: '16px',
         border: isStale ? '2px solid #ff5555' : '1px solid #333',
-        borderRadius: '8px',
-        background: isStale ? '#2a0000' : 'transparent'
+        borderRadius: '10px',
+        background: isStale ? '#2a0000' : '#111',
+        color: '#eee'
       }}
     >
-      <h3>
-        Subsystem Status {isStale ? '(STALE)' : '(LIVE)'} — {severity}
+      <h3 style={{ marginBottom: '10px', fontSize: '16px' }}>
+        Subsystem Status <span style={{ opacity: 0.7 }}>({isStale ? 'STALE' : 'LIVE'} • {severity})</span>
       </h3>
 
-      {data.subsystems.map((s) => (
-        <div key={s.name} style={{ marginBottom: '8px' }}>
-          <strong>{s.name}</strong>: {s.status} {s.connected ? '[ONLINE]' : '[OFFLINE]'}
-        </div>
-      ))}
+      <div style={{ marginBottom: '10px' }}>
+        {data.subsystems.map((s) => (
+          <div key={s.name} style={{ marginBottom: '6px' }}>
+            <strong>{s.name}</strong>: {s.status}{' '}
+            <span style={{ opacity: 0.7 }}>{s.connected ? '[ONLINE]' : '[OFFLINE]'}</span>
+          </div>
+        ))}
+      </div>
 
       {data.timestamp && (
-        <div style={{ marginTop: '8px', fontSize: '12px', opacity: 0.7 }}>
+        <div style={{ fontSize: '12px', opacity: 0.5 }}>
           Updated: {data.timestamp}
         </div>
       )}
