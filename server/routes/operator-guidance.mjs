@@ -78,6 +78,7 @@ async function buildGuidance(pool) {
   };
 }
 
+
 export default function operatorGuidanceRouter({ pool }) {
   router.get("/api/guidance", async (_req, res) => {
     try {
