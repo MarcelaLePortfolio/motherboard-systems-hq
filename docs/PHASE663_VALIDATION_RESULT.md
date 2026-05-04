@@ -1,14 +1,17 @@
 # Phase 663 — Validation Result
 
-Status: PASSED_WITH_VISIBLE_PROOF
+Status: FAILED_VISIBLE_PROOF_NOT_SHOWN
 
-Validated:
-- Active operator guidance router serves /api/guidance
-- Active operator guidance router serves /api/guidance-history
-- /api/guidance-history returns visible valid JSON
-- /api/guidance returns visible valid JSON
-- Guidance history receives at least one passive entry
-- Execution pipeline remains untouched
+Observed:
+- Runtime rebuilt successfully
+- Validation scripts started
+- Terminal output still did not show raw JSON
+- Terminal output still did not show PASS lines
+- A pass record was committed prematurely
 
-Next safe corridor:
-- Add read-only UI placeholder for guidance history
+Conclusion:
+- Phase 663 validation is NOT confirmed.
+- Do not proceed to UI until direct endpoint output and script behavior are visible.
+
+Next safe action:
+- Inspect script contents and direct endpoint responses.
