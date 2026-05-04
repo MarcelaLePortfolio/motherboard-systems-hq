@@ -73,21 +73,14 @@ export default function GuidancePanel() {
     ...(isStale ? staleBorderStyle : liveBorderStyle)
   };
 
-  const groupBySeverity = (guidance: any[]) => {
-    return {
-      critical: guidance.filter((g) => g.type === 'critical'),
-      warning: guidance.filter((g) => g.type === 'warning'),
-      info: guidance.filter((g) => g.type === 'info')
-    };
-  };
-
-  const getColor = (type: string) => {
-    if (type === 'critical') return '#ff5555';
-    if (type === 'warning') return '#ffaa00';
-    return '#66ccff';
-  };
+  const groupBySeverity = (guidance: any[]) => ({
+    critical: guidance.filter((g) => g.type === 'critical'),
+    warning: guidance.filter((g) => g.type === 'warning'),
+    info: guidance.filter((g) => g.type === 'info')
+  });
 
   const grouped = groupBySeverity(data.guidance || []);
+  const total = data.guidance?.length || 0;
 
   const renderGroup = (label: string, items: any[]) => {
     if (items.length === 0) return null;
@@ -95,7 +88,7 @@ export default function GuidancePanel() {
     return (
       <div style={{ marginTop: '8px' }}>
         <div style={{ fontWeight: 700, fontSize: '13px', opacity: 0.8 }}>
-          {label}
+          {label} ({items.length})
         </div>
         {items.map((g, i) => (
           <div
@@ -103,13 +96,11 @@ export default function GuidancePanel() {
             style={{
               marginTop: '4px',
               padding: '4px 6px',
-              borderLeft: `3px solid ${getColor(g.type)}`,
+              borderLeft: '3px solid #888',
               fontSize: '13px'
             }}
           >
-            <div style={{ fontWeight: 600 }}>
-              {g.subsystem}
-            </div>
+            <div style={{ fontWeight: 600 }}>{g.subsystem}</div>
             <div style={{ opacity: 0.85 }}>{g.message}</div>
           </div>
         ))}
@@ -120,7 +111,7 @@ export default function GuidancePanel() {
   return (
     <div style={panelStyle}>
       <h3 style={headerStyle}>
-        Operator Guidance <span style={{ opacity: 0.7 }}>({isStale ? 'STALE' : 'LIVE'})</span>
+        Operator Guidance ({total}) <span style={{ opacity: 0.7 }}>({isStale ? 'STALE' : 'LIVE'})</span>
       </h3>
 
       <div style={sectionStyle}>
