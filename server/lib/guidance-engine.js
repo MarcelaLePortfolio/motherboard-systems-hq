@@ -1,13 +1,14 @@
 /**
- * PHASE 656 — ATLAS STATUS CLARITY (WORDING ONLY)
+ * PHASE 657 — GUIDANCE ACTION HINTS (READ-ONLY)
  */
 
-function createGuidance({ type, severity, message, subsystem }) {
+function createGuidance({ type, severity, message, subsystem, suggested_action }) {
   return {
     type,
     severity,
     message,
     subsystem,
+    suggested_action: suggested_action || null,
     generated_at: new Date().toISOString()
   };
 }
@@ -23,8 +24,9 @@ export function generateGuidance(subsystems) {
       createGuidance({
         type: 'info',
         severity: 1,
-        message: 'Atlas is not running (optional subsystem). Start it only if Atlas features are needed.',
-        subsystem: 'atlas'
+        message: 'Atlas is not running (optional subsystem).',
+        subsystem: 'atlas',
+        suggested_action: 'Start the Atlas container if Atlas-specific observability is needed.'
       })
     );
   }
@@ -34,8 +36,9 @@ export function generateGuidance(subsystems) {
       createGuidance({
         type: 'critical',
         severity: 3,
-        message: 'Execution subsystem is not verified. Pause execution-facing changes until runtime integrity is confirmed.',
-        subsystem: 'execution'
+        message: 'Execution subsystem is not verified.',
+        subsystem: 'execution',
+        suggested_action: 'Pause execution-facing changes until runtime integrity is confirmed.'
       })
     );
   }
