@@ -26,7 +26,6 @@ async function buildGuidance(pool) {
       updated_at,
       attempts,
       max_attempts,
-      retry_of_task_id,
       title,
       kind
     FROM tasks
@@ -36,7 +35,7 @@ async function buildGuidance(pool) {
 
   const tasks = result.rows || [];
   const failures = tasks.filter((task) => task.status === "failed" || task.status === "error");
-  const retries = tasks.filter((task) => task.retry_of_task_id || Number(task.attempts || 0) > 0);
+  const retries = tasks.filter((task) => Number(task.attempts || 0) > 0);
 
   const engineResult = generateGuidance({
     tasks,
