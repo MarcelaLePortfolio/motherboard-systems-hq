@@ -1,0 +1,8 @@
+161:    #operator-guidance-panel,
+316:                    <div id="operator-guidance-panel" class="mt-3 rounded-xl border border-gray-700 bg-gray-900/70 p-4">
+318:                      <div id="operator-guidance-response" class="text-sm text-gray-300 leading-6">
+322:                      <div id="operator-guidance-meta" class="mt-3 text-xs text-gray-500 leading-5">
+593:  <script defer src="js/operatorGuidance.sse.js"></script>
+1032:    const response = document.getElementById("operator-guidance-response");
+1033:    const meta = document.getElementById("operator-guidance-meta");
+1333:  #operator-guidance-panel,

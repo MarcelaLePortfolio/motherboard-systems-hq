@@ -1,0 +1,11 @@
+5:  const RESPONSE_EL = document.getElementById("operator-guidance-response");
+6:  const META_EL = document.getElementById("operator-guidance-meta");
+34:    const guidanceItems = Array.isArray(envelope?.guidance) ? envelope.guidance : [];
+36:    const guidanceLines = guidanceItems
+49:      guidanceLines.join("\n\n"),
+51:      "No guidance available"
+80:    guidanceItems.forEach((item) => {
+113:    es.addEventListener("operator_guidance", handleEvent);
+114:    es.addEventListener("operator-guidance", handleEvent);
+115:    es.addEventListener("guidance", handleEvent);
+124:    eventSource = new EventSource("/events/operator-guidance");
