@@ -12,7 +12,7 @@ type GuidanceResponse = {
   ok: boolean;
   guidance_available: boolean;
   guidance: any[];
-  subsystems: Subsystem[];
+  subsystems?: Subsystem[];
 };
 
 export default function GuidancePanel() {
@@ -20,22 +20,51 @@ export default function GuidancePanel() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchGuidance = async () => {
+    let es: EventSource | null = null;
+
+    const connectSSE = () => {
       try {
-        const res = await fetch('/api/guidance');
-        const json = await res.json();
-        setData(json);
-      } catch (err) {
-        console.error('Failed to fetch guidance');
-      } finally {
-        setLoading(false);
+        es = new EventSource('/events/guidance');
+
+        es.onmessage = (event) => {
+          const parsed = JSON.parse(event.data);
+          setData(parsed);
+          setLoading(false);
+        };
+
+        es.onerror = () => {
+          console.warn('Guidance SSE failed, falling back to polling');
+          es?.close();
+          fallbackPolling();
+        };
+      } catch {
+        fallbackPolling();
       }
     };
 
-    fetchGuidance();
-    const interval = setInterval(fetchGuidance, 5000);
+    const fallbackPolling = () => {
+      const fetchGuidance = async () => {
+        try {
+          const res = await fetch('/api/guidance');
+          const json = await res.json();
+          setData(json);
+        } catch (err) {
+          console.error('Polling failed');
+        } finally {
+          setLoading(false);
+        }
+      };
 
-    return () => clearInterval(interval);
+      fetchGuidance();
+      const interval = setInterval(fetchGuidance, 5000);
+      return () => clearInterval(interval);
+    };
+
+    connectSSE();
+
+    return () => {
+      es?.close();
+    };
   }, []);
 
   if (loading) return <div>Loading guidance...</div>;
