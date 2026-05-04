@@ -1,16 +1,14 @@
 # Phase 664 — Guidance History UI Placeholder Validation
 
-Status: PENDING_VISIBLE_PROOF
+Status: PASSED_WITH_VISIBLE_PROOF
 
-Observed:
-- Dashboard rebuild completed
-- Validation record was committed
-- Terminal output did not show visible JSON responses
-- Terminal output did not show grep matches for served HTML/JS
+Validated:
+- /api/guidance returns visible JSON
+- /api/guidance-history returns visible JSON with history entries
+- Served dashboard HTML contains Guidance History placeholder
+- Served JS includes refreshGuidanceHistory and polling logic
+- Dashboard runtime remains stable
+- Execution pipeline remains untouched
 
-Conclusion:
-- Phase 664 validation is not yet confirmed.
-- Do not tag Phase 664 until visible endpoint and served UI proof is printed.
-
-Next safe action:
-- Print direct endpoint JSON and served UI grep matches.
+Next safe corridor:
+- Optional: enhance UI formatting (timestamps, preview lines) without adding mutations
