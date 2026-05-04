@@ -22,10 +22,7 @@ async function buildGuidance(pool) {
     SELECT
       task_id,
       status,
-      agent,
-      title,
-      updated_at,
-      error_message
+      updated_at
     FROM tasks
     ORDER BY updated_at DESC
     LIMIT 25
@@ -37,7 +34,6 @@ async function buildGuidance(pool) {
         return {
           severity: "critical",
           task_id: row.task_id,
-          title: row.title,
           message: "Task failed and may require operator review.",
           suggested_action: "Inspect task failure and retry only if the cause is understood.",
           updated_at: row.updated_at,
@@ -48,7 +44,6 @@ async function buildGuidance(pool) {
         return {
           severity: "warning",
           task_id: row.task_id,
-          title: row.title,
           message: "Task is queued and waiting for worker pickup.",
           suggested_action: "Confirm worker heartbeat if queue does not drain.",
           updated_at: row.updated_at,
