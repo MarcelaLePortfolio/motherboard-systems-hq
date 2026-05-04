@@ -65,13 +65,52 @@ async function buildGuidance(pool) {
 
   const engineResult = generateGuidance(subsystems);
 
-  const guidance = Array.isArray(engineResult?.guidance)
+  const rawGuidance = Array.isArray(engineResult?.guidance)
     ? engineResult.guidance
     : Array.isArray(engineResult?.items)
       ? engineResult.items
       : Array.isArray(engineResult)
         ? engineResult
         : [];
+
+  const failedTaskIds = failures.map((task) => task.task_id).filter(Boolean);
+  const retryTaskIds = retries.map((task) => task.task_id).filter(Boolean);
+  const queuedTaskIds = tasks
+    .filter((task) => task.status === "queued")
+    .map((task) => task.task_id)
+    .filter(Boolean);
+
+  const guidance = rawGuidance.map((item) => {
+    if (item.subsystem === "execution") {
+      return {
+        ...item,
+        task_id: failedTaskIds[0] || null,
+        related_task_ids: failedTaskIds,
+        failure_count: failures.length,
+      };
+    }
+
+    if (item.subsystem === "task-retries") {
+      return {
+        ...item,
+        task_id: retryTaskIds[0] || null,
+        source_task_id: failures[0]?.task_id || null,
+        related_task_ids: retryTaskIds,
+        retry_count: retries.length,
+      };
+    }
+
+    if (item.subsystem === "task-queue") {
+      return {
+        ...item,
+        task_id: queuedTaskIds[0] || null,
+        related_task_ids: queuedTaskIds,
+        queued_count: queuedTaskIds.length,
+      };
+    }
+
+    return item;
+  });
 
   return {
     ok: true,
