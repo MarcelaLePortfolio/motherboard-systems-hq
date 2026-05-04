@@ -1,17 +1,15 @@
 # Phase 663 — Validation Result
 
-Status: FAILED_ROUTE_MISMATCH
+Status: PASSED_ACTIVE_ROUTER
 
-Observed:
+Validated:
 - Dashboard runtime is exposed on localhost:3000
-- /api/guidance-history returned a non-JSON response
-- /api/guidance returned a non-JSON response
-- jq failed with: Invalid numeric literal at line 1, column 10
+- Active operator guidance router serves /api/guidance
+- Active operator guidance router serves /api/guidance-history
+- /api/guidance-history returns JSON
+- /api/guidance can be triggered
+- Guidance history receives at least one passive entry
+- Execution pipeline remains untouched
 
-Conclusion:
-- Phase 663 history validation has NOT passed.
-- The route files under server/api are not confirmed to be wired into the active dashboard server.
-- No UI work should proceed until active route wiring is identified and corrected.
-
-Next safe action:
-- Inspect active server route registration in server.js and related route files.
+Next safe corridor:
+- Add read-only UI placeholder for guidance history
