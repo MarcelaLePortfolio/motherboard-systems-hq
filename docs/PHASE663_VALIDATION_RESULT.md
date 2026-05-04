@@ -1,17 +1,18 @@
 # Phase 663 — Validation Result
 
-Status: FAILED_VISIBLE_PROOF_NOT_SHOWN
+Status: FAILED_RUNTIME_CONNECTION_RESET
 
 Observed:
 - Runtime rebuilt successfully
-- Validation scripts started
-- Terminal output still did not show raw JSON
-- Terminal output still did not show PASS lines
-- A pass record was committed prematurely
+- Dashboard container started
+- /api/guidance returned connection reset
+- /api/guidance-history returned connection reset
+- Validation scripts could not complete
 
 Conclusion:
-- Phase 663 validation is NOT confirmed.
-- Do not proceed to UI until direct endpoint output and script behavior are visible.
+- Phase 663 validation is blocked by a dashboard runtime failure.
+- No UI work should proceed.
+- Next action must inspect dashboard logs before another patch.
 
 Next safe action:
-- Inspect script contents and direct endpoint responses.
+- Inspect dashboard logs and container status.
