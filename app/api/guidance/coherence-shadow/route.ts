@@ -1,38 +1,50 @@
 import { NextResponse } from 'next/server';
 import deriveCoherentGuidance from '../../../../server/guidance/coherence-adapter.mjs';
 
-// Phase 675 — Shadow Integration Route (NON-DESTRUCTIVE)
-// This does NOT modify existing /api/guidance behavior.
-// It mirrors output + adds coherence layer side-by-side.
+// Phase 675 — Shadow Integration Route (REAL DATA, NON-DESTRUCTIVE)
+// Mirrors raw guidance + adds coherence output side-by-side.
+// Does NOT modify existing /api/guidance, SSE, UI, or formatting.
+
+async function fetchHistory() {
+  try {
+    const base = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:8080';
+    const res = await fetch(`${base}/api/guidance/history`, { cache: 'no-store' });
+    if (!res.ok) throw new Error(`history fetch failed: ${res.status}`);
+    const data = await res.json();
+    return Array.isArray(data) ? data : data.history || [];
+  } catch {
+    // Fallback sample if history is unavailable
+    return [
+      {
+        timestamp: new Date(Date.now() - 120000).toISOString(),
+        taskId: 'shadow-task',
+        source: 'operator-guidance',
+        type: 'retry-risk',
+        severity: 'warning',
+        summary: 'Shadow duplicate signal',
+      },
+      {
+        timestamp: new Date(Date.now() - 60000).toISOString(),
+        taskId: 'shadow-task',
+        source: 'operator-guidance',
+        type: 'retry-risk',
+        severity: 'warning',
+        summary: 'Shadow duplicate signal',
+      },
+      {
+        timestamp: new Date().toISOString(),
+        taskId: 'shadow-task',
+        source: 'operator-guidance',
+        type: 'retry-risk',
+        severity: 'warning',
+        summary: 'Shadow duplicate signal',
+      },
+    ];
+  }
+}
 
 export async function GET() {
-  const raw = [
-    {
-      timestamp: new Date(Date.now() - 120000).toISOString(),
-      task_id: 'shadow-task',
-      subsystem: 'guidance',
-      signal_type: 'retry-risk',
-      severity: 'warning',
-      message: 'Shadow duplicate signal',
-    },
-    {
-      timestamp: new Date(Date.now() - 60000).toISOString(),
-      task_id: 'shadow-task',
-      subsystem: 'guidance',
-      signal_type: 'retry-risk',
-      severity: 'warning',
-      message: 'Shadow duplicate signal',
-    },
-    {
-      timestamp: new Date().toISOString(),
-      task_id: 'shadow-task',
-      subsystem: 'guidance',
-      signal_type: 'retry-risk',
-      severity: 'warning',
-      message: 'Shadow duplicate signal',
-    },
-  ];
-
+  const raw = await fetchHistory();
   const coherent = deriveCoherentGuidance(raw);
 
   return NextResponse.json({
@@ -44,6 +56,7 @@ export async function GET() {
       ui: false,
       formatting: false,
     },
+    source: 'history-or-fallback',
     raw,
     coherent,
   });
