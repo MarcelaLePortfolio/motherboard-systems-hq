@@ -1,0 +1,18 @@
+PHASE 632 STABLE SNAPSHOT — SCHEMA HARDENING + GUIDANCE ROUTING
+
+Status:
+- Fresh DB bootstrap verified.
+- Postgres init mount verified.
+- tasks table exists on fresh volume.
+- task_events table exists on fresh volume.
+- next_run_at exists on fresh tasks schema.
+- completed_at exists on fresh tasks schema.
+- Worker starts after Postgres healthcheck.
+- Worker heartbeat stable.
+- /api/guidance registered and verified.
+- /events/operator-guidance registered and verified.
+- Operator Guidance UI script confirmed loaded.
+- No execution mutation introduced.
+
+Stable tag target:
+phase632-schema-guidance-stable-containerized
