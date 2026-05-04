@@ -1,4 +1,5 @@
 import express from "express";
+import { generateGuidance } from "../lib/guidance-engine.js";
 
 const router = express.Router();
 const MAX_GUIDANCE_HISTORY = 50;
@@ -22,48 +23,48 @@ async function buildGuidance(pool) {
     SELECT
       task_id,
       status,
-      updated_at
+      updated_at,
+      attempts,
+      max_attempts,
+      retry_of_task_id,
+      title,
+      kind
     FROM tasks
     ORDER BY updated_at DESC
     LIMIT 25
   `);
 
-  const guidance = result.rows
-    .map((row) => {
-      if (row.status === "failed") {
-        return {
-          severity: "critical",
-          task_id: row.task_id,
-          message: "Task failed and may require operator review.",
-          suggested_action: "Inspect task failure and retry only if the cause is understood.",
-          updated_at: row.updated_at,
-        };
-      }
+  const tasks = result.rows || [];
+  const failures = tasks.filter((task) => task.status === "failed" || task.status === "error");
+  const retries = tasks.filter((task) => task.retry_of_task_id || Number(task.attempts || 0) > 0);
 
-      if (row.status === "queued") {
-        return {
-          severity: "warning",
-          task_id: row.task_id,
-          message: "Task is queued and waiting for worker pickup.",
-          suggested_action: "Confirm worker heartbeat if queue does not drain.",
-          updated_at: row.updated_at,
-        };
-      }
+  const engineResult = generateGuidance({
+    tasks,
+    failures,
+    retries,
+  });
 
-      return null;
-    })
-    .filter(Boolean)
-    .sort((a, b) => {
-      const rank = { critical: 0, warning: 1, info: 2 };
-      return (rank[a.severity] ?? 9) - (rank[b.severity] ?? 9);
-    });
+  const guidance = Array.isArray(engineResult?.guidance)
+    ? engineResult.guidance
+    : Array.isArray(engineResult?.items)
+      ? engineResult.items
+      : [];
 
   return {
     ok: true,
     guidance_available: guidance.length > 0,
     guidance,
+    meta: {
+      source: "guidance-engine",
+      generated_at: new Date().toISOString(),
+      task_count: tasks.length,
+      failure_count: failures.length,
+      retry_count: retries.length,
+      ...(engineResult?.meta || {}),
+    },
   };
 }
+
 
 export default function operatorGuidanceRouter({ pool }) {
   router.get("/api/guidance", async (_req, res) => {
