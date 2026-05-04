@@ -17,29 +17,53 @@ export default function GuidancePanel() {
 
   useEffect(() => {
     let es: EventSource | null = null;
+    let pollingInterval: ReturnType<typeof setInterval> | null = null;
 
-    const connectSSE = () => {
-      es = new EventSource('/events/guidance');
-
-      es.onmessage = (event) => {
+    const fallbackPolling = () => {
+      const fetchGuidance = async () => {
         try {
-          const json = JSON.parse(event.data);
+          const res = await fetch('/api/guidance');
+          const json = await res.json();
           setData(json);
-          setLoading(false);
         } catch {
-          console.error('SSE parse failed');
+          console.error('Polling failed');
+        } finally {
+          setLoading(false);
         }
       };
 
-      es.onerror = () => {
-        es?.close();
-      };
+      fetchGuidance();
+      pollingInterval = setInterval(fetchGuidance, 5000);
+    };
+
+    const connectSSE = () => {
+      try {
+        es = new EventSource('/events/guidance');
+
+        es.onmessage = (event) => {
+          try {
+            const json = JSON.parse(event.data);
+            setData(json);
+            setLoading(false);
+          } catch {
+            console.error('SSE parse failed');
+          }
+        };
+
+        es.onerror = () => {
+          es?.close();
+          fallbackPolling();
+        };
+      } catch {
+        fallbackPolling();
+      }
     };
 
     connectSSE();
 
     return () => {
       es?.close();
+      if (pollingInterval) clearInterval(pollingInterval);
     };
   }, []);
 
