@@ -1,37 +1,67 @@
 import express from "express";
 
 const router = express.Router();
+const MAX_GUIDANCE_HISTORY = 50;
+const guidanceHistory = [];
 
-function extractGuidanceFromTaskRow(row) {
-  const payload = row?.payload && typeof row.payload === "object" ? row.payload : {};
-  const outcome = payload.outcome_preview || payload.outcome || row?.outcome_preview || "";
-  const explanation = payload.explanation_preview || payload.explanation || row?.explanation_preview || "";
-  const communicationResult = payload.communicationResult || payload.communication_result || null;
+function recordGuidanceHistory(snapshot) {
+  if (!snapshot) return;
 
-  if (!outcome && !explanation && !communicationResult) return null;
+  guidanceHistory.unshift({
+    timestamp: Date.now(),
+    snapshot,
+  });
 
-  return {
-    task_id: row.task_id,
-    kind: row.kind || "task.completed",
-    outcome_preview: outcome || null,
-    explanation_preview: explanation || null,
-    communicationResult,
-    created_at: row.created_at || null,
-  };
+  if (guidanceHistory.length > MAX_GUIDANCE_HISTORY) {
+    guidanceHistory.length = MAX_GUIDANCE_HISTORY;
+  }
 }
 
-async function loadLatestGuidance(pool) {
+async function buildGuidance(pool) {
   const result = await pool.query(`
-    SELECT task_id, kind, payload, created_at
-    FROM task_events
-    WHERE kind = 'task.completed'
-    ORDER BY id DESC
-    LIMIT 10
+    SELECT
+      task_id,
+      status,
+      agent,
+      title,
+      updated_at,
+      error_message
+    FROM tasks
+    ORDER BY updated_at DESC
+    LIMIT 25
   `);
 
   const guidance = result.rows
-    .map(extractGuidanceFromTaskRow)
-    .filter(Boolean);
+    .map((row) => {
+      if (row.status === "failed") {
+        return {
+          severity: "critical",
+          task_id: row.task_id,
+          title: row.title,
+          message: "Task failed and may require operator review.",
+          suggested_action: "Inspect task failure and retry only if the cause is understood.",
+          updated_at: row.updated_at,
+        };
+      }
+
+      if (row.status === "queued") {
+        return {
+          severity: "warning",
+          task_id: row.task_id,
+          title: row.title,
+          message: "Task is queued and waiting for worker pickup.",
+          suggested_action: "Confirm worker heartbeat if queue does not drain.",
+          updated_at: row.updated_at,
+        };
+      }
+
+      return null;
+    })
+    .filter(Boolean)
+    .sort((a, b) => {
+      const rank = { critical: 0, warning: 1, info: 2 };
+      return (rank[a.severity] ?? 9) - (rank[b.severity] ?? 9);
+    });
 
   return {
     ok: true,
@@ -43,62 +73,70 @@ async function loadLatestGuidance(pool) {
 export default function operatorGuidanceRouter({ pool }) {
   router.get("/api/guidance", async (_req, res) => {
     try {
-      const data = await loadLatestGuidance(pool);
-      res.json(data);
+      const payload = await buildGuidance(pool);
+      recordGuidanceHistory(payload);
+      res.json(payload);
     } catch (error) {
-      res.status(500).json({
+      const payload = {
         ok: false,
         guidance_available: false,
-        error: error?.message || String(error),
-      });
+        guidance: [],
+        error: "guidance_unavailable",
+      };
+      recordGuidanceHistory(payload);
+      res.status(500).json(payload);
     }
   });
 
-  router.get("/events/operator-guidance", async (req, res) => {
-    res.writeHead(200, {
-      "Content-Type": "text/event-stream",
-      "Cache-Control": "no-cache, no-transform",
-      Connection: "keep-alive",
-      "X-Accel-Buffering": "no",
+  router.get("/api/guidance-history", (_req, res) => {
+    res.json({
+      ok: true,
+      history_available: guidanceHistory.length > 0,
+      history: guidanceHistory,
     });
+  });
 
-    const send = (event, data) => {
+  router.get("/events/operator-guidance", async (req, res) => {
+    res.setHeader("Content-Type", "text/event-stream");
+    res.setHeader("Cache-Control", "no-cache");
+    res.setHeader("Connection", "keep-alive");
+
+    const send = (event, payload) => {
       res.write(`event: ${event}\n`);
-      res.write(`data: ${JSON.stringify(data)}\n\n`);
+      res.write(`data: ${JSON.stringify(payload)}\n\n`);
     };
 
     let closed = false;
+
     req.on("close", () => {
       closed = true;
     });
 
-    send("hello", {
-      kind: "operator-guidance",
-      ts: Date.now(),
-    });
-
-    const tick = async () => {
+    const emit = async () => {
       if (closed) return;
+
       try {
-        const data = await loadLatestGuidance(pool);
-        send("operator-guidance", {
-          ...data,
-          ts: Date.now(),
-        });
+        const payload = await buildGuidance(pool);
+        recordGuidanceHistory(payload);
+        send("operator-guidance", payload);
       } catch (error) {
-        send("operator-guidance", {
+        const payload = {
           ok: false,
           guidance_available: false,
-          error: error?.message || String(error),
-          ts: Date.now(),
-        });
+          guidance: [],
+          error: "guidance_unavailable",
+        };
+        recordGuidanceHistory(payload);
+        send("operator-guidance", payload);
       }
     };
 
-    await tick();
-    const interval = setInterval(tick, 5000);
+    await emit();
+    const interval = setInterval(emit, 5000);
 
-    req.on("close", () => clearInterval(interval));
+    req.on("close", () => {
+      clearInterval(interval);
+    });
   });
 
   return router;
