@@ -1,9 +1,9 @@
 /**
- * PHASE 639 — GUIDANCE ↔ SUBSYSTEM INTEGRATION (READ-ONLY)
- * Enriches guidance responses with subsystem state (no execution coupling)
+ * PHASE 650 — GUIDANCE ROUTE WITH INTELLIGENCE (READ-ONLY)
  */
 
 import { execSync } from 'child_process';
+import { generateGuidance } from '../lib/guidance-engine.js';
 
 function detectAtlas() {
   try {
@@ -34,13 +34,14 @@ function getSubsystemSnapshot() {
 export function registerGuidanceRoute(app) {
   app.get('/api/guidance', async (req, res) => {
     try {
-      const guidance = []; // existing guidance logic assumed preserved
+      const subsystems = getSubsystemSnapshot();
+      const guidance = generateGuidance(subsystems);
 
       const response = {
         ok: true,
         guidance_available: guidance.length > 0,
         guidance,
-        subsystems: getSubsystemSnapshot(),
+        subsystems,
         timestamp: new Date().toISOString()
       };
 
