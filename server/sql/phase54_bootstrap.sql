@@ -11,6 +11,14 @@
 -- If tasks is created in another init script, fine. If not, we need it here; if this file doesn't exist in your repo, remove this line.
 \i /migrations/drizzle_pg/0001_create_tasks.sql
 
+-- Phase 632 worker contract compatibility columns.
+-- These are required by the worker claim/success contracts and must exist on fresh DB bootstrap.
+ALTER TABLE public.tasks
+ADD COLUMN IF NOT EXISTS next_run_at TIMESTAMPTZ;
+
+ALTER TABLE public.tasks
+ADD COLUMN IF NOT EXISTS completed_at TIMESTAMPTZ;
+
 -- Lease + heartbeat (required by run_view)
 \i /migrations/drizzle_pg/0007_phase34_lease_heartbeat_reclaim.sql
 \i /migrations/drizzle_pg/0007_phase35_lease_epoch.sql
@@ -36,4 +44,3 @@ END $$;
 -- If the migration file exists in this repo, apply it (psql \i will fail if missing).
 -- So we guard by relying on the file being mounted; if you don't have it, delete the next line.
 \i /migrations/drizzle_pg/0008_phase57_run_snapshot.sql
-
