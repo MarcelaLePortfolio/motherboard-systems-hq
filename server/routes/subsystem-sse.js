@@ -1,6 +1,6 @@
 /**
- * PHASE 636 — SUBSYSTEM SSE STREAM (READ-ONLY)
- * Emits periodic subsystem snapshots without execution coupling
+ * PHASE 638 — SUBSYSTEM SSE STREAM (OBSERVABILITY HARDENING)
+ * Adds structured logging + safe error visibility (read-only)
  */
 
 import { execSync } from 'child_process';
@@ -14,7 +14,8 @@ function detectAtlas() {
       status: isRunning ? 'running' : 'not_detected',
       connected: isRunning
     };
-  } catch {
+  } catch (err) {
+    console.error('[subsystem][atlas][error]', err?.message);
     return {
       name: 'atlas',
       status: 'unknown',
@@ -24,7 +25,7 @@ function detectAtlas() {
 }
 
 function buildSnapshot() {
-  return {
+  const snapshot = {
     ok: true,
     subsystems: [
       detectAtlas(),
@@ -33,6 +34,10 @@ function buildSnapshot() {
     ],
     timestamp: new Date().toISOString()
   };
+
+  console.log('[subsystem][snapshot]', JSON.stringify(snapshot));
+
+  return snapshot;
 }
 
 export function registerSubsystemSSERoute(app) {
@@ -42,8 +47,12 @@ export function registerSubsystemSSERoute(app) {
     res.setHeader('Connection', 'keep-alive');
 
     const send = () => {
-      const snapshot = buildSnapshot();
-      res.write(`data: ${JSON.stringify(snapshot)}\n\n`);
+      try {
+        const snapshot = buildSnapshot();
+        res.write(`data: ${JSON.stringify(snapshot)}\n\n`);
+      } catch (err) {
+        console.error('[subsystem][sse][error]', err?.message);
+      }
     };
 
     send();
@@ -51,6 +60,7 @@ export function registerSubsystemSSERoute(app) {
 
     req.on('close', () => {
       clearInterval(interval);
+      console.log('[subsystem][sse] client disconnected');
     });
   });
 }
