@@ -40,7 +40,7 @@ export default function SubsystemStatusPanel() {
       <h3>Subsystem Status</h3>
       {subsystems.map((s) => (
         <div key={s.name} style={{ marginBottom: '8px' }}>
-          <strong>{s.name}</strong>: {s.status} {s.connected ? '🟢' : '🔴'}
+          <strong>{s.name}</strong>: {s.status} {s.connected ? '[ONLINE]' : '[OFFLINE]'}
         </div>
       ))}
     </div>
