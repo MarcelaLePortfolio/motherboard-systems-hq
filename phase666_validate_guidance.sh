@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-echo "=== /api/guidance ==="
-curl -s http://localhost:3000/api/guidance | jq
+echo "=== /api/guidance raw with timeout ==="
+curl --max-time 8 -sS -w "\nHTTP_STATUS=%{http_code}\n" http://localhost:3000/api/guidance || true
 
 echo
-echo "=== /api/guidance-history ==="
-curl -s http://localhost:3000/api/guidance-history | jq
+echo "=== /api/guidance-history raw with timeout ==="
+curl --max-time 8 -sS -w "\nHTTP_STATUS=%{http_code}\n" http://localhost:3000/api/guidance-history || true
 
 echo
 echo "=== dashboard logs ==="
-docker compose logs --tail=160 dashboard
+docker compose logs --tail=220 dashboard
 
 echo
 echo "=== git status ==="
