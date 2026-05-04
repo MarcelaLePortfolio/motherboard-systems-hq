@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import StatusRow from './ui/StatusRow';
 import {
   basePanelStyle,
   liveBorderStyle,
@@ -89,10 +90,12 @@ export default function SubsystemStatusPanel() {
 
       <div style={sectionStyle}>
         {data.subsystems.map((s) => (
-          <div key={s.name} style={{ marginBottom: '6px' }}>
-            <strong>{s.name}</strong>: {s.status}{' '}
-            <span style={{ opacity: 0.7 }}>{s.connected ? '[ONLINE]' : '[OFFLINE]'}</span>
-          </div>
+          <StatusRow
+            key={s.name}
+            label={s.name}
+            status={s.status}
+            connected={s.connected}
+          />
         ))}
       </div>
 
