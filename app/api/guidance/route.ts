@@ -1,34 +1,10 @@
 import { NextResponse } from "next/server";
 import { getGuidanceEngine } from "@/server/guidance/guidanceEngine";
+import { formatGuidanceForDisplay } from "@/server/guidance/formatGuidance";
 
 /**
- * Phase 672 — Demo Hardening Layer
- * Output normalization for human-readable intelligence surface.
+ * Phase 672 — Demo Hardening Layer (refactored safely)
  */
-
-function formatGuidanceForDisplay(item: any) {
-  const severityLabel =
-    item.type === "critical"
-      ? "requires attention"
-      : item.type === "warning"
-      ? "monitor"
-      : "observe";
-
-  const messageMap: Record<string, string> = {
-    "Execution subsystem is not verified.": "Execution integrity requires validation.",
-    "Retried tasks are present in recent task history.": "Elevated retry activity detected.",
-  };
-
-  return {
-    type: item.type,
-    severity: item.severity,
-    subsystem: item.subsystem,
-    message: messageMap[item.message] || item.message,
-    tone: severityLabel,
-    suggested_action: item.suggested_action,
-    generated_at: item.generated_at,
-  };
-}
 
 export async function GET() {
   try {
