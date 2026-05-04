@@ -13,7 +13,14 @@ export default function OperatorDashboard() {
         </p>
       </div>
 
-      <div style={{ display: 'grid', gap: '16px' }}>
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+          gap: '16px',
+          alignItems: 'start'
+        }}
+      >
         <SubsystemStatusPanel />
         <GuidancePanel />
       </div>
