@@ -4,6 +4,7 @@
 
   const RESPONSE_EL = document.getElementById("operator-guidance-response");
   const META_EL = document.getElementById("operator-guidance-meta");
+  const HISTORY_SUMMARY_EL = document.getElementById("operator-guidance-history-summary");
 
   let eventSource = null;
 
@@ -102,6 +103,32 @@
     }
   }
 
+  async function refreshGuidanceHistory() {
+    if (!HISTORY_SUMMARY_EL) return;
+
+    try {
+      const response = await fetch("/api/guidance-history", { cache: "no-store" });
+      if (!response.ok) throw new Error("history_unavailable");
+
+      const data = await response.json();
+      const history = Array.isArray(data?.history) ? data.history : [];
+      const latest = history[0];
+
+      if (!history.length) {
+        HISTORY_SUMMARY_EL.textContent = "No guidance history snapshots available yet.";
+        return;
+      }
+
+      const timestamp = latest?.timestamp
+        ? new Date(latest.timestamp).toLocaleTimeString()
+        : "unknown time";
+
+      HISTORY_SUMMARY_EL.textContent = `${history.length} snapshot(s) captured. Latest: ${timestamp}.`;
+    } catch (_) {
+      HISTORY_SUMMARY_EL.textContent = "Guidance history unavailable.";
+    }
+  }
+
   function attachHandlers(es) {
     const handleEvent = (event) => {
       try {
@@ -126,6 +153,8 @@
   }
 
   startStream();
+  refreshGuidanceHistory();
+  setInterval(refreshGuidanceHistory, 10000);
 
   document.addEventListener("visibilitychange", () => {
     if (document.visibilityState === "hidden") {
