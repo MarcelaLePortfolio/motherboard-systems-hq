@@ -7,6 +7,7 @@ import fs from "fs";
 import pg from "pg";
 import { apiTasksRouter } from "./server/routes/api-tasks-postgres.mjs";
 import taskEventsSseRouter from "./server/routes/task-events-sse.mjs";
+import operatorGuidanceRouter from "./server/routes/operator-guidance.mjs";
 import { createRequire } from "module";
 
 const require = createRequire(import.meta.url);
@@ -32,6 +33,7 @@ globalThis.__DB_POOL = pool;
 
 app.use("/api/tasks", apiTasksRouter);
 app.use(taskEventsSseRouter);
+app.use(operatorGuidanceRouter({ pool }));
 
 const LOG_DIR = path.join(__dirname, "ui/dashboard");
 const LOG_FILE = path.join(LOG_DIR, "ticker-events.log");
