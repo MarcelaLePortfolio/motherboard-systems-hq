@@ -1,6 +1,14 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import {
+  basePanelStyle,
+  liveBorderStyle,
+  staleBorderStyle,
+  headerStyle,
+  timestampStyle,
+  sectionStyle
+} from './ui/panelStyles';
 
 type Subsystem = {
   name: string;
@@ -34,7 +42,6 @@ export default function GuidancePanel() {
         };
 
         es.onerror = () => {
-          console.warn('Guidance SSE failed, falling back to polling');
           es?.close();
           fallbackPolling();
         };
@@ -49,8 +56,6 @@ export default function GuidancePanel() {
           const res = await fetch('/api/guidance');
           const json = await res.json();
           setData(json);
-        } catch (err) {
-          console.error('Polling failed');
         } finally {
           setLoading(false);
         }
@@ -73,23 +78,19 @@ export default function GuidancePanel() {
 
   const ageMs = data.timestamp ? Date.now() - new Date(data.timestamp).getTime() : null;
   const isStale = ageMs !== null && ageMs > 10000;
-  const severity = isStale ? 'WARNING' : 'NORMAL';
+
+  const panelStyle = {
+    ...basePanelStyle,
+    ...(isStale ? staleBorderStyle : liveBorderStyle)
+  };
 
   return (
-    <div
-      style={{
-        padding: '16px',
-        border: isStale ? '2px solid #ff5555' : '1px solid #444',
-        borderRadius: '10px',
-        background: isStale ? '#2a0000' : '#111',
-        color: '#eee'
-      }}
-    >
-      <h3 style={{ marginBottom: '10px', fontSize: '16px' }}>
-        Operator Guidance <span style={{ opacity: 0.7 }}>({isStale ? 'STALE' : 'LIVE'} • {severity})</span>
+    <div style={panelStyle}>
+      <h3 style={headerStyle}>
+        Operator Guidance <span style={{ opacity: 0.7 }}>({isStale ? 'STALE' : 'LIVE'})</span>
       </h3>
 
-      <div style={{ marginBottom: '12px' }}>
+      <div style={sectionStyle}>
         <strong>Subsystem Context</strong>
         {data.subsystems?.map((s) => (
           <div key={s.name} style={{ marginTop: '6px' }}>
@@ -99,7 +100,7 @@ export default function GuidancePanel() {
         ))}
       </div>
 
-      <div style={{ marginBottom: '10px' }}>
+      <div style={sectionStyle}>
         <strong>Guidance</strong>
         {data.guidance_available ? (
           data.guidance.map((g, i) => (
@@ -113,7 +114,7 @@ export default function GuidancePanel() {
       </div>
 
       {data.timestamp && (
-        <div style={{ fontSize: '12px', opacity: 0.5 }}>
+        <div style={timestampStyle}>
           Updated: {data.timestamp}
         </div>
       )}
