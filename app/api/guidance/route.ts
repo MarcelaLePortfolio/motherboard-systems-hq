@@ -1,21 +1,33 @@
 import { NextResponse } from "next/server";
-import { promises as fs } from "fs";
-import path from "path";
 import { getGuidanceEngine } from "@/server/guidance/guidanceEngine";
 
 /**
- * Phase 668 — Guidance Persistence (File-backed JSONL)
- * Adds durable guidance history without affecting execution pipeline.
+ * Phase 672 — Demo Hardening Layer
+ * Output normalization for human-readable intelligence surface.
  */
 
-const LOG_PATH = path.join(process.cwd(), "data", "guidance_history.jsonl");
+function formatGuidanceForDisplay(item: any) {
+  const severityLabel =
+    item.type === "critical"
+      ? "requires attention"
+      : item.type === "warning"
+      ? "monitor"
+      : "observe";
 
-async function persist(entry: any) {
-  try {
-    await fs.appendFile(LOG_PATH, JSON.stringify(entry) + "\n");
-  } catch {
-    // non-blocking persistence layer
-  }
+  const messageMap: Record<string, string> = {
+    "Execution subsystem is not verified.": "Execution integrity requires validation.",
+    "Retried tasks are present in recent task history.": "Elevated retry activity detected.",
+  };
+
+  return {
+    type: item.type,
+    severity: item.severity,
+    subsystem: item.subsystem,
+    message: messageMap[item.message] || item.message,
+    tone: severityLabel,
+    suggested_action: item.suggested_action,
+    generated_at: item.generated_at,
+  };
 }
 
 export async function GET() {
@@ -27,17 +39,19 @@ export async function GET() {
       includeHistory: true,
     });
 
-    const payload = {
+    const formatted = {
       ...result,
-      persisted_at: new Date().toISOString(),
+      guidance: result.guidance.map(formatGuidanceForDisplay),
+      meta: {
+        ...result.meta,
+        mode: "demo-hardening-v2",
+      },
     };
-
-    await persist(payload);
 
     return NextResponse.json({
       ok: true,
       source: "guidance-engine",
-      data: result,
+      data: formatted,
     });
   } catch (err: any) {
     return NextResponse.json(
