@@ -1,5 +1,5 @@
 /**
- * PHASE 657 — GUIDANCE ACTION HINTS (READ-ONLY)
+ * PHASE 659 — GUIDANCE PRIORITIZATION (READ-ONLY)
  */
 
 function createGuidance({ type, severity, message, subsystem, suggested_action }) {
@@ -11,6 +11,10 @@ function createGuidance({ type, severity, message, subsystem, suggested_action }
     suggested_action: suggested_action || null,
     generated_at: new Date().toISOString()
   };
+}
+
+function sortByPriority(guidance) {
+  return guidance.sort((a, b) => b.severity - a.severity);
 }
 
 export function generateGuidance(subsystems) {
@@ -54,5 +58,5 @@ export function generateGuidance(subsystems) {
     );
   }
 
-  return guidance;
+  return sortByPriority(guidance);
 }
