@@ -33,26 +33,7 @@ export default function GuidancePanel() {
 
       es.onerror = () => {
         es?.close();
-        fallbackPolling();
       };
-    };
-
-    const fallbackPolling = () => {
-      const fetchGuidance = async () => {
-        try {
-          const res = await fetch('/api/guidance');
-          const json = await res.json();
-          setData(json);
-        } catch {
-          console.error('Polling failed');
-        } finally {
-          setLoading(false);
-        }
-      };
-
-      fetchGuidance();
-      const interval = setInterval(fetchGuidance, 5000);
-      return () => clearInterval(interval);
     };
 
     connectSSE();
@@ -88,14 +69,21 @@ export default function GuidancePanel() {
   const grouped = groupBySeverity(data.guidance || []);
   const total = data.guidance?.length || 0;
 
-  const renderGroup = (label: string, items: any[]) => {
+  const renderGroup = (label: string, items: any[], emphasis: number) => {
     if (items.length === 0) return null;
 
     return (
-      <div style={{ marginTop: '8px' }}>
-        <div style={{ fontWeight: 700, fontSize: '13px', opacity: 0.8 }}>
+      <div style={{ marginTop: `${8 + emphasis * 4}px` }}>
+        <div
+          style={{
+            fontWeight: 600 + emphasis * 100,
+            fontSize: '13px',
+            opacity: 0.75 + emphasis * 0.1
+          }}
+        >
           {label} ({items.length})
         </div>
+
         {items.map((g, i) => (
           <div
             key={i}
@@ -122,13 +110,21 @@ export default function GuidancePanel() {
   return (
     <div style={panelStyle}>
       <h3 style={headerStyle}>
-        Operator Guidance ({total}) <span style={{ opacity: 0.7 }}>({isStale ? 'STALE' : 'LIVE'})</span>
+        Operator Guidance ({total}){' '}
+        <span style={{ opacity: 0.7 }}>
+          ({isStale ? 'STALE' : 'LIVE'})
+        </span>
       </h3>
 
       <div style={sectionStyle}>
         <strong>Subsystem Context</strong>
         {data.subsystems?.map((s: any) => (
-          <StatusRow key={s.name} label={s.name} status={s.status} connected={s.connected} />
+          <StatusRow
+            key={s.name}
+            label={s.name}
+            status={s.status}
+            connected={s.connected}
+          />
         ))}
       </div>
 
@@ -136,12 +132,14 @@ export default function GuidancePanel() {
         <strong>Guidance</strong>
         {data.guidance_available ? (
           <>
-            {renderGroup('CRITICAL', grouped.critical)}
-            {renderGroup('WARNING', grouped.warning)}
-            {renderGroup('INFO', grouped.info)}
+            {renderGroup('CRITICAL', grouped.critical, 2)}
+            {renderGroup('WARNING', grouped.warning, 1)}
+            {renderGroup('INFO', grouped.info, 0)}
           </>
         ) : (
-          <div style={{ marginTop: '6px', opacity: 0.7 }}>No active guidance</div>
+          <div style={{ marginTop: '6px', opacity: 0.7 }}>
+            No active guidance
+          </div>
         )}
       </div>
 
