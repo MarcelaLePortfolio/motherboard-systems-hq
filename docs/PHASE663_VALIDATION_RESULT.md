@@ -1,16 +1,14 @@
 # Phase 663 — Validation Result
 
-Status: INCONCLUSIVE
+Status: BLOCKED_BY_RUNTIME_OFFLINE
 
 Observed:
-- /api/guidance-history test started
-- /api/guidance flow test started
-- JSON output was not displayed in terminal output
-- PASS lines were not displayed in terminal output
+- No process was listening on localhost:8080
+- /api/guidance was unreachable
+- /api/guidance-history was unreachable
 
-Confirmed:
-- Validation scripts exist
-- Validation result requires re-run with visible JSON/PASS output before UI work
+Conclusion:
+- Phase 663 validation cannot be completed until the local container/runtime is running.
 
-Next safe corridor:
-- Inspect local routing/server state before adding UI
+Next safe action:
+- Start the local container stack and rerun endpoint validation.
