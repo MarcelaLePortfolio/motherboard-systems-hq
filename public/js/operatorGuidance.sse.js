@@ -123,7 +123,19 @@
         ? new Date(latest.timestamp).toLocaleTimeString()
         : "unknown time";
 
-      HISTORY_SUMMARY_EL.textContent = `${history.length} snapshot(s) captured. Latest: ${timestamp}.`;
+      const latestGuidance = Array.isArray(latest?.snapshot?.guidance)
+        ? latest.snapshot.guidance
+        : [];
+
+      const preview = latestGuidance
+        .map((item) => firstNonEmpty(item?.message, item?.summary, item?.headline, item?.detail))
+        .filter(Boolean)
+        .slice(0, 2)
+        .join(" | ");
+
+      HISTORY_SUMMARY_EL.textContent = preview
+        ? `${history.length} snapshot(s). Latest ${timestamp}: ${preview}`
+        : `${history.length} snapshot(s). Latest ${timestamp}: no active guidance.`;
     } catch (_) {
       HISTORY_SUMMARY_EL.textContent = "Guidance history unavailable.";
     }
