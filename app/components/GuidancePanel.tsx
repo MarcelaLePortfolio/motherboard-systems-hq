@@ -73,10 +73,48 @@ export default function GuidancePanel() {
     ...(isStale ? staleBorderStyle : liveBorderStyle)
   };
 
+  const groupBySeverity = (guidance: any[]) => {
+    return {
+      critical: guidance.filter((g) => g.type === 'critical'),
+      warning: guidance.filter((g) => g.type === 'warning'),
+      info: guidance.filter((g) => g.type === 'info')
+    };
+  };
+
   const getColor = (type: string) => {
     if (type === 'critical') return '#ff5555';
     if (type === 'warning') return '#ffaa00';
     return '#66ccff';
+  };
+
+  const grouped = groupBySeverity(data.guidance || []);
+
+  const renderGroup = (label: string, items: any[]) => {
+    if (items.length === 0) return null;
+
+    return (
+      <div style={{ marginTop: '8px' }}>
+        <div style={{ fontWeight: 700, fontSize: '13px', opacity: 0.8 }}>
+          {label}
+        </div>
+        {items.map((g, i) => (
+          <div
+            key={i}
+            style={{
+              marginTop: '4px',
+              padding: '4px 6px',
+              borderLeft: `3px solid ${getColor(g.type)}`,
+              fontSize: '13px'
+            }}
+          >
+            <div style={{ fontWeight: 600 }}>
+              {g.subsystem}
+            </div>
+            <div style={{ opacity: 0.85 }}>{g.message}</div>
+          </div>
+        ))}
+      </div>
+    );
   };
 
   return (
@@ -95,22 +133,11 @@ export default function GuidancePanel() {
       <div style={sectionStyle}>
         <strong>Guidance</strong>
         {data.guidance_available ? (
-          data.guidance.map((g: any, i: number) => (
-            <div
-              key={i}
-              style={{
-                marginTop: '4px',
-                padding: '4px 6px',
-                borderLeft: `3px solid ${getColor(g.type)}`,
-                fontSize: '13px'
-              }}
-            >
-              <div style={{ fontWeight: 600 }}>
-                {g.type.toUpperCase()} • {g.subsystem}
-              </div>
-              <div style={{ opacity: 0.85 }}>{g.message}</div>
-            </div>
-          ))
+          <>
+            {renderGroup('CRITICAL', grouped.critical)}
+            {renderGroup('WARNING', grouped.warning)}
+            {renderGroup('INFO', grouped.info)}
+          </>
         ) : (
           <div style={{ marginTop: '6px', opacity: 0.7 }}>No active guidance</div>
         )}
