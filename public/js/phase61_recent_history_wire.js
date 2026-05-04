@@ -37,7 +37,11 @@ if (window.__RECENT_HISTORY_WIRE_BOUND) return; window.__RECENT_HISTORY_WIRE_BOU
     return data?.tasks || data?.rows || data?.data || [];
   }
 
-  function renderGuidance(r) {
+  function resolveTitleFallback(r) {
+  return r.title || r.task_title || r.name || (r.task_id ? "Task " + r.task_id : "Untitled Event");
+}
+
+function renderGuidance(r) {
     const g = r && r.guidance;
     if (!g) return "";
     const classification = g.classification || "guidance";
