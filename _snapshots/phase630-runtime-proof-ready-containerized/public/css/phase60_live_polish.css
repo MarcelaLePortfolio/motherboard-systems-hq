@@ -1,0 +1,464 @@
+/* Phase 60 — Visual Hierarchy Polish
+   CSS-only refinement layer
+   Safe additive overrides for dashboard readability and density
+*/
+
+/* Global vertical rhythm */
+.dashboard,
+.dashboard-root,
+.operator-console,
+main.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Panel base normalization */
+.panel,
+.card,
+.console-panel,
+.surface {
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+}
+
+/* Metrics row — quick glance telemetry */
+.metrics-row,
+.metrics-grid,
+[data-section="metrics"] {
+  display: grid;
+  gap: 10px;
+}
+
+.metric-card,
+.metric-tile,
+.stat-card,
+.kpi-card {
+  padding: 10px 12px;
+  min-height: 82px;
+  border: 1px solid rgba(255,255,255,0.07);
+  box-shadow: none;
+}
+
+.metric-card .value,
+.stat-card .value,
+.kpi-card .value {
+  line-height: 1;
+}
+
+/* Agent pool density preservation */
+.agent-pool,
+.agent-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.agent-row,
+.agent-status-row {
+  padding: 4px 6px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+/* Operator tools symmetry */
+.operator-tools,
+.operator-controls {
+  display: grid;
+  gap: 12px;
+}
+
+.chat-panel,
+.delegation-panel,
+.matilda-chat,
+.task-delegation {
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-panel .panel-body,
+.delegation-panel .panel-body {
+  flex: 1 1 auto;
+  padding-top: 6px;
+}
+
+/* Activity telemetry area */
+.activity-panels,
+.activity-grid,
+[data-section="activity"] {
+  display: grid;
+  gap: 12px;
+}
+
+.recent-tasks .panel-body,
+.task-activity .panel-body {
+  padding-top: 6px;
+}
+
+/* Subsystem area quieter visually */
+.subsystem-status,
+.subsystems-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.subsystem-card {
+  padding: 10px 12px;
+  box-shadow: none;
+}
+
+/* Header tightening */
+.dashboard-header,
+.console-header {
+  margin-bottom: 2px;
+}
+
+/* Responsive guardrails */
+@media (max-width: 1100px) {
+  .metrics-row,
+  .operator-tools,
+  .activity-panels,
+  .subsystem-status {
+    gap: 10px;
+  }
+
+  .metric-card,
+  .stat-card,
+  .kpi-card {
+    min-height: 76px;
+  }
+}
+
+@media (max-width: 760px) {
+  .dashboard,
+  .dashboard-root {
+    gap: 12px;
+  }
+
+  .metric-card,
+  .stat-card,
+  .kpi-card,
+  .subsystem-card {
+    padding: 9px 10px;
+  }
+}
+
+/* Phase 60 — Activity Telemetry Refinement */
+
+/* Ensure activity panels share balanced vertical space */
+.activity-panels,
+.activity-grid,
+[data-section="activity"] {
+  align-items: stretch;
+}
+
+/* Allow chart panel to breathe slightly more */
+.task-activity,
+.panel--task-activity,
+[data-panel="task-activity"],
+.chart-panel {
+  min-height: 240px;
+}
+
+/* Recent tasks should remain compact but readable */
+.recent-tasks,
+.panel--recent-tasks,
+[data-panel="recent-tasks"] {
+  min-height: 240px;
+}
+
+/* Internal spacing alignment */
+.recent-tasks .panel-body,
+.task-activity .panel-body,
+.chart-panel .panel-body {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+/* Stabilize scroll behavior if task list grows */
+.recent-tasks .panel-body {
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+}
+
+/* Slightly soften telemetry card borders for cohesion */
+.recent-tasks,
+.task-activity,
+.chart-panel {
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+
+/* Phase 60 — Operator Workspace Cohesion */
+
+/* Align Matilda + Delegation card headers */
+.operator-tools .panel-header,
+.panel--matilda .panel-header,
+.panel--delegation .panel-header {
+  padding-bottom: 6px;
+}
+
+/* Normalize operator console body spacing */
+.panel--matilda .panel-body,
+.panel--delegation .panel-body {
+  padding-top: 10px;
+  padding-bottom: 12px;
+}
+
+/* Slightly tighten textarea / console spacing */
+.panel--matilda textarea,
+.panel--delegation textarea,
+.panel--delegation input {
+  margin-bottom: 10px;
+}
+
+/* Normalize operator button row */
+.panel--matilda .button-row,
+.panel--delegation .button-row {
+  margin-top: 6px;
+  display: flex;
+  gap: 8px;
+}
+
+/* Atlas subsystem card should feel like a status band */
+.panel--atlas,
+.subsystem-status,
+[data-panel="atlas-status"] {
+  margin-top: 6px;
+  border: 1px solid rgba(255,255,255,0.05);
+  background: linear-gradient(
+    180deg,
+    rgba(255,255,255,0.02),
+    rgba(255,255,255,0.01)
+  );
+}
+
+
+/* Phase 60 — Unified Button System */
+
+/* Base pill button style */
+button,
+.button,
+.panel button {
+  border-radius: 999px;
+  border: none;
+  padding: 6px 14px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  box-shadow: none;
+  transition: filter 0.15s ease, transform 0.05s ease;
+}
+
+/* Primary action buttons (Send / Submit Delegation) */
+button.primary,
+.panel button.primary,
+button[type="submit"] {
+  background: linear-gradient(
+    135deg,
+    #7c3aed,
+    #2563eb
+  );
+  color: white;
+}
+
+/* Secondary utility buttons */
+button.secondary,
+.panel button.secondary {
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.85);
+}
+
+/* Hover feedback */
+button:hover {
+  filter: brightness(1.08);
+}
+
+/* Subtle press feedback */
+button:active {
+  transform: translateY(1px);
+}
+
+
+/* Phase 60 — Operator Button Standardization (container-based override) */
+
+/* Normalize all clickable controls in operator panels */
+.panel--matilda button,
+.panel--matilda input[type="button"],
+.panel--matilda input[type="submit"],
+.panel--matilda a.button,
+.panel--delegation button,
+.panel--delegation input[type="button"],
+.panel--delegation input[type="submit"],
+.panel--delegation a.button {
+
+  border-radius: 999px !important;
+  padding: 8px 16px !important;
+  border: none !important;
+  text-decoration: none !important;
+  font-weight: 500;
+  line-height: 1;
+  box-shadow: none !important;
+  cursor: pointer;
+  transition: filter 0.15s ease, transform 0.05s ease;
+}
+
+/* Primary actions */
+.panel--matilda input[type="submit"],
+.panel--matilda button[type="submit"],
+.panel--delegation input[type="submit"],
+.panel--delegation button[type="submit"] {
+
+  background: linear-gradient(
+    135deg,
+    #7c3aed,
+    #2563eb
+  ) !important;
+
+  color: white !important;
+}
+
+/* Secondary buttons */
+.panel--matilda input[type="button"],
+.panel--matilda button:not([type="submit"]),
+.panel--delegation input[type="button"],
+.panel--delegation button:not([type="submit"]) {
+
+  background: rgba(255,255,255,0.08) !important;
+  color: rgba(255,255,255,0.9) !important;
+}
+
+/* Hover feedback */
+.panel--matilda button:hover,
+.panel--delegation button:hover,
+.panel--matilda input:hover,
+.panel--delegation input:hover {
+
+  filter: brightness(1.08);
+}
+
+/* Press feedback */
+.panel--matilda button:active,
+.panel--delegation button:active {
+
+  transform: translateY(1px);
+}
+
+
+/* Phase 60 — Button unification using actual dashboard selectors */
+
+/* Base shape + no shadow */
+#delegation-submit,
+#complete-task-btn,
+#matilda-send,
+#matilda-quick-check,
+#matilda-send-btn,
+#quick-check-btn,
+#chat-send-btn,
+#chat-quick-check-btn,
+#matilda-panel button,
+#chat-panel button {
+  border-radius: 999px !important;
+  border: none !important;
+  box-shadow: none !important;
+  text-decoration: none !important;
+  padding: 8px 16px !important;
+  min-height: 36px;
+  line-height: 1 !important;
+  transition: filter 0.15s ease, transform 0.05s ease, background 0.15s ease !important;
+}
+
+/* Primary buttons */
+#delegation-submit,
+#matilda-send,
+#matilda-send-btn,
+#chat-send-btn {
+  background: linear-gradient(135deg, #7c3aed, #2563eb) !important;
+  color: #ffffff !important;
+}
+
+/* Secondary buttons */
+#complete-task-btn,
+#matilda-quick-check,
+#quick-check-btn,
+#chat-quick-check-btn {
+  background: rgba(255,255,255,0.10) !important;
+  color: rgba(255,255,255,0.90) !important;
+}
+
+/* Remove old color treatments from delegation buttons */
+#delegation-submit:hover,
+#complete-task-btn:hover,
+#matilda-send:hover,
+#matilda-quick-check:hover,
+#matilda-send-btn:hover,
+#quick-check-btn:hover,
+#chat-send-btn:hover,
+#chat-quick-check-btn:hover {
+  filter: brightness(1.08);
+}
+
+#delegation-submit:active,
+#complete-task-btn:active,
+#matilda-send:active,
+#matilda-quick-check:active,
+#matilda-send-btn:active,
+#quick-check-btn:active,
+#chat-send-btn:active,
+#chat-quick-check-btn:active {
+  transform: translateY(1px);
+}
+
+
+/* Phase 60 — correct Matilda button selectors */
+
+#matilda-chat-send {
+  background: linear-gradient(135deg, #7c3aed, #2563eb) !important;
+  color: #ffffff !important;
+  border-radius: 999px !important;
+  box-shadow: none !important;
+}
+
+#matilda-chat-quick-check {
+  background: rgba(255,255,255,0.10) !important;
+  color: rgba(255,255,255,0.90) !important;
+  border-radius: 999px !important;
+  box-shadow: none !important;
+}
+
+#matilda-chat-send:hover,
+#matilda-chat-quick-check:hover {
+  filter: brightness(1.08);
+}
+
+#matilda-chat-send:active,
+#matilda-chat-quick-check:active {
+  transform: translateY(1px);
+}
+
+
+/* Phase 60 — unified button interaction system */
+
+#delegation-submit,
+#matilda-chat-send,
+#complete-task-btn,
+#matilda-chat-quick-check {
+  transition: transform 120ms ease, filter 120ms ease, background 120ms ease;
+}
+
+/* Hover lift (uniform for all primary/secondary actions) */
+#delegation-submit:hover,
+#matilda-chat-send:hover,
+#complete-task-btn:hover,
+#matilda-chat-quick-check:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+}
+
+/* Press feedback */
+#delegation-submit:active,
+#matilda-chat-send:active,
+#complete-task-btn:active,
+#matilda-chat-quick-check:active {
+  transform: translateY(1px);
+}
+

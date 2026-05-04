@@ -1,0 +1,33 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile.dashboard
+    command: ["node", "server.js"]
+    depends_on:
+      - postgres
+    ports:
+      - "3000:3000"
+    environment:
+      - SYSTEM_SCHEDULER_ENABLED=false
+      - SYSTEM_SCHEDULER_INTERVAL_MS=60000
+
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: ["node", "server/worker/phase26_task_worker.mjs"]
+    depends_on:
+      - postgres
+
+volumes:
+  pgdata:

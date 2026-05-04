@@ -1,0 +1,399 @@
+/* eslint-disable import/no-commonjs */
+/* 🌟 Polished Agent Cards + CSS Status Dots */
+
+#agent-status {
+  display: flex;
+  justify-content: space-around;
+  gap: 24px;
+  width: 100%;
+  max-width: 720px;
+  margin-bottom: 8px;
+}
+
+#agent-status .agent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #fafafa;
+  color: #111;
+  padding: 6px 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  width: 30%;
+  text-align: center;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.status-dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-bottom: 4px;
+}
+
+.status-dot.online {
+  background-color: #4caf50; /* green */
+}
+.status-dot.warning {
+  background-color: #ffb300; /* yellow */
+}
+.status-dot.offline {
+  background-color: #f44336; /* red */
+}
+
+/* Compact ticker style */
+#ops-stream {
+  width: 100%;
+  max-width: 720px;
+  font-size: 0.85rem;
+  color: #333;
+  background: #fafafa;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 4px 8px;
+  height: 28px;
+  overflow: hidden;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ops-log {
+  animation: fadeIn 0.5s ease-in;
+  white-space: nowrap;
+}
+
+@keyframes fadeIn { 
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+/* ✨ Auto-highlight for new/updated events */
+@keyframes flashNew {
+  0% { background-color: #fff8d1; }
+  100% { background-color: transparent; }
+}
+@keyframes flashComplete {
+  0% { background-color: #d1ffd8; }
+  100% { background-color: transparent; }
+}
+.highlight-new {
+  animation: flashNew 1.2s ease-out;
+}
+.highlight-complete {
+  animation: flashComplete 1.2s ease-out;
+}
+
+/* ✨ Pulse animation for online agent dots */
+@keyframes pulseOnline {
+  0% { box-shadow: 0 0 0px rgba(76, 175, 80, 0.4); }
+  50% { box-shadow: 0 0 8px rgba(76, 175, 80, 0.8); }
+  100% { box-shadow: 0 0 0px rgba(76, 175, 80, 0.4); }
+}
+
+.status-dot.online {
+  background:#4caf50;
+  animation: pulseOnline 2.5s infinite ease-in-out;
+}
+
+body {
+  background-color: #0d0d0f;
+  color: #e8e8e8;
+  font-family: "Inter", sans-serif;
+}
+
+header, #chatContainer, #recentTasks, #recentLogs, #reflectionsContainer, #diagnosticsOverview {
+  background-color: #1a1a1d;
+  border: 1px solid #3a3a3f;
+  border-radius: 8px;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.05);
+}
+
+h1, h2, h3, .section-title {
+  color: #f5c97b;
+  text-shadow: 0 0 4px rgba(245, 201, 123, 0.3);
+}
+
+button, .btn {
+  background-color: #27272b;
+  color: #f5c97b;
+  border: 1px solid #f5c97b;
+  border-radius: 6px;
+  transition: all 0.2s ease-in-out;
+}
+
+button:hover, .btn:hover {
+  background-color: #f5c97b;
+  color: #0d0d0f;
+}
+
+#recentLogs pre, #recentTasks pre, #reflectionsContainer pre {
+  background-color: #111;
+  color: #dcdcdc;
+  border-radius: 6px;
+  padding: 0.75rem;
+  font-family: monospace;
+}
+
+#activityGraph {
+  background-color: transparent;
+  border-top: 1px solid #222;
+}
+
+
+/* <0001fb00> Phase 6.9 — Dark Mode Polish �� */
+body {
+  background-color: #0d0d0f !important;
+  color: #e8e8e8 !important;
+  font-family: "Inter", sans-serif !important;
+}
+
+header, #chatContainer, #recentTasks, #recentLogs, #reflectionsContainer, #diagnosticsOverview {
+  background-color: #1a1a1d !important;
+  border: 1px solid #3a3a3f !important;
+  border-radius: 8px !important;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.05) !important;
+}
+
+h1, h2, h3, .section-title {
+  color: #f5c97b !important;
+  text-shadow: 0 0 4px rgba(245, 201, 123, 0.3) !important;
+}
+
+button, .btn {
+  background-color: #27272b !important;
+  color: #f5c97b !important;
+  border: 1px solid #f5c97b !important;
+  border-radius: 6px !important;
+  transition: all 0.2s ease-in-out !important;
+}
+
+button:hover, .btn:hover {
+  background-color: #f5c97b !important;
+  color: #0d0d0f !important;
+}
+
+#recentLogs pre, #recentTasks pre, #reflectionsContainer pre {
+  background-color: #111 !important;
+  color: #dcdcdc !important;
+  border-radius: 6px !important;
+  padding: 0.75rem !important;
+  font-family: monospace !important;
+}
+
+#activityGraph {
+  background-color: transparent !important;
+  border-top: 1px solid #222 !important;
+}
+
+
+/* <0001fb01> Phase 6.9.1 — Dark Mode Final Polish 🖤✨ */
+#chatContainer, #recentTasks, #recentLogs, #reflectionsContainer, #diagnosticsOverview, #agentStatus, #opsTicker {
+  background-color: #121214 !important;
+  color: #f0f0f0 !important;
+  border: 1px solid #2d2d30 !important;
+  box-shadow: 0 0 14px rgba(0, 0, 0, 0.6) !important;
+}
+
+#chatContainer input, textarea, pre, .log-entry {
+  background-color: #18181b !important;
+  color: #ededed !important;
+}
+
+.section-title, h2, h3 {
+  color: #f5c97b !important;
+}
+
+a, .highlight, .status-online {
+  color: #3ee6d2 !important;
+}
+
+body {
+  background: radial-gradient(circle at 30% 20%, #0e0e11 0%, #050506 100%) !important;
+  color: #e8e8e8 !important;
+  font-family: "Inter", sans-serif !important;
+}
+
+
+/* <0001fb02> Phase 6.9.2 — Diagnostics Dark Harmonization 🌌 */
+#diagnosticsOverview,
+#diagnosticsOverview .diagnostic-panel,
+#diagnosticsOverview .panel,
+#diagnosticsOverview .module,
+#recentTasks,
+#recentLogs,
+#chatContainer,
+#reflectionsContainer,
+#agentStatus {
+  background-color: #0f0f11 !important;
+  color: #eaeaea !important;
+  border: 1px solid #2b2b2f !important;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.05) !important;
+}
+
+#diagnosticsOverview h3,
+#diagnosticsOverview h4,
+.section-title {
+  color: #f5c97b !important;
+}
+
+
+/* <0001fb03> Phase 6.9.3 — Full Dark-Mode Override ⚙️ */
+html body #diagnosticsOverview,
+html body #diagnosticsOverview *:not(img),
+html body #recentTasks,
+html body #recentLogs,
+html body #chatContainer,
+html body #reflectionsContainer,
+html body #agentStatus {
+  background-color: #0d0d0f !important;
+  color: #f0f0f0 !important;
+  border-color: #2a2a2d !important;
+}
+
+html body .diagnostic-panel,
+html body .panel,
+html body .container,
+html body .module {
+  background-color: #0d0d0f !important;
+  color: #f0f0f0 !important;
+  border-color: #2a2a2d !important;
+}
+
+html body h2, html body h3, html body h4 {
+  color: #f5c97b !important;
+}
+
+
+/* <0001fb05> Dark mode — container wrappers */
+:root{
+  --bg:#0b0b0d; --panel:#111214; --panel-2:#0f1012;
+  --text:#f1f1f1; --muted:#caa36a; --border:#2a2a2d;
+}
+
+html, body { background: var(--bg) !important; color: var(--text) !important; }
+
+#app, main, .content, .container, .wrapper, .dashboard, .dashboard-container {
+  background: var(--bg) !important;
+}
+
+/* Common white wrapper types (incl. <details>/<summary>) */
+details, details[open], summary,
+.panel, .card, .box, .module, section.panel, section.card,
+#diagnostics, #diagnosticsOverview, section#diagnostics, .diagnostics, .diagnostics-overview {
+  background: var(--panel) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 12px !important;
+  box-shadow: none !important;
+}
+
+/* Summary header styling */
+details > summary {
+  background: var(--panel-2) !important;
+  color: var(--muted) !important;
+  border-bottom: 1px solid var(--border) !important;
+  padding: 8px 12px !important;
+  cursor: pointer;
+}
+
+/* Any nested white boxes */
+details *:where(.card,.panel,.box,.module,section){
+  background: var(--panel) !important;
+}
+
+/* Kill inline white backgrounds */
+*[style*="background: white"], *[style*="background-color: white"] {
+  background: var(--panel) !important;
+}
+
+/* <0001fb07> 🌙 Dark Mode — Chatbot Styling */
+#chatbot, #chatContainer, .chat-box, .chat-container {
+  background: var(--panel) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.4);
+}
+
+.chat-message.user {
+  background: #1b1c1f !important;
+  color: var(--text);
+  border-radius: 8px 8px 2px 8px;
+  border: 1px solid var(--border);
+  margin: 6px 0;
+  padding: 8px 10px;
+}
+
+.chat-message.bot {
+  background: #0f1012 !important;
+  color: var(--text);
+  border-radius: 8px 8px 8px 2px;
+  border: 1px solid var(--border);
+  margin: 6px 0;
+  padding: 8px 10px;
+}
+
+#chatInput, input#message, textarea#message {
+  background: var(--panel-2) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px;
+  caret-color: var(--muted);
+}
+
+#chatInput:focus, input#message:focus, textarea#message:focus {
+  outline: none;
+  border-color: var(--muted);
+  box-shadow: 0 0 6px rgba(202,163,106,0.5);
+}
+
+
+/* <0001fb08> ✨ Title Highlight — Bronze Glow on Dark Mode */
+header h1, #dashboardTitle, .dashboard-title {
+  color: #caa36a !important;
+  text-shadow: 0 0 12px rgba(202, 163, 106, 0.6), 0 0 24px rgba(202, 163, 106, 0.3);
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+header h1::before {
+  content: "🖥️ ";
+  filter: drop-shadow(0 0 6px rgba(202, 163, 106, 0.8));
+}
+
+
+/* <0001fb08> 💡 Title Highlight — Neon Circuit Accent */
+header h1, #dashboardTitle, .dashboard-title {
+  color: #37e8d7 !important;
+  text-shadow: 0 0 10px rgba(55, 232, 215, 0.7), 0 0 20px rgba(55, 232, 215, 0.5);
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+header h1::before {
+  content: "🖥️ ";
+  filter: drop-shadow(0 0 8px rgba(55, 232, 215, 0.9));
+}
+
+
+/* <0001fb09> ✨ Motherboard Systems Header Glow — Dark Mode Accent */
+header {
+  color: #caa36a !important;
+  text-align: center;
+  text-shadow: 0 0 12px rgba(202, 163, 106, 0.6), 0 0 24px rgba(202, 163, 106, 0.3);
+  font-weight: 700;
+  font-size: 1.6rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+  content: "🖥️ ";
+  filter: drop-shadow(0 0 6px rgba(202, 163, 106, 0.8));
+}
+

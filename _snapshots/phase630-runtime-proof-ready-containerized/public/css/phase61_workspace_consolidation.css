@@ -1,0 +1,143 @@
+/* Phase 61 — Workspace Consolidation
+   UI-only structural layout pass
+   Goal:
+   - preserve deterministic runtime behavior
+   - consolidate the middle dashboard into a stable dual-workspace layout
+   - keep Atlas / subsystem band full width
+*/
+
+:root {
+  --phase61-max: 1440px;
+  --phase61-gap: 1.5rem;
+  --phase61-panel-min: 320px;
+}
+
+.phase59-shell,
+body > #agent-status-container,
+body > main,
+body > #reflections {
+  width: min(100%, var(--phase61-max));
+}
+
+#phase61-workspace-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: var(--phase61-gap);
+  align-items: start;
+}
+
+#phase61-operator-column,
+#phase61-telemetry-column,
+#operator-tools-grid,
+#activity-panels-grid {
+  min-width: 0;
+}
+
+#operator-tools-grid,
+#activity-panels-grid {
+  grid-template-columns: minmax(0, 1fr);
+  align-items: stretch;
+}
+
+#matilda-chat-card,
+#delegation-card,
+#recent-tasks-card,
+#task-events-card,
+#task-activity-card,
+#atlas-status-card {
+  min-width: 0;
+  min-height: 100%;
+}
+
+#matilda-chat-card,
+#delegation-card {
+  display: flex;
+  flex-direction: column;
+}
+
+#matilda-chat-root {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+}
+
+#matilda-chat-transcript {
+  min-height: 16rem;
+  max-height: 24rem;
+}
+
+#delegation-response {
+  min-height: 1.5rem;
+}
+
+#recent-tasks-card,
+#task-events-card,
+#task-activity-card {
+  display: flex;
+  flex-direction: column;
+}
+
+#tasks-widget {
+  min-height: 13rem;
+}
+
+#task-events-card #mb-task-events-panel-anchor {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+#task-events-card #mb-task-events-panel {
+  margin-top: 0 !important;
+}
+
+#task-events-card #mb-task-events-feed {
+  max-height: 20rem !important;
+}
+
+#task-activity-card .h-64 {
+  min-height: 18rem;
+}
+
+#atlas-status-card {
+  width: 100%;
+}
+
+#reflections,
+#phase16-sse-indicator,
+#phase16_reflections_panel,
+#phase59-compat-roots {
+  display: none !important;
+}
+
+@media (max-width: 1279px) {
+  #phase61-workspace-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  #matilda-chat-transcript {
+    max-height: none;
+  }
+}
+
+@media (max-width: 767px) {
+  body {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  #metrics-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  #matilda-chat-card,
+  #delegation-card,
+  #recent-tasks-card,
+  #task-events-card,
+  #task-activity-card,
+  #atlas-status-card {
+    padding: 1rem;
+  }
+}

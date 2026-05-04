@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- phase474.4 temporary neutralization: inline style block removed for HTML-only layout isolation -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Motherboard Systems Operator Console</title>
+
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+<!-- phase474.3 temporary neutralization: removed local stylesheet :: <link rel="stylesheet" href="css/broadcast.css" /> -->
+<!-- phase474.3 temporary neutralization: removed local stylesheet :: <link rel="stylesheet" href="css/dashboard.css?v=darkmode" /> -->
+<!-- phase474.3 temporary neutralization: removed local stylesheet :: <link rel="stylesheet" href="css/dashboard-reflections.css" /> -->
+<!-- phase474.3 temporary neutralization: removed local stylesheet :: <link rel="stylesheet" href="css/agent-status-row.css" /> -->
+<!-- phase474.3 temporary neutralization: removed local stylesheet :: <link rel="stylesheet" href="css/matilda-chat.css" /> -->
+<!-- phase474.3 temporary neutralization: removed local stylesheet :: <link rel="stylesheet" href="css/demo_layout_trim.css" /> -->
+<!-- phase474.3 temporary neutralization: removed local stylesheet :: <link rel="stylesheet" href="/css/phase13_5_operator_ux.css" /> -->
+<!-- phase474.3 temporary neutralization: removed local stylesheet :: <link rel="stylesheet" href="css/phase59_demo_focus.css" /> -->
+<!-- phase474.3 temporary neutralization: removed local stylesheet :: <link rel="stylesheet" href="css/phase60_live_polish.css" /> -->
+<!-- phase474.3 temporary neutralization: removed local stylesheet :: <link rel="stylesheet" href="css/phase61_workspace_consolidation.css" /> -->
+<!-- phase474.3 temporary neutralization: removed local stylesheet :: <link rel="stylesheet" href="css/phase61_tabs_observational_workspace.css" /> -->
+
+    <!-- phase474.4 temporary neutralization: inline style block removed for HTML-only layout isolation -->
+
+    <!-- phase474.4 temporary neutralization: inline style block removed for HTML-only layout isolation -->
+</head>
+<body><div style="padding: 12px; font-family: sans-serif;">
+  <p><strong>Phase 475.9:</strong> Q3 dashboard body probe</p>
+</div>
+<!-- phase475.3 bottom half dashboard body probe -->
+<div style="padding: 12px; font-family: sans-serif;">
+  <p><strong>Phase 475.3:</strong> bottom half dashboard body probe</p>
+</div>
+'.task-events'
+      ];
+
+      const EVENT_ACTIVE = /run|start|resume|lease|dispatch|ack|progress|active|heartbeat/i;
+      const EVENT_WAITING = /queue|queued|pending|wait|retry|hold|sleep/i;
+      const EVENT_TERMINAL = /complete|completed|success|failed|error|cancel|cancelled|timeout|terminal/i;
+
+      const findPanel = () => {
+        for (const selector of SELECTORS) {
+          const node = document.querySelector(selector);
+          if (node) return node;
+        }
+        return null;
+      };
+
+      const classify = (text) => {
+        if (EVENT_TERMINAL.test(text)) return 'phase61-event-terminal';
+        if (EVENT_WAITING.test(text)) return 'phase61-event-waiting';
+        if (EVENT_ACTIVE.test(text)) return 'phase61-event-active';
+        return '';
+      };
+
+      const normalizeRow = (row) => {
+        if (row.dataset.phase61Polished === '1') return;
+        row.dataset.phase61Polished = '1';
+        row.classList.add('task-event');
+
+        const raw = (row.innerText || row.textContent || '').replace(/\s+/g, ' ').trim();
+        const parts = raw.split(/\s+[|·•]\s+|\s{2,}/).filter(Boolean);
+
+        const timeMatch = raw.match(/\b\d{1,2}:\d{2}(?::\d{2})?(?:\.\d+)?(?:\s?[AP]M)?\b|\b\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}(?::\d{2})?(?:\.\d+)?Z?\b/i);
+        const timeText = timeMatch ? timeMatch[0] : (parts[0] || '');
+        const remaining = parts.filter((part, index) => !(index === 0 && part === timeText));
+        const kindText = remaining[0] || 'event';
+        const detailText = remaining.slice(1).join(' • ') || raw;
+
+        row.classList.add(classify(`${kindText} ${detailText}`));
+
+        row.innerHTML = `
+          <div class="phase61-task-event-time">${timeText || '—'}</div>
+          <div class="phase61-task-event-kind">${kindText}</div>
+          <div class="phase61-task-event-detail">${detailText}</div>
+        `;
+      };
+
+      const polish = () => {
+        const panel = findPanel();
+        if (!panel) return;
+
+        panel.setAttribute('data-phase61-task-events', 'true');
+
+        const rows = panel.querySelectorAll('li, .task-event, [data-task-event-row]');
+        rows.forEach(normalizeRow);
+
+        if (!rows.length && !panel.querySelector('.phase61-task-event-empty')) {
+          const empty = document.createElement('div');
+          empty.className = 'phase61-task-event-empty';
+          empty.textContent = 'No task events yet.';
+          panel.appendChild(empty);
+        }
+      };
+
+      const boot = () => {
+        polish();
+        const panel = findPanel();
+        if (!panel) return;
+
+        const observer = new MutationObserver(() => polish());
+        observer.observe(panel, { childList: true, subtree: true, characterData: true });
+      };
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', boot, { once: true });
+      } else {
+        boot();
+      }
+    })();
+  </script>
+    <!-- phase470.6 temporary neutralization: operatorGuidance.sse.js removed to isolate dashboard freeze / unresponsive behavior -->
+<!-- phase471.1 temporary neutralization: /js/phase457_restore_task_panels.js removed to isolate task-events surface -->
+    <script id="phase464x-guidance-dom-probe">
+(() => {
+  function consoleLog(msg, obj) {
+    console.log("[phase464x stack probe]", msg, obj || "");
+    console.error("[phase464x stack probe]", msg, obj || "");
+  }
+
+  function byId(id) {
+    return document.getElementById(id);
+  }
+
+  function ensureStatusBadge() {
+    let badge = byId("phase464x-probe-status");
+    if (badge) return badge;
+
+    badge = document.createElement("div");
+    badge.id = "phase464x-probe-status";
+    badge.style.cssText = [
+      "position:fixed",
+      "right:12px",
+      "top:12px",
+      "z-index:99999",
+      "padding:8px 10px",
+      "border-radius:10px",
+      "background:#7f1d1d",
+      "color:#fff",
+      "font:12px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace",
+      "border:1px solid rgba(255,255,255,.18)",
+      "box-shadow:0 6px 20px rgba(0,0,0,.35)"
+    ].join(";");
+    badge.textContent = "phase464x probe booting";
+    document.body.appendChild(badge);
+    return badge;
+  }
+
+  function setBadge(text, ok) {
+    const badge = ensureStatusBadge();
+    badge.textContent = text;
+    badge.style.background = ok ? "#166534" : "#7f1d1d";
+  }
+
+  function shortStack() {
+    try {
+      return String(new Error().stack || "")
+        .split("\n")
+        .slice(2, 8)
+        .map((s) => s.trim())
+        .join(" || ");
+    } catch (_) {
+      return "stack-unavailable";
+    }
+  }
+
+  function install() {</body>
+</html>
