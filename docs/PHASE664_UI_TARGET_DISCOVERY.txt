@@ -1,0 +1,200 @@
+server/bootstrap/register-routes.js:3: * Ensures subsystem + guidance API/SSE routes are available for active runtime mounting.
+server/bootstrap/register-routes.js:9:import { registerGuidanceRoute } from '../routes/guidance.js';
+server/bootstrap/register-routes.js:10:import { registerGuidanceSSERoute } from '../routes/guidance-sse.js';
+server/bootstrap/register-routes.js:15:  registerGuidanceRoute(app);
+server/bootstrap/register-routes.js:16:  registerGuidanceSSERoute(app);
+server/guidance/_wireHistoryCapture.mjs:3:import { addGuidanceSnapshot } from "./historyBuffer.mjs";
+server/guidance/_wireHistoryCapture.mjs:6: * Wrap guidance emitter safely.
+server/guidance/_wireHistoryCapture.mjs:9:export function captureGuidanceSnapshot(guidancePayload) {
+server/guidance/_wireHistoryCapture.mjs:11:    addGuidanceSnapshot(guidancePayload);
+server/guidance/_wireHistoryCapture.mjs:16:  return guidancePayload;
+server/guidance/applyHistoryCapturePatch.mjs:4:// This patch assumes guidance is emitted through a central function.
+server/guidance/applyHistoryCapturePatch.mjs:8:import { captureGuidanceSnapshot } from "./_wireHistoryCapture.mjs";
+server/guidance/applyHistoryCapturePatch.mjs:13:    const observed = captureGuidanceSnapshot(payload);
+server/guidance/historyBuffer.mjs:1:// Phase 663 — Guidance History Buffer (READ-ONLY, NOT WIRED)
+server/guidance/historyBuffer.mjs:7:export function addGuidanceSnapshot(snapshot) {
+server/guidance/historyBuffer.mjs:20:export function getGuidanceHistory() {
+server/guidance/historyBuffer.mjs:24:export function clearGuidanceHistory() {
+server/optional-sse.mjs:2: * Phase 16 — Optional SSE endpoints for dashboard (OPS + Reflections)
+server/optional-sse.mjs:108:    // Send an immediate state snapshot so the dashboard can paint instantly.
+server/integrations/execution_guidance_attach_point.mjs:1:import { executionGuidanceHook } from "./execution_guidance_hook.mjs";
+server/integrations/execution_guidance_attach_point.mjs:7: * - Provide a single callable entry point to attach guidance
+server/integrations/execution_guidance_attach_point.mjs:17:export function attachExecutionGuidance(events = []) {
+server/integrations/execution_guidance_attach_point.mjs:21:    executionGuidanceHook(events);
+server/integrations/execution_guidance_attach_point.mjs:23:    console.error('[execution-guidance] attach error', err?.message || err);
+server/integrations/execution_guidance_wiring_stub.mjs:1:import { attachExecutionGuidance } from "./execution_guidance_attach_point.mjs";
+server/integrations/execution_guidance_wiring_stub.mjs:7: * - Define EXACT safe insertion point for guidance
+server/integrations/execution_guidance_wiring_stub.mjs:21: *   attachExecutionGuidance(events);  // <-- SAFE INSERTION POINT
+server/integrations/execution_guidance_wiring_stub.mjs:26:  attachExecutionGuidance(events);
+server/integrations/execution_guidance_hook.mjs:1:import { runExecutionGuidance } from "../execution_guidance_runner.mjs";
+server/integrations/execution_guidance_hook.mjs:8: * - Pass into guidance runner
+server/integrations/execution_guidance_hook.mjs:17:export function executionGuidanceHook(events = []) {
+server/integrations/execution_guidance_hook.mjs:19:    runExecutionGuidance(events);
+server/integrations/execution_guidance_hook.mjs:21:    console.error('[execution-guidance] hook error', err?.message || err);
+server/integrations/execution_guidance_dev_probe.mjs:1:import { executionGuidanceHook } from "./execution_guidance_hook.mjs";
+server/integrations/execution_guidance_dev_probe.mjs:7: * - Validates end-to-end wiring of guidance layer
+server/integrations/execution_guidance_dev_probe.mjs:46:console.log("▶️ Running execution guidance dev probe...\n");
+server/integrations/execution_guidance_dev_probe.mjs:48:executionGuidanceHook(simulatedEvents);
+server/integrations/execution_guidance_example_usage.mjs:1:import { attachExecutionGuidance } from "./execution_guidance_attach_point.mjs";
+server/integrations/execution_guidance_example_usage.mjs:6: * This file demonstrates how to safely attach execution guidance
+server/integrations/execution_guidance_example_usage.mjs:17:export async function runGuidanceOnLiveEvents() {
+server/integrations/execution_guidance_example_usage.mjs:21:  attachExecutionGuidance(events);
+server/integrations/execution_guidance_example_usage.mjs:25:if (process.env.RUN_GUIDANCE === 'true') {
+server/integrations/execution_guidance_example_usage.mjs:26:  runGuidanceOnLiveEvents();
+server/execution_guidance_runner.mjs:1:import { logExecutionGuidanceInterpretation } from "./execution_guidance_router.mjs";
+server/execution_guidance_runner.mjs:4: * PHASE 621 — PASSIVE GUIDANCE RUNNER
+server/execution_guidance_runner.mjs:6: * - Passes them into guidance router
+server/execution_guidance_runner.mjs:10:export function runExecutionGuidance(events = []) {
+server/execution_guidance_runner.mjs:12:    console.warn('[execution-guidance] invalid events input');
+server/execution_guidance_runner.mjs:24:      logExecutionGuidanceInterpretation(event);
+server/execution_guidance_runner.mjs:32:if (process.env.GUIDANCE_TEST === 'true') {
+server/execution_guidance_runner.mjs:33:  console.log('[execution-guidance] running in test mode');
+server/execution_guidance_runner.mjs:60:  runExecutionGuidance(mockEvents);
+server/lib/guidance-engine.js:2: * PHASE 659 — GUIDANCE PRIORITIZATION (READ-ONLY)
+server/lib/guidance-engine.js:5:function createGuidance({ type, severity, message, subsystem, suggested_action }) {
+server/lib/guidance-engine.js:16:function sortByPriority(guidance) {
+server/lib/guidance-engine.js:17:  return guidance.sort((a, b) => b.severity - a.severity);
+server/lib/guidance-engine.js:20:export function generateGuidance(subsystems) {
+server/lib/guidance-engine.js:21:  const guidance = [];
+server/lib/guidance-engine.js:27:    guidance.push(
+server/lib/guidance-engine.js:28:      createGuidance({
+server/lib/guidance-engine.js:39:    guidance.push(
+server/lib/guidance-engine.js:40:      createGuidance({
+server/lib/guidance-engine.js:50:  if (guidance.length === 0) {
+server/lib/guidance-engine.js:51:    guidance.push(
+server/lib/guidance-engine.js:52:      createGuidance({
+server/lib/guidance-engine.js:61:  return sortByPriority(guidance);
+server/api/_patch-guidance-with-history.mjs:1:// Phase 663 — Controlled Integration (GUIDANCE API ONLY)
+server/api/_patch-guidance-with-history.mjs:4:// - This wraps ONLY the guidance API response
+server/api/_patch-guidance-with-history.mjs:8:import { captureGuidanceSnapshot } from "../guidance/_wireHistoryCapture.mjs";
+server/api/_patch-guidance-with-history.mjs:10:export function withGuidanceHistoryCapture(originalHandler) {
+server/api/_patch-guidance-with-history.mjs:16:        captureGuidanceSnapshot(payload);
+server/api/guidance-history.mjs:1:// Phase 663 — Guidance History API (READ-ONLY, NON-INTRUSIVE)
+server/api/guidance-history.mjs:3:import { getGuidanceHistory } from "../guidance/historyBuffer.mjs";
+server/api/guidance-history.mjs:7:    const history = getGuidanceHistory();
+server/api/guidance-history.mjs:17:      error: "failed_to_fetch_guidance_history",
+server/api/guidance.original.mjs:1:// Phase 663 — Restored Original Guidance Handler (DYNAMIC BASELINE)
+server/api/guidance.original.mjs:4:// This file restores a dynamic guidance generator
+server/api/guidance.original.mjs:9:    const guidance = [
+server/api/guidance.original.mjs:26:      guidance_available: guidance.length > 0,
+server/api/guidance.original.mjs:27:      guidance,
+server/api/guidance.original.mjs:32:      error: "guidance_generation_failed",
+server/api/guidance.mjs:1:// Phase 663 — Guidance API with Passive History Capture
+server/api/guidance.mjs:3:import originalHandler from "./guidance.original.mjs";
+server/api/guidance.mjs:4:import { withGuidanceHistoryCapture } from "./_patch-guidance-with-history.mjs";
+server/api/guidance.mjs:6:const handler = withGuidanceHistoryCapture(originalHandler);
+server/routes/subsystem-status.js:38:            name: 'guidance',
+server/routes/api-tasks-postgres.mjs:38:// GET /api/tasks?limit=25  -> recent tasks for dashboard widget
+server/routes/api-tasks-postgres.mjs:65:        completed.payload AS guidance
+server/routes/operator-guidance.mjs:4:const MAX_GUIDANCE_HISTORY = 50;
+server/routes/operator-guidance.mjs:5:const guidanceHistory = [];
+server/routes/operator-guidance.mjs:7:function recordGuidanceHistory(snapshot) {
+server/routes/operator-guidance.mjs:10:  guidanceHistory.unshift({
+server/routes/operator-guidance.mjs:15:  if (guidanceHistory.length > MAX_GUIDANCE_HISTORY) {
+server/routes/operator-guidance.mjs:16:    guidanceHistory.length = MAX_GUIDANCE_HISTORY;
+server/routes/operator-guidance.mjs:20:async function buildGuidance(pool) {
+server/routes/operator-guidance.mjs:31:  const guidance = result.rows
+server/routes/operator-guidance.mjs:63:    guidance_available: guidance.length > 0,
+server/routes/operator-guidance.mjs:64:    guidance,
+server/routes/operator-guidance.mjs:68:export default function operatorGuidanceRouter({ pool }) {
+server/routes/operator-guidance.mjs:69:  router.get("/api/guidance", async (_req, res) => {
+server/routes/operator-guidance.mjs:71:      const payload = await buildGuidance(pool);
+server/routes/operator-guidance.mjs:72:      recordGuidanceHistory(payload);
+server/routes/operator-guidance.mjs:75:      console.error("[phase663-guidance-error]", error?.message || error);
+server/routes/operator-guidance.mjs:79:        guidance_available: false,
+server/routes/operator-guidance.mjs:80:        guidance: [],
+server/routes/operator-guidance.mjs:81:        error: "guidance_unavailable",
+server/routes/operator-guidance.mjs:85:      recordGuidanceHistory(payload);
+server/routes/operator-guidance.mjs:90:  router.get("/api/guidance-history", (_req, res) => {
+server/routes/operator-guidance.mjs:93:      history_available: guidanceHistory.length > 0,
+server/routes/operator-guidance.mjs:94:      history: guidanceHistory,
+server/routes/operator-guidance.mjs:98:  router.get("/events/operator-guidance", async (req, res) => {
+server/routes/operator-guidance.mjs:118:        const payload = await buildGuidance(pool);
+server/routes/operator-guidance.mjs:119:        recordGuidanceHistory(payload);
+server/routes/operator-guidance.mjs:120:        send("operator-guidance", payload);
+server/routes/operator-guidance.mjs:122:        console.error("[phase663-guidance-sse-error]", error?.message || error);
+server/routes/operator-guidance.mjs:126:          guidance_available: false,
+server/routes/operator-guidance.mjs:127:          guidance: [],
+server/routes/operator-guidance.mjs:128:          error: "guidance_unavailable",
+server/routes/operator-guidance.mjs:132:        recordGuidanceHistory(payload);
+server/routes/operator-guidance.mjs:133:        send("operator-guidance", payload);
+server/routes/api-guidance.mjs:5:// PHASE 510 — GUIDANCE ROUTE (ACTIVE ROUTER, NO INFERENCE)
+server/routes/api-guidance.mjs:12:        guidance_available: false,
+server/routes/api-guidance.mjs:13:        guidance: null,
+server/routes/api-guidance.mjs:19:      guidance_available: true,
+server/routes/api-guidance.mjs:20:      guidance: {
+server/routes/api-guidance.mjs:28:        note: "minimal_deterministic_guidance_stream"
+server/routes/api-guidance.mjs:35:      guidance_available: false,
+server/routes/api-guidance.mjs:36:      guidance: null,
+server/routes/index.js:2: * PHASE 641 — ROUTE REGISTRATION (GUIDANCE SSE + EXISTING)
+server/routes/index.js:7:import { registerGuidanceRoute } from './guidance.js';
+server/routes/index.js:8:import { registerGuidanceSSERoute } from './guidance-sse.js';
+server/routes/index.js:15:  registerGuidanceRoute(app);
+server/routes/index.js:16:  registerGuidanceSSERoute(app);
+server/routes/guidance-sse.js:2: * PHASE 650 — GUIDANCE SSE STREAM WITH INTELLIGENCE (READ-ONLY)
+server/routes/guidance-sse.js:6:import { generateGuidance } from '../lib/guidance-engine.js';
+server/routes/guidance-sse.js:29:    { name: 'guidance', status: 'active', connected: true },
+server/routes/guidance-sse.js:34:function buildGuidanceSnapshot() {
+server/routes/guidance-sse.js:36:  const guidance = generateGuidance(subsystems);
+server/routes/guidance-sse.js:40:    guidance_available: guidance.length > 0,
+server/routes/guidance-sse.js:41:    guidance,
+server/routes/guidance-sse.js:47:export function registerGuidanceSSERoute(app) {
+server/routes/guidance-sse.js:48:  app.get('/events/guidance', (req, res) => {
+server/routes/guidance-sse.js:55:        const snapshot = buildGuidanceSnapshot();
+server/routes/guidance-sse.js:58:        console.error('[guidance][sse][error]', err?.message);
+server/routes/guidance-sse.js:67:      console.log('[guidance][sse] client disconnected');
+server/routes/task-events-sse.mjs:3:import { interpretCompletedTaskEvent } from "../execution_guidance_router.mjs";
+server/routes/task-events-sse.mjs:70:function maybeAttachGuidance(row, payload, eventName) {
+server/routes/task-events-sse.mjs:76:    const guidance = interpretCompletedTaskEvent({ ...row, payload });
+server/routes/task-events-sse.mjs:77:    return guidance ? { ...payload, guidance } : payload;
+server/routes/task-events-sse.mjs:189:          const enrichedPayload = maybeAttachGuidance(row, payload, eventName);
+server/routes/guidance.js:2: * PHASE 650 — GUIDANCE ROUTE WITH INTELLIGENCE (READ-ONLY)
+server/routes/guidance.js:6:import { generateGuidance } from '../lib/guidance-engine.js';
+server/routes/guidance.js:29:    { name: 'guidance', status: 'active', connected: true },
+server/routes/guidance.js:34:export function registerGuidanceRoute(app) {
+server/routes/guidance.js:35:  app.get('/api/guidance', async (req, res) => {
+server/routes/guidance.js:38:      const guidance = generateGuidance(subsystems);
+server/routes/guidance.js:42:        guidance_available: guidance.length > 0,
+server/routes/guidance.js:43:        guidance,
+server/routes/guidance.js:52:        error: 'guidance_failed'
+server/routes/subsystem-sse.js:32:      { name: 'guidance', status: 'active', connected: true },
+server/execution_guidance_router.mjs:86:export function logExecutionGuidanceInterpretation(event = {}) {
+server/execution_guidance_router.mjs:89:  console.log('[execution-guidance]', JSON.stringify({
+server/sql/phase54_bootstrap.sql:3:-- Phase 54 bootstrap: ensure fresh Postgres boot has the schema the dashboard expects.
+public/dashboard.html.bak:7:<link rel="stylesheet" href="css/dashboard.css?v=darkmode">
+public/dashboard.html.bak:109:<link rel="stylesheet" href="css/dashboard-reflections.css">
+public/dashboard.html.bak:113:    ⚡ Dashboard v2.0.3 — unified chat + diagnostics layout loaded
+public/dashboard.html.bak:190:  <script src="js/dashboard.js" defer></script>
+public/dashboard.html.bak:291:<script defer src="js/dashboard.js"></script>
+public/dashboard.html.bak:306:<script src="js/dashboard-status.js"></script>
+public/dashboard.html.bak:321:<script src="js/dashboard-ops.js"></script>
+public/dashboard.html.bak:338:<script src="js/dashboard-stream.js" defer></script>
+public/dashboard.html.bak:395:<link rel="stylesheet" href="css/dashboard-reflections.css">
+public/dashboard.html.bak:451:  <script src="js/dashboard-reflections.js"></script>
+public/minimal_probe.html:10:  <p>If this page stays responsive, the browser freeze is specific to dashboard markup or dashboard delivery shape.</p>
+public/dashboard.html.phase478_4_pre_dashboard_css_restore.bak:11:<!-- phase474.3 temporary neutralization: removed local stylesheet :: <link rel="stylesheet" href="css/dashboard.css?v=darkmode" /> -->
+public/dashboard.html.phase478_4_pre_dashboard_css_restore.bak:12:<!-- phase474.3 temporary neutralization: removed local stylesheet :: <link rel="stylesheet" href="css/dashboard-reflections.css" /> -->
+public/dashboard.html.phase478_4_pre_dashboard_css_restore.bak:128:                      <div id="operator-guidance-panel" class="mt-4 rounded-xl border border-gray-700 bg-gray-900/70 p-4 min-h-[140px]">
+public/dashboard.html.phase478_4_pre_dashboard_css_restore.bak:129:                        <div class="text-xs uppercase tracking-[0.2em] text-gray-500 mb-3">Operator Guidance</div>
+public/dashboard.html.phase478_4_pre_dashboard_css_restore.bak:130:                        <div id="operator-guidance-response" class="text-sm text-gray-300 leading-6">
+public/dashboard.html.phase478_4_pre_dashboard_css_restore.bak:131:                          Awaiting bounded guidance stream.<br>
+public/dashboard.html.phase478_4_pre_dashboard_css_restore.bak:132:                          Live operator guidance will appear here when visibility wiring is active.
+public/dashboard.html.phase478_4_pre_dashboard_css_restore.bak:134:                        <div id="operator-guidance-meta" class="mt-3 text-xs text-gray-500 leading-5">
+public/dashboard.html.phase478_4_pre_dashboard_css_restore.bak:260:    <!-- phase470.6 temporary neutralization: operatorGuidance.sse.js removed to isolate dashboard freeze / unresponsive behavior -->
+Binary file public/.dashboard.html.swm matches
+public/index.html:13:  <link rel="stylesheet" href="css/dashboard.css?v=darkmode" />
+public/index.html:14:  <link rel="stylesheet" href="css/dashboard-reflections.css" />
+public/index.html:161:    #operator-guidance-panel,
+public/index.html:184:  <script defer src="js/dashboard-status.js"></script>
+public/index.html:186:  <script type="module" src="js/dashboard-broadcast.js"></script>
+public/index.html:316:                    <div id="operator-guidance-panel" class="mt-3 rounded-xl border border-gray-700 bg-gray-900/70 p-4">
+public/index.html:317:                      <div class="text-xs uppercase tracking-[0.2em] text-gray-500 mb-2">Operator Guidance</div>
+public/index.html:318:                      <div id="operator-guidance-response" class="text-sm text-gray-300 leading-6">
+public/index.html:319:                        Awaiting bounded guidance stream.<br />
+public/index.html:320:                        Live operator guidance will appear here when visibility wiring is active.
+public/index.html:322:                      <div id="operator-guidance-meta" class="mt-3 text-xs text-gray-500 leading-5">
+public/index.html:578:  <script defer src="js/dashboard-delegation.js"></script>
+public/index.html:580:  <script defer src="js/dashboard-graph.js"></script>
+public/index.html:593:  <script defer src="js/operatorGuidance.sse.js"></script>
+public/index.html:598:    <div style="font-size:14px;margin-bottom:10px;opacity:0.8;">Operator Guidance — Reasoning</div>
+public/index.html:602:      • No active guidance stream<br>
