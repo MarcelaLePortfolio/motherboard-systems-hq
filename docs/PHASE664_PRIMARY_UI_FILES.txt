@@ -1,0 +1,36 @@
+public/dashboard.html.bak:7:<link rel="stylesheet" href="css/dashboard.css?v=darkmode">
+public/dashboard.html.bak:109:<link rel="stylesheet" href="css/dashboard-reflections.css">
+public/dashboard.html.bak:113:    ⚡ Dashboard v2.0.3 — unified chat + diagnostics layout loaded
+public/dashboard.html.bak:190:  <script src="js/dashboard.js" defer></script>
+public/dashboard.html.bak:291:<script defer src="js/dashboard.js"></script>
+public/dashboard.html.bak:306:<script src="js/dashboard-status.js"></script>
+public/dashboard.html.bak:321:<script src="js/dashboard-ops.js"></script>
+public/dashboard.html.bak:338:<script src="js/dashboard-stream.js" defer></script>
+public/dashboard.html.bak:395:<link rel="stylesheet" href="css/dashboard-reflections.css">
+public/dashboard.html.bak:451:  <script src="js/dashboard-reflections.js"></script>
+public/dashboard.html.phase478_4_pre_dashboard_css_restore.bak:11:<!-- phase474.3 temporary neutralization: removed local stylesheet :: <link rel="stylesheet" href="css/dashboard.css?v=darkmode" /> -->
+public/dashboard.html.phase478_4_pre_dashboard_css_restore.bak:12:<!-- phase474.3 temporary neutralization: removed local stylesheet :: <link rel="stylesheet" href="css/dashboard-reflections.css" /> -->
+public/dashboard.html.phase478_4_pre_dashboard_css_restore.bak:128:                      <div id="operator-guidance-panel" class="mt-4 rounded-xl border border-gray-700 bg-gray-900/70 p-4 min-h-[140px]">
+public/dashboard.html.phase478_4_pre_dashboard_css_restore.bak:129:                        <div class="text-xs uppercase tracking-[0.2em] text-gray-500 mb-3">Operator Guidance</div>
+public/dashboard.html.phase478_4_pre_dashboard_css_restore.bak:130:                        <div id="operator-guidance-response" class="text-sm text-gray-300 leading-6">
+public/dashboard.html.phase478_4_pre_dashboard_css_restore.bak:131:                          Awaiting bounded guidance stream.<br>
+public/dashboard.html.phase478_4_pre_dashboard_css_restore.bak:132:                          Live operator guidance will appear here when visibility wiring is active.
+public/dashboard.html.phase478_4_pre_dashboard_css_restore.bak:134:                        <div id="operator-guidance-meta" class="mt-3 text-xs text-gray-500 leading-5">
+public/dashboard.html.phase478_4_pre_dashboard_css_restore.bak:260:    <!-- phase470.6 temporary neutralization: operatorGuidance.sse.js removed to isolate dashboard freeze / unresponsive behavior -->
+Binary file public/.dashboard.html.swm matches
+public/index.html:13:  <link rel="stylesheet" href="css/dashboard.css?v=darkmode" />
+public/index.html:14:  <link rel="stylesheet" href="css/dashboard-reflections.css" />
+public/index.html:161:    #operator-guidance-panel,
+public/index.html:184:  <script defer src="js/dashboard-status.js"></script>
+public/index.html:186:  <script type="module" src="js/dashboard-broadcast.js"></script>
+public/index.html:316:                    <div id="operator-guidance-panel" class="mt-3 rounded-xl border border-gray-700 bg-gray-900/70 p-4">
+public/index.html:317:                      <div class="text-xs uppercase tracking-[0.2em] text-gray-500 mb-2">Operator Guidance</div>
+public/index.html:318:                      <div id="operator-guidance-response" class="text-sm text-gray-300 leading-6">
+public/index.html:319:                        Awaiting bounded guidance stream.<br />
+public/index.html:320:                        Live operator guidance will appear here when visibility wiring is active.
+public/index.html:322:                      <div id="operator-guidance-meta" class="mt-3 text-xs text-gray-500 leading-5">
+public/index.html:578:  <script defer src="js/dashboard-delegation.js"></script>
+public/index.html:580:  <script defer src="js/dashboard-graph.js"></script>
+public/index.html:593:  <script defer src="js/operatorGuidance.sse.js"></script>
+public/index.html:598:    <div style="font-size:14px;margin-bottom:10px;opacity:0.8;">Operator Guidance — Reasoning</div>
+public/index.html:602:      • No active guidance stream<br>
