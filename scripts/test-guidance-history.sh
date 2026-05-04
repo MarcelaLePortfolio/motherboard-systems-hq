@@ -1,9 +1,10 @@
 #!/bin/bash
 set -e
 
-URL="http://localhost:8080/api/guidance-history"
+BASE_URL="${BASE_URL:-http://localhost:3000}"
+URL="$BASE_URL/api/guidance-history"
 
-echo "Testing /api/guidance-history endpoint..."
+echo "Testing /api/guidance-history endpoint at $BASE_URL..."
 BODY="$(curl -s -w '\nHTTP_STATUS:%{http_code}' "$URL")"
 STATUS="$(echo "$BODY" | sed -n 's/^HTTP_STATUS://p')"
 JSON="$(echo "$BODY" | sed '/^HTTP_STATUS:/d')"

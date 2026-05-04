@@ -1,10 +1,11 @@
 #!/bin/bash
 set -e
 
-GUIDANCE_URL="http://localhost:8080/api/guidance"
-HISTORY_URL="http://localhost:8080/api/guidance-history"
+BASE_URL="${BASE_URL:-http://localhost:3000}"
+GUIDANCE_URL="$BASE_URL/api/guidance"
+HISTORY_URL="$BASE_URL/api/guidance-history"
 
-echo "Triggering guidance endpoint..."
+echo "Triggering guidance endpoint at $BASE_URL..."
 curl -s -f "$GUIDANCE_URL" > /dev/null
 
 echo "Fetching guidance history..."
