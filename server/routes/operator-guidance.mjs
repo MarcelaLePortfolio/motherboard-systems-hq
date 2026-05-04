@@ -1,5 +1,6 @@
 import express from "express";
 import { generateGuidance } from "../lib/guidance-engine.js";
+import { applyGuidancePriority } from "../lib/guidance-priority.js";
 
 const router = express.Router();
 const MAX_GUIDANCE_HISTORY = 50;
@@ -54,13 +55,15 @@ async function buildGuidance(pool) {
 
   const engineResult = generateGuidance(subsystems);
 
-  const guidance = Array.isArray(engineResult?.guidance)
+  let guidance = Array.isArray(engineResult?.guidance)
     ? engineResult.guidance
     : Array.isArray(engineResult?.items)
       ? engineResult.items
       : Array.isArray(engineResult)
         ? engineResult
         : [];
+
+  guidance = applyGuidancePriority(guidance);
 
   return {
     ok: true,
