@@ -14,6 +14,7 @@ import {
 export default function GuidancePanel() {
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [retryStatus, setRetryStatus] = useState<string | null>(null);
 
   const fetchGuidance = async () => {
     try {
@@ -28,13 +29,21 @@ export default function GuidancePanel() {
   };
 
   const retryTask = async (taskId: string) => {
+    setRetryStatus("clicked");
+
+    if (!confirm("Retry this task?")) {
+      setRetryStatus("cancelled");
+      return;
+    }
+
+    setRetryStatus("creating");
     const confirmed = window.confirm(`Retry task ${taskId}?`);
     if (!confirmed) return;
 
     const retryId = `retry_${taskId}_${Date.now()}`;
 
     try {
-      await fetch('/api/tasks/create', {
+      const res = await fetch('/api/tasks/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -52,6 +61,13 @@ export default function GuidancePanel() {
           source: 'operator-guidance-ui'
         })
       });
+
+      if (!res.ok) {
+        setRetryStatus("failed");
+        return;
+      }
+
+      setRetryStatus("created");
 
       await fetchGuidance();
     } catch {
@@ -123,6 +139,13 @@ export default function GuidancePanel() {
     warning: guidance.filter((g) => g.type === 'warning'),
     info: guidance.filter((g) => g.type === 'info')
   });
+
+      if (!res.ok) {
+        setRetryStatus("failed");
+        return;
+      }
+
+      setRetryStatus("created");
 
   const getSeverityStyle = (type: string) => {
     if (type === 'critical') {
@@ -281,6 +304,11 @@ export default function GuidancePanel() {
 
       <div style={sectionStyle}>
         <strong>Guidance</strong>
+          {retryStatus && (
+            <div style={{ marginTop: '6px', fontSize: '11px', opacity: 0.7 }}>
+              Retry Status: {retryStatus}
+            </div>
+          )}
         {data.guidance_available ? (
           <>
             {renderGroup('CRITICAL', grouped.critical, 2)}
