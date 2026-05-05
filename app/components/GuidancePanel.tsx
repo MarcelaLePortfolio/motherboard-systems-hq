@@ -15,6 +15,7 @@ export default function GuidancePanel() {
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [retryStatus, setRetryStatus] = useState<string | null>(null);
+  const [coherenceData, setCoherenceData] = useState<any>(null);
 
   const fetchGuidance = async () => {
     try {
@@ -25,6 +26,17 @@ export default function GuidancePanel() {
       console.error('Guidance fetch failed');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchCoherencePreview = async () => {
+    try {
+      const res = await fetch('/api/guidance/coherence-shadow');
+      if (!res.ok) return;
+      const json = await res.json();
+      setCoherenceData(json);
+    } catch {
+      console.error('Coherence preview fetch failed');
     }
   };
 
@@ -87,7 +99,11 @@ export default function GuidancePanel() {
 
     const fallbackPolling = () => {
       fetchGuidance();
-      pollingInterval = setInterval(fetchGuidance, 5000);
+      fetchCoherencePreview();
+      pollingInterval = setInterval(() => {
+        fetchGuidance();
+        fetchCoherencePreview();
+      }, 5000);
     };
 
     const connectSSE = () => {
@@ -98,6 +114,7 @@ export default function GuidancePanel() {
           try {
             const json = JSON.parse(event.data);
             setData(json);
+            fetchCoherencePreview();
             setLoading(false);
           } catch {
             console.error('SSE parse failed');
@@ -291,6 +308,22 @@ export default function GuidancePanel() {
             connected={s.connected}
           />
         ))}
+      </div>
+
+      <div style={sectionStyle}>
+        <strong>Coherence Preview</strong>
+        <div style={{ marginTop: '8px', fontSize: '12px', opacity: 0.82, lineHeight: 1.45 }}>
+          {coherenceData ? (
+            <>
+              <div>Mode: {coherenceData.mode || 'coherence-shadow'}</div>
+              <div>Raw signals: {coherenceData.raw?.length ?? 0}</div>
+              <div>Coherent signals: {coherenceData.coherent?.length ?? 0}</div>
+              <div>Source: {coherenceData.source || 'unknown'}</div>
+            </>
+          ) : (
+            <div>Coherence preview unavailable.</div>
+          )}
+        </div>
       </div>
 
       <div style={sectionStyle}>
