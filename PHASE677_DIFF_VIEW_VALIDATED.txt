@@ -1,0 +1,19 @@
+Phase 677 Diff View Validation
+
+Status:
+VALIDATED AND PUSHED
+
+Confirmed:
+- Docker containers are up.
+- Postgres is healthy.
+- Dashboard is mapped to localhost:3000.
+- /api/guidance/coherence-shadow returns HTTP 200.
+- Coherence shadow payload remains read-only.
+- GuidancePanel contains Raw vs Coherent Diff markers.
+- No backend, database, worker, scheduler, or execution pipeline changes were introduced.
+
+Commit checkpoint:
+- 4772cc77 Phase 677: add active route validation script for coherence diff view
+
+Next safe step:
+- Add temporal grouping visualization in read-only UI only.
