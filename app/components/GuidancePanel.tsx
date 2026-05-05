@@ -216,6 +216,14 @@ export default function GuidancePanel() {
     introduced: introducedSignals.length
   };
 
+  const collapseRatio = rawSignals.length
+    ? Math.round((collapsedSignals.length / rawSignals.length) * 100)
+    : 0;
+
+  const collapseIndicatorLabel = collapsedSignals.length > 0
+    ? 'Coherence is reducing repeated/noisy signals'
+    : 'No signal collapse detected';
+
   const temporalGroups = rawSignals.reduce((groups: Record<string, any[]>, signal: any) => {
     const timestamp = signal?.timestamp ? new Date(signal.timestamp) : null;
     const key = timestamp && !Number.isNaN(timestamp.getTime())
@@ -394,6 +402,13 @@ export default function GuidancePanel() {
                 <div>Retained: {diffSummary.retained}</div>
                 <div>Collapsed: {diffSummary.collapsed}</div>
                 <div>Introduced: {diffSummary.introduced}</div>
+
+                <div style={{ marginTop: '8px', padding: '6px 8px', borderRadius: '8px', background: 'rgba(255,255,255,0.06)' }}>
+                  <div style={{ fontWeight: 800 }}>Signal Collapse Indicator</div>
+                  <div>Collapse ratio: {collapseRatio}%</div>
+                  <div>{collapseIndicatorLabel}</div>
+                </div>
+
                 {renderDiffSignals('Collapsed signals', collapsedSignals)}
                 {renderDiffSignals('Introduced coherent signals', introducedSignals)}
 
