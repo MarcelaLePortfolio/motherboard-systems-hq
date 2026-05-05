@@ -224,8 +224,12 @@ export default function operatorGuidanceRouter({ pool }) {
     const raw = mergeGuidanceEvents(memoryEvents, persistedEvents);
     const coherent = deriveCoherentGuidance(raw);
 
+    const memoryAvailable = memoryEvents.length > 0;
+    const persistedAvailable = persistedEvents.length > 0;
+    const mergedAvailable = raw.length > 0;
+
     res.json({
-      phase: "680",
+      phase: "682",
       mode: "coherence-shadow",
       runtimeImpact: {
         execution: false,
@@ -233,14 +237,25 @@ export default function operatorGuidanceRouter({ pool }) {
         ui: false,
         formatting: false,
       },
-      source: persisted.ok && persistedEvents.length > 0 ? "merged" : "express-guidance-history",
+      source: persistedAvailable ? "merged" : "express-guidance-history",
+      availability: {
+        memory: memoryAvailable,
+        persisted: persistedAvailable,
+        merged: mergedAvailable,
+      },
+      counts: {
+        memory_events: memoryEvents.length,
+        persisted_events: persistedEvents.length,
+        merged_events: raw.length,
+        coherent_events: coherent.length,
+      },
       persistence: {
         enabled: persisted.ok,
         source: persisted.source,
         event_count: persistedEvents.length,
         error: persisted.error || null,
       },
-      history_available: guidanceHistory.length > 0 || persistedEvents.length > 0,
+      history_available: mergedAvailable,
       raw,
       coherent,
     });
