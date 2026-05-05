@@ -397,6 +397,18 @@ export default function GuidancePanel() {
               <div>Coherent signals: {coherenceData.coherent?.length ?? 0}</div>
               <div>Source: {coherenceData.source || 'unknown'}</div>
 
+              <div style={{ marginTop: '10px', padding: '6px 8px', borderRadius: '8px', background: 'rgba(255,255,255,0.06)' }}>
+                <div style={{ fontWeight: 800, marginBottom: '4px' }}>Persistence Metadata</div>
+                <div>Memory available: {coherenceData.availability?.memory ? 'yes' : 'no'}</div>
+                <div>Persisted available: {coherenceData.availability?.persisted ? 'yes' : 'no'}</div>
+                <div>Merged available: {coherenceData.availability?.merged ? 'yes' : 'no'}</div>
+                <div>Memory events: {coherenceData.counts?.memory_events ?? 0}</div>
+                <div>Persisted events: {coherenceData.counts?.persisted_events ?? coherenceData.persistence?.event_count ?? 0}</div>
+                <div>Merged events: {coherenceData.counts?.merged_events ?? 0}</div>
+                <div>Persistence source: {coherenceData.persistence?.source || 'unknown'}</div>
+                <div>Persistence enabled: {coherenceData.persistence?.enabled ? 'yes' : 'no'}</div>
+              </div>
+
               <div style={{ marginTop: '10px', paddingTop: '8px', borderTop: '1px solid rgba(255,255,255,0.12)' }}>
                 <div style={{ fontWeight: 800, marginBottom: '4px' }}>Raw vs Coherent Diff</div>
                 <div>Retained: {diffSummary.retained}</div>
