@@ -1,3 +1,7 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cat > app/components/ui/StatusRow.tsx << 'TSX'
 'use client';
 
 type Props = {
@@ -55,3 +59,10 @@ export default function StatusRow({ label, status, connected }: Props) {
     </div>
   );
 }
+TSX
+
+git add app/components/ui/StatusRow.tsx PHASE702_STEP5C_PATCH_STATUS_REASONING.sh
+git commit -m "Phase 702: add subsystem status reasoning to UI"
+git push
+
+git status --short
