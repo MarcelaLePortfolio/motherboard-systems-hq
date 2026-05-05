@@ -29,16 +29,14 @@ export default function GuidancePanel() {
   };
 
   const retryTask = async (taskId: string) => {
-    setRetryStatus("clicked");
+    setRetryStatus('clicked');
 
-    if (!confirm("Retry this task?")) {
-      setRetryStatus("cancelled");
+    if (!confirm('Retry this task?')) {
+      setRetryStatus('cancelled');
       return;
     }
 
-    setRetryStatus("creating");
-    const confirmed = window.confirm(`Retry task ${taskId}?`);
-    if (!confirmed) return;
+    setRetryStatus('creating');
 
     const retryId = `retry_${taskId}_${Date.now()}`;
 
@@ -63,14 +61,14 @@ export default function GuidancePanel() {
       });
 
       if (!res.ok) {
-        setRetryStatus("failed");
+        setRetryStatus('failed');
         return;
       }
 
-      setRetryStatus("created");
-
+      setRetryStatus('created');
       await fetchGuidance();
     } catch {
+      setRetryStatus('failed');
       console.error('Retry task creation failed');
     }
   };
@@ -139,13 +137,6 @@ export default function GuidancePanel() {
     warning: guidance.filter((g) => g.type === 'warning'),
     info: guidance.filter((g) => g.type === 'info')
   });
-
-      if (!res.ok) {
-        setRetryStatus("failed");
-        return;
-      }
-
-      setRetryStatus("created");
 
   const getSeverityStyle = (type: string) => {
     if (type === 'critical') {
@@ -304,11 +295,11 @@ export default function GuidancePanel() {
 
       <div style={sectionStyle}>
         <strong>Guidance</strong>
-          {retryStatus && (
-            <div style={{ marginTop: '6px', fontSize: '11px', opacity: 0.7 }}>
-              Retry Status: {retryStatus}
-            </div>
-          )}
+        {retryStatus && (
+          <div style={{ marginTop: '6px', fontSize: '11px', opacity: 0.7 }}>
+            Retry Status: {retryStatus}
+          </div>
+        )}
         {data.guidance_available ? (
           <>
             {renderGroup('CRITICAL', grouped.critical, 2)}
