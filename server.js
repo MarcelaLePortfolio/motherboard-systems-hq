@@ -189,6 +189,46 @@ app.post("/api/agent-control", (req, res) => {
   });
 });
 
+
+// PHASE703 ADVISORY CHAT ROUTE — deterministic, non-executing, no task/worker/DB coupling
+app.post("/api/chat", (req, res) => {
+  try {
+    const body = req.body || {};
+    const message = typeof body.message === "string" ? body.message : "";
+    const input = typeof body.input === "string" ? body.input : message;
+
+    if (!input.trim()) {
+      return res.status(400).json({
+        reply: "Advisory response only: no message received. No execution performed.",
+        meta: {
+          mode: "advisory-deterministic",
+          execution: false,
+          systemCoupling: false
+        }
+      });
+    }
+
+    return res.json({
+      reply: `Advisory response only: received input "${input}". No execution performed.`,
+      meta: {
+        mode: "advisory-deterministic",
+        execution: false,
+        systemCoupling: false
+      }
+    });
+  } catch (err) {
+    console.error("Error in /api/chat:", err);
+    return res.status(500).json({
+      reply: "Advisory response only: chat route error. No execution performed.",
+      meta: {
+        mode: "advisory-deterministic",
+        execution: false,
+        systemCoupling: false
+      }
+    });
+  }
+});
+
 app.use(express.static(path.join(__dirname, "ui/dashboard")));
 app.use(express.static(path.join(__dirname, "public")));
 
