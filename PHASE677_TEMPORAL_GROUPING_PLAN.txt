@@ -1,0 +1,26 @@
+Phase 677 – Temporal Grouping Visualization Plan
+
+Goal:
+Add read-only temporal grouping for coherence raw signals.
+
+Scope:
+- UI-only
+- GuidancePanel.tsx only
+- No backend changes
+- No database changes
+- No worker changes
+- No execution coupling
+
+Visualization:
+- Group raw coherence signals by minute using existing timestamp values.
+- Show most recent groups first.
+- Display group counts only at first pass.
+- Preserve existing Raw vs Coherent Diff view.
+
+Validation:
+- Confirm /api/guidance/coherence-shadow remains HTTP 200.
+- Confirm GuidancePanel contains temporal grouping markers.
+- Confirm docker compose ps remains healthy.
+
+Status:
+READY FOR SAFE UI PATCH
