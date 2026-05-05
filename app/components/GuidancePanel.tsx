@@ -374,6 +374,9 @@ export default function GuidancePanel() {
           ({isStale ? 'STALE' : 'LIVE'})
         </span>
       </h3>
+      <div style={{ fontSize: '12px', opacity: 0.72, lineHeight: 1.4, marginBottom: '10px' }}>
+        Guidance is advisory and read-only. It does not execute tasks or change system state.
+      </div>
 
       <div style={sectionStyle}>
         <strong>Subsystem Context</strong>

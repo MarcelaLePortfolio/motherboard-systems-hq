@@ -87,6 +87,9 @@ export default function SubsystemStatusPanel() {
       <h3 style={headerStyle}>
         Subsystem Status <span style={{ opacity: 0.7 }}>({isStale ? 'STALE' : 'LIVE'})</span>
       </h3>
+      <div style={{ fontSize: '12px', opacity: 0.72, lineHeight: 1.4, marginBottom: '10px' }}>
+        LIVE means the UI is receiving recent subsystem data. STALE means the last received data is older than the freshness threshold.
+      </div>
 
       <div style={sectionStyle}>
         {data.subsystems.map((s) => (
