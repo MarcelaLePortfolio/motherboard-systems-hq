@@ -216,6 +216,21 @@ export default function GuidancePanel() {
     introduced: introducedSignals.length
   };
 
+  const temporalGroups = rawSignals.reduce((groups: Record<string, any[]>, signal: any) => {
+    const timestamp = signal?.timestamp ? new Date(signal.timestamp) : null;
+    const key = timestamp && !Number.isNaN(timestamp.getTime())
+      ? timestamp.toISOString().slice(0, 16).replace('T', ' ')
+      : 'unknown-time';
+
+    groups[key] = groups[key] || [];
+    groups[key].push(signal);
+    return groups;
+  }, {});
+
+  const temporalGroupEntries = Object.entries(temporalGroups)
+    .sort(([a], [b]) => b.localeCompare(a))
+    .slice(0, 6);
+
   const renderDiffSignals = (label: string, items: any[]) => {
     if (!items.length) {
       return (
@@ -381,6 +396,19 @@ export default function GuidancePanel() {
                 <div>Introduced: {diffSummary.introduced}</div>
                 {renderDiffSignals('Collapsed signals', collapsedSignals)}
                 {renderDiffSignals('Introduced coherent signals', introducedSignals)}
+
+                <div style={{ marginTop: '10px', paddingTop: '8px', borderTop: '1px solid rgba(255,255,255,0.10)' }}>
+                  <div style={{ fontWeight: 800, marginBottom: '4px' }}>Temporal Signal Groups</div>
+                  {temporalGroupEntries.length ? (
+                    temporalGroupEntries.map(([bucket, items]: any) => (
+                      <div key={bucket} style={{ marginTop: '4px', opacity: 0.82 }}>
+                        {bucket}: {items.length} signal{items.length === 1 ? '' : 's'}
+                      </div>
+                    ))
+                  ) : (
+                    <div style={{ opacity: 0.62 }}>No temporal groups available.</div>
+                  )}
+                </div>
               </div>
             </>
           ) : (
