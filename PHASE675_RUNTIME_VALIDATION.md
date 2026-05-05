@@ -4,8 +4,8 @@ Result: PENDING
 
 Details:
 - Endpoint: /api/guidance/coherence-shadow
-- Base URL: http://localhost:8080
-- Script Exit Code: 2
+- Base URL: http://localhost:3000
+- Script Exit Code: 1
 
 Interpretation:
 - PASSED: Shadow endpoint reachable and validated
