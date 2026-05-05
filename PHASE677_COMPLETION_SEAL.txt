@@ -1,0 +1,29 @@
+Phase 677 Completion Seal
+
+Status:
+COMPLETE, VALIDATED, AND PUSHED
+
+Implemented:
+- Read-only raw vs coherent diff view.
+- Read-only temporal signal grouping.
+- Read-only signal collapse indicators.
+
+Validated:
+- /api/guidance/coherence-shadow returns HTTP 200 on localhost:3000.
+- Docker containers remain up.
+- Postgres remains healthy.
+- GuidancePanel contains all Phase 677 visualization markers.
+
+Preserved:
+- No backend route changes.
+- No database schema changes.
+- No worker changes.
+- No scheduler changes.
+- No execution pipeline changes.
+- No guidance mutation pathways added.
+
+Final checkpoint:
+- 37e2b569 Phase 677: add read-only signal collapse indicators
+
+Next safe corridor:
+- Phase 678: persistence-aware coherence aggregation planning only, unless explicitly scoped to read-only inspection first.
