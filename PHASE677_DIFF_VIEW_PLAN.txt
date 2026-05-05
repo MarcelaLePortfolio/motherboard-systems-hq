@@ -1,0 +1,26 @@
+Phase 677 – Step 1: Diff View Implementation Plan
+
+Goal:
+Introduce a read-only diff visualization between raw guidance signals and coherence output.
+
+Constraints:
+- No mutation of execution layer
+- No mutation of guidance layer
+- UI remains strictly read-only
+- Data sourced from existing SSE + coherence shadow endpoint
+
+Implementation Notes:
+- Create side-by-side or inline diff component
+- Highlight:
+  • removed signals (deduplicated)
+  • merged signals (grouped)
+  • retained signals (unchanged)
+- Use lightweight client-side comparison (no backend change)
+
+Validation:
+- Confirm no new API calls introduced
+- Confirm no writes to DB
+- Confirm UI renders without affecting existing panels
+
+Status:
+READY FOR IMPLEMENTATION
