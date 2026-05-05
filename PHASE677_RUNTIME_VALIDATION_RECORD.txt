@@ -1,0 +1,19 @@
+Phase 677 Runtime Validation Record
+
+Patch:
+- Read-only coherence diff view added to app/components/GuidancePanel.tsx.
+
+Validation notes:
+- npm run lint unavailable: package.json has no lint script.
+- npm run build unavailable: package.json has no build script.
+- npm run shows only verify:replay.
+- Patch is UI-only and does not alter backend routes, database schema, worker runtime, scheduler, or execution pipeline.
+
+Next validation target:
+- Use container/runtime checks instead of unavailable npm scripts.
+- Confirm docker compose ps.
+- Confirm app renders GuidancePanel without runtime crash.
+- Confirm /api/guidance/coherence-shadow remains readable if runtime is active.
+
+Status:
+COMMITTED AND PUSHED; RUNTIME VALIDATION STILL REQUIRED.
