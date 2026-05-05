@@ -1,3 +1,7 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cat > src/governance_investigation/verification/replay_violation_codes.ts << 'TS'
 /*
 Phase 396 — Replay Violation Code Registry Completion
 Phase 702 — Replay Diagnostic Export Repair
@@ -129,3 +133,12 @@ export function normalizeViolations(violations: string[]): ReplayViolation[] {
 }
 
 export default REPLAY_VIOLATION_CODES;
+TS
+
+git add src/governance_investigation/verification/replay_violation_codes.ts PHASE702_STEP5I_INSPECT_REPLAY_EXPORTS.sh PHASE702_STEP5J_PATCH_REPLAY_DIAGNOSTIC_EXPORTS.sh
+git commit -m "Phase 702: repair replay diagnostic exports for validation"
+git push
+
+npm run verify:replay
+
+git status --short
