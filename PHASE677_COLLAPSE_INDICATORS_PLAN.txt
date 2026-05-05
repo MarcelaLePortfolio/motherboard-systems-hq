@@ -1,0 +1,26 @@
+Phase 677 – Signal Collapse Indicators Plan
+
+Goal:
+Add read-only collapse indicators to make coherence behavior easier to interpret.
+
+Scope:
+- UI-only
+- GuidancePanel.tsx only
+- No backend changes
+- No database changes
+- No worker changes
+- No scheduler changes
+- No execution coupling
+
+Visualization:
+- Show collapse ratio based on raw vs collapsed signal counts.
+- Show whether coherence is actively reducing repeated/noisy signals.
+- Preserve existing Raw vs Coherent Diff and Temporal Signal Groups views.
+
+Validation:
+- Confirm collapse indicator markers exist in GuidancePanel.
+- Confirm /api/guidance/coherence-shadow remains HTTP 200.
+- Confirm docker compose ps remains healthy.
+
+Status:
+READY FOR SAFE UI PATCH
