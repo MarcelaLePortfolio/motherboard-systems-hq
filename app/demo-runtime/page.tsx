@@ -1,3 +1,4 @@
+// DEMO_RUNTIME_NOTICE: This surface is a governed demo runner, not a live execution or chat system.
 "use client";
 
 import { useMemo, useState } from "react";
