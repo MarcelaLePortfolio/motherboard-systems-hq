@@ -1,5 +1,6 @@
 import express from "express";
 import { generateGuidance } from "../lib/guidance-engine.js";
+import deriveCoherentGuidance from "../guidance/coherence-adapter.mjs";
 
 const router = express.Router();
 const MAX_GUIDANCE_HISTORY = 50;
@@ -16,6 +17,34 @@ function recordGuidanceHistory(snapshot) {
   if (guidanceHistory.length > MAX_GUIDANCE_HISTORY) {
     guidanceHistory.length = MAX_GUIDANCE_HISTORY;
   }
+}
+
+function flattenGuidanceHistory(history) {
+  return history.flatMap((entry) => {
+    const snapshot = entry?.snapshot || {};
+    const generatedAt =
+      snapshot?.meta?.generated_at ||
+      snapshot?.timestamp ||
+      (entry?.timestamp ? new Date(entry.timestamp).toISOString() : new Date().toISOString());
+
+    const guidance = Array.isArray(snapshot?.guidance) ? snapshot.guidance : [];
+
+    return guidance.map((item) => ({
+      timestamp: item.generated_at || generatedAt,
+      task_id: item.task_id || item.source_task_id || "global",
+      subsystem: item.subsystem || "guidance",
+      signal_type: item.type || "generic",
+      severity:
+        typeof item.severity === "number"
+          ? item.severity >= 3
+            ? "critical"
+            : item.severity === 2
+              ? "warning"
+              : "info"
+          : item.severity || "info",
+      message: item.message || item.suggested_action || "",
+    }));
+  });
 }
 
 async function buildGuidance(pool) {
@@ -128,7 +157,6 @@ async function buildGuidance(pool) {
   };
 }
 
-
 export default function operatorGuidanceRouter({ pool }) {
   router.get("/api/guidance", async (_req, res) => {
     try {
@@ -156,6 +184,26 @@ export default function operatorGuidanceRouter({ pool }) {
       ok: true,
       history_available: guidanceHistory.length > 0,
       history: guidanceHistory,
+    });
+  });
+
+  router.get("/api/guidance/coherence-shadow", (_req, res) => {
+    const raw = flattenGuidanceHistory(guidanceHistory);
+    const coherent = deriveCoherentGuidance(raw);
+
+    res.json({
+      phase: "675",
+      mode: "coherence-shadow",
+      runtimeImpact: {
+        execution: false,
+        sse: false,
+        ui: false,
+        formatting: false,
+      },
+      source: "express-guidance-history",
+      history_available: guidanceHistory.length > 0,
+      raw,
+      coherent,
     });
   });
 
