@@ -1,0 +1,18 @@
+Phase 677 – Read-Only Diff View Patch Target
+
+Next implementation target:
+- Add a raw-vs-coherent diff view inside the existing GuidancePanel coherence preview area.
+
+Guardrails:
+- UI-only change
+- No backend route changes
+- No database changes
+- No worker changes
+- No execution coupling
+- No mutation actions
+
+Validation required after patch:
+- npm run lint or available equivalent
+- docker compose ps
+- curl /api/guidance/coherence-shadow if runtime is active
+- visual confirmation that GuidancePanel still renders
