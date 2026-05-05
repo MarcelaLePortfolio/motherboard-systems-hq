@@ -30,6 +30,8 @@ services:
       - SYSTEM_SCHEDULER_INTERVAL_MS=60000
       - POSTGRES_URL=postgresql://postgres:postgres@postgres:5432/postgres
       - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/postgres
+    volumes:
+      - guidance_data:/app/data
 
   worker:
     build:
@@ -45,3 +47,4 @@ services:
 
 volumes:
   pgdata:
+  guidance_data:
