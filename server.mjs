@@ -190,29 +190,42 @@ app.post('/api/complete-task-db', async (req, res) => {
   }
 });
 
-// 6. API Endpoint: Matilda Chat (NEW)
+// 6. API Endpoint: Advisory Chat (Phase 703)
 app.post('/api/chat', async (req, res) => {
   try {
     const body = req.body || {};
-    const message = body.message;
-    const agent = body.agent;
+    const message = typeof body.message === 'string' ? body.message : '';
+    const input = typeof body.input === 'string' ? body.input : message;
 
-    if (!message || typeof message !== 'string') {
-      return res.status(400).json({ reply: '(no message received)' });
+    if (!input.trim()) {
+      return res.status(400).json({
+        reply: 'Advisory response only: no message received. No execution performed.',
+        meta: {
+          mode: 'advisory-deterministic',
+          execution: false,
+          systemCoupling: false
+        }
+      });
     }
 
-    const agentLabel = agent || 'matilda';
-    const reply =
-      'Matilda placeholder: I heard "' +
-      message +
-      '" (agent: ' +
-      agentLabel +
-      ').';
-
-    res.json({ reply: reply });
+    res.json({
+      reply: `Advisory response only: received input "${input}". No execution performed.`,
+      meta: {
+        mode: 'advisory-deterministic',
+        execution: false,
+        systemCoupling: false
+      }
+    });
   } catch (err) {
     console.error('Error in /api/chat:', err);
-    res.status(500).json({ reply: '(error)' });
+    res.status(500).json({
+      reply: 'Advisory response only: chat route error. No execution performed.',
+      meta: {
+        mode: 'advisory-deterministic',
+        execution: false,
+        systemCoupling: false
+      }
+    });
   }
 });
 
