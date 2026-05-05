@@ -1,23 +1,14 @@
 import express from "express";
 import { generateGuidance } from "../lib/guidance-engine.js";
 import deriveCoherentGuidance from "../guidance/coherence-adapter.mjs";
+import {
+  appendGuidanceEvents,
+  readRecentGuidanceEvents,
+} from "../guidance/guidance-history-store.mjs";
 
 const router = express.Router();
 const MAX_GUIDANCE_HISTORY = 50;
 const guidanceHistory = [];
-
-function recordGuidanceHistory(snapshot) {
-  if (!snapshot) return;
-
-  guidanceHistory.unshift({
-    timestamp: Date.now(),
-    snapshot,
-  });
-
-  if (guidanceHistory.length > MAX_GUIDANCE_HISTORY) {
-    guidanceHistory.length = MAX_GUIDANCE_HISTORY;
-  }
-}
 
 function flattenGuidanceHistory(history) {
   return history.flatMap((entry) => {
@@ -45,6 +36,45 @@ function flattenGuidanceHistory(history) {
       message: item.message || item.suggested_action || "",
     }));
   });
+}
+
+function recordGuidanceHistory(snapshot) {
+  if (!snapshot) return;
+
+  const entry = {
+    timestamp: Date.now(),
+    snapshot,
+  };
+
+  guidanceHistory.unshift(entry);
+
+  if (guidanceHistory.length > MAX_GUIDANCE_HISTORY) {
+    guidanceHistory.length = MAX_GUIDANCE_HISTORY;
+  }
+
+  appendGuidanceEvents(flattenGuidanceHistory([entry]));
+}
+
+function mergeGuidanceEvents(memoryEvents = [], persistedEvents = []) {
+  const seen = new Set();
+  const merged = [];
+
+  for (const event of [...persistedEvents, ...memoryEvents]) {
+    const key = [
+      event?.timestamp,
+      event?.task_id,
+      event?.subsystem,
+      event?.signal_type,
+      event?.message,
+    ].join("::");
+
+    if (!seen.has(key)) {
+      seen.add(key);
+      merged.push(event);
+    }
+  }
+
+  return merged;
 }
 
 async function buildGuidance(pool) {
@@ -188,11 +218,14 @@ export default function operatorGuidanceRouter({ pool }) {
   });
 
   router.get("/api/guidance/coherence-shadow", (_req, res) => {
-    const raw = flattenGuidanceHistory(guidanceHistory);
+    const memoryEvents = flattenGuidanceHistory(guidanceHistory);
+    const persisted = readRecentGuidanceEvents(250);
+    const persistedEvents = persisted.ok ? persisted.events : [];
+    const raw = mergeGuidanceEvents(memoryEvents, persistedEvents);
     const coherent = deriveCoherentGuidance(raw);
 
     res.json({
-      phase: "675",
+      phase: "680",
       mode: "coherence-shadow",
       runtimeImpact: {
         execution: false,
@@ -200,8 +233,14 @@ export default function operatorGuidanceRouter({ pool }) {
         ui: false,
         formatting: false,
       },
-      source: "express-guidance-history",
-      history_available: guidanceHistory.length > 0,
+      source: persisted.ok && persistedEvents.length > 0 ? "merged" : "express-guidance-history",
+      persistence: {
+        enabled: persisted.ok,
+        source: persisted.source,
+        event_count: persistedEvents.length,
+        error: persisted.error || null,
+      },
+      history_available: guidanceHistory.length > 0 || persistedEvents.length > 0,
       raw,
       coherent,
     });
