@@ -1,0 +1,3 @@
+Next steps:
+- Implement coherence visualization enhancements strictly within read-only UI constraints.
+- Add diff view, temporal grouping, and signal collapse indicators without modifying execution or guidance layers.
