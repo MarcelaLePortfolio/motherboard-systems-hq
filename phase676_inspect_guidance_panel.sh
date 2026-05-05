@@ -1,13 +1,19 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-echo "=== GuidancePanel current retry/action area ==="
-grep -n "copyAction\|fetchGuidance\|Retry Task\|Copy Action\|SAFE ACTION BUTTONS\|button" app/components/GuidancePanel.tsx || true
+TARGET="app/components/GuidancePanel.tsx"
 
-echo
-echo "=== GuidancePanel full file ==="
-nl -ba app/components/GuidancePanel.tsx | sed -n '1,280p'
+echo "=== Target ==="
+echo "$TARGET"
 
-echo
-echo "=== git status ==="
-git status --short
+echo ""
+echo "=== Backup ==="
+cp "$TARGET" "$TARGET.bak_phase676_pre_coherence_ui"
+
+echo ""
+echo "=== First 380 lines ==="
+sed -n '1,380p' "$TARGET"
+
+echo ""
+echo "=== Backup created ==="
+ls -lh "$TARGET.bak_phase676_pre_coherence_ui"
