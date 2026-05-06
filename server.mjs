@@ -269,6 +269,68 @@ async function generateMatildaAdvisoryReply(input) {
 
 // 6. API Endpoint: Advisory Chat (Phase 706)
 
+
+
+// Phase 707: compact read-only context for Matilda chat
+
+app.get('/api/chat/context', async (req, res) => {
+
+  try {
+
+    const context = {
+
+      runtime: {
+
+        dashboard: 'online',
+
+        chat: 'model-backed advisory mode',
+
+        executionBoundary: 'chat cannot execute tasks, mutate data, trigger workers, or change infrastructure'
+
+      },
+
+      guidance: {
+
+        status: 'available',
+
+        latestSummary: 'All monitored subsystems are operating normally.'
+
+      },
+
+      limits: {
+
+        readOnly: true,
+
+        execution: false,
+
+        systemCoupling: false,
+
+        note: 'Context is compact and surfaced for interpretation only.'
+
+      }
+
+    };
+
+    res.json(context);
+
+  } catch (err) {
+
+    console.error('Error building /api/chat/context:', err);
+
+    res.status(500).json({
+
+      error: 'Failed to build chat context',
+
+      readOnly: true,
+
+      execution: false
+
+    });
+
+  }
+
+});
+
 app.post('/api/chat', async (req, res) => {
 
   try {
