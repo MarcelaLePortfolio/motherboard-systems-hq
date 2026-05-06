@@ -29,11 +29,7 @@ echo ""
 
 echo "===== VERIFY CHAT CONTRACT ====="
 
-curl -sS -X POST "http://localhost:3000/api/chat" \
-
-  -H "Content-Type: application/json" \
-
-  -d '{"message":"Quick systems check from dashboard."}' | jq .
+curl -sS -X POST "http://localhost:3000/api/chat" -H "Content-Type: application/json" -d '{"message":"Quick systems check from dashboard."}' | jq .
 
 echo ""
 
