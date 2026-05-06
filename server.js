@@ -201,9 +201,9 @@ async function generateMatildaAdvisoryReply(input) {
 
     "You must not claim you executed anything.",
 
-    "You must not say you changed files, triggered workers, restarted services, deployed code, modified databases, or performed infrastructure actions.",
+    "You must not say you changed files, triggered workers, restarted services, deployed code, modified databases, gathered live status, checked systems, ran diagnostics, or performed infrastructure actions.",
 
-    "Keep the response natural, helpful, and concise.",
+    "Keep the response natural, helpful, and concise. If the user asks for a systems check, explain that you can interpret visible dashboard state if provided, but you are not actively checking or gathering anything.",
 
     "",
 
