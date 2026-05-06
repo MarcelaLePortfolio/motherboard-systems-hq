@@ -1,0 +1,14 @@
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: text/event-stream; charset=utf-8
+Cache-Control: no-cache, no-transform
+Connection: keep-alive
+X-Accel-Buffering: no
+Date: Wed, 06 May 2026 05:52:17 GMT
+Transfer-Encoding: chunked
+
+: connected 2026-05-06T05:52:17.997Z
+
+event: hello
+data: {"kind":"task-events","cursor":1778041531002,"ts":1778046737997}
+

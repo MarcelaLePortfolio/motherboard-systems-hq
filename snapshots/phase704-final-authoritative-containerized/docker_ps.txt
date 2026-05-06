@@ -1,0 +1,4 @@
+CONTAINER ID   IMAGE                              COMMAND                  CREATED          STATUS                 PORTS                                         NAMES
+e0eac16bc427   motherboard_systems_hq-dashboard   "docker-entrypoint.s…"   42 minutes ago   Up 42 minutes          0.0.0.0:3000->3000/tcp, [::]:3000->3000/tcp   motherboard_systems_hq-dashboard-1
+815b13b5e7a3   motherboard_systems_hq-worker      "docker-entrypoint.s…"   42 minutes ago   Up 42 minutes                                                        motherboard_systems_hq-worker-1
+e37a3b84baf0   postgres:16-alpine                 "docker-entrypoint.s…"   2 hours ago      Up 2 hours (healthy)   5432/tcp                                      motherboard_systems_hq-postgres-1

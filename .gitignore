@@ -35,3 +35,5 @@ _snapshots/*.tar.gz
 .DS_Store
 *.log
 ui/dashboard/*.log
+*.tar
+snapshots/**/*.tar
