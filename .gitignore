@@ -1,39 +1,67 @@
+
 node_modules/
+
+.next/
+
 dist/
+
 build/
-coverage/
-.artifacts/docker/*.tar
-.artifacts/docker/*.tar.gz
-.artifacts/docker/*.tgz
-docs/phase423_2_step1_*_output.txt
-# Phase 487 local-generated artifacts
-docs/phase487_postgres_socket_and_db_url_probe.txt
-docs/phase487_git_pack_bloat_trace.txt
-logs/phase487_runtime_resume.log
-public/*.phase487_pre_*.bak
-
-# Phase 487 volatile docs runtime outputs
-docs/phase487_*probe_output.txt
-docs/phase487_*live_probe_output.txt
-docs/phase487_*surface_probe_output.txt
-docs/phase487_*audit_output.txt
-# Phase 487 DB runtime sidefiles
-db/*.db-wal
-db/*.db-shm
-db/*.sqlite-wal
-db/*.sqlite-shm
-
-.runtime/
-
-backups/*.sql
-data/
-snapshot_*.tar.gz
-_snapshots/*.tar.gz
 
 .env
+
 .env.local
+
 .DS_Store
+
+# Runtime logs
+
 *.log
-ui/dashboard/*.log
+
+logs/
+
+# Heavy local artifacts / snapshots
+
 *.tar
-snapshots/**/*.tar
+
+*.tar.gz
+
+*.tgz
+
+*.zip
+
+*.7z
+
+snapshot_*.tar.gz
+
+snapshot_*.tar
+
+*_snapshot.tar.gz
+
+*_snapshot.tar
+
+docker-image-*.tar
+
+docker_*.tar
+
+Docker.raw
+
+# Local-only storage mirrors
+
+local_storage/
+
+external_storage/
+
+Motherboard_Storage/
+
+# OS/editor temp
+
+.vscode/*
+
+!.vscode/settings.json
+
+.idea/
+
+*.swp
+
+*.tmp
+
