@@ -21,19 +21,9 @@ echo ""
 
 echo "[3] Probe safe read-only endpoints"
 
-for url in \
+probe() {
 
-  "http://localhost:3000/api/health" \
-
-  "http://localhost:3000/api/tasks" \
-
-  "http://localhost:3000/api/guidance" \
-
-  "http://localhost:3000/api/guidance/history" \
-
-  "http://localhost:3000/api/guidance/coherence-shadow"
-
-do
+  local url="$1"
 
   echo ""
 
@@ -41,7 +31,25 @@ do
 
   curl -sS "$url" | jq 'if type=="array" then .[0:3] else . end' || true
 
-done
+}
+
+probe "http://localhost:3000/api/health"
+
+probe "http://localhost:3000/api/tasks"
+
+probe "http://localhost:3000/api/metrics"
+
+probe "http://localhost:3000/api/agents"
+
+probe "http://localhost:3000/api/agent-status"
+
+probe "http://localhost:3000/api/task-history"
+
+probe "http://localhost:3000/api/guidance"
+
+probe "http://localhost:3000/api/guidance/history"
+
+probe "http://localhost:3000/api/guidance/coherence-shadow"
 
 echo ""
 
