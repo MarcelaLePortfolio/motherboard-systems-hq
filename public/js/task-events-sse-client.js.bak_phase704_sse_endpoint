@@ -232,14 +232,7 @@
     const es = new EventSource(STREAM_URL);
 
     es.onopen = () => render("Connected");
-    
-    es.onerror = () => {
-      if (events.length > 0) {
-        render("Connected — stream reconnecting");
-      } else {
-        render("Waiting for task event stream");
-      }
-    };
+    es.onerror = () => render("Connection error");
 
     es.onmessage = (e) => ingest(e.data, "message");
 
