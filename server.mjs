@@ -191,46 +191,160 @@ app.post('/api/complete-task-db', async (req, res) => {
 });
 
 // 6. API Endpoint: Advisory Chat (Phase 703)
-app.post('/api/chat', async (req, res) => {
+async function generateMatildaAdvisoryReply(input) {
+
+  const prompt = [
+
+    'You are Matilda, an advisory-only system interface for Marcela\\'s Motherboard Systems dashboard.',
+
+    'You may explain, interpret, summarize, and reason conversationally.',
+
+    'You must not claim you executed anything.',
+
+    'You must not say you changed files, triggered workers, restarted services, deployed code, modified databases, or performed infrastructure actions.',
+
+    'Keep the response natural, helpful, and concise.',
+
+    '',
+
+    'User message:',
+
+    input
+
+  ].join('\n');
+
+  const controller = new AbortController();
+
+  const timeout = setTimeout(() => controller.abort(), 20000);
+
   try {
+
+    const response = await fetch('http://host.docker.internal:11434/api/generate', {
+
+      method: 'POST',
+
+      headers: { 'Content-Type': 'application/json' },
+
+      signal: controller.signal,
+
+      body: JSON.stringify({
+
+        model: 'gemma3:4b',
+
+        prompt,
+
+        stream: false
+
+      })
+
+    });
+
+    if (!response.ok) {
+
+      return null;
+
+    }
+
+    const data = await response.json();
+
+    const reply = String(data?.response || '').trim();
+
+    if (!reply) {
+
+      return null;
+
+    }
+
+    return reply;
+
+  } catch (err) {
+
+    console.error('Matilda Ollama advisory generation failed:', err?.message || err);
+
+    return null;
+
+  } finally {
+
+    clearTimeout(timeout);
+
+  }
+
+}
+
+// 6. API Endpoint: Advisory Chat (Phase 706)
+
+app.post('/api/chat', async (req, res) => {
+
+  try {
+
     const body = req.body || {};
+
     const message = typeof body.message === 'string' ? body.message : '';
+
     const input = typeof body.input === 'string' ? body.input : message;
+
     const normalized = String(input || '').trim();
 
     let reply;
 
     if (!normalized) {
+
       reply = 'Advisory response only: no message received. I can explain runtime state, execution boundaries, guidance signals, and dashboard behavior. No execution performed.';
+
     } else if (/execute|run task|deploy|restart|shutdown|delete|modify database|trigger worker/i.test(normalized)) {
+
       reply = 'I cannot execute actions from this chat surface. I cannot trigger workers, deploy code, restart services, delete data, or modify infrastructure. Execution pathways remain isolated from chat.';
-    } else if (/boundary|boundaries|can.*do|cannot|can\'t|what.*do/i.test(normalized)) {
-      reply = 'I can provide advisory guidance, summarize visible system state, explain dashboard signals, and clarify operational next steps. I cannot execute tasks, mutate the database, trigger workers, or change infrastructure from chat.';
-    } else if (/who are you|what are you|purpose|matilda/i.test(normalized)) {
-      reply = 'I am Matilda, an advisory-only system interface. My purpose is to help interpret runtime state, guidance signals, and operational context while preserving a strict non-executing boundary.';
+
     } else {
-      reply = 'Advisory guidance only: I can help interpret system state, explain runtime behavior, clarify execution boundaries, and assist with operational reasoning. No execution has been performed.';
+
+      reply = await generateMatildaAdvisoryReply(normalized);
+
+      if (!reply) {
+
+        reply = 'Advisory guidance only: I can help interpret system state, explain runtime behavior, clarify execution boundaries, and assist with operational reasoning. No execution has been performed.';
+
+      }
+
     }
 
     res.json({
+
       reply,
+
       meta: {
-        mode: 'advisory-deterministic',
+
+        mode: 'advisory-ollama-with-deterministic-safety',
+
         execution: false,
+
         systemCoupling: false
+
       }
+
     });
+
   } catch (err) {
+
     console.error('Error in /api/chat:', err);
+
     res.status(500).json({
+
       reply: 'Advisory response only: chat route error. No execution performed.',
+
       meta: {
-        mode: 'advisory-deterministic',
+
+        mode: 'advisory-ollama-with-deterministic-safety',
+
         execution: false,
+
         systemCoupling: false
+
       }
+
     });
+
   }
+
 });
 
 app.listen(PORT, HOST, () => {
