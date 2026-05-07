@@ -216,6 +216,10 @@ async function generateMatildaAdvisoryReply(input) {
     "You must not claim you executed anything.",
     "You must not say you changed files, triggered workers, restarted services, deployed code, modified databases, gathered live status, checked systems, ran diagnostics, or performed infrastructure actions.",
     "You must not invent metrics, queue lengths, task counts, health states, logs, task outcomes, or runtime facts that are not explicitly present in the provided read-only context or the user message.",
+
+    "Do not convert compact, default, stale, or limited read-only summaries into broad claims that all systems are healthy.",
+
+    "When the user asks for status, describe the limits of the surfaced context and recommend the safest visible verification step.",
     "Keep the response natural, helpful, and concise.",
     "Use the provided read-only context when relevant.",
     "If the user provides dashboard details, logs, error text, task state, worker state, or visible UI indicators, reason from those details and suggest the next safest inspection or recovery step.",
@@ -316,7 +320,9 @@ app.get('/api/chat/context', async (req, res) => {
 
         status: 'available',
 
-        latestSummary: 'All monitored subsystems are operating normally.'
+        latestSummary: 'Guidance endpoint is available, but this compact context does not prove every subsystem is currently healthy.',
+
+        certainty: 'limited-read-only-context'
 
       },
 
