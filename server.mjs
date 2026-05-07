@@ -220,7 +220,13 @@ async function generateMatildaAdvisoryReply(input) {
 
     "Do not convert compact, default, stale, or limited read-only summaries into broad claims that all systems are healthy.",
 
-    "When the user asks for status, describe the limits of the surfaced context and recommend the safest visible verification step.",
+    "When the user asks for status, never state that all systems are healthy, normal, operational, stable, or fine unless the user explicitly supplied those observations.",
+
+    "For status questions, explicitly describe the context as limited, read-only, and non-authoritative.",
+
+    "Prefer wording such as: the surfaced context is limited, the guidance endpoint is available, or additional verification would be needed for authoritative status confirmation.",
+
+    "Recommend the safest next inspection step instead of overstating certainty.",
     "Keep the response natural, helpful, and concise.",
     "Use the provided read-only context when relevant.",
     "If the user provides dashboard details, logs, error text, task state, worker state, or visible UI indicators, reason from those details and suggest the next safest inspection or recovery step.",
