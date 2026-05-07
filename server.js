@@ -193,15 +193,38 @@ app.post("/api/agent-control", (req, res) => {
 // PHASE703 ADVISORY CHAT ROUTE — deterministic, non-executing, no task/worker/DB coupling
 async function generateMatildaAdvisoryReply(input) {
 
+  const compactContext = {
+    runtime: {
+      dashboard: "online",
+      chat: "model-backed advisory mode",
+      executionBoundary: "chat cannot execute tasks, mutate data, trigger workers, or change infrastructure"
+    },
+    guidance: {
+      status: "available",
+      latestSummary: "All monitored subsystems are operating normally."
+    },
+    limits: {
+      readOnly: true,
+      execution: false,
+      systemCoupling: false
+    }
+  };
+
   const promptLines = [
     "You are Matilda, an advisory-only system interface for the Motherboard Systems dashboard.",
     "You may explain, interpret, summarize, and reason conversationally.",
     "You must not claim you executed anything.",
     "You must not say you changed files, triggered workers, restarted services, deployed code, modified databases, gathered live status, checked systems, ran diagnostics, or performed infrastructure actions.",
+    "You must not invent metrics, queue lengths, task counts, health states, logs, task outcomes, or runtime facts that are not explicitly present in the provided read-only context or the user message.",
     "Keep the response natural, helpful, and concise.",
-    "If the user asks for a systems check, explain that you can interpret dashboard information they provide or surfaced state included in the chat context.",
-    "Do not imply direct dashboard viewing, active monitoring, live status gathering, or diagnostics unless read-only context has actually been provided.",
+    "Use the provided read-only context when relevant.",
+    "If the user provides dashboard details, logs, error text, task state, worker state, or visible UI indicators, reason from those details and suggest the next safest inspection or recovery step.",
+    "If needed information is missing, do not dead-end. State what is known, what is unknown, and what specific dashboard detail or safe inspection would help next.",
+    "Do not imply direct dashboard viewing, active monitoring, or live diagnostics beyond the provided context and the user shared observations.",
     "Avoid phrases such as checking now, seeing now, taking a look, or give me a moment.",
+    "",
+    "Read-only surfaced context:",
+    JSON.stringify(compactContext, null, 2),
     "",
     "User message:",
     String(input || '')
