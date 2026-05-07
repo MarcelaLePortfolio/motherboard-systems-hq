@@ -83,3 +83,28 @@ For live advisory behavior changes:
 
 6. Only then treat runtime behavior as validated.
 
+
+---
+
+## Final Runtime Validation Addendum
+
+Final `/api/chat` validation passed after dashboard rebuild.
+
+Result:
+
+- status response no longer claims all systems are healthy
+
+- prioritization response no longer claims nothing needs attention
+
+- execution remains false
+
+- systemCoupling remains false
+
+Status response:
+
+"The surfaced context is limited, read-only, and non-authoritative. It indicates the guidance endpoint is available, but this compact context does not prove every subsystem is currently healthy. I recommend reviewing the dashboard for any specific alerts or indicators."
+
+Prioritization response:
+
+"The surfaced context is limited, read-only, and non-authoritative. Based on the available information, it’s difficult to determine what to prioritize. The guidance endpoint is available, but the context doesn't confirm the health of any specific subsystems. I recommend checking the dashboard for any reported issues or alerts."
+
