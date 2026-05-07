@@ -299,6 +299,72 @@ function buildSafePriorityGuidance() {
 
 }
 
+function buildEvidenceBasedGuidance(input = '') {
+
+  const text = String(input || '').trim();
+
+  const evidenceSignals = [
+
+    ['retry', 'retry behavior'],
+
+    ['retries', 'retry behavior'],
+
+    ['queued', 'queued task behavior'],
+
+    ['stuck', 'possible stalled progress'],
+
+    ['failed', 'failure signal'],
+
+    ['error', 'error signal'],
+
+    ['worker', 'worker-related signal'],
+
+    ['log', 'log evidence'],
+
+    ['timeout', 'timeout signal'],
+
+    ['inspector', 'inspector signal'],
+
+    ['alert', 'alert signal']
+
+  ];
+
+  const observed = evidenceSignals
+
+    .filter(([needle]) => text.toLowerCase().includes(needle))
+
+    .map(([, label]) => label);
+
+  const uniqueObserved = [...new Set(observed)];
+
+  const known =
+
+    uniqueObserved.length > 0
+
+      ? `Known from your message: ${uniqueObserved.join(', ')}.`
+
+      : 'Known from your message: you are describing a possible operational symptom, but no specific runtime evidence was provided.';
+
+  const unknown =
+
+    'Unknown: this chat surface has not inspected live logs, queues, workers, or database state.';
+
+  const interpretation =
+
+    uniqueObserved.length > 0
+
+      ? 'Safe interpretation: the supplied evidence may point to a processing, queueing, retry, or worker-path issue, but it is not enough by itself to identify a root cause.'
+
+      : 'Safe interpretation: more concrete evidence is needed before making a useful operational judgment.';
+
+  const nextStep =
+
+    'Safest next inspection: review the relevant dashboard indicator, recent task events, worker logs, or exact error text before choosing a repair path.';
+
+  return [known, interpretation, unknown, nextStep].join(' ');
+
+}
+
 async function generateMatildaAdvisoryReply(input) {
 
   const compactContext = {
@@ -504,6 +570,10 @@ app.post('/api/chat', async (req, res) => {
     } else if (/prioritize|priority|what should we prioritize|next step/i.test(normalized)) {
 
       reply = buildSafePriorityGuidance();
+
+    } else if (/retry|retries|queued|stuck|failed|error|worker|log|timeout|inspector|alert/i.test(normalized)) {
+
+      reply = buildEvidenceBasedGuidance(normalized);
 
     } else {
 
