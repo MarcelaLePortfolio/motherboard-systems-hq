@@ -190,7 +190,115 @@ app.post('/api/complete-task-db', async (req, res) => {
   }
 });
 
+
+
 // 6. API Endpoint: Advisory Chat (Phase 703)
+function pickMatildaPhrase(options = []) {
+
+  if (!Array.isArray(options) || options.length === 0) {
+
+    return '';
+
+  }
+
+  return options[Math.floor(Math.random() * options.length)];
+
+}
+
+function buildSafeStatusGuidance() {
+
+  const openings = [
+
+    'The surfaced context is limited, read-only, and non-authoritative.',
+
+    'The currently surfaced advisory context is limited and read-only.',
+
+    'Only limited advisory context is currently available from the chat surface.',
+
+    'The advisory layer currently exposes only compact, non-authoritative context.'
+
+  ];
+
+  const certainty = [
+
+    'The guidance endpoint is available, but this does not confirm overall subsystem health.',
+
+    'The available context does not verify whether all subsystems are healthy.',
+
+    'This compact context is insufficient for authoritative system health confirmation.',
+
+    'Additional verification would be required before making broad health claims.'
+
+  ];
+
+  const nextSteps = [
+
+    'Reviewing the dashboard for alerts, queue state, or subsystem indicators would be the safest next verification step.',
+
+    'A safe next step would be checking visible dashboard indicators or recent alerts.',
+
+    'The dashboard would provide more reliable operational detail than the compact advisory context alone.',
+
+    'Inspecting surfaced runtime indicators would help establish a more authoritative status assessment.'
+
+  ];
+
+  return [
+
+    pickMatildaPhrase(openings),
+
+    pickMatildaPhrase(certainty),
+
+    pickMatildaPhrase(nextSteps)
+
+  ].join(' ');
+
+}
+
+function buildSafePriorityGuidance() {
+
+  const openings = [
+
+    'The surfaced context is limited, read-only, and non-authoritative.',
+
+    'Only compact advisory context is currently available.',
+
+    'The current advisory context is intentionally limited and non-authoritative.'
+
+  ];
+
+  const reasoning = [
+
+    'Because the available context does not confirm subsystem health, prioritization confidence is limited.',
+
+    'The compact advisory context does not establish enough evidence to confidently prioritize subsystem work.',
+
+    'There is not enough surfaced evidence here to safely determine operational priority.'
+
+  ];
+
+  const nextSteps = [
+
+    'Reviewing dashboard alerts, retry queues, worker indicators, or recent failures would help determine the safest priority.',
+
+    'A reasonable next step would be checking visible runtime indicators before assigning priority.',
+
+    'Additional surfaced operational detail would be needed before making a confident prioritization recommendation.'
+
+  ];
+
+  return [
+
+    pickMatildaPhrase(openings),
+
+    pickMatildaPhrase(reasoning),
+
+    pickMatildaPhrase(nextSteps)
+
+  ].join(' ');
+
+}
+
 async function generateMatildaAdvisoryReply(input) {
 
   const compactContext = {
@@ -389,6 +497,14 @@ app.post('/api/chat', async (req, res) => {
 
       reply = 'I cannot execute actions from this chat surface. I cannot trigger workers, deploy code, restart services, delete data, or modify infrastructure. Execution pathways remain isolated from chat.';
 
+    } else if (/system status|status|health|healthy|operational/i.test(normalized)) {
+
+      reply = buildSafeStatusGuidance();
+
+    } else if (/prioritize|priority|what should we prioritize|next step/i.test(normalized)) {
+
+      reply = buildSafePriorityGuidance();
+
     } else {
 
       reply = await generateMatildaAdvisoryReply(normalized);
@@ -400,6 +516,8 @@ app.post('/api/chat', async (req, res) => {
       }
 
     }
+
+
 
     res.json({
 
