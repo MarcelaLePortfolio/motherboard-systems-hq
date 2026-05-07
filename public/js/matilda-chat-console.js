@@ -77,7 +77,7 @@
 
         appendMessage(transcript, "Matilda", reply);
       } catch (err) {
-        appendMessage(transcript, "Matilda", "(timeout or network failure)");
+        appendMessage(transcript, "Matilda", "I could not reach the chat service from this browser request, but no execution was attempted. You can retry, or use the visible dashboard/context state for advisory interpretation.");
       } finally {
         inFlight = false;
         setSendingState(sendBtn, input, false);
