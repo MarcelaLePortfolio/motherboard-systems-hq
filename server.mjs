@@ -201,7 +201,8 @@ async function generateMatildaAdvisoryReply(input) {
     },
     guidance: {
       status: "available",
-      latestSummary: "All monitored subsystems are operating normally."
+      latestSummary: "Guidance endpoint is available, but this compact context does not prove every subsystem is currently healthy.",
+      certainty: "limited-read-only-context"
     },
     limits: {
       readOnly: true,
